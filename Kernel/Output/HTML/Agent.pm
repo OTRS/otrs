@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.140 2004-04-01 09:22:18 martin Exp $
+# $Id: Agent.pm,v 1.141 2004-04-05 13:00:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.140 $';
+$VERSION = '$Revision: 1.141 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -475,9 +475,14 @@ sub AgentFreeText {
     my $Self = shift;
     my %Param = @_;
     my %NullOption = ();
-    $NullOption{''} = '-' if ($Param{NullOption});
+    my %SelectData = ();
+    if ($Param{NullOption}) {
+#        $NullOption{''} = '-';
+        $SelectData{Size} = 3;
+        $SelectData{Multiple} = 1;
+    } 
     my %Data = ();
-    foreach (1..20) {
+    foreach (1..10) {
         # key
         if (ref($Self->{ConfigObject}->Get("TicketFreeKey$_")) eq 'HASH' && %{$Self->{ConfigObject}->Get("TicketFreeKey$_")}) {
             my $Counter = 0;
@@ -486,7 +491,7 @@ sub AgentFreeText {
                 $Counter++;
                 $LastKey = $_;
             }
-            if ($Counter > 1 || %NullOption) { 
+            if ($Counter > 1 || $Param{NullOption}) { 
                 $Data{"TicketFreeKeyField$_"} = $Self->OptionStrgHashRef(
                     Data => { 
                         %NullOption, 
@@ -494,7 +499,10 @@ sub AgentFreeText {
                     },
                     Name => "TicketFreeKey$_",
                     SelectedID => $Param{"TicketFreeKey$_"},
+                    SelectedIDRefArray => $Param{"TicketFreeKey$_"},
                     LanguageTranslation => 0,
+                    HTMLQuote => 1,
+                    %SelectData,
                 );
             }
             else {
@@ -506,6 +514,14 @@ sub AgentFreeText {
         }
         else {
             if (defined($Param{"TicketFreeKey$_"})) {
+                if (ref($Param{"TicketFreeKey$_"}) eq 'ARRAY') {
+                    if ($Param{"TicketFreeKey$_"}->[0]) {
+                        $Param{"TicketFreeKey$_"} = $Param{"TicketFreeKey$_"}->[0];
+                    }
+                    else {
+                       $Param{"TicketFreeKey$_"} = '';
+                    } 
+                }
                 $Data{"TicketFreeKeyField$_"} = '<input type="text" name="TicketFreeKey'.$_.'" value="'.$Self->{LayoutObject}->Ascii2Html(Text => $Param{"TicketFreeKey$_"}).'" size="20">';
             }
             else {
@@ -521,11 +537,22 @@ sub AgentFreeText {
                 },
                 Name => "TicketFreeText$_",
                 SelectedID => $Param{"TicketFreeText$_"},
+                SelectedIDRefArray => $Param{"TicketFreeText$_"},
                 LanguageTranslation => 0,
+                HTMLQuote => 1,
+                %SelectData,
             );
         }
         else {
             if (defined($Param{"TicketFreeText$_"})) {
+                if (ref($Param{"TicketFreeText$_"}) eq 'ARRAY') {
+                    if ($Param{"TicketFreeText$_"}->[0]) {
+                        $Param{"TicketFreeText$_"} = $Param{"TicketFreeText$_"}->[0];
+                    }
+                    else {
+                        $Param{"TicketFreeText$_"} = '';
+                    }
+                }
                 $Data{"TicketFreeTextField$_"} = '<input type="text" name="TicketFreeText'.$_.'" value="'.$Self->{LayoutObject}->Ascii2Html(Text => $Param{"TicketFreeText$_"}).'" size="30">';
             }
             else {

@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.74 2004-04-01 18:36:41 robert Exp $
+# $Id: Ticket.pm,v 1.75 2004-04-05 13:00:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -39,7 +39,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.74 $';
+$VERSION = '$Revision: 1.75 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1352,6 +1352,9 @@ To find tickets in your system.
       # 1..8 (optional)
       TicketFreeKey1 => 'Product',
       TicketFreeText1 => 'adasd',
+      # or with multi options as array ref
+      TicketFreeKey2 => ['Product', 'Product2'],
+      TicketFreeText2 => ['Browser', 'Sound', 'Mouse'],
 
       # article stuff (optional)
       From => '%spam@example.com%',
@@ -1516,15 +1519,47 @@ sub SearchTicket {
     }
     # ticket free text
     foreach (1..8) {
-        if ($Param{"TicketFreeKey$_"}) {
+        if ($Param{"TicketFreeKey$_"} && ref($Param{"TicketFreeKey$_"}) eq 'SCALAR') {
             $Param{"TicketFreeKey$_"} =~ s/\*/%/gi;
             $SQLExt .= " AND st.freekey$_ LIKE '".$Self->{DBObject}->Quote($Param{"TicketFreeKey$_"})."'";
         }
+        elsif ($Param{"TicketFreeKey$_"} && ref($Param{"TicketFreeKey$_"}) eq 'ARRAY') { 
+            my $SQLExtSub = ' AND (';
+            my $Counter = 0;
+            foreach my $Key (@{$Param{"TicketFreeKey$_"}}) {
+                if (defined($Key ) && $Key ne '') {
+                    $Key =~ s/\*/%/gi; 
+                    $SQLExtSub .= ' OR ' if ($Counter);
+                    $SQLExtSub .= " st.freekey$_ LIKE '".$Self->{DBObject}->Quote($Key)."'";
+                    $Counter++;
+                }
+            }
+            $SQLExtSub .= ')';
+            if ($Counter) {
+                $SQLExt .= $SQLExtSub;
+            }
+        }
     }
     foreach (1..8) {
-        if ($Param{"TicketFreeText$_"}) {
+        if ($Param{"TicketFreeText$_"} && ref($Param{"TicketFreeText$_"}) eq 'SCALAR') {
             $Param{"TicketFreeText$_"} =~ s/\*/%/gi;
             $SQLExt .= " AND st.freetext$_ LIKE '".$Self->{DBObject}->Quote($Param{"TicketFreeText$_"})."'";
+        }
+        elsif ($Param{"TicketFreeText$_"} && ref($Param{"TicketFreeText$_"}) eq 'ARRAY') { 
+            my $SQLExtSub = ' AND (';
+            my $Counter = 0;
+            foreach my $Text (@{$Param{"TicketFreeText$_"}}) {
+                if (defined($Text) && $Text ne '') {
+                    $Text =~ s/\*/%/gi; 
+                    $SQLExtSub .= ' OR ' if ($Counter);
+                    $SQLExtSub .= " st.freetext$_ LIKE '".$Self->{DBObject}->Quote($Text)."'";
+                    $Counter++;
+                }
+            }
+            $SQLExtSub .= ')';
+            if ($Counter) {
+                $SQLExt .= $SQLExtSub;
+            }
         }
     }
     # get tickets older then x minutes
@@ -1602,6 +1637,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.74 $ $Date: 2004-04-01 18:36:41 $
+$Revision: 1.75 $ $Date: 2004-04-05 13:00:25 $
 
 =cut

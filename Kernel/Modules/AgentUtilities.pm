@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.38 2004-03-08 10:51:06 martin Exp $
+# $Id: AgentUtilities.pm,v 1.39 2004-04-05 13:00:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::State;
     
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.39 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
     
 # --
@@ -64,11 +64,7 @@ sub Run {
     # get signle params
     my %GetParam = ();
     foreach (qw(TicketNumber From To Cc Subject Body CustomerID CustomerUserLogin 
-      Agent ResultForm TicketFreeKey1 TicketFreeText1 TicketFreeKey2 
-      TicketFreeText2 TicketFreeKey3 TicketFreeText3 TicketFreeKey4 TicketFreeText4
-      TicketFreeKey5 TicketFreeText5 TicketFreeKey6 TicketFreeText6
-      TicketFreeKey7 TicketFreeText7 TicketFreeKey8 TicketFreeText8
-      TimeSearchType
+      Agent ResultForm TimeSearchType
       TicketCreateTimePointFormat TicketCreateTimePoint 
       TicketCreateTimePointStart
       TicketCreateTimeStart TicketCreateTimeStartDay TicketCreateTimeStartMonth 
@@ -98,7 +94,11 @@ sub Run {
         }
     }
     # get array params
-    foreach (qw(StateIDs StateTypeIDs QueueIDs PriorityIDs UserIDs)) {
+    foreach (qw(StateIDs StateTypeIDs QueueIDs PriorityIDs UserIDs 
+      TicketFreeKey1 TicketFreeText1 TicketFreeKey2 TicketFreeText2 
+      TicketFreeKey3 TicketFreeText3 TicketFreeKey4 TicketFreeText4
+      TicketFreeKey5 TicketFreeText5 TicketFreeKey6 TicketFreeText6
+      TicketFreeKey7 TicketFreeText7 TicketFreeKey8 TicketFreeText8)) {
         # load profile array params (press load profile)
         if (($Self->{Subaction} eq 'LoadProfile' && $Self->{Profile}) || $Self->{TakeLastSearch}) {
             my $SQL = "SELECT profile_value FROM search_profile".
