@@ -2,7 +2,7 @@
 # Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.27 2002-05-04 20:39:32 martin Exp $
+# $Id: Config.pm,v 1.28 2002-05-09 23:51:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -384,6 +384,42 @@ sub Load {
         'closed succsessful', 
         'closed unsuccsessful',
     ];
+
+    # ----------------------------------------------------#
+    # defaults for phone stuff                            #
+    # ----------------------------------------------------#
+    # default note type
+    $Self->{DefaultPhoneArticleType} = 'phone';
+    $Self->{DefaultPhoneSenderType} = 'agent'; 
+    # default note subject
+    $Self->{DefaultPhoneSubject} = '$Text{"Phone call at"} \''. localtime() ."'";
+    # default note text
+    $Self->{DefaultPhoneNoteText} = 'Customer called ';
+    # next possible states after phone
+    $Self->{DefaultPhoneNextStatePossible} = [
+        'open', 
+        'closed succsessful',
+        'closed unsuccsessful',
+    ];
+    # default next state
+    $Self->{DefaultPhoneNextState} = 'closed succsessful';
+    # default history type
+    $Self->{DefaultPhoneHistoryType} = 'PhoneCallAgent';
+    $Self->{DefaultPhoneHistoryComment} = 'Called customer.';
+
+   
+    # default article type
+    $Self->{DefaultPhoneNewArticleType} = 'phone';
+    $Self->{DefaultPhoneNewSenderType} = 'customer'; 
+    # default note subject
+    $Self->{DefaultPhoneNewSubject} = '$Text{"Phone call at"} \''. localtime() ."'";
+    # default note text
+    $Self->{DefaultPhoneNewNoteText} = 'New ticket via call. ';
+    # default next state
+    $Self->{DefaultPhoneNewNextState} = 'open';
+    # default history type
+    $Self->{DefaultPhoneNewHistoryType} = 'PhoneCallCustomer';
+    $Self->{DefaultPhoneNewHistoryComment} = 'Customer called us.';
 
 
     # ----------------------------------------------------#
