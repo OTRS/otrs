@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.41 2003-01-09 20:41:08 martin Exp $
+# $Id: Ticket.pm,v 1.42 2003-01-18 09:20:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -30,7 +30,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::PostMaster::LoopProtection;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.42 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -71,31 +71,44 @@ sub new {
     foreach (qw(ConfigObject LogObject DBObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
-    $Self->InitSendArticle();
     # --
     # load ticket number generator 
     # --
     my $GeneratorModule = $Self->{ConfigObject}->Get('TicketNumberGenerator') 
       || 'Kernel::System::Ticket::Number::AutoIncrement';
-    eval "require $GeneratorModule";
+    if (!eval "require $GeneratorModule") {
+        die "Can't load ticket number generator backend module $GeneratorModule! $@";
+    }
     push(@ISA, $GeneratorModule); 
     # --
     # load ticket index generator 
     # --
     my $GeneratorIndexModule = $Self->{ConfigObject}->Get('TicketIndexModule')
       || 'Kernel::System::Ticket::IndexAccelerator::RuntimeDB';
-    eval "require $GeneratorIndexModule";
+    if (!eval "require $GeneratorIndexModule") {
+        die "Can't load ticket index backend module $GeneratorIndexModule! $@";
+    }
     push(@ISA, $GeneratorIndexModule);
     # --
     # load article storage module 
     # --
     my $StorageModule = $Self->{ConfigObject}->Get('TicketStorageModule')
       || 'Kernel::System::Ticket::ArticleStorageDB';
-    eval "require $StorageModule";
+    if (!eval "require $StorageModule") {
+        die "Can't load ticket storage backend module $StorageModule! $@";
+    }
     push(@ISA, $StorageModule);
-    $Self->ArticleStorageInit();
+
+    $Self->Init();
 
     return $Self;
+}
+# --
+sub Init {
+    my $Self = shift;
+    $Self->InitSendArticle();
+    $Self->InitArticleStorage();
+    return 1;
 }
 # --
 sub CheckTicketNr {

@@ -2,7 +2,7 @@
 # Changes of OTRS 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.50 2003-01-15 18:30:20 martin Exp $
+# $Id: CHANGES,v 1.51 2003-01-18 09:20:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -10,6 +10,10 @@
 # --
 
 1.0 RC2 (2003-01-??)
+ - (2002/01/18) fixed bug 61 (ArticleStorageInit error ) - 
+    http://bugs.otrs.org/show_bug.cgi?id=61
+ - (2002/01/16) added bin/otrs.checkModules to check installed and 
+    required cpan modules
  - (2002/01/15) updated finnish translation! Thanks to Antti Kämäräinen!
  - (2002/01/15) added CheckMXRecord option to webinstaller
  - (2003/01/14) fixed typos "preferneces != preferences typo" 
