@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.47 2003-12-15 20:26:50 martin Exp $
+# $Id: AgentPhone.pm,v 1.48 2003-12-23 14:36:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.47 $';
+$VERSION = '$Revision: 1.48 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -292,6 +292,19 @@ sub Run {
         my $PriorityID = $Self->{ParamObject}->GetParam(Param => 'PriorityID') || '';
         my $ArticleTypeID = $Self->{ParamObject}->GetParam(Param => 'NoteID');
         my $NewUserID = $Self->{ParamObject}->GetParam(Param => 'NewUserID') || '';
+        my $Lock = $Self->{ParamObject}->GetParam(Param => 'Lock') || '';
+        if ($Lock) {
+            $Self->{ConfigObject}->Set(
+                Key => 'PhoneDefaultNewLock', 
+                Value => $Lock,
+            ); 
+        }
+        if ($NewUserID) {
+            $Self->{ConfigObject}->Set(
+                Key => 'PhoneDefaultNewLock', 
+                Value => 'lock',
+            ); 
+        }
         my $Dest = $Self->{ParamObject}->GetParam(Param => 'Dest') || '';
         my ($NewQueueID, $To) = split(/\|\|/, $Dest); 
         my $AllUsers = $Self->{ParamObject}->GetParam(Param => 'AllUsers') || '';
@@ -517,13 +530,9 @@ sub Run {
             Queue => $Self->{QueueObject}->QueueLookup(QueueID => $NewQueueID),
         )) {
           # set lock (get lock type)
-          my $Lock = $Self->{ConfigObject}->Get('PhoneDefaultNewLock') || 'lock';
-          if ($NewUserID) {
-              $Lock = 'lock';
-          }
           $Self->{TicketObject}->SetLock(
               TicketID => $TicketID,
-              Lock => $Lock, 
+              Lock => $Self->{ConfigObject}->Get('PhoneDefaultNewLock'),
               UserID => $Self->{UserID},
           );
           # set owner (if new user id is given)
