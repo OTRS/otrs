@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.75 2004-09-29 12:29:06 martin Exp $
+# $Id: AgentCompose.pm,v 1.76 2004-11-16 12:26:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,11 +16,11 @@ use Kernel::System::CheckItem;
 use Kernel::System::StdAttachment;
 use Kernel::System::State;
 use Kernel::System::CustomerUser;
-use Kernel::System::WebUploadCache;
+use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.75 $';
+$VERSION = '$Revision: 1.76 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -49,7 +49,7 @@ sub new {
     $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%Param);
     $Self->{StdAttachmentObject} = Kernel::System::StdAttachment->new(%Param);
     $Self->{StateObject} = Kernel::System::State->new(%Param);
-    $Self->{UploadCachObject} = Kernel::System::WebUploadCache->new(%Param);
+    $Self->{UploadCachObject} = Kernel::System::Web::UploadCache->new(%Param);
     # anyway, we need to check the email syntax (removed it, because the admins should configure it)
 #    $Self->{ConfigObject}->Set(Key => 'CheckEmailAddresses', Value => 1);
     # get params
@@ -275,7 +275,7 @@ sub Form {
         # replace ticket data
         foreach my $TicketKey (keys %Ticket) {
             if ($Ticket{$TicketKey}) {
-                $Data{$_} =~ s/<OTRS_TICKET_$_>/$Ticket{$TicketKey}/gi;
+                $Data{$_} =~ s/<OTRS_TICKET_$TicketKey>/$Ticket{$TicketKey}/gi;
             }
         }
         # cleanup all not needed <OTRS_TICKET_ tags
@@ -283,7 +283,7 @@ sub Form {
         # replace customer data
         foreach my $CustomerKey (keys %Customer) {
             if ($Customer{$CustomerKey}) {
-                $Data{$_} =~ s/<OTRS_CUSTOMER_$_>/$Customer{$CustomerKey}/gi;
+                $Data{$_} =~ s/<OTRS_CUSTOMER_$CustomerKey>/$Customer{$CustomerKey}/gi;
             }
         }
         # cleanup all not needed <OTRS_CUSTOMER_ tags
@@ -353,7 +353,26 @@ sub Form {
                 }
         }
     }
-
+    # get free text config options
+    my %TicketFreeText = ();
+    foreach (1..8) {
+        $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+            TicketID => $Self->{TicketID},
+            Type => "TicketFreeKey$_",
+            Action => $Self->{Action},
+            UserID => $Self->{UserID},
+        );
+        $TicketFreeText{"TicketFreeText$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+            TicketID => $Self->{TicketID},
+            Type => "TicketFreeText$_",
+            Action => $Self->{Action},
+            UserID => $Self->{UserID},
+        );
+    }
+    my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
+        Ticket => \%Ticket,
+        Config => \%TicketFreeText,
+    );
     # build view ...
     $Output .= $Self->_Mask(
         TicketNumber => $Ticket{TicketNumber},
@@ -365,6 +384,7 @@ sub Form {
         StdAttachments => \%AllStdAttachments,
         %Data,
         %GetParam,
+        %TicketFreeTextHTML,
     );
     $Output .= $Self->{LayoutObject}->Footer();
 
@@ -435,13 +455,39 @@ sub SendEmail {
     $GetParam{Subject} =~ s/^..: //;
     $GetParam{Subject} =~ s/\[$TicketHook: $Tn\] //g;
     $GetParam{Subject} =~ s/^..: //;
-    $GetParam{Subject} =~ s/^(.{45}).*$/$1 [...]/;
+    $GetParam{Subject} =~ s/^(.{55}).*$/$1 [...]/;
     $GetParam{Subject} = "[$TicketHook: $Tn] ".$GetParam{Subject};
     # rewrap body if exists
     if ($GetParam{Body}) {
         my $NewLine = $Self->{ConfigObject}->Get('ComposeTicketNewLine') || 75;
         $GetParam{Body} =~ s/(^>.+|.{4,$NewLine})(?:\s|\z)/$1\n/gm;
     }
+    # prepare free text
+    my %TicketFree = ();
+    foreach (1..8) {
+        $TicketFree{"TicketFreeKey$_"} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeKey$_");
+        $TicketFree{"TicketFreeText$_"} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeText$_");
+    }
+    # get free text config options
+    my %TicketFreeText = ();
+    foreach (1..8) {
+        $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+            TicketID => $Self->{TicketID},
+            Type => "TicketFreeKey$_",
+            Action => $Self->{Action},
+            UserID => $Self->{UserID},
+        );
+        $TicketFreeText{"TicketFreeText$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+           TicketID => $Self->{TicketID},
+            Type => "TicketFreeText$_",
+            Action => $Self->{Action},
+            UserID => $Self->{UserID},
+        );
+    }
+    my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
+        Config => \%TicketFreeText,
+        Ticket => \%TicketFree,
+    );
 
     my %ArticleParam = ();
         # run compose modules
@@ -508,6 +554,7 @@ sub SendEmail {
             ResponseFormat => $Self->{LayoutObject}->Ascii2Html(Text => $GetParam{Body}),
             Errors => \%Error,
             Attachments => \@Attachments,
+            %TicketFreeTextHTML,
             %GetParam,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -557,6 +604,20 @@ sub SendEmail {
                 TimeUnit => $GetParam{TimeUnits},
                 UserID => $Self->{UserID},
             );
+        }
+        # update ticket free text
+        foreach (1..8) {
+            my $FreeKey = $Self->{ParamObject}->GetParam(Param => "TicketFreeKey$_");
+            my $FreeValue = $Self->{ParamObject}->GetParam(Param => "TicketFreeText$_");
+            if (defined($FreeKey) && defined($FreeValue)) {
+                $Self->{TicketObject}->TicketFreeTextSet(
+                    Key => $FreeKey,
+                    Value => $FreeValue,
+                    Counter => $_,
+                    TicketID => $Self->{TicketID},
+                    UserID => $Self->{UserID},
+                );
+            }
         }
         # set state
         $Self->{TicketObject}->StateSet(
@@ -663,10 +724,6 @@ sub _Mask {
     $Param{FromHTML} = $Self->{LayoutObject}->Ascii2Html(Text => $Param{From}, Max => 70);
     # do html quoting
     foreach (qw(ReplyTo From To Cc Bcc Subject Body)) {
-        $Param{$_} = $Self->{LayoutObject}->{LanguageObject}->CharsetConvert(
-            Text => $Param{$_},
-            From => $Param{ContentCharset},
-        );
         $Param{$_} = $Self->{LayoutObject}->Ascii2Html(Text => $Param{$_}) || '';
     }
     # prepare errors!
