@@ -1,18 +1,18 @@
 # --
-# README - readme file of OpenTRS
+# README - readme file of OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: README,v 1.6 2002-08-04 14:36:35 martin Exp $
+# $Id: README,v 1.7 2002-08-25 00:55:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-What is OpenTRS?
-================
+What is OTRS?
+=============
 
-  OpenTRS has been developed with many features to manage customer
+  OTRS has been developed with many features to manage customer
   emails and telephone calls.
 
   Feature list:
@@ -27,6 +27,8 @@ What is OpenTRS?
    Email-Interface:
     - MIME support (attachments)
     - Dispatching of incoming email via email addess or x-header
+    - autoresponders for customers by incoming emails (per queue)
+    - email-notification to the agent by new tickets, follow ups or lock timeouts
 
    Ticket:
     - Custom queue view
@@ -49,16 +51,17 @@ What is OpenTRS?
     - Creation of standard responses
     - Signature configuration per queue
     - Salutation configuration per queue
-    - Email-notification of administrators.
-    - Email-notification sent to problem reporter (by create, locked, deleted, 
+    - email-notification of administrators
+    - email-notification sent to problem reporter (by create, locked, deleted, 
        moved and closed)
     - Submitting update-info (via email or webinterface).
-    - Deadlines for trouble tickets.
+    - Deadlines for trouble tickets
     - ASP (activ service providing) support
     - TicketHook free setable like 'Call#', 'MyTicket#', 'Request#' or 'Ticket#'
     - Ticket number format free setable
     - Different levels of permissions/access-rights. 
     - Support of different SQL databases (e. g. MySQL, PostgeSQL, ...)
+    - user authentication agains database or ldap directory
  
 License:
 ========
