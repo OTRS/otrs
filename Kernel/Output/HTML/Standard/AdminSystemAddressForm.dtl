@@ -2,7 +2,7 @@
 # AdminSystemAddressForm.dtl - provides HTML form for AdminSystemAddess
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSystemAddressForm.dtl,v 1.9 2003-02-08 15:40:43 martin Exp $
+# $Id: AdminSystemAddressForm.dtl,v 1.10 2003-03-23 21:42:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@
     <input type="hidden" name="Subaction" value="Change">
     $Data{"SystemAddressOption"}
     <br>
-    <input type="submit" value="$Text{"change"}">
+    <input class="button" type="submit" value="$Text{"change"}">
     </form>
   </td> 
   <td width="60%" class="table1">
@@ -66,7 +66,7 @@
       <td class="table1"> <input type="text" name="Comment" value="$Data{"Comment"}" size="50" maxlength="50"></td>
     </tr>
     </table>
-    <input type="submit" value="$Text{"$Data{"Headline"}"}"> 
+    <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}"> 
   </td>
 </tr>
 </table>

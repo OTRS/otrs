@@ -2,7 +2,7 @@
 # AdminQueueResponsesChangeForm.dtl - provides HTML form for AdminResponse
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUserGroupChangeForm.dtl,v 1.5 2003-02-08 15:40:43 martin Exp $
+# $Id: AdminUserGroupChangeForm.dtl,v 1.6 2003-03-23 21:42:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@
     <input type="hidden" name="Subaction" value="Change$Data{"Type"}">
     $Data{"OptionStrg0"}
     <br>
-    <input type="submit" value="$Text{"submit"}">
+    <input class="button" type="submit" value="$Text{"submit"}">
     </form>
   </td> 
 </tr>

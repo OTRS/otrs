@@ -2,7 +2,7 @@
 # AdminSelectBoxForm.dtl - provides HTML form for SelectBox
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSelectBoxForm.dtl,v 1.9 2003-02-08 15:40:43 martin Exp $
+# $Id: AdminSelectBoxForm.dtl,v 1.10 2003-03-23 21:42:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -28,7 +28,7 @@ SELECT * FROM
 <br>
 $Text{"Max Rows"}: <input type="text" name="Max" value="20" size="2">
 <br>
-<input type="submit" value="$Text{"go"}">
+<input class="button" type="submit" value="$Text{"go"}">
 </form>
 
 </p>
