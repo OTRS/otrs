@@ -2,7 +2,7 @@
 # AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.3 2002-01-23 23:28:42 martin Exp $
+# $Id: AgentCompose.pm,v 1.4 2002-02-21 22:12:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::EmailSend;
 use Kernel::System::Article;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -122,30 +122,51 @@ sub Form {
         }
     }
     
-    # get last customer article ...
-    my %Data = $Self->{TicketObject}->GetLastCustomerArticle(
-        TicketID => $TicketID,
-    );
+    # get last customer article or selecte article ...
+    my %Data = ();
+    if ($Self->{ArticleID}) {
+        my $ArticleObject = Kernel::System::Article->new(
+            DBObject => $Self->{DBObject},
+            ConfigObject => $Self->{ConfigObject},
+            LogObject => $Self->{LogObject},
+        );
+        %Data = $ArticleObject->GetArticle(
+            ArticleID => $Self->{ArticleID},
+        );
+    }
+    else {
+        %Data = $Self->{TicketObject}->GetLastCustomerArticle(
+            TicketID => $TicketID,
+        );
+    }
 
-    # body ...
+    # prepare body ...
+    my $NewLine = $Self->{ConfigObject}->Get('ComposeTicketNewLine') || 75;
+    $Data{Body} =~ s/(.{$NewLine}.+?\s)/$1\n/g;
     $Data{Body} =~ s/\n/\n> /g;
     $Data{Body} = "\n> " . $Data{Body};
 
-    # subject ...
+    # prepare subject ...
     my $TicketHook = $Self->{ConfigObject}->Get('TicketHook') || '';
     $Data{Subject} =~ s/\[$TicketHook: $Tn\] //g;
     $Data{Subject} =~ s/^(.{30}).*$/$1 [...]/;
     $Data{Subject} = "[$TicketHook: $Tn] " . $Data{Subject};
-    # to ...
-    $Data{To} = $Data{From};
 
-    # from ...
+    # prepare to ...
+    if ($Data{ReplyTo}) {
+        $Data{To} = $Data{ReplyTo};
+    }
+    else {
+        $Data{To} = $Data{From};
+    }
+
+    # prepare from ...
     my %Address = $QueueObject->GetSystemAddress();
     $Data{From} = "$Address{RealName} <$Address{Email}>";
     $Data{Email} = $Address{Email};
     $Data{RealName} = $Address{RealName};
 
-    # Signature
+    # prepare signature
     my $Signature = $QueueObject->GetSignature();
     $Signature =~ s/<OTRS_FIRST_NAME>/$Self->{UserFirstname}/g;
     $Signature =~ s/<OTRS_LAST_NAME>/$Self->{UserLastname}/g;
