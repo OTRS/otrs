@@ -2,13 +2,16 @@
 # Changes of OTRS 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.66 2003-03-06 22:12:01 martin Exp $
+# $Id: CHANGES,v 1.67 2003-03-10 21:25:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 1.1 CVS (2003-??-??)
+ - (2003/03/10) added customer email notification on move, state update
+    or owner update (config option for each queue).
+    http://lists.otrs.org/pipermail/dev/2002-June/000005.html
  - (2003/03/06) added ro/rw to group object. So the agent is able to search,
     zoom, ... in tickets but can't edit the tickets - added also new config
     option 'QueueViewAllPossibleTickets' to show the ro queues in the queue 

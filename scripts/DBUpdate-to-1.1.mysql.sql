@@ -2,12 +2,27 @@
 -- Update an existing OTRS database from 1.0 to 1.1 
 -- Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-1.1.mysql.sql,v 1.5 2003-03-08 17:58:00 martin Exp $
+-- $Id: DBUpdate-to-1.1.mysql.sql,v 1.6 2003-03-10 21:25:51 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-1.1.mysql.sql | mysql -f -u root otrs
 --
 -- --
+
+--
+-- added for customer notifications
+--
+ALTER TABLE queue ADD move_notify SMALLINT NOT NULL;
+ALTER TABLE queue ADD lock_notify SMALLINT NOT NULL;
+ALTER TABLE queue ADD state_notify SMALLINT NOT NULL;
+ALTER TABLE queue ADD owner_notify SMALLINT NOT NULL;
+--
+-- added for customer notifications 
+--
+INSERT INTO ticket_history_type
+    (name, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('SendCustomerNotification', 1, 1, current_timestamp, 1, current_timestamp);
 
 --
 -- add read/write options to group_user table

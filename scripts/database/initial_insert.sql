@@ -2,9 +2,12 @@
 -- initial_insert.sql - provides initial system data
 -- Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: initial_insert.sql,v 1.4 2003-03-08 17:58:00 martin Exp $
+-- $Id: initial_insert.sql,v 1.5 2003-03-10 21:25:50 martin Exp $
 -- 
 -- $Log: not supported by cvs2svn $
+-- Revision 1.4  2003/03/08 17:58:00  martin
+-- changed reserved SQL words (read, write) to (permission_read, permission_write)
+--
 -- Revision 1.3  2003/03/03 23:41:45  martin
 -- added ticket_state_type values and updated ticket_state values
 --
@@ -403,6 +406,10 @@ INSERT INTO ticket_history_type
 INSERT INTO ticket_history_type
         (name, valid_id, create_by, create_time, change_by, change_time)
         VALUES
+        ('SendCustomerNotification', 1, 1, current_timestamp, 1, current_timestamp);
+INSERT INTO ticket_history_type
+        (name, valid_id, create_by, create_time, change_by, change_time)
+        VALUES
         ('PhoneCallAgent', 1, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO ticket_history_type
         (name, valid_id, create_by, create_time, change_by, change_time)
@@ -440,18 +447,6 @@ INSERT INTO ticket_history_type
         (name, valid_id, create_by, create_time, change_by, change_time)
         VALUES
         ('Unlock', 1, 1, current_timestamp, 1, current_timestamp);
-INSERT INTO ticket_history_type
-        (name, valid_id, create_by, create_time, change_by, change_time)
-        VALUES
-        ('WatingForReminder', 1, 1, current_timestamp, 1, current_timestamp);
-INSERT INTO ticket_history_type
-        (name, valid_id, create_by, create_time, change_by, change_time)
-        VALUES
-        ('WatingForClose+', 1, 1, current_timestamp, 1, current_timestamp);
-INSERT INTO ticket_history_type
-        (name, valid_id, create_by, create_time, change_by, change_time)
-        VALUES
-        ('WatingForClose-', 1, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO ticket_history_type
         (name, valid_id, create_by, create_time, change_by, change_time)
         VALUES

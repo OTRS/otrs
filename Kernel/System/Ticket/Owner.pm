@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Owner.pm - the sub module of the global ticket handle
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Owner.pm,v 1.7 2003-02-08 15:09:40 martin Exp $
+# $Id: Owner.pm,v 1.8 2003-03-10 21:25:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::Owner;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -115,7 +115,7 @@ sub SetOwner {
         Name => "New Owner is '$Param{NewUser}' (ID=$Param{NewUserID}).",
       );
       # --
-      # send notify
+      # send agent notify
       # --
       if ($Param{UserID} ne $Param{NewUserID} && 
            $Param{NewUserID} ne $Self->{ConfigObject}->Get('PostmasterUserID')) {
@@ -125,7 +125,7 @@ sub SetOwner {
         # get user data
         my %Preferences = $Self->{UserObject}->GetUserData(UserID => $Param{NewUserID});
         # --
-        # send notification
+        # send agent notification
         # --
         $Self->SendNotification(
             Type => 'OwnerUpdate',
@@ -136,6 +136,16 @@ sub SetOwner {
             UserID => $Param{UserID},
         );
       }
+      # --
+      # send customer notification email
+      # --
+      my %Preferences = $Self->{UserObject}->GetUserData(UserID => $Param{NewUserID});
+      $Self->SendCustomerNotification(
+          Type => 'OwnerUpdate',
+          CustomerMessageParams => \%Preferences,
+          TicketID => $Param{TicketID},
+          UserID => $Param{UserID},
+      );
       return 1;
     }
     else {

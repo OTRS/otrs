@@ -6,9 +6,12 @@
   XML File for the OTRS database description
   Copyright (C) 2001-2003 Martin Edenhofer
 
-  $Id: otrs-schema.xml,v 1.8 2003-03-08 17:58:00 martin Exp $
+  $Id: otrs-schema.xml,v 1.9 2003-03-10 21:25:50 martin Exp $
 
   $Log: not supported by cvs2svn $
+  Revision 1.8  2003/03/08 17:58:00  martin
+  changed reserved SQL words (read, write) to (permission_read, permission_write)
+
   Revision 1.7  2003/03/06 22:12:00  martin
   new implementation of groups permissions (added ro/rw options)
 
@@ -356,6 +359,10 @@
   <column name="signature_id" required="true" type="SMALLINT"/>
   <column name="follow_up_id" required="true" type="SMALLINT"/>
   <column name="follow_up_lock" required="true" type="SMALLINT"/>
+  <column name="move_notify" required="true" type="SMALLINT"/>
+  <column name="state_notify" required="true" type="SMALLINT"/>
+  <column name="lock_notify" required="true" type="SMALLINT"/>
+  <column name="owner_notify" required="true" type="SMALLINT"/>
   <column name="comment" required="false" size="200" type="VARCHAR"/>
   <column name="valid_id" required="true" type="SMALLINT"/>
   <column name="create_time" required="true" type="DATE"/>

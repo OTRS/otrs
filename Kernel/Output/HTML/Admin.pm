@@ -2,7 +2,7 @@
 # HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.33 2003-03-06 22:11:58 martin Exp $
+# $Id: Admin.pm,v 1.34 2003-03-10 21:25:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -446,7 +446,26 @@ sub AdminQueueForm {
         SelectedID => $Param{FollowUpID},
     );
 
-
+    $Param{'MoveOption'} = $Self->OptionStrgHashRef(
+        Data => $Self->{ConfigObject}->Get('YesNoOptions'),
+        Name => 'MoveNotify',
+        SelectedID => $Param{MoveNotify},
+    );
+    $Param{'StateOption'} = $Self->OptionStrgHashRef(
+        Data => $Self->{ConfigObject}->Get('YesNoOptions'),
+        Name => 'StateNotify',
+        SelectedID => $Param{StateNotify},
+    );
+    $Param{'OwnerOption'} = $Self->OptionStrgHashRef(
+        Data => $Self->{ConfigObject}->Get('YesNoOptions'),
+        Name => 'OwnerNotify',
+        SelectedID => $Param{OwnerNotify},
+    );
+    $Param{'LockOption'} = $Self->OptionStrgHashRef(
+        Data => $Self->{ConfigObject}->Get('YesNoOptions'),
+        Name => 'LockNotify',
+        SelectedID => $Param{LockNotify},
+    );
     $Param{'Subaction'} = "Add" if (!$Param{'Subaction'});
 
     return $Self->Output(TemplateFile => 'AdminQueueForm', Data => \%Param);

@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.51 2003-03-10 15:03:29 martin Exp $
+# $Id: Defaults.pm,v 1.52 2003-03-10 21:28:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.51 $';
+$VERSION = '$Revision: 1.52 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -580,14 +580,17 @@ $Data{"Signature"}
     #  these settings are used by the CLI version         #
     # --------------------------------------------------- #
     $Self->{QueueDefaults} = {
-      UnlockTimeout => 0,
-      EscalationTime => 0,
-      FollowUpLock => 0,
-      SystemAddressID => 1,
-      SalutationID => 1,
-      SignatureID => 1,
-      FollowUpID => 1,
-      FollowUpLock => 0,
+        UnlockTimeout => 0,
+        EscalationTime => 0,
+        FollowUpLock => 0,
+        SystemAddressID => 1,
+        SalutationID => 1,
+        SignatureID => 1,
+        FollowUpID => 1,
+        FollowUpLock => 0,
+        MoveNotify => 0,
+        LockNotify => 0,
+        StateNotify => 0,
     };
 
     # --------------------------------------------------- #
@@ -1183,6 +1186,56 @@ New Password: <OTRS_NEWPW>
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>customer.pl
 
 Your OTRS Notification Master
+";
+
+    # --------------------------------------------------- #
+    # notification email for state update                 #
+    # --------------------------------------------------- #
+    $Self->{CustomerNotificationSubjectStateUpdate} = "New State '<OTRS_CUSTOMER_State>'!";
+    $Self->{CustomerNotificationBodyStateUpdate} = "
+*** THIS IS JUST A NOTE ***
+
+The state of your ticket '<OTRS_TICKET_NUMBER>' has been chaned by 
+'<OTRS_OWNER_UserFirstname> <OTRS_OWNER_UserLastname>' to '<OTRS_CUSTOMER_State>'.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>customer.pl?Action=CustomerZoom&TicketID=<OTRS_TICKET_ID>
+
+Your OTRS Notification Master
+
+*** THIS IS JUST A NOTE ***
+";
+    # --------------------------------------------------- #
+    # notification email for owner update                 #
+    # --------------------------------------------------- #
+    $Self->{CustomerNotificationSubjectOwnerUpdate} = "New Owner '<OTRS_CUSTOMER_UserFirstname> <OTRS_CUSTOMER_UserLastname>'!";
+    $Self->{CustomerNotificationBodyOwnerUpdate} = "
+*** THIS IS JUST A NOTE ***
+
+The owner of your ticket '<OTRS_TICKET_NUMBER>' has been changed to 
+'<OTRS_CUSTOMER_UserFirstname> <OTRS_CUSTOMER_UserLastname>'.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>customer.pl?Action=CustomerZoom&TicketID=<OTRS_TICKET_ID>
+
+Your OTRS Notification Master
+
+*** THIS IS JUST A NOTE ***
+";
+
+    # --------------------------------------------------- #
+    # notification email for queue update                 #
+    # --------------------------------------------------- #
+    $Self->{CustomerNotificationSubjectQueueUpdate} = "New Queue '<OTRS_CUSTOMER_Queue>'!";
+    $Self->{CustomerNotificationBodyQueueUpdate} = "
+*** THIS IS JUST A NOTE ***
+
+The queue of your ticket '<OTRS_TICKET_NUMBER>' has been changed by
+'<OTRS_CUSTOMER_UserFirstname> <OTRS_CUSTOMER_UserLastname>' to '<OTRS_CUSTOMER_Queue>'.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>customer.pl?Action=CustomerZoom&TicketID=<OTRS_TICKET_ID>
+
+Your OTRS Notification Master
+
+*** THIS IS JUST A NOTE ***
 ";
 
     # --------------------------------------------------- #

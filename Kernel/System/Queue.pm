@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue funktions
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.23 2003-03-02 11:05:14 martin Exp $
+# $Id: Queue.pm,v 1.24 2003-03-10 21:25:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::StdResponse;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -46,9 +46,10 @@ sub GetSystemAddress {
     my $Self = shift;
     my %Param = @_;
     my %Adresss;
+    my $QueueID = $Param{QueueID} || $Self->{QueueID};
     my $SQL = "SELECT sa.value0, sa.value1 FROM system_address as sa, queue as sq ".
 	" WHERE ".
-	" sq.id = $Self->{QueueID} ".
+	" sq.id = $QueueID ".
 	" and ".
 	" sa.id = sq.system_address_id";
     $Self->{DBObject}->Prepare(SQL => $SQL);
@@ -437,16 +438,18 @@ sub QueueAdd {
        FollowUpID
        FollowUpLock
        EscalationTime
+       MoveNotify
+       StateNotify
        Comment
        ValidID
    );
    
 
    foreach (@Params) {
-       $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || ''; #Ooooh what does this button do?
+       $Param{$_} = $Self->{DBObject}->Quote($Param{$_}); 
    };
 
-   for (qw(UnlockTimeout EscalationTime FollowUpLock SystemAddressID SalutationID SignatureID FollowUpID FollowUpLock)) {
+   for (qw(UnlockTimeout EscalationTime FollowUpLock SystemAddressID SalutationID SignatureID FollowUpID FollowUpLock MoveNotify StateNotify LockNotify OwnerNotify)) {
       # these are coming from Config.pm
       # I added default values in the Load Routine
       $Param{$_} = $Self->{ConfigObject}{QueueDefaults}{$_} || 0  unless ($Param{$_});
@@ -455,8 +458,8 @@ sub QueueAdd {
    # --
    # check needed stuff
    # --
-   foreach (qw(Name GroupID SystemAddressID SalutationID SignatureID ValidID)) {
-      if (!$Param{$_}) { 
+   foreach (qw(Name GroupID SystemAddressID SalutationID SignatureID MoveNotify StateNotify LockNotify OwnerNotify ValidID)) {
+      if (!defined($Param{$_})) { 
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
@@ -472,6 +475,10 @@ sub QueueAdd {
        " escalation_time, ".
        " follow_up_id, ".
        " follow_up_lock, ".
+       " state_notify, ".
+       " move_notify, ".
+       " lock_notify, ".
+       " owner_notify, ".
        " valid_id, ".
        " comment, ".
        " create_time, ".
@@ -488,6 +495,10 @@ sub QueueAdd {
        " $Param{EscalationTime}, ".
        " $Param{FollowUpID}, ".
        " $Param{FollowUpLock}, ".
+       " $Param{StateNotify}, ".
+       " $Param{MoveNotify}, ".
+       " $Param{LockNotify}, ".
+       " $Param{OwnerNotify}, ".
        " $Param{ValidID}, ".
        " '$Param{Comment}', ".
        " current_timestamp, ".
@@ -599,13 +610,14 @@ sub QueueGet {
     # --
     # sql 
     # --
-     my $SQL = "SELECT q.name, q.group_id, q.unlock_timeout, " .
-        " q.system_address_id, q.salutation_id, q.signature_id, q.comment, q.valid_id, " .
-        " q.escalation_time, q.follow_up_id, q.follow_up_lock, sa.value0, sa.value1, q.id " .
-        " FROM " .
-        " queue q, system_address sa" .
-        " WHERE " .
-        " q.system_address_id = sa.id " .
+     my $SQL = "SELECT q.name, q.group_id, q.unlock_timeout, ".
+        " q.system_address_id, q.salutation_id, q.signature_id, q.comment, q.valid_id, ".
+        " q.escalation_time, q.follow_up_id, q.follow_up_lock, sa.value0, sa.value1, q.id, ".
+        " q.move_notify, q.state_notify, q.lock_notify, q.owner_notify ".
+        " FROM ".
+        " queue q, system_address sa".
+        " WHERE ".
+        " q.system_address_id = sa.id ".
         " AND ";
     if ($Param{ID}) {
         $SQL .= " q.id = $Param{ID}";
@@ -631,6 +643,10 @@ sub QueueGet {
             ValidID => $Data[7],
             Email => $Data[8],
             RealName => $Data[9],
+            StateNotify => $Data[15],
+            MoveNotify => $Data[14],
+            LockNotify => $Data[16],
+            OwnerNotify => $Data[17],
         );
     }
     return %QueueData;
@@ -642,8 +658,8 @@ sub QueueUpdate {
     # --
     # check needed stuff
     # --
-    foreach (qw(QueueID Name ValidID GroupID SystemAddressID SalutationID SignatureID UserID)) {
-      if (!$Param{$_}) {
+    foreach (qw(QueueID Name ValidID GroupID SystemAddressID SalutationID SignatureID UserID MoveNotify StateNotify LockNotify OwnerNotify)) {
+      if (!defined ($Param{$_})) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
@@ -656,9 +672,9 @@ sub QueueUpdate {
         $DB{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
     }
     # check !!!
-    $DB{UnlockTimeout} = 0 if (!$Param{UnlockTimeout});
-    $DB{EscalationTime} = 0 if (!$Param{EscalationTime});
-    $DB{FollowUpLock} = 0 if (!$Param{FollowUpLock});
+    foreach (qw(UnlockTimeout EscalationTime FollowUpLock MoveNotify StateNotify LockNotify OwnerNotify)) {
+        $DB{$_} = 0 if (!$Param{$_});
+    }
     # --
     # check if queue name exists
     # --
@@ -689,6 +705,10 @@ sub QueueUpdate {
         " system_address_id = $DB{SystemAddressID}, " .
         " salutation_id = $DB{SalutationID}, " .
         " signature_id = $DB{SignatureID}, " .
+        " move_notify = $DB{MoveNotify}, " .
+        " state_notify = $DB{StateNotify}, " .
+        " lock_notify = $DB{LockNotify}, " .
+        " owner_notify = $DB{OwnerNotify}, " .
         " valid_id = $DB{ValidID}, " .
         " change_time = current_timestamp, " .
         " change_by = $DB{UserID} " .

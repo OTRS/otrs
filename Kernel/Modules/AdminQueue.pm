@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueue.pm,v 1.10 2003-02-23 22:23:24 martin Exp $
+# $Id: AdminQueue.pm,v 1.11 2003-03-10 21:27:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminQueue;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -32,15 +32,8 @@ sub new {
     }
 
     # check all needed objects
-    foreach (
-        'ParamObject', 
-        'DBObject',  
-        'QueueObject', 
-        'LayoutObject', 
-        'ConfigObject', 
-        'LogObject',
-        'PermissionObject',
-    ) {
+    foreach (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject 
+        LogObject PermissionObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
 
@@ -74,6 +67,10 @@ sub Run {
         'FollowUpID',
         'FollowUpLock',
         'EscalationTime',
+        'MoveNotify',
+        'StateNotify',
+        'LockNotify', 
+        'OwnerNotify',
         'Comment', 
         'ValidID'
     );

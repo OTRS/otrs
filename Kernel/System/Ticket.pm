@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.50 2003-03-06 22:11:57 martin Exp $
+# $Id: Ticket.pm,v 1.51 2003-03-10 21:25:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::PostMaster::LoopProtection;
 use Kernel::System::CustomerUser;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.50 $';
+$VERSION = '$Revision: 1.51 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -474,7 +474,7 @@ sub MoveByTicketID {
             }
         }
         # --
-        # send notification
+        # send agent notification
         # --
         $Self->SendNotification(
             Type => 'Move',
@@ -484,6 +484,16 @@ sub MoveByTicketID {
             TicketID => $Param{TicketID},
             UserID => $Param{UserID},
         );
+        # --
+        # send customer notification email
+        # --
+        my %Preferences = $Self->{UserObject}->GetUserData(UserID => $Param{UserID});
+        $Self->SendCustomerNotification(
+            Type => 'QueueUpdate',
+            CustomerMessageParams => { %Preferences, Queue => $Queue },
+            TicketID => $Param{TicketID},
+            UserID => $Param{UserID},
+        ); 
 
         return 1;
     }
