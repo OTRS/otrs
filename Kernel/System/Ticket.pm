@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.118 2004-06-16 05:56:27 martin Exp $
+# $Id: Ticket.pm,v 1.119 2004-06-22 10:49:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.118 $';
+$VERSION = '$Revision: 1.119 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1742,7 +1742,7 @@ sub TicketSearch {
             Cached => 1,
         );
         my @CustomerIDs = $Self->{CustomerUserObject}->CustomerIDs(User => $Param{CustomerUserID});
-        $SQLExt .= " AND st.customer_id IN ('${\(join '\', ' , @CustomerIDs)}') ";
+        $SQLExt .= " AND st.customer_id IN ('${\(join '\', \'' , @CustomerIDs)}') ";
     }
     if ($Param{UserID} && $Param{UserID} == 1) {
 #        $Self->{LogObject}->Log(Priority => 'info', Message => "It's a admin search, no groups are used!");
@@ -2406,28 +2406,33 @@ sub OwnerList {
     }
     # db query
     my @User = ();
+    my $LastOwner = 1;
     my $SQL = "SELECT sh.name, ht.name, sh.create_by ".
         " FROM ".
         " ticket_history sh, ticket_history_type ht ".
         " WHERE ".
         " sh.ticket_id = $Param{TicketID} ".
         " AND ".
-        " ht.name IN ('OwnerUpdate', 'NewTicket')  ".
+        " ht.name IN ('OwnerUpdate', 'NewTicket', 'Lock')  ".
         " AND ".
         " ht.id = sh.history_type_id".
         " ORDER BY sh.id";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         # store result
-        if ($Row[1] eq 'NewTicket') {
-            if ($Row[2] ne '1') {
-                push (@User, $Row[2]);
-            }
+        if ($Row[1] eq 'NewTicket' && $Row[2] ne '1' && $LastOwner ne $Row[2]) {
+            $LastOwner = $Row[2];
+            push (@User, $Row[2]);
         }
         elsif ($Row[1] eq 'OwnerUpdate') {
-            if ($Row[0] =~ /^New Owner is '.+?' \(ID=(.+?)\)/) {
-                push (@User, $1);
+            if ($Row[0] =~ /^New Owner is '(.+?)' \(ID=(.+?)\)/ || $Row[0] =~ /^\%\%(.+?)\%\%(.+?)/) {
+                $LastOwner = $2;
+                push (@User, $2);
             }
+        }
+        if ($Row[1] eq 'Lock' && $Row[2] ne '1' && $LastOwner ne $Row[2]) {
+            $LastOwner = $Row[2];
+            push (@User, $Row[2]);
         }
     }
     my @UserInfo = ();
@@ -3288,6 +3293,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.118 $ $Date: 2004-06-16 05:56:27 $
+$Revision: 1.119 $ $Date: 2004-06-22 10:49:59 $
 
 =cut
