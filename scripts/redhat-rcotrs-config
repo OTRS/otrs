@@ -1,7 +1,7 @@
 # --
 # rcscript config settings for OTRS (http://otrs.org/)
 # --
-# $Id: redhat-rcotrs-config,v 1.1 2002-09-23 14:43:40 martin Exp $
+# $Id: redhat-rcotrs-config,v 1.2 2002-12-10 22:41:51 martin Exp $
 # --
 
 # 
@@ -54,7 +54,7 @@ OTRS_POSTMASTER=$OTRS_ROOT/bin/PostMaster.pl
 #
 # location of CheckDB.pl 
 #
-OTRS_CHECKDB=$OTRS_ROOT/bin/CheckDB.pl
+OTRS_CHECKDB=$OTRS_ROOT/bin/CheckDB.pl -s 1
 
 # 
 # location of OTRS spool dir
