@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerTicketSearch.pm,v 1.7 2004-11-04 11:13:50 martin Exp $
+# $Id: CustomerTicketSearch.pm,v 1.8 2004-11-05 15:24:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -96,8 +96,12 @@ sub Run {
             }
         }
         # get array params
-        foreach (qw(StateIDs StateTypeIDs PriorityIDs)) {
-        # get search array params (get submitted params)
+        foreach (qw(StateIDs StateTypeIDs PriorityIDs
+          TicketFreeKey1 TicketFreeText1 TicketFreeKey2 TicketFreeText2
+          TicketFreeKey3 TicketFreeText3 TicketFreeKey4 TicketFreeText4
+          TicketFreeKey5 TicketFreeText5 TicketFreeKey6 TicketFreeText6
+          TicketFreeKey7 TicketFreeText7 TicketFreeKey8 TicketFreeText8
+        )) {
             # get search array params (get submitted params)
             my @Array = $Self->{ParamObject}->GetArray(Param => $_);
             if (@Array) {
@@ -364,12 +368,32 @@ sub Run {
         elsif (!$Self->{SelectTemplate}) {
 #            $Self->{Profile} = '';
         }
+        # get free text config options
+        my %TicketFreeText = ();
+        foreach (1..8) {
+            $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+                Type => "TicketFreeKey$_",
+                Action => $Self->{Action},
+                CustomerUserID => $Self->{UserID},
+            );
+            $TicketFreeText{"TicketFreeText$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+                Type => "TicketFreeText$_",
+                Action => $Self->{Action},
+                CustomerUserID => $Self->{UserID},
+            );
+        }
+        my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
+            NullOption => 1,
+            Ticket => \%GetParam,
+            Config => \%TicketFreeText,
+        );
         # generate search mask
         my $Output = $Self->{LayoutObject}->CustomerHeader(Area => 'Customer', Title => 'Search');
         $Output .= $Self->{LayoutObject}->CustomerNavigationBar();
         $Output .= $Self->MaskForm(
             %GetParam,
             Profile => $Self->{Profile},
+            %TicketFreeTextHTML,
         );
         $Output .= $Self->{LayoutObject}->CustomerFooter();
         return $Output;
