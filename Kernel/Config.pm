@@ -2,7 +2,7 @@
 # Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.36 2002-06-08 17:39:14 martin Exp $
+# $Id: Config.pm,v 1.37 2002-06-08 20:34:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -257,7 +257,7 @@ sub Load {
     $Self->{CGIHandle} = 'index.pl';
     
     # CGILogPrefix
-    $Self->{CGILogPrefix} = 'OpenTRS';
+    $Self->{CGILogPrefix} = 'OpenTRS-CGI';
 
     # ----------------------------------------------------#
     # directories                                         #
