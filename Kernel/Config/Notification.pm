@@ -2,7 +2,7 @@
 # Kernel/Config/Notification.pm - Notification config file for OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Notification.pm,v 1.3 2002-09-10 23:13:12 martin Exp $
+# $Id: Notification.pm,v 1.4 2002-09-23 18:56:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -12,7 +12,7 @@ package Kernel::Config::Notification;
 
 use strict;
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -54,7 +54,7 @@ Your OTRS Notification Master
     # --
     $Self->{NotificationSubjectFollowUp} = 'You got follow up! (<OTRS_CUSTOMER_SUBJECT[10]>)';
     $Self->{NotificationBodyFollowUp} = "
-Hi <OTRS_USER_FIRSTNAME>,
+Hi <OTRS_USERFIRSTNAME>,
 
 you got a follow up!
 
