@@ -2,12 +2,32 @@
 # Changes of OpenTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.2 2002-05-07 22:13:32 martin Exp $
+# $Id: CHANGES,v 1.3 2002-05-21 21:47:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
+0.5 BETA5 (2002-05-??)
+ - added URL (screen) recovery after session timeout and possibility to send 
+    links without session id. Example: Shows you the ticket after OpenTRS 
+    login - http://host.example.com/otrs/index.pl?AgentZoom&TicketID=9 (martin) 
+ - added http://bugs.otrs.org/ link to the Error.dtl template, to get an easier 
+    bug reporting (martin)
+ - added NoPermission.dtl screen (martin)
+ - added phone tool - Kernel::Modules::AgentPhone.pm (martin)
+ - added french translation (thanks to Martin Scherbaum)
+ - added 'Send follow up notification' and 'Send new ticket notification' to agent 
+    feature (martin)
+    * added new values to initial_insert.sql for agent notifications, table: 
+      ticket_history_type, value: SendAgentNotification
+    * modified Kernel/Output/HTML/<THEME>/AgentPreferencesForm.dtl 
+    * required "new" options in Kernel::Config.pm!
+ - fixed suse-rcotrs script (thanks to Martin Scherbaum)
+    * added "INIT INFO"
+    * just check httpd and mysqld - no restart 
+    * added stop-force|start-force option to restart httpd and mysqld
 
 0.5 BETA4 (2002-05-07)
  - changed login screen and added motd feature (Kernel/Output/HTML/Standard/Motd.dtl
@@ -18,7 +38,8 @@
  - added mod_perl stuff to README.webserver and scripts/suse-httpd.include.conf (martin)
  - fixed bug[6] (http://bugs.otrs.org/show_bug.cgi?id=6 - user is a reserved word in 
     SQL) reported by Charles Wimmer. Added some variables for table names and columns 
-    to Kernel/Config.pm. (martin)
+    to Kernel/Config.pm. Important: For existing installations you have to change the 
+    Config.pm or to rename the "user" table to "system_user"! (martin)
  - added "kill all sessions" funktion to Kernel::Modules::AdminSession.pm (martin)
  - added old subject ("subject snip") and old email ("body snip") to auto reply (martin)
  - added stats support Kernel::Modules::SystemStats and bin/mkStats.pl (with GD) (martin)
