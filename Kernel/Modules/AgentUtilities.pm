@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.14 2003-01-05 16:03:38 martin Exp $
+# $Id: AgentUtilities.pm,v 1.15 2003-01-14 22:11:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentUtilities;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -168,13 +168,6 @@ sub SearchByText {
     $Output .= $Self->{LayoutObject}->Header(Title => 'Utilities');
     my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $UserID);
     $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
-    $Output .= $Self->{LayoutObject}->AgentUtilSearchAgain(
-        What => $Want,
-        Kind => 'SearchByText',
-        Limit => $Self->{SearchLimitTxt},
-        WhatFields => \@WhatFields,
-        SelectedStates => \@States,
-    );
     # --
     # add states to where statement
     # --
@@ -194,6 +187,22 @@ sub SearchByText {
     $Want =~ s/\*//gi;
     my @SParts = split('%', $Want);
     # --
+    # show search again table
+    # --
+    $Output .= $Self->{LayoutObject}->AgentUtilSearchAgain(
+        What => $Want,
+        Kind => 'SearchByText',
+        Limit => $Self->{SearchLimitTxt},
+        WhatFields => \@WhatFields,
+        SelectedStates => \@States,
+    );
+    # --
+    # if !@SParts -=> search empty!
+    # --
+    if (!@SParts) {
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
+    }
     # building a spez. sql ext.
     # --
     my $SqlExt = '';
