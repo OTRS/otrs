@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.27 2002-11-11 00:52:23 martin Exp $
+# $Id: AgentCompose.pm,v 1.28 2002-12-18 16:45:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,9 +13,10 @@ package Kernel::Modules::AgentCompose;
 
 use strict;
 use Kernel::System::EmailParser;
+use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -47,6 +48,8 @@ sub new {
 
     $Self->{EmailObject} = Kernel::System::EmailSend->new(%Param);
     $Self->{EmailParserObject} = Kernel::System::EmailParser->new(%Param);
+    $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%Param);
+
     # --
     # get params
     # --
@@ -207,28 +210,15 @@ sub Form {
     $Data{Signature} =~ s/<OTRS_FIRST_NAME>/$Self->{UserFirstname}/g;
     $Data{Signature} =~ s/<OTRS_LAST_NAME>/$Self->{UserLastname}/g;
     # --
-    # get next states
-    # --
-    my %NextStates;
-    my $NextComposeTypePossible = 
-       $Self->{ConfigObject}->Get('DefaultNextComposeTypePossible')
-           || die 'No Config entry "DefaultNextComposeTypePossible"!';
-    foreach (@{$NextComposeTypePossible}) {
-        $NextStates{$Self->{TicketObject}->StateLookup(State => $_)} = $_;
-    }
-    # --
     # check some values
     # --
     my %Error = ();
     foreach (qw(From To Cc Bcc)) {
         if ($Data{$_}) {
-            my @Adresses = $Self->{EmailParserObject}->SplitAddressLine(Line => $Data{$_});
-            foreach my $Adress (@Adresses) {
-                if (!Email::Valid->address(
-                   -address => $Adress,
-                   -mxcheck => $Self->{ConfigObject}->Get('AgentMXCheck') || 0,
-                )) {
-                   $Error{"$_ invalid"} .= "$Email::Valid::Details of $Adress! ";
+            my @Addresses = $Self->{EmailParserObject}->SplitAddressLine(Line => $Data{$_});
+            foreach my $Address (@Addresses) {
+                if (!$Self->{CheckItemObject}->CkeckEmail(Address => $Address)) {
+                     $Error{"$_ invalid"} .= $Self->{CheckItemObject}->CheckError();
                 }
             }
         }
@@ -240,7 +230,7 @@ sub Form {
         TicketNumber => $Tn,
         TicketID => $TicketID,
         QueueID => $QueueID,
-        NextStates => \%NextStates,
+        NextStates => $Self->_GetNextStates(),
         ResponseFormat => $Self->{ResponseFormat},
         Errors => \%Error,
         %Data,
@@ -263,7 +253,6 @@ sub SendEmail {
     my $Upload = $Self->{ParamObject}->GetUpload(Filename => 'file_upload');
     if ($Upload) {
         $Param{UploadFilenameOrig} = $Self->{ParamObject}->GetParam(Param => 'file_upload') || 'unkown';
-print STDERR "- $Param{UploadFilenameOrig} -\n";
         # --
         # delete upload dir if exists
         # --
@@ -300,13 +289,10 @@ print STDERR "- $Param{UploadFilenameOrig} -\n";
     my %Error = ();
     foreach (qw(From To Cc Bcc)) {
         if ($Self->{$_}) {
-            my @Adresses = $Self->{EmailParserObject}->SplitAddressLine(Line => $Self->{$_});
-            foreach my $Adress (@Adresses) {
-                if (!Email::Valid->address(         
-                   -address => $Adress,
-                   -mxcheck => $Self->{ConfigObject}->Get('AgentMXCheck') || 0,
-                )) {
-                   $Error{"$_ invalid"} .= "$Email::Valid::Details of $Adress! ";
+            my @Addresses = $Self->{EmailParserObject}->SplitAddressLine(Line => $Self->{$_});
+            foreach my $Address (@Addresses) {
+                if (!$Self->{CheckItemObject}->CkeckEmail(Address => $Address)) {
+                     $Error{"$_ invalid"} .= $Self->{CheckItemObject}->CheckError();
                 }
             }
         }
@@ -320,18 +306,11 @@ print STDERR "- $Param{UploadFilenameOrig} -\n";
             $Data{$_} = $Self->{$_};
         }
         $Data{StdResponse} = $Self->{Body};
-        my %NextStates;
-        my $NextComposeTypePossible = 
-           $Self->{ConfigObject}->Get('DefaultNextComposeTypePossible')
-             || die 'No Config entry "DefaultNextComposeTypePossible"!';
-        foreach (@{$NextComposeTypePossible}) {
-            $NextStates{$Self->{TicketObject}->StateLookup(State => $_)} = $_;
-        }
         $Output .= $Self->{LayoutObject}->AgentCompose(
             TicketNumber => $Tn,
             TicketID => $TicketID,
             QueueID => $QueueID,
-            NextStates => \%NextStates,
+            NextStates => $Self->_GetNextStates(),
             NextState => $NextState,
             ResponseFormat => $Self->{Body},
             AnsweredID => $Self->{Answered},
@@ -417,6 +396,22 @@ print STDERR "- $Param{UploadFilenameOrig} -\n";
       $Output .= $Self->{LayoutObject}->Footer();
       return $Output;
     }
+}
+# --
+sub _GetNextStates {
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # get next states
+    # --
+    my %NextStates;
+    my $NextComposeTypePossible =
+       $Self->{ConfigObject}->Get('DefaultNextComposeTypePossible')
+           || die 'No Config entry "DefaultNextComposeTypePossible"!';
+    foreach (@{$NextComposeTypePossible}) {
+        $NextStates{$Self->{TicketObject}->StateLookup(State => $_)} = $_;
+    }
+    return \%NextStates;
 }
 # --
 
