@@ -40,6 +40,9 @@ Take care that you also update the default state "new" in your Kernel/Config.pm
     # (The default state of new tickets.) [default: new]
     $Self->{PostmasterDefaultState} = 'new';
     [...]
+    # default phone new state
+    $Self->{PhoneDefaultNewNextState} = 'open';
+    [...]
 </programlisting>
 </para>
 </listitem>
