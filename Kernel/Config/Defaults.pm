@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.145 2004-07-30 09:21:24 martin Exp $
+# $Id: Defaults.pm,v 1.146 2004-08-01 20:48:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.145 $';
+$VERSION = '$Revision: 1.146 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -78,7 +78,7 @@ sub LoadDefaults {
     # (Where is sendmail located and some options.
     # See 'man sendmail' for details. Or use the SMTP backend.)
     $Self->{'SendmailModule'} = 'Kernel::System::Email::Sendmail';
-    $Self->{'SendmailModule::CMD'} = '/usr/sbin/sendmail -t -i -f ';
+    $Self->{'SendmailModule::CMD'} = '/usr/sbin/sendmail -i -f ';
 
 #    $Self->{'SendmailModule'} = 'Kernel::System::Email::SMTP';
 #    $Self->{'SendmailModule::Host'} = 'mail.example.com';
