@@ -2,7 +2,7 @@
 # Kernel/System/POP3Account.pm - lib for POP3 accounts
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: POP3Account.pm,v 1.5 2003-05-08 01:15:35 martin Exp $
+# $Id: POP3Account.pm,v 1.6 2003-05-18 14:46:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::POP3Account;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -165,8 +165,9 @@ sub POP3AccountUpdate {
     # --
     # sql
     # --
-    my $SQL = "UPDATE pop3_account SET login = '$Param{Login}', pw = '$Param{Password}', " .
-        " host = '$Param{Host}', comment = '$Param{Comment}', valid_id = $Param{ValidID}, " .
+    my $SQL = "UPDATE pop3_account SET login = '$Param{Login}', pw = '$Param{Password}', ".
+        " host = '$Param{Host}', comment = '$Param{Comment}', ".
+        " trusted = $Param{Trusted}, valid_id = $Param{ValidID}, ".
         " change_time = current_timestamp, change_by = $Param{UserID}, queue_id = $Param{QueueID} " .
         " WHERE id = $Param{ID}";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
