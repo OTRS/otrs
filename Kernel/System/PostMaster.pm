@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.47 2004-11-04 11:13:14 martin Exp $
+# $Id: PostMaster.pm,v 1.48 2004-11-26 10:57:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,13 +16,14 @@ use Kernel::System::EmailParser;
 use Kernel::System::Ticket;
 use Kernel::System::Queue;
 use Kernel::System::State;
+use Kernel::System::PostMaster::Reject;
 use Kernel::System::PostMaster::FollowUp;
 use Kernel::System::PostMaster::NewTicket;
 use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.47 $';
+$VERSION = '$Revision: 1.48 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -77,6 +78,13 @@ sub new {
         LoopProtectionObject => $Self->{LoopProtectionObject},
         ParseObject => $Self->{ParseObject},
     );
+    $Self->{Reject} = Kernel::System::PostMaster::Reject->new(
+        %Param,
+        Debug => $Self->{Debug},
+        TicketObject => $Self->{TicketObject},
+        LoopProtectionObject => $Self->{LoopProtectionObject},
+        ParseObject => $Self->{ParseObject},
+    );
     # should i use the x-otrs header?
     $Self->{Trusted} = defined $Param{Trusted} ? $Param{Trusted} : 1;
 
@@ -88,6 +96,9 @@ sub Run {
     my %Param = @_;
     # ConfigObject section / get params
     my $GetParam = $Self->GetEmailParams();
+
+    # check if follow up
+    my ($Tn, $TicketID) = $Self->CheckFollowUp(%{$GetParam});
 
     # run all PreFilterModules (modify email params)
     if (ref($Self->{ConfigObject}->Get('PostMaster::PreFilterModule')) eq 'HASH') {
@@ -121,6 +132,7 @@ sub Run {
                 if (!$FilterObject->Run(
                     GetParam => $GetParam,
                     JobConfig => $Jobs{$Job},
+                    TicketID => $TicketID,
                 )) {
                     $Self->{LogObject}->Log(
                         Priority => 'error',
@@ -141,7 +153,7 @@ sub Run {
     if ($GetParam->{'X-OTRS-Ignore'} && $GetParam->{'X-OTRS-Ignore'} =~ /yes/i) {
        $Self->{LogObject}->Log(
            Priority => 'notice',
-           Message => "Dropped Email (From: $GetParam->{'From'}, Message-ID: $GetParam->{'Message-ID'}) " .
+           Message => "Ignored Email (From: $GetParam->{'From'}, Message-ID: $GetParam->{'Message-ID'}) " .
            "because the X-OTRS-Ignore is set (X-OTRS-Ignore: $GetParam->{'X-OTRS-Ignore'})."
        );
        return 1;
@@ -149,8 +161,8 @@ sub Run {
    # --
    # ticket section
    # --
-   # check if follow up
-   my ($Tn, $TicketID) = $Self->CheckFollowUp(%{$GetParam});
+   # check if follow up (again, with new GetParam)
+   ($Tn, $TicketID) = $Self->CheckFollowUp(%{$GetParam});
    # check if it's a follow up ...
    if ($Tn && $TicketID) {
         # get ticket data
@@ -200,7 +212,7 @@ sub Run {
                 Message=>"Follow up for [$Tn] but follow up not possible. Follow up rejected."
             );
             # send reject mail && and add article to ticket
-            $Self->{FollowUp}->Run(
+            $Self->{Reject}->Run(
                 TicketID => $TicketID,
                 InmailUserID => $Self->{PostmasterUserID},
                 GetParam => $GetParam,
@@ -384,8 +396,8 @@ sub GetEmailParams {
     if (!$GetParam{'X-OTRS-SenderType'}) {
         $GetParam{'X-OTRS-SenderType'} = 'customer';
     }
-    # check if X-OTRS-SenderType exists, if not, set customer
-    if (!$Self->{TicketObject}->ArticleSenderTypeLookup(SenderType => $GetParam{'X-OTRS-SenderType'})) {
+# check if X-OTRS-SenderType exists, if not, set customer
+if (!$Self->{TicketObject}->ArticleSenderTypeLookup(SenderType => $GetParam{'X-OTRS-SenderType'})) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message => "Can't find sender type '$GetParam{'X-OTRS-SenderType'}' in db, take 'customer'",
@@ -408,6 +420,7 @@ sub GetEmailParams {
     $GetParam{'Body'} = $Self->{ParseObject}->GetMessageBody();
     # get content type
     $GetParam{'Content-Type'} = $Self->{ParseObject}->GetReturnContentType();
+    $GetParam{'Charset'} = $Self->{ParseObject}->GetReturnCharset();
     return \%GetParam;
 }
 # --
