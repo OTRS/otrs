@@ -2,7 +2,7 @@
 # Kernel/System/Email/SMTP.pm - the global email send module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SMTP.pm,v 1.7 2004-08-01 20:46:13 martin Exp $
+# $Id: SMTP.pm,v 1.8 2004-11-28 11:18:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Net::SMTP;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -55,11 +55,14 @@ sub Send {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
-    foreach (qw(Header Body From To ToArray)) {
+    foreach (qw(Header Body To ToArray)) {
         if (!$Param{$_}) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
         }
+    }
+    if (!$Param{From}) {
+        $Param{From} = "";
     }
     # send mail
     if ($Self->{SMTPObject} = Net::SMTP->new(
