@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.46 2002-09-10 23:12:22 martin Exp $
+# $Id: Generic.pm,v 1.47 2002-09-23 20:26:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::Output::HTML::System;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.46 $';
+$VERSION = '$Revision: 1.47 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -232,8 +232,12 @@ sub Output {
                 }
               }
               elsif ($1 eq "Env" || $1 eq "Data") {
-                if ((exists $GlobalRef->{"$1Ref"}->{$2}) && $GlobalRef->{"$1Ref"}->{$2} eq $4) {
+                if (($GlobalRef->{"$1Ref"}->{$2}) && $GlobalRef->{"$1Ref"}->{$2} eq $4) {
                   $GlobalRef->{"$5Ref"}->{$6} = $7;
+                  "";
+                }
+                else {
+                  # output replace with nothing!
                   "";
                 }
               }
@@ -250,8 +254,12 @@ sub Output {
                 }
               }
               elsif ($1 eq "Env" || $1 eq "Data") {
-                if ((exists $GlobalRef->{"$1Ref"}->{$2}) && $GlobalRef->{"$1Ref"}->{$2} ne $4) {
+                if (($GlobalRef->{"$1Ref"}->{$2}) && $GlobalRef->{"$1Ref"}->{$2} ne $4) {
                   $GlobalRef->{"$5Ref"}->{$6} = $7;
+                  # output replace with nothing!
+                  "";
+                }
+                else {
                   # output replace with nothing!
                   "";
                 }
