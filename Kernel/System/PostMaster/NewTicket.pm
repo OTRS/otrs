@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NewTicket.pm,v 1.39 2003-05-18 20:23:09 martin Exp $
+# $Id: NewTicket.pm,v 1.40 2003-08-22 15:19:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use Kernel::System::AutoResponse;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -124,35 +124,34 @@ sub Run {
         Queue => $Queue,
     );
     # --    
-    # get customer user and no if not given
+    # get sender email 
     # --
-    if (!$GetParam{'X-OTRS-CustomerUser'}) {
-        my @EmailAddresses = $Self->{ParseObject}->SplitAddressLine(
-            Line => $GetParam{From},
+    my @EmailAddresses = $Self->{ParseObject}->SplitAddressLine(
+        Line => $GetParam{From},
+    );
+    foreach (@EmailAddresses) {
+        $GetParam{'SenderEmailAddress'} = $Self->{ParseObject}->GetEmailAddress(
+            Email => $_,
         );
-        foreach (@EmailAddresses) {
-            $GetParam{'X-OTRS-CustomerUser'} = $Self->{ParseObject}->GetEmailAddress(
-                Email => $_,
-            );
-        }
     }
     # --    
     # get customer id (sender email) if there is no customer id given
     # --
-    if (!$GetParam{'X-OTRS-CustomerNo'}) {
-        # --
+    if (!$GetParam{'X-OTRS-CustomerNo'} && $GetParam{'X-OTRS-CustomerUser'}) {
         # get customer user data form X-OTRS-CustomerUser
-        # --
-        my %CustomerData = ();
-        if ($GetParam{'X-OTRS-CustomerUser'}) {
-            %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-                User => $GetParam{'X-OTRS-CustomerUser'}, 
-            );
+        my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+            User => $GetParam{'X-OTRS-CustomerUser'}, 
+        );
+        if (%CustomerData) {
+            $GetParam{'X-OTRS-CustomerNo'} = $CustomerData{UserCustomerID};
         }
-        # --
-        # get customer user data form From:
-        # --
-        elsif ($GetParam{'From'}) {
+    }
+    # --
+    # get customer user data form From: (sender address)
+    # --
+    if (!$GetParam{'X-OTRS-CustomerUser'}) {
+        my %CustomerData = ();
+        if ($GetParam{'From'}) {
             my @EmailAddresses = $Self->{ParseObject}->SplitAddressLine(
                 Line => $GetParam{From},
             );
@@ -170,25 +169,37 @@ sub Run {
                 );
             }
         }
-        # --
         # take CustomerID from customer backend lookup or from from field
-        # --
-        if ($CustomerData{UserLogin}) {
+        if ($CustomerData{UserLogin} && !$GetParam{'X-OTRS-CustomerUser'}) {
             $GetParam{'X-OTRS-CustomerUser'} = $CustomerData{UserLogin};
-        }
-        if ($CustomerData{UserCustomerID}) {
-            $GetParam{'X-OTRS-CustomerNo'} = $CustomerData{UserCustomerID};
-        }
-        else {
-            my @EmailAddresses = $Self->{ParseObject}->SplitAddressLine(
-                Line => $GetParam{From},
+            # notice that UserLogin is form customer source backend
+            $Self->{LogObject}->Log(
+                Priority => 'notice', 
+                Message => "Take UserLogin ($CustomerData{UserLogin}) from ".
+                   "customer source backend based on ($GetParam{'EmailForm'}).",
             );
-            foreach (@EmailAddresses) {
-                $GetParam{'X-OTRS-CustomerNo'} = $Self->{ParseObject}->GetEmailAddress(
-                    Email => $_,
-                );
-            }
         }
+        if ($CustomerData{UserCustomerID} && !$GetParam{'X-OTRS-CustomerNo'}) {
+            $GetParam{'X-OTRS-CustomerNo'} = $CustomerData{UserCustomerID};
+            # notice that UserCustomerID is form customer source backend
+            $Self->{LogObject}->Log(
+                Priority => 'notice', 
+                Message => "Take UserCustomerID ($CustomerData{UserCustomerID})".
+                   " from customer source backend based on ($GetParam{'EmailForm'}).",
+            );
+        }
+    }
+    # --
+    # if there is no customer id found!
+    # --
+    if (!$GetParam{'X-OTRS-CustomerNo'}) { 
+        $GetParam{'X-OTRS-CustomerNo'} = $GetParam{'SenderEmailAddress'};
+    }
+    # --
+    # if there is no customer user found!
+    # --
+    if (!$GetParam{'X-OTRS-CustomerUser'}) { 
+        $GetParam{'X-OTRS-CustomerUser'} = $GetParam{'SenderEmailAddress'};
     }
     # --    
     # set customer no
@@ -200,10 +211,8 @@ sub Run {
             User => $GetParam{'X-OTRS-CustomerUser'},
             UserID => $Param{InmailUserID},
         );
-    # --
-    # debug
-    # --
-    if ($Self->{Debug} > 0) {
+        # debug
+        if ($Self->{Debug} > 0) {
             print "CustomerID: $GetParam{'X-OTRS-CustomerNo'}\n";
             print "CustomerUser: $GetParam{'X-OTRS-CustomerUser'}\n";
         }
