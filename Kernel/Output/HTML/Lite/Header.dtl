@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Header.dtl,v 1.7 2002-06-23 09:55:01 martin Exp $
+# $Id: Header.dtl,v 1.8 2002-07-23 22:28:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -39,7 +39,7 @@ X-Wanted: I think you are smart. I'm looking for smart people!
 # --
 # create $Data{"UserLoginTop"} if user is loged in
 # --
-<dtl if ($Env{"UserLogin"} ne "") { $Data{"UserLoginTop"} = "($Env{"UserLogin"})"; }>
+<dtl if ($Env{"UserLogin"} ne "") { $Data{"UserLoginTop"} = "($Env{"UserEmail"})"; }>
 # --
 <html>
 <head>
