@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.14 2002-12-25 09:35:19 martin Exp $
+# $Id: Defaults.pm,v 1.15 2003-01-03 16:24:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -277,7 +277,7 @@ sub LoadDefaults {
     # directories                                         #
     # ----------------------------------------------------#
     # root directory
-    $Self->{Home} = '/opt/OpenTRS';
+    $Self->{Home} = '/opt/otrs';
     # counter log
     $Self->{CounterLog} = '<OTRS_CONFIG_Home>/var/log/TicketCounter.log';
     # article fs dir
