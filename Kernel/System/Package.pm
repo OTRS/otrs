@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.pm,v 1.5 2004-12-02 12:35:45 martin Exp $
+# $Id: Package.pm,v 1.6 2004-12-02 12:42:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Base64;
 use XML::Parser;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -436,7 +436,7 @@ sub PackageInstall {
         return;
     }
     # add package
-    $Self->RepositoryAdd(String => %Param);
+    $Self->RepositoryAdd(String => $Param{String});
     # update package status
     my $SQL = "UPDATE package_repository SET install_status = 'installed'".
         " WHERE ".
@@ -514,7 +514,7 @@ sub PackageUpgrade {
     }
     # remove old packages
     $Self->RepositoryRemove(Name => $Structur{Name}->{Content});
-    $Self->RepositoryAdd(String => %Param);
+    $Self->RepositoryAdd(String => $Param{String});
     # check OS
     my $OSCheckOk = 1;
     if ($Structur{OS} && ref($Structur{OS}) eq 'ARRAY') {
@@ -1186,6 +1186,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2004-12-02 12:35:45 $
+$Revision: 1.6 $ $Date: 2004-12-02 12:42:59 $
 
 =cut
