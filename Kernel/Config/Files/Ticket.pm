@@ -476,8 +476,6 @@
     # --------------------------------------------------- #
     # default compose next state
     $Self->{'Ticket::DefaultNextComposeType'} = 'open';
-    # new line after x chars and one word
-    $Self->{'Ticket::Frontend::ComposeTicketNewLine'} = 72;
     # next possible states for compose message
     $Self->{'Ticket::DefaultNextComposeStateType'} = ['open', 'closed', 'pending auto', 'pending reminder'];
     # unix_style

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBounce.pm - to bounce articles of tickets
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketBounce.pm,v 1.1 2005-02-17 07:05:56 martin Exp $
+# $Id: AgentTicketBounce.pm,v 1.2 2005-03-18 11:12:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -195,7 +195,7 @@ sub Run {
         # --
         # prepare body ...
         # --
-        my $NewLine = $Self->{ConfigObject}->Get('Ticket::Frontend::ComposeTicketNewLine') || 75;
+        my $NewLine = $Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaEmail') || 75;
         $Article{Body} =~ s/(.{$NewLine}.+?\s)/$1\n/g;
         $Article{Body} =~ s/\n/\n> /g;
         $Article{Body} = "\n> " . $Article{Body};

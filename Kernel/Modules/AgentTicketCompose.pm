@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketCompose.pm,v 1.1 2005-02-17 07:05:56 martin Exp $
+# $Id: AgentTicketCompose.pm,v 1.2 2005-03-18 11:12:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -216,9 +216,13 @@ sub Form {
     # --
     # prepare body, subject, ReplyTo ...
     # --
-    $Data{Body} =~ s/(^>.+|.{4,78})(?:\s|\z)/$1\n/gm;
-    $Data{Body} =~ s/\n/\n> /g;
-    $Data{Body} = "\n> " . $Data{Body};
+    # rewrap body if exists
+    if ($Data{Body}) {
+        my $NewLine = $Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaEmail') || 75;
+        $Data{Body} =~ s/(^>.+|.{4,$NewLine})(?:\s|\z)/$1\n/gm;
+        $Data{Body} =~ s/\n/\n> /g;
+        $Data{Body} = "\n> " . $Data{Body};
+    }
     $Data{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
         TicketNumber => $Ticket{TicketNumber},
         Subject => $Data{Subject} || '',
@@ -444,7 +448,7 @@ sub SendEmail {
     );
     # rewrap body if exists
     if ($GetParam{Body}) {
-        my $NewLine = $Self->{ConfigObject}->Get('Ticket::Frontend::ComposeTicketNewLine') || 75;
+        my $NewLine = $Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaEmail') || 75;
         $GetParam{Body} =~ s/(^>.+|.{4,$NewLine})(?:\s|\z)/$1\n/gm;
     }
     # prepare free text
