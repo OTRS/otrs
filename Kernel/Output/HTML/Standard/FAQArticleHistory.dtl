@@ -2,7 +2,7 @@
 # FAQArticleHistory.dtl - provides HTML form for faq articles
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQArticleHistory.dtl,v 1.1 2004-01-21 00:39:43 martin Exp $
+# $Id: FAQArticleHistory.dtl,v 1.2 2004-01-24 18:34:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,10 +17,10 @@
 </tr>
 <tr align="left" valign="top">
   <td width="100%" class="table2">
-    <a href="$Env{"Baselink"}Action=FAQArticle&Subaction=Change&ID=$Data{"ID"}">$Text{"edit"}</a> -
-    <a href="$Env{"Baselink"}Action=FAQ&ID=$Data{"ID"}">$Text{"view"}</a> -
-    <a href="$Env{"Baselink"}Action=FAQ&Subaction=Print&ID=$Data{"ID"}" target="print">$Text{"print"}</a> -
-    <a href="$Env{"Baselink"}Action=FAQArticle&Subaction=Delete&ID=$Data{"ID"}">$Text{"delete"}</a>
+    <a href="$Env{"Baselink"}Action=FAQArticle&Subaction=Change&ID=$Data{"ID"}">$Text{"Edit"}</a> -
+    <a href="$Env{"Baselink"}Action=FAQ&ID=$Data{"ID"}">$Text{"View"}</a> -
+    <a href="$Env{"Baselink"}Action=FAQ&Subaction=Print&ID=$Data{"ID"}" target="print">$Text{"Print"}</a> -
+    <a href="$Env{"Baselink"}Action=FAQArticle&Subaction=Delete&ID=$Data{"ID"}">$Text{"Delete"}</a>
   </td>
 <tr align="left" valign="top">
   <td width="100%" class="table1">
