@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pm,v 1.6 2004-09-08 11:38:30 martin Exp $
+# $Id: GenericAgent.pm,v 1.7 2004-09-08 13:16:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::GenericAgent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $ ';
+$VERSION = '$Revision: 1.7 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -191,7 +191,7 @@ sub JobRun {
       }
     }
     if ($Self->{NoticeSTDOUT}) {
-        print STDERR "Job: '$Param{Job}'\n";
+        print "Job: '$Param{Job}'\n";
     }
     # get job from param
     my %Job = ();
@@ -814,6 +814,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2004-09-08 11:38:30 $
+$Revision: 1.7 $ $Date: 2004-09-08 13:16:34 $
 
 =cut
