@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPending.pm - to set ticket in pending state
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPending.pm,v 1.21 2004-08-19 15:38:50 martin Exp $
+# $Id: AgentPending.pm,v 1.22 2004-09-15 12:07:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -90,6 +90,9 @@ sub Run {
         }
         # check date
         if (!$Self->{TimeObject}->Date2SystemTime(%GetParam, Second => 0)) {
+            $Error{"Date invalid"} = '* invalid';
+        }
+        if ($Self->{TimeObject}->Date2SystemTime(%GetParam, Second => 0) < $Self->{TimeObject}->SystemTime()) {
             $Error{"Date invalid"} = '* invalid';
         }
         # check subject

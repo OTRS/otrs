@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentEmail.pm - to compose inital email to customer
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentEmail.pm,v 1.36 2004-09-11 07:53:29 martin Exp $
+# $Id: AgentEmail.pm,v 1.37 2004-09-15 12:07:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -405,6 +405,15 @@ sub Run {
         if (!$NewQueueID && $ExpandCustomerName == 0) {
             $Error{"Destination invalid"} = 'invalid';
         }
+        # check if date is valid
+        if ($StateData{TypeName} =~ /^pending/i) {
+            if (!$Self->{TimeObject}->Date2SystemTime(%GetParam, Second => 0)) {
+                $Error{"Date invalid"} = 'invalid';
+            }
+            if ($Self->{TimeObject}->Date2SystemTime(%GetParam, Second => 0) < $Self->{TimeObject}->SystemTime()) {
+                $Error{"Date invalid"} = 'invalid';
+            }
+        }
         # run compose modules
         my %ArticleParam = ();
         if (ref($Self->{ConfigObject}->Get('Frontend::ArticleComposeModule')) eq 'HASH') {
@@ -454,6 +463,7 @@ sub Run {
                 }
             }
         }
+
         if (%Error) {
             # --
             # header

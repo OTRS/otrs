@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.94 2004-09-09 11:19:26 martin Exp $
+# $Id: AgentPhone.pm,v 1.95 2004-09-15 12:07:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.94 $';
+$VERSION = '$Revision: 1.95 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -290,6 +290,9 @@ sub Run {
             if (!$Self->{TimeObject}->Date2SystemTime(%GetParam, Second => 0)) {
                 $Error{"Date invalid"} = 'invalid';
             }
+            if ($Self->{TimeObject}->Date2SystemTime(%GetParam, Second => 0) < $Self->{TimeObject}->SystemTime()) {
+                $Error{"Date invalid"} = 'invalid';
+            }
         }
         if (%Error) {
             # get ticket info if ticket id is given
@@ -491,6 +494,9 @@ sub Run {
         # check pending date
         if ($StateData{TypeName} && $StateData{TypeName} =~ /^pending/i) {
             if (!$Self->{TimeObject}->Date2SystemTime(%GetParam, Second => 0)) {
+                $Error{"Date invalid"} = 'invalid';
+            }
+            if ($Self->{TimeObject}->Date2SystemTime(%GetParam, Second => 0) < $Self->{TimeObject}->SystemTime()) {
                 $Error{"Date invalid"} = 'invalid';
             }
         }
