@@ -1,41 +1,41 @@
 # --
 # Ticket/Number/AutoIncrement.pm - a ticket number auto increment generator
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AutoIncrement.pm,v 1.9 2003-06-01 18:06:19 martin Exp $
+# $Id: AutoIncrement.pm,v 1.10 2004-10-12 14:00:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-# Note: 
+# Note:
 # available objects are: ConfigObject, LogObject and DBObject
-# 
+#
 # Generates auto increment ticket numbers like ss.... (e. g. 1010138, 1010139, ...)
 # --
- 
+
 package Kernel::System::Ticket::Number::AutoIncrement;
 
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub CreateTicketNr {
     my $Self = shift;
     my $JumpCounter = shift || 0;
-    # get needed config options 
+    # get needed config options
     my $CounterLog = $Self->{ConfigObject}->Get('CounterLog');
     my $SystemID = $Self->{ConfigObject}->Get('SystemID');
     my $MinSize = $Self->{ConfigObject}->Get('TicketNumberGenerator::AutoIncrement::MinCounterSize') || 5;
     # read count
     my $Count = 0;
     if (-f $CounterLog) {
-        open (COUNTER, "< $CounterLog") || die "Can't open $CounterLog: $!";
-        my $Line = <COUNTER>;
+        open (DATA, "< $CounterLog") || die "Can't open $CounterLog: $!";
+        my $Line = <DATA>;
         ($Count) = split(/;/, $Line);
-        close (COUNTER);
+        close (DATA);
         if ($Self->{Debug} > 0) {
             $Self->{LogObject}->Log(
               Priority => 'debug',
@@ -47,10 +47,10 @@ sub CreateTicketNr {
     $Count++;
     $Count = $Count + $JumpCounter;
     # write new count
-    if (open (COUNTER, "> $CounterLog")) {
-        flock (COUNTER, 2) || warn "Can't set file lock ($CounterLog): $!";
-        print COUNTER $Count . "\n";
-        close (COUNTER);
+    if (open (DATA, "> $CounterLog")) {
+        flock (DATA, 2) || warn "Can't set file lock ($CounterLog): $!";
+        print DATA $Count . "\n";
+        close (DATA);
         if ($Self->{Debug} > 0) {
             $Self->{LogObject}->Log(
               Priority => 'debug',
@@ -71,7 +71,7 @@ sub CreateTicketNr {
     }
     # create new ticket number
     my $Tn = $SystemID . $Count;
-    # Check ticket number. If exists generate new one! 
+    # Check ticket number. If exists generate new one!
     if ($Self->CheckTicketNr(Tn=>$Tn)) {
         $Self->{LoopProtectionCounter}++;
         if ($Self->{LoopProtectionCounter} >= 1000) {
@@ -96,7 +96,7 @@ sub CreateTicketNr {
 sub GetTNByString {
     my $Self = shift;
     my $String = shift || return;
-    # get needed config options 
+    # get needed config options
     my $SystemID = $Self->{ConfigObject}->Get('SystemID');
     my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
     my $TicketDivider = $Self->{ConfigObject}->Get('TicketDivider') || ': ';
