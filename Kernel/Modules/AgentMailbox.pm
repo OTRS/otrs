@@ -2,7 +2,7 @@
 # AgentMailbox.pm - to view all locked tickets
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMailbox.pm,v 1.3 2002-04-13 11:16:03 martin Exp $
+# $Id: AgentMailbox.pm,v 1.4 2002-04-24 22:55:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentMailbox;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -60,8 +60,6 @@ sub Run {
     );
     my %LockedData = $Self->{UserObject}->GetLockedCount(UserID => $Self->{UserID});
     $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
-    # fetch all queues ...
-    my %MoveQueues = $Self->{QueueObject}->GetAllQueues(QueueID => $QueueID);
 
     # get data viewable tickets...
     my @ViewableTickets;
@@ -159,7 +157,6 @@ sub Run {
 		Queue => $$Data{queue},
 		LastSenderType => $LastSenderType{$$Data{ticket_id}},
         LastSenderID => $LastSenderID{$$Data{ticket_id}},
-		MoveQueues => \%MoveQueues,
         UserID => $Self->{UserID},
         ViewType => $Self->{Subaction},
          );
