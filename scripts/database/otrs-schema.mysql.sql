@@ -828,6 +828,19 @@ CREATE TABLE pop3_account
 );
 
 # -----------------------------------------------------------------------
+# postmaster_filter
+# -----------------------------------------------------------------------
+drop table if exists postmaster_filter;
+
+CREATE TABLE postmaster_filter
+(
+    f_name varchar (200) NOT NULL,
+    f_type varchar (20) NOT NULL,
+    f_key varchar (200) NOT NULL,
+    f_value varchar (200) NOT NULL
+);
+
+# -----------------------------------------------------------------------
 # search_profile 
 # -----------------------------------------------------------------------
 drop table if exists search_profile;

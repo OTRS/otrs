@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 1.2 to 1.3 
 -- Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-1.3.mysql.sql,v 1.2 2004-05-04 15:12:10 martin Exp $
+-- $Id: DBUpdate-to-1.3.mysql.sql,v 1.3 2004-05-10 12:57:02 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-1.3.mysql.sql | mysql -f -u root otrs
@@ -48,4 +48,15 @@ ALTER TABLE article_attachment ADD content_size VARCHAR (30);
 -- change max customer user login size
 --
 ALTER TABLE group_customer_user CHANGE user_id user_id VARCHAR (100);
+
+--
+-- postmaster filter table
+--
+CREATE TABLE postmaster_filter
+(
+    f_name varchar (200) NOT NULL,
+    f_type varchar (20) NOT NULL,
+    f_key varchar (200) NOT NULL,
+    f_value varchar (200) NOT NULL
+);
 

@@ -744,6 +744,17 @@ CREATE TABLE pop3_account
 );
 
 -----------------------------------------------------------------------------
+-- postmaster_filter
+-----------------------------------------------------------------------------
+CREATE TABLE postmaster_filter
+(
+    f_name varchar (200) NOT NULL,
+    f_type varchar (20) NOT NULL,
+    f_key varchar (200) NOT NULL,
+    f_value varchar (200) NOT NULL
+);
+
+-----------------------------------------------------------------------------
 -- search_profile
 -----------------------------------------------------------------------------
 CREATE TABLE search_profile
