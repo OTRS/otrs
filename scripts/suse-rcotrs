@@ -3,7 +3,7 @@
 # suse-rcotrs - rc script of otrs for SuSE Linux
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: suse-rcotrs,v 1.10 2002-05-20 23:57:27 martin Exp $
+# $Id: suse-rcotrs,v 1.11 2002-05-30 09:44:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -46,6 +46,21 @@ test -s /etc/rc.status && . /etc/rc.status
 # 
 DB_RUNNING=1
 HTTP_RUNNING=1
+
+# 
+# Used database [mysql|postgresql]
+# Note: Take care, that you have changed the Config.pm database settings!
+# 
+USED_DB=MySQL
+USED_DB_RCSCRIPT=rcmysql
+#USED_DB=PostgreSQL
+#USED_DB_RCSCRIPT=rcpostgresql
+
+#
+# Used webserver [apache]
+#
+USED_WEBSERVER=Apache
+USED_WEBSERVER_RCSCRIPT=rcapache
 
 # 
 # check needed files
@@ -93,38 +108,38 @@ case "$1" in
       echo "Starting OpenTRS"
 
       # --
-      # start apache
+      # start webserver
       # --
       if test $HTTP_RUNNING -gt 0; then
-        if rcapache status > /dev/null 2>&1 ; then
-          echo " Checking httpd ... done."
+        if $USED_WEBSERVER_RCSCRIPT status > /dev/null 2>&1 ; then
+          echo " Checking $USED_WEBSERVER ... done."
           rc_status
         else
-          echo " Checking httpd ... failed!"
-          echo "  --> Please start the webserver at first! (rcapache start) <--"
+          echo " Checking $USED_WEBSERVER ... failed!"
+          echo "  --> Please start the webserver at first! ($USED_WEBSERVER_RCSCRIPT start) <--"
           rc_failed
           exit 1
         fi
       else
-          echo " Disabled: httpd check!"
+          echo " Disabled: $USED_WEBSERVER check!"
       fi
 
       # --
-      # check mysql
+      # check database
       # --
       if test $DB_RUNNING -gt 0; then
-        if rcmysql status > /dev/null 2>&1 ; then 
-          echo " Checking mysql ... done."
+        if $USED_DB_RCSCRIPT status > /dev/null 2>&1 ; then 
+          echo " Checking $USED_DB ... done."
           rc_status 
         else 
-          echo " Checking mysql ... failed."
-          echo "  --> Please start the database at first! (rcmysql start) <--"
+          echo " Checking $USED_DB ... failed."
+          echo "  --> Please start the database at first! ($USED_DB_RCSCRIPT start) <--"
           rc_failed
           rc_status -v 
           exit 1;
         fi
       else 
-          echo " Disabled: mysql check!"
+          echo " Disabled: $USED_DB check!"
       fi
 
       # --
@@ -216,14 +231,14 @@ case "$1" in
       echo "Starting OpenTRS (completely)"
 
       # --
-      # start apache
+      # start webserver
       # --
       if test $HTTP_RUNNING -gt 0; then
-        if rcapache restart > /dev/null 2>&1 ; then
-          echo " Starting httpd ... done."
+        if $USED_WEBSERVER_RCSCRIPT restart > /dev/null 2>&1 ; then
+          echo " Starting $USED_WEBSERVER ... done."
           rc_status
         else
-          echo " Starting httpd ... failed!"
+          echo " Starting $USED_WEBSERVER ... failed!"
           rc_failed
           exit 1
         fi
@@ -232,20 +247,22 @@ case "$1" in
       fi
 
       # --
-      # check mysql
+      # check database
       # --
       if test $DB_RUNNING -gt 0; then
-        if rcmysql restart > /dev/null 2>&1 ; then 
-          echo " Starting mysql ... done."
+        if $USED_DB_RCSCRIPT restart > /dev/null 2>&1 ; then 
+          # just in case, some databases can't get ready so fast!
+          sleep 5;
+          echo " Starting $USED_DB ... done."
           rc_status 
         else 
-          echo " Starting mysql ... failed."
+          echo " Starting $USED_DB ... failed."
           rc_failed
           rc_status -v 
           exit 1;
         fi
       else 
-          echo " Disabled: mysql check!"
+          echo " Disabled: database check!"
       fi
 
       # --
@@ -271,27 +288,27 @@ case "$1" in
       echo "Shutting down OpenTRS (completely)"
 
       # --
-      # httpd
+      # webserver
       # --
       if test $HTTP_RUNNING -gt 0; then
-        if rcapache stop > /dev/null 2>&1 ; then
-          echo " Shutting down apache ... done."
+        if $USED_WEBSERVER_RCSCRIPT stop > /dev/null 2>&1 ; then
+          echo " Shutting down $USED_WEBSERVER ... done."
           rc_status 
         else
-          echo " Shutting down apache ... failed."
+          echo " Shutting down $USED_WEBSERVER ... failed."
           rc_failed
         fi
       fi
 
       # --
-      # mysql
+      # database
       # --
       if test $DB_RUNNING -gt 0; then
-        if rcmysql stop > /dev/null 2>&1 ; then
-          echo " Shutting down mysql ... done."
+        if $USED_DB_RCSCRIPT stop > /dev/null 2>&1 ; then
+          echo " Shutting down $USED_DB ... done."
           rc_status 
         else
-          echo " Shutting down mysql ... failed."
+          echo " Shutting down $USED_DB ... failed."
           rc_failed
         fi
       fi
@@ -322,14 +339,14 @@ case "$1" in
     # ------------------------------------------------------
     status) 
       # --
-      # httpd
+      # webserver
       # --
-      rcapache status
+      $USED_WEBSERVER_RCSCRIPT status
 
       # --
-      # mysql
+      # database
       # --
-      rcmysql status
+      $USED_DB_RCSCRIPT status
 
       # --
       # db check
