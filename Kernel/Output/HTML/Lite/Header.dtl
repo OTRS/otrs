@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Header.dtl,v 1.8 2002-07-23 22:28:28 martin Exp $
+# $Id: Header.dtl,v 1.9 2002-07-24 09:09:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -60,8 +60,8 @@ X-Wanted: I think you are smart. I'm looking for smart people!
 <body bgcolor="$Env{"BGCOLOR"}" text="$Env{"FontColor0"}" Link="#0000EF" ALink="#FF0000" VLink="#59188E">
 <table bgcolor="$Env{"BGTableColor0"}" border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
-  <td align="left"><font color="$Env{"FontColor1"}"><b>OpenTRS</b></font></td>
-  <td align="right"><font color="$Env{"FontColor1"}">$Env{"UserFirstname"} $Env{"UserLastname"} $Data{"UserLoginTop"} $Env{"Time"}</font> </td>
+  <td align="left" width="30%"><font color="$Env{"FontColor1"}"><b>OpenTRS</b></font></td>
+  <td align="right" width="70%"><font color="$Env{"FontColor1"}">$Env{"UserFirstname"} $Env{"UserLastname"} $Data{"UserLoginTop"} $Env{"Time"}</font> </td>
 </tr>
 </table>
 

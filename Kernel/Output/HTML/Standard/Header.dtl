@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Header.dtl,v 1.16 2002-07-23 22:28:06 martin Exp $
+# $Id: Header.dtl,v 1.17 2002-07-24 09:09:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -66,11 +66,11 @@ Pragma: no-cache
 <body bgcolor="$Env{"BGCOLOR"}" text="$Env{"FontColor0"}" Link="#557799" ALink="#557799" VLink="#557799">
 <table bgcolor="$Env{"BGTableColor0"}" border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
-  <td align="left">
+  <td align="left" width="30%">
    <font color="$Env{"FontColor1"}"><b>$Env{"Box0"}OpenTRS || </b></font>
    <a href="$Env{"CGIHandle"}?SessionID=$Env{"SessionID"}">home</a> <font color="$Env{"FontColor1"}"><b>$Env{"Box1"}</b></font>
   </td>
-  <td align="right">
+  <td align="right" width="70%">
    <font color="$Env{"FontColor1"}">$Env{"UserFirstname"} $Env{"UserLastname"} $Data{"UserLoginTop"} $Env{"Time"}</font> 
   </td>
 </tr>
