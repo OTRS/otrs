@@ -2,7 +2,7 @@
 # Test.dtl - provides HTML test page 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Test.dtl,v 1.8 2003-03-06 10:40:08 martin Exp $
+# $Id: Test.dtl,v 1.9 2003-04-11 18:43:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -35,15 +35,15 @@ Result: $Data{"Test1"}
 </p>
 
 <p>
-<dtl set $Data{"Test1"} = "lala">
-c) Set $Data{\"Test1\"} = "$Data{"Test1"}"
+<dtl set $Data{"Test2"} = "lala">
+c) Set $Data{\"Test2\"} = "$Data{"Test2"}"
 <br>
 
-<dtl if ($Data{"Test1"} ne "hallo!") { $Data{"Test1"} = "hallo!!"; }>
-d) if ($Data{\"Test1\"} ne "hallo!") { $Data{\"Test1\"} = "hallo!!"; }
+<dtl if ($Data{"Test2"} ne "hallo!") { $Data{"Test2"} = "hallo!!"; }>
+d) if ($Data{\"Test2\"} ne "hallo!") { $Data{\"Test2\"} = "hallo!!"; }
 <br>
 
-Result: $Data{"Test1"}
+Result: $Data{"Test2"}
 </p>
 
 <hr>
@@ -79,7 +79,7 @@ Result: $Data{"Test1"}
   <td>FQDN:</td><td> $Config{"FQDN"}</td>
 </tr>
 <tr> 
-  <td>Sendmail Module:</td><td> $Config{"Sendmail::Module"}</td>
+  <td>Sendmail Module:</td><td> $Config{"SendmailModule"}</td>
 </tr>
 <tr>
   <td>PostmasterDefaultQueue:</td><td> $Config{"PostmasterDefaultQueue"}</td>
@@ -153,21 +153,25 @@ Result: $Data{"Test1"}
 <b>system calls</b>
 <table>
 <tr>
-  <td>
+  <td valign="top">
    <dtl system-call $Data{"uptime"} = "uptime">
    system call "uptime":
   </td>
   <td>
-   $Data{"uptime"}
+<pre>
+$Data{"uptime"}
+</pre>
   </td>
 </tr>
 <tr>
-  <td>
-   <dtl system-call $Data{"procinfo"} = "procinfo | head -n1 ">
-   system call "procinfo":
+  <td valign="top">
+   <dtl system-call $Data{"w"} = "w">
+   system call "w":
   </td>
   <td>
-   $Data{"procinfo"}
+<pre>
+$Data{"w"}
+</pre>
   </td>
 </tr>
 
