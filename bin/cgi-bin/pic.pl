@@ -3,7 +3,7 @@
 # pic.pl - the global pic handle for OpenTRS
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: pic.pl,v 1.4 2002-06-08 17:40:32 martin Exp $
+# $Id: pic.pl,v 1.5 2002-08-13 15:30:20 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ use lib '../..';
 use strict;
 
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -49,6 +49,7 @@ my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{LogObject} = Kernel::System::Log->new(
     LogPrefix => 'OpenTRS-Pic',
+    %CommonObject,
 );
 # --
 # debug info

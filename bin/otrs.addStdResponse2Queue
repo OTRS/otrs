@@ -2,7 +2,7 @@
 # --
 # otrs.addStdResponse2Queue - Add Resposes to Queue from CLI
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
-# $Id: otrs.addStdResponse2Queue,v 1.2 2002-07-24 00:40:46 atif Exp $
+# $Id: otrs.addStdResponse2Queue,v 1.3 2002-08-13 15:29:25 martin Exp $
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
@@ -36,8 +36,8 @@ use Kernel::System::Queue;
 # --
 
 my %CommonObject = ();
-$CommonObject{LogObject}    =  Kernel::System::Log->new();
 $CommonObject{ConfigObject} =  Kernel::Config->new(%CommonObject);
+$CommonObject{LogObject}    =  Kernel::System::Log->new(%CommonObject);
 $CommonObject{DBObject}     =  Kernel::System::DB->new(%CommonObject);
 $CommonObject{QueueObject}   = Kernel::System::Queue->new(%CommonObject);
 

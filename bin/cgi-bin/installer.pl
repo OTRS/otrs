@@ -3,7 +3,7 @@
 # instaler.pl - the OpenTRS Installer
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: installer.pl,v 1.3 2002-06-08 17:40:32 martin Exp $
+# $Id: installer.pl,v 1.4 2002-08-13 15:30:20 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ use lib '../../';
 use strict;
 
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 $Debug = 1;
@@ -49,6 +49,7 @@ my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{LogObject} = Kernel::System::Log->new(
     LogPrefix => 'OpenTRS-Installer',
+    %CommonObject,
 );
 # debug info
 if ($Debug) {
