@@ -3,7 +3,7 @@
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
 # Copyright (C) 2002-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: auto_build.sh,v 1.21.2.1 2004-07-05 15:12:29 martin Exp $
+# $Id: auto_build.sh,v 1.21.2.2 2004-07-05 15:18:40 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.21.2.1 $>"
+echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.21.2.2 $>"
 echo "Copyright (c) 2002-2004 Martin Edenhofer <martin@otrs.org>"
 
 PATH_TO_CVS_SRC=$1
@@ -93,7 +93,7 @@ mkdir $PACKAGE_DEST_DIR/RPMS
 mkdir $PACKAGE_DEST_DIR/RPMS/suse
 mkdir $PACKAGE_DEST_DIR/RPMS/suse/7.3
 mkdir $PACKAGE_DEST_DIR/RPMS/suse/8.x
-mkdir $PACKAGE_DEST_DIR/RPMS/suse/9.x
+mkdir $PACKAGE_DEST_DIR/RPMS/suse/9.0
 mkdir $PACKAGE_DEST_DIR/RPMS/suse/9.1
 mkdir $PACKAGE_DEST_DIR/RPMS/redhat
 mkdir $PACKAGE_DEST_DIR/RPMS/redhat/7.x
@@ -102,7 +102,7 @@ mkdir $PACKAGE_DEST_DIR/SRPMS
 mkdir $PACKAGE_DEST_DIR/SRPMS/suse
 mkdir $PACKAGE_DEST_DIR/SRPMS/suse/7.3
 mkdir $PACKAGE_DEST_DIR/SRPMS/suse/8.x
-mkdir $PACKAGE_DEST_DIR/SRPMS/suse/9.x
+mkdir $PACKAGE_DEST_DIR/SRPMS/suse/9.0
 mkdir $PACKAGE_DEST_DIR/SRPMS/suse/9.1
 mkdir $PACKAGE_DEST_DIR/SRPMS/redhat
 mkdir $PACKAGE_DEST_DIR/SRPMS/redhat/7.x
@@ -203,7 +203,7 @@ rm $specfile || exit 1;
 mv $SYSTEM_RPM_DIR/*/$PACKAGE*$VERSION*$RELEASE*.rpm $PACKAGE_DEST_DIR/RPMS/suse/9.1/
 mv $SYSTEM_SRPM_DIR/$PACKAGE*$VERSION*$RELEASE*.src.rpm $PACKAGE_DEST_DIR/SRPMS/suse/9.1/
 # --
-# build SuSE 9.x rpm 
+# build SuSE 9.0 rpm 
 # --
 specfile=$PACKAGE_TMP_SPEC
 # replace version and release
@@ -215,8 +215,8 @@ perl -e "open(SPEC, '< $specfile.tmp1');while(<SPEC>){\$spec.=\$_;};open(IN, '< 
 $RPM_BUILD -ba --clean $specfile || exit 1;
 rm $specfile || exit 1;
 
-mv $SYSTEM_RPM_DIR/*/$PACKAGE*$VERSION*$RELEASE*.rpm $PACKAGE_DEST_DIR/RPMS/suse/9.x/
-mv $SYSTEM_SRPM_DIR/$PACKAGE*$VERSION*$RELEASE*.src.rpm $PACKAGE_DEST_DIR/SRPMS/suse/9.x/
+mv $SYSTEM_RPM_DIR/*/$PACKAGE*$VERSION*$RELEASE*.rpm $PACKAGE_DEST_DIR/RPMS/suse/9.0/
+mv $SYSTEM_SRPM_DIR/$PACKAGE*$VERSION*$RELEASE*.src.rpm $PACKAGE_DEST_DIR/SRPMS/suse/9.0/
 
 # --
 # build SuSE 8.x rpm 
