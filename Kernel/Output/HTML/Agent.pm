@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.96 2003-03-24 12:48:13 martin Exp $
+# $Id: Agent.pm,v 1.97 2003-04-02 09:43:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.96 $';
+$VERSION = '$Revision: 1.97 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1220,7 +1220,7 @@ sub AgentUtilForm {
     );
     $Param{'UserStrg'} = $Self->OptionStrgHashRef(
         Data => $Param{Users}, 
-        Name => 'UserIDs',
+        Name => 'UserID',
         Multiple => 1,
         Size => 5,
     );
