@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminAttachment.pm - provides admin std response module
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminAttachment.pm,v 1.4 2003-04-08 21:36:22 martin Exp $
+# $Id: AdminAttachment.pm,v 1.5 2003-11-02 00:00:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -53,9 +53,7 @@ sub Run {
     my %AttachmentIndex = $Self->{StdAttachmentObject}->GetAllStdAttachments(Valid => 0);
     my @Params = ('ID', 'Name', 'Comment', 'ValidID', 'Response');
 
-    # --
     # get data 2 form
-    # --
     if ($Param{Subaction} eq 'Change') {
         $Param{ID} = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
         my %ResponseData = $Self->{StdAttachmentObject}->StdAttachmentGet(ID => $Param{ID});
@@ -69,17 +67,13 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
-    # --
     # update action
-    # --
     elsif ($Param{Subaction} eq 'ChangeAction') {
         my %GetParam;
         foreach (@Params) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
         }
-        # --
         # get attachment
-        # -- 
         my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
             Param => 'file_upload',
             Source => 'string',
@@ -96,17 +90,13 @@ sub Run {
             return $Output;
         }
     }
-    # --
     # add new response
-    # --
     elsif ($Param{Subaction} eq 'AddAction') {
         my %GetParam;
         foreach (@Params) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
         }
-        # --
         # get attachment
-        # -- 
         my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
             Param => 'file_upload',
             Source => 'string',
@@ -125,9 +115,24 @@ sub Run {
             return $Output;
         }
     }
-    # --
+    # delete response
+    elsif ($Param{Subaction} eq 'Delete') {
+        my %GetParam;
+        foreach (@Params) {
+            $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
+        }
+        if ($Self->{StdAttachmentObject}->StdAttachmentDelete(ID => $GetParam{ID})) {
+             return $Self->{LayoutObject}->Redirect(OP => "Action=AdminAttachment");
+        }
+        else {
+            $Output = $Self->{LayoutObject}->Header(Title => 'Error');
+            $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+            $Output .= $Self->{LayoutObject}->Error();
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
+        }
+    }
     # else ! print form 
-    # --
     else {
         $Output = $Self->{LayoutObject}->Header(Title => 'Attachment add');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
