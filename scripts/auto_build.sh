@@ -3,7 +3,7 @@
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: auto_build.sh,v 1.17 2003-05-01 20:42:05 martin Exp $
+# $Id: auto_build.sh,v 1.18 2003-07-31 21:33:56 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.17 $>"
+echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.18 $>"
 echo "Copyright (c) 2002-2003 Martin Edenhofer <martin@otrs.org>"
 
 PATH_TO_CVS_SRC=$1
@@ -143,12 +143,16 @@ rm -rf doc/manual/screenshots
 rm -rf doc/manual
 # remove swap stuff
 find -name ".#*" | xargs rm -rf
+# remove .cvs ignore files
+find -name ".cvsignore" | xargs rm -rf
 # remove Kernel/Config.pm if exists
 rm -rf Kernel/Config.pm 
 # remove not used dirs
 rm -rf install 
 rm -rf Kernel/Display
 rm -rf var/sesstions
+rm -rf Kernel/System/Ticket/Compress
+rm -rf Kernel/System/Ticket/Crypt
 
 # build html docu
 $PATH_TO_CVS_SRC/scripts/auto_docbuild.sh $PATH_TO_CVS_SRC > /dev/null
