@@ -393,7 +393,29 @@ NO file outside the root directory holding all files will be written or even mod
 
 <qandaentry>
 <question>
-<para>Should I install the servers as system services on Win32?</para>
+<para>What about the services' installations on Win32?</para>
+</question>
+<answer>
+<para>
+We wanted to provide an installation that doesn't change much in the target system's configuration. A service installation dives deep into the system, so we let you do this later on your own. We decided to not install any service during the installation procedure at this early stage of development of the software. A possibility to do so will surely be implemented  in a later release. For now, you'll have to install the services via the 'Administration' submenu in the Start menu.
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>But shouldn't I at least install CRONw as a service? You say OTRS requires it on Windows!</para>
+</question>
+<answer>
+<para>
+Indeed, the cron service CRONw is a requirement for OTRS to start maintenance scripts at regular intervals. Your OTRS is setup at this point, but not yet fully configured, so CRONw might produce unnecessary error logs if you installed and start it now. Please don't forget it - CRONw will not work without being installed as a service and OTRS won't work properly without it on the long run. You may for sure manage CRONw via the Start Menu's entries.
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>Should I install the servers as system services at all on Win32?</para>
 </question>
 <answer>
 <para>
