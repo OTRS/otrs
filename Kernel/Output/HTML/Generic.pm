@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.68 2003-01-05 16:04:46 martin Exp $
+# $Id: Generic.pm,v 1.69 2003-01-09 15:04:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::Output::HTML::System;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.68 $';
+$VERSION = '$Revision: 1.69 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -91,7 +91,7 @@ sub new {
     $Self->{Charset}   = $Self->{UserCharset}; # just for compat.
     $Self->{SessionID} = $Param{SessionID} || '';
     $Self->{SessionName} = $Param{SessionName} || 'SessionID';
-    $Self->{CGIHandle} = $ENV{"SCRIPT_NAME"};
+    $Self->{CGIHandle} = $ENV{'SCRIPT_NAME'} || 'No-$ENV{"SCRIPT_NAME"}';
     # --
     # Baselink 
     # --
@@ -109,7 +109,10 @@ sub new {
     # --
     $Self->{BrowserWrap} = 'physical';
     $Self->{Browser} = 'Unknown';
-    if ($ENV{'HTTP_USER_AGENT'}) { 
+    if (!$ENV{'HTTP_USER_AGENT'}) {
+        $Self->{Browser} = 'Unknown - no $ENV{"HTTP_USER_AGENT"}';
+    }
+    elsif ($ENV{'HTTP_USER_AGENT'}) { 
         # msie
         if ($ENV{'HTTP_USER_AGENT'} =~ /MSIE ([0-9.]+)/i ||
             $ENV{'HTTP_USER_AGENT'} =~ /Internet Explorer\/([0-9.]+)/i) {
@@ -174,13 +177,9 @@ sub new {
     # --
     # locate template files
     # --
-    foreach ('../../..', '../..', '..') {
-        if (-d "$_/Kernel/Output/HTML/") {
-            $Self->{TemplateDir} = "$_/Kernel/Output/HTML/$Theme";
-        }
-    }
+    $Self->{TemplateDir} = $Self->{ConfigObject}->Get('TemplateDir')."/HTML/$Theme";
     if (!$Self->{TemplateDir}) {
-        die "No templates found!";
+        die "No templates found in '$Self->{TemplateDir}'! Check your Home in Kernel/Config.pm";
     }
 
     if ($Self->{PermissionObject}) {
@@ -926,11 +925,7 @@ sub GetRelease {
     # open release data file
     # --
     my %Release = ();
-    foreach ('../../..', '../..', '..') {
-        if (-f "$_/RELEASE") {
-            $Release{File} = "$_/RELEASE";
-        }
-    }
+    $Release{File} = $Self->{ConfigObject}->Get('Home').'/RELEASE';
     open (PRODUCT, "< $Release{File}") || print STDERR "Can't read $Release{File}: $!";
     while (<PRODUCT>) {
       # filtering of comment lines
