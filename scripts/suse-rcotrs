@@ -3,7 +3,7 @@
 # suse-rcotrs - rc script of otrs for SuSE Linux
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: suse-rcotrs,v 1.8 2002-05-20 21:35:30 martin Exp $
+# $Id: suse-rcotrs,v 1.9 2002-05-20 23:30:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -94,7 +94,7 @@ case "$1" in
           rc_status
         else
           echo " Checking httpd ... failed!"
-          echo "  --> Please start the webserver at first! <--"
+          echo "  --> Please start the webserver at first! (rcapache start) <--"
           rc_failed
           exit 1
         fi
@@ -111,7 +111,7 @@ case "$1" in
           rc_status 
         else 
           echo " Checking mysql ... failed."
-          echo "  --> Please start the database at first! <--"
+          echo "  --> Please start the database at first! (rcmysql start) <--"
           rc_failed
           rc_status -v 
           exit 1;
