@@ -116,7 +116,6 @@ use Kernel::Modules::AdminGroup;
 use Kernel::Modules::AdminUserGroup;
 use Kernel::Modules::AdminSystemAddress;
 use Kernel::Modules::AdminPOP3;
-use Kernel::Modules::AdminCharset;
 use Kernel::Modules::AdminState;
 use Kernel::Modules::AdminEmail;
 use Kernel::Modules::AdminCustomerUser;
