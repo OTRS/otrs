@@ -2,7 +2,7 @@
 # Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.33 2002-05-27 21:01:58 martin Exp $
+# $Id: Config.pm,v 1.34 2002-05-30 15:34:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -100,9 +100,12 @@ sub Load {
     $Self->{DatabasePw} = 'some-pass';
    
     # DatabaseDSN
-    # (The database DNS.)
-    $Self->{DatabaseDSN} = 'DBI:mysql:database='.
-        $Self->{Database}.';host='.$Self->{DatabaseHost}.';';
+    # (The database DSN for MySQL ==> more: "man DBD::mysql")
+    $Self->{DatabaseDSN} = "DBI:mysql:database=$Self->{Database};host=$Self->{DatabaseHost};";
+
+    # (The database DSN for PostgrSQL ==> more: "man DBD::Pg") 
+#    $Self->{DatabaseDSN} = "DBI:Pg:dbname=$Self->{Database};";
+
 
     # SessionTable 
     $Self->{DatabaseSessionTable} = 'session';
