@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.51 2003-03-10 21:25:51 martin Exp $
+# $Id: Ticket.pm,v 1.52 2003-03-24 09:20:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -35,7 +35,7 @@ use Kernel::System::PostMaster::LoopProtection;
 use Kernel::System::CustomerUser;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.51 $';
+$VERSION = '$Revision: 1.52 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -369,6 +369,13 @@ sub GetTicket {
         $Ticket{Owner} = $Row[16];
         $Ticket{Answered} = $Row[17];
         $Ticket{RealTillTimeNotUsed} = $Row[18];
+    }
+    # --
+    # check ticket
+    # --
+    if (!$Ticket{TicketID}) {
+      $Self->{LogObject}->Log(Priority => 'error', Message => "No such TicketID ($Param{TicketID})!");
+      return;
     }
     # --
     # get state info
