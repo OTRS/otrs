@@ -2,7 +2,7 @@
 # Kernel/Language/es.pm - provides es language translation
 # Copyright (C) 2003 Jorge Becerra <jorge at icc-cuba.com>
 # --
-# $Id: es.pm,v 1.2 2003-01-14 21:53:48 martin Exp $
+# $Id: es.pm,v 1.3 2003-01-18 09:11:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::es;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 
 # --
@@ -57,7 +57,7 @@ sub Data {
       'days' => 'dias',
       'description' => 'descripci&oacute;n',
       'Description' => 'Descripci&oacute;n',
-      'Dispatching by email From field.' => 'Despachar por correo del campo From',
+      'Dispatching by email To: field.' => 'Despachar por correo del campo To:',
       'Dispatching by selected Queue.' => 'Despachar para la cola seleccionada',
       'Don\'t work with UserID 1 (System account)! Create new users!' => 'No trabaje con el Identificado 1 (cuenta de sistema)! Cree nuevos usuarios! ',
       'Done' => 'Hecho',

@@ -2,7 +2,7 @@
 # Copyright (C) 2002 Bernard Choppy <choppy at imaginet.fr>
 # Copyright (C) 2002 Nicolas Goralski <ngoralski at oceanet-technology.com>
 # --
-# $Id: fr.pm,v 1.11 2003-01-14 21:53:48 martin Exp $
+# $Id: fr.pm,v 1.12 2003-01-18 09:11:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
@@ -56,7 +56,7 @@ sub Data {
       'days' => 'jours',
       'description' => 'description',
       'Description' => 'Description',
-      'Dispatching by email From field.' => 'Répartition par le champs \'De\' de l\'email',
+      'Dispatching by email To: field.' => 'Répartition par le champs \'à\' de l\'email',
       'Dispatching by selected Queue.' => 'Répartition par la file sélectionnée',
       'Don\'t work with UserID 1 (System account)! Create new users!' => 'Cela ne fonctionne pas avec l\'ID utilisateur 1 (Compte System)! Veuillez céer un nouvel utilisateur!',
       'Done' => 'Fait',
