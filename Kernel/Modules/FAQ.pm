@@ -2,7 +2,7 @@
 # Kernel/Modules/FAQ.pm - faq module
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQ.pm,v 1.1 2004-01-05 20:06:28 martin Exp $
+# $Id: FAQ.pm,v 1.2 2004-01-08 11:46:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::FAQ;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -51,6 +51,26 @@ sub Run {
     $Output .= $Self->{LayoutObject}->Header(Area => 'FAQ');
     $Output .= $Self->{LayoutObject}->FAQNavigationBar();
 
+    $Param{What} = $Self->{ParamObject}->GetParam(Param => 'What') || '';
+    $Param{LanguageID} = $Self->{ParamObject}->GetParam(Param => 'LanguageID') || '';
+    my @CategoryIDs = $Self->{ParamObject}->GetArray(Param => 'CategoryID');
+
+    $Param{LanguageOption} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => { $Self->{FAQObject}->LanguageList(UserID => $Self->{UserID}) },
+        Name => 'LanguageID',
+        Selected => $Self->{UserLanguage},
+        SelectedID => $Param{LanguageID},
+    );
+
+    $Param{CategoryOption} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => { $Self->{FAQObject}->CategoryList(UserID => $Self->{UserID}) },
+        Size => 10,
+        Name => 'CategoryID',
+        Multiple => 1,
+        SelectedIDRefArray => \@CategoryIDs,
+    );
+
+
     # search
     if (!$ID && !$Self->{Subaction}) {
         $Output = $Self->{LayoutObject}->Header(Area => 'FAQ', Title => 'Search');
@@ -62,11 +82,11 @@ sub Run {
     }
     # search action
     elsif ($Self->{Subaction} eq 'Search') {
-        my $What = $Self->{ParamObject}->GetParam(Param => 'What') || '';
         $Output = $Self->{LayoutObject}->Header(Area => 'FAQ', Title => 'Search');
         $Output .= $Self->{LayoutObject}->FAQNavigationBar();
         my @FAQIDs = $Self->{FAQObject}->Search(
-            What => $What,
+            %Param,
+            CategoryIDs => \@CategoryIDs,
             UserID => $Self->{UserID},
         );
         foreach (@FAQIDs) {

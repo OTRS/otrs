@@ -2,7 +2,7 @@
 # Kernel/Modules/FAQCategory.pm - to add/update/delete faq categories
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQCategory.pm,v 1.1 2004-01-05 20:06:28 martin Exp $
+# $Id: FAQCategory.pm,v 1.2 2004-01-08 11:46:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::FAQ;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -113,11 +113,6 @@ sub _Mask {
         Size => 10,
         Name => 'ID',
         SelectedID => $Param{CategoryID},
-    );
-    $Param{GroupOption} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => { $Self->{GroupObject}->GroupList(Valid => 1) },
-        Name => 'GroupID',
-        SelectedID => $Param{GroupID},
     );
 
     return $Self->{LayoutObject}->Output(TemplateFile => 'FAQCategoryForm', Data => \%Param);
