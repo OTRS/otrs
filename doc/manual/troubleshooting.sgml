@@ -14,6 +14,17 @@ The second step should be a visit to the <ulink url="http://www.otrs.org/"><cite
 <para>
 The third step is writting an e-mail to the developer team of OpenTRS. We will be more than happy to provide you with any support you need.
 </para>
+
+<sect2>
+<title>SuSE 8.0</title>
+<para>Unfortantely the otrs.rpm which is on the SuSE 8.0 distribution is a buggy one (it was not a SuSE mistake). Please download the newest version from our <ulink url="http://www.otrs.org/">Homepage</ulink> and install it with YaST or manually by 
+<screen>
+rpm -Uvh otrs.rpm
+</screen>
+</para>
+
+</sect2>
+
 </sect1>
 
 <sect1 id="problems_with_redhat">
