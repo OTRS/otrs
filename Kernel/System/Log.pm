@@ -2,7 +2,7 @@
 # Kernel/System/Log.pm - log wapper 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Log.pm,v 1.23 2004-01-16 10:39:10 martin Exp $
+# $Id: Log.pm,v 1.24 2004-04-07 17:24:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Log;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $ ';
+$VERSION = '$Revision: 1.24 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -117,7 +117,7 @@ sub Log {
         Line => $Line1,
     );
     # if error, write it to STDERR
-    if ($Priority =~ /error/i) {
+    if ($Priority =~ /^error/i) {
         my $Error = sprintf "ERROR: $Self->{LogPrefix} Perl: %vd OS: $^O Time: ".localtime()."\n\n", $^V;
         $Error .= " Message: $Message\n\n";
         $Error .= " Traceback ($$): \n";
@@ -141,11 +141,15 @@ sub Log {
         $Error .= "\n";
         print STDERR $Error;
         # store data (for the frontend)
-        $Self->{Error}->{Message} = $Message;
-        $Self->{Error}->{Traceback} = $Error;
+        $Self->{error}->{Message} = $Message;
+        $Self->{error}->{Traceback} = $Error;
+    }
+    # remember to info and notice messages
+    elsif ($Priority =~ /^(info|notice)/i) {
+        $Self->{lc($Priority)}->{Message} = $Message;
     }
     # write shm cache log
-    if ($Priority !~ /debug/i && $Self->{IPC}) {
+    if ($Priority !~ /^debug/i && $Self->{IPC}) {
         $Priority = lc($Priority);
         my $Data = localtime().";;$Priority;;$Self->{LogPrefix};;$Subroutine2;;$Line1;;$Message;;\n";
         my $String = $Self->GetLog();
@@ -155,18 +159,21 @@ sub Log {
 }
 # --
 
-=item Error()
+=item GetLogEntry()
 
-to get the error back from log
-    
-  my $Error = $LogObject->Error('Message');
+to get the last log info back
+
+  my $Message = $LogObject->GetLogEntry(
+      Type => 'error', # error|info|notice
+      What => 'Message', # Message|Traceback
+  );
 
 =cut
 
-sub Error {
+sub GetLogEntry {
     my $Self = shift;
-    my $What = shift;
-    return $Self->{Error}->{$What} || ''; 
+    my %Param = @_;
+    return $Self->{lc($Param{Type})}->{$Param{What}} || ''; 
 }
 # --
 
@@ -222,6 +229,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.23 $ $Date: 2004-01-16 10:39:10 $
+$Revision: 1.24 $ $Date: 2004-04-07 17:24:50 $
 
 =cut
