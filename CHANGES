@@ -2,13 +2,27 @@
 # Changes of OTRS 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.90 2003-08-22 15:19:57 martin Exp $
+# $Id: CHANGES,v 1.91 2003-08-28 16:41:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS HEAD
+ - (2003/08/28) improved GenericAgent to use From, To, Cc, Subject and
+    Body for ticket selection - example:
+   [...]
+   'delete all tickets with subject "VIRUS 32" in queue abc' => {
+      # get all tickets with this properties  
+      Queue => 'abc',
+      Subject => '%VIRUS%',
+      # new ticket properties
+      New => {
+        # DELETE!
+        Delete => 1,
+      },
+   },
+   [...]
  - (2003/07/31) added "Show closed Ticket/Don't show closed Ticket" link
     to customer panel show my tickets overview 
  - (2003/07/14) added last owner selection to Kernel/Modules/AgentOwner.pm

@@ -2,7 +2,7 @@
 # Kernel/Config/GenericAgent.pm - config file of generic agent
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pm.examples,v 1.6 2003-05-20 20:21:14 martin Exp $
+# $Id: GenericAgent.pm.examples,v 1.7 2003-08-28 16:41:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,7 +17,7 @@ require Exporter;
 @ISA = qw(Exporter);
 @EXPORT = qw(%Jobs);  
 
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # -----------------------------------------------------------------------
@@ -97,6 +97,25 @@ $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
         # "/path/to/your/program $TicketNumber $TicketID" ARG[0] will 
         # be the ticket number and ARG[1] the ticket id
         CMD => '/path/to/your/program',
+      },
+   },
+   # --
+   # [name of job] -> delete all tickets with subject 'VIRUS 32' in queue abc
+   # (take care if you use From, To, Cc, Subject or Body because it takes
+   # database performance!) 
+   # --
+   'delete all tickets with subject "VIRUS 32" in queue abc' => {
+      # get all tickets with this properties  
+      Queue => 'abc',
+#      From => '%Feedback%',
+#      To => '%Feedback%',
+#      Cc => '%Feedback%',
+      Subject => '%VIRUS%',
+#      Body => '%installing%',
+      # new ticket properties
+      New => {
+        # DELETE!
+        Delete => 1,
       },
    },
    # --

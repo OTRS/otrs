@@ -3,7 +3,7 @@
 # bin/GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pl,v 1.13 2003-07-13 11:55:55 martin Exp $
+# $Id: GenericAgent.pl,v 1.14 2003-08-28 16:41:50 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Kernel::Config;
@@ -79,6 +79,7 @@ foreach my $Job (keys %Jobs) {
             foreach (@{$PartJobs{Queue}}) {
                 print " For Queue: $_\n";
                 %Tickets = $CommonObject{QueueObject}->GetTicketIDsByQueue(
+                    %{$Jobs{$Job}},
                     Queue => $_,            
                 );
             }

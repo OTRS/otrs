@@ -28,6 +28,12 @@ Here all possible options:
       Queue => 'system queue',
       States => ['new', 'open'],
       Locks => ['unlock'],
+      From => '%spam@example.com%',
+      To => '%support@example.com%',
+      Cc => '%client@example.com%',
+      Subject => '%VIRUS 32%',
+      Body => '%VIRUS 32%',
+
       # or escalation tickets
       Escalation => 1,
 
@@ -66,7 +72,7 @@ If the bin/GenericAgent.pl runs, all open tickets in the queue spam will be
 closed by the bin/GenericAgent.pl.
 </para> 
 <para>
-Exampe for Kernel/Config/GenericAgent.pm
+Example for Kernel/Config/GenericAgent.pm
 <programlisting>
 [...]
    # --
@@ -106,7 +112,7 @@ If you want to delete (means delete ticket from database and filesystem)
 a ticket from a queue use this.
 </para> 
 <para>
-Exampe for Kernel/Config/GenericAgent.pm
+Example for Kernel/Config/GenericAgent.pm
 <programlisting>
 [...]
    # --
@@ -135,7 +141,7 @@ Exampe for Kernel/Config/GenericAgent.pm
 Moved ticket from tricky to experts queue and add note.
 </para> 
 <para>
-Exampe for Kernel/Config/GenericAgent.pm
+Example for Kernel/Config/GenericAgent.pm
 <programlisting>
 [...]
    # --
@@ -168,7 +174,7 @@ Exampe for Kernel/Config/GenericAgent.pm
 If there is a escalation ticket, move it to experts and execute a command.
 </para> 
 <para>
-Exampe for Kernel/Config/GenericAgent.pm
+Example for Kernel/Config/GenericAgent.pm
 <programlisting>
 [...]
    # --
@@ -185,6 +191,35 @@ Exampe for Kernel/Config/GenericAgent.pm
         # "/path/to/your/program $TicketNumber $TicketID" ARG[0] will 
         # be the ticket number and ARG[1] the ticket id
         CMD => '/path/to/your/program',
+      },
+   },
+[...]
+</programlisting>
+</para> 
+</sect2>
+
+
+<sect2>
+<title>delete all tickets with subject "VIRUS 32" in queue abc</title>
+<para>
+Delete all tickets with subject "VIRUS 32" in queue abc.
+</para> 
+<para>
+Example for Kernel/Config/GenericAgent.pm
+<programlisting>
+[...]
+   'delete all tickets with subject "VIRUS 32" in queue abc' => {
+      # get all tickets with this properties  
+      Queue => 'abc',
+#      From => '%spam@example.com%',
+#      To => '%support@example.com%',
+#      Cc => '%client@example.com%',
+      Subject => '%VIRUS 32%',
+#      Body => '%testing case 1245%',
+      # new ticket properties
+      New => {
+        # DELETE!
+        Delete => 1,
       },
    },
 [...]

@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue funktions
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.33 2003-07-13 19:02:38 martin Exp $
+# $Id: Queue.pm,v 1.34 2003-08-28 16:41:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use Kernel::System::StdResponse;
 use Kernel::System::Group;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -582,13 +582,19 @@ sub GetTicketIDsByQueue {
     # sql
     # --
     my $SQL = "SELECT st.id, st.tn FROM ".
-    " ticket st, queue sq, ticket_state tsd, ticket_lock_type slt ".
-    " WHERE ".
+    " ticket st, queue sq, ticket_state tsd, ticket_lock_type slt ";
+    if ($Param{From} || $Param{To} || $Param{Cc} || $Param{Subject} ||$Param{Body}) {
+        $SQL .= ", article at ";
+    }
+    $SQL .= " WHERE ".
     " st.ticket_state_id = tsd.id ".
     " AND ".
     " st.queue_id = sq.id ".
     " AND ".
     " st.ticket_lock_id = slt.id ";
+    if ($Param{From} || $Param{To} || $Param{Cc} || $Param{Subject} ||$Param{Body}) {
+        $SQL .= " AND st.id = at.ticket_id";
+    }
     if ($Param{States}) { 
         $SQL .= " AND ".
           " tsd.name IN ('${\(join '\', \'' , @{$Param{States}})}') ";
@@ -597,12 +603,31 @@ sub GetTicketIDsByQueue {
         $SQL .= " AND ".
           " slt.name IN ('${\(join '\', \'' , @{$Param{Locks}})}') ";
     }
-    $SQL .= " AND ";
     if ($Param{Queue}) {
-        $SQL .= " sq.name = '$Param{Queue}' ";
+        $SQL .= " AND sq.name = '$Param{Queue}' ";
     }
     else {
-        $SQL .= " sq.id = '$Param{QueueID}' ";
+        $SQL .= " AND sq.id = '$Param{QueueID}' ";
+    }
+    if ($Param{From}) {
+        $SQL .= " AND at.a_from like '".
+          $Self->{DBObject}->Quote($Param{From})."'";
+    }
+    if ($Param{To}) {
+        $SQL .= " AND at.a_to like '".
+          $Self->{DBObject}->Quote($Param{To})."'";
+    }
+    if ($Param{Cc}) {
+        $SQL .= " AND at.a_cc like '".
+          $Self->{DBObject}->Quote($Param{Cc})."'";
+    }
+    if ($Param{Subject}) {
+        $SQL .= " AND at.a_subject like '".
+          $Self->{DBObject}->Quote($Param{Subject})."'";
+    }
+    if ($Param{Body}) {
+        $SQL .= " AND at.a_body like '".
+          $Self->{DBObject}->Quote($Param{Body})."'";
     }
     my %Tickets = ();
     $Self->{DBObject}->Prepare(SQL => $SQL);
