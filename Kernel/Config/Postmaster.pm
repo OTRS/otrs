@@ -2,7 +2,7 @@
 # Kernel/Config/Postmaster.pm - Postmaster config file for OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Postmaster.pm,v 1.1 2002-08-27 23:39:15 martin Exp $
+# $Id: Postmaster.pm,v 1.2 2002-10-15 09:18:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -12,7 +12,7 @@ package Kernel::Config::Postmaster;
 
 use strict;
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -25,30 +25,30 @@ sub LoadPostmaster {
     #                                                     #
     # ----------------------------------------------------#
   
-    # MaxPostMasterEmails
+    # PostmasterMaxEmails
     # (Max post master daemon email to own email-address a day.
     # Loop-Protection!) [default: 20]
-    $Self->{MaxPostMasterEmails} = 20;
+    $Self->{PostmasterMaxEmails} = 20;
 
     # PostmasterUserID
     # (The post master db-uid.) [default: 1]
     $Self->{PostmasterUserID} = 1;
 
-    # DefaultQueue
+    # PostmasterDefaultQueue
     # (The default queue of all.) [default: Raw]
-    $Self->{DefaultQueue} = 'Raw';
+    $Self->{PostmasterDefaultQueue} = 'Raw';
 
-    # DefaultPriority
+    # PostmasterDefaultPriority
     # (The default priority of new tickets.) [default: normal]
-    $Self->{DefaultPriority} = 'normal';
+    $Self->{PostmasterDefaultPriority} = 'normal';
 
-    # DefaultState
+    # PostmasterDefaultState
     # (The default state of new tickets.) [default: new]
-    $Self->{DefaultState} = 'new';
+    $Self->{PostmasterDefaultState} = 'new';
 
     # X-Header
     # (All scanned x-headers.)
-    $Self->{"X-Header"} = [
+    $Self->{'PostmasterX-Header'} = [
       'From',
       'To',
       'Cc',

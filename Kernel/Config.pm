@@ -2,7 +2,7 @@
 # Kernel/Config.pm - Config file for OTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.63 2002-10-10 18:37:29 martin Exp $
+# $Id: Config.pm,v 1.64 2002-10-15 09:18:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,7 +17,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.63 $';
+$VERSION = '$Revision: 1.64 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -116,24 +116,11 @@ sub Load {
     # (The database DSN for PostgrSQL ==> more: "man DBD::Pg") 
 #    $Self->{DatabaseDSN} = "DBI:Pg:dbname=$Self->{Database};";
 
-    # SessionTable 
-    $Self->{DatabaseSessionTable} = 'session';
-    # SessionTable id column
-    $Self->{DatabaseSessionTableID} = 'session_id';
-    # SessionTable value column
-    $Self->{DatabaseSessionTableValue} = 'value';
-
     # UserTable
     $Self->{DatabaseUserTable} = 'system_user';
     $Self->{DatabaseUserTableUserID} = 'id';
     $Self->{DatabaseUserTableUserPW} = 'pw';
     $Self->{DatabaseUserTableUser} = 'login';
-
-    # preferences table data
-    $Self->{DatabasePreferencesTable} = 'user_preferences';
-    $Self->{DatabasePreferencesTableKey} = 'preferences_key';
-    $Self->{DatabasePreferencesTableValue} = 'preferences_value';
-    $Self->{DatabasePreferencesTableUserID} = 'user_id';
 
     # ----------------------------------------------------#
     # authentication settings                             #
@@ -178,17 +165,6 @@ sub Load {
     # (Max viewable tickets a page.)
     $Self->{MaxLimit} = 150;
     
-    # RefreshOptions
-    # (Refresh option list for preferences)
-    $Self->{RefreshOptions} = {
-        '' => 'off',
-        2 => ' 2 minutes',
-        5 => ' 5 minutes',
-        7 => ' 7 minutes',
-        10 => '10 minutes',
-        15 => '15 minutes',
-    };
-
     # Highligh*
     # (Set the age and the color for highlighting of old queue
     # in the QueueView.)
@@ -217,43 +193,6 @@ sub Load {
     # viewable ticket lines by search util
     # [default: 10]
     $Self->{ViewableTicketLinesBySearch} = 10;
-
-    # ----------------------------------------------------#
-    # SessionModule (replace old SessionDriver!!!)        #
-    # ----------------------------------------------------#
-    # (How should be the session-data stored? 
-    # Advantage of DB is that you can split the 
-    # Frontendserver from the DB-Server. fs is faster.)
-#    $Self->{SessionModule} = 'Kernel::System::AuthSession::DB';
-#    $Self->{SessionModule} = 'Kernel::System::AuthSession::FS';
-    $Self->{SessionModule} = 'Kernel::System::AuthSession::IPC';
-
-    # SessionCheckRemoteIP 
-    # (If the application is used via a proxy-farm then the 
-    # remote ip address is mostly different. In this case,
-    # turn of the CheckRemoteID. ) [1|0] 
-    $Self->{SessionCheckRemoteIP} = 1;
-
-    # SessionDeleteIfNotRemoteID
-    # (Delete session if the session id is used with an 
-    # invalied remote IP?) [0|1]
-    $Self->{SessionDeleteIfNotRemoteID} = 1;
-
-    # SessionMaxTime
-    # (Max valid time of one session id in second (8h = 28800).)
-    $Self->{SessionMaxTime} = 28800;
-
-    # SessionDeleteIfTimeToOld
-    # (Delete session's witch are requested and to old?) [0|1]
-    $Self->{SessionDeleteIfTimeToOld} = 1;
-
-    # SessionUseCookie
-    # (Should the session management use html cookies?
-    # It's more comfortable to send links -==> if you have a valid 
-    # session, you don't have to login again.) [0|1]
-    # Note: If the client browser disabled html cookies, the system
-    # will work as usual, append SessionID to links!
-    $Self->{SessionUseCookie} = 1;
 
     # ----------------------------------------------------#
     # URL login and logout settings                       #
@@ -298,9 +237,6 @@ sub Load {
     # ----------------------------------------------------#
     # root directory
     $Self->{Home} = '/opt/OpenTRS';
-    # directory for all sessen id informations (just needed if 
-    # $Self->{SessionDriver}='fs')
-    $Self->{SessionDir} = $Self->{Home} . '/var/sessions';
     # counter log
     $Self->{CounterLog} = $Self->{Home} . '/var/log/TicketCounter.log';
     # article fs dir
@@ -448,69 +384,6 @@ sub Load {
     $Self->{DefaultBounceText} = 'Your email with ticket number "<OTRS_TICKET>" '.
       'is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further inforamtions.';
 
-
-    # ----------------------------------------------------#
-    # defaults for phone stuff                            #
-    # ----------------------------------------------------#
-    # default note type
-    $Self->{DefaultPhoneArticleType} = 'phone';
-    $Self->{DefaultPhoneSenderType} = 'agent'; 
-    # default note subject
-    $Self->{DefaultPhoneSubject} = '$Text{"Phone call at"} \''. localtime() ."'";
-    # default note text
-    $Self->{DefaultPhoneNoteText} = 'Customer called ';
-    # next possible states after phone
-    $Self->{DefaultPhoneNextStatePossible} = [
-        'open', 
-        'closed succsessful',
-        'closed unsuccsessful',
-    ];
-    # default next state
-    $Self->{DefaultPhoneNextState} = 'closed succsessful';
-    # default history type
-    $Self->{DefaultPhoneHistoryType} = 'PhoneCallAgent';
-    $Self->{DefaultPhoneHistoryComment} = 'Called customer.';
-
-   
-    # default article type
-    $Self->{DefaultPhoneNewArticleType} = 'phone';
-    $Self->{DefaultPhoneNewSenderType} = 'customer'; 
-    # default note subject
-    $Self->{DefaultPhoneNewSubject} = '$Text{"Phone call at"} \''. localtime() ."'";
-    # default note text
-    $Self->{DefaultPhoneNewNoteText} = 'New ticket via call. ';
-    # default next state
-    $Self->{DefaultPhoneNewNextState} = 'open';
-    # default history type
-    $Self->{DefaultPhoneNewHistoryType} = 'PhoneCallCustomer';
-    $Self->{DefaultPhoneNewHistoryComment} = 'Customer called us.';
-
-    # PhoneViewASP -> useful for ASP
-    # (Possible to create in all queue? Not only queue which
-    # the own groups) [0|1]
-    $Self->{PhoneViewASP} = 1;
-
-    # PhoneViewSelectionType 
-    # (To: seection type. Queue => show all queues, SystemAddress => show all system 
-    # addresses;) [Queue|SystemAddress]
-#    $Self->{PhoneViewSelectionType} = 'Queue';
-    $Self->{PhoneViewSelectionType} = 'SystemAddress';
-
-    # PhoneViewSelectionString
-    # (String for To: selection.) 
-    # use this for PhoneViewSelectionType = Queue
-#   $Self->{PhoneViewSelectionString} = 'Queue: <Queue> - <QueueComment>';
-    # use this for PhoneViewSelectionType = SystemAddress
-    $Self->{PhoneViewSelectionString} = '<Realname> <<Email>> - Queue: <Queue> - <QueueComment>';
-
-    # PhoneViewOwnSelection
-    # (If this is in use, "just this selection is valid" for the PhoneView.)
-#    $Self->{PhoneViewOwnSelection} = {
-#        # QueueID => String
-#        '1' => 'First Queue!',
-#        '2' => 'Second Queue!',
-#    };
-
     # ----------------------------------------------------#
     # defaults for forward message                        #
     # ----------------------------------------------------#
@@ -570,7 +443,6 @@ sub Load {
     #  default queue  settings                            #
     #  these settings are used by the CLI version         #
     # ----------------------------------------------------#
-
     $Self->{QueueDefaults} = {
       UnlockTimeout => 0,
       EscalationTime => 0,
@@ -604,6 +476,10 @@ sub Load {
     $Self->{SubConfigs} = {
         LoadPostmaster => 'Kernel::Config::Postmaster',
         LoadNotification => 'Kernel::Config::Notification',
+        LoadSession => 'Kernel::Config::Session',
+        LoadPreferences => 'Kernel::Config::Preferences',
+        LoadPhone => 'Kernel::Config::Phone',
+        LoadCustomerPanel => 'Kernel::Config::CustomerPanel',
     }
 
     # ----------------------------------------------------#

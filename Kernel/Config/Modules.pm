@@ -2,7 +2,7 @@
 # Kernel/Config/Modules.pm - config file of all used application modules
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Modules.pm,v 1.7 2002-10-03 21:10:13 martin Exp $
+# $Id: Modules.pm,v 1.8 2002-10-15 09:18:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -13,7 +13,7 @@ package Kernel::Config::Modules;
 
 use strict;
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -32,6 +32,7 @@ use Kernel::System::EmailSend;
 
 # web agent middle ware modules
 use Kernel::Modules::AgentQueueView;
+use Kernel::Modules::AgentStatusView;
 use Kernel::Modules::AgentMove;
 use Kernel::Modules::AgentZoom;
 use Kernel::Modules::AgentAttachment;
@@ -71,6 +72,7 @@ use Kernel::Modules::AdminLanguage;
 use Kernel::Modules::SystemStats;
 use Kernel::Modules::AdminState;
 use Kernel::Modules::AdminEmail;
+use Kernel::Modules::AdminCustomerUser;
 
 # --
 # common needed objects
