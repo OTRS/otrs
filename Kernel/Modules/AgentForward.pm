@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentForward.pm - to forward a message
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentForward.pm,v 1.42 2004-11-04 11:16:44 martin Exp $
+# $Id: AgentForward.pm,v 1.43 2004-11-27 01:53:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::SystemAddress;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -164,10 +164,10 @@ sub Form {
     $Data{Body} = "\n> " . $Data{Body};
 
     # prepare subject ...
-    my $TicketHook = $Self->{ConfigObject}->Get('TicketHook') || '';
-    $Data{Subject} =~ s/\[$TicketHook: $Tn\] //g;
-    $Data{Subject} =~ s/^(.{30}).*$/$1 [...]/;
-    $Data{Subject} = "[$TicketHook: $Tn-FW] " . $Data{Subject};
+    $Data{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
+        TicketNumber => $Tn,
+        Subject => $Data{Subject} || '',
+    );
 
     # prepare from ...
     my %Address = $Self->{QueueObject}->GetSystemAddress(%Data);
@@ -231,16 +231,11 @@ sub SendEmail {
     # --
     foreach (qw(TicketID ArticleID)) {
         if (!$Self->{$_}) {
-            # --
             # error page
-            # --
-            $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-            $Output .= $Self->{LayoutObject}->Error(
+            return $Self->{LayoutObject}->ErrorScreen(
                 Message => "Can't forward ticket, no $_ is given!",
                 Comment => 'Please contact the admin.',
             );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
         }
     }
     # --
@@ -250,9 +245,7 @@ sub SendEmail {
         Type => 'rw',
         TicketID => $Self->{TicketID},
         UserID => $Self->{UserID})) {
-        # --
         # error screen, don't show ticket
-        # --
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
     }
     # --
@@ -263,14 +256,11 @@ sub SendEmail {
             my $Address = $Email->address();
             if ($Self->{SystemAddress}->SystemAddressIsLocalAddress(Address => $Address)) {
                 # error page
-                $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-                $Output .= $Self->{LayoutObject}->Error(
+                return $Self->{LayoutObject}->ErrorScreen(
                     Message => "Can't forward ticket to $Address! It's a local ".
                       "address! You need to move it!",
                     Comment => 'Please contact the admin.',
                 );
-                $Output .= $Self->{LayoutObject}->Footer();
-                return $Output;
             }
         }
     }
@@ -311,9 +301,7 @@ sub SendEmail {
         HistoryType => 'Forward',
         HistoryComment => "\%\%$Self->{To}, $Self->{Cc}, $Self->{Bcc}",
     )) {
-      # --
       # time accounting
-      # --
       if ($Self->{TimeUnits}) {
           $Self->{TicketObject}->TicketAccountTime(
             TicketID => $Self->{TicketID},
@@ -322,9 +310,7 @@ sub SendEmail {
             UserID => $Self->{UserID},
           );
       }
-      # --
       # set state
-      # --
       $Self->{TicketObject}->StateSet(
         TicketID => $Self->{TicketID},
         ArticleID => $ArticleID,
@@ -349,10 +335,7 @@ sub SendEmail {
       }
     }
     else {
-        $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-        $Output .= $Self->{LayoutObject}->Error();
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
+        return $Self->{LayoutObject}->ErrorScreen();
     }
 }
 # --

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.76 2004-11-16 12:26:05 martin Exp $
+# $Id: AgentCompose.pm,v 1.77 2004-11-27 01:52:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.76 $';
+$VERSION = '$Revision: 1.77 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -206,14 +206,10 @@ sub Form {
     $Data{Body} =~ s/(^>.+|.{4,78})(?:\s|\z)/$1\n/gm;
     $Data{Body} =~ s/\n/\n> /g;
     $Data{Body} = "\n> " . $Data{Body};
-
-    my $TicketHook = $Self->{ConfigObject}->Get('TicketHook') || '';
-    $Data{Subject} =~ s/^..: //;
-    $Data{Subject} =~ s/\[$TicketHook: $Ticket{TicketNumber}\] //g;
-    $Data{Subject} =~ s/^..: //;
-    $Data{Subject} =~ s/^(.{45}).*$/$1 [...]/;
-    $Data{Subject} = "[$TicketHook: $Ticket{TicketNumber}] Re: " . $Data{Subject};
-
+    $Data{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
+        TicketNumber => $Ticket{TicketNumber},
+        Subject => $Data{Subject} || '',
+    );
     # check ReplyTo
     if ($Data{ReplyTo}) {
         $Data{To} = $Data{ReplyTo};
@@ -451,12 +447,10 @@ sub SendEmail {
     my @StdAttachmentIDs = $Self->{ParamObject}->GetArray(Param => 'StdAttachmentID');
     # prepare subject
     my $Tn = $Self->{TicketObject}->TicketNumberLookup(TicketID => $Self->{TicketID});
-    my $TicketHook = $Self->{ConfigObject}->Get('TicketHook') || '';
-    $GetParam{Subject} =~ s/^..: //;
-    $GetParam{Subject} =~ s/\[$TicketHook: $Tn\] //g;
-    $GetParam{Subject} =~ s/^..: //;
-    $GetParam{Subject} =~ s/^(.{55}).*$/$1 [...]/;
-    $GetParam{Subject} = "[$TicketHook: $Tn] ".$GetParam{Subject};
+    $GetParam{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
+        TicketNumber => $Tn,
+        Subject => $GetParam{Subject} || '',
+    );
     # rewrap body if exists
     if ($GetParam{Body}) {
         my $NewLine = $Self->{ConfigObject}->Get('ComposeTicketNewLine') || 75;

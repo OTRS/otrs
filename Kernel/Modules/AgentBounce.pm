@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentBounce.pm - to bounce articles of tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBounce.pm,v 1.37 2004-09-27 13:36:53 martin Exp $
+# $Id: AgentBounce.pm,v 1.38 2004-11-27 01:52:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -141,10 +141,10 @@ sub Run {
         # --
         # prepare subject ...
         # --
-        my $TicketHook = $Self->{ConfigObject}->Get('TicketHook') || '';
-        $Article{Subject} =~ s/\[$TicketHook: $Param{TicketNumber}\] //g;
-        $Article{Subject} =~ s/^(.{30}).*$/$1 [...]/;
-        $Article{Subject} = "[$TicketHook: $Param{TicketNumber}] RE: " . $Article{Subject};
+        $Article{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
+            TicketNumber => $Param{TicketNumber},
+            Subject => $Article{Subject} || '',
+        );
         # --
         # prepare to (ReplyTo!) ...
         # --
