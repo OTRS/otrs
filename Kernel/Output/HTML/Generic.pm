@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.137 2004-08-03 12:56:21 martin Exp $
+# $Id: Generic.pm,v 1.138 2004-08-10 15:09:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.137 $';
+$VERSION = '$Revision: 1.138 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -663,6 +663,15 @@ sub FatalError {
     print $Self->Error();
     print $Self->Footer();
     exit;
+}
+# --
+sub ErrorScreen {
+    my $Self = shift;
+    my %Param = @_;
+    my $Output = $Self->Header(Title => 'Error');
+    $Output .= $Self->Error(%Param);
+    $Output .= $Self->Footer();
+    return $Output;
 }
 # --
 sub Error {
