@@ -1,8 +1,8 @@
 # --
 # HTML/Agent.pm - provides generic agent HTML output
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.13 2002-04-08 15:56:00 martin Exp $
+# $Id: Agent.pm,v 1.14 2002-04-13 15:48:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -140,12 +140,7 @@ sub TicketZoom {
         $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 50, MIME => 1) || '';
     }
     $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ');
-
     $Param{Owner} = $Self->Ascii2Html(Text => $Param{Owner}, Max => 20) || ''; 
-
-    # do some text quoting
-    $Param{Text} = $Self->Ascii2Html(Text => $Param{Text});
-    $Param{Text} = $Self->LinkQuote(Text => $Param{Text});
 
     # get MoveQueuesStrg
     $Param{MoveQueuesStrg} = $Self->OptionStrgHashRef(
@@ -231,18 +226,34 @@ sub TicketZoom {
             %Article = %ArticleTmp1;
         }
     }
-
+    # --
+    # get aatm strg
+    # --
+    my $ATMsTmp = $Article{Atms};
+    my @ATMs = @$ATMsTmp;
+    my $ATMStrg = '';
+    # FIXME!!! filename and html quoting!!!
+    foreach (@ATMs) {
+        $Param{"Article::ATM"} .= '<a href="$Env{"Baselink"}&Action=AgentAttachment&'.
+          'ArticleID='.$Article{ArticleID}.'&File='.$_.'">'. $_ .'</a><br> ';
+    }
+    # --
     # do some strips && quoting
+    # --
     foreach ('To', 'Cc', 'From', 'Subject') {
         $Param{"Article::$_"} = $Self->Ascii2Html(Text => $Article{$_}, Max => 300, MIME => 1);
     }
+    # --
     # html quoting
+    # --
     $Param{"Article::Text"} = $Self->Ascii2Html(
         NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,
         Text => $Article{Text},
         VMax => $Self->{ConfigObject}->Get('ViewableTicketLinesZoom') || 5000,
     );
+    # --
     # link quoting
+    # --
     $Param{"Article::Text"} = $Self->LinkQuote(
         Text => $Param{"Article::Text"},
     );
@@ -518,6 +529,17 @@ sub TicketLocked {
     my $Self = shift;
     my %Param = @_;
     return $Self->Output(TemplateFile => 'AgentTicketLocked', Data => \%Param);
+}
+# --
+sub Attachment {
+    my $Self = shift;
+    my %Param = @_;
+   (my $Output = <<EOF);
+Content-Disposition: attachment; filename=$Param{File}
+Content-Type: $Param{Type}
+$Param{Data}
+EOF
+    return $Output;
 }
 # --
 
