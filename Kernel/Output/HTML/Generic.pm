@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.8 2001-12-26 20:07:59 martin Exp $
+# $Id: Generic.pm,v 1.9 2001-12-30 00:35:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::Admin;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -33,7 +33,8 @@ sub new {
     my $Type = shift;
     my %Param = @_;
 
-    my $Self = {}; # allocate new hash for object
+    # allocate new hash for object
+    my $Self = {}; 
     bless ($Self, $Type);
 
     # get common objects
@@ -87,12 +88,15 @@ sub Output {
         $Env{SessionID} = $Self->{SessionID};
         $Env{Time} = $Self->{Time};
         $Env{CGIHandle} = $Self->{CGIHandle};
-        $Env{Charset} = $Self->{Charset} || 'iso-8859-1';
+        $Env{Charset} = $Self->{UserCharset} || 'iso-8859-1';
         $Env{Baselink} = $Self->{Baselink};
         $Env{UserFirstname} = $Self->{UserFirstname};
         $Env{UserLastname} = $Self->{UserLastname};
         $Env{UserLogin} = $Self->{UserLogin};
         $Env{UserLoginTop} = '('. $Self->{UserLogin} .')' if ($Env{UserLogin});
+        $Env{UserTheme} = $Self->{UserTheme};
+        $Env{UserCharset} = $Self->{UserCharset}; 
+        $Env{UserLanguage} = $Self->{UserLanguage};
         $Env{Action} = $Self->{Action};
         $Env{Subaction} = $Self->{Subaction};
     }  
@@ -250,6 +254,7 @@ sub Error {
 
     ($Param{Package}, $Param{Filename}, $Param{Line}, $Param{Subroutine}) = caller(0);
     ($Param{Package1}, $Param{Filename1}, $Param{Line1}, $Param{Subroutine1}) = caller(1);
+    ($Param{Package2}, $Param{Filename2}, $Param{Line2}, $Param{Subroutine2}) = caller(2);
 
     $Param{Version} = ("\$$Param{Package}". '::VERSION');
     $Param{Version} =~ s/(.*)/$1/ee;
@@ -366,7 +371,7 @@ sub OptionStrgHashRef {
     $Output .= "<select name=\"$Name\" $Multiple $Size>\n";
     foreach (sort {$Data{$a} cmp $Data{$b}} keys %Data) {
         if (($_) && ($Data{$_})) {
-            if ($_ eq $Selected) {
+            if ($_ eq $Selected || $Data{$_} eq $Selected) {
               $Output .= "    <option selected value=\"$_\">".
                      $Self->{LanguageObject}->Get($Data{$_}) ."</option>\n";
             }
