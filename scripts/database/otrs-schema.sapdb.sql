@@ -102,6 +102,20 @@ CREATE TABLE group_user
     change_by INTEGER NOT NULL
 )
 // -----------------------------------------------------------------------
+// group_customer_user
+// -----------------------------------------------------------------------
+CREATE TABLE group_customer_user
+(
+    user_id INTEGER NOT NULL,
+    group_id INTEGER NOT NULL,
+    permission_key VARCHAR (20),
+    permission_value SMALLINT NOT NULL,
+    create_time timestamp NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp NOT NULL,
+    change_by INTEGER NOT NULL
+)
+// -----------------------------------------------------------------------
 // personal_queues
 // -----------------------------------------------------------------------
 CREATE TABLE personal_queues

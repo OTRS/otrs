@@ -123,6 +123,23 @@ CREATE TABLE group_user
 );
 
 # -----------------------------------------------------------------------
+# group_customer_user
+# -----------------------------------------------------------------------
+drop table if exists group_customer_user;
+
+CREATE TABLE group_customer_user
+(
+    user_id INTEGER NOT NULL,
+    group_id INTEGER NOT NULL,
+    permission_key VARCHAR (20),
+    permission_value SMALLINT NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL
+);
+
+# -----------------------------------------------------------------------
 # personal_queues
 # -----------------------------------------------------------------------
 drop table if exists personal_queues;
