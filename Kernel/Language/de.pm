@@ -1,8 +1,8 @@
 # --
 # Kernel/Language/de.pm - provides de language translation
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: de.pm,v 1.63 2004-12-06 22:39:23 martin Exp $
+# $Id: de.pm,v 1.64 2005-02-16 16:55:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.63 $';
+$VERSION = '$Revision: 1.64 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -90,11 +90,14 @@ sub Data {
       'Text' => '',
       'Lite' => 'Einfach',
       'User' => 'Benutzer',
+      'Users' => 'Benutzer',
       'Username' => 'Benutzername',
       'Language' => 'Sprache',
       'Languages' => 'Sprachen',
       'Password' => 'Passwort',
       'Salutation' => 'Anrede',
+      'Signatures' => 'Signaturen',
+      'Salutations' => 'Anreden',
       'Signature' => 'Signatur',
       'Customer' => 'Kunde',
       'CustomerID' => 'Kunden#',
@@ -377,10 +380,10 @@ sub Data {
       'Sat' => 'Sam',
 
       # Template: AdminAttachmentForm
-      'Attachment Management' => 'Anlagen-Verwaltung',
+      'Attachment Management' => 'Anlagen Verwaltung',
 
       # Template: AdminAutoResponseForm
-      'Auto Response Management' => 'Auto-Antworten-Verwaltung',
+      'Auto Response Management' => 'Auto-Antworten Verwaltung',
       '"} <a href="Action=">$Text{"' => '',
       'Response' => 'Antwort',
       'Auto Response From' => 'Auto-Antwort-Absender',
@@ -396,7 +399,7 @@ sub Data {
       # Template: AdminCustomerUserForm
       'The message being composed has been closed.  Exiting.' => 'Die erstellte Nachricht wurde geschlossen.',
       'This window must be called from compose window' => 'Dieses Fenster muss über das Verfassen-Fenster aufgerufen werden',
-      'Customer User Management' => 'Kunden-Benutzer-Verwaltung',
+      'Customer User Management' => 'Kunden-Benutzer Verwaltung',
       'Search' => 'Suche',
       'Search for' => 'Suche nach',
       'Result' => 'Ergebnis',
@@ -409,7 +412,7 @@ sub Data {
       'Customer user will be needed to have an customer histor and to to login via customer panels.' => 'Kunden-Benutzer werden für Kunden-Historien und für die Benutzung von Kunden-Weboberfläche benötigt.',
 
       # Template: AdminCustomerUserGroupChangeForm
-      'Customer User <-> Group Management' => 'Kundenbenutzer <-> Gruppen Verwaltung',
+      'Customer Users <-> Groups Management' => 'Kundenbenutzer <-> Gruppen Verwaltung',
       'Change %s settings' => 'Ändern der %s Einstellungen',
       'Select the user:group permissions.' => 'Auswahl der Benutzer/Gruppen Berechtigungen.',
       'If nothing is selected, then there are no permissions in this group (tickets will not be available for the user).' => 'Ist nichts ausgewählt, sind keine Rechte vergeben (diese Tickets sind für den Benutzer nicht verfügbar).',
@@ -485,7 +488,7 @@ sub Data {
       'Save' => 'Speichern',
 
       # Template: AdminGroupForm
-      'Group Management' => 'Gruppen-Verwaltung',
+      'Group Management' => 'Gruppen Verwaltung',
       '"} <a href="Action=AdminGroup">$Text{"' => '',
       'The admin group is to get in the admin area and the stats group to get stats area.' => 'Die \'admin\'-Gruppe wird für den Admin-Bereich benötigt, die \'stats\'-Gruppe für den Statistik-Bereich.',
       'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).' => 'Erstellen Sie neue Gruppen, um die Zugriffe für verschiedene Agenten-Gruppen zu definieren (z.B. Einkaufs-Abteilung, Support-Abteilung, Verkaufs-Abteilung,...).',
@@ -501,16 +504,16 @@ sub Data {
       'Roles' => 'Rollen',
       'Responses' => 'Antworten',
       'Misc' => 'Sonstiges',
-      'User <-> Groups' => 'Benutzer <-> Gruppen',
-      'Customer User' => 'Kunden-Benutzer',
-      'Customer User <-> Groups' => 'Kunden-Benutzer <-> Gruppen',
+      'Users <-> Groups' => 'Benutzer <-> Gruppen',
+      'Customer Users' => 'Kunden-Benutzer',
+      'Customer Users <-> Groups' => 'Kunden-Benutzer <-> Gruppen',
       'Role' => 'Rolle',
-      'Role <-> Group' => 'Rolle <-> Gruppe',
-      'Role <-> User' => 'Rolle <-> Benutzer',
+      'Roles <-> Groups' => 'Rollen <-> Gruppe',
+      'Roles <-> Users' => 'Rollen <-> Benutzer',
       'Responses <-> Queue' => 'Antworten <-> Queues',
       'Auto Responses' => 'Auto-Antworten',
-      'Auto Response <-> Queue' => 'Auto-Antworten <-> Queues',
-      'Attachment <-> Response' => 'Anlage <-> Antworten',
+      'Auto Responses <-> Queue' => 'Auto-Antworten <-> Queues',
+      'Attachments <-> Responses' => 'Anlagen <-> Antworten',
       'Email Addresses' => 'E-Mail-Adressen',
       'Notifications' => 'Benachrichtigungen',
       'Status' => '',
@@ -521,7 +524,7 @@ sub Data {
       'Select Box' => '',
 
       # Template: AdminNotificationForm
-      'Notification Management' => 'Benachrichtigungsmanagement',
+      'Notification Management' => 'Benachrichtigungs Verwaltung',
       'Notifications are sent to an agent or a customer.' => 'Benachrichtigungen werden an Agenten und Kunden gesendet.',
       'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Konfig Optionen (z. B. &lt;OTRS_CONFIG_HttpType&gt;)',
       'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => 'Informationen über den Besitzer des Tickets (z. B. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)',
@@ -529,7 +532,7 @@ sub Data {
       'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'Die Daten der Kundenbenutzer (z. B. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)',
 
       # Template: AdminPGPForm
-      'PGP Key Management' => 'PGP Schlüssel Management',
+      'PGP Management' => 'PGP Verwaltung',
       'File' => 'Datei',
       'Identifier' => 'Identifikator',
       'Bit' => '',
@@ -540,7 +543,7 @@ sub Data {
       'FIXME: WHAT IS PGP?' => '',
 
       # Template: AdminPOP3Form
-      'POP3 Account Management' => 'POP3-Konten-Verwaltung',
+      'POP3 Account Management' => 'POP3-Konten Verwaltung',
       'Host' => 'Rechner',
       'Trusted' => 'Vertraut',
       'Dispatching' => 'Verteilung',
@@ -548,7 +551,7 @@ sub Data {
       'If your account is trusted, the already existing x-otrs header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => 'Wird dem Konto vertraut, werden die X-OTRS Header benutzt! PostMaster Filter werden trotzdem benutzt.',
 
       # Template: AdminPostMasterFilter
-      'PostMaster Filter Management' => '',
+      'PostMaster Filter Management' => 'PostMaster Filter Verwaltung',
       'Filtername' => '',
       'Match' => 'Treffer',
       'Header' => '',
@@ -586,13 +589,13 @@ sub Data {
       'OTRS sends an notification email to the customer if the ticket owner has changed.' => 'OTRS sendet eine Info-E-Mail an Kunden beim Ändern des Besitzers.',
 
       # Template: AdminQueueResponsesChangeForm
-      'Std. Responses <-> Queue Management' => 'Std. Antworten <-> Queue Verwaltung',
+      'Responses <-> Queue Management' => 'Antworten <-> Queue Verwaltung',
 
       # Template: AdminQueueResponsesForm
       'Answer' => 'Antwort',
 
       # Template: AdminResponseAttachmentChangeForm
-      'Std. Responses <-> Std. Attachment Management' => 'Std. Antwort <-> Std. Anlage Verwaltung',
+      'Responses <-> Attachments Management' => 'Antwort <-> Anlagen Verwaltung',
 
       # Template: AdminResponseAttachmentForm
 
@@ -606,12 +609,12 @@ sub Data {
       'Your email address is new' => 'Deine E-Mail-Adresse ist neu',
 
       # Template: AdminRoleForm
-      'Role Management' => 'Rollen Management',
+      'Role Management' => 'Rollen Verwaltung',
       'Create a role and put groups in it. Then add the role to the users.' => 'Erstell eine Rolle und weise Gruppen hinzu. Danach füge Benutzer zu den Rollen.',
       'It\'s useful for a lot of users and groups.' => 'Es ist sehr nützlich wenn man viel Gruppen und Benutzer hat.',
 
       # Template: AdminRoleGroupChangeForm
-      'Role <-> Group Management' => 'Rollen <-> Gruppen Management',
+      'Roles <-> Groups Management' => 'Rollen <-> Gruppen Verwaltung',
       'move_into' => 'Verschieben in',
       'Permissions to move tickets into this group/queue.' => 'Rechte, um Tickets in eine Gruppe/Queue zu verschieben.',
       'create' => 'Erstellen',
@@ -625,7 +628,7 @@ sub Data {
       'Change role <-> group settings' => 'Ändern der Rollen <-> Gruppen Einstellungen',
 
       # Template: AdminRoleUserChangeForm
-      'Role <-> User Management' => 'Rollen <-> Benutzer Management',
+      'Roles <-> Users Management' => 'Rollen <-> Benutzer Verwaltung',
       'Active' => 'Aktiv',
       'Select the role:user relations.' => 'Auswahl der Rollen:Benutzer Beziehungen.',
 
@@ -633,8 +636,7 @@ sub Data {
       'Change user <-> role settings' => 'Ändern der Benutzer <-> Rollen Einstellungen',
 
       # Template: AdminSalutationForm
-      'Salutation Management' => 'Anreden-Verwaltung',
-      '"} <a href="Action=AdminSalutation">$Text{"' => '',
+      'Salutation Management' => 'Anreden Verwaltung',
       'customer realname' => 'Wirklicher Kundenname',
       'for agent firstname' => 'für Vorname des Agents',
       'for agent lastname' => 'für Nachname des Agents',
@@ -657,11 +659,10 @@ sub Data {
       'kill session' => 'Sitzung löschen',
 
       # Template: AdminSignatureForm
-      'Signature Management' => 'Signatur-Verwaltung',
-      '"} <a href="Action=AdminSignature">$Text{"' => '',
+      'Signature Management' => 'Signatur Verwaltung',
 
       # Template: AdminSMIMEForm
-      'SMIME Certificate Management' => 'SMIME Zertifikat Management',
+      'SMIME Management' => 'SMIME Verwaltung',
       'Add Certificate' => 'Zertifikat hinzufügen',
       'Add Private Key' => 'Privaten Schlüssel hinzufügen',
       'Secret' => '',
@@ -676,7 +677,7 @@ sub Data {
       'See also' => 'Siehe auch',
 
       # Template: AdminSystemAddressForm
-      'System Email Addresses Management' => 'E-Mail-Adressen-Verwaltung',
+      'System Email Addresses Management' => 'E-Mail-Adressen Verwaltung',
       'Email' => 'E-Mail',
       'Realname' => '',
       'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Alle eingehenden E-Mails mit diesem Empfänger (To:) werden in die ausgewählte Queue einsortiert.',
@@ -684,15 +685,14 @@ sub Data {
       # Template: AdminSystemStatus
 
       # Template: AdminUserForm
-      'User Management' => 'Benutzer-Verwaltung',
-      '"} <a href="Action=AdminUser">$Text{"' => '',
+      'User Management' => 'Benutzer Verwaltung',
       'Firstname' => 'Vorname',
       'Lastname' => 'Nachname',
       'User will be needed to handle tickets.' => 'Benutzer werden benötigt, um Tickets zu bearbeiten.',
       'Don\'t forget to add a new user to groups!' => 'Ein neuer Benutzer muss einer Gruppe zugewiesen werden!',
 
       # Template: AdminUserGroupChangeForm
-      'User <-> Group Management' => 'Benutzer <-> Gruppe Verwaltung',
+      'Users <-> Groups Management' => 'Benutzer <-> Gruppen Verwaltung',
 
       # Template: AdminUserGroupForm
 
@@ -1200,6 +1200,16 @@ sub Data {
     'Do you really want to delete this Object?' => 'Soll das Objekt wirklich gelöscht werden?',
     'Ticket Object' => 'Ticket Objekt',
     'Vendor' => 'Anbieter',
+    'Package Manager' => 'Paket Verwaltung',
+    'Install' => 'Installieren',
+    'Package' => 'Paket',
+    'Online Repository' => '',
+    'Local Repository' => 'Lokales Repository',
+    'installed' => 'installiert',
+    'Upgrade' => 'erneuern',
+    'Uninstall' => 'deinstallieren',
+    'Install' => 'installieren',
+    '' => '',
     };
     # $$STOP$$
 }
