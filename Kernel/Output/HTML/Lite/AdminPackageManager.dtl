@@ -2,7 +2,7 @@
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPackageManager.dtl,v 1.5 2004-12-06 23:13:16 martin Exp $
+# $Id: AdminPackageManager.dtl,v 1.6 2004-12-22 22:01:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -147,11 +147,11 @@
     <td class="contentbody">
     <table border="0" width="100%">
       <tr>
-        <td>$Text{"Name"}</td>
-        <td>$Text{"Version"}</td>
-        <td>$Text{"Vendor"}</td>
-        <td width="55%">$Text{"Description"}</td>
-        <td>$Text{"Action"}</td>
+        <td class="contentkey">$Text{"Name"}</td>
+        <td class="contentkey">$Text{"Version"}</td>
+        <td class="contentkey">$Text{"Vendor"}</td>
+        <td width="55%" class="contentkey">$Text{"Description"}</td>
+        <td class="contentkey">$Text{"Action"}</td>
       </tr>
 <!-- dtl:block:ShowRemotePackage -->
       <tr>
