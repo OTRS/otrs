@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.157 2004-10-06 18:39:21 martin Exp $
+# $Id: Generic.pm,v 1.158 2004-10-28 10:10:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::Output::HTML::Admin;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.157 $';
+$VERSION = '$Revision: 1.158 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -646,9 +646,8 @@ sub Output {
         # add this line to output
         $Output .= $Line;
     }
-
     # --
-    # do time translation
+    # do time translation (with seconds)
     # --
     foreach (1..1) {
         $Output =~ s{
@@ -657,6 +656,22 @@ sub Output {
         {
             if (defined($2)) {
                 $Self->{LanguageObject}->FormatTimeString($2);
+            }
+            else {
+                '';
+            }
+        }egx;
+    }
+    # --
+    # do time translation (without seconds)
+    # --
+    foreach (1..1) {
+        $Output =~ s{
+            \$TimeShort({"(.+?)"}|{""})
+        }
+        {
+            if (defined($2)) {
+                $Self->{LanguageObject}->FormatTimeString($2, undef, 'NoSeconds');
             }
             else {
                 '';
@@ -809,24 +824,24 @@ sub Redirect {
     my $Self = shift;
     my %Param = @_;
     my $SessionIDCookie = '';
-    my $Output = '';
+    my $Cookies = '';
     # add cookies if exists
     if ($Self->{SetCookies} && $Self->{ConfigObject}->Get('SessionUseCookie')) {
         foreach (keys %{$Self->{SetCookies}}) {
-            $Output .= "Set-Cookie: $Self->{SetCookies}->{$_}\n";
+            $Cookies .= "Set-Cookie: $Self->{SetCookies}->{$_}\n";
         }
     }
     # create & return output
     if ($Param{ExtURL}) {
         # external redirect
         $Param{Redirect} = $Param{ExtURL};
-        return $Self->Output(TemplateFile => 'Redirect', Data => \%Param);
+        return $Cookies.$Self->Output(TemplateFile => 'Redirect', Data => \%Param);
     }
     else {
         # internal redirect
         $Param{OP} =~ s/^.*\?(.+?)$/$1/;
         $Param{Redirect} = $Self->{Baselink} . $Param{OP};
-        $Output .= $Self->Output(TemplateFile => 'Redirect', Data => \%Param);
+        my $Output = $Cookies.$Self->Output(TemplateFile => 'Redirect', Data => \%Param);
         if (!$Self->{SessionIDCookie}) {
             # rewrite location header
             $Output =~ s{
@@ -1817,7 +1832,7 @@ sub BuildDateSelection {
         $Param{Hour} = $Self->OptionStrgHashRef(
             Name => $Prefix.'Hour',
             Data => \%Hour,
-            SelectedID => $Param{$Prefix.'Hour'} || $h,
+            SelectedID => defined($Param{$Prefix.'Hour'}) ? int($Param{$Prefix.'Hour'}) : $h,
         );
         # minute
         my %Minute = ();
@@ -1828,7 +1843,7 @@ sub BuildDateSelection {
         $Param{Minute} = $Self->OptionStrgHashRef(
             Name => $Prefix.'Minute',
             Data => \%Minute,
-            SelectedID => $Param{$Prefix.'Minute'} || $m,
+            SelectedID => defined($Param{$Prefix.'Minute'}) ? int($Param{$Prefix.'Minute'}) : $m,
         );
     }
     #DateFormat
