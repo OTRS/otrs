@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.pm,v 1.9 2004-12-10 09:05:11 martin Exp $
+# $Id: Package.pm,v 1.10 2004-12-10 09:11:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use File::Copy;
 use LWP::UserAgent;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1280,7 +1280,7 @@ sub _FileSystemCheck {
         return;
       }
     }
-    foreach (qw(/ /Kernel/ /Kernel/System/ /Kernel/System/Output/ /Kernel/Modules/)) {
+    foreach (qw(/ /bin/ /Kernel/ /Kernel/System/ /Kernel/Output/ /Kernel/Modules/)) {
         my $File = "$Self->{Home}/$_/check_permissons.$$";
         if (open(OUT, "> $File")) {
             print OUT "test";
@@ -1311,6 +1311,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2004-12-10 09:05:11 $
+$Revision: 1.10 $ $Date: 2004-12-10 09:11:54 $
 
 =cut
