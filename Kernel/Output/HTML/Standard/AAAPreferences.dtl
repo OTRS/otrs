@@ -35,8 +35,9 @@ $Text{"Select your default spelling dictionary."}
 
 $Text{"PhoneView"}
 $Text{"TicketZoom"}
-$Text{"Screen after new phone ticket"}
-$Text{"Select your screen after creating a new ticket via PhoneView."}
+$Text{"CreateTicket"}
+$Text{"Screen after new ticket"}
+$Text{"Select your screen after creating a new ticket."}
 
 $Text{"Closed Tickets"}
 $Text{"Show closed tickets."};

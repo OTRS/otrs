@@ -142,3 +142,5 @@ $Text{"year(s)"}
 $Text{"Normal"}
 $Text{"Preview"}
 
+$Text{"Don't show closed Tickets"}
+$Text{"Show closed Tickets"}
