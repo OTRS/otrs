@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue funktions
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.30 2003-07-07 13:49:07 martin Exp $
+# $Id: Queue.pm,v 1.31 2003-07-10 03:17:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use Kernel::System::StdResponse;
 use Kernel::System::Group;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -298,25 +298,19 @@ sub GetAllUserIDsByQueueID {
 sub QueueLookup {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     if (!$Param{Queue} && !$Param{QueueID}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Got no Queue or QueueID!");
         return;
     }
-    # --
-    # check if we ask the same request?
-    # --
-    if ($Param{QueueID} && $Self->{"QueueLookup$Param{QueueID}"}) {
-        return $Self->{"QueueLookup$Param{QueueID}"};
+    # check if we ask the same request (cache)?
+    if ($Param{QueueID} && $Self->{"QL::Queue$Param{QueueID}"}) {
+        return $Self->{"QL::Queue$Param{QueueID}"};
     }
-    if ($Param{Queue} && $Self->{"QueueLookup$Param{Queue}"}) {
-        return $Self->{"QueueLookup$Param{Queue}"};
+    if ($Param{Queue} && $Self->{"QL::QueueID$Param{Queue}"}) {
+        return $Self->{"QL::QueueID$Param{Queue}"};
     }
-    # --
     # get data
-    # --
     my $SQL = '';
     my $Suffix = '';
     if ($Param{Queue}) {
@@ -332,20 +326,18 @@ sub QueueLookup {
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         # store result
-        $Self->{"QueueLookup$Suffix"} = $Row[0];
+        $Self->{"QL::$Suffix$Param{What}"} = $Row[0];
     }
-    # --
     # check if data exists
-    # --
-    if (!exists $Self->{"QueueLookup$Suffix"}) {
+    if (!exists $Self->{"QL::$Suffix$Param{What}"}) {
         $Self->{LogObject}->Log(
             Priority => 'error', 
             Message => "Found no \$$Suffix for $Param{What}!",
         );
         return;
     }
-
-    return $Self->{"QueueLookup$Suffix"};
+    # return result
+    return $Self->{"QL::$Suffix$Param{What}"};
 }
 # --
 sub GetFollowUpOption {
