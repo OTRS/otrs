@@ -1,0 +1,182 @@
+# --
+# RPM spec file for SUSE Linux 9.0 of the OTRS package
+# Copyright (C) 2001-2003 Martin Edenhofer <bugs+rpm@otrs.org>
+# --
+# $Id: suse-otrs-9.0.spec,v 1.1 2003-12-07 23:51:57 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
+# the enclosed file COPYING for license information (GPL). If you 
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+#
+# please send bugfixes or comments to bugs+rpm@otrs.org
+#
+# --
+Summary:      The Open Ticket Request System. 
+Name:         otrs
+Version:      0.0
+Copyright:    GNU GENERAL PUBLIC LICENSE Version 2, June 1991
+Group:        Applications/Mail
+Provides:     otrs 
+Requires:     perl perl-DBI perl-GD perl-Net-DNS perl-Digest-MD5 apache mod_perl mysql mysql-client perl-Msql-Mysql-modules mysql-shared fetchmail procmail
+Autoreqprov:  on
+Release:      01
+Source0:      otrs-%{version}-%{release}.tar.bz2
+BuildRoot:    %{_tmppath}/%{name}-%{version}-build
+
+%description
+<DESCRIPTION>
+
+SuSE series: ap
+
+%prep
+%setup -n otrs
+
+%build
+# copy config file
+cp Kernel/Config.pm.dist Kernel/Config.pm
+cd Kernel/Config/ && for foo in *.dist; do cp $foo `basename $foo .dist`; done && cd ../../
+# copy all crontab dist files
+for foo in var/cron/*.dist; do mv $foo var/cron/`basename $foo .dist`; done
+
+%install
+# delete old RPM_BUILD_ROOT
+rm -rf $RPM_BUILD_ROOT
+# set DESTROOT
+export DESTROOT="/opt/otrs/"
+# create RPM_BUILD_ROOT DESTROOT
+mkdir -p $RPM_BUILD_ROOT/$DESTROOT/
+# copy files
+cp -R . $RPM_BUILD_ROOT/$DESTROOT
+# install init-Script and rc.config entry
+install -d -m 755 $RPM_BUILD_ROOT/etc/init.d
+install -d -m 755 $RPM_BUILD_ROOT/usr/sbin
+install -d -m 755 $RPM_BUILD_ROOT/etc/sysconfig
+install -d -m 744 $RPM_BUILD_ROOT/var/adm/fillup-templates
+install -d -m 755 $RPM_BUILD_ROOT/etc/apache2/conf.d
+
+install -m 644 scripts/suse-rcotrs-config $RPM_BUILD_ROOT/etc/sysconfig/otrs
+
+install -m 755 scripts/suse-rcotrs $RPM_BUILD_ROOT/etc/init.d/otrs
+rm -f $RPM_BUILD_ROOT/sbin/otrs
+ln -s ../../etc/init.d/otrs $RPM_BUILD_ROOT/usr/sbin/rcotrs
+
+install -m 644 scripts/apache2-httpd.include.conf $RPM_BUILD_ROOT/etc/apache2/conf.d/otrs.conf
+
+# set permission
+export OTRSUSER=otrs
+useradd $OTRSUSER || :
+useradd wwwrun || :
+groupadd www || :
+$RPM_BUILD_ROOT/opt/otrs/bin/SetPermissions.sh $RPM_BUILD_ROOT/opt/otrs $OTRSUSER wwwrun www www
+
+%pre
+# remember about the installed version
+if test -e /opt/otrs/RELEASE; then
+    cat /opt/otrs/RELEASE|grep VERSION|sed 's/VERSION = //'|sed 's/ /-/g' > /tmp/otrs-old.tmp
+fi
+# useradd
+export OTRSUSER=otrs
+echo -n "Check OTRS user (/etc/passwd)... " 
+if cat /etc/passwd | grep $OTRSUSER > /dev/null ; then 
+    echo "$OTRSUSER exists."
+    # update groups
+    usermod -g www $OTRSUSER
+    # update home dir
+    usermod -d /opt/otrs $OTRSUSER
+else
+    useradd $OTRSUSER -d /opt/otrs/ -s /bin/false -g nogroup -c 'OTRS System User' && echo "$OTRSUSER added."
+fi
+
+
+%post
+# sysconfig
+%{fillup_and_insserv -s otrs START_OTRS}
+
+# add httpd.include.conf to /etc/sysconfig/apache
+if test -e /etc/sysconfig/apache; then
+    OTRSINCLUDE=/opt/otrs/scripts/apache-httpd.include.conf
+    APACHERC=/etc/sysconfig/apache
+    sed 's+^HTTPD_CONF_INCLUDE_FILES=.*$+HTTPD_CONF_INCLUDE_FILES='$OTRSINCLUDE'+' \
+    $APACHERC > /tmp/apache.rc.config.tmp && mv /tmp/apache.rc.config.tmp $APACHERC 
+fi
+
+# if it's a major-update backup old version templates (maybe not compatible!)
+if test -e /tmp/otrs-old.tmp; then
+    TOINSTALL=`echo %{version}| sed 's/..$//'`
+    OLDOTRS=`cat /tmp/otrs-old.tmp`
+    if echo $OLDOTRS | grep -v "$TOINSTALL" > /dev/null; then
+        echo "backup old (maybe not compatible) templates (of $OLDOTRS)"
+        for i in /opt/otrs/Kernel/Output/HTML/Standard/*.rpmnew;
+            do BF=`echo $i|sed 's/.rpmnew$//'`; mv -v $BF $BF.backup_maybe_not_compat_to.$OLDOTRS; mv $i $BF;
+        done
+    fi
+    rm -rf /tmp/otrs-old.tmp
+fi
+# note
+HOST=`hostname -f`
+echo ""
+echo "Next steps: "
+echo ""
+echo "[SuSEconfig]"
+echo " Execute 'SuSEconfig' to configure the webserver."
+echo ""
+echo "[start Apache and MySQL]"
+echo " Execute 'rcapache restart' and 'rcmysql start' in case they don't run."
+echo ""
+echo "[install the OTRS database]"
+echo " Use a webbrowser and open this link:"
+echo " http://$HOST/otrs/installer.pl"
+echo ""
+echo "[OTRS services]"
+echo " Start OTRS 'rcotrs start-force' (rcotrs {start|stop|status|restart|start-force|stop-force})."
+echo ""
+echo "Have fun!"
+echo ""
+echo " Your OTRS Team"
+echo " http://otrs.org/"
+echo ""
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+%files
+%config(noreplace) /etc/sysconfig/otrs
+%config /etc/apache2/conf.d/otrs.conf
+
+/etc/init.d/otrs
+/usr/sbin/rcotrs
+
+<FILES>
+
+%changelog
+* Sun Dec 07 2003 - martin+rpm@otrs.org
+- added SUSE 9.0 support
+* Thu Jan 02 2003 - martin+rpm@otrs.org
+- moved from /opt/OpenTRS to /opt/otrs
+* Thu Nov 12 2002 - martin+rpm@otrs.org
+- moved %doc/install* to /opt/OpenTRS/ (installer problems!)
+  and added Kernel/cpan-lib*
+* Sun Sep 22 2002 - martin+rpm@otrs.org
+- added /etc/sysconfig/otrs for rc script (Thanks to Lars Müller)
+* Fri Sep 06 2002 - martin+rpm@otrs.org
+- added Kernel/Config/*.pm
+* Sat Jun 16 2002 - martin+rpm@otrs.org
+- added new modules for 0.5 BETA6
+* Thu Jun 04 2002 - martin+rpm@otrs.org
+- added .fetchmailrc
+* Mon May 20 2002 - martin+rpm@otrs.org
+- moved all .dlt and all Kernel::Language::*.pm to %config(noreplace) 
+* Sat May 05 2002 - martin+rpm@otrs.org
+- added Kernel/Output/HTML/Standard/Motd.dtl as config file 
+* Thu Apr 16 2002 - martin+rpm@otrs.org
+- moved to SuSE 8.0 support
+* Sun Feb 03 2002 - martin+rpm@otrs.org
+- added SuSE-Apache support
+* Wed Jan 30 2002 - martin+rpm@otrs.org
+- added to useradd bash=/bin/false
+* Sat Jan 12 2002 - martin+rpm@otrs.org
+- added SuSE like rc scripts
+* Tue Jan 10 2002 - martin+rpm@otrs.org 
+- new package created
+
