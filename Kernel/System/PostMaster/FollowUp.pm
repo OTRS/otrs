@@ -2,7 +2,7 @@
 # PostMaster.pm - the global PostMaster module for OpenTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FollowUp.pm,v 1.6 2002-05-01 17:32:25 martin Exp $
+# $Id: FollowUp.pm,v 1.7 2002-05-04 16:01:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::PostMaster::AutoResponse;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -167,13 +167,15 @@ sub Run {
         # --
         my $Subject = $Data{Subject} || 'No Std. Subject found!';
         my $OldSubject = $GetParam{Subject} || 'Your email!';
+        my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
         $OldSubject =~ s/\n//g;
         if ($Subject =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/) {
             my $SubjectChar = $1;
+            $OldSubject =~ s/\[$TicketHook: $Tn\] //g;
             $OldSubject =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
             $Subject =~ s/<OTRS_CUSTOMER_SUBJECT\[.+?\]>/$OldSubject/g;
         }
-        $Subject = "[". $Self->{ConfigObject}->Get('TicketHook') .": $Tn] $Subject";
+        $Subject = "[$TicketHook: $Tn] $Subject";
 
         # --
         # prepare body (insert old email)
@@ -207,7 +209,7 @@ sub Run {
 
         # create ob
         my $Email = Kernel::System::EmailSend->new(
-            ConfigObject=>$Self->{ConfigObjet}, 
+            ConfigObject => $Self->{ConfigObject}, 
             LogObject => $Self->{LogObject} , 
             DBObject => $Self->{DBObject},
         );
