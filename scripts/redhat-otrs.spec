@@ -2,7 +2,7 @@
 # RPM spec file for RedHat Linux of the OTRS package
 # Copyright (C) 2002-2003 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: redhat-otrs.spec,v 1.14 2003-01-18 15:55:13 martin Exp $
+# $Id: redhat-otrs.spec,v 1.15 2003-01-19 20:22:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -152,6 +152,7 @@ cat $APACHERC | grep -v "httpd.include.conf" > /tmp/httpd.conf.tmp && \
 echo "Include $OTRSINCLUDE" >> /tmp/httpd.conf.tmp && mv /tmp/httpd.conf.tmp $APACHERC
 
 # note
+HOST=`hostname -f`
 echo ""
 echo "Next steps: "
 echo ""
@@ -160,6 +161,10 @@ echo " Restart httpd 'service httpd restart'"
 echo ""
 echo "[mysqld service]"
 echo " Start mysqld 'service mysqld start'"
+echo ""
+echo "[install the OTRS database]"
+echo " Use a webbrowser and open this link:"
+echo " http://$HOST/otrs/installer.pl"
 echo ""
 echo "[OTRS services]"
 echo " Start OTRS 'service otrs start' (service otrs {start|stop|status|restart)."

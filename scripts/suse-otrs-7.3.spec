@@ -2,7 +2,7 @@
 # RPM spec file for SuSE Linux of the OTRS package
 # Copyright (C) 2002-2003 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: suse-otrs-7.3.spec,v 1.17 2003-01-15 18:30:52 martin Exp $
+# $Id: suse-otrs-7.3.spec,v 1.18 2003-01-19 20:22:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -167,6 +167,7 @@ sed 's+^HTTPD_CONF_INCLUDE_FILES=.*$+HTTPD_CONF_INCLUDE_FILES='$OTRSINCLUDE'+' \
 $APACHERC > /tmp/apache.rc.config.tmp && mv /tmp/apache.rc.config.tmp $APACHERC 
 
 # note
+HOST=`hostname -f`
 echo ""
 echo "Next steps: "
 echo ""
@@ -178,7 +179,7 @@ echo " Execute 'rcapache start' and 'rcmysql start' in case they don't run."
 echo ""
 echo "[install the OTRS database]"
 echo " Use a webbrowser and open this link:"
-echo " http://localhost/otrs/installer.pl"
+echo " http://$HOST/otrs/installer.pl"
 echo ""
 echo "[OTRS services]"
 echo " Start OTRS 'rcotrs start-force' (rcotrs {start|stop|status|restart|start-force|stop-force})."
