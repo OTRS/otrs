@@ -2,7 +2,7 @@
 # AgentPhoneNew.dtl - provides HTML form for phone
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhoneNew.dtl,v 1.34 2004-03-05 08:32:49 martin Exp $
+# $Id: AgentPhoneNew.dtl,v 1.35 2004-03-24 15:13:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -48,6 +48,26 @@ function SpellCheckSubmit()
 
 <script language="JavaScript" type="text/javascript">
 <!--
+function FAQSubmit()
+{
+    window.open('', 'faq', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
+    document.faq.submit()
+}
+// -->
+</script>
+
+<script language="JavaScript" type="text/javascript">
+<!--
+function CustomerSubmit()
+{
+    window.open('', 'customer', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
+    document.customer.submit()
+}
+// -->
+</script>
+
+<script language="JavaScript" type="text/javascript">
+<!--
 function clear_field()
 {   
     document.compose.From.value = "";
@@ -75,6 +95,7 @@ function clear_field()
 <input type="hidden" name="Subaction" value="StoreNew">
 <input type="hidden" name="ExpandCustomerName" value="0">
 <input type="hidden" name="AllUsers" value="0">
+<input type="hidden" name="PreSelectedCustomerUser" value="">
 <input type="hidden" name="SelectedCustomerUser" value="$Data{"CustomerUser"}">
 <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
   <table border="0" width="100%">
@@ -93,8 +114,8 @@ function clear_field()
 <dtl if ($Config{"ShowCustomerInfoCompose"} eq "1") { $Data{"CustomerInfo"} = "<p align="left"><b>$Text{"Customer Info"}</b>:<br>$Data{"CustomerTable"}</p>"; }>
     $Data{"CustomerInfo"}
 # --
-$Text{"FAQ-Insert"}: $Env{"Box0"}<a href="" onclick="document.compose.ExpandCustomerName.value='4'; document.compose.submit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$Text{"Insert"}'; return true;">$Text{"Insert"}</a>$Env{"Box1"}
-<input type="text" name="FAQ" value="" onSubmit="document.compose.ExpandCustomerName.value='4';">
+#$Text{"FAQ-Search"}: $Env{"Box0"}<a href="" onclick="FAQSubmit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$Text{"Insert"}'; return true;">$Text{"Insert"}</a>$Env{"Box1"}
+#<input type="text" name="FAQ" value="" onSubmit="document.compose.ExpandCustomerName.value='4';">
 
   </td>
   </tr>
@@ -117,6 +138,12 @@ $Text{"FAQ-Insert"}: $Env{"Box0"}<a href="" onclick="document.compose.ExpandCust
     <td>
        $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$Text{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"} 
        $Env{"Box0"}<a href="#attachment" onmouseover="window.status='$Text{"Attachments"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}attach.png">$Text{"Attachments"}</a>$Env{"Box1"}
+# --
+# check if the faq link should be shown
+# --
+<dtl if ($Env{"UserIsGroupRo[faq]"} eq "Yes") { $Data{"FAQLink"} = "$Env{"Box0"}<a href="" onclick="FAQSubmit(); return false;" onmouseover="window.status='$Text{"FAQ"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}help-small.png">$Text{"FAQ"}</a>$Env{"Box1"}"; }>
+        $Data{"FAQLink"}
+       $Env{"Box0"}<a href="" onclick="CustomerSubmit(); return false;" onmouseover="window.status='$Text{"Customer"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}group-small.png">$Text{"Customer"}</a>$Env{"Box1"}
     </td>
   </tr>
   <tr>
@@ -159,6 +186,22 @@ $Text{"FAQ-Insert"}: $Env{"Box0"}<a href="" onclick="document.compose.ExpandCust
 #    <td>$Data{"TicketFreeKeyField4"}:</td>
 #    <td>$Data{"TicketFreeTextField4"}</td>
 #  </tr>
+#  <tr>
+#    <td>$Data{"TicketFreeKeyField5"}:</td>
+#    <td>$Data{"TicketFreeTextField5"}</td>
+#  </tr>
+#  <tr>
+#    <td>$Data{"TicketFreeKeyField6"}:</td>
+#    <td>$Data{"TicketFreeTextField6"}</td>
+#  </tr>
+#  <tr>
+#    <td>$Data{"TicketFreeKeyField7"}:</td>
+#    <td>$Data{"TicketFreeTextField7"}</td>
+#  </tr>
+#  <tr>
+#    <td>$Data{"TicketFreeKeyField8"}:</td>
+#    <td>$Data{"TicketFreeTextField8"}</td>
+#  </tr>
   <tr>
     <td>$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td>
     <td> <input type="text" name="TimeUnits" value="$Data{"TimeUnits"}" size="3"></td>
@@ -179,6 +222,21 @@ $Text{"FAQ-Insert"}: $Env{"Box0"}<a href="" onclick="document.compose.ExpandCust
   <input type="hidden" name="Action" value="AgentSpelling">
   <input type="hidden" name="Body" value="">
   <input type="hidden" name="spell_lang" value="">
+</form>
+
+<form action="$Env{"CGIHandle"}" method="post" name="faq" target="faq">
+  <input type="hidden" name="Action" value="FAQ">
+  <input type="hidden" name="Nav" value="None">
+  <input type="hidden" name="Body" value="">
+  <input type="hidden" name="Subject" value="">
+  <input type="hidden" name="What" value="">
+</form>
+
+<form action="$Env{"CGIHandle"}" method="post" name="customer" target="customer">
+  <input type="hidden" name="Action" value="AdminCustomerUser">
+  <input type="hidden" name="Nav" value="None">
+  <input type="hidden" name="Subject" value="">
+  <input type="hidden" name="What" value="">
 </form>
 
 </p>
