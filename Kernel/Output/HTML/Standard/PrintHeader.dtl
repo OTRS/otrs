@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PrintHeader.dtl,v 1.6 2004-03-24 15:44:08 martin Exp $
+# $Id: PrintHeader.dtl,v 1.7 2004-07-08 11:25:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,12 +10,14 @@
 # --
 # http headers
 # --
-Content-Type: text/html; charset=$Env{"UserCharset"}; 
+Content-Type: text/html; charset=$Env{"UserCharset"};
+Content-Disposition: $Data{"ContentDisposition"}
 X-Powered-By: $Env{"Product"} $Env{"Version"} - Open Ticket Request System (http://otrs.org)
 X-Wanted: I think you are smart. I'm looking for smart people!
 Expires: Tue, 1 Jan 1980 12:00:00 GMT
 Cache-Control: no-cache
 Pragma: no-cache
+
 
 # include Copyright.dtl
 $Include{"Copyright"}
@@ -32,7 +34,7 @@ $Include{"Copyright"}
   a:hover 
     { color: #002244; text-decoration: none; }
   .item
-    { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:11px;color:#ffffff;background-color:#000000 }
+    { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:11px;color:#ffffff;background-color:#000000;font-weight:bold; }
   .small
     { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:10px; }
   .container {
