@@ -3,7 +3,7 @@
 # mkStats.pl - generate stats pics
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: mkStats.pl,v 1.10 2002-10-21 11:27:26 martin Exp $
+# $Id: mkStats.pl,v 1.11 2002-10-21 13:08:19 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -34,12 +34,12 @@ use Kernel::Config;
 use Kernel::System::Log;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 umask 022;
 
-print "mkStats.pl <Revision $VERSION> - unlock tickets\n";
+print "mkStats.pl <Revision $VERSION> - generate png pics\n";
 print "Copyright (c) 2002 Martin Edenhofer <martin\@otrs.org>\n";
 print "usage: mkStats.pl (for the current month) or mkStats.pl <YEAR> <MONTH> (for the past)\n";
 
@@ -60,7 +60,7 @@ my $PicDataDir = $CommonObject{ConfigObject}->Get('StatsPicDir')
 my ($Year, $Month) = Today_and_Now();
 $Year = shift || $Year;
 $Month = shift || $Month;
-my $Day = Days_in_Month($Year,$Month) + 1;
+my $Day = Days_in_Month($Year,$Month);
 
 print "->> creating stats for $Year/$Month <<-\n";
 
@@ -112,7 +112,7 @@ $graph->set_legend(@PossibleStates);
 
 # build x_lable
 my $DayCounter = 1; my @Days;
-while ($DayCounter < $Day) {
+while ($Day >= $DayCounter) {
     my $Dow = Day_of_Week($Year, $Month, $DayCounter);
     $Dow = Day_of_Week_Abbreviation($Dow);
     my $Text = $DayCounter;
@@ -124,7 +124,7 @@ while ($DayCounter < $Day) {
 # get data ...
 my @Data = (\@Days); my %AHash;
 foreach (keys %States) {
-    my @TmpData = GetDBDataPerMonth($DayCounter, $_);
+    my @TmpData = GetDBDataPerMonth($Day, $_);
     push (@Data, \@TmpData);
 }
 
@@ -151,9 +151,9 @@ sub GetDBDataPerMonth {
         " WHERE " .
         " history_type_id = $State " .
         " AND " .
-        " create_time >= $Year-$Month-$StartDate" .
+        " create_time >= '$Year-$Month-$StartDate 00:00:01'".
         " AND " .
-        " create_time <= $Year-$Month-$EndDate";
+        " create_time <= '$Year-$Month-$StartDate 23:59:59'";
         $CommonObject{DBObject}->Prepare(SQL => $SQL);
         while (my @RowTmp = $CommonObject{DBObject}->FetchrowArray()) {
             $DayData= $RowTmp[0];
