@@ -1,8 +1,8 @@
 # --
 # AgentNavigationBar.dtl - provides global HTML NavigationBar
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNavigationBar.dtl,v 1.12 2002-10-15 09:47:43 martin Exp $
+# $Id: AgentNavigationBar.dtl,v 1.13 2002-11-10 23:10:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,31 +12,31 @@
 # --
 # check if the admin link should be shown
 # --
-<dtl if ($Env{"UserIsAdmin"} eq "Yes") { $Data{"AdminLink"} = "$Env{"Box0"}<a href="$Env{"Baselink"}Action=Admin">$Text{"AdminArea"}</a>$Env{"Box1"}"; }>
+<dtl if ($Env{"UserIsAdmin"} eq "Yes") { $Data{"AdminLink"} = "$Env{"Box0"}<a href="$Env{"Baselink"}Action=Admin" onmouseover="window.status='$Text{"AdminArea"}'; return true;" onmouseout="window.status='';">$Text{"AdminArea"}</a>$Env{"Box1"}"; }>
 # --
 # check if the stats link should be shown
 # --
-<dtl if ($Env{"UserIsStats"} eq "Yes") { $Data{"StatsLink"} = "$Env{"Box0"}<a href="$Env{"Baselink"}Action=SystemStats">$Text{"Stats"}</a>$Env{"Box1"}"; }>
+<dtl if ($Env{"UserIsStats"} eq "Yes") { $Data{"StatsLink"} = "$Env{"Box0"}<a href="$Env{"Baselink"}Action=SystemStats" onmouseover="window.status='$Text{"Stats"}'; return true;" onmouseout="window.status='';">$Text{"Stats"}</a>$Env{"Box1"}"; }>
 
 <!-- start NavigationBar -->
 <table bgcolor="$Env{"BGTableColor1"}" border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
   <td valign="top" align="left" width="40%">
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=Logout">$Text{"Logout"}</a>$Env{"Box1"} 
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=Logout" onmouseover="window.status='$Text{"Logout"}'; return true;" onmouseout="window.status='';">$Text{"Logout"}</a>$Env{"Box1"} 
     $Data{"AdminLink"}
     <br>
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AgentQueueView">$Text{"QueueView"}</a>$Env{"Box1"}
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AgentPhone">$Text{"PhoneView"}</a>$Env{"Box1"}
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AgentQueueView" onmouseover="window.status='$Text{"QueueView"}'; return true;" onmouseout="window.status='';">$Text{"QueueView"}</a>$Env{"Box1"}
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AgentPhone" onmouseover="window.status='$Text{"PhoneView"}'; return true;" onmouseout="window.status='';">$Text{"PhoneView"}</a>$Env{"Box1"}
   </td>
   <td align="right" width="60%">
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AgentUtilities">$Text{"Utilities"}</a>$Env{"Box1"}
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AgentPreferences">$Text{"Preferences"}</a>$Env{"Box1"}
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AgentUtilities" onmouseover="window.status='$Text{"Utilities"}'; return true;" onmouseout="window.status='';">$Text{"Utilities"}</a>$Env{"Box1"}
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AgentPreferences" onmouseover="window.status='$Text{"Preferences"}'; return true;" onmouseout="window.status='';">$Text{"Preferences"}</a>$Env{"Box1"}
     $Data{"StatsLink"}
-    $Env{"Box0"}<a href="#end">$Text{"end"}</a>$Env{"Box1"}
+    $Env{"Box0"}<a href="#end" onmouseover="window.status='$Text{"end"}'; return true;" onmouseout="window.status='';">$Text{"end"}</a>$Env{"Box1"}
     <br>
-    <!--$Env{"Box0"}<a href="$Env{"Baselink"}Action=AgentFAQ">$Text{"FAQ"}</a>$Env{"Box1"}-->
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AgentMailbox&Subaction=New">$Text{"new message"} ($Data{"LockToDo"})</a>$Env{"Box1"} 
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AgentMailbox">$Text{"Locked tickets"} ($Data{"LockCount"})</a>$Env{"Box1"} 
+    <!--$Env{"Box0"}<a href="$Env{"Baselink"}Action=AgentFAQ" onmouseover="window.status='$Text{"FAQ"}'; return true;" onmouseout="window.status='';">$Text{"FAQ"}</a>$Env{"Box1"}-->
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AgentMailbox&Subaction=New" onmouseover="window.status='$Text{"new message"} ($Data{"LockToDo"})'; return true;" onmouseout="window.status='';">$Text{"new message"} ($Data{"LockToDo"})</a>$Env{"Box1"} 
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AgentMailbox" onmouseover="window.status='$Text{"Locked tickets"} ($Data{"LockCount"})'; return true;" onmouseout="window.status='';">$Text{"Locked tickets"} ($Data{"LockCount"})</a>$Env{"Box1"} 
   </td>
 </tr>
 </table>
