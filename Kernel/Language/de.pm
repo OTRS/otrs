@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2002-2003 Martin Edenhofer <martin at otrs.org>
 # --
-# $Id: de.pm,v 1.13 2003-02-09 10:31:00 martin Exp $
+# $Id: de.pm,v 1.14 2003-02-23 18:39:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -195,10 +195,10 @@ sub Data {
       'Compose' => 'Verfassen',
       'Created' => 'Erstellt',
       'Createtime' => 'Erstellt am',
-      'email' => 'eMail',
-      'eMail' => '',
-      'email-external' => 'Email an extern',
-      'email-internal' => 'Email an intern',
+      'email' => 'E-Mail',
+      'eMail' => 'E-Mail',
+      'email-external' => 'E-Mail an extern',
+      'email-internal' => 'E-Mail an intern',
       'Forward' => 'Weiterleiten',
       'From' => 'Von',
       'high' => 'hoch',
@@ -217,7 +217,7 @@ sub Data {
       'Pending' => 'Warten',
       'pending auto close+' => 'warten auf erfolgreich schließen',
       'pending auto close-' => 'warten auf erfolglos schließen',
-      'pending reminder' => 'warten zur erinnerung',
+      'pending reminder' => 'warten zur Erinnerung',
       'phone' => 'Telefon',
       'plain' => 'klar',
       'Priority' => 'Priorität',
@@ -228,7 +228,7 @@ sub Data {
       'State' => 'Status',
       'Subject' => 'Betreff',
       'This is a' => 'Dies ist eine',
-      'This is a HTML email. Click here to show it.' => 'Dies ist eine HTML eMail. Hier klicken um sie anzusehen.',
+      'This is a HTML email. Click here to show it.' => 'Dies ist eine HTML E-Mail. Hier klicken um sie anzusehen.',
       'This message was written in a character set other than your own.' => 'Diese Nachricht wurde in einem Zeichensatz erstellt, der nicht Ihrem eigenen entspricht.',
       'Ticket' => 'Ticket',
       'To' => 'An',
@@ -263,11 +263,11 @@ sub Data {
       'Note' => 'Notiz',
       'Response' => 'Antwort',
       'to get the first 20 character of the subject' => 'Um die ersten 20 Zeichen des Betreffs zu bekommen',
-      'to get the first 5 lines of the email' => 'Um die ersten 5 Zeilen der eMail zu bekommen',
+      'to get the first 5 lines of the email' => 'Um die ersten 5 Zeilen der E-Mail zu bekommen',
       'to get the from line of the email' => 'Um die From Zeile zu bekommen',
       'to get the realname of the sender (if given)' => 'Um den Realname des Senders zu bekommen (wenn möglich)',
       'to get the ticket id of the ticket' => 'Um die TicketID des Tickets zu bekommen',
-      'to get the ticket number of the ticket' => 'Um die Tickernummer des Ticket zu bekommen',
+      'to get the ticket number of the ticket' => 'Um die Ticketnummer des Ticket zu bekommen',
       'Type' => '',
       'Useable options' => 'Benutzbare Optionen',
 
@@ -278,7 +278,7 @@ sub Data {
 
     # Template: AdminCustomerUserForm
       'Add customer user' => 'Hinzufügen eines Kunden-Benutzers',
-      'Change customer user settings' => 'Ämdern der Kunden-Benutzers einstellungen',
+      'Change customer user settings' => 'Ändern der Kunden-Benutzers einstellungen',
       'Customer User Management' => 'Kunden-Benutzer Management',
       'Customer user will be needed to to login via customer panels.' => 'Kunden-Benutzer werden für das Kunden-Webfrontend benötigt',
 
@@ -318,7 +318,7 @@ sub Data {
       'Auto Responses' => 'Auto-Antworten',
       'Charsets' => '',
       'Customer User' => 'Kunden Benutzer',
-      'Email Addresses' => 'Email-Adressen',
+      'Email Addresses' => 'E-Mail-Adressen',
       'Groups' => 'Gruppen',
       'Logout' => 'Abmelden',
       'Misc' => '',
@@ -333,7 +333,7 @@ sub Data {
 
     # Template: AdminPOP3Form
       'Add POP3 Account' => 'POP3 Account hinzufügen',
-      'All incoming emails with one account will be dispatched in the selected queue!' => 'Einkommende emails von POP3 Accounts werden in die ausgewählte Queue einsortiert!',
+      'All incoming emails with one account will be dispatched in the selected queue!' => 'Einkommende E-Mails von POP3 Accounts werden in die ausgewählte Queue einsortiert!',
       'Change POP3 Account setting' => 'POP3 Account ändern',
       'Dispatching' => 'Verteilung',
       'Host' => 'Rechner',
@@ -355,16 +355,16 @@ sub Data {
       'Escalation time' => 'Eskalationszeit',
       'Follow up Option' => '',
       'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => 'Wenn ein Ticket geschlossen ist und der Kunde jedoch ein follow up sendet, wird das ticket für den alten Eigner gelocked.',
-      'If a ticket will not be answered in thos time, just only this ticket will be shown.' => 'Wird ein Ticket nicht in jener Zeit beantortet, wird nur noch dieses Ticket gezeigt.',
+      'If a ticket will not be answered in thos time, just only this ticket will be shown.' => 'Wird ein Ticket nicht in jener Zeit beantwortet, wird nur noch dieses Ticket gezeigt.',
       'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Wird ein Ticket durch einen Agent gelocked jedoch nicht in dieser Zeit beantwortet, wird das Ticket automatisch unlocked.',
       'Key' => 'Schlüssel',
       'Queue Management' => 'Queue Verwaltung',
       'Systemaddress' => 'System-Adresse',
-      'The salutation for email answers.' => 'Die Anrede für eMail Antworten.',
-      'The signature for email answers.' => 'Die Signatur für eMail Antworten.',
-      'Ticket lock after a follow up' => 'Ticket locken nache einem follow up',
+      'The salutation for email answers.' => 'Die Anrede für E-Mail Antworten.',
+      'The signature for email answers.' => 'Die Signatur für E-Mail Antworten.',
+      'Ticket lock after a follow up' => 'Ticket locken nach einem follow up',
       'Unlock timeout' => 'Freigabe Zeitüberschreitung',
-      'Will be the sender address of this queue for email answers.' => 'Absende Adresse für eMails aus dieser Queue.',
+      'Will be the sender address of this queue for email answers.' => 'Absende Adresse für E-Mails aus dieser Queue.',
 
     # Template: AdminQueueResponsesChangeForm
       'Change %s settings' => 'Ändern der %s Einstellungen',
@@ -421,12 +421,12 @@ sub Data {
       'System State Management' => 'System-State Verwaltung',
 
     # Template: AdminSystemAddressForm
-      'Add system address' => 'System-Email-Adresse hinzufügen',
-      'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Alle eingehenden Emails mit dem "To:" werden in die ausgewählte Queue einsortiert.',
+      'Add system address' => 'System-E-Mail-Adresse hinzufügen',
+      'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Alle eingehenden E-Mails mit dem "To:" werden in die ausgewählte Queue einsortiert.',
       'Change system address setting' => 'Ändere System-Adresse',
-      'Email' => 'eMail',
+      'Email' => 'E-Mail',
       'Realname' => '',
-      'System Email Addresses Management' => 'System-Email-Adressen Verwaltung',
+      'System Email Addresses Management' => 'System-E-Mail-Adressen Verwaltung',
 
     # Template: AdminUserForm
       'Add user' => 'Benutzer hinzufügen',
@@ -435,7 +435,7 @@ sub Data {
       'Firstname' => 'Vorname',
       'Lastname' => 'Nachname',
       'User Management' => 'Benutzer Verwaltung',
-      'User will be needed to handle tickets.' => 'Benutzer werden benötigt um Tickets zu bearbeietn.',
+      'User will be needed to handle tickets.' => 'Benutzer werden benötigt um Tickets zu bearbeiten.',
 
     # Template: AdminUserGroupChangeForm
       'Change  settings' => '',
@@ -457,7 +457,7 @@ sub Data {
       'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further inforamtions.' => '',
 
     # Template: AgentClose
-      ' (work units)' => ' (arbeits Einheiten)',
+      ' (work units)' => ' (Arbeitseinheiten)',
       'Close ticket' => 'Ticket schließen',
       'Close type' => 'Schließen Type',
       'Close!' => 'Schließen!',
@@ -470,7 +470,7 @@ sub Data {
       'A message should have a subject!' => 'Eine Nachricht sollte ein Betreff haben!',
       'Attach' => 'Anhängen',
       'Compose answer for ticket' => 'Antwort erstellen für',
-      'for pending* states' => 'für warten* Statie',
+      'for pending* states' => 'für warten* Stati',
       'Is the ticket answered' => 'Ist das Ticket beantwortet',
       'Options' => 'Optionen',
       'Pending Date' => 'Warten Datum',
@@ -699,7 +699,7 @@ sub Data {
 
     # Template: InstallerSystem
       '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '',
-      '(Email of the system admin)' => '(eMail des System Admins)',
+      '(E-Mail of the system admin)' => '(E-Mail des System Admins)',
       '(Full qualified domain name of your system)' => '(Foller Domain-Name des Systems)',
       '(Logfile just needed for File-LogModule!)' => '(Logfile nur benötigt für File-LogModule!)',
       '(The identify of the system. Each ticket number and each http session id starts with this number)' => '(Das Kennzeichnen des Systems. Jede Ticket Nummer und http Sitzung beginnt mit dieser ID)',
@@ -774,7 +774,7 @@ sub Data {
       '(Click here to add a response)' => '(Hier klicken - Antwort hinzufügen)',
       '(Click here to add a salutation)' => '(Hier klicken - Anrede hinzufügen)',
       '(Click here to add a signature)' => '(Hier klicken - Signatur hinzufügen)',
-      '(Click here to add a system email address)' => '(Hier klicken - System-Email-Adresse hinzufügen)',
+      '(Click here to add a system email address)' => '(Hier klicken - System-E-Mail-Adresse hinzufügen)',
       '(Click here to add a user)' => '(Hier klicken - Benutzer hinzufügen)',
       '(Click here to add an auto response)' => '(Hier klicken - Auto-Antwort hinzufügen)',
       '(Click here to add charset)' => '(Hier klicken - Charset hinzufügen',
@@ -793,11 +793,11 @@ sub Data {
       'Update salutation' => 'Anrede aktualisieren',
       'Update signature' => 'Signatur aktualisieren',
       'Update state' => 'State aktualisieren',
-      'Update system address' => 'System-Email-Adresse aktualisieren',
+      'Update system address' => 'System-E-Mail-Adresse aktualisieren',
       'Update user' => 'Benutzer aktualisieren',
       'You have to be in the admin group!' => 'Sie müssen hierfür in der Admin-Gruppe sein!',
       'You have to be in the stats group!' => 'Sie müssen hierfür in der Statistik-Gruppe sein!',
-      'You need a email address (e. g. customer@example.com) in From:!' => 'Im From-Feld wird eine eMail-Adresse (z. B. kunde@beispiel.de) benötigt!',
+      'You need a email address (e. g. customer@example.com) in From:!' => 'Im From-Feld wird eine E-Mail-Adresse (z. B. kunde@beispiel.de) benötigt!',
       'auto responses set' => 'Auto-Antworten gesetzt',
     );
 
