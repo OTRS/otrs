@@ -2,13 +2,15 @@
 # Changes of OTRS 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.60 2003-02-17 18:31:17 martin Exp $
+# $Id: CHANGES,v 1.61 2003-02-23 22:26:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 1.1 CVS (2003-??-??)
+ - (2002/02/23) added sub-queue support 
+    http://lists.otrs.org/pipermail/otrs/2002-June/000065.html
  - (2002/02/17) added allowing the client to close a ticket via customer
     panel - http://lists.otrs.org/pipermail/otrs/2003-February/000891.html
  - (2002/02/15) fixed hanging login problem with mod_perl2

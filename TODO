@@ -2,7 +2,7 @@
 # TODO - todo list of OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+todo@otrs.org>
 # --
-# $Id: TODO,v 1.34 2003-02-08 11:43:05 martin Exp $
+# $Id: TODO,v 1.35 2003-02-23 22:26:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -10,9 +10,10 @@
 # --
 
 1.1
-- Move themes to CSS support
+- bin/PostMasterPOP3.pl + procmail/filter
+- Add Page Navigator for AgentQueueView -
+   http://lists.otrs.org/pipermail/otrs/2003-February/000881.html (martin)
 - Add TicketHookSpace -> e. g. ": " or ""
-- Add file upload for note screen
 - Add Zoom view all articles config option - 
    http://lists.otrs.org/pipermail/otrs/2003-January/000784.html (martin)
 - merge tickets -
@@ -24,9 +25,6 @@
 - interfaceing with bugzilla (martin)
 - internationalization of agent notification messages (martin)
 - win32 compatibility (SMTP module, Log module, ...) (martin)
-
-2.0
-- sub-queues (http://lists.otrs.org/pipermail/otrs/2002-June/000065.html) (martin)
 
 misc
 - Email-notification sent to problem reporter (by create, locked, deleted,
