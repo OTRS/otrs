@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPostmasterFilter.pm - to add/update/delete filters 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPostMasterFilter.pm,v 1.1 2004-05-10 12:50:38 martin Exp $
+# $Id: AdminPostMasterFilter.pm,v 1.2 2004-05-11 09:01:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::PostMaster::Filter;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -48,8 +48,10 @@ sub Run {
     my $Output = '';
     my $NextScreen = 'AdminPOP3';
     my %Params = ();
+    my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
     $Params{"Name"} = $Self->{ParamObject}->GetParam(Param => "Name") || '';
     $Params{"OldName"} = $Self->{ParamObject}->GetParam(Param => "OldName") || '';
+    $Params{"Delete"} = $Self->{ParamObject}->GetParam(Param => "Delete") || '';
     foreach (1..8) {
         $Params{"MatchHeader$_"} = $Self->{ParamObject}->GetParam(Param => "MatchHeader$_");
         $Params{"MatchValue$_"} = $Self->{ParamObject}->GetParam(Param => "MatchValue$_");
@@ -57,8 +59,11 @@ sub Run {
         $Params{"SetValue$_"} = $Self->{ParamObject}->GetParam(Param => "SetValue$_");
     }
     # get data 2 form
-    if ($Self->{Subaction} eq 'Change') {
-        my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
+    if ($Params{"Delete"}) {
+        $Self->{PostMasterFilter}->FilterDelete(Name => $ID);
+        return $Self->{LayoutObject}->Redirect(OP => 'Action=$Env{"Action"}');
+    }
+    elsif ($Self->{Subaction} eq 'Change') {
         my %List = $Self->{PostMasterFilter}->FilterList();
         my %Data = $Self->{PostMasterFilter}->FilterGet(Name => $ID);
         my $Counter = 0;
