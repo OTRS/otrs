@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.149 2004-08-10 10:06:50 martin Exp $
+# $Id: Defaults.pm,v 1.150 2004-08-12 08:14:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.149 $';
+$VERSION = '$Revision: 1.150 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -257,8 +257,9 @@ sub LoadDefaults {
 
     # --------------------------------------------------- #
     # authentication settings                             #
-    # (enable what you need, auth against otrs db or      #
-    # against a LDAP directory)                           #
+    # (enable what you need, auth against otrs db,        #
+    # against LDAP directory, agains HTTP basic auth      #
+    # or against Radius server)                           #
     # --------------------------------------------------- #
     # This is the auth. module againt the otrs db
     $Self->{'AuthModule'} = 'Kernel::System::Auth::DB';
@@ -305,6 +306,11 @@ sub LoadDefaults {
     # config settings if user isn't login through apache ($ENV{REMOTE_USER})
 #   $Self->{LoginURL} = 'http://host.example.com/not-authorised-for-otrs.html';
 #   $Self->{LogoutURL} = 'http://host.example.com/thanks-for-using-otrs.html';
+
+    # This is example configuration to auth. agents against a radius server
+#    $Self->{'AuthModule'} = 'Kernel::System::Auth::Radius';
+#    $Self->{'AuthModule::Radius::Host'} = 'radiushost';
+#    $Self->{'AuthModule::Radius::Password'} = 'radiussecret';
 
     # UserSyncLDAPMap
     # (map if agent should create/synced from LDAP to DB after login)
@@ -453,6 +459,12 @@ sub LoadDefaults {
     # AgentUtilCSVData
     # (used csv data)
     $Self->{AgentUtilCSVData} = ['TicketNumber','Age','Created','State','Priority','Queue','Lock','Owner','UserFirstname','UserLastname','CustomerID','CustomerName','From','Subject','AccountedTime','TicketFreeKey1','TicketFreeText1','TicketFreeKey2','TicketFreeText2','TicketFreeKey3','TicketFreeText3','TicketFreeKey4','TicketFreeText4','TicketFreeKey5','TicketFreeText5','TicketFreeKey6','TicketFreeText6','TicketFreeKey7','TicketFreeText7','TicketFreeKey8','TicketFreeText8','ArticleTree',''];
+
+    # AgentUtil::DB::*
+    # (if you want to use a mirror database for agent ticket fulltext search)
+#    $Self->{'AgentUtil::DB::DSN'} = "DBI:mysql:database=mirrordb;host=mirrordbhost";
+#    $Self->{'AgentUtil::DB::User'} = "some_user";
+#    $Self->{'AgentUtil::DB::Password'} = "some_password";
 
     # SystemStats
     $Self->{SystemStatsMap}->{"OTRS::Stats1"} = {
@@ -1648,8 +1660,9 @@ Your OTRS Notification Master
 
     # --------------------------------------------------- #
     # customer authentication settings                    #
-    # (enable what you need, auth against otrs db or      #
-    # against a LDAP directory)                           #
+    # (enable what you need, auth against otrs db,        #
+    # against a LDAP directory, against HTTP basic        #
+    # authentication and against Radius server)           #
     # --------------------------------------------------- #
     # This is the auth. module againt the otrs db
     $Self->{'Customer::AuthModule'} = 'Kernel::System::CustomerAuth::DB';
@@ -1703,6 +1716,11 @@ Your OTRS Notification Master
     # config settings if user isn't login through apache ($ENV{REMOTE_USER})
 #    $Self->{CustomerPanelLoginURL} = 'http://host.example.com/not-authorised-for-otrs.html';
 #    $Self->{CustomerPanelLogoutURL} = 'http://host.example.com/thanks-for-using-otrs.html';
+
+    # This is example configuration to auth. agents against a radius server
+#    $Self->{'Customer::AuthModule'} = 'Kernel::System::Auth::Radius';
+#    $Self->{'Customer::AuthModule::Radius::Host'} = 'radiushost';
+#    $Self->{'Customer::AuthModule::Radius::Password'} = 'radiussecret';
 
     # --------------------------------------------------- #
     #                                                     #
