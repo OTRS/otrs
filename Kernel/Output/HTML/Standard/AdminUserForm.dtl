@@ -1,8 +1,8 @@
 # --
 # AdminUserForm.dtl - provides HTML form for AdminUser
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUserForm.dtl,v 1.25 2004-10-18 19:23:05 martin Exp $
+# $Id: AdminUserForm.dtl,v 1.26 2005-01-25 09:03:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -81,7 +81,7 @@
     </tr>
     <tr>
       <td class="contentkey">$Text{"Password"}: </td>
-      <td class="contentvalue"> <input type="password" name="Pw" value="$QData{"UserPw"}" size="35" maxlength="50"></td>
+      <td class="contentvalue"> <input type="password" name="Pw" value="" size="35" maxlength="50"></td>
     </tr>
     <tr>
       <td class="contentkey">$Text{"Email"}: </td>
@@ -91,33 +91,38 @@
       <td class="contentkey">$Text{"Valid"}: </td>
       <td class="contentvalue"> $Data{"ValidOption"}</td>
     </tr>
-
-<!-- dtl:block:PreferencesGeneric -->
-    <tr>
-        <td class="contentkey">
-          $Text{"$Data{"Label"}"}:
-          <br>
-          <i class="small">($Text{"$Data{"Desc"}"})</i>
-        </td>
-        <td class="contentvalue">
-          $Data{"Option"}
-        </td>
-    </tr>
-<!-- dtl:block:PreferencesGeneric -->
-<!-- dtl:block:PreferencesUpload -->
-    <tr>
-        <td class="contentkey">
-          $Text{"$Data{"Label"}"}:
-          <br>
-          <i class="small">($Text{"$Data{"Desc"}"})</i>
-        </td>
-        <td class="contentvalue">
-          <input name="GenericTopic::$QData{"PrefKey"}" type="file" size="40" class="fixed">
-          <br>
-          <a href="">$QData{"Filename"}</a>
-        </td>
-    </tr>
-<!-- dtl:block:PreferencesUpload -->
+<!-- dtl:block:Item -->
+<!-- dtl:block:InputKey -->
+  <tr>
+    <td class="contentkey">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}:</td>
+    <td class="contentvalue"><input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="30"></td>
+  </tr>
+<!-- dtl:block:InputKey -->
+<!-- dtl:block:Input -->
+  <tr>
+    <td class="contentkey">$Text{"$Data{"Label"}"}:<br><i class="small">($Text{"$Data{"Desc"}"})</i></td>
+    <td class="contentvalue"><input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="30"></td>
+  </tr>
+<!-- dtl:block:Input -->
+<!-- dtl:block:Option -->
+  <tr>
+    <td class="contentkey">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}:<br>
+      <i class="small">($Text{"$Data{"Desc"}"})</i></td>
+    <td class="contentvalue">$Data{"Option"}</td></tr>
+<!-- dtl:block:Option -->
+<!-- dtl:block:Upload -->
+  <tr>
+    <td class="contentkey">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}</td>
+    <td class="contentvalue"><input name="$QData{"Name"}" type="file" size="30" class="fixed"><br><a href="">$QData{"Filename"}</a></td>
+  </tr>
+<!-- dtl:block:Upload -->
+<!-- dtl:block:Password -->
+  <tr>
+    <td class="contentkey">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}:</td>
+    <td class="contentvalue"><input type="password" name="$QData{"Name"}" value="" size="30"></td>
+  </tr>
+<!-- dtl:block:Password -->
+<!-- dtl:block:Item -->
 
     </table>
     </td>
