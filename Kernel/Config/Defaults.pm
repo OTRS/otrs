@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.176 2004-12-23 06:04:30 martin Exp $
+# $Id: Defaults.pm,v 1.177 2004-12-23 11:51:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.176 $';
+$VERSION = '$Revision: 1.177 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -2291,7 +2291,7 @@ Your OTRS Notification Master
     # Package::RepositoryList
     # (repository list)
     $Self->{'Package::RepositoryList'} = {
-        'ftp://ftp.otrs.org/pub/otrs/misc/packages/' => 'ftp://ftp.otrs.org/',
+#        'ftp://ftp.example.com/pub/otrs/misc/packages/' => '[Example] ftp://ftp.example.com/',
     };
 
     # Package::Timeout
@@ -3185,6 +3185,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.176 $ $Date: 2004-12-23 06:04:30 $
+$Revision: 1.177 $ $Date: 2004-12-23 11:51:18 $
 
 =cut
