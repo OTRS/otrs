@@ -499,7 +499,7 @@ CREATE TABLE article
     a_to MEDIUMTEXT,
     a_cc MEDIUMTEXT,
     a_subject MEDIUMTEXT,
-    a_message_id VARCHAR (250),
+    a_message_id MEDIUMTEXT,
     a_content_type VARCHAR (250),
     a_body MEDIUMTEXT NOT NULL,
     incoming_time INTEGER NOT NULL,
@@ -517,7 +517,7 @@ CREATE TABLE article
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
     INDEX article_ticket_id (ticket_id),
-    INDEX article_message_id (a_message_id)
+    INDEX article_message_id (a_message_id(255))
 );
 
 # -----------------------------------------------------------------------
@@ -536,7 +536,6 @@ CREATE TABLE article_plain
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
     INDEX article_id (article_id)
-   
 );
 
 # -----------------------------------------------------------------------

@@ -448,7 +448,7 @@ CREATE TABLE article
     a_to varchar,
     a_cc varchar,
     a_subject varchar,
-    a_message_id varchar (250),
+    a_message_id varchar (1000),
     a_content_type varchar (250),
     a_body varchar NOT NULL,
     incoming_time integer NOT NULL,

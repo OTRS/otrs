@@ -6,9 +6,12 @@
   XML File for the OTRS database description
   Copyright (C) 2001-2003 Martin Edenhofer
 
-  $Id: otrs-schema.xml,v 1.25 2004-07-30 09:08:53 martin Exp $
+  $Id: otrs-schema.xml,v 1.26 2004-08-02 23:58:30 martin Exp $
 
   $Log: not supported by cvs2svn $
+  Revision 1.25  2004/07/30 09:08:53  martin
+  addded infex to a_message_id of article table
+
   Revision 1.24  2004/07/18 00:53:14  martin
   added schedule for generic agent
 
@@ -576,7 +579,7 @@
   <column name="a_to" required="false" type="LONGVARCHAR"/>
   <column name="a_cc" required="false" type="LONGVARCHAR"/>
   <column name="a_subject" required="false" type="LONGVARCHAR"/>
-  <column name="a_message_id" required="false" size="250" type="VARCHAR"/>
+  <column name="a_message_id" required="false" type="LONGVARCHAR"/>
   <column name="a_content_type" required="false" size="250" type="VARCHAR"/>
   <column name="a_body" required="true" type="LONGVARCHAR"/>
   <column name="incoming_time" required="true" type="INTEGER"/>

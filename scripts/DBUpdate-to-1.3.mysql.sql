@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 1.2 to 1.3
 -- Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-1.3.mysql.sql,v 1.5 2004-07-30 09:08:53 martin Exp $
+-- $Id: DBUpdate-to-1.3.mysql.sql,v 1.6 2004-08-02 23:58:30 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-1.3.mysql.sql | mysql -f -u root otrs
@@ -71,7 +71,12 @@ CREATE TABLE generic_agent_jobs
 );
 
 --
+-- change size for message id
+--
+ALTER TABLE article CHANGE a_message_id a_message_id MEDIUMTEXT;
+
+--
 -- index for message id
 --
-ALTER TABLE article ADD INDEX article_message_id (a_message_id);
+ALTER TABLE article ADD INDEX article_message_id (a_message_id(255));
 

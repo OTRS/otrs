@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 1.2 to 1.3
 -- Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-1.3.postgresql.sql,v 1.5 2004-07-30 09:08:53 martin Exp $
+-- $Id: DBUpdate-to-1.3.postgresql.sql,v 1.6 2004-08-02 23:58:30 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-1.1.postgresql.sql | psql otrs
@@ -40,7 +40,11 @@ ALTER TABLE article_attachment ADD content_size VARCHAR (30);
 --
 -- change max customer user login size
 --
-ALTER TABLE group_customer_user CHANGE user_id user_id VARCHAR (100);
+ALTER TABLE group_customer_user ADD COLUMN user_id_new varchar(1000);
+UPDATE group_customer_user SET user_id_new = user_id;
+ALTER TABLE group_customer_user DROP COLUMN user_id;
+ALTER TABLE group_customer_user RENAME COLUMN user_id_new TO user_id;
+
 
 --
 -- postmaster_filter
@@ -62,6 +66,14 @@ CREATE TABLE generic_agent_jobs
     job_key varchar (200) NOT NULL,
     job_value varchar (200) NOT NULL
 );
+
+--
+-- change size for message id
+--
+ALTER TABLE article ADD COLUMN a_message_id_new varchar(1000);
+UPDATE article SET a_message_id_new = a_message_id;
+ALTER TABLE article DROP COLUMN a_message_id;
+ALTER TABLE article RENAME COLUMN a_message_id_new TO a_message_id;
 
 --
 -- index for message id
