@@ -2,7 +2,7 @@
 # NoPermission.dtl.dtl - provides HTML NoPermission screen
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NoPermission.dtl,v 1.3 2003-02-08 15:40:44 martin Exp $
+# $Id: NoPermission.dtl,v 1.4 2003-09-29 21:03:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,12 +24,10 @@
             <td class="table1" valign="top"><b>$Text{"Message"}:</b></td>
             <td class="table1" valign="top">$Text{"$Data{"Message"}"}</td>
         </tr>
-<!--
         <tr>
-            <td class="table1" valign="top"><b>$Text{"Comment"}:</b></td>
-            <td class="table1" valign="top">$Data{"Comment"}</td>
+            <td class="table1" valign="top"><a href="javascript:history.back()">$Text{"Back"}</a></td>
+            <td class="table1" valign="top"></td>
         </tr>
--->
     </table>
   </td>
 </tr>
