@@ -2,7 +2,7 @@
 # AgentUtilSearchResultShort.dtl - html for ticket status view (all tickets)
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code at otrs.org>
 # --
-# $Id: AgentUtilSearchResultShort.dtl,v 1.1 2003-07-12 08:41:59 martin Exp $
+# $Id: AgentUtilSearchResultShort.dtl,v 1.2 2004-01-09 16:48:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,24 +15,24 @@
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="7">
 <tr valign="top" align="left">
  <th width="15%">$Config{"TicketHook"}<br>
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}SortBy=Ticket&Order=Up" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}SortBy=Ticket&Order=Down" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a></th>
+  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&TakeLastSearch=1&SortBy=Ticket&Order=Up" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
+  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&TakeLastSearch=1&SortBy=Ticket&Order=Down" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a></th>
  <th width="15%">$Text{"Age"}<br>
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}SortBy=Age&Order=Up" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}SortBy=Age&Order=Down" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a></th>
+  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&TakeLastSearch=1&SortBy=Age&Order=Up" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
+  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&TakeLastSearch=1&SortBy=Age&Order=Down" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a></th>
  <th width="20%">$Text{"From"}/$Text{"Subject"}</th>
  <th width="10%">$Text{"State"}<br>
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}SortBy=State&Order=Up" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}SortBy=State&Order=Down" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a></th>
+  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&TakeLastSearch=1&SortBy=State&Order=Up" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
+  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&TakeLastSearch=1&SortBy=State&Order=Down" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a></th>
  <th width="10%">$Text{"Queue"}<br>
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}SortBy=Queue&Order=Up" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}SortBy=Queue&Order=Down" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a></th>
+  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&TakeLastSearch=1&SortBy=Queue&Order=Up" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
+  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&TakeLastSearch=1&SortBy=Queue&Order=Down" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a></th>
  <th width="15%">$Text{"Owner"}<br>
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}SortBy=Owner&Order=Up" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}SortBy=Owner&Order=Down" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a></th>
+  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&TakeLastSearch=1&SortBy=Owner&Order=Up" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
+  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&TakeLastSearch=1&SortBy=Owner&Order=Down" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a></th>
  <th width="15%">$Text{"CustomerID"}<br>
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}SortBy=CustomerID&Order=Up" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}SortBy=CustomerID&Order=Down" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a></th>
+  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&TakeLastSearch=1&SortBy=CustomerID&Order=Up" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
+  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&TakeLastSearch=1&SortBy=CustomerID&Order=Down" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a></th>
 </tr>
 $Data{"StatusTable"}
 </table>

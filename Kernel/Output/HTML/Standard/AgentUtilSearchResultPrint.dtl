@@ -1,8 +1,8 @@
 # --
 # AgentUtilSearchResultShort.dtl - html for ticket status view (all tickets)
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code at otrs.org>
+# Copyright (C) 2002-2004 Martin Edenhofer <martin+code at otrs.org>
 # --
-# $Id: AgentUtilSearchResultPrint.dtl,v 1.1 2003-07-12 08:41:21 martin Exp $
+# $Id: AgentUtilSearchResultPrint.dtl,v 1.2 2004-01-09 16:48:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,13 +13,7 @@
 
 <table border="0" cellspacing="1" cellpadding="0" width="100%">
   <tr>
-    <td align="right" valign="top"><font size="-2">$Text{"printed by"} $Env{"UserFirstname"} $Env{"UserLastname"} ($Env{"UserEmail"})</font></td>
-  </td>
-</table>
-<table border="0" cellspacing="1" cellpadding="0" width="100%">
-  <tr>
     <td><font size="+2">$Text{"Search"}</font></td>
-    <td align="right" valign="top"><font size="-2">$Env{"Time"}</font></td>
   </td>
 </table>
 

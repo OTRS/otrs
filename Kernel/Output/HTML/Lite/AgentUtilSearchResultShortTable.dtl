@@ -1,8 +1,8 @@
 # --
 # AgentUtilSearchResultShortTable.dtl
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code at otrs.org>
+# Copyright (C) 2002-2004 Martin Edenhofer <martin+code at otrs.org>
 # --
-# $Id: AgentUtilSearchResultShortTable.dtl,v 1.1 2003-07-12 08:41:59 martin Exp $
+# $Id: AgentUtilSearchResultShortTable.dtl,v 1.2 2004-01-09 16:48:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,8 +13,8 @@
  <td class="PriorityID-$Data{"PriorityID"}"><a href="$Env{"Baselink"}Action=AgentZoom&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Zoom"}'; return true;" onmouseout="window.status='';">$Data{"TicketNumber"}</a></td>
  <td class="PriorityID-$Data{"PriorityID"}">$Quote{"$Data{"Age"}"}</td>
  <td class="PriorityID-$Data{"PriorityID"}">$Quote{"$Data{"From"}","30"}<br>$Quote{"$Data{"Subject"}","30"}&nbsp;</td>
- <td class="PriorityID-$Data{"PriorityID"}">$Quote{"$Text{"$Data{"State"}"}","30"}</td>
- <td class="PriorityID-$Data{"PriorityID"}">$Quote{"$Data{"Queue"}","30"}</td>
+ <td class="PriorityID-$Data{"PriorityID"}"><div title="$Quote{"$Data{"State"}"}">$Quote{"$Text{"$Data{"State"}"}","30"}</div></td>
+ <td class="PriorityID-$Data{"PriorityID"}"><div title="$Quote{"$Data{"Queue"}"}">$Quote{"$Data{"Queue"}","30"}</div></td>
  <td class="PriorityID-$Data{"PriorityID"}">$Quote{"$Data{"Owner"}","30"} ($Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","30"})</td>
  <td class="PriorityID-$Data{"PriorityID"}"><a href="$Env{"Baselink"}Action=AgentCustomer&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Customer history"}'; return true;" onmouseout="window.status='';">$Quote{"$Data{"CustomerID"}","15"}</a>&nbsp;<br>$Quote{"$Data{"CustomerName"}","15"}</td>  
 </tr>
