@@ -1,8 +1,8 @@
 # --
 # Login.dtl - provides HTML login screen
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Login.dtl,v 1.2 2002-05-05 15:53:06 martin Exp $
+# $Id: Login.dtl,v 1.3 2002-05-05 21:57:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -37,13 +37,12 @@ X-Wanted: I think you are smart. I'm looking for smart people!
 <head>
     $Data{"MetaHttpEquiv"}
     <title>OpenTRS :: $Text{"$Data{"Title"}"}</title>
-
 <style type="text/css">
 <!--
   p,h1,h2,h3,h4,ul,ol,li,div,td,th,address,blockquote,nobr,b,i
-                { font-family: Helvetica, Arial; }
+    { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:12px;}
   pre
-                 { font-family: Courier; }
+    { font-family:Courier;font-size:12px; }
 //-->
 </style>
 </head>
@@ -53,20 +52,20 @@ X-Wanted: I think you are smart. I'm looking for smart people!
 <center>
 
 <p>
-<font size="-1" color="red">$Data{"Message"}</font>
+<font color="red">$Data{"Message"}</font>
 </p>
 
 <p>
 <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
 <input type="hidden" name="Action" value="Login">
 
-<table border="0" cellspacing="0" cellpadding="3" width="250">
+<table border="0" cellspacing="0" cellpadding="3" width="240">
 <tr bgcolor="$Env{"BGTableColor0"}">
-  <td align="center"><font size="+1" color="$Env{"FontColor1"}"><b>$Text{"Welcome to OpenTRS"}</b></font></td>
+  <td align="center"><font color="$Env{"FontColor1"}"><b>$Text{"Welcome to OpenTRS"}</b></font></td>
 </tr>
 <tr>
   <td align="center" bgcolor="$Env{"BGTableColor1"}">
-    <table cellspacing="4" cellpadding="2">
+    <table cellspacing="8" cellpadding="2">
     <tr>
       <td>Username:</td>
       <td><input type="text" name="User" value="$Data{"User"}" size="18"></td>

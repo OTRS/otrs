@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Header.dtl,v 1.9 2002-05-05 15:52:07 martin Exp $
+# $Id: Header.dtl,v 1.10 2002-05-05 21:57:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -42,13 +42,12 @@ X-Wanted: I think you are smart. I'm looking for smart people!
 <head>
     $Data{"MetaHttpEquiv"}
     <title>OpenTRS :: $Text{"$Data{"Title"}"}</title>
-
 <style type="text/css">
 <!--
   p,h1,h2,h3,h4,ul,ol,li,div,td,th,address,blockquote,nobr,b,i
-                { font-family: Helvetica, Arial; }
+    { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:12px; }
   pre
-                 { font-family: Courier; }
+    { font-family:Courier;font-size:12px; }
 //-->
 </style>
 </head>
