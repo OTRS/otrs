@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/PGP.pm - the main crypt module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PGP.pm,v 1.2 2004-08-04 13:11:05 martin Exp $
+# $Id: PGP.pm,v 1.3 2004-08-06 13:30:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Crypt::PGP;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -241,18 +241,27 @@ sub SearchPublicKey {
     my %Param = @_;
     my $Search = $Param{Search} || '';
     my @Result = ();
+    my $InKey = 0;
     open (SEARCH, "$Self->{GPGBin} --list-public-keys ".quotemeta($Search)." 2>&1 |");
+    my %Key = ();
     while (my $Line = <SEARCH>) {
         if ($Line =~ /^(p.+?)\s(.+?)\/(.+?)\s(.+?)\s(.*)$/) {
-            my %Key = ();
+            if (%Key) {
+                push (@Result, {%Key});
+                %Key = ();
+            }
+            $InKey = 1;
             $Key{Type} .= $1;
             $Key{Bit} .= $2;
             $Key{Key} .= $3;
             $Key{Created} .= $4;
             $Key{Identifer} .= $5;
-            push (@Result, {%Key});
+        }
+        if ($InKey && $Line =~ /\[expires:\s(.+?)\]/) {
+            $Key{Expires} = $1;
         }
     }
+    push (@Result, {%Key}) if (%Key);
     close (SEARCH);
     return @Result;
 }
