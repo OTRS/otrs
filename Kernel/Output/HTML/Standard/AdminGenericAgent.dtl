@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminGenericAgent.dtl,v 1.10 2005-01-10 23:23:26 martin Exp $
+# $Id: AdminGenericAgent.dtl,v 1.11 2005-02-10 11:48:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -273,7 +273,7 @@
   </tr>
   <tr>
     <td class="contentbody">$Data{"NewStatesStrg"}</td>
-    <td class="contentbody">$Data{"NewUserStrg"}</td>
+    <td class="contentbody">$Data{"NewOwnerStrg"}</td>
   </tr>
 
   <tr>

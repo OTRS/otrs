@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminGenericAgent.pm,v 1.12 2005-01-14 14:12:03 martin Exp $
+# $Id: AdminGenericAgent.pm,v 1.13 2005-02-10 11:48:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::State;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -100,7 +100,7 @@ sub Run {
       TicketCreateTimeStop TicketCreateTimeStopDay TicketCreateTimeStopMonth
       TicketCreateTimeStopYear
       NewCustomerID NewCustomerUserLogin
-      NewStateID NewQueueID NewPriorityID NewUserID
+      NewStateID NewQueueID NewPriorityID NewOwnerID
       NewNoteFrom NewNoteSubject NewNoteBody NewModule
       NewParamKey1 NewParamKey2 NewParamKey3 NewParamKey4
       NewParamValue1 NewParamValue2 NewParamValue3 NewParamValue4
@@ -342,12 +342,12 @@ sub MaskForm {
         Size => 5,
         SelectedIDRefArray => $Param{UserIDs},
     );
-    $Param{'NewUserStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{'NewOwnerStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => \%ShownUsers,
-        Name => 'NewUserID',
-        Multiple => 1,
+        Name => 'NewOwnerID',
+        Multiple => 0,
         Size => 5,
-        SelectedID => $Param{NewUserID},
+        SelectedID => $Param{NewOwnerID},
     );
     my %Hours = ();
     foreach (0..23) {
@@ -367,12 +367,12 @@ sub MaskForm {
     $Param{'ScheduleMinutes'} = $Self->{LayoutObject}->OptionStrgHashRef(
 #        Data => \%Minutes,
         Data => {
+            '00' => '00',
             10 => '10',
             20 => '20',
             30 => '30',
             40 => '40',
             50 => '50',
-            60 => '60',
         },
         Name => 'ScheduleMinutes',
         Size => 6,
@@ -429,7 +429,7 @@ sub MaskForm {
              )
         },
         Name => 'NewStateID',
-        Multiple => 1,
+        Multiple => 0,
         Size => 5,
         SelectedID => $Param{NewStateID},
     );
@@ -454,7 +454,7 @@ sub MaskForm {
           ),
         },
         Size => 5,
-        Multiple => 1,
+        Multiple => 0,
         Name => 'NewQueueID',
         SelectedID => $Param{NewQueueID},
         OnChangeSubmit => 0,
@@ -479,7 +479,7 @@ sub MaskForm {
             ),
         },
         Name => 'NewPriorityID',
-        Multiple => 1,
+        Multiple => 0,
         Size => 5,
         SelectedID => $Param{NewPriorityID},
     );
@@ -554,7 +554,7 @@ sub MaskForm {
             Table => 'ticket_lock_type',
         ) },
         Name => 'NewLockID',
-        Multiple => 1,
+        Multiple => 0,
         Size => 3,
         LanguageTranslation => 0,
         SelectedID => $Param{NewLockID},
