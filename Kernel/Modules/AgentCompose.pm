@@ -2,7 +2,7 @@
 # AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.4 2002-02-21 22:12:25 martin Exp $
+# $Id: AgentCompose.pm,v 1.5 2002-04-08 15:56:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::EmailSend;
 use Kernel::System::Article;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -92,20 +92,25 @@ sub Form {
         QueueID => $QueueID,
         DBObject => $Self->{DBObject}
     );
-    
+
     # get lock state && permissions
     my $LockState = $Self->{TicketObject}->GetLockState(TicketID => $TicketID) || 0;
     if (!$LockState) {
+        # set owner
         $Self->{TicketObject}->SetOwner(
             TicketID => $TicketID,
             UserID => $UserID,
             UserLogin => $UserLogin,
         );
-        $Self->{TicketObject}->SetLock(
+        # set lock
+        if ($Self->{TicketObject}->SetLock(
             TicketID => $TicketID,
             Lock => 'lock',
             UserID => $UserID
-        );
+        )) {
+            # show lock state
+            $Output .= $Self->{LayoutObject}->TicketLocked(TicketID => $TicketID);
+        }
     }
     else {
         my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->CheckOwner(
