@@ -2,7 +2,7 @@
 # INSTALL description of OTRS
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: INSTALL,v 1.30 2003-02-15 12:13:12 martin Exp $
+# $Id: INSTALL,v 1.31 2003-10-21 21:47:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -159,8 +159,13 @@ settings. The OTRS user is "otrs" and the home (root) directory is /opt/otrs
 
     >> Note: Install this cronjobs as OTRS user. <<
 
+Notes:
+======
 
-Remark: For installation questions ask otrs@otrs.org (http://lists.otrs.org/).
+Also you should read the OTRS performance tuning chapter on our homepage: 
+http://doc.otrs.org/cvs/html/performance-tuning.html
+
+For installation questions ask otrs@otrs.org (http://lists.otrs.org/).
 
 Have a lot of fun.
 
