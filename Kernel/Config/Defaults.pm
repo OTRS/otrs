@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.180 2005-01-10 23:17:58 martin Exp $
+# $Id: Defaults.pm,v 1.181 2005-01-13 17:36:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.180 $';
+$VERSION = '$Revision: 1.181 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1334,12 +1334,12 @@ $Data{"Signature"}
 
     # SessionMaxTime
     # (Max valid time of one session id in second (8h = 28800).)
-    $Self->{SessionMaxTime} = 8*60*60;
+    $Self->{SessionMaxTime} = 9*60*60;
 
     # SessionMaxIdleTime
     # (After this time (in seconds) without new http request, then
     # the user get logged off)
-    $Self->{SessionMaxIdleTime} = 4*60*60;
+    $Self->{SessionMaxIdleTime} = 5*60*60;
 
     # SessionDeleteIfTimeToOld
     # (Delete session's witch are requested and to old?) [0|1]
@@ -2677,13 +2677,13 @@ Your OTRS Notification Master
         GroupRo => '',
         Group => ['admin', 'users'],
         Description => 'Edit Customer Users',
-        NavBarName => 'Admin',
+        NavBarName => '',
         NavBar => [
           {
             Description => 'Edit Customer Users',
             Name => 'Customer',
             Image => 'folder_yellow.png',
-            Link => 'Action=AdminCustomerUser',
+            Link => 'Action=AdminCustomerUser&Nav=Agent',
             NavBar => 'Ticket',
             Prio => 86,
           }
@@ -3190,6 +3190,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.180 $ $Date: 2005-01-10 23:17:58 $
+$Revision: 1.181 $ $Date: 2005-01-13 17:36:42 $
 
 =cut
