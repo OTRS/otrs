@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.18 2002-11-11 00:39:48 martin Exp $
+# $Id: PostMaster.pm,v 1.19 2002-12-15 23:21:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ use Kernel::System::PostMaster::NewTicket;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -50,6 +50,8 @@ sub new {
 
     # create db object
     $Self->{DBObject} = Kernel::System::DB->new(%Param);
+    # should i use the x-otrs header?
+    $Self->{Trusted} = defined $Param{Trusted} ? $Param{Trusted} : 1;
 
     # get email 
     $Self->{Email} = $Param{Email} || die "Got no EmailBody!";
@@ -196,6 +198,7 @@ sub Run {
         InmailUserID => $Self->{PostmasterUserID},
         GetParam => \%GetParam,
         Email => $Self->{Email},
+        QueueID => $Param{QueueID},
         AutoResponseType => 'auto reply',
       );
     }
@@ -248,6 +251,10 @@ sub GetEmailParams {
     my $WantParamTmp = $Self->{'PostmasterX-Header'} || die "Got no \@WantParam ref";
     my @WantParam = @$WantParamTmp;
     foreach (@WantParam){
+      if (!$Self->{Trusted} && $_ =~ /^x-otrs/i) {
+        # scan not x-otrs header if it's not trusted
+      }
+      else {
         if ($Self->{Debug} > 2) {
           $Self->{LogObject}->Log(
               Priority => 'debug',
@@ -255,6 +262,7 @@ sub GetEmailParams {
           );
         }
         $GetParam{$_} = $Self->{ParseObject}->GetParam(WHAT => $_);
+      }
     }
     if ($GetParam{'Message-Id'}) {
         $GetParam{'Message-ID'} = $GetParam{'Message-Id'};

@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NewTicket.pm,v 1.26 2002-11-27 21:38:05 martin Exp $
+# $Id: NewTicket.pm,v 1.27 2002-12-15 23:21:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ use Kernel::System::EmailSend;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -63,7 +63,7 @@ sub Run {
     # -- 
     # get queue id and name
     # --
-    my $QueueID = $Self->{DestQueueObject}->GetQueueID(Params => \%GetParam);
+    my $QueueID = $Param{QueueID} || $Self->{DestQueueObject}->GetQueueID(Params => \%GetParam);
     my $Queue = $Self->{QueueObject}->QueueLookup(QueueID => $QueueID);    
     # --
     # get state
