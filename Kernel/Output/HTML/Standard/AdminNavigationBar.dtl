@@ -2,7 +2,7 @@
 # AdminNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminNavigationBar.dtl,v 1.16 2003-03-23 21:42:14 martin Exp $
+# $Id: AdminNavigationBar.dtl,v 1.17 2003-03-30 18:30:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,21 +10,36 @@
 # --
 <!-- start NavigationBar -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="6">
-<tr valign="top">
-  <td align="left" class="table2">
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=Logout">$Text{"Logout"}</a>$Env{"Box1"}
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AgentQueueView">$Text{"AgentFrontend"}</a>$Env{"Box1"}
+<tr>
+  <td valign="top" align="left" width="80%" class="nav">
+    <table cellspacing="1" cellpadding="3">
+    <tr>
+      <td align="center">
+        <a href="$Env{"Baselink"}Action=Logout" onmouseover="window.status='$Text{"Logout"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}exit.png"><br>$Text{"Logout"}</a>
+      </td>
+      <td align="center">
+        <a href="$Env{"Baselink"}Action=" onmouseover="window.status='$Text{"AgentFrontend"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}admin.png"><br>$Text{"AgentFrontend"}</a>
+      </td>
+    </tr>
+    </table>
   </td>
-  <td align="right" class="table2">
-    $Env{"Box0"}<a href="#end">$Text{"Bottom of Page"}</a>$Env{"Box1"}
+  <td valign="top" align="right" width="20%" class="table1">
+    <table>
+    <tr>
+      <td align="center">
+        -
+      </td>
+    </tr>
+  </table>
   </td>
+</tr>
 </table> 
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="4">
 <tr>
-  <th class="table1">$Text{"User"} & $Text{"Groups"}</th>
-  <th class="table1">$Text{"Queue"} & $Text{"Responses"}</th>
-  <th class="table1">$Text{"System"}</th>
-  <th class="table1">$Text{"Misc"}</th>
+  <th class="table0">$Text{"User"} & $Text{"Groups"}</th>
+  <th class="table0">$Text{"Queue"} & $Text{"Responses"}</th>
+  <th class="table0">$Text{"System"}</th>
+  <th class="table0">$Text{"Misc"}</th>
 </tr>
 <tr valign="top" align="left">
   <td class="table1">

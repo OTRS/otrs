@@ -2,7 +2,7 @@
 # AgentHistoryForm.dtl - provides HTML form for history
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentHistoryForm.dtl,v 1.6 2003-02-08 15:40:43 martin Exp $
+# $Id: AgentHistoryForm.dtl,v 1.7 2003-03-30 18:30:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@
 </tr>
 <tr>
   <td align="left" colspan="2" class="table2">
-    <a href="$Env{"Baselink"}$Env{"LastScreen"}" onmouseover="window.status='$Text{"Back"}'; return true;" onmouseout="window.status='';">$Text{"Back"}</a>
+    <a href="$Env{"Baselink"}$Env{"LastScreen"}" onmouseover="window.status='$Text{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
   </td>
 </tr>
 <tr>

@@ -2,7 +2,7 @@
 # AgentPhone.dtl - provides HTML form for phone
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.dtl,v 1.16 2003-03-22 07:03:44 martin Exp $
+# $Id: AgentPhone.dtl,v 1.17 2003-03-30 18:30:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -79,8 +79,8 @@ function SpellCheckSubmit()
   <tr>
     <td>$Text{"Options"}:</td>
     <td> 
-       $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$Text{"Spell Check"}'; return true;" onmouseout="window.status='';">$Text{"Spell Check"}</a>$Env{"Box1"}
-#      $Env{"Box0"}<a href="#attachment" onmouseover="window.status='$Text{"Attachments"}'; return true;" onmouseout="window.status='';">$Text{"Attachments"}</a>$Env{"Box1"}
+       $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$Text{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"}
+#      $Env{"Box0"}<a href="#attachment" onmouseover="window.status='$Text{"Attachments"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}attach.png">$Text{"Attachments"}</a>$Env{"Box1"}
     </td>
   </tr>
   <tr>

@@ -2,28 +2,28 @@
 # Footer.dtl - provides global HTML footer 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Footer.dtl,v 1.12 2003-02-18 22:11:59 martin Exp $
+# $Id: Footer.dtl,v 1.13 2003-03-30 18:30:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 <!-- start footer -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<table border="0" width="100%" cellspacing="0" cellpadding="0" cols="2">
 <tr>
   <td align="left" class="footer">
-  $Env{"Box0"}
-   <a href="$Env{"Baselink"}Action=AgentQueueView" onmouseover="window.status='$Text{"QueueView"}'; return true;" onmouseout="window.status='';" class="footeritem">$Text{"QueueView"}</a>
-   $Env{"Box1"}
+   &nbsp;&nbsp;<a href="$Env{"Baselink"}Action=AgentQueueView" onmouseover="window.status='$Text{"QueueView"}'; return true;" onmouseout="window.status='';" class="footeritem">$Text{"QueueView"}</a>
    - 
-   $Env{"Box0"}
    <a href="$Env{"Baselink"}Action=AgentPhone" onmouseover="window.status='$Text{"PhoneView"}'; return true;" onmouseout="window.status='';" class="footeritem">$Text{"PhoneView"}</a>
-   $Env{"Box1"}
   </td>
   <td align="right" class="footer">
-   $Env{"Box0"}
-   <a href="#top" onmouseover="window.status='$Text{"Top of Page"}'; return true;" onmouseout="window.status='';" class="footeritem">$Text{"Top of Page"}</a>
-   $Env{"Box1"}
+  <table border="0"> 
+  <tr>
+    <td align="center" class="footer">
+    <a href="#top" onmouseover="window.status='$Text{"Top of Page"}'; return true;" onmouseout="window.status='';" class="footeritem"><img border="0" src="$Env{"Images"}up.png" alt="$Text{"Top of Page"}"></a>
+    </td>
+  </tr>
+  </table>
   </td>
 </tr>
 
