@@ -2,7 +2,7 @@
 # EmailSend.pm - the global email send module
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: EmailSend.pm,v 1.6 2002-05-14 11:14:43 martin Exp $
+# $Id: EmailSend.pm,v 1.7 2002-05-20 23:27:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -49,7 +49,6 @@ sub Send {
     my $Self = shift;
     my %Param = @_;
     my $From = $Param{From} || '';
-    my $RealName = $Param{RealName} || '';
     my $To = $Param{To} || '';
     my $ToOrig = $To;
     my $Cc = $Param{Cc} || '';
@@ -60,6 +59,7 @@ sub Send {
     my $UserID = $Param{UserID} || 0;
     my $TicketObject = $Param{TicketObject} || '';
     my $Body = $Param{Body};
+    $Body =~ s/\r/\n/g;
     my $InReplyTo = $Param{InReplyTo} || '';
     my $RetEmail = $Param{Email};
     my $Loop = $Param{Loop} || 0;
