@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.35 2004-02-17 16:27:22 martin Exp $
+# $Id: AgentUtilities.pm,v 1.36 2004-02-18 21:56:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::State;
     
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
     
 # --
@@ -296,6 +296,7 @@ sub Run {
                 $Param{StatusTable} .= $Self->MaskCSVResult(
                     %Data, 
                     %UserInfo,
+                    AccountedTime => $Self->{TicketObject}->GetAccountedTime(TicketID => $_),
                 );
             }
             else {
@@ -359,7 +360,7 @@ sub Run {
             return $Self->{LayoutObject}->Attachment(
                 Filename => $CSVFile."_"."$Y-$M-$D"."_"."$h-$m.csv",
                 ContentType => "text/csv",
-                Content => "\n".$Param{StatusTable},
+                Content => $Param{StatusTable},
             );
         }
         else {
