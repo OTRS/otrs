@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.87 2003-11-05 22:58:03 martin Exp $
+# $Id: Defaults.pm,v 1.88 2003-11-20 23:07:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.87 $';
+$VERSION = '$Revision: 1.88 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -94,11 +94,6 @@ sub LoadDefaults {
     # QueueViewAllPossibleTickets
     # (show all ro and rw queues - not just rw queues)
     $Self->{QueueViewAllPossibleTickets} = 0; 
-
-    # MoveInToAllQueues -> useful for ASP
-    # (Possible to move in all queue? Not only queue which
-    # the own groups) [1|0]
-    $Self->{MoveInToAllQueues} = 1;
 
     # MoveType
     # (Show form drop down of show new page of new queues) [form|link]
@@ -201,6 +196,15 @@ sub LoadDefaults {
 #   $Self->{LoginURL} = 'http://host.example.com/not-authorised-for-otrs.html';
 #   $Self->{LogoutURL} = 'http://host.example.com/thanks-for-using-otrs.html';
 
+    # UserSyncLDAPMap 
+    # (map if agent should create/synced from LDAP to DB after login)
+    $Self->{UserSyncLDAPMap} = {
+        # DB -> LDAP
+        Firstname => 'givenName',
+        Lastname => 'sn',
+        Email => 'mail',
+    };
+
     # --------------------------------------------------- #
     # default agent settings                              #
     # --------------------------------------------------- #
@@ -290,6 +294,10 @@ sub LoadDefaults {
 
     # param for LogModule Kernel::System::Log::File (required!)
     $Self->{'LogModule::LogFile'} = '/tmp/otrs.log'; 
+
+    # param if the date (yyyy-mm) should be added as suffix to 
+    # logfile [0|1]
+#    $Self->{'LogModule::LogFile::Date'} = 0;
 
     # system log cache size for admin system log (default 4k)
 #    $Self->{LogSystemCacheSize} = 4*1024;
@@ -1669,11 +1677,6 @@ Your OTRS Notification Master
     $Self->{PhoneDefaultNewHistoryType} = 'PhoneCallCustomer';
     $Self->{PhoneDefaultNewHistoryComment} = 'Customer called us.';
 
-    # PhoneViewASP -> useful for ASP
-    # (Possible to create in all queue? Not only queue which
-    # the own groups) [0|1]
-    $Self->{PhoneViewASP} = 1;
-
     # PhoneViewOwnerSelection
     $Self->{PhoneViewOwnerSelection} = 1;
 
@@ -1699,6 +1702,11 @@ Your OTRS Notification Master
 #        '1' => 'First Queue!',
 #        '2' => 'Second Queue!',
 #    };
+
+    # --------------------------------------------------- #
+    # system permissions
+    # --------------------------------------------------- #
+    $Self->{'System::Permission'} = ['ro', 'move', 'create', 'owner', 'priority', 'rw'];
 
     # --------------------------------------------------- #
     # module group permissions
