@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.129 2004-08-10 06:41:31 martin Exp $
+# $Id: Ticket.pm,v 1.130 2004-08-12 18:28:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -32,7 +32,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.129 $';
+$VERSION = '$Revision: 1.130 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1446,7 +1446,7 @@ sub TicketLinkAdd {
     # create db record
     my $SQL = "INSERT INTO ticket_link (ticket_id_master, ticket_id_slave) ".
     " VALUES ($Param{MasterTicketID}, $Param{SlaveTicketID}) ";
-        
+
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         # add master ticket hostory
         my $SlaveTicketNumber = $Self->TicketNumberLookup(
@@ -2951,7 +2951,7 @@ sub HistoryAdd {
     }
     # db insert
     my $SQL = "INSERT INTO ticket_history " .
-    " (name, history_type_id, ticket_id, article_id, system_queue_id, owner_id, ".
+    " (name, history_type_id, ticket_id, article_id, system_id, owner_id, ".
     " priority_id, state_id, valid_id, " .
     " create_time, create_by, change_time, change_by) " .
         "VALUES " .
@@ -3393,6 +3393,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.129 $ $Date: 2004-08-10 06:41:31 $
+$Revision: 1.130 $ $Date: 2004-08-12 18:28:32 $
 
 =cut
