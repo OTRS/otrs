@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.47 2003-03-06 10:41:19 martin Exp $
+# $Id: Defaults.pm,v 1.48 2003-03-06 22:12:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.47 $';
+$VERSION = '$Revision: 1.48 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -86,6 +86,10 @@ sub LoadDefaults {
     # CustomQueue
     # (The name of custom queue.)
     $Self->{CustomQueue} = 'PersonalQueue';
+
+    # QueueViewAllPossibleTickets
+    # (show all ro and rw queues - not just rw queues)
+    $Self->{QueueViewAllPossibleTickets} = 0; 
 
     # MoveInToAllQueues -> useful for ASP
     # (Possible to move in all queue? Not only queue which

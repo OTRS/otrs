@@ -2,12 +2,18 @@
 -- Update an existing OTRS database from 1.0 to 1.1 
 -- Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-1.1.mysql.sql,v 1.3 2003-03-03 23:30:35 martin Exp $
+-- $Id: DBUpdate-to-1.1.mysql.sql,v 1.4 2003-03-06 22:12:00 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-1.1.mysql.sql | mysql -f -u root otrs
 --
 -- --
+
+--
+-- add read/write options to group_user table
+--
+ALTER TABLE group_user ADD read SMALLINT NOT NULL;
+ALTER TABLE group_user ADD write SMALLINT NOT NULL;
 
 -- 
 -- add ticket_state_type table

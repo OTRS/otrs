@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPlain.pm - to get a plain view
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPlain.pm,v 1.11 2003-02-08 15:16:30 martin Exp $
+# $Id: AgentPlain.pm,v 1.12 2003-03-06 22:11:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPlain;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -31,15 +31,8 @@ sub new {
     }
 
     # check needed Opjects
-    foreach (
-      'ParamObject', 
-      'DBObject', 
-      'TicketObject', 
-      'LayoutObject', 
-      'LogObject', 
-      'ConfigObject',
-      'UserObject',
-    ) {
+    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject 
+      ConfigObject UserObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
 
@@ -52,12 +45,12 @@ sub Run {
     my %Param = @_;
     my $Output;
     my $Limit = 50;
-    my $QueueID = $Self->{QueueID};
-    my $UserID = $Self->{UserID};
-    my $ArticleID = $Self->{ArticleID};
 
-    if (!$ArticleID) {
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
+    # --
+    # check needed stuff
+    # --
+    if (!$Self->{ArticleID}) {
+        my $Output = $Self->{LayoutObject}->Header(Title => 'Error');
         $Output .= $Self->{LayoutObject}->Error(
             Message => "No ArticleID!",
             Comment => 'Please contact your admin'
@@ -65,37 +58,40 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
-    elsif ($Self->{TicketObject}->Permission(
+    # --
+    # check permissions
+    # --
+    if (!$Self->{TicketObject}->Permission(
+        Type => 'ro',
         TicketID => $Self->{TicketID},
         UserID => $Self->{UserID})) {
-
-        my $Text = $Self->{TicketObject}->GetArticlePlain(ArticleID => $ArticleID) || '';
-        $Output .= $Self->{LayoutObject}->Header(Title => "Plain Article");
-        my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $UserID);
-        $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
-
-        if ($Text) {
-            $Output .= $Self->{LayoutObject}->ArticlePlain(
-                Backscreen => $Self->{BackScreen},
-                Text => $Text,
-                TicketID => $Self->{TicketID},
-                ArticleID => $ArticleID,
-            );
-        }
-        else {
-            $Output .= $Self->{LayoutObject}->Error(
-                Message => "Can't read plain article! Maybe there is no plain email in filesystem! Read BackendMessage.",
-                Comment => 'Please contact your admin!',
-            );
-        }
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
-    }
-    else {
         # --
-        # error screen
+        # error screen, don't show ticket
+        # --
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
     }
+
+    my $Text = $Self->{TicketObject}->GetArticlePlain(ArticleID => $Self->{ArticleID}) || '';
+    $Output .= $Self->{LayoutObject}->Header(Title => "Plain Article");
+    my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
+    $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
+
+    if ($Text) {
+        $Output .= $Self->{LayoutObject}->ArticlePlain(
+            Backscreen => $Self->{BackScreen},
+            Text => $Text,
+            TicketID => $Self->{TicketID},
+            ArticleID => $Self->{ArticleID},
+        );
+    }
+    else {
+        $Output .= $Self->{LayoutObject}->Error(
+            Message => "Can't read plain article! Maybe there is no plain email in filesystem! Read BackendMessage.",
+            Comment => 'Please contact your admin!',
+        );
+    }
+    $Output .= $Self->{LayoutObject}->Footer();
+    return $Output;
 }
 # --
 

@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.54 2003-03-06 10:40:12 martin Exp $
+# $Id: index.pl,v 1.55 2003-03-06 22:11:59 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.54 $';
+$VERSION = '$Revision: 1.55 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -54,6 +54,7 @@ use Kernel::System::DB;
 use Kernel::System::Auth;
 use Kernel::System::AuthSession;
 use Kernel::System::User;
+use Kernel::System::Group;
 use Kernel::System::Permission;
 use Kernel::Output::HTML::Generic;
 
@@ -140,6 +141,7 @@ if ($CommonObject{ParamObject}->Error()) {
 # create common framework objects 3/3
 # --
 $CommonObject{UserObject} = Kernel::System::User->new(%CommonObject);
+$CommonObject{GroupObject} = Kernel::System::Group->new(%CommonObject);
 $CommonObject{PermissionObject} = Kernel::System::Permission->new(%CommonObject);
 $CommonObject{SessionObject} = Kernel::System::AuthSession->new(%CommonObject);
 # --
@@ -220,7 +222,11 @@ if ($Param{Action} eq "Login") {
         # --
         # get groups
         # --
-        my %GroupData = $CommonObject{UserObject}->GetGroups(UserID => $UserData{UserID});
+        my %GroupData = $CommonObject{GroupObject}->GroupUserList(
+            Result => 'HASH',
+            Type => 'rw',
+            UserID => $UserData{UserID},
+        );
         foreach (keys %GroupData) {
             $UserData{"UserIsGroup[$GroupData{$_}]"} = 'Yes';
         }

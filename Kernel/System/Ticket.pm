@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.49 2003-03-06 10:40:02 martin Exp $
+# $Id: Ticket.pm,v 1.50 2003-03-06 22:11:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -27,6 +27,7 @@ use Kernel::System::State;
 use Kernel::System::Lock;
 use Kernel::System::Queue;
 use Kernel::System::User;
+use Kernel::System::Group;
 use Kernel::System::Email;
 use Kernel::System::AutoResponse;
 use Kernel::System::StdAttachment;
@@ -34,7 +35,7 @@ use Kernel::System::PostMaster::LoopProtection;
 use Kernel::System::CustomerUser;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.49 $';
+$VERSION = '$Revision: 1.50 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -66,6 +67,7 @@ sub new {
     # --
     $Self->{QueueObject} = Kernel::System::Queue->new(%Param);
     $Self->{UserObject} = Kernel::System::User->new(%Param);
+    $Self->{GroupObject} = Kernel::System::Group->new(%Param);
     $Self->{SendmailObject} = Kernel::System::Email->new(%Param);
     $Self->{AutoResponse} = Kernel::System::AutoResponse->new(%Param);
     $Self->{LoopProtectionObject} = Kernel::System::PostMaster::LoopProtection->new(%Param);
@@ -372,6 +374,7 @@ sub GetTicket {
     # get state info
     # --
     my %StateData = $Self->{StateObject}->StateGet(Name => $Ticket{State});
+    $Ticket{StateType} = $StateData{TypeName};
     if (!$Ticket{RealTillTimeNotUsed} || $StateData{TypeName} !~ /^pending/i) {
         $Ticket{UntilTime} = 0;
     }
@@ -611,14 +614,14 @@ sub Permission {
     # --
     # check needed stuff
     # --
-    foreach (qw(TicketID UserID)) {
+    foreach (qw(Type TicketID UserID)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
     }
     # --
-    # check article id permissopns
+    # check article id permisson
     # --
     $Param{ArticlePermissionOK} = 0;
     if ($Param{ArticleID}) {
@@ -640,10 +643,18 @@ sub Permission {
     # check if the user is in the same group as the ticket
     # --
     $Param{TicketPermissionOK} = 0;
-    my $QueueID = $Self->GetQueueIDOfTicketID(TicketID => $Param{TicketID});
-    my $GID = $Self->{QueueObject}->GetQueueGroupID(QueueID => $QueueID);
-    my %Groups = $Self->{UserObject}->GetGroups(UserID => $Param{UserID});
-    foreach (keys %Groups) {
+    my %Ticket = $Self->GetTicket(TicketID => $Param{TicketID});
+    if ($Ticket{UserID} eq $Param{UserID}) {
+        $Param{TicketPermissionOK} = 1;
+    }
+    my $GID = $Self->{QueueObject}->GetQueueGroupID(QueueID => $Ticket{QueueID});
+    # get user groups 
+    my @GroupIDs = $Self->{GroupObject}->GroupUserList(
+        UserID => $Param{UserID},
+        Type => $Param{Type},
+        Result => 'ID',
+    );
+    foreach (@GroupIDs) {
         if ($_ eq $GID) {
             $Param{TicketPermissionOK} = 1;
         }
@@ -743,8 +754,7 @@ sub SetPendingTime {
         return;
       }
     }
-    $Param{Month} = $Param{Month}-1;
-    my $time = timelocal(1,$Param{Minute},$Param{Hour},$Param{Day},$Param{Month},$Param{Year});
+    my $time = timelocal(1,$Param{Minute},$Param{Hour},$Param{Day},($Param{Month}-1),$Param{Year});
     # --
     # db update
     # --

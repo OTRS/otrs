@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentBounce.pm - to bounce articles of tickets 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBounce.pm,v 1.18 2003-03-06 10:40:05 martin Exp $
+# $Id: AgentBounce.pm,v 1.19 2003-03-06 22:11:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -67,6 +67,7 @@ sub Run {
     # check permissions
     # --
     if (!$Self->{TicketObject}->Permission(
+        Type => 'rw',
         TicketID => $Self->{TicketID},
         UserID => $Self->{UserID})) {
         # --

@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Phil Davis <phil.davis at itaction.co.uk>
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code at otrs.org>
 # --   
-# $Id: AgentStatusView.pm,v 1.8 2003-03-04 00:12:50 martin Exp $
+# $Id: AgentStatusView.pm,v 1.9 2003-03-06 22:11:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -34,7 +34,7 @@ sub new {
     }
 
     # check all needed objects
-    foreach (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject UserObject)) {
+    foreach (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
     # state object
@@ -76,51 +76,52 @@ sub new {
 }
 # --
 sub Run {
-   my $Self = shift;
-   my %Param = @_;
-   # --
-   # store last screen
-   # --
-   if (!$Self->{SessionObject}->UpdateSessionID(
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # store last screen
+    # --
+    if (!$Self->{SessionObject}->UpdateSessionID(
        SessionID => $Self->{SessionID},
        Key => 'LastScreen',
        Value => $Self->{RequestedURL},
-   )) {
+    )) {
        my $Output = $Self->{LayoutObject}->Header(Title => 'Error');
        $Output .= $Self->{LayoutObject}->Error();
        $Output .= $Self->{LayoutObject}->Footer();
        return $Output;
-   }   
-   # --
-   # starting with page ...
-   # --
-   my $Refresh = '';
-   if ($Self->{UserRefreshTime}) {
-       $Refresh = 60 * $Self->{UserRefreshTime};
-   }
-   my $Output = $Self->{LayoutObject}->Header(
+    }   
+    # --
+    # starting with page ...
+    # --
+    my $Refresh = '';
+    if ($Self->{UserRefreshTime}) {
+        $Refresh = 60 * $Self->{UserRefreshTime};
+    }
+    my $Output = $Self->{LayoutObject}->Header(
        Title => 'QueueView',
        Refresh => $Refresh,
-   );
-   # get user lock data
-   my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
-   # build NavigationBar
-   $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
-   # to get the output faster!
-   print $Output; $Output = '';
-   # --
-   # get data (viewable tickets...)
-   # --
-   my @ViewableTickets = ();
-   my $SQL = "SELECT st.id, st.queue_id FROM " .
-       " ticket st, group_user ug, queue q, " . 
-         $Self->{ConfigObject}->Get('DatabaseUserTable'). " u ".
+    );
+    # get user lock data
+    my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
+    # build NavigationBar
+    $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
+    # to get the output faster!
+    print $Output; $Output = '';
+    # get user groups 
+    my @GroupIDs = $Self->{GroupObject}->GroupUserList(
+        UserID => $Self->{UserID},
+        Type => 'ro',
+        Result => 'ID',
+    );
+    # --
+    # get data (viewable tickets...)
+    # --
+    my @ViewableTickets = ();
+    my $SQL = "SELECT st.id, st.queue_id FROM " .
+       " ticket st, queue q ".
        " WHERE " .
-       " ug.user_id = $Self->{UserID} " .
-       " AND ".
-       " q.group_id = ug.group_id ".
-       " AND ".
-       " ug.user_id = u.". $Self->{ConfigObject}->Get('DatabaseUserTableUserID') .
+       " q.group_id IN ( ${\(join ', ', @GroupIDs)} )".
        " AND ".
        " q.id = st.queue_id ".
        " AND ";

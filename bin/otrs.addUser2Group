@@ -2,7 +2,9 @@
 # --
 # otrs.addUser2Group - Add User to a Group
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
-# $Id: otrs.addUser2Group,v 1.7 2003-01-23 22:50:09 martin Exp $
+# --
+# $Id: otrs.addUser2Group,v 1.8 2003-03-06 22:11:59 martin Exp $
+# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
@@ -64,14 +66,10 @@ unless  ($Param{GID}=$CommonObject{GroupObject}->GetGroupIdByName(%Param)){
    exit;
 }
 
-
-
-
 print "GID $Param{GID} \n";
 print "UID $Param{UID} \n";
 
-$CommonObject{GroupObject}->MemberAdd(%Param);
-
+$CommonObject{GroupObject}->GroupMemberAdd(%Param);
 
 # --
 exit (0);

@@ -2,12 +2,18 @@
 -- Update an existing OTRS database from 1.0 to 1.1 
 -- Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-1.1.postgresql.sql,v 1.3 2003-03-03 23:30:35 martin Exp $
+-- $Id: DBUpdate-to-1.1.postgresql.sql,v 1.4 2003-03-06 22:12:00 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-1.1.postgresql.sql | psql otrs 
 --
 -- --
+
+--
+-- add read/write options to group_user table
+--
+ALTER TABLE group_user ADD read SMALLINT;
+ALTER TABLE group_user ADD write SMALLINT;
 
 -- 
 -- add ticket_state_type table
@@ -45,7 +51,7 @@ INSERT INTO ticket_state_type (name, comment, create_by, create_time, change_by,
 --
 -- add ticket_state_type to ticket_state
 --
-ALTER TABLE ticket_state ADD type_id -- SMALLINT NOT NULL;
+ALTER TABLE ticket_state ADD type_id SMALLINT; -- NOT NULL;
 -- 
 -- update ticket_state table
 --

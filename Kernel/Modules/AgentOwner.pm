@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentOwner.pm - to set the ticket owner
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentOwner.pm,v 1.11 2003-02-21 07:11:07 martin Exp $
+# $Id: AgentOwner.pm,v 1.12 2003-03-06 22:11:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Group;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -32,15 +32,7 @@ sub new {
     }
 
     # check needed Opjects
-    foreach (
-      'ParamObject', 
-      'DBObject', 
-      'TicketObject', 
-      'LayoutObject', 
-      'LogObject', 
-      'ConfigObject',
-      'UserObject',
-    ) {
+    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject ConfigObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
    
@@ -57,24 +49,31 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-    my $TicketID = $Self->{TicketID};
-    my $QueueID = $Self->{QueueID};
-    my $Subaction = $Self->{Subaction};
-    my $NextScreen = $Self->{NextScreen} || '';
-    my $BackScreen = $Self->{BackScreen};
-    my $UserID    = $Self->{UserID};
 
-    if ($Subaction eq 'Update') {
+    # --
+    # check permissions
+    # --
+    if (!$Self->{TicketObject}->Permission(
+        Type => 'rw',
+        TicketID => $Self->{TicketID},
+        UserID => $Self->{UserID})) {
+        # --
+        # error screen, don't show ticket
+        # --
+        return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
+    }
+
+    if ($Self->{Subaction} eq 'Update') {
         # --
 		# lock ticket && set user id && send notify to new agent
         # --
         if ($Self->{TicketObject}->SetLock(
-          TicketID => $TicketID,
+          TicketID => $Self->{TicketID},
           Lock => 'lock',
           UserID => $Self->{UserID},
         ) &&
           $Self->{TicketObject}->SetOwner(
-			TicketID => $TicketID,
+			TicketID => $Self->{TicketID},
 			UserID => $Self->{UserID},
             NewUserID => $Self->{NewUserID},
             Comment => $Self->{Comment},
@@ -84,7 +83,7 @@ sub Run {
             # --
             if ($Self->{Comment}) {
               my $ArticleID = $Self->{TicketObject}->CreateArticle(
-                TicketID => $TicketID,
+                TicketID => $Self->{TicketID},
                 ArticleType => 'note-internal',
                 SenderType => 'agent',
                 From => $Self->{UserLogin},
@@ -113,22 +112,30 @@ sub Run {
         # --
         # print form
         # --
-        my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $TicketID);
-        my $OwnerID = $Self->{TicketObject}->CheckOwner(TicketID => $TicketID);
+        my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $Self->{TicketID});
+        my $OwnerID = $Self->{TicketObject}->CheckOwner(TicketID => $Self->{TicketID});
         $Output .= $Self->{LayoutObject}->Header(Title => 'Set Owner');
-        my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $UserID);
+        my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
         $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
         # --
         # get user of own groups
         # --
         my %AllGroupsMembers = ();
         if ($Self->{ConfigObject}->Get('ChangeOwnerToEveryone')) {
-            %AllGroupsMembers = $Self->{UserObject}->UserList();
+            %AllGroupsMembers = $Self->{UserObject}->UserList(Valid => 1);
         }
         else {
-            my %Groups = $Self->{UserObject}->GetGroups(UserID => $Self->{UserID});
+            my %Groups = $Self->{GroupObject}->GroupUserList(
+                UserID => $Self->{UserID},
+                Type => 'rw',
+                Result => 'HASH',
+            );
             foreach (keys %Groups) {
-                my %MemberList = $Self->{GroupObject}->MemberList(GroupID => $_);
+                my %MemberList = $Self->{GroupObject}->GroupMemberList(
+                    GroupID => $_,
+                    Type => 'rw',
+                    Result => 'HASH',
+                );
                 foreach (keys %MemberList) {
                     $AllGroupsMembers{$_} = $MemberList{$_};
                 }
@@ -139,12 +146,12 @@ sub Run {
         # --
 	    $Output .= $Self->{LayoutObject}->AgentOwner(
             OptionStrg => \%AllGroupsMembers,
- 			TicketID => $TicketID,
+ 			TicketID => $Self->{TicketID},
             OwnerID => $OwnerID,
             BackScreen => $Self->{BackScreen},
             NextScreen => $Self->{NextScreen},
             TicketNumber => $Tn,
-            QueueID => $QueueID,
+            QueueID => $Self->{QueueID},
         );
         $Output .= $Self->{LayoutObject}->Footer();
     }

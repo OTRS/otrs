@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPending.pm - to set ticket in pending state
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPending.pm,v 1.6 2003-03-04 00:12:50 martin Exp $
+# $Id: AgentPending.pm,v 1.7 2003-03-06 22:11:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -44,27 +44,27 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-    my $QueueID = $Self->{QueueID};
 
     # --
     # check needed stuff
     # --
     if (!$Self->{TicketID}) {
-      # --
-      # error page
-      # --
-      $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-      $Output .= $Self->{LayoutObject}->Error(
-          Message => "Can't close Ticket, no TicketID is given!",
-          Comment => 'Please contact the admin.',
-      );
-      $Output .= $Self->{LayoutObject}->Footer();
-      return $Output;
+        # --
+        # error page
+        # --
+        my $Output = $Self->{LayoutObject}->Header(Title => 'Error');
+        $Output .= $Self->{LayoutObject}->Error(
+            Message => "Can't close Ticket, no TicketID is given!",
+            Comment => 'Please contact the admin.',
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
     # --
     # check permissions
     # --
     if (!$Self->{TicketObject}->Permission(
+        Type => 'rw',
         TicketID => $Self->{TicketID},
         UserID => $Self->{UserID})) {
         # --
@@ -125,7 +125,7 @@ sub Run {
         $Output .= $Self->{LayoutObject}->AgentPending(
             TicketID => $Self->{TicketID},
             TicketNumber => $Tn,
-            QueueID => $QueueID,
+            QueueID => $Self->{QueueID},
             NextStatesStrg => \%NextStates,
             NoteTypesStrg => \%NoteTypes,
             SelectedMoveQueue => $SelectedMoveQueue,

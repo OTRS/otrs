@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentNote.pm - to add notes to a ticket 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.pm,v 1.17 2003-02-08 22:40:11 martin Exp $
+# $Id: AgentNote.pm,v 1.18 2003-03-06 22:11:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentNote;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -43,31 +43,26 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-    my $TicketID = $Self->{TicketID};
-    my $QueueID = $Self->{QueueID};
-    my $Subaction = $Self->{Subaction};
-    my $UserID = $Self->{UserID};
-    my $UserLogin = $Self->{UserLogin};
-
     # --
     # check needed stuff
     # --
     if (!$Self->{TicketID}) {
-      # --
-      # error page
-      # --
-      $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-      $Output .= $Self->{LayoutObject}->Error(
-          Message => "Can't add note, no TicketID is given!",
-          Comment => 'Please contact the admin.',
-      );
-      $Output .= $Self->{LayoutObject}->Footer();
-      return $Output;
+        # --
+        # error page
+        # --
+        my $Output = $Self->{LayoutObject}->Header(Title => 'Error');
+        $Output .= $Self->{LayoutObject}->Error(
+            Message => "Can't add note, no TicketID is given!",
+            Comment => 'Please contact the admin.',
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
     # --
     # check permissions
     # --
     if (!$Self->{TicketObject}->Permission(
+        Type => 'rw',
         TicketID => $Self->{TicketID},
         UserID => $Self->{UserID})) {
         # --
@@ -76,9 +71,9 @@ sub Run {
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
     }
 
-    my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $TicketID);
+    my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $Self->{TicketID});
     
-    if ($Subaction eq '' || !$Subaction) {
+    if ($Self->{Subaction} eq '' || !$Self->{Subaction}) {
         # get possible notes
         my %NoteTypes = $Self->{DBObject}->GetTableData(
             Table => 'article_type',
@@ -92,11 +87,11 @@ sub Run {
         }
         # print form ...
         $Output = $Self->{LayoutObject}->Header(Title => 'Add Note');
-        my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $UserID);
+        my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
         $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
         $Output .= $Self->{LayoutObject}->AgentNote(
-            TicketID => $TicketID,
-            QueueID => $QueueID,
+            TicketID => $Self->{TicketID},
+            QueueID => $Self->{QueueID},
             TicketNumber => $Tn,
             NoteSubject => $Self->{ConfigObject}->Get('DefaultNoteSubject'),
             NoteTypes => \%NoteTypes,
@@ -104,22 +99,22 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
-    elsif ($Subaction eq 'Store') {
+    elsif ($Self->{Subaction} eq 'Store') {
         my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject') || 'Note!';
         my $Text = $Self->{ParamObject}->GetParam(Param => 'Note') || 
             $Self->{ParamObject}->GetParam(Param => 'Body');
         my $ArticleTypeID = $Self->{ParamObject}->GetParam(Param => 'NoteID');
         my $TimeUnits = $Self->{ParamObject}->GetParam(Param => 'TimeUnits') || 0; 
         if (my $ArticleID = $Self->{TicketObject}->CreateArticle(
-            TicketID => $TicketID,
+            TicketID => $Self->{TicketID},
             ArticleTypeID => $ArticleTypeID,
             SenderType => 'agent',
-            From => $UserLogin,
-            To => $UserLogin,
+            From => $Self->{UserLogin},
+            To => $Self->{UserLogin},
             Subject => $Subject,
             Body => $Text,
             ContentType => "text/plain; charset=$Self->{'UserCharset'}",
-            UserID => $UserID,
+            UserID => $Self->{UserID},
             HistoryType => 'AddNote',
             HistoryComment => 'Note added.',
         )) {
@@ -128,10 +123,10 @@ sub Run {
           # --
           if ($TimeUnits) {
             $Self->{TicketObject}->AccountTime(
-              TicketID => $TicketID,
+              TicketID => $Self->{TicketID},
               ArticleID => $ArticleID,
               TimeUnit => $TimeUnits,
-              UserID => $UserID,
+              UserID => $Self->{UserID},
             );
           }
           # --
@@ -147,7 +142,7 @@ sub Run {
                   Filename => $UploadStuff{UploadRealFileName},
                   ContentType => $UploadStuff{UploadContentType},
                   ArticleID => $ArticleID, 
-                  UserID => $UserID, 
+                  UserID => $Self->{UserID}, 
               );
           }
           # --

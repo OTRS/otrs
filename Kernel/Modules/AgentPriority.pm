@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPriority.pm - to set the ticket priority
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPriority.pm,v 1.10 2003-02-09 20:57:13 martin Exp $
+# $Id: AgentPriority.pm,v 1.11 2003-03-06 22:11:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPriority;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -31,16 +31,8 @@ sub new {
     }
 
     # check needed Opjects
-    foreach (
-      'ParamObject', 
-      'DBObject', 
-      'TicketObject', 
-      'LayoutObject', 
-      'LogObject', 
-      'QueueObject', 
-      'ConfigObject',
-      'UserObject',
-    ) {
+    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject 
+      QueueObject ConfigObject UserObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
    
@@ -54,31 +46,27 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-    my $TicketID = $Self->{TicketID};
-    my $QueueID = $Self->{QueueID};
-    my $Subaction = $Self->{Subaction};
-    my $UserID    = $Self->{UserID};
-    my $PriorityID = $Self->{PriorityID};
 
     # --
     # check needed stuff
     # --
     if (!$Self->{TicketID}) {
-      # --
-      # error page
-      # --
-      $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-      $Output .= $Self->{LayoutObject}->Error(
-          Message => "Can't show history, no TicketID is given!",
-          Comment => 'Please contact the admin.',
-      );
-      $Output .= $Self->{LayoutObject}->Footer();
-      return $Output;
+        # --
+        # error page
+        # --
+        my $Output = $Self->{LayoutObject}->Header(Title => 'Error');
+        $Output .= $Self->{LayoutObject}->Error(
+            Message => "Can't show history, no TicketID is given!",
+            Comment => 'Please contact the admin.',
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
     # --
     # check permissions
     # --
     if (!$Self->{TicketObject}->Permission(
+        Type => 'rw',
         TicketID => $Self->{TicketID},
         UserID => $Self->{UserID})) {
         # --
@@ -87,14 +75,14 @@ sub Run {
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
     }
 
-    if ($Subaction eq 'Update') {
+    if ($Self->{Subaction} eq 'Update') {
         # --
 		# set id
         # --
         $Self->{TicketObject}->SetPriority(
-			TicketID => $TicketID,
-			PriorityID => $PriorityID,
-			UserID => $UserID,
+			TicketID => $Self->{TicketID},
+			PriorityID => $Self->{PriorityID},
+			UserID => $Self->{UserID},
 		);
         # --
         # print redirect
@@ -103,10 +91,10 @@ sub Run {
     }
     else {
         # print form
-        my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $TicketID);
-        my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $TicketID);
+        my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $Self->{TicketID});
+        my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $Self->{TicketID});
         $Output .= $Self->{LayoutObject}->Header(Title => 'Set Priority');
-        my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $UserID);
+        my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
         $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
         # get priority states
         my %States = $Self->{DBObject}->GetTableData(
@@ -117,10 +105,10 @@ sub Run {
 	    $Output .= $Self->{LayoutObject}->AgentPriority(
 			Data => \%States,
             OptionStrg => \%States,
- 			TicketID => $TicketID,
+ 			TicketID => $Self->{TicketID},
             PriorityID => $Ticket{PriorityID},
             TicketNumber => $Tn,
-            QueueID => $QueueID,
+            QueueID => $Self->{QueueID},
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;

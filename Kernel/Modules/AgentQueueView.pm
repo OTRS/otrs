@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.29 2003-03-04 00:12:50 martin Exp $
+# $Id: AgentQueueView.pm,v 1.30 2003-03-06 22:11:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -151,20 +151,33 @@ sub Run {
 
     # to get the output faster!
     print $Output; $Output = '';
-
+    # get user groups
+    my $Type = 'rw';
+    if ($Self->{ConfigObject}->Get('QueueViewAllPossibleTickets')) {
+        $Type = 'ro';
+    }
+    my @GroupIDs = $Self->{GroupObject}->GroupUserList(
+        UserID => $Self->{UserID},
+        Type => $Type,
+        Result => 'ID',
+    );
     # --
     # get data (viewable tickets...)
     # --
     my @ViewableTickets = ();
     if (@ViewableQueueIDs) {
-        my $SQL = "SELECT st.id, st.queue_id FROM " .
-          " ticket st " .
-          " WHERE " .
-          " st.ticket_state_id in ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) " .
-          " AND " .
-          " st.ticket_lock_id in ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) " .
-          " AND " .
-          " st.queue_id in ( ${\(join ', ', @ViewableQueueIDs)} ) " .
+        my $SQL = "SELECT st.id, st.queue_id FROM ".
+          " ticket st, queue sq ".
+          " WHERE ".
+          " sq.id = st.queue_id ".
+          " AND ".
+          " st.ticket_state_id in ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) ".
+          " AND ".
+          " st.ticket_lock_id in ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) ".
+          " AND ".
+          " st.queue_id in ( ${\(join ', ', @ViewableQueueIDs)} ) ".
+          " AND ".
+          " sq.group_id IN ( ${\(join ', ', @GroupIDs)} ) ".
           " ORDER BY st.ticket_priority_id DESC, st.create_time_unix ASC ";
 
           $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{Limit});

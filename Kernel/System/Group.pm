@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 #               2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Group.pm,v 1.6 2003-02-08 15:09:38 martin Exp $
+# $Id: Group.pm,v 1.7 2003-03-06 22:11:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Group;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -57,67 +57,7 @@ sub GetGroupIdByName {
     return $ID;
 }
 # --
-sub MemberList {
-    my $Self = shift;
-    my %Param = @_;
-    # --
-    # check needed stuff
-    # --
-    if (!$Param{Group} && !$Param{GroupID}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Got no Group or GroupID!");
-        return;
-    }
-    # --
-    # check if we ask the same request?
-    # --
-    if ($Param{GroupID} && $Self->{"MemberList::$Param{GroupID}"}) {
-        return %{$Self->{"MemberList::$Param{GroupID}"}};
-    }
-    if ($Param{Group} && $Self->{"MemberList::$Param{Group}"}) {
-        return %{$Self->{"MemberList::$Param{Group}"}};
-    }
-    # --
-    # get data
-    # --
-    my %MemberData = ();
-    my $SQL = '';
-    my $Suffix = '';
-    if ($Param{Group}) {
-        $Suffix = 'GroupID';
-        $SQL = "SELECT gu.user_id, su.$Self->{ConfigObject}->{DatabaseUserTableUser} ".
-          " FROM " .
-          " group_user gu, groups g, $Self->{ConfigObject}->{DatabaseUserTable} su ".
-          " WHERE " .
-          " g.id = gu.group_id AND ".
-          " su.$Self->{ConfigObject}->{DatabaseUserTableUserID} = gu.user_id AND ".
-          " g.name = '$Param{Group}' AND ".
-          " su.valid_id in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ";
-
-    }
-    else {
-        $Suffix = 'Group';
-        $SQL = "SELECT gu.user_id, su.$Self->{ConfigObject}->{DatabaseUserTableUser} ".
-          " FROM ".
-          " group_user gu, $Self->{ConfigObject}->{DatabaseUserTable} su ".
-          " WHERE ".
-          " su.$Self->{ConfigObject}->{DatabaseUserTableUserID} = gu.user_id AND ".
-          " gu.group_id = $Param{GroupID} AND ".
-          " su.valid_id in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ";
-    }
-    if (!$Self->{DBObject}->Prepare(SQL => $SQL)) {
-        return;
-    }
-    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-        $MemberData{$Row[0]} = $Row[1];
-    }
-    # --
-    # store result
-    # --
-    $Self->{"MemberList::$Suffix"} = \%MemberData;
-    return %MemberData; 
-} 
-# --
-sub MemberAdd {
+sub GroupMemberAdd {
     my $Self = shift;
     my %Param = @_;
     my $count;
@@ -133,27 +73,26 @@ sub MemberAdd {
     # --
     # sql
     # --
-    my $SQL = sprintf("select count(*) from group_user where user_id=%s and group_id=%s", $Param{UID} , $Param{GID});
-    if ($Self->{DBObject}->Prepare(SQL => $SQL)) {
-       while  (my @Row = $Self->{DBObject}->FetchrowArray()) {
-          $count=$Row[0];
-       }
-       return 1 if $count;
-
-       $SQL = "INSERT INTO group_user (user_id, group_id, create_time, create_by, " .
-           " change_time, change_by)" .
-           " VALUES " .
-           " ( $Param{UID}, $Param{GID}, ".
-           " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
-       if ($Self->{DBObject}->Do(SQL => $SQL)) {
-           return 1;
-       }
-       else { 
-           return;
-       }
+    my $Ro = defined ($Param{Ro}) ? $Param{Ro} : 1;
+    my $Rw = defined ($Param{Rw}) ? $Param{Rw} : 1;
+    $Self->{DBObject}->Do(
+        SQL => "DELETE FROM group_user WHERE group_id = $Param{GID} AND user_id = $Param{UID}",
+    );
+    if ($Ro || $Rw) {
+        my $SQL = "INSERT INTO group_user (user_id, group_id, read, write, ".
+          " create_time, create_by, change_time, change_by)".
+          " VALUES ".
+          " ( $Param{UID}, $Param{GID}, $Ro, $Rw, current_timestamp, ".
+          " $Param{UserID}, current_timestamp, $Param{UserID})";
+        if ($Self->{DBObject}->Do(SQL => $SQL)) {
+            return 1;
+        }
+        else { 
+            return;
+        } 
     }
     else {
-       return;
+        return;
     }
 } 
 # --
@@ -232,13 +171,15 @@ sub GroupGet {
         " WHERE " .
         " id = $Param{ID}";
     if ($Self->{DBObject}->Prepare(SQL => $SQL)) {
-        my @Data = $Self->{DBObject}->FetchrowArray();
-        my %GroupData = (
+        my %GroupData = ();
+        while (my @Data = $Self->{DBObject}->FetchrowArray()) {
+            %GroupData = (
                 ID => $Param{ID},
                 Name => $Data[0],
                 Comment => $Data[2],
                 ValidID => $Data[1],
-        );
+            );
+        }
         return %GroupData;
     }
     else {
@@ -277,6 +218,134 @@ sub GroupUpdate {
     }
     else {
         return;
+    }
+}
+# --
+sub GroupList {
+    my $Self = shift;
+    my %Param = @_;
+    my $Valid = $Param{Valid} || 0;
+    my %Users = $Self->{DBObject}->GetTableData(
+        What => 'id, name',
+        Table => 'groups', 
+        Valid => $Valid,
+    );
+    return %Users;
+}   
+# --
+sub GroupMemberList {
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # check needed stuff
+    # --
+    foreach (qw(Result Type GroupID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    my %Users = ();
+    my @Name = ();
+    my @ID = ();
+    my $SQL = "SELECT u.id, u.login, gu.read, gu.write " .
+      " FROM " .
+      " $Self->{ConfigObject}->{DatabaseUserTable} u, group_user gu".
+      " WHERE " .
+      " u.valid_id in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ".
+      " AND ". 
+      " gu.group_id = $Param{GroupID}".
+      " AND " .
+      " u.id = gu.user_id ";
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        # read only
+        if ($Param{Type} eq 'ro') {
+            if ($Row[3] || $Row[2] || (!$Row[2] && !$Row[3])) {
+                $Users{$Row[0]} = $Row[1];
+                push (@Name, $Row[1]);
+                push (@ID, $Row[0]);
+            }
+        }
+        # read/write
+        elsif ($Param{Type} eq 'rw') {
+            if ($Row[3] || (!$Row[2] && !$Row[3])) {
+                $Users{$Row[0]} = $Row[1];
+                push (@Name, $Row[1]);
+                push (@ID, $Row[0]);
+            }
+        }
+        else {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Type '$Param{Type}' dosn't exist!");
+            return;
+        }
+    }
+    if ($Param{Result} && $Param{Result} eq 'ID') {
+        return @ID;
+    }
+    if ($Param{Result} && $Param{Result} eq 'Name') {
+        return @Name;
+    }
+    else {
+        return %Users;
+    }
+}
+# --
+sub GroupUserList {
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # check needed stuff
+    # --
+    foreach (qw(Result Type UserID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    my %Groups = (); 
+    my @Name = ();
+    my @ID = ();
+    my $SQL = "SELECT g.id, g.name, gu.read, gu.write " .
+      " FROM " .
+      " groups g, group_user gu".
+      " WHERE " .
+      " g.valid_id in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ".
+      " AND ".
+      " gu.user_id = $Param{UserID}".
+      " AND " .
+      " g.id = gu.group_id ";
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        # read only
+        if ($Param{Type} eq 'ro') {
+            if ($Row[3] || $Row[2] || (!$Row[2] && !$Row[3])) {
+                $Groups{$Row[0]} = $Row[1];
+                push (@Name, $Row[1]);
+                push (@ID, $Row[0]);
+            }
+        }
+        # read/write
+        elsif ($Param{Type} eq 'rw') {
+            if ($Row[3] || (!$Row[2] && !$Row[3])) {
+                $Groups{$Row[0]} = $Row[1];
+                push (@Name, $Row[1]);
+                push (@ID, $Row[0]);
+            }
+        }
+        else {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Type '$Param{Type}' dosn't exist!");
+            return;
+        }
+    }
+    if ($Param{Result} && $Param{Result} eq 'ID') {
+        return @ID;
+    }
+    if ($Param{Result} && $Param{Result} eq 'Name') {
+        return @Name;
+    }
+    else {
+        return %Groups;
     }
 }
 # --

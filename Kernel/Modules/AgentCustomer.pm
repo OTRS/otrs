@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCustomer.pm - to set the ticket customer and show the customer history
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCustomer.pm,v 1.15 2003-02-25 22:55:00 martin Exp $
+# $Id: AgentCustomer.pm,v 1.16 2003-03-06 22:11:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,9 +12,10 @@
 package Kernel::Modules::AgentCustomer;
 
 use strict;
+use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -30,17 +31,8 @@ sub new {
         $Self->{$_} = $Param{$_};
     }
 
-    # check needed Opjects
-    foreach (
-      'ParamObject', 
-      'DBObject', 
-      'TicketObject', 
-      'LayoutObject', 
-      'LogObject', 
-      'QueueObject', 
-      'ConfigObject',
-      'UserObject',
-    ) {
+    # check needed Objects
+    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject ConfigObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
    
@@ -62,6 +54,7 @@ sub Run {
     # --
     if ($Self->{TicketID}) {
         if (!$Self->{TicketObject}->Permission(
+            Type => 'rw',
             TicketID => $Self->{TicketID},
             UserID => $Self->{UserID})) {
             # --
@@ -202,22 +195,20 @@ sub Form {
     # --
     my @TicketIDs = ();
     if ($TicketCustomerID) {
+        my @GroupIDs = $Self->{GroupObject}->GroupUserList(
+            UserID => $Self->{UserID},
+            Type => 'ro',
+            Result => 'ID',
+        );
         my $SQL = "SELECT st.id, st.tn ".
           " FROM ".
-          " ticket st, $Self->{ConfigObject}->{DatabaseUserTable} su, group_user sug, ".
-          " groups g, queue q ".
+          " ticket st, queue q ".
           " WHERE ".
-          " su.$Self->{ConfigObject}->{DatabaseUserTableUserID} = sug.user_id ".
-          " AND ".
-          " g.id = sug.group_id".
-          " AND ".
           " st.queue_id = q.id ".
           " AND ".
-          " q.group_id = g.id ".
-          " AND ".
-          " sug.user_id = $Self->{UserID} ".
-          " AND ".
           " st.customer_id = '$TicketCustomerID' ".
+          " AND ".
+          " q.group_id IN ( ${\(join ', ', @GroupIDs)} ) ".
           " ORDER BY st.create_time_unix DESC ";
         $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 500);
         while (my @Row = $Self->{DBObject}->FetchrowArray() ) {

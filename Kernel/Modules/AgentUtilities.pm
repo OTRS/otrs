@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.18 2003-03-02 08:54:49 martin Exp $
+# $Id: AgentUtilities.pm,v 1.19 2003-03-06 22:11:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentUtilities;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -31,8 +31,7 @@ sub new {
     }
 
     # check needed Opjects
-    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject
-      QueueObject ConfigObject UserObject)) {
+    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject ConfigObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
 
@@ -84,7 +83,13 @@ sub SearchByTn {
     my $Output;
     my $Want = $Self->{Want};
     my $UserID = $Self->{UserID};
-    
+    # get user groups 
+    my @GroupIDs = $Self->{GroupObject}->GroupUserList(
+        UserID => $Self->{UserID},
+        Type => 'ro',
+        Result => 'ID',
+    );
+    # start html 
     $Output .= $Self->{LayoutObject}->Header(Title => 'Utilities');
     my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $UserID);
     $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
@@ -97,21 +102,16 @@ sub SearchByTn {
     # modifier search string!!!
     $Want =~ s/\*/%/g;
     my $OutputTables = '';
-    my $SQL = "SELECT st.id, st.tn, " .
-    " st.create_time_unix, su.$Self->{ConfigObject}->{DatabaseUserTableUser} " .
-    " FROM " .
-    " ticket st, $Self->{ConfigObject}->{DatabaseUserTable} su, ". 
-    " queue sq, group_user sug  ".
-    " WHERE " .
-    " sq.id = st.queue_id " .
-    " AND " .
-    " su.$Self->{ConfigObject}->{DatabaseUserTableUserID} = st.user_id " .
-    " AND " .
-    " sq.group_id = sug.group_id" .
-    " AND " .
-    " sug.user_id = $UserID ".
+    my $SQL = "SELECT st.id, st.tn, st.create_time_unix ".
+    " FROM ".
+    " ticket st, queue sq ".
+    " WHERE ".
+    " sq.id = st.queue_id ".
+    " AND ".
+    " sq.group_id IN ( ${\(join ', ', @GroupIDs)} )".
     " AND " .
     " st.tn LIKE '$Want' ";
+
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{SearchLimitTn});
     my @ViewableTicketIDs = ();
     my $Counter = 0;
@@ -289,34 +289,35 @@ sub SearchByText {
       $Output .= $Self->{LayoutObject}->Footer();
       return $Output;
     }
+    # get user groups 
+    my @GroupIDs = $Self->{GroupObject}->GroupUserList(
+        UserID => $Self->{UserID},
+        Type => 'ro',
+        Result => 'ID',
+    );
     # --
     # db query
     # --
     my $OutputTables = '';
     my $Age = '?';
     my $SQL = "SELECT sa.id as article_id, st.id ".
-    " FROM " .
-    " article sa, ticket st, article_sender_type stt, article_type at, ".
-    " $Self->{ConfigObject}->{DatabaseUserTable} su, ticket_lock_type sl, " .
-    " ticket_state tsd, queue sq, group_user sug " .
-    " WHERE " .
-    " sa.ticket_id = st.id " .
-    " AND " .
-    " sq.id = st.queue_id " .
-    " AND " .
-    " stt.id = sa.article_sender_type_id " .
-    " AND " .
-    " at.id = sa.article_type_id " .
-    " AND " .
-    " su.$Self->{ConfigObject}->{DatabaseUserTableUserID} = st.user_id " .
-    " AND " .
-    " sl.id = st.ticket_lock_id " .
-    " AND " .
-    " tsd.id = st.ticket_state_id " .
-    " AND " .
-    " sq.group_id = sug.group_id" .
-    " AND " .
-    " sug.user_id = $UserID ";
+      " FROM ".
+      " article sa, ticket st, article_sender_type stt, article_type at, ".
+      " ticket_lock_type sl, ticket_state tsd, queue sq ".
+      " WHERE ".
+      " sa.ticket_id = st.id ".
+      " AND ".
+      " sq.id = st.queue_id ".
+      " AND ".
+      " stt.id = sa.article_sender_type_id ".
+      " AND ".
+      " at.id = sa.article_type_id ".
+      " AND ".
+      " sl.id = st.ticket_lock_id ".
+      " AND ".
+      " tsd.id = st.ticket_state_id ".
+      " AND ".
+      " sq.group_id IN ( ${\(join ', ', @GroupIDs)} )";
     if ($SqlQueueExt) { 
         $SQL .= " AND ($SqlQueueExt)"; 
     }

@@ -112,14 +112,14 @@ drop table if exists group_user;
 
 CREATE TABLE group_user
 (
-    id BIGINT NOT NULL AUTO_INCREMENT,
     user_id INTEGER NOT NULL,
     group_id INTEGER NOT NULL,
+    read SMALLINT NOT NULL,
+    write SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
-    change_by INTEGER NOT NULL,
-    PRIMARY KEY(id)
+    change_by INTEGER NOT NULL
 );
 
 # -----------------------------------------------------------------------

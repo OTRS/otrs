@@ -98,14 +98,14 @@ CREATE TABLE groups
 -----------------------------------------------------------------------------
 CREATE TABLE group_user
 (
-    id serial,
     user_id integer NOT NULL,
     group_id integer NOT NULL,
+    read SMALLINT NOT NULL,
+    write SMALLINT NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by integer NOT NULL,
     change_time timestamp(0) NOT NULL,
-    change_by integer NOT NULL,
-    PRIMARY KEY(id)
+    change_by integer NOT NULL
 );
 
 -----------------------------------------------------------------------------

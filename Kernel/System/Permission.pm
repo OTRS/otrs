@@ -2,7 +2,7 @@
 # Kernel/System/Permission.pm - to control the access permissions 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Permission.pm,v 1.7 2003-02-08 15:09:38 martin Exp $
+# $Id: Permission.pm,v 1.8 2003-03-06 22:11:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Permission;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -51,7 +51,11 @@ sub Section {
     my $UserID = $Param{UserID} || return;
     my $Section = 'Permission' . $Param{Section};
 
-    my %Groups = $Self->{UserObject}->GetGroups(UserID => $UserID);
+    my %Groups = $Self->{GroupObject}->GroupUserList(
+        Result => 'HASH',
+        Type => 'rw',
+        UserID => $UserID,
+    );
     foreach (keys %Groups) {
         if ($Groups{$_} eq $Self->{$Section}) {
             return 1;

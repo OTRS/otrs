@@ -3,7 +3,7 @@
 # queue ticket index module
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: RuntimeDB.pm,v 1.8 2003-03-04 00:12:52 martin Exp $
+# $Id: RuntimeDB.pm,v 1.9 2003-03-06 22:13:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Ticket::IndexAccelerator::RuntimeDB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketAcceleratorUpdate {
@@ -48,6 +48,16 @@ sub TicketAcceleratorIndex {
         return;
       }
     }
+    # get user groups 
+    my $Type = 'rw';
+    if ($Self->{ConfigObject}->Get('QueueViewAllPossibleTickets')) {
+        $Type = 'ro';
+    }
+    my @GroupIDs = $Self->{GroupObject}->GroupUserList(
+        UserID => $Param{UserID},
+        Type => $Type,
+        Result => 'ID',
+    );
     my @QueueIDs = @{$Param{ShownQueueIDs}};
     my %Queues = ();
     $Queues{MaxAge} = 0;
@@ -57,13 +67,13 @@ sub TicketAcceleratorIndex {
     # prepar "All tickets: ??" in Queue
     # --
     if (@QueueIDs) {
-        my $SQL = "SELECT count(*) as count " .
-          " FROM " .
-          " ticket st " .
-          " WHERE " .
-          " st.ticket_state_id in ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) " .
-          " and " .
-          " st.queue_id in ( ${\(join ', ', @QueueIDs)} ) " .
+        my $SQL = "SELECT count(*) as count ".
+          " FROM ".
+          " ticket st ".
+          " WHERE ".
+          " st.ticket_state_id in ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) ".
+          " AND ".
+          " st.queue_id in ( ${\(join ', ', @QueueIDs)} ) ".
           " ";
     
         $Self->{DBObject}->Prepare(SQL => $SQL);
@@ -106,17 +116,15 @@ sub TicketAcceleratorIndex {
     # prepar the tickets in Queue bar (all data only with my/your Permission)
     $SQL = "SELECT st.queue_id, sq.name, min(st.create_time_unix), count(*) as count ".
     " FROM " .
-    " ticket as st, queue as sq, group_user as sug " .
+    " ticket as st, queue as sq " .
     " WHERE " .
     " st.ticket_state_id in ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) " .
     " AND " .
     " st.ticket_lock_id in ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) " .
     " AND " .
     " st.queue_id = sq.id " .
-    " AND " .
-    " sq.group_id = sug.group_id" .
-    " AND " .
-    " sug.user_id = $Param{UserID} " .
+    " AND ".
+    " sq.group_id IN ( ${\(join ', ', @GroupIDs)} ) ".
     " GROUP BY st.queue_id,sq.name " .
     " ORDER BY sq.name";
     $Self->{DBObject}->Prepare(SQL => $SQL);
@@ -152,7 +160,6 @@ sub TicketAcceleratorRebuild {
 sub GetLockedCount {
     my $Self = shift;
     my %Param = @_;
-
     # --
     # check needed stuff
     # --
@@ -164,10 +171,10 @@ sub GetLockedCount {
     }
     $Self->{DBObject}->Prepare(
        SQL => "SELECT ar.id as ca, st.name, ti.id, ar.create_by, ti.create_time_unix, ".
-              " ti.until_time, ts.name " .
+              " ti.until_time, ts.name, tst.name " .
               " FROM " .
               " ticket ti, article ar, article_sender_type st, " .
-              " ticket_state ts" .
+              " ticket_state ts, ticket_state_type tst " .
               " WHERE " .
               " ti.ticket_lock_id not in ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) " .
               " AND " .
@@ -178,6 +185,8 @@ sub GetLockedCount {
               " st.id = ar.article_sender_type_id " .
               " AND " .
               " ts.id = ti.ticket_state_id " .
+              " AND " .
+              " ts.type_id = tst.id " .
               " ORDER BY ar.create_time DESC",
     ); 
     my %Data = ();
@@ -195,9 +204,9 @@ sub GetLockedCount {
           if ($RowTmp[3] ne $Param{UserID} || $RowTmp[1] eq 'customer') {
               $Data{'New'}++;
           }
-          if ($RowTmp[5] && $RowTmp[6] =~ /^pending/i) {
+          if ($RowTmp[5] && $RowTmp[7] =~ /^pending/i) {
               $Data{'Pending'}++;
-              if ($RowTmp[6] !~ /^pending auto/i && $RowTmp[5] <= time()) {
+              if ($RowTmp[7] !~ /^pending auto/i && $RowTmp[5] <= time()) {
                   $Data{'Reminder'}++;
               }
           }
@@ -220,8 +229,7 @@ sub GetOverTimeTickets {
     my $SQL = "SELECT t.queue_id, a.ticket_id, a.id, ast.name, a.incoming_time, ".
     " q.name, q.escalation_time, t.tn ".
     " FROM ".
-    " article a, article_sender_type ast, queue q, ticket t, ".
-    " group_user as ug ".
+    " article a, article_sender_type ast, queue q, ticket t ".
     " WHERE ".
     " t.ticket_state_id in ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) " .
     " AND " .
@@ -232,12 +240,14 @@ sub GetOverTimeTickets {
     " t.id = a.ticket_id ".
     " AND ".
     " q.id = t.queue_id ".
-    " AND ".
-    " q.group_id = ug.group_id ".
     " AND ";
     if ($Param{UserID}) {
-        $SQL .= " ug.user_id = $Param{UserID} ".
-          " AND ";
+        my @GroupIDs = $Self->{GroupObject}->GroupUserList(
+            UserID => $Param{UserID},
+            Type => 'rw',
+            Result => 'ID',
+        );
+        $SQL .= " q.group_id IN ( ${\(join ', ', @GroupIDs)} ) AND ";
     }
     $SQL .= " ast.name = 'customer' ".
     " AND " .

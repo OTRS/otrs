@@ -2,7 +2,9 @@
 # --
 # otrs.addUser - Add User from CLI
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
-# $Id: otrs.addUser,v 1.7 2003-01-23 22:50:09 martin Exp $
+# --
+# $Id: otrs.addUser,v 1.8 2003-03-06 22:11:59 martin Exp $
+# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
@@ -17,7 +19,7 @@ use vars qw (%opts);
 use Getopt::Std;
 getopt('flpge',  \%opts);
 unless ($ARGV[0]){
-    print "$FindBin::Script [-f firstname] [-l lastname] [-p password] [-g groupname] username\n";
+    print "$FindBin::Script [-f firstname] [-l lastname] [-p password] [-g groupname] [-e email] username\n";
     print "\tif you define -g with a valid group name then the user will be added that group\n";
     print "\n";
     exit;
@@ -39,19 +41,14 @@ $CommonObject{LogObject}     = Kernel::System::Log->new(%CommonObject, LogPrefix
 $CommonObject{DBObject}      = Kernel::System::DB->new(%CommonObject);
 $CommonObject{UserObject}    = Kernel::System::User->new(%CommonObject);
 
-
-
 my %Param;
 undef %Param;
 
 #user id of the person adding the record
 $Param{UserID}='1';
 
-
 #Validrecord
 $Param{ValidID}='1';
-
-
 
 $Param{Firstname}=$opts{'f'};
 $Param{Lastname}=$opts{'l'};
@@ -73,14 +70,16 @@ if ($opts{'g'}) {
    $Param{Group}=$opts{'g'};
    
    if ($Param{GID}=$CommonObject{GroupObject}->GetGroupIdByName(%Param)){
-      print "Found Group.. GID is $Param{GID}" , "\n";
-   } else {
-      print "Failed to get Group ID. Perhaps non-existent group..\n";
+        print "Found Group.. GID is $Param{GID}" , "\n";
+   } 
+   else {
+        print "Failed to get Group ID. Perhaps non-existent group..\n";
    }
-   if ($CommonObject{GroupObject}->MemberAdd(%Param)) {
-      print "User added to group\n";
-   } else {
-      print "Failed to add user to group\n";
+   if ($CommonObject{GroupObject}->GroupMemberAdd(%Param)) {
+        print "User added to group\n";
+   } 
+   else {
+        print "Failed to add user to group\n";
    }
 }
 

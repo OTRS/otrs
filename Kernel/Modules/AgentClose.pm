@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentClose.pm - to close a ticket
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentClose.pm,v 1.20 2003-03-04 00:12:50 martin Exp $
+# $Id: AgentClose.pm,v 1.21 2003-03-06 22:11:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -50,21 +50,22 @@ sub Run {
     # check needed stuff
     # --
     if (!$Self->{TicketID}) {
-      # --
-      # error page
-      # --
-      $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-      $Output .= $Self->{LayoutObject}->Error(
-          Message => "Can't close Ticket, no TicketID is given!",
-          Comment => 'Please contact the admin.',
-      );
-      $Output .= $Self->{LayoutObject}->Footer();
-      return $Output;
+        # --
+        # error page
+        # --
+        $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
+        $Output .= $Self->{LayoutObject}->Error(
+            Message => "Can't close Ticket, no TicketID is given!",
+            Comment => 'Please contact the admin.',
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
     # --
     # check permissions
     # --
     if (!$Self->{TicketObject}->Permission(
+        Type => 'rw',
         TicketID => $Self->{TicketID},
         UserID => $Self->{UserID})) {
         # --
@@ -72,7 +73,6 @@ sub Run {
         # --
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
     }
-
     
     my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $Self->{TicketID});
     

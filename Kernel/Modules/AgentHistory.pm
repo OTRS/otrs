@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentHistory.pm - to add notes to a ticket 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentHistory.pm,v 1.8 2003-02-08 15:16:30 martin Exp $
+# $Id: AgentHistory.pm,v 1.9 2003-03-06 22:11:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentHistory;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -78,6 +78,7 @@ sub Run {
     # check permissions
     # --
     if (!$Self->{TicketObject}->Permission(
+        Type => 'ro',
         TicketID => $Self->{TicketID},
         UserID => $Self->{UserID})) {
         # --

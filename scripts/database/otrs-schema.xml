@@ -6,9 +6,12 @@
   XML File for the OTRS database description
   Copyright (C) 2001-2003 Martin Edenhofer
 
-  $Id: otrs-schema.xml,v 1.6 2003-03-03 23:29:01 martin Exp $
+  $Id: otrs-schema.xml,v 1.7 2003-03-06 22:12:00 martin Exp $
 
   $Log: not supported by cvs2svn $
+  Revision 1.6  2003/03/03 23:29:01  martin
+  added ticket_state_type and added ticket_state.type_id
+
   Revision 1.5  2003/02/25 18:50:01  martin
   removed dubbel group_id on ticket table
 
@@ -197,9 +200,10 @@
 
 <!-- group_user - relation group<->user -->
 <table name="group_user">
-  <column name="id" required="true" primaryKey="true" autoIncrement="true" type="BIGINT"/>
   <column name="user_id" required="true" type="INTEGER"/>
   <column name="group_id" required="true" type="INTEGER"/>
+  <column name="read" required="false" type="SMALLINT"/>
+  <column name="write" required="false" type="SMALLINT"/>
   <column name="create_time" required="true" type="DATE"/>
   <column name="create_by" required="true" type="INTEGER"/>
   <column name="change_time" required="true" type="DATE"/>

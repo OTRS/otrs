@@ -2,7 +2,7 @@
 # HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.32 2003-03-04 00:12:51 martin Exp $
+# $Id: Admin.pm,v 1.33 2003-03-06 22:11:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -923,36 +923,38 @@ sub AdminUserGroupForm {
 sub AdminUserGroupChangeForm {
     my $Self = shift;
     my %Param = @_;
-    my $FirstData = $Param{FirstData};
-    my %FirstDataTmp = %$FirstData;
-    my $SecondData = $Param{SecondData};
-    my %SecondDataTmp = %$SecondData;
-    my $Data = $Param{Data};
-    my %DataTmp = %$Data;
+    my %Data = %{$Param{Data}};
     my $BaseLink = $Self->{Baselink};
     my $Type = $Param{Type} || 'User';
     my $NeType = 'Group';
     $NeType = 'User' if ($Type eq 'Group');
 
 
-    foreach (sort keys %FirstDataTmp){
-        $Param{OptionStrg0} .= "<B>\$Text{\"$Type\"}:</B> <A HREF=\"$BaseLink"."Action=Admin$Type&Subaction=Change&ID=$_\">" .
-          "$FirstDataTmp{$_}</A> (id=$_)<BR>";
-        $Param{OptionStrg0} .= "<INPUT TYPE=\"hidden\" NAME=\"ID\" VALUE=\"$_\"><BR>\n";
-    }
+    $Param{OptionStrg0} .= "<B>\$Text{\"$Type\"}:</B> <A HREF=\"$BaseLink"."Action=Admin$Type&Subaction=Change&ID=$Param{ID}\">" .
+    "$Param{Name}</A> (id=$Param{ID})<BR>";
+    $Param{OptionStrg0} .= '<INPUT TYPE="hidden" NAME="ID" VALUE="'.$Param{ID}.'"><BR>';
 
-    $Param{OptionStrg0} .= "<B>\$Text{\"$NeType:\"}</B><BR> <SELECT NAME=\"IDs\" SIZE=10 multiple>\n";
-    foreach my $ID (sort keys %SecondDataTmp){
-        $Param{OptionStrg0} .= "<OPTION ";
-        foreach (sort keys %DataTmp){
-          if ($_ eq $ID) {
-               $Param{OptionStrg0} .= 'selected';
-          }
+    $Param{OptionStrg0} .= "<br>\n";
+    $Param{OptionStrg0} .= "<table>\n";
+    $Param{OptionStrg0} .= "<tr><th>$NeType</th><th>ro</th><th>rw</th></tr>\n";
+    foreach (sort keys %{$Param{Data}}) {
+        $Param{OptionStrg0} .= '<tr><td>';
+        $Param{OptionStrg0} .= $Param{Data}->{$_};
+        my $RoSelected = '';
+        if ($Param{Ro}->{$_}) {
+            $RoSelected = ' checked';
         }
-        $Param{OptionStrg0} .= " VALUE=\"$ID\">$SecondDataTmp{$ID} (id=$ID)</OPTION>\n";
+        $Param{OptionStrg0} .= '</td><td>';
+        $Param{OptionStrg0} .= '<input type="checkbox" name="RoIDs" value="'.$_."\"$RoSelected>";
+        my $RwSelected = '';
+        if ($Param{Rw}->{$_}) {
+            $RwSelected = ' checked';
+        }
+        $Param{OptionStrg0} .= '</td><td>';
+        $Param{OptionStrg0} .= '<input type="checkbox" name="RwIDs" value="'.$_."\"$RwSelected>";
+        $Param{OptionStrg0} .= '</td></tr>';
     }
-    $Param{OptionStrg0} .= "</SELECT>\n";
-
+    $Param{OptionStrg0} .= "</table>\n";
 
     return $Self->Output(TemplateFile => 'AdminUserGroupChangeForm', Data => \%Param);
 }

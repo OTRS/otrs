@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.30 2003-03-04 00:12:50 martin Exp $
+# $Id: AgentPhone.pm,v 1.31 2003-03-06 22:11:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -85,6 +85,18 @@ sub Run {
            );
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
+        }
+        # --
+        # check permissions
+        # --
+        if (!$Self->{TicketObject}->Permission(
+            Type => 'rw',
+            TicketID => $Self->{TicketID},
+            UserID => $Self->{UserID})) {
+            # --
+            # error screen, don't show ticket
+            # --
+            return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
         }
         # --
         # get ticket info
@@ -558,7 +570,11 @@ sub _GetTos {
         # ASP? Just options where the user is in!
         # --
         if ($Self->{ConfigObject}->Get('PhoneViewASP')) {
-            my %UserGroups = $Self->{UserObject}->GetGroups(UserID => $Self->{UserID});
+            my %UserGroups = $Self->{GroupObject}->GroupUserList(
+                UserID => $Self->{UserID}, 
+                Type => 'rw', 
+                Result => 'HASH',
+            );
             foreach (keys %Tos) {
                 if ($UserGroups{$Self->{QueueObject}->GetQueueGroupID(QueueID => $_)}) {
                     $NewTos{$_} = $Tos{$_};

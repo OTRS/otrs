@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/IndexAccelerator/StaticDB.pm - static db queue ticket index module
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: StaticDB.pm,v 1.8 2003-03-04 00:12:52 martin Exp $
+# $Id: StaticDB.pm,v 1.9 2003-03-06 22:13:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::IndexAccelerator::StaticDB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketAcceleratorUpdate {
@@ -254,11 +254,15 @@ sub TicketAcceleratorIndex {
     # -- 
     # get user groups
     # --
-    my %Groups = $Self->{UserObject}->GetGroups(%Param);
-    my @GroupIDs = ();
-    foreach (keys %Groups) {
-        push (@GroupIDs, $_);
+    my $Type = 'rw';
+    if ($Self->{ConfigObject}->Get('QueueViewAllPossibleTickets')) {
+        $Type = 'ro';
     }
+    my @GroupIDs = $Self->{GroupObject}->GroupUserList(
+        UserID => $Param{UserID},
+        Type => $Type,
+        Result => 'ID',
+    );
     # --
     # get index 
     # --
@@ -467,10 +471,10 @@ sub GetLockedCount {
     }
     $Self->{DBObject}->Prepare(
        SQL => "SELECT ar.id as ca, st.name, ti.id, ar.create_by, ti.create_time_unix, ".
-              " ti.until_time, ts.name ".
+              " ti.until_time, ts.name, tst.name ".
               " FROM ".
               " ticket ti, article ar, article_sender_type st, ".
-              " ticket_state ts, ticket_lock_index tli".
+              " ticket_state ts, ticket_lock_index tli, ticket_state_type tst ".
               " WHERE ". 
               " tli.ticket_id = ti.id".
               " AND ".
@@ -479,6 +483,8 @@ sub GetLockedCount {
               " st.id = ar.article_sender_type_id ".
               " AND ".
               " ts.id = ti.ticket_state_id ".
+              " AND ".
+              " ts.type_id = tst.id " .
               " AND ".
               " ti.user_id = $Param{UserID} ".
               " ORDER BY ar.create_time DESC",
@@ -498,9 +504,10 @@ sub GetLockedCount {
           if ($RowTmp[3] ne $Param{UserID} || $RowTmp[1] eq 'customer') {
               $Data{'New'}++;
           }
-          if ($RowTmp[5] && $RowTmp[6] =~ /^pending/i) {
+
+          if ($RowTmp[5] && $RowTmp[7] =~ /^pending/i) {
               $Data{'Pending'}++;
-              if ($RowTmp[6] !~ /^pending auto/i && $RowTmp[5] <= time()) {
+              if ($RowTmp[7] !~ /^pending auto/i && $RowTmp[5] <= time()) {
                   $Data{'Reminder'}++;
               }
           }
@@ -523,8 +530,7 @@ sub GetOverTimeTickets {
     my $SQL = "SELECT t.queue_id, a.ticket_id, a.id, ast.name, a.incoming_time, ".
     " q.name, q.escalation_time, t.tn ".
     " FROM ".
-    " article a, article_sender_type ast, queue q, ticket t, ".
-    " group_user as ug, ticket_index ti ".
+    " article a, article_sender_type ast, queue q, ticket t, ticket_index ti ".
     " WHERE ".
     " t.ticket_state_id in ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) " .
     " AND " .
@@ -537,12 +543,14 @@ sub GetOverTimeTickets {
     " t.id = a.ticket_id ".
     " AND ".
     " q.id = t.queue_id ".
-    " AND ".
-    " q.group_id = ug.group_id ".
     " AND ";
     if ($Param{UserID}) {
-        $SQL .= " ug.user_id = $Param{UserID} ".
-          " AND ";
+        my @GroupIDs = $Self->{GroupObject}->GroupUserList(
+            UserID => $Param{UserID},
+            Type => 'rw',
+            Result => 'ID',
+        );
+        $SQL .= " q.group_id IN ( ${\(join ', ', @GroupIDs)} ) AND ";
     }
     $SQL .= " ast.name = 'customer' ".
     " AND " .
