@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.128 2004-04-28 06:38:13 martin Exp $
+# $Id: Defaults.pm,v 1.129 2004-05-02 10:47:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.128 $';
+$VERSION = '$Revision: 1.129 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -109,7 +109,7 @@ sub LoadDefaults {
     $Self->{MoveType} = 'form';
     $Self->{MoveSetState} = 0;
     # default move next state
-    $Self->{DefaultNextMoveStateType} = ['new', 'open', 'closed'];
+    $Self->{DefaultNextMoveStateType} = ['open', 'closed'];
 
     # NoteSetState 
     # (possible to set ticket state via AgentNote)
