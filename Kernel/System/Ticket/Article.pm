@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.46 2004-01-10 15:31:48 martin Exp $
+# $Id: Article.pm,v 1.47 2004-01-23 00:47:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::Article;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.46 $';
+$VERSION = '$Revision: 1.47 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -266,8 +266,16 @@ sub CreateArticle {
                 Cached => 1, 
                 Valid => 1,
             );
-            if ($UserData{UserEmail} && $UserData{UserSendNewTicketNotification}) {
-                $To .= "$UserData{UserEmail}, ";
+            if ($UserData{UserSendNewTicketNotification}) {
+                # send notification
+                $Self->SendNotification(
+                    Type => $Param{HistoryType},
+                    UserData => \%UserData,
+                    CustomerMessageParams => \%Param,
+                    TicketID => $Param{TicketID},
+                    Queue => $Param{Queue},
+                    UserID => $Param{UserID},
+                );
             }
         }
     }
@@ -277,25 +285,19 @@ sub CreateArticle {
         if ($OwnerID ne $Self->{ConfigObject}->Get('PostmasterUserID') && $OwnerID ne $Param{UserID}) {
             my %Preferences = $Self->{UserObject}->GetUserData(UserID => $OwnerID);
             if ($Preferences{UserSendFollowUpNotification}) {
-                $To = $Preferences{UserEmail};
+                # send notification
+                $Self->SendNotification(
+                    Type => $Param{HistoryType},
+                    UserData => \%Preferences,
+                    CustomerMessageParams => \%Param,
+                    TicketID => $Param{TicketID},
+                    Queue => $Param{Queue},
+                    UserID => $Param{UserID},
+                );
             }
         }
     }
-    # --
-    # send notification
-    # --
-    $Self->SendNotification(
-        Type => $Param{HistoryType},
-        To => $To,
-        CustomerMessageParams => \%Param,
-        TicketNumber => $Ticket{TicketNumber},
-        TicketID => $Param{TicketID},
-        Queue => $Param{Queue},
-        UserID => $Param{UserID},
-    );
-    # --
     # return ArticleID
-    # --
     return $ArticleID;
 }
 # --
