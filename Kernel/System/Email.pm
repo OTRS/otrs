@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Email.pm,v 1.6 2004-09-04 17:41:00 martin Exp $
+# $Id: Email.pm,v 1.7 2004-09-28 17:46:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use MIME::Entity;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -40,11 +40,15 @@ create a object
 
   use Kernel::Config;
   use Kernel::System::Log;
+  use Kernel::System::Time;
   use Kernel::System::DB;
   use Kernel::System::Email;
 
   my $ConfigObject = Kernel::Config->new();
   my $LogObject    = Kernel::System::Log->new(
+      ConfigObject => $ConfigObject,
+  );
+  my $TimeObject    = Kernel::System::Time->new(
       ConfigObject => $ConfigObject,
   );
   my $DBObject = Kernel::System::DB->new(
@@ -55,6 +59,7 @@ create a object
       ConfigObject => $ConfigObject,
       LogObject => $LogObject,
       DBObject => $DBObject,
+      TimeObject => $TimeObject,
   );
 
 =cut
@@ -72,7 +77,7 @@ sub new {
     # debug level
     $Self->{Debug} = $Param{Debug} || 0;
     # check all needed objects
-    foreach (qw(ConfigObject LogObject DBObject)) {
+    foreach (qw(ConfigObject LogObject DBObject TimeObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
     # load generator backend module
@@ -174,6 +179,8 @@ sub Send {
 
         $Param{Body} = $Entity->body_as_string();
     }
+    # add date header
+    $Param{Header} = "Date: ".$Self->{TimeObject}->MailTimeStamp()."\n".$Param{Header};
     # get recipients
     my $To = '';
     my @ToArray = ();
@@ -229,7 +236,7 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2004-09-04 17:41:00 $
+$Revision: 1.7 $ $Date: 2004-09-28 17:46:52 $
 
 =cut
 
