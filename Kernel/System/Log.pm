@@ -2,7 +2,7 @@
 # Kernel/System/Log.pm - log wapper 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Log.pm,v 1.14 2003-02-08 15:09:38 martin Exp $
+# $Id: Log.pm,v 1.15 2003-02-19 17:06:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use IPC::SysV qw(IPC_PRIVATE IPC_RMID S_IRWXU);
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $ ';
+$VERSION = '$Revision: 1.15 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -91,9 +91,9 @@ sub Log {
     # if error, write it to STDERR
     # --
     if ($Priority =~ /error/i) {
-        printf STDERR "ERROR: $Self->{LogPrefix} Perl: %vd OS: $^O Time: ".localtime()."\n\n", $^V;
-        print STDERR "  Message: $Message\n\n";
-        print STDERR "  Traceback ($$): \n";
+        my $Error = sprintf "ERROR: $Self->{LogPrefix} Perl: %vd OS: $^O Time: ".localtime()."\n\n", $^V;
+        $Error .= " Message: $Message\n\n";
+        $Error .= " Traceback ($$): \n";
         for (my $i = 0; $i < 12; $i++) {
             my ($Package1, $Filename1, $Line1, $Subroutine1) = caller($Caller+$i);
             my ($Package2, $Filename2, $Line2, $Subroutine2) = caller($Caller+1+$i);
@@ -103,21 +103,21 @@ sub Log {
             }
             # print line if upper caller module exists
             if ($Line1) {
-                print STDERR "    Module: $Subroutine2 Line: $Line1\n";
+                my $Version = eval("\$$Package1". '::VERSION');
+                $Error .= "   Module: $Subroutine2 (v$Version) Line: $Line1\n";
             }
             # return if there is no upper caller module
             if (!$Line2) {
                 $i = 12;
             }
         }
-        print STDERR "\n";
+        $Error .= "\n";
+        print STDERR $Error;
         # --
         # store data (for the frontend)
         # --
         $Self->{Error}->{Message} = $Message;
-        $Self->{Error}->{Subroutine} = $Subroutine2;
-        $Self->{Error}->{Line} = $Line1;
-        $Self->{Error}->{Version} = eval("\$$Package1". '::VERSION');
+        $Self->{Error}->{Traceback} = $Error;
     }
     # --
     # write shm cache log

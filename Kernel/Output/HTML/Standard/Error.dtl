@@ -2,7 +2,7 @@
 # Error.dtl - provides HTML Error screen
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Error.dtl,v 1.9 2003-02-08 15:40:44 martin Exp $
+# $Id: Error.dtl,v 1.10 2003-02-19 17:06:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,38 +20,24 @@
 </tr>
 <tr>
   <td class="table1">
-    <table>
+    <table cellspacing="0" cellpadding="2" width="100%">
         <tr>
-            <td class="table1" valign="top"><b>$Text{"Comment"}:</b></td>
+            <td class="table1" valign="top" width="100"><b>$Text{"Comment"}:</b></td>
             <td class="table1" valign="top">$Data{"Comment"}</td>
         </tr>
         <tr>
             <td class="table1" valign="top"><b>$Text{"Bug Report"}:</b></td>
-            <td class="table1" valign="top"><a href="http://bugs.otrs.org/" target="bugzilla">$Text{"Click here to report a bug!"}</a></TD>
+            <td class="table1" valign="top">
+              <form action="http://bugs.otrs.org/enter_bug.cgi">
+              <input type="hidden" name="comment" value="$Data{"BackendTraceback"}">
+              <input type="hidden" name="bug_file_loc" value="$Env{"SERVER_NAME"}$Env{"REQUEST_URI"}">
+              <input type="submit" value="$Text{"Click here to report a bug!"}">
+              </form>
+            </td>
         </tr>
         <tr>
-            <td class="table1" valign="top"><b>$Text{"Handle"}:</b></td>
-            <td class="table1" valign="top">$Data{"Filename2"}</td>
-        </tr>
-        <tr>
-            <td class="table1" valign="top"><b>$Text{"Frontend"} $Text{"Subfunction"}:</b></td>
-            <td class="table1" valign="top">$Data{"Subroutine1"} (v $Data{"Version"})</td>
-        </tr>
-        <tr>
-            <td class="table1" valign="top"><b>$Text{"Frontend"} $Text{"Line"}:</b></td>
-            <td class="table1" valign="top">$Data{"Line"}</TD>
-        </tr>
-        <tr>
-            <td class="table1" valign="top"><b>$Text{"Backend"} $Text{"Subfunction"}:</b></td>
-            <td class="table1" valign="top">$Data{"BackendSubroutine"} (v $Data{"BackendVersion"})</TD>
-        </tr>
-        <tr>
-            <td class="table1" valign="top"><b>$Text{"Backend"} $Text{"Line"}:</b></td>
-            <td class="table1" valign="top">$Data{"BackendLine"}</TD>
-        </tr>
-        <tr>
-            <td class="table1" valign="top"><b>$Text{"Backend"} $Text{"BackendMessage"}:</b></td>
-            <td class="table1" valign="top">$Data{"BackendMessage"}</TD>
+            <td class="table1" valign="top"><b>$Text{"Traceback"}:</b></td>
+            <td class="table1" valign="top"><pre>$Data{"BackendTraceback"}</pre></TD>
         </tr>
     </table>
   </td>

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.76 2003-02-14 13:49:21 martin Exp $
+# $Id: Generic.pm,v 1.77 2003-02-19 17:06:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::Output::HTML::System;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.76 $';
+$VERSION = '$Revision: 1.77 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -573,21 +573,14 @@ sub Login {
 sub Error {
     my $Self = shift;
     my %Param = @_;
-
     # get backend error messages
-    foreach (qw(Message Subroutine Line Version)) {
+    foreach (qw(Message Traceback)) {
       $Param{'Backend'.$_} = $Self->{LogObject}->Error($_) || '';
+      $Param{'Backend'.$_} = $Self->Ascii2Html(Text => $Param{'Backend'.$_});
     }
     if (!$Param{Message}) {
       $Param{Message} = $Param{BackendMessage};
     } 
-
-    # get frontend error messages
-    ($Param{Package}, $Param{Filename}, $Param{Line}, $Param{Subroutine}) = caller(0);
-    ($Param{Package1}, $Param{Filename1}, $Param{Line1}, $Param{Subroutine1}) = caller(1);
-    ($Param{Package2}, $Param{Filename2}, $Param{Line2}, $Param{Subroutine2}) = caller(2);
-    $Param{Version} = eval("\$$Param{Package}". '::VERSION');
-
     # create & return output
     return $Self->Output(TemplateFile => 'Error', Data => \%Param);
 }
