@@ -2,7 +2,7 @@
 # RPM spec file for RedHat Linux of the OpenTRS package
 # Copyright (C) 2002 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: redhat-otrs.spec,v 1.4 2002-10-21 15:56:39 martin Exp $
+# $Id: redhat-otrs.spec,v 1.5 2002-10-25 00:06:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -150,7 +150,7 @@ echo "[mysqld service]"
 echo " Start mysqld 'service mysqld start'"
 echo ""
 echo "[OpenTRS services]"
-echo " Start OpenTRS 'service otrs start' (rcotrs {start|stop|status|restart|start-force|stop-force})."
+echo " Start OpenTRS 'service otrs start' (service otrs {start|stop|status|restart)."
 echo ""
 echo "Have fun!"
 echo ""
