@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.148 2004-10-25 08:38:34 martin Exp $
+# $Id: Ticket.pm,v 1.149 2004-10-31 18:19:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.148 $';
+$VERSION = '$Revision: 1.149 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -400,18 +400,21 @@ sub TicketDelete {
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
-    if ($Self->{DBObject}->Do(SQL => "DELETE FROM ticket WHERE id = $Param{TicketID}")) {
-        # clear ticket cache
-        $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
-        # update ticket index
-        $Self->TicketAcceleratorDelete(%Param);
-        # delete articles
-        $Self->ArticleDelete(%Param);
-        return 1;
+    # clear ticket cache
+    $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
+    # update ticket index
+    $Self->TicketAcceleratorDelete(%Param);
+    # delete ticket_history
+    if ($Self->{DBObject}->Do(SQL => "DELETE FROM ticket_history WHERE ticket_id = $Param{TicketID}")) {
+        # delete article
+        if ($Self->ArticleDelete(%Param)) {
+            # delete ticket
+            if ($Self->{DBObject}->Do(SQL => "DELETE FROM ticket WHERE id = $Param{TicketID}")) {
+                return 1;
+            }
+        }
     }
-    else {
-        return;
-    }
+    return;
 }
 
 =item TicketIDLookup()
@@ -3020,7 +3023,7 @@ sub HistoryAdd {
       }
     }
     if (!$Param{ArticleID}) {
-        $Param{ArticleID} = 0;
+        $Param{ArticleID} = 'NULL';
     }
     # get ValidID!
     if (!$Param{ValidID}) {
@@ -3493,6 +3496,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.148 $ $Date: 2004-10-25 08:38:34 $
+$Revision: 1.149 $ $Date: 2004-10-31 18:19:58 $
 
 =cut
