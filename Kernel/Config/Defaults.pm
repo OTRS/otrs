@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.5 2002-12-01 14:39:52 martin Exp $
+# $Id: Defaults.pm,v 1.6 2002-12-05 22:29:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -500,8 +500,11 @@ sub LoadDefaults {
     # ----------------------------------------------------#
     # external customer db settings                       #
     # ----------------------------------------------------#
-    $Self->{CustomerDBLink} = 'http://yourhost/customer.php?CID=$Data{"CustomerID"}';
+#    $Self->{CustomerDBLink} = 'http://yourhost/customer.php?CID=$Data{"CustomerID"}';
+    $Self->{CustomerDBLink} = '$Env{"CGIHandle"}?Action=AgentCustomer&TicketID=$Data{"TicketID"}';
 #    $Self->{CustomerDBLink} = '';
+#    $Self->{CustomerDBLinkTarget} = 'target="cdb"';
+    $Self->{CustomerDBLinkTarget} = '';
 
     # ----------------------------------------------------#
     # misc                                                #
@@ -1206,6 +1209,20 @@ Your OTRS Notification Master
 #        '2' => 'Second Queue!',
 #    };
 
+    # ----------------------------------------------------#
+    #                                                     #
+    #        Start of customer database options!!!        #
+    #                                                     #
+    # ----------------------------------------------------#
+    $Self->{CDBShownFields} = [
+        [ 'UserSalutation', 'Salutation' ],
+        [ 'UserFirstname', 'Firstname' ],
+        [ 'UserLastname', 'Lastname' ],
+        [ 'UserLogin', 'Login' ],
+        [ 'UserEmail', 'email' ],
+        [ 'UserCustomerID', 'CustomerID' ],
+        [ 'UserComment', 'Comment' ],
+    ];
 
 }
 # --
