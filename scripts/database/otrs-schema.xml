@@ -6,9 +6,12 @@
   XML File for the OTRS database description
   Copyright (C) 2001-2003 Martin Edenhofer
 
-  $Id: otrs-schema.xml,v 1.1 2003-02-08 11:54:29 martin Exp $
+  $Id: otrs-schema.xml,v 1.2 2003-02-08 22:03:41 martin Exp $
 
   $Log: not supported by cvs2svn $
+  Revision 1.1  2003/02/08 11:54:29  martin
+  moved from install/database to scripts/database
+
   Revision 1.28  2003/01/09 20:46:01  martin
   added ticket_lock_index table - for Kernel/System/Ticket/IndexAccelerator/StaticDB.pm
 
@@ -338,8 +341,8 @@
   <column name="queue_id" required="true" type="SMALLINT"/>
   <column name="ticket_lock_id" required="true" type="SMALLINT"/>
   <column name="ticket_answered" required="true" type="SMALLINT"/>
-  <column name="user_id" required="true" type="SMALLINT"/>
-  <column name="group_id" required="true" type="SMALLINT"/>
+  <column name="user_id" required="true" type="INTEGER"/>
+  <column name="group_id" required="true" type="INTEGER"/>
   <column name="ticket_priority_id" required="true" type="SMALLINT"/>
   <column name="ticket_state_id" required="true" type="SMALLINT"/>
   <column name="group_read" required="false" type="SMALLINT"/>
