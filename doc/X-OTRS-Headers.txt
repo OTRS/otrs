@@ -1,8 +1,8 @@
 # --
-# X-OTRS-Headers.txt - useabile mail X-headers 
+# X-OTRS-Headers.txt - X-headers for use in mail
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: X-OTRS-Headers.txt,v 1.7 2004-01-14 23:24:18 martin Exp $
+# $Id: X-OTRS-Headers.txt,v 1.8 2004-02-29 15:19:23 robert Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
