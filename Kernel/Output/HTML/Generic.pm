@@ -1,8 +1,8 @@
 # --
 # HTML/Generic.pm - provides generic HTML output
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.20 2002-04-12 16:33:35 martin Exp $
+# $Id: Generic.pm,v 1.21 2002-04-24 22:52:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::Output::HTML::Installer;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -429,19 +429,19 @@ sub OptionStrgHashRef {
     # --
     # set default value
     # --
-    if ($Name eq 'ValidID' && !$Selected && !$SelectedID) {
+    if (($Name eq 'ValidID' || $Name eq 'Valid') && !$Selected && !$SelectedID) {
         $Selected = $Self->{ConfigObject}->Get('DefaultValid');
     }
-    elsif ($Name eq 'CharsetID' && !$Selected  && !$SelectedID) {
+    elsif (($Name eq 'CharsetID' || $Name eq 'Charset') && !$Selected  && !$SelectedID) {
         $Selected = $Self->{ConfigObject}->Get('DefaultCharset');
     }
-    elsif ($Name eq 'LanguageID' && !$Selected && !$SelectedID) {
+    elsif (($Name eq 'LanguageID' || $Name eq 'Language') && !$Selected && !$SelectedID) {
         $Selected = $Self->{ConfigObject}->Get('DefaultLanguage');
     }
-    elsif ($Name eq 'ThemeID' && !$Selected && !$SelectedID) {
+    elsif (($Name eq 'ThemeID' || $Name eq 'Theme') && !$Selected && !$SelectedID) {
         $Selected = $Self->{ConfigObject}->Get('DefaultTheme');
     }
-    elsif ($Name eq 'LanguageID' && !$Selected && !$SelectedID) {
+    elsif (($Name eq 'LanguageID' || $Name eq 'Language') && !$Selected && !$SelectedID) {
         $Selected = $Self->{ConfigObject}->Get('DefaultLanguage');
     }
     elsif ($Name eq 'NoteID' && !$Selected && !$SelectedID) {
