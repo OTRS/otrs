@@ -2,24 +2,24 @@
 # --
 # otrs.addUser2Group - Add User to a Group
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
-# $Id: otrs.addUser2Group,v 1.6 2003-01-16 18:48:05 martin Exp $
+# $Id: otrs.addUser2Group,v 1.7 2003-01-23 22:50:09 martin Exp $
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-BEGIN{
-   use FindBin; unshift @INC, ($FindBin::Bin , "$FindBin::Bin/../", "$FindBin::Bin/../Kernel/cpan-lib");
-   unless ($ARGV[1]){
-      print "$FindBin::Script username groupname\n";
-      print "\n";
-      exit;
-   }
+use File::Basename;
+use FindBin qw($RealBin);
+use lib dirname($RealBin);
+use lib dirname($RealBin)."/Kernel/cpan-lib";
+
+unless ($ARGV[1]){
+    print "$FindBin::Script username groupname\n";
+    print "\n";
+    exit;
 }
 
 use strict;
-
-
 use Kernel::Config;
 use Kernel::System::Log;
 use Kernel::System::DB;

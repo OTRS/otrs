@@ -2,23 +2,24 @@
 # --
 # otrs.addQueue - Add Queue from CLI
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
-# $Id: otrs.addQueue,v 1.6 2003-01-16 18:48:05 martin Exp $
+# $Id: otrs.addQueue,v 1.7 2003-01-23 22:50:09 martin Exp $
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
+use File::Basename;
+use FindBin qw($RealBin);
+use lib dirname($RealBin);
+use lib dirname($RealBin)."/Kernel/cpan-lib";
 
-BEGIN{
-   use FindBin; unshift @INC, ($FindBin::Bin , "$FindBin::Bin/../", "$FindBin::Bin/../Kernel/cpan-lib");
-   use vars qw (%opts);
-   use Getopt::Std;
-   getopt('g',  \%opts);
-   unless ($ARGV[0] && $opts{'g'}){
-      print "$FindBin::Script -g group_name queue_name";
-      print "\n";
-      exit;
-   }
+use vars qw (%opts);
+use Getopt::Std;
+getopt('g',  \%opts);
+unless ($ARGV[0] && $opts{'g'}){
+    print "$FindBin::Script -g group_name queue_name";
+    print "\n";
+    exit;
 }
 
 use strict;

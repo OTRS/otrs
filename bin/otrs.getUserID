@@ -2,21 +2,22 @@
 # --
 # otrs.getUserId - Returns numeric user id
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
-# $Id: otrs.getUserID,v 1.5 2003-01-16 18:48:05 martin Exp $
+# $Id: otrs.getUserID,v 1.6 2003-01-23 22:50:09 martin Exp $
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-BEGIN{
-   use FindBin; unshift @INC, ($FindBin::Bin , "$FindBin::Bin/../", "$FindBin::Bin/../Kernel/cpan-lib");
-   unless ($ARGV[0]){
-      print "Usage: $FindBin::Script username";
-      print "\n";
-      exit;
-   }
-}
+use File::Basename;
+use FindBin qw($RealBin);
+use lib dirname($RealBin);
+use lib dirname($RealBin)."/Kernel/cpan-lib";
 
+unless ($ARGV[0]){
+    print "Usage: $FindBin::Script username";
+    print "\n";
+    exit;
+}
 
 use strict;
 use Kernel::Config;
@@ -27,7 +28,6 @@ use Kernel::System::User;
 # --
 # create common objects 
 # --
-
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(%CommonObject, LogPrefix => 'otrs.getUserId');

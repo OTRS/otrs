@@ -3,7 +3,7 @@
 # UnlockTickets.pl - to unlock tickets
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: UnlockTickets.pl,v 1.10 2003-01-23 22:26:51 martin Exp $
+# $Id: UnlockTickets.pl,v 1.11 2003-01-23 22:50:08 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,14 +21,15 @@
 # --
 
 # use ../ as lib location
-use FindBin qw($Bin);
-use lib "$Bin/../";
-use lib "$Bin/../Kernel/cpan-lib";
+use File::Basename;
+use FindBin qw($RealBin);
+use lib dirname($RealBin);
+use lib dirname($RealBin)."/Kernel/cpan-lib";
 
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 use Kernel::Config;

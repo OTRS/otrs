@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 # --
-# $Id: otrs.checkModules,v 1.1 2003-01-16 20:11:02 martin Exp $
+# $Id: otrs.checkModules,v 1.2 2003-01-23 22:50:09 martin Exp $
 # --
 # This programm is based on pminst from Tom Christiansen.
 # This is free software.  You may modify it and distribute it 
@@ -9,9 +9,10 @@
 # --
 
 # use ../ as lib location
-use FindBin qw($Bin);
-use lib "$Bin/../";
-use lib "$Bin/../Kernel/cpan-lib";
+use File::Basename;
+use FindBin qw($RealBin);
+use lib dirname($RealBin);
+use lib dirname($RealBin)."/Kernel/cpan-lib";
 
 use File::Find;
 
