@@ -2,7 +2,7 @@
 # Kernel/Language/pt_BR.pm - provides pt_BR language translation
 # Copyright (C) 2003 Gilberto Cezar de Almeida <gibalmeida at hotmail.com>
 # --
-# $Id: pt_BR.pm,v 1.1 2003-01-23 18:13:17 martin Exp $
+# $Id: pt_BR.pm,v 1.2 2003-01-23 20:12:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::pt_BR;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Thu Jan 23 16:57:57 2003 by 
+    # Last translation Thu Jan 23 11:13:00 2003 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -40,7 +40,7 @@ sub Data {
       '10 minutes' => '10 minutos',
       '15 minutes' => '15 minutos',
       'AddLink' => 'Adicionar link',
-      'AdminArea' => 'Área de Admininistração',
+      'AdminArea' => 'Área de Administração',
       'all' => 'todos',
       'All' => 'Todos',
       'Attention' => 'Atenção',
@@ -97,10 +97,10 @@ sub Data {
       'none' => 'nada',
       'none - answered' => 'nada  - respondido',
       'none!' => 'nada!',
-      'off' => 'desligado',
       'Off' => 'Desligado',
-      'On' => 'Ligado',
+      'off' => 'desligado',
       'on' => 'ligado',
+      'On' => 'Ligado',
       'Password' => 'Senha',
       'Pending till' => 'Gaveta pendente',
       'Please answer this ticket(s) to get back to the normal queue view!' => 'Por favor, responda este(s) bilhete(s) para retornar para visão normal da fila!',
@@ -128,6 +128,7 @@ sub Data {
       'update!' => 'atualizar!',
       'User' => 'Usuário',
       'Username' => 'Nome de Usuário',
+      'valid' => 'válido',
       'Valid' => 'Válido',
       'Warning' => 'Aviso',
       'Welcome to OTRS' => 'Bem-vindo ao OTRS',
@@ -198,7 +199,7 @@ sub Data {
       'eMail' => 'eMail',
       'email-external' => 'email-externo',
       'email-internal' => 'email-interno',
-      'Forward' => 'Re-enviar',
+      'Forward' => 'Encaminhar',
       'From' => 'De',
       'high' => 'alto',
       'History' => 'Histórico',
@@ -296,6 +297,7 @@ sub Data {
     # Template: AdminGroupForm
       'Add group' => 'Adicionar grupo',
       'Change group settings' => 'Modificar as configurações do grupo',
+      'Change Group settings' => 'Modificar as configurações do grupo',
       'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).' => 'Crie novos grupos para manipular as permissões de acesso para diferentes grupos de agentes (exemplos: departamento de compras, departamento de suporte, departamento de vendas, etc...).',
       'Group Management' => 'Gerênciamento de Grupos',
       'It\'s useful for ASP solutions.' => 'Isto é útil para soluções ASP.',
@@ -429,6 +431,7 @@ sub Data {
     # Template: AdminUserForm
       'Add user' => 'Adicionar usuário',
       'Change user settings' => 'Modificar as configurações do usuário',
+      'Change User settings' => 'Modificar as configurações do usuário',
       'Don\'t forget to add a new user to groups!' => 'Não esqueça de adicionar um novo usuário nos grupos!',
       'Firstname' => 'Nome',
       'Lastname' => 'Sobrenome',
@@ -451,8 +454,8 @@ sub Data {
       'Inform sender' => 'Informe o remetente',
       'Next ticket state' => 'Próximo estado do bilhete',
       'Send mail!' => 'Enviar email!',
-      'You need a email address (e. g. customer@example.com) in To:!' => 'Você precisa de um endereço de email (exemplo: cliente@exemplo.com.br) no To:!',
-      'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further inforamtions.' => 'Seu email com o número de bilhete "<OTRS_TICKET>" foi devolvido para "<OTRS_BOUNCE_TO>". Contate este endereço para mais informações.',
+      'You need a email address (e. g. customer@example.com) in To:!' => 'Você precisa de um endereço de email (exemplo: cliente@exemplo.com.br) no To:!', 
+      'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further inforamtions.' => 'Seu email com o número de bilhete "<OTRS_TICKET>" foi devolvido para "<OTRS_BOUNCE_TO>". Contate este endereço para mais informações.', 
 
     # Template: AgentClose
       ' (work units)' => ' (unidades de trabalho)',
@@ -490,9 +493,9 @@ sub Data {
     # Template: AgentForward
       'Article type' => 'Tipo de artigo',
       'Date' => 'Data',
-      'End forwarded message' => 'Finalizar mensagem re-enviada',
-      'Forward article of ticket' => 'Re-enviar artigo do bilhete',
-      'Forwarded message from' => 'Re-enviado mensagem de',
+      'End forwarded message' => 'Final da mensagem encaminhada',
+      'Forward article of ticket' => 'Encaminhar o artigo do bilhete',
+      'Forwarded message from' => 'Mensagem encaminhada de',
       'Reply-To' => 'Responder-Para',
 
     # Template: AgentHistoryForm
@@ -503,9 +506,9 @@ sub Data {
       'CustomerID' => 'Id.do Cliente',
       'down' => 'inversa',
       'Mailbox' => 'Caixa de Entrada',
-      'New' => 'Novas',
+      'New' => 'Novos',
       'New messages' => 'Mensagens novas',
-      'Open' => 'Abertas',
+      'Open' => 'Abertos',
       'Open messages' => 'Mensagens abertas',
       'Order' => 'Ordem',
       'Pending messages' => 'Mensagens pendentes',
@@ -695,16 +698,14 @@ sub Data {
       'next step' => 'próximo passo',
 
     # Template: InstallerSystem
-      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '',
       '(Email of the system admin)' => '(Email do administrador do sistema)',
       '(Full qualified domain name of your system)' => '(Nome completo do domínio de seu sistema)',
       '(Logfile just needed for File-LogModule!)' => '(Arquivo de registro para File-LogModule)',
       '(The identify of the system. Each ticket number and each http session id starts with this number)' => '(A identidade do sistema. Cada número de bilhete e cada id. da sessão http, inicia com este número)',
-      '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Identificador do Bilhete. Algumas pessoas gostam de usar por exemplo \'Bilhete#\, \'Chamada#\' ou \'MeuBilhete#\')',
+      '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Identificador do Bilhete. Algumas pessoas gostam de usar por exemplo \'Bilhete#\, \'Chamada#\' ou \'MeuBilhete#\')', 
       '(Used default language)' => '(Idioma padrão utilizado)',
       '(Used log backend)' => '()',
       '(Used ticket number format)' => '(Formato de bilhete utilizado)',
-      'CheckMXRecord' => '',
       'Default Charset' => 'Conjunto de Caracteres Padrão',
       'Default Language' => 'Idioma Padrão',
       'Logfile' => 'Arquivo de registro',
@@ -739,23 +740,6 @@ sub Data {
       'Ticket available' => 'Bilhetes disponíveis',
       'tickets' => 'bilhetes',
       'Tickets shown' => 'Bilhetes mostrados',
-
-    # Template: ReportForm
-      'End date (yyyy-mm-dd)' => '',
-      'Query by' => '',
-      'Reports' => '',
-      'Start date (yyyy-mm-dd)' => '',
-      'Submit' => '',
-
-    # Template: ReportQueueStats
-
-    # Template: ReportQueues
-      'Queue Reports' => '',
-
-    # Template: ReportSenderStats
-
-    # Template: ReportSenders
-      'Sender Reports' => '',
 
     # Template: SystemStats
       'Graphs' => 'Gráficos',
@@ -795,8 +779,6 @@ sub Data {
       '(Click here to add language)' => '(Clique aqui para adicionar um idioma)',
       '(Click here to add state)' => '(Clique aqui para adicionar um estado)',
       'A message should have a From: recipient!' => 'Uma mensagem deve conter um From: remetente!',
-      'Change Group settings' => 'Modificar as configurações do grupo',
-      'Change User settings' => 'Modificar as configurações do usuário',
       'CustomerUser' => 'Usuário Cliente',
       'New ticket via call.' => 'Novo bilhete via chamada telefônica.',
       'Time till escalation' => 'Tempo para escalação',
@@ -815,7 +797,6 @@ sub Data {
       'You have to be in the stats group!' => 'Você tem que estar no grupo stats!',
       'You need a email address (e. g. customer@example.com) in From:!' => 'Você precisa de um endereço de email (ex:cliente@exemplo.com.br) no From:!',
       'auto responses set' => 'auto-respostas ativadas',
-      'valid' => 'válido',
     );
 
     # $$STOP$$
