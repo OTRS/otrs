@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerMessage.pm - to handle customer messages
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessage.pm,v 1.32 2004-04-20 09:32:40 martin Exp $
+# $Id: CustomerMessage.pm,v 1.33 2004-04-27 14:54:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -69,12 +69,14 @@ sub Run {
                     %Tos = $Self->{TicketObject}->MoveList(
                         CustomerUserID => $Self->{UserID},
                         Type => 'rw',
+                        Action => $Self->{Action},
                     );
                 }
                 else {
                     my %Queues = $Self->{TicketObject}->MoveList(
                         CustomerUserID => $Self->{UserID},
                         Type => 'rw',
+                        Action => $Self->{Action},
                     );
                     my %SystemTos = $Self->{DBObject}->GetTableData(
                         Table => 'system_address',
@@ -104,7 +106,11 @@ sub Run {
                 }
             }
             # get priority
-            my %Priorities = $Self->{TicketObject}->PriorityList(CustomerUserID => $Self->{UserID});
+            my %Priorities = $Self->{TicketObject}->PriorityList(
+                CustomerUserID => $Self->{UserID},
+                Action => $Self->{Action},
+                QueueID => $Self->{QueueID},
+            );
             my %TicketFreeText = $Self->{LayoutObject}->AgentFreeText();
             # html output
             $Output .= $Self->_MaskNew(
@@ -357,6 +363,7 @@ sub _GetNextStates {
     my %NextStates = $Self->{TicketObject}->StateList(
         Type => 'CustomerPanelDefaultNextCompose',
         TicketID => $Self->{TicketID},
+        Action => $Self->{Action},
         CustomerUserID => $Self->{UserID},
     );
     return \%NextStates;
