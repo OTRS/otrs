@@ -2,7 +2,7 @@
 -- Update an existing OpenTRS database to the current state.
 -- Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate.mysql.sql,v 1.5 2002-07-31 23:17:23 martin Exp $
+-- $Id: DBUpdate.mysql.sql,v 1.6 2002-08-06 19:04:07 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate.mysql.sql | mysql -f -u root otrs
@@ -12,11 +12,22 @@
 -- --
 -- BETA 7 upgrate
 -- --
+-- new ticket_index table (for ticket index feature)
+CREATE TABLE ticket_index
+(
+    ticket_id BIGINT NOT NULL,
+    queue_id INTEGER NOT NULL,
+    queue VARCHAR (70) NOT NULL,
+    group_id INTEGER NOT NULL,
+    s_lock VARCHAR (70) NOT NULL,
+    s_state VARCHAR (70) NOT NULL,
+    create_time_unix BIGINT NOT NULL
+);
+
 -- new time accounting table
 CREATE TABLE time_accounting
 (
     id BIGINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR (200) NOT NULL,
     ticket_id BIGINT NOT NULL,
     article_id BIGINT,
     time_unit SMALLINT NOT NULL,
@@ -34,9 +45,6 @@ INSERT INTO ticket_history_type
         VALUES
         ('TimeAccounting', 1, 1, current_timestamp, 1, current_timestamp);
 
--- --
--- BETA 5 upgrate
--- --
 -- new article types
 INSERT INTO article_type
         (name, valid_id, create_by, create_time, change_by, change_time)
@@ -56,6 +64,7 @@ INSERT INTO ticket_history_type
         (name, valid_id, create_by, create_time, change_by, change_time)
         VALUES
         ('Bounce', 1, 1, current_timestamp, 1, current_timestamp);
+
 -- content_type to display the right charset and it is also used
 -- for utf-8 support.
 ALTER TABLE article ADD a_content_type VARCHAR (100);
@@ -65,7 +74,6 @@ ALTER TABLE article ADD a_content_type VARCHAR (100);
 -- --
 ALTER TABLE user_preferences DROP PRIMARY KEY;
 ALTER TABLE user_preferences ADD INDEX index_user_preferences_user_id (user_id);
-
 
 -- --
 -- set db to BETA5 state
