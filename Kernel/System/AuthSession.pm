@@ -1,8 +1,8 @@
 # --
 # AuthSession.pm - provides session check and session data
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AuthSession.pm,v 1.10 2002-04-08 14:16:27 martin Exp $
+# $Id: AuthSession.pm,v 1.11 2002-04-14 13:32:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Digest::MD5;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
  
 # --
@@ -80,18 +80,22 @@ sub CheckSessionID {
     # ip check
     # --
     if ( $Data{UserRemoteAddr} ne $RemoteAddr && 
-          $Self->{ConfigObject}->Get('CheckRemoteIP') ) {
+          $Self->{ConfigObject}->Get('SessionCheckRemoteIP') ) {
         $Self->{LogObject}->Log(
           Priority => 'notice',
           MSG => "RemoteIP of '$SessionID' ($Data{UserRemoteAddr}) is different with the ".
            "request IP ($RemoteAddr). Don't grant access!!!",
         );
+        # delete session id if it isn't the same remote ip?
+        if ($Self->{ConfigObject}->Get('SessionDeleteIfNotRemoteID')) {
+            $Self->RemoveSessionID(SessionID => $SessionID);
+        }
         return;
     }
     # --
     # check session time
     # --
-    my $MaxSessionTime = $Self->{ConfigObject}->Get('MaxSessionTime');
+    my $MaxSessionTime = $Self->{ConfigObject}->Get('SessionMaxTime');
     if ( (time() - $MaxSessionTime) >= $Data{UserSessionStart} ) {
          $Kernel::System::AuthSession::CheckSessionID = "Session to old!";
          $Self->{LogObject}->Log(
@@ -99,6 +103,10 @@ sub CheckSessionID {
           MSG => "SessionID ($SessionID) to old (". int((time() - $Data{UserSessionStart})/(60*60)) 
           ."h)! Don't grant access!!!",
         );
+        # delete session id if to old?
+        if ($Self->{ConfigObject}->Get('SessionDeleteIfTimeToOld')) {
+            $Self->RemoveSessionID(SessionID => $SessionID);
+        }
         return;
     }
     return 1;
@@ -242,16 +250,24 @@ sub RemoveSessionID {
         $Self->{DBObject}->Do(
          SQL => "DELETE FROM $Self->{SQLSessionTable} ".
                 " WHERE $Self->{SQLSessionTableID} = '$SessionID'"
-        ) 
-          || return 0; 
+        ) || return 0; 
+        # log event
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message => "Removed SessionID $Param{SessionID}."
+        );
     }
     elsif ($Self->{ConfigObject}->Get('SessionDriver') eq 'fs') {
         # --
         # delete fs file
         # FIXME!
         # --
-        system ("rm $Self->{SessionSpool}/$SessionID") 
-           || return 0;
+        system ("rm $Self->{SessionSpool}/$SessionID") || return 0;
+        # log event
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message => "Removed SessionID $Param{SessionID}."
+        );
     }
     else {
         # --
