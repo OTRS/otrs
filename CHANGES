@@ -2,17 +2,18 @@
 # Changes of OTRS 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.55 2003-02-03 19:55:17 martin Exp $
+# $Id: CHANGES,v 1.56 2003-02-03 22:24:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-1.0 RC3 (2003-02-??)
+1.0 RC3 (2003-02-03)
  - (2002/02/03) added customer user info on TicketView, TicketZoom and PhoneView
      dtl template (if wanted, uncomment it).
  - (2002/02/03) fixed java script stuff for Spell Check 
+ - (2003/02/03) added customer user serach to PhoneView
  - (2002/02/02) added pending ticket notification - Thanks to Andreas Haase!
      http://lists.otrs.org/pipermail/otrs/2003-January/000839.html
  - (2002/01/27) fixed some doc typos - Thanks to Eddie Urenda!
