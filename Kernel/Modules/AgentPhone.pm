@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.74 2004-04-18 11:50:08 martin Exp $
+# $Id: AgentPhone.pm,v 1.75 2004-04-18 11:51:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.74 $';
+$VERSION = '$Revision: 1.75 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -523,7 +523,7 @@ sub Run {
             return $Output;
         }
         # create new ticket, do db insert
-        my $TicketID = $Self->{TicketObject}->CreateTicketDB(
+        my $TicketID = $Self->{TicketObject}->TicketCreate(
             QueueID => $NewQueueID,
             Lock => 'unlock',
             # FIXME !!!
@@ -552,7 +552,7 @@ sub Run {
         if ($NewUserID) {
             $NoAgentNotify = 1;
         }
-        if (my $ArticleID = $Self->{TicketObject}->CreateArticle(
+        if (my $ArticleID = $Self->{TicketObject}->ArticleCreate(
             NoAgentNotify => $NoAgentNotify,
             TicketID => $TicketID,
             ArticleType => $Self->{ConfigObject}->Get('PhoneDefaultNewArticleType'),
