@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.23 2002-05-12 22:04:06 martin Exp $
+# $Id: Agent.pm,v 1.24 2002-05-14 00:14:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -264,9 +264,12 @@ sub TicketZoom {
 
     # select the output template
     my $Output = '';
-    if ($Article{ArticleType} =~ /^note/i || $Article{SenderType} eq 'system' ||
+    if ($Article{ArticleType} =~ /^note/i || 
          ($Article{ArticleType} =~ /^phone/i && $Article{SenderType} eq 'agent')) {
         $Output = $Self->Output(TemplateFile => 'TicketZoomNote', Data => \%Param);
+    }
+    elsif ($Article{SenderType} eq 'system') {
+        $Output = $Self->Output(TemplateFile => 'TicketZoomSystem', Data => \%Param);
     }
     else {
         $Output = $Self->Output(TemplateFile => 'TicketZoom', Data => \%Param);
@@ -518,44 +521,56 @@ sub AgentPreferencesForm {
     $Param{LanguageOption} = $Self->OptionStrgHashRef(
         Data => {
           $Self->{DBObject}->GetTableData(
-            What => 'id, language',
+            What => 'language, language',
             Valid => 1,
             Clamp => 0,
             Table => 'language',
           )
         },
-        Name => 'LanguageID',
+        Name => 'GenericTopic',
         Selected => $Self->{UserLanguage},
     );
 
     $Param{'CharsetOption'} = $Self->OptionStrgHashRef(
         Data => {
           $Self->{DBObject}->GetTableData(
-            What => 'id, charset',
+            What => 'charset, charset',
             Table => 'charset',
             Valid => 1,
           )
         },
-        Name => 'CharsetID',
+        Name => 'GenericTopic',
         Selected => $Self->{UserCharset},
     );
 
     $Param{'ThemeOption'} = $Self->OptionStrgHashRef(
         Data => {
           $Self->{DBObject}->GetTableData(
-            What => 'id, theme',
+            What => 'theme, theme',
             Table => 'theme',
             Valid => 1,
           )
         },
-        Name => 'ThemeID',
+        Name => 'GenericTopic',
         Selected => $Self->{UserTheme},
     );
 
     $Param{'RefreshOption'} = $Self->OptionStrgHashRef(
         Data => $Self->{ConfigObject}->Get('RefreshOptions'),
-        Name => 'Time',
+        Name => 'GenericTopic',
         Selected => $Self->{UserRefreshTime},
+    );
+
+    $Param{'SendFollowUpNotificationYesNoOption'} = $Self->OptionStrgHashRef(
+        Data => $Self->{ConfigObject}->Get('YesNoOptions'),
+        Name => 'GenericTopic',
+        SelectedID => $Self->{UserSendFollowUpNotification},
+    );
+
+    $Param{'SendNewTicketNotificationYesNoOption'} = $Self->OptionStrgHashRef(
+        Data => $Self->{ConfigObject}->Get('YesNoOptions'),
+        Name => 'GenericTopic',
+        SelectedID => $Self->{UserSendNewTicketNotification},
     );
 
 
