@@ -3,7 +3,7 @@
 # bin/GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pl,v 1.15 2003-10-27 22:21:41 martin Exp $
+# $Id: GenericAgent.pl,v 1.16 2003-11-02 11:29:29 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ use Kernel::System::Queue;
 
 BEGIN { 
     # get file version
-    $VERSION = '$Revision: 1.15 $';
+    $VERSION = '$Revision: 1.16 $';
     $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
     # get options
     my %Opts = ();
@@ -90,6 +90,33 @@ $CommonObject{QueueObject} = Kernel::System::Queue->new(%CommonObject);
 # --
 foreach my $Job (keys %Jobs) {
     print "$Job:\n";
+    # --
+    # prepare job id lookups
+    # --
+    foreach (keys %{$Jobs{$Job}}) {
+        # priority lookups
+        if ($_ eq 'Priorities') {
+            my @IDs = ();
+            foreach (@{$Jobs{$Job}->{$_}}) {
+                my $Name = $CommonObject{TicketObject}->PriorityLookup(Type => $_);
+                if ($Name) {
+                    push (@IDs, $Name);
+                }
+           }
+           $Jobs{$Job}->{PriorityIDs} = \@IDs;
+        }
+        # lock lookups
+        if ($_ eq 'Locks') {
+            my @IDs = ();
+            foreach (@{$Jobs{$Job}->{$_}}) {
+                my $Name = $CommonObject{TicketObject}->LockLookup(Type => $_);
+                if ($Name) {
+                    push (@IDs, $Name);
+                }
+           }
+           $Jobs{$Job}->{LockIDs} = \@IDs;
+        }
+    }
     # --
     # get regular tickets 
     # --
@@ -150,7 +177,7 @@ sub Run {
     # move ticket
     # --
     if ($Jobs{$Job}->{New}->{Queue}) {
-        print "  - Move Ticket to Queue $Jobs{$Job}->{New}->{Queue}\n";
+        print "  - Move Ticket to Queue '$Jobs{$Job}->{New}->{Queue}'\n";
         $CommonObject{TicketObject}->MoveByTicketID(
             QueueID => $CommonObject{QueueObject}->QueueLookup(Queue=>$Jobs{$Job}->{New}->{Queue}, Cache => 1),
             UserID => $UserIDOfGenericAgent,
@@ -178,18 +205,29 @@ sub Run {
     # set new state
     # --
     if ($Jobs{$Job}->{New}->{State}) {
-        print "  - set state to $Jobs{$Job}->{New}->{State}\n";
+        print "  - set state to '$Jobs{$Job}->{New}->{State}'\n";
         $CommonObject{TicketObject}->SetState(
             TicketID => $TicketID,
             UserID => $UserIDOfGenericAgent,
             State => $Jobs{$Job}->{New}->{State}, 
         );
     }
+    # --   
+    # set new priority 
+    # --
+    if ($Jobs{$Job}->{New}->{Priority}) {
+        print "  - set priority to '$Jobs{$Job}->{New}->{Priority}'\n";
+        $CommonObject{TicketObject}->SetPriority(
+            TicketID => $TicketID,
+            UserID => $UserIDOfGenericAgent,
+            Priority => $Jobs{$Job}->{New}->{Priority}, 
+        );
+    }
     # --
     # set new owner
     # --
     if ($Jobs{$Job}->{New}->{Owner}) {
-        print "  - set owner to $Jobs{$Job}->{New}->{Owner}\n";
+        print "  - set owner to '$Jobs{$Job}->{New}->{Owner}'\n";
         $CommonObject{TicketObject}->SetOwner(
             TicketID => $TicketID,
             UserID => $UserIDOfGenericAgent,
@@ -200,7 +238,7 @@ sub Run {
     # set new lock 
     # --
     if ($Jobs{$Job}->{New}->{Lock}) {
-        print "  - set lock to $Jobs{$Job}->{New}->{Lock}\n";
+        print "  - set lock to '$Jobs{$Job}->{New}->{Lock}'\n";
         $CommonObject{TicketObject}->SetLock(
             TicketID => $TicketID,
             UserID => $UserIDOfGenericAgent,

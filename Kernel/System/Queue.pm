@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue funktions
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.34 2003-08-28 16:41:50 martin Exp $
+# $Id: Queue.pm,v 1.35 2003-11-02 11:29:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use Kernel::System::StdResponse;
 use Kernel::System::Group;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.34 $';
+$VERSION = '$Revision: 1.35 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -571,27 +571,19 @@ sub QueueAdd {
 sub GetTicketIDsByQueue {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     if (!$Param{Queue} && !$Param{QueueID}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Got no Queue or QueueID!");
         return;
     }
-    # --
     # sql
-    # --
     my $SQL = "SELECT st.id, st.tn FROM ".
-    " ticket st, queue sq, ticket_state tsd, ticket_lock_type slt ";
+    " ticket st, ticket_state tsd ";
     if ($Param{From} || $Param{To} || $Param{Cc} || $Param{Subject} ||$Param{Body}) {
         $SQL .= ", article at ";
     }
     $SQL .= " WHERE ".
-    " st.ticket_state_id = tsd.id ".
-    " AND ".
-    " st.queue_id = sq.id ".
-    " AND ".
-    " st.ticket_lock_id = slt.id ";
+    " st.ticket_state_id = tsd.id ";
     if ($Param{From} || $Param{To} || $Param{Cc} || $Param{Subject} ||$Param{Body}) {
         $SQL .= " AND st.id = at.ticket_id";
     }
@@ -599,15 +591,19 @@ sub GetTicketIDsByQueue {
         $SQL .= " AND ".
           " tsd.name IN ('${\(join '\', \'' , @{$Param{States}})}') ";
     }
-    if ($Param{Locks}) {
+    if ($Param{LockIDs}) {
         $SQL .= " AND ".
-          " slt.name IN ('${\(join '\', \'' , @{$Param{Locks}})}') ";
+          " st.ticket_lock_id IN (${\(join ', ' , @{$Param{LockIDs}})}) ";
     }
     if ($Param{Queue}) {
-        $SQL .= " AND sq.name = '$Param{Queue}' ";
+        $SQL .= " AND st.queue_id = ". $Self->QueueLookup(Queue => $Param{Queue});
     }
     else {
-        $SQL .= " AND sq.id = '$Param{QueueID}' ";
+        $SQL .= " AND st.queue_id = $Param{QueueID} ";
+    }
+    if ($Param{PriorityIDs}) {
+        $SQL .= " AND ".
+          " st.ticket_priority_id IN (${\(join ', ', @{$Param{PriorityIDs}})}) ";
     }
     if ($Param{From}) {
         $SQL .= " AND at.a_from like '".
