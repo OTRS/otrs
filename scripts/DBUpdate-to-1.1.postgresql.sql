@@ -2,13 +2,20 @@
 -- Update an existing OTRS database from 1.0 to 1.1 
 -- Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-1.1.postgresql.sql,v 1.8 2003-03-24 12:49:28 martin Exp $
+-- $Id: DBUpdate-to-1.1.postgresql.sql,v 1.9 2003-04-12 21:34:12 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-1.1.postgresql.sql | psql otrs 
 --
 -- --
 
+-- 
+-- add ticket free text update log type
+-- 
+INSERT INTO ticket_history_type
+    (name, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('TicketFreeTextUpdate', 1, 1, current_timestamp, 1, current_timestamp);
 --
 -- added for customer notifications
 --
