@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.58 2002-10-30 01:05:39 martin Exp $
+# $Id: Generic.pm,v 1.59 2002-10-31 23:27:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.58 $';
+$VERSION = '$Revision: 1.59 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -87,13 +87,58 @@ sub new {
     # check browser (defaut is IE because I don't have IE)
     # --
     $Self->{BrowserWrap} = 'physical';
-    # mozilla 
-    if ($ENV{'HTTP_USER_AGENT'} =~ /^Mozilla.*Gecko.*/i) {
-        $Self->{BrowserWrap} = 'hard';
-    }
-    # netscape
-    elsif ($ENV{'HTTP_USER_AGENT'} =~ /(^Mozilla\/\d\.\d.*|Netscape)/i) {
-        $Self->{BrowserWrap} = 'hard';
+    $Self->{Browser} = 'Unknown';
+    if ($ENV{'HTTP_USER_AGENT'}) { 
+        # msie
+        if ($ENV{'HTTP_USER_AGENT'} =~ /MSIE ([0-9.]+)/i ||
+            $ENV{'HTTP_USER_AGENT'} =~ /Internet Explorer\/([0-9.]+)/i) {
+            $Self->{Browser} = 'MSIE';
+            $Self->{BrowserWrap} = 'physical';
+            # For IE 5.5, we break the header in a special way that makes
+            # things work. I don't really want to know.
+            if ($1 =~ /(\d)\.(\d)/) {
+                $Self->{BrowserMajorVersion} = $1;
+                $Self->{BrowserMinorVersion} = $2;
+                if ($1 == 5 && $2 == 5) {
+                    $Self->{BrowserBreakDispositionHeader} = 1;
+                }
+            }
+        }
+        # netscape
+        elsif ($ENV{'HTTP_USER_AGENT'} =~ /netscape/i) {
+            $Self->{Browser} = 'Netscape';
+            $Self->{BrowserWrap} = 'hard';
+        }
+        # konqueror 
+        elsif ($ENV{'HTTP_USER_AGENT'} =~ /konqueror/i) {
+            $Self->{Browser} = 'Konqueror';
+            $Self->{BrowserWrap} = 'hard';
+        }
+        # mozilla 
+        elsif ($ENV{'HTTP_USER_AGENT'} =~ /^mozilla/i) {
+            $Self->{Browser} = 'Mozilla';
+            $Self->{BrowserWrap} = 'hard';
+        }
+        # konqueror 
+        elsif ($ENV{'HTTP_USER_AGENT'} =~ /^opera.*/i) {
+            $Self->{Browser} = 'Opera';
+            $Self->{BrowserWrap} = 'hard';
+        }
+        # w3m 
+        elsif ($ENV{'HTTP_USER_AGENT'} =~ /^w3m.*/i) {
+            $Self->{Browser} = 'w3m';
+        }
+        # lynx 
+        elsif ($ENV{'HTTP_USER_AGENT'} =~ /^lynx.*/i) {
+            $Self->{Browser} = 'Lynx';
+        }
+        # links
+        elsif ($ENV{'HTTP_USER_AGENT'} =~ /^links.*/i) {
+            $Self->{Browser} = 'Links';
+        }
+        else {
+            $Self->{Browser} = "Unknown - $ENV{'HTTP_USER_AGENT'}";
+        }
     }
     # --
     # get release data
@@ -705,11 +750,11 @@ sub OptionStrgHashRef {
     foreach (sort {$Data{$a} cmp $Data{$b}} keys %Data) {
         if ((defined($_)) && ($Data{$_})) {
             if ($_ eq $SelectedID || $Data{$_} eq $Selected) {
-              $Output .= "    <option selected value=\"$_\">".
+              $Output .= '    <option selected value="'.$Self->Ascii2Html(Text => $_).'">'.
                   $Self->Ascii2Html(Text => $Self->{LanguageObject}->Get($Data{$_})) ."</option>\n";
             }
             else {
-              $Output .= "    <option VALUE=\"$_\">".
+              $Output .= '    <option VALUE="'.$Self->Ascii2Html(Text => $_).'">'.
                   $Self->Ascii2Html(Text => $Self->{LanguageObject}->Get($Data{$_})) ."</option>\n";
             }
         }
@@ -834,6 +879,24 @@ sub GetRelease {
     # return data
     # --
     return %Release;
+}
+# --
+sub Attachment {
+    my $Self = shift;
+    my %Param = @_;
+    # --    
+    # return attachment  
+    # --          
+    my $Output = '';
+    if ($Self->{BrowserBreakDispositionHeader}) {
+        $Output = "Content-Disposition: filename=$Param{File}\n";
+    }             
+    else {
+        $Output = "Content-Disposition: attachment; filename=$Param{File}\n";
+    }
+    $Output .= "Content-Type: $Param{Type}\n";
+    $Output .= "$Param{Data}";
+    return $Output;
 }
 # --
 
