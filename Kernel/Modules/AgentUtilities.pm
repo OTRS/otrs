@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.7 2002-07-14 23:54:50 martin Exp $
+# $Id: AgentUtilities.pm,v 1.8 2002-07-15 00:03:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentUtilities;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -113,8 +113,6 @@ sub SearchByTn {
     " $Self->{ConfigObject}->{DatabaseUserTable} su, ticket_lock_type sl, " .
     " ticket_priority sp, ticket_state tsd, queue sq, group_user sug  " .
     " WHERE " .
-    " st.tn LIKE '$Want' " .
-    " AND " .
     " sa.ticket_id = st.id " .
     " AND " .
     " sq.id = st.queue_id " .
@@ -133,7 +131,9 @@ sub SearchByTn {
     " AND " .
     " sq.group_id = sug.group_id" .
     " AND " .
-    " sug.user_id = $UserID ";
+    " sug.user_id = $UserID ".
+    " AND " .
+    " st.tn LIKE '$Want' ";
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{SearchLimitTn});
     while (my $Data = $Self->{DBObject}->FetchrowHashref() ) {
         my $Age = time() - $$Data{create_time_unix};
@@ -261,8 +261,6 @@ sub SearchByText {
     " $Self->{ConfigObject}->{DatabaseUserTable} su, ticket_lock_type sl, " .
     " ticket_priority sp, ticket_state tsd, queue sq, group_user sug " .
     " WHERE  " .
-    " ($SqlExt) " .
-    " AND " .
     " sa.ticket_id = st.id " .
     " AND " .
     " sq.id = st.queue_id " .
@@ -282,7 +280,9 @@ sub SearchByText {
     " sq.group_id = sug.group_id" .
     " AND " .
     " sug.user_id = $UserID " .
-    "ORDER BY st.tn DESC";
+    " AND " .
+    " ($SqlExt) " .
+    " ORDER BY st.tn DESC";
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{SearchLimitTxt});
     while (my $Data = $Self->{DBObject}->FetchrowHashref() ) {
         my $Age = time() - $$Data{create_time_unix};
