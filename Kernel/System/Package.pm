@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.pm,v 1.1 2004-12-02 00:42:33 martin Exp $
+# $Id: Package.pm,v 1.2 2004-12-02 12:02:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Base64;
 use XML::Parser;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -90,6 +90,7 @@ sub new {
         BuildHost => 'SCALAR',
         License => 'SCALAR',
         URL => 'SCALAR',
+        ChangeLog => 'ARRAY',
         Description => 'ARRAY',
         Framework => 'ARRAY',
         OS => 'ARRAY',
@@ -469,6 +470,134 @@ sub PackageInstall {
     return 1;
 }
 
+=item PackageUpgrade()
+
+upgrade a package
+
+    $PackageObject->PackageUpgrade(String => $FileString);
+
+=cut
+
+sub PackageUpgrade {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(String)) {
+      if (!defined $Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+        return;
+      }
+    }
+    # conflict check
+    my %Structur = $Self->PackageParse(%Param);
+    # check if package is already installed
+    my $Installed = 0;
+    foreach my $Package ($Self->RepositoryList()) {
+        if ($Structur{Name}->{Content} eq $Package->{Name}->{Content}) {
+            if ($Package->{Status} =~ /^installed$/i) {
+                $Installed = 1;
+            }
+        }
+    }
+    if (!$Installed) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Package is not installed, can't upgrade!");
+        return;
+    }
+    # check OS
+    my $OSCheckOk = 1;
+    if ($Structur{OS} && ref($Structur{OS}) eq 'ARRAY') {
+        $OSCheckOk = 0;
+        foreach my $OS (@{$Structur{OS}}) {
+            if ($^O =~ /^$OS$/i) {
+                $OSCheckOk = 1;
+            }
+        }
+    }
+    if (!$OSCheckOk && !$Param{Force}) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Sorry, can't install package, because package is not for your OS!!",
+        );
+        return;
+    }
+    # check framework
+    my $FWCheckOk = 0;
+    if ($Structur{Framework} && ref($Structur{Framework}) eq 'ARRAY') {
+        foreach my $FW (@{$Structur{Framework}}) {
+            if ($Self->CheckFramework(Framework => $FW->{Content})) {
+                $FWCheckOk = 1;
+            }
+        }
+    }
+    if (!$FWCheckOk && !$Param{Force}) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Sorry, can't install package, because package is not for your Framework!!",
+        );
+        return;
+    }
+    # check required packages
+    if ($Structur{PackageRequired} && ref($Structur{PackageRequired}) eq 'ARRAY') {
+        my $Installed = 0;
+        my %List = $Self->RepositoryList();
+        foreach my $Module (@{$Structur{PackageRequired}}) {
+            if ($List{Name} eq $Module && $List{Status} eq 'installed') {
+                $Installed = 1;
+            }
+            if (!$Installed && !$Param{Force}) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message => "Sorry, can't install package, because package $Module is required!",
+                );
+                return;
+            }
+        }
+    }
+    # update package status
+    my $SQL = "UPDATE package_repository SET install_status = 'installed'".
+        " WHERE ".
+        " name = '".$Self->{DBObject}->Quote($Structur{Name}->{Content})."'".
+        " AND ".
+        " version = '".$Self->{DBObject}->Quote($Structur{Version}->{Content})."'";
+    $Self->{DBObject}->Do(SQL => $SQL);
+
+    # install files
+    if ($Structur{Filelist} && ref($Structur{Filelist}) eq 'ARRAY') {
+        foreach my $File (@{$Structur{Filelist}}) {
+            if (-e $Self->{Home}/$File->{Location}) {
+                print STDERR "Notice: Overwrite $File->{Location}!\n";
+            }
+            if (open(OUT, "> $Self->{Home}/$File->{Location}")) {
+                print STDERR "Notice: Install $File->{Location}!\n";
+                print OUT $File->{Content};
+                close(OUT);
+            }
+            else {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message => "Can't write file: $Self->{Home}/$File->{Location}: $!",
+                );
+            }
+        }
+    }
+    # install config
+
+    # upgrade database
+    if ($Structur{DatabaseUpgrade} && ref($Structur{DatabaseUpgrade}) eq 'ARRAY') {
+        my @SQL = $Self->{DBObject}->SQLProcessor(Database => $Structur{DatabaseUpgrade}, );
+        foreach my $SQL (@SQL) {
+            print STDERR "Notice: $SQL\n";
+            $Self->{DBObject}->Do(SQL => $SQL);
+        }
+        my @SQLPost = $Self->{DBObject}->SQLProcessorPost();
+        foreach my $SQL (@SQLPost) {
+            print STDERR "Notice: $SQL\n";
+            $Self->{DBObject}->Do(SQL => $SQL);
+        }
+    }
+    return 1;
+}
+
 =item PackageUninstall()
 
 uninstall a package
@@ -641,13 +770,16 @@ sub PackageOnlineList {
         my $InstalledSameVersion = 0;
         foreach my $Package ($Self->RepositoryList()) {
             if ($Newest{$Data}->{Name} eq $Package->{Name}->{Content}) {
-                $Newest{$Data}->{Installed} = 1;
-                if ($Newest{$Data}->{Version} > $Package->{Version}->{Content}) {
-                    $Newest{$Data}->{Upgrade} = 1;
-                }
-                # check if version is already installed
-                elsif ($Newest{$Data}->{Version} == $Package->{Version}->{Content}) {
-                    $InstalledSameVersion = 1;
+                $Newest{$Data}->{Local} = 1;
+                if ($Package->{Status} eq 'not installed') {
+                    $Newest{$Data}->{Installed} = 1;
+                    if ($Newest{$Data}->{Version} > $Package->{Version}->{Content}) {
+                        $Newest{$Data}->{Upgrade} = 1;
+                    }
+                    # check if version is already installed
+                    elsif ($Newest{$Data}->{Version} == $Package->{Version}->{Content}) {
+                        $InstalledSameVersion = 1;
+                    }
                 }
             }
         }
@@ -738,7 +870,7 @@ sub PackageBuild {
         $XML .= '<otrs_package version="1.0">';
         $XML .= "\n";
     }
-    foreach my $Tag (qw(Name Version Vendor URL License Description Framework OS PackageRequired)) {
+    foreach my $Tag (qw(Name Version Vendor URL License ChangeLog Description Framework OS PackageRequired)) {
         if (ref($Param{$Tag}) eq 'HASH') {
             my %OldParam = ();
             foreach (qw(Content Encode TagType Tag)) {
@@ -1040,6 +1172,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2004-12-02 00:42:33 $
+$Revision: 1.2 $ $Date: 2004-12-02 12:02:20 $
 
 =cut
