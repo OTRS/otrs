@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminEmail.pm - to send a email to all agents
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminEmail.pm,v 1.18 2004-09-24 10:05:36 martin Exp $
+# $Id: AdminEmail.pm,v 1.19 2004-09-30 22:13:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminEmail;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -42,7 +42,6 @@ sub new {
 sub Run {
     my $Self = shift;
     my %Param = @_;
-    my $Output = '';
     foreach (qw(From Subject Body Bcc GroupPermission)) {
         $Param{$_} = $Self->{ParamObject}->GetParam(Param => $_) || $Param{$_} || '';
     }
@@ -51,7 +50,7 @@ sub Run {
         # check needed stuff
         foreach (qw(From Subject Body GroupPermission)) {
             if (!$Param{$_}) {
-                $Output = $Self->{LayoutObject}->Header(Title => 'Warning');
+                my $Output = $Self->{LayoutObject}->Header(Title => 'Warning');
                 $Output .= $Self->{LayoutObject}->Warning(
                     Message => "Need $_!",
                     Comment => 'Click back and check the needed value.',
@@ -88,7 +87,7 @@ sub Run {
         # check needed stuff
         foreach (qw(Bcc)) {
             if (!$Param{$_}) {
-                $Output = $Self->{LayoutObject}->Header(Title => 'Warning');
+                my $Output = $Self->{LayoutObject}->Header(Title => 'Warning');
                 $Output .= $Self->{LayoutObject}->Warning(
                     Message => "Need $_!",
                     Comment => 'Click back and check the needed value.',
@@ -101,9 +100,6 @@ sub Run {
         $Param{Body} =~ s/(\r\n|\n\r)/\n/g;
         $Param{Body} =~ s/\r/\n/g;
         # send mail
-        $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Admin-Email');
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         if ($Self->{SendmailObject}->Send(
             From => $Param{From},
             Bcc => $Param{Bcc},
@@ -112,56 +108,45 @@ sub Run {
             Charset => $Self->{LayoutObject}->{UserCharset},
             Body => $Param{Body},
         )) {
-            $Output .= $Self->_MaskSent(%Param);
+            my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Admin-Email');
+            $Output .= $Self->{LayoutObject}->NavigationBar();
+            $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
+            $Self->{LayoutObject}->Block(
+                Name => 'Sent',
+                Data => { %Param },
+            );
+            $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminEmail', Data => \%Param);
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
         }
         else {
-            $Output .= $Self->{LayoutObject}->Error();
+            return $Self->{LayoutObject}->ErrorScreen();
         }
-        $Output .= $Self->{LayoutObject}->Footer();
     }
     else {
-        $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Admin-Email');
+        my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Admin-Email');
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
-        my %Users = $Self->{UserObject}->UserList(Valid => 1);
-        my %Groups = $Self->{GroupObject}->GroupList(Valid => 1);
-        $Output .= $Self->_Mask(
-            UserList => \%Users,
-            GroupList => \%Groups,
-            %Param,
+        $Param{'UserOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data => {$Self->{UserObject}->UserList(Valid => 1)},
+            Name => 'UserIDs',
+            Size => 8,
+            Multiple => 1,
         );
+        $Param{'GroupOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data => {$Self->{GroupObject}->GroupList(Valid => 1)},
+            Size => 6,
+            Name => 'GroupIDs',
+            Multiple => 1,
+        );
+        $Self->{LayoutObject}->Block(
+                Name => 'Form',
+                Data => { %Param },
+        );
+        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminEmail', Data => \%Param);
         $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
-    return $Output;
-}
-# --
-sub _Mask {
-    my $Self = shift;
-    my %Param = @_;
-
-    $Param{'UserOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => $Param{UserList},
-        Name => 'UserIDs',
-        Size => 8,
-        Multiple => 1,
-    );
-
-    $Param{'GroupOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => $Param{GroupList},
-        Size => 6,
-        Name => 'GroupIDs',
-        Multiple => 1,
-    );
-    # create & return output
-    return $Self->{LayoutObject}->Output(TemplateFile => 'AdminEmail', Data => \%Param);
-}
-# --
-sub _MaskSent {
-    my $Self = shift;
-    my %Param = @_;
-
-    # create & return output
-    return $Self->{LayoutObject}->Output(TemplateFile => 'AdminEmailSent', Data => \%Param);
 }
 # --
 1;
