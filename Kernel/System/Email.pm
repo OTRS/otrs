@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Email.pm,v 1.6 2004-09-04 17:41:00 martin Exp $
+# $Id: Email.pm,v 1.6.2.1 2004-10-07 14:11:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use MIME::Entity;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.6.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -164,7 +164,8 @@ sub Send {
 #            $Header{'Encoding'} = 'base64';
         }
         else {
-            $Header{'Encoding'} = '7bit';
+#            $Header{'Encoding'} = '7bit';
+            $Header{'Encoding'} = 'quoted-printable';
         }
         $Header{'Message-ID'} = "Message-ID: <".time().".".rand(999999)."\@$Self->{FQDN}>";
         my $Entity = MIME::Entity->build(%Header, Data => $Param{Body});
@@ -229,7 +230,7 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2004-09-04 17:41:00 $
+$Revision: 1.6.2.1 $ $Date: 2004-10-07 14:11:08 $
 
 =cut
 
