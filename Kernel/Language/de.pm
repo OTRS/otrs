@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2002-2004 Martin Edenhofer <martin at otrs.org>
 # --
-# $Id: de.pm,v 1.46 2004-04-15 08:36:15 martin Exp $
+# $Id: de.pm,v 1.47 2004-04-28 07:01:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.46 $';
+$VERSION = '$Revision: 1.47 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Thu Apr 15 00:47:12 2004 by 
+    # Last translation Wed Apr 28 08:30:33 2004 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -51,6 +51,7 @@ sub Data {
       'Attention' => 'Achtung',
       'before' => 'vor',
       'Bug Report' => 'Fehler berichten',
+      'Calendar' => 'Kalender',
       'Cancel' => 'Abbrechen',
       'change' => 'Ändern',
       'Change' => 'Ändern',
@@ -66,6 +67,7 @@ sub Data {
       'days' => 'Tage',
       'description' => 'Beschreibung',
       'Description' => 'Beschreibung',
+      'Directory' => 'Verzeichnis',
       'Dispatching by email To: field.' => 'Verteilung nach To: Feld.',
       'Dispatching by selected Queue.' => 'Verteilung nach ausgewählter Queue.',
       'Don\'t show closed Tickets' => 'Geschlossene Tickets nicht zeigen',
@@ -147,6 +149,8 @@ sub Data {
       'Off' => 'Aus',
       'On' => 'Ein',
       'on' => 'ein',
+      'Online Agent: %s' => 'Online Agent: %s',
+      'Online Customer: %s' => 'Online Kunde: %s',
       'Password' => 'Passwort',
       'Pending till' => 'Warten bis',
       'Please answer this ticket(s) to get back to the normal queue view!' => 'Bitte beantworten Sie dieses Ticket, um in die normale Queue-Ansicht zurück zu kommen!',
@@ -162,6 +166,7 @@ sub Data {
       'Session has timed out. Please log in again.' => 'Session Zeitüberschreitung. Bitte neu anmelden.',
       'Show closed Tickets' => 'Geschlossene Tickets anzeigen',
       'Signature' => 'Signatur',
+      'Size' => 'Größe',
       'Sorry' => 'Bedauere',
       'Stats' => 'Statistik',
       'Subfunction' => 'Unterfunktion',
@@ -177,9 +182,11 @@ sub Data {
       'Timeover' => 'Zeitüberschreitung',
       'To: (%s) replaced with database email!' => 'An: (%s) ersetzt mit Datenbank eMail',
       'top' => 'hoch',
+      'Type' => 'Typ',
       'update' => 'Aktualisieren',
       'Update' => 'Aktualisieren',
       'update!' => 'Aktualisieren!',
+      'Upload' => '',
       'User' => 'Benutzer',
       'Username' => 'Benutzername',
       'Valid' => 'Gültig',
@@ -256,6 +263,7 @@ sub Data {
       'Bounce' => '',
       'Cc' => '',
       'Close' => 'Schließen',
+      'closed' => 'geschlossen',
       'closed successful' => 'erfolgreich geschlossen',
       'closed unsuccessful' => 'erfolglos geschlossen',
       'Compose' => 'Verfassen',
@@ -333,7 +341,6 @@ sub Data {
       'to get the realname of the sender (if given)' => 'Um den Realname des Senders zu bekommen (wenn möglich)',
       'to get the ticket id of the ticket' => 'Um die TicketID des Tickets zu bekommen',
       'to get the ticket number of the ticket' => 'Um die Ticketnummer des Ticket zu bekommen',
-      'Type' => 'Typ',
       'Useable options' => 'Verfügbare Optionen',
 
     # Template: AdminCustomerUserForm
@@ -566,7 +573,7 @@ sub Data {
       'Note!' => 'Notiz!',
       'Options' => 'Optionen',
       'Spell Check' => 'Rechtschreibprüfung',
-      'Ticket Bulk Action' => '',
+      'Ticket Bulk Action' => 'Ticket Bulk Aktion',
 
     # Template: AgentClose
       ' (work units)' => ' (Arbeitseinheiten)',
@@ -623,6 +630,9 @@ sub Data {
     # Template: AgentHistoryForm
       'History of' => 'Historie von',
 
+    # Template: AgentLookup
+      'Lookup' => '',
+
     # Template: AgentMailboxNavBar
       'All messages' => 'Alle Nachrichten',
       'down' => 'abwärts',
@@ -642,13 +652,7 @@ sub Data {
     # Template: AgentMailboxTicket
       '"}' => '',
       '"}","14' => '',
-      'Add a note to this ticket!' => 'Notiz zu Ticket hinzufügen!',
-      'Change the ticket customer!' => 'Ändern des Kunden für das Ticket!',
-      'Change the ticket owner!' => 'Ändern des Besitzers für das Ticket!',
-      'Change the ticket priority!' => 'Ändern der Priorität des Tickets!',
-      'Close this ticket!' => 'Das Ticket schliessen!',
       'Shows the detail view of this ticket!' => 'Details des Tickets anzeigen!',
-      'Shows the ticket history!' => 'Die Ticket Historie anzeigen!',
       'Unlock this ticket!' => 'Ticket freigeben!',
 
     # Template: AgentMove
@@ -658,7 +662,7 @@ sub Data {
       'Queue ID' => '',
 
     # Template: AgentNavigationBar
-      'Bulk Action' => '',
+      'Bulk Action' => 'Bulk Aktion',
       'Locked tickets' => 'Eigene Tickets',
       'new message' => 'Neue Nachrichten',
       'Preferences' => 'Einstellungen',
@@ -801,7 +805,6 @@ sub Data {
     # Template: AgentZoomAnswer
       'Compose Answer' => 'Antwort erstellen',
       'Contact customer' => 'Kunden kontaktieren',
-      'phone call' => 'Anrufen',
 
     # Template: AgentZoomArticle
       'Split' => 'Teilen',
@@ -810,19 +813,14 @@ sub Data {
       'Change queue' => 'Queue wechseln',
 
     # Template: AgentZoomHead
-      'Change the ticket free fields!' => 'Ändern der Ticket Frei Felder!',
-      'Free Fields' => 'Freie Felder',
-      'Link this ticket to an other one!' => 'Tickets zueinander verknüpfen!',
       'Lock it to work on it!' => 'Ticket sperren und bearbeiten!',
-      'Print' => 'Drucken',
-      'Print this ticket!' => 'Ticket drucken!',
-      'Set this ticket to pending!' => 'Ticket auf warten setzen!',
 
     # Template: AgentZoomStatus
       '"}","18' => '',
       'Locked' => 'Sperre',
 
     # Template: Copyright
+      'Print' => 'Drucken',
       'printed by' => 'gedruckt von',
 
     # Template: CustomerCreateAccount
@@ -838,8 +836,6 @@ sub Data {
     # Template: CustomerFAQArticlePrint
       'Category' => 'Kategorie',
       'Keywords' => 'Schlüsselwörter',
-      'Kurzbeschreibung' => '',
-      'Langbeschreibung' => '',
       'Last update' => 'Letzte Änderungen',
       'Solution' => 'Lösung',
 
@@ -1033,7 +1029,6 @@ sub Data {
     # Template: TicketView
 
     # Template: TicketViewLite
-      'Add Note' => 'Notiz anheften',
 
     # Template: Warning
 
@@ -1047,6 +1042,8 @@ sub Data {
       'Support' => '',
 
     # Misc
+      'Add Note' => 'Notiz anheften',
+      'Add a note to this ticket!' => 'Notiz zu Ticket hinzufügen!',
       'Add auto response' => 'Auto-Antwort hinzufügen',
       'Addressbook' => 'Adressbuch',
       'AgentFrontend' => 'Agent-Oberfläche',
@@ -1056,23 +1053,33 @@ sub Data {
       'Change Response <-> Attachment settings' => 'Ändere Antwort <-> Anlage Einstellungen',
       'Change answer <-> queue settings' => 'Ändern der Antworten <-> Queue Einstellungen',
       'Change auto response settings' => 'Auto-Antworten-Einstellungen ändern',
+      'Change the ticket customer!' => 'Ändern des Kunden für das Ticket!',
+      'Change the ticket free fields!' => 'Ändern der Ticket Frei Felder!',
+      'Change the ticket owner!' => 'Ändern des Besitzers für das Ticket!',
+      'Change the ticket priority!' => 'Ändern der Priorität des Tickets!',
       'Charset' => 'Zeichensatz',
       'Charsets' => 'Zeichensätze',
+      'Close this ticket!' => 'Das Ticket schliessen!',
       'Closed' => 'Geschlossen',
       'Create' => 'Erstellen',
       'CustomerUser' => 'Kunden-Benutzer',
+      'Free Fields' => 'Freie Felder',
+      'Link this ticket to an other one!' => 'Tickets zueinander verknüpfen!',
       'Lock Ticket' => 'Ticket Sperren',
       'My Tickets' => 'Meine Tickets',
       'New ticket via call.' => 'Neues Ticket durch Anruf.',
       'New user' => 'Neuer Besitzer',
       'Please go away!' => 'Bitte zurück gehen!',
+      'Print this ticket!' => 'Ticket drucken!',
       'Problem' => '',
       'Search in' => 'Suche in',
       'Select source:' => 'Quellen Auswahl',
       'Select your custom queues' => 'Bevorzugte Queues auswählen',
+      'Set this ticket to pending!' => 'Ticket auf warten setzen!',
       'Short Description' => 'Kurzbeschreibung',
       'Show all' => 'Alle anzeigen',
       'Shown Tickets' => 'Angezeigte Tickets',
+      'Shows the ticket history!' => 'Die Ticket Historie anzeigen!',
       'Symptom' => '',
       'System Charset Management' => 'Zeichensatz-Verwaltung',
       'Ticket-Overview' => 'Ticket-Übersicht',
@@ -1082,6 +1089,7 @@ sub Data {
       'With State' => 'Mit Status',
       'by' => 'von',
       'invalid-temporarily' => 'vorübergehend ungültig',
+      'phone call' => 'Anrufen',
       'search' => 'Suche',
       'store' => 'Speichern',
       'tickets' => 'Tickets',
