@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.pm,v 1.18 2005-01-22 16:06:56 martin Exp $
+# $Id: Package.pm,v 1.19 2005-02-18 17:01:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use LWP::UserAgent;
 use Kernel::System::XML;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -123,7 +123,7 @@ sub new {
 
 returns a list of repository packages
 
-    my %List = $PackageObject->RepositoryList();
+    my @List = $PackageObject->RepositoryList();
 
 =cut
 
@@ -589,6 +589,7 @@ upgrade a package
 sub PackageUpgrade {
     my $Self = shift;
     my %Param = @_;
+    my %InstalledStructur = ();
     # check needed stuff
     foreach (qw(String)) {
       if (!defined $Param{$_}) {
@@ -604,6 +605,7 @@ sub PackageUpgrade {
         if ($Structur{Name}->{Content} eq $Package->{Name}->{Content}) {
             if ($Package->{Status} =~ /^installed$/i) {
                 $Installed = 1;
+                %InstalledStructur = %{$Package};
             }
         }
     }
@@ -661,6 +663,14 @@ sub PackageUpgrade {
         " version = '".$Self->{DBObject}->Quote($Structur{Version}->{Content})."'";
     $Self->{DBObject}->Do(SQL => $SQL);
 
+
+    # uninstall old package files
+    if ($InstalledStructur{Filelist} && ref($InstalledStructur{Filelist}) eq 'ARRAY') {
+        foreach my $File (@{$InstalledStructur{Filelist}}) {
+            # remove file
+            $Self->_FileRemove(%{$File});
+        }
+    }
     # install files
     if ($Structur{Filelist} && ref($Structur{Filelist}) eq 'ARRAY') {
         foreach my $File (@{$Structur{Filelist}}) {
@@ -1331,6 +1341,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2005-01-22 16:06:56 $
+$Revision: 1.19 $ $Date: 2005-02-18 17:01:54 $
 
 =cut
