@@ -2,7 +2,7 @@
 # RPM spec file for RedHat Linux of the OpenTRS package
 # Copyright (C) 2002 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: redhat-otrs.spec,v 1.3 2002-10-01 14:00:36 martin Exp $
+# $Id: redhat-otrs.spec,v 1.4 2002-10-21 15:56:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -187,6 +187,7 @@ rm -rf $RPM_BUILD_ROOT
 /opt/OpenTRS/var/sessions/
 /opt/OpenTRS/var/spool/
 /opt/OpenTRS/var/tmp/
+/opt/OpenTRS/var/pics/stats/
 
 # redhat doc dir
 %doc INSTALL TODO COPYING READM* doc/* install*

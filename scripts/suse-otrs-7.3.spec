@@ -2,7 +2,7 @@
 # RPM spec file for SuSE Linux of the OTRS package
 # Copyright (C) 2002 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: suse-otrs-7.3.spec,v 1.8 2002-10-01 14:00:36 martin Exp $
+# $Id: suse-otrs-7.3.spec,v 1.9 2002-10-21 15:56:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -209,6 +209,7 @@ rm -rf $RPM_BUILD_ROOT
 /opt/OpenTRS/var/sessions/
 /opt/OpenTRS/var/spool/
 /opt/OpenTRS/var/tmp/
+/opt/OpenTRS/var/pics/stats/
 
 /var/adm/fillup-templates/rc.config.otrs
 
