@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentMove.pm - move tickets to queues 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMove.pm,v 1.11 2003-03-14 08:25:31 martin Exp $
+# $Id: AgentMove.pm,v 1.12 2003-04-03 12:39:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -82,6 +82,42 @@ sub Run {
     # move queue
     # --
     if (!$Self->{DestQueueID}) {
+        $Output .= $Self->{LayoutObject}->Header(Title => 'Move Ticket');
+#        my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
+#        $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
+        # --
+        # get lock state && write (lock) permissions
+        # --
+        if (!$Self->{TicketObject}->IsTicketLocked(TicketID => $Self->{TicketID})) {
+            # set owner
+            $Self->{TicketObject}->SetOwner(
+                TicketID => $Self->{TicketID},
+                UserID => $Self->{UserID},
+                NewUserID => $Self->{UserID},
+            );
+            # set lock
+            if ($Self->{TicketObject}->SetLock(
+                TicketID => $Self->{TicketID},
+                Lock => 'lock',
+                UserID => $Self->{UserID}
+            )) {
+                # show lock state
+                $Output .= $Self->{LayoutObject}->TicketLocked(TicketID => $Self->{TicketID});
+            }
+        }
+        else {
+            my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->CheckOwner(
+                TicketID => $Self->{TicketID},
+            );
+            if ($OwnerID != $Self->{UserID}) {
+                $Output .= $Self->{LayoutObject}->Error(
+                    Message => "Sorry, the current owner is $OwnerLogin",
+                    Comment => 'Please change the owner first.',
+                );
+                $Output .= $Self->{LayoutObject}->Footer();
+                return $Output;
+            }
+        }
         # --
         # fetch all queues
         # --
@@ -93,11 +129,38 @@ sub Run {
             %MoveQueues = $Self->{QueueObject}->GetAllQueues(UserID => $Self->{UserID});
         }
         # --
+        # get user of own groups
+        # --
+        my %ShownUsers = ();
+        $ShownUsers{''} = '-';
+        my %AllGroupsMembers = $Self->{UserObject}->UserList(
+            Type => 'Long',
+            Valid => 1,
+        );
+        if ($Self->{ConfigObject}->Get('ChangeOwnerToEveryone')) {
+            %ShownUsers = %AllGroupsMembers;
+        }
+        else {
+            my %Groups = $Self->{GroupObject}->GroupUserList(
+                UserID => $Self->{UserID},
+                Type => 'rw',
+                Result => 'HASH',
+            );
+            foreach (keys %Groups) {
+                my %MemberList = $Self->{GroupObject}->GroupMemberList(
+                    GroupID => $_,
+                    Type => 'rw',
+                    Result => 'HASH',
+                );
+                foreach (keys %MemberList) {
+                    $ShownUsers{$_} = $AllGroupsMembers{$_};
+                }
+            }
+        }
+        # --
         # build header
         # --
         my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $Self->{TicketID});
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Move Ticket');
-        my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
         # --
         # get next states
         # --
@@ -105,9 +168,9 @@ sub Run {
             Type => 'DefaultNextMove',
             Result => 'HASH',
         );
-        $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
         $Output .= $Self->{LayoutObject}->AgentMove(
             MoveQueues => \%MoveQueues,
+            OwnerList => \%ShownUsers,
             TicketID => $Self->{TicketID},
             NextStates => \%NextStates,
             %Ticket,
@@ -131,6 +194,50 @@ sub Run {
                 UserID => $Self->{UserID},
             );
         } 
+        # --
+        # new owner!
+        # --
+        my $NewUserID= $Self->{ParamObject}->GetParam(Param => 'NewUserID') || '';
+        my $Comment = $Self->{ParamObject}->GetParam(Param => 'Comment') || '';
+        if ($NewUserID) {
+            # lock
+            $Self->{TicketObject}->SetLock(
+                TicketID => $Self->{TicketID},
+                Lock => 'lock',
+                UserID => $Self->{UserID},
+            );
+            # set owner
+            $Self->{TicketObject}->SetOwner(
+                TicketID => $Self->{TicketID},
+                UserID => $Self->{UserID},
+                NewUserID => $NewUserID,
+                Comment => $Comment,
+            );
+        }
+        else {
+            # unlock
+            $Self->{TicketObject}->SetLock(
+                TicketID => $Self->{TicketID},
+                Lock => 'unlock',
+                UserID => $Self->{UserID},
+            );
+        }
+        if ($Comment) {
+            # add note
+            my $ArticleID = $Self->{TicketObject}->CreateArticle(
+                TicketID => $Self->{TicketID},
+                ArticleType => 'note-internal',
+                SenderType => 'agent',
+                From => $Self->{UserLogin},
+                To => $Self->{UserLogin},
+                Subject => 'Move Note',
+                Body => $Comment,
+                ContentType => "text/plain; charset=$Self->{'UserCharset'}",
+                UserID => $Self->{UserID},
+                HistoryType => 'AddNote',
+                HistoryComment => 'Note added.',
+            );
+        }
         # --
         # redirect 
         # --
