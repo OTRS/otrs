@@ -2,7 +2,7 @@
 # Kernel/System/POP3Account.pm - lib for POP3 accounts
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: POP3Account.pm,v 1.2 2003-01-03 00:30:28 martin Exp $
+# $Id: POP3Account.pm,v 1.3 2003-01-06 21:37:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::POP3Account;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -45,11 +45,17 @@ sub POP3AccountAdd {
     # --
     # check needed stuff
     # --
-    foreach (qw(Login Password Host ValidID Trusted QueueID UserID)) {
+    foreach (qw(Login Password Host ValidID Trusted DispatchingBy QueueID UserID)) {
       if (!defined $Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
+    }
+    # --
+    # check if dispatching is by From
+    # --
+    if ($Param{DispatchingBy} eq 'From') {
+        $Param{QueueID} = 0;
     }
     # --
     # db quote
@@ -117,6 +123,12 @@ sub POP3AccountGet {
             ValidID => $Data[6],
         );
     }
+    if ($Data{QueueID} == 0) {
+        $Data{DispatchingBy} = 'From';
+    }
+    else {
+        $Data{DispatchingBy} = 'Queue';
+    }
     return %Data;
 }
 # --
@@ -126,17 +138,23 @@ sub POP3AccountUpdate {
     # --
     # check needed stuff
     # --
-    foreach (qw(ID Login Password Host ValidID Trusted QueueID UserID)) {
+    foreach (qw(ID Login Password Host ValidID Trusted DispatchingBy QueueID UserID)) {
       if (!defined $Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
     }
     # --
+    # check if dispatching is by From
+    # --
+    if ($Param{DispatchingBy} eq 'From') {
+        $Param{QueueID} = 0;
+    }
+    # --
     # db quote
     # --
     foreach (keys %Param) {
-            $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+            $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     # --
     # sql
