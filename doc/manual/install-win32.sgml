@@ -46,7 +46,7 @@ Please be patient now for a little while, while the installer is unpacking its c
 <screeninfo>Components - otrs4win32</screeninfo>
 <graphic srccredit="Components otrs4win32 - screenshot" scale="40" fileref="screenshots/otrs4win32-components.png"></graphic>
 </screenshot>
-We provide four installation types, which you choose from the drop-down field at the top:
+We provide different installation types, which are available in a 'service' and a 'non-service' version. We strongly recommend choosing the latter from the drop-down field at the top, which is the default, anyway:
 <itemizedlist mark='opencircle'>
 <listitem>
 <para><emphasis>Full (recommended!)</emphasis>: The name says it: this installs all of the delivered software and it is our recommendation. We mainly support this one, ie. you are strongly encouraged to choose it.</para>
@@ -54,11 +54,8 @@ We provide four installation types, which you choose from the drop-down field at
 <listitem>
 <para><emphasis>Minimum</emphasis>: Choosing this will only install those components that are absolutely required to get the basic OTRS system going, omitting all the gimmicks this bundle additionally provides. If in a customized installation (see below) you omit one of them, OTRS won't work. So it's best to start from here with customization, if ever.</para>
 </listitem>
-<listitem>
-<para><emphasis>None</emphasis>: This option is quite dangerous to use. It allows you to re-run the external configuration script. Use this only if you experience difficulties and as a last resort. Have a complete backup of the OTRS' installation directory at your hands.</para>
-</listitem>
 </itemizedlist>
-Additionally to the above options, you may choose your own set of components, allowing you to customize the installation as you like. The drop-down field will change "Customized" then, and you can reset your selection by choosing one of the above types again. When creating your own, customized installation, you notice that some components always have to be installed to get anything going - their checkmarks are greyed out.
+Additionally to the above options, you may choose your own set of components, allowing you to customize the installation as you like. The drop-down field will change to "Customized" then, and you can reset your selection by choosing one of the other types again. When creating your own, customized installation, you notice that some components always have to be installed to get anything going - their checkmarks are greyed out.
 <warning>
 <para>
 Please do *not* expect everything working fine if you did not choose "Full" installation. This will esp. apply to the provided html-pages outside OTRS.
@@ -88,37 +85,20 @@ We again <emphasis>strongly recommend</emphasis> creating these entries. They do
 <screeninfo>Installing - otrs4win32</screeninfo>
 <graphic srccredit="Installing - screenshot" scale="40" fileref="screenshots/otrs4win32-installing.png"></graphic>
 </screenshot>
-Click on 'Show Details' to watch the output of the installer:
+Please be patient. In the meantime get some coffee and/or click on 'Show Details' to watch the output of the installer:
 <screenshot>
 <screeninfo>Installing (showing details) - otrs4win32</screeninfo>
 <graphic srccredit="Installing (showing details) - screenshot" scale="40" fileref="screenshots/otrs4win32-installing_details.png"></graphic>
 </screenshot>
 </para>
 <para>
-The system now configures itself to the current location using an external routine - sorry for that, it will be changed in later releases of otrs4win32. A (usually dark colored) window will pop up - please be patient and wait for the process to finish. Watch the script's output and press a key at it's end.
-<screen>
-  Configure Apache HTTPD in C:\otrs\apache\conf\httpd.conf ...  DONE!
-  Configure Apache SSL in C:\otrs\apache\conf\ssl.conf ...  DONE!
-  Configure Apache MOD_DAV in C:\otrs\apache\conf\moddav.conf ...  DONE!
-  Configure PHP for MOD_PHP in C:\otrs\apache\bin\php.ini ...  DONE!
-  Configure PHP for CGI in C:\otrs\php\php.ini ...  DONE!
-  Configure MySQL DEFAULT in C:\otrs\mysql\bin\my.cnf ...  DONE!
-  Configure MySQL NT in C:\otrs\mysql\bin\my.nt-cnf ...  DONE!
-  Configure FileZilla FTP Server in C:\otrs\FileZillaFTP\FileZilla Server.xml ...  DONE!
-  Configure Mercury Mail Server in C:\otrs\MercuryMail\MERCURY.INI ...  DONE!
-  Configure Perl PPM in C:\otrs\perl\site\lib\ppm.xml ...  DONE!
-  Configure Webalizer in C:\otrs\webalizer\webalizer.conf ...  DONE!
-  Configure all other (cgi, .htaccess, ...)  DONE!
-  Configure OTRS' Config.pm in C:\otrs\otrs\Kernel\Config.pm ...  DONE!
-  Configure OTRS' Apache2 Include in C:\otrs\otrs\scripts\apache2-httpd.include.conf ...  DONE!
-  Configure OTRS' Apache2 Perl Startup in C:\otrs\otrs\scripts\apache2-perl-startup.pl ...  DONE!
-  Configure CRONw batch files ...  Done!
-
-Press a key to continue...
-</screen>
-</para>
-<para>
-Once the external configuration routine is finished, you will be returned to the installer's screen. After some finishing steps it should look similar to this:
+During this process, you may feel the installation does nothing until Apache's service installation fails, showing this output:
+<screenshot>
+<screeninfo>Safely ignore this output - otrs4win32</screeninfo>
+<graphic srccredit="Safely ignore this output - screenshot" scale="40" fileref="screenshots/otrs4win32-safely_ignore.png"></graphic>
+</screenshot>
+Don't panic at this point - Apache's service installation will most likely have succeeded! We're working on this issue.</para>
+<para>Once the external configuration routine is finished, you will be returned to the installer's screen. After some finishing steps it should look similar to this:
 <screenshot>
 <screeninfo>Complete - otrs4win32</screeninfo>
 <graphic srccredit="Complete - screenshot" scale="40" fileref="screenshots/otrs4win32-complete.png"></graphic>
@@ -133,7 +113,6 @@ No reboot should be required. Please read on before clicking 'Finish'!
 </para>
 <warning>
 <title>Installation and Upgrade Issues</title>
-<para>NO system service are installed till now. Please refer to the FAQ on do.otrs.org for important, additional information regarding this issue.</para>
 <para>This release is suitable only for OTRS systems that are about to be freshly installed, ie. you are currently not encouraged to upgrade your existing OTRS installation. In fact, the installer does not provide any mechanism to do so.</para>
 </warning>
 </section>
@@ -144,25 +123,23 @@ No reboot should be required. Please read on before clicking 'Finish'!
 Make sure there are no other server applications running on the ports 25 (smtp), 80 (http), 443 (https), 3306 (MySQL). If so, find out, what servers they are and if they are supposed and/or required to run at this time on your machine. Examples were Microsoft's IIS webserver running silently in the background or the correspnding SMTP service. You'll have to shut them down to start OTRS. A latter version of this installer will do all of the above for you.
 </para>
 <para>
-To start your system's servers now, you may use the provided option on the finishing page of the installer dialogue labeled 'Run otrs4win32'. This does the same as the Start Menu entry in the section "Standalone Servers" (see below), namely executing the script 'all_start.bat' located in the root directory of otrs4win32. Do not worry about the script complaining about the CRONw service not being found, if you didn't install it till now - it's harmless.
+To start your system's servers now, you may use the provided option on the finishing page of the installer dialogue labeled 'Run otrs4win32'. This does the same as the Start Menu entry 'Start All Servers' in the section "Services" (see below), namely executing the script 'all_startservices.bat' located in the root directory of otrs4win32. By default, all servers needed for OTRS are installed as services.
 </para>
 <para>
-Please read the ouput of the scripts and do not close the (usually dark colored) windows appearing, simply minimize them - these are your servers... Please be so patient to wait a little while until Apache has been completely starting up, and then visit <userinput>http://localhost/</userinput>. This is XAMPP and its components - you'll find OTRS in the left-hand menu. Click on it to get to the informational page about OTRS. The link at the bottom points to <userinput>http://localhost/otrs/cgi-bin/index.pl</userinput>. Click it - there you go! You can reach the resulting page, which is OTRS' Login Page directly by clicking the coresponding link in OTRS' Start Menu.</para>
-<para>
-To let Apache, Mercury, MySQL and CRONw start automatically at boot time, you may decide to use the provided administrational Start Menu entries and/or their corresponding scripts to install them as system services, but you don't have to do it now.
-</para>
+Please be so patient to wait a little while until Apache has been completely starting up, and then visit <userinput>http://localhost/</userinput>. This is XAMPP and its components - you'll find OTRS in the left-hand menu. Click on it to get to the informational page about OTRS. The link at the bottom points to <userinput>http://localhost/otrs/cgi-bin/index.pl</userinput>. Click it - there you go! You can reach the resulting page, which is OTRS' Login Page directly by clicking the coresponding link in OTRS' Start Menu.</para>
 </section>
 
 <section id="how_to_stop_the_servers_otrs4win32">
 <title>How To Stop The Servers (if ever...)</title>
-<para>For Apache, you may simply close it's control window. To safely shut down MySQL, use it's Start Menu entry or issue the script <userinput>mysql_stop.bat</userinput>. Shut down Mercury via it's <userinput>file</userinput> menu or the keyboard shortcut <userinput>Alt-F4</userinput> when the Mercury window has the focus. Stop the CRONw service via the Start Menu or by issuing <userinput>net stop cron</userinput>.</para>
 <para>If you installed the servers as system services, you may use the system's service control area to stop them, although you don't need to, because they will be terminated at shutdown time properly. Additionally, they need not be shut down if you actually do not work in OTRS, but should be kept running to let the maintenance scripts perform their actions at their given times.</para>
+<para>Regarding the Standalone versions of the servers: For Apache, you may simply close it's control window. To safely shut down MySQL, use it's Start Menu entry or issue the script <userinput>mysql_stop.bat</userinput>. Shut down Mercury via it's <userinput>file</userinput> menu or the keyboard shortcut <userinput>Alt-F4</userinput> when the Mercury window has the focus. Stop the CRONw service via the Start Menu or by issuing <userinput>net stop cron</userinput>.</para>
 </section>
 
 <section id="uninstallation_otrs4win32">
 <title>Uninstallation Instructions</title>
-<para>If you ever want to remove otrs4win32 from your box, simply stop all of the servers, uninstall all of their eventually installed services and finally use the provided uninstaller binary found in the otrs4win32 root directory. You may perform all of these steps via the Start Menu.</para>
-<para>The uninstall process will delete any registry entry that was created by otrs4win32 (if any), delete OTRS' Start Menu and finally erase the whole installation directory - that was it. No Reboot should be required.</para>
+<para>If you ever want to remove otrs4win32 from your box, simply stop all of the servers, uninstall all of their eventually installed services and delete the directory holding the application. For all this we provide an uninstaller, found in the installation directory. You may perform some of the required steps manually via the Start Menu, if you want to.</para>
+<para>The uninstall process will guide you through what will be uuninstalled. No Reboot should be required.</para>
+<para>Additionally, it provides some means to actually <emphasis>RE</emphasis>install some aspects of the software. This were the service, the Start menu entries and the  entries in Windows' Registry.</para>
 </section>
 
 </section>
