@@ -1,11 +1,11 @@
 # --
-# Kernel/System/Log/SysLog.pm - a wrapper for xyz::Syslog 
+# Kernel/System/Log/SysLog.pm - a wrapper for xyz::Syslog
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SysLog.pm,v 1.8 2004-04-26 12:25:25 martin Exp $
+# $Id: SysLog.pm,v 1.9 2004-08-01 21:03:14 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
@@ -13,9 +13,10 @@ package Kernel::System::Log::SysLog;
 
 use strict;
 use Sys::Syslog qw(:DEFAULT setlogsock);
+use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $ ';
+$VERSION = '$Revision: 1.9 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -24,20 +25,39 @@ sub new {
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
+    # get config object
+    if (!$Param{ConfigObject}) {
+        die "Got no ConfigObject!";
+    }
+    else {
+        $Self->{ConfigObject} = $Param{ConfigObject};
+    }
+    # create encode object
+    $Self->{EncodeObject} = Kernel::System::Encode->new(
+        %Param,
+    );
+    # set syslog facility
     $Self->{SysLogFacility} = $Param{ConfigObject}->Get('LogModule::SysLog::Facility') || 'user';
 
     return $Self;
 }
 # --
-sub Log { 
+sub Log {
     my $Self = shift;
     my %Param = @_;
-    # --
+    # convert Message because syslog can't work with utf-8
+    if ($Self->{ConfigObject}->Get('DefaultCharset') =~ /^utf(-8|8)$/i) {
+        $Param{Message} = $Self->{EncodeObject}->Convert(
+            Text => $Param{Message},
+            From => 'utf8',
+            To => $Self->{ConfigObject}->Get('LogModule::SysLog::Charset') || 'iso-8859-15',
+            Force => 1,
+        );
+    }
     # start syslog connect
-    # --
     setlogsock('unix');
     openlog($Param{LogPrefix}, 'cons,pid', $Self->{SysLogFacility});
 
