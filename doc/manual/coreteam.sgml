@@ -7,9 +7,9 @@ OpenTRS was created in the third or fourth quater of the year 2001 (nobody remem
 <sect1 id="martin_edenhofer">
 <title>Martin Edenhofer</title>
 <informaltable frame='none'>
-<tgroup cols='2'>
-<colspec colwidth='1*'/>
-<colspec colwidth='4*'/>
+<tgroup cols="2">
+<colspec colwidth="1*"/>
+<colspec colwidth="4*"/>
 <tbody>
 <row><entry>E-Mail:</entry><entry><email>martin@otrs.org</email></entry></row>
 <row><entry>Homepage:</entry><entry><ulink url="http://martin.edenhofer.de/"><citetitle>http://martin.edenhofer.de/</citetitle></ulink></entry></row>
@@ -25,9 +25,9 @@ Without Martin the otrs wouldn't exist. He is a brilliant coder. We will insert 
 <sect1 id="stefan_wintermeyer">
 <title>Stefan Wintermeyer</title>
 <informaltable frame='none'>
-<tgroup cols='2'>
-<colspec colwidth='1*'/>
-<colspec colwidth='4*'/>
+<tgroup cols="2">
+<colspec colwidth="1*"/>
+<colspec colwidth="4*"/>
 <tbody>
 <row><entry>E-Mail:</entry><entry><email>stefan@otrs.org</email></entry></row>
 <row><entry>Homepage:</entry><entry><ulink url="http://www.wintermeyer.de/"><citetitle>http://www.wintermeyer.de/</citetitle></ulink></entry></row>
@@ -57,9 +57,9 @@ ein und propagiert Linux als das Betriebssystem für Server und Thin Clients.
 <sect1 id="sebastian_wormser">
 <title>Sebastian Wormser</title>
 <informaltable frame='none'>
-<tgroup cols='2'>
-<colspec colwidth='1*'/>
-<colspec colwidth='4*'/>
+<tgroup cols="2">
+<colspec colwidth="1*"/>
+<colspec colwidth="4*"/>
 <tbody>
 <row><entry>E-Mail:</entry><entry><email>sibbi@sibbi.org</email></entry></row>
 <row><entry>Homepage:</entry><entry><ulink url="http://sibbi.org/"><citetitle>http://sibbi.org/</citetitle></ulink></entry></row>

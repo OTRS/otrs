@@ -1,4 +1,5 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V3.1//EN" [
+<!ENTITY authorgroup SYSTEM "authorgroup.sgml">
 <!ENTITY preamble SYSTEM "preamble.sgml">
 <!ENTITY install SYSTEM "install.sgml">
 <!ENTITY config-file SYSTEM "config-file.sgml">
@@ -18,29 +19,8 @@
 <book id="index">
 <bookinfo>
         <title>OpenTRS - Manual</title>
-<authorgroup>
-        <author>
-                <firstname>Martin</firstname>
-                <surname>Edenhofer</surname>
-                <affiliation>
-                        <orgname>OpenTRS core team</orgname>
-                        <address>
-                        <email>martin@otrs.org</email>
-                        </address>
-                </affiliation>
-        </author>
 
-        <author>
-                <firstname>Stefan</firstname>
-                <surname>Wintermeyer</surname>
-                <affiliation>
-                        <orgname>OpenTRS core team</orgname>
-                        <address>
-                        <email>stefan@otrs.org</email>
-                        </address>
-                </affiliation>
-        </author>
-</authorgroup>
+&authorgroup;
 
 <edition>Hurrican</edition>
 <pubdate>2002</pubdate>
@@ -72,6 +52,13 @@ or implied warranty.
 <date>16th Feb, 2002</date>
 <revremark>i used my vacation to add some spice to the documentation</revremark>
 </revision>
+
+<revision>
+<revnumber>0.423</revnumber>
+<date>2nd May, 2002</date>
+<revremark>Sibbi joined the team.</revremark>
+</revision>
+
 </revhistory>
 
 
@@ -79,6 +66,7 @@ or implied warranty.
 <keyword>otrs</keyword>
 <keyword>OpenTRS</keyword>
 <keyword>ticket</keyword>
+<keyword>Linux</keyword>
 </keywordset>
 
 </bookinfo>
