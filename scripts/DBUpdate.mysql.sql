@@ -2,7 +2,7 @@
 -- Update an existing OpenTRS database to the current state.
 -- Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate.mysql.sql,v 1.12 2002-11-27 14:27:18 martin Exp $
+-- $Id: DBUpdate.mysql.sql,v 1.13 2002-12-01 16:16:05 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate.mysql.sql | mysql -f -u root otrs
@@ -15,12 +15,17 @@
 -- table for db loop protection backend module
 CREATE TABLE ticket_loop_protection
 (
-    sent_to VARCHAR (200) NOT NULL,
-    sent_date VARCHAR (100) NOT NULL,
+    sent_to VARCHAR (250) NOT NULL,
+    sent_date VARCHAR (150) NOT NULL,
     INDEX index_ticket_loop_protection_sent_to (sent_to),
     INDEX index_ticket_loop_protection_sent_date (sent_date)
 );
 -- charset for bulgarian translation
+ALTER TABLE charset MODIFY 
+    name VARCHAR (200) NOT NULL, 
+    charset VARCHAR (50) NOT NULL, 
+    comment VARCHAR (250)
+;
 INSERT INTO charset
     (name, charset, comment, valid_id, create_by, create_time, change_by, change_time)
     VALUES
