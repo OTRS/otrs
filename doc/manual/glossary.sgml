@@ -58,27 +58,6 @@ This glossary covers OTRS terms.
 <title>Agent Interface</title>
 
 <glossentry>
-<glossterm>Queue View</glossterm>
-<glossdef>
-<para>Overview of all 'open' and 'unlocked' tickets sorted by queue. Sort order of each queue is priority then age.</para>
-</glossdef>
-</glossentry>
-
-<glossentry>
-<glossterm>Ticket Zoom</glossterm>
-<glossdef>
-<para>A detail view (each article) of a ticket.</para>
-</glossdef>
-</glossentry>
-
-<glossentry>
-<glossterm>Ticket History</glossterm>
-<glossdef>
-<para>A detail view (each action, e. g. move, lock, ...) of a ticket.</para>
-</glossdef>
-</glossentry>
-
-<glossentry>
 <glossterm>Mailbox</glossterm>
 <acronym>Locked Tickets</acronym>
 <glossdef>
@@ -90,6 +69,34 @@ This glossary covers OTRS terms.
 <glossterm>Phone View</glossterm>
 <glossdef>
 <para>A screen to create tickets.</para>
+</glossdef>
+</glossentry>
+
+<glossentry>
+<glossterm>Queue View</glossterm>
+<glossdef>
+<para>Overview of all 'open' and 'unlocked' tickets sorted by queue. Sort order of each queue is priority then age.</para>
+</glossdef>
+</glossentry>
+
+<glossentry>
+<glossterm>Ticket History</glossterm>
+<glossdef>
+<para>A detail view (each action, e. g. move, lock, ...) of a ticket.</para>
+</glossdef>
+</glossentry>
+
+<glossentry>
+<glossterm>Ticket Zoom</glossterm>
+<glossdef>
+<para>A detail view (each article) of a ticket.</para>
+</glossdef>
+</glossentry>
+
+<glossentry>
+<glossterm>You have n new message(s)!</glossterm>
+<glossdef>
+<para>New messages in agent locked tickets where the last article isn't written by the agent (e. g. by customer or other agent). The new message notify will go if last article is written by the agent (helps the agent to show what customer needs to be contacted).</para>
 </glossdef>
 </glossentry>
 
@@ -172,9 +179,6 @@ ticket is accessible via QueueView.</para>
 <para>email-external: customer email</para>
 </glossdef>
 <glossdef>
-<para>email-internal: not used</para>
-</glossdef>
-<glossdef>
 <para>email-notification-ext: email notification to customer</para>
 </glossdef>
 <glossdef>
@@ -184,22 +188,18 @@ ticket is accessible via QueueView.</para>
 <para>phone: phone note</para>
 </glossdef>
 <glossdef>
-<para>fax: not used</para>
-</glossdef>
-<glossdef>
-<para>sms: not used</para>
-</glossdef>
-<glossdef>
 <para>webrequest: request from the customer web interface</para>
 </glossdef>
 <glossdef>
-<para>note-internal: note just shown for agents</para>
+<para>note-internal: note just shown for agents (agent to agent)</para>
 </glossdef>
 <glossdef>
 <para>note-external: note shown for agent and customer (should _not_ be used as communication between customer and agent!)</para>
 </glossdef>
+<para>note-report (note used for reporting - should be used by monitoring tools like Nagius (http://www.nagios.org/)
+</glossdef>
 <glossdef>
-<para>note-report: note used for reporting - should be used by monitoring tools like Nagius (http://www.nagios.org/)</para>
+<para>[not used at this moment: fax, sms, email-internal]</para>
 </glossdef>
 </glossentry>
 
