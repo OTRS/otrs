@@ -2,7 +2,7 @@
 # README - readme file of OpenTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: README,v 1.5 2002-06-23 14:54:43 martin Exp $
+# $Id: README,v 1.6 2002-08-04 14:36:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,32 +16,50 @@ What is OpenTRS?
   emails and telephone calls.
 
   Feature list:
-  - Agent web interface for viewing and working on all customer requests.
-  - Admin web interface for changing system things.
-  - Customer web interface for viewing and sending infos to the agents.
-  - Central database which contains all configuration, customer information.
-  - Custom queue view.
-  - Ticket locking.
-  - Ticket autoreplies (standard responses)
-  - Ticket history, evolution of ticket status and actions taken on ticket
-  - Abaility to add notes (with different note types) to a ticket.
-  - Ticket zoom feature
-  - Tickets can be bounced or forwarded to other email addresses.
-  - Ticket can be moved to a different queue (this is helpful if emails are 
-     for a specific subject)
-  - Fulltext search.
-  - Ticket priority.
-  - Creation and configuration of user accounts, and groups
-  - Creation of standard responses
-  - Signature and Salutation configuration
-  - Multi language support.
-  - Email-notification of administrators.
-  - Email-notification sent to problem reporter (by create, locked, deleted, 
-     moved and closed)
-  - Submitting update-info (via email or webinterface).
-  - Deadlines for trouble tickets.
-  - Different levels of permissions/access-rights. 
-  
+
+   Web-Interface: 
+    - Agent web interface for viewing and working on all customer requests
+    - Admin web interface for changing system things
+    - Customer web interface for viewing and sending infos to the agents
+    - Webinterface with themes support
+    - Multi language support (english, german and french)
+
+   Email-Interface:
+    - MIME support (attachments)
+    - Dispatching of incoming email via email addess or x-header
+
+   Ticket:
+    - Custom queue view
+    - Ticket locking
+    - Ticket replies (standard responses)
+    - Ticket autoresponders per queue
+    - Ticket history, evolution of ticket status and actions taken on ticket
+    - Abaility to add notes (with different note types) to a ticket
+    - Ticket zoom feature
+    - Tickets can be bounced or forwarded to other email addresses
+    - Ticket can be moved to a different queue (this is helpful if emails are 
+       for a specific subject)
+    - Ticket priority
+    - Ticket time accounting
+    - Content Fulltext search
+
+   System:
+    - Central database which contains all configuration, customer information.
+    - Creation and configuration of user accounts, and groups
+    - Creation of standard responses
+    - Signature configuration per queue
+    - Salutation configuration per queue
+    - Email-notification of administrators.
+    - Email-notification sent to problem reporter (by create, locked, deleted, 
+       moved and closed)
+    - Submitting update-info (via email or webinterface).
+    - Deadlines for trouble tickets.
+    - ASP (activ service providing) support
+    - TicketHook free setable like 'Call#', 'MyTicket#', 'Request#' or 'Ticket#'
+    - Ticket number format free setable
+    - Different levels of permissions/access-rights. 
+    - Support of different SQL databases (e. g. MySQL, PostgeSQL, ...)
+ 
 License:
 ========
   It is distributed under the GNU General Public License - see the
@@ -76,8 +94,10 @@ Software requirements?
     * SuSE Linux 7.3 (s390), Perl 5.6.0, MySQL 3.23.48 and Apache 1.3.22.
     * SuSE Linux 8.0 (i386), Perl 5.6.1, MySQL 3.23.48 and Apache 1.3.23 (incl. mod_perl 1.26).
     * SuSE Linux 8.0 (i386), Perl 5.6.1, MySQL 3.23.48 and Roxen-Webserver 2.2.252
+    * SuSE Linux 8.0 (i386) interfacing with Exchange 5.5 via fetchmail and postfix   
     * Redhat 7.3 (no detail description available)
-    
+    * Mandrake 8.2 server interfacing with Lotus Notes mail server via fetchmail and sendmail
+     
     ... and you? ;-)
 
 EOF
