@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NewTicket.pm,v 1.33 2003-02-09 20:58:03 martin Exp $
+# $Id: NewTicket.pm,v 1.34 2003-02-16 23:27:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ use Kernel::System::Queue;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -144,9 +144,12 @@ sub Run {
         # --
         # get customer user data
         # --
-        my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-            User => $GetParam{'X-OTRS-CustomerUser'}, 
-        );
+        my %CustomerData = ();
+        if ($GetParam{'X-OTRS-CustomerUser'}) {
+            %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                User => $GetParam{'X-OTRS-CustomerUser'}, 
+            );
+        }
         # --
         # take CustomerID from customer backend lookup or from from field
         # --
