@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.42 2004-11-16 17:21:58 martin Exp $
+# $Id: DB.pm,v 1.43 2004-12-02 00:35:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use DBI;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -471,7 +471,7 @@ generate database based sql syntax (e. g. CREATE TABLE ...)
          Tag => 'Column',
          Name => 'col_name',
          Type => 'VARCHAR',
-         Size => 150.
+         Size => 150,
       ],
       [
          Tag => 'Column',
@@ -525,6 +525,17 @@ sub SQLProcessor {
             elsif ($Tag->{Tag} eq 'TableDrop' && $Tag->{TagType} eq 'Start') {
                 push (@Table, $Tag);
                 push (@SQL, $Self->TableDrop(@Table));
+                @Table = ();
+            }
+            elsif ($Tag->{Tag} eq 'Insert' && $Tag->{TagType} eq 'Start') {
+                push (@Table, $Tag);
+            }
+            elsif ($Tag->{Tag} eq 'Data' && $Tag->{TagType} eq 'Start') {
+                push (@Table, $Tag);
+            }
+            elsif ($Tag->{Tag} eq 'Insert' && $Tag->{TagType} eq 'End') {
+                push (@Table, $Tag);
+                push (@SQL, $Self->Insert(@Table));
                 @Table = ();
             }
         }
@@ -639,6 +650,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.42 $ $Date: 2004-11-16 17:21:58 $
+$Revision: 1.43 $ $Date: 2004-12-02 00:35:31 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/DB/postgresql.pm - postgresql database backend
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: postgresql.pm,v 1.1 2004-11-16 17:26:58 martin Exp $
+# $Id: postgresql.pm,v 1.2 2004-12-02 00:35:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::DB::postgresql;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub LoadPreferences {
@@ -320,5 +320,44 @@ sub UniqueDrop {
         }
     }
     my $SQL = "ALTER TABLE $Param{TableName} DROP CONSTRAINT $Param{Name}";
+    return ($SQL);
+}
+sub Insert {
+    my $Self = shift;
+    my @Param = @_;
+    my $SQL = '';
+    my @Keys = ();
+    my @Values = ();
+    foreach my $Tag (@Param) {
+        if ($Tag->{Tag} eq 'Insert' && $Tag->{TagType} eq 'Start') {
+            $SQL = "INSERT INTO $Tag->{Table} "
+        }
+        if ($Tag->{Tag} eq 'Data' && $Tag->{TagType} eq 'Start') {
+            $Tag->{Key} = $Self->Quote($Tag->{Key});
+            push (@Keys, $Tag->{Key});
+            if ($Tag->{Type} && $Tag->{Type} eq 'Quote') {
+                $Tag->{Value} = "'".$Self->Quote($Tag->{Value})."'";
+            }
+            else {
+                $Tag->{Value} = $Self->Quote($Tag->{Value});
+            }
+            push (@Values, $Tag->{Value});
+        }
+    }
+    my $Key = '';
+    foreach (@Keys) {
+        if ($Key) {
+            $Key .= ",";
+        }
+        $Key .= $_;
+    }
+    my $Value = '';
+    foreach (@Values) {
+        if ($Value) {
+            $Value .= ",";
+        }
+        $Value .= $_;
+    }
+    $SQL .= "($Key) VALUES ($Value)";
     return ($SQL);
 }
