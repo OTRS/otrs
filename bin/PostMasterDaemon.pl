@@ -1,20 +1,20 @@
 #!/usr/bin/perl -w
 # --
-# PostMasterDaemon.pl - the daemon for the PostMasterClient.pl client 
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# PostMasterDaemon.pl - the daemon for the PostMasterClient.pl client
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMasterDaemon.pl,v 1.4 2004-01-14 07:56:55 martin Exp $
+# $Id: PostMasterDaemon.pl,v 1.5 2004-08-03 18:16:08 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -93,21 +93,21 @@ sub MakeNewChild {
           while (my $Line = <$Client>) {
               if ($Line =~ /^\* --END EMAIL--$/) {
                   $Data = 0;
-                  if (@Input) { 
+                  if (@Input) {
                       PipeEmail(@Input);
                       print $Client "* --DONE--\n";
                   }
                   else {
                       print $Client "* --ERROR-- Got no data!\n";
                       exit 1;
-                  } 
+                  }
               }
               if ($Data) {
                   push (@Input, $Line);
               }
               if ($Line =~ /^\* --SEND EMAIL--$/) {
                   $Data = 1;
-              } 
+              }
           }
           # check max connects
           if ($MaxConnects <= $MaxConnectsCount) {
@@ -129,14 +129,14 @@ sub PipeEmail {
     my @Email = @_;
 
     # --
-    # create common objects 
+    # create common objects
     # --
     my %CommonObject = ();
     $CommonObject{ConfigObject} = Kernel::Config->new();
     $CommonObject{LogObject} = Kernel::System::Log->new(
         LogPrefix => 'OTRS-PMD',
         %CommonObject,
-    ); 
+    );
     $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
     # debug info
     if ($Debug) {
@@ -148,7 +148,7 @@ sub PipeEmail {
     # ... common objects ...
     $CommonObject{PostMaster} = Kernel::System::PostMaster->new(%CommonObject, Email => \@Email);
     $CommonObject{PostMaster}->Run();
-
+    undef $CommonObject{PostMaster};
     # debug info
     if ($Debug) {
         $CommonObject{LogObject}->Log(
