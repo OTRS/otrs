@@ -1,8 +1,8 @@
 # --
-# AgentUtilSearchResultShortTable.dtl
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code at otrs.org>
+# CustomerTicketSearchResultPrintTable.dtl
+# Copyright (C) 2002-2004 Martin Edenhofer <martin+code at otrs.org>
 # --
-# $Id: AgentUtilSearchResultPrintTable.dtl,v 1.2 2004-04-30 13:07:16 martin Exp $
+# $Id: CustomerTicketSearchResultPrintTable.dtl,v 1.1 2004-04-30 13:07:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,6 @@
  <td>$TimeLong{"$Data{"Created"}"}</td>
  <td>$QData{"From","30"}<br>$QData{"Subject","30"}</td>
  <td>$Quote{"$Text{"$Data{"State"}"}","30"}<br>$QData{"Queue","30"}</td>
- <td>$QData{"Owner","30"} ($Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","30"})</td>
  <td>$QData{"CustomerID","15"}&nbsp;<br>$QData{"CustomerName","15"}</td>  
 </tr>
 <!-- end record -->
