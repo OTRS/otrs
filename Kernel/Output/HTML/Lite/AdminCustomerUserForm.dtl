@@ -2,7 +2,7 @@
 # AdminCustoerUserForm.dtl - provides HTML form for AdminCustomerUser
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUserForm.dtl,v 1.1 2002-10-15 09:30:15 martin Exp $
+# $Id: AdminCustomerUserForm.dtl,v 1.2 2002-11-21 22:45:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -84,6 +84,7 @@
       <td>$Text{"Comment"}: </td>
       <td> <input type="text" name="Comment" value="$Data{"UserComment"}" size="50" maxlength="50"></td>
     </tr>
+    $Data{"Preferences"}
     </table>
     <input type="submit" value="$Text{"$Data{"Headline"}"}"> 
   </td>
