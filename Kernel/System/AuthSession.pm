@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession.pm - provides session check and session data
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AuthSession.pm,v 1.17 2003-01-03 00:30:28 martin Exp $
+# $Id: AuthSession.pm,v 1.18 2003-01-18 09:22:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::AuthSession;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
  
 # --
@@ -38,11 +38,13 @@ sub new {
     # --
     # load generator backend module
     # --
-    my $GeneratorModule = $Self->{ConfigObject}->Get('SessionModule')
+    my $GenericModule = $Self->{ConfigObject}->Get('SessionModule')
       || 'Kernel::System::AuthSession::DB';
-    eval "require $GeneratorModule";
+    if (!eval "require $GenericModule") {
+        die "Can't load session backend module $GenericModule! $@";
+    }
 
-    $Self->{Backend} = $GeneratorModule->new(%Param);
+    $Self->{Backend} = $GenericModule->new(%Param);
 
     return $Self;
 }

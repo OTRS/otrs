@@ -2,7 +2,7 @@
 # Kernel/System/Auth.pm - provides the authentification 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Auth.pm,v 1.13 2003-01-03 00:30:28 martin Exp $
+# $Id: Auth.pm,v 1.14 2003-01-18 09:22:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Auth;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -36,13 +36,22 @@ sub new {
     # --
     # load generator auth module
     # --
-    my $GeneratorModule = $Self->{ConfigObject}->Get('AuthModule')
+    $Self->{GenericModule} = $Self->{ConfigObject}->Get('AuthModule')
       || 'Kernel::System::Auth::DB';
-    eval "require $GeneratorModule";
+    if (!eval "require $Self->{GenericModule}") {
+        die "Can't load auth backend module $Self->{GenericModule}! $@";
+    }
 
-    $Self->{Backend} = $GeneratorModule->new(%Param);
+    $Self->Init(%Param);
+#    $Self->{Backend} = $Self->{GeneratorModule}->new(%Param);
 
     return $Self;
+}
+# --
+sub Init {
+    my $Self = shift;
+    my %Param = @_;
+    $Self->{Backend} = $Self->{GenericModule}->new(%Param);
 }
 # --
 sub Auth {

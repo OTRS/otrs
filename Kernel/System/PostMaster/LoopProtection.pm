@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/LoopProtection.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LoopProtection.pm,v 1.7 2003-01-03 00:34:23 martin Exp $
+# $Id: LoopProtection.pm,v 1.8 2003-01-18 09:22:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::LoopProtection;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -37,7 +37,9 @@ sub new {
     # --
     my $BackendModule = $Self->{ConfigObject}->Get('LoopProtectionModule')
       || 'Kernel::System::PostMaster::LoopProtection::DB';
-    eval "require $BackendModule";
+    if (!eval "require $BackendModule") {
+        die "Can't load loop protection backend module $BackendModule! $@";
+    }
 
     $Self->{Backend} = $BackendModule->new(%Param);
 

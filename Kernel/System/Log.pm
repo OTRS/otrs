@@ -2,7 +2,7 @@
 # Kernel/System/Log.pm - log wapper 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Log.pm,v 1.12 2003-01-03 21:10:32 martin Exp $
+# $Id: Log.pm,v 1.13 2003-01-18 09:22:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use IPC::SysV qw(IPC_PRIVATE IPC_RMID S_IRWXU);
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $ ';
+$VERSION = '$Revision: 1.13 $ ';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/g;
 
 # --
@@ -41,13 +41,15 @@ sub new {
     # --
     # load log backend
     # --
-    my $GeneratorModule = $Param{ConfigObject}->Get('LogModule')
+    my $GenericModule = $Param{ConfigObject}->Get('LogModule')
       || 'Kernel::System::Log::SysLog';
-    eval "require $GeneratorModule";
+    if (!eval "require $GenericModule") {
+        die "Can't load log backend module $GenericModule! $@";
+    }
     # --
     # create backend handle
     # --
-    $Self->{Backend} = $GeneratorModule->new(%Param);
+    $Self->{Backend} = $GenericModule->new(%Param);
     # --
     # ipc stuff
     # --
