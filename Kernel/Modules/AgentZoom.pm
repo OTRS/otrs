@@ -2,7 +2,7 @@
 # AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.8 2002-05-30 13:39:18 martin Exp $
+# $Id: AgentZoom.pm,v 1.9 2002-06-05 23:50:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentZoom;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -184,6 +184,10 @@ sub Run {
         # --
         # show ticket
         # --
+        if ($Self->{Subaction} eq 'ShowHTMLeMail') {
+            $Ticket{ShowHTMLeMail} = 1;
+            $Output = '';
+        }
         $Output .= $Self->{LayoutObject}->TicketZoom(
             TicketID => $TicketID,
             QueueID => $QueueID,
@@ -193,6 +197,13 @@ sub Run {
             ArticleID => $Self->{ArticleID},
             %Ticket
         );
+        # --
+        # return if HTML email
+        # --
+        if ($Self->{Subaction} eq 'ShowHTMLeMail') {
+            $Ticket{ShowHTMLeMail} = 1;
+            return $Output;
+        }
     }
     else {
         # --
