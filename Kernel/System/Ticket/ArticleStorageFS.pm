@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
-# Copyright (C) 2002-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleStorageFS.pm,v 1.11 2004-02-13 00:50:36 martin Exp $
+# $Id: ArticleStorageFS.pm,v 1.12 2004-03-12 18:35:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -22,7 +22,7 @@ use MIME::Words qw(:all);
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -33,12 +33,10 @@ sub InitArticleStorage {
     $Self->{ArticleDataDir} = $Self->{ConfigObject}->Get('ArticleDir')
        || die "Got no ArticleDir!";
     # create ArticleContentPath
-    my ($Sec, $Min, $Hour, $Day, $Month, $Year) = localtime(time);
-    $Self->{Year} = $Year+1900;
-    $Self->{Month} = $Month+1;
-    $Self->{Month}  = "0$Self->{Month}" if ($Self->{Month} <10);
-    $Self->{Day} = $Day;
-    $Self->{ArticleContentPath} = $Self->{Year}.'/'.$Self->{Month}.'/'. $Self->{Day};
+    my ($Sec, $Min, $Hour, $Day, $Month, $Year) = $Self->{TimeObject}->SystemTime2Date(
+        SystemTime => $Self->{TimeObject}->SystemTime(),
+    );
+    $Self->{ArticleContentPath} = $Year.'/'.$Month.'/'.$Day;
 
     # check fs write permissions!
     my $Path = "$Self->{ArticleDataDir}/$Self->{ArticleContentPath}/check_permissons.$$";

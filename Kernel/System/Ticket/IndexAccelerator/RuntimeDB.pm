@@ -1,9 +1,9 @@
 # --
 # Kernel/System/Ticket/IndexAccelerator/RuntimeDB.pm - realtime database 
 # queue ticket index module
-# Copyright (C) 2002-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: RuntimeDB.pm,v 1.18 2004-02-27 22:47:10 martin Exp $
+# $Id: RuntimeDB.pm,v 1.19 2004-03-12 18:35:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Ticket::IndexAccelerator::RuntimeDB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketAcceleratorUpdate {
@@ -143,7 +143,7 @@ sub TicketAcceleratorIndex {
         my %Hashes;
         $Hashes{QueueID} = $Row[0];
         $Hashes{Queue} = $Row[1];
-        $Hashes{MaxAge} = time() - $Row[2];
+        $Hashes{MaxAge} = $Self->{TimeObject}->SystemTime() - $Row[2];
         $Hashes{Count} = $Row[3];
         push (@{$Queues{Queues}}, \%Hashes);
         # set some things
@@ -217,7 +217,7 @@ sub GetLockedCount {
           }
           if ($RowTmp[5] && $RowTmp[7] =~ /^pending/i) {
               $Data{'Pending'}++;
-              if ($RowTmp[7] !~ /^pending auto/i && $RowTmp[5] <= time()) {
+              if ($RowTmp[7] !~ /^pending auto/i && $RowTmp[5] <= $Self->{TimeObject}->SystemTime()) {
                   $Data{'Reminder'}++;
               }
           }
@@ -270,7 +270,7 @@ sub GetOverTimeTickets {
     my $CustomerSenderID = $Self->ArticleSenderTypeLookup(SenderType => 'customer');
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 1500);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-        my $DiffTime = ($Row[2] + ($Row[3] * 60)) - time();
+        my $DiffTime = ($Row[2] + ($Row[3] * 60)) - $Self->{TimeObject}->SystemTime();
         my $Prio = $Row[5] - 100;
         if ($DiffTime < 0) {
             if (!$TicketIDs{$Row[0]}) {

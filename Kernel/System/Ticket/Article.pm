@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.53 2004-02-29 19:09:13 martin Exp $
+# $Id: Article.pm,v 1.54 2004-03-12 18:35:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::Article;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.53 $';
+$VERSION = '$Revision: 1.54 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -22,7 +22,7 @@ sub CreateArticle {
     my $Self = shift;
     my %Param = @_;
     my $ValidID 	= $Param{ValidID} || 1;
-    my $IncomingTime    = time();
+    my $IncomingTime    = $Self->{TimeObject}->SystemTime();
     # create ArticleContentPath
     if (!$Self->{ArticleContentPath}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need ArticleContentPath!");
@@ -662,15 +662,14 @@ sub GetArticle {
         $Data{ReplyTo} = $Row[5],
         $Data{InReplyTo} = $Row[6];
         $Data{Body} = $Row[7];
-        $Data{Age} = time() - $Row[8];
+        $Data{Age} = $Self->{TimeObject}->SystemTime() - $Row[8];
         $Data{PriorityID} = $Row[18];
         $Ticket{PriorityID} = $Row[18];
         $Data{StateID} = $Row[9];
         $Ticket{StateID} = $Row[9];
         $Data{QueueID} = $Row[10];
         $Ticket{QueueID} = $Row[10];
-        $Data{Date} = $Row[11];
-        $Data{Created} = $Row[11];
+        $Data{Created} = $Self->{TimeObject}->SystemTime2TimeStamp(SystemTime => $Row[30]);
         $Data{ContentType} = $Row[12];
         $Data{CreatedBy} = $Row[13];
         $Data{TicketNumber} = $Row[14];
@@ -756,12 +755,12 @@ sub GetArticle {
             $Part->{UntilTime} = 0;
         }
         else {
-            $Part->{UntilTime} = $Part->{RealTillTimeNotUsed} - time();
+            $Part->{UntilTime} = $Part->{RealTillTimeNotUsed} - $Self->{TimeObject}->SystemTime();
         }
         $Part->{StateType} = $StateData{TypeName};
         $Part->{State} = $StateData{Name};
         if ($Queue{EscalationTime} && ($Param{TicketID}||$Param{TicketOverTime}) && $Part->{SenderType} eq 'customer') {
-            $LastCustomerCreateTime = (($Part->{IncomingTime} + ($Queue{EscalationTime}*60)) - time());
+            $LastCustomerCreateTime = (($Part->{IncomingTime} + ($Queue{EscalationTime}*60)) - $Self->{TimeObject}->SystemTime());
         }
     }
     foreach my $Part (@Content) {

@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
-# Copyright (C) 2002-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleStorageDB.pm,v 1.13 2004-02-29 19:09:13 martin Exp $
+# $Id: ArticleStorageDB.pm,v 1.14 2004-03-12 18:35:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,27 +16,21 @@ use MIME::Base64;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub InitArticleStorage {
     my $Self = shift;
     my %Param = @_;
-    # --
     # ArticleDataDir
-    # --
     $Self->{ArticleDataDir} = $Self->{ConfigObject}->Get('ArticleDir')
        || die "Got no ArticleDir!";
-    # --
     # create ArticleContentPath
-    # --
-    my ($Sec, $Min, $Hour, $Day, $Month, $Year) = localtime(time);
-    $Self->{Year} = $Year+1900;
-    $Self->{Month} = $Month+1;
-    $Self->{Month}  = "0$Self->{Month}" if ($Self->{Month} <10);
-    $Self->{Day} = $Day;
-    $Self->{ArticleContentPath} = $Self->{Year}.'/'.$Self->{Month}.'/'. $Self->{Day};
+    my ($Sec, $Min, $Hour, $Day, $Month, $Year) = $Self->{TimeObject}->SystemTime2Date(
+        SystemTime => $Self->{TimeObject}->SystemTime(),
+    );
+    $Self->{ArticleContentPath} = $Year.'/'.$Month.'/'.$Day;
 
     return 1;
 }

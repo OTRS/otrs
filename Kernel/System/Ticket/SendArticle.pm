@@ -2,7 +2,7 @@
 # Kernel/System/Ticket::SendArticle.pm - the global email send module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SendArticle.pm,v 1.15 2004-01-27 09:26:06 martin Exp $
+# $Id: SendArticle.pm,v 1.16 2004-03-12 18:35:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -37,7 +37,7 @@ sub InitSendArticle {
 sub SendArticle {
     my $Self = shift;
     my %Param = @_;
-    my $Time = time();
+    my $Time = $Self->{TimeObject}->SystemTime();
     my $Random = rand(999999);
     my $ToOrig = $Param{To} || '';
     my $Charset = $Param{Charset} || 'iso-8859-1';
@@ -226,7 +226,7 @@ sub SendArticle {
 sub BounceArticle {
     my $Self = shift;
     my %Param = @_;
-    my $Time = time();
+    my $Time = $Self->{TimeObject}->SystemTime();
     my $Random = rand(999999);
     my $From = $Param{From} || '';
     my $To = $Param{To} || '';

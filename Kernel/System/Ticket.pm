@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.70 2004-02-17 14:37:56 martin Exp $
+# $Id: Ticket.pm,v 1.71 2004-03-12 18:35:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,6 +13,7 @@ package Kernel::System::Ticket;
 
 use strict;
 use Time::Local;
+use Kernel::System::Time;
 use Kernel::System::Ticket::Article;
 use Kernel::System::Ticket::State;
 use Kernel::System::Ticket::History;
@@ -38,7 +39,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.70 $';
+$VERSION = '$Revision: 1.71 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -107,6 +108,7 @@ sub new {
     # --
     # create common needed module objects
     # --
+    $Self->{TimeObject} = Kernel::System::Time->new(%Param);
     $Self->{UserObject} = Kernel::System::User->new(%Param);
     $Self->{GroupObject} = Kernel::System::Group->new(%Param);
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
@@ -214,7 +216,7 @@ sub CreateTicketDB {
     my $GroupID = $Param{GroupID};
     my $Answered = $Param{Answered} || 0;
     my $ValidID = $Param{ValidID} || 1;
-    my $Age = time();
+    my $Age = $Self->{TimeObject}->SystemTime();
     # check needed stuff
     foreach (qw(QueueID UserID CreateUserID)) {
       if (!$Param{$_}) {
@@ -420,9 +422,9 @@ sub GetTicket {
         $Ticket{Lock} = $Row[5];
         $Ticket{PriorityID} = $Row[6];
         $Ticket{Priority} = $Row[7];
-        $Ticket{Age} = time() - $Row[8];
+        $Ticket{Age} = $Self->{TimeObject}->SystemTime() - $Row[8];
         $Ticket{CreateTimeUnix} = $Row[8];
-        $Ticket{Created} = $Row[9];
+        $Ticket{Created} = $Self->{TimeObject}->SystemTime2TimeStamp(SystemTime => $Row[8]);
         $Ticket{GroupID} = $Row[10];
         $Ticket{TicketNumber} = $Row[11];
         $Ticket{CustomerID} = $Row[12];
@@ -465,7 +467,7 @@ sub GetTicket {
         $Ticket{UntilTime} = 0;
     }
     else {
-        $Ticket{UntilTime} = $Ticket{RealTillTimeNotUsed} - time();
+        $Ticket{UntilTime} = $Ticket{RealTillTimeNotUsed} - $Self->{TimeObject}->SystemTime();
     }
     # cache user result
     $Self->{'GetTicket'.$Param{TicketID}} = \%Ticket;
@@ -819,6 +821,18 @@ sub Permission {
                     }
                     # set access ok
                     $AccessOk = 1;
+                    # check granted option (should I say ok)
+                    if ($Modules{$Module}->{Granted}) {
+                        if ($Self->{Debug} > 0) {
+                          $Self->{LogObject}->Log(
+                            Priority => 'debug',
+                            Message => "Granted access '$Param{Type}' true for TicketID '$Param{TicketID}' ".
+                                "through $Modules{$Module}->{Module} (no more checks)!",
+                          );
+                        }
+                        # access ok
+                        return 1;
+                    }
                 }
                 else {
                     # return because true is required
@@ -902,6 +916,18 @@ sub CustomerPermission {
                     }
                     # set access ok
                     $AccessOk = 1;
+                    # check granted option (should I say ok)
+                    if ($Modules{$Module}->{Granted}) {
+                        if ($Self->{Debug} > 0) {
+                          $Self->{LogObject}->Log(
+                            Priority => 'debug',
+                            Message => "Granted access '$Param{Type}' true for TicketID '$Param{TicketID}' ".
+                                "through $Modules{$Module}->{Module} (no more checks)!",
+                          );
+                        }
+                        # access ok
+                        return 1;
+                    }
                 }
                 else {
                     # return because true is required
@@ -1404,12 +1430,12 @@ sub SearchTicket {
     }
     # get tickets older then x minutes
     if ($Param{TicketCreateTimeOlderMinutes}) {
-        my $Time = time()-($Param{TicketCreateTimeOlderMinutes}*60);
+        my $Time = $Self->{TimeObject}->SystemTime()-($Param{TicketCreateTimeOlderMinutes}*60);
         $SQLExt .= " AND st.create_time_unix <= ".$Self->{DBObject}->Quote($Time);
     }
     # get tickets newer then x minutes
     if ($Param{TicketCreateTimeNewerMinutes}) {
-        my $Time = time()-($Param{TicketCreateTimeNewerMinutes}*60);
+        my $Time = $Self->{TimeObject}->SystemTime()-($Param{TicketCreateTimeNewerMinutes}*60);
         $SQLExt .= " AND st.create_time_unix >= ".$Self->{DBObject}->Quote($Time);
     }
     # get tickets older then xxxx-xx-xx xx:xx date 
@@ -1477,6 +1503,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.70 $ $Date: 2004-02-17 14:37:56 $
+$Revision: 1.71 $ $Date: 2004-03-12 18:35:11 $
 
 =cut
