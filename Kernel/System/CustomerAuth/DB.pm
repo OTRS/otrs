@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CustomerAuth/DB.pm - provides the db authentification 
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.7 2003-07-13 11:01:21 martin Exp $
+# $Id: DB.pm,v 1.8 2004-01-10 15:33:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,7 +17,7 @@ package Kernel::System::CustomerAuth::DB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -91,14 +91,16 @@ sub Auth {
         $UserID = $RowTmp[1];
     }
 
-    # --
-    # crypt given pw (unfortunately there is a mod_perl2 bug on RH8 - check if 
-    # crypt() is working correctly) :-/
-    # --
+    # crypt given pw 
     my $CryptedPw = '';
-    my $Salt = $GetPw;
-    $Salt =~ s/^(..).*/$1/;
-    if (crypt('root', 'root@localhost') eq 'roK20XGbWEsSM') {
+    my $Salt = $GetPw; 
+    # strip Salt only for (Extended) DES, not for any of Modular crypt's
+    if ($Salt !~ /^\$\d\$/) {
+        $Salt =~ s/^(..).*/$1/;
+    }
+    # and do this check only in such case (unfortunately there is a mod_perl2 
+    # bug on RH8 - check if crypt() is working correctly) :-/
+    if (($Salt =~ /^\$\d\$/) || (crypt('root', 'root@localhost') eq 'roK20XGbWEsSM')) {
         $CryptedPw = crypt($Pw, $Salt);
     }
     else {
