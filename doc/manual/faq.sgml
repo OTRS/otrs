@@ -356,5 +356,29 @@ Yes, OTRS supports this RFC.
 </answer>
 </qandaentry>
 
+<qandaentry>
+<question>
+<para>Can I add my own ticket states?</para>
+</question>
+<answer>
+<para>
+Yes, but be carefully with the existing states (OTRS needs basic states). 
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>More then one OTRS on one machine?</para>
+</question>
+<answer>
+<para>
+Yes, you can do that. Just install the second, third, ... in different paths (
+e.g. /opt/otrs01, /opt/otrs02, /opt/otrs03, ...). And configure the webserver 
+like README.webserver.
+</para>
+</answer>
+</qandaentry>
+
 </qandaset>
 </chapter>
