@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.59 2003-03-24 09:12:13 martin Exp $
+# $Id: Defaults.pm,v 1.60 2003-03-24 12:48:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.59 $';
+$VERSION = '$Revision: 1.60 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -298,6 +298,10 @@ sub LoadDefaults {
     # frontend can be updated! Just for the current session. Alow no password can
     # be changed on agent frontend.)
     $Self->{DemoSystem} = 0;
+
+    # AgentCanBeCustomer
+    # (use this if an agent can also be a customer via the agent interface)
+    $Self->{AgentCanBeCustomer} = 0;
 
     # --------------------------------------------------- #
     # directories                                         #

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.33 2003-03-14 15:55:07 martin Exp $
+# $Id: AgentPhone.pm,v 1.34 2003-03-24 12:46:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -83,6 +83,18 @@ sub Run {
            );
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
+        }
+        # --
+        # get ticket info
+        # --
+        my %TicketData = $Self->{TicketObject}->GetTicket(TicketID => $Self->{TicketID});
+        if ($Self->{ConfigObject}->Get('AgentCanBeCustomer') && $TicketData{CustomerUserID} && $TicketData{CustomerUserID} eq $Self->{UserLogin}) {
+            # --
+            # redirect
+            # --
+            return $Self->{LayoutObject}->Redirect(
+                OP => "Action=AgentCustomerFollowUp&TicketID=$Self->{TicketID}",
+            );
         }
         # --
         # check permissions

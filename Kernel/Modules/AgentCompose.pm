@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.43 2003-03-14 15:55:07 martin Exp $
+# $Id: AgentCompose.pm,v 1.44 2003-03-24 12:46:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.43 $';
+$VERSION = '$Revision: 1.44 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -104,6 +104,18 @@ sub Form {
         return $Output;
     }
     # --
+    # get ticket data
+    # --
+    my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $Self->{TicketID});
+    if ($Self->{ConfigObject}->Get('AgentCanBeCustomer') && $Ticket{CustomerUserID} && $Ticket{CustomerUserID} eq $Self->{UserLogin}) {
+        # --
+        # redirect
+        # --
+        return $Self->{LayoutObject}->Redirect(
+            OP => "Action=AgentCustomerFollowUp&TicketID=$Self->{TicketID}",
+        );
+    }
+    # --
     # check permissions
     # --
     if (!$Self->{TicketObject}->Permission(
@@ -118,7 +130,6 @@ sub Form {
     # --
     # get ticket number and queue id 
     # --
-    my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $Self->{TicketID});
     my $QueueObject = Kernel::System::Queue->new(
         QueueID => $Ticket{QueueID},
         DBObject => $Self->{DBObject},

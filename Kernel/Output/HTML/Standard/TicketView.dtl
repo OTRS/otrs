@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: TicketView.dtl,v 1.34 2003-03-23 21:42:14 martin Exp $
+# $Id: TicketView.dtl,v 1.35 2003-03-24 12:46:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -120,28 +120,22 @@ $Data{"Text"}
 
    <br>
 
-   <table border="0">
-    <tr>
-      <td class="PriorityID-$Data{"PriorityID"}">   
-
-      <p align="left">
-        <b>$Text{"Compose Answer"} ($Text{"email"}):</b>
-        <br>
-        <table border="0"><tr align="left"><td class="PriorityID-$Data{"PriorityID"}">
-          $Data{"StdResponsesStrg"}
-        </td></tr></table>
-     </p>
-
-     <p align="left">
-       <b>$Text{"Contact customer"} ($Text{"phone"}):</b>
-       <br>
-       <table border="0"><tr align="left"><td class="PriorityID-$Data{"PriorityID"}">
-       <li><a href="$Env{"Baselink"}Action=AgentPhone&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"phone call"}'; return true;" onmouseout="window.status='';">$Text{"phone call"}</a></li>
-       </td></tr></table>
-     </p>
-
-     <p>
-       <b>$Text{"Change queue"}:</b>
+    <table border="0" cellspacing="0" cellpadding="1" width="95%">
+    <tr> 
+      <td>
+# --
+# show compose links
+$Data{"TicketAnswer"}
+# --
+      </td>
+    </tr>
+    </table>
+  </p>
+  <p>
+    <table border="0" cellspacing="0" cellpadding="1" width="95%">
+    <tr> 
+      <td>
+       <b>$Text{"Change queue"}:</b><br>
        <form action="$Env{"CGIHandle"}" method="get">
        <input type="hidden" name="Action" value="AgentMove">
        <input type="hidden" name="Subaction" value="InRage">
@@ -150,12 +144,11 @@ $Data{"Text"}
        $Data{"MoveQueuesStrg"}
        <input class="button" type="submit" value="$Text{"Move"}">
        </form>
-     </p>
+      </td>
+    </tr>
+    </table>
 
-   </td></tr>
-   </table>
    </p>  
-
   </td>
 </tr>
 </table>

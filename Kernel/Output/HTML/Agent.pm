@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.95 2003-03-13 14:28:27 martin Exp $
+# $Id: Agent.pm,v 1.96 2003-03-24 12:48:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.95 $';
+$VERSION = '$Revision: 1.96 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -218,7 +218,7 @@ sub TicketView {
     # do some html quoting
     # --
     foreach (qw(From To Cc Subject)) {
-        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 150) || '';
+        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 80) || '';
     }
     # --
     # create short html customer id
@@ -317,6 +317,18 @@ sub TicketView {
         TicketID => $Param{TicketID},
         ArticleID => $Param{ArticleID},
     );
+    if ($Self->{ConfigObject}->Get('AgentCanBeCustomer') && $Param{CustomerUserID} =~ /^$Self->{UserLogin}$/i) {
+        $Param{TicketAnswer} = $Self->Output(
+            TemplateFile => 'AgentZoomAgentIsCustomer', 
+            Data => \%Param,
+        );
+    }
+    else {
+        $Param{TicketAnswer} = $Self->Output(
+            TemplateFile => 'AgentZoomAnswer', 
+            Data => \%Param,
+        );
+    }
     # --
     # create & return output
     # --
@@ -604,11 +616,30 @@ sub AgentZoom {
              ($Article{ArticleType} =~ /^phone/i && $Article{SenderType} eq 'agent') ||
              $Article{SenderType} eq 'system' || $Article{SenderType} eq 'agent') {
             # without compose links!
+            if ($Self->{ConfigObject}->Get('AgentCanBeCustomer') && $Param{CustomerUserID} =~ /^$Self->{UserLogin}$/i) {
+              $Param{TicketAnswer} = $Self->Output(
+                TemplateFile => 'AgentZoomAgentIsCustomer', 
+                Data => \%Param,
+              );
+            }
             $BodyOutput .= $Self->Output(TemplateFile => 'AgentZoomBody', Data => \%Param);
         }
         else {
             # without all!
-            $Param{TicketAnswer} .= $Self->Output(TemplateFile => 'AgentZoomAnswer', Data => \%Param);
+            if ($Self->{ConfigObject}->Get('AgentCanBeCustomer') && $Param{CustomerUserID} =~ /^$Self->{UserLogin}$/i) {
+              $Param{TicketAnswer} = $Self->Output(
+                TemplateFile => 'AgentZoomAgentIsCustomer', 
+                Data => \%Param,
+              );
+            }
+            else {
+              $Param{TicketAnswer} = $Self->Output(
+                TemplateFile => 'AgentZoomAnswer', 
+                Data => \%Param,
+              );
+            }
+
+#            $Param{TicketAnswer} .= $Self->Output(TemplateFile => 'AgentZoomAnswer', Data => \%Param);
             $BodyOutput .= $Self->Output(TemplateFile => 'AgentZoomBody', Data => \%Param);
             $Param{TicketAnswer} = '';
         }
@@ -757,7 +788,7 @@ sub TicketStdResponseString {
             Name => 'ResponseID',
             Data => $Param{StdResponsesRef},
           ).
-          '<input type="submit" value="$Text{"Compose"}"></form>';
+          '<input class="button" type="submit" value="$Text{"Compose"}"></form>';
     }
     else {
         my %StdResponses = %{$Param{StdResponsesRef}};
@@ -913,7 +944,7 @@ sub AgentPhoneNew {
         Data => $Param{FromOptions}, 
         Name => 'CustomerUser',
         Max => 70,
-      ).'<a href="" onclick="document.compose.ExpandCustomerName.value=\'2\'; document.compose.submit(); return false;" onmouseout="window.status=\'\';" onmouseover="window.status=\'$Text{"Take this User"}\'; return true;">$Text{"Take this User"}</a>';
+      ).'<br>$Env{"Box0"}<a href="" onclick="document.compose.ExpandCustomerName.value=\'2\'; document.compose.submit(); return false;" onmouseout="window.status=\'\';" onmouseover="window.status=\'$Text{"Take this User"}\'; return true;">$Text{"Take this User"}</a>$Env{"Box1"}';
     }
     # --
     # build so string
@@ -1010,7 +1041,7 @@ sub AgentCustomer {
         Data => $Param{CustomerUserOptions},
         Name => 'CustomerUserOption',
         Max => 70,
-      ).'<a href="" onclick="document.compose.ExpandCustomerName.value=\'2\'; document.compose.submit(); return false;" onmouseout="window.status=\'\';" onmouseover="window.status=\'$Text{"Take this User"}\'; return true;">$Text{"Take this User"}</a>';
+      ).'$Env{"Box0"}<a href="" onclick="document.compose.ExpandCustomerName.value=\'2\'; document.compose.submit(); return false;" onmouseout="window.status=\'\';" onmouseover="window.status=\'$Text{"Take this User"}\'; return true;">$Text{"Take this User"}</a>$Env{"Box1"}';
     }
     # create & return output
     return $Self->Output(TemplateFile => 'AgentCustomer', Data => \%Param);
@@ -1667,8 +1698,12 @@ sub AgentMove {
     my $Self = shift;
     my %Param = @_;
     my %Data = %{$Param{MoveQueues}};
+    my %UsedData = ();
     foreach my $ID (sort {$Data{$a} cmp $Data{$b}} keys %Data) {
         my @Queue = split(/::/, $Data{$ID});
+        $UsedData{$Data{$ID}} = 1;
+        my $UpQueue = $Data{$ID}; 
+        $UpQueue =~ s/^(.*)::.+?$/$1/g;
         $Queue[$#Queue] = $Self->Ascii2Html(Text => $Queue[$#Queue], Max => 50-$#Queue);
         my $Space = '|';
         if ($#Queue == 0) {
@@ -1707,10 +1742,13 @@ sub AgentMove {
                 }
             }
         }
-#        $Param{MoveQueuesStrg} .= "$Space<a href=\"$Self->{Baselink}Action=AgentMove&TicketID=$Param{TicketID}&DestQueueID=$ID\">".
+        if ($UsedData{$UpQueue}) {
+
+#         $Param{MoveQueuesStrg} .= "$Space<a href=\"$Self->{Baselink}Action=AgentMove&TicketID=$Param{TicketID}&DestQueueID=$ID\">".
 #                $Queue[$#Queue].'</a><br>';
-        $Param{MoveQueuesStrg} .= "$Space<a href=\"\" onclick=\"document.compose.DestQueueID.value='$ID'; document.compose.submit(); return false;\">".
-                $Queue[$#Queue].'</a><br>';
+         $Param{MoveQueuesStrg} .= "$Space<a href=\"\" onclick=\"document.compose.DestQueueID.value='$ID'; document.compose.submit(); return false;\">".
+                 $Queue[$#Queue].'</a><br>';
+        }
         delete $Data{$ID};
     }
     # --
@@ -1856,9 +1894,13 @@ sub AgentQueueListOption {
         $OnChangeSubmit = " onchange=\"submit()\"";
     }
     $Param{MoveQueuesStrg} = '<select name="'.$Param{Name}."\" $Size $Multiple $OnChangeSubmit>";
+    my %UsedData = ();
     my %Data = %{$Param{Data}};
     foreach (sort {$Data{$a} cmp $Data{$b}} keys %Data) {
-        my @Queue = split(/::/, $Param{Data}->{$_});
+      my @Queue = split(/::/, $Param{Data}->{$_});
+      $UsedData{$Param{Data}->{$_}} = 1;
+      my $UpQueue = $Param{Data}->{$_};
+      $UpQueue =~ s/^(.*)::.+?$/$1/g;
       if (! $Queue[$MaxLevel]) {
         $Queue[$#Queue] = $Self->Ascii2Html(Text => $Queue[$#Queue], Max => 50-$#Queue);
         my $Space = '';
@@ -1874,13 +1916,15 @@ sub AgentQueueListOption {
             }
         }
         # build select string
-        if ($SelectedID eq $_ || $Selected eq $Param{Data}->{$_} || $Param{SelectedIDRefArrayOK}->{$_}) {
+        if ($UsedData{$UpQueue}) {
+          if ($SelectedID eq $_ || $Selected eq $Param{Data}->{$_} || $Param{SelectedIDRefArrayOK}->{$_}) {
             $Param{MoveQueuesStrg} .= '<option selected value="'.$_.'">'.
                 $Space.$Queue[$#Queue].'</option>';
-        }
-        else {
+          }
+          else {
             $Param{MoveQueuesStrg} .= '<option value="'.$_.'">'.
                 $Space.$Queue[$#Queue].'</option>';
+          }
         }
       }
     }
@@ -1888,6 +1932,17 @@ sub AgentQueueListOption {
 
     return $Param{MoveQueuesStrg};
 }
+# --
+sub AgentCustomerMessage {
+    my $Self = shift;
+    my %Param = @_;
+    # get output back
+    my $Output .= $Self->Notify(
+        Info => 
+          $Self->{LanguageObject}->Get('You are the customer user of this message - customer modus!'), 
+    );
+    return $Output.$Self->Output(TemplateFile => 'AgentCustomerMessage', Data => \%Param);
+}   
 # --
 
 1;

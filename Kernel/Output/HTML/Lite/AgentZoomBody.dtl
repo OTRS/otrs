@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: AgentZoomBody.dtl,v 1.2 2003-03-06 10:45:12 martin Exp $
+# $Id: AgentZoomBody.dtl,v 1.3 2003-03-24 12:46:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -77,15 +77,14 @@ $Data{"TicketAnswer"}
 <tr>
   <td align="left" valign="bottom" class="PriorityID-$Data{"PriorityID"}">
    <p>
-     <b>$Text{"Change queue"}:</b>
-     <br>
+     <b>$Text{"Change queue"}:</b><br>
        <form action="$Env{"CGIHandle"}" method="get">
        <input type="hidden" name="Action" value="AgentMove">
        <input type="hidden" name="Subaction" value="InRage">
        <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
        <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
        $Data{"MoveQueuesStrg"}
-       <input type="submit" value="$Text{"Move"}">
+       <input class="button" type="submit" value="$Text{"Move"}">
        </form>
    </p>
   </td>
