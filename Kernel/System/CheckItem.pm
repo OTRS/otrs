@@ -2,7 +2,7 @@
 # Kernel/System/CheckItem.pm - the global spellinf module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CheckItem.pm,v 1.11 2004-10-08 07:21:34 martin Exp $
+# $Id: CheckItem.pm,v 1.12 2004-10-09 10:55:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,10 +12,9 @@
 package Kernel::System::CheckItem;
 
 use strict;
-use Email::Valid;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -29,9 +28,7 @@ sub new {
 
     $Self->{Debug} = 0;
 
-    # --
     # get needed objects
-    # --
     foreach (qw(ConfigObject LogObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
@@ -58,34 +55,80 @@ sub CheckEmail {
     if (! $Self->{ConfigObject}->Get('CheckEmailAddresses')) {
         return 1;
     }
-    # check valid email addesses
+    # check valid email addresses
     my $RegExp = $Self->{ConfigObject}->Get('CheckEmailValidAddress');
     if ($RegExp && $Param{Address} =~ /$RegExp/i) {
         return 1;
     }
+    my $Error = '';
+    # email address syntax check
+    if ($Param{Address} !~ /^(()|([a-zA-Z0-9]+([a-zA-Z0-9_+\.&%-]*[a-zA-Z0-9_\.-]+)?@([a-zA-Z0-9]+([a-zA-Z0-9\.-]*[a-zA-Z0-9]+)?\.+[a-zA-Z]{2,8}|\[\d+\.\d+\.\d+\.\d+])))$/) {
+        $Error = "Invalid syntax";
+#        print STDERR "INVALID Address: $Param{Address}\n";
+    }
+    # mx check
+    if ($Self->{ConfigObject}->Get('CheckMXRecord') && eval { require Net::DNS }) {
+        # get host
+        my $Host = $Param{Address};
+        $Host =~ s/^.*@(.*)$/$1/;
+        $Host =~ s/\s+//g;
+        $Host =~ s/(^\[)|(\]$)//g;
+#        print STDERR "Host: $Host\n";
+        # do dns query
+        my $Resolver = Net::DNS::Resolver->new();
+        if ($Resolver) {
+            # A recorde lookup
+            my $packet = $Resolver->send($Host, 'A');
+            if (!$packet) {
+                $Error = "DNS problem: ".$Resolver->errorstring();
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message => "DNS problem: ".$Resolver->errorstring(),
+                );
+            }
+            if ($packet->header->ancount()) {
+                # OK
+#                print STDERR "OK A $Host ".$packet->header->ancount()."\n";
+            }
+            # mx recorde lookup
+            else {
+                my $packet = $Resolver->send($Host, 'MX');
+                if (!$packet) {
+                    $Error = "DNS problem: ".$Resolver->errorstring();
+                    $Self->{LogObject}->Log(
+                        Priority => 'error',
+                        Message => "DNS problem: ".$Resolver->errorstring(),
+                    );
+                }
+                if ($packet->header->ancount()) {
+                    # OK
+#                    print STDERR "OK MX $Host ".$packet->header->ancount()."\n";
+                }
+                else {
+                    $Error = "no mail exchanger (mx) found!";
+                }
+            }
+        }
+    }
+    elsif ($Self->{ConfigObject}->Get('CheckMXRecord')) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Can't load Net::DNS, no mx lookups possible",
+        );
+    }
     # check address
-    if (Email::Valid->address(
-                -address => $Param{Address},
-                -mxcheck => $Self->{ConfigObject}->Get('CheckMXRecord') || 0,
-    )) {
+    if (!$Error) {
         # check special stuff
         my $RegExp = $Self->{ConfigObject}->Get('CheckEmailInvalidAddress');
         if ($RegExp && $Param{Address} =~ /$RegExp/i) {
-            $Self->{Error} = "invalid $Param{Address}! ";
+            $Self->{Error} = "invalid $Param{Address} (config)!";
             return;
         }
         return 1;
     }
     else {
-        # log dns problems
-        if ($Email::Valid::Details =~ /^DNS/i) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message => "$Email::Valid::Details!",
-            );
-        }
         # remember error
-        $Self->{Error} = "invalid $Param{Address} ($Email::Valid::Details)! ";
+        $Self->{Error} = "invalid $Param{Address} ($Error)! ";
         return;
     }
 }
