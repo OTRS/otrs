@@ -1,8 +1,8 @@
 # --
 # README.webserver - webserver description of OTRS
-# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: README.webserver,v 1.6 2002-10-24 23:58:31 martin Exp $
+# $Id: README.webserver,v 1.7 2003-01-05 14:27:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -27,7 +27,7 @@ b) The manual way:
 
   Add it to /etc/sysconfig/apache with HTTPD_CONF_INCLUDE_FILES
   [...]
-  HTTPD_CONF_INCLUDE_FILES=/opt/OpenTRS/scripts/suse-httpd.include.conf
+  HTTPD_CONF_INCLUDE_FILES=/opt/otrs/scripts/suse-httpd.include.conf
   [...]
 
   Start SuSEconfig and restart the webserver (rcapache restart).
@@ -50,9 +50,9 @@ a)
 
     Use "$HOME/bin/SetPermissions.sh <OTRS_HOME> <OTRS_USER> <WEBSERVER_USER> [OTRS_GROUP] [WEB_GROUP]"
     e. g. 
-     Webserver with otrs user: "SetPermissions.sh /opt/OpenTRS otrs otrs"   
-     Webserver with wwwrun user (e. g. SuSE): "SetPermissions.sh /opt/OpenTRS otrs wwwrun"
-     Webserver with apache user (e. g. Redhat): "SetPermissions.sh /opt/OpenTRS otrs apache"
+     Webserver with otrs user: "SetPermissions.sh /opt/otrs otrs otrs"   
+     Webserver with wwwrun user (e. g. SuSE): "SetPermissions.sh /opt/otrs otrs wwwrun"
+     Webserver with apache user (e. g. Redhat): "SetPermissions.sh /opt/otrs otrs apache"
 
 b)
  *) 
@@ -60,7 +60,7 @@ b)
   ============================
   Add this to the cgi-bin stuff section in httpd.conf
   [...]
-  ScriptAlias /otrs/ "/opt/OpenTRS/bin/cgi-bin/"
+  ScriptAlias /otrs/ "/opt/otrs/bin/cgi-bin/"
   [...]
 
  *)
@@ -68,7 +68,7 @@ b)
   =======================
   Add this to the mod_perl stuff section in httpd.conf
   [...]
-  Alias /otrs/ "/opt/OpenTRS/bin/cgi-bin/"
+  Alias /otrs/ "/opt/otrs/bin/cgi-bin/"
 
   <Location /otrs>
     SetHandler  perl-script
@@ -77,19 +77,38 @@ b)
     PerlSendHeader On
   </Location>
 
-  May you want use the mod_perl startup script (on SuSE 
-  /usr/include/apache/modules/perl/startup.perl) to have as a simple 
-  way to have apache servers establish connections on process startup.
+  May you want use a mod_perl startup script. Compiled modules on startup 
+  (speed!)! Use the mod_perl startup script which comes with otrs 
+  (scripts/apache-perl-startup.pl).
+ 
+  - Add startup script (scripts/apache-perl-startup.pl) to httpd.conf 
+    [...]
+    # load all otrs modules
+    Perlrequire /path/to/otrs/scripts/apache-perl-startup.pl
+    [...]
 
-  Add:
-  [...]
-  use Apache ();
-  use Apache::DBI ();
-  Apache::DBI->connect_on_init('DBI:mysql:otrs', 'otrs', 'some-pass');
-  # Apache::DBI->connect_on_init($data_source, $username, $auth, \%attr)
-  [...]
+  Edit the scripts/apache-perl-startup.pl script:
 
-  Nice! ,-)
+   - Establish datababase connections on process startup (httpd).
+
+     [...]
+     use Apache ();
+     use Apache::DBI ();
+     Apache::DBI->connect_on_init('DBI:mysql:otrs', 'otrs', 'some-pass');
+     # Apache::DBI->connect_on_init($data_source, $username, $auth, \%attr)
+     [...]
+
+   - Change the otrs lib dir!
+ 
+     [...]
+     # --
+     # set otrs lib path!
+     # --
+     use lib "/path/to/otrs/";
+     use lib "/path/to/otrs/Kernel/cpan-lib";
+     [...]
+
+  Nice! You will love mod_perl! ,-)
 
 c)
   Restart the webserver
