@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: TicketZoomSystem.dtl,v 1.15 2002-12-05 22:21:39 martin Exp $
+# $Id: TicketZoomSystem.dtl,v 1.16 2002-12-25 09:27:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -81,7 +81,12 @@ $Data{"Article::Text"}
     <tr><td><b>$Text{"Lock"}:</b></td><td><font color="red">$Data{"Lock"}</font></td></tr>
     <tr><td><b>$Text{"CustomerID"}:</b></td><td><a href="$Config{"CustomerDBLink"}" $Config{"CustomerDBLinkTarget"}>$Data{"CustomerIDHTML"}</a></td></tr>
     <tr><td><b>$Text{"Accounted time"}:</b></td><td>$Data{"TicketTimeUnits"}</td></tr>
-    <tr><td><b>$Text{"Time till escalation"}:</b></td><td>$Data{"TicketOverTime"}</td></tr>
+    <tr><td><b>$Text{"Escalation in"}:</b></td><td>$Data{"TicketOverTime"}</td></tr>
+# --
+# use ticket is pending 
+# --
+<dtl if ($Data{"PendingUntil"} ne "") { $Data{"PendingUntilString"} = "<tr><td><b>$Text{"Pending till"}:</b></td><td>$Data{"PendingUntil"}</td></tr>"; }>
+    $Data{"PendingUntilString"}
     <tr><td><b>$Text{"Owner"}:</b></td><td>$Data{"Owner"}</td></tr>
 # --
 # use this if you want to show TicketFreeKey1-2 and TicketFreeValue1-2

@@ -2,7 +2,7 @@
 # AgentPhone.dtl - provides HTML form for phone
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.dtl,v 1.6 2002-12-18 16:48:41 martin Exp $
+# $Id: AgentPhone.dtl,v 1.7 2002-12-25 09:27:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -29,9 +29,10 @@
 <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
 <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
 <input type="hidden" name="NextScreen" value="$Data{"NextScreen"}">
-  <table border="0">
+  <table border="0" width="100%">
   <tr>
-    <td>$Text{"Subject"}:</td><td><input type="text" name="Subject" value="$Config{"PhoneDefaultSubject"}" size="60"></td>
+    <td width="20%">$Text{"Subject"}:</td>
+    <td width="80%"><input type="text" name="Subject" value="$Config{"PhoneDefaultSubject"}" size="60"></td>
   </tr>
   <tr>
     <td>$Text{"Text"}:</td><td>
@@ -41,13 +42,20 @@ $Text{"$Config{"PhoneDefaultNoteText"}"}
     </td>
   </tr>
   <tr>
-    <td>$Text{"Next ticket state"}:</td><td>$Data{"NextStatesStrg"}</td>
+    <td>$Text{"Next ticket state"}:</td>
+    <td>$Data{"NextStatesStrg"}</td>
   </tr>
   <tr>
-    <td>$Text{"Is the ticket answered"}:</td><td>$Data{"AnsweredYesNoOption"}</td>
+    <td>$Text{"Pending Date"} ($Text{"for pending* states"}):</td>
+    <td>$Data{"PendingDateString"}</td>
   </tr>
   <tr>
-    <td>$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td><td><input type="text" name="TimeUnits" value="" size="3"></td>
+    <td>$Text{"Is the ticket answered"}:</td>
+    <td>$Data{"AnsweredYesNoOption"}</td>
+  </tr>
+  <tr>
+    <td>$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td>
+    <td><input type="text" name="TimeUnits" value="" size="3"></td>
   </tr>
   </table>
 <br>

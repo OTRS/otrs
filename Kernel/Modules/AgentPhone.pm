@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.16 2002-12-18 16:48:41 martin Exp $
+# $Id: AgentPhone.pm,v 1.17 2002-12-25 09:27:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -36,7 +36,7 @@ sub new {
 
     # check needed Opjects
     foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject 
-       ConfigObject)) {
+       ConfigObject )) {
         die "Got no $_!" if (!$Self->{$_});
     }
 
@@ -148,6 +148,10 @@ sub Run {
         my $ArticleTypeID = $Self->{ParamObject}->GetParam(Param => 'NoteID');
         my $Answered = $Self->{ParamObject}->GetParam(Param => 'Answered') || '';
         my $TimeUnits = $Self->{ParamObject}->GetParam(Param => 'TimeUnits') || 0;
+        my %GetParam = ();
+        foreach (qw(Year Month Day Hour Minute)) {
+            $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
+        }
         if (my $ArticleID = $Self->{TicketObject}->CreateArticle(
             TicketID => $TicketID,
             ArticleType => $Self->{ConfigObject}->Get('PhoneDefaultArticleType'),
@@ -200,6 +204,16 @@ sub Run {
            );
          }
          # --
+         # set pending time
+         # --
+         elsif ($NextState =~ /^pending/i) {
+             $Self->{TicketObject}->SetPendingTime(
+                 UserID => $Self->{UserID},
+                 TicketID => $TicketID,
+                 %GetParam,
+             );
+         }
+         # --
          # redirect to zoom view
          # --        
          return $Self->{LayoutObject}->Redirect(
@@ -228,6 +242,10 @@ sub Run {
         my $CustomerIDSelection = $Self->{ParamObject}->GetParam(Param => 'CustomerIDSelection') || '';
         if ($CustomerIDSelection) {
             $CustomerID = $CustomerIDSelection;
+        }
+        my %GetParam = ();
+        foreach (qw(Year Month Day Hour Minute)) {
+            $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
         }
         # --
         # check some values
@@ -276,6 +294,7 @@ sub Run {
               ToSelected => $Dest,
               Subject => $Subject,
               Errors => \%Error,
+              %GetParam,
            );
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
@@ -324,32 +343,42 @@ sub Run {
           # time accounting
           # --
           if ($TimeUnits) {
-            $Self->{TicketObject}->AccountTime(
-              TicketID => $TicketID,
-              ArticleID => $ArticleID,
-              TimeUnit => $TimeUnits,
-              UserID => $UserID,
-            );
+              $Self->{TicketObject}->AccountTime(
+                  TicketID => $TicketID,
+                  ArticleID => $ArticleID,
+                  TimeUnit => $TimeUnits,
+                  UserID => $UserID,
+              );
           }
           # --
           # set custoemr id
           # --
           if ($CustomerID) {
-            $Self->{TicketObject}->SetCustomerNo(
-              TicketID => $TicketID,
-              No => $CustomerID, 
-              UserID => $UserID,
-            );
+              $Self->{TicketObject}->SetCustomerNo(
+                  TicketID => $TicketID,
+                  No => $CustomerID, 
+                  UserID => $UserID,
+              );
           }
           # --
           # should i set an unlock?
           # --
           if ($NextState =~ /^close/i) {
-            $Self->{TicketObject}->SetLock(
-              TicketID => $TicketID,
-              Lock => 'unlock',
-              UserID => $UserID,
-            );
+              $Self->{TicketObject}->SetLock(
+                  TicketID => $TicketID,
+                  Lock => 'unlock',
+                  UserID => $UserID,
+              );
+          }
+          # --
+          # set pending time
+          # --
+          elsif ($NextState =~ /^pending/i) {
+              $Self->{TicketObject}->SetPendingTime(
+                  UserID => $Self->{UserID},
+                  TicketID => $TicketID,
+                  %GetParam,
+              );
           }
 
           # --
@@ -360,10 +389,10 @@ sub Run {
           );
       }
       else {
-        $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-        $Output .= $Self->{LayoutObject}->Error();
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
+          $Output = $Self->{LayoutObject}->Header(Title => 'Error');
+          $Output .= $Self->{LayoutObject}->Error();
+          $Output .= $Self->{LayoutObject}->Footer();
+          return $Output;
       }
     }
     else {

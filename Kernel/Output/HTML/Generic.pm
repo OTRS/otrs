@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.65 2002-12-20 20:40:32 martin Exp $
+# $Id: Generic.pm,v 1.66 2002-12-25 09:27:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,8 +11,7 @@
 
 package Kernel::Output::HTML::Generic;
 
-use FindBin qw($Bin);
-use lib "$Bin/../../../";
+use lib "../../";
 
 use strict;
 use Kernel::Language;
@@ -23,8 +22,7 @@ use Kernel::Output::HTML::System;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-
-$VERSION = '$Revision: 1.65 $';
+$VERSION = '$Revision: 1.66 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -177,8 +175,8 @@ sub new {
     # locate template files
     # --
     foreach ('../../..', '../..', '..') {
-        if (-d "$Bin/$_/Kernel/Output/HTML/") {
-            $Self->{TemplateDir} = "$Bin/$_/Kernel/Output/HTML/$Theme";
+        if (-d "$_/Kernel/Output/HTML/") {
+            $Self->{TemplateDir} = "$_/Kernel/Output/HTML/$Theme";
         }
     }
     if (!$Self->{TemplateDir}) {
@@ -695,7 +693,10 @@ sub CustomerAge {
     my $Age = $Param{Age};
     my $Space = $Param{Space} || '<BR>';
     my $AgeStrg = '';
-
+    if ($Age =~ /^-(.*)/) {
+        $Age = $1;
+        $AgeStrg = '-';
+    }
     # get days
     if ($Age > 86400) {
         $AgeStrg .= int( ($Age / 3600) / 24 ) . ' ';
@@ -916,8 +917,8 @@ sub GetRelease {
     # --
     my %Release = ();
     foreach ('../../..', '../..', '..') {
-        if (-f "$Bin/$_/RELEASE") {
-            $Release{File} = "$Bin/$_/RELEASE";
+        if (-f "$_/RELEASE") {
+            $Release{File} = "$_/RELEASE";
         }
     }
     open (PRODUCT, "< $Release{File}") || print STDERR "Can't read $Release{File}: $!";
@@ -959,6 +960,75 @@ sub Attachment {
     $Output .= "Content-Type: $Param{Type}\n";
     $Output .= "$Param{Data}";
     return $Output;
+}
+# --
+sub BuildDateSelection {
+    my $Self = shift;
+    my %Param = @_;
+    my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = localtime(time);
+    $Y = $Y+1900;
+    $M++;
+    # year
+    my %Year = ();
+    foreach ($Y-3..$Y+10) {
+        $Year{$_} = $_;
+    }
+    $Param{Year} = $Self->OptionStrgHashRef(
+        Name => 'Year',
+        Data => \%Year,
+        SelectedID => $Param{Year} || $Y,
+    );
+    # month
+    my %Month = ();
+    foreach (1..12) {
+        my $Tmp = sprintf("%02d", $_);
+        $Month{$_} = $Tmp;
+    }
+    $Param{Month} = $Self->OptionStrgHashRef(
+        Name => 'Month',
+        Data => \%Month,
+        SelectedID => $Param{Month} || $M,
+    );
+    # day
+    my %Day = ();
+    foreach (1..31) {
+        my $Tmp = sprintf("%02d", $_);
+        $Day{$_} = $Tmp;
+    }
+    $Param{Day} = $Self->OptionStrgHashRef(
+        Name => 'Day',
+        Data => \%Day,
+        SelectedID => $Param{Day} || $D,
+    );
+    # hour
+    my %Hour = ();
+    foreach (1..23) {
+        my $Tmp = sprintf("%02d", $_);
+        $Hour{$_} = $Tmp;
+    }
+    $Param{Hour} = $Self->OptionStrgHashRef(
+        Name => 'Hour',
+        Data => \%Hour,
+        SelectedID => $Param{Hour} || $h,
+    );
+    # minute
+    my %Minute = ();
+    foreach (1..59) {
+        my $Tmp = sprintf("%02d", $_);
+        $Minute{$_} = $Tmp;
+    }
+    $Param{Minute} = $Self->OptionStrgHashRef(
+        Name => 'Minute',
+        Data => \%Minute,
+        SelectedID => $Param{Minute} || $m,
+    );
+    #DateFormat
+    return $Self->{LanguageObject}->Time(
+        Action => 'Return',
+        Format => 'DateInputFormat',
+        Mode => 'NotNumeric',
+        %Param,
+    );
 }
 # --
 

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.24 2002-12-20 02:19:30 martin Exp $
+# $Id: AgentZoom.pm,v 1.25 2002-12-25 09:27:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentZoom;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -31,17 +31,8 @@ sub new {
     }
 
     # check needed Opjects
-    foreach (
-      'ParamObject', 
-      'DBObject', 
-      'TicketObject', 
-      'LayoutObject', 
-      'LogObject', 
-      'QueueObject', 
-      'ConfigObject',
-      'UserObject',
-      'SessionObject',
-    ) {
+    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject
+      QueueObject ConfigObject UserObject SessionObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
 
@@ -60,10 +51,10 @@ sub Run {
     # check needed stuff
     # --
     if (!$Self->{TicketID} || !$QueueID) {
-      $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-      $Output .= $Self->{LayoutObject}->Error();
-      $Output .= $Self->{LayoutObject}->Footer();
-      return $Output;
+        $Output = $Self->{LayoutObject}->Header(Title => 'Error');
+        $Output .= $Self->{LayoutObject}->Error();
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
     # --
     # check permissions
@@ -128,7 +119,7 @@ sub Run {
     " sa.a_freekey1, sa.a_freetext1, sa.a_freekey2, sa.a_freetext2, ".
     " sa.a_freekey3, sa.a_freetext3, st.freekey1, st.freekey2, st.freetext1, ".
     " st.freetext2, st.customer_id, sq.group_id, st.ticket_answered, sq.escalation_time, ".
-    " sa.a_content_type, sa.incoming_time ".
+    " sa.a_content_type, sa.incoming_time, st.until_time ".
     " FROM ".
     " article sa, ticket st, article_sender_type stt, article_type at, ".
     " $Self->{ConfigObject}->{DatabaseUserTable} su, ticket_lock_type sl, " .
@@ -160,12 +151,18 @@ sub Run {
     " sa.a_freekey1, sa.a_freetext1, sa.a_freekey2, sa.a_freetext2, ".
     " sa.a_freekey3, sa.a_freetext3, st.freekey1, st.freekey2, st.freetext1, ".
     " st.freetext2, st.customer_id, sq.group_id, st.ticket_answered, sq.escalation_time, ".
-    " sa.a_content_type, sa.incoming_time ";
+    " sa.a_content_type, sa.incoming_time, st.until_time ";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my $Data = $Self->{DBObject}->FetchrowHashref() ) {
         # get escalation_time
         if ($$Data{escalation_time} && $$Data{sender_type} eq 'customer') {
             $Ticket{TicketOverTime} = (time() - ($$Data{incoming_time} + ($$Data{escalation_time}*60)));
+        }
+        if (!$$Data{until_time} || $$Data{state} !~ /^pending/i) {
+            $Ticket{UntilTime} = 0;
+        }
+        else {
+            $Ticket{UntilTime} = $$Data{until_time} - time();
         }
         # ticket data
         $Ticket{TicketNumber} = $$Data{tn};

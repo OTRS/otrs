@@ -2,7 +2,7 @@
 # AgentCompose.dtl - provides HTML form for AgentCompose 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.dtl,v 1.15 2002-11-11 00:53:32 martin Exp $
+# $Id: AgentCompose.dtl,v 1.16 2002-12-25 09:27:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -60,18 +60,18 @@ function SpellCheckSubmit()
   <input type="hidden" name="NextScreen" value="$Data{"NextScreen"}">
   <input type="hidden" name="Email" value="$Data{"Email"}">
   <input type="hidden" name="InReplyTo" value="$Data{"InReplyTo"}">
-  <table border="0">
+  <table border="0" width="100%">
     <tr>
-      <td>$Text{"From"}:</td>
-      <td>$Data{"From"} <input type="hidden" name="From" value="$Data{"From"}"> <font color="red">$Data{"From invalid"}</font></td>
+      <td width="20%">$Text{"From"}:</td>
+      <td width="80%">$Data{"From"} <input type="hidden" name="From" value="$Data{"From"}"> <font color="red" size="-2">$Data{"From invalid"}</font></td>
     </tr>
     <tr>
       <td>$Text{"To"}:</td>
-      <td><input type="text" name="To" value="$Data{"To"}" size="65"> <font color="red">$Data{"To invalid"}</font></td>
+      <td><input type="text" name="To" value="$Data{"To"}" size="65"> <font color="red" size="-2">$Data{"To invalid"}</font></td>
     </tr>
     <tr>
       <td>$Text{"Cc"}:</td>
-      <td><input type="text" name="Cc" value="$Data{"Cc"}" size="65"> <font color="red">$Data{"Cc invalid"}</font></td>
+      <td><input type="text" name="Cc" value="$Data{"Cc"}" size="65"> <font color="red" size="-2">$Data{"Cc invalid"}</font></td>
     </tr>
     <tr>
       <td>$Text{"Subject"}:</td>
@@ -100,6 +100,9 @@ $Data{"ResponseFormat"}
       <td>$Text{"Next ticket state"}:</td><td>$Data{"NextStatesStrg"}</td>
     </tr>
     <tr>
+      <td>$Text{"Pending Date"} ($Text{"for pending* states"}):</td><td>$Data{"PendingDateString"}</td>
+    </tr>
+    <tr>
       <td>$Text{"Is the ticket answered"}:</td><td>$Data{"AnsweredYesNoOption"}</td>
     </tr>
     <tr>
@@ -110,11 +113,11 @@ $Data{"ResponseFormat"}
   <input type="submit" value="$Text{"Send mail!"}" onclick="return submit_compose();">
   </form>
 
-<form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
-<input type="hidden" name="Action" value="AgentSpelling">
-<input type="hidden" name="Body" value="">
-<input type="hidden" name="spell_lang" value="">
-</form>
+  <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
+  <input type="hidden" name="Action" value="AgentSpelling">
+  <input type="hidden" name="Body" value="">
+  <input type="hidden" name="spell_lang" value="">
+  </form>
 
 
   </td> 

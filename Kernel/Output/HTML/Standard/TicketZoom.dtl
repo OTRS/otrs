@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: TicketZoom.dtl,v 1.29 2002-12-05 22:21:39 martin Exp $
+# $Id: TicketZoom.dtl,v 1.30 2002-12-25 09:27:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,6 +38,7 @@
   <a href="$Env{"Baselink"}Action=AgentOwner&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Owner"}'; return true;" onmouseout="window.status='';">$Text{"Owner"}</a> -
   <a href="$Env{"Baselink"}Action=AgentNote&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Add Note"}'; return true;" onmouseout="window.status='';">$Text{"Add Note"}</a> -
   <a href="$Env{"Baselink"}Action=AgentCustomer&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Customer"}'; return true;" onmouseout="window.status='';">$Text{"Customer"}</a> -
+  <a href="$Env{"Baselink"}Action=AgentPending&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Pending"}'; return true;" onmouseout="window.status='';">$Text{"Pending"}</a> -
   <a href="$Env{"Baselink"}Action=AgentClose&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Close"}'; return true;" onmouseout="window.status='';">$Text{"Close"}</a>
   </td>
   <td align="right" bgcolor="$Env{"BGTableColor2"}" width="30%">
@@ -85,14 +86,19 @@ $Data{"Article::Text"}
   </pre>
   </td> 
   <td width="25%" bgcolor="$Env{"BGTableColor2"}" align="center" valign="top">
-    <table border="0" cellspacing="0" cellpadding="1" width="95%">
+    <table border="0" cellspacing="1" cellpadding="0" width="95%">
     <tr><td><b>$Text{"State"}:</b></td><td><font color="red">$Data{"State"}</font></td></tr>
     <tr><td><b>$Text{"Priority"}:</b></td><td><font color="red">$Data{"Priority"}</font></td></tr>
     <tr><td><b>$Text{"Queue"}:</b></td><td><font color="red">$Data{"Queue"}</font></td></tr>
     <tr><td><b>$Text{"Lock"}:</b></td><td><font color="red">$Data{"Lock"}</font></td></tr>
     <tr><td><b>$Text{"CustomerID"}:</b></td><td><a href="$Config{"CustomerDBLink"}" $Config{"CustomerDBLinkTarget"}>$Data{"CustomerIDHTML"}</a></td></tr>
     <tr><td><b>$Text{"Accounted time"}:</b></td><td>$Data{"TicketTimeUnits"}</td></tr>
-    <tr><td><b>$Text{"Time till escalation"}:</b></td><td>$Data{"TicketOverTime"}</td></tr>
+    <tr><td><b>$Text{"Escalation in"}:</b></td><td>$Data{"TicketOverTime"}</td></tr>
+# --
+# use ticket is pending 
+# --
+<dtl if ($Data{"PendingUntil"} ne "") { $Data{"PendingUntilString"} = "<tr><td><b>$Text{"Pending till"}:</b></td><td>$Data{"PendingUntil"}</td></tr>"; }>
+    $Data{"PendingUntilString"}
     <tr><td><b>$Text{"Owner"}:</b></td><td>$Data{"Owner"}</td></tr>
 # --
 # use this if you want to show TicketFreeKey1-2 and TicketFreeValue1-2

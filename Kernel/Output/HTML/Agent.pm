@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.69 2002-12-20 02:19:30 martin Exp $
+# $Id: Agent.pm,v 1.70 2002-12-25 09:27:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.69 $';
+$VERSION = '$Revision: 1.70 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -22,7 +22,9 @@ sub NavigationBar {
     my $Self = shift;
     my %Param = @_;
     my $Output = '';
+    # --
     # check DisplayCharset
+    # --
     foreach ($Self->{LanguageObject}->GetPossibleCharsets()) {
         if ($Self->{UserCharset} =~ /^$_$/i) { 
             $Param{CorrectDisplayCharset} = 1;
@@ -33,15 +35,25 @@ sub NavigationBar {
           Info => $Self->{LanguageObject}->Get('The recommended charset for your language is %s!", "'.$Self->{LanguageObject}->GetRecommendedCharset()),
         );
     }
+    # --
     # check lock count
+    # --
     my %LockData = %{$Param{LockData}};
     $Param{LockCount} = $LockData{Count} || 0;
     $Param{LockToDo} = $LockData{ToDo} || 0;
-
-    if ($Param{LockToDo}) {
-        $Output .= $Self->Notify(Info => '$Text{"You got new message!"}');
+    if ($LockData{ToDo}) {
+        $Output .= $Self->Notify(
+          Info => '<a href="$Env{"Baselink"}Action=AgentMailbox&Subaction=New">'.
+            $Self->{LanguageObject}->Get('You have %s new message(s)!", "'.$LockData{ToDo}).'</a>'
+        );
     }
-
+    if ($LockData{OverTime}) {
+        $Output .= $Self->Notify(
+          Info => '<a href="$Env{"Baselink"}Action=AgentMailbox&Subaction=Reminder">'.
+           $Self->{LanguageObject}->Get('You have %s reminder ticket(s)!", "'.
+           $LockData{OverTime}).'</a>',
+        );
+    }
     # create & return output
     return $Self->Output(TemplateFile => 'AgentNavigationBar', Data => \%Param).$Output;
 }
@@ -103,25 +115,28 @@ sub QueueView {
 sub TicketView {
     my $Self = shift;
     my %Param = @_;
-    my %StdResponses = %{$Param{StdResponses}};
-
+    # --
     # do some html quoting
+    # --
     foreach (qw(From To Cc Subject)) {
         $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 150) || '';
     }
+    # --
     # create short html customer id
+    # --
     $Param{CustomerIDHTML} = $Param{CustomerID} || '';
     foreach (qw(Priority State Queue Owner Lock CustomerIDHTML)) {
         $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 15) || '';
     }
     $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ');
+    # --
     # prepare escalation time
+    # --
     if ($Param{Answered}) {
       $Param{TicketOverTime} = '$Text{"none - answered"}';
     } 
     elsif ($Param{TicketOverTime}) { 
       $Param{TicketOverTimeSuffix} = '';
-
       # colloring  
       $Param{TicketOverTimeFont} = '';
       $Param{TicketOverTimeFontEnd} = '';
@@ -133,22 +148,17 @@ sub TicketView {
           $Param{TicketOverTimeFont} = "<font color='$Self->{HighlightColor1}'>";
           $Param{TicketOverTimeFontEnd} = '</font>';
       }
-
       # create string
-      if (!($Param{TicketOverTime} =~ s/-(.*?)/$1/g)) {
-         $Param{TicketOverTimeSuffix} = '-';
-      } 
       $Param{TicketOverTime} = $Self->CustomerAge(
           Age => $Param{TicketOverTime}, 
           Space => '<br>',
       );
-      $Param{TicketOverTime} = $Param{TicketOverTimeFont}.$Param{TicketOverTimeSuffix}.
+      $Param{TicketOverTime} = $Param{TicketOverTimeFont}.
         $Param{TicketOverTime}.$Param{TicketOverTimeFontEnd}; 
     }
     else {
       $Param{TicketOverTime} = '$Text{"none"}';
     }
-
     # --
     # check if just a only html email
     # --
@@ -189,30 +199,14 @@ sub TicketView {
         Data => $Param{MoveQueues},
         OnChangeSubmit => $Self->{ConfigObject}->Get('OnChangeSubmit'),
     );
-
     # --
     # get StdResponsesStrg
     # --
-    if ($Self->{ConfigObject}->Get('StdResponsesMethod') eq 'Form') {
-        $Param{StdResponsesStrg} .= '<form action="'.$Self->{CGIHandle}.'" method="post">';
-        $Param{StdResponsesStrg} .= '<input type="hidden" name="Action" value="AgentCompose">';
-        $Param{StdResponsesStrg} .= '<input type="hidden" name="TicketID" value="'.$Param{TicketID}.'">';
-        $Param{StdResponsesStrg} .= $Self->OptionStrgHashRef(
-          Name => 'ResponseID',
-          Data => \%StdResponses,
-        );
-        $Param{StdResponsesStrg} .= '<input type="submit" value="$Text{"Compose"}"></form>';
-    }
-    else {
-       foreach (sort { $StdResponses{$a} cmp $StdResponses{$b} } keys %StdResponses) {
-         $Param{StdResponsesStrg} .= "\n<li><a href=\"$Self->{Baselink}Action=AgentCompose&".
-           "ResponseID=$_&TicketID=$Param{TicketID}\" ".
-           'onmouseover="window.status=\'$Text{"Compose"}\'; return true;" '.
-           'onmouseout="window.status=\'\';">'.
-           "$StdResponses{$_}</a></li>\n";
-       }
-    }
-
+    $Param{StdResponsesStrg} = $Self->TicketStdResponseString(
+        StdResponsesRef => $Param{StdResponses},
+        TicketID => $Param{TicketID},
+        ArticleID => $Param{ArticleID},
+    );
     # --
     # create & return output
     # --
@@ -241,11 +235,20 @@ sub TicketZoom {
         $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 15) || '';
     }
     $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ');
+    if ($Param{UntilTime}) {
+        if ($Param{UntilTime} < -1) {
+            $Param{PendingUntil} = "<font color='$Self->{HighlightColor2}'>";
+        }
+        $Param{PendingUntil} .= $Self->CustomerAge(Age => $Param{UntilTime}, Space => '<br>');
+        if ($Param{UntilTime} < -1) {
+            $Param{PendingUntil} .= "</font>";
+        }
+    }
     # --
     # prepare escalation time (if needed)
     # --
     if ($Param{Answered}) {
-      $Param{TicketOverTime} = '$Text{"none - answered"}';
+        $Param{TicketOverTime} = '$Text{"none - answered"}';
     }
     elsif ($Param{TicketOverTime}) { 
       $Param{TicketOverTimeSuffix} = '';
@@ -263,18 +266,15 @@ sub TicketZoom {
           $Param{TicketOverTimeFontEnd} = '</font>';
       }
 
-      if (!($Param{TicketOverTime} =~ s/-(.*?)/$1/g)) {
-         $Param{TicketOverTimeSuffix} = '-';
-      }
       $Param{TicketOverTime} = $Self->CustomerAge(
           Age => $Param{TicketOverTime}, 
           Space => '<br>',
       );
-      $Param{TicketOverTime} = $Param{TicketOverTimeFont}.$Param{TicketOverTimeSuffix}.
+      $Param{TicketOverTime} = $Param{TicketOverTimeFont}.
         $Param{TicketOverTime}.$Param{TicketOverTimeFontEnd}; 
     }
     else {
-      $Param{TicketOverTime} = 'none';
+        $Param{TicketOverTime} = '-';
     }
     # --
     # get MoveQueuesStrg
@@ -316,27 +316,11 @@ sub TicketZoom {
     # --
     # get StdResponsesStrg
     # --
-    my %StdResponses = %{$Param{StdResponses}};
-    if ($Self->{ConfigObject}->Get('StdResponsesMethod') eq 'Form') {
-        $Param{StdResponsesStrg} .= '<form action="'.$Self->{CGIHandle}.'" method="post">';
-        $Param{StdResponsesStrg} .= '<input type="hidden" name="Action" value="AgentCompose">';
-        $Param{StdResponsesStrg} .= '<input type="hidden" name="ArticleID" value="'.$ArticleID.'">';
-        $Param{StdResponsesStrg} .= '<input type="hidden" name="TicketID" value="'.$Self->{TicketID}.'">';
-        $Param{StdResponsesStrg} .= $Self->OptionStrgHashRef(
-          Name => 'ResponseID',
-          Data => \%StdResponses,
-        );
-        $Param{StdResponsesStrg} .= '<input type="submit" value="$Text{"Compose"}"></form>';
-    }
-    else {
-        foreach (sort { $StdResponses{$a} cmp $StdResponses{$b} } keys %StdResponses) {
-          $Param{StdResponsesStrg} .= "\n<li><a href=\"$BaseLink"."Action=AgentCompose&".
-           "ResponseID=$_&ArticleID=$ArticleID\" ".
-           'onmouseover="window.status=\'$Text{"Compose"}\'; return true;" '.
-           'onmouseout="window.status=\'\';">'.
-           "$StdResponses{$_}</A></li>\n";
-        }
-    }
+    $Param{StdResponsesStrg} = $Self->TicketStdResponseString(
+        StdResponsesRef => $Param{StdResponses},
+        TicketID => $Param{TicketID},
+        ArticleID => $ArticleID,
+    );
     # --
     # build thread string
     # --
@@ -414,7 +398,6 @@ sub TicketZoom {
            ' return true;" onmouseout="window.status=\'\';">'.
            $AtmIndex{$_}.'</a><br> ';
     }
-
     # --
     # just body if html email
     # --
@@ -428,14 +411,12 @@ sub TicketZoom {
         $Output .= $Article{"Text"};
         return $Output;
     }
-
     # --
     # do some strips && quoting
     # --
     foreach (qw(To Cc From Subject FreeKey1 FreeKey2 FreeKey3 FreeValue1 FreeValue2 FreeValue3)) {
         $Param{"Article::$_"} = $Self->Ascii2Html(Text => $Article{$_}, Max => 300);
     }
-
     # --
     # check if just a only html email
     # --
@@ -485,9 +466,49 @@ sub TicketZoom {
         # without all!
         $Output = $Self->Output(TemplateFile => 'TicketZoom', Data => \%Param);
     }
-
     # return output
     return $Output;
+}
+# --
+sub TicketStdResponseString {
+    my $Self = shift;
+    my %Param = @_;
+    # --
+    # check needed stuff
+    # -- 
+    foreach (qw(StdResponsesRef TicketID ArticleID)) {
+        if (!$Param{$_}) {
+            return "Need $_ in TicketStdResponseString()";
+        } 
+    }
+    # --
+    # get StdResponsesStrg
+    # --
+    if ($Self->{ConfigObject}->Get('StdResponsesMethod') eq 'Form') {
+        # build html string
+        $Param{StdResponsesStrg} .= '<form action="'.$Self->{CGIHandle}.'" method="post">'.
+          '<input type="hidden" name="Action" value="AgentCompose">'.
+          '<input type="hidden" name="ArticleID" value="'.$Param{ArticleID}.'">'.
+          '<input type="hidden" name="TicketID" value="'.$Param{TicketID}.'">'.
+          $Self->OptionStrgHashRef(
+            Name => 'ResponseID',
+            Data => $Param{StdResponsesRef},
+          ).
+          '<input type="submit" value="$Text{"Compose"}"></form>';
+    }
+    else {
+        my %StdResponses = %{$Param{StdResponsesRef}};
+        foreach (sort { $StdResponses{$a} cmp $StdResponses{$b} } keys %StdResponses) {
+          # build html string
+          $Param{StdResponsesStrg} .= "\n<li><a href=\"$Self->{Baselink}"."Action=AgentCompose&".
+           "ResponseID=$_&TicketID=$Param{TicketID}&ArticleID=$Param{ArticleID}\" ".
+           'onmouseover="window.status=\'$Text{"Compose"}\'; return true;" '.
+           'onmouseout="window.status=\'\';">'.
+           # html quote
+           $Self->Ascii2Html(Text => $StdResponses{$_})."</A></li>\n";
+        }
+    }
+    return $Param{StdResponsesStrg};
 }
 # --
 sub TicketEscalation {
@@ -540,7 +561,6 @@ sub AgentNote {
 sub AgentBounce {
     my $Self = shift;
     my %Param = @_;
-
     # --
     # build next states string
     # --
@@ -549,11 +569,10 @@ sub AgentBounce {
         Name => 'BounceStateID',
         Selected => $Self->{ConfigObject}->Get('DefaultNextBounceType'),
     );
-
     # --
     # prepare 
     # --
-    foreach ('ReplyTo', 'To', 'Cc', 'Subject') {
+    foreach (qw(ReplyTo To Cc Subject)) {
         $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}) || '';
     }
     # create FromHTML (to show)
@@ -566,21 +585,26 @@ sub AgentBounce {
 sub AgentPhone {
     my $Self = shift;
     my %Param = @_;
-
+    # --
     # answered strg
+    # --
     $Param{'AnsweredYesNoOption'} = $Self->OptionStrgHashRef(
         Data => $Self->{ConfigObject}->Get('YesNoOptions'),
         Name => 'Answered',
         Selected => 'Yes',
     );
-
+    # --
     # build next states string
+    # --
     $Param{'NextStatesStrg'} = $Self->OptionStrgHashRef(
         Data => $Param{NextStates},
         Name => 'NextStateID',
         Selected => $Self->{ConfigObject}->Get('PhoneDefaultNextState'),
     );
-
+    # --
+    # pending data string
+    # --
+    $Param{PendingDateString} = $Self->BuildDateSelection(%Param);
     # --
     # prepare errors!
     # --
@@ -596,8 +620,9 @@ sub AgentPhone {
 sub AgentPhoneNew {
     my $Self = shift;
     my %Param = @_;
-
+    # --
     # build next states string
+    # --
     $Param{'NextStatesStrg'} = $Self->OptionStrgHashRef(
         Data => $Param{NextStates},
         Name => 'NextStateID',
@@ -642,6 +667,10 @@ sub AgentPhoneNew {
         );
     }
     # --
+    # pending data string
+    # --
+    $Param{PendingDateString} = $Self->BuildDateSelection(%Param);
+    # --
     # prepare errors!
     # --
     if ($Param{Errors}) {
@@ -656,14 +685,14 @@ sub AgentPhoneNew {
 sub AgentPriority {
     my $Self = shift;
     my %Param = @_;
-
+    # --
     # build ArticleTypeID string
+    # --
     $Param{'OptionStrg'} = $Self->OptionStrgHashRef(
         Data => $Param{OptionStrg},
         Name => 'PriorityID', 
         SelectedID => $Param{PriorityID},
     );
-
     # create & return output
     return $Self->Output(TemplateFile => 'AgentPriority', Data => \%Param);
 }
@@ -740,6 +769,36 @@ sub AgentOwner {
 
     # create & return output
     return $Self->Output(TemplateFile => 'AgentOwner', Data => \%Param);
+}
+# --
+sub AgentPending {
+    my $Self = shift;
+    my %Param = @_;
+
+    # build string
+    $Param{'NextStatesStrg'} = $Self->OptionStrgHashRef(
+        Data => $Param{NextStatesStrg},
+        Name => 'CloseStateID'
+    );
+    # build string
+    $Param{'NoteTypesStrg'} = $Self->OptionStrgHashRef(
+        Data => $Param{NoteTypesStrg},
+        Name => 'CloseNoteID'
+    );
+    # get MoveQueuesStrg
+    $Param{MoveQueuesStrg} = $Self->OptionStrgHashRef(
+        Name => 'DestQueueID',
+        SelectedID => $Param{SelectedMoveQueue},
+        Data => $Param{MoveQueues},
+        OnChangeSubmit => 0,
+    );
+
+    $Param{DateString} = $Self->BuildDateSelection(
+        StartYear => 243 
+    );
+
+    # create & return output
+    return $Self->Output(TemplateFile => 'AgentPending', Data => \%Param);
 }
 # --
 sub AgentClose {
@@ -954,6 +1013,10 @@ sub AgentCompose {
         }
     }
     # --
+    # pending data string
+    # --
+    $Param{PendingDateString} = $Self->BuildDateSelection(%Param);
+    # --
     # create & return output
     # --
     return $Self->Output(TemplateFile => 'AgentCompose', Data => \%Param);
@@ -962,7 +1025,6 @@ sub AgentCompose {
 sub AgentForward {
     my $Self = shift;
     my %Param = @_;
-
     # --
     # build next states string
     # --
@@ -975,19 +1037,15 @@ sub AgentForward {
         Data => $Param{ArticleTypes},
         Name => 'ArticleTypeID'
     );
-
     # --
     # prepare 
     # --
     # create html from
     $Param{SystemFromHTML} = $Self->Ascii2Html(Text => $Param{SystemFrom}, Max => 70);
     # do html quoting
-    foreach ('ReplyTo', 'From', 'To', 'Cc', 'Subject', 'SystemFrom') {
+    foreach (qw(ReplyTo From To Cc Subject SystemFrom Body)) {
         $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}) || '';
     }
-    # email quoted print decode
-    $Param{Body} = $Self->Ascii2Html(Text => $Param{Body});
-
     # --
     # create & return output
     # --
@@ -1081,9 +1139,30 @@ sub AgentMailboxTicket {
            ($Param{LastSenderID} eq $Param{UserID} && $Param{LastSenderType} ne 'customer')) {
         return '';
     }
-
     if ($Param{LastSenderID} ne $Param{UserID} || $Param{LastSenderType} eq 'customer') {
-        $Param{Message} = 'New message!';
+        $Param{Message} = $Self->{LanguageObject}->Get('New message!').' ';
+    }
+    # --
+    # check if the pending ticket is Over Time
+    # --
+    if ($Param{UntilTime} < 0 && $Param{State} !~ /^pending auto/i) {
+        $Param{Message} .= $Self->{LanguageObject}->Get('Over Time').' '.
+          $Self->CustomerAge(Age => $Param{UntilTime}, Space => ' ').'!';
+    }
+    elsif ($Param{ViewType} eq 'Reminder') {
+        return '';
+    }
+    # --
+    # create PendingUntil string if UntilTime is < -1
+    # --
+    if ($Param{UntilTime}) {
+        if ($Param{UntilTime} < -1) {
+            $Param{PendingUntil} = "<font color='$Self->{HighlightColor2}'>";
+        }
+        $Param{PendingUntil} .= $Self->CustomerAge(Age => $Param{UntilTime}, Space => '<br>');
+        if ($Param{UntilTime} < -1) {
+            $Param{PendingUntil} .= "</font>";
+        }
     }
     # --
     # do some strips && quoting
@@ -1130,18 +1209,6 @@ sub TicketLocked {
     return $Self->Output(TemplateFile => 'AgentTicketLocked', Data => \%Param);
 }
 # --
-sub Attachment {
-    my $Self = shift;
-    my %Param = @_;
-    # --
-    # return attachment 
-    # --
-    my $Output = "Content-Disposition: attachment; filename=$Param{File}\n";
-    $Output .= "Content-Type: $Param{Type}\n";
-    $Output .= "$Param{Data}";
-    return $Output;
-}
-# --
 sub AgentStatusView {
     my $Self = shift;
     my %Param = @_;
@@ -1183,10 +1250,10 @@ sub AgentSpelling {
     # spellcheck
     # --
     if ($Param{SpellCheck}) {
-      $Param{SpellCheckString} = '<table border="0" width="580" cellspacing="0" cellpadding="1">';
-      $Param{SpellCheckString} .= '<tr><th width="50">$Text{"Line"}</th><th width="100">$Text{"Word"}</th>';
-      $Param{SpellCheckString} .= '<th width="330"colspan="2">$Text{"replace with"}</th>';
-      $Param{SpellCheckString} .= '<th width="50">$Text{"Change"}</th><th width="50">$Text{"Ignore"}</th></tr>';
+      $Param{SpellCheckString} = '<table border="0" width="580" cellspacing="0" cellpadding="1">'.
+        '<tr><th width="50">$Text{"Line"}</th><th width="100">$Text{"Word"}</th>'.
+        '<th width="330"colspan="2">$Text{"replace with"}</th>'.
+        '<th width="50">$Text{"Change"}</th><th width="50">$Text{"Ignore"}</th></tr>';
       $Param{SpellCounter} = 0;
       foreach (sort {$a <=> $b} keys %{$Param{SpellCheck}}) {
         my $WrongWord = $Param{SpellCheck}->{$_}->{Word};
@@ -1207,14 +1274,14 @@ sub AgentSpelling {
                Data => \%ReplaceWords, 
                Name => "SpellCheckReplace",
                CoChange => "change_selected($Param{SpellCounter})"
-            );
-            $Param{SpellCheckString} .= '</td><td> or ';
-            $Param{SpellCheckString} .= '<input type="text" name="SpellCheckOrReplace::'.$WrongWord.'" value="" size="16" onchange="change_selected('.$Param{SpellCounter}.')">';
-            $Param{SpellCheckString} .= '</td><td align="center">';
-            $Param{SpellCheckString} .= '<input type="radio" name="SpellCheck::'.$WrongWord.'" value="Replace">';
-            $Param{SpellCheckString} .= '</td><td align="center">';
-            $Param{SpellCheckString} .= '<input type="radio" name="SpellCheck::'.$WrongWord.'" value="Ignore" checked="checked">';
-            $Param{SpellCheckString} .= '</td></tr>';
+            ).
+              '</td><td> or '.
+              '<input type="text" name="SpellCheckOrReplace::'.$WrongWord.'" value="" size="16" onchange="change_selected('.$Param{SpellCounter}.')">'.
+              '</td><td align="center">'.
+              '<input type="radio" name="SpellCheck::'.$WrongWord.'" value="Replace">'.
+              '</td><td align="center">'.
+              '<input type="radio" name="SpellCheck::'.$WrongWord.'" value="Ignore" checked="checked">'.
+              '</td></tr>';
           }
         }
       } 
