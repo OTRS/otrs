@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Installer.pm,v 1.24 2003-04-13 22:24:30 martin Exp $
+# $Id: Installer.pm,v 1.25 2003-07-01 18:26:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,9 +15,10 @@
 package Kernel::Modules::Installer;
 
 use strict;
+use DBI;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -100,13 +101,16 @@ sub Run {
     # --
     if (!$Self->{Subaction}) {
         $Output .= $Self->{LayoutObject}->Header(Title => 'License');
-        $Output .= $Self->{LayoutObject}->InstallerBody(
-            Item => 'License',
-            Step => '1/4',
-            Body => $Self->{LayoutObject}->Output(
-                TemplateFile => 'InstallerLicense', 
-                Data => {},
-            ),
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'InstallerBody', 
+            Data => {
+                Item => 'License',
+                Step => '1/4',
+                Body => $Self->{LayoutObject}->Output(
+                    TemplateFile => 'InstallerLicense', 
+                    Data => {},
+                ),
+            }
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
@@ -126,13 +130,16 @@ sub Run {
         }
         else { 
            $Output .= $Self->{LayoutObject}->Header(Title => 'Create Database');
-           $Output .= $Self->{LayoutObject}->InstallerBody(
+           $Output .= $Self->{LayoutObject}->Output(
+               TemplateFile => 'InstallerBody', 
+               Data => {
                     Item => 'Create Database',
                     Step => '2/4',
                     Body => $Self->{LayoutObject}->Output(
                         TemplateFile => 'InstallerStart',
                         Data => { },
                     ),
+               }
            );
            $Output .= $Self->{LayoutObject}->Footer();
         }
@@ -163,144 +170,148 @@ sub Run {
                 return $Output;
             }
         }
-
+        # connect to database
+        my $DBH = DBI->connect(
+            "DBI:mysql:database=;host=$DB{DatabaseHost};", 
+            $DB{User}, 
+            $DB{Password},
+        );
+        if (!$DBH) {
+            $Output .= $Self->{LayoutObject}->Error(
+                Message => "Can't connect to database, read comment!",
+                Comment => "$DBI::errstr",
+            );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
+        }
+        
         my $SetupOutput = '';
-        my $MYCMD = "mysql -u $DB{User} ";
-        $MYCMD .= " -p$DB{Password} " if ($DB{Password});
-        $MYCMD .= " -h $DB{DatabaseHost}  ";
 
         if ($DB{DBAction} eq 'Create') {
           # FIXME !!! use $DB{Type}!!!
             # --
             # create db
             # --
-            my $CMD = $MYCMD . " -e 'create database $DB{Database}'";
             $SetupOutput .= "<table border='0' width='100%'>";
             $SetupOutput .= "<tr>";
-            $SetupOutput .= "<td colspan=\"2\"><b>Create database CMD:</b></td></tr>";
-
-            $SetupOutput .= "<tr><td>$CMD</td>";
-            my $CMDReturn = $Self->SystemCall($CMD);
-            if (!$Self->{$CMD}) {
-                $SetupOutput .= "<td><font color='red'><b>false! :-(</b></font></td>";
-                $SetupOutput .= "</table>";
-                $SetupOutput .= "$CMDReturn";
-                $Output .= $Self->{LayoutObject}->InstallerBody(
-                    Item => 'Create Database',
-                    Step => '2/4',
-                    Body => $SetupOutput,
+            $SetupOutput .= "<td><b>Createing database '$DB{Database}':</b></td><td>";
+            if (!$DBH->do("CREATE DATABASE $DB{Database}")) {
+                $SetupOutput .= "<font color='red'><b>false! :-(</b></font></td></tr>";
+                $SetupOutput .= "</table><br> ---==> $DBI::errstr";
+                $Output .= $Self->{LayoutObject}->Output(
+                    TemplateFile => 'InstallerBody', 
+                    Data => {
+                        Item => 'Create Database',
+                        Step => '2/4',
+                        Body => $SetupOutput,
+                    }
                 ); 
                 $Output .= $Self->{LayoutObject}->Footer();
                 return $Output;
             }
             else {
-                $SetupOutput .= "<td><font color='green'><b>done.</b></font></td>";
+                $SetupOutput .= "<font color='green'><b>done.</b></font></td></tr>";
             }
-            $SetupOutput .= "</tr>";
             # --
             # create db tables
             # --
-            $CMD = $MYCMD . " $DB{Database} < $DirOfSQLFiles/otrs-schema.mysql.sql";
+            # read otrs-schema.mysql.sql and process stuff
+            my @SQL = $Self->ParseSQLFile("$DirOfSQLFiles/otrs-schema.mysql.sql");
+            $DBH->do("use $DB{Database}");
             $SetupOutput .= "<tr>";
-            $SetupOutput .= "<td colspan=\"2\"><b>Create tables CMD:</B></td></tr>";
-            $SetupOutput .= "<tr><td>$CMD</td>";
-            $CMDReturn = $Self->SystemCall($CMD);
-            if (!$Self->{$CMD}) {
-                $SetupOutput .= "<td><font color='red'><b>false! :-(</b></font></td>";
-                $SetupOutput .= "</table>";
-                $SetupOutput .= "$CMDReturn";
-                $Output .= $Self->{LayoutObject}->InstallerBody(
-                    Item => 'Create Database',
-                    Step => '2/4',
-                    Body => $SetupOutput,
-                ); 
-                $Output .= $Self->{LayoutObject}->Footer();
-                return $Output;
+            $SetupOutput .= "<td><b>Createing tables 'otrs-schema.mysql.sql':</B></td><td>";
+            foreach (@SQL) {
+                if (!$DBH->do($_)) {
+                    $SetupOutput .= "<font color='red'><b>false! :-(</b></font></td></tr>";
+                    $SetupOutput .= "</table><br> ---==> $DBI::errstr";
+                    print STDERR "ERR: $DBI::errstr - $_\n";
+                    $Output .= $Self->{LayoutObject}->Output(
+                        TemplateFile => 'InstallerBody', 
+                        Data => {
+                            Item => 'Create Database',
+                            Step => '2/4',
+                            Body => $SetupOutput,
+                        },
+                    ); 
+                    $Output .= $Self->{LayoutObject}->Footer();
+                    return $Output;
+                }
             }
-            else {
-                $SetupOutput .= "<td><font color='green'><b>done.</b></font></td>";
-            } 
+            $SetupOutput .= "<font color='green'><b>done.</b></font></td>";
             $SetupOutput .= "</tr>";
             # --
             # inital insert
+            # - read initial_insert.sql and process stuff -
             # --
-            $CMD = $MYCMD . " $DB{Database} < $DirOfSQLFiles/initial_insert.sql";
-
+            @SQL = $Self->ParseSQLFile("$DirOfSQLFiles/initial_insert.sql");
             $SetupOutput .= "<tr>";
-            $SetupOutput .= "<td colspan=\"2\"><b>Inital inserts CMD:</b></td></tr>";
-            $SetupOutput .= "<tr><td>$CMD </td>";
-            $CMDReturn = $Self->SystemCall($CMD);
-            if (!$Self->{$CMD}) {
-                $SetupOutput .= "<td><font color='red'><b>false! :-(</b></font></td>";
-                $SetupOutput .= "</table>";
-                $SetupOutput .= "$CMDReturn";
-                $Output .= $Self->{LayoutObject}->InstallerBody(
-                    Item => 'Create Database',
-                    Step => '2/4',
-                    Body => $SetupOutput,
-                ); 
-                $Output .= $Self->{LayoutObject}->Footer();
-                return $Output;
+            $SetupOutput .= "<td><b>Inserting Inital inserts 'initial_insert.sql':</b></td><td>";
+            foreach (@SQL) {
+                if (!$DBH->do($_)) {
+                    $SetupOutput .= "<font color='red'><b>false! :-(</b></font></td></tr>";
+                    $SetupOutput .= "</table><br> ---==> $DBI::errstr";
+                    print STDERR "ERR: $DBI::errstr - $_\n";
+                    $Output .= $Self->{LayoutObject}->Output(
+                        TemplateFile => 'InstallerBody', 
+                        Data => {
+                            Item => 'Create Database',
+                            Step => '2/4',
+                            Body => $SetupOutput,
+                        },
+                    ); 
+                    $Output .= $Self->{LayoutObject}->Footer();
+                    return $Output;
+                }
             }
-            else {
-                $SetupOutput .= "<td><font color='green'><b>done.</b></font></td>";
-            }
+            $SetupOutput .= "<font color='green'><b>done.</b></font></td>";
             $SetupOutput .= "</tr>";
             # --
             # user add
             # --
-            $CMD = $MYCMD . " -e \"GRANT ALL PRIVILEGES ON $DB{Database}.* TO ".
-                  " $DB{DatabaseUser}\@$DB{NewHost} IDENTIFIED BY '$DB{DatabasePw}' WITH GRANT OPTION\" ";
             $SetupOutput .= "<tr>";
-            $SetupOutput .= "<td colspan=\"2\"><b>Create db user CMD:</b></td></tr>";
-            $SetupOutput .= "<tr><td>$CMD </td>";
-            $CMDReturn = $Self->SystemCall($CMD);
-            if (!$Self->{$CMD}) {
-                $SetupOutput .= "<td><font color='red'><b>false! :-(</b></font></td>";
-                $SetupOutput .= "</table>";
-                $SetupOutput .= "$CMDReturn";
-                $Output .= $Self->{LayoutObject}->InstallerBody(
-                    Item => 'Create Database',
-                    Step => '2/4',
-                    Body => $SetupOutput,
+            $SetupOutput .= "<td><b>Createing database user '$DB{DatabaseUser}\@$DB{NewHost}':</b></td><td>";
+            if (!$DBH->do("GRANT ALL PRIVILEGES ON $DB{Database}.* TO $DB{DatabaseUser}\@$DB{NewHost} IDENTIFIED BY '$DB{DatabasePw}' WITH GRANT OPTION")) {
+                $SetupOutput .= "<font color='red'><b>false! :-(</b></font></td></tr>";
+                $SetupOutput .= "</table><br> ---==> $DBI::errstr";
+                $Output .= $Self->{LayoutObject}->Output(
+                    TemplateFile => 'InstallerBody', 
+                    Data => {
+                        Item => 'Create Database',
+                        Step => '2/4',
+                        Body => $SetupOutput,
+                    }
                 ); 
                 $Output .= $Self->{LayoutObject}->Footer();
                 return $Output;
             }
             else {
-                $SetupOutput .= "<td><font color='green'><b>done.</b></font></td>";
+                $SetupOutput .= "<font color='green'><b>done.</b></font></td>";
+                $SetupOutput .= "</tr>";
             }
-            $SetupOutput .= "</tr>";
             # --
             # Reload the grant tables of your mysql-daemon
             # --
-            my $MYReloadCMD = "mysqladmin -u $DB{User} ";
-            $MYReloadCMD .= " -p$DB{Password} " if ($DB{Password});
-            $MYReloadCMD .= " -h $DB{DatabaseHost}  ";
-            $MYReloadCMD .= " reload ";
-
             $SetupOutput .= "<tr>";
-            $SetupOutput .= "<td colspan=\"2\"><b>Reload the grant tables CMD:</b></td></tr>";
-            $SetupOutput .= "<tr><td>$MYReloadCMD </td>";
-            $CMDReturn = $Self->SystemCall($MYReloadCMD);
-            if (!$Self->{$MYReloadCMD}) {
-                $SetupOutput .= "<td><font color='red'><b>false! :-(</b></font></td>";
-                $SetupOutput .= "</table>";
-                $SetupOutput .= "$CMDReturn";
-                $Output .= $Self->{LayoutObject}->InstallerBody(
-                    Item => 'Create Database',
-                    Step => '2/4',
-                    Body => $SetupOutput,
+            $SetupOutput .= "<td><b>Reloading grant tables:</b></td><td>";
+            if (!$DBH->do("FLUSH PRIVILEGES")) {
+                $SetupOutput .= "<font color='red'><b>false! :-(</b></font></td></tr>";
+                $SetupOutput .= "</table><br> ---==> $DBI::errstr";
+                $Output .= $Self->{LayoutObject}->Output(
+                    TemplateFile => 'InstallerBody', 
+                    Data => {
+                        Item => 'Create Database',
+                        Step => '2/4',
+                        Body => $SetupOutput,
+                    }
                 ); 
                 $Output .= $Self->{LayoutObject}->Footer();
                 return $Output;
             }
             else {
-                $SetupOutput .= "<td><font color='green'><b>done.</b></font></td>";
+                $SetupOutput .= "<font color='green'><b>done.</b></font></td>";
+                $SetupOutput .= "</tr>";
+                $SetupOutput .= "</table>";
             }
-            $SetupOutput .= "</tr>";
-            $SetupOutput .= "</table>";
-
             # --
             # ReConfigure Config.pm
             # --
@@ -314,12 +325,15 @@ sub Run {
                 $Output .= $SetupOutput;
             }
             else {
-                $SetupOutput .= "<p><b><font color='green'>Database setup successful!</font></b></p>";
+                $SetupOutput .= "<p> ---==> <b><font color='green'>Database setup successful!</font></b></p>";
                 $SetupOutput .= "<p><a href='installer.pl?Subaction=System'>Next Step</a></p>";
-                $Output .= $Self->{LayoutObject}->InstallerBody(
-                    Item => 'Create Database',
-                    Step => '2/4',
-                    Body => $SetupOutput,
+                $Output .= $Self->{LayoutObject}->Output(
+                    TemplateFile => 'InstallerBody', 
+                    Data => {
+                        Item => 'Create Database',
+                        Step => '2/4',
+                        Body => $SetupOutput,
+                    }
                 ); 
             }
 
@@ -329,27 +343,36 @@ sub Run {
             # --
             # drop database
             # --
-            my $CMD .=  $MYCMD . " -e 'drop database $DB{Database}'"; 
-            $SetupOutput .= "<b>Drop database CMD:</b> $CMD ";
-            $SetupOutput .= $Self->SystemCall($CMD);
-            if (!$Self->{$CMD}) {
-                $SetupOutput .= "<font color='red'><b>false</b>.</font>";
-                $Output .= $Self->{LayoutObject}->InstallerBody(
-                    Item => 'Drop Database',
-                    Step => '4/4',
-                    Body => $SetupOutput,
+            $SetupOutput .= "<table border='0' width='100%'>";
+            $SetupOutput .= "<tr>";
+            $SetupOutput .= "<td><b>Drop database '$DB{Database}':</b></td><td>";
+            if (!$DBH->do("DROP DATABASE $DB{Database}")) {
+                $SetupOutput .= "<font color='red'><b>false</b>.</font></td></tr>";
+                $SetupOutput .= "</table><br> ---==> $DBI::errstr";
+                $Output .= $Self->{LayoutObject}->Output(
+                    TemplateFile => 'InstallerBody', 
+                    Data => {
+                        Item => 'Drop Database',
+                        Step => '4/4',
+                        Body => $SetupOutput,
+                    }
                 );
                 $Output .= $Self->{LayoutObject}->Footer();
                 return $Output;
             }
             else {
-                $SetupOutput .= "<b>done.</b><br><br> <b>Database deleted.</b>";
+                $SetupOutput .= "<b><font color='green'>done.</font></b></td></tr>";
+                $SetupOutput .= "</table><br>";
+                $SetupOutput .= " ---==> <b><font color='green'>Database deleted.</font></b>";
             }
-           $Output .= $Self->{LayoutObject}->InstallerBody(
-               Item => 'Drop Database',
-               Step => '4/4',
-               Body => $SetupOutput,
-           );
+            $Output .= $Self->{LayoutObject}->Output(
+                TemplateFile => 'InstallerBody', 
+                Data => {
+                    Item => 'Drop Database',
+                    Step => '4/4',
+                    Body => $SetupOutput,
+                }
+            );
         }
         else {
             $Output .= $Self->{LayoutObject}->Error(
@@ -362,13 +385,34 @@ sub Run {
     # do system settings
     # --
     elsif ($Self->{Subaction} eq 'System') {
-           $Output .= $Self->{LayoutObject}->Header(Title => 'System Settings');
-           $Output .= $Self->{LayoutObject}->InstallerBody(
-               Item => 'System Settings',
-               Step => '3/4',
-               Body => $Self->{LayoutObject}->InstallerSystem(),
-           );
-           $Output .= $Self->{LayoutObject}->Footer();
+        my %SystemIDs = ();
+        foreach (1..99) {
+            my $Tmp = sprintf("%02d", $_);
+            $SystemIDs{"$Tmp"} = "$Tmp";
+        }
+        $Param{SystemIDString} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data => \%SystemIDs,
+            Name => 'SystemID',
+            SelectedID => $Self->{ConfigObject}->Get('SystemID'),
+        );
+        $Param{LanguageString} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data => $Self->{ConfigObject}->Get('DefaultUsedLanguages'),
+            Name => 'DefaultLanguage',
+            SelectedID => $Self->{LayoutObject}->{UserLanguage},
+        );
+        $Output .= $Self->{LayoutObject}->Header(Title => 'System Settings');
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'InstallerBody', 
+            Data => {
+                Item => 'System Settings',
+                Step => '3/4',
+                Body => $Self->{LayoutObject}->Output(
+                    TemplateFile => 'InstallerSystem', 
+                    Data => \%Param,
+                ),
+            }
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
     }
     # --
     # do system settings action
@@ -397,16 +441,19 @@ sub Run {
 #           $BaseDir =~ s/(.*\/)bin\/SetPermissions.sh/$1/;
            my $OTRSHandle = $ENV{SCRIPT_NAME};
            $OTRSHandle =~ s/\/(.*)\/installer\.pl/$1/;
-           $Output .= $Self->{LayoutObject}->InstallerBody(
-               Item => 'Finished',
-               Step => '4/4',
-               Body => $Self->{LayoutObject}->Output(
-                   TemplateFile => 'InstallerFinish',
-                   Data => {
-                       OTRSHandle => $OTRSHandle,
-                       %Dist,
-                   },
-               ),
+           $Output .= $Self->{LayoutObject}->Output(
+               TemplateFile => 'InstallerBody', 
+               Data => {
+                   Item => 'Finished',
+                   Step => '4/4',
+                   Body => $Self->{LayoutObject}->Output(
+                       TemplateFile => 'InstallerFinish',
+                       Data => {
+                           OTRSHandle => $OTRSHandle,
+                           %Dist,
+                       },
+                   ),
+               }
            );
         }
         $Output .= $Self->{LayoutObject}->Footer();
@@ -422,22 +469,6 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Footer();
     }
 
-    return $Output;
-}
-# --
-sub SystemCall {
-    my $Self = shift;
-    my $CMD = shift;
-    $Self->{$CMD} = 0;
-    my $Output = '';
-    open (INDATA, " ($CMD | sed -e 's/^/stdout: /')  2>&1 |") || return "Can't open $CMD: $!";
-    while (<INDATA>) {
-        $Output .= $_;
-    }
-    close (INDATA);
-    if ($Output !~ /stdout:/ && $Output !~ /ERROR/) {
-        $Self->{$CMD} = 1;
-    }
     return $Output;
 }
 # --
@@ -501,5 +532,35 @@ sub ReConfigure {
     return;
 }
 # --
-
+sub ParseSQLFile {
+    my $Self = shift;
+    my $File = shift; 
+    my @SQL = ();
+    if (open(IN, "< $File")) {
+        my $SQLEnd = 0;
+        my $SQLSingel = '';
+        while (<IN>) {
+            if ($_ !~ /^(#|--)/) {
+                if ($_ =~ /^(.*)(;|;\s)$/ || $_ =~ /^(\));/) {
+                    $SQLSingel .= $1;
+                    $SQLEnd = 1;
+                }
+                else {
+                    $SQLSingel .= $_;
+                }
+            }
+            if ($SQLEnd) {
+                push (@SQL, $SQLSingel);
+                $SQLEnd = 0;
+                $SQLSingel = '';
+            }
+        }
+        close (IN);
+    }
+    else {
+        die "Can't open $File: $!\n";
+    }
+    return @SQL;
+}
+# --
 1;
