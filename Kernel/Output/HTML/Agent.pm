@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.1 2001-12-23 13:27:18 martin Exp $
+# $Id: Agent.pm,v 1.2 2001-12-26 20:06:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -27,11 +27,8 @@ sub NavigationBar {
     $Param{LockCount} = $LockDataTmp{Count} || 0;
     $Param{LockToDo} = $LockDataTmp{ToDo} || 0;
 
-    # get output
-    my $Output = $Self->Output(TemplateFile => 'AgentNavigationBar', Data => \%Param);
-
-    # return output
-    return $Output;
+    # create & return output
+    return $Self->Output(TemplateFile => 'AgentNavigationBar', Data => \%Param);
 }
 # --
 sub QueueView {
@@ -88,16 +85,15 @@ sub QueueView {
     }
     $Param{QueueStrg} = $QueueStrg;
 
-    # get output
-    my $Output = $Self->Output(TemplateFile => 'QueueView', Data => \%Param);
-
-    # return output
-    return $Output;
+    # create & return output
+    return $Self->Output(TemplateFile => 'QueueView', Data => \%Param);
 }
 # --
 sub TicketView {
     my $Self = shift;
     my %Param = @_;
+    my $StdResponsesTmp = $Param{StdResponses};
+    my %StdResponses = %$StdResponsesTmp;
 
     # do some html quoting
     foreach ('From', 'To', 'Cc', 'Subject', 'Priority', 'State') {
@@ -116,11 +112,16 @@ sub TicketView {
         Data => $Param{MoveQueues},
     );
 
-    # create output
-    my $Output = $Self->Output(TemplateFile => 'TicketView', Data => \%Param);
+    # get StdResponsesStrg
+    foreach (keys %StdResponses) {
+       $Param{StdResponsesStrg} .= "\n<li><A HREF=\"$Self->{Baselink}&Action=AgentCompose&ResponseID=$_&".
+       "TicketID=$Param{TicketID}\">" .
+          "$StdResponses{$_}</A></li>\n";
+    }
 
-    # return output
-    return $Output;
+
+    # create & return output
+    return $Self->Output(TemplateFile => 'TicketView', Data => \%Param);
 }
 # --
 sub TicketZoom {
@@ -153,7 +154,8 @@ sub TicketZoom {
     my $ArticleBoxTmp = $Param{ArticleBox};
     my @ArticleBox = @$ArticleBoxTmp;
     my $MoveQueues = $Param{MoveQueues};
-    my $StdResponses = $Param{StdResponses};
+    my $StdResponsesTmp = $Param{StdResponses};
+    my %StdResponses = %$StdResponsesTmp;
     my $ThreadStrg = '<FONT SIZE="-1">';
     my $Counter = '';
     my $Space = '';
@@ -161,6 +163,13 @@ sub TicketZoom {
     my $LastSenderType = '';
     my $LastCustomerArticleID;
     my $LastCustomerArticle = $#ArticleBox;
+
+    # get StdResponsesStrg
+    foreach (keys %StdResponses) {
+       $Param{StdResponsesStrg} .= "\n<li><A HREF=\"$Self->{Baselink}&Action=AgentCompose&ResponseID=$_&".
+       "TicketID=$Param{TicketID}\">" .
+          "$StdResponses{$_}</A></li>\n";
+    }
 
     foreach my $ArticleTmp (@ArticleBox) {
         my %Article = %$ArticleTmp;
@@ -242,6 +251,9 @@ sub ArticlePlain {
     my $Self = shift;
     my %Param = @_;
 
+    # Ascii2Html
+    $Param{Text} = $Self->Ascii2Html(Text => $Param{Text});
+
     # do some highlightings
     $Param{Text} =~ s/^((From|To|Cc|Subject|Reply-To|Organization|X-Company):.*)/<font color=\"red\">$1<\/font>/gm;
     $Param{Text} =~ s/^(Date:.*)/<FONT COLOR=777777>$1<\/font>/m;
@@ -251,11 +263,8 @@ sub ArticlePlain {
     $Param{Text} =~ s/^(From .*)/<font color=\"gray\">$1<\/font>/gm;
     $Param{Text} =~ s/^(X-OTRS.*)/<font color=\"#99BBDD\">$1<\/font>/gmi;
 
-    # get output
-    my $Output = $Self->Output(TemplateFile => 'AgentPlain', Data => \%Param);
-
-    # return output
-    return $Output;
+    # create & return output
+    return $Self->Output(TemplateFile => 'AgentPlain', Data => \%Param);
 }
 # --
 sub Note {
@@ -270,7 +279,6 @@ sub Note {
 
     # get output
     my $Output = $Self->Output(TemplateFile => 'AgentNote', Data => \%Param);
-
     # return output
     return $Output;
 }
@@ -285,11 +293,8 @@ sub AgentPriority {
         Name => 'PriorityID'
     );
 
-    # get output
-    my $Output = $Self->Output(TemplateFile => 'AgentPriority', Data => \%Param);
-
-    # return output
-    return $Output;
+    # create & return output
+    return $Self->Output(TemplateFile => 'AgentPriority', Data => \%Param);
 }
 # --
 sub AgentClose {
@@ -301,41 +306,27 @@ sub AgentClose {
         Data => $Param{NextStatesStrg},
         Name => 'StateID'
     );
-
     # build string
     $Param{'NoteTypesStrg'} = $Self->OptionStrgHashRef(
         Data => $Param{NoteTypesStrg},
         Name => 'NoteID'
     );
-
-
-    # get output
-    my $Output = $Self->Output(TemplateFile => 'AgentClose', Data => \%Param);
-
-    # return output
-    return $Output;
+    # create & return output
+    return $Self->Output(TemplateFile => 'AgentClose', Data => \%Param);
 }
 # --
 sub AgentUtilForm {
     my $Self = shift;
     my %Param = @_;
-
-    # get output
-    my $Output = $Self->Output(TemplateFile => 'AgentUtilForm', Data => \%Param);
-
-    # return output
-    return $Output;
+    # create & return output
+    return $Self->Output(TemplateFile => 'AgentUtilForm', Data => \%Param);
 }
 # --
 sub AgentUtilSearchAgain {
     my $Self = shift;
     my %Param = @_;
-
-    # get output
-    my $Output = $Self->Output(TemplateFile => 'AgentUtilSearchAgain', Data => \%Param);
-
-    # return output
-    return $Output;
+    # create & return output
+    return $Self->Output(TemplateFile => 'AgentUtilSearchAgain', Data => \%Param);
 }
 # --
 sub AgentUtilSearchResult {
@@ -363,11 +354,8 @@ sub AgentUtilSearchResult {
         $Param{Subject} =~ s/(${\(join('|', @SParts))})/$HighlightStart$1$HighlightEnd/gi;
     }
 
-    # get output
-    my $Output = $Self->Output(TemplateFile => 'AgentUtilSearchResult', Data => \%Param);
-
-    # return output
-    return $Output;
+    # create & return output
+    return $Self->Output(TemplateFile => 'AgentUtilSearchResult', Data => \%Param);
 }
 # --
 sub AgentUtilSearchCouter {
@@ -384,6 +372,26 @@ sub AgentUtilSearchCouter {
     $Output = "<B>${\$Self->{LanguageObject}->Get('Total hits')}: $Self->{UtilSearchResultCounter}</B><BR>";
     }
     return $Output;
+}
+# --
+sub AgentCompose {
+    my $Self = shift;
+    my %Param = @_;
+
+    # build next states string
+    $Param{'NextStatesStrg'} = $Self->OptionStrgHashRef(
+        Data => $Param{NextStates},
+        Name => 'NextStateID'
+    );
+
+    foreach ('ReplyTo', 'To', 'Cc', 'Subject') {
+        $Param{$_} = $Self->MimeWordDecode(Text => $Param{$_}) || '';
+        $Param{$_} =~ s/"//g;
+    }
+    $Param{FromHTML} = $Self->Ascii2Html(Text => $Param{From}, Max => 70, MIME => 1);
+
+    # create & return output
+    return $Self->Output(TemplateFile => 'AgentCompose', Data => \%Param);
 }
 # --
 
