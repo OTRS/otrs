@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentMailbox.pm - to view all locked tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMailbox.pm,v 1.26 2004-04-22 13:17:22 martin Exp $
+# $Id: AgentMailbox.pm,v 1.26.2.1 2004-10-07 12:31:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentMailbox;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.26.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -36,6 +36,9 @@ sub new {
       UserObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
+
+    $Self->{HighlightColor1} = $Self->{ConfigObject}->Get('HighlightColor1');
+    $Self->{HighlightColor2} = $Self->{ConfigObject}->Get('HighlightColor2');
 
     return $Self;
 }
