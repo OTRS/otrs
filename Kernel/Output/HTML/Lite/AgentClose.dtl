@@ -2,13 +2,25 @@
 # AgentClose.dtl - provides HTML form for close mask
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentClose.dtl,v 1.16 2003-02-08 15:40:41 martin Exp $
+# $Id: AgentClose.dtl,v 1.17 2003-02-09 00:25:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 <!-- start form -->
+
+<script language="JavaScript" type="text/javascript">
+<!--
+function SpellCheckSubmit()
+{
+    document.spelling.Body.value = document.compose.Body.value;
+    window.open('', 'spelling', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=650,height=550,left=100,top=100');
+    document.spelling.submit()
+}
+// -->
+</script>
+
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
   <td align="left" class="table2">
@@ -22,7 +34,7 @@
   <td align="left" valign="top" colspan="2" class="table1">
 <p>
 
-<form action="$Env{"CGIHandle"}" method="post">
+<form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
 <input type="hidden" name="Action" value="AgentClose">
 <input type="hidden" name="Subaction" value="Store">
 <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
@@ -34,9 +46,15 @@
     <td width="80%"><input type="text" name="Subject" value="$Text{"$Config{"DefaultCloseNoteSubject"}"}" size="60"></td>
   </tr>
   <tr>
+    <td>$Text{"Options"}:</td>
+    <td>
+       <a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$Text{"Spell Check"}'; return true;" onmouseout="window.status='';">$Text{"Spell Check"}</a>
+    </td>
+  </tr>
+  <tr>
     <td>$Text{"Note Text"}:</td>
     <td>
-<textarea name="Text" rows="15" cols="60" wrap="$Env{"BrowserWrap"}">
+<textarea name="Body" rows="15" cols="60" wrap="$Env{"BrowserWrap"}">
 $Text{"$Config{"DefaultCloseNoteText"}"}
 </textarea>
     </td>
@@ -62,6 +80,12 @@ $Text{"$Config{"DefaultCloseNoteText"}"}
 </form>
 
 </p>
+
+<form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
+  <input type="hidden" name="Action" value="AgentSpelling">
+  <input type="hidden" name="Body" value="">
+  <input type="hidden" name="spell_lang" value="">
+</form>
 
   </td> 
 </tr>
