@@ -2,7 +2,7 @@
 # InstallerFinish.dtl - provides HTML form for Installer
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: InstallerFinish.dtl,v 1.8 2003-01-03 00:21:24 martin Exp $
+# $Id: InstallerFinish.dtl,v 1.9 2003-02-15 12:08:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,12 +14,12 @@
 To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.
 </p>
 
-<p>
-<b>Set file permissions:</b><br>
-<font color='red'>$Data{"SetPermission"} $Data{"BaseDir"} otrs $Data{"user"}</font>
-<br>
-(SetPermission.sh &lt;OTRS_HOME&gt; &lt;OTRS_USER&gt; &lt;WEB_SERVERUSER&gt; &lt;OTRS_GROUP&gt;)
-</p>
+#<p>
+#<b>Set file permissions:</b><br>
+#<font color='red'>$Data{"SetPermission"} $Data{"BaseDir"} otrs $Data{"user"}</font>
+#<br>
+#(SetPermission.sh &lt;OTRS_HOME&gt; &lt;OTRS_USER&gt; &lt;WEB_SERVERUSER&gt; &lt;OTRS_GROUP&gt;)
+#</p>
 <p>
 <b>Restart your webserver:</b><br>
 <font color='red'>$Data{"Webserver"}</font>
@@ -51,4 +51,3 @@ After doing so your OTRS is up and running.
 Your OTRS Team</b>
 
 <!-- end form -->
-
