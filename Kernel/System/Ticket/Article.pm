@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.26 2003-04-14 19:48:49 martin Exp $
+# $Id: Article.pm,v 1.27 2003-04-24 19:47:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::Article;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -528,10 +528,11 @@ sub GetArticle {
         " sa. a_message_id, sa.a_body, ".
         " st.create_time_unix, sp.name, sd.name, sq.name, sq.id, sa.create_time, ".
         " sa.a_content_type, sa.create_by, st.tn, ast.name, st.customer_id, ".
-        " st.until_time, sp.id, st.customer_user_id, st.user_id ".
+        " st.until_time, sp.id, st.customer_user_id, st.user_id, ".
+        " su.$Self->{ConfigObject}->{DatabaseUserTableUser} ".
         " FROM ".
         " article sa, ticket st, ticket_priority sp, ticket_state sd, queue sq, ".
-        " article_sender_type ast" .
+        " article_sender_type ast, $Self->{ConfigObject}->{DatabaseUserTable} su" .
         " where " . 
         " sa.id = $Param{ArticleID}" .
         " AND " .
@@ -544,7 +545,9 @@ sub GetArticle {
         " sp.id = st.ticket_priority_id " .
         " AND " .
         " st.ticket_state_id = sd.id " .
-        " ",
+        " ".
+        " AND ".
+        " st.user_id = su.$Self->{ConfigObject}->{DatabaseUserTableUserID} ",
     );
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         $Data{ArticleID} = $Param{ArticleID};
@@ -577,6 +580,7 @@ sub GetArticle {
         $Data{CustomerID} = $Row[18];
         $Data{CustomerUserID} = $Row[21];
         $Data{UserID} = $Row[22];
+        $Data{Owner} = $Row[23];
         $Data{RealTillTimeNotUsed} = $Row[19];
     }
     # --
