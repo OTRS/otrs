@@ -2,7 +2,7 @@
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPackageManager.dtl,v 1.1 2004-12-02 00:44:48 martin Exp $
+# $Id: AdminPackageManager.dtl,v 1.2 2004-12-02 12:03:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -100,7 +100,7 @@
     <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=InstallRemote&Source=$LQData{"Source"}&File=$QData{"File"}&Name=$QData{"Name"}&Version=$QData{"Version"}">$Text{"Install"}</a>
 <!-- dtl:block:ShowRemotePackageInstall -->
 <!-- dtl:block:ShowRemotePackageUpgrade -->
-    <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=InstallRemote&Source=$LQData{"Source"}&File=$QData{"File"}&Name=$QData{"Name"}&Version=$QData{"Version"}">$Text{"Upgrade"}</a>
+    <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=UpgradeRemote&Source=$LQData{"Source"}&File=$QData{"File"}&Name=$QData{"Name"}&Version=$QData{"Version"}">$Text{"Upgrade"}</a>
 <!-- dtl:block:ShowRemotePackageUpgrade -->
         </td>
       </tr>
