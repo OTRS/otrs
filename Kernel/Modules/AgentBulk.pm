@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBulk.pm,v 1.7 2004-06-08 09:00:01 robert Exp $
+# $Id: AgentBulk.pm,v 1.8 2004-08-24 08:07:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,10 +23,10 @@ sub new {
     my $Type = shift;
     my %Param = @_;
 
-    # allocate new hash for object    
-    my $Self = {}; 
+    # allocate new hash for object
+    my $Self = {};
     bless ($Self, $Type);
-    
+
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
@@ -57,7 +57,7 @@ sub Run {
         $Output = $Self->{LayoutObject}->Header(Title => 'Error');
         $Output .= $Self->{LayoutObject}->Error(
             Message => "No TicketID is given!",
-            Comment => 'You need min. one selected Ticket.',
+            Comment => 'You need min. one selected Ticket!',
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
@@ -166,10 +166,10 @@ sub Run {
                     }
                 }
             }
-        } 
+        }
     }
     if ($Self->{Subaction} eq 'Do') {
-        # redirect 
+        # redirect
         return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreen});
     }
     else {
@@ -195,7 +195,7 @@ sub _Mask {
         }
     }
     $Param{'NoteStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => \%NoteTypes, 
+        Data => \%NoteTypes,
         Name => 'ArticleTypeID',
     );
     # build next states string
@@ -225,6 +225,6 @@ sub _Mask {
     );
     # get output back
     return $Self->{LayoutObject}->Output(TemplateFile => 'AgentBulk', Data => \%Param);
-}   
+}
 # --
 1;
