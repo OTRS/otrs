@@ -336,6 +336,23 @@ OpenTRS is working with the most browser such lynx, w3m, Netscape, Mozilla, IE a
 
 <qandaentry>
 <question>
+<para>Is it possible to generate my own ticket number format?</para>
+</question>
+<answer>
+<para>
+Yes it's possible. You can choose between three different OpenTRS formats.  
+AutoIncrement ("SystemID.Counter" e. g.  1010138 or 1010139), 
+Date ("Year.Month.Day.SystemID.Counter" e. g. 200206231010138 or 200206231010139) 
+and Random ("SystemID.Random" e. g. 100057866352 or 103745394596). 
+</para>
+<para>
+Further it's possible to create a own ticket number format (like you want). See the OpenTRS documentation. 
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
 <para>Do you support the RFC 1297?</para>
 </question>
 <answer>
