@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code at otrs.org>
 # --   
-# $Id: CustomerTicketOverView.pm,v 1.14 2003-04-24 19:56:50 martin Exp $
+# $Id: CustomerTicketOverView.pm,v 1.14.2.1 2003-05-01 20:41:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.14.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -99,8 +99,8 @@ sub Run {
     # check if just open tickets should be shown
     # --
     my $SQLExt = '';
-    if (!$Self->{UserShowClosedTickets}|| (!defined $Self->{UserShowClosedTickets} 
-      && $Self->{ConfigObject}->Get('CustomerPreferencesGroups')->{ClosedTickets}->{DataSelected})) {
+    if ((defined($Self->{UserShowClosedTickets}) && !$Self->{UserShowClosedTickets}) 
+      || (!defined $Self->{UserShowClosedTickets} && !$Self->{ConfigObject}->Get('CustomerPreferencesGroups')->{ClosedTickets}->{DataSelected})) {
         my @ViewableStateIDs = $Self->{StateObject}->StateGetStatesByType(
             Type => 'Viewable',
             Result => 'ID',
