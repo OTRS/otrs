@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.41 2003-02-25 22:54:59 martin Exp $
+# $Id: Defaults.pm,v 1.42 2003-03-02 08:51:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,16 +20,16 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.42 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub LoadDefaults {
     my $Self = shift;
 
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # system data                                         #
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # SecureMode
     # (Enable this so you can't use the installer.pl)
     $Self->{SecureMode} = 0;
@@ -102,9 +102,9 @@ sub LoadDefaults {
     # (Check mx recorde of used email addresses)
     $Self->{CheckMXRecord} = 1;
 
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # database settings                                   #
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # DatabaseHost
     # (The database host.)
     $Self->{DatabaseHost} = 'localhost';
@@ -134,11 +134,11 @@ sub LoadDefaults {
     $Self->{DatabaseUserTableUserPW} = 'pw';
     $Self->{DatabaseUserTableUser} = 'login';
 
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # authentication settings                             #
     # (enable what you need, auth against otrs db or      #
     # against a LDAP directory)                           #
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # This is the auth. module againt the otrs db
     $Self->{'AuthModule'} = 'Kernel::System::Auth::DB';
 
@@ -159,9 +159,9 @@ sub LoadDefaults {
 #    $Self->{'AuthModule::LDAP::SearchUserDN'} = '';
 #    $Self->{'AuthModule::LDAP::SearchUserPw'} = '';
 
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # default agent settings                              #
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # ViewableTickets
     # (The default viewable tickets a page.)
     $Self->{ViewableTickets} = 15;
@@ -193,14 +193,14 @@ sub LoadDefaults {
     $Self->{HighlightAge2} = 2880;
     $Self->{HighlightColor2} = 'red';
 
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # AgentStatusView (shows all open tickets)            #
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     $Self->{'AgentStatusView::ViewableTicketsPage'} = 75;
 
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # AgentUtil                                           #
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # default limit for Tn search
     # [default: 150]
     $Self->{SearchLimitTn} = 150;
@@ -213,13 +213,17 @@ sub LoadDefaults {
     # [default: 15]
     $Self->{SearchPageShown} = 15;
 
+    # should it be possible to search on fulltext search without 
+    # text (just queue, priority, ...)?
+    $Self->{SearchFulltextWithoutText} = 1;
+
     # viewable ticket lines by search util
     # [default: 10]
     $Self->{ViewableTicketLinesBySearch} = 10;
 
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # URL login and logout settings                       #
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
 
     # LoginURL
     # (If this is anything other than '', then it is assumed to be the
@@ -239,9 +243,9 @@ sub LoadDefaults {
     # In case you use https instead of plain http specify it here
     $Self->{HttpType} = 'http';
 
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # LogModule                                           #
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # (log backend module)
     $Self->{LogModule} = 'Kernel::System::Log::SysLog';
 #    $Self->{LogModule} = 'Kernel::System::Log::File';
@@ -249,9 +253,9 @@ sub LoadDefaults {
     # param for LogModule Kernel::System::Log::File (required!)
     $Self->{'LogModule::LogFile'} = '/tmp/otrs.log'; 
 
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # web stuff                                           #
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # CGIHandle
     # (Global CGI handle.)
     # !!$Self->{CGIHandle} = 'index.pl';!!
@@ -288,9 +292,9 @@ sub LoadDefaults {
     # be changed on agent frontend.)
     $Self->{DemoSystem} = 0;
 
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # directories                                         #
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # root directory
     $Self->{Home} = '/opt/otrs';
     # counter log
@@ -302,10 +306,10 @@ sub LoadDefaults {
     # html template die
     $Self->{TemplateDir} = '<OTRS_CONFIG_Home>/Kernel/Output';
 
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # Ticket stuff                                        #
     # (Viewable tickets in queue view)                    #
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # ViewableLocks 
     # default: ["'unlock'", "'tmp_lock'"]
     $Self->{ViewableLocks} = ["'unlock'", "'tmp_lock'"];
@@ -340,9 +344,9 @@ sub LoadDefaults {
     # FS is faster but webserver user should be the otrs user)
 #    $Self->{TicketStorageModule} = 'Kernel::System::Ticket::ArticleStorageFS';
 
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # TicketNumberGenerator                               # 
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # Kernel::System::Ticket::Number::AutoIncrement (default) --> auto increment 
     #   ticket numbers "SystemID.Counter" like 1010138 and 1010139.
     #
@@ -362,9 +366,9 @@ sub LoadDefaults {
 
     $Self->{TicketNumberGenerator} = 'Kernel::System::Ticket::Number::DateChecksum';
  
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # TicketViewAccelerator                               #
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # choose your backend TicketViewAccelerator module
 
     # RuntimeDB 
@@ -379,10 +383,10 @@ sub LoadDefaults {
     # use bin/RebuildTicketIndex.pl for initial index update)
 #    $Self->{TicketIndexModule} = 'Kernel::System::Ticket::IndexAccelerator::StaticDB';
 
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # default values                                      #
     # (default values for GUIs)                           #
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # default valid
     $Self->{DefaultValid} = 'valid';
     # default charset
@@ -437,9 +441,9 @@ sub LoadDefaults {
     # FrontendNeedAccountedTime
     $Self->{FrontendNeedAccountedTime} = 0;
 
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # defaults for add note                               #
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # default note type
     $Self->{DefaultNoteType} = 'note-internal';
     # default note subject
@@ -447,9 +451,9 @@ sub LoadDefaults {
     # default note text
     $Self->{DefaultNoteText} = '';
 
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # defaults for close ticket                           #
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # CloseNoteType
     $Self->{DefaultCloseNoteType} = 'note-internal';
     # CloseNoteSubject
@@ -459,9 +463,9 @@ sub LoadDefaults {
     # CloseType
     $Self->{DefaultCloseType} = 'closed successful';
 
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # defaults for compose message                        #
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # default compose next state
     $Self->{DefaultNextComposeType} = 'open';
     # new line after x chars and onew word
@@ -496,9 +500,9 @@ $Data{"Signature"}
 #$Data{"Signature"}
 #';
 
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # defaults for bounce                                 #
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # default bounce next state
     $Self->{DefaultNextBounceType} = 'closed successful';
     # next possible states for compose message
@@ -511,9 +515,9 @@ $Data{"Signature"}
     $Self->{DefaultBounceText} = 'Your email with ticket number "<OTRS_TICKET>" '.
       'is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further inforamtions.';
 
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # defaults for forward message                        #
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # next possible states for compose message
     $Self->{DefaultNextForwardTypePossible} = [
         'open', 
@@ -526,9 +530,9 @@ $Data{"Signature"}
         'email-internal',
     ];
 
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # add std responses when a new queue is created       #
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # array of std responses
     $Self->{StdResponse2QueueByCreating} = [
          'empty answer',
@@ -538,10 +542,10 @@ $Data{"Signature"}
 #        1,
     ];
 
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # user preferences settings                           #
     # (allow you to add simply more user preferences)     #
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     $Self->{UserPreferencesMaskUse} = [
       # keys
       # html params in dtl files
@@ -555,10 +559,10 @@ $Data{"Signature"}
       'Pw',
     ];
     
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     #  default queue  settings                            #
     #  these settings are used by the CLI version         #
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     $Self->{QueueDefaults} = {
       UnlockTimeout => 0,
       EscalationTime => 0,
@@ -570,30 +574,30 @@ $Data{"Signature"}
       FollowUpLock => 0,
     };
 
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # external customer db settings                       #
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
 #    $Self->{CustomerDBLink} = 'http://yourhost/customer.php?CID=$Data{"CustomerID"}';
     $Self->{CustomerDBLink} = '$Env{"CGIHandle"}?Action=AgentCustomer&TicketID=$Data{"TicketID"}';
 #    $Self->{CustomerDBLink} = '';
     $Self->{CustomerDBLinkTarget} = '';
 #    $Self->{CustomerDBLinkTarget} = 'target="cdb"';
 
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # misc                                                #
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # yes / no options
     $Self->{YesNoOptions} = {
         1 => 'Yes',
         0 => 'No',
     };
 
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     #                                                     #
     #             Start of config options!!!              #
     #                 PostMaster stuff                    #
     #                                                     #
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
   
     # PostmasterMaxEmails
     # (Max post master daemon email to own email-address a day.
@@ -655,16 +659,16 @@ $Data{"Signature"}
       'X-OTRS-TicketValue2',
     ];
 
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     #                                                     #
     #             Start of config options!!!              #
     #                   Session stuff                     #
     #                                                     #
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
 
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # SessionModule                                       #
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # (How should be the session-data stored? 
     # Advantage of DB is that you can split the 
     # Frontendserver from the db-server. fs or ipc is faster.)
@@ -717,12 +721,12 @@ $Data{"Signature"}
     # SessionTable value column
     $Self->{SessionTableValue} = 'value';
 
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     #                                                     #
     #             Start of config options!!!              #
     #                 Preferences stuff                   #
     #                                                     #
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     
     # PreferencesTable*
     # (Stored preferences table data.)
@@ -877,12 +881,12 @@ $Data{"Signature"}
     };
 
 
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     #                                                     #
     #             Start of config options!!!              #
     #                 Notification stuff                  #
     #                                                     #
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
 
     # --  
     # notification sender
@@ -1049,12 +1053,12 @@ New Password: <OTRS_NEWPW>
 Your OTRS Notification Master
 ";
 
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     #                                                     #
     #             Start of config options!!!              #
     #                CustomerPanel stuff                  #
     #                                                     #
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
    
     # SessionName
     # (Name of the session key. E. g. Session, SessionID, OTRS)
@@ -1064,9 +1068,9 @@ Your OTRS Notification Master
     # (The customer panel db-uid.) [default: 1]
     $Self->{CustomerPanelUserID} = 1;
 
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # login and logout settings                           #
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # CustomerPanelLoginURL
     # (If this is anything other than '', then it is assumed to be the
     # URL of an alternate login screen which will be used in place of 
@@ -1092,10 +1096,13 @@ Your OTRS Notification Master
     # CustomerPriority
     # (If the customer can set the ticket priority)
     $Self->{CustomerPriority} = 1;
+    # CustomerDefaultPriority
+    # (default priority of new customer tickets)
+    $Self->{CustomerDefaultPriority} = '3 normal';
 
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # customer message settings                           #
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # default note type
     $Self->{CustomerPanelArticleType} = 'webrequest';
     $Self->{CustomerPanelSenderType} = 'customer'; 
@@ -1105,6 +1112,7 @@ Your OTRS Notification Master
 
     # default compose follow up next state
     $Self->{CustomerPanelDefaultNextComposeType} = 'open';
+    $Self->{CustomerPanelNextComposeState} = 1;
     # next possible states for compose message
     $Self->{CustomerPanelDefaultNextComposeTypePossible} = [
         'open',
@@ -1140,9 +1148,9 @@ Your OTRS Notification Master
 #        '2' => 'Second Queue!',
 #    };
     
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # notification email for new password                 #
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     $Self->{CustomerPanelSubjectLostPassword} = 'New OTRS Password!';
     $Self->{CustomerPanelBodyLostPassword} = "
 Hi <OTRS_USERFIRSTNAME>,
@@ -1157,11 +1165,11 @@ New Password: <OTRS_NEWPW>
 Your OTRS Notification Master
 ";
 
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # customer authentication settings                    #
     # (enable what you need, auth against otrs db or      #
     # against a LDAP directory)                           #
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # This is the auth. module againt the otrs db
     $Self->{'Customer::AuthModule'} = 'Kernel::System::CustomerAuth::DB';
 
@@ -1182,12 +1190,12 @@ Your OTRS Notification Master
 #    $Self->{'Customer::AuthModule::LDAP::SearchUserDN'} = '';
 #    $Self->{'Customer::AuthModule::LDAP::SearchUserPw'} = '';
 
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     #                                                     #
     #             Start of config options!!!              #
     #                 CustomerUser stuff                  #
     #                                                     #
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
 
     # ShowCustomerInfo*
     # (show customer user info on Phone, Zoom and Queue view)
@@ -1268,12 +1276,12 @@ Your OTRS Notification Master
 #        ],
 #    };
 
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     #                                                     #
     #             Start of config options!!!              #
     #              CustomerPreferences stuff              #
     #                                                     #
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
 
     # CustomerPreferences
     # (customer preferences module)
@@ -1349,16 +1357,16 @@ Your OTRS Notification Master
         Activ => 0,
     };
 
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     #                                                     #
     #             Start of config options!!!              #
     #                    Phone stuff                      #
     #                                                     #
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
 
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # defaults for phone stuff                            #
-    # ----------------------------------------------------#
+    # --------------------------------------------------- #
     # default note type
     $Self->{PhoneDefaultArticleType} = 'phone';
     $Self->{PhoneDefaultSenderType} = 'agent'; 
