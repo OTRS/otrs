@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.125 2004-06-25 07:56:27 martin Exp $
+# $Id: Generic.pm,v 1.126 2004-06-25 12:13:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.125 $';
+$VERSION = '$Revision: 1.126 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -303,96 +303,97 @@ sub Output {
               # do ne actions
               # --
               if ($Type eq 'Text') {
-                my $Tmp = $Self->{LanguageObject}->Get($TypeKey, $Param{TemplateFile}) || '';
-                if (eval '($Tmp '.$Con.' $ConVal)') {
-                  $GlobalRef->{$IsType.'Ref'}->{$IsKey} = $IsValue;
-                  # output replace with nothing!
-                  "";
+                  my $Tmp = $Self->{LanguageObject}->Get($TypeKey, $Param{TemplateFile}) || '';
+                  if (eval '($Tmp '.$Con.' $ConVal)') {
+                      $GlobalRef->{$IsType.'Ref'}->{$IsKey} = $IsValue;
+                      # output replace with nothing!
+                      "";
                 }
               }
               elsif ($Type eq 'Env' || $Type eq 'Data') {
-                my $Tmp = $GlobalRef->{$Type.'Ref'}->{$TypeKey} || '';
-                if (eval '($Tmp '.$Con.' $ConVal)') {
-                  $GlobalRef->{$IsType.'Ref'}->{$IsKey} = $IsValue;
-                  # output replace with nothing!
-                  "";
-                }
-                else {
-                  # output replace with nothing!
-                  "";
-                }
+                  my $Tmp = $GlobalRef->{$Type.'Ref'}->{$TypeKey} || '';
+                  if (eval '($Tmp '.$Con.' $ConVal)') {
+                    $GlobalRef->{$IsType.'Ref'}->{$IsKey} = $IsValue;
+                    # output replace with nothing!
+                    "";
+                  }
+                  else {
+                    # output replace with nothing!
+                    "";
+                  }
               }
               elsif ($Type eq 'Config') {
-                my $Tmp = $Self->{ConfigObject}->Get($TypeKey) || '';
-                if (eval '($Tmp '.$Con.' $ConVal)') {
-                  $GlobalRef->{$IsType.'Ref'}->{$IsKey} = $IsValue;
-                  "";
-                }
+                  my $Tmp = $Self->{ConfigObject}->Get($TypeKey) || '';
+                  if (eval '($Tmp '.$Con.' $ConVal)') {
+                      $GlobalRef->{$IsType.'Ref'}->{$IsKey} = $IsValue;
+                      "";
+                  }
               }
           }egx;
+        }
+        # --
+        # variable & env & config replacement (three times)
+        # --
+        foreach (1..3) {
+            $Line =~ s{
+                \$(QData|Data|Env|Config|Include){"(.+?)"}
+            }
+            {
+              if ($1 eq "Data" || $1 eq "Env") {
+                  if (defined $GlobalRef->{"$1Ref"}->{$2}) {
+                      $GlobalRef->{"$1Ref"}->{$2};
+                  }
+                  else {
+                      # output replace with nothing!
+                      "";
+                  }
+              }
+              elsif ($1 eq "QData") {
+                  my $Text = $2;
+                  if (!defined($Text) || $Text =~ /^","(.+?)$/) {
+                      "";
+                  }
+                  elsif ($Text =~ /^(.+?)","(.+?)$/) {
+                      if (defined $GlobalRef->{"DataRef"}->{$1}) {
+                        $Self->Ascii2Html(Text => $GlobalRef->{"DataRef"}->{$1}, Max => $2);
+                      }
+                      else {
+                        # output replace with nothing!
+                        "";
+                      }
+                  }
+                  else {
+                      if (defined $GlobalRef->{"DataRef"}->{$Text}) {
+                        $Self->Ascii2Html(Text => $GlobalRef->{"DataRef"}->{$Text});
+                      }
+                      else {
+                        # output replace with nothing!
+                        "";
+                      } 
+                  }
+              }
+              # replace with
+              elsif ($1 eq "Config") {
+                  if (defined $Self->{ConfigObject}->Get($2)) {
+                      $Self->{ConfigObject}->Get($2);
+                  }
+                  else {
+                      # output replace with nothing!
+                      "";
+                  }
+              }
+              # include dtl files
+              elsif ($1 eq "Include") {
+                  $Param{TemplateFile} = $2;
+                  $Self->Output(%Param); 
+              }
+            }egx;
         }
         # add this line to output
         $Output .= $Line;
       }
     }
-    # --
-    # variable & env & config replacement (three times)
-    # --
-    foreach (1..3) {
-        $Output =~ s{
-            \$(QData|Data|Env|Config|Include){"(.+?)"}
-        }
-        {
-            if ($1 eq "Data" || $1 eq "Env") {
-                if (defined $GlobalRef->{"$1Ref"}->{$2}) {
-                    $GlobalRef->{"$1Ref"}->{$2};
-                }
-                else {
-                    # output replace with nothing!
-                    "";
-                }
-            }
-            elsif ($1 eq "QData") {
-                my $Text = $2;
-                if (!defined($Text) || $Text =~ /^","(.+?)$/) {
-                    "";
-                }
-                elsif ($Text =~ /^(.+?)","(.+?)$/) {
-                    if (defined $GlobalRef->{"DataRef"}->{$1}) {
-                        $Self->Ascii2Html(Text => $GlobalRef->{"DataRef"}->{$1}, Max => $2);
-                    }
-                    else {
-                        # output replace with nothing!
-                        "";
-                    }
-                }
-                else {
-                    if (defined $GlobalRef->{"DataRef"}->{$Text}) {
-                        $Self->Ascii2Html(Text => $GlobalRef->{"DataRef"}->{$Text});
-                    }
-                    else {
-                        # output replace with nothing!
-                        "";
-                    } 
-                }
-            }
-            # replace with
-            elsif ($1 eq "Config") {
-                if (defined $Self->{ConfigObject}->Get($2)) {
-                    $Self->{ConfigObject}->Get($2);
-                }
-                else {
-                    # output replace with nothing!
-                    "";
-                }
-            }
-            # include dtl files
-            elsif ($1 eq "Include") {
-                $Param{TemplateFile} = $2;
-                $Self->Output(%Param); 
-            }
-        }egx;
-    }
+
     # --
     # do time translation
     # --
