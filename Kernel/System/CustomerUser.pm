@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser.pm - some customer user functions
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerUser.pm,v 1.2 2002-10-20 12:08:32 martin Exp $
+# $Id: CustomerUser.pm,v 1.3 2002-10-31 22:55:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,9 +12,10 @@
 package Kernel::System::CustomerUser;
 
 use strict;
+use Email::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -109,6 +110,19 @@ sub CustomerUserAdd {
       }
     }
     # --
+    # check email address
+    # --
+    if (!Email::Valid->address( 
+        -address => $Param{Email}, 
+        -mxcheck => $Self->{ConfigObject}->Get('CustomerPanelMXCheck') || 1,
+     )) {
+        $Self->{LogObject}->Log(
+            Priority => 'error', 
+            Message => "Email address ($Param{Email}) not valid ($Email::Valid::Details)!",
+        );
+        return;
+    }
+    # --
     # quote params
     # -- 
     $Param{Pw} = crypt($Param{Pw}, $Param{Login});
@@ -180,6 +194,19 @@ sub CustomerUserUpdate {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
+    }
+    # --
+    # check email address
+    # --
+    if (!Email::Valid->address( 
+        -address => $Param{Email}, 
+        -mxcheck => $Self->{ConfigObject}->Get('CustomerPanelMXCheck') || 1,
+     )) {
+        $Self->{LogObject}->Log(
+            Priority => 'error', 
+            Message => "Email address ($Param{Email}) not valid ($Email::Valid::Details)!",
+        );
+        return;
     }
     # --
     # get old user data (pw)

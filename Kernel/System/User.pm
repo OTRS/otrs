@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: User.pm,v 1.18 2002-10-20 12:09:07 martin Exp $
+# $Id: User.pm,v 1.19 2002-10-31 22:55:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::User;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -220,6 +220,19 @@ sub UserAdd {
       }
     }
     # --
+    # check email address
+    # --
+    if ($Param{Email} && !Email::Valid->address( 
+        -address => $Param{Email}, 
+        -mxcheck => $Self->{ConfigObject}->Get('UserMXCheck') || 0,
+     )) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Email address ($Param{Email}) not valid ($Email::Valid::Details)!",
+        );
+        return;
+    }
+    # --
     # quote params
     # -- 
     $Param{Pw} = crypt($Param{Pw}, $Param{Login});
@@ -285,6 +298,19 @@ sub UserUpdate {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
+    }
+    # --
+    # check email address
+    # --
+    if ($Param{Email} && !Email::Valid->address( 
+        -address => $Param{Email}, 
+        -mxcheck => $Self->{ConfigObject}->Get('UserMXCheck') || 0,
+     )) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Email address ($Param{Email}) not valid ($Email::Valid::Details)!",
+        );
+        return;
     }
     # --
     # get old user data (pw)
