@@ -2,7 +2,7 @@
 # Kernel/Modules/SystemStatsGeneric.pm - generic pure SQL stats module
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --   
-# $Id: SystemStatsGeneric.pm,v 1.5 2004-02-26 23:54:32 martin Exp $
+# $Id: SystemStatsGeneric.pm,v 1.6 2004-06-11 07:02:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -26,7 +26,7 @@ package Kernel::Modules::SystemStatsGeneric;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -76,17 +76,32 @@ sub Run {
     my $CSVBody = '';
     my $OutputBody = '';
     my $Records = 0;
+    my @HeadData = ();
+    my @GlobalData = ();
+
     # --
     # get table columns names 
     # --
     my $sth = $Self->{DBObject}->{dbh}->prepare($SQL);
     $sth->execute;
     my $names = $sth->{NAME};
+    @HeadData = @{$names};
+    # --
+    # get table columns data 
+    # --
+    $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $SQLLimit);
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        push (@GlobalData, \@Row);
+    }
+
+    # --
+    # fillup colomn names
+    # --
     if (!$Self->{CSV}) {
         $OutputBody .= '<table border="0" width="100%" cellspacing="0" cellpadding="3">'; 
         $OutputBody .= "<tr>\n"; 
     }
-    foreach my $col (@{$names}) {
+    foreach my $col (@HeadData) {
         if ($Self->{CSV}) {
             $CSVBody .= "$col;";
         }
@@ -101,11 +116,11 @@ sub Run {
         $OutputBody .= "</tr>\n"; 
     }
     # --
-    # get table columns names
+    # fillup columns data
     # --
-    $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $SQLLimit);
-    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+    foreach my $RowTmp (@GlobalData) {
         $Records++;
+        my @Row = @{$RowTmp};
         if (!$Self->{CSV}) {
             $OutputBody .= "<tr>\n"; 
         }
