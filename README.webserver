@@ -2,7 +2,7 @@
 # README.webserver - webserver description of OpenTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: README.webserver,v 1.2 2002-05-04 20:37:38 martin Exp $
+# $Id: README.webserver,v 1.3 2002-07-10 18:19:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -85,5 +85,12 @@ b)
 c)
   Restart the webserver
   =====================
+
+d)
+  First login
+  ===========
+   http://yourhost/otrs/index.pl
+   User: root@localhost
+   PW: root
 
 EOF
