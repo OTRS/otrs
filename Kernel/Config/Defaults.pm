@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.108 2004-02-10 00:08:31 martin Exp $
+# $Id: Defaults.pm,v 1.109 2004-02-10 00:37:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.108 $';
+$VERSION = '$Revision: 1.109 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -506,7 +506,7 @@ sub LoadDefaults {
             pt => 'Portugu&ecirc;s',
             it => 'Italiano',
             ru => 'Russian',
-            jp => 'jp',
+#            jp => 'jp',
             cz => 'Czech', 
             pl => 'Polski',
 #            hu => 'Hungarian',
@@ -951,7 +951,7 @@ $Data{"Signature"}
             'NewTicketNotify', 'FollowUpNotify', 'LockTimeoutNotify', 'MoveNotify',
         ],
         Frontend => [
-            'Language', 'Theme', 'QueueViewShownTickets', 'QueueView', 'RefreshTime', 'PhoneNextMask', 
+            'Language', 'Theme', 'QueueViewShownTickets', 'QueueView', 'RefreshTime', 'CreateNextMask', 
         ],
         'Other Options' => [
             'Password', 'CustomQueue', 'SpellDict', 'FreeText', 'Comment',
