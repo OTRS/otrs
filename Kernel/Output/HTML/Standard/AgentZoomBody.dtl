@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: AgentZoomBody.dtl,v 1.10 2004-04-01 09:13:17 martin Exp $
+# $Id: AgentZoomBody.dtl,v 1.11 2004-04-02 08:20:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,26 +18,26 @@
     <table border="0" width="100%" cellspacing="0" cellpadding="1">
     <tr>
       <td valign="top" width="15%"><b>$Text{"From"}:</b></td>
-      <td width="85%"> $QData{"From","160"}</td>
+      <td width="85%"> <div title="$QData{"From"}">$QData{"From","160"}</div></td>
     </tr>
 # --
 # check if To exists
 # -- 
-    <dtl if ($Data{"To"} ne "") { $Data{"ArticleToString"} = "<tr><td valign="top"><b>$Text{"To"}:</b></td><td> $QData{"To","160"}</td></tr>"; }>
+    <dtl if ($Data{"To"} ne "") { $Data{"ArticleToString"} = "<tr><td valign="top"><b>$Text{"To"}:</b></td><td> <div title="$QData{"To"}">$QData{"To","160"}</div></td></tr>"; }>
     $Data{"ArticleToString"}
 # --
 # check if Cc exists
 # -- 
-    <dtl if ($Data{"Cc"} ne "") { $Data{"ArticleCcString"} = "<tr><td valign="top"><b>$Text{"Cc"}:</b></td><td> $QData{"Cc","160"}</td></tr>"; }>
+    <dtl if ($Data{"Cc"} ne "") { $Data{"ArticleCcString"} = "<tr><td valign="top"><b>$Text{"Cc"}:</b></td><td> <div title="$QData{"Cc"}">$QData{"Cc","160"}</div></td></tr>"; }>
     $Data{"ArticleCcString"}
 # --
     <tr>
       <td valign="top"><b>$Text{"Subject"}:</b></td>
-      <td> $QData{"Subject","160"}</td>
+      <td> <div title="$QData{"Subject"}">$QData{"Subject","160"}</div></td>
     </tr>
     <tr>
       <td valign="top"><b>$Text{"Created"}:</b></td>
-      <td> $TimeLong{"$Data{"Created"}"}</td>
+      <td> <div title="$TimeLong{"$Data{"Created"}"}">$TimeLong{"$Data{"Created"}"}</div></td>
     </tr>
 # --
 # show the Article::FreeKey1-3 and Article::FreeText1-3

@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: AgentZoomHead.dtl,v 1.8 2004-02-02 22:00:18 martin Exp $
+# $Id: AgentZoomHead.dtl,v 1.9 2004-04-02 08:20:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -30,17 +30,17 @@
 <dtl if ($Data{"Lock"} eq "lock") { $Data{"LockText"} = "Unlock"; }>
 <dtl set $Data{"LockLink"} = "Action=AgentLock&Subaction=Unlock&TicketID=$Data{"TicketID"}">
 <dtl if ($Data{"Lock"} eq "unlock") { $Data{"LockLink"} = "Action=AgentLock&Subaction=Lock&TicketID=$Data{"TicketID"}"; }>
-  <a href="$Env{"Baselink"}$Data{"LockLink"}" onmouseover="window.status='$Text{"$Data{"LockText"}"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"$Data{"LockText"}"}</a> - 
-  <a href="$Env{"Baselink"}Action=AgentPriority&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Priority"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Priority"}</a> -
-  <a href="$Env{"Baselink"}Action=AgentHistory&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"History"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"History"}</a> -
-  <a href="$Env{"Baselink"}Action=AgentOwner&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Owner"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Owner"}</a> -
-  <a href="$Env{"Baselink"}Action=AgentNote&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Note"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Note"}</a> -
-  <a href="$Env{"Baselink"}Action=AgentCustomer&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Customer"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Customer"}</a> -
-  <a href="$Env{"Baselink"}Action=AgentFreeText&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Free Fields"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Free Fields"}</a> -
-  <a href="$Env{"Baselink"}Action=AgentTicketLink&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Link"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Link"}</a> -
-  <a href="$Env{"Baselink"}Action=AgentTicketPrint&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Print"}'; return true;" onmouseout="window.status='';" class="menuitem" target="print">$Text{"Print"}</a> -
-  <a href="$Env{"Baselink"}Action=AgentPending&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Pending"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Pending"}</a> -
-  <a href="$Env{"Baselink"}Action=AgentClose&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Close"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Close"}</a>
+  <a href="$Env{"Baselink"}$Data{"LockLink"}" onmouseover="window.status='$Text{"$Data{"LockText"}"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Lock it to work on it!"}">$Text{"$Data{"LockText"}"}</a> - 
+  <a href="$Env{"Baselink"}Action=AgentPriority&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Priority"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Change the ticket priority!"}">$Text{"Priority"}</a> -
+  <a href="$Env{"Baselink"}Action=AgentHistory&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"History"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Shows the ticket history!"}">$Text{"History"}</a> -
+  <a href="$Env{"Baselink"}Action=AgentOwner&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Owner"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Change the ticket owner!"}">$Text{"Owner"}</a> -
+  <a href="$Env{"Baselink"}Action=AgentNote&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Note"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Add a note to this ticket!"}">$Text{"Note"}</a> -
+  <a href="$Env{"Baselink"}Action=AgentCustomer&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Customer"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Change the ticket customer!"}">$Text{"Customer"}</a> -
+  <a href="$Env{"Baselink"}Action=AgentFreeText&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Free Fields"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Change the ticket free fields!"}">$Text{"Free Fields"}</a> -
+  <a href="$Env{"Baselink"}Action=AgentTicketLink&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Link"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Link this ticket to an other one!"}">$Text{"Link"}</a> -
+  <a href="$Env{"Baselink"}Action=AgentTicketPrint&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Print"}'; return true;" onmouseout="window.status='';" class="menuitem" target="print" title="$Text{"Print this ticket!"}">$Text{"Print"}</a> -
+  <a href="$Env{"Baselink"}Action=AgentPending&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Pending"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Set this ticket to pending!"}">$Text{"Pending"}</a> -
+  <a href="$Env{"Baselink"}Action=AgentClose&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Close"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Close this ticket!"}">$Text{"Close"}</a>
   </td>
   <td align="right" valign="top" width="30%" class="table2">
     <b>$Text{"Created"}:</b> $TimeLong{"$Data{"Created"}"}
