@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminGenericAgent.pm,v 1.9 2004-09-24 10:05:36 martin Exp $
+# $Id: AdminGenericAgent.pm,v 1.10 2004-09-29 08:38:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::State;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -384,7 +384,7 @@ sub MaskForm {
     $Param{'ScheduleDays'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
             1 => 'Mon',
-            2 => 'Thu',
+            2 => 'Tue',
             3 => 'Wed',
             4 => 'Thu',
             5 => 'Fri',
