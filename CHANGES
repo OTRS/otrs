@@ -1,14 +1,22 @@
 # --
 # Changes of OTRS 
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.104 2004-01-09 16:49:35 martin Exp $
+# $Id: CHANGES,v 1.105 2004-01-21 23:55:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS HEAD 
+ - (2004/01/19) improve ticket search with date/time options 
+ - (2004/01/14) added X-OTRS-SenderType and X-OTRS-ArticleType to 
+    possible email headers (see doc/X-OTRS-Headers.txt).
+ - (2004/01/14) Updated Mail::Tools from 1.51 to 1.60.
+ - (2004/01/12) added config option to send no pending notification in
+    defined hours (SendNoPendingNotificationTime).
+ - (2004/01/10) improved TicketStorageModule, now it's possible to 
+    switch from one to the other backend on the fly.
  - (2004/01/09) improved GenericAgent.pl to work also with more ticket
     properties see also for all options: 
     http://doc.otrs.org/cvs/en/html/generic-agent-example.html
