@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file for OpenTRS
 # Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.13 2002-01-10 20:09:53 martin Exp $
+# $Id: index.pl,v 1.14 2002-01-20 22:21:23 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ use lib '/opt/OpenTRS/';
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 my $Debug = 0;
@@ -185,7 +185,7 @@ elsif (eval '$Kernel::Modules::'. $Param{Action} .'::VERSION'){
     # check session id
     if ( !$CommonObject{SessionObject}->CheckSessionID(SessionID => $Param{SessionID}) ) {
         print $CommonObject{LayoutObject}->Header();
-        print $CommonObject{LayoutObject}->Login(Message => 'Invalid SessionID!');
+        print $CommonObject{LayoutObject}->Login(Message => $Kernel::System::AuthSession::CheckSessionID);
         print $CommonObject{LayoutObject}->Footer();
     }
     # run module
