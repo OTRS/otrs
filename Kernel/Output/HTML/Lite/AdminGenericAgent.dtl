@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminGenericAgent.dtl,v 1.4 2004-07-18 00:53:14 martin Exp $
+# $Id: AdminGenericAgent.dtl,v 1.5 2004-08-25 02:42:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -39,6 +39,7 @@
 <form action="$Env{"CGIHandle"}" method="get">
 <input type="hidden" name="Action" value="AdminGenericAgent">
 <input type="hidden" name="Subaction" value="Search">
+<input type="hidden" name="ScheduleLastRun" value="$QData{"ScheduleLastRun"}">
 
 <table width="750" border="0" cellspacing="1" cellpadding="3">
 
@@ -60,7 +61,7 @@
   <td colspan="2" valign="top">
    $Text{"Minutes"}: $Data{"ScheduleMinutes"} $Text{"Hours"}: $Data{"ScheduleHours"}
 
-   $Text{"Days"}: $Data{"ScheduleDays"} $Text{"Last run"}: $Data{"ScheduleLastRun"}
+   $Text{"Days"}: $Data{"ScheduleDays"} $Text{"Last run"}: $QData{"ScheduleLastRun"}
   </td>
 </tr>
 
