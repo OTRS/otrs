@@ -5,7 +5,7 @@ This glossary covers OTRS terms.
 </para>
 
 <glossdiv>
-<title>Role</title>
+<title>User Groups</title>
 
 <glossentry>
 <glossterm>Agent</glossterm>
@@ -207,6 +207,20 @@ ticket is accessible via QueueView.</para>
 <glossterm>Article Sender Type</glossterm>
 <glossdef>
 <para>The creator of the article ('agent', 'customer' or 'system').</para>
+</glossdef>
+</glossentry>
+
+<glossentry>
+<glossterm>Response</glossterm>
+<glossdef>
+<para>Modular default answers for Agent Interface (to write faster answers). Configurable per queue.</para>
+</glossdef>
+</glossentry>
+
+<glossentry>
+<glossterm>Auto-Response</glossterm>
+<glossdef>
+<para>Automatically generated responses after customer created a new ticket or wrote a follow up. Configurable per queue.</para>
 </glossdef>
 </glossentry>
 
