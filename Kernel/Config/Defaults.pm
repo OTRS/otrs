@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.69 2003-05-08 06:17:14 martin Exp $
+# $Id: Defaults.pm,v 1.70 2003-05-08 16:48:21 robert Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.69 $';
+$VERSION = '$Revision: 1.70 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1277,7 +1277,7 @@ Your OTRS Notification Master
     $Self->{CustomerNotificationBodyStateUpdate} = "
 *** THIS IS JUST A NOTE ***
 
-The state of your ticket '<OTRS_TICKET_NUMBER>' has been chaned by 
+The state of your ticket '<OTRS_TICKET_NUMBER>' has been changed by 
 '<OTRS_OWNER_UserFirstname> <OTRS_OWNER_UserLastname>' to '<OTRS_CUSTOMER_State>'.
 
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>customer.pl?Action=CustomerZoom&TicketID=<OTRS_TICKET_ID>
