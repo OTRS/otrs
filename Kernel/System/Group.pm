@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 #               2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Group.pm,v 1.22 2004-05-02 05:55:55 martin Exp $
+# $Id: Group.pm,v 1.23 2004-05-02 06:17:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Group;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -137,31 +137,50 @@ sub GroupMemberAdd {
     }
     # update permission 
     foreach (keys %{$Param{Permission}}) {
-        # delete existing permission
-        my $SQL = "DELETE FROM group_user ".
+        # check if update is needed
+        my $Value = '';
+        my $SQL = "SELECT permission_value FROM group_user ".
           " WHERE ".
           " group_id = $Param{GID} ".
           " AND ".
           " user_id = $Param{UID} ".
           " AND ".
           " permission_key = '".$Self->{DBObject}->Quote($_)."'";
-        $Self->{DBObject}->Do(SQL => $SQL);
-        # debug
-        if ($Self->{Debug}) {
-            $Self->{LogObject}->Log(
-                Priority => 'error', 
-                Message => "Add UID:$Param{UID} to GID:$Param{GID}, $_:$Param{Permission}->{$_}!",
-            );
+        $Self->{DBObject}->Prepare(SQL => $SQL);
+        while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+            $Value = $Row[0];
         }
-        # insert new permission
-        $SQL = "INSERT INTO group_user ".
-          " (user_id, group_id, permission_key, permission_value, ".
-          " create_time, create_by, change_time, change_by) ".
-          " VALUES ".
-          " ($Param{UID}, $Param{GID}, '".$Self->{DBObject}->Quote($_)."', ".
-          " ".$Self->{DBObject}->Quote($Param{Permission}->{$_}).", ".
-          " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
-        $Self->{DBObject}->Do(SQL => $SQL);
+        if ($Value eq $Param{Permission}->{$_}) {
+#            print STDERR "No updated neede! UID:$Param{UID} to GID:$Param{GID}, $_:$Param{Permission}->{$_}!\n";
+        }
+        else {
+#            print STDERR "Updated neede! UID:$Param{UID} to GID:$Param{GID}, $_:$Param{Permission}->{$_}!\n";
+            # delete existing permission
+            my $SQL = "DELETE FROM group_user ".
+              " WHERE ".
+              " group_id = $Param{GID} ".
+              " AND ".
+              " user_id = $Param{UID} ".
+              " AND ".
+              " permission_key = '".$Self->{DBObject}->Quote($_)."'";
+            $Self->{DBObject}->Do(SQL => $SQL);
+            # debug
+            if ($Self->{Debug}) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error', 
+                    Message => "Add UID:$Param{UID} to GID:$Param{GID}, $_:$Param{Permission}->{$_}!",
+                );
+            }
+            # insert new permission
+            $SQL = "INSERT INTO group_user ".
+              " (user_id, group_id, permission_key, permission_value, ".
+              " create_time, create_by, change_time, change_by) ".
+              " VALUES ".
+              " ($Param{UID}, $Param{GID}, '".$Self->{DBObject}->Quote($_)."', ".
+              " ".$Self->{DBObject}->Quote($Param{Permission}->{$_}).", ".
+              " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
+            $Self->{DBObject}->Do(SQL => $SQL);
+        }
     }
     return 1;
 } 
@@ -407,74 +426,40 @@ sub GroupMemberList {
     }
 #print STDERR "not cached $CacheKey\n";
     # sql
-    my @UserTable = ();
-    my @GroupTable = ();
-    my $DoSQL = 1;
-    if ($Param{UserID} && $Self->{"GroupMemberList::UserTable::$Param{Type}"}) {
-        $DoSQL = 0;
-    }
-    elsif ($Param{GroupID} && $Self->{"GroupMemberList::GroupTable::$Param{Type}"}) {
-        $DoSQL = 0;
-    }
-    if ($DoSQL) {
-        my $SQL = "SELECT g.id, g.name, gu.permission_key, gu.permission_value, ".
-          " gu.user_id, gu.group_id ".
-          " FROM ".
-          " groups g, group_user gu".
-          " WHERE " .
-          " g.valid_id in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ".
-          " AND ".
-          " g.id = gu.group_id ".
-          " AND ".
-          " gu.permission_value = 1 ".
-          " AND ".
-          " gu.permission_key IN ('$Param{Type}', 'rw') ";
-#          " AND ";
-        if ($Param{UserID}) {
-#          $SQL .= " gu.user_id = $Param{UserID}";
-        }
-        else {
-#          $SQL .= " gu.group_id = $Param{GroupID}";
-        }
-print STDERR "SQL: $Param{Type}::$Param{Result} $SQL\n";
-        $Self->{DBObject}->Prepare(SQL => $SQL);
-        while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-            if ($Param{UserID}) {
-                push (@UserTable, \@Row);
-            }
-            else {
-                push (@GroupTable, \@Row);
-            }
-        }
-        if ($Param{UserID}) {
-            $Self->{"GroupMemberList::UserTable::$Param{Type}"} = \@UserTable;
-        }
-        else {
-            $Self->{"GroupMemberList::GroupTable::$Param{Type}"} = \@GroupTable;
-        }
-    }
-    # get data
-    my %Data = ();
+    my %Data = (); 
     my @Name = ();
     my @ID = ();
-    my @DataTable = ();
+    my $SQL = "SELECT g.id, g.name, gu.permission_key, gu.permission_value, ".
+      " gu.user_id ".
+      " FROM ".
+      " groups g, group_user gu".
+      " WHERE " .
+      " g.valid_id in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ".
+      " AND ".
+      " g.id = gu.group_id ".
+      " AND ".
+      " gu.permission_value = 1 ".
+      " AND ".
+      " gu.permission_key IN ('$Param{Type}', 'rw') ".
+      " AND ";
     if ($Param{UserID}) {
-        @DataTable = @{$Self->{"GroupMemberList::UserTable::$Param{Type}"}};
+      $SQL .= " gu.user_id = $Param{UserID}";
     }
     else {
-        @DataTable = @{$Self->{"GroupMemberList::GroupTable::$Param{Type}"}};
+      $SQL .= " gu.group_id = $Param{GroupID}";
     }
-    foreach my $ArrayRef (@DataTable) {
-        my @DataRow = @{$ArrayRef};
+#print STDERR "SQL: $Param{Type}::$Param{Result} $SQL\n";
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         my $Key = '';
         my $Value = '';
-        if ($Param{UserID} && $Param{UserID} == $DataRow[4]) {
-            $Key = $DataRow[0];
-            $Value = $DataRow[1];
+        if ($Param{UserID}) {
+            $Key = $Row[0];
+            $Value = $Row[1];
         }
-        elsif ($Param{GroupID} && $Param{GroupID} == $DataRow[5]) {
-            $Key = $DataRow[4];
-            $Value = $DataRow[1];
+        else {
+            $Key = $Row[4];
+            $Value = $Row[1];
         }
         # remember permissions
         if (!defined($Data{$Key})) {
@@ -515,6 +500,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.22 $ $Date: 2004-05-02 05:55:55 $
+$Revision: 1.23 $ $Date: 2004-05-02 06:17:03 $
 
 =cut
