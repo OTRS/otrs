@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.49 2003-12-29 17:25:10 martin Exp $
+# $Id: AgentQueueView.pm,v 1.50 2004-01-28 02:04:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.49 $';
+$VERSION = '$Revision: 1.50 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -312,19 +312,19 @@ sub ShowTicket {
         $Param{MoveQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
             Name => 'DestQueueID',
             Data => \%MoveQueues,
-            SelectedID => $Param{QueueID},
+            SelectedID => $Article{QueueID},
         );
     }
     if ($Self->{ConfigObject}->Get('AgentCanBeCustomer') && $Article{CustomerUserID} =~ /^$Self->{UserLogin}$/i) {
         $Param{TicketAnswer} = $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentZoomAgentIsCustomer',
-            Data => \%Param,
+            Data => {%Param, %Article},
         );
     }
     else {
         $Param{TicketAnswer} = $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentZoomAnswer',
-            Data => \%Param,
+            Data => {%Param, %Article},
         );
     }
     # create & return output
