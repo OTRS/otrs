@@ -1,8 +1,8 @@
 # --
-# AdminUser.pm - to add/update/delete user
+# Kernel/Modules/AdminUser.pm - to add/update/delete user
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUser.pm,v 1.7 2002-05-14 00:23:24 martin Exp $
+# $Id: AdminUser.pm,v 1.8 2002-07-21 19:16:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminUser;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $ ';
+$VERSION = '$Revision: 1.8 $ ';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -32,15 +32,7 @@ sub new {
     }
 
     # check all needed objects
-    foreach (
-      'ParamObject', 
-      'DBObject', 
-      'QueueObject', 
-      'LayoutObject', 
-      'ConfigObject', 
-      'LogObject',
-      'UserObject',
-    ) {
+    foreach (qw(ParamObject DBObject LayoutObject ConfigObject LogObject UserObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
 
@@ -50,29 +42,27 @@ sub new {
 sub Run {
     my $Self = shift;
     my %Param = @_;
-    my $Output = '';
     $Param{NextScreen} = 'AdminUser';
     # -- 
     # permission check
     # --
     if (!$Self->{PermissionObject}->Section(UserID => $Self->{UserID}, Section => 'Admin')) {
-        $Output .= $Self->{LayoutObject}->NoPermission();
-        return $Output;
+        return $Self->{LayoutObject}->NoPermission();
     }
     # -- 
     # get user data 2 form
     # --
     if ($Self->{Subaction} eq 'Change') {
         my $UserID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
-        $Output .= $Self->{LayoutObject}->Header(Title => 'User ändern');
-        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         # --
         # get user data
         # --
         my %UserData = $Self->{UserObject}->GetUserData(UserID => $UserID);
+        my $Output = $Self->{LayoutObject}->Header(Title => 'User update');
+        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         $Output .= $Self->{LayoutObject}->AdminUserForm(%UserData);
-
         $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
     # --
     # update action
@@ -93,27 +83,31 @@ sub Run {
             # --
             # pref update db
             # --
-            my $UserPrefsTmp = $Self->{ConfigObject}->{UserPreferences};
-            my %UserPrefs = %$UserPrefsTmp;
+            my %UserPrefs = %{$Self->{ConfigObject}->{UserPreferences}};
             foreach (keys %UserPrefs) {
-              $Self->{UserObject}->SetPreferences(
+              if (!$Self->{UserObject}->SetPreferences(
                 UserID => $GetParam{ID},
                 Key => $_,
                 Value => $Self->{ParamObject}->GetParam(Param => $UserPrefs{$_}) || '',
-              );
+              )) {
+                my $Output = $Self->{LayoutObject}->Header();
+                $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+                $Output .= $Self->{LayoutObject}->Error();
+                $Output .= $Self->{LayoutObject}->Footer();
+                return $Output;
+              }
             }
             # --
             # redirect
             # --
-            $Output .= $Self->{LayoutObject}->Redirect(OP => "&Action=$Param{NextScreen}");
+            return $Self->{LayoutObject}->Redirect(OP => "&Action=$Param{NextScreen}");
         }
         else {
-            $Output .= $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->Error(
-                Message => 'DB Error!!',
-                Comment => 'Please contact your admin',
-            );
+            my $Output = $Self->{LayoutObject}->Header();
+            $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+            $Output .= $Self->{LayoutObject}->Error();
             $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
         }
     }
     # --
@@ -135,40 +129,43 @@ sub Run {
             # --
             # pref update db
             # --
-            my $UserPrefsTmp = $Self->{ConfigObject}->{UserPreferences};
-            my %UserPrefs = %$UserPrefsTmp;
+            my %UserPrefs = %{$Self->{ConfigObject}->{UserPreferences}};
             foreach (keys %UserPrefs) {
-              $Self->{UserObject}->SetPreferences(
+              if (!$Self->{UserObject}->SetPreferences(
                 UserID => $UserID,
                 Key => $_,
-                Value => $GetParam{$UserPrefs{$_}},
-              );
+                Value => $Self->{ParamObject}->GetParam(Param => $UserPrefs{$_}) || '',
+              )) {
+                my $Output = $Self->{LayoutObject}->Header();
+                $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+                $Output .= $Self->{LayoutObject}->Error();
+                $Output .= $Self->{LayoutObject}->Footer();
+                return $Output;
+              }
             }
             # --
             # redirect
             # --
-            $Output .= $Self->{LayoutObject}->Redirect(OP => "&Action=$Param{NextScreen}");
+            return $Self->{LayoutObject}->Redirect(OP => "&Action=$Param{NextScreen}");
         }
         else {
-            $Output .= $Self->{LayoutObject}->Header();
+            my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-            $Output .= $Self->{LayoutObject}->Error(
-                Message => 'DB Error!!',
-                Comment => 'Please contact your admin',
-            );
+            $Output .= $Self->{LayoutObject}->Error();
             $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
         }
     }
     # --
     # else ! print form
     # --
     else {
-        $Output .= $Self->{LayoutObject}->Header(Title => 'User add');
+        my $Output = $Self->{LayoutObject}->Header(Title => 'User add');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         $Output .= $Self->{LayoutObject}->AdminUserForm();
         $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
-    return $Output;
 }
 # --
 
