@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentForward.pm - to forward a message
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentForward.pm,v 1.28 2003-12-29 17:25:11 martin Exp $
+# $Id: AgentForward.pm,v 1.29 2004-03-11 14:36:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::SystemAddress;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -36,6 +36,8 @@ sub new {
       LogObject TicketObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
+    # anyway, we need to check the email syntax
+    $Self->{ConfigObject}->Set(Key => 'CheckEmailAddresses', Value => 1);
     # needed objects
     $Self->{StateObject} = Kernel::System::State->new(%Param);
     $Self->{SystemAddress} = Kernel::System::SystemAddress->new(%Param);

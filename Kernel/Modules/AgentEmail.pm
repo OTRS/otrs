@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentEmail.pm - to compose inital email to customer 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentEmail.pm,v 1.8 2004-03-01 18:43:45 martin Exp $
+# $Id: AgentEmail.pm,v 1.9 2004-03-11 14:35:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -40,7 +40,9 @@ sub new {
        ConfigObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
-
+    # anyway, we need to check the email syntax
+    $Self->{ConfigObject}->Set(Key => 'CheckEmailAddresses', Value => 1);
+    # needed objects
     $Self->{SystemAddress} = Kernel::System::SystemAddress->new(%Param);
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
     $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%Param);
