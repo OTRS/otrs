@@ -2,7 +2,7 @@
 # AgentEmailNew.dtl - provides HTML form for agent email 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentEmailNew.dtl,v 1.2 2004-02-10 00:47:32 martin Exp $
+# $Id: AgentEmailNew.dtl,v 1.3 2004-03-01 14:00:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -162,14 +162,14 @@ function clear_field()
     <td>$Text{"Priority"}:</td>
     <td> $Data{"PriorityStrg"}</td>
   </tr>
-#  <tr>
-#    <td>$Data{"TicketFreeKeyField1"}:</td>
-#    <td>$Data{"TicketFreeTextField1"}</td>
-#  </tr>
-#  <tr>
-#    <td>$Data{"TicketFreeKeyField2"}:</td>
-#    <td>$Data{"TicketFreeTextField2"}</td>
-#  </tr>
+  <tr>
+    <td>$Data{"TicketFreeKeyField1"}:</td>
+    <td>$Data{"TicketFreeTextField1"}</td>
+  </tr>
+  <tr>
+    <td>$Data{"TicketFreeKeyField2"}:</td>
+    <td>$Data{"TicketFreeTextField2"}</td>
+  </tr>
 #  <tr>
 #    <td>$Data{"TicketFreeKeyField3"}:</td>
 #    <td>$Data{"TicketFreeTextField3"}</td>
@@ -181,6 +181,7 @@ function clear_field()
   <tr>
     <td>$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td>
     <td> <input type="text" name="TimeUnits" value="$Data{"TimeUnits"}" size="3"></td>
+  </tr>
 # select lock state
 <dtl if ($Config{"PhoneDefaultNewLock"} eq "lock") { $Data{"LockSelectionYes"} = "checked"; }>
 <dtl if ($Config{"PhoneDefaultNewLock"} eq "unlock") { $Data{"LockSelectionNo"} = "checked"; }>

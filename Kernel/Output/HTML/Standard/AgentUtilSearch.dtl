@@ -2,7 +2,7 @@
 # AgentUtilSearchByText.dtl - provides HTML form for AgentUtilities.pm
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilSearch.dtl,v 1.5 2004-01-19 23:50:36 martin Exp $
+# $Id: AgentUtilSearch.dtl,v 1.6 2004-03-01 14:00:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,9 +18,9 @@
 <tr align="center" valign="top">
   <td class="table1">
 
-<table width="600" border="0" cellspacing="1" cellpadding="3">
+<table width="700" border="0" cellspacing="1" cellpadding="3">
 <tr align="left">
-  <td class="table2">$Text{"Profile"}</td>
+  <td class="table3">$Text{"Profile"}</td>
 </tr>
 <tr align="left">
   <td>
@@ -41,9 +41,9 @@
 <input type="hidden" name="Action" value="AgentUtilities">
 <input type="hidden" name="Subaction" value="Search">
 
-<table width="600" border="0" cellspacing="1" cellpadding="3">
+<table width="700" border="0" cellspacing="1" cellpadding="3">
 <tr align="left">
-  <td colspan="2" class="table2">$Config{"TicketHook"} $Text{"and"} $Text{"CustomerID"}</td>
+  <td colspan="2" class="table3">$Config{"TicketHook"} $Text{"and"} $Text{"CustomerID"}</td>
 </tr>
 <tr align="left">
   <td width="50%">$Config{"TicketHook"} $Text{"(e. g. 10*5155 or 105658*)"}</td>
@@ -58,7 +58,7 @@
   <td><input type="text" name="CustomerUserLogin" size="30" value="$Data{"CustomerUserLogin"}"></td>
 </tr>
 <tr align="left">
-  <td colspan="2" class="table2">$Text{"Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")"}</td>
+  <td colspan="2" class="table3">$Text{"Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")"}</td>
 </tr>
 <tr align="left">
   <td>$Text{"From"}</td>
@@ -81,7 +81,7 @@
   <td><input type="text" name="Body" size="30" value="$Data{"Body"}"></td>
 </tr>
 <tr align="left">
-  <td colspan="2" class="table2">$Text{"TicketFreeText"}</td>
+  <td colspan="2" class="table3">$Text{"TicketFreeText"}</td>
 </tr>
 <tr align="left">
   <td>$Data{"TicketFreeKeyField1"}</td>
@@ -115,20 +115,18 @@
 #  <td>$Data{"TicketFreeKeyField8"}</td>
 #  <td>$Data{"TicketFreeTextField8"}</td>
 #</tr>
-</table>
 
-<table width="600" border="0" cellspacing="1" cellpadding="3">
 <tr align="left">
-  <td class="table2" width="50%">$Text{"Priority"}</td>
-  <td class="table2" width="50%">$Text{"Queue"}</td>
+  <td class="table3" width="50%">$Text{"Priority"}</td>
+  <td class="table3" width="50%">$Text{"Queue"}</td>
 </tr>
 <tr align="left">
   <td>$Data{"PriotitiesStrg"}</td>
   <td>$Data{"QueuesStrg"}</td>
 </tr>
 <tr align="left">
-  <td class="table2">$Text{"State"}</td>
-  <td class="table2">$Text{"Agent"}/$Text{"Owner"}</td>
+  <td class="table3">$Text{"State"}</td>
+  <td class="table3">$Text{"Agent"}/$Text{"Owner"}</td>
 </tr>
 <tr align="left" valign="top">
   <td>$Data{"StatesStrg"}</td>
@@ -137,7 +135,7 @@ $Data{"UserStrg"}
   </td>
 </tr>
 <tr align="left">
-  <td colspan="2" class="table2">$Text{"Times"}</td>
+  <td colspan="2" class="table3">$Text{"Times"}</td>
 </tr>
 <tr align="left">
   <td colspan="2"><input type="radio" name="TimeSearchType" value="" $Data{"TimeSearchType::None"}>
@@ -154,8 +152,8 @@ $Data{"UserStrg"}
   </td>
 </tr>
 <tr align="left">
-  <td class="table2">$Text{"Result Form"}</td>
-  <td class="table2">$Text{"Save Search-Profile as Template?"}</td>
+  <td class="table3">$Text{"Result Form"}</td>
+  <td class="table3">$Text{"Save Search-Profile as Template?"}</td>
 </tr>
 <tr align="left">
   <td>$Data{"ResultFormStrg"}</td>

@@ -2,7 +2,7 @@
 # FAQNavigationBar.dtl - provides global HTML FAQNavigationBar
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQNavigationBar.dtl,v 1.3 2004-01-21 00:39:43 martin Exp $
+# $Id: FAQNavigationBar.dtl,v 1.4 2004-03-01 14:00:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,6 +17,10 @@
 # check if the faq category link should be shown
 # --
 <dtl if ($Env{"UserIsGroup[faq]"} eq "Yes") { $Data{"FAQCategoryLink"} = "<td valign="top" align="center" class="nav"><a href="$Env{"Baselink"}Action=FAQCategory" onmouseover="window.status='$Text{"Category"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}fileopen.png" alt="$Text{"Category"}"><br>$Text{"Category"}</a></td>"; }>
+# --
+# check if the state category link should be shown
+# --
+<dtl if ($Env{"UserIsGroup[faq]"} eq "Yes") { $Data{"FAQStateLink"} = "<td valign="top" align="center" class="nav"><a href="$Env{"Baselink"}Action=FAQState" onmouseover="window.status='$Text{"State"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}fileopen.png" alt="$Text{"State"}"><br>$Text{"State"}</a></td>"; }>
 # --
 # check if the faq language link should be shown
 # --
@@ -44,6 +48,7 @@
       </td>
       $Data{"FAQCategoryLink"}
       $Data{"FAQLanguageLink"}
+      $Data{"FAQStateLink"} 
       <td valign="top" align="center" class="nav"> 
         <a href="$Env{"Baselink"}Action=" onmouseover="window.status='$Text{"Agent-Area"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}desktop.png" alt="$Text{"Agent-Area"}"><br>$Text{"Agent-Area"}</a>
       </td>

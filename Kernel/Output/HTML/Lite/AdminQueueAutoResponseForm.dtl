@@ -2,7 +2,7 @@
 # AdminQueueAutoResponseForm.dtl - provides HTML form for AdminQueueAutoResponse
 # Copyright (C) 2001-2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueueAutoResponseForm.dtl,v 1.9 2003-02-08 15:40:41 martin Exp $
+# $Id: AdminQueueAutoResponseForm.dtl,v 1.10 2004-03-01 14:00:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -25,7 +25,7 @@
     <input type="hidden" name="ID" value="$Data{"ID"}">
     $Data{"DataStrg"}
     <br>
-    <input type="submit" value="$Text{"update"}">
+    <input class="button" type="submit" value="$Text{"update"}">
     </form>
   </td> 
 </tr>

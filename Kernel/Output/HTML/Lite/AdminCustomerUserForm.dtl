@@ -2,7 +2,7 @@
 # AdminCustoerUserForm.dtl - provides HTML form for AdminCustomerUser
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUserForm.dtl,v 1.9 2004-02-09 01:39:33 martin Exp $
+# $Id: AdminCustomerUserForm.dtl,v 1.10 2004-03-01 14:00:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,23 +16,57 @@
   </td>
 </tr>
 <tr align="center" valign="top">
-  <td width="30%" class="table1">
-    $Text{"Change"}:
-    <br>
+  <td width="40%" class="table1">
+
+  <table width="100%" cellspacing="2" cellpadding="3">
+  <tr>
+    <td class="table3">$Text{"Search"}:</td>
+  </tr>
+  <tr>
+    <td>
+
     <form action="$Env{"CGIHandle"}" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
-    <input type="hidden" name="Subaction" value="Change">
+    <input type="hidden" name="Subaction" value="Search">
     <input type="hidden" name="Nav" value="$Data{"Nav"}">
-    $Data{"UserOption"}
-    <br>
-    <input class="button" type="submit" value="$Text{"change"}">
+    <table>
+      <tr>
+        <td>$Text{"Search for"}:</td>
+        <td><input type="text" name="Search" value="$Data{"Search"}" size="20"></td>
+      </tr>
+    </table>
+    <input class="button" type="submit" value="$Text{"Search"}"> 
     </form>
+
+    </td>
+  </tr>
+  <tr>
+    <td class="table3">$Text{"Result"}:</td>
+  </tr>
+  <tr>
+    <td>
+
+    <table border="0" width="100%">
+    $Data{"UserLinkList"}
+    </table>
+
+    </td>
+  </tr>
+  </table> 
+
   </td> 
-  <td width="70%" class="table1">
-  <table border="0" cellspacing="0" cellpadding="3">
+  <td width="60%" class="table1">
+
+  <table width="100%" border="0" cellspacing="0" cellpadding="3">
   <tr>
   <td align="center">
-    $Text{"Select source:"}
+<table width="100%" cellspacing="2" cellpadding="3">
+  <tr>
+    <td class="table3">$Text{"Select Source (for add)"}:</td>
+  </tr>
+  <tr>
+    <td>
+
     <form action="$Env{"CGIHandle"}" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
     <input type="hidden" name="Subaction" value="">
@@ -47,30 +81,44 @@
     </table>
     <input class="button" type="submit" value="$Text{"Change"}"> 
     </form>
-<br>
+    </td>
+  </tr>
+  <tr>
+    <td class="table3">
 # --
 # check subaction
 # --
 <dtl set $Data{"Headline"} = "Add">
 <dtl if ($Env{"Subaction"} eq "Change") { $Data{"Headline"} = "Update"; }>
 # set subaction!
-<dtl if ($Env{"Subaction"} eq "") { $Env{"Subaction"} = "Add"; }>
+<dtl if ($Env{"Subaction"} ne "Change") { $Env{"Subaction"} = "Add"; }>
 # check add link
 <dtl if ($Env{"Subaction"} eq "Change") { $Data{"AddLink"} = "(Click here to add)"; }>
 # --
-    $Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}Action=AdminCustomerUser&Nav=$Data{"Nav"}">$Text{"$Data{"AddLink"}"}</a>: 
-    <br>
+    $Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}Action=AdminCustomerUser&Nav=$Data{"Nav"}">$Text{"$Data{"AddLink"}"}</a>:
+
+    </td>
+  </tr>
+  <tr>
+    <td>
+ 
     <form action="$Env{"CGIHandle"}" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
     <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
     <input type="hidden" name="ID" value="$Data{"UserID"}">
     <input type="hidden" name="Source" value="$Data{"Source"}">
     <input type="hidden" name="Nav" value="$Data{"Nav"}">
+    <input type="hidden" name="Search" value="$Data{"Search"}">
     <table border="0" cellspacing="0" cellpadding="3" width="100%">
     $Data{"Preferences"}
     </table>
     <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}"> 
     </form>
+
+    </td>
+  </tr>
+  </table>
+
   </td>
 </tr>
 </table>
@@ -82,8 +130,8 @@
 <!-- start note -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
 <tr valign="top">
-  <td class="table2">
-    <b>$Env{"Box0"}$Text{"Note"}$Env{"Box1"}</b>
+  <td class="table3">
+    $Env{"Box0"}$Text{"Note"}$Env{"Box1"}
   </td>
 </tr>
 <tr valign="top">

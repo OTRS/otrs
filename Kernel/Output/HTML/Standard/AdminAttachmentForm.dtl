@@ -1,8 +1,8 @@
 # --
 # AdminAttachmentForm.dtl - provides HTML form for AdminResponse
-# Copyright (C) 2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminAttachmentForm.dtl,v 1.5 2003-11-02 00:00:55 martin Exp $
+# $Id: AdminAttachmentForm.dtl,v 1.6 2004-03-01 14:00:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,9 +16,15 @@
   </td>
 </tr>
 <tr align="center" valign="top">
-  <td width="30%" class="table1">
-    $Text{"Change"}:
-    <br>
+  <td width="40%" class="table1">
+
+  <table width="100%" cellspacing="2" cellpadding="3">
+  <tr>
+    <td class="table3">$Text{"Change"}:</td>
+  </tr>
+  <tr>
+    <td align="center">
+
     <form action="$Env{"CGIHandle"}" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
     <input type="hidden" name="Subaction" value="Change">
@@ -26,8 +32,17 @@
     <br>
     <input class="button" type="submit" value="$Text{"change"}">
     </form>
+
+    </td>
+  </tr>
+  </table>
+
   </td> 
-  <td width="70%" class="table1">
+  <td width="60%" class="table1">
+
+  <table width="100%" cellspacing="2" cellpadding="3">
+  <tr>
+    <td class="table3">
 # --
 # check subaction
 # --
@@ -38,8 +53,11 @@
 # delete link
 <dtl if ($Data{"Subaction"} eq "Change") { $Data{"DeleteLink"} = "$Text{"delete this attachment"}"; }>
 # --
-    $Text{"$Data{"Headline"}"}: 
-    <br>
+    $Text{"$Data{"Headline"}"}:</td>
+  </tr>
+  <tr>
+    <td>
+
     <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
     <input type="hidden" name="Action" value="$Env{"Action"}">
     <input type="hidden" name="Subaction" value="$Data{"Subaction"}Action">
@@ -68,6 +86,11 @@
     <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Delete&ID=$Data{"ID"}">$Data{"DeleteLink"}</a>
     <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"$Data{"AddLink"}"}</a>
     </p>
+
+    </td>
+  </tr>
+  </table>
+
   </td>
 </tr>
 </table>

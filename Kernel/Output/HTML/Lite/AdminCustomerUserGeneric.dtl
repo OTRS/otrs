@@ -2,7 +2,7 @@
 # AdminUserGeneric.dtl - provides HTML form for AgentPreferences 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUserGeneric.dtl,v 1.4 2003-02-08 15:40:40 martin Exp $
+# $Id: AdminCustomerUserGeneric.dtl,v 1.5 2004-03-01 14:00:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you

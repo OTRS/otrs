@@ -1,8 +1,8 @@
 # --
 # AdminQueueForm.dtl - provides HTML form for AdminQueue
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueueForm.dtl,v 1.18 2004-01-24 18:40:35 martin Exp $
+# $Id: AdminQueueForm.dtl,v 1.19 2004-03-01 14:00:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,9 +16,15 @@
   </td>
 </tr>
 <tr align="center" valign="top">
-  <td width="30%" class="table1">
-    $Text{"Change"}:
-    <br>
+  <td width="40%" class="table1">
+
+  <table width="100%" cellspacing="2" cellpadding="3">
+  <tr>
+    <td class="table3">$Text{"Change"}:</td>
+  </tr>
+  <tr>
+    <td>
+
     <form action="$Env{"CGIHandle"}" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
     <input type="hidden" name="Subaction" value="Change">
@@ -26,8 +32,17 @@
     <br>
     <input class="button" type="submit" value="$Text{"change"}">
     </form>
+
+    </td>
+  </tr>
+  </table>
+
   </td> 
-  <td width="70%" class="table1">
+  <td width="60%" class="table1">
+
+  <table width="100%" cellspacing="2" cellpadding="3">
+  <tr>
+    <td class="table3">
 # --
 # check subaction
 # --
@@ -37,7 +52,11 @@
 <dtl if ($Data{"Subaction"} eq "Change") { $Data{"AddLink"} = "(Click here to add)"; }>
 # --
     $Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"$Data{"AddLink"}"}</a>: 
-    <br>
+    </td>
+  </tr>
+  <tr>
+    <td>
+
     <form action="$Env{"CGIHandle"}" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
     <input type="hidden" name="Subaction" value="$Data{"Subaction"}Action">
@@ -108,6 +127,11 @@
     </table>
     <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}"> 
     </form>
+
+    </td>
+  </tr>
+  </table>
+
   </td>
 </tr>
 </table>
@@ -116,8 +140,8 @@
 <!-- start note -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
 <tr>
-  <td align="left" class="table0">
-    <b>$Env{"Box0"}$Text{"Note"}$Env{"Box1"}</b>
+  <td align="left" class="table3">
+    $Env{"Box0"}$Text{"Note"}$Env{"Box1"}
   </td>
 </tr>
 <tr align="center" valign="top">

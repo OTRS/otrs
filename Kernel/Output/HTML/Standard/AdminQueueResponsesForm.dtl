@@ -1,8 +1,8 @@
 # --
 # AdminQueueResponsesForm.dtl - provides HTML form for AdminQueueResponses
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueueResponsesForm.dtl,v 1.7 2003-02-08 15:40:43 martin Exp $
+# $Id: AdminQueueResponsesForm.dtl,v 1.8 2004-03-01 14:00:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,19 +17,22 @@
 </tr>
 <tr> 
   <td align="center" valign="top" colspan="2" class="table1">
-  $Text{"Change answer <-> queue settings"}
-  </td>
-</tr>
-<tr valign="top">
-  <td align="right" width="50%" class="table1">
-    <b>$Text{"Answer"}:$Text{"Queue"} (1:n)</b>
-    <br>
-    $Data{"AnswerQueueStrg"}
-  </td>
-  <td align="left" width="50%" class="table1">
-    <b>$Text{"Answer"}:$Text{"Queue"} (n:1)</b>
-    <br>
-    $Data{"QueueAnswerStrg"}
+
+  <table width="500" cellspacing="2" cellpadding="3">
+  <tr valign="top">
+    <td width="50%" align="right" class="table3">$Text{"Answer"}:$Text{"Queue"} (1:n)</td>
+    <td width="50%" align="left" class="table3">$Text{"Answer"}:$Text{"Queue"} (n:1)</td>
+  </tr>
+  <tr valign="top">
+    <td align="right" class="table1">
+      $Data{"AnswerQueueStrg"}
+    </td>
+    <td align="left" class="table1">
+      $Data{"QueueAnswerStrg"}
+    </td>
+  </tr>
+  </table>
+
   </td> 
 </tr>
 </table>

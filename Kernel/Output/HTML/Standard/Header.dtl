@@ -1,8 +1,8 @@
 # --
 # Header.dtl - provides global HTML header
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Header.dtl,v 1.34 2003-12-29 17:23:20 martin Exp $
+# $Id: Header.dtl,v 1.35 2004-03-01 14:00:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ Pragma: no-cache
 # html comment
 # --
 
-<!-- OTRS: Copyright 2001-2003, OTRS Project. This Software is under the GPL. -->
+<!-- OTRS: Copyright 2001-2004, OTRS Project. This Software is under the GPL. -->
 <!--          Web: http://otrs.org/ - Lists: http://lists.otrs.org/           -->
 <!--         GNU Public License: http://www.gnu.org/licenses/gpl.txt          -->
 # --
@@ -85,6 +85,7 @@ Pragma: no-cache
   .table0 { color:#ffffff;background-color:#000000;font-size:13px;font-family:Geneva,Helvetica,Arial,sans-serif;}
   .table1 { color:#000000;background-color:#ffffff;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;}
   .table2 { color:#000000;background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;}
+  .table3 { color:#000000;background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold; }
 # message 
   .message { color:#000000;font-size:12px;font-family:monospace, fixed; } 
 # article type color 

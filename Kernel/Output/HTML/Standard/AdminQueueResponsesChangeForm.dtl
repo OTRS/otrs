@@ -1,8 +1,8 @@
 # --
 # AdminQueueResponsesChangeForm.dtl - provides HTML form for AdminResponse
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueueResponsesChangeForm.dtl,v 1.7 2003-03-23 21:42:14 martin Exp $
+# $Id: AdminQueueResponsesChangeForm.dtl,v 1.8 2004-03-01 14:00:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,8 +17,13 @@
 </tr>
 <tr align="center" valign="top">
   <td class="table1">
-    $Text{"Change %s settings", "$Data{"Type"}"}:
-    <br>
+
+  <table width="500" cellspacing="2" cellpadding="3">
+  <tr valign="top">
+    <td class="table3">$Text{"Change %s settings", "$Data{"Type"}"}:</td>
+  </tr>
+  <tr>
+    <td align="center">
     <form action="$Env{"CGIHandle"}" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
     <input type="hidden" name="Subaction" value="Change$Data{"Type"}">
@@ -26,6 +31,10 @@
     <br>
     <input class="button" type="submit" value="$Text{"submit"}">
     </form>
+    </td>
+  </tr>
+  </table>
+
   </td> 
 </tr>
 </table>

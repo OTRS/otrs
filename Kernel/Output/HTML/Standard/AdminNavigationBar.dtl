@@ -2,7 +2,7 @@
 # AdminNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminNavigationBar.dtl,v 1.20 2004-01-21 00:51:09 martin Exp $
+# $Id: AdminNavigationBar.dtl,v 1.21 2004-03-01 14:00:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -91,7 +91,9 @@
     $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminState">$Text{"Status"}</a>$Env{"Box1"}
   </td>
   <td class="nav">
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminPOP3">$Text{"POP3 Account"}</a>$Env{"Box1"} 
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminPOP3">$Text{"PostMaster POP3 Account"}</a>$Env{"Box1"} 
+    <br> 
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminPostMasterFilter">$Text{"PostMaster Filter"}</a>$Env{"Box1"} 
     <br> 
     $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminSession">$Text{"Session Management"}</a>$Env{"Box1"} 
     <br>
