@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPreferences.pm - provides agent preferences
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPreferences.pm,v 1.21 2004-02-26 21:42:08 martin Exp $
+# $Id: AgentPreferences.pm,v 1.22 2004-04-07 17:22:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPreferences;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -113,12 +113,21 @@ sub UpdatePw {
     my $Pw1 = $Self->{ParamObject}->GetParam(Param => 'NewPw1') || '';
 
     if ($Pw eq $Pw1 && $Pw) {
-        if (!$Self->{ConfigObject}->Get('DemoSystem')) {
-            $Self->{UserObject}->SetPassword(UserLogin => $Self->{UserLogin}, PW => $Pw);
+        if ($Self->{ConfigObject}->Get('DemoSystem')) {
+            $Output .= $Self->{LayoutObject}->Redirect(
+                    OP => "Action=AgentPreferences&What=1",
+            );
         }
-        $Output .= $Self->{LayoutObject}->Redirect(
-            OP => "Action=AgentPreferences&What=1",
-        );
+        elsif ($Self->{UserObject}->SetPassword(UserLogin => $Self->{UserLogin}, PW => $Pw)) {
+                $Output .= $Self->{LayoutObject}->Redirect(
+                    OP => "Action=AgentPreferences&What=1",
+                );
+        }
+        else {
+            $Output .= $Self->{LayoutObject}->Header();
+            $Output .= $Self->{LayoutObject}->Warning();
+            $Output .= $Self->{LayoutObject}->Footer();
+        }
     }
     else {
         $Output .= $Self->{LayoutObject}->Header();
@@ -128,7 +137,6 @@ sub UpdatePw {
         );
         $Output .= $Self->{LayoutObject}->Footer();
     }
-    
     return $Output;
 }
 # --
