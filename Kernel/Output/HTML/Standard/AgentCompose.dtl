@@ -2,7 +2,7 @@
 # AgentCompose.dtl - provides HTML form for AgentCompose 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.dtl,v 1.5 2002-05-09 20:30:39 martin Exp $
+# $Id: AgentCompose.dtl,v 1.6 2002-05-26 18:15:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -57,6 +57,9 @@ $Data{"Signature"}
     </tr>
     <tr>
       <td>$Text{"Next ticket state"}:</td><td>$Data{"NextStatesStrg"}</td>
+    </tr>
+    <tr>
+      <td>$Text{"Is the ticket answered"}:</td><td>$Data{"AnsweredYesNoOption"}</td>
     </tr>
   </table>
   <br>
