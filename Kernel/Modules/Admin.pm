@@ -1,8 +1,8 @@
 # --
 # Admin.pm - provides admin main page 
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.1 2001-12-23 13:27:18 martin Exp $
+# $Id: Admin.pm,v 1.2 2002-05-14 02:19:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -52,7 +52,7 @@ sub Run {
 
     # permission check
     if (!$Self->{PermissionObject}->Section(UserID => $Self->{UserID}, Section => 'Admin')) {
-        $Output .= $Self->{LayoutObject}->NoPermission();
+        $Output .= $Self->{LayoutObject}->NoPermission(Message => 'You have to be in the admin group!');
         return $Output;
     }
 

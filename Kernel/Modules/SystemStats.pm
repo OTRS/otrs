@@ -2,7 +2,7 @@
 # SystemStats.pm - show stats of otrs
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SystemStats.pm,v 1.1 2002-04-30 00:16:50 martin Exp $
+# $Id: SystemStats.pm,v 1.2 2002-05-14 02:19:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::SystemStats;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $ ';
+$VERSION = '$Revision: 1.2 $ ';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -63,7 +63,7 @@ sub Run {
         # permission check
         if (!$Self->{PermissionObject}->Section(UserID => $Self->{UserID}, Section => 'Stats')) {
           $Output .= $Self->{LayoutObject}->NoPermission(
-            Comment => 'You need to have in the Stats group!'
+            Message => 'You have to be in the stats group!'
           );
           return $Output;
         }
