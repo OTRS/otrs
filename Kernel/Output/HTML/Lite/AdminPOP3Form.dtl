@@ -2,7 +2,7 @@
 # AdminPOP3Form.dtl - provides HTML form for AdminSystemAddess
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPOP3Form.dtl,v 1.1 2002-12-15 23:18:32 martin Exp $
+# $Id: AdminPOP3Form.dtl,v 1.2 2002-12-20 19:07:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -132,7 +132,7 @@
       </tr>
       <tr>
       <td>$Text{"Comment"}: </td>
-      <td> <input type="text" name="Comment" value="$Text{"comment"}" size="50" maxlength="50"></td>
+      <td> <input type="text" name="Comment" value="$Text{"Comment"}" size="50" maxlength="50"></td>
       </tr>
       </table>
     </form>
