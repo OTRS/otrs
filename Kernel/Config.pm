@@ -2,7 +2,7 @@
 # Kernel/Config.pm - Config file for OTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.64 2002-10-15 09:18:55 martin Exp $
+# $Id: Config.pm,v 1.65 2002-10-20 15:44:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,7 +17,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.64 $';
+$VERSION = '$Revision: 1.65 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -231,6 +231,14 @@ sub Load {
     
     # CGILogPrefix
     $Self->{CGILogPrefix} = 'OTRS-CGI';
+
+    # LostPassword
+    # (use lost password feature)
+    $Self->{LostPassword} = 1;
+
+    # ShowMotd
+    # (show message of the day in login screen)
+    $Self->{ShowMotd} = 0;
 
     # ----------------------------------------------------#
     # directories                                         #
@@ -480,6 +488,7 @@ sub Load {
         LoadPreferences => 'Kernel::Config::Preferences',
         LoadPhone => 'Kernel::Config::Phone',
         LoadCustomerPanel => 'Kernel::Config::CustomerPanel',
+        LoadCustomerPreferences => 'Kernel::Config::CustomerPreferences',
     }
 
     # ----------------------------------------------------#
