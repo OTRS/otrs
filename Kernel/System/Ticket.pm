@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.27 2002-10-22 13:54:05 martin Exp $
+# $Id: Ticket.pm,v 1.28 2002-10-25 00:04:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::SendNotification;
 use Kernel::System::PostMaster::LoopProtection;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -547,15 +547,17 @@ sub GetLockedTicketIDs {
         return;
     }
     my @ViewableTickets;
-    my @ViewableLockIDs = (2);
-    my $SQL = "SELECT id " .
+    my @ViewableLocks = @{$Self->{ConfigObject}->Get('ViewableLocks')};
+    my $SQL = "SELECT ti.id " .
       " FROM " .
-      " ticket " .
+      " ticket ti, ticket_lock_type slt" .
       " WHERE " .
-      " user_id = $Param{UserID} " .
+      " ti.user_id = $Param{UserID} " .
       " AND ".
-      " ticket_lock_id in ( ${\(join ', ', @ViewableLockIDs)} ) " .
-      " ORDER BY create_time";
+      " slt.id = ti.ticket_lock_id " .
+      " AND ".
+      " slt.name not in ( ${\(join ', ', @ViewableLocks)} ) " .
+      " ORDER BY ti.create_time";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
         push (@ViewableTickets, $RowTmp[0]);
@@ -573,17 +575,19 @@ sub GetLockedCount {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserID!");
         return;
     }
-    my @LockIDs = (2);
+    my @ViewableLocks = @{$Self->{ConfigObject}->Get('ViewableLocks')};
     my %Data;
 
     $Self->{DBObject}->Prepare(
-       SQL => "SELECT ar.id as ca, st.name, ti.id, ar.create_by" .
+       SQL => "SELECT ar.id as ca, st.name, ti.id, ar.create_by, ti.create_time_unix" .
               " FROM " .
-              " ticket ti, article ar, article_sender_type st" .
+              " ticket ti, article ar, article_sender_type st, ticket_lock_type slt" .
               " WHERE " .
               " ti.user_id = $Param{UserID} " .
               " AND " .
-              " ti.ticket_lock_id in ( ${\(join ', ', @LockIDs)} )" .
+              " slt.name not in ( ${\(join ', ', @ViewableLocks)} ) " .
+              " AND " .
+              " slt.id = ti.ticket_lock_id " .
               " AND " .
               " ar.ticket_id = ti.id " .
               " AND " .
@@ -594,11 +598,15 @@ sub GetLockedCount {
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
         if (!$Data{"ID$RowTmp[2]"}) {
           $Data{'Count'}++;
-          if ($RowTmp[3] ne $Param{UserID}) {
+          # --
+          # put all tickets to ToDo where last sender type is customer or ! UserID
+          # --
+          if ($RowTmp[3] ne $Param{UserID} || $RowTmp[1] eq 'customer') {
             $Data{'ToDo'}++;
           }
         }
         $Data{"ID$RowTmp[2]"} = 1;
+        $Data{"MaxAge"} = $RowTmp[4];
     }
     return %Data;
 }
