@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.52 2004-04-01 13:26:07 martin Exp $
+# $Id: Admin.pm,v 1.53 2004-07-08 12:48:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.52 $';
+$VERSION = '$Revision: 1.53 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -94,9 +94,9 @@ sub AdminCustomerUserForm {
               $Param{Preferences} .= $Param{Value};
           }
           else {
-              $Param{Preferences} .= $Self->Output(
-                   TemplateFile => 'AdminCustomerUserGeneric',
-                   Data => { Item => $Entry->[1], %Param},
+              $Self->Block(
+                  Name => 'Generic',
+                  Data => { Item => $Entry->[1], %Param},
               );
           }
       }
@@ -142,10 +142,16 @@ sub AdminCustomerUserForm {
           if ($Type eq 'Password' || $Type eq 'CustomQueue') {
               # do nothing if the auth! is not a preference!
           }
+          elsif ($Type eq 'Upload') {
+              $Self->Block(
+                  Name => "Preferences$Type",
+                  Data => {%Param, Filename => $Param{$PrefKey."::Filename"}, %PrefItem},
+              );
+          }
           else {
-              $Param{Preferences} .= $Self->Output(
-                TemplateFile => 'AdminCustomerUserPreferences'.$Type,
-                Data => \%PrefItem,
+              $Self->Block(
+                  Name => "Preferences$Type",
+                  Data => \%PrefItem,
               );
           }
 #        }
@@ -210,10 +216,10 @@ sub AdminUserForm {
                 $PrefItem{'Option'} = "<input type=\"text\" name=\"GenericTopic::$PrefKey\" ".
                      "value=\"". $Self->Ascii2Html(Text => $Param{$PrefKey}) .'">';
             }
-          } 
+          }
           elsif ($PrefKey eq 'UserLanguage') {
               $PrefItem{'Option'} = $Self->OptionStrgHashRef(
-                  Data => $Self->{ConfigObject}->Get('DefaultUsedLanguages'), 
+                  Data => $Self->{ConfigObject}->Get('DefaultUsedLanguages'),
                   Name => "GenericTopic::$PrefKey",
                   SelectedID => $Param{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage'),
                   HTMLQuote => 0,
@@ -235,10 +241,16 @@ sub AdminUserForm {
           if ($Type eq 'Password' || $Type eq 'CustomQueue') {
               # do nothing if the auth! is not a preference!
           }
+          elsif ($Type eq 'Upload') {
+              $Self->Block(
+                  Name => "Preferences$Type",
+                  Data => {Filename => $Param{$PrefKey."::Filename"}, %PrefItem},
+              );
+          }
           else {
-              $Param{Preferences} .= $Self->Output(
-                TemplateFile => 'AdminUserPreferences'.$Type,
-                Data => \%PrefItem,
+              $Self->Block(
+                  Name => "Preferences$Type",
+                  Data => \%PrefItem,
               );
           }
 #        }
