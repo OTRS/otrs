@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentMove.pm - move tickets to queues 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMove.pm,v 1.16 2003-05-13 15:37:47 martin Exp $
+# $Id: AgentMove.pm,v 1.17 2003-05-13 22:53:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -240,7 +240,6 @@ sub Run {
                 ArticleType => 'note-internal',
                 SenderType => 'agent',
                 From => $Self->{UserLogin},
-                To => $Self->{UserLogin},
                 Subject => 'Move Note',
                 Body => $Comment,
                 ContentType => "text/plain; charset=$Self->{'UserCharset'}",
