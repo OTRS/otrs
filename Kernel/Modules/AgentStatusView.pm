@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Phil Davis <phil.davis at itaction.co.uk>
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code at otrs.org>
 # --   
-# $Id: AgentStatusView.pm,v 1.4 2003-02-08 15:16:30 martin Exp $
+# $Id: AgentStatusView.pm,v 1.5 2003-02-08 21:09:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Modules::AgentStatusView;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -60,7 +60,13 @@ sub new {
    $Self->{Order} = $Self->{ParamObject}->GetParam(Param => 'Order') || 'Up';
    # viewable tickets a page
    $Self->{Limit} = $Self->{ParamObject}->GetParam(Param => 'Limit')
-       || 200; 
+       || 600; 
+
+   $Self->{StartHit} = $Self->{ParamObject}->GetParam(Param => 'StartHit') || 0;
+   if ($Self->{StartHit} >= 1000) {
+       $Self->{StartHit} = 1000;
+   }
+   $Self->{PageShown} = 50;
 
    return $Self;
 }
@@ -147,7 +153,9 @@ sub Run {
     }
 
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{Limit});
+    my $AllHits = 0;
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
+        $AllHits++;
         my $Data = {
             TicketID => $RowTmp[0],
             TicketQueueID => $RowTmp[1],
@@ -159,17 +167,25 @@ sub Run {
     # show ticket's
     # --
     my $OutputTable = "";
+    my $Counter = 0;
     foreach my $DataTmp (@ViewableTickets) {
-        $OutputTable .= ShowTicketStatus(
-           $Self,
-           %{$DataTmp}, 
-        );
+        $Counter++;
+        if ($Counter > $Self->{StartHit} && $Counter <= ($Self->{PageShown}+$Self->{StartHit})) {
+            $OutputTable .= ShowTicketStatus(
+               $Self,
+               %{$DataTmp}, 
+            );
+        }
     }
     $Output .= $Self->{LayoutObject}->AgentStatusView(
         StatusTable => $OutputTable, 
         Limit => $Self->{Limit},
         SortBy => $Self->{SortBy},
         Order => $Self->{Order},
+        PageShown => $Self->{PageShown},
+        AllHits => $AllHits,
+        StartHit => $Self->{StartHit},
+
     );
     # get page footer
     $Output .= $Self->{LayoutObject}->Footer();
@@ -230,4 +246,3 @@ sub ShowTicketStatus {
 # --
 
 1;
-
