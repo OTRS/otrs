@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerMessage.pm - to handle customer messages
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessage.pm,v 1.27 2004-02-26 17:47:02 martin Exp $
+# $Id: CustomerMessage.pm,v 1.28 2004-04-01 09:21:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -66,13 +66,13 @@ sub Run {
                 # SelectionType Queue or SystemAddress?    
                 my %Tos = ();
                 if ($Self->{ConfigObject}->Get('CustomerPanelSelectionType') eq 'Queue') {
-                    %Tos = $Self->{QueueObject}->GetAllQueues(
+                    %Tos = $Self->{TicketObject}->MoveList(
                         CustomerUserID => $Self->{UserID},
                         Type => 'rw',
                     );
                 }
                 else {
-                    my %Queues = $Self->{QueueObject}->GetAllQueues(
+                    my %Queues = $Self->{TicketObject}->MoveList(
                         CustomerUserID => $Self->{UserID},
                         Type => 'rw',
                     );
@@ -204,7 +204,7 @@ sub Run {
           );
           my $NextState = $NextStateData{Name} || 
             $Self->{ConfigObject}->Get('CustomerPanelDefaultNextComposeType') || 'open';
-          $Self->{TicketObject}->SetState(
+          $Self->{TicketObject}->StateState(
               TicketID => $Self->{TicketID},
               ArticleID => $ArticleID,
               State => $NextState,
@@ -357,9 +357,10 @@ sub _GetNextStates {
     my $Self = shift;
     my %Param = @_;
     # get next states
-    my %NextStates = $Self->{StateObject}->StateGetStatesByType(
+    my %NextStates = $Self->{TicketObject}->StateList(
         Type => 'CustomerPanelDefaultNextCompose',
-        Result => 'HASH',
+        TicketID => $Self->{TicketID},
+        CustomerUserID => $Self->{UserID},
     );
     return \%NextStates;
 }

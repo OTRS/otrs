@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/CustomerZoom.pm - to get a closer view
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerZoom.pm,v 1.15 2004-02-18 23:27:19 martin Exp $
+# $Id: CustomerZoom.pm,v 1.16 2004-04-01 09:21:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -132,12 +132,11 @@ sub Run {
 sub _GetNextStates {
     my $Self = shift;
     my %Param = @_;
-    # --
     # get next states
-    # --
-    my %NextStates = $Self->{StateObject}->StateGetStatesByType(
+    my %NextStates = $Self->{TicketObject}->StateList(
         Type => 'CustomerPanelDefaultNextCompose',
-        Result => 'HASH',
+        TicketID => $Self->{TicketID},
+        CustomerUserID => $Self->{UserID},
     );
     return \%NextStates;
 }
