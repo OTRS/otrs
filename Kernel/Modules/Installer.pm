@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Installer.pm,v 1.15 2002-10-24 23:55:48 martin Exp $
+# $Id: Installer.pm,v 1.16 2002-12-01 14:13:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ package Kernel::Modules::Installer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -435,6 +435,17 @@ sub ReConfigure {
         }
     }
     close (IN);
+    # add new config settings
+    foreach (sort keys %Param) {
+        if ($Config !~ /\$Self->{$_} =.+?;/) {
+            if ($Param{$_} =~ /^[0-9]+$/) {
+                $Config =~ s/\$DIBI\$/\$DIBI\$\n    \$Self->{$_} = $Param{$_};/g;  
+            }
+            else {
+                $Config =~ s/\$DIBI\$/\$DIBI\$\n    \$Self->{$_} = '$Param{$_}';/g;  
+            }
+        }
+    }
     # --
     # write new config file
     # --
