@@ -2,7 +2,7 @@
 # InstallerSystem.dtl - provides HTML form for Installer
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: InstallerSystem.dtl,v 1.3 2003-01-03 00:21:24 martin Exp $
+# $Id: InstallerSystem.dtl,v 1.4 2003-01-14 23:24:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -48,6 +48,14 @@
     <td>$Text{"Logfile"}:</td>
     <td><input type="text" name="LogModule::LogFile" value="$Config{"LogModule::LogFile"}" size="40"></td>
     <td>$Text{"(Logfile just needed for File-LogModule!)"}</td>
+  </tr>
+  <tr>
+    <td>$Text{"CheckMXRecord"}:</td>
+    <td><select name="CheckMXRecord">
+        <option value="1" selected>$Text{"Yes"}</option> 
+        <option value="0">$Text{"No"}</option> 
+      </select></td>
+    <td>$Text{"(Checks MX recordes of used email addresses by composing an answer. Don't use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)"}</td>
   </tr>
   <tr>
     <td colspan="3"><b>$Text{"Ticket"}:</b></td>

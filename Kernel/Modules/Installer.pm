@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Installer.pm,v 1.17 2003-01-03 16:17:30 martin Exp $
+# $Id: Installer.pm,v 1.18 2003-01-14 23:24:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ package Kernel::Modules::Installer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -79,7 +79,7 @@ sub Run {
     # --
     if ($Subaction eq '' || !$Subaction) {
         if ($Self->ReConfigure()) {
-           $Output .= $Self->{LayoutObject}->Header();
+           $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
            $Output .= $Self->{LayoutObject}->Warning(
                Message => "Kernel/Config.pm isn't writable!",
                Comment => 'If you want to use the installer, set the '.
@@ -88,7 +88,7 @@ sub Run {
            $Output .= $Self->{LayoutObject}->Footer();
         }
         else { 
-           $Output .= $Self->{LayoutObject}->Header();
+           $Output .= $Self->{LayoutObject}->Header(Title => 'Installer');
            $Output .= $Self->{LayoutObject}->InstallerStart(
                Item => 'create database',
                Step => '1/3',
@@ -100,7 +100,7 @@ sub Run {
     # do dem settings
     # --
     elsif ($Subaction eq 'DB') {
-        $Output .= $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->Header(Title => 'Installer');
         # get params
         my %DB = ();
         $DB{User} = $Self->{ParamObject}->GetParam(Param => 'DBUser') || '';
@@ -321,7 +321,7 @@ sub Run {
     # do system settings
     # --
     elsif ($Subaction eq 'System') {
-           $Output .= $Self->{LayoutObject}->Header();
+           $Output .= $Self->{LayoutObject}->Header(Title => 'Installer');
            $Output .= $Self->{LayoutObject}->InstallerBody(
                Item => 'system settings',
                Step => '2/3',
@@ -333,14 +333,15 @@ sub Run {
     # do system settings action
     # --
     elsif ($Subaction eq 'Finish') {
-        $Output .= $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->Header(Title => 'Installer');
         # --
         # ReConfigure Config.pm
         # --
         my %Config = ();
         foreach (qw(SystemID FQDN AdminEmail Organization LogModule LogModule::LogFile 
-          TicketHook TicketNumberGenerator DefaultCharset DefaultLanguage)) {
-            $Config{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
+          TicketHook TicketNumberGenerator DefaultCharset DefaultLanguage CheckMXRecord)) {
+            my $Value = $Self->{ParamObject}->GetParam(Param => $_);
+            $Config{$_} = defined $Value ? $Value : ''; 
         }
         if ($Self->ReConfigure(
             %Config,
@@ -372,7 +373,7 @@ sub Run {
     # else! error!
     # --
     else {
-        $Output .= $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
         $Output .= $Self->{LayoutObject}->Error(
                 Message => "Unknown Subaction $Subaction!",
                 Comment => 'Please contact your admin');
