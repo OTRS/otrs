@@ -1,82 +1,72 @@
 <section id="install-win32">
 <title>Install OTRS on Win32</title>
-<para>This document describes the installation of the <ulink url="http://otrs.org">Open Ticket Request System OTRS</ulink> on systems running <emphasis>Win32</emphasis>. We tested it on Windows 2000, it should run on Windows NT4, XP and 2003, too. Take care to keep your operating system up-to-date prior to installing, visit at least <ulink url="http://windowsupdate.microsoft.com/">http://windowsupdate.microsoft.com/</ulink> therefore.</para>
-<para>Please note that we dropped support for 16-Bit-Windows such as Windows 98, 98SE, ME and the like. This we do knowing that server applications should only run on a stable and secure operating system or at least on a basis that can be secured and improved at all.</para>
-<section>
+<para>This document describes the installation of the <ulink url="http://otrs.org">OTRS</ulink> on systems running <emphasis>Win32</emphasis>. It has been tested it on Windows 2000, it should run on Windows NT4, XP and 2003, too. Take care to keep your operating system up-to-date prior to installing. Please have a look at <ulink url="http://windowsupdate.microsoft.com/">http://windowsupdate.microsoft.com/</ulink> before you install OTRS.</para>
+<para>Please note that we do not support 16-Bit-Windows Systems with this installer (e.g. Windows 98, 98SE, ME).</para>
+<section id="otrs4win32">
 <title>otrs4win32 - The Automatic Installer</title>
-<para>We provide an automatic installer for your convenience that will install all of the needed software components for you and strongly recommend it's use.</para>
+<para>We provide an automatic installer for your convenience that will install all of the needed software components for you on a fresh (!) and up-to-date Win32 system and strongly recommend it's use.</para>
 <important><para>The contained software versions are: <ulink url="http://otrs.org/">OTRS 1.1.3-01</ulink>, <ulink url="http://cronw.sourceforge.net/">CRONw 1.4b</ulink>, <ulink url="http://httpd.apache.org/docs-2.0/">Apache 2.0.47</ulink>, <ulink url="http://www.mysql.com/products/mysql/">MySQL 4.0.14</ulink>, <ulink url="http://www.php.net/">PHP 4.3.3</ulink> &amp; <ulink url="http://pear.php.net/">PEAR</ulink>, <ulink url="http://www.perl.org/">Perl 5.8.0</ulink>, <ulink url="http://www.php.net/manual/en/install.apache2.php">mod_php 4.3.3</ulink>, <ulink url="http://perl.apache.org/">mod_perl 1.99_10</ulink>, <ulink url="http://www.modssl.org/">mod_ssl 2.0.47</ulink>, <ulink url="http://www.openssl.org/">openssl 0.9.7b</ulink>, <ulink url="http://www.phpmyadmin.net/">PHPMyAdmin 2.5.1</ulink>, <ulink url="http://www.mrunix.net/webalizer/">Webalizer 2.01-10</ulink>, <ulink url="http://www.pmail.com/overviews/ovw_mercury.htm">Mercury MailTransport System v3.32</ulink>, <ulink url="http://www.aditus.nu/jpgraph/">JpGraph 1.12.1</ulink>, <ulink url="http://filezilla.sourceforge.net/">FileZilla FTP Server 0.8.5</ulink>.</para></important>
 
-<section>
+<section "download_and_installation_otrs4win32">
 <title>Download &amp; Installation</title>
 <para>Download the  
 <ulink url="ftp://ftp.otrs.org/pub/otrs/misc/win32/otrs4win32.current.exe">current release</ulink> as a 7z self-extracting archive. You may want to verify <ulink url="ftp://ftp.otrs.org/pub/otrs/misc/win32/otrs4win32.current.md5">the corresponding md5 sum</ulink> after download. On Windows we herefore recommend md5-summer: <ulink url="http://md5summer.org/">http://md5summer.org/</ulink>. Give it a try, it's a fine piece of software.</para>
-<para>Extract it's contents by double-clicking it. You will be asked where to put the top-level directory <userinput>xampp</userinput> holding all the files. I strongly recommend unpacking it to a root drive, ie. <userinput>C:\</userinput>, <userinput>D:\</userinput> or similar. Take a wise choice now.</para>
+<para>Extract it's contents by double-clicking it. You will be asked where to put the top-level directory <userinput>xampp</userinput> holding all the files. We strongly recommend unpacking it to a root drive, ie. <userinput>C:\</userinput>, <userinput>D:\</userinput> or similar.</para>
 <para>Finally run <userinput>setup_xampp.bat</userinput> by double-clicking it. The system now configures itself to the current location, please be patient and watch the script's output. Once it is finished, you're there - NO reboot required!</para>
 <note>
-<title>NO Changes To Your System</title>
-<para>Please note that NO file outside the <userinput>xampp</userinput> directory will be written or even modified, neither will your system's registry be touched in any way! Neat, hm?</para>
-<para>Um... I must admit that installing anything as a system service *will* certainly change your system's registry, but that's all. It is a prerequisite for CRONw only (see below).</para>
-</note>
-<note>
-<title>Hm? One Directory?</title>
-<para>There's absolutely nothing wrong with keeping all the servers under one directory. Well, I know some of you do not even think about those circumstances, but there are people out there to be taken seriously when saying a mail server should reside on it's own partition, a database server should store on a RAID, and so on. <emphasis>You're right</emphasis> - go on, use Windows' facilities to build all of your secure scenarios. The keywords are <emphasis>Dynamic Disks</emphasis> and <emphasis>VFS</emphasis> here. In other words, you may certainly move the subdirectories of <userinput> xampp</userinput> to partitions, RAIDs or whatever you like and you are hereby encouraged to. You just have to configure your box to do it. Feel free to contact us if you need assistance whith generally setting up the Windows operating system on your box. Neat again, hm?</para>
-</note>
-<note>
-<title>So, What About CRONw's Service Installation?</title>
+<title>What About CRONw's Service Installation?</title>
 <para>During the process <userinput>setup_xampp.bat</userinput> performs you will be asked wether you want to install CRONw as a system service. Although a cron service to start maintenance scripts at regular intervals is required for OTRS to work properly, you may decide to do this later. Your OTRS is setup at this point, but not yet fully configured, so CRONw might produce unnecessary error logs. If you decide to not install CRONw as a service now, don't forget to later execute the script <userinput>cronw_installservice.bat</userinput> - CRONw will not work without being installed as a service.</para>
 </note>
 </section>
 
-<section>
-<title>Start Your Engines</title>
+<section id="start_otrs_on_win32">
+<title>Start The OTRS System</title>
 <para>Make sure there are no other server applications running on the ports 25 (smtp), 80 (http), 443 (https), 3306 (MySQL). If so, find out, what servers they are and if they are supposed and/or required to run at this time on your machine. Finally, you'll have to shut them down to start OTRS.</para>
 <para>To start your system's servers now, call the provided scripts <userinput>mysql_start.bat</userinput>, <userinput>mercury_start.bat</userinput> and <userinput>apache_start.bat</userinput>. The script <userinput>all_start.bat</userinput> will run all three and additionally start the script <userinput>cronw_startservice.bat</userinput>, which issues a <userinput>net start cron</userinput>. It won't harm if you haven't installed CRONw as a service yet, so feel free to use <userinput>all_start.bat</userinput> for your convenience.</para>
-<para>Please read the ouput of the scripts and do not close the (usually dark colored) windows appearing, simply minimize them - these are your servers... Please be so patient to wait a little while for Apache having completely been started, and then visit <userinput>http://localhost/</userinput>. This is XAMPP and its components - you'll find OTRS in the left-hand menu. Click on it to get to the informational page about OTRS. The link at the bottom points to <userinput>http://localhost/otrs/cgi-bin/index.pl</userinput> which you may later on use at OTRS' start page. Click it - there you go!</para>
-<para>To let Apache, Mercury, MySQL and CRONw start automatically at boot time, you may decide to use the provided scripts to install these as system services, but you are not forced to do so now. Find these scripts in the corresponding servers' directories, the name scheme is <emphasis>servername</emphasis><userinput>_installservice.bat</userinput>.</para>
+<para>Please read the ouput of the scripts and do not close the (usually dark colored) windows appearing, simply minimize them - these are your servers... Please be so patient to wait a little while until Apache has been completely started, and then visit <userinput>http://localhost/</userinput>. This is XAMPP and its components - you'll find OTRS in the left-hand menu. Click on it to get to the informational page about OTRS. The link at the bottom points to <userinput>http://localhost/otrs/cgi-bin/index.pl</userinput> which you may use as OTRS' start page later. Click it - there you go!</para>
+<para>To let Apache, Mercury, MySQL and CRONw start automatically at boot time, you may decide to use the provided scripts to install these as system services, but you don't have to do it now. Find these scripts in the corresponding servers' directories, the name scheme is <emphasis>servername</emphasis><userinput>_installservice.bat</userinput>.</para>
 </section>
 
-<section>
+<section id="how_to_stop_the_server">
 <title>How To Stop The Servers (if ever...)</title>
 <para>For Apache, you may simply close it's control window. To safely shut down MySQL, issue the script <userinput>mysql_stop.bat</userinput>. Shut down Mercury via it's <userinput>file</userinput> menu or the keyboard shortcut <userinput>Alt-F4</userinput>. Stop the CRONw service via issuing <userinput>net stop cron</userinput>.</para>
 <para>If you installed the servers as system services, you may use the system's service control area to stop the services although you don't need to, they will be terminated at shutdown time properly.</para>
 <tip>
-<para><emphasis>Uninstallation Instruction:</emphasis>If ever you want to finally remove everything from your box, simply stop all of the servers, uninstall all of their eventually installed services and finally delete the whole directory <userinput>xampp</userinput> - that was it. No Reboot required.</para>
+<para><emphasis>Uninstallation Instruction:</emphasis>If you ever want to remove everything from your box, simply stop all of the servers, uninstall all of their eventually installed services and finally delete the whole directory <userinput>xampp</userinput> - that was it. No Reboot required.</para>
 </tip>
 </section>
 
-<section>
-<title>Additional Information</title>
-<para>This release is suitable only for OTRS systems that are about to be freshly installed, ie. you are currently not encouraged to upgrade your existing OTRS installation. In fact, the installer does not provide any mechanism to do this at this early stage of development.</para>
-<para>You may want to have a look at gorgeous <ulink url="http://apachefriends.org/">http://apachefriends.org/</ulink> - the place where XAMPP comes from. We always use the latest version of XAMPP as a basis to build the otrs4win32 package.</para>
+<section id="upgrade_issue_on_win32">
+<title>Upgrade Issue</title>
+<para>This release is suitable only for OTRS systems that are about to be freshly installed, ie. you are currently not encouraged to upgrade your existing OTRS installation. In fact, the installer does not provide any mechanism to do so.</para>
 </section>
 
 </section>
 
-<section>
+<section id="step_by_step_manual_win32_installation">
 <title>Step-by-Step: The Manual Installation</title>
-<para>This section of the installation instruction set deals step-by-step with installing OTRS manually on systems running <emphasis>Win32</emphasis>.</para>
+<para>This section of the installation instruction set deals step-by-step with installing OTRS manually on systems running <emphasis>Win32</emphasis>. Of course we do recomend the usage of our otrs4win32 Installer. It is much easier to use!</para>
 
-<section>
+<section id="needed_software">
 <title>Needed Software</title>
 <para>You will need three main components on your system, a webserver (<ulink url="http://apache.org/">Apache</ulink>), a database (<ulink url="http://www.mysql.com/">MySQL</ulink>) and the programming language <ulink url="http://www.perl.org/">Perl</ulink>.</para>
 <para>The whole installation will assumingly take place on drive D:, but you may install wherever you like, for sure. All you have to do is replace every occurence of <emphasis>D:</emphasis> or <emphasis>d:</emphasis> with your choice, f.e. <emphasis>c:\Programs</emphasis>. It is *no* good idea to have spaces in the installation path, so <emphasis>c:\program Files\otrs</emphasis> won't be a lucky choice.</para>
 
-<section>
+<section id="install_perl">
 <title>Install PERL</title>
 <para>Download <emphasis>Perl</emphasis>, <emphasis>Version 5.6.1 build 633</emphasis> from <ulink url="http://www.activestate.com/Products/Download/Download.plex?id=ActivePerl">http://www.activestate.com/Products/Download/Download.plex?id=ActivePerl</ulink>. I recommend chosing the MSI version.</para>
 <para>Install Perl using the default values to <emphasis>D:\Perl</emphasis>.</para>
-<section>
+<section id="install_additional_perl_packages">
 <title>Install Additional PERL Packages</title>
 <para>Download the OTRS-Win32-Perl-Packages <ulink url="ftp://ftp.otrs.org/pub/otrs/misc/win32/OTRS-Win32-Perl-Packages.zip">in one file</ulink> (coming via FTP from <emphasis>ftp.otrs.org</emphasis>) and unpack it into <computeroutput>D:\Perl</computeroutput>, preserving directory structure.</para>
 </section>
 </section>
 
-<section>
+<section id="installing_the_webserver">
 <title>Installing The Webserver</title>
 <para>OTRS requires a webserver to run. You may choose the one of your choice, it will probably run on every perl-enabled webserver. I tested it on <ulink url="http://www.sambar.org">Sambar</ulink> <ulink url="http://sambar.robertkehl.de">5.2 &amp; above</ulink> and on <ulink url="http://httpd.apache.org/">Apache</ulink>, both <ulink url="http://httpd.apache.org/docs/">1.3</ulink> and <ulink url="http://httpd.apache.org/docs-2.0/">2.0</ulink>. <computeroutput>mod_perl</computeroutput> is only availabe for Apache. Currently, only mod_perl-1.0 on Apache 1.3.27 is covered in these instructions.</para>
 
-<section>
+<section id="installing_apache">
 <title>Installing Apache</title>
 
 <para>Download the <ulink url="http://www.apache.org">Apache</ulink> of your choice (<ulink url="http://www.apache.org/dist/httpd/binaries/win32/apache_1.3.27-win32-x86-no_src.msi">1.3.27</ulink> and/or <ulink url="http://www.apache.org/dist/httpd/binaries/win32/apache_2.0.43-win32-x86-no_ssl.msi">2.0.43</ulink>) and install it/them. I recommend you choose <userinput>D:\Apache</userinput> as root for *both* versions. The resulting directory structure will be:</para>
@@ -92,14 +82,14 @@
 
 </section>
 
-<section>
+<section id="install_mysql">
 <title>Install MySQL</title>
 <para>Download MySQL from <ulink url="http://www.mysql.com/downloads/">http://www.mysql.com/downloads/</ulink> and install it in <emphasis>D:\mysql</emphasis>, under Win 2000/XP as a service, too. Start it. Not thoroughly tested in this manual installation procedure is MySQL Version 4.0 - but as it is included in the automatic installer you may give this version a try instead of the older 3.23.</para>
 <para>For a more comfortable configuration interface I recommend installing phpMyAdmin from <ulink url="http://www.phpmyadmin.net">http://www.phpmyadmin.net</ulink>, too, location: <emphasis>D:\mysql\phpMyAdmin</emphasis>. This will require <ulink url="http://www.php.net">PHP</ulink> to be installed, which always is a very good idea.</para>
 <para>We change the passwort for root later.</para>
 </section>
 
-<section>
+<section id="install_otrs">
 <title>Install OTRS</title>
 <para>Last but least - the beast!</para>
 <para>Download OTRS as a tarball (.tar.gz): <ulink url="http://otrs.org/download">http://otrs.org/download</ulink> and unzip it to <emphasis>d:\</emphasis>, preserving the directory structure. A directory called <userinput>otrs</userinput> will be created on D:\</para>
@@ -107,7 +97,7 @@
 
 </section>
 
-<section>
+<section id="configuration">
 <title>Configuration</title>
 
 <section>
@@ -169,7 +159,7 @@ D:\Perl\packages><userinput>install.bat</userinput>
 <para>That's it for Perl.</para>
 </section>
 
-<section>
+<section id="configuring_apache">
 <title>Configuring Apache</title>
 
 <para>In the following, I will refer to 'Apache' only, the process is the same for both versions 1.3 and 2.0.</para>
@@ -229,7 +219,7 @@ use Kernel::System::Log::File;
 <para>That's it for Apapche. (Re-)Start your installation(s) using the Apache monitor, proabably located in your task bar. Sometimes it's a good idea to restart the whole box.</para>
 </section>
 
-<section>
+<section id="configuring_mysql">
 <title>Configuring MySQL</title>
 <para>Secure your MySQL by providing good passwords for the users <emphasis>@%</emphasis>, <emphasis>root@%</emphasis> und <emphasis>root@localhost</emphasis>. This can easily be done via <emphasis>phpMyAdmin</emphasis>.</para>
 <para>Let's fill the database. You can do this via the command line, as show here (output not shown):</para>
@@ -247,10 +237,10 @@ D:\mysql><userinput>mysqladmin -u root -p password reload</userinput>
 <para>That's it for MySQL, which we provided with the database otrs, its corresponding tables and the user otrs@localhost.</para>
 </section>
 
-<section>
+<section id="configuring_otrs">
 <title>Configuring OTRS</title>
 
-<section><title>CONFIG.PM</title>
+<section id="config.pm"><title>CONFIG.PM</title>
 <para>Now you teach OTRS s.th. about you. First create your configuration file:</para>
 <para><screen>
 C:\><userinput>cd /d d:\otrs\Kernel</userinput>
@@ -295,7 +285,7 @@ D:\otrs\bin><userinput>copy Config.pm.dist Config.pm</userinput>
 
 </section>
 
-<section>
+<section id="first_start">
 <title>The First Start</title>
 <para>Now startup OTRS for the first time. A good idea is to reboot your machine before, remember: You're on Windows ;) (although you shouldn't be forced to). Then call <emphasis>http://localhost/otrs/index.pl</emphasis> in your favourite browser.</para>
 <para>The user name is &quot;root@localhost&quot;, the password is &quot;root&quot;, both without the quotes.</para>
@@ -303,7 +293,7 @@ D:\otrs\bin><userinput>copy Config.pm.dist Config.pm</userinput>
 <para>It's a *very good* idea to exactly *now* change the above password on <ulink url="http://localhost/otrs/index.pl?Action=AdminUser">http://localhost/otrs/index.pl?Action=AdminUser</ulink></para>
 </important>
 
-<section>
+<section id="system_email">
 <title>System Email Addresses &amp; POP3</title>
 <para>You set your system email addresses here: <ulink url="http://localhost/otrs/index.pl?Action=AdminSystemAddress">http://localhost/otrs/index.pl?Action=AdminSystemAddress</ulink>. These are the addresses your customers lateron use to reach your OTRS.</para>
 <para>You create POP3 accounts for each system email here: <ulink url="http://localhost/otrs/index.pl?Action=AdminPOP3">http://localhost/otrs/index.pl?Action=AdminPOP3</ulink></para>
@@ -315,14 +305,14 @@ D:\otrs\bin><userinput>copy Config.pm.dist Config.pm</userinput>
 </tip>
 </section>
 
-<section>
+<section id="cronjobs">
 <title>No CRON Jobs on Apache</title>
 <para>Please note that Apache cannot CRON. You may therefore want to visit <ulink url="http://cronw.sourceforge.net/">http://cronw.sourceforge.net/</ulink> for a Perl-based CRON solution for 32-Bit Windows that runs as a system service. The webserver <ulink url="http://sambar.robertkehl.de/?page=whatis">Sambar</ulink> has a built-in cron-service besides loads of other functionalities and can also be configured to serve OTRS.</para>
 </section>
 
 </section>
 
-<section>
+<section id="done">
 <title>Done!</title>
 <para>Congratulations, you hopefully were successful in installing OTRS on Win32!</para>
 <para>If s.th. still is not as clear as it should be or if you are getting nothing more than error messages instead of the interface of OTRS, don't hesitate to mail <ulink url="mailto:otrs-win32@robertkehl.de">otrs-win32 at robertkehl.de</ulink>. Hopefully you get a ticket back ;-)</para>
