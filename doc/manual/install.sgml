@@ -77,8 +77,13 @@ ernie:~ #
 Now you have to setup the databases. Please open <ulink url="http://localhost/otrs/installer.pl"><citetitle>http://localhost/otrs/installer.pl</citetitle></ulink> to do so.
 
 <screenshot>
-<screeninfo>installer.pl screen - database (1/4)</screeninfo>
+<screeninfo>installer.pl screen - license (1/4)</screeninfo>
 <graphic srccredit="installer.pl - screenshot" scale="40" fileref="screenshots/installer.png"></graphic>
+</screenshot>
+
+<screenshot>
+<screeninfo>installer.pl screen - database (2/4)</screeninfo>
+<graphic srccredit="installer.pl - screenshot" scale="40" fileref="screenshots/installer1.png"></graphic>
 </screenshot>
 </para>
 <warning>
@@ -89,15 +94,15 @@ It is not a good idea to use the default passwords. You install a very important
 <para>
 <screenshot>
 <screeninfo>installer.pl screen - database (2/4)</screeninfo>
-<graphic srccredit="installer.pl - screenshot" scale="40" fileref="screenshots/installer1.png"></graphic>
-</screenshot>
-<screenshot>
-<screeninfo>installer.pl screen - system (3/4)</screeninfo>
 <graphic srccredit="installer.pl - screenshot" scale="40" fileref="screenshots/installer2.png"></graphic>
 </screenshot>
 <screenshot>
-<screeninfo>installer.pl screen - finish (4/4)</screeninfo>
+<screeninfo>installer.pl screen - system (3/4)</screeninfo>
 <graphic srccredit="installer.pl - screenshot" scale="40" fileref="screenshots/installer3.png"></graphic>
+</screenshot>
+<screenshot>
+<screeninfo>installer.pl screen - finish (4/4)</screeninfo>
+<graphic srccredit="installer.pl - screenshot" scale="40" fileref="screenshots/installer4.png"></graphic>
 </screenshot>
 </para>
 <para>
