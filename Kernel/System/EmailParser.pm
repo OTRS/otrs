@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: EmailParser.pm,v 1.38 2004-11-26 10:58:34 martin Exp $
+# $Id: EmailParser.pm,v 1.39 2004-12-10 08:38:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Mail::Address;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.39 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -95,6 +95,10 @@ sub new {
     }
     else {
         $Self->{ParserParts} = $Param{Entity};
+    }
+    # get NoHTMLChecks param
+    if ($Param{NoHTMLChecks}) {
+        $Self->{NoHTMLChecks} = $Param{NoHTMLChecks};
     }
     # parse email at first
     $Self->GetMessageBody();
@@ -598,7 +602,7 @@ sub CheckMessageBody {
     my $Self = shift;
     my %Param = @_;
     # if already checked, just return
-    if ($Self->{MessageChecked} || !$Self->{ConfigObject}->Get('PostmasterAutoHTML2Text')) {
+    if ($Self->{MessageChecked} || !$Self->{ConfigObject}->Get('PostmasterAutoHTML2Text') || $Self->{NoHTMLChecks}) {
         return;
     }
     # check it it's juat a html email (store it as attachment and add text/plain)
@@ -676,6 +680,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.38 $ $Date: 2004-11-26 10:58:34 $
+$Revision: 1.39 $ $Date: 2004-12-10 08:38:53 $
 
 =cut
