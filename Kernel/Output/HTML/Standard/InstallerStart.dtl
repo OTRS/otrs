@@ -2,7 +2,7 @@
 # InstallerStart.dtl - provides HTML form for Installer
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: InstallerStart.dtl,v 1.3 2002-05-06 00:00:33 martin Exp $
+# $Id: InstallerStart.dtl,v 1.4 2002-08-21 15:32:04 stefan Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@
 <tr bgcolor="$Env{"BGTableColor1"}">
   <td valign="top"">
 
-Web-Installer (create database)
+<h2>Web-Installer (create database)</h2>
 <p>
 
 <form action="installer.pl" method="post">
@@ -48,11 +48,14 @@ Web-Installer (create database)
   <tr>
     <td>OpenTRS DB connect host:</td><td><input type="text" name="OpenTRSDBConnectHost" value="localhost"></td>
   </tr>
+
+  <tr>
+    <td>Create new database:</td><td><input type="radio" name="DBAction" checked value="Create"></td>
+  </tr>
+  <tr>
+    <td>Delete old database:</td><td><input type="radio" name="DBAction" value="Delete"></td>
+  </tr>
 </table>
-
-Create new database: <input type="radio" name="DBAction" checked value="Create"> 
-Delete database: <input type="radio" name="DBAction" value="Delete">
-
 <br>
 <input type="submit" value="$Text{"submit"}">
 </form>

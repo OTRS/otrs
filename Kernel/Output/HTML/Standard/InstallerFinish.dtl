@@ -2,7 +2,7 @@
 # InstallerFinish.dtl - provides HTML form for Installer
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: InstallerFinish.dtl,v 1.4 2002-05-20 23:26:46 martin Exp $
+# $Id: InstallerFinish.dtl,v 1.5 2002-08-21 15:32:04 stefan Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,13 +13,14 @@
 <tr bgcolor="$Env{"BGTableColor1"}">
   <td valign="top">
 
-Web-Installer (Finish)
+<h2>Web-Installer (Finish)</h2>
 <p>
 $Data{"Setup"}
 </p>
 
+
 <dtl set $Data{"Wishes"} = "-">
-<dtl if ($Data{"Ready"} eq "1") { $Data{"Wishes"} = "<b><font color='red'>Restart OpenTRS with 'rcotrs restart-force'</font></p><p> Start page: <a href="http://$Env{"HTTP_HOST"}/otrs/index.pl">http://$Env{"HTTP_HOST"}/otrs/index.pl</a><br><br>user: root@localhost<br>pw: root<br><br>and configure your system (User, Queues, Responses, ...).<br><br>Have a lot of fun! Your OpenTRS Team</b>"; }>
+<dtl if ($Data{"Ready"} eq "1") { $Data{"Wishes"} = " <table> <tr> <td><b>Start page:</b></td> <td><a href="http://$Env{"HTTP_HOST"}/otrs/index.pl">http://$Env{"HTTP_HOST"}/otrs/index.pl</a></td> </tr><tr> <td><b>admin-user:</b></td> <td>root@localhost</td> </tr><tr> <td><b>password:</b></td> <td>root</td> </tr> </table> <br> <b>Have a lot of fun!<br> Your OpenTRS Team</b> "; }>
 <p>
 $Data{"Wishes"}
 </p>
