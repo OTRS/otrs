@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminSession.pm - to control all session ids
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSession.pm,v 1.14 2003-12-29 17:26:06 martin Exp $
+# $Id: AdminSession.pm,v 1.15 2004-04-05 11:57:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminSession;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -101,6 +101,7 @@ sub MaskSessionTable {
 
     foreach (sort keys %Param) {
       if (($_) && (defined($Param{$_})) && $_ ne 'SessionID') {
+        $Param{$_} = $Self->{LayoutObject}->Ascii2Html(Text => $Param{$_});
         if ($_  eq 'UserSessionStart') {
           my $Age = int((time() - $Param{UserSessionStart}) / 3600);
           $Param{UserSessionStart} = scalar localtime ($Param{UserSessionStart});
