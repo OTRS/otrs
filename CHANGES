@@ -2,13 +2,17 @@
 # Changes of OTRS 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.105 2004-01-21 23:55:18 martin Exp $
+# $Id: CHANGES,v 1.106 2004-01-23 00:44:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS HEAD 
+ - (2004/01/22) internationalization of agent notification messages
+    configurable over admin interface (attention, agent notificatins
+    are not be longer stored as article, now just a history entry will
+    be created, old articles will be removed/delete by update script!)
  - (2004/01/19) improve ticket search with date/time options 
  - (2004/01/14) added X-OTRS-SenderType and X-OTRS-ArticleType to 
     possible email headers (see doc/X-OTRS-Headers.txt).
@@ -189,7 +193,7 @@ CVS HEAD
     [...]
  - (2003/05/13) removed UNIQUE (not needed!) in pop3_account table
 
-1.1.4 (2003-??-??)
+1.1.? (2003-??-??)
  - (2003/10/27) fixed (removed) not needed database connects in
     PostMaster(POP3).pl stuff (now just 1 database connect, not 3
     connects)! Thanks to Jens Wilke!

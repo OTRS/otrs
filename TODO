@@ -2,7 +2,7 @@
 # TODO - todo list of OTRS
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+todo@otrs.org>
 # --
-# $Id: TODO,v 1.49 2004-01-21 23:56:22 martin Exp $
+# $Id: TODO,v 1.50 2004-01-23 00:44:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -31,7 +31,6 @@
 2.0
 - Multiple Attachements on http://localhost/otrs/index.pl?Action=AgentCompose
 - user info backend (LDAP and DB)
-- internationalization of agent notification messages (martin)
 - allow users to add or change stored replies for their queue without giving them full admin rights
 
 misc (not scheduled yet - nobody is working on it yet)
