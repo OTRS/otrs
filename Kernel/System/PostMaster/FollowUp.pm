@@ -2,7 +2,7 @@
 # PostMaster.pm - the global PostMaster module for OpenTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FollowUp.pm,v 1.10 2002-05-26 10:14:17 martin Exp $
+# $Id: FollowUp.pm,v 1.11 2002-06-04 23:07:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use Kernel::System::PostMaster::AutoResponse;
 use Kernel::System::User;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -164,7 +164,7 @@ sub Run {
         DBObject => $DBObject,
     );
     my %Data = $AutoResponse->GetResponseData(
-        OueueID => $QueueID,
+        QueueID => $QueueID,
         Type => $AutoResponseType,
     );
     if ($Data{Text} && $Data{Realname} && $Data{Address} && !$GetParam{'X-OTRS-Loop'}) {

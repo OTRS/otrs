@@ -2,7 +2,7 @@
 # Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.4 2002-05-26 10:12:31 martin Exp $
+# $Id: Queue.pm,v 1.5 2002-06-04 23:07:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Queue;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -25,7 +25,7 @@ sub new {
     my $Self = {}; # allocate new hash for object
     bless ($Self, $Type);
 
-    $Self->{OueueID} = $Param{QueueID} || ''; #die "Got no QueueID!";
+    $Self->{QueueID} = $Param{QueueID} || ''; #die "Got no QueueID!";
     $Self->{DBObject} = $Param{DBObject} || die "Got no DBObject!";
     return $Self;
 }
@@ -36,7 +36,7 @@ sub GetSystemAddress {
     my %Adresss;
     my $SQL = "SELECT sa.value0, sa.value1 FROM system_address as sa, queue as sq " .
 	" WHERE " .
-	" sq.id = $Self->{OueueID} " .
+	" sq.id = $Self->{QueueID} " .
 	" and " .
 	" sa.id = sq.system_address_id";
     $Self->{DBObject}->Prepare(SQL => $SQL);
@@ -53,7 +53,7 @@ sub GetSalutation {
     my $String = '';
     my $SQL = "SELECT text FROM salutation as sa, queue as sq " .
         " WHERE " .
-        " sq.id = $Self->{OueueID} " .
+        " sq.id = $Self->{QueueID} " .
         " and " .
         " sq.salutation_id = sa.id";
     $Self->{DBObject}->Prepare(SQL => $SQL);
@@ -69,7 +69,7 @@ sub GetSignature {
     my $String = '';
     my $SQL = "SELECT text FROM signature as si, queue as sq " .
         " WHERE " .
-        " sq.id = $Self->{OueueID} " .
+        " sq.id = $Self->{QueueID} " .
         " and " .
         " sq.signature_id = si.id";
     $Self->{DBObject}->Prepare(SQL => $SQL);
