@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketQueue.pm,v 1.1 2005-02-17 07:05:56 martin Exp $
+# $Id: AgentTicketQueue.pm,v 1.2 2005-02-23 07:43:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -367,7 +367,7 @@ sub ShowTicket {
     else {
          # html quoting
         $Article{Body} = $Self->{LayoutObject}->Ascii2Html(
-            NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,
+            NewLine => $Self->{ConfigObject}->Get('DefaultViewNewLine') || 85,
             Text => $Article{Body},
             VMax => $Self->{ConfigObject}->Get('DefaultPreViewLines') || 25,
             HTMLResultMode => 1,
