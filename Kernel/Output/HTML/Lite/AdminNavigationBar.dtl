@@ -2,7 +2,7 @@
 # AdminNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminNavigationBar.dtl,v 1.5 2002-05-26 18:16:43 martin Exp $
+# $Id: AdminNavigationBar.dtl,v 1.6 2002-05-30 14:25:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -53,7 +53,7 @@
   <td>
     $Env{"Box0"}<a href="#end">$Text{"end"}</a>$Env{"Box1"}
     <br> 
-    $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AdminSession">$Text{"Session Managmant"}</a>$Env{"Box1"} 
+    $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AdminSession">$Text{"Session Management"}</a>$Env{"Box1"} 
     <br>
     $Env{"Box0"}<a href="$Env{"Baselink"}&Action=AdminSelectBox">$Text{"Select Box"}</a>$Env{"Box1"} 
   </td>
