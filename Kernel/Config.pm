@@ -2,7 +2,7 @@
 # Config.pl - Config file for OpenTRS kernel
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.3 2001-12-05 20:32:08 martin Exp $
+# $Id: Config.pm,v 1.4 2001-12-16 01:37:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,8 +15,8 @@ use strict;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.3 $';
-$VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/g;
+$VERSION = '$Revision: 1.4 $';
+$VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
 sub new {
@@ -30,7 +30,7 @@ sub new {
     $Self->{LogObject} = $Param{LogObject};
 
     # 0=off; 1=on;
-    $Self->{DEBUG} = 0;
+    $Self->{Debug} = 0;
 
     # load config
     $Self->Load();
@@ -40,11 +40,13 @@ sub new {
 sub Load {
     my $Self = shift;
     # debug
-    if ($Self->{DEBUG} > 0) {
+    if ($Self->{Debug} > 0) {
         $Self->{LogObject}->Log(Priority=>'debug', MSG=>'Kernel::Config->Load()');
     }
 
-    # -data-
+    # --
+    # system data
+    # --
     # system ID
     $Self->{SystemID} = 10; 
     # full qualified domain name of your system
@@ -56,22 +58,47 @@ sub Load {
     # default queue of all
     $Self->{DefaultQueue} = 'Raw';
 
-    # -DB settings-
+    # --
+    # DB settings
+    # --
+    # database host
     $Self->{DatabaseHost} = 'localhost';
+    # database name
     $Self->{Database} = 'OpenTRS';
+    # database user
     $Self->{DatabaseUser} = 'root';
+    # password of database user
     $Self->{DatabasePw} = '';
+    # database DNS
     $Self->{DatabaseDSN} = 'DBI:mysql';
 
+    # --
+    # default agent settings
+    # --
+    # default viewable tickets a page
+    $Self->{ViewableTickets} = 25;
+    # max viewable tickets a page
+    $Self->{MaxLimit} = 150;
+    # default reload time
+    $Self->{Refresh} = 180;
+    # highlight age 1 in min
+    $Self->{HighlightAge1} = 27500;
+    $Self->{HighlightColor1} = 'orange';
+    # highlight age 2 in min
+    $Self->{HighlightAge2} = 29160;
+    $Self->{HighlightColor2} = 'red';
 
-    # -directories-
+    # --
+    # directories
+    # --
     # root directory
     $Self->{Home} = '/opt/OpenTRS';
-
     # directory for all sessen id informations
     $Self->{SessionDir} = $Self->{Home} . '/var/sessions';
 
-    # -web stuff-
+    # --
+    # web stuff
+    # --
     # global CGI handle
     $Self->{CGIHandle} = 'index.pl';
 
@@ -81,7 +108,7 @@ sub Get {
     my $Self = shift;
     my $What = shift;
     # debug
-    if ($Self->{DEBUG} > 0) {
+    if ($Self->{Debug} > 0) {
         $Self->{LogObject}->Log(
           Priority=>'debug', 
           MSG=>"->Get('$What') --> $Self->{$What}"
