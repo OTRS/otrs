@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUser.pm,v 1.13 2004-03-01 18:43:45 martin Exp $
+# $Id: AdminCustomerUser.pm,v 1.14 2004-03-02 13:33:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $ ';
+$VERSION = '$Revision: 1.14 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -49,6 +49,7 @@ sub Run {
     my $Nav = $Self->{ParamObject}->GetParam(Param => 'Nav') || 0;
     my $Source = $Self->{ParamObject}->GetParam(Param => 'Source') || 'CustomerUser';
     my $Search = $Self->{ParamObject}->GetParam(Param => 'Search');
+    my $AddedUID = $Self->{ParamObject}->GetParam(Param => 'AddedUID') || '';
 
     my %UserList = ();
     # check nav bar
@@ -70,6 +71,14 @@ sub Run {
         my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
         # build NavigationBar 
         $NavBar .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
+    }
+    # add notify
+    if ($AddedUID) {
+        $NavBar .= $Self->{LayoutObject}->Notify(
+            Info => $Self->{LayoutObject}->{LanguageObject}->Get('Added User "%s"", "'.$AddedUID).
+            " ( <a href='?Action=AgentPhone&Subaction=StoreNew&ExpandCustomerName=2&CustomerUser=$AddedUID'>".$Self->{LayoutObject}->{LanguageObject}->Get('PhoneView')."</a>".
+            " - <a href='?Action=AgentPhone&Subaction=StoreNew&ExpandCustomerName=2&CustomerUser=$AddedUID'>".$Self->{LayoutObject}->{LanguageObject}->Get('Compose Email')."</a> )!",
+        );
     }
     # search user list
     if ($Search) {
@@ -183,7 +192,7 @@ sub Run {
             }
             # redirect
             return $Self->{LayoutObject}->Redirect(
-                OP => "Action=AdminCustomerUser&Nav=$Nav&Search=$Search",
+                OP => "Action=AdminCustomerUser&Nav=$Nav&Search=$Search&AddedUID=$User",
             );
         }
         else {
