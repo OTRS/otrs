@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentMove.pm - move tickets to queues 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMove.pm,v 1.10 2003-03-06 22:11:58 martin Exp $
+# $Id: AgentMove.pm,v 1.11 2003-03-14 08:25:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,9 +12,10 @@
 package Kernel::Modules::AgentMove;
 
 use strict;
+use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -35,6 +36,7 @@ sub new {
     foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject)) { 
         die "Got no $_" if (!$Self->{$_});
     }
+    $Self->{StateObject} = Kernel::System::State->new(%Param);
 
     # get DestQueueID 
     $Self->{DestQueueID} = $Self->{ParamObject}->GetParam(Param => 'DestQueueID');
@@ -96,10 +98,18 @@ sub Run {
         my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $Self->{TicketID});
         $Output .= $Self->{LayoutObject}->Header(Title => 'Move Ticket');
         my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
+        # --
+        # get next states
+        # --
+        my %NextStates = $Self->{StateObject}->StateGetStatesByType(
+            Type => 'DefaultNextMove',
+            Result => 'HASH',
+        );
         $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
         $Output .= $Self->{LayoutObject}->AgentMove(
             MoveQueues => \%MoveQueues,
             TicketID => $Self->{TicketID},
+            NextStates => \%NextStates,
             %Ticket,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -110,6 +120,17 @@ sub Run {
           UserID => $Self->{UserID},
           TicketID => $Self->{TicketID},
       ) ) {
+        # --
+        # set state
+        # --
+        my $NewStateID = $Self->{ParamObject}->GetParam(Param => 'NewStateID') || '';
+        if ($Self->{ConfigObject}->{MoveSetState} && $NewStateID) {
+            $Self->{TicketObject}->SetState(
+                TicketID => $Self->{TicketID},
+                StateID => $NewStateID,
+                UserID => $Self->{UserID},
+            );
+        } 
         # --
         # redirect 
         # --
