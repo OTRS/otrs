@@ -3,7 +3,7 @@
 # SetPermissions.sh - to set the otrs permissions 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SetPermissions.sh,v 1.2 2002-04-22 22:02:33 martin Exp $
+# $Id: SetPermissions.sh,v 1.3 2002-05-26 23:26:44 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -35,4 +35,12 @@ chmod -R 2775 $OTRSDEST/var/article/
 echo "$WEBUSER.nogroup $OTRSDEST/var/sessions/"
 chown -R $WEBUSER $OTRSDEST/var/sessions/ 
 
+echo "$OTRSUSER.nogroup $OTRSDEST/var/log/TicketCounter.log"
+chmod -R 2775 $OTRSDEST/var/log/TicketCounter.log
+
+echo "$OTRSUSER.root $OTRSDEST/bin/DeleteSessionIDs.pl"
+chown $OTRSUSER.root $OTRSDEST/bin/DeleteSessionIDs.pl 
+
+echo "$OTRSUSER.root $OTRSDEST/bin/UnlockTickets.pl"
+chown $OTRSUSER.root $OTRSDEST/bin/UnlockTickets.pl
 
