@@ -2,7 +2,7 @@
 # AgentCompose.dtl - provides HTML form for AgentCompose 
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.dtl,v 1.1 2001-12-30 00:38:38 martin Exp $
+# $Id: AgentCompose.dtl,v 1.2 2002-01-02 00:43:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@
   <input type="hidden" name="SessionID" value="$Env{"SessionID"}">
   <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
   <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
-  <input type="hidden" name="NextScreen" value="$NextScreen">
+  <input type="hidden" name="NextScreen" value="$Data{"NextScreen"}">
   <input type="hidden" name="Email" value="$Data{"Email"}">
   <input type="hidden" name="InReplyTo" value="$Data{"InReplyTo"}">
   <table border="0">
