@@ -3,7 +3,7 @@
 # xml2html.pl - a "_simple_" xml2html viewer
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: xml2html.pl,v 1.2 2004-10-28 15:13:01 martin Exp $
+# $Id: xml2html.pl,v 1.3 2004-11-28 07:43:00 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -79,7 +79,7 @@ sub CS {
     my ($Expat, $Element, $I, $II) = @_;
     $Element = $Expat->recognized_string();
 #    print "v:'$Element'\n";
-    if ($Element !~ /^\w+$/) {
+    if ($Element !~ /^\W+$/) {
         $Element =~ s/(.{100}.+?\s)/$1\n/g;
         $Element =~ s/  /&nbsp; /g;
         my @Data = split(/\n/, $Element);
