@@ -2,7 +2,7 @@
 # AgentPreferencesForm.dtl - provides HTML form for AgentPreferences 
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPreferencesForm.dtl,v 1.6 2002-05-18 09:29:57 martin Exp $
+# $Id: AgentPreferencesForm.dtl,v 1.7 2002-05-20 19:27:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -168,8 +168,7 @@
 <tr bgcolor="$Env{"BGTableColor1"}" align="center" valign="top">
   <td> 
   <p>
-  $Text{"Send me a notification if there is a new ticket in my custom queues."}<br>
-  $Text{"currently"}: <b>$Env{"UserSendNewTicketNotification"}</b>
+  $Text{"Send me a notification if there is a new ticket in my custom queues."}
   <br>
   <form action="$Env{"CGIHandle"}" method="post">
   <input type="hidden" name="Action" value="$Env{"Action"}">
@@ -185,7 +184,7 @@
   </td>
   <td>
   <p>
-  $Text{"currently"}: <b>$Env{"UserSendFollowUpNotification"}</b>
+  $Text{"Send me a notification if a customer sends a follow up and I'm the owner of this ticket."}
   <br>
   <form action="$Env{"CGIHandle"}" method="post">
   <input type="hidden" name="Action" value="$Env{"Action"}">
