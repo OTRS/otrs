@@ -1,8 +1,8 @@
 # --
 # Footer.dtl - provides global HTML footer 
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Footer.dtl,v 1.4 2002-05-09 23:47:19 martin Exp $
+# $Id: Footer.dtl,v 1.5 2002-05-14 00:15:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,13 +12,13 @@
 <table bgcolor="$Env{"BGTableColor0"}" border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
   <td align="left">
-  <a href="$Env{"Baselink"}&Action=AgentQueueView"><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"QueueView"}$Env{"Box1"}</font></a>
+  <font color="$Env{"FontColor1"}">$Env{"Box0"}</font><a href="$Env{"Baselink"}&Action=AgentQueueView"><font color="$Env{"FontColor1"}">$Text{"QueueView"}</font></a><font color="$Env{"FontColor1"}">$Env{"Box1"}</font>
    - 
-  <a href="$Env{"Baselink"}&Action=AgentPhone"><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"PhoneView"}$Env{"Box1"}</font></a>
+  <font color="$Env{"FontColor1"}">$Env{"Box0"}</font><a href="$Env{"Baselink"}&Action=AgentPhone"><font color="$Env{"FontColor1"}">$Text{"PhoneView"}</font></a><font color="$Env{"FontColor1"}">$Env{"Box1"}</font>
   </font>
   </td>
   <td align="right">
-  <a href="#top"><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"top"}$Env{"Box1"}</font></a>
+  <font color="$Env{"FontColor1"}">$Env{"Box0"}</font><a href="#top"><font color="$Env{"FontColor1"}">$Text{"top"}</font></a><font color="$Env{"FontColor1"}">$Env{"Box1"}</font>
   </td>
 </tr>
 </table>
