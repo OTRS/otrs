@@ -3,7 +3,7 @@
 # bin/GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pl,v 1.14 2003-08-28 16:41:50 martin Exp $
+# $Id: GenericAgent.pl,v 1.15 2003-10-27 22:21:41 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -35,25 +35,46 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
+use Getopt::Std;
 use Kernel::Config;
 use Kernel::System::Log;
 use Kernel::System::DB;
 use Kernel::System::Ticket;
 use Kernel::System::Queue;
 
-# --
-# config
-# --
-my $UserIDOfGenericAgent = 1;
 # import %jobs 
-use Kernel::Config::GenericAgent qw(%Jobs);
+#use Kernel::Config::GenericAgent qw(%Jobs);
 
-# --
+BEGIN { 
+    # get file version
+    $VERSION = '$Revision: 1.15 $';
+    $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+    # get options
+    my %Opts = ();
+    getopt('hc', \%Opts);
+    if ($Opts{'h'}) {
+        print "GenericAgent.pl <Revision $VERSION> - OTRS generic agent\n";
+        print "Copyright (c) 2001-2003 Martin Edenhofer <martin\@otrs.org>\n";
+        print "usage: GenericAgent.pl (-c 'Kernel::Config::GenericAgentJobModule') \n";
+        exit 1;
+    }
+    # get generic agent config (job file)
+    if (!$Opts{'c'}) {
+        $Opts{'c'} = 'Kernel::Config::GenericAgent';
+    }
+    # load jobs file
+    if (!eval "require $Opts{'c'};") {
+        print STDERR "Can't load agent job file '$Opts{'c'}': $!\n";
+        exit 1;
+    }
+    # import %Jobs
+    eval "import $Opts{'c'}";
+}
+# set generic agent uid
+my $UserIDOfGenericAgent = 1;
+
 # common objects
-# --
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{LogObject} = Kernel::System::Log->new(

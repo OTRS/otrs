@@ -11,6 +11,18 @@ do some actions (like move, add note, set state, set owner) on tickets.
 Kernel/Config/GenericAgent.pm is the default config file which must be copied 
 (cp Kernel/Config/GenericAgent.pm.dist Kernel/Config/GenericAgent.pm). 
 </para>
+<para>
+It's also possibe to use different config files. For example, copy 
+the "cp Kernel/Config/GenericAgent.pm.examples Kernel/Config/GenericAgentFileB.pm"
+and rename the package name in the new file:
+<programlisting>
+[...]
+package Kernel::Config::GenericAgentFileB;
+[...]
+</programlisting>
+Execute the bin/GenericAgent.pl with option "-c Kernel::Config::GenericAgentFileB"
+and the new config file (Kernel/Config/GenericAgentFileB.pm) will be used.
+</para>
 </sect1>
 
 
