@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.45 2004-02-02 22:11:36 martin Exp $
+# $Id: AgentZoom.pm,v 1.46 2004-02-08 23:24:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.45 $';
+$VERSION = '$Revision: 1.46 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -173,6 +173,7 @@ sub Run {
         StdResponses => \%StdResponses,
         ArticleBox => \@ArticleBox,
         CustomerData => \%CustomerData,
+        TicketTimeUnits => $Self->{TicketObject}->GetAccountedTime(%Ticket),
         %Ticket,
         %TicketLink,
         %UserInfo,
