@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerZoom.pm - to get a closer view
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerZoom.pm,v 1.25 2004-07-16 23:00:18 martin Exp $
+# $Id: CustomerZoom.pm,v 1.26 2004-07-29 20:49:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -122,7 +122,7 @@ sub Run {
         $Ticket{ShowHTMLeMail} = 1;
         return $Output;
     }
-    # add footer 
+    # add footer
     $Output .= $Self->{LayoutObject}->CustomerFooter();
 
     # return output
@@ -223,7 +223,7 @@ sub _Mask {
         }
     }
     # check show article type
-    if ($Article{ArticleType} !~ /int/) {
+    if ($Article{ArticleType} =~ /int/) {
         return $Self->{LayoutObject}->CustomerError(Message => 'No permission!');
     }
     # get attacment string
