@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.91 2003-07-08 00:32:21 martin Exp $
+# $Id: Generic.pm,v 1.92 2003-07-14 12:24:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::Output::HTML::Admin;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.91 $';
+$VERSION = '$Revision: 1.92 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -688,7 +688,10 @@ sub LinkQuote {
 # --
 sub LinkEncode {
     my $Self = shift;
-    my $Link = shift || return;
+    my $Link = shift;
+    if (!defined($Link)) {
+        return;
+    } 
     $Link =~ s/&/%26/g;
     $Link =~ s/=/%3D/g;
     $Link =~ s/\!/%21/g;
