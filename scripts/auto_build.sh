@@ -1,9 +1,9 @@
 #!/bin/sh
 # --
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
-# Copyright (C) 2002-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: auto_build.sh,v 1.25 2004-08-13 09:00:00 martin Exp $
+# $Id: auto_build.sh,v 1.26 2004-12-22 07:30:39 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.25 $>"
+echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.26 $>"
 echo "Copyright (c) 2002-2004 Martin Edenhofer <martin@otrs.org>"
 
 PATH_TO_CVS_SRC=$1
@@ -114,8 +114,8 @@ mkdir $PACKAGE_DEST_DIR/SRPMS/redhat/8.0
 rm -rf $PACKAGE_BUILD_DIR || exit 1;
 mkdir -p $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ || exit 1;
 
-cp -a $PATH_TO_CVS_SRC/.*rc $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ || exit 1;
-cp -a $PATH_TO_CVS_SRC/.mailfilter $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ || exit 1;
+cp -a $PATH_TO_CVS_SRC/.*rc.dist $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ || exit 1;
+cp -a $PATH_TO_CVS_SRC/.mailfilter.dist $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ || exit 1;
 cp -a $PATH_TO_CVS_SRC/* $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ || exit 1;
 
 # --
