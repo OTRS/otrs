@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.70 2004-04-19 19:53:36 martin Exp $
+# $Id: index.pl,v 1.71 2004-04-20 08:24:35 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.70 $';
+$VERSION = '$Revision: 1.71 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -286,22 +286,8 @@ if ($Param{Action} eq "Login") {
         if ($Param{RequestedURL} =~ /Action=(Logout|Login)/) {
             $Param{RequestedURL} = '';
         }
-        # use login module (if configured)
-        my $LoginModule = $CommonObject{ConfigObject}->Get('LoginModule');
-        if ($LoginModule && eval "require $LoginModule") {
-            my $LoginModuleObject = $LoginModule->new(
-                %CommonObject,
-                LayoutObject => $LayoutObject,
-                %Param,
-                SessionID => $NewSessionID,
-                %UserData,
-            );
-            print $LoginModuleObject->Run();
-        }
-        else {
-            # redirect with new session id
-            print $LayoutObject->Redirect(OP => "$Param{RequestedURL}");
-        }
+        # redirect with new session id
+        print $LayoutObject->Redirect(OP => "$Param{RequestedURL}");
     }
     # login is valid
     else {
@@ -601,6 +587,28 @@ elsif (eval "require Kernel::Modules::$Param{Action}" && eval '$Kernel::Modules:
             Key => 'UserLastRequest',
             Value => time(), 
         );
+        # pre application module
+        my $PreModule = $CommonObject{ConfigObject}->Get('PreApplicationModule');
+        if ($PreModule && eval "require $PreModule") {
+            # debug info
+            if ($Debug) {
+                $CommonObject{LogObject}->Log(
+                    Priority => 'debug',
+                    Message => "PreApplication module $PreModule is used.",
+                );
+            }
+            # use module
+            my $PreModuleObject = $PreModule->new(
+                %CommonObject,
+                %Param,
+                %UserData,
+            );
+            my $Output = $PreModuleObject->PreRun();
+            if ($Output) {
+                print $PreModuleObject->PreRun();
+                exit (0);
+            }
+        }
         # debug info
         if ($Debug) {
             $CommonObject{LogObject}->Log(

@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.124 2004-04-19 19:55:56 martin Exp $
+# $Id: Defaults.pm,v 1.125 2004-04-20 08:24:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.124 $';
+$VERSION = '$Revision: 1.125 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -350,6 +350,13 @@ sub LoadDefaults {
     # logout.)
     $Self->{LogoutURL} = '';
 #    $Self->{LogoutURL} = 'http://host.example.com/cgi-bin/login.pl';
+
+    # PreApplicationModule 
+    # (Used for every request, if defined, the PreRun() function of
+    # this module will be used. This interface use useful to check
+    # some user options or to redirect no accept new application 
+    # news)
+#    $Self->{PreApplicationModule} = 'Kernel::Modules::AgentWorkingGroupSelection';
 
     # --------------------------------------------------- #
     # LogModule                                           #
@@ -1284,6 +1291,13 @@ Your OTRS Notification Master
     # logout.)
     $Self->{CustomerPanelLogoutURL} = '';
 #    $Self->{CustomerPanelLogoutURL} = 'http://host.example.com/cgi-bin/login.pl';
+
+    # CustomerPanelPreApplicationModule 
+    # (Used for every request, if defined, the PreRun() function of
+    # this module will be used. This interface use useful to check
+    # some user options or to redirect no accept new application 
+    # news)
+#    $Self->{CustomerPanelPreApplicationModule} = 'Kernel::Modules::CustomerLicenseAccept';
 
     # CustomerPanelLostPassword
     # (use lost passowrd feature)
