@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.61 2003-11-17 00:08:16 martin Exp $
+# $Id: index.pl,v 1.62 2003-12-02 21:36:16 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.61 $';
+$VERSION = '$Revision: 1.62 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -277,7 +277,6 @@ if ($Param{Action} eq "Login") {
               SessionIDCookie => $CommonObject{ParamObject}->SetCookie(
                   Key => $Param{SessionName},
                   Value => $NewSessionID,
-                  Expires => '+24h',
               ),
           },
           SessionID => $NewSessionID, 
@@ -343,7 +342,6 @@ elsif ($Param{Action} eq "Logout"){
               SessionIDCookie => $CommonObject{ParamObject}->SetCookie(
                   Key => $Param{SessionName},
                   Value => '',
-                  Expires => '-24d',
               ),
           },
           %CommonObject,
@@ -531,7 +529,6 @@ elsif (eval "require Kernel::Modules::$Param{Action}" && eval '$Kernel::Modules:
               SessionIDCookie => $CommonObject{ParamObject}->SetCookie(
                   Key => $Param{SessionName},
                   Value => '',
-                  Expires => '-24d',
               ),
           },
           %CommonObject,

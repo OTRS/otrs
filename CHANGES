@@ -2,13 +2,15 @@
 # Changes of OTRS 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.100 2003-12-01 00:30:52 martin Exp $
+# $Id: CHANGES,v 1.101 2003-12-02 21:36:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS HEAD 
+ - (2003/12/02) added remove of session cookie after closing the
+    browser in agent interface
  - (2003/11/27) added modules for agent notifications
     Kernel/Output/HTML/NotificationCharsetCheck.pm
     Kernel/Output/HTML/NotificationUIDCheck.pm
