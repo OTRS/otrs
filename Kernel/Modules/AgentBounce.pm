@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentBounce.pm - to bounce articles of tickets 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBounce.pm,v 1.11 2003-01-03 16:17:29 martin Exp $
+# $Id: AgentBounce.pm,v 1.12 2003-01-04 03:42:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentBounce;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -31,19 +31,10 @@ sub new {
     }
 
     # check needed Opjects
-    foreach (
-      'ParamObject', 
-      'DBObject', 
-      'TicketObject', 
-      'LayoutObject', 
-      'LogObject', 
-      'QueueObject', 
-      'ConfigObject',
-    ) {
+    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject
+      QueueObject ConfigObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
-
-    $Self->{EmailObject} = Kernel::System::EmailSend->new(%Param);
 
     $Self->{ArticleID} = $Self->{ParamObject}->GetParam(Param => 'ArticleID') || '';
 
@@ -235,7 +226,7 @@ sub Run {
         $Param{Email} = $Address{Email};
 
         $Param{EmailPlain} = $Self->{TicketObject}->GetArticlePlain(ArticleID => $Self->{ArticleID});
-        if (!$Self->{EmailObject}->Bounce(
+        if (!$Self->{TicketObject}->BounceBounce(
             EmailPlain => $Param{EmailPlain},
             TicketObject => $Self->{TicketObject},
             TicketID => $Self->{TicketID},
@@ -261,7 +252,7 @@ sub Run {
         if ($Param{InformSender}) {
             $Param{Body} =~ s/<OTRS_TICKET>/$Param{TicketNumber}/g;
             $Param{Body} =~ s/<OTRS_BOUNCE_TO>/$Param{BounceTo}/g;
-            if (my $ArticleID = $Self->{EmailObject}->Send(
+            if (my $ArticleID = $Self->{TicketObject}->SendArticle(
               ArticleType => 'email-external',
               SenderType => 'agent',
               TicketID => $Self->{TicketID},

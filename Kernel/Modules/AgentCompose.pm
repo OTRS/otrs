@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.31 2003-01-03 16:14:57 martin Exp $
+# $Id: AgentCompose.pm,v 1.32 2003-01-04 03:42:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -40,7 +40,6 @@ sub new {
         die "Got no $_" if (!$Self->{$_});
     }
 
-    $Self->{EmailObject} = Kernel::System::EmailSend->new(%Param);
     $Self->{EmailParserObject} = Kernel::System::EmailParser->new(%Param);
     $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%Param);
     $Self->{StdAttachmentObject} = Kernel::System::StdAttachment->new(%Param);
@@ -265,7 +264,10 @@ sub SendEmail {
     # --
     # get attachment
     # -- 
-    my %UploadStuff = $Self->{ParamObject}->GetUploadAll(Param => 'file_upload');
+    my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+        Param => 'file_upload',
+        Source => 'string',
+    );
     # --
     # check some values
     # --
@@ -314,7 +316,7 @@ sub SendEmail {
     # --
     # send email
     # --
-    if (my $ArticleID = $Self->{EmailObject}->Send(
+    if (my $ArticleID = $Self->{TicketObject}->SendArticle(
         %UploadStuff,
         ArticleType => 'email-external',
         SenderType => 'agent',

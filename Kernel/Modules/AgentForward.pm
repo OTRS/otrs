@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentForward.pm - to forward a message
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentForward.pm,v 1.13 2003-01-03 16:17:29 martin Exp $
+# $Id: AgentForward.pm,v 1.14 2003-01-04 03:42:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentForward;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -36,8 +36,6 @@ sub new {
       LogObject TicketObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
-
-    $Self->{EmailObject} = Kernel::System::EmailSend->new(%Param);
 
     # get params
     $Self->{From} = $Self->{ParamObject}->GetParam(Param => 'From') || '';
@@ -235,7 +233,7 @@ sub SendEmail {
     # --    
     # send email
     # --
-    if (my $ArticleID = $Self->{EmailObject}->Send(
+    if (my $ArticleID = $Self->{TicketObject}->SendArticle(
         From => $Self->{From},
         Email => $Self->{Email},
         To => $Self->{To},
