@@ -46,7 +46,7 @@ c) add to Kernel/Config.pm
    [...]
    $Self->{'Module::Permission'}->{'AdminResponse'} = 'responses';
    [...]
-d) add a link to the Agent Interface e. g. Kernel/Output/HTML/*/AgentNavigationBar.dtl 
+d) add a link to the Agent Interface e. g. in Kernel/Output/HTML/*/AgentNavigationBar.dtl 
    [...]
    &lt;a href="$Env{"Baselink"}Action=AdminResponse">Response&lt;/a>
    [...]
@@ -54,6 +54,14 @@ e) restart the webserver if you use mod_perl
 </screen>
 After this all users in group 'responses' are able to access the AdminResponse 
 module and to edit the responses.
+</para>
+<para>
+It's alos possible to add more then one group (by perl array):
+<screen>
+   [Kernel/Config.pm]
+   $Self->{'Module::Permission'}->{'AdminResponse'} = ['admin', 'responses'];
+   [...]
+</screen>
 </para>
 </sect1>
 
