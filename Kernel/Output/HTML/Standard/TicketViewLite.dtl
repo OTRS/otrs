@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: TicketViewLite.dtl,v 1.2 2002-11-10 23:10:34 martin Exp $
+# $Id: TicketViewLite.dtl,v 1.3 2002-12-05 22:21:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -82,7 +82,7 @@
   </td>
   <td width="20%" bgcolor="$Env{"BGTableColor2"}" align="center" valign="top">
     <table border="0">
-    <tr><td><b>$Text{"CustomerID"}:</b></td><td><a href="$Config{"CustomerDBLink"}" target="cdb">$Data{"CustomerIDHTML"}</a></td></tr>
+    <tr><td><b>$Text{"CustomerID"}:</b></td><td><a href="$Config{"CustomerDBLink"}" $Config{"CustomerDBLinkTarget"}>$Data{"CustomerIDHTML"}</a></td></tr>
     <tr><td><b>$Text{"Time till escalation"}:</b></td><td>$Data{"TicketOverTime"}</td></tr>
 # --
 # show TicketFreeKey1-2 and TicketFreeValue1-2
