@@ -2,7 +2,7 @@
 # CustomerNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2002-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerNavigationBar.dtl,v 1.7 2004-01-21 22:46:18 martin Exp $
+# $Id: CustomerNavigationBar.dtl,v 1.8 2004-02-01 22:35:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,8 +17,7 @@
     <a href="$Env{"Baselink"}Action=CustomerTicketOverView" onmouseover="window.status='$Text{"Ticket-Overview"}'; return true;" onmouseout="window.status='';">$Text{"Ticket-Overview"}</a> | 
     <a href="$Env{"Baselink"}Action=CustomerMessage" onmouseover="window.status='$Text{"Create new Ticket"}'; return true;" onmouseout="window.status='';">$Text{"New Ticket"}</a> |
     <a href="$Env{"Baselink"}Action=CustomerFAQ" onmouseover="window.status='$Text{"FAQ"}'; return true;" onmouseout="window.status='';">$Text{"FAQ"}</a> |
-    <a href="$Env{"Baselink"}Action=CustomerPreferences" onmouseover="window.status='$Text{"Preferences"}'; return true;" onmouseout="window.status='';">$Text{"Preferences"}</a> |
-    <a href="#end" onmouseover="window.status='$Text{"end"}'; return true;" onmouseout="window.status='';">$Text{"end"}</a>
+    <a href="$Env{"Baselink"}Action=CustomerPreferences" onmouseover="window.status='$Text{"Preferences"}'; return true;" onmouseout="window.status='';">$Text{"Preferences"}</a> 
   </td>
   <td valign="top" align="right" width="30%" class="table1">
     $Env{"Time"}
