@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2002-2004 Martin Edenhofer <martin at otrs.org>
 # --
-# $Id: de.pm,v 1.34 2004-01-21 23:46:08 martin Exp $
+# $Id: de.pm,v 1.35 2004-01-22 21:11:37 robert Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.34 $';
+$VERSION = '$Revision: 1.35 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -666,25 +666,25 @@ sub Data {
       'Escalation in' => 'Eskalation in',
 
     # Template: AgentUtilSearch
-      '(e. g. 10*5155 or 105658*)' => '',
-      '(e. g. 234321)' => '',
-      '(e. g. U5150)' => '',
+      '(e. g. 10*5155 or 105658*)' => 'z.B. 10*5144 oder 105658*',
+      '(e. g. 234321)' => 'z.B. 234321',
+      '(e. g. U5150)' => 'z.B. U5150',
       'and' => 'und',
       'Customer User Login' => 'Kunden-Benutzer-Login',
       'Delete' => 'Löschen',
-      'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => '',
+      'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Volltextsuche in Artikel (z.B. "Mar*in" oder "Baue*")',
       'No time settings.' => 'Keine Zeit-Einstellungen.',
-      'Profile' => '',
+      'Profile' => 'Profil',
       'Result Form' => 'Ergebnis-Ansicht',
-      'Save Search-Profile as Template?' => 'Speichere Such-Profile als Template?',
-      'Search-Template' => 'Such-Template',
+      'Save Search-Profile as Template?' => 'Speichere Such-Profil als Vorlage?',
+      'Search-Template' => 'Such-Vorlage',
       'Select' => 'Auswahl',
       'Ticket created' => 'Ticket erstellt',
       'Ticket created between' => 'Ticket erstellt zwischen',
       'Ticket Search' => 'Ticket-Suche',
       'TicketFreeText' => '',
       'Times' => 'Zeiten',
-      'Yes, save it with name' => 'Ja, speichere es unter Namen',
+      'Yes, save it with name' => 'Ja, speichere mit Namen',
 
     # Template: AgentUtilSearchByCustomerID
       'Customer history search' => 'Kunden-Historie-Suche',
@@ -752,8 +752,8 @@ sub Data {
       'delete' => 'löschen',
       'edit' => 'bearbeiten',
       'FAQ History' => '',
-      'print' => 'drücken',
-      'view' => 'ansicht',
+      'print' => 'drucken',
+      'view' => 'ansehen',
 
     # Template: CustomerFAQArticlePrint
       'Category' => 'Kategorie',
@@ -776,7 +776,7 @@ sub Data {
       'Keyword' => '',
 
     # Template: CustomerFAQSearchResult
-      'FAQ Search Result' => 'FAQ Suche-Ergebniss',
+      'FAQ Search Result' => 'FAQ Suche-Ergebnis',
 
     # Template: CustomerFooter
       'Powered by' => '',
@@ -821,7 +821,7 @@ sub Data {
     # Template: CustomerWarning
 
     # Template: Error
-      'Click here to report a bug!' => 'Klicken Sie hier um einen Fehler zu berichten!',
+      'Click here to report a bug!' => 'Klicken Sie hier, um einen Fehler zu berichten!',
 
     # Template: FAQArticleDelete
       'FAQ Delete' => 'FAQ Löschen',
@@ -893,12 +893,12 @@ sub Data {
       'OTRS DB Name' => '',
       'OTRS DB Password' => 'OTRS DB Passwort',
       'OTRS DB User' => 'OTRS DB Benuter',
-      'your MySQL DB should have a root password! Default is empty!' => 'Deine MySQL DB sollte ein Root Passwort haben! Voreingestellte ist nichts!',
+      'your MySQL DB should have a root password! Default is empty!' => 'Deine MySQL DB sollte ein Root Passwort haben! Voreingestellt ist keines!',
 
     # Template: InstallerSystem
-      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Überprüfen des MX Eintrags von benutzen Email Adressen im Verfassen-Fenster. Benutze CheckMXRecord nicht wenn Ihr OTRS hinter einer Wählleitung ist!)',
+      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Überprüfen des MX Eintrags von benutzen Email Adressen im Verfassen-Fenster. Benutzen Sie CheckMXRecord nicht, wenn Ihr OTRS hinter einer Wählleitung ist!)',
       '(Email of the system admin)' => '(E-Mail des System Admins)',
-      '(Full qualified domain name of your system)' => '(Voller Domain-Name des Systems)',
+      '(Full qualified domain name of your system)' => '(Voll qualifizierter Domain-Name des Systems)',
       '(Logfile just needed for File-LogModule!)' => '(Logfile nur benötigt für File-LogModule!)',
       '(The identify of the system. Each ticket number and each http session id starts with this number)' => '(Das Kennzeichnen des Systems. Jede Ticket Nummer und http Sitzung beginnt mit dieser ID)',
       '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Ticket Kennzeichnen. Z.B. \'Ticket#\', \'Call#\' oder \'MyTicket#\')',
