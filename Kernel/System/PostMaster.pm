@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.45 2004-10-01 08:53:32 martin Exp $
+# $Id: PostMaster.pm,v 1.46 2004-10-28 14:17:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.45 $';
+$VERSION = '$Revision: 1.46 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -38,7 +38,7 @@ sub new {
         $Self->{$_} = $Param{$_};
     }
     # check needed objects
-    foreach (qw(DBObject LogObject ConfigObject Email)) {
+    foreach (qw(DBObject LogObject ConfigObject TimeObject Email)) {
         die "Got no $_" if (!$Param{$_});
     }
     # check needed config objects
@@ -97,7 +97,7 @@ sub Run {
             if ($Self->{Debug} > 1) {
                 $Self->{LogObject}->Log(
                     Priority => 'debug',
-                    Message => "Try to load module: $Jobs{$Job}->{Module}!",
+                    Message => "Try to load PreFilterModule: $Jobs{$Job}->{Module}!",
                 );
             }
             if (eval "require $Jobs{$Job}->{Module}") {
@@ -107,13 +107,14 @@ sub Run {
                     DBObject => $Self->{DBObject},
                     ParseObject => $Self->{ParseObject},
                     TicketObject => $Self->{TicketObject},
+                    TimeObject => $Self->{TimeObject},
                     Debug => $Self->{Debug},
                 );
                 # log loaded module
                 if ($Self->{Debug} > 1) {
                     $Self->{LogObject}->Log(
                         Priority => 'debug',
-                        Message => "Module: $Jobs{$Job}->{Module} loaded!",
+                        Message => "PreFilterModule: $Jobs{$Job}->{Module} loaded!",
                     );
                 }
                 # modify params
@@ -123,14 +124,14 @@ sub Run {
                 )) {
                     $Self->{LogObject}->Log(
                         Priority => 'error',
-                        Message => "Execute Run() of $Jobs{$Job}->{Module} not successfully!",
+                        Message => "Execute Run() of PreFilterModule $Jobs{$Job}->{Module} not successfully!",
                     );
                 }
             }
             else {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message => "Can't load module $Jobs{$Job}->{Module}!",
+                    Message => "Can't load PreFilterModule $Jobs{$Job}->{Module}!",
                 );
             }
         }
@@ -168,7 +169,7 @@ sub Run {
         # create a new ticket
         if ($FollowUpPossible =~ /new ticket/i && $State{TypeName} =~ /^close/i) {
             $Self->{LogObject}->Log(
-              Message => "Follow up for [$Tn] but follow up not possible($Ticket{State}).".
+              Message => "Follow up for [$Tn] but follow up not possible ($Ticket{State}).".
                 " Create new ticket."
             );
             # send mail && create new article
@@ -192,34 +193,32 @@ sub Run {
               Comment => "Because the old ticket [$Tn] is '$State{Name}'",
               AutoResponseType => 'auto reply/new ticket',
             );
-            return 1;
         }
         # reject follow up
         elsif ($FollowUpPossible =~ /reject/i && $State{TypeName} =~ /^close/i) {
             $Self->{LogObject}->Log(
-              Message=>"Follow up for [$Tn] but follow up not possible. Follow up rejected."
+                Message=>"Follow up for [$Tn] but follow up not possible. Follow up rejected."
             );
             # send reject mail && and add article to ticket
             $Self->{FollowUp}->Run(
-              TicketID => $TicketID,
-              InmailUserID => $Self->{PostmasterUserID},
-              GetParam => $GetParam,
-              Lock => $Lock,
-              Tn => $Tn,
-              Comment => 'Follow up rejected.',
-              AutoResponseType => 'auto reject',
+                TicketID => $TicketID,
+                InmailUserID => $Self->{PostmasterUserID},
+                GetParam => $GetParam,
+                Lock => $Lock,
+                Tn => $Tn,
+                Comment => 'Follow up rejected.',
+                AutoResponseType => 'auto reject',
             );
-            return 1;
         }
         # create normal follow up
         else {
             $Self->{FollowUp}->Run(
-              TicketID => $TicketID,
-              InmailUserID => $Self->{PostmasterUserID},
-              GetParam => $GetParam,
-              Lock => $Lock,
-              Tn => $Tn,
-              AutoResponseType => 'auto follow up',
+                TicketID => $TicketID,
+                InmailUserID => $Self->{PostmasterUserID},
+                GetParam => $GetParam,
+                Lock => $Lock,
+                Tn => $Tn,
+                AutoResponseType => 'auto follow up',
             );
         }
     }
@@ -240,13 +239,65 @@ sub Run {
         if ($TQueueID) {
             $Param{QueueID} = $TQueueID;
         }
-        $Self->{NewTicket}->Run(
+        $TicketID = $Self->{NewTicket}->Run(
             InmailUserID => $Self->{PostmasterUserID},
             GetParam => $GetParam,
             QueueID => $Param{QueueID},
             AutoResponseType => 'auto reply',
-          );
+        );
+    }
+
+    # run all PostFilterModules (modify email params)
+    if (ref($Self->{ConfigObject}->Get('PostMaster::PostFilterModule')) eq 'HASH') {
+        my %Jobs = %{$Self->{ConfigObject}->Get('PostMaster::PostFilterModule')};
+        foreach my $Job (sort keys %Jobs) {
+            # log try of load module
+            if ($Self->{Debug} > 1) {
+                $Self->{LogObject}->Log(
+                    Priority => 'debug',
+                    Message => "Try to load PostFilterModule: $Jobs{$Job}->{Module}!",
+                );
+            }
+            if (eval "require $Jobs{$Job}->{Module}") {
+                my $FilterObject = $Jobs{$Job}->{Module}->new(
+                    ConfigObject => $Self->{ConfigObject},
+                    LogObject => $Self->{LogObject},
+                    DBObject => $Self->{DBObject},
+                    ParseObject => $Self->{ParseObject},
+                    TicketObject => $Self->{TicketObject},
+                    TimeObject => $Self->{TimeObject},
+                    Debug => $Self->{Debug},
+                );
+                # log loaded module
+                if ($Self->{Debug} > 1) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'debug',
+                        Message => "PostFilterModule: $Jobs{$Job}->{Module} loaded!",
+                    );
+                }
+                # modify params
+                if (!$FilterObject->Run(
+                    TicketID => $TicketID,
+                    GetParam => $GetParam,
+                    JobConfig => $Jobs{$Job},
+                )) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'error',
+                        Message => "Execute Run() of PostFilterModule $Jobs{$Job}->{Module} not successfully!",
+                    );
+                }
+            }
+            else {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message => "Can't load PostFilterModule $Jobs{$Job}->{Module}!",
+                );
+            }
         }
+    }
+
+    # return 1
+    return 1;
 }
 # --
 # CheckFollowUp
