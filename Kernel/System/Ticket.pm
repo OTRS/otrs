@@ -2,7 +2,7 @@
 # Ticket.pm - the global ticket handle
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.6 2002-05-09 23:40:29 martin Exp $
+# $Id: Ticket.pm,v 1.7 2002-05-12 22:05:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Ticket::Lock;
 use Kernel::System::Ticket::Priority;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -72,6 +72,7 @@ sub CreateTicketNr {
     $Count = $Count + $JumpCounter;
     # write new count
     open (COUNTER, "> $Self->{CounterLog}"); 
+    flock (COUNTER, 2) || die "Can't set file lock ($Self->{CounterLog}): $!";
     print COUNTER $Count . "\n";
     close (COUNTER);
     if ($Self->{Debug} > 0) {
@@ -89,7 +90,7 @@ sub CreateTicketNr {
         if ($Self->{LoopProtectionCounter} >= 1000) {
           $Self->{LogObject}->Log(
             Priority => 'error',
-            MSG => "LoopProtectionCounter is now $Self->{LoopProtectionCounter}! Stoped CreateTicketNr()!",
+            MSG => "CounterLoopProtection is now $Self->{LoopProtectionCounter}! Stoped CreateTicketNr()!",
           );
           return;
         } 
