@@ -2,7 +2,7 @@
 # Ticket.pm - the global ticket handle
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.5 2002-05-04 20:30:43 martin Exp $
+# $Id: Ticket.pm,v 1.6 2002-05-09 23:40:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Ticket::Lock;
 use Kernel::System::Ticket::Priority;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -56,9 +56,9 @@ sub new {
 # --
 sub CreateTicketNr {
     my $Self = shift;
-    my %Param = @_;
+    my $JumpCounter = shift || 0;
     # read count
-    open (COUNTER, "< $Self->{CounterLog}");
+    open (COUNTER, "< $Self->{CounterLog}") || die "Can't open $Self->{CounterLog}";
     my $Count = <COUNTER>;
     close (COUNTER);
     if ($Self->{Debug} > 0) {
@@ -69,8 +69,9 @@ sub CreateTicketNr {
     }
     # count++
     $Count++;
+    $Count = $Count + $JumpCounter;
     # write new count
-    open (COUNTER, "> $Self->{CounterLog}");
+    open (COUNTER, "> $Self->{CounterLog}"); 
     print COUNTER $Count . "\n";
     close (COUNTER);
     if ($Self->{Debug} > 0) {
@@ -83,12 +84,20 @@ sub CreateTicketNr {
     my $Tn = $Self->{SystemID} . $Count;
 
     # check ticket number if exists generate new one! 
-    if ($Self->CheckTicketNr(Tn=>$Tn)) {   
+    if ($Self->CheckTicketNr(Tn=>$Tn)) {  
+        $Self->{LoopProtectionCounter}++; 
+        if ($Self->{LoopProtectionCounter} >= 1000) {
+          $Self->{LogObject}->Log(
+            Priority => 'error',
+            MSG => "LoopProtectionCounter is now $Self->{LoopProtectionCounter}! Stoped CreateTicketNr()!",
+          );
+          return;
+        } 
         $Self->{LogObject}->Log(
           Priority => 'error',
           MSG => "Tn ($Tn) exists! Creating new one.",
         );
-        $Tn = $Self->CreateTicketNr();
+        $Tn = $Self->CreateTicketNr($Self->{LoopProtectionCounter});
     }
     return $Tn; 
 }
@@ -202,7 +211,7 @@ sub GetTNOfId {
     my $Self = shift;
     my %Param = @_;
     my $Tn;
-    my $Id = $Param{ID};
+    my $Id = $Param{ID} || return;
     my $SQL = "SELECT tn FROM ticket WHERE id = $Id";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
