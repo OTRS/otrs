@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.64 2004-07-30 09:19:10 martin Exp $
+# $Id: Article.pm,v 1.65 2004-08-04 09:25:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.64 $';
+$VERSION = '$Revision: 1.65 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -136,7 +136,7 @@ sub ArticleCreate {
     # get article id
     my $ArticleID = $Self->_ArticleGetId(
         TicketID => $Param{TicketID},
-        MessageID => $Param{MessageID},
+MessageID => $Param{MessageID},
         From => $Param{From},
         Subject => $Param{Subject},
         IncomingTime => $IncomingTime
@@ -1444,7 +1444,10 @@ sub SendAgentNotification {
     my %GetParam = %{$Param{CustomerMessageParams}};
     # get notify texts
     foreach (qw(Subject Body)) {
-        $Param{$_} = $Notification{$_} || "No Notifiaction $_ for $Param{Type} found!";
+#        $Param{$_} = $Notification{$_} || "No Notifiaction $_ for $Param{Type} found!";
+        if (!$Notification{$_}) {
+            $Notification{$_} = "No Notifiaction $_ for $Param{Type} found!";
+        }
     }
     # get customer data and replace it with <OTRS_CUSTOMER_DATA_...
     if ($Article{CustomerUserID}) {
@@ -1454,14 +1457,14 @@ sub SendAgentNotification {
         # replace customer stuff with tags
         foreach (keys %CustomerUser) {
             if ($CustomerUser{$_}) {
-                $Param{Body} =~ s/<OTRS_CUSTOMER_DATA_$_>/$CustomerUser{$_}/gi;
-                $Param{Subject} =~ s/<OTRS_CUSTOMER_DATA_$_>/$CustomerUser{$_}/gi;
+                $Notification{Body} =~ s/<OTRS_CUSTOMER_DATA_$_>/$CustomerUser{$_}/gi;
+                $Notification{Subject} =~ s/<OTRS_CUSTOMER_DATA_$_>/$CustomerUser{$_}/gi;
             }
         }
     }
     # cleanup all not needed <OTRS_CUSTOMER_DATA_ tags
-    $Param{Body} =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
-    $Param{Subject} =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
+    $Notification{Body} =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
+    $Notification{Subject} =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
 
     # replace article stuff with tags
     foreach (qw(From To Cc Subject Body)) {
@@ -1474,62 +1477,62 @@ sub SendAgentNotification {
     $GetParam{Body} =~ s/(^>.+|.{4,72})(?:\s|\z)/$1\n/gm if ($GetParam{Body});
     foreach (keys %GetParam) {
         if ($GetParam{$_}) {
-            $Param{Body} =~ s/<OTRS_CUSTOMER_$_>/$GetParam{$_}/gi;
-            $Param{Subject} =~ s/<OTRS_CUSTOMER_$_>/$GetParam{$_}/gi;
+            $Notification{Body} =~ s/<OTRS_CUSTOMER_$_>/$GetParam{$_}/gi;
+            $Notification{Subject} =~ s/<OTRS_CUSTOMER_$_>/$GetParam{$_}/gi;
         }
     }
     # get owner data and replace it with <OTRS_OWNER_...
     my %Preferences = $Self->{UserObject}->GetUserData(UserID => $Article{UserID});
     foreach (keys %Preferences) {
         if ($Preferences{$_}) {
-            $Param{Body} =~ s/<OTRS_OWNER_$_>/$Preferences{$_}/gi;
-            $Param{Subject} =~ s/<OTRS_OWNER_$_>/$Preferences{$_}/gi;
+            $Notification{Body} =~ s/<OTRS_OWNER_$_>/$Preferences{$_}/gi;
+            $Notification{Subject} =~ s/<OTRS_OWNER_$_>/$Preferences{$_}/gi;
         }
     }
     # get current user data
     my %CurrentUser = $Self->{UserObject}->GetUserData(UserID => $Param{UserID});
     foreach (keys %CurrentUser) {
         if ($CurrentUser{$_}) {
-            $Param{Body} =~ s/<OTRS_CURRENT_$_>/$CurrentUser{$_}/gi;
-            $Param{Subject} =~ s/<OTRS_CURRENT_$_>/$CurrentUser{$_}/gi;
+            $Notification{Body} =~ s/<OTRS_CURRENT_$_>/$CurrentUser{$_}/gi;
+            $Notification{Subject} =~ s/<OTRS_CURRENT_$_>/$CurrentUser{$_}/gi;
         }
     }
     # replace it with given user params
     foreach (keys %User) {
         if ($User{$_}) {
-            $Param{Body} =~ s/<OTRS_$_>/$User{$_}/gi;
-            $Param{Subject} =~ s/<OTRS_$_>/$User{$_}/gi;
+            $Notification{Body} =~ s/<OTRS_$_>/$User{$_}/gi;
+            $Notification{Subject} =~ s/<OTRS_$_>/$User{$_}/gi;
         }
     }
     # get ticket hook
     my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
     # prepare subject (insert old subject)
-    if ($Param{Subject} =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/) {
+    if ($Notification{Subject} =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/) {
         my $SubjectChar = $1;
         $GetParam{Subject} =~ s/\[$TicketHook: $Article{TicketNumber}\] //g;
         $GetParam{Subject} =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
-        $Param{Subject} =~ s/<OTRS_CUSTOMER_SUBJECT\[.+?\]>/$GetParam{Subject}/g;
+        $Notification{Subject} =~ s/<OTRS_CUSTOMER_SUBJECT\[.+?\]>/$GetParam{Subject}/g;
     }
-    $Param{Subject} = "[$TicketHook: $Article{TicketNumber}] $Param{Subject}";
+    $Notification{Subject} = "[$TicketHook: $Article{TicketNumber}] $Notification{Subject}";
     # prepare body (insert old email)
-    $Param{Body} =~ s/<OTRS_TICKET_ID>/$Param{TicketID}/g;
-    $Param{Body} =~ s/<OTRS_TICKET_NUMBER>/$Article{TicketNumber}/g;
-    $Param{Body} =~ s/<OTRS_QUEUE>/$Article{Queue}/g;
-    $Param{Body} =~ s/<OTRS_COMMENT>/$GetParam{Comment}/g if (defined $GetParam{Comment});
+    $Notification{Body} =~ s/<OTRS_TICKET_ID>/$Param{TicketID}/g;
+    $Notification{Body} =~ s/<OTRS_TICKET_NUMBER>/$Article{TicketNumber}/g;
+    $Notification{Body} =~ s/<OTRS_QUEUE>/$Article{Queue}/g;
+    $Notification{Body} =~ s/<OTRS_COMMENT>/$GetParam{Comment}/g if (defined $GetParam{Comment});
     # replace it with article data
     foreach (keys %Article) {
         if (defined($Article{$_})) {
-            $Param{Subject} =~ s/<OTRS_$_>/$Article{$_}/gi;
-            $Param{Body} =~ s/<OTRS_$_>/$Article{$_}/gi;
+            $Notification{Subject} =~ s/<OTRS_$_>/$Article{$_}/gi;
+            $Notification{Body} =~ s/<OTRS_$_>/$Article{$_}/gi;
         }
         else {
             # cleanup
-            $Param{Subject} =~ s/<OTRS_$_>//gi;
-            $Param{Body} =~ s/<OTRS_$_>//gi;
+            $Notification{Subject} =~ s/<OTRS_$_>//gi;
+            $Notification{Body} =~ s/<OTRS_$_>//gi;
         }
     }
 
-    if ($Param{Body} =~ /<OTRS_CUSTOMER_EMAIL\[(.+?)\]>/g) {
+    if ($Notification{Body} =~ /<OTRS_CUSTOMER_EMAIL\[(.+?)\]>/g) {
         my $Line = $1;
         my @Body = split(/\n/, $GetParam{Body});
         my $NewOldBody = '';
@@ -1541,20 +1544,25 @@ sub SendAgentNotification {
             }
         }
         chomp $NewOldBody;
-        $Param{Body} =~ s/<OTRS_CUSTOMER_EMAIL\[.+?\]>/$NewOldBody/g;
+        $Notification{Body} =~ s/<OTRS_CUSTOMER_EMAIL\[.+?\]>/$NewOldBody/g;
     }
     # replace config options
-    $Param{Body} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
-    $Param{Subject} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
+    $Notification{Body} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
+    $Notification{Subject} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
 
     # send notify
+use Encode;
+if (Encode::is_utf8($Notification{Body})) {
+print STDERR "JAAAAA \n";
+}
     $Self->{SendmailObject}->Send(
         From => $Self->{ConfigObject}->Get('NotificationSenderName').
              ' <'.$Self->{ConfigObject}->Get('NotificationSenderEmail').'>',
         To => $User{UserEmail},
-        Subject => $Param{Subject},
-        ContentType => "text/plain; charset=$Notification{Charset}",
-        Body => $Param{Body},
+        Subject => $Notification{Subject},
+        Type => 'text/plain',
+        Charset => $Notification{Charset},
+        Body => $Notification{Body},
         Loop => 1,
     );
 
@@ -1601,71 +1609,94 @@ sub SendCustomerNotification {
         return;
       }
     }
-    # get notify texts
-    $Param{Subject} = $Self->{ConfigObject}->Get("CustomerNotificationSubject$Param{Type}")
-      || "No CustomerNotificationSubject$Param{Type} found in Config.pm!";
-    $Param{Body} = $Self->{ConfigObject}->Get("CustomerNotificationBody$Param{Type}")
-      || "No CustomerNotificationBody$Param{Type} found in Config.pm!";
     # get old article for quoteing
     my %Article = $Self->ArticleLastCustomerArticle(TicketID => $Param{TicketID});
+    # check if notification should be send
+    my %Queue = $Self->{QueueObject}->QueueGet(ID => $Article{QueueID});
+    if ($Param{Type} =~/^StateUpdate$/ && !$Queue{StateNotify}) {
+        # need no notification
+        return;
+    }
+    elsif ($Param{Type} =~/^OwnerUpdate$/ && !$Queue{OwnerNotify}) {
+        # need no notification
+        return;
+    }
+    elsif ($Param{Type} =~/^QueueUpdate$/ && !$Queue{MoveNotify}) {
+        # need no notification
+        return;
+    }
+    elsif ($Param{Type} =~/^LockUpdate$/ && !$Queue{LockNotify}) {
+        # need no notification
+        return;
+    }
+    # get language and send recipient
+    my $Language = $Self->{ConfigObject}->Get('DefaultLanguage') || 'en';
+    if ($Article{CustomerUserID}) {
+        my %CustomerUser = $Self->{CustomerUserObject}->CustomerUserDataGet(
+            User => $Article{CustomerUserID},
+        );
+        if ($CustomerUser{UserEmail}) {
+            $Article{From} = $CustomerUser{UserEmail};
+        }
+        # get user language
+        if ($CustomerUser{UserLanguage}) {
+            $Language = $CustomerUser{UserLanguage};
+        }
+    }
+    # check recipients
+    if (!$Article{From} || $Article{From} !~ /@/) {
+        return;
+    }
+    # get notification data
+    my %Notification = $Self->{NotificationObject}->NotificationGet(Name => $Language.'::Customer::'.$Param{Type});
+    # get notify texts
+    foreach (qw(Subject Body)) {
+        if (!$Notification{$_}) {
+            $Notification{$_} = "No CustomerNotifiaction $_ for $Param{Type} found!";
+        }
+    }
+
     # format body
     $Article{Body} =~ s/(^>.+|.{4,72})(?:\s|\z)/$1\n/gm if ($Article{Body});
     foreach (keys %Article) {
         if ($Article{$_}) {
-            $Param{Body} =~ s/<OTRS_CUSTOMER_$_>/$Article{$_}/gi;
-            $Param{Subject} =~ s/<OTRS_CUSTOMER_$_>/$Article{$_}/gi;
+            $Notification{Body} =~ s/<OTRS_CUSTOMER_$_>/$Article{$_}/gi;
+            $Notification{Subject} =~ s/<OTRS_CUSTOMER_$_>/$Article{$_}/gi;
         }
     }
-    # check if notification should be send
-    my %Queue = $Self->{QueueObject}->QueueGet(ID => $Article{QueueID});
-    if ($Param{Type} =~/^StateUpdate$/ && !$Queue{StateNotify}) {
-        # need not notification
-        return;
-    }
-    elsif ($Param{Type} =~/^OwnerUpdate$/ && !$Queue{OwnerNotify}) {
-        # need not notification
-        return;
-    }
-    elsif ($Param{Type} =~/^QueueUpdate$/ && !$Queue{MoveNotify}) {
-        # need not notification
-        return;
-    }
-    elsif ($Param{Type} =~/^LockUpdate$/ && !$Queue{LockNotify}) {
-        # need not notification
-        return;
-    }
+
     # get owner data
     my ($OwnerID, $Owner) = $Self->OwnerCheck(TicketID => $Param{TicketID});
     my %Preferences = $Self->{UserObject}->GetUserData(UserID => $OwnerID);
     foreach (keys %Preferences) {
         if ($Preferences{$_}) {
-            $Param{Body} =~ s/<OTRS_OWNER_$_>/$Preferences{$_}/gi;
-            $Param{Subject} =~ s/<OTRS_OWNER_$_>/$Preferences{$_}/gi;
+            $Notification{Body} =~ s/<OTRS_OWNER_$_>/$Preferences{$_}/gi;
+            $Notification{Subject} =~ s/<OTRS_OWNER_$_>/$Preferences{$_}/gi;
         }
     }
     # get current user data
     my %CurrentPreferences = $Self->{UserObject}->GetUserData(UserID => $Param{UserID});
     foreach (keys %CurrentPreferences) {
         if ($CurrentPreferences{$_}) {
-            $Param{Body} =~ s/<OTRS_CURRENT_$_>/$CurrentPreferences{$_}/gi;
-            $Param{Subject} =~ s/<OTRS_CURRENT_$_>/$CurrentPreferences{$_}/gi;
+            $Notification{Body} =~ s/<OTRS_CURRENT_$_>/$CurrentPreferences{$_}/gi;
+            $Notification{Subject} =~ s/<OTRS_CURRENT_$_>/$CurrentPreferences{$_}/gi;
         }
     }
     # get ticket hook
     my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
     # prepare subject (insert old subject)
-    if ($Param{Subject} =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/) {
+    if ($Notification{Subject} =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/) {
         my $SubjectChar = $1;
         $Article{Subject} =~ s/\[$TicketHook: $Article{TicketNumber}\] //g;
         $Article{Subject} =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
-        $Param{Subject} =~ s/<OTRS_CUSTOMER_SUBJECT\[.+?\]>/$Article{Subject}/g;
+        $Notification{Subject} =~ s/<OTRS_CUSTOMER_SUBJECT\[.+?\]>/$Article{Subject}/g;
     }
-    $Param{Subject} = "[$TicketHook: $Article{TicketNumber}] $Param{Subject}";
+    $Notification{Subject} = "[$TicketHook: $Article{TicketNumber}] $Notification{Subject}";
     # prepare body (insert old email)
-    $Param{Body} =~ s/<OTRS_TICKET_ID>/$Param{TicketID}/g;
-    $Param{Body} =~ s/<OTRS_TICKET_NUMBER>/$Article{TicketNumber}/g;
-    $Param{Body} =~ s/<OTRS_QUEUE>/$Param{Queue}/g if ($Param{Queue});
-    if ($Param{Body} =~ /<OTRS_CUSTOMER_EMAIL\[(.+?)\]>/g) {
+    $Notification{Body} =~ s/<OTRS_TICKET_ID>/$Param{TicketID}/g;
+    $Notification{Body} =~ s/<OTRS_TICKET_NUMBER>/$Article{TicketNumber}/g;
+    $Notification{Body} =~ s/<OTRS_QUEUE>/$Param{Queue}/g if ($Param{Queue});
+    if ($Notification{Body} =~ /<OTRS_CUSTOMER_EMAIL\[(.+?)\]>/g) {
         my $Line = $1;
         my @Body = split(/\n/, $Article{Body});
         my $NewOldBody = '';
@@ -1677,26 +1708,21 @@ sub SendCustomerNotification {
             }
         }
         chomp $NewOldBody;
-        $Param{Body} =~ s/<OTRS_CUSTOMER_EMAIL\[.+?\]>/$NewOldBody/g;
+        $Notification{Body} =~ s/<OTRS_CUSTOMER_EMAIL\[.+?\]>/$NewOldBody/g;
     }
     # get ref of email params
     my %GetParam = %{$Param{CustomerMessageParams}};
     foreach (keys %GetParam) {
         if ($GetParam{$_}) {
-            $Param{Body} =~ s/<OTRS_CUSTOMER_$_>/$GetParam{$_}/gi;
-            $Param{Subject} =~ s/<OTRS_CUSTOMER_$_>/$GetParam{$_}/gi;
+            $Notification{Body} =~ s/<OTRS_CUSTOMER_DATA_$_>/$GetParam{$_}/gi;
+            $Notification{Subject} =~ s/<OTRS_CUSTOMER_DATA_$_>/$GetParam{$_}/gi;
         }
     }
-    # set new To address if customer user id is used
-    if ($Article{CustomerUserID}) {
-        my %CustomerUser = $Self->{CustomerUserObject}->CustomerUserDataGet(
-            User => $Article{CustomerUserID},
-        );
-        if ($CustomerUser{UserEmail}) {
-            $Article{From} = $CustomerUser{UserEmail};
-        }
-    }
-    # send notify 
+    # replace config options
+    $Notification{Body} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
+    $Notification{Subject} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
+
+    # send notify
     my %Address = $Self->{QueueObject}->GetSystemAddress(QueueID => $Article{QueueID});
     $Self->ArticleSend(
             ArticleType => 'email-notification-ext',
@@ -1704,11 +1730,11 @@ sub SendCustomerNotification {
             TicketID => $Param{TicketID},
             HistoryType => 'SendCustomerNotification',
             HistoryComment => "\%\%$Article{From}",
-            From => "$Address{RealName} <$Address{Email}>", 
+            From => "$Address{RealName} <$Address{Email}>",
             To => $Article{From},
-            Subject => $Param{Subject},
+            Subject => $Notification{Subject},
             UserID => $Param{UserID},
-            Body => $Param{Body},
+            Body => $Notification{Body},
             Loop => 1,
     );
 
