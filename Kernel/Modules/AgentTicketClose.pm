@@ -1,21 +1,21 @@
 # --
-# Kernel/Modules/AgentClose.pm - to close a ticket
+# Kernel/Modules/AgentTicketClose.pm - to close a ticket
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentClose.pm,v 1.43 2005-02-15 11:58:12 martin Exp $
+# $Id: AgentTicketClose.pm,v 1.1 2005-02-17 07:05:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-package Kernel::Modules::AgentClose;
+package Kernel::Modules::AgentTicketClose;
 
 use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.43 $';
+$VERSION = '$Revision: 1.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -305,7 +305,7 @@ sub _Mask {
         );
     }
     # create & return output
-    return $Self->{LayoutObject}->Output(TemplateFile => 'AgentClose', Data => \%Param);
+    return $Self->{LayoutObject}->Output(TemplateFile => 'AgentTicketClose', Data => \%Param);
 }
 # --
 1;

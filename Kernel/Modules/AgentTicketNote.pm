@@ -1,22 +1,22 @@
 # --
-# Kernel/Modules/AgentNote.pm - to add notes to a ticket
+# Kernel/Modules/AgentTicketNote.pm - to add notes to a ticket
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.pm,v 1.44 2005-02-15 11:58:12 martin Exp $
+# $Id: AgentTicketNote.pm,v 1.1 2005-02-17 07:05:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-package Kernel::Modules::AgentNote;
+package Kernel::Modules::AgentTicketNote;
 
 use strict;
 use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.44 $';
+$VERSION = '$Revision: 1.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -205,7 +205,7 @@ sub Run {
                 );
             }
             # set state
-            if ($Self->{ConfigObject}->Get('Ticket::AgentNoteSetState') && $GetParam{NewStateID}) {
+            if ($Self->{ConfigObject}->Get('Ticket::Frontend::NoteSetState') && $GetParam{NewStateID}) {
                 $Self->{TicketObject}->StateSet(
                     TicketID => $Self->{TicketID},
                     StateID => $GetParam{NewStateID},
@@ -392,7 +392,7 @@ sub _Mask {
         );
     }
     # get output back
-    return $Self->{LayoutObject}->Output(TemplateFile => 'AgentNote', Data => \%Param);
+    return $Self->{LayoutObject}->Output(TemplateFile => 'AgentTicketNote', Data => \%Param);
 }
 # --
 1;

@@ -1,27 +1,26 @@
 # --
-# Kernel/Modules/AgentForward.pm - to forward a message
+# Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentForward.pm,v 1.49 2005-02-15 11:58:12 martin Exp $
+# $Id: AgentTicketCompose.pm,v 1.1 2005-02-17 07:05:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-package Kernel::Modules::AgentForward;
+package Kernel::Modules::AgentTicketCompose;
 
 use strict;
 use Kernel::System::CheckItem;
 use Kernel::System::StdAttachment;
 use Kernel::System::State;
-use Kernel::System::SystemAddress;
 use Kernel::System::CustomerUser;
 use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.49 $';
+$VERSION = '$Revision: 1.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -50,10 +49,11 @@ sub new {
     $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%Param);
     $Self->{StdAttachmentObject} = Kernel::System::StdAttachment->new(%Param);
     $Self->{StateObject} = Kernel::System::State->new(%Param);
-    $Self->{SystemAddress} = Kernel::System::SystemAddress->new(%Param);
     $Self->{UploadCachObject} = Kernel::System::Web::UploadCache->new(%Param);
+    # anyway, we need to check the email syntax (removed it, because the admins should configure it)
+#    $Self->{ConfigObject}->Set(Key => 'CheckEmailAddresses', Value => 1);
     # get params
-    foreach (qw(From To Cc Bcc Subject Body InReplyTo ComposeStateID ArticleTypeID
+    foreach (qw(From To Cc Bcc Subject Body InReplyTo ResponseID ComposeStateID
       ArticleID TimeUnits Year Month Day Hour Minute AttachmentUpload
       AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
       AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
@@ -64,6 +64,16 @@ sub new {
            $Self->{GetParam}->{$_} = $Value;
        }
     }
+    # get response format
+    $Self->{ResponseFormat} = $Self->{ConfigObject}->Get('Ticket::Frontend::ResponseFormat') ||
+      '$Data{"Salutation"}
+$Data{"OrigFrom"} $Text{"wrote"}:
+$Data{"Body"}
+
+$Data{"StdResponse"}
+
+$Data{"Signature"}
+';
     # create form id
     if (!$Self->{GetParam}->{FormID}) {
         $Self->{GetParam}->{FormID} = $Self->{UploadCachObject}->FormIDCreate();
@@ -93,7 +103,7 @@ sub Form {
     my %Error = ();
     my %GetParam = %{$Self->{GetParam}};
     # start with page ...
-    $Output .= $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Forward');
+    $Output .= $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Compose');
     # check needed stuff
     if (!$Self->{TicketID}) {
         return $Self->{LayoutObject}->ErrorScreen(
@@ -103,9 +113,15 @@ sub Form {
     }
     # get ticket data
     my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
+    if ($Self->{ConfigObject}->Get('Ticket::AgentCanBeCustomer') && $Ticket{CustomerUserID} && $Ticket{CustomerUserID} eq $Self->{UserLogin}) {
+        # redirect
+        return $Self->{LayoutObject}->Redirect(
+            OP => "Action=AgentTicketCustomerFollowUp&TicketID=$Self->{TicketID}",
+        );
+    }
     # check permissions
     if (!$Self->{TicketObject}->Permission(
-        Type => 'forward',
+        Type => 'rw',
         TicketID => $Self->{TicketID},
         UserID => $Self->{UserID})) {
         # error screen, don't show ticket
@@ -169,25 +185,14 @@ sub Form {
             TicketID => $Self->{TicketID},
         );
     }
-    # add attachmens to upload cache
-    my %AttachmentIndex = $Self->{TicketObject}->ArticleAttachmentIndex(
-        %Data,
-    );
-    foreach (keys %AttachmentIndex) {
-        my %Attachment = $Self->{TicketObject}->ArticleAttachment(
-            ArticleID => $Data{ArticleID},
-            FileID => $_,
-        );
-        $Self->{UploadCachObject}->FormIDAddFile(
-            FormID => $GetParam{FormID},
-            %Attachment,
-        );
+    # check article type and replace To with From (in case)
+    if ($Data{SenderType} !~ /customer/) {
+        my $To = $Data{To};
+        my $From = $Data{From};
+        $Data{From} = $To;
+        $Data{To} = $Data{From};
+        $Data{ReplyTo} = '';
     }
-    # get all attachments meta data
-    my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
-        FormID => $GetParam{FormID},
-    );
-
     # --
     # get customer data
     # --
@@ -198,12 +203,66 @@ sub Form {
         );
     }
     # --
+    # check if original content isn't text/plain or text/html, don't use it
+    # --
+    if ($Data{'ContentType'}) {
+        if($Data{'ContentType'} =~ /text\/html/i) {
+            $Data{Body} =~ s/\<.+?\>//gs;
+        }
+        elsif ($Data{'ContentType'} !~ /text\/plain/i) {
+            $Data{Body} = "-> no quotable message <-";
+        }
+    }
+    # --
+    # prepare body, subject, ReplyTo ...
+    # --
+    $Data{Body} =~ s/(^>.+|.{4,78})(?:\s|\z)/$1\n/gm;
+    $Data{Body} =~ s/\n/\n> /g;
+    $Data{Body} = "\n> " . $Data{Body};
+    $Data{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
+        TicketNumber => $Ticket{TicketNumber},
+        Subject => $Data{Subject} || '',
+    );
+    # check ReplyTo
+    if ($Data{ReplyTo}) {
+        $Data{To} = $Data{ReplyTo};
+    }
+    else {
+        $Data{To} = $Data{From};
+        # try to remove some wrong text to from line (by way of ...)
+        # added by some strange mail programs on bounce
+        $Data{To} =~ s/(.+?\<.+?\@.+?\>)\s+\(by\s+way\s+of\s+.+?\)/$1/ig;
+    }
+    # get to email (just "some@example.com")
+    foreach my $Email (Mail::Address->parse($Data{To})) {
+        $Data{ToEmail} = $Email->address();
+    }
+    # use database email
+    if ($Customer{UserEmail} && $Data{ToEmail} !~ /^\Q$Customer{UserEmail}\E$/i) {
+        $Output .= $Self->{LayoutObject}->Notify(
+            Info => 'Cc: (%s) added database email!", "$Quote{"'.$Customer{UserEmail}.'"}',
+        );
+        if ($Data{Cc}) {
+            $Data{Cc} .= ', '.$Customer{UserEmail};
+        }
+        else {
+            $Data{Cc} = $Customer{UserEmail};
+        }
+    }
+    $Data{OrigFrom} = $Data{From};
+    my %Address = $Self->{QueueObject}->GetSystemAddress(%Ticket);
+    $Data{From} = "$Address{RealName} <$Address{Email}>";
+    $Data{Email} = $Address{Email};
+    $Data{RealName} = $Address{RealName};
+    $Data{StdResponse} = $Self->{QueueObject}->GetStdResponse(ID => $GetParam{ResponseID});
+
+    # --
     # prepare salutation
     # --
     $Data{Salutation} = $Self->{QueueObject}->GetSalutation(%Ticket);
     # prepare signature
     $Data{Signature} = $Self->{QueueObject}->GetSignature(%Ticket);
-    foreach (qw(Signature Salutation)) {
+    foreach (qw(Signature Salutation StdResponse)) {
         # get and prepare realname
         if ($Data{$_} =~ /<OTRS_CUSTOMER_REALNAME>/) {
             my $From = '';
@@ -242,47 +301,21 @@ sub Form {
         $Data{$_} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
     }
     # --
-    # check if original content isn't text/plain or text/html, don't use it
-    # --
-    if ($Data{'ContentType'}) {
-        if($Data{'ContentType'} =~ /text\/html/i) {
-            $Data{Body} =~ s/\<.+?\>//gs;
-        }
-        elsif ($Data{'ContentType'} !~ /text\/plain/i) {
-            $Data{Body} = "-> no quotable message <-";
-        }
-    }
-    # --
-    # prepare body, subject, ReplyTo ...
-    # --
-    $Data{Body} =~ s/(^>.+|.{4,78})(?:\s|\z)/$1\n/gm;
-    $Data{Body} =~ s/\n/\n> /g;
-    $Data{Body} = "\n> " . $Data{Body};
-    foreach (qw(Subject ReplyTo Cc To From)) {
-        if ($Data{$_}) {
-            $Data{Body} = "$_: $Data{$_}\n".$Data{Body};
-        }
-    }
-    $Data{Body} = "\n---- Forwarded message from $Data{From} ---\n\n".$Data{Body};
-    $Data{Body} .= "\n---- End forwarded message ---\n";
-    $Data{Body} = $Data{Signature}.$Data{Body};
-    $Data{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
-        TicketNumber => $Ticket{TicketNumber},
-        Subject => $Data{Subject} || '',
-    );
-    my %Address = $Self->{QueueObject}->GetSystemAddress(%Ticket);
-    $Data{From} = "$Address{RealName} <$Address{Email}>";
-    $Data{Email} = $Address{Email};
-    $Data{RealName} = $Address{RealName};
-
-    # --
     # check some values
     # --
-    foreach (qw(To Cc Bcc)) {
+    foreach (qw(From To Cc Bcc)) {
         if ($Data{$_}) {
-            delete $Data{$_};
+            foreach my $Email (Mail::Address->parse($Data{$_})) {
+                if (!$Self->{CheckItemObject}->CheckEmail(Address => $Email->address())) {
+                     $Error{"$_ invalid"} .= $Self->{CheckItemObject}->CheckError();
+                }
+            }
         }
     }
+    # get std attachments
+    my %AllStdAttachments = $Self->{StdAttachmentObject}->StdAttachmentsByResponseID(
+        ID => $GetParam{ResponseID},
+    );
     # run compose modules
     if (ref($Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule')) eq 'HASH') {
         my %Jobs = %{$Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule')};
@@ -333,8 +366,9 @@ sub Form {
         TicketID => $Self->{TicketID},
         QueueID => $Ticket{QueueID},
         NextStates => $Self->_GetNextStates(),
+        ResponseFormat => $Self->{ResponseFormat},
         Errors => \%Error,
-        Attachments => \@Attachments,
+        StdAttachments => \%AllStdAttachments,
         %Data,
         %GetParam,
         %TicketFreeTextHTML,
@@ -439,21 +473,6 @@ sub SendEmail {
         Config => \%TicketFreeText,
         Ticket => \%TicketFree,
     );
-    # --
-    # check some values
-    # --
-    foreach (qw(To Cc Bcc)) {
-        if ($GetParam{$_}) {
-            foreach my $Email (Mail::Address->parse($GetParam{$_})) {
-                if (!$Self->{CheckItemObject}->CheckEmail(Address => $Email->address())) {
-                     $Error{"$_ invalid"} .= $Self->{CheckItemObject}->CheckError();
-                }
-                if ($Self->{SystemAddress}->SystemAddressIsLocalAddress(Address => $Email->address())) {
-                    $Error{"$_ invalid"} .= "Can't forward ticket to ".$Email->address()."! It's a local address! Move it Tickets!"
-                }
-            }
-        }
-    }
 
     my %ArticleParam = ();
         # run compose modules
@@ -487,13 +506,15 @@ sub SendEmail {
     # --
     if (%Error) {
         my $QueueID = $Self->{TicketObject}->TicketQueueID(TicketID => $Self->{TicketID});
-        my $Output = $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Forward');
+        my $Output = $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Compose');
+        $GetParam{StdResponse} = $GetParam{Body};
         $Output .= $Self->_Mask(
             TicketNumber => $Tn,
             TicketID => $Self->{TicketID},
             QueueID => $QueueID,
             NextStates => $Self->_GetNextStates(),
             NextState => $NextState,
+            ResponseFormat => $Self->{LayoutObject}->Ascii2Html(Text => $GetParam{Body}),
             Errors => \%Error,
             Attachments => \@Attachments,
             %TicketFreeTextHTML,
@@ -520,10 +541,10 @@ sub SendEmail {
     }
     # send email
     if (my $ArticleID = $Self->{TicketObject}->ArticleSend(
-        ArticleTypeID => $Self->{GetParam}->{ArticleTypeID},
+        ArticleType => 'email-external',
         SenderType => 'agent',
         TicketID => $Self->{TicketID},
-        HistoryType => 'Forward',
+        HistoryType => 'SendAnswer',
         HistoryComment => "\%\%$GetParam{To}, $GetParam{Cc}, $GetParam{Bcc}",
         From => $GetParam{From},
         To => $GetParam{To},
@@ -601,9 +622,12 @@ sub SendEmail {
     }
     else {
       # error page
-      return $Self->{LayoutObject}->ErrorScreen(
+      $Output .= $Self->{LayoutObject}->Header(Title => 'Compose');
+      $Output .= $Self->{LayoutObject}->Error(
           Comment => 'Please contact the admin.',
       );
+      $Output .= $Self->{LayoutObject}->Footer();
+      return $Output;
     }
 }
 # --
@@ -612,7 +636,7 @@ sub _GetNextStates {
     my %Param = @_;
     # get next states
     my %NextStates = $Self->{TicketObject}->StateList(
-        Type => 'DefaultNextForward',
+        Type => 'DefaultNextCompose',
         Action => $Self->{Action},
         TicketID => $Self->{TicketID},
         UserID => $Self->{UserID},
@@ -629,26 +653,18 @@ sub _Mask {
         Name => 'ComposeStateID',
         Selected => $Param{NextState}
     );
-    my %ArticleTypes = ();
-    my @ArticleTypesPossible = @{$Self->{ConfigObject}->Get('Ticket::Frontend::ForwardArticleTypes')};
-    foreach (@ArticleTypesPossible) {
-        $ArticleTypes{$Self->{TicketObject}->ArticleTypeLookup(ArticleType => $_)} = $_;
+    # build select string
+    if ($Param{StdAttachments} && %{$Param{StdAttachments}}) {
+      my %Data = %{$Param{StdAttachments}};
+      $Param{'StdAttachmentsStrg'} = "<select name=\"StdAttachmentID\" size=2 multiple>\n";
+      foreach (sort {$Data{$a} cmp $Data{$b}} keys %Data) {
+        if ((defined($_)) && ($Data{$_})) {
+            $Param{'StdAttachmentsStrg'} .= '    <option selected value="'.$Self->{LayoutObject}->Ascii2Html(Text => $_).'">'.
+                  $Self->{LayoutObject}->Ascii2Html(Text => $Self->{LayoutObject}->{LanguageObject}->Get($Data{$_})) ."</option>\n";
+        }
+      }
+      $Param{'StdAttachmentsStrg'} .= "</select>\n";
     }
-    if ($Self->{GetParam}->{ArticleTypeID}) {
-        $Param{'ArticleTypesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-            Data => \%ArticleTypes,
-            Name => 'ArticleTypeID',
-            SelectedID => $Self->{GetParam}->{ArticleTypeID},
-        );
-    }
-    else {
-        $Param{'ArticleTypesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-            Data => \%ArticleTypes,
-            Name => 'ArticleTypeID',
-            Selected => $Self->{ConfigObject}->Get('Ticket::Frontend::ForwardArticleType'),
-        );
-    }
-
     # prepare errors!
     if ($Param{Errors}) {
         foreach (keys %{$Param{Errors}}) {
@@ -680,7 +696,7 @@ sub _Mask {
         );
     }
     # create & return output
-    return $Self->{LayoutObject}->Output(TemplateFile => 'AgentForward', Data => \%Param);
+    return $Self->{LayoutObject}->Output(TemplateFile => 'AgentTicketCompose', Data => \%Param);
 }
 # --
 1;

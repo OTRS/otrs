@@ -1,20 +1,20 @@
 # --
-# Kernel/Modules/AgentHistory.pm - to add notes to a ticket
+# Kernel/Modules/AgentTicketHistory.pm - ticket history
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentHistory.pm,v 1.20 2005-02-15 11:58:12 martin Exp $
+# $Id: AgentTicketHistory.pm,v 1.1 2005-02-17 07:05:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-package Kernel::Modules::AgentHistory;
+package Kernel::Modules::AgentTicketHistory;
 
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -108,7 +108,7 @@ sub Run {
     }
     # get output
     $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AgentHistoryForm',
+            TemplateFile => 'AgentTicketHistory',
             Data => {
                 TicketNumber => $Tn,
                 TicketID => $Self->{TicketID},

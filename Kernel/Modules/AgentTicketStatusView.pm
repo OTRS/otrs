@@ -1,23 +1,23 @@
 # --
-# Kernel/Modules/AgentStatusView.pm - status for all open tickets
+# Kernel/Modules/AgentTicketStatusView.pm - status for all open tickets
 # Copyright (C) 2002 Phil Davis <phil.davis at itaction.co.uk>
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentStatusView.pm,v 1.24 2005-02-15 11:58:12 martin Exp $
+# $Id: AgentTicketStatusView.pm,v 1.1 2005-02-17 07:05:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-package Kernel::Modules::AgentStatusView;
+package Kernel::Modules::AgentTicketStatusView;
 
 use strict;
 use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -50,7 +50,7 @@ sub new {
     $Self->{Limit} = $Self->{ParamObject}->GetParam(Param => 'Limit') || 6000;
 
     $Self->{StartHit} = $Self->{ParamObject}->GetParam(Param => 'StartHit') || 1;
-    $Self->{PageShown} = $Self->{ConfigObject}->Get('Ticket::AgentStatusView::ViewableTicketsPage') || 50;
+    $Self->{PageShown} = $Self->{ConfigObject}->Get('Ticket::Frontend::StatusView::ViewableTicketsPage') || 50;
     $Self->{ViewType} = $Self->{ParamObject}->GetParam(Param => 'Type') || 'Open';
     if ($Self->{ViewType} =~ /^close/i) {
         $Self->{ViewType} = 'Closed';
@@ -154,13 +154,13 @@ sub Run {
         StartHit => $Self->{StartHit},
         PageShown => $Self->{PageShown},
         AllHits => $Counter,
-        Action => "Action=AgentStatusView&",
+        Action => "Action=AgentTicketStatusView&",
         Link => "SortBy=$Self->{SortBy}&Order=$Self->{Order}&Type=$Self->{ViewType}&",
     );
 
     # use template
     $Output .= $Self->{LayoutObject}->Output(
-        TemplateFile => 'AgentStatusView',
+        TemplateFile => 'AgentTicketStatusView',
         Data => { %Param, %PageNav, Type => $Self->{ViewType}, },
     );
 

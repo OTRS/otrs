@@ -1,20 +1,20 @@
 # --
-# Kernel/Modules/AgentPlain.pm - to get a plain view
+# Kernel/Modules/AgentTicketPlain.pm - to get a plain view
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPlain.pm,v 1.21 2005-02-15 11:58:12 martin Exp $
+# $Id: AgentTicketPlain.pm,v 1.1 2005-02-17 07:05:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-package Kernel::Modules::AgentPlain;
+package Kernel::Modules::AgentTicketPlain;
 
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -95,7 +95,7 @@ sub Run {
             my $Output = $Self->{LayoutObject}->Header(Area => 'Ticket', Title => "Plain Article");
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AgentPlain',
+                TemplateFile => 'AgentTicketPlain',
                 Data => {
                     Text => $Text,
                     TicketID => $Self->{TicketID},

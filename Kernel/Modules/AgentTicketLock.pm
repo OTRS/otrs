@@ -1,20 +1,20 @@
 # --
-# Kernel/Modules/AgentLock.pm - to set or unset a lock for tickets
+# Kernel/Modules/AgentTicketLock.pm - to set or unset a lock for tickets
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentLock.pm,v 1.20 2005-02-10 22:01:42 martin Exp $
+# $Id: AgentTicketLock.pm,v 1.1 2005-02-17 07:05:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-package Kernel::Modules::AgentLock;
+package Kernel::Modules::AgentTicketLock;
 
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --

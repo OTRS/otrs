@@ -1,15 +1,15 @@
 # --
-# Kernel/Modules/AgentBounce.pm - to bounce articles of tickets
+# Kernel/Modules/AgentTicketBounce.pm - to bounce articles of tickets
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBounce.pm,v 1.41 2005-02-15 11:58:12 martin Exp $
+# $Id: AgentTicketBounce.pm,v 1.1 2005-02-17 07:05:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-package Kernel::Modules::AgentBounce;
+package Kernel::Modules::AgentTicketBounce;
 
 use strict;
 use Kernel::System::State;
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -372,7 +372,7 @@ sub _Mask {
         Selected => $Self->{ConfigObject}->Get('Ticket::Frontend::BounceState'),
     );
     # get output back
-    return $Self->{LayoutObject}->Output(TemplateFile => 'AgentBounce', Data => \%Param);
+    return $Self->{LayoutObject}->Output(TemplateFile => 'AgentTicketBounce', Data => \%Param);
 }
 # --
 1;

@@ -1,15 +1,15 @@
 # --
-# Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
+# Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.71 2005-02-15 11:58:12 martin Exp $
+# $Id: AgentTicketQueue.pm,v 1.1 2005-02-17 07:05:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-package Kernel::Modules::AgentQueueView;
+package Kernel::Modules::AgentTicketQueue;
 
 use strict;
 use Kernel::System::State;
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.71 $';
+$VERSION = '$Revision: 1.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -61,7 +61,7 @@ sub new {
     # viewable tickets a page
     $Self->{Limit} =  $Self->{ViewableTickets} + $Self->{Start} - 1;
     # sure is sure!
-    $Self->{MaxLimit} = $Self->{ConfigObject}->Get('Ticket::AgentQueueViewMaxShown') || 1200;
+    $Self->{MaxLimit} = $Self->{ConfigObject}->Get('Ticket::Frontend::QueueMaxShown') || 1200;
     if ($Self->{Limit} > $Self->{MaxLimit}) {
         $Self->{Limit} = $Self->{MaxLimit};
     }
@@ -114,7 +114,7 @@ sub Run {
     # --
     # check old tickets, show it and return if needed
     # --
-    my $NoEscalationGroup = $Self->{ConfigObject}->Get('Ticket::AgentNoEscalationGroup') || '';
+    my $NoEscalationGroup = $Self->{ConfigObject}->Get('Ticket::Frontend::NoEscalationGroup') || '';
     if ($Self->{UserID} eq '1' ||
         ($Self->{"UserIsGroup[$NoEscalationGroup]"} && $Self->{"UserIsGroup[$NoEscalationGroup]"} eq 'Yes')) {
         # do not show escalated tickets
@@ -122,8 +122,15 @@ sub Run {
     else {
         if (my @ViewableTickets = $Self->{TicketObject}->GetOverTimeTickets(UserID=> $Self->{UserID})) {
             # show over time ticket's
-            print $Self->{LayoutObject}->TicketEscalation(
-                Message => 'Please answer this ticket(s) to get back to the normal queue view!',
+            $Self->{LayoutObject}->Block(
+                Name => 'EscalationNav',
+                Data => {
+                    Message => 'Please answer this ticket(s) to get back to the normal queue view!',
+                },
+            );
+            print $Self->{LayoutObject}->Output(
+                TemplateFile => 'AgentTicketQueue',
+                Data => { %Param },
             );
             foreach (@ViewableTickets) {
                 print $Self->ShowTicket(TicketID => $_);
@@ -144,7 +151,11 @@ sub Run {
     else {
         @ViewableQueueIDs = ($Self->{QueueID});
     }
-    print $Self->BuildQueueView(QueueIDs => \@ViewableQueueIDs);
+    $Self->BuildQueueView(QueueIDs => \@ViewableQueueIDs);
+    print $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentTicketQueue',
+        Data => { %Param },
+    );
     # get user groups
     my $Type = 'rw';
     if ($Self->{ConfigObject}->Get('Ticket::QueueViewAllPossibleTickets')) {
@@ -160,13 +171,13 @@ sub Run {
     # get data (viewable tickets...)
     # --
     my @ViewableTickets = ();
-    my $Order = $Self->{ConfigObject}->Get('Ticket::AgentQueueSortDefault') || 'ASC';
+    my $Order = $Self->{ConfigObject}->Get('Ticket::Frontend::QueueSortDefault') || 'ASC';
     if (@ViewableQueueIDs && @GroupIDs) {
         # if we have only one queue, check if there
         # is a setting in Config.pm for sorting
         if ($#ViewableQueueIDs == 0) {
             my $QueueID = $ViewableQueueIDs[0];
-            if ($Self->{ConfigObject}->Get('Ticket::AgentQueueSort') && $Self->{ConfigObject}->Get('Ticket::AgentQueueSort')->{$QueueID}) {
+            if ($Self->{ConfigObject}->Get('Ticket::Frontend::QueueSort') && $Self->{ConfigObject}->Get('Ticket::Frontend::QueueSort')->{$QueueID}) {
                 $Order = 'DESC';
             }
         }
@@ -373,7 +384,7 @@ sub ShowTicket {
         }
     }
     # get MoveQueuesStrg
-    if ($Self->{ConfigObject}->Get('Ticket::AgentMoveType') =~ /^form$/i) {
+    if ($Self->{ConfigObject}->Get('Ticket::Frontend::MoveType') =~ /^form$/i) {
         $Param{MoveQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
             Name => 'DestQueueID',
             Data => \%MoveQueues,
@@ -437,15 +448,15 @@ sub ShowTicket {
     }
     # create & return output
     my $TicketView = $Self->{UserQueueView} || $Self->{ConfigObject}->Get('PreferencesGroups')->{QueueView}->{DataSelected};
-    if ($TicketView ne 'TicketViewLite') {
+    if ($TicketView ne 'AgentTicketQueueTicketViewLite') {
         return $Self->{LayoutObject}->Output(
-            TemplateFile => 'TicketView',
+            TemplateFile => 'AgentTicketQueueTicketView',
             Data => {%Param, %Article, %AclAction},
         );
     }
     else {
         return $Self->{LayoutObject}->Output(
-            TemplateFile => 'TicketViewLite',
+            TemplateFile => 'AgentTicketQueueTicketViewLite',
             Data => {%Param, %Article, %AclAction},
         );
     }
@@ -480,7 +491,7 @@ sub BuildQueueView {
     }
     # build output ...
     my %AllQueues = $Self->{QueueObject}->GetAllQueues();
-    return $Self->_MaskQueueView(
+    $Self->_MaskQueueView(
         %Data,
         QueueID => $Self->{QueueID},
         AllQueues => \%AllQueues,
@@ -584,7 +595,7 @@ sub _MaskQueueView {
            $Param{SelectedQueue} = $Queue{Queue};
            $Param{AllSubTickets} = $Counter{$Queue{Queue}};
            # --
-           # build Page Navigator for AgentQueueView
+           # build Page Navigator for AgentTicketQueue
            # --
            $Param{PageShown} = $Param{'ViewableTickets'};
            if ($Param{TicketsAvailAll} == 1 || $Param{TicketsAvailAll} == 0) {
@@ -610,7 +621,7 @@ sub _MaskQueueView {
                $Param{PageNavBar} .= '</a> ';
            }
         }
-        $QueueStrg .= "<a href=\"$Self->{LayoutObject}->{Baselink}Action=AgentQueueView&QueueID=$Queue{QueueID}\"";
+        $QueueStrg .= "<a href=\"$Self->{LayoutObject}->{Baselink}Action=AgentTicketQueue&QueueID=$Queue{QueueID}\"";
         $QueueStrg .= ' onmouseover="window.status=\'$Text{"Queue"}: '.$Queue{Queue}.'\'; return true;" onmouseout="window.status=\'\';">';
         # should i highlight this queue
         if ($Queue{MaxAge} >= $Self->{HighlightAge2}) {
@@ -673,8 +684,11 @@ sub _MaskQueueView {
     if ($Param{QueueStrg2}) {
         $Param{QueueStrg} .= '<br>'.$Param{QueueStrg2};
     }
-    # create & return output
-    return $Self->{LayoutObject}->Output(TemplateFile => 'QueueView', Data => \%Param);
+    $Self->{LayoutObject}->Block(
+        Name => 'QueueNav',
+        Data => \%Param,
+    );
+    return 1;
 }
 # --
 1;

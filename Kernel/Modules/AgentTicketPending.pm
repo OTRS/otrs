@@ -1,21 +1,21 @@
 # --
-# Kernel/Modules/AgentPending.pm - to set ticket in pending state
+# Kernel/Modules/AgentTicketPending.pm - to set ticket in pending state
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPending.pm,v 1.27 2005-02-15 11:58:12 martin Exp $
+# $Id: AgentTicketPending.pm,v 1.1 2005-02-17 07:05:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-package Kernel::Modules::AgentPending;
+package Kernel::Modules::AgentTicketPending;
 
 use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -294,7 +294,7 @@ sub _Mask {
         }
     }
     # create & return output
-    return $Self->{LayoutObject}->Output(TemplateFile => 'AgentPending', Data => \%Param);
+    return $Self->{LayoutObject}->Output(TemplateFile => 'AgentTicketPending', Data => \%Param);
 }
 # --
 1;

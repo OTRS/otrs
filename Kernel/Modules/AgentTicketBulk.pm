@@ -1,21 +1,21 @@
 # --
-# Kernel/Modules/AgentBulk.pm - to do bulk actions on tickets
+# Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBulk.pm,v 1.11 2005-02-15 11:58:12 martin Exp $
+# $Id: AgentTicketBulk.pm,v 1.1 2005-02-17 07:05:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-package Kernel::Modules::AgentBulk;
+package Kernel::Modules::AgentTicketBulk;
 
 use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -237,7 +237,7 @@ sub _Mask {
         SelectedID => 1,
     );
     # get output back
-    return $Self->{LayoutObject}->Output(TemplateFile => 'AgentBulk', Data => \%Param);
+    return $Self->{LayoutObject}->Output(TemplateFile => 'AgentTicketBulk', Data => \%Param);
 }
 # --
 1;

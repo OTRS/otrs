@@ -1,21 +1,21 @@
 # --
-# Kernel/Modules/AgentMove.pm - move tickets to queues
+# Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMove.pm,v 1.41 2005-02-15 11:58:12 martin Exp $
+# $Id: AgentTicketMove.pm,v 1.1 2005-02-17 07:05:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-package Kernel::Modules::AgentMove;
+package Kernel::Modules::AgentTicketMove;
 
 use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -178,7 +178,7 @@ sub Run {
           TicketID => $Self->{TicketID},
       ) ) {
         # set state
-        if ($Self->{ConfigObject}->Get('Ticket::AgentMoveSetState') && $Self->{NewStateID}) {
+        if ($Self->{ConfigObject}->Get('Ticket::Frontend::MoveSetState') && $Self->{NewStateID}) {
             $Self->{TicketObject}->StateSet(
                 TicketID => $Self->{TicketID},
                 StateID => $Self->{NewStateID},
@@ -315,7 +315,7 @@ sub AgentMove {
         $Param{LatestQueue} = '$Text{"Latest Queue!"} "'.$MoveQueues{$LatestQueueID}.'"';
     }
     # set state
-    if ($Self->{ConfigObject}->Get('Ticket::AgentMoveSetState')) {
+    if ($Self->{ConfigObject}->Get('Ticket::Frontend::MoveSetState')) {
         $Self->{LayoutObject}->Block(
             Name => 'State',
             Data => { %Param },
@@ -331,7 +331,7 @@ sub AgentMove {
             OnChange => "document.compose.ExpandQueueUsers.value='3'; document.compose.submit(); return false;",
         );
 
-    return $Self->{LayoutObject}->Output(TemplateFile => 'AgentMove', Data => \%Param);
+    return $Self->{LayoutObject}->Output(TemplateFile => 'AgentTicketMove', Data => \%Param);
 }
 # --
 sub _GetUsers {

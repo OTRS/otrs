@@ -1,20 +1,20 @@
 # --
-# Kernel/Modules/AgentOwner.pm - to set the ticket owner
+# Kernel/Modules/AgentTicketOwner.pm - to set the ticket owner
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentOwner.pm,v 1.30 2005-02-15 11:58:12 martin Exp $
+# $Id: AgentTicketOwner.pm,v 1.1 2005-02-17 07:05:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-package Kernel::Modules::AgentOwner;
+package Kernel::Modules::AgentTicketOwner;
 
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -202,7 +202,7 @@ sub MaskOwner {
     );
     # create & return output
     return $Self->{LayoutObject}->Output(
-        TemplateFile => 'AgentOwner',
+        TemplateFile => 'AgentTicketOwner',
         Data => \%Param,
     );
 }

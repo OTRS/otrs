@@ -1,20 +1,20 @@
 # --
-# Kernel/Modules/AgentPriority.pm - to set the ticket priority
+# Kernel/Modules/AgentTicketPriority.pm - to set the ticket priority
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPriority.pm,v 1.24 2005-02-15 11:58:12 martin Exp $
+# $Id: AgentTicketPriority.pm,v 1.1 2005-02-17 07:05:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-package Kernel::Modules::AgentPriority;
+package Kernel::Modules::AgentTicketPriority;
 
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -99,35 +99,24 @@ sub Run {
         my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
         $Output .= $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Priority');
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        # print change form
-	$Output .= $Self->MaskPriority(
-            %Ticket,
-            QueueID => $Self->{QueueID},
+        # get and priority priority states
+        $Param{'OptionStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data => {
+                $Self->{TicketObject}->PriorityList(
+                    UserID => $Self->{UserID},
+                    TicketID => $Ticket{TicketID},
+                ),
+            },
+            Name => 'PriorityID',
+            SelectedID => $Param{PriorityID},
+        );
+        # create & return output
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AgentTicketPriority',
+            Data => { %Param, %Ticket, },
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
 }
-# --
-sub MaskPriority {
-    my $Self = shift;
-    my %Param = @_;
-    # get and priority priority states
-    $Param{'OptionStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => { 
-            $Self->{TicketObject}->PriorityList(
-                UserID => $Self->{UserID}, 
-                TicketID => $Self->{TicketID},
-            ) 
-        },
-        Name => 'PriorityID',
-        SelectedID => $Param{PriorityID},
-    );
-    # create & return output
-    return $Self->{LayoutObject}->Output(
-        TemplateFile => 'AgentPriority', 
-        Data => \%Param,
-    );
-}
-# --
 1;

@@ -1,16 +1,16 @@
 # --
-# Kernel/Modules/AgentCustomerFollowUp.pm - to handle customer messages
+# Kernel/Modules/AgentTicketCustomerFollowUp.pm - to handle customer messages
 # if the agent is customer
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCustomerFollowUp.pm,v 1.13 2005-02-15 11:58:12 martin Exp $
+# $Id: AgentTicketCustomerFollowUp.pm,v 1.1 2005-02-17 07:05:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-package Kernel::Modules::AgentCustomerFollowUp;
+package Kernel::Modules::AgentTicketCustomerFollowUp;
 
 use strict;
 use Kernel::System::SystemAddress;
@@ -18,7 +18,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -88,7 +88,7 @@ sub Run {
                   $Self->{LayoutObject}->{LanguageObject}->Get('You are the customer user of this message - customer modus!'),
             );
             $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AgentCustomerMessage',
+                TemplateFile => 'AgentTicketCustomerMessage',
                 Data => { %Param, %Ticket },
             );
 

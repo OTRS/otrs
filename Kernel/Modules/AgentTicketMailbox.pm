@@ -1,20 +1,20 @@
 # --
-# Kernel/Modules/AgentMailbox.pm - to view all locked tickets
+# Kernel/Modules/AgentTicketMailbox.pm - to view all locked tickets
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMailbox.pm,v 1.31 2005-02-15 11:58:12 martin Exp $
+# $Id: AgentTicketMailbox.pm,v 1.1 2005-02-17 07:05:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-package Kernel::Modules::AgentMailbox;
+package Kernel::Modules::AgentTicketMailbox;
 
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -84,8 +84,8 @@ sub Run {
     );
     $Output .= $Self->{LayoutObject}->NavigationBar();
     my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
-    $Output .= $Self->{LayoutObject}->Output(
-        TemplateFile => 'AgentMailboxNavBar',
+    $Self->{LayoutObject}->Block(
+        Name => 'NavBar',
         Data => {
             %LockedData,
             SortBy => $SortBy,
@@ -181,7 +181,7 @@ sub Run {
         }
         if ($Shown) {
             $Counter++;
-            $Output .= $Self->MaskMailboxTicket(
+            $Self->MaskMailboxTicket(
               %Article,
               LastSenderType => $LastSenderType{$Article{TicketID}},
               LastSenderID => $LastSenderID{$Article{TicketID}},
@@ -190,6 +190,11 @@ sub Run {
             );
         }
     }
+    # create & return output
+    $Output .= $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentTicketMailbox',
+        Data => {%Param},
+    );
     $Output .= $Self->{LayoutObject}->Footer();
     return $Output;
 }
@@ -208,6 +213,40 @@ sub MaskMailboxTicket {
         UserID => $Self->{UserID},
     );
     my %AclAction = $Self->{TicketObject}->TicketAclActionData();
+    # check if the pending ticket is Over Time
+    if ($Param{UntilTime} < 0 && $Param{State} !~ /^pending auto/i) {
+        $Param{Message} .= $Self->{LayoutObject}->{LanguageObject}->Get('Timeover').' '.
+          $Self->{LayoutObject}->CustomerAge(Age => $Param{UntilTime}, Space => ' ').'!';
+    }
+    # create PendingUntil string if UntilTime is < -1
+    if ($Param{UntilTime}) {
+        if ($Param{UntilTime} < -1) {
+            $Param{PendingUntil} = "<font color='$Self->{HighlightColor2}'>";
+        }
+        $Param{PendingUntil} .= $Self->{LayoutObject}->CustomerAge(
+            Age => $Param{UntilTime},
+            Space => '<br>',
+        );
+        if ($Param{UntilTime} < -1) {
+            $Param{PendingUntil} .= "</font>";
+        }
+    }
+    # do some strips && quoting
+    $Param{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Param{Age}, Space => ' ');
+    $Self->{LayoutObject}->Block(
+        Name => 'Ticket',
+        Data => {
+            %Param,
+            %AclAction,
+        },
+    );
+    # ticket bulk block
+    if ($Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeature')) {
+        $Self->{LayoutObject}->Block(
+            Name => "Bulk",
+            Data => { %Param },
+        );
+    }
     # run ticket pre menu modules
     if (ref($Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule')) eq 'HASH') {
         my %Menus = %{$Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule')};
@@ -233,38 +272,6 @@ sub MaskMailboxTicket {
             }
         }
     }
-    # check if the pending ticket is Over Time
-    if ($Param{UntilTime} < 0 && $Param{State} !~ /^pending auto/i) {
-        $Param{Message} .= $Self->{LayoutObject}->{LanguageObject}->Get('Timeover').' '.
-          $Self->{LayoutObject}->CustomerAge(Age => $Param{UntilTime}, Space => ' ').'!';
-    }
-    # create PendingUntil string if UntilTime is < -1
-    if ($Param{UntilTime}) {
-        if ($Param{UntilTime} < -1) {
-            $Param{PendingUntil} = "<font color='$Self->{HighlightColor2}'>";
-        }
-        $Param{PendingUntil} .= $Self->{LayoutObject}->CustomerAge(
-            Age => $Param{UntilTime},
-            Space => '<br>',
-        );
-        if ($Param{UntilTime} < -1) {
-            $Param{PendingUntil} .= "</font>";
-        }
-    }
-    # do some strips && quoting
-    $Param{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Param{Age}, Space => ' ');
-    # ticket bulk block
-    if ($Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeature')) {
-        $Self->{LayoutObject}->Block(
-            Name => "Bulk",
-            Data => { %Param },
-        );
-    }
-    # create & return output
-    return $Self->{LayoutObject}->Output(
-        TemplateFile => 'AgentMailboxTicket',
-        Data => {%Param, %AclAction},
-    );
 }
 # --
 1;

@@ -1,20 +1,20 @@
 # --
-# Kernel/Modules/AgentAttachment.pm - to get the attachments
+# Kernel/Modules/AgentTicketAttachment.pm - to get the attachments
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentAttachment.pm,v 1.17 2005-02-15 11:58:12 martin Exp $
+# $Id: AgentTicketAttachment.pm,v 1.1 2005-02-17 07:05:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-package Kernel::Modules::AgentAttachment;
+package Kernel::Modules::AgentTicketAttachment;
 
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --

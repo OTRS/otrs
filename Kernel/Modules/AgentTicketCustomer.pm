@@ -1,21 +1,21 @@
 # --
-# Kernel/Modules/AgentCustomer.pm - to set the ticket customer and show the customer history
+# Kernel/Modules/AgentTicketCustomer.pm - to set the ticket customer and show the customer history
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCustomer.pm,v 1.37 2005-02-15 11:58:12 martin Exp $
+# $Id: AgentTicketCustomer.pm,v 1.1 2005-02-17 07:05:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-package Kernel::Modules::AgentCustomer;
+package Kernel::Modules::AgentTicketCustomer;
 
 use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -159,10 +159,20 @@ sub Form {
         }
         $TicketCustomerID = $TicketData{CustomerID};
         $Param{Table} = $Self->{LayoutObject}->AgentCustomerViewTable(Data => \%CustomerUserData);
-        # print change form
-        $Output .= $Self->_Mask(
-            %TicketData,
-            %Param,
+        # build from string
+        if ($Param{CustomerUserOptions} && %{$Param{CustomerUserOptions}}) {
+            $Param{'CustomerUserStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+                Data => $Param{CustomerUserOptions},
+                Name => 'CustomerUserOption',
+                Max => 70,
+                ).'$Env{"Box0"}<a href="" onclick="document.compose.ExpandCustomerName.value=\'2\'; document.compose.submit(); return false;" onmouseout="window.status=\'\';" onmouseover="window.status=\'$Text{"Take this Customer"}\'; return true;">$Text{"Take this Customer"}</a>$Env{"Box1"}';
+        }
+        $Self->{LayoutObject}->Block(
+            Name => 'Customer',
+            Data => {
+                %TicketData,
+                %Param,
+            },
         );
     }
     # --
@@ -195,6 +205,12 @@ sub Form {
                 Limit => 50,
             );
         }
+    }
+    if (@TicketIDs) {
+        $Self->{LayoutObject}->Block(
+            Name => 'CustomerHistory',
+            Data => { },
+        );
     }
     my $OutputTables = '';
     foreach my $TicketID (@TicketIDs) {
@@ -246,7 +262,7 @@ sub Form {
             }
         }
         $OutputTables .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'TicketViewLite',
+            TemplateFile => 'AgentTicketQueueTicketViewLite',
             Data => {
                 %AclAction,
                 %Article,
@@ -255,55 +271,9 @@ sub Form {
         );
 
     }
-    if (!$OutputTables && $Self->{Search}) {
-        $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AgentUtilSearchByCustomerID',
-            Data => {
-                %Param,
-                Message => 'No entry found!',
-                CustomerID => $Self->{CustomerID},
-            },
-        );
-    }
-    elsif ($Self->{Search}) {
-        $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AgentUtilSearchByCustomerID',
-            Data => {
-                %Param,
-                CustomerID => $Self->{CustomerID},
-            },
-        );
-    }
-    if ($OutputTables) {
-        $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AgentCustomerHistory',
-            Data => {
-                CustomerID => $TicketCustomerID,
-                TicketID => $Self->{TicketID},
-            }
-        ).$OutputTables;
-    }
-    $Output .= $Self->{LayoutObject}->Footer();
+    $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AgentTicketCustomer', Data => \%Param);
+    $Output .= $OutputTables.$Self->{LayoutObject}->Footer();
     return $Output;
-}
-# --
-sub _Mask {
-    my $Self = shift;
-    my %Param = @_;
-    # do html quoting
-    foreach (qw(CustomerUser CustomerID)) {
-        $Param{$_} = $Self->{LayoutObject}->Ascii2Html(Text => $Param{$_}) || '';
-    }
-    # build from string
-    if ($Param{CustomerUserOptions} && %{$Param{CustomerUserOptions}}) {
-      $Param{'CustomerUserStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => $Param{CustomerUserOptions},
-        Name => 'CustomerUserOption',
-        Max => 70,
-      ).'$Env{"Box0"}<a href="" onclick="document.compose.ExpandCustomerName.value=\'2\'; document.compose.submit(); return false;" onmouseout="window.status=\'\';" onmouseover="window.status=\'$Text{"Take this Customer"}\'; return true;">$Text{"Take this Customer"}</a>$Env{"Box1"}';
-    }
-    # create & return output
-    return $Self->{LayoutObject}->Output(TemplateFile => 'AgentCustomer', Data => \%Param);
 }
 # --
 1;

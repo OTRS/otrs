@@ -1,15 +1,15 @@
 # --
-# Kernel/Modules/AgentUtilities.pm - Utilities for tickets
+# Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.69 2005-02-15 11:58:12 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.1 2005-02-17 07:05:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-package Kernel::Modules::AgentUtilities;
+package Kernel::Modules::AgentTicketSearch;
 
 use strict;
 use Kernel::System::CustomerUser;
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.69 $';
+$VERSION = '$Revision: 1.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -44,13 +44,13 @@ sub new {
     $Self->{SearchProfileObject} = Kernel::System::SearchProfile->new(%Param);
 
     # if we need to do a fultext search on an external mirror database
-    if ($Self->{ConfigObject}->Get('Ticket::AgentUtil::DB::DSN')) {
+    if ($Self->{ConfigObject}->Get('Ticket::Frontend::Search::DB::DSN')) {
         my $ExtraDatabaseObject = Kernel::System::DB->new(
             LogObject => $Param{LogObject},
             ConfigObject => $Param{ConfigObject},
-            DatabaseDSN => $Self->{ConfigObject}->Get('Ticket::AgentUtil::DB::DSN'),
-            DatabaseUser => $Self->{ConfigObject}->Get('Ticket::AgentUtil::DB::User'),
-            DatabasePw => $Self->{ConfigObject}->Get('Ticket::AgentUtil::DB::Password'),
+            DatabaseDSN => $Self->{ConfigObject}->Get('Ticket::Frontend::Search::DB::DSN'),
+            DatabaseUser => $Self->{ConfigObject}->Get('Ticket::Frontend::Search::DB::User'),
+            DatabasePw => $Self->{ConfigObject}->Get('Ticket::Frontend::Search::DB::Password'),
         ) || die $DBI::errstr;
         $Self->{TicketObjectSearch} = Kernel::System::Ticket->new(
             %Param,
@@ -70,8 +70,8 @@ sub Run {
     my $Output;
     # get confid data
     $Self->{StartHit} = $Self->{ParamObject}->GetParam(Param => 'StartHit') || 1;
-    $Self->{SearchLimit} = $Self->{ConfigObject}->Get('Ticket::AgentUtil::SearchLimit') || 200;
-    $Self->{SearchPageShown} = $Self->{ConfigObject}->Get('Ticket::AgentUtil::SearchPageShown') || 40;
+    $Self->{SearchLimit} = $Self->{ConfigObject}->Get('Ticket::Frontend::SearchLimit') || 200;
+    $Self->{SearchPageShown} = $Self->{ConfigObject}->Get('Ticket::Frontend::SearchPageShown') || 40;
     $Self->{SortBy} = $Self->{ParamObject}->GetParam(Param => 'SortBy') || 'Age';
     $Self->{Order} = $Self->{ParamObject}->GetParam(Param => 'Order') || 'Down';
     $Self->{Profile} = $Self->{ParamObject}->GetParam(Param => 'Profile') || '';
@@ -81,7 +81,7 @@ sub Run {
     $Self->{EraseTemplate} = $Self->{ParamObject}->GetParam(Param => 'EraseTemplate') || '';
     # check request
     if ($Self->{ParamObject}->GetParam(Param => 'SearchTemplate') && $Self->{Profile}) {
-        return $Self->{LayoutObject}->Redirect(OP => "Action=AgentUtilities&Subaction=Search&TakeLastSearch=1&SaveProfile=1&Profile=$Self->{Profile}");
+        return $Self->{LayoutObject}->Redirect(OP => "Action=AgentTicketSearch&Subaction=Search&TakeLastSearch=1&SaveProfile=1&Profile=$Self->{Profile}");
     }
     # get signle params
     my %GetParam = ();
@@ -151,7 +151,7 @@ sub Run {
             $Self->{Profile} = 'last-search';
         }
         # store last queue screen
-        my $URL = "Action=AgentUtilities&Subaction=Search&Profile=$Self->{Profile}&SortBy=$Self->{SortBy}&Order=$Self->{Order}&TakeLastSearch=1&StartHit=$Self->{StartHit}";
+        my $URL = "Action=AgentTicketSearch&Subaction=Search&Profile=$Self->{Profile}&SortBy=$Self->{SortBy}&Order=$Self->{Order}&TakeLastSearch=1&StartHit=$Self->{StartHit}";
         $Self->{SessionObject}->UpdateSessionID(
             SessionID => $Self->{SessionID},
             Key => 'LastScreenOverview',
@@ -263,7 +263,7 @@ sub Run {
             # get first article data
             my %Data = $Self->{TicketObjectSearch}->ArticleFirstArticle(TicketID => $_);
             # get whole article (if configured!)
-            if ($Self->{ConfigObject}->Get('Ticket::AgentUtil::ArticleCSVTree') && $GetParam{ResultForm} eq 'CSV') {
+            if ($Self->{ConfigObject}->Get('Ticket::Frontend::SearchArticleCSVTree') && $GetParam{ResultForm} eq 'CSV') {
                 my @Article = $Self->{TicketObjectSearch}->ArticleGet(
                     TicketID => $_
                 );
@@ -315,7 +315,7 @@ sub Run {
                     $Data{Body} = $Self->{LayoutObject}->Ascii2Html(
                         NewLine => $Self->{ConfigObject}->Get('DefaultViewNewLine') || 85,
                         Text => $Data{Body},
-                        VMax => $Self->{ConfigObject}->Get('Ticket::AgentUtil::ViewableTicketLinesBySearch') || 15,
+                        VMax => $Self->{ConfigObject}->Get('Ticket::Frontend::SearchViewableTicketLines') || 15,
                         StripEmptyLines => 1,
                         HTMLResultMode => 1,
                     );
@@ -382,7 +382,7 @@ sub Run {
                 );
                 # csv quote
                 if (!@CSVHead) {
-                    @CSVHead = @{$Self->{ConfigObject}->Get('Ticket::AgentUtil::CSVData')};
+                    @CSVHead = @{$Self->{ConfigObject}->Get('Ticket::Frontend::SearchCSVData')};
                 }
                 my @Data = ();
                 foreach (@CSVHead) {
@@ -418,13 +418,13 @@ sub Run {
             StartHit => $Self->{StartHit},
             PageShown => $Self->{SearchPageShown},
             AllHits => $Counter,
-            Action => "Action=AgentUtilities&Subaction=Search",
+            Action => "Action=AgentTicketSearch&Subaction=Search",
             Link => "Profile=$Self->{Profile}&SortBy=$Self->{SortBy}&Order=$Self->{Order}&TakeLastSearch=1&",
         );
         # build shown ticket
         if ($GetParam{ResultForm} eq 'Preview') {
             $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AgentUtilSearchResult',
+                TemplateFile => 'AgentTicketSearchResult',
                 Data => { %Param, %PageNav, Profile => $Self->{Profile}, },
             );
         }
@@ -434,7 +434,7 @@ sub Run {
                 $Param{Warning} = '$Text{"Reached max. count of %s search hits!", "'.$Self->{SearchLimit}.'"}';
             }
             $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AgentUtilSearchResultPrint',
+                TemplateFile => 'AgentTicketSearchResultPrint',
                 Data => \%Param,
             );
             # add footer
@@ -448,7 +448,7 @@ sub Run {
                 Data => \@CSVData,
             );
             # return csv to download
-            my $CSVFile = 'search';
+            my $CSVFile = 'ticket_search';
             my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = localtime(time);
             $Y = $Y+1900;
             $M++;
@@ -464,7 +464,7 @@ sub Run {
         }
         else {
             $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AgentUtilSearchResultShort',
+                TemplateFile => 'AgentTicketSearchResultShort',
                 Data => { %Param, %PageNav, Profile => $Self->{Profile}, },
             );
         }
@@ -677,12 +677,20 @@ sub MaskForm {
         Format => 'DateInputFormat',
     );
     # html search mask output
-    my $Output = $Self->{LayoutObject}->Output(
-        TemplateFile => 'AgentUtilSearch',
-        Data => \%Param,
+    $Self->{LayoutObject}->Block(
+        Name => 'Search',
+        Data => {
+            %Param,
+        },
     );
-    $Output .= $Self->{LayoutObject}->Output(
-        TemplateFile => 'AgentUtilSearchByCustomerID',
+    $Self->{LayoutObject}->Block(
+        Name => 'SearchByCustomerID',
+        Data => {
+            %Param,
+        },
+    );
+    my $Output = $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentTicketSearch',
         Data => \%Param,
     );
     return $Output;
