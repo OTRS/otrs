@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.81 2005-02-10 20:37:26 martin Exp $
+# $Id: Article.pm,v 1.82 2005-02-15 12:12:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.81 $';
+$VERSION = '$Revision: 1.82 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1834,7 +1834,7 @@ sub SendAutoResponse {
     $Param{Body} =~ s/<OTRS_TICKET_ID>/$Param{TicketID}/gi;
     # prepare customer realname
     if ($Param{Body} =~ /<OTRS_CUSTOMER_REALNAME>/) {
-        # get realname 
+        # get realname
         my $From = '';
         if ($Article{CustomerUserID}) {
             $From = $Self->{CustomerUserObject}->CustomerName(UserLogin => $Article{CustomerUserID});
@@ -1849,7 +1849,7 @@ sub SendAutoResponse {
     # Arnold Ligtvoet - otrs@ligtvoet.org
     # get OTRS_CUSTOMER_SUBJECT from body
     if ($Param{Body} =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/) {
-        my $TicketHook2 = $Self->{ConfigObject}->Get('TicketHook');
+        my $TicketHook2 = $Self->{ConfigObject}->Get('Ticket::Hook');
         my $SubRep = $GetParam{Subject} || 'No Std. Subject found!';
         my $SubjectChar = $1;
         $SubRep =~ s/\[$TicketHook2: $Article{TicketNumber}\] //g;
@@ -1930,6 +1930,89 @@ sub SendAutoResponse {
 
     return 1;
 }
+
+=item ArticleFlagSet()
+
+set article flags
+
+  $TicketObject->ArticleFlagSet(
+      ArticleID => 123,
+      Flag => 'seen',
+      UserID => 123,
+  );
+
+=cut
+
+sub ArticleFlagSet {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(ArticleID Flag UserID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    my %Flag = $Self->ArticleFlagGet(%Param);
+    if (!defined($Flag{Flag}) || $Flag{Flag} ne $Param{Flag}) {
+        # do db insert
+        $Self->{DBObject}->Do(
+            SQL => "DELETE FROM article_flag WHERE ".
+              "article_id = $Param{ArticleID} AND create_by = $Param{UserID}",
+        );
+        return $Self->{DBObject}->Do(SQL => "INSERT INTO article_flag ".
+            " (article_id, article_flag, create_time, create_by) ".
+            " VALUES ".
+            " ($Param{ArticleID}, '$Param{Flag}', current_timestamp, $Param{UserID})",
+        );
+    }
+    else {
+        return 1;
+    }
+}
+
+=item ArticleFlagGet()
+
+get article flags
+
+  my %Article = $TicketObject->ArticleFlagGet(
+      ArticleID => 123,
+      UserID => 123,
+  );
+
+=cut
+
+sub ArticleFlagGet {
+    my $Self = shift;
+    my %Param = @_;
+    my %Flag = ();
+    # check needed stuff
+    foreach (qw(ArticleID UserID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    # sql query
+    $Self->{DBObject}->Prepare(
+        SQL => "SELECT article_flag FROM article_flag WHERE ".
+          " article_id = $Param{ArticleID} AND create_by = $Param{UserID}",
+        Limit => 1000,
+    );
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $Flag{$Row[0]} = 1;
+    }
+    return %Flag;
+}
+
 # --
 # the following is the pod for Kernel/System/Ticket/ArticleStorage*.pm
 
