@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPackageManager.pm,v 1.10 2004-12-06 22:56:32 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.11 2004-12-22 21:54:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Package;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -315,7 +315,7 @@ sub Run {
             Data => { %Param, %Frontend, },
         );
         if ($Source) {
-            my @List = $Self->{PackageObject}->PackageOnlineList(URL => $Source, Lang => $Self->{UserLanguage});
+            my @List = $Self->{PackageObject}->PackageOnlineList(URL => $Source, Lang => $Self->{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage'));
             foreach my $Data (@List) {
                 $Self->{LayoutObject}->Block(
                     Name => 'ShowRemotePackage',
