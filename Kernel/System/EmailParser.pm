@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: EmailParser.pm,v 1.19 2004-01-10 12:50:47 martin Exp $
+# $Id: EmailParser.pm,v 1.20 2004-01-10 12:54:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Mail::Address;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -93,7 +93,7 @@ sub new {
 To get a email as a string back (plain email).
   
   my $Email = $ParseObject->GetPlainEmail();
-    
+
 =cut
 
 sub GetPlainEmail {
@@ -108,7 +108,7 @@ To get a header (e. g. Subject, To, ContentType, ...) of an email
 (mime is already done!).
   
   my $To = $ParseObject->GetParam(WHAT => 'To');
-    
+
 =cut
 
 sub GetParam {
@@ -145,7 +145,7 @@ sub GetParam {
 To get the senders email address back. 
  
   my $SenderEmail = $ParseObject->GetEmailAddress(Email => 'Juergen Weber <juergen.qeber@air.com>');
-    
+
 =cut
 
 sub GetEmailAddress {
@@ -166,7 +166,7 @@ To get an array of email addresses of an To, Cc or Bcc line back.
   my @Addresses = $ParseObject->SplitAddressLine(Line => 'Juergen Weber <juergen.qeber@air.com, me@example.com, hans@example.com (Hans Huber)');
    
 This returns an array with ('juergen.qeber@air.com', 'me@example.com', 'hans@example.com').
- 
+
 =cut
 
 sub SplitAddressLine {
@@ -296,7 +296,7 @@ sub GetReturnContentType {
 Returns the message body (or from the first attachment) from the email.
  
     my $Body = $ParseObject->GetMessageBody();
-   
+
 =cut
 
 sub GetMessageBody {
@@ -375,7 +375,7 @@ Returns an array of the email attachments.
         print $Attachment->{ContentType};
         print $Attachment->{Content};
     }
-   
+
 =cut
 
 sub GetAttachments {
@@ -497,11 +497,11 @@ This software is part of the OTRS project (http://otrs.org/).
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
 did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
-    
+
 =cut
     
 =head1 VERSION
 
-$Revision: 1.19 $ $Date: 2004-01-10 12:50:47 $
+$Revision: 1.20 $ $Date: 2004-01-10 12:54:18 $
 
 =cut
