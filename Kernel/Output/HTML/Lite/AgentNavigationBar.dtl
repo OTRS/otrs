@@ -2,7 +2,7 @@
 # AgentNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNavigationBar.dtl,v 1.15 2004-02-09 23:53:26 martin Exp $
+# $Id: AgentNavigationBar.dtl,v 1.16 2004-03-13 17:00:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -34,7 +34,7 @@
     $Env{"Box0"}<a href="$Env{"Baselink"}Action=AgentEmail" onmouseover="window.status='$Text{"Compose Email"}'; return true;" onmouseout="window.status='';">$Text{"Compose Email"}</a>$Env{"Box1"}
   </td>
   <td align="right" width="60%" class="table1">
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AgentUtilities" onmouseover="window.status='$Text{"Utilities"}'; return true;" onmouseout="window.status='';">$Text{"Utilities"}</a>$Env{"Box1"}
+    $Env{"Box0"}<a href="$Env{"Baselink"}Action=AgentUtilities" onmouseover="window.status='$Text{"Search"}'; return true;" onmouseout="window.status='';">$Text{"Search"}</a>$Env{"Box1"}
     $Env{"Box0"}<a href="$Env{"Baselink"}Action=AgentPreferences" onmouseover="window.status='$Text{"Preferences"}'; return true;" onmouseout="window.status='';">$Text{"Preferences"}</a>$Env{"Box1"}
     $Data{"StatsLink"}
     $Data{"FAQLink"}

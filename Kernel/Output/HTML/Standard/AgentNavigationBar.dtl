@@ -2,7 +2,7 @@
 # AgentNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNavigationBar.dtl,v 1.27 2004-03-01 14:00:57 martin Exp $
+# $Id: AgentNavigationBar.dtl,v 1.28 2004-03-13 17:00:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -45,7 +45,7 @@
 #        <a href="$Env{"Baselink"}Action=AgentStatusView" onmouseover="window.status='$Text{"QueueList"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}list.png" alt="$Text{"Open-Tickets"}"><br>$Text{"Open-Tickets"}</a>
 #      </td>
       <td valign="top" align="center" class="nav"> 
-        <a href="$Env{"Baselink"}Action=AgentUtilities" onmouseover="window.status='$Text{"Utilities"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}search.png" alt="$Text{"Utilities"}"><br>$Text{"Utilities"}</a>
+        <a href="$Env{"Baselink"}Action=AgentUtilities" onmouseover="window.status='$Text{"Search"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}search.png" alt="$Text{"Search"}"><br>$Text{"Search"}</a>
       </td>
       <td valign="top" align="center" class="nav"> 
         <a href="$Env{"Baselink"}Action=AgentPreferences" onmouseover="window.status='$Text{"Preferences"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}prefer.png" alt="$Text{"Preferences"}"><br>$Text{"Preferences"}</a>
