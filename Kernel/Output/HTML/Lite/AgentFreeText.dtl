@@ -1,0 +1,64 @@
+# --
+# AgentFreeText.dtl - provides HTML for AgentFreeText mask
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: AgentFreeText.dtl,v 1.1 2003-04-12 21:33:30 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start form -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<tr>
+  <td align="left" class="table0">
+    <b>$Env{"Box0"}$Text{"Change free text of ticket"}: $Data{"TicketNumber"}$Env{"Box1"}</b>
+  </td>
+  <td align="right" class="table0">
+  <b>-</b>
+  </td>
+</tr>
+<tr>
+  <td align="left" colspan="2" class="table2">
+    <a href="$Env{"Baselink"}$Env{"LastScreen"}" onmouseover="window.status='$Text{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
+  </td>
+</tr>
+</table>
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<tr>
+  <td align="center" valign="top" colspan="2" class="table1">
+
+<p>
+
+<form action="$Env{"CGIHandle"}" method="post">
+<input type="hidden" name="Action" value="AgentFreeText">
+<input type="hidden" name="Subaction" value="Update">
+<input type="hidden" name="TicketID" value="$Data{"TicketID"}">
+  <table border="0">
+  <tr>
+    <td width="20"></td>
+    <td>$Text{"Key"}:</td>
+    <td>$Text{"Value"}</td>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td><input type="text" name="FreeKey1" value="$Data{"TicketFreeKey1"}" size="20">:</td>
+    <td><input type="text" name="FreeText1" value="$Data{"TicketFreeText1"}" size="25"></td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td><input type="text" name="FreeKey2" value="$Data{"TicketFreeKey2"}" size="20">:</td>
+    <td><input type="text" name="FreeText2" value="$Data{"TicketFreeText2"}" size="25"></td>
+  </tr>
+  </table>
+<br>
+<input class="button" type="submit" value="$Text{"update"}">
+</form>
+
+</p>
+
+  </td> 
+</tr>
+</table>
+<!-- end form -->
+

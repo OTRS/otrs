@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.102 2003-04-12 20:13:01 martin Exp $
+# $Id: Agent.pm,v 1.103 2003-04-12 21:33:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.102 $';
+$VERSION = '$Revision: 1.103 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1064,6 +1064,13 @@ sub AgentPhoneNew {
     }
     # get output back
     return $Self->Output(TemplateFile => 'AgentPhoneNew', Data => \%Param);
+}
+# --
+sub AgentFreeText {
+    my $Self = shift;
+    my %Param = @_;
+    # create & return output
+    return $Self->Output(TemplateFile => 'AgentFreeText', Data => \%Param);
 }
 # --
 sub AgentPriority {
