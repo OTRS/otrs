@@ -2,7 +2,7 @@
 # Kernel/System/Notification.pm - lib for notifications
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Notification.pm,v 1.3 2004-02-01 21:02:17 martin Exp $
+# $Id: Notification.pm,v 1.4 2004-02-01 21:30:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -12,9 +12,10 @@
 package Kernel::System::Notification;
 
 use strict;
+use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -35,6 +36,8 @@ sub new {
     foreach (qw(DBObject ConfigObject LogObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
+
+    $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
 
     return $Self;
 }
@@ -77,6 +80,22 @@ sub NotificationGet {
     while (my @Data = $Self->{DBObject}->FetchrowArray()) {
         # fix some bad stuff from some browsers (Opera)!
         $Data[5] =~ s/(\n\r|\r\r\n|\r\n|\r)/\n/g;
+        if ($Self->{EncodeObject}->EncodeInternalUsed()) {
+            # convert body
+            $Data[5] = $Self->{EncodeObject}->Convert(
+                Text => $Data[5],
+                From => $Data[2],
+                To => $Self->{EncodeObject}->EncodeInternalUsed(),
+            );
+            # convert subject 
+            $Data[3] = $Self->{EncodeObject}->Convert(
+                Text => $Data[3],
+                From => $Data[2],
+                To => $Self->{EncodeObject}->EncodeInternalUsed(),
+            );
+            # set new charset
+            $Data[2] = $Self->{EncodeObject}->EncodeInternalUsed();
+        }
         %Data = ( 
             Type => $Data[1],
             Charset => $Data[2],
