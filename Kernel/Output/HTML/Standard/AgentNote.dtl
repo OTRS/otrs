@@ -2,7 +2,7 @@
 # NoteForm.dtl - provides HTML form for note mask
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.dtl,v 1.9 2002-07-31 23:17:23 martin Exp $
+# $Id: AgentNote.dtl,v 1.10 2002-08-05 00:07:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,12 +10,19 @@
 # --
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr bgcolor="$Env{"BGTableColor2"}">
+<tr bgcolor="$Env{"BGTableColor0"}">
   <td align="left"> 
-  <b><font color="$Env{"FontColor0"}">$Env{"Box0"}$Text{"Add note to ticket"}: $Data{"TicketNumber"}$Env{"Box1"}</font></b>
+  </font>
+  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Add note to ticket"}: $Data{"TicketNumber"}$Env{"Box1"}</font></b>
   </td>
   <td align="right">
-  <b><font color="$Env{"FontColor0"}">-</font></b>
+  <b><font color="$Env{"FontColor1"}">-</font></b>
+  </td>
+</tr>
+<tr>
+  <td align="left" bgcolor="$Env{"BGTableColor2"}" colspan="2">
+    <a href="$Env{"Baselink"}$Env{"LastScreen"}">$Text{"Back"}</a>
+  </font>
   </td>
 </tr>
 <tr bgcolor="$Env{"BGTableColor1"}">
