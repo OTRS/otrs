@@ -2,7 +2,7 @@
 # AdminNotificationForm.dtl - provides HTML form for AdminNotification
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminNotificationForm.dtl,v 1.4 2004-04-01 09:13:17 martin Exp $
+# $Id: AdminNotificationForm.dtl,v 1.5 2004-07-13 13:54:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,7 +10,7 @@
 # --
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr> 
+<tr>
   <td align="left" colspan="2" class="table0">
     <b>$Env{"Box0"}$Text{"Notification Management"}$Env{"Box1"}</b>
   </td>
@@ -24,7 +24,7 @@
   </tr>
   <tr>
     <td align="center">
-    
+
     <form action="$Env{"CGIHandle"}" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
     <input type="hidden" name="Subaction" value="Change">
@@ -37,7 +37,7 @@
   </tr>
   </table>
 
-  </td> 
+  </td>
   <td width="70%" class="table1">
 
   <table width="100%" cellspacing="2" cellpadding="3">
@@ -66,7 +66,7 @@
     </tr>
     <tr>
       <td>$Text{"Subject"}: </td>
-      <td> <input type="text" name="Subject" value="$QData{"Subject"}" size="80" maxlength="80"></td>
+      <td> <input type="text" name="Subject" value="$QData{"Subject"}" size="80" maxlength="120"></td>
     </tr>
     <tr>
       <td>$Text{"Body"}: </td>
