@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file (incl. auth) for OpenTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.34 2002-08-05 17:26:48 martin Exp $
+# $Id: index.pl,v 1.35 2002-08-13 15:06:10 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use lib "$Bin/../..";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.34 $';
+$VERSION = '$Revision: 1.35 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -63,6 +63,7 @@ my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{LogObject} = Kernel::System::Log->new(
     LogPrefix => $CommonObject{ConfigObject}->Get('CGILogPrefix'),
+    %CommonObject,
 );
 # --
 # debug info
@@ -83,7 +84,7 @@ $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
 # check common db objects
 # --
 if (!$CommonObject{DBObject}) {
-    print $CommonObject{LayoutObject}->Header(Title => 'Logout');
+    print $CommonObject{LayoutObject}->Header(Title => 'Error!');
     print $CommonObject{LayoutObject}->Error(
         Message => $DBI::errstr,
         Comment => 'Please contact your admin'
@@ -165,15 +166,32 @@ if ($Param{Action} eq "Login") {
     # check submited data
     # --
     if ( $AuthObject->Auth(User => $User, Pw => $Pw) ) {
+        # --
         # get user data
+        # --
         my %UserData = $CommonObject{UserObject}->GetUserData(User => $User);
+        # --
         # check needed data
+        # --
         if (!$UserData{UserID} || !$UserData{UserLogin}) {
-            print $CommonObject{LayoutObject}->Login(
-                Message => 'Panic! No UserData!!!',
-                %Param,
-            );
-            exit (0);
+            if ($CommonObject{ConfigObject}->Get('LoginURL')) {
+                # --
+                # redirect to alternate login
+                # --
+                print $CommonObject{LayoutObject}->Redirect(
+                    ExtURL => $CommonObject{ConfigObject}->Get('LoginURL')."?Reason=SystemError",
+                );
+            }
+            else {
+                # --
+                # show login screen
+                # ---
+                print $CommonObject{LayoutObject}->Login(
+                    Message => 'Panic! No UserData!!!',
+                    %Param,
+                );
+                exit (0);
+            }
         }
         # --
         # create new session id
@@ -185,10 +203,10 @@ if ($Param{Action} eq "Login") {
         my $LayoutObject = Kernel::Output::HTML::Generic->new(
           SetCookies => {
               SessionIDCookie => $CommonObject{ParamObject}->SetCookie(
-                               Key => 'SessionID',
-                               Value => $NewSessionID,
-                               Expires => '+24h',
-                             ),
+                  Key => 'SessionID',
+                  Value => $NewSessionID,
+                  Expires => '+24h',
+              ),
           },
           SessionID => $NewSessionID, 
           %CommonObject,
@@ -210,12 +228,27 @@ if ($Param{Action} eq "Login") {
     # login is vailid
     # --
     else {
-        print $CommonObject{LayoutObject}->Login(
-          Title => 'Login',          
-          Message => 'Login failed! Your username or password was entered incorrectly.',
-          User => $User,
-          %Param,
-        );
+        if ($CommonObject{ConfigObject}->Get('LoginURL')) {
+            # --
+            # redirect to alternate login
+            # --
+            $Param{RequestedURL} = $CommonObject{LayoutObject}->LinkEncode($Param{RequestedURL});
+            print $CommonObject{LayoutObject}->Redirect(
+                 ExtURL => $CommonObject{ConfigObject}->Get('LoginURL').
+                   "?Reason=LoginFailed&RequestedURL=$Param{RequestedURL}",
+            );
+        }
+        else {
+            # --
+            # show normal login
+            # --
+            print $CommonObject{LayoutObject}->Login(
+                Title => 'Login',          
+                Message => 'Login failed! Your username or password was entered incorrectly.',
+                User => $User,
+                %Param,
+            );
+        }
     }
 }
 # --
@@ -235,10 +268,10 @@ elsif ($Param{Action} eq "Logout"){
         $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(
           SetCookies => {
               SessionIDCookie => $CommonObject{ParamObject}->SetCookie(
-                               Key => 'SessionID',
-                               Value => '',
-                               Expires => '-24d',
-                             ),
+                  Key => 'SessionID',
+                  Value => '',
+                  Expires => '-24d',
+              ),
           },
           %CommonObject,
           %Param,
@@ -248,11 +281,24 @@ elsif ($Param{Action} eq "Logout"){
         # remove session id
         # --
         if ( $CommonObject{SessionObject}->RemoveSessionID(SessionID => $Param{SessionID}) ) {
-            print $CommonObject{LayoutObject}->Login(
-                Title => 'Logout',
-                Message => 'Logout successful. Thank you for using OpenTRS!',
-                %Param,
-            );
+            if ($CommonObject{ConfigObject}->Get('LogoutURL')) {
+                # --
+                # redirect to alternate login
+                # --
+                print $CommonObject{LayoutObject}->Redirect(
+                     ExtURL => $CommonObject{ConfigObject}->Get('LogoutURL')."?Reason=Logout",
+                );
+            }
+            else {
+                # --
+                # show logout screen
+                # --
+                print $CommonObject{LayoutObject}->Login(
+                    Title => 'Logout',
+                    Message => 'Logout successful. Thank you for using OpenTRS!',
+                    %Param,
+                );
+            }
         }  
         else {
             print $CommonObject{LayoutObject}->Header(Title => 'Logout');
@@ -268,33 +314,80 @@ elsif ($Param{Action} eq "Logout"){
         }
     }
     else {
-        print $CommonObject{LayoutObject}->Login(
-            Title => 'Logout',
-            Message => 'Invalid SessionID!',
-            %Param,
-        );
+        if ($CommonObject{ConfigObject}->Get('LoginURL')) {
+            # --
+            # redirect to alternate login
+            # --
+            $Param{RequestedURL} = $CommonObject{LayoutObject}->LinkEncode($Param{RequestedURL});
+            print $CommonObject{LayoutObject}->Redirect(
+                 ExtURL => $CommonObject{ConfigObject}->Get('LoginURL').
+                  "?Reason=InvalidSessionID&RequestedURL=$Param{RequestedURL}",
+            );
+        }
+        else {
+            # --
+            # show login screen
+            # --
+            print $CommonObject{LayoutObject}->Login(
+                Title => 'Logout',
+                Message => 'Invalid SessionID!',
+                %Param,
+            );
+        }
     }
 }
 # --
 # show login site
 # --
 elsif (!$Param{SessionID}) {
-    print $CommonObject{LayoutObject}->Login(
-        Title => 'Login',
-        %Param,
-    );
+    if ($CommonObject{ConfigObject}->Get('LoginURL')) {
+        # --
+        # redirect to alternate login
+        # --
+        $Param{RequestedURL} = $CommonObject{LayoutObject}->LinkEncode($Param{RequestedURL});
+        print $CommonObject{LayoutObject}->Redirect(
+            ExtURL => $CommonObject{ConfigObject}->Get('LoginURL').
+             "?RequestedURL=$Param{RequestedURL}",
+        );
+    }
+    else {
+        # --
+        # login screen
+        # --
+        print $CommonObject{LayoutObject}->Login(
+            Title => 'Login',
+            %Param,
+        );
+    }
 }
 # --
 # run modules if exists a version value
 # --
 elsif (eval '$Kernel::Modules::'. $Param{Action} .'::VERSION'){
+    # --
     # check session id
+    # --
     if ( !$CommonObject{SessionObject}->CheckSessionID(SessionID => $Param{SessionID}) ) {
-        print $CommonObject{LayoutObject}->Login(
-          Title => 'Login',
-          Message => $Kernel::System::AuthSession::CheckSessionID,
-          %Param,
-       );
+        if ($CommonObject{ConfigObject}->Get('LoginURL')) {
+            # --
+            # redirect to alternate login
+            # --
+            $Param{RequestedURL} = $CommonObject{LayoutObject}->LinkEncode($Param{RequestedURL});
+            print $CommonObject{LayoutObject}->Redirect(
+                 ExtURL => $CommonObject{ConfigObject}->Get('LoginURL').
+                   "?Reason=InvalidSessionID&RequestedURL=$Param{RequestedURL}",
+            );
+        }
+        else {
+            # --
+            # show login
+            # --
+            print $CommonObject{LayoutObject}->Login(
+                Title => 'Login',
+                Message => $Kernel::System::AuthSession::CheckSessionID,
+                %Param,
+            );
+        }
     }
     # --
     # run module
@@ -304,15 +397,15 @@ elsif (eval '$Kernel::Modules::'. $Param{Action} .'::VERSION'){
         # get session data
         # --
         my %UserData = $CommonObject{SessionObject}->GetSessionIDData(
-          SessionID => $Param{SessionID},
+            SessionID => $Param{SessionID},
         );
         # --
         # create new LayoutObject with new '%Param' and '%UserData'
         # --
         $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(
-          %CommonObject, 
-          %Param, 
-          %UserData,
+            %CommonObject, 
+            %Param, 
+            %UserData,
         );
 
         # debug info
@@ -354,15 +447,15 @@ else {
         SessionID => $Param{SessionID},
     );
     $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(
-      %CommonObject, 
-      %Param, 
-      %Data,
+        %CommonObject, 
+        %Param, 
+        %Data,
     );
     print $CommonObject{LayoutObject}->Header(Title => 'Error');
     print $CommonObject{LayoutObject}->Error(
         Message => "Action '$Param{Action}' not found!",
         Comment => "Perhaps the admin forgot to load \"Kernel::Modules::$Param{Action}\"!",
-       );
+    );
     print $CommonObject{LayoutObject}->Footer();
 }
 
