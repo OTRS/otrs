@@ -2,7 +2,7 @@
 # Copyright (C) 2002 Bernard Choppy <choppy at imaginet.fr>
 # Copyright (C) 2002 Nicolas Goralski <ngoralski at oceanet-technology.com>
 # --
-# $Id: fr.pm,v 1.9 2003-01-14 17:03:59 martin Exp $
+# $Id: fr.pm,v 1.10 2003-01-14 17:31:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
@@ -96,7 +96,7 @@ sub Data {
       'none' => 'aucun',
       'none - answered' => 'aucun - r&eacute;pondu',
       'none!' => 'aucun&nbsp;!',
-      'Off' => '&Eacute;teint',
+      'Off' => '&eacute;teint',
       'off' => '&eacute;teint',
       'on' => 'allum&eacute;',
       'On' => 'Allum&eacute;',
@@ -202,7 +202,7 @@ sub Data {
       'high' => 'Important',
       'History' => 'Historique',
       'If it is not displayed correctly,' => 'S\'il n\'est pas affich&eacute; correctement',
-      'Lock' => 'V&eacute;rrouiller',
+      'Lock' => 'Vérrouiller',
       'low' => 'confort de fonctionnement',
       'Move' => 'D&eacute;placer',
       'new' => 'nouveau',
@@ -221,17 +221,17 @@ sub Data {
       'Priority' => 'Priorit&eacute;',
       'Queue' => 'File',
       'removed' => 'supprim&eacute;',
-      'Sender' => '&EACUTE;metteur',
+      'Sender' => '&eacute;metteur',
       'sms' => 'sms',
-      'State' => '&EACUTE;tat',
+      'State' => '&eacute;tat',
       'Subject' => 'Sujet',
       'This is a' => 'Ceci est un',
       'This is a HTML email. Click here to show it.' => 'Ceci est un message au format HTML&nbsp;; cliquer ici pour l\'afficher.',
       'This message was written in a character set other than your own.' => '',
       'Ticket' => 'Ticket',
-      'To' => '&AGRAVE; ',
+      'To' => '&agrave; ',
       'to open it in a new window.' => 'Pour l\'ouvrir dans une nouvelle fenêtre',
-      'Unlock' => 'D&eacute;verrouiller',
+      'Unlock' => 'Déverrouiller',
       'very high' => 'bloque un service entier',
       'very low' => 'confort intellectuel',
       'View' => 'Vue',
@@ -419,7 +419,7 @@ sub Data {
 
     # Template: AdminSystemAddressForm
       'Add system address' => 'Ajouter une adresse courriel du syst&egrave;me',
-      'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Tous les courriels avec cette adresse en destinataire (&AGRAVE;&nbsp;:) seront plac&eacute;s dans la file choisie..',
+      'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Tous les courriels avec cette adresse en destinataire (&agrave;&nbsp;:) seront plac&eacute;s dans la file choisie..',
       'Change system address setting' => 'Modification des param&egrave;tres des adresses courriel du syst&egrave;me',
       'Email' => 'Courriel',
       'Realname' => 'V&eacute;ritable Nom',
@@ -444,7 +444,7 @@ sub Data {
     # Template: AdminUserPreferencesGeneric
 
     # Template: AgentBounce
-      'A message should have a To: recipient!' => 'Un message doit avoir un destinataire (&AGRAVE;&nbsp;:)!',
+      'A message should have a To: recipient!' => 'Un message doit avoir un destinataire (&agrave;&nbsp;:)!',
       'Bounce ticket' => 'Renvoyer le ticket',
       'Bounce to' => 'Renvoyer &agrave;',
       'Inform sender' => 'Informer l\'emetteur',
@@ -591,7 +591,7 @@ sub Data {
 
     # Template: AgentTicketLocked
       'Ticket locked!' => 'Ticket verrouill&eacute;&nbsp;!',
-      'unlock' => 'd&eacute;verrouiller',
+      'unlock' => 'déverrouiller',
 
     # Template: AgentTicketPrint
       'by' => 'par',
