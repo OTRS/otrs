@@ -3,7 +3,7 @@
 # PostMaster.pl - the global eMail handle for email2db
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pl,v 1.14 2003-05-18 20:23:09 martin Exp $
+# $Id: PostMaster.pl,v 1.15 2003-06-01 19:22:01 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -35,10 +35,8 @@ use strict;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
-
-my $Debug = 1;
 
 use Getopt::Std;
 use Kernel::Config;
@@ -76,14 +74,22 @@ $CommonObject{LogObject} = Kernel::System::Log->new(
     %CommonObject,
 );
 # debug info
-if ($Debug) {
+if ($Opts{'d'}) {
     $CommonObject{LogObject}->Log(
         Priority => 'debug',
         Message => 'Global OTRS email handle (PostMaster.pl) started...',
     );
 }
-# ... common objects ...
+# get email from SDTIN 
 my @Email = <STDIN>;
+if (!@Email) {
+    $CommonObject{LogObject}->Log(
+        Priority => 'error',
+        Message => 'Got not email on STDIN!',
+    );
+    exit (1);
+}
+# common objects
 $CommonObject{PostMaster} = Kernel::System::PostMaster->new(
     %CommonObject, 
     Email => \@Email,
@@ -95,7 +101,7 @@ $CommonObject{PostMaster}->Run(
 );
 
 # debug info
-if ($Debug) {
+if ($Opts{'d'}) {
     $CommonObject{LogObject}->Log(
         Priority => 'debug',
         Message => 'Global OTRS email handle (PostMaster.pl) stoped.',
