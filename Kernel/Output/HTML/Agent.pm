@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.34 2002-06-16 20:44:00 martin Exp $
+# $Id: Agent.pm,v 1.35 2002-06-17 07:45:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.34 $';
+$VERSION = '$Revision: 1.35 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -131,7 +131,7 @@ sub TicketView {
     # --
     # check if just a html email
     # --
-    if ($Param{Text} =~ /^<.DOCTYPE html PUBLIC/) {
+    if ($Param{Text} =~ /^<.DOCTYPE html PUBLIC|^<HTML>/i) {
          $Param{Text} = "<a href=\"$Self->{Baselink}&Action=AgentZoom&TicketID=".
           "$Param{TicketID}&ArticleID=$Param{ArticleID}&Subaction=ShowHTMLeMail\" ".
           "target=\"HTMLeMail\"><i>\$Text{\"This is a HTML email. Click here to show it.\"}".
@@ -354,7 +354,7 @@ EOF
     # --
     # check if just a html email
     # --
-    if ($Article{"Text"} =~ /^<.DOCTYPE html PUBLIC/) {
+    if ($Article{"Text"} =~ /^<.DOCTYPE html PUBLIC|^<html>/i) {
          $Param{"Article::Text"} = "<a href=\"$Self->{Baselink}&Action=AgentZoom&TicketID=".
           "$Param{TicketID}&ArticleID=$Article{ArticleID}&Subaction=ShowHTMLeMail\" ".
           "target=\"HTMLeMail\"><i>\$Text{\"This is a HTML email. Click here to show it.\"}".
