@@ -52,6 +52,9 @@ in your Kernel/Config.pm
     # (The default priority of new tickets.) [default: '3 normal']
     $Self->{PostmasterDefaultPriority} = '3 default';
     [...]
+    # default phone priority 
+    $Self->{PhoneDefaultPriority} = '3 default';
+    [...]
     # CustomerDefaultPriority
     # (default priority of new customer tickets)
     $Self->{CustomerDefaultPriority} = '3 default';

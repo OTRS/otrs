@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.49 2003-03-06 23:10:13 martin Exp $
+# $Id: Defaults.pm,v 1.50 2003-03-08 14:00:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.49 $';
+$VERSION = '$Revision: 1.50 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -109,7 +109,7 @@ sub LoadDefaults {
     $Self->{MaxFileUpload} = 1024 * 1024 * 5;
 
     # CheckEmailAddresses
-    # (Check used email addresses)
+    # (Check syntax of used email addresses)
     $Self->{CheckEmailAddresses} = 1;
 
     # CheckMXRecord
@@ -1418,6 +1418,8 @@ Your OTRS Notification Master
     $Self->{PhoneDefaultNewNextState} = 'open';
     # default lock
     $Self->{PhoneDefaultNewLock} = 'lock';
+    # default priority
+    $Self->{PhoneDefaultPriority} = '3 normal';
     # default history type
     $Self->{PhoneDefaultNewHistoryType} = 'PhoneCallCustomer';
     $Self->{PhoneDefaultNewHistoryComment} = 'Customer called us.';
@@ -1437,6 +1439,7 @@ Your OTRS Notification Master
     # (String for To: selection.) 
     # use this for PhoneViewSelectionType = Queue
 #   $Self->{PhoneViewSelectionString} = 'Queue: <Queue> - <QueueComment>';
+#   $Self->{PhoneViewSelectionString} = '<Queue>';
     # use this for PhoneViewSelectionType = SystemAddress
     $Self->{PhoneViewSelectionString} = '<Realname> <<Email>> - Queue: <Queue> - <QueueComment>';
 
