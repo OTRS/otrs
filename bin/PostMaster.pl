@@ -3,7 +3,7 @@
 # PostMaster.pl - the global eMail handle for email2db
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pl,v 1.8 2002-08-27 23:37:11 martin Exp $
+# $Id: PostMaster.pl,v 1.9 2002-11-10 23:02:18 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 # use ../ as lib location
 use FindBin qw($Bin);
 use lib "$Bin/../";
+use lib "$Bin/../Kernel/cpan-lib";
 
 use strict;
 
@@ -33,7 +34,7 @@ use strict;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 my $Debug = 1;

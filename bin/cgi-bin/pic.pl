@@ -3,7 +3,7 @@
 # pic.pl - the global pic handle for OTRS
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: pic.pl,v 1.8 2002-10-20 20:01:18 martin Exp $
+# $Id: pic.pl,v 1.9 2002-11-10 23:02:18 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -23,11 +23,12 @@
 # use ../ as lib location
 use FindBin qw($Bin);
 use lib "$Bin/../..";
+use lib "$Bin/../../Kernel/cpan-lib";
 
 use strict;
 
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --

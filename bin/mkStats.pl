@@ -3,7 +3,7 @@
 # mkStats.pl - generate stats pics
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: mkStats.pl,v 1.15 2002-10-29 22:18:05 martin Exp $
+# $Id: mkStats.pl,v 1.16 2002-11-10 23:02:18 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 # use ../ as lib location
 use FindBin qw($Bin);
 use lib "$Bin/../";
+use lib "$Bin/../Kernel/cpan-lib";
 
 umask 022;
 
@@ -40,7 +41,7 @@ use Kernel::Config;
 use Kernel::System::Log;
 
 use vars qw($VERSION %Opts);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --

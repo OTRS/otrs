@@ -2,7 +2,7 @@
 # --
 # otrs.addGroup - Add Group from CLI
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
-# $Id: otrs.addGroup,v 1.4 2002-10-24 12:32:38 martin Exp $
+# $Id: otrs.addGroup,v 1.5 2002-11-10 23:02:18 martin Exp $
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
@@ -11,7 +11,7 @@
 package main;
 
 BEGIN{
-   use FindBin; unshift @INC, ($FindBin::Bin , "$FindBin::Bin/../");
+   use FindBin; unshift @INC, ($FindBin::Bin , "$FindBin::Bin/../", "$Bin/../Kernel/cpan-lib");
    use vars qw (%opts);
    use Getopt::Std;
    getopt('c',  \%opts);
