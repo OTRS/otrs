@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.68 2004-08-12 10:36:15 martin Exp $
+# $Id: Article.pm,v 1.69 2004-09-04 21:53:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.68 $';
+$VERSION = '$Revision: 1.69 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1502,7 +1502,7 @@ bounce an article
 
 =cut
 
-sub BounceArticle {
+sub ArticleBounce {
     my $Self = shift;
     my %Param = @_;
     my $Time = $Self->{TimeObject}->SystemTime();
