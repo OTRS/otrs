@@ -12,7 +12,8 @@ If you want to translate OpenTRS in a new language, you have to do five steps:
 
 <listitem>
 <para>
-Take the current German translation (German.pm) from CVS (<ulink url="http://otrs.org/cgi-bin/cvsweb.cgi/otrs/Kernel/Language/">http://otrs.org/cgi-bin/cvsweb.cgi/otrs/Kernel/Language/</ulink>) and translate each line. 
+<!--Take the current German translation (German.pm) from CVS (<ulink url="http://otrs.org/cgi-bin/cvsweb.cgi/otrs/Kernel/Language/">http://otrs.org/cgi-bin/cvsweb.cgi/otrs/Kernel/Language/</ulink>) and translate each line. -->
+Take the current German translation (German.pm) from Kernel/Language/German.pm and translate each line. 
 </para>
 </listitem>
 
@@ -59,7 +60,7 @@ Now you can select the new language in your preferences screen.
 # German.pm - provides german languag translation
 # Copyright (C) 2001-2002 Martin Edenhofer (martin+code at otrs.org)
 # --
-# $Id: language-translation.sgml,v 1.4 2002-11-17 20:26:10 martin Exp $
+# $Id: language-translation.sgml,v 1.5 2002-11-21 22:15:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -70,7 +71,7 @@ package Kernel::Language::German;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -101,7 +102,7 @@ To:
 # French.pm - provides french language translations
 # Copyright (C) 2002 Martin Scherbaum (maddin at exsuse.de)
 # --
-# $Id: language-translation.sgml,v 1.4 2002-11-17 20:26:10 martin Exp $
+# $Id: language-translation.sgml,v 1.5 2002-11-21 22:15:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -112,7 +113,7 @@ package Kernel::Language::French;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
