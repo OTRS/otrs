@@ -3,7 +3,7 @@
 # UnlockTickets.pl - to unlock tickets
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: UnlockTickets.pl,v 1.9 2003-01-04 03:39:40 martin Exp $
+# $Id: UnlockTickets.pl,v 1.10 2003-01-23 22:26:51 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 use Kernel::Config;
@@ -51,7 +51,7 @@ $CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
 $CommonObject{UserObject} = Kernel::System::User->new(%CommonObject);  
 
 my @ViewableLocks = @{$CommonObject{ConfigObject}->Get('ViewableLocks')};
-my @ViewableStats = @{$CommonObject{ConfigObject}->Get('ViewableStats')};
+my @UnlockStats = @{$CommonObject{ConfigObject}->Get('UnlockStats')};
 
 # --
 # check args
@@ -73,6 +73,8 @@ if ($Command eq '--all') {
     " st.queue_id = sq.id " .
     " AND " .
     " st.ticket_lock_id = slt.id ".
+    " AND " .
+    " tsd.name IN ( ${\(join ', ', @UnlockStats)} ) " .
     " AND " .
     " slt.name NOT IN ( ${\(join ', ', @ViewableLocks)} ) ";
     $CommonObject{DBObject}->Prepare(SQL => $SQL);
@@ -117,7 +119,7 @@ elsif ($Command eq '--timeout') {
     " AND " .
     " sq.unlock_timeout != 0 " .
     " AND " .
-    " tsd.name IN ( ${\(join ', ', @ViewableStats)} ) " .
+    " tsd.name IN ( ${\(join ', ', @UnlockStats)} ) " .
     " AND " .
     " slt.name NOT IN ( ${\(join ', ', @ViewableLocks)} ) ";
     $CommonObject{DBObject}->Prepare(SQL => $SQL);
