@@ -4,7 +4,7 @@
 # Maintenance responsibility taken over by Hans Bakker (h.bakker@a-net.nl)
 # Copyright (C) 2003 A-NeT Internet Services bv
 # --
-# $Id: nl.pm,v 1.16 2004-01-21 23:46:08 martin Exp $
+# $Id: nl.pm,v 1.17 2004-01-26 00:27:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::nl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
@@ -24,7 +24,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Thu Jan 22 00:28:42 2004 by 
+    # Last translation Mon Jan 26 01:16:11 2004 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -39,6 +39,7 @@ sub Data {
       ' 2 minutes' => ' 2 minuten',
       ' 5 minutes' => ' 5 minuten',
       ' 7 minutes' => ' 7 minuten',
+      '(Click here to add)' => '',
       '10 minutes' => '10 minuten',
       '15 minutes' => '15 minuten',
       'AddLink' => 'Link toevoegen',
@@ -48,6 +49,7 @@ sub Data {
       'all' => 'alle',
       'All' => 'Alle',
       'Attention' => 'Let op',
+      'before' => '',
       'Bug Report' => 'Foutrapport',
       'Cancel' => 'Afbreken',
       'change' => 'wijzigen',
@@ -59,6 +61,7 @@ sub Data {
       'customer' => 'klant',
       'Customer Info' => 'Klant informatie',
       'day' => 'dag',
+      'day(s)' => '',
       'days' => 'dagen',
       'description' => 'omschrijving',
       'Description' => 'Omschrijving',
@@ -86,6 +89,7 @@ sub Data {
       'Invalid SessionID!' => 'Ongeldige Sessie #',
       'Language' => 'Taal',
       'Languages' => 'Talen',
+      'last' => '',
       'Line' => 'Regel',
       'Lite' => 'Licht',
       'Login failed! Your username or password was entered incorrectly.' => 'Aanmelden mislukt. Uw gebruikersnaam of wachtwoord is onjuist.',
@@ -95,6 +99,7 @@ sub Data {
       'minutes' => 'minuten',
       'Module' => 'Module',
       'Modulefile' => 'Modulebestand',
+      'month(s)' => '',
       'Name' => 'Naam',
       'New Article' => '',
       'New message' => 'Nieuw bericht',
@@ -106,6 +111,7 @@ sub Data {
       'none' => 'geen',
       'none - answered' => 'geen - beantwoord',
       'none!' => 'niet ingevoerd!',
+      'Normal' => '',
       'Off' => 'Uit',
       'off' => 'uit',
       'On' => 'Aan',
@@ -117,6 +123,7 @@ sub Data {
       'please do not edit!' => 'A.u.b. niet wijzigen!',
       'Please go away!' => '',
       'possible' => 'mogelijk',
+      'Preview' => '',
       'QueueView' => 'Wachtrijen',
       'reject' => 'afwijzen',
       'replace with' => 'vervangen met',
@@ -140,14 +147,17 @@ sub Data {
       'To: (%s) replaced with database email!' => '',
       'top' => 'Bovenkant',
       'update' => 'wijzigen',
+      'Update' => '',
       'update!' => 'wijzigen!',
       'User' => 'Gebruiker',
       'Username' => 'Gebruikersnaam',
       'Valid' => 'Geldig',
       'Warning' => 'Waarschuwing',
+      'week(s)' => '',
       'Welcome to OTRS' => 'Welkom bij OTRS',
       'Word' => 'Woord',
       'wrote' => 'schreef',
+      'year(s)' => '',
       'yes' => 'ja',
       'Yes' => 'Ja',
       'You got new message!' => 'U heeft een nieuwe bericht!',
@@ -353,7 +363,8 @@ sub Data {
       'Logout' => 'Afmelden',
       'Misc' => 'Overige',
       'Notifications' => '',
-      'POP3 Account' => 'POP3 Account',
+      'PostMaster Filter' => '',
+      'PostMaster POP3 Account' => 'PostMaster POP3 Account',
       'Responses' => 'Antwoorden',
       'Responses <-> Queue' => 'Antwoorden <-> Wachtrij',
       'Select Box' => 'SQL select query',
@@ -363,11 +374,12 @@ sub Data {
       'User <-> Groups' => 'Gebruikers <-> Groepen',
 
     # Template: AdminNotificationForm
-      'A response is default text to write faster answer (with default text) to customers.' => 'Een antworord is een standaard-tekst om sneller antwoorden te kunnen opstellen.',
-      'Don\'t forget to add a new response a queue!' => 'Vergeet niet om een antwoord aan de wachtrij toe te kennen!',
-      'Next state' => 'Volgende status',
+      'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
       'Notification Management' => '',
-      'The current ticket state is' => '',
+      'Notifications are sent to an agent or a customer.' => '',
+      'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => '',
+      'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
+      'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => '',
 
     # Template: AdminPOP3Form
       'All incoming emails with one account will be dispatched in the selected queue!' => 'Alle binnenkomende email\'s in een account zullen worden geplaatst in de geselecteerde wachtrij',
@@ -377,6 +389,11 @@ sub Data {
       'Login' => 'Login',
       'POP3 Account Management' => 'POP3 account-beheer',
       'Trusted' => 'Te vertrouwen',
+
+    # Template: AdminPostMasterFilterForm
+      'Match' => '',
+      'PostMasterFilter Management' => '',
+      'Set' => '',
 
     # Template: AdminQueueAutoResponseForm
       'Queue <-> Auto Response Management' => 'Wachtrij<-> Automatisch antwoorden toekenning',
@@ -421,7 +438,11 @@ sub Data {
       'Change Response <-> Attachment settings' => 'Wijzig antwoord <-> bijlagen voorkeuren',
 
     # Template: AdminResponseForm
+      'A response is default text to write faster answer (with default text) to customers.' => 'Een antworord is een standaard-tekst om sneller antwoorden te kunnen opstellen.',
+      'Don\'t forget to add a new response a queue!' => 'Vergeet niet om een antwoord aan de wachtrij toe te kennen!',
+      'Next state' => 'Volgende status',
       'Response Management' => 'Antwoordbeheer',
+      'The current ticket state is' => '',
 
     # Template: AdminSalutationForm
       'customer realname' => 'echte klantnaam',
@@ -750,11 +771,8 @@ sub Data {
       'Traceback' => 'Terug traceren',
 
     # Template: CustomerFAQArticleHistory
-      'delete' => '',
-      'edit' => '',
+      'Edit' => '',
       'FAQ History' => '',
-      'print' => '',
-      'view' => '',
 
     # Template: CustomerFAQArticlePrint
       'Category' => '',
@@ -762,7 +780,7 @@ sub Data {
       'Last update' => '',
       'Problem' => '',
       'Solution' => '',
-      'Sympthom' => '',
+      'Symptom' => '',
 
     # Template: CustomerFAQArticleSystemHistory
       'FAQ System History' => '',
@@ -832,6 +850,7 @@ sub Data {
       'You really want to delete this article?' => '',
 
     # Template: FAQArticleForm
+      'Comment (internal)' => '',
       'Filename' => '',
       'Short Description' => '',
 
@@ -842,7 +861,6 @@ sub Data {
     # Template: FAQArticleSystemHistory
 
     # Template: FAQArticleView
-      'history' => '',
 
     # Template: FAQCategoryForm
       'FAQ Category' => '',
@@ -857,6 +875,9 @@ sub Data {
     # Template: FAQSearch
 
     # Template: FAQSearchResult
+
+    # Template: FAQStateForm
+      'FAQ State' => '',
 
     # Template: Footer
       'Top of Page' => 'Bovenkant pagina',
@@ -919,6 +940,7 @@ sub Data {
       'SystemID' => '',
       'Ticket Hook' => '',
       'Ticket Number Generator' => '',
+      'Use utf-8 it your database supports it!' => '',
       'Webfrontend' => '',
 
     # Template: Login

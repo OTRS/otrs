@@ -3,7 +3,7 @@
 # Copyright (C) 2003 Remo Catelotti <Remo.Catelotti at bull.it>
 #               2003 Gabriele Santilli <gsantilli at omnibus.net>
 # --
-# $Id: it.pm,v 1.5 2004-01-21 23:46:08 martin Exp $
+# $Id: it.pm,v 1.6 2004-01-26 00:27:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::it;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -24,7 +24,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Thu Jan 22 00:28:37 2004 by 
+    # Last translation Mon Jan 26 01:15:24 2004 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -39,6 +39,7 @@ sub Data {
       ' 2 minutes' => ' 2 minuti',
       ' 5 minutes' => ' 5 minuti',
       ' 7 minutes' => ' 7 minuti',
+      '(Click here to add)' => '',
       '10 minutes' => '10 minuti',
       '15 minutes' => '15 minuti',
       'AddLink' => 'Aggiungi link',
@@ -48,6 +49,7 @@ sub Data {
       'all' => 'tutti',
       'All' => 'Tutti',
       'Attention' => 'Attenzione',
+      'before' => '',
       'Bug Report' => 'Segnala anomalie',
       'Cancel' => 'Annulla',
       'change' => 'modifica',
@@ -59,6 +61,7 @@ sub Data {
       'customer' => 'cliente',
       'Customer Info' => 'Informazioni Cliente',
       'day' => 'giorno',
+      'day(s)' => '',
       'days' => 'giorni',
       'description' => 'descrizione',
       'Description' => 'Descrizione',
@@ -86,6 +89,7 @@ sub Data {
       'Invalid SessionID!' => 'ID di sessione non valido!',
       'Language' => 'Lingua',
       'Languages' => 'Lingue',
+      'last' => '',
       'Line' => 'Linea',
       'Lite' => '',
       'Login failed! Your username or password was entered incorrectly.' => 'Accesso fallito! Nome utente o password non corretti.',
@@ -95,6 +99,7 @@ sub Data {
       'minutes' => 'minuti',
       'Module' => 'Modulo',
       'Modulefile' => 'Archivio del modulo',
+      'month(s)' => '',
       'Name' => 'Nome',
       'New Article' => '',
       'New message' => 'Nuovo messaggio',
@@ -106,6 +111,7 @@ sub Data {
       'none' => 'nessuno',
       'none - answered' => 'nessuno - risposto',
       'none!' => 'nessuno!',
+      'Normal' => '',
       'Off' => 'Spento',
       'off' => 'spento',
       'On' => 'Acceso',
@@ -117,6 +123,7 @@ sub Data {
       'please do not edit!' => 'per favore non modificare!',
       'Please go away!' => '',
       'possible' => 'possibile',
+      'Preview' => '',
       'QueueView' => 'Lista ticket',
       'reject' => 'respinto',
       'replace with' => 'sostituisci con',
@@ -140,14 +147,17 @@ sub Data {
       'To: (%s) replaced with database email!' => '',
       'top' => 'inizio pagina',
       'update' => 'aggiorna',
+      'Update' => '',
       'update!' => 'aggiorna!',
       'User' => 'Utenti',
       'Username' => 'Nome utente',
       'Valid' => 'Valido',
       'Warning' => 'Attenzione',
+      'week(s)' => '',
       'Welcome to OTRS' => 'Benvenuto in OTRS',
       'Word' => 'Parola',
       'wrote' => 'ha scritto',
+      'year(s)' => '',
       'yes' => 'sì',
       'Yes' => 'Sì',
       'You got new message!' => 'Hai un nuovo messaggio!',
@@ -353,7 +363,8 @@ sub Data {
       'Logout' => 'Esci',
       'Misc' => 'Varie',
       'Notifications' => '',
-      'POP3 Account' => 'Impostazioni POP3',
+      'PostMaster Filter' => '',
+      'PostMaster POP3 Account' => 'PostMaster Impostazioni POP3',
       'Responses' => 'Risposte',
       'Responses <-> Queue' => 'Risposte <-> Code',
       'Select Box' => 'Selezionare una funzione',
@@ -363,11 +374,12 @@ sub Data {
       'User <-> Groups' => 'Utenti <-> Gruppi',
 
     # Template: AdminNotificationForm
-      'A response is default text to write faster answer (with default text) to customers.' => 'Una risposta è un testo predefinito usato per compilare più rapidamente le risposte per i clienti.',
-      'Don\'t forget to add a new response a queue!' => 'Non dimenticare di aggiungere una risposta per ogni coda!',
-      'Next state' => 'Stato successivo',
+      'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
       'Notification Management' => '',
-      'The current ticket state is' => '',
+      'Notifications are sent to an agent or a customer.' => '',
+      'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => '',
+      'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
+      'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => '',
 
     # Template: AdminPOP3Form
       'All incoming emails with one account will be dispatched in the selected queue!' => 'Tutti i messaggi in arrivo saranno smistati nella coda selezionata!',
@@ -377,6 +389,11 @@ sub Data {
       'Login' => '',
       'POP3 Account Management' => 'Gestione accessi POP3',
       'Trusted' => 'Fidato',
+
+    # Template: AdminPostMasterFilterForm
+      'Match' => '',
+      'PostMasterFilter Management' => '',
+      'Set' => '',
 
     # Template: AdminQueueAutoResponseForm
       'Queue <-> Auto Response Management' => 'Gestione Code <-> Risposte automatiche',
@@ -421,7 +438,11 @@ sub Data {
       'Change Response <-> Attachment settings' => 'Modifica impostazioni Risposte <-> Allegati',
 
     # Template: AdminResponseForm
+      'A response is default text to write faster answer (with default text) to customers.' => 'Una risposta è un testo predefinito usato per compilare più rapidamente le risposte per i clienti.',
+      'Don\'t forget to add a new response a queue!' => 'Non dimenticare di aggiungere una risposta per ogni coda!',
+      'Next state' => 'Stato successivo',
       'Response Management' => 'Gestione risposte',
+      'The current ticket state is' => '',
 
     # Template: AdminSalutationForm
       'customer realname' => 'nome del cliente',
@@ -750,11 +771,8 @@ sub Data {
       'Traceback' => '',
 
     # Template: CustomerFAQArticleHistory
-      'delete' => '',
-      'edit' => '',
+      'Edit' => '',
       'FAQ History' => '',
-      'print' => '',
-      'view' => '',
 
     # Template: CustomerFAQArticlePrint
       'Category' => '',
@@ -762,7 +780,7 @@ sub Data {
       'Last update' => '',
       'Problem' => '',
       'Solution' => '',
-      'Sympthom' => '',
+      'Symptom' => '',
 
     # Template: CustomerFAQArticleSystemHistory
       'FAQ System History' => '',
@@ -832,6 +850,7 @@ sub Data {
       'You really want to delete this article?' => '',
 
     # Template: FAQArticleForm
+      'Comment (internal)' => '',
       'Filename' => '',
       'Short Description' => '',
 
@@ -842,7 +861,6 @@ sub Data {
     # Template: FAQArticleSystemHistory
 
     # Template: FAQArticleView
-      'history' => '',
 
     # Template: FAQCategoryForm
       'FAQ Category' => '',
@@ -857,6 +875,9 @@ sub Data {
     # Template: FAQSearch
 
     # Template: FAQSearchResult
+
+    # Template: FAQStateForm
+      'FAQ State' => '',
 
     # Template: Footer
       'Top of Page' => 'Inizio Pagina',
@@ -919,6 +940,7 @@ sub Data {
       'SystemID' => 'ID del sistema',
       'Ticket Hook' => 'Prefisso ticket',
       'Ticket Number Generator' => 'Generatore numero ticket',
+      'Use utf-8 it your database supports it!' => '',
       'Webfrontend' => 'Interfaccia web',
 
     # Template: Login

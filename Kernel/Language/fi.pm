@@ -2,7 +2,7 @@
 # Kernel/Language/fi.pm - provides fi language translation
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # --
-# $Id: fi.pm,v 1.18 2004-01-21 23:46:08 martin Exp $
+# $Id: fi.pm,v 1.19 2004-01-26 00:27:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::fi;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -22,7 +22,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Thu Jan 22 00:28:23 2004 by 
+    # Last translation Mon Jan 26 01:12:55 2004 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -37,6 +37,7 @@ sub Data {
       ' 2 minutes' => ' 2 Minuuttia',
       ' 5 minutes' => ' 5 Minuuttia',
       ' 7 minutes' => ' 7 Minuuttia',
+      '(Click here to add)' => '',
       '10 minutes' => '10 Minuuttia',
       '15 minutes' => '15 Minuuttia',
       'AddLink' => 'Lisää linkki',
@@ -46,6 +47,7 @@ sub Data {
       'all' => 'kaikki',
       'All' => 'Kaikki',
       'Attention' => 'Huomio',
+      'before' => '',
       'Bug Report' => 'Lähetä bugiraportti',
       'Cancel' => 'Peruuta',
       'change' => 'muuta',
@@ -57,6 +59,7 @@ sub Data {
       'customer' => '',
       'Customer Info' => 'Tietoa asiakkaasta',
       'day' => 'päivä',
+      'day(s)' => '',
       'days' => 'päivää',
       'description' => 'Selitys',
       'Description' => 'Selitys',
@@ -84,6 +87,7 @@ sub Data {
       'Invalid SessionID!' => 'Virheellinen SessionID',
       'Language' => 'Kieli',
       'Languages' => 'Kielet',
+      'last' => '',
       'Line' => 'Rivi',
       'Lite' => 'Kevyt',
       'Login failed! Your username or password was entered incorrectly.' => '',
@@ -93,6 +97,7 @@ sub Data {
       'minutes' => 'minuuttia',
       'Module' => 'Moduuli',
       'Modulefile' => 'Moduulitiedosto',
+      'month(s)' => '',
       'Name' => 'Nimi',
       'New Article' => '',
       'New message' => 'Uusi viesti',
@@ -104,6 +109,7 @@ sub Data {
       'none' => 'ei mitään',
       'none - answered' => 'ei mitään - vastattu',
       'none!' => 'ei mitään!',
+      'Normal' => '',
       'Off' => 'Pois',
       'off' => 'pois',
       'On' => 'Päällä',
@@ -115,6 +121,7 @@ sub Data {
       'please do not edit!' => 'Älä muokkaa, kiitos!',
       'Please go away!' => '',
       'possible' => 'Käytössä',
+      'Preview' => '',
       'QueueView' => 'Jonotuslistanäkymä',
       'reject' => 'Hylkää',
       'replace with' => 'Korvaa',
@@ -138,14 +145,17 @@ sub Data {
       'To: (%s) replaced with database email!' => '',
       'top' => 'ylös',
       'update' => 'päivitä',
+      'Update' => '',
       'update!' => 'päivitä!',
       'User' => 'Käyttäjä',
       'Username' => 'Käyttäjänimi',
       'Valid' => 'Käytössä',
       'Warning' => 'Varoitus',
+      'week(s)' => '',
       'Welcome to OTRS' => 'Tervetuloa käyttämään OTRS-järjestelmää',
       'Word' => 'Sana',
       'wrote' => 'kirjoittaa',
+      'year(s)' => '',
       'yes' => 'kyllä',
       'Yes' => 'Kyllä',
       'You got new message!' => 'Sinulla on uusi viesti!',
@@ -351,7 +361,8 @@ sub Data {
       'Logout' => 'Kirjaudu ulos',
       'Misc' => 'Muut',
       'Notifications' => '',
-      'POP3 Account' => 'POP3 -tunnus',
+      'PostMaster Filter' => '',
+      'PostMaster POP3 Account' => 'PostMaster POP3 -tunnus',
       'Responses' => 'Vastaukset',
       'Responses <-> Queue' => 'Vastaukset <-> Jonotuslista',
       'Select Box' => 'Suodatus',
@@ -361,11 +372,12 @@ sub Data {
       'User <-> Groups' => 'Käyttäjä <-> Ryhmät',
 
     # Template: AdminNotificationForm
-      'A response is default text to write faster answer (with default text) to customers.' => 'Vastauspohja on oletusteksti, jonka avulla voit nopeuttaa vastaamista asiakkaille',
-      'Don\'t forget to add a new response a queue!' => 'Älä unohda lisätä uutta vastauspohjaa jonotuslistalle.',
-      'Next state' => '',
+      'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
       'Notification Management' => '',
-      'The current ticket state is' => '',
+      'Notifications are sent to an agent or a customer.' => '',
+      'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => '',
+      'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
+      'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => '',
 
     # Template: AdminPOP3Form
       'All incoming emails with one account will be dispatched in the selected queue!' => 'Kaikki saapuvat sähköpostit lähetetään valitulle jonotuslistalle',
@@ -375,6 +387,11 @@ sub Data {
       'Login' => 'Käyttäjätunnus',
       'POP3 Account Management' => 'POP3 -tunnusten hallinta',
       'Trusted' => 'Hyväksytty',
+
+    # Template: AdminPostMasterFilterForm
+      'Match' => '',
+      'PostMasterFilter Management' => '',
+      'Set' => '',
 
     # Template: AdminQueueAutoResponseForm
       'Queue <-> Auto Response Management' => 'Jonotuslista <-> Automaattivastaushallinta',
@@ -419,7 +436,11 @@ sub Data {
       'Change Response <-> Attachment settings' => 'Muokkaa vastauksia <-> Liitetiedostojen hallinta',
 
     # Template: AdminResponseForm
+      'A response is default text to write faster answer (with default text) to customers.' => 'Vastauspohja on oletusteksti, jonka avulla voit nopeuttaa vastaamista asiakkaille',
+      'Don\'t forget to add a new response a queue!' => 'Älä unohda lisätä uutta vastauspohjaa jonotuslistalle.',
+      'Next state' => '',
       'Response Management' => 'Vastauspohjien hallinta',
+      'The current ticket state is' => '',
 
     # Template: AdminSalutationForm
       'customer realname' => 'käyttäjän oikea nimi',
@@ -748,11 +769,8 @@ sub Data {
       'Traceback' => '',
 
     # Template: CustomerFAQArticleHistory
-      'delete' => '',
-      'edit' => '',
+      'Edit' => '',
       'FAQ History' => '',
-      'print' => '',
-      'view' => '',
 
     # Template: CustomerFAQArticlePrint
       'Category' => '',
@@ -760,7 +778,7 @@ sub Data {
       'Last update' => '',
       'Problem' => '',
       'Solution' => '',
-      'Sympthom' => '',
+      'Symptom' => '',
 
     # Template: CustomerFAQArticleSystemHistory
       'FAQ System History' => '',
@@ -830,6 +848,7 @@ sub Data {
       'You really want to delete this article?' => '',
 
     # Template: FAQArticleForm
+      'Comment (internal)' => '',
       'Filename' => '',
       'Short Description' => '',
 
@@ -840,7 +859,6 @@ sub Data {
     # Template: FAQArticleSystemHistory
 
     # Template: FAQArticleView
-      'history' => '',
 
     # Template: FAQCategoryForm
       'FAQ Category' => '',
@@ -855,6 +873,9 @@ sub Data {
     # Template: FAQSearch
 
     # Template: FAQSearchResult
+
+    # Template: FAQStateForm
+      'FAQ State' => '',
 
     # Template: Footer
       'Top of Page' => '',
@@ -917,6 +938,7 @@ sub Data {
       'SystemID' => '',
       'Ticket Hook' => '',
       'Ticket Number Generator' => 'Tikettinumeroiden generoija',
+      'Use utf-8 it your database supports it!' => '',
       'Webfrontend' => 'Webnäkymä',
 
     # Template: Login
@@ -961,14 +983,10 @@ sub Data {
     # Misc
       'A message should have a From: recipient!' => '',
       'AgentFrontend' => 'Tukinäkymä',
-      'Article free text' => '',
-      'Backend' => '',
-      'BackendMessage' => '',
       'Charsets' => 'Kirjaisinasetus',
       'Create' => 'Luo',
       'Fulltext search' => 'Tekstihaku',
       'Fulltext search (e. g. "Mar*in" or "Baue*" or "martin+hallo")' => 'Tekstihaku("Etsi esimerkiksi "Mi*a" tai "Petr+Tekrat"',
-      'Handle' => '',
       'New state' => 'Uusi tila',
       'New ticket via call.' => 'Uusi ',
       'New user' => 'Uusi käyttäjä',
@@ -980,7 +998,6 @@ sub Data {
       'Ticket free text' => 'Etsi koko tiketistä',
       'Ticket limit:' => 'Tikettien max määrä',
       'Time till escalation' => 'Aikaa jäljellä maksimi käsittelyaikaan',
-      'With State' => '',
       'You have to be in the admin group!' => 'Sinun täytyy olla admin -ryhmässä!',
       'You have to be in the stats group!' => 'Sinun täytyy olla stats -ryhmässä',
       'You need a email address (e. g. customer@example.com) in From:!' => 'Lähettäjä -kentässä pitää olla sähköpostiosoite (esim. teppo.testi@esimerkki.fi)',

@@ -2,7 +2,7 @@
 # Kernel/Language/es.pm - provides es language translation
 # Copyright (C) 2003-2004 Jorge Becerra <jorge at icc-cuba.com>
 # --
-# $Id: es.pm,v 1.13 2004-01-22 09:54:14 martin Exp $
+# $Id: es.pm,v 1.14 2004-01-26 00:27:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::es;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,8 +23,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Jan 21 21:00:08 2004 by 
-    #       Jorge Becerra <jorge at icc-cuba.com>
+    # Last translation Mon Jan 26 01:12:00 2004 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -39,6 +38,7 @@ sub Data {
       ' 2 minutes' => ' 2 minutos',
       ' 5 minutes' => ' 5 minutos',
       ' 7 minutes' => ' 7 minutos',
+      '(Click here to add)' => '',
       '10 minutes' => '10 minutos',
       '15 minutes' => '15 minutos',
       'AddLink' => 'Adicionar enlace',
@@ -48,6 +48,7 @@ sub Data {
       'all' => 'todo',
       'All' => 'Todo',
       'Attention' => 'Atención',
+      'before' => '',
       'Bug Report' => 'Reporte de errores',
       'Cancel' => 'Cancelar',
       'change' => 'cambiar',
@@ -59,6 +60,7 @@ sub Data {
       'customer' => 'cliente',
       'Customer Info' => 'Información del cliente',
       'day' => 'dia',
+      'day(s)' => '',
       'days' => 'dias',
       'description' => 'descripción',
       'Description' => 'Descripción',
@@ -86,6 +88,7 @@ sub Data {
       'Invalid SessionID!' => 'Sesión no válida',
       'Language' => 'Idioma',
       'Languages' => 'Idiomas',
+      'last' => '',
       'Line' => 'Linea',
       'Lite' => 'Chica',
       'Login failed! Your username or password was entered incorrectly.' => 'Identificación incorrecta. Su nombre de usuario o contraseña fue introducida incorrectamente',
@@ -95,6 +98,7 @@ sub Data {
       'minutes' => 'minutos',
       'Module' => 'Módulo',
       'Modulefile' => 'Archivo de módulo',
+      'month(s)' => '',
       'Name' => 'Nombre',
       'New Article' => 'Nuevo Articulo',
       'New message' => 'Nuevo mensaje',
@@ -106,6 +110,7 @@ sub Data {
       'none' => 'nada',
       'none - answered' => 'nada  - respondido',
       'none!' => 'nada!',
+      'Normal' => '',
       'Off' => 'Off',
       'off' => 'off',
       'On' => 'On',
@@ -117,6 +122,7 @@ sub Data {
       'please do not edit!' => 'Por favor no lo edite!',
       'Please go away!' => 'Por favor salga!',
       'possible' => 'posible',
+      'Preview' => '',
       'QueueView' => 'Ver la cola',
       'reject' => 'rechazar',
       'replace with' => 'reemplazar con',
@@ -140,14 +146,17 @@ sub Data {
       'To: (%s) replaced with database email!' => '',
       'top' => 'inicio',
       'update' => 'actualizar',
+      'Update' => 'Actualizar',
       'update!' => 'Actualizar!',
       'User' => 'Usuario',
       'Username' => 'Nombre de Usuario',
       'Valid' => 'Válido',
       'Warning' => 'Atención',
+      'week(s)' => '',
       'Welcome to OTRS' => 'Bienvenido a OTRS',
       'Word' => 'Palabra',
       'wrote' => 'escribió',
+      'year(s)' => '',
       'yes' => 'si',
       'Yes' => 'Si',
       'You got new message!' => 'Ud tiene un nuevo mensaje',
@@ -353,7 +362,8 @@ sub Data {
       'Logout' => 'Desconectarse',
       'Misc' => 'Miscelaneas',
       'Notifications' => 'Notificaciones',
-      'POP3 Account' => 'Cuenta POP3',
+      'PostMaster Filter' => '',
+      'PostMaster POP3 Account' => 'PostMaster Cuenta POP3',
       'Responses' => 'Respuestas',
       'Responses <-> Queue' => 'Respuestas <-> Archivos',
       'Select Box' => 'Ventana de selección',
@@ -363,11 +373,12 @@ sub Data {
       'User <-> Groups' => 'Usuarios <-> Grupos',
 
     # Template: AdminNotificationForm
-      'A response is default text to write faster answer (with default text) to customers.' => 'Una respuesta es el texto por defecto para escribir respuestas más rapido (con el texto por defecto) a los clientes.',
-      'Don\'t forget to add a new response a queue!' => 'No olvide incluir una nueva respuesta en la cola!',
-      'Next state' => 'Siguiente estado',
+      'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
       'Notification Management' => 'Gestión de Notificaciones',
-      'The current ticket state is' => 'El estado actual del ticket es',
+      'Notifications are sent to an agent or a customer.' => '',
+      'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => '',
+      'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
+      'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => '',
 
     # Template: AdminPOP3Form
       'All incoming emails with one account will be dispatched in the selected queue!' => 'Todos los correos de entrada serán remitidos a la cola seleccionada',
@@ -377,6 +388,11 @@ sub Data {
       'Login' => 'Identificador',
       'POP3 Account Management' => 'Gestión de cuenta POP3',
       'Trusted' => 'Confiable',
+
+    # Template: AdminPostMasterFilterForm
+      'Match' => '',
+      'PostMasterFilter Management' => '',
+      'Set' => '',
 
     # Template: AdminQueueAutoResponseForm
       'Queue <-> Auto Response Management' => 'Cola <-> Respuestas automáticas',
@@ -421,7 +437,11 @@ sub Data {
       'Change Response <-> Attachment settings' => 'Cambiar respuesta <-> Especificiones de anexos',
 
     # Template: AdminResponseForm
+      'A response is default text to write faster answer (with default text) to customers.' => 'Una respuesta es el texto por defecto para escribir respuestas más rapido (con el texto por defecto) a los clientes.',
+      'Don\'t forget to add a new response a queue!' => 'No olvide incluir una nueva respuesta en la cola!',
+      'Next state' => 'Siguiente estado',
       'Response Management' => 'Gestión de respuestas',
+      'The current ticket state is' => 'El estado actual del ticket es',
 
     # Template: AdminSalutationForm
       'customer realname' => 'Nombre del cliente',
@@ -750,11 +770,8 @@ sub Data {
       'Traceback' => '',
 
     # Template: CustomerFAQArticleHistory
-      'delete' => 'borrar',
-      'edit' => 'editar',
+      'Edit' => 'Editar',
       'FAQ History' => '',
-      'print' => 'imprimir',
-      'view' => 'ver',
 
     # Template: CustomerFAQArticlePrint
       'Category' => 'Categoria',
@@ -762,7 +779,7 @@ sub Data {
       'Last update' => 'Ultima Actualización',
       'Problem' => 'Problema',
       'Solution' => 'Solución',
-      'Sympthom' => 'Sintoma',
+      'Symptom' => 'Sintoma',
 
     # Template: CustomerFAQArticleSystemHistory
       'FAQ System History' => '',
@@ -832,6 +849,7 @@ sub Data {
       'You really want to delete this article?' => 'Realmente desea eliminar este articulo?',
 
     # Template: FAQArticleForm
+      'Comment (internal)' => '',
       'Filename' => 'Nombre del archivo',
       'Short Description' => 'Resumen',
 
@@ -842,7 +860,6 @@ sub Data {
     # Template: FAQArticleSystemHistory
 
     # Template: FAQArticleView
-      'history' => 'historia',
 
     # Template: FAQCategoryForm
       'FAQ Category' => 'Categoria de FAQ',
@@ -857,6 +874,9 @@ sub Data {
     # Template: FAQSearch
 
     # Template: FAQSearchResult
+
+    # Template: FAQStateForm
+      'FAQ State' => '',
 
     # Template: Footer
       'Top of Page' => 'Inicio de página',
@@ -919,6 +939,7 @@ sub Data {
       'SystemID' => 'ID de sistema',
       'Ticket Hook' => '',
       'Ticket Number Generator' => 'Generador de numeros de tickets',
+      'Use utf-8 it your database supports it!' => '',
       'Webfrontend' => 'Interface Web',
 
     # Template: Login
@@ -964,8 +985,6 @@ sub Data {
       'A message should have a From: recipient!' => 'Loe mensajes deben tener un origen From:!',
       'AgentFrontend' => 'Interface Agente',
       'Article free text' => 'Texto libre del articulo',
-      'Backend' => '',
-      'BackendMessage' => '',
       'Charsets' => 'Juego de Caracteres',
       'Create' => 'Crear',
       'CustomerUser' => 'Usuario Cliente',
@@ -988,6 +1007,7 @@ sub Data {
       'You have to be in the stats group!' => 'Para realizar la operacion tiene que estar en el grupo estadisticas!',
       'You need a email address (e. g. customer@example.com) in From:!' => 'Necesita una direccion de correo (ejemplo: cliente@ejemplo.com) en From:!',
       'auto responses set' => 'Respuesta automática activada',
+      'history' => 'historia',
       'search' => 'buscar',
       'search (e. g. 10*5155 or 105658*)' => 'buscar (ejemplo: 1055155 o 105658*)',
       'store' => 'almacenar',

@@ -2,7 +2,7 @@
 # Kernel/Language/bg.pm - provides bg language translation
 # Copyright (C) 2002 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # --
-# $Id: bg.pm,v 1.19 2004-01-21 23:46:08 martin Exp $
+# $Id: bg.pm,v 1.20 2004-01-26 00:27:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::bg;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -22,7 +22,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Thu Jan 22 00:25:40 2004 by 
+    # Last translation Mon Jan 26 01:10:07 2004 by 
 
     # possible charsets
     $Self->{Charset} = ['cp1251', 'Windows-1251', ];
@@ -37,6 +37,7 @@ sub Data {
       ' 2 minutes' => ' 2 Минути',
       ' 5 minutes' => ' 5 Минути',
       ' 7 minutes' => ' 7 Минути',
+      '(Click here to add)' => '',
       '10 minutes' => '10 Минути',
       '15 minutes' => '15 Минути',
       'AddLink' => 'Добавяне на връзка',
@@ -46,6 +47,7 @@ sub Data {
       'all' => 'всички',
       'All' => 'Всички',
       'Attention' => 'Внимание',
+      'before' => '',
       'Bug Report' => 'Отчет за грешка',
       'Cancel' => 'Отказ',
       'change' => 'променете',
@@ -57,6 +59,7 @@ sub Data {
       'customer' => '',
       'Customer Info' => 'Потребителски данни',
       'day' => 'ден',
+      'day(s)' => '',
       'days' => 'дни',
       'description' => 'описание',
       'Description' => 'Описание',
@@ -84,6 +87,7 @@ sub Data {
       'Invalid SessionID!' => 'Невалиден SessionID!',
       'Language' => 'Език',
       'Languages' => 'Езици',
+      'last' => '',
       'Line' => 'Линия',
       'Lite' => 'Лека',
       'Login failed! Your username or password was entered incorrectly.' => 'Неуспешно оторизиране! Вашето име или парола са некоректини!',
@@ -93,6 +97,7 @@ sub Data {
       'minutes' => 'минути',
       'Module' => 'Модул',
       'Modulefile' => 'Файл-модул',
+      'month(s)' => '',
       'Name' => 'Име',
       'New Article' => '',
       'New message' => 'Ново съобщение',
@@ -104,6 +109,7 @@ sub Data {
       'none' => 'няма',
       'none - answered' => 'няма - отговорен',
       'none!' => 'няма!',
+      'Normal' => '',
       'Off' => 'Изключено',
       'off' => 'изключено',
       'On' => 'Включено',
@@ -115,6 +121,7 @@ sub Data {
       'please do not edit!' => 'моля, не редактирайте!',
       'Please go away!' => '',
       'possible' => 'възможен',
+      'Preview' => '',
       'QueueView' => 'Преглед на опашката',
       'reject' => 'отхвърлен',
       'replace with' => 'замести с',
@@ -138,14 +145,17 @@ sub Data {
       'To: (%s) replaced with database email!' => '',
       'top' => 'към началото',
       'update' => 'обновяване',
+      'Update' => 'обновяване',
       'update!' => 'обновяване!',
       'User' => 'Потребител',
       'Username' => 'Потребителско име',
       'Valid' => 'Валиден',
       'Warning' => 'Предупреждение',
+      'week(s)' => '',
       'Welcome to OTRS' => 'Добре дошли в OTRS',
       'Word' => 'Дума',
       'wrote' => 'записано',
+      'year(s)' => '',
       'yes' => 'да',
       'Yes' => 'Да',
       'You got new message!' => 'Получихте ново съобщение!',
@@ -351,7 +361,8 @@ sub Data {
       'Logout' => 'Изход',
       'Misc' => 'Добавки',
       'Notifications' => '',
-      'POP3 Account' => 'POP3 акаунт',
+      'PostMaster Filter' => '',
+      'PostMaster POP3 Account' => 'PostMaster POP3 акаунт',
       'Responses' => 'Отговори',
       'Responses <-> Queue' => 'Отговори <-> Опашки',
       'Select Box' => 'Изберете кутия',
@@ -361,11 +372,12 @@ sub Data {
       'User <-> Groups' => 'Потребител <-> Групи',
 
     # Template: AdminNotificationForm
-      'A response is default text to write faster answer (with default text) to customers.' => 'Отговорът е текст по подразбиране, създанен предварително, с цел по-бърз отговор към клиента',
-      'Don\'t forget to add a new response a queue!' => 'Да не забравите да добавите новият отговор към дадена опашка!',
-      'Next state' => '',
+      'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
       'Notification Management' => '',
-      'The current ticket state is' => '',
+      'Notifications are sent to an agent or a customer.' => '',
+      'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => '',
+      'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
+      'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => '',
 
     # Template: AdminPOP3Form
       'All incoming emails with one account will be dispatched in the selected queue!' => 'Всички входящи писма с един акаунт ще се разпределят в избраната опашка!',
@@ -375,6 +387,11 @@ sub Data {
       'Login' => 'Вход',
       'POP3 Account Management' => 'Управление на POP3 анаунта',
       'Trusted' => 'Доверен',
+
+    # Template: AdminPostMasterFilterForm
+      'Match' => '',
+      'PostMasterFilter Management' => '',
+      'Set' => '',
 
     # Template: AdminQueueAutoResponseForm
       'Queue <-> Auto Response Management' => 'Опашка <-> Управление на автоматичният отговор',
@@ -419,7 +436,11 @@ sub Data {
       'Change Response <-> Attachment settings' => 'Промяна на отговорътт <-> Настройки прикачени файлове',
 
     # Template: AdminResponseForm
+      'A response is default text to write faster answer (with default text) to customers.' => 'Отговорът е текст по подразбиране, създанен предварително, с цел по-бърз отговор към клиента',
+      'Don\'t forget to add a new response a queue!' => 'Да не забравите да добавите новият отговор към дадена опашка!',
+      'Next state' => '',
       'Response Management' => 'Управление на отговорът',
+      'The current ticket state is' => '',
 
     # Template: AdminSalutationForm
       'customer realname' => 'име на потребителя',
@@ -748,11 +769,8 @@ sub Data {
       'Traceback' => '',
 
     # Template: CustomerFAQArticleHistory
-      'delete' => '',
-      'edit' => '',
+      'Edit' => '',
       'FAQ History' => '',
-      'print' => '',
-      'view' => '',
 
     # Template: CustomerFAQArticlePrint
       'Category' => '',
@@ -760,7 +778,7 @@ sub Data {
       'Last update' => '',
       'Problem' => '',
       'Solution' => '',
-      'Sympthom' => '',
+      'Symptom' => '',
 
     # Template: CustomerFAQArticleSystemHistory
       'FAQ System History' => '',
@@ -830,6 +848,7 @@ sub Data {
       'You really want to delete this article?' => '',
 
     # Template: FAQArticleForm
+      'Comment (internal)' => '',
       'Filename' => '',
       'Short Description' => '',
 
@@ -840,7 +859,6 @@ sub Data {
     # Template: FAQArticleSystemHistory
 
     # Template: FAQArticleView
-      'history' => '',
 
     # Template: FAQCategoryForm
       'FAQ Category' => '',
@@ -855,6 +873,9 @@ sub Data {
     # Template: FAQSearch
 
     # Template: FAQSearchResult
+
+    # Template: FAQStateForm
+      'FAQ State' => '',
 
     # Template: Footer
       'Top of Page' => '',
@@ -917,6 +938,7 @@ sub Data {
       'SystemID' => 'Системно ID',
       'Ticket Hook' => 'Прикачване на билетът',
       'Ticket Number Generator' => 'Генератор на номера на билети',
+      'Use utf-8 it your database supports it!' => '',
       'Webfrontend' => 'Web-зона',
 
     # Template: Login

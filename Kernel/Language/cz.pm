@@ -2,7 +2,7 @@
 # Kernel/Language/cz.pm - provides cz language translation
 # Copyright (C) 2003 Lukas Vicanek alias networ <lulka at centrum dot cz>
 # --
-# $Id: cz.pm,v 1.4 2004-01-21 23:46:08 martin Exp $
+# $Id: cz.pm,v 1.5 2004-01-26 00:27:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::cz;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Thu Jan 22 00:27:14 2004 by 
+    # Last translation Mon Jan 26 01:11:10 2004 by 
 
     # possible charsets
     $Self->{Charset} = ['windows-1250', ];
@@ -38,6 +38,7 @@ sub Data {
       ' 2 minutes' => ' 2 minuty',
       ' 5 minutes' => ' 5 minut',
       ' 7 minutes' => ' 7 minut',
+      '(Click here to add)' => '',
       '10 minutes' => '10 minut',
       '15 minutes' => '15 minut',
       'AddLink' => 'Pøidat odkaz',
@@ -47,6 +48,7 @@ sub Data {
       'all' => 'vše',
       'All' => 'Vše',
       'Attention' => 'Upozornìní',
+      'before' => '',
       'Bug Report' => 'Upozornìní na chybu',
       'Cancel' => 'Zrušit',
       'change' => 'zmìnit',
@@ -58,6 +60,7 @@ sub Data {
       'customer' => 'Klient',
       'Customer Info' => 'Informace o klientovi',
       'day' => 'den',
+      'day(s)' => '',
       'days' => 'dní',
       'description' => 'popis',
       'Description' => 'Popis',
@@ -85,6 +88,7 @@ sub Data {
       'Invalid SessionID!' => 'Chybné ID!',
       'Language' => 'Jazyk',
       'Languages' => 'Jazyky',
+      'last' => '',
       'Line' => 'Linka',
       'Lite' => 'Omezená',
       'Login failed! Your username or password was entered incorrectly.' => 'Chyba v pøíhlášení! Špatný uživatelský uèet nebo heslo.',
@@ -94,6 +98,7 @@ sub Data {
       'minutes' => 'minut',
       'Module' => 'Modul',
       'Modulefile' => 'Modulový soubor',
+      'month(s)' => '',
       'Name' => 'Jméno',
       'New Article' => '',
       'New message' => 'Nová zpráva',
@@ -105,6 +110,7 @@ sub Data {
       'none' => 'žádné',
       'none - answered' => 'žádný - odpovìzeno',
       'none!' => 'žádný!',
+      'Normal' => '',
       'Off' => 'Vypnuto',
       'off' => 'vypnuto',
       'On' => 'Zapnuto',
@@ -116,6 +122,7 @@ sub Data {
       'please do not edit!' => 'prosíme neupravovat!',
       'Please go away!' => '',
       'possible' => 'možný',
+      'Preview' => '',
       'QueueView' => 'Pøehled zpráv',
       'reject' => 'zrušen',
       'replace with' => 'nahradit',
@@ -139,14 +146,17 @@ sub Data {
       'To: (%s) replaced with database email!' => '',
       'top' => 'nahoru',
       'update' => 'obnovit',
+      'Update' => '',
       'update!' => 'obnovit!',
       'User' => 'Uživatelé',
       'Username' => 'Jméno uživatele',
       'Valid' => 'Platnost',
       'Warning' => 'Upozornìní',
+      'week(s)' => '',
       'Welcome to OTRS' => 'Vítejte v OTRS',
       'Word' => 'slovo',
       'wrote' => 'napsal',
+      'year(s)' => '',
       'yes' => 'ano ',
       'Yes' => 'Ano ',
       'You got new message!' => 'Máte novou zprávu!',
@@ -352,7 +362,8 @@ sub Data {
       'Logout' => 'Odhlásit',
       'Misc' => 'Rùzné',
       'Notifications' => '',
-      'POP3 Account' => 'POP3 úèet',
+      'PostMaster Filter' => '',
+      'PostMaster POP3 Account' => 'PostMaster POP3 úèet',
       'Responses' => 'Odpovìdi',
       'Responses <-> Queue' => 'Odpovìdi <-> Øada',
       'Select Box' => 'Výbìr funkcí',
@@ -362,11 +373,12 @@ sub Data {
       'User <-> Groups' => 'Uživatelé <-> Skupiny',
 
     # Template: AdminNotificationForm
-      'A response is default text to write faster answer (with default text) to customers.' => 'Odpovìïí je defaultní text, který píše rychlejší odpovìï (s pøeddefinovaným obsahem) klentùm.',
-      'Don\'t forget to add a new response a queue!' => 'Nezapomeòte pøidat novou odpoveï do øady!',
-      'Next state' => 'Dalsí status',
+      'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
       'Notification Management' => '',
-      'The current ticket state is' => '',
+      'Notifications are sent to an agent or a customer.' => '',
+      'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => '',
+      'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
+      'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => '',
 
     # Template: AdminPOP3Form
       'All incoming emails with one account will be dispatched in the selected queue!' => 'Všechny pøíchozí emaily s jedním úètem budou pøesmìrovány do vybrané øady!',
@@ -376,6 +388,11 @@ sub Data {
       'Login' => '',
       'POP3 Account Management' => 'Správa POP3 úètù',
       'Trusted' => 'Ovìøit',
+
+    # Template: AdminPostMasterFilterForm
+      'Match' => '',
+      'PostMasterFilter Management' => '',
+      'Set' => '',
 
     # Template: AdminQueueAutoResponseForm
       'Queue <-> Auto Response Management' => 'Øada <-> automatické opovìdi',
@@ -420,7 +437,11 @@ sub Data {
       'Change Response <-> Attachment settings' => 'Zmìnit odpovìdi <-> Nastavení pøíloh',
 
     # Template: AdminResponseForm
+      'A response is default text to write faster answer (with default text) to customers.' => 'Odpovìïí je defaultní text, který píše rychlejší odpovìï (s pøeddefinovaným obsahem) klentùm.',
+      'Don\'t forget to add a new response a queue!' => 'Nezapomeòte pøidat novou odpoveï do øady!',
+      'Next state' => 'Dalsí status',
       'Response Management' => 'Správa odpovìdí',
+      'The current ticket state is' => '',
 
     # Template: AdminSalutationForm
       'customer realname' => 'pravé jméno klienta',
@@ -749,11 +770,8 @@ sub Data {
       'Traceback' => '',
 
     # Template: CustomerFAQArticleHistory
-      'delete' => '',
-      'edit' => '',
+      'Edit' => '',
       'FAQ History' => '',
-      'print' => '',
-      'view' => '',
 
     # Template: CustomerFAQArticlePrint
       'Category' => '',
@@ -761,7 +779,7 @@ sub Data {
       'Last update' => '',
       'Problem' => '',
       'Solution' => '',
-      'Sympthom' => '',
+      'Symptom' => '',
 
     # Template: CustomerFAQArticleSystemHistory
       'FAQ System History' => '',
@@ -831,6 +849,7 @@ sub Data {
       'You really want to delete this article?' => '',
 
     # Template: FAQArticleForm
+      'Comment (internal)' => '',
       'Filename' => '',
       'Short Description' => '',
 
@@ -841,7 +860,6 @@ sub Data {
     # Template: FAQArticleSystemHistory
 
     # Template: FAQArticleView
-      'history' => '',
 
     # Template: FAQCategoryForm
       'FAQ Category' => '',
@@ -856,6 +874,9 @@ sub Data {
     # Template: FAQSearch
 
     # Template: FAQSearchResult
+
+    # Template: FAQStateForm
+      'FAQ State' => '',
 
     # Template: Footer
       'Top of Page' => 'Nahoru',
@@ -918,6 +939,7 @@ sub Data {
       'SystemID' => 'System ID',
       'Ticket Hook' => 'Prefix riketù',
       'Ticket Number Generator' => 'Generator èísel tiketù',
+      'Use utf-8 it your database supports it!' => '',
       'Webfrontend' => 'Webove rozhraní',
 
     # Template: Login
