@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 1.3 to 2.0
 -- Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-2.0.mysql.sql,v 1.7 2004-10-06 18:59:16 martin Exp $
+-- $Id: DBUpdate-to-2.0.mysql.sql,v 1.8 2004-10-06 19:39:31 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.0.mysql.sql | mysql -f -u root otrs
@@ -97,13 +97,9 @@ CREATE TABLE process_id
 );
 
 --
--- fix for wrong saluation
+-- remove all old notifications
 --
-INSERT INTO notifications
-  (notification_type, notification_charset, notification_language, subject, text, create_time, create_by, change_time, change_by)
-  VALUES
-  ('Agent::NewTicket', 'iso-8859-1', 'en', 'New ticket notification! (<OTRS_CUSTOMER_SUBJECT[18]>)', 'Hi <OTRS_USERFIRSTNAME>,there is a new ticket in "<OTRS_QUEUE>"!<OTRS_CUSTOMER_FROM> wrote:<snip><OTRS_CUSTOMER_EMAIL[16]><snip><OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>Your OTRS Notification Master', current_timestamp, 1, current_timestamp, 1);
-
+DELETE FROM notifications;
 
 --
 -- update agent notifications
