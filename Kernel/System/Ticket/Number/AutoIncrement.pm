@@ -2,7 +2,7 @@
 # Ticket/Number/AutoIncrement.pm - a ticket number auto increment generator
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AutoIncrement.pm,v 1.8 2003-04-29 15:51:41 martin Exp $
+# $Id: AutoIncrement.pm,v 1.9 2003-06-01 18:06:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,39 +19,34 @@ package Kernel::System::Ticket::Number::AutoIncrement;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub CreateTicketNr {
     my $Self = shift;
     my $JumpCounter = shift || 0;
-    # --
     # get needed config options 
-    # --
     my $CounterLog = $Self->{ConfigObject}->Get('CounterLog');
     my $SystemID = $Self->{ConfigObject}->Get('SystemID');
     my $MinSize = $Self->{ConfigObject}->Get('TicketNumberGenerator::AutoIncrement::MinCounterSize') || 5;
-    # --
     # read count
-    # --
-    open (COUNTER, "< $CounterLog") || die "Can't open $CounterLog: $!";
-    my $Line = <COUNTER>;
-    my ($Count) = split(/;/, $Line);
-    close (COUNTER);
-    if ($Self->{Debug} > 0) {
-        $Self->{LogObject}->Log(
-          Priority => 'debug',
-          Message => "Read counter: $Count",
-        );
+    my $Count = 0;
+    if (-f $CounterLog) {
+        open (COUNTER, "< $CounterLog") || die "Can't open $CounterLog: $!";
+        my $Line = <COUNTER>;
+        ($Count) = split(/;/, $Line);
+        close (COUNTER);
+        if ($Self->{Debug} > 0) {
+            $Self->{LogObject}->Log(
+              Priority => 'debug',
+              Message => "Read counter from $CounterLog: $Count",
+            );
+        }
     }
-    # --
     # count auto increment ($Count++)
-    # --
     $Count++;
     $Count = $Count + $JumpCounter;
-    # --
     # write new count
-    # --
     if (open (COUNTER, "> $CounterLog")) {
         flock (COUNTER, 2) || warn "Can't set file lock ($CounterLog): $!";
         print COUNTER $Count . "\n";
@@ -70,20 +65,13 @@ sub CreateTicketNr {
         );
         die "Can't write $CounterLog: $!";
     }
-
-    # --
     # pad ticket number with leading '0' to length $MinSize (config option)
-    # --
     while (length($Count) < $MinSize) {
         $Count = "0".$Count;
     }
-    # --
-    # new ticket number
-    # --
+    # create new ticket number
     my $Tn = $SystemID . $Count;
-    # --
     # Check ticket number. If exists generate new one! 
-    # --
     if ($Self->CheckTicketNr(Tn=>$Tn)) {
         $Self->{LoopProtectionCounter}++;
         if ($Self->{LoopProtectionCounter} >= 1000) {
@@ -95,9 +83,7 @@ sub CreateTicketNr {
           );
           return;
         }
-        # --
         # create new ticket number again
-        # --
         $Self->{LogObject}->Log(
           Priority => 'notice',
           Message => "Tn ($Tn) exists! Creating new one.",
@@ -110,17 +96,13 @@ sub CreateTicketNr {
 sub GetTNByString {
     my $Self = shift;
     my $String = shift || return;
-
-    # --
     # get needed config options 
-    # --
     my $SystemID = $Self->{ConfigObject}->Get('SystemID');
     my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
+    my $TicketDivider = $Self->{ConfigObject}->Get('TicketDivider') || ': ';
     my $MinSize = $Self->{ConfigObject}->Get('TicketNumberGenerator::AutoIncrement::MinCounterSize') || 5;
     my $MaxSize = $MinSize + 5;
-    # --
     # check ticket number
-    # --
     if ($String =~ /$TicketHook:+.{0,1}($SystemID\d{$MinSize,$MaxSize})\-FW/i) {
         return $1;
     }
