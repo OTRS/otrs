@@ -2,7 +2,7 @@
 # X-OTRS-Headers.txt - useabile mail X-headers 
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: X-OTRS-Headers.txt,v 1.2 2002-02-03 23:09:04 martin Exp $
+# $Id: X-OTRS-Headers.txt,v 1.3 2002-12-15 01:15:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -21,7 +21,7 @@ X-OTRS-Ignore: [yes]
 ---------------------
 Ignore this email.
 
-X-OTRS-State: (new|open|closed succsessful|closed unsuccsessful|...)
+X-OTRS-State: (new|open|closed successful|closed unsuccessful|...)
 --------------------------------------------
 Set state of ticket! Be careful!
 

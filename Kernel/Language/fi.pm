@@ -1,8 +1,8 @@
 # --
 # Kernel/Language/fi.pm - provides fi language translation
-# Copyright (C) 2002 Team Seu.Net <team at seu.net>
+# Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # --
-# $Id: fi.pm,v 1.2 2002-12-15 00:58:23 martin Exp $
+# $Id: fi.pm,v 1.3 2002-12-15 01:15:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::fi;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/\$1/;
 # --
 sub Data {
