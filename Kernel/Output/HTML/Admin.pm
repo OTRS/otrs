@@ -2,7 +2,7 @@
 # HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.43 2003-07-08 00:01:23 martin Exp $
+# $Id: Admin.pm,v 1.44 2003-11-17 00:24:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.43 $';
+$VERSION = '$Revision: 1.44 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -833,64 +833,6 @@ sub AdminGroupForm {
     );
 
     return $Self->Output(TemplateFile => 'AdminGroupForm', Data => \%Param);
-}
-# --
-sub AdminUserGroupForm {
-    my $Self = shift;
-    my %Param = @_;
-    my $UserData = $Param{UserData};
-    my %UserDataTmp = %$UserData;
-    my $GroupData = $Param{GroupData};
-    my %GroupDataTmp = %$GroupData;
-    my $BaseLink = $Self->{Baselink} . "Action=AdminUserGroup&";
-
-    foreach (sort {uc($UserDataTmp{$a}) cmp uc($UserDataTmp{$b})} keys %UserDataTmp){
-      $Param{UserStrg} .= "<A HREF=\"$BaseLink"."Subaction=User&ID=$_\">$UserDataTmp{$_}</A><BR>";
-    }
-    foreach (sort {uc($GroupDataTmp{$a}) cmp uc($GroupDataTmp{$b})} keys %GroupDataTmp){
-      $Param{GroupStrg} .= "<A HREF=\"$BaseLink"."Subaction=Group&ID=$_\">$GroupDataTmp{$_}</A><BR>";
-    }
-    # return output
-    return $Self->Output(TemplateFile => 'AdminUserGroupForm', Data => \%Param);
-}
-# --
-sub AdminUserGroupChangeForm {
-    my $Self = shift;
-    my %Param = @_;
-    my %Data = %{$Param{Data}};
-    my $BaseLink = $Self->{Baselink};
-    my $Type = $Param{Type} || 'User';
-    my $NeType = 'Group';
-    $NeType = 'User' if ($Type eq 'Group');
-
-
-    $Param{OptionStrg0} .= "<B>\$Text{\"$Type\"}:</B> <A HREF=\"$BaseLink"."Action=Admin$Type&Subaction=Change&ID=$Param{ID}\">" .
-    "$Param{Name}</A> (id=$Param{ID})<BR>";
-    $Param{OptionStrg0} .= '<INPUT TYPE="hidden" NAME="ID" VALUE="'.$Param{ID}.'"><BR>';
-
-    $Param{OptionStrg0} .= "<br>\n";
-    $Param{OptionStrg0} .= "<table>\n";
-    $Param{OptionStrg0} .= "<tr><th>\$Text{\"$NeType\"}</th><th>ro</th><th>rw</th></tr>\n";
-    foreach (sort {uc($Data{$a}) cmp uc($Data{$b})} keys %Data){
-        $Param{OptionStrg0} .= '<tr><td>';
-        $Param{OptionStrg0} .= "<a href=\"$BaseLink"."Action=Admin$NeType&Subaction=Change&ID=$_\">$Param{Data}->{$_}</a>";
-        my $RoSelected = '';
-        if ($Param{Ro}->{$_}) {
-            $RoSelected = ' checked';
-        }
-        $Param{OptionStrg0} .= '</td><td>';
-        $Param{OptionStrg0} .= '<input type="checkbox" name="RoIDs" value="'.$_."\"$RoSelected>";
-        my $RwSelected = '';
-        if ($Param{Rw}->{$_}) {
-            $RwSelected = ' checked';
-        }
-        $Param{OptionStrg0} .= '</td><td>';
-        $Param{OptionStrg0} .= '<input type="checkbox" name="RwIDs" value="'.$_."\"$RwSelected>";
-        $Param{OptionStrg0} .= '</td></tr>';
-    }
-    $Param{OptionStrg0} .= "</table>\n";
-
-    return $Self->Output(TemplateFile => 'AdminUserGroupChangeForm', Data => \%Param);
 }
 # --
 sub AdminPOP3Form {
