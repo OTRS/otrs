@@ -2,7 +2,7 @@
 # Kernel/System/Article.pm - global article module for OpenTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.15 2002-08-06 19:10:39 martin Exp $
+# $Id: Article.pm,v 1.16 2002-08-21 09:51:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -19,8 +19,13 @@ use MIME::Parser;
 use MIME::Words qw(:all);
 use Kernel::System::Ticket;
 
+# --
+# to get it writable for the otrs group (just in case)
+# --
+umask 002;
+
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -154,26 +159,29 @@ sub WriteArticle {
     # --
     # mk dir
     # --
-    File::Path::mkpath([$Path], 0, 0775);# if (! -d $ArticleDir);  
+    if (! File::Path::mkpath([$Path], 0, 0775)) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Can't create $Path: $!");
+        return;
+    }
     # --
     # write article to fs 1:1
     # --
     if (open (DATA, "> $Path/plain.txt")) { 
-      print DATA @Plain;
-      close (DATA);
-      # store atms.
-      my $Parser = new MIME::Parser;
-      $Parser->output_to_core("ALL");
-      my $Data;
-      eval { $Data = $Parser->parse_open("$Path/plain.txt") };
-      foreach my $Part ($Data->parts()) {
-        $Self->WritePart(Part => $Part, Path => $Path);
-      }
-      return 1;
+        print DATA @Plain;
+        close (DATA);
+        # store atms.
+        my $Parser = new MIME::Parser;
+        $Parser->output_to_core("ALL");
+        my $Data;
+        eval { $Data = $Parser->parse_open("$Path/plain.txt") };
+        foreach my $Part ($Data->parts()) {
+            $Self->WritePart(Part => $Part, Path => $Path);
+        }
+        return 1;
     }
     else {
-      $Self->{LogObject}->Log(Priority => 'error', Message => "Can't write: $Path/plain.txt: $!");
-      return;
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Can't write: $Path/plain.txt: $!");
+        return;
     }
 }
 # --
