@@ -2,7 +2,7 @@
 # Login.dtl - provides HTML login screen
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Login.dtl,v 1.4 2002-05-12 15:06:53 martin Exp $
+# $Id: Login.dtl,v 1.5 2002-05-17 22:13:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -57,6 +57,7 @@ X-Wanted: I think you are smart. I'm looking for smart people!
 <p>
 <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
 <input type="hidden" name="Action" value="Login">
+<input type="hidden" name="RequestedURL" value="$Data{"RequestedURL"}">
 
 <table border="0" cellspacing="0" cellpadding="3" width="240">
 <tr bgcolor="$Env{"BGTableColor0"}">

@@ -1,9 +1,9 @@
 #! /usr/bin/perl -w
 # --
-# index.pl - the global CGI handle file for OpenTRS
+# index.pl - the global CGI handle file (incl. auth) for OpenTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.25 2002-05-09 23:48:39 martin Exp $
+# $Id: index.pl,v 1.26 2002-05-17 22:13:10 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use lib '../..';
 use strict;
 
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 $Debug = 0;
@@ -140,7 +140,7 @@ $Param{Subaction} = $CommonObject{ParamObject}->GetParam(Param => 'Subaction') |
 $Param{QueueID} = $CommonObject{ParamObject}->GetParam(Param => 'QueueID') || 0;
 $Param{TicketID} = $CommonObject{ParamObject}->GetParam(Param => 'TicketID') || '';
 $Param{NextScreen} = $CommonObject{ParamObject}->GetParam(Param => 'NextScreen') || '';
-
+$Param{RequestedURL} = $CommonObject{ParamObject}->GetParam(Param => 'RequestedURL') || $ENV{"QUERY_STRING"};
 
 # --
 # check request type
@@ -149,17 +149,21 @@ if ($Param{Action} eq "Login") {
     # get params
     my $User = $CommonObject{ParamObject}->GetParam(Param => 'User') || '';
     my $Pw = $CommonObject{ParamObject}->GetParam(Param => 'Password') || '';
-
     # create AuthObject
     my $AuthObject = Kernel::System::Auth->new(%CommonObject);
 
+    # --
     # check submited data
+    # --
     if ( $AuthObject->Auth(User => $User, Pw => $Pw) ) {
         # get user data
         my %Data = $CommonObject{UserObject}->GetUserData(User => $User);
         # check needed data
         if (!$Data{UserID} || !$Data{UserLogin}) {
-            print $CommonObject{LayoutObject}->Login(Message => 'Panic! No UserData!!!');
+            print $CommonObject{LayoutObject}->Login(
+                Message => 'Panic! No UserData!!!',
+                %Param,
+            );
             exit (0);
         }
         # create new session id
@@ -168,15 +172,34 @@ if ($Param{Action} eq "Login") {
           SessionID => $NewSessionID, 
           %CommonObject,
         );
+
+        # --
+        # redirect with new session id and old params
+        # --
+        # prepare old redirect URL -- do not redirect to Login or Logout (loop)!
+        if ($Param{RequestedURL} =~ /Action=(Logout|Login)/) {
+            $Param{RequestedURL} = '';
+        }
+        elsif ($Param{RequestedURL} =~ /SessionID=/) {
+            # drop old session id
+            $Param{RequestedURL} =~ s/SessionID=(&|.+?&)/&/g; 
+        }
+        else {
+            # no session id
+            $Param{RequestedURL} = '&'.$Param{RequestedURL};
+        }
         # redirect with new session id
-        print $LayoutObject->Redirect();
+        print $LayoutObject->Redirect(OP => $Param{RequestedURL});
     }
+    # --
     # login is vailid
+    # --
     else {
         print $CommonObject{LayoutObject}->Login(
           Title => 'Login',          
           Message => 'Login failed! Your username or password was entered incorrectly.',
           User => $User,
+          %Param,
         );
     }
 }
@@ -189,6 +212,7 @@ elsif ($Param{Action} eq "Logout"){
             print $CommonObject{LayoutObject}->Login(
                 Title => 'Logout',
                 Message => 'Logout successful. Thank you for using OpenTRS!',
+                %Param,
             );
         }  
         else {
@@ -208,6 +232,7 @@ elsif ($Param{Action} eq "Logout"){
         print $CommonObject{LayoutObject}->Login(
             Title => 'Logout',
             Message => 'Invalid SessionID!',
+            %Param,
         );
     }
 }
@@ -215,7 +240,10 @@ elsif ($Param{Action} eq "Logout"){
 # show login site
 # --
 elsif (!$Param{SessionID}) {
-    print $CommonObject{LayoutObject}->Login(Title => 'Login');
+    print $CommonObject{LayoutObject}->Login(
+        Title => 'Login',
+        %Param,
+    );
 }
 # --
 # run modules if exists a version value
@@ -226,9 +254,12 @@ elsif (eval '$Kernel::Modules::'. $Param{Action} .'::VERSION'){
         print $CommonObject{LayoutObject}->Login(
           Title => 'Login',
           Message => $Kernel::System::AuthSession::CheckSessionID,
+          %Param,
        );
     }
+    # --
     # run module
+    # --
     else { 
         # get session data
         my %Data = $CommonObject{SessionObject}->GetSessionIDData(
