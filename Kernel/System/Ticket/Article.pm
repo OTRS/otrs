@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.38 2003-09-28 09:21:11 martin Exp $
+# $Id: Article.pm,v 1.39 2003-10-29 21:12:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::Article;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.39 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -61,7 +61,7 @@ sub CreateArticle {
         $Param{AttachContentType} = $Param{ContentType};
         $Param{AttachBody} = $Param{Body};
         $Param{ContentType} = 'text/plain';
-        $Param{Body} = 'see attachment'; 
+        $Param{Body} = 'no text/plain body => see attachment'; 
     }
     else {
         # fix some bad stuff from some browsers (Opera)!
