@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.74 2003-05-29 11:24:52 martin Exp $
+# $Id: Defaults.pm,v 1.75 2003-05-29 16:11:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.74 $';
+$VERSION = '$Revision: 1.75 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -241,7 +241,7 @@ sub LoadDefaults {
     # --------------------------------------------------- #
     # AgentStatusView (shows all open tickets)            #
     # --------------------------------------------------- #
-    $Self->{'AgentStatusView::ViewableTicketsPage'} = 75;
+    $Self->{'AgentStatusView::ViewableTicketsPage'} = 50;
 
     # --------------------------------------------------- #
     # AgentUtil                                           #
