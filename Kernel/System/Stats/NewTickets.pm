@@ -2,7 +2,7 @@
 # Kernel/System/Stats/NewTickets.pm - stats module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NewTickets.pm,v 1.1 2004-06-29 10:42:23 martin Exp $
+# $Id: NewTickets.pm,v 1.2 2004-11-28 11:22:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Queue;
 use Date::Pcalc qw(Today_and_Now Days_in_Month Day_of_Week Day_of_Week_Abbreviation);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $ ';
+$VERSION = '$Revision: 1.2 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -70,7 +70,7 @@ sub Param {
         my $Tmp = sprintf("%02d", $_);
         $Month{$_} = $Tmp;
     }
- 
+
     push (@Params, {
             Frontend => 'Year',
             Name => 'Year',
@@ -112,6 +112,7 @@ sub Param {
 sub Run {
     my $Self = shift;
     my %Param = @_;
+    my $Days = Days_in_Month($Param{Year},$Param{Month});
     $Param{Month} = sprintf("%02d", $Param{Month});
     my $Title = "$Param{Year}-$Param{Month}";
     my %TicketStatus = $Self->{TicketObject}->HistoryTicketStatusGet(
@@ -120,7 +121,7 @@ sub Run {
         StartDay => 1,
         StopYear => $Param{Year},
         StopMonth => => $Param{Month},
-        StopDay => 31,
+        StopDay => $Days,
     );
     my %Queue = ();
     my @HeadData = ('Queue');
@@ -130,7 +131,7 @@ sub Run {
             $Queue{$Ticket{CreateQueue}}->{int($1)}++;
         }
     }
-   
+
     my $Day = Days_in_Month($Param{Year},$Param{Month});
     my $DayCounter = 1;
     while ($Day >= $DayCounter) {
