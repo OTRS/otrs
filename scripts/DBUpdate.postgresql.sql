@@ -2,7 +2,7 @@
 -- Update an existing OpenTRS database to the current state.
 -- Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate.postgresql.sql,v 1.7 2002-12-01 16:15:28 martin Exp $
+-- $Id: DBUpdate.postgresql.sql,v 1.8 2002-12-07 19:06:05 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate.postgresql.sql | psql otrs 
@@ -92,6 +92,24 @@ CREATE TABLE article_plain
 
 );
 create INDEX index_article_plain_article_id ON article_plain (article_id);
+-- customer preferences
+ALTER TABLE customer_preferences RENAME TO customer_preferences_old;
+CREATE TABLE customer_preferences
+(
+    user_id varchar (250) NOT NULL,
+    preferences_key varchar (150) NOT NULL,
+    preferences_value varchar (250)
+);
+INSERT INTO customer_preferences (
+     user_id,
+     preferences_key,
+     preferences_value)
+SELECT
+     user_id,
+     preferences_key,
+     preferences_value
+FROM customer_preferences_old;
+DROP TABLE customer_preferences_old;
 
 -- --
 -- 0.5 BETA 8 upgrate

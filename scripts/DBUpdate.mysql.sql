@@ -2,7 +2,7 @@
 -- Update an existing OpenTRS database to the current state.
 -- Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate.mysql.sql,v 1.13 2002-12-01 16:16:05 martin Exp $
+-- $Id: DBUpdate.mysql.sql,v 1.14 2002-12-07 19:06:05 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate.mysql.sql | mysql -f -u root otrs
@@ -60,6 +60,13 @@ CREATE TABLE article_plain
     INDEX article_id (article_id)
 
 );
+-- customer preferences
+ALTER TABLE customer_preferences MODIFY
+    user_id VARCHAR (200) NOT NULL
+;
+ALTER TABLE customer_preferences MODIFY
+    preferences_key VARCHAR (150) NOT NULL
+;
 
 -- --
 -- 0.5 BETA 8 upgrate
