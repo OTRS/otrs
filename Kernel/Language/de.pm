@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2002-2003 Martin Edenhofer <martin at otrs.org>
 # --
-# $Id: de.pm,v 1.24 2003-04-14 14:38:17 robert Exp $
+# $Id: de.pm,v 1.25 2003-04-22 11:53:16 robert Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -291,6 +291,7 @@ sub Data {
       'Add customer user' => 'Hinzufügen eines Kunden-Benutzers',
       'Change customer user settings' => 'Kunden-Benutzer-Einstellungen ändern',
       'Customer User Management' => 'Kunden-Benutzer-Verwaltung',
+      'Update customer user' => 'Kunden-Benutzer ändern',
       'Customer user will be needed to to login via customer panels.' => 'Kunden-Benutzer werden für die Kunden-Weboberfläche benötigt',
 
     # Template: AdminCustomerUserGeneric
@@ -845,6 +846,7 @@ sub Data {
       '(Click here to add a salutation)' => '(Hier klicken - Anrede hinzufügen)',
       '(Click here to add a signature)' => '(Hier klicken - Signatur hinzufügen)',
       '(Click here to add a system email address)' => '(Hier klicken - System-E-Mail-Adresse hinzufügen)',
+      '(Click here to add a customer user)' => '(Hier klicken - Kunden-Benutzer hinzufügen)',
       '(Click here to add a user)' => '(Hier klicken - Benutzer hinzufügen)',
       '(Click here to add an auto response)' => '(Hier klicken - Auto-Antwort hinzufügen)',
       '(Click here to add charset)' => '(Hier klicken - Zeichensatz hinzufügen',
