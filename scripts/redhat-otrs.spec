@@ -2,7 +2,7 @@
 # RPM spec file for RedHat Linux of the OTRS package
 # Copyright (C) 2002-2003 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: redhat-otrs.spec,v 1.11 2003-01-05 23:51:29 martin Exp $
+# $Id: redhat-otrs.spec,v 1.12 2003-01-09 20:55:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -107,7 +107,7 @@ Authors:
 cp Kernel/Config.pm.dist Kernel/Config.pm
 cd Kernel/Config/ && for foo in *.dist; do cp $foo `basename $foo .dist`; done && cd ../../
 # copy all crontab dist files
-for foo in var/cron/*.dist; do cp $foo var/cron/`basename $foo .dist`; done
+for foo in var/cron/*.dist; do mv $foo var/cron/`basename $foo .dist`; done
 
 %install
 # delete old RPM_BUILD_ROOT
@@ -145,7 +145,7 @@ chown apache /opt/otrs/Kernel/Config.pm
 
 # add httpd.include.conf to /etc/httpd/conf/httpd.conf
 APACHERC=/etc/httpd/conf/httpd.conf
-OTRSINCLUDE=/opt/otrs/scripts/suse-httpd.include.conf
+OTRSINCLUDE=/opt/otrs/scripts/apache-httpd.include.conf
 
 cat $APACHERC | grep -v "httpd.include.conf" > /tmp/httpd.conf.tmp && \
 echo "Include $OTRSINCLUDE" >> /tmp/httpd.conf.tmp && mv /tmp/httpd.conf.tmp $APACHERC

@@ -2,7 +2,7 @@
 # RPM spec file for SuSE Linux of the OTRS package
 # Copyright (C) 2002-2003 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: suse-otrs-7.3.spec,v 1.15 2003-01-05 23:53:04 martin Exp $
+# $Id: suse-otrs-7.3.spec,v 1.16 2003-01-09 20:55:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ Version:      0.5
 Copyright:    GNU GENERAL PUBLIC LICENSE Version 2, June 1991
 Group:        Applications/Mail
 Provides:     otrs 
-Requires:     perl perl-DBI perl-GD perl-Net-DNS perl-Digest-MD5 apache mod_perl mysql mysql-client perl-Msql-Mysql-modules mysql-shared fetchmail procmail
+Requires:     perl perl-DBI perl-GD perl-Net-DNS perl-Digest-MD5 apache mod_perl mysql mysql-client perl-Msql-Mysql-modules mysql-shared fetchmail procmail perl-IO-stringy
 Autoreqprov:  on
 Release:      BETA7
 Source0:      otrs-%{version}-%{release}.tar.bz2
@@ -110,7 +110,7 @@ SuSE series: ap
 cp Kernel/Config.pm.dist Kernel/Config.pm
 cd Kernel/Config/ && for foo in *.dist; do cp $foo `basename $foo .dist`; done && cd ../../
 # copy all crontab dist files
-for foo in var/cron/*.dist; do cp $foo var/cron/`basename $foo .dist`; done
+for foo in var/cron/*.dist; do mv $foo var/cron/`basename $foo .dist`; done
 
 %install
 # delete old RPM_BUILD_ROOT
@@ -158,10 +158,10 @@ chown wwwrun /opt/otrs/Kernel/Config.pm
 # rc.config
 %{fillup_and_insserv -s otrs START_OTRS}
 
-# add suse-httpd.include.conf to apache.rc.config
+# add apache-httpd.include.conf to apache.rc.config
 APACHERC=/etc/rc.config.d/apache.rc.config
 
-OTRSINCLUDE=/opt/otrs/scripts/suse-httpd.include.conf
+OTRSINCLUDE=/opt/otrs/scripts/apache-httpd.include.conf
 sed 's+^HTTPD_CONF_INCLUDE_FILES=.*$+HTTPD_CONF_INCLUDE_FILES='$OTRSINCLUDE'+' \
 $APACHERC > /tmp/apache.rc.config.tmp && mv /tmp/apache.rc.config.tmp $APACHERC 
 
