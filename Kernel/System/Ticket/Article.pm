@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.17 2003-02-03 19:54:47 martin Exp $
+# $Id: Article.pm,v 1.18 2003-02-08 15:09:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,8 +16,8 @@ use strict;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
-$VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
+$VERSION = '$Revision: 1.18 $';
+$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub CreateArticle {
@@ -544,10 +544,11 @@ sub GetArticle {
     # --
     $Self->{DBObject}->Prepare(
       SQL => "SELECT sa.ticket_id, sa.a_from, sa.a_to, sa.a_cc, sa.a_subject, sa.a_reply_to, ".
-        " sa. a_message_id, sa.a_body, " .
+        " sa. a_message_id, sa.a_body, ".
         " st.create_time_unix, sp.name, sd.name, sq.name, sq.id, sa.create_time, ".
-        " sa.a_content_type, sa.create_by, st.tn, ast.name, st.customer_id, st.until_time " .
-        " FROM " .
+        " sa.a_content_type, sa.create_by, st.tn, ast.name, st.customer_id, ".
+        " st.until_time, sp.id ".
+        " FROM ".
         " article sa, ticket st, ticket_priority sp, ticket_state sd, queue sq, ".
         " article_sender_type ast" .
         " where " . 
@@ -576,6 +577,7 @@ sub GetArticle {
         $Data{Body} = $Row[7];
         $Data{Age} = time() - $Row[8];
         $Data{Priority} = $Row[9];
+        $Data{PriorityID} = $Row[20];
         $Data{State} = $Row[10];
         $Data{Queue} = $Row[11];
         $Data{QueueID} = $Row[12];

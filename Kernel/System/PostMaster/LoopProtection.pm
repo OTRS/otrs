@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/LoopProtection.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LoopProtection.pm,v 1.8 2003-01-18 09:22:36 martin Exp $
+# $Id: LoopProtection.pm,v 1.9 2003-02-08 15:09:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,8 +14,8 @@ package Kernel::System::PostMaster::LoopProtection;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
-$VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
+$VERSION = '$Revision: 1.9 $';
+$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub new {

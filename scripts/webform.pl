@@ -4,7 +4,7 @@
 # X-OTRS-Queue header for an OTRS system (x-headers for dispatching!).
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: webform.pl,v 1.2 2002-09-01 13:03:26 martin Exp $
+# $Id: webform.pl,v 1.3 2003-02-08 15:11:52 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,8 +27,8 @@ use CGI::Carp qw(fatalsToBrowser);
 # Simple Common Gateway Interface Class
 use CGI;
 
-my $VERSION = '$Revision: 1.2 $';
-$VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
+my $VERSION = '$Revision: 1.3 $';
+$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 
 # --

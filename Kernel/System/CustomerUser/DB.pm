@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.6 2003-02-03 19:33:20 martin Exp $
+# $Id: DB.pm,v 1.7 2003-02-08 15:09:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,8 +15,8 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.6 $';
-$VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
+$VERSION = '$Revision: 1.7 $';
+$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub new {
@@ -180,10 +180,10 @@ sub CustomerUserDataGet {
         return;
     }
     if (! exists $Data{UserLogin} && $Param{CustomerID}) {
-        $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "Panic! No UserData for customer id: '$Param{CustomerID}'!!!",
-        );
+#        $Self->{LogObject}->Log(
+#          Priority => 'notice',
+#          Message => "Panic! No UserData for customer id: '$Param{CustomerID}'!!!",
+#        );
         return;
     }
     # compat!

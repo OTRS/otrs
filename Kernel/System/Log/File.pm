@@ -2,7 +2,7 @@
 # Kernel/System/Log/File.pm - file log backend 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: File.pm,v 1.5 2003-01-03 00:34:23 martin Exp $
+# $Id: File.pm,v 1.6 2003-02-08 15:09:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,8 +14,8 @@ package Kernel::System::Log::File;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $ ';
-$VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/g;
+$VERSION = '$Revision: 1.6 $ ';
+$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 umask 002;
 
