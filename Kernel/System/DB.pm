@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.38 2004-02-29 19:09:13 martin Exp $
+# $Id: DB.pm,v 1.39 2004-06-22 08:01:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use DBI;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.39 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -90,6 +90,16 @@ sub new {
     $Self->{DSN}  = $Param{DatabaseDSN} || $Self->{ConfigObject}->Get('DatabaseDSN');
     $Self->{USER} = $Param{DatabaseUser} || $Self->{ConfigObject}->Get('DatabaseUser');
     $Self->{PW}   = $Param{DatabasePw} || $Self->{ConfigObject}->Get('DatabasePw');
+    # decrypt pw (if needed)
+    if ($Self->{PW} =~ /^\{(.*)\}$/) {
+        my $Length = length($1)*4;
+        $Self->{PW} = pack("h$Length", $1);
+        $Self->{PW} = unpack("B$Length", $Self->{PW});
+        $Self->{PW} =~ s/1/A/g;
+        $Self->{PW} =~ s/0/1/g;
+        $Self->{PW} =~ s/A/0/g;
+        $Self->{PW} = pack("B$Length", $Self->{PW});
+    }
     # get database type (auto detection)
     if ($Self->{DSN} =~ /:mysql/i) {
         $Self->{'DB::Type'} = 'mysql';
@@ -588,7 +598,7 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.38 $ $Date: 2004-02-29 19:09:13 $
+$Revision: 1.39 $ $Date: 2004-06-22 08:01:27 $
 
 =cut
 
