@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: AgentZoomHead.dtl,v 1.10 2004-04-22 13:17:23 martin Exp $
+# $Id: AgentZoomHead.dtl,v 1.11 2004-05-30 16:41:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -26,6 +26,9 @@
 # --
 # check lock link
 # --
+# should we show the back link
+<dtl if ($Env{"LastScreenQueue"} ne "") { $Data{"Back"} = "<a href="$Env{"Baselink"}$Env{"LastScreenQueue"}" onmouseover="window.status='$Text{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Back"}">$Text{"Back"}</a> - "; }>
+$Data{"Back"}
 <dtl set $Data{"LockText"} = "Lock">
 <dtl if ($Data{"Lock"} eq "lock") { $Data{"LockText"} = "Unlock"; }>
 <dtl set $Data{"LockLink"} = "Action=AgentLock&Subaction=Unlock&TicketID=$Data{"TicketID"}">

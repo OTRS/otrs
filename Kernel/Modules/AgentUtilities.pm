@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.51 2004-05-02 07:53:53 martin Exp $
+# $Id: AgentUtilities.pm,v 1.52 2004-05-30 16:40:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Priority;
 use Kernel::System::State;
     
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.51 $';
+$VERSION = '$Revision: 1.52 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
     
 # --
@@ -142,6 +142,18 @@ sub Run {
     }
     # show result site
     if ($Self->{Subaction} eq 'Search' && !$Self->{EraseTemplate}) {
+        my $URL = "Action=AgentUtilities&Subaction=Search&Profile=$Self->{Profile}&SortBy=$Self->{SortBy}&Order=$Self->{Order}&TakeLastSearch=$Self->{TakeLastSearch}&StartHit=$Self->{StartHit}";
+        # store last queue screen
+        $Self->{SessionObject}->UpdateSessionID(
+            SessionID => $Self->{SessionID},
+            Key => 'LastScreenQueue',
+            Value => $URL,
+        );
+        $Self->{SessionObject}->UpdateSessionID(
+            SessionID => $Self->{SessionID},
+            Key => 'LastScreen',
+            Value => $URL,
+        );
         # fill up profile name (e.g. with last-search)
         if (!$Self->{Profile} || !$Self->{SaveProfile}) {
             $Self->{Profile} = 'last-search';
@@ -250,6 +262,8 @@ sub Run {
             %GetParam,
         );
 
+        my @CSVHead = ();
+        my @CSVData = ();
         foreach (@ViewableIDs) {
           $Counter++;
           # build search result
@@ -307,15 +321,24 @@ sub Run {
                 );
             }
             elsif ($GetParam{ResultForm} eq 'CSV') {
-                # csv quote
-                foreach (keys %Data) {
-                    $Data{$_} =~ s/"/""/g if ($Data{$_});
-                }
-                $Param{StatusTable} .= $Self->MaskCSVResult(
+                # merge row data
+                $Data{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Data{Age}, Space => ' ');
+                # customer info string 
+                $Data{CustomerName} = '('.$Data{CustomerName}.')' if ($Data{CustomerName});
+                my %Info = (
                     %Data, 
                     %UserInfo,
                     AccountedTime => $Self->{TicketObject}->TicketAccountedTimeGet(TicketID => $_),
                 );
+                # csv quote
+                if (!@CSVHead) {
+                    @CSVHead = @{$Self->{ConfigObject}->Get('AgentUtilCSVData')};
+                }
+                my @Data = ();
+                foreach (@CSVHead) {
+                    push (@Data, $Info{$_});
+                }
+                push (@CSVData, \@Data);
             }
             else {
                 # Condense down the subject
@@ -366,6 +389,10 @@ sub Run {
             return $Output;
         }
         elsif ($GetParam{ResultForm} eq 'CSV') {
+            my $CSV = $Self->{LayoutObject}->OutputCSV(
+                Head => \@CSVHead,
+                Data => \@CSVData,
+            );
             # return csv to download
             my $CSVFile = 'search';
             my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = localtime(time);
@@ -378,7 +405,7 @@ sub Run {
             return $Self->{LayoutObject}->Attachment(
                 Filename => $CSVFile."_"."$Y-$M-$D"."_"."$h-$m.csv",
                 ContentType => "text/csv",
-                Content => $Param{StatusTable},
+                Content => $CSV,
             );
         }
         else {
@@ -658,19 +685,6 @@ sub MaskShortResult {
             Data => \%Param,
         );
     }
-}
-# --
-sub MaskCSVResult {
-    my $Self = shift;
-    my %Param = @_;
-    $Param{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Param{Age}, Space => ' ');
-    # customer info string 
-    $Param{CustomerName} = '('.$Param{CustomerName}.')' if ($Param{CustomerName});
-    # create & return output
-    return $Self->{LayoutObject}->Output(
-        TemplateFile => 'AgentUtilSearchResultCSV', 
-        Data => \%Param,
-    );
 }
 # --
 sub MaskPrintResult {
