@@ -1,0 +1,67 @@
+# --
+# AgentUtilSearchByText.dtl - provides HTML form for AgentUtilities.pm
+# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: AgentUtilSearchByText.dtl,v 1.1 2002-07-14 23:52:54 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start form -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+<tr>
+  <td align="left" bgcolor="$Env{"BGTableColor0"}">
+  <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Fulltext search"}$Env{"Box1"}</font></b>
+  </font>
+  </td>
+</tr>
+<tr bgcolor="$Env{"BGTableColor1"}">
+  <td align="center" valign="top">
+
+<p>
+
+$Text{"Fulltext search (e. g. "Mar*in" or "Baue*" or "martin+hallo")"}
+<form action="$Env{"CGIHandle"}" method="post">
+<input type="hidden" name="Action" value="AgentUtilities">
+<input type="hidden" name="Subaction" value="SearchByText">
+<input type="hidden" name="SessionID" value="$Env{"SessionID"}">
+<input type="text" name="Want" size="30" value="$Data{"What"}">
+<br>
+$Text{"Search in"}:
+<table>
+  <tr>
+    <td>$Text{"From"}</td>
+    <td><input type="checkbox" name="What" value="From" $Data{"FromCheckBox"}></td>
+    <td>$Text{"To"}</td>
+    <td><input type="checkbox" name="What" value="To" $Data{"ToCheckBox"}></td>
+  </tr>
+  <tr>
+    <td>$Text{"Subject"}</td>
+    <td><input type="checkbox" name="What" value="Subject" $Data{"SubjectCheckBox"}></td>
+    <td>$Text{"Cc"}</td>
+    <td><input type="checkbox" name="What" value="Cc" $Data{"CcCheckBox"}></td>
+  </tr>
+  <tr>
+    <td>$Text{"Body"}</td>
+    <td><input type="checkbox" name="What" value="Body" $Data{"BodyCheckBox"}></td>
+    <td>$Text{"CustomerID"}</td>
+    <td><input type="checkbox" name="What" value="CustomerID" $Data{"CustomerIDCheckBox"}></td>
+  </tr>
+  <tr>
+    <td>$Text{"Ticket  free text"}</td>
+    <td><input type="checkbox" name="What" value="TicketFreeText" $Data{"TicketFreeTextCheckBox"}></td>
+    <td>$Text{"Article free text"}</td>
+    <td><input type="checkbox" name="What" value="ArticleFreeText" $Data{"ArticleFreeTextCheckBox"}></td>
+  </tr>
+</table>
+<input type="submit" value="$Text{"go"}">
+</form>
+
+</p>
+
+  </td>
+</tr>
+</table>
+<!-- end form -->
+
