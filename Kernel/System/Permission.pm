@@ -2,7 +2,7 @@
 # Kernel/System/Permission.pm - to control the access permissions 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Permission.pm,v 1.8 2003-03-06 22:11:58 martin Exp $
+# $Id: Permission.pm,v 1.9 2003-03-08 09:13:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Permission;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -31,11 +31,9 @@ sub new {
     }
 
     # check needed Opjects
-    foreach ('DBObject', 'LogObject', 'UserObject') {
+    foreach (qw(DBObject LogObject UserObject GroupObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
-
-    $Self->{DBObject} = $Param{DBObject};
 
     # all sections <-> groups   
     $Self->{PermissionAdmin}   = 'admin';
