@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.62 2004-07-09 06:46:18 martin Exp $
+# $Id: AgentQueueView.pm,v 1.63 2004-07-16 12:16:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.62 $';
+$VERSION = '$Revision: 1.63 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -260,11 +260,11 @@ sub ShowTicket {
                     );
                 }
                 # run module
-                my %Data = $Object->Check(Article=> \%Article, %Param, Config => $Jobs{$Job});
-                if (%Data) {
+                my @Data = $Object->Check(Article=> \%Article, %Param, Config => $Jobs{$Job});
+                foreach my $DataRef (@Data) {
                     $Self->{LayoutObject}->Block(
                         Name => 'ArticleOption',
-                        Data => \%Data,
+                        Data => $DataRef,
                     );
                 }
                 # filter option
