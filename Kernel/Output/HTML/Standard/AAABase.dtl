@@ -41,10 +41,13 @@ $Text{" 7 minutes"}
 $Text{"10 minutes"}
 $Text{"15 minutes"}
 
+$Text{"Mr."}
+$Text{"Mrs."}
 $Text{"Next"}
 $Text{"Back"}
 $Text{"Next..."}
 $Text{"...Back"}
+$Text{"-none-"}
 $Text{"none"}
 $Text{"none!"}
 $Text{"none - answered"}
@@ -139,6 +142,7 @@ $Text{"No entry found!"}
 $Text{"Session has timed out. Please log in again."}
 $Text{"No Permission!"}
 $Text{"To: (%s) replaced with database email!"}
+$Text{"Cc: (%s) added database email!"}
 $Text{"Don't show closed Tickets"}
 $Text{"Show closed Tickets"}
 $Text{"New Article"}
