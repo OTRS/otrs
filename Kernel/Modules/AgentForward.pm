@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentForward.pm - to forward a message
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentForward.pm,v 1.7 2002-07-21 22:55:30 martin Exp $
+# $Id: AgentForward.pm,v 1.8 2002-07-31 23:17:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentForward;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -48,6 +48,7 @@ sub new {
     $Self->{ArticleID} = $Self->{ParamObject}->GetParam(Param => 'ArticleID') || '';
     $Self->{ArticleTypeID} = $Self->{ParamObject}->GetParam(Param => 'ArticleTypeID') || '';
     $Self->{NextStateID} = $Self->{ParamObject}->GetParam(Param => 'ComposeStateID') || '';
+    $Self->{TimeUnits} = $Self->{ParamObject}->GetParam(Param => 'TimeUnits') || 0;
     return $Self;
 }
 # --
@@ -231,8 +232,9 @@ sub SendEmail {
     my $NextStateID = $Self->{NextStateID} || '??';
     my $NextState = $Self->{TicketObject}->StateIDLookup(StateID => $NextStateID);
     my $UserID = $Self->{UserID};
-    
+    # --    
     # send email
+    # --
     my $EmailObject = Kernel::System::EmailSend->new(
         DBObject => $Self->{DBObject},
         ConfigObject => $Self->{ConfigObject},
@@ -257,14 +259,29 @@ sub SendEmail {
         HistoryType => 'Forward',
         HistoryComment => "Forwarded to '$Self->{To}, $Self->{Cc}'",
     )) {
+      # --
+      # time accounting
+      # --
+      if ($Self->{TimeUnits}) {
+          $Self->{TicketObject}->AccountTime(
+            TicketID => $TicketID,
+            ArticleID => $ArticleID,
+            TimeUnit => $Self->{TimeUnits},
+            UserID => $UserID,
+          );
+      }
+      # --
       # set state
+      # --
       $Self->{TicketObject}->SetState(
         TicketID => $TicketID,
         ArticleID => $ArticleID,
         State => $NextState,
         UserID => $UserID,
       );
+      # --
       # should i set an unlock?
+      # --
       if ($NextState =~ /^close/i) {
         $Self->{TicketObject}->SetLock(
             TicketID => $TicketID,
@@ -272,16 +289,18 @@ sub SendEmail {
             UserID => $UserID,
         );
       }
-      # make redirect
-      $Output .= $Self->{LayoutObject}->Redirect(
+      # --
+      # redirect
+      # --
+      return $Self->{LayoutObject}->Redirect(
         OP => "&Action=$NextScreen&QueueID=$QueueID",
       );
-      return $Output;
     }
     else {
         $Output = $Self->{LayoutObject}->Header(Title => 'Error');
         $Output .= $Self->{LayoutObject}->Error();
         $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
 }
 # --

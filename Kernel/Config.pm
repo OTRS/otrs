@@ -2,7 +2,7 @@
 # Kernel/Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.49 2002-07-25 21:45:09 martin Exp $
+# $Id: Config.pm,v 1.50 2002-07-31 23:17:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.49 $';
+$VERSION = '$Revision: 1.50 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -471,6 +471,11 @@ Your OpenTRS Notification Master
     # (Use the onchange=submit() funktion for ticket move in
     # QueueView and TicketZoom) [default: 1] [0|1]
     $Self->{OnChangeSubmit} = 1;
+    # TimeUnits
+    # (your choice of your used time units, minutes, hours, work units, ...)
+#    $Self->{TimeUnits} = ' (minutes)';
+#    $Self->{TimeUnits} = ' (hours)';
+    $Self->{TimeUnits} = ' (work units)';
 
     # ----------------------------------------------------#
     # defaults for add note                               #

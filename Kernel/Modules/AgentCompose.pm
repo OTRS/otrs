@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.18 2002-07-21 21:11:00 martin Exp $
+# $Id: AgentCompose.pm,v 1.19 2002-07-31 23:17:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentCompose;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -55,6 +55,7 @@ sub new {
     $Self->{ArticleID} = $Self->{ParamObject}->GetParam(Param => 'ArticleID') || ''; 
     $Self->{NextStateID} = $Self->{ParamObject}->GetParam(Param => 'ComposeStateID') || '';
     $Self->{Answered} = $Self->{ParamObject}->GetParam(Param => 'Answered') || '';
+    $Self->{TimeUnits} = $Self->{ParamObject}->GetParam(Param => 'TimeUnits') || 0;
     return $Self;
 }
 # --
@@ -82,8 +83,10 @@ sub Form {
   
     # start with page ...
     $Output .= $Self->{LayoutObject}->Header(Title => 'Compose');
- 
+
+    # -- 
     # check needed stuff
+    # --
     if (!$TicketID) {
         $Output .= $Self->{LayoutObject}->Error(
                 Message => "Got no TicketID!",
@@ -163,7 +166,8 @@ sub Form {
     my $TicketHook = $Self->{ConfigObject}->Get('TicketHook') || '';
     $Data{Subject} =~ s/\[$TicketHook: $Tn\] //g;
     $Data{Subject} =~ s/^(.{30}).*$/$1 [...]/;
-    $Data{Subject} = "[$TicketHook: $Tn] RE: " . $Data{Subject};
+    $Data{Subject} =~ s/^Re: //ig;
+    $Data{Subject} = "[$TicketHook: $Tn] Re: " . $Data{Subject};
 
     # --
     # prepare to (ReplyTo!) ...
@@ -270,7 +274,17 @@ sub SendEmail {
         InReplyTo => $Self->{InReplyTo},
         Charset => $Self->{UserCharset},
     )) {
-
+        # --
+        # time accounting
+        # --
+        if ($Self->{TimeUnits}) {
+          $Self->{TicketObject}->AccountTime(
+            TicketID => $TicketID,
+            ArticleID => $ArticleID,
+            TimeUnit => $Self->{TimeUnits},
+            UserID => $UserID,
+          );
+        }
         # --
         # set state
         # --
@@ -301,12 +315,11 @@ sub SendEmail {
           );
       }
       # --
-      # make redirect
+      # redirect
       # --
-      $Output .= $Self->{LayoutObject}->Redirect(
+      return $Self->{LayoutObject}->Redirect(
           OP => "&Action=$NextScreen&QueueID=$QueueID",
       );
-      return $Output;
     }
     else {
       # --

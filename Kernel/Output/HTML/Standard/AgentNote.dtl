@@ -2,7 +2,7 @@
 # NoteForm.dtl - provides HTML form for note mask
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.dtl,v 1.8 2002-06-16 20:43:33 martin Exp $
+# $Id: AgentNote.dtl,v 1.9 2002-07-31 23:17:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -43,6 +43,9 @@ $Text{"$Config{"DefaultNoteText"}"}
   </tr>
   <tr>
     <td>$Text{"Note type"}:</td><td>$Data{"NoteStrg"}</td>
+  </tr>
+  <tr>
+    <td>$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td><td><input type="text" name="TimeUnits" value="" size="3"></td>
   </tr>
   </table>
 <br>

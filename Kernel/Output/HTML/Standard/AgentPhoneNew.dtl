@@ -2,7 +2,7 @@
 # AgentPhoneNew.dtl - provides HTML form for phone
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhoneNew.dtl,v 1.1 2002-05-09 23:44:17 martin Exp $
+# $Id: AgentPhoneNew.dtl,v 1.2 2002-07-31 23:17:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -49,6 +49,9 @@ $Text{"$Config{"DefaultPhoneNewNoteText"}"}
   </tr>
   <tr>
     <td>$Text{"Next ticket state"}:</td><td>$Data{"NextStatesStrg"}</td>
+  </tr>
+  <tr>
+    <td>$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td><td><input type="text" name="TimeUnits" value="" size="3"></td>
   </tr>
   </table>
 <br>

@@ -2,7 +2,7 @@
 -- Update an existing OpenTRS database to the current state.
 -- Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate.mysql.sql,v 1.4 2002-07-13 12:32:46 martin Exp $
+-- $Id: DBUpdate.mysql.sql,v 1.5 2002-07-31 23:17:23 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate.mysql.sql | mysql -f -u root otrs
@@ -12,7 +12,31 @@
 -- --
 -- BETA 7 upgrate
 -- --
+-- new time accounting table
+CREATE TABLE time_accounting
+(
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    name VARCHAR (200) NOT NULL,
+    ticket_id BIGINT NOT NULL,
+    article_id BIGINT,
+    time_unit SMALLINT NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    INDEX time_accouning_ticket_id(ticket_id)
 
+);
+-- new ticket history type
+INSERT INTO ticket_history_type
+        (name, valid_id, create_by, create_time, change_by, change_time)
+        VALUES
+        ('TimeAccounting', 1, 1, current_timestamp, 1, current_timestamp);
+
+-- --
+-- BETA 5 upgrate
+-- --
 -- new article types
 INSERT INTO article_type
         (name, valid_id, create_by, create_time, change_by, change_time)

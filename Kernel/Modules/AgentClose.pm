@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentClose.pm - to close a ticket
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentClose.pm,v 1.10 2002-07-13 12:21:43 martin Exp $
+# $Id: AgentClose.pm,v 1.11 2002-07-31 23:17:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentClose;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -114,11 +114,13 @@ sub Run {
                 delete $NoteTypes{$_};
             }
         }
- 
+        # -- 
         # html header
+        # --
         $Output .= $Self->{LayoutObject}->Header(Title => 'Close');
-
+        # --
         # get lock state
+        # --
         my $LockState = $Self->{TicketObject}->GetLockState(TicketID => $TicketID) || 0;
         if (!$LockState) {
             $Self->{TicketObject}->SetLock(
@@ -136,7 +138,9 @@ sub Run {
             }
 
         }
+        # --
         # print form ...
+        # --
         $Output .= $Self->{LayoutObject}->AgentClose(
             TicketID => $TicketID,
             BackScreen => $Self->{BackScreen},
@@ -148,6 +152,7 @@ sub Run {
             NoteTypesStrg => \%NoteTypes,
         );
         $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
     elsif ($Subaction eq 'Store') {
         # store action
@@ -155,6 +160,7 @@ sub Run {
         my $NoteID = $Self->{ParamObject}->GetParam(Param => 'CloseNoteID');
         my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject') || '';
         my $Text = $Self->{ParamObject}->GetParam(Param => 'Text');
+        my $TimeUnits = $Self->{ParamObject}->GetParam(Param => 'TimeUnits') || 0;
         if (my $ArticleID = $Self->{ArticleObject}->CreateArticle(
             TicketID => $TicketID,
             ArticleTypeID => $NoteID,
@@ -168,18 +174,35 @@ sub Run {
             HistoryType => 'AddNote',
             HistoryComment => 'Close Note added.',
         )) {
+          # --
+          # time accounting
+          # --
+          if ($TimeUnits) {
+            $Self->{TicketObject}->AccountTime(
+              TicketID => $TicketID,
+              ArticleID => $ArticleID,
+              TimeUnit => $TimeUnits,
+              UserID => $UserID,
+            );
+          }
+          # --
+          # set state
+          # --
           $Self->{TicketObject}->SetState(
             UserID => $UserID,
             TicketID => $TicketID,
             ArticleID => $ArticleID,
             StateID => $StateID,
           );
+          # --
+          # set lock
+          # --
           $Self->{TicketObject}->SetLock(
             UserID => $UserID,
             TicketID => $TicketID,
             Lock => 'unlock'
           );
-          $Output .= $Self->{LayoutObject}->Redirect(OP => "&Action=$NextScreen&QueueID=$QueueID");
+          return $Self->{LayoutObject}->Redirect(OP => "&Action=$NextScreen&QueueID=$QueueID");
         }
         else {
           # error screen
@@ -188,6 +211,7 @@ sub Run {
             Comment => 'Please contact your admin'
           );
           $Output .= $Self->{LayoutObject}->Footer();
+          return $Output;
         }
     }
     else {
@@ -198,8 +222,8 @@ sub Run {
             Comment => 'Please contact your admin'
         );
         $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
-    return $Output;
 }
 
 1;

@@ -2,13 +2,42 @@
 # AgentCompose.dtl - provides HTML form for AgentCompose 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentForward.dtl,v 1.3 2002-05-10 00:12:35 martin Exp $
+# $Id: AgentForward.dtl,v 1.4 2002-07-31 23:17:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-<!-- start form -->
+<!-- start forward form -->
+
+<!-- This java script is just for nice to have funktions! -->
+<script language="JavaScript" type="text/javascript">
+<!--
+function submit_forward()
+{
+    if (document.forward.To.value == "") {
+        alert('$Text{"A message should have a To: recipient!"}');
+        document.forward.To.focus();
+        return false;
+    }
+    else if (document.forward.To.value.indexOf('@') == -1) {
+        alert('$Text{"You need a email address (e. g. customer@example.com) in To:!"}');
+        document.forward.To.focus();
+        return false;
+    }
+    else if (document.forward.Subject.value == "") {
+        alert('$Text{"A message should have a subject!"}');
+        document.forward.Subject.focus();
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+//-->
+</script>
+
+
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
 <tr bgcolor="$Env{"BGTableColor2"}">
   <td align="left"> 
@@ -18,7 +47,7 @@
 <tr bgcolor="$Env{"BGTableColor1"}">
   <td align="left" valign="top">
 
-  <form action="$Env{"CGIHandle"}" method="post">
+  <form action="$Env{"CGIHandle"}" method="post" name="forward">
   <input type="hidden" name="Action" value="AgentForward">
   <input type="hidden" name="Subaction" value="SendEmail">
   <input type="hidden" name="SessionID" value="$Env{"SessionID"}">
@@ -68,14 +97,16 @@ $Data{"Body"}
     <tr>
       <td>$Text{"Article type"}:</td><td>$Data{"ArticleTypesStrg"}</td>
     </tr>
-
+    <tr>
+      <td>$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td><td><input type="text" name="TimeUnits" value="" size="3"></td>
+    </tr>
   </table>
   <br>
-  <input type="submit" value="$Text{"Send mail!"}">
+  <input type="submit" value="$Text{"Send mail!"}" onclick="return submit_forward();">
   </form>
 
   </td> 
 </tr>
 </table>
-<!-- end form -->
+<!-- end forward form -->
 

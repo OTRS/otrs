@@ -3,20 +3,20 @@
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: TicketZoom.dtl,v 1.9 2002-07-18 23:28:30 martin Exp $
+# $Id: TicketZoom.dtl,v 1.10 2002-07-31 23:17:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-<!-- start ticket -->
+<!-- start ticket $Data{"TicketNumber"} -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
-  <td align="left" bgcolor="$Env{"BGTableColor0"}" width="60%">
+  <td align="left" bgcolor="$Env{"BGTableColor0"}" width="70%">
   <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Zoom"} $Config{"TicketHook"}: $Data{"TicketNumber"}$Env{"Box1"}</font></b>
   </font>
   </td>
-  <td align="right" bgcolor="$Env{"BGTableColor0"}" width="40%">
+  <td align="right" bgcolor="$Env{"BGTableColor0"}" width="30%">
   <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Age"}: $Data{"Age"}$Env{"Box1"}</font></b>
   </font>
   </td>
@@ -30,6 +30,7 @@
   <a href="$Env{"Baselink"}&Action=AgentOwner&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Text{"Owner"}</a> -
   <a href="$Env{"Baselink"}&Action=AgentNote&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Text{"Add Note"}</a> -
   <a href="$Env{"Baselink"}&Action=AgentCustomer&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Text{"Customer"}</a> -
+  <a href="$Env{"Baselink"}&Action=AgentTimeAccounting&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Text{"Time"}</a> -
   <a href="$Env{"Baselink"}&Action=AgentClose&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Text{"Close"}</a>
   </td>
   <td align="right" bgcolor="$Env{"BGTableColor2"}">
@@ -70,14 +71,17 @@ $Data{"Article::Text"}
   </pre>
   </td> 
   <td width="25%" bgcolor="$Env{"BGTableColor2"}" align="center" valign="top">
-    <br>
-    <table border="0">
+    <table border="0" cellspacing="0" cellpadding="1" width="95%">
     <tr><td><b>$Text{"State"}:</b></td><td><font color="red">$Data{"State"}</font></td></tr>
     <tr><td><b>$Text{"Priority"}:</b></td><td><font color="red">$Data{"Priority"}</font></td></tr>
     <tr><td><b>$Text{"Queue"}:</b></td><td><font color="red">$Data{"Queue"}</font></td></tr>
     <tr><td><b>$Text{"Lock"}:</b></td><td><font color="red">$Data{"Lock"}</font></td></tr>
     <tr><td><b>$Text{"CustomerID"}:</b></td><td>$Data{"CustomerID"}</td></tr>
+    <tr><td><b>$Text{"Accounted time"}:</b></td><td>$Data{"TicketTimeUnits"}</td></tr>
     <tr><td><b>$Text{"Time till escalation"}:</b></td><td>$Data{"TicketOverTime"}</td></tr>
+    </table>
+    <table border="0" cellspacing="0" cellpadding="1" width="95%">
+    <tr><td><b>$Text{"Owner"}:</b></td><td>$Data{"Owner"}</td></tr>
     <tr><td colspan="2"></td></tr>
     <tr><td colspan="2">
    <p align="left">
@@ -96,12 +100,6 @@ $Data{"Article::Text"}
      </td></tr></table>
    </p>
 
-   <p>
-     <b>$Text{"Owner"}:</b>
-     <br>
-     $Data{"Owner"}
-   </p>
- 
    <p>
      <b>$Text{"Article"}</b>
      <br>

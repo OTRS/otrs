@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.7 2002-07-17 22:35:10 martin Exp $
+# $Id: AgentPhone.pm,v 1.8 2002-07-31 23:17:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPhone;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -108,13 +108,17 @@ sub Run {
         # get lock state && permissions
         my $LockState = $Self->{TicketObject}->GetLockState(TicketID => $TicketID) || 0;
         if (!$LockState) {
+          # --
           # set owner
+          # --
           $Self->{TicketObject}->SetOwner(
             TicketID => $TicketID,
             UserID => $UserID,
             NewUserID => $UserID,
           );
+          # --
           # set lock
+          # --
           if ($Self->{TicketObject}->SetLock(
             TicketID => $TicketID,
             Lock => 'lock',
@@ -138,8 +142,9 @@ sub Run {
             return $Output;
           }
         }
-
+        # --
         # print form ...
+        # --
         $Output .= $Self->{LayoutObject}->AgentPhone(
             TicketID => $TicketID,
             QueueID => $QueueID,
@@ -150,6 +155,7 @@ sub Run {
             NextStates => \%NextStates,
         );
         $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
     elsif ($Subaction eq 'Store') {
         my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject') || 'Note!';
@@ -158,6 +164,7 @@ sub Run {
         my $NextState = $Self->{TicketObject}->StateIDLookup(StateID => $NextStateID);
         my $ArticleTypeID = $Self->{ParamObject}->GetParam(Param => 'NoteID');
         my $Answered = $Self->{ParamObject}->GetParam(Param => 'Answered') || '';
+        my $TimeUnits = $Self->{ParamObject}->GetParam(Param => 'TimeUnits') || 0;
         if (my $ArticleID = $Self->{ArticleObject}->CreateArticle(
             TicketID => $TicketID,
 #            ArticleTypeID => $ArticleTypeID,
@@ -173,6 +180,17 @@ sub Run {
             HistoryComment => $Self->{ConfigObject}->Get('DefaultPhoneHistoryComment'),
         )) {
           # --
+          # time accounting
+          # --
+          if ($TimeUnits) {
+            $Self->{TicketObject}->AccountTime(
+              TicketID => $TicketID,
+              ArticleID => $ArticleID,
+              TimeUnit => $TimeUnits,
+              UserID => $UserID,
+            );
+          }
+          # --
           # set state
           # --
           $Self->{TicketObject}->SetState(
@@ -181,7 +199,6 @@ sub Run {
             State => $NextState,
             UserID => $UserID,
           );
-
           # --
           # set answerd
           # --
@@ -190,7 +207,6 @@ sub Run {
             UserID => $UserID,
             Answered => $Answered,
          );
-
          # --
          # should i set an unlock?
          # --
@@ -201,11 +217,10 @@ sub Run {
              UserID => $UserID,
            );
          }
-
          # --
          # redirect to zoom view
          # --        
-         $Output .= $Self->{LayoutObject}->Redirect(
+         return $Self->{LayoutObject}->Redirect(
             OP => "&Action=$NextScreen&QueueID=$QueueID&TicketID=$TicketID",
          );
       }
@@ -213,6 +228,7 @@ sub Run {
         $Output = $Self->{LayoutObject}->Header(Title => 'Error');
         $Output .= $Self->{LayoutObject}->Error();
         $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
       }
     }
     elsif ($Subaction eq 'StoreNew') {
@@ -223,6 +239,7 @@ sub Run {
         my $ArticleTypeID = $Self->{ParamObject}->GetParam(Param => 'NoteID');
         my $NewQueueID = $Self->{ParamObject}->GetParam(Param => 'NewQueueID') || 4;
         my $From = $Self->{ParamObject}->GetParam(Param => 'From') || '??';
+        my $TimeUnits = $Self->{ParamObject}->GetParam(Param => 'TimeUnits') || 0;
         # create new ticket
         my $NewTn = $Self->{TicketObject}->CreateTicketNr();
 
@@ -253,22 +270,39 @@ sub Run {
             HistoryType => $Self->{ConfigObject}->Get('DefaultPhoneNewHistoryType'),
             HistoryComment => $Self->{ConfigObject}->Get('DefaultPhoneNewHistoryComment'),
         )) {
-        # should i set an unlock?
-        if ($NextState =~ /^close/i) {
-          $Self->{TicketObject}->SetLock(
-            TicketID => $TicketID,
-            Lock => 'unlock',
-            UserID => $UserID,
-          );
-        }
-        $Output .= $Self->{LayoutObject}->Redirect(
+          # --
+          # time accounting
+          # --
+          if ($TimeUnits) {
+            $Self->{TicketObject}->AccountTime(
+              TicketID => $TicketID,
+              ArticleID => $ArticleID,
+              TimeUnit => $TimeUnits,
+              UserID => $UserID,
+            );
+          }
+          # --
+          # should i set an unlock?
+          # --
+          if ($NextState =~ /^close/i) {
+            $Self->{TicketObject}->SetLock(
+              TicketID => $TicketID,
+              Lock => 'unlock',
+              UserID => $UserID,
+            );
+          }
+          # --
+          # redirect
+          # --
+          return $Self->{LayoutObject}->Redirect(
             OP => "&Action=$NextScreen&QueueID=$QueueID&TicketID=$TicketID",
-        );
+          );
       }
       else {
         $Output = $Self->{LayoutObject}->Header(Title => 'Error');
         $Output .= $Self->{LayoutObject}->Error();
         $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
       }
     }
     else {
@@ -278,8 +312,8 @@ sub Run {
             Comment => 'Please contact your admin',
         );
         $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
-    return $Output;
 }
 # --
 

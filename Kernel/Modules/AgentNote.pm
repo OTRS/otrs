@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentNote.pm - to add notes to a ticket 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.pm,v 1.9 2002-07-15 00:27:03 martin Exp $
+# $Id: AgentNote.pm,v 1.10 2002-07-31 23:17:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentNote;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -104,11 +104,13 @@ sub Run {
             NoteTypes => \%NoteTypes,
         );
         $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
     elsif ($Subaction eq 'Store') {
         my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject') || 'Note!';
         my $Text = $Self->{ParamObject}->GetParam(Param => 'Note');
         my $ArticleTypeID = $Self->{ParamObject}->GetParam(Param => 'NoteID');
+        my $TimeUnits = $Self->{ParamObject}->GetParam(Param => 'TimeUnits') || 0; 
         if (my $ArticleID = $Self->{ArticleObject}->CreateArticle(
             TicketID => $TicketID,
             ArticleTypeID => $ArticleTypeID,
@@ -122,7 +124,21 @@ sub Run {
             HistoryType => 'AddNote',
             HistoryComment => 'Note added.',
         )) {
-          $Output = $Self->{LayoutObject}->Redirect(
+          # --
+          # time accounting
+          # --
+          if ($TimeUnits) {
+            $Self->{TicketObject}->AccountTime(
+              TicketID => $TicketID,
+              ArticleID => $ArticleID,
+              TimeUnit => $TimeUnits,
+              UserID => $UserID,
+            );
+          }
+          # --
+          # redirect
+          # --
+          return $Self->{LayoutObject}->Redirect(
             OP => "&Action=$NextScreen&QueueID=$QueueID&TicketID=$TicketID",
           ); 
         }
@@ -130,6 +146,7 @@ sub Run {
           $Output = $Self->{LayoutObject}->Header(Title => 'Error');
           $Output .= $Self->{LayoutObject}->Error();
           $Output .= $Self->{LayoutObject}->Footer();
+          return $Output;
         }
     }
     else {
@@ -139,8 +156,8 @@ sub Run {
             Comment => 'Please contact your admin',
         );
         $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
-    return $Output;
 }
 # --
 
