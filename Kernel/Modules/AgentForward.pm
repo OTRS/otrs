@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentForward.pm - to forward a message
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentForward.pm,v 1.25 2003-09-28 13:53:55 martin Exp $
+# $Id: AgentForward.pm,v 1.26 2003-11-19 01:35:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::SystemAddress;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -104,12 +104,6 @@ sub Form {
  
     my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $Self->{TicketID});
     my $QueueID = $Self->{TicketObject}->GetQueueIDOfTicketID(TicketID => $Self->{TicketID});
-    my $QueueObject = Kernel::System::Queue->new(
-        QueueID => $QueueID,
-        DBObject => $Self->{DBObject},
-        ConfigObject => $Self->{ConfigObject},
-        LogObject => $Self->{LogObject},
-    );
 
     # get lock state && permissions
     if (!$Self->{TicketObject}->IsTicketLocked(TicketID => $Self->{TicketID})) {
@@ -180,13 +174,13 @@ sub Form {
     $Data{Subject} = "[$TicketHook: $Tn-FW] " . $Data{Subject};
 
     # prepare from ...
-    my %Address = $QueueObject->GetSystemAddress();
+    my %Address = $Self->{QueueObject}->GetSystemAddress(%Data);
     $Data{SystemFrom} = "$Address{RealName} <$Address{Email}>";
     $Data{Email} = $Address{Email};
     $Data{RealName} = $Address{RealName};
 
     # prepare signature
-    my $Signature = $QueueObject->GetSignature();
+    my $Signature = $Self->{QueueObject}->GetSignature(%Data);
     $Signature =~ s/<OTRS_FIRST_NAME>/$Self->{UserFirstname}/g;
     $Signature =~ s/<OTRS_LAST_NAME>/$Self->{UserLastname}/g;
     $Signature =~ s/<OTRS_USER_ID>/$Self->{UserID}/g;
@@ -210,7 +204,7 @@ sub Form {
     # build view ...
     $Output .= $Self->{LayoutObject}->AgentForward(
         TicketNumber => $Tn,
-        Salutation => $QueueObject->GetSalutation(),
+        Salutation => $Self->{QueueObject}->GetSalutation(%Data),
         Signature => $Signature,
         TicketID => $Self->{TicketID},
         QueueID => $QueueID,

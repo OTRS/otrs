@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentBounce.pm - to bounce articles of tickets 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBounce.pm,v 1.26 2003-09-28 14:49:30 martin Exp $
+# $Id: AgentBounce.pm,v 1.27 2003-11-19 01:35:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -81,13 +81,6 @@ sub Run {
     # --
     # prepare salutation
     # --
-    my $QueueObject = Kernel::System::Queue->new(
-        QueueID => $Param{QueueID},
-        DBObject => $Self->{DBObject},
-        ConfigObject => $Self->{ConfigObject},
-        LogObject => $Self->{LogObject},
-    );
-
     if ($Self->{Subaction} eq '' || !$Self->{Subaction}) {
         $Output .= $Self->{LayoutObject}->Header(Title => 'Bounce');
         # --
@@ -164,7 +157,7 @@ sub Run {
         # --
         # prepare salutation
         # --
-        $Param{Salutation} = $QueueObject->GetSalutation();
+        $Param{Salutation} = $Self->{QueueObject}->GetSalutation(%Article);
         # prepare customer realname
         if ($Param{Salutation} =~ /<OTRS_CUSTOMER_REALNAME>/) {
             # get realname 
@@ -183,7 +176,7 @@ sub Run {
         # --
         # prepare signature
         # --
-        $Param{Signature} = $QueueObject->GetSignature();
+        $Param{Signature} = $Self->{QueueObject}->GetSignature(%Article);
         foreach (qw(Signature Salutation)) {
             $Param{$_} =~ s/<OTRS_FIRST_NAME>/$Self->{UserFirstname}/g;
             $Param{$_} =~ s/<OTRS_LAST_NAME>/$Self->{UserLastname}/g;
@@ -205,7 +198,7 @@ sub Run {
         # --
         # prepare from ...
         # --
-        my %Address = $QueueObject->GetSystemAddress();
+        my %Address = $Self->{QueueObject}->GetSystemAddress();
         $Article{From} = "$Address{RealName} <$Address{Email}>";
         $Article{Email} = $Address{Email};
         $Article{RealName} = $Address{RealName};
@@ -255,7 +248,7 @@ sub Run {
         # --
         # prepare from ...
         # --
-        my %Address = $QueueObject->GetSystemAddress();
+        my %Address = $Self->{QueueObject}->GetSystemAddress();
         $Param{From} = "$Address{RealName} <$Address{Email}>";
         $Param{Email} = $Address{Email};
         $Param{EmailPlain} = $Self->{TicketObject}->GetArticlePlain(ArticleID => $Self->{ArticleID});

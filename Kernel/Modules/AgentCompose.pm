@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.51 2003-10-16 21:06:45 martin Exp $
+# $Id: AgentCompose.pm,v 1.52 2003-11-19 01:35:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.51 $';
+$VERSION = '$Revision: 1.52 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -127,15 +127,6 @@ sub Form {
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
     }
     # --
-    # get ticket number and queue id 
-    # --
-    my $QueueObject = Kernel::System::Queue->new(
-        QueueID => $Ticket{QueueID},
-        DBObject => $Self->{DBObject},
-        ConfigObject => $Self->{ConfigObject},
-        LogObject => $Self->{LogObject},
-    );
-    # --
     # get lock state && write (lock) permissions
     # --
     if (!$Self->{TicketObject}->IsTicketLocked(TicketID => $Self->{TicketID})) {
@@ -239,16 +230,16 @@ sub Form {
         $Data{To} = $Customer{UserEmail};
     }
     $Data{OrigFrom} = $Data{From};
-    my %Address = $QueueObject->GetSystemAddress();
+    my %Address = $Self->{QueueObject}->GetSystemAddress(%Ticket);
     $Data{From} = "$Address{RealName} <$Address{Email}>";
     $Data{Email} = $Address{Email};
     $Data{RealName} = $Address{RealName};
-    $Data{StdResponse} = $QueueObject->GetStdResponse(ID => $Self->{ResponseID});
+    $Data{StdResponse} = $Self->{QueueObject}->GetStdResponse(ID => $Self->{ResponseID});
 
     # --
     # prepare salutation
     # --
-    $Data{Salutation} = $QueueObject->GetSalutation();
+    $Data{Salutation} = $Self->{QueueObject}->GetSalutation(%Ticket);
     # prepare customer realname
     if ($Data{Salutation} =~ /<OTRS_CUSTOMER_REALNAME>/) {
         # get realname 
@@ -266,7 +257,7 @@ sub Form {
     # --
     # prepare signature
     # --
-    $Data{Signature} = $QueueObject->GetSignature();
+    $Data{Signature} = $Self->{QueueObject}->GetSignature(%Ticket);
     foreach (qw(Signature Salutation)) {
         $Data{$_} =~ s/<OTRS_FIRST_NAME>/$Self->{UserFirstname}/g;
         $Data{$_} =~ s/<OTRS_LAST_NAME>/$Self->{UserLastname}/g;
