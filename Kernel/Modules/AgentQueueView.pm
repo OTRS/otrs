@@ -2,7 +2,7 @@
 # AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.5 2002-04-13 11:16:03 martin Exp $
+# $Id: AgentQueueView.pm,v 1.6 2002-04-14 19:04:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentQueueView;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -162,7 +162,7 @@ sub Run {
         my $SQL = "SELECT sa.ticket_id, sa.a_from, sa.a_to, sa.a_cc, sa.a_subject, " .
             " sa.a_body, st.create_time_unix, sa.a_freekey1, sa.a_freetext1, sa.a_freekey2, " .
             " sa.a_freetext2, sa.a_freekey3, sa.a_freetext3, st.freekey1, st.freekey2, " .
-            " st.freetext1, st.freetext2, st.customer_id, sq.name as queue, " .
+            " st.freetext1, st.freetext2, st.customer_id, sq.name as queue, sa.id as article_id, " .
             " st.id, st.tn, sp.name, sd.name as state, st.queue_id, st.create_time " .
             " FROM " .
             " article sa, ticket st, ticket_priority sp, ticket_state sd, article_sender_type sdt, queue sq " .
@@ -189,6 +189,7 @@ sub Run {
                 Priority => $$Data{name},
                 State => $$Data{state},
                 TicketID => $$Data{id},
+                ArticleID => $$Data{article_id},
                 From => $$Data{a_from},
                 To => $$Data{a_to},
                 Cc => $$Data{a_cc},
