@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminLog.pm - provides a log view for admins
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminLog.pm,v 1.13 2005-02-16 16:49:13 martin Exp $
+# $Id: AdminLog.pm,v 1.14 2005-02-16 17:10:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminLog;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -34,25 +34,6 @@ sub new {
     foreach (qw(ParamObject LayoutObject LogObject ConfigObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
-use Kernel::System::XML;
-
-my $XMLObject = Kernel::System::XML->new(%Param);
-
-    my @Keys = $XMLObject->XMLHashSearch(
-        Type => 'SomeType',
-        What => [
-            # each array element is a and condition
-            {
-                # or condition in hash
-                "[%]{'ElementA'}[%]{'ElementB'}[%]{'Content'}" => '%contentA%',
-                "[%]{'ElementA'}[%]{'ElementC'}[%]{'Content'}" => '%contentA%',
-            },
-            {
-                "[%]{'ElementA'}[%]{'ElementB'}[%]{'Content'}" => '%contentB%',
-                "[%]{'ElementA'}[%]{'ElementC'}[%]{'Content'}" => '%contentB%',
-            }
-        ],
-    );
 
     return $Self;
 }
