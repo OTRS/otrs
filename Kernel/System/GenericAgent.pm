@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pm,v 1.4 2004-09-04 17:13:30 martin Exp $
+# $Id: GenericAgent.pm,v 1.5 2004-09-04 21:42:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::GenericAgent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $ ';
+$VERSION = '$Revision: 1.5 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -57,6 +57,7 @@ create a object
   my $TicketObject = Kernel::System::Ticket->new(
       ConfigObject => $ConfigObject,
       LogObject => $LogObject,
+      DBObject => $DBObject,
   );
   my $GenericAgentObject = Kernel::System::GenericAgent->new(
       ConfigObject => $ConfigObject,
@@ -807,6 +808,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2004-09-04 17:13:30 $
+$Revision: 1.5 $ $Date: 2004-09-04 21:42:58 $
 
 =cut
