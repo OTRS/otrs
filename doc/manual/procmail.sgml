@@ -46,14 +46,14 @@ The following examples are copied from the procmailex man-page. Feel free to hav
 Sort out all mail coming from the scuba-dive mailing list into the scuba queue.
 
 <screen>
-:0
+:0 fhw :
 * ^TOscuba
 | formail -I "X-OTRS-Queue: scuba"
 </screen>
 
 Forward all mail from peter about compilers into the william queue.
 <screen>
-:0
+:0 fhw :
 * ^From.*peter
 * ^Subject:.*compilers
 | formail -I "X-OTRS-Queue: william"
@@ -68,7 +68,7 @@ And here a last example, the whole .procmailrc.
 # .procmailrc - procmailrc of the OpenTRS user
 # Copyright (C) 2001-2002 Martin Edenhofer (martin+code at otrs.org)
 # --
-# $Id: procmail.sgml,v 1.3 2002-05-11 16:35:18 martin Exp $
+# $Id: procmail.sgml,v 1.4 2002-05-12 18:53:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
