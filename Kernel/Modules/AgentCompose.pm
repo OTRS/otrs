@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.57 2004-01-27 09:26:06 martin Exp $
+# $Id: AgentCompose.pm,v 1.58 2004-02-12 00:39:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.57 $';
+$VERSION = '$Revision: 1.58 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -172,6 +172,14 @@ sub Form {
         %Data = $Self->{TicketObject}->GetLastCustomerArticle(
             TicketID => $Self->{TicketID},
         );
+    }
+    # check article type and replace To with From (in case)
+    if ($Data{SenderType} !~ /customer/) {
+        my $To = $Data{To};
+        my $From = $Data{From};
+        $Data{From} = $To;
+        $Data{To} = $Data{From};
+        $Data{ReplyTo} = '';
     }
     # --
     # get customer data
