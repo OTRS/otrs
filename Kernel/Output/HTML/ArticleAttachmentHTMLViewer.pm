@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/ArticleAttachmentHTMLViewer.pm
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleAttachmentHTMLViewer.pm,v 1.1 2004-11-11 10:39:43 martin Exp $
+# $Id: ArticleAttachmentHTMLViewer.pm,v 1.2 2005-02-17 07:08:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::ArticleAttachmentHTMLViewer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -50,7 +50,7 @@ sub Run {
                 return (
                     %{$Param{File}},
                     Action => 'Viewer',
-                    Link => "\$Env{\"Baselink\"}Action=AgentAttachment&ArticleID=$Param{Article}->{ArticleID}&FileID=$Param{File}->{FileID}&Viewer=1",
+                    Link => "\$Env{\"Baselink\"}Action=AgentTicketAttachment&ArticleID=$Param{Article}->{ArticleID}&FileID=$Param{File}->{FileID}&Viewer=1",
                     Image => 'screen-s.png',
                     Target => 'target="attachment"',
                 );
