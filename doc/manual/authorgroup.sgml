@@ -31,4 +31,15 @@
                         </address>
                 </affiliation>
         </author>
+
+        <author>
+                <firstname>Robert</firstname>
+                <surname>Kehl</surname>
+                <affiliation>
+                        <orgname>((otrs.de)) team</orgname>
+                        <address>
+                        <email>robert.kehl@otrs.de</email>
+                        </address>
+                </affiliation>
+        </author>
 </authorgroup>

@@ -36,22 +36,8 @@ Without Martin the otrs wouldn't exist. He is a brilliant coder. We will insert 
 </informaltable>
 
 <para>
-Here is his "official" vita (German version only):
+So much to say but unfornately no time to find the right words. ;-)
 </para>
-<blockquote>
-<para>
-Stefan Wintermeyer arbeitet seit dem ersten ZX81 Selbstbausatz mit Computern.
-1994 kam seine Leidenschaft für Linux dazu, die ihn schließlich 1998 zur SuSE
-Linux AG brachte. Als Vice President Support der SuSE Linux AG setzte er sich
-für eine größere Verbreitung und Benutzerfreundlichkeit von Linux ein und
-unterstützt konsequent echte Linuxlösungen im unternehmerischen Einsatz. Aus
-seinem Engagement bei der SuSE Linux AG blieb ihm die Vorliebe für die
-gleichnamige Distribution. Seit Juni 2001 arbeitet er bei der Lufthansa Systems
-in Frankfurt und betreut dort den Einsatz von Linux in verschiedenen Projekten.
-Stefan Wintermeyer setzt sich nachhaltig für die Verwendung offener Standards
-ein und propagiert Linux als das Betriebssystem für Server und Thin Clients.
-</para>
-</blockquote>
 </sect1>
 
 <sect1 id="sebastian.wormser">
@@ -75,4 +61,24 @@ We are very happy that Sebastian Wormser (Sibbi) finally joined our team. We hav
 So it is sort of a reunion but for an open source and total new (probably better) version. 
 </para>
 </sect1>
+
+<sect1 id="robert.kehl">
+<title>Robert Kehl</title>
+<informaltable frame='none'>
+<tgroup cols="2">
+<colspec colwidth="1*">
+<colspec colwidth="4*">
+<tbody>
+<row><entry>E-Mail:</entry><entry><email>robert.kehl@otrs.de</email></entry></row>
+<row><entry>Homepage:</entry><entry><ulink url="http://www.robertkehl.de/"><citetitle>http://www.robertkehl.de/</citetitle></ulink></entry></row>
+<row><entry>joined the team:</entry><entry>01.09.2003</entry></row>
+</tbody>
+</tgroup>
+</informaltable>
+
+<para>
+Robert is the father of the win32 port of OTRS. He spent many weeks, tried totally different ways and finaly came up with a brilliante otrs4win32 installer.
+</para>
+</sect1>
+
 </appendix>
