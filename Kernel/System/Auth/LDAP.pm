@@ -2,7 +2,7 @@
 # Kernel/System/Auth/LDAP.pm - provides the ldap authentification 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LDAP.pm,v 1.1 2002-07-23 22:12:22 martin Exp $
+# $Id: LDAP.pm,v 1.2 2002-07-24 08:48:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ use strict;
 use Net::LDAP;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -78,11 +78,17 @@ sub Auth {
         base   => $BaseDN,
         filter => "($UID=$Param{User})"
     ); 
-    my $Entry = $Result->all_entries;
+    # --
+    # get whole user dn
+    # --
+    my $UserDN = '';
+    foreach my $Entry ($Result->all_entries) {
+        $UserDN = $Entry->dn();
+    }
     # --
     # log if there is no LDAP entry
     # --
-    if (!$Entry) {
+    if (!$UserDN) {
         # --
         # failed login note
         # --
@@ -96,7 +102,6 @@ sub Auth {
         $LDAP->unbind;
         return;
     }
-    my $UserDN = $Entry->dn();
     # --
     # bind with user data
     # --
