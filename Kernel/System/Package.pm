@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.pm,v 1.7 2004-12-04 11:35:29 martin Exp $
+# $Id: Package.pm,v 1.8 2004-12-04 14:41:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use XML::Parser;
 use File::Copy;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -293,7 +293,7 @@ sub RepositoryRemove {
     }
 }
 
-sub CheckFramework {
+sub _CheckFramework {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
@@ -312,6 +312,87 @@ sub CheckFramework {
     else {
         return;
     }
+}
+sub _CheckVersion {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(Version1 Version2 Type)) {
+      if (!defined $Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+        return;
+      }
+    }
+    foreach my $Type (qw(Version1 Version2)) {
+        my @Parts = split(/\./, $Param{$Type});
+        $Param{$Type} = 0;
+        foreach (0..4) {
+            $Param{$Type} .= sprintf("%04d", $Parts[$_] || 0);
+        }
+        $Param{$Type} = int($Param{$Type});
+    }
+#print STDERR "$Param{Version2} >= $Param{Version1}\n";
+    if ($Param{Type} eq 'Min') {
+        if ($Param{Version2} >= $Param{Version1}) {
+            return 1;
+        }
+        else {
+            return;
+        }
+    }
+    elsif ($Param{Type} eq 'Max') {
+        if ($Param{Version2} < $Param{Version1}) {
+            return 1;
+        }
+        else {
+            return;
+        }
+    }
+    else {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Invalid Type!");
+        return;
+    }
+}
+sub _CheckRequired {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(PackageRequired)) {
+      if (!defined $Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+        return;
+      }
+    }
+    # check required packages
+    if ($Param{PackageRequired} && ref($Param{PackageRequired}) eq 'ARRAY') {
+        my $Installed = 0;
+        my $InstalledVersion = 0;
+        foreach my $Module (@{$Param{PackageRequired}}) {
+            foreach my $Local ($Self->RepositoryList()) {
+                if ($Local->{Name}->{Content} eq $Module->{Content} && $Local->{Status} eq 'installed') {
+                    $Installed = 1;
+                    $InstalledVersion = $Local->{Version}->{Content};
+                }
+            }
+            if (!$Installed && !$Param{Force}) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message => "Sorry, can't install package, because package $Module->{Content} v$Module->{Version} is required!",
+                );
+                return;
+            }
+            elsif ($Installed && !$Param{Force}) {
+                if (!$Self->_CheckVersion(Version1 => $Module->{Version}, Version2 => $InstalledVersion, Type => 'Min')) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'error',
+                        Message => "Sorry, can't install package, because package $Module->{Content} v$Module->{Version} is required!",
+                    );
+                    return;
+                }
+            }
+        }
+    }
+    return 1;
 }
 
 =item PackageInstall()
@@ -366,7 +447,7 @@ sub PackageInstall {
     my $FWCheckOk = 0;
     if ($Structur{Framework} && ref($Structur{Framework}) eq 'ARRAY') {
         foreach my $FW (@{$Structur{Framework}}) {
-            if ($Self->CheckFramework(Framework => $FW->{Content})) {
+            if ($Self->_CheckFramework(Framework => $FW->{Content})) {
                 $FWCheckOk = 1;
             }
         }
@@ -380,19 +461,8 @@ sub PackageInstall {
     }
     # check required packages
     if ($Structur{PackageRequired} && ref($Structur{PackageRequired}) eq 'ARRAY') {
-        my $Installed = 0;
-        my %List = $Self->RepositoryList();
-        foreach my $Module (@{$Structur{PackageRequired}}) {
-            if ($List{Name} eq $Module && $List{Status} eq 'installed') {
-                $Installed = 1;
-            }
-            if (!$Installed && !$Param{Force}) {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message => "Sorry, can't install package, because package $Module is required!",
-                );
-                return;
-            }
+        if (!$Self->_CheckRequired(%Param, PackageRequired => $Structur{PackageRequired}) && !$Param{Force}) {
+            return;
         }
     }
     # check files
@@ -528,7 +598,7 @@ sub PackageUpgrade {
     my $FWCheckOk = 0;
     if ($Structur{Framework} && ref($Structur{Framework}) eq 'ARRAY') {
         foreach my $FW (@{$Structur{Framework}}) {
-            if ($Self->CheckFramework(Framework => $FW->{Content})) {
+            if ($Self->_CheckFramework(Framework => $FW->{Content})) {
                 $FWCheckOk = 1;
             }
         }
@@ -542,19 +612,8 @@ sub PackageUpgrade {
     }
     # check required packages
     if ($Structur{PackageRequired} && ref($Structur{PackageRequired}) eq 'ARRAY') {
-        my $Installed = 0;
-        my %List = $Self->RepositoryList();
-        foreach my $Module (@{$Structur{PackageRequired}}) {
-            if ($List{Name} eq $Module && $List{Status} eq 'installed') {
-                $Installed = 1;
-            }
-            if (!$Installed && !$Param{Force}) {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message => "Sorry, can't install package, because package $Module is required!",
-                );
-                return;
-            }
+        if (!$Self->_CheckRequired(%Param, PackageRequired => $Structur{PackageRequired}) && !$Param{Force}) {
+            return;
         }
     }
     # update package status
@@ -715,7 +774,7 @@ sub PackageOnlineList {
         my $FWCheckOk = 0;
         if ($Package->{Framework} && ref($Package->{Framework}) eq 'ARRAY') {
             foreach my $FW (@{$Package->{Framework}}) {
-                if ($Self->CheckFramework(Framework => $FW->{Content})) {
+                if ($Self->_CheckFramework(Framework => $FW->{Content})) {
                     $FWCheckOk = 1;
 #print STDERR "FWCheckOk: $Package->{Name} $Package->{Version} -> $FW->{Content}\n";
                 }
@@ -734,7 +793,8 @@ sub PackageOnlineList {
             $Newest{$Package->{Name}} = $Package;
         }
         else {
-            if ($Newest{$Package->{Name}}->{Version} < $Package->{Version}) {
+            if (!$Self->_CheckVersion(Version1 => $Package->{Version}, Version2 => $Newest{$Package->{Name}}->{Version}, Type => 'Min')) {
+#            if ($Newest{$Package->{Name}}->{Version} < $Package->{Version}) {
                 $Newest{$Package->{Name}} = $Package;
             }
         }
@@ -1147,7 +1207,7 @@ sub _FileInstall {
     # backup old file
     if (-e "$Self->{Home}/$Param{Location}") {
         if ($Param{Type} && $Param{Type} =~ /^replace$/i) {
-             move("$Self->{Home}/$Param{Location}", "$Self->{Home}/$Param{Location}.orig");
+             move("$Self->{Home}/$Param{Location}", "$Self->{Home}/$Param{Location}.backup");
         }
         else {
              move("$Self->{Home}/$Param{Location}", "$Self->{Home}/$Param{Location}.save");
@@ -1183,8 +1243,8 @@ sub _FileRemove {
         if (unlink $RealFile) {
             print STDERR "Notice: Removed file: $RealFile\n";
             # restore old file (if exists)
-            if (-e "$RealFile.orig") {
-                move("$RealFile.orig", $RealFile);
+            if (-e "$RealFile.backup") {
+                move("$RealFile.backup", $RealFile);
             }
             return 1;
         }
@@ -1218,6 +1278,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2004-12-04 11:35:29 $
+$Revision: 1.8 $ $Date: 2004-12-04 14:41:04 $
 
 =cut
