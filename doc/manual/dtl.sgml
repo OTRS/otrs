@@ -31,7 +31,7 @@ Comment is a simple '#'.
 </para>
 <para>
 Note: $Data{"xyz"} exists only the current dtl file and $Env{"xyz"} exists the whole dtl files.
-$Config{"xyz"} is read only!
+New: $Config{"xyz"} is not read only anymore and exists the whole program! (2002-05-22 / 0.5 BETA5)
 </para>
 
 <para>
