@@ -2,7 +2,7 @@
 # AdminSignatureForm.dtl - provides HTML form for AdminSignature
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSignatureForm.dtl,v 1.16 2004-07-28 09:45:11 martin Exp $
+# $Id: AdminSignatureForm.dtl,v 1.17 2004-09-30 23:04:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,19 +11,19 @@
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
-  <td align="left" colspan="2" class="table0">
-    <b>$Env{"Box0"}$Text{"Signature Management"}$Env{"Box1"}</b>
+  <td colspan="2" class="mainhead">
+    $Env{"Box0"}$Text{"Signature Management"}$Env{"Box1"}
   </td>
 </tr>
-<tr align="center" valign="top">
-  <td width="30%" class="table1">
+<tr>
+  <td width="30%" class="mainbody">
 
-  <table width="100%" cellspacing="2" cellpadding="3">
+  <table width="100%" cellspacing="0" cellpadding="4">
   <tr>
-    <td class="table3">$Text{"Change"}:</td>
+    <td class="contenthead">$Text{"Change"}:</td>
   </tr>
   <tr>
-    <td align="center">
+    <td class="contentbody">
 
     <form action="$Env{"CGIHandle"}" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
@@ -37,12 +37,12 @@
   </tr>
   </table>
 
-  </td> 
-  <td width="70%" class="table1">
+  </td>
+  <td width="70%" class="mainbody">
 
-  <table width="100%" cellspacing="2" cellpadding="3">
+  <table width="100%" cellspacing="0" cellpadding="4">
   <tr>
-    <td class="table3">
+    <td class="contenthead">
 # --
 # check subaction
 # --
@@ -56,7 +56,7 @@
     $Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}Action=AdminSignature">$Text{"$Data{"AddLink"}"}</a>:</td>
   </tr>
   <tr>
-    <td>
+    <td class="contentbody">
 
     <form action="$Env{"CGIHandle"}" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
@@ -64,23 +64,23 @@
     <input type="hidden" name="ID" value="$QData{"ID"}">
     <table border="0" cellspacing="0" cellpadding="3">
     <tr>
-      <td>$Text{"Name"}: </td>
-      <td> <input type="text" name="Name" value="$QData{"Name"}" size="35" maxlength="50"></td>
+      <td class="contentkey">$Text{"Name"}: </td>
+      <td> <input type="text" name="Name" value="$QData{"Name"}" size="50" maxlength="50"></td>
     </tr>
     <tr>
-      <td>$Text{"Signature"}: </td>
-      <td> <textarea rows="10" cols="72" name="Signature">$QData{"Signature"}</textarea></td>
+      <td class="contentkey">$Text{"Signature"}: </td>
+      <td class="contentvalue"> <textarea rows="10" cols="72" name="Signature">$QData{"Signature"}</textarea></td>
     </tr>
     <tr>
-      <td>$Text{"Valid"}: </td>
-      <td> $Data{"ValidOption"}</td>
+      <td class="contentkey">$Text{"Valid"}: </td>
+      <td class="contentvalue"> $Data{"ValidOption"}</td>
     </tr>
     <tr>
-      <td>$Text{"Comment"}: </td>
-      <td> <input type="text" name="Comment" value="$QData{"Comment"}" size="50" maxlength="50"></td>
+      <td class="contentkey">$Text{"Comment"}: </td>
+      <td class="contentvalue"> <input type="text" name="Comment" value="$QData{"Comment"}" size="50" maxlength="70"></td>
     </tr>
     </table>
-    <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}"> 
+    <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}">
     </form>
 
     </td>
@@ -93,13 +93,13 @@
 <!-- end form -->
 <!-- start note -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-<tr valign="top">
-  <td class="table3">
+<tr>
+  <td class="mainhead">
     $Env{"Box0"}$Text{"Note"}$Env{"Box1"}
   </td>
 </tr>
-<tr valign="top">
-  <td class="table1">
+<tr>
+  <td class="mainbody">
   <p>
   $Text{"Useable options"}:
     <table>
