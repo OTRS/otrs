@@ -2,7 +2,7 @@
 # User.pm - some user functions
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: User.pm,v 1.7 2002-06-08 23:00:52 atif Exp $
+# $Id: User.pm,v 1.8 2002-07-02 22:42:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::User;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -172,6 +172,13 @@ sub GetPreferences {
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
         $Data{$RowTmp[0]} = $RowTmp[1];
+    }
+
+    # --
+    # check needed preferences
+    # --
+    if (!$Data{UserCharset}) {
+        $Data{UserCharset} = $Self->{ConfigObject}->Get('DefaultCharset');
     }
 
     # --
