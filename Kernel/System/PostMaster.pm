@@ -2,7 +2,7 @@
 # PostMaster.pm - the global PostMaster module for OpenTRS
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.4 2002-01-01 20:40:04 martin Exp $
+# $Id: PostMaster.pm,v 1.5 2002-04-14 13:33:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -22,7 +22,7 @@ use Kernel::System::PostMaster::NewTicket;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -58,9 +58,10 @@ sub new {
     $Self->{Email} = $Param{Email} || die "Got no EmailBody!";
     my $EmailTmp = $Param{Email} || die "Got no EmailBody!";
     my @Email = @$EmailTmp;
+    my @EmailOrig = @Email;
     $Self->{ParseObject} = Kernel::System::EmailParser->new(
         Email => \@Email,
-        OrigEmail => \@Email,
+        OrigEmail => \@EmailOrig,
     );
 
     # for debug 0=off;1=on; 2=with GetHeaderParam;
