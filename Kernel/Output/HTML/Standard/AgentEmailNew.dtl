@@ -1,0 +1,212 @@
+# --
+# AgentEmailNew.dtl - provides HTML form for agent email 
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: AgentEmailNew.dtl,v 1.1 2004-02-09 23:48:34 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start form -->
+<script language="JavaScript" type="text/javascript">
+<!--
+function submit_compose()
+{   
+    if (document.compose.Subject.value == "") {
+        alert('$Text{"A message should have a subject!"}');
+        document.compose.Subject.focus();
+        return false;
+    } 
+    else if (document.compose.Body.value == "") {
+        alert('$Text{"A message should have a body!"}');
+        document.compose.Body.focus();
+        return false;
+    } 
+    else if (document.compose.From.value != "" && document.compose.TimeUnits.value == "" && $Config{"FrontendNeedAccountedTime"}) {
+        alert('$Text{"You need to account time!"}');
+        document.compose.TimeUnits.focus();
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+//-->
+</script>
+
+<script language="JavaScript" type="text/javascript">
+<!--
+function SpellCheckSubmit()
+{
+    document.spelling.Body.value = document.compose.Body.value;
+    window.open('', 'spelling', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
+    document.spelling.submit()
+}
+// -->
+</script>
+
+<script language="JavaScript" type="text/javascript">
+<!--
+function BookCheckSubmit()
+{
+    document.book.To.value = document.compose.To.value;
+    document.book.Cc.value = document.compose.Cc.value;
+    document.book.Bcc.value = document.compose.Bcc.value;
+    window.open('', 'book', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
+    document.book.submit()
+    document.book.was_spell_checked=true;
+} 
+// -->
+</script>
+
+<script language="JavaScript" type="text/javascript">
+<!--
+function clear_field()
+{   
+    document.compose.From.value = "";
+    document.compose.From.focus();
+}
+//-->
+</script>
+
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<tr>
+  <td align="left" class="table0"> 
+    <b>$Env{"Box0"}$Text{"Compose Email"} / $Text{"new ticket"}$Env{"Box1"}</b>
+  </td>
+  <td align="right" class="table0">
+    <b>-</b>
+  </td>
+</tr>
+<tr>
+  <td align="left" valign="top" colspan="2" class="table1">
+
+<p>
+
+<form action="$Env{"CGIHandle"}" method="post" name="compose">
+<input type="hidden" name="Action" value="$Env{"Action"}">
+<input type="hidden" name="Subaction" value="StoreNew">
+<input type="hidden" name="ExpandCustomerName" value="0">
+<input type="hidden" name="AllUsers" value="0">
+<input type="hidden" name="SelectedCustomerUser" value="$Data{"CustomerUser"}">
+<input type="hidden" name="TicketID" value="$Data{"TicketID"}">
+  <table border="0" width="100%">
+  <tr>
+    <td width="20%">$Text{"From"}:</td>
+    <td width="60%">$Data{"FromStrg"} <font color="red" size="-2">$Text{"$Data{"Destination invalid"}"}</font>
+    </td>
+    <td width="20%" rowspan="10" valign="top">
+# --
+# show customer info table 
+# --
+<dtl if ($Config{"ShowCustomerInfoCompose"} eq "1") { $Data{"CustomerInfo"} = "<p align="left"><b>$Text{"Customer Info"}</b>:<br>$Data{"CustomerTable"}</p>"; }>
+    $Data{"CustomerInfo"}
+# --
+  </td>
+  </tr>
+ <tr>
+    <td>$Text{"To"}:</td>
+    <td><input type="text" name="To" value="$Data{"To"}" size="70"> <font color="red" size="-2">$Text{"$Data{"To invalid"}"}</font><br>
+    $Data{"CustomerUserStrg"}
+    $Env{"Box0"}<a href="" onclick="document.compose.ExpandCustomerName.value='1'; document.compose.submit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$Text{"Search Customer"}'; return true;">$Text{"Search Customer"}</a>$Env{"Box1"}
+    $Env{"Box0"}<a href="javascript:clear_field();" onmouseout="window.status='';" onmouseover="window.status='$Text{"Clear From"}'; return true;">$Text{"Clear From"}</a>$Env{"Box1"}
+  </td>
+  </tr>
+  <tr>
+    <td>$Text{"Cc"}:</td>
+    <td><input type="text" name="Cc" value="$Data{"Cc"}" size="70"> <font color="red" size="-2">$Text{"$Data{"Cc invalid"}"}</font></td>
+  </tr>
+  <tr>
+    <td>$Text{"Bcc"}:</td>
+    <td><input type="text" name="Bcc" value="$Data{"Bcc"}" size="70"> <font color="red" size="-2">$Text{"$Data{"Bcc invalid"}"}</font></td>
+  </tr>
+  <tr>
+    <td>$Text{"Subject"}:</td>
+    <td><input type="text" name="Subject" value="$Data{"Subject"}" size="70"> <font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font></td>
+  </tr>
+# --
+# show owner string
+<dtl if ($Config{"PhoneViewOwnerSelection"} eq "1") { $Data{"OwnerSelection"} = "<tr><td>$Text{"Owner"}:</td><td>$Data{"OptionStrg"} $Env{"Box0"}<a href="" onclick="document.compose.ExpandCustomerName.value='3'; document.compose.AllUsers.value='1'; document.compose.submit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$Text{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}</td></tr>"; }>
+    $Data{"OwnerSelection"}
+# --
+  <tr>
+    <td>$Text{"Options"}:</td>
+    <td>
+       $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$Text{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"} 
+       $Env{"Box0"}<a href="" onclick="BookCheckSubmit(); return false;" onmouseover="window.status='$Text{"Address Book"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}contents.png">$Text{"Address Book"}</a>$Env{"Box1"}
+
+#      $Env{"Box0"}<a href="#attachment" onmouseover="window.status='$Text{"Attachments"}'; return true;" onmouseout="window.status='';">$Text{"Attachments"}</a>$Env{"Box1"}
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">$Text{"Text"}:</td><td class="table1">
+<textarea name="Body" rows="15" cols="$Config{"TextAreaNoteWindow"}" wrap="$Env{"BrowserWrap"}">$Data{"Body"}</textarea>
+    </td>
+  </tr>
+  <tr>
+    <td>$Text{"CustomerID"}:</td>
+    <td> <input type="text" name="CustomerID" value="$Data{"CustomerID"}" size="25"></td>
+  </tr>
+  <tr>
+    <td>$Text{"Next ticket state"}:</td>
+    <td> $Data{"NextStatesStrg"}</td>
+  </tr>
+  <tr>
+    <td>$Text{"Pending Date"} ($Text{"for pending* states"}):</td>
+    <td>$Data{"PendingDateString"}</td>
+  </tr>
+  <tr>
+    <td>$Text{"Priority"}:</td>
+    <td> $Data{"PriorityStrg"}</td>
+  </tr>
+#  <tr>
+#    <td>$Data{"TicketFreeKeyField1"}:</td>
+#    <td>$Data{"TicketFreeTextField1"}</td>
+#  </tr>
+#  <tr>
+#    <td>$Data{"TicketFreeKeyField2"}:</td>
+#    <td>$Data{"TicketFreeTextField2"}</td>
+#  </tr>
+#  <tr>
+#    <td>$Data{"TicketFreeKeyField3"}:</td>
+#    <td>$Data{"TicketFreeTextField3"}</td>
+#  </tr>
+#  <tr>
+#    <td>$Data{"TicketFreeKeyField4"}:</td>
+#    <td>$Data{"TicketFreeTextField4"}</td>
+#  </tr>
+  <tr>
+    <td>$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td>
+    <td> <input type="text" name="TimeUnits" value="$Data{"TimeUnits"}" size="3"></td>
+# select lock state
+<dtl if ($Config{"PhoneDefaultNewLock"} eq "lock") { $Data{"LockSelectionYes"} = "checked"; }>
+<dtl if ($Config{"PhoneDefaultNewLock"} eq "unlock") { $Data{"LockSelectionNo"} = "checked"; }>
+  <tr>
+    <td>$Text{"Lock Ticket"}:</td>
+    <td> <input type="radio" name="Lock" value="lock" $Data{"LockSelectionYes"}>$Text{"Yes"} <input type="radio" name="Lock" value="unlock" $Data{"LockSelectionNo"}>$Text{"No"}</td>
+  </tr>
+  </table>
+<br>
+<input class="button" type="submit" value="$Text{"create"}" onclick="return submit_compose();">
+</form>
+
+<form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
+  <input type="hidden" name="Action" value="AgentSpelling">
+  <input type="hidden" name="Body" value="">
+  <input type="hidden" name="spell_lang" value="">
+</form>
+
+<form action="$Env{"CGIHandle"}" method="post" name="book" target="book">
+  <input type="hidden" name="Action" value="AgentBook">
+  <input type="hidden" name="To" value="">
+  <input type="hidden" name="Cc" value="">
+  <input type="hidden" name="Bcc" value="">
+</form>
+
+</p>
+
+  </td> 
+</tr>
+</table>
+<!-- end form -->
