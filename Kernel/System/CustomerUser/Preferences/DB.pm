@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/Preferences/DB.pm - some customer user functions
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.4 2003-02-08 15:09:39 martin Exp $
+# $Id: DB.pm,v 1.5 2003-04-22 20:29:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::CustomerUser::Preferences::DB;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -50,32 +50,24 @@ sub SetPreferences {
     my $UserID = $Param{UserID} || return;
     my $Key = $Param{Key} || return;
     my $Value = $Param{Value} || '';
-
     # delete old data
     if (!$Self->{DBObject}->Do(
        SQL => "DELETE FROM $Self->{PreferencesTable} ".
               " WHERE ".
-              " $Self->{PreferencesTableUserID} = '$UserID' ".
+              " $Self->{PreferencesTableUserID} = '".$Self->{DBObject}->Quote($UserID)."'".
               " AND ".
-              " $Self->{PreferencesTableKey} = '$Key'",
+              " $Self->{PreferencesTableKey} = '".$Self->{DBObject}->Quote($Key)."'",
     )) {
-        $Self->{LogObject}->Log(
-          Priority => 'error',
-          Message => "Can't delete $Self->{PreferencesTable}!",
-        );
         return;
     }
-
     # insert new data
     if (!$Self->{DBObject}->Do(
        SQL => "INSERT INTO $Self->{PreferencesTable} ($Self->{PreferencesTableUserID}, ".
               " $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue}) " .
-              " VALUES ('$UserID', '$Key', '$Value')",
+              " VALUES ('".$Self->{DBObject}->Quote($UserID)."', ".
+              " '".$Self->{DBObject}->Quote($Key)."', ".
+              " '".$Self->{DBObject}->Quote($Value)."')",
     )) {
-        $Self->{LogObject}->Log(
-          Priority => 'error',
-          Message => "Can't insert new $Self->{PreferencesTable}!",
-        );
         return;
     }
     return 1;
@@ -86,7 +78,6 @@ sub GetPreferences {
     my %Param = @_;
     my $UserID = $Param{UserID} || return;
     my %Data;
-
     # --
     # get preferences
     # --
@@ -94,7 +85,7 @@ sub GetPreferences {
         " FROM " .
         " $Self->{PreferencesTable} ".
         " WHERE " .
-        " $Self->{PreferencesTableUserID} = '$UserID'";
+        " $Self->{PreferencesTableUserID} = '".$Self->{DBObject}->Quote($UserID)."'";
 
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
@@ -105,27 +96,6 @@ sub GetPreferences {
     # --
     if (!$Data{UserCharset}) {
         $Data{UserCharset} = $Self->{ConfigObject}->Get('DefaultCharset');
-    }
-    # --
-    # check language if long name s given --> compat (REMOVE ME LATER!)
-    # --
-    if ($Data{UserLanguage} && $Data{UserLanguage} !~ /^..$/) {
-      my %OldNames = (
-          bb => 'Bavarian',
-          en => 'English',
-          de => 'German',
-          nl => 'Dutch',
-          fr => 'French',
-          bg => 'Bulgarian',
-          es => 'Spanish',
-          cs => 'Czech',
-          it => 'Italian',
-      );
-      foreach (keys %OldNames) {
-          if ($OldNames{$_} =~ /^$Data{UserLanguage}$/i) {
-              $Data{UserLanguage} = $_;
-          }
-      }
     }
     # --
     # return data
