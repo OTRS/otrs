@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Customer.pm - provides generic customer HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Customer.pm,v 1.26 2004-02-16 01:42:40 martin Exp $
+# $Id: Customer.pm,v 1.27 2004-02-19 14:34:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Customer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -182,7 +182,7 @@ sub CustomerPreferencesForm {
                   Selected => $Self->{UserTheme} || $Self->{ConfigObject}->Get('DefaultTheme'),
               );
           }
-          if ($Type eq 'Password' && $Self->{ConfigObject}->Get('AuthModule') =~ /ldap/i) {
+          if ($Type eq 'Password' && $Self->{ConfigObject}->Get('Customer::AuthModule') =~ /ldap/i) {
               # do nothing if the auth module is ldap
           }
           else {
