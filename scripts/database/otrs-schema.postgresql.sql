@@ -83,7 +83,7 @@ CREATE TABLE groups
 (
     id serial,
     name varchar (100) NOT NULL,
-    comment varchar (250),
+    comments varchar (250),
     valid_id smallint NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by integer NOT NULL,
