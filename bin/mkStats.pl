@@ -3,7 +3,7 @@
 # SendStats.pl - send stats output via email
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SendStats.pl,v 1.5 2004-10-14 14:00:47 martin Exp $
+# $Id: mkStats.pl,v 1.23 2004-11-24 13:56:47 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -63,34 +63,39 @@ $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(%CommonObject);
 # get options
 # --
 my %Opts = ();
-getopt('mrsbh', \%Opts);
+getopt('mrsbhop', \%Opts);
 if ($Opts{'h'}) {
-    print "SendStats.pl <Revision $VERSION> - OTRS cmd stats\n";
+    print "mkStats.pl <Revision $VERSION> - OTRS cmd stats\n";
     print "Copyright (c) 2001-2004 Martin Edenhofer <martin\@otrs.org>\n";
-    print "usage: SendStats.pl -m <REPORT_MODULE> -r <RECIPIENT> -s <SENDER> -b <MESSAGE>\n";
+    print "usage: mkStats.pl -m <REPORT_MODULE> [-p <PARAM_STRING> e. g. 'Year=1977&Month=10'] [-o /output/dir/] [-r <RECIPIENT> -s <SENDER> -b <MESSAGE>]\n";
     exit 1;
 }
 
-if (!$Opts{'r'}) {
-    print STDERR "ERROR: Need -r someone\@example.com\n";
+# required output param check
+if (!$Opts{'o'} && (!$Opts{'r'}&&!$Opts{'b'})) {
+    print STDERR "ERROR: Need -o /tmp/ OR -r email\@example.com -b 'some message'\n";
     exit 1;
 }
-else {
+# recipient check
+if ($Opts{'r'}) {
     if (!$CommonObject{CheckItemObject}->CheckEmail(Address => $Opts{'r'})) {
         print STDERR "ERROR: ".$CommonObject{CheckItemObject}->CheckError()."\n";
         exit 1;
     }
 }
+# stats module check
 if (!$Opts{'m'}) {
     print STDERR "ERROR: Need -m StateAction\n";
     exit 1;
 }
-if (!$Opts{'b'}) {
-    print STDERR "ERROR: Need -b 'some message'\n";
-    exit 1;
-}
+# sender, if given
 if (!$Opts{'s'}) {
     $Opts{'s'} = '';
+}
+# directory check
+if ($Opts{'o'} && !-e $Opts{'o'}) {
+    print STDERR "ERROR: No such directory: $Opts{'o'}\n";
+    exit 1;
 }
 my $Format = 'CSV';
 my $Module = "Kernel::System::Stats::$Opts{'m'}";
@@ -111,25 +116,29 @@ if (!%ConfigItem) {
 if (eval "require $Module") {
     my %GetParam = ();
     my $StatsModule = $Module->new(%CommonObject);
-    my @Params = $StatsModule->Param();
-    foreach my $ParamItem (@Params) {
-        if (!$ParamItem->{Multiple}) {
-#            $GetParam{$ParamItem->{Name}} = $Self->{ParamObject}->GetParam(
-#                Param => $ParamItem->{Name},
-#            );
-        }
-        else {
-#            $GetParam{$ParamItem->{Name}} = [$Self->{ParamObject}->GetArray(
- #               Param => $ParamItem->{Name},
- #           )];
-        }
-    }
+    # set std params
     my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = localtime(time());
     $Y = $Y+1900;
     $M++;
     $GetParam{Year} = $Y;
     $GetParam{Month} = $M;
     $GetParam{Day} = $D;
+    # get params from -p
+    my @Params = $StatsModule->Param();
+    foreach my $ParamItem (@Params) {
+        if (!$ParamItem->{Multiple}) {
+            $GetParam{$ParamItem->{Name}} = GetParam(
+                Param => $ParamItem->{Name},
+            );
+#            print STDERR "$ParamItem->{Name}: $GetParam{$ParamItem->{Name}}\n";
+       }
+       else {
+            $GetParam{$ParamItem->{Name}} = [GetArray(
+                Param => $ParamItem->{Name},
+            )];
+#            print STDERR "$ParamItem->{Name}: $GetParam{$ParamItem->{Name}}\n";
+       }
+    }
     my $Time = sprintf("%02d:%02d:%02d", $h,$m,$s);
     # get data
     my @Data = $StatsModule->Run(%GetParam);
@@ -164,7 +173,21 @@ if (eval "require $Module") {
             Disposition => "attachment",
         );
     }
-    if ($CommonObject{EmailObject}->Send(
+    # write output
+    if ($Opts{'o'}) {
+        if (open(OUT, "> $Opts{'o'}/$Attachment{Filename}")) {
+            print OUT $Attachment{Data};
+            close (OUT);
+            print "NOTICE: Writing file $Opts{'o'}/$Attachment{Filename}.\n";
+            exit;
+        }
+        else {
+            print STDERR "ERROR: Can't write $Opts{'o'}/$Attachment{Filename}: $!\n";
+            exit 1;
+        }
+    }
+    # send email
+    elsif ($CommonObject{EmailObject}->Send(
         From => $Opts{'s'},
         To => $Opts{'r'},
         Subject => "[Stats] $ConfigItem{Module} $Y-$M-$D $Time",
@@ -177,5 +200,36 @@ if (eval "require $Module") {
     )) {
         print "NOTICE: Email sent to '$Opts{'r'}'.\n";
     }
+}
 
+sub GetParam {
+    my %Param = @_;
+    if (!$Param{Param}) {
+        print STDERR "ERROR: Need Param Arg in GetParam()\n";
+    }
+    my @P = split(/&/, $Opts{'p'}||'');
+    foreach (@P) {
+        my ($Key, $Value) = split(/=/, $_, 2);
+#print STDERR "$Key, $Value, $Param{Param} ---\n";
+        if ($Key eq $Param{Param}) {
+#print STDERR "$Key, $Value ---\n";
+            return $Value;
+        }
+    }
+    return;
+}
+sub GetArray {
+    my %Param = @_;
+    if (!$Param{Param}) {
+        print STDERR "ERROR: Need Param Arg in GetArray()\n";
+    }
+    my @P = split(/&/, $Opts{'p'}||'');
+    my @Array = ();
+    foreach (@P) {
+        my ($Key, $Value) = split(/=/, $_, 1);
+        if ($Key eq $Param{Param}) {
+            push (@Array, $Value);
+        }
+    }
+    return @Array;
 }
