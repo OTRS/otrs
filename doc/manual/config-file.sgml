@@ -12,12 +12,27 @@ Your can configure the value of the TicketHook which is the first part of the su
 <title>Kernel/Config.pm - TicketHook</title>
 <programlisting>
 [...]
-
     # TicketHook
     # (To set the Ticket identifier. Some people want to  
     # set this to e. g. 'Call#', 'MyTicket#' or 'TN'.)     
     $Self->{TicketHook} = 'Ticket#',              
+[...]
+</programlisting>
+</example>
+</sect1>
 
+<sect1>
+<title>FQDN</title>
+<para>
+The OpenTRS full qualified domain name. Will be used for email messages id's.
+</para>
+<example>
+<title>Kernel/Config.pm - FQDN</title>
+<programlisting>
+[...]
+    # FQDN
+    # (Full qualified domain name of your system.)
+    $Self->{FQDN} = 'yourhost.example.com';
 [...]
 </programlisting>
 </example>
@@ -32,12 +47,10 @@ OpenTRS is able to send automatically email replay. So it's possibe to create an
 <title>Kernel/Config.pm - MaxPostMasterEmails</title>
 <programlisting>
 [...]
-
     # MaxPostMasterEmails
     # (Max post master daemon email to own email-address a day.
     # Loop-Protection!)
     $Self->{MaxPostMasterEmails} = 20;
-
 [...]
 </programlisting>
 </example>
@@ -49,8 +62,7 @@ OpenTRS is able to send automatically email replay. So it's possibe to create an
 <title>Kernel/Config.pm - Database settings</title>
 <programlisting>
 [...]
-
-   # DatabaseHost
+    # DatabaseHost
     # (The database host.)
     $Self->{DatabaseHost} = 'localhost';
 
@@ -70,7 +82,6 @@ OpenTRS is able to send automatically email replay. So it's possibe to create an
     # (The database DNS.)
     $Self->{DatabaseDSN} = 'DBI:mysql:database='.
         $Self->{Database}.';host='.$Self->{DatabaseHost}.';';
-
 [...]
 </programlisting>
 </example>
@@ -86,12 +97,10 @@ Should the agent be able to move tickets into queue which it isn't member of the
 <title>Kernel/Config.pm - Move into any queue</title>
 <programlisting>
 [...]
-
     # MoveInToAllQueues
     # (Possible to move in all queue? Not only queue which
     # the own groups) [1|0]
     $Self->{MoveInToAllQueues} = 1;
-
 [...]
 </programlisting>
 </example>
@@ -106,15 +115,177 @@ Some people want to set the "Custom Queue" name (The queue of your favorite queu
 <title>Kernel/Config.pm - Custom Queue</title>
 <programlisting>
 [...]
-
     # CustomQueue
     # (The name of custom queue.)
     $Self->{CustomQueue} = 'PersonalQueue';
-
 [...]
 </programlisting>
 </example>
 </sect1>
 
+<sect1>
+<title>Agent notification</title>
+<para>
+If there is a new ticket or a follow up for a ticket, OpenTRS will inform the agent(s).
+</para>
+<example>
+<title>Kernel/Config.pm - Agent notification</title>
+<programlisting>
+[...]
+    # ----------------------------------------------------#
+    # notification stuff                                  #
+    # ----------------------------------------------------#
+    # notification sender
+    $Self-&gt;{NotificationSenderName} = 'OpenTRS Notification Master';
+    $Self-&gt;{NotificationSenderEmail} = 'otrs@'.$Self-&gt;{FQDN};
+
+    # new ticket
+    $Self-&gt;{NotificationSubjectNewTicket} = 'New ticket notification! (&lt;OTRS_CUSTOMER_SUBJECT[10]&gt;)';
+    $Self-&gt;{NotificationBodyNewTicket} = "
+Hi,
+
+there is a new ticket!
+
+&lt;snip&gt;
+&lt;OTRS_CUSTOMER_EMAIL[6]&gt;
+&lt;snip&gt;
+
+http://$Self-&gt;{FQDN}/otrs/index.pl?Action=AgentZoom&TicketID=&lt;OTRS_TICKET_ID&gt;
+
+Your OpenTRS Notification Master
+
+";
+
+    # follow up
+    $Self-&gt;{NotificationSubjectFollowUp} = 'You got follow up! (&lt;OTRS_CUSTOMER_SUBJECT[10]&gt;)';
+    $Self-&gt;{NotificationBodyFollowUp} = "
+Hi &lt;OTRS_USER_FIRSTNAME&gt;,
+
+you got a follow up!
+
+&lt;snip&gt;
+&lt;OTRS_CUSTOMER_EMAIL[6]&gt;
+&lt;snip&gt;
+
+http://$Self-&gt;{FQDN}/otrs/index.pl?Action=AgentZoom&TicketID=&lt;OTRS_TICKET_ID&gt;
+
+Your OpenTRS Notification Master
+
+";
+[...]
+</programlisting>
+</example>
+</sect1>
+
+<sect1>
+<title>Session management</title>
+<para>
+The OpenTRS session management. 
+</para>
+<example>
+<title>Kernel/Config.pm - Session management</title>
+<programlisting>
+[...]
+    # ----------------------------------------------------#
+    # session settings                                    #
+    # ----------------------------------------------------#
+    
+    # SessionDriver
+    # (How should be the session-data stored? [sql|fs]
+    # Advantage of sql is that you can split the 
+    # Frontendserver from the DB-Server. fs is faster.)
+    $Self->{SessionDriver} = 'sql';
+    
+    # SessionCheckRemoteIP 
+    # (If the application is used via a proxy-farm then the 
+    # remote ip address is mostly different. In this case,
+    # turn of the CheckRemoteID. ) [1|0] 
+    $Self->{SessionCheckRemoteIP} = 1;
+
+    # SessionDeleteIfNotRemoteID
+    # (Delete session if the session id is used with an 
+    # invalied remote IP?) [0|1]
+    $Self->{SessionDeleteIfNotRemoteID} = 1;
+
+    # SessionMaxTime
+    # (Max valid time of one session id in second (8h = 28800).)
+    $Self->{SessionMaxTime} = 28800;
+
+    # SessionDeleteIfTimeToOld
+    # (Delete session's witch are requested and to old?) [0|1]
+    $Self->{SessionDeleteIfTimeToOld} = 1;
+[...]
+</programlisting>
+</example>
+</sect1>
+
+<sect1>
+<title>agent area default settings</title>
+<para>
+</para>
+<example>
+<title>Kernel/Config.pm - agent area default settings</title>
+<programlisting>
+[...]
+    # ----------------------------------------------------#
+    # agent area default settings                         #
+    # ----------------------------------------------------#
+
+    # ViewableTickets
+    # (The default viewable tickets a page.)
+    $Self->{ViewableTickets} = 25;
+
+    # ViewableTicketLines
+    # (Max viewable ticket lines in the QueueView.)
+    $Self->{ViewableTicketLines} = 18;
+
+    # ViewableTicketLinesZoom
+    # (Max viewable ticket lines in the QueueZoom.)
+    $Self->{ViewableTicketLinesZoom} = 6000;
+
+    # MaxLimit
+    # (Max viewable tickets a page.)
+    $Self->{MaxLimit} = 150;
+
+    # Refresh (in minutes)
+    # (Default reload time for teh QueueView.)
+    $Self->{Refresh} = 2;
+
+    # RefreshOptions
+    # (Refresh option list for preferences)
+    $Self->{RefreshOptions} = {
+        2 => ' 2 minutes',
+        5 => ' 5 minutes',
+        7 => ' 7 minutes',
+        10 => '10 minutes',
+        15 => '15 minutes',
+    };
+
+    # Highligh*
+    # (Set the age and the color for highlighting of old queue
+    # in the QueueView.)
+    # highlight age1 in min
+    $Self->{HighlightAge1} = 1440;
+    $Self->{HighlightColor1} = 'orange';
+    # highlight age2 in min
+    $Self->{HighlightAge2} = 2880;
+    $Self->{HighlightColor2} = 'red';
+
+    # ----------------------------------------------------#
+    # AgentUtil                                           #
+    # ----------------------------------------------------#
+
+    # default limit for Tn search
+    $Self->{SearchLimitTn} = 20;
+
+    # default limit for Txt search
+    $Self->{SearchLimitTxt} = 20;
+
+    # viewable ticket lines by search util 
+    $Self->{ViewableTicketLinesBySearch} = 15;
+[...]
+</programlisting>
+</example>
+</sect1>
 
 </chapter>
