@@ -27,6 +27,7 @@ The admin interface is the central of your power. You can create and delete user
 <screeninfo>add new user interface</screeninfo>
 <graphic srccredit="add new user interface" scale="40" fileref="screenshots/add-new-user.png"></graphic>
 </screenshot>
+Now add the new user to the 'users' group or some other groups.
 </para>
 </sect1>
 
