@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.173 2005-01-18 08:37:02 martin Exp $
+# $Id: Generic.pm,v 1.174 2005-02-12 06:43:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,13 +19,27 @@ use Kernel::Output::HTML::Agent;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.173 $';
+$VERSION = '$Revision: 1.174 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
     'Kernel::Output::HTML::Agent',
     'Kernel::Output::HTML::Customer',
 );
+
+=head1 NAME
+
+Kernel::Output::HTML::Generic - all generic html finctions
+
+=head1 SYNOPSIS
+
+All generic html finctions. E. g. to get options fields, template processing, ...
+
+=head1 PUBLIC INTERFACE
+
+=over 4
+
+=cut
 
 sub new {
     my $Type = shift;
@@ -180,7 +194,23 @@ sub SetEnv {
     $Self->{EnvNewRef}->{$Param{Key}} = $Param{Value};
     return 1;
 }
-# --
+
+=item Block()
+
+use a dtl block
+
+    $LayoutObject->Block(
+        Name => 'Row',
+        Data => {
+            Time => $Row[0],
+            Priority => $Row[1],
+            Facility => $Row[2],
+            Message => $Row[3],
+        },
+    );
+
+=cut
+
 sub Block {
     my $Self = shift;
     my %Param = @_;
@@ -190,8 +220,8 @@ sub Block {
     }
     push (@{$Self->{BlockData}}, {Name => $Param{Name}, Data => $Param{Data}});
 }
-# --
-sub BlockTemplatePreferences {
+
+sub _BlockTemplatePreferences {
     my $Self = shift;
     my %Param = @_;
     my %TagsOpen = ();
@@ -273,8 +303,8 @@ sub BlockTemplatePreferences {
         return @{$Self->{PrasedBlockTemplatePreferences}->{$TemplateFile}};
     }
 }
-# --
-sub BlockTemplatesReplace {
+
+sub _BlockTemplatesReplace {
     my $Self = shift;
     my %Param = @_;
     my %BlockLayer = ();
@@ -287,7 +317,7 @@ sub BlockTemplatesReplace {
     my $TemplateString = $Param{Template};
     my $TemplateFile = $Param{TemplateFile} || '';
     # get availabe template block preferences
-    my @Blocks = $Self->BlockTemplatePreferences(
+    my @Blocks = $Self->_BlockTemplatePreferences(
         Template => $$TemplateString,
         TemplateFile => $TemplateFile,
     );
@@ -326,7 +356,18 @@ sub BlockTemplatesReplace {
     }
     return @BR;
 }
-# --
+
+=item Output()
+
+use a dtl template and get html back
+
+    my $HTMP = $LayoutObject->Output(
+        TemplateFile => 'AdminLog',
+        Data => \%Param,
+    );
+
+=cut
+
 sub Output {
     my $Self = shift;
     my %Param = @_;
@@ -420,7 +461,7 @@ sub Output {
     $TemplateString =~ s/^#.*\n//gm;
 
     # parse/get text blocks
-    my @BR = $Self->BlockTemplatesReplace(
+    my @BR = $Self->_BlockTemplatesReplace(
         Template => \$TemplateString,
         TemplateFile => $Param{TemplateFile} || '',
     );
@@ -826,7 +867,17 @@ sub Output {
     # return output
     return $Output;
 }
-# --
+
+=item Redirect()
+
+return html for browser to redirect
+
+    my $HTML = $LayoutObject->Redirect(
+        OP => "Action=AdminUserGroup&Subaction=User&ID=$UserID",
+    );
+
+=cut
+
 sub Redirect {
     my $Self = shift;
     my %Param = @_;
@@ -1329,7 +1380,7 @@ sub OptionStrgHashRef {
     # --
     $Output .= "<select name=\"$Name\" $Multiple $OnStuff $Size>\n";
     if ($PossibleNone) {
-        $Output .= '<option VALUE="">$Text{"none"}</option>';
+        $Output .= '<option VALUE="">-$Text{"none"}-</option>';
     }
     # hash cleanup
     foreach (keys %Data) {
@@ -1379,6 +1430,122 @@ sub OptionStrgHashRef {
         }
     }
     $Output .= "</select>\n";
+    return $Output;
+}
+
+=item OptionElement()
+
+build a html option element based on given data
+
+    my $HTML = $LayoutObject->OptionElement(
+        Name            => 'SomeParamName',
+        Data            => {
+            ParamA => {
+                Position    => 1,
+                Value       => 'Some Nice Text A',
+            },
+            ParamB => {
+                Position    => 2,
+                Value       => 'Some Nice Text B',
+                Selected    => 1,
+            },
+        },
+        # optional
+        Max             => 80, # max size of the shown value
+        Multiple        => 0, # 1|0
+        Size            => '', # option element size
+        HTMLQuote       => 1, # 1|0
+        PossibleNone    => 0, # 1|0 add a leading empty selection
+    );
+
+=cut
+
+sub OptionElement {
+    my $Self = shift;
+    my %Param = @_;
+    my $Output = '';
+    my $Name = $Param{Name} || '';
+    my $Max = $Param{Max} || 80;
+    my $Multiple = $Param{Multiple} ? 'multiple' : '';
+    my $HTMLQuote = defined($Param{HTMLQuote}) ? $Param{HTMLQuote} : 1;
+    my $Translation = defined($Param{Translation}) ? $Param{Translation} : 1;
+    my $PossibleNone = $Param{PossibleNone} || '';
+    my $Size = $Param{Size} || '';
+    $Size = "size=\"$Size\"" if ($Size);
+    # check needed stuff
+    foreach (qw(Name Data)) {
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "Got no Data Param ref in OptionStrgHashRef()!",
+            );
+            $Self->FatalError();
+        }
+    }
+    if (!$Param{Data}) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Got no Data Param ref in OptionStrgHashRef()!",
+        );
+        $Self->FatalError();
+    }
+    elsif (ref($Param{Data}) ne 'HASH') {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Need HashRef in Param Data! Got: '".ref($Param{Data})."'!",
+        );
+        $Self->FatalError();
+    }
+
+
+    # detect
+    # $Param{Data}{Key}{Value}
+    my $Hash2 = 0;
+    foreach my $Key (%{$Param{Data}}) {
+        if (ref($Param{Data}->{$Key}) eq 'HASH') {
+            $Hash2 = 1;
+            last;
+        }
+    }
+    if ($Hash2) {
+        # get sort prio
+        my %DataSort = ();
+        foreach my $Key (%{$Param{Data}}) {
+            foreach my $Type (%{$Param{Data}->{$Key}}) {
+                $DataSort{$Key} = $Type;
+            }
+        }
+        # build option element
+        $Output .= "<select name=\"$Name\" $Multiple $Size>\n";
+        if ($PossibleNone) {
+            $Output .= '<option VALUE="">-$Text{"none"}-</option>';
+        }
+        foreach my $Key (sort {$DataSort{$a} <=> $DataSort{$b}} keys %DataSort) {
+            $Output .= '  <option value="'.$Self->Ascii2Html(Text => $Key).'"';
+            if ($Param{Data}->{$Key}->{Selected}) {
+                $Output .= ' selected';
+            }
+            $Output .= '>';
+            if ($Translation) {
+                $Param{Data}->{$Key}->{Value} = $Self->{LanguageObject}->Get($Param{Data}->{$Key}->{Value});
+            }
+            if ($HTMLQuote) {
+                $Output .= $Self->Ascii2Html(Text => $Param{Data}->{$Key}->{Value}, Max => $Max);
+            }
+            else {
+                $Output .= $Param{Data}->{$Key}->{Value};
+            }
+            $Output .= "</option>\n";
+        }
+        $Output .= "</select>\n";
+    }
+    else {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Got corrupt Data param! Got: '".ref($Param{Data})."'!",
+        );
+        $Self->FatalError();
+    }
     return $Output;
 }
 # --
@@ -1465,7 +1632,20 @@ sub ReturnValue {
     my $What = shift;
     return $Self->{$What};
 }
-# --
+
+=item Attachment()
+
+returns browser output to display/download a attachment
+
+    $HTML = $LayoutObject->Attachment(
+        Type => 'inline' # inline|attached
+        Filename => 'FileName.png',
+        ContentType => 'image/png',
+        Content => $Content,
+    );
+
+=cut
+
 sub Attachment {
     my $Self = shift;
     my %Param = @_;
@@ -1914,7 +2094,23 @@ sub BuildDateSelection {
         %Param,
     );
 }
-# --
+
+=item OutputCSV()
+
+returns a csv based on a array
+
+    $CSV = $LayoutObject->OutputHTMLTable(
+        Head => ['RowA', 'RowB', ],
+        Data => [
+            [1,4],
+            [7,3],
+            [1,9],
+            [34,4],
+        ],
+    );
+
+=cut
+
 sub OutputCSV {
     my $Self = shift;
     my %Param = @_;
@@ -1947,7 +2143,23 @@ sub OutputCSV {
     }
     return $Output;
 }
-# --
+
+=item OutputHTMLTable()
+
+returns a html table based on a array
+
+    $HTML = $LayoutObject->OutputHTMLTable(
+        Head => ['RowA', 'RowB', ],
+        Data => [
+            [1,4],
+            [7,3],
+            [1,9],
+            [34,4],
+        ],
+    );
+
+=cut
+
 sub OutputHTMLTable {
     my $Self = shift;
     my %Param = @_;
@@ -1978,5 +2190,20 @@ sub OutputHTMLTable {
     $Output .= "</table>\n";
     return $Output;
 }
-# --
 1;
+
+=head1 TERMS AND CONDITIONS
+
+This Software is part of the OTRS project (http://otrs.org/).
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (GPL). If you
+did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+
+=cut
+
+=head1 VERSION
+
+$Revision: 1.174 $ $Date: 2005-02-12 06:43:23 $
+
+=cut
