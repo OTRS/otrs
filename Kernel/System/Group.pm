@@ -1,9 +1,9 @@
 # --
 # Kernel/System/Group.pm - All Groups related function should be here eventually
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
-#               2002-2003 Martin Edenhofer <martin+code@otrs.org>
+#               2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Group.pm,v 1.12 2003-11-20 23:00:55 martin Exp $
+# $Id: Group.pm,v 1.13 2003-11-26 00:48:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Group;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -73,14 +73,14 @@ sub GetGroupIdByName {
 
 to add a member to a group
   
-  Permission: ro,move,priority,create,rw 
+  Permission: ro,move_into,priority,create,rw 
 
   my $ID = $Self->{GroupObject}->GroupMemberAdd(
       GID => 12,
       UID => 6,
       Permission => {
           ro => 1,
-          move => 1,
+          move_into => 1,
           create => 1,
           owner => 1,
           priority => 0,
@@ -297,18 +297,18 @@ sub GroupList {
 
 =item GroupMemberList()
 
-returns a list of users of a group with ro/move/create/owner/priority/rw permissions 
+returns a list of users of a group with ro/move_into/create/owner/priority/rw permissions 
 
   UserID: user id
   GroupID: group id
-  Type: ro|move|priority|create|rw
+  Type: ro|move_into|priority|create|rw
   Result: HASH -> returns a hash of key => group id, value => group name
           Name -> returns an array of user names
           ID   -> returns an array of user names
   Example:
   $Self->{GroupObject}->GroupMemberList(
       UserID => $ID,
-      Type => 'move',
+      Type => 'move_into',
       Result => 'HASH',
   );
 
@@ -382,6 +382,6 @@ sub GroupMemberList {
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2003-11-20 23:00:55 $
+$Revision: 1.13 $ $Date: 2003-11-26 00:48:47 $
 
 =cut
