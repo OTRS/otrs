@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.65 2004-04-22 13:17:22 martin Exp $
+# $Id: AgentCompose.pm,v 1.66 2004-07-08 18:52:17 robert Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.65 $';
+$VERSION = '$Revision: 1.66 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -46,8 +46,8 @@ sub new {
     $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%Param);
     $Self->{StdAttachmentObject} = Kernel::System::StdAttachment->new(%Param);
     $Self->{StateObject} = Kernel::System::State->new(%Param);
-    # anyway, we need to check the email syntax
-    $Self->{ConfigObject}->Set(Key => 'CheckEmailAddresses', Value => 1);
+    # anyway, we need to check the email syntax (removed it, because the admins should configure it)
+#    $Self->{ConfigObject}->Set(Key => 'CheckEmailAddresses', Value => 1);
     # get params
     foreach (qw(From To Cc Bcc Subject Body InReplyTo ResponseID ComposeStateID 
       Answered ArticleID TimeUnits Year Month Day Hour Minute)) {
