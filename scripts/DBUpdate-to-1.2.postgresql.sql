@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 1.1 to 1.2 
 -- Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-1.2.postgresql.sql,v 1.10 2004-02-02 22:11:04 martin Exp $
+-- $Id: DBUpdate-to-1.2.postgresql.sql,v 1.11 2004-02-02 23:16:00 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-1.1.postgresql.sql | psql otrs 
@@ -50,8 +50,8 @@ CREATE TABLE ticket_link
 --
 ALTER TABLE group_user ADD permission_key VARCHAR (20);
 ALTER TABLE group_user ADD permission_value SMALLINT;
-UPDATE TABLE SET permission_value = 0;
-ALTER TABLE ALTER COLUMN permission_value NOT NULL;
+UPDATE group_user SET permission_value = 0;
+ALTER TABLE group_user ALTER COLUMN permission_value SET NOT NULL;
 
 UPDATE group_user SET permission_key = 'ro', permission_value = 1 WHERE permission_read = 1;
 UPDATE group_user SET permission_key = 'rw', permission_value = 1 WHERE permission_write = 1;
@@ -211,8 +211,9 @@ INSERT INTO faq_state_type (name) VALUES ('public');
 -- 
 -- auto_response update
 --
-ALTER TABLE auto_response ADD charset VARCHAR (80) NOT NULL;
-UPDATE auto_response SET charset = 'ISO-8859-1' WHERE charset = '';
+ALTER TABLE auto_response ADD charset VARCHAR (80);
+UPDATE auto_response SET charset = 'ISO-8859-1';
+ALTER TABLE auto_response ALTER COLUMN charset SET NOT NULL;
 
 -- 
 -- agent notifications
@@ -291,3 +292,26 @@ INSERT INTO notifications
   (notification_type, notification_charset, notification_language, subject, text, create_time, create_by, change_time, change_by)
   VALUES
   ('Agent::PendingReminder', 'iso-8859-1', 'de', 'Ticket Erinnerung!', 'Hi <OTRS_OWNER_USERFIRSTNAME>,das Ticket "<OTRS_TICKET_NUMBER>" hat die Erinnerungszeit erreicht!Bitte um weitere Bearbeutung:<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>Dein OTRS Benachrichiguns-Master', current_timestamp, 1, current_timestamp, 1);
+
+--
+-- rename comment to comments column
+--
+ALTER TABLE groups RENAME comment TO comments;
+ALTER TABLE charset RENAME comment TO comments;
+ALTER TABLE ticket_state RENAME comment TO comments;
+ALTER TABLE ticket_state_type RENAME comment TO comments;
+ALTER TABLE salutation RENAME comment TO comments; 
+ALTER TABLE signature RENAME comment TO comments; 
+ALTER TABLE system_address RENAME comment TO comments;
+ALTER TABLE follow_up_possible RENAME comment TO comments;
+ALTER TABLE queue RENAME comment TO comments;
+ALTER TABLE ticket_history_type RENAME comment TO comments;
+ALTER TABLE article_type RENAME comment TO comments;
+ALTER TABLE article_sender_type RENAME comment TO comments;
+ALTER TABLE standard_response RENAME comment TO comments;
+ALTER TABLE auto_response_type RENAME comment TO comments;
+ALTER TABLE auto_response RENAME comment TO comments;
+ALTER TABLE customer_user RENAME comment TO comments;
+ALTER TABLE standard_attachment RENAME comment TO comments;
+ALTER TABLE pop3_account RENAME comment TO comments;
+
