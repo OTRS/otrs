@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file (incl. auth) for OpenTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.30 2002-06-08 22:07:33 martin Exp $
+# $Id: index.pl,v 1.31 2002-07-18 23:27:03 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ use lib '../..';
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -196,6 +196,23 @@ if ($Param{Action} eq "Login") {
 # --
 elsif ($Param{Action} eq "Logout"){
     if ( $CommonObject{SessionObject}->CheckSessionID(SessionID => $Param{SessionID}) ) {
+        # --
+        # get session data
+        # --
+        my %UserData = $CommonObject{SessionObject}->GetSessionIDData(
+          SessionID => $Param{SessionID},
+        );
+        # --
+        # create new LayoutObject with new '%Param' and '%UserData'
+        # --
+        $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(
+          %CommonObject,
+          %Param,
+          %UserData,
+        );
+        # --
+        # remove session id
+        # --
         if ( $CommonObject{SessionObject}->RemoveSessionID(SessionID => $Param{SessionID}) ) {
             print $CommonObject{LayoutObject}->Login(
                 Title => 'Logout',
