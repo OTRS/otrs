@@ -2,7 +2,7 @@ package Email::Valid;
 
 use strict;
 use vars qw( $VERSION $RFC822PAT %AUTOLOAD $AUTOLOAD $NSLOOKUP_PAT
-             @NSLOOKUP_PATHS $Details $Resolver $Nslookup_Path 
+             $DIG_PAT $HOST_PAT @NSLOOKUP_PATHS $Details $Resolver $Nslookup_Path 
              $DNS_Method $Debug );
 use Carp;
 use IO::File;
@@ -11,8 +11,9 @@ use Mail::Address;
 $VERSION = '0.14';
 
 %AUTOLOAD = ( mxcheck => 1, fudge => 1, fqdn => 1, local_rules => 1 );
-#$NSLOOKUP_PAT = 'preference|serial|expire|mail\s+exchanger';
-$NSLOOKUP_PAT = 'preference|mail\s+exchanger|IN\s+MX';
+$NSLOOKUP_PAT = 'preference|serial|expire|mail\s+exchanger';
+$DIG_PAT = 'IN\s+MX|IN\s+A';
+$HOST_PAT = 'mail\s+is\s+handled';
 @NSLOOKUP_PATHS = qw( /usr/bin /usr/sbin /bin );
 $DNS_Method = '';
 
@@ -92,11 +93,15 @@ sub _find_nslookup {
   my $self = shift;
  
   foreach my $path (@NSLOOKUP_PATHS) {
+    return "$path/nslookup" if -x "$path/nslookup" and !-d _;
+  }
+  foreach my $path (@NSLOOKUP_PATHS) {
     return "$path/dig" if -x "$path/dig" and !-d _;
   }
   foreach my $path (@NSLOOKUP_PATHS) {
-    return "$path/nslookup" if -x "$path/nslookup" and !-d _;
+    return "$path/host" if -x "$path/host" and !-d _;
   }
+
   return undef;
 }               
 
@@ -135,28 +140,71 @@ sub _nslookup_query {
 
   unless ($Nslookup_Path) {
     $Nslookup_Path = $self->_find_nslookup
-      or croak 'unable to locate cpan module Net::DNS, dig or nslookup! Please install Net::DNS';
+      or croak 'unable to locate cpan module Net::DNS, dig, host or nslookup! Please install Net::DNS';
   }
-
   # Check for an A record
   return 1 if gethostbyname $host;
 
-# Check for an MX record
-  if (my $fh = new IO::File '-|') {
-	  my $response = <$fh>;
-	  print STDERR $response if $Debug;
-	  close $fh;
-	  $response =~ /$NSLOOKUP_PAT/io or return $self->details('mx');
-	  return 1;
-  } else {
-	  open OLDERR, '>&STDERR' or croak "cannot dup stderr: $!";
-	  open STDERR, '>&STDOUT' or croak "cannot redirect stderr to stdout: $!";
-	  {
-		  exec $Nslookup_Path, '-query=mx', $host;
-	  }
-	  open STDERR, ">&OLDERR";
-	  croak "unable to execute nslookup '$Nslookup_Path': $!";
-  }                                                                             
+  # Check for an MX record
+  if ($Nslookup_Path =~ /host$/) {
+    if (my $fh = new IO::File "$Nslookup_Path -t mx $host|") {
+      my $response = <$fh>;
+      print STDERR $response if $Debug;
+      close $fh;
+      $response =~ /$HOST_PAT/io or return $self->details('mx');
+      return 1;
+    } 
+    else {
+      open OLDERR, '>&STDERR' or croak "cannot dup stderr: $!";
+      open STDERR, '>&STDOUT' or croak "cannot redirect stderr to stdout: $!";
+      {
+        exec $Nslookup_Path, '-t mx', $host;
+      }
+      open STDERR, ">&OLDERR";
+      croak "unable to execute host '$Nslookup_Path': $!";
+    }
+  }
+  elsif ($Nslookup_Path =~ /dig$/) {
+    if (my $fh = new IO::File "$Nslookup_Path mx $host|") {
+      my $response = <$fh>;
+      print STDERR $response if $Debug;
+      close $fh;
+      $response =~ /$DIG_PAT/io or return $self->details('mx');
+      return 1;
+    } 
+    else {
+      open OLDERR, '>&STDERR' or croak "cannot dup stderr: $!";
+      open STDERR, '>&STDOUT' or croak "cannot redirect stderr to stdout: $!";
+      {
+        exec $Nslookup_Path, '-query=mx', $host;
+      }
+      open STDERR, ">&OLDERR";
+      croak "unable to execute dig '$Nslookup_Path': $!";
+    }
+  }
+  elsif ($Nslookup_Path =~ /nslookup/) {
+    if (my $fh = new IO::File '-|') {
+      my $response = <$fh>;
+      print STDERR $response if $Debug;
+      close $fh;
+      $response =~ /$NSLOOKUP_PAT/io or return $self->details('mx');
+      return 1;
+    } 
+    else {
+      open OLDERR, '>&STDERR' or croak "cannot dup stderr: $!";
+      open STDERR, '>&STDOUT' or croak "cannot redirect stderr to stdout: $!";
+      {
+        exec $Nslookup_Path, '-query=mx', $host;
+      }
+      open STDERR, ">&OLDERR";
+      croak "unable to execute nslookup '$Nslookup_Path': $!";
+    }
+  } 
+  else {
+    print STDERR "unable to execute '$Nslookup_Path': $!";
+    # but return true!
+    return 1;
+  }
 }
 
 # Purpose: Check whether a DNS record (A or MX) exists for a domain.
