@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: EmailParser.pm,v 1.8 2002-11-09 02:23:56 martin Exp $
+# $Id: EmailParser.pm,v 1.9 2002-12-18 17:47:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use MIME::Words qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -56,9 +56,8 @@ sub GetEmailAddress {
     my $Self = shift;
     my %Param = @_;
     my $Email = '';
-    foreach (Mail::Address->parse($Param{Email})) {
-        $Email = $_->address();
-
+    foreach my $EmailSplit (Mail::Address->parse($Param{Email})) {
+        $Email = $EmailSplit->address();
     }
     return $Email;
 }
@@ -67,8 +66,8 @@ sub SplitAddressLine {
     my $Self = shift;
     my %Param = @_;
     my @GetParam = ();
-    foreach (Mail::Address->parse($Param{Line})) {
-        push (@GetParam, $_->format());
+    foreach my $Line (Mail::Address->parse($Param{Line})) {
+        push (@GetParam, $Line->format());
     }
     return @GetParam;
 }
