@@ -2,7 +2,7 @@
 # AgentOwner.dtl - provides HTML for AgentOwner mask
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentOwner.dtl,v 1.2 2002-05-10 00:12:35 martin Exp $
+# $Id: AgentOwner.dtl,v 1.3 2002-08-05 00:20:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,6 +17,12 @@
   </td>
   <td align="right" bgcolor="$Env{"BGTableColor0"}">
   <b><font color="$Env{"FontColor1"}">-</font></b>
+  </font>
+  </td>
+</tr>
+<tr>
+  <td align="left" bgcolor="$Env{"BGTableColor2"}" colspan="2">
+    <a href="$Env{"Baselink"}$Env{"LastScreen"}">$Text{"Back"}</a>
   </font>
   </td>
 </tr>
