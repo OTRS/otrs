@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Filter.pm - all functions to add/delete/list pm db filters
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Filter.pm,v 1.2 2004-06-22 09:03:35 martin Exp $
+# $Id: Filter.pm,v 1.3 2004-10-29 20:01:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::Filter;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -32,9 +32,9 @@ All postmaster database filters
 =cut
 
 =item new()
-    
-create a object 
-    
+
+create a object
+
   use Kernel::Config;
   use Kernel::System::Log;
   use Kernel::System::DB;
@@ -44,7 +44,7 @@ create a object
   my $LogObject    = Kernel::System::Log->new(
       ConfigObject => $ConfigObject,
   );
-  my $DBObject = Kernel::System::DB->new( 
+  my $DBObject = Kernel::System::DB->new(
       ConfigObject => $ConfigObject,
       LogObject => $LogObject,
   );
@@ -56,7 +56,6 @@ create a object
 
 =cut
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -72,7 +71,6 @@ sub new {
 
     return $Self;
 }
-# --
 
 =item FilterList()
 
@@ -93,7 +91,6 @@ sub FilterList {
     }
     return %Data;
 }
-# --
 
 =item FilterAdd()
 
@@ -132,16 +129,15 @@ sub FilterAdd {
             $Data{$_} = $Self->{DBObject}->Quote($Data{$_}) || '';
             my $SQL = "INSERT INTO postmaster_filter (f_name, f_type, f_key, f_value) VALUES ('$Param{Name}', '$Type', '$_', '$Data{$_}')";
             if (!$Self->{DBObject}->Do(SQL => $SQL)) {
-                return; 
+                return;
             }
         }
     }
     return 1;
 }
-# --
 
 =item FilterDelete()
-    
+
 delete a filter
 
   $PMFilterObject->FilterDelete(
@@ -167,10 +163,9 @@ sub FilterDelete {
         return;
     }
 }
-# --
 
 =item FilterGet()
-    
+
 get filter properties, returns HASH ref Match and Set
 
   my %Data = $PMFilterObject->FilterGet(
@@ -202,12 +197,12 @@ sub FilterGet {
     }
     return %Data;
 }
-# --
+
 1;
 
 =head1 TERMS AND CONDITIONS
 
-This software is part of the OTRS project (http://otrs.org/).  
+This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
@@ -217,6 +212,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2004-06-22 09:03:35 $
+$Revision: 1.3 $ $Date: 2004-10-29 20:01:15 $
 
 =cut
