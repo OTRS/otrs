@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCustomer.pm - to set the ticket customer and show the customer history
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCustomer.pm,v 1.1 2002-07-17 22:36:24 martin Exp $
+# $Id: AgentCustomer.pm,v 1.2 2002-07-18 23:29:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentCustomer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -46,6 +46,7 @@ sub new {
    
     # get  CustomerID
     $Self->{CustomerID} = $Self->{ParamObject}->GetParam(Param => 'CustomerID') || '';
+    $Self->{Search} = $Self->{ParamObject}->GetParam(Param => 'Search') || 0;
 
     return $Self;
 }
@@ -97,7 +98,7 @@ sub Run {
     }
     else {
         # print header 
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Set Customer');
+        $Output .= $Self->{LayoutObject}->Header(Title => 'Customer');
         my %LockedData = $Self->{UserObject}->GetLockedCount(UserID => $UserID);
         $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
         my $TicketCustomerID = $Self->{CustomerID};
@@ -189,14 +190,23 @@ sub Run {
             );
           }
         }
-	    $Output .= $Self->{LayoutObject}->AgentCustomerHistory(
+        if (!$OutputTables || $Self->{Search}) {
+          $Output .= $Self->{LayoutObject}->AgentUtilSearchAgain(
+              %Param,
+              CustomerID => $Self->{CustomerID},
+              Message => 'No entry found!',
+          );
+        }
+        if ($OutputTables) {
+          $Output .= $Self->{LayoutObject}->AgentCustomerHistory(
             CustomerID => $TicketCustomerID,
  			TicketID => $TicketID,
             BackScreen => $Self->{BackScreen},
             NextScreen => $Self->{NextScreen},
             HistoryTable => $OutputTables,
             QueueID => $QueueID,
-        );
+          );
+        }
         $Output .= $Self->{LayoutObject}->Footer();
     }
     return $Output;
