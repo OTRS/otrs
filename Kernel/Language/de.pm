@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2002-2003 Martin Edenhofer <martin at otrs.org>
 # --
-# $Id: de.pm,v 1.26 2003-05-07 11:47:04 robert Exp $
+# $Id: de.pm,v 1.27 2003-05-10 21:03:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -581,7 +581,7 @@ sub Data {
       'Phone call at %s' => 'Anruf am %s',
 
     # Template: AgentPhoneNew
-      'Clear From' => '\'Von:\' löschen',
+      'Clear From' => 'Von: löschen',
       'create' => 'Erstellen',
       'new ticket' => 'Neues Ticket',
 
