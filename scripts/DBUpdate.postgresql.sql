@@ -2,7 +2,7 @@
 -- Update an existing OpenTRS database to the current state.
 -- Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate.postgresql.sql,v 1.6 2002-11-27 10:33:54 martin Exp $
+-- $Id: DBUpdate.postgresql.sql,v 1.7 2002-12-01 16:15:28 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate.postgresql.sql | psql otrs 
@@ -12,10 +12,86 @@
 -- --
 -- 0.5 BETA 9 upgrate
 -- --
+-- table for db loop protection backend module
+CREATE TABLE ticket_loop_protection
+(
+    sent_to VARCHAR (250) NOT NULL,
+    sent_date VARCHAR (150) NOT NULL
+);
+CREATE INDEX index_ticket_loop_protection_to ON ticket_loop_protection (sent_to);
+CREATE INDEX index_ticket_loop_protection_da ON ticket_loop_protection (sent_date);
+-- charset for bulgarian translation
+ALTER TABLE charset RENAME TO charset_old;
+DROP SEQUENCE charset_id_seq;
+DROP INDEX charset_pkey;
+DROP INDEX charset_name_key;
+CREATE TABLE charset
+(
+    id serial,
+    name varchar (200) NOT NULL,
+    charset varchar (50) NOT NULL,
+    comment varchar (250),
+    valid_id smallint NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by integer NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by integer NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE (name)
+);
+INSERT INTO charset (
+     name,
+     charset,
+     comment,
+     valid_id,
+     create_time,
+     create_by,
+     change_time,
+     change_by) 
+SELECT  
+     name,
+     charset,
+     comment,
+     valid_id,
+     create_time,
+     create_by,
+     change_time,
+     change_by
+FROM charset_old ;
+DROP TABLE charset_old;
 INSERT INTO charset
     (name, charset, comment, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('Cyrillic Charset (Windows-1251)', 'Windows-1251', 'Windows-1251 - cp1251', 1, 1, current_timestamp, 1, current_timestamp);
+-- table for attachments in db
+CREATE TABLE article_attachment
+(
+    id serial, 
+    article_id BIGINT NOT NULL,
+    filename VARCHAR (250),
+    content_type VARCHAR (250),
+    content text,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+create INDEX index_article_attachment_article_id ON article_attachment (article_id);
+-- table for plain emails in db
+CREATE TABLE article_plain
+(
+    id serial,
+    article_id BIGINT NOT NULL,
+    body text,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id)
+
+);
+create INDEX index_article_plain_article_id ON article_plain (article_id);
 
 -- --
 -- 0.5 BETA 8 upgrate
