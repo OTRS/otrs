@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.26 2003-05-29 16:09:53 martin Exp $
+# $Id: AgentUtilities.pm,v 1.27 2003-07-12 08:41:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,11 +13,11 @@ package Kernel::Modules::AgentUtilities;
 
 use strict;
 use Kernel::System::CustomerUser;
-
+    
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
-
+    
 # --
 sub new {
     my $Type = shift;
@@ -26,7 +26,7 @@ sub new {
     # allocate new hash for object    
     my $Self = {}; 
     bless ($Self, $Type);
-    
+
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
@@ -37,12 +37,6 @@ sub new {
     }
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
 
-    # get params
-    $Self->{Want} = $Self->{ParamObject}->GetParam(Param => 'Want') || '';
-    $Self->{StartHit} = $Self->{ParamObject}->GetParam(Param => 'StartHit') || 1;
-    # get confid data
-    $Self->{SearchLimit} = $Self->{ConfigObject}->Get('SearchLimit') || 200;
-    $Self->{SearchPageShown} = $Self->{ConfigObject}->Get('SearchPageShown') || 15;
     return $Self;
 }
 # --
@@ -50,365 +44,622 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-    
-    if ($Self->{Subaction} eq 'Search') {
-        $Output = $Self->Search();
+    # get confid data
+    $Self->{StartHit} = $Self->{ParamObject}->GetParam(Param => 'StartHit') || 1;
+    $Self->{SearchLimit} = $Self->{ConfigObject}->Get('SearchLimit') || 200;
+    $Self->{SearchPageShown} = $Self->{ConfigObject}->Get('SearchPageShown') || 40;
+    $Self->{SortBy} = $Self->{ParamObject}->GetParam(Param => 'SortBy') || 'Age';
+    $Self->{Order} = $Self->{ParamObject}->GetParam(Param => 'Order') || 'Down';
+    $Self->{Profile} = $Self->{ParamObject}->GetParam(Param => 'Profile') || '';
+    $Self->{SaveProfile} = $Self->{ParamObject}->GetParam(Param => 'SaveProfile') || '';
+    $Self->{selecttemplate} = $Self->{ParamObject}->GetParam(Param => 'selecttemplate') || '';
+    $Self->{erasetemplate} = $Self->{ParamObject}->GetParam(Param => 'erasetemplate') || '';
+    # get params
+    my %GetParam = ();
+    my %DB = ();
+    foreach (qw(Profile UserLogin)) {
+        $DB{$_} = $Self->{DBObject}->Quote($Self->{$_});
     }
-    else {
-        $Output = $Self->Form();
-    }
-    return $Output;
-}
-# --
-sub Form {
-    my $Self = shift;
-    my %Param = @_;
-    my $Output;
-    my $UserID = $Self->{UserID};
-
-    # --
-    # get user of own groups
-    # --
-    my %ShownUsers = ();
-    my %AllGroupsMembers = $Self->{UserObject}->UserList(
-        Type => 'Long',
-        Valid => 1,
-    );
-    if ($Self->{ConfigObject}->Get('ChangeOwnerToEveryone')) {
-        %ShownUsers = %AllGroupsMembers;
-    }
-    else {
-        my %Groups = $Self->{GroupObject}->GroupUserList(
-            UserID => $Self->{UserID},
-            Type => 'rw',
-            Result => 'HASH',
-        );
-        foreach (keys %Groups) {
-            my %MemberList = $Self->{GroupObject}->GroupMemberList(
-                GroupID => $_,
-                Type => 'rw',
-                Result => 'HASH',
-            );
-            foreach (keys %MemberList) {
-                $ShownUsers{$_} = $AllGroupsMembers{$_};
+    foreach (qw(TicketNumber From To Cc Subject Body CustomerID CustomerUserLogin 
+      Agent ResultForm TicketFreeText1 TicketFreeText2 ArticleFreeText1 
+      ArticleFreeText2 ArticleFreeText3)) {
+        # load profiles string params
+        if ($Self->{Subaction} eq 'LoadProfile' && $Self->{Profile}) {
+            my $SQL = "SELECT profile_value FROM search_profile".
+              " WHERE ".
+              " profile_name = '$DB{Profile}' AND ".
+              " profile_key = '$_' AND ".
+              " login = '$DB{UserLogin}'";
+            $Self->{DBObject}->Prepare(SQL => $SQL);
+            while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+                $GetParam{$_} = $Row[0];
+            }
+        }
+        # get search string params
+        else {
+            $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
+            # remove white space on the end
+            if ($GetParam{$_}) {
+                $GetParam{$_} =~ s/\s$//g;
             }
         }
     }
-    
-    $Output .= $Self->{LayoutObject}->Header(Title => 'Utilities');
-    my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $UserID);
-    $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
-    $Output .= $Self->{LayoutObject}->AgentUtilForm(
-        Users => \%ShownUsers,
-    );
-    $Output .= $Self->{LayoutObject}->Footer();
-    
-    return $Output;
-}
-# --
-sub Search {
-    my $Self = shift;
-    my %Param = @_;
-    my $Output;
-    my $Want = $Self->{Want};
-    my $UserID = $Self->{UserID};
-    my @WhatFields = $Self->{ParamObject}->GetArray(Param => 'What');
-    my @States = $Self->{ParamObject}->GetArray(Param => 'State');
-    my @QueueIDs = $Self->{ParamObject}->GetArray(Param => 'QueueID');
-    my @PriorityIDs = $Self->{ParamObject}->GetArray(Param => 'PriorityID');
-    my @UserIDs = $Self->{ParamObject}->GetArray(Param => 'UserID');
-    my $TicketNumber = $Self->{ParamObject}->GetParam(Param => 'TicketNumber') || '';
-    $Output .= $Self->{LayoutObject}->Header(Title => 'Utilities');
-    my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $UserID);
-    $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
-    # --
-    # add states to where statement
-    # --
-    my $SqlTicketNumberExt = '';
-    if ($TicketNumber) {
-        # modifier search string!!!
-        my $TicketNumberTmp = $TicketNumber;
-        $TicketNumberTmp =~ s/\*/%/g;
-        $SqlTicketNumberExt .= " st.tn LIKE '$TicketNumberTmp' ";
-    }
-    my $SqlUserExt = '';
-    foreach (@UserIDs) {
-        $SqlUserExt = " st.user_id IN ( ${\(join ', ', @UserIDs)} )";
-    }
-    my $SqlStateExt = '';
-    my $CounterTmp = 0;
-    foreach (@States) {
-        if ($CounterTmp != 0) {
-            $SqlStateExt .= " or ";
-        }
-        $CounterTmp++;
-        if (my $StateID = $Self->{TicketObject}->StateLookup(State => $_)) {
-            $SqlStateExt .= " st.ticket_state_id = $StateID ";
-        }
-    }
-    my $SqlQueueExt = '';
-    $CounterTmp = 0;
-    foreach (@QueueIDs) {
-        if ($CounterTmp != 0) {
-            $SqlQueueExt .= " or ";
-        }
-        $CounterTmp++;
-        $SqlQueueExt .= " sq.id = $_ ";
-    }
-    my $SqlPriorityExt = '';
-    $CounterTmp = 0;
-    foreach (@PriorityIDs) {
-        if ($CounterTmp != 0) {
-            $SqlPriorityExt .= " or ";
-        }
-        $CounterTmp++;
-        $SqlPriorityExt .= " st.ticket_priority_id = $_ ";
-    }
-    # --
-    # modifier search string
-    # --
-    $Want =~ s/\+/%/gi;
-    $Want =~ s/\*//gi;
-    my @SParts = split('%', $Want);
-    # --
-    # show search again table
-    # --
-    # --
-    # get user of own groups
-    # --
-    my %ShownUsers = ();
-    my %AllGroupsMembers = $Self->{UserObject}->UserList(
-        Type => 'Long',
-        Valid => 1,
-    );
-    if ($Self->{ConfigObject}->Get('ChangeOwnerToEveryone')) {
-        %ShownUsers = %AllGroupsMembers;
-    }
-    else {
-        my %Groups = $Self->{GroupObject}->GroupUserList(
-            UserID => $Self->{UserID},
-            Type => 'rw',
-            Result => 'HASH',
-        );
-        foreach (keys %Groups) {
-            my %MemberList = $Self->{GroupObject}->GroupMemberList(
-                GroupID => $_,
-                Type => 'rw',
-                Result => 'HASH',
-            ); 
-            foreach (keys %MemberList) {
-                $ShownUsers{$_} = $AllGroupsMembers{$_};
+    foreach (qw(StateID StateTypeID QueueID PriorityID UserID)) {
+        # load profile array params
+        if ($Self->{Subaction} eq 'LoadProfile' && $Self->{Profile}) {
+            my $SQL = "SELECT profile_value FROM search_profile".
+              " WHERE ".
+              " profile_name = '$DB{Profile}' AND ".
+              " profile_key = '$_' AND ".
+              " login = '$DB{UserLogin}'";
+            $Self->{DBObject}->Prepare(SQL => $SQL);
+            my @Array = ();
+            while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+                push(@{$GetParam{$_}}, $Row[0]);
             }
         }
-    }
-    $Output .= $Self->{LayoutObject}->AgentUtilSearchAgain(
-        TicketNumber => $TicketNumber,
-        What => $Want,
-        Kind => 'SearchByText',
-        Limit => $Self->{SearchLimit},
-        WhatFields => \@WhatFields,
-        SelectedStates => \@States,
-        SelectedQueueIDs => \@QueueIDs,
-        SelectedPriorityIDs => \@PriorityIDs,
-        Users => \%ShownUsers,
-        SelectedUserIDs => \@UserIDs,
-    );
-
-    # --
-    # build a spez. sql ext.
-    # --
-    my $SqlExt = '';
-    my %FieldSQLMap = (
-        From => 'sa.a_from',
-        To => 'sa.a_to',
-        Cc => 'sa.a_cc',
-        Subject => 'sa.a_subject',
-        Body => 'sa.a_body',
-        CustomerID => 'st.customer_id',
-        TicketFreeText => 'st.freetext',
-        ArticleFreeText => 'sa.a_freetext',
-    );
-    my @SearchFields = ();
-    foreach my $Field (@WhatFields) {
-        if ($FieldSQLMap{$Field}) {
-          if ($Field eq 'TicketFreeText') {
-            foreach (1..2) {
-              push (@SearchFields, "$FieldSQLMap{$Field}$_");
-            }
-          }
-          elsif ($Field eq 'ArticleFreeText') {
-            foreach (1..3) {
-              push (@SearchFields, "$FieldSQLMap{$Field}$_");
-            }
-          }
-          else {
-              push (@SearchFields, $FieldSQLMap{$Field});
-          }
-        }
-    }
-    # --
-    # create tricky sql part
-    # --
-    $CounterTmp = 0;
-    if (@SParts) {
-        foreach my $Field (@SearchFields) {
-            if ($CounterTmp != 0) {
-                $SqlExt .= " or ";
-            }
-            $CounterTmp++;
-            my $CounterTmp1 = 0;
-            foreach (@SParts) {
-                if ($CounterTmp1 != 0) {
-                    $SqlExt .= " and ";
+        # get search array params
+        else {
+            if ($Self->{ParamObject}->GetArray(Param => $_)) {
+                if ($Self->{ParamObject}->GetArray(Param => $_)) {
+                    @{$GetParam{$_}} = $Self->{ParamObject}->GetArray(Param => $_);
                 }
-                $CounterTmp1++;
-                $SqlExt .= " $Field LIKE '%$_%' ";
             }
         }
     }
-    # --
-    # if there is no search field selected!
-    # --
-    if (!@SearchFields) {
-        # --
-        # error page
-        # --
-        $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-        $Output .= $Self->{LayoutObject}->Error(
-            Message => "Can't search! Select min. one search field!",
-            Comment => 'Please Select min. one search field.',
+    # set result form env
+    if (!$GetParam{ResultForm}) {
+        $GetParam{ResultForm} = '';
+    }
+    if ($GetParam{ResultForm} eq 'Print' || $GetParam{ResultForm} eq 'CSV') {
+        $Self->{SearchPageShown} = $Self->{SearchLimit}; 
+    }
+    # show result site
+    if ($Self->{Subaction} eq 'Search' && !$Self->{erasetemplate}) {
+        # save search profile
+        if ($Self->{SaveProfile} && $Self->{Profile}) {
+            # remove old profile stuff
+            $Self->{DBObject}->Do(
+                SQL => "DELETE FROM search_profile WHERE ".
+                  "profile_name = '$DB{Profile}' AND login = '$DB{UserLogin}'",
+            );
+            # insert new profile params
+            foreach my $Key (keys %GetParam) { 
+              if ($GetParam{$Key}) {
+                if (ref($GetParam{$Key}) eq 'ARRAY') {
+                    foreach (@{$GetParam{$Key}}) {
+                      my $SQL = "INSERT INTO search_profile (login, profile_name, ".
+                        "profile_key, profile_value) VALUES ".
+                        " ('$DB{UserLogin}', '$DB{Profile}', '$Key', '".
+                        $Self->{DBObject}->Quote($_)."')";
+                      $Self->{DBObject}->Do(SQL => $SQL);
+                    } 
+                }
+                else {
+                    my $SQL = "INSERT INTO search_profile (login, profile_name, ".
+                      "profile_key, profile_value) VALUES ".
+                      " ('$DB{UserLogin}', '$DB{Profile}', '$Key', '".
+                        $Self->{DBObject}->Quote($GetParam{$Key})."')";
+                    $Self->{DBObject}->Do(SQL => $SQL);
+                }
+              }
+            }
+        }
+        # create sql statement
+        my $SQL = '';
+        my $ArticleLevel = 0;
+        my %SearchParam = %GetParam;
+        $Param{SearchLink} = '';
+        if ($SearchParam{TicketNumber}) {
+            $SearchParam{TicketNumber} =~ s/\*/%/g;
+            $SQL .= " st.tn LIKE '$SearchParam{TicketNumber}' AND "; 
+            $Param{SearchLink} .= "TicketNumber=$GetParam{TicketNumber}&";
+        }
+        my %IDFieldSQLMap = (
+            StateID => 'st.ticket_state_id',
+            QueueID => 'sq.id',
+            PriorityID => 'st.ticket_priority_id',
+            UserID => 'st.user_id',
+        ); 
+        foreach my $Key (keys %IDFieldSQLMap) {
+            if ($SearchParam{$Key}) {
+                my $CounterTmp = 0;
+                $SQL .= " (";
+                foreach (@{$SearchParam{$Key}}) {
+                    if ($CounterTmp != 0) {
+                        $SQL .= " or ";
+                    }
+                    $CounterTmp++;
+                    $SQL .= " $IDFieldSQLMap{$Key} = $_ ";
+                    $Param{SearchLink} .= "$Key=$_&";
+                }
+                $SQL .= " ) AND ";
+            } 
+        }
+        my %FieldSQLMapFullText = (
+            From => 'sa.a_from',
+            To => 'sa.a_to',
+            Cc => 'sa.a_cc',
+            Subject => 'sa.a_subject',
+            Body => 'sa.a_body',
+        ); 
+        foreach my $Key (keys %FieldSQLMapFullText) {
+            if ($SearchParam{$Key}) {
+                my $CounterTmp = 0;
+                $SearchParam{$Key} =~ s/\*/%/gi;
+                $SQL .= " $FieldSQLMapFullText{$Key} LIKE '\%$SearchParam{$Key}%' AND ";
+                $Param{SearchLink} .= "$Key=$GetParam{$Key}&";
+                $ArticleLevel = 1;
+            } 
+        }
+        my %FieldSQLMap = (
+            CustomerID => 'st.customer_id',
+            CustomerUserLogin => 'st.customer_user_id',
+            TicketFreeText1 => 'st.freetext1',
+            TicketFreeText2 => 'st.freetext2',
+            ArticleFreeText1 => 'sa.a_freetext1',
+            ArticleFreeText2 => 'sa.a_freetext2',
+            ArticleFreeText3 => 'sa.a_freetext3',
+        ); 
+        foreach my $Key (keys %FieldSQLMap) {
+            if ($SearchParam{$Key}) {
+                my $CounterTmp = 0;
+                $SearchParam{$Key} =~ s/\*/%/gi;
+                $SQL .= " $FieldSQLMap{$Key} LIKE '$SearchParam{$Key}' AND ";
+                $Param{SearchLink} .= "$Key=$GetParam{$Key}&";
+                $ArticleLevel = 1;
+            } 
+        }
+        # get users groups
+        my @GroupIDs = $Self->{GroupObject}->GroupUserList(
+            UserID => $Self->{UserID},
+            Type => 'ro',
+            Result => 'ID',
+        );
+        # db query
+        my $OutputTables = '';
+        my $OutputTable = '';
+        my $OrderSQL = ''; 
+    
+        if ($Self->{SortBy} eq 'Owner') {
+            $OrderSQL .= " st.user_id ";
+        }
+        elsif ($Self->{SortBy} eq 'CustomerID') {
+            $OrderSQL .= "st.customer_id";
+        }
+        elsif ($Self->{SortBy} eq 'State') {
+            $OrderSQL .= "tsd.name";
+        }
+        elsif ($Self->{SortBy} eq 'Ticket') {
+            $OrderSQL .= "st.tn";
+        }
+        elsif ($Self->{SortBy} eq 'Queue') {
+            $OrderSQL .= "sq.name";
+        }
+        else {
+            $OrderSQL .= "st.create_time_unix";
+        }
+        $Param{SearchLinkSortBy} .= "SortBy=$Self->{SortBy}&";
+        # get not wanted article types
+        my @ArticleTypeID = ();
+        foreach (qw(email-notification-int email-notification-ext)) {
+            if ($Self->{TicketObject}->ArticleTypeLookup(ArticleType => $_)) {
+                push (@ArticleTypeID, $Self->{TicketObject}->ArticleTypeLookup(ArticleType => $_));
+            }
+        }
+        if ($ArticleLevel) {
+            $SQL = "SELECT DISTINCT st.id, $OrderSQL ".
+              " FROM ".
+              " article sa, ticket st, queue sq, ticket_state tsd ".
+              " WHERE ".
+              " sa.ticket_id = st.id ".
+              " AND ".
+              " st.ticket_state_id = tsd.id ".
+              " AND ".
+              " sa.article_type_id NOT IN (${\(join ', ', @ArticleTypeID)})".
+              " AND $SQL"; 
+$ArticleLevel = 0;
+        }
+        else {
+            $SQL = "SELECT st.id ".
+              " FROM ".
+              " ticket st, queue sq, ticket_state tsd ".
+              " WHERE ".
+              " st.ticket_state_id = tsd.id ".
+              " AND $SQL ";
+        }
+        $SQL .= " sq.id = st.queue_id ".
+          " AND ".
+          " sq.group_id IN ( ${\(join ', ', @GroupIDs)} )";
+
+        $SQL .= " ORDER BY ".$OrderSQL." ";
+
+        if ($Self->{Order} eq 'Up') {
+            $SQL .= " ASC";
+        }
+        else {
+            $SQL .= " DESC";
+        }
+        $Param{SearchLinkOrder} .= "Order=$Self->{Order}&Profile=$Self->{Profile}&ResultForm=$GetParam{ResultForm}&";
+
+        $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{SearchLimit});
+
+        my @ViewableIDs = ();
+        my $Counter = 0;
+        while (my @Row = $Self->{DBObject}->FetchrowArray() ) {
+             push (@ViewableIDs, $Row[0]);
+        }
+        foreach (@ViewableIDs) {
+          $Counter++;
+          # build search result
+          if ($Counter >= $Self->{StartHit} && $Counter < ($Self->{SearchPageShown}+$Self->{StartHit}) ) {
+            my @Index = $Self->{TicketObject}->GetArticleIndex(TicketID => $_);
+            my %Data = $Self->{TicketObject}->GetArticle(ArticleID => $Index[0]);
+            # customer info
+            my %CustomerData = ();
+            if ($Data{CustomerUserID}) {
+                %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                    User => $Data{CustomerUserID},
+                );
+            }
+            elsif ($Data{CustomerID}) {
+                %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                    CustomerID => $Data{CustomerID},
+                );
+            }
+            # customer info (customer name)
+            if ($CustomerData{UserLogin}) {
+                $Data{CustomerName} = $Self->{CustomerUserObject}->CustomerName(
+                    UserLogin => $CustomerData{UserLogin},
+                );
+            }
+            # user info
+            my %UserInfo = $Self->{UserObject}->GetUserData(
+                User => $Data{Owner},
+                Cached => 1
+            );
+            # generate ticket result
+            if ($GetParam{ResultForm} eq 'Preview') {
+                $Param{StatusTable} .= $Self->MaskPreviewResult(
+                    %Data, 
+                    CustomerData => \%CustomerData,
+                    GetParam => \%GetParam,
+                );
+            }
+            elsif ($GetParam{ResultForm} eq 'Print') {
+                $Param{StatusTable} .= $Self->MaskPrintResult(
+                    %Data, 
+                    %UserInfo,
+                    CustomerData => \%CustomerData,
+                    GetParam => \%GetParam,
+                );
+            }
+            elsif ($GetParam{ResultForm} eq 'CSV') {
+                $Param{StatusTable} .= $Self->MaskCSVResult(
+                    %Data, 
+                    %UserInfo,
+                );
+            }
+            else {
+                # Condense down the subject
+                my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
+                my $Subject = $Data{Subject};
+                $Subject =~ s/^RE://i;
+                $Subject =~ s/\[${TicketHook}:\s*\d+\]//;
+
+                $Param{StatusTable} .= $Self->MaskShortResult(
+                    %Data,
+                    Subject => $Subject,
+                    %UserInfo,
+                );
+            }
+          }
+        }
+        # html
+        my $Output = $Self->{LayoutObject}->Header(Title => 'Utilities');
+        my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
+        $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
+
+        # build search navigation bar
+        my $SearchNavBar = $Self->{LayoutObject}->PageNavBar(
+          Limit => $Self->{SearchLimit}, 
+          StartHit => $Self->{StartHit}, 
+          SearchPageShown => $Self->{SearchPageShown},
+          AllHits => $Counter,
+          Action => "Action=AgentUtilities&Subaction=Search",
+          Link => $Param{SearchLink}.$Param{SearchLinkSortBy}.$Param{SearchLinkOrder}, 
+        );
+        # build shown ticket
+        if ($GetParam{ResultForm} eq 'Preview') {
+            $Output .= $SearchNavBar.$Param{StatusTable};
+        }
+        elsif ($GetParam{ResultForm} eq 'Print') {
+            $Output = $Self->{LayoutObject}->PrintHeader(Title => 'Result', Width => 800);
+            if (@ViewableIDs == $Self->{SearchLimit}) {
+                $Param{Warning} = '$Text{"Reached max. count of %s search hits!", "'.$Self->{SearchLimit}.'"}';
+            }
+            $Output .= $Self->{LayoutObject}->Output(
+                TemplateFile => 'AgentUtilSearchResultPrint', 
+                Data => \%Param,
+            );
+            # add footer 
+            $Output .= $Self->{LayoutObject}->PrintFooter();
+            # return output
+            return $Output;
+        }
+        elsif ($GetParam{ResultForm} eq 'CSV') {
+            # return csv to download
+            my $CSVFile = 'search';
+            my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = localtime(time);
+            $Y = $Y+1900;
+            $M++;
+            $M = sprintf("%02d", $M);
+            $D = sprintf("%02d", $D);
+            $h = sprintf("%02d", $h);
+            $m = sprintf("%02d", $m);
+            return $Self->{LayoutObject}->Attachment(
+                Filename => $CSVFile."_"."$Y-$M-$D"."_"."$h-$m.csv",
+                ContentType => "text/csv",
+                Content => "\n".$Param{StatusTable},
+            );
+        }
+        else {
+            $Output .= $SearchNavBar.$Self->{LayoutObject}->Output(
+                TemplateFile => 'AgentUtilSearchResultShort', 
+                Data => \%Param,
+            );
+        }
+        # build footer
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
+    }
+    # empty search site
+    else {
+        # delete profile
+        if ($Self->{erasetemplate} && $Self->{Profile}) {
+            $Self->{DBObject}->Do(
+                SQL => "DELETE FROM search_profile WHERE ".
+                  "profile_name = '$DB{Profile}' AND login = '$DB{UserLogin}'",
+            );
+            %GetParam = ();
+            $Self->{Profile} = '';
+        }
+        # set profile to zero
+        elsif (!$Self->{selecttemplate}) {
+            $Self->{Profile} = '';
+        }
+        # generate search mask
+        my $Output = $Self->{LayoutObject}->Header(Title => 'Utilities');
+        my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
+        $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
+        $Output .= $Self->MaskForm(
+            %GetParam, 
+            Profile => $Self->{Profile}, 
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
+}
+# --
+sub MaskForm {
+    my $Self = shift;
+    my %Param = @_;
     # --
-    # get users groups
+    # get user of own groups
     # --
-    my @GroupIDs = $Self->{GroupObject}->GroupUserList(
-        UserID => $Self->{UserID},
-        Type => 'ro',
-        Result => 'ID',
+    my %ShownUsers = ();
+    my %AllGroupsMembers = $Self->{UserObject}->UserList(
+        Type => 'Long',
+        Valid => 1,
     );
-    # --
-    # db query
-    # --
-    my $OutputTables = '';
-    my $Age = '?';
-    my $SQL = "";
-    if ($SqlExt) {
-        $SQL = "SELECT sa.id ".
-          " FROM ".
-          " article sa, ticket st, queue sq ".
-          " WHERE ".
-          " sa.ticket_id = st.id ".
-          " AND ";
+    if ($Self->{ConfigObject}->Get('ChangeOwnerToEveryone')) {
+        %ShownUsers = %AllGroupsMembers;
     }
     else {
-        $SQL = "SELECT st.id ".
-          " FROM ".
-          " ticket st, queue sq ".
-          " WHERE ";
-    }
-    $SQL .= " sq.id = st.queue_id ".
-      " AND ".
-      " sq.group_id IN ( ${\(join ', ', @GroupIDs)} )";
-    if ($SqlTicketNumberExt) {
-        $SQL .= " AND $SqlTicketNumberExt";
-    }
-    if ($SqlUserExt) {
-        $SQL .= " AND $SqlUserExt";
-    } 
-    if ($SqlQueueExt) { 
-        $SQL .= " AND ($SqlQueueExt)"; 
-    }
-    if ($SqlStateExt) {
-        $SQL .= " AND ($SqlStateExt)";
-    }
-    if ($SqlPriorityExt) {
-        $SQL .= " AND ($SqlPriorityExt)";
-    }
-    if ($SqlExt) {
-        $SQL .= " AND ($SqlExt) ";
-    }
-    $SQL .= ""; 
-    $SQL .= " ORDER BY st.id DESC";
-#    $SQL .= " GROUP BY st.id, sa.id ORDER BY st.id DESC";
-#    " ORDER BY sa.incoming_time DESC";
-
-    $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{SearchLimit});
-    my @ViewableIDs = ();
-    my $Counter = 0;
-    while (my @Row = $Self->{DBObject}->FetchrowArray() ) {
-         push (@ViewableIDs, $Row[0]);
-    }
-    foreach (@ViewableIDs) {
-      $Counter++;
-      # --
-      # build search result
-      # --
-      if ($Counter >= $Self->{StartHit} && $Counter < ($Self->{SearchPageShown}+$Self->{StartHit}) ) {
-        my %Data = ();
-        my %Article = ();
-        if ($SqlExt) {
-            %Article = $Self->{TicketObject}->GetArticle(ArticleID => $_);
-            %Data = $Self->{TicketObject}->GetTicket(TicketID => $Article{TicketID});
-        }
-        else {
-            %Article = $Self->{TicketObject}->GetLastCustomerArticle(TicketID => $_);
-            %Data = $Self->{TicketObject}->GetTicket(TicketID => $Article{TicketID});
-        }
-        # --
-        # customer info
-        # --
-        my %CustomerData = ();
-        if ($Article{CustomerUserID}) {
-            %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-                User => $Article{CustomerUserID},
-            );
-        }
-        elsif ($Article{CustomerID}) {
-            %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-                CustomerID => $Article{CustomerID},
-            );
-        }
-        $OutputTables .= $Self->{LayoutObject}->AgentUtilSearchResult(
-            %Data,
-            ArticleID => $_,
-            From => $Article{From},
-            To => $Article{To},
-            Subject => $Article{Subject},
-            Body => $Article{Body},
-            Age => $Article{Age},
-            Priority => $Article{Priority},
-            Queue => $Article{Queue},
-            ContentCharset => $Article{ContentCharset},
-            MimeType => $Article{MimeType},
-            What => $Want,
-            Highlight => 1,
-            CustomerData => \%CustomerData,
+        my %Groups = $Self->{GroupObject}->GroupUserList(
+            UserID => $Self->{UserID},
+            Type => 'rw',
+            Result => 'HASH',
         );
-      } 
+        foreach (keys %Groups) {
+            my %MemberList = $Self->{GroupObject}->GroupMemberList(
+                GroupID => $_,
+                Type => 'rw',
+                Result => 'HASH',
+            );
+            foreach (keys %MemberList) {
+                $ShownUsers{$_} = $AllGroupsMembers{$_};
+            }
+        }
     }
-    # --
-    # build search navigation bar
-    # --
-    my $SearchNavBar = $Self->{LayoutObject}->AgentUtilSearchCouter(
-        TicketNumber => $TicketNumber,
-        Limit => $Self->{SearchLimit}, 
-        StartHit => $Self->{StartHit}, 
-        SearchPageShown => $Self->{SearchPageShown},
-        AllHits => $Counter,
-        WhatFields => \@WhatFields,
-        Want => $Self->{Want},
-        SelectedStates => \@States,
-        SelectedQueueIDs => \@QueueIDs,
-        SelectedPriorityIDs => \@PriorityIDs,
-        SelectedUserIDs => \@UserIDs,
+    $Param{'UserStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => \%ShownUsers, 
+        Name => 'UserID',
+        Multiple => 1,
+        Size => 5,
+        SelectedIDRefArray => $Param{UserID},
     );
-    $Output .= $SearchNavBar.$OutputTables;
-    $Output .= $Self->{LayoutObject}->Footer();
+    $Param{'ResultFormStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => { 
+            Preview => 'Preview',
+            Normal => 'Normal',
+            Print => 'Print',
+            CSV => 'CSV',
+        },
+        Name => 'ResultForm',
+        SelectedID => $Param{ResultForm} || 'Normal',
+    );
+    $Param{'ProfilesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => { '', '-', $Self->{DBObject}->GetTableData(
+                      What => 'profile_name, profile_name',
+                      Table => 'search_profile',
+                      Where => "login = '$Self->{UserLogin}'",
+                    ) }, 
+        Name => 'Profile',
+        SelectedID => $Param{Profile},
+    );
+    $Param{'StatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => { $Self->{DBObject}->GetTableData(
+                      What => 'id, name',
+                      Table => 'ticket_state',
+                      Valid => 1,
+                    ) }, 
+        Name => 'StateID',
+        Multiple => 1,
+        Size => 5,
+        SelectedIDRefArray => $Param{StateID},
+    );
+    $Param{'StateTypesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => { $Self->{DBObject}->GetTableData(
+                      What => 'id, name',
+                      Table => 'ticket_state_type',
+                    ) }, 
+        Name => 'StateTypeID',
+        Multiple => 1,
+        Size => 5,
+        SelectedIDRefArray => $Param{StateTypeID},
+    );
+    $Param{'QueuesStrg'} = $Self->{LayoutObject}->AgentQueueListOption(
+        Data => {
+          $Self->{DBObject}->GetTableData(
+            What => 'id, name',
+            Table => 'queue',
+            Valid => 1,
+          )
+        },
+        Size => 5,
+        Multiple => 1,
+        Name => 'QueueID',
+        SelectedIDRefArray => $Param{QueueID},
+        OnChangeSubmit => 0,
+    );
+    $Param{'PriotitiesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => { $Self->{DBObject}->GetTableData(
+                      What => 'id, name',
+                      Table => 'ticket_priority',
+                    ) },
+        Name => 'PriorityID',
+        Multiple => 1,
+        Size => 5,
+        SelectedIDRefArray => $Param{PriorityID},
+    );
+
+    my $Output = $Self->{LayoutObject}->Output(TemplateFile => 'AgentUtilSearch', Data => \%Param);
+    $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AgentUtilSearchByCustomerID', Data => \%Param);
     return $Output;
 }
 # --
-
+sub MaskPreviewResult {
+    my $Self = shift;
+    my %Param = @_;
+    # check if just a only html email
+    if (my $MimeTypeText = $Self->{LayoutObject}->CheckMimeType(
+        %Param,
+        Action => 'AgentZoom',
+    )) {
+        $Param{TextNote} = $MimeTypeText;
+        $Param{Body} = '';
+    }
+    else {
+        # charset convert
+#        $Param{Body} = $Self->{LayoutObject}->{LanguageObject}->CharsetConvert(
+#            Text => $Param{Body},
+#            From => $Param{ContentCharset},
+#        );
+        # do some strips
+        $Param{Body} =~ s/^\s*\n//mg;
+        # do some text quoting
+        $Param{Body} = $Self->{LayoutObject}->Ascii2Html(
+            NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,
+            Text => $Param{Body},
+            VMax => $Self->{ConfigObject}->Get('ViewableTicketLinesBySearch') || 15,
+        );
+        $Param{Body} =~ s/\n/<br>\n/g;
+        # do charset check
+        if (my $CharsetText = $Self->{LayoutObject}->CheckCharset(
+            Action => 'AgentZoom',
+            ContentCharset => $Param{ContentCharset},
+            TicketID => $Param{TicketID},
+            ArticleID => $Param{ArticleID} )) {
+            $Param{TextNote} = $CharsetText;
+        }
+    }
+    $Param{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Param{Age}, Space => ' ');
+    # customer info string 
+    $Param{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
+        Data => $Param{CustomerData},
+        Max => $Self->{ConfigObject}->Get('ShowCustomerInfoQueueMaxSize'),
+    );
+    # do some html highlighting
+    my $HighlightStart = '<font color="orange"><b><i>';
+    my $HighlightEnd = '</i></b></font>';
+    if ($Param{GetParam}) {
+        foreach (qw(Body From To Subject)) {
+          if ($Param{GetParam}->{$_}) {
+            my @SParts = split('%', $Param{GetParam}->{$_});
+            if ($Param{$_}) {
+                $Param{$_} =~ s/(${\(join('|', @SParts))})/$HighlightStart$1$HighlightEnd/gi;
+            }
+          }
+        }
+    }
+    # create & return output
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentUtilSearchResult', 
+        Data => \%Param,
+    );
+}
+# --
+sub MaskShortResult {
+    my $Self = shift;
+    my %Param = @_;
+    $Param{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Param{Age}, Space => ' ');
+    # customer info string 
+    $Param{CustomerName} = '('.$Param{CustomerName}.')' if ($Param{CustomerName});
+    foreach (qw(From To Cc Subject)) {
+#        $Param{$_} = $Self->{LayoutObject}->{LanguageObject}->CharsetConvert(
+#            Text => $Param{$_},
+#            From => $Param{ContentCharset},
+#        );
+    }
+    # create & return output
+    if (!$Param{Answered}) {
+        return $Self->{LayoutObject}->Output(
+            TemplateFile => 'AgentUtilSearchResultShortTableNotAnswered', 
+            Data => \%Param,
+        );
+    } else {
+        return $Self->{LayoutObject}->Output(
+            TemplateFile => 'AgentUtilSearchResultShortTable', 
+            Data => \%Param,
+        );
+    }
+}
+# --
+sub MaskCSVResult {
+    my $Self = shift;
+    my %Param = @_;
+    $Param{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Param{Age}, Space => ' ');
+    # customer info string 
+    $Param{CustomerName} = '('.$Param{CustomerName}.')' if ($Param{CustomerName});
+    # create & return output
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentUtilSearchResultCSV', 
+        Data => \%Param,
+    );
+}
+# --
+sub MaskPrintResult {
+    my $Self = shift;
+    my %Param = @_;
+    $Param{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Param{Age}, Space => ' ');
+    # customer info string 
+    $Param{CustomerName} = '('.$Param{CustomerName}.')' if ($Param{CustomerName});
+    # create & return output
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentUtilSearchResultPrintTable', 
+        Data => \%Param,
+    );
+}
+# --
 1;

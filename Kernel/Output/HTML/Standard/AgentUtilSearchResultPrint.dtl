@@ -1,0 +1,44 @@
+# --
+# AgentUtilSearchResultShort.dtl - html for ticket status view (all tickets)
+# Copyright (C) 2002-2003 Martin Edenhofer <martin+code at otrs.org>
+# --
+# $Id: AgentUtilSearchResultPrint.dtl,v 1.1 2003-07-12 08:41:21 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start form -->
+<i>$Data{"Warning"}</i>
+
+<table border="0" cellspacing="1" cellpadding="0" width="100%">
+  <tr>
+    <td align="right" valign="top"><font size="-2">$Text{"printed by"} $Env{"UserFirstname"} $Env{"UserLastname"} ($Env{"UserEmail"})</font></td>
+  </td>
+</table>
+<table border="0" cellspacing="1" cellpadding="0" width="100%">
+  <tr>
+    <td><font size="+2">$Text{"Search"}</font></td>
+    <td align="right" valign="top"><font size="-2">$Env{"Time"}</font></td>
+  </td>
+</table>
+
+<table border="0" width="100%" cellspacing="0" cellpadding="4">
+<tr> 
+ <td class="table1" align="center" valign="top">
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="6">
+<tr valign="top" align="left">
+ <th width="15%">$Config{"TicketHook"}</th>
+ <th width="15%">$Text{"Created"}</th>
+ <th width="25%">$Text{"From"}/$Text{"Subject"}</th>
+ <th width="15%">$Text{"State"}/$Text{"Queue"}</th>
+ <th width="15%">$Text{"Owner"}</th>
+ <th width="15%">$Text{"CustomerID"}</th>
+</tr>
+$Data{"StatusTable"}
+</table>
+
+ </td>
+</tr>
+</table>
+<!-- end form -->
