@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Wiktor Wodecki <wiktor.wodecki@net-m.de>
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LDAP.pm,v 1.4 2003-02-10 09:38:54 martin Exp $
+# $Id: LDAP.pm,v 1.5 2003-02-11 12:48:15 wiktor Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use Net::LDAP;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -90,7 +90,7 @@ sub CustomerSearch {
     my %Users = ();
     foreach my $entry ($Result->all_entries) {
         my $CustomerString = '';
-        foreach (@{$Self->{ConfigObject}->Get('CustomerUser')->{CustomerUserListFileds}}) {
+        foreach (@{$Self->{ConfigObject}->Get('CustomerUser')->{CustomerUserListFields}}) {
             $CustomerString .= $entry->get_value($_).' ';
         }
         $CustomerString =~ s/^(.*\s)(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;
@@ -99,6 +99,34 @@ sub CustomerSearch {
     return %Users;
 }   
 # --
+<<<<<<< LDAP.pm
+sub CustomerList {
+    my $Self = shift;
+    my %Param = @_;
+    my $Valid = defined $Param{Valid} ? $Param{Valid} : 1;
+    # --
+    # perform user search
+    # FIXME: check for valid customers
+    # --
+    my $Result = $Self->{LDAP}->search (
+        base => $Self->{BaseDN},
+        scope => $Self->{SScope},
+        filter => "($Self->{CustomerKey}=*)",
+    );
+    $Result->code || die $Result->error;
+    my %Users = ();
+    foreach my $entry ($Result->all_entries) {
+        my $CustomerString = '';
+        foreach (@{$Self->{ConfigObject}->Get('CustomerUser')->{CustomerListFileds}}) {
+            $CustomerString .= $entry->get_value($_).' ';
+        }
+        $Users{$entry->get_value($Self->{CustomerID})} = $CustomerString;
+    }
+    return %Users;
+}
+# --
+=======
+>>>>>>> 1.4
 sub CustomerUserList {
     my $Self = shift;
     my %Param = @_;
@@ -256,7 +284,7 @@ sub Destroy {
     # --
     # take down session
     # --
-    $LDAP->unbind;
+    $Self->{LDAP}->unbind;
     return 1;
 }
 # --
