@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.39 2004-01-14 23:24:18 martin Exp $
+# $Id: PostMaster.pm,v 1.40 2004-02-05 18:05:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -22,7 +22,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -179,13 +179,11 @@ sub Run {
               );
             }
             # check if trusted returns a new queue id
-            if ($Self->{Trusted}) {
-              my $TQueueID = $Self->{DestQueueObject}->GetTrustedQueueID(
-                  Params => $GetParam,
-              );
-              if ($TQueueID) {
-                  $Param{QueueID} = $TQueueID;
-              } 
+            my $TQueueID = $Self->{DestQueueObject}->GetTrustedQueueID(
+                Params => $GetParam,
+            );
+            if ($TQueueID) {
+                $Param{QueueID} = $TQueueID;
             }
             $Self->{NewTicket}->Run(
               InmailUserID => $Self->{PostmasterUserID},
@@ -239,13 +237,11 @@ sub Run {
             $Param{QueueID} = $Self->{DestQueueObject}->GetQueueID(Params => $GetParam);
         }
         # check if trusted returns a new queue id
-        if ($Self->{Trusted}) {
-            my $TQueueID = $Self->{DestQueueObject}->GetTrustedQueueID(
-                Params => $GetParam,
-            );
-            if ($TQueueID) {
-                $Param{QueueID} = $TQueueID;
-            } 
+        my $TQueueID = $Self->{DestQueueObject}->GetTrustedQueueID(
+            Params => $GetParam,
+        );
+        if ($TQueueID) {
+            $Param{QueueID} = $TQueueID;
         }
         $Self->{NewTicket}->Run(
             InmailUserID => $Self->{PostmasterUserID},
