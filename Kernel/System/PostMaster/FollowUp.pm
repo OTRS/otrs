@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/FollowUp.pm - the sub part of PostMaster.pm
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FollowUp.pm,v 1.34 2004-10-01 08:53:32 martin Exp $
+# $Id: FollowUp.pm,v 1.35 2004-12-06 22:26:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::FollowUp;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.34 $';
+$VERSION = '$Revision: 1.35 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -138,19 +138,6 @@ sub Run {
         }
     }
     # --
-    # set state
-    # --
-    if ($Ticket{StateType} !~ /^new/ && $Self->{ConfigObject}->Get('PostmasterFollowUpState')) {
-	    $Self->{TicketObject}->StateSet(
-    	    State => $Self->{ConfigObject}->Get('PostmasterFollowUpState'),
-        	TicketID => $Param{TicketID},
-	        UserID => $Param{InmailUserID},
-    	);
-        if ($Self->{Debug} > 0) {
-            print "State: ".$Self->{ConfigObject}->Get('PostmasterFollowUpState')."\n";
-        }
-    }
-    # --
     # set lock
     # --
     if ($Lock && $Ticket{StateType} =~ /^close/i) {
@@ -161,6 +148,19 @@ sub Run {
         );
         if ($Self->{Debug} > 0) {
             print "Lock: lock\n";
+        }
+    }
+    # --
+    # set state
+    # --
+    if ($Ticket{StateType} !~ /^new/ && $Self->{ConfigObject}->Get('PostmasterFollowUpState')) {
+	    $Self->{TicketObject}->StateSet(
+    	    State => $Self->{ConfigObject}->Get('PostmasterFollowUpState'),
+        	TicketID => $Param{TicketID},
+	        UserID => $Param{InmailUserID},
+    	);
+        if ($Self->{Debug} > 0) {
+            print "State: ".$Self->{ConfigObject}->Get('PostmasterFollowUpState')."\n";
         }
     }
     # --
