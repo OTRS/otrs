@@ -1,8 +1,12 @@
 # --
 # README.database - database description of OpenTRS
-# Copyright (C) 2001 Martin Edenhofer
+# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: README.database,v 1.1 2001-12-01 20:39:12 martin Exp $
+# $Id: README.database,v 1.2 2001-12-30 00:38:51 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
+# the enclosed file COPYING for license information (GPL). If you 
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
 Where can I find the database description files?
