@@ -14,8 +14,8 @@
 <!ENTITY credits SYSTEM "credits.sgml">
 <!ENTITY rfc1297 SYSTEM "rfc1297.sgml">
 <!ENTITY online-resources SYSTEM "online-resources.sgml">
-<!ENTITY basics_about_tt SYSTEM "basics-about-tt.sgml">
-<!ENTITY receiving_email SYSTEM "receiving_email.sgml">
+<!ENTITY basics-about-tt SYSTEM "basics-about-tt.sgml">
+<!ENTITY receiving-email SYSTEM "receiving_email.sgml">
 <!ENTITY language-translation SYSTEM "language-translation.sgml">
 <!ENTITY ticket-topics SYSTEM "ticket-topics.sgml">
 <!ENTITY performance-tuning SYSTEM "performance-tuning.sgml">
@@ -24,20 +24,20 @@
 <!ENTITY dtl SYSTEM "dtl.sgml">
 ]>
 
-<book id="index">
+<book id="index" lang="en">
 <bookinfo>
         <title>OTRS - Manual</title>
 
 &authorgroup;
 
-<edition>Sandy Beach</edition>
-<pubdate>2002</pubdate>
+<edition>Three Tables Beach</edition>
+<pubdate>2003</pubdate>
 <copyright>
-<year>2002</year>
+<year>2003</year>
 <holder>Martin Edenhofer and Stefan Wintermeyer</holder>
 </copyright>
 
-<date>2002-02-03</date>
+<date>18.01.03</date>
 
 <legalnotice>
 <para>
@@ -47,41 +47,6 @@ or implied warranty.
 </para>
 
 </legalnotice>
-
-<revhistory>
-<revision>
-<revnumber>0.42</revnumber>
-<date>3rd Feb, 2002</date>
-<revremark>first draft</revremark>
-</revision>
-
-<revision>
-<revnumber>0.421</revnumber>
-<date>16th Feb, 2002</date>
-<revremark>i used my vacation to add some spice to the documentation</revremark>
-</revision>
-
-<revision>
-<revnumber>0.423</revnumber>
-<date>2nd May, 2002</date>
-<revremark>Sibbi joined the team.</revremark>
-</revision>
-
-<revision>
-<revnumber>0.44</revnumber>
-<date>27th August, 2002</date>
-<revremark>start to replace all OpenTRS to OTRS</revremark>
-</revision>
-
-</revhistory>
-
-
-<keywordset>
-<keyword>otrs</keyword>
-<keyword>OpenTRS</keyword>
-<keyword>ticket</keyword>
-<keyword>Linux</keyword>
-</keywordset>
 
 </bookinfo>
 
@@ -93,13 +58,13 @@ or implied warranty.
 &install-win32;
 </chapter>
 
-&basics_about_tt;
+&basics-about-tt;
 
 &first-steps;
 
 &ticket-topics;
 
-&receiving_email;
+&receiving-email;
 
 &config-file;
 
