@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.119 2004-05-30 16:39:18 martin Exp $
+# $Id: Generic.pm,v 1.120 2004-06-03 10:52:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.119 $';
+$VERSION = '$Revision: 1.120 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -66,6 +66,7 @@ sub new {
         UserLanguage => $Self->{UserLanguage},
         LogObject => $Self->{LogObject},
         ConfigObject => $Self->{ConfigObject},
+        Action => $Self->{Action},
     );
     # --
     # set charset if there is no charset given
@@ -807,7 +808,7 @@ sub CustomerAge {
         $AgeStrg = '-';
     }
     # get days
-    if ($Age > 86400) {
+    if ($Age >= 86400) {
         $AgeStrg .= int( ($Age / 3600) / 24 ) . ' ';
         if (int( ($Age / 3600) / 24 ) > 1) {
             $AgeStrg .= $Self->{LanguageObject}->Get('days');
@@ -818,7 +819,7 @@ sub CustomerAge {
         $AgeStrg .= $Space;
     }
     # get hours
-    if ($Age > 3600) {
+    if ($Age >= 3600) {
         $AgeStrg .= int( ($Age / 3600) % 24 ) . ' ';
         if (int( ($Age / 3600) % 24 ) > 1) {
             $AgeStrg .= $Self->{LanguageObject}->Get('hours');
