@@ -2,7 +2,7 @@
 # Kernel/Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.47 2002-07-24 21:34:15 martin Exp $
+# $Id: Config.pm,v 1.48 2002-07-25 12:00:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.47 $';
+$VERSION = '$Revision: 1.48 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -130,7 +130,7 @@ sub Load {
     $Self->{DatabasePreferencesTableUserID} = 'user_id';
 
     # ----------------------------------------------------#
-    # authentification settings                           #
+    # authentication settings                             #
     # (enable what you need, auth against otrs db or      #
     # against a LDAP directory)                           #
     # ----------------------------------------------------#
