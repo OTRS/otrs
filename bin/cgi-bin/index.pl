@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.75 2004-09-16 22:38:26 martin Exp $
+# $Id: index.pl,v 1.76 2004-09-20 11:10:29 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.75 $';
+$VERSION = '$Revision: 1.76 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -545,13 +545,7 @@ elsif (eval "require Kernel::Modules::$Param{Action}" && eval '$Kernel::Modules:
                 exit (0);
             }
         }
-        # create new LayoutObject with new '%Param' and '%UserData'
-        $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(
-            %CommonObject,
-            %Param,
-            %UserData,
-        );
-        # module registry
+        # check module registry
         my $ModuleReg = $CommonObject{ConfigObject}->Get('Frontend::Module');
         if (!$ModuleReg->{$Param{Action}}) {
             $CommonObject{LogObject}->Log(
@@ -565,8 +559,10 @@ elsif (eval "require Kernel::Modules::$Param{Action}" && eval '$Kernel::Modules:
         }
         # module permisson check
         my $AccessOk = 0;
-        if (!$ModuleReg->{$Param{Action}} || (!$ModuleReg->{$Param{Action}}->{GroupRo} && !$ModuleReg->{$Param{Action}}->{Group})) {
+        if (!$ModuleReg->{$Param{Action}}->{GroupRo} && !$ModuleReg->{$Param{Action}}->{Group}) {
             $AccessOk = 1;
+            $Param{AccessRo} = 1;
+            $Param{AccessRw} = 1;
         }
         else {
             foreach my $Permission (qw(GroupRo Group)) {
@@ -585,6 +581,12 @@ elsif (eval "require Kernel::Modules::$Param{Action}" && eval '$Kernel::Modules:
                     }
 #print STDERR "$Group $AccessOk pppppp UserIs$Permission"."[$Group]\n";
                 }
+                if ($Permission eq 'Group' && $AccessOk) {
+                    $Param{AccessRw} = 1;
+                }
+                else {
+                    $Param{AccessRo} = 1;
+                }
             }
         }
         if (!$AccessOk) {
@@ -593,6 +595,13 @@ elsif (eval "require Kernel::Modules::$Param{Action}" && eval '$Kernel::Modules:
             );
             exit (0);
         }
+        # create new LayoutObject with new '%Param' and '%UserData'
+        $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(
+            %CommonObject,
+            %Param,
+            %UserData,
+            ModuleReg => $ModuleReg->{$Param{Action}},
+        );
         # updated last request time
         $CommonObject{SessionObject}->UpdateSessionID(
             SessionID => $Param{SessionID},
@@ -614,6 +623,7 @@ elsif (eval "require Kernel::Modules::$Param{Action}" && eval '$Kernel::Modules:
                 %CommonObject,
                 %Param,
                 %UserData,
+                ModuleReg => $ModuleReg->{$Param{Action}},
             );
             my $Output = $PreModuleObject->PreRun();
             if ($Output) {
@@ -633,6 +643,7 @@ elsif (eval "require Kernel::Modules::$Param{Action}" && eval '$Kernel::Modules:
             %CommonObject,
             %Param,
             %UserData,
+            ModuleReg => $ModuleReg->{$Param{Action}},
         );
         # debug info
         if ($Debug) {
