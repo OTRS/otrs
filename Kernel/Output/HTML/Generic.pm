@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.123 2004-06-16 13:07:10 martin Exp $
+# $Id: Generic.pm,v 1.124 2004-06-16 13:09:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.123 $';
+$VERSION = '$Revision: 1.124 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -862,8 +862,8 @@ sub OptionStrgHashRef {
     my $Multiple = $Param{Multiple} ? 'multiple' : '';
     my $HTMLQuote = defined($Param{HTMLQuote}) ? $Param{HTMLQuote} : 1;
     my $LT = defined($Param{LanguageTranslation}) ? $Param{LanguageTranslation} : 1;
-    my $Selected = $Param{Selected} || '';
-    my $SelectedID = $Param{SelectedID} || '';
+    my $Selected = defined($Param{Selected}) ? $Param{Selected} : '';
+    my $SelectedID = defined($Param{SelectedID}) ? $Param{SelectedID} : '';
     my $SelectedIDRefArray = $Param{SelectedIDRefArray} || '';
     my $PossibleNone = $Param{PossibleNone} || '';
     my $Size = $Param{Size} || '';
