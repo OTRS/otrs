@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NewTicket.pm,v 1.22 2002-09-23 20:34:17 martin Exp $
+# $Id: NewTicket.pm,v 1.23 2002-10-03 17:46:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -13,15 +13,12 @@ package Kernel::System::PostMaster::NewTicket;
 
 use strict;
 use Kernel::System::AutoResponse;
-use Kernel::System::SendAutoResponse;
-use Kernel::System::SendNotification;
 use Kernel::System::PostMaster::DestQueue;
 use Kernel::System::EmailSend;
-use Kernel::System::User;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -39,10 +36,8 @@ sub new {
     foreach (
       'DBObject', 
       'ConfigObject', 
-      'ArticleObject', 
       'TicketObject', 
       'LogObject', 
-      'LoopProtectionObject',
       'ParseObject',
     ) {
         $Self->{$_} = $Param{$_} || die 'Got no $_';
@@ -52,9 +47,6 @@ sub new {
     $Self->{DestQueueObject} = Kernel::System::PostMaster::DestQueue->new(%Param);
 
     $Self->{QueueObject} = Kernel::System::Queue->new(%Param);
-
-    $Self->{SendAutoResponse} = Kernel::System::SendAutoResponse->new(%Param);
-    $Self->{SendNotification} = Kernel::System::SendNotification->new(%Param);
 
     return $Self;
 }
@@ -68,7 +60,6 @@ sub Run {
     my $Email = $Param{Email};
     
     my $DBObject = $Self->{DBObject};
-    my $ArticleObject = $Self->{ArticleObject};
     my $TicketObject = $Self->{TicketObject};
     my $LogObject = $Self->{LogObject};
     my $Comment = $Param{Comment} || '';
@@ -109,7 +100,7 @@ sub Run {
     while ($CounterTmp <= 2) {
         $CounterTmp++;
         if ($GetParam{"$Values[0]$CounterTmp"}) {
-            $TicketObject->SetFreeText(
+            $TicketObject->SetTicketFreeText(
                 TicketID => $TicketID,
                 Key => $GetParam{"$Values[0]$CounterTmp"},
                 Value => $GetParam{"$Values[1]$CounterTmp"},
@@ -120,7 +111,7 @@ sub Run {
     }
     
     # do article db insert
-    my $ArticleID = $ArticleObject->CreateArticle(
+    my $ArticleID = $TicketObject->CreateArticle(
         TicketID => $TicketID,
         ArticleType => 'email-external',
         SenderType => 'customer',
@@ -135,6 +126,9 @@ sub Run {
         UserID => $InmailUserID,
         HistoryType => 'NewTicket',
         HistoryComment => "New Ticket [$NewTn] created (Queue=$Queue). $Comment",
+        OrigHeader => \%GetParam,
+        AutoResponseType => $AutoResponseType,
+        Queue => $Queue,
     );
 
     # close ticket if article create failed!
@@ -157,7 +151,7 @@ sub Run {
     while ($CounterTmp <= 3) {
         $CounterTmp++;
         if ($GetParam{"$Values[0]$CounterTmp"}) {
-            $ArticleObject->SetFreeText(
+            $TicketObject->SetArticleFreeText(
                 ArticleID => $ArticleID,
                 Key => $GetParam{"$Values[0]$CounterTmp"},
                 Value => $GetParam{"$Values[1]$CounterTmp"},
@@ -168,7 +162,7 @@ sub Run {
     }
     
     # write it to the fs
-    $ArticleObject->WriteArticle(ArticleID => $ArticleID, Email => $Email);
+    $TicketObject->WriteArticle(ArticleID => $ArticleID, Email => $Email);
     
     # do log
     $LogObject->Log(
@@ -176,116 +170,6 @@ sub Run {
         "ArticleID=$ArticleID). $Comment"
     );
     
-    # --
-    # send auto response
-    # --
-    my $AutoResponse = Kernel::System::AutoResponse->new(
-        DBObject => $DBObject, 
-        LogObject => $Self->{LogObject},
-        ConfigObject => $Self->{ConfigObject},
-    );
-    my %Data = $AutoResponse->AutoResponseGetByTypeQueueID(
-        QueueID => $QueueID,
-        Type => $AutoResponseType,
-    );
-
-    # --
-    # check reply to
-    # --
-    if ($GetParam{ReplyTo}) {
-        $GetParam{From} = $GetParam{ReplyTo};
-    }
-
-    if ($Data{Text} && $Data{Realname} && $Data{Address} && !$GetParam{'X-OTRS-Loop'}) {
-        # --
-        # check / loop protection!
-        # --
-        if (!$Self->{LoopProtectionObject}->Check(To => $GetParam{From})) {
-            # add history row
-            $TicketObject->AddHistoryRow(
-                TicketID => $TicketID,
-                HistoryType => 'LoopProtection',
-                Name => "Sent no auto response (LoopProtection)!",
-                CreateUserID => $InmailUserID,
-            );
-            return;
-        }
-        # write log
-        if ($Self->{LoopProtectionObject}->SendEmail(To => $GetParam{From})) {
-            $Self->{SendAutoResponse}->Send(
-                %Data,
-                CustomerMessageParams => \%GetParam,
-                TicketNumber => $NewTn,
-                TicketID => $TicketID,
-                UserID => $InmailUserID,        
-                HistoryType => 'SendAutoReply',
-            );
-        }
-    }
-    else {
-        # do log
-        $LogObject->Log(Message => "Sent no auto reply for Ticket [$NewTn] ($GetParam{From}) "
-        );
-    }
-
-    # --
-    # send new ticket agent notification?
-    # --
-    my @UserIDs = ();
-    my $SQL = "SELECT user_id FROM personal_queues " .
-    " WHERE " .
-    " queue_id = $QueueID ";
-    $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        push (@UserIDs, $RowTmp[0]);
-    }
-    # create user object
-    my $UserObject = Kernel::System::User->new(
-        DBObject => $Self->{DBObject},
-        LogObject => $Self->{LogObject},
-        ConfigObject => $Self->{ConfigObject},
-    );
-    my $To = '';
-    foreach (@UserIDs) {
-        my %UserData = $UserObject->GetUserData(UserID => $_);
-        if ($UserData{UserEmail} && $UserData{UserSendNewTicketNotification}) {
-            $To .= "$UserData{UserEmail}, ";
-        }
-    }
-    if ($To) {
-        # --
-        # send notification
-        # --
-        $Self->{SendNotification}->Send(
-            Type => 'NewTicket',
-            To => $To, 
-            CustomerMessageParams => \%GetParam,
-            TicketNumber => $NewTn,
-            TicketID => $TicketID,
-            Queue => $Queue, 
-            UserID => $InmailUserID,
-        );
-
-    }
-    else {
-       if ($Self->{Debug} > 0) {
-           $LogObject->Log(
-               Message => "Sent no new ticket notification!",
-		   );  
-        }
-    }
-    # --
-    # debug
-    # --
-    if ($Self->{Debug} > 0) {
-       $LogObject->Log(
-            Message => "Debug($Self->{Debug}): AutoResponseType=$AutoResponseType, " .
-			"ResponseFrom=$Data{Address}, QueueID=$QueueID, " .
-            "Mailing-List=$GetParam{'Mailing-List'}, " .
-            "Precedence=$GetParam{Precedence}, X-Loop=$GetParam{'X-Loop'}, " .
-            "X-No-Loop=$GetParam{'X-No-Loop'}, X-OTRS-Loop=$GetParam{'X-OTRS-Loop'}."
-		);  
-    }
     return 1;
 }
 # --
