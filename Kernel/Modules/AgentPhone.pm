@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.45 2003-11-19 01:32:03 martin Exp $
+# $Id: AgentPhone.pm,v 1.46 2003-12-07 23:53:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.45 $';
+$VERSION = '$Revision: 1.46 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -53,8 +53,6 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-    my $NextScreen = $Self->{NextScreen} || 'AgentZoom';
-    my $UserLogin = $Self->{UserLogin};
     
     if (!$Self->{Subaction} || $Self->{Subaction} eq 'Created') {
         # header
@@ -104,9 +102,8 @@ sub Run {
                 }
             }
             # html output
-            $Output .= $Self->{LayoutObject}->AgentPhoneNew(
+            $Output .= $Self->_MaskPhoneNew(
               QueueID => $Self->{QueueID},
-              NextScreen => $NextScreen,
               NextStates => $Self->_GetNextStates(),
               Priorities => $Self->_GetPriorities(), 
               Users => $Self->_GetUsers(),
@@ -132,7 +129,7 @@ sub Run {
         }
         # check permissions if it's a existing ticket
         if (!$Self->{TicketObject}->Permission(
-            Type => 'rw',
+            Type => 'phone',
             TicketID => $Self->{TicketID},
             UserID => $Self->{UserID})) {
             # error screen, don't show ticket
@@ -186,10 +183,9 @@ sub Run {
           }
         }
         # print form ...
-        $Output .= $Self->{LayoutObject}->AgentPhone(
+        $Output .= $Self->_MaskPhone(
             TicketID => $Self->{TicketID},
             QueueID => $Self->{QueueID},
-            NextScreen => $NextScreen,
             TicketNumber => $Tn,
             NextStates => $Self->_GetNextStates(),
             CustomerData => \%CustomerData,
@@ -217,8 +213,8 @@ sub Run {
             TicketID => $Self->{TicketID},
             ArticleType => $Self->{ConfigObject}->Get('PhoneDefaultArticleType'),
             SenderType => $Self->{ConfigObject}->Get('PhoneDefaultSenderType'),
-            From => $UserLogin,
-            To => $UserLogin,
+            From => $Self->{UserLogin},
+            To => $Self->{UserLogin},
             Subject => $Subject,
             Body => $Text,
             ContentType => "text/plain; charset=$Self->{'UserCharset'}",
@@ -416,9 +412,8 @@ sub Run {
             # --
             # html output
             # --
-            $Output .= $Self->{LayoutObject}->AgentPhoneNew(
+            $Output .= $Self->_MaskPhoneNew(
               QueueID => $Self->{QueueID},
-              NextScreen => $NextScreen,
               Users => $Self->_GetUsers(QueueID => $NewQueueID, AllUsers => $AllUsers),
               UserSelected => $NewUserID,
               NextStates => $Self->_GetNextStates(),
@@ -439,33 +434,29 @@ sub Run {
               %GetParam,
             );
             # show customer tickets
-            my @TicketIDs = (1 .. 3);
-            #$CustomerID
-                my $OutputTables = '';
-    foreach my $TicketID (@TicketIDs) {
-        my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $TicketID);
-        my %Article = $Self->{TicketObject}->GetLastCustomerArticle(TicketID => $TicketID);
-        $OutputTables .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AgentCustomerHistoryTable',
-            Data => {
-                %Ticket,
-                %Article,
-                Age => $Self->{LayoutObject}->CustomerAge(Age => $Ticket{Age}, Space => ' '),
+            my @TicketIDs = ();
+            if ($CustomerID) {
+                @TicketIDs = $Self->{TicketObject}->GetCustomerTickets(
+                    UserID => $Self->{UserID}, 
+                    CustomerID => $CustomerID, 
+                );
             }
-        );
-
-    }
-$Output .= $OutputTables;
+            foreach my $TicketID (@TicketIDs) {
+                my %Article = $Self->{TicketObject}->GetLastCustomerArticle(TicketID => $TicketID);
+                $Output .= $Self->{LayoutObject}->Output(
+                    TemplateFile => 'TicketViewLite',
+                    Data => {
+                        %Article,
+                        Age => $Self->{LayoutObject}->CustomerAge(Age => $Article{Age}, Space => ' '),
+                    }
+                );
+            }
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
         }
-        # --
         # create new ticket
-        # --
         my $NewTn = $Self->{TicketObject}->CreateTicketNr();
-        # --
         # do db insert
-        # --
         my $TicketID = $Self->{TicketObject}->CreateTicketDB(
             TN => $NewTn,
             QueueID => $NewQueueID,
@@ -477,9 +468,7 @@ $Output .= $OutputTables;
             UserID => $Self->{UserID},
             CreateUserID => $Self->{UserID},
         );
-        # --
         # check if new owner is given (then send no agent notify)
-        # --
         my $NoAgentNotify = 0;
         if ($NewUserID) {
             $NoAgentNotify = 1;
@@ -658,17 +647,13 @@ sub _GetPriorities {
 sub _GetTos {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check own selection
-    # --
     my %NewTos = ();
     if ($Self->{ConfigObject}->{PhoneViewOwnSelection}) {
         %NewTos = %{$Self->{ConfigObject}->{PhoneViewOwnSelection}};
     }
     else {
-        # --
         # SelectionType Queue or SystemAddress?    
-        # --
         my %Tos = ();
         if ($Self->{ConfigObject}->Get('PhoneViewSelectionType') eq 'Queue') {
             %Tos = $Self->{QueueObject}->GetAllQueues();
@@ -681,9 +666,7 @@ sub _GetTos {
                 Clamp => 1,
             );
         }
-        # --
         # get create permission queues
-        # --
         my %UserGroups = $Self->{GroupObject}->GroupMemberList(
             UserID => $Self->{UserID}, 
             Type => 'create', 
@@ -694,9 +677,7 @@ sub _GetTos {
                 $NewTos{$_} = $Tos{$_};
             }
         }
-        # --
         # build selection string
-        # --
         foreach (keys %NewTos) {
             my %QueueData = $Self->{QueueObject}->QueueGet(ID => $_);
             my $Srting = $Self->{ConfigObject}->Get('PhoneViewSelectionString') || '<Realname> <<Email>> - Queue: <Queue>';
@@ -715,5 +696,117 @@ sub _GetTos {
     return \%NewTos;
 }
 # --
-
+sub _MaskPhone {
+    my $Self = shift;
+    my %Param = @_;
+    # answered strg
+    $Param{'AnsweredYesNoOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => $Self->{ConfigObject}->Get('YesNoOptions'),
+        Name => 'Answered',
+        Selected => 'Yes',
+    );
+    # build next states string
+    $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => $Param{NextStates},
+        Name => 'NextStateID',
+        Selected => $Self->{ConfigObject}->Get('PhoneDefaultNextState'),
+    );
+    # customer info string 
+    $Param{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
+        Data => $Param{CustomerData},
+        Max => $Self->{ConfigObject}->Get('ShowCustomerInfoPhoneMaxSize'),
+    );
+    # pending data string
+    $Param{PendingDateString} = $Self->{LayoutObject}->BuildDateSelection(%Param);
+    # prepare errors!
+    if ($Param{Errors}) {
+        foreach (keys %{$Param{Errors}}) {
+            $Param{$_} = "* ".$Self->{LayoutObject}->Ascii2Html(Text => $Param{Errors}->{$_});
+        }
+    }
+    # get output back
+    return $Self->{LayoutObject}->Output(TemplateFile => 'AgentPhone', Data => \%Param);
+}
+# --
+sub _MaskPhoneNew {
+    my $Self = shift;
+    my %Param = @_;
+    # build string
+    $Param{Users}->{''} = '-';
+    $Param{'OptionStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => $Param{Users},
+        SelectedID => $Param{UserSelected},
+        Name => 'NewUserID',
+    );
+    # build next states string
+    $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => $Param{NextStates},
+        Name => 'NextStateID',
+        Selected => $Param{NextState} || $Self->{ConfigObject}->Get('PhoneDefaultNewNextState'),
+    );
+    # build from string
+    if ($Param{FromOptions} && %{$Param{FromOptions}}) {
+      $Param{'CustomerUserStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => $Param{FromOptions},
+        Name => 'CustomerUser',
+        Max => 70,
+      ).'<br>$Env{"Box0"}<a href="" onclick="document.compose.ExpandCustomerName.value=\'2\'; document.compose.submit(); return false;" onmouseout="window.status=\'\';" onmouseover="window.status=\'$Text{"Take this User"}\'; return true;">$Text{"Take this User"}</a>$Env{"Box1"}';
+    }
+    # build so string
+    my %NewTo = ();
+    if ($Param{To}) {
+        foreach (keys %{$Param{To}}) {
+             $NewTo{"$_||$Param{To}->{$_}"} = $Param{To}->{$_};
+        }
+    }
+    if ($Self->{ConfigObject}->Get('PhoneViewSelectionType') eq 'Queue') {
+        $Param{'ToStrg'} = $Self->{LayoutObject}->AgentQueueListOption(
+            Data => \%NewTo,
+            Multiple => 0,
+            Size => 0,
+            Name => 'Dest',
+            SelectedID => $Param{ToSelected},
+            OnChangeSubmit => 0,
+            OnChange => "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
+        );
+    }
+    else {
+        $Param{'ToStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data => \%NewTo,
+            Name => 'Dest',
+            SelectedID => $Param{ToSelected},
+            OnChange => "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
+        );
+    }
+    # customer info string 
+    $Param{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
+        Data => $Param{CustomerData},
+        Max => $Self->{ConfigObject}->Get('ShowCustomerInfoPhoneMaxSize'),
+    );
+    # do html quoting
+    foreach (qw(From To Cc)) {
+        $Param{$_} = $Self->{LayoutObject}->Ascii2Html(Text => $Param{$_}) || '';
+    }
+    # build priority string
+    if (!$Param{PriorityID}) {
+        $Param{Priority} = $Self->{ConfigObject}->Get('PhoneDefaultPriority');
+    }
+    $Param{'PriorityStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => $Param{Priorities},
+        Name => 'PriorityID',
+        SelectedID => $Param{PriorityID},
+        Selected => $Param{Priority},
+    );
+    # pending data string
+    $Param{PendingDateString} = $Self->{LayoutObject}->BuildDateSelection(%Param);
+    # prepare errors!
+    if ($Param{Errors}) {
+        foreach (keys %{$Param{Errors}}) {
+            $Param{$_} = "* ".$Self->{LayoutObject}->Ascii2Html(Text => $Param{Errors}->{$_});
+        }
+    }
+    # get output back
+    return $Self->{LayoutObject}->Output(TemplateFile => 'AgentPhoneNew', Data => \%Param);
+}
+# --
 1;
