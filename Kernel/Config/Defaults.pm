@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.83 2003-10-14 14:02:56 martin Exp $
+# $Id: Defaults.pm,v 1.84 2003-10-14 14:08:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.83 $';
+$VERSION = '$Revision: 1.84 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1408,8 +1408,8 @@ Your OTRS Notification Master
 
     # ShowCustomerInfo*MaxSize
     # (max size (in characters) of customer info table)
-    $Self->{ShowCustomerInfoPhoneMaxSize} = 20;
-    $Self->{ShowCustomerInfoZoomMaxSize} = 20;
+    $Self->{ShowCustomerInfoPhoneMaxSize} = 22;
+    $Self->{ShowCustomerInfoZoomMaxSize} = 22;
     $Self->{ShowCustomerInfoQueueMaxSize} = 18;
 
     # CustomerUser 
