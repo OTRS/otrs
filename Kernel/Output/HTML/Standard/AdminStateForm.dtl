@@ -2,7 +2,7 @@
 # AdminStateForm.dtl - provides HTML form for AdminState
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminStateForm.dtl,v 1.1 2002-05-05 12:59:38 martin Exp $
+# $Id: AdminStateForm.dtl,v 1.2 2002-05-05 13:45:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -35,7 +35,7 @@
 # --
 # check subaction
 # --
-<dtl set $Data{"Headline"} = "Add charset">
+<dtl set $Data{"Headline"} = "Add state">
 <dtl if ($Env{"Subaction"} eq "Change") { $Data{"Headline"} = "Update state"; }>
 # set subaction!
 <dtl if ($Env{"Subaction"} eq "") { $Env{"Subaction"} = "Add"; }>
