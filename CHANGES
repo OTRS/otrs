@@ -2,12 +2,31 @@
 # Changes of OpenTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.5 2002-05-27 23:03:23 martin Exp $
+# $Id: CHANGES,v 1.6 2002-06-09 22:31:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
+0.5 BETA6 (2002-06-??)
+ - added redhat-rcotrs script (thanks to Pablo Ruiz Garcia)
+ - moved all OpenTRS application required modules to two new files, Kernel/Config/Modules.pm 
+    (all used OpenTRS modules) and Kernel/Config/ModulesCustom.pm (all add-on application 
+    modules, written by someone else) to be release independently with Third Party modules 
+    for OpenTRS. 
+ - added $Env{"Product"} $Env{"Version"} (e. g. OpenTRS 0.5 Beta6) as dtl environment
+    variable. Source is $OTRS_HOME/RELEASE. 
+ - added display support for HTML (only) e-mails 
+ - added generic database and webserver to scripts/suse-rcotrs script 
+ - added PostgreSQL (7.2 or higher) support (use OpenTRS-schema.postgresql.sql) 
+ - fixed bug[12] fetchmail lock problem - http://bugs.otrs.org/show_bug.cgi?id=12 
+ - fixed bug[11] typos - http://bugs.otrs.org/show_bug.cgi?id=11 
+ - fixed bug[10] user_preferences table  - http://bugs.otrs.org/show_bug.cgi?id=10 
+ - fixed bug[9] LoopProtection!!! Can't open'/opt/OpenTRS/var/log/LoopProtection-xyz.log': 
+    No such file or directory! - http://bugs.otrs.org/show_bug.cgi?id=9
+ - fixed HTML table bug in AdminArea::Queue (just with Netscape)
+ - fixed SQL table preferences bug (use script/DBUpdate.mysql.sql) 
 
 0.5 BETA5 (2002-05-27)
  - added ticket escalation - if a ticket is to old, only this ticket will be shown
@@ -19,19 +38,19 @@
      * modified Kernel::System::Ticket::Lock::SetLock() 
      * added bin/UnlockTickets.pl with --timeout and --all options
  - added command line tool (bin/DeleteSessionIDs.pl) to delete expired or all session 
-    ids via command line or cron - options are --help, --expired and --all (martin)
+    ids via command line or cron - options are --help, --expired and --all 
  - fixed bug[7] (http://bugs.otrs.org/show_bug.cgi?id=7 - space in Installer.pm 
-    lets creating of database otrs in MySQL fail) by Stefan Schmidt. (martin)
+    lets creating of database otrs in MySQL fail) by Stefan Schmidt. 
  - added URL (screen) recovery after session timeout and possibility to send 
     links without session id. Example: Shows you the ticket after OpenTRS 
-    login - http://host.example.com/otrs/index.pl?AgentZoom&TicketID=9 (martin) 
+    login - http://host.example.com/otrs/index.pl?AgentZoom&TicketID=9 
  - added http://bugs.otrs.org/ link to the Error.dtl template, to get an easier 
-    bug reporting (martin)
- - added NoPermission.dtl screen (martin)
- - added phone tool - Kernel::Modules::AgentPhone.pm (martin)
+    bug reporting 
+ - added NoPermission.dtl screen 
+ - added phone tool - Kernel::Modules::AgentPhone.pm 
  - added french translation (thanks to Martin Scherbaum)
  - added 'Send follow up notification' and 'Send new ticket notification' to agent 
-    feature (martin)
+    feature 
      * added new values to initial_insert.sql for agent notifications, table: 
        ticket_history_type, value: SendAgentNotification
      * modified Kernel/Output/HTML/<THEME>/AgentPreferencesForm.dtl 
@@ -40,26 +59,26 @@
      * added "INIT INFO"
      * just check httpd and mysqld - no restart 
      * added stop-force|start-force option to restart httpd and mysqld
- - added help texts to the admin screens (martin)
+ - added help texts to the admin screens 
 
 0.5 BETA4 (2002-05-07)
  - changed login screen and added motd feature (Kernel/Output/HTML/Standard/Motd.dtl
-   the motd file) (martin) 
- - added Kernel::Modules::AdminCharsets.pm (martin)
- - added Kernel::Modules::AdminStatus.pm (martin)
- - added Kernel::Modules::AdminLanguages.pm (martin)
- - added mod_perl stuff to README.webserver and scripts/suse-httpd.include.conf (martin)
+   the motd file) 
+ - added Kernel::Modules::AdminCharsets.pm 
+ - added Kernel::Modules::AdminStatus.pm 
+ - added Kernel::Modules::AdminLanguages.pm 
+ - added mod_perl stuff to README.webserver and scripts/suse-httpd.include.conf 
  - fixed bug[6] (http://bugs.otrs.org/show_bug.cgi?id=6 - user is a reserved word in 
     SQL) reported by Charles Wimmer. Added some variables for table names and columns 
     to Kernel/Config.pm. Important: For existing installations you have to change the 
-    Config.pm or to rename the "user" table to "system_user"! (martin)
- - added "kill all sessions" funktion to Kernel::Modules::AdminSession.pm (martin)
- - added old subject ("subject snip") and old email ("body snip") to auto reply (martin)
- - added stats support Kernel::Modules::SystemStats and bin/mkStats.pl (with GD) (martin)
- - fixed missing html quoting in Kernel::Output::HTML::Agent->AgentHistory (martin) 
- - update of html in AgentTicketView.dtl and AgentZoom.dtl (stefan)
+    Config.pm or to rename the "user" table to "system_user"! 
+ - added "kill all sessions" funktion to Kernel::Modules::AdminSession.pm 
+ - added old subject ("subject snip") and old e-mail ("body snip") to auto reply 
+ - added stats support Kernel::Modules::SystemStats and bin/mkStats.pl (with GD)
+ - fixed missing html quoting in Kernel::Output::HTML::Agent->AgentHistory 
+ - update of html in AgentTicketView.dtl and AgentZoom.dtl
  - added MoveInToAllQueues [1|0] to Config.pm (allow to choose the move queues for 
-    ticket view and zoom [all|own]) (martin)
+    ticket view and zoom [all|own]) 
 
 0.5 BETA3 (2002-04-17)
  - added AgentOwner Module
