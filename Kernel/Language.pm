@@ -1,8 +1,8 @@
 # --
-# Language.pm - provides multi language support
+# Kernel/Language.pm - provides multi language support
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Language.pm,v 1.7 2002-05-30 15:20:00 martin Exp $
+# $Id: Language.pm,v 1.8 2002-07-18 23:31:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ use Kernel::Language::Bavarian;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -48,7 +48,7 @@ sub new {
     if ($Self->{Debug} > 0) {
         $Self->{LogObject}->Log(
           Priority => 'Debug',
-          MSG => "UserLanguage = $Self->{UserLanguage}",
+          Message => "UserLanguage = $Self->{UserLanguage}",
         );
     }
 
@@ -59,7 +59,7 @@ sub new {
         if ($Self->{Debug} > 0) {
             $Self->{LogObject}->Log(
                 Priority => 'Debug',
-                MSG => "Kernel::Language::$Self->{UserLanguage} load ... done."
+                Message => "Kernel::Language::$Self->{UserLanguage} load ... done."
             );
         }
     }
@@ -67,7 +67,7 @@ sub new {
     else {
         $Self->{LogObject}->Log(
           Priority => 'Error',
-          MSG => "Sorry, can't locate Kernel::Language::$Self->{UserLanguage} translation!",
+          Message => "Sorry, can't locate Kernel::Language::$Self->{UserLanguage} translation!",
         );
     }
 
@@ -85,7 +85,7 @@ sub Get {
         if ($Self->{Debug} > 3) {
             $Self->{LogObject}->Log(
               Priority => 'Debug',
-              MSG => "->Get('$What') = ('$Self->{$What}').",
+              Message => "->Get('$What') = ('$Self->{$What}').",
             );
         }
         return $Self->{$What};
@@ -95,7 +95,7 @@ sub Get {
         if ($Self->{Debug} > 1) {
           $Self->{LogObject}->Log(
             Priority => 'error',
-            MSG => "->Get('$What') Is not translated!!!",
+            Message => "->Get('$What') Is not translated!!!",
           );
         }
         return $What;
