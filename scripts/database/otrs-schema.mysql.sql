@@ -320,6 +320,7 @@ CREATE TABLE queue
     unlock_timeout INTEGER,
     escalation_time INTEGER,
     system_address_id SMALLINT NOT NULL,
+    default_sign_key VARCHAR (100),
     salutation_id SMALLINT NOT NULL,
     signature_id SMALLINT NOT NULL,
     follow_up_id SMALLINT NOT NULL,

@@ -284,6 +284,7 @@ CREATE TABLE queue
     unlock_timeout integer,
     escalation_time integer,
     system_address_id smallint NOT NULL,
+    default_sign_key varchar (100),
     salutation_id smallint NOT NULL,
     signature_id smallint NOT NULL,
     follow_up_id smallint NOT NULL,

@@ -6,9 +6,12 @@
   XML File for the OTRS database description
   Copyright (C) 2001-2003 Martin Edenhofer
 
-  $Id: otrs-schema.xml,v 1.27 2004-08-10 06:39:45 martin Exp $
+  $Id: otrs-schema.xml,v 1.28 2004-08-12 08:11:07 martin Exp $
 
   $Log: not supported by cvs2svn $
+  Revision 1.27  2004/08/10 06:39:45  martin
+  added priority_id, owner_id and state_id to ticket_history table
+
   Revision 1.26  2004/08/02 23:58:30  martin
   fixed bug 466 - Error in managing very long Message-IDs
 
@@ -423,6 +426,7 @@
   <column name="unlock_timeout" required="false" type="INTEGER"/>
   <column name="escalation_time" required="false" type="INTEGER"/>
   <column name="system_address_id" required="true" type="SMALLINT"/>
+  <column name="default_sign_key" required="false" size="100" type="VARCHAR"/>
   <column name="salutation_id" required="true" type="SMALLINT"/>
   <column name="signature_id" required="true" type="SMALLINT"/>
   <column name="follow_up_id" required="true" type="SMALLINT"/>
