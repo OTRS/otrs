@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Header.dtl,v 1.4 2002-02-03 18:00:55 martin Exp $
+# $Id: Header.dtl,v 1.5 2002-02-03 20:07:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,7 +36,7 @@ Content-Type: text/html; charset=$Env{"Charset"};
 <html>
 <head>
     $Data{"MetaHttpEquiv"}
-    <title>$Data{"Title"}</title>
+    <title>$Text{"$Data{"Title"}"}</title>
 
 <STYLE TYPE="text/css">
 <!--
