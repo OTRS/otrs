@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.56 2004-06-25 15:36:15 martin Exp $
+# $Id: AgentUtilities.pm,v 1.57 2004-07-16 12:30:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,18 +15,18 @@ use strict;
 use Kernel::System::CustomerUser;
 use Kernel::System::Priority;
 use Kernel::System::State;
-    
+
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.56 $';
+$VERSION = '$Revision: 1.57 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
-    
+
 # --
 sub new {
     my $Type = shift;
     my %Param = @_;
 
-    # allocate new hash for object    
-    my $Self = {}; 
+    # allocate new hash for object
+    my $Self = {};
     bless ($Self, $Type);
 
     foreach (keys %Param) {
@@ -65,14 +65,14 @@ sub Run {
     }
     # get signle params
     my %GetParam = ();
-    foreach (qw(TicketNumber From To Cc Subject Body CustomerID CustomerUserLogin 
+    foreach (qw(TicketNumber From To Cc Subject Body CustomerID CustomerUserLogin
       Agent ResultForm TimeSearchType
-      TicketCreateTimePointFormat TicketCreateTimePoint 
+      TicketCreateTimePointFormat TicketCreateTimePoint
       TicketCreateTimePointStart
-      TicketCreateTimeStart TicketCreateTimeStartDay TicketCreateTimeStartMonth 
+      TicketCreateTimeStart TicketCreateTimeStartDay TicketCreateTimeStartMonth
       TicketCreateTimeStartYear
-      TicketCreateTimeStop TicketCreateTimeStopDay TicketCreateTimeStopMonth 
-      TicketCreateTimeStopYear 
+      TicketCreateTimeStop TicketCreateTimeStopDay TicketCreateTimeStopMonth
+      TicketCreateTimeStopYear
     )) {
         # load profiles string params (press load profile)
         if (($Self->{Subaction} eq 'LoadProfile' && $Self->{Profile}) || $Self->{TakeLastSearch}) {
@@ -96,8 +96,8 @@ sub Run {
         }
     }
     # get array params
-    foreach (qw(StateIDs StateTypeIDs QueueIDs PriorityIDs UserIDs 
-      TicketFreeKey1 TicketFreeText1 TicketFreeKey2 TicketFreeText2 
+    foreach (qw(StateIDs StateTypeIDs QueueIDs PriorityIDs UserIDs
+      TicketFreeKey1 TicketFreeText1 TicketFreeKey2 TicketFreeText2
       TicketFreeKey3 TicketFreeText3 TicketFreeKey4 TicketFreeText4
       TicketFreeKey5 TicketFreeText5 TicketFreeKey6 TicketFreeText6
       TicketFreeKey7 TicketFreeText7 TicketFreeKey8 TicketFreeText8)) {
@@ -159,7 +159,7 @@ sub Run {
             Value => $URL,
         );
         # save search profile (under last-search or real profile name)
-        $Self->{SaveProfile} = 1; 
+        $Self->{SaveProfile} = 1;
         # remember last search values
         if ($Self->{SaveProfile} && $Self->{Profile}) {
             # remove old profile stuff
@@ -168,7 +168,7 @@ sub Run {
                   "' AND login = '".$Self->{DBObject}->Quote($Self->{UserLogin})."'";
             $Self->{DBObject}->Do(SQL => $SQL);
             # insert new profile params
-            foreach my $Key (keys %GetParam) { 
+            foreach my $Key (keys %GetParam) {
               if ($GetParam{$Key}) {
                 if (ref($GetParam{$Key}) eq 'ARRAY') {
                     foreach (@{$GetParam{$Key}}) {
@@ -178,7 +178,7 @@ sub Run {
                         $Self->{DBObject}->Quote($Self->{Profile})."', '$Key', '".
                         $Self->{DBObject}->Quote($_)."')";
                       $Self->{DBObject}->Do(SQL => $SQL);
-                    } 
+                    }
                 }
                 else {
                     my $SQL = "INSERT INTO search_profile (login, profile_name, ".
@@ -191,7 +191,7 @@ sub Run {
               }
             }
         }
-    
+
 #        foreach (qw(email-notification-int email-notification-ext)) {
 
         # get time settings
@@ -312,7 +312,7 @@ sub Run {
             );
             # get age
             $Data{Age} = $Self->{LayoutObject}->CustomerAge(Age => $Data{Age}, Space => ' ');
-            # customer info string 
+            # customer info string
             $UserInfo{CustomerName} = '('.$UserInfo{CustomerName}.')' if ($UserInfo{CustomerName});
             # generate ticket result
             if ($GetParam{ResultForm} eq 'Preview') {
@@ -347,7 +347,7 @@ sub Run {
                         $Data{TextNote} = $CharsetText;
                     }
                 }
-                # customer info string 
+                # customer info string
                 $UserInfo{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
                     Data => \%CustomerData,
                     Max => $Self->{ConfigObject}->Get('ShowCustomerInfoQueueMaxSize'),
@@ -432,7 +432,7 @@ sub Run {
                   $Self->{LayoutObject}->Block(
                     Name => 'Record',
                     Data => {
-                        %Data, 
+                        %Data,
                         Subject => $Subject,
                         %UserInfo,
                     },
@@ -442,7 +442,7 @@ sub Run {
           }
         }
         # start html page
-        my $Output = $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Utilities');
+        my $Output = $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Search');
         my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
         $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
 
@@ -523,7 +523,7 @@ sub Run {
 #            $Self->{Profile} = '';
         }
         # generate search mask
-        my $Output = $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Utilities');
+        my $Output = $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Search');
         my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
         # get free text config options
         my %TicketFreeText = ();

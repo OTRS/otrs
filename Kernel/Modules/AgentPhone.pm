@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.87 2004-05-30 16:41:06 martin Exp $
+# $Id: AgentPhone.pm,v 1.88 2004-07-16 12:30:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.87 $';
+$VERSION = '$Revision: 1.88 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -27,16 +27,16 @@ sub new {
     my $Type = shift;
     my %Param = @_;
 
-    # allocate new hash for object    
-    my $Self = {}; 
+    # allocate new hash for object
+    my $Self = {};
     bless ($Self, $Type);
-    
+
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
 
     # check needed Opjects
-    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject 
+    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject
        ConfigObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
@@ -64,7 +64,7 @@ sub Run {
     }
     if (!$Self->{Subaction} || $Self->{Subaction} eq 'Created') {
         # header
-        $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Phone call');
+        $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Phone-Ticket');
         # if there is no ticket id!
         if (!$Self->{TicketID} || ($Self->{TicketID} && $Self->{Subaction} eq 'Created')) {
             # navigation bar
@@ -239,7 +239,7 @@ sub Run {
         my $Text = $Self->{ParamObject}->GetParam(Param => 'Body');
         my $NextStateID = $Self->{ParamObject}->GetParam(Param => 'NextStateID') || '';
         my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
-            ID => $NextStateID, 
+            ID => $NextStateID,
         );
         my $NextState = $StateData{Name};
         my $ArticleTypeID = $Self->{ParamObject}->GetParam(Param => 'NoteID');
@@ -313,7 +313,7 @@ sub Run {
                  %GetParam,
              );
          }
-         # redirect to last screen (e. g. zoom view) and to queue view if 
+         # redirect to last screen (e. g. zoom view) and to queue view if
          # the ticket is closed (move to the next task).
          if ($StateData{TypeName} =~ /^close/i) {
              return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenQueue});
@@ -506,7 +506,7 @@ sub Run {
             # --
             # header
             # --
-            $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Phone call');
+            $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Phone-Ticket');
             my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
             $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
             # --

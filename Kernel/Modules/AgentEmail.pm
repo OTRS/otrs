@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentEmail.pm - to compose inital email to customer
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentEmail.pm,v 1.29 2004-07-08 15:11:06 martin Exp $
+# $Id: AgentEmail.pm,v 1.30 2004-07-16 12:30:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -66,7 +66,7 @@ sub Run {
     }
     if (!$Self->{Subaction} || $Self->{Subaction} eq 'Created') {
         # header
-        $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Compose Email');
+        $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Email-Ticket');
         # if there is no ticket id!
         if (!$Self->{TicketID} || ($Self->{TicketID} && $Self->{Subaction} eq 'Created')) {
             # navigation bar
@@ -106,7 +106,7 @@ sub Run {
                 Config => \%TicketFreeText,
                 Ticket => { %TicketFreeDefault,
                             $Self->{UserObject}->GetUserData(
-                                UserID => $Self->{UserID}, 
+                                UserID => $Self->{UserID},
                                 Cached => 1,
                            ),
                 }
@@ -115,7 +115,7 @@ sub Run {
             $Output .= $Self->_MaskEmailNew(
               QueueID => $Self->{QueueID},
               NextStates => $Self->_GetNextStates(),
-              Priorities => $Self->_GetPriorities(), 
+              Priorities => $Self->_GetPriorities(),
               Users => $Self->_GetUsers(),
               From => $Self->_GetTos(),
               To => '',
@@ -307,7 +307,7 @@ sub Run {
             # --
             # header
             # --
-            $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Compose Email');
+            $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Email-Ticket');
             my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
             $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
             # --
@@ -513,7 +513,7 @@ sub _GetNextStates {
 sub _GetUsers {
     my $Self = shift;
     my %Param = @_;
-    # get users 
+    # get users
     my %ShownUsers = ();
     my %AllGroupsMembers = $Self->{UserObject}->UserList(
         Type => 'Long',
@@ -557,7 +557,7 @@ sub _GetUsers {
 sub _GetPriorities {
     my $Self = shift;
     my %Param = @_;
-    my %Priorities = (); 
+    my %Priorities = ();
     # get priority
     if ($Param{QueueID} || $Param{TicketID}) {
         %Priorities = $Self->{TicketObject}->PriorityList(
@@ -676,7 +676,7 @@ sub _MaskEmailNew {
             OnChange => "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
         );
     }
-    # customer info string 
+    # customer info string
     $Param{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
         Data => $Param{CustomerData},
         Max => $Self->{ConfigObject}->Get('ShowCustomerInfoComposeMaxSize'),
