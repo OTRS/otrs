@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2002-2003 Martin Edenhofer <martin at otrs.org>
 # --
-# $Id: de.pm,v 1.16 2003-03-02 17:34:39 robert Exp $
+# $Id: de.pm,v 1.17 2003-03-10 23:52:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Sun Feb 23 23:32:25 2003 by
+    # Last translation Tue Mar 11 00:40:04 2003 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -41,8 +41,9 @@ sub Data {
       '15 minutes' => '15 Minuten',
       'AddLink' => 'Link hinzufügen',
       'AdminArea' => 'AdminBereich',
-      'all' => 'alle',
+      'agent' => 'Agent',
       'All' => 'Alle',
+      'all' => 'alle',
       'Attention' => 'Achtung',
       'Bug Report' => 'Fehler berichten',
       'Cancel' => 'Abbrechen',
@@ -51,12 +52,13 @@ sub Data {
       'change!' => 'ändern!',
       'click here' => 'klick hier',
       'Comment' => 'Kommentar',
+      'customer' => 'Kunde',
       'Customer' => 'Kunde',
       'Customer Info' => 'Kunden Info',
       'day' => 'Tag',
       'days' => 'Tage',
-      'Description' => 'Beschreibung',
       'description' => 'Beschreibung',
+      'Description' => 'Beschreibung',
       'Dispatching by email To: field.' => 'Verteilung nach To: Feld.',
       'Dispatching by selected Queue.' => 'Verteilung nach ausgewählter Queue.',
       'Don\'t work with UserID 1 (System account)! Create new users!' => 'Arbeite nicht mit UserID 1 (System Account)! Erstelle neue Benutzer!',
@@ -98,10 +100,10 @@ sub Data {
       'none' => 'keine',
       'none - answered' => 'keine - beantwortet',
       'none!' => 'keine Angabe!',
-      'off' => 'aus',
       'Off' => 'Aus',
-      'on' => 'ein',
+      'off' => 'aus',
       'On' => 'Ein',
+      'on' => 'ein',
       'Password' => 'Passwort',
       'Pending till' => 'Warten bis',
       'Please answer this ticket(s) to get back to the normal queue view!' => 'Bitte beantworten Sie dieses Ticket um in die normale queue view zurück zu kommen!',
@@ -119,6 +121,7 @@ sub Data {
       'Subfunction' => 'Unterfunktion',
       'submit' => 'übermitteln',
       'submit!' => 'übermitteln!',
+      'system' => 'System',
       'Take this User' => 'Benutzer übernehmen',
       'Text' => '',
       'The recommended charset for your language is %s!' => 'Der empfohlene Charset für Ihre Sprache ist %s!',
@@ -135,8 +138,8 @@ sub Data {
       'Welcome to OTRS' => 'Willkommen zu OTRS',
       'Word' => 'Wort',
       'wrote' => 'schrieb',
-      'Yes' => 'Ja',
       'yes' => 'ja',
+      'Yes' => 'Ja',
       'You got new message!' => 'Du hast eine Neue Nachricht bekommen!',
       'You have %s new message(s)!' => 'Du hast %s neue Nachricht(en) bekommen!',
       'You have %s reminder ticket(s)!' => 'Du hast %s Erinnerungs-Ticket(s)!',
@@ -156,6 +159,7 @@ sub Data {
       'Sep' => '',
 
     # Template: AAAPreferences
+      'Closed Tickets' => 'geschlossene Tickets',
       'Custom Queue' => 'Persönliche Queue',
       'Follow up notification' => 'Mitteilung bei Nachfragen',
       'Frontend' => '',
@@ -175,6 +179,7 @@ sub Data {
       'Send me a notification if a ticket is moved into a custom queue.' => ' Zusenden einer Mitteilung beim verschieben eines Ticket in meine individuellen Queue(s).',
       'Send me a notification if a ticket is unlocked by the system.' => 'Zusenden einer Mitteilung wenn ein Ticket vom System freigegeben (unlocked) wird.',
       'Send me a notification if there is a new ticket in my custom queues.' => 'Zusenden einer Mitteilung bei neuem Ticket in der/den individuellen Queue(s).',
+      'Show closed tickets.' => 'Geschlossene Ticket anzeigen.',
       'Spelling Dictionary' => 'Rechtschreib-Wörterbuch',
       'Ticket lock timeout notification' => 'Mitteilung bei lock Zeitüberschreitung',
 
@@ -207,6 +212,7 @@ sub Data {
       'high' => 'hoch',
       'History' => '',
       'If it is not displayed correctly,' => 'Wenn sie nicht korrekt angezeigt wird,',
+      'lock' => 'gesperrt',
       'Lock' => 'Ziehen',
       'low' => 'niedrig',
       'Move' => 'Verschieben',
@@ -237,6 +243,7 @@ sub Data {
       'To' => 'An',
       'to open it in a new window.' => 'um sie in einem neuen Fenster angezeigt zu bekommen',
       'Unlock' => 'Freigeben',
+      'unlock' => 'frei',
       'very high' => 'sehr hoch',
       'very low' => 'sehr niedrig',
       'View' => 'Ansicht',
@@ -352,12 +359,18 @@ sub Data {
       '0 = no unlock' => '0 = kein Unlock',
       'Add queue' => 'Queue hinzufügen',
       'Change queue settings' => 'Ändern einer Queue',
+      'Customer Move Notify' => 'Kunden-Info Move',
+      'Customer Owner Notify' => 'Kunden-Info Beitzer',
+      'Customer State Notify' => 'Kunden-Info Status',
       'Escalation time' => 'Eskalationszeit',
-      'Follow up Option' => '',
+      'Follow up Option' => 'Nachfolge Option',
       'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => 'Wenn ein Ticket geschlossen ist und der Kunde jedoch ein follow up sendet, wird das ticket für den alten Eigner gelocked.',
       'If a ticket will not be answered in thos time, just only this ticket will be shown.' => 'Wird ein Ticket nicht in jener Zeit beantwortet, wird nur noch dieses Ticket gezeigt.',
       'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Wird ein Ticket durch einen Agent gelocked jedoch nicht in dieser Zeit beantwortet, wird das Ticket automatisch unlocked.',
       'Key' => 'Schlüssel',
+      'OTRS sends an notification email to the customer if the ticket is moved.' => 'OTRS sendet info Emails an Kunden beim verschieben des Tickets.',
+      'OTRS sends an notification email to the customer if the ticket owner has changed.' => 'OTRS sendet info Emails an Kunden beim ändern des Besitzers.',
+      'OTRS sends an notification email to the customer if the ticket state has changed.' => 'OTRS sendet info Emails an Kunden beim ändern des Status.',
       'Queue Management' => 'Queue Verwaltung',
       'Sub-Queue of' => 'Unter-Queue von',
       'Systemaddress' => 'System-Adresse',
@@ -392,6 +405,10 @@ sub Data {
       'Add salutation' => 'Anrede hinzufügen',
       'Change salutation settings' => 'Ändern einer Anrede',
       'customer realname' => 'echter Kundenname',
+      'for agent firstname' => 'für Vorname des Agents',
+      'for agent lastname' => 'für Nachname des Agents',
+      'for agent login' => 'für Agent Login',
+      'for agent user id' => 'für Agent UserID',
       'Salutation Management' => 'Anreden Verwaltung',
 
     # Template: AdminSelectBoxForm
@@ -412,15 +429,12 @@ sub Data {
     # Template: AdminSignatureForm
       'Add signature' => 'Signatur hinzufügen',
       'Change signature settings' => 'Ändern einer Signatur',
-      'for agent firstname' => 'für Vorname des Agents',
-      'for agent lastname' => 'für Nachname des Agents',
-      'for agent login' => 'für Agent Login',
-      'for agent user id' => 'für Agent UserID',
       'Signature Management' => 'Signatur Verwaltung',
 
     # Template: AdminStateForm
       'Add state' => 'State hinzufügen',
       'Change system state setting' => 'Ändere System-State',
+      'State Type' => 'Status Type',
       'System State Management' => 'System-State Verwaltung',
 
     # Template: AdminSystemAddressForm
@@ -457,10 +471,11 @@ sub Data {
       'Next ticket state' => 'Nächster Status des Tickets',
       'Send mail!' => 'Mail senden!',
       'You need a email address (e. g. customer@example.com) in To:!' => 'Im An-Feld wird eine eMail-Adresse (z. B. kunde@beispiel.de) benötigt!',
-      'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further inforamtions.' => '',
+      'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further inforamtions.' => 'Deine Email mit Ticketnummer "<OTRS_TICKET>" is an "<OTRS_BOUNCE_TO>" gebounced. Kontaktiere dies Adresse bei weiteren Nachfragen.',
 
     # Template: AgentClose
       ' (work units)' => ' (Arbeitseinheiten)',
+      'A message should have a subject!' => 'Eine Nachricht sollte ein Betreff haben!',
       'Close ticket' => 'Ticket schließen',
       'Close type' => 'Schließen Type',
       'Close!' => 'Schließen!',
@@ -468,11 +483,11 @@ sub Data {
       'Note type' => 'Notiz-Typ',
       'Options' => 'Optionen',
       'Spell Check' => 'Rechtschreibkontrolle',
-      'store' => 'speichern',
       'Time units' => 'Zeit-Einheiten',
+      'You need to account time!' => 'Zeit muss berechnet werden!',
 
     # Template: AgentCompose
-      'A message should have a subject!' => 'Eine Nachricht sollte ein Betreff haben!',
+      'A message must be spell checked!' => 'Eine Nachricht muss rechtschreibgeprüft sein!',
       'Attach' => 'Anhängen',
       'Compose answer for ticket' => 'Antwort erstellen für',
       'for pending* states' => 'für warten* Stati',
@@ -547,6 +562,7 @@ sub Data {
     # Template: AgentPending
       'Pending date' => 'Warten Datum',
       'Pending type' => 'Warten Type',
+      'Pending!' => 'Warten!',
       'Set Pending' => 'Setze wartend',
 
     # Template: AgentPhone
@@ -555,6 +571,8 @@ sub Data {
       'Phone call at %s' => 'Anruf um %s',
 
     # Template: AgentPhoneNew
+      'Clear From' => 'From löschen',
+      'create' => 'erstellen',
       'new ticket' => 'neues Ticket',
 
     # Template: AgentPlain
@@ -602,7 +620,7 @@ sub Data {
 
     # Template: AgentTicketLocked
       'Ticket locked!' => 'Ticket gesperrt!',
-      'unlock' => 'freigeben',
+      'Ticket unlock!' => 'Ticket freigeben!',
 
     # Template: AgentTicketPrint
       'by' => 'von',
@@ -638,13 +656,26 @@ sub Data {
     # Template: AgentUtilSearchResult
 
     # Template: AgentUtilTicketStatus
+      'All closed tickets' => 'Alle geschlossenen Tickets',
       'All open tickets' => 'Alle offenen Tickets',
+      'closed tickets' => 'geschlossenen Tickets',
       'open tickets' => 'offenen',
       'or' => 'oder',
-      'All closed tickets' => 'Alle geschlossenen Tickets',
-      'closed tickets' => 'geschlossenen Tickets',
       'Provides an overview of all' => 'Bietet eine Übersicht von allen',
       'So you see what is going on in your system.' => 'Somit können Sie sehen, was in Ihrem System vorgeht.',
+
+    # Template: AgentZoomAnswer
+      'Compose Answer' => 'Antwort erstellen',
+      'Contact customer' => 'Kunden kontaktieren',
+      'phone call' => 'Anrufen',
+
+    # Template: AgentZoomBody
+      'Change queue' => 'Wechsle Queue',
+
+    # Template: AgentZoomHead
+      'Print' => 'Drucken',
+
+    # Template: AgentZoomStatus
 
     # Template: CustomerCreateAccount
       'Create' => 'Erstellen',
@@ -711,7 +742,7 @@ sub Data {
       'next step' => 'Nächster Schritt',
 
     # Template: InstallerSystem
-      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '',
+      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Überprüfen des MX Eintrags von benutzen Email Adressen im Verfassen-Fenster. Benutze CheckMXRecord nicht wenn Ihr OTRS hinter einer Wählleitung ist!)',
       '(Email of the system admin)' => '(E-Mail des System Admins)',
       '(Full qualified domain name of your system)' => '(Foller Domain-Name des Systems)',
       '(Logfile just needed for File-LogModule!)' => '(Logfile nur benötigt für File-LogModule!)',
@@ -746,7 +777,6 @@ sub Data {
       'URL' => '',
 
     # Template: PrintHeader
-      'Print' => 'Drucken',
 
     # Template: QueueView
       'All tickets' => 'Alle Tickets',
@@ -766,19 +796,9 @@ sub Data {
       'Ticket escalation!' => 'Ticket Eskalation!',
 
     # Template: TicketView
-      'Change queue' => 'Wechsle Queue',
-      'Compose Answer' => 'Antwort erstellen',
-      'Contact customer' => 'Kunden kontaktieren',
-      'phone call' => 'Anrufen',
 
     # Template: TicketViewLite
       'Add Note' => 'Notiz anheften',
-
-    # Template: TicketZoom
-
-    # Template: TicketZoomNote
-
-    # Template: TicketZoomSystem
 
     # Template: Warning
 
@@ -819,6 +839,7 @@ sub Data {
       'You have to be in the stats group!' => 'Sie müssen hierfür in der Statistik-Gruppe sein!',
       'You need a email address (e. g. customer@example.com) in From:!' => 'Im From-Feld wird eine E-Mail-Adresse (z. B. kunde@beispiel.de) benötigt!',
       'auto responses set' => 'Auto-Antworten gesetzt',
+      'store' => 'speichern',
     );
 
     # $$STOP$$
