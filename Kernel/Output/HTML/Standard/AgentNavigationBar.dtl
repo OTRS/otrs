@@ -2,14 +2,14 @@
 # AgentNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNavigationBar.dtl,v 1.6 2002-06-05 23:50:56 martin Exp $
+# $Id: AgentNavigationBar.dtl,v 1.7 2002-06-06 00:04:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-<dtl if ($Env{"UserIsAdmin"} eq "yes") { $Data{"AdminLink"} = "$Env{"Box0"}<a href="$Env{"Baselink"}&Action=Admin">$Text{"AdminArea"}</a>$Env{"Box1"}"; }>
+<dtl if ($Env{"UserIsAdmin"} ne "No") { $Data{"AdminLink"} = "$Env{"Box0"}<a href="$Env{"Baselink"}&Action=Admin">$Text{"AdminArea"}</a>$Env{"Box1"}"; }>
 
 <!-- start NavigationBar -->
 <table bgcolor="$Env{"BGTableColor1"}" border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
