@@ -2,21 +2,14 @@
 # InstallerStart.dtl - provides HTML form for Installer
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: InstallerStart.dtl,v 1.1 2002-10-15 09:51:47 martin Exp $
+# $Id: InstallerStart.dtl,v 1.2 2002-10-24 23:55:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 <!-- start form -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
-<tr bgcolor="$Env{"BGTableColor1"}">
-  <td valign="top"">
-
-<h2>Web-Installer (create database)</h2>
-<p>
-
-<form action="installer.pl" method="post">
+<form action="$Env{"CGIHandle"}" method="post">
 <input type="hidden" name="Action" value="Installer">
 <input type="hidden" name="Subaction" value="DB">
 <table cols="2" width="100%">
@@ -57,13 +50,7 @@
   </tr>
 </table>
 <br>
-<input type="submit" value="$Text{"submit"}">
+<input type="submit" value="$Text{"next step"}">
 </form>
-
-</p>
-
-  </td> 
-</tr>
-</table>
 <!-- end form -->
 
