@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.17 2003-02-08 21:06:47 martin Exp $
+# $Id: AgentUtilities.pm,v 1.18 2003-03-02 08:54:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentUtilities;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -218,14 +218,12 @@ sub SearchByText {
         SelectedQueueIDs => \@QueueIDs,
         SelectedPriorityIDs => \@PriorityIDs,
     );
-    # --
-    # if !@SParts -=> search empty!
-    # --
-    if (!@SParts) {
+    if (!@SParts && !$Self->{ConfigObject}->Get('SearchFulltextWithoutText')) {
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
-    # building a spez. sql ext.
+    # --
+    # build a spez. sql ext.
     # --
     my $SqlExt = '';
     my %FieldSQLMap = (
@@ -260,19 +258,20 @@ sub SearchByText {
     # create tricky sql part
     # --
     $CounterTmp = 0;
-    foreach my $Field (@SearchFields) {
-        if ($CounterTmp != 0) {
-            $SqlExt .= " or ";
-        }
-        $CounterTmp++;
-        my $CounterTmp1 = 0;
-        foreach (@SParts) {
-            if ($CounterTmp1 != 0) {
-                $SqlExt .= " and ";
+    if (@SParts) {
+        foreach my $Field (@SearchFields) {
+            if ($CounterTmp != 0) {
+                $SqlExt .= " or ";
             }
-            $CounterTmp1++;
-            $SqlExt .= " $Field LIKE '%$_%' ";
-            
+            $CounterTmp++;
+            my $CounterTmp1 = 0;
+            foreach (@SParts) {
+                if ($CounterTmp1 != 0) {
+                    $SqlExt .= " and ";
+                }
+                $CounterTmp1++;
+                $SqlExt .= " $Field LIKE '%$_%' ";
+            }
         }
     }
     # --
@@ -327,9 +326,10 @@ sub SearchByText {
     if ($SqlPriorityExt) {
         $SQL .= " AND ($SqlPriorityExt)";
     }
-    $SQL .= " AND " .
-    " ($SqlExt) " .
-    " ORDER BY st.id DESC";
+    if ($SqlExt) {
+        $SQL .= " AND ($SqlExt) ";
+    }
+    $SQL .= " ORDER BY st.id DESC";
 #    " ORDER BY sa.incoming_time DESC";
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{SearchLimitTxt});
     my @ViewableArticleIDs = ();
