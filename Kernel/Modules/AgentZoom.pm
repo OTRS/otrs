@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.21 2002-11-19 18:34:06 martin Exp $
+# $Id: AgentZoom.pm,v 1.22 2002-11-27 18:36:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentZoom;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -191,13 +191,9 @@ sub Run {
         $Ticket{GroupID} = $$Data{group_id};
         $Ticket{Age} = time() - $$Data{create_time_unix};
         $Ticket{Answered} = $$Data{ticket_answered};
-        # article attachments
-        my @AtmIndex = $Self->{TicketObject}->GetArticleAtmIndex(
-            ContentPath => $$Data{content_path},
-            ArticleID => $$Data{id},
-        );
         # article data
         my %Article;
+        $Article{ContentPath} = $$Data{content_path},
         $Article{ArticleType} = $$Data{article_type};
         $Article{SenderType} = $$Data{sender_type};
         $Article{ArticleID} = $$Data{id};
@@ -206,7 +202,6 @@ sub Run {
         $Article{Cc} = $$Data{a_cc} || ' ';
         $Article{Subject} = $$Data{a_subject} || ' ';
         $Article{Text} = $$Data{a_body};
-        $Article{Atms} = \@AtmIndex;
         $Article{CreateTime} = $$Data{create_time};
         $Article{FreeKey1} = $$Data{a_freekey1};
         $Article{FreeValue1} = $$Data{a_freetext1};
@@ -222,14 +217,22 @@ sub Run {
         }
         push (@ArticleBox, \%Article);
     }
-   
+    # --
+    # article attachments
+    # --
+    foreach my $Article (@ArticleBox) {
+        my @AtmIndex = $Self->{TicketObject}->GetArticleAtmIndex(
+            ContentPath => $Article->{ContentPath},
+            ArticleID => $Article->{ArticleID},
+        );
+        $Article->{Atms} = \@AtmIndex;
+    }
     # --
     # genterate output
     # --
     $Output .= $Self->{LayoutObject}->Header(Title => "Zoom Ticket");
     my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
     $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
-
     # --
     # show ticket
     # --
