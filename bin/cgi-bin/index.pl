@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.60 2003-07-13 11:01:21 martin Exp $
+# $Id: index.pl,v 1.61 2003-11-17 00:08:16 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.60 $';
+$VERSION = '$Revision: 1.61 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -191,32 +191,55 @@ if ($Param{Action} eq "Login") {
         # check needed data
         # --
         if (!$UserData{UserID} || !$UserData{UserLogin}) {
+            if ($CommonObject{ConfigObject}->Get('AuthModule') eq 'Kernel::System::Auth::LDAP') {
+                # sync user
+                if ($CommonObject{UserObject}->SyncLDAP2Database(User => $User)) {
+                    if ($CommonObject{ConfigObject}->Get('LoginURL')) {
+                        # redirect to alternate login
+                        print $CommonObject{LayoutObject}->Redirect(
+                            ExtURL => $CommonObject{ConfigObject}->Get('LoginURL')."?Reason=AccountActivated",
+                        );
+                    } 
+                    else {
+                        # show error login screen
+                        print $CommonObject{LayoutObject}->Login(
+                            Title => 'First Visit?',
+                            Message => 'Useraccount activated, retry.',
+                            %Param,
+                        );
+                    }
+                }
+                else {
+                    if ($CommonObject{ConfigObject}->Get('LoginURL')) {
+                        # redirect to alternate login
+                        print $CommonObject{LayoutObject}->Redirect(
+                            ExtURL => $CommonObject{ConfigObject}->Get('LoginURL')."?Reason=SystemError",
+                        );
+                    } 
+                    else {
+                        # show error login screen
+                        print $CommonObject{LayoutObject}->Login(
+                            Title => 'First Visit?',
+                            Message => 'Can\'t activate user.',
+                            %Param,
+                        );
+                    }
+                }
+                exit (0);
+            }
             if ($CommonObject{ConfigObject}->Get('LoginURL')) {
-                # --
                 # redirect to alternate login
-                # --
                 print $CommonObject{LayoutObject}->Redirect(
                     ExtURL => $CommonObject{ConfigObject}->Get('LoginURL')."?Reason=SystemError",
                 );
             }
             else {
-                # --
-                # show login screen
-                # ---
-                if ($CommonObject{ConfigObject}->Get('AuthModule') eq 'Kernel::System::Auth::LDAP') {
-                    print $CommonObject{LayoutObject}->Login(
-                        Title => 'First Visit?',
-                        Message => 'Useraccount activated, retry.',
-                        %Param,
-                    );
-                }
-                else {
-                    print $CommonObject{LayoutObject}->Login(
-                        Title => 'Panic!',
-                        Message => 'Panic! No UserData!!!',
-                        %Param,
-                    );
-                }
+                # show need user data error message
+                print $CommonObject{LayoutObject}->Login(
+                    Title => 'Panic!',
+                    Message => 'Panic! No UserData!!!',
+                    %Param,
+                );
                 exit (0);
             }
         }
@@ -231,7 +254,7 @@ if ($Param{Action} eq "Login") {
         # --
         # get groups
         # --
-        my %GroupData = $CommonObject{GroupObject}->GroupUserList(
+        my %GroupData = $CommonObject{GroupObject}->GroupMemberList(
             Result => 'HASH',
             Type => 'rw',
             UserID => $UserData{UserID},

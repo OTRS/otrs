@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: User.pm,v 1.36 2003-10-16 21:06:45 martin Exp $
+# $Id: User.pm,v 1.37 2003-11-17 00:08:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -96,86 +96,11 @@ sub GetUserData {
     # check data
     # --
     if (! exists $Data{UserID} && ! $UserID) {
-        # --
-        # check if we run LDAP and add aproperiate data into the RDBMS
-        # --
-        if ($Self->{ConfigObject}->Get('AuthModule') eq 'Kernel::System::Auth::LDAP') {
-            # --
-            # get LDAP variables
-            # --
-            if (eval {'require Net::LDAP;'}) {
-              $Self->{Host} = $Self->{ConfigObject}->Get('AuthModule::LDAP::Host')
-               || die "Need AuthModule::LDAPHost in Kernel/Config.pm";
-              $Self->{BaseDN} = $Self->{ConfigObject}->Get('AuthModule::LDAP::BaseDN')
-               || die "Need AuthModule::LDAPBaseDN in Kernel/Config.pm";
-              $Self->{UID} = $Self->{ConfigObject}->Get('AuthModule::LDAP::UID')
-               || die "Need AuthModule::LDAPBaseDN in Kernel/Config.pm";
-              $Self->{SearchUserDN} = $Self->{ConfigObject}->Get('AuthModule::LDAP::SearchUserDN') || '';
-              $Self->{SearchUserPw} = $Self->{ConfigObject}->Get('AuthModule::LDAP::SearchUserPw') || '';
-              $Self->{GroupDN} = $Self->{ConfigObject}->Get('AuthModule::LDAP::GroupDN') || '';
-              $Self->{AccessAttr} = $Self->{ConfigObject}->Get('AuthModule::LDAP::AccessAttr') || '';
-              # --
-              # bind to LDAP
-              # --
-              my $LDAP = Net::LDAP->new($Self->{Host}) or die "$@";
-              if (!$LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw})) {
-                $Self->{LogObject}->Log(
-                  Priority => 'error',
-                  Message => "First LDAP bind failed!",
-                );
-                return;
-              }
-              # --
-              # perform user search
-              # --
-              my $Filter = "($Self->{UID}=$User)";
-              my $Result = $LDAP->search (
-                base   => $Self->{BaseDN},
-                filter => $Filter,
-              );
-              # --
-              # get whole user data
-              # --
-              my $UserDN = '';
-              my $UserPassword = '';
-              my $UserSN = '';
-              my $UserGivenName = '';
-              my $UserMail = '';
-              my $UserComment = '';
-              my $UserPreferredLanguage = '';
-              foreach my $Entry ($Result->all_entries) {
-                $UserDN = $Entry->dn();
-                $UserPassword = $Entry->get_value('userPassword') || $Self->GenerateRandomPassword();
-                $UserSN = $Entry->get_value('sn');
-                $UserGivenName = $Entry->get_value('givenName');
-                $UserMail = $Entry->get_value('mail');
-                $UserComment = $Entry->get_value('comment');
-                $UserPreferredLanguage = $Entry->get_value('preferredLanguage');
-              }
-              $Self->UserAdd(
-                Salutation => 'Mr/Mrs',
-                Firstname => $UserGivenName,
-                Lastname => $UserSN,
-                Login => $User,
-                Pw => $UserPassword,
-                Email => $UserMail,
-                UserType => 'User',
-                ValidID => 1,
-                UserID => 1,
-              );
-              $Self->{LogObject}->Log(
-                Priority => 'notice',
-                Message => "Data for '$User ($UserGivenName,$UserSN)' created in RDBMS, proceed.",
-              );
-          }
-          else {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message => "Panic! No UserData for user: '$User'!!!",
-            );
-          };
-          return;
-        }
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message => "Panic! No UserData for user: '$User'!!!",
+        );
+        return;
     }
     # --
     # get preferences
@@ -464,16 +389,12 @@ sub GetUserByID {
     my $Self = shift;
     my %Param = @_;
     my $User = '';
-    # --
     # check needed stuff
-    # --
     if (!$Param{UserID}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserID!");
         return;
     }
-    # -- 
     # build sql query
-    # --
     my $SQL = sprintf (
     "select %s from %s where %s='%s'", 
        $Self->{UserTableUser},
@@ -542,6 +463,87 @@ sub GenerateRandomPassword {
 
     # Return the password.
     return $Password;
+}
+# --
+sub SyncLDAP2Database {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    if (!$Param{User}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need User!");
+        return;
+    }
+    # check if we run LDAP and add aproperiate data into the RDBMS
+    if ($Self->{ConfigObject}->Get('AuthModule') ne 'Kernel::System::Auth::LDAP') {
+        return 1;
+    }
+    # get LDAP variables
+    if (eval {'require Net::LDAP;'}) {
+        $Self->{Host} = $Self->{ConfigObject}->Get('AuthModule::LDAP::Host')
+          || die "Need AuthModule::LDAPHost in Kernel/Config.pm";
+        $Self->{BaseDN} = $Self->{ConfigObject}->Get('AuthModule::LDAP::BaseDN')
+          || die "Need AuthModule::LDAPBaseDN in Kernel/Config.pm";
+        $Self->{UID} = $Self->{ConfigObject}->Get('AuthModule::LDAP::UID')
+          || die "Need AuthModule::LDAPBaseDN in Kernel/Config.pm";
+        $Self->{SearchUserDN} = $Self->{ConfigObject}->Get('AuthModule::LDAP::SearchUserDN') || '';
+        $Self->{SearchUserPw} = $Self->{ConfigObject}->Get('AuthModule::LDAP::SearchUserPw') || '';
+        $Self->{GroupDN} = $Self->{ConfigObject}->Get('AuthModule::LDAP::GroupDN') || '';
+        $Self->{AccessAttr} = $Self->{ConfigObject}->Get('AuthModule::LDAP::AccessAttr') || '';
+        # --
+        # bind to LDAP
+        # --
+        my $LDAP = Net::LDAP->new($Self->{Host}) or die "$@";
+        if (!$LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw})) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "First LDAP bind failed!",
+            );
+            return;
+        }
+        # --
+        # perform user search
+        # --
+        my $Filter = "($Self->{UID}=$Param{User})";
+        my $Result = $LDAP->search (
+            base   => $Self->{BaseDN},
+            filter => $Filter,
+        );
+        # --
+        # get whole user data
+        # --
+        my $UserDN = '';
+        my $UserPassword = '';
+        my %SyncUser = ();
+        foreach my $Entry ($Result->all_entries) {
+            $UserDN = $Entry->dn();
+            foreach (keys %{$Self->{ConfigObject}->Get('UserSyncLDAPMap')}) {
+                $SyncUser{$_} = $Entry->get_value($Self->{ConfigObject}->Get('UserSyncLDAPMap')->{$_});
+            }
+            $UserPassword = $Entry->get_value('userPassword') || $Self->GenerateRandomPassword();
+        }
+        if ($Self->UserAdd(
+            Salutation => 'Mr/Mrs',
+            Login => $Param{User},
+            Pw => $UserPassword,
+            %SyncUser,
+            UserType => 'User',
+            ValidID => 1,
+            UserID => 1,
+        )) {
+            $Self->{LogObject}->Log(
+                Priority => 'notice',
+                Message => "Data for '$Param{User} ($UserDN)' created in RDBMS, proceed.",
+            );
+            return 1;
+        }
+        else {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "Can't create user '$Param{User} ($UserDN)' in RDBMS!",
+            );
+            return;
+        }
+    }
 }
 # --
 sub SetPreferences {
