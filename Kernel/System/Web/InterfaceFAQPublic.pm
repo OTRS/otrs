@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Web/InterfaceFAQPublic.pm - the public faq interface file
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: InterfaceFAQPublic.pm,v 1.1 2004-11-16 12:03:41 martin Exp $
+# $Id: InterfaceFAQPublic.pm,v 1.2 2005-02-15 12:00:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Web::InterfaceFAQPublic;
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -22,6 +22,7 @@ $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 use Kernel::Config;
 use Kernel::System::Log;
+use Kernel::System::Main;
 use Kernel::System::Time;
 use Kernel::System::Web::Request;
 use Kernel::System::DB;
@@ -77,6 +78,7 @@ sub new {
         LogPrefix => $Self->{ConfigObject}->Get('CGILogPrefix'),
         %{$Self},
     );
+    $Self->{MainObject} = Kernel::System::Main->new(%{$Self});
     $Self->{TimeObject} = Kernel::System::Time->new(%{$Self});
     $Self->{ParamObject} = Kernel::System::Web::Request->new(
         %{$Self},
@@ -214,6 +216,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2004-11-16 12:03:41 $
+$Revision: 1.2 $ $Date: 2005-02-15 12:00:33 $
 
 =cut

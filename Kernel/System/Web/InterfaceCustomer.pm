@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: InterfaceCustomer.pm,v 1.2 2005-01-06 10:02:25 martin Exp $
+# $Id: InterfaceCustomer.pm,v 1.3 2005-02-15 12:00:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Web::InterfaceCustomer;
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -24,6 +24,7 @@ use Kernel::Config;
 use Kernel::Config::ModulesCustomerPanel;
 use Kernel::System::Log;
 use Kernel::System::Time;
+use Kernel::System::Main;
 use Kernel::System::Web::Request;
 use Kernel::System::DB;
 use Kernel::System::AuthSession;
@@ -77,6 +78,7 @@ sub new {
         LogPrefix => $Self->{ConfigObject}->Get('CGILogPrefix'),
         %{$Self},
     );
+    $Self->{MainObject} = Kernel::System::Main->new(%{$Self});
     $Self->{TimeObject} = Kernel::System::Time->new(%{$Self});
     $Self->{ParamObject} = Kernel::System::Web::Request->new(
         %{$Self},
@@ -544,7 +546,7 @@ sub Run {
     # --
     # run modules if exists a version value
     # --
-    elsif (eval "require Kernel::Modules::$Param{Action}" && eval '$Kernel::Modules::'. $Param{Action} .'::VERSION'){
+    elsif ($Self->{MainObject}->Require("Kernel::Modules::$Param{Action}")) {
         # check session id
         if ( !$Self->{SessionObject}->CheckSessionID(SessionID => $Param{SessionID}) ) {
             # create new LayoutObject with new '%Param'
@@ -627,7 +629,7 @@ sub Run {
             );
             # pre application module
             my $PreModule = $Self->{ConfigObject}->Get('CustomerPanelPreApplicationModule');
-            if ($PreModule && eval "require $PreModule") {
+            if ($PreModule && $Self->{MainObject}->Require($PreModule)) {
                 # debug info
                 if ($Self->{Debug}) {
                     $Self->{LogObject}->Log(
@@ -686,35 +688,9 @@ sub Run {
             %Param,
             %Data,
         );
-        # check if file name exists
-        my $Error = 0;
-        foreach my $Prefix (@INC) {
-            my $File = "$Prefix/Kernel/Modules/$Param{Action}.pm";
-            if (-f $File) {
-                $Error = $File;
-                last;
-            }
-        }
-        # if file name exists, show syntax error
-        if ($Error) {
-            my $R = do $Error;
-            $Self->{LogObject}->Log(Priority => 'error', Message => "$@");
-            $Error = "Syntax error in 'Kernel::Modules::$Param{Action}'!";
-        }
-        # if there is no file, show not found error
-        else {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message => "File 'Kernel/Modules/$Param{Action}.pm' not found!",
-            );
-            $Error = "File 'Kernel/Modules/$Param{Action}.pm' not found!";
-        }
         # print error
         print $Self->{LayoutObject}->CustomerHeader(Area => 'Core', Title => 'Error!');
-        print $Self->{LayoutObject}->CustomerError(
-            Message => $Error,
-        );
-        print $Self->{LayoutObject}->CustomerFooter();
+        print $Self->{LayoutObject}->CustomerError();
         print $Self->{LayoutObject}->CustomerFooter();
     }
     # --
@@ -746,6 +722,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2005-01-06 10:02:25 $
+$Revision: 1.3 $ $Date: 2005-02-15 12:00:33 $
 
 =cut
