@@ -2,7 +2,7 @@
 # Kernel/Language.pm - provides multi language support
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Language.pm,v 1.18 2003-02-08 15:40:21 martin Exp $
+# $Id: Language.pm,v 1.18.2.1 2003-05-21 13:45:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.18.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -182,6 +182,27 @@ sub Get {
             }
         }
         return $What;
+    }
+}
+# --
+sub FormatTimeString {
+    my $Self = shift;
+    my $String = shift || return;
+    my $ReturnString = $Self->{DateFormat} || 'DateFormat needs to be translated!';
+    if ($String =~ /^(\d\d\d\d)-(\d\d)-(\d\d)\s(\d\d:\d\d:\d\d)$/) {
+        my ($Y,$M,$D, $T) = ($1, $2, $3, $4);
+        $ReturnString =~ s/\%T/$T/g;
+        $ReturnString =~ s/\%D/$D/g;
+        $ReturnString =~ s/\%M/$M/g;
+        $ReturnString =~ s/\%Y/$Y/g;
+        return $ReturnString;
+    }
+    else {
+        $Self->{LogObject}->Log(
+            Priority => 'notice', 
+            Message => "No FormatTimeString() translation found for '$String' string!",
+        );
+        return $String;
     }
 }
 # --
