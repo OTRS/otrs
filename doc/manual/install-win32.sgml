@@ -86,7 +86,7 @@ IO-Stringy.zip</screen></para>
 
 <section>
 <title>Choosing And Installing The Webserver</title>
-<para>OTRS requires a minimum of one webserver to run ;) You may choose the one of your choice, it will probably run on every perl-enabled webserver. I tested it on <ulink url="http://www.sambar.org">Sambar</ulink> <ulink url="http://sambar.robertkehl.de">5.2 &amp; above</ulink> and on <ulink url="http://httpd.apache.org/">Apache</ulink>, both <ulink url="http://httpd.apache.org/docs/">1.3</ulink> and <ulink url="http://httpd.apache.org/docs-2.0/">2.0</ulink>. <computeroutput>mod_perl</computeroutput> is only availabe for Apache, but *not* working for OTRS by now.</para>
+<para>OTRS requires a minimum of one webserver to run ;) You may choose the one of your choice, it will probably run on every perl-enabled webserver. I tested it on <ulink url="http://www.sambar.org">Sambar</ulink> <ulink url="http://sambar.robertkehl.de">5.2 &amp; above</ulink> and on <ulink url="http://httpd.apache.org/">Apache</ulink>, both <ulink url="http://httpd.apache.org/docs/">1.3</ulink> and <ulink url="http://httpd.apache.org/docs-2.0/">2.0</ulink>. <computeroutput>mod_perl</computeroutput> is only availabe for Apache. Currently, only mod_perl-1.0 on Apache 1.3.27 is working ok for OTRS, mod_perl-2.0 regrettably not.</para>
 
 <section>
 <title>Installing Apache</title>
