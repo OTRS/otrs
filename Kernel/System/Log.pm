@@ -2,7 +2,7 @@
 # Kernel/System/Log.pm - log wapper
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Log.pm,v 1.25 2004-09-16 09:43:29 martin Exp $
+# $Id: Log.pm,v 1.26 2004-09-16 22:35:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Log;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $ ';
+$VERSION = '$Revision: 1.26 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -149,7 +149,7 @@ sub Log {
     # write shm cache log
     if ($Priority !~ /^debug/i && $Self->{IPC}) {
         $Priority = lc($Priority);
-        my $Data = localtime().";;$Priority;;$Self->{LogPrefix};;$Subroutine2;;$Line1;;$Message;;\n";
+        my $Data = localtime().";;$Priority;;$Self->{LogPrefix};;$Message;;\n";
         my $String = $Self->GetLog();
         shmwrite($Self->{Key}, $Data.$String, 0, $Self->{IPCSize}) || die $!;
     }
@@ -224,6 +224,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.25 $ $Date: 2004-09-16 09:43:29 $
+$Revision: 1.26 $ $Date: 2004-09-16 22:35:56 $
 
 =cut

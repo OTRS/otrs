@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminLog.pm - provides a log view for admins
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminLog.pm,v 1.9 2004-09-16 22:04:00 martin Exp $
+# $Id: AdminLog.pm,v 1.10 2004-09-16 22:35:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminLog;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -49,7 +49,7 @@ sub Run {
     my @Lines = split(/\n/, $Self->{LogObject}->GetLog(Limit => 400));
     foreach (@Lines) {
         my @Row = split(/;;/, $_);
-        if ($Row[5]) {
+        if ($Row[3]) {
             if ($Row[1] =~ /error/) {
                 $Self->{LayoutObject}->Block(
                     Name => 'Row',
@@ -59,7 +59,7 @@ sub Run {
                         Time => $Row[0],
                         Priority => $Row[1],
                         Facility => $Row[2],
-                        Message => $Row[5],
+                        Message => $Row[3],
                     },
                 );
             }
@@ -70,7 +70,7 @@ sub Run {
                         Time => $Row[0],
                         Priority => $Row[1],
                         Facility => $Row[2],
-                        Message => $Row[5],
+                        Message => $Row[3],
                     },
                 );
             }
@@ -78,7 +78,7 @@ sub Run {
     }
     # create & return output
     $Output .= $Self->{LayoutObject}->Output(
-        TemplateFile => 'AdminLog', 
+        TemplateFile => 'AdminLog',
         Data => \%Param,
     );
     $Output .= $Self->{LayoutObject}->Footer();
