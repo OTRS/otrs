@@ -2,7 +2,7 @@
 # AuthSession.pm - provides session check and session data
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AuthSession.pm,v 1.5 2002-01-11 10:22:05 martin Exp $
+# $Id: AuthSession.pm,v 1.6 2002-01-20 22:22:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Digest::MD5;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
  
 # --
@@ -27,13 +27,14 @@ sub new {
     my $Self = {}; 
     bless ($Self, $Type);
 
+    # get log object
     $Self->{LogObject} = $Param{LogObject} || die 'No LogObject!';
 
     # get config data
-    my $ConfigObject = $Param{ConfigObject} || die 'No ConfigObject!'; 
+    $Self->{ConfigObject} = $Param{ConfigObject} || die 'No ConfigObject!'; 
 
-    $Self->{SessionSpool} = $ConfigObject->Get('SessionDir');
-    $Self->{SystemID} = $ConfigObject->Get('SystemID');
+    $Self->{SessionSpool} = $Self->{ConfigObject}->Get('SessionDir');
+    $Self->{SystemID} = $Self->{ConfigObject}->Get('SystemID');
  
     # Debug 0=off 1=on
     $Self->{Debug} = 0;    
@@ -47,12 +48,48 @@ sub CheckSessionID {
     my $SessionID = $Param{SessionID};
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'none';
 
-    open (SESSION, "< $Self->{SessionSpool}/$SessionID") || return;
-    close (SESSION); 
+    # --
+    # set default message
+    # --
+    $Kernel::System::AuthSession::CheckSessionID = "SessionID is invalid!!!";
 
-    # FIXME!
-    # IP CHECK and TIME CHECK!!!
-  
+    # --
+    # session id check
+    # --
+    my %Data = $Self->GetSessionIDData(SessionID => $SessionID); 
+
+    if (!$Data{UserID} || !$Data{UserLogin}) {
+        $Kernel::System::AuthSession::CheckSessionID = "SessionID invalid! Need user data!";
+        $Self->{LogObject}->Log(
+          Priority => 'notice',
+          MSG => "SessionID: '$SessionID' is invalid!!!",
+        );
+        return;
+    }
+    # --
+    # ip check
+    # --
+    if ($Data{UserRemoteAddr} ne $RemoteAddr) {
+        $Self->{LogObject}->Log(
+          Priority => 'notice',
+          MSG => "RemoteIP of '$SessionID' ($Data{UserRemoteAddr}) is different with the ".
+           "request IP ($RemoteAddr). Don't grant access!!!",
+        );
+        return;
+    }
+    # --
+    # check session time
+    # --
+    my $MaxSessionTime = $Self->{ConfigObject}->Get('MaxSessionTime');
+    if ( (time() - $MaxSessionTime) <= $Data{UserSessionStart} ) {
+         $Kernel::System::AuthSession::CheckSessionID = "Session to old!";
+         $Self->{LogObject}->Log(
+          Priority => 'notice',
+          MSG => "SessionID ($SessionID) to old (". int((time() - $Data{UserSessionStart})/(60*60)) 
+          ."h)! Don't grant access!!!",
+        );
+        return;
+    }
     return 1;
 }
 # --
@@ -63,20 +100,31 @@ sub GetSessionIDData {
     my $Strg = '';
     my %Data;
 
+    # --
     # FIXME!
-    open (SESSION, "< $Self->{SessionSpool}/$SessionID") or return;
+    # read data
+    # --
+    open (SESSION, "< $Self->{SessionSpool}/$SessionID") 
+        || print STDERR "Can't open $Self->{SessionSpool}/$SessionID: $!\n";
     while (<SESSION>) {
         chomp;
         $Strg = $_;
     }
     close (SESSION);
+
+    # --
+    # split data
+    # --
     my @StrgData = split(/;/, $Strg); 
     foreach (@StrgData) {
          my @PaarData = split(/=/, $_);
          $Data{$PaarData[0]} = $PaarData[1] || '';
          # Debug
          if ($Self->{Debug}) {
-             print STDERR "GetSessionIDData: $PaarData[0]=$PaarData[1]\n";
+             $Self->{LogObject}->Log(
+                Priority => 'debug',
+                MSG => "GetSessionIDData: '$PaarData[0]=$PaarData[1]'",
+             );
          } 
     }
 
@@ -86,20 +134,29 @@ sub GetSessionIDData {
 sub CreateSessionID {
     my $Self = shift;
     my %Param = @_;
+    # --
     # REMOTE_ADDR
+    # --
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'none';
+    # --
     # REMOTE_USER_AGENT
+    # --
     my $RemoteUserAgent = $ENV{REMOTE_USER_AGENT} || 'none';
+    # --
     # create SessionID
+    # --
     my $md5 = Digest::MD5->new();
     my $SessionID = $md5->add(
-           (time() . int(rand(999999999)) . $Self->{SystemID}) . $RemoteAddr . $RemoteUserAgent
+        (time() . int(rand(999999999)) . $Self->{SystemID}) . $RemoteAddr . $RemoteUserAgent
     );
     $SessionID = $Self->{SystemID} . $md5->hexdigest;
 
+    # --
     # store SessionID + data
     # FIXME!
-    open (SESSION, ">> $Self->{SessionSpool}/$SessionID") || die "Can't create $Self->{SessionSpool}/$SessionID: $!"; 
+    # --
+    open (SESSION, ">> $Self->{SessionSpool}/$SessionID") 
+        || die "Can't create $Self->{SessionSpool}/$SessionID: $!"; 
     foreach (keys %Param) {
         print SESSION "$_=$Param{$_};";
     }
@@ -133,7 +190,8 @@ sub UpdateSessionID {
     # update the value 
     $SessionData{$Key} = $Value; 
     
-    open (SESSION, "> $Self->{SessionSpool}/$SessionID") || die "Can't write $Self->{SessionSpool}/$SessionID: $!";
+    open (SESSION, "> $Self->{SessionSpool}/$SessionID") 
+         || die "Can't write $Self->{SessionSpool}/$SessionID: $!";
     foreach (keys %SessionData) {
         print SESSION "$_=$SessionData{$_};";
         # Debug
@@ -147,7 +205,6 @@ sub UpdateSessionID {
     return 1;
 }
 # --
-
 
 1;
 
