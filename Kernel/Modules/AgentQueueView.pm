@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.30 2003-03-06 22:11:59 martin Exp $
+# $Id: AgentQueueView.pm,v 1.31 2003-03-27 07:20:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -165,7 +165,7 @@ sub Run {
     # get data (viewable tickets...)
     # --
     my @ViewableTickets = ();
-    if (@ViewableQueueIDs) {
+    if (@ViewableQueueIDs && @GroupIDs) {
         my $SQL = "SELECT st.id, st.queue_id FROM ".
           " ticket st, queue sq ".
           " WHERE ".

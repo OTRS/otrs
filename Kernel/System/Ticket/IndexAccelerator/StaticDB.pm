@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/IndexAccelerator/StaticDB.pm - static db queue ticket index module
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: StaticDB.pm,v 1.9 2003-03-06 22:13:55 martin Exp $
+# $Id: StaticDB.pm,v 1.10 2003-03-27 07:20:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::IndexAccelerator::StaticDB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketAcceleratorUpdate {
@@ -292,7 +292,10 @@ sub TicketAcceleratorIndex {
             $Queues{TicketsAvail} = $Row[0];
         }
     }
-
+    # check if user is in min. one group! if not, return here
+    if (!@GroupIDs) {
+        return %Queues;
+    }
     # prepar the tickets in Queue bar (all data only with my/your Permission)
     $SQL = "SELECT queue_id, queue, min(create_time_unix), count(*) as count ".
     " FROM " .
@@ -551,6 +554,10 @@ sub GetOverTimeTickets {
             Result => 'ID',
         );
         $SQL .= " q.group_id IN ( ${\(join ', ', @GroupIDs)} ) AND ";
+        # check if user is in min. one group! if not, return here
+        if (!@GroupIDs) {
+            return;
+        }
     }
     $SQL .= " ast.name = 'customer' ".
     " AND " .
