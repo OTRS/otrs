@@ -2,7 +2,7 @@
 # Kernel/System/Article.pm - global article module for OpenTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.13 2002-08-04 23:28:52 martin Exp $
+# $Id: Article.pm,v 1.14 2002-08-05 17:25:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,9 +17,10 @@ use File::Path;
 use File::Basename;
 use MIME::Parser;
 use MIME::Words qw(:all);
+use Kernel::System::Ticket;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -35,9 +36,11 @@ sub new {
     $Self->{Debug} = 0;
 
     # check needed objects
-    foreach (qw(DBObject ConfigObject TicketObject LogObject)) {
+    foreach (qw(DBObject ConfigObject LogObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
+
+    $Self->{TicketObject} = Kernel::System::Ticket->new(%Param);
 
     $Self->{ArticleDataDir} = $Self->{ConfigObject}->Get('ArticleDir') 
        || die "Got no ArticleDir!";
