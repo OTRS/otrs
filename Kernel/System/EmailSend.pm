@@ -2,7 +2,7 @@
 # Kernel/System/EmailSend.pm - the global email send module
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: EmailSend.pm,v 1.13 2002-09-10 23:16:09 martin Exp $
+# $Id: EmailSend.pm,v 1.14 2002-10-03 17:55:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,11 +14,9 @@ package Kernel::System::EmailSend;
 use strict;
 use MIME::Words qw(:all);
 use Mail::Internet;
-use Kernel::System::Article;
-use Kernel::System::Ticket;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -36,13 +34,15 @@ sub new {
     }
 
     # check all needed objects
-    foreach (qw(ConfigObject LogObject DBObject)) {
+    foreach (qw(ConfigObject LogObject DBObject TicketObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
 
-    $Self->{ArticleObject} = Kernel::System::Article->new(%Param);
-    $Self->{TicketObject} = Kernel::System::Ticket->new(%Param);
-
+    # just in case if we got no TicketObject (for compat)
+    if (! $Self->{TicketObject}) {
+        require Kernel::System::Ticket;
+        $Self->{TicketObject} = Kernel::System::Ticket->new(%Param);
+    }
     # get config data
     $Self->{Sendmail} = $Self->{ConfigObject}->Get('Sendmail');
     $Self->{SendmailBcc} = $Self->{ConfigObject}->Get('SendmailBcc');
@@ -90,7 +90,7 @@ sub Send {
     # create article
     # --
     my $MessageID = "<$Time.$Random.$Param{TicketID}.$Param{UserID}\@$Self->{FQDN}>";
-    if ($Param{ArticleID} = $Self->{ArticleObject}->CreateArticle(
+    if ($Param{ArticleID} = $Self->{TicketObject}->CreateArticle(
         %Param,
         MessageID => $MessageID, 
     )) {
@@ -105,7 +105,9 @@ sub Send {
     # --
     # do some encode
     foreach (qw(From To Cc Subject)) {
-        $Param{$_} = encode_mimewords($Param{$_}, Charset => $Charset) || '';
+        if ($Param{$_}) {
+            $Param{$_} = encode_mimewords($Param{$_}, Charset => $Charset) || '';
+        }
     }
     # build header
     my $Header = {
@@ -153,7 +155,7 @@ sub Send {
         # -- 
         # write article to fs
         # -- 
-        if (!$Self->{ArticleObject}->WriteArticle(ArticleID => $Param{ArticleID}, Email => \@Mail)) {
+        if (!$Self->{TicketObject}->WriteArticle(ArticleID => $Param{ArticleID}, Email => \@Mail)) {
             return; 
         }
         # --
