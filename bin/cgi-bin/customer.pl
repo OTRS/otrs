@@ -3,7 +3,7 @@
 # customer.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: customer.pl,v 1.9 2002-11-29 17:06:55 martin Exp $
+# $Id: customer.pl,v 1.10 2002-12-08 21:01:49 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -67,19 +67,7 @@ $CommonObject{LogObject} = Kernel::System::Log->new(
     %CommonObject,
 );
 $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
-# --
-# check common db objects
-# --
-if (!$CommonObject{DBObject}) {
-    print $CommonObject{LayoutObject}->CustomerHeader(Title => 'Error!');
-    print $CommonObject{LayoutObject}->CustomerError(
-        Message => $DBI::errstr,
-        Comment => 'Please contact your admin'
-    );
-    print $CommonObject{LayoutObject}->CustomerFooter();
-    exit (1);
-}
-$CommonObject{ParamObject} = Kernel::System::WebRequest->new();
+$CommonObject{ParamObject} = Kernel::System::WebRequest->new(%CommonObject);
 # --
 # debug info
 # --
@@ -127,6 +115,27 @@ $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(
     %CommonObject, 
     Lang => $Param{Lang},
 );
+# --
+# check common objects
+# --
+if (!$CommonObject{DBObject}) {
+    print $CommonObject{LayoutObject}->Header(Title => 'Error!');
+    print $CommonObject{LayoutObject}->Error(
+        Message => $DBI::errstr,
+        Comment => 'Please contact your admin'
+    );
+    print $CommonObject{LayoutObject}->Footer();
+    exit (1);
+}
+if ($CommonObject{ParamObject}->Error()) {
+    print $CommonObject{LayoutObject}->Header(Title => 'Error!');
+    print $CommonObject{LayoutObject}->Error(
+        Message => $CommonObject{ParamObject}->Error(),
+        Comment => 'Please contact your admin'
+    );
+    print $CommonObject{LayoutObject}->Footer();
+    exit (1);
+}
 $CommonObject{UserObject} = Kernel::System::CustomerUser->new(%CommonObject);
 $CommonObject{SessionObject} = Kernel::System::AuthSession->new(%CommonObject);
 # --

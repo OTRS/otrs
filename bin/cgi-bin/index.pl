@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.46 2002-11-24 23:51:35 martin Exp $
+# $Id: index.pl,v 1.47 2002-12-08 21:01:49 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.46 $';
+$VERSION = '$Revision: 1.47 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -67,19 +67,7 @@ $CommonObject{LogObject} = Kernel::System::Log->new(
     %CommonObject,
 );
 $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
-# --
-# check common db objects
-# --
-if (!$CommonObject{DBObject}) {
-    print $CommonObject{LayoutObject}->Header(Title => 'Error!');
-    print $CommonObject{LayoutObject}->Error(
-        Message => $DBI::errstr,
-        Comment => 'Please contact your admin'
-    );
-    print $CommonObject{LayoutObject}->Footer();
-    exit (1);
-}
-$CommonObject{ParamObject} = Kernel::System::WebRequest->new();
+$CommonObject{ParamObject} = Kernel::System::WebRequest->new(%CommonObject);
 # --
 # debug info
 # --
@@ -127,6 +115,27 @@ $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(
     %CommonObject, 
     Lang => $Param{Lang},
 );
+# --
+# check common objects
+# --
+if (!$CommonObject{DBObject}) {
+    print $CommonObject{LayoutObject}->Header(Title => 'Error!');
+    print $CommonObject{LayoutObject}->Error(
+        Message => $DBI::errstr,
+        Comment => 'Please contact your admin'
+    );
+    print $CommonObject{LayoutObject}->Footer();
+    exit (1);
+}
+if ($CommonObject{ParamObject}->Error()) {
+    print $CommonObject{LayoutObject}->Header(Title => 'Error!');
+    print $CommonObject{LayoutObject}->Error(
+        Message => $CommonObject{ParamObject}->Error(),
+        Comment => 'Please contact your admin'
+    );
+    print $CommonObject{LayoutObject}->Footer();
+    exit (1);
+}
 # --
 # create common framework objects 3/3
 # --
@@ -453,6 +462,7 @@ elsif (!$Param{SessionID}) {
 # run modules if exists a version value
 # --
 elsif (eval '$Kernel::Modules::'. $Param{Action} .'::VERSION' && (eval '$Param{Action} =~ /$Kernel::Config::Modules::Allow/' || eval '$Param{Action} =~ /$Kernel::Config::ModulesCustom::Allow/')){
+#elsif (eval "require Kernel::Modules::$Param{Action}" && eval '$Kernel::Modules::'. $Param{Action} .'::VERSION' && (eval '$Param{Action} =~ /$Kernel::Config::Modules::Allow/' || eval '$Param{Action} =~ /$Kernel::Config::ModulesCustom::Allow/')){
     # --
     # check session id
     # --
