@@ -2,7 +2,7 @@
 # Kernel/Config.pm - Config file for OTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.62 2002-10-05 16:04:51 martin Exp $
+# $Id: Config.pm,v 1.63 2002-10-10 18:37:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,7 +17,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.62 $';
+$VERSION = '$Revision: 1.63 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -51,6 +51,11 @@ sub Load {
     # FQDN
     # (Full qualified domain name of your system.)
     $Self->{FQDN} = 'yourhost.example.com';
+
+    # ScriptAlias
+    # Prefix to index.pl used as ScriptAlias in web config
+    # (Used when emailing links to agents).
+    $Self->{ScriptAlias} = 'otrs';
 
     # AdminEmail 
     # (Email of the system admin.)

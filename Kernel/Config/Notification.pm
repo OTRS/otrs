@@ -2,7 +2,7 @@
 # Kernel/Config/Notification.pm - Notification config file for OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Notification.pm,v 1.6 2002-10-05 16:10:21 martin Exp $
+# $Id: Notification.pm,v 1.7 2002-10-10 18:37:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -12,7 +12,7 @@ package Kernel::Config::Notification;
 
 use strict;
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -46,7 +46,7 @@ there is a new ticket in '<OTRS_QUEUE>'!
 <OTRS_CUSTOMER_EMAIL[16]>
 <snip>
 
-http://$Self->{FQDN}/otrs/index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>
+http://$Self->{FQDN}/$Self->{ScriptAlias}/index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>
 
 Your OTRS Notification Master
 
@@ -74,7 +74,7 @@ you got a follow up!
 <OTRS_CUSTOMER_EMAIL[16]>
 <snip>
 
-http://$Self->{FQDN}/otrs/index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>
+http://$Self->{FQDN}/$Self->{ScriptAlias}/index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>
 
 Your OTRS Notification Master
 
@@ -95,7 +95,7 @@ unlocked (lock timeout) your locked ticket [<OTRS_TICKET_NUMBER>].
 <OTRS_CUSTOMER_EMAIL[8]>
 <snip>
 
-http://$Self->{FQDN}/otrs/index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>
+http://$Self->{FQDN}/$Self->{ScriptAlias}/index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>
 
 Your OTRS Notification Master
 
@@ -115,7 +115,7 @@ a ticket [<OTRS_TICKET_NUMBER>] is assigned to you by '<OTRS_CURRENT_USERFIRSTNA
 Comment: 
 <OTRS_COMMENT>
 
-http://$Self->{FQDN}/otrs/index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>
+http://$Self->{FQDN}/$Self->{ScriptAlias}/index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>
 
 Your OTRS Notification Master
 
@@ -133,7 +133,7 @@ Hi <OTRS_OWNER_USERFIRSTNAME>,
 Note: 
 <OTRS_CUSTOMER_BODY>
 
-http://$Self->{FQDN}/otrs/index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>
+http://$Self->{FQDN}/$Self->{ScriptAlias}/index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>
 
 Your OTRS Notification Master
 
@@ -149,7 +149,7 @@ Hi,
 
 '<OTRS_CURRENT_USERFIRSTNAME> <OTRS_CURRENT_USERLASTNAME>' moved a ticket [<OTRS_TICKET_NUMBER>] into '<OTRS_CUSTOMER_QUEUE>'.
 
-http://$Self->{FQDN}/otrs/index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>
+http://$Self->{FQDN}/$Self->{ScriptAlias}/index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_ID>
 
 Your OTRS Notification Master
 
