@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2002-2004 Martin Edenhofer <martin at otrs.org>
 # --
-# $Id: de.pm,v 1.55 2004-08-24 08:20:42 martin Exp $
+# $Id: de.pm,v 1.56 2004-08-25 07:42:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.55 $';
+$VERSION = '$Revision: 1.56 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -131,7 +131,7 @@ sub Data {
       'Line' => 'Zeile',
       'Lite' => 'Einfach',
       'Login failed! Your username or password was entered incorrectly.' => 'Anmeldung fehlgeschlagen! Benutzername oder Passwort falsch.',
-      'Logout successful. Thank you for using OTRS!' => 'Abmeldung erfolgreich! Danke für die Benutzung von  WPTicket!',
+      'Logout successful. Thank you for using OTRS!' => 'Abmeldung erfolgreich! Danke für die Benutzung von  OTRS!',
       'Message' => 'Nachricht',
       'minute' => 'Minute',
       'minutes' => 'Minuten',
@@ -205,7 +205,7 @@ sub Data {
       'Valid' => 'Gültig',
       'Warning' => 'Warnung',
       'week(s)' => 'Woche(n)',
-      'Welcome to OTRS' => 'Willkommen zu WPTicket',
+      'Welcome to OTRS' => 'Willkommen zu OTRS',
       'Word' => 'Wort',
       'wrote' => 'schrieb',
       'year(s)' => 'Jahr(e)',
@@ -241,7 +241,7 @@ sub Data {
       'Move notification' => 'Mitteilung bei Queue-Wechsel',
       'New ticket notification' => 'Mitteilung bei neuem Ticket',
       'Other Options' => 'Andere Optionen',
-      'PhoneView' => 'QuickTicket',
+      'PhoneView' => 'Telefon-Ansicht',
       'Preferences updated successfully!' => 'Benutzereinstellungen erfolgreich aktualisiert!',
       'QueueView refresh time' => 'Queue-Ansicht Aktualisierungszeit',
       'Screen after new ticket' => 'Fenster nach neuem Ticket',
@@ -251,8 +251,8 @@ sub Data {
       'Select your frontend QueueView.' => 'Queue-Ansicht auswählen.',
       'Select your frontend Theme.' => 'Anzeigeschema auswählen.',
       'Select your QueueView refresh time.' => 'Queue-Ansicht Aktualisierungszeit auswählen.',
-      'Select your screen after creating a new ticket.' => 'Wählen Sie das Fenster nach der Erstellung eines neuen Tickets.',
-      'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Zusenden einer Mitteilung, wenn ein Ersteller eine Nachfrage stellt und ich der Besitzer bin.',
+      'Select your screen after creating a new ticket.' => 'Auswahlt des Fensters, welches nach der Erstellung eines neuen Tickets angezeigt werden soll.',
+      'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Zusenden einer Mitteilung, wenn ein Kunde eine Nachfrage stellt und ich der Besitzer bin.',
       'Send me a notification if a ticket is moved into one of "My Queues".' => 'Zusenden einer Mitteilung beim Verschieben eines Tickets in "Meine Queues".',
       'Send me a notification if a ticket is unlocked by the system.' => 'Zusenden einer Mitteilung, wenn ein Ticket vom System freigegeben ("unlocked") wird.',
       'Send me a notification if there is a new ticket in "My Queues".' => 'Zusenden einer Mitteilung bei neuem Ticket in "Meine Queues".',
@@ -291,8 +291,8 @@ sub Data {
       'high' => 'hoch',
       'History' => 'Historie',
       'If it is not displayed correctly,' => 'Wenn sie nicht korrekt angezeigt wird,',
-      'lock' => 'in Bearbeitung',
-      'Lock' => 'Bearbeiten',
+      'lock' => 'gesperrt',
+      'Lock' => 'Sperren',
       'low' => 'niedrig',
       'Move' => 'Verschieben',
       'new' => 'neu',
@@ -323,7 +323,7 @@ sub Data {
       'To' => 'An',
       'to open it in a new window.' => 'um sie in einem neuen Fenster angezeigt zu bekommen',
       'Unlock' => 'Freigeben',
-      'unlock' => 'nicht zugewiesen',
+      'unlock' => 'frei',
       'very high' => 'sehr hoch',
       'very low' => 'sehr niedrig',
       'View' => 'Ansehen',
@@ -386,7 +386,7 @@ sub Data {
     # Template: AdminEmail
       'Admin-Email' => '',
       'Body' => '',
-      'OTRS-Admin Info!' => 'WPTicket-Admin Info!',
+      'OTRS-Admin Info!' => 'OTRS-Admin Info!',
       'Recipents' => 'Empfänger',
       'send' => 'Senden',
 
@@ -917,9 +917,7 @@ sub Data {
       'Shows the ticket history!' => 'Die Ticket Historie anzeigen!',
 
     # Template: AgentZoomStatus
-      '"}","18' => '',
-      'Locked' => 'Bearbeitung',
-      'SLA Age' => '',
+      'Locked' => 'Sperre',
 
     # Template: Copyright
       'printed by' => 'gedruckt von',
@@ -1162,7 +1160,7 @@ sub Data {
       'FAQ State' => 'FAQ Status',
       'Graphs' => 'Diagramme',
       'Location' => 'Standort',
-      'Lock Ticket' => 'Ticket Zuweisen',
+      'Lock Ticket' => 'Ticket sperren',
       'Max Rows' => 'Max. Zeilen',
       'My Tickets' => 'Meine Tickets',
       'New ticket via call.' => 'Neues Ticket durch Anruf.',
