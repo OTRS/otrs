@@ -1,9 +1,9 @@
 # --
 # TicketView.dtl - provides HTML TicketView for AgentQueueView.pm
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: TicketViewLite.dtl,v 1.11 2004-01-28 01:16:54 martin Exp $
+# $Id: TicketViewLite.dtl,v 1.12 2004-02-16 02:03:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
   <td align="left" width="60%" class="table2">
-  <a href="$Env{"Baselink"}Action=AgentLock&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Lock"}'; return true;" onmouseout="window.status='';">$Text{"Lock"}</a> -
+  <a href="$Env{"Baselink"}Action=AgentLock&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Lock"}'; return true;" onmouseout="window.status='';">$Text{"Lock"}</a> -
   <a href="$Env{"Baselink"}Action=AgentZoom&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Zoom"}'; return true;" onmouseout="window.status='';">$Text{"Zoom"}</a> -
   <a href="$Env{"Baselink"}Action=AgentPriority&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Priority"}'; return true;" onmouseout="window.status='';">$Text{"Priority"}</a> -
   <a href="$Env{"Baselink"}Action=AgentHistory&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"History"}'; return true;" onmouseout="window.status='';">$Text{"History"}</a> -
