@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/DB.pm - provides session db backend
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.12 2003-05-01 21:46:22 martin Exp $
+# $Id: DB.pm,v 1.13 2003-10-29 20:22:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use Digest::MD5;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
  
 # --
@@ -35,10 +35,8 @@ sub new {
 
     # get more common params
     $Self->{SystemID} = $Self->{ConfigObject}->Get('SystemID');
- 
     # Debug 0=off 1=on
     $Self->{Debug} = 0;    
-
     # session table data
     $Self->{SQLSessionTable} = $Self->{ConfigObject}->Get('SessionTable') 
      || 'session';
@@ -57,14 +55,9 @@ sub CheckSessionID {
     my %Param = @_;
     my $SessionID = $Param{SessionID};
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'none';
-
-    # --
     # set default message
-    # --
     $Kernel::System::AuthSession::CheckSessionID = "SessionID is invalid!!!";
-    # --
     # session id check
-    # --
     my %Data = $Self->GetSessionIDData(SessionID => $SessionID); 
 
     if (!$Data{UserID} || !$Data{UserLogin}) {
@@ -75,9 +68,7 @@ sub CheckSessionID {
         );
         return;
     }
-    # --
-    # ip check
-    # --
+    # remote ip check
     if ( $Data{UserRemoteAddr} ne $RemoteAddr && 
           $Self->{ConfigObject}->Get('SessionCheckRemoteIP') ) {
         $Self->{LogObject}->Log(
@@ -91,9 +82,7 @@ sub CheckSessionID {
         }
         return;
     }
-    # --
     # check session time
-    # --
     my $MaxSessionTime = $Self->{ConfigObject}->Get('SessionMaxTime');
     if ( (time() - $MaxSessionTime) >= $Data{UserSessionStart} ) {
          $Kernel::System::AuthSession::CheckSessionID = 'Session has timed out. Please log in again.';
@@ -117,16 +106,12 @@ sub GetSessionIDData {
     my $SessionID = $Param{SessionID} || '';
     my $Strg = '';
     my %Data;
-    # --
     # check session id
-    # -- 
     if (!$SessionID) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Got no SessionID!!");
         return;
     }
-    # --
     # read data
-    # --
     my $SQL = "SELECT $Self->{SQLSessionTableValue} ".
           " FROM ".
           " $Self->{SQLSessionTable} ".
@@ -136,9 +121,7 @@ sub GetSessionIDData {
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
         $Strg = $RowTmp[0];
     } 
-    # --
     # split data
-    # --
     my @StrgData = split(/;/, $Strg); 
     foreach (@StrgData) {
          my @PaarData = split(/:/, $_);
@@ -156,34 +139,24 @@ sub GetSessionIDData {
              );
          } 
     }
-    # --
     # return data
-    # --
     return %Data;
 }
 # --
 sub CreateSessionID {
     my $Self = shift;
     my %Param = @_;
-    # --
-    # REMOTE_ADDR
-    # --
+    # get REMOTE_ADDR
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'none';
-    # --
-    # HTTP_USER_AGENT
-    # --
+    # get HTTP_USER_AGENT
     my $RemoteUserAgent = $ENV{HTTP_USER_AGENT} || 'none';
-    # --
     # create SessionID
-    # --
     my $md5 = Digest::MD5->new();
     my $SessionID = $md5->add(
         (time() . int(rand(999999999)) . $Self->{SystemID}) . $RemoteAddr . $RemoteUserAgent
     );
     $SessionID = $Self->{SystemID} . $md5->hexdigest;
-    # --
     # data 2 strg
-    # --
     my $DataToStore = '';
     foreach (keys %Param) {
       if (defined($Param{$_})) {
@@ -193,9 +166,7 @@ sub CreateSessionID {
     $DataToStore .= "UserSessionStart:" . encode_base64(time(), '') .":;";
     $DataToStore .= "UserRemoteAddr:" . encode_base64($RemoteAddr, '') .":;";
     $DataToStore .= "UserRemoteUserAgent:". encode_base64($RemoteUserAgent, '') .":;";
-    # --
     # store SessionID + data
-    # --
     # quote params
     $DataToStore = $Self->{DBObject}->Quote($DataToStore) || '';
     my $SQL = "INSERT INTO $Self->{SQLSessionTable} ".
@@ -211,9 +182,7 @@ sub RemoveSessionID {
     my $Self = shift;
     my %Param = @_;
     my $SessionID = $Param{SessionID};
-    # --
     # delete db recode
-    # -- 
     $Self->{DBObject}->Do(
          SQL => "DELETE FROM $Self->{SQLSessionTable} ".
                 " WHERE $Self->{SQLSessionTableID} = '$SessionID'"
@@ -223,7 +192,6 @@ sub RemoveSessionID {
         Priority => 'notice',
         Message => "Removed SessionID $Param{SessionID}."
     );
-
     return 1;
 }
 # --
@@ -234,20 +202,14 @@ sub UpdateSessionID {
     my $Value = defined($Param{Value}) ? $Param{Value} : '';
     my $SessionID = $Param{SessionID} || die 'No SessionID!';
     my %SessionData = $Self->GetSessionIDData(SessionID => $SessionID);
-    # --
     # check needed update! (no changes)
-    # --
     if (((exists $SessionData{$Key}) && $SessionData{$Key} eq $Value)
       || (!exists $SessionData{$Key} && $Value eq '')) {
         return 1;
     }
-    # --
     # update the value 
-    # --
     $SessionData{$Key} = $Value; 
-    # --
     # set new data sting
-    # -- 
     my $NewDataToStore = '';
     foreach (keys %SessionData) {
         $NewDataToStore .= "$_:".encode_base64($SessionData{$_}, '').":;";
@@ -259,9 +221,7 @@ sub UpdateSessionID {
             );
         }
     }
-    # --
     # update db enrty
-    # --
     my $SQL = "UPDATE $Self->{SQLSessionTable} ".
             " SET ".
             " $Self->{SQLSessionTableValue} = '$NewDataToStore' ".
@@ -276,9 +236,7 @@ sub GetAllSessionIDs {
     my $Self = shift;
     my %Param = @_;
     my @SessionIDs = ();
-    # --
     # read data
-    # --
     my $SQL = "SELECT $Self->{SQLSessionTableID} ".
           " FROM ".
           " $Self->{SQLSessionTable} ";
@@ -287,6 +245,18 @@ sub GetAllSessionIDs {
         push (@SessionIDs,  $RowTmp[0]);
     }
     return @SessionIDs;
+}
+# --
+sub CleanUp {
+    my $Self = shift;
+    my %Param = @_;
+    # delete db recodes
+    if ($Self->{DBObject}->Do(SQL => "DELETE FROM $Self->{SQLSessionTable}")) {
+        return 1;
+    }
+    else {
+        return;
+    }
 }
 # --
 

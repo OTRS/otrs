@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/FS.pm - provides session filesystem backend
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FS.pm,v 1.11 2003-07-31 22:45:38 martin Exp $
+# $Id: FS.pm,v 1.12 2003-10-29 20:22:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use Digest::MD5;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
  
 # --
@@ -48,14 +48,9 @@ sub CheckSessionID {
     my %Param = @_;
     my $SessionID = $Param{SessionID};
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'none';
-
-    # --
     # set default message
-    # --
     $Kernel::System::AuthSession::CheckSessionID = "SessionID is invalid!!!";
-    # --
     # session id check
-    # --
     my %Data = $Self->GetSessionIDData(SessionID => $SessionID); 
 
     if (!$Data{UserID} || !$Data{UserLogin}) {
@@ -66,9 +61,7 @@ sub CheckSessionID {
         );
         return;
     }
-    # --
-    # ip check
-    # --
+    # remote ip check
     if ( $Data{UserRemoteAddr} ne $RemoteAddr && 
           $Self->{ConfigObject}->Get('SessionCheckRemoteIP') ) {
         $Self->{LogObject}->Log(
@@ -82,9 +75,7 @@ sub CheckSessionID {
         }
         return;
     }
-    # --
     # check session time
-    # --
     my $MaxSessionTime = $Self->{ConfigObject}->Get('SessionMaxTime');
     if ( (time() - $MaxSessionTime) >= $Data{UserSessionStart} ) {
          $Kernel::System::AuthSession::CheckSessionID = 'Session has timed out. Please log in again.';
@@ -108,16 +99,12 @@ sub GetSessionIDData {
     my $SessionID = $Param{SessionID} || die '';
     my $Strg = '';
     my %Data;
-    # --
     # check session id
-    # -- 
     if (!$SessionID) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Got no SessionID!!");
         return;
     }
-    # --
     # read data
-    # --
     open (SESSION, "< $Self->{SessionSpool}/$SessionID") 
             || warn "Can't open $Self->{SessionSpool}/$SessionID: $!\n";
     while (<SESSION>) {
@@ -143,25 +130,17 @@ sub GetSessionIDData {
 sub CreateSessionID {
     my $Self = shift;
     my %Param = @_;
-    # --
     # REMOTE_ADDR
-    # --
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'none';
-    # --
     # HTTP_USER_AGENT
-    # --
     my $RemoteUserAgent = $ENV{HTTP_USER_AGENT} || 'none';
-    # --
     # create SessionID
-    # --
     my $md5 = Digest::MD5->new();
     my $SessionID = $md5->add(
         (time() . int(rand(999999999)) . $Self->{SystemID}) . $RemoteAddr . $RemoteUserAgent
     );
     $SessionID = $Self->{SystemID} . $md5->hexdigest;
-    # --
     # data 2 strg
-    # --
     my $DataToStore = '';
     foreach (keys %Param) {
         if (defined($Param{$_})) {
@@ -172,10 +151,7 @@ sub CreateSessionID {
     $DataToStore .= "UserSessionStart:". encode_base64(time(), '') ."\n";
     $DataToStore .= "UserRemoteAddr:". encode_base64($RemoteAddr, '') ."\n";
     $DataToStore .= "UserRemoteUserAgent:". encode_base64($RemoteUserAgent, '') ."\n";
-
-    # --
     # store SessionID + data
-    # --
     open (SESSION, ">> $Self->{SessionSpool}/$SessionID") 
             || die "Can't create $Self->{SessionSpool}/$SessionID: $!"; 
     print SESSION "$DataToStore";
@@ -188,9 +164,7 @@ sub RemoveSessionID {
     my $Self = shift;
     my %Param = @_;
     my $SessionID = $Param{SessionID};
-    # --
     # delete fs file
-    # --
     if (unlink("$Self->{SessionSpool}/$SessionID")) { 
         # log event
         $Self->{LogObject}->Log(
@@ -216,13 +190,9 @@ sub UpdateSessionID {
     my $Value = defined($Param{Value}) ? $Param{Value} : '';
     my $SessionID = $Param{SessionID} || die 'No SessionID!';
     my %SessionData = $Self->GetSessionIDData(SessionID => $SessionID);
-    # --
     # update the value 
-    # --
     $SessionData{$Key} = $Value; 
-    # --
     # set new data sting
-    # -- 
     my $NewDataToStore = '';
     foreach (keys %SessionData) {
         $SessionData{$_} = encode_base64($SessionData{$_}, '');
@@ -235,9 +205,7 @@ sub UpdateSessionID {
             );
         }
     }
-    # --
     # update fs file
-    # --
     open (SESSION, "> $Self->{SessionSpool}/$SessionID")
          || die "Can't write $Self->{SessionSpool}/$SessionID: $!";
     print SESSION "$NewDataToStore";
@@ -250,15 +218,26 @@ sub GetAllSessionIDs {
     my $Self = shift;
     my %Param = @_;
     my @SessionIDs = ();
-    # --
     # read data
-    # --
-    my @List = glob("$Self->{SessionSpool}/*");
+    my @List = glob("$Self->{SessionSpool}/$Self->{SystemID}*");
     foreach my $SessionID (@List) {
        $SessionID =~ s!^.*/!!;
        push (@SessionIDs, $SessionID);
     }
     return @SessionIDs;
+}
+# --
+sub CleanUp {
+    my $Self = shift;
+    my %Param = @_;
+    # delete fs files
+    my @SessionIDs = $Self->GetAllSessionIDs();
+    foreach (@SessionIDs) {
+        if (!$Self->RemoveSessionID(SessionID => $_)) {
+            return;
+        }
+    }
+    return 1;
 }
 # --
 
