@@ -2,7 +2,7 @@
 # Kernel/Config/CustomerPanel.pm - CustomerPanel config file for OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerPanel.pm,v 1.4 2002-10-20 20:03:38 martin Exp $
+# $Id: CustomerPanel.pm,v 1.5 2002-10-31 22:58:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -12,7 +12,7 @@ package Kernel::Config::CustomerPanel;
 
 use strict;
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -57,6 +57,10 @@ sub LoadCustomerPanel {
     # CustomerPanelCreateAccount
     # (use create cutomer account self feature)
     $Self->{CustomerPanelCreateAccount} = 1;
+
+    # CustomerPanelMXCheck
+    # (check mx of customer email addresses)
+    $Self->{CustomerPanelMXCheck} = 1;
  
     # ----------------------------------------------------#
     # customer message settings                           #
