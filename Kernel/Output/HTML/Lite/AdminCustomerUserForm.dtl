@@ -1,8 +1,8 @@
 # --
 # AdminCustoerUserForm.dtl - provides HTML form for AdminCustomerUser
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUserForm.dtl,v 1.8 2004-01-24 18:40:35 martin Exp $
+# $Id: AdminCustomerUserForm.dtl,v 1.9 2004-02-09 01:39:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,12 +22,32 @@
     <form action="$Env{"CGIHandle"}" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
     <input type="hidden" name="Subaction" value="Change">
+    <input type="hidden" name="Nav" value="$Data{"Nav"}">
     $Data{"UserOption"}
     <br>
     <input class="button" type="submit" value="$Text{"change"}">
     </form>
   </td> 
   <td width="70%" class="table1">
+  <table border="0" cellspacing="0" cellpadding="3">
+  <tr>
+  <td align="center">
+    $Text{"Select source:"}
+    <form action="$Env{"CGIHandle"}" method="post">
+    <input type="hidden" name="Action" value="$Env{"Action"}">
+    <input type="hidden" name="Subaction" value="">
+    <input type="hidden" name="Nav" value="$Data{"Nav"}">
+#    <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
+#    <input type="hidden" name="ID" value="$Data{"UserID"}">
+    <table border="0" cellspacing="0" cellpadding="3" width="100%">
+    <tr>
+      <td width="40%">$Text{"Source"}: </td>
+      <td width="60%"> $Data{"SourceOption"}</td>
+    </tr>
+    </table>
+    <input class="button" type="submit" value="$Text{"Change"}"> 
+    </form>
+<br>
 # --
 # check subaction
 # --
@@ -38,18 +58,23 @@
 # check add link
 <dtl if ($Env{"Subaction"} eq "Change") { $Data{"AddLink"} = "(Click here to add)"; }>
 # --
-    $Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}Action=AdminCustomerUser">$Text{"$Data{"AddLink"}"}</a>: 
+    $Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}Action=AdminCustomerUser&Nav=$Data{"Nav"}">$Text{"$Data{"AddLink"}"}</a>: 
     <br>
     <form action="$Env{"CGIHandle"}" method="post">
     <input type="hidden" name="Action" value="$Env{"Action"}">
     <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
     <input type="hidden" name="ID" value="$Data{"UserID"}">
-    <table border="0" cellspacing="0" cellpadding="3">
+    <input type="hidden" name="Source" value="$Data{"Source"}">
+    <input type="hidden" name="Nav" value="$Data{"Nav"}">
+    <table border="0" cellspacing="0" cellpadding="3" width="100%">
     $Data{"Preferences"}
     </table>
     <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}"> 
     </form>
   </td>
+</tr>
+</table>
+</td>
 </tr>
 </table>
 <!-- end form -->
