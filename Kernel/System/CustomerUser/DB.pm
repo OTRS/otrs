@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.26 2004-03-22 13:10:35 martin Exp $
+# $Id: DB.pm,v 1.27 2004-03-25 10:17:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -275,6 +275,24 @@ sub CustomerUserAdd {
     }
     if (!$Param{UserID}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserID!");
+        return;
+    }
+    # just if no UserLogin is given
+    if (!$Param{UserLogin} && $Self->{CustomerUserMap}->{AutoLoginCreation}) {
+        my ($Sec, $Min, $Hour, $Day, $Month, $Year, $WDay) = localtime(time());
+        $Year = $Year-100;
+        $Year = "0$Year" if ($Year <10);
+        $Month = $Month+1;
+        $Month = "0$Month" if ($Month <10);
+        $Day = "0$Day" if ($Day <10);
+        $Hour = "0$Hour" if ($Hour <10);
+        $Min = "0$Min" if ($Min <10);
+        my $Prefix = $Self->{CustomerUserMap}->{AutoLoginCreationName} || 'auto';
+        $Param{UserLogin} = "$Prefix-$Year$Month$Day$Hour$Min".int(rand(99));
+    }
+    # check if user login exists
+    if (!$Param{UserLogin}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserLogin!");
         return;
     }
     # check email address
