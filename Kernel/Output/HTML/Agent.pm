@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.38 2002-07-09 10:42:18 martin Exp $
+# $Id: Agent.pm,v 1.39 2002-07-10 18:22:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.39 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -139,18 +139,16 @@ sub TicketView {
         # --
         # do some text quoting
         # --
-        $Param{Text} = MIME::QuotedPrint::decode($Param{Text});
         $Param{Text} = $Self->Ascii2Html(
             NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,
             Text => $Param{Text}, 
             VMax => $Self->{ConfigObject}->Get('ViewableTicketLines') || 25,
+            QuotedPrint => 1,
         );
         # --
         # do link quoting
         # ---
-        $Param{Text} = $Self->LinkQuote(
-            Text => $Param{Text},
-        );
+        $Param{Text} = $Self->LinkQuote(Text => $Param{Text});
         # --
         # do charset check
         # --
@@ -161,7 +159,6 @@ sub TicketView {
             $Param{TextNote} = $CharsetText;
         } 
     }
-
     # --
     # get MoveQueuesStrg
     # --
@@ -335,21 +332,16 @@ sub TicketZoom {
         $Param{"Article::ATM"} .= '<a href="$Env{"Baselink"}&Action=AgentAttachment&'.
           'ArticleID='.$Article{ArticleID}.'&File='.$_.'">'. $_ .'</a><br> ';
     }
-    # --
-    # do some strips && quoting
-    # --
-    foreach ('To', 'Cc', 'From', 'Subject') {
-        $Param{"Article::$_"} = $Self->Ascii2Html(Text => $Article{$_}, Max => 300, MIME => 1);
-    }
-    # --
-    # quoted print decode 
-    # --
-    $Article{"Text"} = MIME::QuotedPrint::decode($Article{"Text"});
 
     # --
     # just body if html email
     # --
     if ($Param{"ShowHTMLeMail"}) {
+        # --
+        # quoted print decode 
+        # --
+        $Article{"Text"} = $Self->QuotedPrintDecode(Text => $Article{"Text"});
+        # generate output
         my $Output = "Content-Disposition: attachment; filename=";
         $Output .= $Self->{ConfigObject}->Get('TicketHook')."-$Param{TicketNumber}-";
         $Output .= "$Param{TicketID}-$Article{ArticleID}\n";
@@ -358,6 +350,14 @@ sub TicketZoom {
         $Output .= $Article{"Text"};
         return $Output;
     }
+
+    # --
+    # do some strips && quoting
+    # --
+    foreach ('To', 'Cc', 'From', 'Subject') {
+        $Param{"Article::$_"} = $Self->Ascii2Html(Text => $Article{$_}, Max => 300, MIME => 1);
+    }
+
     # --
     # check if just a only html email
     # --
@@ -373,13 +373,12 @@ sub TicketZoom {
             NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,
             Text => $Article{Text},
             VMax => $Self->{ConfigObject}->Get('ViewableTicketLinesZoom') || 5000,
+            QuotedPrint => 1,
         );
         # --
         # link quoting
         # --
-        $Param{"Article::Text"} = $Self->LinkQuote(
-            Text => $Param{"Article::Text"},
-        );
+        $Param{"Article::Text"} = $Self->LinkQuote(Text => $Param{"Article::Text"});
         # --
         # do charset check
         # --
@@ -484,7 +483,7 @@ sub AgentBounce {
     # create FromHTML (to show)
     $Param{FromHTML} = $Self->Ascii2Html(Text => $Param{From}, Max => 70, MIME => 1);
     # email quoted print decode
-    $Param{Body} = MIME::QuotedPrint::decode($Param{Body});
+    $Param{Body} = $Self->QuotedPrintDecode(Text => $Param{Body});
 
     # get output back
     return $Self->Output(TemplateFile => 'AgentBounce', Data => \%Param);
@@ -620,10 +619,16 @@ sub AgentUtilSearchResult {
         Text => $Param{Text},
         NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,
         VMax => $Self->{ConfigObject}->Get('ViewableTicketLinesBySearch') || 15,
+        QuotedPrint => 1,
       );
 
+    # do html quoteing
+    foreach (qw(State Queue Owner Lock From Subject)) {
+        $Param{$_} = $Self->Ascii2Html(Mime => 1, Text => $Param{$_});
+    }
+
+    # do some html highlighting
     if ($Highlight) {
-        # do some html highlighting
         my @SParts = split('%', $Param{What});
         $Param{Text} =~ s/(${\(join('|', @SParts))})/$HighlightStart$1$HighlightEnd/gi;
         $Param{From} =~ s/(${\(join('|', @SParts))})/$HighlightStart$1$HighlightEnd/gi;
@@ -674,14 +679,14 @@ sub AgentCompose {
     # --
     # prepare 
     # --
-    foreach ('ReplyTo', 'To', 'Cc', 'Subject') {
-        $Param{$_} = $Self->MimeWordDecode(Text => $Param{$_}) || '';
-        $Param{$_} =~ s/"//g;
-    }
     # create FromHTML (to show)
     $Param{FromHTML} = $Self->Ascii2Html(Text => $Param{From}, Max => 70, MIME => 1);
+    # do html quoting
+    foreach ('ReplyTo', 'From', 'To', 'Cc', 'Subject') {
+        $Param{$_} = $Self->Ascii2Html(Mime => 1, Text => $Param{$_}) || '';
+    }
     # email quoted print decode
-    $Param{Body} = MIME::QuotedPrint::decode($Param{Body});
+    $Param{Body} = $Self->Ascii2Html(Text => $Param{Body}, QuotedPrint => 1);
 
     # --
     # create & return output
@@ -709,14 +714,14 @@ sub AgentForward {
     # --
     # prepare 
     # --
-    foreach ('ReplyTo', 'To', 'Cc', 'Subject') {
-        $Param{$_} = $Self->MimeWordDecode(Text => $Param{$_}) || '';
-        $Param{$_} =~ s/"//g;
-    }
     # create html from
     $Param{SystemFromHTML} = $Self->Ascii2Html(Text => $Param{SystemFrom}, Max => 70, MIME => 1);
+    # do html quoting
+    foreach ('ReplyTo', 'From', 'To', 'Cc', 'Subject', 'SystemFrom') {
+        $Param{$_} = $Self->Ascii2Html(Mime => 1, Text => $Param{$_}) || '';
+    }
     # email quoted print decode
-    $Param{Body} = MIME::QuotedPrint::decode($Param{Body});
+    $Param{Body} = $Self->Ascii2Html(Text => $Param{Body}, QuotedPrint => 1);
 
     # --
     # create & return output

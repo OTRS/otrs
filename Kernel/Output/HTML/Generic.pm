@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.37 2002-07-02 08:48:19 martin Exp $
+# $Id: Generic.pm,v 1.38 2002-07-10 18:22:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ use Kernel::Output::HTML::System;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -364,25 +364,27 @@ sub Ascii2Html {
     my $Text = $Param{Text} || return;
     my $Max  = $Param{Max} || '';
     my $VMax = $Param{VMax} || '';
-    my $Mime = $Param{MIME} || '';
+    my $Mime = $Param{MIME} || 0;
+    my $QuotedPrint = $Param{QuotedPrint} || 0;
     my $NewLine = $Param{NewLine} || '';
 
     # mime decode
     if ($Mime) {
-        $Text = decode_mimewords($Text);
+        $Text = $Self->MimeWordDecode(Text => $Text);
     }
-
+    # QuotedPrint decode
+    if ($QuotedPrint) {
+        $Text = $Self->QuotedPrintDecode(Text => $Text);
+    }
     # max width
     if ($Max) {
         $Text =~ s/^(.{$Max}).*$/$1 [...]/gs;
     }
-
     # newline
     if ($NewLine) {
          $Text =~ s/\r/\n/g;
          $Text =~ s/(.{$NewLine}.+?\s)/$1\n/g;
     }
-
     # max lines
     if ($VMax) {
         my @TextList = split ('\n', $Text);
@@ -394,11 +396,12 @@ sub Ascii2Html {
         }
         $Text .= "[...]\n" if ($Counter >= $VMax);
     }
-
     # html quoting
     $Text =~ s/&/&amp;/g;
     $Text =~ s/</&lt;/g;
     $Text =~ s/>/&gt;/g;
+    $Text =~ s/"/&quot;/g;
+    # return result
     return $Text;
 }
 # --
@@ -421,6 +424,14 @@ sub MimeWordDecode {
     my %Param = @_;
     my $Text = $Param{Text} || return;
     $Text = decode_mimewords($Text);
+    return $Text;
+}
+# --
+sub QuotedPrintDecode {
+    my $Self = shift;
+    my %Param = @_;
+    my $Text = $Param{Text} || return;
+    $Text = MIME::QuotedPrint::decode($Text);
     return $Text;
 }
 # --
