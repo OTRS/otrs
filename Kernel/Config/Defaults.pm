@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.126 2004-04-22 13:19:44 martin Exp $
+# $Id: Defaults.pm,v 1.127 2004-04-23 07:54:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.126 $';
+$VERSION = '$Revision: 1.127 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -288,6 +288,14 @@ sub LoadDefaults {
     $Self->{'Frontend::NotifyModule'}->{'2-UID-Check'} = {
         Module => 'Kernel::Output::HTML::NotificationUIDCheck',
     };
+    # show online agents
+#    $Self->{'Frontend::NotifyModule'}->{'3-ShowAgentOnline'} = {
+#        Module => 'Kernel::Output::HTML::NotificationAgentOnline',
+#    };
+    # show online customers
+#    $Self->{'Frontend::NotifyModule'}->{'4-ShowCustomerOnline'} = {
+#        Module => 'Kernel::Output::HTML::NotificationCustomerOnline',
+#    };
 
     # AgentQueueSortDefault
     # (default sort order of the queue view / after priority sort)
@@ -528,7 +536,7 @@ sub LoadDefaults {
 
     # Move::ForceUnlockAfterMove
     # (force to unlock a ticket after move action)
-    $Self->{'Move::ForceUnlockAfterMove'} = 1;
+    $Self->{'Move::ForceUnlockAfterMove'} = 0;
 
     # --------------------------------------------------- #
     # TicketNumberGenerator                               # 
@@ -1296,6 +1304,11 @@ Your OTRS Notification Master
     # each customer user for this groups, then put the groups
     # for all customer user in there)
     $Self->{CustomerGroupAlwaysGroups} = ['users', 'info'];
+
+    # show online agents
+#    $Self->{'CustomerFrontend::NotifyModule'}->{'1-ShowAgentOnline'} = {
+#        Module => 'Kernel::Output::HTML::NotificationAgentOnline',
+#    };
 
     # --------------------------------------------------- #
     # login and logout settings                           #

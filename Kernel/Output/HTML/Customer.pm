@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Customer.pm - provides generic customer HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Customer.pm,v 1.34 2004-04-18 16:01:46 martin Exp $
+# $Id: Customer.pm,v 1.35 2004-04-23 07:54:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Customer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.34 $';
+$VERSION = '$Revision: 1.35 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -79,6 +79,44 @@ sub CustomerFooter {
 sub CustomerNavigationBar {
     my $Self = shift;
     my %Param = @_;
+    # run notification modules 
+    if (ref($Self->{ConfigObject}->Get('CustomerFrontend::NotifyModule')) eq 'HASH') {
+        my %Jobs = %{$Self->{ConfigObject}->Get('CustomerFrontend::NotifyModule')};
+        foreach my $Job (sort keys %Jobs) {
+            # log try of load module
+            if ($Self->{Debug} > 1) {
+                $Self->{LogObject}->Log(
+                    Priority => 'debug',
+                    Message => "Try to load module: $Jobs{$Job}->{Module}!",
+                );
+            }
+            if (eval "require $Jobs{$Job}->{Module}") {
+                my $Object = $Jobs{$Job}->{Module}->new(
+                    ConfigObject => $Self->{ConfigObject},
+                    LogObject => $Self->{LogObject},
+                    DBObject => $Self->{DBObject},
+                    LayoutObject => $Self,
+                    UserID => $Self->{UserID},
+                    Debug => $Self->{Debug},
+                );
+                # log loaded module
+                if ($Self->{Debug} > 1) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'debug',
+                        Message => "Module: $Jobs{$Job}->{Module} loaded!",
+                    );
+                }
+                # run module 
+                $Param{Notification} .= $Object->Run(%Param, Config => $Jobs{$Job});
+            }
+            else {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message => "Can't load module $Jobs{$Job}->{Module}!",
+                );
+            }
+        }
+    }
     if ($Self->{UserEmail} ne $Self->{UserCustomerID}) {
         $Param{UserLoginTop} = "$Self->{UserEmail}/$Self->{UserCustomerID}";
     }
