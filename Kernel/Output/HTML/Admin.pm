@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.49 2004-02-12 00:53:06 martin Exp $
+# $Id: Admin.pm,v 1.50 2004-03-11 14:34:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.49 $';
+$VERSION = '$Revision: 1.50 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -79,7 +79,8 @@ sub AdminCustomerUserForm {
           );
       }
     }
-
+   my $PreferencesUsed = $Self->{ConfigObject}->Get($Param{Source})->{AdminSetPreferences};
+   if ((defined($PreferencesUsed) && $PreferencesUsed != 0) || !defined($PreferencesUsed)) { 
     foreach my $Pref (sort keys %{$Self->{ConfigObject}->Get('CustomerPreferencesView')}) {
       foreach my $Group (@{$Self->{ConfigObject}->Get('CustomerPreferencesView')->{$Pref}}) {
 #        if ($Self->{ConfigObject}->{PreferencesGroups}->{$Group}->{Activ}) {
@@ -128,7 +129,7 @@ sub AdminCustomerUserForm {
 #        }
       }
     }
-
+   }
     return $Self->Output(TemplateFile => 'AdminCustomerUserForm', Data => \%Param);
 }
 # --
