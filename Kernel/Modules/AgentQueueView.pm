@@ -2,7 +2,7 @@
 # AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.2 2001-12-26 20:13:41 martin Exp $
+# $Id: AgentQueueView.pm,v 1.3 2001-12-30 00:45:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentQueueView;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -59,16 +59,16 @@ sub new {
     # --
     # all static variables
     # --
+    $Self->{ViewableLocks} = $Self->{ConfigObject}->Get('ViewableLocks') 
+           || die 'No Config entry "ViewableLocks"!';
 
-    # - all shown and counted values-
-    my @ViewableLocks = ("'unlock'", "'tmp_lock'");
-    $Self->{ViewableLocks} = \@ViewableLocks;
+    $Self->{ViewableStats} = $Self->{ConfigObject}->Get('ViewableStats') 
+           || die 'No Config entry "ViewableStats"!';
 
-    my @ViewableStats = ("'open'", "'new'");
-    $Self->{ViewableStats} = \@ViewableStats;
+    $Self->{ViewableSenderTypes} = $Self->{ConfigObject}->Get('ViewableSenderTypes') 
+           || die 'No Config entry "ViewableSenderTypes"!';;
 
-    my @ViewableSenderTypes = ("'customer'");
-    $Self->{ViewableSenderTypes} = \@ViewableSenderTypes;
+    $Self->{CustomQueue} = $Self->{ConfigObject}->Get('CustomQueue') || '???';
 
     return $Self;
 }
@@ -301,7 +301,7 @@ sub BuildQueueView {
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
         my %Hashes;
         $Hashes{QueueID} = 0;
-        $Hashes{Queue} = 'CustomQueue';
+        $Hashes{Queue} = $Self->{CustomQueue};
         $Hashes{MaxAge} = $RowTmp[2] || 0;
         $Hashes{Count} = $RowTmp[0];
         push (@Queues, \%Hashes);
