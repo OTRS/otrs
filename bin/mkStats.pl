@@ -3,7 +3,7 @@
 # mkStats.pl - generate stats pics
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: mkStats.pl,v 1.7 2002-10-01 09:45:37 martin Exp $
+# $Id: mkStats.pl,v 1.8 2002-10-01 09:50:42 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ use Kernel::Config;
 use Kernel::System::Log;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 umask 022;
@@ -110,7 +110,7 @@ $graph->set(
 # set legend
 $graph->set_legend(@PossibleStates);
 
-# bouild x_lable
+# build x_lable
 my $DayCounter = 1; my @Days;
 while ($DayCounter < $Day) {
     my $Dow = Day_of_Week($Year, $Month, $DayCounter);
