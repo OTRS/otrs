@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.160 2004-09-20 11:15:06 martin Exp $
+# $Id: Defaults.pm,v 1.161 2004-09-21 07:20:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.160 $';
+$VERSION = '$Revision: 1.161 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -819,6 +819,7 @@ sub LoadDefaults {
 #            sk => 'Slovak',
 #            sl => 'Slovenian',
 #            da => 'Dansk',
+            tr => 'tr',
             jp => 'jp',
     };
     # default theme
@@ -2292,6 +2293,9 @@ Your OTRS Notification Master
     $Self->{'Frontend::Module'}->{'AgentZoom'} = {
         Description => 'Ticket Zoom',
     };
+    $Self->{'Frontend::Module'}->{'AgentAttachment'} = {
+        Description => 'To download attachments',
+    };
     $Self->{'Frontend::Module'}->{'AgentPlain'} = {
         Description => 'Ticket plain view of an email',
     };
@@ -2644,6 +2648,12 @@ Your OTRS Notification Master
           },
         ],
     };
+    $Self->{'CustomerFrontend::Module'}->{'CustomerZoom'} = {
+        Description => 'Ticket zoom view',
+    };
+    $Self->{'CustomerFrontend::Module'}->{'CustomerAttachment'} = {
+        Description => 'To download attachments',
+    };
     $Self->{'CustomerFrontend::Module'}->{'CustomerTicketSearch'} = {
         Description => 'Customer ticket search.',
         NavBar => [
@@ -2679,6 +2689,9 @@ Your OTRS Notification Master
             Prio => 40,
           },
         ],
+    };
+    $Self->{'CustomerFrontend::Module'}->{'CustomerAccept'} = {
+        Description => 'To accept login infos',
     };
 
     # --------------------------------------------------- #
