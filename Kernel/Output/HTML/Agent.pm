@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.105 2003-04-15 20:53:33 martin Exp $
+# $Id: Agent.pm,v 1.106 2003-04-16 21:12:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.105 $';
+$VERSION = '$Revision: 1.106 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -310,13 +310,13 @@ sub TicketView {
         # --
         $Param{Text} = $Self->Ascii2Html(
             NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,
-            Text => $Param{Text}, 
+            Text => $Param{Body}, 
             VMax => $Self->{ConfigObject}->Get('ViewableTicketLines') || 25,
         );
         # --
         # do link quoting
         # ---
-        $Param{Text} = $Self->LinkQuote(Text => $Param{Text});
+        $Param{Text} = $Self->LinkQuote(Text => $Param{Body});
         # --
         # do charset check
         # --
@@ -1367,7 +1367,6 @@ sub AgentUtilSearchResult {
     # --
     if (my $MimeTypeText = $Self->CheckMimeType(
         %Param, 
-        Text => $Param{Body}, 
         Action => 'AgentZoom',
     )) {
         $Param{TextNote} = $MimeTypeText;

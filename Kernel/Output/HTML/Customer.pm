@@ -2,7 +2,7 @@
 # HTML/Customer.pm - provides generic customer HTML output
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Customer.pm,v 1.16 2003-03-02 12:26:33 martin Exp $
+# $Id: Customer.pm,v 1.17 2003-04-16 21:11:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Customer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -303,7 +303,7 @@ sub CustomerTicketZoom {
         $Output .= "$Param{TicketID}-$Article{ArticleID}\n";
         $Output .= "Content-Type: $Article{MimeType}; charset=$Article{ContentCharset}\n";
         $Output .= "\n";
-        $Output .= $Article{"Text"};
+        $Output .= $Article{"Body"};
         return $Output;
     }
 
@@ -327,7 +327,7 @@ sub CustomerTicketZoom {
         # --
         $Param{"Article::Text"} = $Self->Ascii2Html(
             NewLine => $Self->{ConfigObject}->Get('ViewableTicketNewLine') || 85,
-            Text => $Article{Text},
+            Text => $Article{Body},
             VMax => $Self->{ConfigObject}->Get('ViewableTicketLinesZoom') || 5000,
         );
         # --
