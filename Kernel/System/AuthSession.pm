@@ -2,7 +2,7 @@
 # AuthSession.pm - provides session check and session data
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AuthSession.pm,v 1.12 2002-05-14 00:24:22 martin Exp $
+# $Id: AuthSession.pm,v 1.13 2002-06-15 22:04:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Digest::MD5;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
  
 # --
@@ -199,7 +199,7 @@ sub CreateSessionID {
     # --
     my $DataToStore = '';
     foreach (keys %Param) {
-        $DataToStore .= "$_=$Param{$_};";
+        $DataToStore .= "$_=$Param{$_};" if ($Param{$_});
     }
     $DataToStore .= "UserSessionStart=" . time() . ";";
     $DataToStore .= "UserRemoteAddr=" . $RemoteAddr . ";";
