@@ -2,7 +2,7 @@
 # README - readme file of OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: README,v 1.10 2002-10-25 00:10:34 martin Exp $
+# $Id: README,v 1.11 2002-12-25 20:01:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -25,7 +25,7 @@ What is OTRS?
     - Admin web interface for changing system things
     - Customer web interface for viewing and sending infos to the agents
     - Webinterface with themes support
-    - Multi language support (english, german and french)
+    - Multi language support (english, german, french, finnish, dutch and bulgarian)
     - customize the output templates (dtl) release independently 
     - easy and logical to use
 
@@ -106,7 +106,7 @@ Software requirements?
     * Webpserver (mod_perl isn't required but very nice to have)
     * A MTA (e. g. Sendmail or Postfix)
 
-  Currently tested:
+  Currently tested (feedback):
 
     * SuSE Linux 7.0 (i386), Perl 5, MySQL 3.22.32 and Apache 1.3.12.
     * SuSE Linux 7.2 (i386), Perl 5.6.0, MySQL 3.23.37 and Apache 1.3.19.
