@@ -1,9 +1,9 @@
-# !/bin/sh
+#!/bin/sh
 # --
 # suse-rcotrs - rc script of otrs for SuSE Linux
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: suse-rcotrs,v 1.18 2002-09-23 14:43:40 martin Exp $
+# $Id: suse-rcotrs,v 1.19 2002-10-18 16:07:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -163,12 +163,14 @@ case "$1" in
       echo -n " Checking otrs spool dir... "
       for i in $OTRS_SPOOLDIR/* ; do
           # process old emails
-          echo $i | grep -v '*' >> /dev/null && \
-            echo "" && \
-            echo -n "   Starting otrs PostMaster... ($i) " && \
-            cat $i | $OTRS_POSTMASTER >> /dev/null 2>&1 && \
-            echo -n "remove email... " && \
-            (rm $i || rc_failed) 
+          if echo $i | grep -v '*' >> /dev/null; then
+              echo -n "   Starting otrs PostMaster... ($i) " 
+              if cat $i | $OTRS_POSTMASTER >> /dev/null 2>&1; then
+                  rm $i && echo "(remove email)";
+              else 
+                  rc_failed
+              fi 
+          fi
       done
       echo " done."
       rc_status

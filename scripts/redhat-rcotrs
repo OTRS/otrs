@@ -1,4 +1,4 @@
-# !/bin/sh
+#!/bin/sh
 # --
 # redhat-rcotrs - rc script of otrs for RedHat Linux
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
@@ -116,14 +116,13 @@ case "$1" in
       echo -n " Checking otrs spool dir... "
       for i in $OTRS_SPOOLDIR/* ; do
           # process old emails
-          if echo $i | grep -v '*' >> /dev/null ;then
-            echo ""
-            echo -n "   Starting otrs PostMaster... ($i) "
-            if cat $i | $OTRS_POSTMASTER >> /dev/null 2>&1 ; then
-               echo -n "remove email... " && (rm $i || echo "failed.")
-            else
-               echo "failed."
-            fi
+          if echo $i | grep -v '*' >> /dev/null; then
+              echo -n "   Starting otrs PostMaster... ($i) " 
+              if cat $i | $OTRS_POSTMASTER >> /dev/null 2>&1; then
+                  rm $i && echo "(remove email) done.";
+              else 
+                  echo "failed."
+              fi 
           fi
       done
       echo " done."
@@ -132,7 +131,7 @@ case "$1" in
       # Cron stuff
       # -- 
       if test $OTRS_CRON_RUNNING -gt 0; then
-	echo -e " Creating cronjobs (source $OTRS_CRON_DIR/*) ..."
+        echo -e " Creating cronjobs (source $OTRS_CRON_DIR/*) ..."
         if mkdir -p $OTRS_CRON_DIR; cat $OTRS_CRON_DIR/* > $OTRS_CRON_TMP_FILE && crontab $OTRS_CRON_USER $OTRS_CRON_TMP_FILE ; then
           echo " done."
         else
