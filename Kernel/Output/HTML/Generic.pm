@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.143 2004-08-31 14:38:05 martin Exp $
+# $Id: Generic.pm,v 1.144 2004-09-04 15:20:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.143 $';
+$VERSION = '$Revision: 1.144 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -243,6 +243,19 @@ sub BlockTemplatePreferences {
                 $Layer--;
             }
         }segxm;
+
+        # check open (invalid) tags
+        foreach (keys %TagsOpen) {
+            if ($TagsOpen{$_}) {
+                my $Message = "'dtl:block:$_' isn't closed!";
+                if ($TemplateFile) {
+                    $Message .= " ($TemplateFile.dtl)";
+                }
+                $Self->{LogObject}->Log(Priority => 'error', Message => $Message);
+                $Self->FatalError();
+            }
+        }
+
         # remember block data
         if ($TemplateFile) {
             $Self->{PrasedBlockTemplatePreferences}->{$TemplateFile} = \@Preferences;
@@ -317,7 +330,15 @@ sub Output {
     my $Self = shift;
     my %Param = @_;
     my %Data = ();
+    # get and check param Data
     if ($Param{Data}) {
+        if (ref($Param{Data}) ne 'HASH') {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "Need HashRef in Param Data! Got: '".ref($Param{Data})."'!",
+            );
+            $Self->FatalError();
+        }
         %Data = %{$Param{Data}};
     }
     # --
