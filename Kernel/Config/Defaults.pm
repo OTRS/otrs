@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.22 2003-01-15 18:30:01 martin Exp $
+# $Id: Defaults.pm,v 1.23 2003-01-19 16:39:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -1084,27 +1084,15 @@ Your OTRS Notification Master
 #    $Self->{'Customer::AuthModule::LDAP::SearchUserDN'} = '';
 #    $Self->{'Customer::AuthModule::LDAP::SearchUserPw'} = '';
 
-
     # ----------------------------------------------------#
     #                                                     #
     #             Start of config options!!!              #
-    #              CustomerPreferences stuff              #
+    #                 CustomerUser stuff                  #
     #                                                     #
     # ----------------------------------------------------#
 
-    # Customer::PreferencesModule
-    # (customer preferences module)
-    $Self->{'Customer::PreferencesModule'} = 'Kernel::System::CustomerUser::Preferences::DB';
- 
-    # CustomerPreferencesTable* (needed for DB module)
-    # (Stored CustomerPreferences table data.)
-    $Self->{'Customer::PreferencesTable'} = 'customer_preferences';
-    $Self->{'Customer::PreferencesTableKey'} = 'preferences_key';
-    $Self->{'Customer::PreferencesTableValue'} = 'preferences_value';
-    $Self->{'Customer::PreferencesTableUserID'} = 'user_id';
-
     # CustomerUser 
-    # (customer user backend)
+    # (customer user database backend and settings)
     $Self->{CustomerUser} = {
         Module => 'Kernel::System::CustomerUser::DB',
         Params => {
@@ -1114,6 +1102,12 @@ Your OTRS Notification Master
 #            Database => '',
             Table => 'customer_user',
         }, 
+        # customer uniq id
+        CustomerKey => 'login',
+        # customer #
+        CustomerID => 'customer_id',
+        CustomerListFileds => ['customer_id', 'comment'],
+#        ReadOnly => 1,
         Map => [
             # note: Login, Email and CustomerID needed!
             # var, frontend, storage, shown, required, storage-type
@@ -1127,9 +1121,61 @@ Your OTRS Notification Master
             [ 'UserComment', 'Comment', 'comment', 1, 0, 'var' ],
             [ 'ValidID', 'Valid', 'valid_id', 0, 1, 'int' ],
         ],
-        Key => 'login',
-        CustomerID => 'customer_id',
-#        ReadOnly => 1,
+    };
+
+    # CustomerUser 
+    # (customer user ldap backend and settings)
+#    $Self->{CustomerUser} = {
+#        Module => 'Kernel::System::CustomerUser::LDAP',
+#        Params => {
+#            # ldap host
+#            Host => 'bay.csuhayward.edu',
+#            # ldap base dn
+#            BaseDN => 'ou=seas,o=csuh',
+#            # search scope
+#            SSCOPE => 'one',
+#            # The following is valid but would only be necessary if the
+#            # anonymous user does NOT have permission to read from the LDAP tree 
+#            UserDN => '',
+#            UserPw => '',
+#        }, 
+#        # customer uniq id
+#        CustomerKey => 'uid',
+#        # customer #
+#        CustomerID => 'mail',
+#        CustomerListFileds => ['uid', 'cn'],
+#        Map => [
+#            # note: Login, Email and CustomerID needed!
+#            # var, frontend, storage, shown, required, storage-type
+#            [ 'UserSalutation', 'Title', 'title', 1, 0, 'var' ],
+#            [ 'UserFirstname', 'Firstname', 'givenname', 1, 1, 'var' ],
+#            [ 'UserLastname', 'Lastname', 'sn', 1, 1, 'var' ],
+#            [ 'UserLogin', 'Login', 'uid', 1, 1, 'var' ],
+#            [ 'UserEmail', 'Email', 'mail', 1, 1, 'var' ],
+#            [ 'UserCustomerID', 'CustomerID', 'mail', 1, 1, 'var' ],
+#            [ 'UserPhone', 'Phone', 'telephonenumber', 1, 0, 'var' ],
+#            [ 'UserAddress', 'Address', 'postaladdress', 1, 0, 'var' ],
+#            [ 'UserComment', 'Comment', 'description', 1, 0, 'var' ],
+#        ],
+#    };
+
+    # ----------------------------------------------------#
+    #                                                     #
+    #             Start of config options!!!              #
+    #              CustomerPreferences stuff              #
+    #                                                     #
+    # ----------------------------------------------------#
+
+    # CustomerPreferences
+    # (customer preferences module)
+    $Self->{'CustomerPreferences'} = {
+        Module => 'Kernel::System::CustomerUser::Preferences::DB',
+        Params => {
+             Table => 'customer_preferences',
+             TableKey => 'preferences_key',
+             TableValue => 'preferences_value',
+             TableUserID => 'user_id',
+        },
     };
 
     # CustomerPreferencesView
