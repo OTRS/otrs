@@ -3,7 +3,7 @@
 # xml2html.pl - a "_simple_" xml2html viewer
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: xml2html.pl,v 1.4 2005-01-11 22:16:16 martin Exp $
+# $Id: xml2html.pl,v 1.5 2005-01-12 17:35:25 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,9 +20,24 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
+# use ../../ as lib location
+use FindBin qw($Bin);
+use lib "$Bin/../..";
+use lib "$Bin/../../Kernel/cpan-lib";
 
 use strict;
-use XML::Parser::Lite;
+use Kernel::Config;
+use Kernel::System::Log;
+use Kernel::System::XML;
+
+my $ConfigObject = Kernel::Config->new();
+my $LogObject    = Kernel::System::Log->new(
+    ConfigObject => $ConfigObject,
+);
+my $XMLObject = Kernel::System::XML->new(
+    ConfigObject => $ConfigObject,
+    LogObject => $LogObject,
+);
 
 my $Title = 'xml2html: ';
 
@@ -45,47 +60,42 @@ else {
     }
 }
 
-my $p1 = new XML::Parser::Lite(Handlers => {Start => \&HS, End => \&ES, Char => \&CS});
+my @XMLARRAY = $XMLObject->XMLParse(String => $FileContent);
 
-my @Data = $p1->parse($FileContent);
-
-sub HS {
-    my ($Expat, $Element, %Attr) = @_;
-#    print "s:'$Element'\n";
-    $Layer++;
-    if ($Layer == 0) {
-        $Title .= $Element;
-    }
-    $HTML .= "<span style=\"font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top;margin:".($Layer*18)."px\">";
-    $HTML .= "<hr width=\"".(100-($Layer*2))."%\" align=\"right\">\n";
-    $HTML .= "<b>$Element:</b>";
-    $HTML .= " <font size=\"-2\">";
-    my $AttrList = '';
-    foreach (sort keys %Attr) {
+foreach my $Tag (@XMLARRAY) {
+    if ($Tag->{TagType} eq 'Start') {
+        $Layer++;
+        if ($Layer == 0) {
+            $Title .= $Tag->{Tag};
+        }
+        $HTML .= "<span style=\"font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top;margin:".($Layer*18)."px\">";
+        $HTML .= "<hr width=\"".(100-($Layer*2))."%\" align=\"right\">\n";
+        $HTML .= "<b>$Tag->{Tag}:</b>";
+        $HTML .= " <font size=\"-2\">";
+        my $AttrList = '';
+        foreach (sort keys %Attr) {
+            if ($AttrList) {
+                $AttrList .= ", ";
+            }
+            $AttrList .= "$_: $Attr{$_}";
+        }
         if ($AttrList) {
-            $AttrList .= ", ";
+            $AttrList = "(".$AttrList.")";
         }
-        $AttrList .= "$_: $Attr{$_}";
-    }
-    if ($AttrList) {
-        $AttrList = "(".$AttrList.")";
-    }
-    $HTML .= "$AttrList</font>";
-    $HTML .= "<br>";
-    $HTML .= "</span>\n";
-}
-
-sub CS {
-    my ($Expat, $Element, $I, $II) = @_;
-#    $Element = $Expat->recognized_string();
-#    print "v:'$Element'\n";
-    if ($Element !~ /^\W+$/) {
-        $Element =~ s/(.{100}.+?\s)/$1\n/g;
-        $Element =~ s/  /&nbsp; /g;
-        my @Data = split(/\n/, $Element);
-        foreach (@Data) {
-            $HTML .= Content($_);
+        $HTML .= "$AttrList</font>";
+        $HTML .= "<br>";
+        $HTML .= "</span>\n";
+        if ($Tag->{Content} !~ /^\W+$/) {
+            $Tag->{Content} =~ s/(.{100}.+?\s)/$1\n/g;
+            $Tag->{Content} =~ s/  /&nbsp; /g;
+            my @Data = split(/\n/, $Tag->{Content});
+            foreach (@Data) {
+                $HTML .= Content($_);
+            }
         }
+    }
+    elsif ($Tag->{TagType} eq 'End') {
+        $Layer = $Layer - 1;
     }
 }
 
@@ -94,11 +104,6 @@ sub Content {
     return "<span style=\"font-size:10pt;font-family:monospace,fixed;margin:".(($Layer*20)+5)."px;\">$C<br>\n</span>";
 }
 
-sub ES {
-    my ($Expat, $Element) = @_;
-#    print "e:'$Element'\n";
-    $Layer = $Layer - 1;
-}
 
 $HTML = "<html><head><title>$Title</title></head><body><center><table width=\"900\"><tr><td>\n".$HTML;
 $HTML .= "<hr></td></tr></table></center></body></html>\n";
