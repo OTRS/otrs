@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.118 2003-06-17 12:52:27 martin Exp $
+# $Id: Agent.pm,v 1.119 2003-07-07 21:19:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.118 $';
+$VERSION = '$Revision: 1.119 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -651,6 +651,7 @@ sub AgentZoom {
         if (my $MimeTypeText = $Self->CheckMimeType(%Param, %Article)) {
             $Param{"Article::TextNote"} = $MimeTypeText;
             $Param{"Article::Text"} = '';
+            $Param{"Article::Body"} = '';
         }
         else {
             # charset encode
@@ -1286,119 +1287,6 @@ sub AgentClose {
     return $Self->Output(TemplateFile => 'AgentClose', Data => \%Param);
 }
 # --
-sub AgentUtilForm {
-    my $Self = shift;
-    my %Param = @_;
-    my $Output = '';
-    # create & return output
-    foreach (qw(From Subject Body)){
-        $Param{$_.'CheckBox'} = 'checked';
-    }
-    $Param{'StatesStrg'} = $Self->OptionStrgHashRef(
-        Data => { $Self->{DBObject}->GetTableData(
-                      What => 'name, name',
-                      Table => 'ticket_state',
-                      Valid => 1,
-                    ) }, 
-        Name => 'State',
-        Multiple => 1,
-        Size => 5,
-    );
-    $Param{'QueuesStrg'} = $Self->AgentQueueListOption(
-        Data => {
-          $Self->{DBObject}->GetTableData(
-            What => 'id, name',
-            Table => 'queue',
-            Valid => 1,
-          )
-        },
-        Multiple => 1,
-        Size => 5,
-        Name => 'QueueID',
-        OnChangeSubmit => 0,
-    );
-    $Param{'PriotitiesStrg'} = $Self->OptionStrgHashRef(
-        Data => { $Self->{DBObject}->GetTableData(
-                      What => 'id, name',
-                      Table => 'ticket_priority',
-                    ) }, 
-        Name => 'PriorityID',
-        Multiple => 1,
-        Size => 5,
-    );
-    $Param{'UserStrg'} = $Self->OptionStrgHashRef(
-        Data => $Param{Users}, 
-        Name => 'UserID',
-        Multiple => 1,
-        Size => 5,
-    );
-    $Output .= $Self->Output(TemplateFile => 'AgentUtilTicketStatus', Data => \%Param);
-    $Output .= $Self->Output(TemplateFile => 'AgentUtilSearch', Data => \%Param);
-    $Output .= $Self->Output(TemplateFile => 'AgentUtilSearchByCustomerID', Data => \%Param);
-    return $Output;
-}
-# --
-sub AgentUtilSearchAgain {
-    my $Self = shift;
-    my %Param = @_;
-    my $Output = '';
-    # create & return output
-    if ($Self->{Subaction} eq 'CustomerID') {
-      $Output .= $Self->Output(TemplateFile => 'AgentUtilSearchByCustomerID', Data => \%Param);
-    }
-    else {
-      my @WhatFields = @{$Param{WhatFields}};
-      foreach (@WhatFields) {
-          $Param{$_.'CheckBox'} = 'checked';
-      }
-      $Param{'StatesStrg'} = $Self->OptionStrgHashRef(
-        Data => { $Self->{DBObject}->GetTableData(
-                      What => 'name, name',
-                      Table => 'ticket_state',
-                      Valid => 1,
-                    ) }, 
-        Name => 'State',
-        Multiple => 1,
-        Size => 5,
-        SelectedIDRefArray => $Param{SelectedStates},
-      );
-      $Param{'QueuesStrg'} = $Self->AgentQueueListOption(
-        Data => {
-          $Self->{DBObject}->GetTableData(
-            What => 'id, name',
-            Table => 'queue',
-            Valid => 1,
-          )
-        },
-        Size => 5,
-        Multiple => 1,
-        Name => 'QueueID',
-        SelectedIDRefArray => $Param{SelectedQueueIDs},
-        OnChangeSubmit => 0,
-      );
-      $Param{'PriotitiesStrg'} = $Self->OptionStrgHashRef(
-        Data => { $Self->{DBObject}->GetTableData(
-                      What => 'id, name',
-                      Table => 'ticket_priority',
-                    ) }, 
-        Name => 'PriorityID',
-        Multiple => 1,
-        Size => 5,
-        SelectedIDRefArray => $Param{SelectedPriorityIDs},
-      );
-      $Param{'UserStrg'} = $Self->OptionStrgHashRef(
-        Data => $Param{Users}, 
-        Name => 'UserID',
-        Multiple => 1,
-        Size => 5,
-        SelectedIDRefArray => $Param{SelectedUserIDs},
-      );
-
-      $Output .= $Self->Output(TemplateFile => 'AgentUtilSearch', Data => \%Param);
-    }
-    return $Output;
-}
-# --
 sub AgentUtilSearchResult {
     my $Self = shift;
     my %Param = @_;
@@ -1472,65 +1360,6 @@ sub AgentUtilSearchResult {
     );
     # create & return output
     return $Self->Output(TemplateFile => 'AgentUtilSearchResult', Data => \%Param);
-}
-# --
-sub AgentUtilSearchCouter {
-    my $Self = shift;
-    my %Param = @_;
-    my $Limit = $Param{Limit} || 0;
-    $Param{AllHits} = 0 if (!$Param{AllHits});
-    my $Pages = int(($Param{AllHits} / $Param{SearchPageShown}) + 0.99999);
-    my $Page = int(($Param{StartHit} / $Param{SearchPageShown}) + 0.99999);
-    # build Results (1-5 or 16-30)
-    if ($Param{AllHits} >= ($Param{StartHit}+$Param{SearchPageShown})) {
-        $Param{Results} = $Param{StartHit}."-".($Param{StartHit}+$Param{SearchPageShown}-1);
-    }
-    else {
-        $Param{Results} = "$Param{StartHit}-$Param{AllHits}";
-    }
-    # check total hits
-    if ($Limit == $Param{AllHits}) {
-       $Param{TotalHits} = "<font color=red>$Param{AllHits}</font>";
-    }
-    else {
-       $Param{TotalHits} = $Param{AllHits};
-    }
-    # build page nav bar
-    for (my $i = 1; $i <= $Pages; $i++) {
-        $Param{SearchNavBar} .= " <a href=\"$Self->{Baselink}Action=AgentUtilities&Subaction=".
-         "$Self->{Subaction}&StartHit=". ((($i-1)*$Param{SearchPageShown})+1);
-         foreach (@{$Param{WhatFields}}) {
-             $Param{SearchNavBar} .= "&What=$_";
-         }
-         foreach (@{$Param{SelectedStates}}) {
-             $Param{SearchNavBar} .= "&State=$_";
-         }
-         foreach (@{$Param{SelectedQueueIDs}}) {
-             $Param{SearchNavBar} .= "&QueueID=$_";
-         }
-         foreach (@{$Param{SelectedPriorityIDs}}) {
-             $Param{SearchNavBar} .= "&PriorityID=$_";
-         }
-         foreach (@{$Param{SelectedUserIDs}}) {
-             $Param{SearchNavBar} .= "&UserID=$_";
-         }
-         if ($Param{TicketNumber}) {
-             $Param{SearchNavBar} .= '&TicketNumber='.$Self->LinkEncode($Param{TicketNumber});
-         }
-         if ($Param{Want}) {
-             $Param{SearchNavBar} .= '&Want='.$Self->LinkEncode($Param{Want});
-         }
-         $Param{SearchNavBar} .= '">';
-         if ($Page == $i) {
-             $Param{SearchNavBar} .= '<b>'.($i).'</b>';
-         }
-         else {
-             $Param{SearchNavBar} .= ($i);
-         }
-         $Param{SearchNavBar} .= '</a> ';
-    }
-    # create & return output
-    return $Self->Output(TemplateFile => 'AgentUtilSearchNavBar', Data => \%Param);
 }
 # --
 sub AgentCompose {
