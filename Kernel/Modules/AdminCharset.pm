@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCharset.pm - to add/update/delete system charsets
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCharset.pm,v 1.2 2002-07-21 19:17:43 martin Exp $
+# $Id: AdminCharset.pm,v 1.3 2002-10-25 11:46:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminCharset;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -90,7 +90,7 @@ sub Run {
           " change_time = current_timestamp, change_by = $Self->{UserID} " .
           " WHERE id = $GetParam{ID}";
         if ($Self->{DBObject}->Do(SQL => $SQL)) { 
-            $Output .= $Self->{LayoutObject}->Redirect(OP => "&Action=$NextScreen");
+            $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=$NextScreen");
         }
         else {
         $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
@@ -117,7 +117,7 @@ sub Run {
 		" '$GetParam{Comment}', " .
 		" current_timestamp, $Self->{UserID}, current_timestamp, $Self->{UserID})";
         if ($Self->{DBObject}->Do(SQL => $SQL)) {        
-             $Output .= $Self->{LayoutObject}->Redirect(OP => "&Action=$NextScreen");
+             $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=$NextScreen");
         }
         else {
         $Output .= $Self->{LayoutObject}->Header(Title => 'Error');

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCustomer.pm - to set the ticket customer and show the customer history
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCustomer.pm,v 1.7 2002-10-03 17:29:23 martin Exp $
+# $Id: AgentCustomer.pm,v 1.8 2002-10-25 11:46:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentCustomer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -87,7 +87,7 @@ sub Run {
           # redirect
           # --
           if ($Self->{QueueID}) {
-             return $Self->{LayoutObject}->Redirect(OP => "&QueueID=$Self->{QueueID}");
+             return $Self->{LayoutObject}->Redirect(OP => "QueueID=$Self->{QueueID}");
           }
           else {
              return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreen});

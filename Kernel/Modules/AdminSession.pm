@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSession.pm - to control all session ids
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSession.pm,v 1.6 2002-10-03 21:08:23 martin Exp $
+# $Id: AdminSession.pm,v 1.7 2002-10-25 11:46:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminSession;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -68,13 +68,13 @@ sub Run {
     }
     # kill session id
     elsif ($Subaction eq 'Kill') {
-        $Output .= $Self->{LayoutObject}->Redirect(OP => "&Action=AdminSession");    
+        $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=AdminSession");    
         # FIXME
         $SessionObject->RemoveSessionID(SessionID => $WantSessionID);    
     }
     # kill all session id
     elsif ($Subaction eq 'KillAll') {
-        $Output .= $Self->{LayoutObject}->Redirect(OP => "&Action=AdminSession");    
+        $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=AdminSession");    
         # FIXME
         my @List = $SessionObject->GetAllSessionIDs();
         foreach my $SessionID (@List) {

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminLanguage.pm - to add/update/delete system language
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminLanguage.pm,v 1.4 2002-07-21 16:58:09 martin Exp $
+# $Id: AdminLanguage.pm,v 1.5 2002-10-25 11:46:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminLanguage;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -88,7 +88,7 @@ sub Run {
           " change_time = current_timestamp, change_by = $Self->{UserID} " .
           " WHERE id = $GetParam{ID}";
         if ($Self->{DBObject}->Do(SQL => $SQL)) { 
-            $Output .= $Self->{LayoutObject}->Redirect(OP => "&Action=$NextScreen");
+            $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=$NextScreen");
         }
         else {
           $Output = $Self->{LayoutObject}->Header(Title => 'Error');
@@ -115,7 +115,7 @@ sub Run {
 		" ('$GetParam{Name}', $GetParam{ValidID}, " .
 		" current_timestamp, $Self->{UserID}, current_timestamp, $Self->{UserID})";
         if ($Self->{DBObject}->Do(SQL => $SQL)) {        
-             return $Self->{LayoutObject}->Redirect(OP => "&Action=$NextScreen");
+             return $Self->{LayoutObject}->Redirect(OP => "Action=$NextScreen");
         }
         else {
             $Output = $Self->{LayoutObject}->Header(Title => 'Error');

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUser.pm,v 1.1 2002-10-15 09:30:15 martin Exp $
+# $Id: AdminCustomerUser.pm,v 1.2 2002-10-25 11:46:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $ ';
+$VERSION = '$Revision: 1.2 $ ';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -85,7 +85,7 @@ sub Run {
             # --
             # redirect
             # --
-            return $Self->{LayoutObject}->Redirect(OP => "&Action=$Param{NextScreen}");
+            return $Self->{LayoutObject}->Redirect(OP => "Action=$Param{NextScreen}");
         }
         else {
             my $Output = $Self->{LayoutObject}->Header();
@@ -114,7 +114,7 @@ sub Run {
             # redirect
             # --
             return $Self->{LayoutObject}->Redirect(
-                OP => "&Action=AdminCustomerUser",
+                OP => "Action=AdminCustomerUser",
             );
         }
         else {

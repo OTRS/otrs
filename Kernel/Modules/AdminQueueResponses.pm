@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueueResponses.pm - queue <-> responses
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueueResponses.pm,v 1.3 2002-07-21 17:21:00 martin Exp $
+# $Id: AdminQueueResponses.pm,v 1.4 2002-10-25 11:46:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminQueueResponses;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -122,7 +122,7 @@ sub Run {
                 " ( $ID, $_, current_timestamp, $UserID, current_timestamp, $UserID)";
                 $Self->{DBObject}->Do(SQL => $SQL);
         }
-        $Output .= $Self->{LayoutObject}->Redirect(OP => "&Action=$NextScreen");    
+        $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=$NextScreen");    
 
     }
     # standard_responses top queues
@@ -137,7 +137,7 @@ sub Run {
                 " ( $_, $ID, current_timestamp, $UserID, current_timestamp, $UserID)";
              $Self->{DBObject}->Do(SQL => $SQL);
         }
-        $Output .= $Self->{LayoutObject}->Redirect(OP => "&Action=$NextScreen");
+        $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=$NextScreen");
 
     }
     # else ! print form 

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGroup.pm - to add/update/delete groups 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminGroup.pm,v 1.5 2002-10-03 22:15:21 martin Exp $
+# $Id: AdminGroup.pm,v 1.6 2002-10-25 11:46:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use strict;
 use Kernel::System::Group;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -77,7 +77,7 @@ sub Run {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
         }
         if ($Self->{GroupObject}->GroupUpdate(%GetParam, UserID => $Self->{UserID})) {
-            return $Self->{LayoutObject}->Redirect(OP => "&Action=$Param{NextScreen}");
+            return $Self->{LayoutObject}->Redirect(OP => "Action=$Param{NextScreen}");
         }
         else {
             $Output = $Self->{LayoutObject}->Header();
@@ -98,7 +98,7 @@ sub Run {
         }
         if(my $Id = $Self->{GroupObject}->GroupAdd(%GetParam, UserID => $Self->{UserID})) {
              return $Self->{LayoutObject}->Redirect(
-                 OP => "&Action=AdminUserGroup&Subaction=Group&ID=$Id",
+                 OP => "Action=AdminUserGroup&Subaction=Group&ID=$Id",
              );
         }
         else {

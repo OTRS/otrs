@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPreferences.pm - provides agent preferences
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPreferences.pm,v 1.12 2002-10-25 00:01:32 martin Exp $
+# $Id: AgentPreferences.pm,v 1.13 2002-10-25 11:46:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPreferences;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -112,7 +112,7 @@ sub UpdatePw {
     if ($Pw eq $Pw1 && $Pw) {
         $Self->{UserObject}->SetPassword(UserLogin => $Self->{UserLogin}, PW => $Pw);
         $Output .= $Self->{LayoutObject}->Redirect(
-            OP => "&Action=AgentPreferences&What=1",
+            OP => "Action=AgentPreferences&What=1",
         );
     }
     else {
@@ -145,7 +145,7 @@ sub UpdateCustomQueues  {
         }
         # mk redirect
         $Output .= $Self->{LayoutObject}->Redirect(
-            OP => "&Action=AgentPreferences&What=1",
+            OP => "Action=AgentPreferences&What=1",
         );
     }
     else {
@@ -180,7 +180,7 @@ sub UpdateGeneric {
         );
         # mk rediect
         $Output .= $Self->{LayoutObject}->Redirect(
-            OP => "&Action=AgentPreferences&What=1",
+            OP => "Action=AgentPreferences&What=1",
         );
     }
     else {

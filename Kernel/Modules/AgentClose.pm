@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentClose.pm - to close a ticket
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentClose.pm,v 1.15 2002-10-03 17:29:23 martin Exp $
+# $Id: AgentClose.pm,v 1.16 2002-10-25 11:46:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentClose;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -219,7 +219,7 @@ sub Run {
             Lock => 'unlock'
           );
           if ($Self->{QueueID}) {
-             return $Self->{LayoutObject}->Redirect(OP => "&QueueID=$Self->{QueueID}");
+             return $Self->{LayoutObject}->Redirect(OP => "QueueID=$Self->{QueueID}");
           }
           else {
              return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreen});

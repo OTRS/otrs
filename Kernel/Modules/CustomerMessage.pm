@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerMessage.pm - to handle customer messages
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessage.pm,v 1.1 2002-10-20 15:40:29 martin Exp $
+# $Id: CustomerMessage.pm,v 1.2 2002-10-25 11:46:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -172,7 +172,7 @@ sub Run {
          # redirect to zoom view
          # --        
          return $Self->{LayoutObject}->Redirect(
-              OP => "&Action=$NextScreen&TicketID=$TicketID",
+              OP => "Action=$NextScreen&TicketID=$TicketID",
          );
       }
       else {
@@ -238,7 +238,7 @@ sub Run {
           # redirect
           # --
           return $Self->{LayoutObject}->Redirect(
-              OP => "&Action=$NextScreen&TicketID=$TicketID",
+              OP => "Action=$NextScreen&TicketID=$TicketID",
           );
       }
       else {

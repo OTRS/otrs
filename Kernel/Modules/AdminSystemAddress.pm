@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSystemAddress.pm - to add/update/delete system addresses 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSystemAddress.pm,v 1.5 2002-10-05 16:08:16 martin Exp $
+# $Id: AdminSystemAddress.pm,v 1.6 2002-10-25 11:46:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -75,7 +75,7 @@ sub Run {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
         }
         if ($Self->{SystemAddress}->SystemAddressUpdate(%GetParam, UserID => $Self->{UserID})) { 
-            $Output .= $Self->{LayoutObject}->Redirect(OP => "&Action=$NextScreen");
+            $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=$NextScreen");
         }
         else {
             $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
@@ -95,7 +95,7 @@ sub Run {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
         }
         if ($Self->{SystemAddress}->SystemAddressAdd(%GetParam, UserID => $Self->{UserID}) ) {
-             $Output .= $Self->{LayoutObject}->Redirect(OP => "&Action=$NextScreen");
+             $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=$NextScreen");
         }
         else {
             $Output .= $Self->{LayoutObject}->Header(Title => 'Error');

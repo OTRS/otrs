@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSalutation.pm - to add/update/delete salutations
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSalutation.pm,v 1.4 2002-07-21 17:22:15 martin Exp $
+# $Id: AdminSalutation.pm,v 1.5 2002-10-25 11:46:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminSalutation;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -86,7 +86,7 @@ sub Run {
   	" change_time = current_timestamp, change_by = $Self->{UserID} " .
 	" WHERE id = $GetParam{ID}";
         if ($Self->{DBObject}->Do(SQL => $SQL)) { 
-            $Output .= $Self->{LayoutObject}->Redirect(OP => "&Action=$Param{NextScreen}");
+            $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=$Param{NextScreen}");
         }
         else {
         $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
@@ -109,7 +109,7 @@ sub Run {
 		" ('$GetParam{Name}', $GetParam{ValidID}, '$GetParam{Comment}', '$GetParam{Salutation}', " .
 		" current_timestamp, $Self->{UserID}, current_timestamp, $Self->{UserID})";
         if ($Self->{DBObject}->Do(SQL => $SQL)) {        
-             $Output .= $Self->{LayoutObject}->Redirect(OP => "&Action=$Param{NextScreen}");
+             $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=$Param{NextScreen}");
         }
         else {
         $Output .= $Self->{LayoutObject}->Header(Title => 'Error');

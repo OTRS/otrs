@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerPreferences.pm - provides agent preferences
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerPreferences.pm,v 1.1 2002-10-20 15:40:29 martin Exp $
+# $Id: CustomerPreferences.pm,v 1.2 2002-10-25 11:46:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::CustomerPreferences;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -100,7 +100,7 @@ sub UpdatePw {
     if ($Pw eq $Pw1 && $Pw) {
         $Self->{UserObject}->SetPassword(UserLogin => $Self->{UserLogin}, PW => $Pw);
         $Output .= $Self->{LayoutObject}->Redirect(
-            OP => "&Action=CustomerPreferences",
+            OP => "Action=CustomerPreferences",
         );
     }
     else {
@@ -170,7 +170,7 @@ sub UpdateGeneric {
         );
         # mk rediect
         $Output .= $Self->{LayoutObject}->Redirect(
-            OP => "&Action=CustomerPreferences",
+            OP => "Action=CustomerPreferences",
         );
     }
     else {

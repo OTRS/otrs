@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentBounce.pm - to bounce articles of tickets 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBounce.pm,v 1.9 2002-10-24 23:59:52 martin Exp $
+# $Id: AgentBounce.pm,v 1.10 2002-10-25 11:46:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentBounce;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -312,7 +312,7 @@ sub Run {
         # redirect
         # --
         $Output .= $Self->{LayoutObject}->Redirect(
-            OP => "&Action=$NextScreen&QueueID=$Param{QueueID}&TicketID=$Self->{TicketID}",
+            OP => "Action=$NextScreen&QueueID=$Param{QueueID}&TicketID=$Self->{TicketID}",
         );
     }
     else {
