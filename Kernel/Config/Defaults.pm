@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.19 2003-01-09 17:48:27 martin Exp $
+# $Id: Defaults.pm,v 1.20 2003-01-12 09:56:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -371,7 +371,7 @@ sub LoadDefaults {
             fr => 'Français',
             bg => 'Bulgarian',
             fi => 'Suomi',
-#            es => 'Espaniol',
+            es => 'Espaniol',
 #            cs => 'Czech', 
 #            hu => 'Hungarian',
 #            pl => 'Polski',

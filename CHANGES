@@ -2,12 +2,16 @@
 # Changes of OTRS 
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.47 2003-01-10 00:01:22 martin Exp $
+# $Id: CHANGES,v 1.48 2003-01-12 09:56:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+1.0 RC2 (2003-01-??)
+ - (2003/01/12) added spanisch translation! Thanks to Jorge Becerra!
+ - (2003/01/11) fixed AgentPhone bug of Time() in subject - 
+    Time(DateFormatLong) was shown
 1.0 RC1 (2003-01-09)
  - (2003/01/09) added AgentTicketPrint (Ticket Print View)
  - (2003/01/09) improved Kernel::System::Ticket::IndexAccelerator::RuntimeDB
@@ -38,6 +42,8 @@
     with customers which don't have email addresses or your otrs system is 
     in your lan! 
  - (2002/12/18) added more error handling to AgentPhone
+ - (2002/12/15) added bin/PostMasterPOP3.pl and AdminPOP3 interface for 
+    fetching emails without procmail, fetchmail and MDA 
  - (2002/12/12) added finnish translation - Thanks to Antti Kämäräinen! 
  - (2002/12/08) added working PostMasterDaemon.pl and PostMasterClient.pl, 
     alternative to PostMaster.pl. How it works: If the PostMasterDaemon.pl 
