@@ -2,7 +2,7 @@
 # Kernel/System/SendAutoResponse.pm - send auto responses to customers
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SendAutoResponse.pm,v 1.3 2002-11-19 17:08:00 martin Exp $
+# $Id: SendAutoResponse.pm,v 1.4 2002-12-20 14:48:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use strict;
 use Kernel::System::EmailSend;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -85,6 +85,32 @@ sub Send {
         $From =~ s/( $)|(  $)//g;
         $Param{Body} =~ s/<OTRS_CUSTOMER_REALNAME>/$From/g;
     }
+
+    # --
+    # Arnold Ligtvoet - otrs@ligtvoet.org
+    # get OTRS_CUSTOMER_SUBJECT from body
+    # --
+    if ($Param{Body} =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/) {
+        my $TicketHook2 = $Self->{ConfigObject}->Get('TicketHook');
+        my $SubRep = $GetParam{Subject} || 'No Std. Subject found!';
+        my $SubjectChar = $1;
+        $SubRep =~ s/\[$TicketHook2: $Param{TicketNumber}\] //g;
+        $SubRep =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
+        $Param{Body} =~ s/<OTRS_CUSTOMER_SUBJECT\[.+?\]>/$SubRep/g;
+    }
+    
+    # --
+    # Arnold Ligtvoet - otrs@ligtvoet.org
+    # get OTRS_EMAIL_DATE from body and replace with received date
+    # --
+    use POSIX qw(strftime);
+    if ($Param{Body} =~ /<OTRS_EMAIL_DATE\[(.*)\]>/) {
+        my $EmailDate = strftime('%A, %B %e, %Y at %T ', localtime);
+        my $TimeZone = $1;
+        $EmailDate .= "($TimeZone)";
+        $Param{Body} =~ s/<OTRS_EMAIL_DATE\[.*\]>/$EmailDate/g;
+    }
+
     # --
     # check reply to
     # --
