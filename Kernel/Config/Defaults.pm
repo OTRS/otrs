@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.129 2004-05-02 10:47:32 martin Exp $
+# $Id: Defaults.pm,v 1.130 2004-05-02 11:28:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.129 $';
+$VERSION = '$Revision: 1.130 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -364,7 +364,13 @@ sub LoadDefaults {
     # this module will be used. This interface use useful to check
     # some user options or to redirect not accept new application 
     # news)
-#    $Self->{PreApplicationModule} = 'Kernel::Modules::AgentWorkingGroupSelection';
+#    $Self->{PreApplicationModule} = 'Kernel::Modules::AgentInfo';
+
+    # Kernel::Modules::AgentInfo check key, if this user preferences key 
+    # is true, then the message is already accepted
+#    $Self->{InfoKey} = 'wpt22';
+    # shown InfoFile located under Kernel/Output/HTML/Standard/AgentInfo.dtl
+#    $Self->{InfoFile} = 'AgentInfo';
 
     # --------------------------------------------------- #
     # LogModule                                           #
