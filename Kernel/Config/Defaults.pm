@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.78 2003-07-13 11:01:22 martin Exp $
+# $Id: Defaults.pm,v 1.79 2003-07-31 21:33:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.78 $';
+$VERSION = '$Revision: 1.79 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -291,6 +291,8 @@ sub LoadDefaults {
     # param for LogModule Kernel::System::Log::File (required!)
     $Self->{'LogModule::LogFile'} = '/tmp/otrs.log'; 
 
+    # system log cache size for admin system log (default 4k)
+#    $Self->{LogSystemCacheSize} = 4*1024;
     # --------------------------------------------------- #
     # web stuff                                           #
     # --------------------------------------------------- #
@@ -466,6 +468,7 @@ sub LoadDefaults {
             pt_BR => 'Portugu&ecirc;s Brasileiro',
             it => 'Italiano',
             ru => 'Russian',
+            jp => 'jp',
 #            cs => 'Czech', 
 #            hu => 'Hungarian',
 #            pl => 'Polski',
@@ -1631,7 +1634,8 @@ Your OTRS Notification Master
 #   $Self->{PhoneViewSelectionString} = 'Queue: <Queue> - <QueueComment>';
 #   $Self->{PhoneViewSelectionString} = '<Queue>';
     # use this for PhoneViewSelectionType = SystemAddress
-    $Self->{PhoneViewSelectionString} = '<Realname> <<Email>> - Queue: <Queue> - <QueueComment>';
+#    $Self->{PhoneViewSelectionString} = '<Realname> <<Email>> - Queue: <Queue> - <QueueComment>';
+    $Self->{PhoneViewSelectionString} = '<Realname> <<Email>> - Queue: <Queue>';
 
     # PhoneViewOwnSelection
     # (If this is in use, "just this selection is valid" for the PhoneView.)
