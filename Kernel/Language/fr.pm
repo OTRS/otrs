@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Nicolas Goralski <ngoralski at oceanet-technology.com>
 # Copyright (C) 2004 Yann Richard <ze at nawak-online.org>
 # --
-# $Id: fr.pm,v 1.30 2004-02-18 23:31:57 martin Exp $
+# $Id: fr.pm,v 1.31 2004-02-26 17:43:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -53,7 +53,7 @@ sub Data {
       'Cancel' => 'Annuler',
       'change' => 'modifier',
       'Change' => 'Modifier',
-      'change!' => 'modifier&nbsp;!',
+      'change!' => 'modifier !',
       'click here' => 'Cliquer ici',
       'Comment' => 'Commentaire',
       'Customer' => 'Client',
@@ -75,9 +75,9 @@ sub Data {
       'Examples' => 'Exemples',
       'Facility' => 'Facilité',
       'FAQ-Area' => 'Foire Aux Questions',
-      'Feature not active!' => 'Cette fonctionnalité n\'est pas activée&nbsp;!',
+      'Feature not active!' => 'Cette fonctionnalité n\'est pas activée !',
       'go' => 'aller',
-      'go!' => 'c\'est parti&nbsp;!',
+      'go!' => 'c\'est parti !',
       'Group' => 'Groupe',
       'Hit' => 'Hit',
       'Hits' => 'Hits',
@@ -85,7 +85,7 @@ sub Data {
       'hours' => 'heures',
       'Ignore' => 'Ignorer',
       'invalid' => 'invalide',
-      'Invalid SessionID!' => 'ID de Session Invalide&nbsp;!',
+      'Invalid SessionID!' => 'ID de Session Invalide !',
       'Language' => 'Langue',
       'Languages' => 'Langues',
       'last' => 'dernier',
@@ -102,14 +102,14 @@ sub Data {
       'Name' => 'Nom',
       'New Article' => 'Nouvel Article',
       'New message' => 'Nouveau message',
-      'New message!' => 'Nouveau message&nbsp;!',
+      'New message!' => 'Nouveau message !',
       'No' => 'Non',
       'no' => 'non',
-      'No entry found!' => 'Aucun résultat n\'a été trouvé&nbsp;!',
+      'No entry found!' => 'Aucun résultat n\'a été trouvé !',
       'No suggestions' => 'Pas de suggestions',
       'none' => 'aucun',
       'none - answered' => 'aucun - répondu',
-      'none!' => 'aucun&nbsp;!',
+      'none!' => 'aucun !',
       'Normal' => 'normal',
       'Off' => 'Éteint',
       'off' => 'éteint',
@@ -117,10 +117,10 @@ sub Data {
       'on' => 'allumé',
       'Password' => 'Mot de Passe',
       'Pending till' => 'En attendant jusqu\'à',
-      'Please answer this ticket(s) to get back to the normal queue view!' => 'Il faut répondre à ce(s) ticket(s) pour revenir à une vue normale de la file&nbsp;!',
+      'Please answer this ticket(s) to get back to the normal queue view!' => 'Il faut répondre à ce(s) ticket(s) pour revenir à une vue normale de la file !',
       'Please contact your admin' => 'Veuillez contacter votre admnistrateur',
-      'please do not edit!' => 'Ne pas modifier&nbsp;!',
-      'Please go away!' => 'Passez votre chemin&nbsp;!',
+      'please do not edit!' => 'Ne pas modifier !',
+      'Please go away!' => 'Passez votre chemin !',
       'possible' => 'possible',
       'Preview' => 'Aperçu',
       'QueueView' => 'Vue file',
@@ -135,7 +135,7 @@ sub Data {
       'Stats' => 'Statistiques',
       'Subfunction' => 'sous-fonction',
       'submit' => 'soumettre',
-      'submit!' => 'soumettre&nbsp;!',
+      'submit!' => 'soumettre !',
       'system' => 'système',
       'Take this User' => 'Prendre cet utilisateur',
       'Text' => 'Texte',
@@ -143,11 +143,11 @@ sub Data {
       'Theme' => 'Thème',
       'There is no account with that login name.' => 'Il n\'y a aucun compte avec ce nom de connexion',
       'Timeover' => 'Temp écoulé',
-      'To: (%s) replaced with database email!' => 'Le champ \'à\' (%s) a été remplacé avec la valeur de la base de données des e-mail&nbsp;!',
+      'To: (%s) replaced with database email!' => 'Le champ \'à\' (%s) a été remplacé avec la valeur de la base de données des e-mail !',
       'top' => 'haut',
       'update' => 'mettre à jour',
       'Update' => 'Mettre à jour',
-      'update!' => 'mettre à jour&nbsp;!',
+      'update!' => 'mettre à jour !',
       'User' => 'Utilisateur',
       'Username' => 'Nom d\'utilisateur',
       'Valid' => 'Valide',
@@ -159,9 +159,9 @@ sub Data {
       'year(s)' => 'année(s)',
       'yes' => 'oui',
       'Yes' => 'Oui',
-      'You got new message!' => 'Vous avez un nouveau message&nbsp;!',
-      'You have %s new message(s)!' => 'Vous avez %s nouveau(x) message(s)&nbsp;!',
-      'You have %s reminder ticket(s)!' => 'Vous avez %s rappel(s) de ticket(s)&nbsp;!',
+      'You got new message!' => 'Vous avez un nouveau message !',
+      'You have %s new message(s)!' => 'Vous avez %s nouveau(x) message(s) !',
+      'You have %s reminder ticket(s)!' => 'Vous avez %s rappel(s) de ticket(s) !',
 
     # Template: AAAMonth
       'Apr' => 'Avr',
@@ -190,7 +190,7 @@ sub Data {
       'New ticket notification' => 'Notification de nouveau ticket',
       'Other Options' => 'Autres options',
       'PhoneView' => 'Vue téléphone',
-      'Preferences updated successfully!' => 'Les préférences ont bien été mises à jours&nbsp;!',
+      'Preferences updated successfully!' => 'Les préférences ont bien été mises à jours !',
       'QueueView refresh time' => 'Temps de rafraîchissement de la vue des files',
       'Screen after new ticket' => 'Ecran après un nouveau ticket',
       'Select your default spelling dictionary.' => 'Sélectionnez votre correcteur orthographique par défaut',
@@ -263,10 +263,10 @@ sub Data {
       'State' => 'état',
       'Subject' => 'Sujet',
       'This is a' => 'Ceci est un',
-      'This is a HTML email. Click here to show it.' => 'Ceci est un message au format HTML&nbsp;; cliquer ici pour l\'afficher.',
+      'This is a HTML email. Click here to show it.' => 'Ceci est un message au format HTML ; cliquer ici pour l\'afficher.',
       'This message was written in a character set other than your own.' => 'Ce message a été &eaute;crit dans un jeu de caractères différent du v&ociric;tre.',
       'Ticket' => 'Ticket',
-      'Ticket "%s" created!' => 'Le ticket %s a été crée&nbsp;!',
+      'Ticket "%s" created!' => 'Le ticket %s a été crée !',
       'To' => 'à ',
       'to open it in a new window.' => 'L\'ouvrir dans une nouvelle fenêtre',
       'unlock' => 'déverrouiller',
@@ -333,7 +333,7 @@ sub Data {
     # Template: AdminEmail
       'Admin-Email' => 'Email de l\'administrateur',
       'Body' => 'Corps',
-      'OTRS-Admin Info!' => 'Information de l\'administrateur OTRS&nbsp;!',
+      'OTRS-Admin Info!' => 'Information de l\'administrateur OTRS !',
       'Recipents' => 'Récipients',
       'send' => 'envoyer',
 
@@ -380,10 +380,10 @@ sub Data {
       'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => 'Options du propriétaire d\'un ticket (ex: &lt;OTRS_OWNER_USERFIRSTNAME&gt;)',
 
     # Template: AdminPOP3Form
-      'All incoming emails with one account will be dispatched in the selected queue!' => 'Tout les mails entrants avec un compte seront répartis dans la file sélectionné&nbsp;!',
+      'All incoming emails with one account will be dispatched in the selected queue!' => 'Tout les mails entrants avec un compte seront répartis dans la file sélectionné !',
       'Dispatching' => 'Répartition',
       'Host' => 'Hôte',
-      'If your account is trusted, the x-otrs header (for priority, ...) will be used!' => 'Si votre compte est vérifié, les en-t&ecirc;tes x-otrs (pour les priorités,...) seront utilisés&nbsp;!',
+      'If your account is trusted, the x-otrs header (for priority, ...) will be used!' => 'Si votre compte est vérifié, les en-t&ecirc;tes x-otrs (pour les priorités,...) seront utilisés !',
       'Login' => 'S\'authentifier',
       'POP3 Account Management' => 'Gestion du compte POP3',
       'Trusted' => 'Vérifié',
@@ -437,7 +437,7 @@ sub Data {
 
     # Template: AdminResponseForm
       'A response is default text to write faster answer (with default text) to customers.' => 'Une réponse est un texte par défaut destiné à rédiger plus rapidement des réponses standard aux clients.',
-      'Don\'t forget to add a new response a queue!' => 'Ne pas oublier d\'ajouter une file à une nouvelle réponse&nbsp;!',
+      'Don\'t forget to add a new response a queue!' => 'Ne pas oublier d\'ajouter une file à une nouvelle réponse !',
       'Next state' => 'Etat suivant',
       'Response Management' => 'Gestion des réponses',
       'The current ticket state is' => 'L\'état actuel du ticket est',
@@ -476,16 +476,16 @@ sub Data {
       'See also' => 'Voir aussi',
       'State Type' => 'Type d\'état',
       'System State Management' => 'Gestion des états du système',
-      'Take care that you also updated the default states in you Kernel/Config.pm!' => 'Prennez garde de bien mettre à jour les états par défaut dans votre Kernelconfig.pm&nbsp;!',
+      'Take care that you also updated the default states in you Kernel/Config.pm!' => 'Prennez garde de bien mettre à jour les états par défaut dans votre Kernelconfig.pm !',
 
     # Template: AdminSystemAddressForm
-      'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Tous les courriels avec cette adresse en destinataire (à&nbsp;:) seront placés dans la file choisie&nbsp;!',
+      'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Tous les courriels avec cette adresse en destinataire (à :) seront placés dans la file choisie !',
       'Email' => 'Courrier électronique',
       'Realname' => 'Véritable Nom',
       'System Email Addresses Management' => 'Gestion des adresses courriel du système',
 
     # Template: AdminUserForm
-      'Don\'t forget to add a new user to groups!' => 'Ne pas oublier d\'ajouter un nouvel utilisateur aux groupes&nbsp;!',
+      'Don\'t forget to add a new user to groups!' => 'Ne pas oublier d\'ajouter un nouvel utilisateur aux groupes !',
       'Firstname' => 'Prénom',
       'Lastname' => 'Nom',
       'User Management' => 'Administration des utilisateurs',
@@ -515,19 +515,19 @@ sub Data {
       'This window must be called from compose window' => 'Cette fene&ecirc;tre doit &ecirc;tre appelé de la fen&ecirc;tre de composition',
 
     # Template: AgentBounce
-      'A message should have a To: recipient!' => 'Un message doit avoir un destinataire (à&nbsp;:)!',
+      'A message should have a To: recipient!' => 'Un message doit avoir un destinataire (à :)!',
       'Bounce ticket' => 'Renvoyer le ticket',
       'Bounce to' => 'Renvoyer à',
       'Inform sender' => 'Informer l\'emetteur',
       'Next ticket state' => 'Prochain état du ticket',
-      'Send mail!' => 'Envoyer le courriel&nbsp;!',
-      'You need a email address (e. g. customer@example.com) in To:!' => 'Il faut une adresse courriel (ecemple&nbsp;: client@exemple.fr)&nbsp;!',
+      'Send mail!' => 'Envoyer le courriel !',
+      'You need a email address (e. g. customer@example.com) in To:!' => 'Il faut une adresse courriel (ecemple : client@exemple.fr) !',
       'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Votre email avec le ticket numéro "<OTRS_TICKET> est renvoyer à "<OTRS_BOUNCE_TO>". Contactez cette adresse pour de plus amples renseignements',
 
     # Template: AgentClose
       ' (work units)' => ' Unité de travail',
-      'A message should have a body!' => 'Un message doit avoir un corp&nbsp;!',
-      'A message should have a subject!' => 'Un message doit avoir un sujet&nbsp;!',
+      'A message should have a body!' => 'Un message doit avoir un corp !',
+      'A message should have a subject!' => 'Un message doit avoir un sujet !',
       'Close ticket' => 'Ticket clos',
       'Close type' => 'Type de cloture',
       'Close!' => 'Clôture!',
@@ -539,7 +539,7 @@ sub Data {
       'You need to account time!' => '',
 
     # Template: AgentCompose
-      'A message must be spell checked!' => 'L\orthographe d\'un message doit être vérifié&nbsp;!',
+      'A message must be spell checked!' => 'L\orthographe d\'un message doit être vérifié !',
       'Attach' => 'Attaché',
       'Compose answer for ticket' => 'Composer une réponse pour le ticket',
       'for pending* states' => 'pour les états d\'attente',
@@ -620,7 +620,7 @@ sub Data {
 
     # Template: AgentNote
       'Add note to ticket' => 'Ajouter une note au ticket',
-      'Note!' => 'Note&nbsp;!',
+      'Note!' => 'Note !',
 
     # Template: AgentOwner
       'Change owner of ticket' => 'Changer le propriétaire du ticket',
@@ -629,7 +629,7 @@ sub Data {
     # Template: AgentPending
       'Pending date' => 'Date d\'attente',
       'Pending type' => 'Type d\'attente',
-      'Pending!' => 'En attente&nbsp;!',
+      'Pending!' => 'En attente !',
       'Set Pending' => 'Définir l\'attente',
 
     # Template: AgentPhone
@@ -682,8 +682,8 @@ sub Data {
       'Link to' => 'Lien vers',
 
     # Template: AgentTicketLocked
-      'Ticket locked!' => 'Ticket verrouillé&nbsp;!',
-      'Ticket unlock!' => 'Rendre le Ticket&nbsp;!',
+      'Ticket locked!' => 'Ticket verrouillé !',
+      'Ticket unlock!' => 'Rendre le Ticket !',
 
     # Template: AgentTicketPrint
       'by' => 'par',
@@ -716,7 +716,7 @@ sub Data {
     # Template: AgentUtilSearchByCustomerID
       'Customer history search' => 'recherche dans l\'historique client',
       'Customer history search (e. g. "ID342425").' => 'recherche dans l\'historique client (ex: "ID342425")',
-      'No * possible!' => 'Pas de * possible&nbsp;!',
+      'No * possible!' => 'Pas de * possible !',
 
     # Template: AgentUtilSearchNavBar
       'Change search options' => 'Changer les options de recherche',
@@ -848,11 +848,11 @@ sub Data {
     # Template: CustomerWarning
 
     # Template: Error
-      'Click here to report a bug!' => 'Cliquer ici pour signaler une anomalie&nbsp;!',
+      'Click here to report a bug!' => 'Cliquer ici pour signaler une anomalie !',
 
     # Template: FAQArticleDelete
       'FAQ Delete' => 'Effacer la FAQ',
-      'You really want to delete this article?' => 'Voulez vous vraiment effacer cet article&nbsp;?',
+      'You really want to delete this article?' => 'Voulez vous vraiment effacer cet article ?',
 
     # Template: FAQArticleForm
       'Comment (internal)' => 'Commentaire interne',
@@ -899,7 +899,7 @@ sub Data {
     # Template: InstallerFinish
       'Admin-User' => 'Administrateur',
       'After doing so your OTRS is up and running.' => 'Après avoir fait ceci votre OTRS est en service',
-      'Have a lot of fun!' => 'Amusez vous bien&nbsp;!',
+      'Have a lot of fun!' => 'Amusez vous bien !',
       'Restart your webserver' => 'Redemarrer votre serveur web',
       'Start page' => 'Page de départ',
       'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' => 'Pour pouvoir utiliser votre OTRS, vous devez entrer les commandes suivantes dans votre terminal en tant que root.',
@@ -923,13 +923,13 @@ sub Data {
       'OTRS DB Name' => 'Nom de la base OTRS',
       'OTRS DB Password' => 'Mot de passe de la base OTRS',
       'OTRS DB User' => 'Utilisateur de la base OTRS',
-      'your MySQL DB should have a root password! Default is empty!' => 'Votre base MySQL doit avoir un mot de passe root&nbsp;! Par défaut cela est vide&nbsp;!',
+      'your MySQL DB should have a root password! Default is empty!' => 'Votre base MySQL doit avoir un mot de passe root ! Par défaut cela est vide !',
 
     # Template: InstallerSystem
       '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Verifie les enregistrements MX des adresse email utilisés lors de la composition d\'une réponse. N\'utilisez pas la "Vérification des enregistrements MX" si votre serveur OTRS est derriere une ligne modem $!',
       '(Email of the system admin)' => '(Email de l\'administrateur système)',
       '(Full qualified domain name of your system)' => '(Nom de domaine complet de votre machine)',
-      '(Logfile just needed for File-LogModule!)' => '(fichier de log nécessaire pour le Module File-Log&nbsp;!)',
+      '(Logfile just needed for File-LogModule!)' => '(fichier de log nécessaire pour le Module File-Log !)',
       '(The identify of the system. Each ticket number and each http session id starts with this number)' => '(L\'identité du système. Chaque numéro de ticket et chaque id de session http dé avec ce nombre)',
       '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Identificateur des tickets. Certaines personnes veulent le configurer avec par ex: \'Ticket#\', \'Appel#\' ou \'MonTicket#\')',
       '(Used default language)' => '(Langage par défaut utilisé)',
@@ -945,7 +945,7 @@ sub Data {
       'SystemID' => 'ID Système',
       'Ticket Hook' => '',
       'Ticket Number Generator' => 'Générateur de numéro pour les tickets',
-      'Use utf-8 it your database supports it!' => 'Utilisez UTF-8 si votre base de donnée le supporte&nbsp;!',
+      'Use utf-8 it your database supports it!' => 'Utilisez UTF-8 si votre base de donnée le supporte !',
       'Webfrontend' => 'Frontal web',
 
     # Template: Login
@@ -978,7 +978,7 @@ sub Data {
       'OTRS Test Page' => 'Page de test d\'OTRS',
 
     # Template: TicketEscalation
-      'Ticket escalation!' => 'Remontée du ticket&nbsp;!',
+      'Ticket escalation!' => 'Remontée du ticket !',
 
     # Template: TicketView
 
@@ -988,13 +988,13 @@ sub Data {
     # Template: Warning
 
     # Misc
-      'A message should have a From: recipient!' => 'Un message devrait avoir un champ From:&nbsp;!',
+      'A message should have a From: recipient!' => 'Un message devrait avoir un champ From: !',
       'AgentFrontend' => 'Interface du technicien',
       'Article free text' => 'Texte dans l\'article',
       'Charset' => 'Jeu de caractère',
       'Charsets' => 'Jeux de caractères',
       'Create' => 'Créer',
-      'Feature not activ!' => 'Fonctionalité non active&nbsp;!',
+      'Feature not activ!' => 'Fonctionalité non active !',
       'Fulltext search' => 'Recherche inégrale de texte',
       'Fulltext search (e. g. "Mar*in" or "Baue*" or "martin+hallo")' => 'Recherche intégral de texte (ex: "Mar*in" ou "Constru*" ou "martin+bonjour")',
       'New state' => 'Nouvel état',
@@ -1012,8 +1012,8 @@ sub Data {
       'Time till escalation' => 'Durée avant la remontée du ticket',
       'Users' => 'Utilisateurs',
       'With State' => 'Avec l\'état',
-      'You have to be in the admin group!' => 'Il est nécessaire d\'être dans le groupe d\'administration&nbsp;!',
-      'You have to be in the stats group!' => 'Il est nécessaire d\'être dans le groupe des statistiques&nbsp;!',
+      'You have to be in the admin group!' => 'Il est nécessaire d\'être dans le groupe d\'administration !',
+      'You have to be in the stats group!' => 'Il est nécessaire d\'être dans le groupe des statistiques !',
       'You need a email address (e. g. customer@example.com) in From:!' => 'Vous devez avoir une adresse email dans le From:! (ex: client@example.com) ',
       'auto responses set' => 'Réponse automatique positionnée',
       'search' => 'Recherche',
