@@ -1,8 +1,8 @@
 # --
-# AgentPlain.pm - to get a plain view
+# Kernel/Modules/AgentPlain.pm - to get a plain view
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPlain.pm,v 1.6 2002-07-13 03:29:24 martin Exp $
+# $Id: AgentPlain.pm,v 1.7 2002-07-13 12:21:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPlain;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -62,10 +62,6 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Error(
             Message => "No ArticleID!",
             Comment => 'Please contact your admin'
-        );
-        $Self->{LogObject}->Log(
-            Message => "No ArticleID!",
-            Priority => 'error',
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;

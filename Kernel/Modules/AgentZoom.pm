@@ -2,7 +2,7 @@
 # AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.11 2002-07-02 08:49:16 martin Exp $
+# $Id: AgentZoom.pm,v 1.12 2002-07-13 12:21:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentZoom;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -55,22 +55,50 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-    my $TicketID = $Self->{TicketID};
-    my $QueueID = $Self->{TicketObject}->GetQueueIDOfTicketID(TicketID => $TicketID);
-    my $UserID = $Self->{UserID};
+    my $QueueID = $Self->{TicketObject}->GetQueueIDOfTicketID(TicketID => $Self->{TicketID});
+
+    # --
+    # check needed stuff
+    # --
+    if (!$Self->{TicketID}) {
+      # --
+      # error page
+      # --
+      $Output = $Self->{LayoutObject}->Header(Title => 'Error');
+      $Output .= $Self->{LayoutObject}->Error(
+          Message => "Can't show history, no TicketID is given!",
+          Comment => 'Please contact the admin.',
+      );
+      $Output .= $Self->{LayoutObject}->Footer();
+      return $Output;
+    }
+    # --
+    # check permissions
+    # --
+    if (!$Self->{TicketObject}->Permission(
+        TicketID => $Self->{TicketID},
+        UserID => $Self->{UserID})) {
+        # --
+        # error screen, don't show ticket
+        # --
+        return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
+    }  
+
+
+    my @NotShownArticleTypes = (qw(email-notification-int)); 
     # fetch all queues
     my %MoveQueues = ();
     if ($Self->{ConfigObject}->Get('MoveInToAllQueues')) {
         %MoveQueues = $Self->{QueueObject}->GetAllQueues();
     }
     else {
-        %MoveQueues = $Self->{QueueObject}->GetAllQueues(UserID => $UserID);
+        %MoveQueues = $Self->{QueueObject}->GetAllQueues(UserID => $Self->{UserID});
     }
     # fetch all std. responses
     my %StdResponses = $Self->{QueueObject}->GetStdResponses(QueueID => $QueueID);
     
     my %Ticket;
-    $Ticket{TicketID} = $TicketID;
+    $Ticket{TicketID} = $Self->{TicketID};
     $Ticket{Age} = '?';
     $Ticket{TmpCounter} = 0;
     $Ticket{FreeKey1} = '';
@@ -94,8 +122,6 @@ sub Run {
     " $Self->{ConfigObject}->{DatabaseUserTable} su, ticket_lock_type sl, " .
     " ticket_priority sp, ticket_state tsd, queue sq " .
     " WHERE " .
-    " sa.ticket_id = $TicketID " .
-    " AND " .
     " sa.ticket_id = st.id " .
     " AND " .
     " sq.id = st.queue_id " .
@@ -104,13 +130,17 @@ sub Run {
     " AND " .
     " at.id = sa.article_type_id " .
     " AND " .
-    " su.$Self->{ConfigObject}->{DatabaseUserTableUserID} = st.user_id " .
-    " AND " .
     " sp.id = st.ticket_priority_id " .
     " AND " .
     " sl.id = st.ticket_lock_id " .
     " AND " .
     " tsd.id = st.ticket_state_id " .
+    " AND " .
+    " sa.ticket_id = $Self->{TicketID} " .
+    " AND " .
+    " su.$Self->{ConfigObject}->{DatabaseUserTableUserID} = st.user_id " .
+    " AND " .
+    " at.name NOT IN ('${\(join '\', \'', @NotShownArticleTypes)}') " .
     " GROUP BY sa.id, st.tn, sa.a_from, sa.a_to, sa.a_cc, sa.a_subject, sa.a_body, ".
     " st.create_time_unix, st.tn, st.user_id, st.ticket_state_id, st.ticket_priority_id, ".
     " sa.create_time, stt.name, at.name, ".
@@ -172,7 +202,6 @@ sub Run {
         if ($$Data{a_content_type} && $$Data{a_content_type} =~ /^(.+?\/.+?)( |;)/i) {
             $Article{MimeType} = $1;
         }
-
         push (@ArticleBox, \%Article);
     }
    
@@ -180,49 +209,38 @@ sub Run {
     # genterate output
     # --
     $Output .= $Self->{LayoutObject}->Header(Title => "Zoom Ticket $Ticket{TicketNumber}");
-    my %LockedData = $Self->{UserObject}->GetLockedCount(UserID => $UserID);
+    my %LockedData = $Self->{UserObject}->GetLockedCount(UserID => $Self->{UserID});
     $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
 
     # --
-    # check permissions
+    # show ticket
     # --
-    if ($Self->{TicketObject}->Permission(
-        TicketID => $TicketID,
-        UserID => $Self->{UserID})) {
-        # --
-        # show ticket
-        # --
-        if ($Self->{Subaction} eq 'ShowHTMLeMail') {
-            $Ticket{ShowHTMLeMail} = 1;
-            $Output = '';
-        }
-        $Output .= $Self->{LayoutObject}->TicketZoom(
-            TicketID => $TicketID,
-            QueueID => $QueueID,
-            MoveQueues => \%MoveQueues,
-            StdResponses => \%StdResponses,
-            ArticleBox => \@ArticleBox,
-            ArticleID => $Self->{ArticleID},
-            %Ticket
-        );
-        # --
-        # return if HTML email
-        # --
-        if ($Self->{Subaction} eq 'ShowHTMLeMail') {
-            $Ticket{ShowHTMLeMail} = 1;
-            return $Output;
-        }
+    if ($Self->{Subaction} eq 'ShowHTMLeMail') {
+        # if it is a html email, drop normal header
+        $Ticket{ShowHTMLeMail} = 1;
+        $Output = '';
     }
-    else {
-        # --
-        # error screen, don't show ticket
-        return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
-    } 
-   
+    $Output .= $Self->{LayoutObject}->TicketZoom(
+        TicketID => $Self->{TicketID},
+        QueueID => $QueueID,
+        MoveQueues => \%MoveQueues,
+        StdResponses => \%StdResponses,
+        ArticleBox => \@ArticleBox,
+        ArticleID => $Self->{ArticleID},
+        %Ticket
+    );
+    # --
+    # return if HTML email
+    # --
+    if ($Self->{Subaction} eq 'ShowHTMLeMail') {
+        # if it is a html email, return here
+        $Ticket{ShowHTMLeMail} = 1;
+        return $Output;
+    }
     # add footer 
     $Output .= $Self->{LayoutObject}->Footer();
 
-    # return outpu
+    # return output
     return $Output;
 }
 # --

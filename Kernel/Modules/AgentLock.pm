@@ -1,8 +1,8 @@
 # --
-# AgentLock.pm - to set or unset a lock for tickets
+# Kernel/Modules/AgentLock.pm - to set or unset a lock for tickets
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentLock.pm,v 1.3 2002-07-12 23:01:20 martin Exp $
+# $Id: AgentLock.pm,v 1.4 2002-07-13 12:21:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentLock;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -49,51 +49,79 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-    my $TicketID = $Self->{TicketID};
     my $QueueID = $Self->{QueueID};
-    my $Lock = 'lock';
-    my $UnLock = 'unlock';
-    my $Subaction = $Self->{Subaction};
     my $NextScreen = $Self->{NextScreen} || '';
-    my $UserID = $Self->{UserID};
-    my $UserLogin = $Self->{UserLogin};
-    
-    if (!$TicketID) {
-        $Output .= $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->Error(
-            Message => 'No TicketID!!',
-            Comment => 'Please contact your admin');
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            MSG => 'No TicketID found!!',
-        );
-        $Output .= $Self->{LayoutObject}->Footer();
+
+    # --
+    # check needed stuff
+    # --
+    if (!$Self->{TicketID}) {
+      # --
+      # error page
+      # --
+      $Output = $Self->{LayoutObject}->Header(Title => 'Error');
+      $Output .= $Self->{LayoutObject}->Error(
+          Message => "Can't lock Ticket, no TicketID is given!",
+          Comment => 'Please contact the admin.',
+      );
+      $Output .= $Self->{LayoutObject}->Footer();
+      return $Output;
     }
-    # do some selects ....
-    else {
-        if ($Subaction eq 'Unlock') {
-            $Lock = $UnLock;
+    # --
+    # check permissions
+    # --
+    if (!$Self->{TicketObject}->Permission(
+        TicketID => $Self->{TicketID},
+        UserID => $Self->{UserID})) {
+        # -- 
+        # error screen, don't show ticket
+        # --
+        return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
+    }
+
+    # --
+    # start with actions
+    # --
+    if ($Self->{Subaction} eq 'Unlock') {
+        # set unlock
+        if ($Self->{TicketObject}->SetLock(
+          TicketID => $Self->{TicketID},
+          Lock => 'unlock',
+          UserID => $Self->{UserID},
+        )) {
+          # mk redirekt
+          return $Self->{LayoutObject}->Redirect(OP => "&Action=$NextScreen&QueueID=$QueueID");
         }
+        else {
+          $Output = $Self->{LayoutObject}->Header(Title => 'Error');
+          $Output .= $Self->{LayoutObject}->Error();
+          $Output .= $Self->{LayoutObject}->Footer();
+          return $Output;
+        } 
+    }
+    elsif ($Self->{Subaction} eq 'Lock') {
         # set lock
-        $Self->{TicketObject}->SetLock(
-            TicketID => $TicketID,
-            Lock => $Lock,
-            UserID => $UserID,
-        );
-        if ($Subaction ne 'Unlock') {
-	        # set user id
-    	    $Self->{TicketObject}->SetOwner(
-        	    TicketID => $TicketID,
-	            UserID => $UserID,
-	            NewUserID => $UserID,
-        	);
+        if ($Self->{TicketObject}->SetLock(
+          TicketID => $Self->{TicketID},
+          Lock => 'lock',
+          UserID => $Self->{UserID},
+        ) &&
+	    # set user id
+    	$Self->{TicketObject}->SetOwner(
+            TicketID => $Self->{TicketID},
+	        UserID => $Self->{UserID},
+	        NewUserID => $Self->{UserID},
+        )) {
+          # mk redirekt
+          return $Self->{LayoutObject}->Redirect(OP => "&Action=$NextScreen&QueueID=$QueueID");
         }
-        # mk redirect
-        $Output .= $Self->{LayoutObject}->Redirect(
-            OP => "&Action=$NextScreen&QueueID=$QueueID",
-        );
+        else {
+          $Output = $Self->{LayoutObject}->Header(Title => 'Error');
+          $Output .= $Self->{LayoutObject}->Error();
+          $Output .= $Self->{LayoutObject}->Footer();
+          return $Output;
+        } 
     }
-    return $Output;
 }
 # --
 

@@ -1,8 +1,8 @@
 # --
-# AgentMove.pm - move tickets to queues 
+# Kernel/Modules/AgentMove.pm - move tickets to queues 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMove.pm,v 1.3 2002-07-13 03:28:37 martin Exp $
+# $Id: AgentMove.pm,v 1.4 2002-07-13 12:21:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentMove;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -46,46 +46,59 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-	
-    if (!$Self->{DestQueueID}) {
-        $Output .= $Self->{LayoutObject}->Header(Title => "Error");
+
+    # --
+    # check needed stuff
+    # --
+    foreach (qw(DestQueueID TicketID)) {
+      if (!$Self->{$_}) {
+        # --
+        # error page
+        # --
+        $Output = $Self->{LayoutObject}->Header(Title => 'Error');
         $Output .= $Self->{LayoutObject}->Error(
-                Message => 'No DestQueueID!!',
-                Comment => 'Please contact your admin',
+          Message => "Need $_!",
+          Comment => 'Please contact the admin.',
         );
         $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
+      }
     }
-    elsif (!$Self->{TicketID}) {
-        $Output .= $Self->{LayoutObject}->Header(Title => "Error");
-        $Output .= $Self->{LayoutObject}->Error(
-                Message => 'No TicketID!!',
-                Comment => 'Please contact your admin',
-        );
-        $Output .= $Self->{LayoutObject}->Footer();
+    # --
+    # check permissions
+    # --
+    if (!$Self->{TicketObject}->Permission(
+        TicketID => $Self->{TicketID},
+        UserID => $Self->{UserID})) {
+        # --
+        # error screen, don't show ticket
+        # --
+        return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
     }
-    else {
-        # update
-        if ($Self->{TicketObject}->MoveByTicketID(
+
+    # --	
+    # move queue
+    # --
+    if ($Self->{TicketObject}->MoveByTicketID(
           QueueID => $Self->{DestQueueID},
           UserID => $Self->{UserID},
           TicketID => $Self->{TicketID},
-          ) ) {
-           # redirect 
-           $Output .= $Self->{LayoutObject}->Redirect(
+      ) ) {
+        # redirect 
+        return $Self->{LayoutObject}->Redirect(
             OP => "&Action=AgentQueueView&QueueID=$Self->{QueueID}",
-           );
-        }
-        else {
-          # error?!
-          $Output = $Self->{LayoutObject}->Header(Title => "Error");
-	      $Output .= $Self->{LayoutObject}->Error(
-                Message => "Error! Can't update queue for ticket id $Self->{TicketID}!",
-                Comment => 'Please contact your admin',
-          );
-          $Output .= $Self->{LayoutObject}->Footer();
-        }
+        );
     }
-    return $Output;
+    else {
+        # error?!
+        $Output = $Self->{LayoutObject}->Header(Title => "Error");
+	    $Output .= $Self->{LayoutObject}->Error(
+          Message => "Can't move TicketID '$Self->{TicketID}'!",
+          Comment => 'Please contact your admin',
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
+    }
 }
 # --
 

@@ -1,8 +1,8 @@
 # --
-# AgentForward.pm - to forward a message
+# Kernel/Modules/AgentForward.pm - to forward a message
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentForward.pm,v 1.5 2002-07-13 03:28:04 martin Exp $
+# $Id: AgentForward.pm,v 1.6 2002-07-13 12:21:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentForward;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -55,7 +55,34 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-    
+   
+    # --
+    # check needed stuff
+    # --
+    if (!$Self->{TicketID}) {
+      # --
+      # error page
+      # --
+      $Output = $Self->{LayoutObject}->Header(Title => 'Error');
+      $Output .= $Self->{LayoutObject}->Error(
+          Message => "Can't forward ticket, no TicketID is given!",
+          Comment => 'Please contact the admin.',
+      );
+      $Output .= $Self->{LayoutObject}->Footer();
+      return $Output;
+    }
+    # --
+    # check permissions
+    # --
+    if (!$Self->{TicketObject}->Permission(
+        TicketID => $Self->{TicketID},
+        UserID => $Self->{UserID})) {
+        # --
+        # error screen, don't show ticket
+        # --
+        return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
+    }
+
     if ($Self->{Subaction} eq 'SendEmail') {
         $Output = $Self->SendEmail();
     }
@@ -72,19 +99,9 @@ sub Form {
     my $TicketID = $Self->{TicketID};
     my $UserID = $Self->{UserID};
     my $UserLogin = $Self->{UserLogin};
-  
+ 
     # start with page ...
     $Output .= $Self->{LayoutObject}->Header();
- 
-    # check needed stuff
-    if (!$TicketID) {
-        $Output .= $Self->{LayoutObject}->Error(
-            Message => "Got no TicketID!",
-            Comment => 'System Error!',
-        );
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
-    }
  
     my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $TicketID);
     my $QueueID = $Self->{TicketObject}->GetQueueIDOfTicketID(TicketID => $TicketID);

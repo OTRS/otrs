@@ -1,8 +1,8 @@
 # --
-# AgentZoom.pm - to get a closer view
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Kernel/Modules/AgentClose.pm - to close a ticket
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentClose.pm,v 1.9 2002-07-13 03:28:04 martin Exp $
+# $Id: AgentClose.pm,v 1.10 2002-07-13 12:21:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentClose;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -60,6 +60,34 @@ sub Run {
     my $BackScreen = $Self->{BackScreen} || '';
     my $UserID    = $Self->{UserID};
     my $UserLogin = $Self->{UserLogin};
+
+    # --
+    # check needed stuff
+    # --
+    if (!$Self->{TicketID}) {
+      # --
+      # error page
+      # --
+      $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
+      $Output .= $Self->{LayoutObject}->Error(
+          Message => "Can't close Ticket, no TicketID is given!",
+          Comment => 'Please contact the admin.',
+      );
+      $Output .= $Self->{LayoutObject}->Footer();
+      return $Output;
+    }
+    # --
+    # check permissions
+    # --
+    if (!$Self->{TicketObject}->Permission(
+        TicketID => $Self->{TicketID},
+        UserID => $Self->{UserID})) {
+        # --
+        # error screen, don't show ticket
+        # --
+        return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
+    }
+
     
     my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $TicketID);
     

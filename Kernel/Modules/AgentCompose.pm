@@ -2,7 +2,7 @@
 # AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.16 2002-07-12 23:01:20 martin Exp $
+# $Id: AgentCompose.pm,v 1.17 2002-07-13 12:21:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentCompose;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -253,11 +253,11 @@ sub SendEmail {
         DBObject => $Self->{DBObject},
         ArticleObject => $Self->{ArticleObject},
         ArticleType => 'email-external',
-        ArticleSenderType => 'agent',
+        SenderType => 'agent',
         TicketID => $TicketID,
         TicketObject => $Self->{TicketObject},
         HistoryType => 'SendAnswer',
-
+        HistoryComment => "Sent email to '$Self->{To}'.",
         From => $Self->{From},
         Email => $Self->{Email},
         To => $Self->{To},
@@ -307,7 +307,9 @@ sub SendEmail {
       return $Output;
     }
     else {
-      # start with page ...
+      # --
+      # error page
+      # --
       $Output .= $Self->{LayoutObject}->Header(Title => 'Compose');
       $Output .= $Self->{LayoutObject}->Error(
           Message => "Can't send email!",

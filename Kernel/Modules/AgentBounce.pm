@@ -1,8 +1,8 @@
 # --
-# AgentBounce.pm - to bounce articles of tickets 
+# Kernel/Modules/AgentBounce.pm - to bounce articles of tickets 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBounce.pm,v 1.3 2002-07-12 23:01:20 martin Exp $
+# $Id: AgentBounce.pm,v 1.4 2002-07-13 12:21:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentBounce;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -53,7 +53,6 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-
     my $NextScreen = $Self->{NextScreen} || '';
     my $BackScreen = $Self->{BackScreen};
     my $UserID = $Self->{UserID};
@@ -73,7 +72,18 @@ sub Run {
             return $Output;
         }
     }
- 
+    # --
+    # check permissions
+    # --
+    if (!$Self->{TicketObject}->Permission(
+        TicketID => $Self->{TicketID},
+        UserID => $Self->{UserID})) {
+        # --
+        # error screen, don't show ticket
+        # --
+        return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
+    }
+
     $Param{TicketNumber} = $Self->{TicketObject}->GetTNOfId(ID => $Self->{TicketID});
     $Param{QueueID} = $Self->{TicketObject}->GetQueueIDOfTicketID(TicketID => $Self->{TicketID});
     # --
@@ -83,7 +93,6 @@ sub Run {
         QueueID => $Param{QueueID},
         DBObject => $Self->{DBObject}
     );
-
 
     if ($Self->{Subaction} eq '' || !$Self->{Subaction}) {
         $Output .= $Self->{LayoutObject}->Header(Title => 'Bounce');
@@ -219,7 +228,7 @@ sub Run {
             LogObject => $Self->{LogObject},
             DBObject => $Self->{DBObject},
         );
-        $EmailObject->Bounce(
+        if (!$EmailObject->Bounce(
             EmailPlain => $Param{EmailPlain},
             TicketObject => $Self->{TicketObject},
             TicketID => $Self->{TicketID},
@@ -229,22 +238,31 @@ sub Run {
             From => $Param{From},
             Email => $Param{Email},
             HistoryType => 'SendAnswer',
-        );
+        )) {
+           # error page 
+           $Output = $Self->{LayoutObject}->Header(Title => 'Error');
+           $Output .= $Self->{LayoutObject}->Error(
+               Message => "Can't bounce email!",
+               Comment => 'Please contact the admin.',
+           );
+           $Output .= $Self->{LayoutObject}->Footer();
+           return $Output;
+        }
         # --       
         # send customer info?
         # --
         if ($Param{InformSender}) {
             $Param{Body} =~ s/<OTRS_TICKET>/$Param{TicketNumber}/g;
             $Param{Body} =~ s/<OTRS_BOUNCE_TO>/$Param{BounceTo}/g;
-            my $ArticleID = $EmailObject->Send(
+            if (my $ArticleID = $EmailObject->Send(
               DBObject => $Self->{DBObject},
               ArticleObject => $Self->{ArticleObject},
               ArticleType => 'email-external',
-              ArticleSenderType => 'agent',
+              SenderType => 'agent',
               TicketID => $Self->{TicketID},
               TicketObject => $Self->{TicketObject},
-              HistoryType => 'SendAnswer',
-
+              HistoryType => 'Bounce',
+              HistoryComment => "Bounced to '$Param{To}'.",
               From => $Param{From},
               Email => $Param{Email},
               To => $Param{To},
@@ -252,20 +270,30 @@ sub Run {
               UserID => $Self->{UserID},
               Body => $Param{Body},
               Charset => $Self->{UserCharset},
-            );
+            )) {
+              ###
+            }
+            else {
+              # error page 
+              $Output = $Self->{LayoutObject}->Header(Title => 'Error');
+              $Output .= $Self->{LayoutObject}->Error(
+                Message => "Can't send email!",
+                Comment => 'Please contact the admin.',
+              );
+              $Output .= $Self->{LayoutObject}->Footer();
+              return $Output;
+            }
         }
         # --
         # set state
         # --
         my $NextState = $Self->{TicketObject}->StateIDLookup(StateID => $Param{BounceStateID});
-        if ($Self->{TicketObject}->GetState(TicketID => $Self->{TicketID})  ne $NextState) {
-          $Self->{TicketObject}->SetState(
+        $Self->{TicketObject}->SetState(
             TicketID => $Self->{TicketID},
             ArticleID => $Self->{ArticleID},
             State => $NextState,
             UserID => $Self->{UserID},
           );
-        }
         # --
         # should i set an unlock?
         # --

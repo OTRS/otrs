@@ -1,8 +1,8 @@
 # --
-# AgentHistory.pm - to add notes to a ticket 
+# Kernel/Modules/AgentHistory.pm - to add notes to a ticket 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentHistory.pm,v 1.4 2002-06-08 18:22:14 martin Exp $
+# $Id: AgentHistory.pm,v 1.5 2002-07-13 12:21:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentHistory;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -58,11 +58,36 @@ sub Run {
     my $BackScreen = $Self->{BackScreen};
     my $UserID = $Self->{UserID};
     my $UserLogin = $Self->{UserLogin};
-    
-    my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $TicketID);
-    
+   
+    # --
+    # check needed stuff
+    # --
+    if (!$Self->{TicketID}) {
+      # --
+      # error page
+      # --
+      $Output = $Self->{LayoutObject}->Header(Title => 'Error');
+      $Output .= $Self->{LayoutObject}->Error(
+          Message => "Can't show history, no TicketID is given!",
+          Comment => 'Please contact the admin.',
+      );
+      $Output .= $Self->{LayoutObject}->Footer();
+      return $Output;
+    } 
+    # --
+    # check permissions
+    # --
+    if (!$Self->{TicketObject}->Permission(
+        TicketID => $Self->{TicketID},
+        UserID => $Self->{UserID})) {
+        # --
+        # error screen, don't show ticket
+        # --
+        return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
+    }
+ 
     if ($Subaction eq '' || !$Subaction) {
-        # print 
+        # build header
         $Output .= $Self->{LayoutObject}->Header(Title => 'History');
         my %LockedData = $Self->{UserObject}->GetLockedCount(UserID => $UserID);
         # build NavigationBar 
@@ -83,7 +108,8 @@ sub Run {
         " sh.create_by = su.$Self->{ConfigObject}->{DatabaseUserTableUserID}" .
         " AND " .
         " ht.id = sh.history_type_id" .
-        " ORDER BY create_time";
+        " ORDER BY sh.id";
+#        " ORDER BY create_time";
         $Self->{DBObject}->Prepare(SQL => $SQL);
         while (my $Data = $Self->{DBObject}->FetchrowHashref() ) {
           my %Data;
@@ -107,14 +133,6 @@ sub Run {
           Data => \@Lines,
         );
         # add footer
-        $Output .= $Self->{LayoutObject}->Footer();
-    }
-    else {
-        $Output .= $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->Error(
-            MSG => 'No Subaction!!',
-            REASON => 'Please contact your admin',
-        );
         $Output .= $Self->{LayoutObject}->Footer();
     }
     return $Output;
