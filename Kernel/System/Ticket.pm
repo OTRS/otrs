@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.153 2004-11-28 11:17:44 martin Exp $
+# $Id: Ticket.pm,v 1.154 2004-12-06 22:23:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -30,7 +30,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.153 $';
+$VERSION = '$Revision: 1.154 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -586,7 +586,7 @@ sub TicketGet {
         " st.freekey3, st.freetext3, st.freekey4, st.freetext4,".
         " st.freekey5, st.freetext5, st.freekey6, st.freetext6,".
         " st.freekey7, st.freetext7, st.freekey8, st.freetext8, ".
-        " st.change_time, st.title, st.escalation_start_time ".
+        " st.change_time, st.title, st.escalation_start_time, st.timeout ".
         " FROM ".
         " ticket st, ticket_priority sp, ".
         " queue sq, $Self->{ConfigObject}->{DatabaseUserTable} su ".
@@ -614,6 +614,7 @@ sub TicketGet {
         $Ticket{Created} = $Self->{TimeObject}->SystemTime2TimeStamp(SystemTime => $Row[7]);
         $Ticket{Changed} = $Row[34];
         $Ticket{EscalationStartTime} = $Row[36];
+        $Ticket{UnlockTimeout} = $Row[37];
         $Ticket{GroupID} = $Row[9];
         $Ticket{TicketNumber} = $Row[10];
         $Ticket{CustomerID} = $Row[11];
@@ -724,6 +725,11 @@ sub TicketUnlockTimeoutUpdate {
             return;
         }
     }
+    # check if update is needed
+    my %Ticket = $Self->TicketGet(%Param);
+    if ($Ticket{UnlockTimeout} eq $Param{UnlockTimeout}) {
+        return 1;
+    }
     # db quote
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
@@ -732,6 +738,9 @@ sub TicketUnlockTimeoutUpdate {
     my $SQL = "UPDATE ticket SET timeout = $Param{UnlockTimeout} ".
         " WHERE id = $Param{TicketID}";
     if ($Self->{DBObject}->Do(SQL => $SQL) ) {
+        # reset ticket cache
+        $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
+        # add history
         $Self->HistoryAdd(
             TicketID => $Param{TicketID},
             CreateUserID => $Param{UserID},
@@ -3568,6 +3577,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.153 $ $Date: 2004-11-28 11:17:44 $
+$Revision: 1.154 $ $Date: 2004-12-06 22:23:29 $
 
 =cut
