@@ -2,7 +2,7 @@
 # AgentCustomer.dtl - provides HTML for AgentCustomer.pm
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCustomer.dtl,v 1.9 2003-03-14 08:24:20 martin Exp $
+# $Id: AgentCustomer.dtl,v 1.10 2003-03-22 07:03:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -44,7 +44,7 @@ $Text{"Set customer user and customer id of a ticket"}:
     <td> <input type="text" name="CustomerID" value="$Data{"CustomerID"}" size="40"></td>
   </tr>
   </table>
-<input type="submit" value="$Text{"update"}">
+<input class="button" type="submit" value="$Text{"update"}">
 </form>
 
 </p>

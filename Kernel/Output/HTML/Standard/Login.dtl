@@ -2,7 +2,7 @@
 # Login.dtl - provides HTML login screen
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Login.dtl,v 1.12 2003-02-08 15:40:44 martin Exp $
+# $Id: Login.dtl,v 1.13 2003-03-22 07:03:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,9 +19,9 @@ X-Wanted: I think you are smart. I'm looking for smart people!
 # --
 # html comment
 # --
-<!-- OTRS: Copyright 2002, OTRS Project. This Software is under the GPL. -->
-<!--       Web: http://otrs.org/ - Lists: http://lists.otrs.org/         -->
-<!--      GNU Public License: http://www.gnu.org/licenses/gpl.txt        -->
+<!-- OTRS: Copyright 2001-2003, OTRS Project. This Software is under the GPL. -->
+<!--          Web: http://otrs.org/ - Lists: http://lists.otrs.org/           -->
+<!--         GNU Public License: http://www.gnu.org/licenses/gpl.txt          -->
 
 # --
 <html>
@@ -34,7 +34,7 @@ X-Wanted: I think you are smart. I'm looking for smart people!
 <!--
 # body
   body  
-   { font-family:Geneva,Arial,Helvetica,sans-serif;font-size:11pt;background-color:#BBDDFF;color:black; }
+   { font-family:Geneva,Arial,Helvetica,sans-serif;font-size:11pt;background-color:#bbddff;color:black; }
   a
     { color:#557799;}
   a:hover
@@ -47,12 +47,23 @@ X-Wanted: I think you are smart. I'm looking for smart people!
     { color:#ffffff;background-color:#000000;font-size:13px; }
   a.headeritem
     { color:#ffffff; }
+  a.headeritem
+    { color:#ffffff; }
   .footer
     { color:#ffffff;background-color:#000000;font-size:13px; }
   a.footeritem
     { color:#ffffff; }
+  a.footeritem:hover
+    { color:#ffffff; }
   .small
     { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:10px; }
+# form
+  form
+   {margin:0px;}
+  input
+   {font-family:Geneva,Arial,Helvetica,sans-serif;font-size:12px;}
+  .button
+   {color:black;background-color:#dddddd;border-bottom:thin solid #222244;border-right:thin solid #222244;border-top:thin solid #bbbbbb;border-left:thin solid #bbbbbb;font-size:12px;font-family:Verdana,Helvetica,sans-serif;font-weight:normal;}
 # table color
   .Table0
     { color:#ffffff;background-color:#000000;font-size:13px;font-family:Geneva,Arial,Helvetica,sans-serif;}
@@ -94,7 +105,7 @@ X-Wanted: I think you are smart. I'm looking for smart people!
       <td class="table1"><input type="password" name="Password" size="18"></td>
     </tr>
     </table>
-  <input type="submit" value="$Text{"Login"}">
+  <input class="button" type="submit" value="$Text{"Login"}">
   </td>
 </tr>
 </table>
@@ -120,7 +131,7 @@ X-Wanted: I think you are smart. I'm looking for smart people!
       <td class="table1">$Data{"Language"}</td>
     </tr>
     </table>
-  <input type="submit" value="$Text{"submit"}">
+  <input class="button" type="submit" value="$Text{"submit"}">
   </td>
 </tr>
 </table>

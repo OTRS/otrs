@@ -2,7 +2,7 @@
 # AgentOwner.dtl - provides HTML for AgentOwner mask
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentOwner.dtl,v 1.10 2003-03-10 23:39:03 martin Exp $
+# $Id: AgentOwner.dtl,v 1.11 2003-03-22 07:03:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -49,7 +49,7 @@
     </td>
   </tr>
 </table>
-<input type="submit" value="$Text{"update"}">
+<input class="button" type="submit" value="$Text{"update"}">
 </form>
 
 </p>

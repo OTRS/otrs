@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Header.dtl,v 1.27 2003-02-15 13:16:58 martin Exp $
+# $Id: Header.dtl,v 1.28 2003-03-22 07:03:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,9 +22,9 @@ Pragma: no-cache
 # html comment
 # --
 
-<!-- OTRS: Copyright 2002, OTRS Project. This Software is under the GPL. -->
-<!--       Web: http://otrs.org/ - Lists: http://lists.otrs.org/         -->
-<!--      GNU Public License: http://www.gnu.org/licenses/gpl.txt        -->
+<!-- OTRS: Copyright 2001-2003, OTRS Project. This Software is under the GPL. -->
+<!--          Web: http://otrs.org/ - Lists: http://lists.otrs.org/           -->
+<!--         GNU Public License: http://www.gnu.org/licenses/gpl.txt          -->
 # --
 # set some html variables
 # --
@@ -47,7 +47,7 @@ Pragma: no-cache
 <!--
 # body
   body 
-   { font-family:Geneva,Arial,Helvetica,sans-serif;font-size:11pt;background-color:#BBDDFF;color:black; }
+   { font-family:Geneva,Arial,Helvetica,sans-serif;font-size:11pt;background-color:#bbddff;color:black; }
   a
     { color:#557799;} 
   a:hover 
@@ -60,14 +60,25 @@ Pragma: no-cache
     { color:#ffffff;background-color:#000000;font-size:13px; } 
   a.headeritem
     { color:#ffffff; }
+  a.headeritem:hover
+    { color:#ffffff; }
   .footer
     { color:#ffffff;background-color:#000000;font-size:12px; } 
   a.footeritem
+    { color:#ffffff; }
+  a.footeritem:hover
     { color:#ffffff; }
   .small
     { color:#000000;font-family:Geneva,Helvetica,Arial,sans-serif;font-size:10px; }
   a.small
     { color:#111111;text-decoration:none;font-family:Geneva,Helvetica,Arial,sans-serif;font-size:10px; }
+# form
+  form
+   {margin:0px;}
+  input
+   {font-family:Geneva,Arial,Helvetica,sans-serif;font-size:12px;}
+  .button
+   {color:black;background-color:#dddddd;border-bottom:thin solid #222244;border-right:thin solid #222244;border-top:thin solid #bbbbbb;border-left:thin solid #bbbbbb;font-size:12px;font-family:Verdana,Helvetica,sans-serif;font-weight:normal;}
 # table color
   .table0
     { color:#ffffff;background-color:#000000;font-size:13px;font-family:Geneva,Arial,Helvetica,sans-serif;}
@@ -102,7 +113,7 @@ Pragma: no-cache
 <tr>
   <td align="left" width="30%" class="header">
    <b>$Env{"Box0"}OTRS || </b>
-   <a href="$Env{"Baselink"}" onmouseover="window.status='$Text{"Home"}'; return true;" onmouseout="window.status='';" class="headeritem">home</a> <b>$Env{"Box1"}</b>
+   <a href="$Env{"Baselink"}" onmouseover="window.status='$Text{"Home"}'; return true;" onmouseout="window.status='';" class="headeritem">Home</a> <b>$Env{"Box1"}</b>
   </td>
   <td align="right" width="70%" class="header">
    $Env{"UserFirstname"} $Env{"UserLastname"} $Data{"UserLoginTop"} $Env{"TimeLong"}

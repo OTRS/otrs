@@ -2,7 +2,7 @@
 # AgentCompose.dtl - provides HTML form for AgentCompose 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.dtl,v 1.23 2003-03-14 08:24:20 martin Exp $
+# $Id: AgentCompose.dtl,v 1.24 2003-03-22 07:03:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -132,7 +132,7 @@ $Data{"ResponseFormat"}
     </tr>
   </table>
   <br>
-  <input type="submit" value="$Text{"Send mail!"}" onclick="return submit_compose();">
+  <input class="button" type="submit" value="$Text{"Send mail!"}" onclick="return submit_compose();">
   </form>
 
   <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
