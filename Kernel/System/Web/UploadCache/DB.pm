@@ -2,7 +2,7 @@
 # Kernel/System/Web/UploadCache/DB.pm - a db upload cache
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.1 2004-11-26 23:43:34 martin Exp $
+# $Id: DB.pm,v 1.2 2004-11-26 23:59:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Base64;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.1 $ ';
+$VERSION = '$Revision: 1.2 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -53,7 +53,7 @@ sub FormIDRemove {
       }
     }
     return $Self->{DBObject}->Do(
-        SQL => "DELETE FROM web_upload_cache WHERE form_id = $Param{FormID}",
+        SQL => "DELETE FROM web_upload_cache WHERE form_id = '$Param{FormID}'",
     );
 }
 
