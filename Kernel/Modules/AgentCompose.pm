@@ -2,7 +2,7 @@
 # AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.6 2002-04-14 13:30:48 martin Exp $
+# $Id: AgentCompose.pm,v 1.7 2002-04-14 19:04:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::EmailSend;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -53,6 +53,7 @@ sub new {
     $Self->{Email} = $Self->{ParamObject}->GetParam(Param => 'Email') || '';
     $Self->{InReplyTo} = $Self->{ParamObject}->GetParam(Param => 'InReplyTo') || '';
     $Self->{ResponseID} = $Self->{ParamObject}->GetParam(Param => 'ResponseID') || '';
+    $Self->{ArticleID} = $Self->{ParamObject}->GetParam(Param => 'ArticleID') || ''; 
     $Self->{NextStateID} = $Self->{ParamObject}->GetParam(Param => 'ComposeStateID') || '';
     return $Self;
 }

@@ -1,8 +1,8 @@
 # --
-# AgentCompose.pm - to compose and send a message
+# AgentForward.pm - to forward a message
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentForward.pm,v 1.1 2002-04-14 13:26:21 martin Exp $
+# $Id: AgentForward.pm,v 1.2 2002-04-14 19:04:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::EmailSend;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -53,6 +53,7 @@ sub new {
     $Self->{Body} = $Self->{ParamObject}->GetParam(Param => 'Body') || '';
     $Self->{Email} = $Self->{ParamObject}->GetParam(Param => 'Email') || '';
     $Self->{InReplyTo} = $Self->{ParamObject}->GetParam(Param => 'InReplyTo') || '';
+    $Self->{ArticleID} = $Self->{ParamObject}->GetParam(Param => 'ArticleID') || '';
     $Self->{ArticleTypeID} = $Self->{ParamObject}->GetParam(Param => 'ArticleTypeID') || '';
     $Self->{NextStateID} = $Self->{ParamObject}->GetParam(Param => 'ComposeStateID') || '';
     return $Self;
