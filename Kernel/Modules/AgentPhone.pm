@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.14 2002-10-25 11:46:00 martin Exp $
+# $Id: AgentPhone.pm,v 1.15 2002-10-30 00:39:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -285,7 +285,8 @@ sub Run {
         my $NextStateID = $Self->{ParamObject}->GetParam(Param => 'NextStateID') || '';
         my $NextState = $Self->{TicketObject}->StateIDLookup(StateID => $NextStateID);
         my $ArticleTypeID = $Self->{ParamObject}->GetParam(Param => 'NoteID');
-        my $NewQueueID = $Self->{ParamObject}->GetParam(Param => 'NewQueueID') || 4;
+        my $Dest = $Self->{ParamObject}->GetParam(Param => 'Dest') || '';
+        my ($NewQueueID, $To) = split(/\|\|/, $Dest); 
         my $From = $Self->{ParamObject}->GetParam(Param => 'From') || '??';
         my $TimeUnits = $Self->{ParamObject}->GetParam(Param => 'TimeUnits') || 0;
         my $CustomerID = $Self->{ParamObject}->GetParam(Param => 'CustomerID') || '';
@@ -310,7 +311,7 @@ sub Run {
             ArticleType => $Self->{ConfigObject}->Get('PhoneDefaultNewArticleType'),
             SenderType => $Self->{ConfigObject}->Get('PhoneDefaultNewSenderType'),
             From => $From,
-            To => $UserLogin,
+            To => $To,
             Subject => $Subject,
             Body => $Text,
             ContentType => "text/plain; charset=$Self->{'UserCharset'}",
@@ -320,7 +321,7 @@ sub Run {
             AutoResponseType => 'auto reply',
             OrigHeader => {
               From => $From,
-              To => $UserLogin,
+              To => $To,
               Subject => $Subject,
               Body => $Text,
             },

@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.61 2002-10-30 00:30:03 martin Exp $
+# $Id: Agent.pm,v 1.62 2002-10-30 00:39:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.61 $';
+$VERSION = '$Revision: 1.62 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -580,9 +580,15 @@ sub AgentPhoneNew {
         Name => 'NextStateID',
         Selected => $Self->{ConfigObject}->Get('PhoneDefaultNewNextState'),
     );
+    my %NewTo = ();
+    if ($Param{To}) {
+        foreach (keys %{$Param{To}}) {
+             $NewTo{"$_||$Param{To}->{$_}"} = $Param{To}->{$_};
+        }
+    }
     $Param{'ToStrg'} = $Self->OptionStrgHashRef(
-        Data => $Param{To}, 
-        Name => 'NewQueueID',
+        Data => \%NewTo, 
+        Name => 'Dest',
     );
 
     # get output back
