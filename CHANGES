@@ -2,7 +2,7 @@
 # Changes of OTRS 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.110.2.2 2004-03-08 10:56:47 martin Exp $
+# $Id: CHANGES,v 1.110.2.3 2004-03-25 11:18:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -11,6 +11,9 @@
 
 1.2.3 
 
+ - (2005/03/25) updated pl language translation, Thanks to Tomasz Melissa!
+ - (2004/03/25) fixed quote bug in AgentPhoneView, AgentEmail and 
+    AgentCompose.
  - (2004/03/08) fixed bug 341 Wrong results searching for time ranges 
     http://bugs.otrs.org/show_bug.cgi?id=341
  - (2004/02/29) fixed language quoting in customer login screen
