@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.69 2003-01-09 15:04:46 martin Exp $
+# $Id: Generic.pm,v 1.70 2003-01-09 20:43:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::Output::HTML::System;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.69 $';
+$VERSION = '$Revision: 1.70 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -97,6 +97,10 @@ sub new {
     # --
     $Self->{Baselink}  = "$Self->{CGIHandle}?";
     $Self->{Time}      = $Self->{LanguageObject}->Time(
+        Action => 'GET', 
+        Format => 'DateFormat',
+    );
+    $Self->{TimeLong}      = $Self->{LanguageObject}->Time(
         Action => 'GET', 
         Format => 'DateFormatLong',
     );
@@ -612,6 +616,28 @@ sub Footer {
 
     # create & return output
     return $Self->Output(TemplateFile => 'Footer', Data => \%Param);
+}
+# --
+sub PrintHeader {
+    my $Self = shift;
+    my %Param = @_;
+    my $Output = '';
+    # --
+    # create & return output
+    # --
+    $Output .= $Self->Output(TemplateFile => 'PrintHeader', Data => \%Param);
+    return $Output;
+}
+# --
+sub PrintFooter {
+    my $Self = shift;
+    my %Param = @_;
+    $Param{Host} = $Self->Ascii2Html(
+        Text => $ENV{SERVER_NAME}.$ENV{REQUEST_URI},
+        Max => 100,
+    );
+    # create & return output
+    return $Self->Output(TemplateFile => 'PrintFooter', Data => \%Param);
 }
 # --
 sub Ascii2Html {
