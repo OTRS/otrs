@@ -2,7 +2,7 @@
 # French.pm - provides french languag translation
 # Copyright (C) 2002 Bernard Choppy <choppy@imaginet.fr>
 # --
-# $Id: French.pm,v 1.3 2002-08-29 09:26:34 stefan Exp $
+# $Id: French.pm,v 1.4 2002-10-25 00:08:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::French;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -81,6 +81,7 @@ sub Data {
     $Self->{'New CustomerID'} = 'Nouveau numéro de client';
     $Self->{'for ticket'} = 'pour le ticket';
     $Self->{'new ticket'} = 'nouveau ticket';
+    $Self->{'New Ticket'} = 'nouveau ticket';
     $Self->{'Start work'} = 'Début de travail';
     $Self->{'Stop work'} = 'Arrêt de travail';
     $Self->{'CustomerID'} = 'Numéro de client#';
@@ -329,16 +330,18 @@ sub Data {
     $Self->{'New password'} = 'Nouveau mot de passe';
     $Self->{'New password again'} = 'Nouveau mot de passe (confirmation)';
     $Self->{'Select your custom queues'} = 'Choix des files personnelles';
-    $Self->{'Select your QueueView refresh time'} = 'Choix du délai de rafraîchissement de la vue des files';
-    $Self->{'Select your frontend language'} = 'Choix de la langue du frontal';
-    $Self->{'Select your frontend Charset'} = 'Choix du jeu de caractères du frontal';
-    $Self->{'Select your frontend theme'} = 'Choix du thème du frontal';
+    $Self->{'Select your QueueView refresh time.'} = 'Choix du délai de rafraîchissement de la vue des files';
+    $Self->{'Select your frontend language.'} = 'Choix de la langue du frontal';
+    $Self->{'Frontend Charset'} = 'Caractères du frontal';
+    $Self->{'Select your frontend Charset.'} = 'Choix du jeu de caractères du frontal';
+    $Self->{'Frontend Theme'} = 'Thème du frontal';
+    $Self->{'Select your frontend Theme.'} = 'Choix du thème du frontal';
     $Self->{'Send follow up notification'} = 'Envoyer une notification de suivi (follow-up)';
     $Self->{'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.'} = 'Me prévenir si un client envoie un suivi (follow-up) et que je suis le propriétaire du ticket.';
     $Self->{'Send new ticket notification'} = 'Envoyer une notification de nouveau ticket';
     $Self->{'Send me a notification if there is a new ticket in my custom queues.'} = 'Me prévenir si un nouveau ticket apparaît dans mes files personnelles.';
   
-    $Self->{'Frontend language'} = 'Langue du frontal';
+    $Self->{'Frontend Language'} = 'Langue du frontal';
     $Self->{' 2 minutes'} = ' 2 minutes';
     $Self->{' 5 minutes'} = ' 5 minutes';
     $Self->{' 7 minutes'} = ' 7 minutes';

@@ -2,7 +2,7 @@
 # Kernel/Language/German.pm - provides german languag translation
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: German.pm,v 1.26 2002-10-09 15:04:58 martin Exp $
+# $Id: German.pm,v 1.27 2002-10-25 00:08:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::German;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -83,6 +83,7 @@ sub Data {
     $Self->{'New CustomerID'} = 'Neue Kundennummer';
     $Self->{'for ticket'} = 'für Ticket';
     $Self->{'new ticket'} = 'neues Ticket';
+    $Self->{'New Ticket'} = 'neues Ticket';
     $Self->{'Start work'} = 'Start Arbeit';
     $Self->{'Stop work'} = 'Stop Arbeit';
     $Self->{'CustomerID'} = 'Kunden#';
@@ -294,6 +295,7 @@ sub Data {
     $Self->{Preferences} = 'Einstellungen';
     $Self->{'Locked tickets'} = 'Eigene Tickets';
     $Self->{'new message'} = 'neue Nachricht';
+    $Self->{'You got new message!'} = 'Neue Nachricht bekommen!';
     # ticket history
     $Self->{'History of Ticket'} = 'History von Ticket';
     # ticket note
@@ -346,23 +348,29 @@ sub Data {
     $Self->{'New password'} = 'Neues Passwort';
     $Self->{'New password again'} = 'Neues Passwort wiederholen';
     $Self->{'Select your custom queues'} = 'Bevorzugte Queues auswählen';
-    $Self->{'Select your QueueView refresh time'} = 'Queue-Ansicht Aktualisierungszeit auswählen';
-    $Self->{'Select your frontend language'} = 'Oberflächen-Sprache auswählen';
-    $Self->{'Select your frontend Charset'} = 'Zeichensatz für Darstellung auswählen';
-    $Self->{'Select your frontend theme'} = 'Anzeigeschema auswählen';
+    $Self->{'Select your QueueView refresh time.'} = 'Queue-Ansicht Aktualisierungszeit auswählen';
+    $Self->{'Select your frontend language.'} = 'Oberflächen-Sprache auswählen.';
+    $Self->{'Select your frontend Charset.'} = 'Zeichensatz für Darstellung auswählen.';
+    $Self->{'Select your frontend Theme.'} = 'Anzeigeschema auswählen.';
+    $Self->{'Follow up notification'} = 'Mitteilung bei Nachfragen';
     $Self->{'Send follow up notification'} = 'Zusenden einer Mitteilung bei Nachfragen';
     $Self->{'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.'} = 'Zusenden einer Mitteilung wenn ein Kunden eine Nachfrage stellt uns ich der Eigner bin.';
+    $Self->{'New ticket notification'} = 'Mitteilung bei neuem Ticket';
     $Self->{'Send new ticket notification'} = 'Zusenden einer Mitteilung bei neuem Ticket';
     $Self->{'Send me a notification if there is a new ticket in my custom queues.'} = 'Zusenden einer Mitteilung bei neuem Ticket in der/den individuellen Queue(s).';
+    $Self->{'Ticket lock timeout notification'} = 'Mitteilung bei lock Zeitüberschreitung';
     $Self->{'Send ticket lock timeout notification'} = 'Zusenden einer Mitteilung bei einem lock Zeitüberschreitung';
     $Self->{'Send me a notification if a ticket is unlocked by the system.'} = 'Zusenden einer Mitteilung wenn ein Ticket vom System freigegeben (unlocked) wird.';
   
-    $Self->{'Frontend language'} = 'Bedien-Sprache auswählen';
+    $Self->{'Frontend Language'} = 'Bedien-Sprache auswählen';
     $Self->{' 2 minutes'} = ' 2 Minuten';
     $Self->{' 5 minutes'} = ' 5 Minuten';
     $Self->{' 7 minutes'} = ' 7 Minuten';
     $Self->{'10 minutes'} = '10 Minuten';
     $Self->{'15 minutes'} = '15 Minuten';
+    $Self->{'Move notification'} = 'Move Mitteilung';
+    $Self->{'Send me a notification if a ticket is moved into a custom queue.'} = ' Zusenden einer Mitteilung beim verschieben eines Ticket in meine individuellen Queue(s).';  
+    $Self->{'Select your frontend QueueView.'} = 'Queue-Ansicht auswählen.';
     # change priority
     $Self->{'Change priority of ticket'} = 'Priorität ändern für Ticket';
     # some other words ...
@@ -403,6 +411,12 @@ sub Data {
     $Self->{'normal'} = 'normal';
     $Self->{'high'} = 'hoch';
     $Self->{'very high'} = 'sehr hoch';
+
+    # --
+    # customer panel
+    # --
+    $Self->{'My Tickets'} = 'Meine Tickets';
+    $Self->{'Welcome'} = 'Willkommen';
 
     return;
 }
