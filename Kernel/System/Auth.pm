@@ -2,7 +2,7 @@
 # Auth.pm - provides the authentification and user data
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Auth.pm,v 1.3 2001-12-30 00:40:29 martin Exp $
+# $Id: Auth.pm,v 1.4 2002-04-08 13:37:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Auth;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -27,10 +27,16 @@ sub new {
     bless ($Self, $Type);
 
     # 0=off; 1=on;
-    $Self->{DEBUG} = 0;
+    $Self->{Debug} = 0;
 
-    $Self->{DBObject} = $Param{DBObject} || die 'Got no DBObject!';
-    $Self->{LogObject} = $Param{LogObject} || die 'Got no LogObject!';    
+    # check needed objects
+    foreach ('LogObject', 'ConfigObject', 'DBObject') {
+        $Self->{$_} = $Param{$_} || die "No $_!";
+    }
+
+    # get user table
+    $Self->{DatabaseUserTable} = $Self->{ConfigObject}->Get('DatabaseUserTable') 
+      || 'user';
 
     return $Self;
 }
@@ -42,20 +48,26 @@ sub Auth {
     my $Pw = $Param{Pw} || return;
     my $UserID = '';
     my $GetPw = '';
-    my $SQL = "SELECT pw, id FROM user WHERE login = '$User'";
+    my $SQL = "SELECT pw, id FROM $Self->{DatabaseUserTable} WHERE login = '$User'";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) { 
         $GetPw = $RowTmp[0];
         $UserID = $RowTmp[1];
     }
 
-    if ($Self->{DEBUG} > 0) {
+    # --
+    # just in case!
+    # --
+    if ($Self->{Debug} > 0) {
         $Self->{LogObject}->Log(
           Priority => 'notice',
           MSG => "User: '$User' tried to login with Pw: '$Pw' ($UserID/$GetPw)",
         );
     }
 
+    # --
+    # just a note 
+    # --
     if (!$Pw) {
         $Self->{LogObject}->Log(
           Priority => 'notice',
@@ -63,6 +75,9 @@ sub Auth {
         );
         return;
     }
+    # --
+    # login note
+    # --
     elsif ((($GetPw)&&($User)&&($UserID)) && crypt($Pw, $User) eq $GetPw) {
         $Self->{LogObject}->Log(
           Priority => 'notice',
@@ -70,6 +85,9 @@ sub Auth {
         );
         return 1;
     }
+    # --
+    # just a note
+    # --
     else {
         $Self->{LogObject}->Log(
           Priority => 'notice',
@@ -88,7 +106,7 @@ sub GetUserData {
     my $SQL = "SELECT su.id, su.salutation, su.first_name, su.last_name, sl.language, ".
         " su.language_id, sc.charset, su.charset_id, st.theme ,su.theme_id " .
         " FROM " .
-        " user as su, language as sl, charset as sc, theme as st " .
+        " $Self->{DatabaseUserTable} as su, language as sl, charset as sc, theme as st " .
         " WHERE " .
         " su.login = '$User'" .
         " AND " .
