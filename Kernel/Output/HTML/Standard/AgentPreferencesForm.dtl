@@ -1,8 +1,8 @@
 # --
 # AgentPreferencesForm.dtl - provides HTML form for AgentPreferences
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPreferencesForm.dtl,v 1.17 2004-12-28 01:03:00 martin Exp $
+# $Id: AgentPreferencesForm.dtl,v 1.18 2005-02-10 20:40:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -40,6 +40,7 @@
       <input type="hidden" name="Group" value="$QData{"Group"}">
       <p>
       <table border="0">
+<!-- dtl:block:Block -->
 <!-- dtl:block:InputKey -->
       <tr><td>$Text{"$QData{"Key"}"}:</td><td><input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="12"></td></tr>
 <!-- dtl:block:InputKey -->
@@ -55,6 +56,7 @@
 <!-- dtl:block:Password -->
       <tr><td>$Text{"$QData{"Key"}"}:</td><td><input type="password" name="$QData{"Name"}" value="" size="12"></td></tr>
 <!-- dtl:block:Password -->
+<!-- dtl:block:Block -->
       </table>
       </p>
       <input class="button" type="submit" value="$Text{"update"}">
