@@ -2,7 +2,7 @@
 # Kernel/System/Auth/LDAP.pm - provides the ldap authentification
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LDAP.pm,v 1.13 2004-08-10 10:37:32 martin Exp $
+# $Id: LDAP.pm,v 1.14 2004-11-04 11:00:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use strict;
 use Net::LDAP;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -50,6 +50,7 @@ sub new {
     $Self->{GroupDN} = $Self->{ConfigObject}->Get('AuthModule::LDAP::GroupDN') || '';
     $Self->{AccessAttr} = $Self->{ConfigObject}->Get('AuthModule::LDAP::AccessAttr') || '';
     $Self->{UserAttr} = $Self->{ConfigObject}->Get('AuthModule::LDAP::UserAttr') || 'DN';
+    $Self->{UserSuffix} = $Self->{ConfigObject}->Get('AuthModule::LDAP::UserSuffix') || '';
 
     # ldap filter always used
     $Self->{AlwaysFilter} = $Self->{ConfigObject}->Get('AuthModule::LDAP::AlwaysFilter') || '';
@@ -93,6 +94,17 @@ sub Auth {
     # get params
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'Got no REMOTE_ADDR env!';
 
+    # add user suffix
+    if ($Self->{UserSuffix}) {
+        $Param{User} .= $Self->{UserSuffix};
+        # just in case for debug
+        if ($Self->{Debug} > 0) {
+            $Self->{LogObject}->Log(
+                Priority => 'notice',
+                Message => "User: ($Param{User}) added $Self->{UserSuffix} to username!",
+            );
+        }
+    }
     # just in case for debug!
     if ($Self->{Debug} > 0) {
         $Self->{LogObject}->Log(

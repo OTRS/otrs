@@ -2,7 +2,7 @@
 # Kernel/System/CustomerAuth/LDAP.pm - provides the ldap authentification
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LDAP.pm,v 1.8 2004-08-10 10:31:56 martin Exp $
+# $Id: LDAP.pm,v 1.9 2004-11-04 11:00:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use strict;
 use Net::LDAP;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -50,6 +50,7 @@ sub new {
     $Self->{GroupDN} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::GroupDN') || '';
     $Self->{AccessAttr} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::AccessAttr') || '';
     $Self->{UserAttr} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::UserAttr') || 'DN';
+    $Self->{UserSuffix} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::UserSuffix') || '';
 
     # ldap filter always used
     $Self->{AlwaysFilter} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::AlwaysFilter') || '';
@@ -92,7 +93,17 @@ sub Auth {
     }
     # get params
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'Got no REMOTE_ADDR env!';
-
+    # add user suffix
+    if ($Self->{UserSuffix}) {
+        $Param{User} .= $Self->{UserSuffix};
+        # just in case for debug
+        if ($Self->{Debug} > 0) {
+            $Self->{LogObject}->Log(
+                Priority => 'notice',
+                Message => "CustomerUser: ($Param{User}) added $Self->{UserSuffix} to username!",
+            );
+        }
+    }
     # just in case for debug!
     if ($Self->{Debug} > 0) {
         $Self->{LogObject}->Log(
@@ -100,7 +111,6 @@ sub Auth {
           Message => "CustomerUser: '$Param{User}' tried to authentificate with Pw: '$Param{Pw}' (REMOTE_ADDR: $RemoteAddr)",
         );
     }
-
     # ldap connect and bind (maybe with SearchUserDN and SearchUserPw)
     my $LDAP = Net::LDAP->new($Self->{Host}, %{$Self->{Params}}) or die "$@";
     if (!$LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw})) {
