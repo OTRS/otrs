@@ -2,7 +2,7 @@
 # INSTALL description of OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: INSTALL,v 1.20 2002-10-30 16:45:28 martin Exp $
+# $Id: INSTALL,v 1.21 2002-11-19 18:51:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,9 +16,8 @@ Software requirements?
     * min. Perl5
     * Database (e. g. MySQL, PostgreSQL)
     * Webpserver (mod_perl isn't required but "very nice" to have)
-    * some CPAN-Module (CGI (>v2.46), MIME::Words, Mail::Internet, MIME::Parser, DBI,
-      DBD::mysql, Digest::MD5) and for stats (GD, GD::Text, GD::Graph, 
-      GD::Graph::lines, GD::Text::Align, Date::Calc)
+    * some CPAN-Module (DBI, DBD::mysql, Digest::MD5) and for stats (GD, 
+      GD::Text, GD::Graph, GD::Graph::lines, GD::Text::Align, Date::Calc)
 
 Installation:
 =============
@@ -35,8 +34,6 @@ settings. The OTRS user is "otrs" and the home (root) directory is /opt/OpenTRS
    b) Install the modules via CPAN (http://www.cpan.org/)
       perl -MCPAN -e shell;
       ...
-      install MIME::Words
-      install MIME::Parser
       install Digest::MD5
       ...
 
@@ -90,7 +87,8 @@ settings. The OTRS user is "otrs" and the home (root) directory is /opt/OpenTRS
 6. Config file ($HOME/Kernel/Config.pm):
    -------------------------------------
    If you used the Web-Installer, you can skip this point. If not,
-   set some Kernel::Config ($HOME/Kernel/Config.pm) Options (FQDN, SystemID, TicketHook, ...)
+   set some Kernel::Config ($HOME/Kernel/Config.pm) Options (FQDN, SystemID, TicketHook, 
+   Home, ...)
 
 7. File Permissions:
    -----------------
