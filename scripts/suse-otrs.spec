@@ -1,15 +1,15 @@
 # --
 # RPM spec file for SuSE Linux of the OpenTRS package
-# Copyright (C) 2002 Martin Edenhofer <martin+rpm@otrs.org>
+# Copyright (C) 2002 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: suse-otrs.spec,v 1.3 2002-01-20 22:22:37 martin Exp $
+# $Id: suse-otrs.spec,v 1.4 2002-01-30 21:57:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 #
-# please send bugfixes or comments to martin+rpm@otrs.org
+# please send bugfixes or comments to bugs+rpm@otrs.org
 #
 # --
 Summary:      The Open Ticket Request System. 
@@ -28,10 +28,12 @@ BuildRoot:    /var/tmp/%{name}-buildroot
 %description
 The Open Ticket Request System (http://otrs.org/) is a web based ticket system.
 
+Feedback: feedback@otrs.org
+
 Authors:
 --------
-    Martin Edenhofer <martin+rpm@otrs.org>
     Stefan Wintermeyer <stefan+rpm@otrs.org>
+    Martin Edenhofer <martin+rpm@otrs.org>
 
 SuSE series: n
 
@@ -78,7 +80,7 @@ echo -n "Check OpenTRS user (/etc/passwd)... "
 if cat /etc/passwd | grep $OTRSUSER > /dev/null ; then 
     echo "$OTRSUSER exists."
 else
-    useradd $OTRSUSER -d /opt/OpenTRS/ && echo "$OTRSUSER added."
+    useradd $OTRSUSER -d /opt/OpenTRS/ -s /bin/false && echo "$OTRSUSER added."
 fi
 # set permission
 echo -n "Setting file permissions... "
@@ -107,7 +109,7 @@ echo " Insert inital data:"
 echo "  shell> mysql -u root -p OpenTRS < /usr/share/doc/packages/otrs/install/database/initial_insert.sql"
 echo " Create an database user:"
 echo "  shell> mysql -u root -p -e 'GRANT ALL PRIVILEGES ON OpenTRS.* TO otrs@localhost " 
-echo "     IDENTIFIED BY 'some_pass' WITH GRANT OPTION;"
+echo "     IDENTIFIED BY \"some_pass\" WITH GRANT OPTION;'"
 echo ""
 echo "[OpenTRS services]"
 echo " use rcotrs {start|stop|status|restart} to manage your OpenTRS system."
@@ -158,6 +160,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog 
+* Wed Jan 30 2002 - martin+rpm@otrs.org
+- added to useradd bash=/bin/false
 * Sat Jan 12 2002 - martin+rpm@otrs.org
 - added SuSE like rc scripts
 * Tue Jan 10 2002 - martin+rpm@otrs.org 
