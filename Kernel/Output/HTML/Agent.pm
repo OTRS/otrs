@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.104 2003-04-13 22:25:40 martin Exp $
+# $Id: Agent.pm,v 1.105 2003-04-15 20:53:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.104 $';
+$VERSION = '$Revision: 1.105 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -161,9 +161,7 @@ sub QueueView {
            }
            my $Pages = int(($Param{TicketsAvail} / $Param{PageShown}) + 0.99999);
            my $Page = int(($Param{Start} / $Param{PageShown}) + 0.99999);
-#print STDERR "Page: $Page Pages: $Pages\n";
            for (my $i = 1; $i <= $Pages; $i++) {
-               $Self->{UtilSearchResultCounter}++;
                $Param{PageNavBar} .= " <a href=\"$Self->{Baselink}Action=\$Env{\"Action\"}".
                 '&QueueID=$Data{"QueueID"}&Start='. (($i-1)*$Param{PageShown}+1) .= '">';
                if ($Page == $i) {
@@ -1846,24 +1844,27 @@ sub AgentMove {
 sub AgentStatusView {
     my $Self = shift;
     my %Param = @_;
-
-    if ($Param{AllHits} >= ($Param{StartHit}+$Param{PageShown})) {
-        $Param{Result} = ($Param{StartHit}+1)." - ".($Param{StartHit}+$Param{PageShown});
+    if ($Param{AllHits} == 1 || $Param{AllHits} == 0) {
+               $Param{Result} = $Param{AllHits};
+    }
+    elsif ($Param{AllHits} >= ($Param{StartHit}+$Param{PageShown})) {
+        $Param{Result} = $Param{StartHit}."-".($Param{StartHit}+$Param{PageShown}-1);
     }
     else {
-        $Param{Result} = ($Param{StartHit}+1)." - $Param{AllHits}";
+        $Param{Result} = "$Param{StartHit}-$Param{AllHits}";
     }
-    my $Pages = $Param{AllHits} / $Param{PageShown};
-    for (my $i = 1; $i < ($Pages+1); $i++) {
-        $Self->{UtilSearchResultCounter}++;
+    my $Pages = int(($Param{AllHits} / $Param{PageShown}) + 0.99999);
+    my $Page = int(($Param{StartHit} / $Param{PageShown}) + 0.99999);
+    for (my $i = 1; $i <= $Pages; $i++) {
         $Param{PageNavBar} .= " <a href=\"$Self->{Baselink}Action=\$Env{\"Action\"}".
-         "&StartHit=". (($i-1)*$Param{PageShown}) .= '&SortBy=$Data{"SortBy"}&Order=$Data{"Order"}">';
-         if ((int($Param{StartHit}+$Self->{UtilSearchResultCounter})/$Param{PageShown}) == ($i)) {
-             $Param{PageNavBar} .= '<b>'.($i).'</b>';
-         }
-         else {
-             $Param{PageNavBar} .= ($i);
-         }
+         "&StartHit=". (($i-1)*$Param{PageShown}+1) .= '&SortBy=$Data{"SortBy"}&Order=$Data{"Order"}">';
+        if ($Page == $i) {
+            $Param{PageNavBar} .= '<b>'.($i).'</b>';
+        }
+        else {
+            $Param{PageNavBar} .= ($i);
+        }
+#         if ((int($Param{StartHit}+$Self->{UtilSearchResultCounter})/$Param{PageShown}) == ($i)) {
          $Param{PageNavBar} .= '</a> ';
     }
     # create & return output
