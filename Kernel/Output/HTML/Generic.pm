@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.132 2004-07-22 16:02:02 martin Exp $
+# $Id: Generic.pm,v 1.133 2004-07-28 05:36:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.132 $';
+$VERSION = '$Revision: 1.133 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -50,7 +50,7 @@ sub new {
                 Priority => 'error',
                 Message => "Got no $_!",
             );
-            $Self->FatalError(); 
+            $Self->FatalError();
         }
     }
     # get/set some common params
@@ -174,7 +174,7 @@ sub new {
                 Priority => 'error',
                 Message => "No templates found in '$Self->{TemplateDir}'! Check your Home in Kernel/Config.pm",
             );
-            $Self->FatalError(); 
+            $Self->FatalError();
         }
     }
     return $Self;
@@ -835,9 +835,22 @@ sub LinkQuote {
     my $Text = $Param{Text} || '';
     my $Target = $Param{Target} || 'NewPage'. int(rand(199));
     # do link quote
-    $Text =~ s/(http|https|ftp)(:\/\/.*?)(\s|\)|\"|&quot;|]|'|>|<|&gt;|&lt;)/<a href=\"$1$2\" target=\"$Target\">$1$2<\/a>$3/gi;
+    $Text .= ' ';
+    $Text =~ s{
+        (http|https|ftp|www)((:\/\/|\.).*?)(\s|\)|\"|&quot;|]|'|>|<|&gt;|&lt;)
+    }
+    {
+        my $Link = $1.$2;
+        my $OrigText = $1.$2;
+        my $OrigTextEnd = $4;
+        if ($Link !~ /^http:\/\/|ftp:\/\//) {
+            $Link = "http://$Link";
+        }
+       "<a href=\"$Link\" target=\"$Target\">$OrigText<\/a>$OrigTextEnd";
+    }egxi;
     # do mail to quote
     $Text =~ s/(mailto:.*?)(\s|\)|\"|]|')/<a href=\"$1\">$1<\/a>$2/gi;
+    chop($Text);
     return $Text;
 }
 # --
