@@ -1,19 +1,19 @@
 # --
-# Kernel/Language/Bulgarian.pm - provides Bulgarian language translation
+# Kernel/Language/bg.pm - provides bg language translation
 # Copyright (C) 2002 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # --
-# $Id: bg.pm,v 1.2 2002-11-26 13:05:29 stefan Exp $
+# $Id: bg.pm,v 1.3 2002-11-26 22:15:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-package Kernel::Language::Bulgarian;
+package Kernel::Language::bg;
 
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/\$1/;
 # --
 sub Data {
@@ -22,9 +22,9 @@ sub Data {
     my %Hash = ();
 
     # possible charsets
-    $Self->{Charset} = ['cp1251'];
+    $Self->{Charset} = ['cp1251', ];
 
-    # Template: AAABasics
+    # Template: AAABase
     $Hash{' 2 minutes'} = ' 2 Минути';
     $Hash{' 5 minutes'} = ' 5 Минути';
     $Hash{' 7 minutes'} = ' 7 Минути';
@@ -32,13 +32,13 @@ sub Data {
     $Hash{'15 minutes'} = '15 Минути';
     $Hash{'AddLink'} = 'Добавяне на връзка';
     $Hash{'AdminArea'} = 'Зона-Администратор';
-    $Hash{'all'} = 'всички';
     $Hash{'All'} = 'Всички';
+    $Hash{'all'} = 'всички';
     $Hash{'Attention'} = 'Внимание';
     $Hash{'Bug Report'} = 'Отчет за грешка';
     $Hash{'Cancel'} = 'Отказ';
-    $Hash{'change'} = 'променете';
     $Hash{'Change'} = 'Промяна';
+    $Hash{'change'} = 'променете';
     $Hash{'change!'} = 'променете!';
     $Hash{'click here'} = 'натиснете тук';
     $Hash{'Comment'} = 'Коментар';
@@ -46,13 +46,14 @@ sub Data {
     $Hash{'Customer info'} = 'Потребителски данни';
     $Hash{'day'} = 'ден';
     $Hash{'days'} = 'дни';
-    $Hash{'Description'} = 'Описание';
     $Hash{'description'} = 'описание';
+    $Hash{'Description'} = 'Описание';
     $Hash{'Done'} = 'Направено';
     $Hash{'end'} = 'Край';
     $Hash{'Error'} = 'Грешка';
     $Hash{'Example'} = 'Пример';
     $Hash{'Examples'} = 'Примери';
+    $Hash{'Feature not acitv!'} = '';
     $Hash{'go'} = 'ОК';
     $Hash{'go!'} = 'ОК!';
     $Hash{'Group'} = 'Група';
@@ -61,9 +62,11 @@ sub Data {
     $Hash{'hour'} = 'час';
     $Hash{'hours'} = 'часове';
     $Hash{'Ignore'} = 'Пренебрегване';
+    $Hash{'Invalid SessionID!'} = '';
     $Hash{'Language'} = 'Език';
     $Hash{'Languages'} = 'Езици';
     $Hash{'Line'} = 'Линия';
+    $Hash{'Login failed! Your username or password was entered incorrectly.'} = '';
     $Hash{'Logout successful. Thank you for using OTRS!'} = 'Изходът е успешен. Благодарим Ви, че използвахте системата.';
     $Hash{'Message'} = 'Съобщение';
     $Hash{'minute'} = 'минута';
@@ -79,12 +82,13 @@ sub Data {
     $Hash{'none'} = 'няма';
     $Hash{'none - answered'} = 'няма - отговорен';
     $Hash{'none!'} = 'няма!';
-    $Hash{'off'} = 'изключено';
     $Hash{'Off'} = 'Изключено';
+    $Hash{'off'} = 'изключено';
     $Hash{'On'} = 'Включено';
     $Hash{'on'} = 'включено';
     $Hash{'Password'} = 'Парола';
     $Hash{'Please answer this ticket(s) to get back to the normal queue view!'} = 'Моля, отговорете на този билет(и) за да се върнете в нормалния изглед на опашката!';
+    $Hash{'Please contact your admin'} = '';
     $Hash{'please do not edit!'} = 'моля, не редактирайте!';
     $Hash{'QueueView'} = 'Преглед на опашката';
     $Hash{'replace with'} = 'замести с';
@@ -99,6 +103,7 @@ sub Data {
     $Hash{'Text'} = 'Текст';
     $Hash{'The recommended charset for your language is %s!'} = '';
     $Hash{'Theme'} = 'Тема';
+    $Hash{'There is no account with that login name.'} = '';
     $Hash{'top'} = 'към началото';
     $Hash{'update'} = 'обновяване';
     $Hash{'update!'} = 'обновяване!';
@@ -106,29 +111,12 @@ sub Data {
     $Hash{'Username'} = 'Потребителско име';
     $Hash{'Valid'} = 'Валиден';
     $Hash{'Warning'} = 'Предупреждение';
-    $Hash{'Welcome to OTRS'} = 'Добре дошли в OpenTRS';
+    $Hash{'Welcome to OTRS'} = 'Добре дошли в OTRS';
     $Hash{'Word'} = 'Дума';
     $Hash{'wrote'} = 'записано';
-    $Hash{'yes'} = 'да';
     $Hash{'Yes'} = 'Да';
+    $Hash{'yes'} = 'да';
     $Hash{'You got new message!'} = 'Вие получихте ново съобщение!';
-
-    # Template: AAALanguage
-    $Hash{'Brazilian'} = 'Бразилски';
-    $Hash{'Chinese'} = 'Китайски';
-    $Hash{'Czech'} = 'Чешски';
-    $Hash{'Danish'} = 'Датски';
-    $Hash{'Dutch'} = 'Холандски';
-    $Hash{'English'} = 'Английски';
-    $Hash{'French'} = 'Френски';
-    $Hash{'German'} = 'Германски';
-    $Hash{'Greek'} = 'Гръцки';
-    $Hash{'Italian'} = 'Италиански';
-    $Hash{'Korean'} = 'Корейски';
-    $Hash{'Polish'} = 'Полски';
-    $Hash{'Russian'} = 'Руски';
-    $Hash{'Spanish'} = 'Испански';
-    $Hash{'Swedish'} = 'Шведски';
 
     # Template: AAAPreferences
     $Hash{'Custom Queue'} = 'Потребителска опашка';
@@ -218,6 +206,9 @@ sub Data {
     $Hash{'Response'} = 'Отговор';
     $Hash{'to get the first 20 character of the subject'} = '';
     $Hash{'to get the first 5 lines of the email'} = '';
+    $Hash{'to get the from line of the email'} = '';
+    $Hash{'to get the realname of the sender (if given)'} = '';
+    $Hash{'to get the ticket number of the ticket'} = '';
     $Hash{'Type'} = 'Тип';
     $Hash{'Useable options'} = 'Използваеми опции';
 
