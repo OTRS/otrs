@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.9 2002-12-08 20:53:07 martin Exp $
+# $Id: Defaults.pm,v 1.10 2002-12-11 23:45:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -299,13 +299,15 @@ sub LoadDefaults {
     # Storage for attachments [fs|db]
     $Self->{ArticleAttachmentStorage} = 'db';
 
-    # TicketCompressModule
+    # TicketCompressModule 
+    # (Warning: change it not if your system is in use! Just on setup time!)
     # (should the plain emails and  attachments be compressed!?)
     # Note: lib module required Compress::Zlib!
     $Self->{'TicketCompressModule'} = 'Kernel::System::Ticket::Compress::Plain';
 #    $Self->{TicketCompressModule} = 'Kernel::System::Ticket::Compress::Zlib';
   
-    # TicketCryptModule
+    # TicketCryptModule 
+    # (Warning: change it not if your system is in use! Just on setup time!)
     # (should the plain emails and attachments be crypted!?)
     $Self->{'TicketCryptModule'} = 'Kernel::System::Ticket::Crypt::Plain';
     # Blowfish needs 'Crypt::CBC and Crypt::Blowfish' modules from cpan!
@@ -378,6 +380,7 @@ sub LoadDefaults {
             nl => 'Nederlands',
             fr => 'Français',
             bg => 'Bulgarian',
+            fi => 'Suomi',
 #            es => 'Espaniol',
 #            cs => 'Czech', 
 #            hu => 'Hungarian',
@@ -391,7 +394,6 @@ sub LoadDefaults {
 #            da => 'Dansk',
 #            sv => 'Svenska',
 #            no => 'Norwegian',
-#            fi => 'Suomi',
     };
     # default theme
     # (the default html theme) [default: Standard]
