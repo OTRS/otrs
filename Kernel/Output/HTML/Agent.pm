@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.154 2005-02-15 11:58:13 martin Exp $
+# $Id: Agent.pm,v 1.155 2005-02-17 07:08:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.154 $';
+$VERSION = '$Revision: 1.155 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -31,7 +31,7 @@ sub TicketStdResponseString {
     if ($Self->{ConfigObject}->Get('Ticket::Frontend::StdResponsesMode') eq 'Form') {
         # build html string
         $Param{StdResponsesStrg} .= '<form action="'.$Self->{CGIHandle}.'" method="post">'.
-          '<input type="hidden" name="Action" value="AgentCompose">'.
+          '<input type="hidden" name="Action" value="AgentTicketCompose">'.
           '<input type="hidden" name="ArticleID" value="'.$Param{ArticleID}.'">'.
           '<input type="hidden" name="TicketID" value="'.$Param{TicketID}.'">'.
           $Self->OptionStrgHashRef(
@@ -44,7 +44,7 @@ sub TicketStdResponseString {
         my %StdResponses = %{$Param{StdResponsesRef}};
         foreach (sort { $StdResponses{$a} cmp $StdResponses{$b} } keys %StdResponses) {
           # build html string
-          $Param{StdResponsesStrg} .= "\n<li><a href=\"$Self->{Baselink}"."Action=AgentCompose&".
+          $Param{StdResponsesStrg} .= "\n<li><a href=\"$Self->{Baselink}"."Action=AgentTicketCompose&".
            "ResponseID=$_&TicketID=$Param{TicketID}&ArticleID=$Param{ArticleID}\" ".
            'onmouseover="window.status=\'$Text{"Compose"}\'; return true;" '.
            'onmouseout="window.status=\'\';">'.
@@ -53,19 +53,6 @@ sub TicketStdResponseString {
         }
     }
     return $Param{StdResponsesStrg};
-}
-# --
-sub TicketEscalation {
-    my $Self = shift;
-    my %Param = @_;
-    my $Output = '';
-    $Param{Message} = 'No Permission!' if (!$Param{Message});
-
-    # create output
-    $Output .= $Self->Output(TemplateFile => 'TicketEscalation', Data => \%Param);
-
-    # return output
-    return $Output;
 }
 # --
 sub AgentCustomerView {
