@@ -2,7 +2,7 @@
 # Kernel/System/CheckItem.pm - the global spellinf module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CheckItem.pm,v 1.13 2004-11-04 11:03:12 martin Exp $
+# $Id: CheckItem.pm,v 1.14 2004-12-23 06:02:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::CheckItem;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -67,7 +67,7 @@ sub CheckEmail {
 #        print STDERR "INVALID Address: $Param{Address}\n";
     }
     # mx check
-    if ($Self->{ConfigObject}->Get('CheckMXRecord') && eval { require Net::DNS }) {
+    elsif ($Self->{ConfigObject}->Get('CheckMXRecord') && eval { require Net::DNS }) {
         # get host
         my $Host = $Param{Address};
         $Host =~ s/^.*@(.*)$/$1/;
