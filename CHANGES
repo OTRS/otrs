@@ -1,14 +1,22 @@
 # --
 # Changes of OTRS 
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.102 2003-12-03 16:50:33 martin Exp $
+# $Id: CHANGES,v 1.103 2003-12-08 00:06:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS HEAD 
+ - (2003/12/07) added SUSE 9.0 support and added RPM spec file 
+    for SUSE 9.0.
+ - (2003/12/07) moved Kernel/Output/HTML/Agent|Admin|Customer.pm
+    stuff to Kernel/Modules/*.pm modules.
+ - (2003/12/07) removed config option CustomerViewableTickets and 
+    added customer preferences option (15|20|25|30).
+ - (2003/12/07) removed config option ViewableTickets and added 
+    agent preferences option (5|10|15|20|25).
  - (2003/12/03) added QueueListType config option [tree|list] to
     show the QueueSelection in a tree (default) or just in a list
     Example:  Tree:        List:
