@@ -1,8 +1,8 @@
 # --
 # Kernel/Config.pm - Config file for OTRS kernel
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm.dist,v 1.14 2004-11-05 15:54:49 martin Exp $
+# $Id: Config.pm.dist,v 1.15 2005-02-15 12:09:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,7 +11,7 @@
 #  Note:
 #
 #  -->> OTRS does have a lot of config settings. For more settings
-#       (Notifications, TicketViewAccelerator, TicketNumberGenerator,
+#       (Notifications, Ticket::ViewAccelerator, Ticket::NumberGenerator,
 #       LDAP, PostMaster, Session, Preferences, ...) see
 #       Kernel/Config/Defaults.pm and copy your wanted lines into "this"
 #       config file. This file will not be changed on update!
@@ -34,25 +34,21 @@ sub Load {
     # ---------------------------------------------------- #
     # SecureMode
     # (Enable this so you can't use the installer.pl)
-    $Self->{SecureMode} = 0;
+    $Self->{'SecureMode'} = 0;
     # SystemID
     # (The identify of the system. Each ticket number and
     # each http session id starts with this number)
-    $Self->{SystemID} = 10;
-    # TicketHook
-    # (To set the Ticket identifier. Some people want to
-    # set this to e. g. 'Call#', 'MyTicket#' or 'TN'.)
-    $Self->{TicketHook} = 'Ticket#';
+    $Self->{'SystemID'} = 10;
     # FQDN
     # (Full qualified domain name of your system.)
-    $Self->{FQDN} = 'yourhost.example.com';
+    $Self->{'FQDN'} = 'yourhost.example.com';
     # AdminEmail
     # (Email of the system admin.)
-    $Self->{AdminEmail} = 'admin@example.com';
+    $Self->{'AdminEmail'} = 'admin@example.com';
     # Organization
     # (If this is anything other than '', then the email will have an
     # Organization X-Header)
-    $Self->{Organization} = 'Example Company';
+    $Self->{'Organization'} = 'Example Company';
 
     # ---------------------------------------------------- #
     # database settings                                    #
@@ -85,6 +81,19 @@ sub Load {
     # ---------------------------------------------------- #
     $Self->{Home} = '/opt/otrs';
 
+    # --------------------------------------------------- #
+    # Ticket
+    # --------------------------------------------------- #
+    # Ticket::Hook
+    # (To set the Ticket identifier. Some people want to
+    # set this to e. g. 'Call#', 'MyTicket#' or 'Ticket#'.)
+    $Self->{'Ticket::Hook'} = 'Ticket#';
+
+    # TicketHookDivider
+    # (the divider between TicketHook# and number)
+#    $Self->{'Ticket::HookDivider'} = ': ';
+    $Self->{'Ticket::HookDivider'} = '';
+
     # **************************************************** #
     # insert your own config settings "here"               #
     # config settings taken from Kernel/Config/Defaults.pm #
@@ -115,7 +124,7 @@ use strict;
 use vars qw(@ISA $VERSION);
 use Kernel::Config::Defaults;
 push (@ISA, 'Kernel::Config::Defaults');
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # -----------------------------------------------------#
 
