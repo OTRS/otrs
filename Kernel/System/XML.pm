@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: XML.pm,v 1.6 2005-02-08 12:55:38 martin Exp $
+# $Id: XML.pm,v 1.7 2005-02-08 13:18:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Base64;
 use XML::Parser::Lite;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -83,12 +83,12 @@ sub new {
 
 =item XMLHashAdd()
 
-add a xml hash to storage
+add a XMLHash to storage
 
     $XMLObject->XMLHashAdd(
         Type => 'SomeType',
         Key => '123',
-        Hash => \@XMLStructur,
+        Hash => \@XMLHash,
     );
 
 =cut
@@ -130,7 +130,7 @@ sub XMLHashAdd {
 
 =item XMLHashGet()
 
-get a xml hash from database
+get a XMLHash from database
 
     my @XMLHash = $XMLObject->XMLHashGet(
         Type => 'SomeType',
@@ -178,7 +178,7 @@ sub XMLHashGet {
 
 =item XMLHashDelete()
 
-delete a xml hash from database
+delete a XMLHash from database
 
     $XMLObject->XMLHashDelete(
         Type => 'SomeType',
@@ -210,10 +210,10 @@ sub XMLHashDelete {
 
 search  elete a xml hash from database
 
-    my @Keys = $XMLObject->XMLHashSearch(K
+    my @Keys = $XMLObject->XMLHashSearch(
         Type => 'SomeType',
         What => {
-            "{'ElementA'}[%]{'ElementB'}[%]{'Content'}" => '%content%',
+            "[%]{'ElementA'}[%]{'ElementB'}[%]{'Content'}" => '%content%',
         }
     );
 
@@ -251,7 +251,7 @@ sub XMLHashSearch {
 
 =item XMLHash2XML()
 
-generate a xml string from a XMLHash 
+generate a xml string from an XMLHash 
 
     my $XMLString = $XMLObject->XMLHash2XML(@XMLHash);
 
@@ -319,7 +319,7 @@ sub _ElementBuild {
 
 =item XMLParse2XMLHash()
 
-parse a xml file and return a hash/array structur
+parse a xml file and return a XMLHash structur
 
     my @XMLHash = $XMLObject->XMLParse2XMLHash(String => $FileString);
 
@@ -395,11 +395,11 @@ sub XMLParse2XMLHash {
 
 return a hash with long hash key and content 
 
-    my %Hash = $XMLObject->XMLHash2D(XMLHash => \@XMLStructur);
+    my %Hash = $XMLObject->XMLHash2D(XMLHash => \@XMLHash);
 
     for example:
 
-    $Hash{'{Planet}[0]{Content}'} = 'Sun';
+    $Hash{'[0]{Planet}[0]{Content}'} = 'Sun';
 
 =cut
 
@@ -683,6 +683,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2005-02-08 12:55:38 $
+$Revision: 1.7 $ $Date: 2005-02-08 13:18:54 $
 
 =cut
