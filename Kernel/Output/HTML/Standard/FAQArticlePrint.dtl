@@ -1,8 +1,8 @@
 # --
 # FAQArticlePrint.dtl - provides HTML print view for faq articles
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQArticlePrint.dtl,v 1.1 2004-01-05 20:05:07 martin Exp $
+# $Id: FAQArticlePrint.dtl,v 1.2 2004-01-21 00:39:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -25,6 +25,10 @@
     <tr>
       <td class="table1">$Text{"Language"}: </td>
       <td class="table1"> $Quote{"$Data{"Language"}"}</td>
+    </tr>
+    <tr>
+      <td class="table1">$Text{"Keywords"}: </td>
+      <td class="table1"> $Quote{"$Data{"Keywords"}"}</td>
     </tr>
     <tr>
       <td class="table1">$Text{"Last update"}: </td>

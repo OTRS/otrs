@@ -1,8 +1,8 @@
 # --
 # FAQArticleView.dtl - provides HTML view for faq articles
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQArticleView.dtl,v 1.1 2004-01-05 20:05:07 martin Exp $
+# $Id: FAQArticleView.dtl,v 1.2 2004-01-21 00:39:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,8 +18,9 @@
 <tr align="left" valign="top">
   <td width="100%" class="table2">
     <a href="$Env{"Baselink"}Action=FAQArticle&Subaction=Change&ID=$Data{"ID"}">$Text{"edit"}</a> -
+    <a href="$Env{"Baselink"}Action=FAQ&Subaction=History&ID=$Data{"ID"}">$Text{"history"}</a> -
     <a href="$Env{"Baselink"}Action=FAQ&Subaction=Print&ID=$Data{"ID"}" target="print">$Text{"print"}</a> -
-    <a href="$Env{"Baselink"}Action=FAQArticle&Subaction=Change&ID=$Data{"ID"}">$Text{"delete"}</a>
+    <a href="$Env{"Baselink"}Action=FAQArticle&Subaction=Delete&ID=$Data{"ID"}">$Text{"delete"}</a>
   </td>
 </tr>
 <tr align="left" valign="top">
@@ -37,6 +38,10 @@
     <tr>
       <td class="table1">$Text{"Language"}: </td>
       <td class="table1"> $Quote{"$Data{"Language"}"}</td>
+    </tr>
+    <tr>
+      <td class="table1">$Text{"Keywords"}: </td>
+      <td class="table1"> $Quote{"$Data{"Keywords"}"}</td>
     </tr>
     <tr>
       <td class="table1" valign="top">$Text{"Sympthom"}: </td>
