@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentNote.pm - to add notes to a ticket 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.pm,v 1.11 2002-08-01 02:37:36 martin Exp $
+# $Id: AgentNote.pm,v 1.12 2002-08-05 00:09:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentNote;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -92,6 +92,8 @@ sub Run {
         }
         # print form ...
         $Output = $Self->{LayoutObject}->Header(Title => 'Add Note');
+        my %LockedData = $Self->{UserObject}->GetLockedCount(UserID => $UserID);
+        $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
         $Output .= $Self->{LayoutObject}->AgentNote(
             TicketID => $TicketID,
             QueueID => $QueueID,
