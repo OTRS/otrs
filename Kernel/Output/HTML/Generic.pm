@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.95 2003-12-03 17:36:49 martin Exp $
+# $Id: Generic.pm,v 1.96 2003-12-08 00:06:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::Output::HTML::Admin;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.95 $';
+$VERSION = '$Revision: 1.96 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -88,10 +88,6 @@ sub new {
         Action => 'GET', 
         Format => 'DateFormatLong',
     );
-    $Self->{HighlightAge1} = $Self->{ConfigObject}->Get('HighlightAge1');
-    $Self->{HighlightAge2} = $Self->{ConfigObject}->Get('HighlightAge2');
-    $Self->{HighlightColor1} = $Self->{ConfigObject}->Get('HighlightColor1');
-    $Self->{HighlightColor2} = $Self->{ConfigObject}->Get('HighlightColor2');
     # --
     # check browser (defaut is IE because I don't have IE)
     # --
