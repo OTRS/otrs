@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.7 2003-02-08 15:09:39 martin Exp $
+# $Id: DB.pm,v 1.8 2003-02-10 09:38:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -32,6 +32,10 @@ sub new {
     foreach (qw(DBObject ConfigObject LogObject PreferencesObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
+    # --
+    # max shown user a search list
+    # --
+    $Self->{UserSearchListLimit} = 300;
     # --
     # config options
     # --
@@ -77,7 +81,7 @@ sub CustomerSearch {
         $SQL .= "AND ".$Self->{ConfigObject}->Get('CustomerUser')->{CustomerValid}.
         " in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ";
     }
-    $Self->{DBObject}->Prepare(SQL => $SQL);
+    $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{UserSearchListLimit});
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
          foreach (1..8) {
              if ($Row[$_]) {
@@ -86,34 +90,6 @@ sub CustomerSearch {
          }
          $Users{$Row[0]} =~ s/^(.*\s)(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;
     }
-    return %Users;
-}
-# --
-sub CustomerList {
-    my $Self = shift;
-    my %Param = @_;
-    my $Valid = defined $Param{Valid} ? $Param{Valid} : 1;
-    # --
-    # build SQL string
-    # --
-    my $SQL = '';
-    if ($Self->{ConfigObject}->Get('CustomerUser')->{CustomerListFileds}) {
-        foreach my $Entry (@{$Self->{ConfigObject}->Get('CustomerUser')->{CustomerListFileds}}) {
-            $SQL .= " ,$Entry ";
-        }
-    }
-    else {
-        $SQL .= " , customer_id, comment";
-    }
-    # --
-    # get data
-    # --
-    my %Users = $Self->{DBObject}->GetTableData(
-        What => "$Self->{CustomerID} $SQL ",
-        Table => $Self->{CustomerTable}, 
-        Clamp => 1,
-        Valid => $Valid,
-    ); 
     return %Users;
 }
 # --

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.22 2003-02-09 21:02:35 martin Exp $
+# $Id: AgentPhone.pm,v 1.23 2003-02-10 09:38:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::EmailParser;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -254,26 +254,9 @@ sub Run {
         my $From = $Self->{ParamObject}->GetParam(Param => 'From') || '';
         my $TimeUnits = $Self->{ParamObject}->GetParam(Param => 'TimeUnits') || 0;
         my $CustomerUser = $Self->{ParamObject}->GetParam(Param => 'CustomerUser') || '';
+        my $SelectedCustomerUser = $Self->{ParamObject}->GetParam(Param => 'SelectedCustomerUser') || '';
         my $ExpandCustomerName = $Self->{ParamObject}->GetParam(Param => 'ExpandCustomerName') || 0;
         my $CustomerID = $Self->{ParamObject}->GetParam(Param => 'CustomerID') || '';
-        # --
-        # get from and customer id if customer user is given
-        # --
-        my %CustomerUserData = ();
-        if ($CustomerUser && $ExpandCustomerName != 1) {
-            %CustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-                User => $CustomerUser,
-            );
-            my %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
-                UserLogin => $CustomerUser,
-            );
-            foreach (keys %CustomerUserList) {
-                $From = $CustomerUserList{$_};
-            }
-            if ($CustomerUserData{UserCustomerID}) {
-                $CustomerID = $CustomerUserData{UserCustomerID};
-            }
-        }
         my %GetParam = ();
         foreach (qw(Year Month Day Hour Minute)) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
@@ -282,6 +265,7 @@ sub Run {
         # --
         # Expand Customer Name
         # -- 
+        my %CustomerUserData = ();
         if ($ExpandCustomerName == 1) {
             # search customer 
             my %CustomerUserList = ();
@@ -304,7 +288,22 @@ sub Run {
                 $Error{"ExpandCustomerName"} = 1;
             }
         }
+        # --
+        # get from and customer id if customer user is given
+        # --
         elsif ($ExpandCustomerName == 2) {
+            %CustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                User => $CustomerUser,
+            );
+            my %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
+                UserLogin => $CustomerUser,
+            );
+            foreach (keys %CustomerUserList) {
+                $From = $CustomerUserList{$_};
+            }
+            if ($CustomerUserData{UserCustomerID}) {
+                $CustomerID = $CustomerUserData{UserCustomerID};
+            } 
             $Error{"ExpandCustomerName"} = 1;
         }
         # --
@@ -330,10 +329,6 @@ sub Run {
             my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $UserID);
             $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
             # --
-            # get customer list
-            # --
-            my %CustomerList = $Self->{CustomerUserObject}->CustomerList(Valid => 1);
-            # --
             # html output
             # --
             $Output .= $Self->{LayoutObject}->AgentPhoneNew(
@@ -343,8 +338,8 @@ sub Run {
               NextState => $NextState,
               Priorities => $Self->_GetPriorities(),
               PriorityID => $PriorityID,
-              CustomerList => \%CustomerList,
               CustomerID => $CustomerID,
+              CustomerUser => $CustomerUser,
               TimeUnits => $TimeUnits,
               From => $From,
               FromOptions => $Param{"FromOptions"},
@@ -412,10 +407,11 @@ sub Run {
           # --
           # set custoemr id
           # --
-          if ($CustomerID) {
-              $Self->{TicketObject}->SetCustomerNo(
+          if ($CustomerID || $$SelectedCustomerUser) {
+              $Self->{TicketObject}->SetCustomerData(
                   TicketID => $TicketID,
                   No => $CustomerID, 
+                  User => $SelectedCustomerUser,
                   UserID => $UserID,
               );
           }

@@ -1,8 +1,9 @@
 # --
 # Kernel/System/CustomerUser/LDAP.pm - some customer user functions in LDAP
 # Copyright (C) 2002 Wiktor Wodecki <wiktor.wodecki@net-m.de>
+# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LDAP.pm,v 1.3 2003-02-08 15:09:39 martin Exp $
+# $Id: LDAP.pm,v 1.4 2003-02-10 09:38:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +16,7 @@ use strict;
 use Net::LDAP;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -36,7 +37,10 @@ sub new {
     # Debug 0=off 1=on
     # --
     $Self->{Debug} = 0;
-
+    # --
+    # max shown user a search list
+    # --
+    $Self->{UserSearchListLimit} = 300;
     # --
     # get ldap preferences
     # --
@@ -80,8 +84,9 @@ sub CustomerSearch {
         base => $Self->{BaseDN},
         scope => $Self->{SScope},
         filter => "($Self->{CustomerKey}=$Param{UserLogin})",
+        sizelimit => $Self->{UserSearchListLimit},
     );
-    $Result->code && die $Result->error;
+#    $Result->code && die $Result->error;
     my %Users = ();
     foreach my $entry ($Result->all_entries) {
         my $CustomerString = '';
@@ -93,31 +98,6 @@ sub CustomerSearch {
     }
     return %Users;
 }   
-# --
-sub CustomerList {
-    my $Self = shift;
-    my %Param = @_;
-    my $Valid = defined $Param{Valid} ? $Param{Valid} : 1;
-    # --
-    # perform user search
-    # FIXME: check for valid customers
-    # --
-    my $Result = $Self->{LDAP}->search (
-        base => $Self->{BaseDN},
-        scope => $Self->{SScope},
-        filter => "($Self->{CustomerKey}=*)",
-    );
-    $Result->code && die $Result->error;
-    my %Users = ();
-    foreach my $entry ($Result->all_entries) {
-        my $CustomerString = '';
-        foreach (@{$Self->{ConfigObject}->Get('CustomerUser')->{CustomerListFileds}}) {
-            $CustomerString .= $entry->get_value($_).' ';
-        }
-        $Users{$entry->get_value($Self->{CustomerID})} = $CustomerString;
-    }
-    return %Users;
-}
 # --
 sub CustomerUserList {
     my $Self = shift;
@@ -205,10 +185,10 @@ sub CustomerUserDataGet {
         return;
     }
     if (! exists $Data{UserLogin} && $Param{CustomerID}) {
-        $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "Panic! No UserData for customer id: '$Param{CustomerID}'!!!",
-        );
+#        $Self->{LogObject}->Log(
+#          Priority => 'notice',
+#          Message => "Panic! No UserData for customer id: '$Param{CustomerID}'!!!",
+#        );
         return;
     }
     # compat!
