@@ -2,7 +2,7 @@
 # AgentPhoneNew.dtl - provides HTML form for phone
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhoneNew.dtl,v 1.21 2003-10-24 07:51:56 martin Exp $
+# $Id: AgentPhoneNew.dtl,v 1.22 2003-10-24 07:59:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ function submit_compose()
         document.compose.Subject.focus();
         return false;
     } 
-    elsif (document.compose.Body.value == "\n") {
+    else if (document.compose.Body.value == "") {
         alert('$Text{"A message should have a body!"}');
         document.compose.Body.focus();
         return false;
@@ -118,9 +118,7 @@ function clear_field()
   </tr>
   <tr>
     <td valign="top">$Text{"Text"}:</td><td class="table1">
-<textarea name="Body" rows="15" cols="$Config{"TextAreaNoteWindow"}" wrap="$Env{"BrowserWrap"}">
-$Data{"Body"}
-</textarea>
+<textarea name="Body" rows="15" cols="$Config{"TextAreaNoteWindow"}" wrap="$Env{"BrowserWrap"}">$Data{"Body"}</textarea>
     </td>
   </tr>
   <tr>
