@@ -2,7 +2,7 @@
 # Ticket.pm - the global ticket handle
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.8 2002-05-20 23:29:13 martin Exp $
+# $Id: Ticket.pm,v 1.9 2002-05-26 10:13:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Ticket::Lock;
 use Kernel::System::Ticket::Priority;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -33,23 +33,20 @@ sub new {
     my $Type = shift;
     my %Param = @_;
 
-    my $Self = {}; # allocate new hash for object
+    # allocate new hash for object
+    my $Self = {}; 
     bless ($Self, $Type);
 
     # 0=off; 1=on;
     $Self->{Debug} = 0;
 
-    # get config data
-    $Self->{ConfigObject} = $Param{ConfigObject} || die "Got no ConfigObject!";
+    # get needed opbjects
+    foreach ('ConfigObject', 'LogObject', 'DBObject') {
+        $Self->{$_} = $Param{$_} || die "Got no $_!";
+    }
 
     $Self->{CounterLog} = $Self->{ConfigObject}->Get('CounterLog');
     $Self->{SystemID} = $Self->{ConfigObject}->Get('SystemID');
-
-    # get log object
-    $Self->{LogObject} = $Param{LogObject} || die "Got no LogObject!";
-
-    # db handle
-    $Self->{DBObject} = $Param{DBObject} || die "Got no DBObject!";;
 
     return $Self;
 }
@@ -131,49 +128,78 @@ sub CreateTicketDB {
     my $Priority = $Param{Priority};
     my $StateID = $Param{StateID};
     my $State = $Param{State};
+    my $Answered = $Param{Answered} || 0;
     my $ValidID = $Param{ValidID} || 1;
     my $CreateUserID = $Param{CreateUserID};
     my $Age = time();
 
-    # lookup!
+    # --
+    # StateID lookup!
+    # --
     if (!$StateID) {
         $StateID = $Self->StateLookup(State => $State);
         if ($Self->{Debug} > 0) {
-            print STDERR "Ticket->CreateTicketDB(!StateID) ->StateLookup($State=$StateID)\n";
+           $Self->{LogObject}->Log(
+              Priority => 'debug',
+              MSG => "DB->CreateTicketDB-> (!\$StateID) ->StateLookup($State=$StateID)",
+           );
         }
     }
     if (!$StateID) {
-        print STDERR 'Ticket->CreateTicketDB(!$StateID )';
+        $Self->{LogObject}->Log(
+          Priority => 'error',
+          MSG => "DB->CreateTicketDB-> No \$StateID!!!",
+        );
         return;
     }
 
-    # lookup!
+    # --
+    # LockID lookup!
+    # --
     if ((!$LockID) && ($Lock)) {
         $LockID = $Self->LockLookup(Type => $Lock);
     }
     if ((!$LockID) && (!$Lock)) {
-        print STDERR "DB->CreateTicketDB(No LockID and no LockType)\n";
+        $Self->{LogObject}->Log(
+          Priority => 'error',
+          MSG => "DB->CreateTicketDB-> No LockID and no LockType!!!",
+        );
         return;
     }
-    # lookup!
+    # --
+    # PriorityID lookup!
+    # --
     if ((!$PriorityID) && ($Priority)) {
         $PriorityID = $Self->PriorityLookup(Type => $Priority);
     }
     if ((!$PriorityID) && (!$Priority)) {
-        print STDERR "DB->CreateTicketDB(No PriorityID and no PriorityType)\n";
+        $Self->{LogObject}->Log(
+          Priority => 'error',
+          MSG => "DB->CreateTicketDB-> No PriorityID and no PriorityType!!!",
+        );
         return;
     }
 
-    my $SQL = "INSERT INTO ticket (tn, create_time_unix, queue_id, ticket_lock_id, user_id, group_id, " .
-    " ticket_priority_id, ticket_state_id, valid_id, create_time, create_by, change_time, change_by) " .
-    "VALUES ('$TN', $Age, $QueueID, $LockID, $UserID, $GroupID, $PriorityID, $StateID, $ValidID, " .
+    # --
+    # create db record
+    # --
+    my $SQL = "INSERT INTO ticket (tn, create_time_unix, queue_id, ticket_lock_id, ".
+    " user_id, group_id, ticket_priority_id, ticket_state_id, ticket_answered, ".
+    " valid_id, create_time, create_by, change_time, change_by) " .
+    " VALUES ('$TN', $Age, $QueueID, $LockID, $UserID, $GroupID, $PriorityID, $StateID, ".
+    " $Answered, $ValidID, " .
     " current_timestamp, $CreateUserID, current_timestamp, $CreateUserID)";
 
-    $Self->{DBObject}->Do(SQL => $SQL);
-
-    my $TicketID = $Self->GetIdOfTN(TN => $TN, Age => $Age);
-
-    return $TicketID;
+    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+        return $Self->GetIdOfTN(TN => $TN, Age => $Age);
+    }
+    else {
+        $Self->{LogObject}->Log(
+          Priority => 'error',
+          MSG => "DB->CreateTicketDB-> create db record failed!!!",
+        );
+        return;
+    } 
 }
 # --
 sub GetIdOfTN {
@@ -325,8 +351,12 @@ sub SetCustomerNo {
     my $SQL = "UPDATE ticket SET customer_id = '$No', " .
     " change_time = current_timestamp, change_by = $UserID " .
     " WHERE id = $TicketID";
-    $Self->{DBObject}->Do(SQL => $SQL);
-    return 1;
+    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+        return 1;
+    }
+    else {
+        return;
+    }
 }
 # --
 sub SetFreeText {
@@ -344,8 +374,30 @@ sub SetFreeText {
     " freetext$Counter = '$Value', " .
     " change_time = current_timestamp, change_by = $UserID " .
     " WHERE id = $TicketID";
-    $Self->{DBObject}->Do(SQL => $SQL);
-    return 1;
+    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+        return 1;
+    }
+    else {
+        return;
+    }
+}
+# --
+sub SetAnswered {
+    my $Self = shift;
+    my %Param = @_;
+    my $TicketID = $Param{TicketID};
+    my $UserID = $Param{UserID};
+    my $Answered = $Param{Answered} || 0;
+    # db update
+    my $SQL = "UPDATE ticket SET ticket_answered = $Answered, " .
+    " change_time = current_timestamp, change_by = $UserID " .
+    " WHERE id = $TicketID";
+    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+        return 1;
+    }
+    else {
+        return;
+    }
 }
 # --
 
