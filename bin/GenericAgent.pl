@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pl,v 1.33 2004-09-04 15:21:05 martin Exp $
+# $Id: GenericAgent.pl,v 1.33.2.1 2005-02-10 11:49:17 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -50,7 +50,7 @@ use Kernel::System::GenericAgent;
 
 BEGIN {
     # get file version
-    $VERSION = '$Revision: 1.33 $';
+    $VERSION = '$Revision: 1.33.2.1 $';
     $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
     # get options
     getopt('hcdl', \%Opts);
@@ -128,11 +128,8 @@ if ($Opts{'c'} eq 'db') {
         );
         $Year = $Year+1900;
         $Month = $Month+1;
-        if ($Min < 10) {
-            $Min = 10;
-        }
-        elsif ($Min =~ /(.)./) {
-            $Min = ($1+1)."0";
+        if ($Min =~ /(.)./) {
+            $Min = ($1)."0";
         }
         if ($DBJobRaw{ScheduleDays}) {
             my $Match = 0;
@@ -148,7 +145,7 @@ if ($Opts{'c'} eq 'db') {
             }
         }
         if (!defined($DBJobRaw{ScheduleMinutes})) {
-            @{$DBJobRaw{ScheduleMinutes}} = (10);
+            @{$DBJobRaw{ScheduleMinutes}} = qw(00 10 20 30 40 50);
         }
         my $Match = 0;
         foreach (@{$DBJobRaw{ScheduleMinutes}}) {
@@ -162,7 +159,7 @@ if ($Opts{'c'} eq 'db') {
             $False = 1;
         }
         if (!defined($DBJobRaw{ScheduleHours})) {
-            @{$DBJobRaw{ScheduleHours}} = (0);
+            @{$DBJobRaw{ScheduleHours}} = qw(00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23);
         }
         $Match = 0;
         foreach (@{$DBJobRaw{ScheduleHours}}) {

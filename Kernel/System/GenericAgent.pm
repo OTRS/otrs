@@ -1,8 +1,8 @@
 # --
 # Kernel/System/GenericAgent.pm - generic agent system module
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pm,v 1.7 2004-09-08 13:16:34 martin Exp $
+# $Id: GenericAgent.pm,v 1.7.2.1 2005-02-10 11:49:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::GenericAgent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $ ';
+$VERSION = '$Revision: 1.7.2.1 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -130,7 +130,7 @@ sub new {
       NewStateID => 'SCALAR',
       NewQueueID => 'SCALAR',
       NewPriorityID => 'SCALAR',
-      NewUserID => 'SCALAR',
+      NewOwnerID => 'SCALAR',
       NewLockID => 'SCALAR',
       TicketFreeKey1 => 'ARRAY',
       TicketFreeText1 => 'ARRAY',
@@ -462,7 +462,7 @@ sub JobRunTicket {
         $Self->{TicketObject}->OwnerSet(
             TicketID => $Param{TicketID},
             UserID => $Param{UserID},
-            NewUser => $Param{Config}->{New}->{OwnerID},
+            NewUserID => $Param{Config}->{New}->{OwnerID},
         );
     }
     # --
@@ -814,6 +814,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2004-09-08 13:16:34 $
+$Revision: 1.7.2.1 $ $Date: 2005-02-10 11:49:17 $
 
 =cut
