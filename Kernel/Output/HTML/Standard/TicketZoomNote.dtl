@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: TicketZoomNote.dtl,v 1.7 2002-04-24 22:51:57 martin Exp $
+# $Id: TicketZoomNote.dtl,v 1.8 2002-05-26 18:14:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -63,7 +63,7 @@ $Data{"Article::Text"}
     <tr><td><b>$Text{"Queue"}:</b></td><td><font color="red">$Data{"Queue"}</font></td></tr>
     <tr><td><b>$Text{"Lock"}:</b></td><td><font color="red">$Data{"Lock"}</font></td></tr>
     <tr><td><b>$Text{"CustomerID"}:</b></td><td><font color="red">$Data{"CustomerID"}</font></td></tr>
-
+    <tr><td><b>$Text{"Time to escalation"}:</b></td><td>$Data{"TicketOverTime"}</td></tr>
     <tr><td colspan="2"></td></tr>
     <tr><td colspan="2">
 
