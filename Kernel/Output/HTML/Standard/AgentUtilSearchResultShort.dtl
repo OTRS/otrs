@@ -1,8 +1,8 @@
 # --
 # AgentUtilSearchResultShort.dtl - html for ticket status view (all tickets)
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code at otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilSearchResultShort.dtl,v 1.4 2004-06-25 15:33:44 martin Exp $
+# $Id: AgentUtilSearchResultShort.dtl,v 1.5 2004-10-06 19:43:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,24 +11,23 @@
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
 <tr>
-  <td align="left" valign="top" class="table0">
-  <b>$Env{"Box0"}$Text{"Search Result"}$Env{"Box1"}</b>
+  <td class="mainhead">
+    $Env{"Box0"}$Text{"Search Result"}$Env{"Box1"}
   </td>
 </tr>
 <tr>
-  <td align="left" valign="top" class="table2">
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=LoadProfile&$QData{"Link"}">$Text{"Change search options"}</a> - 
-$Text{"Results"}: <b>$QData{"Result"}</b> - $Text{"Total hits"}: <b>$Data{"TotalHits"}</b> 
-- $Text{"Site"}: $Data{"SiteNavBar"}
+  <td class="menu">
+  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=LoadProfile&$QData{"Link"}">$Text{"Change search options"}</a> -
+$Text{"Results"}: <b>$QData{"Result"}</b> - $Text{"Total hits"}: <b>$Data{"TotalHits"}</b> - $Text{"Site"}: $Data{"SiteNavBar"}
   </td>
 </tr>
 </table>
 <table border="0" width="100%" cellspacing="0" cellpadding="4">
-<tr> 
- <td class="table1" align="center" valign="top">
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="7">
-<tr valign="top" align="left">
- <th width="15%">$Config{"TicketHook"}<br>
+<tr>
+  <td class="mainbody">
+  <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="7">
+  <tr valign="top" align="left">
+  <th width="15%">$Config{"TicketHook"}<br>
   <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&TakeLastSearch=1&SortBy=Ticket&Order=Up" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
   <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&TakeLastSearch=1&SortBy=Ticket&Order=Down" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a></th>
  <th width="15%">$Text{"Age"}<br>

@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: AgentMailboxTicket.dtl,v 1.21 2004-04-22 13:17:22 martin Exp $
+# $Id: AgentMailboxTicket.dtl,v 1.22 2004-10-06 19:48:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,21 +13,21 @@
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
 # check if bulk feature is aktiv
-<dtl if ($Config{"FrontendBulkFeature"} eq "1") { $Data{"BulkLink"} = "<td align="left" width="1%" class="table0"><form name="abulk$Data{"Counter"}"><input type="checkbox" name="Selected" value="1" onclick="BulkChangeSelected($Data{"TicketID"},$Data{"Counter"})"></form></td>"; }>
+<dtl if ($Config{"FrontendBulkFeature"} eq "1") { $Data{"BulkLink"} = "<td width="1%" class="mainhead"><form name="abulk$Data{"Counter"}"><input type="checkbox" name="Selected" value="1" onclick="BulkChangeSelected($Data{"TicketID"},$Data{"Counter"})"></form></td>"; }>
   $Data{"BulkLink"}
-  <td align="left" width="65%" class="table0">
-    <b>$Env{"Box0"}$Config{"TicketHook"}: $Data{"TicketNumber"}$Env{"Box1"}</b> <font color="red">$Text{"$Data{"Message"}"}
+  <td align="left" width="65%" class="mainhead">
+    $Env{"Box0"}$Config{"TicketHook"}: $Data{"TicketNumber"}$Env{"Box1"}</b> <font color="red">$Text{"$Data{"Message"}"}
   </td>
-  <td align="right" valign="top" width="34%" class="table0">
-    <b>$Env{"Box0"}$Text{"Age"}: $Data{"Age"}$Env{"Box1"}</b>
+  <td align="right" width="34%" class="mainhead">
+    $Env{"Box0"}$Text{"Age"}: $Data{"Age"}$Env{"Box1"}
   </td>
 </tr>
 </table>
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="3">
 <tr>
-  <td align="left" width="65%" class="table2">
+  <td width="65%" class="menu">
   <a href="$Env{"Baselink"}Action=AgentLock&Subaction=Unlock&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Unlock"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Unlock this ticket!"}">$Text{"Unlock"}</a> -
-  <a href="$Env{"Baselink"}Action=AgentZoom&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Zoom"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Shows the detail view of this ticket!"}">$Text{"Zoom"}</a> 
+  <a href="$Env{"Baselink"}Action=AgentZoom&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Zoom"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Shows the detail view of this ticket!"}">$Text{"Zoom"}</a>
 # shoule we show the priority action
 <dtl if ($Data{"AgentPriority"} ne "0") { $Data{"AgentPriorityStrg"} = " - <a href="$Env{"Baselink"}Action=AgentPriority&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Priority"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Change the ticket priority!"}">$Text{"Priority"}</a>"; }>
 $Data{"AgentPriorityStrg"}
@@ -46,15 +46,20 @@ $Data{"AgentCustomerStrg"}
 <dtl if ($Data{"AgentClose"} ne "0") { $Data{"AgentCloseStrg"} = " - <a href="$Env{"Baselink"}Action=AgentClose&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Close"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Close this ticket!"}">$Text{"Close"}</a>"; }>
 $Data{"AgentCloseStrg"}
   </td>
-  <td align="right" width="34%" class="table2">
-    <b>$Text{"Created"}:</b> $TimeLong{"$Data{"Created"}"}
+  <td align="right" width="34%" class="menu">
+    <table border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td class="mainkey">$Text{"Created"}:</td>
+        <td class="mainvalue"> $TimeLong{"$Data{"Created"}"}</td>
+      </tr>
+    </table>
   </td>
 </tr>
 </table>
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr> 
-  <td valign="top" width="60%" class="table1">
+<tr>
+  <td valign="top" width="60%" class="mainbody">
   <table border="0" width="100%" cellspacing="0" cellpadding="1">
     <tr>
       <td valign="top" width="15%"><b>$Text{"From"}:</b></td>

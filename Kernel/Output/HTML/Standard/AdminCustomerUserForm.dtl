@@ -2,7 +2,7 @@
 # AdminCustoerUserForm.dtl - provides HTML form for AdminCustomerUser
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUserForm.dtl,v 1.22 2004-09-30 23:44:43 martin Exp $
+# $Id: AdminCustomerUserForm.dtl,v 1.23 2004-10-06 19:41:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -93,11 +93,8 @@ $Data{"Back"}
   </table>
 
   </td>
-  <td width="60%" class="mainbody">
+  <td width="60%" align="center" class="mainbody">
 
-  <table width="100%" border="0" cellspacing="0" cellpadding="3">
-  <tr>
-    <td align="center">
     <table width="100%" cellspacing="0" cellpadding="4">
       <tr>
         <td class="contenthead">$Text{"Select Source (for add)"}:</td>
@@ -200,10 +197,6 @@ $Data{"Back"}
   </tr>
   </table>
 
-  </td>
-</tr>
-</table>
-
 </td>
 </tr>
 </table>
@@ -229,4 +222,3 @@ $Data{"Back"}
 </tr>
 </table>
 <!-- end note -->
-

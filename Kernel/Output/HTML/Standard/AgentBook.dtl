@@ -2,7 +2,7 @@
 # AgentSpelling.dtl - provides HTML form for AgentSpelling
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBook.dtl,v 1.4 2004-03-24 15:10:38 martin Exp $
+# $Id: AgentBook.dtl,v 1.5 2004-10-06 19:47:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -26,9 +26,9 @@ function updateMessage()
         return;
     }
 
-    parent.opener.document.compose.To.value = document.book.To.value 
-    parent.opener.document.compose.Cc.value = document.book.Cc.value 
-    parent.opener.document.compose.Bcc.value = document.book.Bcc.value 
+    parent.opener.document.compose.To.value = document.book.To.value
+    parent.opener.document.compose.Cc.value = document.book.Cc.value
+    parent.opener.document.compose.Bcc.value = document.book.Bcc.value
 
     this.close();
 }
@@ -68,12 +68,12 @@ function AddBccAddress(x)
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
 <tr>
-  <td align="left" class="table0"> 
-    <b>$Env{"Box0"}$Text{"Address Book"}$Env{"Box1"}</b>
+  <td class="mainhead">
+    $Env{"Box0"}$Text{"Address Book"}$Env{"Box1"}
   </td>
 </tr>
 <tr>
-  <td align="left" valign="top" class="table1">
+  <td class="mainbody">
 
   <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="book">
   <input type="hidden" name="Action" value="AgentBook">
@@ -103,8 +103,8 @@ function AddBccAddress(x)
 <tr>
   <td>
     <input type="text" name="Search" value="">
-    <input class="button" type="submit" value="$Text{"Search"}"> 
-    <input class="button" type="reset" value="$Text{"Reset"}"> 
+    <input class="button" type="submit" value="$Text{"Search"}">
+    <input class="button" type="reset" value="$Text{"Reset"}">
   </td>
 </tr>
 </table>
@@ -113,8 +113,9 @@ function AddBccAddress(x)
 $Data{"AddressList"}
 </table>
 
-<hr>
-  </td> 
+  <hr>
+
+  </td>
 </tr>
 </table>
 <!-- end Spelling form -->

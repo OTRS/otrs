@@ -2,7 +2,7 @@
 # AdminUserForm.dtl - provides HTML form for AdminUser
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUserForm.dtl,v 1.20 2004-09-30 23:25:00 martin Exp $
+# $Id: AdminUserForm.dtl,v 1.21 2004-10-06 19:40:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -65,32 +65,32 @@
     <input type="hidden" name="ID" value="$Data{"UserID"}">
     <table border="0" cellspacing="0" cellpadding="3">
     <tr>
-      <td width="40%">$Text{"Username"}: </td>
-      <td width="60%"> <input type="text" name="Login" value="$QData{"UserLogin"}" size="35" maxlength="50"></td>
+      <td width="40%" class="contentkey">$Text{"Username"}: </td>
+      <td width="60%" class="contentvalue"> <input type="text" name="Login" value="$QData{"UserLogin"}" size="35" maxlength="50"></td>
     </tr>
     <tr>
       <td class="contentkey">$Text{"Salutation"}: </td>
-      <td> <input type="text" name="Salutation" value="$QData{"UserSalutation"}" size="35" maxlength="50"></td>
+      <td class="contentvalue"> <input type="text" name="Salutation" value="$QData{"UserSalutation"}" size="35" maxlength="50"></td>
     </tr>
     <tr>
       <td class="contentkey">$Text{"Firstname"}: </td>
-      <td> <input type="text" name="Firstname" value="$QData{"UserFirstname"}" size="35" maxlength="50"></td>
+      <td class="contentvalue"> <input type="text" name="Firstname" value="$QData{"UserFirstname"}" size="35" maxlength="50"></td>
     </tr>
     <tr>
       <td class="contentkey">$Text{"Lastname"}: </td>
-      <td> <input type="text" name="Lastname" value="$QData{"UserLastname"}" size="35" maxlength="50"></td>
+      <td class="contentvalue"> <input type="text" name="Lastname" value="$QData{"UserLastname"}" size="35" maxlength="50"></td>
     </tr>
     <tr>
       <td class="contentkey">$Text{"Password"}: </td>
-      <td> <input type="password" name="Pw" value="$QData{"UserPw"}" size="35" maxlength="50"></td>
+      <td class="contentvalue"> <input type="password" name="Pw" value="$QData{"UserPw"}" size="35" maxlength="50"></td>
     </tr>
     <tr>
       <td class="contentkey">$Text{"Email"}: </td>
-      <td> <input type="text" name="Email" value="$QData{"UserEmail"}" size="35" maxlength="50"></td>
+      <td class="contentvalue"> <input type="text" name="Email" value="$QData{"UserEmail"}" size="35" maxlength="50"></td>
     </tr>
     <tr>
       <td class="contentkey">$Text{"Valid"}: </td>
-      <td> $Data{"ValidOption"}</td>
+      <td class="contentvalue"> $Data{"ValidOption"}</td>
     </tr>
 
 <!-- dtl:block:PreferencesGeneric -->

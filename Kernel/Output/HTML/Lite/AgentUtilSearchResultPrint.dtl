@@ -1,8 +1,8 @@
 # --
 # AgentUtilSearchResultShort.dtl - html for ticket status view (all tickets)
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code at otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilSearchResultPrint.dtl,v 1.4 2004-09-24 15:25:19 martin Exp $
+# $Id: AgentUtilSearchResultPrint.dtl,v 1.5 2004-10-06 19:43:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you

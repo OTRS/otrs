@@ -2,7 +2,7 @@
 # AdminNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminNavigationBar.dtl,v 1.26 2004-09-16 22:04:00 martin Exp $
+# $Id: AdminNavigationBar.dtl,v 1.27 2004-10-06 19:49:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,17 +11,17 @@
 <!-- start NavigationBar -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
 <tr>
-  <td align="left" class="table0"><b>$Env{"Box0"}$Text{"Admin-Area"}$Env{"Box1"}</b></td>
+  <td class="mainhead">$Env{"Box0"}$Text{"Admin-Area"}$Env{"Box1"}</td>
 </tr>
 </table>
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="4">
 <tr>
-  <th class="table1">$Text{"User"} & $Text{"Groups"} & $Text{"Roles"}</th>
-  <th class="table1">$Text{"Queue"} & $Text{"Responses"}</th>
-  <th class="table1">$Text{"System"}</th>
-  <th class="table1">$Text{"Misc"}</th>
+  <th class="menu">$Text{"User"} & $Text{"Groups"} & $Text{"Roles"}</th>
+  <th class="menu">$Text{"Queue"} & $Text{"Responses"}</th>
+  <th class="menu">$Text{"System"}</th>
+  <th class="menu">$Text{"Misc"}</th>
 </tr>
-<tr valign="top" align="left">
+<tr>
   <td class="nav">
     $Env{"Box0"}<a href="$Env{"Baselink"}Action=AdminUser">$Text{"User"}</a>$Env{"Box1"}
     <br>

@@ -2,7 +2,7 @@
 # AdminAutoResponse.dtl - provides HTML form for AdminAutoResponse
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminAutoResponseForm.dtl,v 1.16 2004-10-01 00:07:13 martin Exp $
+# $Id: AdminAutoResponseForm.dtl,v 1.17 2004-10-06 19:41:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -116,28 +116,24 @@ $Data{"Note"}
   $Text{"Useable options"}:
     <table>
      <tr>
-      <td><b>&lt;OTRS_CUSTOMER_SUBJECT[20]&gt;</b></td>
-      <td>$Text{"to get the first 20 character of the subject"}</td>
+      <td class="contentkey"><b>&lt;OTRS_CUSTOMER_SUBJECT[20]&gt;</b></td>
+      <td class="contentvalue">$Text{"to get the first 20 character of the subject"}</td>
      </tr>
      <tr>
-      <td><b>&lt;OTRS_CUSTOMER_EMAIL[5]&gt;</b></td>
-      <td>$Text{"to get the first 5 lines of the email"}</td>
+      <td class="contentkey"><b>&lt;OTRS_CUSTOMER_EMAIL[5]&gt;</b></td>
+      <td class="contentvalue">$Text{"to get the first 5 lines of the email"}</td>
      </tr>
      <tr>
-      <td><b>&lt;OTRS_CUSTOMER_FROM&gt;</b></td>
-      <td>$Text{"to get the from line of the email"}</td>
+      <td class="contentkey"><b>&lt;OTRS_CUSTOMER_FROM&gt;</b></td>
+      <td class="contentvalue">$Text{"to get the from line of the email"}</td>
      </tr>
      <tr>
-      <td><b>&lt;OTRS_CUSTOMER_REALNAME&gt;</b></td>
-      <td>$Text{"to get the realname of the sender (if given)"}</td>
+      <td class="contentkey"><b>&lt;OTRS_CUSTOMER_REALNAME&gt;</b></td>
+      <td class="contentvalue">$Text{"to get the realname of the sender (if given)"}</td>
      </tr>
      <tr>
-      <td><b>&lt;OTRS_TICKET_NUMBER&gt;</b></td>
-      <td>$Text{"to get the ticket number of the ticket"}</td>
-     </tr>
-     <tr>
-      <td><b>&lt;OTRS_TICKET_ID&gt;</b></td>
-      <td>$Text{"to get the ticket id of the ticket"}</td>
+      <td class="contentkey"><b>&lt;OTRS_TICKET_*&gt;</b></td>
+      <td class="contentvalue">$Text{"Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)"}</td>
      </tr>
     </table>
    </p>

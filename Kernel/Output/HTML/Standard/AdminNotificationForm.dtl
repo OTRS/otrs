@@ -2,7 +2,7 @@
 # AdminNotificationForm.dtl - provides HTML form for AdminNotification
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminNotificationForm.dtl,v 1.6 2004-09-30 22:52:04 martin Exp $
+# $Id: AdminNotificationForm.dtl,v 1.7 2004-10-06 19:40:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -102,20 +102,24 @@
   $Text{"Useable options"}:
     <table>
      <tr>
-      <td><b>&lt;OTRS_CONFIG_*&gt;</b></td>
-      <td>$Text{"Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)"}</td>
+      <td class="contentkey"><b>&lt;OTRS_CONFIG_*&gt;</b></td>
+      <td class="contentvalue">$Text{"Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)"}</td>
      </tr>
      <tr>
-      <td><b>&lt;OTRS_OWNER_*&gt;</b></td>
-      <td>$Text{"Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)"}</td>
+      <td class="contentkey"><b>&lt;OTRS_OWNER_*&gt;</b></td>
+      <td class="contentvalue">$Text{"Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)"}</td>
      </tr>
      <tr>
-      <td><b>&lt;OTRS_CURRENT_*&gt;</b></td>
-      <td>$Text{"Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)"}</td>
+      <td class="contentkey"><b>&lt;OTRS_CURRENT_*&gt;</b></td>
+      <td class="contentvalue">$Text{"Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)"}</td>
      </tr>
      <tr>
-      <td><b>&lt;OTRS_CUSTOMER_DATA_*&gt;</b></td>
-      <td>$Text{"Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)"}</td>
+      <td class="contentkey"><b>&lt;OTRS_CUSTOMER_DATA_*&gt;</b></td>
+      <td class="contentvalue">$Text{"Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)"}</td>
+     </tr>
+     <tr>
+      <td class="contentkey"><b>&lt;OTRS_TICKET_*&gt;</b></td>
+      <td class="contentvalue">$Text{"Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)"}</td>
      </tr>
     </table>
    </p>

@@ -1,25 +1,25 @@
 # --
 # AgentMailboxNavBar.dtl - provides HTML AgentMailboxNavBar for AgentAgentMailboxNavBar.pm
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMailboxNavBar.dtl,v 1.6 2003-02-09 10:05:23 martin Exp $
+# $Id: AgentMailboxNavBar.dtl,v 1.7 2004-10-06 19:48:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 <!-- start AgentMailboxNavBar -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
 <tr>
-  <td align="center" class="table0">
-    <b>$Env{"Box0"}$Text{"Mailbox"}: $Text{"$Data{"ViewType"}"}$Env{"Box1"}</b>
+  <td align="center" class="mainhead">
+    $Env{"Box0"}$Text{"Mailbox"}: $Text{"$Data{"ViewType"}"}$Env{"Box1"}
   </td>
 </tr>
-<tr> 
-  <td class="table1">
+<tr>
+  <td class="menu">
   $Text{"Tickets"}:
   <a href="$Env{"Baselink"}Action=AgentMailbox&Subaction=All&SortBy=$Data{"SortBy"}&OrderBy=$Data{"OrderBy"}" onmouseover="window.status='$Text{"All messages"} ($Data{"All"})'; return true;" onmouseout="window.status='';">$Text{"All"} ($Data{"All"})</a>
-  - 
+  -
   <a href="$Env{"Baselink"}Action=AgentMailbox&Subaction=Open&SortBy=$Data{"SortBy"}&OrderBy=$Data{"OrderBy"}" onmouseover="window.status='$Text{"Open messages"} ($Data{"Open"})'; return true;" onmouseout="window.status='';">$Text{"Open"} ($Data{"Open"})</a>
   -
   <a href="$Env{"Baselink"}Action=AgentMailbox&Subaction=New&SortBy=$Data{"SortBy"}&OrderBy=$Data{"OrderBy"}" onmouseover="window.status='$Text{"New messages"} ($Data{"New"})'; return true;" onmouseout="window.status='';">$Text{"New"} ($Data{"New"})</a>
@@ -28,13 +28,13 @@
   -
   <a href="$Env{"Baselink"}Action=AgentMailbox&Subaction=Reminder&SortBy=$Data{"SortBy"}&OrderBy=$Data{"OrderBy"}" onmouseover="window.status='$Text{"Reminder messages"} ($Data{"Reminder"})'; return true;" onmouseout="window.status='';">$Text{"Reminder"} ($Data{"Reminder"})</a>
   <br>
-  $Text{"Sort by"}: 
-  <a href="$Env{"Baselink"}Action=AgentMailbox&Subaction=$Env{"Subaction"}&SortBy=Age">$Text{"Age"}</a> - 
-  <a href="$Env{"Baselink"}Action=AgentMailbox&Subaction=$Env{"Subaction"}&SortBy=Queue">$Text{"Queue"}</a> - 
+  $Text{"Sort by"}:
+  <a href="$Env{"Baselink"}Action=AgentMailbox&Subaction=$Env{"Subaction"}&SortBy=Age">$Text{"Age"}</a> -
+  <a href="$Env{"Baselink"}Action=AgentMailbox&Subaction=$Env{"Subaction"}&SortBy=Queue">$Text{"Queue"}</a> -
   <a href="$Env{"Baselink"}Action=AgentMailbox&Subaction=$Env{"Subaction"}&SortBy=Priority&OrderBy=Down">$Text{"Priority"}</a> -
   <a href="$Env{"Baselink"}Action=AgentMailbox&Subaction=$Env{"Subaction"}&SortBy=CustomerID">$Text{"CustomerID"}</a>
-    | $Text{"Order"}: 
-  <a href="$Env{"Baselink"}Action=AgentMailbox&Subaction=$Env{"Subaction"}&SortBy=$Data{"SortBy"}&OrderBy=Up">$Text{"up"}</a> - 
+    | $Text{"Order"}:
+  <a href="$Env{"Baselink"}Action=AgentMailbox&Subaction=$Env{"Subaction"}&SortBy=$Data{"SortBy"}&OrderBy=Up">$Text{"up"}</a> -
   <a href="$Env{"Baselink"}Action=AgentMailbox&Subaction=$Env{"Subaction"}&SortBy=$Data{"SortBy"}&OrderBy=Down">$Text{"down"}</a>
   </td>
 </tr>

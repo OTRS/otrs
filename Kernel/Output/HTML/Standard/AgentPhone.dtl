@@ -2,7 +2,7 @@
 # AgentPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.dtl,v 1.21 2004-08-19 15:38:49 martin Exp $
+# $Id: AgentPhone.dtl,v 1.22 2004-10-06 19:44:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -41,17 +41,14 @@ function SpellCheckSubmit()
 // -->
 </script>
 
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
 <tr>
-  <td align="left" class="table2">
-    <b>$Env{"Box0"}$Text{"Phone call"}: $Data{"TicketNumber"}$Env{"Box1"}</b>
-  </td>
-  <td align="right" class="table2">
-    <b>-</b>
+  <td class="contenthead">
+    $Env{"Box0"}$Text{"Phone call"}: $Data{"TicketNumber"}$Env{"Box1"}
   </td>
 </tr>
 <tr>
-  <td align="left" valign="top" colspan="2" class="table1">
+  <td class="mainbody">
 
 <p>
 
@@ -63,9 +60,9 @@ function SpellCheckSubmit()
 <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
   <table border="0" width="100%">
   <tr>
-    <td width="20%">$Text{"Subject"}:</td>
-    <td width="50%"><input type="text" name="Subject" value="$QData{"Subject"}" size="60"></td>
-    <td width="30%" rowspan="7" valign="top">
+    <td width="20%" class="contentkey">$Text{"Subject"}:</td>
+    <td width="50%" class="contentvalue"><input type="text" name="Subject" value="$QData{"Subject"}" size="60"></td>
+    <td width="30%" rowspan="7" class="contentvalue">
 
 # --
 # show customer info table
@@ -77,45 +74,48 @@ function SpellCheckSubmit()
 </td>
   </tr>
   <tr>
-    <td>$Text{"Options"}:</td>
-    <td>
+    <td class="contentkey">$Text{"Options"}:</td>
+    <td class="contentvalue">
        $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$Text{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"}
       $Env{"Box0"}<a href="#attachment" onmouseover="window.status='$Text{"Attachments"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}attach.png">$Text{"Attachments"}</a>$Env{"Box1"}
     </td>
   </tr>
   <tr>
-    <td valign="top">$Text{"Text"}:</td>
-    <td>
-<textarea name="Body" rows="16" cols="$Config{"TextAreaNoteWindow"}" wrap="$Env{"BrowserWrap"}">$QData{"Body"}</textarea>
-    </td>
+    <td class="contentkey">$Text{"Text"}:</td>
+    <td class="contentvalue"><textarea name="Body" rows="16" cols="$Config{"TextAreaNoteWindow"}" wrap="$Env{"BrowserWrap"}">$QData{"Body"}</textarea></td>
   </tr>
   <tr>
-    <td valign="top">$Text{"Attachment"}:</td><td>
+    <td class="contentkey">$Text{"Attachment"}:</td>
+    <td class="contentvalue">
      <table cellspacing="0" cellpadding="0" width="300">
 <!-- dtl:block:Attachment -->
-       <tr><td>$QData{"Filename"}</td><td>$QData{"Filesize"}</td><td align="right"><input type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}"></td></tr>
+       <tr>
+         <td>$QData{"Filename"}</td>
+         <td>$QData{"Filesize"}</td>
+         <td align="right"><input type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}"></td>
+       </tr>
 <!-- dtl:block:Attachment -->
-      <tr><td colspan="2">
-       <input name="file_upload" type="file" size="30" class="fixed"></td><td align="right"><input type="submit" name="AttachmentUpload" value="$Text{"Attach"}"><a name="attachment">
-       </td></tr>
-       </table>
+       <tr>
+         <td colspan="2"><input name="file_upload" type="file" size="30" class="fixed"></td><td align="right"><input type="submit" name="AttachmentUpload" value="$Text{"Attach"}"><a name="attachment"></td>
+       </tr>
+     </table>
     </td>
   </tr>
   <tr>
-    <td>$Text{"Next ticket state"}:</td>
-    <td>$Data{"NextStatesStrg"}</td>
+    <td class="contentkey">$Text{"Next ticket state"}:</td>
+    <td class="contentvalue">$Data{"NextStatesStrg"}</td>
   </tr>
   <tr>
-    <td>$Text{"Pending Date"} ($Text{"for pending* states"}):</td>
-    <td>$Data{"PendingDateString"} <font color="red" size="-2">$Text{"$Data{"Date invalid"}"}</font></td>
+    <td class="contentkey">$Text{"Pending Date"} ($Text{"for pending* states"}):</td>
+    <td class="contentvalue">$Data{"PendingDateString"} <font color="red" size="-2">$Text{"$Data{"Date invalid"}"}</font></td>
   </tr>
   <tr>
-    <td>$Text{"Is the ticket answered"}:</td>
-    <td>$Data{"AnsweredYesNoOption"}</td>
+    <td class="contentkey">$Text{"Is the ticket answered"}:</td>
+    <td class="contentvalue">$Data{"AnsweredYesNoOption"}</td>
   </tr>
   <tr>
-    <td>$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td>
-    <td><input type="text" name="TimeUnits" value="$QData{"TimeUnits"}" size="3"></td>
+    <td class="contentkey">$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td>
+    <td class="contentvalue"><input type="text" name="TimeUnits" value="$QData{"TimeUnits"}" size="3"></td>
   </tr>
   </table>
 <br>
