@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # Copyright (C) 2002 Stefan Schmidt <jsj@jsj.dyndns.org>
 # --
-# $Id: DateChecksum.pm,v 1.10 2004-10-12 14:00:26 martin Exp $
+# $Id: DateChecksum.pm,v 1.11 2004-11-27 01:56:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@
 # Deutsche Bundesbahn (german railway company) uses for calculation
 # of the check digit of their vehikel numbering.
 # The checksum is calculated by alternately multiplying the digits
-# with 1 and 2 and adding the resulsts from left to right of the 
+# with 1 and 2 and adding the resulsts from left to right of the
 # vehikel number. The modulus to 10 of this sum is substracted from
 # 10. See: http://www.pruefziffernberechnung.de/F/Fahrzeugnummer.shtml
 # (german)
@@ -29,13 +29,13 @@ package Kernel::System::Ticket::Number::DateChecksum;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub CreateTicketNr {
     my $Self = shift;
     my $JumpCounter = shift || 0;
-    # get needed config options 
+    # get needed config options
     my $CounterLog = $Self->{ConfigObject}->Get('CounterLog');
     my $SystemID = $Self->{ConfigObject}->Get('SystemID');
     # get current time
@@ -112,7 +112,7 @@ sub CreateTicketNr {
     }
     # add checksum to ticket number
     $Tn = $Tn.$chksum;
-    # Check ticket number. If exists generate new one! 
+    # Check ticket number. If exists generate new one!
     if ($Self->CheckTicketNr(Tn=>$Tn)) {
         $Self->{LoopProtectionCounter}++;
         if ($Self->{LoopProtectionCounter} >= 1000) {
@@ -140,11 +140,11 @@ sub GetTNByString {
     # get needed config options 
     my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
     # check ticket number
-    if ($String =~ /$TicketHook:+.{0,1}(\d{8,40})\-FW/i) {
+    if ($String =~ /$TicketHook+.{0,2}(\d{8,40})\-FW/i) {
         return $1;
     }
     else {
-        if ($String =~ /$TicketHook:+.{0,1}(\d{8,40})/i) {
+        if ($String =~ /$TicketHook+.{0,2}(\d{8,40})/i) {
             return $1;
         }
         else {

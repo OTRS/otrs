@@ -2,7 +2,7 @@
 # Ticket/Number/AutoIncrement.pm - a ticket number auto increment generator
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AutoIncrement.pm,v 1.10 2004-10-12 14:00:26 martin Exp $
+# $Id: AutoIncrement.pm,v 1.11 2004-11-27 01:56:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ package Kernel::System::Ticket::Number::AutoIncrement;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub CreateTicketNr {
@@ -99,15 +99,14 @@ sub GetTNByString {
     # get needed config options
     my $SystemID = $Self->{ConfigObject}->Get('SystemID');
     my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
-    my $TicketDivider = $Self->{ConfigObject}->Get('TicketDivider') || ': ';
     my $MinSize = $Self->{ConfigObject}->Get('TicketNumberGenerator::AutoIncrement::MinCounterSize') || 5;
     my $MaxSize = $MinSize + 5;
     # check ticket number
-    if ($String =~ /$TicketHook:+.{0,1}($SystemID\d{$MinSize,$MaxSize})\-FW/i) {
+    if ($String =~ /$TicketHook+.{0,2}($SystemID\d{$MinSize,$MaxSize})\-FW/i) {
         return $1;
     }
     else {
-        if ($String =~ /$TicketHook:+.{0,1}($SystemID\d{$MinSize,$MaxSize})/i) {
+        if ($String =~ /$TicketHook+.{0,2}($SystemID\d{$MinSize,$MaxSize})/i) {
             return $1;
         }
         else {
