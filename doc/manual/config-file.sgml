@@ -252,6 +252,56 @@ Some people want to set the "Custom Queue" name (The queue of your favorite queu
 </example>
 </sect1>
 
+<sect1 id="configfile-queuelisttype">
+<title>QueueListType</title>
+<para>
+Do configure the queue selection in your system. Options are 'tree' (which is default) and 'list'.
+</para>
+<para>
+Tree:
+<programlisting>
+QueueA 
+  Queue1
+  Queue2
+  Queue3
+QueueB
+  Queue1 
+    Queue-a 
+    Queue-b 
+    Queue-c 
+    Queue-d 
+  Queue2
+    Queue-a 
+    Queue-b 
+QueueC
+  Queue1 
+  Queue2
+</programlisting>
+</para>
+<para>
+List:
+<programlisting>
+QueueA
+QueueA::Queue1
+QueueA::Queue2
+QueueA::Queue3
+QueueB
+QueueB::Queue1
+QueueB::Queue2
+</programlisting>
+</para>
+<example>
+<title>Kernel/Config.pm - QueueListType</title>
+<programlisting>
+[...]
+    # QueueListType
+    # (show queues in system as tree or as list) [tree|list]
+    $Self->{QueueListType} = 'tree';
+[...]
+</programlisting>
+</example>
+</sect1>
+
 <sect1 id="configfile-notification">
 <title>Agent notification</title>
 <para>
