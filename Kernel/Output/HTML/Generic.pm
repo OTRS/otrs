@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.126 2004-06-25 12:13:38 martin Exp $
+# $Id: Generic.pm,v 1.127 2004-06-28 12:20:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.126 $';
+$VERSION = '$Revision: 1.127 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -232,6 +232,9 @@ sub Output {
         close (TEMPLATEIN);
     }
 
+    # filtering of comment lines
+    $TemplateString =~ s/^#.*\n//gm;
+
     # parse/get text blocks   
     $TemplateString =~ s{
         <!--\s{0,1}dtl:block:(.+?)\s{0,1}-->(.+?)<!--\s{0,1}dtl:block:(.+?)\s{0,1}-->
@@ -257,9 +260,7 @@ sub Output {
     foreach my $Line (@Template) {
       # add missing new line (striped from split)
       $Line .= "\n";
-      # filtering of comment lines
-      if ($Line !~ /^#/) {
-        if ($Line =~ /<dtl/) {
+      if ($Line =~ /<dtl/) {
           # --
           # do template set (<dtl set $Data{"adasd"} = "lala">) 
           # do system call (<dtl system-call $Data{"adasd"} = "uptime">)
@@ -391,7 +392,6 @@ sub Output {
         }
         # add this line to output
         $Output .= $Line;
-      }
     }
 
     # --
@@ -720,6 +720,8 @@ sub Header {
         $Param{'Area'} = $Param{'Title'};
         $Param{'Title'} = '';
     }
+    # set file name for "save page as"
+    $Param{"ContentDisposition"} = "filename=".($Param{Filename} || '$Env{"Action"}').'.html';
     # create & return output
     $Output .= $Self->Output(TemplateFile => "Header$Type", Data => \%Param);
     return $Output;
@@ -740,9 +742,9 @@ sub PrintHeader {
     if (!$Param{Width}) {
         $Param{Width} = 640;
     }
-    # --
+    # set file name for "save page as"
+    $Param{"ContentDisposition"} = "filename=".($Param{Filename} || '$Env{"Action"}').'.html';
     # create & return output
-    # --
     $Output .= $Self->Output(TemplateFile => 'PrintHeader', Data => \%Param);
     return $Output;
 }
@@ -752,7 +754,6 @@ sub PrintFooter {
     my %Param = @_;
     $Param{Host} = $Self->Ascii2Html(
         Text => $ENV{SERVER_NAME}.$ENV{REQUEST_URI},
-        Max => 100,
     );
     # create & return output
     return $Self->Output(TemplateFile => 'PrintFooter', Data => \%Param);
@@ -1296,7 +1297,7 @@ sub OutputHTMLTable {
     $Output .= '<table border="0" width="100%" cellspacing="0" cellpadding="3">';
     $Output .= "<tr>\n"; 
     foreach my $Entry (@Head) {
-        $Output .= "<th class=\"item\">$Entry</th>\n";
+        $Output .= "<td class=\"item\">$Entry</td>\n";
     }
     $Output .= "</tr>\n";
 
