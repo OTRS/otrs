@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NewTicket.pm,v 1.32 2003-02-08 15:09:40 martin Exp $
+# $Id: NewTicket.pm,v 1.33 2003-02-09 20:58:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,9 +15,10 @@ use strict;
 use Kernel::System::AutoResponse;
 use Kernel::System::PostMaster::DestQueue;
 use Kernel::System::Queue;
+use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -40,6 +41,8 @@ sub new {
     $Self->{DestQueueObject} = Kernel::System::PostMaster::DestQueue->new(%Param);
 
     $Self->{QueueObject} = Kernel::System::Queue->new(%Param);
+
+    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
 
     return $Self;
 }
@@ -68,7 +71,7 @@ sub Run {
     # --
     # get priority
     # --
-    my $Priority = $Self->{ConfigObject}->Get('PostmasterDefaultPriority') || 'normal';
+    my $Priority = $Self->{ConfigObject}->Get('PostmasterDefaultPriority') || '3 normal';
     if ($GetParam{'X-OTRS-Priority'}) {
         $Priority = $GetParam{'X-OTRS-Priority'}; 
     }
@@ -121,34 +124,63 @@ sub Run {
         AutoResponseType => $AutoResponseType,
         Queue => $Queue,
     );
-    # --    
-    # get customer id (sender email) if there is no customer id given
     # --
-    if (!$GetParam{'X-OTRS-CustomerNo'}) {
+    # get customer user and no if not given
+    # --
+    if (!$GetParam{'X-OTRS-CustomerUser'}) {
         my @EmailAddresses = $Self->{ParseObject}->SplitAddressLine(
             Line => $GetParam{From},
         );
         foreach (@EmailAddresses) {
-            $GetParam{'X-OTRS-CustomerNo'} = $Self->{ParseObject}->GetEmailAddress(
+            $GetParam{'X-OTRS-CustomerUser'} = $Self->{ParseObject}->GetEmailAddress(
                 Email => $_,
             );
         }
     }
     # --    
+    # get customer id (sender email) if there is no customer id given
+    # --
+    if (!$GetParam{'X-OTRS-CustomerNo'}) {
+        # --
+        # get customer user data
+        # --
+        my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+            User => $GetParam{'X-OTRS-CustomerUser'}, 
+        );
+        # --
+        # take CustomerID from customer backend lookup or from from field
+        # --
+        if ($CustomerData{UserCustomerID}) {
+            $GetParam{'X-OTRS-CustomerNo'} = $CustomerData{UserCustomerID};
+        }
+        else {
+            my @EmailAddresses = $Self->{ParseObject}->SplitAddressLine(
+                Line => $GetParam{From},
+            );
+            foreach (@EmailAddresses) {
+                $GetParam{'X-OTRS-CustomerNo'} = $Self->{ParseObject}->GetEmailAddress(
+                    Email => $_,
+                );
+            }
+        }
+    }
+    # --    
     # set customer no
     # --
-    if ($GetParam{'X-OTRS-CustomerNo'}) {
-        $Self->{TicketObject}->SetCustomerNo(
+    if ($GetParam{'X-OTRS-CustomerNo'} || $GetParam{'X-OTRS-CustomerUser'}) {
+        $Self->{TicketObject}->SetCustomerData(
             TicketID => $TicketID,
             No => $GetParam{'X-OTRS-CustomerNo'},
+            User => $GetParam{'X-OTRS-CustomerUser'},
             UserID => $InmailUserID,
         );
-    }
-    # --
-    # debug
-    # --
-    if ($Self->{Debug} > 0) {
-        print "CustomerID: $GetParam{'X-OTRS-CustomerNo'}\n";
+        # --
+        # debug
+        # --
+        if ($Self->{Debug} > 0) {
+            print "CustomerID: $GetParam{'X-OTRS-CustomerNo'}\n";
+            print "CustomerUser: $GetParam{'X-OTRS-CustomerUser'}\n";
+        }
     }
     # --
     # set free ticket text
