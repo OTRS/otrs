@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.30 2002-06-04 22:56:09 martin Exp $
+# $Id: Generic.pm,v 1.31 2002-06-05 22:47:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,6 +15,7 @@ use lib '../../../';
 
 use strict;
 use MIME::Words qw(:all);
+use MIME::QuotedPrint;
 use Kernel::Language;
 use Kernel::Output::HTML::Agent;
 use Kernel::Output::HTML::Admin;
@@ -23,7 +24,7 @@ use Kernel::Output::HTML::System;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -131,6 +132,7 @@ sub Output {
           'UserLogin',
           'Product',
           'Version',
+          'UserIsAdmin',
         ) {
             $Env{$_} = $Self->{$_};
         }
