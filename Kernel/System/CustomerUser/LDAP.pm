@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Wiktor Wodecki <wiktor.wodecki@net-m.de>
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LDAP.pm,v 1.8 2003-02-25 22:55:00 martin Exp $
+# $Id: LDAP.pm,v 1.9 2003-03-05 19:41:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use Net::LDAP;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -72,6 +72,43 @@ sub new {
 
     return $Self;
 }
+# --
+sub CustomerName {
+    my $Self = shift;
+    my %Param = @_;
+    my $Name = '';
+    # --
+    # check needed stuff
+    # --
+    if (!$Param{UserLogin}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserLogin!");
+        return;
+    }
+    # --
+    # build filter
+    # --
+    my $Filter = "($Self->{CustomerKey}=$Param{UserLogin})";
+    # --
+    # perform user search
+    # --
+    my $Result = $Self->{LDAP}->search (
+        base => $Self->{BaseDN},
+        scope => $Self->{SScope},
+        filter => $Filter, 
+        sizelimit => $Self->{UserSearchListLimit},
+    );
+    foreach my $entry ($Result->all_entries) {
+        foreach (@{$Self->{ConfigObject}->Get('CustomerUser')->{CustomerUserNameFields}}) {
+            if (!$Name) {
+                $Name = $entry->get_value($_);
+            }
+            else {
+                $Name .= ' '.$entry->get_value($_);
+            }
+        }
+    }
+    return $Name;
+}   
 # --
 sub CustomerSearch {
     my $Self = shift;

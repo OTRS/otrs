@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.11 2003-02-25 22:55:00 martin Exp $
+# $Id: DB.pm,v 1.12 2003-03-05 19:41:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -50,6 +50,49 @@ sub new {
     $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%Param);
     
     return $Self;
+}
+# --
+sub CustomerName {
+    my $Self = shift;
+    my %Param = @_;
+    my $Name = ''; 
+    # --
+    # check needed stuff
+    # --
+    if (!$Param{UserLogin}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserLogin!");
+        return;
+    }
+    # --
+    # build SQL string 1/2
+    # --
+    my $SQL = "SELECT $Self->{CustomerKey} ";
+    if ($Self->{ConfigObject}->Get('CustomerUser')->{CustomerUserNameFields}) {
+        foreach my $Entry (@{$Self->{ConfigObject}->Get('CustomerUser')->{CustomerUserNameFields}}) {
+            $SQL .= ", $Entry";
+        }
+    }
+    else {
+        $SQL .= " , first_name, last_name ";
+    }
+    $SQL .= " FROM $Self->{CustomerTable} WHERE $Self->{CustomerKey} = '$Param{UserLogin}' ";
+    # --
+    # get data
+    # --
+    $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 1);
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        foreach (1..8) {
+            if ($Row[$_]) {
+                if (!$Name) {
+                    $Name = $Row[$_];
+                }
+                else {
+                    $Name .= ' '.$Row[$_];
+                }
+            }
+        }
+    }
+    return $Name;
 }
 # --
 sub CustomerSearch {
