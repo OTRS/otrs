@@ -2,7 +2,7 @@
 # CustomerNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2002-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerNavigationBar.dtl,v 1.12 2004-04-23 07:52:31 martin Exp $
+# $Id: CustomerNavigationBar.dtl,v 1.13 2004-04-27 13:32:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,23 +15,27 @@ $Data{"Notification"}
 <!-- start NavigationBar -->
 <table order="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
-  <td valign="top" align="left" width="70%" class="table1">
-    <a href="$Env{"Baselink"}Action=Logout" onmouseover="window.status='$Text{"Logout"}'; return true;" onmouseout="window.status='';">$Text{"Logout"}</a> |
-    <a href="$Env{"Baselink"}Action=CustomerTicketOverView&Type=MyTickets" onmouseover="window.status='$Text{"MyTickets"}'; return true;" onmouseout="window.status='';">$Text{"MyTickets"}</a> | 
-    <a href="$Env{"Baselink"}Action=CustomerTicketOverView&Type=CompanyTickets" onmouseover="window.status='$Text{"CompanyTickets"}'; return true;" onmouseout="window.status='';">$Text{"CompanyTickets"}</a> | 
-    <a href="$Env{"Baselink"}Action=CustomerMessage" onmouseover="window.status='$Text{"Create new Ticket"}'; return true;" onmouseout="window.status='';">$Text{"New Ticket"}</a> |
-    <a href="$Env{"Baselink"}Action=CustomerFAQ" onmouseover="window.status='$Text{"FAQ"}'; return true;" onmouseout="window.status='';">$Text{"FAQ"}</a> |
-    <a href="$Env{"Baselink"}Action=CustomerPreferences" onmouseover="window.status='$Text{"Preferences"}'; return true;" onmouseout="window.status='';">$Text{"Preferences"}</a> 
+  <td valign="top" align="left" width="60%" class="table1">
+    <table cellspacing="1" cellpadding="3">
+    <tr>
+      <td valign="top" align="center" class="nav">
+        <a href="$Env{"Baselink"}Action=Logout" onmouseover="window.status='$Text{"Logout"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}exit.png" alt="$Text{"Logout"}"><br>$Text{"Logout"}</a>
+      </td>
+      <td valign="top" align="center" class="nav"><a href="$Env{"Baselink"}Action=CustomerMessage" onmouseover="window.status='$Text{"Create new Ticket"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}create.png" alt="$Text{"New Article"}"><br>$Text{"New Ticket"}</a>
+      </td>
+      <td valign="top" align="center" class="nav"><a href="$Env{"Baselink"}Action=CustomerTicketOverView&Type=MyTickets" onmouseover="window.status='$Text{"MyTickets"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}ticket.png" alt="$Text{"MyTickets"}"><br>$Text{"MyTickets"}</a>
+      </td>
+      <td valign="top" align="center" class="nav"><a href="$Env{"Baselink"}Action=CustomerTicketOverView&Type=CompanyTickets" onmouseover="window.status='$Text{"CompanyTickets"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}tickets.png" alt="$Text{"CompanyTickets"}"><br>$Text{"CompanyTickets"}</a>
+      </td>
+      <td valign="top" align="center" class="nav"><a href="$Env{"Baselink"}Action=CustomerFAQ" onmouseover="window.status='$Text{"FAQ"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}help.png" alt="$Text{"FAQ-Area"}"><br>$Text{"FAQ"}</a>
+      </td>
+      <td valign="top" align="center" class="nav">
+        <a href="$Env{"Baselink"}Action=CustomerPreferences" onmouseover="window.status='$Text{"Preferences"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}prefer.png" alt="$Text{"Preferences"}"><br>$Text{"Preferences"}</a>
+    </table>
   </td>
-  <td valign="top" align="right" width="30%" class="table1">
+  <td valign="top" align="right" width="40%" class="table1">
+    $Text{"Welcome %s", "$Env{"UserFirstname"} $Env{"UserLastname"} ($Data{"UserLoginTop"})"}<br>
     $Env{"Time"}
-  </td>
-</tr>
-</table>
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
-<tr>
-  <td align="left" width="100%" class="table1">
-   $Text{"Welcome %s", "$Env{"UserFirstname"} $Env{"UserLastname"} ($Data{"UserLoginTop"})"}
   </td>
 </tr>
 </table>
