@@ -2,7 +2,7 @@
 # Test.dtl - provides HTML test page 
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Test.dtl,v 1.2 2001-12-26 20:13:13 martin Exp $
+# $Id: Test.dtl,v 1.3 2002-06-08 22:06:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -104,7 +104,7 @@ Result: $Data{"Test1"}
   <td>SessionID:</td><td> $Env{"SessionID"}</td>
 </tr>
 <tr>
-  <td>Charset:</td><td> $Env{"Charset"}</td>
+  <td>UserCharset:</td><td> $Env{"UserCharset"}</td>
 </tr>
 <tr>
   <td>HTTP_USER_AGENT:</td><td> $Env{"HTTP_USER_AGENT"}</td>

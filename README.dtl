@@ -2,7 +2,7 @@
 # README.dtl - dtl (dynamic template language) description of OpenTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: README.dtl,v 1.3 2002-05-21 21:41:19 martin Exp $
+# $Id: README.dtl,v 1.4 2002-06-08 22:06:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -67,7 +67,7 @@ Used Syntax:
     $Env{"SessionID"} --> the current session id 
     $Env{"Time"} --> the current time e. g. 'Thu Dec 27 16:00:55 2001'  
     $Env{"CGIHandle"} --> the current CGI handle e. g. 'index.pl' 
-    $Env{"Charset"} --> the current site charset e. g. 'iso-8859-1'
+    $Env{"UserCharset"} --> the current site charset e. g. 'iso-8859-1'
     $Env{"Baselink"} --> the baselink --> index.pl?SessionID=...
     $Env{"UserFirstname"} --> e. g. Dirk 
     $Env{"UserLastname"} --> e. g. Hohndel 

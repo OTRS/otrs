@@ -86,7 +86,7 @@ $Config{"Sendmail"}
     $Env{"SessionID"} --> the current session id
     $Env{"Time"} --> the current time e. g. 'Thu Dec 27 16:00:55 2001'
     $Env{"CGIHandle"} --> the current CGI handle e. g. 'index.pl'
-    $Env{"Charset"} --> the current site charset e. g. 'iso-8859-1'
+    $Env{"UserCharset"} --> the current site charset e. g. 'iso-8859-1'
     $Env{"Baselink"} --> the baselink --> index.pl?SessionID=...
     $Env{"UserFirstname"} --> e. g. Dirk
     $Env{"UserLastname"} --> e. g. Hohndel
@@ -173,7 +173,7 @@ This is a example of the login screen. If you want to customize this screen use 
 # --
 # http headers
 # --
-Content-Type: text/html; charset=$Env{"Charset"};
+Content-Type: text/html; charset=$Env{"UserCharset"};
 X-Powered-By: OpenTRS - Open Ticket Request System (http://otrs.org)
 
 # --
@@ -257,7 +257,7 @@ This is the default HTML header of each OpenTRS sides. If you want to customize 
 # --
 # http headers
 # --
-Content-Type: text/html; charset=$Env{"Charset"};
+Content-Type: text/html; charset=$Env{"UserCharset"};
 
 # --
 # html comment
