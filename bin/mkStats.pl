@@ -3,7 +3,7 @@
 # mkStats.pl - generate stats pics
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: mkStats.pl,v 1.9 2002-10-20 12:10:59 martin Exp $
+# $Id: mkStats.pl,v 1.10 2002-10-21 11:27:26 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ use Kernel::Config;
 use Kernel::System::Log;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 umask 022;
@@ -151,9 +151,9 @@ sub GetDBDataPerMonth {
         " WHERE " .
         " history_type_id = $State " .
         " AND " .
-        " create_time >= '$Year-$Month-$StartDate'" .
+        " create_time >= $Year-$Month-$StartDate" .
         " AND " .
-        " create_time <= '$Year-$Month-$EndDate'";
+        " create_time <= $Year-$Month-$EndDate";
         $CommonObject{DBObject}->Prepare(SQL => $SQL);
         while (my @RowTmp = $CommonObject{DBObject}->FetchrowArray()) {
             $DayData= $RowTmp[0];
