@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentEmail.pm - to compose inital email to customer
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentEmail.pm,v 1.42 2004-10-02 09:14:15 martin Exp $
+# $Id: AgentEmail.pm,v 1.43 2004-10-08 09:01:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -613,8 +613,14 @@ sub Run {
         my $Tn = $Self->{TicketObject}->TicketNumberLookup(TicketID => $TicketID);
         $GetParam{Subject} = "[$TicketHook: $Tn] $GetParam{Subject}";
         $GetParam{Body} .= "\n\n".$Signature;
+        # check if new owner is given (then send no agent notify)
+        my $NoAgentNotify = 0;
+        if ($NewUserID) {
+            $NoAgentNotify = 1;
+        }
         # send email
         my $ArticleID = $Self->{TicketObject}->ArticleSend(
+            NoAgentNotify => $NoAgentNotify,
             Attach => \@Attachments,
             ArticleType => 'email-external',
             SenderType => 'agent',
@@ -636,17 +642,17 @@ sub Run {
         if ($ArticleID) {
           # remove pre submited attachments
           $Self->{UploadCachObject}->FormIDRemove(FormID => $Self->{FormID});
-          # set lock (get lock type)
-          $Self->{TicketObject}->LockSet(
-              TicketID => $TicketID,
-              Lock => $Self->{ConfigObject}->Get('EmailDefaultNewLock'),
-              UserID => $Self->{UserID},
-          );
           # set owner (if new user id is given)
           if ($NewUserID) {
               $Self->{TicketObject}->OwnerSet(
                   TicketID => $TicketID,
                   NewUserID => $NewUserID,
+                  UserID => $Self->{UserID},
+              );
+              # set lock
+              $Self->{TicketObject}->LockSet(
+                  TicketID => $TicketID,
+                  Lock => 'lock',
                   UserID => $Self->{UserID},
               );
           }
@@ -656,6 +662,12 @@ sub Run {
                   TicketID => $TicketID,
                   ArticleID => $ArticleID,
                   TimeUnit => $GetParam{TimeUnits},
+                  UserID => $Self->{UserID},
+              );
+              # set lock
+              $Self->{TicketObject}->LockSet(
+                  TicketID => $TicketID,
+                  Lock => $Self->{ConfigObject}->Get('EmailDefaultNewLock'),
                   UserID => $Self->{UserID},
               );
           }
