@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.147 2004-08-04 09:23:31 martin Exp $
+# $Id: Defaults.pm,v 1.148 2004-08-06 07:45:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.147 $';
+$VERSION = '$Revision: 1.148 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1848,7 +1848,7 @@ Your OTRS Notification Master
             'ShownTickets', 'RefreshTime', 'Language', 'Theme',
         ],
         'Other Options' => [
-            'Password', 'ClosedTickets', 'PGP',
+            'Password', 'ClosedTickets', 'PGP', 'SMIME',
         ],
     };
 
@@ -1924,6 +1924,14 @@ Your OTRS Notification Master
 #        Desc => 'PGP Key Upload',
 #        Type => 'Upload',
 #        PrefKey => 'UserPGPKey',
+#        Activ => 0,
+#    };
+#    $Self->{CustomerPreferencesGroups}->{SMIME} = {
+#        Colum => 'Other Options',
+#        Label => 'SMIME Certificate',
+#        Desc => 'SMIME Certificate Upload',
+#        Type => 'Upload',
+#        PrefKey => 'UserSMIMEKey',
 #        Activ => 0,
 #    };
 
@@ -2042,7 +2050,8 @@ Your OTRS Notification Master
     $Self->{'SMIME'} = 1;
     $Self->{'SMIME::Bin'} = '/usr/bin/openssl';
 #    $Self->{'SMIME::CertPath'} = '/etc/ssl/certs';
-    $Self->{'SMIME::CertPath'} = '';
+    $Self->{'SMIME::CertPath'} = '/tmp/certs';
+    $Self->{'SMIME::PrivatePath'} = '/tmp/private';
 
     # --------------------------------------------------- #
     # system permissions
