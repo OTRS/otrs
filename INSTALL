@@ -2,9 +2,8 @@
 # INSTALL description of OpenTRS
 # Copyright (C) 2001 Martin Edenhofer
 # --
-# $otrs: $
-# $Header: /ws/cvs-master-data/cvs/otrs/INSTALL,v 1.1 2001-12-01 16:55:17 martin Exp $
-# $Author: martin $ 
+# $Id: INSTALL,v 1.2 2001-12-01 16:59:55 martin Exp $
+# --
 
 Software requirements?
 ======================
