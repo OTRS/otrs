@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.50 2002-10-05 16:07:41 martin Exp $
+# $Id: Generic.pm,v 1.51 2002-10-15 09:37:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::Output::HTML::System;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.50 $';
+$VERSION = '$Revision: 1.51 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -41,21 +41,18 @@ sub new {
     # --
     my $Self = {}; 
     bless ($Self, $Type);
-
     # --
     # get common objects 
     # --
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
-
     # --
     # check needed objects
     # --
     foreach ('ConfigObject', 'LogObject') {
         die "Got no $_!" if (!$Self->{$_});
     } 
-
     # --
     # get/set some common params
     # --
@@ -73,15 +70,9 @@ sub new {
     $Self->{Charset}   = $Self->{UserCharset}; # just for compat.
     $Self->{SessionID} = $Param{SessionID} || '';
     # --
-    # Check if the brwoser sends the SessionID cookie! 
-    # If yes, don't add the SessinID to the links
+    # Baselink 
     # --
-    if ($Self->{SessionIDCookie}) {
-        $Self->{Baselink}  = "$Self->{CGIHandle}?";
-    } 
-    else {
-        $Self->{Baselink}  = "$Self->{CGIHandle}?SessionID=$Self->{SessionID}";
-    } 
+    $Self->{Baselink}  = "$Self->{CGIHandle}?";
     $Self->{Time}      = localtime();
     $Self->{HistoryCounter} = 0;
     $Self->{HighlightAge1} = $Self->{ConfigObject}->Get('HighlightAge1');
@@ -95,17 +86,19 @@ sub new {
     my %ReleaseData = $Self->GetRelease();
     $Self->{Product} = $ReleaseData{Product} || '???'; 
     $Self->{Version} = $ReleaseData{Version} || '???'; 
-
     # --
     # load theme
     # --
     my $Theme = $Self->{UserTheme} || $Self->{ConfigObject}->Get('DefaultTheme') || 'Standard';
-
     # --
     # locate template files
     # --
-    $Self->{TemplateDir} = '../../Kernel/Output/HTML/'. $Theme;
-
+    if (-d '../../../Kernel/Output/HTML/') {
+        $Self->{TemplateDir} = '../../../Kernel/Output/HTML/'. $Theme;
+    }
+    else {
+        $Self->{TemplateDir} = '../../Kernel/Output/HTML/'. $Theme;
+    }
     # --
     # create language object
     # --
@@ -124,7 +117,6 @@ sub new {
         ){
           $Self->{UserIsAdmin}='Yes';
         }
-
         # --
         # should the stats link be shown?
         # --
@@ -184,7 +176,7 @@ sub Output {
     # --
     my $Output = '';
     open (TEMPLATEIN, "< $Self->{TemplateDir}/$Param{TemplateFile}.dtl")  
-         ||  die "Can't read $Param{TemplateFile}.dtl: $!";
+         ||  die "Can't read $Self->{TemplateDir}/$Param{TemplateFile}.dtl: $!";
     while (my $Line = <TEMPLATEIN>) {
       # filtering of comment lines
       if ($Line !~ /^#/) {
@@ -269,8 +261,8 @@ sub Output {
         }
         # add this line to output
         $Output .= $Line;
+      }
     }
-
     # --
     # variable & env & config replacement (two times)
     # --
@@ -298,18 +290,66 @@ sub Output {
     # --
     # do translation
     # --
-    $Output =~ s{
+    foreach (1..2) {
+        $Output =~ s{
             \$Text({"(.+?)"}|{""})
         }
         { 
             $Self->{LanguageObject}->Get($2 || '');
         }egx;
     }
-
     # --
-    # replace index.pl?& with index.pl?
+    # Check if the brwoser sends the SessionID cookie! 
+    # If not, add the SessinID to the links and forms!
     # --
-    $Output =~ s/(<a href=.+?\?)&(.+?>)/$1$2/gi;
+    if (!$Self->{SessionIDCookie}) {
+        my $SessionName = $Self->{ConfigObject}->Get('SessionName') || 'SessionID';
+        # rewrite a hrefs
+        $Output =~ s{
+            (<a.+?href=")(.+?)(">|".+?>)
+        }
+        { 
+            my $AHref = $1;
+            my $Target = $2;
+            my $End = $3;
+            if ($Target =~ /^(http:|https:|#|ftp:)/i) {
+                "$AHref$Target$End"; 
+            } 
+            else {
+                "$AHref$Target&$SessionName=$Self->{SessionID}$End"; 
+            }
+        }iegx;
+        # rewrite img src
+        $Output =~ s{
+            (<img.+?src=")(.+?)(">|".+?>)
+        }
+        { 
+            my $AHref = $1;
+            my $Target = $2;
+            my $End = $3;
+            if ($Target =~ /^(http:|https:)/i) {
+                "$AHref$Target$End"; 
+            } 
+            else {
+                "$AHref$Target&$SessionName=$Self->{SessionID}$End"; 
+            }
+        }iegx;
+        # rewrite forms: <form action="index.pl" method="get">
+        $Output =~ s{
+            (<form.+?action=")(.+?)(">|".+?>) 
+        }
+        { 
+            my $Start = "$1";
+            my $Target = $2;
+            my $End = "$3";
+            if ($Target =~ /^(http:|https:)/i) {
+                "$Start$Target$End"; 
+            } 
+            else {
+                "$Start$Target$End<input type=\"hidden\" name=\"".$SessionName."\" value=\"$Self->{SessionID}\">";
+            }
+        }iegx;
+    }
  
     # save %Env
     $Self->{EnvRef} = $EnvRef;
@@ -335,13 +375,44 @@ sub Redirect {
     # create & return output
     # --
     if ($Param{ExtURL}) {
+        # external redirect
         $Param{Redirect} = $Param{ExtURL};
+        return $Self->Output(TemplateFile => 'Redirect', Data => \%Param);
     }
     else {
+        # internal redirect
         $Param{Redirect} = $Self->{Baselink} . $Param{OP};
+        $Output .= $Self->Output(TemplateFile => 'Redirect', Data => \%Param);
+        if (!$Self->{SessionIDCookie}) {
+            my $SessionName = $Self->{ConfigObject}->Get('SessionName') || 'SessionID';
+            # rewrite location header 
+            $Output =~ s{
+                (location: )(.*)
+            }
+            { 
+                my $Start = "$1";
+                my $Target = $2;
+                if ($Target =~ /http/i) {
+                    "$Start$Target"; 
+                }
+                else {
+                    if ($Target =~ /(\?|&)$/) {
+                        "$Start$Target$SessionName=$Self->{SessionID}";
+                    }
+                    elsif ($Target !~ /\?/) {
+                        "$Start$Target?$SessionName=$Self->{SessionID}";
+                    }
+                    elsif ($Target =~ /\?/) {
+                        "$Start$Target&$SessionName=$Self->{SessionID}";
+                    }
+                    else {
+                        "$Start$Target?&$SessionName=$Self->{SessionID}";
+                    }
+                }
+            }iegx;
+        }
+        return $Output;
     }
-    $Output .= $Self->Output(TemplateFile => 'Redirect', Data => \%Param);
-    return $Output;
 }
 # --
 sub Test {
@@ -473,10 +544,11 @@ sub LinkQuote {
     my $Self = shift;
     my %Param = @_;
     my $Text = $Param{Text} || '';
-    my $Target = $Param{Target} || 'NewPage';
+    my $Target = $Param{Target} || 'NewPage'. int(rand(199));
 
     # do link quote
     $Text =~ s/(http:\/\/.*?)(\s|\)|\"|]|')/<a href=\"$1\" target=\"$Target\">$1<\/a>$2/gi;
+    $Text =~ s/(https:\/\/.*?)(\s|\)|\"|]|')/<a href=\"$1\" target=\"$Target\">$1<\/a>$2/gi;
     # do mail to quote
     $Text =~ s/(mailto:.*?)(\s|\)|\"|]|')/<a href=\"$1\">$1<\/a>$2/gi;
 
@@ -548,6 +620,9 @@ sub OptionStrgHashRef {
     my $PossibleNone = $Param{PossibleNone} || '';
     my $Size = $Param{Size} || '';
     $Size = "size=$Size" if ($Size);
+    if (!$Param{Data}) {
+        return "Got no Data ref in OptionStrgHashRef()!";
+    }
     my %Data = %{$Param{Data}};
     my $OnChangeSubmit = $Param{OnChangeSubmit} || '';
     if ($OnChangeSubmit) {
@@ -645,7 +720,7 @@ sub CheckCharset {
             $Output = '<p><i class="small">'.
               '$Text{"This message was written in a character set other than your own."}'.
               '$Text{"If it is not displayed correctly,"} '.
-              "<a href=\"$Self->{Baselink}&Action=AgentZoom&TicketID=$Param{TicketID}".
+              "<a href=\"$Self->{Baselink}Action=AgentZoom&TicketID=$Param{TicketID}".
               "&ArticleID=$Param{ArticleID}&Subaction=ShowHTMLeMail\" target=\"HTMLeMail\">".
               '$Text{"click here"}</a> $Text{"to open it in a new window."}</i></p>';
         }
@@ -665,7 +740,7 @@ sub CheckMimeType {
     if ($Param{MimeType} && $Param{MimeType} !~ /text\/plain/i) {
          $Output = '<p><i class="small">$Text{"This is a"} '.$Param{MimeType}.
            ' $Text{"email"}, '. 
-           "<a href=\"$Self->{Baselink}&Action=AgentZoom&TicketID=".
+           "<a href=\"$Self->{Baselink}Action=AgentZoom&TicketID=".
            "$Param{TicketID}&ArticleID=$Param{ArticleID}&Subaction=ShowHTMLeMail\" ".
            'target="HTMLeMail">$Text{"click here"}</a> '.
            '$Text{"to open it in a new window."}</i></p>';
@@ -674,7 +749,7 @@ sub CheckMimeType {
     elsif ($Param{Text} =~ /^<.DOCTYPE html PUBLIC|^<HTML>/i) {
          $Output = '<p><i class="small">$Text{"This is a"} '.$Param{MimeType}.
            ' $Text{"email"}, '.
-           "<a href=\"$Self->{Baselink}&Action=AgentZoom&TicketID=".
+           "<a href=\"$Self->{Baselink}Action=AgentZoom&TicketID=".
            "$Param{TicketID}&ArticleID=$Param{ArticleID}&Subaction=ShowHTMLeMail\" ".
            'target="HTMLeMail">$Text{"click here"}</a> '.
            '$Text{"to open it in a new window."}</i></p>';
@@ -696,7 +771,13 @@ sub GetRelease {
     # open release data file
     # --
     my %Release = ();
-    open (PRODUCT, "< ../../RELEASE") || print STDERR "Can't read ../../RELEASE: $!";
+    if (-f '../../../RELEASE') {
+        $Release{File} = '../../../RELEASE';
+    }
+    else {
+        $Release{File} = '../../RELEASE';
+    }
+    open (PRODUCT, "< $Release{File}") || print STDERR "Can't read $Release{File}: $!";
     while (<PRODUCT>) {
       # filtering of comment lines
       if ($_ !~ /^#/) {
