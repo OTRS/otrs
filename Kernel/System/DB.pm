@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.33 2004-01-04 21:34:59 martin Exp $
+# $Id: DB.pm,v 1.34 2004-01-14 01:45:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,9 +13,10 @@ package Kernel::System::DB;
 
 use strict;
 use DBI;
+use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -83,6 +84,8 @@ sub new {
             die "Got no $_!";
         }
     } 
+    # encode object
+    $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
     # get config data
     $Self->{DSN}  = $Param{DatabaseDSN} || $Self->{ConfigObject}->Get('DatabaseDSN');
     $Self->{USER} = $Param{DatabaseUser} || $Self->{ConfigObject}->Get('DatabaseUser');
@@ -408,7 +411,11 @@ sub FetchrowArray {
         $Self->{LimitCounter}++;
     }
     # return 
-    return $Self->{Curser}->fetchrow_array();
+    my @Row = $Self->{Curser}->fetchrow_array();
+    foreach (@Row) {
+         $Self->{EncodeObject}->Encode(\$_);
+    }
+    return @Row;
 }
 # --
 # _should_ not used because of database incompat.
@@ -527,7 +534,7 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.33 $ $Date: 2004-01-04 21:34:59 $
+$Revision: 1.34 $ $Date: 2004-01-14 01:45:33 $
 
 =cut
 
