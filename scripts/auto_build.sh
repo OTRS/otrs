@@ -3,7 +3,7 @@
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
 # Copyright (C) 2002-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: auto_build.sh,v 1.23 2004-07-08 12:51:23 martin Exp $
+# $Id: auto_build.sh,v 1.24 2004-08-12 14:36:58 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.23 $>"
+echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.24 $>"
 echo "Copyright (c) 2002-2004 Martin Edenhofer <martin@otrs.org>"
 
 PATH_TO_CVS_SRC=$1
@@ -34,8 +34,8 @@ PACKAGE=otrs
 PACKAGE_BUILD_DIR="/tmp/$PACKAGE-build"
 PACKAGE_DEST_DIR="/tmp/$PACKAGE-packages"
 PACKAGE_TMP_SPEC="/tmp/$PACKAGE.spec"
-RPM_BUILD="rpmbuild"
-#RPM_BUILD="rpm"
+#RPM_BUILD="rpmbuild"
+RPM_BUILD="rpm"
 
 if ! test $PATH_TO_CVS_SRC || ! test $VERSION || ! test $RELEASE; then
     # --
