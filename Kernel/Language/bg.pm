@@ -11,7 +11,7 @@ package Kernel::Language::bg;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -1040,7 +1040,8 @@ sub Data {
       'History::StateUpdate' => 'Old: "%s" New: "%s"',
       'History::TicketFreeTextUpdate' => 'Updated: %s=%s;%s=%s;',
       'History::WebRequestCustomer' => 'Customer request via web.',
-
+      'History::TicketLinkAdd' => 'Added link to ticket "%s".',
+      'History::TicketLinkDelete' => 'Deleted link to ticket "%s".',
     );
 
     # $$STOP$$

@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2002-2004 Martin Edenhofer <martin at otrs.org>
 # --
-# $Id: de.pm,v 1.47 2004-04-28 07:01:32 martin Exp $
+# $Id: de.pm,v 1.48 2004-05-04 15:11:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.47 $';
+$VERSION = '$Revision: 1.48 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -112,6 +112,8 @@ sub Data {
       'History::TimeAccounting' => '%s time unit(s) accounted. Now total %s time unit(s).',
       'History::Unlock' => 'Ticket Sperre aufgehoben.',
       'History::WebRequestCustomer' => 'Kunde stellte Anfrage über Web.',
+      'History::TicketLinkAdd' => 'Verknüpfung zu "%s" hergestellt.',
+      'History::TicketLinkDelete' => 'Verknüpfung zu "%s" gelöscht.',
       'Hit' => 'Treffer',
       'Hits' => 'Treffer',
       'hour' => 'Stunde',
@@ -1094,6 +1096,7 @@ sub Data {
       'store' => 'Speichern',
       'tickets' => 'Tickets',
       'valid' => 'gültig',
+      'No such Ticket Number "%s"! Can\'t link it!' => 'Ticketnummer "%s" nicht gefunden! Ticket konnte nicht verknüpft werden!',
     );
 
     # $$STOP$$

@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Nicolas Goralski <ngoralski at oceanet-technology.com>
 # Copyright (C) 2004 Yann Richard <ze at nawak-online.org>
 # --
-# $Id: fr.pm,v 1.34 2004-04-26 13:23:24 martin Exp $
+# $Id: fr.pm,v 1.35 2004-05-04 15:11:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.34 $';
+$VERSION = '$Revision: 1.35 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -1051,7 +1051,8 @@ sub Data {
       'History::StateUpdate' => 'Avant: "%s" Après: "%s"',
       'History::TicketFreeTextUpdate' => 'Mise à jour: %s=%s;%s=%s;',
       'History::WebRequestCustomer' => 'Requête du client via le web.',
-
+      'History::TicketLinkAdd' => 'Added link to ticket "%s".',
+      'History::TicketLinkDelete' => 'Deleted link to ticket "%s".',
     );
 
     # $$STOP$$

@@ -2,9 +2,12 @@
 -- initial_insert.sql - provides initial system data
 -- Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: initial_insert.sql,v 1.24 2004-04-15 08:43:14 martin Exp $
+-- $Id: initial_insert.sql,v 1.25 2004-05-04 15:12:10 martin Exp $
 -- 
 -- $Log: not supported by cvs2svn $
+-- Revision 1.24  2004/04/15 08:43:14  martin
+-- removed not needed ticket_history_types
+--
 -- Revision 1.23  2004/04/02 12:49:35  martin
 -- added missing WebRequestCustomer ticket_history_type entry
 --
@@ -534,6 +537,14 @@ INSERT INTO ticket_history_type
         (name, valid_id, create_by, create_time, change_by, change_time)
         VALUES
         ('WebRequestCustomer', 1, 1, current_timestamp, 1, current_timestamp);
+INSERT INTO ticket_history_type
+        (name, valid_id, create_by, create_time, change_by, change_time)
+        VALUES
+        ('TicketLinkAdd', 1, 1, current_timestamp, 1, current_timestamp);
+INSERT INTO ticket_history_type
+        (name, valid_id, create_by, create_time, change_by, change_time)
+        VALUES
+        ('TicketLinkDelete', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- article_type
 INSERT INTO article_type

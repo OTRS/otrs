@@ -2,7 +2,7 @@
 # Kernel/Language/fi.pm - provides fi language translation
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # --
-# $Id: fi.pm,v 1.23 2004-04-15 08:36:15 martin Exp $
+# $Id: fi.pm,v 1.24 2004-05-04 15:11:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::fi;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -1046,7 +1046,8 @@ sub Data {
       'History::StateUpdate' => 'Old: "%s" New: "%s"',
       'History::TicketFreeTextUpdate' => 'Updated: %s=%s;%s=%s;',
       'History::WebRequestCustomer' => 'Customer request via web.',
-
+      'History::TicketLinkAdd' => 'Added link to ticket "%s".',
+      'History::TicketLinkDelete' => 'Deleted link to ticket "%s".',
     );
 
     # $$STOP$$

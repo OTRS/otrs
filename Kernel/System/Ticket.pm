@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.107 2004-05-02 10:57:27 martin Exp $
+# $Id: Ticket.pm,v 1.108 2004-05-04 15:12:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.107 $';
+$VERSION = '$Revision: 1.108 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1412,6 +1412,28 @@ sub TicketLinkAdd {
     " VALUES ($Param{MasterTicketID}, $Param{SlaveTicketID}) ";
         
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
+        # add master ticket hostory
+        my $SlaveTicketNumber = $Self->TicketNumberLookup(
+            TicketID => $Param{SlaveTicketID},
+            UserID => $Param{UserID},
+        );
+        $Self->HistoryAdd(
+            TicketID => $Param{MasterTicketID},
+            CreateUserID => $Param{UserID},
+            HistoryType => 'TicketLinkAdd',
+            Name => "\%\%$SlaveTicketNumber\%\%$Param{MasterTicketID}\%\%$Param{SlaveTicketID}",
+        );
+        # added slave ticket history
+        my $MasterTicketNumber = $Self->TicketNumberLookup(
+            TicketID => $Param{MasterTicketID},
+            UserID => $Param{UserID},
+        );
+        $Self->HistoryAdd(
+            TicketID => $Param{SlaveTicketID},
+            CreateUserID => $Param{UserID},
+            HistoryType => 'TicketLinkAdd',
+            Name => "\%\%$MasterTicketNumber\%\%$Param{MasterTicketID}\%\%$Param{SlaveTicketID}",
+        );
         return 1;
     }
     else {
@@ -1454,6 +1476,29 @@ sub TicketLinkDelete {
         " ticket_id_slave = $Param{SlaveTicketID} ".
         " ";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
+        # add master ticket hostory
+        my $SlaveTicketNumber = $Self->TicketNumberLookup(
+            TicketID => $Param{SlaveTicketID},
+            UserID => $Param{UserID},
+        );
+        $Self->HistoryAdd(
+            TicketID => $Param{MasterTicketID},
+            CreateUserID => $Param{UserID},
+            HistoryType => 'TicketLinkDelete',
+            Name => "\%\%$SlaveTicketNumber\%\%$Param{MasterTicketID}\%\%$Param{SlaveTicketID}",
+        );
+        # added slave ticket history
+        my $MasterTicketNumber = $Self->TicketNumberLookup(
+            TicketID => $Param{MasterTicketID},
+            UserID => $Param{UserID},
+        );
+        $Self->HistoryAdd(
+            TicketID => $Param{SlaveTicketID},
+            CreateUserID => $Param{UserID},
+            HistoryType => 'TicketLinkDelete',
+            Name => "\%\%$MasterTicketNumber\%\%$Param{MasterTicketID}\%\%$Param{SlaveTicketID}",
+        );
+
         return 1;
     }
     else {
@@ -2909,7 +2954,7 @@ sub TicketAcl {
         # debug log
         my %NewTmpData = ();
         if ($Match && $Match3) {
-print STDERR "Matched: $Match '$Acl'->ReturnType:'$Param{ReturnType}'->ReturnSubType:'$Param{ReturnSubType}'\n";
+#print STDERR "Matched: $Match '$Acl'->ReturnType:'$Param{ReturnType}'->ReturnSubType:'$Param{ReturnSubType}'\n";
             if ($Self->{Debug} > 2) {
                 $Self->{LogObject}->Log(
                     Priority => 'debug',
@@ -3025,6 +3070,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.107 $ $Date: 2004-05-02 10:57:27 $
+$Revision: 1.108 $ $Date: 2004-05-04 15:12:33 $
 
 =cut

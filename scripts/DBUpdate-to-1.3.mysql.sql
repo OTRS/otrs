@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 1.2 to 1.3 
 -- Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-1.3.mysql.sql,v 1.1 2004-04-15 12:08:07 martin Exp $
+-- $Id: DBUpdate-to-1.3.mysql.sql,v 1.2 2004-05-04 15:12:10 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-1.3.mysql.sql | mysql -f -u root otrs
@@ -22,6 +22,18 @@ DELETE FROM ticket_history_type WHERE name = 'Close successful';
 DELETE FROM ticket_history_type WHERE name = 'SetPending';
 
 --
+-- new ticket history stuff
+--
+INSERT INTO ticket_history_type
+        (name, valid_id, create_by, create_time, change_by, change_time)
+        VALUES
+        ('TicketLinkAdd', 1, 1, current_timestamp, 1, current_timestamp);
+INSERT INTO ticket_history_type
+        (name, valid_id, create_by, create_time, change_by, change_time)
+        VALUES
+        ('TicketLinkDelete', 1, 1, current_timestamp, 1, current_timestamp);
+
+--
 -- alter article table (just a bug in mysql script!)
 --
 ALTER TABLE article CHANGE ticket_id ticket_id BIGINT;
@@ -30,3 +42,10 @@ ALTER TABLE article CHANGE ticket_id ticket_id BIGINT;
 -- add more attachment info
 --
 ALTER TABLE article_attachment ADD content_size VARCHAR (30);
+
+
+--
+-- change max customer user login size
+--
+ALTER TABLE group_customer_user CHANGE user_id user_id VARCHAR (100);
+

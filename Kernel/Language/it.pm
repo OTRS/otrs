@@ -3,7 +3,7 @@
 # Copyright (C) 2003 Remo Catelotti <Remo.Catelotti at bull.it>
 #               2003 Gabriele Santilli <gsantilli at omnibus.net>
 # --
-# $Id: it.pm,v 1.10 2004-04-15 08:36:15 martin Exp $
+# $Id: it.pm,v 1.11 2004-05-04 15:11:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::it;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1053,7 +1053,8 @@ sub Data {
       'History::StateUpdate' => 'Old: "%s" New: "%s"',
       'History::TicketFreeTextUpdate' => 'Updated: %s=%s;%s=%s;',
       'History::WebRequestCustomer' => 'Customer request via web.',
-
+      'History::TicketLinkAdd' => 'Added link to ticket "%s".',
+      'History::TicketLinkDelete' => 'Deleted link to ticket "%s".',
     );
 
     # $$STOP$$
