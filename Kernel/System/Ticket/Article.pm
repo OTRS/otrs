@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.27 2003-04-24 19:47:26 martin Exp $
+# $Id: Article.pm,v 1.27.2.1 2003-05-26 22:00:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::Article;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.27.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -222,6 +222,25 @@ sub CreateArticle {
                     );
                 }
             }
+        }
+        # -- 
+        # log that no auto response was sent!
+        # --
+        elsif ($OrigHeader{'X-OTRS-Loop'}) {
+            # add history row
+            $Self->AddHistoryRow(
+                TicketID => $Param{TicketID},
+                HistoryType => 'Misc',
+                Name => "Sent no auto-response because the sender don't want ".
+                  "a auto-response (e. g. loop or precedence header)",
+                CreateUserID => $Param{UserID},
+            );
+            $Self->{LogObject}->Log(
+                Priority => 'notice',
+                Message => "Sent no '$Param{AutoResponseType}' for Ticket [".
+                  "$Ticket{TicketNumber}] ($OrigHeader{From}) because the ".
+                  "sender don't want a auto-response (e. g. loop or precedence header)"
+            );
         }
     }
     # --
