@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.55 2004-02-16 02:56:08 martin Exp $
+# $Id: AgentPhone.pm,v 1.56 2004-02-26 21:43:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.55 $';
+$VERSION = '$Revision: 1.56 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -101,7 +101,12 @@ sub Run {
                   }
                 }
             }
-            my %TicketFreeText = $Self->{LayoutObject}->AgentFreeText();
+            my %TicketFreeText = $Self->{LayoutObject}->AgentFreeText(
+                $Self->{UserObject}->GetUserData(
+                    UserID => $Self->{UserID}, 
+                    Cached => 1,
+                ),
+            );
             # html output
             $Output .= $Self->_MaskPhoneNew(
               QueueID => $Self->{QueueID},
