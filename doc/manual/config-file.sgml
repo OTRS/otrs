@@ -253,7 +253,7 @@ there is a new ticket!
 &lt;OTRS_CUSTOMER_EMAIL[6]&gt;
 &lt;snip&gt;
 
-http://$Self-&gt;{FQDN}/otrs/index.pl?Action=AgentZoom&TicketID=&lt;OTRS_TICKET_ID&gt;
+http://$Self-&gt;{FQDN}/otrs/index.pl?Action=AgentZoom&amp;TicketID=&lt;OTRS_TICKET_ID&gt;
 
 Your OpenTRS Notification Master
 
@@ -270,7 +270,7 @@ you got a follow up!
 &lt;OTRS_CUSTOMER_EMAIL[6]&gt;
 &lt;snip&gt;
 
-http://$Self-&gt;{FQDN}/otrs/index.pl?Action=AgentZoom&TicketID=&lt;OTRS_TICKET_ID&gt;
+http://$Self-&gt;{FQDN}/otrs/index.pl?Action=AgentZoom&amp;TicketID=&lt;OTRS_TICKET_ID&gt;
 
 Your OpenTRS Notification Master
 

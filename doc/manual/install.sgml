@@ -1,13 +1,12 @@
-<chapter id="install_the_biest">
 <title>Install the biest.</title>
 <para>
 The described way of installing the otrs is tested on a newly installed system. In case you have trouble to install it on your working system please try it with a new Linux installation. Most of the installation problems are caused by messy apache configurations and forgotten mysql database passwords. So please use a fresh installation to encircle an installation problem in case it occures.
 </para>
 <para>
-We try to keep the installation as easy as possible. But the OTRS is a very powerfull and complex application which can not just be untared in some directory and that's it. Any kind of installation which is not described here might be more difficult.
+We try to keep the installation as easy as possible. But the OTRS is a very powerfull and complex application which can not just be untared in some directory and that's it.
 </para>
-<sect1 id="installing_the_quick_way">
-<title>Installing the rpm on a SuSE Linux (the quick way)</title>
+<sect1 id="installing_the_quick_and_easy_way">
+<title>Installing the rpm on a SuSE Linux (the quick and easy way)</title>
 <para>
 This section is a guide for installing OTRS on a SuSE Linux. We tested the SuSE Linux versions 7.3, 8.0 and 8.1. Before starting the installation have a look at <ulink url="http://www.otrs.org/"><citetitle>http://otrs.org/</citetitle></ulink> and check if a newer and better version of the rpm file is available. If so please download it and use the newer documentation and the newer rpm.
 </para>
@@ -20,7 +19,7 @@ In case you prefer the command line rpm way (you have to have installed the need
 ernie:~ # rpm -ivh /tmp/otrs.rpm 
 otrs                        ##################################################
 Check OpenTRS user (/etc/passwd)... otrs added.
-SetPermissions.sh &lt;$Revision: 1.3 $> - set OpenTRS file permissions
+SetPermissions.sh &lt;$Revision: 1.4 $> - set OpenTRS file permissions
 Copyright (c) 2002 Martin Edenhofer &lt;martin@otrs.org>
 Setting file permissions... 
 chown -R root.root /opt/OpenTRS
@@ -103,6 +102,7 @@ ernie:~ # rcapache reload
 
 Now you have to setup the databases. Please open <ulink url="http://localhost/otrs/installer.pl"><citetitle>http://localhost/otrs/installer.pl</citetitle></ulink> to do so.
 
+<screenshot>
 <screeninfo>installer.pl screen</screeninfo>
 <graphic srccredit="installer.pl - screenshot" scale="40" fileref="screenshots/installer.png"></graphic>
 </screenshot>
@@ -116,7 +116,7 @@ It is not a good idea to use the default passwords. You install a very important
 And because we want to keep the system as secure as possible we change some permissions by using the following script:
 <screen>
 ernie:~ # /opt/OpenTRS/bin/SetPermissions.sh /opt/OpenTRS otrs wwwrun
-SetPermissions.sh &lt;$Revision: 1.3 $> - set OpenTRS file permissions
+SetPermissions.sh &lt;$Revision: 1.4 $> - set OpenTRS file permissions
 Copyright (c) 2002 Martin Edenhofer &lt;martin@otrs.org>
 Setting file permissions... 
 chown -R root.root /opt/OpenTRS
@@ -173,4 +173,3 @@ Your can use the OTRS by opening the http://ernie.example.com/otrs/index.pl link
 </para>
 </sect1>
 
-</chapter>

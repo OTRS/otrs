@@ -1,19 +1,21 @@
-<sect1 id="install_on_any_linux">
-<title>Installing OTRS on any Linux plattform (using the tar.gz file)</title>
+<sect1 id="install_targz">
+<title>Using the tar.gz file to install OTRS on any Linux plattform</title>
 <para>
-This section is a guide for installing OTRS on any Linux. Before starting the installation have a look at <ulink url="http://www.otrs.org/"><citetitle>http://otrs.org/</citetitle></ulink> and check if a newer and better version of the tar.gz file is available. If so please download it and use the newer documentation and the newer rpm.
+This section is a guide for installing OTRS on any Linux. Please use this way only in case you feel comfortable with it otherwise use the RPM. Before starting the installation have a look at <ulink url="http://www.otrs.org/"><citetitle>http://otrs.org/</citetitle></ulink> and check if a newer and better version of the tar.gz file is available. If so please download it and use the newer documentation and the newer rpm.
 </para>
 
-<para>Software requirements?</para>
+<sect2>
+<title>Software requirements?</title>
 <para>
 On all Perl-Platforms! You need:
+</para>
 <itemizedlist>
 <listitem><para>min. Perl5</para></listitem>
-<listitem><para>Database (e. g. MySQL, PostgreSQL)</para></listitem>
-<listitem><para>Webpserver (mod_perl isn't required but very nice to have)</para></listitem>
+<listitem><para>Database (e.g. MySQL, PostgreSQL)</para></listitem>
+<listitem><para>Webserver (mod_perl isn't required but very nice to have)</para></listitem>
 <listitem><para>some CPAN-Module (CGI, MIME::Words, Mail::Internet, MIME::Parser, DBI, DBD::mysql, Digest::MD5) and for stats (GD, GD::Text, GD::Graph, GD::Graph::lines, Date::Calc)</para></listitem>
 </itemizedlist>
-</para>
+</sect2>
 
 <sect2>
 <title>Install CPAN Modules (if needed):</title>
@@ -49,34 +51,69 @@ and maybe the GD stuff (stats support, not required!)
 <title>Create user and install tar.gz:</title>
 <para>
 <screen>
-   $shell: useradd -d /opt/OpenTRS/ otrs
-   $shell: cd /opt/
-   $shell: tar -xzvf otrs-xxxx-xx-xx.tar-gz
-   $shell: chown -r /opt/OpenTRS/* otrs
+   shell> useradd -d /opt/OpenTRS/ otrs
+   shell> cd /opt/
+   shell> tar -xzvf otrs-xxxx-xx.tar.gz
+   shell> chown -r /opt/OpenTRS/* otrs
 </screen>
 </para>
 </sect2>
 
 <sect2>
 <title>Database setup:</title>
-<sect3>
-<title>XML</title>
-<para>
-$HOME_OTRS/install/database/OpenTRS-schema.xml
-</para>
-<para>
-The XML description files for torque which generate the SQL for your
-target database e. g. MySQL, PostgreSQL, DB2, Oracle, ...)
-</para>
-<para>
-More Infos: http://jakarta.apache.org/turbine/turbine-2/howto/torque-howto.html
-</para>
-</sect3>
 
 <sect3>
-<title>MySQL</title>
+<title>
+MySQL
+</title>
 <para>
-$HOME_OTRS/install/database/OpenTRS-schema.mysql.sql
+Create OTRS database:
+<screen>
+shell> mysql -u root -p -e 'create database otrs'
+</screen>
+</para>
+
+<para>
+Create the OTRS tables:
+<screen>
+shell> cd /opt/OpenTRS/install/database/
+shell> mysql -u root -p otrs < OpenTRS-schema.mysql.sql
+</screen>
+</para>
+
+<para>
+Insert inital data:
+<screen>
+shell> cd /opt/OpenTRS/install/database/
+shell> mysql -u root -p otrs < initial_insert.sql
+</screen>
+</para>
+
+<para>
+Create an database user:
+<screen>
+shell> mysql -u root -p -e 'GRANT ALL PRIVILEGES ON otrs.* TO \
+otrs@localhost IDENTIFIED BY "some-pass" WITH GRANT OPTION;'
+</screen>
+</para>
+
+<para>
+Change the DB-Settings (host, database, user and password) in $OTRS_HOME/Kernel/Config.pm
+<screen>
+   [...]                                                    
+   # Database                                               
+   # (The database name.)                                   
+   $Self->{Database} = 'otrs';                              
+                                                            
+   # DatabaseUser                                           
+   # (The database user.)                                   
+   $Self->{DatabaseUser} = 'otrs';                          
+                                                            
+   # DatabasePw                                             
+   # (The password of database user.)                       
+   $Self->{DatabasePw} = 'some-pass';                       
+   [...]                                                    
+</screen>
 </para>
 </sect3>
 
@@ -88,6 +125,20 @@ $HOME_OTRS/install/database/OpenTRS-schema.postgresql.sql
 </sect3>
 
 <sect3>
+<title>XML (other databases)</title>
+<para>
+$HOME_OTRS/install/database/OpenTRS-schema.xml
+</para>
+<para>
+The XML description files for torque which generate the SQL for your
+target database (e.g. MySQL, PostgreSQL, DB2, Oracle, ...)
+</para>
+<para>
+More Infos: http://jakarta.apache.org/turbine/turbine-2/howto/torque-howto.html
+</para>
+</sect3>
+
+<sect3>
 <title>Initial insert file</title>
 <para>
 $HOME_OTRS/install/database/initial_insert.sql contains all needed standard
@@ -95,94 +146,98 @@ values. At first use the OpenTRS-schema.*.sql and the insert this file.
 </para>
 </sect3>
 
-<para>
-DB - Setup Example (with MySQL):
-</para>
-<para>
-Create OTRS database:
-<screen>
-shell> mysql -u root -p -e 'create database otrs'
-</screen>
-</para>
-
-<para>
-Create the OTRS tables:
-<screen>
-shell> mysql -u root -p otrs < /usr/share/doc/packages/otrs/install/database/OpenTRS-schema.mysql.sql
-</screen>
-</para>
-
-<para>
-Insert inital data:
-<screen>
-shell> mysql -u root -p otrs < /usr/share/doc/packages/otrs/install/database/initial_insert.sql
-</screen>
-</para>
-
-<para>
-Create an database user:
-<screen>
-shell> mysql -u root -p -e 'GRANT ALL PRIVILEGES ON otrs.* TO otrs@localhost IDENTIFIED BY "some-pass" WITH GRANT OPTION;'
-</screen>
-</para>
-
-<para>
-<screen>
-**************************************************************
-*                                                            *
-* Change the DB-Settings (host, database, user and password) *
-*                                                            *
-*   $OTRS_HOME/Kernel/Config.pm                              *
-*   [...]                                                    *
-*   # Database                                               *
-*   # (The database name.)                                   *
-*   $Self->{Database} = 'otrs';                              *
-*                                                            *
-*   # DatabaseUser                                           *
-*   # (The database user.)                                   *
-*   $Self->{DatabaseUser} = 'otrs';                          *
-*                                                            *
-*   # DatabasePw                                             *
-*   # (The password of database user.)                       *
-*   $Self->{DatabasePw} = 'some-pass';                       *
-*   [...]                                                    *
-*                                                            *
-**************************************************************
-</screen>
-</para>
-
 </sect2>
 
 <sect2>
-<title>Webserver:</title>
+<title>Webserver</title>
 <para>
-[follow README.webserver]
+We prefer the <ulink url="http://httpd.apache.org/"><citetitle>Apache</citetitle></ulink> webserver. The following changes have to be made in the httpd.conf.
 </para>
+
+<sect3>
+<title>webserver user</title>
+<para>
+Change the webserver user (normaly wwwrun) to the OTRS user (otrs).
+<screen>
+  [...]
+  User otrs
+  [...]
+</screen>
+</para>
+<para>
+If you can't change the user and group of your webserver (system-wide), because you have other applications running on this server, you can also work with group permissions (more tricky). Use
+<screen>
+$HOME/bin/SetPermissions.sh &lt;OTRS_HOME> &lt;OTRS_USER> \ 
+&lt;WEBSERVER_USER> [OTRS_GROUP] [WEB_GROUP]
+</screen>
+Webserver with otrs user:
+<screen>
+shell> SetPermissions.sh /opt/OpenTRS otrs otrs
+</screen>
+Webserver with wwwrun user (e.g. SuSE):
+<screen>
+shell> SetPermissions.sh /opt/OpenTRS otrs wwwrun
+</screen>
+Webserver with apache user (e.g. Redhat):
+<screen>
+shell> SetPermissions.sh /opt/OpenTRS otrs apache
+</screen>
+</para>
+</sect3>
+
+<sect3>
+<title>Without mod_perl (just CGI)</title>
+<para>
+Add this to the cgi-bin stuff section in httpd.conf
+</para>
+<screen>
+  [...]
+  ScriptAlias /otrs/ "/opt/OpenTRS/bin/cgi-bin/"
+  [...]
+</screen>
+</sect3>
+
+<sect3>
+<title>With mod_perl (speed!)</title>
+<para>
+Add this to the mod_perl stuff section in httpd.conf
+<screen>
+  Alias /otrs/ "/opt/OpenTRS/bin/cgi-bin/"
+
+  &lt;Location /otrs>
+    SetHandler  perl-script
+    PerlHandler Apache::Registry
+    Options ExecCGI
+    PerlSendHeader On
+  &lt;/Location>
+</screen>
+
+May you want use the mod_perl startup script (on SuSE /usr/include/apache/modules/perl/startup.perl) to have as a simple way to have apache servers establish connections on process startup. Add:
+
+<screen>
+  [...]
+  use Apache ();
+  use Apache::DBI ();
+  Apache::DBI->connect_on_init('DBI:mysql:otrs', 'otrs', 'some-pass');
+  # Apache::DBI->connect_on_init($data_source, $username, $auth, \%attr)
+  [...]
+</screen>
+</para>
+</sect3>
+
+<sect3>
+<title>Restart the webserver</title>
+<para>
+After you've done all this changes you have to restart Apache. The login page can be found at http://your-host/otrs/index.pl but please first use the http://your-host/otrs/installer.pl page to install the database.
+</para>
+</sect3>
+
 </sect2>
 
 <sect2>
 <title>Config file ($HOME/Kernel/Config.pm):</title>
 <para>
 Set some Kernel::Config Options (FQDN, SystemID, TicketHook, ...)
-</para>
-</sect2>
-
-<sect2>
-<title>File Permissions:</title>
-<para>
-Set the file permissions with
-<screen>
-$HOME/bin/SetPermissions.sh <OTRS_HOME> <OTRS_USER> <WEBSERVER_USER> [OTRS_GROUP] [WEB_GROUP]
-</screen>
-</para>
-<para>
-Webserver with otrs user: "SetPermissions.sh /opt/OpenTRS otrs otrs"
-</para>
-<para>
-Webserver with wwwrun user (e. g. SuSE): "SetPermissions.sh /opt/OpenTRS otrs wwwrun"
-</para>
-<para>
-Webserver with apache user (e. g. Redhat): "SetPermissions.sh /opt/OpenTRS otrs apache"
 </para>
 </sect2>
 
@@ -211,10 +266,10 @@ Finished. :-)
 use the procmailrc of the OpenTRS-User --> /opt/OpenTRS/.procmailrc
 </para>
 <para>
---> send emails to the otrs user (e. g. otrs@localhost)
+--> send emails to the otrs user (e.g. otrs@localhost)
 </para>
 <para>
-   or pipe an email directly into $OpenTRS_HOME/bin/Postmaster.pl
+   or pipe an email directly into $OTRS_HOME/bin/Postmaster.pl
     (e.
  g. 'cat /opt/OpenTRS/doc/test-email-1.box | /opt/OpenTRS/bin/PostMaster.pl').
 </para>
@@ -222,10 +277,6 @@ use the procmailrc of the OpenTRS-User --> /opt/OpenTRS/.procmailrc
 Remark: For installation questions ask otrs@otrs.org (http://lists.otrs.org/).
 </para>
 </sect2>
-
-<para>
-Have a lot of fun.
-</para>
 
 </sect1>
 

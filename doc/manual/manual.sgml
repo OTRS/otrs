@@ -2,6 +2,7 @@
 <!ENTITY authorgroup SYSTEM "authorgroup.sgml">
 <!ENTITY preamble SYSTEM "preamble.sgml">
 <!ENTITY install SYSTEM "install.sgml">
+<!ENTITY install-cli SYSTEM "install-cli.sgml">
 <!ENTITY config-file SYSTEM "config-file.sgml">
 <!ENTITY first-steps SYSTEM "first-steps.sgml">
 <!ENTITY first-ticket SYSTEM "first-ticket.sgml">
@@ -11,6 +12,7 @@
 <!ENTITY fdl SYSTEM "fdl.sgml">
 <!ENTITY coreteam SYSTEM "coreteam.sgml">
 <!ENTITY credits SYSTEM "credits.sgml">
+<!ENTITY rfc1297 SYSTEM "rfc1297.sgml">
 <!ENTITY online-resources SYSTEM "online-resources.sgml">
 <!ENTITY basics_about_tt SYSTEM "basics-about-tt.sgml">
 <!ENTITY procmail SYSTEM "procmail.sgml">
@@ -21,7 +23,7 @@
 
 <book id="index">
 <bookinfo>
-        <title>OpenTRS - Manual</title>
+        <title>OTRS - Manual</title>
 
 &authorgroup;
 
@@ -62,6 +64,12 @@ or implied warranty.
 <revremark>Sibbi joined the team.</revremark>
 </revision>
 
+<revision>
+<revnumber>0.44</revnumber>
+<date>27th August, 2002</date>
+<revremark>start to replace all OpenTRS to OTRS</revremark>
+</revision>
+
 </revhistory>
 
 
@@ -76,7 +84,10 @@ or implied warranty.
 
 &preamble;
 
+<chapter id="install">
 &install;
+&install-cli;
+</chapter>
 
 &basics_about_tt;
 
@@ -103,6 +114,8 @@ or implied warranty.
 &coreteam;
 
 &credits;
+
+&rfc1297;
 
 &fdl;
 
