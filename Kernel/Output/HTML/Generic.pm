@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.142 2004-08-31 10:31:05 martin Exp $
+# $Id: Generic.pm,v 1.143 2004-08-31 14:38:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.142 $';
+$VERSION = '$Revision: 1.143 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -421,21 +421,22 @@ sub Output {
             }segxm;
         }
         # add block counter to in block blocks
-        my $Count = 0;
         $Block->{Data} =~ s{
             (<!--\s{0,1}dtl:place_block:.+?)(\s{0,1}-->)
         }
         {
-            $Count++;
-#            print STDERR "IR($ID): $1:$ID:$Count$2\n";
-            "$1:$ID:".$Count."$2";
+#            print STDERR "IR($ID): $1:$ID:-$2\n";
+            "$1:$ID:-$2";
         }segxm;
 
         # count up place_block counter
+        $ID =~ s/^(.*:)(\d+)$/$1-/g;
+#        print STDERR "S($ID): dtl:place_block:$Block->{Name}:$ID|\n";
         $TemplateString =~ s{
             (<!--\s{0,1}dtl:place_block:$Block->{Name}:)($ID)(\s{0,1}-->)
         }
         {
+#            print STDERR "SS($ID): $Block->{Name}\n";
             my $Start = $1;
             my $Stop = $3;
             my $NewID = '';
@@ -445,9 +446,12 @@ sub Output {
             elsif ($ID =~ /^(\d+)$/) {
                 $NewID = ($1+1);
             }
-            #print STDERR "SE($ID->$NewID): $Block->{Name}\n";
+            elsif ($ID =~ /^(.*:)-$/) {
+                $NewID = $ID;
+            }
+#            print STDERR "SE($ID->$NewID): $Block->{Name}\n";
             $Block->{Data}.$Start.$NewID.$Stop;
-        }sexmi;
+        }sexm;
         $OldLayer = $Block->{Layer};
     }
 
