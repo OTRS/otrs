@@ -22,6 +22,12 @@ else
     exit 5;
 fi
 
+#
+# fillup PATH - just beware perl "warnings" (unimportant)
+#
+PATH=$PATH:
+export PATH
+
 # 
 # check needed files
 # 
