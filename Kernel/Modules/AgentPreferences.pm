@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPreferences.pm - provides agent preferences
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPreferences.pm,v 1.17 2003-02-16 20:02:04 martin Exp $
+# $Id: AgentPreferences.pm,v 1.18 2003-04-27 16:10:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPreferences;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -91,7 +91,10 @@ sub Form {
     # --
     # get form
     # --
-    my %QueueData = $Self->{QueueObject}->GetAllQueues(UserID => $Self->{UserID});
+    my %QueueData = $Self->{QueueObject}->GetAllQueues(
+        UserID => $Self->{UserID},
+        Type => 'ro',
+    );
     my @CustomQueueIDs = $Self->{QueueObject}->GetAllCustomQueues(UserID => $Self->{UserID});
     $Output .= $Self->{LayoutObject}->AgentPreferencesForm(
         QueueData => \%QueueData,

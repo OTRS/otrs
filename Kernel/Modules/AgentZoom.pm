@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.33 2003-04-13 22:25:40 martin Exp $
+# $Id: AgentZoom.pm,v 1.34 2003-04-27 16:10:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -95,7 +95,10 @@ sub Run {
         %MoveQueues = $Self->{QueueObject}->GetAllQueues();
     }
     else {
-        %MoveQueues = $Self->{QueueObject}->GetAllQueues(UserID => $Self->{UserID});
+        %MoveQueues = $Self->{QueueObject}->GetAllQueues(
+            UserID => $Self->{UserID},
+            Type => 'rw',
+        );
     }
     # --
     # fetch all std. responses
