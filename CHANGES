@@ -2,13 +2,30 @@
 # Changes of OTRS
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.131.2.1 2004-09-21 07:25:57 martin Exp $
+# $Id: CHANGES,v 1.131.2.2 2004-10-07 14:15:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-CVS head
+1.3.2 (2004-xx-xx)
+ - (2004/10/07) fixed bug 562 Content-Transfer-Encoding: 7bit and german umlaut
+ - (2004/10/07) fixed bug 565 HighlightColor* in AgentMailbox
+ - (2004/10/06) fixed link quote of https links
+ - (2004/10/06) added application log error message if bin/PostMaster.pl fails
+ - (2004/10/01) fixed bug 547 - uninitialized value in string eq at
+    Kernel/System/Ticket/Article.pm line 1387
+ - (2004/09/29) fixed english "New ticket notification!", replaced
+    OTRS_CURRENT_USERFIRSTNAME with OTRS_USERFIRSTNAME
+ - (2004/09/29) removed not existing jp language translation
+ - (2004/09/29) fixed bug 554 - "Thursday" twice in AdminGenericAgent.pm
+ - (2004/09/27) fixed bug 548 - german spelling mistakes in agent
+    notifications
+ - (2004/09/23) fixed ticket free text selection in
+    Kernel/Modules/CustomerMessage.pm
+ - (2004/09/23) fixed not sended agent notification after created Email-Ticket
+ - (2004/09/23) fixed ticket zoom in customer panel if no customer article
+   exists
 
 1.3.1 (2004-09-20)
  - (2004/09/16) fixed bug 513 - distinct customers must have distinct email
