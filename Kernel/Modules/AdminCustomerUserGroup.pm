@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminCustomerUserGroup.pm - to add/update/delete groups <-> users
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUserGroup.pm,v 1.2 2003-12-29 17:26:06 martin Exp $
+# $Id: AdminCustomerUserGroup.pm,v 1.3 2004-01-24 18:39:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -51,6 +51,18 @@ sub Run {
     my $UserID = $Self->{UserID};
     my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
     $Param{NextScreen} = 'AdminCustomerUserGroup';
+
+    # check if feature is activ
+    if (!$Self->{ConfigObject}->Get('CustomerGroupSupport')) {
+        $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Customer User <-> Group');
+        $Output .= $Self->{LayoutObject}->AdminNavigationBar();
+        $Output .= $Self->{LayoutObject}->Warning(
+            Message => 'Sorry, feature not activ!',
+            Comment => 'CustomerGroupSupport needs to be activ in Kernel/Config.pm, read more about this feature in the documentation. Take care!',
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
+    }
 
     # user <-> group 1:n
     if ($Self->{Subaction} eq 'User') {

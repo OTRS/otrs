@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CustomerGroup.pm - All Groups related function should be here eventually
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerGroup.pm,v 1.4 2004-01-04 21:35:46 martin Exp $
+# $Id: CustomerGroup.pm,v 1.5 2004-01-24 18:39:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,9 +12,10 @@
 package Kernel::System::CustomerGroup;
 
 use strict;
+use Kernel::System::Group;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -44,6 +45,8 @@ sub new {
     foreach (qw(DBObject ConfigObject LogObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
+
+    $Self->{GroupObject} = Kernel::System::Group->new(%Param);
 
     return $Self;
 }
@@ -147,6 +150,16 @@ sub GroupMemberList {
     my %Data = (); 
     my @Name = ();
     my @ID = ();
+    # check if customer group feature is activ, if not, return all groups
+    if (!$Self->{ConfigObject}->Get('CustomerGroupSupport')) {
+        # get permissions
+        %Data = $Self->{GroupObject}->GroupList(Valid => 1);
+        foreach (keys %Data) {
+            push (@Name, $Data{$_});
+            push (@ID, $_);
+        }
+    }
+    # if it's activ, return just the permitted groups
     my $SQL = "SELECT g.id, g.name, gu.permission_key, gu.permission_value, ".
       " gu.user_id ".
       " FROM ".
@@ -183,6 +196,20 @@ sub GroupMemberList {
         push (@Name, $Value);
         push (@ID, $Key);
     }
+    # add always groups
+    if ($Self->{ConfigObject}->Get('CustomerGroupAlwaysGroups')) {
+        my %Groups = $Self->{GroupObject}->GroupList(Valid => 1);
+        foreach (@{$Self->{ConfigObject}->Get('CustomerGroupAlwaysGroups')}) {
+            foreach my $GroupID (keys %Groups) {
+                if ($_ eq $Groups{$GroupID} && !$Data{$GroupID}) {
+                    $Data{$GroupID} = $_;
+                    push (@Name, $_);
+                    push (@ID, $GroupID);
+                }
+            }
+        }
+    }
+    # return type
     if ($Param{Result} && $Param{Result} eq 'ID') {
         return @ID;
     }
@@ -208,6 +235,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2004-01-04 21:35:46 $
+$Revision: 1.5 $ $Date: 2004-01-24 18:39:02 $
 
 =cut

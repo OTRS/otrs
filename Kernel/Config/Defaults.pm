@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.100 2004-01-23 00:38:06 martin Exp $
+# $Id: Defaults.pm,v 1.101 2004-01-24 18:39:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.100 $';
+$VERSION = '$Revision: 1.101 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1166,6 +1166,18 @@ Your OTRS Notification Master
     # (The customer panel db-uid.) [default: 1]
     $Self->{CustomerPanelUserID} = 1;
 
+    # CustomerGroupSupport (0 = compat. to OTRS 1.1 or lower)
+    # (if this is 1, the you need to set the group <-> customer user
+    # relations! http://host/otrs/index.pl?Action=AdminCustomerUserGroup
+    # otherway, each user is ro/rw in each group!)
+    $Self->{CustomerGroupSupport} = 0;
+ 
+    # CustomerGroupAlwaysGroups 
+    # (if CustomerGroupSupport is true and you don't want to manage
+    # each customer user for this groups, then put the groups
+    # for all customer user in there)
+    $Self->{CustomerGroupAlwaysGroups} = ['users', 'info'];
+
     # --------------------------------------------------- #
     # login and logout settings                           #
     # --------------------------------------------------- #
@@ -1674,6 +1686,17 @@ Your OTRS Notification Master
         Module => 'Kernel::System::Ticket::CustomerPermission::GroupCheck',
         Required => 1,
     };
+
+    # --------------------------------------------------- #
+    # FAQ settings
+    # --------------------------------------------------- #
+ 
+    $Self->{'FAQ::Field1'} = 'Sympthom';
+    $Self->{'FAQ::Field2'} = 'Problem';
+    $Self->{'FAQ::Field3'} = 'Solution';
+    $Self->{'FAQ::Field4'} = 'field4';
+    $Self->{'FAQ::Field5'} = 'field5';
+    $Self->{'FAQ::Field6'} = 'Comment (internal)';
 
     # --------------------------------------------------- #
     # module group permissions
