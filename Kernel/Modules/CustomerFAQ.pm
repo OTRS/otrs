@@ -2,7 +2,7 @@
 # Kernel/Modules/FAQ.pm - faq module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerFAQ.pm,v 1.2 2004-02-05 16:08:46 martin Exp $
+# $Id: CustomerFAQ.pm,v 1.3 2004-04-01 09:20:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::FAQ;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -65,7 +65,8 @@ sub Run {
         Name => 'LanguageIDs',
         Multiple => 1,
         SelectedIDRefArray => \@LanguageIDs,
-        HTMLQuote => 0,
+        HTMLQuote => 1,
+        LanguageTranslation => 0,
     );
 
     $Param{CategoryOption} = $Self->{LayoutObject}->OptionStrgHashRef(
@@ -74,7 +75,8 @@ sub Run {
         Name => 'CategoryIDs',
         Multiple => 1,
         SelectedIDRefArray => \@CategoryIDs,
-        HTMLQuote => 0,
+        HTMLQuote => 1,
+        LanguageTranslation => 0,
     );
 
 
@@ -89,7 +91,7 @@ sub Run {
         # build an overview
         my %Categories = $Self->{FAQObject}->CategoryList(UserID => $Self->{UserID});
         foreach (sort {$Categories{$a} cmp $Categories{$b}} keys %Categories) {
-            $Param{Overview} .= "<b>$Categories{$_}</b><br>";
+            $Param{Overview} .= "<b>".$Self->{LayoutObject}->Ascii2Html(Text => $Categories{$_})."</b><br>";
             my @FAQIDs = $Self->{FAQObject}->Search(
                 %Param,
                 States => $Param{States},
@@ -100,6 +102,9 @@ sub Run {
             my %AllArticle = ();
             foreach (@FAQIDs) {
                 my %Data = $Self->{FAQObject}->ArticleGet(ID => $_, UserID => $Self->{UserID});
+                foreach (keys %Data) {
+                    $Data{$_} = $Self->{LayoutObject}->Ascii2Html(Text => $Data{$_});
+                }
                 $AllArticle{$Data{ID}} = "<a href='\$Env{\"Baselink\"}Action=\$Env{\"Action\"}&ID=$_'>";
                 $AllArticle{$Data{ID}} .= "[$Data{Language}/$Data{Category}] $Data{Subject} (\$Text{\"modified\"} \$TimeLong{\"$Data{Changed}\"})</a><br>";
             }
@@ -127,6 +132,9 @@ sub Run {
         my %AllArticle = ();
         foreach (@FAQIDs) {
             my %Data = $Self->{FAQObject}->ArticleGet(ID => $_, UserID => $Self->{UserID}); 
+            foreach (keys %Data) {
+                $Data{$_} = $Self->{LayoutObject}->Ascii2Html(Text => $Data{$_});
+            }
             $AllArticle{$Data{ID}} = "[$Data{Language}/$Data{Category}] $Data{Subject}</td><td> (\$Text{\"modified\"} \$TimeLong{\"$Data{Changed}\"})";
         }
         foreach (sort {$AllArticle{$a} cmp $AllArticle{$b}} keys %AllArticle) {
@@ -152,6 +160,9 @@ sub Run {
         );
         foreach my $Row (@History) {
             my %Data = $Self->{FAQObject}->ArticleGet(ID => $Row->{ID}, UserID => $Self->{UserID}); 
+            foreach (keys %Data) {
+                $Data{$_} = $Self->{LayoutObject}->Ascii2Html(Text => $Data{$_});
+            }
             $Param{HistoryList} .= "<tr><td><a href=\"\$Env{\"Baselink\"}Action=\$Env{\"Action\"}&ID=$Row->{ID}\">[$Data{Language}/$Data{Category}] $Data{Subject}</a></td><td> (\$Text{\"$Row->{Name}\"} - \$TimeLong{\"$Data{Changed}\"})</td></tr>";
         }
         $Output .= $Self->{LayoutObject}->Output(

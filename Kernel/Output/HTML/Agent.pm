@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.139 2004-02-23 17:33:41 martin Exp $
+# $Id: Agent.pm,v 1.140 2004-04-01 09:22:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.139 $';
+$VERSION = '$Revision: 1.140 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -494,18 +494,19 @@ sub AgentFreeText {
                     },
                     Name => "TicketFreeKey$_",
                     SelectedID => $Param{"TicketFreeKey$_"},
+                    LanguageTranslation => 0,
                 );
             }
             else {
                 if ($LastKey) {
                     $Data{"TicketFreeKeyField$_"} = $Self->{ConfigObject}->Get("TicketFreeKey$_")->{$LastKey}.
-                      '<input type="hidden" name="TicketFreeKey'.$_.'" value="$Quote{"'.$LastKey.'"}">';
+                      '<input type="hidden" name="TicketFreeKey'.$_.'" value="'.$Self->{LayoutObject}->Ascii2Html(Text => $LastKey).'">';
                 }
             }
         }
         else {
             if (defined($Param{"TicketFreeKey$_"})) {
-                $Data{"TicketFreeKeyField$_"} = '<input type="text" name="TicketFreeKey'.$_.'" value="'.$Param{"TicketFreeKey$_"}.'" size="20">';
+                $Data{"TicketFreeKeyField$_"} = '<input type="text" name="TicketFreeKey'.$_.'" value="'.$Self->{LayoutObject}->Ascii2Html(Text => $Param{"TicketFreeKey$_"}).'" size="20">';
             }
             else {
                 $Data{"TicketFreeKeyField$_"} = '<input type="text" name="TicketFreeKey'.$_.'" value="" size="20">';
@@ -520,11 +521,12 @@ sub AgentFreeText {
                 },
                 Name => "TicketFreeText$_",
                 SelectedID => $Param{"TicketFreeText$_"},
+                LanguageTranslation => 0,
             );
         }
         else {
             if (defined($Param{"TicketFreeText$_"})) {
-                $Data{"TicketFreeTextField$_"} = '<input type="text" name="TicketFreeText'.$_.'" value="'.$Param{"TicketFreeText$_"}.'" size="30">';
+                $Data{"TicketFreeTextField$_"} = '<input type="text" name="TicketFreeText'.$_.'" value="'.$Self->{LayoutObject}->Ascii2Html(Text => $Param{"TicketFreeText$_"}).'" size="30">';
             }
             else {
                 $Data{"TicketFreeTextField$_"} = '<input type="text" name="TicketFreeText'.$_.'" value="" size="30">';
