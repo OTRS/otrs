@@ -17,9 +17,9 @@ To: darthvader@otrs.org
 Cc: skywalker@otrs.org
 In-Reply-To: <3CFDCF81.5000409@example.com>
 Date: Mon, 21 Oct 2002 17:56:13 +0200 (CEST)
-X-CVS: $Id: test-email-7-euro-iso-8859-15.box,v 1.1 2002-10-21 15:53:27 martin Exp $
+X-CVS: $Id: test-email-7-euro-iso-8859-15.box,v 1.2 2003-04-12 08:55:40 martin Exp $
 X-OTRS-CustomerNo: example7
-X-OTRS-Priority: very high
+X-OTRS-Priority: 5 very high
 X-OTRS-TicketValue1: sun
 X-OTRS-TicketKey1: earth
 

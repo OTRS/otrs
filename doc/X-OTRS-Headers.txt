@@ -2,14 +2,14 @@
 # X-OTRS-Headers.txt - useabile mail X-headers 
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: X-OTRS-Headers.txt,v 1.4 2003-02-09 20:53:08 martin Exp $
+# $Id: X-OTRS-Headers.txt,v 1.5 2003-04-12 08:55:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
  
-X-OTRS-Priority: (very low|low|normal|high|very high)
+X-OTRS-Priority: (1 very low|2 low|3 normal|4 high|5 very high)
 -----------------------------------------------------
 Set priority of ticket.
 
