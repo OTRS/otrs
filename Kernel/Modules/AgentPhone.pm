@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.36 2003-04-08 21:40:52 martin Exp $
+# $Id: AgentPhone.pm,v 1.37 2003-04-11 17:42:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -79,6 +79,17 @@ sub Run {
                 my $TicketHook = $Self->{ConfigObject}->Get('TicketHook');
                 $Article{Subject} =~ s/\[${TicketHook}:\s*\d+\](\s|)//;
                 # --
+                # check if original content isn't text/plain or text/html, don't use it
+                # --
+                if ($Article{'ContentType'}) {
+                    if($Article{'ContentType'} =~ /text\/html/i) {
+                        $Article{Body} =~ s/\<.+?\>//gs;
+                    }
+                    elsif ($Article{'ContentType'} !~ /text\/plain/i) {
+                        $Article{Body} = "-> no quotable message <-";
+                    }
+                }
+                # --
                 # show customer info
                 # --
                 if ($Self->{ConfigObject}->Get('ShowCustomerInfoPhone')) {
@@ -103,17 +114,14 @@ sub Run {
               NextStates => $Self->_GetNextStates(),
               Priorities => $Self->_GetPriorities(), 
               Users => $Self->_GetUsers(),
-              Body => '$Text{"$Config{"PhoneDefaultNewNoteText"}"}',
-              Subject => '$Config{"PhoneDefaultNewSubject"}',
               To => $Self->_GetTos(),
               From => $Article{From},
-              Subject => $Article{Subject},
-              Body => $Article{Body},
+              Subject => $Article{Subject} || '$Config{"PhoneDefaultNewSubject"}',
+              Body => $Article{Body} || '$Text{"$Config{"PhoneDefaultNewNoteText"}"}',
               CustomerID => $Article{CustomerID},
               CustomerUser => $Article{CustomerUserID},
               CustomerData => \%CustomerData,
-
-           );
+            );
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
         }
