@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/TimeAccouning.pm - the sub module of the global Ticket.pm handle
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TimeAccounting.pm,v 1.1 2002-07-31 23:17:23 martin Exp $
+# $Id: TimeAccounting.pm,v 1.2 2002-12-08 20:49:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::TimeAccounting;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -86,4 +86,3 @@ sub AccountTime {
 # --
 
 1;
-
