@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue funktions
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.31 2003-07-10 03:17:32 martin Exp $
+# $Id: Queue.pm,v 1.32 2003-07-10 22:35:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use Kernel::System::StdResponse;
 use Kernel::System::Group;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -615,17 +615,20 @@ sub GetTicketIDsByQueue {
 sub QueueGet {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     if (!$Param{ID} && !$Param{Name}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID or Name!");
         return;
     }
-    # --
+    # check if we ask the same request (cache)?
+    if ($Param{Cache} && $Param{ID} && $Self->{"QG::ID$Param{ID}"}) {
+        return %{$Self->{"QG::ID$Param{ID}"}};
+    }
+    if ($Param{Cache} && $Param{Queue} && $Self->{"QL::Name$Param{Name}"}) {
+        return %{$Self->{"QG::Name$Param{Name}"}};
+    }
     # sql 
-    # --
-     my $SQL = "SELECT q.name, q.group_id, q.unlock_timeout, ".
+    my $SQL = "SELECT q.name, q.group_id, q.unlock_timeout, ".
         " q.system_address_id, q.salutation_id, q.signature_id, q.comment, q.valid_id, ".
         " q.escalation_time, q.follow_up_id, q.follow_up_lock, sa.value0, sa.value1, q.id, ".
         " q.move_notify, q.state_notify, q.lock_notify, q.owner_notify ".
@@ -634,10 +637,15 @@ sub QueueGet {
         " WHERE ".
         " q.system_address_id = sa.id ".
         " AND ";
+    my $Suffix = '';
     if ($Param{ID}) {
+        $Param{What} = $Param{ID};
+        $Suffix = 'ID';
         $SQL .= " q.id = $Param{ID}";
     }
     else {
+        $Param{What} = $Param{Name};
+        $Suffix = 'Name';
         $SQL .= " q.name = '$Param{Name}'";
     }
     my %QueueData = ();
@@ -663,8 +671,18 @@ sub QueueGet {
             LockNotify => $Data[16],
             OwnerNotify => $Data[17],
         );
+        $Self->{"QG::$Suffix$Param{What}"} = \%QueueData;
     }
-    return %QueueData;
+    # check if data exists
+    if (!exists $Self->{"QG::$Suffix$Param{What}"}) {
+        $Self->{LogObject}->Log(
+            Priority => 'error', 
+            Message => "Found no \$$Suffix for $Param{What}!",
+        );
+        return;
+    }
+    # return result
+    return %{$Self->{"QG::$Suffix$Param{What}"}};
 }
 # --
 sub QueueUpdate {
