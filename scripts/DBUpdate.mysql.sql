@@ -2,12 +2,17 @@
 -- Update an existing OpenTRS database to the current state.
 -- Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate.mysql.sql,v 1.2 2002-05-30 15:11:28 martin Exp $
+-- $Id: DBUpdate.mysql.sql,v 1.3 2002-07-02 08:46:37 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate.mysql.sql | mysql -f -u root otrs
 --
 -- --
+
+-- --
+-- BETA 7 upgrate
+-- --
+ALTER TABLE article ADD a_content_type VARCHAR (100);
 
 -- --
 -- Beta5 bug fixed (thanks to Heiko Baumann)
