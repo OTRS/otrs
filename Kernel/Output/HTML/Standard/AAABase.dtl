@@ -148,6 +148,15 @@ $Text{"Show closed Tickets"}
 
 $Text{"Added User "%s""}
 $Text{"Contract"}
+$Text{"Online Customer: %s"}
+$Text{"Online Agent: %s"}
+
+$Text{"Calendar"}
+$Text{"File"
+$Text{"Type"}
+$Text{"Size"}
+$Text{"Upload"}
+$Text{"Directory"}
 
 # hticket history text
 $Text{"History::Move"}
