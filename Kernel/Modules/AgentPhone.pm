@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.92 2004-08-19 15:38:50 martin Exp $
+# $Id: AgentPhone.pm,v 1.93 2004-08-28 14:55:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.92 $';
+$VERSION = '$Revision: 1.93 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -63,14 +63,7 @@ sub Run {
     my %Param = @_;
     my $Output;
 
-    # store last queue screen
-    if ($Self->{LastScreenQueue} !~ /Action=AgentPhone/) {
-        $Self->{SessionObject}->UpdateSessionID(
-            SessionID => $Self->{SessionID},
-            Key => 'LastScreenQueue',
-            Value => $Self->{RequestedURL},
-        );
-    }
+
     if (!$Self->{Subaction} || $Self->{Subaction} eq 'Created') {
         # header
         $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Phone-Ticket');
@@ -84,11 +77,19 @@ sub Run {
                 my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
                 $Output .= $Self->{LayoutObject}->Notify(Info => '<a href="$Env{"Baselink"}Action=AgentZoom&TicketID='.$Ticket{TicketID}.'">Ticket "%s" created!", "'.$Ticket{TicketNumber}).'</a>';
             }
+            # store last queue screen
+            if ($Self->{LastScreenQueue} !~ /Action=AgentPhone/) {
+                $Self->{SessionObject}->UpdateSessionID(
+                    SessionID => $Self->{SessionID},
+                    Key => 'LastScreenQueue',
+                    Value => $Self->{RequestedURL},
+                );
+            }
             # --
             # get split article if given
             # --
             # get ArticleID
-            my $ArticleID = $Self->{ParamObject}->GetParam(Param => 'ArticleID'); 
+            my $ArticleID = $Self->{ParamObject}->GetParam(Param => 'ArticleID');
             my %Article = ();
             my %CustomerData = ();
             if ($ArticleID) {
@@ -378,10 +379,10 @@ sub Run {
             }
             # set state
             $Self->{TicketObject}->StateSet(
-              TicketID => $Self->{TicketID},
-              ArticleID => $ArticleID,
-              State => $GetParam{NextStateID},
-              UserID => $Self->{UserID},
+                TicketID => $Self->{TicketID},
+                ArticleID => $ArticleID,
+                StateID => $GetParam{NextStateID},
+                UserID => $Self->{UserID},
             );
             # set answerd
             $Self->{TicketObject}->TicketSetAnswered(
