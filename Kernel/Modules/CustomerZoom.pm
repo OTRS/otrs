@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerZoom.pm - to get a closer view
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerZoom.pm,v 1.23 2004-04-29 11:22:11 martin Exp $
+# $Id: CustomerZoom.pm,v 1.24 2004-06-17 09:59:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -184,9 +184,7 @@ sub _Mask {
     $Param{ArticleStrg} = '';
     foreach my $ArticleTmp (@ArticleBox) {
       my %Article = %$ArticleTmp;
-      if ($Article{ArticleType} ne 'email-notification-int' &&
-          $Article{ArticleType} ne 'email-internal' &&
-          $Article{ArticleType} ne 'note-internal') {
+      if ($Article{ArticleType} !~ /int/) {
         if ($LastSenderType ne $Article{SenderType}) {
             $Counter .= "&nbsp;&nbsp;&nbsp;&nbsp;";
             $Space = "$Counter |-->";
