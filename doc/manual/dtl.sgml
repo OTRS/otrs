@@ -7,7 +7,7 @@ It's possible to customize the frontend independently from OTRS releases. How? I
 So you have the power to customize each OTRS side like you want! Or to create new themes. 
 </para>
 
-<sect1>
+<sect1 id="dtl-syntax">
 <title>The dtl syntax</title>
 <para>
 <emphasis role='bold'>Comment</emphasis>
@@ -150,7 +150,7 @@ Sendmail: $Config{"Sendmail"}
 </sect1>
 
 
-<sect1>
+<sect1 id="dtl-examles">
 <title>Examples of dtl files</title>
 
 <sect2>
@@ -294,7 +294,7 @@ Content-Type: text/html; charset=$Env{"UserCharset"};
 </sect2>
 </sect1>
 
-<sect1>
+<sect1 id="dtl-theme">
 <title>Create a new theme</title>
 <para>
 To create a new theme, create a new theme directory (mkdir ~otrs/Kernel/Output/HTML/NewTheme/). 
