@@ -2,7 +2,7 @@
 # Copyright (C) 2002 Bernard Choppy <choppy at imaginet.fr>
 # Copyright (C) 2002 Nicolas Goralski <ngoralski at oceanet-technology.com>
 # --
-# $Id: fr.pm,v 1.14 2003-02-03 22:53:09 martin Exp $
+# $Id: fr.pm,v 1.15 2003-02-04 22:53:05 nicolas Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
@@ -324,7 +324,7 @@ sub Data {
       'POP3 Account' => 'Compte POP3',
       'Responses' => 'Réponses',
       'Responses <-> Queue' => 'Réponses <-> Files',
-      'Select Box' => 'Choisissez une boîte',
+      'Select Box' => 'Requête SQL libre.',
       'Session Management' => 'Gestion des sessions',
       'Status defs' => 'Définitions des Status',
       'System' => 'Système',
@@ -798,7 +798,7 @@ sub Data {
       'You have to be in the admin group!' => 'Il est nécessaire d\'être dans le groupe d\'administration&nbsp;!',
       'You have to be in the stats group!' => 'Il est nécessaire d\'être dans le groupe des statistiques&nbsp;!',
       'You need a email address (e. g. customer@example.com) in From:!' => 'Vous devez avoir une adresse email dans le From:! (ex: client@example.com) ',
-      'auto responses set' => 'Réponse automatique positionné',
+      'auto responses set' => 'Réponse automatique positionnée',
     );
 
     # $$STOP$$
