@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPackageManager.pm,v 1.7 2004-12-04 14:46:34 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.8 2004-12-04 14:56:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Package;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -43,7 +43,7 @@ sub new {
 sub Run {
     my $Self = shift;
     my %Param = @_;
-    my $Source = $Self->{ParamObject}->GetParam(Param => 'Source') || '';
+    my $Source = $Self->{UserRepository} || '';
     # ------------------------------------------------------------ #
     # view package
     # ------------------------------------------------------------ #
@@ -110,6 +110,18 @@ sub Run {
         }
     }
     # ------------------------------------------------------------ #
+    # change repository
+    # ------------------------------------------------------------ #
+    elsif ($Self->{Subaction} eq 'ChangeRepository') {
+        my $Source = $Self->{ParamObject}->GetParam(Param => 'Source') || '';
+        $Self->{SessionObject}->UpdateSessionID(
+            SessionID => $Self->{SessionID},
+            Key => 'UserRepository',
+            Value => $Source,
+        );
+        return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}");
+    }
+    # ------------------------------------------------------------ #
     # install package
     # ------------------------------------------------------------ #
     elsif ($Self->{Subaction} eq 'Install') {
@@ -125,7 +137,7 @@ sub Run {
         }
         else {
             if ($Self->{PackageObject}->PackageInstall(String => $Package)) {
-                return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}&Source=$Source");
+                return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}");
             }
             else {
                 return $Self->{LayoutObject}->ErrorScreen();
@@ -149,7 +161,7 @@ sub Run {
         }
         else {
             if ($Self->{PackageObject}->PackageInstall(String => $Package)) {
-                return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}&Source=$Source");
+                return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}");
             }
             else {
                 return $Self->{LayoutObject}->ErrorScreen();
@@ -180,7 +192,7 @@ sub Run {
         }
         else {
             if ($Self->{PackageObject}->PackageUpgrade(String => $Package)) {
-                return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}&Source=$Source");
+                return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}");
             }
             else {
                 return $Self->{LayoutObject}->ErrorScreen();
@@ -203,7 +215,7 @@ sub Run {
         }
         else {
             if ($Self->{PackageObject}->PackageUninstall(String => $Package)) {
-                return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}&Source=$Source");
+                return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}");
             }
             else {
                 return $Self->{LayoutObject}->ErrorScreen();
@@ -223,7 +235,7 @@ sub Run {
         }
         else {
             if ($Self->{PackageObject}->PackageInstall(String => $UploadStuff{Content})) {
-                return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}&Source=$Source");
+                return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}");
             }
             else {
                 return $Self->{LayoutObject}->ErrorScreen();
