@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.153 2004-09-20 11:11:54 martin Exp $
+# $Id: Generic.pm,v 1.154 2004-09-24 10:05:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::Output::HTML::Admin;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.153 $';
+$VERSION = '$Revision: 1.154 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -1544,7 +1544,14 @@ sub NavigationBar {
     my %Param = @_;
     my $Output = '';
     if (!$Param{Type}) {
-        $Param{Type} = $Self->{ModuleReg}->{NavBarType} || 'Ticket';
+        if (!$Self->{ModuleReg}->{NavBarName}) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "Need NavBarName in Module registry!",
+            );
+            $Self->FatalError();
+        }
+        $Param{Type} = $Self->{ModuleReg}->{NavBarName};
     }
     # run notification modules
     if (ref($Self->{ConfigObject}->Get('Frontend::NotifyModule')) eq 'HASH') {

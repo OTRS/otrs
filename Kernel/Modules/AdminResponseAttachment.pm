@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminResponseAttachment.pm - queue <-> responses
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminResponseAttachment.pm,v 1.8 2004-09-16 22:04:00 martin Exp $
+# $Id: AdminResponseAttachment.pm,v 1.9 2004-09-24 10:05:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::StdResponse;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -62,7 +62,7 @@ sub Run {
     # user <-> group 1:n
     if ($Self->{Subaction} eq 'Response') {
         $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Response <-> Queue');
-        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         # get StdResponses data
         my %StdResponsesData = $Self->{DBObject}->GetTableData(
@@ -87,7 +87,7 @@ sub Run {
     # group <-> user n:1
     elsif ($Self->{Subaction} eq 'Attachment') {
         $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Response <-> Queue');
-        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         # get queue data
         my %AttachmentData = $Self->{DBObject}->GetTableData(
@@ -144,7 +144,7 @@ sub Run {
     # else ! print form
     else {
         $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Response <-> Attachment');
-        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         $Output .= $Self->_Mask(
             FirstData => \%StdResponses,

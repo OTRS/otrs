@@ -2,7 +2,7 @@
 # Kernel/Modules/FAQArticle.pm - to add/update/delete faq articles
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQArticle.pm,v 1.8 2004-09-16 22:04:00 martin Exp $
+# $Id: FAQArticle.pm,v 1.9 2004-09-24 10:05:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::FAQ;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -55,7 +55,7 @@ sub Run {
     if ($Self->{Subaction} eq 'Change') {
         my %Data = $Self->{FAQObject}->ArticleGet(%GetParam, UserID => $Self->{UserID});
         $Output .= $Self->{LayoutObject}->Header(Area => 'FAQ', Title => 'Article');
-        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'FAQ');
+        $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->_Mask(%Data);
         $Output .= $Self->{LayoutObject}->Footer();
     }
@@ -77,7 +77,7 @@ sub Run {
     elsif ($Self->{Subaction} eq 'Delete') {
         my %Data = $Self->{FAQObject}->ArticleGet(%GetParam, UserID => $Self->{UserID});
         $Output .= $Self->{LayoutObject}->Header(Area => 'FAQ', Title => 'Delete');
-        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'FAQ');
+        $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'FAQArticleDelete', Data => { %Param, %GetParam } );
         $Output .= $Self->{LayoutObject}->Footer();
     }
@@ -88,7 +88,7 @@ sub Run {
         }
         else {
             $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-            $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'FAQ');
+            $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Error(
                 Message => 'DB Error!!',
                 Comment => 'Please contact your admin',
@@ -103,7 +103,7 @@ sub Run {
         }
         else {
             $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-            $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'FAQ');
+            $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Error(
                 Message => 'DB Error!!',
                 Comment => 'Please contact your admin',
@@ -114,7 +114,7 @@ sub Run {
     # else ! print form
     else {
         $Output .= $Self->{LayoutObject}->Header(Area => 'FAQ', Title => 'Article');
-        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'FAQ');
+        $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->_Mask(State => $Self->{ConfigObject}->Get('FAQ::Default::State'));
         $Output .= $Self->{LayoutObject}->Footer();
     }

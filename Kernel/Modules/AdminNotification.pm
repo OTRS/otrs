@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminNotification.pm - provides admin notification translations
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminNotification.pm,v 1.3 2004-09-16 22:04:00 martin Exp $
+# $Id: AdminNotification.pm,v 1.4 2004-09-24 10:05:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Notification;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -63,7 +63,7 @@ sub Run {
     if ($Self->{Subaction} eq 'Change') {
         my %Notification = $Self->{NotificationObject}->NotificationGet(%GetParam);
         $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Notification');
-        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         $Output .= $Self->_MaskNotificationForm(
             %Param,
@@ -107,7 +107,7 @@ sub Run {
     # else ! print form
     else {
         $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Notification');
-        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         $Output .= $Self->_MaskNotificationForm();
         $Output .= $Self->{LayoutObject}->Footer();

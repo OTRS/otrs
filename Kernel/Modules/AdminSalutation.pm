@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSalutation.pm - to add/update/delete salutations
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSalutation.pm,v 1.14 2004-09-16 22:04:00 martin Exp $
+# $Id: AdminSalutation.pm,v 1.15 2004-09-24 10:05:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminSalutation;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -52,7 +52,7 @@ sub Run {
         $ID = $Self->{DBObject}->Quote($ID);
 
         $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Salutation');
-        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         my $SQL = "SELECT name, valid_id, comments, text " .
            " FROM " .
@@ -116,7 +116,7 @@ sub Run {
     # else ! print form
     else {
         $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Salutation');
-        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         $Output .= $Self->_Mask();
         $Output .= $Self->{LayoutObject}->Footer();

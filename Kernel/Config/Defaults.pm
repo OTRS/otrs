@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.161 2004-09-21 07:20:50 martin Exp $
+# $Id: Defaults.pm,v 1.162 2004-09-24 10:05:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.161 $';
+$VERSION = '$Revision: 1.162 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -2215,6 +2215,7 @@ Your OTRS Notification Master
 
     $Self->{'Frontend::Module'}->{'AgentQueueView'} = {
         Description => 'Overview of all open Tickets',
+        NavBarName => 'Ticket',
         NavBar => [
           {
             Description => 'Overview of all open Tickets',
@@ -2239,6 +2240,7 @@ Your OTRS Notification Master
     };
     $Self->{'Frontend::Module'}->{'AgentPhone'} = {
         Description => 'Create new Phone Ticket',
+        NavBarName => 'Ticket',
         NavBar => [
           {
             Description => 'Create new Phone Ticket',
@@ -2252,6 +2254,7 @@ Your OTRS Notification Master
     };
     $Self->{'Frontend::Module'}->{'AgentEmail'} = {
         Description => 'Create new Email Ticket',
+        NavBarName => 'Ticket',
         NavBar => [
           {
             Description => 'Create new Email Ticket',
@@ -2265,7 +2268,9 @@ Your OTRS Notification Master
     };
     $Self->{'Frontend::Module'}->{'AgentUtilities'} = {
         Description => 'Search Tickets',
-        NavBar => [{
+        NavBarName => 'Ticket',
+        NavBar => [
+          {
             Description => 'Search Tickets',
             Name => 'Search',
             Image => 'search.png',
@@ -2277,7 +2282,9 @@ Your OTRS Notification Master
     };
     $Self->{'Frontend::Module'}->{'AgentPreferences'} = {
         Description => 'Agent Preferences',
-        NavBar => [{
+        NavBarName => 'Ticket',
+        NavBar => [
+          {
             Description => 'Agent Preferences',
             Name => 'Preferences',
             Image => 'prefer.png',
@@ -2289,15 +2296,18 @@ Your OTRS Notification Master
     };
     $Self->{'Frontend::Module'}->{'AgentMailbox'} = {
         Description => 'Agent Mailbox',
+        NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentZoom'} = {
         Description => 'Ticket Zoom',
+        NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentAttachment'} = {
         Description => 'To download attachments',
     };
     $Self->{'Frontend::Module'}->{'AgentPlain'} = {
         Description => 'Ticket plain view of an email',
+        NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentSpelling'} = {
         Description => 'Spell checker',
@@ -2307,59 +2317,77 @@ Your OTRS Notification Master
     };
     $Self->{'Frontend::Module'}->{'AgentNote'} = {
         Description => 'Ticket Note',
+        NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentPending'} = {
         Description => 'Ticket Pending',
+        NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentPriority'} = {
         Description => 'Ticket Priority',
+        NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentLock'} = {
         Description => 'Ticket Lock',
+        NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentMove'} = {
         Description => 'Ticket Move',
+        NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentHistory'} = {
         Description => 'Ticket History',
+        NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentOwner'} = {
         Description => 'Ticket Owner',
+        NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentCompose'} = {
         Description => 'Ticket Compose Email Answer',
+        NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentBounce'} = {
         Description => 'Ticket Compose Bounce Email',
+        NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentForward'} = {
         Description => 'Ticket Forward Email',
+        NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentCustomer'} = {
         Description => 'Ticket Customer',
+        NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentClose'} = {
         Description => 'Ticket Close',
+        NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentFreeText'} = {
         Description => 'Ticket FreeText',
+        NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentTicketPrint'} = {
         Description => 'Ticket Print',
+        NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentBulk'} = {
         Description => 'Ticket bulk module',
+        NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentLinkObject'} = {
         Description => 'Link Object',
+        NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentInfo'} = {
         Description => 'Generic Agent Info module',
+        NavBarName => 'Ticket',
     };
     # stats
     $Self->{'Frontend::Module'}->{'SystemStats'} = {
         GroupRo => ['stats', 'admin'],
         Description => 'Stats',
+        NavBarName => 'Ticket',
         NavBar => [
           {
             Description => 'Stats-Area',
@@ -2376,6 +2404,7 @@ Your OTRS Notification Master
         Group => '',
         GroupRo => 'faq',
         Description => 'FAQ-Area',
+        NavBarName => 'FAQ',
         NavBar => [
           {
             GroupRo => 'faq',
@@ -2414,6 +2443,7 @@ Your OTRS Notification Master
 #        GroupRo => 'faq',
         Group => 'faq',
         Description => 'FAQ-Article',
+        NavBarName => 'FAQ',
         NavBar => [
           {
             Description => 'New Article',
@@ -2429,6 +2459,7 @@ Your OTRS Notification Master
         GroupRo => '',
         Group => 'faq',
         Description => 'FAQ-State',
+        NavBarName => 'FAQ',
         NavBar => [
           {
             Description => 'State',
@@ -2444,12 +2475,13 @@ Your OTRS Notification Master
         GroupRo => '',
         Group => 'faq',
         Description => 'FAQ-Language',
+        NavBarName => 'FAQ',
         NavBar => [
           {
             Description => 'Language',
             Name => 'Language',
             Image => 'fileopen.png',
-            Link => 'Action=FAQfileopen',
+            Link => 'Action=FAQLanguage',
             NavBar => 'FAQ',
             Prio => 1705,
           },
@@ -2459,6 +2491,7 @@ Your OTRS Notification Master
     $Self->{'Frontend::Module'}->{'Admin'} = {
         Group => ['admin'],
         Description => 'Admin-Area',
+        NavBarName => 'Admin',
         NavBar => [
           {
             Description => 'Admin-Area',
@@ -2476,125 +2509,156 @@ Your OTRS Notification Master
     $Self->{'Frontend::Module'}->{'AdminEmail'} = {
         Group => ['admin'],
         Description => 'Admin',
+        NavBarName => 'Admin',
     };
     $Self->{'Frontend::Module'}->{'AdminAttachment'} = {
         Group => ['admin'],
         Description => 'Admin',
+        NavBarName => 'Admin',
     };
     $Self->{'Frontend::Module'}->{'AdminAutoResponse'} = {
         Group => ['admin'],
         Description => 'Admin',
+        NavBarName => 'Admin',
     };
     $Self->{'Frontend::Module'}->{'AdminCustomerUserGroup'} = {
         Group => ['admin'],
         Description => 'Admin',
+        NavBarName => 'Admin',
     };
     $Self->{'Frontend::Module'}->{'AdminEmail'} = {
         Group => ['admin'],
         Description => 'Admin',
+        NavBarName => 'Admin',
     };
     $Self->{'Frontend::Module'}->{'AdminGenericAgent'} = {
         Group => ['admin'],
         Description => 'Admin',
+        NavBarName => 'Admin',
     };
     $Self->{'Frontend::Module'}->{'AdminGroup'} = {
         Group => ['admin'],
         Description => 'Admin',
+        NavBarName => 'Admin',
     };
     $Self->{'Frontend::Module'}->{'AdminLog'} = {
         Group => ['admin'],
         Description => 'Admin',
+        NavBarName => 'Admin',
     };
     $Self->{'Frontend::Module'}->{'AdminNotification'} = {
         Group => ['admin'],
         Description => 'Admin',
+        NavBarName => 'Admin',
     };
     $Self->{'Frontend::Module'}->{'AdminPGP'} = {
         Group => ['admin'],
         Description => 'Admin',
+        NavBarName => 'Admin',
     };
     $Self->{'Frontend::Module'}->{'AdminPOP3'} = {
         Group => ['admin'],
         Description => 'Admin',
+        NavBarName => 'Admin',
     };
     $Self->{'Frontend::Module'}->{'AdminPostMasterFilter'} = {
         Group => ['admin'],
         Description => 'Admin',
+        NavBarName => 'Admin',
     };
     $Self->{'Frontend::Module'}->{'AdminQueueAutoResponse'} = {
         Group => ['admin'],
         Description => 'Admin',
+        NavBarName => 'Admin',
     };
     $Self->{'Frontend::Module'}->{'AdminQueue'} = {
         Group => ['admin'],
         Description => 'Admin',
+        NavBarName => 'Admin',
     };
     $Self->{'Frontend::Module'}->{'AdminQueueResponses'} = {
         Group => ['admin'],
         Description => 'Admin',
+        NavBarName => 'Admin',
     };
     $Self->{'Frontend::Module'}->{'AdminResponseAttachment'} = {
         Group => ['admin'],
         Description => 'Admin',
+        NavBarName => 'Admin',
     };
     $Self->{'Frontend::Module'}->{'AdminResponse'} = {
         Group => ['admin'],
         Description => 'Admin',
+        NavBarName => 'Admin',
     };
     $Self->{'Frontend::Module'}->{'AdminRoleGroup'} = {
         Group => ['admin'],
         Description => 'Admin',
+        NavBarName => 'Admin',
     };
     $Self->{'Frontend::Module'}->{'AdminRole'} = {
         Group => ['admin'],
         Description => 'Admin',
+        NavBarName => 'Admin',
     };
     $Self->{'Frontend::Module'}->{'AdminRoleUser'} = {
         Group => ['admin'],
         Description => 'Admin',
+        NavBarName => 'Admin',
     };
     $Self->{'Frontend::Module'}->{'AdminSalutation'} = {
         Group => ['admin'],
         Description => 'Admin',
+        NavBarName => 'Admin',
     };
     $Self->{'Frontend::Module'}->{'AdminSelectBox'} = {
         Group => ['admin'],
         Description => 'Admin',
+        NavBarName => 'Admin',
     };
     $Self->{'Frontend::Module'}->{'AdminSession'} = {
         Group => ['admin'],
         Description => 'Admin',
+        NavBarName => 'Admin',
     };
     $Self->{'Frontend::Module'}->{'AdminSignature'} = {
         Group => ['admin'],
         Description => 'Admin',
+        NavBarName => 'Admin',
     };
     $Self->{'Frontend::Module'}->{'AdminSMIME'} = {
         Group => ['admin'],
         Description => 'Admin',
+        NavBarName => 'Admin',
     };
     $Self->{'Frontend::Module'}->{'AdminState'} = {
         Group => ['admin'],
         Description => 'Admin',
+        NavBarName => 'Admin',
     };
     $Self->{'Frontend::Module'}->{'AdminSystemAddress'} = {
         Group => ['admin'],
         Description => 'Admin',
+        NavBarName => 'Admin',
     };
     $Self->{'Frontend::Module'}->{'AdminUserGroup'} = {
         Group => ['admin'],
         Description => 'Admin',
+        NavBarName => 'Admin',
     };
     $Self->{'Frontend::Module'}->{'AdminUser'} = {
         Group => ['admin'],
         Description => 'Admin',
+        NavBarName => 'Admin',
     };
 
     $Self->{'Frontend::Module'}->{'AdminCustomerUser'} = {
         GroupRo => '',
         Group => ['admin', 'users'],
         Description => 'Edit Customer Users',
-        NavBar => [ {
+        NavBarName => 'Admin',
+        NavBar => [
+          {
             Description => 'Edit Customer Users',
             Name => 'Customer',
             Image => 'folder_yellow.png',
@@ -2607,6 +2671,7 @@ Your OTRS Notification Master
 
     $Self->{'CustomerFrontend::Module'}->{'Logout'} = {
         Description => 'Logout of customer panel.',
+        NavBarName => '',
         NavBar => [
           {
             Description => 'Logout',

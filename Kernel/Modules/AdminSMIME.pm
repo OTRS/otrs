@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSMIME.pm - to add/update/delete pgp keys
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSMIME.pm,v 1.5 2004-09-16 22:04:00 martin Exp $
+# $Id: AdminSMIME.pm,v 1.6 2004-09-24 10:05:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -100,7 +100,7 @@ sub Run {
             );
         }
         my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'SMIME Management');
-        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         if ($Message) {
             $Output .= $Self->{LayoutObject}->Notify(Info => $Message);
@@ -147,7 +147,7 @@ sub Run {
             );
         }
         my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'SMIME Management');
-        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         $Output .= $Self->{LayoutObject}->Notify(Info => $Message);
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminSMIMEForm', Data => \%Param);
@@ -196,7 +196,7 @@ sub Run {
             );
         }
         my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'SMIME Management');
-        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         $Output .= $Self->{LayoutObject}->Notify(Info => $Message);
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminSMIMEForm', Data => \%Param);
@@ -264,7 +264,7 @@ sub Run {
             );
         }
         $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'SMIME Management');
-        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminSMIMEForm', Data => \%Param);
         $Output .= $Self->{LayoutObject}->Footer();

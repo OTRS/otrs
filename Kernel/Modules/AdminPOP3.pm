@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPOP3.pm - to add/update/delete POP3 acounts
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPOP3.pm,v 1.10 2004-09-16 22:04:00 martin Exp $
+# $Id: AdminPOP3.pm,v 1.11 2004-09-24 10:05:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::POP3Account;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -60,7 +60,7 @@ sub Run {
             my %Data = $Self->{POP3Account}->POP3AccountGet(ID => $ID);
             my %List = $Self->{POP3Account}->POP3AccountList(Valid => 0);
             $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'POP3 Account');
-            $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+            $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
             $Output .= $Self->_Mask(%Data, POP3AccountList => \%List);
             $Output .= $Self->{LayoutObject}->Footer();
@@ -96,7 +96,7 @@ sub Run {
         }
         else {
             $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-            $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+            $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
             $Output .= $Self->{LayoutObject}->Error(
                 Comment => 'Click back and check your selection!',
@@ -109,7 +109,7 @@ sub Run {
     else {
         my %List = $Self->{POP3Account}->POP3AccountList(Valid => 0);
         $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'POP3 Account');
-        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         $Output .= $Self->_Mask(POP3AccountList => \%List);
         $Output .= $Self->{LayoutObject}->Footer();

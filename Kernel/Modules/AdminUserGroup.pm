@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUserGroup.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUserGroup.pm,v 1.19 2004-09-16 22:04:00 martin Exp $
+# $Id: AdminUserGroup.pm,v 1.20 2004-09-24 10:05:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminUserGroup;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -47,7 +47,7 @@ sub Run {
     # user <-> group 1:n
     if ($Self->{Subaction} eq 'User') {
         my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'User <-> Groups');
-        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         # get user data
         my %UserData = $Self->{UserObject}->GetUserData(UserID => $ID);
@@ -75,7 +75,7 @@ sub Run {
     # group <-> user n:1
     elsif ($Self->{Subaction} eq 'Group') {
         my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'User <-> Groups');
-        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         # get user data
         my %UserData = $Self->{UserObject}->UserList(Valid => 1);
@@ -171,7 +171,7 @@ sub Run {
     # else ! print form
     else {
         my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'User <-> Groups');
-        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         # get user data
         my %UserData = $Self->{UserObject}->UserList(Valid => 1);

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSelectBox.pm - provides a SelectBox for admins
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSelectBox.pm,v 1.10 2004-09-16 22:04:00 martin Exp $
+# $Id: AdminSelectBox.pm,v 1.11 2004-09-24 10:05:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminSelectBox;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -50,7 +50,7 @@ sub Run {
     # --
     if ($Self->{Subaction} eq '' || !$Self->{Subaction}) {
         my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Select box');
-        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminSelectBoxForm',
@@ -64,7 +64,7 @@ sub Run {
     # --
     elsif ($Self->{Subaction} eq 'Select') {
         my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Select box');
-        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminSelectBoxForm',
@@ -84,7 +84,7 @@ sub Run {
         }
         else {
             my $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Select box');
-            $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+            $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AdminSelectBoxForm',

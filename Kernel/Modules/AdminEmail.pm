@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminEmail.pm - to send a email to all agents
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminEmail.pm,v 1.17 2004-09-16 22:04:00 martin Exp $
+# $Id: AdminEmail.pm,v 1.18 2004-09-24 10:05:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminEmail;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -102,7 +102,7 @@ sub Run {
         $Param{Body} =~ s/\r/\n/g;
         # send mail
         $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Admin-Email');
-        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         if ($Self->{SendmailObject}->Send(
             From => $Param{From},
@@ -121,7 +121,7 @@ sub Run {
     }
     else {
         $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'Admin-Email');
-        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         my %Users = $Self->{UserObject}->UserList(Valid => 1);
         my %Groups = $Self->{GroupObject}->GroupList(Valid => 1);

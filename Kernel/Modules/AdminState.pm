@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminState.pm - to add/update/delete system states
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminState.pm,v 1.11 2004-09-16 22:04:00 martin Exp $
+# $Id: AdminState.pm,v 1.12 2004-09-24 10:05:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -47,7 +47,7 @@ sub Run {
     if ($Self->{Subaction} eq 'Change') {
         my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
         $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'System state');
-        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         my %Data = $Self->{StateObject}->StateGet(ID => $ID);
         $Output .= $Self->_Mask(%Data);
@@ -91,7 +91,7 @@ sub Run {
     # else ! print form
     else {
         $Output = $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'System state');
-        $Output .= $Self->{LayoutObject}->NavigationBar(Type => 'Admin');
+        $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
         $Output .= $Self->_Mask();
         $Output .= $Self->{LayoutObject}->Footer();
