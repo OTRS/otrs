@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.179 2005-03-03 07:31:04 rk Exp $
+# $Id: Generic.pm,v 1.180 2005-03-03 07:45:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::Output::HTML::Agent;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.179 $';
+$VERSION = '$Revision: 1.180 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -1155,9 +1155,9 @@ sub Ascii2Html {
     # newline
     if ($NewLine && length($Text) < 8000) {
         $Text =~ s/(\n\r|\r\r\n|\r\n)/\n/g;
-        $Text =~ s/(.{$NewLine}.+?\s)/$1\n/g;
+        $Text =~ s/(.{4,$NewLine})(?:\s|\z)/$1\n/gm;
         my $ForceNewLine = $NewLine+20;
-        $Text =~ s/(.{$ForceNewLine})(.+?)/$1\n$2/gs;
+        $Text =~ s/(.{$ForceNewLine})(.+?)/$1\n$2/g;
     }
     # strip empty lines
     if ($StripEmptyLines) {
@@ -2132,6 +2132,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.179 $ $Date: 2005-03-03 07:31:04 $
+$Revision: 1.180 $ $Date: 2005-03-03 07:45:57 $
 
 =cut
