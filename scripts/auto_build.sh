@@ -3,7 +3,7 @@
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: auto_build.sh,v 1.13 2003-02-15 12:04:25 martin Exp $
+# $Id: auto_build.sh,v 1.14 2003-02-15 12:05:58 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.13 $>"
+echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.14 $>"
 echo "Copyright (c) 2002-2003 Martin Edenhofer <martin@otrs.org>"
 
 PATH_TO_CVS_SRC=$1
@@ -146,7 +146,7 @@ find -name ".#*" | xargs rm -rf
 rm -rf Kernel/Config.pm 
 
 # build html docu
-#$PATH_TO_CVS_SRC/scripts/auto_docbuild.sh $PATH_TO_CVS_SRC > /dev/null
+$PATH_TO_CVS_SRC/scripts/auto_docbuild.sh $PATH_TO_CVS_SRC > /dev/null
 mkdir doc/manual
 mkdir doc/manual/html
 mkdir doc/manual/pdf
@@ -176,7 +176,7 @@ cp $SOURCE_LOCATION $PACKAGE_DEST_DIR/
 # --
 DESCRIPTION=$PATH_TO_CVS_SRC/scripts/auto_build/description.txt
 FILES=$PATH_TO_CVS_SRC/scripts/auto_build/files.txt
-#echo $FILES
+
 # --
 # build SuSE 8.x rpm 
 # --
