@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Installer.pm,v 1.18 2003-01-14 23:24:50 martin Exp $
+# $Id: Installer.pm,v 1.19 2003-02-08 11:57:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ package Kernel::Modules::Installer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -34,7 +34,7 @@ sub new {
     }
 
     # check needed Opjects
-    foreach ('ParamObject', 'LayoutObject', 'LogObject', 'ConfigObject') {
+    foreach (qw(ParamObject LayoutObject LogObject ConfigObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
 
@@ -49,7 +49,7 @@ sub Run {
     # --
     # get sql source
     # --
-    my $DirOfSQLFiles = '../../install/database';
+    my $DirOfSQLFiles = '../../scripts/database';
     if (! -d $DirOfSQLFiles) {
         $DirOfSQLFiles = '/usr/share/doc/packages/otrs/install/database';
         if (! -d $DirOfSQLFiles) {
@@ -159,7 +159,7 @@ sub Run {
             # --
             # create db tables
             # --
-            $CMD = $MYCMD . " $DB{Database} < $DirOfSQLFiles/OpenTRS-schema.mysql.sql";
+            $CMD = $MYCMD . " $DB{Database} < $DirOfSQLFiles/otrs-schema.mysql.sql";
             $SetupOutput .= "<tr>";
             $SetupOutput .= "<td colspan=\"2\"><b>Create tables CMD:</B></td></tr>";
             $SetupOutput .= "<tr><td>$CMD</td>";
@@ -350,7 +350,7 @@ sub Run {
              $Output .= "<u>Can't write Config.pm - Fatal Error!</u><br>";
         }
         else {
-           my $SetPermission = $ENV{SCRIPT_FILENAME} || '/opt/OpenTRS/bin/SetPermissions.sh';
+           my $SetPermission = $ENV{SCRIPT_FILENAME} || '/opt/otrs/bin/SetPermissions.sh';
            $SetPermission =~ s/(.+?)\/cgi-bin\/installer.pl/$1\/SetPermissions.sh/g;
            my $BaseDir = $SetPermission;
            $BaseDir =~ s/(.*\/)bin\/SetPermissions.sh/$1/;
