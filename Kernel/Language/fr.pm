@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Nicolas Goralski <ngoralski at oceanet-technology.com>
 # Copyright (C) 2004 Yann Richard <ze at nawak-online.org>
 # --
-# $Id: fr.pm,v 1.28 2004-02-10 00:18:37 martin Exp $
+# $Id: fr.pm,v 1.29 2004-02-15 22:01:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -23,7 +23,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Tue Feb 10 01:07:42 2004 by 
+    # Last translation Sun Feb 15 22:51:39 2004 by 
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -38,7 +38,7 @@ sub Data {
       ' 2 minutes' => ' 2 minutes',
       ' 5 minutes' => ' 5 minutes',
       ' 7 minutes' => ' 7 minutes',
-      '(Click here to add)' => '',
+      '(Click here to add)' => '(Cliquez içi pour ajouter)',
       '10 minutes' => '10 minutes',
       '15 minutes' => '15 minutes',
       'AddLink' => 'Ajouter un lien',
@@ -48,7 +48,7 @@ sub Data {
       'all' => 'tout',
       'All' => 'Tout',
       'Attention' => 'Attention',
-      'before' => '',
+      'before' => 'avant',
       'Bug Report' => 'Rapport d\'anomalie',
       'Cancel' => 'Annuler',
       'change' => 'modifier',
@@ -60,7 +60,7 @@ sub Data {
       'customer' => 'client',
       'Customer Info' => 'Information client',
       'day' => 'jour',
-      'day(s)' => '',
+      'day(s)' => 'jour(s)',
       'days' => 'jours',
       'description' => 'description',
       'Description' => 'Description',
@@ -75,7 +75,7 @@ sub Data {
       'Examples' => 'Exemples',
       'Facility' => 'Facilité',
       'FAQ-Area' => 'Foire Aux Questions',
-      'Feature not active!' => 'Cette fonctionnalité n\'est pas activée',
+      'Feature not active!' => 'Cette fonctionnalité n\'est pas activée&nbsp;!',
       'go' => 'aller',
       'go!' => 'c\'est parti&nbsp;!',
       'Group' => 'Groupe',
@@ -85,10 +85,10 @@ sub Data {
       'hours' => 'heures',
       'Ignore' => 'Ignorer',
       'invalid' => 'invalide',
-      'Invalid SessionID!' => 'ID de Session Invalide',
+      'Invalid SessionID!' => 'ID de Session Invalide&nbsp;!',
       'Language' => 'Langue',
       'Languages' => 'Langues',
-      'last' => '',
+      'last' => 'dernier',
       'Line' => 'Ligne',
       'Lite' => 'allégée',
       'Login failed! Your username or password was entered incorrectly.' => 'La connection a échoué ! Votre nom d\'utilisateur ou votre mot de passe sont erronés.',
@@ -98,7 +98,7 @@ sub Data {
       'minutes' => 'minutes',
       'Module' => 'Module',
       'Modulefile' => 'Fichier de module',
-      'month(s)' => '',
+      'month(s)' => 'mois',
       'Name' => 'Nom',
       'New Article' => 'Nouvel Article',
       'New message' => 'Nouveau message',
@@ -110,19 +110,19 @@ sub Data {
       'none' => 'aucun',
       'none - answered' => 'aucun - répondu',
       'none!' => 'aucun&nbsp;!',
-      'Normal' => '',
+      'Normal' => 'normal',
       'Off' => 'Éteint',
       'off' => 'éteint',
       'On' => 'Allumé',
       'on' => 'allumé',
       'Password' => 'Mot de Passe',
       'Pending till' => 'En attendant jusqu\'à',
-      'Please answer this ticket(s) to get back to the normal queue view!' => 'Il faut répondre à ce(s) ticket(s) pour revenir à une vue normale de la file.',
+      'Please answer this ticket(s) to get back to the normal queue view!' => 'Il faut répondre à ce(s) ticket(s) pour revenir à une vue normale de la file&nbsp;!',
       'Please contact your admin' => 'Veuillez contacter votre admnistrateur',
       'please do not edit!' => 'Ne pas modifier&nbsp;!',
       'Please go away!' => 'Passez votre chemin&nbsp;!',
       'possible' => 'possible',
-      'Preview' => '',
+      'Preview' => 'Aperçu',
       'QueueView' => 'Vue file',
       'reject' => 'rejeté',
       'replace with' => 'remplacer par',
@@ -145,23 +145,23 @@ sub Data {
       'Timeover' => 'Temp écoulé',
       'To: (%s) replaced with database email!' => 'Le champ \'à\' (%s) a été remplacé avec la valeur de la base de données des e-mail&nbsp;!',
       'top' => 'haut',
-      'update' => 'Mise à jour',
-      'Update' => '',
+      'update' => 'mettre à jour',
+      'Update' => 'Mettre à jour',
       'update!' => 'mettre à jour&nbsp;!',
       'User' => 'Utilisateur',
       'Username' => 'Nom d\'utilisateur',
       'Valid' => 'Valide',
       'Warning' => 'Attention',
-      'week(s)' => '',
+      'week(s)' => 'semaine(s)',
       'Welcome to OTRS' => 'Bienvenue dans OTRS',
       'Word' => 'Mot',
       'wrote' => 'écrit',
-      'year(s)' => '',
+      'year(s)' => 'année(s)',
       'yes' => 'oui',
       'Yes' => 'Oui',
-      'You got new message!' => 'Vous avez un nouveau message',
-      'You have %s new message(s)!' => 'Vous avez %s nouveau(x) message(s)',
-      'You have %s reminder ticket(s)!' => 'Vous avez %s rappel(s) de ticket(s)',
+      'You got new message!' => 'Vous avez un nouveau message&nbsp;!',
+      'You have %s new message(s)!' => 'Vous avez %s nouveau(x) message(s)&nbsp;!',
+      'You have %s reminder ticket(s)!' => 'Vous avez %s rappel(s) de ticket(s)&nbsp;!',
 
     # Template: AAAMonth
       'Apr' => 'Avr',
@@ -179,6 +179,7 @@ sub Data {
 
     # Template: AAAPreferences
       'Closed Tickets' => 'Tickets fermés',
+      'CreateTicket' => 'Créer Ticket',
       'Custom Queue' => 'File d\'attente personnalisé',
       'Follow up notification' => 'Notification de suivi',
       'Frontend' => 'Interface',
@@ -189,7 +190,7 @@ sub Data {
       'New ticket notification' => 'Notification de nouveau ticket',
       'Other Options' => 'Autres options',
       'PhoneView' => 'Vue téléphone',
-      'Preferences updated successfully!' => 'Les préférences ont bien été mises à jours',
+      'Preferences updated successfully!' => 'Les préférences ont bien été mises à jours&nbsp;!',
       'QueueView refresh time' => 'Temps de rafraîchissement de la vue des files',
       'Screen after new ticket' => 'Ecran après un nouveau ticket',
       'Select your default spelling dictionary.' => 'Sélectionnez votre correcteur orthographique par défaut',
@@ -198,15 +199,15 @@ sub Data {
       'Select your frontend QueueView.' => 'Choisissez votre interface de vue des files',
       'Select your frontend Theme.' => 'Choix du thème de l\'interface',
       'Select your QueueView refresh time.' => 'Choix du délai de rafraîchissement de la vue des files',
-      'Select your screen after creating a new ticket.' => '',
+      'Select your screen after creating a new ticket.' => 'Sélectionnez l\'écran qui sera affiché après avoir crée un nouveau ticket.',
       'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Me prévenir si un client envoie un suivi (follow-up) et que je suis le propriétaire du ticket.',
-      'Send me a notification if a ticket is moved into a custom queue.' => 'Me prévenir si un ticket est déplacé dans une file personnallisé',
+      'Send me a notification if a ticket is moved into a custom queue.' => 'Me prévenir si un ticket est déplacé dans une de mes files personnelles',
       'Send me a notification if a ticket is unlocked by the system.' => 'Me prévenir si un ticket est dévérouillé par le système',
       'Send me a notification if there is a new ticket in my custom queues.' => 'Me prévenir si un nouveau ticket apparaît dans mes files personnelles.',
       'Show closed tickets.' => 'Voir les tickets fermés',
       'Spelling Dictionary' => 'Correcteur orthographique',
       'Ticket lock timeout notification' => 'Prévenir du dépassement du délai d\'un verrou',
-      'TicketZoom' => 'Détails',
+      'TicketZoom' => 'Vue en détails',
 
     # Template: AAATicket
       '1 very low' => '1 très bas',
@@ -308,8 +309,8 @@ sub Data {
     # Template: AdminCustomerUserForm
       'Customer User Management' => 'Gestion des clients utilisateurs',
       'Customer user will be needed to to login via customer panels.' => 'Les clients utilisateurs seront invité à se connecter par la page client.',
-      'Select source:' => '',
-      'Source' => '',
+      'Select source:' => 'Sélectionnez la source',
+      'Source' => 'Source',
 
     # Template: AdminCustomerUserGeneric
 
@@ -360,7 +361,7 @@ sub Data {
       'Logout' => 'Déconnexion',
       'Misc' => 'Divers',
       'Notifications' => 'Notifications',
-      'PostMaster Filter' => '',
+      'PostMaster Filter' => 'PostMaster Filtre',
       'PostMaster POP3 Account' => 'PostMaster Compte POP3',
       'Responses' => 'Réponses',
       'Responses <-> Queue' => 'Réponses <-> Files',
@@ -371,26 +372,26 @@ sub Data {
       'User <-> Groups' => 'Utilisateur <-> Groupes',
 
     # Template: AdminNotificationForm
-      'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
+      'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Options de configuration (ex: &lt;OTRS_CONFIG_HttpType&gt;)',
       'Notification Management' => 'Gestion des notifications',
-      'Notifications are sent to an agent or a customer.' => '',
+      'Notifications are sent to an agent or a customer.' => 'Des notifications sont envoyées à un technicien ou à un client.',
       'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => '',
       'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
-      'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => '',
+      'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => 'Options du propriétaire d\'un ticket (ex: &lt;OTRS_OWNER_USERFIRSTNAME&gt;)',
 
     # Template: AdminPOP3Form
-      'All incoming emails with one account will be dispatched in the selected queue!' => 'Tout les mails entrants avec un compte seront répartis dans la file sélectionné',
+      'All incoming emails with one account will be dispatched in the selected queue!' => 'Tout les mails entrants avec un compte seront répartis dans la file sélectionné&nbsp;!',
       'Dispatching' => 'Répartition',
       'Host' => 'Hôte',
-      'If your account is trusted, the x-otrs header (for priority, ...) will be used!' => 'Si votre compte est vérifié, les en-t&ecirc;tes x-otrs (pour les priorités,...) seront utilisés',
-      'Login' => 'Nom d\'utilisateur',
+      'If your account is trusted, the x-otrs header (for priority, ...) will be used!' => 'Si votre compte est vérifié, les en-t&ecirc;tes x-otrs (pour les priorités,...) seront utilisés&nbsp;!',
+      'Login' => 'S\'authentifier',
       'POP3 Account Management' => 'Gestion du compte POP3',
       'Trusted' => 'Vérifié',
 
     # Template: AdminPostMasterFilterForm
       'Match' => '',
       'PostMasterFilter Management' => '',
-      'Set' => '',
+      'Set' => 'Assigner',
 
     # Template: AdminQueueAutoResponseForm
       'Queue <-> Auto Response Management' => 'Gestion des files <-> réponses automatiques',
@@ -398,12 +399,12 @@ sub Data {
     # Template: AdminQueueAutoResponseTable
 
     # Template: AdminQueueForm
-      '0 = no escalation' => '0 = pas d\'escalade',
+      '0 = no escalation' => '0 = pas de remonté du ticket',
       '0 = no unlock' => '0 = pas de vérouillage',
       'Customer Move Notify' => 'Notification lors d\'un changement de file',
       'Customer Owner Notify' => 'Notification lors d\'un changement de propriétaire',
       'Customer State Notify' => 'Notification lors d\'un changement d\état',
-      'Escalation time' => 'Délai d\'escalade',
+      'Escalation time' => 'Délai de remonté du ticket',
       'Follow up Option' => 'Option des suivis',
       'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => 'Si un ticket est cloturé et que le client envoie une note, le ticket pour l\'ancien propriétaire',
       'If a ticket will not be answered in thos time, just only this ticket will be shown.' => 'Si un ticket n\'est pas répondu dans le temps impartit, alors juste ce ticket sera affiché',
@@ -458,7 +459,7 @@ sub Data {
       'SQL' => 'SQL',
 
     # Template: AdminSession
-      'Agent' => 'Agent',
+      'Agent' => 'Technicien',
       'kill all sessions' => 'Terminer toutes les sessions',
       'Overview' => 'Aperçu',
       'Sessions' => 'Session',
@@ -478,7 +479,7 @@ sub Data {
       'Take care that you also updated the default states in you Kernel/Config.pm!' => 'Prennez garde de bien mettre à jour les états par défaut dans votre Kernelconfig.pm&nbsp;!',
 
     # Template: AdminSystemAddressForm
-      'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Tous les courriels avec cette adresse en destinataire (à&nbsp;:) seront placés dans la file choisie..',
+      'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Tous les courriels avec cette adresse en destinataire (à&nbsp;:) seront placés dans la file choisie&nbsp;!',
       'Email' => 'Courrier électronique',
       'Realname' => 'Véritable Nom',
       'System Email Addresses Management' => 'Gestion des adresses courriel du système',
@@ -565,7 +566,7 @@ sub Data {
     # Template: AgentEmailNew
       'All Agents' => 'Tout les techniciens',
       'Clear From' => 'Vider le formulaire',
-      'Compose Email' => '',
+      'Compose Email' => 'Ecrire un e-mail',
       'Lock Ticket' => 'Prendre le Ticket',
       'new ticket' => 'nouveau ticket',
 
@@ -601,8 +602,8 @@ sub Data {
       'up' => 'haut',
 
     # Template: AgentMailboxTicket
-      '"}' => '',
-      '"}","14' => '',
+      '"}' => '"}',
+      '"}","14' => '"}","14',
 
     # Template: AgentMove
       'Move Ticket' => 'Changer la file du ticket',
@@ -619,7 +620,7 @@ sub Data {
 
     # Template: AgentNote
       'Add note to ticket' => 'Ajouter une note au ticket',
-      'Note!' => 'Note',
+      'Note!' => 'Note&nbsp;!',
 
     # Template: AgentOwner
       'Change owner of ticket' => 'Changer le propriétaire du ticket',
@@ -677,8 +678,8 @@ sub Data {
     # Template: AgentStatusViewTableNotAnswerd
 
     # Template: AgentTicketLink
-      'Link' => '',
-      'Link to' => '',
+      'Link' => 'Lien',
+      'Link to' => 'Lien vers',
 
     # Template: AgentTicketLocked
       'Ticket locked!' => 'Ticket verrouillé&nbsp;!',
@@ -689,7 +690,7 @@ sub Data {
 
     # Template: AgentTicketPrintHeader
       'Accounted time' => 'Temp passé',
-      'Escalation in' => 'Escalade dans',
+      'Escalation in' => 'Remontée dans',
 
     # Template: AgentUtilSearch
       '(e. g. 10*5155 or 105658*)' => '(ex: 10*5155 or 105658*)',
@@ -715,7 +716,7 @@ sub Data {
     # Template: AgentUtilSearchByCustomerID
       'Customer history search' => 'recherche dans l\'historique client',
       'Customer history search (e. g. "ID342425").' => 'recherche dans l\'historique client (ex: "ID342425")',
-      'No * possible!' => 'Pas de * possible',
+      'No * possible!' => 'Pas de * possible&nbsp;!',
 
     # Template: AgentUtilSearchNavBar
       'Change search options' => 'Changer les options de recherche',
@@ -724,12 +725,12 @@ sub Data {
       'Total hits' => 'Total des hits',
 
     # Template: AgentUtilSearchResult
-      '"}","15' => '',
+      '"}","15' => '"}","15',
 
     # Template: AgentUtilSearchResultPrint
 
     # Template: AgentUtilSearchResultPrintTable
-      '"}","30' => '',
+      '"}","30' => '"}","30',
 
     # Template: AgentUtilSearchResultShort
 
@@ -766,7 +767,7 @@ sub Data {
       'Print' => 'Imprimer',
 
     # Template: AgentZoomStatus
-      '"}","18' => '',
+      '"}","18' => '"}","18',
 
     # Template: CustomerCreateAccount
       'Create Account' => 'Créer un compte',
@@ -847,14 +848,14 @@ sub Data {
     # Template: CustomerWarning
 
     # Template: Error
-      'Click here to report a bug!' => 'Cliquer ici pour signaler une anomalie',
+      'Click here to report a bug!' => 'Cliquer ici pour signaler une anomalie&nbsp;!',
 
     # Template: FAQArticleDelete
       'FAQ Delete' => 'Effacer la FAQ',
       'You really want to delete this article?' => 'Voulez vous vraiment effacer cet article&nbsp;?',
 
     # Template: FAQArticleForm
-      'Comment (internal)' => '',
+      'Comment (internal)' => 'Commentaire interne',
       'Filename' => 'Nom de fichier',
       'Short Description' => 'Description Courte',
 
@@ -926,14 +927,14 @@ sub Data {
 
     # Template: InstallerSystem
       '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Verifie les enregistrements MX des adresse email utilisés lors de la composition d\'une réponse. N\'utilisez pas la "Vérification des enregistrements MX" si votre serveur OTRS est derriere une ligne modem $!',
-      '(Email of the system admin)' => 'Email de l\'administrateur systè',
-      '(Full qualified domain name of your system)' => 'Nom de domaine complet de votre machine',
-      '(Logfile just needed for File-LogModule!)' => 'fichier de log nécessaire pour le Module File-Log',
+      '(Email of the system admin)' => '(Email de l\'administrateur système)',
+      '(Full qualified domain name of your system)' => '(Nom de domaine complet de votre machine)',
+      '(Logfile just needed for File-LogModule!)' => '(fichier de log nécessaire pour le Module File-Log&nbsp;!)',
       '(The identify of the system. Each ticket number and each http session id starts with this number)' => '(L\'identité du système. Chaque numéro de ticket et chaque id de session http dé avec ce nombre)',
       '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Identificateur des tickets. Certaines personnes veulent le configurer avec par ex: \'Ticket#\', \'Appel#\' ou \'MonTicket#\')',
-      '(Used default language)' => 'Langage par défaut utilisé',
-      '(Used log backend)' => 'Backend de log utilisé',
-      '(Used ticket number format)' => 'format numérique utilisé pour les tickets',
+      '(Used default language)' => '(Langage par défaut utilisé)',
+      '(Used log backend)' => '(Backend de log utilisé)',
+      '(Used ticket number format)' => '(Format numérique utilisé pour les tickets)',
       'CheckMXRecord' => 'Vérifier les enregistrements MX',
       'Default Charset' => 'Charset par défaut',
       'Default Language' => 'Langage par défaut ',
@@ -944,7 +945,7 @@ sub Data {
       'SystemID' => 'ID Système',
       'Ticket Hook' => '',
       'Ticket Number Generator' => 'Générateur de numéro pour les tickets',
-      'Use utf-8 it your database supports it!' => '',
+      'Use utf-8 it your database supports it!' => 'Utilisez UTF-8 si votre base de donnée le supporte&nbsp;!',
       'Webfrontend' => 'Frontal web',
 
     # Template: Login
@@ -977,7 +978,7 @@ sub Data {
       'OTRS Test Page' => 'Page de test d\'OTRS',
 
     # Template: TicketEscalation
-      'Ticket escalation!' => 'Escalade du ticket',
+      'Ticket escalation!' => 'Remontée du ticket&nbsp;!',
 
     # Template: TicketView
 
@@ -987,20 +988,20 @@ sub Data {
     # Template: Warning
 
     # Misc
-      'A message should have a From: recipient!' => 'Un message devrait avoir un champ From:',
+      'A message should have a From: recipient!' => 'Un message devrait avoir un champ From:&nbsp;!',
       'AgentFrontend' => 'Interface du technicien',
       'Article free text' => 'Texte dans l\'article',
       'Charset' => 'Jeu de caractère',
-      'Charsets' => 'Jeu de Charactère',
+      'Charsets' => 'Jeux de caractères',
       'Create' => 'Créer',
-      'Feature not activ!' => 'Fonction non activé',
+      'Feature not activ!' => 'Fonctionalité non active&nbsp;!',
       'Fulltext search' => 'Recherche inégrale de texte',
       'Fulltext search (e. g. "Mar*in" or "Baue*" or "martin+hallo")' => 'Recherche intégral de texte (ex: "Mar*in" ou "Constru*" ou "martin+bonjour")',
       'New state' => 'Nouvel état',
       'New ticket via call.' => 'Nouveau ticket par téléphone',
       'New user' => 'Nouvel utilisateur',
       'Search in' => 'Recherche dans',
-      'Select your screen after creating a new ticket via PhoneView.' => 'Choix de l\'écran affiché apres avoir creé un ticket via la vue téléphone',
+      'Select your screen after creating a new ticket via PhoneView.' => 'Choisissez l\'écran qui sera affiché après avoir creé un ticket via la vue téléphone',
       'Set customer id of a ticket' => 'Définir le numéro de client d\'un ticket',
       'Show all' => 'Tout montrer',
       'Status defs' => 'Définitions des Status',
@@ -1008,7 +1009,7 @@ sub Data {
       'System Language Management' => 'Gestion des langues du système',
       'Ticket free text' => 'Texte du ticket',
       'Ticket limit:' => 'limitation des Ticket',
-      'Time till escalation' => 'Durée avant escalade',
+      'Time till escalation' => 'Durée avant la remontée du ticket',
       'Users' => 'Utilisateurs',
       'With State' => 'Avec l\'état',
       'You have to be in the admin group!' => 'Il est nécessaire d\'être dans le groupe d\'administration&nbsp;!',
