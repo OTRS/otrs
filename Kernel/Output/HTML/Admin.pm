@@ -2,7 +2,7 @@
 # HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.41 2003-05-29 11:23:14 martin Exp $
+# $Id: Admin.pm,v 1.42 2003-07-07 18:50:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.42 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1017,7 +1017,8 @@ sub AdminPOP3Form {
             What => 'id, name',
             Table => 'queue',
             Valid => 1,
-          )
+          ), 
+          '' => '-',
         },
         Name => 'QueueID',
         SelectedID => $Param{QueueID},
