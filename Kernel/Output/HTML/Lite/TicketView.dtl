@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: TicketView.dtl,v 1.13 2002-08-04 14:31:58 martin Exp $
+# $Id: TicketView.dtl,v 1.14 2002-09-23 13:43:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,17 +12,19 @@
 <!-- start ticket -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
-  <td align="left" bgcolor="$Env{"BGTableColor0"}" width="60%">
+  <td align="left" bgcolor="$Env{"BGTableColor0"}" width="50%">
   <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Config{"TicketHook"}: $Data{"TicketNumber"}$Env{"Box1"}</font></b>
   </font>
   </td>
-  <td align="right" bgcolor="$Env{"BGTableColor0"}" width="40%">
+  <td align="right" bgcolor="$Env{"BGTableColor0"}" width="50%">
   <b><font color="$Env{"FontColor1"}">$Env{"Box0"}$Text{"Age"}: $Data{"Age"}$Env{"Box1"}</font></b>
   </font>
   </td>
 </tr>
+</table>
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
-  <td align="left" bgcolor="$Env{"BGTableColor2"}">
+  <td align="left" bgcolor="$Env{"BGTableColor2"}" width="60%">
   <a href="$Env{"Baselink"}&Action=AgentLock&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Text{"Lock"}</a> -
   <a href="$Env{"Baselink"}&Action=AgentZoom&TicketID=$Data{"TicketID"}">$Text{"Zoom"}</a> -
   <a href="$Env{"Baselink"}&Action=AgentPriority&TicketID=$Data{"TicketID"}">$Text{"Priority"}</a> -
@@ -30,7 +32,7 @@
   <a href="$Env{"Baselink"}&Action=AgentNote&TicketID=$Data{"TicketID"}">$Text{"Add Note"}</a> -
   <a href="$Env{"Baselink"}&Action=AgentClose&TicketID=$Data{"TicketID"}">$Text{"Close"}</a>
   </td>
-  <td align="right" bgcolor="$Env{"BGTableColor2"}">
+  <td align="right" bgcolor="$Env{"BGTableColor2"}" width="40%">
   <b>$Text{"Created"}:</b> $Data{"Created"}
   </td>
 </tr>
@@ -52,6 +54,18 @@
       <td valign="top"><b>$Text{"Subject"}:</b></td>
       <td> $Data{"Subject"}</td>
     <tr>
+# --
+# use this if you want to show the ArticleFreeKey1-3 and ArticleFreeValue1-3
+# --
+#    <tr>
+#      <td valign="top"><b>$Data{"ArticleFreeKey1"}:</b></td><td> $Data{"ArticleFreeValue1"}</td>
+#    </tr>
+#    <tr>
+#      <td valign="top"><b>$Data{"ArticleFreeKey2"}:</b></td><td> $Data{"ArticleFreeValue2"}</td>
+#    </tr>
+#    <tr>
+#      <td valign="top"><b>$Data{"ArticleFreeKey3"}:</b></td><td> $Data{"ArticleFreeValue3"}</td>
+#    </tr>
   </table>
 $Data{"TextNote"}
   <pre>
@@ -64,8 +78,13 @@ $Data{"Text"}
     <tr><td><b>$Text{"State"}:</b></td><td><font color="red">$Data{"State"}</font></td></tr>
     <tr><td><b>$Text{"Priority"}:</b></td><td><font color="red">$Data{"Priority"}</font></td></tr>
     <tr><td><b>$Text{"Queue"}:</b></td><td><font color="red">$Data{"Queue"}</font></td></tr>
-    <tr><td><b>$Text{"CustomerID"}:</b></td><td>$Data{"CustomerID"}</td></tr>
+    <tr><td><b>$Text{"CustomerID"}:</b></td><td><a href="$Config{"CustomerDBLink"}" target="cdb">$Data{"CustomerID"}</a></td></tr>
     <tr><td><b>$Text{"Time till escalation"}:</b></td><td>$Data{"TicketOverTime"}</td></tr>
+# --
+# use this if you want to show TicketFreeKey1-2 and TicketFreeValue1-2
+# --
+#    <tr><td><b>$Data{"TicketFreeKey1"}:</b></td><td>$Data{"TicketFreeValue1"}</td></tr>
+#    <tr><td><b>$Data{"TicketFreeKey2"}:</b></td><td>$Data{"TicketFreeValue2"}</td></tr>
     <tr><td colspan="2"></td></tr>
     <tr><td colspan="2">   
    <p align="left">
@@ -113,4 +132,5 @@ $Data{"Text"}
   </td>
 </tr>
 </table>
+<hr>
 <!-- end ticket -->
