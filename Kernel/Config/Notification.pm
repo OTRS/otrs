@@ -2,7 +2,7 @@
 # Kernel/Config/Notification.pm - Notification config file for OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Notification.pm,v 1.7 2002-10-10 18:37:28 martin Exp $
+# $Id: Notification.pm,v 1.8 2002-10-20 15:43:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -12,7 +12,7 @@ package Kernel::Config::Notification;
 
 use strict;
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -153,6 +153,23 @@ http://$Self->{FQDN}/$Self->{ScriptAlias}/index.pl?Action=AgentZoom&TicketID=<OT
 
 Your OTRS Notification Master
 
+";
+
+    # --
+    # notification email for new password
+    # --
+    $Self->{NotificationSubjectLostPassword} = 'New OTRS Password!';
+    $Self->{NotificationBodyLostPassword} = "
+Hi <OTRS_USERFIRSTNAME>,
+
+you or someone impersonating you has requested to change your OTRS
+password.  
+
+New Password: <OTRS_NEWPW>
+
+http://$Self->{FQDN}/$Self->{ScriptAlias}/index.pl
+
+Your OTRS Notification Master
 ";
 
 }
