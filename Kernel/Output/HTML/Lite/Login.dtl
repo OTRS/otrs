@@ -2,7 +2,7 @@
 # Login.dtl - provides HTML login screen
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Login.dtl,v 1.15 2005-02-07 08:44:21 martin Exp $
+# $Id: Login.dtl,v 1.16 2005-03-11 06:01:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -26,7 +26,7 @@ $Include{"Copyright"}
 $Include{"css"}
 </head>
 <!-- end header -->
-<body>
+<body onLoad="document.login.User.focus();">
 
 <center>
 
@@ -35,7 +35,7 @@ $Include{"css"}
 </p>
 
 <p>
-<form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
+<form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded" name="login">
 <input type="hidden" name="Action" value="Login">
 <input type="hidden" name="RequestedURL" value="$QData{"RequestedURL"}">
 <input type="hidden" name="Lang" value="$Env{"UserLanguage"}">
@@ -98,7 +98,7 @@ $Include{"css"}
 </tr>
 <tr>
   <td align="center" class="singleboxbody">
-    <i class="table1"><font size="-2">($Text{"Request new password"})</font></i>
+    <i class="small">($Text{"Request new password"})</i>
     <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
     <input type="hidden" name="Action" value="LostPassword">
     <input type="hidden" name="Lang" value="$Env{"UserLanguage"}">
