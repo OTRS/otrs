@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.57 2004-07-16 12:30:07 martin Exp $
+# $Id: AgentUtilities.pm,v 1.58 2004-08-11 15:05:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Priority;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.57 $';
+$VERSION = '$Revision: 1.58 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -40,6 +40,24 @@ sub new {
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
     $Self->{PriorityObject} = Kernel::System::Priority->new(%Param);
     $Self->{StateObject} = Kernel::System::State->new(%Param);
+
+    # if we need to do a fultext search on an external mirror database
+    if ($Self->{ConfigObject}->Get('AgentUtil::DB::DSN')) {
+        my $ExtraDatabaseObject = Kernel::System::DB->new(
+            LogObject => $Param{LogObject},
+            ConfigObject => $Param{ConfigObject},
+            DatabaseDSN => $Self->{ConfigObject}->Get('AgentUtil::DB::DSN'),
+            DatabaseUser => $Self->{ConfigObject}->Get('AgentUtil::DB::User'),
+            DatabasePw => $Self->{ConfigObject}->Get('AgentUtil::DB::Password'),
+        ) || die $DBI::errstr;
+        $Self->{TicketObjectSearch} = Kernel::System::Ticket->new(
+            %Param,
+            DBObject => $ExtraDatabaseObject,
+        );
+    }
+    else {
+        $Self->{TicketObjectSearch} = $Self->{TicketObject};
+    }
 
     return $Self;
 }
@@ -138,7 +156,7 @@ sub Run {
         $GetParam{ResultForm} = '';
     }
     if ($GetParam{ResultForm} eq 'Print' || $GetParam{ResultForm} eq 'CSV') {
-        $Self->{SearchPageShown} = $Self->{SearchLimit}; 
+        $Self->{SearchPageShown} = $Self->{SearchLimit};
     }
     # show result site
     if ($Self->{Subaction} eq 'Search' && !$Self->{EraseTemplate}) {
@@ -253,7 +271,7 @@ sub Run {
         }
         # perform ticket search
         my $Counter = 0;
-        my @ViewableIDs = $Self->{TicketObject}->TicketSearch(
+        my @ViewableIDs = $Self->{TicketObjectSearch}->TicketSearch(
             Result => 'ARRAY',
             SortBy => $Self->{SortBy},
             OrderBy => $Self->{Order},
@@ -269,7 +287,7 @@ sub Run {
           # build search result
           if ($Counter >= $Self->{StartHit} && $Counter < ($Self->{SearchPageShown}+$Self->{StartHit}) ) {
             # get first article data
-            my %Data = $Self->{TicketObject}->ArticleFirstArticle(TicketID => $_);
+            my %Data = $Self->{TicketObjectSearch}->ArticleFirstArticle(TicketID => $_);
             foreach (qw(From To Cc Subject)) {
                 $Data{$_} = $Self->{LayoutObject}->{LanguageObject}->CharsetConvert(
                     Text => $Data{$_},
@@ -278,7 +296,7 @@ sub Run {
             }
             # get whole article (if configured!)
             if ($Self->{ConfigObject}->Get('AgentUtilArticleTreeCSV') && $GetParam{ResultForm} eq 'CSV') {
-                my @Article = $Self->{TicketObject}->ArticleGet(
+                my @Article = $Self->{TicketObjectSearch}->ArticleGet(
                     TicketID => $_
                 );
                 foreach my $Articles (@Article) {
@@ -377,7 +395,7 @@ sub Run {
                 $Self->{LayoutObject}->Block(
                     Name => 'Record',
                     Data => {
-                        %Data, 
+                        %Data,
                         %UserInfo,
                     },
                 );
@@ -387,7 +405,7 @@ sub Run {
                 $Self->{LayoutObject}->Block(
                     Name => 'Record',
                     Data => {
-                        %Data, 
+                        %Data,
                         %UserInfo,
                     },
                 );
@@ -395,9 +413,9 @@ sub Run {
             elsif ($GetParam{ResultForm} eq 'CSV') {
                 # merge row data
                 my %Info = (
-                    %Data, 
+                    %Data,
                     %UserInfo,
-                    AccountedTime => $Self->{TicketObject}->TicketAccountedTimeGet(TicketID => $_),
+                    AccountedTime => $Self->{TicketObjectSearch}->TicketAccountedTimeGet(TicketID => $_),
                 );
                 # csv quote
                 if (!@CSVHead) {
@@ -422,7 +440,7 @@ sub Run {
                     Data => {
                         StartFont => '<font color="red">',
                         StopFont => '</font>',
-                        %Data, 
+                        %Data,
                         Subject => $Subject,
                         %UserInfo,
                     },
@@ -468,10 +486,10 @@ sub Run {
                 $Param{Warning} = '$Text{"Reached max. count of %s search hits!", "'.$Self->{SearchLimit}.'"}';
             }
             $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AgentUtilSearchResultPrint', 
+                TemplateFile => 'AgentUtilSearchResultPrint',
                 Data => \%Param,
             );
-            # add footer 
+            # add footer
             $Output .= $Self->{LayoutObject}->PrintFooter();
             # return output
             return $Output;
@@ -498,7 +516,7 @@ sub Run {
         }
         else {
             $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AgentUtilSearchResultShort', 
+                TemplateFile => 'AgentUtilSearchResultShort',
                 Data => { %Param, %PageNav, Profile => $Self->{Profile}, },
             );
         }
@@ -540,15 +558,15 @@ sub Run {
             );
         }
         my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
-            NullOption => 1, 
+            NullOption => 1,
             Ticket => \%GetParam,
             Config => \%TicketFreeText,
         );
         $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
         $Output .= $Self->MaskForm(
-            %GetParam, 
+            %GetParam,
             %TicketFreeTextHTML,
-            Profile => $Self->{Profile}, 
+            Profile => $Self->{Profile},
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
@@ -566,14 +584,14 @@ sub MaskForm {
         Valid => 1,
     );
     $Param{'UserStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => \%ShownUsers, 
+        Data => \%ShownUsers,
         Name => 'UserIDs',
         Multiple => 1,
         Size => 5,
         SelectedIDRefArray => $Param{UserIDs},
     );
     $Param{'ResultFormStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => { 
+        Data => {
             Preview => 'Preview',
             Normal => 'Normal',
             Print => 'Print',
@@ -587,15 +605,15 @@ sub MaskForm {
                       What => 'profile_name, profile_name',
                       Table => 'search_profile',
                       Where => "login = '$Self->{UserLogin}'",
-                    ) }, 
+                    ) },
         Name => 'Profile',
         SelectedID => $Param{Profile},
     );
     $Param{'StatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => { $Self->{StateObject}->StateList(
-             UserID => $Self->{UserID}, 
+             UserID => $Self->{UserID},
              Action => $Self->{Action},
-             ) 
+             )
         },
         Name => 'StateIDs',
         Multiple => 1,
@@ -626,30 +644,30 @@ sub MaskForm {
         SelectedIDRefArray => $Param{PriorityIDs},
     );
     $Param{'TicketCreateTimePoint'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => { 
-            1 => 1, 
-            2 => 2, 
-            3 => 3, 
-            4 => 4, 
-            5 => 5, 
-            6 => 6, 
-            7 => 7, 
-            8 => 8, 
-            9 => 9, 
+        Data => {
+            1 => 1,
+            2 => 2,
+            3 => 3,
+            4 => 4,
+            5 => 5,
+            6 => 6,
+            7 => 7,
+            8 => 8,
+            9 => 9,
         },
         Name => 'TicketCreateTimePoint',
         SelectedID => $Param{TicketCreateTimePoint},
     );
     $Param{'TicketCreateTimePointStart'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => { 
-            'Last' => 'last', 
-            'Before' => 'before', 
+        Data => {
+            'Last' => 'last',
+            'Before' => 'before',
         },
         Name => 'TicketCreateTimePointStart',
         SelectedID => $Param{TicketCreateTimePointStart} || 'Last',
     );
     $Param{'TicketCreateTimePointFormat'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => { 
+        Data => {
             day => 'day(s)',
             week => 'week(s)',
             month => 'month(s)',
@@ -671,11 +689,11 @@ sub MaskForm {
     );
     # html search mask output
     my $Output = $Self->{LayoutObject}->Output(
-        TemplateFile => 'AgentUtilSearch', 
+        TemplateFile => 'AgentUtilSearch',
         Data => \%Param,
     );
     $Output .= $Self->{LayoutObject}->Output(
-        TemplateFile => 'AgentUtilSearchByCustomerID', 
+        TemplateFile => 'AgentUtilSearchByCustomerID',
         Data => \%Param,
     );
     return $Output;
