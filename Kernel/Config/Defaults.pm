@@ -1,8 +1,8 @@
 # --
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.178 2004-12-28 01:07:11 martin Exp $
+# $Id: Defaults.pm,v 1.179 2005-01-06 09:48:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.178 $';
+$VERSION = '$Revision: 1.179 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -997,10 +997,10 @@ $Data{"Signature"}
 #
 #$Data{"StdResponse"}
 #
+#$Data{"Signature"}
+#
 #$Data{"OrigFrom"} $Text{"wrote"}:
 #$Data{"Body"}
-#
-#$Data{"Signature"}
 #';
 
     # --------------------------------------------------- #
@@ -1474,21 +1474,20 @@ $Data{"Signature"}
         Data => '$Env{"UserComment"}',
         PrefKey => 'UserComment',
         Prio => 6000,
-        Activ => 1,
+        Activ => 0,
     };
 
-    $Self->{PreferencesGroups}->{FreeText} = {
-        Module => 'Kernel::Output::HTML::PreferencesGeneric',
-        Colum => 'Other Options',
-        Label => 'Free Text',
-        Desc => 'Example for free text.',
-        Block => 'Input',
-        Data => '$Env{"UserFreeText"}',
-        PrefKey => 'UserFreeText',
-        Prio => 7000,
-        Activ => 1,
-    };
-
+#    $Self->{PreferencesGroups}->{FreeText} = {
+#        Module => 'Kernel::Output::HTML::PreferencesGeneric',
+#        Colum => 'Other Options',
+#        Label => 'Free Text',
+#        Desc => 'Example for free text.',
+#        Block => 'Input',
+#        Data => '$Env{"UserFreeText"}',
+#        PrefKey => 'UserFreeText',
+#        Prio => 7000,
+#        Activ => 1,
+#    };
 
     $Self->{PreferencesGroups}->{RefreshTime} = {
         Module => 'Kernel::Output::HTML::PreferencesGeneric',
@@ -3191,6 +3190,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.178 $ $Date: 2004-12-28 01:07:11 $
+$Revision: 1.179 $ $Date: 2005-01-06 09:48:48 $
 
 =cut
