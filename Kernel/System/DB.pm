@@ -2,7 +2,7 @@
 # DB.pm - the global database wrapper to support different databases 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.15 2002-06-15 19:51:21 martin Exp $
+# $Id: DB.pm,v 1.16 2002-07-13 03:34:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use DBI;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -56,8 +56,9 @@ sub Connect {
     # --
     if ($Self->{Debug} > 2) {
         $Self->{LogObject}->Log(
+          Caller => 1,
           Priority => 'debug', 
-          MSG => "DB.pm->Connect: DB: $Self->{DB}, User: $Self->{USER}, Pw: $Self->{PW}",
+          Message => "DB.pm->Connect: DB: $Self->{DB}, User: $Self->{USER}, Pw: $Self->{PW}",
         );
     }
     # --
@@ -65,8 +66,9 @@ sub Connect {
     # --
     if (!($Self->{dbh} = DBI->connect("$Self->{DSN}", $Self->{USER}, $Self->{PW}))) { 
         $Self->{LogObject}->Log(
+          Caller => 1,
           Priority => 'Error',
-          MSG => $DBI::errstr,
+          Message => $DBI::errstr,
         );
         return;
     }
@@ -80,8 +82,9 @@ sub Disconnect {
     # --
     if ($Self->{Debug} > 2) {
         $Self->{LogObject}->Log(
+          Caller => 1,
           Priority => 'debug',
-          MSG => "DB.pm->Disconnect",
+          Message => "DB.pm->Disconnect",
         );
     }
     # --
@@ -113,8 +116,9 @@ sub Do {
     if ($Self->{Debug} > 0) {
         $Self->{DoCounter}++;
         $Self->{LogObject}->Log(
+          Caller => 1,
           Priority => 'debug',
-          MSG => "DB.pm->Do ($Self->{DoCounter}) SQL: '$SQL'",
+          Message => "DB.pm->Do ($Self->{DoCounter}) SQL: '$SQL'",
         );
     }
     # --
@@ -122,8 +126,9 @@ sub Do {
     # --
     if (!$Self->{dbh}->do($SQL)) {
         $Self->{LogObject}->Log(
+          Caller => 1,
           Priority => 'Error',
-          MSG => "$DBI::errstr, SQL: '$SQL'",
+          Message => "$DBI::errstr, SQL: '$SQL'",
         );
         return;
     }
@@ -155,8 +160,9 @@ sub Prepare {
     if ($Self->{Debug} > 1) {
         $Self->{PrepareCounter}++;
         $Self->{LogObject}->Log(
+          Caller => 1,
           Priority => 'debug',
-          MSG => "DB.pm->Prepare ($Self->{PrepareCounter}/".time().") SQL: '$SQL'",
+          Message => "DB.pm->Prepare ($Self->{PrepareCounter}/".time().") SQL: '$SQL'",
         );
     }
     # --
@@ -164,15 +170,17 @@ sub Prepare {
     # --
     if (!($Self->{Curser} = $Self->{dbh}->prepare($SQL))) {
         $Self->{LogObject}->Log(
+          Caller => 1,
           Priority => 'Error',
-          MSG => "$DBI::errstr, SQL: '$SQL'",
+          Message => "$DBI::errstr, SQL: '$SQL'",
         );
         return;
     }
     if (!$Self->{Curser}->execute()) {
         $Self->{LogObject}->Log(
+          Caller => 1,
           Priority => 'Error',
-          MSG => "$DBI::errstr, SQL: '$SQL'",
+          Message => "$DBI::errstr, SQL: '$SQL'",
         );
         return;
     }
