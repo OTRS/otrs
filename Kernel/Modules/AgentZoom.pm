@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.69 2004-07-08 13:17:19 martin Exp $
+# $Id: AgentZoom.pm,v 1.70 2004-07-16 12:15:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.69 $';
+$VERSION = '$Revision: 1.70 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -35,6 +35,8 @@ sub new {
       QueueObject ConfigObject UserObject SessionObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
+    # set debug
+    $Self->{Debug} = 0;
     # get params
     $Self->{ArticleID} = $Self->{ParamObject}->GetParam(Param => 'ArticleID');
     $Self->{ZoomExpand} = $Self->{ParamObject}->GetParam(Param => 'ZoomExpand');
@@ -376,6 +378,54 @@ sub MaskAgentZoom {
     my $BodyOutput = '';
     foreach my $ArticleTmp (@NewArticleBox) {
         my %Article = %$ArticleTmp;
+        # run article modules
+        if (ref($Self->{ConfigObject}->Get('Frontend::ArticleModule')) eq 'HASH') {
+            my %Jobs = %{$Self->{ConfigObject}->Get('Frontend::ArticleModule')};
+            foreach my $Job (sort keys %Jobs) {
+                # log try of load module
+                if ($Self->{Debug} > 1) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'debug',
+                        Message => "Try to load module: $Jobs{$Job}->{Module}!",
+                    );
+                }
+                if (eval "require $Jobs{$Job}->{Module}") {
+                    my $Object = $Jobs{$Job}->{Module}->new(
+                        ConfigObject => $Self->{ConfigObject},
+                        LogObject => $Self->{LogObject},
+                        DBObject => $Self->{DBObject},
+                        LayoutObject => $Self->{LayoutObject},
+                        TicketObject => $Self->{TicketObject},
+                        ArticleID => $Article{ArticleID},
+                        UserID => $Self->{UserID},
+                        Debug => $Self->{Debug},
+                    );
+                    # log loaded module
+                    if ($Self->{Debug} > 1) {
+                        $Self->{LogObject}->Log(
+                            Priority => 'debug',
+                            Message => "Module: $Jobs{$Job}->{Module} loaded!",
+                        );
+                    }
+                    # run module
+                    my @Data = $Object->Check(Article=> \%Article, %Param, Config => $Jobs{$Job});
+                    foreach my $DataRef (@Data) {
+                        $Self->{LayoutObject}->Block(
+                             Name => 'ArticleOption',
+                             Data => $DataRef,
+                        );
+                    }
+                    # filter option
+                    $Object->Filter(Article=> \%Article, %Param, Config => $Jobs{$Job});
+                }
+                else {
+                    $Self->{LogObject}->Log(
+                        Priority => 'error',
+                        Message => "Can't load module $Jobs{$Job}->{Module}!",
+                    );
+                }
+            }
+        }
         # delete ArticleStrg and TicketStatus if it's not the first shown article
         if ($BodyOutput) {
             $Param{ArticleStrg} = '';
@@ -406,9 +456,16 @@ sub MaskAgentZoom {
             }
             # build link
             $File{Filename} = $Self->{LayoutObject}->Ascii2Html(Text => $File{Filename});
+            # download type
+            my $Type = $Self->{ConfigObject}->Get('Agent::DownloadType') || 'attachment';
+            # if attachment will be forced to download, don't open a new download window!
+            my $Target = '';
+            if ($Type =~ /inline/i) {
+                $Target = 'target="attachment" ';
+            }
             my $Link = "\$Env{\"Baselink\"}Action=AgentAttachment&ArticleID=$Article{ArticleID}&FileID=$FileID";
             $Article{"ATM"} .= "<tr><td>$File{Filename}</td>";
-            $Article{"ATM"} .= "<td><a href=\"$Link\" target=\"attachment\" ".
+            $Article{"ATM"} .= "<td><a href=\"$Link\" $Target".
               "onmouseover=\"window.status='\$Text{\"Download\"}: $File{Filename}';".
               ' return true;" onmouseout="window.status=\'\';">'.
               "<img src=\"\$Env{\"Images\"}disk-s.png\" border=\"0\" alt=\"\$Text{\"Download\"}\"></a></td><td> ";
@@ -459,52 +516,7 @@ sub MaskAgentZoom {
                 );
             }
         }
-        # run article modules
-        if (ref($Self->{ConfigObject}->Get('Frontend::ArticleModule')) eq 'HASH') {
-            my %Jobs = %{$Self->{ConfigObject}->Get('Frontend::ArticleModule')};
-            foreach my $Job (sort keys %Jobs) {
-                # log try of load module
-                if ($Self->{Debug} > 1) {
-                    $Self->{LogObject}->Log(
-                        Priority => 'debug',
-                        Message => "Try to load module: $Jobs{$Job}->{Module}!",
-                    );
-                }
-                if (eval "require $Jobs{$Job}->{Module}") {
-                    my $Object = $Jobs{$Job}->{Module}->new(
-                        ConfigObject => $Self->{ConfigObject},
-                        LogObject => $Self->{LogObject},
-                        DBObject => $Self->{DBObject},
-                        LayoutObject => $Self->{LayoutObject},
-                        TicketObject => $Self->{TicketObject},
-                        TicketID => $Article{TicketID},
-                        UserID => $Self->{UserID},
-                        Debug => $Self->{Debug},
-                    );
-                    # log loaded module
-                    if ($Self->{Debug} > 1) {
-                        $Self->{LogObject}->Log(
-                            Priority => 'debug',
-                            Message => "Module: $Jobs{$Job}->{Module} loaded!",
-                        );
-                    }
-                    # run module
-                    my %Data = $Object->Run(Article=> \%Article, %Param, Config => $Jobs{$Job});
-                    if (%Data) {
-                        $Self->{LayoutObject}->Block(
-                            Name => 'ArticleOption',
-                            Data => \%Data,
-                        );
-                    }
-                }
-                else {
-                    $Self->{LogObject}->Log(
-                        Priority => 'error',
-                        Message => "Can't load module $Jobs{$Job}->{Module}!",
-                    );
-                }
-            }
-        }
+
         # check if just a only html email
         if (my $MimeTypeText = $Self->{LayoutObject}->CheckMimeType(%Param, %Article)) {
             $Article{"BodyNote"} = $MimeTypeText;
