@@ -2,9 +2,12 @@
 -- initial_insert.sql - provides initial system data
 -- Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: initial_insert.sql,v 1.15 2004-01-23 00:37:59 martin Exp $
+-- $Id: initial_insert.sql,v 1.16 2004-01-31 14:47:42 martin Exp $
 -- 
 -- $Log: not supported by cvs2svn $
+-- Revision 1.15  2004/01/23 00:37:59  martin
+-- moved agent notifications from config file to database
+--
 -- Revision 1.14  2004/01/22 19:26:42  martin
 -- added faq inital inserts
 --
@@ -340,7 +343,7 @@ INSERT INTO salutation
 INSERT INTO salutation
     (name, text, comment, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('system standard salutation (de/buiss)', 'Sehr geehrter <OTRS_CUSTOMER_REALNAME>,Danke für Ihre Anfrage.', 'std. salutation', 1, 1, current_timestamp, 1, current_timestamp);
+    ('system standard salutation (de/buiss)', 'Sehr geehrter <OTRS_CUSTOMER_REALNAME>,Danke fuer Ihre Anfrage.', 'std. salutation', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- signature
 INSERT INTO signature
