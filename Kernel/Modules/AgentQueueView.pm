@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.57 2004-04-16 08:53:43 martin Exp $
+# $Id: AgentQueueView.pm,v 1.58 2004-04-16 12:35:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.57 $';
+$VERSION = '$Revision: 1.58 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -164,20 +164,17 @@ sub Run {
     # get data (viewable tickets...)
     # --
     my @ViewableTickets = ();
-    my $srt = 'ASC';
+    my $Order = $Self->{ConfigObject}->Get('AgentQueueSortDefault') || 'ASC';
     if (@ViewableQueueIDs && @GroupIDs) {
-
-        # --
         # if we have only one queue, check if there
         # is a setting in Config.pm for sorting
-        # --
         if ($#ViewableQueueIDs == 0) {
-            my $QueueID = @ViewableQueueIDs->[0];
-            if ($Self->{TicketSort}->{$QueueID} > 0) {
-                $srt = 'DESC';
+            my $QueueID = $ViewableQueueIDs[0];
+            if ($Self->{ConfigObject}->Get('AgentQueueSort') && $Self->{ConfigObject}->Get('AgentQueueSort')->{$QueueID}) {
+                $Order = 'DESC';
             }
         }
-
+        # build query 
         my $SQL = "SELECT st.id, st.queue_id FROM ".
           " ticket st, queue sq ".
           " WHERE ".
@@ -190,7 +187,7 @@ sub Run {
           " st.queue_id in ( ${\(join ', ', @ViewableQueueIDs)} ) ".
           " AND ".
           " sq.group_id IN ( ${\(join ', ', @GroupIDs)} ) ".
-          " ORDER BY st.ticket_priority_id DESC, st.create_time_unix $srt ";
+          " ORDER BY st.ticket_priority_id DESC, st.create_time_unix $Order";
 
           $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{Limit});
           my $Counter = 0;
