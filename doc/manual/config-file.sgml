@@ -90,39 +90,6 @@ The OTRS log method.
 </example>
 </sect1>
 
-<sect1 id="configfile-userauth">
-<title>User Authentication</title>
-<para>
-The OTRS user authentication method. 
-</para>
-<example>
-<title>Kernel/Config.pm - AuthModule</title>
-<programlisting>
-[...]
-    # ----------------------------------------------------#
-    # authentication settings                             #
-    # (enable what you need, auth against otrs db or      #
-    # against a LDAP directory)                           #
-    # ----------------------------------------------------#
-
-    # This is the auth. module againt the otrs db
-    $Self->{'AuthModule'} = 'Kernel::System::Auth::DB';
-
-    # This is an example configuration for an LDAP auth. backend.
-    # (take care that Net::LDAP is installed!)
-#    $Self->{'AuthModule'} = 'Kernel::System::Auth::LDAP';
-#    $Self->{'AuthModule::LDAP::Host'} = 'ldap.example.com';
-#    $Self->{'AuthModule::LDAP::BaseDN'} = 'dc=example,dc=com';
-#    $Self->{'AuthModule::LDAP::UID'} = 'uid';
-    # The following is valid but would only be necessary if the
-    # anonymous user do NOT have permission to read from the LDAP tree 
-#    $Self->{'AuthModule::LDAP::SearchUserDN'} = '';
-#    $Self->{'AuthModule::LDAP::SearchUserPw'} = '';
-[...]
-</programlisting>
-</example>
-</sect1>
-
 <sect1 id="configfile-postmaster"> 
 <title>Max. Postmaster email</title> 
 <para> 
@@ -470,9 +437,9 @@ The OTRS session management.
     # default: ["'unlock'", "'tmp_lock'"]
     $Self->{ViewableLocks} = ["'unlock'", "'tmp_lock'"];
 
-    # ViewableStats 
-    # default: ["'open'", "'new'"]
-    $Self->{ViewableStats} = ["'open'", "'new'"];
+    # ViewableStateType 
+    # (see http://yourhost/otrs/index.pl?Action=AdminState -> StateType)
+    $Self->{ViewableStateType} = ['new', 'open', 'pending'];
 
     # ViewableSenderTypes 
     #  default:  ["'customer'"]
