@@ -2,7 +2,7 @@
 # TicketView.dtl - provides HTML TicketView for AgentQueueView.pm
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TicketView.dtl,v 1.4 2002-01-20 22:20:28 martin Exp $
+# $Id: TicketView.dtl,v 1.5 2002-02-05 21:34:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -56,13 +56,15 @@
 $Data{"Text"}
   </pre>
   </td> 
-  <td width="25%" bgcolor="$Env{"BGTableColor2"}" align="center">
+  <td width="25%" bgcolor="$Env{"BGTableColor2"}" align="center" valign="top">
+   <p>
     <br>
     <b>$Text{"State"}:</b> <font color="red">$Data{"State"}</font><br>
     <b>$Text{"Priority"}:</b> <font color="red">$Data{"Priority"}</font><br>
     <b>$Text{"Queue"}:</b> <font color="red">$Data{"Queue"}</font><br>
     <b>$Text{"CustomerID"}:</b> <font color="red">$Data{"CustomerID"}</font><br>
-  
+   </p>  
+
    <p>
      <b>$Text{"Compose Answer"}:</b>
      <br>
