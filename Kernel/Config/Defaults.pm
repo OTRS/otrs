@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.106 2004-02-09 01:42:36 martin Exp $
+# $Id: Defaults.pm,v 1.107 2004-02-09 23:54:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.106 $';
+$VERSION = '$Revision: 1.107 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1109,18 +1109,18 @@ $Data{"Signature"}
         PrefKey => 'UserQueueViewShowTickets',
         Activ => 1,
     };
-    $Self->{PreferencesGroups}->{PhoneNextMask} = {
+    $Self->{PreferencesGroups}->{CreateNextMask} = {
         Colum => 'Frontend', 
-        Label => 'Screen after new phone ticket',
-        Desc => 'Select your screen after creating a new ticket via PhoneView.', 
+        Label => 'Screen after new ticket',
+        Desc => 'Select your screen after creating a new ticket.', 
         Type => 'Generic',
         Data => {
-            AgentPhone => 'PhoneView',
+            '' => 'CreateTicket',
             AgentZoom => 'TicketZoom', 
         },
-        DataSelected => 'AgentPhone',
+        DataSelected => '',
 #        DataSelected => 'AgentZoom',
-        PrefKey => 'UserPhoneNextMask',
+        PrefKey => 'UserCreateNextMask',
         Activ => 1,
     };
 
@@ -1394,14 +1394,14 @@ Your OTRS Notification Master
     # --------------------------------------------------- #
 
     # ShowCustomerInfo*
-    # (show customer user info on Phone, Zoom and Queue view)
-    $Self->{ShowCustomerInfoPhone} = 1;
+    # (show customer user info on Compose (Phone and Email), Zoom and Queue view)
+    $Self->{ShowCustomerInfoCompose} = 1;
     $Self->{ShowCustomerInfoZoom} = 1;
     $Self->{ShowCustomerInfoQueue} = 0;
 
     # ShowCustomerInfo*MaxSize
     # (max size (in characters) of customer info table)
-    $Self->{ShowCustomerInfoPhoneMaxSize} = 22;
+    $Self->{ShowCustomerInfoComposeMaxSize} = 22;
     $Self->{ShowCustomerInfoZoomMaxSize} = 22;
     $Self->{ShowCustomerInfoQueueMaxSize} = 18;
 
@@ -1654,6 +1654,34 @@ Your OTRS Notification Master
 #        '1' => 'First Queue!',
 #        '2' => 'Second Queue!',
 #    };
+
+    # --------------------------------------------------- #
+    # agent compose email stuff
+    # --------------------------------------------------- #
+    # default lock (lock|unlock) [default: unlock] 
+    $Self->{EmailDefaultNewLock} = 'unlock';
+
+    # default priority [default: 3 normal]
+    $Self->{EmailDefaultPriority} = '3 normal';
+
+    # default article type
+    $Self->{EmailDefaultNewArticleType} = 'email-external';
+    # default sender type
+    $Self->{EmailDefaultNewSenderType} = 'agent';
+   
+    # history 
+    $Self->{EmailDefaultNewHistoryType} = 'EmailAgent';
+    $Self->{EmailDefaultNewHistoryComment} = 'Send email to customer.';
+
+    # default note text
+    $Self->{EmailDefaultNoteText} = '';
+
+    # next possible states after phone
+    $Self->{EmailDefaultNextStateType} = ['open', 'pending auto', 'pending reminder', 'closed'];
+    
+    # default next state
+    $Self->{EmailDefaultNextState} = 'closed successful';
+
 
     # --------------------------------------------------- #
     # system permissions
