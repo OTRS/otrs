@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.42 2003-03-02 08:51:47 martin Exp $
+# $Id: Defaults.pm,v 1.43 2003-03-02 12:22:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1302,7 +1302,7 @@ Your OTRS Notification Master
             'RefreshTime', 'Language', 'Charset', 'Theme', 
         ],
         'Other Options' => [
-            'Password', 'CustomQueue',
+            'Password', 'ClosedTickets',
         ],
     };
   
@@ -1312,6 +1312,16 @@ Your OTRS Notification Master
         Colum => 'Other Options', 
         Label => 'Change Password',
         Type => 'Password',
+        Activ => 1,
+    };
+    $Self->{CustomerPreferencesGroups}->{ClosedTickets} = {
+        Colum => 'Other Options', 
+        Label => 'Closed Tickets',
+        Desc => 'Show closed tickets.',
+        Type => 'Generic',
+        Data => $Self->Get('YesNoOptions'),
+        DataSelected => 1,
+        PrefKey => 'UserShowClosedTickets',
         Activ => 1,
     };
 

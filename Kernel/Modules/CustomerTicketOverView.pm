@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code at otrs.org>
 # --   
-# $Id: CustomerTicketOverView.pm,v 1.8 2003-02-10 09:40:36 martin Exp $
+# $Id: CustomerTicketOverView.pm,v 1.9 2003-03-02 12:21:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::CustomerTicketOverView;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -135,8 +135,16 @@ sub Run {
        " AND ".
        " q.id = st.queue_id ".
        " AND ".
-       " st.customer_id = '$Self->{UserCustomerID}' ".
-       " ORDER BY ";
+       " st.customer_id = '$Self->{UserCustomerID}' ";
+    # check if just open tickets should be shown
+    if ((defined $Self->{UserShowClosedTickets} && !$Self->{UserShowClosedTickets}) || 
+        (!defined $Self->{UserShowClosedTickets} && !$Self->{ConfigObject}->Get('CustomerPreferencesGroups')->{ClosedTickets}->{DataSelected})) {
+        my $ViewableStats = $Self->{ConfigObject}->Get('ViewableStats')
+           || die 'No Config entry "ViewableStats"!';
+        $SQL .= " AND " .
+          " tsd.name in ( ${\(join ', ', @{$ViewableStats})} ) ";
+    }
+    $SQL .= " ORDER BY ";
 
     if ($Self->{SortBy} eq 'Owner') {
         $SQL .= "u.".$Self->{ConfigObject}->Get('DatabaseUserTableUser');

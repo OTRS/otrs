@@ -2,7 +2,7 @@
 # HTML/Customer.pm - provides generic customer HTML output
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Customer.pm,v 1.14 2003-03-02 08:53:41 martin Exp $
+# $Id: Customer.pm,v 1.15 2003-03-02 12:21:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Customer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -400,12 +400,14 @@ sub CustomerPreferencesForm {
           my $PrefKey = $Self->{ConfigObject}->{CustomerPreferencesGroups}->{$Group}->{PrefKey} || '';
           my $Data = $Self->{ConfigObject}->{CustomerPreferencesGroups}->{$Group}->{Data};
           my $Type = $Self->{ConfigObject}->{CustomerPreferencesGroups}->{$Group}->{Type} || '';
+          my $DataSelected = $Self->{ConfigObject}->{CustomerPreferencesGroups}->{$Group}->{DataSelected} || '';
+
           my %PrefItem = %{$Self->{ConfigObject}->{CustomerPreferencesGroups}->{$Group}};
           if ($Data) { 
             $PrefItem{'Option'} = $Self->OptionStrgHashRef(
               Data => $Data, 
               Name => 'GenericTopic',
-              SelectedID => $Self->{$PrefKey},
+              SelectedID => $Self->{$PrefKey} || $DataSelected,
             );
           } 
           elsif ($PrefKey eq 'UserCharset') {

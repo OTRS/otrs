@@ -33,3 +33,5 @@ $Text{"Select your frontend QueueView."}
 $Text{"Spelling Dictionary"}
 $Text{"Select your default spelling dictionary."}
 
+$Text{"Closed Tickets"}
+$Text{"Show closed tickets."};
