@@ -3,7 +3,7 @@
 # CheckDB.pl - to check the db access
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CheckDB.pl,v 1.8 2002-11-10 23:02:18 martin Exp $
+# $Id: CheckDB.pl,v 1.9 2002-12-10 22:39:13 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -26,25 +26,39 @@ use lib "$Bin/../";
 use lib "$Bin/../Kernel/cpan-lib";
 
 use strict;
+use Getopt::Std;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 use Kernel::Config;
 use Kernel::System::Log;
 use Kernel::System::DB;
-
+#
+# common objects
+#  
 my $ConfigObject = Kernel::Config->new();
 my $LogObject = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-CheckDB.pl',
+    LogPrefix => 'OTRS-CheckDB',
     ConfigObject => $ConfigObject,
 );
 my $DBObject = Kernel::System::DB->new(
     LogObject => $LogObject,
     ConfigObject => $ConfigObject,
 );
-
+# 
+# get options
+# 
+my %Opts = ();
+getopt('s',  \%Opts);
+my $End = "\n";
+if ($Opts{'s'}) {
+    $End = '';
+}
+#
+# chech database state
+# 
 if ($DBObject) {
     $DBObject->Prepare(SQL => "SELECT * FROM valid");
     my $Check = 0;
@@ -52,15 +66,15 @@ if ($DBObject) {
         $Check++;
     }
     if (!$Check) {
-        print "No initial inserts found!";
+        print "No initial inserts found!$End";
         exit (1);
     }
     else {
-        print "It looks Ok!";
+        print "It looks Ok!$End";
         exit (0);
     }
 }
 else {
-    print "No database connect!";
+    print "No database connect!$End";
     exit (1);
 }
