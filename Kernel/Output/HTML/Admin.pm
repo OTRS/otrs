@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.55 2004-09-08 21:05:06 martin Exp $
+# $Id: Admin.pm,v 1.56 2004-09-10 08:09:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.55 $';
+$VERSION = '$Revision: 1.56 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -38,19 +38,6 @@ sub AdminCustomerUserForm {
         SelectedID => $Param{Source},
     );
 
-    # build ValidID string
-    $Param{'ValidOption'} = $Self->OptionStrgHashRef(
-        Data => {
-          $Self->{DBObject}->GetTableData(
-            What => 'id, name',
-            Table => 'valid',
-            Valid => 0,
-          )
-        },
-        Name => 'ValidID',
-        SelectedID => $Param{ValidID},
-    );
-
     foreach my $Entry (@{$Self->{ConfigObject}->Get($Param{Source})->{Map}}) {
       if ($Entry->[0]) {
           # check input type
@@ -72,8 +59,29 @@ sub AdminCustomerUserForm {
               $Param{ReadOnlyType} = '';
               $Param{ReadOnly} = '';
           }
-          if ($Entry->[0] =~ /^ValidID/i) {
-              $Param{Value} = $Param{'ValidOption'};
+          # build selections or input fields
+          if ($Self->{ConfigObject}->Get($Param{Source})->{Selections}->{$Entry->[0]}) {
+              # build ValidID string
+              $Param{Value} = $Self->OptionStrgHashRef(
+                  Data => $Self->{ConfigObject}->Get($Param{Source})->{Selections}->{$Entry->[0]},
+                  Name => $Entry->[0],
+                  SelectedID => $Param{$Entry->[0]},
+              );
+
+          }
+          elsif ($Entry->[0] =~ /^ValidID/i) {
+              # build ValidID string
+              $Param{Value} = $Self->OptionStrgHashRef(
+                  Data => {
+                      $Self->{DBObject}->GetTableData(
+                          What => 'id, name',
+                          Table => 'valid',
+                          Valid => 0,
+                      )
+                  },
+                  Name => $Entry->[0],
+                  SelectedID => $Param{$Entry->[0]},
+              );
           }
           else {
              my $Value = $Self->{LayoutObject}->Ascii2Html(
