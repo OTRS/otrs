@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.60 2002-11-09 02:31:23 martin Exp $
+# $Id: Generic.pm,v 1.61 2002-11-11 00:18:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.60 $';
+$VERSION = '$Revision: 1.61 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -700,11 +700,16 @@ sub OptionStrgHashRef {
         return "Got no Data ref in OptionStrgHashRef()!";
     }
     my %Data = %{$Param{Data}};
-    my $OnChangeSubmit = $Param{OnChangeSubmit} || '';
-    if ($OnChangeSubmit) {
-        $OnChangeSubmit = 'onchange="submit()"';
+    my $OnStuff = '';
+    if ($Param{OnChangeSubmit}) {
+        $OnStuff .= ' onchange="submit()" ';
     }
-
+    if ($Param{OnChange}) {
+        $OnStuff = " onchange=\"$Param{OnChange}\" ";
+    }
+    if ($Param{OnClick}) {
+        $OnStuff = " onclick=\"$Param{OnClick}\" ";
+    }
     # --
     # set default value
     # --
@@ -743,7 +748,7 @@ sub OptionStrgHashRef {
     # --
     # build select string
     # --
-    $Output .= "<select name=\"$Name\" $Multiple $OnChangeSubmit $Size>\n";
+    $Output .= "<select name=\"$Name\" $Multiple $OnStuff $Size>\n";
     if ($PossibleNone) {
         $Output .= '<option VALUE="">$Text{"none"}</option>';
     }
@@ -798,7 +803,8 @@ sub CheckCharset {
               '$Text{"This message was written in a character set other than your own."}'.
               '$Text{"If it is not displayed correctly,"} '.
               '<a href="'.$Self->{Baselink}."Action=$Param{Action}&TicketID=$Param{TicketID}".
-              "&ArticleID=$Param{ArticleID}&Subaction=ShowHTMLeMail\" target=\"HTMLeMail\">".
+              "&ArticleID=$Param{ArticleID}&Subaction=ShowHTMLeMail\" target=\"HTMLeMail\" ".
+              'onmouseover="window.status=\'$Text{"open it in a new window"}\'; return true;" onmouseout="window.status=\'\';">'.
               '$Text{"click here"}</a> $Text{"to open it in a new window."}</i></p>';
         }
       }
@@ -822,7 +828,9 @@ sub CheckMimeType {
            ' $Text{"email"}, '. 
            '<a href="'.$Self->{Baselink}."Action=$Param{Action}&TicketID=".
            "$Param{TicketID}&ArticleID=$Param{ArticleID}&Subaction=ShowHTMLeMail\" ".
-           'target="HTMLeMail">$Text{"click here"}</a> '.
+           'target="HTMLeMail" '.
+           'onmouseover="window.status=\'$Text{"open it in a new window"}\'; return true;" onmouseout="window.status=\'\';">'.
+           '$Text{"click here"}</a> '.
            '$Text{"to open it in a new window."}</i></p>';
     }
     # just to be compat
@@ -831,7 +839,9 @@ sub CheckMimeType {
            ' $Text{"email"}, '.
            '<a href="'.$Self->{Baselink}.'Action=$Env{"Action"}&TicketID='.
            "$Param{TicketID}&ArticleID=$Param{ArticleID}&Subaction=ShowHTMLeMail\" ".
-           'target="HTMLeMail">$Text{"click here"}</a> '.
+           'target="HTMLeMail" '.
+           'onmouseover="window.status=\'$Text{"open it in a new window"}\'; return true;" onmouseout="window.status=\'\';">'.
+           '$Text{"click here"}</a> '.
            '$Text{"to open it in a new window."}</i></p>';
     }
     # return note string
