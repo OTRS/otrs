@@ -2,7 +2,7 @@
 # Kernel/Language.pm - provides multi language support
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Language.pm,v 1.8 2002-07-18 23:31:24 martin Exp $
+# $Id: Language.pm,v 1.9 2002-11-14 13:46:18 stefan Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,10 +21,11 @@ use Kernel::Language::German;
 use Kernel::Language::English;
 use Kernel::Language::French;
 use Kernel::Language::Bavarian;
+use Kernel::Language::Bulgarian;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
