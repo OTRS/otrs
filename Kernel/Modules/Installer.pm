@@ -1,8 +1,8 @@
 # --
 # Installer.pm - provides the DB installer
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Installer.pm,v 1.4 2002-02-03 22:48:20 martin Exp $
+# $Id: Installer.pm,v 1.5 2002-04-14 13:36:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ package Kernel::Modules::Installer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -100,7 +100,7 @@ sub Run {
             }
             $SetupOutput .= "</pre>";
             # tables
-            $CMD = $MYCMD . " $DB{Database} < $DirOfSQLFiles/OpenTRS-schema.sql";
+            $CMD = $MYCMD . " $DB{Database} < $DirOfSQLFiles/OpenTRS-schema.mysql.sql";
             $SetupOutput .= "<pre>CMD: $CMD <br>";
             $SetupOutput .= $Self->SystemCall($CMD);
             if (!$Self->{$CMD}) {
