@@ -2,7 +2,7 @@
 # Kernel/Config/GenericAgent.pm - config file of generic agent
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pm.examples,v 1.7 2003-08-28 16:41:50 martin Exp $
+# $Id: GenericAgent.pm.examples,v 1.8 2003-10-08 13:59:07 robert Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,7 +17,7 @@ require Exporter;
 @ISA = qw(Exporter);
 @EXPORT = qw(%Jobs);  
 
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # -----------------------------------------------------------------------
@@ -32,8 +32,8 @@ $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
       Queue => 'spam',
       States => ['new', 'open'],
       Locks => ['unlock'],
-      # new ticket properties (no option is required, use just the options
-      # which should be changed!)
+      # new ticket properties (no option is required, 
+      # use just the options which should be changed!)
       New => {
         # new queue
         Queue => 'spam',
@@ -53,12 +53,12 @@ $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
    # [name of job] -> close and delete all tickets in queue delete
    # --
    'delete' => {
-      # get all tickets with this properties  
+      # get all tickets with these properties  
       Queue => 'delete',
       States => ['new', 'open'],
       Locks => ['unlock'],
-      # new ticket properties (no option is required, use just the options
-      # which should be changed!)
+      # new ticket properties (no option is required, 
+      # use just the options which should be changed!)
       New => {
         # DELETE!
         Delete => 1,
@@ -68,7 +68,7 @@ $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
    # [name of job] -> move all tickets from tricky to experts
    # --
    'move tickets from tricky to experts' => {
-      # get all tickets with this properties  
+      # get all tickets with these properties  
       Queue => ['tricky', 'tricky1'],
       States => ['new', 'open'],
       Locks => ['unlock'],
@@ -87,7 +87,7 @@ $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
    # [name of job] -> move all tickets from xyz to experts
    # --
    'move escalation ticket to experts and execute CMD' => {
-      # get all tickets with this properties  
+      # get all tickets with these properties  
       Queue => 'xyz',
       Escalation => 1,
       # new ticket properties
@@ -105,7 +105,7 @@ $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
    # database performance!) 
    # --
    'delete all tickets with subject "VIRUS 32" in queue abc' => {
-      # get all tickets with this properties  
+      # get all tickets with these properties  
       Queue => 'abc',
 #      From => '%Feedback%',
 #      To => '%Feedback%',
