@@ -3,7 +3,7 @@
 # queue ticket index module
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: RuntimeDB.pm,v 1.2 2002-10-25 13:28:21 martin Exp $
+# $Id: RuntimeDB.pm,v 1.3 2002-12-01 14:13:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,10 +15,16 @@ package Kernel::System::Ticket::IndexAccelerator::RuntimeDB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 sub TicketAcceleratorUpdate {
+    my $Self = shift;
+    my %Param = @_;
+    return 1;
+}
+# --
+sub TicketAcceleratorDelete {
     my $Self = shift;
     my %Param = @_;
     return 1;
