@@ -1,8 +1,8 @@
 # --
-# AgentNote.pm - to add notes to a ticket 
+# Kernel/Modules/AgentNote.pm - to add notes to a ticket 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.pm,v 1.8 2002-07-13 03:28:04 martin Exp $
+# $Id: AgentNote.pm,v 1.9 2002-07-15 00:27:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentNote;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -50,7 +50,34 @@ sub Run {
     my $BackScreen = $Self->{BackScreen};
     my $UserID = $Self->{UserID};
     my $UserLogin = $Self->{UserLogin};
-    
+
+    # --
+    # check needed stuff
+    # --
+    if (!$Self->{TicketID}) {
+      # --
+      # error page
+      # --
+      $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
+      $Output .= $Self->{LayoutObject}->Error(
+          Message => "Can't add note, no TicketID is given!",
+          Comment => 'Please contact the admin.',
+      );
+      $Output .= $Self->{LayoutObject}->Footer();
+      return $Output;
+    }
+    # --
+    # check permissions
+    # --
+    if (!$Self->{TicketObject}->Permission(
+        TicketID => $Self->{TicketID},
+        UserID => $Self->{UserID})) {
+        # --
+        # error screen, don't show ticket
+        # --
+        return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
+    }
+
     my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $TicketID);
     
     if ($Subaction eq '' || !$Subaction) {
