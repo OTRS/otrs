@@ -2,7 +2,7 @@
 # AgentNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNavigationBar.dtl,v 1.46 2005-01-10 23:16:09 martin Exp $
+# $Id: AgentNavigationBar.dtl,v 1.47 2005-01-31 08:22:26 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,7 +12,7 @@
 <!-- start NavigationBar -->
 <table border="0" width="100%" cellspacing="0" cellpadding="2">
 <tr>
-  <td valign="top" align="left" width="70%" class="nav">
+  <td valign="top" align="left" class="nav">
     <table border="0" cellspacing="2" cellpadding="2">
     <tr>
 <!-- dtl:block:Classic -->
@@ -33,12 +33,6 @@
         <div title="$Text{"$QData{"Description"}"}"><a href="$Env{"Baselink"}$Data{"Link"}" onmouseover="window.status='$Text{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitemarea$QData{"ItemAreaCSSSuffix"}"><img border="0" src="$Env{"Images"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br>$Text{"$QData{"Name"}"}</a></div>
       </td>
 <!-- dtl:block:ItemArea -->
-    </tr>
-    </table>
-  </td>
-  <td valign="top" align="right" width="30%" class="nav">
-    <table border="0" cellspacing="2" cellpadding="2">
-    <tr>
 <!-- dtl:block:ItemPersonal -->
       <td valign="top" align="center" class="nav">
         <div title="$Text{"$QData{"Description"}"}"><a href="$Env{"Baselink"}$Data{"Link"}" onmouseover="window.status='$Text{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitem"><img border="0" src="$Env{"Images"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br>$Text{"$QData{"Name"}"}</a></div>
@@ -67,7 +61,7 @@
     </tr>
     </table>
   </td>
-  <td valign="top" align="right" width="30%" class="nav">
+  <td valign="top" align="right" class="nav">
     <table border="0" cellspacing="2" cellpadding="2">
     <tr>
 <!-- dtl:block:ItemPersonal -->
