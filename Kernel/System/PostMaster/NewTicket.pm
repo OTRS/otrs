@@ -1,8 +1,8 @@
 # --
 # NewTicket.pm - sub module of Postmaster.pm
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NewTicket.pm,v 1.2 2001-12-30 00:42:58 martin Exp $
+# $Id: NewTicket.pm,v 1.3 2002-04-14 13:33:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,7 +17,7 @@ use Kernel::System::PostMaster::DestQueue;
 use Kernel::System::EmailSend;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -32,7 +32,14 @@ sub new {
     $Self->{Debug} = 1;
     
     # get all objects
-    foreach ('DBObject', 'ConfigObject', 'ArticleObject', 'TicketObject', 'LogObject', 'LoopProtectionObject') {
+    foreach (
+      'DBObject', 
+      'ConfigObject', 
+      'ArticleObject', 
+      'TicketObject', 
+      'LogObject', 
+      'LoopProtectionObject',
+    ) {
         $Self->{$_} = $Param{$_} || die 'Got no $_';
     }
 
@@ -111,7 +118,7 @@ sub Run {
     # do article db insert
     my $ArticleID = $ArticleObject->CreateArticleDB(
         TicketID => $TicketID,
-        ArticleType => 'email',
+        ArticleType => 'email-external',
         SenderType => 'customer',
         From => $GetParam{From},
         ReplyTo => $GetParam{ReplyTo},
@@ -186,7 +193,7 @@ sub Run {
         # do article db insert
         my $ArticleID = $ArticleObject->CreateArticleDB(
             TicketID => $TicketID,
-            ArticleType => 'email',
+            ArticleType => 'email-external',
             SenderType => 'system',
             From => "$Data{Realname} <$Data{Address}>",
             To => $GetParam{From},
