@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.23 2003-04-01 16:39:27 martin Exp $
+# $Id: AgentUtilities.pm,v 1.24 2003-04-11 17:40:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentUtilities;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -37,7 +37,7 @@ sub new {
 
     # get params
     $Self->{Want} = $Self->{ParamObject}->GetParam(Param => 'Want') || '';
-    $Self->{StartHit} = $Self->{ParamObject}->GetParam(Param => 'StartHit') || 0;
+    $Self->{StartHit} = $Self->{ParamObject}->GetParam(Param => 'StartHit') || 1;
     # get confid data
     $Self->{SearchLimit} = $Self->{ConfigObject}->Get('SearchLimit') || 200;
     $Self->{SearchPageShown} = $Self->{ConfigObject}->Get('SearchPageShown') || 15;
