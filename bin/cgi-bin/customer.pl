@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # customer.pl - the global CGI handle file (incl. auth) for OTRS
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: customer.pl,v 1.22 2003-11-26 00:51:19 martin Exp $
+# $Id: customer.pl,v 1.23 2004-02-05 15:57:44 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -182,7 +182,7 @@ if ($Param{Action} eq "Login") {
         # --
         # get user data
         # --
-        my %UserData = $CommonObject{UserObject}->CustomerUserDataGet(User => $User);
+        my %UserData = $CommonObject{UserObject}->CustomerUserDataGet(User => $User, Valid => 1);
         # --
         # check needed data
         # --

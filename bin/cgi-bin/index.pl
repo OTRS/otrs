@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # index.pl - the global CGI handle file (incl. auth) for OTRS
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.64 2004-01-21 00:02:10 martin Exp $
+# $Id: index.pl,v 1.65 2004-02-05 15:57:44 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.64 $';
+$VERSION = '$Revision: 1.65 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -186,7 +186,7 @@ if ($Param{Action} eq "Login") {
         # --
         # get user data
         # --
-        my %UserData = $CommonObject{UserObject}->GetUserData(User => $User);
+        my %UserData = $CommonObject{UserObject}->GetUserData(User => $User, Valid => 1);
         # --
         # check needed data
         # --
