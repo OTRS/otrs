@@ -2,7 +2,7 @@
 # Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.3 2002-04-13 15:47:40 martin Exp $
+# $Id: Queue.pm,v 1.4 2002-05-26 10:12:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Queue;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -97,9 +97,19 @@ sub GetStdResponse {
 sub GetStdResponses {
     my $Self = shift;
     my %Param = @_;
-    my $QueueID = $Param{QueueID};
-    # get std. responses
+    my $QueueID = $Param{QueueID} || return;
     my %StdResponses;
+    # --
+    # check if this result is present
+    # --
+    if ($Self->{"StdResponses::$QueueID"}) {
+        my $StdResponsesTmp = $Self->{"StdResponses::$QueueID"};
+        %StdResponses = %$StdResponsesTmp;
+        return %StdResponses;
+    }
+    # --
+    # get std. responses
+    # --
     my $SQL = "SELECT sr.id, sr.name " .
         " FROM " .
         " standard_response as sr, queue_standard_response as qsr" .
@@ -114,6 +124,13 @@ sub GetStdResponses {
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
         $StdResponses{$RowTmp[0]} = $RowTmp[1];
     }
+    # --
+    # store std responses
+    # --
+    $Self->{"StdResponses::$QueueID"} = \%StdResponses;
+    # --
+    # return responses
+    # --
     return %StdResponses;
 }
 # --
@@ -132,7 +149,7 @@ sub GetAllQueues {
         " AND " .
         " sq.group_id = sg.id" .
         " AND " .
-	" sq.valid_id in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} )";
+        " sq.valid_id in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} )";
         $Self->{DBObject}->Prepare(SQL => $SQL);
     }
     else {
