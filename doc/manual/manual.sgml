@@ -18,6 +18,8 @@
 <!ENTITY procmail SYSTEM "procmail.sgml">
 <!ENTITY language-translation SYSTEM "language-translation.sgml">
 <!ENTITY ticket-topics SYSTEM "ticket-topics.sgml">
+<!ENTITY performance-tuning SYSTEM "performance-tuning.sgml">
+<!ENTITY generic-agent SYSTEM "generic-agent.sgml">
 <!ENTITY dtl SYSTEM "dtl.sgml">
 ]>
 
@@ -104,6 +106,10 @@ or implied warranty.
 &language-translation;
 
 &dtl;
+
+&generic-agent;
+
+&performance-tuning;
 
 &troubleshooting;
 
