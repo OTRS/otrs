@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.29 2003-06-18 21:53:47 martin Exp $
+# $Id: Article.pm,v 1.30 2003-06-18 22:40:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::Article;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -226,7 +226,7 @@ sub CreateArticle {
         # -- 
         # log that no auto response was sent!
         # --
-        elsif ($OrigHeader{'X-OTRS-Loop'}) {
+        elsif ($Data{Text} && $Data{Realname} && $Data{Address} && $OrigHeader{'X-OTRS-Loop'}) {
             # add history row
             $Self->AddHistoryRow(
                 TicketID => $Param{TicketID},
