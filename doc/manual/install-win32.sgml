@@ -223,7 +223,7 @@ Licensee = demo</screen></para>
 </note>
 <section><title>Securing /otrs/bin</title>
 <para>We *have* to secure the alias /obin/ which points to d:\otrs\bin\, holding all of the code useful for hacking the system. I personally do not want to expose these &quot;tools&quot; to everyone.</para>
-<para>Create the file <emphasis>d:\otrs\bin\1.htaccess</emphasis> using Windows Explorer containing just this one line:</para>
+<para>Create the file <emphasis>d:\otrs\bin\htaccess.txt</emphasis> using Windows Explorer containing just this one line:</para>
 <para><screen>
 require group root
 </screen></para>
@@ -231,7 +231,7 @@ require group root
 <para><screen>
 d:
 cd d:\otrs\bin
-ren 1.htaccess .htaccess
+ren htaccess.txt .htaccess
 </screen></para>
 <para>Now only users belonging to the group &quot;root&quot; and the system itself (CRON jobs f.e.) will be allowed to access the scripts in &quot;d:\otrs\bin&quot;.</para>
 </section>
@@ -351,13 +351,33 @@ copy Config.pm.dist Config.pm
 </section>
 
 <section>
-<title>Setup CRON Job</title>
+<title>Setup CRON Job(s)</title>
 <para>At last, we tell Sambar to fetch all POP3-Mail every 10 minutes and pump it into the database. Therefore you enter this in <emphasis>D:\Sambar\config\schedule.ini</emphasis>:</para>
 <para><screen>  [cron]
-*/10 * * * * /session/url2file?fname=/docs/otrs/var/log/lastPostMasterPOP3.log&amp;url=/obin/PostMasterPOP3.pl &amp;</screen></para>
+# fetch emails every 10 minutes
+*/10 * * * * perl d:/otrs/bin/PostMasterPOP3.pl &amp;
+</screen></para>
 <important>
 <para>The schedule entry will be active 1-2 minutes after saving the file.</para>
 </important>
+<tip>
+<para>You may enter the following CRON jobs at this very moment, too. Their very purpose is described elsewhere in this manual.</para>
+<para><screen>  [cron]
+# start generic agent every 20 minutes
+*/20 * * * * perl d:/otrs/bin/GenericAgent.pl &amp;
+
+# check every 60 min the pending jobs
+45 * * * * perl d:/otrs/bin/PendingJobs.pl &amp;
+
+# Rebuild Ticket Index every day
+01 01 * * * perl d:/otrs/bin/RebuildTicketIndex.pl &amp;
+
+# delete every six hours old session ids
+55 */6 * * * perl d:/otrs/bin/DeleteSessionIDs.pl --expired &amp;
+
+# unlock every hour old locked tickets
+35 * * * * perl d:/otrs/bin/UnlockTickets.pl --timeout &amp;
+</para></tip>
 </section>
 
 </section>
