@@ -2,7 +2,7 @@
 # Kernel/System/Ticket::SendArticle.pm - the global email send module
 # Copyright (C) 2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SendArticle.pm,v 1.5 2003-03-10 14:21:32 wiktor Exp $
+# $Id: SendArticle.pm,v 1.6 2003-03-11 18:34:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -41,14 +41,13 @@ sub SendArticle {
     my $ToOrig = $Param{To} || '';
     my $Charset = $Param{Charset} || 'iso-8859-1';
     my $InReplyTo = $Param{InReplyTo} || '';
-    my $RetEmail = $Param{Email};
     my $Loop = $Param{Loop} || 0;
     my $HistoryType = $Param{HistoryType} || 'SendAnswer';
 
     # --
     # check needed stuff
     # --
-    foreach (qw(TicketID UserID From Body Email)) {
+    foreach (qw(TicketID UserID From Body)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
@@ -229,7 +228,6 @@ sub BounceArticle {
     my $ToOrig = $To;
     my $Cc = $Param{Cc} || '';
     my $HistoryType = $Param{HistoryType} || 'Bounce';
-    my $RetEmail = $Param{Email};
     # --
     # check needed stuff
     # --

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.41 2003-03-10 15:20:44 martin Exp $
+# $Id: AgentCompose.pm,v 1.42 2003-03-11 18:34:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.42 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -51,7 +51,7 @@ sub new {
     # --
     # get params
     # --
-    foreach (qw(From To Cc Bcc Subject Body Email InReplyTo ResponseID ComposeStateID 
+    foreach (qw(From To Cc Bcc Subject Body InReplyTo ResponseID ComposeStateID 
       Answered ArticleID TimeUnits Year Month Day Hour Minute)) {
         my $Value = $Self->{ParamObject}->GetParam(Param => $_);
         $Self->{$_} = defined $Value ? $Value : '';
@@ -309,7 +309,7 @@ sub SendEmail {
         my $QueueID = $Self->{TicketObject}->GetQueueIDOfTicketID(TicketID => $Self->{TicketID});
         my $Output = $Self->{LayoutObject}->Header(Title => 'Compose');
         my %Data = ();
-        foreach (qw(From To Cc Bcc Subject Body Email InReplyTo Answered ArticleID 
+        foreach (qw(From To Cc Bcc Subject Body InReplyTo Answered ArticleID 
           TimeUnits Year Month Day Hour Minute)) {
             $Data{$_} = $Self->{$_};
         }
@@ -339,7 +339,6 @@ sub SendEmail {
         HistoryType => 'SendAnswer',
         HistoryComment => "Sent email to '$Self->{To}'.",
         From => $Self->{From},
-        Email => $Self->{Email},
         To => $Self->{To},
         Cc => $Self->{Cc},
         Subject => $Self->{Subject},

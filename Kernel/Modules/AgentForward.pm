@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentForward.pm - to forward a message
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentForward.pm,v 1.18 2003-03-06 22:11:58 martin Exp $
+# $Id: AgentForward.pm,v 1.19 2003-03-11 18:34:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -42,7 +42,6 @@ sub new {
     $Self->{Cc} = $Self->{ParamObject}->GetParam(Param => 'Cc') || '';
     $Self->{Subject} = $Self->{ParamObject}->GetParam(Param => 'Subject') || '';
     $Self->{Body} = $Self->{ParamObject}->GetParam(Param => 'Body') || '';
-    $Self->{Email} = $Self->{ParamObject}->GetParam(Param => 'Email') || '';
     $Self->{InReplyTo} = $Self->{ParamObject}->GetParam(Param => 'InReplyTo') || '';
     $Self->{ArticleID} = $Self->{ParamObject}->GetParam(Param => 'ArticleID') || '';
     $Self->{ArticleTypeID} = $Self->{ParamObject}->GetParam(Param => 'ArticleTypeID') || '';
@@ -232,7 +231,6 @@ sub SendEmail {
     # --
     if (my $ArticleID = $Self->{TicketObject}->SendArticle(
         From => $Self->{From},
-        Email => $Self->{Email},
         To => $Self->{To},
         Cc => $Self->{Cc},
         Subject => $Self->{Subject},

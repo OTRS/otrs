@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/SendNotification.pm - send notifications to agent
 # Copyright (C) 2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SendNotification.pm,v 1.3 2003-03-10 21:25:51 martin Exp $
+# $Id: SendNotification.pm,v 1.4 2003-03-11 18:34:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::SendNotification;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -133,7 +133,6 @@ sub SendNotification {
             HistoryComment => "Sent notification to '$Param{To}'.",
             From => $Self->{ConfigObject}->Get('NotificationSenderName').
               ' <'.$Self->{ConfigObject}->Get('NotificationSenderEmail').'>',
-            Email => $Self->{ConfigObject}->Get('NotificationSenderEmail'),
             To => $Param{To},
             Subject => $Param{Subject},
             UserID => $Param{UserID},
@@ -269,7 +268,6 @@ sub SendCustomerNotification {
             HistoryType => 'SendCustomerNotification',
             HistoryComment => "Sent notification to '$Article{From}'.",
             From => "$Address{RealName} <$Address{Email}>", 
-            Email => $Address{Email}, 
             To => $Article{From},
             Subject => $Param{Subject},
             UserID => $Param{UserID},

@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/SendAutoResponse.pm - send auto responses to customers
 # Copyright (C) 2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SendAutoResponse.pm,v 1.6 2003-03-11 15:29:31 wiktor Exp $
+# $Id: SendAutoResponse.pm,v 1.7 2003-03-11 18:34:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::SendAutoResponse;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -141,7 +141,6 @@ sub SendAutoResponse {
         HistoryType => $Param{HistoryType}, 
         HistoryComment => "Sent auto response to '$GetParam{From}'",
         From => "$Param{Realname} <$Param{Address}>",
-        Email => $Param{Address},
         To => $GetParam{From},
         RealName => $Param{Realname},
         Charset => $Param{Charset},
