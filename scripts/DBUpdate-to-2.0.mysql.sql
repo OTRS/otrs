@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 1.3 to 2.0
 -- Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-2.0.mysql.sql,v 1.14 2004-12-10 09:16:35 martin Exp $
+-- $Id: DBUpdate-to-2.0.mysql.sql,v 1.15 2005-02-08 13:00:56 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.0.mysql.sql | mysql -f -u root otrs
@@ -149,6 +149,19 @@ CREATE TABLE sessions (
     session_value TEXT NOT NULL,
     UNIQUE (session_id),
     INDEX index_session_id (session_id)
+);
+
+--
+-- xml_storage table
+--
+CREATE TABLE xml_storage (
+    xml_type VARCHAR (200) NOT NULL,
+    xml_key VARCHAR (250) NOT NULL,
+    xml_content_key VARCHAR (250) NOT NULL,
+    xml_content_value LONGBLOB NOT NULL,
+    INDEX xml_content_key (xml_content_key),
+    INDEX xml_type (xml_type),
+    INDEX xml_key (xml_key)
 );
 
 --
