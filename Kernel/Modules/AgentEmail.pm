@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentEmail.pm - to compose inital email to customer 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentEmail.pm,v 1.5 2004-02-26 21:43:10 martin Exp $
+# $Id: AgentEmail.pm,v 1.6 2004-02-27 16:06:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -469,21 +469,16 @@ sub _GetUsers {
     if ($Self->{ConfigObject}->Get('ChangeOwnerToEveryone')) {
         %ShownUsers = %AllGroupsMembers;
     }
-    else {
-        my %Groups = $Self->{GroupObject}->GroupMemberList(
-            UserID => $Self->{UserID},
+    # show all users who are rw in the queue group
+    elsif ($Param{QueueID}) {
+        my $GID = $Self->{QueueObject}->GetQueueGroupID(QueueID => $Param{QueueID});
+        my %MemberList = $Self->{GroupObject}->GroupMemberList(
+            GroupID => $GID,
             Type => 'rw',
             Result => 'HASH',
         );
-        foreach (keys %Groups) {
-            my %MemberList = $Self->{GroupObject}->GroupMemberList(
-                    GroupID => $_,
-                    Type => 'rw',
-                    Result => 'HASH',
-            );
-            foreach (keys %MemberList) {
-                    $ShownUsers{$_} = $AllGroupsMembers{$_};
-            }
+        foreach (keys %MemberList) {
+            $ShownUsers{$_} = $AllGroupsMembers{$_};
         }
     }
     return \%ShownUsers;
