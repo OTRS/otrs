@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Email.pm,v 1.8 2004-10-11 11:51:17 martin Exp $
+# $Id: Email.pm,v 1.9 2004-12-04 18:27:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,9 +15,10 @@ use strict;
 use MIME::Words qw(:all);
 use MIME::Entity;
 use Mail::Address;
+use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -107,6 +108,7 @@ To send an email without already created header:
       Type => 'text/plain',
       Charset => 'iso-8859-15',
       Body => 'Some nice text',
+      Loop => 1, # not required, removes smtp from
       Attachment => [
         {
           Filename => "somefile.csv",
@@ -121,20 +123,23 @@ To send an email without already created header:
           Encoding => "base64",
         }
       ],
+      Sign => {
+          Type => 'PGP',
+          SubType => 'Inline|Detached',
+          Key => '81877F5E',
+
+          Type => 'SMIME',
+          Key => '3b630c80',
+      },
+      Crypt => {
+          Type => 'PGP',
+          SubType => 'Inline|Detached',
+          Key => '81877F5E',
+
+          Type => 'SMIME',
+          Key => '3b630c80',
+      },
     )) {
-        print "Email sent!\n";
-    }
-    else {
-        print "Email not sent!\n";
-    }
-
-To send an email with already created header:
-
-    if ($SendObject->Send(
-      From => 'me@example.com',
-      To => 'friend@example.com',
-      Header => $Header,
-      Body => $Body,)) {
         print "Email sent!\n";
     }
     else {
@@ -148,11 +153,9 @@ sub Send {
     my %Param = @_;
 
     # check needed stuff
-    foreach (qw(Body)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-            return;
-        }
+    if (!$Param{Body}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Body!");
+        return;
     }
     if (!$Param{To} && !$Param{Cc} && !$Param{Bcc}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need To, Cc or Bcc!");
@@ -163,52 +166,265 @@ sub Send {
         $Param{From} = $Self->{ConfigObject}->Get('AdminEmail') || 'otrs@localhost';
     }
 
-    if (!$Param{Header}) {
-        my %Header = ();
-        foreach (qw(From To Cc Bcc Subject Organization Charset)) {
-            if ($Param{$_}) {
-                $Header{$_} = $Param{$_};
-            }
+    # get sign options for inline
+    if ($Param{Sign} && $Param{Sign}->{SubType} && $Param{Sign}->{SubType} eq 'Inline') {
+        my $CryptObject = Kernel::System::Crypt->new(
+            LogObject => $Self->{LogObject},
+            DBObject => $Self->{DBObject},
+            ConfigObject => $Self->{ConfigObject},
+            CryptType => $Param{Sign}->{Type},
+        );
+        if (!$CryptObject) {
+            return;
         }
-        # do some encode
-        foreach (qw(From To Cc Bcc Subject)) {
-            if ($Header{$_} && $Param{Charset}) {
-                $Header{$_} = encode_mimewords($Header{$_}, Charset => $Param{Charset}) || '';
-            }
+        my $Body = $CryptObject->Sign(
+            Message => $Param{Body},
+            Key => $Param{Sign}->{Key},
+            Type => 'Clearsign',
+        );
+        if ($Body) {
+            $Param{Body} = $Body;
         }
-        $Header{'X-Mailer'} = "OTRS Mail Service ($VERSION)";
-        $Header{'X-Powered-By'} = 'OTRS - Open Ticket Request System (http://otrs.org/)';
-        $Header{'Type'} = $Param{Type} || 'text/plain';
-        if ($Param{Charset} && $Param{Charset} =~ /utf(8|-8)/i) {
-            $Header{'Encoding'} = '8bit';
-#            $Header{'Encoding'} = 'base64';
+    }
+    # crypt inline
+    if ($Param{Crypt} && $Param{Crypt}->{Type} eq 'PGP' && $Param{Crypt}->{SubType} eq 'Inline') {
+        my $CryptObject = Kernel::System::Crypt->new(
+            LogObject => $Self->{LogObject},
+            DBObject => $Self->{DBObject},
+            ConfigObject => $Self->{ConfigObject},
+            CryptType => $Param{Crypt}->{Type},
+        );
+        if (!$CryptObject) {
+            return;
         }
-        else {
-#            $Header{'Encoding'} = '7bit';
-            $Header{'Encoding'} = 'quoted-printable';
+        my $Body = $CryptObject->Crypt(
+            Message => $Param{Body},
+            Key => $Param{Crypt}->{Key},
+            Type => $Param{Crypt}->{SubType},
+        );
+        if ($Body) {
+            $Param{Body} = $Body;
         }
-        $Header{'Message-ID'} = "Message-ID: <".time().".".rand(999999)."\@$Self->{FQDN}>";
-        my $Entity = MIME::Entity->build(%Header, Data => $Param{Body});
-        if ($Param{Attachment} && ref($Param{Attachment}) eq 'ARRAY') {
-            foreach my $Attachment (@{$Param{Attachment}}) {
+    }
+
+    # build header
+    my %Header = ();
+    foreach (qw(From To Cc Bcc Subject Charset Reply-To)) {
+        if ($Param{$_}) {
+            $Header{$_} = $Param{$_};
+        }
+    }
+    # loop
+    if ($Param{Loop}) {
+        $Header{'X-Loop'} = 'yes';
+        $Header{'Precedence'} = 'bulk';
+    }
+    # do some encode
+    foreach (qw(From To Cc Bcc Subject)) {
+        if ($Header{$_} && $Param{Charset}) {
+            $Header{$_} = encode_mimewords($Header{$_}, Charset => $Param{Charset}) || '';
+        }
+    }
+    $Header{'X-Mailer'} = $Self->{ConfigObject}->Get('Product')." Mail Service (".$Self->{ConfigObject}->Get('Version').")";
+    $Header{'X-Powered-By'} = 'OTRS - Open Ticket Request System (http://otrs.org/)';
+    $Header{'Type'} = $Param{Type} || 'text/plain';
+    if ($Param{Charset} && $Param{Charset} =~ /utf(8|-8)/i) {
+       $Header{'Encoding'} = '8bit';
+#        $Header{'Encoding'} = 'base64';
+    }
+    else {
+#        $Header{'Encoding'} = '7bit';
+        $Header{'Encoding'} = 'quoted-printable';
+    }
+    # check and create message id
+    if ($Param{'Message-ID'}) {
+        $Header{'Message-ID'} = $Param{'Message-ID'};
+    }
+    else {
+        $Header{'Message-ID'} = $Self->_MessageIDCreate();
+    }
+    if ($Param{'In-Reply-To'}) {
+        $Header{'In-Reply-To'} = $Param{'In-Reply-To'};
+        $Header{'References'} = $Param{'In-Reply-To'};
+    }
+    # add date header
+    $Header{'Date'} = "Date: ".$Self->{TimeObject}->MailTimeStamp();
+    # add organisation header
+    if ($Self->{Organization}) {
+        $Header{'Organization'} = $Self->{Organization};
+    }
+
+    # build MIME::Entity
+    my $Entity = MIME::Entity->build(%Header, Data => $Param{Body});
+
+    # add attachments to email
+    if ($Param{Attachment}) {
+        foreach my $Tmp (@{$Param{Attachment}}) {
+            my %Upload = %{$Tmp};
+            if ($Upload{Content} && $Upload{Filename}) {
                 # attach file to email
                 $Entity->attach(
-                    %{$Attachment},
+                    Filename => $Upload{Filename},
+                    Data     => $Upload{Content},
+                    Type     => $Upload{ContentType},
+                    Encoding => "base64",
                 );
             }
         }
-
-        # get header
-        my $head = $Entity->head;
-        $Param{Header} = $head->as_string();
-
-        $Param{Body} = $Entity->body_as_string();
     }
-    # add date header
-    $Param{Header} = "Date: ".$Self->{TimeObject}->MailTimeStamp()."\n".$Param{Header};
+
+    # get sign options for detached
+    if ($Param{Sign} && $Param{Sign}->{SubType} && $Param{Sign}->{SubType} eq 'Detached') {
+        my $CryptObject = Kernel::System::Crypt->new(
+            LogObject => $Self->{LogObject},
+            DBObject => $Self->{DBObject},
+            ConfigObject => $Self->{ConfigObject},
+            CryptType => $Param{Sign}->{Type},
+        );
+        if (!$CryptObject) {
+            return;
+        }
+        if ($Param{Sign}->{Type} eq 'PGP') {
+            # make_multipart -=> one attachment for sign
+            $Entity->make_multipart(
+                "signed; micalg=pgp-sha1; protocol=\"application/pgp-signature\";",
+                Force => 1,
+            );
+            # get string to sign
+            my $T = $Entity->parts(0)->as_string();
+            # according to RFC3156 all line endings MUST be CR/LF
+            $T =~ s/\x0A/\x0D\x0A/g;
+            $T =~ s/\x0D+/\x0D/g;
+            my $Sign = $CryptObject->Sign(
+                Message => $T,
+                Key => $Param{Sign}->{Key},
+                Type => 'Detached',
+            );
+            # it sign failed, remove singned multi part
+            if (!$Sign) {
+                $Entity->make_singlepart();
+            }
+            else {
+                # addach sign to email
+                $Entity->attach(
+                    Filename => 'pgp_sign.asc',
+                    Data => $Sign,
+                    Type => "application/pgp-signature",
+                    Encoding => "7bit",
+                );
+            }
+        }
+        elsif ($Param{Sign}->{Type} eq 'SMIME') {
+            # make multi part
+            $Entity->make_multipart("mixed;", Force => 1,);
+            # get header to remember
+            my $head = $Entity->head;
+            $head->delete('MIME-Version');
+            $head->delete('Content-Type');
+            $head->delete('Content-Disposition');
+            $head->delete('Content-Transfer-Encoding');
+            my $Header = $head->as_string();
+            # get string to sign
+            my $T = $Entity->parts(0)->as_string();
+            # according to RFC3156 all line endings MUST be CR/LF
+            $T =~ s/\x0A/\x0D\x0A/g;
+            $T =~ s/\x0D+/\x0D/g;
+            my $Sign = $CryptObject->Sign(
+                Message => $T,
+                Hash => $Param{Sign}->{Key},
+                Type => 'Detached',
+            );
+            use MIME::Parser;
+            my $Parser = new MIME::Parser;
+            $Parser->output_to_core("ALL");
+#        $Parser->output_dir($Self->{ConfigObject}->Get('TempDir'));
+            $Entity = $Parser->parse_data($Header.$Sign);
+        }
+    }
+    # crypt detached!
+#my $NotCryptedBody = $Entity->body_as_string();
+    if ($Param{Crypt} && $Param{Crypt}->{Type} && $Param{Crypt}->{Type} eq 'PGP' && $Param{Crypt}->{SubType} eq 'Detached') {
+        my $CryptObject = Kernel::System::Crypt->new(
+            LogObject => $Self->{LogObject},
+            DBObject => $Self->{DBObject},
+            ConfigObject => $Self->{ConfigObject},
+            CryptType => $Param{Crypt}->{Type},
+        );
+        if (!$CryptObject) {
+            return;
+        }
+        # make_multipart -=> one attachment for encryption
+        $Entity->make_multipart(
+            "encrypted; protocol=\"application/pgp-encrypted\";",
+            Force => 1,
+        );
+        # crypt it
+        my $Crypt = $CryptObject->Crypt(
+            Message => $Entity->parts(0)->as_string(),
+#            Key => '81877F5E',
+#            Key => '488A0B8F',
+            Key => $Param{Crypt}->{Key},
+        );
+        # it crypt failed, remove encrypted multi part
+        if (!$Crypt) {
+            $Entity->make_singlepart();
+        }
+        else {
+            # eliminate all parts
+            $Entity->parts([]);
+            # add crypted parts
+            $Entity->attach(Type => "application/pgp-encrypted",
+                Disposition => "attachment",
+                Data => ["Version: 1",""],
+                Encoding => "7bit",
+            );
+            $Entity->attach(Type => "application/octet-stream",
+                Disposition => "inline",
+                Filename => "msg.asc",
+                Data => $Crypt,
+                Encoding => "7bit",
+            );
+        }
+    }
+    elsif ($Param{Crypt} && $Param{Crypt}->{Type} && $Param{Crypt}->{Type} eq 'SMIME') {
+        my $CryptObject = Kernel::System::Crypt->new(
+            LogObject => $Self->{LogObject},
+            DBObject => $Self->{DBObject},
+            ConfigObject => $Self->{ConfigObject},
+            CryptType => $Param{Crypt}->{Type},
+        );
+        if (!$CryptObject) {
+            return;
+        }
+        # make_multipart -=> one attachment for encryption
+        $Entity->make_multipart("mixed;", Force => 1,);
+        # get header to remember
+        my $head = $Entity->head;
+        $head->delete('MIME-Version');
+        $head->delete('Content-Type');
+        $head->delete('Content-Disposition');
+        $head->delete('Content-Transfer-Encoding');
+        my $Header = $head->as_string();
+        # crypt it
+        my $Crypt = $CryptObject->Crypt(
+            Message => $Entity->parts(0)->as_string(),
+            Hash => $Param{Crypt}->{Key},
+        );
+        use MIME::Parser;
+        my $Parser = new MIME::Parser;
+#        $Parser->output_dir($Self->{ConfigObject}->Get('TempDir'));
+        $Entity = $Parser->parse_data($Header.$Crypt);
+    }
+
+
+    # get header and body from Entity
+    my $head = $Entity->head;
+    $Param{Header} = $head->as_string();
+    $Param{Body} = $Entity->body_as_string();
+
     # get recipients
-    my $To = '';
     my @ToArray = ();
+    my $To = '';
     foreach (qw(To Cc Bcc)) {
         if ($Param{$_}) {
             foreach my $Email (Mail::Address->parse($Param{$_})) {
@@ -228,6 +444,9 @@ sub Send {
     # get sender
     my @Sender = Mail::Address->parse($Param{From});
     my $RealFrom = $Sender[0]->address();
+    if ($Param{Loop}) {
+        $RealFrom = '';
+    }
 
     # debug
     if ($Self->{Debug} > 1) {
@@ -238,15 +457,94 @@ sub Send {
         );
     }
 
-    return $Self->{Backend}->Send(
+    if ($Self->{Backend}->Send(
         From => $RealFrom,
-        To => $To,
         ToArray => \@ToArray,
         Header => \$Param{Header},
         Body => \$Param{Body},
-    );
+    )) {
+        return (\$Param{Header}, \$Param{Body});
+    }
+    else {
+        return;
+    }
 }
 
+=item Bounce()
+
+Bounce an email
+
+    $SendObject->Bounce(
+        From => 'me@example.com',
+        To => 'friend@example.com',
+        Email => $Email,
+    );
+
+=cut
+
+sub Bounce {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(From To Email)) {
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    # check and create message id
+    my $MessageID = '';
+    if ($Param{'Message-ID'}) {
+        $MessageID = $Param{'Message-ID'};
+    }
+    else {
+        $MessageID = $Self->_MessageIDCreate();
+    }
+    # split body && header
+    my @EmailPlain = split(/\n/, $Param{Email});
+    my $EmailObject = new Mail::Internet(\@EmailPlain);
+    # add ReSent header
+    my $HeaderObject = $EmailObject->head();
+    my $OldMessageID = $HeaderObject->get('Message-ID') || '??';
+    $HeaderObject->replace('Message-ID', $MessageID);
+    $HeaderObject->replace('ReSent-Message-ID', $OldMessageID);
+    $HeaderObject->replace('Resent-To', $Param{To});
+    $HeaderObject->replace('Resent-From', $Param{From});
+    my $Body = $EmailObject->body();
+    my $BodyAsString = '';
+    foreach (@{$Body}) {
+        $BodyAsString .= $_."\n";
+    }
+    my $HeaderAsString = $HeaderObject->as_string();
+    # debug
+    if ($Self->{Debug} > 1) {
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message => "Bounced email to '$Param{To}' from '$Param{From}'. ".
+                "MessageID => $OldMessageID;",
+        );
+    }
+
+    if ($Self->{Backend}->Send(
+        From => $Param{From},
+        ToArray => [$Param{To}],
+        Header => \$HeaderAsString,
+        Body => \$BodyAsString,
+    )) {
+        return 1;
+    }
+    else {
+        return;
+    }
+
+
+}
+
+sub _MessageIDCreate {
+    my $Self = shift;
+    my %Param = @_;
+    return "Message-ID: <".time().".".rand(999999)."\@$Self->{FQDN}>";
+}
 1;
 
 =head1 TERMS AND CONDITIONS
@@ -261,7 +559,7 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2004-10-11 11:51:17 $
+$Revision: 1.9 $ $Date: 2004-12-04 18:27:10 $
 
 =cut
 

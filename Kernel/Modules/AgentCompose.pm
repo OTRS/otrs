@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.77 2004-11-27 01:52:59 martin Exp $
+# $Id: AgentCompose.pm,v 1.78 2004-12-04 18:27:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.77 $';
+$VERSION = '$Revision: 1.78 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -586,7 +586,8 @@ sub SendEmail {
         Body => $GetParam{Body},
         InReplyTo => $GetParam{InReplyTo},
         Charset => $Self->{LayoutObject}->{UserCharset},
-        Attach => \@AttachmentData,
+        Type => 'text/plain',
+        Attachment => \@AttachmentData,
         StdAttachmentIDs => \@StdAttachmentIDs,
         %ArticleParam,
     )) {

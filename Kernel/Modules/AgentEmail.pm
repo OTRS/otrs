@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentEmail.pm - to compose inital email to customer
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentEmail.pm,v 1.48 2004-11-27 01:56:53 martin Exp $
+# $Id: AgentEmail.pm,v 1.49 2004-12-04 18:27:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.48 $';
+$VERSION = '$Revision: 1.49 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -623,7 +623,7 @@ sub Run {
         # send email
         my $ArticleID = $Self->{TicketObject}->ArticleSend(
             NoAgentNotify => $NoAgentNotify,
-            Attach => \@Attachments,
+            Attachment => \@Attachments,
             ArticleType => 'email-external',
             SenderType => 'agent',
             TicketID => $TicketID,
@@ -636,6 +636,7 @@ sub Run {
             Subject => $GetParam{Subject},
             Body => $GetParam{Body},
             Charset => $Self->{LayoutObject}->{UserCharset},
+            Type => 'text/plain',
             UserID => $Self->{UserID},
             HistoryType => $Self->{ConfigObject}->Get('EmailDefaultNewHistoryType'),
             HistoryComment => $Self->{ConfigObject}->Get('EmailDefaultNewHistoryComment') || "\%\%$GetParam{To}, $GetParam{Cc}, $GetParam{Bcc}",

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentBounce.pm - to bounce articles of tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBounce.pm,v 1.38 2004-11-27 01:52:43 martin Exp $
+# $Id: AgentBounce.pm,v 1.39 2004-12-04 18:27:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.39 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -264,17 +264,15 @@ sub Run {
         $Param{Email} = $Address{Email};
         $Param{EmailPlain} = $Self->{TicketObject}->ArticlePlain(ArticleID => $Self->{ArticleID});
         if (!$Self->{TicketObject}->ArticleBounce(
-            EmailPlain => $Param{EmailPlain},
-            TicketObject => $Self->{TicketObject},
             TicketID => $Self->{TicketID},
             ArticleID => $Self->{ArticleID},
             UserID => $Self->{UserID},
             To => $Param{BounceTo},
-            From => $Param{From},
-            Email => $Param{Email},
+            From => $Param{Email},
+            Email => $Param{EmailPlain},
             HistoryType => 'Bounce',
         )) {
-           # error page 
+           # error page
            $Output = $Self->{LayoutObject}->Header(Title => 'Error');
            $Output .= $Self->{LayoutObject}->Error(
                Message => "Can't bounce email!",
@@ -283,7 +281,7 @@ sub Run {
            $Output .= $Self->{LayoutObject}->Footer();
            return $Output;
         }
-        # --       
+        # --
         # send customer info?
         # --
         if ($Param{InformSender}) {
@@ -294,7 +292,7 @@ sub Run {
               SenderType => 'agent',
               TicketID => $Self->{TicketID},
               HistoryType => 'Bounce',
-              HistoryComment => "Bounced to '$Param{To}'.",
+              HistoryComment => "Bounced info to '$Param{To}'.",
               From => $Param{From},
               Email => $Param{Email},
               To => $Param{To},
@@ -302,11 +300,12 @@ sub Run {
               UserID => $Self->{UserID},
               Body => $Param{Body},
               Charset => $Self->{LayoutObject}->{UserCharset},
+              Type => 'text/plain',
             )) {
               ###
             }
             else {
-              # error page 
+              # error page
               $Output = $Self->{LayoutObject}->Header(Title => 'Error');
               $Output .= $Self->{LayoutObject}->Error(
                 Message => "Can't send email!",

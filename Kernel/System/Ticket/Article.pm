@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.79 2004-11-28 11:16:53 martin Exp $
+# $Id: Article.pm,v 1.80 2004-12-04 18:30:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,10 +14,9 @@ use MIME::Words qw(:all);
 use MIME::Entity;
 use Mail::Internet;
 use Kernel::System::StdAttachment;
-use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.79 $';
+$VERSION = '$Revision: 1.80 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1137,8 +1136,10 @@ send article via email and create article with attachments
       Subject => 'some short description', # required
       Body => 'the message text', # required
       MessageID => '<asdasdasd.123@example.com>', # not required but useful
+      Charset => 'ISO-8859-15'
+      Type => 'text/plain',
       Loop => 0, # 1|0 used for bulk emails
-      Attach => [
+      Attachment => [
         {
           Content => $Content,
           ContentType => $ContentType,
@@ -1150,7 +1151,6 @@ send article via email and create article with attachments
           Filename => 'lala1.txt',
         },
       ],
-      ContentType => 'text/plain; charset=ISO-8859-15',
       Sign => {
           Type => 'PGP',
           SubType => 'Inline|Detached',
@@ -1181,12 +1181,11 @@ sub ArticleSend {
     my $Time = $Self->{TimeObject}->SystemTime();
     my $Random = rand(999999);
     my $ToOrig = $Param{To} || '';
-    my $Charset = $Param{Charset} || 'iso-8859-1';
     my $InReplyTo = $Param{InReplyTo} || '';
     my $Loop = $Param{Loop} || 0;
     my $HistoryType = $Param{HistoryType} || 'SendAnswer';
     # check needed stuff
-    foreach (qw(TicketID UserID From Body)) {
+    foreach (qw(TicketID UserID From Body Type Charset)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
@@ -1204,115 +1203,22 @@ sub ArticleSend {
     $Param{Body} =~ s/(\r\n|\n\r)/\n/g;
     $Param{Body} =~ s/\r/\n/g;
 
-    # get sign options for inline
-    if ($Param{Sign} && $Param{Sign}->{SubType} && $Param{Sign}->{SubType} eq 'Inline') {
-        my $CryptObject = Kernel::System::Crypt->new(
-            LogObject => $Self->{LogObject},
-            DBObject => $Self->{DBObject},
-            ConfigObject => $Self->{ConfigObject},
-            CryptType => $Param{Sign}->{Type},
-        );
-        if (!$CryptObject) {
-            return;
-        }
-        my $Body = $CryptObject->Sign(
-            Message => $Param{Body},
-            Key => $Param{Sign}->{Key},
-            Type => 'Clearsign',
-        );
-        if ($Body) {
-            $Param{Body} = $Body;
-            $Self->HistoryAdd(
-                TicketID => $Param{TicketID},
-                ArticleID => $Param{ArticleID},
-                Name => "Signed Mail (inline)",
-                HistoryType => 'Misc',
-                CreateUserID => $Param{UserID},
-            );
-        }
-    }
     # create article
     my $MessageID = "<$Time.$Random.$Param{TicketID}.$Param{UserID}\@$Self->{FQDN}>";
     if ($Param{ArticleID} = $Self->ArticleCreate(
         %Param,
+        ContentType => "$Param{Type}, charset=$Param{Charset}",
         MessageID => $MessageID,
     )) {
       ####
     }
     else {
-      return;
-    }
-    # build mail ...
-    # do some encode
-    foreach (qw(From To Cc Bcc Subject)) {
-        if ($Param{$_}) {
-            $Param{$_} = encode_mimewords($Param{$_}, Charset => $Charset) || '';
-        }
-    }
-    # check bcc
-    if ($Self->{SendmailBcc}) {
-        $Param{Bcc} .= ", $Self->{SendmailBcc}";
-    }
-    # build header
-    my $Header = {
-        From => $Param{From},
-        To => $Param{To},
-        Cc => $Param{Cc},
-        Bcc => $Param{Bcc},
-        Subject => $Param{Subject},
-        'Message-ID' => $MessageID,
-        'In-Reply-To:' => $InReplyTo,
-        'References' => $InReplyTo,
-        'X-Mailer' => "OTRS Mail Service ($VERSION)",
-        'X-Powered-By' => 'OTRS - Open Ticket Request System (http://otrs.org/)',
-        Organization => $Self->{Organization},
-        Type => 'text/plain',
-        Charset => $Charset,
-    };
-    if ($Charset && $Charset =~ /utf(8|-8)/i) {
-        $Header->{Encoding} = '8bit';
-#        $Header->{'Encoding'} = 'base64';
-    }
-    else {
-#        $Header->{Encoding} = '7bit';
-        $Header->{Encoding} = 'quoted-printable';
-    }
-    if ($Loop) {
-        $$Header{'Precedence:'} = 'bulk';
-        $$Header{'X-Loop'} = 'bulk';
-    }
-    # crypt inline
-    if ($Param{Crypt} && $Param{Crypt}->{Type} eq 'PGP' && $Param{Crypt}->{SubType} eq 'Inline') {
-        my $CryptObject = Kernel::System::Crypt->new(
-            LogObject => $Self->{LogObject},
-            DBObject => $Self->{DBObject},
-            ConfigObject => $Self->{ConfigObject},
-            CryptType => $Param{Crypt}->{Type},
-        );
-        if (!$CryptObject) {
-            return;
-        }
-        my $Body = $CryptObject->Crypt(
-            Message => $Param{Body},
-            Key => $Param{Crypt}->{Key},
-            Type => $Param{Crypt}->{SubType},
-        );
-        if ($Body) {
-            $Param{Body} = $Body;
-            $Self->HistoryAdd(
-                TicketID => $Param{TicketID},
-                ArticleID => $Param{ArticleID},
-                Name => "Crypted Mail (PGP inline)",
-                HistoryType => 'Misc',
-                CreateUserID => $Param{UserID},
-            );
-        }
+        return;
     }
 
-    my $Entity = MIME::Entity->build(%{$Header}, Data => $Param{Body});
-    # add attachments to email
-    if ($Param{Attach}) {
-        foreach my $Tmp (@{$Param{Attach}}) {
+    # add attachments to ticket
+    if ($Param{Attachment}) {
+        foreach my $Tmp (@{$Param{Attachment}}) {
             my %Upload = %{$Tmp};
             if ($Upload{Content} && $Upload{Filename}) {
               # add attachments to article
@@ -1320,13 +1226,6 @@ sub ArticleSend {
                 %Upload,
                 ArticleID => $Param{ArticleID},
                 UserID => $Param{UserID},
-              );
-              # attach file to email
-              $Entity->attach(
-                Filename => $Upload{Filename},
-                Data     => $Upload{Content},
-                Type     => $Upload{ContentType},
-                Encoding => "base64",
               );
             }
         }
@@ -1344,12 +1243,7 @@ sub ArticleSend {
                 }
             }
             # attach file to email
-            $Entity->attach(
-                Filename => $Data{Filename},
-                Data     => $Data{Content},
-                Type     => $Data{ContentType},
-                Encoding => "base64",
-            );
+            push (@{$Param{Attachment}}, \%Data);
             # add attachments to article storage
             $Self->ArticleWriteAttachment(
                 %Data,
@@ -1359,219 +1253,19 @@ sub ArticleSend {
         }
     }
 
-# sign it
-    # get sign options for detached
-    if ($Param{Sign} && $Param{Sign}->{SubType} && $Param{Sign}->{SubType} eq 'Detached') {
-        my $CryptObject = Kernel::System::Crypt->new(
-            LogObject => $Self->{LogObject},
-            DBObject => $Self->{DBObject},
-            ConfigObject => $Self->{ConfigObject},
-            CryptType => $Param{Sign}->{Type},
-        );
-        if (!$CryptObject) {
-            return;
-        }
-      if ($Param{Sign}->{Type} eq 'PGP') {
-        # make_multipart -=> one attachment for sign
-        $Entity->make_multipart(
-            "signed; micalg=pgp-sha1; protocol=\"application/pgp-signature\";",
-            Force => 1,
-        );
-        # get string to sign
-        my $T = $Entity->parts(0)->as_string();
-        # according to RFC3156 all line endings MUST be CR/LF
-        $T =~ s/\x0A/\x0D\x0A/g;
-        $T =~ s/\x0D+/\x0D/g;
-        my $Sign = $CryptObject->Sign(
-            Message => $T,
-            Key => $Param{Sign}->{Key},
-            Type => 'Detached',
-        );
-        # it sign failed, remove singned multi part
-        if (!$Sign) {
-            $Entity->make_singlepart();
-        }
-        else {
-            # addach sign to email
-            $Entity->attach(
-                Filename => 'pgp_sign.asc',
-                Data => $Sign,
-                Type => "application/pgp-signature",
-                Encoding => "7bit",
-            );
-            # add attachments to article storage
-            $Self->ArticleWriteAttachment(
-                Content => $Sign,
-                Filename => 'pgp_sign.asc',
-                ContentType => 'application/pgp-signature',
-                ArticleID => $Param{ArticleID},
-                UserID => $Param{UserID},
-            );
-            # add history entry
-            $Self->HistoryAdd(
-                TicketID => $Param{TicketID},
-                ArticleID => $Param{ArticleID},
-                Name => "Signed Mail (PGP detached)",
-                HistoryType => 'Misc',
-                CreateUserID => $Param{UserID},
-            );
-        }
-      }
-      elsif ($Param{Sign}->{Type} eq 'SMIME') {
-        # make multi part
-        $Entity->make_multipart("mixed;", Force => 1,);
-        # get header to remember
-        my $head = $Entity->head;
-        $head->delete('MIME-Version');
-        $head->delete('Content-Type');
-        $head->delete('Content-Disposition');
-        $head->delete('Content-Transfer-Encoding');
-        my $Header = $head->as_string();
-        # get string to sign
-        my $T = $Entity->parts(0)->as_string();
-        # according to RFC3156 all line endings MUST be CR/LF
-        $T =~ s/\x0A/\x0D\x0A/g;
-        $T =~ s/\x0D+/\x0D/g;
-        my $Sign = $CryptObject->Sign(
-            Message => $T,
-            Hash => $Param{Sign}->{Key},
-            Type => 'Detached',
-        );
-
-#print STDERR "$Sign\n";
-        use MIME::Parser;
-        my $Parser = new MIME::Parser;
-        $Parser->output_to_core("ALL");
-#        $Parser->output_dir($Self->{ConfigObject}->Get('TempDir'));
-        $Entity = $Parser->parse_data($Header.$Sign);
-        # add history entry
-        $Self->HistoryAdd(
-            TicketID => $Param{TicketID},
-            ArticleID => $Param{ArticleID},
-            Name => "Signed Mail (SMIME detached)",
-            HistoryType => 'Misc',
-            CreateUserID => $Param{UserID},
-        );
-      }
-    }
-    # crypt detached!
-#my $NotCryptedBody = $Entity->body_as_string();
-    if ($Param{Crypt} && $Param{Crypt}->{Type} && $Param{Crypt}->{Type} eq 'PGP' && $Param{Crypt}->{SubType} eq 'Detached') {
-        my $CryptObject = Kernel::System::Crypt->new(
-            LogObject => $Self->{LogObject},
-            DBObject => $Self->{DBObject},
-            ConfigObject => $Self->{ConfigObject},
-            CryptType => $Param{Crypt}->{Type},
-        );
-        if (!$CryptObject) {
-            return;
-        }
-        # make_multipart -=> one attachment for encryption
-        $Entity->make_multipart(
-            "encrypted; protocol=\"application/pgp-encrypted\";",
-            Force => 1,
-        );
-        # crypt it
-        my $Crypt = $CryptObject->Crypt(
-            Message => $Entity->parts(0)->as_string(),
-#            Key => '81877F5E',
-#            Key => '488A0B8F',
-            Key => $Param{Crypt}->{Key},
-        );
-        # it crypt failed, remove encrypted multi part
-        if (!$Crypt) {
-            $Entity->make_singlepart();
-        }
-        else {
-            # eliminate all parts
-            $Entity->parts([]);
-            # add crypted parts
-            $Entity->attach(Type => "application/pgp-encrypted",
-                Disposition => "attachment",
-                Data => ["Version: 1",""],
-                Encoding => "7bit",
-            );
-            $Entity->attach(Type => "application/octet-stream",
-                Disposition => "inline",
-                Filename => "msg.asc",
-                Data => $Crypt,
-                Encoding => "7bit",
-            );
-            # add history entry
-            $Self->HistoryAdd(
-                TicketID => $Param{TicketID},
-                ArticleID => $Param{ArticleID},
-                Name => "Crypted Mail (PGP detached)",
-                HistoryType => 'Misc',
-                CreateUserID => $Param{UserID},
-            );
-        }
-    }
-    elsif ($Param{Crypt} && $Param{Crypt}->{Type} && $Param{Crypt}->{Type} eq 'SMIME') {
-        my $CryptObject = Kernel::System::Crypt->new(
-            LogObject => $Self->{LogObject},
-            DBObject => $Self->{DBObject},
-            ConfigObject => $Self->{ConfigObject},
-            CryptType => $Param{Crypt}->{Type},
-        );
-        if (!$CryptObject) {
-            return;
-        }
-        # make_multipart -=> one attachment for encryption
-        $Entity->make_multipart("mixed;", Force => 1,);
-        # get header to remember
-        my $head = $Entity->head;
-        $head->delete('MIME-Version');
-        $head->delete('Content-Type');
-        $head->delete('Content-Disposition');
-        $head->delete('Content-Transfer-Encoding');
-        my $Header = $head->as_string();
-        # crypt it
-        my $Crypt = $CryptObject->Crypt(
-            Message => $Entity->parts(0)->as_string(),
-            Hash => $Param{Crypt}->{Key},
-        );
-        use MIME::Parser;
-        my $Parser = new MIME::Parser;
-        $Parser->output_to_core("ALL");
-#        $Parser->output_dir($Self->{ConfigObject}->Get('TempDir'));
-        $Entity = $Parser->parse_data($Header.$Crypt);
-        # add history entry
-        $Self->HistoryAdd(
-            TicketID => $Param{TicketID},
-            ArticleID => $Param{ArticleID},
-            Name => "Crypted Mail (SMIME detached)",
-            HistoryType => 'Misc',
-            CreateUserID => $Param{UserID},
-        );
-    }
-    # get header
-#    my $head = $Entity->head;
     # send mail
     my ($HeadRef, $BodyRef) = $Self->{SendmailObject}->Send(
-        From => $Param{From},
-        To => $Param{To},
-        Cc => $Param{Cc},
-        Bcc => $Param{Bcc},
-        Entity => $Entity,
-#        Header => $head->as_string(),
-#        Body => $Entity->body_as_string(),
+        'Message-ID' => $MessageID,
+        %Param,
     );
     if ($HeadRef && $BodyRef) {
         # write article to fs
         if (!$Self->ArticleWritePlain(
             ArticleID => $Param{ArticleID},
             Email => ${$HeadRef}."\n".${$BodyRef},
-#            Email => $head->as_string."\n".$Entity->body_as_string,
-#            Email => $head->as_string."\n".$NotCryptedBody,
             UserID => $Param{UserID})
         ) {
             return;
-        }
-        # delete attacment(s) and dir
-        if ($Param{UploadFilename}) {
-            $Param{UploadFilename} =~ s/(^.*\/).*?$/$1/;
-            File::Path::rmtree([$Param{UploadFilename}]);
         }
         # log
         $Self->{LogObject}->Log(
@@ -1606,10 +1300,6 @@ sub ArticleBounce {
     my %Param = @_;
     my $Time = $Self->{TimeObject}->SystemTime();
     my $Random = rand(999999);
-    my $From = $Param{From} || '';
-    my $To = $Param{To} || '';
-    my $ToOrig = $To;
-    my $Cc = $Param{Cc} || '';
     my $HistoryType = $Param{HistoryType} || 'Bounce';
     # check needed stuff
     foreach (qw(From To UserID Email)) {
@@ -1618,33 +1308,14 @@ sub ArticleBounce {
         return;
       }
     }
-    # build bounce mail ...
-    # get old email
-    my $Email = $Param{EmailPlain} || return;
-    # split body && header
-    my @EmailPlain = split(/\n/, $Email);
-    my $EmailObject = new Mail::Internet(\@EmailPlain);
-    # add ReSent header
-    my $HeaderObject = $EmailObject->head();
+    # create message id
     my $NewMessageID = "<$Time.$Random.$Param{TicketID}.0.$Param{UserID}\@$Self->{FQDN}>";
-    my $OldMessageID = $HeaderObject->get('Message-ID') || '??';
-    $HeaderObject->replace('Message-ID', $NewMessageID);
-    $HeaderObject->replace('ReSent-Message-ID', $OldMessageID);
-    $HeaderObject->replace('Resent-To', $To);
-    $HeaderObject->replace('Resent-From', $From);
-    my $Body = $EmailObject->body();
-    my $BodyAsSting = '';
-    foreach (@{$Body}) {
-        $BodyAsSting .= $_."\n";
-    }
     # pipe all into sendmail
-    if (!$Self->{SendmailObject}->Send(
+    if (!$Self->{SendmailObject}->Bounce(
+        MessageID => $NewMessageID,
         From => $Param{From},
         To => $Param{To},
-        Cc => $Param{Cc},
-        Bcc => $Self->{SendmailBcc},
-        Header => $HeaderObject->as_string(),
-        Body => $BodyAsSting,
+        Email => $Param{Email},
     )) {
         return;
     }
@@ -1653,7 +1324,7 @@ sub ArticleBounce {
         TicketID => $Param{TicketID},
         ArticleID => $Param{ArticleID},
         HistoryType => $HistoryType,
-        Name => "\%\%$To",
+        Name => "\%\%$Param{To}",
         CreateUserID => $Param{UserID},
     );
     return 1;
@@ -1906,6 +1577,27 @@ sub SendCustomerNotification {
         # need no notification
         return;
     }
+    # check if customer notifications should be send
+    if ($Self->{ConfigObject}->Get('CustomerNotifyJustToRealCustomer') && !$Article{CustomerUserID}) {
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message => "Send no customer notification because no customer is set!",
+        );
+        return;
+    }
+    # check customer email
+    elsif ($Self->{ConfigObject}->Get('CustomerNotifyJustToRealCustomer')) {
+        my %CustomerUser = $Self->{CustomerUserObject}->CustomerUserDataGet(
+            User => $Article{CustomerUserID},
+        );
+        if (!$CustomerUser{UserEmail}) {
+            $Self->{LogObject}->Log(
+                Priority => 'notice',
+                Message => "Send no customer notification because of missing customer email (CustomerUserID=$CustomerUser{CustomerUserID})!",
+            );
+            return;
+        }
+    }
     # get language and send recipient
     my $Language = $Self->{ConfigObject}->Get('DefaultLanguage') || 'en';
     if ($Article{CustomerUserID}) {
@@ -2046,17 +1738,17 @@ sub SendCustomerNotification {
     # send notify
     my %Address = $Self->{QueueObject}->GetSystemAddress(QueueID => $Article{QueueID});
     $Self->ArticleSend(
-            ArticleType => 'email-notification-ext',
-            SenderType => 'system',
-            TicketID => $Param{TicketID},
-            HistoryType => 'SendCustomerNotification',
-            HistoryComment => "\%\%$Article{From}",
-            From => "$Address{RealName} <$Address{Email}>",
-            To => $Article{From},
-            Subject => $Notification{Subject},
-            UserID => $Param{UserID},
-            Body => $Notification{Body},
-            Loop => 1,
+        ArticleType => 'email-notification-ext',
+        SenderType => 'system',
+        TicketID => $Param{TicketID},
+        HistoryType => 'SendCustomerNotification',
+        HistoryComment => "\%\%$Article{From}",
+        From => "$Address{RealName} <$Address{Email}>",
+        To => $Article{From},
+        Subject => $Notification{Subject},
+        UserID => $Param{UserID},
+        Body => $Notification{Body},
+        Loop => 1,
     );
 
     # log event
