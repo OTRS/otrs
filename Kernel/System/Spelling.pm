@@ -2,7 +2,7 @@
 # Kernel/System/Spelling.pm - the global spellinf module
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Spelling.pm,v 1.1 2002-11-10 23:54:55 martin Exp $
+# $Id: Spelling.pm,v 1.2 2002-11-11 00:14:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Spelling;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -35,8 +35,8 @@ sub new {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
-    $Self->{SpellChecker} = 'ispell -a ';
-#    $Self->{SpellChecker} = 'ispell -a -d deutsch';
+    $Self->{SpellChecker} = $Self->{ConfigObject}->Get('SpellChecker') || 'ispell';
+    $Self->{SpellChecker} .= ' -a ';
 
     return $Self;
 }
@@ -59,7 +59,7 @@ sub Ckeck {
     my %Languages = ( 'english' => 'English', 'deutsch' => 'German' );
     if ($Param{SpellLanguage}) {
         foreach (keys %Languages) {
-            if ($Param{SpellLanguage} =~ /$Languages{$_}/i) {
+            if ($Param{SpellLanguage} =~ /^$Languages{$_}$/i) {
                 $Self->{SpellChecker} .= " -d $_";    
             }
         }
