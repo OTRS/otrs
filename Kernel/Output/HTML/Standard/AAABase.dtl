@@ -63,6 +63,8 @@ $Text{"Password"}
 $Text{"Salutation"}
 $Text{"Signature"}
 $Text{"Customer"}
+$Text{"CustomerID"}
+$Text{"CustomerIDs"}
 $Text{"customer"}
 $Text{"agent"}
 $Text{"system"}
