@@ -2,7 +2,7 @@
 # README.webserver - webserver description of OTRS
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: README.webserver,v 1.7 2003-01-05 14:27:29 martin Exp $
+# $Id: README.webserver,v 1.8 2003-01-14 23:27:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -81,10 +81,11 @@ b)
   (speed!)! Use the mod_perl startup script which comes with otrs 
   (scripts/apache-perl-startup.pl).
  
-  - Add startup script (scripts/apache-perl-startup.pl) to httpd.conf 
+  - Change the default startup script location of your httpd to 
+    $OTRS_HOME/scripts/apache-perl-startup.pl in httpd.conf 
     [...]
     # load all otrs modules
-    Perlrequire /path/to/otrs/scripts/apache-perl-startup.pl
+    Perlrequire /opt/otrs/scripts/apache-perl-startup.pl
     [...]
 
   Edit the scripts/apache-perl-startup.pl script:
@@ -98,7 +99,7 @@ b)
      # Apache::DBI->connect_on_init($data_source, $username, $auth, \%attr)
      [...]
 
-   - Change the otrs lib dir!
+   - Change the otrs lib dir (if needed)!
  
      [...]
      # --
