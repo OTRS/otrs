@@ -2,7 +2,7 @@
 # --
 # otrs.addQueue - Add Queue from CLI
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
-# $Id: otrs.addQueue,v 1.4 2002-11-10 23:02:18 martin Exp $
+# $Id: otrs.addQueue,v 1.5 2002-12-18 17:33:03 martin Exp $
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
@@ -34,11 +34,11 @@ use Kernel::System::Group;
 # --
 
 my %CommonObject = ();
-$CommonObject{ConfigObject} =  Kernel::Config->new(%CommonObject);
-$CommonObject{LogObject}    =  Kernel::System::Log->new(%CommonObject);
-$CommonObject{DBObject}     =  Kernel::System::DB->new(%CommonObject);
-$CommonObject{QueueObject}   = Kernel::System::Queue->new(%CommonObject);
-$CommonObject{GroupObject}   = Kernel::System::Group->new(%CommonObject);
+$CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
+$CommonObject{LogObject}    = Kernel::System::Log->new(%CommonObject, LogPrefix => 'otrs.addQueue');
+$CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
+$CommonObject{QueueObject}  = Kernel::System::Queue->new(%CommonObject);
+$CommonObject{GroupObject}  = Kernel::System::Group->new(%CommonObject);
 
 
 

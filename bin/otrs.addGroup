@@ -2,7 +2,7 @@
 # --
 # otrs.addGroup - Add Group from CLI
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
-# $Id: otrs.addGroup,v 1.5 2002-11-10 23:02:18 martin Exp $
+# $Id: otrs.addGroup,v 1.6 2002-12-18 17:33:03 martin Exp $
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
@@ -35,9 +35,9 @@ use Kernel::System::Group;
 
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{LogObject}    = Kernel::System::Log->new(%CommonObject);
+$CommonObject{LogObject}    = Kernel::System::Log->new(%CommonObject, LogPrefix => 'otrs.addGroup');
 $CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
-$CommonObject{GroupObject}   = Kernel::System::Group->new(%CommonObject);
+$CommonObject{GroupObject}  = Kernel::System::Group->new(%CommonObject);
 
 
 
