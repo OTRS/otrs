@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: AgentMailboxTicket.dtl,v 1.18 2004-04-02 08:20:20 martin Exp $
+# $Id: AgentMailboxTicket.dtl,v 1.19 2004-04-04 12:12:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -47,21 +47,21 @@
   <table border="0" width="100%" cellspacing="0" cellpadding="1">
     <tr>
       <td valign="top" width="15%"><b>$Text{"From"}:</b></td>
-      <td width="85%"> $Quote{"$Data{"From"}","80"}</td>
+      <td width="85%"> <div title="$QData{"From"}">$QData{"From","80"}</div></td>
     </tr>
     <tr>
       <td valign="top"><b>$Text{"To"}:</b></td>
-      <td> $Quote{"$Data{"To"}","80"}</td>
+      <td> <div title="$QData{"To"}">$QData{"To","80"}</div></td>
     </tr>
 # --
 # show cc?
 # --
-    <dtl if ($Data{"Cc"} ne "") { $Data{"ArticleCcString"} = "<tr><td valign="top" ><b>$Text{"Cc"}:</b></td><td> $Quote{"$Data{"Cc"}","80"}</td></tr>"; }>
+    <dtl if ($Data{"Cc"} ne "") { $Data{"ArticleCcString"} = "<tr><td valign="top" ><b>$Text{"Cc"}:</b></td><td> <div title="$QData{"Cc"}">$QData{"Cc","80"}</div></td></tr>"; }>
     $Data{"ArticleCcString"}
 
     <tr>
       <td valign="top"><b>$Text{"Subject"}:</b></td>
-      <td> $Quote{"$Data{"Subject"}","80"}</td>
+      <td> <div title="$QData{"Subject"}">$QData{"Subject","80"}</div></td>
     </tr>
 # --
 # show ArticleFreeKey1-3 and ArticleFreeValue1-3
