@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPGP.pm - to add/update/delete pgp keys
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPGP.pm,v 1.2 2004-08-10 06:50:03 martin Exp $
+# $Id: AdminPGP.pm,v 1.3 2004-08-11 10:13:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -175,6 +175,37 @@ sub Run {
             ContentType => 'text/plain',
             Content => $KeyString,
             Filename => "$Key.asc"
+        );
+    }
+    # download key
+    elsif ($Self->{Subaction} eq 'DownloadFingerprint') {
+        my $Key = $Self->{ParamObject}->GetParam(Param => 'Key') || '';
+        my $Type = $Self->{ParamObject}->GetParam(Param => 'Type') || '';
+        if (!$Key) {
+            my $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
+            $Output .= $Self->{LayoutObject}->Error(
+                Message => 'Need param Key to download!',
+            );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
+        }
+        my $Download = '';
+        if ($Type eq 'sec') {
+            my @Result = $Self->{CryptObject}->PrivateKeySearch(Search => $Key);
+            if ($Result[0]) {
+                $Download = $Result[0]->{Fingerprint};
+            }
+        }
+        else {
+            my @Result = $Self->{CryptObject}->PublicKeySearch(Search => $Key);
+            if ($Result[0]) {
+                $Download = $Result[0]->{Fingerprint};
+            }
+        }
+        return $Self->{LayoutObject}->Attachment(
+            ContentType => 'text/plain',
+            Content => $Download,
+            Filename => "$Key.txt"
         );
     }
     # search key

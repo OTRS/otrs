@@ -2,7 +2,7 @@
 # AdminSMIMEForm.dtl - provides HTML form for AdminSMIME html
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSMIMEForm.dtl,v 1.4 2004-08-10 06:53:50 martin Exp $
+# $Id: AdminSMIMEForm.dtl,v 1.5 2004-08-11 10:13:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -116,7 +116,7 @@
         <td valign="top">$QData{"Type"}</td>
         <td valign="top">$QData{"Subject"}</td>
         <td valign="top"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Download&Type=$QData{"Type"}&Hash=$QData{"Hash"}">$QData{"Hash","80"}</a><br>
-        <div title="$QData{"Fingerprint"}">$QData{"Fingerprint","12"}</div></td>
+        <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=DownloadFingerprint&Type=$QData{"Type"}&Hash=$QData{"Hash"}"><div title="$QData{"Fingerprint"}">$QData{"Fingerprint","12"}</div></a></td>
         <td valign="top">$QData{"ShortStartDate"}<br>$QData{"ShortEndDate"}</td>
         <td valign="top" align="center"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Delete&Type=$QData{"Type"}&Hash=$QData{"Hash"}">x</a></td>
     </tr>

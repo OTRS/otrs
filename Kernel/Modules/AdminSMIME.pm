@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSMIME.pm - to add/update/delete pgp keys
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSMIME.pm,v 1.3 2004-08-10 06:50:03 martin Exp $
+# $Id: AdminSMIME.pm,v 1.4 2004-08-11 10:13:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -199,6 +199,25 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminSMIMEForm', Data => \%Param);
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
+    }
+    # download fingerprint
+    elsif ($Self->{Subaction} eq 'DownloadFingerprint') {
+        my $Hash = $Self->{ParamObject}->GetParam(Param => 'Hash') || '';
+        if (!$Hash) {
+            my $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
+            $Output .= $Self->{LayoutObject}->Error(
+                Message => 'Need param Hash to download!',
+            );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
+        }
+        my $Certificate = $Self->{CryptObject}->CertificateGet(Hash => $Hash);
+        my %Attributes = $Self->{CryptObject}->CertificateAttributes(Certificate => $Certificate);
+        return $Self->{LayoutObject}->Attachment(
+            ContentType => 'text/plain',
+            Content => $Attributes{Fingerprint},
+            Filename => "$Hash.txt"
+        );
     }
     # download key
     elsif ($Self->{Subaction} eq 'Download') {
