@@ -2,13 +2,41 @@
 # AgentCompose.dtl - provides HTML form for AgentCompose 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.dtl,v 1.5 2002-05-10 00:12:35 martin Exp $
+# $Id: AgentCompose.dtl,v 1.6 2002-09-30 23:04:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-<!-- start form -->
+<!-- start compose form -->
+
+<!-- This java script is just for nice to have funktions! -->
+<script language="JavaScript" type="text/javascript">
+<!--
+function submit_compose()
+{
+    if (document.compose.To.value == "") {
+        alert('$Text{"A message should have a To: recipient!"}');
+        document.compose.To.focus();
+        return false;
+    } 
+    else if (document.compose.To.value.indexOf('@') == -1) {
+        alert('$Text{"You need a email address (e. g. customer@example.com) in To:!"}');
+        document.compose.To.focus();
+        return false;
+    } 
+    else if (document.compose.Subject.value == "") {
+        alert('$Text{"A message should have a subject!"}');
+        document.compose.Subject.focus();
+        return false;
+    } 
+    else {
+        return true;
+    }
+}
+//-->
+</script>
+
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
 <tr bgcolor="$Env{"BGTableColor2"}">
   <td align="left"> 
@@ -18,7 +46,7 @@
 <tr bgcolor="$Env{"BGTableColor1"}">
   <td align="left" valign="top">
 
-  <form action="$Env{"CGIHandle"}" method="post">
+  <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
   <input type="hidden" name="Action" value="AgentCompose">
   <input type="hidden" name="Subaction" value="SendEmail">
   <input type="hidden" name="SessionID" value="$Env{"SessionID"}">
@@ -56,15 +84,24 @@ $Data{"Signature"}
       </td>
     </tr>
     <tr>
+      <td>$Text{"Attachment"}:</td><td><input name="file_upload" type="file" size="40" class="fixed">&nbsp;<input type="button" class="button" onclick="attach()" value="$Text{"Attach"}"> </td>
+    </tr>
+    <tr>
       <td>$Text{"Next ticket state"}:</td><td>$Data{"NextStatesStrg"}</td>
+    </tr>
+    <tr>
+      <td>$Text{"Is the ticket answered"}:</td><td>$Data{"AnsweredYesNoOption"}</td>
+    </tr>
+    <tr>
+      <td>$Text{"Time units"}$Text{"$Config{"TimeUnits"}"}:</td><td><input type="text" name="TimeUnits" value="" size="3"></td>
     </tr>
   </table>
   <br>
-  <input type="submit" value="$Text{"Send mail!"}">
+  <input type="submit" value="$Text{"Send mail!"}" onclick="return submit_compose();">
   </form>
 
   </td> 
 </tr>
 </table>
-<!-- end form -->
+<!-- end compose form -->
 
