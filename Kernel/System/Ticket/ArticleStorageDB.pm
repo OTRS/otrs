@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleStorageDB.pm,v 1.19.2.2 2004-11-07 14:28:12 martin Exp $
+# $Id: ArticleStorageDB.pm,v 1.19.2.3 2005-01-18 08:54:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ use MIME::Base64;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19.2.2 $';
+$VERSION = '$Revision: 1.19.2.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -134,6 +134,7 @@ sub ArticleWritePlain {
     }
     # encode attachemnt if it's a postgresql backend!!!
     if (!$Self->{DBObject}->GetDatabaseFunction('DirectBlob')) {
+        $Self->{EncodeObject}->EncodeOutput(\$Param{Email});
         $Param{Email} = encode_base64($Param{Email});
     }
     # db quote (just not Email, use db Bind values)
