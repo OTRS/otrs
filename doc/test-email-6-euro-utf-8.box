@@ -1,0 +1,32 @@
+From euro@example.com Mon Oct 21 17:03:07 2002
+Return-Path: <euro@example.com>
+Received: from cantor.uuse.de (ns.uuse.de [213.95.15.193])
+	by nohl.edenhofer.de (Postfix on SuSE Linux 8.0 (i386)) with ESMTP id 79B388886
+	for <skywalker@otrs.org>; Mon, 21 Oct 2002 17:03:07 +0200 (CEST)
+Received: from Hermes.uuse.de (Charybdis.uuse.de [213.95.15.201])
+	by cantor.uuse.de (Postfix) with ESMTP id 3ACC7146AF
+	for <skywalker@otrs.org>; Mon, 21 Oct 2002 17:03:07 +0200 (MEST)
+Date: Mon, 21 Oct 2002 17:02:45 +0200
+From: Euro Tester <euro@example.com>
+To: skywalker@otrs.org
+Subject: Testski mit Euro (Kostet 10 =?utf-8?B?4oKs?=
+	=?utf-8?Q?=29?=
+Message-ID: <20021021150245.GN21399@uuse.de>
+X-CVS: $Id: test-email-6-euro-utf-8.box,v 1.1 2002-10-21 15:53:27 martin Exp $
+X-Message-Flag: Honk if you use the wrong OS
+Mime-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-OTRS-CustomerNo: example6
+X-OTRS-ArticleKey1: animal
+X-OTRS-ArticleValue1: dog
+
+Hi Skywalker,
+
+€ € € 
+
+Viele Grüße,
+
+   Euro Tester
+

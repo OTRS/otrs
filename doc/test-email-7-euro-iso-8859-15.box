@@ -1,0 +1,31 @@
+From anakin@example.com Mon Oct 21 17:22:48 2002
+Return-Path: <anakin@example.com>
+Received: from host.domain.name (host.domain.name)
+	by nohl.edenhofer.de (Postfix on SuSE Linux 8.0 (i386)) with ESMTP id 256CF8886
+	for <anakin@example.com>; Mon, 21 Oct 2002 17:22:48 +0200 (CEST)
+Received: by host.domain.name (Postfix, from userid 30)
+	id 0AD7827FC6; Mon, 21 Oct 2002 17:56:13 +0200 (CEST)
+Content-Type: text/plain; charset=iso-8859-15
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+Message-Id: <1035215772.663659.044054076.8.1@yourhost.example.com>
+Subject: Show me your =?ISO-8859-15?Q?=A4?=!
+From: Euro Tester <anakin@example.com>
+X-Mimetools: 5.411
+To: darthvader@otrs.org
+Cc: skywalker@otrs.org
+In-Reply-To: <3CFDCF81.5000409@example.com>
+Date: Mon, 21 Oct 2002 17:56:13 +0200 (CEST)
+X-CVS: $Id: test-email-7-euro-iso-8859-15.box,v 1.1 2002-10-21 15:53:27 martin Exp $
+X-OTRS-CustomerNo: example7
+X-OTRS-Priority: very high
+X-OTRS-TicketValue1: sun
+X-OTRS-TicketKey1: earth
+
+Hi Darthvader,
+
+if you can see "¤ ü ä ö ß" this, you use ISO-8859-15!
+
+Anakin
+
