@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.pm,v 1.23 2005-02-23 11:50:32 martin Exp $
+# $Id: Package.pm,v 1.24 2005-02-23 15:53:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use LWP::UserAgent;
 use Kernel::System::XML;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1287,22 +1287,23 @@ sub _FileInstall {
              move("$Self->{Home}/$Param{Location}", "$Self->{Home}/$Param{Location}.save");
         }
     }
-    # check directory
-    my $Directory = $Param{Location};
-    $Directory =~ s/^(.*)\/(.+?|)$/$1/;
-    my @Directories = split(/\//, $Directory);
-    my $DirectoryCurrent = $Self->{Home};
-    foreach (@Directories) {
-        $DirectoryCurrent .= "/$_";
-        if (! -d $DirectoryCurrent) {
-            if (mkdir $DirectoryCurrent) {
-                print STDERR "Notice: Create Directory $DirectoryCurrent!\n";
-            }
-            else {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message => "Can't create directory: $DirectoryCurrent: $!",
-                );
+    # check directory of loaction (in case create a directory)
+    if ($Param{Location} =~ /^(.*)\/(.+?|)$/) {
+        my $Directory = $1;
+        my @Directories = split(/\//, $Directory);
+        my $DirectoryCurrent = $Self->{Home};
+        foreach (@Directories) {
+            $DirectoryCurrent .= "/$_";
+            if (! -d $DirectoryCurrent) {
+                if (mkdir $DirectoryCurrent) {
+                    print STDERR "Notice: Create Directory $DirectoryCurrent!\n";
+                }
+                else {
+                    $Self->{LogObject}->Log(
+                        Priority => 'error',
+                        Message => "Can't create directory: $DirectoryCurrent: $!",
+                    );
+                }
             }
         }
     }
@@ -1404,6 +1405,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.23 $ $Date: 2005-02-23 11:50:32 $
+$Revision: 1.24 $ $Date: 2005-02-23 15:53:26 $
 
 =cut
