@@ -2,7 +2,7 @@
 # Test.dtl - provides HTML test page 
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Test.dtl,v 1.4 2002-10-15 09:51:47 martin Exp $
+# $Id: Test.dtl,v 1.5 2002-11-19 18:37:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -59,6 +59,9 @@ Result: $Data{"Test1"}
 <tr>
   <td>Unlock:</td><td> $Text{"Unlock"}</td>
 </tr>
+<tr>
+  <td colspan="2">$Text{"Welcome %s", "$Env{"UserFirstname"} $Env{"UserLastname"}"}</td>
+</tr>
 </table>
 
 <hr>
@@ -77,10 +80,6 @@ Result: $Data{"Test1"}
 </tr>
 <tr> 
   <td>Sendmail:</td><td> $Config{"Sendmail"}</td>
-</tr>
-<tr>
-  <td>Global CGI handle:</td><td> $Config{"CGIHandle"}</td>
-</tr>
 </tr>
 <tr>
   <td>PostmasterDefaultQueue:</td><td> $Config{"PostmasterDefaultQueue"}</td>
@@ -108,6 +107,9 @@ Result: $Data{"Test1"}
 </tr>
 <tr>
   <td>HTTP_USER_AGENT:</td><td> $Env{"HTTP_USER_AGENT"}</td>
+</tr>
+<tr>
+  <td>Global CGI handle:</td><td> $Env{"CGIHandle"}</td>
 </tr>
 <tr>
   <td>REMOTE_ADDR:</td><td> $Env{"REMOTE_ADDR"}</td>
