@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketLink.pm - to set the ticket free text
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketLink.pm,v 1.2 2004-04-05 17:14:11 martin Exp $
+# $Id: AgentTicketLink.pm,v 1.3 2004-05-04 15:13:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentTicketLink;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -42,7 +42,9 @@ sub new {
 sub Run {
     my $Self = shift;
     my %Param = @_;
-    my $Output;
+    my $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Link');
+    my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
+    $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
     # --
     # check needed stuff
     # --
@@ -75,7 +77,7 @@ sub Run {
             TicketID => $Self->{TicketID},
         );
         if ($OwnerID != $Self->{UserID}) {
-            $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
+            $Output = $Self->{LayoutObject}->Header(Title => 'Error');
             $Output .= $Self->{LayoutObject}->Error(
                 Message => "Sorry, the current owner is $OwnerLogin",
                 Comment => 'Please change the owner first.',
@@ -86,21 +88,15 @@ sub Run {
     }
 
     if ($Self->{Subaction} eq 'Update') {
-        # delete ticket link 
+        # get current link
         my %TicketLink = $Self->{TicketObject}->TicketLinkGet(
             TicketID => $Self->{TicketID},
             UserID => $Self->{UserID},
         );
-        foreach (keys %TicketLink) { 
-          if ($_ =~ /^TicketLinkID/) {
-            $Self->{TicketObject}->TicketLinkDelete(
-                MasterTicketID => $Self->{TicketID},
-                SlaveTicketID => $TicketLink{$_},
-                UserID => $Self->{UserID},
-            );
-          }
-        }
-        # add links
+        # get add links
+        my %OldTicketLink = ();
+        my %NewTicketLink = ();
+        my %AddLink = ();
         foreach (1..8) {
             my $Tn = $Self->{ParamObject}->GetParam(Param => "TicketLink$_") || '';
             if ($Tn) {
@@ -110,42 +106,77 @@ sub Run {
                     UserID => $Self->{UserID},
                 );
                 if ($TicketID) {
-                  $Self->{TicketObject}->TicketLinkAdd(
-                    SlaveTicketID => $TicketID,
-                    MasterTicketID => $Self->{TicketID},
-                    UserID => $Self->{UserID},
-                  );
+                    $NewTicketLink{$TicketID} = 1;
+                    my $LinkExists = 0;
+                    foreach (keys %TicketLink) { 
+                        if ($_ =~ /^TicketLinkID/) {
+                            # remember old ticket links
+                            $OldTicketLink{$TicketLink{$_}} = 1;
+                            # check if link exists
+                            if ($TicketLink{$_} eq $TicketID) {
+                                $LinkExists = 1;
+                            }
+                        }
+                    }
+                    if (!$LinkExists) {
+                        $AddLink{$TicketID} = 1;
+                    }
+                }
+                else {
+                    $Output .= $Self->{LayoutObject}->Notify(Info => 'No such Ticket Number "%s"! Can\'t link it!", "'.$Tn);
                 }
             }
         }
-        # print redirect
-        return $Self->{LayoutObject}->Redirect(
-            OP => "Action=AgentTicketLink&TicketID=$Self->{TicketID}",
-        );
+        # add links
+        foreach (keys %AddLink) {
+            $Self->{TicketObject}->TicketLinkAdd(
+                SlaveTicketID => $_,
+                MasterTicketID => $Self->{TicketID},
+                UserID => $Self->{UserID},
+            );
+        }
+        # delete links
+        foreach (keys %OldTicketLink) { 
+            if (!$NewTicketLink{$_}) {
+                $Self->{TicketObject}->TicketLinkDelete(
+                    MasterTicketID => $Self->{TicketID},
+                    SlaveTicketID => $_,
+                    UserID => $Self->{UserID},
+                );
+            }
+        }
+        # print result
+        $Output .= $Self->_Mask();
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
     else {
-        # print form
-        my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
-        $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Link');
-        my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
-        $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
-        my %TicketLink = $Self->{TicketObject}->TicketLinkGet(
-            %Ticket, 
-            UserID => $Self->{UserID},
-        );
-        # print change form
-	$Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AgentTicketLink', 
-            Data => {
-                %TicketLink,
-                %Ticket,
-                QueueID => $Self->{QueueID},
-            },
-        );
+        $Output .= $Self->_Mask();
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
 }
 # --
-
+sub _Mask {
+    my $Self = shift;
+    my %Param = @_;
+    my $Output;
+    # print form
+    my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
+    my %TicketLink = $Self->{TicketObject}->TicketLinkGet(
+        %Ticket, 
+        UserID => $Self->{UserID},
+    );
+    # print change form
+    $Output .= $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentTicketLink', 
+        Data => {
+            %TicketLink,
+            %Ticket,
+            QueueID => $Self->{QueueID},
+        },
+    );
+    return $Output;
+}
+# --
 1;
