@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 1.0 to 1.1 
 -- Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-1.1.postgresql.sql,v 1.5 2003-03-08 17:58:00 martin Exp $
+-- $Id: DBUpdate-to-1.1.postgresql.sql,v 1.6 2003-03-10 12:14:32 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-1.1.postgresql.sql | psql otrs 
@@ -23,9 +23,9 @@ CREATE TABLE ticket_state_type
     id serial,
     name VARCHAR (120) NOT NULL,
     comment VARCHAR (250), 
-    create_time DATETIME NOT NULL,
+    create_time timestamp(0) NOT NULL,
     create_by INTEGER NOT NULL, 
-    change_time DATETIME NOT NULL,
+    change_time timestamp(0) NOT NULL,
     change_by INTEGER NOT NULL, 
     PRIMARY KEY(id),
     UNIQUE (name)
