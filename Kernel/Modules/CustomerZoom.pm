@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerZoom.pm - to get a closer view
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerZoom.pm,v 1.6 2003-01-03 16:17:30 martin Exp $
+# $Id: CustomerZoom.pm,v 1.7 2003-01-29 18:52:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::CustomerZoom;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -31,17 +31,8 @@ sub new {
     }
 
     # check needed Opjects
-    foreach (
-      'ParamObject', 
-      'DBObject', 
-      'TicketObject', 
-      'LayoutObject', 
-      'LogObject', 
-      'QueueObject', 
-      'ConfigObject',
-      'UserObject',
-      'SessionObject',
-    ) {
+    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject 
+        ConfigObject UserObject SessionObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
 
@@ -92,7 +83,9 @@ sub Run {
     $Ticket{FreeValue1} = '';
     $Ticket{FreeKey2} = '';
     $Ticket{FreeValue2} = '';
-    $Ticket{TicketTimeUnits} = $Self->{TicketObject}->GetAccountedTime(TicketID => $Ticket{TicketID});
+    $Ticket{TicketTimeUnits} = $Self->{TicketObject}->GetAccountedTime(
+        TicketID => $Ticket{TicketID},
+    );
     # --
     # grep all atricle of this ticket
     # --
@@ -200,8 +193,9 @@ sub Run {
     # --
     # check permission
     # --
-    $Ticket{CustomerID} =~ s/\+/\\+/g;
-    if ($Self->{UserCustomerID} !~ /^$Ticket{CustomerID}$/i) {
+    my $CustomerID = $Ticket{CustomerID};
+    $CustomerID =~ s/\+/\\+/g;
+    if ($Self->{UserCustomerID} !~ /^$CustomerID$/i) {
         $Output = $Self->{LayoutObject}->CustomerHeader(Title => 'Error');
         $Output .= $Self->{LayoutObject}->CustomerError(Message => 'No permission!');
         $Output .= $Self->{LayoutObject}->CustomerFooter();
