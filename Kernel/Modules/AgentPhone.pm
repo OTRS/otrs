@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.63 2004-03-11 23:05:42 martin Exp $
+# $Id: AgentPhone.pm,v 1.64 2004-03-11 23:41:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.63 $';
+$VERSION = '$Revision: 1.64 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -366,11 +366,14 @@ sub Run {
             # if more the one customer user exists, show list
             # and clean CustomerUserID and CustomerID
             else {
-#                $From = '';
                 # don't check email syntax on multi customer select
                 $Self->{ConfigObject}->Set(Key => 'CheckEmailAddresses', Value => 0);
                 $CustomerID = '';
                 $Param{"FromOptions"} = \%CustomerUserList;
+                # clear from if there is no customer found
+                if (!%CustomerUserList) {
+                    $From = '';
+                }
                 $Error{"ExpandCustomerName"} = 1;
             }
         }
