@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBulk.pm,v 1.9 2004-09-27 13:36:53 martin Exp $
+# $Id: AgentBulk.pm,v 1.10 2004-10-26 11:27:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -164,13 +164,21 @@ sub Run {
                             );
                         }
                     }
+					# Should I unlock tickets at user request?
+					if ($Self->{ParamObject}->GetParam(Param => 'Unlock')) {
+						$Self->{TicketObject}->LockSet(
+							TicketID => $_,
+							Lock => 'unlock',
+							UserID => $Self->{UserID},
+						);
+					}
                 }
             }
         }
     }
     if ($Self->{Subaction} eq 'Do') {
         # redirect
-        return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenView});
+        return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreen});
     }
     else {
         $Output .= $Self->_Mask(%Param);
@@ -222,6 +230,11 @@ sub _Mask {
         Name => 'QueueID',
 #       SelectedID => $Self->{DestQueueID},
         OnChangeSubmit => 0,
+    );
+    $Param{'UnlockYesNoOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => $Self->{ConfigObject}->Get('YesNoOptions'),
+        Name => 'Unlock',
+        SelectedID => 1,
     );
     # get output back
     return $Self->{LayoutObject}->Output(TemplateFile => 'AgentBulk', Data => \%Param);
