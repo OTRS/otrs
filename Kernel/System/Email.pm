@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Email.pm - the global email send module
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Email.pm,v 1.11 2004-12-23 21:09:43 martin Exp $
+# $Id: Email.pm,v 1.12 2005-01-19 14:06:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -231,8 +231,8 @@ sub Send {
     $Header{'X-Powered-By'} = 'OTRS - Open Ticket Request System (http://otrs.org/)';
     $Header{'Type'} = $Param{Type} || 'text/plain';
     if ($Param{Charset} && $Param{Charset} =~ /utf(8|-8)/i) {
-       $Header{'Encoding'} = '8bit';
-#        $Header{'Encoding'} = 'base64';
+#        $Header{'Encoding'} = '8bit';
+        $Header{'Encoding'} = 'base64';
     }
     else {
 #        $Header{'Encoding'} = '7bit';
@@ -255,6 +255,8 @@ sub Send {
     if ($Self->{Organization}) {
         $Header{'Organization'} = $Self->{Organization};
     }
+    # body encode
+    $Self->{EncodeObject}->EncodeOutput(\$Param{Body});
     # build MIME::Entity
     my $Entity = MIME::Entity->build(%Header, Data => $Param{Body});
 
@@ -457,8 +459,7 @@ sub Send {
                 "Subject => $Param{Subject};",
         );
     }
-    # body encode
-    $Self->{EncodeObject}->EncodeOutput(\$Param{Body});
+#    $Self->{EncodeObject}->EncodeOutput(\$Param{Header});
     # send email to backend
     if ($Self->{Backend}->Send(
         From => $RealFrom,
@@ -562,7 +563,7 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2004-12-23 21:09:43 $
+$Revision: 1.12 $ $Date: 2005-01-19 14:06:25 $
 
 =cut
 
