@@ -2,7 +2,7 @@
 # HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.14 2002-07-09 10:42:58 martin Exp $
+# $Id: Admin.pm,v 1.15 2002-10-03 21:12:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -33,6 +33,30 @@ sub AdminSession {
 
     # create & return output
     return $Self->Output(TemplateFile => 'AdminSession', Data => \%Param);
+}
+# --
+sub AdminEmail {
+    my $Self = shift;
+    my %Param = @_;
+
+    $Param{'UserOption'} = $Self->OptionStrgHashRef(
+        Data => $Param{UserList},
+        Name => 'UserIDs', 
+        Size => 8,
+        SelectedID => $Param{ID},
+        Multiple => 1,
+    );
+
+    # create & return output
+    return $Self->Output(TemplateFile => 'AdminEmail', Data => \%Param);
+}
+# --
+sub AdminEmailSent {
+    my $Self = shift;
+    my %Param = @_;
+
+    # create & return output
+    return $Self->Output(TemplateFile => 'AdminEmailSent', Data => \%Param);
 }
 # --
 sub AdminSessionTable {
