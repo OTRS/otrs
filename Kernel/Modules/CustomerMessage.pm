@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerMessage.pm - to handle customer messages
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessage.pm,v 1.35 2004-09-08 22:03:04 martin Exp $
+# $Id: CustomerMessage.pm,v 1.35.2.1 2004-09-23 21:50:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.35.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -124,7 +124,32 @@ sub Run {
                 Action => $Self->{Action},
                 QueueID => $Self->{QueueID},
             );
-            my %TicketFreeText = $Self->{LayoutObject}->AgentFreeText();
+            # get default selections
+            my %TicketFreeDefault = ();
+            foreach (1..8) {
+                $TicketFreeDefault{'TicketFreeKey'.$_} = $Self->{ConfigObject}->Get('TicketFreeKey'.$_.'::DefaultSelection');
+                $TicketFreeDefault{'TicketFreeText'.$_} = $Self->{ConfigObject}->Get('TicketFreeText'.$_.'::DefaultSelection');
+            }
+            # get free text config options
+            my %TicketFreeText = ();
+            foreach (1..8) {
+                $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+                    TicketID => $Self->{TicketID},
+                    Action => $Self->{Action},
+                    Type => "TicketFreeKey$_",
+                    UserID => $Self->{UserID},
+                );
+                $TicketFreeText{"TicketFreeText$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+                    TicketID => $Self->{TicketID},
+                    Action => $Self->{Action},
+                    Type => "TicketFreeText$_",
+                    UserID => $Self->{UserID},
+                );
+            }
+            my %TicketFreeText = $Self->{LayoutObject}->AgentFreeText(
+                Config => \%TicketFreeText,
+                Ticket => { %TicketFreeDefault },
+            );
             my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject');
             my $Body = $Self->{ParamObject}->GetParam(Param => 'Body');
             # html output
@@ -289,16 +314,17 @@ sub Run {
             $PriorityID = '';
             $Priority = $Self->{ConfigObject}->Get('CustomerDefaultPriority');
         }
-        my $From = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>"; 
+        my $From = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>";
         # create new ticket, do db insert
         my $TicketID = $Self->{TicketObject}->TicketCreate(
             QueueID => $NewQueueID,
+            Subject => $Subject,
             Lock => 'unlock',
             # FIXME !!!
             GroupID => 1,
             State => $Self->{ConfigObject}->Get('CustomerDefaultState'),
             Priority => $Priority,
-            PriorityID => $PriorityID, 
+            PriorityID => $PriorityID,
             CustomerNo => $Self->{UserCustomerID},
             CustomerUser => $Self->{UserLogin},
             UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
