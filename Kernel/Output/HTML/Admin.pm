@@ -2,7 +2,7 @@
 # HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.30 2003-03-02 12:18:03 martin Exp $
+# $Id: Admin.pm,v 1.31 2003-03-02 12:26:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -708,7 +708,7 @@ sub AdminCustomerUserForm {
             $PrefItem{'Option'} = $Self->OptionStrgHashRef(
               Data => $Data,
               Name => "GenericTopic::$PrefKey",
-              SelectedID => $Param{$PrefKey} || $DataSelected, 
+              SelectedID => defined ($Param{$PrefKey}) ? $Param{$PrefKey} : $DataSelected,
             );
           }
           elsif ($PrefKey eq 'UserLanguage') {
