@@ -2,7 +2,7 @@
 # Kernel/System/Encode.pm - character encodings
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Encode.pm,v 1.5 2004-01-27 20:59:56 martin Exp $
+# $Id: Encode.pm,v 1.6 2004-01-31 14:48:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -71,7 +71,7 @@ sub new {
     # check if Perl 5.8.0 encode is available
     if (eval "require Encode") {
         $Self->{CharsetEncodeSupported} = 1;
-        $Self->SetIO(\*STDOUT, \*STDERR);
+#        $Self->SetIO(\*STDOUT, \*STDERR);
     }
     else {
         if ($Self->{Debug}) {
@@ -317,6 +317,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2004-01-27 20:59:56 $
+$Revision: 1.6 $ $Date: 2004-01-31 14:48:46 $
 
 =cut
