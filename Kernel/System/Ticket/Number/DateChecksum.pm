@@ -1,9 +1,9 @@
 # --
 # Ticket/Number/DateChecksum.pm - a date ticket number generator
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # Copyright (C) 2002 Stefan Schmidt <jsj@jsj.dyndns.org>
 # --
-# $Id: DateChecksum.pm,v 1.9 2003-06-01 18:06:19 martin Exp $
+# $Id: DateChecksum.pm,v 1.9.6.1 2004-10-12 14:01:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -29,7 +29,7 @@ package Kernel::System::Ticket::Number::DateChecksum;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.9.6.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub CreateTicketNr {
@@ -48,10 +48,10 @@ sub CreateTicketNr {
     my $Count = 0;
     my $LastModify = '';
     if (-f $CounterLog) {
-        open (COUNTER, "< $CounterLog") || die "Can't open $CounterLog: $!";
-        my $Line = <COUNTER>;
+        open (DATA, "< $CounterLog") || die "Can't open $CounterLog: $!";
+        my $Line = <DATA>;
         ($Count, $LastModify) = split(/;/, $Line);
-        close (COUNTER);
+        close (DATA);
         # just debug
         if ($Self->{Debug} > 0) {
             $Self->{LogObject}->Log(
@@ -68,10 +68,10 @@ sub CreateTicketNr {
     $Count++;
     $Count = $Count + $JumpCounter;
     # write new count
-    if (open (COUNTER, "> $CounterLog")) {
-        flock (COUNTER, 2) || warn "Can't set file lock ($CounterLog): $!";
-        print COUNTER $Count.";$Year-$Month-$Day;\n";
-        close (COUNTER);
+    if (open (DATA, "> $CounterLog")) {
+        flock (DATA, 2) || warn "Can't set file lock ($CounterLog): $!";
+        print DATA $Count.";$Year-$Month-$Day;\n";
+        close (DATA);
         # just debug
         if ($Self->{Debug} > 0) {
             $Self->{LogObject}->Log(
