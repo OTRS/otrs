@@ -2,7 +2,7 @@
 # Kernel/Language/en.pm - provides en language translation
 # Copyright (C) 2003 Remo Catelotti <Remo.Catelotti at bull.it>
 # --
-# $Id: it.pm,v 1.1 2003-04-15 15:06:04 martin Exp $
+# $Id: it.pm,v 1.1.2.1 2003-05-10 16:51:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::it;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.1.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -451,8 +451,8 @@ sub Data {
       'Add user' => 'Aggiungi utente',
       'Change user settings' => 'Modifica paramentri utente ',
       'Don\'t forget to add a new user to groups!' => 'Non dimenticare di aggiungere un utente ai gruppi !',
-      'Firstname' => 'Cognome',
-      'Lastname' => 'nome',
+      'Firstname' => 'Nome',
+      'Lastname' => 'Cognome',
       'User Management' => 'Utente di amministrazione',
       'User will be needed to handle tickets.' => 'Deve esistere un utente per la gestione dei tickets.',
 
