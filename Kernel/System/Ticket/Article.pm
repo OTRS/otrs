@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.44 2004-01-08 11:42:27 martin Exp $
+# $Id: Article.pm,v 1.45 2004-01-09 16:42:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::Article;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.44 $';
+$VERSION = '$Revision: 1.45 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -671,14 +671,17 @@ sub GetArticle {
         $Data{CreatedBy} = $Row[13];
         $Data{TicketNumber} = $Row[14];
         $Data{SenderTypeID} = $Row[15];
-        if ($Row[12] && $Data{ContentType} =~ /charset=(.*)(| |\n)/i) {
-            $Data{ContentCharset} = $1;
+        if ($Row[12] && $Data{ContentType} =~ /charset=/i) {
+            $Data{ContentCharset} = $Data{ContentType};
+            $Data{ContentCharset} =~ s/.+?\scharset=("|'|)(\w+)/$2/gi;
+            $Data{ContentCharset} =~ s/"|'//g ;
         }
         else {
             $Data{ContentCharset} = '';
         }
-        if ($Row[12] && $Data{ContentType} =~ /^(.+?\/.*)( |;|)/i) {
+        if ($Row[12] && $Data{ContentType} =~ /^(\w+\/\w+)/i) {
             $Data{MimeType} = $1;
+            $Data{MimeType} =~ s/"|'//g ;
         } 
         else {
             $Data{MimeType} = '';
