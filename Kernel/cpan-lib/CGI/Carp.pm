@@ -239,6 +239,12 @@ non-overridden program name
 1.24 Patch from Scott Gifford (sgifford@suspectclass.com): Add support
      for overriding program name.
 
+1.26 Replaced CORE::GLOBAL::die with the evil $SIG{__DIE__} because the
+     former isn't working in some people's hands.  There is no such thing
+     as reliable exception handling in Perl.
+
+1.27 Replaced tell STDOUT with bytes=tell STDOUT.
+
 =head1 AUTHORS
 
 Copyright 1995-2002, Lincoln D. Stein.  All rights reserved.  
@@ -262,17 +268,22 @@ CGI::Response
 require 5.000;
 use Exporter;
 #use Carp;
-BEGIN { require Carp; }
+BEGIN { 
+  require Carp; 
+  *CORE::GLOBAL::die = \&CGI::Carp::die;
+}
+
 use File::Spec;
 
 @ISA = qw(Exporter);
 @EXPORT = qw(confess croak carp);
-@EXPORT_OK = qw(carpout fatalsToBrowser warningsToBrowser wrap set_message set_progname cluck ^name=);
+@EXPORT_OK = qw(carpout fatalsToBrowser warningsToBrowser wrap set_message set_progname cluck ^name= die);
 
 $main::SIG{__WARN__}=\&CGI::Carp::warn;
-*CORE::GLOBAL::die = \&CGI::Carp::die;
-$CGI::Carp::VERSION = '1.24';
+
+$CGI::Carp::VERSION    = '1.27';
 $CGI::Carp::CUSTOM_MSG = undef;
+
 
 # fancy import routine detects and handles 'errorWrap' specially.
 sub import {
@@ -294,6 +305,8 @@ sub import {
     $Exporter::ExportLevel = 1;
     Exporter::import($pkg,keys %routines);
     $Exporter::ExportLevel = $oldlevel;
+    $main::SIG{__DIE__} =\&CGI::Carp::die if $routines{'fatalsToBrowser'};
+#    $pkg->export('CORE::GLOBAL','die');
 }
 
 # These are the originals
@@ -353,30 +366,37 @@ sub _warn {
     }
 }
 
-sub ineval { 
-  (exists $ENV{MOD_PERL} ? 0 : $^S) || _longmess() =~ /eval [\{\']/m 
-}
-
 
 # The mod_perl package Apache::Registry loads CGI programs by calling
 # eval.  These evals don't count when looking at the stack backtrace.
 sub _longmess {
     my $message = Carp::longmess();
-    my $mod_perl = exists $ENV{MOD_PERL};
-    $message =~ s,eval[^\n]+Apache/Registry\.pm.*,,s if $mod_perl;
-    return $message;    
+    $message =~ s,eval[^\n]+(ModPerl|Apache)/Registry\w*\.pm.*,,s
+        if exists $ENV{MOD_PERL};
+    return $message;
+}
+
+sub ineval {
+  (exists $ENV{MOD_PERL} ? 0 : $^S) || _longmess() =~ /eval [\{\']/m
 }
 
 sub die {
+  my ($arg) = @_;
   realdie @_ if ineval;
-  my ($message) = @_;
-  my $time = scalar(localtime);
-  my($file,$line,$id) = id(1);
-  $message .= " at $file line $line." unless $message=~/\n$/;
-  &fatalsToBrowser($message) if $WRAP;
-  my $stamp = stamp;
-  $message=~s/^/$stamp/gm;
-  realdie $message;
+  if (!ref($arg)) {
+    $arg = join("", @_);
+    my($file,$line,$id) = id(1);
+    $arg .= " at $file line $line." unless $arg=~/\n$/;
+    &fatalsToBrowser($arg) if $WRAP;
+    if (($arg =~ /\n$/) || !exists($ENV{MOD_PERL})) {
+      my $stamp = stamp;
+      $arg=~s/^/$stamp/gm;
+    }
+    if ($arg !~ /\n$/) {
+      $arg .= "\n";
+    }
+  }
+  realdie $arg;
 }
 
 sub set_message {
@@ -408,58 +428,79 @@ sub warningsToBrowser {
 
 # headers
 sub fatalsToBrowser {
-    my($msg) = @_;
-    $msg=~s/&/&amp;/g;
-    $msg=~s/>/&gt;/g;
-    $msg=~s/</&lt;/g;
-    $msg=~s/\"/&quot;/g;
-    my($wm) = $ENV{SERVER_ADMIN} ? 
-	qq[the webmaster (<a href="mailto:$ENV{SERVER_ADMIN}">$ENV{SERVER_ADMIN}</a>)] :
-	"this site's webmaster";
-    my ($outer_message) = <<END;
+  my($msg) = @_;
+  $msg=~s/&/&amp;/g;
+  $msg=~s/>/&gt;/g;
+  $msg=~s/</&lt;/g;
+  $msg=~s/\"/&quot;/g;
+  my($wm) = $ENV{SERVER_ADMIN} ? 
+    qq[the webmaster (<a href="mailto:$ENV{SERVER_ADMIN}">$ENV{SERVER_ADMIN}</a>)] :
+      "this site's webmaster";
+  my ($outer_message) = <<END;
 For help, please send mail to $wm, giving this error message 
 and the time and date of the error.
 END
-    ;
-    my $mod_perl = exists $ENV{MOD_PERL};
-    print STDOUT "Content-type: text/html\n\n" 
-	unless $mod_perl;
+  ;
+  my $mod_perl = exists $ENV{MOD_PERL};
 
-    warningsToBrowser(1);    # emit warnings before dying
+  warningsToBrowser(1);    # emit warnings before dying
 
-    if ($CUSTOM_MSG) {
-	if (ref($CUSTOM_MSG) eq 'CODE') {
-	    &$CUSTOM_MSG($msg); # nicer to perl 5.003 users
-	    return;
-	} else {
-	    $outer_message = $CUSTOM_MSG;
-	}
+  if ($CUSTOM_MSG) {
+    if (ref($CUSTOM_MSG) eq 'CODE') {
+      print STDOUT "Content-type: text/html\n\n" 
+        unless $mod_perl;
+      &$CUSTOM_MSG($msg); # nicer to perl 5.003 users
+      return;
+    } else {
+      $outer_message = $CUSTOM_MSG;
     }
-    
-    my $mess = <<END;
+  }
+
+  my $mess = <<END;
 <h1>Software error:</h1>
 <pre>$msg</pre>
 <p>
 $outer_message
 </p>
 END
-    ;
+  ;
 
-    if ($mod_perl && (my $r = Apache->request)) {
-	# If bytes have already been sent, then
-	# we print the message out directly.
-	# Otherwise we make a custom error
-	# handler to produce the doc for us.
-	if ($r->bytes_sent) {
-	    $r->print($mess);
-	    $r->exit;
-	} else {
-	    $r->status(500);
-	    $r->custom_response(500,$mess);
-	}
-    } else {
-	print STDOUT $mess;
+  if ($mod_perl) {
+    require mod_perl;
+    if ($mod_perl::VERSION >= 1.99) {
+      $mod_perl = 2;
+      require Apache::RequestRec;
+      require Apache::RequestIO;
+      require Apache::RequestUtil;
+      require APR::Pool;
+      require ModPerl::Util;
+      require Apache::Response;
     }
+    my $r = Apache->request;
+    # If bytes have already been sent, then
+    # we print the message out directly.
+    # Otherwise we make a custom error
+    # handler to produce the doc for us.
+    if ($r->bytes_sent) {
+      $r->print($mess);
+      $mod_perl == 2 ? ModPerl::Util::exit(0) : $r->exit;
+    } else {
+      # MSIE won't display a custom 500 response unless it is >512 bytes!
+      if ($ENV{HTTP_USER_AGENT} =~ /MSIE/) {
+        $mess = "<!-- " . (' ' x 513) . " -->\n$mess";
+      }
+      $r->custom_response(500,$mess);
+    }
+  } else {
+    my $bytes_written = eval{tell STDOUT};
+    if (defined $bytes_written && $bytes_written > 0) {
+        print STDOUT $mess;
+    }
+    else {
+        print STDOUT "Content-type: text/html\n\n";
+        print STDOUT $mess;
+    }
+  }
 }
 
 # Cut and paste from CGI.pm so that we don't have the overhead of
