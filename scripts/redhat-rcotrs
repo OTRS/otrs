@@ -138,7 +138,7 @@ case "$1" in
       # -- 
       if test $OTRS_CRON_RUNNING -gt 0; then
         echo -e " Creating cronjobs (source $OTRS_CRON_DIR/*) ..."
-        if mkdir -p $OTRS_CRON_DIR; cd $CRON_DIR && ls * | grep -v '.dist' | xargs cat > $OTRS_CRON_TMP_FILE && crontab $OTRS_CRON_USER $OTRS_CRON_TMP_FILE ; then
+        if mkdir -p $OTRS_CRON_DIR; cd $CRON_DIR && ls * |grep -v '.dist'|grep -v '.rpm'| xargs cat > $OTRS_CRON_TMP_FILE && crontab $OTRS_CRON_USER $OTRS_CRON_TMP_FILE ; then
           echo " done."
         else
           echo " failed!"

@@ -3,7 +3,7 @@
 # Cron.sh - start|stop OTRS Cronjobs
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Cron.sh,v 1.7 2002-11-21 21:40:06 martin Exp $
+# $Id: Cron.sh,v 1.8 2003-01-10 23:16:51 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -43,7 +43,7 @@ fi
 CRON_DIR=$OTRS_ROOT/var/cron
 CRON_TMP_FILE=$OTRS_ROOT/var/tmp/otrs-cron-tmp.$$
 
-echo "Cron.sh - start/stop OTRS cronjobs - <\$Revision: 1.7 $> "
+echo "Cron.sh - start/stop OTRS cronjobs - <\$Revision: 1.8 $> "
 echo "Copyright (c) 2002 Martin Edenhofer <martin@otrs.org>"
 
 # 
@@ -54,7 +54,7 @@ case "$1" in
     # start
     # ------------------------------------------------------
     start)
-      if mkdir -p $CRON_DIR; cd $CRON_DIR && ls * | grep -v '.dist' | xargs cat > $CRON_TMP_FILE && crontab $CRON_USER $CRON_TMP_FILE; then
+      if mkdir -p $CRON_DIR; cd $CRON_DIR && ls * |grep -v '.dist'|grep -v '.rpm'| xargs cat > $CRON_TMP_FILE && crontab $CRON_USER $CRON_TMP_FILE; then
         rm -rf $CRON_TMP_FILE
         echo "(using $OTRS_ROOT) done";
         exit 0;
