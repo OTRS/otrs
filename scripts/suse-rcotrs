@@ -3,12 +3,22 @@
 # suse-rcotrs - rc script of otrs for SuSE Linux
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: suse-rcotrs,v 1.6 2002-05-06 00:10:23 martin Exp $
+# $Id: suse-rcotrs,v 1.7 2002-05-14 02:22:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
+### BEGIN INIT INFO
+# Provides:              otrs
+# Required-Start:    mysql apache
+# Required-Stop:
+# Default-Start:      3
+# Default-Stop:
+# Description:          Open Ticket Request System
+### END INIT INFO
+
 
 # PS: I'm not a shell hacker! 
 
