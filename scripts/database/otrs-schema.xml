@@ -6,9 +6,12 @@
   XML File for the OTRS database description
   Copyright (C) 2001-2003 Martin Edenhofer
 
-  $Id: otrs-schema.xml,v 1.31 2004-09-09 11:00:21 martin Exp $
+  $Id: otrs-schema.xml,v 1.32 2004-09-09 11:15:07 martin Exp $
 
   $Log: not supported by cvs2svn $
+  Revision 1.31  2004/09/09 11:00:21  martin
+  added object link and role support
+
   Revision 1.30  2004/08/17 20:03:30  martin
   fixed system_id -> queue_id
 
@@ -555,12 +558,6 @@
   <column name="object_id_master" required="true" type="BIGINT"/>
   <column name="object_id_slave" required="true" type="BIGINT"/>
   <column name="object_type" required="true" size="200" type="VARCHAR"/>
-</table>
-
-<!-- ticket_link - all linked tickets -->
-<table name="ticket_link">
-  <column name="ticket_id_master" required="true" type="BIGINT"/>
-  <column name="ticket_id_slave" required="true" type="BIGINT"/>
 </table>
 
 <!-- ticket_history - the whole history of all tickets -->
