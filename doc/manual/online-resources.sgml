@@ -17,10 +17,14 @@ Our homepage can be found at <ulink url="http://www.otrs.org/"><citetitle>http:/
 <sect1 id="mailinglists">
 <title>Mailinglists</title>
 <para>
-We provide two major mailinglists. <email>announce@otrs.org</email> is a low traffic announcement mailinglist. To subcribe it visit <ulink url="http://lists.otrs.org/"><citetitle>http://lists.otrs.org/</citetitle></ulink>.
+We provide three major mailinglists. <email>announce@otrs.org</email> is a low traffic announcement mailinglist. To subcribe it visit <ulink url="http://lists.otrs.org/"><citetitle>http://lists.otrs.org/</citetitle></ulink>.
 </para>
 <para>
 The second mailinglist is <email>otrs@otrs.org</email>. It is a medium to high traffic list with all sorts of questions and support to the product. To subcribe it visit <ulink url="http://lists.otrs.org/"><citetitle>http://lists.otrs.org/</citetitle></ulink>.
+</para>
+<para>
+The third mailinglist is <email>dev@otrs.org</email>. It is a medium to high traffic list. The OpenTRS developers discuss various design and implementation issues here. To subcribe it visit <ulink url="http://lists.otrs.org/"><citetitle>http://lists.otrs.org/</citetitle></ulink>.
+</para>
 </sect1>
 
 <sect1 id="bugtracking">
