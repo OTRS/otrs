@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerMessage.pm - to handle customer messages
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessage.pm,v 1.42 2005-02-23 10:28:20 martin Exp $
+# $Id: CustomerMessage.pm,v 1.43 2005-03-11 06:00:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -247,11 +247,21 @@ sub Run {
       }
     }
     elsif ($Self->{Subaction} eq 'StoreNew') {
+        # get dest queue
         my $Dest = $Self->{ParamObject}->GetParam(Param => 'Dest') || '';
         my ($NewQueueID, $To) = split(/\|\|/, $Dest);
         if (!$To) {
           $NewQueueID = $Self->{ParamObject}->GetParam(Param => 'NewQueueID') || '';
           $To = 'System';
+        }
+        # fallback, if no dest is given
+        if (!$NewQueueID) {
+            my $Queue = $Self->{ParamObject}->GetParam(Param => 'Queue') || '';
+            if ($Queue) {
+                my $QueueID = $Self->{QueueObject}->QueueLookup(Queue => $Queue);
+                $NewQueueID = $QueueID;
+                $To = $QueueID;
+            }
         }
         my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject') || 'New!';
         my $Body = $Self->{ParamObject}->GetParam(Param => 'Body');
