@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.23 2003-01-05 13:58:15 martin Exp $
+# $Id: AgentQueueView.pm,v 1.24 2003-01-09 20:38:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentQueueView;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -255,7 +255,7 @@ sub ShowTicket {
         my $Age = time() - $$Data{create_time_unix};
         my $TicketOverTime = ''; 
         if ($$Data{escalation_time} && !$$Data{ticket_answered}) {
-            $TicketOverTime = (time() - ($$Data{incoming_time} + ($$Data{escalation_time}*60))); 
+            $TicketOverTime = (($$Data{incoming_time} + ($$Data{escalation_time}*60)) - time()); 
         }
         if ($$Data{a_content_type} && $$Data{a_content_type} =~ /charset=(.*)(| |\n)/i) {
             $$Data{ContentCharset} = $1;
