@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Owner.pm - the sub module of the global ticket handle
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Owner.pm,v 1.8 2003-03-10 21:25:51 martin Exp $
+# $Id: Owner.pm,v 1.9 2003-07-14 12:22:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::Owner;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -151,6 +151,50 @@ sub SetOwner {
     else {
       return;
     }
+}
+# --
+sub GetOwnerList {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(TicketID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # db query
+    my @User = ();
+    my $SQL = "SELECT sh.name, ht.name, sh.create_by ".
+        " FROM ".
+        " ticket_history sh, ticket_history_type ht ".
+        " WHERE ".
+        " sh.ticket_id = $Param{TicketID} ".
+        " AND ".
+        " ht.name IN ('OwnerUpdate', 'NewTicket')  ".
+        " AND ".
+        " ht.id = sh.history_type_id".
+        " ORDER BY sh.id";
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        # store result
+        if ($Row[1] eq 'NewTicket') {
+            if ($Row[2] ne '1') {
+                push (@User, $Row[2]);
+            }
+        }
+        elsif ($Row[1] eq 'OwnerUpdate') {
+            if ($Row[0] =~ /^New Owner is '.+?' \(ID=(.+?)\)/) {
+                push (@User, $1);
+            }
+        }
+    }
+    my @UserInfo = ();
+    foreach (@User) {
+        my %User = $Self->{UserObject}->GetUserData(UserID => $_, Cache => 1);
+        push (@UserInfo, \%User);
+    }
+    return @UserInfo;
 }
 # --
 
