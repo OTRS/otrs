@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.23 2003-03-10 23:33:30 martin Exp $
+# $Id: Article.pm,v 1.24 2003-03-13 22:28:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use strict;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -50,9 +50,20 @@ sub CreateArticle {
         return;
       }
     }
+    # --
+    # add 'no body found!' if there is no body there!
+    # --
     if (!$Param{Body}) {
-        # add 'no body found!' if there is no body there!
         $Param{Body} = 'no body found!';
+    }
+    # --
+    # if body isn't text, attach body as attachment (mostly done by OE) :-/
+    # --
+    elsif ($Param{ContentType} && $Param{ContentType} !~ /text\//i) {
+        $Param{AttachContentType} = $Param{ContentType};
+        $Param{AttachBody} = $Param{Body};
+        $Param{ContentType} = 'text/plain';
+        $Param{Body} = 'see attachment'; 
     }
     else {
         # fix some bad stuff from browsers!
@@ -98,6 +109,22 @@ sub CreateArticle {
         Subject => $DBParam{Subject},
         IncomingTime => $IncomingTime
     ); 
+    # --
+    # if body isn't text, attach body as attachment (mostly done by OE) :-/
+    # --
+    if ($Param{AttachContentType} && $Param{AttachBody}) {
+        my $FileName = 'unknown';
+        if ($Param{AttachContentType} =~ /name="(.+?)"/i) {
+            $FileName = $1;
+        }
+        $Self->WriteArticlePart(
+            Content => $Param{AttachBody},
+            Filename => $FileName,
+            ContentType => $Param{AttachContentType},
+            ArticleID => $ArticleID,
+            UserID => $Param{UserID},
+        );
+    }
     # --
     # return if there is not article created
     # --
