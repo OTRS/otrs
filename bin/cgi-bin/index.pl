@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file (incl. auth) for OpenTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.26 2002-05-17 22:13:10 martin Exp $
+# $Id: index.pl,v 1.27 2002-05-17 23:49:08 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use lib '../..';
 use strict;
 
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 $Debug = 0;
@@ -89,7 +89,9 @@ use Kernel::Output::HTML::Generic;
 # --
 my %CommonObject = ();
 $CommonObject{LogObject} = Kernel::System::Syslog->new();
+# --
 # debug info
+# --
 if ($Debug) {
     $CommonObject{LogObject}->Log(
         Priority => 'debug', 
@@ -128,7 +130,6 @@ $CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
 $CommonObject{ArticleObject} = Kernel::System::Article->new(%CommonObject);
 $CommonObject{UserObject} = Kernel::System::User->new(%CommonObject);
 $CommonObject{PermissionObject} = Kernel::System::Permission->new(%CommonObject);
-
 
 # --
 # get common parameters
@@ -261,21 +262,45 @@ elsif (eval '$Kernel::Modules::'. $Param{Action} .'::VERSION'){
     # run module
     # --
     else { 
+        # --
         # get session data
+        # --
         my %Data = $CommonObject{SessionObject}->GetSessionIDData(
           SessionID => $Param{SessionID},
         );
+        # --
         # create new LayoutObject with new '%Param' and '%Data'
+        # --
         $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(
           %CommonObject, 
           %Param, 
           %Data,
         );
-        GenericModules(
-          %CommonObject, 
-          %Param, 
-          %Data,
-        );
+
+        # debug info
+        if ($Debug) {
+            $CommonObject{LogObject}->Log(
+                Priority => 'debug',
+                MSG => 'Kernel::Modules::' . $Param{Action} .'->new',
+            );
+        }
+        # --
+        # prove of concept! - create $GenericObject
+        # --
+        my $GenericObject = ('Kernel::Modules::'.$Param{Action})->new(%CommonObject,%Param,%Data);
+
+        # debug info
+        if ($Debug) {
+            $CommonObject{LogObject}->Log(
+                Priority => 'debug',
+                MSG => ''. 'Kernel::Modules::' . $Param{Action} .'->run',
+            );
+        }
+        # --
+        # ->Run $Action with $GenericObject
+        # --
+        print $GenericObject->Run();
+
     }
 }
 # --
@@ -299,7 +324,9 @@ else {
     print $CommonObject{LayoutObject}->Footer();
 }
 
+# --
 # debug info
+# --
 if ($Debug) {
     $CommonObject{LogObject}->Log(
         Priority => 'debug',
@@ -308,38 +335,4 @@ if ($Debug) {
 }
 
 # --
-# generic funktion
-# --
-sub GenericModules {
-    my %Data = @_;
-
-    # debug info
-    if ($Debug) {
-        $Data{LogObject}->Log(
-            Priority => 'debug',
-            MSG => 'Kernel::Modules::' . $Data{Action} .'->new',
-        );
-    }
-
-    # --
-    # prove of concept! - create $GenericObject
-    # --
-    my $GenericObject = ('Kernel::Modules::' . $Data{Action})->new (%Data);
-
-    # --
-    # ->Run $Action with $GenericObject
-    # --
-    print $GenericObject->Run();
-
-    # debug info
-    if ($Debug) {
-        $Data{LogObject}->Log(
-            Priority => 'debug', 
-            MSG => ''. 'Kernel::Modules::' . $Data{Action} .'->run',
-        );
-    }
-
-}
-# --
-
 
