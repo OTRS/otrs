@@ -1,0 +1,11 @@
+# --
+# cron/generic_agent - GenericAgent.pl cron of the OpenTRS
+# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: generic_agent,v 1.1 2002-07-13 14:35:14 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. 
+# --
+# start generic agent every 20 minutes
+#*/20 * * * * $HOME/bin/GenericAgent.pl >> /dev/null
+
