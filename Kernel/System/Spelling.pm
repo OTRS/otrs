@@ -2,7 +2,7 @@
 # Kernel/System/Spelling.pm - the global spelling module
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Spelling.pm,v 1.10 2004-10-29 19:49:51 martin Exp $
+# $Id: Spelling.pm,v 1.11 2004-11-04 14:27:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::FileTemp;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -59,7 +59,7 @@ sub Check {
         $Self->{SpellChecker} .= " -d $Param{SpellLanguage}";
     }
     # default ignored words
-    my @Ignore = qw(com org de net Cc www Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec Fwd DNS CC ca tm COM Co op netscape bcc jpg gif email Tel ie eg otrs suse redhat debian caldera php perl java html unsubscribe);
+    my @Ignore = qw(com org de net Cc www Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec Sun Mon Tue Wed Thu Fri Sat Fwd Re DNS Date To Cc Bcc ca tm COM Co op netscape bcc jpg gif email Tel ie eg otrs suse redhat debian caldera php perl java html unsubscribe queue event day month year ticket);
     # add configured ignored words
     if (ref($Self->{ConfigObject}->Get('SpellCheckerIgnore')) eq 'ARRAY') {
         foreach (@{$Self->{ConfigObject}->Get('SpellCheckerIgnore')}) {
