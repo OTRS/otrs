@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.3 2001-12-30 00:34:42 martin Exp $
+# $Id: Agent.pm,v 1.4 2002-01-02 00:46:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -457,6 +457,29 @@ sub AgentPreferencesForm {
 
     # create & return output
     return $Self->Output(TemplateFile => 'AgentPreferencesForm', Data => \%Param);
+}
+# --
+sub AgentMailboxTicket {
+    my $Self = shift;
+    my %Param = @_;
+
+    if ($Param{ViewType} eq 'New' && $Param{LastSenderID} eq $Param{UserID}) {
+        return;
+    }
+    
+    if ($Param{LastSenderID} ne $Param{UserID}) {
+        $Param{Message} = 'New message!';
+    }
+
+    $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ');
+
+    # do some strips && quoting
+    foreach ('To', 'Cc', 'From', 'Subject') {
+        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 70, MIME => 1);
+    }
+
+    # create & return output
+    return $Self->Output(TemplateFile => 'AgentMailboxTicket', Data => \%Param);
 }
 # --
 
