@@ -2,7 +2,7 @@
 # DB.pm - the global database wrapper to support different databases 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.13 2002-06-08 20:32:52 martin Exp $
+# $Id: DB.pm,v 1.14 2002-06-13 14:56:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use DBI;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -94,8 +94,12 @@ sub Disconnect {
 # --
 sub Quote {
     my $Self = shift;
-    my $Text = shift || return;
-    $Text =~ s/'/\\'/g;
+    my $Text = shift || return '';
+    # --
+    # do quote
+    # --
+    $Text =~ s/(\\\\\\\\'|\\\\'|')/\\$1/g;
+    $Text =~ s/(\\\\\\|\\)$/\\($1)/g;
     return $Text;
 }
 # --
@@ -110,7 +114,7 @@ sub Do {
         $Self->{DoCounter}++;
         $Self->{LogObject}->Log(
           Priority => 'debug',
-          MSG => 'DB.pm->Do (' . $Self->{DoCounter} . ') SQL: ' . $SQL,
+          MSG => "DB.pm->Do ($Self->{DoCounter}) SQL: '$SQL'",
         );
     }
     # --
@@ -119,8 +123,9 @@ sub Do {
     if (!$Self->{dbh}->do($SQL)) {
         $Self->{LogObject}->Log(
           Priority => 'Error',
-          MSG => $DBI::errstr,
+          MSG => "$DBI::errstr, SQL: '$SQL'",
         );
+        return;
     }
     return 1;
 }
@@ -151,7 +156,7 @@ sub Prepare {
         $Self->{PrepareCounter}++;
         $Self->{LogObject}->Log(
           Priority => 'debug',
-          MSG => 'DB.pm->Prepare ('.$Self->{PrepareCounter}.' / '.time().') SQL: '.$SQL,
+          MSG => "DB.pm->Prepare ($Self->{PrepareCounter}/".time().") SQL: '$SQL'",
         );
     }
     # --
@@ -160,14 +165,14 @@ sub Prepare {
     if (!($Self->{Curser} = $Self->{dbh}->prepare($SQL))) {
         $Self->{LogObject}->Log(
           Priority => 'Error',
-          MSG => $DBI::errstr,
+          MSG => "$DBI::errstr, SQL: '$SQL'",
         );
         return;
     }
     if (!$Self->{Curser}->execute()) {
         $Self->{LogObject}->Log(
           Priority => 'Error',
-          MSG => $DBI::errstr,
+          MSG => "$DBI::errstr, SQL: '$SQL'",
         );
         return;
     }
