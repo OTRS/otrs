@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminResponse.pm - provides admin std response module
-# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminResponse.pm,v 1.6 2002-10-25 11:46:00 martin Exp $
+# $Id: AdminResponse.pm,v 1.7 2003-01-03 00:42:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,9 +13,10 @@ package Kernel::Modules::AdminResponse;
 
 use strict;
 use Kernel::System::StdResponse;
+use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -33,14 +34,13 @@ sub new {
     }
 
     # check all needed objects
-    foreach ('ParamObject', 'DBObject', 'LayoutObject', 'ConfigObject', 'LogObject') {
+    foreach (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
 
     # lib object
-    $Self->{StdResponseObject} = Kernel::System::StdResponse->new(
-        %Param,
-    );
+    $Self->{StdResponseObject} = Kernel::System::StdResponse->new(%Param);
+    $Self->{StdAttachmentObject} = Kernel::System::StdAttachment->new(%Param);
 
     return $Self;
 }
@@ -61,6 +61,19 @@ sub Run {
     }
 
     my @Params = ('ID', 'Name', 'Comment', 'ValidID', 'Response');
+    my %GetParam;
+    foreach (@Params) {
+        $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
+    }
+
+    # get response attachment data 
+    my %AttachmentData = $Self->{StdAttachmentObject}->GetAllStdAttachments(Valid => 1);
+    my %SelectedAttachmentData = ();
+    if ($GetParam{ID}) { 
+      %SelectedAttachmentData = $Self->{StdAttachmentObject}->StdAttachmentsByResponseID(
+        ID => $GetParam{ID},
+      );
+    }
 
     # --
     # get data 2 form
@@ -70,7 +83,12 @@ sub Run {
         my %ResponseData = $Self->{StdResponseObject}->StdResponseGet(ID => $Param{ID});
         $Output = $Self->{LayoutObject}->Header(Title => 'Response change');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-        $Output .= $Self->{LayoutObject}->AdminResponseForm(%ResponseData, %Param);
+        $Output .= $Self->{LayoutObject}->AdminResponseForm(
+            %ResponseData, 
+            %Param,
+            Attachments => \%AttachmentData,
+            SelectedAttachments => \%SelectedAttachmentData,
+        );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
@@ -78,12 +96,16 @@ sub Run {
     # update action
     # --
     elsif ($Param{Subaction} eq 'ChangeAction') {
-        my %GetParam;
-        foreach (@Params) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
-        }
-
         if ($Self->{StdResponseObject}->StdResponseUpdate(%GetParam, UserID => $Self->{UserID})) { 
+            # --
+            # update attachments to response
+            # --
+            my @NewIDs = $Self->{ParamObject}->GetArray(Param => 'IDs');
+            $Self->{StdAttachmentObject}->SetStdAttachmentsOfResponseID(
+                AttachmentIDsRef => \@NewIDs,
+                ID => $GetParam{ID},
+                UserID => $Self->{UserID},
+            );
             return $Self->{LayoutObject}->Redirect(OP => "Action=$Param{NextScreen}");
         }
         else {
@@ -98,14 +120,22 @@ sub Run {
     # add new response
     # --
     elsif ($Param{Subaction} eq 'AddAction') {
-        my %GetParam;
-        foreach (@Params) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
-        }
         if (my $Id = $Self->{StdResponseObject}->StdResponseAdd(%GetParam, UserID => $Self->{UserID})) {
-             return $Self->{LayoutObject}->Redirect(
-                 OP => "Action=AdminQueueResponses&Subaction=Response&ID=$Id",
-             );
+            # --
+            # add attachments to response
+            # --
+            my @NewIDs = $Self->{ParamObject}->GetArray(Param => 'IDs');
+            $Self->{StdAttachmentObject}->SetStdAttachmentsOfResponseID(
+                AttachmentIDsRef => \@NewIDs,
+                ID => $Id,
+                UserID => $Self->{UserID},
+            );
+            # --
+            # show next page
+            # --
+            return $Self->{LayoutObject}->Redirect(
+                OP => "Action=AdminQueueResponses&Subaction=Response&ID=$Id",
+            );
         }
         else {
             $Output = $Self->{LayoutObject}->Header(Title => 'Error');
@@ -121,7 +151,11 @@ sub Run {
     else {
         $Output = $Self->{LayoutObject}->Header(Title => 'Response add');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
-        $Output .= $Self->{LayoutObject}->AdminResponseForm();
+        $Output .= $Self->{LayoutObject}->AdminResponseForm(
+            Subaction => 'Add',
+            Attachments => \%AttachmentData,
+            SelectedAttachments => \%SelectedAttachmentData,
+        );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
@@ -129,4 +163,3 @@ sub Run {
 # --
 
 1;
-
