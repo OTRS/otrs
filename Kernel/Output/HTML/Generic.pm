@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.48 2002-10-03 21:13:13 martin Exp $
+# $Id: Generic.pm,v 1.49 2002-10-03 22:16:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::Output::HTML::System;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.48 $';
+$VERSION = '$Revision: 1.49 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -232,7 +232,7 @@ sub Output {
                 }
               }
               elsif ($1 eq "Env" || $1 eq "Data") {
-                if (($GlobalRef->{"$1Ref"}->{$2}) && $GlobalRef->{"$1Ref"}->{$2} eq $4) {
+                if ((defined $GlobalRef->{"$1Ref"}->{$2}) && $GlobalRef->{"$1Ref"}->{$2} eq $4) {
                   $GlobalRef->{"$5Ref"}->{$6} = $7;
                   "";
                 }
@@ -254,7 +254,7 @@ sub Output {
                 }
               }
               elsif ($1 eq "Env" || $1 eq "Data") {
-                if (($GlobalRef->{"$1Ref"}->{$2}) && $GlobalRef->{"$1Ref"}->{$2} ne $4) {
+                if ((defined $GlobalRef->{"$1Ref"}->{$2}) && $GlobalRef->{"$1Ref"}->{$2} ne $4) {
                   $GlobalRef->{"$5Ref"}->{$6} = $7;
                   # output replace with nothing!
                   "";
