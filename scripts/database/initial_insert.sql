@@ -1,10 +1,13 @@
 -- --
 -- initial_insert.sql - provides initial system data
--- Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
+-- Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: initial_insert.sql,v 1.12 2003-12-02 21:52:56 martin Exp $
+-- $Id: initial_insert.sql,v 1.13 2004-01-10 15:47:43 martin Exp $
 -- 
 -- $Log: not supported by cvs2svn $
+-- Revision 1.12  2003/12/02 21:52:56  martin
+-- fixed inital load of new user_group table
+--
 -- Revision 1.11  2003/11/19 01:32:04  martin
 -- improved group sub system, added create, move, owner, priority and state permissions to groups
 --
@@ -215,6 +218,10 @@ INSERT INTO groups
     (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('stats',  1, 1, current_timestamp, 1, current_timestamp);
+INSERT INTO groups
+    (name, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('faq',  1, 1, current_timestamp, 1, current_timestamp);
 
 -- group_user (add admin to groups)
 INSERT INTO group_user
@@ -421,6 +428,14 @@ INSERT INTO ticket_history_type
         (name, valid_id, create_by, create_time, change_by, change_time)
         VALUES
         ('SendCustomerNotification', 1, 1, current_timestamp, 1, current_timestamp);
+INSERT INTO ticket_history_type
+        (name, valid_id, create_by, create_time, change_by, change_time)
+        VALUES
+        ('EmailAgent', 1, 1, current_timestamp, 1, current_timestamp);
+INSERT INTO ticket_history_type
+        (name, valid_id, create_by, create_time, change_by, change_time)
+        VALUES
+        ('EmailCustomer', 1, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO ticket_history_type
         (name, valid_id, create_by, create_time, change_by, change_time)
         VALUES
@@ -638,25 +653,25 @@ INSERT INTO auto_response_type
 
 -- auto_response
 INSERT INTO auto_response
-    (type_id, system_address_id, name, text0, text1, charset_id, comment, valid_id, create_time, create_by, change_time, change_by)
+    (type_id, system_address_id, name, text0, text1, charset, comment, valid_id, create_time, create_by, change_time, change_by)
     VALUES
-    (1, 1, 'default reply', 'This is a demo text which is send to every inquery.It could contain something like:Thanks for your e-mail. A new ticket has been created.You wrote:<OTRS_CUSTOMER_EMAIL[6]>Your e-mail will be answered by a human asapHave fun with OTRS! :-)  Your OTRS Team', 'RE: <OTRS_CUSTOMER_SUBJECT[20]>', 1, 'default', 1, current_timestamp, 1, current_timestamp, 1);
+    (1, 1, 'default reply', 'This is a demo text which is send to every inquery.It could contain something like:Thanks for your e-mail. A new ticket has been created.You wrote:<OTRS_CUSTOMER_EMAIL[6]>Your e-mail will be answered by a human asapHave fun with OTRS! :-)  Your OTRS Team', 'RE: <OTRS_CUSTOMER_SUBJECT[20]>', 'iso-8859-1', 'default', 1, current_timestamp, 1, current_timestamp, 1);
 INSERT INTO auto_response
-    (type_id, system_address_id, name, text0, text1, charset_id, comment, valid_id, create_time, create_by, change_time, change_by)
+    (type_id, system_address_id, name, text0, text1, charset, comment, valid_id, create_time, create_by, change_time, change_by)
     VALUES
-    (2, 1, 'default reject', 'Reject.', 'thank you for your e-mail. But you forgot importand infos. Pleace write again with all informations. Thanks', 1, 'default', 1, current_timestamp, 1, current_timestamp, 1);
+    (2, 1, 'default reject', 'Reject.', 'thank you for your e-mail. But you forgot importand infos. Pleace write again with all informations. Thanks', 'iso-8859-1', 'default', 1, current_timestamp, 1, current_timestamp, 1);
 INSERT INTO auto_response
-    (type_id, system_address_id, name, text0, text1, charset_id, comment, valid_id, create_time, create_by, change_time, change_by)
+    (type_id, system_address_id, name, text0, text1, charset, comment, valid_id, create_time, create_by, change_time, change_by)
     VALUES
-    (3, 1, 'default follow up', 'Thanks for your follow up e-mailYou wrote:<OTRS_CUSTOMER_EMAIL[6]>Your e-mail will be answered by a human asap.Have fun with OTRS!Your OTRS Team', 'RE: <OTRS_CUSTOMER_SUBJECT[20]>', 1, 'default', 1, current_timestamp, 1, current_timestamp, 1);
+    (3, 1, 'default follow up', 'Thanks for your follow up e-mailYou wrote:<OTRS_CUSTOMER_EMAIL[6]>Your e-mail will be answered by a human asap.Have fun with OTRS!Your OTRS Team', 'RE: <OTRS_CUSTOMER_SUBJECT[20]>', 'iso-8859-1', 'default', 1, current_timestamp, 1, current_timestamp, 1);
 INSERT INTO auto_response
-    (type_id, system_address_id, name, text0, text1, charset_id, comment, valid_id, create_time, create_by, change_time, change_by)
+    (type_id, system_address_id, name, text0, text1, charset, comment, valid_id, create_time, create_by, change_time, change_by)
     VALUES
-    (4, 1, 'default closed -> new ticket', 'New ticket after follow up.', 'thank you for your e-mail. The old ticket is closed. You have a new ticket now.', 1, 'default', 1, current_timestamp, 1, current_timestamp, 1);
+    (4, 1, 'default closed -> new ticket', 'New ticket after follow up.', 'thank you for your e-mail. The old ticket is closed. You have a new ticket now.', 'iso-8859-1', 'default', 1, current_timestamp, 1, current_timestamp, 1);
 INSERT INTO auto_response
-    (type_id, system_address_id, name, text0, text1, charset_id, comment, valid_id, create_time, create_by, change_time, change_by)
+    (type_id, system_address_id, name, text0, text1, charset, comment, valid_id, create_time, create_by, change_time, change_by)
     VALUES
-    (5, 1, 'default remove', 'Ticket removed.', 'thank you for your remove e-mail. The ticket is closed.', 1, 'default', 1, current_timestamp, 1, current_timestamp, 1);
+    (5, 1, 'default remove', 'Ticket removed.', 'thank you for your remove e-mail. The ticket is closed.', 'iso-8859-1', 'default', 1, current_timestamp, 1, current_timestamp, 1);
 
 -- queue_auto_response
 INSERT INTO queue_auto_response
@@ -700,5 +715,4 @@ INSERT INTO ticket_history
   (name, history_type_id, ticket_id, article_id, valid_id, create_time, create_by, change_time, change_by) 
   VALUES 
   ('New Ticket [1010001] created.',1,1,1,1, current_timestamp,1,current_timestamp,1);
-
 
