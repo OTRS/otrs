@@ -3,7 +3,7 @@
 # bin/GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pl,v 1.7 2002-11-10 23:02:18 martin Exp $
+# $Id: GenericAgent.pl,v 1.8 2002-11-24 23:49:59 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ use lib "$Bin/../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 use Kernel::Config;
@@ -99,6 +99,7 @@ foreach my $Job (keys %Jobs) {
             HistoryType => 'AddNote',
             HistoryComment => 'Note added.',
           );
+        }
         # --   
         # set new state
         # --
@@ -131,8 +132,16 @@ foreach my $Job (keys %Jobs) {
             UserID => $UserIDOfGenericAgent,
             Lock => $Jobs{$Job}->{New}->{Lock},
           );
-
         }
-      }
+        # --
+        # delete ticket
+        # --
+        if ($Jobs{$Job}->{New}->{Delete}) {
+          print "  - delete ticket_id $_\n";
+          $CommonObject{TicketObject}->DeleteTicket(
+              UserID => $UserIDOfGenericAgent, 
+              TicketID => $_,
+          );
+        }
     }
 }
