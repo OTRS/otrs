@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.pm,v 1.14 2005-01-11 22:06:00 martin Exp $
+# $Id: Package.pm,v 1.15 2005-01-12 17:34:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,10 +15,10 @@ use strict;
 use MIME::Base64;
 use File::Copy;
 use LWP::UserAgent;
-use XML::Parser::Lite;
+use Kernel::System::XML;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -83,6 +83,7 @@ sub new {
     foreach (qw(DBObject ConfigObject LogObject TimeObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
+    $Self->{XMLObject} = Kernel::System::XML->new(%Param);
 
     $Self->{PackageMap} = {
         Name => 'SCALAR',
@@ -108,8 +109,6 @@ sub new {
     };
 
     $Self->{Home} = $Self->{ConfigObject}->Get('Home');
-
-    $S = $Self;
 
     # permission check
     if (!$Self->_FileSystemCheck()) {
@@ -745,7 +744,7 @@ sub PackageOnlineRepositories {
     if (!$XML) {
         return ();
     }
-    my @XMLARRAY = @{$Self->ParseXML(String => $XML)};
+    my @XMLARRAY = $Self->{XMLObject}->XMLParse(String => $XML);
     my %List = ();
     my $Name = '';
     foreach my $Tag (@XMLARRAY) {
@@ -791,7 +790,7 @@ sub PackageOnlineList {
     if (!$XML) {
         return ();
     }
-    my @XMLARRAY = @{$Self->ParseXML(String => $XML)};
+    my @XMLARRAY = $Self->{XMLObject}->XMLParse(String => $XML);
     my @Packages = ();
     my %Package = ();
     foreach my $Tag (@XMLARRAY) {
@@ -1102,7 +1101,7 @@ sub PackageParse {
         return;
       }
     }
-    my @XMLARRAY = @{$Self->ParseXML(%Param)};
+    my @XMLARRAY = $Self->{XMLObject}->XMLParse(%Param);
     # cleanup global vars
     undef $Self->{Package};
     # parse package
@@ -1154,71 +1153,6 @@ sub PackageParse {
     my %Return = %{$Self->{Package}};
     undef $Self->{Package};
     return %Return;
-}
-
-=item ParseXML()
-
-parse a xml file
-
-    my %XMLStructur = $PackageObject->ParseXML(String => $FileString);
-
-=cut
-
-sub ParseXML {
-    my $Self = shift;
-    my %Param = @_;
-    # check needed stuff
-    foreach (qw(String)) {
-      if (!defined $Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
-        return;
-      }
-    }
-    # cleanup global vars
-    undef $Self->{XMLARRAY};
-    # parse package
-    my $p1 = new XML::Parser::Lite(Handlers => {Start => \&HS, End => \&ES, Char => \&CS});
-    my @Data = $p1->parse($Param{String});
-    return $Self->{XMLARRAY};
-}
-
-sub HS {
-    my ($Expat, $Element, %Attr) = @_;
-#    print "s:'$Element'\n";
-#    push (@{$S->{XMLARRAY}}, {Type => 'Start', Tag => $Element, Attr => \%Attr});
-    if ($S->{LastTag}) {
-#        push (@{$S->{XMLARRAY}}, {%{$S->{LastTag}}, Content => undef});
-        push (@{$S->{XMLARRAY}}, {%{$S->{LastTag}}, Content => $S->{C}});
-    }
-    undef $S->{LastTag};
-    undef $S->{C};
-    $S->{LastTag} = {TagType => 'Start', Tag => $Element, %Attr};
-}
-
-sub CS {
-    my ($Expat, $Element, $I, $II) = @_;
-#    $Element = $Expat->recognized_string();
-#    print "v:'$Element'\n";
-    if ($S->{LastTag}) {
-        # base64 encode
-        if ($S->{LastTag}->{Encode} && $S->{LastTag}->{Encode} eq 'Base64') {
-            $S->{C} .= decode_base64($Element);
-        }
-        else {
-            $S->{C} .= $Element;
-        }
-    }
-}
-
-sub ES {
-    my ($Expat, $Element) = @_;
-#    print "e:'$Element'\n";
-    if ($S->{LastTag}) {
-        push (@{$S->{XMLARRAY}}, {%{$S->{LastTag}}, Content => $S->{C}});
-    }
-    undef $S->{LastTag};
-    undef $S->{C};
-    push (@{$S->{XMLARRAY}}, {TagType => 'End', Tag => $Element});
 }
 
 sub _Download {
@@ -1366,6 +1300,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2005-01-11 22:06:00 $
+$Revision: 1.15 $ $Date: 2005-01-12 17:34:56 $
 
 =cut
