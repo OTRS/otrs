@@ -2,7 +2,7 @@
 # Kernel/System/Log/SysLog.pm - a wrapper for xyz::Syslog 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SysLog.pm,v 1.2 2002-09-01 19:44:14 martin Exp $
+# $Id: SysLog.pm,v 1.3 2002-10-31 22:01:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Sys::Syslog qw(:DEFAULT setlogsock);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $ ';
+$VERSION = '$Revision: 1.3 $ ';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/g;
 
 # --
@@ -47,6 +47,9 @@ sub Log {
     my ($Package1, $Filename1, $Line1, $Subroutine1) = caller($Caller+1);
     my ($Package2, $Filename2, $Line2, $Subroutine2) = caller($Caller+2);
     my ($Package3, $Filename3, $Line3, $Subroutine3) = caller($Caller+3);
+    if (!$Subroutine3) {
+      $Subroutine3 = $0;
+    }
     if (!$Subroutine2) {
       $Subroutine2 = $0;
     }
