@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: User.pm,v 1.34 2003-04-17 08:05:56 martin Exp $
+# $Id: User.pm,v 1.35 2003-09-28 15:49:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.34 $';
+$VERSION = '$Revision: 1.35 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -145,7 +145,7 @@ sub GetUserData {
               my $UserPreferredLanguage = '';
               foreach my $Entry ($Result->all_entries) {
                 $UserDN = $Entry->dn();
-                $UserPassword = $Entry->get_value('userPassword');
+                $UserPassword = $Entry->get_value('userPassword') || $Self->GenerateRandomPassword();
                 $UserSN = $Entry->get_value('sn');
                 $UserGivenName = $Entry->get_value('givenName');
                 $UserMail = $Entry->get_value('mail');
