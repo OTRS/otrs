@@ -2,7 +2,7 @@
 # Kernel/System/EmailSend.pm - the global email send module
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: EmailSend.pm,v 1.11 2002-07-17 22:30:29 martin Exp $
+# $Id: EmailSend.pm,v 1.12 2002-08-15 22:36:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Words qw(:all);
 use Mail::Internet;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -42,6 +42,7 @@ sub new {
     $Self->{Sendmail} = $Self->{ConfigObject}->Get('Sendmail');
     $Self->{SendmailBcc} = $Self->{ConfigObject}->Get('SendmailBcc');
     $Self->{FQDN} = $Self->{ConfigObject}->Get('FQDN');
+    $Self->{Organization} = $Self->{ConfigObject}->Get('Organization');
 
     return $Self;
 }
@@ -49,27 +50,15 @@ sub new {
 sub Send {
     my $Self = shift;
     my %Param = @_;
-    my $From = $Param{From} || '';
-    my $To = $Param{To} || '';
-    my $ToOrig = $To;
-    my $Cc = $Param{Cc} || '';
-    my $Subject = $Param{Subject} || '';
-    my $Charset = $Param{Charset} || 'iso-8859-1';
     my $Time = time();
     my $Random = rand(999999);
-    my $UserID = $Param{UserID} || 0;
+    my $ToOrig = $Param{To} || '';
+    my $Charset = $Param{Charset} || 'iso-8859-1';
     my $TicketObject = $Param{TicketObject} || '';
-    my $Body = $Param{Body};
-    $Body =~ s/(\r\n|\n\r)/\n/g;
-    $Body =~ s/\r/\n/g;
     my $InReplyTo = $Param{InReplyTo} || '';
     my $RetEmail = $Param{Email};
     my $Loop = $Param{Loop} || 0;
     my $HistoryType = $Param{HistoryType} || 'SendAnswer';
-    # do some encode
-#    $To = encode_mimeword($To) if ($To);
-#    $Cc = encode_mimeword($Cc) if ($Cc);
-#    $Subject = encode_mimeword($Subject) if ($Subject);
 
     # --
     # check needed stuff
@@ -88,11 +77,15 @@ sub Send {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need SenderType or SenderTypeID!");
         return;
     }
-
+    # --
+    # clean up
+    # --
+    $Param{Body} =~ s/(\r\n|\n\r)/\n/g;
+    $Param{Body} =~ s/\r/\n/g;
     # --
     # create article
     # --
-    my $MessageID = "<$Time.$Random.$Param{TicketID}.$UserID\@$Self->{FQDN}>";
+    my $MessageID = "<$Time.$Random.$Param{TicketID}.$Param{UserID}\@$Self->{FQDN}>";
     if ($Param{ArticleID} = $Param{ArticleObject}->CreateArticle(
         %Param,
         MessageID => $MessageID, 
@@ -106,41 +99,70 @@ sub Send {
     # --
     # build mail ...
     # --
-    my @Mail = ("From: $From\n");
-    push @Mail, "To: $To\n";
-    push @Mail, "Cc: $Cc\n" if ($Cc);
-    push @Mail, "Bcc: $Self->{SendmailBcc}\n" if ($Self->{SendmailBcc});
-    push @Mail, "Subject: $Subject\n";
-    push @Mail, "In-Reply-To: $InReplyTo\n" if ($InReplyTo);
-    push @Mail, "Message-ID: $MessageID\n";
-    push @Mail, "X-Mailer: Open-Ticket-Request-System Mail Service ($VERSION)\n";
-    push @Mail, "X-Powered-By: OpenTRS (http://otrs.org/)\n";
-    push @Mail, "X-OTRS-Loop: $RetEmail\n";
-    push @Mail, "Precedence: bulk\nX-Loop: $RetEmail\n" if ($Loop);
-    push @Mail, "Content-Type: text/plain; charset=$Charset\n";
-    push @Mail, "Content-Transfer-Encoding: 8BIT\n";
-    push @Mail, "Mime-Version: 1.0\n";
-    push @Mail, "\n";
-    push @Mail, $Body;
-    push @Mail, "\n";
-
+    # do some encode
+    foreach (qw(From To Cc Subject)) {
+        $Param{$_} = encode_mimewords($Param{$_}, Charset => $Charset) || '';
+    }
+    # build header
+    my $Header = {
+        From => $Param{From},
+        To => $Param{To},
+        Cc => $Param{Cc},
+        Bcc => $Self->{SendmailBcc},
+        Subject => $Param{Subject},
+        'Message-ID' => $MessageID,
+        'In-Reply-To' => $InReplyTo,
+        'X-Mailer' => "Open-Ticket-Request-System Mail Service ($VERSION)",
+        'X-Powered-By' => 'OpenTRS (http://otrs.org/)',
+        'X-MimeTools' => MIME::Tools->version,
+        Organization => $Self->{Organization},
+        Type => 'text/plain; charset='.$Charset,
+        Encoding => '8bit',
+    }; 
+    if ($Loop) {
+        $$Header{Precedence} = 'bulk';
+        $$Header{'X-Loop'} = 'bulk';
+    }
+    my $Entity = MIME::Entity->build(%{$Header}, Data => $Param{Body});
+    # --
+    # attachments
+    # --
+    if ($Param{UploadFilename}) {
+        $Entity->attach(
+            Path     => $Param{UploadFilename},
+            Type     => $Param{UploadContentType},
+            Encoding => "base64",
+        );
+    }
+    # --
+    # add In-Reply-To header
+    # --
+    my $head = $Entity->head;
+    $head->add('In-Reply-To', $InReplyTo);
     # --
     # send mail
     # --
     if (open( MAIL, "|$Self->{Sendmail} '$RetEmail' " )) {
+        my @Mail = ($head->as_string, "\n", $Entity->body_as_string);
         print MAIL @Mail;
         close(MAIL);
         # -- 
         # write article to fs
         # -- 
         if (!$Param{ArticleObject}->WriteArticle(ArticleID => $Param{ArticleID}, Email => \@Mail)) {
-          return; 
+            return; 
+        }
+        # --
+        # delete attacment(s)
+        # --
+        if ($Param{UploadFilename}) {
+            File::Path::rmtree([$Param{UploadFilename}]);
         }
         # -- 
         # log
         # -- 
         $Self->{LogObject}->Log(
-          MSG => "Sent email to '$ToOrig' from '$From'. HistoryType => $HistoryType, Subject => $Subject;",
+          Message => "Sent email to '$ToOrig' from '$Param{From}'. HistoryType => $HistoryType, Subject => $Param{Subject};",
         );
 
         return $Param{ArticleID};
