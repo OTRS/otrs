@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.33 2002-12-08 20:50:14 martin Exp $
+# $Id: Ticket.pm,v 1.34 2002-12-15 13:03:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -27,7 +27,7 @@ use Kernel::System::SendNotification;
 use Kernel::System::PostMaster::LoopProtection;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -347,6 +347,12 @@ sub GetQueueIDOfTicketID {
     if (!$Param{TicketID}) {
       $Self->{LogObject}->Log(Priority => 'error', Message => "Need TicketID!");
       return;
+    } 
+    # --
+    # check cache
+    # --
+    if ($Self->{"GetQueueIDOfTicketID::$Param{TicketID}"}) {
+        return $Self->{"GetQueueIDOfTicketID::$Param{TicketID}"};
     }
     # --
     # db query
@@ -356,6 +362,17 @@ sub GetQueueIDOfTicketID {
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
         $Id = $RowTmp[0];
     }
+    if (!$Id) {
+        $Self->{LogObject}->Log(
+            Priority => 'error', 
+            Message => "No such TicketID '$Param{TicketID}'!",
+        );
+        return;
+    }
+    # --
+    # store
+    # --
+    $Self->{"GetQueueIDOfTicketID::$Param{TicketID}"} = $Id;
     return $Id;
 }
 # --
