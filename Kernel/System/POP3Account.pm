@@ -2,10 +2,10 @@
 # Kernel/System/POP3Account.pm - lib for POP3 accounts
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: POP3Account.pm,v 1.8 2004-02-02 23:27:23 martin Exp $
+# $Id: POP3Account.pm,v 1.9 2004-09-04 17:31:59 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
@@ -14,16 +14,54 @@ package Kernel::System::POP3Account;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
+=head1 NAME
+
+Kernel::System::POP3Account - to manage pop3 accounts
+
+=head1 SYNOPSIS
+
+All functions to manage the pop3 accounts.
+
+=head1 PUBLIC INTERFACE
+
+=over 4
+
+=cut
+
+=item new()
+
+create a object
+
+  use Kernel::Config;
+  use Kernel::System::Log;
+  use Kernel::System::DB;
+  use Kernel::System::POP3Account;
+
+  my $ConfigObject = Kernel::Config->new();
+  my $LogObject    = Kernel::System::Log->new(
+      ConfigObject => $ConfigObject,
+  );
+  my $DBObject = Kernel::System::DB->new(
+      ConfigObject => $ConfigObject,
+      LogObject => $LogObject,
+  );
+  my $POP3Object    = Kernel::System::POP3Account->new(
+      LogObject => $LogObject,
+      ConfigObject => $ConfigObject,
+      DBObject => $DBObject,
+  );
+
+=cut
+
 sub new {
     my $Type = shift;
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     # get common opjects
@@ -38,7 +76,24 @@ sub new {
 
     return $Self;
 }
-# --
+
+=item POP3AccountAdd()
+
+adds a new pop3 account
+
+    $POP3Object->POP3AccountAdd(
+        Login => 'mail',
+        Password => 'SomePassword',
+        Host => 'pop3.example.com',
+        ValidID => 1,
+        Trusted => 0,
+        DispatchingBy => 'Queue', # Queue|From
+        QueueID => 12,
+        UserID => 123,
+    );
+
+=cut
+
 sub POP3AccountAdd {
     my $Self = shift;
     my %Param = @_;
@@ -89,7 +144,19 @@ sub POP3AccountAdd {
         return;
     }
 }
-# --
+
+=item POP3AccountGet()
+
+returns a hash of pop4 account data
+
+    my %POP3Account = $POP3Object->POP3AccountGet(
+        ID => 123,
+    );
+
+(returns: ID, Login, Password, Host, QueueID, Trusted, Comment, DispatchingBy, ValidID)
+
+=cut
+
 sub POP3AccountGet {
     my $Self = shift;
     my %Param = @_;
@@ -102,11 +169,11 @@ sub POP3AccountGet {
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
-    # sql 
+    # sql
     my $SQL = "SELECT login, pw, host, queue_id, trusted, comments, valid_id " .
         " FROM " .
         " pop3_account " .
-        " WHERE " . 
+        " WHERE " .
         " id = $Param{ID}";
 
     if (!$Self->{DBObject}->Prepare(SQL => $SQL)) {
@@ -114,8 +181,8 @@ sub POP3AccountGet {
     }
     my %Data = ();
     while (my @Data = $Self->{DBObject}->FetchrowArray()) {
-        %Data = ( 
-            ID => $Param{ID}, 
+        %Data = (
+            ID => $Param{ID},
             Login => $Data[0],
             Password => $Data[1],
             Host => $Data[2],
@@ -133,7 +200,25 @@ sub POP3AccountGet {
     }
     return %Data;
 }
-# --
+
+=item POP3AccountUpdate()
+
+update a new pop3 account
+
+    $POP3Object->POP3AccountUpdate(
+        ID => 1,
+        Login => 'mail',
+        Password => 'SomePassword',
+        Host => 'pop3.example.com',
+        ValidID => 1,
+        Trusted => 0,
+        DispatchingBy => 'Queue', # Queue|From
+        QueueID => 12,
+        UserID => 123,
+    );
+
+=cut
+
 sub POP3AccountUpdate {
     my $Self = shift;
     my %Param = @_;
@@ -169,7 +254,50 @@ sub POP3AccountUpdate {
         return;
     }
 }
-# --
+
+=item POP3AccountDelete()
+
+deletes a pop3 account
+
+    $POP3Object->POP3AccountDelete(
+        ID => 123,
+    );
+
+=cut
+
+sub POP3AccountDelete {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    if (!$Param{ID}) {
+      $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
+      return;
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    # sql
+    my $SQL = "DELETE FROM pop3_account WHERE id = $Param{ID}";
+
+    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+        return 1;
+    }
+    else {
+        return;
+    }
+}
+
+=item POP3AccountList()
+
+returns a list (Key, Name) of all pop3 accounts
+
+    my %List = $POP3Object->POP3AccountList(
+        Valid => 0, # just valid/all accounts
+    );
+
+=cut
+
 sub POP3AccountList {
     my $Self = shift;
     my %Param = @_;
@@ -181,6 +309,21 @@ sub POP3AccountList {
         Table => 'pop3_account',
     );
 }
-# --
 
 1;
+
+=head1 TERMS AND CONDITIONS
+
+This software is part of the OTRS project (http://otrs.org/).
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (GPL). If you
+did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+
+=cut
+
+=head1 VERSION
+
+$Revision: 1.9 $ $Date: 2004-09-04 17:31:59 $
+
+=cut
