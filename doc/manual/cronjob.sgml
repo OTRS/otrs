@@ -1,0 +1,117 @@
+<chapter id="cronjob">
+<title>Cronjobs</title>
+<para>
+OTRS needs a few system cronjobs to unlock tickets with lock timeouts, 
+send reminder notifications and some other stuff.
+</para>
+
+<sect1 id="cronjob_setup">
+<title>How it works - setup</title>
+<para>
+There are several OTRS default cronjobs in $OTRS_HOME/var/cron/*.dist.
+Make copies of all of the demo cronjobs:
+<programlisting>
+cd var/cron
+for foo in *.dist; do cp $foo `basename $foo .dist`; done
+</programlisting>
+Or if you are installing OTRS an a Windows system:
+<programlisting>
+cd var/cron 
+copy *.dist *.
+</programlisting>
+Use $OTRS_HOME/bin/Cron.sh {start|stop|restart} to start or stop this cronjobs
+from $OTRS_HOME/var/cron/* (.dist will be ignored).
+</para>
+<para>
+Note: Install this cronjobs as OTRS user. 
+</para>
+</sect1>
+
+<sect1 id="cronjob_default-cronjobs">
+<title>Default cronjobs</title>
+<sect2>
+<title>aaa_base</title>
+<para>
+Defined the email address of the OTRS admin which receive all cron error 
+reports.
+<programlisting>
+MAILTO="root@localhost"
+</programlisting>
+</para>
+</sect2>
+<sect2>
+<title>pending_jobs</title>
+<para>
+Processed every hour all reached "pending auto" tickets. 
+<programlisting>
+45 * * * * $HOME/bin/PendingJobs.pl >> /dev/null
+</programlisting>
+</para>
+</sect2>
+<sect2>
+<title>postmaster</title>
+<para>
+Cleanup at 00:10 of all unprocessed emails which are received via procmail.
+<programlisting>
+10 0 * * * $HOME/bin/otrs.cleanup >> /dev/null
+</programlisting>
+</para>
+</sect2>
+<sect2>
+<title>postmaster_pop3</title>
+<para>
+Fetch emails via PostMasterPOP3.pl every 10 minutes.
+<programlisting>
+*/10 * * * * $HOME/bin/PostMasterPOP3.pl >> /dev/null
+</programlisting>
+</para>
+</sect2>
+<sect2>
+<title>unlock</title>
+<para>
+Unlock every hour old locked tickets.
+<programlisting>
+35 * * * * $HOME/bin/UnlockTickets.pl --timeout >> /dev/null
+</programlisting>
+</para>
+</sect2>
+<sect2>
+<title>stats</title>
+<para>
+Create every day new graphics (default: not active).
+<programlisting>
+50 23 * * * $HOME/bin/mkStats.pl >> /dev/null
+</programlisting>
+</para>
+</sect2>
+<sect2>
+<title>session</title>
+<para>
+Delete every six hours old session ids from database, filesystem or RAM.
+<programlisting>
+55 */6 * * * $HOME/bin/DeleteSessionIDs.pl --expired >> /dev/null
+</programlisting>
+</para>
+</sect2>
+<sect2>
+<title>rebuild_ticket_index</title>
+<para>
+Rebuild of ticket index every day (needed for 
+Kernel::System::Ticket::IndexAccelerator::StaticDB - see also chapter "Performance Tuning").
+<programlisting>
+01 01 * * * $HOME/bin/RebuildTicketIndex.pl >> /dev/null
+</programlisting>
+</para>
+</sect2>
+<sect2>
+<title>generic_agent</title>
+<para>
+Execute GenericAgent.pl every 20 minutes (see also chapter "Generic-Agent").
+<programlisting>
+*/20 * * * * $HOME/bin/GenericAgent.pl >> /dev/null
+</programlisting>
+</para>
+</sect2>
+</sect1>
+
+</chapter>

@@ -19,6 +19,7 @@
 <!ENTITY ticket-topics SYSTEM "ticket-topics.sgml">
 <!ENTITY performance-tuning SYSTEM "performance-tuning.sgml">
 <!ENTITY generic-agent SYSTEM "generic-agent.sgml">
+<!ENTITY cronjob SYSTEM "cronjob.sgml">
 <!ENTITY dtl SYSTEM "dtl.sgml">
 ]>
 
@@ -103,6 +104,8 @@ or implied warranty.
 &language-translation;
 
 &dtl;
+
+&cronjob;
 
 &generic-agent;
 
