@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminEmail.pm - to send a email to all agents
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminEmail.pm,v 1.13 2004-04-07 06:59:24 martin Exp $
+# $Id: AdminEmail.pm,v 1.14 2004-04-07 07:15:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use MIME::Entity;
 use Mail::Internet; 
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -105,9 +105,6 @@ sub Run {
         # clean up
         $Param{Body} =~ s/(\r\n|\n\r)/\n/g;
         $Param{Body} =~ s/\r/\n/g;
-        # setting "To:"-Header to someting to prevent "To: undisclosed-recipients: ;"
-        # ATM setting it to From, which should be a valid Mailaddress
-        $Param{To} = $Param{From};
         # build mail ...
         # do some encode
         foreach (qw(From To Bcc Subject)) {
