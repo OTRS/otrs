@@ -12,7 +12,7 @@ memory use and more.
 There are several options to improve the performance via OTRS.
 </para>
 
-<sect2>
+<sect2 id="performance-tuning-otrs-index">
 <title>TicketIndexModule</title>
 <para>
 You have two backend modules for the ticket index.
@@ -51,7 +51,7 @@ works like a view. Use bin/RebuildTicketIndex.pl for initial index build.
 </sect2>
 
 
-<sect2>
+<sect2 id="performance-tuning-otrs-storage">
 <title>TicketStorageModule</title>
 <para>
 You have two backend modules for the ticket/article storage .
