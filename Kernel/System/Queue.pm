@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue funktions
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.17 2002-10-20 19:48:56 martin Exp $
+# $Id: Queue.pm,v 1.18 2002-10-31 22:58:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::StdResponse;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -588,13 +588,15 @@ sub QueueGet {
     # --
     # sql 
     # --
-     my $SQL = "SELECT name, group_id, unlock_timeout, " .
-        " system_address_id, salutation_id, signature_id, comment, valid_id, " .
-        " escalation_time, follow_up_id, follow_up_lock " .
+     my $SQL = "SELECT q.name, q.group_id, q.unlock_timeout, " .
+        " q.system_address_id, q.salutation_id, q.signature_id, q.comment, q.valid_id, " .
+        " q.escalation_time, q.follow_up_id, q.follow_up_lock, sa.value0, sa.value1 " .
         " FROM " .
-        " queue " .
+        " queue q, system_address sa" .
         " WHERE " .
-        " id = $Param{ID}";
+        " q.system_address_id = sa.id " .
+        " AND " .
+        " q.id = $Param{ID}";
     my %QueueData = ();
     $Self->{DBObject}->Prepare(SQL => $SQL); 
     while (my @Data = $Self->{DBObject}->FetchrowArray()) {
@@ -611,6 +613,8 @@ sub QueueGet {
             SignatureID => $Data[5],
             Comment => $Data[6],
             ValidID => $Data[7],
+            Email => $Data[8],
+            RealName => $Data[9],
         );
     }
     return %QueueData;
