@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.42 2002-10-22 16:07:29 martin Exp $
+# $Id: index.pl,v 1.43 2002-10-31 22:54:24 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -23,11 +23,12 @@
 # use ../../ as lib location
 use FindBin qw($Bin);
 use lib "$Bin/../..";
+use lib "$Bin/../../Kernel/cpan-lib";
 
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -38,7 +39,7 @@ my $Debug = 0;
 # --
 # check @INC for mod_perl (add lib path for "require module"!)
 # --
-$ENV{MOD_PERL} && push (@INC, "$Bin/../..");
+$ENV{MOD_PERL} && push (@INC, "$Bin/../..", "$Bin/../../Kernel/cpan-lib");
 
 # --
 # all framework needed  modules 
