@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Wiktor Wodecki <wiktor.wodecki@net-m.de>
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LDAP.pm,v 1.15 2004-02-09 01:41:28 martin Exp $
+# $Id: LDAP.pm,v 1.16 2004-02-23 16:01:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,9 +14,10 @@ package Kernel::System::CustomerUser::LDAP;
 
 use strict;
 use Net::LDAP;
+use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -32,7 +33,7 @@ sub new {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
     # max shown user a search list
-    $Self->{UserSearchListLimit} = 200;
+    $Self->{UserSearchListLimit} = $Self->{CustomerUserMap}->{'Params'}->{'UserSearchListLimit'} || 200;
     # get ldap preferences
     $Self->{Host} = $Self->{CustomerUserMap}->{'Params'}->{'Host'}
      || die "Need CustomerUser->Params->Host in Kernel/Config.pm";
@@ -48,8 +49,18 @@ sub new {
     $Self->{CustomerID} = $Self->{CustomerUserMap}->{'CustomerID'}
      || die "Need CustomerUser->CustomerID in Kernel/Config.pm";
 
+    # ldap filter always used
+    $Self->{AlwaysFilter} = $Self->{CustomerUserMap}->{'Params'}->{'AlwaysFilter'} || '';
+    # Net::LDAP new params
+    if ($Self->{CustomerUserMap}->{'Params'}->{'Params'}) {
+        $Self->{Params} = $Self->{CustomerUserMap}->{'Params'}->{'Params'};
+    }
+    else {
+        $Self->{Params} = {};
+    }
+
     # ldap connect and bind (maybe with SearchUserDN and SearchUserPw)
-    $Self->{LDAP} = Net::LDAP->new($Self->{Host}) or die "$@";
+    $Self->{LDAP} = Net::LDAP->new($Self->{Host}, %{$Self->{Params}}) or die "$@";
     if (!$Self->{LDAP}->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw})) {
         $Self->{LogObject}->Log(
           Priority => 'error',
@@ -57,6 +68,11 @@ sub new {
         );
         return;
     }
+    # encode object
+    $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
+    $Self->{SourceCharset} = $Self->{CustomerUserMap}->{'Params'}->{'SourceCharset'} || '';
+    $Self->{DestCharset} = $Self->{CustomerUserMap}->{'Params'}->{'DestCharset'} || '';
+
     return $Self;
 }
 # --
@@ -71,6 +87,10 @@ sub CustomerName {
     }
     # build filter
     my $Filter = "($Self->{CustomerKey}=$Param{UserLogin})";
+    # prepare filter
+    if ($Self->{AlwaysFilter}) {
+        $Filter = "(&$Filter$Self->{AlwaysFilter})";
+    }
     # perform user search
     my $Result = $Self->{LDAP}->search(
         base => $Self->{BaseDN},
@@ -80,11 +100,13 @@ sub CustomerName {
     );
     foreach my $entry ($Result->all_entries) {
         foreach (@{$Self->{CustomerUserMap}->{CustomerUserNameFields}}) {
-            if (!$Name) {
-                $Name = $entry->get_value($_);
-            }
-            else {
-                $Name .= ' '.$entry->get_value($_);
+            if (defined($entry->get_value($_))) { 
+                if (!$Name) {
+                    $Name = $Self->_Convert($entry->get_value($_));
+                }
+                else {
+                    $Name .= ' '.$Self->_Convert($entry->get_value($_));
+                }
             }
         }
     }
@@ -105,7 +127,7 @@ sub CustomerSearch {
         if ($Self->{CustomerUserMap}->{CustomerUserSearchFields}) {
             $Filter = '(|';
             foreach (@{$Self->{CustomerUserMap}->{CustomerUserSearchFields}}) {
-                $Filter.= "($_=$Param{Search})";
+                $Filter.= "($_=".$Self->_ConvertTo($Param{Search}).")";
             }
             $Filter .= ')';
         }
@@ -125,6 +147,10 @@ sub CustomerSearch {
     elsif ($Param{UserLogin}) {
         $Filter = "($Self->{CustomerKey}=$Param{UserLogin})";
     }
+    # prepare filter
+    if ($Self->{AlwaysFilter}) {
+        $Filter = "(&$Filter$Self->{AlwaysFilter})";
+    }
     # perform user search
     my $Result = $Self->{LDAP}->search(
         base => $Self->{BaseDN},
@@ -140,16 +166,18 @@ sub CustomerSearch {
     foreach my $entry ($Result->all_entries) {
         my $CustomerString = '';
         foreach (@{$Self->{CustomerUserMap}->{CustomerUserListFields}}) {
-            my $Value = $entry->get_value($_);
+            my $Value = $Self->_Convert($entry->get_value($_));
             if ($Value) {
-				if ($_ =~ /^targetaddress$/i) {
-					$Value =~ s/SMTP:(.*)/$1/;
-				}
+                if ($_ =~ /^targetaddress$/i) {
+                    $Value =~ s/SMTP:(.*)/$1/;
+                }
                 $CustomerString .= $Value.' ';
             }
         }
-        $CustomerString =~ s/^(.*\s)(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;
-        $Users{$entry->get_value($Self->{CustomerKey})} = $CustomerString;
+        $CustomerString =~ s/^(.*)\s(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;
+        if (defined($entry->get_value($Self->{CustomerKey}))) {
+            $Users{$Self->_Convert($entry->get_value($Self->{CustomerKey}))} = $CustomerString;
+        }
     }
     return %Users;
 }   
@@ -158,11 +186,16 @@ sub CustomerUserList {
     my $Self = shift;
     my %Param = @_;
     my $Valid = defined $Param{Valid} ? $Param{Valid} : 1;
+    # prepare filter
+    my $Filter = "($Self->{CustomerKey}=*)";
+    if ($Self->{AlwaysFilter}) {
+        $Filter = "(&$Filter$Self->{AlwaysFilter})";
+    }
     # perform user search
     my $Result = $Self->{LDAP}->search (
         base => $Self->{BaseDN},
         scope => $Self->{SScope},
-        filter => "($Self->{CustomerKey}=*)",
+        filter => $Filter,
         sizelimit => $Self->{UserSearchListLimit},
     );
     # log ldap errors 
@@ -173,9 +206,9 @@ sub CustomerUserList {
     foreach my $entry ($Result->all_entries) {
         my $CustomerString = '';
         foreach (qw(CustomerKey CustomerID)) {
-            $CustomerString .= $entry->get_value($Self->{CustomerUserMap}->{$_}).' ';
+            $CustomerString .= $Self->_Convert($entry->get_value($Self->{CustomerUserMap}->{$_})).' ';
         }
-        $Users{$entry->get_value($Self->{CustomerKey})} = $CustomerString;
+        $Users{$Self->_Convert($entry->get_value($Self->{CustomerKey}))} = $CustomerString;
     }
     return %Users;
 }
@@ -202,6 +235,11 @@ sub CustomerUserDataGet {
     else {
         $Filter = "($Self->{CustomerKey}=$Param{User})";
     }
+    # prepare filter
+    if ($Self->{AlwaysFilter}) {
+        $Filter = "(&$Filter$Self->{AlwaysFilter})";
+    }
+    # perform search
     my $Result = $Self->{LDAP}->search (
         base => $Self->{BaseDN},
         scope => $Self->{SScope},
@@ -220,7 +258,7 @@ sub CustomerUserDataGet {
     }
     # get customer user info
     foreach my $Entry (@{$Self->{CustomerUserMap}->{Map}}) {
-		my $Value = $Result2->get_value($Entry->[2]) || '';
+		my $Value = $Self->_Convert($Result2->get_value($Entry->[2])) || '';
         if ($Value && $Entry->[2] =~ /^targetaddress$/i) {
             $Value =~ s/SMTP:(.*)/$1/;
         }
@@ -292,6 +330,42 @@ sub GenerateRandomPassword {
 
     # Return the password.
     return $Password;
+}
+# --
+sub _Convert {
+    my $Self = shift;
+    my $Text = shift;
+    if (!$Self->{SourceCharset} || !$Self->{DestCharset}) {
+        return $Text;
+    }
+    if (!defined($Text)) {
+        return;
+    }
+    else { 
+        return $Self->{EncodeObject}->Convert(
+            Text => $Text,
+            From => $Self->{SourceCharset},
+            To => $Self->{DestCharset},
+        );
+    }
+}
+# --
+sub _ConvertTo {
+    my $Self = shift;
+    my $Text = shift;
+    if (!$Self->{SourceCharset} || !$Self->{DestCharset}) {
+        return $Text;
+    }
+    if (!defined($Text)) {
+        return;
+    }
+    else { 
+        return $Self->{EncodeObject}->Convert(
+            Text => $Text,
+            To => $Self->{SourceCharset},
+            From => $Self->{DestCharset},
+        );
+    }
 }
 # --
 sub Destroy {

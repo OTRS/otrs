@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CustomerAuth/LDAP.pm - provides the ldap authentification 
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LDAP.pm,v 1.6 2003-07-13 11:01:21 martin Exp $
+# $Id: LDAP.pm,v 1.7 2004-02-23 16:01:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ use strict;
 use Net::LDAP;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -49,7 +49,17 @@ sub new {
     $Self->{SearchUserPw} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::SearchUserPw') || '';
     $Self->{GroupDN} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::GroupDN') || '';
     $Self->{AccessAttr} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::AccessAttr') || '';
-   $Self->{UserAttr} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::UserAttr') || 'DN';
+    $Self->{UserAttr} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::UserAttr') || 'DN';
+
+    # ldap filter always used
+    $Self->{AlwaysFilter} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::AlwaysFilter') || '';
+    # Net::LDAP new params
+    if ($Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::Params')) {
+        $Self->{Params} = $Self->{ConfigObject}->Get('Customer::AuthModule::LDAP::Params');
+    }
+    else {
+        $Self->{Params} = {};
+    }
  
     return $Self;
 }
@@ -73,23 +83,17 @@ sub GetOption {
 sub Auth {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     foreach (qw(User Pw)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
     }
-    # --
     # get params
-    # --
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'Got no REMOTE_ADDR env!';
 
-    # --
     # just in case for debug!
-    # --
     if ($Self->{Debug} > 0) {
         $Self->{LogObject}->Log(
           Priority => 'notice',
@@ -97,10 +101,8 @@ sub Auth {
         );
     }
 
-    # --
     # ldap connect and bind (maybe with SearchUserDN and SearchUserPw)
-    # --
-    my $LDAP = Net::LDAP->new($Self->{Host}) or die "$@";
+    my $LDAP = Net::LDAP->new($Self->{Host}, %{$Self->{Params}}) or die "$@";
     if (!$LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw})) {
         $Self->{LogObject}->Log(
           Priority => 'error',
@@ -108,56 +110,45 @@ sub Auth {
         );
         return;
     }
-    # --
-    # perform user search
-    # --
+    # build filter 
     my $Filter = "($Self->{UID}=$Param{User})";
+    # prepare filter
+    if ($Self->{AlwaysFilter}) {
+        $Filter = "(&$Filter$Self->{AlwaysFilter})";
+    }
+    # perform user search
     my $Result = $LDAP->search ( 
         base   => $Self->{BaseDN},
         filter => $Filter, 
     ); 
-    # --
     # get whole user dn
-    # --
     my $UserDN = '';
     foreach my $Entry ($Result->all_entries) {
         $UserDN = $Entry->dn();
     }
-    # --
     # log if there is no LDAP user entry
-    # --
     if (!$UserDN) {
-        # --
         # failed login note
-        # --
         $Self->{LogObject}->Log(
           Priority => 'notice',
           Message => "CustomerUser: $Param{User} login failed, no LDAP entry found!".
             "BaseDN='$Self->{BaseDN}', Filter='$Filter', (REMOTE_ADDR: $RemoteAddr).",
         );
-        # --
         # take down session
-        # --
         $LDAP->unbind;
         return;
     }
 
-    # --
     # check if user need to be in a group!
-    # --
     if ($Self->{AccessAttr} && $Self->{GroupDN}) {
-        # --
         # just in case for debug
-        # --
         if ($Self->{Debug} > 0) {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
                 Message => "check for groupdn!",
             );
         } 
-        # --
         # search if we're allowed to
-        # --
         my $Filter2 = '';
         if ($Self->{UserAttr} eq 'DN') {
             $Filter2 = "($Self->{AccessAttr}=$UserDN)";
@@ -169,62 +160,44 @@ sub Auth {
             base   => $Self->{GroupDN},
             filter => $Filter2 
         );
-        # --
         # extract it
-        # --
         my $GroupDN = '';
         foreach my $Entry ($Result2->all_entries) {
             $GroupDN = $Entry->dn();
         }
-        # --
         # log if there is no LDAP entry
-        # --
         if (!$GroupDN) {
-            # --
             # failed login note
-            # --
             $Self->{LogObject}->Log(
               Priority => 'notice',
               Message => "CustomerUser: $Param{User} login failed, no LDAP group entry found".
                 "GroupDN='$Self->{GroupDN}', Filter='$Filter2'! (REMOTE_ADDR: $RemoteAddr).",
             );
-            # --
             # take down session 
-            # --
             $LDAP->unbind;
             return;
         }
     }        
     
-    # --
     # bind with user data -> real user auth.
-    # --
     $Result = $LDAP->bind(dn => $UserDN, password => $Param{Pw});
     if ($Result->code) {
-        # --
         # failed login note
-        # --
         $Self->{LogObject}->Log(
           Priority => 'notice',
           Message => "CustomerUser: $Param{User} login failed: '".$Result->error."' (REMOTE_ADDR: $RemoteAddr).",
         );
-        # --
         # take down session
-        # --
         $LDAP->unbind;
         return;
     }
     else {
-        # --
         # login note
-        # --
         $Self->{LogObject}->Log(
           Priority => 'notice',
           Message => "CustomerUser: $Param{User} logged in (REMOTE_ADDR: $RemoteAddr).",
         );
-        # --
         # take down session
-        # --
         $LDAP->unbind;
         return $Param{User};
     }

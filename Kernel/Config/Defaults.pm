@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.110 2004-02-15 21:34:38 martin Exp $
+# $Id: Defaults.pm,v 1.111 2004-02-23 16:01:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.110 $';
+$VERSION = '$Revision: 1.111 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -189,6 +189,17 @@ sub LoadDefaults {
 #    $Self->{'AuthModule::LDAP::SearchUserDN'} = '';
 #    $Self->{'AuthModule::LDAP::SearchUserPw'} = '';
 
+    # in case you want to add always one filter to each ldap query, use
+    # this option. e. g. AlwaysFilter => '(mail=*)' or AlwaysFilter => '(objectclass=user)'
+#   $Self->{'AuthModule::LDAP::AlwaysFilter'} = '';
+
+    # Net::LDAP new params (if needed - for more info see perldoc Net::LDAP)
+#    $Self->{'AuthModule::LDAP::Params'} = {
+#        port => 389,
+#        timeout => 120,
+#        async => 0,
+#        version => 3,
+#    };
 
     # This is an example configuration for an apache ($ENV{REMOTE_USER})
     # auth. backend. Use it if you want to have a singe login through
@@ -1374,6 +1385,18 @@ Your OTRS Notification Master
 #    $Self->{'Customer::AuthModule::LDAP::SearchUserDN'} = '';
 #    $Self->{'Customer::AuthModule::LDAP::SearchUserPw'} = '';
 
+    # in case you want to add always one filter to each ldap query, use
+    # this option. e. g. AlwaysFilter => '(mail=*)' or AlwaysFilter => '(objectclass=user)'
+#   $Self->{'Customer::AuthModule::LDAP::AlwaysFilter'} = '';
+
+    # Net::LDAP new params (if needed - for more info see perldoc Net::LDAP)
+#    $Self->{'Customer::AuthModule::LDAP::Params'} = {
+#        port => 389,
+#        timeout => 120,
+#        async => 0,
+#        version => 3,
+#    };
+
 
     # This is an example configuration for an apache ($ENV{REMOTE_USER})
     # auth. backend. Use it if you want to have a singe login through
@@ -1461,6 +1484,20 @@ Your OTRS Notification Master
 #            # anonymous user does NOT have permission to read from the LDAP tree 
 #            UserDN => '',
 #            UserPw => '',
+#            # in case you want to add always one filter to each ldap query, use
+#            # this option. e. g. AlwaysFilter => '(mail=*)' or AlwaysFilter => '(objectclass=user)'
+#            AlwaysFilter => '',
+#            # if your frontend is e. g. iso-8859-1 and the charset of your 
+#            # ldap server is utf-8, use this options (if not, ignore it)
+#            SourceCharset => 'utf-8',
+#            DestCharset => 'iso-8859-1',
+#            # Net::LDAP new params (if needed - for more info see perldoc Net::LDAP)
+#            Params => {
+#                port => 389,
+#                timeout => 120,
+#                async => 0,
+#                version => 3,
+#            },
 #        }, 
 #        # customer uniq id
 #        CustomerKey => 'uid',
