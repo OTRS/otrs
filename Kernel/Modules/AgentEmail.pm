@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentEmail.pm - to compose inital email to customer
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentEmail.pm,v 1.35 2004-09-09 11:19:26 martin Exp $
+# $Id: AgentEmail.pm,v 1.36 2004-09-11 07:53:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -182,7 +182,7 @@ sub Run {
               Body => $Self->{ConfigObject}->Get('EmailDefaultNoteText'),
               CustomerID => '',
               CustomerUser =>  '',
-              CustomerData => '',
+              CustomerData => {},
               %TicketFreeTextHTML,
             );
             $Output .= $Self->{LayoutObject}->Footer();
