@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.90 2004-07-17 21:01:07 martin Exp $
+# $Id: AgentPhone.pm,v 1.91 2004-07-22 05:48:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.90 $';
+$VERSION = '$Revision: 1.91 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -451,10 +451,10 @@ sub Run {
         }
         my $From = $Self->{ParamObject}->GetParam(Param => 'From') || '';
         my $TimeUnits = $Self->{ParamObject}->GetParam(Param => 'TimeUnits') || '';
-        my $CustomerUser = $Self->{ParamObject}->GetParam(Param => 'CustomerUser') ||  $Self->{ParamObject}->GetParam(Param => 'PreSelectedCustomerUser') || '';
+        my $CustomerUser = $Self->{ParamObject}->GetParam(Param => 'CustomerUser') ||  $Self->{ParamObject}->GetParam(Param => 'PreSelectedCustomerUser') || $Self->{ParamObject}->GetParam(Param => 'SelectedCustomerUser') || '';
         my $SelectedCustomerUser = $Self->{ParamObject}->GetParam(Param => 'SelectedCustomerUser') || '';
-        my $ExpandCustomerName = $Self->{ParamObject}->GetParam(Param => 'ExpandCustomerName') || 0;
         my $CustomerID = $Self->{ParamObject}->GetParam(Param => 'CustomerID') || '';
+        my $ExpandCustomerName = $Self->{ParamObject}->GetParam(Param => 'ExpandCustomerName') || 0;
         foreach (1..2) {
             my $Item = $Self->{ParamObject}->GetParam(Param => "ExpandCustomerName$_") || 0;
             if ($_ == 1 && $Item) {
@@ -680,9 +680,43 @@ sub Run {
             }
             foreach my $TicketID (@TicketIDs) {
                 my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(TicketID => $TicketID);
+                # get acl actions
+                $Self->{TicketObject}->TicketAcl(
+                    Data => '-',
+                    Action => $Self->{Action},
+                    TicketID => $Article{TicketID},
+                    ReturnType => 'Action',
+                    ReturnSubType => '-',
+                    UserID => $Self->{UserID},
+                );
+                my %AclAction = $Self->{TicketObject}->TicketAclActionData();
+
+                foreach (qw(From To Cc Subject)) {
+                    if ($Article{$_}) {
+                        $Self->{LayoutObject}->Block(
+                            Name => 'Row',
+                            Data => {
+                                Key => $_,
+                                Value => $Article{$_},
+                            },
+                        );
+                    }
+                }
+                foreach (qw(1 2 3 4 5)) {
+                    if ($Article{"FreeText$_"}) {
+                        $Self->{LayoutObject}->Block(
+                            Name => 'ArticleFreeText',
+                            Data => {
+                                Key => $Article{"FreeKey$_"},
+                                Value => $Article{"FreeText$_"},
+                            },
+                        );
+                    }
+                }
                 $Output .= $Self->{LayoutObject}->Output(
                     TemplateFile => 'TicketViewLite',
                     Data => {
+                        %AclAction,
                         %Article,
                         Age => $Self->{LayoutObject}->CustomerAge(Age => $Article{Age}, Space => ' '),
                     }
@@ -1046,11 +1080,11 @@ sub _MaskPhoneNew {
     );
     # build from string
     if ($Param{FromOptions} && %{$Param{FromOptions}}) {
-      $Param{'CustomerUserStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => $Param{FromOptions},
-        Name => 'CustomerUser',
-        Max => 70,
-      ).'<br>$Env{"Box0"}<a href="" onclick="document.compose.ExpandCustomerName.value=\'2\'; document.compose.submit(); return false;" onmouseout="window.status=\'\';" onmouseover="window.status=\'$Text{"Take this Customer"}\'; return true;">$Text{"Take this Customer"}</a>$Env{"Box1"}';
+        $Param{'CustomerUserStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data => $Param{FromOptions},
+            Name => 'CustomerUser',
+            Max => 70,
+        );
     }
     # build so string
     my %NewTo = ();

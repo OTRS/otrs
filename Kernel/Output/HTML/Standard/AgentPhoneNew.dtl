@@ -2,7 +2,7 @@
 # AgentPhoneNew.dtl - provides HTML form for phone
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhoneNew.dtl,v 1.37 2004-07-16 22:59:04 martin Exp $
+# $Id: AgentPhoneNew.dtl,v 1.38 2004-07-22 05:48:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -104,10 +104,10 @@ function clear_field()
     <td width="20%" valign="top">$Text{"From"}:</td>
     <td width="60%"><input type="text" name="From" value="$Data{"From"}" size="70"> <font color="red" size="-2">$Text{"$Data{"From invalid"}"}</font><br>
     $Data{"CustomerUserStrg"}
-    $Env{"Box0"}<a href="" onclick="document.compose.ExpandCustomerName.value='1'; document.compose.submit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$Text{"Search Customer"}'; return true;">$Text{"Search Customer"}</a>$Env{"Box1"}
-    $Env{"Box0"}<a href="javascript:clear_field();" onmouseout="window.status='';" onmouseover="window.status='$Text{"Clear From"}'; return true;">$Text{"Clear From"}</a>$Env{"Box1"}
-#    <input type="submit" name="ExpandCustomerName1" value="$Text{"Search Customer"}">
-#    <input type="submit" name="ExpandCustomerName2" value="$Text{"Take this Customer"}">
+<dtl if ($Data{"CustomerUserStrg"} ne "") { $Data{"TakeThisCustomer"} = "<br><input type="submit" name="ExpandCustomerName2" value="$Text{"Take this Customer"}">"; }>
+    $Data{"TakeThisCustomer"}
+    <input type="submit" name="ExpandCustomerName1" value="$Text{"Search Customer"}">
+    <input type="submit" name="" value="$Text{"Clear From"}" onclick="javascript:clear_field(); return false;">
     </td>
     <td width="20%" rowspan="10" valign="top">
 # --
