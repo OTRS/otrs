@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentMailbox.pm - to view all locked tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMailbox.pm,v 1.15 2003-01-19 18:23:52 martin Exp $
+# $Id: AgentMailbox.pm,v 1.16 2003-01-23 18:04:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentMailbox;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -64,6 +64,12 @@ sub Run {
     }  
 
     # --
+    # check view type
+    # --
+    if (!$Self->{Subaction}) {
+        $Self->{Subaction} = 'All';
+    } 
+    # --
     # starting with page ...
     # --
     $Output .= $Self->{LayoutObject}->Header(
@@ -76,6 +82,7 @@ sub Run {
         LockData => \%LockedData,
         SortBy => $SortBy,
         OrderBy => $OrderBy,
+        ViewType => $Self->{Subaction},
     );
     # --
     # get locked  viewable tickets...
