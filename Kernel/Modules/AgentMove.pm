@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentMove.pm - move tickets to queues 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMove.pm,v 1.33 2004-04-22 13:17:22 martin Exp $
+# $Id: AgentMove.pm,v 1.34 2004-05-02 10:43:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -362,15 +362,14 @@ sub _GetUsers {
     my $Self = shift;
     my %Param = @_;
     # get users 
-    my %ShownUsers = ();
-    my %AllGroupsMembers = $Self->{UserObject}->UserList(
+    my %ShownUsers = $Self->{UserObject}->UserList(
         Type => 'Long',
         Valid => 1,
     );
     # just show only users with selected custom queue
     if ($Param{QueueID} && !$Param{AllUsers}) {
         my @UserIDs = $Self->{QueueObject}->GetAllUserIDsByQueueID(%Param);
-        foreach (keys %AllGroupsMembers) {
+        foreach (keys %ShownUsers) {
             my $Hit = 0;
             foreach my $UID (@UserIDs) {
                 if ($UID eq $_) {
@@ -378,30 +377,7 @@ sub _GetUsers {
                 }
             }
             if (!$Hit) {
-                delete $AllGroupsMembers{$_};
-            }
-        }
-    }
-    # check show users
-    if ($Self->{ConfigObject}->Get('ChangeOwnerToEveryone')) {
-        %ShownUsers = %AllGroupsMembers;
-    }
-    else {
-        my %Groups = $Self->{GroupObject}->GroupMemberList(
-            UserID => $Self->{UserID},
-            Type => 'rw',
-            Result => 'HASH',
-            Cached => 1,
-        );
-        foreach (keys %Groups) {
-            my %MemberList = $Self->{GroupObject}->GroupMemberList(
-                    GroupID => $_,
-                    Type => 'rw',
-                    Result => 'HASH',
-                    Cached => 1,
-            );
-            foreach (keys %MemberList) {
-                    $ShownUsers{$_} = $AllGroupsMembers{$_} if ($AllGroupsMembers{$_});
+                delete $ShownUsers{$_};
             }
         }
     }
