@@ -2,7 +2,7 @@
 # INSTALL description of OTRS
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: INSTALL,v 1.31 2003-10-21 21:47:42 martin Exp $
+# $Id: INSTALL,v 1.32 2003-11-06 22:17:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -57,15 +57,6 @@ settings. The OTRS user is "otrs" and the home (root) directory is /opt/otrs
       install GD::Text::Align
       ...
 
-   Check if all needed modules are installed:
-   ------------------------------------------
-      $shell:~> perl -cw /opt/otrs/bin/cgi-bin/index.pl 
-      /opt/otrs/bin/cgi-bin/index.pl syntax OK
-      $shell:~> perl -cw /opt/otrs/bin/PostMaster.pl 
-      /opt/otrs/bin/PostMaster.pl syntax OK
-      $shell:~>
-
-    If you get "syntax OK" it seems to be Ok. Go ahead.
 
 2. Create user: 
    ------------
@@ -101,11 +92,21 @@ settings. The OTRS user is "otrs" and the home (root) directory is /opt/otrs
       cd Kernel/Config/
       copy *.dist *.
 
-5. Webserver:
+5. Check if all needed modules are installed:
+   ------------------------------------------
+      $shell:~> perl -cw /opt/otrs/bin/cgi-bin/index.pl 
+      /opt/otrs/bin/cgi-bin/index.pl syntax OK
+      $shell:~> perl -cw /opt/otrs/bin/PostMaster.pl 
+      /opt/otrs/bin/PostMaster.pl syntax OK
+      $shell:~>
+
+    If you get "syntax OK" it seems to be Ok. Go ahead.
+
+6. Webserver:
    ----------
    [follow README.webserver] 
 
-6. File Permissions:
+7. File Permissions:
    -----------------
    Set the file permissions with 
    "$HOME/bin/SetPermissions.sh <OTRS_HOME> <OTRS_USER> <WEBSERVER_USER> [OTRS_GROUP] [WEB_GROUP]"
@@ -114,18 +115,18 @@ settings. The OTRS user is "otrs" and the home (root) directory is /opt/otrs
      Webserver with wwwrun user (e. g. SuSE): "SetPermissions.sh /opt/otrs otrs wwwrun" 
      Webserver with apache user (e. g. Redhat): "SetPermissions.sh /opt/otrs otrs apache apache apache"
 
-7. Database setup:
+8. Database setup:
    ---------------
    If you use MySQL, you can use the Web-Installer (http://yourhost/otrs/installer.pl).
    Else follow README.database --> "DB - Setup Example".
 
-8. Config file ($HOME/Kernel/Config.pm):
+9. Config file ($HOME/Kernel/Config.pm):
    -------------------------------------
    If you used the Web-Installer, you can skip this point. If not,
    set some Kernel::Config ($HOME/Kernel/Config.pm) Options (FQDN, SystemID, TicketHook, 
    Home, ...)
 
-9. First Login:
+10. First Login:
    ------------
    http://yourhost/otrs/index.pl
    User: root@localhost
@@ -135,12 +136,12 @@ settings. The OTRS user is "otrs" and the home (root) directory is /opt/otrs
 
    Finished.
 
-10. First Email:
+11. First Email:
    ------------
    pipe an email directly into $OTRS_HOME/bin/Postmaster.pl
     (e. g. 'cat /opt/otrs/doc/test-email-1.box | /opt/otrs/bin/PostMaster.pl').
 
-11. Cronjobs for the OTRS user:
+12. Cronjobs for the OTRS user:
     ---------------------------
     There are several OTRS default cronjobs in $OTRS_HOME/var/cron/*.dist. 
     Make copies of all of the default cronjobs:
