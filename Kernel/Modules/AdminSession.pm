@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSession.pm - to control all session ids
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSession.pm,v 1.5 2002-07-21 17:31:24 martin Exp $
+# $Id: AdminSession.pm,v 1.6 2002-10-03 21:08:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminSession;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -35,7 +35,6 @@ sub new {
         die "Got no $_!" if (!$Self->{$_});
     }
 
-    $Self->{SessionDir} = $Self->{ConfigObject}->Get('SessionDir');
     return $Self;
 }
 # --
