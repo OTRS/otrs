@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: User.pm,v 1.21 2002-11-29 14:04:16 martin Exp $
+# $Id: User.pm,v 1.22 2002-11-29 14:38:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Email::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -91,7 +91,8 @@ sub SetPreferences {
     my $UserID = $Param{UserID} || return;
     my $Key = $Param{Key} || return;
     my $Value = $Param{Value} || '';
-
+    $Key = $Self->{DBObject}->Quote($Key);
+    $Value = $Self->{DBObject}->Quote($Value) || '';
     # delete old data
     if (!$Self->{DBObject}->Do(
        SQL => "DELETE FROM $Self->{PreferencesTable} ".
@@ -257,7 +258,7 @@ sub UserAdd {
     # quote params
     # -- 
     $Param{Pw} = crypt($Param{Pw}, $Param{Login});
-    foreach (@{$Self->{ConfigObject}->Get('UserPreferencesMaskUse')}) {
+    foreach (keys %Param) {
        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
     }
     # --
@@ -300,7 +301,10 @@ sub UserAdd {
           Priority => 'notice',
           Message => "User: '$Param{Login}' ID: '$UserID' created successfully ($Param{UserID})!",
       );
-
+      # --
+      # set email address
+      # --
+      $Self->SetPreferences(UserID => $UserID, Key => 'UserEmail', Value => $Param{Email});
       return $UserID; 
     }
     else {
@@ -314,7 +318,7 @@ sub UserUpdate {
     # --
     # check needed stuff
     # --
-    foreach (qw(ID Firstname Lastname Login Pw ValidID UserID)) {
+    foreach (qw(ID Firstname Lastname Login Pw ValidID UserID Email)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
@@ -371,6 +375,10 @@ sub UserUpdate {
         if ($GetPw ne $Param{Pw}) {
             $Self->SetPassword(UserLogin => $Param{Login}, PW => $Param{Pw});
         }
+        # --
+        # set email address
+        # --
+        $Self->SetPreferences(UserID => $Param{ID}, Key => 'UserEmail', Value => $Param{Email});
         return 1;
     }
     else {
