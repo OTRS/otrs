@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: TicketViewLite.dtl,v 1.10 2003-12-19 01:01:40 martin Exp $
+# $Id: TicketViewLite.dtl,v 1.11 2004-01-28 01:16:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -120,5 +120,20 @@
    </table>
   </td>
 </tr>
+# use the following if you want also a change queue option in this view
+#<tr>
+#  <td valign="top" class="table1">&nbsp;</td>
+#  <td valign="top" class="PriorityID-$Data{"PriorityID"}"><b>$Text{"Change queue"}:</b></td>
+#  <td valign="top" class="PriorityID-$Data{"PriorityID"}">
+#       <form action="$Env{"CGIHandle"}" method="get">
+#       <input type="hidden" name="Action" value="AgentMove">
+#       <input type="hidden" name="Subaction" value="InRage">
+#       <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
+#       <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
+#       $Data{"MoveQueuesStrg"}
+#       <input class="button" type="submit" value="$Text{"Move"}">
+#       </form>
+#  </td>
+#</tr>
 </table>
 <!-- end ticket -->
