@@ -1,8 +1,8 @@
 # --
-# AgentOwner.pm - to set the ticket owner
+# Kernel/Modules/AgentOwner.pm - to set the ticket owner
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentOwner.pm,v 1.3 2002-07-12 23:01:20 martin Exp $
+# $Id: AgentOwner.pm,v 1.4 2002-07-21 22:45:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentOwner;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -37,9 +37,9 @@ sub new {
       'TicketObject', 
       'LayoutObject', 
       'LogObject', 
-      'QueueObject', 
       'ConfigObject',
       'UserObject',
+      'GroupObject',
     ) {
         die "Got no $_!" if (!$Self->{$_});
     }
@@ -62,34 +62,58 @@ sub Run {
     my $UserID    = $Self->{UserID};
 
     if ($Subaction eq 'Update') {
-		# set id
-        $Self->{TicketObject}->SetOwner(
+        # --
+		# set user id
+        # --
+        if ($Self->{TicketObject}->SetOwner(
 			TicketID => $TicketID,
 			UserID => $Self->{UserID},
             NewUserID => $Self->{NewUserID},
-		);
-        # print redirect
-        $Output .= $Self->{LayoutObject}->Redirect(
+		)) {
+          # --
+          # print redirect
+          # --
+          return $Self->{LayoutObject}->Redirect(
 			OP => "&Action=$NextScreen&QueueID=$QueueID&TicketID=$TicketID"
-		);
+	      );
+        }
+        else {
+          $Output = $Self->{LayoutObject}->Header(Title => "Error");
+          $Output .= $Self->{LayoutObject}->Error();
+          $Output .= $Self->{LayoutObject}->Footer();
+          return $Output;
+        }
     }
     else {
+        # --
         # print form
+        # --
         my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $TicketID);
         my $OwnerID = $Self->{TicketObject}->CheckOwner(TicketID => $TicketID);
         $Output .= $Self->{LayoutObject}->Header(Title => 'Set Owner');
         my %LockedData = $Self->{UserObject}->GetLockedCount(UserID => $UserID);
         $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
-        # get priority states
-        my %States = $Self->{DBObject}->GetTableData(
-			What => "$Self->{ConfigObject}->{DatabaseUserTableUserID}, ".
-                    " $Self->{ConfigObject}->{DatabaseUserTableUser}",
-			Table => $Self->{ConfigObject}->{DatabaseUserTable},
-		);
+        # --
+        # get user of own groups
+        # --
+        my %AllGroupsMembers = ();
+        if ($Self->{ConfigObject}->Get('ChangeOwnerToEveryone')) {
+            %AllGroupsMembers = $Self->{UserObject}->UserList();
+        }
+        else {
+            my %Groups = $Self->{UserObject}->GetGroups(UserID => $Self->{UserID});
+            foreach (keys %Groups) {
+                my %MemberList = $Self->{GroupObject}->MemberList(GroupID => $_);
+                foreach (keys %MemberList) {
+                    $AllGroupsMembers{$_} = $MemberList{$_};
+                }
+            }
+        }
+        # --
         # print change form
+        # --
 	    $Output .= $Self->{LayoutObject}->AgentOwner(
-			Data => \%States,
-            OptionStrg => \%States,
+            OptionStrg => \%AllGroupsMembers,
  			TicketID => $TicketID,
             OwnerID => $OwnerID,
             BackScreen => $Self->{BackScreen},
