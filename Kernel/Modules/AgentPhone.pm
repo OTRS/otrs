@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.10 2002-10-03 17:29:23 martin Exp $
+# $Id: AgentPhone.pm,v 1.11 2002-10-05 16:28:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,9 +12,10 @@
 package Kernel::Modules::AgentPhone;
 
 use strict;
+use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -35,6 +36,8 @@ sub new {
        ConfigObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
+
+    $Self->{SystemAddress} = Kernel::System::SystemAddress->new(%Param);
 
     return $Self;
 }
@@ -84,21 +87,69 @@ sub Run {
         if (!$TicketID) {
             my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $UserID);
             $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
-    
-            my %Tos = $Self->{DBObject}->GetTableData(
-                Table => 'system_address',
-                What => 'queue_id, value1, value0',
-                Valid => 1,
-                Clamp => 1,
-            );
-
+            # --
+            # check own selection
+            # --
+            my %NewTos = ();
+            if ($Self->{ConfigObject}->{PhoneViewOwnSelection}) {
+                %NewTos = %{$Self->{ConfigObject}->{PhoneViewOwnSelection}};
+            }
+            else {
+                # --
+                # SelectionType Queue or SystemAddress?    
+                # --
+                my %Tos = ();
+                if ($Self->{ConfigObject}->Get('PhoneViewSelectionType') eq 'Queue') {
+                    %Tos = $Self->{QueueObject}->GetAllQueues();
+                }
+                else {
+                    %Tos = $Self->{DBObject}->GetTableData(
+                        Table => 'system_address',
+                        What => 'queue_id, id',
+                        Valid => 1,
+                        Clamp => 1,
+                    );
+                }
+                # --
+                # ASP? Just options where the user is in!
+                # --
+                if ($Self->{ConfigObject}->Get('PhoneViewASP')) {
+                    my %UserGroups = $Self->{UserObject}->GetGroups(UserID => $UserID);
+                    foreach (keys %Tos) {
+                        if ($UserGroups{$Self->{QueueObject}->GetQueueGroupID(QueueID => $_)}) {
+                            $NewTos{$_} = $Tos{$_};
+                        }
+                    }
+                }
+                else {
+                    %NewTos = %Tos;
+                }
+                # --
+                # build selection string
+                # --
+                foreach (keys %NewTos) {
+                    my %QueueData = $Self->{QueueObject}->QueueGet(ID => $_);
+                    my $Srting = $Self->{ConfigObject}->Get('PhoneViewSelectionString') || '<Realname> <<Email>> - Queue: <Queue>';
+                    $Srting =~ s/<Queue>/$QueueData{Name}/g;
+                    $Srting =~ s/<QueueComment>/$QueueData{Comment}/g;
+                    if ($Self->{ConfigObject}->Get('PhoneViewSelectionType') ne 'Queue') {
+                        my %SystemAddressData = $Self->{SystemAddress}->SystemAddressGet(ID => $NewTos{$_});
+                        $Srting =~ s/<Realname>/$SystemAddressData{Realname}/g;
+                        $Srting =~ s/<Email>/$SystemAddressData{Name}/g;
+                    }
+                    $NewTos{$_} = $Srting;
+                }
+            }
+            # --
+            # html output
+            # --
             $Output .= $Self->{LayoutObject}->AgentPhoneNew(
               QueueID => $QueueID,
               BackScreen => $BackScreen,
               NextScreen => $NextScreen,
               NoteTypes => \%NoteTypes,
               NextStates => \%NextStates,
-              To => \%Tos,
+              To => \%NewTos,
            );
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
@@ -165,7 +216,6 @@ sub Run {
         my $TimeUnits = $Self->{ParamObject}->GetParam(Param => 'TimeUnits') || 0;
         if (my $ArticleID = $Self->{TicketObject}->CreateArticle(
             TicketID => $TicketID,
-#            ArticleTypeID => $ArticleTypeID,
             ArticleType => $Self->{ConfigObject}->Get('DefaultPhoneArticleType'),
             SenderType => $Self->{ConfigObject}->Get('DefaultPhoneSenderType'),
             From => $UserLogin,
@@ -272,7 +322,8 @@ sub Run {
               To => $UserLogin,
               Subject => $Subject,
               Body => $Text,
-           },
+            },
+            Queue => $Self->{QueueObject}->QueueLookup(QueueID => $NewQueueID),
         )) {
           # --
           # time accounting
