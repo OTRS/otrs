@@ -1,8 +1,8 @@
 # --
 # AgentMailbox.pm - to view all locked tickets
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMailbox.pm,v 1.2 2002-02-03 20:05:04 martin Exp $
+# $Id: AgentMailbox.pm,v 1.3 2002-04-13 11:16:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentMailbox;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -32,7 +32,15 @@ sub new {
     }
 
     # check all needed objects
-    foreach ('ParamObject', 'DBObject', 'QueueObject', 'LayoutObject', 'ConfigObject', 'LogObject') {
+    foreach (
+      'ParamObject', 
+      'DBObject', 
+      'QueueObject', 
+      'LayoutObject', 
+      'ConfigObject', 
+      'LogObject',
+      'UserObject',
+    ) {
         die "Got no $_" if (!$Self->{$_});
     }
 
@@ -50,7 +58,7 @@ sub Run {
       Refresh => $Self->{Refresh},
       Title => 'Locked Tickets',
     );
-    my %LockedData = $Self->{DBObject}->GetLockedCount(UserID => $Self->{UserID});
+    my %LockedData = $Self->{UserObject}->GetLockedCount(UserID => $Self->{UserID});
     $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
     # fetch all queues ...
     my %MoveQueues = $Self->{QueueObject}->GetAllQueues(QueueID => $QueueID);

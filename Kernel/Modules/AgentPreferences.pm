@@ -1,8 +1,8 @@
 # --
 # AgentPreferences.pm - provides agent preferences
-# Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPreferences.pm,v 1.3 2002-04-12 16:33:35 martin Exp $
+# $Id: AgentPreferences.pm,v 1.4 2002-04-13 11:16:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPreferences;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -32,7 +32,16 @@ sub new {
     }
 
     # check all needed objects
-    foreach ('ParamObject', 'DBObject', 'QueueObject', 'LayoutObject', 'ConfigObject', 'LogObject', 'SessionObject') {
+    foreach (
+      'ParamObject', 
+      'DBObject', 
+      'QueueObject', 
+      'LayoutObject', 
+      'ConfigObject', 
+      'LogObject', 
+      'SessionObject',
+      'UserObject',
+    ) {
         die "Got no $_" if (!$Self->{$_});
     }
 
@@ -78,7 +87,7 @@ sub Form {
     my $UserID = $Self->{UserID};
     
     $Output .= $Self->{LayoutObject}->Header(Title => 'Preferences');
-    my %LockedData = $Self->{DBObject}->GetLockedCount(UserID => $UserID);
+    my %LockedData = $Self->{UserObject}->GetLockedCount(UserID => $UserID);
     $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
     my %QueueData = $Self->{QueueObject}->GetAllQueues(UserID => $UserID);
     my @CustomQueueIDs = $Self->{QueueObject}->GetAllCustomQueues(UserID => $UserID);
@@ -138,7 +147,7 @@ sub UpdateLanguage {
         }
 
         # pref update db
-        $Self->{DBObject}->SetPreferences(
+        $Self->{UserObject}->SetPreferences(
             UserID => $UserID,
             Key => 'UserLanguage',
             Value => $Language, 
@@ -216,7 +225,7 @@ sub UpdateCharset {
         }
 
         # pref update db
-        $Self->{DBObject}->SetPreferences(
+        $Self->{UserObject}->SetPreferences(
             UserID => $UserID,
             Key => 'UserCharset',
             Value => $Charset,
@@ -261,7 +270,7 @@ sub UpdateTheme {
         }
 
         # pref update db
-        $Self->{DBObject}->SetPreferences(
+        $Self->{UserObject}->SetPreferences(
             UserID => $UserID,
             Key => 'UserTheme',
             Value => $Theme,

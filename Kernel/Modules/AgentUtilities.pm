@@ -1,8 +1,8 @@
 # --
 # AgentUtilities.pm - Utilities for tickets
-# Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.4 2002-04-08 20:40:12 martin Exp $
+# $Id: AgentUtilities.pm,v 1.5 2002-04-13 11:16:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentUtilities;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -31,7 +31,16 @@ sub new {
     }
 
     # check needed Opjects
-    foreach ('ParamObject', 'DBObject', 'TicketObject', 'LayoutObject', 'LogObject', 'QueueObject', 'ConfigObject') {
+    foreach (
+      'ParamObject', 
+      'DBObject', 
+      'TicketObject', 
+      'LayoutObject', 
+      'LogObject', 
+      'QueueObject', 
+      'ConfigObject',
+      'UserObject',
+    ) {
         die "Got no $_!" if (!$Self->{$_});
     }
 
@@ -67,7 +76,7 @@ sub Form {
     my $UserID = $Self->{UserID};
     
     $Output .= $Self->{LayoutObject}->Header(Title => 'Utilities');
-    my %LockedData = $Self->{DBObject}->GetLockedCount(UserID => $UserID);
+    my %LockedData = $Self->{UserObject}->GetLockedCount(UserID => $UserID);
     $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
     $Output .= $Self->{LayoutObject}->AgentUtilForm();
     $Output .= $Self->{LayoutObject}->Footer();
@@ -83,7 +92,7 @@ sub SearchByTn {
     my $UserID = $Self->{UserID};
     
     $Output .= $Self->{LayoutObject}->Header(Title => 'Utilities');
-    my %LockedData = $Self->{DBObject}->GetLockedCount(UserID => $UserID);
+    my %LockedData = $Self->{UserObject}->GetLockedCount(UserID => $UserID);
     $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
     $Output .= $Self->{LayoutObject}->AgentUtilSearchAgain(
         What => $Want,
@@ -154,7 +163,7 @@ sub SearchByText {
     my $Want = $Self->{Want};
     my $UserID = $Self->{UserID};
     $Output .= $Self->{LayoutObject}->Header(Title => 'Utilities');
-    my %LockedData = $Self->{DBObject}->GetLockedCount(UserID => $UserID);
+    my %LockedData = $Self->{UserObject}->GetLockedCount(UserID => $UserID);
     $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
     $Output .= $Self->{LayoutObject}->AgentUtilSearchAgain(
         What => $Want,

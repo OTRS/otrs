@@ -1,8 +1,8 @@
 # --
 # DB.pm - the global database wrapper to support different databases 
-# Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.7 2002-04-12 16:34:56 martin Exp $
+# $Id: DB.pm,v 1.8 2002-04-13 11:10:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,40 +14,33 @@ package Kernel::System::DB;
 use strict;
 use DBI;
 
-use Kernel::System::User;
-
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
-
-@ISA = (
-    'Kernel::System::User',
-);
 
 # --
 sub new {
     my $Type = shift;
     my %Param = @_;
-    
-    my $Self = {}; # allocate new hash for object
+   
+    # allocate new hash for object 
+    my $Self = {}; 
     bless ($Self, $Type);
 
     # 0=off; 1=updates; 2=+selects; 3=+Connects;
     $Self->{Debug} = 0;
     
     # get config data
-    my $ConfigObject = $Param{ConfigObject} || die "Got no ConfigObject!";;
-    $Self->{HOST} = $ConfigObject->Get('DatabaseHost');
-    $Self->{DB}   = $ConfigObject->Get('Database');
-    $Self->{USER} = $ConfigObject->Get('DatabaseUser');
-    $Self->{PW}   = $ConfigObject->Get('DatabasePw');
-    $Self->{DSN}  = $ConfigObject->Get('DatabaseDSN');
+    $Self->{ConfigObject} = $Param{ConfigObject} || die "Got no ConfigObject!";;
+    $Self->{HOST} = $Self->{ConfigObject}->Get('DatabaseHost');
+    $Self->{DB}   = $Self->{ConfigObject}->Get('Database');
+    $Self->{USER} = $Self->{ConfigObject}->Get('DatabaseUser');
+    $Self->{PW}   = $Self->{ConfigObject}->Get('DatabasePw');
+    $Self->{DSN}  = $Self->{ConfigObject}->Get('DatabaseDSN');
 
     # get log object
     $Self->{LogObject} = $Param{LogObject} || die "Got no LogObject!";
 
-    $Self->{ConfigObject} = $ConfigObject;
-   
     # do db connect 
     $Self->Connect();
     
@@ -56,33 +49,38 @@ sub new {
 # --
 sub Connect {
     my $Self = shift;
-
+    # --
     # debug
+    # --
     if ($Self->{Debug} > 2) {
         $Self->{LogObject}->Log(
           Priority => 'debug', 
           MSG => "DB.pm->Connect: DB: $Self->{DB}, User: $Self->{USER}, Pw: $Self->{PW}",
         );
     }
-    
+    # --
     # db connect
-    $Self->{dbh} = DBI->connect("$Self->{DSN}:$Self->{DB}", $Self->{USER}, $Self->{PW}) || return;
+    # --
+    $Self->{dbh} = DBI->connect("$Self->{DSN}:$Self->{DB}", $Self->{USER}, $Self->{PW}) 
+       || return;
 
     return $Self->{dbh};
 }
 # --
 sub Disconnect {
     my $Self = shift;
-
+    # --
     # debug
+    # --
     if ($Self->{Debug} > 2) {
         $Self->{LogObject}->Log(
           Priority => 'debug',
           MSG => "DB.pm->Disconnect",
         );
     }
-
+    # --
     # do disconnect
+    # --
     $Self->{dbh}->disconnect();
 
     return 1;
@@ -99,8 +97,9 @@ sub Do {
     my $Self = shift;
     my %Param = @_;
     my $SQL = $Param{SQL};
-
+    # --
     # debug
+    # --
     if ($Self->{Debug} > 0) {
         $Self->{DoCounter}++;
         $Self->{LogObject}->Log(
@@ -108,8 +107,9 @@ sub Do {
           MSG => 'DB.pm->Do (' . $Self->{DoCounter} . ') SQL: ' . $SQL,
         );
     }
-
+    # --
     # doing
+    # --
     $Self->{dbh}->do($SQL);
 
     return 1;
@@ -120,8 +120,9 @@ sub Prepare {
     my %Param = @_;
     my $SQL = $Param{SQL};
     my $Limit = $Param{Limit} || '';
-
+    # --
     # build finally select query
+    # --
     if ($Limit) {
         if ($Self->{DSN} =~ /mysql/i) {
             $SQL .= " LIMIT $Limit";
@@ -133,8 +134,9 @@ sub Prepare {
             $SQL .= " LIMIT $Limit";
         }
     }
-
+    # --
     # debug
+    # --
     if ($Self->{Debug} > 1) {
         $Self->{PrepareCounter}++;
         $Self->{LogObject}->Log(
@@ -142,8 +144,9 @@ sub Prepare {
           MSG => 'DB.pm->Prepare ('.$Self->{PrepareCounter}.' / '.time().') SQL: '.$SQL,
         );
     }
-
+    # --
     # do
+    # --
     $Self->{Curser} = $Self->{dbh}->prepare($SQL) || return;
     $Self->{Curser}->execute() || return;
     return 1;

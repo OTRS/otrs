@@ -1,8 +1,8 @@
 # --
-# User.pm - some db functions fot user funktions
-# Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
+# User.pm - some user functions
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: User.pm,v 1.2 2002-04-12 16:33:35 martin Exp $
+# $Id: User.pm,v 1.3 2002-04-13 11:12:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,9 +14,46 @@ package Kernel::System::User;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
+# --
+sub new {
+    my $Type = shift;
+    my %Param = @_;
+
+    # allocate new hash for object
+    my $Self = {};
+    bless ($Self, $Type);
+
+    # check needed objects
+    foreach ('DBObject', 'ConfigObject') {
+        $Self->{$_} = $Param{$_} || die "Got no $_!";
+    }
+
+    # get wduser table
+    $Self->{UserTable} = $Self->{ConfigObject}->Get('DatabaseUserTable')
+      || 'user';
+    $Self->{UserTableUserID} = $Self->{ConfigObject}->Get('DatabaseUserTableUserID')
+      || 'id';
+    $Self->{UserTableUserPW} = $Self->{ConfigObject}->Get('DatabaseUserTableUserPW')
+      || 'pw';
+    $Self->{UserTableUser} = $Self->{ConfigObject}->Get('DatabaseUserTableUser')
+      || 'login';
+
+
+    # preferences table data
+    $Self->{PreferencesTable} = $Self->{ConfigObject}->Get('DatabasePreferencesTable')
+      || 'user_preferences';
+    $Self->{PreferencesTableKey} = $Self->{ConfigObject}->Get('DatabasePreferencesTableKey')
+      || 'preferences_key';
+    $Self->{PreferencesTableValue} = $Self->{ConfigObject}->Get('DatabasePreferencesTableValue')
+      || 'preferences_value';
+    $Self->{PreferencesTableUserID} = $Self->{ConfigObject}->Get('DatabasePreferencesTableUserID')
+      || 'user_id';
+
+    return $Self;
+}
 # --
 sub GetLockedCount {
     my $Self = shift;
@@ -25,7 +62,7 @@ sub GetLockedCount {
     my @LockIDs = (2);
     my %Data;
 
-    $Self->Prepare(
+    $Self->{DBObject}->Prepare(
        SQL => "SELECT ar.id as ca, st.name, ti.id, ar.create_by" .
               " FROM " .
               " ticket ti, article ar, article_sender_type st" .
@@ -40,7 +77,7 @@ sub GetLockedCount {
               " ORDER BY ar.create_time DESC",
     );
 
-    while (my @RowTmp = $Self->FetchrowArray()) {
+    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
         if (!$Data{"ID$RowTmp[2]"}) {
           $Data{'Count'}++;
           if ($RowTmp[1] ne 'agent' || $RowTmp[3] ne $UserID) {
@@ -66,8 +103,8 @@ sub GetGroups {
     " AND " .
     " g.id = gu.group_id ";
 
-    $Self->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->FetchrowArray()) {
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
          $Groups{$RowTmp[0]} = $RowTmp[1];
     }
 
@@ -82,28 +119,29 @@ sub SetPreferences {
     my $Value = $Param{Value};
 
     # delete old data
-    if (!$Self->Do(
-       SQL => "DELETE FROM user_preferences ".
+    if (!$Self->{DBObject}->Do(
+       SQL => "DELETE FROM $Self->{PreferencesTable} ".
               " WHERE ".
-              " user_id = $UserID ".
+              " $Self->{PreferencesTableUserID} = $UserID ".
               " AND ".
-              " preferences_key = '$Key'",
+              " $Self->{PreferencesTableKey} = '$Key'",
     )) {
         $Self->{LogObject}->Log(
           Priority => 'error',
-          Message => "Can't delete user_preferences!",
+          Message => "Can't delete $Self->{PreferencesTable}!",
         );
         return;
     }
 
     # insert new data
-    if (!$Self->Do(
-       SQL => "INSERT INTO user_preferences (user_id, preferences_key, preferences_value) " .
-                " VALUES ($UserID, '$Key', '$Value')",
+    if (!$Self->{DBObject}->Do(
+       SQL => "INSERT INTO $Self->{PreferencesTable} ($Self->{PreferencesTableUserID}, ".
+              " $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue}) " .
+              " VALUES ($UserID, '$Key', '$Value')",
     )) {
         $Self->{LogObject}->Log(
           Priority => 'error',
-          Message => "Can't insert new user_preferences!",
+          Message => "Can't insert new $Self->{PreferencesTable}!",
         );
         return;
     } 
@@ -117,16 +155,6 @@ sub GetPreferences {
     my $UserID = $Param{UserID} || return;
     my %Data;
 
-    # preferences table data
-    $Self->{PreferencesTable} = $Self->{ConfigObject}->Get('DatabasePreferencesTable')
-      || 'user_preferences';
-    $Self->{PreferencesTableKey} = $Self->{ConfigObject}->Get('DatabasePreferencesTableKey')
-      || 'preferences_key';
-    $Self->{PreferencesTableValue} = $Self->{ConfigObject}->Get('DatabasePreferencesTableValue')
-      || 'preferences_value';
-    $Self->{PreferencesTableUserID} = $Self->{ConfigObject}->Get('DatabasePreferencesTableUserID')
-      || 'user_id';
-
     # --
     # get preferences
     # --
@@ -136,8 +164,8 @@ sub GetPreferences {
         " WHERE " .
         " $Self->{PreferencesTableUserID} = $UserID";
 
-    $Self->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->FetchrowArray()) {
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
         $Data{$RowTmp[0]} = $RowTmp[1];
     }
 
@@ -145,6 +173,47 @@ sub GetPreferences {
     # return data
     # --
     return %Data;
+}
+# --
+sub GetUserData {
+    my $Self = shift;
+    my %Param = @_;
+    my $User = $Param{User};
+    my %Data;
+    
+    # --
+    # get inital data
+    # --
+    my $SQL = "SELECT su.$Self->{UserTableUserID}, su.salutation, su.first_name, su.last_name ".
+        " FROM " .
+        " $Self->{UserTable} as su " .
+        " WHERE " .
+        " su.$Self->{UserTableUser} = '$User'";
+
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
+        $Data{UserID} = $RowTmp[0];
+        $Data{UserLogin} = $User;
+        $Data{UserFirstname} = $RowTmp[2];
+        $Data{UserLastname} = $RowTmp[3];
+    }
+    # --
+    # check data
+    # --
+    if (! exists $Data{UserID}) {
+        $Self->{LogObject}->Log(
+          Priority => 'notice',
+          MSG => "Panic! No UserData for user: '$User'!!!",
+        );
+        return;
+    }
+
+    # --
+    # get preferences
+    # --
+    my %Preferences = $Self->GetPreferences(UserID => $Data{UserID});
+
+    return (%Data, %Preferences);
 }
 # --
 

@@ -1,8 +1,8 @@
 # --
 # AdminUser.pm - to add/update/delete user
-# Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUser.pm,v 1.3 2002-04-12 16:33:35 martin Exp $
+# $Id: AdminUser.pm,v 1.4 2002-04-13 11:16:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminUser;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $ ';
+$VERSION = '$Revision: 1.4 $ ';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -32,7 +32,15 @@ sub new {
     }
 
     # check all needed objects
-    foreach ('ParamObject', 'DBObject', 'QueueObject', 'LayoutObject', 'ConfigObject', 'LogObject') {
+    foreach (
+      'ParamObject', 
+      'DBObject', 
+      'QueueObject', 
+      'LayoutObject', 
+      'ConfigObject', 
+      'LogObject',
+      'UserObject',
+    ) {
         die "Got no $_" if (!$Self->{$_});
     }
 
@@ -54,7 +62,7 @@ sub Run {
     # get user data 2 form
     if ($Self->{Subaction} eq 'Change') {
         my $UserID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
-        my %PreferencesData = $Self->{DBObject}->GetPreferences(UserID => $UserID);
+        my %PreferencesData = $Self->{UserObject}->GetPreferences(UserID => $UserID);
         $Output .= $Self->{LayoutObject}->Header(Title => 'User ändern');
         $Output .= $Self->{LayoutObject}->AdminNavigationBar();
         # get user data
@@ -129,17 +137,17 @@ sub Run {
         # --
         # pref update db
         # --
-        $Self->{DBObject}->SetPreferences(
+        $Self->{UserObject}->SetPreferences(
             UserID => $GetParam{ID},
             Key => 'UserCharset',
             Value => $GetParam{Charset},
         );
-        $Self->{DBObject}->SetPreferences(
+        $Self->{UserObject}->SetPreferences(
             UserID => $GetParam{ID},
             Key => 'UserTheme',
             Value => $GetParam{Theme},
         );
-        $Self->{DBObject}->SetPreferences(
+        $Self->{UserObject}->SetPreferences(
             UserID => $GetParam{ID},
             Key => 'UserLanguage',
             Value => $GetParam{Language},
@@ -209,17 +217,17 @@ sub Run {
             # --
             # pref update db
             # --
-            $Self->{DBObject}->SetPreferences(
+            $Self->{UserObject}->SetPreferences(
               UserID => $UserID,
               Key => 'UserCharset',
               Value => $GetParam{Charset},
             );
-            $Self->{DBObject}->SetPreferences(
+            $Self->{UserObject}->SetPreferences(
               UserID => $UserID,
               Key => 'UserTheme',
               Value => $GetParam{Theme},
             );
-            $Self->{DBObject}->SetPreferences(
+            $Self->{UserObject}->SetPreferences(
               UserID => $UserID,
               Key => 'UserLanguage',
               Value => $GetParam{Language},

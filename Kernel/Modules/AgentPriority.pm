@@ -1,8 +1,8 @@
 # --
 # AgentPriority.pm - to set the ticket priority
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPriority.pm,v 1.2 2002-02-03 20:05:04 martin Exp $
+# $Id: AgentPriority.pm,v 1.3 2002-04-13 11:16:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPriority;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -31,7 +31,16 @@ sub new {
     }
 
     # check needed Opjects
-    foreach ('ParamObject', 'DBObject', 'TicketObject', 'LayoutObject', 'LogObject', 'QueueObject', 'ConfigObject') {
+    foreach (
+      'ParamObject', 
+      'DBObject', 
+      'TicketObject', 
+      'LayoutObject', 
+      'LogObject', 
+      'QueueObject', 
+      'ConfigObject',
+      'UserObject',
+    ) {
         die "Got no $_!" if (!$Self->{$_});
     }
    
@@ -77,7 +86,7 @@ sub Run {
         my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $TicketID);
         my $Priority = $Self->{TicketObject}->GetPriorityState(TicketID => $TicketID);
         $Output .= $Self->{LayoutObject}->Header(Title => 'Set Priority');
-        my %LockedData = $Self->{DBObject}->GetLockedCount(UserID => $UserID);
+        my %LockedData = $Self->{UserObject}->GetLockedCount(UserID => $UserID);
         $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
         # get priority states
         my %States = $Self->{DBObject}->GetTableData(
