@@ -1,0 +1,217 @@
+<chapter id="customer">
+<title>Customer (min. OTRS 1.1)</title>
+<para>
+OTRS is able to deal with customer user and customer information 
+(like login, email, phone, ...). 
+The customer information can be used to show it in the Agent-Interface and
+use it for the Customer-Interface (users and auth).
+</para>
+
+<sect1 id="customer-howto">
+<title>How it works</title>
+<para>
+The used/shown customer information is free configurable (see backend) 
+but there are three required options UserLogin, UserEmail and UserCustomerID.
+</para>
+<sect2>
+<title>Agent-Interface</title>
+<para>
+If you want to show the customer user information (e. g. company, 
+name, email, ...) in your Agent-Interface use the following config 
+options.
+<programlisting>
+    [Kernel/Config.pm]
+    # ShowCustomerInfo*
+    # (show customer user info on Phone, Zoom and Queue view)
+    $Self->{ShowCustomerInfoPhone} = 1;
+    $Self->{ShowCustomerInfoZoom} = 1;
+    $Self->{ShowCustomerInfoQueue} = 0;
+    [...]
+</programlisting>
+</para>
+</sect2>
+<sect2>
+<title>Admin-Interface</title>
+<para>
+Edit your customer user information via the Admin-Interface.
+</para>
+</sect2>
+<sect2>
+<title>Customer-Interface</title>
+<para>
+The customer information for the Customer-Interface is used for the
+login and auth. 
+</para>
+</sect2>
+</sect1>
+
+<sect1 id="customer-user-backend">
+<title>Customer User Backend</title>
+<para>
+There are two existing customer user backends, DB and LDAP. Of course if 
+you have an existing customer repository (e. g. SAP, ...) it's possible
+to write an own backend.
+</para>
+<sect2>
+<title>Database (default)</title>
+<para>
+This is an example for a database backend. 
+</para>
+<para>
+<programlisting>
+    [Kernel/Config.pm]
+    # CustomerUser 
+    # (customer user database backend and settings)
+    $Self->{CustomerUser} = {
+        Module => 'Kernel::System::CustomerUser::DB',
+        Params => {
+            Table => 'customer_user',
+        },
+        # customer uniq id
+        CustomerKey => 'login',
+        # customer #
+        CustomerID => 'customer_id',
+        CustomerValid => 'valid_id',
+        CustomerUserListFields => ['login', 'first_name', 'last_name', 'email'],
+        CustomerUserSearchFields => ['login', 'last_name', 'customer_id'],
+        Map => [
+            # note: Login, Email and CustomerID needed!
+            # var, frontend, storage, shown, required, storage-type, http-link
+            [ 'UserSalutation', 'Salutation', 'salutation', 1, 0, 'var' ],
+            [ 'UserFirstname', 'Firstname', 'first_name', 1, 1, 'var' ],
+            [ 'UserLastname', 'Lastname', 'last_name', 1, 1, 'var' ],
+            [ 'UserLogin', 'Login', 'login', 1, 1, 'var' ],
+            [ 'UserPassword', 'Password', 'pw', 0, 1, 'var' ],
+            [ 'UserEmail', 'Email', 'email', 0, 1, 'var' ],
+#            [ 'UserEmail', 'Email', 'email', 1, 1, 'var', '$Env{"CGIHandle"}?Action=\
+AgentCompose&ResponseID=1&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}' ],
+            [ 'UserCustomerID', 'CustomerID', 'customer_id', 0, 1, 'var' ],
+            [ 'UserComment', 'Comment', 'comment', 1, 0, 'var' ],
+            [ 'ValidID', 'Valid', 'valid_id', 0, 1, 'int' ],
+        ],
+    };
+    [...]
+</programlisting>
+</para>
+<para>
+If you want to customize your customer user information, change (add) you table 
+columns e. g. 
+<programlisting>
+ALTER TABLE customer_user ADD phone VARCHAR (250);
+</programlisting>
+And add your new column to your MAP array like: 
+<programlisting>
+            # var, frontend, storage, shown, required, storage-type, http-link
+            [ 'UserPhone', 'Phone', 'phone', 1, 0, 'var' ],
+</programlisting>
+Of course you will be able to maintain all this customer user information via  
+the Admin-Interface. 
+</para>
+</sect2>
+<sect2>
+<title>LDAP</title>
+<para>
+If you have an existing LDAP tree with your customer users then you will be
+able to use this LDAP tree in your OTRS system.
+</para>
+<para>
+This is an example for a LDAP backend. 
+<programlisting>
+    [Kernel/Config.pm]
+    # CustomerUser 
+    # (customer user ldap backend and settings)
+    $Self->{CustomerUser} = {
+        Module => 'Kernel::System::CustomerUser::LDAP',
+        Params => {
+            # ldap host
+            Host => 'bay.csuhayward.edu',
+            # ldap base dn
+            BaseDN => 'ou=seas,o=csuh',
+            # search scope (one|sub)
+            SSCOPE => 'sub',
+            # The following is valid but would only be necessary if the
+            # anonymous user does NOT have permission to read from the LDAP tree 
+            UserDN => '',
+            UserPw => '',
+        }, 
+        # customer uniq id
+        CustomerKey => 'uid',
+        # customer #
+        CustomerID => 'mail',
+        CustomerUserListFields => ['uid', 'cn', 'mail'],
+        CustomerUserSearchFields => ['uid', 'cn', 'mail'],
+        Map => [
+            # note: Login, Email and CustomerID needed!
+            # var, frontend, storage, shown, required, storage-type
+            [ 'UserSalutation', 'Title', 'title', 1, 0, 'var' ],
+            [ 'UserFirstname', 'Firstname', 'givenname', 1, 1, 'var' ], 
+            [ 'UserLastname', 'Lastname', 'sn', 1, 1, 'var' ],
+            [ 'UserLogin', 'Login', 'uid', 1, 1, 'var' ],
+            [ 'UserEmail', 'Email', 'mail', 1, 1, 'var' ],
+            [ 'UserCustomerID', 'CustomerID', 'mail', 0, 1, 'var' ],
+            [ 'UserPhone', 'Phone', 'telephonenumber', 1, 0, 'var' ],
+            [ 'UserAddress', 'Address', 'postaladdress', 1, 0, 'var' ],
+            [ 'UserComment', 'Comment', 'description', 1, 0, 'var' ],
+        ],
+    };
+    [...]
+</programlisting>
+</para>
+<para>
+If you want to customize your customer user information, add
+your new item (or remove it if not needed) to your MAP array like:
+<programlisting>
+            # var, frontend, storage, shown, required, storage-type, http-link
+            [ 'UserOrganisation', 'Organisation', 'ou', 1, 0, 'var' ],
+</programlisting>
+</para>
+</sect2>
+</sect1>
+
+<sect1 id="customer-auth-backend">
+<title>Customer Auth Backend</title>
+<sect2>
+<title>Database (default)</title>
+<para>
+The default customer auth backend is the otrs database with your customer
+user which are created via the Admin-Interface or Customer-Interface (Create Account).
+<programlisting>
+    [Kernel/Config.pm]
+    # This is the auth. module againt the otrs db
+    $Self->{'Customer::AuthModule'} = 'Kernel::System::CustomerAuth::DB';
+    [...]
+</programlisting>
+</para>
+</sect2>
+<sect2>
+<title>LDAP</title>
+<para>
+If there is a LDAP tree available with your customer users then you can
+use the customer LDAP auth backend. This module is just read only (
+means it can't write to your LDAP tree - this should just be possibe for 
+your tree manager) so you can't create customer user via the Admin- or Customer-Interface.
+<programlisting>
+    [Kernel/Config.pm]
+    # This is an example configuration for an LDAP auth. backend.
+    # (take care that Net::LDAP is installed!)
+    $Self->{'Customer::AuthModule'} = 'Kernel::System::CustomerAuth::LDAP';
+    $Self->{'Customer::AuthModule::LDAP::Host'} = 'ldap.example.com';
+    $Self->{'Customer::AuthModule::LDAP::BaseDN'} = 'dc=example,dc=com';
+    $Self->{'Customer::AuthModule::LDAP::UID'} = 'uid';
+
+    # Check if the user is allowed to auth in a posixGroup
+    # (e. g. user needs to be in a group xyz to use otrs)
+#    $Self->{'Customer::AuthModule::LDAP::GroupDN'} = 'cn=otrsallow,ou=posixGroups,dc=example,dc=com';
+#    $Self->{'Customer::AuthModule::LDAP::AccessAttr'} = 'memberUid';
+
+    # The following is valid but would only be necessary if the
+    # anonymous user do NOT have permission to read from the LDAP tree 
+    $Self->{'Customer::AuthModule::LDAP::SearchUserDN'} = '';
+    $Self->{'Customer::AuthModule::LDAP::SearchUserPw'} = '';
+    [...]
+</programlisting>
+</para>
+</sect2>
+</sect1>
+
+</chapter>

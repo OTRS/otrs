@@ -1,0 +1,76 @@
+<chapter id="user">
+<title>User</title>
+<para>
+This chapter will show you more details about the system users (agents).
+</para>
+
+<sect1 id="user-howto">
+<title>How it works</title>
+<para>
+You need system users (agents) to deal with all the tickets.
+</para>
+<sect2>
+<title>Admin-Interface</title>
+<para>
+Edit your system user via the Admin-Interface.
+</para>
+</sect2>
+</sect1>
+
+<sect1 id="user-backend">
+<title>User Backend</title>
+<para>
+There is no existing user backend. At the moment the OTRS user need to 
+be in the otrs database.
+</para>
+<para>
+User backends (for DB and LDAP) are planned for OTRS 2.0.
+</para>
+</sect1>
+
+<sect1 id="user-auth-backend">
+<title>User Auth Backend</title>
+<sect2>
+<title>Database (default)</title>
+<para>
+The default user auth backend is the otrs database. 
+<programlisting>
+    [Kernel/Config.pm]
+    # This is the auth. module againt the otrs db
+    $Self->{'AuthModule'} = 'Kernel::System::Auth::DB';
+    [...]
+</programlisting>
+</para>
+</sect2>
+<sect2>
+<title>LDAP</title>
+<para>
+If there is a LDAP tree available with your users then you can
+use the user LDAP auth backend. This module is just read only (
+means it can't write to your LDAP tree - this should just be possibe for 
+your tree manager) so you can't create or update user via the Admin-Interface.
+<programlisting>
+    [Kernel/Config.pm]
+    # This is an example configuration for an LDAP auth. backend.
+    # (take care that Net::LDAP is installed!)
+    $Self->{'AuthModule'} = 'Kernel::System::Auth::LDAP';
+    $Self->{'AuthModule::LDAP::Host'} = 'ldap.example.com';
+    $Self->{'AuthModule::LDAP::BaseDN'} = 'dc=example,dc=com';
+    $Self->{'AuthModule::LDAP::UID'} = 'uid';
+
+    # Check if the user is allowed to auth in a posixGroup
+    # (e. g. user needs to be in a group xyz to use otrs)
+#    $Self->{'AuthModule::LDAP::GroupDN'} = 'cn=otrsallow,ou=posixGroups,dc=example,dc=com';
+#    $Self->{'AuthModule::LDAP::AccessAttr'} = 'memberUid';
+
+    # The following is valid but would only be necessary if the
+    # anonymous user do NOT have permission to read from the LDAP tree 
+    $Self->{'AuthModule::LDAP::SearchUserDN'} = '';
+    $Self->{'AuthModule::LDAP::SearchUserPw'} = '';
+    [...]
+</programlisting>
+</para>
+</sect2>
+</sect1>
+
+</chapter>

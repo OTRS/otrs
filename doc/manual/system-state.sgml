@@ -1,0 +1,30 @@
+<chapter id="state">
+<title>Customize Ticket State (min. OTRS 1.1)</title>
+<para>
+It's possible to change or add ticket states. There are two important
+options, state-name and state-type.
+</para>
+<para>
+<itemizedlist mark='opencircle'>
+
+<listitem>
+<para>
+The default state-types are 'new', 'open', 'closed', 'pending reminder', 
+'pending auto' and 'removed'.
+</para>
+</listitem>
+
+<listitem>
+<para>
+Each state needs to have a name (state-name) and a type (state-type). The
+name is free settable.
+</para>
+</listitem>
+
+</itemizedlist>
+</para>
+
+<para>
+Use the Admin-Interface (Status defs) if you want to change or add ticket states. 
+</para>
+</chapter>

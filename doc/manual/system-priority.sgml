@@ -1,0 +1,67 @@
+<chapter id="priority">
+<title>Customize Ticket Priority (min. OTRS 1.1)</title>
+<para>
+If you want to customize the system ticket priorities follow the
+next steps (there is no existing webfrontend).
+</para>
+<para>
+<itemizedlist mark='opencircle'>
+
+<listitem>
+<para>
+Get the current priorities:
+<programlisting>
+mysql> select id, name from ticket_priority;
++----+-------------+
+| id | name        |
++----+-------------+
+|  1 | 1 very low  |
+|  2 | 2 low       |
+|  3 | 3 normal    |
+|  4 | 4 high      |
+|  5 | 5 very high |
++----+-------------+
+5 rows in set (0.00 sec)
+
+mysql> 
+</programlisting>
+Important: The "id" gives the order of the priority. -=> 1 = min, 5 (or higher) = highest 
+</para>
+<para>
+The number in front of the state name is to show the order correctly in the webinterface.
+</para>
+</listitem>
+
+<listitem>
+<para>
+Update the priorities via SQL. e. g.
+<programlisting>
+mysql> UPDATE ticket_priority SET name = '3 default' WHERE id = 3;
+</programlisting>
+And the "normal" priority will be in future named "3 default".
+</para>
+</listitem>
+
+<listitem>
+<para>
+Take care that you also update the default priority (if you changed the name)
+in your Kernel/Config.pm
+<programlisting>
+    [...]
+    # PostmasterDefaultPriority
+    # (The default priority of new tickets.) [default: '3 normal']
+    $Self->{PostmasterDefaultPriority} = '3 default';
+    [...]
+    # CustomerDefaultPriority
+    # (default priority of new customer tickets)
+    $Self->{CustomerDefaultPriority} = '3 default';
+    [...]
+</programlisting>
+</para>
+</listitem>
+
+</itemizedlist>
+
+</para>
+
+</chapter>

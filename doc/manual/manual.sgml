@@ -18,10 +18,14 @@
 <!ENTITY receiving-email SYSTEM "receiving_email.sgml">
 <!ENTITY language-translation SYSTEM "language-translation.sgml">
 <!ENTITY ticket-topics SYSTEM "ticket-topics.sgml">
+<!ENTITY user SYSTEM "user.sgml">
+<!ENTITY customer SYSTEM "customer.sgml">
 <!ENTITY multi-hosting SYSTEM "multi-hosting.sgml">
 <!ENTITY performance-tuning SYSTEM "performance-tuning.sgml">
 <!ENTITY generic-agent SYSTEM "generic-agent.sgml">
 <!ENTITY cronjob SYSTEM "cronjob.sgml">
+<!ENTITY priority SYSTEM "system-priority.sgml">
+<!ENTITY state SYSTEM "system-state.sgml">
 <!ENTITY dtl SYSTEM "dtl.sgml">
 ]>
 
@@ -71,11 +75,19 @@ or implied warranty.
 
 &language-translation;
 
-&dtl;
-
 &cronjob;
 
 &generic-agent;
+
+&user;
+
+&customer;
+
+&dtl;
+
+&state;
+
+&priority;
 
 &multi-hosting;
 
