@@ -2,7 +2,7 @@
 # Kernel/System/Auth/LDAP.pm - provides the ldap authentification 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LDAP.pm,v 1.10 2004-02-23 16:01:42 martin Exp $
+# $Id: LDAP.pm,v 1.11 2004-03-18 15:37:47 robert Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ use strict;
 use Net::LDAP;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -40,11 +40,11 @@ sub new {
 
     # get ldap preferences
     $Self->{Host} = $Self->{ConfigObject}->Get('AuthModule::LDAP::Host')
-     || die "Need AuthModule::LDAPHost in Kernel/Config.pm";
+     || die "Need AuthModule::LDAP::Host in Kernel/Config.pm";
     $Self->{BaseDN} = $Self->{ConfigObject}->Get('AuthModule::LDAP::BaseDN')
-     || die "Need AuthModule::LDAPBaseDN in Kernel/Config.pm";
+     || die "Need AuthModule::LDAP::BaseDN in Kernel/Config.pm";
     $Self->{UID} = $Self->{ConfigObject}->Get('AuthModule::LDAP::UID')
-     || die "Need AuthModule::LDAPBaseDN in Kernel/Config.pm";
+     || die "Need AuthModule::LDAP::UID in Kernel/Config.pm";
     $Self->{SearchUserDN} = $Self->{ConfigObject}->Get('AuthModule::LDAP::SearchUserDN') || '';
     $Self->{SearchUserPw} = $Self->{ConfigObject}->Get('AuthModule::LDAP::SearchUserPw') || '';
     $Self->{GroupDN} = $Self->{ConfigObject}->Get('AuthModule::LDAP::GroupDN') || '';
