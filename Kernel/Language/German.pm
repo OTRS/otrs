@@ -2,7 +2,7 @@
 # German.pm - provides german languag translation
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: German.pm,v 1.7 2002-02-07 00:01:38 martin Exp $
+# $Id: German.pm,v 1.8 2002-04-08 15:56:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::German;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -24,6 +24,7 @@ sub Data {
     # some common words
     $Self->{Lock} = 'Ziehen';
     $Self->{Unlock} = 'Frei geben';
+    $Self->{unlock} = 'frei geben';
     $Self->{Zoom} = 'Genauer';
     $Self->{History} = 'History';
     $Self->{'Add Note'} = 'Notiz anheften';
@@ -150,6 +151,8 @@ sub Data {
     $Self->{'please do not edit!'} = 'Bitte nicht ver‰ndern!';
     $Self->{'Send mail!'} = 'Mail senden!';
     $Self->{'wrote'} = 'schrieb';
+    $Self->{'Compose answer for ticket'} = 'Antwort erstellen f¸r';
+    $Self->{'Ticket locked!'} = 'Ticket gesperrt!';
     # preferences
     $Self->{'User Preferences'} = 'Benutzereinstellungen';
     $Self->{'Change Password'} = 'Paﬂwort ‰ndern';
