@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.118 2004-05-24 18:59:08 martin Exp $
+# $Id: Generic.pm,v 1.119 2004-05-30 16:39:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::Output::HTML::FAQ;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.118 $';
+$VERSION = '$Revision: 1.119 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -1200,5 +1200,68 @@ sub BuildDateSelection {
     );
 }
 # --
+sub OutputCSV {
+    my $Self = shift;
+    my %Param = @_;
+    my $Output = '';
+    my @Head = ('##No Head Data##');
+    if ($Param{Head}) {
+        @Head = @{$Param{Head}};
+    } 
+    my @Data = (['##No Data##']);
+    if ($Param{Data}) {
+        @Data = @{$Param{Data}};
+    }
 
+    foreach my $Entry (@Head) {
+        # csv quote
+        $Entry =~ s/"/""/g if ($Entry);
+        $Entry = '' if (!defined($Entry));
+        $Output .= "\"$Entry\";";
+    }
+    $Output .= "\n";
+
+    foreach my $EntryRow (@Data) {
+        foreach my $Entry (@{$EntryRow}) {
+            # csv quote
+            $Entry =~ s/"/""/g if ($Entry);
+            $Entry = '' if (!defined($Entry));
+            $Output .= "\"$Entry\";";
+        }
+        $Output .= "\n";
+    }
+    return $Output;
+}
+# --
+sub OutputHTMLTable {
+    my $Self = shift;
+    my %Param = @_;
+    my $Output = '';
+    my @Head = ('##No Head Data##');
+    if ($Param{Head}) {
+        @Head = @{$Param{Head}};
+    } 
+    my @Data = (['##No Data##']);
+    if ($Param{Data}) {
+        @Data = @{$Param{Data}};
+    }
+
+    $Output .= '<table border="0" width="100%" cellspacing="0" cellpadding="3">';
+    $Output .= "<tr>\n"; 
+    foreach my $Entry (@Head) {
+        $Output .= "<th class=\"item\">$Entry</th>\n";
+    }
+    $Output .= "</tr>\n";
+
+    foreach my $EntryRow (@Data) {
+        $Output .= "<tr>\n";
+        foreach my $Entry (@{$EntryRow}) {
+            $Output .= "<td class=\"small\">$Entry</td>\n";
+        }
+        $Output .= "</tr>\n";
+    }
+    $Output .= "</table>\n";
+    return $Output;
+}
+# --
 1;
