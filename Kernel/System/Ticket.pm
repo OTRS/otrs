@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.98 2004-04-22 13:11:00 martin Exp $
+# $Id: Ticket.pm,v 1.99 2004-04-22 13:52:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.98 $';
+$VERSION = '$Revision: 1.99 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -2983,7 +2983,6 @@ print STDERR "Matched: $Match '$Acl'->ReturnType:'$Param{ReturnType}'->ReturnSub
                 %{$Self->{ConfigObject}->Get('TicketACL::Default::Action')},
                 %{$Step{Possible}->{$Param{ReturnType}}},
             };
-            return 1;
         }
         # build new ticket data hash 
         if (%Checks && $Match && $Match3 && $Step{Possible}->{Ticket}->{$Param{ReturnSubType}}) {
@@ -3086,6 +3085,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.98 $ $Date: 2004-04-22 13:11:00 $
+$Revision: 1.99 $ $Date: 2004-04-22 13:52:04 $
 
 =cut
