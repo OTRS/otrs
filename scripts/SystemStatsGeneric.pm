@@ -2,7 +2,7 @@
 # Kernel/Modules/SystemStatsGeneric.pm - generic pure SQL stats module
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --   
-# $Id: SystemStatsGeneric.pm,v 1.1 2003-02-27 09:11:50 martin Exp $
+# $Id: SystemStatsGeneric.pm,v 1.2 2003-03-10 16:34:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -26,7 +26,7 @@ package Kernel::Modules::SystemStatsGeneric;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -58,7 +58,7 @@ sub Run {
     my $DetailText = 'Some text about the content! ($Text{"Stand"}: $Env{"Time"})';
     my $CSVFile = 'csv-file';
     my $SQLLimit = 5000;
-    my $SQL = 'SELECT * FROM system_user';
+    my $SQL = qq|SELECT * FROM system_user|;
     # ------------------------------------------------------------------------------ #
 
     # --
