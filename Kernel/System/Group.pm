@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 #               2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Group.pm,v 1.10 2003-11-19 01:32:42 martin Exp $
+# $Id: Group.pm,v 1.11 2003-11-20 22:57:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Group;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -73,18 +73,20 @@ sub GetGroupIdByName {
 
 to add a member to a group
   
-  Type: Ro,Move,Priority,State,Rw
+  Permission: ro,move,priority,create,rw 
 
   my $ID = $Self->{GroupObject}->GroupMemberAdd(
       GID => 12,
       UID => 6,
-      ro => 1,
-      move => 1,
-      create => 1,
-      owner => 1,
-      priority => 0,
-      state => 1,
-      rw => 0,
+      Permission => {
+          ro => 1,
+          move => 1,
+          create => 1,
+          owner => 1,
+          priority => 0,
+          state => 1,
+          rw => 0,
+      },
       UserID => 123,
   );
 
@@ -95,43 +97,40 @@ sub GroupMemberAdd {
     my %Param = @_;
     my $count;
     # check needed stuff
-    foreach (qw(UID GID UserID)) {
+    foreach (qw(UID GID UserID Permission)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
     }
-    # sql
-    my $Ro = defined ($Param{ro}) ? $Param{ro} : 1;
-    my $Move = defined ($Param{move}) ? $Param{move} : 1;
-    my $Create = defined ($Param{create}) ? $Param{create} : 1;
-    my $Owner = defined ($Param{owner}) ? $Param{owner} : 1;
-    my $Priority = defined ($Param{priority}) ? $Param{priority} : 1;
-    my $State = defined ($Param{state}) ? $Param{state} : 1;
-    my $Rw = defined ($Param{rw}) ? $Param{rw} : 1;
-    $Self->{DBObject}->Do(
-        SQL => "DELETE FROM group_user WHERE group_id = $Param{GID} AND user_id = $Param{UID}",
-    );
-    if ($Ro || $Rw || $Move || $Create || $Owner || $Priority || $State) {
-        my $SQL = "INSERT INTO group_user (user_id, group_id, ".
-          " permission_read, permission_move, permission_priority, ".
-          " permission_state, permission_create, permission_owner, ".
-          " permission_write, ".
-          " create_time, create_by, change_time, change_by)".
-          " VALUES ".
-          " ( $Param{UID}, $Param{GID}, $Ro, $Move, $Priority, $State, ".
-          " $Create, $Owner, $Rw, ". 
-          " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
-        if ($Self->{DBObject}->Do(SQL => $SQL)) {
-            return 1;
+    # update permission 
+    foreach (keys %{$Param{Permission}}) {
+        # delete existing permission
+        my $SQL = "DELETE FROM group_user ".
+          " WHERE ".
+          " group_id = $Param{GID} ".
+          " AND ".
+          " user_id = $Param{UID} ".
+          " AND ".
+          " permission_key = '$_'";
+        $Self->{DBObject}->Do(SQL => $SQL);
+        # debug
+        if ($Self->{Debug}) {
+            $Self->{LogObject}->Log(
+                Priority => 'error', 
+                Message => "Add UID:$Param{UID} to GID:$Param{GID}, $_:$Param{Permission}->{$_}!",
+            );
         }
-        else { 
-            return;
-        } 
+        # insert new permission
+        $SQL = "INSERT INTO group_user ".
+          " (user_id, group_id, permission_key, permission_value, ".
+          " create_time, create_by, change_time, change_by) ".
+          " VALUES ".
+          " ($Param{UID}, $Param{GID}, '$_', $Param{Permission}->{$_},".
+          " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
+        $Self->{DBObject}->Do(SQL => $SQL);
     }
-    else {
-        return;
-    }
+    return 1;
 } 
 # --
 
@@ -299,19 +298,19 @@ sub GroupList {
 
 =item GroupMemberList()
 
-returns a list of users of a group with ro/move/create/owner/state/priority/rw permissions
+returns a list of users of a group with ro/move/create/owner/priority/rw permissions 
 
-  UserID:
-  GroupID: 
-  Type: ro|move|priority|state|rw
+  UserID: user id
+  GroupID: group id
+  Type: ro|move|priority|create|rw
   Result: HASH -> returns a hash of key => group id, value => group name
           Name -> returns an array of user names
           ID   -> returns an array of user names
   Example:
   $Self->{GroupObject}->GroupMemberList(
-            UserID => $ID,
-            Type => 'move',
-            Result => 'HASH',
+      UserID => $ID,
+      Type => 'move',
+      Result => 'HASH',
   );
 
 =cut
@@ -333,9 +332,7 @@ sub GroupMemberList {
     my %Data = (); 
     my @Name = ();
     my @ID = ();
-    my $SQL = "SELECT g.id, g.name, gu.permission_read, gu.permission_write, ".
-      " gu.permission_move, gu.permission_create, gu.permission_owner, ".
-      " gu.permission_priority, gu.permission_state, ".
+    my $SQL = "SELECT g.id, g.name, gu.permission_key, gu.permission_value, ".
       " gu.user_id ".
       " FROM ".
       " groups g, group_user gu".
@@ -343,6 +340,10 @@ sub GroupMemberList {
       " g.valid_id in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ".
       " AND ".
       " g.id = gu.group_id ".
+      " AND ".
+      " gu.permission_value = 1 ".
+      " AND ".
+      " gu.permission_key IN ('$Param{Type}', 'rw') ".
       " AND ";
     if ($Param{UserID}) {
       $SQL .= " gu.user_id = $Param{UserID}";
@@ -359,74 +360,13 @@ sub GroupMemberList {
             $Value = $Row[1];
         }
         else {
-            $Key = $Row[9];
+            $Key = $Row[4];
             $Value = $Row[1];
         }
-        # check rw permissions
-        my $RW = 0;
-        if ((!$Row[2]&&!$Row[3]&&!$Row[4]&&!$Row[5]&&!$Row[6]&&!$Row[7]&&!$Row[8]) || $Row[3]) {
-            $RW = 1;    
-        }
-        # read only permissions
-        if ($Param{Type} eq 'ro') {
-            if ($Row[2] || $RW) {
-                $Data{$Key} = $Value;
-                push (@Name, $Value);
-                push (@ID, $Key);
-            }
-        }
-        # move permissions
-        elsif ($Param{Type} eq 'move') {
-            if ($Row[4] || $RW) {
-                $Data{$Key} = $Value;
-                push (@Name, $Value);
-                push (@ID, $Key);
-            }
-        }
-        # create permissions
-        elsif ($Param{Type} eq 'create') {
-            if ($Row[5] || $RW) {
-                $Data{$Key} = $Value;
-                push (@Name, $Value);
-                push (@ID, $Key);
-            }
-        }
-        # owner permissions
-        elsif ($Param{Type} eq 'owner') {
-            if ($Row[6] || $RW) {
-                $Data{$Key} = $Value;
-                push (@Name, $Value);
-                push (@ID, $Key);
-            }
-        }
-        # priority permissions
-        elsif ($Param{Type} eq 'priority') {
-            if ($Row[7] || $RW) {
-                $Data{$Key} = $Value;
-                push (@Name, $Value);
-                push (@ID, $Key);
-            }
-        }
-        # state permissions
-        elsif ($Param{Type} eq 'state') {
-            if ($Row[8] || $RW) {
-                $Data{$Key} = $Value;
-                push (@Name, $Value);
-                push (@ID, $Key);
-            }
-        }
-        # read/write
-        elsif ($Param{Type} eq 'rw') {
-            if ($RW) {
-                $Data{$Key} = $Value;
-                push (@Name, $Value);
-                push (@ID, $Key);
-            }
-        }
-        else {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Type '$Param{Type}' dosn't exist!");
-            return;
-        }
+        # get permissions
+        $Data{$Key} = $Value;
+        push (@Name, $Value);
+        push (@ID, $Key);
     }
     if ($Param{Result} && $Param{Result} eq 'ID') {
         return @ID;
@@ -443,6 +383,6 @@ sub GroupMemberList {
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2003-11-19 01:32:42 $
+$Revision: 1.11 $ $Date: 2003-11-20 22:57:11 $
 
 =cut
