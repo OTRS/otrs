@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file for OpenTRS
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.8 2001-12-26 20:03:36 martin Exp $
+# $Id: index.pl,v 1.9 2001-12-27 14:25:24 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use lib '/home/martin/src/otrs/';
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 my $Debug = 0;
@@ -67,6 +67,11 @@ use Kernel::Modules::AdminQueueResponses;
 use Kernel::Modules::AdminQueue;
 use Kernel::Modules::AdminAutoResponse;
 use Kernel::Modules::AdminQueueAutoResponse;
+use Kernel::Modules::AdminSalutation;
+use Kernel::Modules::AdminSignature;
+use Kernel::Modules::AdminUser;
+use Kernel::Modules::AdminGroup;
+use Kernel::Modules::AdminUserGroup;
 use Kernel::Output::HTML::Generic;
 
 # --
@@ -115,8 +120,17 @@ if ($Param{Action} eq "Login") {
     # check submited data
     if ( $AuthObject->Auth(User => $User, Pw => $Pw) ) {
         my %Data = $AuthObject->GetUserData(User => $User);
+        # check needed data
+        if (!$Data{UserID} || $Data{ThemeID}) {
+            print $CommonObject{LayoutObject}->Header();
+            print $CommonObject{LayoutObject}->Login(Message => 'Panic! No UserData!!!');
+            print $CommonObject{LayoutObject}->Footer();
+            exit (0);
+        }
+        # create new session id
         my $NewSessionID = $CommonObject{SessionObject}->CreateSessionID(%Data);
         my $LayoutObject = Kernel::Output::HTML::Generic->new(SessionID => $NewSessionID, %CommonObject);
+        # redirect with new session id
         print $LayoutObject->Redirect();
     }
     # login is vailid
