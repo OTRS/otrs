@@ -2,7 +2,7 @@
 # Kernel/Modules/SystemStats.pm - show stats of otrs
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SystemStats.pm,v 1.12 2004-07-07 12:00:01 martin Exp $
+# $Id: SystemStats.pm,v 1.13 2004-08-03 13:07:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::SystemStats;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $ ';
+$VERSION = '$Revision: 1.13 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -217,6 +217,16 @@ sub Run {
             }
             # gd output
             elsif ($Format =~ /^Graph(|Line|Bars|Pie)$/) {
+                # check @Data
+                if (!@Data) {
+                    my $Output = $Self->{LayoutObject}->Header(Area => 'Stats',Title => 'Error');
+                    $Output .= $Self->{LayoutObject}->Warning(
+                        Message => 'No data for this time selection available!',
+                        Comment => 'Please contact your admin'
+                    );
+                    $Output .= $Self->{LayoutObject}->Footer();
+                    return $Output;
+                }
                 my $GDBackend = '';
                 if ($1 eq 'Bars') {
                     $GDBackend = 'GD::Graph::bars';
