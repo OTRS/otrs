@@ -1,8 +1,8 @@
 # --
 # RPM spec file for SuSE Linux of the OTRS package
-# Copyright (C) 2002 Martin Edenhofer <bugs+rpm@otrs.org>
+# Copyright (C) 2002-2003 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: suse-otrs.spec,v 1.26 2002-12-03 23:42:43 martin Exp $
+# $Id: suse-otrs.spec,v 1.27 2003-01-05 23:51:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -32,10 +32,14 @@ Feedback: feedback@otrs.org
 
 Authors:
 --------
-    Carsten Gross <carsten@siski.de>
-    Franz Breu <breu.franz@bogen.net>
-    Stefan Wintermeyer <stefan@wintermeyer.de>
-    Martin Edenhofer <martin+rpm@otrs.org>
+    Antti Kämäräinen <antti at seu.net>
+    Carsten Gross <carsten at siski.de>
+    Franz Breu <breu.franz at bogen.net>
+    Fred van Dijk <fvandijk at marklin.nl>
+    Nicolas Goralski <ngoralski at oceanet-technology.com>
+    Stefan Wintermeyer <stefan at wintermeyer.de>
+    Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
+    Martin Edenhofer <martin at otrs.org>
 
   OTRS is an Open source Ticket Request System with many features to manage
   customer telephone calls and e-mails. It is distributed under the GNU
@@ -50,7 +54,7 @@ Authors:
     - Admin web interface for changing system things
     - Customer web interface for viewing and sending infos to the agents
     - Webinterface with themes support
-    - Multi language support (english, german and french)
+    - Multi language support (english, german, french, finnish, dutch and bulgarian)
     - customize the output templates (dtl) release independently
     - easy and logical to use
 
@@ -100,25 +104,24 @@ SuSE series: ap
 
 
 %prep
-%setup -n OpenTRS
+%setup -n otrs
 
 %build
-# nothing
-
-%install
-# delete old RPM_BUILD_ROOT
-rm -rf $RPM_BUILD_ROOT
-# set DESTROOT
-export DESTROOT="/opt/OpenTRS/"
-# create RPM_BUILD_ROOT DESTROOT
-mkdir -p $RPM_BUILD_ROOT/$DESTROOT/
-# copy files
-cp -R . $RPM_BUILD_ROOT/$DESTROOT
 # copy config file
 cp Kernel/Config.pm.dist Kernel/Config.pm
 cd Kernel/Config/ && for foo in *.dist; do cp $foo `basename $foo .dist`; done && cd ../../
 # copy all crontab dist files
 for foo in var/cron/*.dist; do cp $foo var/cron/`basename $foo .dist`; done
+
+%install
+# delete old RPM_BUILD_ROOT
+rm -rf $RPM_BUILD_ROOT
+# set DESTROOT
+export DESTROOT="/opt/otrs/"
+# create RPM_BUILD_ROOT DESTROOT
+mkdir -p $RPM_BUILD_ROOT/$DESTROOT/
+# copy files
+cp -R . $RPM_BUILD_ROOT/$DESTROOT
 # install init-Script and rc.config entry
 install -d -m 755 $RPM_BUILD_ROOT/etc/init.d
 install -d -m 755 $RPM_BUILD_ROOT/usr/sbin
@@ -139,15 +142,17 @@ echo -n "Check OTRS user (/etc/passwd)... "
 if cat /etc/passwd | grep $OTRSUSER > /dev/null ; then 
     echo "$OTRSUSER exists."
     # update groups
-    usermod -G nogroup otrs
+    usermod -G nogroup $OTRSUSER
+    # update home dir
+    usermod -d /opt/otrs $OTRSUSER
 else
-    useradd $OTRSUSER -d /opt/OpenTRS/ -s /bin/false -G nogroup -c 'OTRS User' && echo "$OTRSUSER added."
+    useradd $OTRSUSER -d /opt/otrs/ -s /bin/false -G nogroup -c 'OTRS System User' && echo "$OTRSUSER added."
 fi
 
 # set permission
-/opt/OpenTRS/bin/SetPermissions.sh /opt/OpenTRS $OTRSUSER wwwrun
+/opt/otrs/bin/SetPermissions.sh /opt/otrs $OTRSUSER wwwrun
 # set Config.pm permission to be writable for the webserver 
-chown wwwrun /opt/OpenTRS/Kernel/Config.pm
+chown wwwrun /opt/otrs/Kernel/Config.pm
 
 # sysconfig
 %{fillup_and_insserv -s otrs START_OTRS}
@@ -155,7 +160,7 @@ chown wwwrun /opt/OpenTRS/Kernel/Config.pm
 # add suse-httpd.include.conf to apache.rc.config
 APACHERC=/etc/sysconfig/apache
 
-OTRSINCLUDE=/opt/OpenTRS/scripts/suse-httpd.include.conf
+OTRSINCLUDE=/opt/otrs/scripts/suse-httpd.include.conf
 sed 's+^HTTPD_CONF_INCLUDE_FILES=.*$+HTTPD_CONF_INCLUDE_FILES='$OTRSINCLUDE'+' \
 $APACHERC > /tmp/apache.rc.config.tmp && mv /tmp/apache.rc.config.tmp $APACHERC 
 
@@ -187,42 +192,44 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%config(noreplace) /opt/OpenTRS/Kernel/Config.pm
-%config(noreplace) /opt/OpenTRS/Kernel/Config/*.pm
-%config(noreplace) /opt/OpenTRS/var/log/TicketCounter.log
-%config(noreplace) /opt/OpenTRS/.procmailrc
-%config(noreplace) /opt/OpenTRS/.fetchmailrc
-%config(noreplace) /opt/OpenTRS/Kernel/Output/HTML/Standard/*.dtl
-%config(noreplace) /opt/OpenTRS/Kernel/Output/HTML/Lite/*.dtl
-%config(noreplace) /opt/OpenTRS/Kernel/Language/*.pm
-%config(noreplace) /opt/OpenTRS/var/cron/*
+%config(noreplace) /opt/otrs/Kernel/Config.pm
+%config(noreplace) /opt/otrs/Kernel/Config/*.pm
+%config(noreplace) /opt/otrs/var/log/TicketCounter.log
+%config(noreplace) /opt/otrs/.procmailrc
+%config(noreplace) /opt/otrs/.fetchmailrc
+%config(noreplace) /opt/otrs/Kernel/Output/HTML/Standard/*.dtl
+%config(noreplace) /opt/otrs/Kernel/Output/HTML/Lite/*.dtl
+%config(noreplace) /opt/otrs/Kernel/Language/*.pm
+%config(noreplace) /opt/otrs/var/cron/*
 %config(noreplace) /etc/sysconfig/otrs
 
 /etc/init.d/otrs
 /usr/sbin/rcotrs
 
-/opt/OpenTRS/RELEASE
-/opt/OpenTRS/Kernel/Language.pm
-/opt/OpenTRS/Kernel/Modules/*
-/opt/OpenTRS/Kernel/Output/HTML/*.pm
-/opt/OpenTRS/Kernel/System/*
-/opt/OpenTRS/bin/*
-/opt/OpenTRS/scripts/*
-/opt/OpenTRS/var/article/
-/opt/OpenTRS/var/httpd/
-/opt/OpenTRS/var/sessions/
-/opt/OpenTRS/var/spool/
-/opt/OpenTRS/var/tmp/
-/opt/OpenTRS/var/pics/stats/
+/opt/otrs/RELEASE
+/opt/otrs/Kernel/Language.pm
+/opt/otrs/Kernel/Modules/*
+/opt/otrs/Kernel/Output/HTML/*.pm
+/opt/otrs/Kernel/System/*
+/opt/otrs/bin/*
+/opt/otrs/scripts/*
+/opt/otrs/var/article/
+/opt/otrs/var/httpd/
+/opt/otrs/var/sessions/
+/opt/otrs/var/spool/
+/opt/otrs/var/tmp/
+/opt/otrs/var/pics/stats/
 
-/opt/OpenTRS/install*
+/opt/otrs/install*
 
-/opt/OpenTRS/Kernel/cpan-lib*
+/opt/otrs/Kernel/cpan-lib*
 
 %doc INSTAL* UPGRADING TODO COPYING CHANGES READM* doc/* 
 
 
 %changelog
+* Thu Jan 02 2003 - martin+rpm@otrs.org
+- moved from /opt/OpenTRS to /opt/otrs
 * Thu Nov 12 2002 - martin+rpm@otrs.org
 - moved %doc/install* to /opt/OpenTRS/ (installer problems!)
   and added Kernel/cpan-lib*
