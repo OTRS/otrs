@@ -6,7 +6,7 @@ We split this section into different parts per distribution. Of course you can s
 <sect1 id="problems_with_suse">
 <title>General problems with OpenTRS on SuSE Linux</title>
 <para>
-The very first step should be a visit to <ulink url="http://www.suse.de/de/support/download/updates/"><citetitle>http://www.suse.de/de/support/download/updates/</citetitle></ulink> which is the page where you can find the latest patches and updates for your SuSE Linux. Please check especialy for fixes about Apache, MySQL, Perl and of course OpenTRS. YaST2 users should be able to use the Yast Online Update mechanism. Otherwise download the rpm files and install them with rpm -Uvh foo.rpm
+The very first step should be a visit to <ulink url="http://www.suse.de/de/support/download/updates/"><citetitle>http://www.suse.de/de/support/download/updates/</citetitle></ulink> which is the page where you can find the latest patches and updates for your SuSE Linux. Please check especialy for fixes about Apache, MySQL, Perl and of course OpenTRS. YaST2 users should be able to use the Yast Online Update mechanism. Otherwise download the rpm files and deinstall the old package with "rpm --nodeps -e otrs" and install them th new with "rpm -i foo.rpm"
 </para>
 <para>
 The second step should be a visit to the <ulink url="http://www.otrs.org/"><citetitle>OpenTRS Homepage</citetitle></ulink>. We will provide the very latest fixes and howtos there.
@@ -19,7 +19,10 @@ The third step is writting an e-mail to the developer team of OpenTRS. We will b
 <title>SuSE Linux 8.0</title>
 <para>Unfortantely the otrs.rpm which is on the SuSE 8.0 distribution is a buggy one (it was not a SuSE mistake). Please download the newest version from our <ulink url="http://www.otrs.org/">Homepage</ulink> and install it with YaST or manually by 
 <screen>
-rpm -Uvh otrs.rpm
+# deinstall old package
+shell> rpm --nodeps -e otrs
+# install new package
+shell> rpm -i new-otrs.rpm 
 </screen>
 </para>
 
