@@ -2,7 +2,7 @@
 # INSTALL description of OTRS
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: INSTALL,v 1.22 2002-11-21 21:44:17 martin Exp $
+# $Id: INSTALL,v 1.23 2002-12-01 14:21:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -74,23 +74,40 @@ settings. The OTRS user is "otrs" and the home (root) directory is /opt/OpenTRS
    $shell: cd /opt/
    $shell: tar -xzvf otrs-xxxx-xx-xx.tar-gz
    $shell: chown -R /opt/OpenTRS/* otrs
-   
-4. Webserver:
+
+4. Demo config files:
+   ------------------  
+    There are several OTRS demo config files in $OTRS_HOME/Kernel/*.dist
+    and $OTRS_HOME/Kernel/Config/*.dist. Make copies of all demo config files:
+  
+      cp Kernel/Config.pm.dist Kernel/Config.pm
+ 
+      cd Kernel/Config/
+      for foo in *.dist; do cp $foo `basename $foo .dist`; done
+
+    Or if you are installing OTRS an a Windows system:
+
+      copy Kernel/Config.pm.dist Kernel/Config.pm
+ 
+      cd Kernel/Config/
+      copy *.dist *.
+
+5. Webserver:
    ----------
    [follow README.webserver] 
 
-5. Database setup:
+6. Database setup:
    ---------------
    If you use MySQL, you can use the Web-Installer (http://yourhost/otrs/installer.pl).
    Else follow README.database --> "DB - Setup Example".
 
-6. Config file ($HOME/Kernel/Config.pm):
+7. Config file ($HOME/Kernel/Config.pm):
    -------------------------------------
    If you used the Web-Installer, you can skip this point. If not,
    set some Kernel::Config ($HOME/Kernel/Config.pm) Options (FQDN, SystemID, TicketHook, 
    Home, ...)
 
-7. File Permissions:
+8. File Permissions:
    -----------------
    Set the file permissions with 
    "$HOME/bin/SetPermissions.sh <OTRS_HOME> <OTRS_USER> <WEBSERVER_USER> [OTRS_GROUP] [WEB_GROUP]"
@@ -99,7 +116,7 @@ settings. The OTRS user is "otrs" and the home (root) directory is /opt/OpenTRS
      Webserver with wwwrun user (e. g. SuSE): "SetPermissions.sh /opt/OpenTRS otrs wwwrun" 
      Webserver with apache user (e. g. Redhat): "SetPermissions.sh /opt/OpenTRS otrs apache users apache"
 
-8. First Login:
+9. First Login:
    ------------
    http://yourhost/otrs/index.pl
    User: root@localhost
@@ -109,7 +126,7 @@ settings. The OTRS user is "otrs" and the home (root) directory is /opt/OpenTRS
 
    Finished.
 
-9. First Email:
+10. First Email:
    ------------
    use the procmailrc of the OTRS user --> ~otrs/.procmailrc or e. g. /opt/OpenTRS/.procmailrc
 
@@ -118,13 +135,19 @@ settings. The OTRS user is "otrs" and the home (root) directory is /opt/OpenTRS
    or pipe an email directly into $OTRS_HOME/bin/Postmaster.pl
     (e. g. 'cat /opt/OpenTRS/doc/test-email-1.box | /opt/OpenTRS/bin/PostMaster.pl').
 
-10. Cronjobs for the OTRS user:
+11. Cronjobs for the OTRS user:
     ---------------------------
     There are several OTRS demo cronjobs in $OTRS_HOME/var/cron/*.dist. 
     Make copies of all of the demo cronjobs:
  
       cd var/cron
       for foo in *.dist; do cp $foo `basename $foo .dist`; done
+
+    Or if you are installing OTRS an a Windows system:
+
+      cd var/cron
+      copy *.dist *.
+
 
     Use $OTRS_HOME/bin/Cron.sh {start|stop|restart} to start or stop this cronjobs
     from $OTRS_HOME/var/cron/* (.dist will be ignored). 
