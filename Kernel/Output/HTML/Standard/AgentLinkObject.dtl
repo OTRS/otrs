@@ -1,0 +1,152 @@
+# --
+# AgentLinkObject.dtl - provides HTML for AgentLinkObject mask
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: AgentLinkObject.dtl,v 1.1 2004-09-11 07:59:07 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- dtl:block:LinkOption -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+<tr>
+  <td align="left" class="table0">
+    <b>$Env{"Box0"}$Text{"Link Object"}$Env{"Box1"}</b>
+  </td>
+</tr>
+<tr>
+  <td align="left" colspan="2" class="table2">
+    <a href="$Env{"Baselink"}$Env{"LastScreen"}" onmouseover="window.status='$Text{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
+  </td>
+</tr>
+</table>
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+<tr>
+  <td align="center" valign="top" colspan="2" class="table1">
+      $Text{"Link Object"} "$Text{"$Env{"SourceObject"}"}" $Text{"with"}:
+      <form name="AgentTicketLink" action="$Env{"CGIHandle"}" method="post">
+      <input type="hidden" name="Action" value="$Env{"Action"}">
+      $Data{"LinkToObject"}
+      <br>
+      <input class="button" type="submit" value="$Text{"Select"}">
+      </form>
+
+  </td>
+</tr>
+</table>
+<!-- dtl:block:LinkOption -->
+
+
+<!-- dtl:block:Search -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+<tr>
+  <td align="left" class="table0">
+    <b>$Env{"Box0"}$Text{"Search"}: $Text{"$QData{"ChildObject"}"} $Env{"Box1"}</b>
+  </td>
+</tr>
+</table>
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+<tr>
+  <td valign="top" colspan="2" class="table1">
+
+      <form name="AgentTicketLink" action="$Env{"CGIHandle"}" method="post">
+      <input type="hidden" name="Action" value="$Env{"Action"}">
+      <input type="hidden" name="Subaction" value="Search">
+      <table border="0">
+<!-- dtl:block:SearchItem -->
+      <tr>
+          <td>$QData{"Text"}</td>
+          <td><input type="text" name="$QData{"Name"}" value="$QData{"Value"}"></td>
+      </tr>
+<!-- dtl:block:SearchItem -->
+      </table>
+      <br>
+      <input class="button" type="submit" value="$Text{"Search"}">
+      </form>
+  </td>
+</tr>
+</table>
+<!-- dtl:block:Search -->
+
+
+<!-- dtl:block:SearchResult -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+<tr>
+  <td align="left" class="table0">
+    <b>$Env{"Box0"}$Text{"Result"}$Env{"Box1"}</b>
+  </td>
+</tr>
+<tr>
+  <td align="left" valign="top" class="table2">
+$Text{"Results"}: <b>$QData{"Result"}</b> - $Text{"Total hits"}: <b>$Data{"TotalHits"}</b>
+- $Text{"Site"}: $Data{"SiteNavBar"}
+  </td>
+</tr>
+</table>
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+<tr>
+  <td valign="top" class="table1">
+
+  <table border="0" width="100%" cellspacing="0" cellpadding="2">
+  <tr>
+      <td width="10%">$Text{"Number"}</td>
+      <td width="50%">$Text{"Title"}</td>
+      <td width="15%">$Text{"Created"}</td>
+      <td width="15%">$Text{"Changed"}</td>
+      <td width="10%" align="center">$Text{"Normal"}</td>
+      <td width="10%" align="center">$Text{"Parent"}</td>
+      <td width="10%" align="center">$Text{"Child"}</td>
+  </tr>
+<!-- dtl:block:SearchResultItem -->
+<dtl if ($Data{"Linked"} eq "1") { $Data{"Color"} = "bgcolor="red""; }>
+<dtl if ($Data{"LinkedParent"} eq "1") { $Data{"LinkParent"} = "Unlink"; }>
+<dtl if ($Data{"LinkedParent"} ne "1") { $Data{"LinkParent"} = "Link"; }>
+<dtl if ($Data{"LinkedChild"} eq "1") { $Data{"LinkChild"} = "Unlink"; }>
+<dtl if ($Data{"LinkedChild"} ne "1") { $Data{"LinkChild"} = "Link"; }>
+<dtl if ($Data{"LinkedNormal"} eq "1") { $Data{"LinkNormal"} = "Unlink"; }>
+<dtl if ($Data{"LinkedNormal"} ne "1") { $Data{"LinkNormal"} = "Link"; }>
+<dtl if ($Data{"LinkedParent"} eq "1") { $Data{"LinkedParentLink"} = " (linked as Parent)"; }>
+  <tr $Data{"Color"}>
+      <td><a href="$Env{"Baselink"}Action=$Env{"Action"}&PreviewID=$QData{"ID"}">$QData{"Number"}</a></td>
+      <td>$QData{"Title"}</td>
+      <td>$TimeLong{"$Data{"Created"}"}</td>
+      <td>$TimeLong{"$Data{"Changed"}"}</td>
+      <td align="center"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$QData{"LinkNormal"}Normal&ID=$QData{"ID"}&StartHit=$QData{"StartHit"}">$Text{"$QData{"LinkNormal"}"}</a></td>
+      <td align="center"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$QData{"LinkParent"}Parent&ID=$QData{"ID"}&StartHit=$QData{"StartHit"}">$Text{"$QData{"LinkParent"}"}</a></td>
+      <td align="center"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$QData{"LinkChild"}Child&ID=$QData{"ID"}&StartHit=$QData{"StartHit"}">$Text{"$QData{"LinkChild"}"}</a></td>
+  </tr>
+<!-- dtl:block:SearchResultItem -->
+  </table>
+
+  </td>
+</tr>
+</table>
+<!-- dtl:block:SearchResult -->
+
+
+<!-- dtl:block:Preview -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+<tr>
+  <td align="left" class="table0">
+    <b>$Env{"Box0"}$Text{"Preview"}$Env{"Box1"}</b>
+  </td>
+</tr>
+<tr>
+  <td align="left" colspan="2" class="table2">
+    <a href="$Env{"Baselink"}$Env{"LastScreen"}" onmouseover="window.status='$Text{"Detail"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Detail"}</a>
+  </td>
+</tr>
+</table>
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+<tr>
+  <td valign="top" colspan="2" class="table1">
+
+  $Data{"Body"}
+  <hr>
+
+  </td>
+</tr>
+</table>
+<!-- dtl:block:Preview-->
+

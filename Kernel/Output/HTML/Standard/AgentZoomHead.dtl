@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: AgentZoomHead.dtl,v 1.11 2004-05-30 16:41:50 martin Exp $
+# $Id: AgentZoomHead.dtl,v 1.12 2004-09-11 07:59:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -53,11 +53,11 @@ $Data{"AgentCustomerStrg"}
 <dtl if ($Data{"AgentFreeText"} ne "0") { $Data{"AgentFreeTextStrg"} = " - <a href="$Env{"Baselink"}Action=AgentFreeText&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Free Fields"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Change the ticket free fields!"}">$Text{"Free Fields"}</a>"; }>
 $Data{"AgentFreeTextStrg"}
 # should we show the ticket link action
-<dtl if ($Data{"AgentTicketLink"} ne "0") { $Data{"AgentTicketLinkStrg"} = " - <a href="$Env{"Baselink"}Action=AgentTicketLink&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Link"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Link this ticket to an other one!"}">$Text{"Link"}</a>"; }>
+<dtl if ($Data{"AgentTicketLink"} ne "0") { $Data{"AgentTicketLinkStrg"} = " - <a href="$Env{"Baselink"}Action=AgentLinkObject&SourceObject=Ticket&SourceID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Link"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Link this ticket to an other objects!"}">$Text{"Link"}</a>"; }>
 $Data{"AgentTicketLinkStrg"}
 # should we show the print action
 <dtl if ($Data{"AgentTicketPrint"} ne "0") { $Data{"AgentTicketPrintStrg"} = " - <a href="$Env{"Baselink"}Action=AgentTicketPrint&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Print"}'; return true;" onmouseout="window.status='';" class="menuitem" target="print" title="$Text{"Print this ticket!"}">$Text{"Print"}</a>"; }>
-$Data{"AgentTicketPrintStrg"} 
+$Data{"AgentTicketPrintStrg"}
 # should we show the pending action
 <dtl if ($Data{"AgentPending"} ne "0") { $Data{"AgentPendingStrg"} = " - <a href="$Env{"Baselink"}Action=AgentPending&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Pending"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"Set this ticket to pending!"}">$Text{"Pending"}</a>"; }>
 $Data{"AgentPendingStrg"}

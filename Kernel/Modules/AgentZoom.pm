@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.70 2004-07-16 12:15:29 martin Exp $
+# $Id: AgentZoom.pm,v 1.71 2004-09-11 07:59:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,9 +13,10 @@ package Kernel::Modules::AgentZoom;
 
 use strict;
 use Kernel::System::CustomerUser;
+use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.70 $';
+$VERSION = '$Revision: 1.71 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -51,6 +52,8 @@ sub new {
     $Self->{HighlightColor2} = $Self->{ConfigObject}->Get('HighlightColor2');
     # customer user object
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
+    # link object
+    $Self->{LinkObject} = Kernel::System::LinkObject->new(%Param);
     return $Self;
 }
 # --
@@ -81,7 +84,7 @@ sub Run {
         # error screen, don't show ticket
         # --
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
-    }  
+    }
     # --
     # store last screen
     # --
@@ -95,14 +98,59 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Error();
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
-      }  
+      }
     }
     # get content
     my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
-    my %TicketLink = $Self->{TicketObject}->TicketLinkGet(
-        TicketID => $Self->{TicketID},
-        UserID => $Self->{UserID},
-    );
+    my %LinkObjects = $Self->{LinkObject}->LinkObjects();
+    foreach my $Object (keys %LinkObjects) {
+        $Self->{LinkObject}->LoadBackend(Module => $Object);
+        my %Linked = $Self->{LinkObject}->LinkedObjects(
+            LinkType => 'Child',
+            LinkObject1 => 'Ticket',
+            LinkID1 => $Self->{TicketID},
+            LinkObject2 => $Object,
+            UserID => $Self->{UserID},
+        );
+        foreach (keys %Linked) {
+            $Self->{LayoutObject}->Block(
+                Name => 'LinkChild',
+                Data => { %{$Linked{$_}} },
+            );
+        }
+    }
+    foreach my $Object (keys %LinkObjects) {
+        $Self->{LinkObject}->LoadBackend(Module => $Object);
+        my %Linked = $Self->{LinkObject}->LinkedObjects(
+            LinkType => 'Parent',
+            LinkObject2 => 'Ticket',
+            LinkID2 => $Self->{TicketID},
+            LinkObject1 => $Object,
+            UserID => $Self->{UserID},
+        );
+        foreach (keys %Linked) {
+            $Self->{LayoutObject}->Block(
+                Name => 'LinkParent',
+                Data => { %{$Linked{$_}} },
+            );
+        }
+    }
+    foreach my $Object (keys %LinkObjects) {
+        $Self->{LinkObject}->LoadBackend(Module => $Object);
+        my %Linked = $Self->{LinkObject}->LinkedObjects(
+            LinkType => 'Normal',
+            LinkObject1 => 'Ticket',
+            LinkID1 => $Self->{TicketID},
+            LinkObject2 => $Object,
+            UserID => $Self->{UserID},
+        );
+        foreach (keys %Linked) {
+            $Self->{LayoutObject}->Block(
+                Name => 'LinkNormal',
+                Data => { %{$Linked{$_}} },
+            );
+        }
+    }
     my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(TicketID => $Self->{TicketID});
     # --
     # return if HTML email
@@ -184,7 +232,6 @@ sub Run {
         CustomerData => \%CustomerData,
         TicketTimeUnits => $Self->{TicketObject}->TicketAccountedTimeGet(%Ticket),
         %UserInfo,
-        %TicketLink,
         %Ticket,
     );
     # add footer 
@@ -546,51 +593,51 @@ sub MaskAgentZoom {
         if ($Article{ArticleType} =~ /^note/i) {
             # without compose links!
             if ($Self->{ConfigObject}->Get('AgentCanBeCustomer') && $Param{CustomerUserID} =~ /^$Self->{UserLogin}$/i) {
-              $Article{TicketAnswer} = $Self->{LayoutObject}->Output(
-                TemplateFile => 'AgentZoomAgentIsCustomer',
-                Data => {%Param, %Article, %AclAction},
-              );
+                $Self->{LayoutObject}->Block(
+                    Name => 'AgentIsCustomer',
+                    Data => {%Param, %Article, %AclAction},
+                );
             }
-            $Article{TicketArticle} = $Self->{LayoutObject}->Output(
-                TemplateFile => 'AgentZoomArticle',
+            $Self->{LayoutObject}->Block(
+                Name => 'AgentArticleCom',
                 Data => {%Param, %Article, %AclAction},
             );
             $BodyOutput .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AgentZoomBody', 
+                TemplateFile => 'AgentZoomBody',
                 Data => {%Param, %Article, %AclAction},
             );
         }
         else {
             # without all!
             if ($Self->{ConfigObject}->Get('AgentCanBeCustomer') && $Param{CustomerUserID} =~ /^$Self->{UserLogin}$/i) {
-              $Article{TicketAnswer} = $Self->{LayoutObject}->Output(
-                TemplateFile => 'AgentZoomAgentIsCustomer',
-                Data => {%Param, %Article, %AclAction},
-              );
+                $Self->{LayoutObject}->Block(
+                    Name => 'AgentIsCustomer',
+                    Data => {%Param, %Article, %AclAction},
+                );
             }
             else {
-              $Article{TicketAnswer} = $Self->{LayoutObject}->Output(
-                  TemplateFile => 'AgentZoomAnswer',
-                  Data => {%Param, %Article, %AclAction},
-              );
-              $Article{TicketArticle} = $Self->{LayoutObject}->Output(
-                  TemplateFile => 'AgentZoomArticle',
-                  Data => {%Param, %Article, %AclAction},
-              );
+                $Self->{LayoutObject}->Block(
+                    Name => 'AgentAnswer',
+                    Data => {%Param, %Article, %AclAction},
+                );
             }
+            $Self->{LayoutObject}->Block(
+                Name => 'AgentArticleCom',
+                Data => {%Param, %Article, %AclAction},
+            );
             $BodyOutput .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AgentZoomBody', 
+                TemplateFile => 'AgentZoomBody',
                 Data => {%Param, %Article, %AclAction},
             );
         }
     }
     my $Output = $Self->{LayoutObject}->Output(
-        TemplateFile => 'AgentZoomHead', 
-        Data => {%Param, %AclAction}, 
+        TemplateFile => 'AgentZoomHead',
+        Data => {%Param, %AclAction},
     );
     $Output .= $BodyOutput;
     $Output .= $Self->{LayoutObject}->Output(
-        TemplateFile => 'AgentZoomFooter', 
+        TemplateFile => 'AgentZoomFooter',
         Data => {%Param, %AclAction},
     );
     # return output
