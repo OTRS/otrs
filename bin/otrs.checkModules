@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 # --
-# $Id: otrs.checkModules,v 1.3 2003-02-11 15:29:29 wiktor Exp $
+# $Id: otrs.checkModules,v 1.4 2003-03-10 21:29:16 martin Exp $
 # --
 # This programm is based on pminst from Tom Christiansen.
 # This is free software.  You may modify it and distribute it 
@@ -25,10 +25,11 @@ my @NeededModules = (qw(
     Date::Pcalc 
     DBI DBD::mysql 
     Digest::MD5 
-    Email::Valid 
+    Email::Valid
     IO::Scalar IO::Wrap 
     MIME::Base64 MIME::Tools Mail::Internet
-    Net::DNS Net::POP3 Net::LDAP
+    Net::DNS Net::POP3 Net::LDAP Net::SMTP
+    Authen::SASL
     GD GD::Text GD::Graph GD::Graph::lines GD::Text::Align
 ));
 
@@ -64,11 +65,14 @@ foreach (@NeededModules) {
         if ($_ =~ /^GD/) {
             print sprintf(" %20s %s\n", $_, '... not installed! (for stats - not required)');
         }
-	elsif ($_ =~ /^Net::LDAP/) {
+        elsif ($_ =~ /^Net::SMTP$/ || $_ =~ /^Authen::SASL$/) {
+            print sprintf(" %20s %s\n", $_, '... not installed! (for SMTP backend - not required)');
+        }
+	    elsif ($_ =~ /^Net::LDAP/) {
             print sprintf(" %20s %s\n", $_, '... not installed! (for directory authentication - not required)');
         }
         else {
-            print sprintf(" %20s %s\n", $_, '... not installed! (required)');
+            print sprintf(" %20s %s\n", $_, '... not installed! (required - use "perl -MCPAN -e shell;")');
         }
     }
 }
