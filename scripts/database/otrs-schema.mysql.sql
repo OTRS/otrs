@@ -114,8 +114,8 @@ CREATE TABLE group_user
 (
     user_id INTEGER NOT NULL,
     group_id INTEGER NOT NULL,
-    read SMALLINT NOT NULL,
-    write SMALLINT NOT NULL,
+    permission_read SMALLINT NOT NULL,
+    permission_write SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,

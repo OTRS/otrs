@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 #               2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Group.pm,v 1.7 2003-03-06 22:11:57 martin Exp $
+# $Id: Group.pm,v 1.8 2003-03-08 17:58:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Group;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -79,7 +79,7 @@ sub GroupMemberAdd {
         SQL => "DELETE FROM group_user WHERE group_id = $Param{GID} AND user_id = $Param{UID}",
     );
     if ($Ro || $Rw) {
-        my $SQL = "INSERT INTO group_user (user_id, group_id, read, write, ".
+        my $SQL = "INSERT INTO group_user (user_id, group_id, permission_read, permission_write, ".
           " create_time, create_by, change_time, change_by)".
           " VALUES ".
           " ( $Param{UID}, $Param{GID}, $Ro, $Rw, current_timestamp, ".
@@ -248,7 +248,7 @@ sub GroupMemberList {
     my %Users = ();
     my @Name = ();
     my @ID = ();
-    my $SQL = "SELECT u.id, u.login, gu.read, gu.write " .
+    my $SQL = "SELECT u.id, u.login, gu.permission_read, gu.permission_write " .
       " FROM " .
       " $Self->{ConfigObject}->{DatabaseUserTable} u, group_user gu".
       " WHERE " .
@@ -306,7 +306,7 @@ sub GroupUserList {
     my %Groups = (); 
     my @Name = ();
     my @ID = ();
-    my $SQL = "SELECT g.id, g.name, gu.read, gu.write " .
+    my $SQL = "SELECT g.id, g.name, gu.permission_read, gu.permission_write " .
       " FROM " .
       " groups g, group_user gu".
       " WHERE " .

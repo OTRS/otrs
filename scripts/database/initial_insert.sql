@@ -2,9 +2,12 @@
 -- initial_insert.sql - provides initial system data
 -- Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: initial_insert.sql,v 1.3 2003-03-03 23:41:45 martin Exp $
+-- $Id: initial_insert.sql,v 1.4 2003-03-08 17:58:00 martin Exp $
 -- 
 -- $Log: not supported by cvs2svn $
+-- Revision 1.3  2003/03/03 23:41:45  martin
+-- added ticket_state_type values and updated ticket_state values
+--
 -- Revision 1.2  2003/02/08 21:13:29  martin
 -- added number prefix to priority for sort
 --
@@ -192,40 +195,19 @@ INSERT INTO groups
     VALUES
     ('stats',  1, 1, current_timestamp, 1, current_timestamp);
 
--- group_user
+-- group_user (add admin to groups)
 INSERT INTO group_user
-    (user_id, group_id, create_by, create_time, change_by, change_time)
+    (user_id, permission_read, permission_write, group_id, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 1, 1, current_timestamp, 1, current_timestamp);
+    (1, 1, 1, 1, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO group_user
-    (user_id, group_id, create_by, create_time, change_by, change_time)
+    (user_id, permission_read, permission_write, group_id, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 2, 1, current_timestamp, 1, current_timestamp);
+    (1, 1, 1, 2, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO group_user
-    (user_id, group_id, create_by, create_time, change_by, change_time)
+    (user_id, permission_read, permission_write, group_id, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 3, 1, current_timestamp, 1, current_timestamp);
-
--- FIXME!!! only tmp.
-----INSERT INTO group_user
-----        (user_id, group_id, create_by, create_time, change_by, change_time)
-----        VALUES
-----        (2, 1, 1, current_timestamp, 1, current_timestamp);
-----INSERT INTO group_user
-----        (user_id, group_id, create_by, create_time, change_by, change_time)
-----        VALUES
-----        (2, 2, 1, current_timestamp, 1, current_timestamp);
-
--- personal_queues
--- INSERT INTO personal_queues
---    (user_id, queue_id)
---    VALUES
---    (1, 1);
--- FIXME!!! only tmp.
-----INSERT INTO personal_queues
-----    (user_id, queue_id)
-----    VALUES
-----    (2, 1);
+    (1, 1, 1, 3, 1, current_timestamp, 1, current_timestamp);
 
 -- theme
 INSERT INTO theme
