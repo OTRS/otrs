@@ -2,7 +2,7 @@
 # FAQArticleView.dtl - provides HTML view for faq articles
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerFAQArticleView.dtl,v 1.2 2004-01-28 01:15:06 martin Exp $
+# $Id: CustomerFAQArticleView.dtl,v 1.3 2004-10-13 12:48:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,20 +10,23 @@
 # --
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr> 
+<tr>
   <td align="left" colspan="2" class="table0">
-  <b>$Env{"Box0"}$Text{"FAQ Article"}: $Quote{"$Data{"Subject"}"}$Env{"Box1"}</b>
+  <b>$Env{"Box0"}$Config{"FAQ::FAQHook"} $QData{"Number"}$Env{"Box1"}</b>
   </td>
 </tr>
 <tr align="left" valign="top">
   <td width="100%" class="table2">
-    <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Print&ID=$Data{"ID"}" target="print">$Text{"Print"}</a> 
+    <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Print&FAQID=$Data{"FAQID"}" target="print">$Text{"Print"}</a>
   </td>
 </tr>
 <tr align="left" valign="top">
   <td width="100%" class="table1">
-    <font size="+1">$Quote{"$Data{"Subject"}"}</font> 
     <table border="0" cellspacing="0" cellpadding="3">
+    <tr>
+      <td class="table1">$Text{"Title"}: </td>
+      <td class="table1"> $QData{"Title"}</td>
+    </tr>
     <tr>
       <td class="table1">$Text{"Category"}: </td>
       <td class="table1"> $Quote{"$Data{"Category"}"}</td>
@@ -41,13 +44,17 @@
       <td class="table1"> $Quote{"$Data{"Keywords"}"}</td>
     </tr>
     <tr>
+      <td class="table1">$Text{"Attachment"}: </td>
+      <td class="table1"> <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Download&FAQID=$QData{"FAQID"}">$QData{"Filename"}</a></td>
+    </tr>
+    <tr>
       <td class="table1" valign="top">$Text{"$Config{"FAQ::Field1"}"}: </td>
       <td class="table1"><pre>$Data{"Field1"}</pre>
     </tr>
     <tr>
       <td class="table1" valign="top">$Text{"$Config{"FAQ::Field2"}"}: </td>
       <td class="table1"><pre>$Data{"Field2"}</pre>
-      </td> 
+      </td>
     </tr>
     <tr>
       <td class="table1" valign="top">$Text{"$Config{"FAQ::Field3"}"}: </td>

@@ -2,7 +2,7 @@
 # CustomerFAQArticleSystemHistory.dtl - provides HTML form for faq articles
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerFAQArticleSystemHistory.dtl,v 1.1 2004-01-21 22:46:18 martin Exp $
+# $Id: CustomerFAQArticleSystemHistory.dtl,v 1.2 2004-10-13 12:48:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you

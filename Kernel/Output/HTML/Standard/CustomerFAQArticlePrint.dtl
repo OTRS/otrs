@@ -2,7 +2,7 @@
 # FAQArticlePrint.dtl - provides HTML print view for faq articles
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerFAQArticlePrint.dtl,v 1.4 2004-09-24 15:25:20 martin Exp $
+# $Id: CustomerFAQArticlePrint.dtl,v 1.5 2004-10-13 12:48:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,31 +12,39 @@
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
   <td class="mainhead">
-    FAQ: $Quote{"$Data{"Subject"}"}
+    $Config{"FAQ::FAQHook"}: $QData{"Number"}
   </td>
 </tr>
 <tr>
   <td class="contentbody">
     <table border="0" cellspacing="0" cellpadding="3">
     <tr>
+      <td class="contentkey">$Text{"Title"}: </td>
+      <td class="contentvalue"> $QData{"Title"}</td>
+    </tr>
+    <tr>
       <td class="contentkey">$Text{"Category"}: </td>
-      <td class="contentvalue"> $Quote{"$Data{"Category"}"}</td>
+      <td class="contentvalue"> $QData{"Category"}</td>
     </tr>
     <tr>
       <td class="contentkey">$Text{"State"}: </td>
-      <td class="contentvalue"> $Quote{"$Data{"State"}"}</td>
+      <td class="contentvalue"> $QData{"State"}</td>
     </tr>
     <tr>
       <td class="contentkey">$Text{"Language"}: </td>
-      <td class="contentvalue"> $Quote{"$Data{"Language"}"}</td>
+      <td class="contentvalue"> $QData{"Language"}</td>
     </tr>
     <tr>
       <td class="contentkey">$Text{"Keywords"}: </td>
-      <td class="contentvalue"> $Quote{"$Data{"Keywords"}"}</td>
+      <td class="contentvalue"> $QData{"Keywords"}</td>
     </tr>
     <tr>
       <td class="contentkey">$Text{"Last update"}: </td>
       <td class="contentvalue"> $Quote{"$TimeLong{"$Data{"Changed"}"}"}</td>
+    </tr>
+    <tr>
+      <td class="contentkey">$Text{"Attachment"}: </td>
+      <td class="contentvalue"> <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Download&FAQID=$QData{"FAQID"}">$QData{"Filename"}</a></td>
     </tr>
     <tr>
       <td colspan="2"><hr></td>
