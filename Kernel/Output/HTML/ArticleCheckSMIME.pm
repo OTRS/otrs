@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/ArticleCheckSMIME.pm
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleCheckSMIME.pm,v 1.3 2004-12-06 22:27:35 martin Exp $
+# $Id: ArticleCheckSMIME.pm,v 1.4 2005-01-28 09:57:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -65,7 +65,7 @@ sub Check {
     }
     # check smime
     else {
-        # write email to fs
+        # get email from fs
         my $Message = $Self->{TicketObject}->ArticlePlain(
             ArticleID => $Self->{ArticleID},
             UserID => $Self->{UserID},
@@ -76,12 +76,12 @@ sub Check {
         $parser->decode_headers(0);
         $parser->extract_nested_messages(0);
         $parser->output_to_core("ALL");
-        my $entity = $parser->parse_data($Message);
-        my $Head = $entity->head();
+        my $Entity = $parser->parse_data($Message);
+        my $Head = $Entity->head();
         $Head->unfold();
         $Head->combine('Content-Type');
         my $ContentType = $Head->get('Content-Type');
-       if ($ContentType && $ContentType =~ /application\/(x-pkcs7|pkcs7)-mime/i) {
+       if ($ContentType && $ContentType =~ /application\/(x-pkcs7|pkcs7)-mime/i && $ContentType !~ /signed/i) {
             # check sender (don't decrypt sent emails)
             if ($Param{Article}->{SenderType} =~ /(agent|system)/i) {
                 # return info
@@ -98,8 +98,8 @@ sub Check {
                 Key => 123,
             );
             if ($Decrypt{Successful}) {
-                $entity = $parser->parse_data($Decrypt{Data});
-                my $Head = $entity->head();
+                $Entity = $parser->parse_data($Decrypt{Data});
+                my $Head = $Entity->head();
                 $Head->unfold();
                 $Head->combine('Content-Type');
                 $ContentType = $Head->get('Content-Type');
@@ -120,20 +120,48 @@ sub Check {
                 );
             }
         }
-        if ($ContentType && $ContentType =~ /multipart\/signed/i && $ContentType =~ /application\/(x-pkcs7|pkcs7)/i) {
-#    $parser->decode_bodies(0);
-#            my $signed_text    = $entity->parts(0)->as_string;
-#            my $signature_text = $entity->parts(1)->body_as_string;
-#            open(OUT, "> /tmp/llll.asc");
-#            print OUT $signature_text;
-#            close (OUT);
-#            open(OUT, "> /tmp/llll");
-#            print OUT $signed_text;
-#            close (OUT);
+        if ($ContentType && $ContentType =~ /application\/(x-pkcs7|pkcs7)/i && $ContentType =~ /signed/i) {
+            # check sign and get clear content
             %SignCheck = $Self->{CryptObject}->Verify(
                 Message => $Message,
-#                Sign => '/tmp/llll.asc',
             );
+            # parse and update clear content
+            if (%SignCheck && $SignCheck{Successful} && $SignCheck{Content}) {
+                use Kernel::System::EmailParser;
+
+                my @Email = ();
+                my @Lines = split(/\n/, $SignCheck{Content});
+                foreach (@Lines) {
+                    push (@Email, $_."\n");
+                }
+                my $ParserObject = Kernel::System::EmailParser->new(
+                    %{$Self},
+                    Email => \@Email,
+                );
+                my $Body = $ParserObject->GetMessageBody();
+                # updated article body
+                $Self->{TicketObject}->ArticleUpdate(
+                    ArticleID => $Self->{ArticleID},
+                    Key => 'Body',
+                    Value => $Body,
+                    UserID => $Self->{UserID},
+                );
+                # delete crypted attachments
+                $Self->{TicketObject}->ArticleDeleteAttachment(
+                    ArticleID => $Self->{ArticleID},
+                    UserID => $Self->{UserID},
+                );
+                # write attachments to the storage
+                foreach my $Attachment ($ParserObject->GetAttachments()) {
+                    $Self->{TicketObject}->ArticleWriteAttachment(
+                        Content => $Attachment->{Content},
+                        Filename => $Attachment->{Filename},
+                        ContentType => $Attachment->{ContentType},
+                        ArticleID => $Self->{ArticleID},
+                        UserID => $Self->{UserID},
+                    );
+                }
+            }
         }
     }
     if (%SignCheck) {
