@@ -2,7 +2,7 @@
 # AgentUtilSearchResultShortTable.dtl
 # Copyright (C) 2002-2004 Martin Edenhofer <martin+code at otrs.org>
 # --
-# $Id: AgentUtilSearchResultShortTable.dtl,v 1.3 2004-02-12 00:26:19 martin Exp $
+# $Id: AgentUtilSearchResultShortTable.dtl,v 1.4 2004-02-12 00:30:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@
    <div title="$Quote{"$Data{"Subject"}"}">$Quote{"$Data{"Subject"}","30"}</div>&nbsp;
  </td>
  <td class="PriorityID-$Data{"PriorityID"}">
-   <div title="$Quote{"$Data{"State"}"}">$Quote{"$Text{"$Data{"State"}"}","30"}</div>
+   <div title="$Quote{"$Text{"$Data{"State"}"}"}">$Quote{"$Text{"$Data{"State"}"}","30"}</div>
  </td>
  <td class="PriorityID-$Data{"PriorityID"}">
    <div title="$Quote{"$Data{"Queue"}"}">$Quote{"$Data{"Queue"}","30"}</div>

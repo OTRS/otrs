@@ -2,7 +2,7 @@
 # AgentUtilSearchResultShortTable.dtl
 # Copyright (C) 2002-2004 Martin Edenhofer <martin+code at otrs.org>
 # --
-# $Id: AgentUtilSearchResultShortTableNotAnswered.dtl,v 1.3 2004-02-12 00:26:18 martin Exp $
+# $Id: AgentUtilSearchResultShortTableNotAnswered.dtl,v 1.4 2004-02-12 00:31:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@
    </font>
  </td>
  <td class="PriorityID-$Data{"PriorityID"}">
-   <font color="red"><div title="$Quote{"$Data{"State"}"}">$Quote{"$Text{"$Data{"State"}"}","30"}</div></font>
+   <font color="red"><div title="$Quote{"$Text{"$Data{"State"}"}"}">$Quote{"$Text{"$Data{"State"}"}","30"}</div></font>
  </td>
  <td class="PriorityID-$Data{"PriorityID"}">
   <font color="red"><div title="$Quote{"$Data{"Queue"}"}">$Quote{"$Data{"Queue"}","30"}</div></font>
