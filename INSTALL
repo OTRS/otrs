@@ -1,8 +1,8 @@
 # --
 # INSTALL description of OTRS
-# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: INSTALL,v 1.24 2002-12-03 23:42:43 martin Exp $
+# $Id: INSTALL,v 1.25 2003-01-05 14:34:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -23,7 +23,7 @@ Installation:
 =============
 
 This few steps describe an OTRS installation incl. webserver and database 
-settings. The OTRS user is "otrs" and the home (root) directory is /opt/OpenTRS
+settings. The OTRS user is "otrs" and the home (root) directory is /opt/otrs
 (of cause you can choose an other directory or/and OTRS user). 
 
 1. Install CPAN Modules (if needed):
@@ -48,10 +48,10 @@ settings. The OTRS user is "otrs" and the home (root) directory is /opt/OpenTRS
 
    Check if all needed modules are installed:
    ------------------------------------------
-      $shell:~> perl -cw /opt/OpenTRS/bin/cgi-bin/index.pl 
-      /opt/OpenTRS/bin/cgi-bin/index.pl syntax OK
-      $shell:~> perl -cw /opt/OpenTRS/bin/PostMaster.pl 
-      /opt/OpenTRS/bin/PostMaster.pl syntax OK
+      $shell:~> perl -cw /opt/otrs/bin/cgi-bin/index.pl 
+      /opt/otrs/bin/cgi-bin/index.pl syntax OK
+      $shell:~> perl -cw /opt/otrs/bin/PostMaster.pl 
+      /opt/otrs/bin/PostMaster.pl syntax OK
       $shell:~>
 
     If you get "syntax OK" it seems to be Ok. Go ahead.
@@ -60,7 +60,7 @@ settings. The OTRS user is "otrs" and the home (root) directory is /opt/OpenTRS
    ------------
     Add user:
     ---------
-    $shell: useradd -d /opt/OpenTRS/ -c 'OTRS user' otrs
+    $shell: useradd -d /opt/otrs/ -c 'OTRS user' otrs
 
     Add user to webserver group (if the webserver is not running with OTRS user):
     -----------------------------------------------------------------------------
@@ -72,7 +72,7 @@ settings. The OTRS user is "otrs" and the home (root) directory is /opt/OpenTRS
    ---------------
    $shell: cd /opt/
    $shell: tar -xzvf otrs-xxxx-xx-xx.tar-gz
-   $shell: chown -R /opt/OpenTRS/* otrs
+   $shell: chown -R /opt/otrs/* otrs
 
 4. Demo config files:
    ------------------  
@@ -111,9 +111,9 @@ settings. The OTRS user is "otrs" and the home (root) directory is /opt/OpenTRS
    Set the file permissions with 
    "$HOME/bin/SetPermissions.sh <OTRS_HOME> <OTRS_USER> <WEBSERVER_USER> [OTRS_GROUP] [WEB_GROUP]"
    e. g. 
-     Webserver with OTRS user: "SetPermissions.sh /opt/OpenTRS otrs otrs" 
-     Webserver with wwwrun user (e. g. SuSE): "SetPermissions.sh /opt/OpenTRS otrs wwwrun" 
-     Webserver with apache user (e. g. Redhat): "SetPermissions.sh /opt/OpenTRS otrs apache users apache"
+     Webserver with OTRS user: "SetPermissions.sh /opt/otrs otrs otrs" 
+     Webserver with wwwrun user (e. g. SuSE): "SetPermissions.sh /opt/otrs otrs wwwrun" 
+     Webserver with apache user (e. g. Redhat): "SetPermissions.sh /opt/otrs otrs apache users apache"
 
 9. First Login:
    ------------
@@ -127,12 +127,12 @@ settings. The OTRS user is "otrs" and the home (root) directory is /opt/OpenTRS
 
 10. First Email:
    ------------
-   use the procmailrc of the OTRS user --> ~otrs/.procmailrc or e. g. /opt/OpenTRS/.procmailrc
+   use the procmailrc of the OTRS user --> ~otrs/.procmailrc or e. g. /opt/otrs/.procmailrc
 
    --> send emails to the otrs user (e. g. otrs@localhost)
 
    or pipe an email directly into $OTRS_HOME/bin/Postmaster.pl
-    (e. g. 'cat /opt/OpenTRS/doc/test-email-1.box | /opt/OpenTRS/bin/PostMaster.pl').
+    (e. g. 'cat /opt/otrs/doc/test-email-1.box | /opt/otrs/bin/PostMaster.pl').
 
 11. Cronjobs for the OTRS user:
     ---------------------------
@@ -160,6 +160,6 @@ Have a lot of fun.
 
  Martin Edenhofer 
 
-(September 2002 Frankfurt/Germany)
+(January 2003 Frankfurt/Germany)
 
 EOF
