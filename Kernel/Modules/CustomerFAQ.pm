@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/FAQ.pm - faq module
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerFAQ.pm,v 1.5 2004-10-13 12:44:42 martin Exp $
+# $Id: CustomerFAQ.pm,v 1.6 2005-03-27 11:45:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::FAQ;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -33,7 +33,9 @@ sub new {
 
     # check needed Opjects
     foreach (qw(ParamObject DBObject LayoutObject LogObject ConfigObject UserObject)) {
-        die "Got no $_!" if (!$Self->{$_});
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
 
     $Self->{FAQObject} = Kernel::System::FAQ->new(%Param);
@@ -50,7 +52,7 @@ sub Run {
         $Param{States} = ['external (customer)', 'public (all)'];
     }
 
-    $Output .= $Self->{LayoutObject}->CustomerHeader(Area => 'FAQ');
+    $Output .= $Self->{LayoutObject}->CustomerHeader();
     $Output .= $Self->{LayoutObject}->CustomerNavigationBar() if ($Self->{Action});
 
     $Param{What} = $Self->{ParamObject}->GetParam(Param => 'What') || '';
@@ -81,7 +83,7 @@ sub Run {
 
     # search
     if (!$ID && !$Self->{Subaction}) {
-        $Output = $Self->{LayoutObject}->CustomerHeader(Area => 'FAQ', Title => 'Search');
+        $Output = $Self->{LayoutObject}->CustomerHeader(Title => 'Search');
         $Output .= $Self->{LayoutObject}->CustomerNavigationBar() if ($Self->{Action});
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'CustomerFAQSearch',
@@ -127,7 +129,7 @@ sub Run {
     }
     # search action
     elsif ($Self->{Subaction} eq 'Search') {
-        $Output = $Self->{LayoutObject}->CustomerHeader(Area => 'FAQ', Title => 'Search');
+        $Output = $Self->{LayoutObject}->CustomerHeader(Title => 'Search');
         $Output .= $Self->{LayoutObject}->CustomerNavigationBar() if ($Self->{Action});
 
         my @FAQIDs = $Self->{FAQObject}->FAQSearch(
@@ -161,7 +163,7 @@ sub Run {
     }
     # system history
     elsif ($Self->{Subaction} eq 'SystemHistory') {
-        $Output = $Self->{LayoutObject}->CustomerHeader(Area => 'FAQ', Title => 'History');
+        $Output = $Self->{LayoutObject}->CustomerHeader(Title => 'History');
         $Output .= $Self->{LayoutObject}->CustomerNavigationBar() if ($Self->{Action});
         my @History = $Self->{FAQObject}->HistoryGet(
             UserID => $Self->{UserID},
@@ -185,7 +187,7 @@ sub Run {
     # view
     elsif ($ID && $Self->{Subaction} eq 'Print') {
         my %Data = $Self->{FAQObject}->FAQGet(FAQID => $ID);
-        $Output = $Self->{LayoutObject}->PrintHeader(Area => 'FAQ', Title => $Data{Number});
+        $Output = $Self->{LayoutObject}->PrintHeader(Title => 'View', Value => $Data{Number});
         if ($Data{State} =~ /(external \(customer\)|public \(all\))/i) {
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'CustomerFAQArticlePrint',
@@ -197,7 +199,7 @@ sub Run {
     }
     elsif ($ID) {
         my %Data = $Self->{FAQObject}->FAQGet(FAQID => $ID);
-        $Output = $Self->{LayoutObject}->CustomerHeader(Area => 'FAQ', Title => $Data{Subject});
+        $Output = $Self->{LayoutObject}->CustomerHeader(Title => 'View', Value => $Data{Number});
         $Output .= $Self->{LayoutObject}->CustomerNavigationBar() if ($Self->{Action});
         if ($Data{State} =~ /(external \(customer\)|public \(all\))/i) {
             $Output .= $Self->{LayoutObject}->Output(

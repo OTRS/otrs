@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerTicketSearch.pm,v 1.10 2005-02-15 11:58:12 martin Exp $
+# $Id: CustomerTicketSearch.pm,v 1.11 2005-03-27 11:45:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -37,7 +37,9 @@ sub new {
 
     # check needed Opjects
     foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject ConfigObject)) {
-        die "Got no $_!" if (!$Self->{$_});
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
     $Self->{UserObject} = Kernel::System::User->new(%Param);
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
@@ -298,7 +300,7 @@ sub Run {
           }
         }
         # start html page
-        my $Output = $Self->{LayoutObject}->CustomerHeader(Area => 'Customer', Title => 'Search');
+        my $Output = $Self->{LayoutObject}->CustomerHeader();
         $Output .= $Self->{LayoutObject}->CustomerNavigationBar();
 
         # build search navigation bar
@@ -312,7 +314,7 @@ sub Run {
         );
         # build shown ticket
         if ($GetParam{ResultForm} eq 'Print') {
-            $Output = $Self->{LayoutObject}->PrintHeader(Area => 'Customer', Title => 'Result', Width => 800);
+            $Output = $Self->{LayoutObject}->PrintHeader(Width => 800);
             if (@ViewableIDs == $Self->{SearchLimit}) {
                 $Param{Warning} = '$Text{"Reached max. count of %s search hits!", "'.$Self->{SearchLimit}.'"}';
             }
@@ -388,7 +390,7 @@ sub Run {
             Config => \%TicketFreeText,
         );
         # generate search mask
-        my $Output = $Self->{LayoutObject}->CustomerHeader(Area => 'Customer', Title => 'Search');
+        my $Output = $Self->{LayoutObject}->CustomerHeader();
         $Output .= $Self->{LayoutObject}->CustomerNavigationBar();
         $Output .= $Self->MaskForm(
             %GetParam,

@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/FAQLanguage.pm - to add/update/delete faq languages
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQLanguage.pm,v 1.4 2004-09-24 10:05:17 martin Exp $
+# $Id: FAQLanguage.pm,v 1.5 2005-03-27 11:45:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::FAQ;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -34,7 +34,9 @@ sub new {
 
     # check all needed objects
     foreach (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
-        die "Got no $_" if (!$Self->{$_});
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
 
     $Self->{FAQObject} = Kernel::System::FAQ->new(%Param);
@@ -50,7 +52,7 @@ sub Run {
     if ($Self->{Subaction} eq 'Change') {
         my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
         my %Data = $Self->{FAQObject}->LanguageGet(ID => $ID, UserID => $Self->{UserID});
-        $Output .= $Self->{LayoutObject}->Header(Area => 'FAQ', Title => 'Language');
+        $Output .= $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->_Mask(%Data);
         $Output .= $Self->{LayoutObject}->Footer();
@@ -66,12 +68,7 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=FAQLanguage");
         }
         else {
-            $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-            $Output .= $Self->{LayoutObject}->Error(
-                Message => 'DB Error!!',
-                Comment => 'Please contact your admin',
-            );
-            $Output .= $Self->{LayoutObject}->Footer();
+            return $Self->{LayoutObject}->ErrorScreen();
         }
     }
     # add new queue
@@ -85,18 +82,12 @@ sub Run {
              $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=FAQLanguage");
         }
         else {
-            $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-            $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Error(
-                Message => 'DB Error!!',
-                Comment => 'Please contact your admin',
-            );
-            $Output .= $Self->{LayoutObject}->Footer();
+            return $Self->{LayoutObject}->ErrorScreen();
         }
     }
     # else ! print form
     else {
-        $Output .= $Self->{LayoutObject}->Header(Area => 'FAQ', Title => 'Language');
+        $Output .= $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->_Mask();
         $Output .= $Self->{LayoutObject}->Footer();

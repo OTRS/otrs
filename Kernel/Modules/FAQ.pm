@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/FAQ.pm - faq module
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQ.pm,v 1.11 2004-10-13 12:44:42 martin Exp $
+# $Id: FAQ.pm,v 1.12 2005-03-27 11:45:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::FAQ;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -34,7 +34,7 @@ sub new {
 
     # check needed Opjects
     foreach (qw(ParamObject DBObject LayoutObject LogObject ConfigObject UserObject)) {
-        die "Got no $_!" if (!$Self->{$_});
+        $Self->{LayoutObject}->FatalError(Message => "Got no $_!") if (!$Self->{$_});
     }
 
     # faq object
@@ -72,7 +72,7 @@ sub Run {
             Value => $HeaderType,
         );
     }
-    my $Output = $Self->{LayoutObject}->Header(Area => 'FAQ');
+    my $Output = $Self->{LayoutObject}->Header();
     if ($HeaderType ne 'Small') {
         $NavBar = $Self->{LayoutObject}->NavigationBar();
     }
@@ -121,7 +121,7 @@ sub Run {
             Data => {%Param, %Frontend},
         );
         # build output
-        $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => "FAQ");
+        $Output .= $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(
             Data => {%Param, %Frontend},
@@ -202,7 +202,7 @@ sub Run {
         );
 
         # build output
-        $Output .= $Self->{LayoutObject}->Header(Area => 'FAQ', Title => "Edit");
+        $Output .= $Self->{LayoutObject}->Header(Title => "Edit");
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(
             Data => {%Param, %Frontend},
@@ -256,7 +256,7 @@ sub Run {
             Data => {%FAQ},
         );
         # build output
-        $Output .= $Self->{LayoutObject}->Header(Area => 'FAQ', Title => "Delete");
+        $Output .= $Self->{LayoutObject}->Header(Title => "Delete");
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(
             Data => {%Param},
@@ -363,7 +363,7 @@ sub Run {
             );
         }
 
-        my $Output = $Self->{LayoutObject}->Header(Area => 'FAQ', Title => 'Search', Type => $HeaderType);
+        my $Output = $Self->{LayoutObject}->Header(Title => 'Search', Type => $HeaderType);
         $Output .= $NavBar;
         $Output .= $Self->{LayoutObject}->Output(
             Data => {%Param},
@@ -388,7 +388,7 @@ sub Run {
                 Data => { Name => $Row->{Name}, Created => $Row->{Created}, },
             );
         }
-        my $Output = $Self->{LayoutObject}->Header(Area => 'FAQ', Title => "History");
+        my $Output = $Self->{LayoutObject}->Header(Title => "History");
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'FAQ',
@@ -429,7 +429,7 @@ sub Run {
                 Data => { %Data, %User, Name => $Row->{Name} },
             );
         }
-        my $Output = $Self->{LayoutObject}->Header(Area => 'FAQ', Title => 'History', Type => $HeaderType);
+        my $Output = $Self->{LayoutObject}->Header(Title => 'History', Type => $HeaderType);
         $Output .= $NavBar;
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'FAQ',
@@ -448,7 +448,7 @@ sub Run {
              Name => 'Print',
              Data => { %Data },
         );
-        my $Output = $Self->{LayoutObject}->PrintHeader(Area => 'FAQ', Title => $Data{Subject}, Type => $HeaderType);
+        my $Output = $Self->{LayoutObject}->PrintHeader(Title => $Data{Subject}, Type => $HeaderType);
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'FAQ',
             Data => { %Param },
@@ -467,7 +467,7 @@ sub Run {
             Value => $Self->{RequestedURL},
         );
         my %Data = $Self->{FAQObject}->FAQGet(FAQID => $ID);
-        my $Output = $Self->{LayoutObject}->Header(Area => 'FAQ', Title => $Data{Number}, Type => $HeaderType);
+        my $Output = $Self->{LayoutObject}->Header(Title => $Data{Number}, Type => $HeaderType);
         $Output .= $NavBar;
 
         # get linked objects

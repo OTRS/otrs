@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/FAQCategory.pm - to add/update/delete faq categories
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQCategory.pm,v 1.6 2004-09-24 10:05:17 martin Exp $
+# $Id: FAQCategory.pm,v 1.7 2005-03-27 11:45:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::FAQ;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -50,7 +50,7 @@ sub Run {
     if ($Self->{Subaction} eq 'Change') {
         my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
         my %Data = $Self->{FAQObject}->CategoryGet(ID => $ID, UserID => $Self->{UserID});
-        $Output .= $Self->{LayoutObject}->Header(Area => 'FAQ', Title => 'Category');
+        $Output .= $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->_Mask(%Data);
         $Output .= $Self->{LayoutObject}->Footer();
@@ -66,12 +66,7 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=FAQCategory");
         }
         else {
-            $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-            $Output .= $Self->{LayoutObject}->Error(
-                Message => 'DB Error!!',
-                Comment => 'Please contact your admin',
-            );
-            $Output .= $Self->{LayoutObject}->Footer();
+            return $Self->{LayoutObject}->ErrorScreen();
         }
     }
     # add new queue
@@ -85,18 +80,12 @@ sub Run {
              $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=FAQCategory");
         }
         else {
-            $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-            $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Error(
-                Message => 'DB Error!!',
-                Comment => 'Please contact your admin',
-            );
-            $Output .= $Self->{LayoutObject}->Footer();
+            return $Self->{LayoutObject}->ErrorScreen();
         }
     }
     # else ! print form
     else {
-        $Output .= $Self->{LayoutObject}->Header(Area => 'FAQ', Title => 'Category');
+        $Output .= $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->_Mask();
         $Output .= $Self->{LayoutObject}->Footer();

@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/CustomerAccept.pm - to show an agent an login/changes info
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerAccept.pm,v 1.1 2004-05-03 12:30:14 martin Exp $
+# $Id: CustomerAccept.pm,v 1.2 2005-03-27 11:45:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::CustomerAccept;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -32,7 +32,9 @@ sub new {
 
     # check needed Opjects
     foreach (qw(ParamObject DBObject LayoutObject LogObject ConfigObject)) {
-        die "Got no $_!" if (!$Self->{$_});
+        if (!$Self->{$_}) {
+            $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
+        }
     }
 
     $Self->{InfoKey} = $Self->{ConfigObject}->Get('CustomerPanel::InfoKey');
@@ -105,7 +107,7 @@ sub Run {
     }
     else {
         # show info
-        $Output = $Self->{LayoutObject}->CustomerHeader(Title => 'Info');
+        $Output = $Self->{LayoutObject}->CustomerHeader();
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => $Self->{InfoFile}, Data => \%Param);
         $Output .= $Self->{LayoutObject}->CustomerFooter();
         return $Output;

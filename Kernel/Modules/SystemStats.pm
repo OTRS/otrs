@@ -2,7 +2,7 @@
 # Kernel/Modules/SystemStats.pm - show stats of otrs
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SystemStats.pm,v 1.19 2005-02-25 17:17:19 martin Exp $
+# $Id: SystemStats.pm,v 1.20 2005-03-27 11:45:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::SystemStats;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $ ';
+$VERSION = '$Revision: 1.20 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -44,7 +44,7 @@ sub Run {
     my %Param = @_;
     if ($Self->{Subaction} eq '' || !$Self->{Subaction}) {
         # print page ...
-        my $Output = $Self->{LayoutObject}->Header(Area => 'Stats', Title => 'Overview');
+        my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
 
         my %Config = %{$Self->{ConfigObject}->Get('SystemStatsMap')};
@@ -104,13 +104,10 @@ sub Run {
             }
         }
         if (!%ConfigItem) {
-            my $Output = $Self->{LayoutObject}->Header(Area => 'Stats',Title => 'Error');
-            $Output .= $Self->{LayoutObject}->Error(
+            return $Self->{LayoutObject}->ErrorScreen(
                 Message => "No Config found for '$Module'!",
                 Comment => 'Please contact your admin'
             );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
         }
         if ($Self->{MainObject}->Require($Module)) {
             my %GetParam = ();
@@ -213,7 +210,7 @@ sub Run {
             elsif ($Format =~ /^Graph(|Line|Bars|Pie)$/) {
                 # check @Data
                 if (!@Data) {
-                    my $Output = $Self->{LayoutObject}->Header(Area => 'Stats',Title => 'Error');
+                    my $Output = $Self->{LayoutObject}->Header();
                     $Output .= $Self->{LayoutObject}->Warning(
                         Message => 'No data for this time selection available!',
                         Comment => 'Please contact your admin'
@@ -314,7 +311,7 @@ sub Run {
             }
             # print output
             else {
-                my $Output = $Self->{LayoutObject}->PrintHeader(Area => 'Stats', Title => $ConfigItem{Name});
+                my $Output = $Self->{LayoutObject}->PrintHeader(Value => $ConfigItem{Name});
                 $Output .= "$ConfigItem{Name}: $Title";
                 $Output .= $Self->{LayoutObject}->OutputHTMLTable(
                     Head => $HeadArrayRef,
@@ -330,17 +327,14 @@ sub Run {
         }
     }
     else {
-        my $Output = $Self->{LayoutObject}->Header(Area => 'Stats',Title => 'Error');
-        $Output .= $Self->{LayoutObject}->Error(
-            Message => 'No Subaction!!',
-            Comment => 'Please contact your admin'
-        );
         $Self->{LogObject}->Log(
             Message => 'No Subaction!!',
             Comment => 'Please contact your admin'
         );
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
+        return $Self->{LayoutObject}->ErrorScreen(
+            Message => 'No Subaction!!',
+            Comment => 'Please contact your admin'
+        );
     }
 }
 # --
