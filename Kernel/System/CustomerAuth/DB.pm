@@ -2,7 +2,7 @@
 # Kernel/System/CustomerAuth/DB.pm - provides the db authentification 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.1 2002-10-20 20:07:39 martin Exp $
+# $Id: DB.pm,v 1.2 2002-12-07 18:50:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,7 +17,7 @@ package Kernel::System::CustomerAuth::DB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -66,7 +66,7 @@ sub Auth {
     # --
     # sql query
     # --
-    my $SQL = "SELECT pw, id ".
+    my $SQL = "SELECT pw, login ".
       " FROM ".
       " customer_user ".
       " WHERE ". 
