@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Phil Davis <phil.davis at itaction.co.uk>
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code at otrs.org>
 # --
-# $Id: CustomerStatusViewTable.dtl,v 1.9 2004-04-27 14:47:14 martin Exp $
+# $Id: CustomerStatusViewTable.dtl,v 1.10 2004-04-27 15:02:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@
 <!-- start record -->
 <tr>
  <td align="center"><a href="$Env{"Baselink"}Action=CustomerZoom&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Zoom"}'; return true;" onmouseout="window.status='';">$Data{"TicketNumber"}</a></td>
- <td>$QData{"Age","18"}</td>
+ <td>$QData{"Age","20"}</td>
  <td><div title="$QData{"Subject","80"}">$QData{"Subject","36"}</div></td>
  <td><div title="$Quote{"$Text{"$Data{"State"}"}"}">$Quote{"$Text{"$Data{"State"}"}","18"}</div></td>
  <td><div title="$Quote{"$Data{"Queue"}"}">$Quote{"$Data{"Queue"}","18"}</div></td>
