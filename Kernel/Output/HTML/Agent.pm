@@ -2,7 +2,7 @@
 # HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.48 2002-09-10 23:10:53 martin Exp $
+# $Id: Agent.pm,v 1.49 2002-09-10 23:38:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.48 $';
+$VERSION = '$Revision: 1.49 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -648,6 +648,14 @@ sub AgentClose {
         Data => $Param{NoteTypesStrg},
         Name => 'CloseNoteID'
     );
+    # get MoveQueuesStrg
+    $Param{MoveQueuesStrg} = $Self->OptionStrgHashRef(
+        Name => 'DestQueueID',
+        SelectedID => $Param{SelectedMoveQueue},
+        Data => $Param{MoveQueues},
+        OnChangeSubmit => 0,
+    );
+
     # create & return output
     return $Self->Output(TemplateFile => 'AgentClose', Data => \%Param);
 }

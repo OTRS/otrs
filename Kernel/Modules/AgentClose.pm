@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentClose.pm - to close a ticket
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentClose.pm,v 1.12 2002-08-01 02:37:36 martin Exp $
+# $Id: AgentClose.pm,v 1.13 2002-09-10 23:38:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentClose;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -112,6 +112,16 @@ sub Run {
                 delete $NoteTypes{$_};
             }
         }
+        # move queues
+        my $SelectedMoveQueue = $Self->{TicketObject}->GetQueueIDOfTicketID(TicketID => $TicketID);
+        my %MoveQueues = ();
+        if ($Self->{ConfigObject}->Get('MoveInToAllQueues')) {
+            %MoveQueues = $Self->{QueueObject}->GetAllQueues();
+        }
+        else {
+            %MoveQueues = $Self->{QueueObject}->GetAllQueues(UserID => $Self->{UserID});
+        }
+
         # -- 
         # html header
         # --
@@ -146,6 +156,8 @@ sub Run {
             Locked => $LockState,
             NextStatesStrg => \%NextStates,
             NoteTypesStrg => \%NoteTypes,
+            MoveQueues => \%MoveQueues,
+            SelectedMoveQueue => $SelectedMoveQueue,
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
@@ -157,6 +169,7 @@ sub Run {
         my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject') || '';
         my $Text = $Self->{ParamObject}->GetParam(Param => 'Text');
         my $TimeUnits = $Self->{ParamObject}->GetParam(Param => 'TimeUnits') || 0;
+        my $DestQueueID = $Self->{ParamObject}->GetParam(Param => 'DestQueueID') || '';
         if (my $ArticleID = $Self->{ArticleObject}->CreateArticle(
             TicketID => $TicketID,
             ArticleTypeID => $NoteID,
@@ -190,6 +203,16 @@ sub Run {
             ArticleID => $ArticleID,
             StateID => $StateID,
           );
+          # --
+          # set queue
+          # --
+          if ($DestQueueID) {
+            $Self->{TicketObject}->MoveByTicketID(
+              TicketID => => $TicketID,
+              UserID => $UserID,
+              QueueID => $DestQueueID,
+            );
+          }
           # --
           # set lock
           # --
