@@ -1,0 +1,71 @@
+<chapter id="first_ticket">
+<title>First Ticket</title>
+
+<sect1 id="what_e-mail_address">
+<title>How can somebody write e-mails to the OpenTRS?</title>
+<para>
+The default installation will accept e-mails to the e-mail address <email>otrs@localhost</email>. This is good to start a little playing. Use your favorate e-mail client and send an e-mail to this address (of course you have to be on this system). Or you can have a look in the admin section of OpenTRS to add different e-mail addresses like <email>info@foo.org</email>. But please take care that these e-mails will be delivered to the local otrs account! In case you are not familiar with the configuration of your sendmail or postfix have a look in the man-pages or send an e-mail to the <link linkend="mailinglists">mailinglist</link> <email>otrs@otrs.org</email>.
+</para>
+
+<para><emphasis role='bold'>Config of sendmail in SuSE Linux</emphasis></para>
+<para>
+Ok, ok, ... we show you a simple example. Lets presume you have a plain SuSE Linux installation with sendmail as a default Mail Transfer Agent and you want to set up a OpenTRS e-mail account for the e-mail address <email>info@example.com</email>. All you have to do is to add a line to your /etc/mail/virtusertable file. 
+</para>
+<para>
+<programlisting>
+# /etc/mail/virtusertable
+#
+# Description:
+#
+#  A domain-specific form of aliasing, allowing multiple virtual
+#  domains to be hosted on one machine.
+#
+# Examples:
+#
+#info@foo.com            foo-info
+#info@bar.com            bar-info
+#joe@bar.com             error:nouser No such user here
+#jax@bar.com             error:D.S.N:unavailable Address invalid
+#@baz.org                jane@example.net
+#
+
+info@example.com         otrs
+support@example.com      otrs
+</programlisting>
+</para>
+<para>
+That's it (we actually added a second e-mail address with the name <email>support@example.com</email>! You have to run SuSEconfig.
+</para>
+<para>
+<screen>
+skywalker:~ # SuSEconfig
+Starting SuSEconfig, the SuSE Configuration Tool...
+Running in quick mode.
+Reading /etc/rc.config and updating the system...
+Executing /sbin/conf.d/SuSEconfig.aaa_at_first...
+Executing /sbin/conf.d/SuSEconfig.hostname...
+Executing /sbin/conf.d/SuSEconfig.inittab...
+Executing /sbin/conf.d/SuSEconfig.pam...
+Executing /sbin/conf.d/SuSEconfig.sendmail...
+Rebuilding /etc/mail/virtusertable.db.
+Executing /sbin/conf.d/SuSEconfig.ypclient...
+Finished.
+</screen>
+</para>
+<para>
+Reload sendmail (just to be sure).
+</para>
+<para>
+<screen>
+skywalker:~ # rcsendmail reload
+Reload service sendmail                                done
+</screen>
+</para>
+<para>
+Now all incoming e-mails to info@example.com will be delivers to the local user otrs.
+</para>
+<para>
+Every e-mail to the user otrs will be handled by the procmail-rule of otrs which pipes the e-mail to the system. You will find the e-mail in the RAW queue. 
+</para>
+</sect1>
+</chapter>
