@@ -2,7 +2,7 @@
 # Article.pm - global article module for OpenTRS kernel
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.2 2001-12-23 13:33:54 martin Exp $
+# $Id: Article.pm,v 1.3 2001-12-30 01:40:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ use File::Basename;
 use MIME::Parser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -119,7 +119,7 @@ sub WriteArticle {
             print STDERR '->WriteArticle: ' . $Path . "\n";
     }
 
-    File::Path::mkpath([$Path], 0, 0755);# if (! -d $ArticleDir);  
+    File::Path::mkpath([$Path], 0, 0775);# if (! -d $ArticleDir);  
 
     open (DATA, "> $Path/plain.txt") or print "$! \n";
     print DATA @Plain;
