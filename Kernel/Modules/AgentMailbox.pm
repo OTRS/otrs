@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentMailbox.pm - to view all locked tickets
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMailbox.pm,v 1.7 2002-08-01 02:37:36 martin Exp $
+# $Id: AgentMailbox.pm,v 1.8 2002-08-06 19:15:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentMailbox;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -40,6 +40,7 @@ sub new {
       'ConfigObject', 
       'LogObject',
       'UserObject',
+      'ArticleObject',
     ) {
         die "Got no $_" if (!$Self->{$_});
     }
@@ -143,45 +144,15 @@ sub Run {
 
     # get article data
     foreach my $AID (keys %ViewableArticle) {
-    my $SQL = "SELECT sa.ticket_id, sa.a_from, sa.a_to, sa.a_cc, sa.a_subject, sa.a_body, " .
-        " st.create_time_unix as age, sp.name, sd.name as state, sq.name as queue " .
-        " FROM " .
-        " article sa, ticket st, ticket_priority sp, ticket_state sd, queue sq" .
-        " where " .
-        " sa.id = $AID " .
-        " and " .
-        " sa.ticket_id = st.id " .
-        " and " .
-        " sq.id = st.queue_id " .
-        " and " .
-        " sp.id = st.ticket_priority_id " .
-        " and " .
-        " st.ticket_state_id = sd.id " .
-        " ";
-
-    $Self->{DBObject}->Prepare(SQL => $SQL);
-
-    while (my $Data = $Self->{DBObject}->FetchrowHashref() ) {
-      $$Data{age} = time() - $$Data{age}; 
-      $Output .= $Self->{LayoutObject}->AgentMailboxTicket(
-		TicketNumber => $ViewableArticle{$AID},
- 		Priority => $$Data{name}, 
- 		State => $$Data{state},
-		TicketID => $$Data{ticket_id},
-	   	From => $$Data{a_from}, 
-		To => $$Data{a_to}, 
-		Cc => $$Data{a_cc}, 
-		Subject => $$Data{a_subject}, 
-		Text => $$Data{a_body},
-		Age => $$Data{age},
-		QueueID => $QueueID,
-		Queue => $$Data{queue},
-		LastSenderType => $LastSenderType{$$Data{ticket_id}},
-        LastSenderID => $LastSenderID{$$Data{ticket_id}},
-        UserID => $Self->{UserID},
-        ViewType => $Self->{Subaction},
-         );
-        } 
+        my %Article = $Self->{ArticleObject}->GetArticle(ArticleID => $AID); 
+        $Output .= $Self->{LayoutObject}->AgentMailboxTicket(
+          %Article,
+          TicketNumber => $ViewableArticle{$AID},
+          LastSenderType => $LastSenderType{$Article{TicketID}},
+          LastSenderID => $LastSenderID{$Article{TicketID}},
+          UserID => $Self->{UserID},
+          ViewType => $Self->{Subaction},
+        );
     }
 
     $Output .= $Self->{LayoutObject}->Footer();
