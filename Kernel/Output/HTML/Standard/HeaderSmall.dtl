@@ -1,8 +1,8 @@
 # --
-# CustomerHeader.dtl - provides global HTML header
+# Header.dtl - provides global HTML header
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerHeader.dtl,v 1.7 2004-03-05 11:29:47 martin Exp $
+# $Id: HeaderSmall.dtl,v 1.1 2004-03-05 11:29:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,40 +23,40 @@ $Include{"Copyright"}
 # --
 # set some html variables
 # --
-#<dtl set $Env{"Box0"} = "&gt;&gt; ">
-#<dtl set $Env{"Box1"} = " &lt;&lt;">
+<dtl set $Env{"Box0"} = "[ ">
+<dtl set $Env{"Box1"} = " ]">
+<dtl set $Env{"Images"} = "/otrs-web/images/Standard/">
 # --
 # check refresh
 # --
 <dtl if ($Data{"Refresh"} ne "") { $Data{"MetaHttpEquiv"} = "<meta http-equiv="refresh" content="$Data{"Refresh"}">"; }>
 # --
+# check title
+# --
+<dtl if ($Data{"Area"} ne "") { $Data{"TitleArea"} = " :: $Text{"$Data{"Area"}"}"; }>
+<dtl if ($Data{"Title"} ne "") { $Data{"TitleArea"} = " :: $Text{"$Data{"Area"}"} :: $Text{"$Data{"Title"}"}"; }>
+# --
+# create $Data{"UserLoginTop"} if user is loged in
+# --
+<dtl if ($Env{"UserLogin"} ne "") { $Data{"UserLoginTop"} = "($Env{"UserEmail"})"; }>
+# --
 <html>
 <head>
     $Data{"MetaHttpEquiv"}
-    <title>OTRS :: CPanel :: $Text{"$Data{"Title"}"}</title>
-# include customer-css.dtl file
-$Include{"customer-css"}
+    <title>OTRS $Data{"TitleArea"}</title>
+# include css.dtl file
+$Include{"css"}
 </head>
 <a name="top"></a>
 <body>
-
-<!-- start CI layout -->
-<table border="0" width="100%" cellspacing="0" cellpadding="8">
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
-  <td width="120" class="header"> LOGO </td>
-  <td class="header"> <a href="" class="headeritem">COMPANY NAME</a> </td>
-</tr>
-<tr>
-  <td class="navbar" valign="top"> 
-    <p>
-    <li>$Text{"Home"}</li>
-    <li>$Text{"Products"}</li>
-    <li>$Text{"Support"}</li>
-    <li><b><a href="">$Text{"Online-Support"}</a></b></li>
-    <li>$Text{"Contact"}</li>
-    </p>
+  <td align="left" width="40%" class="header">
+  <b>$Env{"Box0"}OTRS$Env{"Box1"}</b>
   </td>
-  <td>
-<!-- end CI layout -->
-
+  <td align="right" width="60%" class="header">
+   $Env{"TimeLong"}
+  </td>
+</tr>
+</table>
 <!-- end header -->

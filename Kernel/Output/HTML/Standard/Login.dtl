@@ -2,7 +2,7 @@
 # Login.dtl - provides HTML login screen
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Login.dtl,v 1.14 2003-04-12 23:21:43 martin Exp $
+# $Id: Login.dtl,v 1.15 2004-03-05 11:30:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,63 +16,14 @@ X-Powered-By: OTRS - Open Ticket Request System (http://otrs.org)
 X-Wanted: I think you are smart. I'm looking for smart people!
 
 
-# --
-# html comment
-# --
-<!-- OTRS: Copyright 2001-2003, OTRS Project. This Software is under the GPL. -->
-<!--          Web: http://otrs.org/ - Lists: http://lists.otrs.org/           -->
-<!--         GNU Public License: http://www.gnu.org/licenses/gpl.txt          -->
-
+# include Copyright.dtl
+$Include{"Copyright"}
 # --
 <html>
 <head>
     <title>OTRS :: $Text{"$Data{"Title"}"}</title>
-# --
-# css settings
-# --
-<style type="text/css">
-<!--
-# body
-  body  
-   { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:11pt;background-color:#bbddff;color:black; }
-  a
-    { color:#557799;}
-  a:hover
-    { color:#002244;text-decoration:none; }
-  pre
-    { font-family:Courier,monospace,fixed;font-size:12px; }
-  td,th   
-    { font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif; }
-  .header
-    { color:#ffffff;background-color:#000000;font-size:13px; }
-  a.headeritem
-    { color:#ffffff; }
-  a.headeritem
-    { color:#ffffff; }
-  .footer
-    { color:#ffffff;background-color:#000000;font-size:13px; }
-  a.footeritem
-    { color:#ffffff; }
-  a.footeritem:hover
-    { color:#ffffff; }
-  .small
-    { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:10px; }
-# form
-  form
-   {margin:0px;}
-  input
-   {font-family:Geneva,Helvetica,Arial,sans-serif;font-size:12px;}
-  .button
-   {color:black;background-color:#dddddd;border-bottom:thin solid #222244;border-right:thin solid #222244;border-top:thin solid #bbbbbb;border-left:thin solid #bbbbbb;font-size:12px;font-family:Verdana,Helvetica,sans-serif;font-weight:normal;}
-# table color
-  .Table0
-    { color:#ffffff;background-color:#000000;font-size:13px;font-family:Geneva,Helvetica,Arial,sans-serif;}
-  .Table1
-    { color:#000000;background-color:#ffffff;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;}
-  .Table2
-    { color:#000000;background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;}
-//-->
-</style>
+# include css.dtl file 
+$Include{"css"}
 </head>
 <!-- end header -->
 <body>
