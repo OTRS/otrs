@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.44 2002-08-13 15:05:18 martin Exp $
+# $Id: Generic.pm,v 1.45 2002-09-01 20:16:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::Output::HTML::System;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.44 $';
+$VERSION = '$Revision: 1.45 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -152,7 +152,7 @@ sub Output {
     my %Env = ();
     if (!$Self->{EnvRef}) {
         # --
-        # build OpenTRS env
+        # build OTRS env
         # --
         %Env = %ENV;
         # --
@@ -189,78 +189,77 @@ sub Output {
       # filtering of comment lines
       if ($_ !~ /^#/) {
         $Output .= $_;
-
-        # --
-        # do template set (<dtl set $Data{"adasd"} = "lala">) 
-        # do system call (<dtl system-call $Data{"adasd"} = "uptime">)
-        # --
-        $Output =~ s{
-          <dtl\W(system-call|set)\W\$(Data|Env|Config)\{\"(.+?)\"\}\W=\W\"(.+?)\">
-        }
-        {
-          my $Data = '';
-          if ($1 eq "set") {
-            $Data = $4;
+        if ($_ =~ /<dtl/) {
+          # --
+          # do template set (<dtl set $Data{"adasd"} = "lala">) 
+          # do system call (<dtl system-call $Data{"adasd"} = "uptime">)
+          # --
+          $Output =~ s{
+            <dtl\W(system-call|set)\W\$(Data|Env|Config)\{\"(.+?)\"\}\W=\W\"(.+?)\">
           }
-          else {
-            open (SYSTEM, " $4 | ") || print STDERR "Can't open $4: $!";
-            while (<SYSTEM>) {
+          {
+            my $Data = '';
+            if ($1 eq "set") {
+              $Data = $4;
+            }
+            else {
+              open (SYSTEM, " $4 | ") || print STDERR "Can't open $4: $!";
+              while (<SYSTEM>) {
                 $Data .= $_;
+              }
+              close (SYSTEM);      
             }
-            close (SYSTEM);      
+
+            $GlobalRef->{"$2Ref"}->{$3} = $Data;
+            # output replace with nothing!
+            "";
+          }egx;
+
+          # --
+          # do template if dynamic
+          # --
+          $Output =~ s{
+            <dtl\Wif\W\(\$(Env|Data|Text)\{\"(.*)\"\}\W(eq|ne)\W\"(.*)\"\)\W\{\W\$(Data|Env|Text)\{\"(.*)\"\}\W=\W\"(.*)\";\W\}>
           }
-
-          $GlobalRef->{"$2Ref"}->{$3} = $Data;
-          # output replace with nothing!
-          "";
-
-        }egx;
-
-        # --
-        # do template if dynamic
-        # --
-        $Output =~ s{
-          <dtl\Wif\W\(\$(Env|Data|Text)\{\"(.*)\"\}\W(eq|ne)\W\"(.*)\"\)\W\{\W\$(Data|Env|Text)\{\"(.*)\"\}\W=\W\"(.*)\";\W\}>
-        }
-        {
-          if ($3 eq "eq") {
-            # --
-            # do eq actions
-            # --
-            if ($1 eq "Text") {
-              if ($Self->{LanguageObject}->Get($2) eq $4) {
+          {
+            if ($3 eq "eq") {
+              # --
+              # do eq actions
+              # --
+              if ($1 eq "Text") {
+                if ($Self->{LanguageObject}->Get($2) eq $4) {
                   $GlobalRef->{"$5Ref"}->{$6} = $7;
                   "";
+                }
               }
-            }
-            elsif ($1 eq "Env" || $1 eq "Data") {
-              if ((exists $GlobalRef->{"$1Ref"}->{$2}) && $GlobalRef->{"$1Ref"}->{$2} eq $4) {
+              elsif ($1 eq "Env" || $1 eq "Data") {
+                if ((exists $GlobalRef->{"$1Ref"}->{$2}) && $GlobalRef->{"$1Ref"}->{$2} eq $4) {
                   $GlobalRef->{"$5Ref"}->{$6} = $7;
                   "";
+                }
               }
-            }
-        }
-        elsif ($3 eq "ne") {
-            # --
-            # do ne actions
-            # --
-            if ($1 eq "Text") {
-              if ($Self->{LanguageObject}->Get($2) ne $4) {
-                 $GlobalRef->{"$5Ref"}->{$6} = $7;
-                 # output replace with nothing!
-                 "";
+          }
+          elsif ($3 eq "ne") {
+              # --
+              # do ne actions
+              # --
+              if ($1 eq "Text") {
+                if ($Self->{LanguageObject}->Get($2) ne $4) {
+                   $GlobalRef->{"$5Ref"}->{$6} = $7;
+                   # output replace with nothing!
+                   "";
+                }
               }
-            }
-            elsif ($1 eq "Env" || $1 eq "Data") {
-              if ((exists $GlobalRef->{"$1Ref"}->{$2}) && $GlobalRef->{"$1Ref"}->{$2} ne $4) {
+              elsif ($1 eq "Env" || $1 eq "Data") {
+                if ((exists $GlobalRef->{"$1Ref"}->{$2}) && $GlobalRef->{"$1Ref"}->{$2} ne $4) {
                   $GlobalRef->{"$5Ref"}->{$6} = $7;
                   # output replace with nothing!
                   "";
+                }
               }
             }
-          }
-        }egx;
-
+          }egx;
+        }
         # --
         # variable & env & config replacement 
         # --
@@ -466,6 +465,7 @@ sub LinkEncode {
     $Link =~ s/&/%26/g;
     $Link =~ s/=/%3D/g;
     $Link =~ s/"/%22/g;
+    $Link =~ s/\+/%2B/g;
     return $Link;
 }
 # --
