@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.85 2003-04-12 17:01:13 martin Exp $
+# $Id: Generic.pm,v 1.86 2003-04-16 21:11:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::Output::HTML::System;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.85 $';
+$VERSION = '$Revision: 1.86 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -896,7 +896,7 @@ sub CheckMimeType {
            '$Text{"to open it in a new window."}</i></p>';
     }
     # just to be compat
-    elsif ($Param{Text} =~ /^<.DOCTYPE html PUBLIC|^<HTML>/i) {
+    elsif ($Param{Body} =~ /^<.DOCTYPE html PUBLIC|^<HTML>/i) {
          $Output = '<p><i class="small">$Text{"This is a"} '.$Param{MimeType}.
            ' $Text{"email"}, '.
            '<a href="'.$Self->{Baselink}.'Action=$Env{"Action"}&TicketID='.
