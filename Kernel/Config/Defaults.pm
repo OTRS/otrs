@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.143 2004-06-23 16:33:57 martin Exp $
+# $Id: Defaults.pm,v 1.144 2004-06-29 10:44:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.143 $';
+$VERSION = '$Revision: 1.144 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -429,19 +429,32 @@ sub LoadDefaults {
     $Self->{AgentUtilCSVData} = ['TicketNumber','Age','Created','State','Priority','Queue','Lock','Owner','UserFirstname','UserLastname','CustomerID','CustomerName','From','Subject','AccountedTime','TicketFreeKey1','TicketFreeText1','TicketFreeKey2','TicketFreeText2','TicketFreeKey3','TicketFreeText3','TicketFreeKey4','TicketFreeText4','TicketFreeKey5','TicketFreeText5','TicketFreeKey6','TicketFreeText6','TicketFreeKey7','TicketFreeText7','TicketFreeKey8','TicketFreeText8','ArticleTree',''];
 
     # SystemStats
-    $Self->{SystemStatsMap} = {
-        Stats1 => {
-            Name => 'State Action Overview',
-            Module => 'Kernel::System::Stats::StateAction',
-        },
-        Stats2 => {
-            Name => 'New Tickets',
-            Module => 'Kernel::System::Stats::NewTickets',
-        },
-        Stats3 => {
-            Name => 'System Ticket Overview',
-            Module => 'Kernel::System::Stats::TicketOverview',
-        },
+    $Self->{SystemStatsMap}->{"OTRS::Stats1"} = {
+        Name => 'New Tickets',
+        Module => 'Kernel::System::Stats::NewTickets',
+        Desc => 'New created tickets for each queue in selected month.',
+        SumCol => 1,
+        SumRow => 1,
+        Output => ['Print', 'CSV', 'Graph'],
+        OutputDefault => 'Print',
+    };
+    $Self->{SystemStatsMap}->{"OTRS::Stats2"} = {
+        Name => 'Ticket Overview',
+        Module => 'Kernel::System::Stats::TicketOverview',
+        Desc => 'Overview of the tickets in queue at the end of this month.',
+        SumCol => 1,
+        SumRow => 1,
+        Output => ['Print', 'CSV', 'Graph'],
+        OutputDefault => 'Print',
+    };
+    $Self->{SystemStatsMap}->{"OTRS::Stats4"} = {
+        Name => 'State Action Overview',
+        Module => 'Kernel::System::Stats::StateAction',
+        Desc => 'Trace system activities (Replacement of old bin/mkStats.pl).',
+        SumCol => 1,
+        SumRow => 1,
+        Output => ['Print', 'CSV', 'Graph'],
+        OutputDefault => 'Graph',
     };
 
     # --------------------------------------------------- #

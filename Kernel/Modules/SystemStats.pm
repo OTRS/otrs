@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/SystemStats.pm - show stats of otrs
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SystemStats.pm,v 1.9 2003-12-29 17:30:11 martin Exp $
+# $Id: SystemStats.pm,v 1.10 2004-06-29 10:43:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::SystemStats;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $ ';
+$VERSION = '$Revision: 1.10 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -42,48 +42,267 @@ sub new {
 sub Run {
     my $Self = shift;
     my %Param = @_;
-    my $Output;
-    my $Subaction = $Self->{Subaction};
-    my $NextScreen = $Self->{NextScreen};
-    my $BackScreen = $Self->{BackScreen};
-    my $UserID = $Self->{UserID};
-    my $UserLogin = $Self->{UserLogin};
     my $DataDir = $Self->{ConfigObject}->Get('StatsPicDir') || '/opt/OpenTRS/var/pics/stats';
-    
-    if ($Subaction eq '' || !$Subaction) {
+    if ($Self->{Subaction} eq '' || !$Self->{Subaction}) {
 
-        # fetch files
-        my @Index;
-        my @List = glob("$DataDir/*");
-        foreach (@List) {
-            s!^.*/!!;
-            push (@Index, $_);
-        }
         # print page ...
-        $Output .= $Self->{LayoutObject}->Header(Area => 'Stats',Title => 'Overview');
-        my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $UserID);
+        my $Output = $Self->{LayoutObject}->Header(Area => 'Stats',Title => 'Overview');
+        my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
         $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
         
-        # fetch data
-        my %SytemTickets;
-        my $SQL = "SELECT count(*), tsd.name FROM " .
-        " ticket st, ticket_state tsd " .
-        " WHERE " .
-        " tsd.id = st.ticket_state_id " .
-        " GROUP BY tsd.name";
-        $Self->{DBObject}->Prepare(SQL => $SQL);
-        while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-            $SytemTickets{$RowTmp[1]} = $RowTmp[0];
+        my %Config = %{$Self->{ConfigObject}->Get('SystemStatsMap')};
+        foreach my $Stats (sort keys %Config) {
+          if (eval "require $Config{$Stats}->{Module}") {
+            my $StatsModule = $Config{$Stats}->{Module}->new(
+                DBObject => $Self->{DBObject}, 
+                ConfigObject => $Self->{ConfigObject},
+                LogObject => $Self->{LogObject},
+            );
+            my @Params = $StatsModule->Param();
+            my $ParamString = '';
+            foreach my $ParamItem (@Params) {
+                $ParamString .= "<tr><td>$ParamItem->{Frontend}</td><td>";
+                $ParamString .= $Self->{LayoutObject}->OptionStrgHashRef(
+                    Data => $ParamItem->{Data},
+                    Name => $ParamItem->{Name},
+                    SelectedID => $Config{$Stats}->{"$ParamItem->{Name}Default"} || $ParamItem->{SelectedID} || '',
+                    Multiple => $ParamItem->{Multiple} || 0,
+                    Size => $ParamItem->{Size} || '',
+                )."</td></tr>";
+            }
+            my %OutputFormat = ();
+            foreach (@{$Config{$Stats}->{Output}}) {
+                $OutputFormat{$_} = $_;
+            }
+            $Param{OutputFormat} = $Self->{LayoutObject}->OptionStrgHashRef(
+                    Data => \%OutputFormat,
+                    Name => 'Format',
+                    SelectedID => $Config{$Stats}->{OutputDefault} || '',
+                );
+            $Self->{LayoutObject}->Block(
+                Name => 'Item', 
+                Data => {
+                    %Param,
+                    %{$Config{$Stats}},
+                    Param => $ParamString,
+                },
+            ); 
+          }
         }
-        
-        $Output .= $Self->MaskSystemStats(
-            Files => \@Index,
-            SystemTickts => \%SytemTickets
+        # create output
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'SystemStats', 
+            Data => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
+    }
+    elsif ($Self->{Subaction} eq 'Output') {
+        my $Module = $Self->{ParamObject}->GetParam(Param => 'Module');
+        my $Format = $Self->{ParamObject}->GetParam(Param => 'Format');
+        my %Config = %{$Self->{ConfigObject}->Get('SystemStatsMap')};
+        my %ConfigItem = ();
+        foreach my $Stats (sort keys %Config) {
+            if ($Config{$Stats}->{Module} eq $Module) {
+                %ConfigItem = %{$Config{$Stats}};
+            }
+        }
+        if (!%ConfigItem) {
+            my $Output = $Self->{LayoutObject}->Header(Area => 'Stats',Title => 'Error');
+            $Output .= $Self->{LayoutObject}->Error(
+                Message => "No Config found for '$Module'!",
+                Comment => 'Please contact your admin'
+            );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
+        }
+        if (eval "require $Module") {
+            my %GetParam = ();
+            my $StatsModule = $Module->new(
+                DBObject => $Self->{DBObject}, 
+                ConfigObject => $Self->{ConfigObject},
+                LogObject => $Self->{LogObject},
+            );
+            my @Params = $StatsModule->Param();
+            foreach my $ParamItem (@Params) {
+                if (!$ParamItem->{Multiple}) {
+                    $GetParam{$ParamItem->{Name}} = $Self->{ParamObject}->GetParam(
+                        Param => $ParamItem->{Name},
+                    );
+                }
+                else {
+                    $GetParam{$ParamItem->{Name}} = [$Self->{ParamObject}->GetArray(
+                        Param => $ParamItem->{Name},
+                    )];
+                }
+            }
+            # get data
+            my @Data = $StatsModule->Run(%GetParam);
+            my $TitleArrayRef = shift (@Data);
+            my $Title = $TitleArrayRef->[0];
+            my $HeadArrayRef = shift (@Data);
+            if ($Format ne 'Graph') {
+                # add sum y
+                if ($ConfigItem{SumRow}) {
+                    push (@{$HeadArrayRef}, 'Sum');
+                    foreach my $Col (@Data) {
+                        my $Sum = 0;
+                        foreach (@{$Col}) {
+                            if ($_ =~ /[0-9]/ && $_ !~ /[A-z]/i) {
+                                $Sum = $Sum + $_;
+                            }
+                        }
+                        push (@{$Col}, $Sum);
+                    }
+                }
+                # add sum x
+                if ($ConfigItem{SumCol}) {
+                    my @R1 = ();
+                    foreach my $Col (@Data) {
+                        my $Count = -1;
+                        foreach my $Dig (@{$Col}) {
+                            $Count++;
+                            if ($Dig =~ /[0-9]/ && $Dig !~ /[A-z]/i) {
+                                if ($R1[$Count]) {
+                                    $R1[$Count] = $R1[$Count] + $Dig;
+                                }
+                                else {
+                                    $R1[$Count] = $Dig;
+                                }
+                            }
+                        }
+                    }
+                    # add sum
+                    if (!defined($R1[0])) {
+                        $R1[0] = 'Sum';
+                    }
+                    push (@Data, \@R1);
+                }
+            }
+            # generate output
+            if ($Format eq 'CSV') {
+                $ConfigItem{Module} =~ s/^.*::(.+?)$/$1/;
+                my $Output = "$ConfigItem{Name}: $Title\n";
+                $Output .= $Self->{LayoutObject}->OutputCSV(
+                    Head => $HeadArrayRef,
+                    Data => \@Data,
+                );
+                # return csv to download
+                my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = localtime(time);
+                $Y = $Y+1900;
+                $M++;
+                $M = sprintf("%02d", $M);
+                $D = sprintf("%02d", $D);
+                $h = sprintf("%02d", $h);
+                $m = sprintf("%02d", $m);
+                return $Self->{LayoutObject}->Attachment(
+                    Filename => "$ConfigItem{Module}"."_"."$Y-$M-$D"."_"."$h-$m.csv",
+                    ContentType => "text/csv",
+                    Content => $Output,
+                );
+            }
+            elsif ($Format eq 'Graph') {
+                require GD;
+                require GD::Graph;
+                require GD::Graph::lines;
+                require GD::Graph::bars;
+                # remove first y/x position
+                my $XLable = shift (@{$HeadArrayRef});
+                # get first col for legend
+                my @YLine = ();
+                foreach my $Tmp (@Data) {
+                    push (@YLine, $Tmp->[0]);
+                    shift (@{$Tmp});
+                }
+                # build plot data
+                my @PData = ($HeadArrayRef, @Data);
+                my ($XSize, $YSize) = split(/x/, $GetParam{GraphSize});
+                my $graph = GD::Graph::lines->new($XSize || 550, $YSize || 350);
+                $graph->set(
+                    x_label            => $XLable,
+#                    y_label            => 'YLable',
+                    title              => "$ConfigItem{Name}: $Title",
+#               y_max_value       => 20,
+#            y_tick_number     => 16,
+#               y_label_skip      => 4,
+#            x_tick_number     => 8,
+                    t_margin            => 10, 
+                    b_margin            => 10, 
+                    l_margin            => 10, 
+                    r_margin            => 20,
+                    bgclr               => 'white',
+                    transparent         => 0,
+                    interlaced          => 1,
+                    fgclr               => 'black',
+                    boxclr              => 'white',
+                    accentclr           => 'black',
+                    shadowclr           => 'black',
+                    legendclr           => 'black',
+                    textclr             => 'black',
+                    dclrs => [ qw(red green blue yellow black purple orange pink marine cyan lgray lblue lyellow lgreen lred lpurple lorange lbrown) ],
+                    x_tick_offset       => 0,
+                    x_label_position    => 1/2, y_label_position => 1/2,
+                    x_labels_vertical   => 31,
+
+                    line_width          => 1,
+                    legend_placement    => 'BC', legend_spacing => 4,
+                    legend_marker_width => 12, legend_marker_height => 8,
+                );
+                # set legend (y-line)
+                $graph->set_legend(@YLine);
+
+                # return csv to download
+                my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = localtime(time);
+                $Y = $Y+1900;
+                $M++;
+                $M = sprintf("%02d", $M);
+                $D = sprintf("%02d", $D);
+                $h = sprintf("%02d", $h);
+                $m = sprintf("%02d", $m);
+                $ConfigItem{Module} =~ s/^.*::(.+?)$/$1/;
+                # plot graph
+                my $Ext = '';
+                if (!$graph->can('png')) {
+                    $Ext = 'png';     
+                }
+                else {
+                    $Ext = $graph->export_format;
+                    $Self->{LogObject}->Log(
+                        Priority => 'notice',
+                        Message => "Can't write png! Write: $Ext",
+                    );
+                }
+                # return image to bowser
+                return $Self->{LayoutObject}->Attachment(
+                    Filename => "$ConfigItem{Module}"."_"."$Y-$M-$D"."_"."$h-$m.$Ext",
+                    ContentType => "image/$Ext",
+                    Content => $graph->plot(\@PData)->$Ext(),
+                );
+            }
+            else {
+                my $Output = $Self->{LayoutObject}->PrintHeader(Area => 'Stats', Title => $ConfigItem{Name});
+                $Output .= "$ConfigItem{Name}: $Title";
+                $Output .= $Self->{LayoutObject}->OutputHTMLTable(
+                    Head => $HeadArrayRef,
+                    Data => \@Data,
+                );
+
+                $Output .= $Self->{LayoutObject}->PrintFooter();
+                return $Output;
+            }
+        }
+        else {
+            my $Output = $Self->{LayoutObject}->Header(Area => 'Stats',Title => 'Error');
+            $Output .= $Self->{LayoutObject}->Error(
+                Message => "Can't load module '$Module'!!",
+                Comment => 'Please contact your admin'
+            );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
+        }
     }
     else {
-        $Output .= $Self->{LayoutObject}->Header();
+        my $Output = $Self->{LayoutObject}->Header(Area => 'Stats',Title => 'Error');
         $Output .= $Self->{LayoutObject}->Error(
             Message => 'No Subaction!!',
             Comment => 'Please contact your admin'
@@ -93,37 +312,8 @@ sub Run {
             Comment => 'Please contact your admin'
         );
         $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
-    return $Output;
-}
-# --
-sub MaskSystemStats {
-    my $Self = shift;
-    my %Param = @_;
-    my $FilesTmp = $Param{Files};
-    my @Files = @$FilesTmp;
-    my $SystemTicktsTmp = $Param{SystemTickts};
-    my %SytemTickets = %$SystemTicktsTmp;
-
-    $Param{TicketCounter} = 0;
-    foreach (keys %SytemTickets) {
-      $Param{CounterOutput} .= "<TR ALIGN=CENTER><TD>\$Text{\"$_\"}</TD><TD>$SytemTickets{$_}</TD></TR>\n";
-      $Param{TicketCounter} = $Param{TicketCounter} + $SytemTickets{$_};
-    }
-
-    foreach (reverse @Files) {
-        $Param{Output} .= '<p><a href="pic.pl?Action=SystemStats&Pic='.$_.
-         '" onmouseover="window.status=\'$Text{"Stats"}\'; return true;" '.
-         'onmouseout="window.status=\'\';">'.
-         '<img src="pic.pl?Action=SystemStats&Pic='.$_.'" border="1"></a>
-         </p>';
-    }
-
-    # create & return output
-    return $Self->{LayoutObject}->Output(
-        TemplateFile => 'SystemStats', 
-        Data => \%Param,
-    );
 }
 # --
 

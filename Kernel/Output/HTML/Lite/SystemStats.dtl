@@ -1,8 +1,8 @@
 # --
-# systemStats.dtl - provides HTML stats 
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# SystemStats.dtl - provides HTML stats 
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SystemStats.dtl,v 1.5 2003-09-28 15:46:47 martin Exp $
+# $Id: SystemStats.dtl,v 1.6 2004-06-29 10:42:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,21 +20,32 @@
 <tr> 
   <td align="center" valign="top" colspan="2" class="table1">
 
+<table border="0" width="600" cellspacing="0" cellpadding="3" cols="2">
+<!-- dtl:block:Item -->
+<tr>
+  <td align="left" class="table2" colspan="2">
+    <b>$Env{"Box0"}$Data{"Name"}$Env{"Box1"}</b>
+  </td>
+</tr>
+<tr>
+  <td valign="top" align="left" class="table1">
+  <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+  <input type="hidden" name="Action" value="$Env{"Action"}">
+  <input type="hidden" name="Subaction" value="Output">
+  <input type="hidden" name="Module" value="$Data{"Module"}">
   <table>
-    <TR>
-      <TH>$Text{"State"}</TH>
-      <TH>$Text{"Tickets"}</TH>
-    </TR>
-    $Data{"CounterOutput"}
-     <TR ALIGN="CENTER">
-       <TD>$Text{"all"}</TD>
-       <TD>$Data{"TicketCounter"}</TD>
-     </TR>
-   </table>
-
-<b>$Text{"Graphs"}</b>
-
-$Data{"Output"}
+    $Data{"Param"}
+    <tr><td>$Text{"Format"}</td><td>$Data{"OutputFormat"}</td></tr>
+  </table>
+  <input class="button" type="submit" value="$Text{"go"}">
+  </form>
+  </td>
+  <td valign="top" align="left" class="table1">
+  $Text{"$Data{"Desc"}"}
+  </td>
+</tr>
+<!--dtl:block:Item-->
+</table>
 
   </td> 
 </tr>

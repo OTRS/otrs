@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.120 2004-06-25 07:37:40 martin Exp $
+# $Id: Ticket.pm,v 1.121 2004-06-29 10:42:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.120 $';
+$VERSION = '$Revision: 1.121 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -2632,7 +2632,7 @@ sub HistoryTicketStatusGet {
     my %Param = @_;
     my %Ticket = ();
     # check needed stuff
-    foreach (qw(StopTimeStamp StartTimeStamp)) {
+    foreach (qw(StopYear StopMonth StopDay StartYear StartMonth StartDay)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
@@ -2645,9 +2645,9 @@ sub HistoryTicketStatusGet {
     my $SQL = "SELECT DISTINCT(th.ticket_id) FROM ".
         "ticket_history th ".
         "WHERE ".
-        "th.create_time <= '$Param{StopTimeStamp} 23:59:59' ".
+        "th.create_time <= '$Param{StopYear}-$Param{StopMonth}-$Param{StopDay} 23:59:59' ".
         "AND ".
-        "th.create_time >= '$Param{StartTimeStamp} 00:00:01' ".
+        "th.create_time >= '$Param{StartYear}-$Param{StartMonth}-$Param{StartDay} 00:00:01' ".
         "ORDER BY th.create_time DESC";
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 50000);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
@@ -2655,8 +2655,10 @@ sub HistoryTicketStatusGet {
     }
     foreach my $TicketID (keys %Ticket) {
         my %TicketData = $Self->HistoryTicketGet(
-            TicketID => $TicketID, 
-            StopTimeStamp => $Param{StopTimeStamp},
+            TicketID => $TicketID,
+            StopYear => $Param{StopYear},
+            StopMonth => $Param{StopMonth},
+            StopDay => $Param{StopDay},
         );
         if (%TicketData) {
             $Ticket{$TicketID} = \%TicketData;
@@ -2673,7 +2675,7 @@ sub HistoryTicketGet {
     my %Param = @_;
     my %Ticket = ();
     # check needed stuff
-    foreach (qw(TicketID StopTimeStamp)) {
+    foreach (qw(TicketID StopYear StopMonth StopDay)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
@@ -2681,7 +2683,7 @@ sub HistoryTicketGet {
     }
     # check cache
     my $Path = $Self->{ConfigObject}->Get('TempDir');
-    my $File = "TicketHistoryCache_$Param{TicketID}_$Param{StopTimeStamp}";
+    my $File = "TicketHistoryCache_$Param{TicketID}_$Param{StopYear}-$Param{StopMonth}-$Param{StopDay}";
     $File =~ s/ //g;
     $File = quotemeta($File);
     # write cache
@@ -2714,7 +2716,7 @@ sub HistoryTicketGet {
         "AND ".
         "th.ticket_id = $Param{TicketID} ".
         "AND ".
-        "th.create_time <= '$Param{StopTimeStamp} 23:59:59' ".
+        "th.create_time <= '$Param{StopYear}-$Param{StopMonth}-$Param{StopDay} 23:59:59' ".
         "ORDER BY th.create_time ASC";
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 600);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
@@ -2766,22 +2768,28 @@ sub HistoryTicketGet {
 
     }
     if (!%Ticket) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "No such TicketID in Ticket Hisotry till '$Param{StopTimeStamp} 23:59:59' ($Param{TicketID})!");
+        $Self->{LogObject}->Log(Priority => 'notice', Message => "No such TicketID in Ticket Hisorry till '$Param{StopYear}-$Param{StopMonth}-$Param{StopDay} 23:59:59' ($Param{TicketID})!");
         return;
     }
     else {
-        # write cache
-        if (open (DATA, "> $Path/$File")) {
-            foreach (keys %Ticket) {
-                print DATA "$_:$Ticket{$_}\n";
+        # check if we should cache this ticket data
+        my ($Sec, $Min, $Hour, $Day, $Month, $Year, $WDay) = $Self->{TimeObject}->SystemTime2Date(
+            SystemTime => $Self->{TimeObject}->SystemTime(),
+        );
+        # if the request is for the last month or older, cache it 
+        if ($Year <= $Param{StopYear} && $Month > $Param{StopMonth}) {
+            if (open (DATA, "> $Path/$File")) {
+                foreach (keys %Ticket) {
+                    print DATA "$_:$Ticket{$_}\n";
+                }
+                close (DATA);
             }
-            close (DATA);
-        }
-        else {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message => "Can't write: $Path/$File: $!",
-            );
+            else {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message => "Can't write: $Path/$File: $!",
+                );
+            }
         }
         return %Ticket;
     }
@@ -3289,6 +3297,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.120 $ $Date: 2004-06-25 07:37:40 $
+$Revision: 1.121 $ $Date: 2004-06-29 10:42:23 $
 
 =cut
