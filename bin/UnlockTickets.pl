@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # UnlockTickets.pl - to unlock tickets
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2002-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: UnlockTickets.pl,v 1.14 2003-03-24 09:12:13 martin Exp $
+# $Id: UnlockTickets.pl,v 1.15 2004-02-02 00:52:21 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Date::Pcalc qw(Delta_Days Add_Delta_Days Day_of_Week Day_of_Week_Abbreviation);
@@ -40,6 +40,8 @@ use Kernel::System::Ticket;
 use Kernel::System::User;
 use Kernel::System::State;
 use Kernel::System::Lock;
+
+my $Debug = 0;
 
 # --
 # common objects
@@ -67,7 +69,7 @@ my @ViewableLockIDs = $CommonObject{LockObject}->LockViewableLock(Type => 'ID');
 # --
 my $Command = shift || '--help';
 print "UnlockTickets.pl <Revision $VERSION> - unlock tickets\n";
-print "Copyright (c) 2002 Martin Edenhofer <martin\@otrs.org>\n";
+print "Copyright (c) 2001-2004 Martin Edenhofer <martin\@otrs.org>\n";
 # --
 # unlock all tickets
 # --
@@ -123,6 +125,7 @@ elsif ($Command eq '--timeout') {
     $CommonObject{DBObject}->Prepare(SQL => $SQL);
     while (my @RowTmp = $CommonObject{DBObject}->FetchrowArray()) {
         # get lock date
+#        my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = localtime($RowTmp[3]-(60*60*24*1.5));
         my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = localtime($RowTmp[3]);
         $Y = $Y+1900;
         $M++;
@@ -134,26 +137,42 @@ elsif ($Command eq '--timeout') {
         my $ToDay = "$NY-$NM-$ND";
         # get delta days
         my $Dd = Delta_Days($Y,$M,$D, $NY,$NM,$ND);
-#        print STDERR "Delta_Days: $Dd\n";
+        if ($Debug) {
+            print STDERR "Delta_Days: $Dd\n";
+        }
         # get not counted time (hours)
         my $UncountedUnlockTime = 0; 
         foreach (0..$Dd) {
             my ($year,$month,$day) = Add_Delta_Days($Y,$M,$D, $_);
             my $Dow = Day_of_Week($year,$month,$day);
             $Dow = Day_of_Week_Abbreviation($Dow);
-#           print STDERR "$Dow: $year,$month,$day .($Ns,$Nm,$Nh).\n";
+            if ($Debug) {
+                print STDERR "$Dow: $year,$month,$day .($Ns,$Nm,$Nh).\n";
+            }
             # get not counted time
             my $CountDay = "$year-$month-$day";
             if ($CommonObject{ConfigObject}->Get('UncountedUnlockTime')->{$Dow}) {
                 foreach (@{$CommonObject{ConfigObject}->Get('UncountedUnlockTime')->{$Dow}}) {
-                    if ($CountDay ne $LockDay && $CountDay ne $ToDay) {
+                    if ($CountDay ne $ToDay && $CountDay ne $LockDay) {
                         $UncountedUnlockTime = $UncountedUnlockTime+(60*60);
+                        if ($Debug) {
+                            print STDERR "InTime 1 h.\n";
+                        } 
+                    }
+                    elsif ($CountDay eq $LockDay && $CountDay ne $ToDay && $h <= $_) {
+                        $UncountedUnlockTime = $UncountedUnlockTime+(60*60);
+                        if ($Debug) {
+                            print STDERR "LockDay 1 h ($h <= $_).\n";
+                        }
                     }
                     elsif ($CountDay eq $ToDay && $Nh >= $_) {
                         $UncountedUnlockTime = $UncountedUnlockTime+(60*60);
+                        if ($Debug) {
+                            print STDERR "EndToday 1 h ($Nh <= $_)\n";
+                        }
                     }
-                    elsif ($CountDay eq $LockDay && $h <= $_) {
-                        $UncountedUnlockTime = $UncountedUnlockTime+(60*60);
+                    if ($Debug) {
+                        print STDERR "UncountedUnlockTime($CountDay/$_): $UncountedUnlockTime - $CountDay - $ToDay - $LockDay\n";
                     }
                 }
             }
