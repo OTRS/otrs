@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.128 2004-08-25 07:56:51 martin Exp $
+# $Id: CHANGES,v 1.129 2004-09-04 23:21:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,12 +10,24 @@
 # --
 CVS head
 
+1.3.0 beta4 (2004-09-05)
+ - (2004/09/05) fixed bug 380 - Does not allow change of customer login
+ - (2004/09/04) fixed bug 502 - Email bouncing does not work
+ - (2004/09/04) fixed bug 503 - Move Ticket into queue not possible
+ - (2004/09/04) fixed bug 504 - $Text{"0"} in DTLs does not produce any output
+ - (2004/09/04) added delete option for pop3 accounts in admin interface
+ - (2004/09/04) improved generic agent web interface
+ - (2004/08/30) fixed '' selection on ticket free text search
+ - (2004/08/30) support of sub dtl blocks
+ - (2004/08/28) fixed call customer via phone (set state was ignored)
+ - (2004/08/26) fixed multi customer id support and added docu
+
 1.3.0 beta3 (2004-08-25)
- - fixed german translation (replaced wrong words)
- - fixed time schedule for generic agent
+ - (2004/08/25) fixed german translation (replaced wrong words)
+ - (2004/08/24) fixed time schedule for generic agent
 
 1.3.0 beta2 (2004-08-24)
- - fixed ticket_history table update script
+ - (2004/08/24) fixed ticket_history table update script
 
 1.3.0 beta1 (2004-08-18)
 
