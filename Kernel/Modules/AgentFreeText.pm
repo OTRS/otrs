@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentText.pm - to set the ticket free text
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentFreeText.pm,v 1.5 2003-12-29 17:25:11 martin Exp $
+# $Id: AgentFreeText.pm,v 1.6 2004-04-05 17:14:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentFreeText;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -71,7 +71,7 @@ sub Run {
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
     }
     else {
-        my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->CheckOwner(
+        my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->OwnerCheck(
             TicketID => $Self->{TicketID},
         );
         if ($OwnerID != $Self->{UserID}) {
@@ -92,7 +92,7 @@ sub Run {
         foreach (1..8) {
             my $FreeKey = $Self->{ParamObject}->GetParam(Param => "TicketFreeKey$_") || '';
             my $FreeValue = $Self->{ParamObject}->GetParam(Param => "TicketFreeText$_") || '';
-            $Self->{TicketObject}->SetTicketFreeText(
+            $Self->{TicketObject}->TicketFreeTextSet(
                 Key => $FreeKey,
                 Value => $FreeValue,
                 Counter => $_,
@@ -107,7 +107,7 @@ sub Run {
     }
     else {
         # print form
-        my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $Self->{TicketID});
+        my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
         $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Set Free Text');
         my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
         $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);

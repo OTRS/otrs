@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/FollowUp.pm - the sub part of PostMaster.pm 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FollowUp.pm,v 1.30 2004-04-01 08:57:41 martin Exp $
+# $Id: FollowUp.pm,v 1.31 2004-04-05 17:14:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::FollowUp;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -152,7 +152,7 @@ sub Run {
     # set lock
     # --
     if ($Lock && $Param{StateType} =~ /^close/i) {
-        $Self->{TicketObject}->SetLock( 
+        $Self->{TicketObject}->LockSet( 
            TicketID => $Param{TicketID},
            Lock => 'lock',
            UserID => => $Param{InmailUserID},

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentHistory.pm - to add notes to a ticket 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentHistory.pm,v 1.14 2003-12-29 17:25:11 martin Exp $
+# $Id: AgentHistory.pm,v 1.15 2004-04-05 17:14:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentHistory;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -78,7 +78,7 @@ sub Run {
     $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
 
     my @Lines;
-    my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $Self->{TicketID});
+    my $Tn = $Self->{TicketObject}->TicketNumberLookup(TicketID => $Self->{TicketID});
     my $SQL = "SELECT sh.name, sh.article_id, sh.create_time, sh.create_by, ".
         " ht.name, su.$Self->{ConfigObject}->{DatabaseUserTableUser} ".
         " FROM ".

@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # PendingJobs.pl - check pending tickets
-# Copyright (C) 2002-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PendingJobs.pl,v 1.11 2004-04-01 08:58:52 martin Exp $
+# $Id: PendingJobs.pl,v 1.12 2004-04-05 17:14:11 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Date::Pcalc qw(Day_of_Week Day_of_Week_Abbreviation);
@@ -79,14 +79,14 @@ if (@PendingAutoStateIDs) {
         push (@TicketIDs, $Row[0]);
     }
     foreach (@TicketIDs) {
-      my %Ticket = $CommonObject{TicketObject}->GetTicket(TicketID => $_);
+      my %Ticket = $CommonObject{TicketObject}->TicketGet(TicketID => $_);
       if ($Ticket{UntilTime} < 1) {
         my %States = %{$CommonObject{ConfigObject}->Get('StateAfterPending')};
         if ($States{$Ticket{State}}) {
             print " Update ticket state for ticket $Ticket{TicketNumber} ($_) to '$States{$Ticket{State}}'...";
             if ($CommonObject{TicketObject}->StateSet(TicketID => $_, State => $States{$Ticket{State}}, UserID => 1,)) {
               if ($States{$Ticket{State}} =~ /^close/i) {
-                $CommonObject{TicketObject}->SetLock(
+                $CommonObject{TicketObject}->LockSet(
                     TicketID => $_,
                     Lock => 'unlock',
                     UserID => 1,
@@ -144,7 +144,7 @@ if (@PendingReminderStateIDs) {
         push (@TicketIDs, $RowTmp[1]);
     }
     foreach (@TicketIDs) {
-      my %Ticket = $CommonObject{TicketObject}->GetTicket(TicketID => $_);
+      my %Ticket = $CommonObject{TicketObject}->TicketGet(TicketID => $_);
       if ($Ticket{UntilTime} < 1) {
         # --
         # send reminder notification
@@ -157,7 +157,7 @@ if (@PendingReminderStateIDs) {
             Type => 'PendingReminder',
             To => $Preferences{UserEmail},
             CustomerMessageParams => {}, 
-            TicketNumber => $CommonObject{TicketObject}->GetTNOfId(ID => $Ticket{TicketID}),
+            TicketNumber => $CommonObject{TicketObject}->TicketNumberLookup(TicketID => $Ticket{TicketID}),
             TicketID => $Ticket{TicketID},
             UserID => 1,
         );

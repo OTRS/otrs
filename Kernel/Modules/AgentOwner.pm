@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentOwner.pm - to set the ticket owner
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentOwner.pm,v 1.22 2004-03-11 14:35:09 martin Exp $
+# $Id: AgentOwner.pm,v 1.23 2004-04-05 17:14:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentOwner;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -85,12 +85,12 @@ sub Run {
             }
         }
         # lock ticket && set user id && send notify to new agent
-        if ($Self->{TicketObject}->SetLock(
+        if ($Self->{TicketObject}->LockSet(
           TicketID => $Self->{TicketID},
           Lock => 'lock',
           UserID => $Self->{UserID},
         ) &&
-          $Self->{TicketObject}->SetOwner(
+          $Self->{TicketObject}->OwnerSet(
             TicketID => $Self->{TicketID},
             UserID => $Self->{UserID},
             NewUserID => $Self->{NewUserID},
@@ -124,8 +124,8 @@ sub Run {
     }
     else {
         # print form
-        my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $Self->{TicketID});
-        my $OwnerID = $Self->{TicketObject}->CheckOwner(TicketID => $Self->{TicketID});
+        my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
+        my $OwnerID = $Self->{TicketObject}->OwnerCheck(TicketID => $Self->{TicketID});
         $Output .= $Self->{LayoutObject}->Header(Title => 'Set Owner');
         my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
         $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
@@ -150,7 +150,7 @@ sub Run {
             }
         }
         # get old owner
-        my @OldUserInfo = $Self->{TicketObject}->GetOwnerList(TicketID => $Self->{TicketID});
+        my @OldUserInfo = $Self->{TicketObject}->OwnerList(TicketID => $Self->{TicketID});
         # print change form
         $Output .= $Self->MaskOwner(
             %Ticket,

@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerMessage.pm - to handle customer messages
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessage.pm,v 1.28 2004-04-01 09:21:32 martin Exp $
+# $Id: CustomerMessage.pm,v 1.29 2004-04-05 17:14:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -128,7 +128,7 @@ sub Run {
                 return $Self->{LayoutObject}->CustomerNoPermission(WithHeader => 'yes');
             }
             # get ticket number
-            my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $Self->{TicketID});
+            my $Tn = $Self->{TicketObject}->TicketNumberLookup(TicketID => $Self->{TicketID});
             # print form ...
             $Output .= $Self->_Mask(
                 TicketID => $Self->{TicketID},
@@ -150,7 +150,7 @@ sub Run {
             return $Self->{LayoutObject}->CustomerNoPermission(WithHeader => 'yes');
         }
         # get ticket data
-        my %Ticket = $Self->{TicketObject}->GetTicket(
+        my %Ticket = $Self->{TicketObject}->TicketGet(
             TicketID => $Self->{TicketID},
         );
         # get follow up option (possible or not)
@@ -218,7 +218,7 @@ sub Run {
           );
           # set lock if ticket was cloased
           if ($Lock && $State{TypeName} =~ /^close/i && $Ticket{OwnerID} ne '1') {
-              $Self->{TicketObject}->SetLock(
+              $Self->{TicketObject}->LockSet(
                   TicketID => $Self->{TicketID},
                   Lock => 'lock',
                   UserID => => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
@@ -271,7 +271,7 @@ sub Run {
         }
         my $From = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>"; 
         # create new ticket, do db insert
-        my $TicketID = $Self->{TicketObject}->CreateTicketDB(
+        my $TicketID = $Self->{TicketObject}->TicketCreate(
             QueueID => $NewQueueID,
             Lock => 'unlock',
             # FIXME !!!
@@ -309,7 +309,7 @@ sub Run {
           # set ticket free text
           foreach (1..8) {
             if (defined($TicketFree{"TicketFreeKey$_"})) {
-                $Self->{TicketObject}->SetTicketFreeText(
+                $Self->{TicketObject}->TicketFreeTextSet(
                     TicketID => $TicketID,
                     Key => $TicketFree{"TicketFreeKey$_"},
                     Value => $TicketFree{"TicketFreeText$_"},

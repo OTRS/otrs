@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentClose.pm - to close a ticket
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentClose.pm,v 1.32 2004-04-01 08:57:26 martin Exp $
+# $Id: AgentClose.pm,v 1.33 2004-04-05 17:14:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -65,7 +65,7 @@ sub Run {
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
     }
     
-    my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $Self->{TicketID});
+    my $Tn = $Self->{TicketObject}->TicketNumberLookup(TicketID => $Self->{TicketID});
     
     if ($Self->{Subaction} eq '' || !$Self->{Subaction}) {
         # get next states
@@ -87,7 +87,7 @@ sub Run {
             }
         }
         # move queues
-        my $SelectedMoveQueue = $Self->{TicketObject}->GetQueueIDOfTicketID(
+        my $SelectedMoveQueue = $Self->{TicketObject}->TicketQueueID(
             TicketID => $Self->{TicketID},
         );
         my %MoveQueues = $Self->{TicketObject}->MoveList(
@@ -102,13 +102,13 @@ sub Run {
         # --
         # get lock state
         # --
-        if (!$Self->{TicketObject}->IsTicketLocked(TicketID => $Self->{TicketID})) {
-            $Self->{TicketObject}->SetLock(
+        if (!$Self->{TicketObject}->LockIsTicketLocked(TicketID => $Self->{TicketID})) {
+            $Self->{TicketObject}->LockSet(
                 TicketID => $Self->{TicketID},
                 Lock => 'lock',
                 UserID => $Self->{UserID}
             );
-            if ($Self->{TicketObject}->SetOwner(
+            if ($Self->{TicketObject}->OwnerSet(
                 TicketID => $Self->{TicketID},
                 UserID => $Self->{UserID},
                 NewUserID => $Self->{UserID},
@@ -118,7 +118,7 @@ sub Run {
             }
         }
         else {
-            my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->CheckOwner(
+            my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->OwnerCheck(
                 TicketID => $Self->{TicketID},
             );
             if ($OwnerID != $Self->{UserID}) {
@@ -184,14 +184,14 @@ sub Run {
           );
           # set queue
           if ($DestQueueID) {
-            $Self->{TicketObject}->MoveByTicketID(
+            $Self->{TicketObject}->MoveTicket(
               TicketID => => $Self->{TicketID},
               UserID => $Self->{UserID},
               QueueID => $DestQueueID,
             );
           }
           # set lock
-          $Self->{TicketObject}->SetLock(
+          $Self->{TicketObject}->LockSet(
             UserID => $Self->{UserID},
             TicketID => $Self->{TicketID},
             Lock => 'unlock'

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPending.pm - to set ticket in pending state
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPending.pm,v 1.16 2004-04-01 08:57:26 martin Exp $
+# $Id: AgentPending.pm,v 1.17 2004-04-05 17:14:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -64,7 +64,7 @@ sub Run {
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
     }
     else {
-        my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->CheckOwner(
+        my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->OwnerCheck(
             TicketID => $Self->{TicketID},
         );
         if ($OwnerID != $Self->{UserID}) {
@@ -77,7 +77,7 @@ sub Run {
             return $Output;
         }
     } 
-    my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $Self->{TicketID});
+    my $Tn = $Self->{TicketObject}->TicketNumberLookup(TicketID => $Self->{TicketID});
     
     if ($Self->{Subaction} eq '' || !$Self->{Subaction}) {
         # get next states
@@ -99,19 +99,19 @@ sub Run {
             }
         }
         # move queues
-        my $SelectedMoveQueue = $Self->{TicketObject}->GetQueueIDOfTicketID(
+        my $SelectedMoveQueue = $Self->{TicketObject}->TicketQueueID(
             TicketID => $Self->{TicketID},
         );
         # html header
         $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Pending');
         # get lock state
-        if (!$Self->{TicketObject}->IsTicketLocked(TicketID => $Self->{TicketID})) {
-            $Self->{TicketObject}->SetLock(
+        if (!$Self->{TicketObject}->LockIsTicketLocked(TicketID => $Self->{TicketID})) {
+            $Self->{TicketObject}->LockSet(
                 TicketID => $Self->{TicketID},
                 Lock => 'lock',
                 UserID => $Self->{UserID}
             );
-            if ($Self->{TicketObject}->SetOwner(
+            if ($Self->{TicketObject}->OwnerSet(
                 TicketID => $Self->{TicketID},
                 UserID => $Self->{UserID},
                 NewUserID => $Self->{UserID},
@@ -187,7 +187,7 @@ sub Run {
             StateID => $StateID,
           );
           # set pending time
-          $Self->{TicketObject}->SetPendingTime(
+          $Self->{TicketObject}->TicketPendingTimeSet(
             UserID => $Self->{UserID},
             TicketID => $Self->{TicketID},
             %GetParam,

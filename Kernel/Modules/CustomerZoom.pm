@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerZoom.pm - to get a closer view
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerZoom.pm,v 1.16 2004-04-01 09:21:32 martin Exp $
+# $Id: CustomerZoom.pm,v 1.17 2004-04-05 17:14:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -46,7 +46,7 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-    my $QueueID = $Self->{TicketObject}->GetQueueIDOfTicketID(TicketID => $Self->{TicketID});
+    my $QueueID = $Self->{TicketObject}->TicketQueueID(TicketID => $Self->{TicketID});
     # check needed stuff
     if (!$Self->{TicketID} || !$QueueID) {
       $Output = $Self->{LayoutObject}->CustomerHeader(Title => 'Error');
@@ -78,7 +78,7 @@ sub Run {
     # --
     # fetch all std. responses
     # --
-    my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $Self->{TicketID});
+    my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
     $Ticket{TmpCounter} = 0;
     $Ticket{TicketTimeUnits} = $Self->{TicketObject}->GetAccountedTime(
         TicketID => $Ticket{TicketID},

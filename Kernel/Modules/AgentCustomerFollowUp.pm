@@ -3,7 +3,7 @@
 # if the agent is customer
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCustomerFollowUp.pm,v 1.6 2004-04-01 08:57:26 martin Exp $
+# $Id: AgentCustomerFollowUp.pm,v 1.7 2004-04-05 17:14:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -73,7 +73,7 @@ sub Run {
             # build NavigationBar 
             $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
 
-            my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $Self->{TicketID});
+            my $Tn = $Self->{TicketObject}->TicketNumberLookup(TicketID => $Self->{TicketID});
             # --
             # print form ...
             # --
@@ -88,7 +88,7 @@ sub Run {
     }
     elsif ($Self->{Subaction} eq 'Store') {
         # check if it is possible to do the follow up
-        my $QueueID = $Self->{TicketObject}->GetQueueIDOfTicketID(
+        my $QueueID = $Self->{TicketObject}->TicketQueueID(
             TicketID => $Self->{TicketID},
         );
         # get follow up option (possible or not)
@@ -96,7 +96,7 @@ sub Run {
             QueueID => $QueueID,
         );
         # get ticket data
-        my %Ticket = $Self->{TicketObject}->GetTicket(
+        my %Ticket = $Self->{TicketObject}->TicketGet(
             TicketID => $Self->{TicketID},
         );
 

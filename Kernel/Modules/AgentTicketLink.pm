@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketLink.pm - to set the ticket free text
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketLink.pm,v 1.1 2004-02-02 22:01:00 martin Exp $
+# $Id: AgentTicketLink.pm,v 1.2 2004-04-05 17:14:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentTicketLink;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -71,7 +71,7 @@ sub Run {
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
     }
     else {
-        my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->CheckOwner(
+        my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->OwnerCheck(
             TicketID => $Self->{TicketID},
         );
         if ($OwnerID != $Self->{UserID}) {
@@ -87,13 +87,13 @@ sub Run {
 
     if ($Self->{Subaction} eq 'Update') {
         # delete ticket link 
-        my %TicketLink = $Self->{TicketObject}->GetTicketLink(
+        my %TicketLink = $Self->{TicketObject}->TicketLinkGet(
             TicketID => $Self->{TicketID},
             UserID => $Self->{UserID},
         );
         foreach (keys %TicketLink) { 
           if ($_ =~ /^TicketLinkID/) {
-            $Self->{TicketObject}->DeleteTicketLink(
+            $Self->{TicketObject}->TicketLinkDelete(
                 MasterTicketID => $Self->{TicketID},
                 SlaveTicketID => $TicketLink{$_},
                 UserID => $Self->{UserID},
@@ -105,9 +105,12 @@ sub Run {
             my $Tn = $Self->{ParamObject}->GetParam(Param => "TicketLink$_") || '';
             if ($Tn) {
                 $Tn =~ s/(^ | $)//ig;
-                my $TicketID = $Self->{TicketObject}->GetIdOfTN(TN => $Tn);
+                my $TicketID = $Self->{TicketObject}->TicketIDLookup(
+                    TicketNumber => $Tn,
+                    UserID => $Self->{UserID},
+                );
                 if ($TicketID) {
-                  $Self->{TicketObject}->AddTicketLink(
+                  $Self->{TicketObject}->TicketLinkAdd(
                     SlaveTicketID => $TicketID,
                     MasterTicketID => $Self->{TicketID},
                     UserID => $Self->{UserID},
@@ -122,11 +125,11 @@ sub Run {
     }
     else {
         # print form
-        my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $Self->{TicketID});
+        my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
         $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Link');
         my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
         $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
-        my %TicketLink = $Self->{TicketObject}->GetTicketLink(
+        my %TicketLink = $Self->{TicketObject}->TicketLinkGet(
             %Ticket, 
             UserID => $Self->{UserID},
         );

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.39 2004-04-05 13:00:25 martin Exp $
+# $Id: AgentUtilities.pm,v 1.40 2004-04-05 17:14:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::State;
     
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
     
 # --
@@ -239,7 +239,7 @@ sub Run {
         }
         # perform ticket search
         my $Counter = 0;
-        my @ViewableIDs = $Self->{TicketObject}->SearchTicket(
+        my @ViewableIDs = $Self->{TicketObject}->TicketSearch(
             Result => 'ARRAY',
             SortBy => $Self->{SortBy},
             OrderBy => $Self->{Order},

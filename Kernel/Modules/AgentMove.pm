@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentMove.pm - move tickets to queues 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMove.pm,v 1.28 2004-04-01 08:57:26 martin Exp $
+# $Id: AgentMove.pm,v 1.29 2004-04-05 17:14:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -81,15 +81,15 @@ sub Run {
 #        my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
 #        $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
         # get lock state && write (lock) permissions
-        if (!$Self->{TicketObject}->IsTicketLocked(TicketID => $Self->{TicketID})) {
+        if (!$Self->{TicketObject}->LockIsTicketLocked(TicketID => $Self->{TicketID})) {
             # set owner
-            $Self->{TicketObject}->SetOwner(
+            $Self->{TicketObject}->OwnerSet(
                 TicketID => $Self->{TicketID},
                 UserID => $Self->{UserID},
                 NewUserID => $Self->{UserID},
             );
             # set lock
-            if ($Self->{TicketObject}->SetLock(
+            if ($Self->{TicketObject}->LockSet(
                 TicketID => $Self->{TicketID},
                 Lock => 'lock',
                 UserID => $Self->{UserID}
@@ -101,7 +101,7 @@ sub Run {
         }
         else {
 #            $Self->{TicketUnlock} = 0;
-            my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->CheckOwner(
+            my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->OwnerCheck(
                 TicketID => $Self->{TicketID},
             );
             if ($OwnerID != $Self->{UserID}) {
@@ -120,7 +120,7 @@ sub Run {
             Type => 'move_into',
         );
         # build header
-        my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $Self->{TicketID});
+        my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
         # get next states
         my %NextStates = $Self->{TicketObject}->StateList(
             Type => 'DefaultNextMove',
@@ -129,7 +129,7 @@ sub Run {
         );
         $NextStates{''} = '-';
         # get old owners
-        my @OldUserInfo = $Self->{TicketObject}->GetOwnerList(TicketID => $Self->{TicketID});
+        my @OldUserInfo = $Self->{TicketObject}->OwnerList(TicketID => $Self->{TicketID});
         # get lod queues
         my @OldQueue = $Self->{TicketObject}->MoveQueueList(TicketID => $Self->{TicketID});
         # print change form
@@ -147,7 +147,7 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
-    elsif ($Self->{TicketObject}->MoveByTicketID(
+    elsif ($Self->{TicketObject}->MoveTicket(
           QueueID => $Self->{DestQueueID},
           UserID => $Self->{UserID},
           TicketID => $Self->{TicketID},
@@ -173,13 +173,13 @@ sub Run {
         # check if new user is given
         if ($NewUserID) {
             # lock
-            $Self->{TicketObject}->SetLock(
+            $Self->{TicketObject}->LockSet(
                 TicketID => $Self->{TicketID},
                 Lock => 'lock',
                 UserID => $Self->{UserID},
             );
             # set owner
-            $Self->{TicketObject}->SetOwner(
+            $Self->{TicketObject}->OwnerSet(
                 TicketID => $Self->{TicketID},
                 UserID => $Self->{UserID},
                 NewUserID => $NewUserID,
@@ -189,7 +189,7 @@ sub Run {
         else {
             # unlock
             if ($Self->{TicketUnlock}) {
-                $Self->{TicketObject}->SetLock(
+                $Self->{TicketObject}->LockSet(
                     TicketID => $Self->{TicketID},
                     Lock => 'unlock',
                     UserID => $Self->{UserID},

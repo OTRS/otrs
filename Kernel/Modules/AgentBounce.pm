@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentBounce.pm - to bounce articles of tickets 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBounce.pm,v 1.32 2004-04-01 08:57:26 martin Exp $
+# $Id: AgentBounce.pm,v 1.33 2004-04-05 17:14:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -76,8 +76,8 @@ sub Run {
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
     }
 
-    $Param{TicketNumber} = $Self->{TicketObject}->GetTNOfId(ID => $Self->{TicketID});
-    $Param{QueueID} = $Self->{TicketObject}->GetQueueIDOfTicketID(TicketID => $Self->{TicketID});
+    $Param{TicketNumber} = $Self->{TicketObject}->TicketNumberLookup(TicketID => $Self->{TicketID});
+    $Param{QueueID} = $Self->{TicketObject}->TicketQueueID(TicketID => $Self->{TicketID});
     # --
     # prepare salutation
     # --
@@ -94,11 +94,11 @@ sub Run {
         # --
         # get lock state && permissions
         # --
-        if (!$Self->{TicketObject}->IsTicketLocked(TicketID => $Self->{TicketID})) {
+        if (!$Self->{TicketObject}->LockIsTicketLocked(TicketID => $Self->{TicketID})) {
             # --
             # set owner
             # --
-            $Self->{TicketObject}->SetOwner(
+            $Self->{TicketObject}->OwnerSet(
               TicketID => $Self->{TicketID},
               UserID => $Self->{UserID},
               NewUserID => $Self->{UserID},
@@ -106,7 +106,7 @@ sub Run {
             # --
             # set lock
             # --
-            if ($Self->{TicketObject}->SetLock(
+            if ($Self->{TicketObject}->LockSet(
               TicketID => $Self->{TicketID},
               Lock => 'lock',
               UserID => $Self->{UserID},
@@ -118,7 +118,7 @@ sub Run {
             }
          }
         else {
-            my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->CheckOwner(
+            my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->OwnerCheck(
               TicketID => $Self->{TicketID},
             );
   
@@ -253,7 +253,7 @@ sub Run {
         # --
         # get article data 
         # --
-        my %Ticket = $Self->{TicketObject}->GetTicket(
+        my %Ticket = $Self->{TicketObject}->TicketGet(
             TicketID => $Self->{TicketID},
         );
         my %Address = $Self->{QueueObject}->GetSystemAddress(
@@ -328,7 +328,7 @@ sub Run {
           );
         # should i set an unlock?
         if ($StateData{TypeName} =~ /^close/i) {
-          $Self->{TicketObject}->SetLock(
+          $Self->{TicketObject}->LockSet(
             TicketID => $Self->{TicketID},
             Lock => 'unlock',
             UserID => $Self->{UserID},

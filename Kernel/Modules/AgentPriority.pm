@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPriority.pm - to set the ticket priority
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPriority.pm,v 1.19 2004-04-01 09:18:42 martin Exp $
+# $Id: AgentPriority.pm,v 1.20 2004-04-05 17:14:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPriority;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -66,7 +66,7 @@ sub Run {
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
     }
     else {
-        my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->CheckOwner(
+        my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->OwnerCheck(
             TicketID => $Self->{TicketID},
         );
         if ($OwnerID != $Self->{UserID}) {
@@ -92,7 +92,7 @@ sub Run {
     }
     else {
         # print form
-        my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $Self->{TicketID});
+        my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
         $Output .= $Self->{LayoutObject}->Header(Area => 'Agent', Title => 'Set Priority');
         my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
         $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);

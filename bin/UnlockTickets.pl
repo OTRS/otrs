@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # UnlockTickets.pl - to unlock tickets
-# Copyright (C) 2002-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: UnlockTickets.pl,v 1.15 2004-02-02 00:52:21 martin Exp $
+# $Id: UnlockTickets.pl,v 1.16 2004-04-05 17:14:11 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Date::Pcalc qw(Delta_Days Add_Delta_Days Day_of_Week Day_of_Week_Abbreviation);
@@ -89,7 +89,7 @@ if ($Command eq '--all') {
     foreach (@Tickets) {
         my @Row = @{$_};
         print " Unlocking ticket id $Row[0] ...";
-        if ($CommonObject{TicketObject}->SetLock(
+        if ($CommonObject{TicketObject}->LockSet(
             TicketID => $Row[2],
             Lock => 'unlock',
             UserID => 1,
@@ -185,7 +185,7 @@ elsif ($Command eq '--timeout') {
     foreach (@Tickets) {
         my @Row = @{$_};
         print " Unlocking ticket id $Row[0] ...";
-        if ($CommonObject{TicketObject}->SetLock(
+        if ($CommonObject{TicketObject}->LockSet(
             TicketID => $Row[2],
             Lock => 'unlock',
             UserID => 1,

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.61 2004-04-01 08:57:26 martin Exp $
+# $Id: AgentCompose.pm,v 1.62 2004-04-05 17:14:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.61 $';
+$VERSION = '$Revision: 1.62 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -104,7 +104,7 @@ sub Form {
     # --
     # get ticket data
     # --
-    my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $Self->{TicketID});
+    my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
     if ($Self->{ConfigObject}->Get('AgentCanBeCustomer') && $Ticket{CustomerUserID} && $Ticket{CustomerUserID} eq $Self->{UserLogin}) {
         # --
         # redirect
@@ -126,15 +126,15 @@ sub Form {
     # --
     # get lock state && write (lock) permissions
     # --
-    if (!$Self->{TicketObject}->IsTicketLocked(TicketID => $Self->{TicketID})) {
+    if (!$Self->{TicketObject}->LockIsTicketLocked(TicketID => $Self->{TicketID})) {
         # set owner
-        $Self->{TicketObject}->SetOwner(
+        $Self->{TicketObject}->OwnerSet(
             TicketID => $Self->{TicketID},
             UserID => $Self->{UserID},
             NewUserID => $Self->{UserID},
         );
         # set lock
-        if ($Self->{TicketObject}->SetLock(
+        if ($Self->{TicketObject}->LockSet(
             TicketID => $Self->{TicketID},
             Lock => 'lock',
             UserID => $Self->{UserID}
@@ -144,7 +144,7 @@ sub Form {
         }
     }
     else {
-        my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->CheckOwner(
+        my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->OwnerCheck(
             TicketID => $Self->{TicketID},
         );
         if ($OwnerID != $Self->{UserID}) {
@@ -353,7 +353,7 @@ sub SendEmail {
     # --
     my @StdAttachmentIDs = $Self->{ParamObject}->GetArray(Param => 'StdAttachmentID');
     # prepare subject
-    my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $Self->{TicketID});
+    my $Tn = $Self->{TicketObject}->TicketNumberLookup(TicketID => $Self->{TicketID});
     my $TicketHook = $Self->{ConfigObject}->Get('TicketHook') || '';
     $Self->{Subject} =~ s/^..: //;
     $Self->{Subject} =~ s/\[$TicketHook: $Tn\] //g;
@@ -365,7 +365,7 @@ sub SendEmail {
     # check if there is an error
     # --
     if (%Error) {
-        my $QueueID = $Self->{TicketObject}->GetQueueIDOfTicketID(TicketID => $Self->{TicketID});
+        my $QueueID = $Self->{TicketObject}->TicketQueueID(TicketID => $Self->{TicketID});
         my $Output = $Self->{LayoutObject}->Header(Title => 'Compose');
         my %Data = ();
         foreach (qw(From To Cc Bcc Subject Body InReplyTo Answered ArticleID 
@@ -434,7 +434,7 @@ sub SendEmail {
         );
         # should I set an unlock?
         if ($StateData{TypeName} =~ /^close/i) {
-            $Self->{TicketObject}->SetLock(
+            $Self->{TicketObject}->LockSet(
                 TicketID => $Self->{TicketID},
                 Lock => 'unlock',
                 UserID => $Self->{UserID},
@@ -442,7 +442,7 @@ sub SendEmail {
         }
         # set pending time
         elsif ($StateData{TypeName} =~ /^pending/i) {
-            $Self->{TicketObject}->SetPendingTime(
+            $Self->{TicketObject}->TicketPendingTimeSet(
                 UserID => $Self->{UserID},
                 TicketID => $Self->{TicketID},
                 Year => $Self->{Year},

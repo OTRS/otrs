@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLock.pm - to set or unset a lock for tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentLock.pm,v 1.14 2003-12-07 23:56:15 martin Exp $
+# $Id: AgentLock.pm,v 1.15 2004-04-05 17:14:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentLock;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -76,7 +76,7 @@ sub Run {
     # --
     if ($Self->{Subaction} eq 'Unlock') {
         # check if I'm the owner
-        my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->CheckOwner(
+        my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->OwnerCheck(
             TicketID => $Self->{TicketID},
         );
         if ($OwnerID != $Self->{UserID}) {
@@ -89,7 +89,7 @@ sub Run {
             return $Output;
         }
         # set unlock
-        if ($Self->{TicketObject}->SetLock(
+        if ($Self->{TicketObject}->LockSet(
           TicketID => $Self->{TicketID},
           Lock => 'unlock',
           UserID => $Self->{UserID},
@@ -111,8 +111,8 @@ sub Run {
     }
     else {
         # check if the agent is ablee to lock
-        if ($Self->{TicketObject}->IsTicketLocked(TicketID => $Self->{TicketID})) {
-            my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->CheckOwner(
+        if ($Self->{TicketObject}->LockIsTicketLocked(TicketID => $Self->{TicketID})) {
+            my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->OwnerCheck(
                 TicketID => $Self->{TicketID},
             );
             $Output = $Self->{LayoutObject}->Header(Title => 'Error');
@@ -124,13 +124,13 @@ sub Run {
             return $Output;
         }
         # set lock
-        if ($Self->{TicketObject}->SetLock(
+        if ($Self->{TicketObject}->LockSet(
           TicketID => $Self->{TicketID},
           Lock => 'lock',
           UserID => $Self->{UserID},
         ) &&
 	    # set user id
-    	$Self->{TicketObject}->SetOwner(
+    	$Self->{TicketObject}->OwnerSet(
             TicketID => $Self->{TicketID},
 	        UserID => $Self->{UserID},
 	        NewUserID => $Self->{UserID},

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.67 2004-04-01 08:57:26 martin Exp $
+# $Id: AgentPhone.pm,v 1.68 2004-04-05 17:14:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.67 $';
+$VERSION = '$Revision: 1.68 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -64,7 +64,7 @@ sub Run {
             $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);
             # notify info
             if ($Self->{TicketID}) {
-                my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $Self->{TicketID});
+                my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
                 $Output .= $Self->{LayoutObject}->Notify(Info => '<a href="$Env{"Baselink"}Action=AgentZoom&TicketID='.$Ticket{TicketID}.'">Ticket "%s" created!", "'.$Ticket{TicketNumber}).'</a>';
             }
             # --
@@ -133,7 +133,7 @@ sub Run {
             return $Output;
         }
         # get ticket info if ticket id is given
-        my %TicketData = $Self->{TicketObject}->GetTicket(TicketID => $Self->{TicketID});
+        my %TicketData = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
         # check it it's a agent-customer ticket
         if ($Self->{ConfigObject}->Get('AgentCanBeCustomer') && $TicketData{CustomerUserID} && $TicketData{CustomerUserID} eq $Self->{UserLogin}) {
             # redirect for agent follow up screen
@@ -165,15 +165,15 @@ sub Run {
             }
         }
         # get lock state && permissions
-        if (!$Self->{TicketObject}->IsTicketLocked(TicketID => $Self->{TicketID})) {
+        if (!$Self->{TicketObject}->LockIsTicketLocked(TicketID => $Self->{TicketID})) {
           # set owner
-          $Self->{TicketObject}->SetOwner(
+          $Self->{TicketObject}->OwnerSet(
             TicketID => $Self->{TicketID},
             UserID => $Self->{UserID},
             NewUserID => $Self->{UserID},
           );
           # set lock
-          if ($Self->{TicketObject}->SetLock(
+          if ($Self->{TicketObject}->LockSet(
             TicketID => $Self->{TicketID},
             Lock => 'lock',
             UserID => $Self->{UserID},
@@ -183,7 +183,7 @@ sub Run {
           }
         }
         else {
-          my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->CheckOwner(
+          my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->OwnerCheck(
               TicketID => $Self->{TicketID},
           );
 
@@ -201,7 +201,7 @@ sub Run {
             TicketID => $Self->{TicketID},
             QueueID => $Self->{QueueID},
             TicketNumber => $Tn,
-            NextStates => $Self->_GetNextStates(),
+            NextStates => $Self->_GetNextStates(TicketID => $Self->{TicketID}),
             CustomerData => \%CustomerData,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -261,7 +261,7 @@ sub Run {
          # should i set an unlock? yes if the ticket is closed
          my %StateData = $Self->{StateObject}->StateGet(ID => $NextStateID);
          if ($StateData{TypeName} =~ /^close/i) {
-             $Self->{TicketObject}->SetLock(
+             $Self->{TicketObject}->LockSet(
                  TicketID => $Self->{TicketID},
                  Lock => 'unlock',
                  UserID => $Self->{UserID},
@@ -269,7 +269,7 @@ sub Run {
          }
          # set pending time if next state is a pending state
          elsif ($StateData{TypeName} =~ /^pending/i) {
-             $Self->{TicketObject}->SetPendingTime(
+             $Self->{TicketObject}->TicketPendingTimeSet(
                  UserID => $Self->{UserID},
                  TicketID => $Self->{TicketID},
                  %GetParam,
@@ -456,12 +456,11 @@ sub Run {
             # html output
             # --
             $Output .= $Self->_MaskPhoneNew(
-              QueueID => $Self->{QueueID},
               Users => $Self->_GetUsers(QueueID => $NewQueueID, AllUsers => $AllUsers),
               UserSelected => $NewUserID,
-              NextStates => $Self->_GetNextStates(),
+              NextStates => $Self->_GetNextStates(QueueID => $NewQueueID),
               NextState => $NextState,
-              Priorities => $Self->_GetPriorities(),
+              Priorities => $Self->_GetPriorities(QueueID => $NewQueueID),
               PriorityID => $PriorityID,
               CustomerID => $Self->{LayoutObject}->Ascii2Html(Text => $CustomerID),
               CustomerUser => $CustomerUser,
@@ -499,7 +498,7 @@ sub Run {
             return $Output;
         }
         # create new ticket, do db insert
-        my $TicketID = $Self->{TicketObject}->CreateTicketDB(
+        my $TicketID = $Self->{TicketObject}->TicketCreate(
             QueueID => $NewQueueID,
             Lock => 'unlock',
             # FIXME !!!
@@ -514,7 +513,7 @@ sub Run {
         # set ticket free text
         foreach (1..8) {
             if (defined($TicketFree{"TicketFreeKey$_"})) {
-                $Self->{TicketObject}->SetTicketFreeText(
+                $Self->{TicketObject}->TicketFreeTextSet(
                     TicketID => $TicketID,
                     Key => $TicketFree{"TicketFreeKey$_"}, 
                     Value => $TicketFree{"TicketFreeText$_"},
@@ -563,14 +562,14 @@ sub Run {
               );
           }
           # set lock (get lock type)
-          $Self->{TicketObject}->SetLock(
+          $Self->{TicketObject}->LockSet(
               TicketID => $TicketID,
               Lock => $Self->{ConfigObject}->Get('PhoneDefaultNewLock'),
               UserID => $Self->{UserID},
           );
           # set owner (if new user id is given)
           if ($NewUserID) {
-              $Self->{TicketObject}->SetOwner(
+              $Self->{TicketObject}->OwnerSet(
                   TicketID => $TicketID, 
                   NewUserID => $NewUserID,
                   UserID => $Self->{UserID},
@@ -588,7 +587,7 @@ sub Run {
           # should i set an unlock?
           my %StateData = $Self->{StateObject}->StateGet(ID => $NextStateID);
           if ($StateData{TypeName} =~ /^close/i) {
-              $Self->{TicketObject}->SetLock(
+              $Self->{TicketObject}->LockSet(
                   TicketID => $TicketID,
                   Lock => 'unlock',
                   UserID => $Self->{UserID},
@@ -596,7 +595,7 @@ sub Run {
           }
           # set pending time
           elsif ($StateData{TypeName} =~ /^pending/i) {
-              $Self->{TicketObject}->SetPendingTime(
+              $Self->{TicketObject}->TicketPendingTimeSet(
                   UserID => $Self->{UserID},
                   TicketID => $TicketID,
                   %GetParam,
@@ -630,11 +629,14 @@ sub Run {
 sub _GetNextStates {
     my $Self = shift;
     my %Param = @_;
-    my %NextStates = $Self->{TicketObject}->StateList(
-        Type => 'PhoneDefaultNext',
-        TicketID => $Self->{TicketID},
-        UserID => $Self->{UserID},
-    );
+    my %NextStates = ();
+    if ($Param{QueueID} || $Param{TicketID}) {
+        %NextStates = $Self->{TicketObject}->StateList(
+            %Param,
+            Type => 'PhoneDefaultNext',
+            UserID => $Self->{UserID},
+        );
+    }
     return \%NextStates;
 }
 # --
@@ -684,10 +686,14 @@ sub _GetUsers {
 sub _GetPriorities {
     my $Self = shift;
     my %Param = @_;
+    my %Priorities = ();
     # get priority
-    my %Priorities = $Self->{TicketObject}->PriorityList(
-        UserID => $Self->{UserID},
-    );
+    if ($Param{QueueID} || $Param{TicketID}) {
+        %Priorities = $Self->{TicketObject}->PriorityList(
+            %Param,
+            UserID => $Self->{UserID},
+        );
+    }
     return \%Priorities;
 }
 # --
@@ -703,7 +709,11 @@ sub _GetTos {
         # SelectionType Queue or SystemAddress?    
         my %Tos = ();
         if ($Self->{ConfigObject}->Get('PhoneViewSelectionType') eq 'Queue') {
-            %Tos = $Self->{TicketObject}->MoveList(UserID => $Self->{UserID});
+            %Tos = $Self->{TicketObject}->MoveList(
+                Type => 'create',
+                QueueID => $Self->{QueueID},
+                UserID => $Self->{UserID},
+            );
         }
         else {
             %Tos = $Self->{DBObject}->GetTableData(

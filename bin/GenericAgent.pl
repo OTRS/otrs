@@ -3,7 +3,7 @@
 # bin/GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pl,v 1.22 2004-04-01 08:58:52 martin Exp $
+# $Id: GenericAgent.pl,v 1.23 2004-04-05 17:14:11 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ use Kernel::System::Queue;
 
 BEGIN { 
     # get file version
-    $VERSION = '$Revision: 1.22 $';
+    $VERSION = '$Revision: 1.23 $';
     $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
     # get options
     my %Opts = ();
@@ -115,7 +115,7 @@ foreach my $Job (sort keys %Jobs) {
         my %PartJobs = %{$Jobs{$Job}};
         if (!$PartJobs{Queue}) {
             print " For all Queues: \n";
-            %Tickets = $CommonObject{TicketObject}->SearchTicket(
+            %Tickets = $CommonObject{TicketObject}->TicketSearch(
                 %{$Jobs{$Job}},
                 Limit => $Limit,
             );
@@ -123,7 +123,7 @@ foreach my $Job (sort keys %Jobs) {
         elsif (ref($PartJobs{Queue}) eq 'ARRAY') {
             foreach (@{$PartJobs{Queue}}) {
                 print " For Queue: $_\n";
-                %Tickets = ($CommonObject{TicketObject}->SearchTicket(
+                %Tickets = ($CommonObject{TicketObject}->TicketSearch(
                     %{$Jobs{$Job}},
                     Queues => [$_],
                     Limit => $Limit,
@@ -131,7 +131,7 @@ foreach my $Job (sort keys %Jobs) {
             }
         }
         else {
-            %Tickets = $CommonObject{TicketObject}->SearchTicket(
+            %Tickets = $CommonObject{TicketObject}->TicketSearch(
                 %{$Jobs{$Job}},
                 Queues => [$PartJobs{Queue}],
                 Limit => $Limit,
@@ -145,13 +145,13 @@ foreach my $Job (sort keys %Jobs) {
         if (! $Jobs{$Job}->{Queue}) {
             my @Tickets = $CommonObject{TicketObject}->GetOverTimeTickets();
             foreach (@Tickets) {
-                $Tickets{$_} = $CommonObject{TicketObject}->GetTNOfId(ID => $_); 
+                $Tickets{$_} = $CommonObject{TicketObject}->TicketNumberLookup(TicketID => $_); 
             }
         }
         else {
             my @Tickets = $CommonObject{TicketObject}->GetOverTimeTickets();
             foreach (@Tickets) {
-                my %Ticket = $CommonObject{TicketObject}->GetTicket(TicketID => $_);
+                my %Ticket = $CommonObject{TicketObject}->TicketGet(TicketID => $_);
                 if ($Ticket{Queue} eq $Jobs{$Job}->{Queue}) {
                     $Tickets{$_} = $Ticket{TicketNumber};
                 }
@@ -178,7 +178,7 @@ sub Run {
     # --
     if ($Jobs{$Job}->{New}->{Queue}) {
         print "  - Move Ticket to Queue '$Jobs{$Job}->{New}->{Queue}'\n";
-        $CommonObject{TicketObject}->MoveByTicketID(
+        $CommonObject{TicketObject}->MoveTicket(
             QueueID => $CommonObject{QueueObject}->QueueLookup(Queue=>$Jobs{$Job}->{New}->{Queue}, Cache => 1),
             UserID => $UserIDOfGenericAgent,
             TicketID => $TicketID,
@@ -245,7 +245,7 @@ sub Run {
     # --
     if ($Jobs{$Job}->{New}->{Owner}) {
         print "  - set owner to '$Jobs{$Job}->{New}->{Owner}'\n";
-        $CommonObject{TicketObject}->SetOwner(
+        $CommonObject{TicketObject}->OwnerSet(
             TicketID => $TicketID,
             UserID => $UserIDOfGenericAgent,
             NewUser => $Jobs{$Job}->{New}->{Owner},
@@ -256,7 +256,7 @@ sub Run {
     # --
     if ($Jobs{$Job}->{New}->{Lock}) {
         print "  - set lock to '$Jobs{$Job}->{New}->{Lock}'\n";
-        $CommonObject{TicketObject}->SetLock(
+        $CommonObject{TicketObject}->LockSet(
             TicketID => $TicketID,
             UserID => $UserIDOfGenericAgent,
             Lock => $Jobs{$Job}->{New}->{Lock},
@@ -270,7 +270,7 @@ sub Run {
             my $Key = $Jobs{$Job}->{New}->{"TicketFreeKey$_"} || '';
             my $Value = $Jobs{$Job}->{New}->{"TicketFreeText$_"} || '';
             print "  - set ticket free text to Key: '$Key' Text: '$Value'\n";
-            $CommonObject{TicketObject}->SetTicketFreeText(
+            $CommonObject{TicketObject}->TicketFreeTextSet(
                 TicketID => $TicketID,
                 UserID => $UserIDOfGenericAgent,
                 Key => $Key,
@@ -338,7 +338,7 @@ sub Run {
             Priority => 'notice',
             Message => "Delete Ticket [$TicketNumber], TicketID [$TicketID].",
         );
-        $CommonObject{TicketObject}->DeleteTicket(
+        $CommonObject{TicketObject}->TicketDelete(
             UserID => $UserIDOfGenericAgent, 
             TicketID => $TicketID,
         );
