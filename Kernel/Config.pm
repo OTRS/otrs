@@ -2,7 +2,7 @@
 # Kernel/Config.pm - Config file for OpenTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.53 2002-08-05 00:11:20 martin Exp $
+# $Id: Config.pm,v 1.54 2002-08-06 20:11:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ package Kernel::Config;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.53 $';
+$VERSION = '$Revision: 1.54 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -200,7 +200,7 @@ sub Load {
 
     # ViewableTickets
     # (The default viewable tickets a page.)
-    $Self->{ViewableTickets} = 25;
+    $Self->{ViewableTickets} = 15;
 
     # ViewableTicketLines
     # (Max viewable ticket lines in the QueueView.)
@@ -360,10 +360,10 @@ sub Load {
     #
     # Kernel::System::Ticket::Number::Random -->
     #   random ticket numbers "SystemID.Random" like 100057866352 and 103745394596.
-#    $Self->{TicketNumberGenerator} = 'Kernel::System::Ticket::Number::Date';
+    $Self->{TicketNumberGenerator} = 'Kernel::System::Ticket::Number::Date';
 #    $Self->{TicketNumberGenerator} = 'Kernel::System::Ticket::Number::DateChecksum';
 #    $Self->{TicketNumberGenerator} = 'Kernel::System::Ticket::Number::Random';
-    $Self->{TicketNumberGenerator} = 'Kernel::System::Ticket::Number::AutoIncrement';
+#    $Self->{TicketNumberGenerator} = 'Kernel::System::Ticket::Number::AutoIncrement';
  
     # MaxPostMasterEmails
     # (Max post master daemon email to own email-address a day.
@@ -496,6 +496,9 @@ Your OpenTRS Notification Master
     # (Use the onchange=submit() funktion for ticket move in
     # QueueView and TicketZoom) [default: 1] [0|1]
     $Self->{OnChangeSubmit} = 1;
+    # StdResponsesMethod
+    # (should the standard responses selection be a form or links?) [Form|Link]
+    $Self->{StdResponsesMethod} = 'Link';
     # TimeUnits
     # (your choice of your used time units, minutes, hours, work units, ...)
 #    $Self->{TimeUnits} = ' (minutes)';
@@ -619,6 +622,29 @@ Your OpenTRS Notification Master
     $Self->{StdResponseID2QueueByCreating} = [
 #        1,
     ];
+
+    # ----------------------------------------------------#
+    # TicketViewAccelerator                               #
+    # ----------------------------------------------------#
+    # chose your backend TicketViewAccelerator module
+
+    # RuntimeDB 
+    # (generate each queue view on the fly from ticket table
+    # you will not have performance trouble till ~ 50.000 tickets 
+    # in your system)
+    $Self->{TicketIndexModule} = 'Kernel::System::Ticket::IndexAccelerator::RuntimeDB';
+
+    # FS
+    # (write the shown tickets in a file - use bin/RebuildTicketIndex.pl for initial
+    # index update)
+#    $Self->{TicketIndexModule} = 'Kernel::System::Ticket::IndexAccelerator::FS';
+#    $Self->{'TicketIndexModule::IndexFile'} = $Self->{Home} . '/var/tmp/ticket-index'; 
+
+    # StaticDB
+    # (the most powerfull module, it should be used over 80.000 
+    # tickets in a system - use a extra ticket_index table, works like a view -
+    # use bin/RebuildTicketIndex.pl for initial index update)
+#    $Self->{TicketIndexModule} = 'Kernel::System::Ticket::IndexAccelerator::StaticDB';
 
     # ----------------------------------------------------#
     # misc                                                #
