@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLock.pm - to set or unset a lock for tickets
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentLock.pm,v 1.16 2004-09-27 13:36:53 martin Exp $
+# $Id: AgentLock.pm,v 1.17 2004-09-28 13:48:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentLock;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -125,9 +125,9 @@ sub Run {
         }
         # set lock
         if ($Self->{TicketObject}->LockSet(
-          TicketID => $Self->{TicketID},
-          Lock => 'lock',
-          UserID => $Self->{UserID},
+            TicketID => $Self->{TicketID},
+            Lock => 'lock',
+            UserID => $Self->{UserID},
         ) &&
 	    # set user id
     	$Self->{TicketObject}->OwnerSet(
@@ -135,18 +135,17 @@ sub Run {
 	        UserID => $Self->{UserID},
 	        NewUserID => $Self->{UserID},
         )) {
-          # redirekt
-          if ($Self->{QueueID}) {
-             return $Self->{LayoutObject}->Redirect(OP => "&QueueID=$Self->{QueueID}");
-          }
-          else {
-             return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenView});
-          }
+            # redirekt
+            if ($Self->{QueueID}) {
+               return $Self->{LayoutObject}->Redirect(OP => "&QueueID=$Self->{QueueID}");
+            }
+            else {
+               return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenView});
+            }
         }
         else {
-          $Output = $Self->{LayoutObject}->Header(Title => 'Error');
-          $Output .= $Self->{LayoutObject}->Error();
-          $Output .= $Self->{LayoutObject}->Footer();
+            return $Self->{LayoutObject}->ErrorScreen();
+        }
     }
 }
 # --
