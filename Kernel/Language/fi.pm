@@ -2,7 +2,7 @@
 # Kernel/Language/fi.pm - provides fi language translation
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # --
-# $Id: fi.pm,v 1.12 2003-02-09 10:31:00 martin Exp $
+# $Id: fi.pm,v 1.13 2003-03-14 15:09:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::fi;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -65,7 +65,7 @@ sub Data {
       'Example' => 'Esimerkki',
       'Examples' => 'Esimerkit',
       'Facility' => '',
-      'Feature not acitv!' => 'Ominaisuus ei käytössä',
+      'Feature not active!' => 'Ominaisuus ei käytössä',
       'go' => 'mene',
       'go!' => 'mene!',
       'Group' => 'Ryhmä',
@@ -453,7 +453,7 @@ sub Data {
       'Next ticket state' => 'Uusi tiketin status',
       'Send mail!' => 'Lähetä sähköposti!',
       'You need a email address (e. g. customer@example.com) in To:!' => 'Laita vastaanottajakenttään sähköpostiosoite!',
-      'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further inforamtions.' => 'Sähköposti, tikettinumero "<OTRS_TICKET>" on välitetty osoitteeseen: "<OTRS_BOUNCE_TO>" . Ota yhteyttä kyseiseen osoitteeseen saadaksesi lisätietoja',
+      'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Sähköposti, tikettinumero "<OTRS_TICKET>" on välitetty osoitteeseen: "<OTRS_BOUNCE_TO>" . Ota yhteyttä kyseiseen osoitteeseen saadaksesi lisätietoja',
 
     # Template: AgentClose
       ' (work units)' => '',
@@ -738,7 +738,7 @@ sub Data {
       'All tickets' => 'Tikettejä yhteensä',
       'Queues' => 'Jonotuslista',
       'Show all' => 'Yhteensä',
-      'Ticket available' => 'Tikettejä avoinna',
+      'Tickets available' => 'Tikettejä avoinna',
       'tickets' => 'tikettiä',
       'Tickets shown' => 'Tikettejä näkyvissä',
 

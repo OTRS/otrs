@@ -2,7 +2,7 @@
 # Kernel/Language/bb.pm - provides bavarian language translation
 # Copyright (C) 2002 Martin Edenhofer <martin at otrs.org>
 # --
-# $Id: bb.pm,v 1.7 2003-02-09 10:31:00 martin Exp $
+# $Id: bb.pm,v 1.8 2003-03-14 15:09:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::bb;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -64,7 +64,7 @@ sub Data {
       'Example' => 'Beispiel',
       'Examples' => 'Beispiele',
       'Facility' => '',
-      'Feature not acitv!' => '',
+      'Feature not active!' => '',
       'go' => 'start',
       'go!' => 'start!',
       'Group' => 'Gruppe',
@@ -449,7 +449,7 @@ sub Data {
       'Next ticket state' => 'Nächster Status des Tickets',
       'Send mail!' => 'Mail senden!',
       'You need a email address (e. g. customer@example.com) in To:!' => 'Im An-Feld wird eine eMail-Adresse (z. B. kunde@beispiel.de) benötigt!',
-      'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further inforamtions.' => '',
+      'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => '',
 
     # Template: AgentClose
       ' (work units)' => ' (arbeits Einheiten)',
@@ -717,7 +717,7 @@ sub Data {
       'All tickets' => 'Alle Tickets',
       'Queues' => 'Queues',
       'Show all' => 'Alle gezeigt',
-      'Ticket available' => 'Ticket verfügbar',
+      'Tickets available' => 'Ticket verfügbar',
       'tickets' => 'Tickets',
       'Tickets shown' => 'Tickets gezeigt',
 

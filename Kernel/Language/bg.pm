@@ -2,7 +2,7 @@
 # Kernel/Language/bg.pm - provides bg language translation
 # Copyright (C) 2002 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # --
-# $Id: bg.pm,v 1.14 2003-02-09 10:31:00 martin Exp $
+# $Id: bg.pm,v 1.15 2003-03-14 15:09:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::bg;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -65,7 +65,7 @@ sub Data {
       'Example' => 'Пример',
       'Examples' => 'Примери',
       'Facility' => 'Приспособление',
-      'Feature not acitv!' => 'Функцията не е активна',
+      'Feature not active!' => 'Функцията не е активна',
       'go' => 'ОК',
       'go!' => 'ОК!',
       'Group' => 'Група',
@@ -453,7 +453,7 @@ sub Data {
       'Next ticket state' => 'Следващо състояние за билетът',
       'Send mail!' => 'Изпратете еМейл!',
       'You need a email address (e. g. customer@example.com) in To:!' => 'Трябва да има валиден адрес в полето ДО: (примерно support@hebros.bg)!',
-      'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further inforamtions.' => 'еМеълът Ви с номер "<OTRS_TICKET>" е отхвърлен към "<OTRS_BOUNCE_TO>". Свържете се с този адрес за повече информация',
+      'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'еМеълът Ви с номер "<OTRS_TICKET>" е отхвърлен към "<OTRS_BOUNCE_TO>". Свържете се с този адрес за повече информация',
 
     # Template: AgentClose
       ' (work units)' => ' (работни единици)',
@@ -738,7 +738,7 @@ sub Data {
       'All tickets' => 'Всички билети',
       'Queues' => 'Опашки',
       'Show all' => 'Показване на всички',
-      'Ticket available' => 'Налични билети',
+      'Tickets available' => 'Налични билети',
       'tickets' => 'билети',
       'Tickets shown' => 'Показани билети',
 

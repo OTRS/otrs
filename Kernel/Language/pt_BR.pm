@@ -2,7 +2,7 @@
 # Kernel/Language/pt_BR.pm - provides pt_BR language translation
 # Copyright (C) 2003 Gilberto Cezar de Almeida <gibalmeida at hotmail.com>
 # --
-# $Id: pt_BR.pm,v 1.6 2003-02-09 10:31:00 martin Exp $
+# $Id: pt_BR.pm,v 1.7 2003-03-14 15:09:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::pt_BR;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -66,7 +66,7 @@ sub Data {
       'Example' => 'Exemplo',
       'Examples' => 'Exemplos',
       'Facility' => 'Facilidade',
-      'Feature not acitv!' => 'Característica não ativada!',
+      'Feature not active!' => 'Característica não ativada!',
       'go' => 'ir',
       'go!' => 'ir!',
       'Group' => 'Grupo',
@@ -454,7 +454,7 @@ sub Data {
       'Next ticket state' => 'Próximo estado do bilhete',
       'Send mail!' => 'Enviar email!',
       'You need a email address (e. g. customer@example.com) in To:!' => 'Você precisa de um endereço de email (exemplo: cliente@exemplo.com.br) no To:!',
-      'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further inforamtions.' => 'Seu email com o número de bilhete "<OTRS_TICKET>" foi devolvido para "<OTRS_BOUNCE_TO>". Contate este endereço para mais informações.',
+      'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Seu email com o número de bilhete "<OTRS_TICKET>" foi devolvido para "<OTRS_BOUNCE_TO>". Contate este endereço para mais informações.',
 
     # Template: AgentClose
       ' (work units)' => ' (unidades de trabalho)',
@@ -739,7 +739,7 @@ sub Data {
       'All tickets' => 'Todos bilhetes',
       'Queues' => 'Filas',
       'Show all' => 'Mostrar todos os',
-      'Ticket available' => 'Bilhetes disponíveis',
+      'Tickets available' => 'Bilhetes disponíveis',
       'tickets' => 'bilhetes',
       'Tickets shown' => 'Bilhetes mostrados',
 

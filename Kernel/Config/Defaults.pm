@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.56 2003-03-13 15:29:59 martin Exp $
+# $Id: Defaults.pm,v 1.57 2003-03-14 15:09:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.56 $';
+$VERSION = '$Revision: 1.57 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -536,7 +536,7 @@ $Data{"Signature"}
     $Self->{DefaultNextBounceStateType} = ['open', 'closed'];
     # default note text
     $Self->{DefaultBounceText} = 'Your email with ticket number "<OTRS_TICKET>" '.
-      'is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further inforamtions.';
+      'is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.';
 
     # --------------------------------------------------- #
     # defaults for forward message                        #
@@ -688,7 +688,7 @@ $Data{"Signature"}
     # SendNoAutoResponseRegExp
     # (if this regexp is matching on senders From or ReplyTo, no
     # auto response will be sent)
-    $Self->{SendNoAutoResponseRegExp} = '(MAILDER-DAEMON|postmaster|abuse)@.+?\..+?';
+    $Self->{SendNoAutoResponseRegExp} = '(MAILER-DAEMON|postmaster|abuse)@.+?\..+?';
 
 
     # --------------------------------------------------- #
@@ -1322,8 +1322,8 @@ Your OTRS Notification Master
         # customer #
         CustomerID => 'customer_id',
         CustomerValid => 'valid_id',
-#        CustomerUserListFields => ['login', 'first_name', 'last_name', 'email'],
-        CustomerUserListFields => ['login', 'first_name', 'last_name', 'customer_id', 'email'],
+        CustomerUserListFields => ['login', 'first_name', 'last_name', 'email'],
+#        CustomerUserListFields => ['login', 'first_name', 'last_name', 'customer_id', 'email'],
         CustomerUserSearchFields => ['login', 'last_name', 'customer_id'],
         CustomerUserNameFields => ['salutation', 'first_name', 'last_name'],
 #        ReadOnly => 1,

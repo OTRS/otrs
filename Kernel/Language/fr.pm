@@ -2,7 +2,7 @@
 # Copyright (C) 2002 Bernard Choppy <choppy at imaginet.fr>
 # Copyright (C) 2002 Nicolas Goralski <ngoralski at oceanet-technology.com>
 # --
-# $Id: fr.pm,v 1.18 2003-02-09 10:31:00 martin Exp $
+# $Id: fr.pm,v 1.19 2003-03-14 15:09:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -65,7 +65,7 @@ sub Data {
       'Example' => 'Exemple',
       'Examples' => 'Exemples',
       'Facility' => 'Facilité',
-      'Feature not acitv!' => '',
+      'Feature not active!' => '',
       'go' => 'Go',
       'go!' => 'c\'est parti&nbsp;!',
       'Group' => 'Groupe',
@@ -453,7 +453,7 @@ sub Data {
       'Next ticket state' => 'Prochain état du ticket',
       'Send mail!' => 'Envoyer le courriel&nbsp;!',
       'You need a email address (e. g. customer@example.com) in To:!' => 'Il faut une adresse courriel (ecemple&nbsp;: client@exemple.fr)&nbsp;!',
-      'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further inforamtions.' => 'Votre email avec le ticket numéro "<OTRS_TICKET> est renvoyer à "<OTRS_BOUNCE_TO>". Contactez cette adresse pour de plus amples renseignements',
+      'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Votre email avec le ticket numéro "<OTRS_TICKET> est renvoyer à "<OTRS_BOUNCE_TO>". Contactez cette adresse pour de plus amples renseignements',
 
     # Template: AgentClose
       ' (work units)' => ' Unité de travail',
@@ -738,7 +738,7 @@ sub Data {
       'All tickets' => 'tous les tickets',
       'Queues' => 'Files',
       'Show all' => 'Tout montrer',
-      'Ticket available' => 'Tickets disponibles',
+      'Tickets available' => 'Tickets disponibles',
       'tickets' => 'Tickets',
       'Tickets shown' => 'Tickets affichés',
 

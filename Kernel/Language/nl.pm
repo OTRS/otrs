@@ -2,7 +2,7 @@
 # Kernel/Language/nl.pm - provides nl language translation
 # Copyright (C) 2002 Fred van Dijk <fvandijk at marklin.nl>
 # --
-# $Id: nl.pm,v 1.10 2003-02-09 10:31:00 martin Exp $
+# $Id: nl.pm,v 1.11 2003-03-14 15:09:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::nl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -65,7 +65,7 @@ sub Data {
       'Example' => 'Voorbeeld',
       'Examples' => 'Voorbeelden',
       'Facility' => '',
-      'Feature not acitv!' => '',
+      'Feature not active!' => '',
       'go' => 'start',
       'go!' => 'start!',
       'Group' => 'Groep',
@@ -453,7 +453,7 @@ sub Data {
       'Next ticket state' => 'Volgende status van het ticket',
       'Send mail!' => 'bericht versturen!',
       'You need a email address (e. g. customer@example.com) in To:!' => 'In het Aan-veld hebben we een Email-adres nodig!',
-      'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further inforamtions.' => '',
+      'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => '',
 
     # Template: AgentClose
       ' (work units)' => '',
@@ -738,7 +738,7 @@ sub Data {
       'All tickets' => 'Alle tickets',
       'Queues' => 'Wachtrij',
       'Show all' => 'Alle getoond',
-      'Ticket available' => 'Ticket beschikbaar',
+      'Tickets available' => 'Ticket beschikbaar',
       'tickets' => 'tickets',
       'Tickets shown' => 'Tickets getoond',
 

@@ -110,7 +110,7 @@ $Text{"Login failed! Your username or password was entered incorrectly."}
 $Text{"Please contact your admin"}
 $Text{"Logout successful. Thank you for using OTRS!"}
 $Text{"Invalid SessionID!"}
-$Text{"Feature not acitv!"}
+$Text{"Feature not active!"}
 
 # misc
 $Text{"Take this User"}
