@@ -1,8 +1,8 @@
 # --
 # Lock.pm - the sub module of the global Ticket.pm handle
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Lock.pm,v 1.2 2001-12-23 13:29:40 martin Exp $
+# $Id: Lock.pm,v 1.3 2002-05-26 21:29:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::Lock;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -68,8 +68,11 @@ sub LockLookup {
     }
     # check if data exists
     if (!exists $Self->{"Ticket::Lock::Lookup::$Type"}) {
-        print STDERR "Ticket->LockLookup(!\$LockID|$Type)\n";
-    return;
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            MSG => "No \$LockID for $Type found!"
+        );
+        return;
     }
 
     return $Self->{"Ticket::Lock::Lookup::$Type"};
@@ -88,7 +91,10 @@ sub SetLock {
         $LockID = $Self->LockLookup(Type => $Lock);
     }
     if ((!$LockID) && (!$Lock)) {
-        print STDERR "DB->AddHistoryRow(No HistoryTypeID and no HistoryType)\n";
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            MSG => "Ticket::SetLock() No LockID or Lock given!",
+        );
         return;
     }
 
@@ -97,6 +103,13 @@ sub SetLock {
     " change_time = current_timestamp, change_by = $UserID " .
         " WHERE id = $TicketID";
     $Self->{DBObject}->Do(SQL => $SQL);
+ 
+    # set lock time it event is 'lock'
+    if ($Lock eq 'lock') {
+        $SQL = "UPDATE ticket SET timeout = ". time() . 
+          " WHERE id = $TicketID"; 
+        $Self->{DBObject}->Do(SQL => $SQL);
+    }
 
     my $HistoryType = '';
     if ($Lock eq 'unlock') {
@@ -107,12 +120,12 @@ sub SetLock {
     }
 
     if ($HistoryType) {
-    $Self->AddHistoryRow(
+      $Self->AddHistoryRow(
         TicketID => $TicketID,
         CreateUserID => $UserID,
         HistoryType => $HistoryType,
         Name => "Ticket $HistoryType.",
-    );
+      );
     }
 
     return 1;

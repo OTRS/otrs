@@ -1,8 +1,8 @@
 # --
 # Priority.pm - the sub module of the global Ticket.pm handle
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Priority.pm,v 1.1 2001-12-21 17:54:40 martin Exp $
+# $Id: Priority.pm,v 1.2 2002-05-26 21:29:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::System::Ticket::Priority;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -39,7 +39,10 @@ sub PriorityLookup {
     }
     # check if data exists
     if (!exists $Self->{"Ticket::Priority::PriorityLookup::$Type"}) {
-        print STDERR "Ticket->PriorityLockup(!\$TypeID|$Type) \n";
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            MSG => "No \$TypeID for $Type found!"
+        );
         return;
     }
 
@@ -78,16 +81,18 @@ sub SetPriority {
     # lookup!
     if ((!$PriorityID) && ($Priority)) {
         $PriorityID = $Self->PriorityLookup(Type => $Priority);
-print STDERR "\n\n\n\n\n--- $Priority \n\n\n\n\n--\n";
     }
     if ((!$PriorityID) && (!$Priority)) {
-        print STDERR "Ticket::SetPriority(No TypeID and no Type)\n";
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            MSG => "No \$TypeID no Type given!"
+        );
         return;
     }
 
     # db update
     my $SQL = "UPDATE ticket SET ticket_priority_id = $PriorityID, " .
-    " change_time = current_timestamp, change_by = $UserID " .
+        " change_time = current_timestamp, change_by = $UserID " .
         " WHERE id = $TicketID";
     $Self->{DBObject}->Do(SQL => $SQL);
     return 1;

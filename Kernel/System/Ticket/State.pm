@@ -1,8 +1,8 @@
 # --
 # State.pm - the sub module of the global Ticket.pm handle
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: State.pm,v 1.2 2001-12-26 20:11:50 martin Exp $
+# $Id: State.pm,v 1.3 2002-05-26 21:29:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::System::Ticket::State;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -59,8 +59,11 @@ sub StateLookup {
     }
     # check if data exists
     if (!exists $Self->{"Ticket::State::StateLookup::$State"}) {
-        print STDERR "Ticket->StateLookup(!\$StateID|$State)\n";
-    return;
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            MSG => "No \$StateID for $State found!"
+        );
+        return;
     }
 
     return $Self->{"Ticket::State::StateLookup::$State"};
@@ -88,7 +91,10 @@ sub StateIDLookup {
     }
     # check if data exists
     if (!exists $Self->{"Ticket::State::StateLookupID::$StateID"}) {
-        print STDERR "Ticket->StateIDLookup(!\$State|$StateID)\n";
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            MSG => "No \$State for $StateID found!"
+        );
         return;
     }
 
@@ -107,12 +113,18 @@ sub SetState {
     if ((!$StateID) && ($State)) {
         $StateID = $Self->StateLookup(State => $State);
         if ($Self->{Debug} > 0) {
-            print STDERR "Ticket->SetState(!StateID) ->StateLookup($State=$StateID)\n";
+            $Self->{LogObject}->Log(
+                Priority => 'debug',
+                MSG => "No \$StateID -> StateLookup($State=$StateID)!"
+            );
         }
     }
 
     if (!$StateID) {
-        print STDERR 'Ticket->SetState(!$StateID )';
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            MSG => "No \$StateID found!"
+        );
         return;
     }
 

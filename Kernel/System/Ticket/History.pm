@@ -1,8 +1,8 @@
 # --
 # History.pm - the sub module of the global Ticket.pm handle
-# Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: History.pm,v 1.1 2001-12-21 17:54:40 martin Exp $
+# $Id: History.pm,v 1.2 2002-05-26 21:29:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::System::Ticket::History;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -39,7 +39,10 @@ sub HistoryTypeLookup {
     }
     # check if data exists
     if (!exists $Self->{"Ticket::History::HistoryTypeLookup::$Type"}) {
-        print STDERR "Ticket->HistoryTypeLookup(!\$TypeID|$Type) \n";
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            MSG => "No \$TypeID for $Type found!"
+        );
         return;
     }
 
@@ -65,12 +68,15 @@ sub AddHistoryRow {
         $HistoryTypeID = $Self->HistoryTypeLookup(Type => $HistoryType);
     }
     if ((!$HistoryTypeID) && (!$HistoryType)) {
-        print STDERR "DB->AddHistoryRow(No HistoryTypeID and no HistoryType)\n";
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            MSG => "No \$HistoryTypeID for $HistoryType found!"
+        );
         return;
     }
     # get ValidID!
     if (!$ValidID) {
-    $ValidID = $Self->{DBObject}->GetValidIDs();
+        $ValidID = $Self->{DBObject}->GetValidIDs();
     }
     my $SQL = "INSERT INTO ticket_history " .
     " (name, history_type_id, ticket_id, article_id, valid_id, " .
