@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.90 2004-04-18 12:53:22 martin Exp $
+# $Id: Ticket.pm,v 1.91 2004-04-18 13:59:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -30,7 +30,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.90 $';
+$VERSION = '$Revision: 1.91 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -2866,12 +2866,16 @@ sub TicketWorkflow {
     }
     # check workflow config
     my %Workflow = %{$Self->{ConfigObject}->Get('TicketWorkflow')};
-#    my $Match = 1;
-#    my $Match3 = 0;
     my %NewData = ();
     my $UseNewParams = 0;
     foreach my $StepT (sort keys %Workflow) {
         my %Step = %{$Workflow{$StepT}};
+        # check force match
+        my $ForceMatch = 1;
+        foreach (keys %{$Step{Properties}}) {
+            $ForceMatch = 0;
+        }
+        # set match params
         my $Match = 1;
         my $Match3 = 0;
         foreach my $Key (keys %Checks) {
@@ -2913,23 +2917,21 @@ sub TicketWorkflow {
           }
         }
         # check force option
-        if ($Step{ForceMatch}) {
+        if ($ForceMatch) {
             $Match = 1;
             $Match3 = 1;
         }
         # debug log
         if ($Match && $Match3) {
+            %NewData = ();
             if ($Self->{Debug} > 2) {
                 $Self->{LogObject}->Log(
                     Priority => 'debug',
                     Message => "Matched Workflow '$StepT'->'$Param{Type}'",
                 );
             }
-#print STDERR "Matched Workflow '$StepT'->'$Param{Type}'\n";
         }
         # build new data hash 
-#        my %NewData = ();
-#        my $UseNewParams = 0;
         if (%Checks && $Match && $Match3 && $Step{Possible}->{Ticket}->{$Param{Type}}) {
             $UseNewParams = 1;
             # debug log
@@ -3013,6 +3015,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.90 $ $Date: 2004-04-18 12:53:22 $
+$Revision: 1.91 $ $Date: 2004-04-18 13:59:02 $
 
 =cut
