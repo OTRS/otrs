@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.2 2002-10-20 22:00:13 martin Exp $
+# $Id: Article.pm,v 1.3 2002-10-28 17:41:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -23,7 +23,7 @@ use MIME::Parser;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -630,13 +630,44 @@ sub GetLastCustomerArticle {
         " at.ticket_id = $Param{TicketID} " .
         " ORDER BY at.incoming_time",
     );
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        $ArticleID = $RowTmp[0];
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $ArticleID = $Row[0];
     }
     # --
     # get article data   
     # --
     return $Self->GetArticle(ArticleID => $ArticleID);
+}
+# --
+sub GetArticleIndex {
+    my $Self = shift;
+    my %Param = @_;
+    my @Index = (); 
+    # --
+    # check needed stuff
+    # --
+    if (!$Param{TicketID}) {
+      $Self->{LogObject}->Log(Priority => 'error', Message => "Need TicketID!");
+      return;
+    }
+    # --
+    # db query
+    # --
+    $Self->{DBObject}->Prepare(
+      SQL => "SELECT at.id" .
+        " FROM " .
+        " article at " .
+        " WHERE " .
+        " at.ticket_id = $Param{TicketID} " .
+        " ORDER BY at.incoming_time",
+    );
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        push (@Index, $Row[0]);
+    }
+    # --
+    # return data
+    # --
+    return @Index; 
 }
 # --
 sub GetArticle {
@@ -657,18 +688,21 @@ sub GetArticle {
       SQL => "SELECT sa.ticket_id, sa.a_from, sa.a_to, sa.a_cc, sa.a_subject, sa.a_reply_to, ".
         " sa. a_message_id, sa.a_body, " .
         " st.create_time_unix, sp.name, sd.name, sq.name, sq.id, sa.create_time, ".
-        " sa.a_content_type, sa.create_by " .
+        " sa.a_content_type, sa.create_by, st.tn, ast.name " .
         " FROM " .
-        " article sa, ticket st, ticket_priority sp, ticket_state sd, queue sq" .
+        " article sa, ticket st, ticket_priority sp, ticket_state sd, queue sq, ".
+        " article_sender_type ast" .
         " where " . 
         " sa.id = $Param{ArticleID}" .
-        " and " .
+        " AND " .
         " sa.ticket_id = st.id " .
-        " and " .
+        " ANd " .
         " sq.id = st.queue_id " .
-        " and " .
+        " AND " .
+        " sa.article_sender_type_id = ast.id " .
+        " AND " .
         " sp.id = st.ticket_priority_id " .
-        " and " .
+        " AND " .
         " st.ticket_state_id = sd.id " .
         " ",
     );
@@ -691,6 +725,8 @@ sub GetArticle {
         $Data{Created} = $Row[13];
         $Data{ContentType} = $Row[14];
         $Data{CreatedBy} = $Row[15];
+        $Data{TicketNumber} = $Row[16];
+        $Data{SenderType} = $Row[17];
         if ($Row[14] && $Data{ContentType} =~ /charset=(.*)(| |\n)/i) {
             $Data{ContentCharset} = $1;
         }
