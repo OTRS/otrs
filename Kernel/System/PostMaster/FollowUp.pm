@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/FollowUp.pm - the sub part of PostMaster.pm 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FollowUp.pm,v 1.26 2003-04-14 19:48:48 martin Exp $
+# $Id: FollowUp.pm,v 1.27 2003-04-14 23:22:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::FollowUp;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -34,7 +34,7 @@ sub new {
     }
 
     # check needed Objects
-    foreach (qw(DBObject ConfigObject TicketObject LogObject)) {
+    foreach (qw(DBObject ConfigObject TicketObject LogObject ParseObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 

@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.30 2003-04-14 19:48:48 martin Exp $
+# $Id: PostMaster.pm,v 1.31 2003-04-14 23:22:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -21,7 +21,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -143,6 +143,7 @@ sub Run {
             LogObject => $Self->{LogObject},
             ConfigObject => $Self->{ConfigObject},
             LoopProtectionObject => $Self->{LoopProtectionObject},
+            ParseObject => $Self->{ParseObject},
             Debug => $Self->{Debug},
         );
         # check if it is possible to do the follow up
