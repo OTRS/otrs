@@ -27,7 +27,7 @@
 <para>To let Apache, Mercury, MySQL and CRONw start automatically at boot time, you may decide to use the provided scripts to install these as system services, but you don't have to do it now. Find these scripts in the corresponding servers' directories, the name scheme is <emphasis>servername</emphasis><userinput>_installservice.bat</userinput>.</para>
 </section>
 
-<section id="how_to_stop_the_server">
+<section id="how_to_stop_the_servers">
 <title>How To Stop The Servers (if ever...)</title>
 <para>For Apache, you may simply close it's control window. To safely shut down MySQL, issue the script <userinput>mysql_stop.bat</userinput>. Shut down Mercury via it's <userinput>file</userinput> menu or the keyboard shortcut <userinput>Alt-F4</userinput>. Stop the CRONw service via issuing <userinput>net stop cron</userinput>.</para>
 <para>If you installed the servers as system services, you may use the system's service control area to stop the services although you don't need to, they will be terminated at shutdown time properly.</para>
