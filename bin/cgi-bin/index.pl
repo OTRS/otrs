@@ -3,7 +3,7 @@
 # index.pl - the global CGI handle file for OpenTRS
 # Copyright (C) 2001 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.11 2002-01-02 00:44:17 martin Exp $
+# $Id: index.pl,v 1.12 2002-01-02 17:53:48 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use lib '/home/martin/src/otrs/';
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 my $Debug = 0;
@@ -204,7 +204,8 @@ elsif (eval '$Kernel::Modules::'. $Param{Action} .'::VERSION'){
 # --
 else { 
     # create new LayoutObject with '%Param'
-    $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(%CommonObject, %Param);
+    my %Data = $CommonObject{SessionObject}->GetSessionIDData(SessionID => $Param{SessionID});
+    $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(%CommonObject, %Param, %Data);
     print $CommonObject{LayoutObject}->Header();
     print $CommonObject{LayoutObject}->Error(
        Message => "Action '$Param{Action}' not found!",
