@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: TicketView.dtl,v 1.16 2002-08-01 02:37:36 martin Exp $
+# $Id: TicketView.dtl,v 1.17 2002-08-04 14:31:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@
 </tr>
 <tr>
   <td align="left" bgcolor="$Env{"BGTableColor2"}">
-  <a href="$Env{"Baselink"}&Action=AgentLock&TicketID=$Data{"TicketID"}">$Text{"Lock"}</a> -
+  <a href="$Env{"Baselink"}&Action=AgentLock&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}">$Text{"Lock"}</a> -
   <a href="$Env{"Baselink"}&Action=AgentZoom&TicketID=$Data{"TicketID"}">$Text{"Zoom"}</a> -
   <a href="$Env{"Baselink"}&Action=AgentPriority&TicketID=$Data{"TicketID"}">$Text{"Priority"}</a> -
   <a href="$Env{"Baselink"}&Action=AgentHistory&TicketID=$Data{"TicketID"}">$Text{"History"}</a> -
