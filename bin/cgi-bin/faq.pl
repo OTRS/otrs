@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # faq.pl - the global CGI handle file for OTRS
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: faq.pl,v 1.4 2004-11-16 12:03:41 martin Exp $
+# $Id: faq.pl,v 1.5 2005-03-28 20:24:51 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -41,12 +41,7 @@ my $Debug = 0;
 # --
 push (@INC, "$Bin/../..", "$Bin/../../Kernel/cpan-lib");
 
-# load agent web interface
-use Kernel::System::Web::InterfaceFAQPublic();
-
-# create new object
-my $InterfaceFAQ = Kernel::System::Web::InterfaceFAQPublic->new(Debug => $Debug);
-
-# execute object
-$InterfaceFAQ->Run();
+print "location: public.pl?Action=PublicFAQ\n";
+print "\n";
+print "<a href='public.pl?Action=PublicFAQ'>moved</a>\n";
 
