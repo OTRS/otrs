@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NewTicket.pm,v 1.27 2002-12-15 23:21:27 martin Exp $
+# $Id: NewTicket.pm,v 1.28 2002-12-20 02:21:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -18,7 +18,7 @@ use Kernel::System::EmailSend;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -213,7 +213,11 @@ sub Run {
     # --    
     # write it to the fs
     # --
-    $Self->{TicketObject}->WriteArticle(ArticleID => $ArticleID, Email => $Email);
+    $Self->{TicketObject}->WriteArticle(
+        ArticleID => $ArticleID, 
+        Email => $Email,
+        UserID => $InmailUserID,
+    );
     
     # do log
     $Self->{LogObject}->Log(
