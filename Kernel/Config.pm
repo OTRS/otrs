@@ -2,7 +2,7 @@
 # Kernel/Config.pm - Config file for OTRS kernel
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.59 2002-09-23 14:17:45 martin Exp $
+# $Id: Config.pm,v 1.60 2002-10-03 17:39:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,11 +16,8 @@
 package Kernel::Config;
 
 use strict;
-use Kernel::Config::Postmaster;
-use Kernel::Config::Notification;
 use vars qw(@ISA $VERSION);
-@ISA = qw(Kernel::Config::Postmaster Kernel::Config::Notification);
-$VERSION = '$Revision: 1.59 $';
+$VERSION = '$Revision: 1.60 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -567,30 +564,31 @@ sub Load {
     };
 
     # ----------------------------------------------------#
-    # EOC
+    # sub config files                                    #
+    # funktion in sub config module => sub config module  #
+    # ----------------------------------------------------#
+    $Self->{SubConfigs} = {
+        LoadPostmaster => 'Kernel::Config::Postmaster',
+        LoadNotification => 'Kernel::Config::Notification',
+    }
+
+    # ----------------------------------------------------#
+    # EOC                                                 #
     # ----------------------------------------------------#
 }
 # --
 sub new {
     my $Type = shift;
     my %Param = @_;
-
     # allocate new hash for object
     my $Self = {};
     bless ($Self, $Type);
-
     # 0=off; 1=log if there exists no entry; 2=log all;
     $Self->{Debug} = 0;
-
     # load config
     $Self->Load();
-
-    # load postmaster config
-    $Self->LoadPostmaster();
-
-    # load notification config
-    $Self->LoadNotification();
-
+    # load sub configs
+    $Self->LoadSubConfig();
     return $Self;
 }
 # --
@@ -608,6 +606,15 @@ sub Get {
     return $Self->{$What};
 }
 # --
-
+sub LoadSubConfig {
+    my $Self = shift;
+    my %Param = @_;
+    foreach (keys %{$Self->{SubConfigs}}) {
+        eval "require $Self->{SubConfigs}->{$_}";
+        push (@ISA, $Self->{SubConfigs}->{$_});
+        $Self->$_;
+    }
+}
+# --
 1;
 
