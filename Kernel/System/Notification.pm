@@ -2,7 +2,7 @@
 # Kernel/System/Notification.pm - lib for notifications
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Notification.pm,v 1.4 2004-02-01 21:30:14 martin Exp $
+# $Id: Notification.pm,v 1.5 2004-02-08 22:21:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -141,7 +141,7 @@ sub NotificationList {
     while (my @Data = $Self->{DBObject}->FetchrowArray()) {
         $Types{$Data[1]} = 1;
     }
-my @Type = (qw(NewTicket FollowUp LockTimeout OwnerUpdate AddNote Move PendingReminder));
+my @Type = (qw(NewTicket FollowUp LockTimeout OwnerUpdate AddNote Move PendingReminder Escalation));
     foreach (@Type) {
         $Types{'Agent::'.$_} = 1;
     }
