@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.9 2002-10-01 13:52:02 martin Exp $
+# $Id: AgentPhone.pm,v 1.10 2002-10-03 17:29:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPhone;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -32,8 +32,7 @@ sub new {
 
     # check needed Opjects
     foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject 
-       ConfigObject ArticleObject
-    )) {
+       ConfigObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
 
@@ -164,7 +163,7 @@ sub Run {
         my $ArticleTypeID = $Self->{ParamObject}->GetParam(Param => 'NoteID');
         my $Answered = $Self->{ParamObject}->GetParam(Param => 'Answered') || '';
         my $TimeUnits = $Self->{ParamObject}->GetParam(Param => 'TimeUnits') || 0;
-        if (my $ArticleID = $Self->{ArticleObject}->CreateArticle(
+        if (my $ArticleID = $Self->{TicketObject}->CreateArticle(
             TicketID => $TicketID,
 #            ArticleTypeID => $ArticleTypeID,
             ArticleType => $Self->{ConfigObject}->Get('DefaultPhoneArticleType'),
@@ -216,13 +215,6 @@ sub Run {
              UserID => $UserID,
            );
          }
-# --
-# send auto response to customer
-# --
-
-# --
-# send notify to agent
-# --
          # --
          # redirect to zoom view
          # --        
@@ -262,9 +254,8 @@ sub Run {
             CreateUserID => $Self->{UserID},
         );
 
-      if (my $ArticleID = $Self->{ArticleObject}->CreateArticle(
+      if (my $ArticleID = $Self->{TicketObject}->CreateArticle(
             TicketID => $TicketID,
-#            ArticleTypeID => $ArticleTypeID,
             ArticleType => $Self->{ConfigObject}->Get('DefaultPhoneNewArticleType'),
             SenderType => $Self->{ConfigObject}->Get('DefaultPhoneNewSenderType'),
             From => $From,
@@ -275,6 +266,13 @@ sub Run {
             UserID => $UserID,
             HistoryType => $Self->{ConfigObject}->Get('DefaultPhoneNewHistoryType'),
             HistoryComment => $Self->{ConfigObject}->Get('DefaultPhoneNewHistoryComment'),
+            AutoResponseType => 'auto reply',
+            OrigHeader => {
+              From => $From,
+              To => $UserLogin,
+              Subject => $Subject,
+              Body => $Text,
+           },
         )) {
           # --
           # time accounting
@@ -298,13 +296,6 @@ sub Run {
             );
           }
 
-# --
-# send auto response to customer
-# --
-
-# --
-# send notify to agent
-# --
           # --
           # redirect
           # --

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPlain.pm - to get a plain view
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPlain.pm,v 1.8 2002-10-01 13:52:02 martin Exp $
+# $Id: AgentPlain.pm,v 1.9 2002-10-03 17:29:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPlain;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -39,7 +39,6 @@ sub new {
       'LogObject', 
       'ConfigObject',
       'UserObject',
-      'ArticleObject',
     ) {
         die "Got no $_!" if (!$Self->{$_});
     }
@@ -70,7 +69,7 @@ sub Run {
         TicketID => $Self->{TicketID},
         UserID => $Self->{UserID})) {
 
-        my $Text = $Self->{ArticleObject}->GetPlain(ArticleID => $ArticleID) || '';
+        my $Text = $Self->{TicketObject}->GetArticlePlain(ArticleID => $ArticleID) || '';
         $Output .= $Self->{LayoutObject}->Header(Title => "Plain Article");
         my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $UserID);
         $Output .= $Self->{LayoutObject}->NavigationBar(LockData => \%LockedData);

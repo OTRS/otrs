@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.24 2002-10-01 13:52:02 martin Exp $
+# $Id: AgentCompose.pm,v 1.25 2002-10-03 17:29:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentCompose;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -144,12 +144,12 @@ sub Form {
     # get last customer article or selecte article ...
     my %Data = ();
     if ($Self->{ArticleID}) {
-        %Data = $Self->{ArticleObject}->GetArticle(
+        %Data = $Self->{TicketObject}->GetArticle(
             ArticleID => $Self->{ArticleID},
         );
     }
     else {
-        %Data = $Self->{ArticleObject}->GetLastCustomerArticle(
+        %Data = $Self->{TicketObject}->GetLastCustomerArticle(
             TicketID => $TicketID,
         );
     }

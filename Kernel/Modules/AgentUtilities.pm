@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentUtilities.pm - Utilities for tickets
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentUtilities.pm,v 1.11 2002-10-01 13:52:02 martin Exp $
+# $Id: AgentUtilities.pm,v 1.12 2002-10-03 17:29:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentUtilities;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -133,8 +133,8 @@ sub SearchByTn {
       # --
       if ($Counter > $Self->{StartHit} && $Counter <= ($Self->{SearchPageShown}+$Self->{StartHit}) ) {
         my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $_);
-        my %LastArticle = $Self->{ArticleObject}->GetLastCustomerArticle(TicketID => $_);
-        my %Article = $Self->{ArticleObject}->GetArticle(ArticleID => $LastArticle{ArticleID});
+        my %LastArticle = $Self->{TicketObject}->GetLastCustomerArticle(TicketID => $_);
+        my %Article = $Self->{TicketObject}->GetArticle(ArticleID => $LastArticle{ArticleID});
         $OutputTables .= $Self->{LayoutObject}->AgentUtilSearchResult(
             %Ticket,
             From => $Article{From},
@@ -301,7 +301,7 @@ sub SearchByText {
       # build search result
       # --
       if ($Counter > $Self->{StartHit} && $Counter <= ($Self->{SearchPageShown}+$Self->{StartHit}) ) {
-        my %Article = $Self->{ArticleObject}->GetArticle(ArticleID => $_);
+        my %Article = $Self->{TicketObject}->GetArticle(ArticleID => $_);
         my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $Article{TicketID});
         $OutputTables .= $Self->{LayoutObject}->AgentUtilSearchResult(
             %Ticket,

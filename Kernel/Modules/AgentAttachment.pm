@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentAttachment.pm - to get the attachments 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentAttachment.pm,v 1.5 2002-07-21 21:11:00 martin Exp $
+# $Id: AgentAttachment.pm,v 1.6 2002-10-03 17:29:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentAttachment;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -39,7 +39,6 @@ sub new {
       'LogObject',
       'ConfigObject',
       'UserObject',
-      'ArticleObject',
     ) {
         die "Got no $_!" if (!$Self->{$_});
     }
@@ -75,7 +74,7 @@ sub Run {
     # --
     # check permissions
     # --
-    my %ArticleData = $Self->{ArticleObject}->GetArticle(ArticleID => $Self->{ArticleID});
+    my %ArticleData = $Self->{TicketObject}->GetArticle(ArticleID => $Self->{ArticleID});
     if (!$ArticleData{TicketID}) {
         $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
         $Output .= $Self->{LayoutObject}->Error(
@@ -96,7 +95,7 @@ sub Run {
         # --
         # geta attachment & strip file path
         $Self->{File} =~ s/(\.\.\/||^\/)//g;
-        if (my %Data = $Self->{ArticleObject}->GetAttachment(
+        if (my %Data = $Self->{TicketObject}->GetArticleAttachment(
           ArticleID => $Self->{ArticleID},
           File => $Self->{File},
         )) {

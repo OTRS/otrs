@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentNote.pm - to add notes to a ticket 
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNote.pm,v 1.13 2002-10-01 13:52:02 martin Exp $
+# $Id: AgentNote.pm,v 1.14 2002-10-03 17:29:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentNote;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -32,7 +32,7 @@ sub new {
 
     # check needed Opjects
     foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject 
-                 QueueObject ConfigObject ArticleObject)) {
+                 QueueObject ConfigObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
 
@@ -109,7 +109,7 @@ sub Run {
         my $Text = $Self->{ParamObject}->GetParam(Param => 'Note');
         my $ArticleTypeID = $Self->{ParamObject}->GetParam(Param => 'NoteID');
         my $TimeUnits = $Self->{ParamObject}->GetParam(Param => 'TimeUnits') || 0; 
-        if (my $ArticleID = $Self->{ArticleObject}->CreateArticle(
+        if (my $ArticleID = $Self->{TicketObject}->CreateArticle(
             TicketID => $TicketID,
             ArticleTypeID => $ArticleTypeID,
             SenderType => 'agent',

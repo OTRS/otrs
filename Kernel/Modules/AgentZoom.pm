@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentZoom.pm - to get a closer view
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentZoom.pm,v 1.19 2002-10-01 13:52:02 martin Exp $
+# $Id: AgentZoom.pm,v 1.20 2002-10-03 17:29:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentZoom;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -40,7 +40,6 @@ sub new {
       'QueueObject', 
       'ConfigObject',
       'UserObject',
-      'ArticleObject',
       'SessionObject',
     ) {
         die "Got no $_!" if (!$Self->{$_});
@@ -193,7 +192,7 @@ sub Run {
         $Ticket{Age} = time() - $$Data{create_time_unix};
         $Ticket{Answered} = $$Data{ticket_answered};
         # article attachments
-        my @AtmIndex = $Self->{ArticleObject}->GetAtmIndex(
+        my @AtmIndex = $Self->{TicketObject}->GetArticleAtmIndex(
             ContentPath => $$Data{content_path},
             ArticleID => $$Data{id},
         );

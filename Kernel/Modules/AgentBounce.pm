@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentBounce.pm - to bounce articles of tickets 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBounce.pm,v 1.7 2002-10-01 13:52:03 martin Exp $
+# $Id: AgentBounce.pm,v 1.8 2002-10-03 17:29:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentBounce;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -39,7 +39,6 @@ sub new {
       'LogObject', 
       'QueueObject', 
       'ConfigObject',
-      'ArticleObject',
     ) {
         die "Got no $_!" if (!$Self->{$_});
     }
@@ -138,7 +137,7 @@ sub Run {
         # --
         # get article data 
         # --
-        my %Data = $Self->{ArticleObject}->GetArticle(
+        my %Data = $Self->{TicketObject}->GetArticle(
             ArticleID => $Self->{ArticleID},
         );
         # --
@@ -225,7 +224,7 @@ sub Run {
         $Param{From} = "$Address{RealName} <$Address{Email}>";
         $Param{Email} = $Address{Email};
 
-        $Param{EmailPlain} = $Self->{ArticleObject}->GetPlain(ArticleID => $Self->{ArticleID});
+        $Param{EmailPlain} = $Self->{TicketObject}->GetArticlePlain(ArticleID => $Self->{ArticleID});
         if (!$Self->{EmailObject}->Bounce(
             EmailPlain => $Param{EmailPlain},
             TicketObject => $Self->{TicketObject},
