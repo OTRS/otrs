@@ -5,6 +5,7 @@
 <!ENTITY install-cli SYSTEM "install-cli.sgml">
 <!ENTITY install-win32 SYSTEM "install-win32.sgml">
 <!ENTITY config-file SYSTEM "config-file.sgml">
+<!ENTITY notification SYSTEM "notification.sgml">
 <!ENTITY first-steps SYSTEM "first-steps.sgml">
 <!ENTITY troubleshooting SYSTEM "troubleshooting.sgml">
 <!ENTITY faq SYSTEM "faq.sgml">
@@ -75,6 +76,10 @@ or implied warranty.
 &sending-email;
 
 &config-file;
+
+<!--&auto-response;-->
+
+&notification;
 
 &language-translation;
 
