@@ -1,8 +1,8 @@
 # --
 # Kernel/System/EmailParser.pm - the global email parser module
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: EmailParser.pm,v 1.18 2004-01-10 10:42:27 martin Exp $
+# $Id: EmailParser.pm,v 1.19 2004-01-10 12:50:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,40 +21,96 @@ use Mail::Address;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+
+=head1 NAME
+
+Kernel::System::EmailParser - parse and encode a email
+
+=head1 SYNOPSIS
+
+A module to parse and encode a email.
+
+=head1 PUBLIC INTERFACE
+
+=over 4
+
+=cut
+
+=item new()
+
+create a object 
+ 
+  use Kernel::Config;
+  use Kernel::System::Log;
+  use Kernel::System::EmailParser;
+
+  my $ConfigObject = Kernel::Config->new();
+  my $LogObject    = Kernel::System::Log->new(
+      ConfigObject => $ConfigObject,
+  );
+  my $ParseObject = Kernel::System::EmailParser->new(
+      ConfigObject => $ConfigObject,
+      LogObject => $LogObject,
+      Email => \@ArrayOfEmail,
+      Debug => 0,
+  );
+
+=cut
 
 # --
 sub new {
     my $Type = shift;
     my %Param = @_;
 
-    my $Self = {}; # allocate new hash for object
+    # allocate new hash for object
+    my $Self = {}; 
     bless ($Self, $Type);
-
-    $Self->{Debug} = 0;
+ 
+    # get debug level from parent
+    $Self->{Debug} = $Param{Debug} || 0;
 
     # check needed objects
-    foreach (qw(LogObject ConfigObject)) {
+    foreach (qw(LogObject ConfigObject Email)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
     # encode object
     $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
     # create Mail::Internet object
     $Self->{Email} = new Mail::Internet($Param{Email});
-    # create a Mail::Header object
+    # create a Mail::Header object with email
     $Self->{HeaderObject} = $Self->{Email}->head();
-
+    # parse email at first
     $Self->GetMessageBody();
 
     return $Self;
 }
 # --
+
+=item GetPlainEmail()
+    
+To get a email as a string back (plain email).
+  
+  my $Email = $ParseObject->GetPlainEmail();
+    
+=cut
+
 sub GetPlainEmail {
     my $Self = shift;
     return $Self->{Email}->as_string();
 }
 # --
+
+=item GetParam()
+    
+To get a header (e. g. Subject, To, ContentType, ...) of an email
+(mime is already done!).
+  
+  my $To = $ParseObject->GetParam(WHAT => 'To');
+    
+=cut
+
 sub GetParam {
     my $Self = shift;
     my %Param = @_;
@@ -83,6 +139,15 @@ sub GetParam {
     return $ReturnLine;
 }
 # --
+
+=item GetEmailAddress()
+    
+To get the senders email address back. 
+ 
+  my $SenderEmail = $ParseObject->GetEmailAddress(Email => 'Juergen Weber <juergen.qeber@air.com>');
+    
+=cut
+
 sub GetEmailAddress {
     my $Self = shift;
     my %Param = @_;
@@ -93,6 +158,17 @@ sub GetEmailAddress {
     return $Email;
 }
 # --
+
+=item SplitAddressLine()
+    
+To get an array of email addresses of an To, Cc or Bcc line back.
+ 
+  my @Addresses = $ParseObject->SplitAddressLine(Line => 'Juergen Weber <juergen.qeber@air.com, me@example.com, hans@example.com (Hans Huber)');
+   
+This returns an array with ('juergen.qeber@air.com', 'me@example.com', 'hans@example.com').
+ 
+=cut
+
 sub SplitAddressLine {
     my $Self = shift;
     my %Param = @_;
@@ -103,6 +179,17 @@ sub SplitAddressLine {
     return @GetParam;
 }
 # --
+
+=item GetContentType()
+    
+Returns the message body (or from the first attachment) "ContentType" header. 
+ 
+    my $ContentType = $ParseObject->GetContentType();
+   
+(e. g. 'text/plain; charset="iso-8859-1"')
+
+=cut
+
 sub GetContentType {
     my $Self = shift;
     my $ContentType = shift || '';
@@ -114,6 +201,17 @@ sub GetContentType {
     }
 }
 # --
+
+=item GetCharset()
+    
+Returns the message body (or from the first attachment) "charset".
+ 
+    my $Charset = $ParseObject->GetCharset();
+   
+(e. g. iso-8859-1, utf-8, ...)
+
+=cut
+
 sub GetCharset {
     my $Self = shift;
     my $ContentType = shift || '';
@@ -153,6 +251,18 @@ sub GetCharset {
     }
 }
 # --
+
+=item GetReturnContentType()
+    
+Returns the new message body (or from the first attachment) "ContentType" header
+(maybe the message is converted to utf-8).
+ 
+    my $Charset = $ParseObject->GetReturnContentType();
+   
+(e. g. 'text/plain; charset="utf-8"')
+
+=cut
+
 sub GetReturnContentType {
     my $Self = shift;
     my $ContentType = $Self->GetContentType();
@@ -180,9 +290,23 @@ sub GetReturnContentType {
     }
 }
 # --
+
+=item GetMessageBody()
+    
+Returns the message body (or from the first attachment) from the email.
+ 
+    my $Body = $ParseObject->GetMessageBody();
+   
+=cut
+
 sub GetMessageBody {
     my $Self = shift;
     my %Param = @_;
+    # check if message body is already there
+    if ($Self->{MessageBody}) {
+        return $Self->{MessageBody};
+    }
+    # create MIME::Parser object and get message body or body of first attachemnt
     my $Parser = new MIME::Parser;
     $Parser->output_to_core("ALL");
     $Self->{ParserParts} = $Parser->parse_data($Self->{Email}->as_string());
@@ -204,10 +328,11 @@ sub GetMessageBody {
         elsif ($Self->GetParam(WHAT => 'Content-Transfer-Encoding') =~ /base64/i) {
             $BodyStrg = decode_base64($BodyStrg);
         }
-        return $Self->{EncodeObject}->Decode(
+        $Self->{MessageBody} = $Self->{EncodeObject}->Decode(
             Text => $BodyStrg, 
             From => $Self->GetCharset(),
         );
+        return $Self->{MessageBody};
     }
     else {
         $Self->{MimeEmail} = 1;
@@ -227,14 +352,32 @@ sub GetMessageBody {
                 Message => "First atm ContentType: $Self->{ContentType}",
             );
         }
-        return $Self->{EncodeObject}->Decode(
+        $Self->{MessageBody} = $Self->{EncodeObject}->Decode(
             Text => $Attachment{Content}, 
             From => $Self->GetCharset(),
         );
+        return $Self->{MessageBody};
     }
     return
 }
 # --
+
+=item GetAttachments()
+    
+Returns an array of the email attachments. 
+ 
+    my @Attachments = $ParseObject->GetAttachments();
+
+    foreach my $Attachment (@Attachments) {
+        print $Attachment->{Filename};
+        print $Attachment->{Charset};
+        print $Attachment->{MimeType};
+        print $Attachment->{ContentType};
+        print $Attachment->{Content};
+    }
+   
+=cut
+
 sub GetAttachments {
     my $Self = shift;
     my %Param = @_;
@@ -255,6 +398,7 @@ sub GetAttachments {
     }
 }
 # --
+# just for internal
 sub PartsAttachments {
     my $Self = shift;
     my %Param = @_;
@@ -327,6 +471,7 @@ sub PartsAttachments {
     }
 }
 # --
+# just for internal
 sub GetContentTypeParams {
     my $Self = shift;
     my %Param = @_;
@@ -344,3 +489,19 @@ sub GetContentTypeParams {
 }
 # --
 1;
+
+=head1 TERMS AND CONDITIONS
+
+This software is part of the OTRS project (http://otrs.org/).  
+    
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (GPL). If you
+did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+    
+=cut
+    
+=head1 VERSION
+
+$Revision: 1.19 $ $Date: 2004-01-10 12:50:47 $
+
+=cut
