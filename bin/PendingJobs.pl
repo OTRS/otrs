@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # PendingJobs.pl - check pending tickets
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PendingJobs.pl,v 1.14 2004-09-29 09:34:03 martin Exp $
+# $Id: PendingJobs.pl,v 1.15 2005-01-23 19:09:20 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Date::Pcalc qw(Day_of_Week Day_of_Week_Abbreviation);
@@ -61,7 +61,7 @@ $CommonObject{StateObject} = Kernel::System::State->new(%CommonObject);
 # --
 my $Command = shift || '--help';
 print "PendingJobs.pl <Revision $VERSION> - check pending tickets\n";
-print "Copyright (c) 2002-2004 Martin Edenhofer <martin\@otrs.org>\n";
+print "Copyright (c) 2001-2005 Martin Edenhofer <martin\@otrs.org>\n";
 
 # --
 # do ticket auto jobs
@@ -111,22 +111,6 @@ if (@PendingAutoStateIDs) {
 # do ticket reminder notification jobs
 # --
 
-# check if notification should be send
-my ($Second, $Minute, $Hour, $Day, $Month, $Year) = localtime(time());
-$Year = $Year+1900;
-$Month++;
-my $Dow = Day_of_Week($Year,$Month,$Day);
-$Dow = Day_of_Week_Abbreviation($Dow);
-if ($CommonObject{ConfigObject}->Get('SendNoPendingNotificationTime')->{$Dow}) {
-    my @Hours = @{$CommonObject{ConfigObject}->Get('SendNoPendingNotificationTime')->{$Dow}};
-    foreach (@Hours) {
-        if ($_ eq $Hour) { 
-            print "Stoped because no pending notification should be send this time (NoPendingNotificationTime)!\n";
-            exit (0);
-        }
-    }
-}
-
 # get pending states
 my @PendingReminderStateIDs = $CommonObject{StateObject}->StateGetStatesByType(
     Type => 'PendingReminder',
@@ -146,24 +130,38 @@ if (@PendingReminderStateIDs) {
         push (@TicketIDs, $RowTmp[1]);
     }
     foreach (@TicketIDs) {
-      my %Ticket = $CommonObject{TicketObject}->TicketGet(TicketID => $_);
-      if ($Ticket{UntilTime} < 1) {
-        # --
-        # send reminder notification
-        # --
-        print " Send reminder notification (TicketID=$_)\n";
-        # get user data
-        my %Preferences = $CommonObject{UserObject}->GetUserData(UserID => $Ticket{UserID});
-        $CommonObject{TicketObject}->SendAgentNotification(
-            UserData => \%Preferences,
-            Type => 'PendingReminder',
-            To => $Preferences{UserEmail},
-            CustomerMessageParams => {}, 
-            TicketNumber => $CommonObject{TicketObject}->TicketNumberLookup(TicketID => $Ticket{TicketID}),
-            TicketID => $Ticket{TicketID},
-            UserID => 1,
+        my %Ticket = $CommonObject{TicketObject}->TicketGet(TicketID => $_);
+        # check if bussines hours is, then send escalation info
+        my $CountedTime = $CommonObject{TimeObject}->WorkingTime(
+            StartTime => $CommonObject{TimeObject}->SystemTime()-(30*60),
+            StopTime => $CommonObject{TimeObject}->SystemTime(),
         );
-      }
+        if (!$CountedTime) {
+            if ($CommonObject{Debug}) {
+                $CommonObject{LogObject}->Log(
+                    Priority => 'debug',
+                    Message => "Send not pending for Ticket $Ticket{TicketNumber}/$Ticket{TicketID} because currently no working hours!",
+                );
+            }
+            next;
+        }
+        if ($Ticket{UntilTime} < 1) {
+            # --
+            # send reminder notification
+            # --
+            print " Send reminder notification (TicketID=$_)\n";
+            # get user data
+            my %Preferences = $CommonObject{UserObject}->GetUserData(UserID => $Ticket{UserID});
+            $CommonObject{TicketObject}->SendAgentNotification(
+                UserData => \%Preferences,
+                Type => 'PendingReminder',
+                To => $Preferences{UserEmail},
+                CustomerMessageParams => {},
+                TicketNumber => $CommonObject{TicketObject}->TicketNumberLookup(TicketID => $Ticket{TicketID}),
+                TicketID => $Ticket{TicketID},
+                UserID => 1,
+            );
+        }
     }
 }
 
