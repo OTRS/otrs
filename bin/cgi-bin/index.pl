@@ -1,9 +1,9 @@
 #! /usr/bin/perl -w
 # --
 # index.pl - the global CGI handle file for OpenTRS
-# Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: index.pl,v 1.17 2002-04-08 20:40:45 martin Exp $
+# $Id: index.pl,v 1.18 2002-04-13 15:45:38 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,11 +21,13 @@
 # --
 
 # OpenTRS root directory
-use lib '/opt/OpenTRS/';
+use lib '../..';
+#use lib '/opt/OpenTRS/';
+
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 my $Debug = 0;
@@ -43,13 +45,16 @@ use Kernel::System::WebRequest;
 use Kernel::System::DB;
 use Kernel::System::Auth;
 use Kernel::System::AuthSession;
+use Kernel::System::User;
 use Kernel::System::Queue;
 use Kernel::System::Ticket;
+use Kernel::System::Article;
 use Kernel::System::Permission;
 use Kernel::Modules::Test;
 use Kernel::Modules::AgentQueueView;
 use Kernel::Modules::AgentMove;
 use Kernel::Modules::AgentZoom;
+use Kernel::Modules::AgentAttachment;
 use Kernel::Modules::AgentPlain;
 use Kernel::Modules::AgentNote;
 use Kernel::Modules::AgentLock;
@@ -96,6 +101,8 @@ $CommonObject{SessionObject} = Kernel::System::AuthSession->new(%CommonObject);
 $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(%CommonObject);
 $CommonObject{QueueObject} = Kernel::System::Queue->new(%CommonObject);
 $CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
+$CommonObject{ArticleObject} = Kernel::System::Article->new(%CommonObject);
+$CommonObject{UserObject} = Kernel::System::User->new(%CommonObject);
 $CommonObject{PermissionObject} = Kernel::System::Permission->new(%CommonObject);
 
 # --
@@ -122,7 +129,8 @@ if ($Param{Action} eq "Login") {
 
     # check submited data
     if ( $AuthObject->Auth(User => $User, Pw => $Pw) ) {
-        my %Data = $AuthObject->GetUserData(User => $User);
+        # get user data
+        my %Data = $CommonObject{UserObject}->GetUserData(User => $User);
         # check needed data
         if (!$Data{UserID} || $Data{ThemeID}) {
             print $CommonObject{LayoutObject}->Header(Title => 'Login');
@@ -151,18 +159,20 @@ elsif ($Param{Action} eq "Logout"){
     if ( $CommonObject{SessionObject}->CheckSessionID(SessionID => $Param{SessionID}) ) {
         if ( $CommonObject{SessionObject}->RemoveSessionID(SessionID => $Param{SessionID}) ) {
             print $CommonObject{LayoutObject}->Login(
-             Message => 'Logout successful. Thank you for using OpenTRS!',
+                Message => 'Logout successful. Thank you for using OpenTRS!',
             );
-            $CommonObject{LogObject}->Log(MSG => "Removed SessionID $Param{SessionID}.");
+            $CommonObject{LogObject}->Log(
+                Message => "Removed SessionID $Param{SessionID}."
+           );
         }  
         else {
             print $CommonObject{LayoutObject}->Error(
-                MSG => 'Can`t remove SessionID',
+                Message => 'Can`t remove SessionID',
                 Comment => 'Please contact your admin'
             );
-            $CommonObject{LogObject}->ErrorLog(
-                MSG => 'Can`t remove SessionID',
-                Comment => 'Please contact your admin'
+            $CommonObject{LogObject}->Log(
+                Message => 'Can`t remove SessionID',
+                Priority => 'error',
             );
         }
     }
