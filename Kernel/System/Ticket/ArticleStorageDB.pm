@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleStorageDB.pm,v 1.19 2004-08-10 06:43:19 martin Exp $
+# $Id: ArticleStorageDB.pm,v 1.20 2004-10-10 08:34:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ use MIME::Base64;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -349,7 +349,7 @@ sub ArticleAttachment {
     my %Index = $Self->ArticleAttachmentIndex(ArticleID => $Param{ArticleID});
     # get content path
     my $ContentPath = $Self->ArticleGetContentPath(ArticleID => $Param{ArticleID});
-    my %Data = %{$Index{$Param{FileID}}}; 
+    my %Data = %{$Index{$Param{FileID}}};
     my $Counter = 0;
 
     if (open (DATA, "< $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/$Data{Filename}")) {
@@ -364,8 +364,9 @@ sub ArticleAttachment {
     else {
         # try database
         my $SQL = "SELECT content_type, content FROM article_attachment ".
-        " WHERE ".
-        " article_id = ".$Self->{DBObject}->Quote($Param{ArticleID})."";
+            " WHERE ".
+            " article_id = ".$Self->{DBObject}->Quote($Param{ArticleID}).
+            " ORDER BY id";
         $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Param{FileID});
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
             $Data{ContentType} = $Row[0];
@@ -382,8 +383,8 @@ sub ArticleAttachment {
         }
         else {
             $Self->{LogObject}->Log(
-              Priority => 'error', 
-              Message => "$!: $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/$Index{$Param{FileID}}!",
+                Priority => 'error',
+                Message => "$!: $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/$Index{$Param{FileID}}!",
             );
             return;
         }
