@@ -1,0 +1,33 @@
+
+%config(noreplace) /opt/otrs/Kernel/Config.pm
+%config(noreplace) /opt/otrs/Kernel/Config/GenericAgent.pm
+%config(noreplace) /opt/otrs/Kernel/Config/ModulesCusto*.pm
+%config(noreplace) /opt/otrs/var/log/TicketCounter.log
+%config(noreplace) /opt/otrs/.procmailrc
+%config(noreplace) /opt/otrs/.fetchmailrc
+%config(noreplace) /opt/otrs/.mailfilter
+%config(noreplace) /opt/otrs/Kernel/Output/HTML/Standard/*.dtl
+%config(noreplace) /opt/otrs/Kernel/Output/HTML/Lite/*.dtl
+%config(noreplace) /opt/otrs/Kernel/Language/*.pm
+%config(noreplace) /opt/otrs/var/cron/*
+
+/opt/otrs/RELEASE
+/opt/otrs/Kernel/Config/Modules.pm
+/opt/otrs/Kernel/Config/Defaults.pm
+/opt/otrs/Kernel/Language.pm
+/opt/otrs/Kernel/Modules/*.pm
+/opt/otrs/Kernel/Output/HTML/*.pm
+/opt/otrs/Kernel/System/*
+/opt/otrs/bin/*
+/opt/otrs/scripts/*
+/opt/otrs/var/article/
+/opt/otrs/var/httpd/
+/opt/otrs/var/sessions/
+/opt/otrs/var/spool/
+/opt/otrs/var/tmp/
+/opt/otrs/var/pics/stats/
+
+/opt/otrs/Kernel/cpan-lib*
+
+%doc INSTAL* UPGRADING TODO COPYING CHANGES READM* doc/*
+
