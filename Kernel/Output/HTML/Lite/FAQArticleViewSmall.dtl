@@ -1,0 +1,114 @@
+# --
+# FAQArticleView.dtl - provides HTML view for faq articles
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: FAQArticleViewSmall.dtl,v 1.1 2004-03-24 15:56:39 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start form -->
+<script language="JavaScript" type="text/javascript">
+<!--
+
+function updateMessage()
+{
+    if (parent.opener.closed) {
+        alert('$Text{"The message being composed has been closed.  Exiting."}');
+        this.close();
+        return;
+    }
+
+    if (!parent.opener.document.compose) {
+        alert('$Text{"This window must be called from compose window"}');
+        this.close();
+        return;
+    }
+
+    parent.opener.document.compose.Body.value = document.spelling.Body.value
+    parent.opener.document.compose.Subject.value = document.spelling.Subject.value
+
+    this.close();
+}
+
+//-->
+</script>
+
+  <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="spelling">
+
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<tr> 
+  <td align="left" colspan="2" class="table0">
+  <b>$Env{"Box0"}$Text{"FAQ Article"}: $Quote{"$Data{"Subject"}"}$Env{"Box1"}</b>
+  </td>
+</tr>
+<tr align="left" valign="top">
+  <td width="100%" class="table1">
+
+<input class="button" type="button" onclick="updateMessage();" value="$Text{"Done"}">
+<i>($Text{"Return to the compose screen"})</i>
+
+<input class="button" type="button" onclick="window.close();" value="$Text{"Cancel"}">
+<i>($Text{"Discard all changes and return to the compose screen"})</i>
+<hr>
+
+    <font size="+1">$Quote{"$Data{"Subject"}"}</font> 
+    <table border="0" cellspacing="0" cellpadding="3">
+    <tr>
+      <td class="table1">$Text{"Category"}: </td>
+      <td class="table1"> $Quote{"$Data{"Category"}"}</td>
+    </tr>
+    <tr>
+      <td class="table1">$Text{"State"}: </td>
+      <td class="table1"> $Quote{"$Data{"State"}"}</td>
+    </tr>
+    <tr>
+      <td class="table1">$Text{"Language"}: </td>
+      <td class="table1"> $Quote{"$Data{"Language"}"}</td>
+    </tr>
+    <tr>
+      <td class="table1">$Text{"Keywords"}: </td>
+      <td class="table1"> $Quote{"$Data{"Keywords"}"}</td>
+    </tr>
+    <tr>
+      <td colspan="2"><hr></td>
+    </tr>
+    <tr>
+      <td colspan="2">
+<input type="hidden" name="Subject" value="$Quote{"$Data{"Subject"}"}">
+#      <td class="table1" valign="top">$Text{"$Config{"FAQ::Field1"}"}: </td>
+#      <td class="table1"><pre>$Data{"Field1"}</pre>
+<pre>
+<textarea name="Body" rows="14" cols="$Config{"TextAreaEmailWindow"}" wrap="$Env{"BrowserWrap"}">
+$Data{"Field1"}
+$Data{"Field2"}
+$Data{"Field3"}
+#$Data{"Field4"}
+#$Data{"Field5"}
+</textarea>
+</pre>
+
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2"><hr></td>
+    </tr>
+    </table>
+
+<input class="button" type="button" onclick="updateMessage();" value="$Text{"Done"}">
+<i>($Text{"Return to the compose screen"})</i>
+
+<input class="button" type="button" onclick="window.close();" value="$Text{"Cancel"}">
+<i>($Text{"Discard all changes and return to the compose screen"})</i>
+    
+<hr>
+
+  </td>
+</tr>
+</table>
+
+  </td>
+</tr>
+</table>
+<!-- end form -->
