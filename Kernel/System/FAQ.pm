@@ -2,7 +2,7 @@
 # Kernel/System/FAQ.pm - all faq funktions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQ.pm,v 1.4 2004-01-24 18:42:33 martin Exp $
+# $Id: FAQ.pm,v 1.5 2004-02-01 23:02:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::FAQ;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -181,9 +181,12 @@ sub ArticleUpdate {
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
     }
+    # fill up empty stuff
     foreach my $Type (qw(Field FreeKey FreeText)) {
         foreach (1..6) {
-            $Param{$Type.$_} = $Self->{DBObject}->Quote($Param{$Type.$_}) || '';
+            if (!$Param{$Type.$_}) {
+                $Param{$Type.$_} = '';
+            }
         }
     }
     my $SQL = "UPDATE faq_item SET f_name = '$Param{Name}', ".
@@ -724,6 +727,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2004-01-24 18:42:33 $
+$Revision: 1.5 $ $Date: 2004-02-01 23:02:46 $
 
 =cut
