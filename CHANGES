@@ -2,13 +2,23 @@
 # Changes of OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.39 2002-12-18 22:07:42 martin Exp $
+# $Id: CHANGES,v 1.40 2002-12-20 02:18:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 0.5 BETA9 (2002-??-??)
+ - (2002/12/20) added Kernel::System::Ticket::ArticleStorage* modules
+    for attachments in database or fs (needs to update the database 
+    (scripts/DBUpdate.(mysql|postgesql).sql)! The main reason is a lot 
+    of people have problems with the file permissions of the local otrs 
+    and webserver user (often incoming emails are shown some times again). 
+    TicketStorageModule in Kernel/Config.pm.
+     * Kernel::System::Ticket::ArticleStorageDB -> (default)
+     * Kernel::System::Ticket::ArticleStorageFS -> (faster but webserver 
+        user should be the otrs user)
+ - (2002/12/19) attachment support (send and view) for customer panel!
  - (2002/12/18) added config option CheckEmailAddresses and CheckMXRecord.
     CheckMXRecord is useful for pre checks of valid/invalid senders (reduce
     Postmaster emails). Disable CheckEmailAddresses if you work with 
@@ -45,12 +55,6 @@
     Thanks Wiktor!
  - (2002/11/28) fixed bug 39 - added mime encode for attachment file names
     http://bugs.otrs.org/show_bug.cgi?id=39 - Thanks to Christoph Kaulich!
- - (2002/11/27) added support for attachments in database or fs (needs to update 
-    the database (scripts/DBUpdate.(mysql|postgesql).sql)! The main reason is
-    because a lot of people have problems with the file permissions of the local
-    otrs and webserver user (often incoming emails are shown some times again).
-    "ArticlePlainStorage" and "ArticleAttachmentStorage" (db|fs) in 
-    Kernel/Config.pm (default is db).
  - (2002/11/27) added backend modules for loop protection of PostMaster.pl
     "LoopProtectionModule" in Kernel/Config.pm (default is DB) -
     Kernel::System::PostMaster::LoopProtection::(DB|FS).

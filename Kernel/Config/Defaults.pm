@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.12 2002-12-18 17:27:55 martin Exp $
+# $Id: Defaults.pm,v 1.13 2002-12-20 02:18:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -300,12 +300,13 @@ sub LoadDefaults {
     # ViewableSenderTypes 
     #  default:  ["'customer'"]
     $Self->{ViewableSenderTypes} = ["'customer'"];
- 
-    # Storage for plain email [fs|db]
-    $Self->{ArticlePlainStorage} = 'db';
-  
-    # Storage for attachments [fs|db]
-    $Self->{ArticleAttachmentStorage} = 'db';
+
+    # TicketStorageModule
+    # (where attachments and co is stored - switch from fs -> db possible
+    # but not from db -> fs - old attachments are not shown) 
+    $Self->{TicketStorageModule} = 'Kernel::System::Ticket::ArticleStorageDB';
+    # FS is faster but webserver user should be the otrs user)
+#    $Self->{TicketStorageModule} = 'Kernel::System::Ticket::ArticleStorageFS';
 
     # TicketCompressModule 
     # (Warning: change it not if your system is in use! Just on setup time!)
