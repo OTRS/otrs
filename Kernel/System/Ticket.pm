@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.108 2004-05-04 15:12:33 martin Exp $
+# $Id: Ticket.pm,v 1.109 2004-05-24 21:05:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.108 $';
+$VERSION = '$Revision: 1.109 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -721,7 +721,7 @@ sub MoveTicket {
             CreateUserID => $Param{UserID},
         );
         # send move notify to queue subscriber 
-        foreach ($Self->{QueueObject}->GetAllUserIDsByQueueID(QueueID => $Param{QueueID})) {
+        foreach ($Self->{QueueObject}->GetSubscribedUserIDsByQueueID(QueueID => $Param{QueueID})) {
             my %UserData = $Self->{UserObject}->GetUserData(UserID => $_);
             if ($UserData{UserSendMoveNotification}) {
                 # send agent notification
@@ -1273,6 +1273,50 @@ sub GetLockedTicketIDs {
     }
     return @ViewableTickets;
 }
+# --
+
+=item GetSubscribedUserIDsByQueueID()
+
+...
+
+    ... 
+
+=cut
+
+sub GetSubscribedUserIDsByQueueID {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    if (!$Param{QueueID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID!");
+        return;
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    # fetch all queues
+    my @UserIDs = ();
+    $Self->{DBObject}->Prepare(
+        SQL => "SELECT user_id FROM personal_queues ".
+            " WHERE ".
+            " queue_id = $Param{QueueID} ",
+    );
+    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
+        push (@UserIDs, $RowTmp[0]);
+    }
+    # check if user is valid and check permissions 
+    my @CleanUserIDs = ();
+    foreach (@UserIDs) {
+        my %User = $Self->{UserObject}->GetUserData(UserID => $_, Valid => 1);
+        if (%User) {
+            push (@CleanUserIDs, @UserIDs);
+        }
+    }
+    return @UserIDs;
+}
+# --
+
 # --
 
 =item TicketPendingTimeSet()
@@ -1925,6 +1969,9 @@ sub LockSet {
     # lookup!
     if ((!$Param{LockID}) && ($Param{Lock})) {
         $Param{LockID} = $Self->{LockObject}->LockLookup(Type => $Param{Lock});
+    }
+    if (($Param{LockID}) && (!$Param{Lock})) {
+        $Param{Lock} = $Self->{LockObject}->LockLookup(ID => $Param{LockID});
     }
     # check needed stuff
     foreach (qw(TicketID UserID LockID Lock)) {
@@ -3070,6 +3117,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.108 $ $Date: 2004-05-04 15:12:33 $
+$Revision: 1.109 $ $Date: 2004-05-24 21:05:48 $
 
 =cut

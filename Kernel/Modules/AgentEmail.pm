@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentEmail.pm - to compose inital email to customer 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentEmail.pm,v 1.26 2004-05-04 15:23:56 martin Exp $
+# $Id: AgentEmail.pm,v 1.27 2004-05-24 21:05:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -514,7 +514,7 @@ sub _GetUsers {
     );
     # just show only users with selected custom queue
     if ($Param{QueueID} && !$Param{AllUsers}) {
-        my @UserIDs = $Self->{QueueObject}->GetAllUserIDsByQueueID(%Param);
+        my @UserIDs = $Self->{TicketObject}->GetSubscribedUserIDsByQueueID(%Param);
         foreach (keys %AllGroupsMembers) {
             my $Hit = 0;
             foreach my $UID (@UserIDs) {

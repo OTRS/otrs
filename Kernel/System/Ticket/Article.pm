@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.59 2004-04-19 09:52:46 martin Exp $
+# $Id: Article.pm,v 1.60 2004-05-24 21:05:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -16,7 +16,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.59 $';
+$VERSION = '$Revision: 1.60 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -270,7 +270,7 @@ sub ArticleCreate {
     # --
     my $To = '';
     if ($Param{HistoryType} =~ /^(EmailCustomer|PhoneCallCustomer|WebRequestCustomer)$/i) {
-        foreach ($Self->{QueueObject}->GetAllUserIDsByQueueID(QueueID => $Ticket{QueueID})) {
+        foreach ($Self->GetSubscribedUserIDsByQueueID(QueueID => $Ticket{QueueID})) {
 	    my %UserData = $Self->{UserObject}->GetUserData(
                 UserID => $_, 
                 Cached => 1, 

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentMove.pm - move tickets to queues 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentMove.pm,v 1.34 2004-05-02 10:43:56 martin Exp $
+# $Id: AgentMove.pm,v 1.35 2004-05-24 21:05:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.34 $';
+$VERSION = '$Revision: 1.35 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -368,7 +368,7 @@ sub _GetUsers {
     );
     # just show only users with selected custom queue
     if ($Param{QueueID} && !$Param{AllUsers}) {
-        my @UserIDs = $Self->{QueueObject}->GetAllUserIDsByQueueID(%Param);
+        my @UserIDs = $Self->{TicketObject}->GetSubscribedUserIDsByQueueID(%Param);
         foreach (keys %ShownUsers) {
             my $Hit = 0;
             foreach my $UID (@UserIDs) {

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPhone.pm - to handle phone calls
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPhone.pm,v 1.85 2004-05-04 08:26:38 martin Exp $
+# $Id: AgentPhone.pm,v 1.86 2004-05-24 21:05:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.85 $';
+$VERSION = '$Revision: 1.86 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -707,7 +707,7 @@ sub _GetUsers {
     );
     # just show only users with selected custom queue
     if ($Param{QueueID} && !$Param{AllUsers}) {
-        my @UserIDs = $Self->{QueueObject}->GetAllUserIDsByQueueID(%Param);
+        my @UserIDs = $Self->{TicketObject}->GetSubscribedUserIDsByQueueID(%Param);
         foreach (keys %AllGroupsMembers) {
             my $Hit = 0;
             foreach my $UID (@UserIDs) {

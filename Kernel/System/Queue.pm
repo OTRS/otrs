@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue funktions
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.43 2004-04-16 08:09:17 martin Exp $
+# $Id: Queue.pm,v 1.44 2004-05-24 21:05:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,7 +17,7 @@ use Kernel::System::Group;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.43 $';
+$VERSION = '$Revision: 1.44 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -380,40 +380,6 @@ sub GetAllCustomQueues {
         push(@QueueIDs, $Row[0]);
     }
     return @QueueIDs;
-}
-# --
-
-=item GetAllUserIDsByQueueID()
-
-...
-
-    ... 
-
-=cut
-
-sub GetAllUserIDsByQueueID {
-    my $Self = shift;
-    my %Param = @_;
-    # check needed stuff
-    if (!$Param{QueueID}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID!");
-        return;
-    }
-    # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
-    }
-    # fetch all queues
-    my @UserIDs = ();
-    $Self->{DBObject}->Prepare(
-        SQL => "SELECT user_id FROM personal_queues ".
-            " WHERE ".
-            " queue_id = $Param{QueueID} ",
-    );
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        push (@UserIDs, $RowTmp[0]);
-    }
-    return @UserIDs;
 }
 # --
 
@@ -936,6 +902,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.43 $ $Date: 2004-04-16 08:09:17 $
+$Revision: 1.44 $ $Date: 2004-05-24 21:05:48 $
 
 =cut
