@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSession.pm - to control all session ids
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSession.pm,v 1.20 2004-12-02 09:29:53 martin Exp $
+# $Id: AdminSession.pm,v 1.21 2004-12-28 01:03:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminSession;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -86,7 +86,12 @@ sub Run {
             }
             foreach (sort keys %Data) {
                 if (($_) && (defined($Data{$_})) && $_ ne 'SessionID') {
-                    $Data{$_} = $Self->{LayoutObject}->Ascii2Html(Text => $Data{$_});
+                    if ($_ =~ /Password|Pw/) {
+                        $Data{$_} = 'xxxxxxxx';
+                    }
+                    else {
+                        $Data{$_} = $Self->{LayoutObject}->Ascii2Html(Text => $Data{$_});
+                    }
                     if ($_  eq 'UserSessionStart') {
                         my $Age = int((time() - $Data{UserSessionStart}) / 3600);
                         $Data{UserSessionStart} = scalar localtime ($Data{UserSessionStart});
