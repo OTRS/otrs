@@ -19,24 +19,6 @@ In case you prefer the command line rpm way (you have to have installed the need
 ernie:~ # rpm -ivh /tmp/otrs.rpm 
 otrs                        ##################################################
 Check OTRS user (/etc/passwd)... otrs exists.
-SetPermissions.sh $Revisio : 1.16 $ - set OTRS file permissions
-Copyright (c) 2002 Martin Edenhofer martin at otrs.org
-Setting file permissions... 
-chown -R 0:0 /opt/otrs
-chown otrs:nogroup /opt/otrs
-chown otrs:nogroup /opt/otrs/.fetchmailrc
-chmod 0710 /opt/otrs/.fetchmailrc
-chown otrs:nogroup /opt/otrs/.procmailrc
-chmod 0644 /opt/otrs/.procmailrc
-chown otrs:nogroup /opt/otrs/.mailfilter
-chmod 0600 /opt/otrs/.mailfilter
-chown -R otrs:nogroup /opt/otrs/var/
-chown -R wwwrun:nogroup /opt/otrs/var/sessions/
-chown otrs:nogroup /opt/otrs/var/log/TicketCounter.log
-chmod -R 755 /opt/otrs/bin/
-(chown &amp;&amp; chmod 700) otrs:0 /opt/otrs/bin/DeleteSessionIDs.pl
-(chown &amp;&amp; chmod 700) otrs:0 /opt/otrs/bin/UnlockTickets.pl
-(chown &amp;&amp; chmod 700) otrs:0 /opt/otrs/bin/otrs.getConfig
 
 Next steps: 
 
@@ -66,9 +48,7 @@ ernie:~ # SuSEconfig
 Starting SuSEconfig, the SuSE Configuration Tool...
 Running in full featured mode.
 Reading /etc/sysconfig and updating the system...
-Executing /sbin/conf.d/SuSEconfig.3ddiag...
 Executing /sbin/conf.d/SuSEconfig.aaa_at_first...
-Executing /sbin/conf.d/SuSEconfig.alljava...
 Executing /sbin/conf.d/SuSEconfig.apache...
 Including /opt/otrs/scripts/apache-httpd.include.conf
 Executing /sbin/conf.d/SuSEconfig.bootsplash...
@@ -76,17 +56,12 @@ Executing /sbin/conf.d/SuSEconfig.doublecheck...
 Executing /sbin/conf.d/SuSEconfig.guile...
 Executing /sbin/conf.d/SuSEconfig.hostname...
 Executing /sbin/conf.d/SuSEconfig.ispell...
-Executing /sbin/conf.d/SuSEconfig.libgnomeprint...
-Executing /sbin/conf.d/SuSEconfig.libxml2...
-Executing /sbin/conf.d/SuSEconfig.man_info...
-Executing /sbin/conf.d/SuSEconfig.pango...
 Executing /sbin/conf.d/SuSEconfig.perl...
 Executing /sbin/conf.d/SuSEconfig.permissions...
 Executing /sbin/conf.d/SuSEconfig.postfix...
 Setting up postfix local as MDA...
 Setting SPAM protection to "off"...
 Executing /sbin/conf.d/SuSEconfig.profiles...
-Executing /sbin/conf.d/SuSEconfig.scpm...
 Finished.
 </screen>
 </para>
@@ -126,32 +101,7 @@ It is not a good idea to use the default passwords. You install a very important
 </screenshot>
 </para>
 <para>
-And because we want to keep the system as secure as possible we change some permissions by using the following script:
-<screen>
-ernie:~ # /opt/otrs/bin/SetPermissions.sh /opt/otrs otrs wwwrun
-SetPermissions.sh $Revisio : 1.16 $ - set OTRS file permissions
-Copyright (c) 2002 Martin Edenhofer martin at otrs.org
-Setting file permissions... 
-chown -R 0:0 /opt/otrs/
-chown otrs:nogroup /opt/otrs/
-chown otrs:nogroup /opt/otrs//.fetchmailrc
-chmod 0710 /opt/otrs//.fetchmailrc
-chown otrs:nogroup /opt/otrs//.procmailrc
-chmod 0644 /opt/otrs//.procmailrc
-chown otrs:nogroup /opt/otrs//.mailfilter
-chmod 0600 /opt/otrs//.mailfilter
-chown -R otrs:nogroup /opt/otrs//var/
-chown -R wwwrun:nogroup /opt/otrs//var/sessions/
-chown otrs:nogroup /opt/otrs//var/log/TicketCounter.log
-chmod -R 755 /opt/otrs//bin/
-(chown && chmod 700) otrs:0 /opt/otrs//bin/DeleteSessionIDs.pl
-(chown && chmod 700) otrs:0 /opt/otrs//bin/UnlockTickets.pl
-(chown && chmod 700) otrs:0 /opt/otrs//bin/otrs.getConfig
-ernie:~ #
-</screen>
-
-OK, know it it time to fire up the otrs. Do so on the command line:
-
+OK, now it is time to fire up the otrs. Do so on the command line:
 <screen>
 ernie:~ # rcotrs restart-force
 Shutting down OTRS 
