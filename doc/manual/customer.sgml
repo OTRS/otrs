@@ -75,6 +75,7 @@ This is an example for a database backend.
         CustomerValid => 'valid_id',
         CustomerUserListFields => ['login', 'first_name', 'last_name', 'email'],
         CustomerUserSearchFields => ['login', 'last_name', 'customer_id'],
+        CustomerUserNameFields => ['salutation', 'first_name', 'last_name'],
         Map => [
             # note: Login, Email and CustomerID needed!
             # var, frontend, storage, shown, required, storage-type, http-link
@@ -141,6 +142,7 @@ This is an example for a LDAP backend.
         CustomerID => 'mail',
         CustomerUserListFields => ['uid', 'cn', 'mail'],
         CustomerUserSearchFields => ['uid', 'cn', 'mail'],
+        CustomerUserNameFields => ['givenname', 'sn'],
         Map => [
             # note: Login, Email and CustomerID needed!
             # var, frontend, storage, shown, required, storage-type

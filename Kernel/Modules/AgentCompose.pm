@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.37 2003-03-04 00:12:50 martin Exp $
+# $Id: AgentCompose.pm,v 1.38 2003-03-05 19:21:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,9 +16,10 @@ use Kernel::System::EmailParser;
 use Kernel::System::CheckItem;
 use Kernel::System::StdAttachment;
 use Kernel::System::State;
+use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -40,7 +41,8 @@ sub new {
       ConfigObject LogObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
-
+    # some new objects
+    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
     $Self->{EmailParserObject} = Kernel::System::EmailParser->new(%Param);
     $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%Param);
     $Self->{StdAttachmentObject} = Kernel::System::StdAttachment->new(%Param);
@@ -87,7 +89,6 @@ sub Form {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-    my $TicketID = $Self->{TicketID};
     # -- 
     # start with page ...
     # --
@@ -95,7 +96,7 @@ sub Form {
     # -- 
     # check needed stuff
     # --
-    if (!$TicketID) {
+    if (!$Self->{TicketID}) {
         $Output .= $Self->{LayoutObject}->Error(
                 Message => "Got no TicketID!",
                 Comment => 'System Error!',
@@ -118,10 +119,9 @@ sub Form {
     # --
     # get ticket number and queue id 
     # --
-    my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $TicketID);
-    my $QueueID = $Self->{TicketObject}->GetQueueIDOfTicketID(TicketID => $TicketID);
+    my %Ticket = $Self->{TicketObject}->GetTicket(TicketID => $Self->{TicketID});
     my $QueueObject = Kernel::System::Queue->new(
-        QueueID => $QueueID,
+        QueueID => $Ticket{QueueID},
         DBObject => $Self->{DBObject},
         ConfigObject => $Self->{ConfigObject},
         LogObject => $Self->{LogObject},
@@ -129,26 +129,26 @@ sub Form {
     # --
     # get lock state && write (lock) permissions
     # --
-    if (!$Self->{TicketObject}->IsTicketLocked(TicketID => $TicketID)) {
+    if (!$Self->{TicketObject}->IsTicketLocked(TicketID => $Self->{TicketID})) {
         # set owner
         $Self->{TicketObject}->SetOwner(
-            TicketID => $TicketID,
+            TicketID => $Self->{TicketID},
             UserID => $Self->{UserID},
             NewUserID => $Self->{UserID},
         );
         # set lock
         if ($Self->{TicketObject}->SetLock(
-            TicketID => $TicketID,
+            TicketID => $Self->{TicketID},
             Lock => 'lock',
             UserID => $Self->{UserID}
         )) {
             # show lock state
-            $Output .= $Self->{LayoutObject}->TicketLocked(TicketID => $TicketID);
+            $Output .= $Self->{LayoutObject}->TicketLocked(TicketID => $Self->{TicketID});
         }
     }
     else {
         my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->CheckOwner(
-            TicketID => $TicketID,
+            TicketID => $Self->{TicketID},
         );
         if ($OwnerID != $Self->{UserID}) {
             $Output .= $Self->{LayoutObject}->Error(
@@ -170,7 +170,7 @@ sub Form {
     }
     else {
         %Data = $Self->{TicketObject}->GetLastCustomerArticle(
-            TicketID => $TicketID,
+            TicketID => $Self->{TicketID},
         );
     }
     # --
@@ -183,10 +183,10 @@ sub Form {
 
     my $TicketHook = $Self->{ConfigObject}->Get('TicketHook') || '';
     $Data{Subject} =~ s/^..: //;
-    $Data{Subject} =~ s/\[$TicketHook: $Tn\] //g;
+    $Data{Subject} =~ s/\[$TicketHook: $Ticket{TicketNumber}\] //g;
     $Data{Subject} =~ s/^..: //;
     $Data{Subject} =~ s/^(.{30}).*$/$1 [...]/;
-    $Data{Subject} = "[$TicketHook: $Tn] Re: " . $Data{Subject};
+    $Data{Subject} = "[$TicketHook: $Ticket{TicketNumber}] Re: " . $Data{Subject};
 
     if ($Data{ReplyTo}) {
         $Data{To} = $Data{ReplyTo};
@@ -211,9 +211,15 @@ sub Form {
     # prepare customer realname
     if ($Data{Salutation} =~ /<OTRS_CUSTOMER_REALNAME>/) {
         # get realname 
-        my $From = $Data{OrigFrom} || '';
-        $From =~ s/<.*>|\(.*\)|\"|;|,//g;
-        $From =~ s/( $)|(  $)//g;
+        my $From = '';
+        if ($Ticket{CustomerUserID}) {
+            $From = $Self->{CustomerUserObject}->CustomerName(UserLogin => $Ticket{CustomerUserID});
+        }
+        if (!$From) {
+            $From = $Data{OrigFrom} || '';
+            $From =~ s/<.*>|\(.*\)|\"|;|,//g;
+            $From =~ s/( $)|(  $)//g;
+        }
         $Data{Salutation} =~ s/<OTRS_CUSTOMER_REALNAME>/$From/g;
     }
     # --
@@ -248,9 +254,9 @@ sub Form {
     # build view ...
     # --
     $Output .= $Self->{LayoutObject}->AgentCompose(
-        TicketNumber => $Tn,
-        TicketID => $TicketID,
-        QueueID => $QueueID,
+        TicketNumber => $Ticket{TicketNumber},
+        TicketID => $Self->{TicketID},
+        QueueID => $Ticket{QueueID},
         NextStates => $Self->_GetNextStates(),
         ResponseFormat => $Self->{ResponseFormat},
         Errors => \%Error,
@@ -267,7 +273,6 @@ sub SendEmail {
     my %Param = @_;
     my $Output = '';
     my $QueueID = $Self->{QueueID};
-    my $TicketID = $Self->{TicketID};
     my $NextState = $Self->{TicketObject}->StateIDLookup(StateID => $Self->{ComposeStateID});
     # --
     # get attachment
@@ -298,8 +303,8 @@ sub SendEmail {
     # check if there is an error
     # --
     if (%Error) {
-        my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $TicketID);
-        my $QueueID = $Self->{TicketObject}->GetQueueIDOfTicketID(TicketID => $TicketID);
+        my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $Self->{TicketID});
+        my $QueueID = $Self->{TicketObject}->GetQueueIDOfTicketID(TicketID => $Self->{TicketID});
         my $Output = $Self->{LayoutObject}->Header(Title => 'Compose');
         my %Data = ();
         foreach (qw(From To Cc Bcc Subject Body Email InReplyTo Answered ArticleID 
@@ -309,7 +314,7 @@ sub SendEmail {
         $Data{StdResponse} = $Self->{Body};
         $Output .= $Self->{LayoutObject}->AgentCompose(
             TicketNumber => $Tn,
-            TicketID => $TicketID,
+            TicketID => $Self->{TicketID},
             QueueID => $QueueID,
             NextStates => $Self->_GetNextStates(),
             NextState => $NextState,
@@ -328,7 +333,7 @@ sub SendEmail {
         %UploadStuff,
         ArticleType => 'email-external',
         SenderType => 'agent',
-        TicketID => $TicketID,
+        TicketID => $Self->{TicketID},
         HistoryType => 'SendAnswer',
         HistoryComment => "Sent email to '$Self->{To}'.",
         From => $Self->{From},
@@ -347,7 +352,7 @@ sub SendEmail {
         # --
         if ($Self->{TimeUnits}) {
             $Self->{TicketObject}->AccountTime(
-                TicketID => $TicketID,
+                TicketID => $Self->{TicketID},
                 ArticleID => $ArticleID,
                 TimeUnit => $Self->{TimeUnits},
                 UserID => $Self->{UserID},
@@ -357,7 +362,7 @@ sub SendEmail {
         # set state
         # --
         $Self->{TicketObject}->SetState(
-            TicketID => $TicketID,
+            TicketID => $Self->{TicketID},
             ArticleID => $ArticleID,
             State => $NextState,
             UserID => $Self->{UserID},
@@ -366,7 +371,7 @@ sub SendEmail {
         # set answerd
         # --
         $Self->{TicketObject}->SetAnswered(
-            TicketID => $TicketID,
+            TicketID => $Self->{TicketID},
             UserID => $Self->{UserID},
             Answered => $Self->{Answered},
         );
@@ -376,7 +381,7 @@ sub SendEmail {
         my %StateData = $Self->{StateObject}->StateGet(ID => $Self->{ComposeStateID});
         if ($StateData{TypeName} =~ /^close/i) {
             $Self->{TicketObject}->SetLock(
-                TicketID => $TicketID,
+                TicketID => $Self->{TicketID},
                 Lock => 'unlock',
                 UserID => $Self->{UserID},
             );

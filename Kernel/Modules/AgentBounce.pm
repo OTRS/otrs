@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentBounce.pm - to bounce articles of tickets 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBounce.pm,v 1.16 2003-03-04 00:12:50 martin Exp $
+# $Id: AgentBounce.pm,v 1.17 2003-03-05 19:21:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,9 +13,10 @@ package Kernel::Modules::AgentBounce;
 
 use strict;
 use Kernel::System::State;
+use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -36,6 +37,7 @@ sub new {
     }
     # needed objects
     $Self->{StateObject} = Kernel::System::State->new(%Param);
+    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
 
     $Self->{ArticleID} = $Self->{ParamObject}->GetParam(Param => 'ArticleID') || '';
 
@@ -165,9 +167,17 @@ sub Run {
         # prepare customer realname
         if ($Param{Salutation} =~ /<OTRS_CUSTOMER_REALNAME>/) {
             # get realname 
-            $Data{From} =~ s/<.*>|\(.*\)|\"|;|,//g;
-            $Data{From} =~ s/( $)|(  $)//g;
-            $Param{Salutation} =~ s/<OTRS_CUSTOMER_REALNAME>/$Data{From}/g;
+            my $From = '';
+            if ($Ticket{CustomerUserID}) {
+                $From = $Self->{CustomerUserObject}->CustomerName(UserLogin => $Ticket{CustomerUserID});
+            }
+            if (!$From) {
+                $From = $Data{From} || '';
+                $From =~ s/<.*>|\(.*\)|\"|;|,//g;
+                $From =~ s/( $)|(  $)//g;
+            }
+            # get realname 
+            $Param{Salutation} =~ s/<OTRS_CUSTOMER_REALNAME>/$From/g;
         }
         # --
         # prepare signature
