@@ -3,7 +3,7 @@
 # scripts/backup.sh - a backup script for OTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: backup.sh,v 1.7 2003-02-25 11:55:30 wiktor Exp $
+# $Id: backup.sh,v 1.8 2003-02-25 20:32:03 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "backup.sh - a backup script for OTRS <\$Revision: 1.7 $>"
+echo "backup.sh - a backup script for OTRS <\$Revision: 1.8 $>"
 
 REMOVE_OLD=0
 # parse user input
@@ -112,7 +112,7 @@ mkdir ${BACKUPDIR}/${SUBBACKUPFOLDER} || exit 1
 # --
 if [ "$DB" == "MYSQL" ]; then
     echo "dump MySQL rdbms ${DATABASE}@${DATABASE_HOST}"
-    if ! mysqldump -u $DATABASE_USER -p $DATABASE_PW -h $DATABASE_HOST $DATABASE > ${BACKUPDIR}/${SUBBACKUPFOLDER}/database_backup.sql; then
+    if ! mysqldump -u $DATABASE_USER -p$DATABASE_PW -h $DATABASE_HOST $DATABASE > ${BACKUPDIR}/${SUBBACKUPFOLDER}/database_backup.sql; then
         echo "ERROR: Cannot dump database, please check!"
         exit 1
     fi
