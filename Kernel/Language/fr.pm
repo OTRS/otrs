@@ -4,7 +4,7 @@
 # Copyright (C) 2004 Yann Richard <ze at nbox.org>
 # Copyright (C) 2004 Igor Genibel <igor.genibel at eds-opensource.com>
 # --
-# $Id: fr.pm,v 1.38 2004-09-08 23:13:06 martin Exp $
+# $Id: fr.pm,v 1.39 2004-09-21 19:01:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.39 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -40,10 +40,10 @@ sub Data {
       ' 5 minutes' => ' 5 minutes',
       ' 7 minutes' => ' 7 minutes',
       '(Click here to add)' => '(Cliquez içi pour ajouter)',
-      '...Back' => '...retour',
+      '...Back' => 'Revenir en arrière',
       '10 minutes' => '10 minutes',
       '15 minutes' => '15 minutes',
-      'Added User "%s"' => '',
+      'Added User "%s"' => 'Ajout de l\'utilisateur "%s"',
       'AddLink' => 'Ajouter un lien',
       'Admin-Area' => 'Zone d\'administration',
       'agent' => 'technicien',
@@ -72,7 +72,7 @@ sub Data {
       'days' => 'jours',
       'description' => 'description',
       'Description' => 'Description',
-      'Directory' => '',
+      'Directory' => 'Répertoire',
       'Dispatching by email To: field.' => 'Répartition par le champs \'À:\' du courriel',
       'Dispatching by selected Queue.' => 'Répartition selon la file sélectionnée',
       'Don\'t show closed Tickets' => 'Ne pas montrer les tickets fermés',
@@ -176,23 +176,23 @@ sub Data {
       'Salutation' => 'Salutation',
       'Session has timed out. Please log in again.' => 'Le délai de votre session est dépassé, veuillez vous ré-authentifier.',
       'Show closed Tickets' => 'Voir les tickets fermés',
-      'Sign' => '',
+      'Sign' => 'Signer',
       'Signature' => 'Signature',
-      'Signed' => '',
-      'Size' => '',
+      'Signed' => 'Signé',
+      'Size' => 'Taille',
       'Sorry' => 'Désolé',
       'Stats' => 'Statistiques',
       'Subfunction' => 'sous-fonction',
       'submit' => 'soumettre',
       'submit!' => 'soumettre !',
       'system' => 'système',
-      'Take this Customer' => '',
-      'Take this User' => 'Prendre cet utilisateur',
+      'Take this Customer' => 'Choisir ce client',
+      'Take this User' => 'Choisir cet utilisateur',
       'Text' => 'Texte',
       'The recommended charset for your language is %s!' => 'Le jeu de caractère correspondant à votre langue est %s!',
       'Theme' => 'Thème',
       'There is no account with that login name.' => 'Il n\'y a aucun compte avec ce nom de connexion',
-      'Ticket Number' => '',
+      'Ticket Number' => 'Numéro de ticket',
       'Timeover' => 'Temp écoulé',
       'To: (%s) replaced with database email!' => 'Le champ \'À:\' (%s) a été remplacé avec la valeur de la base de données des des adresses de courriel !',
       'top' => 'haut',
@@ -200,7 +200,7 @@ sub Data {
       'update' => 'mettre à jour',
       'Update' => 'Mettre à jour',
       'update!' => 'mettre à jour !',
-      'Upload' => '',
+      'Upload' => 'Uploader',
       'User' => 'Utilisateur',
       'Username' => 'Nom d\'utilisateur',
       'Valid' => 'Valide',
@@ -254,9 +254,9 @@ sub Data {
       'Select your QueueView refresh time.' => 'Choix du délai de rafraîchissement de la vue des files',
       'Select your screen after creating a new ticket.' => 'Sélectionnez l\'écran qui sera affiché après avoir créé un nouveau ticket.',
       'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Me prévenir si un client envoie un suivi (follow-up) et que je suis le propriétaire du ticket.',
-      'Send me a notification if a ticket is moved into one of "My Queues".' => '',
+      'Send me a notification if a ticket is moved into one of "My Queues".' => 'Me prévenir si un ticket est déplacé dans une de "Mes files".',
       'Send me a notification if a ticket is unlocked by the system.' => 'Me prévenir si un ticket est dévérouillé par le système',
-      'Send me a notification if there is a new ticket in "My Queues".' => '',
+      'Send me a notification if there is a new ticket in "My Queues".' => 'Me prévenir si il y a un nouveau ticket dans une de "Mes files".',
       'Show closed tickets.' => 'Voir les tickets fermés',
       'Spelling Dictionary' => 'Correcteur orthographique',
       'Ticket lock timeout notification' => 'Prévenir du dépassement du délai d\'un verrou',
@@ -360,14 +360,14 @@ sub Data {
     # Template: AdminCustomerUserForm
       'Customer User Management' => 'Gestion des clients utilisateurs',
       'Customer user will be needed to have an customer histor and to to login via customer panels.' => 'Les clients utilisateurs seront invités à se connecter par la page client.',
-      'Result' => '',
+      'Result' => 'Résultat',
       'Search' => 'Chercher',
-      'Search for' => '',
-      'Select Source (for add)' => '',
+      'Search for' => 'Chercher à',
+      'Select Source (for add)' => 'Sélectionnez une source (pour ajout)',
       'Source' => 'Source',
       'The message being composed has been closed.  Exiting.' => 'Le message en cours de rédaction a été clôturé. Sortie.',
-      'This values are read only.' => '',
-      'This values are required.' => '',
+      'This values are read only.' => 'Ces valeurs sont en lecture seule.',
+      'This values are required.' => 'Ces valeurs sont obligatoires.',
       'This window must be called from compose window' => 'Cette fenêtre doit être appelée de la fenêtre depuis la fenêtre de rédaction',
 
     # Template: AdminCustomerUserGroupChangeForm
@@ -398,7 +398,7 @@ sub Data {
       '(e. g. 10*5155 or 105658*)' => '(ex: 10*5155 or 105658*)',
       '(e. g. 234321)' => '(ex: 234321)',
       '(e. g. U5150)' => '(ex: U5150)',
-      '-' => '',
+      '-' => '-',
       'Add Note' => 'Ajouter une note',
       'Agent' => 'Technicien',
       'and' => 'et le',
@@ -406,36 +406,36 @@ sub Data {
       'Customer User Login' => 'Nom de connexion du client',
       'CustomerID' => 'Numéro de client',
       'CustomerUser' => '',
-      'Days' => '',
+      'Days' => 'Jours',
       'Delete' => 'Effacer',
-      'Delete tickets' => '',
+      'Delete tickets' => 'Effacer les tickets',
       'Edit' => 'Éditer',
       'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Recherche sur le texte d\'un article (ex: "Mar*in" or "Baue*")',
       'GenericAgent' => '',
-      'Hours' => '',
+      'Hours' => 'Heures',
       'Job-List' => '',
       'Jobs' => '',
       'Last run' => '',
-      'Minutes' => '',
+      'Minutes' => 'Minutes',
       'Modules' => '',
-      'New Agent' => '',
-      'New Customer' => '',
+      'New Agent' => 'Nouvel Agent',
+      'New Customer' => 'Nouveau Client',
       'New Owner' => 'Nouveau Propriétaire',
-      'New Priority' => '',
+      'New Priority' => 'Nouvelle Priorité',
       'New Queue' => 'Nouvelle File',
-      'New State' => '',
-      'New Ticket Lock' => '',
+      'New State' => 'Nouvel État',
+      'New Ticket Lock' => 'Nouveau Verrou',
       'No time settings.' => 'Pas de paramètre de temps',
-      'Param 1' => '',
-      'Param 2' => '',
-      'Param 3' => '',
-      'Param 4' => '',
-      'Param 5' => '',
-      'Param 6' => '',
-      'Save' => '',
+      'Param 1' => 'Paramètre 1',
+      'Param 2' => 'Paramètre 2',
+      'Param 3' => 'Paramètre 3',
+      'Param 4' => 'Paramètre 4',
+      'Param 5' => 'Paramètre 5',
+      'Param 6' => 'Paramètre 6',
+      'Save' => 'Sauver',
       'Save Job as?' => '',
       'Schedule' => '',
-      'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => '',
+      'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => 'Cette commande sera exécuté. ARG[0] sera le numéro du ticket et ARG[1] son identifiant.',
       'Ticket created' => 'Ticket créé',
       'Ticket created between' => 'Ticket créé entre le',
       'Ticket Lock' => 'Ticket vérouillé',
@@ -451,7 +451,7 @@ sub Data {
 
     # Template: AdminLog
       'System Log' => 'Journaux du Système',
-      'Time' => '',
+      'Time' => 'Date et heure',
 
     # Template: AdminNavigationBar
       'AdminEmail' => 'Courriel de l\'administrateur.',
@@ -465,7 +465,7 @@ sub Data {
       'Logout' => 'Déconnexion',
       'Misc' => 'Divers',
       'Notifications' => 'Notifications',
-      'PGP Keys' => '',
+      'PGP Keys' => 'Clés PGP',
       'PostMaster Filter' => 'Filtre PostMaster',
       'PostMaster POP3 Account' => 'Compte POP3 PostMaster',
       'Responses' => 'Réponses',
@@ -476,7 +476,7 @@ sub Data {
       'Roles' => '',
       'Select Box' => 'Requête SQL libre.',
       'Session Management' => 'Gestion des sessions',
-      'SMIME Certificates' => '',
+      'SMIME Certificates' => 'Certificats SMIME',
       'Status' => 'État',
       'System' => 'Système',
       'User <-> Groups' => 'Utilisateur <-> Groupes',
@@ -491,14 +491,14 @@ sub Data {
 
     # Template: AdminPGPForm
       'Bit' => '',
-      'Expires' => '',
-      'File' => '',
-      'Fingerprint' => '',
-      'FIXME: WHAT IS PGP?' => '',
-      'Identifier' => '',
-      'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
-      'Key' => 'Clef',
-      'PGP Key Management' => '',
+      'Expires' => 'Expiration',
+      'File' => 'Fichier',
+      'Fingerprint' => 'Empreinte',
+      'FIXME: WHAT IS PGP?' => 'FIXEZ MOI: Qu\'est ce que PGP',
+      'Identifier' => 'Identifier',
+      'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Dans ce cas vous pouvez directement éditer le trousseau de clé dans Kernel/Config.pm',
+      'Key' => 'Clé',
+      'PGP Key Management' => 'Gestion de Clé PGP',
 
     # Template: AdminPOP3Form
       'All incoming emails with one account will be dispatched in the selected queue!' => 'Tous les courriels entrants avec un compte seront répartis dans la file sélectionnée !',
@@ -509,7 +509,7 @@ sub Data {
       'Trusted' => 'Vérifié',
 
     # Template: AdminPostMasterFilter
-      'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' => '',
+      'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' => 'dispatcher ou filtrer les courriels entrant basé sur les en-têtes (X-*)! L\'utilisationd\'expression régulière est aussi possible.',
       'Filtername' => 'Nom du filtre',
       'Header' => 'En-tête',
       'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' => '',
@@ -564,7 +564,7 @@ sub Data {
       'Next state' => 'État suivant',
       'Response Management' => 'Gestion des réponses',
       'The current ticket state is' => 'L\'état actuel du ticket est',
-      'Your email address is new' => '',
+      'Your email address is new' => 'Votre adresse électronique est nouvelle',
 
     # Template: AdminRoleForm
       'Create a role and put groups in it. Then add the role to the users.' => '',
@@ -713,7 +713,7 @@ sub Data {
 
     # Template: AgentEmailNew
       'All Agents' => 'Tous les techniciens',
-      'Clear To' => '',
+      'Clear To' => 'Effacer la zone de saisie "De:"',
       'Compose Email' => 'Écrire un courriel',
       'new ticket' => 'nouveau ticket',
 
@@ -737,7 +737,7 @@ sub Data {
       'Info' => 'Information',
 
     # Template: AgentLookup
-      'Lookup' => '',
+      'Lookup' => 'Consulter',
 
     # Template: AgentMailboxNavBar
       'All messages' => 'Tous les messages',
@@ -758,13 +758,13 @@ sub Data {
     # Template: AgentMailboxTicket
       '"}' => '"}',
       '"}","14' => '"}","14',
-      'Add a note to this ticket!' => '',
-      'Change the ticket customer!' => '',
-      'Change the ticket owner!' => '',
-      'Change the ticket priority!' => '',
-      'Close this ticket!' => '',
-      'Shows the detail view of this ticket!' => '',
-      'Unlock this ticket!' => '',
+      'Add a note to this ticket!' => 'Ajouter une note au ticket!',
+      'Change the ticket customer!' => 'Changer le client du ticket!',
+      'Change the ticket owner!' => 'Changer le propriétaire du ticket!',
+      'Change the ticket priority!' => 'Changer la priorité du ticket!',
+      'Close this ticket!' => 'Fermer ce ticket!',
+      'Shows the detail view of this ticket!' => 'Voir la vue détaillé de ce ticket!',
+      'Unlock this ticket!' => 'Déverrouiller ce ticket!',
 
     # Template: AgentMove
       'Move Ticket' => 'Changer la file du ticket',
@@ -843,7 +843,7 @@ sub Data {
       'U' => 'Z-A',
 
     # Template: AgentTicketLink
-      'Delete Link' => '',
+      'Delete Link' => 'Effacer le lien',
       'Link' => 'Lien',
       'Link to' => 'Lien vers',
 
@@ -906,18 +906,18 @@ sub Data {
       'Change queue' => 'Changer de file',
 
     # Template: AgentZoomHead
-      'Change the ticket free fields!' => '',
+      'Change the ticket free fields!' => 'Changer les champs libres du ticket!',
       'Free Fields' => 'Champs libre',
-      'Link this ticket to an other one!' => '',
-      'Lock it to work on it!' => '',
+      'Link this ticket to an other one!' => 'Lier ce ticket à un autre!',
+      'Lock it to work on it!' => 'Vérouiller ce ticket pour travailler dessus!',
       'Print' => 'Imprimer',
-      'Print this ticket!' => '',
-      'Set this ticket to pending!' => '',
-      'Shows the ticket history!' => '',
+      'Print this ticket!' => 'Imprimer ce ticket!',
+      'Set this ticket to pending!' => 'Mettre ce ticket en attente!',
+      'Shows the ticket history!' => 'Voir l\'historique du ticket!',
 
     # Template: AgentZoomStatus
       '"}","18' => '"}","18',
-      'Locked' => '',
+      'Locked' => 'Vérrouillé',
       'SLA Age' => '',
 
     # Template: Copyright
