@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentBounce.pm - to bounce articles of tickets 
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentBounce.pm,v 1.20 2003-03-10 15:20:44 martin Exp $
+# $Id: AgentBounce.pm,v 1.21 2003-03-13 23:20:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,10 +13,12 @@ package Kernel::Modules::AgentBounce;
 
 use strict;
 use Kernel::System::State;
+use Kernel::System::SystemAddress;
 use Kernel::System::CustomerUser;
+use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -38,6 +40,7 @@ sub new {
     # needed objects
     $Self->{StateObject} = Kernel::System::State->new(%Param);
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
+    $Self->{SystemAddress} = Kernel::System::SystemAddress->new(%Param);
 
     $Self->{ArticleID} = $Self->{ParamObject}->GetParam(Param => 'ArticleID') || '';
 
@@ -226,16 +229,38 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Footer();
     }
     elsif ($Self->{Subaction} eq 'Store') {
+        # --
+        # get params
+        # --
         foreach (qw(BounceTo To Subject Body InformSender BounceStateID)) {
             $Param{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
         }
+        # --
+        # check forward email address
+        # --
+        foreach my $Email (Mail::Address->parse($Param{BounceTo})) {
+            my $Address = $Email->address();
+            if ($Self->{SystemAddress}->SystemAddressIsLocalAddress(Address => $Address)) {
+                # --
+                # error page
+                # -- 
+                $Output = $Self->{LayoutObject}->Header(Title => 'Error');
+                $Output .= $Self->{LayoutObject}->Error(
+                    Message => "Can't forward ticket to $Address! It's a local ".
+                      "address! You need to move it!",
+                    Comment => 'Please contact the admin.',
+                );
+                $Output .= $Self->{LayoutObject}->Footer();
+                return $Output;
+            }
+        }
+
         # --
         # prepare from ...
         # --
         my %Address = $QueueObject->GetSystemAddress();
         $Param{From} = "$Address{RealName} <$Address{Email}>";
         $Param{Email} = $Address{Email};
-
         $Param{EmailPlain} = $Self->{TicketObject}->GetArticlePlain(ArticleID => $Self->{ArticleID});
         if (!$Self->{TicketObject}->BounceArticle(
             EmailPlain => $Param{EmailPlain},

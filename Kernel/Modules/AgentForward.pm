@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentForward.pm - to forward a message
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentForward.pm,v 1.19 2003-03-11 18:34:34 martin Exp $
+# $Id: AgentForward.pm,v 1.20 2003-03-13 23:20:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,9 +13,11 @@ package Kernel::Modules::AgentForward;
 
 use strict;
 use Kernel::System::State;
+use Kernel::System::SystemAddress;
+use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -36,6 +38,7 @@ sub new {
     }
     # needed objects
     $Self->{StateObject} = Kernel::System::State->new(%Param);
+    $Self->{SystemAddress} = Kernel::System::SystemAddress->new(%Param);
     # get params
     $Self->{From} = $Self->{ParamObject}->GetParam(Param => 'From') || '';
     $Self->{To} = $Self->{ParamObject}->GetParam(Param => 'To') || '';
@@ -95,15 +98,12 @@ sub Form {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-    my $TicketID = $Self->{TicketID};
-    my $UserID = $Self->{UserID};
-    my $UserLogin = $Self->{UserLogin};
  
     # start with page ...
     $Output .= $Self->{LayoutObject}->Header();
  
-    my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $TicketID);
-    my $QueueID = $Self->{TicketObject}->GetQueueIDOfTicketID(TicketID => $TicketID);
+    my $Tn = $Self->{TicketObject}->GetTNOfId(ID => $Self->{TicketID});
+    my $QueueID = $Self->{TicketObject}->GetQueueIDOfTicketID(TicketID => $Self->{TicketID});
     my $QueueObject = Kernel::System::Queue->new(
         QueueID => $QueueID,
         DBObject => $Self->{DBObject},
@@ -112,29 +112,29 @@ sub Form {
     );
 
     # get lock state && permissions
-    if (!$Self->{TicketObject}->IsTicketLocked(TicketID => $TicketID)) {
+    if (!$Self->{TicketObject}->IsTicketLocked(TicketID => $Self->{TicketID})) {
         # set owner
         $Self->{TicketObject}->SetOwner(
-            TicketID => $TicketID,
-            UserID => $UserID,
-            NewUserID => $UserID,
+            TicketID => $Self->{TicketID},
+            UserID => $Self->{UserID},
+            NewUserID => $Self->{UserID},
         );
         # set lock
         if ($Self->{TicketObject}->SetLock(
-            TicketID => $TicketID,
+            TicketID => $Self->{TicketID},
             Lock => 'lock',
-            UserID => $UserID
+            UserID => $Self->{UserID},
         )) {
             # show lock state
-            $Output .= $Self->{LayoutObject}->TicketLocked(TicketID => $TicketID);
+            $Output .= $Self->{LayoutObject}->TicketLocked(TicketID => $Self->{TicketID});
         }
     }
     else {
         my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->CheckOwner(
-            TicketID => $TicketID,
+            TicketID => $Self->{TicketID},
         );
         
-        if ($OwnerID != $UserID) {
+        if ($OwnerID != $Self->{UserID}) {
             $Output .= $Self->{LayoutObject}->Error(
                 Message => "Sorry, the current owner is $OwnerLogin",
                 Comment => 'Please change the owner first.',
@@ -153,7 +153,7 @@ sub Form {
     }
     else {
         %Data = $Self->{TicketObject}->GetLastCustomerArticle(
-            TicketID => $TicketID,
+            TicketID => $Self->{TicketID},
         );
     }
 
@@ -202,7 +202,7 @@ sub Form {
         TicketNumber => $Tn,
         Salutation => $QueueObject->GetSalutation(),
         Signature => $Signature,
-        TicketID => $TicketID,
+        TicketID => $Self->{TicketID},
         QueueID => $QueueID,
         NextScreen => $Self->{NextScreen},
         NextStates => \%NextStates,
@@ -219,13 +219,29 @@ sub SendEmail {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-    my $QueueID = $Self->{QueueID};
-    my $TicketID = $Self->{TicketID};
-    my $NextScreen = $Self->{NextScreen} || '';
-    my $Charset = $Self->{UserCharset} || '';
     my $NextStateID = $Self->{NextStateID} || '??';
     my $NextState = $Self->{TicketObject}->StateIDLookup(StateID => $NextStateID);
-    my $UserID = $Self->{UserID};
+    # --
+    # check forward email address
+    # --
+    foreach (qw(To Cc)) {
+        foreach my $Email (Mail::Address->parse($Self->{$_})) {
+            my $Address = $Email->address();
+            if ($Self->{SystemAddress}->SystemAddressIsLocalAddress(Address => $Address)) {
+                # --
+                # error page
+                # --
+                $Output = $Self->{LayoutObject}->Header(Title => 'Error');
+                $Output .= $Self->{LayoutObject}->Error(
+                    Message => "Can't forward ticket to $Address! It's a local ".
+                      "address! You need to move it!",
+                    Comment => 'Please contact the admin.',
+                );
+                $Output .= $Self->{LayoutObject}->Footer();
+                return $Output;
+            }
+        }
+    }
     # --    
     # send email
     # --
@@ -235,11 +251,11 @@ sub SendEmail {
         Cc => $Self->{Cc},
         Subject => $Self->{Subject},
         Body => $Self->{Body},
-        TicketID => $TicketID,
+        TicketID => $Self->{TicketID},
         ArticleTypeID => $Self->{ArticleTypeID},
         SenderType => 'agent',
-        UserID => $UserID,
-        Charset => $Charset,
+        UserID => $Self->{UserID},
+        Charset => $Self->{Charset},
         InReplyTo => $Self->{InReplyTo},
         HistoryType => 'Forward',
         HistoryComment => "Forwarded to '$Self->{To}, $Self->{Cc}'",
@@ -249,20 +265,20 @@ sub SendEmail {
       # --
       if ($Self->{TimeUnits}) {
           $Self->{TicketObject}->AccountTime(
-            TicketID => $TicketID,
+            TicketID => $Self->{TicketID},
             ArticleID => $ArticleID,
             TimeUnit => $Self->{TimeUnits},
-            UserID => $UserID,
+            UserID => $Self->{UserID},
           );
       }
       # --
       # set state
       # --
       $Self->{TicketObject}->SetState(
-        TicketID => $TicketID,
+        TicketID => $Self->{TicketID},
         ArticleID => $ArticleID,
         State => $NextState,
-        UserID => $UserID,
+        UserID => $Self->{UserID},
       );
       # --
       # should i set an unlock?
@@ -270,16 +286,16 @@ sub SendEmail {
       my %StateData = $Self->{StateObject}->StateGet(ID => $NextStateID);
       if ($StateData{TypeName} =~ /^close/i) {
         $Self->{TicketObject}->SetLock(
-            TicketID => $TicketID,
+            TicketID => $Self->{TicketID},
             Lock => 'unlock',
-            UserID => $UserID,
+            UserID => $Self->{UserID},
         );
       }
       # --
       # redirect
       # --
       return $Self->{LayoutObject}->Redirect(
-        OP => "Action=$NextScreen&QueueID=$QueueID",
+        OP => "QueueID=$Self->{QueueID}",
       );
     }
     else {
