@@ -1,8 +1,8 @@
 # --
 # Error.dtl - provides HTML Error screen
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Error.dtl,v 1.13 2004-09-27 13:30:13 martin Exp $
+# $Id: Error.dtl,v 1.14 2004-10-14 15:20:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -29,7 +29,16 @@
             <td class="mainkey">$Text{"Bug Report"}:</td>
             <td class="mainvalue">
               <form action="http://bugs.otrs.org/enter_bug.cgi">
-              <input type="hidden" name="comment" value="$Data{"BackendTraceback"}">
+              <input type="hidden" name="comment" value="
+Message:
+$Data{"Message"}
+
+Comment:
+$Data{"Comment"}
+
+Traceback:
+$Data{"BackendTraceback"}
+">
               <input type="hidden" name="bug_file_loc" value="$Env{"SERVER_NAME"}$Env{"REQUEST_URI"}">
               <input class="button" type="submit" value="$Text{"Click here to report a bug!"}">
               </form>
