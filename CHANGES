@@ -2,14 +2,32 @@
 # Changes of OTRS 
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.109 2004-02-09 23:55:26 martin Exp $
+# $Id: CHANGES,v 1.110 2004-02-16 03:10:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+1.2.1 (2004-02-14)
+
+ - (2004/02/14) fixed escalation bug 290 - 
+    http://bugs.otrs.org/show_bug.cgi?id=290
+ - (2004/02/14) updated spanish translation. Thanks to Jorge Becerra!
+ - (2004/02/14) updated czech translation. Thanks to Petr Ocasek
+    (BENETA.cz, s.r.o.)!
+ - (2004/02/14) added Norwegian language translation (bokmål)
+    Thanks to Arne Georg Gleditsch!
+ - (2004/02/12) fixed security bugs ins SQL quote()
+ - (2004/02/12) fixed bin/PendingJobs.pl bug (Need User)
+ - (2004/02/10) fixed CustomerUserAdd, added Source default map if 
+    no Source name is given
+ - (2004/02/10) fixed missing translation in agent and customer 
+    preferences option selections.
+
 1.2.0 beta3 (2004-02-09)
 
+ - (2004/02/09) fixed bug 249 Editing system e-mail addresses with 
+    quotations in name field - http://bugs.otrs.org/show_bug.cgi?id=249
  - (2004/02/09) added contact customer (create ticket) feature 
  - (2004/02/08) added multi customer map/source support
  - (2004/02/08) added GenericAgent module support
