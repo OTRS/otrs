@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/NotificationAgentTicket.pm
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NotificationAgentTicket.pm,v 1.2 2004-09-17 18:47:17 martin Exp $
+# $Id: NotificationAgentTicket.pm,v 1.3 2005-02-17 07:09:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::NotificationAgentTicket;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -43,13 +43,13 @@ sub Run {
 
     if ($LockedData{New}) {
         $Output .= $Self->{LayoutObject}->Notify(
-          Info => '<a href="$Env{"Baselink"}Action=AgentMailbox&Subaction=New">'.
+          Info => '<a href="$Env{"Baselink"}Action=AgentTicketMailbox&Subaction=New">'.
             $Self->{LayoutObject}->{LanguageObject}->Get('You have %s new message(s)!", "'.$LockedData{New}).'</a>'
         );
     }
     if ($LockedData{Reminder}) {
         $Output .= $Self->{LayoutObject}->Notify(
-          Info => '<a href="$Env{"Baselink"}Action=AgentMailbox&Subaction=Reminder">'.
+          Info => '<a href="$Env{"Baselink"}Action=AgentTicketMailbox&Subaction=Reminder">'.
            $Self->{LayoutObject}->{LanguageObject}->Get('You have %s reminder ticket(s)!", "'.$LockedData{Reminder}).'</a>',
         );
     }
