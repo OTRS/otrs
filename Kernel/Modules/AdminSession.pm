@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSession.pm - to control all session ids
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSession.pm,v 1.12 2003-05-29 10:33:06 martin Exp $
+# $Id: AdminSession.pm,v 1.13 2003-07-08 00:01:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminSession;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -79,14 +79,45 @@ sub Run {
                 $MetaData{"$Data{UserType}SessionUniq"}++;
                 $MetaData{"$Data{UserLogin}"} = 1;
             }
-            $Table .= $Self->{LayoutObject}->AdminSessionTable(SessionID => $SessionID, %Data);
+            $Table .= $Self->MaskSessionTable(SessionID => $SessionID, %Data);
         }
-        $Output .= $Self->{LayoutObject}->AdminSession(Counter => $Counter, %MetaData);
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminSession', 
+            Data => {
+                Counter => $Counter, 
+                %MetaData
+            }
+        );
         $Output .= $Table;
         $Output .= $Self->{LayoutObject}->Footer();
     }
     return $Output;
 }
 # --
+sub MaskSessionTable {
+    my $Self = shift;
+    my %Param = @_;
+    my $Output = '';
 
+    foreach (sort keys %Param) {
+      if (($_) && (defined($Param{$_})) && $_ ne 'SessionID') {
+        if ($_  eq 'UserSessionStart') {
+          my $Age = int((time() - $Param{UserSessionStart}) / 3600);
+          $Param{UserSessionStart} = scalar localtime ($Param{UserSessionStart});
+          $Output .= "[ " . $_ . " = $Param{$_} / $Age h ] <BR>\n";
+        }
+        else {
+          $Output .= "[ " . $_ . " = $Param{$_} ] <BR>\n";
+        }
+      }
+    }
+
+    $Param{Output} = $Output;
+    # create & return output
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'AdminSessionTable', 
+        Data => \%Param,
+    );
+}
+# --
 1;

@@ -2,7 +2,7 @@
 # HTML/Admin.pm - provides generic admin HTML output
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Admin.pm,v 1.42 2003-07-07 18:50:59 martin Exp $
+# $Id: Admin.pm,v 1.43 2003-07-08 00:01:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Admin;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -24,40 +24,6 @@ sub AdminNavigationBar {
 
     # create & return output
     return $Self->Output(TemplateFile => 'AdminNavigationBar', Data => \%Param);
-}
-# --
-sub AdminSession {
-    my $Self = shift;
-    my %Param = @_;
-
-    # create & return output
-    return $Self->Output(TemplateFile => 'AdminSession', Data => \%Param);
-}
-# --
-sub AdminLog {
-    my $Self = shift;
-    my %Param = @_;
-    # create table
-    $Param{LogTable} = '<table border="0" width="100%">';
-    $Param{LogTable} .= '<tr><th width="20%">$Text{"Time"}</th><th>$Text{"Priority"}</th><th>$Text{"Facility"}</th><th width="55%">$Text{"Message"}</th></tr>';
-    my @Lines = split(/\n/, $Param{Log});
-    foreach (@Lines) {
-        my @Row = split(/;;/, $_);
-        if ($Row[5]) {
-            $Row[2] = $Self->Ascii2Html(Text => $Row[2], Max => 20);
-            $Row[3] = $Self->Ascii2Html(Text => $Row[3], Max => 25);
-            $Row[5] = $Self->Ascii2Html(Text => $Row[5], Max => 500);
-            if ($Row[1] =~ /error/) {
-                $Param{LogTable} .= "<tr><td><font color='red'>$Row[0]</font></td><td align='center'><font color='red'>$Row[1]</font></td><td><font color='red'>$Row[2]</font></td><td><font color='red'>$Row[5]</font></td></tr>"; 
-            }
-            else {
-                $Param{LogTable} .= "<tr><td>$Row[0]</td><td align='center'>$Row[1]</td><td>$Row[2]</td><td>$Row[5]</td></tr>"; 
-            }
-        }
-    }
-    $Param{LogTable} .= '</table>';
-    # create & return output
-    return $Self->Output(TemplateFile => 'AdminLog', Data => \%Param);
 }
 # --
 sub AdminEmail {
@@ -88,58 +54,6 @@ sub AdminEmailSent {
 
     # create & return output
     return $Self->Output(TemplateFile => 'AdminEmailSent', Data => \%Param);
-}
-# --
-sub AdminSessionTable {
-    my $Self = shift;
-    my %Param = @_;
-    my $Output = '';
-
-    foreach (sort keys %Param) {
-      if (($_) && (defined($Param{$_})) && $_ ne 'SessionID') {
-        if ($_  eq 'UserSessionStart') {
-          my $Age = int((time() - $Param{UserSessionStart}) / 3600);
-          $Param{UserSessionStart} = scalar localtime ($Param{UserSessionStart});
-          $Output .= "[ " . $_ . " = $Param{$_} / $Age h ] <BR>\n";
-        }
-        else {
-          $Output .= "[ " . $_ . " = $Param{$_} ] <BR>\n";
-        }
-      }
-    }
-
-    $Param{Output} = $Output;
-    # create & return output
-    return $Self->Output(TemplateFile => 'AdminSessionTable', Data => \%Param);
-}
-# --
-sub AdminSelectBoxForm {
-    my $Self = shift;
-    my %Param = @_;
-
-    return $Self->Output(TemplateFile => 'AdminSelectBoxForm', Data => \%Param);
-} 
-# --
-sub AdminSelectBoxResult {
-    my $Self = shift;
-    my %Param = @_;
-    my $DataTmp = $Param{Data};
-    my @Datas = @$DataTmp;
-    my $Output = '';
-    foreach my $Data ( @Datas ) {
-        $Output .= '<table cellspacing="0" cellpadding="3" border="0">';
-        foreach (sort keys %$Data) {
-            $$Data{$_} = $Self->Ascii2Html(Text => $$Data{$_}, Max => 200);
-            $$Data{$_} = '<i>undef</i>' if (! defined $$Data{$_});
-            $Output .= "<tr><td>$_:</td><td> = </td><td>$$Data{$_}</td></tr>\n";
-        }
-        $Output .= '</table>';
-        $Output .= '<hr>';
-   }
-
-    $Param{Result} = $Output;
-    # get output
-    return $Self->Output(TemplateFile => 'AdminSelectBoxResult', Data => \%Param);
 }
 # --
 sub AdminResponseForm {
