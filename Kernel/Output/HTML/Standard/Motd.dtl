@@ -1,0 +1,17 @@
+# --
+# Motd.dtl - provides HTML message of the day
+# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: Motd.dtl,v 1.1 2002-05-05 15:51:44 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# -- 
+
+<!--
+<p>
+Hi, this is the message of the day. You can edit this in Kernel/Output/HTML/Standard/Motd.dtl.
+</p>
+-->
+

@@ -2,7 +2,7 @@
 # HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.22 2002-04-30 00:17:39 martin Exp $
+# $Id: Generic.pm,v 1.23 2002-05-05 15:51:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::Output::HTML::System;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 @ISA = (
@@ -270,6 +270,9 @@ sub Test {
 sub Login {
     my $Self = shift;
     my %Param = @_;
+
+    # get message of the day
+    $Param{"Motd"} = $Self->Output(TemplateFile => 'Motd', Data => \%Param);
 
     # create & return output
     return $Self->Output(TemplateFile => 'Login', Data => \%Param);
