@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentForward.pm - to forward a message
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentForward.pm,v 1.15 2003-02-08 15:16:30 martin Exp $
+# $Id: AgentForward.pm,v 1.16 2003-02-17 21:59:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentForward;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -181,6 +181,8 @@ sub Form {
     my $Signature = $QueueObject->GetSignature();
     $Signature =~ s/<OTRS_FIRST_NAME>/$Self->{UserFirstname}/g;
     $Signature =~ s/<OTRS_LAST_NAME>/$Self->{UserLastname}/g;
+    $Signature =~ s/<OTRS_USER_ID>/$Self->{UserID}/g;
+    $Signature =~ s/<OTRS_USER_LOGIN>/$Self->{UserLogin}/g;
 
     # get next states
     my %NextStates;

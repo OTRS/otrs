@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCompose.pm - to compose and send a message
 # Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCompose.pm,v 1.35 2003-02-08 15:16:29 martin Exp $
+# $Id: AgentCompose.pm,v 1.36 2003-02-17 21:59:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -220,6 +220,8 @@ sub Form {
     $Data{Signature} = $QueueObject->GetSignature();
     $Data{Signature} =~ s/<OTRS_FIRST_NAME>/$Self->{UserFirstname}/g;
     $Data{Signature} =~ s/<OTRS_LAST_NAME>/$Self->{UserLastname}/g;
+    $Data{Signature} =~ s/<OTRS_USER_ID>/$Self->{UserID}/g;
+    $Data{Signature} =~ s/<OTRS_USER_LOGIN>/$Self->{UserLogin}/g;
     # --
     # check some values
     # --
