@@ -1,8 +1,8 @@
 # --
-# German.pm - provides german languag translation
+# Kernel/Language/German.pm - provides german languag translation
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: German.pm,v 1.22 2002-06-15 10:34:02 martin Exp $
+# $Id: German.pm,v 1.23 2002-07-18 23:30:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::German;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -63,12 +63,14 @@ sub Data {
     $Self->{Action} = 'Aktion';
     $Self->{Attachment} = 'Anlage';
     $Self->{User} = 'Benutzer';
+    $Self->{Username} = 'Benutzername';
+    $Self->{Password} = 'Passwort';
     $Self->{Back} = 'zurück';
     $Self->{store} = 'speichern';
     $Self->{phone} = 'Telefon';
     $Self->{Phone} = 'Telefon';
-    $Self->{email} = 'Email';
-    $Self->{Email} = 'Email';
+    $Self->{email} = 'eMail';
+    $Self->{Email} = 'eMail';
     $Self->{'Language'} = 'Sprache';
     $Self->{'Languages'} = 'Sprachen';
     $Self->{'Salutation'} = 'Anrede';
@@ -88,6 +90,7 @@ sub Data {
     $Self->{'Contact customer'} = 'Kunden kontaktieren';
     $Self->{'Change queue'} = 'Wechsle Queue';
     $Self->{'go!'} = 'start!';
+    $Self->{'go'} = 'start';
     $Self->{'all'} = 'alle';
     $Self->{'All'} = 'All';
     $Self->{'Sorry'} = 'Bedauere';
@@ -100,10 +103,12 @@ sub Data {
     $Self->{'On'} = 'Ein';
     $Self->{'on'} = 'ein';
     $Self->{'update!'} = 'aktualisieren!';
+    $Self->{'update'} = 'aktualisieren';
     $Self->{'submit!'} = 'übermitteln!';
     $Self->{'change!'} = 'ändern!';
     $Self->{'change'} = 'ändern';
     $Self->{'Change'} = 'Ändern';
+    $Self->{'click here'} = 'klick hier';
     $Self->{'settings'} = 'Einstellungen';
     $Self->{'Settings'} = 'Einstellungen';
     $Self->{'Comment'} = 'Kommentar';
@@ -154,6 +159,11 @@ sub Data {
     $Self->{'Russian'} = 'Russisch';
     $Self->{'Swedish'} = 'Schwedisch';
     $Self->{'Lite'} = 'Einfach';
+    $Self->{'This message was written in a character set other than your own.'} = 
+     'Diese Nachricht wurde in einem Zeichensatz erstellt, der nicht Ihrem eigenen entspricht.';
+    $Self->{'If it is not displayed correctly,'} = 'Wenn sie nicht korrekt angezeigt wird,';
+    $Self->{'This is a'} = 'Dies ist eine';
+    $Self->{'to open it in a new window.'} = 'um sie in einem neuen Fenster angezeigt zu bekommen';
     # --
     # admin interface
     # --
@@ -303,11 +313,16 @@ sub Data {
     # util
     $Self->{'Hit'} = 'Treffer';
     $Self->{'Total hits'} = 'Treffer gesamt';
+    $Self->{'search'} = 'Suchen';
     $Self->{'Search again'} = 'Nochmal suchen';
     $Self->{'max viewable hits'} = 'max. Treffer sichtbar';
     $Self->{'Utilities/Search'} = 'Werkzeug/Suche';
-    $Self->{'Ticket# search (e. g. 10*5155 or 105658*)'} = 'Ticket# Suche (z. B. 10*5155 or 105658*)';
+    $Self->{'search (e. g. 10*5155 or 105658*)'} = 'Suche (z. B. 10*5155 or 105658*)';
     $Self->{'Fulltext search (e. g. "Mar*in" or "Baue*" or "martin+hallo")'} = 'Volltextsuche (z. B. "Mar*in" oder "Baue*" oder "martin+hallo")';
+    $Self->{'Customer history search'} = 'Kunden-History-Suche';
+    $Self->{'No * possible!'} = 'Kein * möglich!';
+    $Self->{'Fulltext search'} = 'Volltext-Suche';
+    $Self->{'Customer history search (e. g. "ID342425").'} = 'Kunden History Suche (z. B. "ID342425").';
     # compose
     $Self->{'Compose message'} = 'Nachricht verfassen';
     $Self->{'please do not edit!'} = 'Bitte nicht verändern!';
@@ -347,8 +362,8 @@ sub Data {
     # change priority
     $Self->{'Change priority of ticket'} = 'Priorität ändern für Ticket';
     # some other words ...
-    $Self->{AddLink} = 'Link hinzufügen';
-#    $Self->{} = '';
+    $Self->{'AddLink'} = 'Link hinzufügen';
+    $Self->{'Logout successful. Thank you for using OpenTRS!'} = 'Abmelden erfolgreich! Danke für die Benutzung von OpenTRS!';
 #    $Self->{} = '';
 #    $Self->{} = '';
 
@@ -360,6 +375,7 @@ sub Data {
 
     # phone view
     $Self->{'Phone call'} = 'Anruf';
+    $Self->{'phone call'} = 'Anrufen';
     $Self->{'Phone call at'} = 'Anruf um';
 
     # states
