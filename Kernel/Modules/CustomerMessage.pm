@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerMessage.pm - to handle customer messages
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessage.pm,v 1.5 2003-01-03 16:17:30 martin Exp $
+# $Id: CustomerMessage.pm,v 1.6 2003-01-29 18:51:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -207,6 +207,12 @@ sub Run {
       }
     }
     elsif ($Subaction eq 'StoreNew') {
+        my $Dest = $Self->{ParamObject}->GetParam(Param => 'Dest') || '';
+        my ($NewQueueID, $To) = split(/\|\|/, $Dest);
+        if (!$To) {
+          $NewQueueID = $Self->{ParamObject}->GetParam(Param => 'NewQueueID') || '';
+          $To = 'System';
+        }
         my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject') || 'New!';
         my $Text = $Self->{ParamObject}->GetParam(Param => 'Note');
         my $PriorityID = $Self->{ParamObject}->GetParam(Param => 'PriorityID');
@@ -218,7 +224,6 @@ sub Run {
         if (!$PriorityID) {
             $Priority = 'normal';
         }
-        my $NewQueueID = $Self->{ParamObject}->GetParam(Param => 'NewQueueID') || '';
         my $From = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>"; 
         # create new ticket
         my $NewTn = $Self->{TicketObject}->CreateTicketNr();
@@ -242,7 +247,7 @@ sub Run {
             ArticleType => $Self->{ConfigObject}->Get('CustomerPanelNewArticleType'),
             SenderType => $Self->{ConfigObject}->Get('CustomerPanelNewSenderType'),
             From => $From,
-            To => 'System', 
+            To => $To,
             Subject => $Subject,
             Body => $Text,
             ContentType => "text/plain; charset=$Self->{'UserCharset'}",

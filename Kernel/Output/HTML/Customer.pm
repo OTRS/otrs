@@ -2,7 +2,7 @@
 # HTML/Customer.pm - provides generic customer HTML output
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Customer.pm,v 1.8 2003-01-03 00:21:25 martin Exp $
+# $Id: Customer.pm,v 1.9 2003-01-29 18:51:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Customer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -126,11 +126,14 @@ sub CustomerStatusViewTable {
     my %Param = @_;
     $Param{Age} = $Self->CustomerAge(Age => $Param{Age}, Space => ' ') || 0;
     # do html quoteing
-    foreach (qw(State Queue Owner Lock)) {
-        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 16);
+    foreach (qw(State Priority Lock)) {
+        $Param{$_} = $Self->{LanguageObject}->Get($Param{$_});
+    }
+    foreach (qw(State Queue Owner Lock CustomerID)) {
+        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 12);
     }
     foreach (qw(Subject)) {
-        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 30);
+        $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 25);
     }
     # create & return output
     return $Self->Output(TemplateFile => 'CustomerStatusViewTable', Data => \%Param);
@@ -161,10 +164,12 @@ sub CustomerError {
 sub CustomerTicketZoom {
     my $Self = shift;
     my %Param = @_;
-
     # --
     # do some html quoting
     # --
+    foreach (qw(State Priority Lock)) {
+        $Param{$_} = $Self->{LanguageObject}->Get($Param{$_});
+    }
     foreach (qw(Priority State Owner CustomerID)) {
         $Param{$_} = $Self->Ascii2Html(Text => $Param{$_}, Max => 16) || '';
     }
@@ -348,9 +353,15 @@ sub CustomerMessageNew {
     my $Self = shift;
     my %Param = @_;
     # build to string
+    my %NewTo = ();
+    if ($Param{To}) {
+        foreach (keys %{$Param{To}}) {
+             $NewTo{"$_||$Param{To}->{$_}"} = $Param{To}->{$_};
+        }
+    }
     $Param{'ToStrg'} = $Self->OptionStrgHashRef(
-        Data => $Param{To},
-        Name => 'NewQueueID',
+        Data => \%NewTo,
+        Name => 'Dest',
     );
     # build priority string
     $Param{'PriorityStrg'} = $Self->OptionStrgHashRef(
@@ -442,4 +453,3 @@ sub CustomerWarning {
 # --
 
 1;
- 
