@@ -2,7 +2,7 @@
 # AgentQueueView.pm - the queue view of all tickets
 # Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentQueueView.pm,v 1.13 2002-06-17 07:46:33 martin Exp $
+# $Id: AgentQueueView.pm,v 1.14 2002-06-22 22:13:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentQueueView;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -124,7 +124,7 @@ sub Run {
     # --
     # build queue view ...
     # --
-    my @ViewableQueueIDs;
+    my @ViewableQueueIDs = ();
     if ($QueueID == 0) {
         @ViewableQueueIDs = $Self->{QueueObject}->GetAllCustomQueues(
             UserID => $Self->{UserID}
@@ -145,31 +145,33 @@ sub Run {
     # get data (viewable tickets...)
     # --
     my @ViewableTickets = ();
-    my @ViewableLocks = @{$Self->{ViewableLocks}};
-    my @ViewableStats = @{$Self->{ViewableStats}};
-    my $SQL = "SELECT st.id, st.queue_id FROM " .
-    " ticket st, ticket_state tsd, ticket_lock_type slt " .
-    " WHERE " .
-    " tsd.id = st.ticket_state_id " .
-    " AND " .
-    " slt.id = st.ticket_lock_id " .
-    " AND " .
-    " tsd.name in ( ${\(join ', ', @ViewableStats)} ) " .
-    " AND " .
-    " st.queue_id in ( ${\(join ', ', @ViewableQueueIDs)} ) " .
-    " AND ".
-    " slt.name in ( ${\(join ', ', @ViewableLocks)} ) " .
-    " ORDER BY st.ticket_priority_id DESC, st.create_time_unix ASC ";
+    if (@ViewableQueueIDs) {
+        my @ViewableLocks = @{$Self->{ViewableLocks}};
+        my @ViewableStats = @{$Self->{ViewableStats}};
+        my $SQL = "SELECT st.id, st.queue_id FROM " .
+          " ticket st, ticket_state tsd, ticket_lock_type slt " .
+          " WHERE " .
+          " tsd.id = st.ticket_state_id " .
+          " AND " .
+          " slt.id = st.ticket_lock_id " .
+          " AND " .
+          " tsd.name in ( ${\(join ', ', @ViewableStats)} ) " .
+          " AND " .
+          " st.queue_id in ( ${\(join ', ', @ViewableQueueIDs)} ) " .
+          " AND ".
+          " slt.name in ( ${\(join ', ', @ViewableLocks)} ) " .
+          " ORDER BY st.ticket_priority_id DESC, st.create_time_unix ASC ";
 
-    $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{Limit});
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        my $Data = {
-            TicketID => $RowTmp[0],
-            TicketQueueID => $RowTmp[1],
-        };
-        push (@ViewableTickets, $Data);
+          $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{Limit});
+          while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
+              my $Data = {
+                TicketID => $RowTmp[0],
+                TicketQueueID => $RowTmp[1],
+              };
+              push (@ViewableTickets, $Data);
+          }
     }
-
+  
     # --
     # show ticket's
     # --
