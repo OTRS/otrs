@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.40 2004-08-12 08:10:17 martin Exp $
+# $Id: DB.pm,v 1.41 2004-11-04 11:03:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use DBI;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.40 $';
+$VERSION = '$Revision: 1.41 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -63,7 +63,6 @@ create database object with database connect
 
 =cut
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -300,7 +299,6 @@ sub Quote {
     }
     return $Text;
 }
-# --
 
 =item Error()
 
@@ -314,7 +312,6 @@ sub Error {
     my $Self = shift;
     return $DBI::errstr;
 }
-# --
 
 =item Do()
 
@@ -383,7 +380,6 @@ sub Do {
     }
     return 1;
 }
-# --
 
 =item Prepare()
 
@@ -443,7 +439,6 @@ sub Prepare {
     }
     return 1;
 }
-# --
 
 =item FetchrowArray()
 
@@ -493,7 +488,6 @@ sub FetchrowHashref {
     # return
     return $Self->{Curser}->fetchrow_hashref();
 }
-# --
 
 =item GetDatabaseFunction()
 
@@ -508,7 +502,6 @@ sub GetDatabaseFunction {
     my $What = shift;
     return $Self->{'DB::'.$What};
 }
-# --
 
 =item GetTableData()
 
@@ -595,7 +588,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.40 $ $Date: 2004-08-12 08:10:17 $
+$Revision: 1.41 $ $Date: 2004-11-04 11:03:31 $
 
 =cut
-
