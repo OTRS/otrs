@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2002-2004 Martin Edenhofer <martin at otrs.org>
 # --
-# $Id: de.pm,v 1.38 2004-02-10 00:18:37 martin Exp $
+# $Id: de.pm,v 1.39 2004-02-10 00:25:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.39 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -565,7 +565,7 @@ sub Data {
     # Template: AgentEmailNew
       'All Agents' => 'Alle Agents',
       'Clear From' => 'Von: löschen',
-      'Compose Email' => 'Email Erstellen',
+      'Compose Email' => 'Email-Erstellen',
       'Lock Ticket' => 'Ticket Sperren',
       'new ticket' => 'Neues Ticket',
 
