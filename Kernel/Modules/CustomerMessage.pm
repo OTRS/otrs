@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerMessage.pm - to handle customer messages
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerMessage.pm,v 1.31 2004-04-15 11:56:29 martin Exp $
+# $Id: CustomerMessage.pm,v 1.32 2004-04-20 09:32:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -104,10 +104,7 @@ sub Run {
                 }
             }
             # get priority
-            my %Priorities = $Self->{DBObject}->GetTableData(
-                What => 'id, name',
-                Table => 'ticket_priority',
-            );
+            my %Priorities = $Self->{TicketObject}->PriorityList(CustomerUserID => $Self->{UserID});
             my %TicketFreeText = $Self->{LayoutObject}->AgentFreeText();
             # html output
             $Output .= $Self->_MaskNew(
