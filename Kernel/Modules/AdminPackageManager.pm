@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPackageManager.pm,v 1.5 2004-12-02 12:36:04 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.6 2004-12-04 14:41:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Package;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -124,7 +124,7 @@ sub Run {
         }
         else {
             if ($Self->{PackageObject}->PackageInstall(String => $Package)) {
-                return $Self->{LayoutObject}->ErrorScreen(Message => 'Installed');
+                return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}");
             }
             else {
                 return $Self->{LayoutObject}->ErrorScreen();
@@ -147,12 +147,9 @@ sub Run {
         if (!$Package) {
             return $Self->{LayoutObject}->ErrorScreen(Message => 'No such package!');
         }
-        if (!$Package) {
-            return $Self->{LayoutObject}->ErrorScreen(Message => 'No such package!');
-        }
         else {
             if ($Self->{PackageObject}->PackageInstall(String => $Package)) {
-                return $Self->{LayoutObject}->ErrorScreen(Message => 'Installed');
+                return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}");
             }
             else {
                 return $Self->{LayoutObject}->ErrorScreen();
@@ -185,7 +182,7 @@ sub Run {
         }
         else {
             if ($Self->{PackageObject}->PackageUpgrade(String => $Package)) {
-                return $Self->{LayoutObject}->ErrorScreen(Message => 'Upgraded');
+                return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}");
             }
             else {
                 return $Self->{LayoutObject}->ErrorScreen();
@@ -208,7 +205,7 @@ sub Run {
         }
         else {
             if ($Self->{PackageObject}->PackageUninstall(String => $Package)) {
-                return $Self->{LayoutObject}->ErrorScreen(Message => 'Uninstalled');
+                return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}");
             }
             else {
                 return $Self->{LayoutObject}->ErrorScreen();
@@ -233,6 +230,33 @@ sub Run {
             else {
                 return $Self->{LayoutObject}->ErrorScreen();
             }
+        }
+    }
+    # ------------------------------------------------------------ #
+    # rebuild package
+    # ------------------------------------------------------------ #
+    elsif ($Self->{Subaction} eq 'RebuildPackage') {
+        my $Name = $Self->{ParamObject}->GetParam(Param => 'Name') || '';
+        my $Version = $Self->{ParamObject}->GetParam(Param => 'Version') || '';
+        my %Frontend = ();
+        my $Package = $Self->{PackageObject}->RepositoryGet(
+            Name => $Name,
+            Version => $Version,
+        );
+        if (!$Package) {
+            return $Self->{LayoutObject}->ErrorScreen(Message => 'No such package!');
+        }
+        else {
+            my %Structur = $Self->{PackageObject}->PackageParse(
+                String => $Package,
+            );
+            my $File = $Self->{PackageObject}->PackageBuild(%Structur);
+            return $Self->{LayoutObject}->Attachment(
+                Content => $File,
+                ContentType => 'plain/xml',
+                Filename => "$Name-$Version.opm",
+                Type => 'attachment',
+            );
         }
     }
     # ------------------------------------------------------------ #
