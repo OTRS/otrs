@@ -1,7 +1,7 @@
 # --
 # rcscript config settings for OTRS (http://otrs.org/)
 # --
-# $Id: suse-rcotrs-config,v 1.3 2003-01-03 22:36:39 martin Exp $
+# $Id: suse-rcotrs-config,v 1.4 2003-10-29 20:57:11 martin Exp $
 # --
 
 # 
@@ -63,6 +63,11 @@ OTRS_POSTMASTER=$OTRS_ROOT/bin/PostMaster.pl
 # location of CheckDB.pl 
 #
 OTRS_CHECKDB=$OTRS_ROOT/bin/CheckDB.pl
+
+#
+# location of CleanUp.pl
+#
+OTRS_CLEANUP=$OTRS_ROOT/bin/CleanUp.pl
 
 # 
 # location of OTRS spool dir

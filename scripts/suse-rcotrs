@@ -3,7 +3,7 @@
 # suse-rcotrs - rc script of otrs for SuSE Linux
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: suse-rcotrs,v 1.24 2003-01-10 23:17:16 martin Exp $
+# $Id: suse-rcotrs,v 1.25 2003-10-29 20:57:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -79,6 +79,13 @@ fi
 if ! test -r $OTRS_CHECKDB; then
     echo "Error: $OTRS_CHECKDB not found!"
     exit 5
+fi
+
+if test $OTRS_CLEANUP; then
+    if ! test -r $OTRS_CLEANUP; then
+        echo "Error: $OTRS_CLEANUP not found!"
+        exit 5
+    fi
 fi
  
 # reset status of this service
@@ -307,7 +314,16 @@ case "$1" in
       # stop normal
       # --
       $0 stop
-
+      # --
+      # clean up
+      # --
+      if test $OTRS_CLEANUP; then
+        if $OTRS_CLEANUP > /dev/null 2>&1 ; then
+          echo " Cleaning up session and log cache ... done."
+        else
+          echo " Cleaning up session and log cache ... failed."
+        fi
+      fi
       # --
       # stop force
       # --
