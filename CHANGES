@@ -2,7 +2,7 @@
 # Changes of OpenTRS 
 # Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.4 2002-05-27 07:27:34 martin Exp $
+# $Id: CHANGES,v 1.5 2002-05-27 23:03:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -11,11 +11,11 @@
 
 0.5 BETA5 (2002-05-27)
  - added ticket escalation - if a ticket is to old, only this ticket will be shown
-    till somebody is working in it
-     * added new row (ticket_answered) on ticket table
+    till somebody is working on it
+     * added new row (ticket_answered) to ticket table
      * updated Kernel/Output/HTML/<THEME>/AdminQueueForm.dtl
  - added auto ticket unlock for locked old not answered tickets
-     * added new row (ticket_answered) on ticket table
+     * added new row (ticket_answered) to ticket table
      * modified Kernel::System::Ticket::Lock::SetLock() 
      * added bin/UnlockTickets.pl with --timeout and --all options
  - added command line tool (bin/DeleteSessionIDs.pl) to delete expired or all session 
