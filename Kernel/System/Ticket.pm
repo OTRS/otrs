@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.66 2004-01-23 00:46:37 martin Exp $
+# $Id: Ticket.pm,v 1.67 2004-01-23 03:54:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.66 $';
+$VERSION = '$Revision: 1.67 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1097,6 +1097,9 @@ sub SearchTicket {
             if ($State{ID}) {
                 push (@{$Param{StateIDs}}, $State{ID}); 
             }
+            else {
+                return;
+            }
         }
     }
     if ($Param{StateIDs}) {
@@ -1108,6 +1111,9 @@ sub SearchTicket {
             if ($Self->LockLookup(Type => $_)) {
                 push (@{$Param{LockIDs}}, $Self->LockLookup(Type => $_)); 
             }
+            else {
+                return;
+            }
         }
     } 
     if ($Param{LockIDs}) {
@@ -1118,6 +1124,9 @@ sub SearchTicket {
         foreach (@{$Param{Queues}}) {
             if ($Self->{QueueObject}->QueueLookup(Queue => $_)) {
                 push (@{$Param{QueueIDs}}, $Self->{QueueObject}->QueueLookup(Queue => $_));
+            }
+            else {
+                return;
             }
         }
     }
@@ -1132,7 +1141,12 @@ sub SearchTicket {
             Type => $Param{Permission} || 'ro',
             Result => 'ID',
         );
-        $SQLExt .= " AND sq.group_id IN (${\(join ', ' , @GroupIDs)}) ";
+        if (@GroupIDs) {
+            $SQLExt .= " AND sq.group_id IN (${\(join ', ' , @GroupIDs)}) ";
+        }
+        else {
+            return;
+        }
     }
     # ticket number
     if ($Param{TicketNumber}) {
@@ -1196,6 +1210,7 @@ sub SearchTicket {
                 Priority => 'error',  
                 Message => "No valid time format '$Param{TicketCreateTimeOlderDate}'!",
             );
+            return;
         }
         else {
             $SQLExt .= " AND st.create_time <= '".$Self->{DBObject}->Quote($Param{TicketCreateTimeOlderDate})."'";
@@ -1208,6 +1223,7 @@ sub SearchTicket {
                 Priority => 'error',  
                 Message => "No valid time format '$Param{TicketCreateTimeNewerDate}'!",
             );
+            return;
         }
         else {
             $SQLExt .= " AND st.create_time >= '".$Self->{DBObject}->Quote($Param{TicketCreateTimeNewerDate})."'";
@@ -1251,6 +1267,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.66 $ $Date: 2004-01-23 00:46:37 $
+$Revision: 1.67 $ $Date: 2004-01-23 03:54:37 $
 
 =cut
