@@ -2,7 +2,7 @@
 # CustomerPreferencesForm.dtl - provides HTML form for CustomerPreferences 
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerPreferencesForm.dtl,v 1.8 2005-03-11 06:00:09 martin Exp $
+# $Id: CustomerPreferencesForm.dtl,v 1.9 2005-03-27 11:59:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
