@@ -3,7 +3,7 @@
 # customer.pl - the global CGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: customer.pl,v 1.33 2004-09-16 22:38:26 martin Exp $
+# $Id: customer.pl,v 1.34 2004-11-15 13:31:22 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -88,7 +88,7 @@ $Param{SessionName} = $CommonObject{ConfigObject}->Get('CustomerPanelSessionName
 $Param{SessionID} = $CommonObject{ParamObject}->GetParam(Param => $Param{SessionName}) || '';
 # drop old session id (if exists)
 my $QueryString = $ENV{"QUERY_STRING"} || '';
-$QueryString =~ s/(\?|&|)$Param{SessionName}(=&|=.+?&|=.+?$)/&/;
+$QueryString =~ s/(\?|&|)$Param{SessionName}(=&|=.+?&|=.+?$)/&/g;
 # definde frame work params
 my $FramworkPrams = {
     Lang => '',
