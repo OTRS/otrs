@@ -1,0 +1,31 @@
+# --
+# InstallerLicense.dtl - provides HTML form for web installer
+# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: InstallerLicense.dtl,v 1.1 2003-04-12 20:11:05 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start $Text{"License"} form -->
+<form action="$Env{"CGIHandle"}" method="post">
+<textarea name="License" rows="22" cols="72">$Data{"License"}</textarea>
+</form>
+<br>
+<table>
+  <tr>
+    <td>
+    <form action="$Env{"CGIHandle"}" method="post">
+      <input type="hidden" name="Subaction" value="Start">
+      <input class="button" type="submit" value="$Text{"accept license"}">
+    </form>
+    </td>
+    <td>
+    <form action="$Env{"CGIHandle"}" method="post">
+      <input class="button" type="submit" value="$Text{"don't accept license"}">
+    </form>
+    </td>
+  </tr>
+</table>
+<!-- end $Text{"License"} form -->
