@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketZoom.pm,v 1.4 2005-04-01 08:19:56 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.5 2005-04-07 07:26:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -417,6 +417,58 @@ sub MaskAgentZoom {
     my $BodyOutput = '';
     foreach my $ArticleTmp (@NewArticleBox) {
         my %Article = %$ArticleTmp;
+        # check if just a only html email
+        if (my $MimeTypeText = $Self->{LayoutObject}->CheckMimeType(%Param, %Article)) {
+            $Article{"BodyNote"} = $MimeTypeText;
+            $Article{"Body"} = '';
+        }
+        else {
+            # html quoting
+            $Article{"Body"} = $Self->{LayoutObject}->Ascii2Html(
+                NewLine => $Self->{ConfigObject}->Get('DefaultViewNewLine') || 85,
+                Text => $Article{Body},
+                VMax => $Self->{ConfigObject}->Get('DefaultViewLines') || 5000,
+                HTMLResultMode => 1,
+            );
+            # link quoting
+            $Article{"Body"} = $Self->{LayoutObject}->LinkQuote(
+                Text => $Article{"Body"},
+            );
+            # do charset check
+            if (my $CharsetText = $Self->{LayoutObject}->CheckCharset(
+                ContentCharset => $Article{ContentCharset},
+                TicketID => $Param{TicketID},
+                ArticleID => $Article{ArticleID} )) {
+                $Article{"BodyNote"} = $CharsetText;
+            }
+        }
+        $Self->{LayoutObject}->Block(
+             Name => 'Body',
+             Data => {%Param, %Article, %AclAction},
+        );
+        # do some strips && quoting
+        foreach (qw(From To Cc Subject)) {
+            if ($Article{$_}) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'Row',
+                    Data => {
+                        Key => $_,
+                        Value => $Article{$_},
+                    },
+                );
+            }
+        }
+        foreach (qw(1 2 3 4 5)) {
+            if ($Article{"FreeText$_"}) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'ArticleFreeText',
+                    Data => {
+                        Key => $Article{"FreeKey$_"},
+                        Value => $Article{"FreeText$_"},
+                    },
+                );
+            }
+        }
         # run article modules
         if (ref($Self->{ConfigObject}->Get('Ticket::Frontend::ArticleViewModule')) eq 'HASH') {
             my %Jobs = %{$Self->{ConfigObject}->Get('Ticket::Frontend::ArticleViewModule')};
@@ -505,58 +557,6 @@ sub MaskAgentZoom {
                     }
                 }
              }
-        }
-        # check if just a only html email
-        if (my $MimeTypeText = $Self->{LayoutObject}->CheckMimeType(%Param, %Article)) {
-            $Article{"BodyNote"} = $MimeTypeText;
-            $Article{"Body"} = '';
-        }
-        else {
-            # html quoting
-            $Article{"Body"} = $Self->{LayoutObject}->Ascii2Html(
-                NewLine => $Self->{ConfigObject}->Get('DefaultViewNewLine') || 85,
-                Text => $Article{Body},
-                VMax => $Self->{ConfigObject}->Get('DefaultViewLines') || 5000,
-                HTMLResultMode => 1,
-            );
-            # link quoting
-            $Article{"Body"} = $Self->{LayoutObject}->LinkQuote(
-                Text => $Article{"Body"},
-            );
-            # do charset check
-            if (my $CharsetText = $Self->{LayoutObject}->CheckCharset(
-                ContentCharset => $Article{ContentCharset},
-                TicketID => $Param{TicketID},
-                ArticleID => $Article{ArticleID} )) {
-                $Article{"BodyNote"} = $CharsetText;
-            }
-        }
-        $Self->{LayoutObject}->Block(
-             Name => 'Body',
-             Data => {%Param, %Article, %AclAction},
-        );
-        # do some strips && quoting
-        foreach (qw(From To Cc Subject)) {
-            if ($Article{$_}) {
-                $Self->{LayoutObject}->Block(
-                    Name => 'Row',
-                    Data => {
-                        Key => $_,
-                        Value => $Article{$_},
-                    },
-                );
-            }
-        }
-        foreach (qw(1 2 3 4 5)) {
-            if ($Article{"FreeText$_"}) {
-                $Self->{LayoutObject}->Block(
-                    Name => 'ArticleFreeText',
-                    Data => {
-                        Key => $Article{"FreeKey$_"},
-                        Value => $Article{"FreeText$_"},
-                    },
-                );
-            }
         }
 
         # select the output template
