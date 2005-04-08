@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.1 2005-04-08 07:03:36 martin Exp $
+# $Id: Config.pm,v 1.2 2005-04-08 09:28:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -161,6 +161,107 @@ sub ConfigItemGet {
     }
 }
 
+=item ConfigGroupList()
+
+get a list of config groups
+
+    my %ConfigGroupList = $ConfigToolObject->ConfigGroupList();
+    
+=cut
+
+sub ConfigGroupList {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw()) {
+        if (!$Param{$_}) { 
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    my %List = ();
+    foreach my $ConfigItem (@{$Self->{XMLConfig}}) {
+        if ($ConfigItem->{Group} && ref($ConfigItem->{Group}) eq 'ARRAY') {
+            foreach my $Group (@{$ConfigItem->{Group}}) {
+                if ($Group->{Content}) {
+                    $List{$Group->{Content}} = $Group->{Content};
+                }
+            }
+        }
+    }
+    return %List;
+}
+
+=item ConfigSubGroupList()
+
+get a list of config sub groups
+
+    my %ConfigGroupList = $ConfigToolObject->ConfigSubGroupList(Name => 'Framework');
+    
+=cut
+
+sub ConfigSubGroupList {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(Name)) {
+        if (!$Param{$_}) { 
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    my %List = ();
+    foreach my $ConfigItem (@{$Self->{XMLConfig}}) {
+        if ($ConfigItem->{Group} && ref($ConfigItem->{Group}) eq 'ARRAY') {
+            my $Hit = 0;
+            foreach my $Group (@{$ConfigItem->{Group}}) {
+                if ($Group->{Content} && $Group->{Content} eq $Param{Name}) {
+                    $Hit = 1;
+                }
+            }
+            if ($Hit) {
+                foreach my $SubGroup (@{$ConfigItem->{SubGroup}}) {
+                    if ($SubGroup->{Content}) {
+                        $List{$SubGroup->{Content}} = $SubGroup->{Content};
+                    }
+                }
+            }
+        }
+    }
+    return %List;
+}
+
+=item ConfigSubGroupConfigItemList()
+
+get a list of config items of a sub group
+
+    my %ConfigItemList = $ConfigToolObject->ConfigSubGroupConfigItemList(Name => 'Web');
+    
+=cut
+
+sub ConfigSubGroupConfigItemList {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(Name)) {
+        if (!$Param{$_}) { 
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    my %List = ();
+    foreach my $ConfigItem (@{$Self->{XMLConfig}}) {
+        if ($ConfigItem->{SubGroup} && ref($ConfigItem->{SubGroup}) eq 'ARRAY') {
+            foreach my $SubGroup (@{$ConfigItem->{SubGroup}}) {
+                if ($SubGroup->{Content} && $SubGroup->{Content} eq $Param{Name}) {
+                    $List{$ConfigItem->{Name}} = $ConfigItem;
+                }
+            }
+        }
+    }
+    return %List;
+}
+
 1;
 
 =head1 TERMS AND CONDITIONS
@@ -175,6 +276,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2005-04-08 07:03:36 $
+$Revision: 1.2 $ $Date: 2005-04-08 09:28:58 $
 
 =cut
