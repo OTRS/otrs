@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Installer.pm,v 1.31 2005-02-15 11:58:12 martin Exp $
+# $Id: Installer.pm,v 1.32 2005-04-08 08:56:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use strict;
 use DBI;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -426,6 +426,15 @@ sub Run {
             Name => 'DefaultLanguage',
             HTMLQuote => 0,
             SelectedID => $Self->{LayoutObject}->{UserLanguage},
+        );
+        $Param{LogModuleString} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data => {
+                'Kernel::System::Log::SysLog' => 'Syslog',
+                'Kernel::System::Log::File' => 'File',
+            }, 
+            Name => 'LogModule',
+            HTMLQuote => 0,
+            SelectedID => $Self->{ConfigObject}->Get('LogModule'),
         );
 # it mysql 4.1 is stable, we use this:
 #        if ($Self->{LayoutObject}->{LanguageObject}->GetRecommendedCharset() eq 'utf-8') {

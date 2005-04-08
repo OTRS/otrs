@@ -2,7 +2,7 @@
 # InstallerSystem.dtl - provides HTML form for Installer
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: InstallerSystem.dtl,v 1.8 2005-02-15 12:06:39 martin Exp $
+# $Id: InstallerSystem.dtl,v 1.9 2005-04-08 08:56:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,10 +38,7 @@
   </tr>
   <tr>
     <td>$Text{"LogModule"}:</td>
-    <td><select name="LogModule">
-          <option value="Kernel::System::Log::SysLog" selected>Syslog</option>
-          <option value="Kernel::System::Log::File">File</option>
-        </select></td>
+    <td>$Data{"LogModuleString"}</td>
     <td>$Text{"(Used log backend)"}</td>
   </tr>
   <tr>
