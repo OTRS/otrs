@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminEmail.pm - to send a email to all agents
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminEmail.pm,v 1.22 2005-03-27 11:50:49 martin Exp $
+# $Id: AdminEmail.pm,v 1.23 2005-04-11 11:14:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Email;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -67,7 +67,7 @@ sub Run {
         my %Bcc = ();
         # get user recipients address
         foreach ($Self->{ParamObject}->GetArray(Param => 'UserIDs')) {
-            my %UserData = $Self->{UserObject}->GetUserData(UserID => $_);
+            my %UserData = $Self->{UserObject}->GetUserData(UserID => $_, Valid => 1);
             if ($UserData{UserEmail}) {
                 $Bcc{$UserData{UserLogin}} = $UserData{UserEmail};
             }
@@ -80,7 +80,7 @@ sub Run {
                 GroupID => $_,
             );
             foreach (@GroupMemberList) {
-                my %UserData = $Self->{UserObject}->GetUserData(UserID => $_);
+                my %UserData = $Self->{UserObject}->GetUserData(UserID => $_, Valid => 1);
                 if ($UserData{UserEmail}) {
                     $Bcc{$UserData{UserLogin}} = $UserData{UserEmail};
                 }
