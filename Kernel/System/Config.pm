@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.2 2005-04-08 09:28:58 martin Exp $
+# $Id: Config.pm,v 1.3 2005-04-12 07:21:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -155,6 +155,30 @@ sub ConfigItemGet {
 
     foreach my $ConfigItem (@{$Self->{XMLConfig}}) {
         if ($ConfigItem->{Name} && $ConfigItem->{Name} eq $Param{Name}) {
+            if ($ConfigItem->{Setting}->[1]->{Option} && $ConfigItem->{Setting}->[1]->{Option}->[1]->{Location}) {
+                my $Home = $Self->{ConfigObject}->Get('Home');
+                my @List = glob($Home."/$ConfigItem->{Setting}->[1]->{Option}->[1]->{Location}");
+                foreach my $Item (@List) {
+                    $Item =~ s/$Home//g;
+                    $Item =~ s/\/\//\//g;
+                    $Item =~ s/^\///g;
+                    $Item =~ s/^(.*)\.pm/$1/g;
+                    $Item =~ s/\//::/g;
+                    $Item =~ s/\//::/g;
+                    my $Value = $Item;
+                    my $Key = $Item;
+                    $Value =~ s/^.*::(.+?)$/$1/g;
+                    if (!$ConfigItem->{Setting}->[1]->{Option}->[1]->{Item}) {
+                        push (@{$ConfigItem->{Setting}->[1]->{Option}->[1]->{Item}}, undef);
+                    }
+                    push (@{$ConfigItem->{Setting}->[1]->{Option}->[1]->{Item}}, {
+                            Key => $Key,
+                            Value => $Value,
+                        },
+                    ); 
+#                    print STDERR "$Key $Value-----\n";
+                }
+            }
 #$Self->{LogObject}->Dumper($ConfigItem);
             return %{$ConfigItem};
         }
@@ -276,6 +300,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2005-04-08 09:28:58 $
+$Revision: 1.3 $ $Date: 2005-04-12 07:21:45 $
 
 =cut

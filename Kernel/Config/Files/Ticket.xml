@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Ticket.xml,v 1.1 2005-04-08 07:03:36 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.2 2005-04-12 07:22:08 martin Exp $</CVS>
     <ConfigItem Name="Ticket::NumberGenerator" Status="required">
         <Description Lang="en">The Ticket Number Generator Module.</Description>
         <Description Lang="de">Das Ticket Nummer Generator Modul.</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketNumberGenerator</SubGroup>
         <Setting>
-            <Hash>
-                <Item Key="Kernel::System::Ticket::Number::Date">Date</Item>
-                <Item Key="Kernel::System::Ticket::Number::DateChecksum" Type="Selected">DateChecksum</Item>
-                <Item Key="Kernel::System::Ticket::Number::Random">Random</Item>
-                <Item Key="Kernel::System::Ticket::Number::AutoIncrement">AutoIncrement</Item>
-            </Hash>
+            <Option Location="Kernel/System/Ticket/Number/*.pm" SelectedID="Kernel::System::Ticket::Number::DateChecksum"></Option>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::NumberGenerator::AutoIncrement::MinCounterSize" Status="required">
@@ -36,7 +31,7 @@
     <ConfigItem Name="TimeWorkingHours" Status="required">
         <Description Lang="en">Counted hours for working time used.</Description>
         <Description Lang="de">Festlegung der Arbeitszeit.</Description>
-        <Group>Core</Group>
+        <Group>Framework</Group>
         <SubGroup>Time</SubGroup>
         <Setting>
             <TimeWorkingHours>
@@ -125,7 +120,7 @@
     <ConfigItem Name="TimeVacationDays" Status="optional">
         <Description Lang="en">Permanent vacation days.</Description>
         <Description Lang="de">Permanente Freizeit-Tage im System hinterlegen.</Description>
-        <Group>Core</Group>
+        <Group>Framework</Group>
         <SubGroup>Time</SubGroup>
         <Setting>
             <TimeVacationDays>
@@ -141,7 +136,7 @@
     <ConfigItem Name="TimeVacationDaysOneTime" Status="optional">
         <Description Lang="en">One time vacation days.</Description>
         <Description Lang="de">Einen einmaligen Freizeit-Tage im System hinterlegen.</Description>
-        <Group>Core</Group>
+        <Group>Framework</Group>
         <SubGroup>Time</SubGroup>
         <Setting>
             <TimeVacationDaysOneTime>

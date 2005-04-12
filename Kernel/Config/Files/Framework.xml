@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.1 2005-04-08 07:03:36 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.2 2005-04-12 07:22:08 martin Exp $</CVS>
     <ConfigItem Name="WebMaxFileUpload" Status="required">
         <Description Lang="en">Max size for browser file uploads (in byte).</Description>
         <Description Lang="de">Maximale Größe für Datei-Uploads im Browser (in byte).</Description>
-        <Group>Core</Group>
+        <Group>Framework</Group>
         <SubGroup>Web</SubGroup>
         <Setting>
             <String Regex="^[0-9]{7-14}$">5242880</String>
@@ -13,19 +13,16 @@
     <ConfigItem Name="WebUploadCacheModule" Status="required">
         <Description Lang="en">Select you WebUploadCacheModule module.</Description>
         <Description Lang="de">Auswahl des Wep-Upload-Datei-Cache Modules.</Description>
-        <Group>Core</Group>
+        <Group>Framework</Group>
         <SubGroup>Web</SubGroup>
         <Setting>
-            <Hash>
-                <Item Key="Kernel::System::Web::UploadCache::DB" Type="Selected">DB</Item>
-                <Item Key="Kernel::System::Web::UploadCache::FS">FS</Item>
-            </Hash>
+            <Option Location="Kernel/System/Web/UploadCache/*.pm" SelectedID="Kernel::System::Web::UploadCache::DB"></Option>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentPreferences" Status="required">
         <Description Lang="en">Agent Preferences.</Description>
         <Description Lang="de">Agenten Einstellungen.</Description>
-        <Group>Core</Group>
+        <Group>Framework</Group>
         <SubGroup>Agent</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -43,7 +40,7 @@
     <ConfigItem Name="Frontend::Module###AdminPackageManager" Status="required">
         <Description Lang="en">Software Package Manager.</Description>
         <Description Lang="de">Software Package Manager.</Description>
-        <Group>Core</Group>
+        <Group>Framework</Group>
         <SubGroup>Admin</SubGroup>
         <Setting>
             <FrontendModuleReg>
