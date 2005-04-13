@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.2 2005-04-12 07:22:08 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.3 2005-04-13 07:49:59 tr Exp $</CVS>
     <ConfigItem Name="WebMaxFileUpload" Status="required">
         <Description Lang="en">Max size for browser file uploads (in byte).</Description>
         <Description Lang="de">Maximale Größe für Datei-Uploads im Browser (in byte).</Description>
@@ -24,6 +24,7 @@
         <Description Lang="de">Agenten Einstellungen.</Description>
         <Group>Framework</Group>
         <SubGroup>Agent</SubGroup>
+        <SubGroup>FrontendModulRegistration</SubGroup>        
         <Setting>
             <FrontendModuleReg>
                 <Title>Preferences</Title>
@@ -42,6 +43,7 @@
         <Description Lang="de">Software Package Manager.</Description>
         <Group>Framework</Group>
         <SubGroup>Admin</SubGroup>
+        <SubGroup>FrontendModulRegistration</SubGroup>                
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
@@ -57,4 +59,23 @@
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="PreferencesGroups###Comment" Status="required">
+        <Description Lang="en">?????Comment-en.</Description>
+        <Description Lang="de">?????Comment-de</Description>
+        <Group>Framework</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
+                <Item Key="Colum">Other Options</Item>
+                <Item Key="Label">Comment</Item>
+                <Item Key="Desc">Comment</Item>
+                <Item Key="Block">Input</Item>
+                <Item Key="Data">$Env{"UserComment"}</Item>
+                <Item Key="PrefKey">UserComment</Item>
+                <Item Key="Prio">6000</Item>
+                <Item Key="Activ">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>       
 </otrs_config>
