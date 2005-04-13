@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.163 2005-03-22 13:34:53 martin Exp $
+# $Id: Ticket.pm,v 1.164 2005-04-13 18:28:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.163 $';
+$VERSION = '$Revision: 1.164 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -892,7 +892,7 @@ sub MoveList {
 
 =item MoveTicket()
 
-to move a ticket (send notification to agents of selected my queues)
+to move a ticket (send notification to agents of selected my queues, it ticket isn't closed)
 
   $TicketObject->MoveTicket(
       QueueID => 123,
@@ -922,8 +922,10 @@ sub MoveTicket {
         return;
       }
     }
+    # get current ticket
+    my %Ticket = $Self->TicketGet(%Param);
     # move needed?
-    if ($Param{QueueID} == $Self->TicketQueueID(TicketID => $Param{TicketID})) {
+    if ($Param{QueueID} == $Ticket{QueueID}) {
         # update not needed
         return 1;
     }
@@ -936,9 +938,6 @@ sub MoveTicket {
         );
         return;
     }
-    # remember to old queue
-    my $OldQueueID = $Self->TicketQueueID(TicketID => $Param{TicketID});
-    my $OldQueue = $Self->{QueueObject}->QueueLookup(QueueID => $OldQueueID);
     # db update
     my $SQL = "UPDATE ticket SET ".
       " queue_id = ".$Self->{DBObject}->Quote($Param{QueueID}).
@@ -953,37 +952,39 @@ sub MoveTicket {
         # history insert
         $Self->HistoryAdd(
             TicketID => $Param{TicketID},
-            QueueID => $OldQueueID,
+            QueueID => $Ticket{QueueID},
             HistoryType => 'Move',
-            Name => "\%\%$Queue\%\%$Param{QueueID}\%\%$OldQueue\%\%$OldQueueID",
+            Name => "\%\%$Queue\%\%$Param{QueueID}\%\%$Ticket{Queue}\%\%$Ticket{QueueID}",
             CreateUserID => $Param{UserID},
         );
         # send move notify to queue subscriber
-        foreach ($Self->GetSubscribedUserIDsByQueueID(QueueID => $Param{QueueID})) {
-            my %UserData = $Self->{UserObject}->GetUserData(
-                UserID => $_,
-                Cached => 1,
-                Valid => 1,
-            );
-            if ($UserData{UserSendMoveNotification}) {
-                # send agent notification
-                $Self->SendAgentNotification(
-                    Type => 'Move',
-                    UserData => \%UserData,
-                    CustomerMessageParams => { Queue => $Queue },
-                    TicketID => $Param{TicketID},
-                    UserID => $Param{UserID},
+        if ($Ticket{StateType} ne 'closed') {
+            foreach ($Self->GetSubscribedUserIDsByQueueID(QueueID => $Param{QueueID})) {
+                my %UserData = $Self->{UserObject}->GetUserData(
+                    UserID => $_,
+                    Cached => 1,
+                    Valid => 1,
                 );
+                if ($UserData{UserSendMoveNotification}) {
+                    # send agent notification
+                    $Self->SendAgentNotification(
+                        Type => 'Move',
+                        UserData => \%UserData,
+                        CustomerMessageParams => { Queue => $Queue },
+                        TicketID => $Param{TicketID},
+                        UserID => $Param{UserID},
+                    );
+                }
             }
+            # send customer notification email
+            my %Preferences = $Self->{UserObject}->GetUserData(UserID => $Param{UserID});
+            $Self->SendCustomerNotification(
+                Type => 'QueueUpdate',
+                CustomerMessageParams => { %Preferences, Queue => $Queue },
+                TicketID => $Param{TicketID},
+                UserID => $Param{UserID},
+            );
         }
-        # send customer notification email
-        my %Preferences = $Self->{UserObject}->GetUserData(UserID => $Param{UserID});
-        $Self->SendCustomerNotification(
-            Type => 'QueueUpdate',
-            CustomerMessageParams => { %Preferences, Queue => $Queue },
-            TicketID => $Param{TicketID},
-            UserID => $Param{UserID},
-        );
         # should I unlock a ticket after move?
         if ($Self->{ConfigObject}->Get('Ticket::ForceUnlockAfterMove')) {
             $Self->LockSet(
@@ -3630,6 +3631,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.163 $ $Date: 2005-03-22 13:34:53 $
+$Revision: 1.164 $ $Date: 2005-04-13 18:28:58 $
 
 =cut
