@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPending.pm - to set ticket in pending state
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPending.pm,v 1.2 2005-03-27 11:50:50 martin Exp $
+# $Id: AgentTicketPending.pm,v 1.3 2005-04-13 18:55:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -127,7 +127,7 @@ sub Run {
             TicketID => $Self->{TicketID},
             ArticleTypeID => $GetParam{NoteID},
             SenderType => 'agent',
-            From => $Self->{UserLogin},
+            From => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
             Subject => $GetParam{Subject},
             Body => $GetParam{Body},
             ContentType => "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}",
