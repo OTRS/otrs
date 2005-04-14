@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.3 2005-04-12 07:21:45 martin Exp $
+# $Id: Config.pm,v 1.4 2005-04-14 05:59:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -112,8 +112,8 @@ sub _Init {
             }
         }
         $Self->{XMLConfig} = [];
-        # load framework, application, changes
-        foreach my $Init (qw(Framework Application Changes)) {
+        # load framework, application, config, changes
+        foreach my $Init (qw(Framework Application Config Changes)) {
             foreach my $Set (sort keys %Data) {
                 if ($Data{$Set}->[1]->{otrs_config}->[1]->{init} eq $Init) {
 #$Self->{LogObject}->Dumper($Data{$Set}->[1]->{otrs_config}->[1]->{ConfigItem});
@@ -130,6 +130,49 @@ sub _Init {
         }
 #$Self->{LogObject}->Dumper($Self->{XMLConfig});
     }
+}
+
+=item CreateConfig()
+
+submit config settings to application
+
+    $ConfigToolObject->CreateConfig();
+    
+=cut
+
+sub CreateConfig {
+    my $Self = shift;
+    my %Param = @_;
+    my %UsedKeys = ();
+    my $Home = $Self->{ConfigObject}->Get('Home');
+    # check needed stuff
+    foreach (qw()) {
+        if (!$Param{$_}) { 
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    if (!open(OUT, "> $Home/Kernel/Config/Files/ZZZAuto.pm")) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Can't write $Home/Kernel/Config/Files/ZZZAuto.pm!");
+        return;
+    }
+    foreach my $ConfigItem (@{$Self->{XMLConfig}}) {
+        if ($ConfigItem->{Name} && !$UsedKeys{$ConfigItem->{Name}}) {
+            $UsedKeys{$ConfigItem->{Name}} = 1;
+            my %Config = $Self->ConfigItemGet(
+                Name => $ConfigItem->{Name}, 
+            );
+            if ($ConfigItem->{Setting}->[1]->{String}) {
+                print OUT "    \$Self->{'$ConfigItem->{Name}'} = '$ConfigItem->{Setting}->[1]->{String}->[1]->{Content}';\n";
+            }
+            if ($ConfigItem->{Setting}->[1]->{Option}) {
+                print OUT "    \$Self->{'$ConfigItem->{Name}'} = '$ConfigItem->{Setting}->[1]->{Option}->[1]->{SelectedID}';\n";
+            }
+        }
+    }
+
+    close(OUT);
+
 }
 
 =item ConfigItemGet()
@@ -153,8 +196,19 @@ sub ConfigItemGet {
         }
     }
 
-    foreach my $ConfigItem (@{$Self->{XMLConfig}}) {
+    foreach my $ConfigItem (reverse @{$Self->{XMLConfig}}) {
         if ($ConfigItem->{Name} && $ConfigItem->{Name} eq $Param{Name}) {
+            # update xml with current config setting
+            if ($ConfigItem->{Setting}->[1]->{String}) {
+                if (defined($Self->{ConfigObject}->Get($ConfigItem->{Name}))) {
+                    $ConfigItem->{Setting}->[1]->{String}->[1]->{Content} = $Self->{ConfigObject}->Get($ConfigItem->{Name});
+                }
+            }
+            if ($ConfigItem->{Setting}->[1]->{Option}) {
+                if (defined($Self->{ConfigObject}->Get($ConfigItem->{Name}))) {
+                    $ConfigItem->{Setting}->[1]->{Option}->[1]->{SelectedID} = $Self->{ConfigObject}->Get($ConfigItem->{Name});
+                }
+            }
             if ($ConfigItem->{Setting}->[1]->{Option} && $ConfigItem->{Setting}->[1]->{Option}->[1]->{Location}) {
                 my $Home = $Self->{ConfigObject}->Get('Home');
                 my @List = glob($Home."/$ConfigItem->{Setting}->[1]->{Option}->[1]->{Location}");
@@ -300,6 +354,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2005-04-12 07:21:45 $
+$Revision: 1.4 $ $Date: 2005-04-14 05:59:34 $
 
 =cut
