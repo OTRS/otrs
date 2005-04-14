@@ -40,9 +40,23 @@ Options (PullDownMenu)
             <Option SelectedID="Key">
                 <Item Key=""></Item>
                 <Item Key=""></Item>                
-            </Option
+            </Option>
         </Setting>
     </ConfigItem>   
+    
+Hash
+    <ConfigItem Name="" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Ticket</Group>
+        <SubGroup></SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key=""></Item>
+                <Item Key=""></Item>                
+            </Hash>
+        </Setting>
+    </ConfigItem>       
     
 Textarea
     <ConfigItem Name="" Required="1" Valid="1">
@@ -60,43 +74,428 @@ Textarea
 -->
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.4 2005-04-14 09:20:07 tr Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.5 2005-04-14 12:53:44 tr Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">To set the Ticket identifier. Some people want to set this to e. g. 'Call#', 'MyTicket#' or 'Ticket#'.</Description>
-        <Description Lang="de">Hiermit kann der Ticket-Identifikator gesetzt werden. Manche Kunden wollen Benennen ihn z. B. als 'Call#' oder 'MyTicket#'. Als Standardeinstellung wird 'Ticket#' geliefert</Description>
+        <Description Lang="de">Hiermit kann der Ticket-Identifikator gesetzt werden. Manche Kunden wollen Benennen ihn z. B. als 'Call#' oder 'MyTicket#'. Als Standardeinstellung wird 'Ticket#' geliefert.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>Unknown</SubGroup>
         <Setting>
             <String>Ticket#</String>
         </Setting>
+        <!-- $Self->{'Ticket::Hook'} = 'Ticket#'; -->
     </ConfigItem>
-    <ConfigItem Name="Ticket::NumberGenerator" Required="1" Valid="1">
-        <Description Lang="en">The Ticket Number Generator Module.</Description>
-        <Description Lang="de">Das Ticket Nummer Generator Modul.</Description>
+    <ConfigItem Name="Ticket::HookDivider" Required="1" Valid="1">
+        <Description Lang="en">The divider between TicketHook# and number. E.g ': '.</Description>
+        <Description Lang="de">Teiler zwischen Ticket-Identifikator und Numme.r</Description>
         <Group>Ticket</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex=""></String>
+        </Setting>
+        <!-- $Self->{'Ticket::HookDivider'} = ''; -->
+    </ConfigItem>    
+    <ConfigItem Name="Ticket::SubjectSize" Required="1" Valid="1">
+        <Description Lang="en">Max size of the subjects in a reply.</Description>
+        <Description Lang="de">Maximal zulässige Größe des Betreffs bei einer Antwort.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">60</String>
+        </Setting>
+        <!-- $Self->{'Ticket::SubjectSize'} = 60; -->
+    </ConfigItem>    
+    <ConfigItem Name="Ticket::SubjectRe" Required="1" Valid="1">
+        <Description Lang="en">The text at the beginning of the subject in a reply.</Description>
+        <Description Lang="de">Präfix im der Betreff des Antwortschreibens.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">Re</String>
+        </Setting>
+        <!--  $Self->{'Ticket::SubjectRe'} = 'Re'; -->
+    </ConfigItem>    
+    <ConfigItem Name="Ticket::CustomQueue" Required="1" Valid="1">
+        <Description Lang="en">The name of custom queue.</Description>
+        <Description Lang="de">Name der KundenQueue</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">My Queues</String>
+        </Setting>
+        <!--  $Self->{'Ticket::CustomQueue'} = 'My Queues'; -->
+    </ConfigItem>    
+    <ConfigItem Name="Ticket::ForceNewStateAfterLock" Required="0" Valid="0">
+        <Description Lang="en">Force a new ticket state after lock action.</Description>
+        <Description Lang="de">Neuer TicketStatus nach dem das Ticket gesperrt wurde</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="new">open</Item>
+            </Hash>
+        </Setting>
+        <!-- 
+            #    $Self->{'Ticket::ForceNewStateAfterLock'} = {
+            #        'new' => 'open',
+            #    };     
+        -->        
+    </ConfigItem>       
+    <ConfigItem Name="Ticket::ForceUnlockAfterMove" Required="1" Valid="1">
+        <Description Lang="en">Force to unlock a ticket after move action.</Description>
+        <Description Lang="de">Sperrung aufheben nachdem ein Ticket in eine andere Queue verschoben worden ist.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>                
+            </Option>
+        </Setting>
+        <!--  $Self->{'Ticket::ForceUnlockAfterMove'} = 0; -->
+    </ConfigItem>    
+    <ConfigItem Name="Ticket::ChangeOwnerToEveryone" Required="1" Valid="1">
+        <Description Lang="en">Possible to change owner of ticket at everyone(useful for ASP).</Description>
+        <Description Lang="de">Ermöglicht es den Besitzer eines fremden Tickets zuändern. (Kann für ASP nützlich sein)</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>                
+            </Option>
+        </Setting>
+        <!--  $Self->{'Ticket::ChangeOwnerToEveryone'} = 0; -->
+    </ConfigItem>    
+    <ConfigItem Name="Ticket::QueueViewAllPossibleTickets" Required="1" Valid="1">
+        <Description Lang="en">Show all ro and rw queues - not just rw queues.</Description>
+        <Description Lang="de">Zeige alle Queues in denen man Leserechte und Schreibrechte hat. Ansonsten werden nur die Queues in denen man Schreibrechte hat angezeigt</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>                
+            </Option>
+        </Setting>
+        <!-- $Self->{'Ticket::QueueViewAllPossibleTickets'} = 0; -->
+    </ConfigItem>       
+<!--    
+    # Ticket::NewMessageMode
+    # (mode of new message is counted)
+    $Self->{'Ticket::NewMessageMode'} = 'ArticleLastSender';
+#    $Self->{'Ticket::NewMessageMode'} = 'ArticleSeen';    
+
+    # --------------------------------------------------- #
+    # TicketFreeText                                      #
+    # (define free text options for frontend)             #
+    # --------------------------------------------------- #
+#    $Self->{"TicketFreeKey1"} = {
+#        '' => '-',
+#        'Product' => 'Product',
+#    };
+#    $Self->{"TicketFreeText1"} = {
+#        '' => '-',
+#        'PC' => 'PC',
+#        'Notebook' => 'Notebook',
+#        'LCD' => 'LCD',
+#        'Phone' => 'Phone',
+#    };
+#    $Self->{"TicketFreeKey2"} = {
+#        '' => '-',
+#        'Support' => 'Support',
+#    };
+
+    # default selections (if wanted)
+    # $Self->{"TicketFreeText1::DefaultSelection"} = 'Notebook';
+-->    
+    
+    <ConfigItem Name="Ticket::NumberGenerator" Required="1" Valid="1">
+        <Description Lang="en">The Ticket Number Generator Module. 
+AutoIncrement --> auto increment ticket numbers "SystemID.Counter" like 1010138 and 1010139. 
+Date          --> ticket numbers with date "Year.Month.Day.SystemID.Counter" like 200206231010138 and 200206231010139.
+DateChecksum  --> ticket numbers with date and check sum and the counter will be rotated daily "Year.Month.Day.SystemID.Counter.CheckSum" like 2002070110101520 and 2002070110101535.
+Random        --> random ticket numbers "SystemID.Random" like 100057866352 and 103745394596.
+        </Description>
+        <Description Lang="de">Auswahl der Ticket-Nummern-Generators.
+AutoIncrement --> eine automatisch hochzählender Counter wird mit der SystemID kombiniert; ("SystemID.Counter" z.B. 1010138; 1010139 und 1010140)       
+Date          --> die Ticketnummer wird aus Datum, SystemID und Counter kombiniert; ("Jahr.Monat.Tag.SystemID.Counter" z.B 200206231010138 und 200206231010139)       
+DateChecksum  --> die Ticketnummer wird aus Datum, SystemID, Counter und Checksumme generiert; ("Jahr.Monat.Tag.SystemID.Counter.CheckSumme" z.B. 2002070110101520 und 2002070110101535)        
+Random        --> Die Ticketnummer wird aus der SystemID und einer Zufallszahl gerneriert; ("SystemID.Random" z.B. 100057866352 und 103745394596.)        
+        </Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
         <Setting>
             <Option Location="Kernel/System/Ticket/Number/*.pm" SelectedID="Kernel::System::Ticket::Number::DateChecksum"></Option>
         </Setting>
-    </ConfigItem>
+    </ConfigItem>    
     <ConfigItem Name="Ticket::NumberGenerator::AutoIncrement::MinCounterSize" Required="1" Valid="1">
         <Description Lang="en">Min. ticket counter size.</Description>
-        <Description Lang="de">Min. größe des Ticket-Zählers.</Description>
+        <Description Lang="de">Minimale Größe des Ticket-Zählers. (Default '5' d.h. gezählt wird ab 10000</Description>
         <Group>Ticket</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
             <String Regex="^[0-9]$">5</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::SearchLimit" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::CustomQueue" Required="1" Valid="1">
+        <Description Lang="en">Counter log</Description>
+        <Description Lang="de">Pfad und Verzeichnis zum Loggen der CounterInformationen</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">&lt;OTRS_CONFIG_Home&gt;/var/log/TicketCounter.log</String>
+        </Setting>
+        <!--  $Self->{'Ticket::CounterLog'} = '<OTRS_CONFIG_Home>/var/log/TicketCounter.log';   -->
+    </ConfigItem>      
+    <ConfigItem Name="Ticket::IndexModule" Required="1" Valid="1">
+        <Description Lang="en">IndexAccelerator - choose your backend TicketViewAccelerator module
+RuntimeDB
+(generate each queue view on the fly from ticket table you will not
+have performance trouble till ~ 60.000 tickets (till 6.000 open tickets)
+in your system)
+
+StaticDB
+(the most powerfull module, it should be used over 80.000 (more the 6.000
+open tickets) tickets in a system - use a extra ticket_index table, works
+like a view - use bin/RebuildTicketIndex.pl for initial index update)        
+        </Description>
+        <Description Lang="de">IndexAccelerator - wähle hierfür dein BackendModul aus
+RuntimeDB
+gerneriert jede QueueAnsicht "on the fly" aus der Tickettabelle. Dies ist kein Performanceproblem
+solange es nicht mehr als 6.000 offene Tickets und 60.000 Tickets insgesamt sind.
+StaticDB
+das StaticDB ist das leistungsfähigere Modul. Es sollte ab 80.000 Tickets bzw. 6.000 offenen Tickets
+benutzt werden. Hierfür wird eine extra Tabelle (ticket_index) benutzt. Benutzte zum initialen Anlegen 'bin/RebuildTicketIndex.pl'              
+        </Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Option SelectedID="Kernel::System::Ticket::IndexAccelerator::RuntimeDB">
+                <Item Key="Kernel::System::Ticket::IndexAccelerator::RuntimeDB">RuntimeDB</Item>
+                <Item Key="Kernel::System::Ticket::IndexAccelerator::StaticDB">StaticDB</Item>                
+            </Option>
+        </Setting>
+        <!-- 
+        $Self->{'Ticket::IndexModule'} = 'Kernel::System::Ticket::IndexAccelerator::StaticDB'; 
+        $Self->{'Ticket::IndexModule'} = 'Kernel::System::Ticket::IndexAccelerator::RuntimeDB';
+        -->
+    </ConfigItem>     
+    <ConfigItem Name="Ticket::CustomQueue" Required="1" Valid="1">
+        <Description Lang="en">Counter log</Description>
+        <Description Lang="de">Pfad und Verzeichnis zum Loggen der CounterInformationen</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">&lt;OTRS_CONFIG_Home&gt;/var/log/TicketCounter.log</String>
+        </Setting>
+        <!--  $Self->{'Ticket::CounterLog'} = '<OTRS_CONFIG_Home>/var/log/TicketCounter.log';   -->
+    </ConfigItem>      
+    <ConfigItem Name="Ticket::StorageModule" Required="1" Valid="1">
+        <Description Lang="en">StorageModule - (Don't use it for big emails/attachments!)
+(where attachments and co is stored - switch from fs -> db and db -> fs is possible)        
+FS is faster but webserver user should be the otrs user)        
+        </Description>
+        <Description Lang="de">StorageModul - Einstellung, wo die Attachments gespeichert werden sollen
+DB
+nicht für große Emails/Attachments geeignet
+FS
+schneller, der WebserverUser muß dann aber der OtrsUser sein
+        </Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Option SelectedID="Kernel::System::Ticket::ArticleStorageDB">
+                <Item Key="Kernel::System::Ticket::ArticleStorageFS">FS</Item>
+                <Item Key="Kernel::System::Ticket::ArticleStorageDB">DB</Item>                
+            </Option>
+        </Setting>
+        <!-- 
+        $Self->{'Ticket::StorageModule'} = 'Kernel::System::Ticket::ArticleStorageFS';
+        $Self->{'Ticket::StorageModule'} = 'Kernel::System::Ticket::ArticleStorageDB';        
+        -->
+    </ConfigItem>    
+    <ConfigItem Name="ArticleDir" Required="1" Valid="1">
+        <Description Lang="en">article fs dir</Description>
+        <Description Lang="de">Verzeichnisangabe, wenn die Artikel ins FileSystem geschrieben werden</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">&lt;OTRS_CONFIG_Home&gt;/var/article</String>
+        </Setting>
+        <!--  $Self->{ArticleDir} = '<OTRS_CONFIG_Home>/var/article';   -->
+    </ConfigItem>   
+    <ConfigItem Name="Ticket::CustomModule" Required="0" Valid="0">
+        <Description Lang="en">(custom functions to redefine Kernel::System::Ticket functions)</Description>
+        <Description Lang="de">Nicht Übersetzbar!!!</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">Kernel::System::Ticket::Custom</String>
+        </Setting>
+        <!--  $Self->{'Ticket::CustomModule'} = 'Kernel::System::Ticket::Custom';   -->
+    </ConfigItem>       
+    <ConfigItem Name="HighlightAge1" Required="1" Valid="1">
+        <Description Lang="en">Set the age for highlighting of old queue (Age in min)</Description>
+        <Description Lang="de">Zeit ab dem eine Queue mit nicht bearbeiteten Inhalten in erster Stufe gehighlighted wird. (Angabe in min)</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">1440</String>
+        </Setting>
+        <!--  $Self->{HighlightAge1} = 1440;   -->
+    </ConfigItem>       
+    <ConfigItem Name="HighlightColor1" Required="1" Valid="1">
+        <Description Lang="en">Set the color for highlighting of old queue</Description>
+        <Description Lang="de">Farbe mit der eine Queue mit nicht bearbeiteten Inhalten in erster Stufe gehighlighted wird. (Angabe in min)</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">orange</String>
+        </Setting>
+        <!--  $Self->{HighlightColor1} = 'orange';   -->
+    </ConfigItem>           
+    <ConfigItem Name="HighlightAge2" Required="1" Valid="1">
+        <Description Lang="en">Set the age for highlighting of old queue (Age in min)</Description>
+        <Description Lang="de">Zeit ab dem eine Queue mit nicht bearbeiteten Inhalten in zweiter Stufe gehighlighted wird. (Angabe in min)</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">2880</String>
+        </Setting>
+        <!--  $Self->{HighlightAge2} = 2880;   -->
+    </ConfigItem>       
+    <ConfigItem Name="HighlightColor2" Required="1" Valid="1">
+        <Description Lang="en">Set the color for highlighting of old queue</Description>
+        <Description Lang="de">Farbe mit der eine Queue mit nicht bearbeiteten Inhalten in zweiter Stufe gehighlighted wird. (Angabe in min)</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">red</String>
+        </Setting>
+        <!--  $Self->{HighlightColor2} = 'red';   -->
+    </ConfigItem>         
+    <ConfigItem Name="Ticket::Frontend::PendingDiffTime" Required="1" Valid="1">
+        <Description Lang="en">Time in sec. which "pending date" shows per default) [default: 24*60*60 -=> 1d]</Description>
+        <Description Lang="de">So lange wird ein Ticket per Defaulteinstellung als "Pending" eingestuft (Angabe in sec; Default: 24*60*60 => 1 Tag)</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">24*60*60</String>
+        </Setting>
+        <!--  $Self->{'Ticket::Frontend::PendingDiffTime'} = 24*60*60;   -->
+    </ConfigItem>      
+    <ConfigItem Name="Ticket::Frontend::QueueListType" Required="1" Valid="1">
+        <Description Lang="en">Show queues in system as tree or as list.</Description>
+        <Description Lang="de">Anzeige der Queues als Liste(list) oder in Baumstruktur(tree)</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Option SelectedID="tree">
+                <Item Key="tree">tree</Item>
+                <Item Key="list">list</Item>                
+            </Option>
+        </Setting>
+        <!-- $Self->{'Ticket::Frontend::QueueListType'} = 'tree';  -->
+    </ConfigItem>     
+    <ConfigItem Name="Ticket::Frontend::StdResponsesMode" Required="1" Valid="1">
+        <Description Lang="en">Should the standard responses selection be a form or links?.</Description>
+        <Description Lang="de">Nicht Übersetzbar!!!</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Option SelectedID="Link">
+                <Item Key="Link">Link</Item>
+                <Item Key="Form">Form</Item>                
+            </Option>
+        </Setting>
+        <!-- $Self->{'Ticket::Frontend::StdResponsesMode'} = 'Link';  -->
+    </ConfigItem>      
+    <ConfigItem Name="Ticket::Frontend::ZoomExpand" Required="1" Valid="1">
+        <Description Lang="en">Show article expanded in ticket zoom.</Description>
+        <Description Lang="de">Zeige die Artikel erweitert in der TicketZoomAnsicht</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>                
+            </Option>
+        </Setting>
+        <!-- $Self->{'Ticket::Frontend::ZoomExpand'} = 0; -->
+    </ConfigItem>       
+  
+<!--
+    
+    
+    # Ticket::Frontend::ZoomExpandSort
+    # (show article normal or in reverse order) [normal|reverse]
+#    $Self->{'Ticket::Frontend::ZoomExpandSort'} = 'reverse';
+    $Self->{'Ticket::Frontend::ZoomExpandSort'} = 'normal';
+
+    # Ticket::Frontend::HistoryOrder
+    # (show history order reverse) [normal|reverse]
+    $Self->{'Ticket::Frontend::HistoryOrder'} = 'normal';
+#    $Self->{'Ticket::Frontend::HistoryOrder'} = 'reverse';
+
+    # Ticket::Frontend::TextAreaEmail
+    # (width of compose email windows)
+    $Self->{'Ticket::Frontend::TextAreaEmail'} = 78;
+
+    # Ticket::Frontend::TextAreaNote
+    # (width of compose note windows)
+    $Self->{'Ticket::Frontend::TextAreaNote'} = 70;
+
+    # Ticket::Frontend::CustomerInfo*
+    # (show customer user info on Compose (Phone and Email), Zoom and Queue view)
+    $Self->{'Ticket::Frontend::CustomerInfoCompose'} = 1;
+    $Self->{'Ticket::Frontend::CustomerInfoZoom'} = 1;
+    $Self->{'Ticket::Frontend::CustomerInfoQueue'} = 0;
+
+    # Ticket::Frontend::CustomerInfo*MaxSize
+    # (max size (in characters) of customer info table)
+    $Self->{'Ticket::Frontend::CustomerInfoComposeMaxSize'} = 22;
+    $Self->{'Ticket::Frontend::CustomerInfoZoomMaxSize'} = 22;
+    $Self->{'Ticket::Frontend::CustomerInfoQueueMaxSize'} = 18;
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    --> 
+    
+    
+    
+    
+    
+    
+     <ConfigItem Name="Ticket::Frontend::SearchLimit" Required="1" Valid="1">
         <Description Lang="en">Search limit for ticket frontend.</Description>
         <Description Lang="de">Hier legen Sie das Ergebnislimit für die Ticketsuche fest.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
-            <String Regex="^[0-9]$">5000</String>
+            <String Regex="^[0-9]${1,10}">5000</String>
         </Setting>
-    </ConfigItem>
+    </ConfigItem>    
+    
+    
+    
+    
+    
+
     <ConfigItem Name="TimeWorkingHours" Required="1" Valid="1">
         <Description Lang="en">Counted hours for working time used.</Description>
         <Description Lang="de">Festlegung der Arbeitszeit.</Description>
