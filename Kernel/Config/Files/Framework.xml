@@ -1,7 +1,67 @@
+<!--
+Possible SubGroups
+        - AgentFrontend
+        - AgentPreferences
+        - Core        
+        - CustomerFrontend
+        - CustomerPreferences
+        - FrontendModulNotify                   
+        - FrontendModulReg
+        - LinkObject
+        - Log  
+        - MIME-Viewer         
+        - Package            
+        - PGP
+        - Session
+        - SMIME
+        - SpellChecker
+        - Stats        
+        - TicketCore
+        - Time                     
+
+String
+    <ConfigItem Name="" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Ticket</Group>
+        <SubGroup>a</SubGroup>
+        <Setting>
+            <String Regex=""></String>
+        </Setting>
+    </ConfigItem>                     
+
+Options (PullDownMenu)
+    <ConfigItem Name="" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Ticket</Group>
+        <SubGroup></SubGroup>
+        <Setting>
+            <Option SelectedID="Key">
+                <Item Key=""></Item>
+                <Item Key=""></Item>                
+            </Option
+        </Setting>
+    </ConfigItem>   
+    
+Textarea
+    <ConfigItem Name="" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Ticket</Group>
+        <SubGroup>a</SubGroup>
+        <Setting>
+            <Textarea>
+                use &gt; instead of >
+                and &lt; instead of <           
+            </Textarea>
+        </Setting>
+    </ConfigItem>                                   
+-->
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.4 2005-04-13 08:05:18 tr Exp $</CVS>
-    <ConfigItem Name="WebMaxFileUpload" Status="required">
+    <CVS>$Id: Framework.xml,v 1.5 2005-04-14 09:20:21 tr Exp $</CVS>
+    <ConfigItem Name="WebMaxFileUpload" Required="1" Valid="1">
         <Description Lang="en">Max size for browser file uploads (in byte).</Description>
         <Description Lang="de">Maximale Größe für Datei-Uploads im Browser (in byte).</Description>
         <Group>Framework</Group>
@@ -10,7 +70,7 @@
             <String Regex="^[0-9]{7-14}$">5242880</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="WebUploadCacheModule" Status="required">
+    <ConfigItem Name="WebUploadCacheModule" Required="1" Valid="1">
         <Description Lang="en">Select you WebUploadCacheModule module.</Description>
         <Description Lang="de">Auswahl des Wep-Upload-Datei-Cache Modules.</Description>
         <Group>Framework</Group>
@@ -19,7 +79,7 @@
             <Option Location="Kernel/System/Web/UploadCache/*.pm" SelectedID="Kernel::System::Web::UploadCache::DB"></Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::Module###AgentPreferences" Status="required">
+    <ConfigItem Name="Frontend::Module###AgentPreferences" Required="1" Valid="1">
         <Description Lang="en">Agent Preferences.</Description>
         <Description Lang="de">Agenten Einstellungen.</Description>
         <Group>Framework</Group>
@@ -38,7 +98,7 @@
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::Module###AdminPackageManager" Status="required">
+    <ConfigItem Name="Frontend::Module###AdminPackageManager" Required="1" Valid="1">
         <Description Lang="en">Software Package Manager.</Description>
         <Description Lang="de">Software Package Manager.</Description>
         <Group>Framework</Group>
@@ -59,11 +119,11 @@
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="DefaultUsedLanguages" Status="required">
+    <ConfigItem Name="DefaultUsedLanguages" Required="1" Valid="1">
         <Description Lang="en">(short name = long name and file)-en.</Description>
         <Description Lang="de">(short name = long name and file)-de.</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="en">English</Item>
@@ -84,5 +144,25 @@
                 <Item Key="hu">Hungarian</Item>
             </Hash>
         </Setting>
-    </ConfigItem>       
+    </ConfigItem> 
+    <ConfigItem Name="CustomerPanelBodyNewAccount" Required="1" Valid="1">
+        <Description Lang="en">notification email about new account-en.</Description>
+        <Description Lang="de">notification email about new account-de.</Description>
+        <Group>Framework</Group>
+        <SubGroup>CustomerFrontend</SubGroup>
+        <Setting>
+            <TextArea>Hi &lt;OTRS_USERFIRSTNAME&gt;,
+
+you or someone impersonating you has created a new OTRS account for
+you (&lt;OTRS_USERFIRSTNAME&gt; &lt;OTRS_USERLASTNAME&gt;).
+
+Login: &lt;OTRS_USERLOGIN&gt;
+Password: &lt;OTRS_USERPASSWORD&gt;
+
+&lt;OTRS_CONFIG_HttpType>://&lt;OTRS_CONFIG_FQDN>/&lt;OTRS_CONFIG_ScriptAlias&gt;customer.pl
+
+Your OTRS Notification Master
+            </TextArea>
+        </Setting>
+    </ConfigItem>    
 </otrs_config>
