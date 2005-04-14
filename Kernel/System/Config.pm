@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.4 2005-04-14 05:59:34 martin Exp $
+# $Id: Config.pm,v 1.5 2005-04-14 13:10:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -182,7 +182,7 @@ get a config setting
     my %Config = $ConfigToolObject->ConfigItemGet(
         Name => 'Ticket::NumberGenerator',
     );
-    
+
 =cut
 
 sub ConfigItemGet {
@@ -190,7 +190,7 @@ sub ConfigItemGet {
     my %Param = @_;
     # check needed stuff
     foreach (qw(Name)) {
-        if (!$Param{$_}) { 
+        if (!$Param{$_}) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
         }
@@ -227,9 +227,9 @@ sub ConfigItemGet {
                     }
                     push (@{$ConfigItem->{Setting}->[1]->{Option}->[1]->{Item}}, {
                             Key => $Key,
-                            Value => $Value,
+                            Content => $Value,
                         },
-                    ); 
+                    );
 #                    print STDERR "$Key $Value-----\n";
                 }
             }
@@ -244,7 +244,7 @@ sub ConfigItemGet {
 get a list of config groups
 
     my %ConfigGroupList = $ConfigToolObject->ConfigGroupList();
-    
+
 =cut
 
 sub ConfigGroupList {
@@ -354,6 +354,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2005-04-14 05:59:34 $
+$Revision: 1.5 $ $Date: 2005-04-14 13:10:17 $
 
 =cut
