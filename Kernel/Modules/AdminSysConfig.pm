@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.pm,v 1.1 2005-04-14 12:27:26 rk Exp $
+# $Id: AdminSysConfig.pm,v 1.2 2005-04-14 13:15:09 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -215,8 +215,8 @@ sub ListConfigItem {
     elsif (defined ($ItemHash{Setting}[1]{Option})) {
         my %Hash;
         foreach my $Index (1...$#{$ItemHash{Setting}[1]{Option}[1]{Item}}) {
-            $Hash{$ItemHash{Setting}[1]{Option}[1]{Item}[$Index]{Key}} = $ItemHash{Setting}[1]{Option}[1]{Item}[$Index]{Value};
-        }     
+            $Hash{$ItemHash{Setting}[1]{Option}[1]{Item}[$Index]{Key}} = $ItemHash{Setting}[1]{Option}[1]{Item}[$Index]{Content};
+        }
         my $PulldownMenue = $Self->{LayoutObject}->OptionStrgHashRef(
             Data       => \%Hash,
             SelectedID => $ItemHash{Setting}[1]{Option}[1]{SelectedID},
