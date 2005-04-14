@@ -1,0 +1,197 @@
+# --
+# AdminSelectBoxForm.dtl - provides HTML form for SelectBox
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: AdminSysConfigEdit.dtl,v 1.1 2005-04-14 12:27:26 rk Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start form -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
+<tr>
+  <td class="mainhead">
+    $Env{"Box0"}$Text{"SysConfig"}$Env{"Box1"}
+  </td>
+</tr>
+<tr>
+  <td colspan="2" class="menu">
+    <a href="$Env{"Baselink"}$Env{"LastScreenOverview"}">zur&uuml;ck</a>
+  </td>
+</tr>
+<tr>
+  <td align="center" class="mainbody">
+<br>
+<form action="$Env{"CGIHandle"}" method="post">
+<input type="hidden" name="Action" value="$Env{"Action"}">
+<input type="hidden" name="Subaction" value="Update">
+<input type="hidden" name="SysConfigSubGroup" value="$Data{"SubGroup"}">
+<table cellspacing="0" cellpadding="4" border="0" width="790">
+  <tr class="contenthead">
+    <td colspan="3">$Text{"Options "}$Text{"for "}$Text{"Subgroup '"}$Data{"SubGroup"}$Text{"' "}:</td>
+  </tr>
+  <!-- dtl:block:ConfigElementBlock -->
+  <tr class="contentbody">
+    <td valign="top"><input type="checkbox" value="1" name=""></td>
+    <td width="50%"><span class="contentkey">$QData{"Item"}:</span><br><span class="contentvalue">$QData{"Description"}</span></td>
+    <!-- dtl:block:ConfigElementString -->
+    <td width="50%" class="contentvalue" valign="top"><input name="$Data{"Item"}" value="$Data{"Content"}"><span class="validity">&nbsp;$QData{"Valid"}</span></td>
+    <!-- dtl:block:ConfigElementString -->
+    <!-- dtl:block:ConfigElementTextArea -->
+    <td width="50%" class="contentvalue" valign="top"><textarea name="$Data{"Item"}" rows="7" cols="50">$Data{"Content"}</textarea></td>
+    <!-- dtl:block:ConfigElementTextArea -->
+    <!-- dtl:block:ConfigElementSelect -->
+    <td width="50%2 class="contentvalue" valign="top">$Data{"Liste"}</td>
+    <!-- dtl:block:ConfigElementSelect -->
+    <!-- dtl:block:ConfigElementHash -->
+    <td class="contentvalue">
+      <table border="0" cellpadding="0" cellspacing="3">
+        <tr>
+          <td class="contentkey">$Text{"Key"}</td>
+          <td>&nbsp;</td>
+          <td class="contentkey">$Text{"Content"}</td>
+        </tr>
+        <!-- dtl:block:ConfigElementHashContent -->
+        <tr>
+          <td class="contentvalue"><input type="text" name="ElementName" value="$Data{"Key"}" size="20"></td>
+          <td>&nbsp;</td>
+          <td class="contentvalue"><input type="text" name="ElementName" value="$Data{"Content"}" size="20"></td>
+          <td>&nbsp;</td>
+          <td class="contentkey"><input type="submit" name="" value="$Text{"Delete"}"></td>
+        </tr>   
+        <!-- dtl:block:ConfigElementHashContent -->
+        <tr class="contentbody">
+          <td class="contentvalue"><input type="submit" name="Neu" value="$Text{"New"}"></td>
+        </tr>
+      </table>
+    </td>
+    <!-- dtl:block:ConfigElementHash -->
+    <!-- dtl:block:ConfigElementFrontendModuleReg -->
+    <td class="contentvalue">
+      <table border="0" cellpadding="0" cellspacing="3">
+      <!-- dtl:block:ConfigElementFrontendModuleRegContent -->
+        <tr>
+          <td class="contentkey" width="100">$Text{"Group"}:</td>
+        </tr>
+        <!-- dtl:block:ConfigElementFrontendModuleRegContentGroup -->
+        <tr>
+          <td></td>
+          <td>&nbsp;</td>
+          <td class="contentvalue"><input type="text" name="" value="$Data{"ContentGroup"}" size="20"></td>
+          <td>&nbsp;</td>
+          <td class="contentkey"><input type="submit" name="" value="$Text{"Delete"}"></td>
+        </tr>
+        <!-- dtl:block:ConfigElementFrontendModuleRegContentGroup -->
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="contentkey"><input type="submit" name="" value="$Text{"New"} $Text{"Group"}"></td>
+        </tr>
+        <tr>
+          <td class="contentkey">$Text{"Group Ro"}:</td>
+        </tr>
+        <!-- dtl:block:ConfigElementFrontendModuleRegContentGroupRo -->
+        <tr>
+          <td></td>
+          <td>&nbsp;</td>
+          <td class="contentvalue"><input type="text" name="" value="$Data{"ContentGroupRo"}" size="20"></td>
+          <td>&nbsp;</td>
+          <td class="contentkey"><input type="submit" name="" value="$Text{"Delete"}"></td>
+        </tr> 
+        <!-- dtl:block:ConfigElementFrontendModuleRegContentGroupRo -->
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="contentkey"><input type="submit" name="" value="$Text{"New"} $Text{"Group Ro"}"></td>
+        </tr>  
+        <tr>
+          <td class="contentkey">$Text{"Description"}:</td>
+          <td>&nbsp;</td>
+          <td class="contentvalue"><input type="text" name="" value="$Data{"ContentDescription"}" size="20"></td>
+        </tr>   
+        <tr>
+          <td class="contentkey">$Text{"Name"}:</td>
+          <td>&nbsp;</td>
+          <td class="contentvalue"><input type="text" name="" value="$Data{"ContentName"}" size="20"></td>
+        </tr>   
+        <tr>
+          <td class="contentkey">$Text{"Image"}:</td>
+          <td>&nbsp;</td>
+          <td class="contentvalue"><input type="text" name="" value="$Data{"ContentImage"}" size="20"></td>
+        </tr>   
+        <tr>
+          <td class="contentkey">$Text{"Link"}:</td>
+          <td>&nbsp;</td>
+          <td class="contentvalue"><input type="text" name="" value="$Data{"ContentLink"}" size="20"></td>
+        </tr>   
+        <tr>
+          <td class="contentkey">$Text{"Typ"}:</td>
+          <td>&nbsp;</td>
+          <td class="contentvalue"><input type="text" name="" value="$Data{"ContentTyp"}" size="20"></td>
+        </tr>   
+        <tr>
+          <td class="contentkey">$Text{"Prio"}:</td>
+          <td>&nbsp;</td>
+          <td class="contentvalue"><input type="text" name="" value="$Data{"ContentPrio"}" size="20"></td>
+        </tr>   
+        <tr>
+          <td class="contentkey">$Text{"Block"}:</td>
+          <td>&nbsp;</td>
+          <td class="contentvalue"><input type="text" name="" value="$Data{"ContentBlock"}" size="20"></td>
+        </tr>   
+        <tr>
+          <td class="contentkey">$Text{"NavBar"}:</td>
+          <td>&nbsp;</td>
+          <td class="contentvalue"><input type="text" name="" value="$Data{"ContentNavBar"}" size="20"></td>
+        </tr>     
+        <tr>
+          <td colspan="5"><hr></td>
+        </tr>
+        <!-- dtl:block:ConfigElementFrontendModuleRegContent -->
+        <!-- dtl:block:ConfigElementFrontendModuleRegContentNavBarModule -->
+        <tr>
+          <td class="contentkey" width="100">$Text{"Module"}:</td>
+          <td>&nbsp;</td>
+          <td class="contentvalue"><input type="text" name="" value="$Data{"ContentName"}" size="20"></td>
+        </tr>   
+        <tr>
+          <td class="contentkey">$Text{"Name"}:</td>
+          <td>&nbsp;</td>
+          <td class="contentvalue"><input type="text" name="" value="$Data{"ContentImage"}" size="20"></td>
+        </tr>   
+        <tr>
+          <td class="contentkey">$Text{"Block"}:</td>
+          <td>&nbsp;</td>
+          <td class="contentvalue"><input type="text" name="" value="$Data{"ContentLink"}" size="20"></td>
+        </tr>   
+        <tr>
+          <td class="contentkey">$Text{"Prio"}:</td>
+          <td>&nbsp;</td>
+          <td class="contentvalue"><input type="text" name="" value="$Data{"ContentTyp"}" size="20"></td>
+        </tr>   
+        <tr>
+          <td colspan="5"><hr></td>
+        </tr>
+        <!-- dtl:block:ConfigElementFrontendModuleRegContentNavBarModule -->
+       </table>   
+    </td>
+    <!-- dtl:block:ConfigElementFrontendModuleReg -->
+    <!-- dtl:block:ConfigElementArray -->
+    
+    <!-- dtl:block:ConfigElementArray -->
+  </tr>
+  <tr class="contentbody">
+    <td class="contentvalue" colspan="3"><hr></td>
+  </tr>
+  <!-- dtl:block:ConfigElementBlock -->
+  <tr class="contentfooter">
+    <td class="contentkey" colspan="3"><input class="button" type="submit" value="$Text{"Update"}"></td>
+  </tr>
+</table>
+</form>
+<br>
+  </td>
+</tr>
+</table>
+<!-- end form -->

@@ -1,0 +1,97 @@
+# --
+# AdminSysConfig.dtl - provides HTML form for AdminSysConfig html
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: AdminSysConfig.dtl,v 1.1 2005-04-14 12:27:26 rk Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start form -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
+<tr>
+  <td colspan="2" class="mainhead">
+    $Env{"Box0"}$Text{"SysConfig"}$Env{"Box1"}
+  </td>
+</tr>
+<tr>
+  <td width="30%" class="mainbody">
+  <form action="$Env{"CGIHandle"}" method="get">
+  <input type="hidden" name="Action" value="$Env{"Action"}">
+  <input type="hidden" name="Subaction" value="Search">
+  <table width="100%" cellspacing="0" cellpadding="4">
+  <tr>
+    <td class="contenthead">$Text{"Search"}:</td>
+  </tr>
+  <tr>
+    <td class="contentbody">
+    <table>
+      <tr>
+        <td class="contentkey">$Text{"Search for"}:</td>
+        <td class="contentvalue"><input type="text" name="Search" value="$QData{"Search"}" size="20"></td>
+      </tr>
+    </table>
+    </td>
+  </tr>
+  <tr>
+    <td class="contentfooter">
+    <input class="button" type="submit" value="$Text{"Search"}">
+    </td>
+  </tr>
+  </table>
+  </form>
+  <br>
+  <form action="$Env{"CGIHandle"}" method="get">
+  <input type="hidden" name="Action" value="$Env{"Action"}">
+  <input type="hidden" name="Subaction" value="SelectGroup">
+  <table width="100%" cellspacing="0" cellpadding="4">
+  <tr>
+    <td class="contenthead">$Text{"Group selection"}:</td>
+  </tr>
+  <tr>
+    <td class="contentbody">
+    <table>
+      <tr>
+        <td class="contentkey">$Text{"Group"}:</td>
+        <td class="contentvalue">$Data{"Liste"}</td>
+      </tr>
+    </table>
+    </td>
+  </tr>
+  <tr>
+    <td class="contentfooter">
+     <input class="button" type="submit" name="subgroup" value="$Text{"Show"}">
+    </td>
+  </tr>
+  </table>
+  </form>
+  </td>
+  <td width="70%" class="mainbody">
+  <table width="100%" cellspacing="0" cellpadding="4">
+  <tr>
+    <td class="contenthead">$Text{"Result"}:</td>
+  </tr>
+  <tr>
+    <td class="contentbody">
+      <table border="0" cellspacing="0" cellpadding="3" width="100%">
+      <tr>
+        <td class="contentkey" width="33%">$Text{"Subgroup"}</td>
+        <td class="contentkey" width="33%">$Text{"Group"}</td>
+        <td class="contentkey" width="33%">$Text{"Active"}</td>
+      </tr>
+<!-- dtl:block:Row -->
+      <tr>
+        <td class="contentvalue"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Edit&SysConfigSubGroup=$QData{"SubGroup"}">$QData{"SubGroup"}</a></td>
+        <td class="contentvalue">$QData{"Group"}</td>
+        <td class="contentvalue">$QData{"Active"}</td>
+      </tr>
+<!-- dtl:block:Row -->
+      </table>
+    </td>
+  </tr>
+  </table>
+  </td>
+</tr>
+</table>
+<!-- end form -->
