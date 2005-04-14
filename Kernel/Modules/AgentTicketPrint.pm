@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - to get a closer view
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPrint.pm,v 1.19 2005-03-27 11:50:50 martin Exp $
+# $Id: AgentTicketPrint.pm,v 1.20 2005-04-14 06:00:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -101,7 +101,6 @@ sub Run {
         User => $Ticket{Owner},
         Cached => 1
     );
-    # customer info
     # customer info
     my %CustomerData = ();
     if ($Ticket{CustomerUserID}) {
