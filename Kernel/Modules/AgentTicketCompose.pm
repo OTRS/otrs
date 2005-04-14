@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketCompose.pm,v 1.3 2005-03-27 11:50:50 martin Exp $
+# $Id: AgentTicketCompose.pm,v 1.4 2005-04-14 11:45:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -651,7 +651,7 @@ sub _Mask {
     $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => $Param{NextStates},
         Name => 'ComposeStateID',
-        Selected => $Param{NextState}
+        Selected => $Param{NextState} || $Self->{ConfigObject}->Get('Ticket::DefaultNextComposeType'),
     );
     # build select string
     if ($Param{StdAttachments} && %{$Param{StdAttachments}}) {
