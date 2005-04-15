@@ -94,7 +94,7 @@ TimeWorkingHours
 -->
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.7 2005-04-15 15:11:12 tr Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.8 2005-04-15 15:14:44 tr Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">To set the Ticket identifier. Some people want to set this to e. g. 'Call#', 'MyTicket#' or 'Ticket#'.</Description>
         <Description Lang="de">Hiermit kann der Ticket-Identifikator gesetzt werden. Manche Kunden wollen Benennen ihn z. B. als 'Call#' oder 'MyTicket#'. Als Standardeinstellung wird 'Ticket#' geliefert.</Description>
@@ -108,8 +108,8 @@ TimeWorkingHours
     <ConfigItem Name="Ticket::HookDivider" Required="1" Valid="1">
         <Description Lang="en">The divider between TicketHook# and number. E.g ': '.</Description>
         <Description Lang="de">Teiler zwischen Ticket-Identifikator und Numme.r</Description>
-        <Group>TicketCore</Group>
-        <SubGroup>Unknown</SubGroup>
+        <Group>Ticket</Group>
+        <SubGroup>TicketCore</SubGroup>
         <Setting>
             <String Regex=""></String>
         </Setting>
