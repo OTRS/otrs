@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Crypt/PGP.pm - the main crypt module
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PGP.pm,v 1.7 2004-09-20 19:20:50 martin Exp $
+# $Id: PGP.pm,v 1.8 2005-04-15 13:41:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Crypt::PGP;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 =head1 NAME
@@ -119,9 +119,10 @@ sub Decrypt {
     if (!$Param{Password}) {
         my $Pw;
         my @Keys = $Self->_CryptedWithKey(File => $Filename);
+        my %Password = %{$Self->{ConfigObject}->Get('PGP::Key::Password')};
         foreach (@Keys) {
-            if (defined ($Self->{ConfigObject}->Get("PGP::Key::Password::$_"))) {
-                $Pw = $Self->{ConfigObject}->Get("PGP::Key::Password::$_");
+            if (defined ($Password{$_})) {
+                $Pw = $Password{$_};
             }
         }
         if (defined($Pw)) {
@@ -182,7 +183,11 @@ sub Sign {
         return;
       }
     }
-    my $Pw = $Self->{ConfigObject}->Get("PGP::Key::Password::$Param{Key}") || '';
+    my $Pw = '';
+    my %Password = %{$Self->{ConfigObject}->Get('PGP::Key::Password')};
+    if (defined ($Password{$Param{Key}})) {
+        $Pw = $Password{$Param{Key}};
+    }
     if ($Param{Type} && $Param{Type} eq 'Detached') {
         $AddParams = '-sba';
     }
@@ -557,6 +562,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2004-09-20 19:20:50 $
+$Revision: 1.8 $ $Date: 2005-04-15 13:41:02 $
 
 =cut

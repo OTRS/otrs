@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.193 2005-04-14 12:45:11 rk Exp $
+# $Id: Defaults.pm,v 1.194 2005-04-15 13:41:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.193 $';
+$VERSION = '$Revision: 1.194 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -625,8 +625,8 @@ sub LoadDefaults {
     $Self->{'PGP::Bin'} = '/usr/bin/gpg';
     $Self->{'PGP::Options'} = '--homedir /var/lib/wwwrun/.gnupg/ --batch --no-tty --yes';
 #    $Self->{'PGP::Options'} = '--batch --no-tty --yes';
-#    $Self->{'PGP::Key::Password::D2DF79FA'} = 1234;
-#    $Self->{'PGP::Key::Password::488A0B8F'} = 1234;
+#    $Self->{'PGP::Key::Password'}->{'D2DF79FA'} = 1234;
+#    $Self->{'PGP::Key::Password'}->{'488A0B8F'} = 1234;
 
     # --------------------------------------------------- #
     # S/MIME settings (supports smime)                    #
@@ -667,6 +667,7 @@ sub LoadDefaults {
         Colum => 'Other Options',
         Label => 'Change Password',
         Prio => 1000,
+        PasswordHistory => 0,
 #        PasswordRegExp => '[a-z]|[A-z]|[0-9]|\.|;|,|:|-|\+|#|!|\$|&|\?',
         PasswordRegExp => '',
         PasswordMinSize => 0,
@@ -1100,6 +1101,7 @@ Your OTRS Notification Master
         Colum => 'Other Options',
         Label => 'Change Password',
         Prio => 1000,
+        PasswordHistory => 0,
 #        PasswordRegExp => '[a-z]|[A-z]|[0-9]|\.|;|,|:|-|\+|#|!|\$|&|\?',
         PasswordRegExp => '',
         PasswordMinSize => 0,
@@ -1670,6 +1672,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.193 $ $Date: 2005-04-14 12:45:11 $
+$Revision: 1.194 $ $Date: 2005-04-15 13:41:02 $
 
 =cut
