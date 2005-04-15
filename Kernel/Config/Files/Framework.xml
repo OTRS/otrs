@@ -40,9 +40,37 @@ Options (PullDownMenu)
             <Option SelectedID="Key">
                 <Item Key=""></Item>
                 <Item Key=""></Item>                
-            </Option
+            </Option>
         </Setting>
     </ConfigItem>   
+    
+Hash
+    <ConfigItem Name="" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Ticket</Group>
+        <SubGroup></SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key=""></Item>
+                <Item Key=""></Item>                
+            </Hash>
+        </Setting>
+    </ConfigItem> 
+    
+Array
+    <ConfigItem Name="" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Ticket</Group>
+        <SubGroup></SubGroup>
+        <Setting>
+            <Array>
+                <Item></Item>
+                <Item></Item>                
+            </Hash>
+        </Setting>
+    </ConfigItem>             
     
 Textarea
     <ConfigItem Name="" Required="1" Valid="1">
@@ -56,11 +84,16 @@ Textarea
                 and &lt; instead of <           
             </Textarea>
         </Setting>
-    </ConfigItem>                                   
+    </ConfigItem> 
+    
+TimeVacationDaysOneTime 
+TimeVacationDays 
+TimeWorkingHours    
+                                      
 -->
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.5 2005-04-14 09:20:21 tr Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.6 2005-04-15 05:19:20 tr Exp $</CVS>
     <ConfigItem Name="WebMaxFileUpload" Required="1" Valid="1">
         <Description Lang="en">Max size for browser file uploads (in byte).</Description>
         <Description Lang="de">Maximale Größe für Datei-Uploads im Browser (in byte).</Description>
