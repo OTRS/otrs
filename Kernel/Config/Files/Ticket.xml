@@ -9,7 +9,8 @@ Possible SubGroups
         - FrontendModulReg
         - LinkObject
         - Log  
-        - MIME-Viewer         
+        - MIME-Viewer 
+        - Misc        
         - Package            
         - PGP
         - Session
@@ -68,7 +69,7 @@ Array
             <Array>
                 <Item></Item>
                 <Item></Item>                
-            </Hash>
+            </Array>
         </Setting>
     </ConfigItem>             
     
@@ -93,12 +94,12 @@ TimeWorkingHours
 -->
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.6 2005-04-15 05:18:56 tr Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.7 2005-04-15 15:11:12 tr Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">To set the Ticket identifier. Some people want to set this to e. g. 'Call#', 'MyTicket#' or 'Ticket#'.</Description>
         <Description Lang="de">Hiermit kann der Ticket-Identifikator gesetzt werden. Manche Kunden wollen Benennen ihn z. B. als 'Call#' oder 'MyTicket#'. Als Standardeinstellung wird 'Ticket#' geliefert.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>TicketCore</SubGroup>
         <Setting>
             <String>Ticket#</String>
         </Setting>
@@ -107,7 +108,7 @@ TimeWorkingHours
     <ConfigItem Name="Ticket::HookDivider" Required="1" Valid="1">
         <Description Lang="en">The divider between TicketHook# and number. E.g ': '.</Description>
         <Description Lang="de">Teiler zwischen Ticket-Identifikator und Numme.r</Description>
-        <Group>Ticket</Group>
+        <Group>TicketCore</Group>
         <SubGroup>Unknown</SubGroup>
         <Setting>
             <String Regex=""></String>
@@ -118,7 +119,7 @@ TimeWorkingHours
         <Description Lang="en">Max size of the subjects in a reply.</Description>
         <Description Lang="de">Maximal zulässige Größe des Betreffs bei einer Antwort.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>TicketCore</SubGroup>
         <Setting>
             <String Regex="">60</String>
         </Setting>
@@ -128,7 +129,7 @@ TimeWorkingHours
         <Description Lang="en">The text at the beginning of the subject in a reply.</Description>
         <Description Lang="de">Präfix im der Betreff des Antwortschreibens.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>TicketCore</SubGroup>
         <Setting>
             <String Regex="">Re</String>
         </Setting>
@@ -138,7 +139,7 @@ TimeWorkingHours
         <Description Lang="en">The name of custom queue.</Description>
         <Description Lang="de">Name der KundenQueue</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>TicketCore</SubGroup>
         <Setting>
             <String Regex="">My Queues</String>
         </Setting>
@@ -148,7 +149,7 @@ TimeWorkingHours
         <Description Lang="en">Force a new ticket state after lock action.</Description>
         <Description Lang="de">Neuer TicketStatus nach dem das Ticket gesperrt wurde</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>TicketCore</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="new">open</Item>
@@ -164,7 +165,7 @@ TimeWorkingHours
         <Description Lang="en">Force to unlock a ticket after move action.</Description>
         <Description Lang="de">Sperrung aufheben nachdem ein Ticket in eine andere Queue verschoben worden ist.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>TicketCore</SubGroup>
         <Setting>
             <Option SelectedID="0">
                 <Item Key="0">No</Item>
@@ -177,7 +178,7 @@ TimeWorkingHours
         <Description Lang="en">Possible to change owner of ticket at everyone(useful for ASP).</Description>
         <Description Lang="de">Ermöglicht es den Besitzer eines fremden Tickets zuändern. (Kann für ASP nützlich sein)</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>TicketCore</SubGroup>
         <Setting>
             <Option SelectedID="0">
                 <Item Key="0">No</Item>
@@ -198,13 +199,26 @@ TimeWorkingHours
             </Option>
         </Setting>
         <!-- $Self->{'Ticket::QueueViewAllPossibleTickets'} = 0; -->
-    </ConfigItem>       
+    </ConfigItem>   
+    <ConfigItem Name="Ticket::NewMessageMode" Required="1" Valid="1">
+        <Description Lang="en">Mode of new message is counted.</Description>
+        <Description Lang="de">!Nicht Übersetzbar</Description>
+        <Group>Ticket</Group>
+        <SubGroup>TicketCore</SubGroup>
+        <Setting>
+            <Option SelectedID="ArticleLastSender">
+                <Item Key="ArticleLastSender">ArticleLastSender</Item>
+                <Item Key="ArticleSeen">ArticleSeen</Item>                
+            </Option>
+        </Setting>
+        <!--     
+             $Self->{'Ticket::NewMessageMode'} = 'ArticleLastSender';
+        #    $Self->{'Ticket::NewMessageMode'} = 'ArticleSeen';   
+        -->
+    </ConfigItem>      
+        
 <!--    
-    # Ticket::NewMessageMode
-    # (mode of new message is counted)
-    $Self->{'Ticket::NewMessageMode'} = 'ArticleLastSender';
-#    $Self->{'Ticket::NewMessageMode'} = 'ArticleSeen';    
-
+ 
     # --------------------------------------------------- #
     # TicketFreeText                                      #
     # (define free text options for frontend)             #
@@ -243,7 +257,7 @@ DateChecksum  --> die Ticketnummer wird aus Datum, SystemID, Counter und Checksu
 Random        --> Die Ticketnummer wird aus der SystemID und einer Zufallszahl gerneriert; ("SystemID.Random" z.B. 100057866352 und 103745394596.)        
         </Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>TicketCore</SubGroup>
         <Setting>
             <Option Location="Kernel/System/Ticket/Number/*.pm" SelectedID="Kernel::System::Ticket::Number::DateChecksum"></Option>
         </Setting>
@@ -252,16 +266,16 @@ Random        --> Die Ticketnummer wird aus der SystemID und einer Zufallszahl g
         <Description Lang="en">Min. ticket counter size.</Description>
         <Description Lang="de">Minimale Größe des Ticket-Zählers. (Default '5' d.h. gezählt wird ab 10000</Description>
         <Group>Ticket</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>TicketCore</SubGroup>
         <Setting>
             <String Regex="^[0-9]$">5</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::CustomQueue" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::CounterLog" Required="1" Valid="1">
         <Description Lang="en">Counter log</Description>
         <Description Lang="de">Pfad und Verzeichnis zum Loggen der CounterInformationen</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>TicketCore</SubGroup>
         <Setting>
             <String Regex="">&lt;OTRS_CONFIG_Home&gt;/var/log/TicketCounter.log</String>
         </Setting>
@@ -288,7 +302,7 @@ das StaticDB ist das leistungsfähigere Modul. Es sollte ab 80.000 Tickets bzw. 6
 benutzt werden. Hierfür wird eine extra Tabelle (ticket_index) benutzt. Benutzte zum initialen Anlegen 'bin/RebuildTicketIndex.pl'              
         </Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>TicketCore</SubGroup>
         <Setting>
             <Option SelectedID="Kernel::System::Ticket::IndexAccelerator::RuntimeDB">
                 <Item Key="Kernel::System::Ticket::IndexAccelerator::RuntimeDB">RuntimeDB</Item>
@@ -299,17 +313,7 @@ benutzt werden. Hierfür wird eine extra Tabelle (ticket_index) benutzt. Benutzte
         $Self->{'Ticket::IndexModule'} = 'Kernel::System::Ticket::IndexAccelerator::StaticDB'; 
         $Self->{'Ticket::IndexModule'} = 'Kernel::System::Ticket::IndexAccelerator::RuntimeDB';
         -->
-    </ConfigItem>     
-    <ConfigItem Name="Ticket::CustomQueue" Required="1" Valid="1">
-        <Description Lang="en">Counter log</Description>
-        <Description Lang="de">Pfad und Verzeichnis zum Loggen der CounterInformationen</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
-        <Setting>
-            <String Regex="">&lt;OTRS_CONFIG_Home&gt;/var/log/TicketCounter.log</String>
-        </Setting>
-        <!--  $Self->{'Ticket::CounterLog'} = '<OTRS_CONFIG_Home>/var/log/TicketCounter.log';   -->
-    </ConfigItem>      
+    </ConfigItem>         
     <ConfigItem Name="Ticket::StorageModule" Required="1" Valid="1">
         <Description Lang="en">StorageModule - (Don't use it for big emails/attachments!)
 (where attachments and co is stored - switch from fs -> db and db -> fs is possible)        
@@ -322,7 +326,7 @@ FS
 schneller, der WebserverUser muß dann aber der OtrsUser sein
         </Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>TicketCore</SubGroup>
         <Setting>
             <Option SelectedID="Kernel::System::Ticket::ArticleStorageDB">
                 <Item Key="Kernel::System::Ticket::ArticleStorageFS">FS</Item>
@@ -338,7 +342,7 @@ schneller, der WebserverUser muß dann aber der OtrsUser sein
         <Description Lang="en">article fs dir</Description>
         <Description Lang="de">Verzeichnisangabe, wenn die Artikel ins FileSystem geschrieben werden</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>TicketCore</SubGroup>
         <Setting>
             <String Regex="">&lt;OTRS_CONFIG_Home&gt;/var/article</String>
         </Setting>
@@ -348,7 +352,7 @@ schneller, der WebserverUser muß dann aber der OtrsUser sein
         <Description Lang="en">(custom functions to redefine Kernel::System::Ticket functions)</Description>
         <Description Lang="de">Nicht Übersetzbar!!!</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>TicketCore</SubGroup>
         <Setting>
             <String Regex="">Kernel::System::Ticket::Custom</String>
         </Setting>
@@ -358,7 +362,7 @@ schneller, der WebserverUser muß dann aber der OtrsUser sein
         <Description Lang="en">Set the age for highlighting of old queue (Age in min)</Description>
         <Description Lang="de">Zeit ab dem eine Queue mit nicht bearbeiteten Inhalten in erster Stufe gehighlighted wird. (Angabe in min)</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <String Regex="">1440</String>
         </Setting>
@@ -368,7 +372,7 @@ schneller, der WebserverUser muß dann aber der OtrsUser sein
         <Description Lang="en">Set the color for highlighting of old queue</Description>
         <Description Lang="de">Farbe mit der eine Queue mit nicht bearbeiteten Inhalten in erster Stufe gehighlighted wird. (Angabe in min)</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <String Regex="">orange</String>
         </Setting>
@@ -378,7 +382,7 @@ schneller, der WebserverUser muß dann aber der OtrsUser sein
         <Description Lang="en">Set the age for highlighting of old queue (Age in min)</Description>
         <Description Lang="de">Zeit ab dem eine Queue mit nicht bearbeiteten Inhalten in zweiter Stufe gehighlighted wird. (Angabe in min)</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <String Regex="">2880</String>
         </Setting>
@@ -388,7 +392,7 @@ schneller, der WebserverUser muß dann aber der OtrsUser sein
         <Description Lang="en">Set the color for highlighting of old queue</Description>
         <Description Lang="de">Farbe mit der eine Queue mit nicht bearbeiteten Inhalten in zweiter Stufe gehighlighted wird. (Angabe in min)</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <String Regex="">red</String>
         </Setting>
@@ -434,7 +438,7 @@ schneller, der WebserverUser muß dann aber der OtrsUser sein
         <Description Lang="en">Show article expanded in ticket zoom.</Description>
         <Description Lang="de">Zeige die Artikel erweitert in der TicketZoomAnsicht</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <Option SelectedID="0">
                 <Item Key="0">No</Item>
@@ -447,7 +451,7 @@ schneller, der WebserverUser muß dann aber der OtrsUser sein
         <Description Lang="en">Show article normal or in reverse order.</Description>
         <Description Lang="de">Zeige die Artikel normal oder rückwarts sortiert</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <Option SelectedID="normal">
                 <Item Key="reverse">reverse</Item>
@@ -489,7 +493,7 @@ schneller, der WebserverUser muß dann aber der OtrsUser sein
         <Description Lang="en">Width of compose note windows.</Description>
         <Description Lang="de">Anzahl der Zeichen pro Zeile im Notiz-Fenster.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>C</SubGroup>
         <Setting>
             <String Regex="">70</String>
         </Setting>
@@ -499,7 +503,7 @@ schneller, der WebserverUser muß dann aber der OtrsUser sein
         <Description Lang="en">Show customer user info on Compose (Phone and Email) view.</Description>
         <Description Lang="de">Nicht Übersetzbar!!!!</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
             <Option SelectedID="1">
                 <Item Key="0">No</Item>
@@ -512,7 +516,7 @@ schneller, der WebserverUser muß dann aber der OtrsUser sein
         <Description Lang="en">Show customer user info on Zoom view.</Description>
         <Description Lang="de">Nicht Übersetzbar!!!!</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
             <Option SelectedID="1">
                 <Item Key="0">No</Item>
@@ -525,7 +529,7 @@ schneller, der WebserverUser muß dann aber der OtrsUser sein
         <Description Lang="en">Show customer user info on Queue view.</Description>
         <Description Lang="de">Nicht Übersetzbar!!!!</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
             <Option SelectedID="0">
                 <Item Key="0">No</Item>
@@ -538,7 +542,7 @@ schneller, der WebserverUser muß dann aber der OtrsUser sein
         <Description Lang="en">Max size (in characters) of customer info table - Compose</Description>
         <Description Lang="de">Nicht Übersetzbar!!!!</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
             <String Regex="">22</String>
         </Setting>
@@ -548,7 +552,7 @@ schneller, der WebserverUser muß dann aber der OtrsUser sein
         <Description Lang="en">Max size (in characters) of customer info table - Zoom</Description>
         <Description Lang="de">Nicht Übersetzbar!!!!</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
             <String Regex="">22</String>
         </Setting>
@@ -558,7 +562,7 @@ schneller, der WebserverUser muß dann aber der OtrsUser sein
         <Description Lang="en">Max size (in characters) of customer info table - Queue</Description>
         <Description Lang="de">Nicht Übersetzbar!!!!</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
             <String Regex="">18</String>
         </Setting>
@@ -568,7 +572,7 @@ schneller, der WebserverUser muß dann aber der OtrsUser sein
         <Description Lang="en">Don't show escalated tickets in frontend for agents who are writable in this group</Description>
         <Description Lang="de">Zeige keinem der Schreibrechte in dieser Gruppe hat, eskalierte Tickets</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <String Regex="">some_group</String>
         </Setting>
@@ -619,7 +623,7 @@ schneller, der WebserverUser muß dann aber der OtrsUser sein
         <Description Lang="en">Add time accounting.</Description>
         <Description Lang="de">Hinzufügen der Zeiterfassung</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <Option SelectedID="0">
                 <Item Key="0">No</Item>
@@ -647,7 +651,7 @@ schneller, der WebserverUser muß dann aber der OtrsUser sein
         <Description Lang="en">Time must be accounted.</Description>
         <Description Lang="de">Die benötigte Zeit muß angegeben werden</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <Option SelectedID="0">
                 <Item Key="0">No</Item>
@@ -774,24 +778,1311 @@ schneller, der WebserverUser muß dann aber der OtrsUser sein
         </Setting>
         <!--  $Self->{'Ticket::Frontend::SearchViewableTicketLines'} = 10;   -->
     </ConfigItem>  
-  
+    <ConfigItem Name="Ticket::Frontend::SearchArticleCSVTree" Required="1" Valid="1">
+        <Description Lang="en">Export also whole article tree in search result export (take care of your performance!).</Description>
+        <Description Lang="de">Exportiere im Suchergebnisexport auch den ganzen ArtikelBaum. Beachten Sie dabei bitte die Performance</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>                
+            </Option>
+        </Setting>
+        <!-- $Self->{'Ticket::Frontend::SearchArticleCSVTree'} = 0; -->
+    </ConfigItem>     
+    <ConfigItem Name="Ticket::SearchCSVData" Required="1" Valid="1">
+        <Description Lang="en">Used csv data.</Description>
+        <Description Lang="de">Nicht Übersetzbar!!!</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Array>
+                <Item>TicketNumber</Item>
+                <Item>Age</Item> 
+                <Item>Created</Item>
+                <Item>State</Item>  
+                <Item>Priority</Item>
+                <Item>Queue</Item>  
+                <Item>Lock</Item>
+                <Item>Owner</Item>  
+                <Item>UserFirstname</Item>
+                <Item>UserLastname</Item>    
+                <Item>CustomerID</Item>
+                <Item>CustomerName</Item> 
+                <Item>From</Item>
+                <Item>Subject</Item>  
+                <Item>AccountedTime</Item>
+                <Item>TicketFreeKey1</Item>  
+                <Item>TicketFreeText1</Item>
+                <Item>TicketFreeKey2</Item>  
+                <Item>TicketFreeText2</Item>
+                <Item>TicketFreeKey3</Item>   
+                <Item>TicketFreeText3</Item>
+                <Item>TicketFreeKey4</Item> 
+                <Item>TicketFreeText4</Item>
+                <Item>TicketFreeKey5</Item>  
+                <Item>TicketFreeText5</Item>
+                <Item>TicketFreeKey6</Item>  
+                <Item>TicketFreeText6</Item>
+                <Item>TicketFreeKey7</Item>  
+                <Item>TicketFreeText7</Item>
+                <Item>TicketFreeKey8</Item>    
+                <Item>TicketFreeText8</Item>
+                <Item>CustomerName</Item> 
+                <Item>ArticleTree</Item>                                                                              
+            </Array>
+        </Setting>
+        <!--     $Self->{'Ticket::Frontend::SearchCSVData'} = ['TicketNumber','Age','Created','State','Priority','Queue','Lock','Owner','UserFirstname','UserLastname','CustomerID','CustomerName','From','Subject','AccountedTime','TicketFreeKey1','TicketFreeText1','TicketFreeKey2','TicketFreeText2','TicketFreeKey3','TicketFreeText3','TicketFreeKey4','TicketFreeText4','TicketFreeKey5','TicketFreeText5','TicketFreeKey6','TicketFreeText6','TicketFreeKey7','TicketFreeText7','TicketFreeKey8','TicketFreeText8','ArticleTree','']; -->
+    </ConfigItem>    
+    <ConfigItem Name="Ticket::Frontend::Search::DB::DSN" Required="0" Valid="0">
+        <Description Lang="en">If you want to use a mirror database for agent ticket fulltext search</Description>
+        <Description Lang="de">Nicht Übersetzbar!!</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">DBI:mysql:database=mirrordb;host=mirrordbhost</String>
+        </Setting>
+        <!--  $Self->{'Ticket::Frontend::Search::DB::DSN'} = "DBI:mysql:database=mirrordb;host=mirrordbhost";   -->
+    </ConfigItem>      
+    <ConfigItem Name="Ticket::Frontend::Search::DB::User" Required="0" Valid="0">
+        <Description Lang="en">If you want to use a mirror database for agent ticket fulltext search</Description>
+        <Description Lang="de">Nicht Übersetzbar!!</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">some_user</String>
+        </Setting>
+        <!--  $Self->{'Ticket::Frontend::Search::DB::User'} = "some_user";   -->
+    </ConfigItem>        
+    <ConfigItem Name="Ticket::Frontend::Search::DB::Password" Required="0" Valid="0">
+        <Description Lang="en">If you want to use a mirror database for agent ticket fulltext search</Description>
+        <Description Lang="de">Nicht Übersetzbar!!</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">some_password</String>
+        </Setting>
+        <!--  $Self->{'Ticket::Frontend::Search::DB::Password'} = "some_password";   -->
+    </ConfigItem>         
+    <ConfigItem Name="Ticket::AgentCanBeCustomer" Required="1" Valid="1">
+        <Description Lang="en">Use this if an agent can also be a customer via the agent interface.</Description>
+        <Description Lang="de">Kann ein Agent auch ein Kunde im Agentinterface sein?</Description>
+        <Group>Ticket</Group>
+        <SubGroup>TicketCore</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>                
+            </Option>
+        </Setting>
+        <!-- $Self->{'Ticket::AgentCanBeCustomer'} = 0;  -->
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::PhoneArticleType" Required="1" Valid="1">
+    <!-- Perhaps a pulldownmenu? -->         
+        <Description Lang="en">Default note type</Description>
+        <Description Lang="de">Nicht Übersetzbar!! zu wenig inhalt</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">phone</String>
+        </Setting>
+        <!--  $Self->{'Ticket::Frontend::PhoneArticleType'} = 'phone';   -->
+    </ConfigItem> 
+    <ConfigItem Name="Ticket::Frontend::PhoneSenderType" Required="1" Valid="1">
+    <!-- Perhaps a pulldownmenu? -->         
+        <Description Lang="en">Default note type</Description>
+        <Description Lang="de">Nicht Übersetzbar!! zu wenig inhalt</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">agent</String>
+        </Setting>
+        <!--  $Self->{'Ticket::Frontend::PhoneSenderType'} = 'agent';   -->
+    </ConfigItem>     
+    <ConfigItem Name="Ticket::Frontend::PhoneSubject" Required="1" Valid="1">        
+        <Description Lang="en">Default note subject</Description>
+        <Description Lang="de">Nicht Übersetzbar!! zu wenig inhalt</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">$Text{"Phone call at %s", "Time(DateFormatLong)"}</String>
+        </Setting>
+        <!--  $Self->{'Ticket::Frontend::PhoneSubject'} = '$Text{"Phone call at %s", "Time(DateFormatLong)"}';   -->
+    </ConfigItem>     
+    <ConfigItem Name="Ticket::Frontend::PhoneNote" Required="1" Valid="1">         
+        <Description Lang="en">Default note text</Description>
+        <Description Lang="de">Nicht Übersetzbar!! zu wenig inhalt</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">$Text{"Customer called"}</String>
+        </Setting>
+        <!--  $Self->{'Ticket::Frontend::PhoneNote'} = '$Text{"Customer called"}';   -->
+    </ConfigItem>     
+    <ConfigItem Name="Ticket::PhoneDefaultNextStateType" Required="1" Valid="1">
+        <Description Lang="en">Next possible states after phone.</Description>
+        <Description Lang="de">Mögliche Statuse nach dem Telefonat</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Array>
+                <Item>open</Item>
+                <Item>pending auto</Item> 
+                <Item>pending reminder</Item>
+                <Item>closed</Item>                        
+            </Array>
+        </Setting>
+        <!--  $Self->{'Ticket::PhoneDefaultNextStateType'} = ['open', 'pending auto', 'pending reminder', 'closed']; -->
+    </ConfigItem>      
+    <ConfigItem Name="Ticket::Frontend::PhoneNextState" Required="1" Valid="1">     
+        <!-- Perhaps a pulldownmenu   -->    
+        <Description Lang="en">Default next state</Description>
+        <Description Lang="de">Vorauswahl für den nächsten Status der Telefonnotiz</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">closed successful</String>
+        </Setting>
+        <!--  $Self->{'Ticket::Frontend::PhoneNextState'} = 'closed successful';   -->
+    </ConfigItem> 
+    <ConfigItem Name="Ticket::Frontend::PhoneHistoryType" Required="1" Valid="1">      
+        <Description Lang="en">Default history type</Description>
+        <Description Lang="de">!!! Nicht Übersetzbar!! zuwenig Inhalt</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">PhoneCallAgent</String>
+        </Setting>
+        <!--  $Self->{'Ticket::Frontend::PhoneHistoryType'} = 'PhoneCallAgent';   -->
+    </ConfigItem>     
+    <ConfigItem Name="Ticket::Frontend::PhoneHistoryComment" Required="1" Valid="1">      
+        <Description Lang="en">Default history type</Description>
+        <Description Lang="de">!!! Nicht Übersetzbar!! zuwenig Inhalt</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex=""></String>
+        </Setting>
+        <!--  $Self->{'Ticket::Frontend::PhoneHistoryComment'} = '';   -->
+    </ConfigItem>   
+    <ConfigItem Name="Ticket::Frontend::PhoneNewArticleType" Required="1" Valid="1">      
+        <Description Lang="en">Default article type</Description>
+        <Description Lang="de">Default Artikeltyp</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">phone</String>
+        </Setting>
+        <!--  $Self->{'Ticket::Frontend::PhoneNewArticleType'} = 'phone';   -->
+    </ConfigItem>  
+    <ConfigItem Name="Ticket::Frontend::PhoneNewSenderType" Required="1" Valid="1">      
+        <Description Lang="en"></Description>
+        <Description Lang="de">!!! Nicht übersetzbar!!!! Kein Inhalt</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">customer</String>
+        </Setting>
+        <!--  $Self->{'Ticket::Frontend::PhoneNewSenderType'} = 'customer';   -->
+    </ConfigItem>  
+    <ConfigItem Name="Ticket::Frontend::PhoneNewSubject" Required="1" Valid="1">      
+        <Description Lang="en">default note subject. E.g '$Text{"Phone call at %s", "Time(DateFormatLong)"}'</Description>
+        <Description Lang="de">!!! Nicht übersetzbar!!!! kein sauberer Bezug</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex=""></String>
+        </Setting>
+        <!--  
+        $Self->{'Ticket::Frontend::PhoneNewSubject'} = '$Text{"Phone call at %s", "Time(DateFormatLong)"}';
+        $Self->{'Ticket::Frontend::PhoneNewSubject'} = '';
+        -->
+    </ConfigItem>  
+    <ConfigItem Name="Ticket::Frontend::PhoneNewNote" Required="1" Valid="1">      
+        <Description Lang="en">Default note text. E.g 'New ticket via call.'</Description>
+        <Description Lang="de">!!! Nicht übersetzbar!!!! kein sauberer Bezug</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex=""></String>
+        </Setting>
+        <!--  
+        $Self->{'Ticket::Frontend::PhoneNewNote'} = 'New ticket via call.';
+        $Self->{'Ticket::Frontend::PhoneNewNote'} = '';
+        -->
+    </ConfigItem>          
+    <ConfigItem Name="Ticket::Frontend::PhoneNewNextState" Required="1" Valid="1">    
+        <!-- Perhaps Pulldownmenu-->  
+        <Description Lang="en">Default next state [default: open]</Description>
+        <Description Lang="de">!!! Nicht übersetzbar!!!! kein sauberer Bezug</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">open</String>
+        </Setting>
+        <!--  $Self->{'Ticket::Frontend::PhoneNewNextState'} = 'open';  -->
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::PhonePriority" Required="1" Valid="1">    
+        <!-- Perhaps Pulldownmenu-->  
+        <Description Lang="en">Default priority [default: 3 normal]</Description>
+        <Description Lang="de">Standardpriorität eines Telefontickets</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">3 normal</String>
+        </Setting>
+        <!--  $Self->{'Ticket::Frontend::PhonePriority'} = '3 normal';  -->
+    </ConfigItem>    
+    <ConfigItem Name="Ticket::Frontend::PhoneNewHistoryType" Required="1" Valid="1">    
+        <Description Lang="en">Default history type</Description>
+        <Description Lang="de">!!! Nicht übersetzbar!!!! kein sauberer Bezug</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">PhoneCallCustomer</String>
+        </Setting>
+        <!--  $Self->{'Ticket::Frontend::PhoneNewHistoryType'} = 'PhoneCallCustomer';  -->
+    </ConfigItem>    
+    <ConfigItem Name="Ticket::Frontend::PhoneNewHistoryComment" Required="1" Valid="1">    
+        <Description Lang="en"></Description>
+        <Description Lang="de">!!! Nicht übersetzbar!!!! kein Inhalt!!!</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex=""></String>
+        </Setting>
+        <!--  $Self->{'Ticket::Frontend::PhoneNewHistoryComment'} = '';  -->
+    </ConfigItem>    
+    <ConfigItem Name="Ticket::Frontend::NewOwnerSelection" Required="1" Valid="1">
+        <Description Lang="en">Show owner selection in phone and email ticket.</Description>
+        <Description Lang="de">Zeige bei die Besitzerauswahl im Telefon und E-Mail-Ticket</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>                
+            </Option>
+        </Setting>
+        <!-- $Self->{'Ticket::Frontend::NewOwnerSelection'} = 1;  -->
+    </ConfigItem>    
+    <ConfigItem Name="Ticket::Frontend::NewQueueSelectionType" Required="1" Valid="1">
+        <Description Lang="en">Section type: Queue => show all queues, SystemAddress => show all system addresses</Description>
+        <Description Lang="de">Kommentar, daß man das nachfolgende Pulldownmenu berücksichtigen muß!!! Nicht übersetzbar !!! bekomme den Inhalt nicht klar</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Option SelectedID="Queue">
+                <Item Key="Queue">Queue</Item>
+                <Item Key="SystemAddress">SystemAddress</Item>                
+            </Option>
+        </Setting>
+        <!-- 
+        $Self->{'Ticket::Frontend::NewQueueSelectionType'} = 'Queue';
+        $Self->{'Ticket::Frontend::NewQueueSelectionType'} = 'SystemAddress';
+        -->
+    </ConfigItem>        
+    <ConfigItem Name="Ticket::Frontend::NewQueueSelectionString" Required="1" Valid="1">
+    <!-- Vielleicht bessere Auswahlbezeichnung finden  -->        
+        <Description Lang="en">String for To: selection.
+use this for NewQueueSelectionType = Queue =>   'Queue: &lt;Queue&gt; - &lt;QueueComment&gt;">Queue: &lt;Queue&gt; - &lt;QueueComment&gt;; '&lt;Queue&gt;'      
+use this for NewQueueSelectionType = SystemAddress => '&lt;Realname&gt; &lt;&lt;Email&gt;&gt; - Queue: &lt;Queue&gt; - &lt;QueueComment&gt;">&lt;Realname&gt; &lt;&lt;Email&gt;&gt; - Queue: &lt;Queue&gt; - &lt;QueueComment&gt;'; '&lt;Realname&gt; &lt;&lt;Email&gt;&gt; - Queue: &lt;Queue&gt;'    
+        
+        </Description>
+        <Description Lang="de">!!! Nicht übersetzbar !!! bekomme den Inhalt nicht klar</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Option SelectedID="&lt;Queue&gt;">
+                <Item Key="Queue: &lt;Queue&gt; - &lt;QueueComment&gt;">Queue: &lt;Queue&gt; - &lt;QueueComment&gt;</Item>
+                <Item Key="&lt;Queue&gt;">&lt;Queue&gt;</Item>    
+                <Item Key="&lt;Realname&gt; &lt;&lt;Email&gt;&gt; - Queue: &lt;Queue&gt; - &lt;QueueComment&gt;">&lt;Realname&gt; &lt;&lt;Email&gt;&gt; - Queue: &lt;Queue&gt; - &lt;QueueComment&gt;</Item>
+                <Item Key="&lt;Realname&gt; &lt;&lt;Email&gt;&gt; - Queue: &lt;Queue&gt;">&lt;Realname&gt; &lt;&lt;Email&gt;&gt; - Queue: &lt;Queue&gt;</Item>                                 
+            </Option>
+        </Setting>
+        <!-- 
+        $Self->{'Ticket::Frontend::NewQueueSelectionString'} = 'Queue: <Queue> - <QueueComment>';
+        $Self->{'Ticket::Frontend::NewQueueSelectionString'} = '<Queue>';
+        $Self->{'Ticket::Frontend::NewQueueSelectionString'} = '<Realname> <<Email>> - Queue: <Queue> - <QueueComment>';
+        $Self->{'Ticket::Frontend::NewQueueSelectionString'} = '<Realname> <<Email>> - Queue: <Queue>';
+        -->
+    </ConfigItem>         
+    <ConfigItem Name="Ticket::Frontend::NewQueueOwnSelection" Required="0" Valid="0">
+        <Description Lang="en">If this is in use, "just this selection is valid" for the PhoneView.</Description>
+        <Description Lang="de">Wenn Sie diese Auswahl benutzen, ist sie nur für die TelefonAnsicht gültig</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="1">First Queue!</Item>
+                <Item Key="2">Second Queue!</Item>
+            </Hash>
+        </Setting>
+        <!-- 
+        $Self->{'Ticket::Frontend::NewQueueOwnSelection'} = {
+            # QueueID => String
+            '1' => 'First Queue!',
+            '2' => 'Second Queue!',
+        };    
+        -->        
+    </ConfigItem> 
+    <ConfigItem Name="Ticket::Frontend::EmailPriority" Required="1" Valid="1">    
+        <!-- Perhaps Pulldownmenu -->
+        <Description Lang="en">default priority [default: 3 normal]</Description>
+        <Description Lang="de">!!! Nicht übersetzbar!!!! kein Inhalt!!!</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">3 normal</String>
+        </Setting>
+        <!--  $Self->{'Ticket::Frontend::EmailPriority'} = '3 normal';  -->
+    </ConfigItem>     
+    <ConfigItem Name="Ticket::Frontend::EmailNewArticleType" Required="1" Valid="1">    
+        <!-- Perhaps Pulldownmenu -->
+        <Description Lang="en">default article type</Description>
+        <Description Lang="de">Standard Artikeltyp beim erstellen eines Artikels</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">email-external</String>
+        </Setting>
+        <!--  $Self->{'Ticket::Frontend::EmailNewArticleType'} = 'email-external';  -->
+    </ConfigItem>     
+    <ConfigItem Name="Ticket::Frontend::EmailNewSenderType" Required="1" Valid="1">    
+        <!-- Perhaps Pulldownmenu -->
+        <Description Lang="en">Default sender type</Description>
+        <Description Lang="de">!!! Nicht Übersetzbar !!! kein Bezug</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">agent</String>
+        </Setting>
+        <!--  $Self->{'Ticket::Frontend::EmailNewSenderType'} = 'agent';  -->
+    </ConfigItem> 
+    <ConfigItem Name="Ticket::Frontend::EmailNewHistoryType" Required="1" Valid="1">    
+        <Description Lang="en">History</Description>
+        <Description Lang="de">!!! Nicht Übersetzbar !!! kein Bezug</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">EmailAgent</String>
+        </Setting>
+        <!--  $Self->{'Ticket::Frontend::EmailNewHistoryType'} = 'EmailAgent';  -->
+    </ConfigItem>   
+    <ConfigItem Name="Ticket::Frontend::EmailNewHistoryComment" Required="1" Valid="1">    
+        <Description Lang="en">History</Description>
+        <Description Lang="de">!!! Nicht Übersetzbar !!! kein Bezug</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex=""></String>
+        </Setting>
+        <!--  $Self->{'Ticket::Frontend::EmailNewHistoryComment'} = '';  -->
+    </ConfigItem>   
+    <ConfigItem Name="Ticket::Frontend::EmailNewNote" Required="1" Valid="1">    
+        <Description Lang="en">Default note text</Description>
+        <Description Lang="de">!!! Nicht Übersetzbar !!! kein Bezug</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex=""></String>
+        </Setting>
+        <!--  $Self->{'Ticket::Frontend::EmailNewNote'} = '';  -->
+    </ConfigItem>   
+    <ConfigItem Name="Ticket::EmailDefaultNextStateType" Required="1" Valid="1">
+        <Description Lang="en">Next possible states after e-mailphone.</Description>
+        <Description Lang="de">Mögliche Statuse nach dem erstellen eines Emails</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Array>
+                <Item>open</Item>
+                <Item>pending auto</Item> 
+                <Item>pending reminder</Item>
+                <Item>closed</Item>                        
+            </Array>
+        </Setting>
+        <!--  $Self->{'Ticket::EmailDefaultNextStateType'} = ['open', 'pending auto', 'pending reminder', 'closed']; -->
+    </ConfigItem>     
+    <ConfigItem Name="Ticket::Frontend::EmailNewNextState" Required="1" Valid="1">    
+        <!-- Perhaps Pulldownmenu -->
+        <Description Lang="en">Default next state</Description>
+        <Description Lang="de">Vorauswahl für den nächsten Status. - Inhalt zu wenig</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">open</String>
+        </Setting>
+        <!--  $Self->{'Ticket::Frontend::EmailNewNextState'} = 'open';  -->
+    </ConfigItem>   
+    <ConfigItem Name="Ticket::Frontend::NoteSetState" Required="1" Valid="1">
+        <Description Lang="en">Possible to set ticket state via AgentTicketNote.</Description>
+        <Description Lang="de">!!! Nicht übersetzbar !!!!</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>                
+            </Option>
+        </Setting>
+        <!-- $Self->{'Ticket::Frontend::NoteSetState'} = 0;  -->
+    </ConfigItem>    
+    <ConfigItem Name="Ticket::Frontend::NoteInformInvolvedAgent" Required="1" Valid="1">
+        <Description Lang="en">Show selection about involved agents.</Description>
+        <Description Lang="de">Zeige die Auswahl über innvolvierte Agents</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>                
+            </Option>
+        </Setting>
+        <!-- $Self->{'Ticket::Frontend::NoteInformInvolvedAgent'} = 0;  -->
+    </ConfigItem>    
+    <ConfigItem Name="Ticket::Frontend::NoteInformAgent" Required="1" Valid="1">
+        <Description Lang="en">Show selection about agents to inform.</Description>
+        <Description Lang="de">!!! Nicht Übersetzbar !!!!</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>                
+            </Option>
+        </Setting>
+        <!-- $Self->{'Ticket::Frontend::NoteInformAgent'} = 0;  -->
+    </ConfigItem>      
+    <ConfigItem Name="Ticket::DefaultNextNoteStateType" Required="1" Valid="1">
+        <Description Lang="en">Default note next state.</Description>
+        <Description Lang="de">!!! Nicht Übersetzbar !!!! kein bezug</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Array>
+                <Item>new</Item>
+                <Item>open</Item> 
+                <Item>closed</Item>                        
+            </Array>
+        </Setting>
+        <!--  $Self->{'Ticket::DefaultNextNoteStateType'} = ['new', 'open', 'closed']; -->
+    </ConfigItem> 
+    <ConfigItem Name="Ticket::Frontend::NoteType" Required="1" Valid="1"> 
+        <!--  Perhaps Pulldownmenu  -->   
+        <Description Lang="en">Default note type</Description>
+        <Description Lang="de">Voreingestellter Notiztyp</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">note-internal</String>
+        </Setting>
+        <!--  $Self->{'Ticket::Frontend::NoteType'} = 'note-internal';  -->
+    </ConfigItem>   
+    <ConfigItem Name="Ticket::Frontend::NoteTypes" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de">!!! Nicht Übersetzbar !!! Kein Inhalt</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="note-internal">1</Item>
+                <Item Key="note-external">0</Item>
+                <Item Key="note-report">0</Item>
+            </Hash>
+        </Setting>
+        <!--
+        $Self->{'Ticket::Frontend::NoteTypes'} = {
+            'note-internal' => 1,
+            'note-external' => 0,
+            'note-report' => 0,
+        };        
+        -->
+    </ConfigItem> 
+    <ConfigItem Name="Ticket::Frontend::NoteSubject" Required="1" Valid="1"> 
+        <Description Lang="en">Default note subject</Description>
+        <Description Lang="de">Standardtext im Betreff der Notiz</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">$Text{"Note!"}</String>
+        </Setting>
+        <!--  $Self->{'Ticket::Frontend::NoteSubject'} = '$Text{"Note!"}';  -->
+    </ConfigItem>       
+    <ConfigItem Name="Ticket::Frontend::NoteText" Required="1" Valid="1"> 
+        <Description Lang="en">Default note text</Description>
+        <Description Lang="de">Standardtext im Textfeld der Notiz</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex=""></String>
+        </Setting>
+        <!--  $Self->{'Ticket::Frontend::NoteText'} = '';  -->
+    </ConfigItem>       
+    <ConfigItem Name="Ticket::Frontend::PendingSubject" Required="1" Valid="1"> 
+        <Description Lang="en"></Description>
+        <Description Lang="de">Kein Inhalt</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">Pending!</String>
+        </Setting>
+        <!--  $Self->{'Ticket::Frontend::PendingSubject'} = 'Pending!';  -->
+    </ConfigItem>      
+    <ConfigItem Name="Ticket::Frontend::PendingText" Required="1" Valid="1"> 
+        <Description Lang="en"></Description>
+        <Description Lang="de">Kein Inhalt</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex=""></String>
+        </Setting>
+        <!--  $Self->{'Ticket::Frontend::PendingText'} = '';  -->
+    </ConfigItem>      
+    <ConfigItem Name="Ticket::Frontend::PendingState" Required="1" Valid="1"> 
+        <!-- Perhaps Pulldownmenu    -->
+        <Description Lang="en"></Description>
+        <Description Lang="de">Kein Inhalt</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">pending reminder</String>
+        </Setting>
+        <!--  $Self->{'Ticket::Frontend::PendingState'} = 'pending reminder';  -->
+    </ConfigItem>          
+    <ConfigItem Name="Ticket::DefaultPendingNextStateType" Required="1" Valid="1">
+        <Description Lang="en">Next possible states for pending screen.</Description>
+        <Description Lang="de">!!! Nicht Übersetzbar !!!! kein bezug</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Array>
+                <Item>pending reminder</Item>
+                <Item>pending auto</Item> 
+            </Array>
+        </Setting>
+        <!--  $Self->{'Ticket::DefaultPendingNextStateType'} = ['pending reminder', 'pending auto']; -->
+    </ConfigItem>     
+    <ConfigItem Name="Ticket::Frontend::CloseNoteType" Required="1" Valid="1"> 
+        <Description Lang="en"></Description>
+        <Description Lang="de">!!! Nicht Übersetzbar !!!Kein Inhalt</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">note-internal</String>
+        </Setting>
+        <!--  $Self->{'Ticket::Frontend::CloseNoteType'} = 'note-internal'  -->
+    </ConfigItem>          
+    <ConfigItem Name="Ticket::Frontend::NoteText" Required="1" Valid="1"> 
+        <Description Lang="en"></Description>
+        <Description Lang="de">!! Nicht Übersetzbar !!! Kein Inhalt</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">Close!</String>
+        </Setting>
+        <!--  $Self->{'Ticket::Frontend::CloseSubject'} = 'Close!';  -->
+    </ConfigItem>          
+    <ConfigItem Name="Ticket::Frontend::CloseText" Required="1" Valid="1"> 
+        <Description Lang="en"></Description>
+        <Description Lang="de">!! Nicht Übersetzbar !!! Kein Inhalt</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex=""></String>
+        </Setting>
+        <!--  $Self->{'Ticket::Frontend::CloseText'} = '';  -->
+    </ConfigItem>          
+    <ConfigItem Name="Ticket::Frontend::CloseState" Required="1" Valid="1"> 
+        <Description Lang="en"></Description>
+        <Description Lang="de">!! Nicht Übersetzbar !!! Kein Inhalt</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">closed successful</String>
+        </Setting>
+        <!--  $Self->{'Ticket::Frontend::CloseState'} = 'closed successful';  -->
+    </ConfigItem>          
+    <ConfigItem Name="Ticket::DefaultCloseNextStateType" Required="1" Valid="1">
+        <Description Lang="en">Next possible states for close screen.</Description>
+        <Description Lang="de">Nächster möglicher Status für das SchließenFenster. - Inhaltlich zu wenig</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Array>
+                <Item>closed</Item>                        
+            </Array>
+        </Setting>
+        <!--  $Self->{'Ticket::DefaultCloseNextStateType'} = ['closed'];   -->
+    </ConfigItem>         
+    <ConfigItem Name="Ticket::DefaultNextComposeType" Required="1" Valid="1"> 
+        <!-- Perhaps Pulldownmenu intelligent-->        
+        <Description Lang="en">Default compose next state</Description>
+        <Description Lang="de">!! Nicht Übersetzbar !!!</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">open</String>
+        </Setting>
+        <!--   $Self->{'Ticket::DefaultNextComposeType'} = 'open';  -->
+    </ConfigItem>      
+    <ConfigItem Name="Ticket::DefaultNextComposeStateType" Required="1" Valid="1">
+        <Description Lang="en">Next possible states for compose message.</Description>
+        <Description Lang="de">!!! Nicht Übersetzbar !!!</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Array>
+                <Item>open</Item>
+                <Item>closed</Item>                        
+                <Item>pending auto</Item>                        
+                <Item>pending reminder</Item>                                                                
+            </Array>
+        </Setting>
+        <!--  $Self->{'Ticket::DefaultNextComposeStateType'} = ['open', 'closed', 'pending auto', 'pending reminder'];   -->
+    </ConfigItem>        
+    <ConfigItem Name="Ticket::Frontend::ResponseFormat" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de">!!!!! Kein Inhalt</Description>
+        <Group>Ticket</Group>
+        <SubGroup>a</SubGroup>
+        <Setting>
+            <Textarea>$Data{"Salutation"}
+$Data{"OrigFrom"} $Text{"wrote"}:
+$Data{"Body"}
+
+$Data{"StdResponse"}
+
+$Data{"Signature"}
+                
+            </Textarea>
+        </Setting>
+        <!--                    
+            # unix_style
+            $Self->{'Ticket::Frontend::ResponseFormat'} = '$Data{"Salutation"}
+            $Data{"OrigFrom"} $Text{"wrote"}:
+            $Data{"Body"}
+
+            $Data{"StdResponse"}
+
+            $Data{"Signature"}
+            ';
+            # ms_style
+            #    $Self->{'Ticket::Frontend::ResponseFormat'} = '$Data{"Salutation"}
+            #
+            #$Data{"StdResponse"}
+            #
+            #$Data{"Signature"}
+            #
+            #$Data{"OrigFrom"} $Text{"wrote"}:
+            #$Data{"Body"}
+            #';        
+        -->
+    </ConfigItem>      
+    <ConfigItem Name="Ticket::Frontend::BounceState" Required="1" Valid="1"> 
+        <!-- Perhaps Pulldownmenu intelligent-->        
+        <Description Lang="en">Default bounce next state</Description>
+        <Description Lang="de">!! Nicht Übersetzbar !!! Kein Zusammenhang</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">closed successful</String>
+        </Setting>
+        <!--   $Self->{'Ticket::Frontend::BounceState'} = 'closed successful';  -->
+    </ConfigItem>       
+    <ConfigItem Name="Ticket::DefaultNextBounceStateType" Required="1" Valid="1">
+        <Description Lang="en">Next possible states for bounce message.</Description>
+        <Description Lang="de">!!! Nicht Übersetzbar !!!</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Array>
+                <Item>open</Item>
+                <Item>closed</Item>                                                                                    
+            </Array>
+        </Setting>
+        <!--  $Self->{'Ticket::DefaultNextBounceStateType'} = ['open', 'closed'];  -->
+    </ConfigItem>          
+    <ConfigItem Name="Ticket::Frontend::BounceText" Required="1" Valid="1"> 
+        <!-- Perhaps Pulldownmenu intelligent-->        
+        <Description Lang="en">Default note text</Description>
+        <Description Lang="de">Standardnotiztext beim bouncen einer Email</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">Your email with ticket number "&lt;OTRS_TICKET&gt;" is bounced to "&lt;OTRS_BOUNCE_TO&gt;". Contact this address for further informations.</String>
+        </Setting>
+        <!--       
+        $Self->{'Ticket::Frontend::BounceText'} = 'Your email with ticket number "<OTRS_TICKET>" '.
+        'is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.';
+        -->
+    </ConfigItem>  
+    <ConfigItem Name="Ticket::DefaultNextForwardStateType" Required="1" Valid="1">
+        <Description Lang="en">Next possible states for forward message.</Description>
+        <Description Lang="de">!!! Nicht Übersetzbar !!!</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Array>
+                <Item>open</Item>
+                <Item>closed</Item>                                                                                    
+            </Array>
+        </Setting>
+        <!--  $Self->{'Ticket::DefaultNextForwardStateType'} = ['open', 'closed'];  -->
+    </ConfigItem>          
+    <ConfigItem Name="Ticket::Frontend::ForwardArticleTypes" Required="1" Valid="1">
+        <Description Lang="en">Possible email type.</Description>
+        <Description Lang="de">!!! Nicht Übersetzbar !!! Bei welcher Action?</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Array>
+                <Item>email-external</Item>
+                <Item>email-internal</Item>                                                                                    
+            </Array>
+        </Setting>
+        <!--
+            $Self->{'Ticket::Frontend::ForwardArticleTypes'} = [
+                'email-external',
+                'email-internal',
+            ];        
+        -->
+    </ConfigItem>   
+    <ConfigItem Name="Ticket::Frontend::ForwardArticleType" Required="1" Valid="1"> 
+        <Description Lang="en"></Description>
+        <Description Lang="de">!!!Kein Inhalt!!!!</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">email-external</String>
+        </Setting>
+        <!--   $Self->{'Ticket::Frontend::ForwardArticleType'} = 'email-external';  -->
+    </ConfigItem>     
+    <ConfigItem Name="Ticket::ViewableSenderTypes" Required="1" Valid="1">
+        <Description Lang="en">default:  ["'customer'"]</Description>
+        <Description Lang="de">!!! Nicht Übersetzbar !!!</Description>
+        <Group>Ticket</Group>
+        <SubGroup>TicketCore</SubGroup>
+        <Setting>
+            <Array>
+                <Item>'customer'</Item>                                                                                    
+            </Array>
+        </Setting>
+        <!-- $Self->{'Ticket::ViewableSenderTypes'} = ["'customer'"];  -->
+    </ConfigItem>     
+    <ConfigItem Name="Ticket::ViewableLocks" Required="1" Valid="1">
+        <Description Lang="en">default: ["'unlock'", "'tmp_lock'"]</Description>
+        <Description Lang="de">!!! Nicht Übersetzbar !!!</Description>
+        <Group>Ticket</Group>
+        <SubGroup>TicketCore</SubGroup>
+        <Setting>
+            <Array>
+                <Item>'unlock'</Item>     
+                <Item>'tmp_lock'</Item>                                                                                                                                                                                   
+            </Array>
+        </Setting>
+        <!-- $Self->{'Ticket::ViewableLocks'} = ["'unlock'", "'tmp_lock'"];  -->
+    </ConfigItem>    
+    <ConfigItem Name="Ticket::ViewableStateType" Required="1" Valid="1">
+        <Description Lang="en">see http://yourhost/otrs/index.pl?Action=AdminState -&gt; StateType</Description>
+        <Description Lang="de">!!! Nicht Übersetzbar !!!</Description>
+        <Group>Ticket</Group>
+        <SubGroup>TicketCore</SubGroup>
+        <Setting>
+            <Array>
+                <Item>'new'</Item>     
+                <Item>'open'</Item>
+                <Item>'pending reminder'</Item>     
+                <Item>'pending auto'</Item>                                                                                                                                                                                                    
+            </Array>
+        </Setting>
+        <!-- $Self->{'Ticket::ViewableStateType'} = ['new', 'open', 'pending reminder', 'pending auto'];  -->
+    </ConfigItem>       
+    <ConfigItem Name="Ticket::UnlockStateType" Required="1" Valid="1">
+        <Description Lang="en">
+Tickets which can be unlocked by bin/UnlockTickets.pl
+see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
+        </Description>
+        <Description Lang="de">!!! Nicht Übersetzbar !!!</Description>
+        <Group>Ticket</Group>
+        <SubGroup>TicketCore</SubGroup>
+        <Setting>
+            <Array>
+                <Item>'new'</Item>     
+                <Item>'open'</Item>                                                                                                                                                                                              
+            </Array>
+        </Setting>
+        <!-- $Self->{'Ticket::UnlockStateType'} = ['open', 'new'];  -->
+    </ConfigItem>       
+    <ConfigItem Name="Ticket::PendingReminderStateType" Required="1" Valid="1">
+        <Description Lang="en">used for reminder notifications see http://yourhost/otrs/index.pl?Action=AdminState -> StateType</Description>
+        <Description Lang="de">!!! Nicht Übersetzbar !!!</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Array>
+                <Item>'pending reminder'</Item>                                                                                                                                                                                         
+            </Array>
+        </Setting>
+        <!-- $Self->{'Ticket::PendingReminderStateType'} = ['pending reminder'];  -->
+    </ConfigItem>    
+    <ConfigItem Name="Ticket::PendingAutoStateType" Required="1" Valid="1">
+        <Description Lang="en">used for pending states which changed state after reached pending time see http://yourhost/otrs/index.pl?Action=AdminState -> StateType</Description>
+        <Description Lang="de">!!! Nicht Übersetzbar !!!</Description>
+        <Group>Ticket</Group>
+        <SubGroup>TicketCore</SubGroup>
+        <Setting>
+            <Array>
+                <Item>'pending auto'</Item>                                                                                                                                                                                         
+            </Array>
+        </Setting>
+        <!-- $Self->{'Ticket::PendingAutoStateType'} = ['pending auto'];  -->
+    </ConfigItem>    
+    <ConfigItem Name="Ticket::StateAfterPending" Required="1" Valid="1">
+        <Description Lang="en">State after pending time has reached.</Description>
+        <Description Lang="de">Status den das Ticket bekommt nach dem die Pendingzeit abgelaufen ist.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>TicketCore</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="pending auto close+">closed successful</Item>
+                <Item Key="pending auto close-">closed unsuccessful</Item>                
+            </Hash>
+        </Setting>
+        <!-- 
+            $Self->{'Ticket::StateAfterPending'} = {
+                'pending auto close+' => 'closed successful',
+                'pending auto close-' => 'closed unsuccessful',
+            };   
+        -->        
+    </ConfigItem>           
+    <ConfigItem Name="CustomerDBLink" Required="1" Valid="1"> 
+        <Description Lang="en">external customer db setting. E.g. 'http://yourhost/customer.php?CID=$Data{"CustomerID"}' or ''</Description>
+        <Description Lang="de">!!! Nicht Übersetzbar!!!!</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">$Env{"CGIHandle"}?Action=AgentTicketCustomer&TicketID=$Data{"TicketID"}</String>
+        </Setting>
+        <!--   
+        #    $Self->{CustomerDBLink} = 'http://yourhost/customer.php?CID=$Data{"CustomerID"}';
+             $Self->{CustomerDBLink} = '$Env{"CGIHandle"}?Action=AgentTicketCustomer&TicketID=$Data{"TicketID"}';
+        #    $Self->{CustomerDBLink} = '';          
+        -->
+    </ConfigItem> 
+    <ConfigItem Name="CustomerDBLinkTarget" Required="1" Valid="1"> 
+        <Description Lang="en">external customer db setting. E.g. 'target="cdb"'</Description>
+        <Description Lang="de">!!! Nicht Übersetzbar!!!!</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex=""></String>
+        </Setting>
+        <!--   
+             $Self->{CustomerDBLinkTarget} = '';
+        #    $Self->{CustomerDBLinkTarget} = 'target="cdb"';  
+        -->
+    </ConfigItem>  
+
+<!--
+    # --------------------------------------------------- #
+    # Ticket Stats
+    # --------------------------------------------------- #
+    # SystemStats
+    $Self->{SystemStatsMap}->{"Ticket::Stats1"} = {
+        Name => 'New Tickets',
+        Module => 'Kernel::System::Stats::NewTickets',
+        Desc => 'New created tickets for each queue in selected month.',
+        SumCol => 1,
+        SumRow => 1,
+#        UseResultCache => 1,
+#        Output => ['Print', 'CSV', 'GraphLine', 'GraphBars', 'GraphPie'],
+        Output => ['Print', 'CSV', 'Graph'],
+        OutputDefault => 'Print',
+    };
+    $Self->{SystemStatsMap}->{"Ticket::Stats2"} = {
+        Name => 'Ticket Overview',
+        Module => 'Kernel::System::Stats::TicketOverview',
+        Desc => 'Overview of the tickets in queue at the end of this month.',
+        SumCol => 1,
+        SumRow => 1,
+        UseResultCache => 1,
+#        Output => ['Print', 'CSV', 'GraphLine', 'GraphBars', 'GraphPie'],
+        Output => ['Print', 'CSV', 'Graph'],
+        OutputDefault => 'Print',
+    };
+    $Self->{SystemStatsMap}->{"Ticket::Stats4"} = {
+        Name => 'State Action Overview',
+        Module => 'Kernel::System::Stats::StateAction',
+        Desc => 'Trace system activities (Replacement of old bin/mkStats.pl).',
+        SumCol => 1,
+        SumRow => 1,
+#        UseResultCache => 1,
+#        Output => ['Print', 'CSV', 'GraphLine', 'GraphBars', 'GraphPie'],
+        Output => ['Print', 'CSV', 'Graph'],
+        OutputDefault => 'Graph',
+    };
+
+    $Self->{SystemStatsMap}->{"Ticket::Stats5"} = {
+        Name => 'Time Accounting',
+        Module => 'Kernel::System::Stats::AccountedTime',
+        Desc => 'A list about accounted time per customer.',
+#        UseResultCache => 1,
+        Output => ['Print', 'CSV'],
+        OutputDefault => 'Print',
+    };    
+   # --------------------------------------------------- #
+    # link object settings                                #
+    # what objects are known by the system                #
+    # --------------------------------------------------- #
+    $Self->{'LinkObject'}->{'Ticket'} = {
+        Name => 'Ticket Object',
+        Type => 'Object',
+        LinkObjects => ['Ticket', 'FAQ'],
+    };
+-->
+
+    <ConfigItem Name="Frontend::NavBarModule###1-Ticket::LockedTickets" Required="1" Valid="1">
+        <Description Lang="en">Agent interface notification module to check the used charset.</Description>
+        <Description Lang="de">!!! Nicht Übersetzbar !!! kein Zusammenhang .</Description>
+        <Group>Ticket</Group>
+        <SubGroup>AgentFrontend</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::NavBarLockedTickets</Item>
+            </Hash>
+        </Setting>
+        <!-- 
+            $Self->{'Frontend::NavBarModule'}->{'1-Ticket::LockedTickets'} = {
+                Module => 'Kernel::Output::HTML::NavBarLockedTickets',
+            };
+        -->        
+    </ConfigItem>  
+    <ConfigItem Name="Frontend::NavBarModule###2-Ticket::BulkAction" Required="1" Valid="1">
+        <Description Lang="en">Agent interface notification module for bulk action.</Description>
+        <Description Lang="de">!!! Nicht Übersetzbar !!! kein Zusammenhang .</Description>
+        <Group>Ticket</Group>
+        <SubGroup>AgentFrontend</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::NavBarLockedTickets</Item>
+            </Hash>
+        </Setting>
+        <!-- 
+            $Self->{'Frontend::NavBarModule'}->{'2-Ticket::BulkAction'} = {
+                Module => 'Kernel::Output::HTML::NavBarTicketBulkAction',
+            };
+        -->        
+    </ConfigItem>  
+    <ConfigItem Name="Frontend::NotifyModule###3-Ticket::AgentTicketSeen" Required="1" Valid="1">
+        <Description Lang="en">Agent interface set ticket to seen.</Description>
+        <Description Lang="de">!!! Nicht Übersetzbar !!! kein Zusammenhang .</Description>
+        <Group>Ticket</Group>
+        <SubGroup>FrontendModulNotify</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::NotificationAgentTicketSeen</Item>
+            </Hash>
+        </Setting>
+        <!-- 
+            $Self->{'Frontend::NotifyModule'}->{'3-Ticket::AgentTicketSeen'} = {
+                Module => 'Kernel::Output::HTML::NotificationAgentTicketSeen',
+            };
+        -->        
+    </ConfigItem>      
+    <ConfigItem Name="Frontend::NotifyModule###4-Ticket::TicketNotify" Required="1" Valid="1">
+        <Description Lang="en">Agent interface notification module to show important agent tickets.</Description>
+        <Description Lang="de">Ein Agenthinweismodul um für den Agent wichtige Tickets aufzuzeigen.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>FrontendModulNotify</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::NotificationAgentTicket</Item>
+            </Hash>
+        </Setting>
+        <!-- 
+            $Self->{'Frontend::NotifyModule'}->{'4-Ticket::TicketNotify'} = {
+                Module => 'Kernel::Output::HTML::NotificationAgentTicket',
+            };
+        -->        
+    </ConfigItem>       
+    <ConfigItem Name="Ticket::Frontend::ArticleViewModule###1-PGP" Required="1" Valid="1">
+        <Description Lang="en">Agent interface article notification module to check pgp.</Description>
+        <Description Lang="de">Ein Agent-Interface-Artikel-Notiz-Modul um den pgp-Schlüssel zu checken?.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::ArticleCheckPGP</Item>
+            </Hash>
+        </Setting>
+        <!-- 
+            $Self->{'Ticket::Frontend::ArticleViewModule'}->{'1-PGP'} = {
+                Module => 'Kernel::Output::HTML::ArticleCheckPGP',
+            };
+        -->        
+    </ConfigItem>           
+    <ConfigItem Name="Ticket::Frontend::ArticleViewModule###1-SMIME" Required="1" Valid="1">
+        <Description Lang="en">Agent interface article notification module to check smime.</Description>
+        <Description Lang="de">Ein Agent-Interface-Artikel-Notiz-Modul um den SMIME-Schlüssel zu checken?.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::ArticleCheckSMIME</Item>
+            </Hash>
+        </Setting>
+        <!-- 
+            $Self->{'Ticket::Frontend::ArticleViewModule'}->{'1-SMIME'} = {
+                Module => 'Kernel::Output::HTML::ArticleCheckSMIME',
+            };  
+        -->        
+    </ConfigItem>       
+    <ConfigItem Name="Ticket::Frontend::ArticlePreViewModule###1-PGP" Required="1" Valid="1">
+        <Description Lang="en">Agent interface article notification module to check pgp.</Description>
+        <Description Lang="de">!!!Nicht Übersetzbar  !! Inhalt.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::ArticleCheckPGP</Item>
+            </Hash>
+        </Setting>
+        <!-- 
+            $Self->{'Ticket::Frontend::ArticlePreViewModule'}->{'1-PGP'} = {
+                Module => 'Kernel::Output::HTML::ArticleCheckPGP',
+            };
+        -->        
+    </ConfigItem>     
+    <ConfigItem Name="Ticket::Frontend::ArticlePreViewModule###1-SMIME" Required="1" Valid="1">
+        <Description Lang="en">Agent interface article notification module to check smime.</Description>
+        <Description Lang="de">!!!Nicht Übersetzbar  !! Inhalt.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::ArticleCheckSMIME</Item>
+            </Hash>
+        </Setting>
+        <!-- 
+            $Self->{'Ticket::Frontend::ArticlePreViewModule'}->{'1-SMIME'} = {
+                Module => 'Kernel::Output::HTML::ArticleCheckSMIME',
+            };
+        -->        
+    </ConfigItem>    
+    <ConfigItem Name="Ticket::Frontend::ArticleComposeModule###1-SignEmail" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de">!!!Nicht Übersetzbar  !! Inhalt.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>AgentFrontend</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::ArticleComposeSign</Item>
+            </Hash>
+        </Setting>
+        <!-- 
+            $Self->{'Ticket::Frontend::ArticleComposeModule'}->{'1-SignEmail'} = {
+                Module => 'Kernel::Output::HTML::ArticleComposeSign',
+            };
+        -->        
+    </ConfigItem>        
+    <ConfigItem Name="Ticket::Frontend::ArticleComposeModule###2-CryptEmail" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de">!!!Nicht Übersetzbar  !! Inhalt.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>AgentFrontend</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::ArticleComposeCrypt</Item>
+            </Hash>
+        </Setting>
+        <!-- 
+            $Self->{'Ticket::Frontend::ArticleComposeModule'}->{'2-CryptEmail'} = {
+                Module => 'Kernel::Output::HTML::ArticleComposeCrypt',
+            };
+        -->        
+    </ConfigItem>       
+    <ConfigItem Name="Ticket::Frontend::ArticleAttachmentModule###1-Download" Required="1" Valid="1">
+        <Description Lang="en">Links in agent zoom for attachments to download</Description>
+        <Description Lang="de">Links um im AgentZoom Attachments runterladen zu können</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::ArticleAttachmentDownload</Item>
+            </Hash>
+        </Setting>
+        <!-- 
+            $Self->{'Ticket::Frontend::ArticleAttachmentModule'}->{'1-Download'} = {
+                Module => 'Kernel::Output::HTML::ArticleAttachmentDownload',
+            };
+        -->        
+    </ConfigItem>       
+    <ConfigItem Name="Ticket::Frontend::ArticleAttachmentModule###2-HTML-Viewer" Required="1" Valid="1">
+        <Description Lang="en">Links in agent zoom for attachments html online viewer</Description>
+        <Description Lang="de">Links um im AgentZoom HTML-Attachments ansehen zu können</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::ArticleAttachmentHTMLViewer</Item>
+            </Hash>
+        </Setting>
+        <!-- 
+            $Self->{'Ticket::Frontend::ArticleAttachmentModule'}->{'2-HTML-Viewer'} = {
+                Module => 'Kernel::Output::HTML::ArticleAttachmentHTMLViewer',
+            };
+        -->        
+    </ConfigItem>       
+    <ConfigItem Name="Ticket::Frontend::MenuModule###000-Back" Required="1" Valid="1">
+        <Description Lang="en">Show back link</Description>
+        <Description Lang="de">Über dieses Modul werden die Zurück-Links in der Linkleiste angezeigt.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>AgentFrontend</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
+                <Item Key="Name">Back</Item>
+                <Item Key="Description">Back</Item>
+                <Item Key="Action"></Item>
+                <Item Key="Link">$Env{"LastScreenOverview"}&TicketID=$QData{"TicketID"}</Item>
+            </Hash>
+        </Setting>
+        <!-- 
+            $Self->{'Ticket::Frontend::MenuModule'}->{'000-Back'} = {
+                Module => 'Kernel::Output::HTML::TicketMenuGeneric',
+                Name => 'Back',
+                Description => 'Back',
+                Action => '',
+                Link => '$Env{"LastScreenOverview"}&TicketID=$QData{"TicketID"}',
+            };
+        -->        
+    </ConfigItem>  
+    <ConfigItem Name="Ticket::Frontend::MenuModule###100-Lock" Required="1" Valid="1">
+        <Description Lang="en">Show lock/unlock link</Description>
+        <Description Lang="de">Über dieses Modul werden die Sperren- bzw. Freigeben-Links in der Linkleiste angezeigt.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>AgentFrontend</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::TicketMenuLock</Item>
+                <Item Key="Name">Lock</Item>
+                <Item Key="Action">AgentTicketLock</Item>
+            </Hash>
+        </Setting>
+        <!-- 
+            $Self->{'Ticket::Frontend::MenuModule'}->{'100-Lock'} = {
+                Module => 'Kernel::Output::HTML::TicketMenuLock',
+                Name => 'Lock',
+                Action => 'AgentTicketLock',
+            };
+        -->        
+    </ConfigItem>      
+    <ConfigItem Name="Ticket::Frontend::MenuModule###200-History" Required="1" Valid="1">
+        <Description Lang="en">Show history link</Description>
+        <Description Lang="de">Über dieses Modul werden die Historie-Links in der Linkleiste angezeigt.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>AgentFrontend</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
+                <Item Key="Name">History</Item>
+                <Item Key="Description">Shows the ticket history!!</Item>
+                <Item Key="Action">AgentTicketHistory</Item>
+                <Item Key="Link">Action=AgentTicketHistory&TicketID=$QData{"TicketID"}</Item>
+            </Hash>
+        </Setting>
+        <!-- 
+            $Self->{'Ticket::Frontend::MenuModule'}->{'200-History'} = {
+                Module => 'Kernel::Output::HTML::TicketMenuGeneric',
+                Name => 'History',
+                Action => 'AgentTicketHistory',
+                Description => 'Shows the ticket history!!',
+                Link => 'Action=AgentTicketHistory&TicketID=$QData{"TicketID"}',
+            };        
+        -->        
+    </ConfigItem>    
+    <ConfigItem Name="Ticket::Frontend::MenuModule###210-Print" Required="1" Valid="1">
+        <Description Lang="en">Show print link</Description>
+        <Description Lang="de">Über dieses Modul werden die Drucken-Links in der Linkleiste angezeigt.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>AgentFrontend</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
+                <Item Key="Name">Print</Item>
+                <Item Key="Description">Print this ticket!</Item>
+                <Item Key="Action">AgentTicketPrint</Item>
+                <Item Key="Link">Action=AgentTicketPrint&TicketID=$QData{"TicketID"}</Item>
+                <Item Key="LinkParam">target="print"</Item>                
+            </Hash>
+        </Setting>
+        <!-- 
+            $Self->{'Ticket::Frontend::MenuModule'}->{'210-Print'} = {
+                Module => 'Kernel::Output::HTML::TicketMenuGeneric',
+                Name => 'Print',
+                Action => 'AgentTicketPrint',
+                Description => 'Print this ticket!',
+                Link => 'Action=AgentTicketPrint&TicketID=$QData{"TicketID"}',
+                LinkParam => 'target="print"',
+            };   
+        -->        
+    </ConfigItem>     
+    <ConfigItem Name="Ticket::Frontend::MenuModule###210-Print" Required="1" Valid="1">
+        <Description Lang="en">Show priority link</Description>
+        <Description Lang="de">Über dieses Modul werden die Priorität-Links in der Linkleiste angezeigt.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>AgentFrontend</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
+                <Item Key="Name">Priority</Item>
+                <Item Key="Description">Change the ticket priority!</Item>
+                <Item Key="Action">AgentTicketPriority</Item>
+                <Item Key="Link">Action=AgentTicketPriority&TicketID=$QData{"TicketID"}</Item>
+            </Hash>
+        </Setting>
+        <!-- 
+            $Self->{'Ticket::Frontend::MenuModule'}->{'300-Priority'} = {
+                Module => 'Kernel::Output::HTML::TicketMenuGeneric',
+                Name => 'Priority',
+                Action => 'AgentTicketPriority',
+                Description => 'Change the ticket priority!',
+                Link => 'Action=AgentTicketPriority&TicketID=$QData{"TicketID"}',
+            };
+        -->        
+    </ConfigItem>        
     
     
     
     
     
+
+
+
     
     
     
-    # Ticket::Frontend::SearchArticleCSVTree
-    # export also whole article tree in search result export
-    # (take care of your performance!)
-    # [default: 0]
-    $Self->{'Ticket::Frontend::SearchArticleCSVTree'} = 0;    
+    
+    
+   
+
+    
+    
+    
     
     
     
         
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -823,123 +2114,5 @@ schneller, der WebserverUser muß dann aber der OtrsUser sein
     
     
     
-    
-    
-
-    <ConfigItem Name="TimeWorkingHours" Required="1" Valid="1">
-        <Description Lang="en">Counted hours for working time used.</Description>
-        <Description Lang="de">Festlegung der Arbeitszeit.</Description>
-        <Group>Framework</Group>
-        <SubGroup>Time</SubGroup>
-        <Setting>
-            <TimeWorkingHours>
-                <Day Name="Mon">
-                  <Hour>8</Hour>
-                  <Hour>9</Hour>
-                  <Hour>10</Hour>
-                  <Hour>11</Hour>
-                  <Hour>12</Hour>
-                  <Hour>13</Hour>
-                  <Hour>14</Hour>
-                  <Hour>15</Hour>
-                  <Hour>16</Hour>
-                  <Hour>17</Hour>
-                  <Hour>18</Hour>
-                  <Hour>19</Hour>
-                  <Hour>20</Hour>
-                </Day> 
-                <Day Name="Tue">
-                  <Hour>8</Hour>
-                  <Hour>9</Hour>
-                  <Hour>10</Hour>
-                  <Hour>11</Hour>
-                  <Hour>12</Hour>
-                  <Hour>13</Hour>
-                  <Hour>14</Hour>
-                  <Hour>15</Hour>
-                  <Hour>16</Hour>
-                  <Hour>17</Hour>
-                  <Hour>18</Hour>
-                  <Hour>19</Hour>
-                  <Hour>20</Hour>
-                </Day> 
-                <Day Name="Wed">
-                  <Hour>8</Hour>
-                  <Hour>9</Hour>
-                  <Hour>10</Hour>
-                  <Hour>11</Hour>
-                  <Hour>12</Hour>
-                  <Hour>13</Hour>
-                  <Hour>14</Hour>
-                  <Hour>15</Hour>
-                  <Hour>16</Hour>
-                  <Hour>17</Hour>
-                  <Hour>18</Hour>
-                  <Hour>19</Hour>
-                  <Hour>20</Hour>
-                </Day> 
-                <Day Name="Thu">
-                  <Hour>8</Hour>
-                  <Hour>9</Hour>
-                  <Hour>10</Hour>
-                  <Hour>11</Hour>
-                  <Hour>12</Hour>
-                  <Hour>13</Hour>
-                  <Hour>14</Hour>
-                  <Hour>15</Hour>
-                  <Hour>16</Hour>
-                  <Hour>17</Hour>
-                  <Hour>18</Hour>
-                  <Hour>19</Hour>
-                  <Hour>20</Hour>
-                </Day> 
-                <Day Name="Fri">
-                  <Hour>8</Hour>
-                  <Hour>9</Hour>
-                  <Hour>10</Hour>
-                  <Hour>11</Hour>
-                  <Hour>12</Hour>
-                  <Hour>13</Hour>
-                  <Hour>14</Hour>
-                  <Hour>15</Hour>
-                  <Hour>16</Hour>
-                  <Hour>17</Hour>
-                  <Hour>18</Hour>
-                  <Hour>19</Hour>
-                  <Hour>20</Hour>
-                </Day> 
-                <Day Name="Sat">
-                </Day> 
-                <Day Name="Sun">
-                </Day> 
-            </TimeWorkingHours>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="TimeVacationDays" Required="1" Valid="1">
-        <Description Lang="en">Permanent vacation days.</Description>
-        <Description Lang="de">Permanente Freizeit-Tage im System hinterlegen.</Description>
-        <Group>Framework</Group>
-        <SubGroup>Time</SubGroup>
-        <Setting>
-            <TimeVacationDays>
-                <Item Month="01" Day="01">New Year's Eve!</Item>
-                <Item Month="05" Day="01">1 St. May</Item>
-                <Item Month="12" Day="24">Christmas</Item>
-                <Item Month="12" Day="25">First Christmas Day</Item>
-                <Item Month="12" Day="26">Second Christmas Day</Item>
-                <Item Month="12" Day="31">Silvester</Item>
-            </TimeVacationDays>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="TimeVacationDaysOneTime" Required="1" Valid="1">
-        <Description Lang="en">One time vacation days.</Description>
-        <Description Lang="de">Einen einmaligen Freizeit-Tage im System hinterlegen.</Description>
-        <Group>Framework</Group>
-        <SubGroup>Time</SubGroup>
-        <Setting>
-            <TimeVacationDaysOneTime>
-                <Item Year="2004" Month="01" Day="01"></Item>
-            </TimeVacationDaysOneTime>
-        </Setting>
-    </ConfigItem>
+ 
 </otrs_config>
