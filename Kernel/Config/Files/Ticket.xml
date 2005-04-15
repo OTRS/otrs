@@ -56,7 +56,21 @@ Hash
                 <Item Key=""></Item>                
             </Hash>
         </Setting>
-    </ConfigItem>       
+    </ConfigItem> 
+    
+Array
+    <ConfigItem Name="" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Ticket</Group>
+        <SubGroup></SubGroup>
+        <Setting>
+            <Array>
+                <Item></Item>
+                <Item></Item>                
+            </Hash>
+        </Setting>
+    </ConfigItem>             
     
 Textarea
     <ConfigItem Name="" Required="1" Valid="1">
@@ -70,11 +84,16 @@ Textarea
                 and &lt; instead of <           
             </Textarea>
         </Setting>
-    </ConfigItem>                                   
+    </ConfigItem> 
+    
+TimeVacationDaysOneTime 
+TimeVacationDays 
+TimeWorkingHours    
+                                      
 -->
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.5 2005-04-14 12:53:44 tr Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.6 2005-04-15 05:18:56 tr Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">To set the Ticket identifier. Some people want to set this to e. g. 'Call#', 'MyTicket#' or 'Ticket#'.</Description>
         <Description Lang="de">Hiermit kann der Ticket-Identifikator gesetzt werden. Manche Kunden wollen Benennen ihn z. B. als 'Call#' oder 'MyTicket#'. Als Standardeinstellung wird 'Ticket#' geliefert.</Description>
@@ -424,57 +443,368 @@ schneller, der WebserverUser muß dann aber der OtrsUser sein
         </Setting>
         <!-- $Self->{'Ticket::Frontend::ZoomExpand'} = 0; -->
     </ConfigItem>       
+    <ConfigItem Name="Ticket::Frontend::ZoomExpandSort" Required="1" Valid="1">
+        <Description Lang="en">Show article normal or in reverse order.</Description>
+        <Description Lang="de">Zeige die Artikel normal oder rückwarts sortiert</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Option SelectedID="normal">
+                <Item Key="reverse">reverse</Item>
+                <Item Key="normal">normal</Item>                
+            </Option>
+        </Setting>
+        <!-- 
+        $Self->{'Ticket::Frontend::ZoomExpandSort'} = 'reverse';
+        $Self->{'Ticket::Frontend::ZoomExpandSort'} = 'normal';
+        -->
+    </ConfigItem>   
+    <ConfigItem Name="Ticket::Frontend::HistoryOrder" Required="1" Valid="1">
+        <Description Lang="en">Show history order reverse.</Description>
+        <Description Lang="de">Zeige die History normal oder rückwarts sortiert</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Option SelectedID="normal">
+                <Item Key="reverse">reverse</Item>
+                <Item Key="normal">normal</Item>                
+            </Option>
+        </Setting>
+        <!-- 
+        $Self->{'Ticket::Frontend::HistoryOrder'} = 'normal';
+        $Self->{'Ticket::Frontend::HistoryOrder'} = 'reverse';
+        -->
+    </ConfigItem>   
+    <ConfigItem Name="Ticket::Frontend::TextAreaEmail" Required="1" Valid="1">
+        <Description Lang="en">Width of compose email windows</Description>
+        <Description Lang="de">Anzahl der Zeichen pro Zeile im E-Mail-Fenster</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">78</String>
+        </Setting>
+        <!--  $Self->{'Ticket::Frontend::TextAreaEmail'} = 78;   -->
+    </ConfigItem>   
+    <ConfigItem Name="Ticket::Frontend::TextAreaNote" Required="1" Valid="1">
+        <Description Lang="en">Width of compose note windows.</Description>
+        <Description Lang="de">Anzahl der Zeichen pro Zeile im Notiz-Fenster.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">70</String>
+        </Setting>
+        <!--  $Self->{'Ticket::Frontend::TextAreaNote'} = 70;   -->
+    </ConfigItem>   
+    <ConfigItem Name="Ticket::Frontend::CustomerInfoCompose" Required="1" Valid="1">
+        <Description Lang="en">Show customer user info on Compose (Phone and Email) view.</Description>
+        <Description Lang="de">Nicht Übersetzbar!!!!</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>                
+            </Option>
+        </Setting>
+        <!-- $Self->{'Ticket::Frontend::CustomerInfoCompose'} = 1; -->
+    </ConfigItem> 
+    <ConfigItem Name="Ticket::Frontend::CustomerInfoZoom" Required="1" Valid="1">
+        <Description Lang="en">Show customer user info on Zoom view.</Description>
+        <Description Lang="de">Nicht Übersetzbar!!!!</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>                
+            </Option>
+        </Setting>
+        <!-- $Self->{'Ticket::Frontend::CustomerInfoZoom'} = 1; -->
+    </ConfigItem>     
+    <ConfigItem Name="Ticket::Frontend::CustomerInfoQueue" Required="1" Valid="1">
+        <Description Lang="en">Show customer user info on Queue view.</Description>
+        <Description Lang="de">Nicht Übersetzbar!!!!</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>                
+            </Option>
+        </Setting>
+        <!-- $Self->{'Ticket::Frontend::CustomerInfoQueue'} = 0; -->
+    </ConfigItem>      
+    <ConfigItem Name="Ticket::Frontend::CustomerInfoComposeMaxSize" Required="1" Valid="1">
+        <Description Lang="en">Max size (in characters) of customer info table - Compose</Description>
+        <Description Lang="de">Nicht Übersetzbar!!!!</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">22</String>
+        </Setting>
+        <!--  $Self->{'Ticket::Frontend::CustomerInfoComposeMaxSize'} = 22;   -->
+    </ConfigItem>       
+    <ConfigItem Name="Ticket::Frontend::CustomerInfoZoomMaxSize" Required="1" Valid="1">
+        <Description Lang="en">Max size (in characters) of customer info table - Zoom</Description>
+        <Description Lang="de">Nicht Übersetzbar!!!!</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">22</String>
+        </Setting>
+        <!-- $Self->{'Ticket::Frontend::CustomerInfoZoomMaxSize'} = 22;   -->
+    </ConfigItem>     
+    <ConfigItem Name="Ticket::Frontend::CustomerInfoQueueMaxSize" Required="1" Valid="1">
+        <Description Lang="en">Max size (in characters) of customer info table - Queue</Description>
+        <Description Lang="de">Nicht Übersetzbar!!!!</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">18</String>
+        </Setting>
+        <!-- $Self->{'Ticket::Frontend::CustomerInfoQueueMaxSize'} = 18;   -->
+    </ConfigItem>        
+    <ConfigItem Name="Ticket::Frontend::NoEscalationGroup" Required="1" Valid="1">
+        <Description Lang="en">Don't show escalated tickets in frontend for agents who are writable in this group</Description>
+        <Description Lang="de">Zeige keinem der Schreibrechte in dieser Gruppe hat, eskalierte Tickets</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">some_group</String>
+        </Setting>
+        <!-- $Self->{'Ticket::Frontend::NoEscalationGroup'} = 'some_group';   -->
+    </ConfigItem>      
+    <ConfigItem Name="Ticket::Frontend::QueueMaxShown" Required="1" Valid="1">
+        <Description Lang="en">Max shown tickets in queue view</Description>
+        <Description Lang="de">Maximale Anzahl der in der QueueAnsicht dargestellten Tickets</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">1200</String>
+        </Setting>
+        <!-- $Self->{'Ticket::Frontend::QueueMaxShown'} = 1200;   -->
+    </ConfigItem>         
+    <ConfigItem Name="Ticket::Frontend::CustomerInfoQueue" Required="1" Valid="1">
+        <Description Lang="en">Default sort order of the queue view / after priority sort. ASC: oldest on top DESC: youngest on top</Description>
+        <Description Lang="de">Standard Sortierreihenfolge in der QueueAnsicht. ASC: die ältesten Tickets zuerst. DESC: die neuesten zuerst</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Option SelectedID="ASC">
+                <Item Key="ASC">ASC</Item>
+                <Item Key="DESC">DESC</Item>                
+            </Option>
+        </Setting>
+        <!-- 
+        $Self->{'Ticket::Frontend::QueueSortDefault'} = 'ASC';
+        $Self->{'Ticket::Frontend::QueueSortDefault'} = 'DESC'; 
+        -->
+    </ConfigItem>          
+    <!--    
+    # Ticket::Frontend::QueueSort
+    # (sort a queue ascending or descending / after priority sort)
+    #
+    # assignment: QueueID -> Value
+    # where value is one of:
+    # 0: ascending (oldest on top, default)
+    # 1: descending (youngest on top)
+    #
+#    $Self->{'Ticket::Frontend::QueueSort'} = {
+#        7 => 1,
+#        3 => 0,
+#    };    
+    -->
+
+    <ConfigItem Name="Ticket::Frontend::AccountTime" Required="1" Valid="1">
+        <Description Lang="en">Add time accounting.</Description>
+        <Description Lang="de">Hinzufügen der Zeiterfassung</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>                
+            </Option>
+        </Setting>
+        <!-- $Self->{'Ticket::Frontend::AccountTime'} = 0; -->
+    </ConfigItem>      
+    <ConfigItem Name="Ticket::Frontend::TimeUnits" Required="1" Valid="1">
+        <!-- oLov-useful or String? -->
+        <Description Lang="en">Your choice of your used time units, minutes, hours and work units.</Description>
+        <Description Lang="de">Auswahl der Zeiteinheiten bei der Zeiterfassung</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Option SelectedID=" (work units)">
+                <Item Key=" (minutes)">Minutes</Item>
+                <Item Key=" (hours)">Houres</Item>    
+                <Item Key=" (work units)">Work units</Item>                                            
+            </Option>
+        </Setting>
+        <!-- $Self->{'Ticket::Frontend::TimeUnits'} = ' (work units)'; -->
+    </ConfigItem>          
+    <ConfigItem Name="Ticket::Frontend::NeedAccountedTime" Required="1" Valid="1">
+        <Description Lang="en">Time must be accounted.</Description>
+        <Description Lang="de">Die benötigte Zeit muß angegeben werden</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>                
+            </Option>
+        </Setting>
+        <!-- $Self->{'Ticket::Frontend::NeedAccountedTime'} = 0; -->
+    </ConfigItem>    
+    <ConfigItem Name="Ticket::Frontend::NeedSpellCheck" Required="1" Valid="1">
+        <Description Lang="en">Compose message must be spell checked.</Description>
+        <Description Lang="de">Erstellte Nachrichten müssen durch die Rechtschreibprüfung</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>                
+            </Option>
+        </Setting>
+        <!-- $Self->{'Ticket::Frontend::NeedSpellCheck'} = 0; -->
+    </ConfigItem>    
+    <ConfigItem Name="Ticket::Frontend::BulkFeature" Required="1" Valid="1">
+        <Description Lang="en">A agent frontend feature to work on more then one ticket at on time.</Description>
+        <Description Lang="de">Eine Agent-Frontend-Funktion um an mehreren Tickets gleichzeitig zu arbeiten.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>                
+            </Option>
+        </Setting>
+        <!-- $Self->{'Ticket::Frontend::BulkFeature'} = 1; -->
+    </ConfigItem>   
+    <ConfigItem Name="Ticket::Frontend::BulkFeatureJavaScriptAlert" Required="1" Valid="1">
+        <Description Lang="en">Enable/disable java script popup if a bulk ticket is selected.</Description>
+        <Description Lang="de">Aktiviere Java Script Popup, wenn ein "Bulk-Ticket" ausgewählt wurde.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>                
+            </Option>
+        </Setting>
+        <!-- $Self->{'Ticket::Frontend::BulkFeatureJavaScriptAlert'} = 1; -->
+    </ConfigItem>   
+    <ConfigItem Name="Ticket::Frontend::MoveType" Required="1" Valid="1">
+        <Description Lang="en">Show form drop down of show new page of new queues.</Description>
+        <Description Lang="de">Nicht Übersetzbar!!!</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Option SelectedID="form">
+                <Item Key="link">link</Item>
+                <Item Key="form">form</Item>                
+            </Option>
+        </Setting>
+        <!-- $Self->{'Ticket::Frontend::MoveType'} = 'form'; -->
+    </ConfigItem>    
+    <ConfigItem Name="Ticket::Frontend::MoveSetState" Required="1" Valid="1">
+        <Description Lang="en">Show form drop down of show new page of new queues.</Description>
+        <Description Lang="de">Nicht Übersetzbar!!!</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>                
+            </Option>
+        </Setting>
+        <!-- $Self->{'Ticket::Frontend::MoveSetState'} = 1; -->
+    </ConfigItem>        
+    <ConfigItem Name="Ticket::DefaultNextMoveStateType" Required="1" Valid="1">
+        <Description Lang="en">Default move next state.</Description>
+        <Description Lang="de">Nicht Übersetzbar!!!</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Array>
+                <Item>open</Item>
+                <Item>closed</Item>                
+            </Array>
+        </Setting>
+        <!-- $Self->{'Ticket::DefaultNextMoveStateType'} = ['open', 'closed']; -->
+    </ConfigItem>    
+    <ConfigItem Name="Ticket::Frontend::StatusView::ViewableTicketsPage" Required="1" Valid="1">
+        <Description Lang="en">Shows all open tickets</Description>
+        <Description Lang="de">Nicht Übersetzbar!!! zumindest nicht in Bezug</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">50</String>
+        </Setting>
+        <!-- $Self->{'Ticket::Frontend::StatusView::ViewableTicketsPage'} = 50;   -->
+    </ConfigItem>    
+    <ConfigItem Name="Ticket::Frontend::SearchLimit" Required="1" Valid="1">
+        <Description Lang="en">Default limit for ticket search</Description>
+        <Description Lang="de">Maximal zurückgelieferte Treffer bei der Ticketsuche</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">5000</String>
+        </Setting>
+        <!--  $Self->{'Ticket::Frontend::SearchLimit'} = 5000;   -->
+    </ConfigItem>     
+    <ConfigItem Name="Ticket::Frontend::SearchPageShown" Required="1" Valid="1">
+        <Description Lang="en">Default of shown article a page</Description>
+        <Description Lang="de">Anzahl der angezeigten Treffer pro Seite bei der Ticketsuche</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">40</String>
+        </Setting>
+        <!--  $Self->{'Ticket::Frontend::SearchPageShown'} = 40;   -->
+    </ConfigItem>  
+    <ConfigItem Name="Ticket::Frontend::SearchViewableTicketLines" Required="1" Valid="1">
+        <Description Lang="en">viewable ticket lines by search util</Description>
+        <Description Lang="de">Nicht Übersetzbar!!</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">10</String>
+        </Setting>
+        <!--  $Self->{'Ticket::Frontend::SearchViewableTicketLines'} = 10;   -->
+    </ConfigItem>  
   
-<!--
     
     
-    # Ticket::Frontend::ZoomExpandSort
-    # (show article normal or in reverse order) [normal|reverse]
-#    $Self->{'Ticket::Frontend::ZoomExpandSort'} = 'reverse';
-    $Self->{'Ticket::Frontend::ZoomExpandSort'} = 'normal';
+    
+    
+    
+    
+    
+    
+    # Ticket::Frontend::SearchArticleCSVTree
+    # export also whole article tree in search result export
+    # (take care of your performance!)
+    # [default: 0]
+    $Self->{'Ticket::Frontend::SearchArticleCSVTree'} = 0;    
+    
+    
+    
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
-    # Ticket::Frontend::HistoryOrder
-    # (show history order reverse) [normal|reverse]
-    $Self->{'Ticket::Frontend::HistoryOrder'} = 'normal';
-#    $Self->{'Ticket::Frontend::HistoryOrder'} = 'reverse';
-
-    # Ticket::Frontend::TextAreaEmail
-    # (width of compose email windows)
-    $Self->{'Ticket::Frontend::TextAreaEmail'} = 78;
-
-    # Ticket::Frontend::TextAreaNote
-    # (width of compose note windows)
-    $Self->{'Ticket::Frontend::TextAreaNote'} = 70;
-
-    # Ticket::Frontend::CustomerInfo*
-    # (show customer user info on Compose (Phone and Email), Zoom and Queue view)
-    $Self->{'Ticket::Frontend::CustomerInfoCompose'} = 1;
-    $Self->{'Ticket::Frontend::CustomerInfoZoom'} = 1;
-    $Self->{'Ticket::Frontend::CustomerInfoQueue'} = 0;
-
-    # Ticket::Frontend::CustomerInfo*MaxSize
-    # (max size (in characters) of customer info table)
-    $Self->{'Ticket::Frontend::CustomerInfoComposeMaxSize'} = 22;
-    $Self->{'Ticket::Frontend::CustomerInfoZoomMaxSize'} = 22;
-    $Self->{'Ticket::Frontend::CustomerInfoQueueMaxSize'} = 18;
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    --> 
     
     
     
