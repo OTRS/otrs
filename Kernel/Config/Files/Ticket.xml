@@ -94,7 +94,7 @@ TimeWorkingHours
 -->
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.8 2005-04-15 15:14:44 tr Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.9 2005-04-18 06:57:49 tr Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">To set the Ticket identifier. Some people want to set this to e. g. 'Call#', 'MyTicket#' or 'Ticket#'.</Description>
         <Description Lang="de">Hiermit kann der Ticket-Identifikator gesetzt werden. Manche Kunden wollen Benennen ihn z. B. als 'Call#' oder 'MyTicket#'. Als Standardeinstellung wird 'Ticket#' geliefert.</Description>
@@ -748,15 +748,16 @@ schneller, der WebserverUser muß dann aber der OtrsUser sein
         </Setting>
         <!-- $Self->{'Ticket::Frontend::StatusView::ViewableTicketsPage'} = 50;   -->
     </ConfigItem>    
-    <ConfigItem Name="Ticket::Frontend::SearchLimit" Required="1" Valid="1">
-        <Description Lang="en">Default limit for ticket search</Description>
-        <Description Lang="de">Maximal zurückgelieferte Treffer bei der Ticketsuche</Description>
+     <ConfigItem Name="Ticket::Frontend::SearchLimit" Required="1" Valid="1">
+        <Description Lang="en">Search limit for ticket frontend.</Description>
+        <Description Lang="de">Hier legen Sie das Ergebnislimit für die Ticketsuche fest.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
-            <String Regex="">5000</String>
+            <String Regex="^[0-9]${1,10}">5000</String>
         </Setting>
-        <!--  $Self->{'Ticket::Frontend::SearchLimit'} = 5000;   -->
+        <!--  $Self->{'Ticket::Frontend::SearchLimit'} = 5000;   -->        
+    </ConfigItem>        
     </ConfigItem>     
     <ConfigItem Name="Ticket::Frontend::SearchPageShown" Required="1" Valid="1">
         <Description Lang="en">Default of shown article a page</Description>
@@ -2029,7 +2030,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
             };   
         -->        
     </ConfigItem>     
-    <ConfigItem Name="Ticket::Frontend::MenuModule###210-Print" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::MenuModule###300-Priority" Required="1" Valid="1">
         <Description Lang="en">Show priority link</Description>
         <Description Lang="de">Über dieses Modul werden die Priorität-Links in der Linkleiste angezeigt.</Description>
         <Group>Ticket</Group>
@@ -2060,7 +2061,866 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
     
 
 
+    # show free text link
+# tr: Hash siehe oben    
+# tr: aus 'Ticket::Frontend::MenuModule'}->{'310-FreeText' wird Ticket::Frontend::MenuModule###310-FreeText ---- die ### sind Hashtrennungen!!!!
+    $Self->{'Ticket::Frontend::MenuModule'}->{'310-FreeText'} = {
+        Module => 'Kernel::Output::HTML::TicketMenuGeneric',
+        Name => 'Free Fields',
+        Action => 'AgentTicketFreeText',
+        Description => 'Change the ticket free fields!',
+        Link => 'Action=AgentTicketFreeText&TicketID=$QData{"TicketID"}',
+    };
+    # show link link
+# tr: Hash siehe oben     
+    $Self->{'Ticket::Frontend::MenuModule'}->{'320-Link'} = {
+        Module => 'Kernel::Output::HTML::TicketMenuGeneric',
+        Name => 'Link',
+        Action => 'AgentLinkObject',
+        Description => 'Link this ticket to an other objects!',
+        Link => 'Action=AgentLinkObject&SourceObject=Ticket&SourceID=$QData{"TicketID"}',
+    };
+    # show owner link
+# tr: Hash siehe oben     
+    $Self->{'Ticket::Frontend::MenuModule'}->{'400-Owner'} = {
+        Module => 'Kernel::Output::HTML::TicketMenuGeneric',
+        Name => 'Owner',
+        Action => 'AgentTicketOwner',
+        Description => 'Change the ticket owner!',
+        Link => 'Action=AgentTicketOwner&TicketID=$QData{"TicketID"}',
+    };
+    # show customer link
+# tr: Hash siehe oben     
+    $Self->{'Ticket::Frontend::MenuModule'}->{'410-Customer'} = {
+        Module => 'Kernel::Output::HTML::TicketMenuGeneric',
+        Name => 'Customer',
+        Action => 'AgentTicketCustomer',
+        Description => 'Change the ticket customer!',
+        Link => 'Action=AgentTicketCustomer&TicketID=$QData{"TicketID"}',
+    };
+    # show note link
+# tr: Hash siehe oben     
+    $Self->{'Ticket::Frontend::MenuModule'}->{'420-Note'} = {
+        Module => 'Kernel::Output::HTML::TicketMenuGeneric',
+        Name => 'Note',
+        Action => 'AgentTicketNote',
+        Description => 'Add a note to this ticket!',
+        Link => 'Action=AgentTicketNote&TicketID=$QData{"TicketID"}',
+    };
+    # show pending link
+# tr: Hash siehe oben     
+    $Self->{'Ticket::Frontend::MenuModule'}->{'430-Pending'} = {
+        Module => 'Kernel::Output::HTML::TicketMenuGeneric',
+        Name => 'Pending',
+        Action => 'AgentTicketPending',
+        Description => 'Set this ticket to pending!',
+        Link => 'Action=AgentTicketPending&TicketID=$QData{"TicketID"}',
+    };
+    # show close link
+# tr: Hash siehe oben     
+    $Self->{'Ticket::Frontend::MenuModule'}->{'440-Close'} = {
+        Module => 'Kernel::Output::HTML::TicketMenuGeneric',
+        Name => 'Close',
+        Action => 'AgentTicketClose',
+        Description => 'Close this ticket!',
+        Link => 'Action=AgentTicketClose&TicketID=$QData{"TicketID"}',
+    };
 
+    # --------------------------------------------------- #
+    # Ticket::Frontend::PreMenu Modules
+    # --------------------------------------------------- #
+    # show lock/unlock link
+# tr: Hash siehe oben     
+    $Self->{'Ticket::Frontend::PreMenuModule'}->{'100-Lock'} = {
+        Module => 'Kernel::Output::HTML::TicketMenuLock',
+        Name => 'Lock',
+        Action => 'AgentTicketLock',
+    };
+    # show zoom link
+# tr: Hash siehe oben     
+    $Self->{'Ticket::Frontend::PreMenuModule'}->{'200-Zoom'} = {
+        Module => 'Kernel::Output::HTML::TicketMenuGeneric',
+        Name => 'Zoom',
+        Action => 'AgentTicketZoom',
+        Description => 'Look into a ticket!',
+        Link => 'Action=AgentTicketZoom&TicketID=$QData{"TicketID"}',
+    };
+    # show history link
+# tr: Hash siehe oben     
+    $Self->{'Ticket::Frontend::PreMenuModule'}->{'210-History'} = {
+        Module => 'Kernel::Output::HTML::TicketMenuGeneric',
+        Name => 'History',
+        Action => 'AgentTicketHistory',
+        Description => 'Shows the ticket history!!',
+        Link => 'Action=AgentTicketHistory&TicketID=$QData{"TicketID"}',
+    };
+    # show priority link
+    $Self->{'Ticket::Frontend::PreMenuModule'}->{'300-Priority'} = {
+        Module => 'Kernel::Output::HTML::TicketMenuGeneric',
+        Name => 'Priority',
+        Action => 'AgentTicketPriority',
+        Description => 'Change the ticket priority!',
+        Link => 'Action=AgentTicketPriority&TicketID=$QData{"TicketID"}',
+    };
+    # show note link
+    $Self->{'Ticket::Frontend::PreMenuModule'}->{'420-Note'} = {
+        Module => 'Kernel::Output::HTML::TicketMenuGeneric',
+        Name => 'Note',
+        Action => 'AgentTicketNote',
+        Description => 'Add a note to this ticket!',
+        Link => 'Action=AgentTicketNote&TicketID=$QData{"TicketID"}',
+    };
+    # show close link
+    $Self->{'Ticket::Frontend::PreMenuModule'}->{'440-Close'} = {
+        Module => 'Kernel::Output::HTML::TicketMenuGeneric',
+        Name => 'Close',
+        Action => 'AgentTicketClose',
+        Description => 'Close this ticket!',
+        Link => 'Action=AgentTicketClose&TicketID=$QData{"TicketID"}',
+    };
+    # show delete link link
+# tr: Auskommentierte Configeinstellungen bekommen die einstellung Required="0" und Valid="0"    
+#    $Self->{'Ticket::Frontend::PreMenuModule'}->{'450-Delete'} = {
+#        Module => 'Kernel::Output::HTML::TicketMenuGeneric',
+#        Name => 'Delete',
+#        Action => 'AgentTicketMove',
+#        Description => 'Delete this ticket!',
+#        Link => 'Action=AgentTicketMove&TicketID=$Data{"TicketID"}&DestQueue=Delete',
+#    };
+
+    # --------------------------------------------------- #
+    # Framework System Permissions
+    # --------------------------------------------------- #
+# tr: Array; alle Arrayinhalte des auskommentierten Array könnten als mögliche Beispiel in die Beschreibung     
+    $Self->{'System::Permission'} = ['ro', 'move_into', 'create', 'owner', 'priority', 'rw'];
+#    $Self->{'System::Permission'} = ['ro', 'move_into', 'create', 'note', 'close', 'pending', 'owner', 'priority', 'customer', 'freetext', 'forward', 'bounce', 'move', 'rw'];
+
+    # --------------------------------------------------- #
+    # Ticket Agent Permissions
+    # --------------------------------------------------- #
+    # Module Name: 1-OwnerCheck
+# tr: Hash    
+    # (if the current owner is already the user, grant access)
+    $Self->{'Ticket::Permission'}->{'1-OwnerCheck'} = {
+        Module => 'Kernel::System::Ticket::Permission::OwnerCheck',
+        # if this check is needed
+        Required => 0,
+        # if this check is true, don't do more checks
+        Granted => 0,
+    };
+    # Module Name: 2-GroupCheck
+    # (if the user is in this group with type ro|rw|..., grant access)
+    $Self->{'Ticket::Permission'}->{'2-GroupCheck'} = {
+        Module => 'Kernel::System::Ticket::Permission::GroupCheck',
+        # if this check is needed
+        Required => 0,
+        # if this check is true, don't do more checks
+        Granted => 0,
+    };
+
+    # --------------------------------------------------- #
+    # Ticket Customer Permissions
+    # --------------------------------------------------- #
+    # Module Name: 1-CustomerIDGroupCheck
+    # (grant access, if customer id is the same and group is accessable)
+    $Self->{'CustomerTicket::Permission'}->{'1-CustomerUserIDCheck'} = {
+        Module => 'Kernel::System::Ticket::CustomerPermission::CustomerUserIDCheck',
+        # if this check is needed
+        Required => 0,
+        # if this check is true, don't do more checks
+        Granted => 1,
+    };
+    $Self->{'CustomerTicket::Permission'}->{'2-CustomerIDCheck'} = {
+        Module => 'Kernel::System::Ticket::CustomerPermission::CustomerIDCheck',
+        # if this check is needed
+        Required => 1,
+        # if this check is true, don't do more checks
+        Granted => 0,
+    };
+    $Self->{'CustomerTicket::Permission'}->{'3-GroupCheck'} = {
+        Module => 'Kernel::System::Ticket::CustomerPermission::GroupCheck',
+        # if this check is needed
+        Required => 1,
+        # if this check is true, don't do more checks
+        Granted => 0,
+    };
+
+    # --------------------------------------------------- #
+    # Agent Preferences
+    # --------------------------------------------------- #
+    $Self->{PreferencesGroups}->{NewTicketNotify} = {
+        Module => 'Kernel::Output::HTML::PreferencesGeneric',
+        Colum => 'Mail Management',
+        Label => 'New ticket notification',
+        Desc => 'Send me a notification if there is a new ticket in "My Queues".',
+        Data => $Self->Get('YesNoOptions'),
+        PrefKey => 'UserSendNewTicketNotification',
+        Prio => 1000,
+        Activ => 1,
+    };
+    $Self->{PreferencesGroups}->{FollowUpNotify} = {
+        Module => 'Kernel::Output::HTML::PreferencesGeneric',
+        Colum => 'Mail Management',
+        Label => 'Follow up notification',
+        Desc => "Send me a notification if a customer sends a follow up and I'm the owner of this ticket.",
+        Data => $Self->Get('YesNoOptions'),
+        PrefKey => 'UserSendFollowUpNotification',
+        Prio => 2000,
+        Activ => 1,
+    };
+    $Self->{PreferencesGroups}->{LockTimeoutNotify} = {
+        Module => 'Kernel::Output::HTML::PreferencesGeneric',
+        Colum => 'Mail Management',
+        Label => 'Ticket lock timeout notification',
+        Desc => 'Send me a notification if a ticket is unlocked by the system.',
+        Data => $Self->Get('YesNoOptions'),
+        PrefKey => 'UserSendLockTimeoutNotification',
+        Prio => 3000,
+        Activ => 1,
+    };
+    $Self->{PreferencesGroups}->{MoveNotify} = {
+        Module => 'Kernel::Output::HTML::PreferencesGeneric',
+        Colum => 'Mail Management',
+        Label => 'Move notification',
+        Desc => 'Send me a notification if a ticket is moved into one of "My Queues".',
+        Data => $Self->Get('YesNoOptions'),
+        PrefKey => 'UserSendMoveNotification',
+        Prio => 4000,
+        Activ => 1,
+    };
+    $Self->{PreferencesGroups}->{CustomQueue} = {
+        Module => 'Kernel::Output::HTML::PreferencesCustomQueue',
+        Colum => 'Other Options',
+        Label => 'My Queues',
+        Desc => 'Your queue selection of your favorite queues. You also get notified about this queues via email if enabled.',
+        Prio => 2000,
+        Activ => 1,
+    };
+# tr Hashes die Unterhashe enthalten vorerst einfach auskommentieren
+    $Self->{PreferencesGroups}->{RefreshTime} = {
+        Module => 'Kernel::Output::HTML::PreferencesGeneric',
+        Colum => 'Frontend',
+        Label => 'QueueView refresh time',
+        Desc => 'Select your QueueView refresh time.',
+        Data => {
+            '' => 'off',
+            2 => ' 2 minutes',
+            5 => ' 5 minutes',
+            7 => ' 7 minutes',
+            10 => '10 minutes',
+            15 => '15 minutes',
+        },
+        PrefKey => 'UserRefreshTime',
+        Prio => 3000,
+        Activ => 1,
+    };
+    $Self->{PreferencesGroups}->{QueueView} = {
+        Module => 'Kernel::Output::HTML::PreferencesGeneric',
+        Colum => 'Frontend',
+        Label => 'QueueView',
+        Desc => 'Select your frontend QueueView.',
+        Data => {
+            AgentTicketQueueTicketView => 'Standard',
+            AgentTicketQueueTicketViewLite => 'Lite',
+        },
+        DataSelected => 'AgentTicketQueueTicketView',
+        Prio => 3000,
+        PrefKey => 'UserQueueView',
+        Activ => 1,
+    };
+    $Self->{PreferencesGroups}->{QueueViewShownTickets} = {
+        Module => 'Kernel::Output::HTML::PreferencesGeneric',
+        Colum => 'Frontend',
+        Label => 'Shown Tickets',
+        Desc => 'Max. shown Tickets a page in QueueView.',
+        Data => {
+            10 => 10,
+            15 => 15,
+            20 => 20,
+            25 => 25,
+        },
+        DataSelected => 15,
+        PrefKey => 'UserQueueViewShowTickets',
+        Prio => 4000,
+        Activ => 1,
+    };
+    $Self->{PreferencesGroups}->{CreateNextMask} = {
+        Module => 'Kernel::Output::HTML::PreferencesGeneric',
+        Colum => 'Frontend',
+        Label => 'Screen after new ticket',
+        Desc => 'Select your screen after creating a new ticket.',
+        Data => {
+            '' => 'CreateTicket',
+            AgentTicketZoom => 'TicketZoom',
+        },
+        DataSelected => '',
+#        DataSelected => 'AgentTicketZoom',
+        PrefKey => 'UserCreateNextMask',
+        Prio => 5000,
+        Activ => 1,
+    };
+
+    # --------------------------------------------------- #
+    # Customer Frontend
+    # --------------------------------------------------- #
+    # CustomerNotifyJustToRealCustomer
+    # (Send customer notifications just to mapped customer. Normally
+    # if no customer is mapped, the latest customer sender gets the
+    # notification.)
+# tr Pulldown - Yes(1) - No (0)    
+    $Self->{CustomerNotifyJustToRealCustomer} = 0;
+
+    # CustomerPriority
+# tr Pulldown - Yes(1) - No (0)    
+    # (If the customer can set the ticket priority)
+    $Self->{CustomerPriority} = 1;
+    # CustomerDefaultPriority
+# tr String    
+    # (default priority of new customer tickets)
+    $Self->{CustomerDefaultPriority} = '3 normal';
+
+    # CustomerDefaultState
+    # (default state of new customer tickets)
+# tr String    
+    $Self->{CustomerDefaultState} = 'new';
+
+    # CustomerNextScreenAfterNewTicket
+# tr String - auskommentierter Inhalt könnte als Beispeil in die Beschreibung kommen
+#    $Self->{CustomerNextScreenAfterNewTicket} = 'CustomerTicketZoom';
+    $Self->{CustomerNextScreenAfterNewTicket} = 'CustomerTicketOverView';
+
+    # --------------------------------------------------- #
+    # customer message settings                           #
+    # --------------------------------------------------- #
+    # default note type
+    $Self->{CustomerPanelArticleType} = 'webrequest';
+    $Self->{CustomerPanelSenderType} = 'customer';
+    # default history type
+    $Self->{CustomerPanelHistoryType} = 'FollowUp';
+    $Self->{CustomerPanelHistoryComment} = '';
+
+    # default compose follow up next state
+    $Self->{CustomerPanelDefaultNextComposeType} = 'open';
+    $Self->{CustomerPanelNextComposeState} = 1;
+    # next possible states for compose message
+    $Self->{'Ticket::CustomerPanelDefaultNextComposeStateType'} = ['open', 'closed'];
+
+    # default article type
+    $Self->{CustomerPanelNewArticleType} = 'webrequest';
+    $Self->{CustomerPanelNewSenderType} = 'customer';
+    # default history type
+    $Self->{CustomerPanelNewHistoryType} = 'WebRequestCustomer';
+    $Self->{CustomerPanelNewHistoryComment} = '';
+
+    # CustomerPanelSelectionType
+    # (To: seection type. Queue => show all queues, SystemAddress => show all system
+    # addresses;) [Queue|SystemAddress]
+    $Self->{CustomerPanelSelectionType} = 'Queue';
+#    $Self->{CustomerPanelSelectionType} = 'SystemAddress';
+
+    # CustomerPanelSelectionString
+    # (String for To: selection.)
+    # use this for CustomerPanelSelectionType = Queue
+#    $Self->{CustomerPanelSelectionString} = 'Queue: <Queue> - <QueueComment>';
+    $Self->{CustomerPanelSelectionString} = '<Queue>';
+    # use this for CustomerPanelSelectionType = SystemAddress
+#    $Self->{CustomerPanelSelectionString} = '<Realname> <<Email>> - Queue: <Queue> - <QueueComment>';
+
+    # CustomerPanelOwnSelection
+    # (If this is in use, "just this selection is valid" for the CustomMessage.)
+#    $Self->{CustomerPanelOwnSelection} = {
+#        # Queue => Frontend-Name
+#        'Junk' => 'First Queue!',
+#        'Misc' => 'Second Queue!',
+#        # QueueID => Frontend-Name (or optional with QueueID)
+##        '1' => 'First Queue!',
+##        '2' => 'Second Queue!',
+#    };
+
+    # CustomerPanel::NewTicketQueueSelectionModule
+    # (own module layer for to selection in new ticket screen)
+    $Self->{'CustomerPanel::NewTicketQueueSelectionModule'} = 'Kernel::Output::HTML::CustomerNewTicketQueueSelectionGeneric';
+
+    # default limit for ticket search
+    # [default: 5000]
+    $Self->{'Ticket::CustomerTicketSearch::SearchLimit'} = 5000;
+
+    # defaut of shown article a page
+    # [default: 15]
+    $Self->{'Ticket::CustomerTicketSearch::SearchPageShown'} = 40;
+
+    # --------------------------------------------------- #
+    # Customer Preferences
+    # --------------------------------------------------- #
+    $Self->{CustomerPreferencesGroups}->{ClosedTickets} = {
+        Module => 'Kernel::Output::HTML::PreferencesGeneric',
+        Colum => 'Other Options',
+        Label => 'Closed Tickets',
+        Desc => 'Show closed tickets.',
+        Data => $Self->Get('YesNoOptions'),
+        DataSelected => 1,
+        PrefKey => 'UserShowClosedTickets',
+        Prio => 2000,
+        Activ => 1,
+    };
+    $Self->{CustomerPreferencesGroups}->{ShownTickets} = {
+        Module => 'Kernel::Output::HTML::PreferencesGeneric',
+        Colum => 'Frontend',
+        Label => 'Shown Tickets',
+        Desc => 'Max. shown Tickets a page in Overview.',
+        Data => {
+            15 => 15,
+            20 => 20,
+            25 => 25,
+            30 => 30,
+        },
+        DataSelected => 25,
+        PrefKey => 'UserShowTickets',
+        Prio => 4000,
+        Activ => 1,
+    };
+    $Self->{CustomerPreferencesGroups}->{RefreshTime} = {
+        Module => 'Kernel::Output::HTML::PreferencesGeneric',
+        Colum => 'Frontend',
+        Label => 'QueueView refresh time',
+        Desc => 'Select your QueueView refresh time.',
+        Data => {
+            '' => 'off',
+            2 => ' 2 minutes',
+            5 => ' 5 minutes',
+            7 => ' 7 minutes',
+            10 => '10 minutes',
+            15 => '15 minutes',
+        },
+        PrefKey => 'UserRefreshTime',
+        Prio => 3000,
+        Activ => 1,
+    };
+
+    # --------------------------------------------------- #
+    # default core objects and params in frontend
+    # --------------------------------------------------- #
+    # key => module
+    $Self->{'Frontend::CommonObject'}->{QueueObject} = 'Kernel::System::Queue';
+    $Self->{'Frontend::CommonObject'}->{TicketObject} = 'Kernel::System::Ticket';
+    # param => default value
+    $Self->{'Frontend::CommonParam'}->{Action} = 'AgentTicketQueue';
+    $Self->{'Frontend::CommonParam'}->{QueueID} = 0;
+    $Self->{'Frontend::CommonParam'}->{TicketID} = '';
+
+    # --------------------------------------------------- #
+    # default core objects and params in customer frontend
+    # --------------------------------------------------- #
+    # key => module
+    $Self->{'CustomerFrontend::CommonObject'}->{QueueObject} = 'Kernel::System::Queue';
+    $Self->{'CustomerFrontend::CommonObject'}->{TicketObject} = 'Kernel::System::Ticket';
+    # param => default value
+    $Self->{'CustomerFrontend::CommonParam'}->{Action} = 'CustomerTicketOverView';
+    $Self->{'CustomerFrontend::CommonParam'}->{QueueID} = 0;
+    $Self->{'CustomerFrontend::CommonParam'}->{TicketID} = '';
+
+    # --------------------------------------------------- #
+    # Frontend Module Registry
+    # --------------------------------------------------- #
+    $Self->{'Frontend::Module'}->{'AgentTicketQueue'} = {
+        Description => 'Overview of all open Tickets',
+        Title => 'QueueView',
+        NavBarName => 'Ticket',
+        NavBar => [
+          {
+            Description => 'Overview of all open Tickets',
+            Name => 'QueueView',
+            Image => 'overview.png',
+            Link => 'Action=AgentTicketQueue',
+            NavBar => 'Ticket',
+            Prio => 100,
+          },
+          {
+            Description => 'Ticket-Area',
+            Type => 'Menu',
+            Block => 'ItemArea',
+            Name => 'Ticket',
+            Image => 'desktop.png',
+            Link => 'Action=AgentTicketQueue',
+            NavBar => 'Ticket',
+            Prio => 200,
+          },
+        ],
+    };
+    $Self->{'Frontend::Module'}->{'AgentTicketPhone'} = {
+        Description => 'Create new Phone Ticket',
+        Title => 'Phone-Ticket',
+        NavBarName => 'Ticket',
+        NavBar => [
+          {
+            Description => 'Create new Phone Ticket',
+            Name => 'Phone-Ticket',
+            Image => 'phone-new.png',
+            Link => 'Action=AgentTicketPhone',
+            NavBar => 'Ticket',
+            Prio => 200,
+          },
+        ],
+    };
+    $Self->{'Frontend::Module'}->{'AgentTicketEmail'} = {
+        Description => 'Create new Email Ticket',
+        Title => 'Email-Ticket',
+        NavBarName => 'Ticket',
+        NavBar => [
+          {
+#            Description => 'Create new Email Ticket',
+            Description => 'Send Email and create a new Ticket',
+            Name => 'Email-Ticket',
+            Image => 'mail_new.png',
+            Link => 'Action=AgentTicketEmail',
+            NavBar => 'Ticket',
+            Prio => 210,
+          },
+        ],
+    };
+    $Self->{'Frontend::Module'}->{'AgentTicketSearch'} = {
+        Description => 'Search Tickets',
+        Title => 'Search',
+        NavBarName => 'Ticket',
+        NavBar => [
+          {
+            Description => 'Search Tickets',
+            Name => 'Search',
+            Image => 'search.png',
+            Link => 'Action=AgentTicketSearch',
+            NavBar => 'Ticket',
+            Prio => 300,
+         },
+       ],
+    };
+    $Self->{'Frontend::Module'}->{'AgentTicketMailbox'} = {
+        Description => 'Agent Mailbox',
+        Title => 'Locked Tickets',
+        NavBarName => 'Ticket',
+    };
+    $Self->{'Frontend::Module'}->{'AgentTicketStatusView'} = {
+        Description => 'Overview of all open tickets',
+        Title => 'Status View',
+        NavBarName => 'Ticket',
+    };
+    $Self->{'Frontend::Module'}->{'AgentZoom'} = {
+        Description => 'compat module for Ticket Zoom',
+        NavBarName => 'Ticket',
+    };
+    $Self->{'Frontend::Module'}->{'AgentTicketZoom'} = {
+        Description => 'Ticket Zoom',
+        Title => 'Zoom',
+        NavBarName => 'Ticket',
+    };
+    $Self->{'Frontend::Module'}->{'AgentTicketAttachment'} = {
+        Description => 'To download attachments',
+    };
+    $Self->{'Frontend::Module'}->{'AgentTicketPlain'} = {
+        Description => 'Ticket plain view of an email',
+        Title => 'Plain Article',
+        NavBarName => 'Ticket',
+    };
+    $Self->{'Frontend::Module'}->{'AgentTicketNote'} = {
+        Description => 'Ticket Note',
+        Title => 'Note',
+        NavBarName => 'Ticket',
+    };
+    $Self->{'Frontend::Module'}->{'AgentTicketPending'} = {
+        Description => 'Ticket Pending',
+        Title => 'Pending',
+        NavBarName => 'Ticket',
+    };
+    $Self->{'Frontend::Module'}->{'AgentTicketPriority'} = {
+        Description => 'Ticket Priority',
+        Title => 'Priority',
+        NavBarName => 'Ticket',
+    };
+    $Self->{'Frontend::Module'}->{'AgentTicketLock'} = {
+        Description => 'Ticket Lock',
+        NavBarName => 'Ticket',
+    };
+    $Self->{'Frontend::Module'}->{'AgentTicketMove'} = {
+        Description => 'Ticket Move',
+        Title => 'Move',
+        NavBarName => 'Ticket',
+    };
+    $Self->{'Frontend::Module'}->{'AgentTicketHistory'} = {
+        Description => 'Ticket History',
+        Title => 'History',
+        NavBarName => 'Ticket',
+    };
+    $Self->{'Frontend::Module'}->{'AgentTicketOwner'} = {
+        Description => 'Ticket Owner',
+        Title => 'Owner',
+        NavBarName => 'Ticket',
+    };
+    $Self->{'Frontend::Module'}->{'AgentTicketCompose'} = {
+        Description => 'Ticket Compose Email Answer',
+        Title => 'Compose',
+        NavBarName => 'Ticket',
+    };
+    $Self->{'Frontend::Module'}->{'AgentTicketCustomerFollowUp'} = {
+        Description => 'Used if a agent can also be a customer',
+        Title => 'Compose Follow up',
+        NavBarName => 'Ticket',
+    };
+    $Self->{'Frontend::Module'}->{'AgentTicketBounce'} = {
+        Description => 'Ticket Compose Bounce Email',
+        Title => 'Bounce',
+        NavBarName => 'Ticket',
+    };
+    $Self->{'Frontend::Module'}->{'AgentTicketForward'} = {
+        Description => 'Ticket Forward Email',
+        Title => 'Forward',
+        NavBarName => 'Ticket',
+    };
+    $Self->{'Frontend::Module'}->{'AgentTicketCustomer'} = {
+        Description => 'Ticket Customer',
+        Title => 'Customer',
+        NavBarName => 'Ticket',
+    };
+    $Self->{'Frontend::Module'}->{'AgentTicketClose'} = {
+        Description => 'Ticket Close',
+        Title => 'Close',
+        NavBarName => 'Ticket',
+    };
+    $Self->{'Frontend::Module'}->{'AgentTicketFreeText'} = {
+        Description => 'Ticket FreeText',
+        Title => 'Free Fields',
+        NavBarName => 'Ticket',
+    };
+    $Self->{'Frontend::Module'}->{'AgentTicketPrint'} = {
+        Description => 'Ticket Print',
+        Title => 'Print',
+        NavBarName => 'Ticket',
+    };
+    $Self->{'Frontend::Module'}->{'AgentTicketBulk'} = {
+        Description => 'Ticket bulk module',
+        Title => 'Bulk Action',
+        NavBarName => 'Ticket',
+    };
+
+    $Self->{'Frontend::Module'}->{'AdminQueue'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+        Title => 'Queue',
+        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'Queue',
+            Block => 'Block2',
+            Prio => 100,
+        },
+    };
+    $Self->{'Frontend::Module'}->{'AdminResponse'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+        Title => 'Response',
+        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'Responses',
+            Block => 'Block2',
+            Prio => 200,
+        },
+    };
+    $Self->{'Frontend::Module'}->{'AdminQueueResponses'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+        Title => 'Response <-> Queue',
+        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'Responses <-> Queue',
+            Block => 'Block2',
+            Prio => 300,
+        },
+    };
+    $Self->{'Frontend::Module'}->{'AdminAutoResponse'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+        Title => 'Auto response change',
+        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'Auto Responses',
+            Block => 'Block2',
+            Prio => 400,
+        },
+    };
+    $Self->{'Frontend::Module'}->{'AdminQueueAutoResponse'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+        Title => 'Queue <-> Auto Response',
+        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'Auto Responses <-> Queue',
+            Block => 'Block2',
+            Prio => 500,
+        },
+    };
+    $Self->{'Frontend::Module'}->{'AdminAttachment'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+        Title => 'Attachment',
+        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'Attachments',
+            Block => 'Block2',
+            Prio => 600,
+        },
+    };
+    $Self->{'Frontend::Module'}->{'AdminResponseAttachment'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+        Title => 'Response <-> Queue',
+        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'Attachments <-> Responses',
+            Block => 'Block2',
+            Prio => 700,
+        },
+    };
+    $Self->{'Frontend::Module'}->{'AdminSalutation'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+        Title => 'Salutation',
+        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'Salutations',
+            Block => 'Block3',
+            Prio => 100,
+        },
+    };
+    $Self->{'Frontend::Module'}->{'AdminSignature'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+        Title => 'Signature',
+        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'Signatures',
+            Block => 'Block3',
+            Prio => 200,
+        },
+    };
+    $Self->{'Frontend::Module'}->{'AdminSystemAddress'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+        Title => 'System address',
+        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'Email Addresses',
+            Block => 'Block3',
+            Prio => 300,
+        },
+    };
+    $Self->{'Frontend::Module'}->{'AdminNotification'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+        Title => 'Notification',
+        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'Notifications',
+            Block => 'Block3',
+            Prio => 400,
+        },
+    };
+    $Self->{'Frontend::Module'}->{'AdminState'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+        Title => 'State',
+        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'Status',
+            Block => 'Block3',
+            Prio => 700,
+        },
+    };
+    $Self->{'Frontend::Module'}->{'AdminGenericAgent'} = {
+        Group => ['admin'],
+        Description => 'Admin',
+        Title => 'GenericAgent',
+        NavBarName => 'Admin',
+        NavBarModule => {
+            Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Name => 'GenericAgent',
+            Block => 'Block4',
+            Prio => 300,
+        },
+    };
+
+    # customer panel
+    $Self->{'CustomerFrontend::Module'}->{'CustomerTicketOverView'} = {
+        Description => 'Overview of customer tickets.',
+        NavBarName => 'Ticket',
+        Title => 'Overview',
+        NavBar => [
+          {
+            Description => 'MyTickets',
+            Name => 'MyTickets',
+            Image => 'ticket.png',
+            Link => 'Action=CustomerTicketOverView&Type=MyTickets',
+            Prio => 110,
+          },
+          {
+            Description => 'CompanyTickets',
+            Name => 'CompanyTickets',
+            Image => 'tickets.png',
+            Link => 'Action=CustomerTicketOverView&Type=CompanyTickets',
+            Prio => 120,
+          },
+        ],
+    };
+    $Self->{'CustomerFrontend::Module'}->{'CustomerTicketMessage'} = {
+        Description => 'Create and updated tickets.',
+        NavBarName => 'Ticket',
+        Title => 'Message',
+        NavBar => [
+          {
+            Description => 'Create new Ticket',
+            Name => 'New Ticket',
+            Image => 'new.png',
+            Link => 'Action=CustomerTicketMessage',
+            Prio => 100,
+          },
+        ],
+    };
+    $Self->{'CustomerFrontend::Module'}->{'CustomerTicketZoom'} = {
+        Description => 'Ticket zoom view',
+        NavBarName => 'Ticket',
+        Title => 'Zoom',
+    };
+    $Self->{'CustomerFrontend::Module'}->{'CustomerZoom'} = {
+        Description => 'compat mod',
+    };
+    $Self->{'CustomerFrontend::Module'}->{'CustomerTicketAttachment'} = {
+        Description => 'To download attachments',
+    };
+    $Self->{'CustomerFrontend::Module'}->{'CustomerTicketSearch'} = {
+        Description => 'Customer ticket search.',
+        NavBarName => 'Ticket',
+        Title => 'Search',
+        NavBar => [
+          {
+            Description => 'Search',
+            Name => 'Search',
+            Image => 'search.png',
+            Link => 'Action=CustomerTicketSearch',
+            Prio => 300,
+          },
+        ],
+    };
+
+    # Default Ticket Action ACL
+    $Self->{'TicketACL::Default::Action'} = {};
     
     
     
@@ -2102,15 +2962,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
     
     
     
-     <ConfigItem Name="Ticket::Frontend::SearchLimit" Required="1" Valid="1">
-        <Description Lang="en">Search limit for ticket frontend.</Description>
-        <Description Lang="de">Hier legen Sie das Ergebnislimit für die Ticketsuche fest.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core</SubGroup>
-        <Setting>
-            <String Regex="^[0-9]${1,10}">5000</String>
-        </Setting>
-    </ConfigItem>    
+
     
     
     
