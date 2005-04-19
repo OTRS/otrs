@@ -93,7 +93,7 @@ TimeWorkingHours
 -->
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.8 2005-04-19 07:08:48 rk Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.9 2005-04-19 09:14:25 rk Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">Enable this so you can't use the installer.pl</Description>
         <Description Lang="de">???</Description>
@@ -604,7 +604,7 @@ Your OTRS Notification Master
         <!--    $Self->{'Frontend::NotifyModule'}->{'4-ShowCustomerOnline'} = {
                 Module => 'Kernel::Output::HTML::NotificationCustomerOnline',}; -->
     </ConfigItem>   
-    <ConfigItem Name="Frontend::Output::PostFilter###ActiveElementFilter" Required="0" Valid="0">
+<!--    <ConfigItem Name="Frontend::Output::PostFilter###ActiveElementFilter" Required="0" Valid="0">
         <Description Lang="en">a output filter for application html output, e. g. to filter java script, java applets, ...</Description>
         <Description Lang="de">Ein Filter für html Inhalt z.B. zum Filtern von java script, java applets, ...</Description>
         <Group>Framework</Group>
@@ -615,10 +615,7 @@ Your OTRS Notification Master
                     <Item Key="Debug">0</Item>                 
                 </Hash>
             </Setting>
-        <!--    $Self->{'Frontend::Output::PostFilter'}->{'ActiveElementFilter'} = {
-                    Module => 'Kernel::Output::HTML::OutputFilterActiveElement',
-                    Debug => 0,}; -->
-    </ConfigItem>   
+    </ConfigItem>   -->
     <ConfigItem Name="SessionModule" Required="1" Valid="1">
         <Description Lang="en">How should be the session-data stored? Advantage of DB is that you can split the Frontendserver from the db-server. fs or ipc is faster.</Description>
         <Description Lang="de"></Description>
