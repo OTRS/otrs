@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.10 2005-04-19 13:03:00 martin Exp $
+# $Id: Config.pm,v 1.11 2005-04-19 14:33:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -209,28 +209,23 @@ sub ConfigItemUpdate {
         }
     }
     if (!open(OUT, ">> $Home/Kernel/Config/Files/ZZZAuto.pm")) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Can't write $Home/Kernel/Config/Files/ZZZAuto.pm!");
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Can't write $Home/Kernel/Config/Files/ZZZAuto.pm: $!");
         return;
     }
     else {
-        # set in runtime
-        if (!$Param{Valid}) {
-            delete $Self->{ConfigObject}->{$Param{Key}};
-        }
-        else {
-            $Self->{ConfigObject}->{$Param{Key}} = $Param{Value};
-        }
-        # store in config
         $Param{Key} =~ s/\\/\\\\/g;
         $Param{Key} =~ s/'/\'/g;
         $Param{Key} =~ s/###/'}->{'/g;
+        # store in config
         require Data::Dumper;
         my $Dump = Data::Dumper::Dumper($Param{Value});
         $Dump =~ s/\$VAR1/\$Self->{'$Param{Key}'}/;
+        $Dump .= "\$Self->{'Valid'}->{'$Param{Key}'} = '$Param{Valid}';\n1;";
         print OUT $Dump;
-        print OUT "\$Self->{'Valid'}->{'$Param{Key}'} = '$Param{Valid}';\n";
-
         close(OUT);
+        # set in runtime
+        $Dump =~ s/^\$Self->/\$Self->{ConfigObject}->/gm;
+        eval $Dump || die "ERROR: Syntax error in $Dump\n";
         return 1;
     }
 }
@@ -438,6 +433,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2005-04-19 13:03:00 $
+$Revision: 1.11 $ $Date: 2005-04-19 14:33:36 $
 
 =cut
