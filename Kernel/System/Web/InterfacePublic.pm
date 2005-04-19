@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfacePublic.pm - the public interface file
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: InterfacePublic.pm,v 1.2 2005-04-01 08:23:04 martin Exp $
+# $Id: InterfacePublic.pm,v 1.3 2005-04-19 08:13:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Web::InterfacePublic;
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -26,10 +26,7 @@ use Kernel::System::Main;
 use Kernel::System::Time;
 use Kernel::System::Web::Request;
 use Kernel::System::DB;
-use Kernel::System::AuthSession;
-use Kernel::System::CustomerAuth;
 use Kernel::System::CustomerUser;
-use Kernel::System::CustomerGroup;
 use Kernel::Output::HTML::Generic;
 
 =head1 NAME
@@ -172,8 +169,6 @@ sub Run {
     # create common framework objects 3/3
     # --
     $Self->{UserObject} = Kernel::System::CustomerUser->new(%{$Self});
-    $Self->{GroupObject} = Kernel::System::CustomerGroup->new(%{$Self});
-    $Self->{SessionObject} = Kernel::System::AuthSession->new(%{$Self});
     # --
     # application and add on application common objects
     # --
@@ -276,6 +271,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2005-04-01 08:23:04 $
+$Revision: 1.3 $ $Date: 2005-04-19 08:13:52 $
 
 =cut
