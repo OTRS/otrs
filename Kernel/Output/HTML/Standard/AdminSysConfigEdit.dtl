@@ -2,7 +2,7 @@
 # AdminSelectBoxForm.dtl - provides HTML form for SelectBox
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfigEdit.dtl,v 1.1 2005-04-14 12:27:26 rk Exp $
+# $Id: AdminSysConfigEdit.dtl,v 1.2 2005-04-19 07:11:27 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,10 +33,10 @@
   </tr>
   <!-- dtl:block:ConfigElementBlock -->
   <tr class="contentbody">
-    <td valign="top"><input type="checkbox" value="1" name=""></td>
+    <td valign="top"><input type="checkbox" value="1" name="" $Data{"Valid"}></td>
     <td width="50%"><span class="contentkey">$QData{"Item"}:</span><br><span class="contentvalue">$QData{"Description"}</span></td>
     <!-- dtl:block:ConfigElementString -->
-    <td width="50%" class="contentvalue" valign="top"><input name="$Data{"Item"}" value="$Data{"Content"}"><span class="validity">&nbsp;$QData{"Valid"}</span></td>
+    <td width="50%" class="contentvalue" valign="top"><input name="$Data{"Item"}" value="$Data{"Content"}" size="50"><span class="validity">&nbsp;$QData{"Valid"}</span></td>
     <!-- dtl:block:ConfigElementString -->
     <!-- dtl:block:ConfigElementTextArea -->
     <td width="50%" class="contentvalue" valign="top"><textarea name="$Data{"Item"}" rows="7" cols="50">$Data{"Content"}</textarea></td>
@@ -67,6 +67,22 @@
       </table>
     </td>
     <!-- dtl:block:ConfigElementHash -->
+    <!-- dtl:block:ConfigElementArray -->
+    <td class="contentvalue">
+      <table border="0" cellpadding="0" cellspacing="3">
+        <!-- dtl:block:ConfigElementArrayContent -->
+        <tr>
+          <td class="contentvalue"><input type="text" name="ElementName" value="$Data{"Content"}" size="20"></td>
+          <td>&nbsp;</td>
+          <td class="contentkey"><input type="submit" name="" value="$Text{"Delete"}"></td>
+        </tr>   
+        <!-- dtl:block:ConfigElementArrayContent -->
+        <tr class="contentbody">
+          <td class="contentvalue"><input type="submit" name="Neu" value="$Text{"New"}"></td>
+        </tr>
+      </table>
+    </td>    
+    <!-- dtl:block:ConfigElementArray -->
     <!-- dtl:block:ConfigElementFrontendModuleReg -->
     <td class="contentvalue">
       <table border="0" cellpadding="0" cellspacing="3">
@@ -177,9 +193,6 @@
        </table>   
     </td>
     <!-- dtl:block:ConfigElementFrontendModuleReg -->
-    <!-- dtl:block:ConfigElementArray -->
-    
-    <!-- dtl:block:ConfigElementArray -->
   </tr>
   <tr class="contentbody">
     <td class="contentvalue" colspan="3"><hr></td>

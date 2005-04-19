@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.pm,v 1.2 2005-04-14 13:15:09 rk Exp $
+# $Id: AdminSysConfig.pm,v 1.3 2005-04-19 07:11:27 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -101,6 +101,12 @@ sub Run {
         foreach (keys %List) {
             # Get all Attributes from Item
             my %ItemHash = $Self->{SysConfigObject}->ConfigItemGet(Name => $_);
+$Self->{LogObject}->Dumper(jkl => %ItemHash);
+            # Valid (required)
+            my $Valid = '';
+            if ($ItemHash{Valid} && $ItemHash{Valid} == 1) {
+                $Valid = 'checked';
+            }
             #Description
             my %HashLang;
             foreach my $Index (1...$#{$ItemHash{Description}}) {
@@ -121,6 +127,7 @@ sub Run {
                 Data => {
                     Item        => $_,
                     Description => $Description,
+                    Valid       => $Valid,
                 },
             );
 
@@ -246,6 +253,25 @@ sub ListConfigItem {
                 Data => {
                     Key     => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Key},
                     Content => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Content},
+                },
+            );                
+        }               
+    }
+    # ConfigElement Array
+    elsif (defined ($ItemHash{Setting}[1]{Array})) {
+        my %Hash;
+        $Self->{LayoutObject}->Block(
+            Name => 'ConfigElementArray',
+            Data => {
+                Item        => $_, 
+            },
+        );
+        # Arrayelements
+        foreach my $Index (1...$#{$ItemHash{Setting}[1]{Array}[1]{Item}}) {
+            $Self->{LayoutObject}->Block(
+                Name => 'ConfigElementArrayContent',
+                Data => {
+                    Content => $ItemHash{Setting}[1]{Array}[1]{Item}[$Index]{Content},
                 },
             );                
         }               
