@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.6 2005-04-19 07:28:07 martin Exp $
+# $Id: Config.pm,v 1.7 2005-04-19 08:03:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -164,16 +164,17 @@ sub CreateConfig {
             my %Config = $Self->ConfigItemGet(
                 Name => $ConfigItem->{Name}, 
             );
-            $ConfigItem->{Name} =~ s/\\/\\\\/g;
-            $ConfigItem->{Name} =~ s/'/\'/g;
-            $ConfigItem->{Name} =~ s/###/'}->{'/g;
+            my $Name = $ConfigItem->{Name}; 
+            $Name =~ s/\\/\\\\/g;
+            $Name =~ s/'/\'/g;
+            $Name =~ s/###/'}->{'/g;
             if ($ConfigItem->{Setting}->[1]->{String}) {
-                print OUT "    \$Self->{'$ConfigItem->{Name}'} = '$ConfigItem->{Setting}->[1]->{String}->[1]->{Content}';\n";
+                print OUT "    \$Self->{'$Name'} = '$ConfigItem->{Setting}->[1]->{String}->[1]->{Content}';\n";
             }
             if ($ConfigItem->{Setting}->[1]->{Option}) {
-                print OUT "    \$Self->{'$ConfigItem->{Name}'} = '$ConfigItem->{Setting}->[1]->{Option}->[1]->{SelectedID}';\n";
+                print OUT "    \$Self->{'$Name'} = '$ConfigItem->{Setting}->[1]->{Option}->[1]->{SelectedID}';\n";
             }
-            print OUT "    \$Self->{'$ConfigItem->{Name}::Valid'} = '$ConfigItem->{Valid}';\n";
+            print OUT "    \$Self->{'$Name"."::Valid'} = '$ConfigItem->{Valid}';\n";
         }
     }
 
@@ -427,6 +428,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2005-04-19 07:28:07 $
+$Revision: 1.7 $ $Date: 2005-04-19 08:03:00 $
 
 =cut
