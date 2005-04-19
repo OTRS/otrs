@@ -1,8 +1,8 @@
 # --
-# Kernel/System/Queue.pm - lib for queue funktions
+# Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.47 2005-02-15 11:58:13 martin Exp $
+# $Id: Queue.pm,v 1.48 2005-04-19 08:14:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Group;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.47 $';
+$VERSION = '$Revision: 1.48 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -912,6 +912,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.47 $ $Date: 2005-02-15 11:58:13 $
+$Revision: 1.48 $ $Date: 2005-04-19 08:14:19 $
 
 =cut
