@@ -2,7 +2,7 @@
 # AdminSelectBoxForm.dtl - provides HTML form for SelectBox
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfigEdit.dtl,v 1.2 2005-04-19 07:11:27 rk Exp $
+# $Id: AdminSysConfigEdit.dtl,v 1.3 2005-04-19 13:53:42 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -26,6 +26,7 @@
 <form action="$Env{"CGIHandle"}" method="post">
 <input type="hidden" name="Action" value="$Env{"Action"}">
 <input type="hidden" name="Subaction" value="Update">
+<input type="hidden" name="SysConfigGroup" value="$Data{"Group"}">
 <input type="hidden" name="SysConfigSubGroup" value="$Data{"SubGroup"}">
 <table cellspacing="0" cellpadding="4" border="0" width="790">
   <tr class="contenthead">
@@ -33,16 +34,16 @@
   </tr>
   <!-- dtl:block:ConfigElementBlock -->
   <tr class="contentbody">
-    <td valign="top"><input type="checkbox" value="1" name="" $Data{"Valid"}></td>
-    <td width="50%"><span class="contentkey">$QData{"Item"}:</span><br><span class="contentvalue">$QData{"Description"}</span></td>
+    <td valign="top"><input type="checkbox" value="1" name="$Data{"ItemKey"}ItemAktiv" $Data{"Valid"} $Data{"Required"}></td>
+    <td width="50%"><span class="contentkey$Data{"Validstyle"}">$QData{"ItemKey"}:</span><br><span class="contentvalue$Data{"Validstyle"}">$QData{"Description"}</span></td>
     <!-- dtl:block:ConfigElementString -->
-    <td width="50%" class="contentvalue" valign="top"><input name="$Data{"Item"}" value="$Data{"Content"}" size="50"><span class="validity">&nbsp;$QData{"Valid"}</span></td>
+    <td width="50%" class="contentvalue" valign="top"><input name="$Data{"ElementKey"}" value="$QData{"Content"}" size="50"><span class="validity">&nbsp;$QData{"Valid"}</span></td>
     <!-- dtl:block:ConfigElementString -->
     <!-- dtl:block:ConfigElementTextArea -->
-    <td width="50%" class="contentvalue" valign="top"><textarea name="$Data{"Item"}" rows="7" cols="50">$Data{"Content"}</textarea></td>
+    <td width="50%" class="contentvalue" valign="top"><textarea name="$Data{"ElementKey"}" rows="7" cols="50">$QData{"Content"}</textarea></td>
     <!-- dtl:block:ConfigElementTextArea -->
     <!-- dtl:block:ConfigElementSelect -->
-    <td width="50%2 class="contentvalue" valign="top">$Data{"Liste"}</td>
+    <td width="50%" class="contentvalue" valign="top">$Data{"Liste"}</td>
     <!-- dtl:block:ConfigElementSelect -->
     <!-- dtl:block:ConfigElementHash -->
     <td class="contentvalue">
@@ -54,9 +55,9 @@
         </tr>
         <!-- dtl:block:ConfigElementHashContent -->
         <tr>
-          <td class="contentvalue"><input type="text" name="ElementName" value="$Data{"Key"}" size="20"></td>
+          <td class="contentvalue"><input type="text" name="ElementName" value="$QData{"Key"}" size="20"></td>
           <td>&nbsp;</td>
-          <td class="contentvalue"><input type="text" name="ElementName" value="$Data{"Content"}" size="20"></td>
+          <td class="contentvalue"><input type="text" name="ElementName" value="$QData{"Content"}" size="20"></td>
           <td>&nbsp;</td>
           <td class="contentkey"><input type="submit" name="" value="$Text{"Delete"}"></td>
         </tr>   
@@ -72,7 +73,7 @@
       <table border="0" cellpadding="0" cellspacing="3">
         <!-- dtl:block:ConfigElementArrayContent -->
         <tr>
-          <td class="contentvalue"><input type="text" name="ElementName" value="$Data{"Content"}" size="20"></td>
+          <td class="contentvalue"><input type="text" name="ElementName" value="$QData{"Content"}" size="20"></td>
           <td>&nbsp;</td>
           <td class="contentkey"><input type="submit" name="" value="$Text{"Delete"}"></td>
         </tr>   
@@ -94,7 +95,7 @@
         <tr>
           <td></td>
           <td>&nbsp;</td>
-          <td class="contentvalue"><input type="text" name="" value="$Data{"ContentGroup"}" size="20"></td>
+          <td class="contentvalue"><input type="text" name="" value="$QData{"ContentGroup"}" size="20"></td>
           <td>&nbsp;</td>
           <td class="contentkey"><input type="submit" name="" value="$Text{"Delete"}"></td>
         </tr>
@@ -111,7 +112,7 @@
         <tr>
           <td></td>
           <td>&nbsp;</td>
-          <td class="contentvalue"><input type="text" name="" value="$Data{"ContentGroupRo"}" size="20"></td>
+          <td class="contentvalue"><input type="text" name="" value="$QData{"ContentGroupRo"}" size="20"></td>
           <td>&nbsp;</td>
           <td class="contentkey"><input type="submit" name="" value="$Text{"Delete"}"></td>
         </tr> 
@@ -124,42 +125,42 @@
         <tr>
           <td class="contentkey">$Text{"Description"}:</td>
           <td>&nbsp;</td>
-          <td class="contentvalue"><input type="text" name="" value="$Data{"ContentDescription"}" size="20"></td>
+          <td class="contentvalue"><input type="text" name="" value="$QData{"ContentDescription"}" size="20"></td>
         </tr>   
         <tr>
           <td class="contentkey">$Text{"Name"}:</td>
           <td>&nbsp;</td>
-          <td class="contentvalue"><input type="text" name="" value="$Data{"ContentName"}" size="20"></td>
+          <td class="contentvalue"><input type="text" name="" value="$QData{"ContentName"}" size="20"></td>
         </tr>   
         <tr>
           <td class="contentkey">$Text{"Image"}:</td>
           <td>&nbsp;</td>
-          <td class="contentvalue"><input type="text" name="" value="$Data{"ContentImage"}" size="20"></td>
+          <td class="contentvalue"><input type="text" name="" value="$QData{"ContentImage"}" size="20"></td>
         </tr>   
         <tr>
           <td class="contentkey">$Text{"Link"}:</td>
           <td>&nbsp;</td>
-          <td class="contentvalue"><input type="text" name="" value="$Data{"ContentLink"}" size="20"></td>
+          <td class="contentvalue"><input type="text" name="" value="$QData{"ContentLink"}" size="20"></td>
         </tr>   
         <tr>
           <td class="contentkey">$Text{"Typ"}:</td>
           <td>&nbsp;</td>
-          <td class="contentvalue"><input type="text" name="" value="$Data{"ContentTyp"}" size="20"></td>
+          <td class="contentvalue"><input type="text" name="" value="$QData{"ContentTyp"}" size="20"></td>
         </tr>   
         <tr>
           <td class="contentkey">$Text{"Prio"}:</td>
           <td>&nbsp;</td>
-          <td class="contentvalue"><input type="text" name="" value="$Data{"ContentPrio"}" size="20"></td>
+          <td class="contentvalue"><input type="text" name="" value="$QData{"ContentPrio"}" size="20"></td>
         </tr>   
         <tr>
           <td class="contentkey">$Text{"Block"}:</td>
           <td>&nbsp;</td>
-          <td class="contentvalue"><input type="text" name="" value="$Data{"ContentBlock"}" size="20"></td>
+          <td class="contentvalue"><input type="text" name="" value="$QData{"ContentBlock"}" size="20"></td>
         </tr>   
         <tr>
           <td class="contentkey">$Text{"NavBar"}:</td>
           <td>&nbsp;</td>
-          <td class="contentvalue"><input type="text" name="" value="$Data{"ContentNavBar"}" size="20"></td>
+          <td class="contentvalue"><input type="text" name="" value="$QData{"ContentNavBar"}" size="20"></td>
         </tr>     
         <tr>
           <td colspan="5"><hr></td>
@@ -169,22 +170,22 @@
         <tr>
           <td class="contentkey" width="100">$Text{"Module"}:</td>
           <td>&nbsp;</td>
-          <td class="contentvalue"><input type="text" name="" value="$Data{"ContentName"}" size="20"></td>
+          <td class="contentvalue"><input type="text" name="" value="$QData{"ContentName"}" size="20"></td>
         </tr>   
         <tr>
           <td class="contentkey">$Text{"Name"}:</td>
           <td>&nbsp;</td>
-          <td class="contentvalue"><input type="text" name="" value="$Data{"ContentImage"}" size="20"></td>
+          <td class="contentvalue"><input type="text" name="" value="$QData{"ContentImage"}" size="20"></td>
         </tr>   
         <tr>
           <td class="contentkey">$Text{"Block"}:</td>
           <td>&nbsp;</td>
-          <td class="contentvalue"><input type="text" name="" value="$Data{"ContentLink"}" size="20"></td>
+          <td class="contentvalue"><input type="text" name="" value="$QData{"ContentLink"}" size="20"></td>
         </tr>   
         <tr>
           <td class="contentkey">$Text{"Prio"}:</td>
           <td>&nbsp;</td>
-          <td class="contentvalue"><input type="text" name="" value="$Data{"ContentTyp"}" size="20"></td>
+          <td class="contentvalue"><input type="text" name="" value="$QData{"ContentTyp"}" size="20"></td>
         </tr>   
         <tr>
           <td colspan="5"><hr></td>

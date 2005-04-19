@@ -2,7 +2,7 @@
 # AdminSysConfig.dtl - provides HTML form for AdminSysConfig html
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.dtl,v 1.1 2005-04-14 12:27:26 rk Exp $
+# $Id: AdminSysConfig.dtl,v 1.2 2005-04-19 13:53:42 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -82,7 +82,7 @@
       </tr>
 <!-- dtl:block:Row -->
       <tr>
-        <td class="contentvalue"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Edit&SysConfigSubGroup=$QData{"SubGroup"}">$QData{"SubGroup"}</a></td>
+        <td class="contentvalue"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Edit&SysConfigSubGroup=$QData{"SubGroup"}&SysConfigGroup=$QData{"Group"}">$QData{"SubGroup"}</a></td>
         <td class="contentvalue">$QData{"Group"}</td>
         <td class="contentvalue">$QData{"Active"}</td>
       </tr>

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.pm,v 1.4 2005-04-19 08:30:46 rk Exp $
+# $Id: AdminSysConfig.pm,v 1.5 2005-04-19 13:53:42 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -59,20 +59,27 @@ sub Run {
     # update config
     if ($Self->{Subaction} eq 'Update') {
         my $SubGroup = $Self->{ParamObject}->GetParam(Param => 'SysConfigSubGroup');
-        my %List = $Self->{SysConfigObject}->ConfigSubGroupConfigItemList(Name => $SubGroup);
+        my $Group = $Self->{ParamObject}->GetParam(Param => 'SysConfigGroup');
+        my @List = $Self->{SysConfigObject}->ConfigSubGroupConfigItemList(Group => $Group, SubGroup => $SubGroup);
         # list all Items
-        foreach (keys %List) {
+        foreach (@List) {
             # Get all Attributes from Item
             my %ItemHash = $Self->{SysConfigObject}->ConfigItemGet(Name => $_);
+            # Get ElementAktiv (checkbox)
+            my $Aktiv = 0;
+            if (($ItemHash{Required} && $ItemHash{Required} == 1) || $Self->{ParamObject}->GetParam(Param => $_.'ItemAktiv') == 1) {
+                $Aktiv = 1;
+            }
             # ConfigElement String
             if (defined ($ItemHash{Setting}[1]{String})) {
+                # Get Value (Content)
                 my $Content = $Self->{ParamObject}->GetParam(Param => $_);
                 # Regex check
-                if (defined ($ItemHash{Setting}[1]{String}[1]{Regex}) && !($Content =~ /$ItemHash{Setting}[1]{String}[1]{Regex}/)) {
+                if (defined ($ItemHash{Setting}[1]{String}[1]{Regex}) && $ItemHash{Setting}[1]{String}[1]{Regex} != "" && !($Content =~ /$ItemHash{Setting}[1]{String}[1]{Regex}/)) {
                     $InvalidValue{$_} = 1;              
                 }
                 # write ConfigItem
-                if (!$Self->{ConfigObject}->Set(Key => $_, Value => $Content)) {
+                if (!$Self->{SysConfigObject}->ConfigItemUpdate(Key => $_, Value => $Content, Valid => $Aktiv)) {
                     $Self->{LayoutObject}->FatalError(Message => "Can't write ConfigItem!");
                 }
             }
@@ -80,21 +87,20 @@ sub Run {
             elsif (defined ($ItemHash{Setting}[1]{Option})) {
                 my $Content = $Self->{ParamObject}->GetParam(Param => $_);
                 # write ConfigItem
-                if (!$Self->{ConfigObject}->Set(Key => $_, Value => $Content)) {
+                if (!$Self->{SysConfigObject}->ConfigItemUpdate(Key => $_, Value => $Content, Valid => $Aktiv)) {
                     $Self->{LayoutObject}->FatalError(Message => "Can't write ConfigItem!");
                 }
             }
 
         }
         
-        # Create Config
-        $Self->{SysConfigObject}->CreateConfig();
         $Self->{Subaction} = 'Edit';
     }
     # edit config
     if ($Self->{Subaction} eq 'Edit') {
         my $SubGroup = $Self->{ParamObject}->GetParam(Param => 'SysConfigSubGroup');
-        my @List = $Self->{SysConfigObject}->ConfigSubGroupConfigItemList(Name => $SubGroup);
+        my $Group = $Self->{ParamObject}->GetParam(Param => 'SysConfigGroup');
+        my @List = $Self->{SysConfigObject}->ConfigSubGroupConfigItemList(Group => $Group, SubGroup => $SubGroup);
         #Language
         my $UserLang = $Self->{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage');     
         # list all Items
@@ -131,7 +137,7 @@ sub Run {
             $Self->{LayoutObject}->Block(
                 Name => 'ConfigElementBlock',
                 Data => {
-                    Item        => $_,
+                    ItemKey     => $_,
                     Description => $Description,
                     Valid       => $Valid,
                     Validstyle  => $Validstyle,
@@ -143,6 +149,7 @@ sub Run {
             $Self->ListConfigItem(Hash => \%ItemHash, InvalidValue => \%InvalidValue);
         }
         $Data{SubGroup} = $SubGroup;
+        $Data{Group} = $Group;
         $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'SysConfig');
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminSysConfigEdit', Data => \%Data);   
@@ -200,7 +207,6 @@ sub ListConfigItem {
     my %ItemHash    = %{$Param{Hash}};
     my %InvalidValue = %{$Param{InvalidValue}};
     my $Valid = '';
-
     # ConfigElement String
     if (defined ($ItemHash{Setting}[1]{String})) {
         if (defined ($InvalidValue{$_})) {
@@ -209,9 +215,9 @@ sub ListConfigItem {
         $Self->{LayoutObject}->Block(
             Name => 'ConfigElementString',
             Data => {
-                Item    => $_,
-                Content => $ItemHash{Setting}[1]{String}[1]{Content},
-                Valid   => $Valid,   
+                ElementKey => $ItemHash{Name},
+                Content    => $ItemHash{Setting}[1]{String}[1]{Content},
+                Valid      => $Valid,   
             },
         );
     }
@@ -220,9 +226,9 @@ sub ListConfigItem {
         $Self->{LayoutObject}->Block(
             Name => 'ConfigElementTextArea',
             Data => {
-                Item    => $_,
-                Content => $ItemHash{Setting}[1]{TextArea}[1]{Content},
-                Valid   => $Valid,   
+                ElementKey => $ItemHash{Name},
+                Content    => $ItemHash{Setting}[1]{TextArea}[1]{Content},
+                Valid      => $Valid,   
             },
         );
     }    
@@ -240,7 +246,7 @@ sub ListConfigItem {
         $Self->{LayoutObject}->Block(
             Name => 'ConfigElementSelect',
             Data => {
-                Item        => $_, 
+                Item        => $_,
                 Liste       => $PulldownMenue, 
             },
         );
