@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.pm,v 1.3 2005-04-19 07:11:27 rk Exp $
+# $Id: AdminSysConfig.pm,v 1.4 2005-04-19 08:30:46 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -94,18 +94,24 @@ sub Run {
     # edit config
     if ($Self->{Subaction} eq 'Edit') {
         my $SubGroup = $Self->{ParamObject}->GetParam(Param => 'SysConfigSubGroup');
-        my %List = $Self->{SysConfigObject}->ConfigSubGroupConfigItemList(Name => $SubGroup);
+        my @List = $Self->{SysConfigObject}->ConfigSubGroupConfigItemList(Name => $SubGroup);
         #Language
         my $UserLang = $Self->{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage');     
         # list all Items
-        foreach (keys %List) {
+        foreach (@List) {
             # Get all Attributes from Item
             my %ItemHash = $Self->{SysConfigObject}->ConfigItemGet(Name => $_);
-$Self->{LogObject}->Dumper(jkl => %ItemHash);
-            # Valid (required)
+            # Required
+            my $Required = '';
+            if ($ItemHash{Required} && $ItemHash{Required} == 1) {
+                $Required = 'disabled';
+            }
+            # Valid
             my $Valid = '';
+            my $Validstyle = 'passiv';
             if ($ItemHash{Valid} && $ItemHash{Valid} == 1) {
                 $Valid = 'checked';
+                $Validstyle = '';
             }
             #Description
             my %HashLang;
@@ -128,6 +134,8 @@ $Self->{LogObject}->Dumper(jkl => %ItemHash);
                     Item        => $_,
                     Description => $Description,
                     Valid       => $Valid,
+                    Validstyle  => $Validstyle,
+                    Required    => $Required,
                 },
             );
 
