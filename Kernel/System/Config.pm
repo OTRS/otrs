@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.7 2005-04-19 08:03:00 martin Exp $
+# $Id: Config.pm,v 1.8 2005-04-19 08:43:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -168,13 +168,15 @@ sub CreateConfig {
             $Name =~ s/\\/\\\\/g;
             $Name =~ s/'/\'/g;
             $Name =~ s/###/'}->{'/g;
-            if ($ConfigItem->{Setting}->[1]->{String}) {
-                print OUT "    \$Self->{'$Name'} = '$ConfigItem->{Setting}->[1]->{String}->[1]->{Content}';\n";
+            if ($ConfigItem->{Valid}) {
+                if ($ConfigItem->{Setting}->[1]->{String}) {
+                    print OUT "    \$Self->{'$Name'} = '$ConfigItem->{Setting}->[1]->{String}->[1]->{Content}';\n";
+                }
+                if ($ConfigItem->{Setting}->[1]->{Option}) {
+                    print OUT "    \$Self->{'$Name'} = '$ConfigItem->{Setting}->[1]->{Option}->[1]->{SelectedID}';\n";
+                }
+                print OUT "    \$Self->{'Valid'}->{'$Name'} = '$ConfigItem->{Valid}';\n";
             }
-            if ($ConfigItem->{Setting}->[1]->{Option}) {
-                print OUT "    \$Self->{'$Name'} = '$ConfigItem->{Setting}->[1]->{Option}->[1]->{SelectedID}';\n";
-            }
-            print OUT "    \$Self->{'$Name"."::Valid'} = '$ConfigItem->{Valid}';\n";
         }
     }
 
@@ -218,7 +220,7 @@ sub CreateItemUpdate {
         my $Dump = Data::Dumper::Dumper($Param{Value});
         $Dump =~ s/\$VAR1/\$Self->{'$Param{Key}'}/;
         print OUT $Dump;
-        print OUT "\$Self->{'$Param{Key}::Valid'} = '$Param{Valid}';\n";
+        print OUT "\$Self->{'Valid'}->{'$Param{Key}'} = '$Param{Valid}';\n";
 
         close(OUT);
         return 1;
@@ -252,8 +254,8 @@ sub ConfigItemGet {
 #            $ConfigItem->{Name} =~ s/'/\'/g;
 #            $ConfigItem->{Name} =~ s/###/'}->{'/g;
             # add current valid state
-            if (defined($Self->{ConfigObject}->Get($ConfigItem->{Name}.'::Valid'))) {
-                $ConfigItem->{Valid} = $Self->{ConfigObject}->Get($ConfigItem->{Name}.'::Valid');
+            if ($Self->{ConfigObject}->Get('Valid') && defined($Self->{ConfigObject}->Get('Valid')->{$ConfigItem->{Name}})) {
+                $ConfigItem->{Valid} = $Self->{ConfigObject}->Get('Valid')->{$ConfigItem->{Name}}; 
             }
             # update xml with current config setting
             if ($ConfigItem->{Setting}->[1]->{String}) {
@@ -428,6 +430,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2005-04-19 08:03:00 $
+$Revision: 1.8 $ $Date: 2005-04-19 08:43:51 $
 
 =cut
