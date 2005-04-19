@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pm,v 1.8 2005-02-10 11:48:09 martin Exp $
+# $Id: GenericAgent.pm,v 1.9 2005-04-19 08:15:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::GenericAgent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $ ';
+$VERSION = '$Revision: 1.9 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -235,11 +235,80 @@ sub JobRun {
             }
         }
     }
+    my %Tickets = ();
+    # --
+    # escalation tickets
+    # --
+    if ($Job{Escalation}) {
+        if (! $Job{Queue}) {
+            my @Tickets = $Self->{TicketObject}->GetOverTimeTickets();
+            foreach (@Tickets) {
+                $Tickets{$_} = $Self->{TicketObject}->TicketNumberLookup(TicketID => $_);
+            }
+        }
+        else {
+            my @Tickets = $Self->{TicketObject}->GetOverTimeTickets();
+            foreach (@Tickets) {
+                my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $_);
+                if ($Ticket{Queue} eq $Job{Queue}) {
+                    $Tickets{$_} = $Ticket{TicketNumber};
+                }
+            }
+        }
+    }
+    # --
+    # pending tickets
+    # --
+    elsif ($Job{PendingReminder} || $Job{PendingAuto}) {
+        my $Type = '';
+        if ($Job{PendingReminder}) {
+            $Type = 'PendingReminder';
+        }
+        else {
+            $Type = 'PendingAuto';
+        }
+        if (!$Job{Queue}) {
+            %Tickets = ($Self->{TicketObject}->TicketSearch(
+                %Job,
+                StateType => $Type,
+                Limit => $Param{Limit} || 2000,
+                UserID => $Param{UserID},
+            ), %Tickets);
+        }
+        elsif (ref($Job{Queue}) eq 'ARRAY') {
+            foreach (@{$Job{Queue}}) {
+                if ($Self->{NoticeSTDOUT}) {
+                    print " For Queue: $_\n";
+                }
+                %Tickets = ($Self->{TicketObject}->TicketSearch(
+                    %Job,
+                    Queues => [$_],
+                    StateType => $Type,
+                    Limit => $Param{Limit} || 2000,
+                    UserID => $Param{UserID},
+                ), %Tickets);
+            }
+        }
+        else {
+            %Tickets = ($Self->{TicketObject}->TicketSearch(
+                %Job,
+                StateType => $Type,
+                Queues => [$Job{Queue}],
+                Limit => $Param{Limit} || 2000,
+                UserID => $Param{UserID},
+            ), %Tickets);
+        }
+        foreach (keys %Tickets) {
+            my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $_);
+            if ($Ticket{UntilTime} > 1) {
+                delete $Tickets{$_};
+            }
+        }
+    }
     # --
     # get regular tickets
     # --
-    my %Tickets = ();
-    if (! $Job{Escalation}) {
+    else {
         if (!$Job{Queue}) {
             if ($Self->{NoticeSTDOUT}) {
                 print " For all Queues: \n";
@@ -270,26 +339,6 @@ sub JobRun {
                 Limit => $Param{Limit} || 2000,
                 UserID => $Param{UserID},
             );
-        }
-    }
-    # --
-    # escalation tickets
-    # --
-    else {
-        if (! $Job{Queue}) {
-            my @Tickets = $Self->{TicketObject}->GetOverTimeTickets();
-            foreach (@Tickets) {
-                $Tickets{$_} = $Self->{TicketObject}->TicketNumberLookup(TicketID => $_);
-            }
-        }
-        else {
-            my @Tickets = $Self->{TicketObject}->GetOverTimeTickets();
-            foreach (@Tickets) {
-                my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $_);
-                if ($Ticket{Queue} eq $Job{Queue}) {
-                    $Tickets{$_} = $Ticket{TicketNumber};
-                }
-            }
         }
     }
     # --
@@ -814,6 +863,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2005-02-10 11:48:09 $
+$Revision: 1.9 $ $Date: 2005-04-19 08:15:23 $
 
 =cut
