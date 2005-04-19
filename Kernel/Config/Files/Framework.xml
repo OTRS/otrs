@@ -1,23 +1,23 @@
 <!--
 Possible SubGroups
         - AgentFrontend
-        - AgentPreferences
-        - Core        
-        - CustomerFrontend
-        - CustomerPreferences
-        - FrontendModulNotify                   
+#        - AgentPreferences
+#        - Core        
+#        - CustomerFrontend
+#        - CustomerPreferences
+#        - FrontendModulNotify                   
         - FrontendModulReg
         - LinkObject
-        - Log  
-        - MIME-Viewer         
-        - Package            
-        - PGP
-        - Session
-        - SMIME
-        - SpellChecker
+#        - Log  
+#        - MIME-Viewer         
+#        - Package            
+#        - PGP
+#        - Session
+#        - SMIME
+#        - SpellChecker
         - Stats        
         - TicketCore
-        - Time                     
+#        - Time                     
 
 String
     <ConfigItem Name="" Required="1" Valid="1">
@@ -68,7 +68,7 @@ Array
             <Array>
                 <Item></Item>
                 <Item></Item>                
-            </Hash>
+            </Array>
         </Setting>
     </ConfigItem>             
     
@@ -93,12 +93,12 @@ TimeWorkingHours
 -->
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.7 2005-04-15 14:25:41 rk Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.8 2005-04-19 07:08:48 rk Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">Enable this so you can't use the installer.pl</Description>
         <Description Lang="de">???</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
             <Option SelectedID="0">
                 <Item Key="0">No</Item>
@@ -111,7 +111,7 @@ TimeWorkingHours
         <Description Lang="en">The identify of the system. Each ticket number and each http session id starts with this number</Description>
         <Description Lang="de">Identfikationsnummer für das installierte OTRS-System. Jede Ticketnummer und http session ID beginnt mit dieser Nummer.</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
             <String Regex="">10</String>
         </Setting>
@@ -121,7 +121,7 @@ TimeWorkingHours
         <Description Lang="en">Full qualified domain name of your system.</Description>
         <Description Lang="de">Full qualified Domain Name des Systems.</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
             <String Regex="">yourhost.example.com</String>
         </Setting>
@@ -131,7 +131,7 @@ TimeWorkingHours
         <Description Lang="en">In case you use https instead of plain http specify it here</Description>
         <Description Lang="de">Hier stellen sie den http Typ ein.</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
             <Option SelectedID="http">
                 <Item Key="http">http</Item>
@@ -144,7 +144,7 @@ TimeWorkingHours
         <Description Lang="en">Prefix to index.pl used as ScriptAlias in web config</Description>
         <Description Lang="de">ScriptAlias zur index.pl</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
             <String Regex="">otrs/</String>
         </Setting>
@@ -154,7 +154,7 @@ TimeWorkingHours
         <Description Lang="en">Email of the system admin.</Description>
         <Description Lang="de">Email des System Administrators.</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
             <String Regex="">admin@example.com</String>
         </Setting>
@@ -164,7 +164,7 @@ TimeWorkingHours
         <Description Lang="en">If this is anything other than '', then the email will have an Organization X-Header</Description>
         <Description Lang="de">Name der Firma bzw. Oragnisation</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
             <String Regex=""></String>
         </Setting>
@@ -174,7 +174,7 @@ TimeWorkingHours
         <Description Lang="en">Shown application name in frontend.</Description>
         <Description Lang="de">Im WebFrontend angezeigter Software Name (OTRS).</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
             <String Regex="">OTRS</String>
         </Setting>
@@ -184,7 +184,7 @@ TimeWorkingHours
         <Description Lang="en">Default frontend charset - "utf-8" is a multi chatset for all possible charsets - e. g. "iso-8859-1" is also possible for single charset</Description>
         <Description Lang="de">Standard Zeichensatz</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
             <Option SelectedID="iso-8859-1">
                 <Item Key="iso-8859-1">iso-8859-1</Item>
@@ -198,7 +198,7 @@ TimeWorkingHours
         <Description Lang="en">the default frontend langauge</Description>
         <Description Lang="de">Standard Frontend Sprache</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
             <String Regex="">en</String>
         </Setting>
@@ -254,7 +254,7 @@ Your OTRS Notification Master
         <Description Lang="en">the default html theme</Description>
         <Description Lang="de">Standard Design der Weboberfläche</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
             <String Regex="">Standard</String>
         </Setting>
@@ -264,7 +264,7 @@ Your OTRS Notification Master
         <Description Lang="en">insert new line in text messages after max x chars and the next word</Description>
         <Description Lang="de">Hier stellen Sie ein, nach wievielen Zeichen in der Text Nachricht eine neue Zeile beginnen soll.</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
             <String Regex="">85</String>
         </Setting>
@@ -274,7 +274,7 @@ Your OTRS Notification Master
         <Description Lang="en">Max viewable lines in pre view text messages (like ticket lines in the QueueView)</Description>
         <Description Lang="de">Max. angezeigte Zeilen einer Text Nachricht in der Queue Ansicht</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
             <String Regex="">18</String>
         </Setting>
@@ -284,7 +284,7 @@ Your OTRS Notification Master
         <Description Lang="en">Max viewable lines in text messages (like ticket lines in QueueZoom)</Description>
         <Description Lang="de">Max. angezeigte Zeilen einer Text Nachricht im QueueZoom</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
             <String Regex="">6000</String>
         </Setting>
@@ -294,7 +294,7 @@ Your OTRS Notification Master
         <Description Lang="en">show always time in long /days hours minutes/ or short /days hours/ format</Description>
         <Description Lang="de">???</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Time</SubGroup>
         <Setting>
             <String Regex="">0</String>
         </Setting>
@@ -304,7 +304,7 @@ Your OTRS Notification Master
         <Description Lang="en">if the tickets attachments will be opened in browser or just to force the download</Description>
         <Description Lang="de">Öffnen von Dateianhänge bei Tickets</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
             <Option SelectedID="inline">
                 <Item Key="inline">inline</Item>
@@ -317,7 +317,7 @@ Your OTRS Notification Master
         <Description Lang="en">Check syntax of used email addresses</Description>
         <Description Lang="de">Syntaxcheck für Email Adressen</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
             <Option SelectedID="1">
                 <Item Key="0">No</Item>
@@ -330,7 +330,7 @@ Your OTRS Notification Master
         <Description Lang="en">Check mx recorde of used email addresses</Description>
         <Description Lang="de">Prüfen des MX record der Email Adressen</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
             <Option SelectedID="1">
                 <Item Key="0">No</Item>
@@ -343,7 +343,7 @@ Your OTRS Notification Master
         <Description Lang="en">regexp of valid email addresses</Description>
         <Description Lang="de">???</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
             <String Regex="">^(root@localhost|admin@localhost)$</String>
         </Setting>
@@ -353,7 +353,7 @@ Your OTRS Notification Master
         <Description Lang="en">regexp of invalid email addresses</Description>
         <Description Lang="de">regulärer Ausdruck für nicht gültige E-Mail Adressen</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
             <String Regex="">@(aa|aaa|aaaa|aaaaa|abc|any|anywhere|anonymous|bar|demo|example|foo|hello|hallo|me|nospam|nowhere|null|some|somewhere|test|teste.|there|user|xx|xxx|xxxx)\.(..|...)$</String>
         </Setting>
@@ -363,7 +363,7 @@ Your OTRS Notification Master
         <Description Lang="en">log backend module</Description>
         <Description Lang="de">Log Modul für die backend Module</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Log</SubGroup>
         <Setting>
             <Option SelectedID="Kernel::System::Log::SysLog">
                 <Item Key="Kernel::System::Log::SysLog">SysLog</Item>
@@ -378,7 +378,7 @@ Your OTRS Notification Master
         <Group>Framework</Group>
         <SubGroup>Unknown</SubGroup>
         <Setting>
-            <String Regex="">user</String>
+            <String Regex="">Log</String>
         </Setting>
         <!--  $Self->{'LogModule::SysLog::Facility'} = 'user'; -->
     </ConfigItem>   
@@ -386,7 +386,7 @@ Your OTRS Notification Master
         <Description Lang="en">Charset for LogModul SysLog</Description>
         <Description Lang="de">Zeichensatz für LogModul SysLog</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Log</SubGroup>
         <Setting>
             <Option SelectedID="iso-8859-1">
                 <Item Key="iso-8859-1">iso-8859-1</Item>
@@ -400,7 +400,7 @@ Your OTRS Notification Master
         <Description Lang="en">param for LogModule Kernel::System::Log::File</Description>
         <Description Lang="de">Pfad zur Logdatei</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Log</SubGroup>
         <Setting>
             <String Regex="">/tmp/otrs.log</String>
         </Setting>
@@ -410,7 +410,7 @@ Your OTRS Notification Master
         <Description Lang="en">param if the date (yyyy-mm) should be added as suffix to logfile</Description>
         <Description Lang="de">Datum in Logdatei schreiben</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Log</SubGroup>
         <Setting>
             <Option SelectedID="0">
                 <Item Key="0">No</Item>
@@ -423,7 +423,7 @@ Your OTRS Notification Master
         <Description Lang="en">system log cache size for admin system log</Description>
         <Description Lang="de">Cache Größe für Admin System Log</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Log</SubGroup>
         <Setting>
             <String Regex="">4*1024</String>
         </Setting>
@@ -506,7 +506,7 @@ Your OTRS Notification Master
         <Description Lang="en">URL for Login</Description>
         <Description Lang="de">URL zum Einloggen</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
             <String Regex=""></String>
         </Setting>
@@ -516,7 +516,7 @@ Your OTRS Notification Master
         <Description Lang="en">URL for Logout</Description>
         <Description Lang="de">URL zum Ausloggen</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
             <String Regex=""></String>
         </Setting>
@@ -536,7 +536,7 @@ Your OTRS Notification Master
         <Description Lang="en">Kernel::Modules::AgentInfo check key, if this user preferences key is true, then the message is already accepted</Description>
         <Description Lang="de">???</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
             <String Regex="">wpt22</String>
         </Setting>
@@ -546,7 +546,7 @@ Your OTRS Notification Master
         <Description Lang="en">shown InfoFile located under Kernel/Output/HTML/Standard/AgentInfo.dtl</Description>
         <Description Lang="de">???</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
             <String Regex="">AgentInfo</String>
         </Setting>
@@ -556,10 +556,12 @@ Your OTRS Notification Master
         <Description Lang="en">agent interface notification module to check the used charset</Description>
         <Description Lang="de">???</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
-            <Hash>
-                <Item Key="Module">Kernel::Output::HTML::NotificationCharsetCheck</Item>              
-            </Hash>
+        <SubGroup>FrontendModulNotify</SubGroup>
+            <Setting>
+                <Hash>
+                    <Item Key="Module">Kernel::Output::HTML::NotificationCharsetCheck</Item>              
+                </Hash>
+            </Setting>
         <!--    $Self->{'Frontend::NotifyModule'}->{'1-CharsetCheck'} = {
                      Module => 'Kernel::Output::HTML::NotificationCharsetCheck',}; -->
     </ConfigItem>   
@@ -567,10 +569,12 @@ Your OTRS Notification Master
         <Description Lang="en">agent interface notification module to check the admin user id</Description>
         <Description Lang="de">???</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
-            <Hash>
-                <Item Key="Module">Kernel::Output::HTML::NotificationUIDChec</Item>              
-            </Hash>
+        <SubGroup>FrontendModulNotify</SubGroup>
+            <Setting>
+                <Hash>
+                    <Item Key="Module">Kernel::Output::HTML::NotificationUIDChec</Item>              
+                </Hash>
+            </Setting>
         <!--    $Self->{'Frontend::NotifyModule'}->{'2-UID-Check'} = {
                         Module => 'Kernel::Output::HTML::NotificationUIDCheck', -->
     </ConfigItem>   
@@ -578,10 +582,12 @@ Your OTRS Notification Master
         <Description Lang="en">show online agents</Description>
         <Description Lang="de">???</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
-            <Hash>
-                <Item Key="Module">Kernel::Output::HTML::NotificationAgentOnline</Item>              
-            </Hash>
+        <SubGroup>FrontendModulNotify</SubGroup>
+            <Setting>
+                <Hash>
+                    <Item Key="Module">Kernel::Output::HTML::NotificationAgentOnline</Item>              
+                </Hash>
+            </Setting>
         <!--    $Self->{'Frontend::NotifyModule'}->{'3-ShowAgentOnline'} = {
                 Module => 'Kernel::Output::HTML::NotificationAgentOnline',}; -->
     </ConfigItem>   
@@ -589,10 +595,12 @@ Your OTRS Notification Master
         <Description Lang="en">show online customers</Description>
         <Description Lang="de">???</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
-            <Hash>
-                <Item Key="Module">Kernel::Output::HTML::NotificationCustomerOnline</Item>              
-            </Hash>
+        <SubGroup>FrontendModulNotify</SubGroup>
+            <Setting>
+                <Hash>
+                    <Item Key="Module">Kernel::Output::HTML::NotificationCustomerOnline</Item>              
+                </Hash>
+            </Setting>
         <!--    $Self->{'Frontend::NotifyModule'}->{'4-ShowCustomerOnline'} = {
                 Module => 'Kernel::Output::HTML::NotificationCustomerOnline',}; -->
     </ConfigItem>   
@@ -600,11 +608,13 @@ Your OTRS Notification Master
         <Description Lang="en">a output filter for application html output, e. g. to filter java script, java applets, ...</Description>
         <Description Lang="de">Ein Filter für html Inhalt z.B. zum Filtern von java script, java applets, ...</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
-            <Hash>
-                <Item Key="Module">Kernel::Output::HTML::OutputFilterActiveElement</Item>
-                <Item Key="Debug">0</Item>                 
-            </Hash>
+        <SubGroup>Core</SubGroup>
+            <Setting>
+                <Hash>
+                    <Item Key="Module">Kernel::Output::HTML::OutputFilterActiveElement</Item>
+                    <Item Key="Debug">0</Item>                 
+                </Hash>
+            </Setting>
         <!--    $Self->{'Frontend::Output::PostFilter'}->{'ActiveElementFilter'} = {
                     Module => 'Kernel::Output::HTML::OutputFilterActiveElement',
                     Debug => 0,}; -->
@@ -613,7 +623,7 @@ Your OTRS Notification Master
         <Description Lang="en">How should be the session-data stored? Advantage of DB is that you can split the Frontendserver from the db-server. fs or ipc is faster.</Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Session</SubGroup>
         <Setting>
             <Option SelectedID="Kernel::System::AuthSession::DB">
                 <Item Key="Kernel::System::AuthSession::DB">Kernel::System::AuthSession::DB</Item>
@@ -627,7 +637,7 @@ Your OTRS Notification Master
         <Description Lang="en">Name of the session key. E. g. Session, SessionID, OTRS</Description>
         <Description Lang="de">Name der des session key</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Session</SubGroup>
         <Setting>
             <String Regex="">Session</String>
         </Setting>
@@ -637,7 +647,7 @@ Your OTRS Notification Master
         <Description Lang="en">If the application is used via a proxy-farm then the remote ip address is mostly different. In this case, turn of the CheckRemoteID.</Description>
         <Description Lang="de">???</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Session</SubGroup>
         <Setting>
             <Option SelectedID="1">
                 <Item Key="0">No</Item>
@@ -650,7 +660,7 @@ Your OTRS Notification Master
         <Description Lang="en">Delete session if the session id is used with an invalied remote IP?</Description>
         <Description Lang="de">Session löschen bei falscher IP Adresse?</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Session</SubGroup>
         <Setting>
             <Option SelectedID="1">
                 <Item Key="0">No</Item>
@@ -663,7 +673,7 @@ Your OTRS Notification Master
         <Description Lang="en">This interface use useful to check some user options or to redirect not accept new application news</Description>
         <Description Lang="de">???</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
             <String Regex="">Kernel::Modules::AgentInfo</String>
         </Setting>
@@ -673,7 +683,7 @@ Your OTRS Notification Master
         <Description Lang="en">Max valid time of one session id in second</Description>
         <Description Lang="de">Gültigkeitsdauer einer Session in Sekunden</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Session</SubGroup>
         <Setting>
             <String Regex="">9*60*60</String>
         </Setting>
@@ -683,7 +693,7 @@ Your OTRS Notification Master
         <Description Lang="en">After this time (in seconds) without new http request, then the user get logged off</Description>
         <Description Lang="de">???</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Session</SubGroup>
         <Setting>
             <String Regex="">5*60*60</String>
         </Setting>
@@ -693,7 +703,7 @@ Your OTRS Notification Master
         <Description Lang="en">Delete session's witch are requested and to old?</Description>
         <Description Lang="de">???</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Session</SubGroup>
         <Setting>
             <Option SelectedID="1">
                 <Item Key="0">No</Item>
@@ -707,7 +717,7 @@ Your OTRS Notification Master
         Note: If the client browser disabled html cookies, the system will work as usual, append SessionID to links!</Description>
         <Description Lang="de">Sessionmanagement mit Cookies?</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Session</SubGroup>
         <Setting>
             <Option SelectedID="1">
                 <Item Key="0">No</Item>
@@ -720,7 +730,7 @@ Your OTRS Notification Master
         <Description Lang="en">store cookies in browser after closing a browser</Description>
         <Description Lang="de">Cookies nach dem schließen des Browsers nicht löschen?</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Session</SubGroup>
         <Setting>
             <Option SelectedID="0">
                 <Item Key="0">No</Item>
@@ -733,7 +743,7 @@ Your OTRS Notification Master
         <Description Lang="en">directory for all sessen id informations (if SesseionModul = Kernel::System::AuthSession::FS)</Description>
         <Description Lang="de">???</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Session</SubGroup>
         <Setting>
             <String Regex="">&lt;OTRS_CONFIG_Home&gt;/var/sessions</String>
         </Setting>
@@ -743,7 +753,7 @@ Your OTRS Notification Master
         <Description Lang="en">Database Table to storage session by SessionModuleDB</Description>
         <Description Lang="de">Datenbank Tabelle zum speichern der Session wenn SessionModul=DB</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Session</SubGroup>
         <Setting>
             <String Regex="">sessions</String>
         </Setting>
@@ -753,7 +763,7 @@ Your OTRS Notification Master
         <Description Lang="en">SessionTable id column</Description>
         <Description Lang="de">Session Tabelle, Feld für die ID</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Session</SubGroup>
         <Setting>
             <String Regex="">session_id</String>
         </Setting>
@@ -763,7 +773,7 @@ Your OTRS Notification Master
         <Description Lang="en">SessionTable value column</Description>
         <Description Lang="de">Session Tabelle, Feld für den value</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Session</SubGroup>
         <Setting>
             <String Regex="">session_value</String>
         </Setting>
@@ -773,7 +783,7 @@ Your OTRS Notification Master
         <Description Lang="en">set the system time zone, default is local time +/- 0</Description>
         <Description Lang="de">Zeitzone, standardmäßig wird die locale Systemzeit verwendet, +/- 0</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Time</SubGroup>
         <Setting>
             <String Regex="">+0</String>
         </Setting>
@@ -899,7 +909,7 @@ Your OTRS Notification Master
         <Description Lang="en">Max size for browser file uploads</Description>
         <Description Lang="de">Maximale Dateigröße für Dateiuploads</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
             <String Regex="">1024 * 1024 * 5</String>
         </Setting>
@@ -909,7 +919,7 @@ Your OTRS Notification Master
         <Description Lang="en">Select you WebUploadCacheModule module</Description>
         <Description Lang="de">???</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
             <Option SelectedID="Kernel::System::Web::UploadCache::DB">
                 <Item Key="Kernel::System::Web::UploadCache::DB">Kernel::System::Web::UploadCache::DB</Item>
@@ -922,7 +932,7 @@ Your OTRS Notification Master
         <Description Lang="en">CGILogPrefix</Description>
         <Description Lang="de">CGILogPrefix</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
             <String Regex="">OTRS-CGI</String>
         </Setting>
@@ -932,7 +942,7 @@ Your OTRS Notification Master
         <Description Lang="en">LostPassword feature</Description>
         <Description Lang="de">Feature für verlorene Passwörter</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
             <Option SelectedID="1">
                 <Item Key="0">No</Item>
@@ -945,7 +955,7 @@ Your OTRS Notification Master
         <Description Lang="en">show message of the day in login screen</Description>
         <Description Lang="de">Nachrichten des Tages nach Login anzeigen</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
             <Option SelectedID="0">
                 <Item Key="0">No</Item>
@@ -958,7 +968,7 @@ Your OTRS Notification Master
         <Description Lang="en">If this is true, no agent preferences, like language and theme, via agent frontend can be updated! Just for the current session. Alow no password can be changed on agent frontend.</Description>
         <Description Lang="de">Demosystem</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
             <Option SelectedID="0">
                 <Item Key="0">No</Item>
@@ -971,7 +981,7 @@ Your OTRS Notification Master
         <Description Lang="en">???</Description>
         <Description Lang="de">???</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>MIME-Viewer</SubGroup>
         <Setting>
             <String Regex="">xlhtml</String>
         </Setting>
@@ -981,7 +991,7 @@ Your OTRS Notification Master
         <Description Lang="en">MIME-Viewer for online to html converter</Description>
         <Description Lang="de">???</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>MIME-Viewer</SubGroup>
         <Setting>
             <String Regex="">wvWare</String>
         </Setting>
@@ -991,7 +1001,7 @@ Your OTRS Notification Master
         <Description Lang="en">???</Description>
         <Description Lang="de">???</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>MIME-Viewer</SubGroup>
         <Setting>
             <String Regex="">pdftohtml -stdout -i</String>
         </Setting>
@@ -1001,7 +1011,7 @@ Your OTRS Notification Master
         <Description Lang="en">xml2html</Description>
         <Description Lang="de">???</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>MIME-Viewer</SubGroup>
         <Setting>
             <String Regex="">/scripts/tools/xml2html.pl</String>
         </Setting>
@@ -1011,7 +1021,7 @@ Your OTRS Notification Master
         <Description Lang="en">if ispell or aspell is available, then we will provide a spelling checker</Description>
         <Description Lang="de">???</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>SpellChecker</SubGroup>
         <Setting>
             <String Regex="">/usr/bin/ispell</String>
         </Setting>
@@ -1021,7 +1031,7 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de">???</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>SpellChecker</SubGroup>
         <Setting>
             <String Regex="">english</String>
         </Setting>
@@ -1031,7 +1041,7 @@ Your OTRS Notification Master
         <Description Lang="en">A list of ignored words.</Description>
         <Description Lang="de">SpellChecker soll folgende Wörter ignorieren</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>SpellChecker</SubGroup>
         <Setting>
             <Array>
                 <Item>www</Item>
@@ -1048,22 +1058,7 @@ Your OTRS Notification Master
         <Description Lang="en">get online repository list, use the fist availabe result</Description>
         <Description Lang="de">???</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
-        <Setting>
-            <Array>
-                <Item>http://ftp.otrs.org/pub/otrs/misc/packages/repository.xml</Item>
-                <Item>http://otrs.org/repository.xml</Item>
-            </Array>
-        </Setting>
-        <!-- $Self->{'Package::RepositoryRoot'} = [
-                'http://ftp.otrs.org/pub/otrs/misc/packages/repository.xml',
-                'http://otrs.org/repository.xml',]; -->
-    </ConfigItem>             
-    <ConfigItem Name="Package::RepositoryRoot" Required="1" Valid="1">
-        <Description Lang="en">get online repository list, use the fist availabe result</Description>
-        <Description Lang="de">???</Description>
-        <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Package</SubGroup>
         <Setting>
             <Array>
                 <Item>http://ftp.otrs.org/pub/otrs/misc/packages/repository.xml</Item>
@@ -1078,17 +1073,19 @@ Your OTRS Notification Master
         <Description Lang="en">repository list</Description>
         <Description Lang="de">???</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
-            <Hash>
-                <Item Key="ftp://ftp.example.com/pub/otrs/misc/packages/">[Example] ftp://ftp.example.com/</Item>              
-            </Hash>
+        <SubGroup>Package</SubGroup>
+            <Setting>
+                <Hash>
+                    <Item Key="ftp://ftp.example.com/pub/otrs/misc/packages/">[Example] ftp://ftp.example.com/</Item>              
+                </Hash>
+            </Setting>
         <!--   $Self->{'Package::RepositoryList'} = {'ftp://ftp.example.com/pub/otrs/misc/packages/' => '[Example] ftp://ftp.example.com/',}; -->
     </ConfigItem>   
     <ConfigItem Name="Package::Timeout" Required="1" Valid="1">
         <Description Lang="en">http/ftp timeout to get packages</Description>
         <Description Lang="de">???</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Package</SubGroup>
         <Setting>
             <String Regex="">12</String>
         </Setting>
@@ -1098,7 +1095,7 @@ Your OTRS Notification Master
         <Description Lang="en">fetch packages via proxy</Description>
         <Description Lang="de">Laden von Packages über Proxyserver</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Package</SubGroup>
         <Setting>
             <String Regex="">http://proxy.sn.no:8001/</String>
         </Setting>
@@ -1108,7 +1105,7 @@ Your OTRS Notification Master
         <Description Lang="en">PGP</Description>
         <Description Lang="de">PGP aktivieren</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>PGP</SubGroup>
         <Setting>
             <Option SelectedID="1">
                 <Item Key="0">No</Item>
@@ -1121,7 +1118,7 @@ Your OTRS Notification Master
         <Description Lang="en">PGP path</Description>
         <Description Lang="de">???</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>PGP</SubGroup>
         <Setting>
             <String Regex="">/usr/bin/gpg</String>
         </Setting>
@@ -1131,7 +1128,7 @@ Your OTRS Notification Master
         <Description Lang="en">PGP Options</Description>
         <Description Lang="de">PGP Optionen</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>PGP</SubGroup>
         <Setting>
             <String Regex="">--homedir /var/lib/wwwrun/.gnupg/ --batch --no-tty --yes</String>
         </Setting>
@@ -1141,7 +1138,7 @@ Your OTRS Notification Master
         <Description Lang="en">fetch packages via proxy</Description>
         <Description Lang="de">Laden von Packages über Proxyserver</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>PGP</SubGroup>
         <Setting>
              <Hash>
                 <Item Key="Module">Kernel::Output::HTML::OutputFilterActiveElement</Item>                 
@@ -1153,7 +1150,7 @@ Your OTRS Notification Master
         <Description Lang="en">S/MIME settings</Description>
         <Description Lang="de">S/MIME settings</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>SMIME</SubGroup>
         <Setting>
             <Option SelectedID="1">
                 <Item Key="0">No</Item>
@@ -1176,7 +1173,7 @@ Your OTRS Notification Master
         <Description Lang="en">S/MIME settings</Description>
         <Description Lang="de">S/MIME settings</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>SMIME</SubGroup>
         <Setting>
             <String Regex="">/usr/bin/openssl</String>
         </Setting>
@@ -1186,7 +1183,7 @@ Your OTRS Notification Master
         <Description Lang="en">S/MIME settings</Description>
         <Description Lang="de">S/MIME settings</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>SMIME</SubGroup>
         <Setting>
             <String Regex="">etc/ssl/certs</String>
         </Setting>
@@ -1196,7 +1193,7 @@ Your OTRS Notification Master
         <Description Lang="en">S/MIME settings</Description>
         <Description Lang="de">S/MIME settings</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>SMIME</SubGroup>
         <Setting>
             <String Regex="">/etc/ssl/private/private</String>
         </Setting>
@@ -1204,28 +1201,608 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="System::Permission" Required="1" Valid="1">
         <Description Lang="en">system permissions</Description>
-        <Description Lang="de">system permissions</Description>
+        <Description Lang="de">???</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
-            <String Regex="">/usr/bin/openssl</String>
+            <Array>
+                <Item>ro</Item>
+                <Item>rw</Item>                
+            </Array>
         </Setting>
         <!-- $Self->{'System::Permission'} = ['ro', 'rw']; -->
     </ConfigItem>
     <ConfigItem Name="System::Customer::Permission" Required="1" Valid="1">
         <Description Lang="en">system permissions</Description>
-        <Description Lang="de">system permissions</Description>
+        <Description Lang="de">???</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
-            <String Regex="">/usr/bin/openssl</String>
+            <Array>
+                <Item>ro</Item>
+                <Item>rw</Item>                
+            </Array>
         </Setting>
         <!-- $Self->{'System::Customer::Permission'} = ['ro', 'rw']; -->
     </ConfigItem>    
+    <ConfigItem Name="PreferencesTable" Required="1" Valid="1">
+        <Description Lang="en">Stored preferences table data.</Description>
+        <Description Lang="de">???</Description>
+        <Group>Framework</Group>
+        <SubGroup>CustomerPreferences</SubGroup>
+        <Setting>
+            <String Regex="">user_preferences</String>
+        </Setting>
+        <!-- $Self->{PreferencesTable} = 'user_preferences'; -->
+    </ConfigItem>
     
-    
- <!-- hier gehts weiter -->   
-    
+    <ConfigItem Name="PreferencesTableKey" Required="1" Valid="1">
+        <Description Lang="en">Stored preferences table data.</Description>
+        <Description Lang="de">???</Description>
+        <Group>Framework</Group>
+        <SubGroup>CustomerPreferences</SubGroup>
+        <Setting>
+            <String Regex="">preferences_key</String>
+        </Setting>
+        <!-- $Self->{PreferencesTableKey} = 'preferences_key'; -->
+    </ConfigItem>
+    <ConfigItem Name="PreferencesTableValue" Required="1" Valid="1">
+        <Description Lang="en">Stored preferences table data.</Description>
+        <Description Lang="de">???</Description>
+        <Group>Framework</Group>
+        <SubGroup>AgentPreferences</SubGroup>
+        <Setting>
+            <String Regex="">preferences_value</String>
+        </Setting>
+        <!-- $Self->{PreferencesTableValue} = 'preferences_value'; -->
+    </ConfigItem>
+    <ConfigItem Name="PreferencesTableUserID" Required="1" Valid="1">
+        <Description Lang="en">Stored preferences table data.</Description>
+        <Description Lang="de">???</Description>
+        <Group>Framework</Group>
+        <SubGroup>AgentPreferences</SubGroup>
+        <Setting>
+            <String Regex="">user_id</String>
+        </Setting>
+        <!-- $Self->{PreferencesTableUserID} = 'user_id'; -->
+    </ConfigItem>
+    <ConfigItem Name="PreferencesView" Required="1" Valid="1">
+        <Description Lang="en">Order of shown items</Description>
+        <Description Lang="de">???</Description>
+        <Group>Framework</Group>
+        <SubGroup>CustomerPreferences</SubGroup>
+        <Setting>
+            <Array>
+                <Item>Frontend</Item>
+                <Item>Mail Management</Item>
+                <Item>Other Options</Item>                   
+            </Array>
+        </Setting>
+        <!-- $Self->{PreferencesView} = ['Frontend', 'Mail Management', 'Other Options']; -->
+    </ConfigItem>    
+    <ConfigItem Name="PreferencesGroups###Password" Required="1" Valid="1">
+        <Description Lang="en">???</Description>
+        <Description Lang="de">???</Description>
+        <Group>Framework</Group>
+        <SubGroup>AgentPreferences</SubGroup>
+            <Setting>
+                <Hash>
+                    <Item Key="Module">Kernel::Output::HTML::PreferencesPassword</Item>
+                    <Item Key="Colum">Other Options</Item>
+                    <Item Key="Label">Change Password</Item>
+                    <Item Key="Prio">1000</Item>
+                    <Item Key="PasswordRegExp"></Item>
+                    <Item Key="PasswordMinSize">0</Item>
+                    <Item Key="PasswordMin2Lower2UpperCharacters">0</Item>
+                    <Item Key="PasswordMin2Characters">0</Item>
+                    <Item Key="PasswordNeedDigit">0</Item>
+                    <Item Key="Activ">1</Item>
+                </Hash>
+            </Setting>
+        <!--        $Self->{PreferencesGroups}->{Password} = {
+        Module => 'Kernel::Output::HTML::PreferencesPassword',
+        Colum => 'Other Options',
+        Label => 'Change Password',
+        Prio => 1000,
+#        PasswordRegExp => '[a-z]|[A-z]|[0-9]|\.|;|,|:|-|\+|#|!|\$|&|\?',
+        PasswordRegExp => '',
+        PasswordMinSize => 0,
+        PasswordMin2Lower2UpperCharacters => 0,
+        PasswordMin2Characters => 0,
+        PasswordNeedDigit => 0,
+        Activ => 1,
+    };
+ -->
+    </ConfigItem>   
+    <ConfigItem Name="PreferencesGroups###SpellDict" Required="1" Valid="1">
+        <Description Lang="en">???</Description>
+        <Description Lang="de">???</Description>
+        <Group>Framework</Group>
+        <SubGroup>AgentPreferences</SubGroup>
+            <Setting>
+                <Hash>
+                    <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
+                    <Item Key="Colum">Other Options</Item>
+                    <Item Key="Label">Spelling Dictionary</Item>
+                    <Item Key="Desc">Select your default spelling dictionary.</Item>
+                    <Item Key="Data">
+                        <Hash>
+                            <Item Key="english">English</Item>
+                            <Item Key="deutsch">Deutsch</Item>
+                        </Hash>
+                    </Item>
+                    <Item Key="PrefKey">UserSpellDict</Item>
+                    <Item Key="Prio">5000</Item>
+                    <Item Key="Activ">1</Item>
+                </Hash>
+            </Setting>
+        <!-- $Self->{PreferencesGroups}->{SpellDict} = {
+        Module => 'Kernel::Output::HTML::PreferencesGeneric',
+        Colum => 'Other Options',
+        Label => 'Spelling Dictionary',
+        Desc => 'Select your default spelling dictionary.',
+        Data => {
+            # installed dict catalog (check your insalled catalogues, e. g. deutsch -=> german!)
+            # dict => frontend (ispell)
+            'english' => 'English',
+            'deutsch' => 'Deutsch',
+            # dict => frontend (aspell)
+#            'english' => 'English',
+#            'german' => 'Deutsch',
+        },
+        PrefKey => 'UserSpellDict',
+        Prio => 5000,
+        Activ => 1,
+    };
+
+ -->
+    </ConfigItem>   
+    <ConfigItem Name="PreferencesGroups###Comment" Required="1" Valid="1">
+        <Description Lang="en">???</Description>
+        <Description Lang="de">???</Description>
+        <Group>Framework</Group>
+        <SubGroup>AgentPreferences</SubGroup>
+            <Setting>
+                <Hash>
+                    <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
+                    <Item Key="Colum">Other Options</Item>
+                    <Item Key="Label">Comment</Item>
+                    <Item Key="Desc">Comment</Item>
+                    <Item Key="Block">Input</Item>
+                    <Item Key="Data">$Env{"UserComment"}</Item>
+                    <Item Key="PrefKey">UserComment</Item>
+                    <Item Key="Prio">6000</Item>
+                    <Item Key="Activ">0</Item>
+                </Hash>
+            </Setting>
+        <!-- $Self->{PreferencesGroups}->{Comment} = {
+                Module => 'Kernel::Output::HTML::PreferencesGeneric',
+                Colum => 'Other Options',
+                Label => 'Comment',
+                Desc => 'Comment',
+                Block => 'Input',
+                Data => '$Env{"UserComment"}',
+                PrefKey => 'UserComment',
+                Prio => 6000,
+                Activ => 0,
+            };
+ -->
+    </ConfigItem>   
+    <ConfigItem Name="PreferencesGroups###FreeText" Required="0" Valid="0">
+        <Description Lang="en">???</Description>
+        <Description Lang="de">???</Description>
+        <Group>Framework</Group>
+        <SubGroup>AgentPreferences</SubGroup>
+            <Setting>
+                <Hash>
+                    <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
+                    <Item Key="Colum">Other Options</Item>
+                    <Item Key="Label">Comment</Item>
+                    <Item Key="Desc">Example for free text.</Item>
+                    <Item Key="Block">Input</Item>
+                    <Item Key="Data">$Env{"UserFreeText"}</Item>
+                    <Item Key="PrefKey">UserFreeText</Item>
+                    <Item Key="Prio">7000</Item>
+                    <Item Key="Activ">1</Item>
+                </Hash>
+            </Setting>
+        <!--     $Self->{PreferencesGroups}->{FreeText} = {
+        Module => 'Kernel::Output::HTML::PreferencesGeneric',
+        Colum => 'Other Options',
+        Label => 'Free Text',
+        Desc => 'Example for free text.',
+        Block => 'Input',
+        Data => '$Env{"UserFreeText"}',
+        PrefKey => 'UserFreeText',
+        Prio => 7000,
+        Activ => 1,
+    };
+ -->
+    </ConfigItem>   
+    <ConfigItem Name="PreferencesGroups###Language" Required="1" Valid="1">
+        <Description Lang="en">???</Description>
+        <Description Lang="de">???</Description>
+        <Group>Framework</Group>
+        <SubGroup>AgentPreferences</SubGroup>
+            <Setting>
+                <Hash>
+                    <Item Key="Module">Kernel::Output::HTML::PreferencesLanguage</Item>
+                    <Item Key="Colum">Frontend</Item>
+                    <Item Key="Label">Language</Item>
+                    <Item Key="Desc">Select your frontend language.</Item>
+                    <Item Key="PrefKey">UserLanguage</Item>
+                    <Item Key="Prio">1000</Item>
+                    <Item Key="Activ">1</Item>
+                </Hash>
+            </Setting>
+        <!--      $Self->{PreferencesGroups}->{Language} = {
+        Module => 'Kernel::Output::HTML::PreferencesLanguage',
+        Colum => 'Frontend',
+        Label => 'Language',
+        Desc => 'Select your frontend language.',
+        PrefKey => 'UserLanguage',
+        Prio => 1000,
+        Activ => 1,
+    };
+ -->
+    </ConfigItem>   
+    <ConfigItem Name="PreferencesGroups###Theme" Required="1" Valid="1">
+        <Description Lang="en">???</Description>
+        <Description Lang="de">???</Description>
+        <Group>Framework</Group>
+        <SubGroup>AgentPreferences</SubGroup>
+            <Setting>
+                <Hash>
+                    <Item Key="Module">Kernel::Output::HTML::PreferencesTheme</Item>
+                    <Item Key="Colum">Frontend</Item>
+                    <Item Key="Label">Theme</Item>
+                    <Item Key="Desc">Select your frontend Theme.</Item>
+                    <Item Key="PrefKey">UserTheme</Item>
+                    <Item Key="Prio">2000</Item>
+                    <Item Key="Activ">1</Item>
+                </Hash>
+            </Setting>
+        <!--      $Self->{PreferencesGroups}->{Theme} = {
+        Module => 'Kernel::Output::HTML::PreferencesTheme',
+        Colum => 'Frontend',
+        Label => 'Theme',
+        Desc => 'Select your frontend Theme.',
+        PrefKey => 'UserTheme',
+        Prio => 2000,
+        Activ => 1,
+    };
+
+ -->
+    </ConfigItem>   
+    <ConfigItem Name="NotificationSenderName" Required="1" Valid="1">
+        <Description Lang="en">notification sender</Description>
+        <Description Lang="de">???</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core</SubGroup>
+        <Setting>
+            <String Regex="">OTRS Notification Master</String>
+        </Setting>
+        <!-- $Self->{NotificationSenderName} = 'OTRS Notification Master'; -->
+    </ConfigItem>
+    <ConfigItem Name="NotificationSenderEmail" Required="1" Valid="1">
+        <Description Lang="en">notification sender</Description>
+        <Description Lang="de">???</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core</SubGroup>
+        <Setting>
+            <String Regex="">otrs@&lt;OTRS_CONFIG_FQDN&gt;</String>
+        </Setting>
+        <!-- $Self->{NotificationSenderEmail} = 'otrs@&lt;OTRS_CONFIG_FQDN&gt;'; -->
+    </ConfigItem>
+    <ConfigItem Name="NotificationSubjectLostPassword" Required="1" Valid="1">
+        <Description Lang="en">notification email for new password</Description>
+        <Description Lang="de">???</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core</SubGroup>
+        <Setting>
+            <String Regex="">New OTRS Password!</String>
+        </Setting>
+        <!-- $Self->{NotificationSubjectLostPassword} = 'New OTRS Password!'; -->
+    </ConfigItem>
+    <ConfigItem Name="NotificationBodyLostPassword" Required="1" Valid="1">
+        <Description Lang="en">notification email for new password</Description>
+        <Description Lang="de">???</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core</SubGroup>
+        <Setting>
+            <TextArea>
+                Hi &lt;OTRS_USERFIRSTNAME&gt;,
+
+you or someone impersonating you has requested to change your OTRS
+password.
+
+New Password: &lt;OTRS_NEWPW&gt;
+
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl
+
+Your OTRS Notification Master
+            </TextArea>
+        </Setting>
+    </ConfigItem> 
+    <ConfigItem Name="CustomerPanelSessionName" Required="1" Valid="1">
+        <Description Lang="en">Name of the session key.</Description>
+        <Description Lang="de">???</Description>
+        <Group>Framework</Group>
+        <SubGroup>Session</SubGroup>
+        <Setting>
+            <String Regex="">CSID</String>
+        </Setting>
+        <!-- $Self->{CustomerPanelSessionName} = 'CSID'; -->
+    </ConfigItem>
+    <ConfigItem Name="CustomerPanelUserID" Required="1" Valid="1">
+        <Description Lang="en">CustomerPanelUserID</Description>
+        <Description Lang="de">???</Description>
+        <Group>Framework</Group>
+        <SubGroup>CustomerFrontend</SubGroup>
+        <Setting>
+            <String Regex="">1</String>
+        </Setting>
+        <!-- $Self->{CustomerPanelUserID} = 1; -->
+    </ConfigItem>
+    <ConfigItem Name="CustomerGroupSupport" Required="1" Valid="1">
+        <Description Lang="en">CustomerGroupSupport</Description>
+        <Description Lang="de">???</Description>
+        <Group>Framework</Group>
+        <SubGroup>CustomerFrontend</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>               
+            </Option>
+        </Setting>
+        <!-- $Self->{CustomerGroupSupport} = 0; -->
+    </ConfigItem>
+    <ConfigItem Name="CustomerGroupAlwaysGroups" Required="1" Valid="1">
+        <Description Lang="en">if CustomerGroupSupport is true and you don't want to manage each customer user for this groups, then put the groups for all customer user in there</Description>
+        <Description Lang="de">???</Description>
+        <Group>Framework</Group>
+        <SubGroup>CustomerFrontend</SubGroup>
+        <Setting>
+            <Array>
+                <Item>users</Item>
+                <Item>info</Item>                   
+            </Array>
+        </Setting>
+        <!-- $Self->{CustomerGroupAlwaysGroups} = ['users', 'info']; -->
+    </ConfigItem>    
+    <ConfigItem Name="CustomerFrontend::NotifyModule###1-ShowAgentOnline" Required="1" Valid="1">
+        <Description Lang="en">show online agents</Description>
+        <Description Lang="de">???</Description>
+        <Group>Framework</Group>
+        <SubGroup>Unknown</SubGroup>
+            <Setting>
+                <Hash>
+                    <Item Key="Module">Kernel::Output::HTML::NotificationAgentOnline</Item>
+                </Hash>
+            </Setting>
+        <!--  $Self->{'CustomerFrontend::NotifyModule'}->{'1-ShowAgentOnline'} = {
+                     Module => 'Kernel::Output::HTML::NotificationAgentOnline',   };
+ -->
+    </ConfigItem>   
+    <ConfigItem Name="CustomerPanelLoginURL" Required="1" Valid="1">
+        <Description Lang="en">CustomerPanelLoginURL
+        (If this is anything other than '', then it is assumed to be the
+         URL of an alternate login screen which will be used in place of
+         the default one.)
+        </Description>
+        <Description Lang="de">???</Description>
+        <Group>Framework</Group>
+        <SubGroup>CustomerFrontend</SubGroup>
+        <Setting>
+            <String Regex=""></String>
+        </Setting>
+        <!-- $Self->{CustomerPanelLoginURL} = ''; -->
+    </ConfigItem>
+    <ConfigItem Name="CustomerPanelLogoutURL" Required="1" Valid="1">
+        <Description Lang="en">CustomerPanelLogoutURL
+         (If this is anything other than '', it is assumed to be the URL
+         of an alternate logout page which users will be sent to when they
+         logout.)
+        </Description>
+        <Description Lang="de">???</Description>
+        <Group>Framework</Group>
+        <SubGroup>CustomerFrontend</SubGroup>
+        <Setting>
+            <String Regex=""></String>
+        </Setting>
+        <!-- $Self->{CustomerPanelLogoutURL} = ''; -->
+    </ConfigItem>
+    <ConfigItem Name="CustomerPanelPreApplicationModule" Required="0" Valid="0">
+        <Description Lang="en">CustomerPanelPreApplicationModule
+             (Used for every request, if defined, the PreRun() function of
+             this module will be used. This interface use useful to check
+             some user options or to redirect not accept new application
+             news)
+        </Description>
+        <Description Lang="de">???</Description>
+        <Group>Framework</Group>
+        <SubGroup>CustomerFrontend</SubGroup>
+        <Setting>
+            <String Regex="">Kernel::Modules::CustomerAccept</String>
+        </Setting>
+        <!-- $Self->{CustomerPanelPreApplicationModule} = 'Kernel::Modules::CustomerAccept'; -->
+    </ConfigItem>
+    <ConfigItem Name="CustomerPanel::InfoKey" Required="0" Valid="0">
+        <Description Lang="en"># Kernel::Modules::CustomerAccept check key, if this user preferences key
+         is true, then the message is already accepted
+        </Description>
+        <Description Lang="de">???</Description>
+        <Group>Framework</Group>
+        <SubGroup>CustomerFrontend</SubGroup>
+        <Setting>
+            <String Regex="">CustomerAccept1</String>
+        </Setting>
+        <!-- $Self->{'CustomerPanel::InfoKey'} = 'CustomerAccept1'; -->
+    </ConfigItem>
+    <ConfigItem Name="CustomerPanel::InfoFile" Required="0" Valid="0">
+        <Description Lang="en">shown InfoFile located under Kernel/Output/HTML/Standard/CustomerAccept.dtl</Description>
+        <Description Lang="de">???</Description>
+        <Group>Framework</Group>
+        <SubGroup>CustomerFrontend</SubGroup>
+        <Setting>
+            <String Regex="">CustomerAccept</String>
+        </Setting>
+        <!-- $Self->{'CustomerPanel::InfoFile'} = 'CustomerAccept'; -->
+    </ConfigItem>
+    <ConfigItem Name="CustomerPanelLostPassword" Required="1" Valid="1">
+        <Description Lang="en">use lost passowrd feature</Description>
+        <Description Lang="de">???</Description>
+        <Group>Framework</Group>
+        <SubGroup>CustomerFrontend</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>               
+            </Option>
+        </Setting>
+        <!-- $Self->{CustomerPanelLostPassword} = 1; -->
+    </ConfigItem>
+    <ConfigItem Name="CustomerPanelCreateAccount" Required="1" Valid="1">
+        <Description Lang="en">use create cutomer account self feature</Description>
+        <Description Lang="de">???</Description>
+        <Group>Framework</Group>
+        <SubGroup>CustomerFrontend</SubGroup>
+        <Setting>
+            <String Regex="">1</String>
+        </Setting>
+        <!-- $Self->{CustomerPanelCreateAccount} = 1; -->
+    </ConfigItem>
+    <ConfigItem Name="CustomerPanelSubjectLostPassword" Required="1" Valid="1">
+        <Description Lang="en">notification email about new password</Description>
+        <Description Lang="de">???</Description>
+        <Group>Framework</Group>
+        <SubGroup>CustomerFrontend</SubGroup>
+        <Setting>
+            <String Regex="">New OTRS Password!</String>
+        </Setting>
+        <!-- $Self->{CustomerPanelSubjectLostPassword} = 'New OTRS Password!'; -->
+    </ConfigItem>
+    <ConfigItem Name="CustomerPanelBodyLostPassword" Required="1" Valid="1">
+        <Description Lang="en">notification email about new password</Description>
+        <Description Lang="de">???</Description>
+        <Group>Framework</Group>
+        <SubGroup>CustomerFrontend</SubGroup>
+        <Setting>
+            <TextArea>
+               Hi &lt;OTRS_USERFIRSTNAME&gt;,
+
+you or someone impersonating you has requested to change your OTRS
+password.
+
+New Password: &lt;OTRS_NEWPW&gt;
+
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;customer.pl
+
+Your OTRS Notification Master
+            </TextArea>
+        </Setting>
+    </ConfigItem> 
+    <ConfigItem Name="CustomerPanelSubjectNewAccount" Required="1" Valid="1">
+        <Description Lang="en">notification email about new account</Description>
+        <Description Lang="de">???</Description>
+        <Group>Framework</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String Regex="">New OTRS Account!</String>
+        </Setting>
+        <!-- $Self->{CustomerPanelSubjectNewAccount} = 'New OTRS Account!'; -->
+    </ConfigItem>
+    <ConfigItem Name="CustomerPanelBodyNewAccount" Required="1" Valid="1">
+        <Description Lang="en">nnotification email about new account</Description>
+        <Description Lang="de">???</Description>
+        <Group>Framework</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <TextArea>
+               Hi &lt;OTRS_USERFIRSTNAME&gt;,
+
+you or someone impersonating you has created a new OTRS account for
+you (&lt;OTRS_USERFIRSTNAME&gt; &lt;OTRS_USERLASTNAME&gt;).
+
+Login: &lt;OTRS_USERLOGIN&gt;
+Password: &lt;OTRS_USERPASSWORD&gt;
+
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;customer.pl
+
+Your OTRS Notification Master
+            </TextArea>
+        </Setting>
+    </ConfigItem> 
+    <ConfigItem Name="Customer::AuthModule" Required="1" Valid="1">
+        <Description Lang="en">This is the auth. module againt the otrs db</Description>
+        <Description Lang="de">???</Description>
+        <Group>Framework</Group>
+        <SubGroup>CustomerFrontend</SubGroup>
+        <Setting>
+            <String Regex="">Kernel::System::CustomerAuth::DB</String>
+        </Setting>
+        <!-- $Self->{'Customer::AuthModule'} = 'Kernel::System::CustomerAuth::DB'; -->
+    </ConfigItem>
+    <ConfigItem Name="Customer::AuthModule::DB::Table" Required="1" Valid="1">
+        <Description Lang="en">This is the auth. module againt the otrs db</Description>
+        <Description Lang="de">???</Description>
+        <Group>Framework</Group>
+        <SubGroup>CustomerFrontend</SubGroup>
+        <Setting>
+            <String Regex="">customer_user</String>
+        </Setting>
+        <!-- $Self->{'Customer::AuthModule::DB::Table'} = 'customer_user'; -->
+    </ConfigItem>
+    <ConfigItem Name="Customer::AuthModule::DB::CustomerKey" Required="1" Valid="1">
+        <Description Lang="en">This is the auth. module againt the otrs db</Description>
+        <Description Lang="de">???</Description>
+        <Group>Framework</Group>
+        <SubGroup>CustomerFrontend</SubGroup>
+        <Setting>
+            <String Regex="">login</String>
+        </Setting>
+        <!-- $Self->{'Customer::AuthModule::DB::CustomerKey'} = 'login'; -->
+    </ConfigItem>
+    <ConfigItem Name="Customer::AuthModule::DB::CustomerPassword" Required="1" Valid="1">
+        <Description Lang="en">This is the auth. module againt the otrs db</Description>
+        <Description Lang="de">???</Description>
+        <Group>Framework</Group>
+        <SubGroup>CustomerFrontend</SubGroup>
+        <Setting>
+            <String Regex="">pw</String>
+        </Setting>
+        <!-- $Self->{'Customer::AuthModule::DB::CustomerPassword'} = 'pw'; -->
+    </ConfigItem>
+    <ConfigItem Name="Customer::AuthModule::DB::DSN" Required="0" Valid="0">
+        <Description Lang="en">This is the auth. module againt the otrs db</Description>
+        <Description Lang="de">???</Description>
+        <Group>Framework</Group>
+        <SubGroup>CustomerFrontend</SubGroup>
+        <Setting>
+            <String Regex="">DBI:mysql:database=customerdb;host=customerdbhost</String>
+        </Setting>
+        <!-- $Self->{'Customer::AuthModule::DB::DSN'} = "DBI:mysql:database=customerdb;host=customerdbhost"; -->
+    </ConfigItem>
+    <ConfigItem Name="Customer::AuthModule::DB::User" Required="0" Valid="0">
+        <Description Lang="en">This is the auth. module againt the otrs db</Description>
+        <Description Lang="de">???</Description>
+        <Group>Framework</Group>
+        <SubGroup>CustomerFrontend</SubGroup>
+        <Setting>
+            <String Regex="">some_user</String>
+        </Setting>
+        <!-- $Self->{'Customer::AuthModule::DB::User'} = "some_user"; -->
+    </ConfigItem>
+    <ConfigItem Name="Customer::AuthModule::DB::Password" Required="0" Valid="0">
+        <Description Lang="en">This is the auth. module againt the otrs db</Description>
+        <Description Lang="de">???</Description>
+        <Group>Framework</Group>
+        <SubGroup>CustomerFrontend</SubGroup>
+        <Setting>
+            <String Regex="">some_password</String>
+        </Setting>
+        <!-- $Self->{'Customer::AuthModule::DB::Password'} = "some_password"; -->
+    </ConfigItem>
     
     
     <ConfigItem Name="WebMaxFileUpload" Required="1" Valid="1">
