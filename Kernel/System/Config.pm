@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.12 2005-04-21 14:35:59 martin Exp $
+# $Id: Config.pm,v 1.13 2005-04-21 17:29:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -78,7 +78,7 @@ sub new {
     # read all config files
     $Self->_Init();
     # reorga of old config
-#    $Self->CreateConfig();
+    $Self->CreateConfig();
 
     return $Self;
 }
@@ -175,6 +175,32 @@ sub CreateConfig {
                 if ($ConfigItem->{Setting}->[1]->{Option}) {
                     print OUT "    \$Self->{'$Name'} = '$ConfigItem->{Setting}->[1]->{Option}->[1]->{SelectedID}';\n";
                 }
+                if ($ConfigItem->{Setting}->[1]->{Hash}) {
+                    my %Hash = ();
+                    my @Array = @{$ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}};
+#                    foreach my $Item (1..$#Array) {
+                    foreach my $Item (0..$#Array) {
+                        $Hash{$Array[$Item]->{Key}} = $Array[$Item]->{Content};
+                    }
+                    # store in config
+                    require Data::Dumper;
+                    my $Dump = Data::Dumper::Dumper(\%Hash);
+                    $Dump =~ s/\$VAR1/\$Self->{'$Name'}/;
+                    print OUT $Dump;
+                }
+                if ($ConfigItem->{Setting}->[1]->{Array}) {
+                    my @ArrayNew = ();
+                    my @Array = @{$ConfigItem->{Setting}->[1]->{Array}->[1]->{Item}};
+#                    foreach my $Item (1..$#Array) {
+                    foreach my $Item (0..$#Array) {
+                        push (@ArrayNew, $Array[$Item]->{Content});
+                    }
+                    # store in config
+                    require Data::Dumper;
+                    my $Dump = Data::Dumper::Dumper(@ArrayNew);
+                    $Dump =~ s/\$VAR1/\$Self->{'$Name'}/;
+                    print OUT $Dump;
+                }
                 print OUT "    \$Self->{'Valid'}->{'$Name'} = '$ConfigItem->{Valid}';\n";
             }
         }
@@ -218,15 +244,27 @@ sub ConfigItemUpdate {
         $Param{Key} =~ s/###/'}->{'/g;
         # store in config
         require Data::Dumper;
-        my $Dump = Data::Dumper::Dumper($Param{Value});
-        $Dump =~ s/\$VAR1/\$Self->{'$Param{Key}'}/;
-        $Dump .= "\$Self->{'Valid'}->{'$Param{Key}'} = '$Param{Valid}';\n1;\n";
-        print OUT $Dump;
-        close(OUT);
-        # set in runtime
-        $Dump =~ s/^\$Self->/\$Self->{ConfigObject}->/gm;
-        eval $Dump || die "ERROR: Syntax error in $Dump\n";
-        return 1;
+        if (!$Param{Valid}) {
+            my $Dump = "delete \$Self->{'$Param{Key}'};";
+            $Dump .= "\$Self->{'Valid'}->{'$Param{Key}'} = '$Param{Valid}';\n1;\n";
+            print OUT $Dump;
+            close(OUT);
+            # set in runtime
+            $Dump =~ s/\$Self->/\$Self->{ConfigObject}->/gm;
+            eval $Dump || die "ERROR: Syntax error in $Dump\n";
+            return 1;
+        }
+        else {
+            my $Dump = Data::Dumper::Dumper($Param{Value});
+            $Dump =~ s/\$VAR1/\$Self->{'$Param{Key}'}/;
+            $Dump .= "\$Self->{'Valid'}->{'$Param{Key}'} = '$Param{Valid}';\n1;\n";
+            print OUT $Dump;
+            close(OUT);
+            # set in runtime
+            $Dump =~ s/^\$Self->/\$Self->{ConfigObject}->/gm;
+            eval $Dump || die "ERROR: Syntax error in $Dump\n";
+            return 1;
+        }
     }
 }
 
@@ -450,6 +488,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2005-04-21 14:35:59 $
+$Revision: 1.13 $ $Date: 2005-04-21 17:29:38 $
 
 =cut
