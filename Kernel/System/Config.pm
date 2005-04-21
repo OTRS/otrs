@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.13 2005-04-21 17:29:38 martin Exp $
+# $Id: Config.pm,v 1.14 2005-04-21 17:49:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -197,7 +197,7 @@ sub CreateConfig {
                     }
                     # store in config
                     require Data::Dumper;
-                    my $Dump = Data::Dumper::Dumper(@ArrayNew);
+                    my $Dump = Data::Dumper::Dumper(\@ArrayNew);
                     $Dump =~ s/\$VAR1/\$Self->{'$Name'}/;
                     print OUT $Dump;
                 }
@@ -315,15 +315,25 @@ sub ConfigItemGet {
             }
             if ($ConfigItem->{Setting}->[1]->{Hash}) {
                 if (defined($Self->{ConfigObject}->Get($ConfigItem->{Name}))) {
-                    @{$ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}} = ();
+                    @{$ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}} = (undef);
                     my %Hash = %{$Self->{ConfigObject}->Get($ConfigItem->{Name})};
                     foreach my $Key (sort keys %Hash) {
-                        if (!$ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}) {
-                            push (@{$ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}}, undef);
-                        }
                         push (@{$ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}}, {
                                 Key => $Key,
                                 Content => $Hash{$Key},
+                            },
+                        );
+                    }
+#$Self->{LogObject}->Dumper($ConfigItem);
+                }
+            }
+            if ($ConfigItem->{Setting}->[1]->{Array}) {
+                if (defined($Self->{ConfigObject}->Get($ConfigItem->{Name}))) {
+                    @{$ConfigItem->{Setting}->[1]->{Array}->[1]->{Item}} = (undef);
+                    my @Array = @{$Self->{ConfigObject}->Get($ConfigItem->{Name})};
+                    foreach my $Key (@Array) {
+                        push (@{$ConfigItem->{Setting}->[1]->{Array}->[1]->{Item}}, {
+                                Content => $Key,
                             },
                         );
                     }
@@ -488,6 +498,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2005-04-21 17:29:38 $
+$Revision: 1.14 $ $Date: 2005-04-21 17:49:54 $
 
 =cut
