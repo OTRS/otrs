@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/PreferencesPassword.pm
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PreferencesPassword.pm,v 1.3 2005-04-06 05:25:43 martin Exp $
+# $Id: PreferencesPassword.pm,v 1.4 2005-04-21 18:11:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::PreferencesPassword;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -110,7 +110,7 @@ sub Run {
         return;
     }
     # check last pw
-    if ($Param{UserData}->{UserLastPw} && (crypt($Pw, $Param{UserData}->{UserLogin}) eq $Param{UserData}->{UserLastPw})) {
+    if ($Self->{ConfigItem}->{PasswordHistory} && $Param{UserData}->{UserLastPw} && (crypt($Pw, $Param{UserData}->{UserLogin}) eq $Param{UserData}->{UserLastPw})) {
         $Self->{Error} = "Password is already used! Please use an other password!";
        return;
     }
