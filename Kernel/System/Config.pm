@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.14 2005-04-21 17:49:54 martin Exp $
+# $Id: Config.pm,v 1.15 2005-04-21 18:10:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -178,8 +178,8 @@ sub CreateConfig {
                 if ($ConfigItem->{Setting}->[1]->{Hash}) {
                     my %Hash = ();
                     my @Array = @{$ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}};
-#                    foreach my $Item (1..$#Array) {
-                    foreach my $Item (0..$#Array) {
+                    foreach my $Item (1..$#Array) {
+#                    foreach my $Item (0..$#Array) {
                         $Hash{$Array[$Item]->{Key}} = $Array[$Item]->{Content};
                     }
                     # store in config
@@ -191,8 +191,8 @@ sub CreateConfig {
                 if ($ConfigItem->{Setting}->[1]->{Array}) {
                     my @ArrayNew = ();
                     my @Array = @{$ConfigItem->{Setting}->[1]->{Array}->[1]->{Item}};
-#                    foreach my $Item (1..$#Array) {
-                    foreach my $Item (0..$#Array) {
+                    foreach my $Item (1..$#Array) {
+#                    foreach my $Item (0..$#Array) {
                         push (@ArrayNew, $Array[$Item]->{Content});
                     }
                     # store in config
@@ -498,6 +498,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2005-04-21 17:49:54 $
+$Revision: 1.15 $ $Date: 2005-04-21 18:10:37 $
 
 =cut
