@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.pm,v 1.6 2005-04-21 09:32:12 rk Exp $
+# $Id: AdminSysConfig.pm,v 1.7 2005-04-21 15:13:29 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -107,7 +107,7 @@ sub Run {
                 my %Content;
                 foreach my $Index (0...@Keys) {
                     # Delete Hash Element?
-                    if (!$Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#DeleteArrayElement'.$Index)) {
+                    if (!$Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#DeleteHashElement'.$Index)) {
                         $Content{$Keys[$Index]} = $Values[$Index];
                     }
                 }
@@ -130,10 +130,57 @@ sub Run {
                     $Self->{LayoutObject}->FatalError(Message => "Can't write ConfigItem!");
                 }
             }
-
-
+            # ConfigElement TimeVacationDaysOneTime
+            elsif (defined ($ItemHash{Setting}[1]{TimeVacationDaysOneTime})) {
+                my @Year   = $Self->{ParamObject}->GetArray(Param => $_.'year[]');
+                my @Month  = $Self->{ParamObject}->GetArray(Param => $_.'month[]');
+                my @Day    = $Self->{ParamObject}->GetArray(Param => $_.'day[]');
+                my @Values = $Self->{ParamObject}->GetArray(Param => $_.'Content[]');
+                my %Content;
+                foreach my $Index (0...@Year) {
+                    # Delete TimeVacationDaysOneTime Element?
+                    if (!$Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#DeleteTimeVacationDaysOneTimeElement'.$Index)) {
+                        $Content{$Year[$Index]}{$Month[$Index]}{$Day[$Index]} = $Values[$Index];
+                    }
+                }
+                # write ConfigItem
+                if (!$Self->{SysConfigObject}->ConfigItemUpdate(Key => $_, Value => \%Content, Valid => $Aktiv)) {
+                    $Self->{LayoutObject}->FatalError(Message => "Can't write ConfigItem!");
+                }            
+            }
+            # ConfigElement TimeVacationDays
+            elsif (defined ($ItemHash{Setting}[1]{TimeVacationDays})) {
+                my @Month  = $Self->{ParamObject}->GetArray(Param => $_.'month[]');
+                my @Day    = $Self->{ParamObject}->GetArray(Param => $_.'day[]');
+                my @Values = $Self->{ParamObject}->GetArray(Param => $_.'Content[]');
+                my %Content;
+                foreach my $Index (0...@Month) {
+                    # Delete TimeVacationDays Element?
+                    if (!$Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#DeleteTimeVacationDaysElement'.$Index)) {
+                        $Content{$Month[$Index]}{$Day[$Index]} = $Values[$Index];;
+                    }
+                }
+                # write ConfigItem
+                if (!$Self->{SysConfigObject}->ConfigItemUpdate(Key => $_, Value => \%Content, Valid => $Aktiv)) {
+                    $Self->{LayoutObject}->FatalError(Message => "Can't write ConfigItem!");
+                }            
+            }
+            # ConfigElement TimeWorkingHours
+            elsif (defined ($ItemHash{Setting}[1]{TimeWorkingHours})) {
+                my %Content;
+                foreach my $Index (1...$#{$ItemHash{Setting}[1]{TimeWorkingHours}[1]{Day}}) {
+                    my $Weekday = $ItemHash{Setting}[1]{TimeWorkingHours}[1]{Day}[$Index]{Name};
+                    my @Hours   = $Self->{ParamObject}->GetArray(Param => $_.$Weekday.'[]');
+                    $Content{$Weekday} = @Hours;
+                }
+#                $Self->{LogObject}->Dumper(fsa => \%Content);
+                # write ConfigItem
+                if (!$Self->{SysConfigObject}->ConfigItemUpdate(Key => $_, Value => \%Content, Valid => $Aktiv)) {
+                    $Self->{LayoutObject}->FatalError(Message => "Can't write ConfigItem!");
+                }
+            }
+            
         }
-        
         $Self->{Subaction} = 'Edit';
     }
     # edit config
@@ -303,17 +350,87 @@ sub ListConfigItem {
         if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#NewHashElement')) {
             push (@{$ItemHash{Setting}[1]{Hash}[1]{Item}}, {Key => '', Content => ''});
         }      
-        # Hashelements        
+        # Hashelements
         foreach my $Index (1...$#{$ItemHash{Setting}[1]{Hash}[1]{Item}}) {
-            $Self->{LayoutObject}->Block(
-                Name => 'ConfigElementHashContent',
-                Data => {
-                    ElementKey => $ItemHash{Name},
-                    Key        => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Key},
-                    Content    => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Content},
-                    Index      => $Index,
-                },
-            );           
+            #SubHash
+            if (defined($ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Hash})) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'ConfigElementHashContent2',
+                    Data => {
+                        ElementKey => $ItemHash{Name},
+                        Key        => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Key},
+                        Index      => $Index,
+                    },
+                );
+                # SubHashElements
+                foreach my $Index2 (1...$#{$ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Hash}[1]{Item}}) {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'ConfigElementSubHashContent',
+                        Data => {
+                            ElementKey => $ItemHash{Name},
+                            Key        => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Hash}[1]{Item}[$Index2]{Key},
+                            Content    => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Hash}[1]{Item}[$Index2]{Content},
+                            Index      => $Index2,
+                        },
+                    );
+                }
+            }
+            #SubArray
+            elsif (defined($ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Array})) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'ConfigElementHashContent2',
+                    Data => {
+                        ElementKey => $ItemHash{Name},
+                        Key        => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Key},
+                        Index      => $Index,
+                    },
+                );
+                # SubArrayElements                
+                foreach my $Index2 (1...$#{$ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Array}[1]{Item}}) {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'ConfigElementSubArrayContent',
+                        Data => {
+                            ElementKey => $ItemHash{Name},
+                            Content    => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Array}[1]{Item}[$Index2]{Content},
+                            Index      => $Index2,
+                        },
+                    );
+                }                
+            }
+            #SubOption
+            elsif (defined($ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Option})) {
+                # Pulldownmenue
+                my %Hash;
+                foreach my $Index2 (1...$#{$ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Option}[1]{Item}}) {
+                    $Hash{$ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Option}[1]{Item}[$Index2]{Key}} = $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Option}[1]{Item}[$Index2]{Content};
+                }
+                my $PulldownMenue = $Self->{LayoutObject}->OptionStrgHashRef(
+                    Data       => \%Hash,
+                    SelectedID => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Option}[1]{SelectedID},
+                    Name       => $ItemHash{Name},
+                );
+                $Self->{LayoutObject}->Block(
+                    Name => 'ConfigElementHashContent3',
+                    Data => {
+                        ElementKey => $ItemHash{Name},
+                        Key        => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Key},
+                        Liste       => $PulldownMenue, 
+                        Index      => $Index,
+                    },
+                );
+            }            
+            # StandardElement
+            else {
+                $Self->{LayoutObject}->Block(
+                    Name => 'ConfigElementHashContent',
+                    Data => {
+                        ElementKey => $ItemHash{Name},
+                        Key        => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Key},
+                        Content    => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Content},
+                        Index      => $Index,
+                    },
+                );            
+            }           
         }               
     }
     # ConfigElement Array
