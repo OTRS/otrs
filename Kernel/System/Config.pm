@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.11 2005-04-19 14:33:36 martin Exp $
+# $Id: Config.pm,v 1.12 2005-04-21 14:35:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -78,7 +78,7 @@ sub new {
     # read all config files
     $Self->_Init();
     # reorga of old config
-    $Self->CreateConfig();
+#    $Self->CreateConfig();
 
     return $Self;
 }
@@ -139,7 +139,7 @@ sub _Init {
 submit config settings to application
 
     $ConfigToolObject->CreateConfig();
-    
+
 =cut
 
 sub CreateConfig {
@@ -149,7 +149,7 @@ sub CreateConfig {
     my $Home = $Self->{ConfigObject}->Get('Home');
     # check needed stuff
     foreach (qw()) {
-        if (!$Param{$_}) { 
+        if (!$Param{$_}) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
         }
@@ -162,9 +162,9 @@ sub CreateConfig {
         if ($ConfigItem->{Name} && !$UsedKeys{$ConfigItem->{Name}}) {
             $UsedKeys{$ConfigItem->{Name}} = 1;
             my %Config = $Self->ConfigItemGet(
-                Name => $ConfigItem->{Name}, 
+                Name => $ConfigItem->{Name},
             );
-            my $Name = $ConfigItem->{Name}; 
+            my $Name = $ConfigItem->{Name};
             $Name =~ s/\\/\\\\/g;
             $Name =~ s/'/\'/g;
             $Name =~ s/###/'}->{'/g;
@@ -193,7 +193,7 @@ submit config settings and save it
         Key => 'WebUploadCacheModule',
         Value => 'Kernel::System::Web::UploadCache::DB',
     );
-    
+
 =cut
 
 sub ConfigItemUpdate {
@@ -220,7 +220,7 @@ sub ConfigItemUpdate {
         require Data::Dumper;
         my $Dump = Data::Dumper::Dumper($Param{Value});
         $Dump =~ s/\$VAR1/\$Self->{'$Param{Key}'}/;
-        $Dump .= "\$Self->{'Valid'}->{'$Param{Key}'} = '$Param{Valid}';\n1;";
+        $Dump .= "\$Self->{'Valid'}->{'$Param{Key}'} = '$Param{Valid}';\n1;\n";
         print OUT $Dump;
         close(OUT);
         # set in runtime
@@ -263,16 +263,33 @@ sub ConfigItemGet {
             # update xml with current config setting
             if ($ConfigItem->{Setting}->[1]->{String}) {
                 # fill default
-                $ConfigItem->{Setting}->[1]->{String}->[1]->{Default} = $ConfigItem->{Setting}->[1]->{String}->[1]->{Content}; 
+                $ConfigItem->{Setting}->[1]->{String}->[1]->{Default} = $ConfigItem->{Setting}->[1]->{String}->[1]->{Content};
                 if (defined($Self->{ConfigObject}->Get($ConfigItem->{Name}))) {
                     $ConfigItem->{Setting}->[1]->{String}->[1]->{Content} = $Self->{ConfigObject}->Get($ConfigItem->{Name});
                 }
             }
             if ($ConfigItem->{Setting}->[1]->{Option}) {
                 # fill default
-                $ConfigItem->{Setting}->[1]->{Option}->[1]->{Default} = $ConfigItem->{Setting}->[1]->{Option}->[1]->{SelectedID}; 
+                $ConfigItem->{Setting}->[1]->{Option}->[1]->{Default} = $ConfigItem->{Setting}->[1]->{Option}->[1]->{SelectedID};
                 if (defined($Self->{ConfigObject}->Get($ConfigItem->{Name}))) {
                     $ConfigItem->{Setting}->[1]->{Option}->[1]->{SelectedID} = $Self->{ConfigObject}->Get($ConfigItem->{Name});
+                }
+            }
+            if ($ConfigItem->{Setting}->[1]->{Hash}) {
+                if (defined($Self->{ConfigObject}->Get($ConfigItem->{Name}))) {
+                    @{$ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}} = ();
+                    my %Hash = %{$Self->{ConfigObject}->Get($ConfigItem->{Name})};
+                    foreach my $Key (sort keys %Hash) {
+                        if (!$ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}) {
+                            push (@{$ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}}, undef);
+                        }
+                        push (@{$ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}}, {
+                                Key => $Key,
+                                Content => $Hash{$Key},
+                            },
+                        );
+                    }
+#$Self->{LogObject}->Dumper($ConfigItem);
                 }
             }
             if ($ConfigItem->{Setting}->[1]->{Option} && $ConfigItem->{Setting}->[1]->{Option}->[1]->{Location}) {
@@ -433,6 +450,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2005-04-19 14:33:36 $
+$Revision: 1.12 $ $Date: 2005-04-21 14:35:59 $
 
 =cut
