@@ -2,13 +2,19 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.135 2005-02-17 07:13:16 martin Exp $
+# $Id: CHANGES,v 1.136 2005-04-22 08:55:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS head
+ - (2005/04/22) added ticket merge feature
+ - (2005/04/14) fixed From in article of AgentTicketPending and 
+    AgentTicketMove frontend module
+ - (2005/04/10) added check to ticket core function Move(), send no
+    ticket move info for closed tickets
+ - (2005/04/08) updated CGI module to 3.07
  - (2005/02/17) renamed _all_ ticket frontend modules and templates
     to AgentTicket* (cleanup)
  - (2005/02/15) renamed _all_ ticket config options! and moved to
