@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.15 2005-04-21 18:10:37 martin Exp $
+# $Id: Config.pm,v 1.16 2005-04-22 13:50:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -201,6 +201,25 @@ sub CreateConfig {
                     $Dump =~ s/\$VAR1/\$Self->{'$Name'}/;
                     print OUT $Dump;
                 }
+                if ($ConfigItem->{Setting}->[1]->{TimeWorkingHours}) {
+                    my %Days = ();
+                    my @Array = @{$ConfigItem->{Setting}->[1]->{TimeWorkingHours}->[1]->{Day}};
+                    foreach my $Day (1..$#Array) {
+                        my @Array2 = ();
+                        if ($Array[$Day]->{Hour}) {
+                            my @Hours = @{$Array[$Day]->{Hour}};
+                            foreach my $Hour (1..$#Hours) {
+                                push (@Array2, $Hours[$Hour]->{Content});
+                            }
+                        }
+                        $Days{$Array[$Day]->{Name}} = \@Array2;
+                    }
+                    # store in config
+                    require Data::Dumper;
+                    my $Dump = Data::Dumper::Dumper(\%Days);
+                    $Dump =~ s/\$VAR1/\$Self->{'$Name'}/;
+                    print OUT $Dump;
+                }
                 print OUT "    \$Self->{'Valid'}->{'$Name'} = '$ConfigItem->{Valid}';\n";
             }
         }
@@ -296,7 +315,7 @@ sub ConfigItemGet {
 #            $ConfigItem->{Name} =~ s/###/'}->{'/g;
             # add current valid state
             if ($Self->{ConfigObject}->Get('Valid') && defined($Self->{ConfigObject}->Get('Valid')->{$ConfigItem->{Name}})) {
-                $ConfigItem->{Valid} = $Self->{ConfigObject}->Get('Valid')->{$ConfigItem->{Name}}; 
+                $ConfigItem->{Valid} = $Self->{ConfigObject}->Get('Valid')->{$ConfigItem->{Name}};
             }
             # update xml with current config setting
             if ($ConfigItem->{Setting}->[1]->{String}) {
@@ -334,6 +353,24 @@ sub ConfigItemGet {
                     foreach my $Key (@Array) {
                         push (@{$ConfigItem->{Setting}->[1]->{Array}->[1]->{Item}}, {
                                 Content => $Key,
+                            },
+                        );
+                    }
+#$Self->{LogObject}->Dumper($ConfigItem);
+                }
+            }
+            if ($ConfigItem->{Setting}->[1]->{TimeWorkingHours}) {
+                if (defined($Self->{ConfigObject}->Get($ConfigItem->{Name}))) {
+                    @{$ConfigItem->{Setting}->[1]->{TimeWorkingHours}->[1]->{Day}} = (undef);
+                    my %Days = %{$Self->{ConfigObject}->Get($ConfigItem->{Name})};
+                    foreach my $Day (keys %Days) {
+                        my @Array = (undef);
+                        foreach my $Hour (@{$Days{$Day}}) {
+                            push (@Array, { Content => $Hour, });
+                        }
+                        push (@{$ConfigItem->{Setting}->[1]->{TimeWorkingHours}->[1]->{Day}}, {
+                                Name => $Day,
+                                Hour => \@Array,
                             },
                         );
                     }
@@ -498,6 +535,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2005-04-21 18:10:37 $
+$Revision: 1.16 $ $Date: 2005-04-22 13:50:24 $
 
 =cut
