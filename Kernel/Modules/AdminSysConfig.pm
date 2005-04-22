@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.pm,v 1.8 2005-04-22 12:57:27 rk Exp $
+# $Id: AdminSysConfig.pm,v 1.9 2005-04-22 14:27:15 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -173,7 +173,6 @@ sub Run {
                     my @Hours   = $Self->{ParamObject}->GetArray(Param => $_.$Weekday.'[]');
                     $Content{$Weekday} = \@Hours;
                 }
-                $Self->{LogObject}->Dumper(fsa => \%Content);
                 # write ConfigItem
                 if (!$Self->{SysConfigObject}->ConfigItemUpdate(Key => $_, Value => \%Content, Valid => $Aktiv)) {
                     $Self->{LayoutObject}->FatalError(Message => "Can't write ConfigItem!");
@@ -474,13 +473,17 @@ sub ListConfigItem {
         $Self->{LayoutObject}->Block(
             Name => 'ConfigElementFrontendModuleReg',
             Data => {
-                Item        => $_,
+                ElementKey => $ItemHash{Name},
             },
         );
+        
+        
+        
         # NavBar
         foreach my $Index (1...$#{$ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBar}}) {
+        $Self->{LogObject}->Dumper(jkl => $ItemHash{Setting}[1]{FrontendModuleReg});
             $Self->{LayoutObject}->Block(
-                Name => 'ConfigElementFrontendModuleRegContent',
+                Name => 'ConfigElementFrontendModuleRegContentNavBar',
                 Data => {
                     Item        => $_,
                     Key         => $_,

@@ -2,7 +2,7 @@
 # AdminSysConfigEdit.dtl - provides HTML form for SysConfig
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfigEdit.dtl,v 1.5 2005-04-21 15:13:29 rk Exp $
+# $Id: AdminSysConfigEdit.dtl,v 1.6 2005-04-22 14:27:15 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -67,7 +67,7 @@
         <tr>
           <td class="contentvalue"><input type="text" name="$Data{"ElementKey"}Key[]" value="$QData{"Key"}" size="20"></td>
           <td>&nbsp;</td>
-          <td class="contentkey">=></td>
+          <td class="contentkey">=><input type="hidden" name="$Data{"ElementKey"}Content[]" value="$QData{"Content"}"></td>
         </tr>
         <tr>
           <td colspan="5">
@@ -78,18 +78,18 @@
                   <td>&nbsp;</td>
                   <td class="contentvalue"><input type="text" name="$Data{"ElementKey"}Content[]" value="$QData{"Content"}" size="15"></td>
                   <td>&nbsp;</td>
-                  <td class="contentkey"><input type="submit" name="$Data{"ElementKey"}#DeleteHashElement$Data{"Index"}" value="$Text{"Delete"}"></td>
+                  <td class="contentkey"><input type="submit" name="$Data{"ElementKey"}#HashElement$Data{"Index"}#DeleteSubHashElement$Data{"Index2"}" value="$Text{"Delete"}"></td>
                 </tr>
                 <!-- dtl:block:ConfigElementSubHashContent -->
                 <!-- dtl:block:ConfigElementSubArrayContent -->
                 <tr class="contentbody">
                   <td class="contentvalue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;>&nbsp;<input type="text" name="$Data{"ElementKey"}Content[]" value="$QData{"Content"}" size="15"></td>
                   <td>&nbsp;</td>
-                  <td class="contentkey"><input type="submit" name="$Data{"ElementKey"}#DeleteHashElement$Data{"Index"}" value="$Text{"Delete"}"></td>
+                  <td class="contentkey"><input type="submit" name="$Data{"ElementKey"}#HashElement$Data{"Index"}#DeleteSubArrayElement$Data{"Index2"}" value="$Text{"Delete"}"></td>
                 </tr>
                 <!-- dtl:block:ConfigElementSubArrayContent -->
                 <tr class="contentbody">
-                  <td class="contentvalue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" name="$Data{"ElementKey"}#NewHashElement" value="$Text{"New"}"></td>
+                  <td class="contentvalue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" name="$Data{"ElementKey"}#HashElement$Data{"Index"}#NewSubElement" value="$Text{"New"}"></td>
                 </tr>
             </table>
           </td>
@@ -125,10 +125,21 @@
       </table>
     </td>    
     <!-- dtl:block:ConfigElementArray -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <!-- dtl:block:ConfigElementFrontendModuleReg -->
     <td class="contentvalue">
       <table border="0" cellpadding="0" cellspacing="3">
-      <!-- dtl:block:ConfigElementFrontendModuleRegContent -->
         <tr>
           <td class="contentkey" width="100">$Text{"Group"}:</td>
         </tr>
@@ -164,73 +175,157 @@
           <td class="contentkey"><input type="submit" name="" value="$Text{"New"} $Text{"Group Ro"}"></td>
         </tr>  
         <tr>
+          <td class="contentkey">$Text{"Title"}:</td>
+          <td>&nbsp;</td>
+          <td class="contentvalue"><input type="text" name="" value="$QData{"ContentTitle"}" size="20"></td>
+        </tr>   
+        <tr>
           <td class="contentkey">$Text{"Description"}:</td>
           <td>&nbsp;</td>
           <td class="contentvalue"><input type="text" name="" value="$QData{"ContentDescription"}" size="20"></td>
+        </tr>   
+        <tr>
+          <td class="contentkey">$Text{"NavBarName"}:</td>
+          <td>&nbsp;</td>
+          <td class="contentvalue"><input type="text" name="" value="$QData{"ContentNavBarName"}" size="20"></td>
+        </tr>   
+      <!-- dtl:block:ConfigElementFrontendModuleRegContentNavBar -->
+        <tr><td colspan="5"><hr></td></tr>
+        <tr>
+          <td class="contentkey" width="100">NavBar&nbsp;=></td>
         </tr>
         <tr>
-          <td class="contentkey">$Text{"Name"}:</td>
-          <td>&nbsp;</td>
-          <td class="contentvalue"><input type="text" name="" value="$QData{"ContentName"}" size="20"></td>
-        </tr>   
-        <tr>
-          <td class="contentkey">$Text{"Image"}:</td>
-          <td>&nbsp;</td>
-          <td class="contentvalue"><input type="text" name="" value="$QData{"ContentImage"}" size="20"></td>
-        </tr>   
-        <tr>
-          <td class="contentkey">$Text{"Link"}:</td>
-          <td>&nbsp;</td>
-          <td class="contentvalue"><input type="text" name="" value="$QData{"ContentLink"}" size="20"></td>
-        </tr>    überlastet
-        <tr>
-          <td class="contentkey">$Text{"Typ"}:</td>
-          <td>&nbsp;</td>
-          <td class="contentvalue"><input type="text" name="" value="$QData{"ContentTyp"}" size="20"></td>
-        </tr>   
-        <tr>
-          <td class="contentkey">$Text{"Prio"}:</td>
-          <td>&nbsp;</td>
-          <td class="contentvalue"><input type="text" name="" value="$QData{"ContentPrio"}" size="20"></td>
-        </tr>   
-        <tr>
-          <td class="contentkey">$Text{"Block"}:</td>
-          <td>&nbsp;</td>
-          <td class="contentvalue"><input type="text" name="" value="$QData{"ContentBlock"}" size="20"></td>
-        </tr>   
-        <tr>
-          <td class="contentkey">$Text{"NavBar"}:</td>
-          <td>&nbsp;</td>
-          <td class="contentvalue"><input type="text" name="" value="$QData{"ContentNavBar"}" size="20"></td>
-        </tr>     
-        <tr>
-          <td colspan="5"><hr></td>
+          <td colspan="5">
+            <table border="0" cellpadding="0" cellspacing="3">
+              <tr>
+                <td></td>
+                <td class="contentkey" width="100">$Text{"Group"}:</td>                
+                <td></td>              
+                <td></td>
+              </tr>
+              <!-- dtl:block:ConfigElementFrontendModuleRegContentGroup -->
+              <tr>
+                <td width="50">&nbsp;</td>
+                <td class="contentvalue"><input type="text" name="" value="$QData{"ContentGroup"}" size="20"></td>
+                <td>&nbsp;</td>
+                <td class="contentkey"><input type="submit" name="" value="$Text{"Delete"}"></td>
+              </tr>
+              <!-- dtl:block:ConfigElementFrontendModuleRegContentGroup -->
+              <tr>
+                <td width="50">&nbsp;</td>
+                <td></td>
+                <td></td>
+                <td class="contentkey"><input type="submit" name="" value="$Text{"New"} $Text{"Group"}"></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td class="contentkey">$Text{"Group Ro"}:</td>                
+                <td></td>
+                <td></td>
+              </tr>
+              <!-- dtl:block:ConfigElementFrontendModuleRegContentGroupRo -->
+              <tr>
+                <td>&nbsp;</td>
+                <td class="contentvalue"><input type="text" name="" value="$QData{"ContentGroupRo"}" size="20"></td>
+                <td>&nbsp;</td>
+                <td class="contentkey"><input type="submit" name="" value="$Text{"Delete"}"></td>
+              </tr> 
+              <!-- dtl:block:ConfigElementFrontendModuleRegContentGroupRo -->
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="contentkey"><input type="submit" name="" value="$Text{"New"} $Text{"Group Ro"}"></td>
+              </tr>  
+              <tr>
+                <td></td>
+                <td class="contentkey">$Text{"Description"}:</td>
+                <td>&nbsp;</td>
+                <td class="contentvalue"><input type="text" name="" value="$QData{"ContentDescription"}" size="20"></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td class="contentkey">$Text{"Name"}:</td>
+                <td>&nbsp;</td>
+                <td class="contentvalue"><input type="text" name="" value="$QData{"ContentName"}" size="20"></td>
+              </tr>   
+              <tr>
+                <td></td>
+                <td class="contentkey">$Text{"Image"}:</td>
+                <td>&nbsp;</td>
+                <td class="contentvalue"><input type="text" name="" value="$QData{"ContentImage"}" size="20"></td>
+              </tr>   
+              <tr>
+                <td></td>
+                <td class="contentkey">$Text{"Link"}:</td>
+                <td>&nbsp;</td>
+                <td class="contentvalue"><input type="text" name="" value="$QData{"ContentLink"}" size="20"></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td class="contentkey">$Text{"Typ"}:</td>
+                <td>&nbsp;</td>
+                <td class="contentvalue"><input type="text" name="" value="$QData{"ContentTyp"}" size="20"></td>
+              </tr>   
+              <tr>
+                <td></td>
+                <td class="contentkey">$Text{"Prio"}:</td>
+                <td>&nbsp;</td>
+                <td class="contentvalue"><input type="text" name="" value="$QData{"ContentPrio"}" size="20"></td>
+              </tr>   
+              <tr>
+                <td></td>
+                <td class="contentkey">$Text{"Block"}:</td>
+                <td>&nbsp;</td>
+                <td class="contentvalue"><input type="text" name="" value="$QData{"ContentBlock"}" size="20"></td>
+              </tr>   
+              <tr>
+                <td></td>
+                <td class="contentkey">$Text{"NavBar"}:</td>
+                <td>&nbsp;</td>
+                <td class="contentvalue"><input type="text" name="" value="$QData{"ContentNavBar"}" size="20"></td>
+              </tr>     
+            </table>
+          </td>
         </tr>
-        <!-- dtl:block:ConfigElementFrontendModuleRegContent -->
+        <tr><td colspan="5"><hr></td></tr>
+        <!-- dtl:block:ConfigElementFrontendModuleRegContentNavBar -->
         <!-- dtl:block:ConfigElementFrontendModuleRegContentNavBarModule -->
+        <tr><td colspan="5"><hr></td></tr>
         <tr>
-          <td class="contentkey" width="100">$Text{"Module"}:</td>
-          <td>&nbsp;</td>
-          <td class="contentvalue"><input type="text" name="" value="$QData{"ContentName"}" size="20"></td>
-        </tr>   
-        <tr>
-          <td class="contentkey">$Text{"Name"}:</td>
-          <td>&nbsp;</td>
-          <td class="contentvalue"><input type="text" name="" value="$QData{"ContentImage"}" size="20"></td>
-        </tr>   
-        <tr>
-          <td class="contentkey">$Text{"Block"}:</td>
-          <td>&nbsp;</td>
-          <td class="contentvalue"><input type="text" name="" value="$QData{"ContentLink"}" size="20"></td>
-        </tr>   
-        <tr>
-          <td class="contentkey">$Text{"Prio"}:</td>
-          <td>&nbsp;</td>
-          <td class="contentvalue"><input type="text" name="" value="$QData{"ContentTyp"}" size="20"></td>
-        </tr>   
-        <tr>
-          <td colspan="5"><hr></td>
+          <td class="contentkey" width="100">NavBarModule&nbsp;=></td>
         </tr>
+        <tr>
+          <td colspan="5">
+            <table border="0" cellpadding="0" cellspacing="3">
+              <tr>
+                <td width="50">&nbsp;</td>
+                <td class="contentkey" width="80">$Text{"Module"}:</td>
+                <td>&nbsp;</td>
+                <td class="contentvalue"><input type="text" name="" value="$QData{"ContentName"}" size="20"></td>
+              </tr>   
+              <tr>
+                <td></td>
+                <td class="contentkey">$Text{"Name"}:</td>
+                <td>&nbsp;</td>
+                <td class="contentvalue"><input type="text" name="" value="$QData{"ContentImage"}" size="20"></td>
+              </tr>   
+              <tr>
+                <td></td>
+                <td class="contentkey">$Text{"Block"}:</td>
+                <td>&nbsp;</td>
+                <td class="contentvalue"><input type="text" name="" value="$QData{"ContentLink"}" size="20"></td>
+              </tr>   
+              <tr>
+                <td></td>
+                <td class="contentkey">$Text{"Prio"}:</td>
+                <td>&nbsp;</td>
+                <td class="contentvalue"><input type="text" name="" value="$QData{"ContentTyp"}" size="20"></td>
+              </tr>   
+            </table>
+          </td>
+        </tr>
+        <tr><td colspan="5"><hr></td></tr>
         <!-- dtl:block:ConfigElementFrontendModuleRegContentNavBarModule -->
        </table>   
     </td>
