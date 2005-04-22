@@ -780,8 +780,16 @@ $Data{"Signature"}
         Description => 'Add a note to this ticket!',
         Link => 'Action=AgentTicketNote&TicketID=$QData{"TicketID"}',
     };
+    # show merge link
+    $Self->{'Ticket::Frontend::MenuModule'}->{'430-Merge'} = {
+        Module => 'Kernel::Output::HTML::TicketMenuGeneric',
+        Name => 'Merge',
+        Action => 'AgentTicketMerge',
+        Description => 'Merge this ticket!',
+        Link => 'Action=AgentTicketMerge&TicketID=$QData{"TicketID"}',
+    };
     # show pending link
-    $Self->{'Ticket::Frontend::MenuModule'}->{'430-Pending'} = {
+    $Self->{'Ticket::Frontend::MenuModule'}->{'440-Pending'} = {
         Module => 'Kernel::Output::HTML::TicketMenuGeneric',
         Name => 'Pending',
         Action => 'AgentTicketPending',
@@ -789,7 +797,7 @@ $Data{"Signature"}
         Link => 'Action=AgentTicketPending&TicketID=$QData{"TicketID"}',
     };
     # show close link
-    $Self->{'Ticket::Frontend::MenuModule'}->{'440-Close'} = {
+    $Self->{'Ticket::Frontend::MenuModule'}->{'450-Close'} = {
         Module => 'Kernel::Output::HTML::TicketMenuGeneric',
         Name => 'Close',
         Action => 'AgentTicketClose',
@@ -918,7 +926,10 @@ $Data{"Signature"}
         Colum => 'Mail Management',
         Label => 'New ticket notification',
         Desc => 'Send me a notification if there is a new ticket in "My Queues".',
-        Data => $Self->Get('YesNoOptions'),
+        Data => {
+            1 => 'Yes',
+            0 => 'No',
+        },
         PrefKey => 'UserSendNewTicketNotification',
         Prio => 1000,
         Activ => 1,
@@ -928,7 +939,11 @@ $Data{"Signature"}
         Colum => 'Mail Management',
         Label => 'Follow up notification',
         Desc => "Send me a notification if a customer sends a follow up and I'm the owner of this ticket.",
-        Data => $Self->Get('YesNoOptions'),
+        Data => {
+#            2 => 'Always',
+            1 => 'Yes',
+            0 => 'No',
+        },
         PrefKey => 'UserSendFollowUpNotification',
         Prio => 2000,
         Activ => 1,
@@ -938,7 +953,14 @@ $Data{"Signature"}
         Colum => 'Mail Management',
         Label => 'Ticket lock timeout notification',
         Desc => 'Send me a notification if a ticket is unlocked by the system.',
-        Data => $Self->Get('YesNoOptions'),
+        Data => {
+            1 => 'Yes',
+            0 => 'No',
+        },
+        Data => {
+            1 => 'Yes',
+            0 => 'No',
+        },
         PrefKey => 'UserSendLockTimeoutNotification',
         Prio => 3000,
         Activ => 1,
@@ -948,7 +970,10 @@ $Data{"Signature"}
         Colum => 'Mail Management',
         Label => 'Move notification',
         Desc => 'Send me a notification if a ticket is moved into one of "My Queues".',
-        Data => $Self->Get('YesNoOptions'),
+        Data => {
+            1 => 'Yes',
+            0 => 'No',
+        },
         PrefKey => 'UserSendMoveNotification',
         Prio => 4000,
         Activ => 1,
@@ -1116,7 +1141,10 @@ $Data{"Signature"}
         Colum => 'Other Options',
         Label => 'Closed Tickets',
         Desc => 'Show closed tickets.',
-        Data => $Self->Get('YesNoOptions'),
+        Data => {
+            1 => 'Yes',
+            0 => 'No',
+        },
         DataSelected => 1,
         PrefKey => 'UserShowClosedTickets',
         Prio => 2000,
@@ -1282,6 +1310,11 @@ $Data{"Signature"}
     $Self->{'Frontend::Module'}->{'AgentTicketNote'} = {
         Description => 'Ticket Note',
         Title => 'Note',
+        NavBarName => 'Ticket',
+    };
+    $Self->{'Frontend::Module'}->{'AgentTicketMerge'} = {
+        Description => 'Ticket Merge',
+        Title => 'Merge',
         NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentTicketPending'} = {

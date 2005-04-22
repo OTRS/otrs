@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.164 2005-04-13 18:28:58 martin Exp $
+# $Id: Ticket.pm,v 1.165 2005-04-22 08:43:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.164 $';
+$VERSION = '$Revision: 1.165 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -246,6 +246,18 @@ sub TicketCheckNumber {
     );
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         $Id = $Row[0];
+    }
+    # get merge main ticket if ticket is merged
+    my %Ticket = $Self->TicketGet(TicketID => $Id);
+    if ($Ticket{StateType} eq 'merged') {
+        my @Lines = $Self->HistoryGet(TicketID => $Ticket{TicketID}, UserID => 1);
+        foreach my $Data (reverse @Lines) {
+            if ($Data->{HistoryType} eq 'Merged') {
+                if ($Data->{Name} =~ /^.*\((\d+?)\)$/) {
+                    return $1;
+                }
+            }
+        } 
     }
     return $Id;
 }
@@ -3390,7 +3402,74 @@ sub TicketAccountTime {
       return;
     }
 }
-# --
+
+=item TicketMerge()
+
+merge two tickets
+
+  $TicketObject->TicketMerge(
+      MainTicketID => 412,
+      MergeTicketID => 123,
+      UserID => 123,
+  );
+
+=cut
+
+sub TicketMerge {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(MainTicketID MergeTicketID UserID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    # change ticket id of merge ticket to main ticket
+    if ($Self->{DBObject}->Do(SQL => "UPDATE article SET ticket_id = $Param{MainTicketID} WHERE ticket_id = $Param{MergeTicketID}")) {
+        # add merge article to merge ticket
+        $Self->ArticleCreate(
+            TicketID => $Param{MergeTicketID},
+            SenderType => 'agent',
+            ArticleType => 'note-internal',
+            ContentType => "text/plain; charset=ascii",
+            UserID => $Param{UserID},
+            HistoryType => 'AddNote',
+            HistoryComment => '%%Note',
+            Subject => 'Ticket Merged',
+            Body => 'Ticket Merged',
+            NoAgentNotify => 1,
+        );
+        # add merge history to merge ticket
+        $Self->HistoryAdd(
+            TicketID => $Param{MergeTicketID},
+            HistoryType => 'Merged',
+            Name => "Merged TicketID ($Param{MergeTicketID}) to ($Param{MainTicketID})",
+            CreateUserID => $Param{UserID},
+        );
+        # add merge history to main ticket
+        $Self->HistoryAdd(
+            TicketID => $Param{MainTicketID},
+            HistoryType => 'Merged',
+            Name => "Merged TicketID ($Param{MergeTicketID}) to ($Param{MainTicketID})",
+            CreateUserID => $Param{UserID},
+        );
+        # set new state of merge ticket
+        $Self->StateSet(
+            State => 'merged',
+            TicketID => $Param{MergeTicketID},
+            UserID => $Param{UserID},
+        );
+    }
+    else {
+        return;
+    }
+}
+
 sub TicketAcl {
     my $Self = shift;
     my %Param = @_;
@@ -3631,6 +3710,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.164 $ $Date: 2005-04-13 18:28:58 $
+$Revision: 1.165 $ $Date: 2005-04-22 08:43:33 $
 
 =cut
