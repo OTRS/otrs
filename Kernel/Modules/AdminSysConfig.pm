@@ -1,8 +1,8 @@
-    # --
+# --
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.pm,v 1.7 2005-04-21 15:13:29 rk Exp $
+# $Id: AdminSysConfig.pm,v 1.8 2005-04-22 12:57:27 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -105,9 +105,9 @@ sub Run {
                 my @Keys   = $Self->{ParamObject}->GetArray(Param => $_.'Key[]');
                 my @Values = $Self->{ParamObject}->GetArray(Param => $_.'Content[]');
                 my %Content;
-                foreach my $Index (0...@Keys) {
+                foreach my $Index (0...$#Keys) {
                     # Delete Hash Element?
-                    if (!$Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#DeleteHashElement'.$Index)) {
+                    if (!$Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#DeleteHashElement'.($Index+1))) {
                         $Content{$Keys[$Index]} = $Values[$Index];
                     }
                 }
@@ -121,8 +121,8 @@ sub Run {
                 my @Content = $Self->{ParamObject}->GetArray(Param => $_.'Content[]');
                 #Delete Array Element
                 foreach my $Index (0...$#Content) {
-                    if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#DeleteArrayElement'.$Index)) {
-                        splice(@Content,$Index);
+                    if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#DeleteArrayElement'.($Index+1))) {
+                        splice(@Content,$Index,1);
                     }
                 }
                 # write ConfigItem
@@ -171,9 +171,9 @@ sub Run {
                 foreach my $Index (1...$#{$ItemHash{Setting}[1]{TimeWorkingHours}[1]{Day}}) {
                     my $Weekday = $ItemHash{Setting}[1]{TimeWorkingHours}[1]{Day}[$Index]{Name};
                     my @Hours   = $Self->{ParamObject}->GetArray(Param => $_.$Weekday.'[]');
-                    $Content{$Weekday} = @Hours;
+                    $Content{$Weekday} = \@Hours;
                 }
-#                $Self->{LogObject}->Dumper(fsa => \%Content);
+                $Self->{LogObject}->Dumper(fsa => \%Content);
                 # write ConfigItem
                 if (!$Self->{SysConfigObject}->ConfigItemUpdate(Key => $_, Value => \%Content, Valid => $Aktiv)) {
                     $Self->{LayoutObject}->FatalError(Message => "Can't write ConfigItem!");
@@ -359,9 +359,14 @@ sub ListConfigItem {
                     Data => {
                         ElementKey => $ItemHash{Name},
                         Key        => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Key},
+                        Content    => '##SubHash##',
                         Index      => $Index,
                     },
                 );
+                # New SubHashElement
+                if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#HashElement'.$Index.'#NewSubElement')) {
+                    push (@{$ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Hash}[1]{Item}}, {Key => '', Content => ''});
+                }      
                 # SubHashElements
                 foreach my $Index2 (1...$#{$ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Hash}[1]{Item}}) {
                     $Self->{LayoutObject}->Block(
@@ -370,7 +375,8 @@ sub ListConfigItem {
                             ElementKey => $ItemHash{Name},
                             Key        => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Hash}[1]{Item}[$Index2]{Key},
                             Content    => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Hash}[1]{Item}[$Index2]{Content},
-                            Index      => $Index2,
+                            Index      => $Index,
+                            Index2     => $Index2,
                         },
                     );
                 }
@@ -382,9 +388,14 @@ sub ListConfigItem {
                     Data => {
                         ElementKey => $ItemHash{Name},
                         Key        => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Key},
+                        Content    => '##SubHash##',
                         Index      => $Index,
                     },
                 );
+                # New SubArrayElement
+                if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#HashElement'.$Index.'#NewSubElement')) {
+                    push (@{$ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Array}[1]{Item}}, {Content => ''});
+                }      
                 # SubArrayElements                
                 foreach my $Index2 (1...$#{$ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Array}[1]{Item}}) {
                     $Self->{LayoutObject}->Block(
@@ -392,7 +403,8 @@ sub ListConfigItem {
                         Data => {
                             ElementKey => $ItemHash{Name},
                             Content    => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Array}[1]{Item}[$Index2]{Content},
-                            Index      => $Index2,
+                            Index      => $Index,
+                            Index2     => $Index2,
                         },
                     );
                 }                
