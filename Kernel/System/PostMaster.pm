@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.49 2005-04-22 08:51:25 martin Exp $
+# $Id: PostMaster.pm,v 1.50 2005-04-22 08:52:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.49 $';
+$VERSION = '$Revision: 1.50 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -322,20 +322,21 @@ sub CheckFollowUp {
     my $Subject = $Param{Subject} || '';
     if (my $Tn = $Self->{TicketObject}->GetTNByString($Subject)) {
         my $TicketID = $Self->{TicketObject}->CheckTicketNr(Tn => $Tn);
+        my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $TicketID);
         if ($Self->{Debug} > 1) {
-            $Self->{LogObject}>Log(
+            $Self->{LogObject}->Log(
                 Priority => 'debug',
-                Message => "CheckFollowUp: Tn: $Tn found or forward!",
+                Message => "CheckFollowUp: Tn: $Ticket{TicketNumber} found or forward!",
             );
         }
         if ($TicketID) {
             if ($Self->{Debug} > 1) {
                 $Self->{LogObject}->Log(
                   Priority => 'debug',
-                  Message => "CheckFollowUp: ja, it's a follow up ($Tn/$TicketID)",
+                  Message => "CheckFollowUp: ja, it's a follow up ($Ticket{TicketNumber}/$TicketID)",
                 );
             }
-            return ($Tn, $TicketID);
+            return ($Ticket{TicketNumber}, $TicketID);
         }
     }
     # There is no valid ticket number in the subject.
