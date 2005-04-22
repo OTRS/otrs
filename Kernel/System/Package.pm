@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.pm,v 1.25 2005-04-06 05:25:02 martin Exp $
+# $Id: Package.pm,v 1.26 2005-04-22 08:49:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use LWP::UserAgent;
 use Kernel::System::XML;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1256,14 +1256,14 @@ sub _Download {
         $UserAgent->proxy(['http', 'ftp'], $Self->{ConfigObject}->Get('Package::Proxy'));
     }
     # get file
-    my $response = $UserAgent->get($Param{URL});
-    if ($response->is_success()) {
-        return $response->content();
+    my $Response = $UserAgent->get($Param{URL});
+    if ($Response->is_success()) {
+        return $Response->content();
     }
     else {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Can't get file from $Param{URL}: ".$response->status_line(),
+            Message => "Can't get file from $Param{URL}: ".$Response->status_line(),
         );
         return;
     }
@@ -1310,6 +1310,8 @@ sub _FileInstall {
     # write file
     if (open(OUT, "> $Self->{Home}/$Param{Location}")) {
         print STDERR "Notice: Install $Param{Location} ($Param{Permission})!\n";
+        # set bin mode
+        binmode OUT;
         print OUT $Param{Content};
         close(OUT);
         # set permission
@@ -1405,6 +1407,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.25 $ $Date: 2005-04-06 05:25:02 $
+$Revision: 1.26 $ $Date: 2005-04-22 08:49:48 $
 
 =cut
