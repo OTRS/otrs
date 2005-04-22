@@ -2,7 +2,7 @@
 # AgentTicketFreeText.dtl - provides HTML for AgentFreeText mask
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketFreeText.dtl,v 1.1 2005-02-17 07:01:15 martin Exp $
+# $Id: AgentTicketFreeText.dtl,v 1.2 2005-04-22 08:48:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -32,7 +32,7 @@
   <input type="hidden" name="Subaction" value="Update">
   <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
 
-  <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
+  <table border="0" width="500" align="center" cellspacing="0" cellpadding="4">
   <tr>
     <td colspan="2" class="contenthead">$Text{"Options"}</td>
   </tr>
