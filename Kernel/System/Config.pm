@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.16 2005-04-22 13:50:24 martin Exp $
+# $Id: Config.pm,v 1.17 2005-04-22 15:36:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -220,6 +220,32 @@ sub CreateConfig {
                     $Dump =~ s/\$VAR1/\$Self->{'$Name'}/;
                     print OUT $Dump;
                 }
+                if ($ConfigItem->{Setting}->[1]->{TimeVacationDays}) {
+                    my %Hash = ();
+                    my @Array = @{$ConfigItem->{Setting}->[1]->{TimeVacationDays}->[1]->{Item}};
+                    foreach my $Item (1..$#Array) {
+#                    foreach my $Item (0..$#Array) {
+                        $Hash{$Array[$Item]->{Month}}->{$Array[$Item]->{Day}} = $Array[$Item]->{Content};
+                    }
+                    # store in config
+                    require Data::Dumper;
+                    my $Dump = Data::Dumper::Dumper(\%Hash);
+                    $Dump =~ s/\$VAR1/\$Self->{'$Name'}/;
+                    print OUT $Dump;
+                }
+                if ($ConfigItem->{Setting}->[1]->{TimeVacationDaysOneTime}) {
+                    my %Hash = ();
+                    my @Array = @{$ConfigItem->{Setting}->[1]->{TimeVacationDaysOneTime}->[1]->{Item}};
+                    foreach my $Item (1..$#Array) {
+#                    foreach my $Item (0..$#Array) {
+                        $Hash{$Array[$Item]->{Year}}->{$Array[$Item]->{Month}}->{$Array[$Item]->{Day}} = $Array[$Item]->{Content};
+                    }
+                    # store in config
+                    require Data::Dumper;
+                    my $Dump = Data::Dumper::Dumper(\%Hash);
+                    $Dump =~ s/\$VAR1/\$Self->{'$Name'}/;
+                    print OUT $Dump;
+                }
                 print OUT "    \$Self->{'Valid'}->{'$Name'} = '$ConfigItem->{Valid}';\n";
             }
         }
@@ -373,6 +399,43 @@ sub ConfigItemGet {
                                 Hour => \@Array,
                             },
                         );
+                    }
+#$Self->{LogObject}->Dumper($ConfigItem);
+                }
+            }
+            if ($ConfigItem->{Setting}->[1]->{TimeVacationDays}) {
+                if (defined($Self->{ConfigObject}->Get($ConfigItem->{Name}))) {
+                    @{$ConfigItem->{Setting}->[1]->{TimeVacationDays}->[1]->{Item}} = (undef);
+                    my %Hash = %{$Self->{ConfigObject}->Get($ConfigItem->{Name})};
+                    foreach my $Month (sort keys %Hash) {
+                        foreach my $Day (%{$Hash{$Month}}) {
+                            push (@{$ConfigItem->{Setting}->[1]->{TimeVacationDays}->[1]->{Item}}, {
+                                    Month => $Month,
+                                    Day => $Day,
+                                    Content => $Hash{$Month}->{$Day},
+                                },
+                            );
+                        }
+                    }
+#$Self->{LogObject}->Dumper($ConfigItem);
+                }
+            }
+            if ($ConfigItem->{Setting}->[1]->{TimeVacationDaysOneTime}) {
+                if (defined($Self->{ConfigObject}->Get($ConfigItem->{Name}))) {
+                    @{$ConfigItem->{Setting}->[1]->{TimeVacationDaysOneTime}->[1]->{Item}} = (undef);
+                    my %Hash = %{$Self->{ConfigObject}->Get($ConfigItem->{Name})};
+                    foreach my $Year (sort keys %Hash) {
+                        foreach my $Month (%{$Hash{$Year}}) {
+                            foreach my $Day (%{$Hash{$Year}->{$Month}}) {
+                                push (@{$ConfigItem->{Setting}->[1]->{TimeVacationDaysOneTime}->[1]->{Item}}, {
+                                        Year => $Year,
+                                        Month => $Month,
+                                        Day => $Day,
+                                        Content => $Hash{$Year}->{$Month}->{$Day},
+                                    },
+                                );
+                            }
+                        }
                     }
 #$Self->{LogObject}->Dumper($ConfigItem);
                 }
@@ -535,6 +598,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2005-04-22 13:50:24 $
+$Revision: 1.17 $ $Date: 2005-04-22 15:36:55 $
 
 =cut
