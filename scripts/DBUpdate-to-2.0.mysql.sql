@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 1.3 to 2.0
 -- Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-2.0.mysql.sql,v 1.18 2005-03-03 12:05:26 martin Exp $
+-- $Id: DBUpdate-to-2.0.mysql.sql,v 1.19 2005-04-22 08:00:38 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.0.mysql.sql | mysql -f -u root otrs
@@ -203,6 +203,24 @@ INSERT INTO ticket_history_type
         (name, valid_id, create_by, create_time, change_by, change_time)
         VALUES
         ('SystemRequest', 1, 1, current_timestamp, 1, current_timestamp);
+--
+-- ticket history type for new merged tickets
+--
+INSERT INTO ticket_history_type
+        (name, valid_id, create_by, create_time, change_by, change_time)
+        VALUES
+        ('Merged', 1, 1, current_timestamp, 1, current_timestamp);
+--
+-- ticket state type and state for merged tickets
+--
+INSERT INTO ticket_state_type
+        (name, comments, create_by, create_time, change_by, change_time)
+        VALUES
+        ('merged', 'state type for merged tickets (default: not viewable)', 1, current_timestamp, 1, current_timestamp);
+INSERT INTO ticket_state 
+        (name, comments, type_id, valid_id, create_by, create_time, change_by, change_time)
+        VALUES 
+        ('merged', 'state for merged tickets', 7, 1, 1, current_timestamp, 1, current_timestamp);
 
 --
 -- remove all old notifications

@@ -2,9 +2,12 @@
 -- initial_insert.sql - provides initial system data
 -- Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: initial_insert.sql,v 1.37 2005-02-23 12:15:50 martin Exp $
+-- $Id: initial_insert.sql,v 1.38 2005-04-22 08:00:38 martin Exp $
 --
 -- $Log: not supported by cvs2svn $
+-- Revision 1.37  2005/02/23 12:15:50  martin
+-- added ticket_history_type SystemRequest for system creaetd tickets
+--
 -- Revision 1.36  2004/11/27 01:51:21  martin
 -- changed default lines of shown message
 --
@@ -333,6 +336,8 @@ INSERT INTO ticket_state (name, comments, type_id, valid_id, create_by, create_t
     VALUES ('pending auto close+', 'ticket is pending for automatic close', 5, 1, 1, current_timestamp, 1, current_timestamp);
 INSERT INTO ticket_state (name, comments, type_id, valid_id, create_by, create_time, change_by, change_time)
     VALUES ('pending auto close-', 'ticket is pending for automatic close', 5, 1, 1, current_timestamp, 1, current_timestamp);
+INSERT INTO ticket_state (name, comments, type_id, valid_id, create_by, create_time, change_by, change_time)
+    VALUES ('merged', 'state for merged tickets', 7, 1, 1, current_timestamp, 1, current_timestamp);
 -- ticket_state_type
 INSERT INTO ticket_state_type (name, comments, create_by, create_time, change_by, change_time)
     VALUES
@@ -352,6 +357,10 @@ INSERT INTO ticket_state_type (name, comments, create_by, create_time, change_by
 INSERT INTO ticket_state_type (name, comments, create_by, create_time, change_by, change_time)
     VALUES
     ('removed', 'all "removed" state types (default: not viewable)', 1, current_timestamp, 1, current_timestamp);
+INSERT INTO ticket_state_type (name, comments, create_by, create_time, change_by, change_time)
+    VALUES
+    ('merged', 'state type for merged tickets (default: not viewable)', 1, current_timestamp, 1, current_timestamp);
+
 -- salutation
 INSERT INTO salutation
     (name, text, comments, valid_id, create_by, create_time, change_by, change_time)
@@ -539,7 +548,10 @@ INSERT INTO ticket_history_type
         (name, valid_id, create_by, create_time, change_by, change_time)
         VALUES
         ('SystemRequest', 1, 1, current_timestamp, 1, current_timestamp);
-
+INSERT INTO ticket_history_type
+        (name, valid_id, create_by, create_time, change_by, change_time)
+        VALUES
+        ('Merged', 1, 1, current_timestamp, 1, current_timestamp);
 -- article_type
 INSERT INTO article_type
         (name, valid_id, create_by, create_time, change_by, change_time)
