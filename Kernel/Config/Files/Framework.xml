@@ -93,7 +93,7 @@ TimeWorkingHours
 -->
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.10 2005-04-21 17:31:44 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.11 2005-04-22 15:17:30 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">Enable this so you can't use the installer.pl</Description>
         <Description Lang="de">???</Description>
@@ -521,17 +521,17 @@ Your OTRS Notification Master
             <String Regex=""></String>
         </Setting>
         <!-- $Self->{LogoutURL} = ''; -->
-    </ConfigItem>   
+    </ConfigItem>
     <ConfigItem Name="PreApplicationModule" Required="0" Valid="0">
         <Description Lang="en">This interface use useful to check some user options or to redirect not accept new application news</Description>
         <Description Lang="de">???</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
             <String Regex="">Kernel::Modules::AgentInfo</String>
         </Setting>
         <!-- $Self->{PreApplicationModule} = 'Kernel::Modules::AgentInfo'; -->
-    </ConfigItem>   
+    </ConfigItem>
     <ConfigItem Name="InfoKey" Required="0" Valid="0">
         <Description Lang="en">Kernel::Modules::AgentInfo check key, if this user preferences key is true, then the message is already accepted</Description>
         <Description Lang="de">???</Description>
@@ -541,7 +541,7 @@ Your OTRS Notification Master
             <String Regex="">wpt22</String>
         </Setting>
         <!-- $Self->{InfoKey} = 'wpt22'; -->
-    </ConfigItem>   
+    </ConfigItem>
     <ConfigItem Name="InfoFile" Required="0" Valid="0">
         <Description Lang="en">shown InfoFile located under Kernel/Output/HTML/Standard/AgentInfo.dtl</Description>
         <Description Lang="de">???</Description>
@@ -661,21 +661,11 @@ Your OTRS Notification Master
         <Setting>
             <Option SelectedID="1">
                 <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>               
+                <Item Key="1">Yes</Item>
             </Option>
         </Setting>
         <!-- $Self->{SessionDeleteIfNotRemoteID} = 1; -->
-    </ConfigItem>   
-    <ConfigItem Name="PreApplicationModule" Required="1" Valid="1">
-        <Description Lang="en">This interface use useful to check some user options or to redirect not accept new application news</Description>
-        <Description Lang="de">???</Description>
-        <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
-        <Setting>
-            <String Regex="">Kernel::Modules::AgentInfo</String>
-        </Setting>
-        <!-- $Self->{PreApplicationModule} = 'Kernel::Modules::AgentInfo'; -->
-    </ConfigItem>   
+    </ConfigItem>
     <ConfigItem Name="SessionMaxTime" Required="1" Valid="1">
         <Description Lang="en">Max valid time of one session id in second</Description>
         <Description Lang="de">Gültigkeitsdauer einer Session in Sekunden</Description>
@@ -685,7 +675,7 @@ Your OTRS Notification Master
             <String Regex="">32400</String>
         </Setting>
         <!-- $Self->{SessionMaxTime} = 9*60*60; -->
-    </ConfigItem>   
+    </ConfigItem>
     <ConfigItem Name="SessionMaxIdleTime" Required="1" Valid="1">
         <Description Lang="en">After this time (in seconds) without new http request, then the user get logged off</Description>
         <Description Lang="de">???</Description>
