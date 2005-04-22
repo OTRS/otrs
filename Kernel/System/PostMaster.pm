@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.48 2004-11-26 10:57:36 martin Exp $
+# $Id: PostMaster.pm,v 1.49 2005-04-22 08:51:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.48 $';
+$VERSION = '$Revision: 1.49 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -181,7 +181,8 @@ sub Run {
         # create a new ticket
         if ($FollowUpPossible =~ /new ticket/i && $State{TypeName} =~ /^close/i) {
             $Self->{LogObject}->Log(
-              Message => "Follow up for [$Tn] but follow up not possible ($Ticket{State}).".
+                Priority => 'notice',
+                Message => "Follow up for [$Tn] but follow up not possible ($Ticket{State}).".
                 " Create new ticket."
             );
             # send mail && create new article
@@ -209,6 +210,7 @@ sub Run {
         # reject follow up
         elsif ($FollowUpPossible =~ /reject/i && $State{TypeName} =~ /^close/i) {
             $Self->{LogObject}->Log(
+                Priority => 'notice',
                 Message=>"Follow up for [$Tn] but follow up not possible. Follow up rejected."
             );
             # send reject mail && and add article to ticket
@@ -321,7 +323,7 @@ sub CheckFollowUp {
     if (my $Tn = $Self->{TicketObject}->GetTNByString($Subject)) {
         my $TicketID = $Self->{TicketObject}->CheckTicketNr(Tn => $Tn);
         if ($Self->{Debug} > 1) {
-            $Self->{LogObject}->Log(
+            $Self->{LogObject}>Log(
                 Priority => 'debug',
                 Message => "CheckFollowUp: Tn: $Tn found or forward!",
             );
