@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.17 2005-03-27 11:38:46 martin Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.18 2005-04-22 07:48:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -95,7 +95,7 @@ $Data{"Article::Text"}
 <hr>
 
 <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
-<input type="hidden" name="Action" value="CustomerMessage">
+<input type="hidden" name="Action" value="CustomerTicketMessage">
 <input type="hidden" name="Subaction" value="Store">
 <input type="hidden" name="TicketID" value="$QData{"TicketID"}">
 <input type="hidden" name="NextScreen" value="$QData{"NextScreen"}">
