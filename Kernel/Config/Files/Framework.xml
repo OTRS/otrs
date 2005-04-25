@@ -93,7 +93,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.13 2005-04-25 07:37:24 tr Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.14 2005-04-25 10:58:41 tr Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">Enable this so you can't use the installer.pl</Description>
         <Description Lang="de">???</Description>
@@ -376,7 +376,7 @@ Your OTRS Notification Master
         <Description Lang="en">param for LogModule Kernel::System::Log::SysLog</Description>
         <Description Lang="de">Parameter für LogModule Kernel::System::Log::SysLog</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Log</SubGroup>
         <Setting>
             <String Regex="">Log</String>
         </Setting>
@@ -425,15 +425,16 @@ Your OTRS Notification Master
         <Group>Framework</Group>
         <SubGroup>Log</SubGroup>
         <Setting>
-            <String Regex="">4*1024</String>
+            <String Regex="">4096</String>
         </Setting>
         <!--  $Self->{'LogSystemCacheSize'} = 4*1024; -->
+        <!-- Angabe der Größeneinheit? byte? kbyte? -->
     </ConfigItem>   
     <ConfigItem Name="SendmailModule" Required="0" Valid="0">
         <Description Lang="en">Modul to send a E-Mail</Description>
         <Description Lang="de">Modul zum versenden einer E-Mail</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
             <Option SelectedID="Kernel::System::Email::Sendmail">
                 <Item Key="Kernel::System::Email::Sendmail">Kernel::System::Email::Sendmail</Item>
@@ -446,7 +447,7 @@ Your OTRS Notification Master
         <Description Lang="en">???</Description>
         <Description Lang="de">???</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
             <String Regex="">/usr/sbin/sendmail -i -f</String>
         </Setting>
@@ -456,7 +457,7 @@ Your OTRS Notification Master
         <Description Lang="en">Sendmail Host</Description>
         <Description Lang="de">Sendmail Host</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
             <String Regex="">mail.example.com</String>
         </Setting>
@@ -466,7 +467,7 @@ Your OTRS Notification Master
         <Description Lang="en">Sendmail Port</Description>
         <Description Lang="de">Sendmail Port</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
             <String Regex="">25</String>
         </Setting>
@@ -476,7 +477,7 @@ Your OTRS Notification Master
         <Description Lang="en">Sendmail User</Description>
         <Description Lang="de">Sendmail User</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
             <String Regex=""></String>
         </Setting>
@@ -486,7 +487,7 @@ Your OTRS Notification Master
         <Description Lang="en">Sendmail Password</Description>
         <Description Lang="de">Sendmail Passwort</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
             <String Regex=""></String>
         </Setting>
@@ -496,7 +497,7 @@ Your OTRS Notification Master
         <Description Lang="en">Send all outgoing email via bcc to...</Description>
         <Description Lang="de">???</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
             <String Regex=""></String>
         </Setting>
@@ -526,7 +527,7 @@ Your OTRS Notification Master
         <Description Lang="en">This interface use useful to check some user options or to redirect not accept new application news</Description>
         <Description Lang="de">???</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <String Regex="">Kernel::Modules::AgentInfo</String>
         </Setting>
@@ -682,7 +683,7 @@ Your OTRS Notification Master
         <Group>Framework</Group>
         <SubGroup>Session</SubGroup>
         <Setting>
-            <String Regex="">9*60*60</String>
+            <String Regex="">32400</String>
         </Setting>
         <!-- $Self->{SessionMaxTime} = 9*60*60; -->
     </ConfigItem>   
@@ -692,7 +693,7 @@ Your OTRS Notification Master
         <Group>Framework</Group>
         <SubGroup>Session</SubGroup>
         <Setting>
-            <String Regex="">5*60*60</String>
+            <String Regex="">18000</String>
         </Setting>
         <!-- $Self->{SessionMaxIdleTime} = 5*60*60; -->
     </ConfigItem>   
@@ -911,6 +912,7 @@ Your OTRS Notification Master
             <String Regex="">1024 * 1024 * 5</String>
         </Setting>
         <!-- $Self->{WebMaxFileUpload} = 1024 * 1024 * 5; -->
+        <!-- Größeneinheiten hinzufügen!!! -->
     </ConfigItem>
     <ConfigItem Name="WebUploadCacheModule" Required="1" Valid="1">
         <Description Lang="en">Select you WebUploadCacheModule module</Description>
@@ -1158,9 +1160,9 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="HOME" Required="0" Valid="0">
         <Description Lang="en">S/MIME settings</Description>
-        <Description Lang="de">S/MIME settings</Description>
+        <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Core</SubGroup>
         <Setting>
             <String Regex="">/var/lib/wwwrun</String>
         </Setting>
@@ -1571,7 +1573,7 @@ Your OTRS Notification Master
         <Description Lang="en">show online agents</Description>
         <Description Lang="de">???</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>FrontendModuleNotify</SubGroup>
             <Setting>
                 <Hash>
                     <Item Key="Module">Kernel::Output::HTML::NotificationAgentOnline</Item>
@@ -1703,7 +1705,7 @@ Your OTRS Notification Master
         <Description Lang="en">notification email about new account</Description>
         <Description Lang="de">???</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
             <String Regex="">New OTRS Account!</String>
         </Setting>
@@ -1713,7 +1715,7 @@ Your OTRS Notification Master
         <Description Lang="en">nnotification email about new account</Description>
         <Description Lang="de">???</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
             <TextArea>
                Hi &lt;OTRS_USERFIRSTNAME&gt;,
@@ -1832,7 +1834,7 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
             <String>ldap.example.com</String>
         </Setting>
@@ -1842,7 +1844,7 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
             <String>dc=example,dc=com</String>
         </Setting>
@@ -1852,7 +1854,7 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
             <String>uid</String>
         </Setting>
@@ -1862,7 +1864,7 @@ Your OTRS Notification Master
         <Description Lang="en">Check if the user is allowed to auth in a posixGroup,  e. g. user needs to be in a group xyz to use otrs</Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
             <String>cn=otrsallow,ou=posixGroups,dc=example,dc=com</String>
         </Setting>
@@ -1872,37 +1874,27 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
             <String>memberUid</String>
         </Setting>
         <!-- # $Self->{'Customer::AuthModule::LDAP::AccessAttr'} = 'memberUid'; -->
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::LDAP::UserAttr" Required="0" Valid="0">
-        <Description Lang="en">For ldap posixGroups objectclass (just uid)</Description>
+        <Description Lang="en">For ldap posixGroups objectclass (just uid). For non ldap posixGroups objectclass (full user dn)[DN | UID]</Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
             <String>UID</String>
         </Setting>
         <!-- # $Self->{'Customer::AuthModule::LDAP::UserAttr'} = 'UID'; -->
     </ConfigItem>
-    <ConfigItem Name="Customer::AuthModule::LDAP::UserAttr" Required="0" Valid="0">
-        <Description Lang="en">For non ldap posixGroups objectclass (full user dn)</Description>
-        <Description Lang="de"></Description>
-        <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
-        <Setting>
-            <String>DN</String>
-        </Setting>
-        <!-- # $Self->{'Customer::AuthModule::LDAP::UserAttr'} = 'DN'; -->
-    </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::LDAP::SearchUserDN" Required="0" Valid="0">
-        <Description Lang="en">Thi is valid but would only be necessary if the     # anonymous user do NOT have permission to read from the LDAP tree</Description>
+        <Description Lang="en">This is valid but would only be necessary if the     # anonymous user do NOT have permission to read from the LDAP tree</Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
             <String></String>
         </Setting>
@@ -1912,7 +1904,7 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
             <String></String>
         </Setting>
@@ -2054,7 +2046,7 @@ Your OTRS Notification Master
         <Description Lang="en">CustomerPreferencesView: Ordered of shown items</Description>
         <Description Lang="de">Ansicht der Kundeneinstellungen: Geordnet oder angezeigt</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>CustomerPreferences</SubGroup>
         <Setting>
             <Array>
                 <Item>Frontend</Item>
@@ -2067,7 +2059,7 @@ Your OTRS Notification Master
         <Description Lang="en">All groups for the password in the customer preferences</Description>
         <Description Lang="de">Alle Gruppen für das Passwort in den Kundeneinstellungen</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>CustomerPreferences</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::PreferencesPassword</Item>
@@ -2103,7 +2095,7 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>CustomerPreferences</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::PreferencesLanguage</Item>
@@ -2133,7 +2125,7 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>CustomerPreferences</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::PreferencesTheme</Item>
@@ -2161,7 +2153,7 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>CustomerPreferences</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::PreferencesPGP</Item>
@@ -2189,7 +2181,7 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>CustomerPreferences</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::PreferencesSMIME</Item>
@@ -2217,7 +2209,7 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
             <Hash>
             </Hash>
@@ -2233,7 +2225,7 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
             <Hash>
             </Hash>
@@ -2249,7 +2241,7 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>PublicFrontend</SubGroup>
         <Setting>
             <Hash>
             </Hash>
@@ -2265,7 +2257,7 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>PublicFrontend</SubGroup>
         <Setting>
             <Hash>
             </Hash>
@@ -2281,8 +2273,7 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Agent</SubGroup>
-        <SubGroup>FrontendModulRegistration</SubGroup>
+        <SubGroup>AgendFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Description>Logout</Description>
@@ -2318,8 +2309,7 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Agent</SubGroup>
-        <SubGroup>FrontendModulRegistration</SubGroup>
+        <SubGroup>AgendFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Description>Agent Preferences</Description>
@@ -2353,8 +2343,7 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Agent</SubGroup>
-        <SubGroup>FrontendModulRegistration</SubGroup>
+        <SubGroup>AgendFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Description>Spell checker</Description>
@@ -2372,8 +2361,7 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Agent</SubGroup>
-        <SubGroup>FrontendModulRegistration</SubGroup>
+        <SubGroup>AgendFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Description>Address book of CustomerUser sources</Description>
@@ -2391,8 +2379,7 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Agent</SubGroup>
-        <SubGroup>FrontendModulRegistration</SubGroup>
+        <SubGroup>AgendFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Description>Link Object</Description>
@@ -2410,8 +2397,7 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Agent</SubGroup>
-        <SubGroup>FrontendModulRegistration</SubGroup>
+        <SubGroup>AgendFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Description>Generic Info module</Description>
@@ -2429,8 +2415,7 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Agent</SubGroup>
-        <SubGroup>FrontendModulRegistration</SubGroup>
+        <SubGroup>AgendFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <GroupRo>['stats','admin']</GroupRo>
@@ -2470,8 +2455,7 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Agent</SubGroup>
-        <SubGroup>FrontendModulRegistration</SubGroup>
+        <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
@@ -2521,8 +2505,7 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Agent</SubGroup>
-        <SubGroup>FrontendModulRegistration</SubGroup>
+        <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
@@ -2556,8 +2539,7 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Agent</SubGroup>
-        <SubGroup>FrontendModulRegistration</SubGroup>
+        <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
@@ -2591,8 +2573,7 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Agent</SubGroup>
-        <SubGroup>FrontendModulRegistration</SubGroup>
+        <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
@@ -2626,8 +2607,7 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Agent</SubGroup>
-        <SubGroup>FrontendModulRegistration</SubGroup>
+        <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <GroupRo></GroupRo>
@@ -2682,8 +2662,7 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Agent</SubGroup>
-        <SubGroup>FrontendModulRegistration</SubGroup>
+        <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
@@ -2717,8 +2696,7 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Agent</SubGroup>
-        <SubGroup>FrontendModulRegistration</SubGroup>
+        <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
@@ -2752,8 +2730,7 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Agent</SubGroup>
-        <SubGroup>FrontendModulRegistration</SubGroup>
+        <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
@@ -2787,8 +2764,7 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Agent</SubGroup>
-        <SubGroup>FrontendModulRegistration</SubGroup>
+        <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
@@ -2822,8 +2798,7 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Agent</SubGroup>
-        <SubGroup>FrontendModulRegistration</SubGroup>
+        <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
@@ -2857,8 +2832,7 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Agent</SubGroup>
-        <SubGroup>FrontendModulRegistration</SubGroup>
+        <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
@@ -2892,8 +2866,7 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Agent</SubGroup>
-        <SubGroup>FrontendModulRegistration</SubGroup>
+        <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
@@ -2927,8 +2900,7 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Agent</SubGroup>
-        <SubGroup>FrontendModulRegistration</SubGroup>
+        <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
@@ -2962,8 +2934,7 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Agent</SubGroup>
-        <SubGroup>FrontendModulRegistration</SubGroup>
+        <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
@@ -2997,8 +2968,41 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Agent</SubGroup>
-        <SubGroup>FrontendModulRegistration</SubGroup>
+        <SubGroup>AdminFrontendModulRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title>Session Management</Title>
+                <NavBarName>Admin</NavBarName>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Name>Session Management</Name>
+                    <Block>Block4</Block>
+                    <Prio>500</Prio>
+                </NavBarModule>
+            </FrontendModuleReg>
+        </Setting>
+        <!--
+            $Self->{'Frontend::Module'}->{'AdminSession'} = {
+                Group => ['admin'],
+                Description => 'Admin',
+                Title => 'Session Management',
+                NavBarName => 'Admin',
+                NavBarModule => {
+                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+                    Name => 'Session Management',
+                    Block => 'Block4',
+                    Prio => 500,
+                },
+            };    
+        -->
+     </ConfigItem>    
+     <ConfigItem Name="Frontend::Module###AdminLog" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
@@ -3032,8 +3036,7 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Agent</SubGroup>
-        <SubGroup>FrontendModulRegistration</SubGroup>
+        <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
@@ -3067,8 +3070,7 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Agent</SubGroup>
-        <SubGroup>FrontendModulRegistration</SubGroup>
+        <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Group>'admin']</Group>
@@ -3102,7 +3104,6 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Agent</SubGroup>
         <SubGroup>FrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -3137,7 +3138,6 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Agent</SubGroup>
         <SubGroup>FrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -3172,7 +3172,6 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Agent</SubGroup>
         <SubGroup>FrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>

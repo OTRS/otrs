@@ -130,7 +130,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.11 2005-04-25 07:37:10 tr Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.12 2005-04-25 11:00:18 tr Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">To set the Ticket identifier (e. g. Ticket#: 123456789). Some people want to set this to 'Call#', 'MyTicket#' or 'Ticket#'.</Description>
         <Description Lang="de">Hiermit kann der Ticket-Identifikator gesetzt werden (z. B. Ticket#: 123456789). Manche Kunden setzen definieren 'Call#', 'MyTicket#' oder 'Ticket#'. Als Standardeinstellung wird 'Ticket#' geliefert.</Description>
@@ -933,7 +933,7 @@ schneller, der WebserverUser muﬂ dann aber der OTRS-Benutzer sein
         <Group>Ticket</Group>
         <SubGroup>AgentFrontend</SubGroup>
         <Setting>
-            <String Regex="">24*60*60</String>
+            <String Regex="">86400</String>
         </Setting>
         <!--  $Self->{'Ticket::Frontend::PendingDiffTime'} = 24*60*60;   -->
     </ConfigItem>      
@@ -3955,8 +3955,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
     <ConfigItem Name="Frontend::Module###AgentTicketQueue" Required="1" Valid="1">
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
-        <Group>Advisory</Group>
-        <SubGroup>Agent</SubGroup>
+        <Group>Ticket</Group>
         <SubGroup>FrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -4014,8 +4013,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
     <ConfigItem Name="Frontend::Module###AgentTicketPhone" Required="1" Valid="1">
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
-        <Group>Advisory</Group>
-        <SubGroup>Agent</SubGroup>
+        <Group>Ticket</Group>
         <SubGroup>FrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -4053,8 +4051,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
     <ConfigItem Name="Frontend::Module###AgentTicketEmail" Required="1" Valid="1">
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
-        <Group>Advisory</Group>
-        <SubGroup>Agent</SubGroup>
+        <Group>Ticket</Group>
         <SubGroup>FrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -4093,8 +4090,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
     <ConfigItem Name="Frontend::Module###AgentTicketSearch" Required="1" Valid="1">
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
-        <Group>Advisory</Group>
-        <SubGroup>Agent</SubGroup>
+        <Group>Ticket</Group>
         <SubGroup>FrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -4133,7 +4129,6 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Agent</SubGroup>
         <SubGroup>Unknown</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -4154,7 +4149,6 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Agent</SubGroup>
         <SubGroup>Unknown</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -4175,7 +4169,6 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Agent</SubGroup>
         <SubGroup>Unknown</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -4194,7 +4187,6 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Agent</SubGroup>
         <SubGroup>Unknown</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -4215,7 +4207,6 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Agent</SubGroup>
         <SubGroup>Unknown</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -4232,7 +4223,6 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Agent</SubGroup>
         <SubGroup>Unknown</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -4253,7 +4243,6 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Agent</SubGroup>
         <SubGroup>Unknown</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -4274,7 +4263,6 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Agent</SubGroup>
         <SubGroup>Unknown</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -4295,7 +4283,6 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Agent</SubGroup>
         <SubGroup>Unknown</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -4316,7 +4303,6 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Agent</SubGroup>
         <SubGroup>Unknown</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -4335,7 +4321,6 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Agent</SubGroup>
         <SubGroup>Unknown</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -4356,7 +4341,6 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Agent</SubGroup>
         <SubGroup>Unknown</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -4377,7 +4361,6 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Agent</SubGroup>
         <SubGroup>Unknown</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -4398,7 +4381,6 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Agent</SubGroup>
         <SubGroup>Unknown</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -4419,7 +4401,6 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Agent</SubGroup>
         <SubGroup>Unknown</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -4440,7 +4421,6 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Agent</SubGroup>
         <SubGroup>Unknown</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -4461,7 +4441,6 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Agent</SubGroup>
         <SubGroup>Unknown</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -4482,7 +4461,6 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Agent</SubGroup>
         <SubGroup>Unknown</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -4503,7 +4481,6 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Agent</SubGroup>
         <SubGroup>Unknown</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -4524,7 +4501,6 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Agent</SubGroup>
         <SubGroup>Unknown</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -4545,7 +4521,6 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Agent</SubGroup>
         <SubGroup>Unknown</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -4566,7 +4541,6 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Agent</SubGroup>
         <SubGroup>Unknown</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -4587,7 +4561,6 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Agent</SubGroup>
         <SubGroup>Unknown</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -4621,9 +4594,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
     <ConfigItem Name="Frontend::Module###AdminResponse" Required="1" Valid="1">
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
-        <Group>Ticket</Group>Group>
-        <SubGroup>Agent</SubGroup>SubGroup>
-        <SubGroup>Unknown</SubGroup>SubGroup>
+        <Group>Ticket</Group>
+        <SubGroup>Unknown</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Group>['admin']</Group>
@@ -4657,7 +4629,6 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Agent</SubGroup>
         <SubGroup>Unknown</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -4692,7 +4663,6 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Agent</SubGroup>
         <SubGroup>Unknown</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -4727,7 +4697,6 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Agent</SubGroup>
         <SubGroup>Unknown</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -4762,7 +4731,6 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Agent</SubGroup>
         <SubGroup>Unknown</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -4797,7 +4765,6 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Agent</SubGroup>
         <SubGroup>Unknown</SubGroup>
         <Setting>
             <FrontendModuleReq>
@@ -4867,7 +4834,6 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Agent</SubGroup>
         <SubGroup>Unknown</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -4902,7 +4868,6 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Agent</SubGroup>
         <SubGroup>Unknown</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -4937,7 +4902,6 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Agent</SubGroup>
         <SubGroup>Unknown</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -4972,7 +4936,6 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Agent</SubGroup>
         <SubGroup>Unknown</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -5007,7 +4970,6 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Agent</SubGroup>
         <SubGroup>Unknown</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -5041,8 +5003,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
     <ConfigItem Name="CustomerFrontend::Module###CustomerTicketOverView" Required="1" Valid="1">
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
-        <Group>Advisory</Group>
-        <SubGroup>Agent</SubGroup>
+        <Group>Ticket</Group>
         <SubGroup>FrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -5092,8 +5053,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
     <ConfigItem Name="CustomerFrontend::Module###CustomerTicketMessage" Required="1" Valid="1">
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
-        <Group>Advisory</Group>
-        <SubGroup>Agent</SubGroup>
+        <Group>Ticket</Group>
         <SubGroup>FrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -5130,7 +5090,6 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Agent</SubGroup>
         <SubGroup>Unknown</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -5151,7 +5110,6 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Agent</SubGroup>
         <SubGroup>Unknown</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -5168,7 +5126,6 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Agent</SubGroup>
         <SubGroup>Unknown</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -5184,8 +5141,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
     <ConfigItem Name="CustomerFrontend::ModuleCustomerTicketSearch" Required="1" Valid="1">
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
-        <Group>Advisory</Group>
-        <SubGroup>Agent</SubGroup>
+        <Group>Ticket</Group>
         <SubGroup>FrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
@@ -5244,7 +5200,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Group>Ticket</Group>
         <SubGroup>Unknown</SubGroup>
         <Setting>
-            <String>1024 * 6</String>
+            <String>6144</String>
         </Setting>
         <!-- $Self->{PostMasterPOP3MaxEmailSize} = 1024 * 6; -->
     </ConfigItem>C
@@ -5660,7 +5616,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Group>Ticket</Group>
         <SubGroup>Unknown</SubGroup>
         <Setting>
-            <String Regex="(MAILER-DAEMON|postmaster|abuse)@.+?\..+?"></String>
+            <String Regex="">(MAILER-DAEMON|postmaster|abuse)@.+?\..+?</String>
         </Setting>
         <!-- $Self->{SendNoAutoResponseRegExp} = '(MAILER-DAEMON|postmaster|abuse)@.+?\..+?'; -->
     </ConfigItem>
