@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.pm,v 1.9 2005-04-22 14:27:15 rk Exp $
+# $Id: AdminSysConfig.pm,v 1.10 2005-04-25 12:35:56 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -106,8 +106,26 @@ sub Run {
                 my @Values = $Self->{ParamObject}->GetArray(Param => $_.'Content[]');
                 my %Content;
                 foreach my $Index (0...$#Keys) {
+                    # SubHash
+                    if ($Values[$Index] eq '##SubHash##') {
+                        my @SubHashKeys   = $Self->{ParamObject}->GetArray(Param => $_.'##SubHash##'.$Keys[$Index].'Key[]');
+                        my @SubHashValues = $Self->{ParamObject}->GetArray(Param => $_.'##SubHash##'.$Keys[$Index].'Content[]');
+                        my %SubHash;
+                        foreach my $Index2 (0...$#SubHashKeys) {
+                            # Delete SubHash Element?
+                            if (!$Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'##SubHash##'.$Keys[$Index].'#DeleteHashElement'.($Index+1))) {
+                                $SubHash{$SubHashKeys[$Index2]} = $SubHashValues[$Index2];
+                            }
+                        }
+                        $Content{$Keys[$Index]} = \%SubHash;
+                    }
+                    # SubArray
+                    elsif ($Values[$Index] eq '##SubArray##') {
+                        my @SubArray = $Self->{ParamObject}->GetArray(Param => $_.'##SubArray##'.$Keys[$Index].'Content[]');
+                        $Content{$Keys[$Index]} = \@SubArray;
+                    }
                     # Delete Hash Element?
-                    if (!$Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#DeleteHashElement'.($Index+1))) {
+                    elsif (!$Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'##SubArray##'.$Keys[$Index].'#DeleteHashElement'.($Index+1))) {
                         $Content{$Keys[$Index]} = $Values[$Index];
                     }
                 }
@@ -308,7 +326,7 @@ sub ListConfigItem {
         );
     }
     # ConfigElement TextArea
-    if (defined ($ItemHash{Setting}[1]{TextArea})) {
+    elsif (defined ($ItemHash{Setting}[1]{TextArea})) {    
         $Self->{LayoutObject}->Block(
             Name => 'ConfigElementTextArea',
             Data => {
@@ -371,7 +389,7 @@ sub ListConfigItem {
                     $Self->{LayoutObject}->Block(
                         Name => 'ConfigElementSubHashContent',
                         Data => {
-                            ElementKey => $ItemHash{Name},
+                            ElementKey => $ItemHash{Name}.'##SubHash##'.$ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Key},
                             Key        => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Hash}[1]{Item}[$Index2]{Key},
                             Content    => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Hash}[1]{Item}[$Index2]{Content},
                             Index      => $Index,
@@ -387,7 +405,7 @@ sub ListConfigItem {
                     Data => {
                         ElementKey => $ItemHash{Name},
                         Key        => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Key},
-                        Content    => '##SubHash##',
+                        Content    => '##SubArray##',
                         Index      => $Index,
                     },
                 );
@@ -400,7 +418,7 @@ sub ListConfigItem {
                     $Self->{LayoutObject}->Block(
                         Name => 'ConfigElementSubArrayContent',
                         Data => {
-                            ElementKey => $ItemHash{Name},
+                            ElementKey => $ItemHash{Name}.'##SubArray##'.$ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Key},
                             Content    => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Array}[1]{Item}[$Index2]{Content},
                             Index      => $Index,
                             Index2     => $Index2,
@@ -469,7 +487,7 @@ sub ListConfigItem {
         }               
     }
     # ConfigElement FrontendModuleReg
-    if (defined ($ItemHash{Setting}[1]{FrontendModuleReg})) {
+    elsif (defined ($ItemHash{Setting}[1]{FrontendModuleReg})) {
         $Self->{LayoutObject}->Block(
             Name => 'ConfigElementFrontendModuleReg',
             Data => {
@@ -481,7 +499,7 @@ sub ListConfigItem {
         
         # NavBar
         foreach my $Index (1...$#{$ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBar}}) {
-        $Self->{LogObject}->Dumper(jkl => $ItemHash{Setting}[1]{FrontendModuleReg});
+#        $Self->{LogObject}->Dumper(jkl => $ItemHash{Setting}[1]{FrontendModuleReg});
             $Self->{LayoutObject}->Block(
                 Name => 'ConfigElementFrontendModuleRegContentNavBar',
                 Data => {
@@ -516,7 +534,7 @@ sub ListConfigItem {
         }
     }
     # ConfigElement TimeVacationDaysOneTime
-    if (defined ($ItemHash{Setting}[1]{TimeVacationDaysOneTime})) {
+    elsif (defined ($ItemHash{Setting}[1]{TimeVacationDaysOneTime})) {
         $Self->{LayoutObject}->Block(
             Name => 'ConfigElementTimeVacationDaysOneTime',
             Data => {
@@ -543,7 +561,7 @@ sub ListConfigItem {
         }
     }
     # ConfigElement TimeVacationDays
-    if (defined ($ItemHash{Setting}[1]{TimeVacationDays})) {
+    elsif (defined ($ItemHash{Setting}[1]{TimeVacationDays})) {
         $Self->{LayoutObject}->Block(
             Name => 'ConfigElementTimeVacationDays',
             Data => {
@@ -553,7 +571,7 @@ sub ListConfigItem {
         # New TimeVacationDaysElement
         if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#NewTimeVacationDaysElement')) {
             push (@{$ItemHash{Setting}[1]{TimeVacationDays}[1]{Item}}, {Key => '', Content => ''});
-        }      
+        }  
         # TimeVacationDaysElements
         foreach my $Index (1...$#{$ItemHash{Setting}[1]{TimeVacationDays}[1]{Item}}) {
             $Self->{LayoutObject}->Block(
@@ -569,7 +587,7 @@ sub ListConfigItem {
         }
     }
     # ConfigElement TimeWorkingHours
-    if (defined ($ItemHash{Setting}[1]{TimeWorkingHours})) {
+    elsif (defined ($ItemHash{Setting}[1]{TimeWorkingHours})) {
         $Self->{LayoutObject}->Block(
             Name => 'ConfigElementTimeWorkingHours',
             Data => {
