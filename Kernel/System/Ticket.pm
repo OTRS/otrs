@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.165 2005-04-22 08:43:33 martin Exp $
+# $Id: Ticket.pm,v 1.166 2005-04-25 09:31:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.165 $';
+$VERSION = '$Revision: 1.166 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -248,16 +248,18 @@ sub TicketCheckNumber {
         $Id = $Row[0];
     }
     # get merge main ticket if ticket is merged
-    my %Ticket = $Self->TicketGet(TicketID => $Id);
-    if ($Ticket{StateType} eq 'merged') {
-        my @Lines = $Self->HistoryGet(TicketID => $Ticket{TicketID}, UserID => 1);
-        foreach my $Data (reverse @Lines) {
-            if ($Data->{HistoryType} eq 'Merged') {
-                if ($Data->{Name} =~ /^.*\((\d+?)\)$/) {
-                    return $1;
+    if ($Id) {
+        my %Ticket = $Self->TicketGet(TicketID => $Id);
+        if ($Ticket{StateType} eq 'merged') {
+            my @Lines = $Self->HistoryGet(TicketID => $Ticket{TicketID}, UserID => 1);
+            foreach my $Data (reverse @Lines) {
+                if ($Data->{HistoryType} eq 'Merged') {
+                    if ($Data->{Name} =~ /^.*\((\d+?)\)$/) {
+                        return $1;
+                    }
                 }
             }
-        } 
+        }
     }
     return $Id;
 }
@@ -3710,6 +3712,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.165 $ $Date: 2005-04-22 08:43:33 $
+$Revision: 1.166 $ $Date: 2005-04-25 09:31:22 $
 
 =cut
