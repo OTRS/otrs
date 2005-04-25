@@ -130,7 +130,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.12 2005-04-25 11:00:18 tr Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.13 2005-04-25 12:25:27 tr Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">To set the Ticket identifier (e. g. Ticket#: 123456789). Some people want to set this to 'Call#', 'MyTicket#' or 'Ticket#'.</Description>
         <Description Lang="de">Hiermit kann der Ticket-Identifikator gesetzt werden (z. B. Ticket#: 123456789). Manche Kunden setzen definieren 'Call#', 'MyTicket#' oder 'Ticket#'. Als Standardeinstellung wird 'Ticket#' geliefert.</Description>
@@ -2216,7 +2216,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en">Possible values: Print, CSV, GraphLine, GraphBars, GraphPie</Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Stats</SubGroup>
         <Setting>
             <Hash>
 	        <Item Key="Name">New Tickets</Item>
@@ -2378,7 +2378,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en">Objects that can be linked</Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Stats</SubGroup>
+        <SubGroup>LinkObject</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Name">Ticket Object</Item>
@@ -4731,7 +4731,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Group>['admin']</Group>
@@ -4765,7 +4765,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>CustomerFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReq>
                 <Group>['admin']</Group>
@@ -4800,7 +4800,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
         <SubGroup>Ticket</SubGroup>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>CustomerFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Group>['admin']</Group>
@@ -4868,7 +4868,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>CustomerFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Group>['admin']</Group>
@@ -4902,7 +4902,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>CustomerFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Group>['admin']</Group>
@@ -4936,7 +4936,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>CustomerFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Group>['admin']</Group>
@@ -4970,7 +4970,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>CustomerFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Group>['admin']</Group>
@@ -5004,7 +5004,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>FrontendModulRegistration</SubGroup>
+        <SubGroup>CustomerFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Description>Overview of customer tickets</Description>
@@ -5054,7 +5054,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>FrontendModulRegistration</SubGroup>
+        <SubGroup>CustomerFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Description>Create and updated tickets</Description>
@@ -5090,7 +5090,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>CustomerFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Description>Ticket zoom view</Description>
@@ -5110,7 +5110,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>CustomerFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Description>compat mod</Description>
@@ -5126,7 +5126,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>CustomerFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Description>To download attachments</Description>
@@ -5142,7 +5142,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>FrontendModulRegistration</SubGroup>
+        <SubGroup>CustomerFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Description>Customer ticket search</Description>

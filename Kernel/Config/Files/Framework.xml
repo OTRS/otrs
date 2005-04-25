@@ -93,7 +93,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.14 2005-04-25 10:58:41 tr Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.15 2005-04-25 12:25:17 tr Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">Enable this so you can't use the installer.pl</Description>
         <Description Lang="de">???</Description>
@@ -1733,7 +1733,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem> 
     <ConfigItem Name="Customer::AuthModule" Required="1" Valid="1">
-        <Description Lang="en">This is the auth. module againt the otrs db</Description>
+        <Description Lang="en">This is the auth. module againt the otrs db (Kernel::System::CustomerAuth::DB) or (Kernel::System::CustomerAuth::HTTPBasicAuth)</Description>
         <Description Lang="de">???</Description>
         <Group>Framework</Group>
         <SubGroup>CustomerFrontend</SubGroup>
@@ -1742,6 +1742,18 @@ Your OTRS Notification Master
         </Setting>
         <!-- $Self->{'Customer::AuthModule'} = 'Kernel::System::CustomerAuth::DB'; -->
     </ConfigItem>
+    <!--
+    <ConfigItem Name="Customer::AuthModule" Required="0" Valid="0">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String>Kernel::System::CustomerAuth::HTTPBasicAuth</String>
+        </Setting>
+        # $Self->{'Customer::AuthModule'} = 'Kernel::System::CustomerAuth::HTTPBasicAuth';
+    </ConfigItem>
+    -->
     <ConfigItem Name="Customer::AuthModule::DB::Table" Required="1" Valid="1">
         <Description Lang="en">This is the auth. module againt the otrs db</Description>
         <Description Lang="de">???</Description>
@@ -1914,7 +1926,7 @@ Your OTRS Notification Master
         <Description Lang="en">In case you want to add always one filter to each ldap query, use this option. e. g. AlwaysFilter => '(mail=*)' or AlwaysFilter => '(objectclass=user)'</Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
             <String></String>
         </Setting>
@@ -1924,7 +1936,7 @@ Your OTRS Notification Master
         <Description Lang="en">If you want to add a suffix to each customer login name, then you can use this option. e. g. user just want to use user but  in your ldap directory exists user@domain.</Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
             <String>@domain.com</String>
         </Setting>
@@ -1934,7 +1946,7 @@ Your OTRS Notification Master
         <Description Lang="en">Net::LDAP new params (if needed - for more info see perldoc Net::LDAP)</Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="port">389</Item>
@@ -1951,16 +1963,6 @@ Your OTRS Notification Master
             #        version => 3,
             #    };
         -->
-    </ConfigItem>
-    <ConfigItem Name="Customer::AuthModule" Required="0" Valid="0">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
-        <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
-        <Setting>
-            <String>Kernel::System::CustomerAuth::HTTPBasicAuth</String>
-        </Setting>
-        <!-- # $Self->{'Customer::AuthModule'} = 'Kernel::System::CustomerAuth::HTTPBasicAuth'; -->
     </ConfigItem>
     <ConfigItem Name="CustomerPanelLoginURL" Required="0" Valid="0">
         <Description Lang="en"></Description>
@@ -1996,7 +1998,7 @@ Your OTRS Notification Master
         <Description Lang="en">Radius host</Description>
         <Description Lang="de">Radiushost</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
             <String>radiushost</String>
         </Setting>
@@ -2006,7 +2008,7 @@ Your OTRS Notification Master
         <Description Lang="en">Password for radius host</Description>
         <Description Lang="de">Passwort für Radius Server</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
             <String>radiussecret</String>
         </Setting>
@@ -2016,7 +2018,7 @@ Your OTRS Notification Master
         <Description Lang="en">Customer preference table parameters</Description>
         <Description Lang="de">Parameter für Kunden-Daten-Tabelle</Description>
         <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>CustomerPreferences</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::CustomerUser::Preferences::DB</Item>
@@ -3104,7 +3106,7 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>FrontendModulRegistration</SubGroup>
+        <SubGroup>CustomerFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Description>Logout of customer panel</Description>
@@ -3138,7 +3140,7 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>FrontendModulRegistration</SubGroup>
+        <SubGroup>CustomerFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Description>Customer preferences</Description>
@@ -3172,7 +3174,7 @@ Your OTRS Notification Master
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
-        <SubGroup>FrontendModulRegistration</SubGroup>
+        <SubGroup>CustomerFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Description>To accept login infos</Description>
