@@ -1,23 +1,24 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
 <!--
 Possible SubGroups
         - AgentFrontend
-#        - AgentPreferences
-#        - Core        
-#        - CustomerFrontend
-#        - CustomerPreferences
-#        - FrontendModulNotify                   
+        - AgentPreferences
+        - Core        
+        - CustomerFrontend
+        - CustomerPreferences
+        - FrontendModulNotify                   
         - FrontendModulReg
         - LinkObject
-#        - Log  
-#        - MIME-Viewer         
-#        - Package            
-#        - PGP
-#        - Session
-#        - SMIME
-#        - SpellChecker
+        - Log  
+        - MIME-Viewer         
+        - Package            
+        - PGP
+        - Session
+        - SMIME
+        - SpellChecker
         - Stats        
         - TicketCore
-#        - Time                     
+        - Time                     
 
 String
     <ConfigItem Name="" Required="1" Valid="1">
@@ -91,9 +92,8 @@ TimeVacationDays
 TimeWorkingHours    
                                       
 -->
-<?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.11 2005-04-22 15:17:30 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.12 2005-04-25 06:48:46 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">Enable this so you can't use the installer.pl</Description>
         <Description Lang="de">???</Description>
@@ -521,17 +521,17 @@ Your OTRS Notification Master
             <String Regex=""></String>
         </Setting>
         <!-- $Self->{LogoutURL} = ''; -->
-    </ConfigItem>
+    </ConfigItem>   
     <ConfigItem Name="PreApplicationModule" Required="0" Valid="0">
         <Description Lang="en">This interface use useful to check some user options or to redirect not accept new application news</Description>
         <Description Lang="de">???</Description>
         <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>Unknown</SubGroup>
         <Setting>
             <String Regex="">Kernel::Modules::AgentInfo</String>
         </Setting>
         <!-- $Self->{PreApplicationModule} = 'Kernel::Modules::AgentInfo'; -->
-    </ConfigItem>
+    </ConfigItem>   
     <ConfigItem Name="InfoKey" Required="0" Valid="0">
         <Description Lang="en">Kernel::Modules::AgentInfo check key, if this user preferences key is true, then the message is already accepted</Description>
         <Description Lang="de">???</Description>
@@ -541,7 +541,7 @@ Your OTRS Notification Master
             <String Regex="">wpt22</String>
         </Setting>
         <!-- $Self->{InfoKey} = 'wpt22'; -->
-    </ConfigItem>
+    </ConfigItem>   
     <ConfigItem Name="InfoFile" Required="0" Valid="0">
         <Description Lang="en">shown InfoFile located under Kernel/Output/HTML/Standard/AgentInfo.dtl</Description>
         <Description Lang="de">???</Description>
@@ -572,7 +572,7 @@ Your OTRS Notification Master
         <SubGroup>FrontendModulNotify</SubGroup>
             <Setting>
                 <Hash>
-                    <Item Key="Module">Kernel::Output::HTML::NotificationUIDCheck</Item>              
+                    <Item Key="Module">Kernel::Output::HTML::NotificationUIDChec</Item>              
                 </Hash>
             </Setting>
         <!--    $Self->{'Frontend::NotifyModule'}->{'2-UID-Check'} = {
@@ -661,21 +661,31 @@ Your OTRS Notification Master
         <Setting>
             <Option SelectedID="1">
                 <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="1">Yes</Item>               
             </Option>
         </Setting>
         <!-- $Self->{SessionDeleteIfNotRemoteID} = 1; -->
-    </ConfigItem>
+    </ConfigItem>   
+    <ConfigItem Name="PreApplicationModule" Required="1" Valid="1">
+        <Description Lang="en">This interface use useful to check some user options or to redirect not accept new application news</Description>
+        <Description Lang="de">???</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core</SubGroup>
+        <Setting>
+            <String Regex="">Kernel::Modules::AgentInfo</String>
+        </Setting>
+        <!-- $Self->{PreApplicationModule} = 'Kernel::Modules::AgentInfo'; -->
+    </ConfigItem>   
     <ConfigItem Name="SessionMaxTime" Required="1" Valid="1">
         <Description Lang="en">Max valid time of one session id in second</Description>
         <Description Lang="de">Gültigkeitsdauer einer Session in Sekunden</Description>
         <Group>Framework</Group>
         <SubGroup>Session</SubGroup>
         <Setting>
-            <String Regex="">32400</String>
+            <String Regex="">9*60*60</String>
         </Setting>
         <!-- $Self->{SessionMaxTime} = 9*60*60; -->
-    </ConfigItem>
+    </ConfigItem>   
     <ConfigItem Name="SessionMaxIdleTime" Required="1" Valid="1">
         <Description Lang="en">After this time (in seconds) without new http request, then the user get logged off</Description>
         <Description Lang="de">???</Description>
@@ -898,7 +908,7 @@ Your OTRS Notification Master
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
-            <String Regex="">5242880</String>
+            <String Regex="">1024 * 1024 * 5</String>
         </Setting>
         <!-- $Self->{WebMaxFileUpload} = 1024 * 1024 * 5; -->
     </ConfigItem>
@@ -1128,7 +1138,7 @@ Your OTRS Notification Master
         <SubGroup>PGP</SubGroup>
         <Setting>
              <Hash>
-                <Item Key="488A0B8F">SomePassword</Item>
+                <Item Key="Module">Kernel::Output::HTML::OutputFilterActiveElement</Item>                 
             </Hash>
         </Setting>
         <!-- $Self->{'PGP::Key::Password'} = {'488A0B8F' => 1234,}; -->
@@ -1790,8 +1800,6 @@ Your OTRS Notification Master
         </Setting>
         <!-- $Self->{'Customer::AuthModule::DB::Password'} = "some_password"; -->
     </ConfigItem>
-    
-    
     <ConfigItem Name="WebMaxFileUpload" Required="1" Valid="1">
         <Description Lang="en">Max size for browser file uploads (in byte).</Description>
         <Description Lang="de">Maximale Größe für Datei-Uploads im Browser (in byte).</Description>
@@ -1810,12 +1818,1380 @@ Your OTRS Notification Master
             <Option Location="Kernel/System/Web/UploadCache/*.pm" SelectedID="Kernel::System::Web::UploadCache::DB"></Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Customer::AuthModule###Kernel::System::CustomerAuth::LDAP" Required="0" Valid="0">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String>Kernel::System::CustomerAuth::LDAP</String>
+        </Setting>
+        <!-- # $Self->{'Customer::AuthModule'} = 'Kernel::System::CustomerAuth::LDAP'; -->
+    </ConfigItem>
+    <ConfigItem Name="Customer::AuthModule::LDAP::Host" Required="0" Valid="0">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String>ldap.example.com</String>
+        </Setting>
+        <!-- # $Self->{'Customer::AuthModule::LDAP::Host'} = 'ldap.example.com'; -->
+    </ConfigItem>
+    <ConfigItem Name="Customer::AuthModule::LDAP::BaseDN" Required="0" Valid="0">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String>dc=example,dc=com</String>
+        </Setting>
+        <!-- # $Self->{'Customer::AuthModule::LDAP::BaseDN'} = 'dc=example,dc=com'; -->
+    </ConfigItem>
+    <ConfigItem Name="Customer::AuthModule::LDAP::UID" Required="0" Valid="0">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String>uid</String>
+        </Setting>
+        <!-- # $Self->{'Customer::AuthModule::LDAP::UID'} = 'uid'; -->
+    </ConfigItem>
+    <ConfigItem Name="Customer::AuthModule::LDAP::GroupDN" Required="0" Valid="0">
+        <Description Lang="en">Check if the user is allowed to auth in a posixGroup,  e. g. user needs to be in a group xyz to use otrs</Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String>cn=otrsallow,ou=posixGroups,dc=example,dc=com</String>
+        </Setting>
+        <!-- # $Self->{'Customer::AuthModule::LDAP::GroupDN'} = 'cn=otrsallow,ou=posixGroups,dc=example,dc=com'; -->
+    </ConfigItem>
+    <ConfigItem Name="Customer::AuthModule::LDAP::AccessAttr" Required="0" Valid="0">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String>memberUid</String>
+        </Setting>
+        <!-- # $Self->{'Customer::AuthModule::LDAP::AccessAttr'} = 'memberUid'; -->
+    </ConfigItem>
+    <ConfigItem Name="Customer::AuthModule::LDAP::UserAttr" Required="0" Valid="0">
+        <Description Lang="en">For ldap posixGroups objectclass (just uid)</Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String>UID</String>
+        </Setting>
+        <!-- # $Self->{'Customer::AuthModule::LDAP::UserAttr'} = 'UID'; -->
+    </ConfigItem>
+    <ConfigItem Name="Customer::AuthModule::LDAP::UserAttr" Required="0" Valid="0">
+        <Description Lang="en">For non ldap posixGroups objectclass (full user dn)</Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String>DN</String>
+        </Setting>
+        <!-- # $Self->{'Customer::AuthModule::LDAP::UserAttr'} = 'DN'; -->
+    </ConfigItem>
+    <ConfigItem Name="Customer::AuthModule::LDAP::SearchUserDN" Required="0" Valid="0">
+        <Description Lang="en">Thi is valid but would only be necessary if the     # anonymous user do NOT have permission to read from the LDAP tree</Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String></String>
+        </Setting>
+        <!-- # $Self->{'Customer::AuthModule::LDAP::SearchUserDN'} = ''; -->
+    </ConfigItem>
+    <ConfigItem Name="Customer::AuthModule::LDAP::SearchUserPw" Required="0" Valid="0">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String></String>
+        </Setting>
+        <!-- # $Self->{'Customer::AuthModule::LDAP::SearchUserPw'} = ''; -->
+    </ConfigItem>
+    <ConfigItem Name="Customer::AuthModule::LDAP::AlwaysFilter" Required="0" Valid="0">
+        <Description Lang="en">In case you want to add always one filter to each ldap query, use this option. e. g. AlwaysFilter => '(mail=*)' or AlwaysFilter => '(objectclass=user)'</Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String></String>
+        </Setting>
+        <!-- # $Self->{'Customer::AuthModule::LDAP::AlwaysFilter'} = ''; -->
+    </ConfigItem>
+    <ConfigItem Name="Customer::AuthModule::LDAP::UserSuffix" Required="0" Valid="0">
+        <Description Lang="en">If you want to add a suffix to each customer login name, then you can use this option. e. g. user just want to use user but  in your ldap directory exists user@domain.</Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String>@domain.com</String>
+        </Setting>
+        <!-- # $Self->{'Customer::AuthModule::LDAP::UserSuffix'} = '@domain.com'; -->
+    </ConfigItem>
+    <ConfigItem Name="Customer::AuthModule::LDAP::Params" Required="0" Valid="0">
+        <Description Lang="en">Net::LDAP new params (if needed - for more info see perldoc Net::LDAP)</Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="port">389</Item>
+                <Item Key="timeout">120</Item>
+                <Item Key="async">0</Item>
+                <Item Key=" version">3</Item>
+            </Hash>
+        </Setting>
+        <!--
+            #    $Self->{'Customer::AuthModule::LDAP::Params'} = {
+            #        port => 389,
+            #        timeout => 120,
+            #        async => 0,
+            #        version => 3,
+            #    };
+        -->
+    </ConfigItem>
+    <ConfigItem Name="Customer::AuthModule" Required="0" Valid="0">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String>Kernel::System::CustomerAuth::HTTPBasicAuth</String>
+        </Setting>
+        <!-- # $Self->{'Customer::AuthModule'} = 'Kernel::System::CustomerAuth::HTTPBasicAuth'; -->
+    </ConfigItem>
+    <ConfigItem Name="CustomerPanelLoginURL" Required="0" Valid="0">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String>http://host.example.com/not-authorised-for-otrs.html</String>
+        </Setting>
+        <!-- # $Self->{CustomerPanelLoginURL} = 'http://host.example.com/not-authorised-for-otrs.html'; -->
+    </ConfigItem>
+    <ConfigItem Name="CustomerPanelLogoutURL" Required="0" Valid="0">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String>http://host.example.com/thanks-for-using-otrs.html</String>
+        </Setting>
+        <!-- # $Self->{CustomerPanelLogoutURL} = 'http://host.example.com/thanks-for-using-otrs.html'; -->
+    </ConfigItem>
+    <ConfigItem Name="Customer::AuthModule" Required="0" Valid="0">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String>Kernel::System::Auth::Radius</String>
+        </Setting>
+        <!-- # $Self->{'Customer::AuthModule'} = 'Kernel::System::Auth::Radius'; -->
+    </ConfigItem>
+    <ConfigItem Name="Customer::AuthModule::Radius::Host" Required="0" Valid="0">
+        <Description Lang="en">Radius host</Description>
+        <Description Lang="de">Radiushost</Description>
+        <Group>Framework</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String>radiushost</String>
+        </Setting>
+        <!-- # $Self->{'Customer::AuthModule::Radius::Host'} = 'radiushost'; -->
+    </ConfigItem>
+    <ConfigItem Name="Customer::AuthModule::Radius::Password" Required="0" Valid="0">
+        <Description Lang="en">Password for radius host</Description>
+        <Description Lang="de">Passwort für Radius Server</Description>
+        <Group>Framework</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <String>radiussecret</String>
+        </Setting>
+        <!-- # $Self->{'Customer::AuthModule::Radius::Password'} = 'radiussecret'; -->
+    </ConfigItem>
+    <ConfigItem Name="CustomerPreferences" Required="1" Valid="1">
+        <Description Lang="en">Customer preference table parameters</Description>
+        <Description Lang="de">Parameter für Kunden-Daten-Tabelle</Description>
+        <Group>Framework</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::CustomerUser::Preferences::DB</Item>
+                <Item  Key="Params">
+                    <Hash>
+                        <Item Key="Table">customer_preferences</Item>
+                        <Item Key="TableKey">preferences_key</Item>
+                        <Item Key="TableValue">preferences_value</Item>
+                        <Item Key="TableUserID">user_id</Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Setting>
+        <!--
+            $Self->{'CustomerPreferences'} = {
+                Module => 'Kernel::System::CustomerUser::Preferences::DB',
+                Params => {
+                    Table => 'customer_preferences',
+                    TableKey => 'preferences_key',
+                    TableValue => 'preferences_value',
+                    TableUserID => 'user_id',
+                },
+            };
+        -->
+    </ConfigItem>
+    <ConfigItem Name="CustomerPreferencesView" Required="1" Valid="1">
+        <Description Lang="en">CustomerPreferencesView: Ordered of shown items</Description>
+        <Description Lang="de">Ansicht der Kundeneinstellungen: Geordnet oder angezeigt</Description>
+        <Group>Framework</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Array>
+                <Item>Frontend</Item>
+                <Item>Other Options</Item>
+            </Array>
+        </Setting>
+        <!-- $Self->{CustomerPreferencesView} = ['Frontend', 'Other Options']; -->
+    </ConfigItem>
+    <ConfigItem Name="CustomerPreferencesGroups###Password" Required="1" Valid="1">
+        <Description Lang="en">All groups for the password in the customer preferences</Description>
+        <Description Lang="de">Alle Gruppen für das Passwort in den Kundeneinstellungen</Description>
+        <Group>Framework</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::PreferencesPassword</Item>
+                <Item Key="Colum">Other Options</Item>
+                <Item Key="Label">Change Password</Item>
+                <Item Key="Prio">1000</Item>
+                <!-- <Item Key="PasswordRegExp">[a-z]|[A-z]|[0-9]|\.|;|,|:|-|\+|#|!|\$|&|\?</Item> -->
+                <Item Key="PasswordRegExp"></Item>
+                <Item Key="PasswordMinSize">0</Item>
+                <Item Key="PasswordMin2Lower2UpperCharacters">0</Item>
+                <Item Key="PasswordMin2Characters">0</Item>
+                <Item Key="PasswordNeedDigit">0</Item>
+                <Item Key="Activ">1</Item>
+            </Hash>
+        </Setting>
+        <!--
+            $Self->{CustomerPreferencesGroups}->{Password} = {
+                Module => 'Kernel::Output::HTML::PreferencesPassword',
+                Colum => 'Other Options',
+                Label => 'Change Password',
+                Prio => 1000,
+                # PasswordRegExp => '[a-z]|[A-z]|[0-9]|\.|;|,|:|-|\+|#|!|\$|&|\?',
+                PasswordRegExp => '',
+                PasswordMinSize => 0,
+                PasswordMin2Lower2UpperCharacters => 0,
+                PasswordMin2Characters => 0,
+                PasswordNeedDigit => 0,
+                Activ => 1,
+            };
+        -->
+    </ConfigItem>
+    <ConfigItem Name="CustomerPreferencesGroups###Language" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::PreferencesLanguage</Item>
+                <Item Key="Colum">Frontend</Item>
+                <Item Key="Label">Language</Item>
+                <Item Key="Desc">Select your frontend language</Item>
+                <Item Key="Data">Get('DefaultUsedLanguages')</Item>
+                <Item Key="PrefKey">UserLanguage</Item>
+                <Item Key="Prio">2000</Item>
+                <Item Key="Activ">1</Item>
+            </Hash>
+        </Setting>
+        <!--
+            $Self->{CustomerPreferencesGroups}->{Language} = {
+                Module => 'Kernel::Output::HTML::PreferencesLanguage',
+                Colum => 'Frontend',
+                Label => 'Language',
+                Desc =>'Select your frontend language.',
+                Data => $Self->Get('DefaultUsedLanguages'),
+                PrefKey => 'UserLanguage',
+                Prio => 2000,
+                Activ => 1,
+            };
+        -->
+    </ConfigItem>
+    <ConfigItem Name="CustomerPreferencesGroups###Theme" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::PreferencesTheme</Item>
+                <Item Key="Colum">Frontend</Item>
+                <Item Key="Label">Theme</Item>
+                <Item Key="Desc">Select your frontend Theme</Item>
+                <Item Key="PrefKey">UserTheme</Item>
+                <Item Key="Prio">1000</Item>
+                <Item Key="Activ">0</Item>
+            </Hash>
+        </Setting>
+        <!--
+            $Self->{CustomerPreferencesGroups}->{Theme} = {
+                Module => 'Kernel::Output::HTML::PreferencesTheme',
+                Colum => 'Frontend',
+                Label => 'Theme',
+                Desc => 'Select your frontend Theme.',
+                PrefKey => 'UserTheme',
+                Prio => 1000,
+                Activ => 0,
+            };
+        -->
+    </ConfigItem>
+    <ConfigItem Name="CustomerPreferencesGroups###PGP" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::PreferencesPGP</Item>
+                <Item Key="Colum">Other Options</Item>
+                <Item Key="Label">PGP Key</Item>
+                <Item Key="Desc">PGP Key Upload</Item>
+                <Item Key="PrefKey">UserPGPKey</Item>
+                <Item Key="Prio">10000</Item>
+                <Item Key="Activ">0</Item>
+            </Hash>
+        </Setting>
+        <!--
+            $Self->{CustomerPreferencesGroups}->{PGP} = {
+                Module => 'Kernel::Output::HTML::PreferencesPGP',
+                Colum => 'Other Options',
+                Label => 'PGP Key',
+                Desc => 'PGP Key Upload',
+                PrefKey => 'UserPGPKey',
+                Prio => 10000,
+                Activ => 0,
+            };
+        -->
+    </ConfigItem>
+    <ConfigItem Name="CustomerPreferencesGroups###SMIME" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::PreferencesSMIME</Item>
+                <Item Key="Colum">Other Options</Item>
+                <Item Key="Label">SMIME Certificate</Item>
+                <Item Key="Desc">SMIME Certificate Upload</Item>
+                <Item Key="PrefKey">UserSMIMEKey</Item>
+                <Item key="Prio">11000</Item>
+                <Item Key="Activ">0</Item>
+            </Hash>
+        </Setting>
+        <!--
+            $Self->{CustomerPreferencesGroups}->{SMIME} = {
+                Module => 'Kernel::Output::HTML::PreferencesSMIME',
+                Colum => 'Other Options',
+                Label => 'SMIME Certificate',
+                Desc => 'SMIME Certificate Upload',
+                PrefKey => 'UserSMIMEKey',
+                Prio => 11000,
+                Activ => 0,
+            };
+        -->
+    </ConfigItem>
+    <ConfigItem Name="CustomerFrontend::CommonObject" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Hash>
+            </Hash>
+        </Setting>
+        <!--
+            $Self->{'CustomerFrontend::CommonObject'} = {
+            # key => module
+            #        SomeObject => 'Kernel::System::Some',
+            };
+        -->
+    </ConfigItem>
+    <ConfigItem Name="CustomerFrontend::CommonParam" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Hash>
+            </Hash>
+        </Setting>
+        <!--
+            $Self->{'CustomerFrontend::CommonParam'} = {
+            # param => default value
+            #        SomeParam => 'DefaultValue',
+            };
+        -->
+    </ConfigItem>
+    <ConfigItem Name="PublicFrontend::CommonObject" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Hash>
+            </Hash>
+        </Setting>
+        <!--
+            $Self->{'PublicFrontend::CommonObject'} = {
+            # key => module
+            #        SomeObject => 'Kernel::System::Some',
+            };
+        -->
+    </ConfigItem>
+    <ConfigItem Name="PublicFrontend::CommonParam" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Unknown</SubGroup>
+        <Setting>
+            <Hash>
+            </Hash>
+        </Setting>
+        <!--
+            $Self->{'PublicFrontend::CommonParam'} = {
+            # param => default value
+            #        SomeParam => 'DefaultValue',
+            };
+        -->
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###Logout" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Agent</SubGroup>
+        <SubGroup>FrontendModulRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Description>Logout</Description>
+                <NavBar>
+                    <Description>Logout</Description>
+                    <Name>Logout</Name>
+                    <Image>exit.png</Image>
+                    <Link>Action=Logout</Link>
+                    <NavBar></NavBar>
+                    <Block>ItemPre</Block>
+                    <Prio>100</Prio>
+                </NavBar>
+            </FrontendModuleReg>
+        </Setting>
+        <!--
+            $Self->{'Frontend::Module'}->{'Logout'} = {
+                Description => 'Logout',
+                NavBar => [
+                    {
+                    Description => 'Logout',
+                    Name => 'Logout',
+                    Image => 'exit.png',
+                    Link => 'Action=Logout',
+                    NavBar => '',
+                    Block => 'ItemPre',
+                    Prio => 100,
+                },
+            ],
+        };
+        -->
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AgentPreferences" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Agent</SubGroup>
+        <SubGroup>FrontendModulRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Description>Agent Preferences</Description>
+                <Title>Preferences</Title>
+                <NavBar>
+                    <Description>Agent Preferences</Description>
+                    <Name>Preferences</Name>
+                    <Image>prefer.png</Image>
+                    <Link>Action=AgentPreferences</Link>
+                    <Prio>1000</Prio>
+                </NavBar>
+            </FrontendModuleReg>
+        </Setting>
+        <!--
+            $Self->{'Frontend::Module'}->{'AgentPreferences'} = {
+                Description => 'Agent Preferences',
+                Title => 'Preferences',
+                NavBar => [
+                {
+                    Description => 'Agent Preferences',
+                    Name => 'Preferences',
+                    Image => 'prefer.png',
+                    Link => 'Action=AgentPreferences',
+                    Prio => 1000,
+                },
+            ],
+        };
+        -->
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AgentSpelling" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Agent</SubGroup>
+        <SubGroup>FrontendModulRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Description>Spell checker</Description>
+                <Title>Spell Checker</Title>
+            </FrontendModuleReg>
+        </Setting>
+        <!--
+            $Self->{'Frontend::Module'}->{'AgentSpelling'} = {
+                Description => 'Spell checker',
+                Title => 'Spell Checker',
+            };
+        -->
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AgentBook" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Agent</SubGroup>
+        <SubGroup>FrontendModulRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Description>Address book of CustomerUser sources</Description>
+                <Title>Address Book</Title>
+            </FrontendModuleReg>
+        </Setting>
+        <!--
+            $Self->{'Frontend::Module'}->{'AgentBook'} = {
+                Description => 'Address book of CustomerUser sources',
+                Title => 'Address Book',
+            };
+        -->
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AgentLinkObject" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Agent</SubGroup>
+        <SubGroup>FrontendModulRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Description>Link Object</Description>
+                <Title>Link Object</Title>
+            </FrontendModuleReg>
+        </Setting>
+        <!--
+            $Self->{'Frontend::Module'}->{'AgentLinkObject'} = {
+                Description => 'Link Object',
+                Title => 'Link Object',    
+            };
+        -->
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AgentInfo" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Agent</SubGroup>
+        <SubGroup>FrontendModulRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Description>Generic Info module</Description>
+                <Title>Info</Title>
+            </FrontendModuleReg>
+        </Setting>
+        <!--
+            $Self->{'Frontend::Module'}->{'AgentInfo'} = {
+                Description => 'Generic Info module',
+                Title => 'Info',
+            };
+        -->
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###SystemStats" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Agent</SubGroup>
+        <SubGroup>FrontendModulRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <GroupRo>['stats','admin']</GroupRo>
+                <Description>Stats</Description>
+                <Title>Stats</Title>
+                <NavBarName>Ticket</NavBarName>
+                <NavBar>
+                    <Description>Stats-Area</Description>
+                    <Name>Stats</Name>
+                    <Image>stats.png</Image>
+                    <Link>Action=SystemStats</Link>
+                    <NavBar>Ticket</NavBar>
+                    <Prio>400</Prio>
+                </NavBar>
+            </FrontendModuleReg>
+        </Setting>
+        <!--
+            $Self->{'Frontend::Module'}->{'SystemStats'} = {
+                GroupRo => ['stats', 'admin'],
+                Description => 'Stats',
+                Title => 'Stats',
+                NavBarName => 'Ticket',
+                NavBar => [
+                {
+                    Description => 'Stats-Area',
+                    Name => 'Stats',
+                    Image => 'stats.png',
+                    Link => 'Action=SystemStats',
+                    NavBar => 'Ticket',
+                    Prio => 400,
+                },
+            ],
+        };
+    -->
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###Admin" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Agent</SubGroup>
+        <SubGroup>FrontendModulRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin-Area</Description>
+                <Title></Title>
+                <NavBarName>Admin</NavBarName>
+                <NavBar>
+                    <Description>Admin-Area</Description>
+                    <Type>Menu</Type>
+                    <Block>ItemArea</Block>
+                    <Name>Admin</Name>
+                    <Image>admin.png</Image>
+                    <Link>Action=Admin</Link>
+                    <NavBar>Admin</NavBar>
+                    <Prio>10000</Prio>
+                </NavBar>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                </NavBarModule>
+            </FrontendModuleReg>
+        </Setting>
+        <!--
+            $Self->{'Frontend::Module'}->{'Admin'} = {
+                Group => ['admin'],
+                Description => 'Admin-Area',
+                Title => '',
+                NavBarName => 'Admin',
+                NavBar => [
+                {
+                    Description => 'Admin-Area',
+                    Type => 'Menu',
+                    Block => 'ItemArea',
+                    Name => 'Admin',
+                    Image => 'admin.png',
+                    Link => 'Action=Admin',
+                    NavBar => 'Admin',
+                    Prio => 10000,
+                },
+                ],
+                NavBarModule => {
+                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+                },
+            };
+        -->
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AdminUser" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Agent</SubGroup>
+        <SubGroup>FrontendModulRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title>User</Title>
+                <NavBarName>Admin</NavBarName>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Name>Users</Name>
+                    <Block>Block1</Block>
+                    <Prio>100</Prio>
+                </NavBarModule>
+            </FrontendModuleReg>
+        </Setting>
+        <!--
+            $Self->{'Frontend::Module'}->{'AdminUser'} = {
+                Group => ['admin'],
+                Description => 'Admin',
+                Title => 'User',
+                NavBarName => 'Admin',
+                NavBarModule => {
+                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+                    Name => 'Users',
+                    Block => 'Block1',
+                    Prio => 100,
+                },
+            };
+        -->
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AdminGroup" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Agent</SubGroup>
+        <SubGroup>FrontendModulRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title>Group</Title>
+                <NavBarName>Admin</NavBarName>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Name>Groups</Name>
+                    <Block>Block1</Block>
+                    <Prio>150</Prio>
+                </NavBarModule>
+            </FrontendModuleReg>
+        </Setting>
+        <!--
+            $Self->{'Frontend::Module'}->{'AdminGroup'} = {
+                Group => ['admin'],
+                Description => 'Admin',
+                Title => 'Group',
+                NavBarName => 'Admin',
+                NavBarModule => {
+                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+                    Name => 'Groups',
+                    Block => 'Block1',
+                    Prio => 150,
+                },
+            };
+        -->
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AdminUserGroup" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Agent</SubGroup>
+        <SubGroup>FrontendModulRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title>User &lt;-&gt; Groups</Title>
+                <NavBarName>Admin</NavBarName>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Name>Users &lt;-&gt; Groups</Name>
+                    <Block>Block1</Block>
+                    <Prio>200</Prio>
+                </NavBarModule>
+            </FrontendModuleReg>
+        </Setting>
+        <!--
+            $Self->{'Frontend::Module'}->{'AdminUserGroup'} = {
+                Group => ['admin'],
+                Description => 'Admin',
+                Title => 'User <-> Groups',
+                NavBarName => 'Admin',
+                NavBarModule => {
+                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+                    Name => 'Users <-> Groups',
+                    Block => 'Block1',
+                    Prio => 200,
+                },
+            };
+        -->
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AdminCustomerUser" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Agent</SubGroup>
+        <SubGroup>FrontendModulRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <GroupRo></GroupRo>
+                <Group>admin</Group>
+                <Group>users</Group>
+                <Description>Edit Customer Users</Description>
+                <Title>Customer User</Title>
+                <NavBarName></NavBarName>
+                <NavBar>
+                    <Description>Edit Customer Users</Description>
+                    <Name>Customer</Name>
+                    <Image>folder_yellow.png</Image>
+                    <Link>Action=AdminCustomerUser&Nav=Agent</Link>
+                    <NavBar>Ticket</NavBar>
+                    <Prio>9000</Prio>
+                </NavBar>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Name>Customer Users</Name>
+                    <Block>Block1</Block>
+                    <Prio>300</Prio>
+                </NavBarModule>
+            </FrontendModuleReg>
+        </Setting>
+        <!--
+            $Self->{'Frontend::Module'}->{'AdminCustomerUser'} = {
+                GroupRo => '',
+                Group => ['admin', 'users'],
+                Description => 'Edit Customer Users',
+                Title => 'Customer User',
+                NavBarName => '',
+                NavBar => [
+                {
+                    Description => 'Edit Customer Users',
+                    Name => 'Customer',
+                    Image => 'folder_yellow.png',
+                    Link => 'Action=AdminCustomerUser&Nav=Agent',
+                    NavBar => 'Ticket',
+                    Prio => 9000,
+                }
+                ],
+                NavBarModule => {
+                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+                    Name => 'Customer Users',
+                    Block => 'Block1',
+                    Prio => 300,
+                },
+            };
+        -->
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AdminCustomerUserGroup" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Agent</SubGroup>
+        <SubGroup>FrontendModulRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title>Customer User &lt;-&gt; Group</Title>
+                <NavBarName>Admin</NavBarName>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Name>Customer Users &lt;-&gt; Groups</Name>
+                    <Block>Block1</Block>
+                    <Prio>400</Prio>
+                </NavBarModule>
+            </FrontendModuleReg>
+        </Setting>
+        <!--
+            $Self->{'Frontend::Module'}->{'AdminCustomerUserGroup'} = {
+                Group => ['admin'],
+                Description => 'Admin',
+                Title => 'Customer User <-> Group',
+                NavBarName => 'Admin',
+                NavBarModule => {
+                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+                    Name => 'Customer Users <-> Groups',
+                    Block => 'Block1',
+                    Prio => 400,
+                },
+                };
+        -->
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AdminRole" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Agent</SubGroup>
+        <SubGroup>FrontendModulRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title>Role</Title>
+                <NavBarName>Admin</NavBarName>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Name>Roles</Name>
+                    <Block>Block1</Block>
+                    <Prio>500</Prio>
+                </NavBarModule>
+            </FrontendModuleReg>
+        </Setting>
+        <!--
+            $Self->{'Frontend::Module'}->{'AdminRole'} = {
+                Group => ['admin'],
+                Description => 'Admin',
+                Title => 'Role',
+                NavBarName => 'Admin',
+                NavBarModule => {
+                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+                    Name => 'Roles',
+                    Block => 'Block1',
+                    Prio => 500,
+                },
+            };
+        -->
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AdminRoleUser" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Agent</SubGroup>
+        <SubGroup>FrontendModulRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title>Role &lt;-&gt; User</Title>
+                <NavBarName>Admin</NavBarName>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Name>Roles &lt;-&gt; Users</Name>
+                    <Block>Block1</Block>
+                    <Prio>600</Prio>
+                </NavBarModule>
+            </FrontendModuleReg>
+        </Setting>
+        <!--
+            $Self->{'Frontend::Module'}->{'AdminRoleUser'} = {
+                Group => ['admin'],
+                Description => 'Admin',
+                Title => 'Role <-> User',
+                NavBarName => 'Admin',
+                NavBarModule => {
+                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+                    Name => 'Roles <-> Users',
+                    Block => 'Block1',
+                    Prio => 600,
+                },
+            };
+        -->
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AdminRoleGroup" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Agent</SubGroup>
+        <SubGroup>FrontendModulRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title>'Role &lt;-&gt; Groups</Title>
+                <NavBarName>Admin</NavBarName>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Name>Roles &lt;-&gt; Groups</Name>
+                    <Block>Block1</Block>
+                    <Prio>700</Prio>
+                </NavBarModule>
+            </FrontendModuleReg>
+        </Setting>
+        <!--
+            $Self->{'Frontend::Module'}->{'AdminRoleGroup'} = {
+                Group => ['admin'],
+                Description => 'Admin',
+                Title => 'Role <-> Groups',
+                NavBarName => 'Admin',
+                NavBarModule => {
+                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+                    Name => 'Roles <-> Groups',
+                    Block => 'Block1',
+                    Prio => 700,
+                },
+            };
+        -->        
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AdminSMIME" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Agent</SubGroup>
+        <SubGroup>FrontendModulRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title>SMIME Management</Title>
+                <NavBarName>Admin</NavBarName>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Name>SMIME</Name>
+                    <Block>Block3</Block>
+                    <Prio>500</Prio>
+                </NavBarModule>
+            </FrontendModuleReg>
+        </Setting>
+        <!--
+            $Self->{'Frontend::Module'}->{'AdminSMIME'} = {
+                Group => ['admin'],
+                Description => 'Admin',
+                Title => 'SMIME Management',
+                NavBarName => 'Admin',
+                NavBarModule => {
+                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+                    Name => 'SMIME',
+                    Block => 'Block3',
+                    Prio => 500,
+                },
+            };
+        -->
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AdminPGP" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Agent</SubGroup>
+        <SubGroup>FrontendModulRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title>PGP Key Management</Title>
+                <NavBarName>Admin</NavBarName>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Name>PGP</Name>
+                    <Block>Block3</Block>
+                    <Prio>600</Prio>
+                </NavBarModule>
+            </FrontendModuleReg>
+        </Setting>
+        <!--
+            $Self->{'Frontend::Module'}->{'AdminPGP'} = {
+                Group => ['admin'],
+                Description => 'Admin',
+                Title => 'PGP Key Management',
+                NavBarName => 'Admin',
+                NavBarModule => {
+                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+                    Name => 'PGP',
+                    Block => 'Block3',
+                    Prio => 600,
+                 },
+             };
+        -->
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AdminPOP3" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Agent</SubGroup>
+        <SubGroup>FrontendModulRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title>POP3 Account</Title>
+                <NavBarName>Admin</NavBarName>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Name>PostMaster POP3 Account</Name>
+                    <Block>Block4</Block>
+                    <Prio>100</Prio>
+                </NavBarModule>
+            </FrontendModuleReg>
+        </Setting>
+        <!--
+            $Self->{'Frontend::Module'}->{'AdminPOP3'} = {
+                Group => ['admin'],
+                Description => 'Admin',
+                Title => 'POP3 Account',
+                NavBarName => 'Admin',
+                NavBarModule => {
+                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+                    Name => 'PostMaster POP3 Account',
+                    Block => 'Block4',
+                    Prio => 100,
+                },  
+            };
+        -->
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AdminPostMasterFilter" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Agent</SubGroup>
+        <SubGroup>FrontendModulRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title>PostMaster Filter</Title>
+                <NavBarName>Admin</NavBarName>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Name>PostMaster Filter</Name>
+                    <Block>Block4</Block>
+                    <Prio>200</Prio>
+                </NavBarModule>
+            </FrontendModuleReg>
+        </Setting>
+        <!--
+            $Self->{'Frontend::Module'}->{'AdminPostMasterFilter'} = {
+                Group => ['admin'],
+                Description => 'Admin',
+                Title => 'PostMaster Filter',
+                NavBarName => 'Admin',
+                NavBarModule => {
+                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+                    Name => 'PostMaster Filter',
+                    Block => 'Block4',
+                    Prio => 200,
+                },
+            };
+        -->
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AdminEmail" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Agent</SubGroup>
+        <SubGroup>FrontendModulRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title>Admin-Email</Title>
+                <NavBarName>Admin</NavBarName>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Name>AdminEmail</Name>
+                    <Block>Block4</Block>
+                    <Prio>400</Prio>
+                </NavBarModule>
+            </FrontendModuleReg>
+        </Setting>
+        <!--
+            $Self->{'Frontend::Module'}->{'AdminEmail'} = {
+                Group => ['admin'],
+                Description => 'Admin',
+                Title => 'Admin-Email',
+                NavBarName => 'Admin',
+                NavBarModule => {
+                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+                    Name => 'AdminEmail',
+                    Block => 'Block4',
+                    Prio => 400,
+                },
+            };
+        -->
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AdminSession" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Agent</SubGroup>
+        <SubGroup>FrontendModulRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title>System Log</Title>
+                <NavBarName>Admin</NavBarName>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Name>System Log</Name>
+                    <Block>Block4</Block>
+                    <Prio>600</Prio>
+                </NavBarModule>
+            </FrontendModuleReg>
+        </Setting>
+        <!--
+            $Self->{'Frontend::Module'}->{'AdminLog'} = {
+                Group => ['admin'],
+                Description => 'Admin',
+                Title => 'System Log',
+                NavBarName => 'Admin',
+                NavBarModule => {
+                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+                    Name => 'System Log',
+                    Block => 'Block4',
+                    Prio => 600,
+                },
+            };
+        -->
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AdminSelectBox" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Agent</SubGroup>
+        <SubGroup>FrontendModulRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title>Select box</Title>
+                <NavBarName>Admin</NavBarName>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Name>Select Box</Name>
+                    <Block>Block4</Block>
+                    <Prio>700</Prio>
+                </NavBarModule>
+            </FrontendModuleReg>
+        </Setting>
+        <!--
+            $Self->{'Frontend::Module'}->{'AdminSelectBox'} = {
+                Group => ['admin'],
+                Description => 'Admin',
+                Title => 'Select box',
+                NavBarName => 'Admin',
+                NavBarModule => {
+                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+                    Name => 'Select Box',
+                    Block => 'Block4',
+                    Prio => 700,
+                },
+            };
+        -->
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###'AdminPackageManager" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Agent</SubGroup>
+        <SubGroup>FrontendModulRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>'admin']</Group>
+                <Description>Software Package Manager</Description>
+                <Title>Package Manager</Title>
+                <NavBarName>Admin</NavBarName>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Name>Package Manager</Name>
+                    <Block>Block4</Block>
+                    <Prio>1000</Prio>
+                </NavBarModule>
+            </FrontendModuleReg>
+        </Setting>
+        <!--
+            $Self->{'Frontend::Module'}->{'AdminPackageManager'} = {
+                Group => ['admin'],
+                Description => 'Software Package Manager',
+                Title => 'Package Manager',
+                NavBarName => 'Admin',
+                NavBarModule => {
+                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
+                    Name => 'Package Manager',
+                    Block => 'Block4',
+                    Prio => 1000,
+                },
+                };
+        -->
+    </ConfigItem>
+    <ConfigItem Name="CustomerFrontend::Module###Logout" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Agent</SubGroup>
+        <SubGroup>FrontendModulRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Description>Logout of customer panel</Description>
+                <NavBarName></NavBarName>
+                <NavBar>
+                    <Description>Logout</Description>
+                    <Name>Logout</Name>
+                    <Image>exit.png</Image>
+                    <Link>Action=Logout</Link>
+                    <Prio>10</Prio>
+                </NavBar>
+            </FrontendModuleReg>
+        </Setting>
+        <!--
+            $Self->{'CustomerFrontend::Module'}->{'Logout'} = {
+                Description => 'Logout of customer panel.',
+                NavBarName => '',
+                NavBar => [
+                {
+                    Description => 'Logout',
+                    Name => 'Logout',
+                    Image => 'exit.png',
+                    Link => 'Action=Logout',
+                    Prio => 10,
+                },
+                ],
+            };
+        -->
+    </ConfigItem>
+    <ConfigItem Name="CustomerFrontend::Module###CustomerPreferences" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Agent</SubGroup>
+        <SubGroup>FrontendModulRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Description>Customer preferences</Description>
+                <Title>Preferences</Title>
+                <NavBar>
+                    <Description>Preferences</Description>
+                    <Name>Preferences</Name>
+                    <Image>prefer.png</Image>
+                    <Link>Action=CustomerPreferences</Link>
+                    <Prio>1000</Prio>
+                </NavBar>
+            </FrontendModuleReg>
+        </Setting>
+        <!--
+            $Self->{'CustomerFrontend::Module'}->{'CustomerPreferences'} = {
+                Description => 'Customer preferences.',
+                Title => 'Preferences',
+                NavBar => [
+                {     
+                    Description => 'Preferences',
+                    Name => 'Preferences',
+                    Image => 'prefer.png',
+                    Link => 'Action=CustomerPreferences',
+                    Prio => 1000,
+                },
+                ],
+            };
+        -->
+    </ConfigItem>
+    <ConfigItem Name="CustomerFrontend::Module###CustomerAccept" Required="1" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Agent</SubGroup>
+        <SubGroup>FrontendModulRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Description>To accept login infos</Description>
+                <Title>Info</Title>
+            </FrontendModuleReg>
+        </Setting>
+        <!--
+            $Self->{'CustomerFrontend::Module'}->{'CustomerAccept'} = {
+                Description => 'To accept login infos',
+                Title => 'Info',
+            };
+        -->
+    </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentPreferences" Required="1" Valid="1">
         <Description Lang="en">Agent Preferences.</Description>
         <Description Lang="de">Agenten Einstellungen.</Description>
         <Group>Framework</Group>
-        <SubGroup>Agent</SubGroup>
-        <SubGroup>FrontendModulRegistration</SubGroup>        
+        <SubGroup>AgentFrontendModulRegistration</SubGroup>        
         <Setting>
             <FrontendModuleReg>
                 <Title>Preferences</Title>
@@ -1833,8 +3209,7 @@ Your OTRS Notification Master
         <Description Lang="en">Software Package Manager.</Description>
         <Description Lang="de">Software Package Manager.</Description>
         <Group>Framework</Group>
-        <SubGroup>Admin</SubGroup>
-        <SubGroup>FrontendModulRegistration</SubGroup>                
+        <SubGroup>AdminFrontendModulRegistration</SubGroup>                
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
@@ -1850,4 +3225,8 @@ Your OTRS Notification Master
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
+    -->
+    <!-- Vermerk! nicht löschen: CustomerUser, Frontend::Common::Param und Frontend::CommonObject wurden aus verschiedenen Gründen nicht übertragen.
+-->
+    
 </otrs_config>
