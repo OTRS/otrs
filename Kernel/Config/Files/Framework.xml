@@ -73,17 +73,17 @@ Array
         </Setting>
     </ConfigItem>             
     
-Textarea
+TextArea
     <ConfigItem Name="" Required="1" Valid="1">
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
         <SubGroup>a</SubGroup>
         <Setting>
-            <Textarea>
+            <TextArea>
                 use &gt; instead of >
                 and &lt; instead of <           
-            </Textarea>
+            </TextArea>
         </Setting>
     </ConfigItem> 
     
@@ -93,7 +93,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.12 2005-04-25 06:48:46 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.13 2005-04-25 07:37:24 tr Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">Enable this so you can't use the installer.pl</Description>
         <Description Lang="de">???</Description>

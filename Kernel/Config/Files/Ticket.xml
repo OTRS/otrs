@@ -74,17 +74,17 @@ Array
         </Setting>
     </ConfigItem>             
     
-Textarea
+TextArea
     <ConfigItem Name="" Required="1" Valid="1">
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
         <SubGroup></SubGroup>
         <Setting>
-            <Textarea>
+            <TextArea>
                 use &gt; instead of >
                 and &lt; instead of <           
-            </Textarea>
+            </TextArea>
         </Setting>
     </ConfigItem> 
 
@@ -130,7 +130,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.10 2005-04-25 06:47:42 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.11 2005-04-25 07:37:10 tr Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">To set the Ticket identifier (e. g. Ticket#: 123456789). Some people want to set this to 'Call#', 'MyTicket#' or 'Ticket#'.</Description>
         <Description Lang="de">Hiermit kann der Ticket-Identifikator gesetzt werden (z. B. Ticket#: 123456789). Manche Kunden setzen definieren 'Call#', 'MyTicket#' oder 'Ticket#'. Als Standardeinstellung wird 'Ticket#' geliefert.</Description>
@@ -1714,7 +1714,7 @@ use this for NewQueueSelectionType = SystemAddress => '&lt;Realname&gt; &lt;&lt;
         <Group>Ticket</Group>
         <SubGroup>AgentFrontend</SubGroup>
         <Setting>
-            <Textarea></Textarea>
+            <TextArea></TextArea>
         </Setting>
         <!--  $Self->{'Ticket::Frontend::EmailNewNote'} = '';  -->
     </ConfigItem>   
@@ -1844,7 +1844,7 @@ use this for NewQueueSelectionType = SystemAddress => '&lt;Realname&gt; &lt;&lt;
         <Group>Ticket</Group>
         <SubGroup>AgentFrontend</SubGroup>
         <Setting>
-            <Textarea></Textarea>
+            <TextArea></TextArea>
         </Setting>
         <!--  $Self->{'Ticket::Frontend::NoteText'} = '';  -->
     </ConfigItem>       
@@ -1918,7 +1918,7 @@ use this for NewQueueSelectionType = SystemAddress => '&lt;Realname&gt; &lt;&lt;
         <Group>Ticket</Group>
         <SubGroup>AgentFrontend</SubGroup>
         <Setting>
-            <Textarea></Textarea>
+            <TextArea></TextArea>
         </Setting>
         <!--  $Self->{'Ticket::Frontend::CloseText'} = '';  -->
     </ConfigItem>          
@@ -1976,7 +1976,7 @@ use this for NewQueueSelectionType = SystemAddress => '&lt;Realname&gt; &lt;&lt;
         <Group>Ticket</Group>
         <SubGroup>a</SubGroup>
         <Setting>
-            <Textarea>$Data{"Salutation"}
+            <TextArea>$Data{"Salutation"}
 $Data{"OrigFrom"} $Text{"wrote"}:
 $Data{"Body"}
 
@@ -1984,7 +1984,7 @@ $Data{"StdResponse"}
 
 $Data{"Signature"}
                 
-            </Textarea>
+            </TextArea>
         </Setting>
         <!--                    
             # unix_style
@@ -2039,7 +2039,7 @@ $Data{"Signature"}
         <Group>Ticket</Group>
         <SubGroup>AgentFrontend</SubGroup>
         <Setting>
-            <Textarea>Your email with ticket number "&lt;OTRS_TICKET&gt;" is bounced to "&lt;OTRS_BOUNCE_TO&gt;". Contact this address for further informations.</Textarea>
+            <TextArea>Your email with ticket number "&lt;OTRS_TICKET&gt;" is bounced to "&lt;OTRS_BOUNCE_TO&gt;". Contact this address for further informations.</TextArea>
         </Setting>
         <!--       
         $Self->{'Ticket::Frontend::BounceText'} = 'Your email with ticket number "<OTRS_TICKET>" '.
