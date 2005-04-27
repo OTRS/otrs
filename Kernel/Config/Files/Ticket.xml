@@ -130,7 +130,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.14 2005-04-25 12:25:55 tr Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.15 2005-04-27 15:16:49 tr Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">To set the Ticket identifier (e. g. Ticket#: 123456789). Some people want to set this to 'Call#', 'MyTicket#' or 'Ticket#'.</Description>
         <Description Lang="de">Hiermit kann der Ticket-Identifikator gesetzt werden (z. B. Ticket#: 123456789). Manche Kunden setzen definieren 'Call#', 'MyTicket#' oder 'Ticket#'. Als Standardeinstellung wird 'Ticket#' geliefert.</Description>
@@ -954,7 +954,7 @@ schneller, der WebserverUser muß dann aber der OTRS-Benutzer sein
         <Description Lang="en">Should the standard responses in the agent interface be shown as form or links?</Description>
         <Description Lang="de">Sollen standard Antworten in der Agentoberfläche als Formular oder als Links angezeigt werden?</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <Option SelectedID="Link">
                 <Item Key="Link">Link</Item>
@@ -1367,7 +1367,7 @@ schneller, der WebserverUser muß dann aber der OTRS-Benutzer sein
         <Description Lang="en">If you want to use a mirror database for agent ticket fulltext search</Description>
         <Description Lang="de">Nicht Übersetzbar!!</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <String Regex="">DBI:mysql:database=mirrordb;host=mirrordbhost</String>
         </Setting>
@@ -1488,7 +1488,7 @@ schneller, der WebserverUser muß dann aber der OTRS-Benutzer sein
         <Description Lang="en">Default history type</Description>
         <Description Lang="de">!!! Nicht Übersetzbar!! zuwenig Inhalt</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <String Regex=""></String>
         </Setting>
@@ -1531,7 +1531,7 @@ schneller, der WebserverUser muß dann aber der OTRS-Benutzer sein
         <Description Lang="en">Default note text. E.g 'New ticket via call.'</Description>
         <Description Lang="de">!!! Nicht übersetzbar!!!! kein sauberer Bezug</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <String Regex=""></String>
         </Setting>
@@ -1556,7 +1556,7 @@ schneller, der WebserverUser muß dann aber der OTRS-Benutzer sein
         <Description Lang="en">Default priority [default: 3 normal]</Description>
         <Description Lang="de">Standardpriorität eines Telefontickets</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <String Regex="">3 normal</String>
         </Setting>
@@ -1660,7 +1660,7 @@ use this for NewQueueSelectionType = SystemAddress => '&lt;Realname&gt; &lt;&lt;
         <Description Lang="en">default priority [default: 3 normal]</Description>
         <Description Lang="de">!!! Nicht übersetzbar!!!! kein Inhalt!!!</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <String Regex="">3 normal</String>
         </Setting>
@@ -1702,7 +1702,7 @@ use this for NewQueueSelectionType = SystemAddress => '&lt;Realname&gt; &lt;&lt;
         <Description Lang="en">History</Description>
         <Description Lang="de">!!! Nicht Übersetzbar !!! kein Bezug</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <String Regex=""></String>
         </Setting>
@@ -1787,7 +1787,7 @@ use this for NewQueueSelectionType = SystemAddress => '&lt;Realname&gt; &lt;&lt;
         <Description Lang="en">Default note next state.</Description>
         <Description Lang="de">!!! Nicht Übersetzbar !!!! kein bezug</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <Array>
                 <Item>new</Item>
@@ -1873,7 +1873,7 @@ use this for NewQueueSelectionType = SystemAddress => '&lt;Realname&gt; &lt;&lt;
         <Description Lang="en"></Description>
         <Description Lang="de">Kein Inhalt</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <String Regex="">pending reminder</String>
         </Setting>
@@ -2713,7 +2713,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en">Show free text link</Description>
         <Description Lang="de">Frei definierten Textlink im Menü anzeigen</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
@@ -2737,7 +2737,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en">Show link link</Description>
         <Description Lang="de">Link anzeigen</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
@@ -2761,7 +2761,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en">Show owner link</Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
@@ -2785,7 +2785,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en">Show customer link</Description>
         <Description Lang="de">Zugehörigen Kunden für ein Ticket ändern</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
@@ -2809,7 +2809,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en">Show link to note</Description>
         <Description Lang="de">Link zu Notiz anzeigen</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
@@ -2833,7 +2833,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en">Show pending link</Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
@@ -2857,7 +2857,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en">Show close link</Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
@@ -2881,7 +2881,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en">Show lock / unlock link</Description>
         <Description Lang="de">Link für gesperrt / nicht gesperrt anzeigen</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuLock</Item>
@@ -2901,7 +2901,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en">Show zoom link</Description>
         <Description Lang="de">Link zum Zoomen anzeigen</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
@@ -2925,7 +2925,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en">Show history link</Description>
         <Description Lang="de">History Link anzeigen</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
@@ -2949,7 +2949,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en">Show priority link</Description>
         <Description Lang="de">Link für die Priorität anzeigen</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
@@ -2973,7 +2973,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en">Show note link</Description>
         <Description Lang="de">Link für eine Notiz anzeigen</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
@@ -2997,7 +2997,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en">Show close link</Description>
         <Description Lang="de">Link zum Schließen anzeigen</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
@@ -3021,7 +3021,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en">Show delete link</Description>
         <Description Lang="de">Link zum Löschen anzeigen</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
@@ -4834,7 +4834,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>AgentFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Group>['admin']</Group>
@@ -4868,7 +4868,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>CustomerFrontendModulRegistration</SubGroup>
+        <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Group>['admin']</Group>
@@ -4902,7 +4902,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>CustomerFrontendModulRegistration</SubGroup>
+        <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Group>['admin']</Group>
@@ -4936,7 +4936,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>CustomerFrontendModulRegistration</SubGroup>
+        <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Group>['admin']</Group>
@@ -4970,7 +4970,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>CustomerFrontendModulRegistration</SubGroup>
+        <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Group>['admin']</Group>
@@ -5304,7 +5304,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en">The state if a ticket got a followup</Description>
         <Description Lang="de">Der Status für ein Followup auf ein Ticket</Description>
         <Group>Ticket</Group>
-        <SubGroup>Unknown</SubGroup>
+        <SubGroup>Postmaster</SubGroup>
         <Setting>
             <String>open</String>
         </Setting>
