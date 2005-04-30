@@ -2,7 +2,7 @@
 # RPM spec file for SUSE Linux 9.1 of the OTRS package
 # Copyright (C) 2001-2004 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: suse-otrs-9.1.spec,v 1.4 2004-10-18 09:46:22 martin Exp $
+# $Id: suse-otrs-9.1.spec,v 1.5 2005-04-30 08:19:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -67,20 +67,6 @@ install -m 644 scripts/suse-rcotrs-config $RPM_BUILD_ROOT/etc/sysconfig/otrs
 install -m 755 scripts/suse-rcotrs $RPM_BUILD_ROOT/etc/init.d/otrs
 rm -f $RPM_BUILD_ROOT/sbin/otrs
 ln -s ../../etc/init.d/otrs $RPM_BUILD_ROOT/usr/sbin/rcotrs
-
-# added SUSE 9.1 apache options
-echo "<Directory \"/opt/otrs/bin/cgi-bin/\">" >> scripts/apache2-httpd.include.conf
-echo "        AllowOverride None" >> scripts/apache2-httpd.include.conf
-echo "        Options +ExecCGI -Includes" >> scripts/apache2-httpd.include.conf
-echo "        Order allow,deny" >> scripts/apache2-httpd.include.conf
-echo "        Allow from all" >> scripts/apache2-httpd.include.conf
-echo "</Directory>" >> scripts/apache2-httpd.include.conf
-echo "<Directory \"/opt/otrs/var/httpd/htdocs/\">" >> scripts/apache2-httpd.include.conf
-echo "        AllowOverride None" >> scripts/apache2-httpd.include.conf
-echo "        Order allow,deny" >> scripts/apache2-httpd.include.conf
-echo "        Allow from all" >> scripts/apache2-httpd.include.conf
-echo "</Directory>" >> scripts/apache2-httpd.include.conf
-install -m 644 scripts/apache2-httpd.include.conf $RPM_BUILD_ROOT/etc/apache2/conf.d/otrs.conf
 
 # set permission
 export OTRSUSER=otrs
