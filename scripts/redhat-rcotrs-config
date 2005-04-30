@@ -1,7 +1,7 @@
 # --
 # rcscript config settings for OTRS (http://otrs.org/)
 # --
-# $Id: redhat-rcotrs-config,v 1.3 2003-01-03 22:36:39 martin Exp $
+# $Id: redhat-rcotrs-config,v 1.4 2005-04-30 08:17:39 martin Exp $
 # --
 
 # 
@@ -27,10 +27,10 @@ OTRS_CRON_RUNNING=1
 #
 OTRS_USED_DB=mysqld
 #OTRS_USED_DB_TEST="ps --pid $(cat /var/lib/mysql/$HOST.pid)"
-OTRS_USED_DB_TEST="/sbin/service mysqld status | grep 'is running'"
+OTRS_USED_DB_TEST="/sbin/service $OTRS_USED_DB status | grep 'is running'"
 # --- The Wonderfull redhat's mysql init script does not have a status check.. sucks
-#OTRS_USED_DB=PostgreSQL
-#OTRS_USED_DB_RCSCRIPT="service postgresql status| grep 'is running' > /dev/null 2>&1"
+#OTRS_USED_DB=postgresql
+#OTRS_USED_DB_RCSCRIPT="service $OTRS_USED_DB status| grep 'is running' > /dev/null 2>&1"
 
 
 #
