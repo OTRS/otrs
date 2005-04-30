@@ -2,7 +2,7 @@
 # Kernel/Modules/SystemStats.pm - show stats of otrs
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SystemStats.pm,v 1.20 2005-03-27 11:45:42 martin Exp $
+# $Id: SystemStats.pm,v 1.21 2005-04-30 08:16:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::SystemStats;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $ ';
+$VERSION = '$Revision: 1.21 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -34,6 +34,21 @@ sub new {
     # check all needed objects
     foreach (qw(ParamObject DBObject LayoutObject ConfigObject LogObject UserObject)) {
         die "Got no $_" if (!$Self->{$_});
+    }
+
+    # if we need to do a fultext search on an external mirror database
+    if ($Self->{ConfigObject}->Get('Stats::DB::DSN')) {
+        my $ExtraDatabaseObject = Kernel::System::DB->new(
+            LogObject => $Param{LogObject},
+            ConfigObject => $Param{ConfigObject},
+            DatabaseDSN => $Self->{ConfigObject}->Get('Stats::DB::DSN'),
+            DatabaseUser => $Self->{ConfigObject}->Get('Stats::DB::User'),
+            DatabasePw => $Self->{ConfigObject}->Get('Stats::DB::Password'),
+        ) || die $DBI::errstr;
+        $Self->{TicketObject} = Kernel::System::Ticket->new(
+            %Param,
+            DBObject => $ExtraDatabaseObject,
+        );
     }
 
     return $Self;
@@ -136,7 +151,10 @@ sub Run {
             }
             # try to get data if noting is there
             if (!@Data) {
-                @Data = $StatsModule->Run(%GetParam);
+                @Data = $StatsModule->Run(%GetParam,
+                    Format => $Format,
+                    Module => $Module,
+                );
                 $Self->WriteResultCache(
                     GetParam => \%GetParam,
                     Config => \%ConfigItem,
