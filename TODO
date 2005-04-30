@@ -2,7 +2,7 @@
 # TODO - todo list of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TODO,v 1.59 2005-02-10 20:12:44 martin Exp $
+# $Id: TODO,v 1.60 2005-04-30 08:49:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -28,8 +28,12 @@
 - Agent ticket search base on customer name
 - Agent ticket search ticket processed from - to absorb
 - Agent ticket search  escalate from - to  absorb
+- rework responses and relations in resposes (sort order)
 - A better way to reset password, hash confirmation...
    http://bugs.otrs.org/show_bug.cgi?id=443
+
+2.1
+- move ticket and article free text fields to "reference tables".
 
 3.0
 - new templates without logic
