@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMerge.pm - to merge tickets 
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketMerge.pm,v 1.1 2005-04-22 08:44:37 martin Exp $
+# $Id: AgentTicketMerge.pm,v 1.2 2005-05-01 17:41:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,9 +12,10 @@
 package Kernel::Modules::AgentTicketMerge;
 
 use strict;
+use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -35,6 +36,8 @@ sub new {
                  QueueObject ConfigObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
+
+    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
 
     return $Self;
 }
@@ -85,8 +88,57 @@ sub Run {
             return $Output;
         }
         else {
+            # --
+            # get params
+            # --
+            foreach (qw(From To Subject Body InformSender)) {
+                $Param{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
+            }
+            # --
+            # check forward email address
+            # --
+            foreach my $Email (Mail::Address->parse($Param{BounceTo})) {
+                my $Address = $Email->address();
+                if ($Self->{SystemAddress}->SystemAddressIsLocalAddress(Address => $Address)) {
+                    # error page
+                    return $Self->{LayoutObject}->ErrorScreen(
+                        Message => "Can't forward ticket to $Address! It's a local ".
+                          "address! You need to move it!",
+                        Comment => 'Please contact the admin.',
+                    );
+                }
+            }
+            # --       
+            # send customer info?
+            # --
+            if ($Param{InformSender}) {
+                my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
+                $Param{Body} =~ s/<OTRS_TICKET>/$Ticket{TicketNumber}/g;
+                $Param{Body} =~ s/<OTRS_MERGE_TO_TICKET>/$MainTicketNumber/g;
+                if (my $ArticleID = $Self->{TicketObject}->ArticleSend(
+                  ArticleType => 'email-external',
+                  SenderType => 'agent',
+                  TicketID => $Self->{TicketID},
+                  HistoryType => 'SendAnswer',
+                  HistoryComment => "Merge info to '$Param{To}'.",
+                  From => $Param{From},
+                  Email => $Param{Email},
+                  To => $Param{To},
+                  Subject => $Param{Subject},
+                  UserID => $Self->{UserID},
+                  Body => $Param{Body},
+                  Type => 'text/plain',
+                  Charset => $Self->{LayoutObject}->{UserCharset},
+                )) {
+                  ###
+                }
+                else {
+                    # error page
+                    return $Self->{LayoutObject}->ErrorScreen();
+                }
+            }
             # redirect
-            return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreen});
+            return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenOverview});
         }
     }
     else {
@@ -125,7 +177,79 @@ sub Run {
                return $Output;
             }
         }
-        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AgentTicketMerge', Data => {%Param,%Ticket});
+        my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(
+            TicketID => $Self->{TicketID},
+        );
+        # --
+        # prepare subject ...
+        # --
+        my $TicketHook = $Self->{ConfigObject}->Get('TicketHook') || '';
+        $Article{Subject} =~ s/\[$TicketHook: $Ticket{TicketNumber}\] //g;
+        $Article{Subject} =~ s/^(.{30}).*$/$1 [...]/;
+        $Article{Subject} = "[$TicketHook: $Ticket{TicketNumber}] RE: " . $Article{Subject};
+        # get customer data
+        my %Customer = ();
+        if ($Ticket{CustomerUserID}) {
+            %Customer = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                User => $Ticket{CustomerUserID},
+            );
+        }
+        $Article{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
+            TicketNumber => $Ticket{TicketNumber},
+            Subject => $Article{Subject} || '',
+        );
+        # --
+        # prepare from ...
+        # --
+        my %Address = $Self->{QueueObject}->GetSystemAddress(
+            QueueID => $Ticket{QueueID},
+        );
+        $Article{QueueFrom} = "$Address{RealName} <$Address{Email}>";
+        $Article{Email} = $Address{Email};
+        $Article{RealName} = $Address{RealName};
+        # prepare salutation
+        $Param{Salutation} = $Self->{QueueObject}->GetSalutation(%Article);
+        # prepare signature 
+        $Param{Signature} = $Self->{QueueObject}->GetSignature(%Article);
+        foreach (qw(Signature Salutation)) {
+            # get and prepare realname
+            if ($Param{$_} =~ /<OTRS_CUSTOMER_REALNAME>/) {
+                my $From = '';
+                if ($Ticket{CustomerUserID}) {
+                    $From = $Self->{CustomerUserObject}->CustomerName(UserLogin => $Ticket{CustomerUserID});
+                }
+                if (!$From) {
+                    $From = $Article{From} || '';
+                    $From =~ s/<.*>|\(.*\)|\"|;|,//g;
+                    $From =~ s/( $)|(  $)//g;
+                }
+                $Param{$_} =~ s/<OTRS_CUSTOMER_REALNAME>/$From/g;
+            }
+            # replace other needed stuff
+            $Param{$_} =~ s/<OTRS_FIRST_NAME>/$Self->{UserFirstname}/g;
+            $Param{$_} =~ s/<OTRS_LAST_NAME>/$Self->{UserLastname}/g;
+            $Param{$_} =~ s/<OTRS_USER_ID>/$Self->{UserID}/g;
+            $Param{$_} =~ s/<OTRS_USER_LOGIN>/$Self->{UserLogin}/g;
+            # replace ticket data
+            foreach my $TicketKey (keys %Ticket) {
+                if ($Ticket{$TicketKey}) {
+                    $Param{$_} =~ s/<OTRS_TICKET_$TicketKey>/$Ticket{$TicketKey}/gi;
+                }
+            }
+            # cleanup all not needed <OTRS_TICKET_ tags
+            $Param{$_} =~ s/<OTRS_TICKET_.+?>/-/gi;
+            # replace customer data
+            foreach my $CustomerKey (keys %Customer) {
+                if ($Customer{$CustomerKey}) {
+                    $Param{$_} =~ s/<OTRS_CUSTOMER_$CustomerKey>/$Customer{$CustomerKey}/gi;
+                }
+            }
+            # cleanup all not needed <OTRS_CUSTOMER_ tags
+            $Param{$_} =~ s/<OTRS_CUSTOMER_.+?>/-/gi;
+            # replace config options
+            $Param{$_} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
+        }
+        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AgentTicketMerge', Data => {%Param,%Ticket, %Article});
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }

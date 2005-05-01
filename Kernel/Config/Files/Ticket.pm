@@ -20,6 +20,10 @@
     # (The text at the beginning of the subject in a reply)
     $Self->{'Ticket::SubjectRe'} = 'Re';
 
+    # Ticket::SubjectCleanAllNumbers
+    # (remove all ticket numbers, not just the current ticket number, from subject)
+    $Self->{'Ticket::SubjectCleanAllNumbers'} = 0;
+
     # CustomQueue
     # (The name of custom queue.)
     $Self->{'Ticket::CustomQueue'} = 'My Queues';
@@ -508,6 +512,12 @@ $Data{"Signature"}
     # default note text
     $Self->{'Ticket::Frontend::BounceText'} = 'Your email with ticket number "<OTRS_TICKET>" '.
       'is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.';
+
+    # --------------------------------------------------- #
+    # Ticket Frontend Ticket Merge stuff
+    # --------------------------------------------------- #
+    $Self->{'Ticket::Frontend::MergeText'} = 'Your email with ticket number "<OTRS_TICKET>" '.
+      'is merged to "<OTRS_MERGE_TO_TICKET>".';
 
     # --------------------------------------------------- #
     # Ticket Frontend Ticket Forward stuff

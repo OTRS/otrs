@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.166 2005-04-25 09:31:22 martin Exp $
+# $Id: Ticket.pm,v 1.167 2005-05-01 17:41:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.166 $';
+$VERSION = '$Revision: 1.167 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -567,9 +567,15 @@ sub TicketSubjectClean {
     $Subject =~ s/\[$TicketHook: $Param{TicketNumber}\] //g;
     $Subject =~ s/\[$TicketHook:$Param{TicketNumber}\] //g;
     $Subject =~ s/\[$TicketHook$TicketHookDivider$Param{TicketNumber}\] //g;
+    if ($Self->{ConfigObject}->Get('Ticket::SubjectCleanAllNumbers')) {
+        $Subject =~ s/\[$TicketHook$TicketHookDivider\d+?\] //g;
+    }
     $Subject =~ s/$TicketHook: $Param{TicketNumber} //g;
     $Subject =~ s/$TicketHook:$Param{TicketNumber} //g;
     $Subject =~ s/$TicketHook$TicketHookDivider$Param{TicketNumber} //g;
+    if ($Self->{ConfigObject}->Get('Ticket::SubjectCleanAllNumbers')) {
+        $Subject =~ s/$TicketHook$TicketHookDivider\d+? //g;
+    }
     $Subject =~ s/^(..(\[\d+\])?: )+//;
     $Subject =~ s/^(.{$TicketSubjectSize}).*$/$1 [...]/;
     return $Subject;
@@ -3712,6 +3718,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.166 $ $Date: 2005-04-25 09:31:22 $
+$Revision: 1.167 $ $Date: 2005-05-01 17:41:09 $
 
 =cut
