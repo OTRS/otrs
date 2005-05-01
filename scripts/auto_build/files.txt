@@ -36,7 +36,7 @@
 /opt/otrs/var/httpd/
 %dir /opt/otrs/var/sessions/
 %dir /opt/otrs/var/spool/
-/opt/otrs/var/cron/
+%dir /opt/otrs/var/cron/
 %dir /opt/otrs/var/tmp/
 %dir /opt/otrs/var/pics/stats/
 
