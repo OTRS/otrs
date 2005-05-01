@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.181 2005-03-27 11:52:21 martin Exp $
+# $Id: Generic.pm,v 1.182 2005-05-01 18:46:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::Output::HTML::Agent;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.181 $';
+$VERSION = '$Revision: 1.182 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -1174,6 +1174,7 @@ sub Ascii2Html {
     # newline
     if ($NewLine && length($Text) < 8000) {
         $Text =~ s/(\n\r|\r\r\n|\r\n)/\n/g;
+        $Text =~ s/\r/\n/g;
         $Text =~ s/(.{4,$NewLine})(?:\s|\z)/$1\n/gm;
         my $ForceNewLine = $NewLine+5;
 #        $Text =~ s/([A-z-_#=\.]{$ForceNewLine})/$1\n/g;
@@ -1216,7 +1217,7 @@ sub LinkQuote {
     # do link quote
     $Text .= ' ';
     $Text =~ s{
-        (https|http|ftp|www)((:\/\/|\.).*?)(\s|\)|\"|&quot;|&nbsp;|]|'|>|<|&gt;|&lt;)
+        (https|http|ftp|www)((:\/\/|\.).*?)(\.\s|\s|\)|\"|&quot;|&nbsp;|]|'|>|<|&gt;|&lt;)
     }
     {
         my $Link = $1.$2;
@@ -1229,7 +1230,7 @@ sub LinkQuote {
        "<a href=\"$Link\" target=\"$Target\">$OrigText<\/a>$OrigTextEnd";
     }egxi;
     # do mail to quote
-    $Text =~ s/(mailto:.*?)(\s|\)|\"|]|')/<a href=\"$1\">$1<\/a>$2/gi;
+    $Text =~ s/(mailto:.*?)(\.\s|\s|\)|\"|]|')/<a href=\"$1\">$1<\/a>$2/gi;
     chop($Text);
     return $Text;
 }
@@ -2152,6 +2153,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.181 $ $Date: 2005-03-27 11:52:21 $
+$Revision: 1.182 $ $Date: 2005-05-01 18:46:05 $
 
 =cut
