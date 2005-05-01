@@ -10,6 +10,7 @@
 %config(noreplace) /opt/otrs/Kernel/Language/*.pm
 %config(noreplace) /opt/otrs/var/cron/*
 
+/opt/otrs/
 /opt/otrs/RELEASE
 /opt/otrs/.procmailrc.dist
 /opt/otrs/.fetchmailrc.dist
@@ -20,24 +21,24 @@
 /opt/otrs/Kernel/Config/GenericAgent.pm.examples
 /opt/otrs/Kernel/Config/Defaults.pm
 /opt/otrs/Kernel/Language.pm
-/opt/otrs/Kernel/Language/
+%dir /opt/otrs/Kernel/Language/
 /opt/otrs/Kernel/Modules*
-/opt/otrs/Kernel/Output/
-/opt/otrs/Kernel/Output/HTML/
-/opt/otrs/Kernel/Output/HTML/Standard/
-/opt/otrs/Kernel/Output/HTML/Lite/
+%dir /opt/otrs/Kernel/Output/
+%dir /opt/otrs/Kernel/Output/HTML/
+%dir /opt/otrs/Kernel/Output/HTML/Standard/
+%dir /opt/otrs/Kernel/Output/HTML/Lite/
 /opt/otrs/Kernel/Output/HTML/*.pm
 /opt/otrs/Kernel/System*
 /opt/otrs/bin*
 /opt/otrs/scripts*
-/opt/otrs/var/
-/opt/otrs/var/article/
+%dir /opt/otrs/var/
+%dir /opt/otrs/var/article/
 /opt/otrs/var/httpd/
-/opt/otrs/var/sessions/
-/opt/otrs/var/spool/
+%dir /opt/otrs/var/sessions/
+%dir /opt/otrs/var/spool/
 /opt/otrs/var/cron/
-/opt/otrs/var/tmp/
-/opt/otrs/var/pics/stats/
+%dir /opt/otrs/var/tmp/
+%dir /opt/otrs/var/pics/stats/
 
 /opt/otrs/Kernel/cpan-lib*
 
