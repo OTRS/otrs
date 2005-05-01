@@ -15,6 +15,8 @@
 /opt/otrs/.procmailrc.dist
 /opt/otrs/.fetchmailrc.dist
 /opt/otrs/.mailfilter.dist
+%dir /opt/otrs/Kernel/
+%dir /opt/otrs/Kernel/Config/
 /opt/otrs/Kernel/Config.pm.dist
 /opt/otrs/Kernel/Config/Files/
 /opt/otrs/Kernel/Config/GenericAgent.pm.dist
@@ -48,6 +50,6 @@
 %doc /opt/otrs/COPYING 
 %doc /opt/otrs/CHANGES 
 %doc /opt/otrs/READM* 
-%doc /opt/otrs/doc/*
+%doc /opt/otrs/doc*
 %doc /opt/otrs/CREDITS
 
