@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject/Ticket.pm - to link ticket objects
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.3 2005-02-15 11:58:13 martin Exp $
+# $Id: Ticket.pm,v 1.4 2005-05-01 17:42:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::LinkObject::Ticket;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Init {
@@ -118,6 +118,7 @@ sub LinkSearch {
     my %Search = ();
     my @ResultWithData = ();
     if ($Param{TicketFulltext}) {
+        $Param{TicketFulltext} = '*'.$Param{TicketFulltext}.'*';
         %Search = (
             From => $Param{TicketFulltext},
             To => $Param{TicketFulltext},
