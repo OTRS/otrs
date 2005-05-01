@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Installer.pm,v 1.32 2005-04-08 08:56:36 martin Exp $
+# $Id: Installer.pm,v 1.33 2005-05-01 18:45:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,8 +17,8 @@ package Kernel::Modules::Installer;
 use strict;
 use DBI;
 
-use vars qw($VERSION);
-$VERSION = '$Revision: 1.32 $';
+use vars qw($VERSION %INC);
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -89,13 +89,55 @@ sub Run {
     $Dist{Webserver} = "restart your webserver";
     if (-f "/etc/SuSE-release") {
         $Dist{Vendor} = "SuSE";
-        $Dist{Webserver} = "rcapache restart";
+        if (exists $ENV{MOD_PERL}) {
+            eval "require mod_perl";
+            if (defined $mod_perl::VERSION) {
+                if ($mod_perl::VERSION >= 1.99) {
+                    $Dist{Webserver} = "rcapache2 restart";
+                }
+                else {
+                    $Dist{Webserver} = "rcapache restart";
+                }
+            }
+        }
+        else {
+            $Dist{Webserver} = "";
+        }
     }
-    if (-f "/etc/redhat-release") {
+    elsif (-f "/etc/redhat-release") {
         $Dist{Vendor} = "Redhat";
         $Dist{Webserver} = "service httpd restart";
     }
-
+    else {
+        if (exists $ENV{MOD_PERL}) {
+            eval "require mod_perl";
+            if (defined $mod_perl::VERSION) {
+                if ($mod_perl::VERSION >= 1.99) {
+                    $Dist{Webserver} = "Apache2 + mod_perl2";
+                }
+                else {
+                    $Dist{Webserver} = "Apache + mod_perl";
+                }
+            }
+        }
+    }
+    # check if Apache::Reload is loaded
+    foreach my $Module (keys %INC) {
+        $Module =~ s/\//::/g;
+        $Module =~ s/\.pm$//g;
+        if ($Module eq 'Apache::Reload' || $Module eq 'Apache2::Reload') {
+            $Dist{Vendor} = '';
+            $Dist{Webserver} = '';
+        }
+    }
+    if ($Dist{Webserver}) {
+        $Self->{LayoutObject}->Block(
+            Name => 'restart',
+            Data => {
+                %Dist,
+            },
+        );
+    }
     # --
     # print form
     # --
