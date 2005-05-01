@@ -37,6 +37,8 @@ Authors:
     - easy and logical to use
     
    Email-Interface:
+    - PGP support
+    - SMIME support
     - MIME support (attachments)
     - dispatching of incoming email via email addess or x-header
     - autoresponders for customers by incoming emails (per queue)
@@ -55,6 +57,8 @@ Authors:
        for a specific subject)
     - Ticket priority
     - Ticket time accounting
+    - Ticket merge feature
+    - Ticket ACL support
     - content Fulltext search
 
    System:
@@ -75,6 +79,7 @@ Authors:
     - user authentication agains database or ldap directory
     - easy to develope you own addon's (OTRS API)
     - easy to write different frontends (e. g. X11, console, ...)
+    - own package manager (e. g. for application modules like webmail, calendar or
+       filemanager)
     - a fast and usefull application
-
 
