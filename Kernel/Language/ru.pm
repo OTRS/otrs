@@ -2,7 +2,7 @@
 # Kernel/Language/ru.pm - provides ru language translation
 # Copyright (C) 2003 Serg V Kravchenko <skraft at rgs.ru>
 # --
-# $Id: ru.pm,v 1.13 2005-02-23 10:04:21 martin Exp $
+# $Id: ru.pm,v 1.14 2005-05-01 22:46:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::ru;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
@@ -22,7 +22,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Tue Aug 24 10:11:53 2004 by 
+    # Last translation file sync: Mon May  2 00:38:46 2005
 
     # possible charsets
     $Self->{Charset} = ['cp1251', 'Windows-1251', ];
@@ -32,399 +32,466 @@ sub Data {
     $Self->{DateInputFormat} = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
 
-    %Hash = (
-    # Template: AAABase
+    $Self->{Translation} = {
+      # Template: AAABase
+      'Yes' => 'Да',
+      'No' => 'Нет',
+      'yes' => 'да',
+      'no' => 'нет',
+      'Off' => 'Выключено',
+      'off' => 'выключено',
+      'On' => 'Включено',
+      'on' => 'включено',
+      'top' => 'к началу',
+      'end' => 'В конец',
+      'Done' => 'Готово.',
+      'Cancel' => 'Отказ',
+      'Reset' => 'Рестарт',
+      'day' => 'сутки',
+      'days' => 'сут.',
+      'hour' => 'час',
+      'hours' => 'ч.',
+      'minute' => 'минуту',
+      'minutes' => 'мин.',
+      'wrote' => 'записано',
+      'Message' => 'Сообщение',
+      'Error' => 'Ошибка',
+      'Bug Report' => 'Отчет об ошибках',
+      'Attention' => 'Внимание',
+      'Warning' => 'Предупреждение',
+      'Module' => 'Модуль',
+      'Modulefile' => 'Файл-модуль',
+      'Subfunction' => 'Подфункция',
+      'Line' => 'Линия',
+      'Example' => 'Пример',
+      'Examples' => 'Примеры',
+      'invalid' => '',
       ' 2 minutes' => ' 2 Минуты',
       ' 5 minutes' => ' 5 Минут',
       ' 7 minutes' => ' 7 Минут',
-      '(Click here to add)' => '',
-      '...Back' => '',
       '10 minutes' => '10 Минут',
       '15 minutes' => '15 Минут',
-      'Added User "%s"' => '',
-      'AddLink' => 'Добавить ссылку',
-      'Admin-Area' => 'Администрирование системы',
-      'agent' => '',
-      'Agent-Area' => '',
-      'all' => 'все',
-      'All' => 'Все',
-      'Attention' => 'Внимание',
+      'Mr.' => '',
+      'Mrs.' => '',
+      'Next' => '',
       'Back' => 'Назад',
-      'before' => '',
-      'Bug Report' => 'Отчет об ошибках',
-      'Calendar' => '',
-      'Cancel' => 'Отказ',
-      'change' => 'изменение',
-      'Change' => 'Изменение',
-      'change!' => 'Сменить!',
-      'click here' => 'кликнуть здесь',
-      'Comment' => 'Комментарий',
-      'Contract' => '',
-      'Crypt' => '',
-      'Crypted' => '',
-      'Customer' => 'Клиент',
-      'customer' => '',
-      'Customer Info' => '',
-      'day' => 'сутки',
-      'day(s)' => '',
-      'days' => 'сут.',
-      'description' => 'описание',
-      'Description' => 'Описание',
-      'Directory' => '',
-      'Dispatching by email To: field.' => '',
-      'Dispatching by selected Queue.' => '',
-      'Don\'t show closed Tickets' => '',
-      'Don\'t work with UserID 1 (System account)! Create new users!' => 'Не работать с UserID 1 (Системная учетная запись)! Создайте другого пользователя!',
-      'Done' => 'Готово.',
-      'end' => 'В конец',
-      'Error' => 'Ошибка',
-      'Example' => 'Пример',
-      'Examples' => 'Примеры',
-      'Facility' => 'Приспособление',
-      'FAQ-Area' => '',
-      'Feature not active!' => '',
-      'go' => 'ОК',
-      'go!' => 'ОК!',
-      'Group' => 'Группа',
-      'History::AddNote' => 'Added note (%s)',
-      'History::Bounce' => 'Bounced to "%s".',
-      'History::CustomerUpdate' => 'Updated: %s',
-      'History::EmailAgent' => 'Email sent to customer.',
-      'History::EmailCustomer' => 'Added email. %s',
-      'History::FollowUp' => 'FollowUp for [%s]. %s',
-      'History::Forward' => 'Forwarded to "%s".',
-      'History::Lock' => 'Locked ticket.',
-      'History::LoopProtection' => 'Loop-Protection! No auto-response sent to "%s".',
-      'History::Misc' => '%s',
-      'History::Move' => 'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).',
-      'History::NewTicket' => 'New Ticket [%s] created (Q=%s;P=%s;S=%s).',
-      'History::OwnerUpdate' => 'New owner is "%s" (ID=%s).',
-      'History::PhoneCallAgent' => 'Agent called customer.',
-      'History::PhoneCallCustomer' => 'Customer called us.',
-      'History::PriorityUpdate' => 'Changed priority from "%s" (%s) to "%s" (%s).',
-      'History::Remove' => '%s',
-      'History::SendAgentNotification' => '"%s"-notification sent to "%s".',
-      'History::SendAnswer' => 'Email sent to "%s".',
-      'History::SendAutoFollowUp' => 'AutoFollowUp sent to "%s".',
-      'History::SendAutoReject' => 'AutoReject sent to "%s".',
-      'History::SendAutoReply' => 'AutoReply sent to "%s".',
-      'History::SendCustomerNotification' => 'Notification sent to "%s".',
-      'History::SetPendingTime' => 'Updated: %s',
-      'History::StateUpdate' => 'Old: "%s" New: "%s"',
-      'History::TicketFreeTextUpdate' => 'Updated: %s=%s;%s=%s;',
-      'History::TicketLinkAdd' => 'Added link to ticket "%s".',
-      'History::TicketLinkDelete' => 'Deleted link to ticket "%s".',
-      'History::TimeAccounting' => '%s time unit(s) accounted. Now total %s time unit(s).',
-      'History::Unlock' => 'Unlocked ticket.',
-      'History::WebRequestCustomer' => 'Customer request via web.',
-      'History::SystemRequest' => 'System Request (%s).',
+      'Next...' => '',
+      '...Back' => '',
+      '-none-' => '',
+      'none' => 'нет',
+      'none!' => 'нет!',
+      'none - answered' => 'нет - отвечен?',
+      'please do not edit!' => 'Не редактировать!',
+      'AddLink' => 'Добавить ссылку',
+      'Link' => '',
+      'Linked' => '',
+      'Link (Normal)' => '',
+      'Link (Parent)' => '',
+      'Link (Child)' => '',
+      'Normal' => '',
+      'Parent' => '',
+      'Child' => '',
       'Hit' => 'Попадание',
       'Hits' => 'Попадания',
-      'hour' => 'час',
-      'hours' => 'ч.',
-      'Ignore' => 'Пренебречь',
-      'invalid' => '',
-      'Invalid SessionID!' => 'Неверный SessionID!',
-      'Language' => 'Язык',
-      'Languages' => 'Языки',
-      'last' => '',
-      'Line' => 'Линия',
-      'Lite' => '',
-      'Login failed! Your username or password was entered incorrectly.' => 'Неуспешная авторизация! Ваше имя или пароль неверны!',
-      'Logout successful. Thank you for using OTRS!' => 'Вход успешен. Благодарим за пользование системой OTRS',
-      'Message' => 'Сообщение',
-      'minute' => 'минуту',
-      'minutes' => 'мин.',
-      'Module' => 'Модуль',
-      'Modulefile' => 'Файл-модуль',
-      'month(s)' => '',
-      'Name' => 'Имя',
-      'New Article' => '',
-      'New message' => 'новоее сообщение',
-      'New message!' => 'новоее сообщение!',
-      'Next' => '',
-      'Next...' => '',
-      'No' => 'Нет',
-      'no' => 'нет',
-      'No entry found!' => '',
-      'No Permission!' => '',
-      'No such Ticket Number "%s"! Can\'t link it!' => '',
-      'No suggestions' => 'Нет предложений',
-      'none' => 'нет',
-      'none - answered' => 'нет - отвечен?',
-      'none!' => 'нет!',
-      'Normal' => '',
-      'off' => 'выключено',
-      'Off' => 'Выключено',
-      'On' => 'Включено',
-      'on' => 'включено',
-      'Online Agent: %s' => '',
-      'Online Customer: %s' => '',
-      'Password' => 'Пароль',
-      'Passwords dosn\'t match! Please try it again!' => '',
-      'Pending till' => 'В очереди до',
-      'Please answer this ticket(s) to get back to the normal queue view!' => 'Ответьте на эти заявки для перехода к обычному просмотру очереди !',
-      'Please contact your admin' => 'Свяжитесь с администратором',
-      'please do not edit!' => 'Не редактировать!',
-      'possible' => 'возможно',
-      'Preview' => '',
-      'QueueView' => 'Просмотр очереди',
-      'reject' => 'отвергнуть',
-      'replace with' => 'заменить на',
-      'Reset' => 'Рестарт',
-      'Salutation' => 'Приветствие',
-      'Session has timed out. Please log in again.' => '',
-      'Show closed Tickets' => '',
-      'Sign' => '',
-      'Signature' => 'Подпись',
-      'Signed' => '',
-      'Size' => '',
-      'Sorry' => 'Звиняйте',
-      'Stats' => 'Статистика',
-      'Subfunction' => 'Подфункция',
-      'submit' => 'ввести',
-      'submit!' => 'Ввести!',
-      'system' => '',
-      'Take this Customer' => '',
-      'Take this User' => 'Выбрать этого пользователя',
       'Text' => 'Текст',
-      'The recommended charset for your language is %s!' => 'Рекомендуемая кодировка для вашего языка %s',
-      'Theme' => 'Тема',
-      'There is no account with that login name.' => 'Нет пользователя с таким именем.',
-      'Ticket Number' => '',
-      'Timeover' => 'Время ожидания истекло',
-      'To: (%s) replaced with database email!' => '',
-      'top' => 'к началу',
-      'Type' => 'Тип',
-      'update' => 'обновить',
-      'Update' => '',
-      'update!' => 'обновить!',
-      'Upload' => '',
+      'Lite' => '',
       'User' => 'Пользователь',
       'Username' => 'Имя пользователя',
+      'Language' => 'Язык',
+      'Languages' => 'Языки',
+      'Password' => 'Пароль',
+      'Salutation' => 'Приветствие',
+      'Signature' => 'Подпись',
+      'Customer' => 'Клиент',
+      'CustomerID' => 'ID Пользователя',
+      'CustomerIDs' => '',
+      'customer' => '',
+      'agent' => '',
+      'system' => '',
+      'Customer Info' => '',
+      'go!' => 'ОК!',
+      'go' => 'ОК',
+      'All' => 'Все',
+      'all' => 'все',
+      'Sorry' => 'Звиняйте',
+      'update!' => 'обновить!',
+      'update' => 'обновить',
+      'Update' => '',
+      'submit!' => 'Ввести!',
+      'submit' => 'ввести',
+      'Submit' => '',
+      'change!' => 'Сменить!',
+      'Change' => 'Изменение',
+      'change' => 'изменение',
+      'click here' => 'кликнуть здесь',
+      'Comment' => 'Комментарий',
       'Valid' => 'Состояние записи',
-      'Warning' => 'Предупреждение',
-      'week(s)' => '',
-      'Welcome to OTRS' => 'Добро пожаловать в OTRS',
-      'Word' => 'Слово ?',
-      'wrote' => 'записано',
-      'year(s)' => '',
-      'Yes' => 'Да',
-      'yes' => 'да',
+      'Name' => 'Имя',
+      'Group' => 'Группа',
+      'Description' => 'Описание',
+      'description' => 'описание',
+      'Theme' => 'Тема',
+      'Created' => 'Создан',
+      'Created by' => '',
+      'Changed' => '',
+      'Changed by' => '',
+      'Search' => '',
+      'and' => '',
+      'between' => '',
+      'Fulltext Search' => '',
+      'Data' => '',
+      'Options' => 'Настройки',
+      'Title' => '',
+      'Item' => '',
+      'Delete' => '',
+      'Edit' => '',
+      'View' => 'Просмотр',
+      'Number' => '',
+      'System' => 'Система',
+      'Contact' => 'Контакт',
+      'Contacts' => '',
+      'Export' => '',
+      'Up' => '',
+      'Down' => '',
+      'Add' => '',
+      'Category' => '',
+      'New message' => 'новоее сообщение',
+      'New message!' => 'новоее сообщение!',
+      'Admin-Area' => 'Администрирование системы',
+      'Agent-Area' => '',
+      'FAQ-Area' => '',
+      'QueueView' => 'Просмотр очереди',
+      'Stats' => 'Статистика',
+      'Please answer this ticket(s) to get back to the normal queue view!' => 'Ответьте на эти заявки для перехода к обычному просмотру очереди !',
       'You got new message!' => 'Получите новоее сообщение!',
       'You have %s new message(s)!' => 'Количество новых сообщений: %s',
       'You have %s reminder ticket(s)!' => 'У Вас в очереди %s заявок!',
+      'The recommended charset for your language is %s!' => 'Рекомендуемая кодировка для вашего языка %s',
+      'Passwords dosn\'t match! Please try it again!' => '',
+      'Password is already in use! Please use an other password!' => '',
+      'Password is already used! Please use an other password!' => '',
+      'No suggestions' => 'Нет предложений',
+      'Word' => 'Слово ?',
+      'Ignore' => 'Пренебречь',
+      'replace with' => 'заменить на',
+      'Welcome to OTRS' => 'Добро пожаловать в OTRS',
+      'There is no account with that login name.' => 'Нет пользователя с таким именем.',
+      'Login failed! Your username or password was entered incorrectly.' => 'Неуспешная авторизация! Ваше имя или пароль неверны!',
+      'Please contact your admin' => 'Свяжитесь с администратором',
+      'Logout successful. Thank you for using OTRS!' => 'Вход успешен. Благодарим за пользование системой OTRS',
+      'Invalid SessionID!' => 'Неверный SessionID!',
+      'Feature not active!' => '',
+      'Ticket Number' => '',
+      'Ticket Object' => '',
+      'No such Ticket Number "%s"! Can\'t link it!' => '',
+      'Take this Customer' => '',
+      'Take this User' => 'Выбрать этого пользователя',
+      'possible' => 'возможно',
+      'reject' => 'отвергнуть',
+      'Facility' => 'Приспособление',
+      'Timeover' => 'Время ожидания истекло',
+      'Pending till' => 'В очереди до',
+      'Don\'t work with UserID 1 (System account)! Create new users!' => 'Не работать с UserID 1 (Системная учетная запись)! Создайте другого пользователя!',
+      'Dispatching by email To: field.' => '',
+      'Dispatching by selected Queue.' => '',
+      'No entry found!' => '',
+      'Session has timed out. Please log in again.' => '',
+      'No Permission!' => '',
+      'To: (%s) replaced with database email!' => '',
+      'Cc: (%s) added database email!' => '',
+      'Don\'t show closed Tickets' => '',
+      'Show closed Tickets' => '',
+      'New Article' => '',
+      '(Click here to add)' => '',
+      'last' => '',
+      'before' => '',
+      'day(s)' => '',
+      'month(s)' => '',
+      'week(s)' => '',
+      'year(s)' => '',
+      'Preview' => '',
+      'Added User "%s"' => '',
+      'Contract' => '',
+      'Online Customer: %s' => '',
+      'Online Agent: %s' => '',
+      'Calendar' => '',
+      'File' => '',
+      'Filename' => '',
+      'Type' => 'Тип',
+      'Size' => '',
+      'Upload' => '',
+      'Directory' => '',
+      'Signed' => '',
+      'Sign' => '',
+      'Crypted' => '',
+      'Crypt' => '',
+      'History::Move' => 'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).',
+      'History::NewTicket' => 'New Ticket [%s] created (Q=%s;P=%s;S=%s).',
+      'History::FollowUp' => 'FollowUp for [%s]. %s',
+      'History::SendAutoReject' => 'AutoReject sent to "%s".',
+      'History::SendAutoReply' => 'AutoReply sent to "%s".',
+      'History::SendAutoFollowUp' => 'AutoFollowUp sent to "%s".',
+      'History::Forward' => 'Forwarded to "%s".',
+      'History::Bounce' => 'Bounced to "%s".',
+      'History::SendAnswer' => 'Email sent to "%s".',
+      'History::SendAgentNotification' => '"%s"-notification sent to "%s".',
+      'History::SendCustomerNotification' => 'Notification sent to "%s".',
+      'History::EmailAgent' => 'Email sent to customer.',
+      'History::EmailCustomer' => 'Added email. %s',
+      'History::PhoneCallAgent' => 'Agent called customer.',
+      'History::PhoneCallCustomer' => 'Customer called us.',
+      'History::AddNote' => 'Added note (%s)',
+      'History::Lock' => 'Locked ticket.',
+      'History::Unlock' => 'Unlocked ticket.',
+      'History::TimeAccounting' => '%s time unit(s) accounted. Now total %s time unit(s).',
+      'History::Remove' => '%s',
+      'History::CustomerUpdate' => 'Updated: %s',
+      'History::PriorityUpdate' => 'Changed priority from "%s" (%s) to "%s" (%s).',
+      'History::OwnerUpdate' => 'New owner is "%s" (ID=%s).',
+      'History::LoopProtection' => 'Loop-Protection! No auto-response sent to "%s".',
+      'History::Misc' => '%s',
+      'History::SetPendingTime' => 'Updated: %s',
+      'History::StateUpdate' => 'Old: "%s" New: "%s"',
+      'History::TicketFreeTextUpdate' => 'Updated: %s=%s;%s=%s;',
+      'History::WebRequestCustomer' => 'Customer request via web.',
+      'History::TicketLinkAdd' => 'Added link to ticket "%s".',
+      'History::TicketLinkDelete' => 'Deleted link to ticket "%s".',
 
-    # Template: AAAMonth
-      'Apr' => 'Апреля',
-      'Aug' => 'Августа',
-      'Dec' => 'Декабря',
-      'Feb' => 'Февраля',
+      # Template: AAAMonth
       'Jan' => 'Января',
-      'Jul' => 'Июля',
-      'Jun' => 'Ююня',
+      'Feb' => 'Февраля',
       'Mar' => 'Марта',
+      'Apr' => 'Апреля',
       'May' => 'Мая',
-      'Nov' => 'Ноября',
-      'Oct' => 'Октября',
+      'Jun' => 'Ююня',
+      'Jul' => 'Июля',
+      'Aug' => 'Августа',
       'Sep' => 'Сентября',
+      'Oct' => 'Октября',
+      'Nov' => 'Ноября',
+      'Dec' => 'Декабря',
 
-    # Template: AAAPreferences
-      'Closed Tickets' => '',
-      'CreateTicket' => '',
-      'Custom Queue' => 'Дополнительная (custom) очередь',
-      'Follow up notification' => 'Уведомление об обновлениях',
-      'Frontend' => 'Режим пользователя',
-      'Mail Management' => 'Управление почтой',
-      'Max. shown Tickets a page in Overview.' => '',
-      'Max. shown Tickets a page in QueueView.' => '',
-      'Move notification' => 'Уведомление о перемещении',
-      'New ticket notification' => 'Уведомление о новоей заявке',
-      'Other Options' => 'Другие настройки',
-      'PhoneView' => 'Заявка по телефону',
+      # Template: AAANavBar
+      'Send Email and create a new Ticket' => '',
+      'Create new Phone Ticket' => '',
+      'Ticket-Area' => '',
+      'Overview of all open Tickets' => '',
+      'Logout' => 'Выход',
+      'Agent Preferences' => '',
+      'Preferences' => 'Предпочтения',
+      'Agent Mailbox' => '',
+      'Stats-Area' => '',
+      'FAQ' => 'FAQ (чаВо) Часто Задаваемые Вопросы',
+      'FAQ-Search' => '',
+      'FAQ-Article' => '',
+      'FAQ-State' => '',
+      'Admin' => '',
+      'Create new Ticket' => 'Создать новую Заявку',
+      'New Ticket' => 'новая Заявка',
+
+      # Template: AAAPreferences
       'Preferences updated successfully!' => 'Настройки успешно обновлены',
-      'QueueView refresh time' => 'Время обновления монитора очередей',
-      'Screen after new ticket' => '',
-      'Select your default spelling dictionary.' => '',
-      'Select your frontend Charset.' => 'Выберите вашу кодировку.',
-      'Select your frontend language.' => 'Выберите ваш язык.',
-      'Select your frontend QueueView.' => 'Выберите язык для монитора очередей.',
-      'Select your frontend Theme.' => 'Выберите тему интерфейса',
-      'Select your QueueView refresh time.' => 'Выберите время обновления монитора очередей.',
-      'Select your screen after creating a new ticket.' => '',
-      'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Прислать мне уведомление, если клиент прислал обновление и я собственник заявки.',
-      'Send me a notification if a ticket is moved into one of "My Queues".' => '',
-      'Send me a notification if a ticket is unlocked by the system.' => 'Прислать мне уведомление, если заявка освобождена системой.',
+      'Mail Management' => 'Управление почтой',
+      'Frontend' => 'Режим пользователя',
+      'Other Options' => 'Другие настройки',
+      'New ticket notification' => 'Уведомление о новоей заявке',
       'Send me a notification if there is a new ticket in "My Queues".' => '',
-      'Show closed tickets.' => '',
-      'Spelling Dictionary' => '',
+      'Follow up notification' => 'Уведомление об обновлениях',
+      'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Прислать мне уведомление, если клиент прислал обновление и я собственник заявки.',
       'Ticket lock timeout notification' => 'Уведомление о истечении срока блокировки заявки системой',
+      'Send me a notification if a ticket is unlocked by the system.' => 'Прислать мне уведомление, если заявка освобождена системой.',
+      'Move notification' => 'Уведомление о перемещении',
+      'Send me a notification if a ticket is moved into one of "My Queues".' => '',
+      'Custom Queue' => 'Дополнительная (custom) очередь',
+      'QueueView refresh time' => 'Время обновления монитора очередей',
+      'Select your QueueView refresh time.' => 'Выберите время обновления монитора очередей.',
+      'Select your frontend language.' => 'Выберите ваш язык.',
+      'Select your frontend Charset.' => 'Выберите вашу кодировку.',
+      'Select your frontend Theme.' => 'Выберите тему интерфейса',
+      'Select your frontend QueueView.' => 'Выберите язык для монитора очередей.',
+      'Spelling Dictionary' => '',
+      'Select your default spelling dictionary.' => '',
+      'PhoneView' => 'Заявка по телефону',
       'TicketZoom' => '',
+      'CreateTicket' => '',
+      'Screen after new ticket' => '',
+      'Select your screen after creating a new ticket.' => '',
+      'Closed Tickets' => '',
+      'Show closed tickets.' => '',
+      'Max. shown Tickets a page in QueueView.' => '',
+      'Max. shown Tickets a page in Overview.' => '',
+      'Can\'t update password, passwords dosn\'t match! Please try it again!' => '',
+      'Can\'t update password, invalid characters!' => '',
+      'Can\'t update password, need min. 8 characters!' => '',
+      'Can\'t update password, need 2 lower and 2 upper characters!' => '',
+      'Can\'t update password, need min. 1 digit!' => '',
+      'Can\'t update password, need min. 2 characters!' => '',
 
-    # Template: AAATicket
+      # Template: AAATicket
+      'Lock' => 'Блокировка',
+      'Unlock' => 'Разблокировать',
+      'History' => 'История',
+      'Zoom' => 'Подробно',
+      'Age' => 'Возраст',
+      'Bounce' => 'Переслать заявку',
+      'Forward' => 'Переслать',
+      'From' => 'От',
+      'To' => 'Для',
+      'Cc' => 'Копия для',
+      'Bcc' => 'Скрытая копия',
+      'Subject' => 'Тема',
+      'Move' => 'Переместить',
+      'Queue' => 'Очередь',
+      'Priority' => 'Приоритет',
+      'State' => 'Статус',
+      'Compose' => 'Создать',
+      'Pending' => 'В очереди',
+      'Owner' => 'Собственник',
+      'Sender' => 'Отправитель',
+      'Article' => 'Содержимое заявки',
+      'Ticket' => 'заявка',
+      'Createtime' => 'Время создания',
+      'plain' => 'обычный',
+      'eMail' => 'е-Mail',
+      'email' => 'e-mail',
+      'Close' => 'Закрыть',
+      'Action' => 'Действие',
+      'Attachment' => 'Прикрепленный файл',
+      'Attachments' => 'Прикрепленные файлы',
+      'This message was written in a character set other than your own.' => 'Это сообщение написано в кодировке. отличной от вашей.',
+      'If it is not displayed correctly,' => 'Если данный текст отображается некорректно,',
+      'This is a' => 'Это',
+      'to open it in a new window.' => 'открыть в новоем окне',
+      'This is a HTML email. Click here to show it.' => 'Это e-mail в HTML формате. Кликните здесь для просмотра',
+      'closed successful' => 'Закрыт успешно',
+      'closed unsuccessful' => 'Закрыт неуспешно',
+      'new' => 'нов',
+      'open' => 'открыт',
+      'closed' => '',
+      'removed' => 'удален',
+      'pending reminder' => 'очередное напоминание',
+      'pending auto close+' => 'очередь на авто закрытие+',
+      'pending auto close-' => 'очередь на авто закрытие-',
+      'email-external' => 'внешний    e-mail',
+      'email-internal' => 'внутренний e-mail',
+      'note-external' => 'внешняя Заметка',
+      'note-internal' => 'внутренняя Заметка',
+      'note-report' => 'Заметка-отчет',
+      'phone' => 'телефон',
+      'sms' => '',
+      'webrequest' => 'web-заявка',
+      'lock' => 'блокирован',
+      'unlock' => 'разблокирован',
+      'very low' => 'самый низкий',
+      'low' => 'низкий',
+      'normal' => 'нормальный',
+      'high' => 'высокий',
+      'very high' => 'самый высокий',
       '1 very low' => '1 самый низкий',
       '2 low' => '2 низкий',
       '3 normal' => '3 нормальный',
       '4 high' => '4 высокий',
       '5 very high' => '5 самый высокий',
-      'Action' => 'Действие',
-      'Age' => 'Возраст',
-      'Article' => 'Содержимое заявки',
-      'Attachment' => 'Прикрепленный файл',
-      'Attachments' => 'Прикрепленные файлы',
-      'Bcc' => 'Скрытая копия',
-      'Bounce' => 'Переслать заявку',
-      'Cc' => 'Копия для',
-      'Close' => 'Закрыть',
-      'closed' => '',
-      'closed successful' => 'Закрыт успешно',
-      'closed unsuccessful' => 'Закрыт неуспешно',
-      'Compose' => 'Создать',
-      'Created' => 'Создан',
-      'Createtime' => 'Время создания',
-      'email' => 'e-mail',
-      'eMail' => 'е-Mail',
-      'email-external' => 'внешний    e-mail',
-      'email-internal' => 'внутренний e-mail',
-      'Forward' => 'Переслать',
-      'From' => 'От',
-      'high' => 'высокий',
-      'History' => 'История',
-      'If it is not displayed correctly,' => 'Если данный текст отображается некорректно,',
-      'lock' => 'блокирован',
-      'Lock' => 'Блокировка',
-      'low' => 'низкий',
-      'Move' => 'Переместить',
-      'new' => 'нов',
-      'normal' => 'нормальный',
-      'note-external' => 'внешняя Заметка',
-      'note-internal' => 'внутренняя Заметка',
-      'note-report' => 'Заметка-отчет',
-      'open' => 'открыт',
-      'Owner' => 'Собственник',
-      'Pending' => 'В очереди',
-      'pending auto close+' => 'очередь на авто закрытие+',
-      'pending auto close-' => 'очередь на авто закрытие-',
-      'pending reminder' => 'очередное напоминание',
-      'phone' => 'телефон',
-      'plain' => 'обычный',
-      'Priority' => 'Приоритет',
-      'Queue' => 'Очередь',
-      'removed' => 'удален',
-      'Sender' => 'Отправитель',
-      'sms' => 'sms',
-      'State' => 'Статус',
-      'Subject' => 'Тема',
-      'This is a' => 'Это',
-      'This is a HTML email. Click here to show it.' => 'Это e-mail в HTML формате. Кликните здесь для просмотра',
-      'This message was written in a character set other than your own.' => 'Это сообщение написано в кодировке. отличной от вашей.',
-      'Ticket' => 'заявка',
       'Ticket "%s" created!' => '',
-      'To' => 'Для',
-      'to open it in a new window.' => 'открыть в новоем окне',
-      'Unlock' => 'Разблокировать',
-      'unlock' => 'разблокирован',
-      'very high' => 'самый высокий',
-      'very low' => 'самый низкий',
-      'View' => 'Просмотр',
-      'webrequest' => 'web-заявка',
-      'Zoom' => 'Подробно',
 
-    # Template: AAAWeekDay
-      'Fri' => 'Пятница',
-      'Mon' => 'Понед-к',
-      'Sat' => 'Суббота',
+      # Template: AAAWeekDay
       'Sun' => 'Воскр-е',
-      'Thu' => 'Четверг',
+      'Mon' => 'Понед-к',
       'Tue' => 'Вторник',
       'Wed' => 'Среда  ',
+      'Thu' => 'Четверг',
+      'Fri' => 'Пятница',
+      'Sat' => 'Суббота',
 
-    # Template: AdminAttachmentForm
-      'Add' => '',
+      # Template: AdminAttachmentForm
       'Attachment Management' => 'Управление прикрепленными файлами',
 
-    # Template: AdminAutoResponseForm
-      'Auto Response From' => 'Автоматический ответ от',
+      # Template: AdminAutoResponseForm
       'Auto Response Management' => 'Управление авто-ответами',
-      'Note' => 'заметка',
+      '"} <a href="Action=">$Text{"' => '',
       'Response' => 'Ответ',
+      'Auto Response From' => 'Автоматический ответ от',
+      'Note' => 'заметка',
+      'Useable options' => 'Используемые опции',
       'to get the first 20 character of the subject' => 'получить первые 20 символов поля "тема"',
       'to get the first 5 lines of the email' => 'получить первые 5 строк письма',
       'to get the from line of the email' => 'получить поле "от" письма',
       'to get the realname of the sender (if given)' => 'получить (если есть) имя отправителя',
-      'to get the ticket id of the ticket' => 'Получить ID заявки',
-      'to get the ticket number of the ticket' => 'Получить номер заявки',
-      'Useable options' => 'Используемые опции',
+      'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
 
-    # Template: AdminCustomerUserForm
+      # Template: AdminCustomerUserForm
+      'The message being composed has been closed.  Exiting.' => 'создаваемое сообщение было закрыто. выход.',
+      'This window must be called from compose window' => 'Это окно должно вызываться из окна ввода',
       'Customer User Management' => 'Управление пользователями (для клиентов)',
-      'Customer user will be needed to have an customer histor and to to login via customer panels.' => '',
-      'Result' => '',
-      'Search' => '',
       'Search for' => '',
+      'Result' => '',
       'Select Source (for add)' => '',
       'Source' => '',
-      'The message being composed has been closed.  Exiting.' => 'создаваемое сообщение было закрыто. выход.',
       'This values are read only.' => '',
       'This values are required.' => '',
-      'This window must be called from compose window' => 'Это окно должно вызываться из окна ввода',
+      'Customer user will be needed to have an customer histor and to to login via customer panels.' => '',
 
-    # Template: AdminCustomerUserGroupChangeForm
+      # Template: AdminCustomerUserGroupChangeForm
+      'Customer Users <-> Groups Management' => '',
       'Change %s settings' => 'Изменить %s настроек',
-      'Customer User <-> Group Management' => '',
-      'Full read and write access to the tickets in this group/queue.' => '',
+      'Select the user:group permissions.' => '',
       'If nothing is selected, then there are no permissions in this group (tickets will not be available for the user).' => '',
       'Permission' => '',
-      'Read only access to the ticket in this group/queue.' => '',
       'ro' => '',
+      'Read only access to the ticket in this group/queue.' => '',
       'rw' => '',
-      'Select the user:group permissions.' => '',
+      'Full read and write access to the tickets in this group/queue.' => '',
 
-    # Template: AdminCustomerUserGroupForm
+      # Template: AdminCustomerUserGroupForm
       'Change user <-> group settings' => 'Изменить пользователя <-> Настройки групп',
 
-    # Template: AdminEmail
+      # Template: AdminEmail
       'Admin-Email' => 'e-mail администратора',
-      'Body' => 'Тело письма',
-      'OTRS-Admin Info!' => 'Информация от администратора OTRS',
+      'Message sent to' => 'Сообщение отправлено для',
       'Recipents' => 'Получатели',
+      'Body' => 'Тело письма',
       'send' => '',
 
-    # Template: AdminEmailSent
-      'Message sent to' => 'Сообщение отправлено для',
-
-    # Template: AdminGenericAgent
+      # Template: AdminGenericAgent
+      'GenericAgent' => '',
+      'Job-List' => '',
+      'Last run' => '',
+      'valid' => 'Состояние записи',
+      'Run Now!' => '',
+      'x' => '',
+      'Save Job as?' => '',
+      'Is Job Valid?' => '',
+      'Is Job Valid' => '',
+      'Schedule' => '',
+      'Minutes' => '',
+      'Hours' => '',
+      'Days' => '',
+      'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => '',
       '(e. g. 10*5155 or 105658*)' => '',
       '(e. g. 234321)' => '',
-      '(e. g. U5150)' => '',
-      '-' => '',
-      'Add Note' => 'Добавить заметку',
-      'Agent' => '',
-      'and' => '',
-      'CMD' => '',
       'Customer User Login' => '',
-      'CustomerID' => 'ID Пользователя',
-      'CustomerUser' => 'Пользователь клиента',
-      'Days' => '',
-      'Delete' => '',
-      'Delete tickets' => '',
-      'Edit' => '',
-      'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => '',
-      'GenericAgent' => '',
-      'Hours' => '',
-      'Job-List' => '',
-      'Jobs' => '',
-      'Last run' => '',
-      'Minutes' => '',
-      'Modules' => '',
-      'New Agent' => '',
-      'New Customer' => '',
-      'New Owner' => '',
+      '(e. g. U5150)' => '',
+      'Agent' => '',
+      'TicketFreeText' => '',
+      'Ticket Lock' => '',
+      'Times' => '',
+      'No time settings.' => '',
+      'Ticket created' => '',
+      'Ticket created between' => '',
       'New Priority' => '',
       'New Queue' => '',
       'New State' => '',
+      'New Agent' => '',
+      'New Owner' => '',
+      'New Customer' => '',
       'New Ticket Lock' => '',
-      'No time settings.' => '',
+      'CustomerUser' => 'Пользователь клиента',
+      'Add Note' => 'Добавить заметку',
+      'CMD' => '',
+      'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => '',
+      'Delete tickets' => '',
+      'Warning! This tickets will be removed from the database! This tickets are lost!' => '',
+      'Modules' => '',
       'Param 1' => '',
       'Param 2' => '',
       'Param 3' => '',
@@ -432,784 +499,642 @@ sub Data {
       'Param 5' => '',
       'Param 6' => '',
       'Save' => '',
-      'Save Job as?' => '',
-      'Schedule' => '',
-      'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => '',
-      'Ticket created' => '',
-      'Ticket created between' => '',
-      'Ticket Lock' => '',
-      'TicketFreeText' => '',
-      'Times' => '',
-      'Warning! This tickets will be removed from the database! This tickets are lost!' => '',
 
-    # Template: AdminGroupForm
-      'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).' => 'Создать новые группы для контроля доступа различных групп агентов (отдел закупок, отдел продаж, отдел техподдержки и т.п.)',
+      # Template: AdminGroupForm
       'Group Management' => 'Управление группами',
-      'It\'s useful for ASP solutions.' => 'Это подходит для ASP.',
       'The admin group is to get in the admin area and the stats group to get stats area.' => 'Группа admin должна быть в admin зоне, а stats группа в stat зоне',
+      'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).' => 'Создать новые группы для контроля доступа различных групп агентов (отдел закупок, отдел продаж, отдел техподдержки и т.п.)',
+      'It\'s useful for ASP solutions.' => 'Это подходит для ASP.',
 
-    # Template: AdminLog
+      # Template: AdminLog
       'System Log' => 'Системный журнал',
       'Time' => '',
 
-    # Template: AdminNavigationBar
-      'AdminEmail' => 'e-mail администратора',
-      'Attachment <-> Response' => '',
-      'Auto Response <-> Queue' => 'Авто-ответ <-> Очередь',
-      'Auto Responses' => 'Авто-ответы',
-      'Customer User' => 'Пользователь клиента',
-      'Customer User <-> Groups' => '',
-      'Email Addresses' => 'адреса e-mail',
+      # Template: AdminNavigationBar
+      'Users' => '',
       'Groups' => 'Группы',
-      'Logout' => 'Выход',
-      'Misc' => 'Дополнительно',
-      'Notifications' => '',
-      'PGP Keys' => '',
-      'PostMaster Filter' => '',
-      'PostMaster POP3 Account' => 'PostMaster учетная запись POP3',
-      'Responses' => 'Ответы',
-      'Responses <-> Queue' => 'Ответы <-> Очередь',
-      'Role' => '',
-      'Role <-> Group' => '',
-      'Role <-> User' => '',
       'Roles' => '',
-      'Select Box' => 'Дать команду SELECT',
-      'Session Management' => 'Управление сессиями',
-      'SMIME Certificates' => '',
-      'Status' => '',
-      'System' => 'Система',
-      'User <-> Groups' => 'Пользователь <-> Группы',
+      'Responses' => 'Ответы',
+      'Misc' => 'Дополнительно',
 
-    # Template: AdminNotificationForm
-      'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
+      # Template: AdminNotificationForm
       'Notification Management' => '',
+      'Notification' => '',
       'Notifications are sent to an agent or a customer.' => '',
-      'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => '',
-      'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
+      'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
       'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => '',
+      'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
+      'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => '',
 
-    # Template: AdminPGPForm
-      'Bit' => '',
-      'Expires' => '',
-      'File' => '',
-      'Fingerprint' => '',
-      'FIXME: WHAT IS PGP?' => '',
+      # Template: AdminPackageManager
+      'Package Manager' => '',
+      'Uninstall' => '',
+      'Verion' => '',
+      'Do you really want to uninstall this package?' => '',
+      'Install' => '',
+      'Package' => '',
+      'Online Repository' => '',
+      'Version' => '',
+      'Vendor' => '',
+      'Upgrade' => '',
+      'Local Repository' => '',
+      'Status' => '',
+      'Overview' => '',
+      'Download' => '',
+      'Rebuild' => '',
+      'Reinstall' => '',
+
+      # Template: AdminPGPForm
+      'PGP Management' => '',
       'Identifier' => '',
-      'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
+      'Bit' => '',
       'Key' => 'Ключ',
-      'PGP Key Management' => '',
+      'Fingerprint' => '',
+      'Expires' => '',
+      'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
+      'FIXME: WHAT IS PGP?' => '',
 
-    # Template: AdminPOP3Form
-      'All incoming emails with one account will be dispatched in the selected queue!' => 'Все входящие письма с едной учетной записи будут перенесены в избранную очередь!',
-      'Dispatching' => 'Перенаправление',
-      'Host' => 'Сервер',
-      'If your account is trusted, the already existing x-otrs header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => '',
+      # Template: AdminPOP3Form
       'POP3 Account Management' => 'Управление учетной записью POP3',
+      'Host' => 'Сервер',
       'Trusted' => 'Безопасный',
+      'Dispatching' => 'Перенаправление',
+      'All incoming emails with one account will be dispatched in the selected queue!' => 'Все входящие письма с едной учетной записи будут перенесены в избранную очередь!',
+      'If your account is trusted, the already existing x-otrs header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => '',
 
-    # Template: AdminPostMasterFilter
-      'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' => '',
-      'Filtername' => '',
-      'Header' => '',
-      'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' => '',
-      'Match' => '',
+      # Template: AdminPostMasterFilter
       'PostMaster Filter Management' => '',
-      'Set' => '',
+      'Filtername' => '',
+      'Match' => '',
+      'Header' => '',
       'Value' => '',
+      'Set' => '',
+      'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' => '',
+      'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' => '',
 
-    # Template: AdminQueueAutoResponseForm
-      'Queue <-> Auto Response Management' => 'Очередь <-> Управление авто-ответами',
+      # Template: AdminQueueAutoResponseForm
+      'Queue <-> Auto Responses Management' => '',
 
-    # Template: AdminQueueAutoResponseTable
+      # Template: AdminQueueAutoResponseTable
 
-    # Template: AdminQueueForm
-      '0 = no escalation' => '0 = без эскалации',
-      '0 = no unlock' => '0 = без блокировки',
-      'Customer Move Notify' => '',
-      'Customer Owner Notify' => '',
-      'Customer State Notify' => '',
-      'Escalation time' => 'Время до эскалации заявки (увеличение приоритета)',
-      'Follow up Option' => 'Параметры авто-слежения ?',
-      'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => 'Если заявка закрыта, а клиент прислал дополнение,то заявка будет заблокирована для предыдущего владельца',
-      'If a ticket will not be answered in thos time, just only this ticket will be shown.' => 'Если заявка не будет обслужена в установленное время, показывать только эту заявку',
-      'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Если агент заблокировал заявку и не послал ответ клиенту в течение установленного времени, то заявка автоматически разблокируется и станет доступной для остальных агентов',
-      'OTRS sends an notification email to the customer if the ticket is moved.' => '',
-      'OTRS sends an notification email to the customer if the ticket owner has changed.' => '',
-      'OTRS sends an notification email to the customer if the ticket state has changed.' => '',
+      # Template: AdminQueueForm
       'Queue Management' => 'Управление очередью',
       'Sub-Queue of' => '',
+      'Unlock timeout' => 'Срок блокировки',
+      '0 = no unlock' => '0 = без блокировки',
+      'Escalation time' => 'Время до эскалации заявки (увеличение приоритета)',
+      '0 = no escalation' => '0 = без эскалации',
+      'Follow up Option' => 'Параметры авто-слежения ?',
+      'Ticket lock after a follow up' => 'Блокировка заявки после прихода дополнения',
       'Systemaddress' => 'Системный адрес',
+      'Customer Move Notify' => '',
+      'Customer State Notify' => '',
+      'Customer Owner Notify' => '',
+      'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Если агент заблокировал заявку и не послал ответ клиенту в течение установленного времени, то заявка автоматически разблокируется и станет доступной для остальных агентов',
+      'If a ticket will not be answered in thos time, just only this ticket will be shown.' => 'Если заявка не будет обслужена в установленное время, показывать только эту заявку',
+      'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => 'Если заявка закрыта, а клиент прислал дополнение,то заявка будет заблокирована для предыдущего владельца',
+      'Will be the sender address of this queue for email answers.' => 'Установка адреса отправителя для ответов в этой очереди',
       'The salutation for email answers.' => 'Приветствие для почтовых сообщений',
       'The signature for email answers.' => 'Подпись для почтовых сообщений',
-      'Ticket lock after a follow up' => 'Блокировка заявки после прихода дополнения',
-      'Unlock timeout' => 'Срок блокировки',
-      'Will be the sender address of this queue for email answers.' => 'Установка адреса отправителя для ответов в этой очереди',
+      'OTRS sends an notification email to the customer if the ticket is moved.' => '',
+      'OTRS sends an notification email to the customer if the ticket state has changed.' => '',
+      'OTRS sends an notification email to the customer if the ticket owner has changed.' => '',
 
-    # Template: AdminQueueResponsesChangeForm
-      'Std. Responses <-> Queue Management' => 'Стандартные ответы <-> Управление очередями',
+      # Template: AdminQueueResponsesChangeForm
+      'Responses <-> Queue Management' => '',
 
-    # Template: AdminQueueResponsesForm
+      # Template: AdminQueueResponsesForm
       'Answer' => 'Ответ',
 
-    # Template: AdminResponseAttachmentChangeForm
-      'Std. Responses <-> Std. Attachment Management' => 'Станд.ответы <-> Настройка прикрепленных файлов по умолчанию',
+      # Template: AdminResponseAttachmentChangeForm
+      'Responses <-> Attachments Management' => '',
 
-    # Template: AdminResponseAttachmentForm
+      # Template: AdminResponseAttachmentForm
 
-    # Template: AdminResponseForm
+      # Template: AdminResponseForm
+      'Response Management' => 'Управление ответами',
       'A response is default text to write faster answer (with default text) to customers.' => 'Ответ - заготовка текста для ответа кклиенту',
-      'All Customer variables like defined in config option CustomerUser.' => '',
       'Don\'t forget to add a new response a queue!' => 'Не забудьте добавить ответ для очереди!',
       'Next state' => '',
-      'Response Management' => 'Управление ответами',
+      'All Customer variables like defined in config option CustomerUser.' => '',
       'The current ticket state is' => '',
       'Your email address is new' => '',
 
-    # Template: AdminRoleForm
+      # Template: AdminRoleForm
+      'Role Management' => '',
       'Create a role and put groups in it. Then add the role to the users.' => '',
       'It\'s useful for a lot of users and groups.' => '',
-      'Role Management' => '',
 
-    # Template: AdminRoleGroupChangeForm
-      'create' => '',
+      # Template: AdminRoleGroupChangeForm
+      'Roles <-> Groups Management' => '',
       'move_into' => '',
+      'Permissions to move tickets into this group/queue.' => '',
+      'create' => '',
+      'Permissions to create tickets in this group/queue.' => '',
       'owner' => '',
       'Permissions to change the ticket owner in this group/queue.' => '',
-      'Permissions to change the ticket priority in this group/queue.' => '',
-      'Permissions to create tickets in this group/queue.' => '',
-      'Permissions to move tickets into this group/queue.' => '',
       'priority' => '',
-      'Role <-> Group Management' => '',
+      'Permissions to change the ticket priority in this group/queue.' => '',
 
-    # Template: AdminRoleGroupForm
-      'Change role <-> group settings' => '',
+      # Template: AdminRoleGroupForm
+      'Change roles <-> groups settings' => '',
+      'Role' => '',
 
-    # Template: AdminRoleUserChangeForm
+      # Template: AdminRoleUserChangeForm
+      'Roles <-> Users Management' => '',
       'Active' => '',
-      'Role <-> User Management' => '',
       'Select the role:user relations.' => '',
 
-    # Template: AdminRoleUserForm
-      'Change user <-> role settings' => '',
+      # Template: AdminRoleUserForm
+      'Change users <-> roles settings' => '',
 
-    # Template: AdminSMIMEForm
-      'Add Certificate' => '',
-      'Add Private Key' => '',
-      'FIXME: WHAT IS SMIME?' => '',
-      'Hash' => '',
-      'In this way you can directly edit the certification and private keys in file system.' => '',
-      'Secret' => '',
-      'SMIME Certificate Management' => '',
-
-    # Template: AdminSalutationForm
+      # Template: AdminSalutationForm
+      'Salutation Management' => 'Управление приветствиями',
       'customer realname' => 'имя клиента',
       'for agent firstname' => 'для агента - имя',
       'for agent lastname' => 'для агента - фамилия',
-      'for agent login' => '',
       'for agent user id' => '',
-      'Salutation Management' => 'Управление приветствиями',
+      'for agent login' => '',
 
-    # Template: AdminSelectBoxForm
+      # Template: AdminSelectBoxForm
+      'Select Box' => 'Дать команду SELECT',
+      'SQL' => '',
       'Limit' => 'Лимит',
-      'SQL' => 'SQL',
-
-    # Template: AdminSelectBoxResult
       'Select Box Result' => 'Выберите из меню',
 
-    # Template: AdminSession
-      'kill all sessions' => 'Закрыть все текущие сессии',
-      'kill session' => 'Закрыть сессию',
-      'Overview' => '',
-      'Session' => '',
+      # Template: AdminSession
+      'Session Management' => 'Управление сессиями',
       'Sessions' => '',
       'Uniq' => '',
+      'kill all sessions' => 'Закрыть все текущие сессии',
+      'Session' => '',
+      'kill session' => 'Закрыть сессию',
 
-    # Template: AdminSignatureForm
+      # Template: AdminSignatureForm
       'Signature Management' => 'Управление на подписью',
 
-    # Template: AdminStateForm
-      'See also' => '',
-      'State Type' => '',
-      'System State Management' => 'Управление системными состояниями',
-      'Take care that you also updated the default states in you Kernel/Config.pm!' => '',
+      # Template: AdminSMIMEForm
+      'SMIME Management' => '',
+      'Add Certificate' => '',
+      'Add Private Key' => '',
+      'Secret' => '',
+      'Hash' => '',
+      'In this way you can directly edit the certification and private keys in file system.' => '',
+      'FIXME: WHAT IS SMIME?' => '',
 
-    # Template: AdminSystemAddressForm
-      'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Все входящие сообщения с этим полем (Для:) будут направлены в выбранную очередь',
+      # Template: AdminStateForm
+      'System State Management' => 'Управление системными состояниями',
+      'State Type' => '',
+      'Take care that you also updated the default states in you Kernel/Config.pm!' => '',
+      'See also' => '',
+
+      # Template: AdminSysConfig
+      'SysConfig' => '',
+      'Group selection' => '',
+      'Show' => '',
+      'Subgroup' => '',
+
+      # Template: AdminSysConfigEdit
+      'Options ' => '',
+      'for ' => '',
+      'Subgroup \'' => '',
+      '\' ' => '',
+      'Content' => '',
+      'New' => 'Новый',
+      'Group Ro' => '',
+      'NavBarName' => '',
+      'Image' => '',
+      'Typ' => '',
+      'Prio' => '',
+      'Block' => '',
+      'NavBar' => '',
+
+      # Template: AdminSystemAddressForm
+      'System Email Addresses Management' => 'Управление системными e-mail адресами',
       'Email' => 'e-mail',
       'Realname' => 'Реальное Имя',
-      'System Email Addresses Management' => 'Управление системными e-mail адресами',
+      'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Все входящие сообщения с этим полем (Для:) будут направлены в выбранную очередь',
 
-    # Template: AdminUserForm
-      'Don\'t forget to add a new user to groups!' => 'Не забудьте добавить новоего пользователя в группы!',
+      # Template: AdminUserForm
+      'User Management' => 'Управление пользователями',
       'Firstname' => 'Имя',
       'Lastname' => 'Фамилия',
-      'User Management' => 'Управление пользователями',
       'User will be needed to handle tickets.' => 'Для обработки заявок нужен пользователь',
+      'Don\'t forget to add a new user to groups!' => 'Не забудьте добавить новоего пользователя в группы!',
 
-    # Template: AdminUserGroupChangeForm
-      'User <-> Group Management' => 'Пользователь <-> Управление группами',
+      # Template: AdminUserGroupChangeForm
+      'Users <-> Groups Management' => '',
 
-    # Template: AdminUserGroupForm
+      # Template: AdminUserGroupForm
 
-    # Template: AgentBook
+      # Template: AgentBook
       'Address Book' => '',
-      'Discard all changes and return to the compose screen' => 'Отказаться от всех изменений и вернуться в окно ввода',
       'Return to the compose screen' => 'вернуться в окно ввода',
+      'Discard all changes and return to the compose screen' => 'Отказаться от всех изменений и вернуться в окно ввода',
 
-    # Template: AgentBounce
-      'A message should have a To: recipient!' => 'Сообщение должно иметь поле ДЛЯ: адресата!',
-      'Bounce ticket' => 'Пересылка заявки',
-      'Bounce to' => 'Переслать для',
-      'Inform sender' => 'Информировать отправителя',
-      'Next ticket state' => 'Следующее состояние заявки',
-      'Send mail!' => 'Послать e-mail!',
-      'You need a email address (e. g. customer@example.com) in To:!' => 'Нужен правильный адрес в поле ДЛЯ: (support@rgs.ru)!',
-      'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => '',
+      # Template: AgentCustomerTableView
 
-    # Template: AgentBulk
-      '$Text{"Note!' => '',
-      'A message should have a subject!' => 'Сообщение должно иметь поле "тема"!',
-      'Note type' => 'Тип заметки',
-      'Note!' => 'заметка!',
-      'Options' => 'Настройки',
-      'Spell Check' => 'Проверка правописания',
-      'Ticket Bulk Action' => '',
-
-    # Template: AgentClose
-      ' (work units)' => ' (рабочие единицы)',
-      'A message should have a body!' => '',
-      'Close ticket' => 'Закрыть заявку',
-      'Close type' => 'Тип закрытия',
-      'Close!' => 'Закрыть!',
-      'Note Text' => 'Текст заметки',
-      'Time units' => 'Единицы времени',
-      'You need to account time!' => '',
-
-    # Template: AgentCompose
-      'A message must be spell checked!' => '',
-      'Attach' => 'Прикреплен файл',
-      'Compose answer for ticket' => 'Создать ответ на заявку',
-      'for pending* states' => 'для последующих состояний* ',
-      'Is the ticket answered' => 'Послан ответ на заявку',
-      'Pending Date' => 'Следующая дата',
-
-    # Template: AgentCrypt
-
-    # Template: AgentCustomer
-      'Change customer of ticket' => 'Изменить клиента заявки',
-      'Search Customer' => 'Искать клиента',
-      'Set customer user and customer id of a ticket' => '',
-
-    # Template: AgentCustomerHistory
-      'All customer tickets.' => '',
-      'Customer history' => 'История клиента',
-
-    # Template: AgentCustomerMessage
-      'Follow up' => 'Дополнение к заявке',
-
-    # Template: AgentCustomerView
-      'Customer Data' => 'Учетные данные клиента',
-
-    # Template: AgentEmailNew
-      'All Agents' => '',
-      'Clear To' => '',
-      'Compose Email' => '',
-      'new ticket' => 'новая Заявка',
-
-    # Template: AgentForward
-      'Article type' => 'Тип статьи',
-      'Date' => 'Дата',
-      'End forwarded message' => 'Конец пересланного сообщения',
-      'Forward article of ticket' => 'Переслать статью из заявки',
-      'Forwarded message from' => 'Переслано сообщение от',
-      'Reply-To' => 'Ответ для',
-
-    # Template: AgentFreeText
-      'Change free text of ticket' => '',
-
-    # Template: AgentHistoryForm
-      'History of' => 'История',
-
-    # Template: AgentHistoryRow
-
-    # Template: AgentInfo
+      # Template: AgentInfo
       'Info' => 'Информация',
 
-    # Template: AgentLookup
+      # Template: AgentLinkObject
+      'Link Object' => '',
+      '"}" $Text{"with' => '',
+      'Select' => '',
+      'Results' => 'Результат',
+      'Total hits' => 'Кумулятивные попадания',
+      'Site' => 'Место',
+      'Detail' => '',
+
+      # Template: AgentLookup
       'Lookup' => '',
 
-    # Template: AgentMailboxNavBar
-      'All messages' => 'Все сообщения',
-      'down' => 'вниз',
-      'Mailbox' => 'Почтовый ящик',
-      'New' => 'Новый',
-      'New messages' => 'Новые сообщения',
-      'Open' => 'Открытые',
-      'Open messages' => 'Открытые сообщения',
-      'Order' => 'Порядок',
-      'Pending messages' => 'сообщения в очереди',
-      'Reminder' => 'Напоминание',
-      'Reminder messages' => 'Напоминающие сообщения',
-      'Sort by' => 'Сортировка по',
-      'Tickets' => 'Заявки',
-      'up' => 'вверх',
-
-    # Template: AgentMailboxTicket
-      '"}' => '',
-      '"}","14' => '',
-      'Add a note to this ticket!' => '',
-      'Change the ticket customer!' => '',
-      'Change the ticket owner!' => '',
-      'Change the ticket priority!' => '',
-      'Close this ticket!' => '',
-      'Shows the detail view of this ticket!' => '',
-      'Unlock this ticket!' => '',
-
-    # Template: AgentMove
-      'Move Ticket' => '',
-      'Previous Owner' => '',
-      'Queue ID' => '',
-
-    # Template: AgentNavigationBar
-      'Agent Preferences' => '',
-      'Bulk Action' => '',
-      'Bulk Actions on Tickets' => '',
-      'Create new Email Ticket' => '',
-      'Create new Phone Ticket' => '',
-      'Email-Ticket' => '',
-      'Locked tickets' => 'Заблокированные заявки',
-      'new message' => 'новое сообщение',
-      'Overview of all open Tickets' => '',
-      'Phone-Ticket' => '',
-      'Preferences' => 'Предпочтения',
-      'Search Tickets' => '',
+      # Template: AgentNavigationBar
       'Ticket selected for bulk action!' => '',
       'You need min. one selected Ticket!' => '',
 
-    # Template: AgentNote
-      'Add note to ticket' => 'Добавить заметку к заявке',
+      # Template: AgentPreferencesForm
 
-    # Template: AgentOwner
-      'Change owner of ticket' => 'Изменить собственика заявки',
-      'Message for new Owner' => 'сообщение для нового владельца',
-
-    # Template: AgentPending
-      'Pending date' => 'В очереди - дата',
-      'Pending type' => 'В очереди - тип',
-      'Set Pending' => 'В очереди - задать',
-
-    # Template: AgentPhone
-      'Phone call' => 'Телефонный звонок',
-
-    # Template: AgentPhoneNew
-      'Clear From' => '',
-
-    # Template: AgentPlain
-      'ArticleID' => 'ID заметки',
-      'Download' => '',
-      'Plain' => 'Обыкновенный',
-      'TicketID' => 'ID заявки',
-
-    # Template: AgentPreferencesCustomQueue
-      'My Queues' => '',
-      'You also get notified about this queues via email if enabled.' => '',
-      'Your queue selection of your favorite queues.' => '',
-
-    # Template: AgentPreferencesForm
-
-    # Template: AgentPreferencesGeneric
-
-    # Template: AgentPreferencesPassword
-      'Change Password' => 'Изменить пароль',
-      'New password' => 'Новый пароль',
-      'New password again' => 'Повтор пароля',
-
-    # Template: AgentPriority
-      'Change priority of ticket' => 'Изменить приоритет заявки',
-
-    # Template: AgentSpelling
-      'Apply these changes' => 'Применить эти изменения',
+      # Template: AgentSpelling
       'Spell Checker' => 'Проверка правописания',
       'spelling error(s)' => 'Ошибки правописания',
+      'or' => '',
+      'Apply these changes' => 'Применить эти изменения',
 
-    # Template: AgentStatusView
-      'D' => 'D',
-      'of' => 'на',
-      'Site' => 'Место',
-      'sort downward' => 'сортировка по убыванию',
-      'sort upward' => 'сортировка по возрастанию',
-      'Ticket Status' => 'состояние заявки',
-      'U' => 'U',
+      # Template: AgentTicketBounce
+      'A message should have a To: recipient!' => 'Сообщение должно иметь поле ДЛЯ: адресата!',
+      'You need a email address (e. g. customer@example.com) in To:!' => 'Нужен правильный адрес в поле ДЛЯ: (support@rgs.ru)!',
+      'Bounce ticket' => 'Пересылка заявки',
+      'Bounce to' => 'Переслать для',
+      'Next ticket state' => 'Следующее состояние заявки',
+      'Inform sender' => 'Информировать отправителя',
+      'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => '',
+      'Send mail!' => 'Послать e-mail!',
 
-    # Template: AgentTicketLink
-      'Delete Link' => '',
-      'Link' => '',
-      'Link to' => '',
+      # Template: AgentTicketBulk
+      'A message should have a subject!' => 'Сообщение должно иметь поле "тема"!',
+      'Ticket Bulk Action' => '',
+      '$Text{"Note!' => '',
+      'Spell Check' => 'Проверка правописания',
+      'Note type' => 'Тип заметки',
+      'Unlock Tickets' => '',
 
-    # Template: AgentTicketLocked
+      # Template: AgentTicketClose
+      'A message should have a body!' => '',
+      'You need to account time!' => '',
+      'Close ticket' => 'Закрыть заявку',
+      'Close!' => 'Закрыть!',
+      'Note Text' => 'Текст заметки',
+      'Close type' => 'Тип закрытия',
+      'Time units' => 'Единицы времени',
+      ' (work units)' => ' (рабочие единицы)',
+
+      # Template: AgentTicketCompose
+      'A message must be spell checked!' => '',
+      'Compose answer for ticket' => 'Создать ответ на заявку',
+      'Attach' => 'Прикреплен файл',
+      'Pending Date' => 'Следующая дата',
+      'for pending* states' => 'для последующих состояний* ',
+
+      # Template: AgentTicketCustomer
+      'Change customer of ticket' => 'Изменить клиента заявки',
+      'Set customer user and customer id of a ticket' => '',
+      'Customer User' => 'Пользователь клиента',
+      'Search Customer' => 'Искать клиента',
+      'Customer Data' => 'Учетные данные клиента',
+      'Customer history' => 'История клиента',
+      'All customer tickets.' => '',
+
+      # Template: AgentTicketCustomerMessage
+      'Follow up' => 'Дополнение к заявке',
+
+      # Template: AgentTicketEmail
+      'Compose Email' => '',
+      'new ticket' => 'новая Заявка',
+      'Clear To' => '',
+      'All Agents' => '',
+
+      # Template: AgentTicketForward
+      'Article type' => 'Тип статьи',
+
+      # Template: AgentTicketFreeText
+      'Change free text of ticket' => '',
+
+      # Template: AgentTicketHistory
+      'History of' => 'История',
+
+      # Template: AgentTicketLocked
       'Ticket locked!' => 'Заявка заблокирована!',
       'Ticket unlock!' => '',
 
-    # Template: AgentTicketPrint
+      # Template: AgentTicketMailbox
+      'Mailbox' => 'Почтовый ящик',
+      'Tickets' => 'Заявки',
+      'All messages' => 'Все сообщения',
+      'New messages' => 'Новые сообщения',
+      'Pending messages' => 'сообщения в очереди',
+      'Reminder messages' => 'Напоминающие сообщения',
+      'Reminder' => 'Напоминание',
+      'Sort by' => 'Сортировка по',
+      'Order' => 'Порядок',
+      'up' => 'вверх',
+      'down' => 'вниз',
+      '"}\'; return true;" onmouseout="window.status=\'\';" class="menuitem" title="$Text{"' => '',
+      '"}"}">$Quote{"$Text{""}' => '',
 
-    # Template: AgentTicketPrintHeader
+      # Template: AgentTicketMerge
+      'You need to use a ticket number!' => '',
+      'Ticket Merge' => '',
+      'Merge to' => '',
+      'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' => '',
+
+      # Template: AgentTicketMove
+      'Queue ID' => '',
+      'Move Ticket' => '',
+      'Previous Owner' => '',
+
+      # Template: AgentTicketNote
+      'Add note to ticket' => 'Добавить заметку к заявке',
+      'Inform Agent' => '',
+      'Optional' => '',
+      'Inform involved Agents' => '',
+
+      # Template: AgentTicketOwner
+      'Change owner of ticket' => 'Изменить собственика заявки',
+      'Message for new Owner' => 'сообщение для нового владельца',
+
+      # Template: AgentTicketPending
+      'Set Pending' => 'В очереди - задать',
+      'Pending type' => 'В очереди - тип',
+      'Pending date' => 'В очереди - дата',
+
+      # Template: AgentTicketPhone
+      'Phone call' => 'Телефонный звонок',
+
+      # Template: AgentTicketPhoneNew
+      'Clear From' => '',
+
+      # Template: AgentTicketPlain
+      'Plain' => 'Обыкновенный',
+      'TicketID' => 'ID заявки',
+      'ArticleID' => 'ID заметки',
+
+      # Template: AgentTicketPrint
+      'Ticket-Info' => '',
       'Accounted time' => 'Потраченное на заявку время',
       'Escalation in' => 'Эскалация заявки через',
+      'Linked-Object' => '',
+      'Parent-Object' => '',
+      'Child-Object' => '',
+      'by' => '',
 
-    # Template: AgentUtilSearch
+      # Template: AgentTicketPriority
+      'Change priority of ticket' => 'Изменить приоритет заявки',
+
+      # Template: AgentTicketQueue
+      'Tickets shown' => 'Показаны Заявки',
+      'Page' => '',
+      'Tickets available' => '',
+      'All tickets' => 'Все Заявки',
+      'Queues' => 'очереди',
+      'Ticket escalation!' => 'Истекло время до эскалации заявки !',
+
+      # Template: AgentTicketQueueTicketView
+      'Your own Ticket' => '',
+      'Compose Follow up' => '',
+      'Compose Answer' => 'Создать ответ',
+      'Contact customer' => 'Связаться с клиентом',
+      'Change queue' => 'Переместить в другую очередь',
+
+      # Template: AgentTicketQueueTicketViewLite
+
+      # Template: AgentTicketSearch
+      'Ticket Search' => '',
       'Profile' => '',
+      'Search-Template' => '',
+      'Created in Queue' => '',
       'Result Form' => '',
       'Save Search-Profile as Template?' => '',
-      'Search-Template' => '',
-      'Select' => '',
-      'Ticket Search' => '',
       'Yes, save it with name' => '',
-
-    # Template: AgentUtilSearchByCustomerID
       'Customer history search' => 'Поиск истории клиента',
       'Customer history search (e. g. "ID342425").' => 'Поиск истории клиента (напр. "ID342425").',
       'No * possible!' => 'Нельзя использовать символ * !',
 
-    # Template: AgentUtilSearchResult
-      'Change search options' => '',
-      'Results' => 'Результат',
+      # Template: AgentTicketSearchResult
       'Search Result' => '',
-      'Total hits' => 'Кумулятивные попадания',
+      'Change search options' => '',
 
-    # Template: AgentUtilSearchResultPrint
+      # Template: AgentTicketSearchResultPrint
+      '"}' => '',
 
-    # Template: AgentUtilSearchResultShort
+      # Template: AgentTicketSearchResultShort
+      'sort upward' => 'сортировка по возрастанию',
+      'U' => '',
+      'sort downward' => 'сортировка по убыванию',
+      'D' => '',
+      'Customer history"}\'; return true;" onmouseout="window.status=\'\';"><div title="">$Quote{"' => '',
 
-    # Template: AgentUtilTicketStatus
-      'All closed tickets' => '',
-      'All open tickets' => 'Все Открытые Заявки',
-      'closed tickets' => '',
-      'open tickets' => 'Открытые Заявки',
-      'or' => '',
-      'Provides an overview of all' => 'дает обзор всех',
-      'So you see what is going on in your system.' => 'Вы видите состояние системы',
+      # Template: AgentTicketStatusView
+      'Ticket Status View' => '',
+      'Open Tickets' => '',
 
-    # Template: AgentZoomAgentIsCustomer
-      'Compose Follow up' => '',
-      'Your own Ticket' => '',
-
-    # Template: AgentZoomAnswer
-      'Compose Answer' => 'Создать ответ',
-      'Contact customer' => 'Связаться с клиентом',
-      'phone call' => 'телефонный звонок',
-
-    # Template: AgentZoomArticle
+      # Template: AgentTicketZoom
       'Split' => '',
 
-    # Template: AgentZoomBody
-      'Change queue' => 'Переместить в другую очередь',
-
-    # Template: AgentZoomHead
-      'Change the ticket free fields!' => '',
-      'Free Fields' => '',
-      'Link this ticket to an other one!' => '',
-      'Lock it to work on it!' => '',
-      'Print' => 'Печать',
-      'Print this ticket!' => '',
-      'Set this ticket to pending!' => '',
-      'Shows the ticket history!' => '',
-
-    # Template: AgentZoomStatus
-      '"}","18' => '',
+      # Template: AgentTicketZoomStatus
       'Locked' => '',
-      'SLA Age' => '',
 
-    # Template: Copyright
-      'printed by' => 'напечатано ',
+      # Template: AgentWindowTabStart
 
-    # Template: CustomerAccept
+      # Template: AgentWindowTabStop
 
-    # Template: CustomerCreateAccount
-      'Create Account' => 'Создать учетную запись',
-      'Login' => 'Учетное имя',
+      # Template: Copyright
 
-    # Template: CustomerError
+      # Template: css
+
+      # Template: customer-css
+
+      # Template: CustomerAccept
+
+      # Template: CustomerError
       'Traceback' => '',
 
-    # Template: CustomerFAQArticleHistory
+      # Template: CustomerFAQArticleHistory
       'FAQ History' => '',
+      'Print' => 'Печать',
 
-    # Template: CustomerFAQArticlePrint
-      'Category' => '',
+      # Template: CustomerFAQArticlePrint
       'Keywords' => '',
       'Last update' => '',
+      'Symptom' => '',
       'Problem' => '',
       'Solution' => '',
-      'Symptom' => '',
 
-    # Template: CustomerFAQArticleSystemHistory
+      # Template: CustomerFAQArticleSystemHistory
       'FAQ System History' => '',
 
-    # Template: CustomerFAQArticleView
-      'FAQ Article' => '',
+      # Template: CustomerFAQArticleView
       'Modified' => '',
 
-    # Template: CustomerFAQOverview
+      # Template: CustomerFAQOverview
       'FAQ Overview' => '',
 
-    # Template: CustomerFAQSearch
+      # Template: CustomerFAQSearch
       'FAQ Search' => '',
       'Fulltext' => '',
       'Keyword' => '',
 
-    # Template: CustomerFAQSearchResult
+      # Template: CustomerFAQSearchResult
       'FAQ Search Result' => '',
 
-    # Template: CustomerFooter
-      'Powered by' => 'Powered by',
+      # Template: CustomerFooter
+      'Powered by' => '',
 
-    # Template: CustomerLostPassword
+      # Template: CustomerHeader
+
+      # Template: CustomerLogin
+      'Login' => 'Учетное имя',
       'Lost your password?' => 'Забыли свой пароль',
       'Request new password' => 'Прислать новый пароль',
+      'Create Account' => 'Создать учетную запись',
 
-    # Template: CustomerMessage
-
-    # Template: CustomerMessageNew
-
-    # Template: CustomerNavigationBar
-      'CompanyTickets' => '',
-      'Create new Ticket' => 'Создать новую Заявку',
-      'FAQ' => 'FAQ (чаВо) Часто Задаваемые Вопросы',
-      'MyTickets' => '',
-      'New Ticket' => 'новая Заявка',
+      # Template: CustomerNavigationBar
       'Welcome %s' => 'Приветствуем %s',
 
-    # Template: CustomerPreferencesForm
+      # Template: CustomerPreferencesForm
 
-    # Template: CustomerPreferencesGeneric
+      # Template: CustomerStatusView
+      'of' => 'на',
 
-    # Template: CustomerPreferencesPassword
+      # Template: CustomerTicketMessage
 
-    # Template: CustomerStatusView
+      # Template: CustomerTicketMessageNew
 
-    # Template: CustomerTicketSearch
+      # Template: CustomerTicketSearch
 
-    # Template: CustomerTicketSearchResultPrint
+      # Template: CustomerTicketSearchResultCSV
 
-    # Template: CustomerTicketSearchResultShort
+      # Template: CustomerTicketSearchResultPrint
 
-    # Template: CustomerTicketZoom
+      # Template: CustomerTicketSearchResultShort
 
-    # Template: CustomerWarning
+      # Template: CustomerTicketZoom
 
-    # Template: Error
+      # Template: CustomerWarning
+
+      # Template: Error
       'Click here to report a bug!' => 'Кликнуть здесь,чтобы послать сообщение об ошибке',
 
-    # Template: FAQArticleDelete
-      'FAQ Delete' => '',
-      'You really want to delete this article?' => '',
-
-    # Template: FAQArticleForm
-      'A article should have a title!' => '',
+      # Template: FAQ
       'Comment (internal)' => '',
-      'Filename' => '',
-      'Title' => '',
+      'A article should have a title!' => '',
+      'New FAQ Article' => '',
+      'Do you really want to delete this Object?' => '',
+      'System History' => '',
 
-    # Template: FAQArticleHistory
-
-    # Template: FAQArticlePrint
-
-    # Template: FAQArticleSystemHistory
-
-    # Template: FAQArticleView
-
-    # Template: FAQArticleViewSmall
-
-    # Template: FAQCategoryForm
-      'FAQ Category' => '',
+      # Template: FAQCategoryForm
       'Name is required!' => '',
+      'FAQ Category' => '',
 
-    # Template: FAQLanguageForm
+      # Template: FAQLanguageForm
       'FAQ Language' => '',
 
-    # Template: FAQNavigationBar
-
-    # Template: FAQOverview
-
-    # Template: FAQSearch
-
-    # Template: FAQSearchResult
-
-    # Template: Footer
+      # Template: Footer
       'Top of Page' => '',
 
-    # Template: FooterSmall
+      # Template: FooterSmall
 
-    # Template: InstallerBody
-      'Create Database' => '',
-      'Drop Database' => '',
-      'Finished' => '',
-      'System Settings' => '',
-      'Web-Installer' => '',
-
-    # Template: InstallerFinish
-      'Admin-User' => '',
-      'After doing so your OTRS is up and running.' => '',
-      'Have a lot of fun!' => '',
-      'Restart your webserver' => '',
-      'Start page' => '',
-      'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' => '',
-      'Your OTRS Team' => '',
-
-    # Template: InstallerLicense
-      'accept license' => '',
-      'don\'t accept license' => '',
-      'License' => '',
-
-    # Template: InstallerStart
-      'Create new database' => '',
-      'DB Admin Password' => '',
-      'DB Admin User' => '',
-      'DB Host' => '',
-      'DB Type' => '',
-      'default \'hot\'' => '',
-      'Delete old database' => '',
-      'next step' => 'следующий шаг',
-      'OTRS DB connect host' => '',
-      'OTRS DB Name' => '',
-      'OTRS DB Password' => '',
-      'OTRS DB User' => '',
-      'your MySQL DB should have a root password! Default is empty!' => '',
-
-    # Template: InstallerSystem
-      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '',
-      '(Email of the system admin)' => '(e-mail системного администратора)',
-      '(Full qualified domain name of your system)' => '(Полное доменное имя (FQDN) вашей системы)',
-      '(Logfile just needed for File-LogModule!)' => '(Журнал-файл необходим только для модуля File-Log)',
-      '(The identify of the system. Each ticket number and each http session id starts with this number)' => '(ID системы. Каждый номер Заявки и каждая http сессия будет начинаться с этого числа)',
-      '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '',
-      '(Used default language)' => '(Используемый язык по умолчанию)',
-      '(Used log backend)' => '(Используемый журнал backend)',
-      '(Used ticket number format)' => '(Используемый формат номеров Заявок)',
-      'CheckMXRecord' => '',
-      'Default Charset' => 'Кодировка по умолчанию',
-      'Default Language' => 'язык по умолчанию',
-      'Logfile' => 'Файл журнала',
-      'LogModule' => 'Модуль журнала ',
-      'Organization' => 'Организация',
-      'System FQDN' => 'Системное FQDN',
-      'SystemID' => 'Системный ID',
-      'Ticket Hook' => 'Зацепить Заявку',
-      'Ticket Number Generator' => 'Генератор номера Заявки',
-      'Use utf-8 it your database supports it!' => '',
-      'Webfrontend' => 'Web-интерфейс',
-
-    # Template: LostPassword
-
-    # Template: NoPermission
-      'No Permission' => 'Нет прав',
-
-    # Template: Notify
-
-    # Template: PrintFooter
-      'URL' => 'URL',
-
-    # Template: QueueView
-      'All tickets' => 'Все Заявки',
-      'Page' => '',
-      'Queues' => 'очереди',
-      'Tickets available' => '',
-      'Tickets shown' => 'Показаны Заявки',
-
-    # Template: SystemStats
-
-    # Template: Test
-      'OTRS Test Page' => 'Тестовая страница OTRS',
-
-    # Template: TicketEscalation
-      'Ticket escalation!' => 'Истекло время до эскалации заявки !',
-
-    # Template: TicketView
-
-    # Template: TicketViewLite
-
-    # Template: Warning
-
-    # Template: css
+      # Template: Header
       'Home' => 'Начало',
 
-    # Template: customer-css
-      'Contact' => 'Контакт',
-      'Online-Support' => 'Горячая поддержка',
-      'Products' => 'Продукты',
-      'Support' => 'Поддержка',
+      # Template: HeaderSmall
 
-    # Misc
-      '"}","15' => '',
-      '"}","30' => '',
-      '(Ticket identifier. Some people want to set this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(ID Заявки. Некоторые задают как \'Ticket#\', \'Call#\' или \'MyTicket#\')',
-      'A message should have a From: recipient!' => 'сообщение должно иметь поле ОТ: отправитель',
-      'Add auto response' => 'Добавить автоматический ответ',
-      'AgentFrontend' => 'Режим пользователя',
-      'Article free text' => 'Свободный текст статьи',
-      'Backend' => 'Фон',
-      'BackendMessage' => 'Фоновое сообщение',
-      'Change Response <-> Attachment settings' => 'Сменить ответ <-> Настройка прикрепленных файлов',
-      'Change answer <-> queue settings' => 'Изменение ответа <-> Настройки очереди',
-      'Change auto response settings' => 'Настройка авто-ответов',
-      'Charset' => 'Кодировка',
-      'Charsets' => 'Кодировки',
-      'Create' => 'Создать',
-      'Customer called' => 'Звонок клиенту: ',
-      'Customer info' => 'Данные о клиенте',
-      'Customer user will be needed to to login via customer panels.' => 'Пользователь (клиент) должен войти в систему через клиентский интерфейс',
-      'FAQ State' => '',
-      'Feature not acitv!' => 'Функция не активна',
-      'Fulltext search' => 'Полный текстовый поиск',
-      'Fulltext search (e. g. "Mar*in" or "Baue*" or "martin+hallo")' => 'Полный текстовый поиск (прим. "Mar*in" или "Baue*" или "martin+hallo")',
-      'Graphs' => 'Графики',
-      'Handle' => 'Манипулятор',
-      'If your account is trusted, the x-otrs header (for priority, ...) will be used!' => 'Если ваша учетная запись безопасна, то будет использован x-otrs заголовок !',
-      'Lock Ticket' => '',
-      'Max Rows' => 'Макс. строк',
-      'My Tickets' => 'Мои Заявки',
-      'New state' => 'новое состояние',
-      'New ticket via call.' => 'новая Заявка через звонок',
-      'New user' => 'Новый пользователь',
-      'Pending!' => '',
-      'Phone call at %s' => 'Телефонный звонок в %s',
-      'Please go away!' => '',
-      'PostMasterFilter Management' => '',
-      'Screen after new phone ticket' => '',
-      'Search in' => 'Искать в',
-      'Select source:' => '',
-      'Select your custom queues' => 'Выберите Вашу дополнительную очередь',
-      'Select your screen after creating a new ticket via PhoneView.' => '',
-      'Send me a notification if a ticket is moved into a custom queue.' => 'Прислать мне уведомление, если заявка перемещена в дополнительную очередь',
-      'Send me a notification if there is a new ticket in my custom queues.' => 'Прислать мне уведомление, если есть новая заявка в моих дополнительных очередях.',
-      'SessionID' => 'Идентификатор сессии',
-      'Set customer id of a ticket' => 'Задать ID клиента заявки',
-      'Short Description' => '',
-      'Show all' => 'Показать все',
-      'Status defs' => 'Определение статуса',
-      'System Charset Management' => 'Управление системной кодировкой',
-      'System Language Management' => 'Настройка системного языка',
-      'Ticket available' => 'Имеющиеся Заявки',
-      'Ticket free text' => 'Свободный текст заявки',
-      'Ticket limit:' => 'Время действия заявки:',
-      'Ticket-Overview' => 'обзор Заявок',
-      'Time till escalation' => 'Время до эскалации (увеличения приоритета)',
-      'Utilities' => 'Утилиты',
-      'With State' => 'при состоянии',
-      'You have to be in the admin group!' => 'Вы должны быть в группе admin!',
-      'You have to be in the stats group!' => 'Вы должны быть в группе stat!',
-      'You need a email address (e. g. customer@example.com) in From:!' => 'Должен быть e-mail адрес (напр. customer@example.com) в поле ОТ:',
-      'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further inforamtions.' => 'Ваше письмо с номером заявки "<OTRS_TICKET>" передано "<OTRS_BOUNCE_TO>". Свяжитесь с получателем для дальнейшей информации',
-      'auto responses set' => 'выбор авто-ответов',
-      'by' => '',
-      'invalid-temporarily' => '',
-      'search' => 'Искать',
-      'search (e. g. 10*5155 or 105658*)' => 'Искать (напр. 10*5155 или 105658*)',
-      'store' => 'сохранить',
-      'tickets' => 'Заявки',
-      'valid' => 'Состояние записи',
-    );
+      # Template: InstallerBody
+      'Web-Installer' => '',
+      'Create Database' => '',
+      'Drop Database' => '',
+      'System Settings' => '',
+      'Finished' => '',
 
+      # Template: InstallerFinish
+      'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' => '',
+      'Restart your webserver' => '',
+      'After doing so your OTRS is up and running.' => '',
+      'Start page' => '',
+      'Admin-User' => '',
+      'Have a lot of fun!' => '',
+      'Your OTRS Team' => '',
+
+      # Template: InstallerLicense
+      'License' => '',
+      'accept license' => '',
+      'don\'t accept license' => '',
+
+      # Template: InstallerStart
+      'DB Admin User' => '',
+      'DB Admin Password' => '',
+      'your MySQL DB should have a root password! Default is empty!' => '',
+      'DB Host' => '',
+      'DB Type' => '',
+      'OTRS DB Name' => '',
+      'OTRS DB User' => '',
+      'OTRS DB Password' => '',
+      'default \'hot\'' => '',
+      'OTRS DB connect host' => '',
+      'Create new database' => '',
+      'Delete old database' => '',
+      'next step' => 'следующий шаг',
+
+      # Template: InstallerSystem
+      'SystemID' => 'Системный ID',
+      '(The identify of the system. Each ticket number and each http session id starts with this number)' => '(ID системы. Каждый номер Заявки и каждая http сессия будет начинаться с этого числа)',
+      'System FQDN' => 'Системное FQDN',
+      '(Full qualified domain name of your system)' => '(Полное доменное имя (FQDN) вашей системы)',
+      'AdminEmail' => 'e-mail администратора',
+      '(Email of the system admin)' => '(e-mail системного администратора)',
+      'Organization' => 'Организация',
+      'LogModule' => 'Модуль журнала ',
+      '(Used log backend)' => '(Используемый журнал backend)',
+      'Logfile' => 'Файл журнала',
+      '(Logfile just needed for File-LogModule!)' => '(Журнал-файл необходим только для модуля File-Log)',
+      'CheckMXRecord' => '',
+      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '',
+      'Ticket Hook' => 'Зацепить Заявку',
+      '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '',
+      'Ticket Number Generator' => 'Генератор номера Заявки',
+      '(Used ticket number format)' => '(Используемый формат номеров Заявок)',
+      'Webfrontend' => 'Web-интерфейс',
+      'Default Charset' => 'Кодировка по умолчанию',
+      'Use utf-8 it your database supports it!' => '',
+      'Default Language' => 'язык по умолчанию',
+      '(Used default language)' => '(Используемый язык по умолчанию)',
+
+      # Template: Login
+
+      # Template: Motd
+
+      # Template: NoPermission
+      'No Permission' => 'Нет прав',
+
+      # Template: Notify
+
+      # Template: PrintFooter
+      'URL' => '',
+
+      # Template: PrintHeader
+      'printed by' => 'напечатано ',
+
+      # Template: Redirect
+
+      # Template: SystemStats
+      'Format' => '',
+
+      # Template: Test
+      'OTRS Test Page' => 'Тестовая страница OTRS',
+      'Counter' => '',
+
+      # Template: Warning
+    };
     # $$STOP$$
     $Self->{Translation} = \%Hash;
 }

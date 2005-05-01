@@ -5,7 +5,7 @@
 # Copyright (C) 2003 A-NeT Internet Services bv
 # Copyright (C) 2004 Martijn Lohmeijer (martijn.lohmeijer 'at' sogeti.nl)
 # --
-# $Id: nl.pm,v 1.26 2005-02-23 10:04:21 martin Exp $
+# $Id: nl.pm,v 1.27 2005-05-01 22:46:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -45,7 +45,7 @@ package Kernel::Language::nl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
@@ -54,1082 +54,1117 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Tue Feb 10 01:08:01 2004 by 
+    # Last translation file sync: Mon May  2 00:38:28 2005
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Jear;)
     $Self->{DateFormat} = '%D.%M.%Y %T';
-    $Self->{DateFormatShort} = '%D.%M.%Y';
     $Self->{DateFormatLong} = '%A %D %B %T %Y';
     $Self->{DateInputFormat} = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
 
-    %Hash = (
-    # Template: AAABase
-      ' 2 minutes' => ' 2 minuten',
-      ' 5 minutes' => ' 5 minuten',
-      ' 7 minutes' => ' 7 minuten',
-      '(Click here to add)' => '(Klik hier om toe te voegen)',
-      '10 minutes' => '10 minuten',
-      '15 minutes' => '15 minuten',
-      'Added User "%s"' => 'Gebruiker "%s" toegevoegd.',
-      'AddLink' => 'Link toevoegen',
-      'Admin-Area' => 'Admin',
-      'agent' => 'agent',
-      'Agent-Area' => '',
-      'all' => 'alle',
-      'All' => 'Alle',
-      'Attention' => 'Let op',
-      'before' => 'voor',
-      'Bug Report' => 'Foutrapport',
-      'Calendar' => 'Kalender',
-      'Cancel' => 'Annuleren',
-      'change' => 'wijzigen',
-      'Change' => 'Wijzigen',
-      'change!' => 'wijzigen!',
-      'click here' => 'klik hier',
-      'Comment' => 'Commentaar',
-      'Contract' => '',
-      'Customer' => 'Klant',
-      'customer' => 'klant',
-      'Customer Info' => 'Klant informatie',
-      'day' => 'dag',
-      'day(s)' => 'dag(en)',
-      'days' => 'dagen',
-      'description' => 'omschrijving',
-      'Description' => 'Omschrijving',
-      'Directory' => '',
-      'Dispatching by email To: field.' => 'Versturen per email Aan: veld.',
-      'Dispatching by selected Queue.' => 'Versturen per geselecteerde wachtrij',
-      'Don\'t show closed Tickets' => 'Gesloten tickets niet tonen',
-      'Don\'t work with UserID 1 (System account)! Create new users!' => 'Werk niet met User# 1 (systeem account)! Maak nieuwe gebruikers aan',
-      'Done' => 'Klaar',
-      'end' => 'Onderkant',
-      'Error' => 'Fout',
-      'Example' => 'Voorbeeld',
-      'Examples' => 'Voorbeelden',
-      'Facility' => 'Facility',
-      'FAQ-Area' => '',
-      'Feature not active!' => 'Functie niet actief!',
-      'go' => 'start',
-      'go!' => 'start!',
-      'Group' => 'Groep',
-      'History::AddNote' => 'Notitie toegevoegd (%s)',
-      'History::Bounce' => 'Bounced naar "%s".',
-      'History::CustomerUpdate' => 'Bijgewerkt: %s',
-      'History::EmailAgent' => 'Mail verzonden aan klant.',
-      'History::EmailCustomer' => 'Email toegevoegd. %s',
-      'History::FollowUp' => 'FollowUp voor [%s]. %s',
-      'History::Forward' => 'Doorgestuurd aan "%s".',
-      'History::Lock' => '',
-      'History::LoopProtection' => 'Loop-Protection! Geen auto-reply verstuurd aan "%s".',
-      'History::Misc' => '%s',
-      'History::Move' => 'Ticket verplaatst naar wachtrij "%s" (%s) van wachtrij "%s" (%s).',
-      'History::NewTicket' => 'Nieuw ticket [%s] aangemaakt (Q=%s;P=%s;S=%s).',
-      'History::OwnerUpdate' => 'Nieuwe eigenaar is "%s" (ID=%s).',
-      'History::PhoneCallAgent' => 'Klant gebeld.',
-      'History::PhoneCallCustomer' => 'Klant heeft gebeld.',
-      'History::PriorityUpdate' => 'Prioriteit gewijzigd van "%s" (%s) naar "%s" (%s).',
-      'History::Remove' => '%s',
-      'History::SendAgentNotification' => '"%s"-notificatie verstuurd aan "%s".',
-      'History::SendAnswer' => 'Email verstuurd aan "%s".',
-      'History::SendAutoFollowUp' => 'AutoFollowUp verstuurd aan "%s".',
-      'History::SendAutoReject' => 'AutoReject verstuurd aan "%s".',
-      'History::SendAutoReply' => 'AutoReply verstuurd aan "%s".',
-      'History::SendCustomerNotification' => 'Notificatie verstuurd aan "%s".',
-      'History::SetPendingTime' => 'Bijgewerkt: %s',
-      'History::StateUpdate' => 'Oud: "%s" Nieuw: "%s"',
-      'History::TicketFreeTextUpdate' => 'Bijgewerkt: %s=%s;%s=%s;',
-      'History::TimeAccounting' => '%s tijdseenheden verantwoord. Nu %s tijdseenheden totaal.',
-      'History::Unlock' => '',
-      'History::WebRequestCustomer' => 'Klant stelt vraag via web.',
-      'History::TicketLinkAdd' => 'Link naar "%s" toegevoegd.',
-      'History::TicketLinkDelete' => 'Link naar "%s" toegevoegd.',
-      'History::SystemRequest' => 'System Request (%s).',
-      'Hit' => 'Gevonden',
-      'Hits' => 'Hits',
-      'hour' => 'uur',
-      'hours' => 'uren',
-      'Ignore' => 'Negeren',
-      'invalid' => 'ongeldig',
-      'Invalid SessionID!' => 'Ongeldige SessieID',
-      'Language' => 'Taal',
-      'Languages' => 'Talen',
-      'last' => 'laatste',
-      'Line' => 'Regel',
-      'Lite' => 'Licht',
-      'Login failed! Your username or password was entered incorrectly.' => 'Aanmelden mislukt. Uw gebruikersnaam of wachtwoord is onjuist.',
-      'Logout successful. Thank you for using OTRS!' => 'Afgemeld! Wij danken u voor het gebruiken van OTRS!',
-      'Message' => 'Bericht',
-      'minute' => 'minuut',
-      'minutes' => 'minuten',
-      'Module' => 'Module',
-      'Modulefile' => 'Modulebestand',
-      'month(s)' => 'maand(en)',
-      'Name' => 'Naam',
-      'New Article' => 'Nieuw artikel',
-      'New message' => 'Nieuw bericht',
-      'New message!' => 'Nieuw bericht!',
+    $Self->{Translation} = {
+      # Template: AAABase
+      'Yes' => 'Ja',
       'No' => 'Geen',
+      'yes' => 'ja',
       'no' => 'geen',
-      'No entry found!' => 'Niets gevonden!',
-      'No Permission!' => 'Geen toegang! Onvoldoende rechten.',
-      'No suggestions' => 'Geen suggesties',
-      'none' => 'geen',
-      'none - answered' => 'geen - beantwoord',
-      'none!' => 'niet ingevoerd!',
-      'Normal' => 'Normaal',
       'Off' => 'Uit',
       'off' => 'uit',
       'On' => 'Aan',
       'on' => 'aan',
-      'Online Agent: %s' => 'Online Agent: %s',
-      'Online Customer: %s' => 'Online klant: %s',
-      'Password' => 'Wachtwoord',
-      'Pending till' => 'In wachtstand tot',
-      'Please answer this ticket(s) to get back to the normal queue view!' => 'A.u.b. geëscaleerde tickets beantwoorden om terug te komen in de normale wachtwij',
-      'Please contact your admin' => 'Vraag uw systeembeheerder',
-      'please do not edit!' => 'A.u.b. niet wijzigen!',
-      'possible' => 'mogelijk',
-      'Preview' => '',
-      'QueueView' => 'Wachtrijen',
-      'reject' => 'afwijzen',
-      'replace with' => 'vervangen met',
-      'Reset' => 'leegmaken',
-      'Salutation' => 'Aanhef',
-      'Session has timed out. Please log in again.' => 'Sessie is verlopen. Opnieuw inloggen AUB.',
-      'Show closed Tickets' => 'Gesloten tickets tonen',
-      'Signature' => 'Handtekening',
-      'Size' => 'Grootte',
-      'Sorry' => 'Sorry',
-      'Stats' => 'Statistieken',
-      'Subfunction' => 'Sub-functie',
-      'submit' => 'versturen',
-      'submit!' => 'versturen!',
-      'system' => 'systeem',
-      'Take this Customer' => 'Selecteer deze klant',
-      'Take this User' => 'Selecteer deze gebruiker',
-      'Text' => 'Tekst',
-      'The recommended charset for your language is %s!' => 'De aanbevolen karakterset voor uw taal is %s!',
-      'Theme' => 'Thema',
-      'There is no account with that login name.' => 'Er is geen account met deze gebruikersnaam',
-      'Timeover' => 'Timeover',
-      'To: (%s) replaced with database email!' => 'Aan: (%s) vervangen met database email!',
       'top' => 'Bovenkant',
-      'Type' => '',
-      'update' => 'wijzigen',
-      'Update' => 'Wijzigen',
-      'update!' => 'wijzigen!',
-      'Upload' => '',
+      'end' => 'Onderkant',
+      'Done' => 'Klaar',
+      'Cancel' => 'Annuleren',
+      'Reset' => 'leegmaken',
+      'day' => 'dag',
+      'days' => 'dagen',
+      'hour' => 'uur',
+      'hours' => 'uren',
+      'minute' => 'minuut',
+      'minutes' => 'minuten',
+      'wrote' => 'schreef',
+      'Message' => 'Bericht',
+      'Error' => 'Fout',
+      'Bug Report' => 'Foutrapport',
+      'Attention' => 'Let op',
+      'Warning' => 'Waarschuwing',
+      'Module' => '',
+      'Modulefile' => 'Modulebestand',
+      'Subfunction' => 'Sub-functie',
+      'Line' => 'Regel',
+      'Example' => 'Voorbeeld',
+      'Examples' => 'Voorbeelden',
+      'invalid' => 'ongeldig',
+      ' 2 minutes' => ' 2 minuten',
+      ' 5 minutes' => ' 5 minuten',
+      ' 7 minutes' => ' 7 minuten',
+      '10 minutes' => '10 minuten',
+      '15 minutes' => '15 minuten',
+      'Mr.' => '',
+      'Mrs.' => '',
+      'Next' => '',
+      'Back' => 'Terug',
+      'Next...' => '',
+      '...Back' => '',
+      '-none-' => '',
+      'none' => 'geen',
+      'none!' => 'niet ingevoerd!',
+      'none - answered' => 'geen - beantwoord',
+      'please do not edit!' => 'A.u.b. niet wijzigen!',
+      'AddLink' => 'Link toevoegen',
+      'Link' => '',
+      'Linked' => '',
+      'Link (Normal)' => '',
+      'Link (Parent)' => '',
+      'Link (Child)' => '',
+      'Normal' => 'Normaal',
+      'Parent' => '',
+      'Child' => '',
+      'Hit' => 'Gevonden',
+      'Hits' => '',
+      'Text' => 'Tekst',
+      'Lite' => 'Licht',
       'User' => 'Gebruiker',
       'Username' => 'Gebruikersnaam',
+      'Language' => 'Taal',
+      'Languages' => 'Talen',
+      'Password' => 'Wachtwoord',
+      'Salutation' => 'Aanhef',
+      'Signature' => 'Handtekening',
+      'Customer' => 'Klant',
+      'CustomerID' => 'KlantID',
+      'CustomerIDs' => '',
+      'customer' => 'klant',
+      'agent' => '',
+      'system' => 'systeem',
+      'Customer Info' => 'Klant informatie',
+      'go!' => 'start!',
+      'go' => 'start',
+      'All' => 'Alle',
+      'all' => 'alle',
+      'Sorry' => '',
+      'update!' => 'wijzigen!',
+      'update' => 'wijzigen',
+      'Update' => 'Wijzigen',
+      'submit!' => 'versturen!',
+      'submit' => 'versturen',
+      'Submit' => '',
+      'change!' => 'wijzigen!',
+      'Change' => 'Wijzigen',
+      'change' => 'wijzigen',
+      'click here' => 'klik hier',
+      'Comment' => 'Commentaar',
       'Valid' => 'Geldig',
-      'Warning' => 'Waarschuwing',
-      'week(s)' => 'we(e)k(en)',
-      'Welcome to OTRS' => 'Welkom bij OTRS',
-      'Word' => 'Woord',
-      'wrote' => 'schreef',
-      'year(s)' => 'ja(a)r(en)',
-      'yes' => 'ja',
-      'Yes' => 'Ja',
+      'Name' => 'Naam',
+      'Group' => 'Groep',
+      'Description' => 'Omschrijving',
+      'description' => 'omschrijving',
+      'Theme' => 'Thema',
+      'Created' => 'Gemaakt',
+      'Created by' => '',
+      'Changed' => '',
+      'Changed by' => '',
+      'Search' => 'Zoek',
+      'and' => 'en',
+      'between' => '',
+      'Fulltext Search' => '',
+      'Data' => '',
+      'Options' => 'Opties',
+      'Title' => 'Titel',
+      'Item' => '',
+      'Delete' => 'Verwijder',
+      'Edit' => 'Wijzig',
+      'View' => 'Weergave',
+      'Number' => '',
+      'System' => 'Systeem',
+      'Contact' => '',
+      'Contacts' => '',
+      'Export' => '',
+      'Up' => '',
+      'Down' => '',
+      'Add' => 'Toevoegen',
+      'Category' => 'Categorie',
+      'New message' => 'Nieuw bericht',
+      'New message!' => 'Nieuw bericht!',
+      'Admin-Area' => 'Admin',
+      'Agent-Area' => '',
+      'FAQ-Area' => '',
+      'QueueView' => 'Wachtrijen',
+      'Stats' => 'Statistieken',
+      'Please answer this ticket(s) to get back to the normal queue view!' => 'A.u.b. geëscaleerde tickets beantwoorden om terug te komen in de normale wachtwij',
       'You got new message!' => 'U heeft een nieuw bericht!',
       'You have %s new message(s)!' => 'U heeft %s nieuwe bericht(en)!',
       'You have %s reminder ticket(s)!' => 'U heeft %s herinneringsticket(s)!',
+      'The recommended charset for your language is %s!' => 'De aanbevolen karakterset voor uw taal is %s!',
+      'Passwords dosn\'t match! Please try it again!' => 'Passwords komen niet overeen! Probeer het opnieuw!',
+      'Password is already in use! Please use an other password!' => '',
+      'Password is already used! Please use an other password!' => '',
+      'No suggestions' => 'Geen suggesties',
+      'Word' => 'Woord',
+      'Ignore' => 'Negeren',
+      'replace with' => 'vervangen met',
+      'Welcome to OTRS' => 'Welkom bij OTRS',
+      'There is no account with that login name.' => 'Er is geen account met deze gebruikersnaam',
+      'Login failed! Your username or password was entered incorrectly.' => 'Aanmelden mislukt. Uw gebruikersnaam of wachtwoord is onjuist.',
+      'Please contact your admin' => 'Vraag uw systeembeheerder',
+      'Logout successful. Thank you for using OTRS!' => 'Afgemeld! Wij danken u voor het gebruiken van OTRS!',
+      'Invalid SessionID!' => 'Ongeldige SessieID',
+      'Feature not active!' => 'Functie niet actief!',
+      'Ticket Number' => '',
+      'Ticket Object' => '',
+      'No such Ticket Number "%s"! Can\'t link it!' => 'Ticketnummer "%s" niet gevonden! Kan niet gelinkt worden!',
+      'Take this Customer' => 'Selecteer deze klant',
+      'Take this User' => 'Selecteer deze gebruiker',
+      'possible' => 'mogelijk',
+      'reject' => 'afwijzen',
+      'Facility' => '',
+      'Timeover' => '',
+      'Pending till' => 'In wachtstand tot',
+      'Don\'t work with UserID 1 (System account)! Create new users!' => 'Werk niet met User# 1 (systeem account)! Maak nieuwe gebruikers aan',
+      'Dispatching by email To: field.' => 'Versturen per email Aan: veld.',
+      'Dispatching by selected Queue.' => 'Versturen per geselecteerde wachtrij',
+      'No entry found!' => 'Niets gevonden!',
+      'Session has timed out. Please log in again.' => 'Sessie is verlopen. Opnieuw inloggen AUB.',
+      'No Permission!' => 'Geen toegang! Onvoldoende rechten.',
+      'To: (%s) replaced with database email!' => 'Aan: (%s) vervangen met database email!',
+      'Cc: (%s) added database email!' => '',
+      'Don\'t show closed Tickets' => 'Gesloten tickets niet tonen',
+      'Show closed Tickets' => 'Gesloten tickets tonen',
+      'New Article' => 'Nieuw artikel',
+      '(Click here to add)' => '(Klik hier om toe te voegen)',
+      'last' => 'laatste',
+      'before' => 'voor',
+      'day(s)' => 'dag(en)',
+      'month(s)' => 'maand(en)',
+      'week(s)' => 'we(e)k(en)',
+      'year(s)' => 'ja(a)r(en)',
+      'Preview' => '',
+      'Added User "%s"' => 'Gebruiker "%s" toegevoegd.',
+      'Contract' => '',
+      'Online Customer: %s' => 'Online klant: %s',
+      'Online Agent: %s' => '',
+      'Calendar' => 'Kalender',
+      'File' => '',
+      'Filename' => 'Bestandsnaam',
+      'Type' => '',
+      'Size' => 'Grootte',
+      'Upload' => '',
+      'Directory' => '',
+      'Signed' => '',
+      'Sign' => '',
+      'Crypted' => '',
+      'Crypt' => '',
+      'History::Move' => 'Ticket verplaatst naar wachtrij "%s" (%s) van wachtrij "%s" (%s).',
+      'History::NewTicket' => 'Nieuw ticket [%s] aangemaakt (Q=%s;P=%s;S=%s).',
+      'History::FollowUp' => 'FollowUp voor [%s]. %s',
+      'History::SendAutoReject' => 'AutoReject verstuurd aan "%s".',
+      'History::SendAutoReply' => 'AutoReply verstuurd aan "%s".',
+      'History::SendAutoFollowUp' => 'AutoFollowUp verstuurd aan "%s".',
+      'History::Forward' => 'Doorgestuurd aan "%s".',
+      'History::Bounce' => 'Bounced naar "%s".',
+      'History::SendAnswer' => 'Email verstuurd aan "%s".',
+      'History::SendAgentNotification' => '"%s"-notificatie verstuurd aan "%s".',
+      'History::SendCustomerNotification' => 'Notificatie verstuurd aan "%s".',
+      'History::EmailAgent' => 'Mail verzonden aan klant.',
+      'History::EmailCustomer' => 'Email toegevoegd. %s',
+      'History::PhoneCallAgent' => 'Klant gebeld.',
+      'History::PhoneCallCustomer' => 'Klant heeft gebeld.',
+      'History::AddNote' => 'Notitie toegevoegd (%s)',
+      'History::Lock' => '',
+      'History::Unlock' => '',
+      'History::TimeAccounting' => '%s tijdseenheden verantwoord. Nu %s tijdseenheden totaal.',
+      'History::Remove' => '%s',
+      'History::CustomerUpdate' => 'Bijgewerkt: %s',
+      'History::PriorityUpdate' => 'Prioriteit gewijzigd van "%s" (%s) naar "%s" (%s).',
+      'History::OwnerUpdate' => 'Nieuwe eigenaar is "%s" (ID=%s).',
+      'History::LoopProtection' => 'Loop-Protection! Geen auto-reply verstuurd aan "%s".',
+      'History::Misc' => '%s',
+      'History::SetPendingTime' => 'Bijgewerkt: %s',
+      'History::StateUpdate' => 'Oud: "%s" Nieuw: "%s"',
+      'History::TicketFreeTextUpdate' => 'Bijgewerkt: %s=%s;%s=%s;',
+      'History::WebRequestCustomer' => 'Klant stelt vraag via web.',
+      'History::TicketLinkAdd' => 'Link naar "%s" toegevoegd.',
+      'History::TicketLinkDelete' => 'Link naar "%s" toegevoegd.',
 
-    # Template: AAAMonth
-      'Apr' => 'Apr',
-      'Aug' => 'Aug',
-      'Dec' => 'Dec',
-      'Feb' => 'Feb',
-      'Jan' => 'Jan',
-      'Jul' => 'Jul',
-      'Jun' => 'Jun',
+      # Template: AAAMonth
+      'Jan' => '',
+      'Feb' => '',
       'Mar' => 'Mrt',
+      'Apr' => '',
       'May' => 'Mei',
-      'Nov' => 'Nov',
+      'Jun' => '',
+      'Jul' => '',
+      'Aug' => '',
+      'Sep' => '',
       'Oct' => 'Okt',
-      'Sep' => 'Sep',
+      'Nov' => '',
+      'Dec' => '',
 
-    # Template: AAAPreferences
-      'Closed Tickets' => 'Afgesloten tickets',
-      'CreateTicket' => 'Ticket aanmaken',
-      'Custom Queue' => 'Aangepaste wachtrij',
-      'Follow up notification' => 'Bericht bij vervolgvragen',
-      'Frontend' => 'Voorkant',
-      'Mail Management' => 'Mail beheer',
-      'Max. shown Tickets a page in Overview.' => 'Max. getoonde tickets per pagina in overzichtsscherm.',
-      'Max. shown Tickets a page in QueueView.' => 'Max. getoonde tickets per pagina in wachtrijscherm',
-      'Move notification' => 'Bericht bij het verplaatsen',
-      'New ticket notification' => 'Bericht bij een nieuw ticket',
-      'Other Options' => 'Overige opties',
-      'PhoneView' => 'Telefoonscherm',
+      # Template: AAANavBar
+      'Send Email and create a new Ticket' => '',
+      'Create new Phone Ticket' => '',
+      'Ticket-Area' => '',
+      'Overview of all open Tickets' => '',
+      'Logout' => 'Uitloggen',
+      'Agent Preferences' => '',
+      'Preferences' => 'Voorkeuren',
+      'Agent Mailbox' => '',
+      'Stats-Area' => '',
+      'FAQ' => '',
+      'FAQ-Search' => '',
+      'FAQ-Article' => '',
+      'FAQ-State' => '',
+      'Admin' => '',
+      'Create new Ticket' => 'Maak een nieuw Ticket',
+      'New Ticket' => 'Nieuw ticket',
+
+      # Template: AAAPreferences
       'Preferences updated successfully!' => 'Voorkeuren zijn gewijzigd!',
-      'QueueView refresh time' => 'Verversingstijd wachtrij',
-      'Screen after new ticket' => 'Scherm na een nieuw ticket',
-      'Select your default spelling dictionary.' => 'Selekteer uw standaard spellingsbibliotheek.',
-      'Select your frontend Charset.' => 'Karakterset kiezen',
-      'Select your frontend language.' => 'Kies een taal',
-      'Select your frontend QueueView.' => 'Wachtrij weergave kiezen',
-      'Select your frontend Theme.' => 'thema kiezen',
-      'Select your QueueView refresh time.' => 'Verversingstijd kiezen',
-      'Select your screen after creating a new ticket.' => 'Selecteer het vervolgscherm na het invoeren van een nieuw ticket',
-      'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Stuur een bericht als een klant een vervolgvraag stelt en ik de eigenaar van het ticket ben.',
-      'Send me a notification if a ticket is moved into one of "My Queues".' => ' Stuur mij een bericht als een bericht wordt verplaatst in een aangepaste wachtrij',
-      'Send me a notification if a ticket is unlocked by the system.' => 'Stuur  me een bericht als een ticket wordt ontgrendeld door het systeem.',
+      'Mail Management' => 'Mail beheer',
+      'Frontend' => 'Voorkant',
+      'Other Options' => 'Overige opties',
+      'New ticket notification' => 'Bericht bij een nieuw ticket',
       'Send me a notification if there is a new ticket in "My Queues".' => 'Stuur mij een bericht als er een nieuw ticket in mijn aangepaste wachtrij komt.',
-      'Show closed tickets.' => 'Gesloten tickets tonen',
-      'Spelling Dictionary' => 'Spelling bibliotheek',
+      'Follow up notification' => 'Bericht bij vervolgvragen',
+      'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Stuur een bericht als een klant een vervolgvraag stelt en ik de eigenaar van het ticket ben.',
       'Ticket lock timeout notification' => 'Bericht van tijdsoverschreiding van een vergrendeling',
+      'Send me a notification if a ticket is unlocked by the system.' => 'Stuur  me een bericht als een ticket wordt ontgrendeld door het systeem.',
+      'Move notification' => 'Bericht bij het verplaatsen',
+      'Send me a notification if a ticket is moved into one of "My Queues".' => ' Stuur mij een bericht als een bericht wordt verplaatst in een aangepaste wachtrij',
+      'Custom Queue' => 'Aangepaste wachtrij',
+      'QueueView refresh time' => 'Verversingstijd wachtrij',
+      'Select your QueueView refresh time.' => 'Verversingstijd kiezen',
+      'Select your frontend language.' => 'Kies een taal',
+      'Select your frontend Charset.' => 'Karakterset kiezen',
+      'Select your frontend Theme.' => 'thema kiezen',
+      'Select your frontend QueueView.' => 'Wachtrij weergave kiezen',
+      'Spelling Dictionary' => 'Spelling bibliotheek',
+      'Select your default spelling dictionary.' => 'Selekteer uw standaard spellingsbibliotheek.',
+      'PhoneView' => 'Telefoonscherm',
       'TicketZoom' => 'Inhoud ticket',
+      'CreateTicket' => 'Ticket aanmaken',
+      'Screen after new ticket' => 'Scherm na een nieuw ticket',
+      'Select your screen after creating a new ticket.' => 'Selecteer het vervolgscherm na het invoeren van een nieuw ticket',
+      'Closed Tickets' => 'Afgesloten tickets',
+      'Show closed tickets.' => 'Gesloten tickets tonen',
+      'Max. shown Tickets a page in QueueView.' => 'Max. getoonde tickets per pagina in wachtrijscherm',
+      'Max. shown Tickets a page in Overview.' => 'Max. getoonde tickets per pagina in overzichtsscherm.',
+      'Can\'t update password, passwords dosn\'t match! Please try it again!' => '',
+      'Can\'t update password, invalid characters!' => '',
+      'Can\'t update password, need min. 8 characters!' => '',
+      'Can\'t update password, need 2 lower and 2 upper characters!' => '',
+      'Can\'t update password, need min. 1 digit!' => '',
+      'Can\'t update password, need min. 2 characters!' => '',
 
-    # Template: AAATicket
+      # Template: AAATicket
+      'Lock' => '',
+      'Unlock' => '',
+      'History' => 'Geschiedenis',
+      'Zoom' => 'Inhoud',
+      'Age' => 'Leeftijd',
+      'Bounce' => '',
+      'Forward' => 'Doorsturen',
+      'From' => 'Van',
+      'To' => 'Aan',
+      'Cc' => '',
+      'Bcc' => '',
+      'Subject' => 'Betreft',
+      'Move' => 'Verplaatsen',
+      'Queue' => 'Wachtrij',
+      'Priority' => 'Prioriteit',
+      'State' => 'Status',
+      'Compose' => 'Maken',
+      'Pending' => 'Wachtend',
+      'Owner' => 'Eigenaar',
+      'Sender' => 'Afzender',
+      'Article' => 'Artikel',
+      'Ticket' => '',
+      'Createtime' => 'Gemaakt op',
+      'plain' => 'zonder opmaak',
+      'eMail' => 'e-mail',
+      'email' => 'e-mail',
+      'Close' => 'Sluiten',
+      'Action' => 'Actie',
+      'Attachment' => 'Bijlage',
+      'Attachments' => 'Bijlagen',
+      'This message was written in a character set other than your own.' => 'Dit bericht is geschreven in een andere karakterset dan degene die u nu heeft ingesteld.',
+      'If it is not displayed correctly,' => 'Als dit niet juist wordt weergegeven,',
+      'This is a' => 'Dit is een',
+      'to open it in a new window.' => 'om deze in een nieuw venster te openen',
+      'This is a HTML email. Click here to show it.' => '',
+      'closed successful' => 'succesvol gesloten',
+      'closed unsuccessful' => 'niet succesvol gesloten',
+      'new' => 'nieuw',
+      'open' => '',
+      'closed' => 'geschlossen',
+      'removed' => 'verwijderd',
+      'pending reminder' => 'Herinnering voor wachtend',
+      'pending auto close+' => 'Wachtend op automatisch sluiten+',
+      'pending auto close-' => 'Wachtend op automatisch sluiten-',
+      'email-external' => 'E-mail naar extern',
+      'email-internal' => 'E-mail naar intern',
+      'note-external' => 'externe notitie',
+      'note-internal' => 'interne notitie',
+      'note-report' => 'Notitie rapportage',
+      'phone' => 'telefoon',
+      'sms' => '',
+      'webrequest' => 'Verzoek via web',
+      'lock' => '',
+      'unlock' => '',
+      'very low' => 'zeer laag',
+      'low' => 'laag',
+      'normal' => 'normaal',
+      'high' => 'hoog',
+      'very high' => 'zeer hoog',
       '1 very low' => '1 zeer laag',
       '2 low' => '2 laag',
       '3 normal' => '3 normaal',
       '4 high' => '4 hoog',
       '5 very high' => '5 zeer hoog',
-      'Action' => 'Actie',
-      'Age' => 'Leeftijd',
-      'Article' => 'Artikel',
-      'Attachment' => 'Bijlage',
-      'Attachments' => 'Bijlagen',
-      'Bcc' => 'Bcc',
-      'Bounce' => '',
-      'Cc' => 'Cc',
-      'Close' => 'Sluiten',
-      'closed' => 'geschlossen',
-      'closed successful' => 'succesvol gesloten',
-      'closed unsuccessful' => 'niet succesvol gesloten',
-      'Compose' => 'Maken',
-      'Created' => 'Gemaakt',
-      'Createtime' => 'Gemaakt op',
-      'email' => 'e-mail',
-      'eMail' => 'e-mail',
-      'email-external' => 'E-mail naar extern',
-      'email-internal' => 'E-mail naar intern',
-      'Forward' => 'Doorsturen',
-      'From' => 'Van',
-      'high' => 'hoog',
-      'History' => 'Geschiedenis',
-      'If it is not displayed correctly,' => 'Als dit niet juist wordt weergegeven,',
-      'lock' => '',
-      'Lock' => '',
-      'low' => 'laag',
-      'Move' => 'Verplaatsen',
-      'new' => 'nieuw',
-      'normal' => 'normaal',
-      'note-external' => 'externe notitie',
-      'note-internal' => 'interne notitie',
-      'note-report' => 'Notitie rapportage',
-      'open' => 'open',
-      'Owner' => 'Eigenaar',
-      'Pending' => 'Wachtend',
-      'pending auto close+' => 'Wachtend op automatisch sluiten+',
-      'pending auto close-' => 'Wachtend op automatisch sluiten-',
-      'pending reminder' => 'Herinnering voor wachtend',
-      'phone' => 'telefoon',
-      'plain' => 'zonder opmaak',
-      'Priority' => 'Prioriteit',
-      'Queue' => 'Wachtrij',
-      'removed' => 'verwijderd',
-      'Sender' => 'Afzender',
-      'sms' => 'sms',
-      'State' => 'Status',
-      'Subject' => 'Betreft',
-      'This is a' => 'Dit is een',
-      'This is a HTML e-mail. Click here to show it.' => 'Dit is een e-mail in HTML-formaat. Hier klikken om te bekijken.',
-      'This message was written in a character set other than your own.' => 'Dit bericht is geschreven in een andere karakterset dan degene die u nu heeft ingesteld.',
-      'Ticket' => 'Ticket',
       'Ticket "%s" created!' => 'Ticket "%s" aangemaakt',
-      'To' => 'Aan',
-      'to open it in a new window.' => 'om deze in een nieuw venster te openen',
-      'unlock' => '',
-      'Unlock' => '',
-      'very high' => 'zeer hoog',
-      'very low' => 'zeer laag',
-      'View' => 'Weergave',
-      'webrequest' => 'Verzoek via web',
-      'Zoom' => 'Inhoud',
 
-    # Template: AAAWeekDay
-      'Fri' => 'vrij',
-      'Mon' => 'maa',
-      'Sat' => 'zat',
+      # Template: AAAWeekDay
       'Sun' => 'zon',
-      'Thu' => 'don',
+      'Mon' => 'maa',
       'Tue' => 'din',
       'Wed' => 'woe',
+      'Thu' => 'don',
+      'Fri' => 'vrij',
+      'Sat' => 'zat',
 
-    # Template: AdminAttachmentForm
-      'Add' => 'Toevoegen',
+      # Template: AdminAttachmentForm
       'Attachment Management' => 'Bijlage beheer',
 
-    # Template: AdminAutoResponseForm
-      'Auto Response From' => 'Autoreply Van',
+      # Template: AdminAutoResponseForm
       'Auto Response Management' => 'Autoreply beheer',
-      'Note' => 'Notitie',
       'Response' => 'Antwoord',
+      'Auto Response From' => 'Autoreply Van',
+      'Note' => 'Notitie',
+      'Useable options' => '',
       'to get the first 20 character of the subject' => 'voor de eerste 20 tekens van het onderwerp',
-      'to get the first 5 lines of the e-mail' => 'voor de eerste 5 regels van het bericht',
+      'to get the first 5 lines of the email' => '',
       'to get the from line of the email' => 'voor de Van: kop',
       'to get the realname of the sender (if given)' => 'voor de echte naam van de afzender (indien beschikbaar)',
-      'to get the ticket id of the ticket' => 'voor het ticket #',
-      'to get the ticket number of the ticket' => 'voor het ticket-nummer',
-      
-    # Template: AdminCustomerUserForm
+      'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
+
+      # Template: AdminCustomerUserForm
+      'The message being composed has been closed.  Exiting.' => 'Het bericht dat werd aangemaakt is gesloten.',
+      'This window must be called from compose window' => 'Dit scherm moet van het scherm opstellen worden aangeroepen',
       'Customer User Management' => 'Userbeheer klanten',
-      'Customer user will be needed to have an customer histor and to to login via customer panels.' => 'Klanten moeten een klanthistorie hebben en inloggen via de klantschermen',
-      'Result' => 'Resultaat',
-      'Search' => 'Zoek',
       'Search for' => 'Zoek naar',
+      'Result' => 'Resultaat',
       'Select Source (for add)' => 'Selecteer bron (voor toevoegen)',
       'Source' => 'Bron',
-      'The message being composed has been closed.  Exiting.' => 'Het bericht dat werd aangemaakt is gesloten.',
+      'This values are read only.' => '',
       'This values are required.' => 'Deze waarden zijn verplicht',
-      'This window must be called from compose window' => 'Dit scherm moet van het scherm opstellen worden aangeroepen',
-    
-    # Template: AdminCustomerUserGeneric
-      '"}: <font color="red">$Text{"' => '',
+      'Customer user will be needed to have an customer histor and to to login via customer panels.' => 'Klanten moeten een klanthistorie hebben en inloggen via de klantschermen',
 
-    # Template: AdminCustomerUserGroupChangeForm
+      # Template: AdminCustomerUserGroupChangeForm
+      'Customer Users <-> Groups Management' => '',
       'Change %s settings' => 'Wijzig instellingen voor %s',
-      'Customer User <-> Group Management' => 'Klanten <-> Groepenbeheer',
-      'Full read and write access to the tickets in this group/queue.' => 'Volledige lees- en schrijfrechten op de tickets in deze groep/wachtrij',
+      'Select the user:group permissions.' => 'Selecteer de gebruiker/groep rechten',
       'If nothing is selected, then there are no permissions in this group (tickets will not be available for the user).' => 'Als er geen selectie is gemaakt dan zijn er geen rechten voor deze groep (tickets zullen die beschikbaar zijn voor de gebruiker).',
       'Permission' => 'Rechten',
-      'Read only access to the ticket in this group/queue.' => 'Leesrechten op het ticket in deze groep/wachtrij',
       'ro' => '',
+      'Read only access to the ticket in this group/queue.' => 'Leesrechten op het ticket in deze groep/wachtrij',
       'rw' => '',
-      'Select the user:group permissions.' => 'Selecteer de gebruiker/groep rechten',
+      'Full read and write access to the tickets in this group/queue.' => 'Volledige lees- en schrijfrechten op de tickets in deze groep/wachtrij',
 
-    # Template: AdminCustomerUserGroupForm
+      # Template: AdminCustomerUserGroupForm
       'Change user <-> group settings' => 'Wijzigen van gebruiker <-> groep toekenning',
 
-    # Template: AdminCustomerUserPreferencesGeneric
-
-    # Template: AdminEmail
+      # Template: AdminEmail
       'Admin-Email' => 'Admin e-mail adres',
-      'Body' => 'berichttekst',
-      'OTRS-Admin Info!' => 'OTRS-Admin informatie!',
+      'Message sent to' => 'Bericht verstuurd naar',
       'Recipents' => 'Ontvangers',
+      'Body' => 'berichttekst',
       'send' => 'verstuur',
 
-    # Template: AdminEmailSent
-      'Message sent to' => 'Bericht verstuurd naar',
+      # Template: AdminGenericAgent
+      'GenericAgent' => '',
+      'Job-List' => '',
+      'Last run' => '',
+      'valid' => 'geldig',
+      'Run Now!' => '',
+      'x' => '',
+      'Save Job as?' => '',
+      'Is Job Valid?' => '',
+      'Is Job Valid' => '',
+      'Schedule' => '',
+      'Minutes' => '',
+      'Hours' => '',
+      'Days' => '',
+      'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Fulltext-Search in artikel (b.v. "Mar*in" of "Baue*")',
+      '(e. g. 10*5155 or 105658*)' => '(b.v. 10*5155 or 105658*)',
+      '(e. g. 234321)' => '(b.v. 234321)',
+      'Customer User Login' => 'Klant login',
+      '(e. g. U5150)' => '(b.v. U5150)',
+      'Agent' => '',
+      'TicketFreeText' => '',
+      'Ticket Lock' => '',
+      'Times' => 'Malen',
+      'No time settings.' => 'Geen tijdinstellingen',
+      'Ticket created' => 'Ticket aangemaakt',
+      'Ticket created between' => 'Ticket aangemaakt tussen',
+      'New Priority' => '',
+      'New Queue' => 'Nieuwe wachtrij',
+      'New State' => '',
+      'New Agent' => '',
+      'New Owner' => 'Nieuwe eigenaar',
+      'New Customer' => '',
+      'New Ticket Lock' => '',
+      'CustomerUser' => '',
+      'Add Note' => 'Notitie toevoegen',
+      'CMD' => '',
+      'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => '',
+      'Delete tickets' => '',
+      'Warning! This tickets will be removed from the database! This tickets are lost!' => '',
+      'Modules' => '',
+      'Param 1' => '',
+      'Param 2' => '',
+      'Param 3' => '',
+      'Param 4' => '',
+      'Param 5' => '',
+      'Param 6' => '',
+      'Save' => '',
 
-    # Template: AdminGroupForm
-      'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).' => 'Maak nieuwe groepen om toegangsrechten te regelen voor verschillende groepen van agenten (bijv. verkoopafdeling, supportafdeling, enz. enz.).',
+      # Template: AdminGroupForm
       'Group Management' => 'Groepenbeheer',
-      'It\'s useful for ASP solutions.' => 'Zeer bruikbaar voor ASP-oplossingen.',
       'The admin group is to get in the admin area and the stats group to get stats area.' => 'Leden van de admingroep mogen in het administratiegedeelte, leden van de Stats groep hebben toegang tot het statistiekgedeelte.',
+      'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).' => 'Maak nieuwe groepen om toegangsrechten te regelen voor verschillende groepen van agenten (bijv. verkoopafdeling, supportafdeling, enz. enz.).',
+      'It\'s useful for ASP solutions.' => 'Zeer bruikbaar voor ASP-oplossingen.',
 
-    # Template: AdminLog
+      # Template: AdminLog
       'System Log' => 'Systeem logboek',
+      'Time' => '',
 
-    # Template: AdminNavigationBar
-      'AdminEmail' => 'Admin e-mail adres',
-      'Attachment <-> Response' => 'Bijlage <-> Antwoord',
-      'Auto Response <-> Queue' => 'Autoreply <-> Wachtrij',
-      'Auto Responses' => 'Autoreply instellingen',
-      'Customer User' => 'Klant beheer',
-      'Customer User <-> Groups' => 'Klanten <-> Groepen beheer',
-      'Email Addresses' => 'E-mail adressen',
+      # Template: AdminNavigationBar
+      'Users' => '',
       'Groups' => 'Groepen',
-      'Logout' => 'Uitloggen',
-      'Misc' => 'Overige',
-      'Notifications' => 'Notificaties',
-      'PostMaster Filter' => '',
-      'PostMaster POP3 Account' => 'PostMaster POP3 Account',
+      'Roles' => '',
       'Responses' => 'Antwoorden',
-      'Responses <-> Queue' => 'Antwoorden <-> Wachtrij',
-      'Select Box' => 'SQL select query',
-      'Session Management' => 'Sessiebeheer',
-      'Status' => 'Status',
-      'System' => 'Systeem',
-      'User <-> Groups' => 'Gebruikers <-> Groepen',
+      'Misc' => 'Overige',
 
-    # Template: AdminNotificationForm
-      'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Config opties (b.v. &lt;OTRS_CONFIG_HttpType&gt;)',
+      # Template: AdminNotificationForm
       'Notification Management' => 'Notificatie beheer',
+      'Notification' => '',
       'Notifications are sent to an agent or a customer.' => 'Notificaties worden verstuurd naar een agent of een klant',
-      'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'Opties van de huidige user data van de klant (b.v. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)',
-      'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => 'Opties van de user die deze actie heeft aangevraagd (b.v. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)',
+      'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Config opties (b.v. &lt;OTRS_CONFIG_HttpType&gt;)',
       'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => 'Opties voor de ticketeigenaar (b.v. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)',
+      'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => 'Opties van de user die deze actie heeft aangevraagd (b.v. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)',
+      'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'Opties van de huidige user data van de klant (b.v. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)',
 
-    # Template: AdminPOP3Form
-      'All incoming emails with one account will be dispatched in the selected queue!' => 'Alle binnenkomende e-mail\'s in een account zullen worden geplaatst in de geselecteerde wachtrij',
-      'Dispatching' => 'Dispatching',
-      'Host' => 'Server',
-      'If your account is trusted, the x-otrs header (for priority, ...) will be used!' => 'Wanneer uw account te vertrouwen is, zal de x/otrs header (voor prioriteit, ...) worden gebruikt',
+      # Template: AdminPackageManager
+      'Package Manager' => '',
+      'Uninstall' => '',
+      'Verion' => '',
+      'Do you really want to uninstall this package?' => '',
+      'Install' => '',
+      'Package' => '',
+      'Online Repository' => '',
+      'Version' => '',
+      'Vendor' => '',
+      'Upgrade' => '',
+      'Local Repository' => '',
+      'Status' => '',
+      'Overview' => '',
+      'Download' => '',
+      'Rebuild' => '',
+      'Reinstall' => '',
+
+      # Template: AdminPGPForm
+      'PGP Management' => '',
+      'Identifier' => '',
+      'Bit' => '',
+      'Key' => '',
+      'Fingerprint' => '',
+      'Expires' => '',
+      'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
+      'FIXME: WHAT IS PGP?' => '',
+
+      # Template: AdminPOP3Form
       'POP3 Account Management' => 'POP3 account-beheer',
+      'Host' => 'Server',
       'Trusted' => 'Te vertrouwen',
+      'Dispatching' => '',
+      'All incoming emails with one account will be dispatched in the selected queue!' => 'Alle binnenkomende e-mail\'s in een account zullen worden geplaatst in de geselecteerde wachtrij',
+      'If your account is trusted, the already existing x-otrs header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => '',
 
-    # Template: AdminPostMasterFilterForm
-      'Login' => 'Login',
+      # Template: AdminPostMasterFilter
+      'PostMaster Filter Management' => '',
+      'Filtername' => '',
       'Match' => '',
-      'PostMasterFilter Management' => '',
+      'Header' => '',
+      'Value' => 'Waarde',
       'Set' => '',
+      'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' => '',
+      'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' => '',
 
-    # Template: AdminQueueAutoResponseForm
-      'Queue <-> Auto Response Management' => 'Wachtrij<-> Automatisch antwoorden beheer',
+      # Template: AdminQueueAutoResponseForm
+      'Queue <-> Auto Responses Management' => '',
 
-    # Template: AdminQueueAutoResponseTable
+      # Template: AdminQueueAutoResponseTable
 
-    # Template: AdminQueueForm
-      '0 = no escalation' => '0 = geen escalatie',
-      '0 = no unlock' => '0 = geen ontgrendeling',
-      'Customer Move Notify' => 'Klant notificatie bij verplaatsen',
-      'Customer Owner Notify' => 'Klant notificatie andere eigenaar',
-      'Customer State Notify' => 'Klant notificatie andere status',
-      'Escalation time' => 'Escalatietijd',
-      'Follow up Option' => 'Follow up optie',
-      'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => 'Wanneer een ticket wordt gesloten and de klant stuurt een follow-up wordt het ticket vergrendeld door de oude eigenaar',
-      'If a ticket will not be answered in thos time, just only this ticket will be shown.' => 'Als een ticket niet binnen deze tijd is beantwoord zal alleen dit ticket worden getoond',
-      'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Wanneer een agent een ticket vergrendeld en hij/zij stuurt geen antwoord binnen deze tijd dan zal het ticket automatisch ontgrendeld worden. Het ticket kan dan door andere agenten worden ingezien.',
-      'Key' => 'Key',
-      'OTRS sends an notification email to the customer if the ticket is moved.' => 'OTRS stuurt een notificatie e-mail naar de klant wanneer het ticket wordt verplaatst.',
-      'OTRS sends an notification email to the customer if the ticket owner has changed.' => 'OTRS stuurt een notificatie e-mail naar de klant wanneer de eigenaar is veranderd',
-      'OTRS sends an notification email to the customer if the ticket state has changed.' => 'OTRS stuurt een notificatie e-mail naar de klant wanneer de status is veranderd',
+      # Template: AdminQueueForm
       'Queue Management' => 'Wachtrijbeheer',
       'Sub-Queue of' => 'onder-wachtrij van',
+      'Unlock timeout' => 'Vrijgave tijdoverschrijding',
+      '0 = no unlock' => '0 = geen ontgrendeling',
+      'Escalation time' => 'Escalatietijd',
+      '0 = no escalation' => '0 = geen escalatie',
+      'Follow up Option' => 'Follow up optie',
+      'Ticket lock after a follow up' => 'Ticket-vergrendeling na een follow up',
       'Systemaddress' => 'Systeem-adres',
+      'Customer Move Notify' => 'Klant notificatie bij verplaatsen',
+      'Customer State Notify' => 'Klant notificatie andere status',
+      'Customer Owner Notify' => 'Klant notificatie andere eigenaar',
+      'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Wanneer een agent een ticket vergrendeld en hij/zij stuurt geen antwoord binnen deze tijd dan zal het ticket automatisch ontgrendeld worden. Het ticket kan dan door andere agenten worden ingezien.',
+      'If a ticket will not be answered in thos time, just only this ticket will be shown.' => 'Als een ticket niet binnen deze tijd is beantwoord zal alleen dit ticket worden getoond',
+      'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => 'Wanneer een ticket wordt gesloten and de klant stuurt een follow-up wordt het ticket vergrendeld door de oude eigenaar',
+      'Will be the sender address of this queue for email answers.' => 'is het afzenderadres van deze wachtrij voor antwoorden per e-mail',
       'The salutation for email answers.' => 'De aanhef voor antwoorden per e-mail.',
       'The signature for email answers.' => 'De handtekening voor antwoorden per e-mail.',
-      'Ticket lock after a follow up' => 'Ticket-vergrendeling na een follow up',
-      'Unlock timeout' => 'Vrijgave tijdoverschrijding',
-      'Will be the sender address of this queue for email answers.' => 'is het afzenderadres van deze wachtrij voor antwoorden per e-mail',
+      'OTRS sends an notification email to the customer if the ticket is moved.' => 'OTRS stuurt een notificatie e-mail naar de klant wanneer het ticket wordt verplaatst.',
+      'OTRS sends an notification email to the customer if the ticket state has changed.' => 'OTRS stuurt een notificatie e-mail naar de klant wanneer de status is veranderd',
+      'OTRS sends an notification email to the customer if the ticket owner has changed.' => 'OTRS stuurt een notificatie e-mail naar de klant wanneer de eigenaar is veranderd',
 
-    # Template: AdminQueueResponsesChangeForm
-      'Std. Responses <-> Queue Management' => 'Antwoorden <-> Wachtrij beheer',
+      # Template: AdminQueueResponsesChangeForm
+      'Responses <-> Queue Management' => '',
 
-    # Template: AdminQueueResponsesForm
+      # Template: AdminQueueResponsesForm
       'Answer' => 'Antwoord',
-      
-    # Template: AdminResponseAttachmentChangeForm
-      'Std. Responses <-> Std. Attachment Management' => 'Std. antwoorden <-> Std. bijlagen beheer',
 
-    # Template: AdminResponseAttachmentForm
-      
-    # Template: AdminResponseForm
+      # Template: AdminResponseAttachmentChangeForm
+      'Responses <-> Attachments Management' => '',
+
+      # Template: AdminResponseAttachmentForm
+
+      # Template: AdminResponseForm
+      'Response Management' => 'Antwoordbeheer',
       'A response is default text to write faster answer (with default text) to customers.' => 'Een antworord is een standaard-tekst om sneller antwoorden te kunnen opstellen.',
-      'All Customer variables like defined in config option CustomerUser.' => 'Alle klantvariabelen zoals vastgelegd in de configuratieoptie Klantgebruiker.',
       'Don\'t forget to add a new response a queue!' => 'Vergeet niet om een antwoord aan de wachtrij toe te kennen!',
       'Next state' => 'Volgende status',
-      'Response Management' => 'Antwoordbeheer',
+      'All Customer variables like defined in config option CustomerUser.' => 'Alle klantvariabelen zoals vastgelegd in de configuratieoptie Klantgebruiker.',
       'The current ticket state is' => 'De huidige ticketstatus is',
       'Your email address is new' => 'Uw e-mail adres is nieuw',
 
-    # Template: AdminSalutationForm
+      # Template: AdminRoleForm
+      'Role Management' => '',
+      'Create a role and put groups in it. Then add the role to the users.' => '',
+      'It\'s useful for a lot of users and groups.' => '',
+
+      # Template: AdminRoleGroupChangeForm
+      'Roles <-> Groups Management' => '',
+      'move_into' => 'verplaats naar',
+      'Permissions to move tickets into this group/queue.' => 'Rechten om tickets naar deze groep/wachtrij te verplaatsen',
+      'create' => 'Aanmaken',
+      'Permissions to create tickets in this group/queue.' => 'Rechten om tickets in deze groep/wachtrij aan te maken',
+      'owner' => 'eigenaar',
+      'Permissions to change the ticket owner in this group/queue.' => 'Rechten om de ticketeigenaar in deze groep/wachtrij te wijzigen',
+      'priority' => 'prioriteit',
+      'Permissions to change the ticket priority in this group/queue.' => 'Rechten om de prioriteit van een ticket in deze groep/wachtrij te wijzigen',
+
+      # Template: AdminRoleGroupForm
+      'Change roles <-> groups settings' => '',
+      'Role' => '',
+
+      # Template: AdminRoleUserChangeForm
+      'Roles <-> Users Management' => '',
+      'Active' => '',
+      'Select the role:user relations.' => '',
+
+      # Template: AdminRoleUserForm
+      'Change users <-> roles settings' => '',
+
+      # Template: AdminSalutationForm
+      'Salutation Management' => 'Aanhef beheer',
       'customer realname' => 'echte klantnaam',
       'for agent firstname' => 'voornaam van agent',
       'for agent lastname' => 'achternaam van agent',
-      'for agent login' => 'de login van de agent',
       'for agent user id' => 'de loginnaam van de agent ',
-      'Salutation Management' => 'Aanhef beheer',
+      'for agent login' => 'de login van de agent',
 
-    # Template: AdminSelectBoxForm
-      'Max Rows' => 'Max. rijen',
-
-    # Template: AdminSelectBoxResult
+      # Template: AdminSelectBoxForm
+      'Select Box' => 'SQL select query',
+      'SQL' => '',
       'Limit' => 'Beperk',
       'Select Box Result' => 'keuzekader resultaat',
-      'SQL' => 'SQL',
 
-    # Template: AdminSession
-      'Agent' => '',
-      'kill all sessions' => 'Alle sessies afsluiten',
-      'Overview' => '',
+      # Template: AdminSession
+      'Session Management' => 'Sessiebeheer',
       'Sessions' => '',
       'Uniq' => '',
-
-    # Template: AdminSessionTable
+      'kill all sessions' => 'Alle sessies afsluiten',
+      'Session' => '',
       'kill session' => 'Sessie afsluiten',
-      'SessionID' => 'Sessie #',
 
-    # Template: AdminSignatureForm
+      # Template: AdminSignatureForm
       'Signature Management' => 'handtekeningbeheer',
 
-    # Template: AdminStateForm
-      'See also' => 'Zie ook',
-      'State Type' => 'Status Type',
+      # Template: AdminSMIMEForm
+      'SMIME Management' => '',
+      'Add Certificate' => '',
+      'Add Private Key' => '',
+      'Secret' => '',
+      'Hash' => '',
+      'In this way you can directly edit the certification and private keys in file system.' => '',
+      'FIXME: WHAT IS SMIME?' => '',
+
+      # Template: AdminStateForm
       'System State Management' => 'Systeem-status beheer',
+      'State Type' => 'Status Type',
       'Take care that you also updated the default states in you Kernel/Config.pm!' => 'Bewaak dat u ook de default statussen in uw Kernel/Config.pm bijwerkt!',
+      'See also' => 'Zie ook',
 
-    # Template: AdminSystemAddressForm
-      'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Alle binnenkomende emails met deze "To:" worden in de gekozen wachtrij geplaatst.',
-      'Email' => 'Email',
-      'Realname' => 'Echte naam',
+      # Template: AdminSysConfig
+      'SysConfig' => '',
+      'Group selection' => '',
+      'Show' => '',
+      'Subgroup' => '',
+
+      # Template: AdminSysConfigEdit
+      'Options ' => '',
+      'for ' => '',
+      'Subgroup \'' => '',
+      '\' ' => '',
+      'Content' => '',
+      'New' => 'Nieuw',
+      'Group Ro' => '',
+      'NavBarName' => '',
+      'Image' => '',
+      'Typ' => '',
+      'Prio' => '',
+      'Block' => '',
+      'NavBar' => '',
+
+      # Template: AdminSystemAddressForm
       'System Email Addresses Management' => 'Systeem E-mailadressen beheer',
+      'Email' => '',
+      'Realname' => 'Echte naam',
+      'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Alle binnenkomende emails met deze "To:" worden in de gekozen wachtrij geplaatst.',
 
-    # Template: AdminUserForm
-      'Don\'t forget to add a new user to groups!' => 'Vergeet niet om groepen aan deze gebruiker toe te kennen!',
+      # Template: AdminUserForm
+      'User Management' => 'Gebruikersbeheer',
       'Firstname' => 'Voornaam',
       'Lastname' => 'Achternaam',
-      'User Management' => 'Gebruikersbeheer',
       'User will be needed to handle tickets.' => 'Gebruikers zijn nodig om tickets te behandelen.',
+      'Don\'t forget to add a new user to groups!' => 'Vergeet niet om groepen aan deze gebruiker toe te kennen!',
 
-    # Template: AdminUserGroupChangeForm
-      'create' => 'Aanmaken',
-      'move_into' => 'verplaats naar',
-      'owner' => 'eigenaar',
-      'Permissions to change the ticket owner in this group/queue.' => 'Rechten om de ticketeigenaar in deze groep/wachtrij te wijzigen',
-      'Permissions to change the ticket priority in this group/queue.' => 'Rechten om de prioriteit van een ticket in deze groep/wachtrij te wijzigen',
-      'Permissions to create tickets in this group/queue.' => 'Rechten om tickets in deze groep/wachtrij aan te maken',
-      'Permissions to move tickets into this group/queue.' => 'Rechten om tickets naar deze groep/wachtrij te verplaatsen',
-      'priority' => 'prioriteit',
-      'User <-> Group Management' => 'Gebruiker <-> Groep beheer',
+      # Template: AdminUserGroupChangeForm
+      'Users <-> Groups Management' => '',
 
-    # Template: AdminUserGroupForm
+      # Template: AdminUserGroupForm
 
-    # Template: AdminUserPreferencesGeneric
-
-    # Template: AgentBook
+      # Template: AgentBook
       'Address Book' => 'Adresboek',
-      'Discard all changes and return to the compose screen' => 'Veranderingen niet toepassen en ga terug naar het berichtscherm',
       'Return to the compose screen' => 'Terug naar berichtscherm',
+      'Discard all changes and return to the compose screen' => 'Veranderingen niet toepassen en ga terug naar het berichtscherm',
 
-    # Template: AgentBounce
-      'A message should have a To: recipient!' => 'Een bericht moet een ontvanger (aan:) hebben!',
-      'Bounce ticket' => 'Bounce ticket',
-      'Bounce to' => 'Bounce naar',
-      'Inform sender' => 'Informeer afzender',
-      'Next ticket state' => 'Volgende status van het ticket',
-      'Send mail!' => 'bericht versturen!',
-      'You need a email address (e. g. customer@example.com) in To:!' => 'In het Aan-veld is een E-mail adres nodig!',
-      'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Je email met ticket nummer "<OTRS_TICKET>" is gebounced naar "<OTRS_BOUNCE_TO>". Contacteer dit adres voor meer informatie.',
+      # Template: AgentCustomerTableView
 
-    # Template: AgentBulk
-      'A message should have a subject!' => 'Een bericht moet een onderwerp hebben!',
-      'Back' => 'Terug',
-      'New Queue' => 'Nieuwe wachtrij',
-      'Note type' => 'Notitietype',
-      'Note!' => 'Notitie!',
-      'Options' => 'Opties',
-      'Spell Check' => 'Spellingscontrole',
-      'Ticket Bulk Action' => 'Ticket Bulk Aktie',
-    
-    # Template: AgentClose
-      ' (work units)' => '(werk eenheden)',
-      'A message should have a body!' => 'Een bericht moet een berichttekst hebben!',
-      'Close ticket' => 'Sluit ticket',
-      'Close type' => 'Sluit-type',
-      'Close!' => 'Sluit!',
-      'Note Text' => 'Notitietekst',
-      'Time units' => 'Tijdseenheden',
-      'You need to account time!' => 'Het is verplicht tijd te verantwoorden!',
+      # Template: AgentInfo
+      'Info' => 'Informatie',
 
-    # Template: AgentCompose
-      'A message must be spell checked!' => 'Van een bericht moet de spelling gecontroleerd worden',
-      'Attach' => 'Bijlage',
-      'Compose answer for ticket' => 'Bericht opstellen voor',
-      'for pending* states' => 'voor nog hangende* statussen',
-      'Is the ticket answered' => 'Is het ticket beantwoord?',
-      'Pending Date' => 'Nog hangende datum',
+      # Template: AgentLinkObject
+      'Link Object' => '',
+      '"}" $Text{"with' => '',
+      'Select' => 'Selecteer',
+      'Results' => 'Resultaten',
+      'Total hits' => 'Totaal gevonden',
+      'Site' => '',
+      'Detail' => '',
 
-    # Template: AgentCustomer
-      'Change customer of ticket' => 'Wijzig klant van een ticket',
-      'CustomerID' => 'KlantID',
-      'Search Customer' => 'Klanten zoeken',
-      'Set customer user and customer id of a ticket' => 'Wijs de klantgebruiker en klantID van een ticket toe',
+      # Template: AgentLookup
+      'Lookup' => '',
 
-    # Template: AgentCustomerHistory
-      'All customer tickets.' => 'Alle klanttickets',
-      'Customer history' => 'Klantgeschiedenis',
-
-    # Template: AgentCustomerMessage
-      'Follow up' => 'Follow up',
-
-    # Template: AgentCustomerView
-      'Customer Data' => 'Klantgegevens',
-
-    # Template: AgentEmailNew
-      'All Agents' => 'Alle agents',
-      'Clear From' => 'Wis Van',
-      'Compose Email' => 'E-mail opstellen',
-      'new ticket' => 'nieuw ticket',
-
-    # Template: AgentForward
-      'Article type' => 'Artikel-type',
-      'Date' => 'Datum',
-      'End forwarded message' => 'Beëindig doorgestuurd bericht',
-      'Forward article of ticket' => 'Artikel van ticket doorsturen',
-      'Forwarded message from' => 'Doorgestuurd bericht van',
-      'Reply-To' => 'Antwoord aan',
-
-    # Template: AgentFreeText
-      'Change free text of ticket' => 'Verander de vrije tekstvelden van een bericht',
-      'Value' => 'Waarde',
-
-    # Template: AgentHistoryForm
-      'History of' => 'Geschiedenis van',
-
-    # Template: AgentMailboxNavBar
-      'All messages' => 'Alle berichten',
-      'down' => 'naar beneden',
-      'Mailbox' => 'Postbus',
-      'New' => 'Nieuw',
-      'New messages' => 'Nieuwe berichten',
-      'Open' => 'Open',
-      'Open messages' => 'Open berichten',
-      'Order' => 'Volgorde',
-      'Pending messages' => 'wachtende berichten',
-      'Reminder' => 'Herinnering',
-      'Reminder messages' => 'Herinneringsberichten',
-      'Sort by' => 'Sorteer volgens',
-      'Tickets' => 'Tickets',
-      'up' => 'naar boven',
-
-    # Template: AgentMailboxTicket
-      '"}' => '',
-      '"}","14' => '',
-      'Shows the detail view of this ticket!' => 'Toont het detailscherm van dit ticket!',
-      'Unlock this ticket!' => 'Unlock dit ticket!',
-
-    # Template: AgentMove
-      'Move Ticket' => 'Verplaats Bericht',
-      'New Owner' => 'Nieuwe eigenaar',
-      'Previous Owner' => 'Vorige eigenaar',
-      'Queue ID' => 'WachtrijID',
-
-    # Template: AgentNavigationBar
-      'Bulk Action' => 'Bulk aktie',
-      'Locked tickets' => 'Eigen tickets',
-      'new message' => 'Nieuw bericht',
-      'Preferences' => 'Voorkeuren',
+      # Template: AgentNavigationBar
       'Ticket selected for bulk action!' => 'Ticket geselecteerd voor bulk aktie!',
+      'You need min. one selected Ticket!' => '',
 
-    # Template: AgentNote
-      'Add note to ticket' => 'Notitie toevoegen aan ticket',
-      
-    # Template: AgentOwner
-      'Change owner of ticket' => 'Wijzig eigenaar van ticket',
-      'Message for new Owner' => 'Bericht voor nieuwe eigenaar',
+      # Template: AgentPreferencesForm
 
-    # Template: AgentPending
-      'Pending date' => 'Wachtend: datum',
-      'Pending type' => 'Wachtend: type',
-      'Pending!' => 'Wachtend',
-      'Set Pending' => 'Zet wachtend',
-
-    # Template: AgentPhone
-      'Customer called' => 'Klant heeft gebeld',
-      'Phone call' => 'Telefoongesprek',
-      'Phone call at %s' => 'Gebeld om %s',
-
-    # Template: AgentPhoneNew
-
-    # Template: AgentPlain
-      'ArticleID' => 'ArtikelID',
-      'Plain' => 'Zonder opmaak',
-      'TicketID' => 'TicketID',
-
-    # Template: AgentPreferencesCustomQueue
-      'My Queues' => 'Mijn wachtrijen',
-      'You also get notified about this queues via email if enabled.' => 'Indien ingeschakeld, ontvangt u ook notificaties via e-mail over deze wachtrijen.',
-      'Your queue selection of your favorite queues.' => 'Selectie van uw favoriete wachtrijen.',
-
-    # Template: AgentPreferencesForm
-
-    # Template: AgentPreferencesGeneric
-
-    # Template: AgentPreferencesPassword
-      'Change Password' => 'Wachtwoord wijzigen',
-      'New password' => 'Nieuw wachtwoord',
-      'New password again' => 'Nieuw wachtwoord herhalen',
-
-    # Template: AgentPriority
-      'Change priority of ticket' => 'Prioriteit wijzigen voor ticket',
-
-    # Template: AgentSpelling
-      'Apply these changes' => 'Pas deze wijzigingen toe',
+      # Template: AgentSpelling
       'Spell Checker' => 'Spellingscontrole',
       'spelling error(s)' => 'Spelfout(en)',
+      'or' => 'of',
+      'Apply these changes' => 'Pas deze wijzigingen toe',
 
-    # Template: AgentStatusView
-      'D' => 'D',
-      'of' => 'van',
-      'Site' => 'Site',
-      'sort downward' => 'sorteer aflopend',
-      'sort upward' => 'sorteer oplopend',
-      'Ticket Status' => 'Ticketstatus',
-      'U' => 'U',
+      # Template: AgentTicketBounce
+      'A message should have a To: recipient!' => 'Een bericht moet een ontvanger (aan:) hebben!',
+      'You need a email address (e. g. customer@example.com) in To:!' => 'In het Aan-veld is een E-mail adres nodig!',
+      'Bounce ticket' => '',
+      'Bounce to' => 'Bounce naar',
+      'Next ticket state' => 'Volgende status van het ticket',
+      'Inform sender' => 'Informeer afzender',
+      'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Je email met ticket nummer "<OTRS_TICKET>" is gebounced naar "<OTRS_BOUNCE_TO>". Contacteer dit adres voor meer informatie.',
+      'Send mail!' => 'bericht versturen!',
 
-    # Template: AgentStatusViewTable
+      # Template: AgentTicketBulk
+      'A message should have a subject!' => 'Een bericht moet een onderwerp hebben!',
+      'Ticket Bulk Action' => 'Ticket Bulk Aktie',
+      '$Text{"Note!' => '',
+      'Spell Check' => 'Spellingscontrole',
+      'Note type' => 'Notitietype',
+      'Unlock Tickets' => '',
 
-    # Template: AgentStatusViewTableNotAnswerd
+      # Template: AgentTicketClose
+      'A message should have a body!' => 'Een bericht moet een berichttekst hebben!',
+      'You need to account time!' => 'Het is verplicht tijd te verantwoorden!',
+      'Close ticket' => 'Sluit ticket',
+      'Close!' => 'Sluit!',
+      'Note Text' => 'Notitietekst',
+      'Close type' => 'Sluit-type',
+      'Time units' => 'Tijdseenheden',
+      ' (work units)' => '(werk eenheden)',
 
-    # Template: AgentTicketLink
-      'Link' => '',
-      'Link to' => 'Link naar',
-      'Delete Link' => 'Verwijder link',
+      # Template: AgentTicketCompose
+      'A message must be spell checked!' => 'Van een bericht moet de spelling gecontroleerd worden',
+      'Compose answer for ticket' => 'Bericht opstellen voor',
+      'Attach' => 'Bijlage',
+      'Pending Date' => 'Nog hangende datum',
+      'for pending* states' => 'voor nog hangende* statussen',
 
-    # Template: AgentTicketLocked
+      # Template: AgentTicketCustomer
+      'Change customer of ticket' => 'Wijzig klant van een ticket',
+      'Set customer user and customer id of a ticket' => 'Wijs de klantgebruiker en klantID van een ticket toe',
+      'Customer User' => 'Klant beheer',
+      'Search Customer' => 'Klanten zoeken',
+      'Customer Data' => 'Klantgegevens',
+      'Customer history' => 'Klantgeschiedenis',
+      'All customer tickets.' => 'Alle klanttickets',
+
+      # Template: AgentTicketCustomerMessage
+      'Follow up' => '',
+
+      # Template: AgentTicketEmail
+      'Compose Email' => 'E-mail opstellen',
+      'new ticket' => 'nieuw ticket',
+      'Clear To' => '',
+      'All Agents' => 'Alle agents',
+
+      # Template: AgentTicketForward
+      'Article type' => 'Artikel-type',
+
+      # Template: AgentTicketFreeText
+      'Change free text of ticket' => 'Verander de vrije tekstvelden van een bericht',
+
+      # Template: AgentTicketHistory
+      'History of' => 'Geschiedenis van',
+
+      # Template: AgentTicketLocked
       'Ticket locked!' => 'Ticket vergrendeld!',
       'Ticket unlock!' => 'Ticket ontgrendeld!',
 
-    # Template: AgentTicketPrint
-      'by' => 'door',
+      # Template: AgentTicketMailbox
+      'Mailbox' => 'Postbus',
+      'Tickets' => '',
+      'All messages' => 'Alle berichten',
+      'New messages' => 'Nieuwe berichten',
+      'Pending messages' => 'wachtende berichten',
+      'Reminder messages' => 'Herinneringsberichten',
+      'Reminder' => 'Herinnering',
+      'Sort by' => 'Sorteer volgens',
+      'Order' => 'Volgorde',
+      'up' => 'naar boven',
+      'down' => 'naar beneden',
+      '"}\'; return true;" onmouseout="window.status=\'\';" class="menuitem" title="$Text{"' => '',
+      '"}"}">$Quote{"$Text{""}' => '',
 
-    # Template: AgentTicketPrintHeader
+      # Template: AgentTicketMerge
+      'You need to use a ticket number!' => '',
+      'Ticket Merge' => '',
+      'Merge to' => '',
+      'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' => '',
+
+      # Template: AgentTicketMove
+      'Queue ID' => 'WachtrijID',
+      'Move Ticket' => 'Verplaats Bericht',
+      'Previous Owner' => 'Vorige eigenaar',
+
+      # Template: AgentTicketNote
+      'Add note to ticket' => 'Notitie toevoegen aan ticket',
+      'Inform Agent' => '',
+      'Optional' => '',
+      'Inform involved Agents' => '',
+
+      # Template: AgentTicketOwner
+      'Change owner of ticket' => 'Wijzig eigenaar van ticket',
+      'Message for new Owner' => 'Bericht voor nieuwe eigenaar',
+
+      # Template: AgentTicketPending
+      'Set Pending' => 'Zet wachtend',
+      'Pending type' => 'Wachtend: type',
+      'Pending date' => 'Wachtend: datum',
+
+      # Template: AgentTicketPhone
+      'Phone call' => 'Telefoongesprek',
+
+      # Template: AgentTicketPhoneNew
+      'Clear From' => 'Wis Van',
+
+      # Template: AgentTicketPlain
+      'Plain' => 'Zonder opmaak',
+      'TicketID' => '',
+      'ArticleID' => 'ArtikelID',
+
+      # Template: AgentTicketPrint
+      'Ticket-Info' => '',
       'Accounted time' => 'Geregistreerde tijd',
       'Escalation in' => 'Escalatie om',
+      'Linked-Object' => '',
+      'Parent-Object' => '',
+      'Child-Object' => '',
+      'by' => 'door',
 
-    # Template: AgentUtilSearch
-      '(e. g. 10*5155 or 105658*)' => '(b.v. 10*5155 or 105658*)',
-      '(e. g. 234321)' => '(b.v. 234321)',
-      '(e. g. U5150)' => '(b.v. U5150)',
-      'and' => 'en',
-      'Customer User Login' => 'Klant login',
-      'Delete' => 'Verwijder',
-      'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Fulltext-Search in artikel (b.v. "Mar*in" of "Baue*")',
-      'No time settings.' => 'Geen tijdinstellingen',
+      # Template: AgentTicketPriority
+      'Change priority of ticket' => 'Prioriteit wijzigen voor ticket',
+
+      # Template: AgentTicketQueue
+      'Tickets shown' => 'Tickets getoond',
+      'Page' => 'Pagina',
+      'Tickets available' => 'Tickets beschikbaar',
+      'All tickets' => 'Alle tickets',
+      'Queues' => 'Wachtrij',
+      'Ticket escalation!' => 'Ticket escalatie!',
+
+      # Template: AgentTicketQueueTicketView
+      'Your own Ticket' => 'Je eigen ticket',
+      'Compose Follow up' => 'Follow up aanmaken',
+      'Compose Answer' => 'Antwoord opstellen',
+      'Contact customer' => 'Klant contacteren',
+      'Change queue' => 'Wachtrij wisselen',
+
+      # Template: AgentTicketQueueTicketViewLite
+
+      # Template: AgentTicketSearch
+      'Ticket Search' => 'Zoek ticket',
       'Profile' => 'Profiel',
+      'Search-Template' => 'Zoektemplate',
+      'Created in Queue' => '',
       'Result Form' => 'Resultaatformulier',
       'Save Search-Profile as Template?' => 'Zoekprofiel als template bewaren ?',
-      'Search-Template' => 'Zoektemplate',
-      'Select' => 'Selecteer',
-      'Ticket created' => 'Ticket aangemaakt',
-      'Ticket created between' => 'Ticket aangemaakt tussen',
-      'Ticket Search' => 'Zoek ticket',
-      'TicketFreeText' => '',
-      'Times' => 'Malen',
       'Yes, save it with name' => 'Ja, sla op met naam',
-
-    # Template: AgentUtilSearchByCustomerID
       'Customer history search' => 'zoeken in klantgeschiednis',
       'Customer history search (e. g. "ID342425").' => 'Klantgeschiedenis zoeken (bijv. "ID342425").',
       'No * possible!' => 'Geen * mogelijk!',
 
-    # Template: AgentUtilSearchNavBar
-      'Change search options' => 'Verander zoekopties',
-      'Results' => 'Resultaten',
+      # Template: AgentTicketSearchResult
       'Search Result' => 'Zoekresultaat',
-      'Total hits' => 'Totaal gevonden',
+      'Change search options' => 'Verander zoekopties',
 
-    # Template: AgentUtilSearchResult
-      '"}","15' => '',
+      # Template: AgentTicketSearchResultPrint
+      '"}' => '',
 
-    # Template: AgentUtilSearchResultPrint
+      # Template: AgentTicketSearchResultShort
+      'sort upward' => 'sorteer oplopend',
+      'U' => '',
+      'sort downward' => 'sorteer aflopend',
+      'D' => '',
 
-    # Template: AgentUtilSearchResultPrintTable
-      '"}","30' => '',
+      # Template: AgentTicketStatusView
+      'Ticket Status View' => '',
+      'Open Tickets' => '',
 
-    # Template: AgentUtilSearchResultShort
-
-    # Template: AgentUtilSearchResultShortTable
-
-    # Template: AgentUtilSearchResultShortTableNotAnswered
-
-    # Template: AgentUtilTicketStatus
-      'All closed tickets' => 'Alle gesloten tickets',
-      'All open tickets' => 'Alle open tickets',
-      'closed tickets' => 'gesloten tickets',
-      'open tickets' => 'Open tickets',
-      'or' => 'of',
-      'Provides an overview of all' => 'Geeft een overzicht van alle',
-      'So you see what is going on in your system.' => 'Zodat u ziet wat er in het systeem gebeurt.',
-
-    # Template: AgentZoomAgentIsCustomer
-      'Compose Follow up' => 'Follow up aanmaken',
-      'Your own Ticket' => 'Je eigen ticket',
-
-    # Template: AgentZoomAnswer
-      'Compose Answer' => 'Antwoord opstellen',
-      'Contact customer' => 'Klant contacteren',
-      
-    # Template: AgentZoomArticle
+      # Template: AgentTicketZoom
       'Split' => 'splitsing',
 
-    # Template: AgentZoomBody
-      'Change queue' => 'Wachtrij wisselen',
-
-    # Template: AgentZoomHead
-      'Lock it to work on it!' => 'Ticket locken om eraan te werken!',
-
-    # Template: AgentZoomStatus
-      '"}","18' => '',
+      # Template: AgentTicketZoomStatus
       'Locked' => '',
 
-    # Template: Copyright
-      'Print' => 'Afdrukken',
-      'printed by' => 'afgedrukt door',
+      # Template: AgentWindowTabStart
 
-    # Template: CustomerCreateAccount
-      'Create Account' => 'Maak account',
+      # Template: AgentWindowTabStop
 
-    # Template: CustomerError
+      # Template: Copyright
+
+      # Template: css
+
+      # Template: customer-css
+
+      # Template: CustomerAccept
+
+      # Template: CustomerError
       'Traceback' => 'Terug traceren',
 
-    # Template: CustomerFAQArticleHistory
-      'Edit' => 'Wijzig',
+      # Template: CustomerFAQArticleHistory
       'FAQ History' => 'FAQ Geschiedenis',
+      'Print' => 'Afdrukken',
 
-    # Template: CustomerFAQArticlePrint
-      'Category' => 'Categorie',
+      # Template: CustomerFAQArticlePrint
       'Keywords' => '',
       'Last update' => 'Laatste wijziging',
+      'Symptom' => 'Symptoom',
+      'Problem' => 'Probleem',
       'Solution' => 'Oplossing',
-      
-    # Template: CustomerFAQArticleSystemHistory
+
+      # Template: CustomerFAQArticleSystemHistory
       'FAQ System History' => 'FAQ Systeem geschiedenis',
 
-    # Template: CustomerFAQArticleView
-      'FAQ Article' => 'FAQ artikel',
+      # Template: CustomerFAQArticleView
       'Modified' => 'Gewijzigd',
 
-    # Template: CustomerFAQOverview
+      # Template: CustomerFAQOverview
       'FAQ Overview' => '',
 
-    # Template: CustomerFAQSearch
+      # Template: CustomerFAQSearch
       'FAQ Search' => '',
       'Fulltext' => '',
       'Keyword' => '',
 
-    # Template: CustomerFAQSearchResult
+      # Template: CustomerFAQSearchResult
       'FAQ Search Result' => 'FAQ zoekresultaat',
 
-    # Template: CustomerFooter
-      'Powered by' => 'Powered by',
+      # Template: CustomerFooter
+      'Powered by' => '',
 
-   # Template: CustomerLostPassword
+      # Template: CustomerHeader
+
+      # Template: CustomerLogin
+      'Login' => '',
       'Lost your password?' => 'Wachtwoord vergeten?',
       'Request new password' => 'Vraag een nieuw wachtwoord aan',
+      'Create Account' => 'Maak account',
 
-    # Template: CustomerMessage
-
-    # Template: CustomerMessageNew
-
-    # Template: CustomerNavigationBar
-      'CompanyTickets' => 'Bedrijfstickets',   
-      'Create new Ticket' => 'Maak een nieuw Ticket',
-      'FAQ' => 'FAQ',
-      'MyTickets' => 'Mijn Tickets',      
-      'New Ticket' => 'Nieuw ticket',
+      # Template: CustomerNavigationBar
       'Welcome %s' => 'Welkom %s',
 
-    # Template: CustomerPreferencesForm
+      # Template: CustomerPreferencesForm
 
-    # Template: CustomerPreferencesGeneric
+      # Template: CustomerStatusView
+      'of' => 'van',
 
-    # Template: CustomerPreferencesPassword
+      # Template: CustomerTicketMessage
 
-    # Template: CustomerStatusView
-      'My Tickets' => 'Mijn tickets',
+      # Template: CustomerTicketMessageNew
 
-    # Template: CustomerStatusViewTable
+      # Template: CustomerTicketSearch
 
-    # Template: CustomerTicketZoom
+      # Template: CustomerTicketSearchResultCSV
 
-    # Template: CustomerWarning
-    
-    # Template: DWPFAQArticleView
+      # Template: CustomerTicketSearchResultPrint
 
-    # Template: DWPFAQSearch
-    
-    # Template: Error
+      # Template: CustomerTicketSearchResultShort
+
+      # Template: CustomerTicketZoom
+
+      # Template: CustomerWarning
+
+      # Template: Error
       'Click here to report a bug!' => 'Klik hier om een fout te rapporteren',
 
-    # Template: FAQArticleDelete
-      'FAQ Delete' => '`FAQ verwijderen',
-      'You really want to delete this article?' => 'Wilt u dit artikel echt verwijderen ?',
-
-    # Template: FAQArticleForm
-      'A article should have a title!' => 'Een artikel moet een titel hebben!',      
+      # Template: FAQ
       'Comment (internal)' => 'Interne opmerking',
-      'Filename' => 'Bestandsnaam',
-      'Title' => 'Titel',
-      
-    # Template: FAQArticleHistory
+      'A article should have a title!' => 'Een artikel moet een titel hebben!',
+      'New FAQ Article' => '',
+      'Do you really want to delete this Object?' => '',
+      'System History' => '',
 
-    # Template: FAQArticlePrint
-
-    # Template: FAQArticleSystemHistory
-
-    # Template: FAQArticleView
-
-    # Template: FAQCategoryForm
-      'FAQ Category' => 'FAQ Categorie',
+      # Template: FAQCategoryForm
       'Name is required!' => 'Naam is verplicht!',
+      'FAQ Category' => 'FAQ Categorie',
 
-    # Template: FAQLanguageForm
+      # Template: FAQLanguageForm
       'FAQ Language' => 'FAQ taal',
 
-    # Template: FAQNavigationBar
-
-    # Template: FAQOverview
-
-    # Template: FAQSearch
-
-    # Template: FAQSearchResult
-
-    # Template: FAQStateForm
-      'FAQ State' => 'FAQ status',
-
-    # Template: Footer
+      # Template: Footer
       'Top of Page' => 'Bovenkant pagina',
 
-    # Template: InstallerBody
-      'Create Database' => '',
-      'Drop Database' => '',
-      'Finished' => '',
-      'System Settings' => '',
-      'Web-Installer' => '',
+      # Template: FooterSmall
 
-    # Template: InstallerFinish
-      'Admin-User' => '',
-      'After doing so your OTRS is up and running.' => '',
-      'Have a lot of fun!' => '',
-      'Restart your webserver' => '',
-      'Start page' => '',
-      'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' => '',
-      'Your OTRS Team' => '',
-
-    # Template: InstallerLicense
-      'accept license' => '',
-      'don\'t accept license' => '',
-      'License' => '',
-
-    # Template: InstallerStart
-      'Create new database' => '',
-      'DB Admin Password' => '',
-      'DB Admin User' => '',
-      'DB Host' => '',
-      'DB Type' => '',
-      'default \'hot\'' => '',
-      'Delete old database' => '',
-      'next step' => 'volgende stap',
-      'OTRS DB connect host' => '',
-      'OTRS DB Name' => '',
-      'OTRS DB Password' => '',
-      'OTRS DB User' => '',
-      'your MySQL DB should have a root password! Default is empty!' => '',
-
-    # Template: InstallerSystem
-      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '',
-      '(Email of the system admin)' => '',
-      '(Full qualified domain name of your system)' => '',
-      '(Logfile just needed for File-LogModule!)' => '',
-      '(The identify of the system. Each ticket number and each http session id starts with this number)' => '',
-      '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '',
-      '(Used default language)' => '',
-      '(Used log backend)' => '',
-      '(Used ticket number format)' => '',
-      'CheckMXRecord' => '',
-      'Default Charset' => '',
-      'Default Language' => '',
-      'Logfile' => '',
-      'LogModule' => '',
-      'Organization' => '',
-      'System FQDN' => '',
-      'SystemID' => '',
-      'Ticket Hook' => '',
-      'Ticket Number Generator' => '',
-      'Use utf-8 it your database supports it!' => '',
-      'Webfrontend' => '',
-
-    # Template: LostPassword
-
-    # Template: NoPermission
-      'No Permission' => 'Geen rechten',
-
-    # Template: Notify
-      'Info' => 'Informatie',
-
-    # Template: PrintFooter
-      'URL' => 'URL',
-
-    # Template: PrintHeader
-      'printed by' => 'afgedrukt door',
-
-    # Template: QueueView
-      'All tickets' => 'Alle tickets',
-      'Page' => 'Pagina',
-      'Queues' => 'Wachtrij',
-      'Tickets available' => 'Tickets beschikbaar',
-      'Tickets shown' => 'Tickets getoond',
-
-    # Template: SystemStats
-      'Graphs' => 'Grafieken',
-
-    # Template: Test
-      'OTRS Test Page' => 'OTRS Testpagina',
-
-    # Template: TicketEscalation
-      'Ticket escalation!' => 'Ticket escalatie!',
-
-    # Template: TicketView
-
-    # Template: TicketViewLite
-      'Add Note' => 'Notitie toevoegen',
-
-    # Template: Warning
-
-    # Template: css
+      # Template: Header
       'Home' => '',
 
-    # Template: customer-css
-      'Contact' => 'Contact',
-      'Online-Support' => 'Online support',
-      'Products' => 'Produkten',
-      'Support' => '',
+      # Template: HeaderSmall
 
-    # Misc
-      'A message should have a From: recipient!' => 'Een bericht moet een Van: afzender hebben!',
-      'Add a note to this ticket!' => 'Notitie aan dit ticket toevoegen!',
-      'Add auto response' => 'Autoreply toevoegen',
-      'Addressbook' => 'Adresboek',      
-      'AgentFrontend' => 'Agent weergave',
-      'Article free text' => 'Artikel tekst',
-      'BackendMessage' => 'Systeembericht',
-      'Change Response <-> Attachment settings' => 'Wijzigingsbericht <-> Bijlage beheer',
-      'Change answer <-> queue settings' => 'Wijzigingsbericht <-> Wachtrij beheer',
-      'Change auto response settings' => 'Verander autoreply instellingen',
-      'Change the ticket customer!' => 'Wijzig klant voor dit ticket!',
-      'Change the ticket free fields!' => 'Wijzig vrije tekstvelden voor dit ticket!',
-      'Change the ticket owner!' => 'Wijzig eigenaar van dit ticket!',
-      'Change the ticket priority!' => 'Wijzig prioriteit van dit ticket!',      
-      'Charset' => 'karakterset',
-      'Charsets' => 'Karaktersets',
-      'Close this ticket!' => 'Sluit dit ticket!',
-      'Closed' => 'Gesloten',
-      'Create' => 'Aanmaken',
-      'Customer info' => 'Klantinfo',
-      'Free Fields' => 'Vrije velden',
-      'Link this ticket to an other one!' => 'Link dit ticket aan een ander ticket!',
-      'Lock Ticket' => '',
-      'My Tickets' => 'Mijn tickets',
-      'New ticket via call.' => 'Nieuw ticket vanaf een telefoongeprek',
-      'New user' => 'Nieuwe gebruiker',
-      'Please go away!' => 'Ga alstublieft weg!',
-      'Print this ticket!' => 'Print dit ticket!',
-      'Problem' => 'Probleem',
-      'Search in' => 'Zoek in',
-      'Select source:' => 'Selecteer bron',
-      'Select your custom queues' => 'Selecteer uw custom wachtrijen',
-      'Set this ticket to pending!' => 'Ticket aanhouden!',
-      'Short Description' => 'Korte omschrijving',
-      'Show all' => 'Alle getoond',
-      'Shown Tickets' => 'Angezeigte Tickets',
-      'Shows the ticket history!' => 'Toont de ticketgeschiedenis!',
-      'Symptom' => 'Symptoom',
-      'System Charset Management' => 'Systeem karakterset beheer',
-      'Ticket-Overview' => '',
-      'Time till escalation' => 'Tijd tot escalatie',
-      'Utilities' => '',
-      'With Priority' => 'Met priotiteit',
-      'With State' => 'Met status',
-      'by' => 'door',
-      'invalid-temporarily' => 'tijdelijk ongeldig',
-      'phone call' => 'telefoongesprek',
-      'search' => 'zoeken',
-      'store' => 'opslaan',
-      'tickets' => 'tickets',
-      'valid' => 'geldig',
-      'No such Ticket Number "%s"! Can\'t link it!' => 'Ticketnummer "%s" niet gevonden! Kan niet gelinkt worden!',
-      'Passwords dosn\'t match! Please try it again!' => 'Passwords komen niet overeen! Probeer het opnieuw!',
-    );
+      # Template: InstallerBody
+      'Web-Installer' => '',
+      'Create Database' => '',
+      'Drop Database' => '',
+      'System Settings' => '',
+      'Finished' => '',
 
+      # Template: InstallerFinish
+      'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' => '',
+      'Restart your webserver' => '',
+      'After doing so your OTRS is up and running.' => '',
+      'Start page' => '',
+      'Admin-User' => '',
+      'Have a lot of fun!' => '',
+      'Your OTRS Team' => '',
+
+      # Template: InstallerLicense
+      'License' => '',
+      'accept license' => '',
+      'don\'t accept license' => '',
+
+      # Template: InstallerStart
+      'DB Admin User' => '',
+      'DB Admin Password' => '',
+      'your MySQL DB should have a root password! Default is empty!' => '',
+      'DB Host' => '',
+      'DB Type' => '',
+      'OTRS DB Name' => '',
+      'OTRS DB User' => '',
+      'OTRS DB Password' => '',
+      'default \'hot\'' => '',
+      'OTRS DB connect host' => '',
+      'Create new database' => '',
+      'Delete old database' => '',
+      'next step' => 'volgende stap',
+
+      # Template: InstallerSystem
+      'SystemID' => '',
+      '(The identify of the system. Each ticket number and each http session id starts with this number)' => '',
+      'System FQDN' => '',
+      '(Full qualified domain name of your system)' => '',
+      'AdminEmail' => 'Admin e-mail adres',
+      '(Email of the system admin)' => '',
+      'Organization' => '',
+      'LogModule' => '',
+      '(Used log backend)' => '',
+      'Logfile' => '',
+      '(Logfile just needed for File-LogModule!)' => '',
+      'CheckMXRecord' => '',
+      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '',
+      'Ticket Hook' => '',
+      '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '',
+      'Ticket Number Generator' => '',
+      '(Used ticket number format)' => '',
+      'Webfrontend' => '',
+      'Default Charset' => '',
+      'Use utf-8 it your database supports it!' => '',
+      'Default Language' => '',
+      '(Used default language)' => '',
+
+      # Template: Login
+
+      # Template: Motd
+
+      # Template: NoPermission
+      'No Permission' => 'Geen rechten',
+
+      # Template: Notify
+
+      # Template: PrintFooter
+      'URL' => '',
+
+      # Template: PrintHeader
+      'printed by' => 'afgedrukt door',
+
+      # Template: Redirect
+
+      # Template: SystemStats
+      'Format' => '',
+
+      # Template: Test
+      'OTRS Test Page' => 'OTRS Testpagina',
+      'Counter' => '',
+
+      # Template: Warning
+    };
     # $$STOP$$
     $Self->{Translation} = \%Hash;
 }

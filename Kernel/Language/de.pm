@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: de.pm,v 1.72 2005-04-06 05:31:47 martin Exp $
+# $Id: de.pm,v 1.73 2005-05-01 22:46:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.72 $';
+$VERSION = '$Revision: 1.73 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -22,14 +22,13 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Mon Sep 13 08:44:26 2004
+    # Last translation file sync: Mon May  2 00:04:07 2005
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Jear;)
     $Self->{DateFormat} = '%D.%M.%Y %T';
     $Self->{DateFormatLong} = '%A %D %B %T %Y';
-    $Self->{DateFormatShort} = '%D.%M.%Y';
     $Self->{DateInputFormat} = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
 
@@ -78,6 +77,7 @@ sub Data {
       'Back' => 'Zurück',
       'Next...' => 'Weiter...',
       '...Back' => '...Zurück',
+      '-none-' => '-keine-',
       'none' => 'keine',
       'none!' => 'keine Angabe!',
       'none - answered' => 'keine - beantwortet',
@@ -85,19 +85,22 @@ sub Data {
       'AddLink' => 'Link hinzufügen',
       'Link' => 'Verknüpfen',
       'Linked' => 'Verknüpft',
+      'Link (Normal)' => 'Verknüpft (Normal)',
+      'Link (Parent)' => 'Verknüpft (Eltern)',
+      'Link (Child)' => 'Verknüpft (Kinder)',
+      'Normal' => '',
+      'Parent' => 'Eltern',
+      'Child' => 'Kinder',
       'Hit' => 'Treffer',
       'Hits' => 'Treffer',
       'Text' => '',
       'Lite' => 'Einfach',
       'User' => 'Benutzer',
-      'Users' => 'Benutzer',
       'Username' => 'Benutzername',
       'Language' => 'Sprache',
       'Languages' => 'Sprachen',
       'Password' => 'Passwort',
       'Salutation' => 'Anrede',
-      'Signatures' => 'Signaturen',
-      'Salutations' => 'Anreden',
       'Signature' => 'Signatur',
       'Customer' => 'Kunde',
       'CustomerID' => 'Kunden#',
@@ -128,6 +131,30 @@ sub Data {
       'Description' => 'Beschreibung',
       'description' => 'Beschreibung',
       'Theme' => 'Schema',
+      'Created' => 'Erstellt',
+      'Created by' => 'Erstellt von',
+      'Changed' => 'Geändert',
+      'Changed by' => 'Geändert von',
+      'Search' => 'Suche',
+      'and' => 'und',
+      'between' => 'zwischen',
+      'Fulltext Search' => 'Volltextsuche',
+      'Data' => 'Daten',
+      'Options' => 'Optionen',
+      'Title' => 'Titel',
+      'Item' => 'Punkt',
+      'Delete' => 'Löschen',
+      'Edit' => 'Bearbeiten',
+      'View' => 'Ansehen',
+      'Number' => 'Nummer',
+      'System' => '',
+      'Contact' => 'Kontakt',
+      'Contacts' => 'Kontakte',
+      'Export' => '',
+      'Up' => 'Auf',
+      'Down' => 'Ab',
+      'Add' => 'Hinzufügen',
+      'Category' => 'Kategorie',
       'New message' => 'Neue Nachricht',
       'New message!' => 'Neue Nachricht!',
       'Admin-Area' => 'Admin-Bereich',
@@ -140,6 +167,9 @@ sub Data {
       'You have %s new message(s)!' => 'Sie haben %s neue Nachricht(en) bekommen!',
       'You have %s reminder ticket(s)!' => 'Sie haben %s Erinnerungs-Ticket(s)!',
       'The recommended charset for your language is %s!' => 'Der empfohlene Zeichensatz für Ihre Sprache ist %s!',
+      'Passwords dosn\'t match! Please try it again!' => 'Passwörter stimme nicht überein! Bitte wiederholen!',
+      'Password is already in use! Please use an other password!' => 'Dieses Password wird bereits benutzt, es kann nicht verwendet werden!',
+      'Password is already used! Please use an other password!' => 'Dieses Password wurde bereits benutzt, es kann nicht verwendet werden!',
       'No suggestions' => 'Keine Vorschläge',
       'Word' => 'Wort',
       'Ignore' => 'Ignorieren',
@@ -152,6 +182,7 @@ sub Data {
       'Invalid SessionID!' => 'Ungültige SessionID!',
       'Feature not active!' => 'Funktion nicht aktiviert!',
       'Ticket Number' => 'Ticket Nummer',
+      'Ticket Object' => 'Ticket Objekt',
       'No such Ticket Number "%s"! Can\'t link it!' => 'Ticketnummer "%s" nicht gefunden! Ticket konnte nicht verknüpft werden!',
       'Take this Customer' => 'Kunden übernehmen',
       'Take this User' => 'Benutzer übernehmen',
@@ -166,7 +197,8 @@ sub Data {
       'No entry found!' => 'Kein Eintrag gefunden!',
       'Session has timed out. Please log in again.' => 'Zeitüberschreitung der Session. Bitte neu anmelden.',
       'No Permission!' => 'Keine Zugriffsrechte!',
-      'To: (%s) replaced with database email!' => 'An: (%s) ersetzt mit Datenbank E-Mail',
+      'To: (%s) replaced with database email!' => 'An: (%s) ersetzt mit Datenbank E-Mail!',
+      'Cc: (%s) added database email!' => 'Cc: (%s) Datenbank E-Mail hinzugefügt!',
       'Don\'t show closed Tickets' => 'Geschlossene Tickets nicht zeigen',
       'Show closed Tickets' => 'Geschlossene Tickets anzeigen',
       'New Article' => 'Neuer Artikel',
@@ -177,13 +209,14 @@ sub Data {
       'month(s)' => 'Monat(e)',
       'week(s)' => 'Woche(n)',
       'year(s)' => 'Jahr(e)',
-      'Normal' => '',
       'Preview' => 'Vorschau',
       'Added User "%s"' => 'Benutzer "%s" hinzugefügt.',
       'Contract' => 'Vertrag',
       'Online Customer: %s' => 'Online Kunde: %s',
       'Online Agent: %s' => '',
       'Calendar' => 'Kalender',
+      'File' => 'Datei',
+      'Filename' => 'Dateiname',
       'Type' => 'Typ',
       'Size' => 'Größe',
       'Upload' => 'Hinaufladen',
@@ -192,36 +225,6 @@ sub Data {
       'Sign' => 'Signieren',
       'Crypted' => 'Verschlüsselt',
       'Crypt' => 'Verschlüsseln',
-      'Created' => 'Erstellt',
-      'Created by' => 'Erstellt von',
-      'Changed' => 'Geändert',
-      'Changed by' => 'Geändert von',
-      'Search' => 'Suche',
-      'and' => 'und',
-      'Path' => 'Pfad',
-      'Category' => 'Kategorie',
-      'Link (Normal)' => 'Verknüpft (Normal)',
-      'Link (Parent)' => 'Verknüpft (Eltern)',
-      'Link (Child)' => 'Verknüpft (Kinder)',
-      'Parent' => 'Eltern',
-      'Child' => 'Kinder',
-      'between' => 'zwischen',
-      'Fulltext Search' => 'Volltextsuche',
-      'Data' => 'Daten',
-      'Options' => 'Optionen',
-      'Title' => 'Titel',
-      'Item' => 'Punkt',
-      'Delete' => 'Löschen',
-      'Edit' => 'Bearbeiten',
-      'View' => 'Ansicht',
-      'Number' => 'Nummer',
-      'System' => '',
-      'Contacts' => 'Kontakte',
-      'Contact' => 'Kontakt',
-      'Export' => 'Export',
-      'Add' => 'Hinzufügen',
-      'Up' => 'Auf',
-      'Down' => 'Ab',
       'History::Move' => 'Ticket verschoben in Queue "%s" (%s) von Queue "%s" (%s).',
       'History::NewTicket' => 'Neues Ticket [%s] erstellt (Q=%s;P=%s;S=%s).',
       'History::FollowUp' => 'FollowUp für [%s]. %s',
@@ -253,8 +256,6 @@ sub Data {
       'History::WebRequestCustomer' => 'Kunde stellte Anfrage über Web.',
       'History::TicketLinkAdd' => 'Verknüpfung zu "%s" hergestellt.',
       'History::TicketLinkDelete' => 'Verknüpfung zu "%s" gelöscht.',
-      'Do you really want to delete this Object' => 'Wollen Sie dieses Objekt wirklich löschen',
-      'History::SystemRequest' => 'System Anfrage (%s).',
 
       # Template: AAAMonth
       'Jan' => '',
@@ -269,6 +270,24 @@ sub Data {
       'Oct' => 'Okt',
       'Nov' => '',
       'Dec' => 'Dez',
+
+      # Template: AAANavBar
+      'Send Email and create a new Ticket' => '',
+      'Create new Phone Ticket' => 'Neues Telefon-Ticket erstellen',
+      'Ticket-Area' => '',
+      'Overview of all open Tickets' => 'Übersicht über alle offenen Tickets',
+      'Logout' => 'Abmelden',
+      'Agent Preferences' => 'Benutzer Einstellungen',
+      'Preferences' => 'Einstellungen',
+      'Agent Mailbox' => '',
+      'Stats-Area' => '',
+      'FAQ' => '',
+      'FAQ-Search' => '',
+      'FAQ-Article' => '',
+      'FAQ-State' => '',
+      'Admin' => '',
+      'Create new Ticket' => 'Neues Ticket erstellen',
+      'New Ticket' => 'Neues Ticket',
 
       # Template: AAAPreferences
       'Preferences updated successfully!' => 'Benutzereinstellungen erfolgreich aktualisiert!',
@@ -301,6 +320,12 @@ sub Data {
       'Show closed tickets.' => 'Geschlossene Tickets anzeigen.',
       'Max. shown Tickets a page in QueueView.' => 'Maximale Anzahl angezeigter Tickets pro Seite in der Queue-Ansicht.',
       'Max. shown Tickets a page in Overview.' => 'Maximale Anzahl angezeigter Tickets pro Seite in der Übersicht.',
+      'Can\'t update password, passwords dosn\'t match! Please try it again!' => 'Passwörter sind nicht identisch! Bitte erneut versuchen!',
+      'Can\'t update password, invalid characters!' => 'Passwort konnte nicht aktuallisiert werden, Zeichen ungülig.',
+      'Can\'t update password, need min. 8 characters!' => 'Passwort konnte nicht aktuallisiert werden, benötige min. 8 Zeichen.',
+      'Can\'t update password, need 2 lower and 2 upper characters!' => 'Passwort konnte nicht aktuallisiert werden, benötige min. einen großgeschriebener und einen kleingeschriebener Buchstaben.',
+      'Can\'t update password, need min. 1 digit!' => 'Passwort konnte nicht aktuallisiert werden, Passwort muss mit eine Zahl enthalten!',
+      'Can\'t update password, need min. 2 characters!' => 'Passwort konnte nicht aktuallisiert werden, Passwort muss zwei Buchstaben enthalten!',
 
       # Template: AAATicket
       'Lock' => 'Sperren',
@@ -326,8 +351,6 @@ sub Data {
       'Article' => 'Artikel',
       'Ticket' => '',
       'Createtime' => 'Erstellt am',
-      'Created' => 'Erstellt',
-      'View' => 'Ansehen',
       'plain' => 'klar',
       'eMail' => 'E-Mail',
       'email' => 'E-Mail',
@@ -394,14 +417,12 @@ sub Data {
       'to get the first 5 lines of the email' => 'Um die ersten 5 Zeilen der E-Mail zu erhalten',
       'to get the from line of the email' => 'Um die From: Zeile zu erhalten',
       'to get the realname of the sender (if given)' => 'Um den Realnamen des Senders zu erhalten (wenn möglich)',
-      'to get the ticket number of the ticket' => 'Um die Ticketnummer des Ticket zu erhalten',
-      'to get the ticket id of the ticket' => 'Um die TicketID des Tickets zu erhalten',
+      'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
 
       # Template: AdminCustomerUserForm
       'The message being composed has been closed.  Exiting.' => 'Die erstellte Nachricht wurde geschlossen.',
       'This window must be called from compose window' => 'Dieses Fenster muss über das Verfassen-Fenster aufgerufen werden',
       'Customer User Management' => 'Kunden-Benutzer Verwaltung',
-      'Search' => 'Suche',
       'Search for' => 'Suche nach',
       'Result' => 'Ergebnis',
       'Select Source (for add)' => 'Quelle auswählen (zum Hinzufügen)',
@@ -409,6 +430,8 @@ sub Data {
       '"} <a href="Action=AdminCustomerUser&Nav=">$Text{"' => '',
       '"}: <font color="red" title="$Text{"This values are required.' => '',
       'This values are read only.' => 'Diese Inhalte sind schreibgeschützt.',
+      '"} $Text{"' => '',
+      '"}:<br><i class="small">($Text{"' => '',
       'This values are required.' => 'Diese Inhalte werden benötigt.',
       'Customer user will be needed to have an customer histor and to to login via customer panels.' => 'Kunden-Benutzer werden für Kunden-Historien und für die Benutzung von Kunden-Weboberfläche benötigt.',
 
@@ -428,21 +451,16 @@ sub Data {
 
       # Template: AdminEmail
       'Admin-Email' => '',
+      'Message sent to' => 'Nachricht gesendet an',
       'Recipents' => 'Empfänger',
       'Body' => '',
       'send' => 'Senden',
 
-      # Template: AdminEmailSent
-      'Message sent to' => 'Nachricht gesendet an',
-
       # Template: AdminGenericAgent
       'GenericAgent' => '',
-      'Add' => 'Hinzufügen',
       'Job-List' => 'Job-Liste',
       'Last run' => 'Letzter lauf',
       'valid' => 'gültig',
-      'Edit' => 'Bearbeiten',
-      'Delete' => 'Löschen',
       'Run Now!' => 'Jetzt laufen!',
       'x' => '',
       'Save Job as?' => 'Speichere Job als?',
@@ -452,7 +470,6 @@ sub Data {
       'Minutes' => 'Minuten',
       'Hours' => 'Stunden',
       'Days' => 'Tage',
-      'and' => 'und',
       'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Volltextsuche in Artikel (z.B. "Mar*in" oder "Baue*")',
       '(e. g. 10*5155 or 105658*)' => 'z.B. 10*5144 oder 105658*',
       '(e. g. 234321)' => 'z.B. 234321',
@@ -479,7 +496,6 @@ sub Data {
       'Delete tickets' => 'Tickets Löschen',
       'Warning! This tickets will be removed from the database! This tickets are lost!' => 'Warnung! Alle diese Tickets werden von der Datenbank entfernt! Diese Tickets sind nicht wiederherstellbar!',
       'Modules' => 'Module',
-      '-' => '',
       'Param 1' => '',
       'Param 2' => '',
       'Param 3' => '',
@@ -500,41 +516,41 @@ sub Data {
       'Time' => 'Zeit',
 
       # Template: AdminNavigationBar
-      'Logout' => 'Abmelden',
+      'Users' => 'Benutzer',
       'Groups' => 'Gruppen',
       'Roles' => 'Rollen',
       'Responses' => 'Antworten',
       'Misc' => 'Sonstiges',
-      'Users <-> Groups' => 'Benutzer <-> Gruppen',
-      'Customer Users' => 'Kunden-Benutzer',
-      'Customer Users <-> Groups' => 'Kunden-Benutzer <-> Gruppen',
-      'Role' => 'Rolle',
-      'Roles <-> Groups' => 'Rollen <-> Gruppen',
-      'Roles <-> Users' => 'Rollen <-> Benutzer',
-      'Responses <-> Queue' => 'Antworten <-> Queue',
-      'Auto Responses' => 'Auto-Antworten',
-      'Auto Responses <-> Queue' => 'Auto-Antworten <-> Queues',
-      'Attachments <-> Responses' => 'Anlagen <-> Antworten',
-      'Email Addresses' => 'E-Mail-Adressen',
-      'Notifications' => 'Benachrichtigungen',
-      'Status' => '',
-      'PostMaster POP3 Account' => 'PostMaster POP3-Konto',
-      'PostMaster Filter' => '',
-      'Session Management' => 'Sitzungsverwaltung',
-      'AdminEmail' => '',
-      'Select Box' => '',
 
       # Template: AdminNotificationForm
       'Notification Management' => 'Benachrichtigungs Verwaltung',
+      'Notification' => 'Benachrichtigung',
       'Notifications are sent to an agent or a customer.' => 'Benachrichtigungen werden an Agenten und Kunden gesendet.',
       'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Konfig Optionen (z. B. &lt;OTRS_CONFIG_HttpType&gt;)',
       'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => 'Informationen über den Besitzer des Tickets (z. B. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)',
       'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => 'Informationen über den Benutzer, der die Aktion gerade anfragt (z. B. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)',
       'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'Die Daten der Kundenbenutzer (z. B. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)',
 
+      # Template: AdminPackageManager
+      'Package Manager' => 'Paket Verwaltung',
+      'Uninstall' => 'deinstallieren',
+      'Verion' => '',
+      'Do you really want to uninstall this package?' => 'Soll das Paket wirklich deinstalliert werden?',
+      'Install' => 'installieren',
+      'Package' => 'Paket',
+      'Online Repository' => '',
+      'Version' => '',
+      'Vendor' => 'Anbieter',
+      'Upgrade' => 'erneuern',
+      'Local Repository' => 'Lokales Repository',
+      'Status' => '',
+      'Overview' => 'Übersicht',
+      'Download' => 'Herunterladen',
+      'Rebuild' => '',
+      'Reinstall' => '',
+
       # Template: AdminPGPForm
       'PGP Management' => 'PGP Verwaltung',
-      'File' => 'Datei',
       'Identifier' => 'Identifikator',
       'Bit' => '',
       'Key' => 'Schlüssel',
@@ -562,7 +578,7 @@ sub Data {
       'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' => 'Ist RegExp benutzt, können Sie auch den Inhalt von () als [***] in \'Setzen\' benutzen.',
 
       # Template: AdminQueueAutoResponseForm
-      'Queue <-> Auto Response Management' => 'Queue <-> Auto-Antworten Verwaltung',
+      'Queue <-> Auto Responses Management' => '',
 
       # Template: AdminQueueAutoResponseTable
 
@@ -573,7 +589,7 @@ sub Data {
       '0 = no unlock' => '0 = keine Freigabe',
       'Escalation time' => 'Eskalationszeit',
       '0 = no escalation' => '0 = keine Eskalation',
-      'Follow up Option' => '',
+      'Follow up Option' => 'Nachfrage Option',
       'Ticket lock after a follow up' => 'Ticket sperren nach einem Follow-Up',
       'Systemaddress' => 'Systemadresse',
       'Customer Move Notify' => 'Kundeninfo Verschieben',
@@ -626,7 +642,8 @@ sub Data {
       'Permissions to change the ticket priority in this group/queue.' => 'Rechte, um die Priorität eines Tickets in einer Gruppe/Queue zu ändern.',
 
       # Template: AdminRoleGroupForm
-      'Change role <-> group settings' => 'Ändern der Rollen <-> Gruppen Einstellungen',
+      'Change roles <-> groups settings' => '',
+      'Role' => 'Rolle',
 
       # Template: AdminRoleUserChangeForm
       'Roles <-> Users Management' => 'Rollen <-> Benutzer Verwaltung',
@@ -634,10 +651,11 @@ sub Data {
       'Select the role:user relations.' => 'Auswahl der Rollen:Benutzer Beziehungen.',
 
       # Template: AdminRoleUserForm
-      'Change user <-> role settings' => 'Ändern der Benutzer <-> Rollen Einstellungen',
+      'Change users <-> roles settings' => '',
 
       # Template: AdminSalutationForm
       'Salutation Management' => 'Anreden Verwaltung',
+      '"} <a href="Action=AdminSalutation">$Text{"' => '',
       'customer realname' => 'Wirklicher Kundenname',
       'for agent firstname' => 'für Vorname des Agents',
       'for agent lastname' => 'für Nachname des Agents',
@@ -645,14 +663,13 @@ sub Data {
       'for agent login' => 'für Agent Login',
 
       # Template: AdminSelectBoxForm
+      'Select Box' => '',
       'SQL' => '',
       'Limit' => '',
-
-      # Template: AdminSelectBoxResult
       'Select Box Result' => 'Select Box Ergebnis',
 
       # Template: AdminSession
-      'Overview' => 'Übersicht',
+      'Session Management' => 'Sitzungsverwaltung',
       'Sessions' => 'Sitzung',
       'Uniq' => '',
       'kill all sessions' => 'Alle Sitzungen löschen',
@@ -661,6 +678,7 @@ sub Data {
 
       # Template: AdminSignatureForm
       'Signature Management' => 'Signatur Verwaltung',
+      '"} <a href="Action=AdminSignature">$Text{"' => '',
 
       # Template: AdminSMIMEForm
       'SMIME Management' => 'SMIME Verwaltung',
@@ -677,16 +695,36 @@ sub Data {
       'Take care that you also updated the default states in you Kernel/Config.pm!' => 'Gib acht, dass auch die default-Status in Kernel/Config.pm geändert werden!',
       'See also' => 'Siehe auch',
 
+      # Template: AdminSysConfig
+      'SysConfig' => '',
+      'Group selection' => '',
+      'Show' => '',
+      'Subgroup' => '',
+
+      # Template: AdminSysConfigEdit
+      'Options ' => '',
+      'for ' => '',
+      'Subgroup \'' => '',
+      '\' ' => '',
+      'Content' => '',
+      'New' => 'Neu',
+      'Group Ro' => '',
+      'NavBarName' => '',
+      'Image' => '',
+      'Typ' => '',
+      'Prio' => '',
+      'Block' => '',
+      'NavBar' => '',
+
       # Template: AdminSystemAddressForm
       'System Email Addresses Management' => 'E-Mail-Adressen Verwaltung',
       'Email' => 'E-Mail',
       'Realname' => '',
       'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Alle eingehenden E-Mails mit diesem Empfänger (To:) werden in die ausgewählte Queue einsortiert.',
 
-      # Template: AdminSystemStatus
-
       # Template: AdminUserForm
       'User Management' => 'Benutzer Verwaltung',
+      '"} <a href="Action=AdminUser">$Text{"' => '',
       'Firstname' => 'Vorname',
       'Lastname' => 'Nachname',
       'User will be needed to handle tickets.' => 'Benutzer werden benötigt, um Tickets zu bearbeiten.',
@@ -697,12 +735,54 @@ sub Data {
 
       # Template: AdminUserGroupForm
 
+      'Do you really want to delete this Object?' => 'Soll das Objekt wirklich gelöscht werden?',
+      'Print' => 'Drucken',
+      'by' => 'von',
+      'Change search options' => 'Such-Optionen ändern',
+      'Results' => 'Ergebnis',
+      'Total hits' => 'Treffer gesamt',
+      'Site' => 'Seite',
+
       # Template: AgentBook
       'Address Book' => 'Adressbuch',
       'Return to the compose screen' => 'Zurück zum Verfassen-Fenster',
       'Discard all changes and return to the compose screen' => 'Alle Änderungen verwerfen und zurück zum Verfassen-Fenster',
 
-      # Template: AgentBounce
+      # Template: AgentCrypt
+      'A message should have a subject!' => 'Eine Nachricht sollte einen Betreff haben!',
+      'A message should have a body!' => 'Eine Nachricht sollte einen Body haben!',
+      'You need to account time!' => 'Zeit muss berechnet werden!',
+
+      # Template: AgentCustomerTableView
+
+      # Template: AgentInfo
+      'Info' => '',
+
+      # Template: AgentLinkObject
+      'Link Object' => 'Verknüpfe Objekt',
+      '"}" $Text{"with' => '',
+      'Select' => 'Auswahl',
+      'Detail' => '',
+
+      'sort upward' => 'aufwärts sortieren',
+      'sort downward' => 'abwärts sortieren',
+
+      # Template: AgentLookup
+      'Lookup' => '',
+
+      # Template: AgentNavigationBar
+      'Ticket selected for bulk action!' => 'Ticket für Bulk-Aktion Ausgewählt',
+      'You need min. one selected Ticket!' => 'Benötigt min. ein ausgewähltes Ticket!',
+
+      # Template: AgentPreferencesForm
+
+      # Template: AgentSpelling
+      'Spell Checker' => 'Rechtschreibprüfung',
+      'spelling error(s)' => 'Rechtschreibfehler',
+      'or' => 'oder',
+      'Apply these changes' => 'Änderungen übernehmen',
+
+      # Template: AgentTicketBounce
       'A message should have a To: recipient!' => 'Eine Nachricht sollte einen Empfänger im Feld An: haben!',
       'You need a email address (e. g. customer@example.com) in To:!' => 'Im Feld An: wird eine E-Mail-Adresse (z.B. kunde@example.com) benötigt!',
       'Bounce ticket' => '',
@@ -712,17 +792,13 @@ sub Data {
       'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Die E-Mail mit der Ticketnummer "<OTRS_TICKET>" ist an "<OTRS_BOUNCE_TO>" gebounced. Kontaktieren Sie diese Adresse für weitere Nachfragen.',
       'Send mail!' => 'Mail senden!',
 
-      # Template: AgentBulk
-      'A message should have a subject!' => 'Eine Nachricht sollte einen Betreff haben!',
+      # Template: AgentTicketBulk
       'Ticket Bulk Action' => 'Ticket Sammelaktion',
-      '$Text{"Note!' => '',
-      'Options' => 'Optionen',
       'Spell Check' => 'Rechtschreibprüfung',
       'Note type' => 'Notiztyp',
+      'Unlock Tickets' => 'Freigeben der Tickets',
 
-      # Template: AgentClose
-      'A message should have a body!' => 'Eine Nachricht sollte einen Body haben!',
-      'You need to account time!' => 'Zeit muss berechnet werden!',
+      # Template: AgentTicketClose
       'Close ticket' => 'Ticket schließen',
       'Close!' => 'Schließen!',
       'Note Text' => 'Notiztext',
@@ -730,84 +806,49 @@ sub Data {
       'Time units' => 'Zeiteinheiten',
       ' (work units)' => ' (Arbeitseinheiten)',
 
-      # Template: AgentCompose
+      # Template: AgentTicketCompose
       'A message must be spell checked!' => 'Eine Nachricht müssen rechtschreibüberprüft sein!',
       'Compose answer for ticket' => 'Antwort erstellen für',
       'Attach' => 'Anhängen',
       'Pending Date' => 'Warten bis',
       'for pending* states' => 'für warten* Status',
-      'Is the ticket answered' => 'Ist das Ticket beantwortet',
 
-      # Template: AgentCrypt
-
-      # Template: AgentCustomer
+      # Template: AgentTicketCustomer
       'Change customer of ticket' => 'Ändern des Kunden des Tickets',
       'Set customer user and customer id of a ticket' => 'Kundenbenutzer und Kundennummer des Tickets auswählen',
+      'Customer User' => 'Kunden-Benutzer',
       'Search Customer' => 'Kunden suchen',
-
-      # Template: AgentCustomerHistory
+      'Customer Data' => 'Kunden-Daten',
       'Customer history' => 'Kunden-Historie',
       'All customer tickets.' => 'Alle Tickets des Kunden.',
 
-      # Template: AgentCustomerMessage
-      'Follow up' => '',
+      # Template: AgentTicketCustomerMessage
+      'Follow up' => 'Nachfrage',
 
-      # Template: AgentCustomerTableView
-
-      # Template: AgentCustomerView
-      'Customer Data' => 'Kunden-Daten',
-
-      # Template: AgentEmailNew
+      # Template: AgentTicketEmail
       'Compose Email' => 'E-Mail erstellen',
       'new ticket' => 'Neues Ticket',
       'Clear To' => 'An: löschen',
+      'All Agents' => 'Alle Agenten',
 
-      # Template: AgentForward
-      'Forward article of ticket' => 'Weiterleitung des Artikels aus Ticket',
-      'Forwarded message from' => 'Weitergeleitete Nachricht von',
-      'Date' => 'Datum',
-      'Reply-To' => '',
-      'End forwarded message' => 'Ende der weitergeleiteten Nachricht',
+      # Template: AgentTicketForward
       'Article type' => 'Artikeltyp',
 
-      # Template: AgentFreeText
+      # Template: AgentTicketFreeText
       'Change free text of ticket' => 'Ändern der Freifelder des Tickets',
 
-      # Template: AgentHistoryForm
+      # Template: AgentTicketHistory
       'History of' => 'Historie von',
 
-      # Template: AgentHistoryRow
+      # Template: AgentTicketLocked
+      'Ticket locked!' => 'Ticket gesperrt!',
+      'Ticket unlock!' => 'Ticket freigeben!',
 
-      # Template: AgentInfo
-      'Info' => '',
-
-      # Template: AgentLinkObject
-      'Link Object' => 'Verknüpfe Objekt',
-      'with' => 'mit',
-      'Select' => 'Auswahl',
-      'Results' => 'Ergebnis',
-      'Total hits' => 'Treffer gesamt',
-      'Site' => 'Seite',
-
-      # Template: AgentLocalView
-      'sort upward' => 'aufwärts sortieren',
-      'U' => 'A',
-      'sort downward' => 'abwärts sortieren',
-      'D' => 'Z',
-      '"}"}">$Quote{"$Text{""}' => '',
-      'Customer history"}\'; return true;" onmouseout="window.status=\'\';"><div title="">$Quote{"' => '',
-
-      # Template: AgentLookup
-      'Lookup' => '',
-
-      # Template: AgentMailboxNavBar
+      # Template: AgentTicketMailbox
       'Mailbox' => '',
       'Tickets' => '',
       'All messages' => 'Alle Nachrichten',
-      'Open messages' => 'Offene Nachrichten',
-      'Open' => 'Offen',
       'New messages' => 'Neue Nachrichten',
-      'New' => 'Neu',
       'Pending messages' => 'Wartende Nachrichten',
       'Reminder messages' => 'Erinnernde Nachrichten',
       'Reminder' => 'Erinnernd',
@@ -816,151 +857,105 @@ sub Data {
       'up' => 'aufwärts',
       'down' => 'abwärts',
 
-      # Template: AgentMailboxTicket
-      'Unlock this ticket!' => 'Ticket freigeben!',
-      'Shows the detail view of this ticket!' => 'Details des Tickets anzeigen!',
+      # Template: AgentTicketMerge
+      'You need to use a ticket number!' => 'Bitte Ticket-Nummer benutzen!',
+      'Ticket Merge' => '',
+      'Merge to' => 'Mergen zu',
+      'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' => 'Ihre Email mit Ticket-Nummer "<OTRS_TICKET>" wurde zu Ticket-Nummer "<OTRS_MERGE_TO_TICKET>" gemerged!',
 
-      # Template: AgentMove
+      # Template: AgentTicketMove
       'Queue ID' => '',
       'Move Ticket' => 'Ticket Verschieben',
-      'All Agents' => 'Alle Agenten',
       'Previous Owner' => 'Vorheriger Besitzer',
 
-      # Template: AgentNavigationBar
-      'Overview of all open Tickets' => 'Übersicht über alle offenen Tickets',
-      'Create new Phone Ticket' => 'Neues Telefon-Ticket erstellen',
-      'Phone-Ticket' => 'Telefon-Ticket',
-      'Create new Email Ticket' => 'Neues Email-Ticket erstellen',
-      'Email-Ticket' => '',
-      'Search Tickets' => 'Tickets suchen',
-      'Agent Preferences' => 'Benutzer Einstellungen',
-      'Preferences' => 'Einstellungen',
-      'new message' => 'Neue Nachrichten',
-      'Locked tickets' => 'Eigene Tickets',
-      'You need min. one selected Ticket!' => 'Benötigt min. ein ausgewähltes Ticket!',
-
-      # Template: AgentNote
+      # Template: AgentTicketNote
       'Add note to ticket' => 'Anheften einer Notiz an Ticket',
-      'Inform Agent' => '',
-      'Inform' => '',
+      'Inform Agent' => 'Agenten Informieren',
+      'Optional' => '',
+      'Inform involved Agents' => 'Invlivierte Agenten Informieren',
 
-      # Template: AgentOwner
+      # Template: AgentTicketOwner
       'Change owner of ticket' => 'Ticket-Besitzer ändern',
       'Message for new Owner' => 'Nachricht an neuen Besitzer',
 
-      # Template: AgentPending
+      # Template: AgentTicketPending
       'Set Pending' => 'Setze wartend',
       'Pending type' => 'Warten auf',
       'Pending date' => 'Warten bis',
 
-      # Template: AgentPhone
+      # Template: AgentTicketPhone
       'Phone call' => 'Anruf',
 
-      # Template: AgentPhoneNew
+      # Template: AgentTicketPhoneNew
       'Clear From' => 'Von: löschen',
 
-      # Template: AgentPlain
+      # Template: AgentTicketPlain
       'Plain' => 'Klar',
       'TicketID' => '',
       'ArticleID' => '',
-      'Download' => 'Herunterladen',
-
-      # Template: AgentPreferencesCustomQueue
-      'My Queues' => 'Meine Queues',
-      'Your queue selection of your favorite queues.' => 'Die Auswahl Ihrer bevorzugten Queues.',
-      'You also get notified about this queues via email if enabled.' => 'Sie erhalten auch Benachrichtigungen über diese Queues (falls eingeschaltet).',
-
-      # Template: AgentPreferencesForm
-
-      # Template: AgentPreferencesGeneric
-
-      # Template: AgentPreferencesPassword
-      'Change Password' => 'Passwort ändern',
-      'New password' => 'Neues Passwort',
-      'New password again' => 'Neues Passwort wiederholen',
-
-      # Template: AgentPriority
-      'Change priority of ticket' => 'Priorität des Tickets ändern',
-
-      # Template: AgentSite
-      'Add Site' => '',
-
-      # Template: AgentSiteEdit
-
-      # Template: AgentSpelling
-      'Spell Checker' => 'Rechtschreibprüfung',
-      'spelling error(s)' => 'Rechtschreibfehler',
-      'Apply these changes' => 'Änderungen übernehmen',
-
-      # Template: AgentStatusView
-      'Ticket Status' => 'Ticket-Status',
-      'of' => 'von',
-
-      # Template: AgentTicketLocked
-      'Ticket locked!' => 'Ticket gesperrt!',
-      'Ticket unlock!' => 'Ticket freigeben!',
 
       # Template: AgentTicketPrint
-      'by' => 'von',
-
-      # Template: AgentTicketPrintHeader
+      'Ticket-Info' => '',
       'Accounted time' => 'Zugewiesene Zeit',
       'Escalation in' => 'Eskalation in',
+      'Linked-Object' => '',
+      'Parent-Object' => '',
+      'Child-Object' => '',
 
-      # Template: AgentUtilSearch
-      'Ticket Search' => 'Ticket-Suche',
-      'Profile' => 'Profil',
-      'Search-Template' => 'Such-Vorlage',
-      'Result Form' => 'Ergebnis-Ansicht',
-      'Save Search-Profile as Template?' => 'Speichere Such-Profil als Vorlage?',
-      'Yes, save it with name' => 'Ja, speichere unter dem Namen',
+      # Template: AgentTicketPriority
+      'Change priority of ticket' => 'Priorität des Tickets ändern',
 
-      # Template: AgentUtilSearchByCustomerID
-      'Customer history search' => 'Kunden-Historie-Suche',
-      'Customer history search (e. g. "ID342425").' => 'Kunden-Historie-Suche (z.B. "ID342425").',
-      'No * possible!' => 'Kein "*" möglich!',
+      # Template: AgentTicketQueue
+      'Tickets shown' => 'Tickets angezeigt',
+      'Page' => 'Seite',
+      'Tickets available' => 'Tickets verfügbar',
+      'All tickets' => 'Alle Tickets',
+      'Queues' => '',
+      'Ticket escalation!' => 'Ticket-Eskalation!',
 
-      # Template: AgentUtilSearchResult
-      'Search Result' => 'Such-Ergebnis',
-      'Change search options' => 'Such-Optionen ändern',
-
-      # Template: AgentUtilSearchResultPrint
-      '"}' => '',
-
-      # Template: AgentUtilSearchResultShort
-
-      # Template: AgentUtilTicketStatus
-      'Provides an overview of all' => 'Bietet eine Übersicht von allen',
-      'All open tickets' => 'Alle offenen Tickets',
-      'open tickets' => 'offenen',
-      'or' => 'oder',
-      'All closed tickets' => 'Alle geschlossenen Tickets',
-      'closed tickets' => 'geschlossenen Tickets',
-      'So you see what is going on in your system.' => 'Damit können Sie sehen, was in Ihrem System vorgeht.',
-
-      'Print' => 'Drucken',
-
-      # Template: AgentWindowTabStart
-
-      # Template: AgentWindowTabStop
-
-      # Template: AgentZoomArticle
-      'Split' => 'Teilen',
-
-      # Template: AgentZoomBody
+      # Template: AgentTicketQueueTicketView
       'Your own Ticket' => 'Ihr eigenes Ticket',
       'Compose Follow up' => 'Ergänzung schreiben',
       'Compose Answer' => 'Antwort erstellen',
       'Contact customer' => 'Kunden kontaktieren',
       'Change queue' => 'Queue wechseln',
 
-      # Template: AgentZoomFooter
+      # Template: AgentTicketQueueTicketViewLite
 
-      # Template: AgentZoomHead
-      '"}\'; return true;" onmouseout="window.status=\'\';" class="menuitem" title="$Text{"Lock it to work on it!' => '',
+      # Template: AgentTicketSearch
+      'Ticket Search' => 'Ticket-Suche',
+      'Profile' => 'Profil',
+      'Search-Template' => 'Such-Vorlage',
+      'Created in Queue' => 'Erstellt in Queue',
+      'Result Form' => 'Ergebnis-Ansicht',
+      'Save Search-Profile as Template?' => 'Speichere Such-Profil als Vorlage?',
+      'Yes, save it with name' => 'Ja, speichere unter dem Namen',
+      'Customer history search' => 'Kunden-Historie-Suche',
+      'Customer history search (e. g. "ID342425").' => 'Kunden-Historie-Suche (z.B. "ID342425").',
+      'No * possible!' => 'Kein "*" möglich!',
 
-      # Template: AgentZoomStatus
+      # Template: AgentTicketSearchResult
+      'Search Result' => 'Such-Ergebnis',
+
+      # Template: AgentTicketSearchResultPrint
+
+      # Template: AgentTicketSearchResultShort
+
+      # Template: AgentTicketStatusView
+      'Ticket Status View' => 'Ticket Status Ansicht',
+      'Open Tickets' => 'Offene Tickets',
+
+      # Template: AgentTicketZoom
+      'Split' => 'Teilen',
+
+      # Template: AgentTicketZoomStatus
       'Locked' => 'Sperre',
+
+      'Date' => 'Datum',
+
+      # Template: AgentWindowTabStart
+
+      # Template: AgentWindowTabStop
 
       # Template: Copyright
 
@@ -969,10 +964,6 @@ sub Data {
       # Template: customer-css
 
       # Template: CustomerAccept
-
-      # Template: CustomerCreateAccount
-      'Create Account' => 'Zugang erstellen',
-      'Login' => '',
 
       # Template: CustomerError
       'Traceback' => '',
@@ -991,7 +982,6 @@ sub Data {
       'FAQ System History' => 'FAQ System Historie',
 
       # Template: CustomerFAQArticleView
-      'FAQ Article' => 'FAQ Artikel',
       'Modified' => 'Verändert',
 
       # Template: CustomerFAQOverview
@@ -1009,37 +999,24 @@ sub Data {
       'Powered by' => '',
 
       # Template: CustomerHeader
-      'Home' => '',
-      'Products' => 'Produkte',
-      'Support' => '',
-      'Online-Support' => '',
-      'Contact' => 'Kontakt',
 
       # Template: CustomerLogin
-
-      # Template: CustomerLostPassword
+      'Login' => '',
       'Lost your password?' => 'Passwort verloren?',
       'Request new password' => 'Neues Passwort beantragen',
-
-      # Template: CustomerMessage
-
-      # Template: CustomerMessageNew
+      'Create Account' => 'Zugang erstellen',
 
       # Template: CustomerNavigationBar
-      'Create new Ticket' => 'Neues Ticket erstellen',
-      'New Ticket' => 'Neues Ticket',
-      'MyTickets' => 'MeineTickets',
-      'CompanyTickets' => 'FirmenTickets',
-      'FAQ' => '',
       'Welcome %s' => 'Willkommen %s',
 
       # Template: CustomerPreferencesForm
 
-      # Template: CustomerPreferencesGeneric
-
-      # Template: CustomerPreferencesPassword
-
       # Template: CustomerStatusView
+      'of' => 'von',
+
+      # Template: CustomerTicketMessage
+
+      # Template: CustomerTicketMessageNew
 
       # Template: CustomerTicketSearch
 
@@ -1056,23 +1033,11 @@ sub Data {
       # Template: Error
       'Click here to report a bug!' => 'Klicken Sie hier, um einen Fehler zu berichten!',
 
-      # Template: FAQArticleDelete
-      'FAQ Delete' => 'FAQ Löschen',
-      'You really want to delete this article?' => 'Artikel wirklich löschen?',
-
-      # Template: FAQArticleForm
-      'A article should have a title!' => 'Ein Artikel sollte einen Titel haben!',
+      # Template: FAQ
       'Comment (internal)' => 'Kommentar (intern)',
-
-      # Template: FAQArticleHistory
-
-      # Template: FAQArticlePrint
-
-      # Template: FAQArticleSystemHistory
-
-      # Template: FAQArticleView
-
-      # Template: FAQArticleViewSmall
+      'A article should have a title!' => 'Ein Artikel sollte einen Titel haben!',
+      'New FAQ Article' => '',
+      'System History' => '',
 
       # Template: FAQCategoryForm
       'Name is required!' => 'Name ist benötigt!',
@@ -1081,20 +1046,13 @@ sub Data {
       # Template: FAQLanguageForm
       'FAQ Language' => 'FAQ Sprache',
 
-      # Template: FAQNavigationBar
-
-      # Template: FAQOverview
-
-      # Template: FAQSearch
-
-      # Template: FAQSearchResult
-
       # Template: Footer
       'Top of Page' => 'Seitenanfang',
 
       # Template: FooterSmall
 
       # Template: Header
+      'Home' => '',
 
       # Template: HeaderSmall
 
@@ -1139,6 +1097,7 @@ sub Data {
       '(The identify of the system. Each ticket number and each http session id starts with this number)' => '(Das Kennzeichnen des Systems. Jede Ticketnummer und http-Sitzung beginnt mit dieser Kennung)',
       'System FQDN' => '',
       '(Full qualified domain name of your system)' => '(Voll qualifizierter Domain-Name des Systems)',
+      'AdminEmail' => '',
       '(Email of the system admin)' => '(E-Mail des System-Administrators)',
       'Organization' => 'Organisation',
       'LogModule' => '',
@@ -1159,8 +1118,6 @@ sub Data {
 
       # Template: Login
 
-      # Template: LostPassword
-
       # Template: Motd
 
       # Template: NoPermission
@@ -1169,17 +1126,9 @@ sub Data {
       # Template: Notify
 
       # Template: PrintFooter
-      'URL' => '',
 
       # Template: PrintHeader
       'printed by' => 'gedruckt von',
-
-      # Template: QueueView
-      'Tickets shown' => 'Tickets angezeigt',
-      'Page' => 'Seite',
-      'Tickets available' => 'Tickets verfügbar',
-      'All tickets' => 'Alle Tickets',
-      'Queues' => '',
 
       # Template: Redirect
 
@@ -1190,37 +1139,7 @@ sub Data {
       'OTRS Test Page' => 'OTRS Testseite',
       'Counter' => '',
 
-      # Template: TicketEscalation
-      'Ticket escalation!' => 'Ticket-Eskalation!',
-
-      # Template: TicketView
-
-      # Template: TicketViewLite
-
       # Template: Warning
-    'Do you really want to delete this Object?' => 'Soll das Objekt wirklich gelöscht werden?',
-    'Ticket Object' => 'Ticket Objekt',
-    'Vendor' => 'Anbieter',
-    'Password is already in use! Please use an other password!' => 'Dieses Password wird bereits benutzt, es kann nicht verwendet werden!',
-    'Password is already used! Please use an other password!' => 'Dieses Password wurde bereits benutzt, es kann nicht verwendet werden!',
-    'Package Manager' => 'Paket Verwaltung',
-    'Install' => 'Installieren',
-    'Package' => 'Paket',
-    'Online Repository' => '',
-    'Local Repository' => 'Lokales Repository',
-    'installed' => 'installiert',
-    'Upgrade' => 'erneuern',
-    'Uninstall' => 'deinstallieren',
-    'Install' => 'installieren',
-    'Do you really want to uninstall this package?' => 'Soll das Paket wirklich deinstalliert werden?',
-    'Required Field' => 'Pflichtfeld',
-    'Can\'t update password, passwords dosn\'t match! Please try it again!' => 'Passwörter sind nicht identisch! Bitte erneut versuchen!',
-    'Can\'t update password, invalid characters!' => 'Passwort konnte nicht aktuallisiert werden, Zeichen ungülig.',
-    'Can\'t update password, need min. 8 characters!' => 'Passwort konnte nicht aktuallisiert werden, benötige min. 8 Zeichen.',
-    'Can\'t update password, need 2 lower and 2 upper characters!' => 'Passwort konnte nicht aktuallisiert werden, benötige min. einen großgeschriebener und einen kleingeschriebener Buchstaben.',
-    'Can\'t update password, need min. 1 digit!' => 'Passwort konnte nicht aktuallisiert werden, Passwort muss mit eine Zahl enthalten!',
-    'Can\'t update password, need min. 2 characters!' => 'Passwort konnte nicht aktuallisiert werden, Passwort muss zwei Buchstaben enthalten!',
-    '' => '',
     };
     # $$STOP$$
 }

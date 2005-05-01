@@ -11,7 +11,7 @@ package Kernel::Language::bg;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -20,7 +20,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation Tue Aug 24 10:07:54 2004 by 
+    # Last translation file sync: Mon May  2 00:37:54 2005
 
     # possible charsets
     $Self->{Charset} = ['cp1251', 'Windows-1251', ];
@@ -30,399 +30,466 @@ sub Data {
     $Self->{DateInputFormat} = '%D.%M.%Y - %T';
     $Self->{DateInputFormatLong} = '';
 
-    %Hash = (
-    # Template: AAABase
+    $Self->{Translation} = {
+      # Template: AAABase
+      'Yes' => 'Да',
+      'No' => 'Не',
+      'yes' => 'да',
+      'no' => 'не',
+      'Off' => 'Изключено',
+      'off' => 'изключено',
+      'On' => 'Включено',
+      'on' => 'включено',
+      'top' => 'към началото',
+      'end' => 'Край',
+      'Done' => 'Готово.',
+      'Cancel' => 'Отказ',
+      'Reset' => 'Рестартирай',
+      'day' => 'ден',
+      'days' => 'дни',
+      'hour' => 'час',
+      'hours' => 'часове',
+      'minute' => 'минута',
+      'minutes' => 'минути',
+      'wrote' => 'записано',
+      'Message' => 'Съобщение',
+      'Error' => 'Грешка',
+      'Bug Report' => 'Отчет за грешка',
+      'Attention' => 'Внимание',
+      'Warning' => 'Предупреждение',
+      'Module' => 'Модул',
+      'Modulefile' => 'Файл-модул',
+      'Subfunction' => 'Подфункция',
+      'Line' => 'Линия',
+      'Example' => 'Пример',
+      'Examples' => 'Примери',
+      'invalid' => 'невалиден',
       ' 2 minutes' => ' 2 Минути',
       ' 5 minutes' => ' 5 Минути',
       ' 7 minutes' => ' 7 Минути',
-      '(Click here to add)' => '',
-      '...Back' => '',
       '10 minutes' => '10 Минути',
       '15 minutes' => '15 Минути',
-      'Added User "%s"' => '',
-      'AddLink' => 'Добавяне на връзка',
-      'Admin-Area' => '',
-      'agent' => 'агент',
-      'Agent-Area' => '',
-      'all' => 'всички',
-      'All' => 'Всички',
-      'Attention' => 'Внимание',
+      'Mr.' => '',
+      'Mrs.' => '',
+      'Next' => '',
       'Back' => 'Назад',
-      'before' => '',
-      'Bug Report' => 'Отчет за грешка',
-      'Calendar' => '',
-      'Cancel' => 'Отказ',
-      'change' => 'променете',
-      'Change' => 'Промяна',
-      'change!' => 'променете!',
-      'click here' => 'натиснете тук',
-      'Comment' => 'Коментар',
-      'Contract' => '',
-      'Crypt' => '',
-      'Crypted' => '',
-      'Customer' => 'Потребител',
-      'customer' => 'потребител',
-      'Customer Info' => 'Потребителски данни',
-      'day' => 'ден',
-      'day(s)' => '',
-      'days' => 'дни',
-      'description' => 'описание',
-      'Description' => 'Описание',
-      'Directory' => '',
-      'Dispatching by email To: field.' => 'Разпределяне по поле To: от писмото.',
-      'Dispatching by selected Queue.' => 'Разпределение по избрана опашка.',
-      'Don\'t show closed Tickets' => '',
-      'Don\'t work with UserID 1 (System account)! Create new users!' => 'Не работете с UserID 1 (Системен акаунт)! Създайте нови потребители.',
-      'Done' => 'Готово.',
-      'end' => 'Край',
-      'Error' => 'Грешка',
-      'Example' => 'Пример',
-      'Examples' => 'Примери',
-      'Facility' => 'Приспособление',
-      'FAQ-Area' => '',
-      'Feature not active!' => 'Функцията не е активна',
-      'go' => 'ОК',
-      'go!' => 'ОК!',
-      'Group' => 'Група',
-      'History::AddNote' => 'Added note (%s)',
-      'History::Bounce' => 'Bounced to "%s".',
-      'History::CustomerUpdate' => 'Updated: %s',
-      'History::EmailAgent' => 'Email sent to customer.',
-      'History::EmailCustomer' => 'Added email. %s',
-      'History::FollowUp' => 'FollowUp for [%s]. %s',
-      'History::Forward' => 'Forwarded to "%s".',
-      'History::Lock' => 'Locked ticket.',
-      'History::LoopProtection' => 'Loop-Protection! No auto-response sent to "%s".',
-      'History::Misc' => '%s',
-      'History::Move' => 'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).',
-      'History::NewTicket' => 'New Ticket [%s] created (Q=%s;P=%s;S=%s).',
-      'History::OwnerUpdate' => 'New owner is "%s" (ID=%s).',
-      'History::PhoneCallAgent' => 'Agent called customer.',
-      'History::PhoneCallCustomer' => 'Customer called us.',
-      'History::PriorityUpdate' => 'Changed priority from "%s" (%s) to "%s" (%s).',
-      'History::Remove' => '%s',
-      'History::SendAgentNotification' => '"%s"-notification sent to "%s".',
-      'History::SendAnswer' => 'Email sent to "%s".',
-      'History::SendAutoFollowUp' => 'AutoFollowUp sent to "%s".',
-      'History::SendAutoReject' => 'AutoReject sent to "%s".',
-      'History::SendAutoReply' => 'AutoReply sent to "%s".',
-      'History::SendCustomerNotification' => 'Notification sent to "%s".',
-      'History::SetPendingTime' => 'Updated: %s',
-      'History::StateUpdate' => 'Old: "%s" New: "%s"',
-      'History::TicketFreeTextUpdate' => 'Updated: %s=%s;%s=%s;',
-      'History::TicketLinkAdd' => 'Added link to ticket "%s".',
-      'History::TicketLinkDelete' => 'Deleted link to ticket "%s".',
-      'History::TimeAccounting' => '%s time unit(s) accounted. Now total %s time unit(s).',
-      'History::Unlock' => 'Unlocked ticket.',
-      'History::WebRequestCustomer' => 'Customer request via web.',
-      'History::SystemRequest' => 'System Request (%s).',
+      'Next...' => '',
+      '...Back' => '',
+      '-none-' => '',
+      'none' => 'няма',
+      'none!' => 'няма!',
+      'none - answered' => 'няма - отговорен',
+      'please do not edit!' => 'моля, не редактирайте!',
+      'AddLink' => 'Добавяне на връзка',
+      'Link' => '',
+      'Linked' => '',
+      'Link (Normal)' => '',
+      'Link (Parent)' => '',
+      'Link (Child)' => '',
+      'Normal' => '',
+      'Parent' => '',
+      'Child' => '',
       'Hit' => 'Попадение',
       'Hits' => 'Попадения',
-      'hour' => 'час',
-      'hours' => 'часове',
-      'Ignore' => 'Пренебрегване',
-      'invalid' => 'невалиден',
-      'Invalid SessionID!' => 'Невалиден SessionID!',
-      'Language' => 'Език',
-      'Languages' => 'Езици',
-      'last' => '',
-      'Line' => 'Линия',
-      'Lite' => 'Лека',
-      'Login failed! Your username or password was entered incorrectly.' => 'Неуспешно оторизиране! Вашето име и/или парола са некоректини!',
-      'Logout successful. Thank you for using OTRS!' => 'Изходът е успешен. Благодарим Ви, че използвахте системата.',
-      'Message' => 'Съобщение',
-      'minute' => 'минута',
-      'minutes' => 'минути',
-      'Module' => 'Модул',
-      'Modulefile' => 'Файл-модул',
-      'month(s)' => '',
-      'Name' => 'Име',
-      'New Article' => '',
-      'New message' => 'Ново съобщение',
-      'New message!' => 'Ново съобщение!',
-      'Next' => '',
-      'Next...' => '',
-      'No' => 'Не',
-      'no' => 'не',
-      'No entry found!' => 'Няма въдедена стойност!',
-      'No Permission!' => '',
-      'No such Ticket Number "%s"! Can\'t link it!' => '',
-      'No suggestions' => 'Няма предположения',
-      'none' => 'няма',
-      'none - answered' => 'няма - отговорен',
-      'none!' => 'няма!',
-      'Normal' => '',
-      'off' => 'изключено',
-      'Off' => 'Изключено',
-      'On' => 'Включено',
-      'on' => 'включено',
-      'Online Agent: %s' => '',
-      'Online Customer: %s' => '',
-      'Password' => 'Парола',
-      'Passwords dosn\'t match! Please try it again!' => '',
-      'Pending till' => 'В очакване до',
-      'Please answer this ticket(s) to get back to the normal queue view!' => 'Моля, отговорете на този билет(и) за да се върнете в нормалния изглед на опашката!',
-      'Please contact your admin' => 'Моля, свържете се с Вашият администратор',
-      'please do not edit!' => 'моля, не редактирайте!',
-      'possible' => 'възможен',
-      'Preview' => '',
-      'QueueView' => 'Преглед на опашката',
-      'reject' => 'отхвърлен',
-      'replace with' => 'замести с',
-      'Reset' => 'Рестартирай',
-      'Salutation' => 'Обръщение',
-      'Session has timed out. Please log in again.' => 'Моля, оторизирайте се отново. Тази сесия вече е затворена.',
-      'Show closed Tickets' => '',
-      'Sign' => '',
-      'Signature' => 'Подпис',
-      'Signed' => '',
-      'Size' => '',
-      'Sorry' => 'Съжаляваме',
-      'Stats' => 'Статистики',
-      'Subfunction' => 'Подфункция',
-      'submit' => 'изпратете',
-      'submit!' => 'изпратете!',
-      'system' => 'система',
-      'Take this Customer' => '',
-      'Take this User' => 'Изберете този потребител',
       'Text' => 'Текст',
-      'The recommended charset for your language is %s!' => 'Препоръчителният символен набор за Вашият език е %s',
-      'Theme' => 'Тема',
-      'There is no account with that login name.' => 'Няма потребител с това име.',
-      'Ticket Number' => '',
-      'Timeover' => 'Надхвърляне на времето',
-      'To: (%s) replaced with database email!' => '',
-      'top' => 'към началото',
-      'Type' => 'Тип',
-      'update' => 'обновяване',
-      'Update' => '',
-      'update!' => 'обновяване!',
-      'Upload' => '',
+      'Lite' => 'Лека',
       'User' => 'Потребител',
       'Username' => 'Потребителско име',
+      'Language' => 'Език',
+      'Languages' => 'Езици',
+      'Password' => 'Парола',
+      'Salutation' => 'Обръщение',
+      'Signature' => 'Подпис',
+      'Customer' => 'Потребител',
+      'CustomerID' => 'Потребителски индикатив',
+      'CustomerIDs' => '',
+      'customer' => 'потребител',
+      'agent' => 'агент',
+      'system' => 'система',
+      'Customer Info' => 'Потребителски данни',
+      'go!' => 'ОК!',
+      'go' => 'ОК',
+      'All' => 'Всички',
+      'all' => 'всички',
+      'Sorry' => 'Съжаляваме',
+      'update!' => 'обновяване!',
+      'update' => 'обновяване',
+      'Update' => '',
+      'submit!' => 'изпратете!',
+      'submit' => 'изпратете',
+      'Submit' => '',
+      'change!' => 'променете!',
+      'Change' => 'Промяна',
+      'change' => 'променете',
+      'click here' => 'натиснете тук',
+      'Comment' => 'Коментар',
       'Valid' => 'Валиден',
-      'Warning' => 'Предупреждение',
-      'week(s)' => '',
-      'Welcome to OTRS' => 'Добре дошли в OTRS',
-      'Word' => 'Дума',
-      'wrote' => 'записано',
-      'year(s)' => '',
-      'Yes' => 'Да',
-      'yes' => 'да',
+      'Name' => 'Име',
+      'Group' => 'Група',
+      'Description' => 'Описание',
+      'description' => 'описание',
+      'Theme' => 'Тема',
+      'Created' => 'Създаден',
+      'Created by' => '',
+      'Changed' => '',
+      'Changed by' => '',
+      'Search' => '',
+      'and' => '',
+      'between' => '',
+      'Fulltext Search' => '',
+      'Data' => '',
+      'Options' => 'Настройки',
+      'Title' => '',
+      'Item' => '',
+      'Delete' => '',
+      'Edit' => '',
+      'View' => 'Изглед',
+      'Number' => '',
+      'System' => 'Система',
+      'Contact' => 'Контакт',
+      'Contacts' => '',
+      'Export' => '',
+      'Up' => '',
+      'Down' => '',
+      'Add' => '',
+      'Category' => '',
+      'New message' => 'Ново съобщение',
+      'New message!' => 'Ново съобщение!',
+      'Admin-Area' => '',
+      'Agent-Area' => '',
+      'FAQ-Area' => '',
+      'QueueView' => 'Преглед на опашката',
+      'Stats' => 'Статистики',
+      'Please answer this ticket(s) to get back to the normal queue view!' => 'Моля, отговорете на този билет(и) за да се върнете в нормалния изглед на опашката!',
       'You got new message!' => 'Получихте ново съобщение!',
       'You have %s new message(s)!' => 'Вие имате %s ново/нови съобщение/съобщения!',
       'You have %s reminder ticket(s)!' => 'Вие имате %s оставащ/оставащи билет/билети!',
+      'The recommended charset for your language is %s!' => 'Препоръчителният символен набор за Вашият език е %s',
+      'Passwords dosn\'t match! Please try it again!' => '',
+      'Password is already in use! Please use an other password!' => '',
+      'Password is already used! Please use an other password!' => '',
+      'No suggestions' => 'Няма предположения',
+      'Word' => 'Дума',
+      'Ignore' => 'Пренебрегване',
+      'replace with' => 'замести с',
+      'Welcome to OTRS' => 'Добре дошли в OTRS',
+      'There is no account with that login name.' => 'Няма потребител с това име.',
+      'Login failed! Your username or password was entered incorrectly.' => 'Неуспешно оторизиране! Вашето име и/или парола са некоректини!',
+      'Please contact your admin' => 'Моля, свържете се с Вашият администратор',
+      'Logout successful. Thank you for using OTRS!' => 'Изходът е успешен. Благодарим Ви, че използвахте системата.',
+      'Invalid SessionID!' => 'Невалиден SessionID!',
+      'Feature not active!' => 'Функцията не е активна',
+      'Ticket Number' => '',
+      'Ticket Object' => '',
+      'No such Ticket Number "%s"! Can\'t link it!' => '',
+      'Take this Customer' => '',
+      'Take this User' => 'Изберете този потребител',
+      'possible' => 'възможен',
+      'reject' => 'отхвърлен',
+      'Facility' => 'Приспособление',
+      'Timeover' => 'Надхвърляне на времето',
+      'Pending till' => 'В очакване до',
+      'Don\'t work with UserID 1 (System account)! Create new users!' => 'Не работете с UserID 1 (Системен акаунт)! Създайте нови потребители.',
+      'Dispatching by email To: field.' => 'Разпределяне по поле To: от писмото.',
+      'Dispatching by selected Queue.' => 'Разпределение по избрана опашка.',
+      'No entry found!' => 'Няма въдедена стойност!',
+      'Session has timed out. Please log in again.' => 'Моля, оторизирайте се отново. Тази сесия вече е затворена.',
+      'No Permission!' => '',
+      'To: (%s) replaced with database email!' => '',
+      'Cc: (%s) added database email!' => '',
+      'Don\'t show closed Tickets' => '',
+      'Show closed Tickets' => '',
+      'New Article' => '',
+      '(Click here to add)' => '',
+      'last' => '',
+      'before' => '',
+      'day(s)' => '',
+      'month(s)' => '',
+      'week(s)' => '',
+      'year(s)' => '',
+      'Preview' => '',
+      'Added User "%s"' => '',
+      'Contract' => '',
+      'Online Customer: %s' => '',
+      'Online Agent: %s' => '',
+      'Calendar' => '',
+      'File' => '',
+      'Filename' => '',
+      'Type' => 'Тип',
+      'Size' => '',
+      'Upload' => '',
+      'Directory' => '',
+      'Signed' => '',
+      'Sign' => '',
+      'Crypted' => '',
+      'Crypt' => '',
+      'History::Move' => 'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).',
+      'History::NewTicket' => 'New Ticket [%s] created (Q=%s;P=%s;S=%s).',
+      'History::FollowUp' => 'FollowUp for [%s]. %s',
+      'History::SendAutoReject' => 'AutoReject sent to "%s".',
+      'History::SendAutoReply' => 'AutoReply sent to "%s".',
+      'History::SendAutoFollowUp' => 'AutoFollowUp sent to "%s".',
+      'History::Forward' => 'Forwarded to "%s".',
+      'History::Bounce' => 'Bounced to "%s".',
+      'History::SendAnswer' => 'Email sent to "%s".',
+      'History::SendAgentNotification' => '"%s"-notification sent to "%s".',
+      'History::SendCustomerNotification' => 'Notification sent to "%s".',
+      'History::EmailAgent' => 'Email sent to customer.',
+      'History::EmailCustomer' => 'Added email. %s',
+      'History::PhoneCallAgent' => 'Agent called customer.',
+      'History::PhoneCallCustomer' => 'Customer called us.',
+      'History::AddNote' => 'Added note (%s)',
+      'History::Lock' => 'Locked ticket.',
+      'History::Unlock' => 'Unlocked ticket.',
+      'History::TimeAccounting' => '%s time unit(s) accounted. Now total %s time unit(s).',
+      'History::Remove' => '%s',
+      'History::CustomerUpdate' => 'Updated: %s',
+      'History::PriorityUpdate' => 'Changed priority from "%s" (%s) to "%s" (%s).',
+      'History::OwnerUpdate' => 'New owner is "%s" (ID=%s).',
+      'History::LoopProtection' => 'Loop-Protection! No auto-response sent to "%s".',
+      'History::Misc' => '%s',
+      'History::SetPendingTime' => 'Updated: %s',
+      'History::StateUpdate' => 'Old: "%s" New: "%s"',
+      'History::TicketFreeTextUpdate' => 'Updated: %s=%s;%s=%s;',
+      'History::WebRequestCustomer' => 'Customer request via web.',
+      'History::TicketLinkAdd' => 'Added link to ticket "%s".',
+      'History::TicketLinkDelete' => 'Deleted link to ticket "%s".',
 
-    # Template: AAAMonth
-      'Apr' => 'Апр',
-      'Aug' => 'Авг',
-      'Dec' => 'Дек',
-      'Feb' => 'Фев',
+      # Template: AAAMonth
       'Jan' => 'Яну',
-      'Jul' => 'Юли',
-      'Jun' => 'Юни',
+      'Feb' => 'Фев',
       'Mar' => 'Мар',
+      'Apr' => 'Апр',
       'May' => 'Май',
-      'Nov' => 'Ное',
-      'Oct' => 'Окт',
+      'Jun' => 'Юни',
+      'Jul' => 'Юли',
+      'Aug' => 'Авг',
       'Sep' => 'Сеп',
+      'Oct' => 'Окт',
+      'Nov' => 'Ное',
+      'Dec' => 'Дек',
 
-    # Template: AAAPreferences
-      'Closed Tickets' => 'Затворени билети',
-      'CreateTicket' => '',
-      'Custom Queue' => 'Потребителска опашка',
-      'Follow up notification' => 'Известие за наличност на следене на отговорът',
-      'Frontend' => 'Зона-потребител',
-      'Mail Management' => 'Управление на пощата',
-      'Max. shown Tickets a page in Overview.' => '',
-      'Max. shown Tickets a page in QueueView.' => '',
-      'Move notification' => 'Известие за преместване',
-      'New ticket notification' => 'Напомняне за нов билет',
-      'Other Options' => 'Други настройки',
-      'PhoneView' => 'Преглед на телефоните',
+      # Template: AAANavBar
+      'Send Email and create a new Ticket' => '',
+      'Create new Phone Ticket' => '',
+      'Ticket-Area' => '',
+      'Overview of all open Tickets' => '',
+      'Logout' => 'Изход',
+      'Agent Preferences' => '',
+      'Preferences' => 'Предпочитания',
+      'Agent Mailbox' => '',
+      'Stats-Area' => '',
+      'FAQ' => 'Често задавани въпроси',
+      'FAQ-Search' => '',
+      'FAQ-Article' => '',
+      'FAQ-State' => '',
+      'Admin' => '',
+      'Create new Ticket' => 'Създаване на нов билет',
+      'New Ticket' => 'Нов билет',
+
+      # Template: AAAPreferences
       'Preferences updated successfully!' => 'Предпочитанията са обновени успешно',
-      'QueueView refresh time' => 'Време за обновяване изгледът на опашката',
-      'Screen after new ticket' => '',
-      'Select your default spelling dictionary.' => 'Изберете Вашият речник за проверка на правописът',
-      'Select your frontend Charset.' => 'Изберете Вашият символен набор.',
-      'Select your frontend language.' => 'Изберете Вашият език.',
-      'Select your frontend QueueView.' => 'Изберете език за визуализация съдържанието на опашката.',
-      'Select your frontend Theme.' => 'Изберете Вашата потребителска тема',
-      'Select your QueueView refresh time.' => 'Изберете Вашето време за обновяване за изгледа на опашката.',
-      'Select your screen after creating a new ticket.' => '',
-      'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Изпратете ми известие, ако клиентът изпрати заявка за следене на отговора и аз съм собственик на билета',
-      'Send me a notification if a ticket is moved into one of "My Queues".' => '',
-      'Send me a notification if a ticket is unlocked by the system.' => 'Изпратете ми известие, ако билетът е отключен от системата.',
+      'Mail Management' => 'Управление на пощата',
+      'Frontend' => 'Зона-потребител',
+      'Other Options' => 'Други настройки',
+      'New ticket notification' => 'Напомняне за нов билет',
       'Send me a notification if there is a new ticket in "My Queues".' => '',
-      'Show closed tickets.' => 'Покажете затворените билети',
-      'Spelling Dictionary' => 'Речик за проверка на правописа',
+      'Follow up notification' => 'Известие за наличност на следене на отговорът',
+      'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Изпратете ми известие, ако клиентът изпрати заявка за следене на отговора и аз съм собственик на билета',
       'Ticket lock timeout notification' => 'Известие за продължителността на заключване на билетът',
+      'Send me a notification if a ticket is unlocked by the system.' => 'Изпратете ми известие, ако билетът е отключен от системата.',
+      'Move notification' => 'Известие за преместване',
+      'Send me a notification if a ticket is moved into one of "My Queues".' => '',
+      'Custom Queue' => 'Потребителска опашка',
+      'QueueView refresh time' => 'Време за обновяване изгледът на опашката',
+      'Select your QueueView refresh time.' => 'Изберете Вашето време за обновяване за изгледа на опашката.',
+      'Select your frontend language.' => 'Изберете Вашият език.',
+      'Select your frontend Charset.' => 'Изберете Вашият символен набор.',
+      'Select your frontend Theme.' => 'Изберете Вашата потребителска тема',
+      'Select your frontend QueueView.' => 'Изберете език за визуализация съдържанието на опашката.',
+      'Spelling Dictionary' => 'Речик за проверка на правописа',
+      'Select your default spelling dictionary.' => 'Изберете Вашият речник за проверка на правописът',
+      'PhoneView' => 'Преглед на телефоните',
       'TicketZoom' => '',
+      'CreateTicket' => '',
+      'Screen after new ticket' => '',
+      'Select your screen after creating a new ticket.' => '',
+      'Closed Tickets' => 'Затворени билети',
+      'Show closed tickets.' => 'Покажете затворените билети',
+      'Max. shown Tickets a page in QueueView.' => '',
+      'Max. shown Tickets a page in Overview.' => '',
+      'Can\'t update password, passwords dosn\'t match! Please try it again!' => '',
+      'Can\'t update password, invalid characters!' => '',
+      'Can\'t update password, need min. 8 characters!' => '',
+      'Can\'t update password, need 2 lower and 2 upper characters!' => '',
+      'Can\'t update password, need min. 1 digit!' => '',
+      'Can\'t update password, need min. 2 characters!' => '',
 
-    # Template: AAATicket
+      # Template: AAATicket
+      'Lock' => 'Заключи',
+      'Unlock' => 'Отключи',
+      'History' => 'Хроника',
+      'Zoom' => 'Подробно',
+      'Age' => 'Възраст',
+      'Bounce' => 'Отхвърли',
+      'Forward' => 'Препратете',
+      'From' => 'От',
+      'To' => 'До',
+      'Cc' => 'Копие до',
+      'Bcc' => 'Скрито копие',
+      'Subject' => 'Относно',
+      'Move' => 'Преместване',
+      'Queue' => 'Опашка',
+      'Priority' => 'Приоритет',
+      'State' => 'Статус',
+      'Compose' => 'Създаване',
+      'Pending' => 'В очакване',
+      'Owner' => 'Собственик',
+      'Sender' => 'Изпращач',
+      'Article' => 'Клауза',
+      'Ticket' => 'Билет',
+      'Createtime' => 'време на създаване',
+      'plain' => 'обикновен',
+      'eMail' => 'е-поща',
+      'email' => 'е-поща',
+      'Close' => 'Затваряне',
+      'Action' => 'Действие',
+      'Attachment' => 'Прикачен файл',
+      'Attachments' => 'Прикачени файлове',
+      'This message was written in a character set other than your own.' => 'Това писмо е написано в символна подредба различна от тази, която използвате.',
+      'If it is not displayed correctly,' => 'Ако не се вижда коректно,',
+      'This is a' => 'Това е',
+      'to open it in a new window.' => 'да го отворите в нов прозорец',
+      'This is a HTML email. Click here to show it.' => 'Това е поща в HTML формат. Натиснете тук, за да покажете коректно',
+      'closed successful' => 'успешно затворен',
+      'closed unsuccessful' => 'неуспешно затворен',
+      'new' => 'нов',
+      'open' => 'отворен',
+      'closed' => '',
+      'removed' => 'премахнат',
+      'pending reminder' => 'очаква напомняне',
+      'pending auto close+' => 'очаква автоматично затваряне+',
+      'pending auto close-' => 'очаква автоматично затваряне-',
+      'email-external' => 'външна е-поща',
+      'email-internal' => 'вътрешна е-поща',
+      'note-external' => 'външна бележка',
+      'note-internal' => 'вътрешна бележка',
+      'note-report' => 'бележка отчет',
+      'phone' => 'телефон',
+      'sms' => '',
+      'webrequest' => 'заявка по web',
+      'lock' => 'заключи',
+      'unlock' => 'отключи',
+      'very low' => 'много нисък',
+      'low' => 'нисък',
+      'normal' => 'нормален',
+      'high' => 'висок',
+      'very high' => 'много висок',
       '1 very low' => '1 много нисък',
       '2 low' => '2 нисък',
       '3 normal' => '3 нормален',
       '4 high' => '4 висок',
       '5 very high' => '5 много висок',
-      'Action' => 'Действие',
-      'Age' => 'Възраст',
-      'Article' => 'Клауза',
-      'Attachment' => 'Прикачен файл',
-      'Attachments' => 'Прикачени файлове',
-      'Bcc' => 'Скрито копие',
-      'Bounce' => 'Отхвърли',
-      'Cc' => 'Копие до',
-      'Close' => 'Затваряне',
-      'closed' => '',
-      'closed successful' => 'успешно затворен',
-      'closed unsuccessful' => 'неуспешно затворен',
-      'Compose' => 'Създаване',
-      'Created' => 'Създаден',
-      'Createtime' => 'време на създаване',
-      'email' => 'е-поща',
-      'eMail' => 'е-поща',
-      'email-external' => 'външна е-поща',
-      'email-internal' => 'вътрешна е-поща',
-      'Forward' => 'Препратете',
-      'From' => 'От',
-      'high' => 'висок',
-      'History' => 'Хроника',
-      'If it is not displayed correctly,' => 'Ако не се вижда коректно,',
-      'lock' => 'заключи',
-      'Lock' => 'Заключи',
-      'low' => 'нисък',
-      'Move' => 'Преместване',
-      'new' => 'нов',
-      'normal' => 'нормален',
-      'note-external' => 'външна бележка',
-      'note-internal' => 'вътрешна бележка',
-      'note-report' => 'бележка отчет',
-      'open' => 'отворен',
-      'Owner' => 'Собственик',
-      'Pending' => 'В очакване',
-      'pending auto close+' => 'очаква автоматично затваряне+',
-      'pending auto close-' => 'очаква автоматично затваряне-',
-      'pending reminder' => 'очаква напомняне',
-      'phone' => 'телефон',
-      'plain' => 'обикновен',
-      'Priority' => 'Приоритет',
-      'Queue' => 'Опашка',
-      'removed' => 'премахнат',
-      'Sender' => 'Изпращач',
-      'sms' => 'sms',
-      'State' => 'Статус',
-      'Subject' => 'Относно',
-      'This is a' => 'Това е',
-      'This is a HTML email. Click here to show it.' => 'Това е поща в HTML формат. Натиснете тук, за да покажете коректно',
-      'This message was written in a character set other than your own.' => 'Това писмо е написано в символна подредба различна от тази, която използвате.',
-      'Ticket' => 'Билет',
       'Ticket "%s" created!' => '',
-      'To' => 'До',
-      'to open it in a new window.' => 'да го отворите в нов прозорец',
-      'Unlock' => 'Отключи',
-      'unlock' => 'отключи',
-      'very high' => 'много висок',
-      'very low' => 'много нисък',
-      'View' => 'Изглед',
-      'webrequest' => 'заявка по web',
-      'Zoom' => 'Подробно',
 
-    # Template: AAAWeekDay
-      'Fri' => 'Пет',
-      'Mon' => 'Пон',
-      'Sat' => 'Съб',
+      # Template: AAAWeekDay
       'Sun' => 'Нед',
-      'Thu' => 'Чет',
+      'Mon' => 'Пон',
       'Tue' => 'Вто',
       'Wed' => 'Сря',
+      'Thu' => 'Чет',
+      'Fri' => 'Пет',
+      'Sat' => 'Съб',
 
-    # Template: AdminAttachmentForm
-      'Add' => '',
+      # Template: AdminAttachmentForm
       'Attachment Management' => 'Управление на прикачен файл',
 
-    # Template: AdminAutoResponseForm
-      'Auto Response From' => 'Автоматичен отговор от',
+      # Template: AdminAutoResponseForm
       'Auto Response Management' => 'Управление на автоматичният отговор',
-      'Note' => 'Бележка',
+      '"} <a href="Action=">$Text{"' => '',
       'Response' => 'Отговор',
+      'Auto Response From' => 'Автоматичен отговор от',
+      'Note' => 'Бележка',
+      'Useable options' => 'Използваеми опции',
       'to get the first 20 character of the subject' => 'за да получите първите 20 символа от поле "относно"',
       'to get the first 5 lines of the email' => 'за да получите първите 5 реда от писмото',
       'to get the from line of the email' => 'за да получите ред от писмото',
       'to get the realname of the sender (if given)' => 'за да получите истинското име на изпращача (ако е попълнено)',
-      'to get the ticket id of the ticket' => 'за да получите идентификатора на билета',
-      'to get the ticket number of the ticket' => 'за да получите номера на билета',
-      'Useable options' => 'Използваеми опции',
+      'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
 
-    # Template: AdminCustomerUserForm
+      # Template: AdminCustomerUserForm
+      'The message being composed has been closed.  Exiting.' => 'Съобщението, което създавахте е затворено. Изход.',
+      'This window must be called from compose window' => 'Този прозорец трябва да бъде извикан от прозореца за създаване',
       'Customer User Management' => 'Управление на клиент-потребители',
-      'Customer user will be needed to have an customer histor and to to login via customer panels.' => '',
-      'Result' => '',
-      'Search' => '',
       'Search for' => '',
+      'Result' => '',
       'Select Source (for add)' => '',
       'Source' => '',
-      'The message being composed has been closed.  Exiting.' => 'Съобщението, което създавахте е затворено. Изход.',
       'This values are read only.' => '',
       'This values are required.' => '',
-      'This window must be called from compose window' => 'Този прозорец трябва да бъде извикан от прозореца за създаване',
+      'Customer user will be needed to have an customer histor and to to login via customer panels.' => '',
 
-    # Template: AdminCustomerUserGroupChangeForm
+      # Template: AdminCustomerUserGroupChangeForm
+      'Customer Users <-> Groups Management' => '',
       'Change %s settings' => 'Промяна на %s настройки',
-      'Customer User <-> Group Management' => '',
-      'Full read and write access to the tickets in this group/queue.' => '',
+      'Select the user:group permissions.' => '',
       'If nothing is selected, then there are no permissions in this group (tickets will not be available for the user).' => '',
       'Permission' => 'Позволения',
-      'Read only access to the ticket in this group/queue.' => '',
       'ro' => '',
+      'Read only access to the ticket in this group/queue.' => '',
       'rw' => '',
-      'Select the user:group permissions.' => '',
+      'Full read and write access to the tickets in this group/queue.' => '',
 
-    # Template: AdminCustomerUserGroupForm
+      # Template: AdminCustomerUserGroupForm
       'Change user <-> group settings' => 'Промяна на потребител <-> Настройки за група',
 
-    # Template: AdminEmail
+      # Template: AdminEmail
       'Admin-Email' => 'еМейл от Admin',
-      'Body' => 'Тяло на писмото',
-      'OTRS-Admin Info!' => 'Информация от OTRS-Admin',
+      'Message sent to' => 'Съобщението е изпратено до',
       'Recipents' => 'Получатели',
+      'Body' => 'Тяло на писмото',
       'send' => 'изпрати',
 
-    # Template: AdminEmailSent
-      'Message sent to' => 'Съобщението е изпратено до',
-
-    # Template: AdminGenericAgent
+      # Template: AdminGenericAgent
+      'GenericAgent' => '',
+      'Job-List' => '',
+      'Last run' => '',
+      'valid' => '',
+      'Run Now!' => '',
+      'x' => '',
+      'Save Job as?' => '',
+      'Is Job Valid?' => '',
+      'Is Job Valid' => '',
+      'Schedule' => '',
+      'Minutes' => '',
+      'Hours' => '',
+      'Days' => '',
+      'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => '',
       '(e. g. 10*5155 or 105658*)' => '',
       '(e. g. 234321)' => '',
-      '(e. g. U5150)' => '',
-      '-' => '',
-      'Add Note' => 'Добавяне на бележка',
-      'Agent' => '',
-      'and' => '',
-      'CMD' => '',
       'Customer User Login' => '',
-      'CustomerID' => 'Потребителски индикатив',
-      'CustomerUser' => 'Клиент-потребител',
-      'Days' => '',
-      'Delete' => '',
-      'Delete tickets' => '',
-      'Edit' => '',
-      'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => '',
-      'GenericAgent' => '',
-      'Hours' => '',
-      'Job-List' => '',
-      'Jobs' => '',
-      'Last run' => '',
-      'Minutes' => '',
-      'Modules' => '',
-      'New Agent' => '',
-      'New Customer' => '',
-      'New Owner' => '',
+      '(e. g. U5150)' => '',
+      'Agent' => '',
+      'TicketFreeText' => '',
+      'Ticket Lock' => '',
+      'Times' => '',
+      'No time settings.' => '',
+      'Ticket created' => '',
+      'Ticket created between' => '',
       'New Priority' => '',
       'New Queue' => 'Следваща опашка',
       'New State' => '',
+      'New Agent' => '',
+      'New Owner' => '',
+      'New Customer' => '',
       'New Ticket Lock' => '',
-      'No time settings.' => '',
+      'CustomerUser' => 'Клиент-потребител',
+      'Add Note' => 'Добавяне на бележка',
+      'CMD' => '',
+      'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => '',
+      'Delete tickets' => '',
+      'Warning! This tickets will be removed from the database! This tickets are lost!' => '',
+      'Modules' => '',
       'Param 1' => '',
       'Param 2' => '',
       'Param 3' => '',
@@ -430,785 +497,641 @@ sub Data {
       'Param 5' => '',
       'Param 6' => '',
       'Save' => '',
-      'Save Job as?' => '',
-      'Schedule' => '',
-      'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => '',
-      'Ticket created' => '',
-      'Ticket created between' => '',
-      'Ticket Lock' => '',
-      'TicketFreeText' => '',
-      'Times' => '',
-      'Warning! This tickets will be removed from the database! This tickets are lost!' => '',
 
-    # Template: AdminGroupForm
-      'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).' => 'Направете нови групи за да управлявате позволенията за различните групи от агенти (примерно агент за отдел "продажби", отдел "поддръжка" и т.н.)',
+      # Template: AdminGroupForm
       'Group Management' => 'Управление на групи',
-      'It\'s useful for ASP solutions.' => 'Това е подходящо за решения с ASP.',
       'The admin group is to get in the admin area and the stats group to get stats area.' => 'Групата admin достъпва администраторската зона, а stat групата достъпва зоната за статистики.',
+      'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).' => 'Направете нови групи за да управлявате позволенията за различните групи от агенти (примерно агент за отдел "продажби", отдел "поддръжка" и т.н.)',
+      'It\'s useful for ASP solutions.' => 'Това е подходящо за решения с ASP.',
 
-    # Template: AdminLog
+      # Template: AdminLog
       'System Log' => 'Системен журнал',
       'Time' => '',
 
-    # Template: AdminNavigationBar
-      'AdminEmail' => 'Admin е-поща',
-      'Attachment <-> Response' => 'Прикачен файл<->Отговор',
-      'Auto Response <-> Queue' => 'Автоматичен отговор <-> Опашки',
-      'Auto Responses' => 'Автоматичен отговор',
-      'Customer User' => 'Клиент-потребител',
-      'Customer User <-> Groups' => '',
-      'Email Addresses' => 'е-пощенски адреси',
+      # Template: AdminNavigationBar
+      'Users' => '',
       'Groups' => 'Групи',
-      'Logout' => 'Изход',
-      'Misc' => 'Добавки',
-      'Notifications' => '',
-      'PGP Keys' => '',
-      'PostMaster Filter' => '',
-      'PostMaster POP3 Account' => '',
-      'Responses' => 'Отговори',
-      'Responses <-> Queue' => 'Отговори <-> Опашки',
-      'Role' => '',
-      'Role <-> Group' => '',
-      'Role <-> User' => '',
       'Roles' => '',
-      'Select Box' => 'Изберете кутия',
-      'Session Management' => 'Управление на сесята',
-      'SMIME Certificates' => '',
-      'Status' => 'Статус',
-      'System' => 'Система',
-      'User <-> Groups' => 'Потребител <-> Групи',
+      'Responses' => 'Отговори',
+      'Misc' => 'Добавки',
 
-    # Template: AdminNotificationForm
-      'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
+      # Template: AdminNotificationForm
       'Notification Management' => '',
+      'Notification' => '',
       'Notifications are sent to an agent or a customer.' => '',
-      'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => '',
-      'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
+      'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
       'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => '',
+      'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
+      'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => '',
 
-    # Template: AdminPGPForm
-      'Bit' => '',
-      'Expires' => '',
-      'File' => '',
-      'Fingerprint' => '',
-      'FIXME: WHAT IS PGP?' => '',
+      # Template: AdminPackageManager
+      'Package Manager' => '',
+      'Uninstall' => '',
+      'Verion' => '',
+      'Do you really want to uninstall this package?' => '',
+      'Install' => '',
+      'Package' => '',
+      'Online Repository' => '',
+      'Version' => '',
+      'Vendor' => '',
+      'Upgrade' => '',
+      'Local Repository' => '',
+      'Status' => 'Статус',
+      'Overview' => '',
+      'Download' => '',
+      'Rebuild' => '',
+      'Reinstall' => '',
+
+      # Template: AdminPGPForm
+      'PGP Management' => '',
       'Identifier' => '',
-      'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
+      'Bit' => '',
       'Key' => 'Ключ',
-      'PGP Key Management' => '',
+      'Fingerprint' => '',
+      'Expires' => '',
+      'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
+      'FIXME: WHAT IS PGP?' => '',
 
-    # Template: AdminPOP3Form
-      'All incoming emails with one account will be dispatched in the selected queue!' => 'Всички входящи писма с един акаунт ще се разпределят в избраната опашка!',
-      'Dispatching' => 'Разпределение',
-      'Host' => 'Хост',
-      'If your account is trusted, the already existing x-otrs header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => '',
+      # Template: AdminPOP3Form
       'POP3 Account Management' => 'Управление на POP3 анаунта',
+      'Host' => 'Хост',
       'Trusted' => 'Доверен',
+      'Dispatching' => 'Разпределение',
+      'All incoming emails with one account will be dispatched in the selected queue!' => 'Всички входящи писма с един акаунт ще се разпределят в избраната опашка!',
+      'If your account is trusted, the already existing x-otrs header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => '',
 
-    # Template: AdminPostMasterFilter
-      'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' => '',
-      'Filtername' => '',
-      'Header' => '',
-      'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' => '',
-      'Match' => '',
+      # Template: AdminPostMasterFilter
       'PostMaster Filter Management' => '',
-      'Set' => '',
+      'Filtername' => '',
+      'Match' => '',
+      'Header' => '',
       'Value' => 'Стойност',
+      'Set' => '',
+      'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' => '',
+      'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' => '',
 
-    # Template: AdminQueueAutoResponseForm
-      'Queue <-> Auto Response Management' => 'Опашка <-> Управление на автоматичният отговор',
+      # Template: AdminQueueAutoResponseForm
+      'Queue <-> Auto Responses Management' => '',
 
-    # Template: AdminQueueAutoResponseTable
+      # Template: AdminQueueAutoResponseTable
 
-    # Template: AdminQueueForm
-      '0 = no escalation' => '0 = без ескалация',
-      '0 = no unlock' => '0 = без отключване',
-      'Customer Move Notify' => 'Известяване при премеместване на потребителя',
-      'Customer Owner Notify' => 'Известяване на потребителя',
-      'Customer State Notify' => 'Известяване за състоянието на потребителя',
-      'Escalation time' => 'Време за ескалация (увеличаване на приоритетът)',
-      'Follow up Option' => 'Параметри за автоматично проследяване',
-      'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => 'Ако билетът е затворен и потребителя изпрати заявка за проследяване, билетът ще бъде заключен за стария потребител',
-      'If a ticket will not be answered in thos time, just only this ticket will be shown.' => 'Ако билетът не получи отговор в определеното време, ще се покаже само този билет',
-      'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Ако агентът заключи билетът и той(или тя) не изпрати отговор в определеното време, билетър ще се отключи автоматично. Така билетър ще стане видим за всички други агенти',
-      'OTRS sends an notification email to the customer if the ticket is moved.' => 'OTRS изпраща известие по е-поща до клиента, ако билетът е преместен.',
-      'OTRS sends an notification email to the customer if the ticket owner has changed.' => 'OTRS изпраща известие по е-поща до клиента, ако собственика на билета е променен.',
-      'OTRS sends an notification email to the customer if the ticket state has changed.' => 'OTRS изпраща известие по е-поща до клиента, ако статусът на билетът е променен.',
+      # Template: AdminQueueForm
       'Queue Management' => 'Управление на опашка',
       'Sub-Queue of' => 'Под-опашка на',
+      'Unlock timeout' => 'Време за отключване',
+      '0 = no unlock' => '0 = без отключване',
+      'Escalation time' => 'Време за ескалация (увеличаване на приоритетът)',
+      '0 = no escalation' => '0 = без ескалация',
+      'Follow up Option' => 'Параметри за автоматично проследяване',
+      'Ticket lock after a follow up' => 'Заключване на билетът след автоматично известяване',
       'Systemaddress' => 'Системен адрес',
+      'Customer Move Notify' => 'Известяване при премеместване на потребителя',
+      'Customer State Notify' => 'Известяване за състоянието на потребителя',
+      'Customer Owner Notify' => 'Известяване на потребителя',
+      'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Ако агентът заключи билетът и той(или тя) не изпрати отговор в определеното време, билетър ще се отключи автоматично. Така билетър ще стане видим за всички други агенти',
+      'If a ticket will not be answered in thos time, just only this ticket will be shown.' => 'Ако билетът не получи отговор в определеното време, ще се покаже само този билет',
+      'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => 'Ако билетът е затворен и потребителя изпрати заявка за проследяване, билетът ще бъде заключен за стария потребител',
+      'Will be the sender address of this queue for email answers.' => 'Ще бъде адресът на изпраща за тази опашка при еМейл отговорите',
       'The salutation for email answers.' => 'Обръщението за отговорите по еМейл',
       'The signature for email answers.' => 'Подписът за отговорите по еМейл',
-      'Ticket lock after a follow up' => 'Заключване на билетът след автоматично известяване',
-      'Unlock timeout' => 'Време за отключване',
-      'Will be the sender address of this queue for email answers.' => 'Ще бъде адресът на изпраща за тази опашка при еМейл отговорите',
+      'OTRS sends an notification email to the customer if the ticket is moved.' => 'OTRS изпраща известие по е-поща до клиента, ако билетът е преместен.',
+      'OTRS sends an notification email to the customer if the ticket state has changed.' => 'OTRS изпраща известие по е-поща до клиента, ако статусът на билетът е променен.',
+      'OTRS sends an notification email to the customer if the ticket owner has changed.' => 'OTRS изпраща известие по е-поща до клиента, ако собственика на билета е променен.',
 
-    # Template: AdminQueueResponsesChangeForm
-      'Std. Responses <-> Queue Management' => 'Стандартни отговори <-> Управление на опашката',
+      # Template: AdminQueueResponsesChangeForm
+      'Responses <-> Queue Management' => '',
 
-    # Template: AdminQueueResponsesForm
+      # Template: AdminQueueResponsesForm
       'Answer' => 'Отговор',
 
-    # Template: AdminResponseAttachmentChangeForm
-      'Std. Responses <-> Std. Attachment Management' => 'Станд.отговори <-> Станд.управление на прикачените файлове',
+      # Template: AdminResponseAttachmentChangeForm
+      'Responses <-> Attachments Management' => '',
 
-    # Template: AdminResponseAttachmentForm
+      # Template: AdminResponseAttachmentForm
 
-    # Template: AdminResponseForm
+      # Template: AdminResponseForm
+      'Response Management' => 'Управление на отговорът',
       'A response is default text to write faster answer (with default text) to customers.' => 'Отговорът е текст по подразбиране, създанен предварително, с цел по-бърз отговор към клиента',
-      'All Customer variables like defined in config option CustomerUser.' => '',
       'Don\'t forget to add a new response a queue!' => 'Да не забравите да добавите новият отговор към дадена опашка!',
       'Next state' => 'Следващо състояние',
-      'Response Management' => 'Управление на отговорът',
+      'All Customer variables like defined in config option CustomerUser.' => '',
       'The current ticket state is' => '',
       'Your email address is new' => '',
 
-    # Template: AdminRoleForm
+      # Template: AdminRoleForm
+      'Role Management' => '',
       'Create a role and put groups in it. Then add the role to the users.' => '',
       'It\'s useful for a lot of users and groups.' => '',
-      'Role Management' => '',
 
-    # Template: AdminRoleGroupChangeForm
-      'create' => 'създаване',
+      # Template: AdminRoleGroupChangeForm
+      'Roles <-> Groups Management' => '',
       'move_into' => '',
+      'Permissions to move tickets into this group/queue.' => '',
+      'create' => 'създаване',
+      'Permissions to create tickets in this group/queue.' => '',
       'owner' => '',
       'Permissions to change the ticket owner in this group/queue.' => '',
-      'Permissions to change the ticket priority in this group/queue.' => '',
-      'Permissions to create tickets in this group/queue.' => '',
-      'Permissions to move tickets into this group/queue.' => '',
       'priority' => '',
-      'Role <-> Group Management' => '',
+      'Permissions to change the ticket priority in this group/queue.' => '',
 
-    # Template: AdminRoleGroupForm
-      'Change role <-> group settings' => '',
+      # Template: AdminRoleGroupForm
+      'Change roles <-> groups settings' => '',
+      'Role' => '',
 
-    # Template: AdminRoleUserChangeForm
+      # Template: AdminRoleUserChangeForm
+      'Roles <-> Users Management' => '',
       'Active' => '',
-      'Role <-> User Management' => '',
       'Select the role:user relations.' => '',
 
-    # Template: AdminRoleUserForm
-      'Change user <-> role settings' => '',
+      # Template: AdminRoleUserForm
+      'Change users <-> roles settings' => '',
 
-    # Template: AdminSMIMEForm
-      'Add Certificate' => '',
-      'Add Private Key' => '',
-      'FIXME: WHAT IS SMIME?' => '',
-      'Hash' => '',
-      'In this way you can directly edit the certification and private keys in file system.' => '',
-      'Secret' => '',
-      'SMIME Certificate Management' => '',
-
-    # Template: AdminSalutationForm
+      # Template: AdminSalutationForm
+      'Salutation Management' => 'Управление на обръщението',
       'customer realname' => 'име на потребителя',
       'for agent firstname' => 'за агент име',
       'for agent lastname' => 'за агент фамилия',
-      'for agent login' => 'за агент логически вход',
       'for agent user id' => 'за агент потребителски ID',
-      'Salutation Management' => 'Управление на обръщението',
+      'for agent login' => 'за агент логически вход',
 
-    # Template: AdminSelectBoxForm
+      # Template: AdminSelectBoxForm
+      'Select Box' => 'Изберете кутия',
+      'SQL' => '',
       'Limit' => 'Лимит',
-      'SQL' => 'SQL',
-
-    # Template: AdminSelectBoxResult
       'Select Box Result' => 'Кутия за избор на резултата',
 
-    # Template: AdminSession
-      'kill all sessions' => 'Затваряне на всички текущи сесии',
-      'kill session' => 'Затваряне на единична сесия',
-      'Overview' => '',
-      'Session' => '',
+      # Template: AdminSession
+      'Session Management' => 'Управление на сесята',
       'Sessions' => '',
       'Uniq' => '',
+      'kill all sessions' => 'Затваряне на всички текущи сесии',
+      'Session' => '',
+      'kill session' => 'Затваряне на единична сесия',
 
-    # Template: AdminSignatureForm
+      # Template: AdminSignatureForm
       'Signature Management' => 'Управление на подписът',
 
-    # Template: AdminStateForm
-      'See also' => '',
-      'State Type' => 'Тип състояние',
-      'System State Management' => 'Управление на системно състояние',
-      'Take care that you also updated the default states in you Kernel/Config.pm!' => '',
+      # Template: AdminSMIMEForm
+      'SMIME Management' => '',
+      'Add Certificate' => '',
+      'Add Private Key' => '',
+      'Secret' => '',
+      'Hash' => '',
+      'In this way you can directly edit the certification and private keys in file system.' => '',
+      'FIXME: WHAT IS SMIME?' => '',
 
-    # Template: AdminSystemAddressForm
-      'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Всички входящи адреси от този еМейл (До:) ще се разпределят в избраната опашка.',
+      # Template: AdminStateForm
+      'System State Management' => 'Управление на системно състояние',
+      'State Type' => 'Тип състояние',
+      'Take care that you also updated the default states in you Kernel/Config.pm!' => '',
+      'See also' => '',
+
+      # Template: AdminSysConfig
+      'SysConfig' => '',
+      'Group selection' => '',
+      'Show' => '',
+      'Subgroup' => '',
+
+      # Template: AdminSysConfigEdit
+      'Options ' => '',
+      'for ' => '',
+      'Subgroup \'' => '',
+      '\' ' => '',
+      'Content' => '',
+      'New' => 'Нови',
+      'Group Ro' => '',
+      'NavBarName' => '',
+      'Image' => '',
+      'Typ' => '',
+      'Prio' => '',
+      'Block' => '',
+      'NavBar' => '',
+
+      # Template: AdminSystemAddressForm
+      'System Email Addresses Management' => 'Управление на системния еМейл адрес',
       'Email' => 'е-поща',
       'Realname' => 'Истинско име',
-      'System Email Addresses Management' => 'Управление на системния еМейл адрес',
+      'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Всички входящи адреси от този еМейл (До:) ще се разпределят в избраната опашка.',
 
-    # Template: AdminUserForm
-      'Don\'t forget to add a new user to groups!' => 'Не забравяйте да добавите новият потребител в някаква група!',
+      # Template: AdminUserForm
+      'User Management' => 'Управление на потребители',
       'Firstname' => 'Име',
       'Lastname' => 'Фамилия',
-      'User Management' => 'Управление на потребители',
       'User will be needed to handle tickets.' => 'Ще е необходим потребител, за да може билетът да се обработи',
+      'Don\'t forget to add a new user to groups!' => 'Не забравяйте да добавите новият потребител в някаква група!',
 
-    # Template: AdminUserGroupChangeForm
-      'User <-> Group Management' => 'Потребител <-> Управление на група',
+      # Template: AdminUserGroupChangeForm
+      'Users <-> Groups Management' => '',
 
-    # Template: AdminUserGroupForm
+      # Template: AdminUserGroupForm
 
-    # Template: AgentBook
+      # Template: AgentBook
       'Address Book' => '',
-      'Discard all changes and return to the compose screen' => 'Отказвате се от всички промени и се връщате към екрана за създаване',
       'Return to the compose screen' => 'Връщате се към екрана за създаване',
+      'Discard all changes and return to the compose screen' => 'Отказвате се от всички промени и се връщате към екрана за създаване',
 
-    # Template: AgentBounce
-      'A message should have a To: recipient!' => 'Съобщението трябва да има ДО: т.е. адресант!',
-      'Bounce ticket' => 'Отказан билет',
-      'Bounce to' => 'Отказ на',
-      'Inform sender' => 'Да се информира изпращачът',
-      'Next ticket state' => 'Следващо състояние за билетът',
-      'Send mail!' => 'Изпратете еМейл!',
-      'You need a email address (e. g. customer@example.com) in To:!' => 'Трябва да има валиден адрес в полето ДО: (примерно support@hebros.bg)!',
-      'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Писмото Ви с номер "<OTRS_TICKET>" е отхвърлен към "<OTRS_BOUNCE_TO>". Свържете се с този адрес за повече информация',
+      # Template: AgentCustomerTableView
 
-    # Template: AgentBulk
-      '$Text{"Note!' => '',
-      'A message should have a subject!' => 'Съобщението трябва да има текст в поле "относно"!',
-      'Note type' => 'Бележката е от тип',
-      'Note!' => 'Бележка!',
-      'Options' => 'Настройки',
-      'Spell Check' => 'Проверка на правописа',
-      'Ticket Bulk Action' => '',
-
-    # Template: AgentClose
-      ' (work units)' => ' (работни единици)',
-      'A message should have a body!' => '',
-      'Close ticket' => 'Затворете бълетът',
-      'Close type' => 'Тип затваряне',
-      'Close!' => 'Затворете!',
-      'Note Text' => 'Текст на билежката',
-      'Time units' => 'Мерни единици за времето',
-      'You need to account time!' => 'Вие се нуждаете от отчет за времето',
-
-    # Template: AgentCompose
-      'A message must be spell checked!' => 'Съобщението трябва да бъде проверено за грешки!',
-      'Attach' => 'Прикачен файл',
-      'Compose answer for ticket' => 'Създаване на отговор за този билет',
-      'for pending* states' => 'за състояния в очакване* ',
-      'Is the ticket answered' => 'Дали билетът е получил отговор',
-      'Pending Date' => 'В очакване-дата',
-
-    # Template: AgentCrypt
-
-    # Template: AgentCustomer
-      'Change customer of ticket' => 'Промяна на потребителят на билета',
-      'Search Customer' => 'Търсене на потребител',
-      'Set customer user and customer id of a ticket' => 'Задайте потребител и потребителски идентификатор за билета',
-
-    # Template: AgentCustomerHistory
-      'All customer tickets.' => '',
-      'Customer history' => 'Хроника на потребителят',
-
-    # Template: AgentCustomerMessage
-      'Follow up' => 'Заявка за отговор',
-
-    # Template: AgentCustomerView
-      'Customer Data' => 'Данни за потребителя',
-
-    # Template: AgentEmailNew
-      'All Agents' => '',
-      'Clear To' => '',
-      'Compose Email' => '',
-      'new ticket' => 'нов билет',
-
-    # Template: AgentForward
-      'Article type' => 'Клауза тип',
-      'Date' => 'Дата',
-      'End forwarded message' => 'Край на препратеното съобщение',
-      'Forward article of ticket' => 'Препрати клаузата за този билет',
-      'Forwarded message from' => 'Препратено съобщение от',
-      'Reply-To' => 'Отговор на',
-
-    # Template: AgentFreeText
-      'Change free text of ticket' => 'Променете текста на билета',
-
-    # Template: AgentHistoryForm
-      'History of' => 'Хроника на',
-
-    # Template: AgentHistoryRow
-
-    # Template: AgentInfo
+      # Template: AgentInfo
       'Info' => 'Информация',
 
-    # Template: AgentLookup
+      # Template: AgentLinkObject
+      'Link Object' => '',
+      '"}" $Text{"with' => '',
+      'Select' => '',
+      'Results' => 'Резултат',
+      'Total hits' => 'Общ брой попадения',
+      'Site' => 'Място',
+      'Detail' => '',
+
+      # Template: AgentLookup
       'Lookup' => '',
 
-    # Template: AgentMailboxNavBar
-      'All messages' => 'Всички съобщения',
-      'down' => 'надолу',
-      'Mailbox' => 'Пощенска кутия',
-      'New' => 'Нови',
-      'New messages' => 'Нови съобщения',
-      'Open' => 'Отворени',
-      'Open messages' => 'Отворени съобщения',
-      'Order' => 'Ред',
-      'Pending messages' => 'Съобщения в очакване',
-      'Reminder' => 'Напомняне',
-      'Reminder messages' => 'Напомнящи съобщения',
-      'Sort by' => 'Сортиране по',
-      'Tickets' => 'Билети',
-      'up' => 'нагоре',
-
-    # Template: AgentMailboxTicket
-      '"}' => '',
-      '"}","14' => '',
-      'Add a note to this ticket!' => '',
-      'Change the ticket customer!' => '',
-      'Change the ticket owner!' => '',
-      'Change the ticket priority!' => '',
-      'Close this ticket!' => '',
-      'Shows the detail view of this ticket!' => '',
-      'Unlock this ticket!' => '',
-
-    # Template: AgentMove
-      'Move Ticket' => 'Преместване на билета',
-      'Previous Owner' => '',
-      'Queue ID' => '',
-
-    # Template: AgentNavigationBar
-      'Agent Preferences' => '',
-      'Bulk Action' => '',
-      'Bulk Actions on Tickets' => '',
-      'Create new Email Ticket' => '',
-      'Create new Phone Ticket' => '',
-      'Email-Ticket' => '',
-      'Locked tickets' => 'Заключени билети',
-      'new message' => 'ново съобщение',
-      'Overview of all open Tickets' => '',
-      'Phone-Ticket' => '',
-      'Preferences' => 'Предпочитания',
-      'Search Tickets' => '',
+      # Template: AgentNavigationBar
       'Ticket selected for bulk action!' => '',
       'You need min. one selected Ticket!' => '',
 
-    # Template: AgentNote
-      'Add note to ticket' => 'Добавяне на бележка към билета',
+      # Template: AgentPreferencesForm
 
-    # Template: AgentOwner
-      'Change owner of ticket' => 'Промяна собственикън на билета',
-      'Message for new Owner' => 'Съобщение за нов собственик',
-
-    # Template: AgentPending
-      'Pending date' => 'В очакване - дата',
-      'Pending type' => 'В очакване - тип',
-      'Set Pending' => 'В очакване - задаване',
-
-    # Template: AgentPhone
-      'Phone call' => 'Телефонно обаждане',
-
-    # Template: AgentPhoneNew
-      'Clear From' => 'Изчистете формата',
-
-    # Template: AgentPlain
-      'ArticleID' => 'Идентификатор на клауза',
-      'Download' => '',
-      'Plain' => 'Обикновен',
-      'TicketID' => 'Идентификатор на билет',
-
-    # Template: AgentPreferencesCustomQueue
-      'My Queues' => '',
-      'You also get notified about this queues via email if enabled.' => '',
-      'Your queue selection of your favorite queues.' => '',
-
-    # Template: AgentPreferencesForm
-
-    # Template: AgentPreferencesGeneric
-
-    # Template: AgentPreferencesPassword
-      'Change Password' => 'Промяна на парола',
-      'New password' => 'Нова парола',
-      'New password again' => 'Въведете отново паролата',
-
-    # Template: AgentPriority
-      'Change priority of ticket' => 'Промяна на приоритета на билета',
-
-    # Template: AgentSpelling
-      'Apply these changes' => 'Прилага се към тези промени',
+      # Template: AgentSpelling
       'Spell Checker' => 'Проверка на правописът',
       'spelling error(s)' => 'Правописна грешка(грешки)',
+      'or' => 'или',
+      'Apply these changes' => 'Прилага се към тези промени',
 
-    # Template: AgentStatusView
-      'D' => 'D',
-      'of' => 'на',
-      'Site' => 'Място',
-      'sort downward' => 'низходящо сортиране',
-      'sort upward' => 'възходящо сортиране',
-      'Ticket Status' => 'Състояние на билетът',
-      'U' => 'U',
+      # Template: AgentTicketBounce
+      'A message should have a To: recipient!' => 'Съобщението трябва да има ДО: т.е. адресант!',
+      'You need a email address (e. g. customer@example.com) in To:!' => 'Трябва да има валиден адрес в полето ДО: (примерно support@hebros.bg)!',
+      'Bounce ticket' => 'Отказан билет',
+      'Bounce to' => 'Отказ на',
+      'Next ticket state' => 'Следващо състояние за билетът',
+      'Inform sender' => 'Да се информира изпращачът',
+      'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Писмото Ви с номер "<OTRS_TICKET>" е отхвърлен към "<OTRS_BOUNCE_TO>". Свържете се с този адрес за повече информация',
+      'Send mail!' => 'Изпратете еМейл!',
 
-    # Template: AgentTicketLink
-      'Delete Link' => '',
-      'Link' => '',
-      'Link to' => '',
+      # Template: AgentTicketBulk
+      'A message should have a subject!' => 'Съобщението трябва да има текст в поле "относно"!',
+      'Ticket Bulk Action' => '',
+      '$Text{"Note!' => '',
+      'Spell Check' => 'Проверка на правописа',
+      'Note type' => 'Бележката е от тип',
+      'Unlock Tickets' => '',
 
-    # Template: AgentTicketLocked
+      # Template: AgentTicketClose
+      'A message should have a body!' => '',
+      'You need to account time!' => 'Вие се нуждаете от отчет за времето',
+      'Close ticket' => 'Затворете бълетът',
+      'Close!' => 'Затворете!',
+      'Note Text' => 'Текст на билежката',
+      'Close type' => 'Тип затваряне',
+      'Time units' => 'Мерни единици за времето',
+      ' (work units)' => ' (работни единици)',
+
+      # Template: AgentTicketCompose
+      'A message must be spell checked!' => 'Съобщението трябва да бъде проверено за грешки!',
+      'Compose answer for ticket' => 'Създаване на отговор за този билет',
+      'Attach' => 'Прикачен файл',
+      'Pending Date' => 'В очакване-дата',
+      'for pending* states' => 'за състояния в очакване* ',
+
+      # Template: AgentTicketCustomer
+      'Change customer of ticket' => 'Промяна на потребителят на билета',
+      'Set customer user and customer id of a ticket' => 'Задайте потребител и потребителски идентификатор за билета',
+      'Customer User' => 'Клиент-потребител',
+      'Search Customer' => 'Търсене на потребител',
+      'Customer Data' => 'Данни за потребителя',
+      'Customer history' => 'Хроника на потребителят',
+      'All customer tickets.' => '',
+
+      # Template: AgentTicketCustomerMessage
+      'Follow up' => 'Заявка за отговор',
+
+      # Template: AgentTicketEmail
+      'Compose Email' => '',
+      'new ticket' => 'нов билет',
+      'Clear To' => '',
+      'All Agents' => '',
+
+      # Template: AgentTicketForward
+      'Article type' => 'Клауза тип',
+
+      # Template: AgentTicketFreeText
+      'Change free text of ticket' => 'Променете текста на билета',
+
+      # Template: AgentTicketHistory
+      'History of' => 'Хроника на',
+
+      # Template: AgentTicketLocked
       'Ticket locked!' => 'Билетът е заключен!',
       'Ticket unlock!' => 'Билетът е отключен!',
 
-    # Template: AgentTicketPrint
+      # Template: AgentTicketMailbox
+      'Mailbox' => 'Пощенска кутия',
+      'Tickets' => 'Билети',
+      'All messages' => 'Всички съобщения',
+      'New messages' => 'Нови съобщения',
+      'Pending messages' => 'Съобщения в очакване',
+      'Reminder messages' => 'Напомнящи съобщения',
+      'Reminder' => 'Напомняне',
+      'Sort by' => 'Сортиране по',
+      'Order' => 'Ред',
+      'up' => 'нагоре',
+      'down' => 'надолу',
+      '"}\'; return true;" onmouseout="window.status=\'\';" class="menuitem" title="$Text{"' => '',
+      '"}"}">$Quote{"$Text{""}' => '',
 
-    # Template: AgentTicketPrintHeader
+      # Template: AgentTicketMerge
+      'You need to use a ticket number!' => '',
+      'Ticket Merge' => '',
+      'Merge to' => '',
+      'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' => '',
+
+      # Template: AgentTicketMove
+      'Queue ID' => '',
+      'Move Ticket' => 'Преместване на билета',
+      'Previous Owner' => '',
+
+      # Template: AgentTicketNote
+      'Add note to ticket' => 'Добавяне на бележка към билета',
+      'Inform Agent' => '',
+      'Optional' => '',
+      'Inform involved Agents' => '',
+
+      # Template: AgentTicketOwner
+      'Change owner of ticket' => 'Промяна собственикън на билета',
+      'Message for new Owner' => 'Съобщение за нов собственик',
+
+      # Template: AgentTicketPending
+      'Set Pending' => 'В очакване - задаване',
+      'Pending type' => 'В очакване - тип',
+      'Pending date' => 'В очакване - дата',
+
+      # Template: AgentTicketPhone
+      'Phone call' => 'Телефонно обаждане',
+
+      # Template: AgentTicketPhoneNew
+      'Clear From' => 'Изчистете формата',
+
+      # Template: AgentTicketPlain
+      'Plain' => 'Обикновен',
+      'TicketID' => 'Идентификатор на билет',
+      'ArticleID' => 'Идентификатор на клауза',
+
+      # Template: AgentTicketPrint
+      'Ticket-Info' => '',
       'Accounted time' => 'Отброено време',
       'Escalation in' => 'Улеличение на приоритета в',
+      'Linked-Object' => '',
+      'Parent-Object' => '',
+      'Child-Object' => '',
+      'by' => 'от',
 
-    # Template: AgentUtilSearch
+      # Template: AgentTicketPriority
+      'Change priority of ticket' => 'Промяна на приоритета на билета',
+
+      # Template: AgentTicketQueue
+      'Tickets shown' => 'Показани билети',
+      'Page' => '',
+      'Tickets available' => 'Налични билети',
+      'All tickets' => 'Всички билети',
+      'Queues' => 'Опашки',
+      'Ticket escalation!' => 'Ескалация (увеличаване на приоритета) на билета!',
+
+      # Template: AgentTicketQueueTicketView
+      'Your own Ticket' => 'Вашият собствен билет',
+      'Compose Follow up' => 'Създаване проследяване на билетът',
+      'Compose Answer' => 'Създаване на отговор',
+      'Contact customer' => 'Контакт с клиента',
+      'Change queue' => 'Промяна на опашката',
+
+      # Template: AgentTicketQueueTicketViewLite
+
+      # Template: AgentTicketSearch
+      'Ticket Search' => 'Търсене на билет',
       'Profile' => '',
+      'Search-Template' => '',
+      'Created in Queue' => '',
       'Result Form' => '',
       'Save Search-Profile as Template?' => '',
-      'Search-Template' => '',
-      'Select' => '',
-      'Ticket Search' => 'Търсене на билет',
       'Yes, save it with name' => '',
-
-    # Template: AgentUtilSearchByCustomerID
       'Customer history search' => 'Търсене в хрониката на клиента',
       'Customer history search (e. g. "ID342425").' => 'Търсене в хрониката на клиента (примерно "ID342425").',
       'No * possible!' => 'Не е възможно използване на символ *!',
 
-    # Template: AgentUtilSearchResult
-      'Change search options' => '',
-      'Results' => 'Резултат',
+      # Template: AgentTicketSearchResult
       'Search Result' => '',
-      'Total hits' => 'Общ брой попадения',
+      'Change search options' => '',
 
-    # Template: AgentUtilSearchResultPrint
+      # Template: AgentTicketSearchResultPrint
+      '"}' => '',
 
-    # Template: AgentUtilSearchResultShort
+      # Template: AgentTicketSearchResultShort
+      'sort upward' => 'възходящо сортиране',
+      'U' => '',
+      'sort downward' => 'низходящо сортиране',
+      'D' => '',
 
-    # Template: AgentUtilTicketStatus
-      'All closed tickets' => 'Всички приключени билети',
-      'All open tickets' => 'Всички отворени билети',
-      'closed tickets' => 'Затворени билети',
-      'open tickets' => 'Отворени билети',
-      'or' => 'или',
-      'Provides an overview of all' => 'Осигурява общ преглед на всички',
-      'So you see what is going on in your system.' => 'Какво става във Вашата система',
+      # Template: AgentTicketStatusView
+      'Ticket Status View' => '',
+      'Open Tickets' => '',
 
-    # Template: AgentZoomAgentIsCustomer
-      'Compose Follow up' => 'Създаване проследяване на билетът',
-      'Your own Ticket' => 'Вашият собствен билет',
-
-    # Template: AgentZoomAnswer
-      'Compose Answer' => 'Създаване на отговор',
-      'Contact customer' => 'Контакт с клиента',
-      'phone call' => 'телефонно обаждане',
-
-    # Template: AgentZoomArticle
+      # Template: AgentTicketZoom
       'Split' => 'Разцепване',
 
-    # Template: AgentZoomBody
-      'Change queue' => 'Промяна на опашката',
-
-    # Template: AgentZoomHead
-      'Change the ticket free fields!' => '',
-      'Free Fields' => 'Свободни полета',
-      'Link this ticket to an other one!' => '',
-      'Lock it to work on it!' => '',
-      'Print' => 'Отпечатване',
-      'Print this ticket!' => '',
-      'Set this ticket to pending!' => '',
-      'Shows the ticket history!' => '',
-
-    # Template: AgentZoomStatus
-      '"}","18' => '',
+      # Template: AgentTicketZoomStatus
       'Locked' => '',
-      'SLA Age' => '',
 
-    # Template: Copyright
-      'printed by' => 'отпечатано от',
+      # Template: AgentWindowTabStart
 
-    # Template: CustomerAccept
+      # Template: AgentWindowTabStop
 
-    # Template: CustomerCreateAccount
-      'Create Account' => 'Създаване на акаунт',
-      'Login' => 'Вход',
+      # Template: Copyright
 
-    # Template: CustomerError
+      # Template: css
+
+      # Template: customer-css
+
+      # Template: CustomerAccept
+
+      # Template: CustomerError
       'Traceback' => 'Проследяване',
 
-    # Template: CustomerFAQArticleHistory
+      # Template: CustomerFAQArticleHistory
       'FAQ History' => '',
+      'Print' => 'Отпечатване',
 
-    # Template: CustomerFAQArticlePrint
-      'Category' => '',
+      # Template: CustomerFAQArticlePrint
       'Keywords' => '',
       'Last update' => '',
+      'Symptom' => '',
       'Problem' => '',
       'Solution' => '',
-      'Symptom' => '',
 
-    # Template: CustomerFAQArticleSystemHistory
+      # Template: CustomerFAQArticleSystemHistory
       'FAQ System History' => '',
 
-    # Template: CustomerFAQArticleView
-      'FAQ Article' => '',
+      # Template: CustomerFAQArticleView
       'Modified' => '',
 
-    # Template: CustomerFAQOverview
+      # Template: CustomerFAQOverview
       'FAQ Overview' => '',
 
-    # Template: CustomerFAQSearch
+      # Template: CustomerFAQSearch
       'FAQ Search' => '',
       'Fulltext' => '',
       'Keyword' => '',
 
-    # Template: CustomerFAQSearchResult
+      # Template: CustomerFAQSearchResult
       'FAQ Search Result' => '',
 
-    # Template: CustomerFooter
+      # Template: CustomerFooter
       'Powered by' => 'С помощта на',
 
-    # Template: CustomerLostPassword
+      # Template: CustomerHeader
+
+      # Template: CustomerLogin
+      'Login' => 'Вход',
       'Lost your password?' => 'Забравена парола',
       'Request new password' => 'Завка за нова парола',
+      'Create Account' => 'Създаване на акаунт',
 
-    # Template: CustomerMessage
-
-    # Template: CustomerMessageNew
-
-    # Template: CustomerNavigationBar
-      'CompanyTickets' => '',
-      'Create new Ticket' => 'Създаване на нов билет',
-      'FAQ' => 'Често задавани въпроси',
-      'MyTickets' => '',
-      'New Ticket' => 'Нов билет',
+      # Template: CustomerNavigationBar
       'Welcome %s' => 'Привет %s',
 
-    # Template: CustomerPreferencesForm
+      # Template: CustomerPreferencesForm
 
-    # Template: CustomerPreferencesGeneric
+      # Template: CustomerStatusView
+      'of' => 'на',
 
-    # Template: CustomerPreferencesPassword
+      # Template: CustomerTicketMessage
 
-    # Template: CustomerStatusView
+      # Template: CustomerTicketMessageNew
 
-    # Template: CustomerTicketSearch
+      # Template: CustomerTicketSearch
 
-    # Template: CustomerTicketSearchResultPrint
+      # Template: CustomerTicketSearchResultCSV
 
-    # Template: CustomerTicketSearchResultShort
+      # Template: CustomerTicketSearchResultPrint
 
-    # Template: CustomerTicketZoom
+      # Template: CustomerTicketSearchResultShort
 
-    # Template: CustomerWarning
+      # Template: CustomerTicketZoom
 
-    # Template: Error
+      # Template: CustomerWarning
+
+      # Template: Error
       'Click here to report a bug!' => 'Натиснете тук, за да изпратите отчет за грешката!',
 
-    # Template: FAQArticleDelete
-      'FAQ Delete' => '',
-      'You really want to delete this article?' => '',
-
-    # Template: FAQArticleForm
-      'A article should have a title!' => '',
+      # Template: FAQ
       'Comment (internal)' => '',
-      'Filename' => '',
-      'Title' => '',
+      'A article should have a title!' => '',
+      'New FAQ Article' => '',
+      'Do you really want to delete this Object?' => '',
+      'System History' => '',
 
-    # Template: FAQArticleHistory
-
-    # Template: FAQArticlePrint
-
-    # Template: FAQArticleSystemHistory
-
-    # Template: FAQArticleView
-
-    # Template: FAQArticleViewSmall
-
-    # Template: FAQCategoryForm
-      'FAQ Category' => '',
+      # Template: FAQCategoryForm
       'Name is required!' => '',
+      'FAQ Category' => '',
 
-    # Template: FAQLanguageForm
+      # Template: FAQLanguageForm
       'FAQ Language' => '',
 
-    # Template: FAQNavigationBar
-
-    # Template: FAQOverview
-
-    # Template: FAQSearch
-
-    # Template: FAQSearchResult
-
-    # Template: Footer
+      # Template: Footer
       'Top of Page' => 'Начало на страницата',
 
-    # Template: FooterSmall
+      # Template: FooterSmall
 
-    # Template: InstallerBody
-      'Create Database' => 'Създаване на база данни',
-      'Drop Database' => 'Нулиране базата данни',
-      'Finished' => 'Приключено',
-      'System Settings' => 'Системни настройки',
-      'Web-Installer' => 'Web инсталатор',
-
-    # Template: InstallerFinish
-      'Admin-User' => 'Администратор',
-      'After doing so your OTRS is up and running.' => 'След извършването на това, Вашият OTRS е напълно работоспособен.',
-      'Have a lot of fun!' => 'Приятна работа!',
-      'Restart your webserver' => 'Рестарт на web сървърът',
-      'Start page' => 'Начална страница',
-      'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' => 'За да може да използвате OTRS, Вие трябва да въведете, като супер потребител root в командна линия (Terminal/Shell) следната команда',
-      'Your OTRS Team' => 'Вашият OTRS екип',
-
-    # Template: InstallerLicense
-      'accept license' => 'Приемате лиценза',
-      'don\'t accept license' => 'Не приемате лиценза',
-      'License' => 'Лиценз',
-
-    # Template: InstallerStart
-      'Create new database' => 'Създаване на нова база данни',
-      'DB Admin Password' => 'Парола на администратора на базата',
-      'DB Admin User' => 'Потребител на базата данни',
-      'DB Host' => 'Хост на базата данни',
-      'DB Type' => 'Тип на базата данни',
-      'default \'hot\'' => 'по подразбиране',
-      'Delete old database' => 'Изтриване на стара база данни',
-      'next step' => 'следваща стъпка',
-      'OTRS DB connect host' => 'Хост свързан към OTRS база данни',
-      'OTRS DB Name' => 'Име свързано към OTRS база данни',
-      'OTRS DB Password' => 'Парола на OTRS база данни',
-      'OTRS DB User' => 'Потребител на OTRS база данни',
-      'your MySQL DB should have a root password! Default is empty!' => 'Вашата MYSQL база данни трябва да има парола за root потребителя. По подразбиране е празна!',
-
-    # Template: InstallerSystem
-      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Проверете MX записите на адреса на писмата-отговори. Не използвайте CheckMXRecord, ако вашата OTRS машина е на комутируема линия! ',
-      '(Email of the system admin)' => '(еМейл на системният администратор)',
-      '(Full qualified domain name of your system)' => '(Пълно квалифицирано име (FQDN) на системата)',
-      '(Logfile just needed for File-LogModule!)' => '(Журналният файл е необходим само за File-LogModule)',
-      '(The identify of the system. Each ticket number and each http session id starts with this number)' => '(Идентифициране на системата. Всики номер на билет и всяка http сесия започва с този номер)',
-      '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Идентификатор на билета. Примерно: \'Ticket#\', \'Call#\' or \'MyTicket#\')',
-      '(Used default language)' => '(Изполван език по подразбиране)',
-      '(Used log backend)' => '(Използван журнален изход)',
-      '(Used ticket number format)' => '(Използван формат за номера на билетът)',
-      'CheckMXRecord' => 'CheckMXRecord (Проверка MX запис)',
-      'Default Charset' => 'Символен набор по подразбиране',
-      'Default Language' => 'Език по подразбиране',
-      'Logfile' => 'Журнален файл',
-      'LogModule' => 'Журнален модул',
-      'Organization' => 'Организация',
-      'System FQDN' => 'Системно FQDN',
-      'SystemID' => 'Системно ID',
-      'Ticket Hook' => 'Прикачване на билетът',
-      'Ticket Number Generator' => 'Генератор на номера на билети',
-      'Use utf-8 it your database supports it!' => '',
-      'Webfrontend' => 'Web-зона',
-
-    # Template: LostPassword
-
-    # Template: NoPermission
-      'No Permission' => 'Нямате позволение',
-
-    # Template: Notify
-
-    # Template: PrintFooter
-      'URL' => 'Адрес',
-
-    # Template: QueueView
-      'All tickets' => 'Всички билети',
-      'Page' => '',
-      'Queues' => 'Опашки',
-      'Tickets available' => 'Налични билети',
-      'Tickets shown' => 'Показани билети',
-
-    # Template: SystemStats
-
-    # Template: Test
-      'OTRS Test Page' => 'Тестова страница на OTRS',
-
-    # Template: TicketEscalation
-      'Ticket escalation!' => 'Ескалация (увеличаване на приоритета) на билета!',
-
-    # Template: TicketView
-
-    # Template: TicketViewLite
-
-    # Template: Warning
-
-    # Template: css
+      # Template: Header
       'Home' => 'Начало',
 
-    # Template: customer-css
-      'Contact' => 'Контакт',
-      'Online-Support' => 'На линия-поддръжка',
-      'Products' => 'Продукти',
-      'Support' => 'Поддръжка',
+      # Template: HeaderSmall
 
-    # Misc
-      '"}","15' => '',
-      '"}","30' => '',
-      '(Ticket identifier. Some people want to set this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Идентификатор на билетът. Някои хора желаят да зададат стойности, като \'Ticket#\', \'Call#\' или \'MyTicket#\')',
-      'A message should have a From: recipient!' => 'Съобщението трябва да има попълнено поле ОТ:',
-      'Add auto response' => 'Добавяне на автоматичен отговор',
-      'Add user' => 'Добавяне на потребител',
-      'AdminArea' => 'Зона-Администратор',
-      'AgentFrontend' => 'Зона-потребител',
-      'Article free text' => 'Клауза свободен текст',
-      'BLZ' => '',
-      'Backend' => 'Фонов',
-      'BackendMessage' => 'Фоново съобщение',
-      'Bank-Stammdaten' => '',
-      'Change Response <-> Attachment settings' => 'Промяна на отговорътт <-> Настройки прикачени файлове',
-      'Change answer <-> queue settings' => 'Промяна на отговорът <-> Настройки на опашката',
-      'Change auto response settings' => 'Промяна на настройките за автоматичният отговор',
-      'Charset' => 'Символен набор',
-      'Charsets' => 'Символен набор',
-      'Content Adresses' => '',
-      'Create' => 'Създаване',
-      'Customer called' => 'Извършено е тел.обаждане до потребителят',
-      'Customer user will be needed to to login via customer panels.' => 'Ще Ви е необходим предварително създаден потребител за достъп до потребителския панел',
-      'Declaration' => '',
-      'Events' => '',
-      'Fulltext search' => 'Текстово търсене',
-      'Fulltext search (e. g. "Mar*in" or "Baue*" or "martin+hallo")' => 'Текстово търсене (примерно "Mar*in" или "Baue*" или "martin+hallo")',
-      'Graphs' => 'Графики',
-      'Handle' => 'Манипулатор',
-      'Identifer' => '',
-      'If your account is trusted, the x-otrs header (for priority, ...) will be used!' => 'Ако Вашият акаунт е доверен, ще се използва хедър x-otrs (за приоритетност, и т.н.)!',
-      'Institut' => '',
-      'Lock Ticket' => '',
-      'Max Rows' => 'Максимален брой редове',
-      'My Tickets' => 'Моите билети',
-      'New state' => 'Ново състояние',
-      'New ticket via call.' => 'Нов билет чрез обаждане',
-      'New user' => 'Нов потребител',
-      'POP3 Account' => 'POP3 акаунт',
-      'Pending!' => 'В очакване',
-      'Phone call at %s' => 'Телефонно обаждане в %s',
-      'Please go away!' => '',
-      'Search in' => 'Търсене в',
-      'Select source:' => '',
-      'Select your custom queues' => 'Изберете Вашата потребителска опашка',
-      'Send me a notification if a ticket is moved into a custom queue.' => 'Изпратете ми известие, ако билетът е преместен в някаква потребителска опашка.',
-      'Send me a notification if there is a new ticket in my custom queues.' => 'Изпратете ми известие, ако има нов(и) билет в моята потребителска опашка.',
-      'SessionID' => 'Идентификатор на сесия',
-      'Set customer id of a ticket' => 'Задаване на потребителски индикатив на билета',
-      'Short Description' => '',
-      'Show all' => 'Показване на всички',
-      'Specification' => '',
-      'Status defs' => 'Дефиниции на състояния',
-      'Teil#' => '',
-      'Ticket free text' => 'Билет свободен текст',
-      'Ticket limit:' => 'Ограничение по време:',
-      'Ticket-Overview' => 'Билети-преглед',
-      'Ticketview' => '',
-      'Time till escalation' => 'Време до ескалация',
-      'Utilities' => 'Помощни средства',
-      'With State' => 'Със състояние',
-      'You need a email address (e. g. customer@example.com) in From:!' => 'Трябва да имате еМейл адрес (примерно customer@example.com) в поле ОТ:',
-      'You need min. one selected Ticket.!' => '',
-      'ZentralBank' => '',
-      'ZentralBank#' => '',
-      'auto responses set' => 'набор автоматични отговори',
-      'by' => 'от',
-      'search' => 'търсене',
-      'search (e. g. 10*5155 or 105658*)' => 'търсене (примерно 10*5155 или 105658*)',
-      'store' => 'съхранение',
-    );
+      # Template: InstallerBody
+      'Web-Installer' => 'Web инсталатор',
+      'Create Database' => 'Създаване на база данни',
+      'Drop Database' => 'Нулиране базата данни',
+      'System Settings' => 'Системни настройки',
+      'Finished' => 'Приключено',
 
+      # Template: InstallerFinish
+      'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' => 'За да може да използвате OTRS, Вие трябва да въведете, като супер потребител root в командна линия (Terminal/Shell) следната команда',
+      'Restart your webserver' => 'Рестарт на web сървърът',
+      'After doing so your OTRS is up and running.' => 'След извършването на това, Вашият OTRS е напълно работоспособен.',
+      'Start page' => 'Начална страница',
+      'Admin-User' => 'Администратор',
+      'Have a lot of fun!' => 'Приятна работа!',
+      'Your OTRS Team' => 'Вашият OTRS екип',
+
+      # Template: InstallerLicense
+      'License' => 'Лиценз',
+      'accept license' => 'Приемате лиценза',
+      'don\'t accept license' => 'Не приемате лиценза',
+
+      # Template: InstallerStart
+      'DB Admin User' => 'Потребител на базата данни',
+      'DB Admin Password' => 'Парола на администратора на базата',
+      'your MySQL DB should have a root password! Default is empty!' => 'Вашата MYSQL база данни трябва да има парола за root потребителя. По подразбиране е празна!',
+      'DB Host' => 'Хост на базата данни',
+      'DB Type' => 'Тип на базата данни',
+      'OTRS DB Name' => 'Име свързано към OTRS база данни',
+      'OTRS DB User' => 'Потребител на OTRS база данни',
+      'OTRS DB Password' => 'Парола на OTRS база данни',
+      'default \'hot\'' => 'по подразбиране',
+      'OTRS DB connect host' => 'Хост свързан към OTRS база данни',
+      'Create new database' => 'Създаване на нова база данни',
+      'Delete old database' => 'Изтриване на стара база данни',
+      'next step' => 'следваща стъпка',
+
+      # Template: InstallerSystem
+      'SystemID' => 'Системно ID',
+      '(The identify of the system. Each ticket number and each http session id starts with this number)' => '(Идентифициране на системата. Всики номер на билет и всяка http сесия започва с този номер)',
+      'System FQDN' => 'Системно FQDN',
+      '(Full qualified domain name of your system)' => '(Пълно квалифицирано име (FQDN) на системата)',
+      'AdminEmail' => 'Admin е-поща',
+      '(Email of the system admin)' => '(еМейл на системният администратор)',
+      'Organization' => 'Организация',
+      'LogModule' => 'Журнален модул',
+      '(Used log backend)' => '(Използван журнален изход)',
+      'Logfile' => 'Журнален файл',
+      '(Logfile just needed for File-LogModule!)' => '(Журналният файл е необходим само за File-LogModule)',
+      'CheckMXRecord' => 'CheckMXRecord (Проверка MX запис)',
+      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Проверете MX записите на адреса на писмата-отговори. Не използвайте CheckMXRecord, ако вашата OTRS машина е на комутируема линия! ',
+      'Ticket Hook' => 'Прикачване на билетът',
+      '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Идентификатор на билета. Примерно: \'Ticket#\', \'Call#\' or \'MyTicket#\')',
+      'Ticket Number Generator' => 'Генератор на номера на билети',
+      '(Used ticket number format)' => '(Използван формат за номера на билетът)',
+      'Webfrontend' => 'Web-зона',
+      'Default Charset' => 'Символен набор по подразбиране',
+      'Use utf-8 it your database supports it!' => '',
+      'Default Language' => 'Език по подразбиране',
+      '(Used default language)' => '(Изполван език по подразбиране)',
+
+      # Template: Login
+
+      # Template: Motd
+
+      # Template: NoPermission
+      'No Permission' => 'Нямате позволение',
+
+      # Template: Notify
+
+      # Template: PrintFooter
+      'URL' => 'Адрес',
+
+      # Template: PrintHeader
+      'printed by' => 'отпечатано от',
+
+      # Template: Redirect
+
+      # Template: SystemStats
+      'Format' => '',
+
+      # Template: Test
+      'OTRS Test Page' => 'Тестова страница на OTRS',
+      'Counter' => '',
+
+      # Template: Warning
+    };
     # $$STOP$$
     $Self->{Translation} = \%Hash;
 
