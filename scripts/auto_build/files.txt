@@ -20,15 +20,22 @@
 /opt/otrs/Kernel/Config/GenericAgent.pm.examples
 /opt/otrs/Kernel/Config/Defaults.pm
 /opt/otrs/Kernel/Language.pm
-/opt/otrs/Kernel/Modules/*.pm
+/opt/otrs/Kernel/Language/
+/opt/otrs/Kernel/Modules*
+/opt/otrs/Kernel/Output/
+/opt/otrs/Kernel/Output/HTML/
+/opt/otrs/Kernel/Output/HTML/Standard/
+/opt/otrs/Kernel/Output/HTML/Lite/
 /opt/otrs/Kernel/Output/HTML/*.pm
-/opt/otrs/Kernel/System/*
-/opt/otrs/bin/*
-/opt/otrs/scripts/*
+/opt/otrs/Kernel/System*
+/opt/otrs/bin*
+/opt/otrs/scripts*
+/opt/otrs/var/
 /opt/otrs/var/article/
 /opt/otrs/var/httpd/
 /opt/otrs/var/sessions/
 /opt/otrs/var/spool/
+/opt/otrs/var/cron/
 /opt/otrs/var/tmp/
 /opt/otrs/var/pics/stats/
 
