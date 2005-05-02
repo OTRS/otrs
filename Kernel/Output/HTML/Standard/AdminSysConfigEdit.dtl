@@ -2,7 +2,7 @@
 # AdminSysConfigEdit.dtl - provides HTML form for SysConfig
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfigEdit.dtl,v 1.6 2005-04-22 14:27:15 rk Exp $
+# $Id: AdminSysConfigEdit.dtl,v 1.7 2005-05-02 11:26:34 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -373,9 +373,9 @@
         </tr>
         <!-- dtl:block:ConfigElementTimeVacationDaysContent -->
         <tr>
-          <td class="contentvalue"><input type="text" name="$Data{"ElementKey"}day[]" value="$QData{"Day"}" size="2"></td>
-          <td>&nbsp;</td>
           <td class="contentvalue"><input type="text" name="$Data{"ElementKey"}month[]" value="$QData{"Month"}" size="2"></td>
+          <td>&nbsp;</td>
+          <td class="contentvalue"><input type="text" name="$Data{"ElementKey"}day[]" value="$QData{"Day"}" size="2"></td>
           <td>&nbsp;</td> 
           <td class="contentvalue"><input type="text" name="$Data{"ElementKey"}Content[]" value="$QData{"Content"}" size="20"></td>
           <td>&nbsp;</td>         

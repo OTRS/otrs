@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.pm,v 1.10 2005-04-25 12:35:56 rk Exp $
+# $Id: AdminSysConfig.pm,v 1.11 2005-05-02 11:26:34 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -155,7 +155,7 @@ sub Run {
                 my @Day    = $Self->{ParamObject}->GetArray(Param => $_.'day[]');
                 my @Values = $Self->{ParamObject}->GetArray(Param => $_.'Content[]');
                 my %Content;
-                foreach my $Index (0...@Year) {
+                foreach my $Index (0...$#Year) {
                     # Delete TimeVacationDaysOneTime Element?
                     if (!$Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#DeleteTimeVacationDaysOneTimeElement'.$Index)) {
                         $Content{$Year[$Index]}{$Month[$Index]}{$Day[$Index]} = $Values[$Index];
@@ -172,7 +172,7 @@ sub Run {
                 my @Day    = $Self->{ParamObject}->GetArray(Param => $_.'day[]');
                 my @Values = $Self->{ParamObject}->GetArray(Param => $_.'Content[]');
                 my %Content;
-                foreach my $Index (0...@Month) {
+                foreach my $Index (0...$#Month) {
                     # Delete TimeVacationDays Element?
                     if (!$Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#DeleteTimeVacationDaysElement'.$Index)) {
                         $Content{$Month[$Index]}{$Day[$Index]} = $Values[$Index];;
@@ -436,14 +436,14 @@ sub ListConfigItem {
                 my $PulldownMenue = $Self->{LayoutObject}->OptionStrgHashRef(
                     Data       => \%Hash,
                     SelectedID => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Option}[1]{SelectedID},
-                    Name       => $ItemHash{Name},
+                    Name       => $ItemHash{Name}.'Content[]',
                 );
                 $Self->{LayoutObject}->Block(
                     Name => 'ConfigElementHashContent3',
                     Data => {
                         ElementKey => $ItemHash{Name},
                         Key        => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Key},
-                        Liste       => $PulldownMenue, 
+                        Liste      => $PulldownMenue, 
                         Index      => $Index,
                     },
                 );
@@ -545,7 +545,7 @@ sub ListConfigItem {
         if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#NewTimeVacationDaysOneTimeElement')) {
             push (@{$ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}}, {Key => '', Content => ''});
         }      
-        # TimeVacationDaysOneTimeelements
+        # TimeVacationDaysOneTimeElements
         foreach my $Index (1...$#{$ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}}) {
             $Self->{LayoutObject}->Block(
                 Name => 'ConfigElementTimeVacationDaysOneTimeContent',
@@ -623,8 +623,7 @@ sub ListConfigItem {
                 );
             }          
         }
-        
-        
+                
     }
     
 }
