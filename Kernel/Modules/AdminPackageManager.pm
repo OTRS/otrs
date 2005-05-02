@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPackageManager.pm,v 1.15 2005-03-27 11:50:50 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.16 2005-05-02 00:03:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Package;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -46,6 +46,31 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Source = $Self->{UserRepository} || '';
+    # ------------------------------------------------------------ #
+    # check mod perl version and Apache::Reload
+    # ------------------------------------------------------------ #
+    if (exists $ENV{MOD_PERL}) {
+        eval "require mod_perl";
+        if (defined $mod_perl::VERSION) {
+            if ($mod_perl::VERSION >= 1.99) {
+                # check if Apache::Reload is loaded
+                my $ApacheReload = 0;
+                foreach my $Module (keys %INC) {
+                    $Module =~ s/\//::/g;
+                    $Module =~ s/\.pm$//g;
+                    if ($Module eq 'Apache::Reload' || $Module eq 'Apache2::Reload') {
+                        $ApacheReload = 1;
+                    }
+                }
+                if (!$ApacheReload) {
+                    return $Self->{LayoutObject}->ErrorScreen(Message => 'Sorry, Apache::Reload or Apache2::Reload is needed as PerlModule and PerlInitHandler in Apache config file. See also scripts/apache2-httpd.include.conf!');
+                }
+            }
+            else {
+                return $Self->{LayoutObject}->ErrorScreen(Message => 'Sorry, mod_perl2 is needed by this module!');
+            }
+        }
+    }
     # ------------------------------------------------------------ #
     # view package
     # ------------------------------------------------------------ #
