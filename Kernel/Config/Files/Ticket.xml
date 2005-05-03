@@ -130,7 +130,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.15 2005-04-27 15:16:49 tr Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.16 2005-05-03 14:19:27 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">To set the Ticket identifier (e. g. Ticket#: 123456789). Some people want to set this to 'Call#', 'MyTicket#' or 'Ticket#'.</Description>
         <Description Lang="de">Hiermit kann der Ticket-Identifikator gesetzt werden (z. B. Ticket#: 123456789). Manche Kunden setzen definieren 'Call#', 'MyTicket#' oder 'Ticket#'. Als Standardeinstellung wird 'Ticket#' geliefert.</Description>
@@ -3858,7 +3858,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Group>Ticket</Group>
         <SubGroup>AgentFrontend</SubGroup>
         <Setting>
-            <String>bKernel::System::Queue</String>
+            <String>Kernel::System::Queue</String>
         </Setting>
         <!-- $Self->{'Frontend::CommonObject'}->{QueueObject} = 'Kernel::System::Queue'; -->
     </ConfigItem>

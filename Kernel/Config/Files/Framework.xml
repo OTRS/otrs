@@ -93,7 +93,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.15 2005-04-25 12:25:17 tr Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.16 2005-05-03 14:19:27 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">Enable this so you can't use the installer.pl</Description>
         <Description Lang="de">???</Description>
@@ -573,7 +573,7 @@ Your OTRS Notification Master
         <SubGroup>FrontendModulNotify</SubGroup>
             <Setting>
                 <Hash>
-                    <Item Key="Module">Kernel::Output::HTML::NotificationUIDChec</Item>              
+                    <Item Key="Module">Kernel::Output::HTML::NotificationUIDCheck</Item>              
                 </Hash>
             </Setting>
         <!--    $Self->{'Frontend::NotifyModule'}->{'2-UID-Check'} = {
@@ -899,7 +899,7 @@ Your OTRS Notification Master
         <SubGroup>Time</SubGroup>
         <Setting>
             <TimeVacationDaysOneTime>
-                <Item Year="2004" Month="01" Day="01"></Item>
+                <Item Year="2004" Month="01" Day="01">test</Item>
             </TimeVacationDaysOneTime>
         </Setting>
     </ConfigItem>
@@ -909,7 +909,7 @@ Your OTRS Notification Master
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
-            <String Regex="">1024 * 1024 * 5</String>
+            <String Regex="">5242880</String>
         </Setting>
         <!-- $Self->{WebMaxFileUpload} = 1024 * 1024 * 5; -->
         <!-- Größeneinheiten hinzufügen!!! -->
@@ -2207,70 +2207,6 @@ Your OTRS Notification Master
             };
         -->
     </ConfigItem>
-    <ConfigItem Name="CustomerFrontend::CommonObject" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
-        <Group>Framework</Group>
-        <SubGroup>CustomerFrontend</SubGroup>
-        <Setting>
-            <Hash>
-            </Hash>
-        </Setting>
-        <!--
-            $Self->{'CustomerFrontend::CommonObject'} = {
-            # key => module
-            #        SomeObject => 'Kernel::System::Some',
-            };
-        -->
-    </ConfigItem>
-    <ConfigItem Name="CustomerFrontend::CommonParam" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
-        <Group>Framework</Group>
-        <SubGroup>CustomerFrontend</SubGroup>
-        <Setting>
-            <Hash>
-            </Hash>
-        </Setting>
-        <!--
-            $Self->{'CustomerFrontend::CommonParam'} = {
-            # param => default value
-            #        SomeParam => 'DefaultValue',
-            };
-        -->
-    </ConfigItem>
-    <ConfigItem Name="PublicFrontend::CommonObject" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
-        <Group>Framework</Group>
-        <SubGroup>PublicFrontend</SubGroup>
-        <Setting>
-            <Hash>
-            </Hash>
-        </Setting>
-        <!--
-            $Self->{'PublicFrontend::CommonObject'} = {
-            # key => module
-            #        SomeObject => 'Kernel::System::Some',
-            };
-        -->
-    </ConfigItem>
-    <ConfigItem Name="PublicFrontend::CommonParam" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
-        <Group>Framework</Group>
-        <SubGroup>PublicFrontend</SubGroup>
-        <Setting>
-            <Hash>
-            </Hash>
-        </Setting>
-        <!--
-            $Self->{'PublicFrontend::CommonParam'} = {
-            # param => default value
-            #        SomeParam => 'DefaultValue',
-            };
-        -->
-    </ConfigItem>
     <ConfigItem Name="Frontend::Module###Logout" Required="1" Valid="1">
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
@@ -3068,14 +3004,14 @@ Your OTRS Notification Master
             };
         -->
     </ConfigItem>
-    <ConfigItem Name="Frontend::Module###'AdminPackageManager" Required="1" Valid="1">
+    <ConfigItem Name="Frontend::Module###AdminPackageManager" Required="1" Valid="1">
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
         <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Group>'admin']</Group>
+                <Group>admin</Group>
                 <Description>Software Package Manager</Description>
                 <Title>Package Manager</Title>
                 <NavBarName>Admin</NavBarName>
