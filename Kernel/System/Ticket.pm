@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.168 2005-05-04 08:00:01 martin Exp $
+# $Id: Ticket.pm,v 1.169 2005-05-04 08:16:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -32,7 +32,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.168 $';
+$VERSION = '$Revision: 1.169 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 
@@ -3815,14 +3815,19 @@ sub TicketEventHandlerPost {
       }
     }
     # load ticket event module
-    my %Modules = %{$Self->{ConfigObject}->Get('Ticket::EventModulePost')};
-    foreach my $Module (sort keys %Modules) {
-        if ($Self->{MainObject}->Require($Modules{$Module}->{Module})) {
-            my $Generic = $Modules{$Module}->{Module}->new(%{$Self}, TicketObject => $Self);
-            $Generic->Run(
-                %Param,
-                Config => $Modules{$Module},
-            );
+    my $Modules = $Self->{ConfigObject}->Get('Ticket::EventModulePost');
+    if ($Modules) {
+        foreach my $Module (sort keys %{$Modules}) {
+            if ($Self->{MainObject}->Require($Modules->{$Module}->{Module})) {
+                my $Generic = $Modules->{$Module}->{Module}->new(
+                    %{$Self},
+                    TicketObject => $Self,
+                );
+                $Generic->Run(
+                    %Param,
+                    Config => $Modules->{$Module},
+                );
+            }
         }
     }
     return 1;
@@ -3840,6 +3845,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.168 $ $Date: 2005-05-04 08:00:01 $
+$Revision: 1.169 $ $Date: 2005-05-04 08:16:23 $
 
 =cut
