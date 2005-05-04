@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPriority.pm - to set the ticket priority
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPriority.pm,v 1.2 2005-03-27 11:50:50 martin Exp $
+# $Id: AgentTicketPriority.pm,v 1.3 2005-05-04 08:04:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentTicketPriority;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -109,7 +109,7 @@ sub Run {
                 ),
             },
             Name => 'PriorityID',
-            SelectedID => $Param{PriorityID},
+            SelectedID => $Ticket{PriorityID},
         );
         # create & return output
         $Output .= $Self->{LayoutObject}->Output(
