@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketForward.pm,v 1.3 2005-03-27 11:50:50 martin Exp $
+# $Id: AgentTicketForward.pm,v 1.4 2005-05-04 08:04:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -253,10 +253,14 @@ sub Form {
     # --
     # prepare body, subject, ReplyTo ...
     # --
-    $Data{Body} =~ s/(^>.+|.{4,78})(?:\s|\z)/$1\n/gm;
+    my $NewLine = $Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaEmail') || 75;
+    $Data{Body} =~ s/(^>.+|.{4,$NewLine})(?:\s|\z)/$1\n/gm;
     $Data{Body} =~ s/\n/\n> /g;
     $Data{Body} = "\n> " . $Data{Body};
-    foreach (qw(Subject ReplyTo Cc To From)) {
+    if ($Data{Created}) {
+        $Data{Body} = "Date: $Data{Created}\n".$Data{Body};
+    } 
+    foreach (qw(Subject ReplyTo Reply-To Cc To From)) {
         if ($Data{$_}) {
             $Data{Body} = "$_: $Data{$_}\n".$Data{Body};
         }
