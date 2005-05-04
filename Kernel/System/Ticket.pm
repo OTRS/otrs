@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.167 2005-05-01 17:41:09 martin Exp $
+# $Id: Ticket.pm,v 1.168 2005-05-04 08:00:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,6 +13,7 @@ package Kernel::System::Ticket;
 
 use strict;
 use File::Path;
+use Kernel::System::Main;
 use Kernel::System::Ticket::Article;
 use Kernel::System::State;
 use Kernel::System::Priority;
@@ -31,8 +32,9 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.167 $';
+$VERSION = '$Revision: 1.168 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+
 
 =head1 NAME
 
@@ -101,6 +103,12 @@ sub new {
     else {
         $Self->{EncodeObject} = $Param{EncodeObject};
     }
+    if (!$Param{MainObject}) {
+        $Self->{MainObject} = Kernel::System::Main->new(%Param);
+    }
+    else {
+        $Self->{MainObject} = $Param{MainObject};
+    }
     $Self->{UserObject} = Kernel::System::User->new(%Param);
     if (!$Param{GroupObject}) {
         $Self->{GroupObject} = Kernel::System::Group->new(%Param);
@@ -156,7 +164,7 @@ sub new {
     # --
     my $GeneratorModule = $Self->{ConfigObject}->Get('Ticket::NumberGenerator')
       || 'Kernel::System::Ticket::Number::AutoIncrement';
-    if (!eval "require $GeneratorModule") {
+    if (!$Self->{MainObject}->Require($GeneratorModule)) {
         die "Can't load ticket number generator backend module $GeneratorModule! $@";
     }
     push(@ISA, $GeneratorModule);
@@ -165,7 +173,7 @@ sub new {
     # --
     my $GeneratorIndexModule = $Self->{ConfigObject}->Get('Ticket::IndexModule')
       || 'Kernel::System::Ticket::IndexAccelerator::RuntimeDB';
-    if (!eval "require $GeneratorIndexModule") {
+    if (!$Self->{MainObject}->Require($GeneratorIndexModule)) {
         die "Can't load ticket index backend module $GeneratorIndexModule! $@";
     }
     # --
@@ -173,7 +181,7 @@ sub new {
     # --
     my $StorageModule = $Self->{ConfigObject}->Get('Ticket::StorageModule')
       || 'Kernel::System::Ticket::ArticleStorageDB';
-    if (!eval "require $StorageModule") {
+    if (!$Self->{MainObject}->Require($StorageModule)) {
         die "Can't load ticket storage backend module $StorageModule! $@";
     }
     # --
@@ -181,21 +189,21 @@ sub new {
     # --
     my $CustomModule = $Self->{ConfigObject}->Get('Ticket::CustomModule');
     if ($CustomModule) {
-        if (!eval "require $CustomModule") {
+        if (!$Self->{MainObject}->Require($CustomModule)) {
             die "Can't load ticket custom module $CustomModule! $@";
         }
     }
 
-    $Self->Init();
-
-    return $Self;
-}
-# --
-sub Init {
-    my $Self = shift;
+    # add search modules
+    @ISA = (
+        'Kernel::System::Ticket::Article',
+        'Kernel::System::Ticket::ArticleStorage',
+        'Kernel::System::Ticket::IndexAccelerator',
+    );
 
     $Self->ArticleStorageInit();
-    return 1;
+
+    return $Self;
 }
 
 =item TicketCreateNumber()
@@ -391,7 +399,12 @@ sub TicketCreate {
             Priority => 'notice',
                 Message => "New Ticket [$Param{TN}/".substr($Param{Title}, 0, 15)."] created (TicketID=$TicketID,Queue=$Param{Queue},Priority=$Param{Priority},State=$Param{State})",
         );
-
+        # ticket event
+        $Self->TicketEventHandlerPost(
+            Event => 'TicketCreate',
+            UserID => $Param{UserID},
+            TicketID => $TicketID,
+        );
         # return ticket id
         return $TicketID;
     }
@@ -436,6 +449,12 @@ sub TicketDelete {
         if ($Self->ArticleDelete(%Param)) {
             # delete ticket
             if ($Self->{DBObject}->Do(SQL => "DELETE FROM ticket WHERE id = $Param{TicketID}")) {
+                # ticket event
+                $Self->TicketEventHandlerPost(
+                    Event => 'TicketDelete',
+                    UserID => $Param{UserID},
+                    TicketID => $Param{TicketID},
+                );
                 return 1;
             }
         }
@@ -727,6 +746,12 @@ sub TicketTitleUpdate {
       " WHERE ".
       " id = $Param{TicketID}";
     if ($Self->{DBObject}->Do(SQL => $SQL) ) {
+        # ticket event
+        $Self->TicketEventHandlerPost(
+            Event => 'TicketTitleUpdate',
+            UserID => $Param{UserID},
+            TicketID => $Param{TicketID},
+        );
         return 1;
     }
     else {
@@ -778,6 +803,12 @@ sub TicketUnlockTimeoutUpdate {
             HistoryType => 'Misc',
             Name => "Reset of unlock time.",
         );
+        # ticket event
+        $Self->TicketEventHandlerPost(
+            Event => 'TicketUnlockTimeoutUpdate',
+            UserID => $Param{UserID},
+            TicketID => $Param{TicketID},
+        );
         return 1;
     }
     else {
@@ -819,6 +850,12 @@ sub TicketEscalationStartUpdate {
             CreateUserID => $Param{UserID},
             HistoryType => 'Misc',
             Name => "Reset of escalation time.",
+        );
+        # ticket event
+        $Self->TicketEventHandlerPost(
+            Event => 'TicketEscalationStartUpdate',
+            UserID => $Param{UserID},
+            TicketID => $Param{TicketID},
         );
         return 1;
     }
@@ -1013,6 +1050,12 @@ sub MoveTicket {
                 UserID => $Param{UserID},
             );
         }
+        # ticket event
+        $Self->TicketEventHandlerPost(
+            Event => 'MoveTicket',
+            UserID => $Param{UserID},
+            TicketID => $Param{TicketID},
+        );
         return 1;
     }
     else {
@@ -1130,6 +1173,12 @@ sub SetCustomerData {
         );
         # clear ticket cache
         $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
+        # ticket event
+        $Self->TicketEventHandlerPost(
+            Event => 'SetCustomerData',
+            UserID => $Param{UserID},
+            TicketID => $Param{TicketID},
+        );
         return 1;
     }
     else {
@@ -1239,6 +1288,12 @@ sub TicketFreeTextSet {
         );
         # clear ticket cache
         $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
+        # ticket event
+        $Self->TicketEventHandlerPost(
+            Event => 'TicketFreeTextSet',
+            UserID => $Param{UserID},
+            TicketID => $Param{TicketID},
+        );
         return 1;
     }
     else {
@@ -1269,7 +1324,7 @@ sub Permission {
                 );
             }
             # load module
-            if (eval "require $Modules{$Module}->{Module}") {
+            if ($Self->{MainObject}->Require($Modules{$Module}->{Module})) {
                 # create object
                 my $ModuleObject = $Modules{$Module}->{Module}->new(
                     ConfigObject => $Self->{ConfigObject},
@@ -1319,12 +1374,6 @@ sub Permission {
                     }
                 }
             }
-            else {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message => "Can't load module $Modules{$Module}->{Module}!",
-                );
-            }
         }
     }
     # grant access to the ticket
@@ -1364,7 +1413,7 @@ sub CustomerPermission {
                 );
             }
             # load module
-            if (eval "require $Modules{$Module}->{Module}") {
+            if ($Self->{MainObject}->Require($Modules{$Module}->{Module})) {
                 # create object
                 my $ModuleObject = $Modules{$Module}->{Module}->new(
                     ConfigObject => $Self->{ConfigObject},
@@ -1413,12 +1462,6 @@ sub CustomerPermission {
                         return;
                     }
                 }
-            }
-            else {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message => "Can't load module $Modules{$Module}->{Module}!",
-                );
             }
         }
     }
@@ -1609,6 +1652,12 @@ sub TicketPendingTimeSet {
         );
         # clear ticket cache
         $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
+        # ticket event
+        $Self->TicketEventHandlerPost(
+            Event => 'TicketPendingTimeSet',
+            UserID => $Param{UserID},
+            TicketID => $Param{TicketID},
+        );
         return 1;
     }
     else {
@@ -2238,6 +2287,12 @@ sub LockSet {
             }
           }
         }
+        # ticket event
+        $Self->TicketEventHandlerPost(
+            Event => 'LockSet',
+            UserID => $Param{UserID},
+            TicketID => $Param{TicketID},
+        );
         return 1;
     }
     else {
@@ -2343,6 +2398,12 @@ sub StateSet {
   	        CustomerMessageParams => \%Param,
             TicketID => $Param{TicketID},
             UserID => $Param{UserID},
+        );
+        # ticket event
+        $Self->TicketEventHandlerPost(
+            Event => 'StateSet',
+            UserID => $Param{UserID},
+            TicketID => $Param{TicketID},
         );
         return 1;
     }
@@ -2549,10 +2610,16 @@ sub OwnerSet {
           TicketID => $Param{TicketID},
           UserID => $Param{UserID},
       );
-      return 1;
+        # ticket event
+        $Self->TicketEventHandlerPost(
+            Event => 'OwnerSet',
+            UserID => $Param{UserID},
+            TicketID => $Param{TicketID},
+        );
+        return 1;
     }
     else {
-      return;
+        return;
     }
 }
 
@@ -2790,18 +2857,24 @@ sub PrioritySet {
         " change_time = current_timestamp, change_by = $Param{UserID} " .
         " WHERE id = $Param{TicketID} ";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
-      # add history
-      $Self->HistoryAdd(
-          TicketID => $Param{TicketID},
-          QueueID => $TicketData{QueueID},
-          CreateUserID => $Param{UserID},
-          HistoryType => 'PriorityUpdate',
-          Name => "\%\%$TicketData{Priority}\%\%$TicketData{PriorityID}".
+        # add history
+        $Self->HistoryAdd(
+            TicketID => $Param{TicketID},
+            QueueID => $TicketData{QueueID},
+            CreateUserID => $Param{UserID},
+            HistoryType => 'PriorityUpdate',
+            Name => "\%\%$TicketData{Priority}\%\%$TicketData{PriorityID}".
               "\%\%$Param{Priority}\%\%$Param{PriorityID}",
-      );
-      # clear ticket cache
-      $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
-      return 1;
+        );
+        # clear ticket cache
+        $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
+        # ticket event
+        $Self->TicketEventHandlerPost(
+            Event => 'PrioritySet',
+            UserID => $Param{UserID},
+            TicketID => $Param{TicketID},
+        );
+        return 1;
     }
     else {
         return;
@@ -3214,6 +3287,12 @@ sub HistoryAdd {
     " $Param{StateID}, $Param{ValidID}, " .
     " current_timestamp, $Param{CreateUserID}, current_timestamp, $Param{CreateUserID})";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
+        # ticket event
+        $Self->TicketEventHandlerPost(
+            Event => 'HistoryAdd',
+            UserID => $Param{CreateUserID},
+            TicketID => $Param{TicketID},
+        );
         return 1;
     }
     else {
@@ -3306,6 +3385,12 @@ sub HistoryDelete {
     }
     # delete from db
     if ($Self->{DBObject}->Do(SQL => "DELETE FROM ticket_history WHERE ticket_id = $Param{TicketID}")) {
+        # ticket event
+        $Self->TicketEventHandlerPost(
+            Event => 'HistoryDelete',
+            UserID => $Param{UserID},
+            TicketID => $Param{TicketID},
+        );
         return 1;
     }
     else {
@@ -3386,28 +3471,34 @@ sub TicketAccountTime {
       " ($Param{TicketID}, $Param{ArticleID}, $TimeUnit, ".
       " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID}) ";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
-      # add history
-      my $AccountedTime = $Self->TicketAccountedTimeGet(TicketID => $Param{TicketID});
-      my $HistoryComment = "\%\%$Param{TimeUnit}";
-      if ($TimeUnit ne $Param{TimeUnit}) {
-          $HistoryComment = "$TimeUnit time unit(s) accounted ($Param{TimeUnit} is invalid).";
-      }
-      else {
-          $HistoryComment .= "\%\%$AccountedTime";
-      }
-      $Self->HistoryAdd(
-          TicketID => $Param{TicketID},
-          ArticleID => $Param{ArticleID},
-          CreateUserID => $Param{UserID},
-          HistoryType => 'TimeAccounting',
-          Name => $HistoryComment,
-      );
-      # clear ticket cache
-      $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
-      return 1;
+        # add history
+        my $AccountedTime = $Self->TicketAccountedTimeGet(TicketID => $Param{TicketID});
+        my $HistoryComment = "\%\%$Param{TimeUnit}";
+        if ($TimeUnit ne $Param{TimeUnit}) {
+            $HistoryComment = "$TimeUnit time unit(s) accounted ($Param{TimeUnit} is invalid).";
+        }
+        else {
+            $HistoryComment .= "\%\%$AccountedTime";
+        }
+        $Self->HistoryAdd(
+            TicketID => $Param{TicketID},
+             ArticleID => $Param{ArticleID},
+            CreateUserID => $Param{UserID},
+            HistoryType => 'TimeAccounting',
+            Name => $HistoryComment,
+        );
+        # clear ticket cache
+        $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
+        # ticket event
+        $Self->TicketEventHandlerPost(
+            Event => 'TicketAccountTime',
+            UserID => $Param{UserID},
+            TicketID => $Param{TicketID},
+        );
+        return 1;
     }
     else {
-      return;
+        return;
     }
 }
 
@@ -3472,6 +3563,13 @@ sub TicketMerge {
             TicketID => $Param{MergeTicketID},
             UserID => $Param{UserID},
         );
+        # ticket event
+        $Self->TicketEventHandlerPost(
+            Event => 'TicketMerge',
+            UserID => $Param{UserID},
+            TicketID => $Param{TicketID},
+        );
+        return 1;
     }
     else {
         return;
@@ -3706,6 +3804,30 @@ sub TicketAclActionData {
     }
 }
 # --
+sub TicketEventHandlerPost {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(TicketID Event UserID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # load ticket event module
+    my %Modules = %{$Self->{ConfigObject}->Get('Ticket::EventModulePost')};
+    foreach my $Module (sort keys %Modules) {
+        if ($Self->{MainObject}->Require($Modules{$Module}->{Module})) {
+            my $Generic = $Modules{$Module}->{Module}->new(%{$Self}, TicketObject => $Self);
+            $Generic->Run(
+                %Param,
+                Config => $Modules{$Module},
+            );
+        }
+    }
+    return 1;
+}
+# --
 1;
 
 =head1 TERMS AND CONDITIONS
@@ -3718,6 +3840,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.167 $ $Date: 2005-05-01 17:41:09 $
+$Revision: 1.168 $ $Date: 2005-05-04 08:00:01 $
 
 =cut
