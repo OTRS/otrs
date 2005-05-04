@@ -2,19 +2,19 @@
 # Kernel/System/Ticket/IndexAccelerator/StaticDB.pm - static db queue ticket index module
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: StaticDB.pm,v 1.27 2005-05-04 08:00:24 martin Exp $
+# $Id: StaticDB.pm,v 1.28 2005-05-04 11:24:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-package Kernel::System::Ticket::IndexAccelerator;
+package Kernel::System::Ticket::IndexAccelerator::StaticDB;
 
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketAcceleratorUpdate {

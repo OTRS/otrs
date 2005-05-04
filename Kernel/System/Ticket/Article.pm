@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.86 2005-05-04 07:59:13 martin Exp $
+# $Id: Article.pm,v 1.87 2005-05-04 11:24:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.86 $';
+$VERSION = '$Revision: 1.87 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -266,6 +266,7 @@ MessageID => $Param{MessageID},
     $Self->TicketEventHandlerPost(
         Event => 'ArticleCreate',
         TicketID => $Param{TicketID},
+        UserID => $Param{UserID},
     );
     # --
     # send no agent notification!?
@@ -697,6 +698,7 @@ sub ArticleFreeTextSet {
         $Self->TicketEventHandlerPost(
             Event => 'ArticleFreeTextSet',
             TicketID => $Param{TicketID},
+            UserID => $Param{UserID},
         );
         return 1;
     }
@@ -1150,6 +1152,7 @@ sub ArticleUpdate {
         $Self->TicketEventHandlerPost(
             Event => 'ArticleUpdate',
             TicketID => $Param{TicketID},
+            UserID => $Param{UserID},
         );
         return 1;
     }
@@ -1314,6 +1317,7 @@ sub ArticleSend {
         $Self->TicketEventHandlerPost(
             Event => 'ArticleSend',
             TicketID => $Param{TicketID},
+            UserID => $Param{UserID},
         );
         return $Param{ArticleID};
     }
@@ -1374,6 +1378,7 @@ sub ArticleBounce {
     $Self->TicketEventHandlerPost(
         Event => 'ArticleBounce',
         TicketID => $Param{TicketID},
+        UserID => $Param{UserID},
     );
     return 1;
 }
@@ -1581,6 +1586,7 @@ sub SendAgentNotification {
     $Self->TicketEventHandlerPost(
         Event => 'SendAgentNotification',
         TicketID => $Param{TicketID},
+        UserID => $Param{UserID},
     );
 
     return 1;
@@ -1817,6 +1823,7 @@ sub SendCustomerNotification {
     $Self->TicketEventHandlerPost(
         Event => 'SendCustomerNotification',
         TicketID => $Param{TicketID},
+        UserID => $Param{UserID},
     );
 
     return 1;
@@ -1997,6 +2004,7 @@ sub SendAutoResponse {
     $Self->TicketEventHandlerPost(
         Event => 'SendAutoResponse',
         TicketID => $Param{TicketID},
+        UserID => $Param{UserID},
     );
 
     return 1;
@@ -2046,6 +2054,7 @@ sub ArticleFlagSet {
         $Self->TicketEventHandlerPost(
             Event => 'ArticleFlagSet',
             TicketID => $Param{TicketID},
+            UserID => $Param{UserID},
         );
         return 1;
     }

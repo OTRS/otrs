@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.169 2005-05-04 08:16:23 martin Exp $
+# $Id: Ticket.pm,v 1.170 2005-05-04 11:24:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -32,9 +32,10 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.169 $';
+$VERSION = '$Revision: 1.170 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
+@ISA = ('Kernel::System::Ticket::Article');
 
 =head1 NAME
 
@@ -176,6 +177,7 @@ sub new {
     if (!$Self->{MainObject}->Require($GeneratorIndexModule)) {
         die "Can't load ticket index backend module $GeneratorIndexModule! $@";
     }
+    push(@ISA, $GeneratorIndexModule);
     # --
     # load article storage module
     # --
@@ -184,6 +186,7 @@ sub new {
     if (!$Self->{MainObject}->Require($StorageModule)) {
         die "Can't load ticket storage backend module $StorageModule! $@";
     }
+    push(@ISA, $StorageModule);
     # --
     # load custom functions
     # --
@@ -192,14 +195,8 @@ sub new {
         if (!$Self->{MainObject}->Require($CustomModule)) {
             die "Can't load ticket custom module $CustomModule! $@";
         }
+        push(@ISA, $CustomModule);
     }
-
-    # add search modules
-    @ISA = (
-        'Kernel::System::Ticket::Article',
-        'Kernel::System::Ticket::ArticleStorage',
-        'Kernel::System::Ticket::IndexAccelerator',
-    );
 
     $Self->ArticleStorageInit();
 
@@ -3845,6 +3842,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.169 $ $Date: 2005-05-04 08:16:23 $
+$Revision: 1.170 $ $Date: 2005-05-04 11:24:40 $
 
 =cut
