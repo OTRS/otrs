@@ -2,12 +2,14 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.85 2005-04-22 08:50:39 martin Exp $
+# $Id: Article.pm,v 1.86 2005-05-04 07:59:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
+package Kernel::System::Ticket::Article;
 
 use strict;
 use MIME::Words qw(:all);
@@ -16,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.85 $';
+$VERSION = '$Revision: 1.86 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -260,6 +262,11 @@ MessageID => $Param{MessageID},
             );
         }
     }
+    # ticket event
+    $Self->TicketEventHandlerPost(
+        Event => 'ArticleCreate',
+        TicketID => $Param{TicketID},
+    );
     # --
     # send no agent notification!?
     # --
@@ -686,6 +693,11 @@ sub ArticleFreeTextSet {
           " change_time = current_timestamp, change_by = $Param{UserID} " .
           " WHERE id = $Param{ArticleID}",
     )) {
+        # ticket event
+        $Self->TicketEventHandlerPost(
+            Event => 'ArticleFreeTextSet',
+            TicketID => $Param{TicketID},
+        );
         return 1;
     }
     else {
@@ -1134,6 +1146,11 @@ sub ArticleUpdate {
           " change_time = current_timestamp, change_by = $Param{UserID} " .
           " WHERE id = $Param{ArticleID}",
     )) {
+        # ticket event
+        $Self->TicketEventHandlerPost(
+            Event => 'ArticleUpdate',
+            TicketID => $Param{TicketID},
+        );
         return 1;
     }
     else {
@@ -1293,6 +1310,11 @@ sub ArticleSend {
             Priority => 'notice',
             Message => "Sent email to '$ToOrig' from '$Param{From}'. HistoryType => $HistoryType, Subject => $Param{Subject};",
         );
+        # ticket event
+        $Self->TicketEventHandlerPost(
+            Event => 'ArticleSend',
+            TicketID => $Param{TicketID},
+        );
         return $Param{ArticleID};
     }
     else {
@@ -1347,6 +1369,11 @@ sub ArticleBounce {
         HistoryType => $HistoryType,
         Name => "\%\%$Param{To}",
         CreateUserID => $Param{UserID},
+    );
+    # ticket event
+    $Self->TicketEventHandlerPost(
+        Event => 'ArticleBounce',
+        TicketID => $Param{TicketID},
     );
     return 1;
 }
@@ -1548,6 +1575,12 @@ sub SendAgentNotification {
     $Self->{LogObject}->Log(
         Priority => 'notice',
         Message => "Sent agent '$Param{Type}' notification to '$User{UserEmail}'.",
+    );
+
+    # ticket event
+    $Self->TicketEventHandlerPost(
+        Event => 'SendAgentNotification',
+        TicketID => $Param{TicketID},
     );
 
     return 1;
@@ -1780,6 +1813,12 @@ sub SendCustomerNotification {
         Message => "Sent customer '$Param{Type}' notification to '$Article{From}'.",
     );
 
+    # ticket event
+    $Self->TicketEventHandlerPost(
+        Event => 'SendCustomerNotification',
+        TicketID => $Param{TicketID},
+    );
+
     return 1;
 }
 
@@ -1954,6 +1993,12 @@ sub SendAutoResponse {
          " (TicketID=$Param{TicketID}, ArticleID=$ArticleID) to '$ToAll'."
     );
 
+    # ticket event
+    $Self->TicketEventHandlerPost(
+        Event => 'SendAutoResponse',
+        TicketID => $Param{TicketID},
+    );
+
     return 1;
 }
 
@@ -1997,6 +2042,11 @@ sub ArticleFlagSet {
         );
     }
     else {
+        # ticket event
+        $Self->TicketEventHandlerPost(
+            Event => 'ArticleFlagSet',
+            TicketID => $Param{TicketID},
+        );
         return 1;
     }
 }
