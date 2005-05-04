@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.170 2005-05-04 11:24:40 martin Exp $
+# $Id: Ticket.pm,v 1.171 2005-05-04 11:49:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -30,9 +30,10 @@ use Kernel::System::StdAttachment;
 use Kernel::System::PostMaster::LoopProtection;
 use Kernel::System::CustomerUser;
 use Kernel::System::Notification;
+use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.170 $';
+$VERSION = '$Revision: 1.171 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -3527,6 +3528,8 @@ sub TicketMerge {
     }
     # change ticket id of merge ticket to main ticket
     if ($Self->{DBObject}->Do(SQL => "UPDATE article SET ticket_id = $Param{MainTicketID} WHERE ticket_id = $Param{MergeTicketID}")) {
+        my %MainTicket = $Self->TicketGet(TicketID => $Param{MainTicketID});
+        my %MergeTicket = $Self->TicketGet(TicketID => $Param{MergeTicketID});
         # add merge article to merge ticket
         $Self->ArticleCreate(
             TicketID => $Param{MergeTicketID},
@@ -3537,22 +3540,33 @@ sub TicketMerge {
             HistoryType => 'AddNote',
             HistoryComment => '%%Note',
             Subject => 'Ticket Merged',
-            Body => 'Ticket Merged',
+            Body => "Merged Ticket $MergeTicket{TicketNumber} to $MainTicket{TicketNumber}.",
             NoAgentNotify => 1,
         );
         # add merge history to merge ticket
         $Self->HistoryAdd(
             TicketID => $Param{MergeTicketID},
             HistoryType => 'Merged',
-            Name => "Merged TicketID ($Param{MergeTicketID}) to ($Param{MainTicketID})",
+            Name => "Merged Ticket ($MergeTicket{TicketNumber}/$Param{MergeTicketID}) to ($MainTicket{TicketNumber}/$Param{MainTicketID})",
             CreateUserID => $Param{UserID},
         );
         # add merge history to main ticket
         $Self->HistoryAdd(
             TicketID => $Param{MainTicketID},
             HistoryType => 'Merged',
-            Name => "Merged TicketID ($Param{MergeTicketID}) to ($Param{MainTicketID})",
+            Name => "Merged Ticket ($MergeTicket{TicketNumber}/$Param{MergeTicketID}) to ($MainTicket{TicketNumber}/$Param{MainTicketID})",
             CreateUserID => $Param{UserID},
+        );
+        # link tickets
+        $Self->{LinkObject} = Kernel::System::LinkObject->new(%Param, %{$Self}, TicketObject => $Self);
+        $Self->{LinkObject}->LoadBackend(Module => 'Ticket');
+        $Self->{LinkObject}->LinkObject(
+            LinkType => 'Parent', 
+            LinkID1 => $Param{MainTicketID},
+            LinkObject1 => 'Ticket',
+            LinkID2 => $Param{MergeTicketID},
+            LinkObject2 => 'Ticket',
+            UserID => $Param{UserID},
         );
         # set new state of merge ticket
         $Self->StateSet(
@@ -3563,8 +3577,8 @@ sub TicketMerge {
         # ticket event
         $Self->TicketEventHandlerPost(
             Event => 'TicketMerge',
+            TicketID => $Param{MergeTicketID},
             UserID => $Param{UserID},
-            TicketID => $Param{TicketID},
         );
         return 1;
     }
@@ -3842,6 +3856,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.170 $ $Date: 2005-05-04 11:24:40 $
+$Revision: 1.171 $ $Date: 2005-05-04 11:49:29 $
 
 =cut
