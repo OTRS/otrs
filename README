@@ -2,7 +2,7 @@
 # README - readme file of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: README,v 1.22 2005-02-17 20:17:15 martin Exp $
+# $Id: README,v 1.23 2005-05-04 08:05:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -34,10 +34,12 @@ What is OTRS?
     - easy and logical to use
 
    Email-Interface:
-    - MIME support (attachments)
     - dispatching of incoming email via email addess or x-header
     - autoresponders for customers by incoming emails (per queue)
     - email-notification to the agent by new tickets, follow ups or lock timeouts
+    - MIME support (attachments)
+    - PGP support
+    - SMIME support
 
    Ticket:
     - custom queue view and queue view of all requests
@@ -54,6 +56,8 @@ What is OTRS?
     - Ticket time accounting
     - Ticket print view
     - Ticket pending feature
+    - Ticket merge feature
+    - Ticket ACL support
     - content fulltext search
 
    System:
@@ -79,6 +83,8 @@ What is OTRS?
     - user authentication agains database or ldap directory
     - easy to develope you own addon's (OTRS API)
     - easy to write different frontends (e. g. X11, console, ...)
+    - own package manager (e. g. for application modules like webmail, calendar or
+       filemanager)
     - a fast and usefull application
 
 Todo:
@@ -165,6 +171,7 @@ $HOME (e. g. /opt/otrs/)
 |   |
 |   |---- /System/         (all backend modules)
 |           |--- /DB.pm         (central DB interface)
+|                 |--- /DB/*.pm (DB driver)
 |           |--- /Auth.pm       (authentification module)
 |           |--- /AuthSession.pm (session authentification module)
 |           |--- /EmailSend.pm      (create and send emails)
