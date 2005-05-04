@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMerge.pm - to merge tickets 
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketMerge.pm,v 1.2 2005-05-01 17:41:08 martin Exp $
+# $Id: AgentTicketMerge.pm,v 1.3 2005-05-04 07:53:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -108,7 +108,7 @@ sub Run {
                     );
                 }
             }
-            # --       
+            # --
             # send customer info?
             # --
             if ($Param{InformSender}) {
@@ -137,6 +137,12 @@ sub Run {
                     return $Self->{LayoutObject}->ErrorScreen();
                 }
             }
+            # unlock ticket
+            $Self->{TicketObject}->LockSet(
+                UserID => $Self->{UserID},
+                TicketID => $Self->{TicketID},
+                Lock => 'unlock'
+            );
             # redirect
             return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenOverview});
         }
@@ -183,10 +189,6 @@ sub Run {
         # --
         # prepare subject ...
         # --
-        my $TicketHook = $Self->{ConfigObject}->Get('TicketHook') || '';
-        $Article{Subject} =~ s/\[$TicketHook: $Ticket{TicketNumber}\] //g;
-        $Article{Subject} =~ s/^(.{30}).*$/$1 [...]/;
-        $Article{Subject} = "[$TicketHook: $Ticket{TicketNumber}] RE: " . $Article{Subject};
         # get customer data
         my %Customer = ();
         if ($Ticket{CustomerUserID}) {
