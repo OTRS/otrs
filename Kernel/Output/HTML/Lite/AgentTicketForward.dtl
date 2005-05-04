@@ -2,7 +2,7 @@
 # AgentTicketForward.dtl - provides HTML form for AgentTicketForward
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketForward.dtl,v 1.1 2005-02-17 07:02:25 martin Exp $
+# $Id: AgentTicketForward.dtl,v 1.2 2005-05-04 08:03:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -137,7 +137,7 @@ $Include{"AgentTicketLocked"}
       <td class="contentkey">$Text{"Text"}:</td>
       <td class="contentvalue">
 <pre>
-<textarea name="Body" rows="25" cols="$Config{"Ticket::Frontend::TextAreaEmail"}" wrap="$Env{"BrowserWrap"}">
+<textarea name="Body" rows="25" cols="$Config{"Ticket::Frontend::TextAreaEmail"}">
 $QData{"Body"}
 </textarea>
 </pre>

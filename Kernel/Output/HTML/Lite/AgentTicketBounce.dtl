@@ -2,7 +2,7 @@
 # AgentTicketBounce.dtl - provides HTML form for bounce mask
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketBounce.dtl,v 1.1 2005-02-17 07:02:25 martin Exp $
+# $Id: AgentTicketBounce.dtl,v 1.2 2005-05-04 08:03:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -80,7 +80,7 @@ $Include{"AgentTicketLocked"}
   <tr>
     <td class="contentkey">$Text{"Text"}:</td>
     <td class="contentvalue">
-<textarea name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaEmail"}" wrap="$Env{"BrowserWrap"}">
+<textarea name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaEmail"}">
 $Data{"Salutation"}
 
 $Text{"$Config{"Ticket::Frontend::BounceText"}"}

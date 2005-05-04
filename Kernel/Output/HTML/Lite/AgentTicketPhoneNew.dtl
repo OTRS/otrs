@@ -2,7 +2,7 @@
 # AgentPhoneNew.dtl - provides HTML form for phone
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPhoneNew.dtl,v 1.1 2005-02-17 17:24:56 martin Exp $
+# $Id: AgentTicketPhoneNew.dtl,v 1.2 2005-05-04 08:03:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -161,7 +161,7 @@ function clear_field()
   <tr>
     <td class="contentkey">$Text{"Text"}:</td>
     <td class="contentvalue">
-    <textarea name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}" wrap="$Env{"BrowserWrap"}">$Data{"Body"}</textarea>
+    <textarea name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$Data{"Body"}</textarea>
     </td>
   </tr>
   <tr>
