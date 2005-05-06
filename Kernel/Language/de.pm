@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: de.pm,v 1.73 2005-05-01 22:46:13 martin Exp $
+# $Id: de.pm,v 1.74 2005-05-06 09:27:11 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.73 $';
+$VERSION = '$Revision: 1.74 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1078,13 +1078,13 @@ sub Data {
       'don\'t accept license' => 'Lizenz nicht anerkennen',
 
       # Template: InstallerStart
-      'DB Admin User' => 'DB Admin Benuter',
+      'DB Admin User' => 'DB Admin Benutzer',
       'DB Admin Password' => 'DB Admin Passwort',
       'your MySQL DB should have a root password! Default is empty!' => 'Deine MySQL DB sollte ein Root Passwort haben! Voreingestellt ist keines!',
       'DB Host' => 'DB Rechner',
       'DB Type' => 'DB Typ',
       'OTRS DB Name' => '',
-      'OTRS DB User' => 'OTRS DB Benuter',
+      'OTRS DB User' => 'OTRS DB Benutzer',
       'OTRS DB Password' => 'OTRS DB Passwort',
       'default \'hot\'' => 'voreingestellt \'hot\'',
       'OTRS DB connect host' => 'OTRS DB Verbindungs-Rechner',
