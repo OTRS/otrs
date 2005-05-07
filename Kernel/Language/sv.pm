@@ -2,7 +2,7 @@
 # Kernel/Language/nb_SW.pm - Swedish language translation
 # Copyright (C) 2004 Mats Eric Olausson <mats@synergy.se>
 # --
-# $Id: sv.pm,v 1.5 2005-05-01 22:46:13 martin Exp $
+# $Id: sv.pm,v 1.6 2005-05-07 15:23:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,14 +13,13 @@ package Kernel::Language::sv;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.5 $;
+$VERSION = q$Revision: 1.6 $;
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub Data {
     my $Self = shift;
     my %Param = @_;
-    my %Hash = ();
 
     # $$START$$
     # Last translation file sync: Mon May  2 00:38:50 2005
@@ -1135,7 +1134,6 @@ sub Data {
       # Template: Warning
     };
     # $$STOP$$
-    $Self->{Translation} = \%Hash;
 }
 # --
 1;

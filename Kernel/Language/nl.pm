@@ -5,7 +5,7 @@
 # Copyright (C) 2003 A-NeT Internet Services bv
 # Copyright (C) 2004 Martijn Lohmeijer (martijn.lohmeijer 'at' sogeti.nl)
 # --
-# $Id: nl.pm,v 1.27 2005-05-01 22:46:13 martin Exp $
+# $Id: nl.pm,v 1.28 2005-05-07 15:23:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -45,13 +45,12 @@ package Kernel::Language::nl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
     my $Self = shift;
     my %Param = @_;
-    my %Hash = ();
 
     # $$START$$
     # Last translation file sync: Mon May  2 00:38:28 2005
@@ -1166,7 +1165,6 @@ sub Data {
       # Template: Warning
     };
     # $$STOP$$
-    $Self->{Translation} = \%Hash;
 }
 # --
 1;

@@ -2,7 +2,7 @@
 # Kernel/Language/es.pm - provides es language translation
 # Copyright (C) 2003-2004 Jorge Becerra <jorge at icc-cuba.com>
 # --
-# $Id: es.pm,v 1.25 2005-05-01 22:46:13 martin Exp $
+# $Id: es.pm,v 1.26 2005-05-07 15:23:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,14 +13,13 @@ package Kernel::Language::es;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub Data {
     my $Self = shift;
     my %Param = @_;
-    my %Hash = ();
 
     # $$START$$
     # Last translation file sync: Mon May  2 00:38:03 2005
@@ -1149,8 +1148,6 @@ sub Data {
       # Template: Warning
     };
     # $$STOP$$
-
-    $Self->{Translation} = \%Hash;
 }
 # --
 1;

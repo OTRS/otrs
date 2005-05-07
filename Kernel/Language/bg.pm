@@ -11,13 +11,12 @@ package Kernel::Language::bg;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
     my $Self = shift;
     my %Param = @_;
-    my %Hash = ();
 
     # $$START$$
     # Last translation file sync: Mon May  2 00:37:54 2005
@@ -1133,8 +1132,6 @@ sub Data {
       # Template: Warning
     };
     # $$STOP$$
-    $Self->{Translation} = \%Hash;
-
 }
 # --
 1;

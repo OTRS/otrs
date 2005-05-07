@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # Translated by Tomasz Melissa <janek at rumianek.com>
 # --
-# $Id: pl.pm,v 1.15 2005-05-01 22:46:13 martin Exp $
+# $Id: pl.pm,v 1.16 2005-05-07 15:23:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,14 +14,13 @@ package Kernel::Language::pl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub Data {
     my $Self = shift;
     my %Param = @_;
-    my %Hash = ();
 
     # $$START$$
     # Last translation file sync: Mon May  2 00:38:30 2005
@@ -1137,8 +1136,6 @@ sub Data {
       # Template: Warning
     };
     # $$STOP$$
-
-    $Self->{Translation} = \%Hash;
 }
 # --
 1;
