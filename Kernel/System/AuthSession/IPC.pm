@@ -1,8 +1,8 @@
 # --
 # Kernel/System/AuthSession/IPC.pm - provides session IPC/Mem backend
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: IPC.pm,v 1.15 2004-05-03 08:48:05 martin Exp $
+# $Id: IPC.pm,v 1.16 2005-05-07 12:45:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see 
 # the enclosed file COPYING for license information (GPL). If you 
@@ -17,7 +17,7 @@ use Digest::MD5;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
  
 # --
@@ -30,7 +30,7 @@ sub new {
     bless ($Self, $Type);
 
     # check needed objects
-    foreach (qw(LogObject ConfigObject DBObject)) {
+    foreach (qw(LogObject ConfigObject DBObject TimeObject)) {
         $Self->{$_} = $Param{$_} || die "No $_!";
     }
     # Debug 0=off 1=on
@@ -161,11 +161,11 @@ sub CheckSessionID {
     }
     # check session idle time
     my $MaxSessionIdleTime = $Self->{ConfigObject}->Get('SessionMaxIdleTime');
-    if ( (time() - $MaxSessionIdleTime) >= $Data{UserLastRequest} ) {
+    if ( ($Self->{TimeObject}->SystemTime() - $MaxSessionIdleTime) >= $Data{UserLastRequest} ) {
          $Kernel::System::AuthSession::CheckSessionID = 'Session has timed out. Please log in again.';
          $Self->{LogObject}->Log(
           Priority => 'notice',
-          Message => "SessionID ($SessionID) idle timeout (". int((time() - $Data{UserLastRequest})/(60*60)) 
+          Message => "SessionID ($SessionID) idle timeout (". int(($Self->{TimeObject}->SystemTime() - $Data{UserLastRequest})/(60*60)) 
           ."h)! Don't grant access!!!",
         );
         # delete session id if too old?
@@ -176,11 +176,11 @@ sub CheckSessionID {
     }
     # check session time
     my $MaxSessionTime = $Self->{ConfigObject}->Get('SessionMaxTime');
-    if ( (time() - $MaxSessionTime) >= $Data{UserSessionStart} ) {
+    if ( ($Self->{TimeObject}->SystemTime() - $MaxSessionTime) >= $Data{UserSessionStart} ) {
          $Kernel::System::AuthSession::CheckSessionID = 'Session has timed out. Please log in again.';
          $Self->{LogObject}->Log(
           Priority => 'notice',
-          Message => "SessionID ($SessionID) too old (". int((time() - $Data{UserSessionStart})/(60*60)) 
+          Message => "SessionID ($SessionID) too old (". int(($Self->{TimeObject}->SystemTime() - $Data{UserSessionStart})/(60*60)) 
           ."h)! Don't grant access!!!",
         );
         # delete session id if too old?
@@ -241,7 +241,7 @@ sub CreateSessionID {
     # create SessionID
     my $md5 = Digest::MD5->new();
     my $SessionID = $md5->add(
-        (time() . int(rand(999999999)) . $Self->{SystemID}) . $RemoteAddr . $RemoteUserAgent
+        ($Self->{TimeObject}->SystemTime() . int(rand(999999999)) . $Self->{SystemID}) . $RemoteAddr . $RemoteUserAgent
     );
     $SessionID = $Self->{SystemID} . $md5->hexdigest;
     my $SessionIDBase64 = encode_base64($SessionID, '');
@@ -253,7 +253,7 @@ sub CreateSessionID {
             $DataToStore .= "$_:". $Param{$_} .";";
         }
     }
-    $DataToStore .= "UserSessionStart:". encode_base64(time(), '') .";";
+    $DataToStore .= "UserSessionStart:". encode_base64($Self->{TimeObject}->SystemTime(), '') .";";
     $DataToStore .= "UserRemoteAddr:". encode_base64($RemoteAddr, '') .";";
     $DataToStore .= "UserRemoteUserAgent:". encode_base64($RemoteUserAgent, '') .";\n";
     # read old session data (the rest)
