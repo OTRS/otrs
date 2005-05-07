@@ -3,7 +3,7 @@
 # SendStats.pl - send stats output via email
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: mkStats.pl,v 1.26 2005-02-11 18:15:05 martin Exp $
+# $Id: mkStats.pl,v 1.27 2005-05-07 15:26:56 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -66,7 +66,7 @@ my %Opts = ();
 getopt('mrsbhop', \%Opts);
 if ($Opts{'h'}) {
     print "mkStats.pl <Revision $VERSION> - OTRS cmd stats\n";
-    print "Copyright (c) 2001-2004 Martin Edenhofer <martin\@otrs.org>\n";
+    print "Copyright (c) 2001-2005 Martin Edenhofer <martin\@otrs.org>\n";
     print "usage: mkStats.pl -m <REPORT_MODULE> [-p <PARAM_STRING> e. g. 'Year=1977&Month=10'] [-o /output/dir/] [-r <RECIPIENT> -s <SENDER>] [-b <MESSAGE>]\n";
     exit 1;
 }

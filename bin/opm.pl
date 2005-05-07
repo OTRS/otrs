@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # opm.pl - otrs package manager cmd version
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: opm.pl,v 1.2 2004-12-04 12:10:53 martin Exp $
+# $Id: opm.pl,v 1.3 2005-05-07 15:27:06 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@ use Kernel::System::Package;
 
 # get file version
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # common objects
@@ -72,7 +72,7 @@ if ($Opts{'a'} && $Opts{'a'} =~ /index/) {
 # check needed params
 if ($Opts{'h'}) {
     print "opm.pl <Revision $VERSION> - OTRS Package Manager\n";
-    print "Copyright (c) 2001-2004 Martin Edenhofer <martin\@otrs.org>\n";
+    print "Copyright (c) 2001-2005 Martin Edenhofer <martin\@otrs.org>\n";
     print "usage: opm.pl -a list|install|uninstall|build|index -p package.opm [-o OUTPUTDIR] [-f FORCE]\n";
     exit 1;
 }

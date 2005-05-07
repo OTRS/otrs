@@ -3,7 +3,7 @@
 # bin/GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pl,v 1.35 2005-02-10 11:48:09 martin Exp $
+# $Id: GenericAgent.pl,v 1.36 2005-05-07 15:26:56 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -51,13 +51,13 @@ use Kernel::System::GenericAgent;
 
 BEGIN {
     # get file version
-    $VERSION = '$Revision: 1.35 $';
+    $VERSION = '$Revision: 1.36 $';
     $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
     # get options
     getopt('fhcdl', \%Opts);
     if ($Opts{'h'}) {
         print "GenericAgent.pl <Revision $VERSION> - OTRS generic agent\n";
-        print "Copyright (c) 2001-2004 Martin Edenhofer <martin\@otrs.org>\n";
+        print "Copyright (c) 2001-2005 Martin Edenhofer <martin\@otrs.org>\n";
         print "usage: GenericAgent.pl [-c 'Kernel::Config::GenericAgentJobModule'] [-d 1] [-l <limit>] [-f force]\n";
         exit 1;
     }
