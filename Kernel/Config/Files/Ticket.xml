@@ -130,7 +130,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.16 2005-05-03 14:19:27 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.17 2005-05-07 20:54:30 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">To set the Ticket identifier (e. g. Ticket#: 123456789). Some people want to set this to 'Call#', 'MyTicket#' or 'Ticket#'.</Description>
         <Description Lang="de">Hiermit kann der Ticket-Identifikator gesetzt werden (z. B. Ticket#: 123456789). Manche Kunden setzen definieren 'Call#', 'MyTicket#' oder 'Ticket#'. Als Standardeinstellung wird 'Ticket#' geliefert.</Description>
@@ -795,7 +795,7 @@ Random        --> Die Ticketnummer wird aus der SystemID und einer Zufallszahl g
             <Option Location="Kernel/System/Ticket/Number/*.pm" SelectedID="Kernel::System::Ticket::Number::DateChecksum"></Option>
         </Setting>
     </ConfigItem>    
-    <ConfigItem Name="Ticket::NumberGenerator::AutoIncrement::MinCounterSize" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::NumberGenerator::MinCounterSize" Required="1" Valid="1">
         <Description Lang="en">Min. ticket counter size (Default is 5, this means it starts from 10000).</Description>
         <Description Lang="de">Minimale Größe des Ticket-Zählers. (Default '5' d.h. gezählt wird ab 10000</Description>
         <Group>Ticket</Group>
@@ -3968,6 +3968,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
                     <Image>overview.png</Image>
                     <Link>Action=AgentTicketQueue</Link>
                     <NavBar>Ticket</NavBar>
+                    <AccessKey>o</AccessKey>
                     <Prio>100</Prio>
                 </NavBar>
                 <NavBar>
@@ -3978,6 +3979,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
                     <Image>desktop.png</Image>
                     <Link>Action=AgentTicketQueue</Link>
                     <NavBar>Ticket</NavBar>
+                    <AccessKey>t</AccessKey>
                     <Prio>200</Prio>
                 </NavBar>
             </FrontendModuleReg>
@@ -4026,6 +4028,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
                     <Image>phone-new.png</Image>
                     <Link>Action=AgentTicketPhone</Link>
                     <NavBar>Ticket</NavBar>
+                    <AccessKey>n</AccessKey>
                     <Prio>200</Prio>
                 </NavBar>
             </FrontendModuleReg>
@@ -4064,6 +4067,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
                     <Image>mail_new.png</Image>
                     <Link>Action=AgentTicketEmail</Link>
                     <NavBar>Ticket</NavBar>
+                    <AccessKey>e</AccessKey>
                     <Prio>210</Prio>
                 </NavBar>
             </FrontendModuleReg>
@@ -4103,6 +4107,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
                     <Image>search.png</Image>
                     <Link>Action=AgentTicketSearch</Link>
                     <NavBar>Ticket</NavBar>
+                    <AccessKey>s</AccessKey>
                     <Prio>300</Prio>
                 </NavBar>
             </FrontendModuleReg>
@@ -5015,6 +5020,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
                     <Name>MyTickets</Name>
                     <Image>ticket.png</Image>
                     <Link>Action=CustomerTicketOverView&Type=MyTickets</Link>
+                    <AccessKey>m</AccessKey>
                     <Prio>110</Prio>
                 </NavBar>
                 <NavBar>
@@ -5022,6 +5028,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
                     <Name>CompanyTickets</Name>
                     <Image>tickets.png</Image>
                     <Link>Action=CustomerTicketOverView&Type=CompanyTickets</Link>
+                    <AccessKey>c</AccessKey>
                     <Prio>120</Prio>
                 </NavBar>
             </FrontendModuleReg>
@@ -5065,6 +5072,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
                     <Name>New Ticket</Name>
                     <Image>new.png</Image>
                     <Link>Action=CustomerTicketMessage</Link>
+                    <AccessKey>n</AccessKey>
                     <Prio>100</Prio>
                 </NavBar>
             </FrontendModuleReg>
@@ -5153,6 +5161,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
                     <Name>Search</Name>
                     <Image>search.png</Image>
                     <Link>Action=CustomerTicketSearch</Link>
+                    <AccessKey>s</AccessKey>
                     <Prio>300</Prio>
                 </NavBar>
             </FrontendModuleReg>

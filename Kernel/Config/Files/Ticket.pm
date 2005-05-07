@@ -1231,6 +1231,7 @@ $Data{"Signature"}
             Link => 'Action=AgentTicketQueue',
             NavBar => 'Ticket',
             Prio => 100,
+            AccessKey => 'o',
           },
           {
             Description => 'Ticket-Area',
@@ -1241,6 +1242,7 @@ $Data{"Signature"}
             Link => 'Action=AgentTicketQueue',
             NavBar => 'Ticket',
             Prio => 200,
+            AccessKey => 't',
           },
         ],
     };
@@ -1256,6 +1258,7 @@ $Data{"Signature"}
             Link => 'Action=AgentTicketPhone',
             NavBar => 'Ticket',
             Prio => 200,
+            AccessKey => 'n',
           },
         ],
     };
@@ -1272,6 +1275,7 @@ $Data{"Signature"}
             Link => 'Action=AgentTicketEmail',
             NavBar => 'Ticket',
             Prio => 210,
+            AccessKey => 'e',
           },
         ],
     };
@@ -1287,6 +1291,7 @@ $Data{"Signature"}
             Link => 'Action=AgentTicketSearch',
             NavBar => 'Ticket',
             Prio => 300,
+            AccessKey => 's',
          },
        ],
     };
@@ -1571,6 +1576,7 @@ $Data{"Signature"}
             Image => 'ticket.png',
             Link => 'Action=CustomerTicketOverView&Type=MyTickets',
             Prio => 110,
+            AccessKey => 'm',
           },
           {
             Description => 'CompanyTickets',
@@ -1578,6 +1584,7 @@ $Data{"Signature"}
             Image => 'tickets.png',
             Link => 'Action=CustomerTicketOverView&Type=CompanyTickets',
             Prio => 120,
+            AccessKey => 'c',
           },
         ],
     };
@@ -1592,6 +1599,7 @@ $Data{"Signature"}
             Image => 'new.png',
             Link => 'Action=CustomerTicketMessage',
             Prio => 100,
+            AccessKey => 'n',
           },
         ],
     };
@@ -1617,6 +1625,7 @@ $Data{"Signature"}
             Image => 'search.png',
             Link => 'Action=CustomerTicketSearch',
             Prio => 300,
+            AccessKey => 's',
           },
         ],
     };

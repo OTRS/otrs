@@ -93,7 +93,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.16 2005-05-03 14:19:27 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.17 2005-05-07 20:54:30 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">Enable this so you can't use the installer.pl</Description>
         <Description Lang="de">???</Description>
@@ -2222,6 +2222,7 @@ Your OTRS Notification Master
                     <Link>Action=Logout</Link>
                     <NavBar></NavBar>
                     <Block>ItemPre</Block>
+                    <AccessKey>l</AccessKey>
                     <Prio>100</Prio>
                 </NavBar>
             </FrontendModuleReg>
@@ -2257,6 +2258,7 @@ Your OTRS Notification Master
                     <Name>Preferences</Name>
                     <Image>prefer.png</Image>
                     <Link>Action=AgentPreferences</Link>
+                    <AccessKey>p</AccessKey>
                     <Prio>1000</Prio>
                 </NavBar>
             </FrontendModuleReg>
@@ -2366,6 +2368,7 @@ Your OTRS Notification Master
                     <Image>stats.png</Image>
                     <Link>Action=SystemStats</Link>
                     <NavBar>Ticket</NavBar>
+                    <AccessKey>t</AccessKey>
                     <Prio>400</Prio>
                 </NavBar>
             </FrontendModuleReg>
@@ -2408,6 +2411,7 @@ Your OTRS Notification Master
                     <Image>admin.png</Image>
                     <Link>Action=Admin</Link>
                     <NavBar>Admin</NavBar>
+                    <AccessKey>a</AccessKey>
                     <Prio>10000</Prio>
                 </NavBar>
                 <NavBarModule>
@@ -2560,6 +2564,7 @@ Your OTRS Notification Master
                     <Image>folder_yellow.png</Image>
                     <Link>Action=AdminCustomerUser&Nav=Agent</Link>
                     <NavBar>Ticket</NavBar>
+                    <AccessKey>c</AccessKey>
                     <Prio>9000</Prio>
                 </NavBar>
                 <NavBarModule>
@@ -3052,6 +3057,7 @@ Your OTRS Notification Master
                     <Name>Logout</Name>
                     <Image>exit.png</Image>
                     <Link>Action=Logout</Link>
+                    <AccessKey>l</AccessKey>
                     <Prio>10</Prio>
                 </NavBar>
             </FrontendModuleReg>
@@ -3086,6 +3092,7 @@ Your OTRS Notification Master
                     <Name>Preferences</Name>
                     <Image>prefer.png</Image>
                     <Link>Action=CustomerPreferences</Link>
+                    <AccessKey>p</AccessKey>
                     <Prio>1000</Prio>
                 </NavBar>
             </FrontendModuleReg>

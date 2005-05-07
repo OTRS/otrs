@@ -42,6 +42,7 @@
             Link => 'Action=FAQ',
             NavBar => 'FAQ',
             Prio => 8300,
+            AccessKey => 'f',
           },
           {
             Group => 'faq',
@@ -51,6 +52,7 @@
             Link => 'Action=FAQ&Subaction=Add',
             NavBar => 'FAQ',
             Prio => 200,
+            AccessKey => 'n',
           },
           {
             GroupRo => 'faq',
@@ -60,6 +62,7 @@
             Link => 'Action=FAQ&Subaction=Search',
             NavBar => 'FAQ',
             Prio => 300,
+            AccessKey => 's',
           },
           {
             GroupRo => 'faq',
@@ -69,6 +72,7 @@
             Link => 'Action=FAQ&Subaction=SystemHistory',
             NavBar => 'FAQ',
             Prio => 310,
+            AccessKey => 'h',
           },
         ],
     };
@@ -85,6 +89,7 @@
 #            Link => 'Action=FAQState',
 #            NavBar => 'FAQ',
 #            Prio => 920,
+#            AccessKey => 'e',
 #          },
 #        ],
 #    };
@@ -102,6 +107,7 @@
             Link => 'Action=FAQCategory',
             NavBar => 'FAQ',
             Prio => 900,
+            AccessKey => 'g',
           },
         ],
     };
@@ -119,6 +125,7 @@
             Link => 'Action=FAQLanguage',
             NavBar => 'FAQ',
             Prio => 910,
+            AccessKey => 'u',
           },
         ],
     };
@@ -134,6 +141,7 @@
             Image => 'help.png',
             Link => 'Action=CustomerFAQ',
             Prio => 400,
+            AccessKey => 'f',
           },
         ],
     };
@@ -152,6 +160,7 @@
             Image => 'help.png',
             Link => 'Action=CustomerFAQ',
             Prio => 400,
+            AccessKey => 'f',
           },
         ],
     };

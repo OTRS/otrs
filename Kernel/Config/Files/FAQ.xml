@@ -125,6 +125,7 @@
                     <Image>help.png</Image>
                     <Link>Action=FAQ</Link>
                     <NavBar>FAQ</NavBar>
+                    <AccessKey>f</AccessKey>
                     <Prio>8300</Prio>
                 </NavBar>
                 <NavBar>
@@ -134,6 +135,7 @@
                     <Image>new.png</Image>
                     <Link>Action=FAQ&Subaction=Add</Link>
                     <NavBar>FAQ</NavBar>
+                    <AccessKey>n</AccessKey>
                     <Prio>200</Prio>
                 </NavBar>
                 <NavBar>
@@ -143,6 +145,7 @@
                     <Image>search.png</Image>
                     <Link>Action=FAQ&Subaction=Search</Link>
                     <NavBar>FAQ</NavBar>
+                    <AccessKey>s</AccessKey>
                     <Prio>300</Prio>
                 </NavBar>
                 <NavBar>
@@ -152,6 +155,7 @@
                     <Image>list.png</Image>
                     <Link>Action=FAQ&Subaction=SystemHistory</Link>
                     <NavBar>FAQ</NavBar>
+                    <AccessKey>h</AccessKey>
                     <Prio>310</Prio>
                 </NavBar>
             </FrontendModuleReg>
@@ -222,6 +226,7 @@
                     <Image>fileopen.png</Image>
                     <Link>Action=FAQState</Link>
                     <NavBar>FAQ</NavBar>
+                    <AccessKey>e</AccessKey>
                     <Prio>920</Prio>
                 </NavBar>
             </FrontendModuleReg>
@@ -263,6 +268,7 @@
                     <Image>fileopen.png</Image>
                     <Link>Action=FAQCategory</Link>
                     <NavBar>FAQ</NavBar>
+                    <AccessKey>g</AccessKey>
                     <Prio>900</Prio>
                 </NavBar>
             </FrontendModuleReg>
@@ -305,6 +311,7 @@
                     <Image>fileopen.png</Image>
                     <Link>Action=FAQLanguage</Link>
                     <NavBar>FAQ</NavBar>
+                    <AccessKey>u</AccessKey>
                     <Prio>910</Prio>
                 </NavBar>
             </FrontendModuleReg>
@@ -343,6 +350,7 @@
                     <Name>FAQ-Area</Name>
                     <Image>help.png</Image>
                     <Link>Action=CustomerFAQ</Link>
+                    <AccessKey>f</AccessKey>
                     <Prio>400</Prio>
                 </NavBar>
             </FrontendModuleReg>
@@ -387,6 +395,7 @@
                     <Name>FAQ-Area</Name>
                     <Image>help.png</Image>
                     <Link>Action=CustomerFAQ</Link>
+                    <AccessKey>f</AccessKey>
                     <Prio>400</Prio>
                 </NavBar>
             </FrontendModuleReg>

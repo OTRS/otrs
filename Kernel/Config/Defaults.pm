@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.194 2005-04-15 13:41:02 martin Exp $
+# $Id: Defaults.pm,v 1.195 2005-05-07 20:54:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.194 $';
+$VERSION = '$Revision: 1.195 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1206,6 +1206,7 @@ Your OTRS Notification Master
             NavBar => '',
             Block => 'ItemPre',
             Prio => 100,
+            AccessKey => 'l',
           },
         ],
     };
@@ -1220,6 +1221,7 @@ Your OTRS Notification Master
             Image => 'prefer.png',
             Link => 'Action=AgentPreferences',
             Prio => 1000,
+            AccessKey => 'p',
          },
        ],
     };
@@ -1253,6 +1255,7 @@ Your OTRS Notification Master
             Link => 'Action=SystemStats',
             NavBar => 'Ticket',
             Prio => 400,
+            AccessKey => 't',
           },
         ],
     };
@@ -1272,6 +1275,7 @@ Your OTRS Notification Master
             Link => 'Action=Admin',
             NavBar => 'Admin',
             Prio => 10000,
+            AccessKey => 'a',
           },
         ],
         NavBarModule => {
@@ -1328,6 +1332,7 @@ Your OTRS Notification Master
             Link => 'Action=AdminCustomerUser&Nav=Agent',
             NavBar => 'Ticket',
             Prio => 9000,
+            AccessKey => 'c',
           }
         ],
         NavBarModule => {
@@ -1518,6 +1523,7 @@ Your OTRS Notification Master
             Image => 'exit.png',
             Link => 'Action=Logout',
             Prio => 10,
+            AccessKey => 'l',
           },
         ],
     };
@@ -1531,6 +1537,7 @@ Your OTRS Notification Master
             Image => 'prefer.png',
             Link => 'Action=CustomerPreferences',
             Prio => 1000,
+            AccessKey => 'p',
           },
         ],
     };
@@ -1672,6 +1679,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.194 $ $Date: 2005-04-15 13:41:02 $
+$Revision: 1.195 $ $Date: 2005-05-07 20:54:30 $
 
 =cut
