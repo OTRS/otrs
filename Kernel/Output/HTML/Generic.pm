@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.182 2005-05-01 18:46:05 martin Exp $
+# $Id: Generic.pm,v 1.183 2005-05-07 12:55:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::Output::HTML::Agent;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.182 $';
+$VERSION = '$Revision: 1.183 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -1653,9 +1653,13 @@ sub Attachment {
         $Output .= $Self->{ConfigObject}->Get('AttachmentDownloadType') || 'attachment';
         $Output .= '; ';
     }
-    $Output .= "filename=\"$Param{Filename}\"\n".
-      "Content-Type: $Param{ContentType}\n\n".
-      $Param{Content};
+    $Output .= "filename=\"$Param{Filename}\"\n";
+    $Output .= "Content-Length: ".length($Param{Content})."\n";
+    $Output .= "Content-Type: $Param{ContentType}\n\n";
+    # fix for firefox HEAD problem
+    if (!$ENV{REQUEST_METHOD} || $ENV{REQUEST_METHOD} ne 'HEAD') {
+        $Output .= $Param{Content};
+    }
     return $Output;
 }
 # --
@@ -2153,6 +2157,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.182 $ $Date: 2005-05-01 18:46:05 $
+$Revision: 1.183 $ $Date: 2005-05-07 12:55:03 $
 
 =cut
