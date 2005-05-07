@@ -44,3 +44,13 @@ $Text{"Show closed tickets."};
 
 $Text{"Max. shown Tickets a page in QueueView."}
 $Text{"Max. shown Tickets a page in Overview."}
+
+$Text{"Password is already used! Please use an other password!"}
+$Text{"Password is already in use! Please use an other password!"}
+$Text{"Can't update password, passwords dosn't match! Please try it again!"}
+$Text{"Can't update password, invalid characters!"}
+$Text{"Can't update password, need min. 8 characters!"}
+$Text{"Can't update password, need 2 lower and 2 upper characters!"}
+$Text{"Can't update password, need min. 1 digit!"}
+$Text{"Can't update password, need min. 2 characters!"}
+

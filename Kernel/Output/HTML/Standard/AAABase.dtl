@@ -53,9 +53,14 @@ $Text{"none!"}
 $Text{"none - answered"}
 $Text{"please do not edit!"}
 $Text{"AddLink"}
+$Text{"Link"}
+$Text{"Linked"}
 $Text{"Link (Normal)"}
 $Text{"Link (Parent)"}
 $Text{"Link (Child)"}
+$Text{"Normal"}
+$Text{"Parent"}
+$Text{"Child"}
 $Text{"Hit"}
 $Text{"Hits"}
 $Text{"Text"}
@@ -85,6 +90,7 @@ $Text{"update"}
 $Text{"Update"}
 $Text{"submit!"}
 $Text{"submit"}
+$Text{"Submit"}
 $Text{"change!"}
 $Text{"Change"}
 $Text{"change"}
@@ -133,11 +139,13 @@ $Text{"Stats"}
 $Text{"Please answer this ticket(s) to get back to the normal queue view!"}
 
 $Text{"You got new message!"}
-$Text{"You have %s new message(s)!"} 
-$Text{"You have %s reminder ticket(s)!"} 
+$Text{"You have %s new message(s)!"}
+$Text{"You have %s reminder ticket(s)!"}
 
 $Text{"The recommended charset for your language is %s!"}
 $Text{"Passwords dosn't match! Please try it again!"}
+$Text{"Password is already in use! Please use an other password!"}
+$Text{"Password is already used! Please use an other password!"}
 
 $Text{"No suggestions"}
 $Text{"Word"}
@@ -154,6 +162,7 @@ $Text{"Feature not active!"}
 
 # misc
 $Text{"Ticket Number"}
+$Text{"Ticket Object"}
 $Text{"No such Ticket Number "%s"! Can't link it!"}
 $Text{"Take this Customer"}
 $Text{"Take this User"}
@@ -192,7 +201,8 @@ $Text{"Online Customer: %s"}
 $Text{"Online Agent: %s"}
 
 $Text{"Calendar"}
-$Text{"File"
+$Text{"File"}
+$Text{"Filename"}
 $Text{"Type"}
 $Text{"Size"}
 $Text{"Upload"}
