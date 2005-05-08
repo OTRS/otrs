@@ -1,10 +1,10 @@
 # Kernel/Language/fr.pm - provides fr language translation
 # Copyright (C) 2002 Bernard Choppy <choppy at imaginet.fr>
 # Copyright (C) 2002 Nicolas Goralski <ngoralski at oceanet-technology.com>
-# Copyright (C) 2004 Yann Richard <ze at nbox.org>
+# Copyright (C) 2004-2005 Yann Richard <ze at nbox.org>
 # Copyright (C) 2004 Igor Genibel <igor.genibel at eds-opensource.com>
 # --
-# $Id: fr.pm,v 1.42 2005-05-07 15:23:39 martin Exp $
+# $Id: fr.pm,v 1.43 2005-05-08 20:34:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -52,46 +52,46 @@ sub Data {
       'days' => 'jours',
       'hour' => 'heure',
       'hours' => 'heures',
-      'minute' => '',
-      'minutes' => '',
+      'minute' => 'minute',
+      'minutes' => 'minutes',
       'wrote' => 'écrit',
-      'Message' => '',
+      'Message' => 'Message',
       'Error' => 'Erreur',
       'Bug Report' => 'Rapport d\'anomalie',
-      'Attention' => '',
+      'Attention' => 'Attention',
       'Warning' => 'Attention',
-      'Module' => '',
+      'Module' => 'Module',
       'Modulefile' => 'Fichier de module',
       'Subfunction' => 'sous-fonction',
       'Line' => 'Ligne',
       'Example' => 'Exemple',
       'Examples' => 'Exemples',
       'invalid' => 'invalide',
-      ' 2 minutes' => '',
-      ' 5 minutes' => '',
-      ' 7 minutes' => '',
-      '10 minutes' => '',
-      '15 minutes' => '',
-      'Mr.' => '',
-      'Mrs.' => '',
-      'Next' => '',
-      'Back' => 'retour',
-      'Next...' => '',
-      '...Back' => 'Revenir en arrière',
-      '-none-' => '',
+      ' 2 minutes' => ' 2 minutes',
+      ' 5 minutes' => ' 5 minutes',
+      ' 7 minutes' => ' 7 minutes',
+      '10 minutes' => '10 minutes',
+      '15 minutes' => '15 minutes',
+      'Mr.' => 'M.',
+      'Mrs.' => 'Mme',
+      'Next' => 'Suivant',
+      'Back' => 'Retour',
+      'Next...' => 'Suivant...',
+      '...Back' => '...Retour',
+      '-none-' => '-aucun-',
       'none' => 'aucun',
       'none!' => 'aucun !',
       'none - answered' => 'aucun - répondu',
       'please do not edit!' => 'Ne pas modifier !',
       'AddLink' => 'Ajouter un lien',
       'Link' => 'Lien',
-      'Linked' => '',
-      'Link (Normal)' => '',
-      'Link (Parent)' => '',
-      'Link (Child)' => '',
-      'Normal' => 'normal',
-      'Parent' => '',
-      'Child' => '',
+      'Linked' => 'Liée',
+      'Link (Normal)' => 'Lien (Normal)',
+      'Link (Parent)' => 'Lien (Parent)',
+      'Link (Child)' => 'Lien (Enfant)',
+      'Normal' => 'Normal',
+      'Parent' => 'Parent',
+      'Child' => 'Enfant',
       'Hit' => '',
       'Hits' => '',
       'Text' => 'Texte',
@@ -102,10 +102,10 @@ sub Data {
       'Languages' => 'Langues',
       'Password' => 'Mot de Passe',
       'Salutation' => '',
-      'Signature' => '',
+      'Signature' => 'Signature',
       'Customer' => 'Client',
       'CustomerID' => 'Numéro de client',
-      'CustomerIDs' => '',
+      'CustomerIDs' => 'Numéro de client (Groupe)',
       'customer' => 'client',
       'agent' => 'technicien',
       'system' => 'système',
@@ -120,7 +120,7 @@ sub Data {
       'Update' => 'Mettre à jour',
       'submit!' => 'soumettre !',
       'submit' => 'soumettre',
-      'Submit' => '',
+      'Submit' => 'Soumettre',
       'change!' => 'modifier !',
       'Change' => 'Modifier',
       'change' => 'modifier',
@@ -129,31 +129,31 @@ sub Data {
       'Valid' => 'Valide',
       'Name' => 'Nom',
       'Group' => 'Groupe',
-      'Description' => '',
-      'description' => '',
+      'Description' => 'Description',
+      'description' => 'description',
       'Theme' => 'Thème',
-      'Created' => 'Créé ',
-      'Created by' => '',
-      'Changed' => '',
-      'Changed by' => '',
+      'Created' => 'Créé',
+      'Created by' => 'Crée par',
+      'Changed' => 'Changé',
+      'Changed by' => 'Changé par',
       'Search' => 'Chercher',
       'and' => 'et le',
-      'between' => '',
+      'between' => 'entre',
       'Fulltext Search' => '',
       'Data' => '',
-      'Options' => '',
-      'Title' => '',
-      'Item' => '',
+      'Options' => 'Options',
+      'Title' => 'Titre',
+      'Item' => 'Élément',
       'Delete' => 'Effacer',
       'Edit' => 'Éditer',
       'View' => 'Vue',
-      'Number' => '',
+      'Number' => 'Nombre',
       'System' => 'Système',
-      'Contact' => '',
-      'Contacts' => '',
-      'Export' => '',
-      'Up' => '',
-      'Down' => '',
+      'Contact' => 'Contact',
+      'Contacts' => 'Contacts',
+      'Export' => 'Exporter',
+      'Up' => 'Haut',
+      'Down' => 'Bas',
       'Add' => 'Ajouter',
       'Category' => 'Catégorie',
       'New message' => 'Nouveau message',
@@ -168,9 +168,9 @@ sub Data {
       'You have %s new message(s)!' => 'Vous avez %s nouveau(x) message(s) !',
       'You have %s reminder ticket(s)!' => 'Vous avez %s rappel(s) de ticket(s) !',
       'The recommended charset for your language is %s!' => 'Le jeu de caractère correspondant à votre langue est %s!',
-      'Passwords dosn\'t match! Please try it again!' => '',
-      'Password is already in use! Please use an other password!' => '',
-      'Password is already used! Please use an other password!' => '',
+      'Passwords dosn\'t match! Please try it again!' => 'Les mots de passes diffèrent! Essayez de nouveau svp!',
+      'Password is already in use! Please use an other password!' => 'Mot de passe déjà utilisé! Essayez en un autre svp!',
+      'Password is already used! Please use an other password!' => 'Ce mot de passe a déjà été utilisé! Essayez en un autre svp!',
       'No suggestions' => 'Pas de suggestions',
       'Word' => 'Mot',
       'Ignore' => 'Ignorer',
@@ -184,10 +184,10 @@ sub Data {
       'Feature not active!' => 'Cette fonctionnalité n\'est pas activée !',
       'Ticket Number' => 'Numéro de ticket',
       'Ticket Object' => '',
-      'No such Ticket Number "%s"! Can\'t link it!' => '',
+      'No such Ticket Number "%s"! Can\'t link it!' => 'Pas de numéro de ticket "%s"! Je ne peut pas le lier',
       'Take this Customer' => 'Choisir ce client',
       'Take this User' => 'Choisir cet utilisateur',
-      'possible' => '',
+      'possible' => 'possible',
       'reject' => 'rejeté',
       'Facility' => 'Service',
       'Timeover' => 'Temp écoulé',
@@ -197,9 +197,9 @@ sub Data {
       'Dispatching by selected Queue.' => 'Répartition selon la file sélectionnée',
       'No entry found!' => 'Aucun résultat n\'a été trouvé !',
       'Session has timed out. Please log in again.' => 'Le délai de votre session est dépassé, veuillez vous ré-authentifier.',
-      'No Permission!' => '',
+      'No Permission!' => 'Pas de permission!',
       'To: (%s) replaced with database email!' => 'Le champ \'À:\' (%s) a été remplacé avec la valeur de la base de données des des adresses de courriel !',
-      'Cc: (%s) added database email!' => '',
+      'Cc: (%s) added database email!' => 'Cc: (%s) a été ajouté à la base de donnée d\'e-mail',
       'Don\'t show closed Tickets' => 'Ne pas montrer les tickets fermés',
       'Show closed Tickets' => 'Voir les tickets fermés',
       'New Article' => 'Nouvel Article',
@@ -213,19 +213,19 @@ sub Data {
       'Preview' => 'Aperçu',
       'Added User "%s"' => 'Ajout de l\'utilisateur "%s"',
       'Contract' => '',
-      'Online Customer: %s' => '',
-      'Online Agent: %s' => '',
-      'Calendar' => '',
+      'Online Customer: %s' => 'Clients en ligne: %s',
+      'Online Agent: %s' => 'Agents en ligne: %s',
+      'Calendar' => 'Calendrier',
       'File' => 'Fichier',
       'Filename' => 'Nom de fichier',
-      'Type' => '',
+      'Type' => 'Type',
       'Size' => 'Taille',
       'Upload' => 'Uploader',
       'Directory' => 'Répertoire',
       'Signed' => 'Signé',
       'Sign' => 'Signer',
-      'Crypted' => '',
-      'Crypt' => '',
+      'Crypted' => 'Crypté',
+      'Crypt' => 'Crypter',
       'History::Move' => 'Le ticket a été déplacé dans la file "%s" (%s) - Ancienne file: "%s" (%s).',
       'History::NewTicket' => 'Un nouveau ticket a été crée: [%s] created (Q=%s;P=%s;S=%s).',
       'History::FollowUp' => 'Un suivie du ticket [%s]. %s',
@@ -259,34 +259,34 @@ sub Data {
       'History::TicketLinkDelete' => 'Deleted link to ticket "%s".',
 
       # Template: AAAMonth
-      'Jan' => '',
+      'Jan' => 'Jan',
       'Feb' => 'Fév',
-      'Mar' => '',
+      'Mar' => 'Mar',
       'Apr' => 'Avr',
       'May' => 'Mai',
       'Jun' => 'Juin',
       'Jul' => 'Juil',
       'Aug' => 'Aôu',
-      'Sep' => '',
-      'Oct' => '',
-      'Nov' => '',
+      'Sep' => 'Sep',
+      'Oct' => 'Oct',
+      'Nov' => 'Nov',
       'Dec' => 'Déc',
 
       # Template: AAANavBar
-      'Send Email and create a new Ticket' => '',
-      'Create new Phone Ticket' => '',
-      'Ticket-Area' => '',
-      'Overview of all open Tickets' => '',
+      'Send Email and create a new Ticket' => 'Envoyer un courriel et créer un nouveau Ticket',
+      'Create new Phone Ticket' => 'Créer un nouveau Ticket "téléphone"',
+      'Ticket-Area' => 'Tickets',
+      'Overview of all open Tickets' => 'Vue de tout les Tickets',
       'Logout' => 'Déconnexion',
-      'Agent Preferences' => '',
+      'Agent Preferences' => 'Préférences de l\'Agent',
       'Preferences' => 'Préférences',
-      'Agent Mailbox' => '',
-      'Stats-Area' => '',
-      'FAQ' => '',
-      'FAQ-Search' => '',
-      'FAQ-Article' => '',
-      'FAQ-State' => '',
-      'Admin' => '',
+      'Agent Mailbox' => 'Boite e-mail de l\'Agent',
+      'Stats-Area' => 'Statistiques',
+      'FAQ' => 'FAQ',
+      'FAQ-Search' => '(FAQ) Rechercher',
+      'FAQ-Article' => '(FAQ) Article',
+      'FAQ-State' => '(FAQ) État',
+      'Admin' => 'Admin',
       'Create new Ticket' => 'Création d\'un nouveau Ticket',
       'New Ticket' => 'Nouveau Ticket',
 
@@ -321,12 +321,12 @@ sub Data {
       'Show closed tickets.' => 'Voir les tickets fermés',
       'Max. shown Tickets a page in QueueView.' => 'Nombre de tickets maximum sur la page de la vue d\'une file',
       'Max. shown Tickets a page in Overview.' => 'Nombre de tickets maximum sur la page d\'aperçu des tickets',
-      'Can\'t update password, passwords dosn\'t match! Please try it again!' => '',
-      'Can\'t update password, invalid characters!' => '',
-      'Can\'t update password, need min. 8 characters!' => '',
-      'Can\'t update password, need 2 lower and 2 upper characters!' => '',
-      'Can\'t update password, need min. 1 digit!' => '',
-      'Can\'t update password, need min. 2 characters!' => '',
+      'Can\'t update password, passwords dosn\'t match! Please try it again!' => 'Mise à jour du mot de passe impossible, les mots de passe diffèrent! Essayez à nouveau svp!',
+      'Can\'t update password, invalid characters!' => 'Mise à jour du mot de passe impossible, caractères invalides!',
+      'Can\'t update password, need min. 8 characters!' => 'Mise à jour du mot de passe impossible, Le mot de passe doit avoir au moins 8 caractères!',
+      'Can\'t update password, need 2 lower and 2 upper characters!' => 'Mise à jour du mot de passe impossible, Le mot de passe doit comporter 2 majuscules et 2 minuscules!',
+      'Can\'t update password, need min. 1 digit!' => 'Mise à jour du mot de passe impossible, Le mot de passe doit comporter un chiffre minimum!',
+      'Can\'t update password, need min. 2 characters!' => 'Mise à jour du mot de passe impossible, Le mot de passe doit comporter 2 caractères minimum!',
 
       # Template: AAATicket
       'Lock' => 'Vérrouiller',
@@ -349,14 +349,14 @@ sub Data {
       'Pending' => 'En attente',
       'Owner' => 'Propriétaire',
       'Sender' => 'émetteur',
-      'Article' => '',
-      'Ticket' => '',
+      'Article' => 'Article',
+      'Ticket' => 'Ticket',
       'Createtime' => 'Création du ',
       'plain' => 'tel quel',
       'eMail' => 'courriel',
       'email' => 'courriel',
       'Close' => 'Fermer',
-      'Action' => '',
+      'Action' => 'Action',
       'Attachment' => 'Pièce jointe',
       'Attachments' => 'Pièces jointes',
       'This message was written in a character set other than your own.' => 'Ce message a été écrit dans un jeu de caractères différent du vôtre.',
@@ -368,7 +368,7 @@ sub Data {
       'closed unsuccessful' => 'clôture manquée',
       'new' => 'nouveau',
       'open' => 'ouvrir',
-      'closed' => '',
+      'closed' => 'fermer',
       'removed' => 'supprimé',
       'pending reminder' => 'Attente du rappel',
       'pending auto close+' => 'Attente de la fermeture automatique(+)',
@@ -379,18 +379,18 @@ sub Data {
       'note-internal' => 'Note interne',
       'note-report' => 'Note rapport',
       'phone' => 'téléphone',
-      'sms' => '',
+      'sms' => 'sms',
       'webrequest' => 'Requête par le web',
       'lock' => 'vérrouiller',
       'unlock' => 'déverrouiller',
       'very low' => 'très basse',
       'low' => 'confort de fonctionnement',
-      'normal' => '',
+      'normal' => 'normal',
       'high' => 'important',
       'very high' => 'très haut',
       '1 very low' => '1 très bas',
       '2 low' => '2 bas',
-      '3 normal' => '',
+      '3 normal' => '3 normal',
       '4 high' => '4 important',
       '5 very high' => '5 très important',
       'Ticket "%s" created!' => 'Le ticket %s a été créé !',
@@ -411,7 +411,7 @@ sub Data {
       'Auto Response Management' => 'Gestion des réponses automatiques',
       'Response' => 'Réponse',
       'Auto Response From' => 'Réponse automatique de ',
-      'Note' => '',
+      'Note' => 'Note',
       'Useable options' => 'Options accessibles',
       'to get the first 20 character of the subject' => 'pour avoir les 20 premiers caractères du sujet ',
       'to get the first 5 lines of the email' => 'pour avoir les 5 premières ligne du mail',
@@ -426,13 +426,13 @@ sub Data {
       'Search for' => 'Chercher à',
       'Result' => 'Résultat',
       'Select Source (for add)' => 'Sélectionnez une source (pour ajout)',
-      'Source' => '',
+      'Source' => 'Source',
       'This values are read only.' => 'Ces valeurs sont en lecture seule.',
       'This values are required.' => 'Ces valeurs sont obligatoires.',
       'Customer user will be needed to have an customer histor and to to login via customer panels.' => 'Les clients utilisateurs seront invités à se connecter par la page client.',
 
       # Template: AdminCustomerUserGroupChangeForm
-      'Customer Users <-> Groups Management' => '',
+      'Customer Users <-> Groups Management' => 'Clients <-> Gestion des groupes',
       'Change %s settings' => 'Changer les param&ecirc;tres de %s',
       'Select the user:group permissions.' => 'Sélectionnez les permissions pour l\'utilisateur:groupe.',
       'If nothing is selected, then there are no permissions in this group (tickets will not be available for the user).' => 'Si rien n\'est sélectionné, il n\'y aura pas de droits dans ce groupe (Les tickets ne seront plus disponible pour l\'utilisateur).',
@@ -462,8 +462,8 @@ sub Data {
       'Save Job as?' => '',
       'Is Job Valid?' => '',
       'Is Job Valid' => '',
-      'Schedule' => '',
-      'Minutes' => '',
+      'Schedule' => 'Planifier',
+      'Minutes' => 'Minutes',
       'Hours' => 'Heures',
       'Days' => 'Jours',
       'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Recherche sur le texte d\'un article (ex: "Mar*in" or "Baue*")',
@@ -485,13 +485,13 @@ sub Data {
       'New Owner' => 'Nouveau Propriétaire',
       'New Customer' => 'Nouveau Client',
       'New Ticket Lock' => 'Nouveau Verrou',
-      'CustomerUser' => '',
+      'CustomerUser' => 'Client utilisateur',
       'Add Note' => 'Ajouter une note',
       'CMD' => '',
       'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => 'Cette commande sera exécuté. ARG[0] sera le numéro du ticket et ARG[1] son identifiant.',
       'Delete tickets' => 'Effacer les tickets',
       'Warning! This tickets will be removed from the database! This tickets are lost!' => 'Attention, ces tickets seront éffacés de la base de donnée ! Ils seront définitivement perdu !',
-      'Modules' => '',
+      'Modules' => 'Modules',
       'Param 1' => 'Paramètre 1',
       'Param 2' => 'Paramètre 2',
       'Param 3' => 'Paramètre 3',
@@ -513,13 +513,13 @@ sub Data {
       # Template: AdminNavigationBar
       'Users' => 'Utilisateurs',
       'Groups' => 'Groupes',
-      'Roles' => '',
+      'Roles' => 'Rôles',
       'Responses' => 'Réponses',
       'Misc' => 'Divers',
 
       # Template: AdminNotificationForm
       'Notification Management' => 'Gestion des notifications',
-      'Notification' => '',
+      'Notification' => 'Notification',
       'Notifications are sent to an agent or a customer.' => 'Des notifications sont envoyées à un technicien ou à un client.',
       'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Options de configuration (ex: &lt;OTRS_CONFIG_HttpType&gt;)',
       'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => 'Options du propriétaire d\'un ticket (ex: &lt;OTRS_OWNER_USERFIRSTNAME&gt;)',
@@ -527,27 +527,27 @@ sub Data {
       'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'Options concernant les données du client actuel (ex: &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)',
 
       # Template: AdminPackageManager
-      'Package Manager' => '',
-      'Uninstall' => '',
-      'Verion' => '',
-      'Do you really want to uninstall this package?' => '',
-      'Install' => '',
-      'Package' => '',
+      'Package Manager' => 'Gestionnaire de paquet',
+      'Uninstall' => 'Déinstallation',
+      'Verion' => 'Version',
+      'Do you really want to uninstall this package?' => 'Voulez-vous vraiment déinstaller ce paquet ?',
+      'Install' => 'Installation',
+      'Package' => 'Paquet',
       'Online Repository' => '',
-      'Version' => '',
-      'Vendor' => '',
-      'Upgrade' => '',
+      'Version' => 'Version',
+      'Vendor' => 'Vendeur',
+      'Upgrade' => 'Mise à jour',
       'Local Repository' => '',
       'Status' => 'État',
       'Overview' => 'Aperçu',
-      'Download' => '',
-      'Rebuild' => '',
-      'Reinstall' => '',
+      'Download' => 'Téléchargement',
+      'Rebuild' => 'Re-construction',
+      'Reinstall' => 'Ré-installation',
 
       # Template: AdminPGPForm
-      'PGP Management' => '',
-      'Identifier' => '',
-      'Bit' => '',
+      'PGP Management' => 'Gestion de PGP',
+      'Identifier' => 'Identifiant',
+      'Bit' => 'Bit',
       'Key' => 'Clé',
       'Fingerprint' => 'Empreinte',
       'Expires' => 'Expiration',
@@ -573,7 +573,7 @@ sub Data {
       'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' => '',
 
       # Template: AdminQueueAutoResponseForm
-      'Queue <-> Auto Responses Management' => '',
+      'Queue <-> Auto Responses Management' => 'Files <-> Gestion des réponses automatiques',
 
       # Template: AdminQueueAutoResponseTable
 
@@ -601,13 +601,13 @@ sub Data {
       'OTRS sends an notification email to the customer if the ticket owner has changed.' => 'OTRS envoit un courriel au client lorsque le ticket change de propriétaire.',
 
       # Template: AdminQueueResponsesChangeForm
-      'Responses <-> Queue Management' => '',
+      'Responses <-> Queue Management' => 'Réponses <-> Gestion des files',
 
       # Template: AdminQueueResponsesForm
       'Answer' => 'Réponse',
 
       # Template: AdminResponseAttachmentChangeForm
-      'Responses <-> Attachments Management' => '',
+      'Responses <-> Attachments Management' => 'Réponses <-> Gestion des pièces jointes',
 
       # Template: AdminResponseAttachmentForm
 
@@ -616,17 +616,17 @@ sub Data {
       'A response is default text to write faster answer (with default text) to customers.' => 'Une réponse est un texte par défaut destiné à rédiger plus rapidement des réponses standard aux clients.',
       'Don\'t forget to add a new response a queue!' => 'Ne pas oublier d\'ajouter une file à une nouvelle réponse !',
       'Next state' => 'État suivant',
-      'All Customer variables like defined in config option CustomerUser.' => '',
+      'All Customer variables like defined in config option CustomerUser.' => 'Toutes les variables client tels que définies dans les options "Client utilisateur"',
       'The current ticket state is' => 'L\'état actuel du ticket est',
       'Your email address is new' => 'Votre adresse électronique est nouvelle',
 
       # Template: AdminRoleForm
-      'Role Management' => '',
-      'Create a role and put groups in it. Then add the role to the users.' => '',
-      'It\'s useful for a lot of users and groups.' => '',
+      'Role Management' => 'Gestion des Rôles',
+      'Create a role and put groups in it. Then add the role to the users.' => 'Créer un rôle et ',
+      'It\'s useful for a lot of users and groups.' => 'Pratique lorsqu\'on a beaucoup d\'utilisateurs et de groupes',
 
       # Template: AdminRoleGroupChangeForm
-      'Roles <-> Groups Management' => '',
+      'Roles <-> Groups Management' => 'Rôles <-> Gestion des groupes',
       'move_into' => 'déplacer dans',
       'Permissions to move tickets into this group/queue.' => 'Permission de déplacer un ticket dans cette file/groupe.',
       'create' => 'créer',
@@ -637,16 +637,16 @@ sub Data {
       'Permissions to change the ticket priority in this group/queue.' => 'Permission de changer la priorité d\'un ticket dans cette file/groupe.',
 
       # Template: AdminRoleGroupForm
-      'Change roles <-> groups settings' => '',
-      'Role' => '',
+      'Change roles <-> groups settings' => 'Changer les rôles <-> paramèttres des groupes',
+      'Role' => 'Rôles',
 
       # Template: AdminRoleUserChangeForm
-      'Roles <-> Users Management' => '',
-      'Active' => '',
-      'Select the role:user relations.' => '',
+      'Roles <-> Users Management' => 'Rôles <-> Gestion des utilisateurs',
+      'Active' => 'Actif',
+      'Select the role:user relations.' => 'Sélection des relations role/utilisateur',
 
       # Template: AdminRoleUserForm
-      'Change users <-> roles settings' => '',
+      'Change users <-> roles settings' => 'Changement d\'utilisateur <-> parramèttres des rôles',
 
       # Template: AdminSalutationForm
       'Salutation Management' => 'Préfixes des messages',
@@ -658,7 +658,7 @@ sub Data {
 
       # Template: AdminSelectBoxForm
       'Select Box' => 'Requête SQL libre.',
-      'SQL' => '',
+      'SQL' => 'SQL',
       'Limit' => 'Limite',
       'Select Box Result' => 'Choisissez le résultat',
 
@@ -667,20 +667,20 @@ sub Data {
       'Sessions' => 'Session',
       'Uniq' => 'Unique',
       'kill all sessions' => 'Terminer toutes les sessions',
-      'Session' => '',
+      'Session' => 'Session',
       'kill session' => 'Terminer une session',
 
       # Template: AdminSignatureForm
       'Signature Management' => 'Gestion des signatures',
 
       # Template: AdminSMIMEForm
-      'SMIME Management' => '',
-      'Add Certificate' => '',
-      'Add Private Key' => '',
-      'Secret' => '',
-      'Hash' => '',
-      'In this way you can directly edit the certification and private keys in file system.' => '',
-      'FIXME: WHAT IS SMIME?' => '',
+      'SMIME Management' => 'Gestion SMIME',
+      'Add Certificate' => 'Ajouter un certificat',
+      'Add Private Key' => 'Ajouter une clé privée',
+      'Secret' => 'Secrêt',
+      'Hash' => 'Hashage',
+      'In this way you can directly edit the certification and private keys in file system.' => 'Dans ce cas vous pouvez directement éditer le certificat et la clé privée dans le système de fichier',
+      'FIXME: WHAT IS SMIME?' => 'FIXME: Qu\'est ce que SMIME?',
 
       # Template: AdminStateForm
       'System State Management' => 'Gestion des états du système',
@@ -689,25 +689,25 @@ sub Data {
       'See also' => 'Voir aussi',
 
       # Template: AdminSysConfig
-      'SysConfig' => '',
-      'Group selection' => '',
-      'Show' => '',
-      'Subgroup' => '',
+      'SysConfig' => 'Configuration Système',
+      'Group selection' => 'Sélection du groupe',
+      'Show' => 'Voir',
+      'Subgroup' => 'Sous-groupe',
 
       # Template: AdminSysConfigEdit
-      'Options ' => '',
-      'for ' => '',
-      'Subgroup \'' => '',
-      '\' ' => '',
+      'Options ' => 'Options',
+      'for ' => 'pour',
+      'Subgroup \'' => 'Sous-groupe \'',
+      '\' ' => '\' ',
       'Content' => '',
       'New' => 'Nouveau',
-      'Group Ro' => '',
-      'NavBarName' => '',
-      'Image' => '',
-      'Typ' => '',
-      'Prio' => '',
-      'Block' => '',
-      'NavBar' => '',
+      'Group Ro' => 'Groupe lecture seule',
+      'NavBarName' => 'Nom de la barre de navigation',
+      'Image' => 'Image',
+      'Typ' => 'Type',
+      'Prio' => 'Priorité',
+      'Block' => 'Block',
+      'NavBar' => 'Barre de navigation',
 
       # Template: AdminSystemAddressForm
       'System Email Addresses Management' => 'Gestion des adresses courriel du système',
@@ -723,7 +723,7 @@ sub Data {
       'Don\'t forget to add a new user to groups!' => 'Ne pas oublier d\'ajouter un nouvel utilisateur aux groupes !',
 
       # Template: AdminUserGroupChangeForm
-      'Users <-> Groups Management' => '',
+      'Users <-> Groups Management' => 'Utilisateurs <-> Gestion des groupes',
 
       # Template: AdminUserGroupForm
 
@@ -743,15 +743,15 @@ sub Data {
       'Select' => 'Sélectionner',
       'Results' => 'Résultat',
       'Total hits' => 'Total des hits',
-      'Site' => '',
-      'Detail' => '',
+      'Site' => 'Site',
+      'Detail' => 'Détail',
 
       # Template: AgentLookup
       'Lookup' => 'Consulter',
 
       # Template: AgentNavigationBar
-      'Ticket selected for bulk action!' => '',
-      'You need min. one selected Ticket!' => '',
+      'Ticket selected for bulk action!' => 'Ticket sélectionné pour une action groupé!',
+      'You need min. one selected Ticket!' => 'Vous devez nommer au moins un Ticket!',
 
       # Template: AgentPreferencesForm
 
@@ -773,11 +773,11 @@ sub Data {
 
       # Template: AgentTicketBulk
       'A message should have a subject!' => 'Un message doit avoir un sujet !',
-      'Ticket Bulk Action' => '',
+      'Ticket Bulk Action' => 'Ticket en action groupé',
       '$Text{"Note!' => '',
       'Spell Check' => 'Vérification orthographique',
       'Note type' => 'Type de note',
-      'Unlock Tickets' => '',
+      'Unlock Tickets' => 'Dévérouiller Tickets',
 
       # Template: AgentTicketClose
       'A message should have a body!' => 'Un message doit avoir un corp !',
@@ -829,7 +829,7 @@ sub Data {
 
       # Template: AgentTicketMailbox
       'Mailbox' => 'Bo&icirc;te aux lettres',
-      'Tickets' => '',
+      'Tickets' => 'Tickets',
       'All messages' => 'Tous les messages',
       'New messages' => 'Nouveaux messages',
       'Pending messages' => 'Message en attente',
@@ -843,10 +843,10 @@ sub Data {
       '"}"}">$Quote{"$Text{""}' => '',
 
       # Template: AgentTicketMerge
-      'You need to use a ticket number!' => '',
-      'Ticket Merge' => '',
-      'Merge to' => '',
-      'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' => '',
+      'You need to use a ticket number!' => 'Vous devez utiliser un numéro de ticket!',
+      'Ticket Merge' => 'Fusion de Ticket',
+      'Merge to' => 'Fusionner avec',
+      'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' => 'Votre ticket numéro "<OTRS_TICKET>" a été fusionné avec le ticket numéro "<OTRS_MERGE_TO_TICKET>".',
 
       # Template: AgentTicketMove
       'Queue ID' => 'Identifiant de la File',
@@ -855,9 +855,9 @@ sub Data {
 
       # Template: AgentTicketNote
       'Add note to ticket' => 'Ajouter une note au ticket',
-      'Inform Agent' => '',
-      'Optional' => '',
-      'Inform involved Agents' => '',
+      'Inform Agent' => 'Informer l\'agent',
+      'Optional' => 'Optionnel',
+      'Inform involved Agents' => 'Informer les agents impliqués',
 
       # Template: AgentTicketOwner
       'Change owner of ticket' => 'Changer le propriétaire du ticket',
@@ -880,12 +880,12 @@ sub Data {
       'ArticleID' => 'Identifiant de l\'Article',
 
       # Template: AgentTicketPrint
-      'Ticket-Info' => '',
+      'Ticket-Info' => 'Information du Ticket',
       'Accounted time' => 'Temp passé',
       'Escalation in' => 'Remontée dans',
-      'Linked-Object' => '',
-      'Parent-Object' => '',
-      'Child-Object' => '',
+      'Linked-Object' => 'Objet lié',
+      'Parent-Object' => 'Objet Parent',
+      'Child-Object' => 'Objet Enfant',
       'by' => 'par',
 
       # Template: AgentTicketPriority
@@ -893,7 +893,7 @@ sub Data {
 
       # Template: AgentTicketQueue
       'Tickets shown' => 'Tickets affichés',
-      'Page' => '',
+      'Page' => 'Page',
       'Tickets available' => 'Tickets disponibles',
       'All tickets' => 'tous les tickets',
       'Queues' => 'Files',
@@ -912,7 +912,7 @@ sub Data {
       'Ticket Search' => 'Recherche de ticket',
       'Profile' => 'Profil',
       'Search-Template' => 'Profil de recherche',
-      'Created in Queue' => '',
+      'Created in Queue' => 'Créé dans la file',
       'Result Form' => 'Format du résultat',
       'Save Search-Profile as Template?' => 'Sauver le profil de recherche ?',
       'Yes, save it with name' => 'Oui, le sauver avec le nom',
@@ -934,8 +934,8 @@ sub Data {
       'D' => 'A-Z',
 
       # Template: AgentTicketStatusView
-      'Ticket Status View' => '',
-      'Open Tickets' => '',
+      'Ticket Status View' => 'Vue de l\'état du ticket',
+      'Open Tickets' => 'Tickets ouverts',
 
       # Template: AgentTicketZoom
       'Split' => 'Scinder',
@@ -967,7 +967,7 @@ sub Data {
       'Last update' => 'Dernière mise à jour',
       'Symptom' => 'Symptôme',
       'Problem' => 'Problème',
-      'Solution' => '',
+      'Solution' => 'Solution',
 
       # Template: CustomerFAQArticleSystemHistory
       'FAQ System History' => 'Historique système de la FAQ',
@@ -1026,10 +1026,10 @@ sub Data {
 
       # Template: FAQ
       'Comment (internal)' => 'Commentaire interne',
-      'A article should have a title!' => '',
-      'New FAQ Article' => '',
-      'Do you really want to delete this Object?' => '',
-      'System History' => '',
+      'A article should have a title!' => 'Un article doit avoir un titre',
+      'New FAQ Article' => '(FAQ) Nouvel article',
+      'Do you really want to delete this Object?' => 'Voulez vous vraiment effacer cet objet ?',
+      'System History' => 'Historique du système',
 
       # Template: FAQCategoryForm
       'Name is required!' => 'Un nom est requis!',
@@ -1118,7 +1118,7 @@ sub Data {
       # Template: Notify
 
       # Template: PrintFooter
-      'URL' => '',
+      'URL' => 'URL',
 
       # Template: PrintHeader
       'printed by' => 'Imprimé par :',
@@ -1126,11 +1126,11 @@ sub Data {
       # Template: Redirect
 
       # Template: SystemStats
-      'Format' => '',
+      'Format' => 'Format',
 
       # Template: Test
       'OTRS Test Page' => 'Page de test d\'OTRS',
-      'Counter' => '',
+      'Counter' => 'Compteur',
 
       # Template: Warning
     };
