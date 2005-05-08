@@ -130,7 +130,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.17 2005-05-07 20:54:30 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.18 2005-05-08 21:20:32 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">To set the Ticket identifier (e. g. Ticket#: 123456789). Some people want to set this to 'Call#', 'MyTicket#' or 'Ticket#'.</Description>
         <Description Lang="de">Hiermit kann der Ticket-Identifikator gesetzt werden (z. B. Ticket#: 123456789). Manche Kunden setzen definieren 'Call#', 'MyTicket#' oder 'Ticket#'. Als Standardeinstellung wird 'Ticket#' geliefert.</Description>
@@ -2644,7 +2644,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
                 <Item Key="Name">History</Item>
-                <Item Key="Description">Shows the ticket history!!</Item>
+                <Item Key="Description">Shows the ticket history!</Item>
                 <Item Key="Action">AgentTicketHistory</Item>
                 <Item Key="Link">Action=AgentTicketHistory&TicketID=$QData{"TicketID"}</Item>
             </Hash>
@@ -2654,7 +2654,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
                 Module => 'Kernel::Output::HTML::TicketMenuGeneric',
                 Name => 'History',
                 Action => 'AgentTicketHistory',
-                Description => 'Shows the ticket history!!',
+                Description => 'Shows the ticket history!',
                 Link => 'Action=AgentTicketHistory&TicketID=$QData{"TicketID"}',
             };        
         -->        
@@ -2931,7 +2931,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
                 <Item Key="Name">History</Item>
                 <Item Key="Action">AgentTicketHistory</Item>
-                <Item Key="Description">Shows the history of a ticket</Item>
+                <Item Key="Description">Shows the ticket history!</Item>
                 <Item Key="Link">Action=AgentTicketHistory&TicketID=$QData{"TicketID"}</Item>
             </Hash>
         </Setting>
@@ -2940,7 +2940,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
                 Module => 'Kernel::Output::HTML::TicketMenuGeneric',
                 Name => 'History',
                 Action => 'AgentTicketHistory',
-                Description => 'Shows the ticket history!!',
+                Description => 'Shows the ticket history!',
                 Link => 'Action=AgentTicketHistory&TicketID=$QData{"TicketID"}',
             };
         -->

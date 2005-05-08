@@ -730,7 +730,7 @@ $Data{"Signature"}
         Module => 'Kernel::Output::HTML::TicketMenuGeneric',
         Name => 'History',
         Action => 'AgentTicketHistory',
-        Description => 'Shows the ticket history!!',
+        Description => 'Shows the ticket history!',
         Link => 'Action=AgentTicketHistory&TicketID=$QData{"TicketID"}',
     };
     # show print link
@@ -837,7 +837,7 @@ $Data{"Signature"}
         Module => 'Kernel::Output::HTML::TicketMenuGeneric',
         Name => 'History',
         Action => 'AgentTicketHistory',
-        Description => 'Shows the ticket history!!',
+        Description => 'Shows the ticket history!',
         Link => 'Action=AgentTicketHistory&TicketID=$QData{"TicketID"}',
     };
     # show priority link
