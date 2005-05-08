@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/NavBarLockedTickets.pm
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NavBarLockedTickets.pm,v 1.3 2005-05-07 12:46:04 martin Exp $
+# $Id: NavBarLockedTickets.pm,v 1.4 2005-05-08 21:20:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::NavBarLockedTickets;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -49,7 +49,7 @@ sub Run {
         Link => 'Action=AgentTicketMailbox',
         AccessKey => 'k',
     };
-    $Text = $Self->{LayoutObject}->{LanguageObject}->Get('new message')." ($LockedData{New})";
+    $Text = $Self->{LayoutObject}->{LanguageObject}->Get('New message')." ($LockedData{New})";
     $Return{'0999989'} = {
         Block => 'ItemPersonal',
         Description => $Text,
