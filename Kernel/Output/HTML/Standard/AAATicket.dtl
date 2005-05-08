@@ -71,3 +71,35 @@ $Text{"4 high"}
 $Text{"5 very high"}
 
 $Text{"Ticket "%s" created!"}
+
+$Text{"Email-Ticket"}
+$Text{"Create new Email Ticket"}
+$Text{"Phone-Ticket"}
+$Text{"Create new Phone Ticket"}
+$Text{"Search Tickets"}
+$Text{"Customer"}
+$Text{"Edit Customer Users"}
+$Text{"Bulk-Action"}
+$Text{"Bulk Actions on Tickets"}
+$Text{"Send Email and create a new Ticket"}
+$Text{"Create new Phone Ticket"}
+$Text{"Overview of all open Tickets"}
+$Text{"Locked tickets"}
+$Text{"New message"}
+$Text{"Lock it to work on it!"}
+$Text{"Unlock to give it back to the queue!"}
+$Text{"Shows the ticket history!"}
+$Text{"Print this ticket!"}
+$Text{"Change the ticket priority!"}
+$Text{"Change the ticket free fields!"}
+$Text{"Link this ticket to an other objects!"}
+$Text{"Change the ticket owner!"}
+$Text{"Change the ticket customer!"}
+$Text{"Add a note to this ticket!"}
+$Text{"Merge this ticket!"}
+$Text{"Set this ticket to pending!"}
+$Text{"Close this ticket!"}
+$Text{"Look into a ticket!"}
+$Text{"Delete this ticket!"}
+$Text{""}
+$Text{""}
