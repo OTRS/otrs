@@ -2,7 +2,7 @@
 # FAQ.dtl - provides HTML view for faq articles
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQ.dtl,v 1.2 2005-02-15 12:06:38 martin Exp $
+# $Id: FAQ.dtl,v 1.3 2005-05-08 15:32:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -263,13 +263,20 @@ $Data{"Field3"}
     <a href="$Env{"Baselink"}$Env{"LastScreenView"}">$Text{"Back"}</a>
   </td>
 <tr>
-  <td class="mainbody">
-    <table>
-    <!-- dtl:block:HistoryRow -->
-    <tr>
-      <td>$Text{"$Data{"Name"}"}</td>
-      <td>($TimeLong{"$Data{"Created"}"})</td>
+  <td align="center" class="mainbody">
+    <table border="0" width="700" cellspacing="0" cellpadding="2">
+    <tr class="contenthead">
+      <td class="contentkey">$Text{"Action"}</td>
+      <td class="contentkey">$Text{"Time"}</td>
     </tr>
+    <!-- dtl:block:HistoryRow -->
+<dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchpassive"; }>
+    <tr class="contentbody">
+      <td class="$Env{"Color"}">$Text{"$Data{"Name"}"}</td>
+      <td class="$Env{"Color"}">($TimeLong{"$Data{"Created"}"})</td>
+    </tr>
+<dtl if ($Env{"Color"} eq "searchactive") { $Env{"Color"} = ""; }>
+<dtl if ($Env{"Color"} eq "searchpassive") { $Env{"Color"} = "searchactive"; }>
     <!-- dtl:block:HistoryRow -->
     </table>
   </td>
@@ -667,23 +674,26 @@ function submit_compose()
   </td>
 </tr>
 <tr>
-  <td class="mainbody">
-    <table border="0" width="100%" cellpadding="3">
-    <tr>
-      <td>$Config{"FAQ::FAQHook"}</td>
-      <td>$Text{"Title"}</td>
-      <td>$Text{"Category"}</td>
-      <td>$Text{"Name"}</td>
-      <td>$Text{"Time"}</td>
+  <td align="center" class="mainbody">
+    <table border="0" width="700" cellspacing="0" cellpadding="2">
+    <tr class="contenthead">
+      <td class="contentkey">$Config{"FAQ::FAQHook"}</td>
+      <td class="contentkey">$Text{"Title"}</td>
+      <td class="contentkey">$Text{"Category"}</td>
+      <td class="contentkey">$Text{"Name"}</td>
+      <td class="contentkey">$Text{"Time"}</td>
     </tr>
     <!-- dtl:block:SystemHistoryRow -->
+<dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchpassive"; }>
     <tr class="contentbody">
-      <td><a href="$Env{"Baselink"}Action=$Env{"Action"}&FAQID=$QData{"FAQID"}">$QData{"Number"}</a></td>
-      <td>$QData{"Title"}</td>
-      <td>$QData{"Category"}</td>
-      <td>$QData{"Name"}</td>
-      <td>($TimeLong{"$Data{"Changed"}"})</td>
+      <td class="$Env{"Color"}"><a href="$Env{"Baselink"}Action=$Env{"Action"}&FAQID=$QData{"FAQID"}">$QData{"Number"}</a></td>
+      <td class="$Env{"Color"}">$QData{"Title"}</td>
+      <td class="$Env{"Color"}">$QData{"Category"}</td>
+      <td class="$Env{"Color"}">$QData{"Name"}</td>
+      <td class="$Env{"Color"}">($TimeLong{"$Data{"Changed"}"})</td>
     </tr>
+<dtl if ($Env{"Color"} eq "searchactive") { $Env{"Color"} = ""; }>
+<dtl if ($Env{"Color"} eq "searchpassive") { $Env{"Color"} = "searchactive"; }>
     <!-- dtl:block:SystemHistoryRow -->
     </table>
   </td>
@@ -763,24 +773,27 @@ function submit_compose()
 </tr>
 <tr>
   <td class="mainbody">
-    <table border="0" width="100%" cellpadding="3">
-    <tr>
-      <td>$Config{"FAQ::FAQHook"}</td>
-      <td>$Text{"Title"}</td>
-      <td>$Text{"Category"}</td>
-      <td>$Text{"Language"}</td>
-      <td>$Text{"State"}</td>
-      <td>$Text{"Changed"}</td>
+    <table border="0" width="100%" cellspacing="0" cellpadding="2">
+    <tr class="contenthead">
+      <td class="contentkey">$Config{"FAQ::FAQHook"}</td>
+      <td class="contentkey">$Text{"Title"}</td>
+      <td class="contentkey">$Text{"Category"}</td>
+      <td class="contentkey">$Text{"Language"}</td>
+      <td class="contentkey">$Text{"State"}</td>
+      <td class="contentkey">$Text{"Changed"}</td>
     </tr>
     <!-- dtl:block:SearchResultRow -->
+<dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchpassive"; }>
     <tr class="contentbody">
-      <td><a href="$Env{"Baselink"}Action=$Env{"Action"}&FAQID=$QData{"FAQID"}">$QData{"Number"}</a></td>
-      <td>$QData{"Title"}</td>
-      <td>$QData{"Category"}</td>
-      <td>$QData{"Language"}</td>
-      <td>$QData{"State"}</td>
-      <td>($TimeLong{"$Data{"Changed"}"})</td>
+      <td class="$Env{"Color"}"><a href="$Env{"Baselink"}Action=$Env{"Action"}&FAQID=$QData{"FAQID"}">$QData{"Number"}</a></td>
+      <td class="$Env{"Color"}">$QData{"Title"}</td>
+      <td class="$Env{"Color"}">$QData{"Category"}</td>
+      <td class="$Env{"Color"}">$QData{"Language"}</td>
+      <td class="$Env{"Color"}">$QData{"State"}</td>
+      <td class="$Env{"Color"}">($TimeLong{"$Data{"Changed"}"})</td>
     </tr>
+<dtl if ($Env{"Color"} eq "searchactive") { $Env{"Color"} = ""; }>
+<dtl if ($Env{"Color"} eq "searchpassive") { $Env{"Color"} = "searchactive"; }>
     <!-- dtl:block:SearchResultRow -->
     </table>
   </td>
