@@ -1,8 +1,8 @@
 # --
 # Kernel/System/FAQ.pm - all faq funktions
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQ.pm,v 1.18 2004-11-07 15:15:17 martin Exp $
+# $Id: FAQ.pm,v 1.19 2005-05-08 15:21:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::FAQ;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -397,8 +397,8 @@ sub FAQDelete {
         return;
       }
     }
-    if ($Self->{DBObject}->Prepare(SQL => "DELETE FROM faq_item WHERE id = $Param{FAQID}")) {
-        if ($Self->FAQHistoryDelete(%Param)) {
+    if ($Self->FAQHistoryDelete(%Param)) {
+        if ($Self->{DBObject}->Prepare(SQL => "DELETE FROM faq_item WHERE id = $Param{FAQID}")) {
             return 1;
         }
         else {
@@ -1145,6 +1145,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2004-11-07 15:15:17 $
+$Revision: 1.19 $ $Date: 2005-05-08 15:21:59 $
 
 =cut
