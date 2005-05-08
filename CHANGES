@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.138 2005-05-04 08:06:20 martin Exp $
+# $Id: CHANGES,v 1.139 2005-05-08 20:35:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,10 +10,38 @@
 # --
 CVS head
 
-2.0.0. beta2 (2005/05/??) 
- - (2004/05/04) removed html wrap from ticket text areas 
- - (2004/05/04) added ticket event module layer 
- - (2004/05/04) fixed priority default selection in priority screen
+2.0.0. beta2 (2005/05/??)
+ - (2005/05/08) fr translation updated by Yann Richard - thanks!
+ - (2005/05/08) fixed bug 729 - Problem removing example FAQ-entry from FAQ
+ - (2005/05/08) fixed bug 730 - Problem with FAQ nav bar
+ - (2005/05/08) fixed bug 734 - Timezone not reflected in DB Tables (ticket
+    create time, etc.)
+ - (2005/05/07) fixed language translation files 
+ - (2005/05/07) fixed bug 647 - Allow setting of default language for FAQs
+ - (2005/05/07) fixed bug 686 - defect attachments on download with firefox
+ - (2005/05/07) added html access keys for nav bar
+    general:
+    h = home 
+    l = logout
+    o = overview
+    n = new 
+    s = search
+    p = preferences
+    a = admin interface
+    t = ticket interface
+    f = faq interface
+ 
+    ticket:
+    o = queue view
+    n = phone ticket
+    e = email ticket
+    k = locked ticket list
+    m = new messages in locked ticket list
+ - (2005/05/07) fixed bug 719 - Timezone setting (US EDT -4) causes 
+    "Session Timeout"
+ - (2005/05/04) removed html wrap from ticket text areas 
+ - (2005/05/04) added ticket event module layer 
+ - (2006/05/04) fixed priority default selection in priority screen
 
 2.0.0. beta1 (2005/05/02) 
  - (2005/04/30) fixxed bug 712 - Reports ignore setting for http-type
