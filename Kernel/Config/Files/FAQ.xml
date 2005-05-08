@@ -123,7 +123,7 @@
                     <Block>ItemArea</Block>
                     <Name>FAQ</Name>
                     <Image>help.png</Image>
-                    <Link>Action=FAQ</Link>
+                    <Link>Action=FAQ&Nav=Normal</Link>
                     <NavBar>FAQ</NavBar>
                     <AccessKey>f</AccessKey>
                     <Prio>8300</Prio>

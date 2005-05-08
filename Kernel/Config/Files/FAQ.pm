@@ -39,7 +39,7 @@
             Block => 'ItemArea',
             Name => 'FAQ',
             Image => 'help.png',
-            Link => 'Action=FAQ',
+            Link => 'Action=FAQ&Nav=Normal',
             NavBar => 'FAQ',
             Prio => 8300,
             AccessKey => 'f',
