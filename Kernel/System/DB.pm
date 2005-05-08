@@ -1,8 +1,8 @@
 # --
 # Kernel/System/DB.pm - the global database wrapper to support different databases
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.43 2004-12-02 00:35:31 martin Exp $
+# $Id: DB.pm,v 1.44 2005-05-08 15:18:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,10 +13,11 @@ package Kernel::System::DB;
 
 use strict;
 use DBI;
+use Kernel::System::Time;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.43 $';
+$VERSION = '$Revision: 1.44 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -85,6 +86,8 @@ sub new {
     }
     # encode object
     $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
+    # time object
+    $Self->{TimeObject} = Kernel::System::Time->new(%Param);
     # get config data
     $Self->{DSN}  = $Param{DatabaseDSN} || $Self->{ConfigObject}->Get('DatabaseDSN');
     $Self->{USER} = $Param{DatabaseUser} || $Self->{ConfigObject}->Get('DatabaseUser');
@@ -281,8 +284,6 @@ to insert, update or delete something
 sub Do {
     my $Self = shift;
     my %Param = @_;
-    my $SQL = $Param{SQL};
-    my $BindArray = $Param{Bind};
     my @Array = ();
     # check needed stuff
     if (!$Param{SQL}) {
@@ -305,9 +306,16 @@ sub Do {
             }
         }
     }
-    # doing timestamp workaround (if needed)
-    if ($Self->{'DB::CurrentTimestamp'}) {
-        $SQL =~ s/current_timestamp/$Self->{'DB::CurrentTimestamp'}/g;
+    if (!$Self->{ConfigObject}->Get('TimeZone')) {
+        # doing timestamp workaround (if needed)
+        if ($Self->{'DB::CurrentTimestamp'}) {
+            $Param{SQL} =~ s/current_timestamp/$Self->{'DB::CurrentTimestamp'}/g;
+        }
+    }
+    else {
+        # replace current_timestamp
+        my $Timestamp = $Self->{TimeObject}->CurrentTimestamp();
+        $Param{SQL} =~ s/(\s|\(|,| )current_timestamp(\s|\)|,| )/$1'$Timestamp'$2/g;
     }
     # debug
     if ($Self->{Debug} > 0) {
@@ -315,15 +323,15 @@ sub Do {
         $Self->{LogObject}->Log(
           Caller => 1,
           Priority => 'debug',
-          Message => "DB.pm->Do ($Self->{DoCounter}) SQL: '$SQL'",
+          Message => "DB.pm->Do ($Self->{DoCounter}) SQL: '$Param{SQL}'",
         );
     }
     # send sql to database
-    if (!$Self->{dbh}->do($SQL, undef, @Array)) {
+    if (!$Self->{dbh}->do($Param{SQL}, undef, @Array)) {
         $Self->{LogObject}->Log(
           Caller => 1,
           Priority => 'Error',
-          Message => "$DBI::errstr, SQL: '$SQL'",
+          Message => "$DBI::errstr, SQL: '$Param{SQL}'",
         );
         return;
     }
@@ -650,6 +658,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.43 $ $Date: 2004-12-02 00:35:31 $
+$Revision: 1.44 $ $Date: 2005-05-08 15:18:17 $
 
 =cut
