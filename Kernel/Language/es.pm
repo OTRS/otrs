@@ -2,7 +2,7 @@
 # Kernel/Language/es.pm - provides es language translation
 # Copyright (C) 2003-2004 Jorge Becerra <jorge at icc-cuba.com>
 # --
-# $Id: es.pm,v 1.26 2005-05-07 15:23:39 martin Exp $
+# $Id: es.pm,v 1.27 2005-05-08 21:21:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::es;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -22,7 +22,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Mon May  2 00:38:03 2005
+    # Last translation file sync: Sun May  8 23:14:36 2005
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -272,10 +272,7 @@ sub Data {
       'Dec' => 'Dic',
 
       # Template: AAANavBar
-      'Send Email and create a new Ticket' => '',
-      'Create new Phone Ticket' => 'Crear un nuevo Ticket Telefonico',
       'Ticket-Area' => '',
-      'Overview of all open Tickets' => 'Resumen de todos los tickets abiertos',
       'Logout' => 'Desconectarse',
       'Agent Preferences' => 'Preferencias de Agente',
       'Preferences' => 'Preferencias',
@@ -286,8 +283,15 @@ sub Data {
       'FAQ-Article' => '',
       'FAQ-State' => '',
       'Admin' => '',
-      'Create new Ticket' => 'Crear un nuevo ticket',
-      'New Ticket' => 'Nuevo ticket',
+      'A web calendar' => '',
+      'WebMail' => '',
+      'A web mail client' => '',
+      'FileManager' => '',
+      'A web file manager' => '',
+      'Artefact' => '',
+      'Incident' => '',
+      'Advisory' => '',
+      'WebWatcher' => '',
 
       # Template: AAAPreferences
       'Preferences updated successfully!' => 'Las preferencia fueron actualizadas!',
@@ -393,6 +397,32 @@ sub Data {
       '4 high' => '4 alto',
       '5 very high' => '5 muy alto',
       'Ticket "%s" created!' => 'Ticket "%s" creado!',
+      'Email-Ticket' => '',
+      'Create new Email Ticket' => '',
+      'Phone-Ticket' => '',
+      'Create new Phone Ticket' => 'Crear un nuevo Ticket Telefonico',
+      'Search Tickets' => '',
+      'Edit Customer Users' => '',
+      'Bulk-Action' => '',
+      'Bulk Actions on Tickets' => '',
+      'Send Email and create a new Ticket' => '',
+      'Overview of all open Tickets' => 'Resumen de todos los tickets abiertos',
+      'Locked tickets' => '',
+      'Lock it to work on it!' => '',
+      'Unlock to give it back to the queue!' => '',
+      'Shows the ticket history!' => '',
+      'Print this ticket!' => '',
+      'Change the ticket priority!' => '',
+      'Change the ticket free fields!' => '',
+      'Link this ticket to an other objects!' => '',
+      'Change the ticket owner!' => '',
+      'Change the ticket customer!' => '',
+      'Add a note to this ticket!' => '',
+      'Merge this ticket!' => '',
+      'Set this ticket to pending!' => '',
+      'Close this ticket!' => '',
+      'Look into a ticket!' => '',
+      'Delete this ticket!' => '',
 
       # Template: AAAWeekDay
       'Sun' => 'Dom',
@@ -408,7 +438,6 @@ sub Data {
 
       # Template: AdminAutoResponseForm
       'Auto Response Management' => 'Gestión de respuestas automáticas',
-      '"} <a href="Action=">$Text{"' => '',
       'Response' => 'Respuesta',
       'Auto Response From' => 'Respuesta automática de ',
       'Note' => 'Nota',
@@ -427,11 +456,7 @@ sub Data {
       'Result' => 'Resultado',
       'Select Source (for add)' => 'Seleccionar Fuente (para adicionar)',
       'Source' => 'Origen',
-      '"} <a href="Action=AdminCustomerUser&Nav=">$Text{"' => '',
-      '"}: <font color="red" title="$Text{"This values are required.' => '',
       'This values are read only.' => 'Estos valores son solo-lectura',
-      '"} $Text{"' => '',
-      '"}:<br><i class="small">($Text{"' => '',
       'This values are required.' => 'Estos valores son obligatorios',
       'Customer user will be needed to have an customer histor and to to login via customer panels.' => 'El cliente necesita tener una historia y conectarse via panel de clientes',
 
@@ -506,7 +531,6 @@ sub Data {
 
       # Template: AdminGroupForm
       'Group Management' => 'Administración de grupos',
-      '"} <a href="Action=AdminGroup">$Text{"' => '',
       'The admin group is to get in the admin area and the stats group to get stats area.' => 'El grupo admin es para usar el área de administración y el grupo stats para usar el área estadisticas.',
       'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).' => 'Crear nuevos grupos para manipular los permisos de acceso por distintos grupos de agente (ejemplo: departamento de compra, departamento de soporte, departamento de ventas,...).',
       'It\'s useful for ASP solutions.' => 'Esto es útil para soluciones ASP.',
@@ -655,7 +679,6 @@ sub Data {
 
       # Template: AdminSalutationForm
       'Salutation Management' => 'Gestión de saludos',
-      '"} <a href="Action=AdminSalutation">$Text{"' => '',
       'customer realname' => 'Nombre del cliente',
       'for agent firstname' => 'nombre del agente',
       'for agent lastname' => 'apellido del agente',
@@ -678,7 +701,6 @@ sub Data {
 
       # Template: AdminSignatureForm
       'Signature Management' => 'Gestión de firmas',
-      '"} <a href="Action=AdminSignature">$Text{"' => '',
 
       # Template: AdminSMIMEForm
       'SMIME Management' => '',
@@ -724,7 +746,6 @@ sub Data {
 
       # Template: AdminUserForm
       'User Management' => 'Administración de usuarios',
-      '"} <a href="Action=AdminUser">$Text{"' => '',
       'Firstname' => 'Nombre',
       'Lastname' => 'Apellido',
       'User will be needed to handle tickets.' => 'Se necesita un usuario para manipular los tickets.',
@@ -758,8 +779,6 @@ sub Data {
       'Lookup' => '',
 
       # Template: AgentNavigationBar
-      '"}"><a href="" onmouseover="window.status=\'$Text{"' => '',
-      '"}"><br>$Text{"' => '',
       'Ticket selected for bulk action!' => 'Ticket seleccionado para acción múltiple!',
       'You need min. one selected Ticket!' => 'Necesita al menos seleccionar un Ticket!',
 
@@ -849,8 +868,6 @@ sub Data {
       'Order' => 'Orden',
       'up' => 'arriba',
       'down' => 'abajo',
-      '"}\'; return true;" onmouseout="window.status=\'\';" class="menuitem" title="$Text{"' => '',
-      '"}"}">$Quote{"$Text{""}' => '',
 
       # Template: AgentTicketMerge
       'You need to use a ticket number!' => '',
@@ -942,15 +959,12 @@ sub Data {
       'U' => 'A',
       'sort downward' => 'ordenar descendente',
       'D' => '',
-      'Customer history"}\'; return true;" onmouseout="window.status=\'\';"><div title="">$Quote{"' => '',
 
       # Template: AgentTicketStatusView
       'Ticket Status View' => '',
       'Open Tickets' => '',
 
       # Template: AgentTicketZoom
-      '"}: \';return true;" onmouseout="window.status=\'\';"><img src="" border="0" alt="$Text{"' => '',
-      '"}" title="$Text{"' => '',
       'Split' => 'Dividir',
 
       # Template: AgentTicketZoomStatus

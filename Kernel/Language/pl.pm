@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # Translated by Tomasz Melissa <janek at rumianek.com>
 # --
-# $Id: pl.pm,v 1.16 2005-05-07 15:23:39 martin Exp $
+# $Id: pl.pm,v 1.17 2005-05-08 21:21:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::pl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Mon May  2 00:38:30 2005
+    # Last translation file sync: Sun May  8 23:19:18 2005
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-2', ];
@@ -273,10 +273,7 @@ sub Data {
       'Dec' => 'Gru',
 
       # Template: AAANavBar
-      'Send Email and create a new Ticket' => '',
-      'Create new Phone Ticket' => '',
       'Ticket-Area' => '',
-      'Overview of all open Tickets' => '',
       'Logout' => 'Wyloguj',
       'Agent Preferences' => '',
       'Preferences' => 'Ustawienia',
@@ -287,8 +284,15 @@ sub Data {
       'FAQ-Article' => '',
       'FAQ-State' => '',
       'Admin' => '',
-      'Create new Ticket' => 'Utwórz nowe zg³oszenie',
-      'New Ticket' => 'Nowe zg³oszenie',
+      'A web calendar' => '',
+      'WebMail' => '',
+      'A web mail client' => '',
+      'FileManager' => '',
+      'A web file manager' => '',
+      'Artefact' => '',
+      'Incident' => '',
+      'Advisory' => '',
+      'WebWatcher' => '',
 
       # Template: AAAPreferences
       'Preferences updated successfully!' => 'Ustawienia zapisano pomy¶lnie!',
@@ -394,6 +398,32 @@ sub Data {
       '4 high' => '4 wysoki',
       '5 very high' => '5 bardzo wysoki',
       'Ticket "%s" created!' => 'Zg³oszenie "%s" utworzone!',
+      'Email-Ticket' => '',
+      'Create new Email Ticket' => '',
+      'Phone-Ticket' => '',
+      'Create new Phone Ticket' => '',
+      'Search Tickets' => '',
+      'Edit Customer Users' => '',
+      'Bulk-Action' => '',
+      'Bulk Actions on Tickets' => '',
+      'Send Email and create a new Ticket' => '',
+      'Overview of all open Tickets' => '',
+      'Locked tickets' => '',
+      'Lock it to work on it!' => '',
+      'Unlock to give it back to the queue!' => '',
+      'Shows the ticket history!' => '',
+      'Print this ticket!' => '',
+      'Change the ticket priority!' => '',
+      'Change the ticket free fields!' => '',
+      'Link this ticket to an other objects!' => '',
+      'Change the ticket owner!' => '',
+      'Change the ticket customer!' => '',
+      'Add a note to this ticket!' => '',
+      'Merge this ticket!' => '',
+      'Set this ticket to pending!' => '',
+      'Close this ticket!' => '',
+      'Look into a ticket!' => '',
+      'Delete this ticket!' => '',
 
       # Template: AAAWeekDay
       'Sun' => 'Ndz',
@@ -839,8 +869,6 @@ sub Data {
       'Order' => 'Porz±dek',
       'up' => 'góra',
       'down' => 'dó³',
-      '"}\'; return true;" onmouseout="window.status=\'\';" class="menuitem" title="$Text{"' => '',
-      '"}"}">$Quote{"$Text{""}' => '',
 
       # Template: AgentTicketMerge
       'You need to use a ticket number!' => '',
@@ -938,7 +966,6 @@ sub Data {
       'Open Tickets' => '',
 
       # Template: AgentTicketZoom
-      '"}" title="$Text{"' => '',
       'Split' => 'Podziel',
 
       # Template: AgentTicketZoomStatus

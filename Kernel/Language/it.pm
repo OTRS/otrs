@@ -3,7 +3,7 @@
 # Copyright (C) 2003 Remo Catelotti <Remo.Catelotti at bull.it>
 #               2003 Gabriele Santilli <gsantilli at omnibus.net>
 # --
-# $Id: it.pm,v 1.17 2005-05-07 15:23:39 martin Exp $
+# $Id: it.pm,v 1.18 2005-05-08 21:21:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::it;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Mon May  2 00:38:17 2005
+    # Last translation file sync: Sun May  8 23:17:01 2005
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -273,10 +273,7 @@ sub Data {
       'Dec' => 'Dic',
 
       # Template: AAANavBar
-      'Send Email and create a new Ticket' => '',
-      'Create new Phone Ticket' => 'Crea una nuova richiesta in seguito ad una chiamata telefonica',
       'Ticket-Area' => '',
-      'Overview of all open Tickets' => 'Vista globale di tutte le richieste aperte',
       'Logout' => 'Esci',
       'Agent Preferences' => 'Impostazione preferenze per l\'operatore',
       'Preferences' => 'Preferenze',
@@ -287,8 +284,15 @@ sub Data {
       'FAQ-Article' => '',
       'FAQ-State' => '',
       'Admin' => '',
-      'Create new Ticket' => 'Crea nuova richiesta',
-      'New Ticket' => 'Nuova richiesta',
+      'A web calendar' => '',
+      'WebMail' => '',
+      'A web mail client' => '',
+      'FileManager' => '',
+      'A web file manager' => '',
+      'Artefact' => '',
+      'Incident' => '',
+      'Advisory' => '',
+      'WebWatcher' => '',
 
       # Template: AAAPreferences
       'Preferences updated successfully!' => 'Preferenze modificate con successo!',
@@ -394,6 +398,32 @@ sub Data {
       '4 high' => '4 alta',
       '5 very high' => '5 molto alta',
       'Ticket "%s" created!' => 'Richiesta "%s" creata!',
+      'Email-Ticket' => '',
+      'Create new Email Ticket' => '',
+      'Phone-Ticket' => '',
+      'Create new Phone Ticket' => 'Crea una nuova richiesta in seguito ad una chiamata telefonica',
+      'Search Tickets' => '',
+      'Edit Customer Users' => '',
+      'Bulk-Action' => '',
+      'Bulk Actions on Tickets' => '',
+      'Send Email and create a new Ticket' => '',
+      'Overview of all open Tickets' => 'Vista globale di tutte le richieste aperte',
+      'Locked tickets' => '',
+      'Lock it to work on it!' => '',
+      'Unlock to give it back to the queue!' => '',
+      'Shows the ticket history!' => '',
+      'Print this ticket!' => '',
+      'Change the ticket priority!' => '',
+      'Change the ticket free fields!' => '',
+      'Link this ticket to an other objects!' => '',
+      'Change the ticket owner!' => '',
+      'Change the ticket customer!' => '',
+      'Add a note to this ticket!' => '',
+      'Merge this ticket!' => '',
+      'Set this ticket to pending!' => '',
+      'Close this ticket!' => '',
+      'Look into a ticket!' => '',
+      'Delete this ticket!' => '',
 
       # Template: AAAWeekDay
       'Sun' => 'Dom',
@@ -839,8 +869,6 @@ sub Data {
       'Order' => 'Ordine',
       'up' => 'crescente',
       'down' => 'decrescente',
-      '"}\'; return true;" onmouseout="window.status=\'\';" class="menuitem" title="$Text{"' => '',
-      '"}"}">$Quote{"$Text{""}' => '',
 
       # Template: AgentTicketMerge
       'You need to use a ticket number!' => '',

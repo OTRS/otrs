@@ -2,7 +2,7 @@
 # Kernel/Language/nb_NO.pm - Norwegian language translation (bokmål)
 # Copyright (C) 2004 Arne Georg Gleditsch <argggh@linpro.no>
 # --
-# $Id: nb_NO.pm,v 1.9 2005-05-07 15:23:39 martin Exp $
+# $Id: nb_NO.pm,v 1.10 2005-05-08 21:21:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::nb_NO;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.9 $;
+$VERSION = q$Revision: 1.10 $;
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -22,7 +22,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Mon May  2 00:38:24 2005
+    # Last translation file sync: Sun May  8 23:17:45 2005
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -272,10 +272,7 @@ sub Data {
       'Dec' => 'des',
 
       # Template: AAANavBar
-      'Send Email and create a new Ticket' => '',
-      'Create new Phone Ticket' => '',
       'Ticket-Area' => '',
-      'Overview of all open Tickets' => '',
       'Logout' => 'Logg ut',
       'Agent Preferences' => '',
       'Preferences' => 'Innstillinger',
@@ -286,8 +283,15 @@ sub Data {
       'FAQ-Article' => '',
       'FAQ-State' => '',
       'Admin' => '',
-      'Create new Ticket' => 'Opprett ny ticket',
-      'New Ticket' => 'Ny ticket',
+      'A web calendar' => '',
+      'WebMail' => '',
+      'A web mail client' => '',
+      'FileManager' => '',
+      'A web file manager' => '',
+      'Artefact' => '',
+      'Incident' => '',
+      'Advisory' => '',
+      'WebWatcher' => '',
 
       # Template: AAAPreferences
       'Preferences updated successfully!' => 'Innstillinger lagret!',
@@ -393,6 +397,32 @@ sub Data {
       '4 high' => '4 høy',
       '5 very high' => '5 svært høy',
       'Ticket "%s" created!' => 'Ticket "%s" opprettet!',
+      'Email-Ticket' => '',
+      'Create new Email Ticket' => '',
+      'Phone-Ticket' => '',
+      'Create new Phone Ticket' => '',
+      'Search Tickets' => '',
+      'Edit Customer Users' => '',
+      'Bulk-Action' => '',
+      'Bulk Actions on Tickets' => '',
+      'Send Email and create a new Ticket' => '',
+      'Overview of all open Tickets' => '',
+      'Locked tickets' => '',
+      'Lock it to work on it!' => '',
+      'Unlock to give it back to the queue!' => '',
+      'Shows the ticket history!' => '',
+      'Print this ticket!' => '',
+      'Change the ticket priority!' => '',
+      'Change the ticket free fields!' => '',
+      'Link this ticket to an other objects!' => '',
+      'Change the ticket owner!' => '',
+      'Change the ticket customer!' => '',
+      'Add a note to this ticket!' => '',
+      'Merge this ticket!' => '',
+      'Set this ticket to pending!' => '',
+      'Close this ticket!' => '',
+      'Look into a ticket!' => '',
+      'Delete this ticket!' => '',
 
       # Template: AAAWeekDay
       'Sun' => 'søn',
@@ -838,8 +868,6 @@ sub Data {
       'Order' => 'Sortering',
       'up' => 'stigende',
       'down' => 'synkende',
-      '"}\'; return true;" onmouseout="window.status=\'\';" class="menuitem" title="$Text{"' => '',
-      '"}"}">$Quote{"$Text{""}' => '',
 
       # Template: AgentTicketMerge
       'You need to use a ticket number!' => '',

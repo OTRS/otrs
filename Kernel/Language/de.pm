@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: de.pm,v 1.74 2005-05-06 09:27:11 cs Exp $
+# $Id: de.pm,v 1.75 2005-05-08 21:21:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.74 $';
+$VERSION = '$Revision: 1.75 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -22,7 +22,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Mon May  2 00:04:07 2005
+    # Last translation file sync: Sun May  8 22:59:08 2005
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -272,22 +272,26 @@ sub Data {
       'Dec' => 'Dez',
 
       # Template: AAANavBar
-      'Send Email and create a new Ticket' => '',
-      'Create new Phone Ticket' => 'Neues Telefon-Ticket erstellen',
-      'Ticket-Area' => '',
-      'Overview of all open Tickets' => 'Übersicht über alle offenen Tickets',
+      'Ticket-Area' => 'Ticket-Bereich',
       'Logout' => 'Abmelden',
       'Agent Preferences' => 'Benutzer Einstellungen',
       'Preferences' => 'Einstellungen',
       'Agent Mailbox' => '',
-      'Stats-Area' => '',
+      'Stats-Area' => 'Statistik-Bereich',
       'FAQ' => '',
-      'FAQ-Search' => '',
-      'FAQ-Article' => '',
-      'FAQ-State' => '',
+      'FAQ-Search' => 'FAQ-Suche',
+      'FAQ-Article' => 'FAQ-Artikel',
+      'FAQ-State' => 'FAQ-Status',
       'Admin' => '',
-      'Create new Ticket' => 'Neues Ticket erstellen',
-      'New Ticket' => 'Neues Ticket',
+      'A web calendar' => 'Ein Web-Kalender',
+      'WebMail' => '',
+      'A web mail client' => 'Ein Web-Mail-Client',
+      'FileManager' => 'DateiManager',
+      'A web file manager' => 'Ein Web-Datei-Manager',
+      'Artefact' => '',
+      'Incident' => 'Vorfall',
+      'Advisory' => '',
+      'WebWatcher' => '',
 
       # Template: AAAPreferences
       'Preferences updated successfully!' => 'Benutzereinstellungen erfolgreich aktualisiert!',
@@ -393,6 +397,32 @@ sub Data {
       '4 high' => '4 hoch',
       '5 very high' => '5 sehr hoch',
       'Ticket "%s" created!' => 'Ticket "%s" erstellt!',
+      'Email-Ticket' => '',
+      'Create new Email Ticket' => 'Ein neise Email-Ticket erstellen',
+      'Phone-Ticket' => 'Telefon-Ticket',
+      'Create new Phone Ticket' => 'Neues Telefon-Ticket erstellen',
+      'Search Tickets' => 'Ticket-Suche',
+      'Edit Customer Users' => 'Kunden-Benutzer bearbeiten',
+      'Bulk-Action' => '',
+      'Bulk Actions on Tickets' => 'Bulk aktion an Tickets',
+      'Send Email and create a new Ticket' => 'Email senden und neunes Ticket erstellen',
+      'Overview of all open Tickets' => 'Übersicht über alle offenen Tickets',
+      'Locked tickets' => 'Gesperrte Tickets',
+      'Lock it to work on it!' => 'Sperren um es zu bearbeiten!',
+      'Unlock to give it back to the queue!' => 'Freigeben um es in die Queue zurück zu geben!',
+      'Shows the ticket history!' => 'Ticket Historie anzeigen!',
+      'Print this ticket!' => 'Ticket drucken!',
+      'Change the ticket priority!' => 'Ändern der Ticket-Priorität',
+      'Change the ticket free fields!' => 'Ändern der Ticket-Frei-Felder',
+      'Link this ticket to an other objects!' => 'Ticket zu anderen Objekten verknüpfen!',
+      'Change the ticket owner!' => 'Ändern des Ticket-Benitzers!',
+      'Change the ticket customer!' => 'Ändern des Ticket-Kunden!',
+      'Add a note to this ticket!' => 'Hinzufügen einer Notiz!',
+      'Merge this ticket!' => 'Ticket Mergen!',
+      'Set this ticket to pending!' => 'Setzen des Tickets auf -warten auf-!',
+      'Close this ticket!' => 'Ticket schließen!',
+      'Look into a ticket!' => 'Ticket genauer ansehen!',
+      'Delete this ticket!' => 'Ticket löschen!',
 
       # Template: AAAWeekDay
       'Sun' => 'Son',
@@ -408,7 +438,6 @@ sub Data {
 
       # Template: AdminAutoResponseForm
       'Auto Response Management' => 'Auto-Antworten Verwaltung',
-      '"} <a href="Action=">$Text{"' => '',
       'Response' => 'Antwort',
       'Auto Response From' => 'Auto-Antwort-Absender',
       'Note' => 'Notiz',
@@ -427,11 +456,7 @@ sub Data {
       'Result' => 'Ergebnis',
       'Select Source (for add)' => 'Quelle auswählen (zum Hinzufügen)',
       'Source' => 'Quelle',
-      '"} <a href="Action=AdminCustomerUser&Nav=">$Text{"' => '',
-      '"}: <font color="red" title="$Text{"This values are required.' => '',
       'This values are read only.' => 'Diese Inhalte sind schreibgeschützt.',
-      '"} $Text{"' => '',
-      '"}:<br><i class="small">($Text{"' => '',
       'This values are required.' => 'Diese Inhalte werden benötigt.',
       'Customer user will be needed to have an customer histor and to to login via customer panels.' => 'Kunden-Benutzer werden für Kunden-Historien und für die Benutzung von Kunden-Weboberfläche benötigt.',
 
@@ -506,7 +531,6 @@ sub Data {
 
       # Template: AdminGroupForm
       'Group Management' => 'Gruppen Verwaltung',
-      '"} <a href="Action=AdminGroup">$Text{"' => '',
       'The admin group is to get in the admin area and the stats group to get stats area.' => 'Die \'admin\'-Gruppe wird für den Admin-Bereich benötigt, die \'stats\'-Gruppe für den Statistik-Bereich.',
       'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).' => 'Erstellen Sie neue Gruppen, um die Zugriffe für verschiedene Agenten-Gruppen zu definieren (z.B. Einkaufs-Abteilung, Support-Abteilung, Verkaufs-Abteilung,...).',
       'It\'s useful for ASP solutions.' => 'Nützlich für ASP-Lösungen.',
@@ -655,7 +679,6 @@ sub Data {
 
       # Template: AdminSalutationForm
       'Salutation Management' => 'Anreden Verwaltung',
-      '"} <a href="Action=AdminSalutation">$Text{"' => '',
       'customer realname' => 'Wirklicher Kundenname',
       'for agent firstname' => 'für Vorname des Agents',
       'for agent lastname' => 'für Nachname des Agents',
@@ -678,7 +701,6 @@ sub Data {
 
       # Template: AdminSignatureForm
       'Signature Management' => 'Signatur Verwaltung',
-      '"} <a href="Action=AdminSignature">$Text{"' => '',
 
       # Template: AdminSMIMEForm
       'SMIME Management' => 'SMIME Verwaltung',
@@ -724,7 +746,6 @@ sub Data {
 
       # Template: AdminUserForm
       'User Management' => 'Benutzer Verwaltung',
-      '"} <a href="Action=AdminUser">$Text{"' => '',
       'Firstname' => 'Vorname',
       'Lastname' => 'Nachname',
       'User will be needed to handle tickets.' => 'Benutzer werden benötigt, um Tickets zu bearbeiten.',
@@ -735,23 +756,10 @@ sub Data {
 
       # Template: AdminUserGroupForm
 
-      'Do you really want to delete this Object?' => 'Soll das Objekt wirklich gelöscht werden?',
-      'Print' => 'Drucken',
-      'by' => 'von',
-      'Change search options' => 'Such-Optionen ändern',
-      'Results' => 'Ergebnis',
-      'Total hits' => 'Treffer gesamt',
-      'Site' => 'Seite',
-
       # Template: AgentBook
       'Address Book' => 'Adressbuch',
       'Return to the compose screen' => 'Zurück zum Verfassen-Fenster',
       'Discard all changes and return to the compose screen' => 'Alle Änderungen verwerfen und zurück zum Verfassen-Fenster',
-
-      # Template: AgentCrypt
-      'A message should have a subject!' => 'Eine Nachricht sollte einen Betreff haben!',
-      'A message should have a body!' => 'Eine Nachricht sollte einen Body haben!',
-      'You need to account time!' => 'Zeit muss berechnet werden!',
 
       # Template: AgentCustomerTableView
 
@@ -762,10 +770,10 @@ sub Data {
       'Link Object' => 'Verknüpfe Objekt',
       '"}" $Text{"with' => '',
       'Select' => 'Auswahl',
+      'Results' => 'Ergebnis',
+      'Total hits' => 'Treffer gesamt',
+      'Site' => 'Seite',
       'Detail' => '',
-
-      'sort upward' => 'aufwärts sortieren',
-      'sort downward' => 'abwärts sortieren',
 
       # Template: AgentLookup
       'Lookup' => '',
@@ -793,12 +801,16 @@ sub Data {
       'Send mail!' => 'Mail senden!',
 
       # Template: AgentTicketBulk
+      'A message should have a subject!' => 'Eine Nachricht sollte einen Betreff haben!',
       'Ticket Bulk Action' => 'Ticket Sammelaktion',
+      '$Text{"Note!' => '',
       'Spell Check' => 'Rechtschreibprüfung',
       'Note type' => 'Notiztyp',
       'Unlock Tickets' => 'Freigeben der Tickets',
 
       # Template: AgentTicketClose
+      'A message should have a body!' => 'Eine Nachricht sollte einen Body haben!',
+      'You need to account time!' => 'Zeit muss berechnet werden!',
       'Close ticket' => 'Ticket schließen',
       'Close!' => 'Schließen!',
       'Note Text' => 'Notiztext',
@@ -856,6 +868,8 @@ sub Data {
       'Order' => 'Sortierung',
       'up' => 'aufwärts',
       'down' => 'abwärts',
+      '"}\'; return true;" onmouseout="window.status=\'\';" class="menuitem" title="$Text{"' => '',
+      '"}"}">$Quote{"$Text{""}' => '',
 
       # Template: AgentTicketMerge
       'You need to use a ticket number!' => 'Bitte Ticket-Nummer benutzen!',
@@ -901,6 +915,7 @@ sub Data {
       'Linked-Object' => '',
       'Parent-Object' => '',
       'Child-Object' => '',
+      'by' => 'von',
 
       # Template: AgentTicketPriority
       'Change priority of ticket' => 'Priorität des Tickets ändern',
@@ -936,10 +951,16 @@ sub Data {
 
       # Template: AgentTicketSearchResult
       'Search Result' => 'Such-Ergebnis',
+      'Change search options' => 'Such-Optionen ändern',
 
       # Template: AgentTicketSearchResultPrint
+      '"}' => '',
 
       # Template: AgentTicketSearchResultShort
+      'sort upward' => 'aufwärts sortieren',
+      'U' => '',
+      'sort downward' => 'abwärts sortieren',
+      'D' => '',
 
       # Template: AgentTicketStatusView
       'Ticket Status View' => 'Ticket Status Ansicht',
@@ -950,8 +971,6 @@ sub Data {
 
       # Template: AgentTicketZoomStatus
       'Locked' => 'Sperre',
-
-      'Date' => 'Datum',
 
       # Template: AgentWindowTabStart
 
@@ -970,6 +989,7 @@ sub Data {
 
       # Template: CustomerFAQArticleHistory
       'FAQ History' => 'FAQ Historie',
+      'Print' => 'Drucken',
 
       # Template: CustomerFAQArticlePrint
       'Keywords' => 'Schlüsselwörter',
@@ -1037,6 +1057,7 @@ sub Data {
       'Comment (internal)' => 'Kommentar (intern)',
       'A article should have a title!' => 'Ein Artikel sollte einen Titel haben!',
       'New FAQ Article' => '',
+      'Do you really want to delete this Object?' => 'Soll das Objekt wirklich gelöscht werden?',
       'System History' => '',
 
       # Template: FAQCategoryForm
@@ -1126,6 +1147,7 @@ sub Data {
       # Template: Notify
 
       # Template: PrintFooter
+      'URL' => '',
 
       # Template: PrintHeader
       'printed by' => 'gedruckt von',

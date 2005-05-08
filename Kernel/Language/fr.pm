@@ -4,7 +4,7 @@
 # Copyright (C) 2004-2005 Yann Richard <ze at nbox.org>
 # Copyright (C) 2004 Igor Genibel <igor.genibel at eds-opensource.com>
 # --
-# $Id: fr.pm,v 1.43 2005-05-08 20:34:32 martin Exp $
+# $Id: fr.pm,v 1.44 2005-05-08 21:21:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.43 $';
+$VERSION = '$Revision: 1.44 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -23,7 +23,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Mon May  2 00:38:10 2005
+    # Last translation file sync: Sun May  8 23:10:46 2005
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -52,26 +52,26 @@ sub Data {
       'days' => 'jours',
       'hour' => 'heure',
       'hours' => 'heures',
-      'minute' => 'minute',
-      'minutes' => 'minutes',
+      'minute' => '',
+      'minutes' => '',
       'wrote' => 'écrit',
-      'Message' => 'Message',
+      'Message' => '',
       'Error' => 'Erreur',
       'Bug Report' => 'Rapport d\'anomalie',
-      'Attention' => 'Attention',
+      'Attention' => '',
       'Warning' => 'Attention',
-      'Module' => 'Module',
+      'Module' => '',
       'Modulefile' => 'Fichier de module',
       'Subfunction' => 'sous-fonction',
       'Line' => 'Ligne',
       'Example' => 'Exemple',
       'Examples' => 'Exemples',
       'invalid' => 'invalide',
-      ' 2 minutes' => ' 2 minutes',
-      ' 5 minutes' => ' 5 minutes',
-      ' 7 minutes' => ' 7 minutes',
-      '10 minutes' => '10 minutes',
-      '15 minutes' => '15 minutes',
+      ' 2 minutes' => '',
+      ' 5 minutes' => '',
+      ' 7 minutes' => '',
+      '10 minutes' => '',
+      '15 minutes' => '',
       'Mr.' => 'M.',
       'Mrs.' => 'Mme',
       'Next' => 'Suivant',
@@ -89,8 +89,8 @@ sub Data {
       'Link (Normal)' => 'Lien (Normal)',
       'Link (Parent)' => 'Lien (Parent)',
       'Link (Child)' => 'Lien (Enfant)',
-      'Normal' => 'Normal',
-      'Parent' => 'Parent',
+      'Normal' => '',
+      'Parent' => '',
       'Child' => 'Enfant',
       'Hit' => '',
       'Hits' => '',
@@ -102,7 +102,7 @@ sub Data {
       'Languages' => 'Langues',
       'Password' => 'Mot de Passe',
       'Salutation' => '',
-      'Signature' => 'Signature',
+      'Signature' => '',
       'Customer' => 'Client',
       'CustomerID' => 'Numéro de client',
       'CustomerIDs' => 'Numéro de client (Groupe)',
@@ -129,8 +129,8 @@ sub Data {
       'Valid' => 'Valide',
       'Name' => 'Nom',
       'Group' => 'Groupe',
-      'Description' => 'Description',
-      'description' => 'description',
+      'Description' => '',
+      'description' => '',
       'Theme' => 'Thème',
       'Created' => 'Créé',
       'Created by' => 'Crée par',
@@ -141,7 +141,7 @@ sub Data {
       'between' => 'entre',
       'Fulltext Search' => '',
       'Data' => '',
-      'Options' => 'Options',
+      'Options' => '',
       'Title' => 'Titre',
       'Item' => 'Élément',
       'Delete' => 'Effacer',
@@ -149,8 +149,8 @@ sub Data {
       'View' => 'Vue',
       'Number' => 'Nombre',
       'System' => 'Système',
-      'Contact' => 'Contact',
-      'Contacts' => 'Contacts',
+      'Contact' => '',
+      'Contacts' => '',
       'Export' => 'Exporter',
       'Up' => 'Haut',
       'Down' => 'Bas',
@@ -187,7 +187,7 @@ sub Data {
       'No such Ticket Number "%s"! Can\'t link it!' => 'Pas de numéro de ticket "%s"! Je ne peut pas le lier',
       'Take this Customer' => 'Choisir ce client',
       'Take this User' => 'Choisir cet utilisateur',
-      'possible' => 'possible',
+      'possible' => '',
       'reject' => 'rejeté',
       'Facility' => 'Service',
       'Timeover' => 'Temp écoulé',
@@ -218,7 +218,7 @@ sub Data {
       'Calendar' => 'Calendrier',
       'File' => 'Fichier',
       'Filename' => 'Nom de fichier',
-      'Type' => 'Type',
+      'Type' => '',
       'Size' => 'Taille',
       'Upload' => 'Uploader',
       'Directory' => 'Répertoire',
@@ -259,36 +259,40 @@ sub Data {
       'History::TicketLinkDelete' => 'Deleted link to ticket "%s".',
 
       # Template: AAAMonth
-      'Jan' => 'Jan',
+      'Jan' => '',
       'Feb' => 'Fév',
-      'Mar' => 'Mar',
+      'Mar' => '',
       'Apr' => 'Avr',
       'May' => 'Mai',
       'Jun' => 'Juin',
       'Jul' => 'Juil',
       'Aug' => 'Aôu',
-      'Sep' => 'Sep',
-      'Oct' => 'Oct',
-      'Nov' => 'Nov',
+      'Sep' => '',
+      'Oct' => '',
+      'Nov' => '',
       'Dec' => 'Déc',
 
       # Template: AAANavBar
-      'Send Email and create a new Ticket' => 'Envoyer un courriel et créer un nouveau Ticket',
-      'Create new Phone Ticket' => 'Créer un nouveau Ticket "téléphone"',
       'Ticket-Area' => 'Tickets',
-      'Overview of all open Tickets' => 'Vue de tout les Tickets',
       'Logout' => 'Déconnexion',
       'Agent Preferences' => 'Préférences de l\'Agent',
       'Preferences' => 'Préférences',
       'Agent Mailbox' => 'Boite e-mail de l\'Agent',
       'Stats-Area' => 'Statistiques',
-      'FAQ' => 'FAQ',
+      'FAQ' => '',
       'FAQ-Search' => '(FAQ) Rechercher',
       'FAQ-Article' => '(FAQ) Article',
       'FAQ-State' => '(FAQ) État',
-      'Admin' => 'Admin',
-      'Create new Ticket' => 'Création d\'un nouveau Ticket',
-      'New Ticket' => 'Nouveau Ticket',
+      'Admin' => '',
+      'A web calendar' => '',
+      'WebMail' => '',
+      'A web mail client' => '',
+      'FileManager' => '',
+      'A web file manager' => '',
+      'Artefact' => '',
+      'Incident' => '',
+      'Advisory' => '',
+      'WebWatcher' => '',
 
       # Template: AAAPreferences
       'Preferences updated successfully!' => 'Les préférences ont bien été mises à jours !',
@@ -349,14 +353,14 @@ sub Data {
       'Pending' => 'En attente',
       'Owner' => 'Propriétaire',
       'Sender' => 'émetteur',
-      'Article' => 'Article',
-      'Ticket' => 'Ticket',
+      'Article' => '',
+      'Ticket' => '',
       'Createtime' => 'Création du ',
       'plain' => 'tel quel',
       'eMail' => 'courriel',
       'email' => 'courriel',
       'Close' => 'Fermer',
-      'Action' => 'Action',
+      'Action' => '',
       'Attachment' => 'Pièce jointe',
       'Attachments' => 'Pièces jointes',
       'This message was written in a character set other than your own.' => 'Ce message a été écrit dans un jeu de caractères différent du vôtre.',
@@ -379,21 +383,47 @@ sub Data {
       'note-internal' => 'Note interne',
       'note-report' => 'Note rapport',
       'phone' => 'téléphone',
-      'sms' => 'sms',
+      'sms' => '',
       'webrequest' => 'Requête par le web',
       'lock' => 'vérrouiller',
       'unlock' => 'déverrouiller',
       'very low' => 'très basse',
       'low' => 'confort de fonctionnement',
-      'normal' => 'normal',
+      'normal' => '',
       'high' => 'important',
       'very high' => 'très haut',
       '1 very low' => '1 très bas',
       '2 low' => '2 bas',
-      '3 normal' => '3 normal',
+      '3 normal' => '',
       '4 high' => '4 important',
       '5 very high' => '5 très important',
       'Ticket "%s" created!' => 'Le ticket %s a été créé !',
+      'Email-Ticket' => '',
+      'Create new Email Ticket' => '',
+      'Phone-Ticket' => '',
+      'Create new Phone Ticket' => 'Créer un nouveau Ticket "téléphone"',
+      'Search Tickets' => '',
+      'Edit Customer Users' => '',
+      'Bulk-Action' => '',
+      'Bulk Actions on Tickets' => '',
+      'Send Email and create a new Ticket' => 'Envoyer un courriel et créer un nouveau Ticket',
+      'Overview of all open Tickets' => 'Vue de tout les Tickets',
+      'Locked tickets' => '',
+      'Lock it to work on it!' => '',
+      'Unlock to give it back to the queue!' => '',
+      'Shows the ticket history!' => '',
+      'Print this ticket!' => '',
+      'Change the ticket priority!' => '',
+      'Change the ticket free fields!' => '',
+      'Link this ticket to an other objects!' => '',
+      'Change the ticket owner!' => '',
+      'Change the ticket customer!' => '',
+      'Add a note to this ticket!' => '',
+      'Merge this ticket!' => '',
+      'Set this ticket to pending!' => '',
+      'Close this ticket!' => '',
+      'Look into a ticket!' => '',
+      'Delete this ticket!' => '',
 
       # Template: AAAWeekDay
       'Sun' => 'Dim',
@@ -411,7 +441,7 @@ sub Data {
       'Auto Response Management' => 'Gestion des réponses automatiques',
       'Response' => 'Réponse',
       'Auto Response From' => 'Réponse automatique de ',
-      'Note' => 'Note',
+      'Note' => '',
       'Useable options' => 'Options accessibles',
       'to get the first 20 character of the subject' => 'pour avoir les 20 premiers caractères du sujet ',
       'to get the first 5 lines of the email' => 'pour avoir les 5 premières ligne du mail',
@@ -426,7 +456,7 @@ sub Data {
       'Search for' => 'Chercher à',
       'Result' => 'Résultat',
       'Select Source (for add)' => 'Sélectionnez une source (pour ajout)',
-      'Source' => 'Source',
+      'Source' => '',
       'This values are read only.' => 'Ces valeurs sont en lecture seule.',
       'This values are required.' => 'Ces valeurs sont obligatoires.',
       'Customer user will be needed to have an customer histor and to to login via customer panels.' => 'Les clients utilisateurs seront invités à se connecter par la page client.',
@@ -463,7 +493,7 @@ sub Data {
       'Is Job Valid?' => '',
       'Is Job Valid' => '',
       'Schedule' => 'Planifier',
-      'Minutes' => 'Minutes',
+      'Minutes' => '',
       'Hours' => 'Heures',
       'Days' => 'Jours',
       'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Recherche sur le texte d\'un article (ex: "Mar*in" or "Baue*")',
@@ -491,7 +521,7 @@ sub Data {
       'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => 'Cette commande sera exécuté. ARG[0] sera le numéro du ticket et ARG[1] son identifiant.',
       'Delete tickets' => 'Effacer les tickets',
       'Warning! This tickets will be removed from the database! This tickets are lost!' => 'Attention, ces tickets seront éffacés de la base de donnée ! Ils seront définitivement perdu !',
-      'Modules' => 'Modules',
+      'Modules' => '',
       'Param 1' => 'Paramètre 1',
       'Param 2' => 'Paramètre 2',
       'Param 3' => 'Paramètre 3',
@@ -519,7 +549,7 @@ sub Data {
 
       # Template: AdminNotificationForm
       'Notification Management' => 'Gestion des notifications',
-      'Notification' => 'Notification',
+      'Notification' => '',
       'Notifications are sent to an agent or a customer.' => 'Des notifications sont envoyées à un technicien ou à un client.',
       'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Options de configuration (ex: &lt;OTRS_CONFIG_HttpType&gt;)',
       'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => 'Options du propriétaire d\'un ticket (ex: &lt;OTRS_OWNER_USERFIRSTNAME&gt;)',
@@ -534,7 +564,7 @@ sub Data {
       'Install' => 'Installation',
       'Package' => 'Paquet',
       'Online Repository' => '',
-      'Version' => 'Version',
+      'Version' => '',
       'Vendor' => 'Vendeur',
       'Upgrade' => 'Mise à jour',
       'Local Repository' => '',
@@ -547,7 +577,7 @@ sub Data {
       # Template: AdminPGPForm
       'PGP Management' => 'Gestion de PGP',
       'Identifier' => 'Identifiant',
-      'Bit' => 'Bit',
+      'Bit' => '',
       'Key' => 'Clé',
       'Fingerprint' => 'Empreinte',
       'Expires' => 'Expiration',
@@ -658,7 +688,7 @@ sub Data {
 
       # Template: AdminSelectBoxForm
       'Select Box' => 'Requête SQL libre.',
-      'SQL' => 'SQL',
+      'SQL' => '',
       'Limit' => 'Limite',
       'Select Box Result' => 'Choisissez le résultat',
 
@@ -667,7 +697,7 @@ sub Data {
       'Sessions' => 'Session',
       'Uniq' => 'Unique',
       'kill all sessions' => 'Terminer toutes les sessions',
-      'Session' => 'Session',
+      'Session' => '',
       'kill session' => 'Terminer une session',
 
       # Template: AdminSignatureForm
@@ -698,15 +728,14 @@ sub Data {
       'Options ' => 'Options',
       'for ' => 'pour',
       'Subgroup \'' => 'Sous-groupe \'',
-      '\' ' => '\' ',
       'Content' => '',
       'New' => 'Nouveau',
       'Group Ro' => 'Groupe lecture seule',
       'NavBarName' => 'Nom de la barre de navigation',
-      'Image' => 'Image',
+      'Image' => '',
       'Typ' => 'Type',
       'Prio' => 'Priorité',
-      'Block' => 'Block',
+      'Block' => '',
       'NavBar' => 'Barre de navigation',
 
       # Template: AdminSystemAddressForm
@@ -743,7 +772,7 @@ sub Data {
       'Select' => 'Sélectionner',
       'Results' => 'Résultat',
       'Total hits' => 'Total des hits',
-      'Site' => 'Site',
+      'Site' => '',
       'Detail' => 'Détail',
 
       # Template: AgentLookup
@@ -829,7 +858,7 @@ sub Data {
 
       # Template: AgentTicketMailbox
       'Mailbox' => 'Bo&icirc;te aux lettres',
-      'Tickets' => 'Tickets',
+      'Tickets' => '',
       'All messages' => 'Tous les messages',
       'New messages' => 'Nouveaux messages',
       'Pending messages' => 'Message en attente',
@@ -893,7 +922,7 @@ sub Data {
 
       # Template: AgentTicketQueue
       'Tickets shown' => 'Tickets affichés',
-      'Page' => 'Page',
+      'Page' => '',
       'Tickets available' => 'Tickets disponibles',
       'All tickets' => 'tous les tickets',
       'Queues' => 'Files',
@@ -967,7 +996,7 @@ sub Data {
       'Last update' => 'Dernière mise à jour',
       'Symptom' => 'Symptôme',
       'Problem' => 'Problème',
-      'Solution' => 'Solution',
+      'Solution' => '',
 
       # Template: CustomerFAQArticleSystemHistory
       'FAQ System History' => 'Historique système de la FAQ',
@@ -1118,7 +1147,7 @@ sub Data {
       # Template: Notify
 
       # Template: PrintFooter
-      'URL' => 'URL',
+      'URL' => '',
 
       # Template: PrintHeader
       'printed by' => 'Imprimé par :',
@@ -1126,7 +1155,7 @@ sub Data {
       # Template: Redirect
 
       # Template: SystemStats
-      'Format' => 'Format',
+      'Format' => '',
 
       # Template: Test
       'OTRS Test Page' => 'Page de test d\'OTRS',

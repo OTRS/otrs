@@ -5,7 +5,7 @@
 # Copyright (C) 2003 A-NeT Internet Services bv
 # Copyright (C) 2004 Martijn Lohmeijer (martijn.lohmeijer 'at' sogeti.nl)
 # --
-# $Id: nl.pm,v 1.28 2005-05-07 15:23:39 martin Exp $
+# $Id: nl.pm,v 1.29 2005-05-08 21:21:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -45,7 +45,7 @@ package Kernel::Language::nl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
@@ -53,7 +53,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Mon May  2 00:38:28 2005
+    # Last translation file sync: Sun May  8 23:18:35 2005
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -303,10 +303,7 @@ sub Data {
       'Dec' => '',
 
       # Template: AAANavBar
-      'Send Email and create a new Ticket' => '',
-      'Create new Phone Ticket' => '',
       'Ticket-Area' => '',
-      'Overview of all open Tickets' => '',
       'Logout' => 'Uitloggen',
       'Agent Preferences' => '',
       'Preferences' => 'Voorkeuren',
@@ -317,8 +314,15 @@ sub Data {
       'FAQ-Article' => '',
       'FAQ-State' => '',
       'Admin' => '',
-      'Create new Ticket' => 'Maak een nieuw Ticket',
-      'New Ticket' => 'Nieuw ticket',
+      'A web calendar' => '',
+      'WebMail' => '',
+      'A web mail client' => '',
+      'FileManager' => '',
+      'A web file manager' => '',
+      'Artefact' => '',
+      'Incident' => '',
+      'Advisory' => '',
+      'WebWatcher' => '',
 
       # Template: AAAPreferences
       'Preferences updated successfully!' => 'Voorkeuren zijn gewijzigd!',
@@ -424,6 +428,32 @@ sub Data {
       '4 high' => '4 hoog',
       '5 very high' => '5 zeer hoog',
       'Ticket "%s" created!' => 'Ticket "%s" aangemaakt',
+      'Email-Ticket' => '',
+      'Create new Email Ticket' => '',
+      'Phone-Ticket' => '',
+      'Create new Phone Ticket' => '',
+      'Search Tickets' => '',
+      'Edit Customer Users' => '',
+      'Bulk-Action' => '',
+      'Bulk Actions on Tickets' => '',
+      'Send Email and create a new Ticket' => '',
+      'Overview of all open Tickets' => '',
+      'Locked tickets' => '',
+      'Lock it to work on it!' => '',
+      'Unlock to give it back to the queue!' => '',
+      'Shows the ticket history!' => '',
+      'Print this ticket!' => '',
+      'Change the ticket priority!' => '',
+      'Change the ticket free fields!' => '',
+      'Link this ticket to an other objects!' => '',
+      'Change the ticket owner!' => '',
+      'Change the ticket customer!' => '',
+      'Add a note to this ticket!' => '',
+      'Merge this ticket!' => '',
+      'Set this ticket to pending!' => '',
+      'Close this ticket!' => '',
+      'Look into a ticket!' => '',
+      'Delete this ticket!' => '',
 
       # Template: AAAWeekDay
       'Sun' => 'zon',
@@ -869,8 +899,6 @@ sub Data {
       'Order' => 'Volgorde',
       'up' => 'naar boven',
       'down' => 'naar beneden',
-      '"}\'; return true;" onmouseout="window.status=\'\';" class="menuitem" title="$Text{"' => '',
-      '"}"}">$Quote{"$Text{""}' => '',
 
       # Template: AgentTicketMerge
       'You need to use a ticket number!' => '',

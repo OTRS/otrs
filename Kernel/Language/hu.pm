@@ -2,7 +2,7 @@
 # Kernel/Language/hu.pm - provides de language translation
 # Copyright (C) 2004 RLAN Internet <MAGIC at rlan.hu>
 # --
-# $Id: hu.pm,v 1.8 2005-05-07 15:23:39 martin Exp $
+# $Id: hu.pm,v 1.9 2005-05-08 21:21:57 martin Exp $
 # Translation: Gabor Gancs /gg@magicnet.hu/ & Krisztian Gancs /krisz@gancs.hu/
 # Verify: Flora Szabo /szaboflora@magicnet.hu/
 # Hungary Sopron Europe
@@ -17,7 +17,7 @@ package Kernel::Language::hu;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -26,7 +26,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Mon May  2 00:38:14 2005
+    # Last translation file sync: Sun May  8 23:16:12 2005
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-2', 'iso-8859-15', ];
@@ -276,10 +276,7 @@ sub Data {
       'Dec' => '',
 
       # Template: AAANavBar
-      'Send Email and create a new Ticket' => '',
-      'Create new Phone Ticket' => 'Új telefon jegy létrehozása',
       'Ticket-Area' => '',
-      'Overview of all open Tickets' => 'Összes nyitott jegy áttekintése',
       'Logout' => 'Kilép',
       'Agent Preferences' => 'Ügynök beállítások',
       'Preferences' => 'Beállítások',
@@ -290,8 +287,15 @@ sub Data {
       'FAQ-Article' => '',
       'FAQ-State' => '',
       'Admin' => '',
-      'Create new Ticket' => 'Új jegy létrehozása',
-      'New Ticket' => 'Új jegy',
+      'A web calendar' => '',
+      'WebMail' => '',
+      'A web mail client' => '',
+      'FileManager' => '',
+      'A web file manager' => '',
+      'Artefact' => '',
+      'Incident' => '',
+      'Advisory' => '',
+      'WebWatcher' => '',
 
       # Template: AAAPreferences
       'Preferences updated successfully!' => 'Beállítások sikeresen frissítve!',
@@ -397,6 +401,32 @@ sub Data {
       '4 high' => '4 magas',
       '5 very high' => '5 nagyon magas',
       'Ticket "%s" created!' => 'A "%s" jegy létrehozva!',
+      'Email-Ticket' => '',
+      'Create new Email Ticket' => '',
+      'Phone-Ticket' => '',
+      'Create new Phone Ticket' => 'Új telefon jegy létrehozása',
+      'Search Tickets' => '',
+      'Edit Customer Users' => '',
+      'Bulk-Action' => '',
+      'Bulk Actions on Tickets' => '',
+      'Send Email and create a new Ticket' => '',
+      'Overview of all open Tickets' => 'Összes nyitott jegy áttekintése',
+      'Locked tickets' => '',
+      'Lock it to work on it!' => '',
+      'Unlock to give it back to the queue!' => '',
+      'Shows the ticket history!' => '',
+      'Print this ticket!' => '',
+      'Change the ticket priority!' => '',
+      'Change the ticket free fields!' => '',
+      'Link this ticket to an other objects!' => '',
+      'Change the ticket owner!' => '',
+      'Change the ticket customer!' => '',
+      'Add a note to this ticket!' => '',
+      'Merge this ticket!' => '',
+      'Set this ticket to pending!' => '',
+      'Close this ticket!' => '',
+      'Look into a ticket!' => '',
+      'Delete this ticket!' => '',
 
       # Template: AAAWeekDay
       'Sun' => 'Vas',
@@ -842,8 +872,6 @@ sub Data {
       'Order' => 'Sorrend',
       'up' => 'fel',
       'down' => 'le',
-      '"}\'; return true;" onmouseout="window.status=\'\';" class="menuitem" title="$Text{"' => '',
-      '"}"}">$Quote{"$Text{""}' => '',
 
       # Template: AgentTicketMerge
       'You need to use a ticket number!' => '',

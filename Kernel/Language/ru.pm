@@ -2,7 +2,7 @@
 # Kernel/Language/ru.pm - provides ru language translation
 # Copyright (C) 2003 Serg V Kravchenko <skraft at rgs.ru>
 # --
-# $Id: ru.pm,v 1.15 2005-05-07 15:23:39 martin Exp $
+# $Id: ru.pm,v 1.16 2005-05-08 21:21:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::ru;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
@@ -21,7 +21,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Mon May  2 00:38:46 2005
+    # Last translation file sync: Sun May  8 23:21:42 2005
 
     # possible charsets
     $Self->{Charset} = ['cp1251', 'Windows-1251', ];
@@ -271,10 +271,7 @@ sub Data {
       'Dec' => 'Декабря',
 
       # Template: AAANavBar
-      'Send Email and create a new Ticket' => '',
-      'Create new Phone Ticket' => '',
       'Ticket-Area' => '',
-      'Overview of all open Tickets' => '',
       'Logout' => 'Выход',
       'Agent Preferences' => '',
       'Preferences' => 'Предпочтения',
@@ -285,8 +282,15 @@ sub Data {
       'FAQ-Article' => '',
       'FAQ-State' => '',
       'Admin' => '',
-      'Create new Ticket' => 'Создать новую Заявку',
-      'New Ticket' => 'новая Заявка',
+      'A web calendar' => '',
+      'WebMail' => '',
+      'A web mail client' => '',
+      'FileManager' => '',
+      'A web file manager' => '',
+      'Artefact' => '',
+      'Incident' => '',
+      'Advisory' => '',
+      'WebWatcher' => '',
 
       # Template: AAAPreferences
       'Preferences updated successfully!' => 'Настройки успешно обновлены',
@@ -392,6 +396,32 @@ sub Data {
       '4 high' => '4 высокий',
       '5 very high' => '5 самый высокий',
       'Ticket "%s" created!' => '',
+      'Email-Ticket' => '',
+      'Create new Email Ticket' => '',
+      'Phone-Ticket' => '',
+      'Create new Phone Ticket' => '',
+      'Search Tickets' => '',
+      'Edit Customer Users' => '',
+      'Bulk-Action' => '',
+      'Bulk Actions on Tickets' => '',
+      'Send Email and create a new Ticket' => '',
+      'Overview of all open Tickets' => '',
+      'Locked tickets' => '',
+      'Lock it to work on it!' => '',
+      'Unlock to give it back to the queue!' => '',
+      'Shows the ticket history!' => '',
+      'Print this ticket!' => '',
+      'Change the ticket priority!' => '',
+      'Change the ticket free fields!' => '',
+      'Link this ticket to an other objects!' => '',
+      'Change the ticket owner!' => '',
+      'Change the ticket customer!' => '',
+      'Add a note to this ticket!' => '',
+      'Merge this ticket!' => '',
+      'Set this ticket to pending!' => '',
+      'Close this ticket!' => '',
+      'Look into a ticket!' => '',
+      'Delete this ticket!' => '',
 
       # Template: AAAWeekDay
       'Sun' => 'Воскр-е',
@@ -407,7 +437,6 @@ sub Data {
 
       # Template: AdminAutoResponseForm
       'Auto Response Management' => 'Управление авто-ответами',
-      '"} <a href="Action=">$Text{"' => '',
       'Response' => 'Ответ',
       'Auto Response From' => 'Автоматический ответ от',
       'Note' => 'заметка',
@@ -838,8 +867,6 @@ sub Data {
       'Order' => 'Порядок',
       'up' => 'вверх',
       'down' => 'вниз',
-      '"}\'; return true;" onmouseout="window.status=\'\';" class="menuitem" title="$Text{"' => '',
-      '"}"}">$Quote{"$Text{""}' => '',
 
       # Template: AgentTicketMerge
       'You need to use a ticket number!' => '',
@@ -931,7 +958,6 @@ sub Data {
       'U' => '',
       'sort downward' => 'сортировка по убыванию',
       'D' => '',
-      'Customer history"}\'; return true;" onmouseout="window.status=\'\';"><div title="">$Quote{"' => '',
 
       # Template: AgentTicketStatusView
       'Ticket Status View' => '',

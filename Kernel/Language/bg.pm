@@ -11,7 +11,7 @@ package Kernel::Language::bg;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -19,7 +19,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Mon May  2 00:37:54 2005
+    # Last translation file sync: Sun May  8 23:13:46 2005
 
     # possible charsets
     $Self->{Charset} = ['cp1251', 'Windows-1251', ];
@@ -269,10 +269,7 @@ sub Data {
       'Dec' => 'Дек',
 
       # Template: AAANavBar
-      'Send Email and create a new Ticket' => '',
-      'Create new Phone Ticket' => '',
       'Ticket-Area' => '',
-      'Overview of all open Tickets' => '',
       'Logout' => 'Изход',
       'Agent Preferences' => '',
       'Preferences' => 'Предпочитания',
@@ -283,8 +280,15 @@ sub Data {
       'FAQ-Article' => '',
       'FAQ-State' => '',
       'Admin' => '',
-      'Create new Ticket' => 'Създаване на нов билет',
-      'New Ticket' => 'Нов билет',
+      'A web calendar' => '',
+      'WebMail' => '',
+      'A web mail client' => '',
+      'FileManager' => '',
+      'A web file manager' => '',
+      'Artefact' => '',
+      'Incident' => '',
+      'Advisory' => '',
+      'WebWatcher' => '',
 
       # Template: AAAPreferences
       'Preferences updated successfully!' => 'Предпочитанията са обновени успешно',
@@ -390,6 +394,32 @@ sub Data {
       '4 high' => '4 висок',
       '5 very high' => '5 много висок',
       'Ticket "%s" created!' => '',
+      'Email-Ticket' => '',
+      'Create new Email Ticket' => '',
+      'Phone-Ticket' => '',
+      'Create new Phone Ticket' => '',
+      'Search Tickets' => '',
+      'Edit Customer Users' => '',
+      'Bulk-Action' => '',
+      'Bulk Actions on Tickets' => '',
+      'Send Email and create a new Ticket' => '',
+      'Overview of all open Tickets' => '',
+      'Locked tickets' => '',
+      'Lock it to work on it!' => '',
+      'Unlock to give it back to the queue!' => '',
+      'Shows the ticket history!' => '',
+      'Print this ticket!' => '',
+      'Change the ticket priority!' => '',
+      'Change the ticket free fields!' => '',
+      'Link this ticket to an other objects!' => '',
+      'Change the ticket owner!' => '',
+      'Change the ticket customer!' => '',
+      'Add a note to this ticket!' => '',
+      'Merge this ticket!' => '',
+      'Set this ticket to pending!' => '',
+      'Close this ticket!' => '',
+      'Look into a ticket!' => '',
+      'Delete this ticket!' => '',
 
       # Template: AAAWeekDay
       'Sun' => 'Нед',
@@ -405,7 +435,6 @@ sub Data {
 
       # Template: AdminAutoResponseForm
       'Auto Response Management' => 'Управление на автоматичният отговор',
-      '"} <a href="Action=">$Text{"' => '',
       'Response' => 'Отговор',
       'Auto Response From' => 'Автоматичен отговор от',
       'Note' => 'Бележка',
