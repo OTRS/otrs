@@ -1,20 +1,20 @@
 #!/usr/bin/perl -w
 # --
 # DeleteSessionIDs.pl - to delete all existing, idle or expired session ids
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DeleteSessionIDs.pl,v 1.13 2004-09-08 06:12:18 martin Exp $
+# $Id: DeleteSessionIDs.pl,v 1.14 2005-05-09 10:58:12 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -29,11 +29,12 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Kernel::Config;
 use Kernel::System::Log;
+use Kernel::System::Time;
 use Kernel::System::DB;
 use Kernel::System::AuthSession;
 
@@ -46,11 +47,10 @@ $CommonObject{LogObject} = Kernel::System::Log->new(
     LogPrefix => 'OTRS-DeleteSessionIDs',
     %CommonObject,
 );
-$CommonObject{DBObject} = Kernel::System::DB->new(
-    %CommonObject,
-);
+$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
+$CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
 $CommonObject{SessionObject} = Kernel::System::AuthSession->new(
-    %CommonObject, 
+    %CommonObject,
     CMD => 1,
 );
 
@@ -59,7 +59,7 @@ $CommonObject{SessionObject} = Kernel::System::AuthSession->new(
 # --
 my $Command = shift || '--help';
 print "DeleteSessionIDs.pl <Revision $VERSION> - delete all existing or expired session ids\n";
-print "Copyright (c) 2002 Martin Edenhofer <martin\@otrs.org>\n";
+print "Copyright (c) 2001-2005 Martin Edenhofer <martin\@otrs.org>\n";
 # --
 # show/delete all session ids
 # -
@@ -80,7 +80,7 @@ if (($Command eq '--all') || ($Command eq '--showall')) {
     exit (0);
 }
 # --
-# show/delete all expired session ids 
+# show/delete all expired session ids
 # --
 elsif (($Command eq '--expired') || ($Command eq '--showexpired')) {
     print " Working on expired session ids:\n";
