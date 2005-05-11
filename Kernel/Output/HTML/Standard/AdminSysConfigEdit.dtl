@@ -2,7 +2,7 @@
 # AdminSysConfigEdit.dtl - provides HTML form for SysConfig
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfigEdit.dtl,v 1.8 2005-05-11 11:54:15 rk Exp $
+# $Id: AdminSysConfigEdit.dtl,v 1.9 2005-05-11 14:38:40 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -196,7 +196,7 @@
                 <td width="50">&nbsp;</td>
                 <td class="contentvalue"><input type="text" name="$Data{"ElementKey"}#NavBar$Data{"Index"}#Group[]" value="$QData{"Content"}" size="20"></td>
                 <td>&nbsp;</td>
-                <td class="contentkey"><input type="submit" name="$Data{"ElementKey"}#DeleteGroupElement" value="$Text{"Delete"}"></td>
+                <td class="contentkey"><input type="submit" name="$Data{"ElementKey"}#NavBar$Data{"Index"}#DeleteGroupElement$Data{"ArrayIndex"}" value="$Text{"Delete"}"></td>
               </tr>
               <!-- dtl:block:ConfigElementFrontendModuleRegContentNavBarGroup -->
               <tr>
@@ -216,7 +216,7 @@
                 <td>&nbsp;</td>
                 <td class="contentvalue"><input type="text" name="$Data{"ElementKey"}#NavBar$Data{"Index"}#GroupRo[]" value="$QData{"Content"}" size="20"></td>
                 <td>&nbsp;</td>
-                <td class="contentkey"><input type="submit" name="$Data{"ElementKey"}#DeleteGroupElement" value="$Text{"Delete"}"></td>
+                <td class="contentkey"><input type="submit" name="$Data{"ElementKey"}#NavBar$Data{"Index"}#DeleteGroupRoElement$Data{"ArrayIndex"}" value="$Text{"Delete"}"></td>
               </tr> 
               <!-- dtl:block:ConfigElementFrontendModuleRegContentNavBarGroupRo -->
               <tr>

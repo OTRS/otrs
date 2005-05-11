@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.pm,v 1.12 2005-05-11 11:54:15 rk Exp $
+# $Id: AdminSysConfig.pm,v 1.13 2005-05-11 14:38:40 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -75,8 +75,9 @@ sub Run {
                 # Get Value (Content)
                 my $Content = $Self->{ParamObject}->GetParam(Param => $_);
                 # Regex check
-                if (defined ($ItemHash{Setting}[1]{String}[1]{Regex}) && $ItemHash{Setting}[1]{String}[1]{Regex} != "" && !($Content =~ /$ItemHash{Setting}[1]{String}[1]{Regex}/)) {
-                    $InvalidValue{$_} = 1;              
+                if (defined ($ItemHash{Setting}[1]{String}[1]{Regex}) && $ItemHash{Setting}[1]{String}[1]{Regex} ne "" && !($Content =~ /$ItemHash{Setting}[1]{String}[1]{Regex}/)) {
+                    $InvalidValue{$_} = 1;
+                    $Self->{LogObject}->Dumper(fdas => $ItemHash{Setting}[1]{String}[1]{Regex});
                 }
                 # write ConfigItem
                 if (!$Self->{SysConfigObject}->ConfigItemUpdate(Key => $_, Value => $Content, Valid => $Aktiv)) {
@@ -183,17 +184,17 @@ sub Run {
                 }
                 # Create Hash
                 foreach my $Index (0...$#{$NavBarParams{Description}}) {
-                    foreach (qw (Group GroupRo)) {
-                        my @Group = $Self->{ParamObject}->GetArray(Param => $ElementKey.'#NavBar'.($Index+1).'#'.$_.'[]');
+                    foreach my $Typ (qw (Group GroupRo)) {
+                        my @Group = $Self->{ParamObject}->GetArray(Param => $ElementKey.'#NavBar'.($Index+1).'#'.$Typ.'[]');
                         #Delete Group Element
-#                        foreach my $Index (0...$#Content) {
-#                            if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#DeleteArrayElement'.($Index+1))) {
-#                                splice(@Content,$Index,1);
-#                            }
-#                        }
-                        $Content{NavBar}[$Index]{$_} = \@Group;
+                        foreach my $Index2 (0...$#Group) {
+                            if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#NavBar'.($Index+1).'#Delete'.$Typ.'Element'.($Index2+1))) {
+                                splice(@Group,$Index2,1);
+                            }
+                        }
+                        $Content{NavBar}[$Index]{$Typ} = \@Group;
                     }
-                    foreach ( qw (Description Name Image Link Typ Prio Block NavBar AccessKey)) {
+                    foreach (qw (Description Name Image Link Typ Prio Block NavBar AccessKey)) {
                         $Content{NavBar}[$Index]{$_} = $NavBarParams{$_}[$Index];
                     }
                 }
@@ -379,7 +380,7 @@ sub ListConfigItem {
     my $Valid = '';
     # ConfigElement String
     if (defined ($ItemHash{Setting}[1]{String})) {
-        if (defined ($InvalidValue{$_})) {
+        if (defined ($InvalidValue{$ItemHash{Name}})) {
             $Valid = 'Invalid Value!';
         }
         $Self->{LayoutObject}->Block(
@@ -613,14 +614,15 @@ sub ListConfigItem {
                         push (@{$ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBar}[$Index]{$ArrayElement}}, undef);
                     }          
                     push (@{$ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBar}[$Index]{$ArrayElement}}, {Content => ''});
-                }            
+                }
                 foreach my $Index2 (1...$#{$ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBar}[$Index]{$ArrayElement}}) {                    
                     $Self->{LayoutObject}->Block(
                         Name => 'ConfigElementFrontendModuleRegContentNavBar'.$ArrayElement,
                         Data => {
                             Index => $Index,
+                            ArrayIndex => $Index2,
                             ElementKey => $ItemHash{Name},
-                            Content => $ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBar}[$Index]{$ArrayElement}[$Index]{Content},
+                            Content => $ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBar}[$Index]{$ArrayElement}[$Index2]{Content},
                         },
                     );
                 }
