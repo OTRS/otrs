@@ -130,7 +130,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.18 2005-05-08 21:20:32 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.19 2005-05-11 12:54:02 tr Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">To set the Ticket identifier (e. g. Ticket#: 123456789). Some people want to set this to 'Call#', 'MyTicket#' or 'Ticket#'.</Description>
         <Description Lang="de">Hiermit kann der Ticket-Identifikator gesetzt werden (z. B. Ticket#: 123456789). Manche Kunden setzen definieren 'Call#', 'MyTicket#' oder 'Ticket#'. Als Standardeinstellung wird 'Ticket#' geliefert.</Description>
@@ -1974,7 +1974,7 @@ use this for NewQueueSelectionType = SystemAddress => '&lt;Realname&gt; &lt;&lt;
         <Description Lang="en"></Description>
         <Description Lang="de">!!!!! Kein Inhalt</Description>
         <Group>Ticket</Group>
-        <SubGroup>a</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <TextArea>$Data{"Salutation"}
 $Data{"OrigFrom"} $Text{"wrote"}:
@@ -4569,7 +4569,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Group>['admin']</Group>
+                <Group>admin</Group>
                 <Description>Admin</Description>
                 <Title>Queue</Title>
                 <NavBarName>Admin</NavBarName>
@@ -4583,7 +4583,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         </Setting>
         <!--
             $Self->{'Frontend::Module'}->{'AdminQueue'} = {
-                Group => ['admin'],
+                Group => admin,
                 Description => 'Admin',
                 Title => 'Queue',
                 NavBarName => 'Admin',
@@ -4603,7 +4603,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Group>['admin']</Group>
+                <Group>admin</Group>
                 <Description>Admin</Description>
                 <Title>Response</Title>
                 <NavBarName>Admin</NavBarName>
@@ -4617,7 +4617,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         </Setting>
         <!--
             $Self->{'Frontend::Module'}->{'AdminResponse'} = {
-                Group => ['admin'],
+                Group => admin,
                 Description => 'Admin',
                 Title => 'Response',
                 NavBarName => 'Admin',
@@ -4637,7 +4637,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Group>['admin']</Group>
+                <Group>admin</Group>
                 <Description>Admin</Description>
                 <Title>Response &lt;-&gt; Queue</Title>
                 <NavBarName>Admin</NavBarName>
@@ -4651,7 +4651,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         </Setting>
         <!--
             $Self->{'Frontend::Module'}->{'AdminQueueResponses'} = {
-                Group => ['admin'],
+                Group => admin,
                 Description => 'Admin',
                 Title => 'Response <-> Queue',
                 NavBarName => 'Admin',
@@ -4671,7 +4671,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Group>['admin']</Group>
+                <Group>admin</Group>
                 <Description>Admin</Description>
                 <Title>Auto response change</Title>
                 <NavBarName>Admin</NavBarName>
@@ -4685,7 +4685,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         </Setting>
         <!--
             $Self->{'Frontend::Module'}->{'AdminAutoResponse'} = {
-                Group => ['admin'],
+                Group => admin,
                 Description => 'Admin',
                 Title => 'Auto response change',
                 NavBarName => 'Admin',
@@ -4705,7 +4705,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Group>['admin']</Group>
+                <Group>admin</Group>
                 <Description>Admin</Description>
                 <Title>Queue &lt;-&gt; Auto Response</Title>
                 <NavBarName>Admin</NavBarName>
@@ -4719,7 +4719,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         </Setting>
         <!--
             $Self->{'Frontend::Module'}->{'AdminQueueAutoResponse'} = {
-                Group => ['admin'],
+                Group => admin,
                 Description => 'Admin',
                 Title => 'Queue <-> Auto Response',
                 NavBarName => 'Admin',
@@ -4739,7 +4739,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Group>['admin']</Group>
+                <Group>admin</Group>
                 <Description>Admin</Description>
                 <Title>Attachment</Title>
                 <NavBarName>Admin</NavBarName>
@@ -4753,7 +4753,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         </Setting>
         <!--
             $Self->{'Frontend::Module'}->{'AdminAttachment'} = {
-                Group => ['admin'],
+                Group => admin,
                 Description => 'Admin',
                 Title => 'Attachment',
                 NavBarName => 'Admin',
@@ -4773,7 +4773,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <SubGroup>CustomerFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReq>
-                <Group>['admin']</Group>
+                <Group>admin</Group>
                 <Description>Admin</Description>
                 <Title>Response &lt;-&gt; Queue</Title>
                 <NavBarName>Admin</NavBarName>
@@ -4787,7 +4787,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         </Setting>
         <!--
             $Self->{'Frontend::Module'}->{'AdminResponseAttachment'} = {
-                Group => ['admin'],
+                Group => admin,
                 Description => 'Admin',
                 Title => 'Response <-> Queue',
                 NavBarName => 'Admin',
@@ -4804,11 +4804,10 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>Ticket</SubGroup>
         <SubGroup>CustomerFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Group>['admin']</Group>
+                <Group>admin</Group>
                 <Description>Admin</Description>
                 <Title>Salutation</Title>
                 <NavBarName>Admin</NavBarName>
@@ -4822,7 +4821,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         </Setting>
         <!--
             $Self->{'Frontend::Module'}->{'AdminSalutation'} = {
-                Group => ['admin'],
+                Group => admin,
                 Description => 'Admin',
                 Title => 'Salutation',
                 NavBarName => 'Admin',
@@ -4842,7 +4841,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <SubGroup>AgentFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Group>['admin']</Group>
+                <Group>admin</Group>
                 <Description>Admin</Description>
                 <Title>Signature</Title>
                 <NavBarName>Admin</NavBarName>
@@ -4856,7 +4855,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         </Setting>
         <!--
             $Self->{'Frontend::Module'}->{'AdminSignature'} = {
-                Group => ['admin'],
+                Group => admin,
                 Description => 'Admin',
                 Title => 'Signature',
                 NavBarName => 'Admin',
@@ -4876,7 +4875,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Group>['admin']</Group>
+                <Group>admin</Group>
                 <Description>Admin</Description>
                 <Title>System address</Title>
                 <NavBarName>Admin</NavBarName>
@@ -4890,7 +4889,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         </Setting>
         <!--
             $Self->{'Frontend::Module'}->{'AdminSystemAddress'} = {
-                Group => ['admin'],
+                Group => admin,
                 Description => 'Admin',
                 Title => 'System address',
                 NavBarName => 'Admin',
@@ -4910,7 +4909,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Group>['admin']</Group>
+                <Group>admin</Group>
                 <Description>Admin</Description>
                 <Title>Notification</Title>
                 <NavBarName>Admin</NavBarName>
@@ -4924,7 +4923,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         </Setting>
         <!--
             $Self->{'Frontend::Module'}->{'AdminNotification'} = {
-                Group => ['admin'],
+                Group => admin,
                 Description => 'Admin',
                 Title => 'Notification',
                 NavBarName => 'Admin',
@@ -4944,7 +4943,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Group>['admin']</Group>
+                <Group>admin</Group>
                 <Description>Admin</Description>
                 <Title>State</Title>
                 <NavBarName>Admin</NavBarName>
@@ -4958,7 +4957,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         </Setting>
         <!--
             $Self->{'Frontend::Module'}->{'AdminState'} = {
-                Group => ['admin'],
+                Group => admin,
                 Description => 'Admin',
                 Title => 'State',
                 NavBarName => 'Admin',
@@ -4978,7 +4977,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Group>['admin']</Group>
+                <Group>admin</Group>
                 <Description>Admin</Description>
                 <Title>GenericAgent</Title>
                 <NavBarName>Admin</NavBarName>
@@ -4992,7 +4991,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         </Setting>
         <!--
             $Self->{'Frontend::Module'}->{'AdminGenericAgent'} = {
-                Group => ['admin'],
+                Group => admin,
                 Description => 'Admin',
                 Title => 'GenericAgent',
                 NavBarName => 'Admin',
