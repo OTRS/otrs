@@ -93,7 +93,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.19 2005-05-11 12:54:31 tr Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.20 2005-05-11 13:19:39 tr Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der WEB-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -182,7 +182,7 @@ TimeWorkingHours
     </ConfigItem>                     
     <ConfigItem Name="DefaultCharset" Required="1" Valid="1">
         <Description Lang="en">Default frontend charset. "utf-8" is a good choice for envirorments with many possible charsetss. Specify another charset (e.g "iso-8859-1"), if only this specific charset is needed.</Description>
-        <Description Lang="de">Standard-Zeichensatz des Frontends. Wählen Sie "utf-8", wenn verschiedene Zeichensätze für die Anzeige benötigt werden. Wir nur ein Zeichensatz eingesetzt (z.B. "iso8859-1"), nutzen Sie bitte diese Einstellung.</Description>
+        <Description Lang="de">Standard-Zeichensatz des Frontends. Wählen Sie "utf-8", wenn verschiedene Zeichensätze für die Anzeige benötigt werden. Wird nur ein Zeichensatz eingesetzt (z.B. "iso8859-1"), nutzen Sie bitte diese Einstellung.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
