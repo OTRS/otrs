@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.pm,v 1.11 2005-05-02 11:26:34 rk Exp $
+# $Id: AdminSysConfig.pm,v 1.12 2005-05-11 11:54:15 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -104,6 +104,7 @@ sub Run {
             elsif (defined ($ItemHash{Setting}[1]{Hash})) {
                 my @Keys   = $Self->{ParamObject}->GetArray(Param => $_.'Key[]');
                 my @Values = $Self->{ParamObject}->GetArray(Param => $_.'Content[]');
+                my @DeleteNumber = $Self->{ParamObject}->GetArray(Param => $_.'DeleteNumber[]');
                 my %Content;
                 foreach my $Index (0...$#Keys) {
                     # SubHash
@@ -112,8 +113,8 @@ sub Run {
                         my @SubHashValues = $Self->{ParamObject}->GetArray(Param => $_.'##SubHash##'.$Keys[$Index].'Content[]');
                         my %SubHash;
                         foreach my $Index2 (0...$#SubHashKeys) {
-                            # Delete SubHash Element?
-                            if (!$Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'##SubHash##'.$Keys[$Index].'#DeleteHashElement'.($Index+1))) {
+                            # Delete SubHash Element?                  
+                            if (!$Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'##SubHash##'.$Keys[$Index].'#DeleteSubHashElement'.($Index2+1))) {
                                 $SubHash{$SubHashKeys[$Index2]} = $SubHashValues[$Index2];
                             }
                         }
@@ -122,10 +123,16 @@ sub Run {
                     # SubArray
                     elsif ($Values[$Index] eq '##SubArray##') {
                         my @SubArray = $Self->{ParamObject}->GetArray(Param => $_.'##SubArray##'.$Keys[$Index].'Content[]');
+                        #Delete SubArray Element?
+                        foreach my $Index2 (0...$#SubArray) {
+                            if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'##SubArray##'.$Keys[$Index].'#DeleteSubArrayElement'.($Index2+1))) {
+                                splice(@SubArray,$Index2,1);
+                            }
+                        }
                         $Content{$Keys[$Index]} = \@SubArray;
                     }
                     # Delete Hash Element?
-                    elsif (!$Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'##SubArray##'.$Keys[$Index].'#DeleteHashElement'.($Index+1))) {
+                    elsif (!$Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#DeleteHashElement'.$DeleteNumber[$Index])) {
                         $Content{$Keys[$Index]} = $Values[$Index];
                     }
                 }
@@ -145,6 +152,65 @@ sub Run {
                 }
                 # write ConfigItem
                 if (!$Self->{SysConfigObject}->ConfigItemUpdate(Key => $_, Value => \@Content, Valid => $Aktiv)) {
+                    $Self->{LayoutObject}->FatalError(Message => "Can't write ConfigItem!");
+                }
+            }
+            # ConfigElement FrontendModuleReg
+            elsif (defined ($ItemHash{Setting}[1]{FrontendModuleReg})) {
+                my $ElementKey = $_;
+                my %Content;
+                # get Params
+                foreach (qw (Description Title NavBarName)) {
+                    if (my $Value = $Self->{ParamObject}->GetParam(Param => $ElementKey.'#'.$_)) {
+                        $Content{$_} = $Value;
+                    }
+                }
+                foreach my $Typ (qw (Group GroupRo)) {
+                    my @Group = $Self->{ParamObject}->GetArray(Param => $ElementKey.'#'.$Typ.'[]');
+                    #Delete Group Element
+                    foreach my $Index (0...$#Group) {
+                        if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#Delete'.$Typ.'Element'.($Index+1))) {
+                            splice(@Group,$Index,1);
+                        }
+                    }
+                    $Content{$Typ} = \@Group;
+                }
+                # NavBar get Params
+                my %NavBarParams;
+                foreach (qw (Description Name Image Link Typ Prio Block NavBar AccessKey)) {
+                    my @Param = $Self->{ParamObject}->GetArray(Param => $ElementKey.'#NavBar#'.$_.'[]');
+                    $NavBarParams{$_} = \@Param;
+                }
+                # Create Hash
+                foreach my $Index (0...$#{$NavBarParams{Description}}) {
+                    foreach (qw (Group GroupRo)) {
+                        my @Group = $Self->{ParamObject}->GetArray(Param => $ElementKey.'#NavBar'.($Index+1).'#'.$_.'[]');
+                        #Delete Group Element
+#                        foreach my $Index (0...$#Content) {
+#                            if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#DeleteArrayElement'.($Index+1))) {
+#                                splice(@Content,$Index,1);
+#                            }
+#                        }
+                        $Content{NavBar}[$Index]{$_} = \@Group;
+                    }
+                    foreach ( qw (Description Name Image Link Typ Prio Block NavBar AccessKey)) {
+                        $Content{NavBar}[$Index]{$_} = $NavBarParams{$_}[$Index];
+                    }
+                }
+                # NavBarModule get Params
+                my %NavBarModuleParams;
+                foreach (qw (Module Name Block Prio)) {
+                    my @Param = $Self->{ParamObject}->GetArray(Param => $ElementKey.'#NavBarModule#'.$_.'[]');
+                    $NavBarModuleParams{$_} = \@Param;
+                }
+                # Create Hash
+                foreach my $Index (0...$#{$NavBarModuleParams{Module}}) {
+                    foreach (qw (Group GroupRo Module Name Block Prio)) {
+                        $Content{NavBarModule}[$Index]{$_} = $NavBarModuleParams{$_}[$Index];
+                    }
+                }
+                # write ConfigItem
+                if (!$Self->{SysConfigObject}->ConfigItemUpdate(Key => $_, Value => \%Content, Valid => $Aktiv)) {
                     $Self->{LayoutObject}->FatalError(Message => "Can't write ConfigItem!");
                 }
             }
@@ -363,6 +429,7 @@ sub ListConfigItem {
                 ElementKey => $ItemHash{Name},
             },
         );
+#        $Self->{LogObject}->Dumper(ddd => $ItemHash{Setting}[1]{Hash});
         # New HashElement
         if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#NewHashElement')) {
             push (@{$ItemHash{Setting}[1]{Hash}[1]{Item}}, {Key => '', Content => ''});
@@ -381,7 +448,7 @@ sub ListConfigItem {
                     },
                 );
                 # New SubHashElement
-                if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#HashElement'.$Index.'#NewSubElement')) {
+                if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#'.$ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Key}.'#NewSubElement')) {
                     push (@{$ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Hash}[1]{Item}}, {Key => '', Content => ''});
                 }      
                 # SubHashElements
@@ -410,7 +477,7 @@ sub ListConfigItem {
                     },
                 );
                 # New SubArrayElement
-                if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#HashElement'.$Index.'#NewSubElement')) {
+                if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#'.$ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Key}.'#NewSubElement')) {
                     push (@{$ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Array}[1]{Item}}, {Content => ''});
                 }      
                 # SubArrayElements                
@@ -474,7 +541,7 @@ sub ListConfigItem {
         if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#NewArrayElement')) {
             push (@{$ItemHash{Setting}[1]{Array}[1]{Item}}, {Content => ''});
         }
-        # Arrayelements
+        # ArrayElements
         foreach my $Index (1...$#{$ItemHash{Setting}[1]{Array}[1]{Item}}) {
             $Self->{LayoutObject}->Block(
                 Name => 'ConfigElementArrayContent',
@@ -488,34 +555,72 @@ sub ListConfigItem {
     }
     # ConfigElement FrontendModuleReg
     elsif (defined ($ItemHash{Setting}[1]{FrontendModuleReg})) {
+#    $Self->{LogObject}->Dumper(fdsa => $ItemHash{Setting}[1]{FrontendModuleReg});
+        my %Data = {};
+        foreach my $Key qw (Title Description NavBarName) {
+            $Data{'Key'.$Key} = $Key;
+            $Data{'Content'.$Key} = '';
+            if (defined ($ItemHash{Setting}[1]{FrontendModuleReg}[1]{$Key})) {
+                $Data{'Content'.$Key} = $ItemHash{Setting}[1]{FrontendModuleReg}[1]{$Key}[1]{Content};
+            }
+        }
+        $Data{ElementKey} = $ItemHash{Name};
         $Self->{LayoutObject}->Block(
             Name => 'ConfigElementFrontendModuleReg',
-            Data => {
-                ElementKey => $ItemHash{Name},
-            },
+            Data => \%Data,
         );
-        
-        
-        
+        # Array Element Group
+        foreach my $ArrayElement qw(Group GroupRo) {
+            # New Group(Ro)Element
+            if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#New'.$ArrayElement.'Element')) {
+                if (!defined($ItemHash{Setting}[1]{FrontendModuleReg}[1]{$ArrayElement})) {
+                    push (@{$ItemHash{Setting}[1]{FrontendModuleReg}[1]{$ArrayElement}}, undef);
+                }          
+                push (@{$ItemHash{Setting}[1]{FrontendModuleReg}[1]{$ArrayElement}}, {Content => ''});
+            }
+            foreach my $Index (1...$#{$ItemHash{Setting}[1]{FrontendModuleReg}[1]{$ArrayElement}}) {                    
+                $Self->{LayoutObject}->Block(
+                    Name => 'ConfigElementFrontendModuleRegContent'.$ArrayElement,
+                    Data => {
+                        Index      => $Index,
+                        ElementKey => $ItemHash{Name},
+                        Content    => $ItemHash{Setting}[1]{FrontendModuleReg}[1]{$ArrayElement}[$Index]{Content},
+                    },
+                );
+            }
+        }        
         # NavBar
         foreach my $Index (1...$#{$ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBar}}) {
-#        $Self->{LogObject}->Dumper(jkl => $ItemHash{Setting}[1]{FrontendModuleReg});
+            my %Data = {};
+            foreach my $Key qw (Description Name Image Link Typ Prio Block NavBar AccessKey) {
+                $Data{'Key'.$Key} = $Key;
+                $Data{'Content'.$Key} = '';
+                if (defined ($ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBar}[1]{$Key}[1]{Content})) {
+                    $Data{'Content'.$Key} = $ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBar}[1]{$Key}[1]{Content};
+                }
+            }
+            $Data{ElementKey} = $ItemHash{Name}.'#NavBar';
+            $Data{Index} = $Index;
             $Self->{LayoutObject}->Block(
                 Name => 'ConfigElementFrontendModuleRegContentNavBar',
-                Data => {
-                    Item        => $_,
-                    Key         => $_,
-                    Content     => $ItemHash{Setting}[1]{String}[1]{Content},
-                },
+                Data => \%Data,
             );
             # Array Element Group
             foreach my $ArrayElement qw(Group GroupRo) {
-                foreach my $Index (1...$#{$ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBar}[$Index]{$ArrayElement}}) {
+                # New Group(Ro)Element
+                if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#NavBar'.$Index.'#New'.$ArrayElement.'Element')) {
+                    if (!defined($ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBar}[$Index]{$ArrayElement})) {
+                        push (@{$ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBar}[$Index]{$ArrayElement}}, undef);
+                    }          
+                    push (@{$ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBar}[$Index]{$ArrayElement}}, {Content => ''});
+                }            
+                foreach my $Index2 (1...$#{$ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBar}[$Index]{$ArrayElement}}) {                    
                     $Self->{LayoutObject}->Block(
-                        Name => 'ConfigElementFrontendModuleRegContent'.$ArrayElement,
+                        Name => 'ConfigElementFrontendModuleRegContentNavBar'.$ArrayElement,
                         Data => {
-                            Item        => $_,
-                            Key         => $_,
+                            Index => $Index,
+                            ElementKey => $ItemHash{Name},
+                            Content => $ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBar}[$Index]{$ArrayElement}[$Index]{Content},
                         },
                     );
                 }
@@ -523,13 +628,18 @@ sub ListConfigItem {
         }
         # NavBarModule
         foreach my $Index (1...$#{$ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBarModule}}) {
+            my %Data = {};
+            foreach my $Key qw (Module Name Block Prio) {
+                $Data{'Key'.$Key} = $Key;
+                $Data{'Content'.$Key} = '';
+                if (defined ($ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBarModule}[1]{$Key}[1]{Content})) {
+                    $Data{'Content'.$Key} = $ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBarModule}[1]{$Key}[1]{Content};
+                }
+            }            
+            $Data{ElementKey} = $ItemHash{Name}.'#NavBarModule';
             $Self->{LayoutObject}->Block(
                 Name => 'ConfigElementFrontendModuleRegContentNavBarModule',
-                Data => {
-                    Item        => $_,
-                    Key         => $_,
-                    Content     => $ItemHash{Setting}[1]{String}[1]{Content},
-                },
+                Data => \%Data,
             );
         }
     }

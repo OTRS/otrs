@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.17 2005-04-22 15:36:55 martin Exp $
+# $Id: Config.pm,v 1.18 2005-05-11 11:54:15 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -78,7 +78,7 @@ sub new {
     # read all config files
     $Self->_Init();
     # reorga of old config
-    $Self->CreateConfig();
+#    $Self->CreateConfig();
 
     return $Self;
 }
@@ -360,14 +360,58 @@ sub ConfigItemGet {
             }
             if ($ConfigItem->{Setting}->[1]->{Hash}) {
                 if (defined($Self->{ConfigObject}->Get($ConfigItem->{Name}))) {
+                    my @Array = @{$ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}};
                     @{$ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}} = (undef);
                     my %Hash = %{$Self->{ConfigObject}->Get($ConfigItem->{Name})};
                     foreach my $Key (sort keys %Hash) {
-                        push (@{$ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}}, {
-                                Key => $Key,
-                                Content => $Hash{$Key},
-                            },
-                        );
+                        if (ref($Hash{$Key}) eq 'ARRAY') {
+                            my @Array = (undef,{Content => '',});
+                            @{$Array[1]{Item}} = (undef);
+                            foreach my $Content (@{$Hash{$Key}}) {
+                                push (@{$Array[1]{Item}}, {Content => $Content});
+                            }                           
+                            push (@{$ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}}, {
+                                    Key     => $Key,
+                                    Content => '',
+                                    Array   => \@Array,
+                                },
+                            );
+                        }
+                        elsif (ref($Hash{$Key}) eq 'HASH') {
+                            my @Array = (undef,{Content => '',});
+                            @{$Array[1]{Item}} = (undef);
+                            foreach my $Key2 (keys %{$Hash{$Key}}) {
+                                push (@{$Array[1]{Item}}, {Content => $Hash{$Key}{$Key2}, Key => $Key2});
+                            }
+                            push (@{$ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}}, {
+                                    Key     => $Key,
+                                    Content => '',
+                                    Hash    => \@Array,
+                                },
+                            );                        
+                        }
+                        else {
+                            my $Option = 0;
+                            foreach my $Index (1...$#Array) {
+                                if (defined ($Array[$Index]{Key}) && $Array[$Index]{Key} eq $Key && defined ($Array[$Index]{Option})) {
+                                    $Option = 1;
+                                    $Array[$Index]{Option}[1]{SelectedID} = $Hash{$Key};
+                                    push (@{$ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}}, {
+                                            Key     => $Key,
+                                            Content => '',
+                                            Option  => $Array[$Index]{Option},
+                                        },
+                                    );                                    
+                                }
+                            }
+                            if ($Option == 0) {     
+                                push (@{$ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}}, {
+                                        Key     => $Key,
+                                        Content => $Hash{$Key},
+                                    },
+                                );
+                            }
+                        }
                     }
 #$Self->{LogObject}->Dumper($ConfigItem);
                 }
@@ -385,6 +429,48 @@ sub ConfigItemGet {
 #$Self->{LogObject}->Dumper($ConfigItem);
                 }
             }
+            if ($ConfigItem->{Setting}->[1]->{FrontendModuleReg}) {
+#            $Self->{LogObject}->Dumper(fasd => $ConfigItem->{Setting}->[1]->{FrontendModuleReg});
+                if (defined($Self->{ConfigObject}->Get($ConfigItem->{Name}))) {
+                    @{$ConfigItem->{Setting}->[1]->{FrontendModuleReg}} = (undef);
+                    my %Hash = %{$Self->{ConfigObject}->Get($ConfigItem->{Name})};
+#                    $Self->{LogObject}->Dumper(jkl => %Hash);
+                    foreach my $Key (sort keys %Hash) {
+                        @{$ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}} = (undef);
+                        if ($Key eq 'Group' || $Key eq 'GroupRo') {
+                            my @Array = (undef);
+                            foreach my $Content (@{$Hash{$Key}}) {
+                                push (@{$ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}},
+                                    {Content => $Content}
+                                );
+                            }
+                        }
+                        elsif ($Key eq 'NavBar' || $Key eq 'NavBarModule') {           
+                            foreach my $Content (@{$Hash{$Key}}) {
+                                my %NavBar;
+                                foreach (sort keys %{$Content}) {
+                                    if ($_ eq 'Group' || $_ eq 'GroupRo') {
+                                        @{$NavBar{$_}} = (undef);
+                                        foreach my $Group (@{$Content->{$_}}) {
+                                            push (@{$NavBar{$_}}, {Content => $Group});                                        
+                                        }
+                                    }
+                                    else {
+                                        push (@{$NavBar{$_}}, (undef, {Content => $Content->{$_}}));
+                                    }
+                                }
+                                push (@{$ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}}, \%NavBar);                            
+                            }
+                        }
+                        else {
+                            push (@{$ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}},
+                                {Content => $Hash{$Key}}
+                            );
+                        }
+                    }
+                }
+#  $Self->{LogObject}->Dumper(jkl => $ConfigItem);              
+            }            
             if ($ConfigItem->{Setting}->[1]->{TimeWorkingHours}) {
                 if (defined($Self->{ConfigObject}->Get($ConfigItem->{Name}))) {
                     @{$ConfigItem->{Setting}->[1]->{TimeWorkingHours}->[1]->{Day}} = (undef);
@@ -407,8 +493,8 @@ sub ConfigItemGet {
                 if (defined($Self->{ConfigObject}->Get($ConfigItem->{Name}))) {
                     @{$ConfigItem->{Setting}->[1]->{TimeVacationDays}->[1]->{Item}} = (undef);
                     my %Hash = %{$Self->{ConfigObject}->Get($ConfigItem->{Name})};
-                    foreach my $Month (sort keys %Hash) {
-                        foreach my $Day (%{$Hash{$Month}}) {
+                    foreach my $Month (sort keys %Hash) {                    
+                        foreach my $Day (sort keys %{$Hash{$Month}}) {
                             push (@{$ConfigItem->{Setting}->[1]->{TimeVacationDays}->[1]->{Item}}, {
                                     Month => $Month,
                                     Day => $Day,
@@ -425,8 +511,8 @@ sub ConfigItemGet {
                     @{$ConfigItem->{Setting}->[1]->{TimeVacationDaysOneTime}->[1]->{Item}} = (undef);
                     my %Hash = %{$Self->{ConfigObject}->Get($ConfigItem->{Name})};
                     foreach my $Year (sort keys %Hash) {
-                        foreach my $Month (%{$Hash{$Year}}) {
-                            foreach my $Day (%{$Hash{$Year}->{$Month}}) {
+                        foreach my $Month (sort keys %{$Hash{$Year}}) {
+                            foreach my $Day (sort keys %{$Hash{$Year}->{$Month}}) {
                                 push (@{$ConfigItem->{Setting}->[1]->{TimeVacationDaysOneTime}->[1]->{Item}}, {
                                         Year => $Year,
                                         Month => $Month,
@@ -464,7 +550,7 @@ sub ConfigItemGet {
 #                    print STDERR "$Key $Value-----\n";
                 }
             }
-#$Self->{LogObject}->Dumper($ConfigItem);
+
             return %{$ConfigItem};
         }
     }
@@ -598,6 +684,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2005-04-22 15:36:55 $
+$Revision: 1.18 $ $Date: 2005-05-11 11:54:15 $
 
 =cut
