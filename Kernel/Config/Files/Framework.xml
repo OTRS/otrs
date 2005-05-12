@@ -93,7 +93,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.22 2005-05-12 09:20:00 tr Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.23 2005-05-12 13:51:45 tr Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der WEB-Installer (installer.pl) nicht genutzt werden</Description>
@@ -620,7 +620,7 @@ Your OTRS Notification Master
         <!--    $Self->{'Frontend::NotifyModule'}->{'4-ShowCustomerOnline'} = {
                 Module => 'Kernel::Output::HTML::NotificationCustomerOnline',}; -->
     </ConfigItem>   
-<!--    <ConfigItem Name="Frontend::Output::PostFilter###ActiveElementFilter" Required="0" Valid="0">
+    <ConfigItem Name="Frontend::Output::PostFilter###ActiveElementFilter" Required="0" Valid="0">
         <Description Lang="en">A filter for html output of the application. With this filter you can for example filter out javascript or suporess java applets</Description>
         <Description Lang="de">Ein Filter für den HTML-Inhalt innerhalb der Applikation. Mit Hilfe des Filters kann z.B. die Anzeige von Javaapplets oder Javascript unterdrückt werden</Description>
         <Group>Framework</Group>
@@ -631,7 +631,7 @@ Your OTRS Notification Master
                     <Item Key="Debug">0</Item>                 
                 </Hash>
             </Setting>
-    </ConfigItem>   -->
+    </ConfigItem> 
     <ConfigItem Name="SessionModule" Required="1" Valid="1">
         <Description Lang="en">How do you want to store the session data? Advantage of "DB" is that you can split the frontend server from the db server. "FS" or "IPC" is much faster</Description>
         <Description Lang="de"></Description>
@@ -1511,7 +1511,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="NotificationBodyLostPassword" Required="1" Valid="1">
         <Description Lang="en">Body for notification mail about new password</Description>
-        <Description Lang="de">Body der Benachrichtigungsmail für ein neues jKennwort</Description>
+        <Description Lang="de">Body der Benachrichtigungsmail für ein neues Kennwort</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
