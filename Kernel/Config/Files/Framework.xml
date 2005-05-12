@@ -93,10 +93,10 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.20 2005-05-11 13:19:39 tr Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.21 2005-05-12 09:10:16 cs Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
-        <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
-        <Description Lang="de">Wird diese Option aktiviert, kann der WEB-Installer (installer.pl) nicht genutzt werden.</Description>
+        <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used</Description>
+        <Description Lang="de">Wird diese Option aktiviert, kann der WEB-Installer (installer.pl) nicht genutzt werden</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -108,8 +108,8 @@ TimeWorkingHours
         <!--  $Self->{SecureMode} = 0; -->
     </ConfigItem>     
     <ConfigItem Name="SystemID" Required="1" Valid="1">
-        <Description Lang="en">The system identifyer. Every ticket number and ID of a http session starts with this number.</Description>
-        <Description Lang="de">Identifikationsnummer für das installierte System. Jede Ticketnummer und ID einer http-Session beginnt mit dieser Nummer.</Description>
+        <Description Lang="en">The system identifyer. Every ticket number and ID of a http session starts with this number</Description>
+        <Description Lang="de">Identifikationsnummer für das installierte System. Jede Ticketnummer und ID einer http-Session beginnt mit dieser Nummer</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -118,8 +118,8 @@ TimeWorkingHours
         <!-- $Self->{SystemID} = 10; -->
     </ConfigItem>                     
     <ConfigItem Name="FQDN" Required="1" Valid="1">
-        <Description Lang="en">Full qualified domain name of your system.</Description>
-        <Description Lang="de">Vollständiger Domain Name des Systems.</Description>
+        <Description Lang="en">Full qualified domain name of your system</Description>
+        <Description Lang="de">Vollständiger Domain Name des Systems</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -128,8 +128,8 @@ TimeWorkingHours
         <!-- $Self->{FQDN} = 'yourhost.example.com'; -->
     </ConfigItem>                     
     <ConfigItem Name="HttpType" Required="1" Valid="1">
-        <Description Lang="en">If you want to use https instead of plain http, specify it here.</Description>
-        <Description Lang="de">Legen Sie hier fest, ob http oder https innerhalb des Systems genutzt werden soll.</Description>
+        <Description Lang="en">If you want to use https instead of plain http, specify it here</Description>
+        <Description Lang="de">Legen Sie hier fest, ob http oder https innerhalb des Systems genutzt werden soll</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -141,8 +141,8 @@ TimeWorkingHours
         <!-- $Self->{HttpType} = 'http'; -->
     </ConfigItem>   
     <ConfigItem Name="ScriptAlias" Required="1" Valid="1">
-        <Description Lang="en">Prefix to index.pl, like it is specifyed in your webserver configuration.</Description>
-        <Description Lang="de">ScriptAlias zur Datei index.pl, wie in der Webserver-Konfiguration festgelegt.</Description>
+        <Description Lang="en">Prefix to index.pl, like it is specifyed in your webserver configuration</Description>
+        <Description Lang="de">ScriptAlias zur Datei index.pl, wie in der Webserver-Konfiguration festgelegt</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -151,8 +151,8 @@ TimeWorkingHours
         <!-- $Self->{ScriptAlias} = 'otrs/'; -->
     </ConfigItem>                     
     <ConfigItem Name="AdminEmail" Required="1" Valid="1">
-        <Description Lang="en">Mailaddress of the system administrator.</Description>
-        <Description Lang="de">Mailadresse des Systemadministrators.</Description>
+        <Description Lang="en">Mailaddress of the system administrator</Description>
+        <Description Lang="de">Mailadresse des Systemadministrators</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -161,8 +161,8 @@ TimeWorkingHours
         <!-- $Self->{AdminEmail} = 'admin@example.com'; -->
     </ConfigItem>                     
     <ConfigItem Name="Organization" Required="1" Valid="1">
-        <Description Lang="en">If an organization name is specifyed, every outgoing message will contain a X-header entry with the organization string.</Description>
-        <Description Lang="de">Name der Firma bzw. Organisation. Jede ausgehende Nachricht wird mit einem X-Header-Eintrag für die Organisation und dem angegebenen Namen als Wert versehen.</Description>
+        <Description Lang="en">If an organization name is specifyed, every outgoing message will contain a X-header entry with the organization string</Description>
+        <Description Lang="de">Name der Firma bzw. Organisation. Jede ausgehende Nachricht wird mit einem X-Header-Eintrag für die Organisation und dem angegebenen Namen als Wert versehen</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -171,8 +171,8 @@ TimeWorkingHours
         <!-- $Self->{Organization} = ''; -->
     </ConfigItem>                     
     <ConfigItem Name="ProductName" Required="1" Valid="1">
-        <Description Lang="en">The name of the application that is shown in the frontend.</Description>
-        <Description Lang="de">Im WebFrontend angezeigter Softwarename.</Description>
+        <Description Lang="en">The name of the application that is shown in the frontend</Description>
+        <Description Lang="de">Im WebFrontend angezeigter Softwarename</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -181,8 +181,8 @@ TimeWorkingHours
         <!-- $Self->{ProductName} = 'OTRS'; -->
     </ConfigItem>                     
     <ConfigItem Name="DefaultCharset" Required="1" Valid="1">
-        <Description Lang="en">Default frontend charset. "utf-8" is a good choice for envirorments with many possible charsetss. Specify another charset (e.g "iso-8859-1"), if only this specific charset is needed.</Description>
-        <Description Lang="de">Standard-Zeichensatz des Frontends. Wählen Sie "utf-8", wenn verschiedene Zeichensätze für die Anzeige benötigt werden. Wird nur ein Zeichensatz eingesetzt (z.B. "iso8859-1"), nutzen Sie bitte diese Einstellung.</Description>
+        <Description Lang="en">Default frontend charset. "utf-8" is a good choice for envirorments with many possible charsetss. Specify another charset (e.g "iso-8859-1"), if only this specific charset is needed</Description>
+        <Description Lang="de">Standard-Zeichensatz des Frontends. Wählen Sie "utf-8", wenn verschiedene Zeichensätze für die Anzeige benötigt werden. Wir nur ein Zeichensatz eingesetzt (z.B. "iso8859-1"), nutzen Sie bitte diese Einstellung</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -195,18 +195,35 @@ TimeWorkingHours
         <!-- $Self->{DefaultCharset} = 'utf-8'; -->
     </ConfigItem>   
     <ConfigItem Name="DefaultLanguage" Required="1" Valid="1">
-        <Description Lang="en">The default frontend language.</Description>
-        <Description Lang="de">Standard Frontend Sprache.</Description>
+        <Description Lang="en">The default frontend language. Possible values are bg, cz, de, en, es, fi, fr, hu, it, nb, nl, pl, pt, ru, and sv</Description>
+        <Description Lang="de">Standard Frontend Sprache. Mögliche Werte sind bg, cz, de, en, es, fi, fr, hu, it, nb, nl, pl, pt, ru, and sv</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
-            <String Regex="">en</String>
+            <String REgex="">en</String>
+<!-- <Option SelectedID="en">
+                <Item Key="cz">Czech</Item>
+                <Item Key="de">Deutsch</Item>
+                <Item Key="en">English</Item>
+                <Item Key="es">Espaniol</Item>
+                <Item Key="fi">Suomi</Item>
+                <Item Key="fr">Francais</Item>
+                <Item Key="hu">Hungarian</Item>
+                <Item Key="it">Italiano</Item>
+                <Item Key="nb">Norsk Bokmå</Item>
+                <Item Key="nl">Nederlands</Item>
+                <Item Key="pl">Polski</Item>
+                <Item Key="pt">Portuguise</Item>
+                <Item Key="ru">Russian</Item>
+                <Item Key="sv">Svenska</Item>
+            </Option>
+            -->
         </Setting>
         <!-- $Self->{DefaultLanguage} = 'en'; -->
     </ConfigItem>                     
     <ConfigItem Name="DefaultUsedLanguages" Required="1" Valid="1">
-        <Description Lang="en">Shortname for languages (short name = long name and file).</Description>
-        <Description Lang="de">Abkürzung für die Zuordnung der verschiedenen Sprachen (Abkürzung = Vollständiger Name und Datei).</Description>
+        <Description Lang="en">Shortname for languages (short name = long name and file)</Description>
+        <Description Lang="de">Abkürzung für die Zuordnung der verschiedenen Sprachen (Abkürzung = Vollständiger Name und Datei)</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -231,8 +248,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem> 
     <ConfigItem Name="CustomerPanelBodyNewAccount" Required="1" Valid="1">
-        <Description Lang="en">notification email about new account-en.</Description>
-        <Description Lang="de">notification email about new account-de.</Description>
+        <Description Lang="en">Body of notification email about new account</Description>
+        <Description Lang="de">Body der Benachrichtigungsmail bei einem neuen Account</Description>
         <Group>Framework</Group>
         <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
@@ -251,8 +268,8 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem> 
     <ConfigItem Name="DefaultTheme" Required="1" Valid="1">
-        <Description Lang="en">Default frontend HTML theme.</Description>
-        <Description Lang="de">Standard Design der Weboberfläche.</Description>
+        <Description Lang="en">Default frontend HTML theme (Standard or Lite)</Description>
+        <Description Lang="de">Standard Design der Weboberfläche (Standard oder Lite)</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -291,12 +308,15 @@ Your OTRS Notification Master
         <!-- $Self->{DefaultViewLines} = 6000; -->
     </ConfigItem>                     
     <ConfigItem Name="ShowAlwaysLongTime" Required="1" Valid="1">
-        <Description Lang="en">show always time in long /days hours minutes/ or short /days hours/ format</Description>
-        <Description Lang="de">???</Description>
+        <Description Lang="en">Show always time in long (days, hours, minutes) or short (days, hours) format?</Description>
+        <Description Lang="de">Zeitangaben immer im ausführlichen (Tag, Stunden, Minuten oder im kurzem Format (Tag, Stunden) anzeigen?</Description>
         <Group>Framework</Group>
         <SubGroup>Time</SubGroup>
         <Setting>
-            <String Regex="">0</String>
+            <Option SelectedID="0">
+                <Item Key="0">Short</Item>
+                <Item Key="1">Long</Item>
+            </Option>
         </Setting>
         <!-- $Self->{ShowAlwaysLongTime} = 0; -->
     </ConfigItem>                     
@@ -340,8 +360,8 @@ Your OTRS Notification Master
         <!-- $Self->{CheckMXRecord} = 1; -->
     </ConfigItem>                     
     <ConfigItem Name="CheckEmailValidAddress" Required="1" Valid="1">
-        <Description Lang="en">Regexp for email addresses, that aren't syntacticaly valid but are needed in the system, e.g. "root@localhost".</Description>
-        <Description Lang="de">Regulärer Ausdruck für syntaktisch nicht korrekte Mailadressen, die aber trotzdem im System verwendet werden sollen, z.B. "root@localhost".</Description>
+        <Description Lang="en">Regexp for email addresses, that aren't syntacticaly valid but are needed in the system, e.g. "root@localhost"</Description>
+        <Description Lang="de">Regulärer Ausdruck für syntaktisch nicht korrekte Mailadressen, die aber trotzdem im System verwendet werden sollen, z.B. "root@localhost"</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -350,7 +370,7 @@ Your OTRS Notification Master
         <!-- $Self->{CheckEmailValidAddress} = '^(root@localhost|admin@localhost)$'; -->
     </ConfigItem>   
     <ConfigItem Name="CheckEmailInvalidAddress" Required="1" Valid="1">
-        <Description Lang="en">Regexp of syntatcticaly incorrect email addresses.</Description>
+        <Description Lang="en">Regexp of syntatcticaly incorrect email addresses</Description>
         <Description Lang="de">Regulärer Ausdruck für nicht gültige Mailadressen</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -360,21 +380,18 @@ Your OTRS Notification Master
         <!--  $Self->{CheckEmailInvalidAddress} = '@(aa|aaa|aaaa|aaaaa|abc|any|anywhere|anonymous|bar|demo|example|foo|hello|hallo|me|nospam|nowhere|null|some|somewhere|test|teste.|there|user|xx|xxx|xxxx)\.(..|...)$'; -->
     </ConfigItem>   
     <ConfigItem Name="LogModule" Required="1" Valid="1">
-        <Description Lang="en">log backend module</Description>
-        <Description Lang="de">Log Modul für die backend Module</Description>
+        <Description Lang="en">Witch log module do you want to use? "File" writes all messages in a given logfile, "SysLog" uses the syslog daemon of the system, e.g. syslogd</Description>
+        <Description Lang="de">Welches Logmodul soll verwendet werden? "File" schreibt in eine anzugebende Datei, "SysLog" logt mit Hilfe des systemspezifischen Logdaemons, z.B. syslogd</Description>
         <Group>Framework</Group>
         <SubGroup>Log</SubGroup>
         <Setting>
-            <Option SelectedID="Kernel::System::Log::SysLog">
-                <Item Key="Kernel::System::Log::SysLog">SysLog</Item>
-                <Item Key="Kernel::System::Log::File">File</Item>               
-            </Option>
+            <Option Location="Kernel/System/Log/*.pm" SelectedID="Kernel::System::Log::SysLog"></Option>
         </Setting>
         <!-- $Self->{CheckMXRecord} = 1; -->
     </ConfigItem>                     
     <ConfigItem Name="LogModule::SysLog::Facility" Required="0" Valid="0">
-        <Description Lang="en">param for LogModule Kernel::System::Log::SysLog</Description>
-        <Description Lang="de">Parameter für LogModule Kernel::System::Log::SysLog</Description>
+        <Description Lang="en">If you have selected "SysLog" for LogModule, you can specify a log facility</Description>
+        <Description Lang="de">Wenn für LogModule der Wert "SysLog" ausgewählt wurde, kann hier ein spezielles Log-Facility angegeben werden</Description>
         <Group>Framework</Group>
         <SubGroup>Log</SubGroup>
         <Setting>
@@ -383,8 +400,8 @@ Your OTRS Notification Master
         <!--  $Self->{'LogModule::SysLog::Facility'} = 'user'; -->
     </ConfigItem>   
     <ConfigItem Name="LogModule::SysLog::Charset" Required="1" Valid="1">
-        <Description Lang="en">Charset for LogModul SysLog</Description>
-        <Description Lang="de">Zeichensatz für LogModul SysLog</Description>
+        <Description Lang="en">If you have selected "SysLog" for LogModule, you can specify the charset that should be used for loggin</Description>
+        <Description Lang="de">Wenn "SysLog" für LogModule ausgewählt wurde, kann hier der Zeichensatz festgelegt werden, der für das Loggen benutzt werden soll</Description>
         <Group>Framework</Group>
         <SubGroup>Log</SubGroup>
         <Setting>
@@ -397,8 +414,8 @@ Your OTRS Notification Master
         <!-- $Self->{'LogModule::SysLog::Charset'} = 'iso-8859-15'; -->
     </ConfigItem>   
     <ConfigItem Name="LogModule::LogFile" Required="1" Valid="1">
-        <Description Lang="en">param for LogModule Kernel::System::Log::File</Description>
-        <Description Lang="de">Pfad zur Logdatei</Description>
+        <Description Lang="en">If you have selected "file" for LogModule, you have to specify a logfile. The file will be created automaticly, if it doesn't exist</Description>
+        <Description Lang="de">Wenn "File" für LogModul ausgewählt wurde, muss eine Logdatei angegeben werden. Diese wird automatisch erstellt, falls sie noch nicht existiert</Description>
         <Group>Framework</Group>
         <SubGroup>Log</SubGroup>
         <Setting>
@@ -407,8 +424,8 @@ Your OTRS Notification Master
         <!--  $Self->{'LogModule::LogFile'} = '/tmp/otrs.log'; -->
     </ConfigItem>   
     <ConfigItem Name="LogModule::LogFile::Date" Required="0" Valid="0">
-        <Description Lang="en">param if the date (yyyy-mm) should be added as suffix to logfile</Description>
-        <Description Lang="de">Datum in Logdatei schreiben</Description>
+        <Description Lang="en">Would you like to add a time stamp as sufix for every log entry?</Description>
+        <Description Lang="de">Soll für jeden Logeintrag das Datum und die aktuelle Zeit mit protokolliert werden?</Description>
         <Group>Framework</Group>
         <SubGroup>Log</SubGroup>
         <Setting>
@@ -420,8 +437,8 @@ Your OTRS Notification Master
         <!-- $Self->{'LogModule::LogFile::Date'} = 0; -->
     </ConfigItem>                     
     <ConfigItem Name="LogSystemCacheSize" Required="0" Valid="0">
-        <Description Lang="en">system log cache size for admin system log</Description>
-        <Description Lang="de">Cache Größe für Admin System Log</Description>
+        <Description Lang="en">Cache size for admin system log (in KBytes)</Description>
+        <Description Lang="de">Größe des Caches für Admin System Log (in KBytes)</Description>
         <Group>Framework</Group>
         <SubGroup>Log</SubGroup>
         <Setting>
@@ -431,21 +448,18 @@ Your OTRS Notification Master
         <!-- Angabe der Größeneinheit? byte? kbyte? -->
     </ConfigItem>   
     <ConfigItem Name="SendmailModule" Required="0" Valid="0">
-        <Description Lang="en">Modul to send E-Mails. Kernel::System::EMail::Sendmail directly uses the sendmail binary of your operating system. Kernel::System::EMail::SMTP tryes to use a specifyed mailserver.</Description>
-        <Description Lang="de">Modul zum Versenden von Mails. Kernel::System:EMail::Sendmail verwendet das sendmail-Binary Ihres Betriebssystems. Kernel::System::EMail::SMTP versendet die Nachrichten über den dafür vorgesehenen Mailserver.</Description>
+        <Description Lang="en">Modul to send E-Mails. "Sendmail" directly uses the sendmail binary of your operating system. "SMTP" uses a specifyed mailserver</Description>
+        <Description Lang="de">Modul zum Versenden von Mails. "Sendmail" verwendet das sendmail-Binary Ihres Betriebssystems. "SMTP" versendet die Nachrichten über den dafür vorgesehenen Mailserver</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
-            <Option SelectedID="Kernel::System::Email::Sendmail">
-                <Item Key="Kernel::System::Email::Sendmail">Kernel::System::Email::Sendmail</Item>
-                <Item Key="Kernel::System::Email::SMTP">Kernel::System::Email::SMTP</Item>               
-            </Option>
+            <Option Location="Kernel/System/Email/*.pm" SelectedID="Kernel::System::Email::Sendmail"></Option>
         </Setting>
         <!--  $Self->{'SendmailModule'} = 'Kernel::System::Email::Sendmail'; -->
     </ConfigItem>   
     <ConfigItem Name="SendmailModule::CMD" Required="1" Valid="1">
-        <Description Lang="en">If you are using the module Kernel::System::EMail::Sendmail, you have to specify the location of your sendmail binary and the needed options.</Description>
-        <Description Lang="de">Wenn das Modul Kernel::System::EMail::Sendmail als Modul zum Versenden von Mails eingesetzt wird, müssen Sie den System den Pfad zu Ihrem sendmail-Binary und die benötigten Optionen mitteilen.</Description>
+        <Description Lang="en">If you have selected "Sendmail" for SendmailModule, you have to specify the location of your sendmail binary and the needed options</Description>
+        <Description Lang="de">Wenn "Sendmail" als SendmailModule ausgewählt wurde, müssen Sie dem System den Pfad zu Ihrem sendmail-Binary und die benötigten Optionen mitteilen</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -454,8 +468,8 @@ Your OTRS Notification Master
         <!--  $Self->{'SendmailModule::CMD'} = '/usr/sbin/sendmail -i -f '; -->
     </ConfigItem>   
     <ConfigItem Name="SendmailModule::Host" Required="0" Valid="0">
-        <Description Lang="en">If you are using the module Kernel::System::EMail::SMTP, you have to specify the mailhost, that the module should try to connect.</Description>
-        <Description Lang="de">Wenn Sie das Modul Kernel::System::EMail::SMTP, müssen Sie hier den Mailserver angeben, der zum Versenden von Nachrichten genutzt werden soll.</Description>
+        <Description Lang="en">If you have selected "SMTP" for SendmailModule, you have to specify the mailhost, that the module should try to connect to</Description>
+        <Description Lang="de">Wenn Sie für SendmailModule "SMTP" ausgwählt haben, müssen Sie hier den Mailserver angeben, der zum Versenden von Nachrichten genutzt werden soll</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -464,8 +478,8 @@ Your OTRS Notification Master
         <!-- $Self->{'SendmailModule::Host'} = 'mail.example.com'; -->
     </ConfigItem>
     <ConfigItem Name="SendmailModule::Port" Required="0" Valid="0">
-        <Description Lang="en">If you are using Kernel::System::EMail::SMTP, specify the port of your mailserver.</Description>
-        <Description Lang="de">Wenn Sie Kernel::System::EMail::SMTP einsetzen, geben sie hier bitte den Port an, auf dem Ihr Mailserver Mails entgegen nimmt.</Description>
+        <Description Lang="en">If you have selected "SMTP" for SendmailModule, specify the port where your mailserver is listening for incoming connections</Description>
+        <Description Lang="de">Wenn Sie für SendmailModule den Wert "SMTP" ausgewählt haben, können Sie hier den Port angeben, auf dem Ihr Mailserver Mails entgegen nimmt</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -474,8 +488,8 @@ Your OTRS Notification Master
         <!-- $Self->{'SendmailModule::Port'} = '25'; -->
     </ConfigItem>   
     <ConfigItem Name="SendmailModule::AuthUser" Required="0" Valid="0">
-        <Description Lang="en">If you are using Kernel::System::EMail::SMTP and you need to authenticate to your mailserver, specifiy the username.</Description>
-        <Description Lang="de">Wenn Sie Kernel::System::EMail::SMTP einsetzen und sich an Ihrem Mailserver anmelden müssen, geben Sie hier bitte den Benutzernamen für die Authentifizierung an.</Description>
+        <Description Lang="en">If you have selected "SMTP" for SendmailModule and you need to authenticate to your mailserver, specifiy the username</Description>
+        <Description Lang="de">Wenn Sie für SendmailModule den Wert "SMTP" ausgewählt haben und sich an Ihrem Mailserver anmelden müssen, geben Sie hier bitte den Benutzernamen für die Authentifizierung an</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -484,8 +498,8 @@ Your OTRS Notification Master
         <!-- $Self->{'SendmailModule::AuthUser'} = ''; -->
     </ConfigItem> 
     <ConfigItem Name="SendmailModule::AuthPassword" Required="0" Valid="0">
-        <Description Lang="en">If you are using Kernel::System::EMail::SMTP and you need to authenticate to your mailserver, specify the password.</Description>
-        <Description Lang="de">Wenn Sie Kernel::System::EMail::SMTP einsetzen und sich an Ihrem Mailserver anmelden müssen, geben Sie hier bitte das Passwort für die Authentifizierung an.</Description>
+        <Description Lang="en">If you have selected "SMTP" for SendmailModule and you need to authenticate to your mailserver, specify the password</Description>
+        <Description Lang="de">Wenn Sie für SendmailModule den Wert "SMTP" ausgewählt haben und sich an Ihrem Mailserver anmelden müssen, geben Sie hier das Passwort für die Authentifizierung an</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -504,8 +518,8 @@ Your OTRS Notification Master
         <!-- $Self->{'SendmailBcc'} = ''; -->
     </ConfigItem>   
     <ConfigItem Name="LoginURL" Required="1" Valid="1">
-        <Description Lang="en">URL, where the login link refers to.</Description>
-        <Description Lang="de">URL, auf die der Link für die Anmeldung am system verweist.</Description>
+        <Description Lang="en">URL, where the login link refers to</Description>
+        <Description Lang="de">URL, auf die der Link für die Anmeldung am system verweist</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -514,8 +528,8 @@ Your OTRS Notification Master
         <!-- $Self->{LoginURL} = ''; -->
     </ConfigItem>   
     <ConfigItem Name="LogoutURL" Required="1" Valid="1">
-        <Description Lang="en">URL, where the logout link refers to.</Description>
-        <Description Lang="de">URL, auf die der Linkk für die Abmeldung vom System verweist.</Description>
+        <Description Lang="en">URL, where the logout link refers to</Description>
+        <Description Lang="de">URL, auf die der Linkk für die Abmeldung vom System verweist</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -524,18 +538,18 @@ Your OTRS Notification Master
         <!-- $Self->{LogoutURL} = ''; -->
     </ConfigItem>   
     <ConfigItem Name="PreApplicationModule" Required="0" Valid="0">
-        <Description Lang="en">This module is usefull to load some specific user options or to redirect not accept new application news.</Description>
+        <Description Lang="en">This module is usefull to load some specific user options or to redirect not accept new application news</Description>
         <Description Lang="de">???</Description>
         <Group>Framework</Group>
         <SubGroup>AgentFrontend</SubGroup>
         <Setting>
-            <String Regex="">Kernel::Modules::AgentInfo</String>
+            <String Regex="">Kernel::Modules::AgentInfo.pm</String>
         </Setting>
         <!-- $Self->{PreApplicationModule} = 'Kernel::Modules::AgentInfo'; -->
     </ConfigItem>   
     <ConfigItem Name="InfoKey" Required="0" Valid="0">
-        <Description Lang="en">Key to check with Kernel::Modules::AgentInfo module. If this user preferences key is true, then the message is already accepted.</Description>
-        <Description Lang="de">Ky, der mit Hilfe des Moduls Kernel::Modules::AgentInfo überprüft werden soll. Wird dieser Key in den Benutzereinstellungen angegeben, wird auch die Nachricht akzeptiert.</Description>
+        <Description Lang="en">Key to check with Kernel::Modules::AgentInfo module. If this user preferences key is true, then the message is already accepted</Description>
+        <Description Lang="de">Ky, der mit Hilfe des Moduls Kernel::Modules::AgentInfo überprüft werden soll. Wird dieser Key in den Benutzereinstellungen angegeben, wird auch die Nachricht akzeptiert</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -544,8 +558,8 @@ Your OTRS Notification Master
         <!-- $Self->{InfoKey} = 'wpt22'; -->
     </ConfigItem>   
     <ConfigItem Name="InfoFile" Required="0" Valid="0">
-        <Description Lang="en">File that is displayed, if located under Kernel/Output/HTML/Standard/AgentInfo.dtl.</Description>
-        <Description Lang="de">Datei die mit Hilfe des Moduls Kernel/Output/HTML/Standard/AgentInfo.dtl angezeigt werden soll,.</Description>
+        <Description Lang="en">File that is displayed, if located under Kernel/Output/HTML/Standard/AgentInfo.dtl</Description>
+        <Description Lang="de">Datei die mit Hilfe des Moduls Kernel/Output/HTML/Standard/AgentInfo.dtl angezeigt werden soll,</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -554,8 +568,8 @@ Your OTRS Notification Master
         <!-- $Self->{InfoFile} = 'AgentInfo'; -->
     </ConfigItem>   
     <ConfigItem Name="Frontend::NotifyModule###1-CharsetCheck" Required="1" Valid="1">
-        <Description Lang="en">agent interface notification module to check the used charset</Description>
-        <Description Lang="de">???</Description>
+        <Description Lang="en">Module to inform agents via the agent interface about the used charset. A notification is displayed, if the default charset is not used, e.g. in tickets</Description>
+        <Description Lang="de">Modul, das die Agenten innerhalb des Agent-Interfaces über den benutzten Zeichensatz informiert. Es wird ein Hinweis ausgegeben, wenn z.B. Tickets mit einem anderen als den Standard-Zeichensatz angezeigt werden</Description>
         <Group>Framework</Group>
         <SubGroup>FrontendModuleNotify</SubGroup>
             <Setting>
@@ -564,11 +578,12 @@ Your OTRS Notification Master
                 </Hash>
             </Setting>
         <!--    $Self->{'Frontend::NotifyModule'}->{'1-CharsetCheck'} = {
-                     Module => 'Kernel::Output::HTML::NotificationCharsetCheck',}; -->
+                     Module => 'Kernel::Output::HTML::NotificationCharsetCheck',}; 
+        -->
     </ConfigItem>   
     <ConfigItem Name="Frontend::NotifyModule###2-UID-Check" Required="1" Valid="1">
-        <Description Lang="en">agent interface notification module to check the admin user id</Description>
-        <Description Lang="de">???</Description>
+        <Description Lang="en">Module to display a notification in the agent interface, if the system is used by the admin user (normaly you shouldn't work as admin)</Description>
+        <Description Lang="de">Modul zur Ausgabe eines Hinweises, wenn als Admin-Benutzer im System gearbeitet wird (normal sollte nicht als Administrator gearbeitet werden)</Description>
         <Group>Framework</Group>
         <SubGroup>FrontendModuleNotify</SubGroup>
             <Setting>
@@ -580,8 +595,8 @@ Your OTRS Notification Master
                         Module => 'Kernel::Output::HTML::NotificationUIDCheck', -->
     </ConfigItem>   
     <ConfigItem Name="Frontend::NotifyModule###3-ShowAgentOnline" Required="0" Valid="0">
-        <Description Lang="en">show online agents</Description>
-        <Description Lang="de">???</Description>
+        <Description Lang="en">Module to show via the agent interface other agents, that are currently using the system and are loged in</Description>
+        <Description Lang="de">Mit diesem Modul können andere Agents innerhalb des Agent-Interfaces angezeigt werden, die im Moment am System angemeldet sind</Description>
         <Group>Framework</Group>
         <SubGroup>FrontendModuleNotify</SubGroup>
             <Setting>
@@ -593,8 +608,8 @@ Your OTRS Notification Master
                 Module => 'Kernel::Output::HTML::NotificationAgentOnline',}; -->
     </ConfigItem>   
     <ConfigItem Name="Frontend::NotifyModule###4-ShowCustomerOnline" Required="0" Valid="0">
-        <Description Lang="en">show online customers</Description>
-        <Description Lang="de">???</Description>
+        <Description Lang="en">Module for agent interface to show the customers, who are currently loged in</Description>
+        <Description Lang="de">Mit diesem Modul können die Kunden innerhalb des Agent-Interfaces angezeigt werden, die gerade am System angemeldet sind</Description>
         <Group>Framework</Group>
         <SubGroup>FrontendModuleNotify</SubGroup>
             <Setting>
@@ -606,8 +621,8 @@ Your OTRS Notification Master
                 Module => 'Kernel::Output::HTML::NotificationCustomerOnline',}; -->
     </ConfigItem>   
 <!--    <ConfigItem Name="Frontend::Output::PostFilter###ActiveElementFilter" Required="0" Valid="0">
-        <Description Lang="en">A filter for html output of the application. With this filter you can for example filter out javascript or suporess java applets.</Description>
-        <Description Lang="de">Ein Filter für den HTML-Inhalt innerhalb der Applikation. Mit Hilfe des Filters kann z.B. die Anzeige von Javaapplets oder Javascript unterdrückt werden.</Description>
+        <Description Lang="en">A filter for html output of the application. With this filter you can for example filter out javascript or suporess java applets</Description>
+        <Description Lang="de">Ein Filter für den HTML-Inhalt innerhalb der Applikation. Mit Hilfe des Filters kann z.B. die Anzeige von Javaapplets oder Javascript unterdrückt werden</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
             <Setting>
@@ -618,22 +633,18 @@ Your OTRS Notification Master
             </Setting>
     </ConfigItem>   -->
     <ConfigItem Name="SessionModule" Required="1" Valid="1">
-        <Description Lang="en">How should be the session-data stored? Advantage of DB is that you can split the Frontendserver from the db-server. fs or ipc is faster.</Description>
+        <Description Lang="en">How do you want to store the session data? Advantage of "DB" is that you can split the frontend server from the db server. "FS" or "IPC" is much faster</Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
         <SubGroup>Session</SubGroup>
         <Setting>
-            <Option SelectedID="Kernel::System::AuthSession::DB">
-                <Item Key="Kernel::System::AuthSession::DB">Kernel::System::AuthSession::DB</Item>
-                <Item Key="Kernel::System::AuthSession::FS">Kernel::System::AuthSession::FS</Item>
-                <Item Key="Kernel::System::AuthSession::IPC">Kernel::System::AuthSession::IPC</Item>
-            </Option>
+            <Option Location="Kernel/System/AuthSession/*.pm" SelectedID="Kernel::System::AuthSession::DB"></Option>
         </Setting>
         <!--  $Self->{SessionModule} = 'Kernel::System::AuthSession::DB'; -->
     </ConfigItem>   
     <ConfigItem Name="SessionName" Required="1" Valid="1">
-        <Description Lang="en">Name of the session key. E. g. Session, SessionID, OTRS</Description>
-        <Description Lang="de">Name der des session key</Description>
+        <Description Lang="en">Name of the session key. E.g. Session, SessionID, OTRS</Description>
+        <Description Lang="de">Name des session-Kennung. Z.B. Session, SessionID, OTRS</Description>
         <Group>Framework</Group>
         <SubGroup>Session</SubGroup>
         <Setting>
@@ -642,8 +653,8 @@ Your OTRS Notification Master
         <!-- $Self->{SessionName} = 'Session'; -->
     </ConfigItem>   
     <ConfigItem Name="SessionCheckRemoteIP" Required="1" Valid="1">
-        <Description Lang="en">If the application is used via a proxy-farm then the remote ip address is mostly different. In this case, turn of the CheckRemoteID.</Description>
-        <Description Lang="de">???</Description>
+        <Description Lang="en">If the application is used for example via a proxy farm or a dialup connection, then the remote ip address is mostly different. In this case, turn of this check</Description>
+        <Description Lang="de">Wird das System z.B über eine Proxy-Farm oder über eine Einwählverbindung angesprochen, kann sich die IP-Adresse oft ändern. Schalten in diesem Fall diese Überprüfung ab</Description>
         <Group>Framework</Group>
         <SubGroup>Session</SubGroup>
         <Setting>
@@ -655,8 +666,8 @@ Your OTRS Notification Master
         <!-- $Self->{SessionCheckRemoteIP} = 1; -->
     </ConfigItem>   
     <ConfigItem Name="SessionDeleteIfNotRemoteID" Required="1" Valid="1">
-        <Description Lang="en">Delete session if the session id is used with an invalied remote IP?</Description>
-        <Description Lang="de">Session löschen bei falscher IP Adresse?</Description>
+        <Description Lang="en">Delete a session, if the session id is used with an invalied remote IP?</Description>
+        <Description Lang="de">Session bei falscher IP Adresse löschen?</Description>
         <Group>Framework</Group>
         <SubGroup>Session</SubGroup>
         <Setting>
@@ -668,8 +679,8 @@ Your OTRS Notification Master
         <!-- $Self->{SessionDeleteIfNotRemoteID} = 1; -->
     </ConfigItem>   
     <ConfigItem Name="PreApplicationModule" Required="1" Valid="1">
-        <Description Lang="en">This module is useful to check some user options or to display application news.</Description>
-        <Description Lang="de">Dieses Modul ist nützlich, um Benutzeroptionen zu überprüfen oder um Neuigkeiten anzuzeigen.</Description>
+        <Description Lang="en">This module is useful to check some user options or to display application news</Description>
+        <Description Lang="de">Dieses Modul ist nützlich, um Benutzeroptionen zu überprüfen oder um Neuigkeiten anzuzeigen</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -678,8 +689,8 @@ Your OTRS Notification Master
         <!-- $Self->{PreApplicationModule} = 'Kernel::Modules::AgentInfo'; -->
     </ConfigItem>   
     <ConfigItem Name="SessionMaxTime" Required="1" Valid="1">
-        <Description Lang="en">Max valid time of one session id in second</Description>
-        <Description Lang="de">Gültigkeitsdauer einer Session in Sekunden</Description>
+        <Description Lang="en">Maximal valid time for a session id (in seconds)</Description>
+        <Description Lang="de">Gültigkeitsdauer einer Session (in Sekunden)</Description>
         <Group>Framework</Group>
         <SubGroup>Session</SubGroup>
         <Setting>
@@ -688,8 +699,8 @@ Your OTRS Notification Master
         <!-- $Self->{SessionMaxTime} = 9*60*60; -->
     </ConfigItem>   
     <ConfigItem Name="SessionMaxIdleTime" Required="1" Valid="1">
-        <Description Lang="en">After this time (in seconds) without new http request, then the user get logged off</Description>
-        <Description Lang="de">???</Description>
+        <Description Lang="en">A session will be killed and the user will be loged out automaticly after this time of inactifity (in seconds)</Description>
+        <Description Lang="de">Eine Session wird beendet und der Benutzer automatisch abgemeldet, wenn er für die hier angegebene Zeit in Sekunden inaktiv war</Description>
         <Group>Framework</Group>
         <SubGroup>Session</SubGroup>
         <Setting>
@@ -698,8 +709,8 @@ Your OTRS Notification Master
         <!-- $Self->{SessionMaxIdleTime} = 5*60*60; -->
     </ConfigItem>   
     <ConfigItem Name="SessionDeleteIfTimeToOld" Required="1" Valid="1">
-        <Description Lang="en">Delete session's witch are requested and to old?</Description>
-        <Description Lang="de">???</Description>
+        <Description Lang="en">Delete requested sessions if they are to old and already timed out?</Description>
+        <Description Lang="de">Sollen Anfragen für Sessions automatisch gelöscht werden, wenn diese Sessions bereits schon lange abgelaufen sind?</Description>
         <Group>Framework</Group>
         <SubGroup>Session</SubGroup>
         <Setting>
@@ -711,9 +722,8 @@ Your OTRS Notification Master
         <!-- $Self->{SessionDeleteIfTimeToOld} = 1; -->
     </ConfigItem>   
     <ConfigItem Name="SessionUseCookie" Required="1" Valid="1">
-        <Description Lang="en">Should the session management use html cookies? It's more comfortable to send links -==> if you have a valid session, you don't have to login again.)
-        Note: If the client browser disabled html cookies, the system will work as usual, append SessionID to links!</Description>
-        <Description Lang="de">Sessionmanagement mit Cookies?</Description>
+        <Description Lang="en">Should the session management use html cookies? It's more comfortable to send the session id via links. If you have a valid session, you don't have to login again. If the client browser disabled html cookies, the system will work as usual and append the session id to the links</Description>
+        <Description Lang="de">Sessionmanagement mit Cookies? Es ist komfortabler, wenn sie die Session-ID per Link und nicht via Cookie übermitteln. Wenn eine gültige Session vorliegt, wird so eine Neuanmeldung am System überflüssig. Werden vom verwendeten Browser keine Cookies unterstützt, wird die Session-ID automatisch per Link übermittelt</Description>
         <Group>Framework</Group>
         <SubGroup>Session</SubGroup>
         <Setting>
@@ -725,7 +735,7 @@ Your OTRS Notification Master
         <!-- $Self->{SessionUseCookie} = 1; -->
     </ConfigItem>   
     <ConfigItem Name="SessionUseCookieAfterBrowserClose" Required="1" Valid="1">
-        <Description Lang="en">store cookies in browser after closing a browser</Description>
+        <Description Lang="en">Store cookies after the browser has ben closed?</Description>
         <Description Lang="de">Cookies nach dem schließen des Browsers nicht löschen?</Description>
         <Group>Framework</Group>
         <SubGroup>Session</SubGroup>
@@ -738,8 +748,8 @@ Your OTRS Notification Master
         <!-- $Self->{SessionUseCookieAfterBrowserClose} = 0; -->
     </ConfigItem>   
     <ConfigItem Name="SessionDir" Required="1" Valid="1">
-        <Description Lang="en">directory for all sessen id informations (if SesseionModul = Kernel::System::AuthSession::FS)</Description>
-        <Description Lang="de">???</Description>
+        <Description Lang="en">In witch directory will the session data be stored (This setting is only needed, if SessionModul is set to "FS")?</Description>
+        <Description Lang="de">In welchem Verzeichnis werden die Session-Daten abgelegt (Wird nur benötigt, wenn als "FS" zum Speichern von Sessions ausgewählt wurde)?</Description>
         <Group>Framework</Group>
         <SubGroup>Session</SubGroup>
         <Setting>
@@ -748,8 +758,8 @@ Your OTRS Notification Master
         <!-- $Self->{SessionDir} = '<OTRS_CONFIG_Home>/var/sessions'; -->
     </ConfigItem>   
     <ConfigItem Name="SessionTable" Required="1" Valid="1">
-        <Description Lang="en">Database Table to storage session by SessionModuleDB</Description>
-        <Description Lang="de">Datenbank Tabelle zum speichern der Session wenn SessionModul=DB</Description>
+        <Description Lang="en">Table in database where session data will be stored (Only needed, if "DB" is used for SessionModule)</Description>
+        <Description Lang="de">Datenbank Tabelle zum Speichern der Session-Daten, wenn "D" bei SessionModul ausgewählt wurde</Description>
         <Group>Framework</Group>
         <SubGroup>Session</SubGroup>
         <Setting>
@@ -758,8 +768,8 @@ Your OTRS Notification Master
         <!-- $Self->{SessionTable} = 'sessions'; -->
     </ConfigItem>
     <ConfigItem Name="SessionTableID" Required="1" Valid="1">
-        <Description Lang="en">SessionTable id column</Description>
-        <Description Lang="de">Session Tabelle, Feld für die ID</Description>
+        <Description Lang="en">Column for ID in session table, if "DB" is used for SessionModule</Description>
+        <Description Lang="de">Feld für die ID innerhalb der Tabelle, wenn "DB" als SessionModule ausgewählt wurde</Description>
         <Group>Framework</Group>
         <SubGroup>Session</SubGroup>
         <Setting>
@@ -768,8 +778,8 @@ Your OTRS Notification Master
         <!-- $Self->{SessionTableID} = 'session_id'; -->
     </ConfigItem>
     <ConfigItem Name="SessionTableValue" Required="1" Valid="1">
-        <Description Lang="en">SessionTable value column</Description>
-        <Description Lang="de">Session Tabelle, Feld für den value</Description>
+        <Description Lang="en">Coliumn for values in session talbe (Only needed, if "DB" was selected for SessionModule)</Description>
+        <Description Lang="de">Feld für die values inner der Session-Tabelle (Wird nur benötigt, wenn "DB" als SesionModule ausgewählt wurde)</Description>
         <Group>Framework</Group>
         <SubGroup>Session</SubGroup>
         <Setting>
@@ -778,7 +788,7 @@ Your OTRS Notification Master
         <!-- $Self->{SessionTableValue} = 'session_value'; -->
     </ConfigItem>
     <ConfigItem Name="TimeZone" Required="0" Valid="0">
-        <Description Lang="en">set the system time zone, default is local time +/- 0</Description>
+        <Description Lang="en">Set the system time zone. Default is local time +/- 0</Description>
         <Description Lang="de">Zeitzone, standardmäßig wird die locale Systemzeit verwendet, +/- 0</Description>
         <Group>Framework</Group>
         <SubGroup>Time</SubGroup>
@@ -788,8 +798,8 @@ Your OTRS Notification Master
         <!-- $Self->{TimeZone} = '+9'; -->
     </ConfigItem>
     <ConfigItem Name="TimeWorkingHours" Required="1" Valid="1">
-        <Description Lang="en">Counted hours for working time used.</Description>
-        <Description Lang="de">Festlegung der Arbeitszeit.</Description>
+        <Description Lang="en">For witch hours and week days do you want to count the working time?</Description>
+        <Description Lang="de">Für welche Wochentage und Stunden soll die Arbeitszeit erfasst werden?</Description>
         <Group>Framework</Group>
         <SubGroup>Time</SubGroup>
         <Setting>
@@ -877,8 +887,8 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeVacationDays" Required="1" Valid="1">
-        <Description Lang="en">Permanent vacation days.</Description>
-        <Description Lang="de">Permanente Freizeit-Tage im System hinterlegen.</Description>
+        <Description Lang="en">Add your permanent vacation days</Description>
+        <Description Lang="de">Hinterlegen Sie hier Ihre permanenten Freizeit-Tage im System</Description>
         <Group>Framework</Group>
         <SubGroup>Time</SubGroup>
         <Setting>
@@ -893,8 +903,8 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeVacationDaysOneTime" Required="1" Valid="1">
-        <Description Lang="en">One time vacation days.</Description>
-        <Description Lang="de">Einen einmaligen Freizeit-Tage im System hinterlegen.</Description>
+        <Description Lang="en">One time vacation days</Description>
+        <Description Lang="de">Einen einmaligen Freizeit-Tage im System hinterlegen</Description>
         <Group>Framework</Group>
         <SubGroup>Time</SubGroup>
         <Setting>
@@ -904,8 +914,8 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="WebMaxFileUpload" Required="1" Valid="1">
-        <Description Lang="en">Max size for file uploads via the browser (in bytes).</Description>
-        <Description Lang="de">Maximale Dateigröße für Dateiuploads über den Browser (in Bytes).</Description>
+        <Description Lang="en">Max size for file uploads via the browser (in Bytes)</Description>
+        <Description Lang="de">Maximale Dateigröße für Dateiuploads über den Browser (in Bytes)</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -915,21 +925,18 @@ Your OTRS Notification Master
         <!-- Größeneinheiten hinzufügen!!! -->
     </ConfigItem>
     <ConfigItem Name="WebUploadCacheModule" Required="1" Valid="1">
-        <Description Lang="en">Select the module to hande uplads via the web interface. "db" stores all uploads in the database, "fs" uses the file system.</Description>
-        <Description Lang="de">Wählen Sie das Modul, welches Uploads über die Web-Oberfläche speichert. "db" benutzt die Datenbank zum Speichern der Uploads, "fs" legt die Daten im Dateisystem ab.</Description>
+        <Description Lang="en">Select the module to hande uplads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system</Description>
+        <Description Lang="de">Wählen Sie das Modul, welches Uploads über die Web-Oberfläche speichert. "DB" benutzt die Datenbank zum Speichern der Uploads, "FS" legt die Daten im Dateisystem ab</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
-            <Option SelectedID="Kernel::System::Web::UploadCache::DB">
-                <Item Key="Kernel::System::Web::UploadCache::DB">Kernel::System::Web::UploadCache::DB</Item>
-                <Item Key="Kernel::System::Web::UploadCache::FS">Kernel::System::Web::UploadCache::FS</Item>               
-            </Option>
+            <Option Location="Kernel/System/Web/UploadCache/*.pm" SelectedID="Kernel::System::Web::UploadCache::DB"></Option>
         </Setting>
         <!-- $Self->{WebUploadCacheModule} = 'Kernel::System::Web::UploadCache::DB'; -->
     </ConfigItem>
     <ConfigItem Name="CGILogPrefix" Required="1" Valid="1">
-        <Description Lang="en">Log prefix for the CGI scripts of OTRS.</Description>
-        <Description Lang="de">Logprefix für die CGI-Skripte von OTRS.</Description>
+        <Description Lang="en">Log prefix for the CGI scripts of OTRS</Description>
+        <Description Lang="de">Logprefix für die CGI-Skripte von OTRS</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -964,8 +971,8 @@ Your OTRS Notification Master
         <!-- $Self->{ShowMotd} = 0; -->
     </ConfigItem>
     <ConfigItem Name="DemoSystem" Required="1" Valid="1">
-        <Description Lang="en">Activate the demo system? If set to "yes", agents can change their preferences like selection of language and theme via agent frontend just for the current session. Also it isn't possible to change passwords.</Description>
-        <Description Lang="de">Demosystem aktivieren? Wenn diese Einstellungen aktiviert wird, können Agenten nur für die aktuelle Sitzung ihre Sprache oder das Anzeige-Schema auswählen. Weiterhin können keine Kennwörter geändert werden.</Description>
+        <Description Lang="en">Activate the demo system? If set to "yes", agents can change their preferences like selection of language and theme via agent frontend just for the current session. Also it isn't possible to change passwords</Description>
+        <Description Lang="de">Demosystem aktivieren? Wenn diese Einstellungen aktiviert wird, können Agenten nur für die aktuelle Sitzung ihre Sprache oder das Anzeige-Schema auswählen. Weiterhin können keine Kennwörter geändert werden</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -977,8 +984,8 @@ Your OTRS Notification Master
         <!-- $Self->{DemoSystem} = 0; -->
     </ConfigItem>
     <ConfigItem Name="MIME-Viewer###application/excel" Required="0" Valid="0">
-        <Description Lang="en">???</Description>
-        <Description Lang="de">???</Description>
+        <Description Lang="en">Path to converter to view Microsoft Excel files via web interface</Description>
+        <Description Lang="de">Pfad zum Konvertierungsprogramm, um Microsoft Excel Dateien über die WEB-Oberfläche anzuzeigen</Description>
         <Group>Framework</Group>
         <SubGroup>MIME-Viewer</SubGroup>
         <Setting>
@@ -987,8 +994,8 @@ Your OTRS Notification Master
         <!-- $Self->{'MIME-Viewer'}->{'application/excel'} = 'xlhtml'; -->
     </ConfigItem>
     <ConfigItem Name="MIME-Viewer###application/msword" Required="0" Valid="0">
-        <Description Lang="en">MIME-Viewer for online to html converter</Description>
-        <Description Lang="de">???</Description>
+        <Description Lang="en">Path to converter to view Microsoft Word files via the web interface</Description>
+        <Description Lang="de">Pfad zum Konvertierungsprogramm, um Microsoft Word Dateien über die WEB-Oberfläche anzuzeigen</Description>
         <Group>Framework</Group>
         <SubGroup>MIME-Viewer</SubGroup>
         <Setting>
@@ -997,8 +1004,8 @@ Your OTRS Notification Master
         <!-- $Self->{'MIME-Viewer'}->{'application/msword'} = 'wvWare'; -->
     </ConfigItem>
     <ConfigItem Name="MIME-Viewer###application/pdf" Required="0" Valid="0">
-        <Description Lang="en">???</Description>
-        <Description Lang="de">???</Description>
+        <Description Lang="en">Path to programm to view PDF Documents via the web interface</Description>
+        <Description Lang="de">Pfad zum Programm, um PDF Dateien über die WEB-Oberfläche anzuzeigen</Description>
         <Group>Framework</Group>
         <SubGroup>MIME-Viewer</SubGroup>
         <Setting>
@@ -1007,8 +1014,8 @@ Your OTRS Notification Master
         <!-- $Self->{'MIME-Viewer'}->{'application/pdf'} = 'pdftohtml -stdout -i'; -->
     </ConfigItem>
     <ConfigItem Name="MIME-Viewer###text/xml" Required="0" Valid="0">
-        <Description Lang="en">xml2html</Description>
-        <Description Lang="de">???</Description>
+        <Description Lang="en">Path to converter to view XML files in the web interface</Description>
+        <Description Lang="de">Pfad zum Konvertierungsprogramm, um XML Dateien in der WEB-Oberfläche anzuzeigen</Description>
         <Group>Framework</Group>
         <SubGroup>MIME-Viewer</SubGroup>
         <Setting>
@@ -1017,8 +1024,8 @@ Your OTRS Notification Master
         <!-- $Self->{'MIME-Viewer'}->{'text/xml'} = $Self->{Home}.'/scripts/tools/xml2html.pl'; -->
     </ConfigItem>
     <ConfigItem Name="SpellChecker" Required="1" Valid="1">
-        <Description Lang="en">if ispell or aspell is available, then we will provide a spelling checker</Description>
-        <Description Lang="de">???</Description>
+        <Description Lang="en">Install ispell or aspell on your system, if you want to use a spellchecker. Please specify the path to the aspell or ispell binary on your operating system</Description>
+        <Description Lang="de">Installieren Sie ispell oder aspell, um auf eine Rechtschreibhilfe zurück greifen zu können. Bitte geben Sie hier den Pfad zum Binary von ispell oder aspell an</Description>
         <Group>Framework</Group>
         <SubGroup>SpellChecker</SubGroup>
         <Setting>
@@ -1027,8 +1034,8 @@ Your OTRS Notification Master
         <!-- $Self->{SpellChecker} = '/usr/bin/ispell'; -->
     </ConfigItem>
     <ConfigItem Name="SpellCheckerDictDefault" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de">???</Description>
+        <Description Lang="en">What is the default spell checker dictionary?</Description>
+        <Description Lang="de">Welches Wörterbuch soll standardmäßig für die Rechtschreibprüfung genutzt werden?</Description>
         <Group>Framework</Group>
         <SubGroup>SpellChecker</SubGroup>
         <Setting>
@@ -1037,8 +1044,8 @@ Your OTRS Notification Master
         <!-- $Self->{SpellCheckerDictDefault} = 'english'; -->
     </ConfigItem>
     <ConfigItem Name="SpellCheckerIgnore" Required="1" Valid="1">
-        <Description Lang="en">A list of ignored words.</Description>
-        <Description Lang="de">SpellChecker soll folgende Wörter ignorieren</Description>
+        <Description Lang="en">A list of words, that are ignored by the spelll checker</Description>
+        <Description Lang="de">Folgende Wörter werden von der Rechtschreibprüfung ignoriert</Description>
         <Group>Framework</Group>
         <SubGroup>SpellChecker</SubGroup>
         <Setting>
@@ -1054,8 +1061,8 @@ Your OTRS Notification Master
         <!-- $Self->{SpellCheckerIgnore} = ['www', 'webmail', 'https', 'http', 'html', 'rfc']; -->
     </ConfigItem>             
     <ConfigItem Name="Package::RepositoryRoot" Required="1" Valid="1">
-        <Description Lang="en">get online repository list, use the fist availabe result</Description>
-        <Description Lang="de">???</Description>
+        <Description Lang="en">Location to get online repository list for aditional packages. The first availabel result will be used</Description>
+        <Description Lang="de">Online-Quelle, über die zusätzliche Pakete beogen werden können. Die Quelle, die zuerst erfolgreich abgefragt werden kann, wird verwendet</Description>
         <Group>Framework</Group>
         <SubGroup>Package</SubGroup>
         <Setting>
@@ -1069,8 +1076,8 @@ Your OTRS Notification Master
                 'http://otrs.org/repository.xml',]; -->
     </ConfigItem>             
     <ConfigItem Name="Package::RepositoryList" Required="0" Valid="0">
-        <Description Lang="en">repository list</Description>
-        <Description Lang="de">???</Description>
+        <Description Lang="en">List of online repositorys</Description>
+        <Description Lang="de">Liste der zur Verfügung stehenden Online-Quellen</Description>
         <Group>Framework</Group>
         <SubGroup>Package</SubGroup>
             <Setting>
@@ -1081,8 +1088,8 @@ Your OTRS Notification Master
         <!--   $Self->{'Package::RepositoryList'} = {'ftp://ftp.example.com/pub/otrs/misc/packages/' => '[Example] ftp://ftp.example.com/',}; -->
     </ConfigItem>   
     <ConfigItem Name="Package::Timeout" Required="1" Valid="1">
-        <Description Lang="en">http/ftp timeout to get packages</Description>
-        <Description Lang="de">???</Description>
+        <Description Lang="en">http/ftp timeout for package downloads</Description>
+        <Description Lang="de">Zeitlimit für das Herunterladen von zusätzlichen Paketen</Description>
         <Group>Framework</Group>
         <SubGroup>Package</SubGroup>
         <Setting>
@@ -1091,8 +1098,8 @@ Your OTRS Notification Master
         <!-- $Self->{'Package::Timeout'} = 12; -->
     </ConfigItem>
     <ConfigItem Name="Package::Proxy" Required="0" Valid="0">
-        <Description Lang="en">fetch packages via proxy</Description>
-        <Description Lang="de">Laden von Packages über Proxyserver</Description>
+        <Description Lang="en">Fetch packages via proxy</Description>
+        <Description Lang="de">Laden von zusätzlichen Paketen über einen Proxyserver</Description>
         <Group>Framework</Group>
         <SubGroup>Package</SubGroup>
         <Setting>
@@ -1101,8 +1108,8 @@ Your OTRS Notification Master
         <!-- $Self->{'Package::Proxy'} = 'http://proxy.sn.no:8001/'; -->
     </ConfigItem>
     <ConfigItem Name="PGP" Required="1" Valid="1">
-        <Description Lang="en">PGP</Description>
-        <Description Lang="de">PGP aktivieren</Description>
+        <Description Lang="en">Enable PGP support?</Description>
+        <Description Lang="de">PGP aktivieren?</Description>
         <Group>Framework</Group>
         <SubGroup>PGP</SubGroup>
         <Setting>
@@ -1114,8 +1121,8 @@ Your OTRS Notification Master
         <!-- $Self->{'PGP'} = 1; -->
     </ConfigItem>
     <ConfigItem Name="PGP::Bin" Required="1" Valid="1">
-        <Description Lang="en">PGP path</Description>
-        <Description Lang="de">???</Description>
+        <Description Lang="en">Path to PGP binary</Description>
+        <Description Lang="de">Pfad zum PGP Binary</Description>
         <Group>Framework</Group>
         <SubGroup>PGP</SubGroup>
         <Setting>
@@ -1124,8 +1131,8 @@ Your OTRS Notification Master
         <!-- $Self->{'PGP::Bin'} = '/usr/bin/gpg'; -->
     </ConfigItem>
     <ConfigItem Name="PGP::Options" Required="1" Valid="1">
-        <Description Lang="en">PGP Options</Description>
-        <Description Lang="de">PGP Optionen</Description>
+        <Description Lang="en">Options for PGP binary</Description>
+        <Description Lang="de">Optionen für das PGP Binary</Description>
         <Group>Framework</Group>
         <SubGroup>PGP</SubGroup>
         <Setting>
@@ -1134,8 +1141,8 @@ Your OTRS Notification Master
         <!-- $Self->{'PGP::Options'} = '--homedir /var/lib/wwwrun/.gnupg/ --batch --no-tty --yes'; -->
     </ConfigItem>
     <ConfigItem Name="PGP::Key::Password" Required="0" Valid="0">
-        <Description Lang="en">fetch packages via proxy</Description>
-        <Description Lang="de">Laden von Packages über Proxyserver</Description>
+        <Description Lang="en">Fetch packages via proxy</Description>
+        <Description Lang="de">Laden von Packeten über einen Proxyserver</Description>
         <Group>Framework</Group>
         <SubGroup>PGP</SubGroup>
         <Setting>
@@ -1146,8 +1153,8 @@ Your OTRS Notification Master
         <!-- $Self->{'PGP::Key::Password'} = {'488A0B8F' => 1234,}; -->
     </ConfigItem>
     <ConfigItem Name="SMIME" Required="1" Valid="1">
-        <Description Lang="en">S/MIME settings</Description>
-        <Description Lang="de">S/MIME settings</Description>
+        <Description Lang="en">Use S/MIME?</Description>
+        <Description Lang="de">S/MIME verwenden?</Description>
         <Group>Framework</Group>
         <SubGroup>SMIME</SubGroup>
         <Setting>
@@ -1159,8 +1166,8 @@ Your OTRS Notification Master
         <!-- $Self->{'SMIME'} = 1; -->
     </ConfigItem>
     <ConfigItem Name="HOME" Required="0" Valid="0">
-        <Description Lang="en">Directory to store S/MIME settings.</Description>
-        <Description Lang="de">Verzeichnis zum Speichern der S/MIME-Einstellungen.</Description>
+        <Description Lang="en">Directory to store S/MIME settings</Description>
+        <Description Lang="de">Verzeichnis zum Speichern der S/MIME-Einstellungen</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -1169,8 +1176,8 @@ Your OTRS Notification Master
         <!-- $ENV{HOME} = '/var/lib/wwwrun'; -->
     </ConfigItem>
     <ConfigItem Name="SMIME::Bin" Required="1" Valid="1">
-        <Description Lang="en">S/MIME settings</Description>
-        <Description Lang="de">S/MIME settings</Description>
+        <Description Lang="en">Path to openssl binary</Description>
+        <Description Lang="de">Pfad zum openssl Binary</Description>
         <Group>Framework</Group>
         <SubGroup>SMIME</SubGroup>
         <Setting>
@@ -1179,18 +1186,18 @@ Your OTRS Notification Master
         <!-- $Self->{'SMIME::Bin'} = '/usr/bin/openssl'; -->
     </ConfigItem>
     <ConfigItem Name="SMIME::CertPath" Required="0" Valid="0">
-        <Description Lang="en">S/MIME settings</Description>
-        <Description Lang="de">S/MIME settings</Description>
+        <Description Lang="en">In witch directory are your SSL certificates stored?</Description>
+        <Description Lang="de">In welchem Verzeichnis sind Ihre SSL-Zertifikate gespeichert?</Description>
         <Group>Framework</Group>
         <SubGroup>SMIME</SubGroup>
         <Setting>
-            <String Regex="">etc/ssl/certs</String>
+            <String Regex="">/etc/ssl/certs</String>
         </Setting>
         <!-- $Self->{'SMIME::CertPath'} = '/etc/ssl/certs'; -->
     </ConfigItem>
     <ConfigItem Name="SMIME::PrivatePath" Required="0" Valid="0">
-        <Description Lang="en">S/MIME settings</Description>
-        <Description Lang="de">S/MIME settings</Description>
+        <Description Lang="en">In witch directory are the private SSL certificates stored?</Description>
+        <Description Lang="de">In welchem Verzeichnis werden die privaten SSL-Zertifikate gespeichert?</Description>
         <Group>Framework</Group>
         <SubGroup>SMIME</SubGroup>
         <Setting>
@@ -1199,8 +1206,8 @@ Your OTRS Notification Master
         <!-- $Self->{'SMIME::PrivatePath'} = '/etc/ssl/private/private'; -->
     </ConfigItem>
     <ConfigItem Name="System::Permission" Required="1" Valid="1">
-        <Description Lang="en">The different system permissions.</Description>
-        <Description Lang="de">Die unterschiedlichen Zugriffsrechte innerhalb des Systems.</Description>
+        <Description Lang="en">The different system permissions</Description>
+        <Description Lang="de">Die unterschiedlichen Zugriffsrechte innerhalb des Systems</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -1212,8 +1219,8 @@ Your OTRS Notification Master
         <!-- $Self->{'System::Permission'} = ['ro', 'rw']; -->
     </ConfigItem>
     <ConfigItem Name="System::Customer::Permission" Required="1" Valid="1">
-        <Description Lang="en">The different system permissions for customers.</Description>
-        <Description Lang="de">Die verschiedenen Zugrifssrechte für Kunden innerhalb des Systems.</Description>
+        <Description Lang="en">The different system permissions for customers</Description>
+        <Description Lang="de">Die verschiedenen Zugrifssrechte für Kunden innerhalb des Systems</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -1225,8 +1232,8 @@ Your OTRS Notification Master
         <!-- $Self->{'System::Customer::Permission'} = ['ro', 'rw']; -->
     </ConfigItem>    
     <ConfigItem Name="PreferencesTable" Required="1" Valid="1">
-        <Description Lang="en">Stored preferences table data.</Description>
-        <Description Lang="de">???</Description>
+        <Description Lang="en">The name of the table, where the customer preferences are stored</Description>
+        <Description Lang="de">Der Name der Tabelle, in der die Voreinstellungen für die Customer gespeichert werden</Description>
         <Group>Framework</Group>
         <SubGroup>CustomerPreferences</SubGroup>
         <Setting>
@@ -1234,10 +1241,9 @@ Your OTRS Notification Master
         </Setting>
         <!-- $Self->{PreferencesTable} = 'user_preferences'; -->
     </ConfigItem>
-    
     <ConfigItem Name="PreferencesTableKey" Required="1" Valid="1">
-        <Description Lang="en">Stored preferences table data.</Description>
-        <Description Lang="de">???</Description>
+        <Description Lang="en">Key for preferences table</Description>
+        <Description Lang="de">Key für die Tabelle mit den Voreinstellungen</Description>
         <Group>Framework</Group>
         <SubGroup>CustomerPreferences</SubGroup>
         <Setting>
@@ -1246,7 +1252,7 @@ Your OTRS Notification Master
         <!-- $Self->{PreferencesTableKey} = 'preferences_key'; -->
     </ConfigItem>
     <ConfigItem Name="PreferencesTableValue" Required="1" Valid="1">
-        <Description Lang="en">Stored preferences table data.</Description>
+        <Description Lang="en">Stored preferences table data</Description>
         <Description Lang="de">???</Description>
         <Group>Framework</Group>
         <SubGroup>AgentPreferences</SubGroup>
@@ -1256,7 +1262,7 @@ Your OTRS Notification Master
         <!-- $Self->{PreferencesTableValue} = 'preferences_value'; -->
     </ConfigItem>
     <ConfigItem Name="PreferencesTableUserID" Required="1" Valid="1">
-        <Description Lang="en">Stored preferences table data.</Description>
+        <Description Lang="en">Stored preferences table data</Description>
         <Description Lang="de">???</Description>
         <Group>Framework</Group>
         <SubGroup>AgentPreferences</SubGroup>
@@ -1266,8 +1272,8 @@ Your OTRS Notification Master
         <!-- $Self->{PreferencesTableUserID} = 'user_id'; -->
     </ConfigItem>
     <ConfigItem Name="PreferencesView" Required="1" Valid="1">
-        <Description Lang="en">Order of shown items</Description>
-        <Description Lang="de">???</Description>
+        <Description Lang="en">In witch order are the different items in the preference view displayed?</Description>
+        <Description Lang="de">In welcher Reihenfolge sollen die verschiedenen Abschnitte innerhalb der Ansicht für die Einstellungen angezeigt werden?</Description>
         <Group>Framework</Group>
         <SubGroup>CustomerPreferences</SubGroup>
         <Setting>
@@ -1323,7 +1329,7 @@ Your OTRS Notification Master
                     <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
                     <Item Key="Colum">Other Options</Item>
                     <Item Key="Label">Spelling Dictionary</Item>
-                    <Item Key="Desc">Select your default spelling dictionary.</Item>
+                    <Item Key="Desc">Select your default spelling dictionary</Item>
                     <Item Key="Data">
                         <Hash>
                             <Item Key="english">English</Item>
@@ -1397,7 +1403,7 @@ Your OTRS Notification Master
                     <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
                     <Item Key="Colum">Other Options</Item>
                     <Item Key="Label">Comment</Item>
-                    <Item Key="Desc">Example for free text.</Item>
+                    <Item Key="Desc">Example for free text</Item>
                     <Item Key="Block">Input</Item>
                     <Item Key="Data">$Env{"UserFreeText"}</Item>
                     <Item Key="PrefKey">UserFreeText</Item>
@@ -1428,7 +1434,7 @@ Your OTRS Notification Master
                     <Item Key="Module">Kernel::Output::HTML::PreferencesLanguage</Item>
                     <Item Key="Colum">Frontend</Item>
                     <Item Key="Label">Language</Item>
-                    <Item Key="Desc">Select your frontend language.</Item>
+                    <Item Key="Desc">Select your frontend language</Item>
                     <Item Key="PrefKey">UserLanguage</Item>
                     <Item Key="Prio">1000</Item>
                     <Item Key="Activ">1</Item>
@@ -1455,7 +1461,7 @@ Your OTRS Notification Master
                     <Item Key="Module">Kernel::Output::HTML::PreferencesTheme</Item>
                     <Item Key="Colum">Frontend</Item>
                     <Item Key="Label">Theme</Item>
-                    <Item Key="Desc">Select your frontend Theme.</Item>
+                    <Item Key="Desc">Select your frontend Theme</Item>
                     <Item Key="PrefKey">UserTheme</Item>
                     <Item Key="Prio">2000</Item>
                     <Item Key="Activ">1</Item>
@@ -1504,8 +1510,8 @@ Your OTRS Notification Master
         <!-- $Self->{NotificationSubjectLostPassword} = 'New OTRS Password!'; -->
     </ConfigItem>
     <ConfigItem Name="NotificationBodyLostPassword" Required="1" Valid="1">
-        <Description Lang="en">How shell the mail body for notification mail about a new password look like?</Description>
-        <Description Lang="de">Wie soll der Mailinhalt für eine Benachrichtigungsmail für ein neues Kennwort aussehen?</Description>
+        <Description Lang="en">Body for notification mail about new password</Description>
+        <Description Lang="de">Body der Benachrichtigungsmail für ein neues jKennwort</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -1524,8 +1530,8 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem> 
     <ConfigItem Name="CustomerPanelSessionName" Required="1" Valid="1">
-        <Description Lang="en">Name of the session key.</Description>
-        <Description Lang="de">???</Description>
+        <Description Lang="en">Name of the key for customer sessions</Description>
+        <Description Lang="de">Sessionsbezeichner für Kunden-Sitzungen</Description>
         <Group>Framework</Group>
         <SubGroup>Session</SubGroup>
         <Setting>
@@ -1534,8 +1540,8 @@ Your OTRS Notification Master
         <!-- $Self->{CustomerPanelSessionName} = 'CSID'; -->
     </ConfigItem>
     <ConfigItem Name="CustomerPanelUserID" Required="1" Valid="1">
-        <Description Lang="en">CustomerPanelUserID</Description>
-        <Description Lang="de">???</Description>
+        <Description Lang="en">UserID for customer panel</Description>
+        <Description Lang="de">UserID für das Customer-Panel</Description>
         <Group>Framework</Group>
         <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
@@ -1544,8 +1550,8 @@ Your OTRS Notification Master
         <!-- $Self->{CustomerPanelUserID} = 1; -->
     </ConfigItem>
     <ConfigItem Name="CustomerGroupSupport" Required="1" Valid="1">
-        <Description Lang="en">CustomerGroupSupport</Description>
-        <Description Lang="de">???</Description>
+        <Description Lang="en">Activate support for customer groups?</Description>
+        <Description Lang="de">Soll die Unterstützung von Customer-Gruppen aktiviert werden?</Description>
         <Group>Framework</Group>
         <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
@@ -1557,8 +1563,8 @@ Your OTRS Notification Master
         <!-- $Self->{CustomerGroupSupport} = 0; -->
     </ConfigItem>
     <ConfigItem Name="CustomerGroupAlwaysGroups" Required="1" Valid="1">
-        <Description Lang="en">if CustomerGroupSupport is true and you don't want to manage each customer user for this groups, then put the groups for all customer user in there</Description>
-        <Description Lang="de">???</Description>
+        <Description Lang="en">If CustomerGroupSupport is enabled and you don't want to manage each customer user for this groups, then put the groups for all customer user in there</Description>
+        <Description Lang="de">Ist CustomerGroupSupport aktiviert und sollen nicht alle Benutzer dieser Gruppen einzeln verwaltet werden, können die einzelnen Gruppen hier angegeben werden</Description>
         <Group>Framework</Group>
         <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
@@ -1570,10 +1576,10 @@ Your OTRS Notification Master
         <!-- $Self->{CustomerGroupAlwaysGroups} = ['users', 'info']; -->
     </ConfigItem>    
     <ConfigItem Name="CustomerFrontend::NotifyModule###1-ShowAgentOnline" Required="1" Valid="1">
-        <Description Lang="en">show online agents</Description>
-        <Description Lang="de">???</Description>
+        <Description Lang="en">Module for the customer interface, that shows the currently loged in agents</Description>
+        <Description Lang="de">Modul für die Anzeige von Agenten innerhalb des Customer-Interfaces, die gerade am System angemeldet sind</Description>
         <Group>Framework</Group>
-        <SubGroup>FrontendModuleNotify</SubGroup>
+        <SubGroup>FrontendModulNotify</SubGroup>
             <Setting>
                 <Hash>
                     <Item Key="Module">Kernel::Output::HTML::NotificationAgentOnline</Item>
@@ -1584,12 +1590,8 @@ Your OTRS Notification Master
  -->
     </ConfigItem>   
     <ConfigItem Name="CustomerPanelLoginURL" Required="1" Valid="1">
-        <Description Lang="en">CustomerPanelLoginURL
-        (If this is anything other than '', then it is assumed to be the
-         URL of an alternate login screen which will be used in place of
-         the default one.)
-        </Description>
-        <Description Lang="de">???</Description>
+        <Description Lang="en">Alternate login URL for the customer panel</Description>
+        <Description Lang="de">Alternative Login-URL für das Customer-Panel</Description>
         <Group>Framework</Group>
         <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
@@ -1598,12 +1600,8 @@ Your OTRS Notification Master
         <!-- $Self->{CustomerPanelLoginURL} = ''; -->
     </ConfigItem>
     <ConfigItem Name="CustomerPanelLogoutURL" Required="1" Valid="1">
-        <Description Lang="en">CustomerPanelLogoutURL
-         (If this is anything other than '', it is assumed to be the URL
-         of an alternate logout page which users will be sent to when they
-         logout.)
-        </Description>
-        <Description Lang="de">???</Description>
+        <Description Lang="en">Alternate logout URL for the customer panel</Description>
+        <Description Lang="de">Alternative Logout-URL für das Customer-Panel</Description>
         <Group>Framework</Group>
         <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
@@ -1612,13 +1610,8 @@ Your OTRS Notification Master
         <!-- $Self->{CustomerPanelLogoutURL} = ''; -->
     </ConfigItem>
     <ConfigItem Name="CustomerPanelPreApplicationModule" Required="0" Valid="0">
-        <Description Lang="en">CustomerPanelPreApplicationModule
-             (Used for every request, if defined, the PreRun() function of
-             this module will be used. This interface use useful to check
-             some user options or to redirect not accept new application
-             news)
-        </Description>
-        <Description Lang="de">???</Description>
+        <Description Lang="en">CustomerPanelPreApplicationModule. This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications</Description>
+        <Description Lang="de">CustomerPanelPreApplicationModule. Dieses Modul und seine PreRun() Funktion wird für jede Anfrage ausgeführt. Das Modul kann für die Überprüfung einiger Benutzeroptionen oder für die Anzeige von Neuigkeiten verwendet werden</Description>
         <Group>Framework</Group>
         <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
@@ -1627,10 +1620,8 @@ Your OTRS Notification Master
         <!-- $Self->{CustomerPanelPreApplicationModule} = 'Kernel::Modules::CustomerAccept'; -->
     </ConfigItem>
     <ConfigItem Name="CustomerPanel::InfoKey" Required="0" Valid="0">
-        <Description Lang="en"># Kernel::Modules::CustomerAccept check key, if this user preferences key
-         is true, then the message is already accepted
-        </Description>
-        <Description Lang="de">???</Description>
+        <Description Lang="en">Key to check with CustomerAccept. If this user preferences key is true, then the message is already accepted</Description>
+        <Description Lang="de">Key für CustomerAccept. Wurde dieser Schlüssel verifiziert, wird die Nachricht akzeptiert</Description>
         <Group>Framework</Group>
         <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
@@ -1639,8 +1630,8 @@ Your OTRS Notification Master
         <!-- $Self->{'CustomerPanel::InfoKey'} = 'CustomerAccept1'; -->
     </ConfigItem>
     <ConfigItem Name="CustomerPanel::InfoFile" Required="0" Valid="0">
-        <Description Lang="en">shown InfoFile located under Kernel/Output/HTML/Standard/CustomerAccept.dtl</Description>
-        <Description Lang="de">???</Description>
+        <Description Lang="en">Shown InfoFile, that is located under Kernel/Output/HTML/Standard/CustomerAccept.dtl</Description>
+        <Description Lang="de">Angezeigtes InfoFile, welches unter Kernel/Output/HTML/Standard/CustomerAccept.dtl zu finden ist</Description>
         <Group>Framework</Group>
         <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
@@ -1649,8 +1640,8 @@ Your OTRS Notification Master
         <!-- $Self->{'CustomerPanel::InfoFile'} = 'CustomerAccept'; -->
     </ConfigItem>
     <ConfigItem Name="CustomerPanelLostPassword" Required="1" Valid="1">
-        <Description Lang="en">use lost passowrd feature</Description>
-        <Description Lang="de">???</Description>
+        <Description Lang="en">Activate lost passowrd feature?</Description>
+        <Description Lang="de">Feature für das Zuschicken verlorener Passwörter aktivieren?</Description>
         <Group>Framework</Group>
         <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
@@ -1662,18 +1653,21 @@ Your OTRS Notification Master
         <!-- $Self->{CustomerPanelLostPassword} = 1; -->
     </ConfigItem>
     <ConfigItem Name="CustomerPanelCreateAccount" Required="1" Valid="1">
-        <Description Lang="en">use create cutomer account self feature</Description>
-        <Description Lang="de">???</Description>
+        <Description Lang="en">Can Customers create their account on their own?</Description>
+        <Description Lang="de">Können Customer selbst Ihren Account erstellen?</Description>
         <Group>Framework</Group>
         <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
-            <String Regex="">1</String>
+           <Option SelectedID="1">
+               <Item Key="0">No</Item>
+               <Item Key="1">Yes</Item>
+           </Option>
         </Setting>
         <!-- $Self->{CustomerPanelCreateAccount} = 1; -->
     </ConfigItem>
     <ConfigItem Name="CustomerPanelSubjectLostPassword" Required="1" Valid="1">
-        <Description Lang="en">notification email about new password</Description>
-        <Description Lang="de">???</Description>
+        <Description Lang="en">Subject of notification mail for a new password</Description>
+        <Description Lang="de">Betreff der Benachrichtigungsmail, die bei der Vergabe eines neuen Kennwrots geschickt wird</Description>
         <Group>Framework</Group>
         <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
@@ -1682,13 +1676,13 @@ Your OTRS Notification Master
         <!-- $Self->{CustomerPanelSubjectLostPassword} = 'New OTRS Password!'; -->
     </ConfigItem>
     <ConfigItem Name="CustomerPanelBodyLostPassword" Required="1" Valid="1">
-        <Description Lang="en">notification email about new password</Description>
-        <Description Lang="de">???</Description>
+        <Description Lang="en">Body of notification mail for new password</Description>
+        <Description Lang="de">Der Body der Benachrichtigungsmail, die für ein neues Kennwort versendet wird</Description>
         <Group>Framework</Group>
         <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
             <TextArea>
-               Hi &lt;OTRS_USERFIRSTNAME&gt;,
+Hi &lt;OTRS_USERFIRSTNAME&gt;,
 
 you or someone impersonating you has requested to change your OTRS
 password.
@@ -1702,8 +1696,8 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem> 
     <ConfigItem Name="CustomerPanelSubjectNewAccount" Required="1" Valid="1">
-        <Description Lang="en">notification email about new account</Description>
-        <Description Lang="de">???</Description>
+        <Description Lang="en">Subject for notification email about a new account</Description>
+        <Description Lang="de">Betreff der Benachrichtigungsmail bei einem neuen Account</Description>
         <Group>Framework</Group>
         <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
@@ -1712,8 +1706,8 @@ Your OTRS Notification Master
         <!-- $Self->{CustomerPanelSubjectNewAccount} = 'New OTRS Account!'; -->
     </ConfigItem>
     <ConfigItem Name="CustomerPanelBodyNewAccount" Required="1" Valid="1">
-        <Description Lang="en">nnotification email about new account</Description>
-        <Description Lang="de">???</Description>
+        <Description Lang="en">Body of notification email about new account</Description>
+        <Description Lang="de">Body der Benachrichtigungsmail bei einem neuen Account</Description>
         <Group>Framework</Group>
         <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
@@ -1733,30 +1727,19 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem> 
     <ConfigItem Name="Customer::AuthModule" Required="1" Valid="1">
-        <Description Lang="en">This is the auth. module againt the otrs db (Kernel::System::CustomerAuth::DB) or (Kernel::System::CustomerAuth::HTTPBasicAuth)</Description>
-        <Description Lang="de">???</Description>
+        <Description Lang="en">Module to authenticate customers</Description>
+        <Description Lang="de">Modul zum authentifizieren der Customer</Description>
         <Group>Framework</Group>
         <SubGroup>CustomerFrontend</SubGroup>
+        <SubGroup>Unknown</SubGroup>
         <Setting>
-            <String Regex="">Kernel::System::CustomerAuth::DB</String>
+            <Option Location="Kernel/System/CustomerAuth/*.pm" SelectedID="Kernel::System::CustomerAuth::DB"></Option>
         </Setting>
         <!-- $Self->{'Customer::AuthModule'} = 'Kernel::System::CustomerAuth::DB'; -->
     </ConfigItem>
-    <!--
-    <ConfigItem Name="Customer::AuthModule" Required="0" Valid="0">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
-        <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
-        <Setting>
-            <String>Kernel::System::CustomerAuth::HTTPBasicAuth</String>
-        </Setting>
-        # $Self->{'Customer::AuthModule'} = 'Kernel::System::CustomerAuth::HTTPBasicAuth';
-    </ConfigItem>
-    -->
     <ConfigItem Name="Customer::AuthModule::DB::Table" Required="1" Valid="1">
-        <Description Lang="en">This is the auth. module againt the otrs db</Description>
-        <Description Lang="de">???</Description>
+        <Description Lang="en">If "DB" was selected for Customer::AuthModule, you have to specify the name the of table where your customer data are stored</Description>
+        <Description Lang="de">Wenn "DB" für Customer::AuthModule ausgewählt wurde, muss der Name der Tabelle angegeben werden, in der die Daten der Customer gespeichert sind</Description>
         <Group>Framework</Group>
         <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
@@ -1815,8 +1798,8 @@ Your OTRS Notification Master
         <!-- $Self->{'Customer::AuthModule::DB::Password'} = "some_password"; -->
     </ConfigItem>
     <ConfigItem Name="WebMaxFileUpload" Required="1" Valid="1">
-        <Description Lang="en">Max size for file uploads via the browser (in bytes).</Description>
-        <Description Lang="de">Maximale Größe für Datei-Uploads über den Browser (in Bytes).</Description>
+        <Description Lang="en">Max size for file uploads via the browser (in Bytes)</Description>
+        <Description Lang="de">Maximale Größe für Datei-Uploads über den Browser (in Bytes)</Description>
         <Group>Framework</Group>
         <SubGroup>Web</SubGroup>
         <Setting>
@@ -1824,23 +1807,13 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="WebUploadCacheModule" Required="1" Valid="1">
-        <Description Lang="en">Select the module to handle uploads via the web frontend. "db" stores the uploads in the database, "fs" uses the file system.</Description>.
-        <Description Lang="de">Wählen Sie das Modul aus, über das Datei-Uploads gespeichert werden. "db" benutzt die Datenbank zum Speichern der Uploads, durch "fs" werden die Daten im Dateisystem abgelegt.</Description>
+        <Description Lang="en">Select the module to handle uploads via the web frontend. "db" stores the uploads in the database, "fs" uses the file system</Description>.
+        <Description Lang="de">Wählen Sie das Modul aus, über das Datei-Uploads gespeichert werden. "db" benutzt die Datenbank zum Speichern der Uploads, durch "fs" werden die Daten im Dateisystem abgelegt</Description>
         <Group>Framework</Group>
         <SubGroup>Web</SubGroup>
         <Setting>
             <Option Location="Kernel/System/Web/UploadCache/*.pm" SelectedID="Kernel::System::Web::UploadCache::DB"></Option>
         </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Customer::AuthModule###Kernel::System::CustomerAuth::LDAP" Required="0" Valid="0">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
-        <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
-        <Setting>
-            <String>Kernel::System::CustomerAuth::LDAP</String>
-        </Setting>
-        <!-- # $Self->{'Customer::AuthModule'} = 'Kernel::System::CustomerAuth::LDAP'; -->
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::LDAP::Host" Required="0" Valid="0">
         <Description Lang="en"></Description>
@@ -1933,7 +1906,7 @@ Your OTRS Notification Master
         <!-- # $Self->{'Customer::AuthModule::LDAP::AlwaysFilter'} = ''; -->
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::LDAP::UserSuffix" Required="0" Valid="0">
-        <Description Lang="en">If you want to add a suffix to each customer login name, then you can use this option. e. g. user just want to use user but  in your ldap directory exists user@domain.</Description>
+        <Description Lang="en">If you want to add a suffix to each customer login name, then you can use this option. e. g. user just want to use user but  in your ldap directory exists user@domain</Description>
         <Description Lang="de"></Description>
         <Group>Framework</Group>
         <SubGroup>CustomerFrontend</SubGroup>
@@ -1965,8 +1938,8 @@ Your OTRS Notification Master
         -->
     </ConfigItem>
     <ConfigItem Name="CustomerPanelLoginURL" Required="0" Valid="0">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">Alternate login URL for the customer web interface</Description>
+        <Description Lang="de">Alternative Login-URL für das Kunden-WEB-Interface</Description>
         <Group>Framework</Group>
         <SubGroup>Unknown</SubGroup>
         <Setting>
@@ -1975,24 +1948,14 @@ Your OTRS Notification Master
         <!-- # $Self->{CustomerPanelLoginURL} = 'http://host.example.com/not-authorised-for-otrs.html'; -->
     </ConfigItem>
     <ConfigItem Name="CustomerPanelLogoutURL" Required="0" Valid="0">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">Alternate logout URL for the customer web interface</Description>
+        <Description Lang="de">Alternative Logout-URL für das Kunden-WEB-Interface</Description>
         <Group>Framework</Group>
         <SubGroup>Unknown</SubGroup>
         <Setting>
             <String>http://host.example.com/thanks-for-using-otrs.html</String>
         </Setting>
         <!-- # $Self->{CustomerPanelLogoutURL} = 'http://host.example.com/thanks-for-using-otrs.html'; -->
-    </ConfigItem>
-    <ConfigItem Name="Customer::AuthModule" Required="0" Valid="0">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
-        <Group>Framework</Group>
-        <SubGroup>Unknown</SubGroup>
-        <Setting>
-            <String>Kernel::System::Auth::Radius</String>
-        </Setting>
-        <!-- # $Self->{'Customer::AuthModule'} = 'Kernel::System::Auth::Radius'; -->
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::Radius::Host" Required="0" Valid="0">
         <Description Lang="en">Radius host</Description>
@@ -2015,8 +1978,8 @@ Your OTRS Notification Master
         <!-- # $Self->{'Customer::AuthModule::Radius::Password'} = 'radiussecret'; -->
     </ConfigItem>
     <ConfigItem Name="CustomerPreferences" Required="1" Valid="1">
-        <Description Lang="en">Customer preference table parameters</Description>
-        <Description Lang="de">Parameter für Kunden-Daten-Tabelle</Description>
+        <Description Lang="en">Parameters for the customer preference table</Description>
+        <Description Lang="de">Parameter für die Customer-Daten-Tabelle</Description>
         <Group>Framework</Group>
         <SubGroup>CustomerPreferences</SubGroup>
         <Setting>
@@ -2045,8 +2008,8 @@ Your OTRS Notification Master
         -->
     </ConfigItem>
     <ConfigItem Name="CustomerPreferencesView" Required="1" Valid="1">
-        <Description Lang="en">CustomerPreferencesView: Ordered of shown items</Description>
-        <Description Lang="de">Ansicht der Kundeneinstellungen: Geordnet oder angezeigt</Description>
+        <Description Lang="en">How are the different items in the customer preferences view ordered?</Description>
+        <Description Lang="de">In welcher Reihenfolge werden die verschiedenen Abschnitte innerhalb der Customer-Einstellungen angezeigt?</Description>
         <Group>Framework</Group>
         <SubGroup>CustomerPreferences</SubGroup>
         <Setting>
@@ -2058,8 +2021,8 @@ Your OTRS Notification Master
         <!-- $Self->{CustomerPreferencesView} = ['Frontend', 'Other Options']; -->
     </ConfigItem>
     <ConfigItem Name="CustomerPreferencesGroups###Password" Required="1" Valid="1">
-        <Description Lang="en">All groups for the password in the customer preferences</Description>
-        <Description Lang="de">Alle Gruppen für das Passwort in den Kundeneinstellungen</Description>
+        <Description Lang="en">All parameters for the password area in the customer preferences</Description>
+        <Description Lang="de">Alle Parameter für den Passwort-Bereich in den Customer-Einstellungen</Description>
         <Group>Framework</Group>
         <SubGroup>CustomerPreferences</SubGroup>
         <Setting>
@@ -2094,8 +2057,8 @@ Your OTRS Notification Master
         -->
     </ConfigItem>
     <ConfigItem Name="CustomerPreferencesGroups###Language" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">All parameters for the language area in the customer preferences</Description>
+        <Description Lang="de">Alle Parameter für den Bereich zur Sprachenauswahl in den Customer-Einstellungen</Description>
         <Group>Framework</Group>
         <SubGroup>CustomerPreferences</SubGroup>
         <Setting>
@@ -2124,8 +2087,8 @@ Your OTRS Notification Master
         -->
     </ConfigItem>
     <ConfigItem Name="CustomerPreferencesGroups###Theme" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">All parameters for the theme area in the customer preferences</Description>
+        <Description Lang="de">Alle Parameter für den Bereich der Theme-Auswahl innerhalb der Customer-Einstellungen</Description>
         <Group>Framework</Group>
         <SubGroup>CustomerPreferences</SubGroup>
         <Setting>
@@ -2152,8 +2115,8 @@ Your OTRS Notification Master
         -->
     </ConfigItem>
     <ConfigItem Name="CustomerPreferencesGroups###PGP" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">All parameters for the PGP area in the customer preferences</Description>
+        <Description Lang="de">Alle Parameter für die PGP-Einstellungen innerhalb der Customer-Einstellungen</Description>
         <Group>Framework</Group>
         <SubGroup>CustomerPreferences</SubGroup>
         <Setting>
@@ -2180,8 +2143,8 @@ Your OTRS Notification Master
         -->
     </ConfigItem>
     <ConfigItem Name="CustomerPreferencesGroups###SMIME" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">All parameters for the S/MIME area in the customer preferences</Description>
+        <Description Lang="de">Alle Parameter für die S/MIME-Einstellungen innerhalb der Customer-Einstellungen</Description>
         <Group>Framework</Group>
         <SubGroup>CustomerPreferences</SubGroup>
         <Setting>
@@ -3044,8 +3007,8 @@ Your OTRS Notification Master
         -->
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###Logout" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">All parameters for the Logout object in the customer frontend</Description>
+        <Description Lang="de">Alle Parameter für das Logout-Objekt innerhalb des Customer-Frontends</Description>
         <Group>Framework</Group>
         <SubGroup>CustomerFrontendModulRegistration</SubGroup>
         <Setting>
@@ -3079,8 +3042,8 @@ Your OTRS Notification Master
         -->
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerPreferences" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">All parameters for the CustomerPreferences object in the customer frontend</Description>
+        <Description Lang="de">Alle Parameter für das CustomerPreferences-Objekt innerhalb des Customer-Frontends</Description>
         <Group>Framework</Group>
         <SubGroup>CustomerFrontendModulRegistration</SubGroup>
         <Setting>
@@ -3114,8 +3077,8 @@ Your OTRS Notification Master
         -->
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerAccept" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">All parameters for the CustomerAccept object in the customer frontend</Description>
+        <Description Lang="de">Alle Parameter für das CustomerAccept-Objekt innerhalb des Customer-Frontends</Description>
         <Group>Framework</Group>
         <SubGroup>CustomerFrontendModulRegistration</SubGroup>
         <Setting>
@@ -3132,8 +3095,8 @@ Your OTRS Notification Master
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentPreferences" Required="1" Valid="1">
-        <Description Lang="en">Agent Preferences.</Description>
-        <Description Lang="de">Agenten Einstellungen.</Description>
+        <Description Lang="en">Agent Preferences</Description>
+        <Description Lang="de">Agenten Einstellungen</Description>
         <Group>Framework</Group>
         <SubGroup>AgentFrontendModulRegistration</SubGroup>        
         <Setting>
@@ -3150,8 +3113,8 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminPackageManager" Required="1" Valid="1">
-        <Description Lang="en">Software Package Manager.</Description>
-        <Description Lang="de">Software Package Manager.</Description>
+        <Description Lang="en">Software Package Manager</Description>
+        <Description Lang="de">Software Package Manager</Description>
         <Group>Framework</Group>
         <SubGroup>AdminFrontendModulRegistration</SubGroup>                
         <Setting>
