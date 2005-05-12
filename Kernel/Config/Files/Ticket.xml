@@ -130,7 +130,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.19 2005-05-11 12:54:02 tr Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.20 2005-05-12 13:51:16 tr Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">To set the Ticket identifier (e. g. Ticket#: 123456789). Some people want to set this to 'Call#', 'MyTicket#' or 'Ticket#'.</Description>
         <Description Lang="de">Hiermit kann der Ticket-Identifikator gesetzt werden (z. B. Ticket#: 123456789). Manche Kunden setzen definieren 'Call#', 'MyTicket#' oder 'Ticket#'. Als Standardeinstellung wird 'Ticket#' geliefert.</Description>
@@ -1639,7 +1639,7 @@ use this for NewQueueSelectionType = SystemAddress => '&lt;Realname&gt; &lt;&lt;
     <ConfigItem Name="Ticket::Frontend::NewQueueOwnSelection" Required="0" Valid="0">
         <Description Lang="en">If this is in use, "just this selection is valid" for the PhoneView.</Description>
         <Description Lang="de">Wenn Sie diese Auswahl benutzen, ist sie nur für die TelefonAnsicht gültig</Description>
-        <Group>Framework</Group>
+        <Group>Ticket</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
             <Hash>
@@ -1811,7 +1811,7 @@ use this for NewQueueSelectionType = SystemAddress => '&lt;Realname&gt; &lt;&lt;
     <ConfigItem Name="Ticket::Frontend::NoteTypes" Required="1" Valid="1">
         <Description Lang="en"></Description>
         <Description Lang="de">!!! Nicht Übersetzbar !!! Kein Inhalt</Description>
-        <Group>Framework</Group>
+        <Group>Ticket</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
             <Hash>
@@ -3127,7 +3127,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
             };
         -->
     </ConfigItem>
-    <ConfigItem Name="CustomerTicket::Permission'}->{'2-CustomerIDCheck" Required="1" Valid="1">
+    <ConfigItem Name="CustomerTicket::Permission###2-CustomerIDCheck" Required="1" Valid="1">
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
