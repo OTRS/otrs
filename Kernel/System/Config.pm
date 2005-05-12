@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.18 2005-05-11 11:54:15 rk Exp $
+# $Id: Config.pm,v 1.19 2005-05-12 14:48:22 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -78,7 +78,7 @@ sub new {
     # read all config files
     $Self->_Init();
     # reorga of old config
-#    $Self->CreateConfig();
+    $Self->CreateConfig();
 
     return $Self;
 }
@@ -177,11 +177,26 @@ sub CreateConfig {
                 }
                 if ($ConfigItem->{Setting}->[1]->{Hash}) {
                     my %Hash = ();
-                    my @Array = @{$ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}};
-                    foreach my $Item (1..$#Array) {
-#                    foreach my $Item (0..$#Array) {
-                        $Hash{$Array[$Item]->{Key}} = $Array[$Item]->{Content};
-                    }
+                    my @Array = @{$ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}};                  
+                    foreach my $Item (1..$#Array) {                    
+                        if (defined($Array[$Item]->{Hash})) {
+                            my %SubHash = ();
+                            foreach my $Index (1...$#{$ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Hash}->[1]->{Item}}) {
+                                $SubHash{$ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Hash}->[1]->{Item}->[$Index]->{Key}} = $ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Hash}->[1]->{Item}->[$Index]->{Content};
+                            }
+                            $Hash{$Array[$Item]->{Key}} = \%SubHash;
+                        }
+                        elsif (defined($Array[$Item]->{Array})) {
+                            my @SubArray = ();
+                            foreach my $Index (1...$#{$ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Array}->[1]->{Item}}) {
+                                push (@SubArray, $ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Array}->[1]->{Item}->[$Index]->{Content});
+                            }
+                            $Hash{$Array[$Item]->{Key}} = \@SubArray;
+                        }
+                        else {
+                            $Hash{$Array[$Item]->{Key}} = $Array[$Item]->{Content};
+                        };                         
+                    }                    
                     # store in config
                     require Data::Dumper;
                     my $Dump = Data::Dumper::Dumper(\%Hash);
@@ -200,6 +215,49 @@ sub CreateConfig {
                     my $Dump = Data::Dumper::Dumper(\@ArrayNew);
                     $Dump =~ s/\$VAR1/\$Self->{'$Name'}/;
                     print OUT $Dump;
+                }
+                if ($ConfigItem->{Setting}->[1]->{FrontendModuleReg}) {
+                    my %Hash = ();
+                    foreach my $Key (sort keys %{$ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]}) {
+                        if ($Key eq 'Group' || $Key eq 'GroupRo') {
+                            my @Array = ();
+                            foreach my $Index (1...$#{$ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}}) {
+                                push(@Array, $ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}->[1]->{Content});
+                            }
+                            $Hash{$Key} = \@Array;
+                        }
+                        elsif ($Key eq 'NavBar' || $Key eq 'NavBarModule') {           
+                            foreach my $Index (1...$#{$ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}}) {
+                                my $Content = $ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}->[$Index];
+                                my %NavBar = ();
+                                foreach $Key (sort keys %{$Content}) {
+                                    if ($Key eq 'Group' || $Key eq 'GroupRo') {
+                                        my @Array = ();
+                                        foreach my $Index (1...$#{$Content->{$Key}}) {
+                                            push(@Array, $Content->{$Key}->[1]->{Content});
+                                        }
+                                        $NavBar{$Key} = \@Array;
+                                    }
+                                    else {
+                                        if ($Key ne 'Content') {
+                                            $NavBar{$Key} = $Content->{$Key}->[1]->{Content};
+                                        }
+                                    }
+                                }
+                                push (@{$Hash{$Key}}, \%NavBar);                            
+                            }
+                        }
+                        else {
+                            if ($Key ne 'Content') {
+                                $Hash{$Key} = $ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}->[1]->{Content};
+                            }
+                        }
+                    }
+                    # store in config
+                    require Data::Dumper;
+                    my $Dump = Data::Dumper::Dumper(\%Hash);
+                    $Dump =~ s/\$VAR1/\$Self->{'$Name'}/;
+                   # print OUT $Dump;
                 }
                 if ($ConfigItem->{Setting}->[1]->{TimeWorkingHours}) {
                     my %Days = ();
@@ -430,7 +488,6 @@ sub ConfigItemGet {
                 }
             }
             if ($ConfigItem->{Setting}->[1]->{FrontendModuleReg}) {
-#            $Self->{LogObject}->Dumper(fasd => $ConfigItem->{Setting}->[1]->{FrontendModuleReg});
                 if (defined($Self->{ConfigObject}->Get($ConfigItem->{Name}))) {
                     @{$ConfigItem->{Setting}->[1]->{FrontendModuleReg}} = (undef);
                     my %Hash = %{$Self->{ConfigObject}->Get($ConfigItem->{Name})};
@@ -684,6 +741,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2005-05-11 11:54:15 $
+$Revision: 1.19 $ $Date: 2005-05-12 14:48:22 $
 
 =cut

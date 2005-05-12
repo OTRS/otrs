@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.pm,v 1.13 2005-05-11 14:38:40 rk Exp $
+# $Id: AdminSysConfig.pm,v 1.14 2005-05-12 14:48:22 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -77,7 +77,6 @@ sub Run {
                 # Regex check
                 if (defined ($ItemHash{Setting}[1]{String}[1]{Regex}) && $ItemHash{Setting}[1]{String}[1]{Regex} ne "" && !($Content =~ /$ItemHash{Setting}[1]{String}[1]{Regex}/)) {
                     $InvalidValue{$_} = 1;
-                    $Self->{LogObject}->Dumper(fdas => $ItemHash{Setting}[1]{String}[1]{Regex});
                 }
                 # write ConfigItem
                 if (!$Self->{SysConfigObject}->ConfigItemUpdate(Key => $_, Value => $Content, Valid => $Aktiv)) {
@@ -589,7 +588,7 @@ sub ListConfigItem {
                     },
                 );
             }
-        }        
+        }
         # NavBar
         foreach my $Index (1...$#{$ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBar}}) {
             my %Data = {};
