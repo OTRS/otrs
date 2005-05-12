@@ -93,7 +93,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.21 2005-05-12 09:10:16 cs Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.22 2005-05-12 09:20:00 tr Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der WEB-Installer (installer.pl) nicht genutzt werden</Description>
@@ -1803,7 +1803,7 @@ Your OTRS Notification Master
         <Group>Framework</Group>
         <SubGroup>Web</SubGroup>
         <Setting>
-            <String Regex="^[0-9]{7-14}$">5242880</String>
+            <String Regex="^[0-9]{7,14}$">5242880</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="WebUploadCacheModule" Required="1" Valid="1">
