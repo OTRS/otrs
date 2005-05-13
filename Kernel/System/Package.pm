@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.pm,v 1.28 2005-05-13 21:57:17 martin Exp $
+# $Id: Package.pm,v 1.29 2005-05-13 23:44:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use LWP::UserAgent;
 use Kernel::System::XML;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -651,7 +651,7 @@ sub PackageUpgrade {
     }
     # remove old packages
     $Self->RepositoryRemove(Name => $Structur{Name}->{Content});
-    if ($Self->RepositoryAdd(String => $Param{String}))
+    if ($Self->RepositoryAdd(String => $Param{String})) {
         # check OS
         my $OSCheckOk = 1;
         if ($Structur{OS} && ref($Structur{OS}) eq 'ARRAY') {
@@ -1400,6 +1400,7 @@ sub _FileSystemCheck {
     }
     return 1;
 }
+
 1;
 
 =head1 TERMS AND CONDITIONS
@@ -1414,6 +1415,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.28 $ $Date: 2005-05-13 21:57:17 $
+$Revision: 1.29 $ $Date: 2005-05-13 23:44:41 $
 
 =cut
