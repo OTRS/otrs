@@ -1,8 +1,8 @@
 # --
 # FAQLanguageForm.dtl - provides HTML form for faq categories
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQLanguageForm.dtl,v 1.6 2004-11-07 15:46:39 martin Exp $
+# $Id: FAQLanguageForm.dtl,v 1.7 2005-05-13 21:59:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -53,12 +53,6 @@ function submit_compose()
 
 
   <td width="60%" class="mainbody">
-  <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
-  <input type="hidden" name="Action" value="$Env{"Action"}">
-  <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
-  <input type="hidden" name="ID" value="$Data{"ID"}">
-  <table border="0" width="100%" align="center" cellspacing="0" cellpadding="4">
-  <tr>
 # --
 # check subaction
 # --
@@ -69,6 +63,12 @@ function submit_compose()
 # check add link
 <dtl if ($Env{"Subaction"} eq "Change") { $Data{"AddLink"} = "(Click here to add)"; }>
 # --
+  <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
+  <input type="hidden" name="Action" value="$Env{"Action"}">
+  <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
+  <input type="hidden" name="ID" value="$Data{"ID"}">
+  <table border="0" width="100%" align="center" cellspacing="0" cellpadding="4">
+  <tr>
     <td class="contenthead">$Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"$Data{"AddLink"}"}</a></td>
   </tr>
   <tr>
