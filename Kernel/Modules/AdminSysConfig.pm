@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.pm,v 1.14 2005-05-12 14:48:22 rk Exp $
+# $Id: AdminSysConfig.pm,v 1.15 2005-05-13 14:26:26 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -52,8 +52,9 @@ sub Run {
     my %Param = @_;
     my $Output = '';
     my %Data;
-    my $Group = "";
+    my $Group = '';
     my %InvalidValue;
+    my $Anker = '';
     
     $Data{Search} = $Self->{ParamObject}->GetParam(Param => 'Search');
     # update config
@@ -77,6 +78,7 @@ sub Run {
                 # Regex check
                 if (defined ($ItemHash{Setting}[1]{String}[1]{Regex}) && $ItemHash{Setting}[1]{String}[1]{Regex} ne "" && !($Content =~ /$ItemHash{Setting}[1]{String}[1]{Regex}/)) {
                     $InvalidValue{$_} = 1;
+                    $Anker = $ItemHash{Name};
                 }
                 # write ConfigItem
                 if (!$Self->{SysConfigObject}->ConfigItemUpdate(Key => $_, Value => $Content, Valid => $Aktiv)) {
@@ -117,6 +119,9 @@ sub Run {
                             if (!$Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'##SubHash##'.$Keys[$Index].'#DeleteSubHashElement'.($Index2+1))) {
                                 $SubHash{$SubHashKeys[$Index2]} = $SubHashValues[$Index2];
                             }
+                            else {
+                                $Anker = $ItemHash{Name};
+                            }
                         }
                         $Content{$Keys[$Index]} = \%SubHash;
                     }
@@ -127,6 +132,7 @@ sub Run {
                         foreach my $Index2 (0...$#SubArray) {
                             if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'##SubArray##'.$Keys[$Index].'#DeleteSubArrayElement'.($Index2+1))) {
                                 splice(@SubArray,$Index2,1);
+                                $Anker = $ItemHash{Name};
                             }
                         }
                         $Content{$Keys[$Index]} = \@SubArray;
@@ -134,6 +140,9 @@ sub Run {
                     # Delete Hash Element?
                     elsif (!$Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#DeleteHashElement'.$DeleteNumber[$Index])) {
                         $Content{$Keys[$Index]} = $Values[$Index];
+                    }
+                    else {
+                        $Anker = $ItemHash{Name};
                     }
                 }
                 # write ConfigItem
@@ -148,6 +157,7 @@ sub Run {
                 foreach my $Index (0...$#Content) {
                     if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#DeleteArrayElement'.($Index+1))) {
                         splice(@Content,$Index,1);
+                        $Anker = $ItemHash{Name};
                     }
                 }
                 # write ConfigItem
@@ -171,6 +181,7 @@ sub Run {
                     foreach my $Index (0...$#Group) {
                         if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#Delete'.$Typ.'Element'.($Index+1))) {
                             splice(@Group,$Index,1);
+                            $Anker = $ItemHash{Name};
                         }
                     }
                     $Content{$Typ} = \@Group;
@@ -189,6 +200,7 @@ sub Run {
                         foreach my $Index2 (0...$#Group) {
                             if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#NavBar'.($Index+1).'#Delete'.$Typ.'Element'.($Index2+1))) {
                                 splice(@Group,$Index2,1);
+                                $Anker = $ItemHash{Name};
                             }
                         }
                         $Content{NavBar}[$Index]{$Typ} = \@Group;
@@ -223,8 +235,11 @@ sub Run {
                 my %Content;
                 foreach my $Index (0...$#Year) {
                     # Delete TimeVacationDaysOneTime Element?
-                    if (!$Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#DeleteTimeVacationDaysOneTimeElement'.$Index)) {
+                    if (!$Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#DeleteTimeVacationDaysOneTimeElement'.($Index+1))) {
                         $Content{$Year[$Index]}{$Month[$Index]}{$Day[$Index]} = $Values[$Index];
+                    }
+                    else {
+                        $Anker = $ItemHash{Name};
                     }
                 }
                 # write ConfigItem
@@ -240,8 +255,11 @@ sub Run {
                 my %Content;
                 foreach my $Index (0...$#Month) {
                     # Delete TimeVacationDays Element?
-                    if (!$Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#DeleteTimeVacationDaysElement'.$Index)) {
-                        $Content{$Month[$Index]}{$Day[$Index]} = $Values[$Index];;
+                    if (!$Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#DeleteTimeVacationDaysElement'.($Index+1))) {
+                        $Content{$Month[$Index]}{$Day[$Index]} = $Values[$Index];
+                    }
+                    else {
+                        $Anker = $ItemHash{Name};
                     }
                 }
                 # write ConfigItem
@@ -303,7 +321,10 @@ sub Run {
             else {
                 $Description = $HashLang{'en'};
             }
-            
+            my $AnkerAktiv = '';
+            if ($Anker eq $_) {
+                $AnkerAktiv = '<href="#Anker">';
+            }
             $Self->{LayoutObject}->Block(
                 Name => 'ConfigElementBlock',
                 Data => {
@@ -312,6 +333,7 @@ sub Run {
                     Valid       => $Valid,
                     Validstyle  => $Validstyle,
                     Required    => $Required,
+                    Anker       => $AnkerAktiv,
                 },
             );
 
@@ -328,7 +350,37 @@ sub Run {
     }
     # search config
     elsif ($Self->{Subaction} eq 'Search') {
-    
+        my %Groups = $Self->{SysConfigObject}->ConfigGroupList();
+        foreach my $Group (sort keys(%Groups)) {
+            my %SubGroups = $Self->{SysConfigObject}->ConfigSubGroupList(Name => $Group);
+            foreach my $SubGroup (sort keys(%SubGroups)) {
+                my $Found = 0;
+                my @Items = $Self->{SysConfigObject}->ConfigSubGroupConfigItemList(Group => $Group, SubGroup => $SubGroup);
+                foreach my $Item (@Items) {
+                    if ($Item =~ /$Data{Search}/i) {
+                        $Found = 1;
+                    }
+                    else {
+                        my %ItemHash = $Self->{SysConfigObject}->ConfigItemGet(Name => $Item);
+                        foreach my $Index (1...$#{$ItemHash{Description}}) {
+                            my $Description = $ItemHash{Description}[$Index]{Content};
+                            if ($Description =~ /$Data{Search}/i) {
+                                $Found = 1;
+                            }
+                        }
+                    }
+                }
+                if ($Found == 1) {
+                    $Self->{LayoutObject}->Block(
+                        Name  => 'Row',
+                        Data  => {
+                            SubGroup => $SubGroup,
+                            Group    => $Group,
+                        },
+                    );
+                }
+            }
+        }
     }
     # list subgroups
     elsif ($Self->{Subaction} eq 'SelectGroup') {
@@ -344,7 +396,6 @@ sub Run {
             );
         }
     }
-
     # SessionScreen
     if (!$Self->{SessionObject}->UpdateSessionID(
         SessionID => $Self->{SessionID},

@@ -2,7 +2,7 @@
 # AdminSysConfigEdit.dtl - provides HTML form for SysConfig
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfigEdit.dtl,v 1.9 2005-05-11 14:38:40 rk Exp $
+# $Id: AdminSysConfigEdit.dtl,v 1.10 2005-05-13 14:26:26 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -30,11 +30,11 @@
 <input type="hidden" name="SysConfigSubGroup" value="$Data{"SubGroup"}">
 <table cellspacing="0" cellpadding="4" border="0" width="790">
   <tr class="contenthead">
-    <td colspan="3">$Text{"Options "}$Text{"for "}$Text{"Subgroup '"}$Data{"SubGroup"}$Text{"' "}:</td>
+    <td colspan="3">$Text{"Config Options"}: $Data{"Group"} -&#062; $Data{"SubGroup"}</td>
   </tr>
   <!-- dtl:block:ConfigElementBlock -->
   <tr class="contentbody">
-    <td valign="top"><input type="checkbox" value="1" name="$Data{"ItemKey"}ItemAktiv" $Data{"Valid"} $Data{"Required"}></td>
+    <td valign="top">$Data{"Anker"}<input type="checkbox" value="1" name="$Data{"ItemKey"}ItemAktiv" $Data{"Valid"} $Data{"Required"}></td>
     <td width="50%"><span class="contentkey$Data{"Validstyle"}">$QData{"ItemKey"}:</span><br><span class="contentvalue$Data{"Validstyle"}">$QData{"Description"}</span></td>
     <!-- dtl:block:ConfigElementString -->
     <td width="50%" class="contentvalue" valign="top"><input name="$Data{"ElementKey"}" value="$QData{"Content"}" size="50"><span class="validity">&nbsp;$QData{"Valid"}</span></td>
@@ -59,7 +59,7 @@
           <td>&nbsp;</td>
           <td class="contentvalue"><input type="text" name="$Data{"ElementKey"}Content[]" value="$QData{"Content"}" size="20"></td>
           <td>&nbsp;</td>
-          <td class="contentkey"><input type="submit" name="$Data{"ElementKey"}#DeleteHashElement$Data{"Index"}" value="$Text{"Delete"}"><input type="hidden" name="$Data{"ElementKey"}DeleteNumber[]" value="$Data{"Index"}"></td>
+          <td class="contentvalue"><input type="submit" name="$Data{"ElementKey"}#DeleteHashElement$Data{"Index"}" value="$Text{"Delete"}"><input type="hidden" name="$Data{"ElementKey"}DeleteNumber[]" value="$Data{"Index"}"></td>
         </tr>   
         <!-- dtl:block:ConfigElementHashContent -->
         <!-- dtl:block:ConfigElementHashContent2 -->
@@ -78,14 +78,14 @@
                   <td>&nbsp;</td>
                   <td class="contentvalue"><input type="text" name="$Data{"ElementKey"}Content[]" value="$QData{"Content"}" size="15"></td>
                   <td>&nbsp;</td>
-                  <td class="contentkey"><input type="submit" name="$Data{"ElementKey"}#DeleteSubHashElement$Data{"Index2"}" value="$Text{"Delete"}"></td>
+                  <td class="contentvalue"><input type="submit" name="$Data{"ElementKey"}#DeleteSubHashElement$Data{"Index2"}" value="$Text{"Delete"}"></td>
                 </tr>
                 <!-- dtl:block:ConfigElementSubHashContent -->
                 <!-- dtl:block:ConfigElementSubArrayContent -->
                 <tr class="contentbody">
                   <td class="contentvalue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="$Data{"ElementKey"}Content[]" value="$QData{"Content"}" size="15"></td>
                   <td>&nbsp;</td>
-                  <td class="contentkey"><input type="submit" name="$Data{"ElementKey"}#DeleteSubArrayElement$Data{"Index2"}" value="$Text{"Delete"}"></td>
+                  <td class="contentvalue"><input type="submit" name="$Data{"ElementKey"}#DeleteSubArrayElement$Data{"Index2"}" value="$Text{"Delete"}"></td>
                 </tr>
                 <!-- dtl:block:ConfigElementSubArrayContent -->
                 <tr class="contentbody">
@@ -116,7 +116,7 @@
         <tr>
           <td class="contentvalue"><input type="text" name="$Data{"ElementKey"}Content[]" value="$QData{"Content"}" size="20"></td>
           <td>&nbsp;</td>
-          <td class="contentkey"><input type="submit" name="$Data{"ElementKey"}#DeleteArrayElement$Data{"Index"}" value="$Text{"Delete"}"></td>
+          <td class="contentvalue"><input type="submit" name="$Data{"ElementKey"}#DeleteArrayElement$Data{"Index"}" value="$Text{"Delete"}"></td>
         </tr>   
         <!-- dtl:block:ConfigElementArrayContent -->
         <tr class="contentbody">
@@ -137,7 +137,7 @@
           <td>&nbsp;</td>
           <td class="contentvalue"><input type="text" name="$Data{"ElementKey"}#Group[]" value="$QData{"Content"}" size="20"></td>
           <td>&nbsp;</td>
-          <td class="contentkey"><input type="submit" name="$Data{"ElementKey"}#DeleteGroupElement$Data{"Index"}" value="$Text{"Delete"}"></td>
+          <td class="contentvalue"><input type="submit" name="$Data{"ElementKey"}#DeleteGroupElement$Data{"Index"}" value="$Text{"Delete"}"></td>
         </tr>
         <!-- dtl:block:ConfigElementFrontendModuleRegContentGroup -->
         <tr>
@@ -154,7 +154,7 @@
           <td>&nbsp;</td>
           <td class="contentvalue"><input type="text" name="$Data{"ElementKey"}#GroupRo[]" value="$QData{"Content"}" size="20"></td>
           <td>&nbsp;</td>
-          <td class="contentkey"><input type="submit" name="$Data{"ElementKey"}#DeleteGroupRoElement$Data{"Index"}" value="$Text{"Delete"}"></td>
+          <td class="contentvalue"><input type="submit" name="$Data{"ElementKey"}#DeleteGroupRoElement$Data{"Index"}" value="$Text{"Delete"}"></td>
         </tr> 
         <!-- dtl:block:ConfigElementFrontendModuleRegContentGroupRo -->
         <tr>
@@ -196,7 +196,7 @@
                 <td width="50">&nbsp;</td>
                 <td class="contentvalue"><input type="text" name="$Data{"ElementKey"}#NavBar$Data{"Index"}#Group[]" value="$QData{"Content"}" size="20"></td>
                 <td>&nbsp;</td>
-                <td class="contentkey"><input type="submit" name="$Data{"ElementKey"}#NavBar$Data{"Index"}#DeleteGroupElement$Data{"ArrayIndex"}" value="$Text{"Delete"}"></td>
+                <td class="contentvalue"><input type="submit" name="$Data{"ElementKey"}#NavBar$Data{"Index"}#DeleteGroupElement$Data{"ArrayIndex"}" value="$Text{"Delete"}"></td>
               </tr>
               <!-- dtl:block:ConfigElementFrontendModuleRegContentNavBarGroup -->
               <tr>
@@ -216,7 +216,7 @@
                 <td>&nbsp;</td>
                 <td class="contentvalue"><input type="text" name="$Data{"ElementKey"}#NavBar$Data{"Index"}#GroupRo[]" value="$QData{"Content"}" size="20"></td>
                 <td>&nbsp;</td>
-                <td class="contentkey"><input type="submit" name="$Data{"ElementKey"}#NavBar$Data{"Index"}#DeleteGroupRoElement$Data{"ArrayIndex"}" value="$Text{"Delete"}"></td>
+                <td class="contentvalue"><input type="submit" name="$Data{"ElementKey"}#NavBar$Data{"Index"}#DeleteGroupRoElement$Data{"ArrayIndex"}" value="$Text{"Delete"}"></td>
               </tr> 
               <!-- dtl:block:ConfigElementFrontendModuleRegContentNavBarGroupRo -->
               <tr>
@@ -346,7 +346,7 @@
           <td>&nbsp;</td>
           <td class="contentvalue"><input type="text" name="$Data{"ElementKey"}Content[]" value="$QData{"Content"}" size="20"></td>
           <td>&nbsp;</td>          
-          <td class="contentkey"><input type="submit" name="$Data{"ElementKey"}#DeleteTimeVacationDaysOneTimeElement$Data{"Index"}" value="$Text{"Delete"}"></td>
+          <td class="contentvalue"><input type="submit" name="$Data{"ElementKey"}#DeleteTimeVacationDaysOneTimeElement$Data{"Index"}" value="$Text{"Delete"}"></td>
         </tr>   
         <!-- dtl:block:ConfigElementTimeVacationDaysOneTimeContent -->
         <tr class="contentbody">
@@ -373,7 +373,7 @@
           <td>&nbsp;</td> 
           <td class="contentvalue"><input type="text" name="$Data{"ElementKey"}Content[]" value="$QData{"Content"}" size="20"></td>
           <td>&nbsp;</td>         
-          <td class="contentkey"><input type="submit" name="$Data{"ElementKey"}#DeleteTimeVacationDaysElement$Data{"Index"}" value="$Text{"Delete"}"></td>
+          <td class="contentvalue"><input type="submit" name="$Data{"ElementKey"}#DeleteTimeVacationDaysElement$Data{"Index"}" value="$Text{"Delete"}"></td>
         </tr>   
         <!-- dtl:block:ConfigElementTimeVacationDaysContent -->
         <tr class="contentbody">
