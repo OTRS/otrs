@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.pm,v 1.26 2005-04-22 08:49:48 martin Exp $
+# $Id: Package.pm,v 1.27 2005-05-13 21:55:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use LWP::UserAgent;
 use Kernel::System::XML;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -522,38 +522,42 @@ sub PackageInstall {
         return;
     }
     # add package
-    $Self->RepositoryAdd(String => $Param{String});
-    # update package status
-    my $SQL = "UPDATE package_repository SET install_status = 'installed'".
-        " WHERE ".
-        " name = '".$Self->{DBObject}->Quote($Structur{Name}->{Content})."'".
-        " AND ".
-        " version = '".$Self->{DBObject}->Quote($Structur{Version}->{Content})."'";
-    $Self->{DBObject}->Do(SQL => $SQL);
+    if ($Self->RepositoryAdd(String => $Param{String})) {
+        # update package status
+        my $SQL = "UPDATE package_repository SET install_status = 'installed'".
+            " WHERE ".
+            " name = '".$Self->{DBObject}->Quote($Structur{Name}->{Content})."'".
+            " AND ".
+            " version = '".$Self->{DBObject}->Quote($Structur{Version}->{Content})."'";
+        $Self->{DBObject}->Do(SQL => $SQL);
 
-    # install files
-    if ($Structur{Filelist} && ref($Structur{Filelist}) eq 'ARRAY') {
-        foreach my $File (@{$Structur{Filelist}}) {
-            # install file
-            $Self->_FileInstall(%{$File});
+        # install files
+        if ($Structur{Filelist} && ref($Structur{Filelist}) eq 'ARRAY') {
+            foreach my $File (@{$Structur{Filelist}}) {
+                # install file
+                $Self->_FileInstall(%{$File});
+            }
         }
-    }
-    # install config
+        # install config
 
-    # install database
-    if ($Structur{DatabaseInstall} && ref($Structur{DatabaseInstall}) eq 'ARRAY') {
-        my @SQL = $Self->{DBObject}->SQLProcessor(Database => $Structur{DatabaseInstall}, );
-        foreach my $SQL (@SQL) {
-            print STDERR "Notice: $SQL\n";
-            $Self->{DBObject}->Do(SQL => $SQL);
+        # install database
+        if ($Structur{DatabaseInstall} && ref($Structur{DatabaseInstall}) eq 'ARRAY') {
+            my @SQL = $Self->{DBObject}->SQLProcessor(Database => $Structur{DatabaseInstall}, );
+            foreach my $SQL (@SQL) {
+                print STDERR "Notice: $SQL\n";
+                $Self->{DBObject}->Do(SQL => $SQL);
+            }
+            my @SQLPost = $Self->{DBObject}->SQLProcessorPost();
+            foreach my $SQL (@SQLPost) {
+                print STDERR "Notice: $SQL\n";
+                $Self->{DBObject}->Do(SQL => $SQL);
+            }
         }
-        my @SQLPost = $Self->{DBObject}->SQLProcessorPost();
-        foreach my $SQL (@SQLPost) {
-            print STDERR "Notice: $SQL\n";
-            $Self->{DBObject}->Do(SQL => $SQL);
-        }
+        return 1;
     }
-    return 1;
+    else {
+        return;
+    }
 }
 
 =item PackageReinstall()
@@ -1407,6 +1411,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.26 $ $Date: 2005-04-22 08:49:48 $
+$Revision: 1.27 $ $Date: 2005-05-13 21:55:20 $
 
 =cut
