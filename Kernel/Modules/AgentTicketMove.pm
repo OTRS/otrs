@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketMove.pm,v 1.3 2005-04-13 18:55:19 martin Exp $
+# $Id: AgentTicketMove.pm,v 1.4 2005-05-15 09:07:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -47,6 +47,10 @@ sub new {
     $Self->{AllUsers} = $Self->{ParamObject}->GetParam(Param => 'AllUsers') || 0;
     $Self->{Comment} = $Self->{ParamObject}->GetParam(Param => 'Comment') || '';
     $Self->{NewStateID} = $Self->{ParamObject}->GetParam(Param => 'NewStateID') || '';
+    # DestQueueID lookup
+    if (!$Self->{DestQueueID} && $Self->{DestQueue}) {
+        $Self->{DestQueueID} = $Self->{QueueObject}->QueueLookup(Queue => $Self->{DestQueue}); 
+    }
 
     return $Self;
 }
