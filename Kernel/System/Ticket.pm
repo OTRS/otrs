@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.171 2005-05-04 11:49:29 martin Exp $
+# $Id: Ticket.pm,v 1.172 2005-05-15 09:11:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.171 $';
+$VERSION = '$Revision: 1.172 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -260,7 +260,7 @@ sub TicketCheckNumber {
             my @Lines = $Self->HistoryGet(TicketID => $Ticket{TicketID}, UserID => 1);
             foreach my $Data (reverse @Lines) {
                 if ($Data->{HistoryType} eq 'Merged') {
-                    if ($Data->{Name} =~ /^.*\((\d+?)\)$/) {
+                    if ($Data->{Name} =~ /^.*\(\d+?\/(\d+?)\)$/) {
                         return $1;
                     }
                 }
@@ -3856,6 +3856,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.171 $ $Date: 2005-05-04 11:49:29 $
+$Revision: 1.172 $ $Date: 2005-05-15 09:11:49 $
 
 =cut
