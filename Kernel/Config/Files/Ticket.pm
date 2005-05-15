@@ -98,7 +98,7 @@
 
     # further config option for Kernel::System::Ticket::Number::AutoIncrement
     # (min ticket counter size)
-#    $Self->{'Ticket::NumberGenerator::AutoIncrement::MinCounterSize'} = 5;
+#    $Self->{'Ticket::NumberGenerator::MinCounterSize'} = 5;
 
     # Ticket::CounterLog
     # counter log
@@ -864,13 +864,21 @@ $Data{"Signature"}
         Description => 'Close this ticket!',
         Link => 'Action=AgentTicketClose&TicketID=$QData{"TicketID"}',
     };
-    # show delete link link
+    # show delete link
 #    $Self->{'Ticket::Frontend::PreMenuModule'}->{'450-Delete'} = {
 #        Module => 'Kernel::Output::HTML::TicketMenuGeneric',
 #        Name => 'Delete',
 #        Action => 'AgentTicketMove',
 #        Description => 'Delete this ticket!',
 #        Link => 'Action=AgentTicketMove&TicketID=$Data{"TicketID"}&DestQueue=Delete',
+#    };
+    # show spam link
+#    $Self->{'Ticket::Frontend::PreMenuModule'}->{'460-Spam'} = {
+#        Module => 'Kernel::Output::HTML::TicketMenuGeneric',
+#        Name => 'Spam',
+#        Action => 'AgentTicketMove',
+#        Description => 'Marks as Spam!',
+#        Link => 'Action=AgentTicketMove&TicketID=$Data{"TicketID"}&DestQueue=Spam',
 #    };
 
     # --------------------------------------------------- #
