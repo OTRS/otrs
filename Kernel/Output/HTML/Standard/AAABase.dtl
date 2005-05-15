@@ -130,12 +130,6 @@ $Text{"Category"}
 $Text{"New message"}
 $Text{"New message!"}
 
-$Text{"Admin-Area"}
-$Text{"Agent-Area"}
-$Text{"FAQ-Area"}
-$Text{"QueueView"}
-$Text{"Stats"}
-
 $Text{"Please answer this ticket(s) to get back to the normal queue view!"}
 
 $Text{"You got new message!"}
@@ -161,9 +155,6 @@ $Text{"Invalid SessionID!"}
 $Text{"Feature not active!"}
 
 # misc
-$Text{"Ticket Number"}
-$Text{"Ticket Object"}
-$Text{"No such Ticket Number "%s"! Can't link it!"}
 $Text{"Take this Customer"}
 $Text{"Take this User"}
 $Text{"possible"}
@@ -179,9 +170,6 @@ $Text{"Session has timed out. Please log in again."}
 $Text{"No Permission!"}
 $Text{"To: (%s) replaced with database email!"}
 $Text{"Cc: (%s) added database email!"}
-$Text{"Don't show closed Tickets"}
-$Text{"Show closed Tickets"}
-$Text{"New Article"}
 $Text{"(Click here to add)"}
 $Text{"last"}
 $Text{"before"}
@@ -191,9 +179,6 @@ $Text{"week(s)"}
 $Text{"year(s)"}
 $Text{"Normal"}
 $Text{"Preview"}
-
-$Text{"Don't show closed Tickets"}
-$Text{"Show closed Tickets"}
 
 $Text{"Added User "%s""}
 $Text{"Contract"}
@@ -212,37 +197,4 @@ $Text{"Signed"}
 $Text{"Sign"}
 $Text{"Crypted"}
 $Text{"Crypt"}
-
-# hticket history text
-$Text{"History::Move"}
-$Text{"History::NewTicket"}
-$Text{"History::FollowUp"}
-$Text{"History::SendAutoReject"}
-$Text{"History::SendAutoReply"}
-$Text{"History::SendAutoFollowUp"}
-$Text{"History::Forward"}
-$Text{"History::Bounce"}
-$Text{"History::SendAnswer"}
-$Text{"History::SendAgentNotification"}
-$Text{"History::SendCustomerNotification"}
-$Text{"History::EmailAgent"}
-$Text{"History::EmailCustomer"}
-$Text{"History::PhoneCallAgent"}
-$Text{"History::PhoneCallCustomer"}
-$Text{"History::AddNote"}
-$Text{"History::Lock"}
-$Text{"History::Unlock"}
-$Text{"History::TimeAccounting"}
-$Text{"History::Remove"}
-$Text{"History::CustomerUpdate"}
-$Text{"History::PriorityUpdate"}
-$Text{"History::OwnerUpdate"}
-$Text{"History::LoopProtection"}
-$Text{"History::Misc"}
-$Text{"History::SetPendingTime"}
-$Text{"History::StateUpdate"}
-$Text{"History::TicketFreeTextUpdate"}
-$Text{"History::WebRequestCustomer"}
-$Text{"History::TicketLinkAdd"}
-$Text{"History::TicketLinkDelete"}
 

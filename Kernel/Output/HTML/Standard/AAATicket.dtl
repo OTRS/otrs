@@ -71,6 +71,16 @@ $Text{"4 high"}
 $Text{"5 very high"}
 
 $Text{"Ticket "%s" created!"}
+$Text{"Ticket Number"}
+$Text{"Ticket Object"}
+$Text{"No such Ticket Number "%s"! Can't link it!"}
+
+$Text{"Don't show closed Tickets"}
+$Text{"Show closed Tickets"}
+$Text{"New Article"}
+
+$Text{"Don't show closed Tickets"}
+$Text{"Show closed Tickets"}
 
 $Text{"Email-Ticket"}
 $Text{"Create new Email Ticket"}
@@ -101,5 +111,39 @@ $Text{"Set this ticket to pending!"}
 $Text{"Close this ticket!"}
 $Text{"Look into a ticket!"}
 $Text{"Delete this ticket!"}
+$Text{"Mark as Spam!"}
 $Text{""}
-$Text{""}
+
+# hticket history text
+$Text{"History::Move"}...
+$Text{"History::NewTicket"}
+$Text{"History::FollowUp"}
+$Text{"History::SendAutoReject"}
+$Text{"History::SendAutoReply"}
+$Text{"History::SendAutoFollowUp"}
+$Text{"History::Forward"}
+$Text{"History::Bounce"}
+$Text{"History::SendAnswer"}
+$Text{"History::SendAgentNotification"}
+$Text{"History::SendCustomerNotification"}
+$Text{"History::EmailAgent"}
+$Text{"History::EmailCustomer"}
+$Text{"History::PhoneCallAgent"}
+$Text{"History::PhoneCallCustomer"}
+$Text{"History::AddNote"}
+$Text{"History::Lock"}
+$Text{"History::Unlock"}
+$Text{"History::TimeAccounting"}
+$Text{"History::Remove"}
+$Text{"History::CustomerUpdate"}
+$Text{"History::PriorityUpdate"}
+$Text{"History::OwnerUpdate"}
+$Text{"History::LoopProtection"}
+$Text{"History::Misc"}
+$Text{"History::SetPendingTime"}
+$Text{"History::StateUpdate"}
+$Text{"History::TicketFreeTextUpdate"}
+$Text{"History::WebRequestCustomer"}
+$Text{"History::TicketLinkAdd"}
+$Text{"History::TicketLinkDelete"}
+
