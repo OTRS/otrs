@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.48 2005-04-19 08:14:19 martin Exp $
+# $Id: Queue.pm,v 1.49 2005-05-15 09:23:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Group;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.48 $';
+$VERSION = '$Revision: 1.49 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -94,9 +94,9 @@ sub GetSystemAddress {
 	" and ".
 	" sa.id = sq.system_address_id";
     $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        $Adresss{Email} = $RowTmp[0];
-	$Adresss{RealName} = $RowTmp[1];
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $Adresss{Email} = $Row[0];
+        $Adresss{RealName} = $Row[1];
     }
     return %Adresss;
 }
@@ -129,8 +129,8 @@ sub GetSalutation {
         " and ".
         " sq.salutation_id = sa.id";
     $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        $String = $RowTmp[0];
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $String = $Row[0];
     }
     return $String;
 }
@@ -163,8 +163,8 @@ sub GetSignature {
         " and ".
         " sq.signature_id = si.id";
     $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        $String = $RowTmp[0];
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $String = $Row[0];
     }
     return $String;
 }
@@ -511,8 +511,8 @@ sub GetFollowUpLockOption {
         " WHERE ".
         " sq.id = $Param{QueueID}";
     $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        $Return = $RowTmp[0];
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $Return = $Row[0];
     }
     return $Return;
 }
@@ -677,8 +677,8 @@ sub QueueAdd {
        " name = '$Param{Name}'";
       my $QueueID = '';
       $Self->{DBObject}->Prepare(SQL => $SQL);
-      while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-         $QueueID = $RowTmp[0];
+      while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+         $QueueID = $Row[0];
       }
       # add default responses (if needed), add response by name
       if ($Self->{ConfigObject}->Get('StdResponse2QueueByCreating')) {
@@ -912,6 +912,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.48 $ $Date: 2005-04-19 08:14:19 $
+$Revision: 1.49 $ $Date: 2005-05-15 09:23:24 $
 
 =cut
