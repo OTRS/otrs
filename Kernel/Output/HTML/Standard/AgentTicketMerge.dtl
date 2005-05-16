@@ -2,7 +2,7 @@
 # AgentTicketMerge.dtl - provides HTML form for ticket merge mask 
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketMerge.dtl,v 1.2 2005-05-01 17:41:09 martin Exp $
+# $Id: AgentTicketMerge.dtl,v 1.3 2005-05-16 13:36:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -92,7 +92,7 @@ $Data{"Signature"}
       </tr>
       <tr>
         <td class="contentfooter">
-         <input class="button" type="submit" value="$Text{"submit"}" onclick="return submit_compose();">
+         <input class="button" accesskey="g" type="submit" value="$Text{"submit"}" onclick="return submit_compose();">
         </td>
       </tr>
     </table>

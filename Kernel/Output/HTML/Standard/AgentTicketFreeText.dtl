@@ -2,7 +2,7 @@
 # AgentTicketFreeText.dtl - provides HTML for AgentFreeText mask
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketFreeText.dtl,v 1.2 2005-04-22 08:48:25 martin Exp $
+# $Id: AgentTicketFreeText.dtl,v 1.3 2005-05-16 13:36:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -90,7 +90,7 @@
   </tr>
   <tr>
     <td class="contentfooter">
-        <input class="button" type="submit" value="$Text{"update"}">
+        <input class="button" accesskey="g" type="submit" value="$Text{"update"}">
     </td>
   </tr>
   </table>

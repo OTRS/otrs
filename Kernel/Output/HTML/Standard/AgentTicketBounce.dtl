@@ -2,7 +2,7 @@
 # AgentTicketBounce.dtl - provides HTML form for bounce mask
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketBounce.dtl,v 1.2 2005-05-04 08:03:33 martin Exp $
+# $Id: AgentTicketBounce.dtl,v 1.3 2005-05-16 13:36:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -93,7 +93,7 @@ $Data{"Signature"}
 
   </table>
   <br>
-  <input class="button" type="submit" value="$Text{"Send mail!"}" onclick="return submit_bounce();">
+  <input class="button" accesskey="g" type="submit" value="$Text{"Send mail!"}" onclick="return submit_bounce();">
   </form>
 
   </p>

@@ -2,7 +2,7 @@
 # AgentPhoneNew.dtl - provides HTML form for phone
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPhoneNew.dtl,v 1.2 2005-05-04 08:03:33 martin Exp $
+# $Id: AgentTicketPhoneNew.dtl,v 1.3 2005-05-16 13:36:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -233,7 +233,7 @@ function clear_field()
 <!-- dtl:block:TimeUnits -->
   </table>
 <br>
-<input class="button" type="submit" name="Create" value="$Text{"create"}" onclick="return submit_compose();">
+<input class="button" accesskey="g" type="submit" name="Create" value="$Text{"create"}" onclick="return submit_compose();">
 </form>
 
 <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
