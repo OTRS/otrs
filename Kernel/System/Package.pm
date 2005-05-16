@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.pm,v 1.29 2005-05-13 23:44:41 martin Exp $
+# $Id: Package.pm,v 1.30 2005-05-16 08:58:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use LWP::UserAgent;
 use Kernel::System::XML;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -717,15 +717,33 @@ sub PackageUpgrade {
 
         # upgrade database
         if ($Structur{DatabaseUpgrade} && ref($Structur{DatabaseUpgrade}) eq 'ARRAY') {
-            my @SQL = $Self->{DBObject}->SQLProcessor(Database => $Structur{DatabaseUpgrade}, );
-            foreach my $SQL (@SQL) {
-                print STDERR "Notice: $SQL\n";
-                $Self->{DBObject}->Do(SQL => $SQL);
-            }
-            my @SQLPost = $Self->{DBObject}->SQLProcessorPost();
-            foreach my $SQL (@SQLPost) {
-                print STDERR "Notice: $SQL\n";
-                $Self->{DBObject}->Do(SQL => $SQL);
+            my @Part = ();
+            my $Use = 0;
+            foreach my $S (@{$Structur{DatabaseUpgrade}}) {
+                if ($S->{TagLevel} == 3 && $S->{Version}) {
+                    if (!$Self->_CheckVersion(Version1 => $S->{Version}, Version2 => $InstalledVersion, Type => 'Min')) {
+                        $Use = 1;
+                        @Part = ();
+                        push (@Part, $S);
+                    }
+                }
+                elsif ($Use && $S->{TagLevel} == 3 && $S->{TagType} eq 'End') {
+                    $Use = 0;
+                    push (@Part, $S);
+                    my @SQL = $Self->{DBObject}->SQLProcessor(Database => \@Part);
+                    foreach my $SQL (@SQL) {
+                        print STDERR "Notice: $SQL\n";
+                        $Self->{DBObject}->Do(SQL => $SQL);
+                    }
+                    my @SQLPost = $Self->{DBObject}->SQLProcessorPost();
+                    foreach my $SQL (@SQLPost) {
+                        print STDERR "Notice: $SQL\n";
+                        $Self->{DBObject}->Do(SQL => $SQL);
+                    }
+                }
+                elsif ($Use) {
+                    push (@Part, $S);
+                }
             }
         }
         return 1;
@@ -1129,7 +1147,7 @@ sub PackageBuild {
         }
         $XML .= "  </Filelist>\n";
     }
-    foreach (qw(DatabaseInstall DatabaseReinstall DatabaseUninstall)) {
+    foreach (qw(DatabaseInstall DatabaseUpgrade DatabaseReinstall DatabaseUninstall)) {
         if ($Param{$_}) {
             $XML .= "  <$_>\n";
             my @Close = ();
@@ -1218,7 +1236,7 @@ sub PackageParse {
             push (@{$Self->{Package}->{Filelist}}, $Tag);
         }
     }
-    foreach (qw(DatabaseInstall DatabaseReinstall DatabaseUninstall)) {
+    foreach (qw(DatabaseInstall DatabaseUpgrade DatabaseReinstall DatabaseUninstall)) {
         foreach my $Tag (@XMLARRAY) {
             if ($Open && $Tag->{Tag} eq $_) {
                 $Open = 0;
@@ -1415,6 +1433,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.29 $ $Date: 2005-05-13 23:44:41 $
+$Revision: 1.30 $ $Date: 2005-05-16 08:58:05 $
 
 =cut
