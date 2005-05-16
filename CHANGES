@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.139 2005-05-08 20:35:24 martin Exp $
+# $Id: CHANGES,v 1.140 2005-05-16 13:38:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,7 +10,11 @@
 # --
 CVS head
 
-2.0.0. beta2 (2005/05/??)
+2.0.0. beta2 (2005/05/16)
+ - (2005/05/16) fixed bug 644 - GeriatricAgent module calls should not keep
+    the error msg secret :-), moved to Kernel::System::Main
+ - (2005/05/16) fixed bug 733 - Postgres: TicketOverview doesn't work in April
+ - (2005/05/14) fixed bug 737 - cannot add FAQ categories in 2.0 beta1
  - (2005/05/08) fr translation updated by Yann Richard - thanks!
  - (2005/05/08) fixed bug 729 - Problem removing example FAQ-entry from FAQ
  - (2005/05/08) fixed bug 730 - Problem with FAQ nav bar
@@ -30,6 +34,7 @@ CVS head
     a = admin interface
     t = ticket interface
     f = faq interface
+    g = formular submit 
  
     ticket:
     o = queue view
