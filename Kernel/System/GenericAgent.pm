@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pm,v 1.9 2005-04-19 08:15:23 martin Exp $
+# $Id: GenericAgent.pm,v 1.10 2005-05-16 10:41:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,9 +12,10 @@
 package Kernel::System::GenericAgent;
 
 use strict;
+use Kernel::System::Main;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $ ';
+$VERSION = '$Revision: 1.10 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -87,6 +88,8 @@ sub new {
     foreach (qw(DBObject ConfigObject LogObject TimeObject TicketObject QueueObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
+
+    $Self->{MainObject} = Kernel::System::Main->new(%Param);
 
     # debug
     $Self->{Debug} = $Param{Debug} || 0;
@@ -573,28 +576,12 @@ sub JobRunTicket {
                 Message => "Try to load module: $Param{Config}->{New}->{Module}!",
             );
         }
-        if (eval "require $Param{Config}->{New}->{Module}") {
+        if ($Self->{MainObject}->Require($Param{Config}->{New}->{Module})) {
             my $Object = $Param{Config}->{New}->{Module}->new(
                 %{$Self},
                 Debug => $Self->{Debug},
             );
-            if ($Self->{Debug}) {
-                $Self->{LogObject}->Log(
-                    Priority => 'debug',
-                    Message => "Loaded module: $Param{Config}->{New}->{Module}!",
-                );
-                $Self->{LogObject}->Log(
-                    Priority => 'debug',
-                    Message => "Run module: $Param{Config}->{New}->{Module}!",
-                );
-            }
             $Object->Run(%{$Param{Config}}, TicketID => $Param{TicketID});
-        }
-        else {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message => "Can't load module: $Param{Config}->{New}->{Module}!",
-            );
         }
     }
     # --
@@ -863,6 +850,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2005-04-19 08:15:23 $
+$Revision: 1.10 $ $Date: 2005-05-16 10:41:53 $
 
 =cut
