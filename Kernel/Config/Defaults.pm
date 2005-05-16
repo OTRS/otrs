@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.195 2005-05-07 20:54:30 martin Exp $
+# $Id: Defaults.pm,v 1.196 2005-05-16 12:24:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.195 $';
+$VERSION = '$Revision: 1.196 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -466,7 +466,6 @@ sub LoadDefaults {
     # TimeZone
     # (set the system time zone, default is local time)
 #    $Self->{'TimeZone'} = 0;
-#    $Self->{'TimeZone'} = +9;
 
     # Time*
     # (Used for ticket age, escalation and system unlock calculation)
@@ -667,6 +666,7 @@ sub LoadDefaults {
         Colum => 'Other Options',
         Label => 'Change Password',
         Prio => 1000,
+        Area => 'Agent',
         PasswordHistory => 0,
 #        PasswordRegExp => '[a-z]|[A-z]|[0-9]|\.|;|,|:|-|\+|#|!|\$|&|\?',
         PasswordRegExp => '',
@@ -1101,6 +1101,7 @@ Your OTRS Notification Master
         Colum => 'Other Options',
         Label => 'Change Password',
         Prio => 1000,
+        Area => 'Customer',
         PasswordHistory => 0,
 #        PasswordRegExp => '[a-z]|[A-z]|[0-9]|\.|;|,|:|-|\+|#|!|\$|&|\?',
         PasswordRegExp => '',
@@ -1679,6 +1680,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.195 $ $Date: 2005-05-07 20:54:30 $
+$Revision: 1.196 $ $Date: 2005-05-16 12:24:39 $
 
 =cut

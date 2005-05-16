@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/PreferencesPassword.pm
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PreferencesPassword.pm,v 1.4 2005-04-21 18:11:39 martin Exp $
+# $Id: PreferencesPassword.pm,v 1.5 2005-05-16 12:24:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::PreferencesPassword;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -43,6 +43,16 @@ sub Param {
     my $Self = shift;
     my %Param = @_;
     my @Params = ();
+    if ($Self->{ConfigItem}->{Area} eq 'Agent') {
+        if ($Self->{ConfigObject}->Get('AuthModule') =~ /(LDAP|HTTPBasicAuth|Radius)/i) {
+            return ();
+        }
+    }
+    elsif ($Self->{ConfigItem}->{Area} eq 'Customer') {
+        if ($Self->{ConfigObject}->Get('Customer::AuthModule') =~ /(LDAP|HTTPBasicAuth|Radius)/i) {
+            return ();
+        }
+    }
     push (@Params, {
             %Param,
             Key => 'New password',
