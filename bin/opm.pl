@@ -3,7 +3,7 @@
 # opm.pl - otrs package manager cmd version
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: opm.pl,v 1.3 2005-05-07 15:27:06 martin Exp $
+# $Id: opm.pl,v 1.4 2005-05-16 08:59:01 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@ use Kernel::System::Package;
 
 # get file version
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # common objects
@@ -63,21 +63,21 @@ if (!$Opts{'f'}) {
 if (!$Opts{'a'}) {
     $Opts{'h'} = 1;
 }
-if ($Opts{'a'} && !$Opts{'p'}) {
+if ($Opts{'a'} && ($Opts{'a'} ne 'list' && !$Opts{'p'})) {
     $Opts{'h'} = 1;
 }
-if ($Opts{'a'} && $Opts{'a'} =~ /index/) {
+if ($Opts{'a'} && $Opts{'a'} eq 'index') {
     $Opts{'h'} = 0;
 }
 # check needed params
 if ($Opts{'h'}) {
     print "opm.pl <Revision $VERSION> - OTRS Package Manager\n";
     print "Copyright (c) 2001-2005 Martin Edenhofer <martin\@otrs.org>\n";
-    print "usage: opm.pl -a list|install|uninstall|build|index -p package.opm [-o OUTPUTDIR] [-f FORCE]\n";
+    print "usage: opm.pl -a list|install|upgrade|uninstall|build|index -p package.opm [-o OUTPUTDIR] [-f FORCE]\n";
     exit 1;
 }
 my $FileString = '';
-if ($Opts{'p'}) {
+if ($Opts{'a'} ne 'list' && $Opts{'p'}) {
     if (open(IN, "< $Opts{'p'}")) {
         while (<IN>) {
             $FileString .= $_;
@@ -124,30 +124,54 @@ if ($Opts{'a'} eq 'build') {
     exit;
 }
 elsif ($Opts{'a'} eq 'uninstall') {
-    # parse
-    my %Structur = $CommonObject{PackageObject}->PackageParse(String => $FileString);
     # uninstall
-    if ($CommonObject{PackageObject}->PackageUninstall(String => $FileString)) {
-        # remove from repository
-        $CommonObject{PackageObject}->RepositoryRemove(
-            Name => $Structur{Name}->{Content},
-            Version => $Structur{Version}->{Content},
-        );
-    }
+    $CommonObject{PackageObject}->PackageUninstall(
+        String => $FileString,
+        Force => $Opts{'f'},
+    );
     exit;
 }
 elsif ($Opts{'a'} eq 'install') {
-    # parse
-    my %Structur = $CommonObject{PackageObject}->PackageParse(String => $FileString);
-   # add to repository
-    if (!$CommonObject{PackageObject}->RepositoryGet(Name => $Structur{Name}->{Content}, Version => $Structur{Version}->{Content})) {
-        $CommonObject{PackageObject}->RepositoryAdd(String => $FileString);
-    }
     # install
     $CommonObject{PackageObject}->PackageInstall(
         String => $FileString,
         Force => $Opts{'f'},
     );
+    exit;
+}
+elsif ($Opts{'a'} eq 'upgrade') {
+    # upgrade 
+    $CommonObject{PackageObject}->PackageUpgrade(
+        String => $FileString,
+        Force => $Opts{'f'},
+    );
+    exit;
+}
+elsif ($Opts{'a'} eq 'list') {
+    foreach my $Package ($CommonObject{PackageObject}->RepositoryList()) {
+        my $Description = '';
+        foreach my $Tag (@{$Package->{Description}}) {
+            # just use start tags
+            if ($Tag->{TagType} ne 'Start') {
+                next;
+            }
+            if ($Tag->{Tag} eq 'Description') {
+                if (!$Description) {
+                    $Description = $Tag->{Content};
+                }
+                if ($Tag->{Lang} eq 'en') {
+                    $Description = $Tag->{Content};
+                }
+            }
+        }
+        print "+-------------------------------------------------------+\n";
+        print "| Name:        $Package->{Name}->{Content}\n";
+        print "| Version:     $Package->{Version}->{Content}\n";
+        print "| Vendor:      $Package->{Vendor}->{Content}\n";
+        print "| URL:         $Package->{URL}->{Content}\n";
+        print "| Description: $Description\n";
+    }
+    print "+-------------------------------------------------------+\n";
     exit;
 }
 elsif ($Opts{'a'} eq 'p') {
