@@ -5,7 +5,7 @@
 # Copyright (C) 2003 A-NeT Internet Services bv
 # Copyright (C) 2004 Martijn Lohmeijer (martijn.lohmeijer 'at' sogeti.nl)
 # --
-# $Id: nl.pm,v 1.29 2005-05-08 21:21:57 martin Exp $
+# $Id: nl.pm,v 1.30 2005-05-16 12:46:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -45,7 +45,7 @@ package Kernel::Language::nl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
@@ -1189,6 +1189,12 @@ sub Data {
       # Template: Test
       'OTRS Test Page' => 'OTRS Testpagina',
       'Counter' => '',
+      'Mark as Spam!' => '',
+      'Your queue selection of your favorite queues. You also get notified about this queues via email if enabled.' => '',
+      'New password' => '',
+      'New password again' => '',
+      'Change Password' => '',
+      'My Queues' => '',
 
       # Template: Warning
     };

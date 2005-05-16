@@ -11,7 +11,7 @@ package Kernel::Language::bg;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -1157,7 +1157,12 @@ sub Data {
       # Template: Test
       'OTRS Test Page' => 'Тестова страница на OTRS',
       'Counter' => '',
-
+      'Mark as Spam!' => '',
+      'Your queue selection of your favorite queues. You also get notified about this queues via email if enabled.' => '',
+      'New password' => '',
+      'New password again' => '',
+      'Change Password' => '',
+      'My Queues' => '',
       # Template: Warning
     };
     # $$STOP$$

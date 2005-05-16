@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: de.pm,v 1.75 2005-05-08 21:21:57 martin Exp $
+# $Id: de.pm,v 1.76 2005-05-16 12:46:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.75 $';
+$VERSION = '$Revision: 1.76 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -283,11 +283,11 @@ sub Data {
       'FAQ-Article' => 'FAQ-Artikel',
       'FAQ-State' => 'FAQ-Status',
       'Admin' => '',
-      'A web calendar' => 'Ein Web-Kalender',
+      'A web calendar' => 'Ein Web Kalender',
       'WebMail' => '',
-      'A web mail client' => 'Ein Web-Mail-Client',
+      'A web mail client' => 'Ein WebMail client',
       'FileManager' => 'DateiManager',
-      'A web file manager' => 'Ein Web-Datei-Manager',
+      'A web file manager' => 'Ein Web DateiManager',
       'Artefact' => '',
       'Incident' => 'Vorfall',
       'Advisory' => '',
@@ -1160,6 +1160,12 @@ sub Data {
       # Template: Test
       'OTRS Test Page' => 'OTRS Testseite',
       'Counter' => '',
+      'Mark as Spam!' => 'Als Spam makieren!',
+      'Your queue selection of your favorite queues. You also get notified about this queues via email if enabled.' => 'Queue Auswahl der bevorzugte Queues. Es werden Email-Benachrichtigungen über diese ausgewählten Queues versenden.',
+      'New password' => 'Neues Passwort',
+      'New password again' => 'Neues Passwort (wiederholen)',
+      'Change Password' => 'Passwort ändern',
+      'My Queues' => 'Meine Queues',
 
       # Template: Warning
     };

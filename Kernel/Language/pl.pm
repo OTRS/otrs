@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # Translated by Tomasz Melissa <janek at rumianek.com>
 # --
-# $Id: pl.pm,v 1.17 2005-05-08 21:21:57 martin Exp $
+# $Id: pl.pm,v 1.18 2005-05-16 12:46:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::pl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1159,6 +1159,12 @@ sub Data {
       # Template: Test
       'OTRS Test Page' => 'OTRS Strona testowa',
       'Counter' => '',
+      'Mark as Spam!' => '',
+      'Your queue selection of your favorite queues. You also get notified about this queues via email if enabled.' => '',
+      'New password' => '',
+      'New password again' => '',
+      'Change Password' => '',
+      'My Queues' => '',
 
       # Template: Warning
     };

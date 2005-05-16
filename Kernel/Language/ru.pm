@@ -2,7 +2,7 @@
 # Kernel/Language/ru.pm - provides ru language translation
 # Copyright (C) 2003 Serg V Kravchenko <skraft at rgs.ru>
 # --
-# $Id: ru.pm,v 1.16 2005-05-08 21:21:57 martin Exp $
+# $Id: ru.pm,v 1.17 2005-05-16 12:46:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::ru;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
@@ -1157,6 +1157,12 @@ sub Data {
       # Template: Test
       'OTRS Test Page' => 'Тестовая страница OTRS',
       'Counter' => '',
+      'Mark as Spam!' => '',
+      'Your queue selection of your favorite queues. You also get notified about this queues via email if enabled.' => '',
+      'New password' => '',
+      'New password again' => '',
+      'Change Password' => '',
+      'My Queues' => '',
 
       # Template: Warning
     };

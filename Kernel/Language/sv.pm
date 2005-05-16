@@ -2,7 +2,7 @@
 # Kernel/Language/nb_SW.pm - Swedish language translation
 # Copyright (C) 2004 Mats Eric Olausson <mats@synergy.se>
 # --
-# $Id: sv.pm,v 1.7 2005-05-08 21:21:57 martin Exp $
+# $Id: sv.pm,v 1.8 2005-05-16 12:46:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::sv;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.7 $;
+$VERSION = q$Revision: 1.8 $;
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1158,6 +1158,12 @@ sub Data {
       # Template: Test
       'OTRS Test Page' => 'OTRS Test-sida',
       'Counter' => '',
+      'Mark as Spam!' => '',
+      'Your queue selection of your favorite queues. You also get notified about this queues via email if enabled.' => '',
+      'New password' => '',
+      'New password again' => '',
+      'Change Password' => '',
+      'My Queues' => '',
 
       # Template: Warning
     };

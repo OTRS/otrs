@@ -4,7 +4,7 @@
 # Copyright (C) 2004-2005 Yann Richard <ze at nbox.org>
 # Copyright (C) 2004 Igor Genibel <igor.genibel at eds-opensource.com>
 # --
-# $Id: fr.pm,v 1.44 2005-05-08 21:21:57 martin Exp $
+# $Id: fr.pm,v 1.45 2005-05-16 12:46:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.44 $';
+$VERSION = '$Revision: 1.45 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -819,7 +819,7 @@ sub Data {
       ' (work units)' => ' Unité de travail',
 
       # Template: AgentTicketCompose
-      'A message must be spell checked!' => 'L\'orthographe d\'un message doit être vérifié&nbsp;!',
+      'A message must be spell checked!' => 'Lorthographe dun message doit être vérifié!',
       'Compose answer for ticket' => 'Rédiger une réponse pour le ticket',
       'Attach' => 'Attaché',
       'Pending Date' => 'En attendant la date',
@@ -1160,6 +1160,12 @@ sub Data {
       # Template: Test
       'OTRS Test Page' => 'Page de test d\'OTRS',
       'Counter' => 'Compteur',
+      'Mark as Spam!' => '',
+      'Your queue selection of your favorite queues. You also get notified about this queues via email if enabled.' => '',
+      'New password' => '',
+      'New password again' => '',
+      'Change Password' => '',
+      'My Queues' => '',
 
       # Template: Warning
     };
