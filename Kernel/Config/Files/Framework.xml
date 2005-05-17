@@ -93,7 +93,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.27 2005-05-17 09:20:08 tr Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.28 2005-05-17 09:22:09 tr Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der WEB-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -1511,7 +1511,7 @@ Your OTRS Notification Master
         <SubGroup>Core</SubGroup>
         <Setting>
             <TextArea>
-                Hi &lt;OTRS_USERFIRSTNAME&gt;,
+Hi &lt;OTRS_USERFIRSTNAME&gt;,
 
 you or someone impersonating you has requested to change your OTRS
 password.
