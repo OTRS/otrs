@@ -93,7 +93,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.28 2005-05-17 09:22:09 tr Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.29 2005-05-17 12:43:55 tr Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der WEB-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -1589,7 +1589,6 @@ Your OTRS Notification Master
         <Description Lang="de">Alternative Login-URL für das Customer-Panel.</Description>
         <Group>Framework</Group>
         <SubGroup>CustomerFrontend</SubGroup>
-        <SubGroup>Unknown</SubGroup>        
         <Setting>
             <String Regex=""></String>
         </Setting>
@@ -1600,7 +1599,6 @@ Your OTRS Notification Master
         <Description Lang="de">Alternative Logout-URL für das Customer-Panel.</Description>
         <Group>Framework</Group>
         <SubGroup>CustomerFrontend</SubGroup>
-        <SubGroup>Unknown</SubGroup>        
         <Setting>
             <String Regex=""></String>
         </Setting>
@@ -1726,7 +1724,6 @@ Your OTRS Notification Master
         <Description Lang="de">Modul zum authentifizieren der Customer.</Description>
         <Group>Framework</Group>
         <SubGroup>CustomerFrontend</SubGroup>
-        <SubGroup>Unknown</SubGroup>
         <Setting>
             <Option Location="Kernel/System/CustomerAuth/*.pm" SelectedID="Kernel::System::CustomerAuth::DB"></Option>
         </Setting>
@@ -1849,9 +1846,12 @@ Your OTRS Notification Master
         <Group>Framework</Group>
         <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
-            <String Regex="">UID</String>
+            <Option SelectedID="UID">
+                <Item Key="UID">UID</Item>
+                <Item Key="DN">DN</Item>               
+            </Option>        
         </Setting>
-        <!-- # $Self->{'Customer::AuthModule::LDAP::UserAttr'} = 'UID'; -->
+        <!-- # $Self->{'Customer::AuthModule::LDAP::UserAttr'} = 'UID';  DN -->
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::LDAP::SearchUserDN" Required="0" Valid="0">
         <Description Lang="en">If "LDAP" was selected for Customer::AuthMOdule and your ussers have only anonymous access to the LDAP tree, but you want to search throug the data, you can do this with a user who has access to the LDAP directory. Specify the username for this special user here.</Description>
@@ -3070,5 +3070,31 @@ Your OTRS Notification Master
                 </NavBar>
             </FrontendModuleReg>
         </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::NavBarStyle" Required="1" Valid="1">
+        <Description Lang="en">Here you can define the looking of the icons of the Navbar.</Description>
+        <Description Lang="de">Hier können Sie die Darstellungsart der Icons in der Navigationszeile definieren.</Description>
+        <Group>Framework</Group>
+        <SubGroup>AgentFrontend</SubGroup>
+        <Setting>
+            <Option SelectedID="Classic">
+                <Item Key="Classic">Classic</Item>
+                <Item Key="Modern">Modern</Item>               
+            </Option>
+        </Setting>
+        <!-- $Self->{'Frontend::NavBarStyle'} = 'Classic'; -->
+    </ConfigItem>
+    <ConfigItem Name="Frontend::NavBarStyle::ShowSelectedArea" Required="1" Valid="1">
+        <Description Lang="en">If you want to highlight the link (in the NavBar) of the currently used modul select 'Yes'.</Description>
+        <Description Lang="de">Auswahl, ob in der Navigationszeile der Link des aktuell ausgewählten Modules farblich hervorgehoben werden soll.</Description>
+        <Group>Framework</Group>
+        <SubGroup>AgentFrontend</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>               
+            </Option>
+        </Setting>
+        <!-- $Self->{'Frontend::NavBarStyle::ShowSelectedArea'} = 0; -->
     </ConfigItem>
 </otrs_config>
