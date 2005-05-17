@@ -130,7 +130,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.21 2005-05-15 09:21:45 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.22 2005-05-17 12:31:01 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">To set the Ticket identifier (e. g. Ticket#: 123456789). Some people want to set this to 'Call#', 'MyTicket#' or 'Ticket#'.</Description>
         <Description Lang="de">Hiermit kann der Ticket-Identifikator gesetzt werden (z. B. Ticket#: 123456789). Manche Kunden setzen definieren 'Call#', 'MyTicket#' oder 'Ticket#'. Als Standardeinstellung wird 'Ticket#' geliefert.</Description>
@@ -3474,11 +3474,11 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
                 <Item Key="Label">Screen after new ticket</Item>
                 <Item Key="Data">
                     <Hash>
-                        <Item Key="''">CreateTicket</Item>
+                        <Item Key="">CreateTicket</Item>
                         <Item Key="AgentTicketZoom">TicketZoom</Item>
                     </Hash>
                 </Item>
-                <Item Key="DataSelected">''</Item>
+                <Item Key="DataSelected"></Item>
                 <Item Key="PrefKey">UserCreateNextMask</Item>
                 <Item Key="Prio">5000</Item>
                 <Item Key="Activ">1</Item>
