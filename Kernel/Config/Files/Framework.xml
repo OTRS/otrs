@@ -93,7 +93,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.29 2005-05-17 12:43:55 tr Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.30 2005-05-17 13:32:35 cs Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der WEB-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -380,7 +380,7 @@ Your OTRS Notification Master
         <!--  $Self->{CheckEmailInvalidAddress} = '@(aa|aaa|aaaa|aaaaa|abc|any|anywhere|anonymous|bar|demo|example|foo|hello|hallo|me|nospam|nowhere|null|some|somewhere|test|teste.|there|user|xx|xxx|xxxx)\.(..|...)$'; -->
     </ConfigItem>   
     <ConfigItem Name="LogModule" Required="1" Valid="1">
-        <Description Lang="en">Witch log module do you want to use? "File" writes all messages in a given logfile, "SysLog" uses the syslog daemon of the system, e.g. syslogd.</Description>
+        <Description Lang="en">Which log module do you want to use? "File" writes all messages in a given logfile, "SysLog" uses the syslog daemon of the system, e.g. syslogd.</Description>
         <Description Lang="de">Welches Logmodul soll verwendet werden? "File" schreibt in eine anzugebende Datei, "SysLog" logt mit Hilfe des systemspezifischen Logdaemons, z.B. syslogd.</Description>
         <Group>Framework</Group>
         <SubGroup>Log</SubGroup>
@@ -790,7 +790,7 @@ Your OTRS Notification Master
         <!-- $Self->{TimeZone} = '+9'; -->
     </ConfigItem>
     <ConfigItem Name="TimeWorkingHours" Required="1" Valid="1">
-        <Description Lang="en">For witch hours and week days do you want to count the working time?</Description>
+        <Description Lang="en">For which hours and week days do you want to count the working time?</Description>
         <Description Lang="de">Für welche Wochentage und Stunden soll die Arbeitszeit erfasst werden?</Description>
         <Group>Framework</Group>
         <SubGroup>Time</SubGroup>
@@ -1180,7 +1180,7 @@ Your OTRS Notification Master
         <!-- $Self->{'SMIME::Bin'} = '/usr/bin/openssl'; -->
     </ConfigItem>
     <ConfigItem Name="SMIME::CertPath" Required="0" Valid="0">
-        <Description Lang="en">In witch directory are your SSL certificates stored?</Description>
+        <Description Lang="en">In which directory are your SSL certificates stored?</Description>
         <Description Lang="de">In welchem Verzeichnis sind Ihre SSL-Zertifikate gespeichert?</Description>
         <Group>Framework</Group>
         <SubGroup>SMIME</SubGroup>
@@ -1190,7 +1190,7 @@ Your OTRS Notification Master
         <!-- $Self->{'SMIME::CertPath'} = '/etc/ssl/certs'; -->
     </ConfigItem>
     <ConfigItem Name="SMIME::PrivatePath" Required="0" Valid="0">
-        <Description Lang="en">In witch directory are the private SSL certificates stored?</Description>
+        <Description Lang="en">In which directory are the private SSL certificates stored?</Description>
         <Description Lang="de">In welchem Verzeichnis werden die privaten SSL-Zertifikate gespeichert?</Description>
         <Group>Framework</Group>
         <SubGroup>SMIME</SubGroup>
@@ -1266,7 +1266,7 @@ Your OTRS Notification Master
         <!-- $Self->{PreferencesTableUserID} = 'user_id'; -->
     </ConfigItem>
     <ConfigItem Name="PreferencesView" Required="1" Valid="1">
-        <Description Lang="en">In witch order are the different items in the preference view displayed?</Description>
+        <Description Lang="en">In which order are the different items in the preference view displayed?</Description>
         <Description Lang="de">In welcher Reihenfolge sollen die verschiedenen Abschnitte innerhalb der Ansicht für die Einstellungen angezeigt werden?</Description>
         <Group>Framework</Group>
         <SubGroup>CustomerPreferences</SubGroup>
@@ -1475,7 +1475,7 @@ Your OTRS Notification Master
  -->
     </ConfigItem>   
     <ConfigItem Name="NotificationSenderName" Required="1" Valid="1">
-        <Description Lang="en">Witch name do you want to use for the sender of system notification messages?</Description>
+        <Description Lang="en">Which name do you want to use for the sender of system notification messages?</Description>
         <Description Lang="de">Welcher Name soll für den Sender von Benachrichtigungsmails verwendet werden?</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -1485,7 +1485,7 @@ Your OTRS Notification Master
         <!-- $Self->{NotificationSenderName} = 'OTRS Notification Master'; -->
     </ConfigItem>
     <ConfigItem Name="NotificationSenderEmail" Required="1" Valid="1">
-        <Description Lang="en">Witch mail address should be used for the sender of notification messages?</Description>
+        <Description Lang="en">Which mail address should be used for the sender of notification messages?</Description>
         <Description Lang="de">Welche Mailadresse soll für das Versenden von Benachrichtigungsmails verwendet werden?</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -3072,7 +3072,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::NavBarStyle" Required="1" Valid="1">
-        <Description Lang="en">Here you can define the looking of the icons of the Navbar.</Description>
+        <Description Lang="en">With this setting you can define how the icons in the Navbar are displayed.</Description>
         <Description Lang="de">Hier können Sie die Darstellungsart der Icons in der Navigationszeile definieren.</Description>
         <Group>Framework</Group>
         <SubGroup>AgentFrontend</SubGroup>
@@ -3085,7 +3085,7 @@ Your OTRS Notification Master
         <!-- $Self->{'Frontend::NavBarStyle'} = 'Classic'; -->
     </ConfigItem>
     <ConfigItem Name="Frontend::NavBarStyle::ShowSelectedArea" Required="1" Valid="1">
-        <Description Lang="en">If you want to highlight the link (in the NavBar) of the currently used modul select 'Yes'.</Description>
+        <Description Lang="en">Do you want to highlight the link to the selected module in the NavBar?</Description>
         <Description Lang="de">Auswahl, ob in der Navigationszeile der Link des aktuell ausgewählten Modules farblich hervorgehoben werden soll.</Description>
         <Group>Framework</Group>
         <SubGroup>AgentFrontend</SubGroup>
