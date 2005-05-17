@@ -93,7 +93,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.26 2005-05-17 06:56:03 tr Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.27 2005-05-17 09:20:08 tr Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der WEB-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -1013,7 +1013,7 @@ Your OTRS Notification Master
         <Group>Framework</Group>
         <SubGroup>MIME-Viewer</SubGroup>
         <Setting>
-            <String Regex="">/scripts/tools/xml2html.pl</String>
+            <String Regex="">/opt/otrs/scripts/tools/xml2html.pl</String>
         </Setting>
         <!-- $Self->{'MIME-Viewer'}->{'text/xml'} = $Self->{Home}.'/scripts/tools/xml2html.pl'; -->
     </ConfigItem>
