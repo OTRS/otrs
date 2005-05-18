@@ -93,7 +93,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.30 2005-05-17 13:32:35 cs Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.31 2005-05-18 11:46:40 cs Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der WEB-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -550,7 +550,7 @@ Your OTRS Notification Master
     </ConfigItem>   
     <ConfigItem Name="InfoKey" Required="0" Valid="0">
         <Description Lang="en">Key to check with Kernel::Modules::AgentInfo module. If this user preferences key is true, then the message is accepted by the system.</Description>
-        <Description Lang="de">Key, der mit Hilfe des Moduls Kernel::Modules::AgentInfo überprüft werden soll. Wird dieser Key angegeben, wird auch die Nachricht akzeptiert</Description>
+        <Description Lang="de">Key, der mit Hilfe des Moduls Kernel::Modules::AgentInfo überprüft werden soll. Wird dieser Key angegeben, wird auch die Nachricht akzeptiert.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -715,7 +715,7 @@ Your OTRS Notification Master
     </ConfigItem>   
     <ConfigItem Name="SessionUseCookie" Required="1" Valid="1">
         <Description Lang="en">Should the session management use html cookies? It's more comfortable to send the session id via links. If you have a valid session, you don't have to login again. If the client browser disabled html cookies, the system will work as usual and append the session id to the links.</Description>
-        <Description Lang="de">Sessionmanagement mit Cookies? Es ist komfortabler, wenn sie die Session-ID per Link und nicht via Cookie übermitteln. Wenn eine gültige Session vorliegt, wird so eine Neuanmeldung am System überflüssig. Werden vom verwendeten Browser keine Cookies unterstützt, wird die Session-ID automatisch per Link übermittelt.</Description>
+        <Description Lang="de">Sessionmanagement mit Cookies? Es ist komfortabler, wenn Sie die Session-ID per Link und nicht via Cookie übermitteln. Wenn eine gültige Session vorliegt, wird so eine Neuanmeldung am System überflüssig. Werden vom verwendeten Browser keine Cookies unterstützt, wird die Session-ID automatisch per Link übermittelt.</Description>
         <Group>Framework</Group>
         <SubGroup>Session</SubGroup>
         <Setting>
@@ -930,7 +930,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="CGILogPrefix" Required="1" Valid="1">
         <Description Lang="en">Log prefix for the CGI scripts of the system.</Description>
-        <Description Lang="de">Logprefix für die CGI-Skripte des Systems</Description>
+        <Description Lang="de">Logprefix für die CGI-Skripte des Systems.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -965,7 +965,7 @@ Your OTRS Notification Master
         <!-- $Self->{ShowMotd} = 0; -->
     </ConfigItem>
     <ConfigItem Name="DemoSystem" Required="1" Valid="1">
-        <Description Lang="en">Activate the demo system? If set to "yes", agents can change their preferences like selection of language and theme via the agent frontend just for the current session. Also it isn't possible to change passwords.</Description>
+        <Description Lang="en">Activate the demo system? If set to "Yes", agents can change their preferences like selection of language and theme via the agent frontend just for the current session. Also it isn't possible to change passwords.</Description>
         <Description Lang="de">Demosystem aktivieren? Wenn diese Einstellung aktiviert wird, können Agenten nur für die aktuelle Sitzung ihre Sprache oder das Anzeige-Schema auswählen. Weiterhin können keine Kennwörter geändert werden.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -1662,7 +1662,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="CustomerPanelSubjectLostPassword" Required="1" Valid="1">
         <Description Lang="en">Subject of notification mail to customers about new password.</Description>
-        <Description Lang="de">Betreff der Benachrichtigungsmail für Customer, die bei der Vergabe eines neuen Kennworts geschickt wird</Description>
+        <Description Lang="de">Betreff der Benachrichtigungsmail für Customer, die bei der Vergabe eines neuen Kennworts geschickt wird.</Description>
         <Group>Framework</Group>
         <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
@@ -1671,8 +1671,8 @@ Your OTRS Notification Master
         <!-- $Self->{CustomerPanelSubjectLostPassword} = 'New OTRS Password!'; -->
     </ConfigItem>
     <ConfigItem Name="CustomerPanelBodyLostPassword" Required="1" Valid="1">
-        <Description Lang="en">Body of notification mail for customers about new password</Description>
-        <Description Lang="de">Body der Benachrichtigungsmail für Customer, die für ein neues Kennwort versendet wird</Description>
+        <Description Lang="en">Body of notification mail for customers about new password.</Description>
+        <Description Lang="de">Body der Benachrichtigungsmail für Customer, die für ein neues Kennwort versendet wird.</Description>
         <Group>Framework</Group>
         <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
@@ -2130,8 +2130,8 @@ Your OTRS Notification Master
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###Logout" Required="1" Valid="1">
-        <Description Lang="en">All parameters for the Logout object in the agent interface.</Description>
-        <Description Lang="de">Alle Parameter des Logout-Objekts im Agent-Interface.</Description>
+        <Description Lang="en">Frontend module registration of the Logout object in the agent interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des Logout-Objekts im Agent-Interface.</Description>
         <Group>Framework</Group>
         <SubGroup>AgentFrontendModulRegistration</SubGroup>
         <Setting>
