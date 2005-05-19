@@ -130,20 +130,20 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.22 2005-05-17 12:31:01 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.23 2005-05-19 15:58:06 cs Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
-        <Description Lang="en">To set the Ticket identifier (e. g. Ticket#: 123456789). Some people want to set this to 'Call#', 'MyTicket#' or 'Ticket#'.</Description>
-        <Description Lang="de">Hiermit kann der Ticket-Identifikator gesetzt werden (z. B. Ticket#: 123456789). Manche Kunden setzen definieren 'Call#', 'MyTicket#' oder 'Ticket#'. Als Standardeinstellung wird 'Ticket#' geliefert.</Description>
+        <Description Lang="en">The identifyer for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
+        <Description Lang="de">Ticket-Identifikator, z.B. Ticket#,Call#, MyTicket#. _Als Standard wird Ticket# verwendet.</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
         <Setting>
-            <String>Ticket#</String>
+            <String Regex="">Ticket#</String>
         </Setting>
         <!-- $Self->{'Ticket::Hook'} = 'Ticket#'; -->
     </ConfigItem>
     <ConfigItem Name="Ticket::HookDivider" Required="1" Valid="1">
-        <Description Lang="en">The divider between TicketHook# and ticket number. E.g ': '.</Description>
-        <Description Lang="de">Der Teiler zwischen Ticket-Identifikator und der Ticket-Nummer.</Description>
+        <Description Lang="en">The divider between TicketHook and ticket number. E.g ': '.</Description>
+        <Description Lang="de">Der Teiler zwischen Ticket-Identifikator (TicketHook) und der Ticket-Nummer.</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
         <Setting>
@@ -152,7 +152,7 @@ TimeWorkingHours
         <!-- $Self->{'Ticket::HookDivider'} = ''; -->
     </ConfigItem>    
     <ConfigItem Name="Ticket::SubjectSize" Required="1" Valid="1">
-        <Description Lang="en">Max size of the subjects in a email reply.</Description>
+        <Description Lang="en">Max size of the subjects in an email reply.</Description>
         <Description Lang="de">Maximal zulässige Größe des Betreffs bei einer Email-Antwort.</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
@@ -162,18 +162,18 @@ TimeWorkingHours
         <!-- $Self->{'Ticket::SubjectSize'} = 60; -->
     </ConfigItem>    
     <ConfigItem Name="Ticket::SubjectRe" Required="1" Valid="1">
-        <Description Lang="en">The text at the beginning of the subject in a email reply (e. g. RE, AW or AS).</Description>
-        <Description Lang="de">Präfix im der Betreff des Email-Antwortschreibens (z. B. RE, AW oder AS).</Description>
+        <Description Lang="en">The text at the beginning of the subject in a email reply, e.g. RE, AW or AS.</Description>
+        <Description Lang="de">Präfix im Betreff bei einer E-Mail-Antwort, z.B. RE, AW oder AS.</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
         <Setting>
-            <String Regex="">Re</String>
+            <String Regex="">Re: </String>
         </Setting>
         <!--  $Self->{'Ticket::SubjectRe'} = 'Re'; -->
     </ConfigItem>    
     <ConfigItem Name="Ticket::CustomQueue" Required="1" Valid="1">
-        <Description Lang="en">The name of custom queue. The custom queue is a queue selection of your prefered queues and can be selected in your preferences settings.</Description>
-        <Description Lang="de">Name der persölich zusammengestellten Queues eines Agenten. Dieses Queues können unter presönliche Einstellungen ausgewählt werden.</Description>
+        <Description Lang="en">Name of custom queue. The custom queue is a queue selection of your prefered queues and can be selected in the preferences settings.</Description>
+        <Description Lang="de">Name der persölich zusammengestellten Queues eines Agenten. Diese Queues können innerhalb der presönlichen Einstellungen ausgewählt werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
         <Setting>
@@ -182,8 +182,8 @@ TimeWorkingHours
         <!--  $Self->{'Ticket::CustomQueue'} = 'My Queues'; -->
     </ConfigItem>    
     <ConfigItem Name="Ticket::ForceNewStateAfterLock" Required="0" Valid="0">
-        <Description Lang="en">Force a new ticket state after lock action. In the key you have to define the current state and as value you have to define the next state after the lock action.</Description>
-        <Description Lang="de">Automatischen setzen eines neun Ticket-Status nach dem das Ticket gesperrt wurde. Die Zuteilung ist im Key der aktuelle Status und als Inhalt der Status nach der Sperr-Aktion.</Description>
+        <Description Lang="en">Force a new ticket state after lock action. For key you have to define the current state and for value you have to define the next state after lock action.</Description>
+        <Description Lang="de">Automatisches setzen eines neun Ticket-Status nach dem das Ticket gesperrt wurde. Die Zuteilung ist im Key der aktuelle Status und als Inhalt der Status nach der Sperr-Aktion.</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
         <Setting>
@@ -198,8 +198,8 @@ TimeWorkingHours
         -->        
     </ConfigItem>       
     <ConfigItem Name="Ticket::ForceUnlockAfterMove" Required="1" Valid="1">
-        <Description Lang="en">Force to unlock a ticket after move action.</Description>
-        <Description Lang="de">Sperrung automatisch aufheben nachdem ein Ticket in eine andere Queue verschoben worden ist.</Description>
+        <Description Lang="en">Would you like to force tickets to be unlocked after move action?</Description>
+        <Description Lang="de">Möchten Sie dass die Sperrung eines Tickets automatisch aufgehoben wird, nachdem es in eine andere Queue verschoben worden ist?</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
         <Setting>
@@ -211,8 +211,8 @@ TimeWorkingHours
         <!--  $Self->{'Ticket::ForceUnlockAfterMove'} = 0; -->
     </ConfigItem>    
     <ConfigItem Name="Ticket::ChangeOwnerToEveryone" Required="1" Valid="1">
-        <Description Lang="en">Make it possible to change owner of ticket at everyone (useful for ASP).</Description>
-        <Description Lang="de">Ermöglicht es den Besitzer eines fremden Tickets zuändern. (Kann für ASP nützlich sein)</Description>
+        <Description Lang="en">Would you like to make it possible to change owner of foreign tickets (useful for ASP).</Description>
+        <Description Lang="de">Soll es möglich sein, den Besitzer eines fremden Tickets zuändern (Kann für ASP nützlich sein)?</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
         <Setting>
@@ -224,8 +224,8 @@ TimeWorkingHours
         <!--  $Self->{'Ticket::ChangeOwnerToEveryone'} = 0; -->
     </ConfigItem>    
     <ConfigItem Name="Ticket::QueueViewAllPossibleTickets" Required="1" Valid="1">
-        <Description Lang="en">Show all ro and rw queues in the queue view (not just rw queues)</Description>
-        <Description Lang="de">Zeige alle Queues in der Queue-Ansicht in denen man Leserechte und Schreibrechte hat. Ansonsten werden nur die Queues in denen man Schreibrechte hat angezeigt.</Description>
+        <Description Lang="en">Show all ro and rw queues in the queue view (not only rw queues)?</Description>
+        <Description Lang="de">Zeigen aller Queues in der Queue-Ansicht für die Schreib- und Leserechte vorhanden sind? Standardmäßig werden nur die Queues angezeigt, für die Schreibrechte vergeben wurden.</Description>
         <Group>Ticket</Group>
         <SubGroup>AgentFrontend</SubGroup>
         <Setting>
@@ -238,13 +238,13 @@ TimeWorkingHours
     </ConfigItem>   
     <ConfigItem Name="Ticket::NewMessageMode" Required="1" Valid="1">
         <Description Lang="en">Mode how the new message count in the agent navigation bar is used.</Description>
-        <Description Lang="de">Modus wie der 'neue Nachrichten' Zähler im der Agenten-Navigationsbar benutzt werden soll.</Description>
+        <Description Lang="de">Modus, wie der 'neue Nachrichten' Zähler im Agenten-Navigationsbar benutzt werden soll.</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
         <Setting>
             <Option SelectedID="ArticleLastSender">
-                <Item Key="ArticleLastSender">ArticleLastSender (anzeigen wenn letzter Sender nicht der aktuelle Agent)</Item>
-                <Item Key="ArticleSeen">ArticleSeen (anzeigen wenn neue Artikel noch nicht gelesen)</Item>                
+                <Item Key="ArticleLastSender">ArticleLastSender</Item>
+                <Item Key="ArticleSeen">ArticleSeen</Item>                
             </Option>
         </Setting>
         <!--     
@@ -253,8 +253,8 @@ TimeWorkingHours
         -->
     </ConfigItem>      
     <ConfigItem Name="TicketFreeKey1" Required="0" Valid="0">
-        <Description Lang="en">Define the free key field 1 for tickets. It's just a new ticket preference.</Description>
-        <Description Lang="de">Definition des Freier-Schlüssel-Feldes 1 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the free key field 1 for tickets. With this setting you can define an new ticket property.</Description>
+        <Description Lang="de">Definition des Freien-Schlüssel-Feldes 1 für Tickets. Damit kann eine neue Ticket-Eigenschaft definiert werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
         <Setting>
@@ -282,7 +282,7 @@ TimeWorkingHours
         -->
     </ConfigItem>    
     <ConfigItem Name="TicketFreeText1" Required="0" Valid="0">
-        <Description Lang="en">Define the free text field 1 for tickets. It's just a new ticket preference.</Description>
+        <Description Lang="en">Define the free text field 1 for tickets. It's a new ticket property.</Description>
         <Description Lang="de">Definition des Freier-Text-Feldes 1 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
@@ -317,7 +317,7 @@ TimeWorkingHours
         -->
     </ConfigItem>    
     <ConfigItem Name="TicketFreeKey2" Required="0" Valid="0">
-        <Description Lang="en">Define the free key field 2 for tickets. It's just a new ticket preference.</Description>
+        <Description Lang="en">Define the free key field 2 for tickets. It's a new ticket property.</Description>
         <Description Lang="de">Definition des Freier-Key-Feldes 2 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
@@ -347,7 +347,7 @@ TimeWorkingHours
         -->
     </ConfigItem>    
     <ConfigItem Name="TicketFreeText2" Required="0" Valid="0">
-        <Description Lang="en">Define the free text field 2 for tickets. It's just a new ticket preference.</Description>
+        <Description Lang="en">Define the free text field 2 for tickets. It's a new ticket poperty.</Description>
         <Description Lang="de">Definition des Freier-Text-Feldes 2 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
@@ -382,7 +382,7 @@ TimeWorkingHours
         -->
     </ConfigItem>    
     <ConfigItem Name="TicketFreeKey3" Required="0" Valid="0">
-        <Description Lang="en">Define the free key field 3 for tickets. It's just a new ticket preference.</Description>
+        <Description Lang="en">Define the free key field 3 for tickets. It's a new ticket property.</Description>
         <Description Lang="de">Definition des Freier-Schlüssel-Feldes 3 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
@@ -412,7 +412,7 @@ TimeWorkingHours
         -->
     </ConfigItem>    
     <ConfigItem Name="TicketFreeText3" Required="0" Valid="0">
-        <Description Lang="en">Define the free text field 3 for tickets. It's just a new ticket preference.</Description>
+        <Description Lang="en">Define the free text field 3 for tickets. It's a new ticket property.</Description>
         <Description Lang="de">Definition des Freier-Text-Feldes 3 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
@@ -437,8 +437,6 @@ TimeWorkingHours
     <ConfigItem Name="TicketFreeText3::DefaultSelection" Required="0" Valid="0">
         <Description Lang="en">The default selection of free text field 3 if more then one option is defined.</Description>
         <Description Lang="de">Die standard Auswahl des Freier-Text-Feldes 3 wenn mehrere Optionen definiert sind.</Description>
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
         <Setting>
@@ -449,7 +447,7 @@ TimeWorkingHours
         -->
     </ConfigItem>    
     <ConfigItem Name="TicketFreeKey4" Required="0" Valid="0">
-        <Description Lang="en">Define the free key field 4 for tickets. It's just a new ticket preference.</Description>
+        <Description Lang="en">Define the free key field 4 for tickets. It's a new ticket property.</Description>
         <Description Lang="de">Definition des Freier-Schlüssel-Feldes 4 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
@@ -478,7 +476,7 @@ TimeWorkingHours
         -->
     </ConfigItem>    
     <ConfigItem Name="TicketFreeText4" Required="0" Valid="0">
-        <Description Lang="en">Define the free text field 4 for tickets. It's just a new ticket preference.</Description>
+        <Description Lang="en">Define the free text field 4 for tickets. It's a new ticket property.</Description>
         <Description Lang="de">Definition des Freier-Text-Feldes 4 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
@@ -503,8 +501,6 @@ TimeWorkingHours
     <ConfigItem Name="TicketFreeText4::DefaultSelection" Required="0" Valid="0">
         <Description Lang="en">The default selection of free text field 4 if more then one option is defined.</Description>
         <Description Lang="de">Die standard Auswahl des Freier-Text-Feldes 4 wenn mehrere Optionen definiert sind.</Description>
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
         <Setting>
@@ -515,7 +511,7 @@ TimeWorkingHours
         -->
     </ConfigItem>    
     <ConfigItem Name="TicketFreeKey5" Required="0" Valid="0">
-        <Description Lang="en">Define the free key field 5 for tickets. It's just a new ticket preference.</Description>
+        <Description Lang="en">Define the free key field 5 for tickets. It's a new ticket property.</Description>
         <Description Lang="de">Definition des Freier-Schlüssel-Feldes 5 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
@@ -544,7 +540,7 @@ TimeWorkingHours
         -->
     </ConfigItem>    
     <ConfigItem Name="TicketFreeText5" Required="0" Valid="0">
-        <Description Lang="en">Define the free text field 5 for tickets. It's just a new ticket preference.</Description>
+        <Description Lang="en">Define the free text field 5 for tickets. It's a new ticket property.</Description>
         <Description Lang="de">Definition des Freier-Text-Feldes 5 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
@@ -569,8 +565,6 @@ TimeWorkingHours
     <ConfigItem Name="TicketFreeText5::DefaultSelection" Required="0" Valid="0">
         <Description Lang="en">The default selection of free text field 5 if more then one option is defined.</Description>
         <Description Lang="de">Die standard Auswahl des Freier-Text-Feldes 5 wenn mehrere Optionen definiert sind.</Description>
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
         <Setting>
@@ -581,7 +575,7 @@ TimeWorkingHours
         -->
     </ConfigItem>    
     <ConfigItem Name="TicketFreeKey6" Required="0" Valid="0">
-        <Description Lang="en">Define the free key field 6 for tickets. It's just a new ticket preference.</Description>
+        <Description Lang="en">Define the free key field 6 for tickets. It's a new ticket property.</Description>
         <Description Lang="de">Definition des Freier-Schlüssel-Feldes 6 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
@@ -610,7 +604,7 @@ TimeWorkingHours
         -->
     </ConfigItem>    
     <ConfigItem Name="TicketFreeText6" Required="0" Valid="0">
-        <Description Lang="en">Define the free text field 6 for tickets. It's just a new ticket preference.</Description>
+        <Description Lang="en">Define the free text field 6 for tickets. It's a new ticket property.</Description>
         <Description Lang="de">Definition des Freier-Text-Feldes 6 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
@@ -635,8 +629,6 @@ TimeWorkingHours
     <ConfigItem Name="TicketFreeText6::DefaultSelection" Required="0" Valid="0">
         <Description Lang="en">The default selection of free text field 6 if more then one option is defined.</Description>
         <Description Lang="de">Die standard Auswahl des Freier-Text-Feldes 6 wenn mehrere Optionen definiert sind.</Description>
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
         <Setting>
@@ -647,7 +639,7 @@ TimeWorkingHours
         -->
     </ConfigItem>    
     <ConfigItem Name="TicketFreeKey7" Required="0" Valid="0">
-        <Description Lang="en">Define the free key field 7 for tickets. It's just a new ticket preference.</Description>
+        <Description Lang="en">Define the free key field 7 for tickets. It's a new ticket property.</Description>
         <Description Lang="de">Definition des Freier-Schlüssel-Feldes 7 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
@@ -676,7 +668,7 @@ TimeWorkingHours
         -->
     </ConfigItem>    
     <ConfigItem Name="TicketFreeText7" Required="0" Valid="0">
-        <Description Lang="en">Define the free text field 7 for tickets. It's just a new ticket preference.</Description>
+        <Description Lang="en">Define the free text field 7 for tickets. It's a new ticket property.</Description>
         <Description Lang="de">Definition des Freier-Text-Feldes 7 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
@@ -701,8 +693,6 @@ TimeWorkingHours
     <ConfigItem Name="TicketFreeText7::DefaultSelection" Required="0" Valid="0">
         <Description Lang="en">The default selection of free text field 7 if more then one option is defined.</Description>
         <Description Lang="de">Die standard Auswahl des Freier-Text-Feldes 7 wenn mehrere Optionen definiert sind.</Description>
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
         <Setting>
@@ -713,7 +703,7 @@ TimeWorkingHours
         -->
     </ConfigItem>    
     <ConfigItem Name="TicketFreeKey8" Required="0" Valid="0">
-        <Description Lang="en">Define the free key field 8 for tickets. It's just a new ticket preference.</Description>
+        <Description Lang="en">Define the free key field 8 for tickets. It's a new ticket property.</Description>
         <Description Lang="de">Definition des Freier-Schlüssel-Feldes 8 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
@@ -742,7 +732,7 @@ TimeWorkingHours
         -->
     </ConfigItem>    
     <ConfigItem Name="TicketFreeText8" Required="0" Valid="0">
-        <Description Lang="en">Define the free text field 8 for tickets. It's just a new ticket preference.</Description>
+        <Description Lang="en">Define the free text field 8 for tickets. It's a new ticket property.</Description>
         <Description Lang="de">Definition des Freier-Text-Feldes 8 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
@@ -777,18 +767,8 @@ TimeWorkingHours
         -->
     </ConfigItem>    
     <ConfigItem Name="Ticket::NumberGenerator" Required="1" Valid="1">
-        <Description Lang="en">The Ticket Number Generator Module. 
-AutoIncrement --> auto increment ticket numbers "SystemID.Counter" like 1010138 and 1010139. 
-Date          --> ticket numbers with date "Year.Month.Day.SystemID.Counter" like 200206231010138 and 200206231010139.
-DateChecksum  --> ticket numbers with date and check sum and the counter will be rotated daily "Year.Month.Day.SystemID.Counter.CheckSum" like 2002070110101520 and 2002070110101535.
-Random        --> random ticket numbers "SystemID.Random" like 100057866352 and 103745394596.
-        </Description>
-        <Description Lang="de">Auswahl der Ticket-Nummern-Generators.
-AutoIncrement --> eine automatisch hochzählender Counter wird mit der SystemID kombiniert; ("SystemID.Counter" z.B. 1010138; 1010139 und 1010140)       
-Date          --> die Ticketnummer wird aus Datum, SystemID und Counter kombiniert; ("Jahr.Monat.Tag.SystemID.Counter" z.B 200206231010138 und 200206231010139)       
-DateChecksum  --> die Ticketnummer wird aus Datum, SystemID, Counter und Checksumme generiert; ("Jahr.Monat.Tag.SystemID.Counter.CheckSumme" z.B. 2002070110101520 und 2002070110101535)        
-Random        --> Die Ticketnummer wird aus der SystemID und einer Zufallszahl gerneriert; ("SystemID.Random" z.B. 100057866352 und 103745394596.)        
-        </Description>
+        <Description Lang="en">Select the ticket number generator module. "AutoIncrement" just increments the ticket number, the SystemID and the counter are used. The format is SystemID.counter, e.g. 1010138, 1010139. With "Date" the ticket numbers will be generated by the current date, the SystemID and the counter. The format looks like Year.Month.Day.SystemID.counter, e.g. 200206231010138, 200206231010139. With "DateChecksum"  the counter will be appended as check summ to the string of date and SystemID. The check summ will be rotaded daily. The format looks like Year.Month.Day.SystemID.Counter.CheckSum, e.g. 2002070110101520, 2002070110101535. "Random" generates randomized ticket numbers in the format "SystemID.Random", e.g. 100057866352, 103745394596.</Description>
+        <Description Lang="de">Auswahl des Moduls zur Generierung der Ticketnummern. "AutoIncrement" zählt die Ticketnummer automatisch hoch und verbindet sie mit der SystemID. Es wird das Format SystemID.Counter verwendet, z.B. 1010138, 1010139. "Date" generiert die Ticketnummer aus Datum, SystemID und dem Counter, es wird das Format "Jahr.Monat.Tag.SystemID.Counter verwendet, z.B 200206231010138, 200206231010139. "DateChecksum" erzeugt die Ticketnummer aus dem Datum, der SystemID, dem Counter und einer Checksumme. Es wird das Format "Jahr.Monat.Tag.SystemID.Counter.CheckSumme verwendet, z.B. 2002070110101520, 2002070110101535. "Random" generiert aus der SystemID und einer Zufallszahl die Ticketnummern. Es wird das Format SystemID.Random verwendet, z.B. 100057866352, 103745394596.</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
         <Setting>
@@ -796,8 +776,8 @@ Random        --> Die Ticketnummer wird aus der SystemID und einer Zufallszahl g
         </Setting>
     </ConfigItem>    
     <ConfigItem Name="Ticket::NumberGenerator::MinCounterSize" Required="1" Valid="1">
-        <Description Lang="en">Min. ticket counter size (used in module 'Ticket::NumberGenerator::AutoIncrement'. Default is 5, this means it starts from 10000).</Description>
-        <Description Lang="de">Minimale Größe des Ticket-Zählers. (Benutzt in Module 'Ticket::NumberGenerator::AutoIncrement'. Default '5' d. h. gezählt wird ab 10000</Description>
+        <Description Lang="en">If "AutoIncrement" was selected for TicketNumberGenerator, you can set the minimal ticket counter size. Default is 5, this means the counter starts from 10000.</Description>
+        <Description Lang="de">Wenn "AutoIncrement" für TicketNumberGenerator ausgewählt wurde, kann hier die minimale Länge des Zählers (Counters) festgelegt werden. Standard ist 5, d.h. gezählt wird ab 10000.</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
         <Setting>
@@ -805,8 +785,8 @@ Random        --> Die Ticketnummer wird aus der SystemID und einer Zufallszahl g
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::CounterLog" Required="1" Valid="1">
-        <Description Lang="en">Counter log file.</Description>
-        <Description Lang="de">Pfad und Verzeichnis zum Loggen der CounterInformationen</Description>
+        <Description Lang="en">Log file for the ticket counter.</Description>
+        <Description Lang="de">Pfad und Verzeichnis zum Logfile für den Ticket-Counter.</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
         <Setting>
@@ -815,25 +795,8 @@ Random        --> Die Ticketnummer wird aus der SystemID und einer Zufallszahl g
         <!--  $Self->{'Ticket::CounterLog'} = '<OTRS_CONFIG_Home>/var/log/TicketCounter.log';   -->
     </ConfigItem>      
     <ConfigItem Name="Ticket::IndexModule" Required="1" Valid="1">
-        <Description Lang="en">IndexAccelerator - choose your backend TicketViewAccelerator module
-RuntimeDB
-(generate each queue view on the fly from ticket table you will not
-have performance trouble till ~ 60.000 tickets (till 6.000 open tickets)
-in your system)
-
-StaticDB
-(the most powerfull module, it should be used over 80.000 (more the 6.000
-open tickets) tickets in a system - use a extra ticket_index table, works
-like a view - use bin/RebuildTicketIndex.pl for initial index update)        
-        </Description>
-        <Description Lang="de">IndexAccelerator - wähle hierfür dein BackendModul aus
-RuntimeDB
-gerneriert jede QueueAnsicht "on the fly" aus der Tickettabelle. Dies ist kein Performanceproblem
-solange es nicht mehr als 6.000 offene Tickets und 60.000 Tickets insgesamt sind.
-StaticDB
-das StaticDB ist das leistungsfähigere Modul. Es sollte ab 80.000 Tickets bzw. 6.000 offenen Tickets
-benutzt werden. Hierfür wird eine extra Tabelle (ticket_index) benutzt. Benutzte zum initialen Anlegen 'bin/RebuildTicketIndex.pl'              
-        </Description>
+        <Description Lang="en">IndexAccelerator, choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table. You won't have performance problems till 60.000 tickets and 6.000 open tickets in your system. "StaticDB" is the most powerfull module. It should be used, if more then 80.000 and 6.000 opten tickets are stored in the system. The module uses a extra ticket_index table, that works like a view. Use the script "bin/RebuildTicketIndex.pl" for initial index update.</Description>
+        <Description Lang="de">IndexAccelerator, wählen Sie das gewünschte BackendModul aus. "RuntimeDB" generiert jede QueueAnsicht "on the fly" aus der Tickettabelle. Bis zu einer Anzahl von 60.000 Tickets insgesamt und 6.000 offenen Tickets sollten Sie mit diesem MOdul kein Performanceproblem bekommen. Für Installationen mit über 80.000 Tickets insgesamt und 6.000 offenen Tickets sollte das Modul "StaticDB" gewählt werden. Für das Modul wird eine extra Tabelle (ticket_index) verwendet, die ähnlich wie ein "view" arbeitet. Benutzen für die erste Einrichtung der Tabelle das Skript "bin/RebuildTicketIndex.pl".</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
         <Setting>
@@ -846,16 +809,8 @@ benutzt werden. Hierfür wird eine extra Tabelle (ticket_index) benutzt. Benutzte
         -->
     </ConfigItem>         
     <ConfigItem Name="Ticket::StorageModule" Required="1" Valid="1">
-        <Description Lang="en">Don't use it for big emails/attachments!
-(where attachments and co is stored - switch from fs -> db and db -> fs is possible)        
-FS is faster but webserver user should be the otrs user)        
-        </Description>
-        <Description Lang="de">Einstellung, wo die Attachments gespeichert werden sollen
-DB
-nicht für große Emails/Attachments geeignet
-FS
-schneller, der WebserverUser muß dann aber der OTRS-Benutzer sein
-        </Description>
+        <Description Lang="en">Select your TicketStorageModule to safe the attachments of articles. "DB" stores all data in the database. Don't use this module if big attachments will be stored. "FS" stores the data in the file system, it is faster but webserver user should be the otrs user. You can switch between the modules even with a running system, all data will be availabel and are searched for example.</Description>
+        <Description Lang="de">Wählen Sie das TicketStorage-Modul aus und legen sie fest, wie die Anhänge zu Artikeln gespeichert werden sollen. "DB" speichert alle daten in der Datenbank. Wird nur mit kleinen Anhängen gearbeitet, ist das kein Problem. "FS" legt die Daten im Filesystem ab, der Zugriff ist schneller. Allerdings sollte bei Verwendung von "FS" der WEB-Server unter dem selben Benutzer laufen, der auch für OTRS verwendet wird. Sie können das Modul auch für laufende Systeme ändern, es wird trotzdem weiter auf alle Daten zugegriffen und auch die Daten, die mit Hilfe des anderen Moduls gespeichert wurden, bleiben verfügbar.</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
         <Setting>
@@ -868,8 +823,8 @@ schneller, der WebserverUser muß dann aber der OTRS-Benutzer sein
         -->
     </ConfigItem>    
     <ConfigItem Name="ArticleDir" Required="1" Valid="1">
-        <Description Lang="en">Article filesystem directory (if ArticleStorageFS is used).</Description>
-        <Description Lang="de">Verzeichnisangabe, wenn das ArticleStorageFS benutzt wird.</Description>
+        <Description Lang="en">If you have selected "FS" for TicketStorageModule, you have to specifiy the directory where to store the data.</Description>
+        <Description Lang="de">Wurde "FS" als ArticleStoragModule ausgewählt, muss das Verzeichnis angegeben werden, in dem die Daten abgelegt werden sollen.</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
         <Setting>
@@ -888,7 +843,7 @@ schneller, der WebserverUser muß dann aber der OTRS-Benutzer sein
         <!--  $Self->{'Ticket::CustomModule'} = 'Kernel::System::Ticket::Custom';   -->
     </ConfigItem>       
     <ConfigItem Name="HighlightAge1" Required="1" Valid="1">
-        <Description Lang="en">Set the age for highlighting of old queue (Age in min)</Description>
+        <Description Lang="en">Set the age for highlighting of old queue (Age in min).</Description>
         <Description Lang="de">Zeit ab dem eine Queue mit nicht bearbeiteten Inhalten in erster Stufe gehighlighted wird. (Angabe in min)</Description>
         <Group>Ticket</Group>
         <SubGroup>AgentFrontend</SubGroup>
@@ -1394,7 +1349,7 @@ schneller, der WebserverUser muß dann aber der OTRS-Benutzer sein
         <!--  $Self->{'Ticket::Frontend::Search::DB::Password'} = "some_password";   -->
     </ConfigItem>         
     <ConfigItem Name="Ticket::AgentCanBeCustomer" Required="1" Valid="1">
-        <Description Lang="en">Use this if an agent can also be a customer via the agent interface.</Description>
+        <Description Lang="en">Can a agent also be a customer via the agent interface?</Description>
         <Description Lang="de">Kann ein Agent auch ein Kunde im Agentinterface sein?</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
@@ -1613,9 +1568,8 @@ schneller, der WebserverUser muß dann aber der OTRS-Benutzer sein
     </ConfigItem>        
     <ConfigItem Name="Ticket::Frontend::NewQueueSelectionString" Required="1" Valid="1">
     <!-- Vielleicht bessere Auswahlbezeichnung finden  -->        
-        <Description Lang="en">String for To: selection.
-use this for NewQueueSelectionType = Queue =>   'Queue: &lt;Queue&gt; - &lt;QueueComment&gt;">Queue: &lt;Queue&gt; - &lt;QueueComment&gt;; '&lt;Queue&gt;'      
-use this for NewQueueSelectionType = SystemAddress => '&lt;Realname&gt; &lt;&lt;Email&gt;&gt; - Queue: &lt;Queue&gt; - &lt;QueueComment&gt;">&lt;Realname&gt; &lt;&lt;Email&gt;&gt; - Queue: &lt;Queue&gt; - &lt;QueueComment&gt;'; '&lt;Realname&gt; &lt;&lt;Email&gt;&gt; - Queue: &lt;Queue&gt;'    
+        <Description Lang="en">String for To: selection. use this for NewQueueSelectionType = Queue =&gt;   'Queue: &lt;Queue&gt; - &lt;QueueComment&gt;"&lt;Queue: &lt;Queue&gt; - &lt;QueueComment&gt;; '&lt;Queue&gt;'      
+use this for NewQueueSelectionType = SystemAddress =&gt; '&lt;Realname&gt; &lt;&lt;Email&gt;&gt; - Queue: &lt;Queue&gt; - &lt;QueueComment&gt;"&gt;&lt;Realname&gt; &lt;&lt;Email&gt;&gt; - Queue: &lt;Queue&gt; - &lt;QueueComment&gt;'; '&lt;Realname&gt; &lt;&lt;Email&gt;&gt; - Queue: &lt;Queue&lt;'    
         
         </Description>
         <Description Lang="de">!!! Nicht übersetzbar !!! bekomme den Inhalt nicht klar</Description>
@@ -2047,10 +2001,10 @@ $Data{"Signature"}
         -->
     </ConfigItem>  
     <ConfigItem Name="Ticket::DefaultNextForwardStateType" Required="1" Valid="1">
-        <Description Lang="en">Next possible states for forward message.</Description>
-        <Description Lang="de">!!! Nicht Übersetzbar !!!</Description>
+        <Description Lang="en">Next possible states for forwarded message.</Description>
+        <Description Lang="de">Mögliche Stati für weitergeleitete Nachrichten.</Description>
         <Group>Ticket</Group>
-        <SubGroup>SearchPageShown</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <Array>
                 <Item>open</Item>
@@ -2088,8 +2042,8 @@ $Data{"Signature"}
         <!--   $Self->{'Ticket::Frontend::ForwardArticleType'} = 'email-external';  -->
     </ConfigItem>     
     <ConfigItem Name="Ticket::ViewableSenderTypes" Required="1" Valid="1">
-        <Description Lang="en">default:  ["'customer'"]</Description>
-        <Description Lang="de">!!! Nicht Übersetzbar !!!</Description>
+        <Description Lang="en">Which sender types are viewable by default (default:  customer)j?</Description>
+        <Description Lang="de">Welche Sender Typen sind standardmäßig sichtbarr (Default: customer)?</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
         <Setting>
@@ -2100,8 +2054,8 @@ $Data{"Signature"}
         <!-- $Self->{'Ticket::ViewableSenderTypes'} = ["'customer'"];  -->
     </ConfigItem>     
     <ConfigItem Name="Ticket::ViewableLocks" Required="1" Valid="1">
-        <Description Lang="en">default: ["'unlock'", "'tmp_lock'"]</Description>
-        <Description Lang="de">!!! Nicht Übersetzbar !!!</Description>
+        <Description Lang="en">Which locks are viewable? Default: unlock, tmp_lock.</Description>
+        <Description Lang="de">Welche Locks sollen angezeigt werden? Default: unlock, tmp_lock.</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
         <Setting>
@@ -2113,8 +2067,8 @@ $Data{"Signature"}
         <!-- $Self->{'Ticket::ViewableLocks'} = ["'unlock'", "'tmp_lock'"];  -->
     </ConfigItem>    
     <ConfigItem Name="Ticket::ViewableStateType" Required="1" Valid="1">
-        <Description Lang="en">see http://yourhost/otrs/index.pl?Action=AdminState -&gt; StateType</Description>
-        <Description Lang="de">!!! Nicht Übersetzbar !!!</Description>
+        <Description Lang="en">Which state types for a ticket do you want to display?</Description>
+        <Description Lang="de">Welche Stati für Tickets sollen angezeigt werden?</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
         <Setting>
@@ -2128,11 +2082,8 @@ $Data{"Signature"}
         <!-- $Self->{'Ticket::ViewableStateType'} = ['new', 'open', 'pending reminder', 'pending auto'];  -->
     </ConfigItem>       
     <ConfigItem Name="Ticket::UnlockStateType" Required="1" Valid="1">
-        <Description Lang="en">
-Tickets which can be unlocked by bin/UnlockTickets.pl
-see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
-        </Description>
-        <Description Lang="de">!!! Nicht Übersetzbar !!!</Description>
+        <Description Lang="en">What are the states for unlocked tickets? You can unlock tickets with the script "bin/UnlockTickets.pl".</Description>
+        <Description Lang="de">Welche Stati soll für nicht gelockte Ticketes verwendet werden? Sie können Tickets mit Hilfe des Skripts "bin/UnlockTickets.pl" in diesen status versetzen.</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
         <Setting>
@@ -2156,8 +2107,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <!-- $Self->{'Ticket::PendingReminderStateType'} = ['pending reminder'];  -->
     </ConfigItem>    
     <ConfigItem Name="Ticket::PendingAutoStateType" Required="1" Valid="1">
-        <Description Lang="en">used for pending states which changed state after reached pending time see http://yourhost/otrs/index.pl?Action=AdminState -> StateType</Description>
-        <Description Lang="de">!!! Nicht Übersetzbar !!!</Description>
+        <Description Lang="en">What are the states for pending tickets that changed state after reached time limit?</Description>
+        <Description Lang="de">In welche Stati können anstehende (pending) Tickets versetzt werden, für die das Zeitlimit erreicht wurde?</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
         <Setting>
@@ -2168,7 +2119,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <!-- $Self->{'Ticket::PendingAutoStateType'} = ['pending auto'];  -->
     </ConfigItem>    
     <ConfigItem Name="Ticket::StateAfterPending" Required="1" Valid="1">
-        <Description Lang="en">State after pending time has reached.</Description>
+        <Description Lang="en">States after pending time has reached.</Description>
         <Description Lang="de">Status den das Ticket bekommt nach dem die Pendingzeit abgelaufen ist.</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
@@ -2213,8 +2164,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>  
     <ConfigItem Name="SystemStatsMap###Ticket::Stats1" Required="1" Valid="1">
-        <Description Lang="en">Possible values: Print, CSV, GraphLine, GraphBars, GraphPie</Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">Module to print stats about new tickets. Possible values: Print, CSV, GraphLine, GraphBars, GraphPie.</Description>
+        <Description Lang="de">Modul für die Ausgabe von Statistiken für neue Tickets. Mögliche Ausgabeformate: Print, CSV, GraphLine, GraphBars und GraphPie.</Description>
         <Group>Ticket</Group>
         <SubGroup>Stats</SubGroup>
         <Setting>
@@ -2255,8 +2206,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->            
     </ConfigItem>
     <ConfigItem Name="SystemStatsMap###Ticket::Stats2" Required="1" Valid="1">
-        <Description Lang="en">Overview of tickets in a queue at the end of a month. Possible output options are Print, CSV, GraphLine, GraphBars and GraphPie</Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">Module to generate a overview of tickets in a queue at the end of a month. Possible output options are Print, CSV, GraphLine, GraphBars and GraphPie.</Description>
+        <Description Lang="de">Modul für die Generierung von Statistiken für Tickets in einer Queue am Ende eines Monats. Mögliche Ausgabeformate: Print, CSV, GraphLine, GraphBars und GraphPie.</Description>
         <Group>Ticket</Group>
         <SubGroup>Stats</SubGroup>
         <Setting>
@@ -2297,8 +2248,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="SystemStatsMap###Ticket::Stats4" Required="1" Valid="1">
-        <Description Lang="en">Trace system activities (Replacement of old bin/mkStats.pl). Possible output options are Print, CSV, GraphLine, GraphBars and GraphPie.</Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">Module to trace system activities (Replacement of old bin/mkStats.pl). Possible output options are Print, CSV, GraphLine, GraphBars and GraphPie.</Description>
+        <Description Lang="de">Modul für eine Übersicht über die Systemaktivität  (Ersetzt das Skript "bin/mkStats.pl"). Mögliche Ausgabeformate: Print, CSV, GraphLine, GraphBars und GraphPie.</Description>
         <Group>Ticket</Group>
         <SubGroup>Stats</SubGroup>
         <Setting>
@@ -2339,8 +2290,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="SystemStatsMap###Ticket::Stats5" Required="1" Valid="1">
-        <Description Lang="en">A list about accounted time per customer. Possible values for the output are Print and CVS.</Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">Module to create a list about accounted time per customer. Possible values for the output are Print and CSV.</Description>
+        <Description Lang="de">Ein Modul für die Ausgabe einer Liste der Zeiten, die für die verschiedenen Kunden im system gearbeitet wurde. Mögliche Ausgabeformate: Print und CSV.</Description>
         <Group>Ticket</Group>
         <SubGroup>Stats</SubGroup>
         <Setting>
@@ -2375,8 +2326,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="LinkObject###Ticket" Required="1" Valid="1">
-        <Description Lang="en">Objects that can be linked</Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">Objects that can be linked.</Description>
+        <Description Lang="de">Objekte, die verknüpft werden können.</Description>
         <Group>Ticket</Group>
         <SubGroup>LinkObject</SubGroup>
         <Setting>
@@ -2432,8 +2383,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->        
     </ConfigItem>  
     <ConfigItem Name="Frontend::NotifyModule###3-Ticket::AgentTicketSeen" Required="1" Valid="1">
-        <Description Lang="en">Agent interface set ticket to seen.</Description>
-        <Description Lang="de">!!! Nicht Übersetzbar !!! kein Zusammenhang .</Description>
+        <Description Lang="en">Modul for the agent interface that to sets tickets to "seen".</Description>
+        <Description Lang="de">Modul für das Agent-Interface, das Tickets in den Status "seen" setzt.</Description>
         <Group>Ticket</Group>
         <SubGroup>FrontendModulNotify</SubGroup>
         <Setting>
@@ -2448,8 +2399,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->        
     </ConfigItem>      
     <ConfigItem Name="Frontend::NotifyModule###4-Ticket::TicketNotify" Required="1" Valid="1">
-        <Description Lang="en">Agent interface notification module to show important agent tickets.</Description>
-        <Description Lang="de">Ein Agenthinweismodul um für den Agent wichtige Tickets aufzuzeigen.</Description>
+        <Description Lang="en">Module to show agents important tickets via the agent interface.</Description>
+        <Description Lang="de">Modul, das den Agents auf wichtige Tickets aufmerksam macht.</Description>
         <Group>Ticket</Group>
         <SubGroup>FrontendModulNotify</SubGroup>
         <Setting>
@@ -3057,8 +3008,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         </Setting>
     </ConfigItem>
     <ConfigItem Name="System::Permission" Required="1" Valid="1">
-        <Description Lang="en">System permissions</Description>
-        <Description Lang="de">System-Zugriffsrechte</Description>
+        <Description Lang="en">The different system permissions for tickets.</Description>
+        <Description Lang="de">die verschiednene System-Zugriffsrechte für Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
         <Setting>
@@ -3077,8 +3028,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="Ticket::Permission###1-OwnerCheck" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">MOdule to check the owner.</Description>
+        <Description Lang="de">Modul zum Überprüfen des Eigentümers.</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
         <Setting>
@@ -3099,8 +3050,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="Ticket::Permission###2-GroupCheck" Required="1" Valid="1">
-        <Description Lang="en">if the user is in this group with type ro|rw|..., grant access</Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">Module to check, if a user is in a special group. Access is granted, if the user is in the specifyed group and has ro and rw permissions.</Description>
+        <Description Lang="de">Modul zur Überprüfung, ob ein Benutzer in einer bestimmten Gruppe ist. Hat der Benutzer ro- und rw-Zugriffsrechte, wird der Zugriff erlaubt.</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
         <Setting>
@@ -3121,8 +3072,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="CustomerTicket::Permission###1-CustomerUserIDCheck" Required="1" Valid="1">
-        <Description Lang="en">Grant access, if customer id is the same and group is accessable</Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">Grant access, if customer ID is the same and group is accessable.</Description>
+        <Description Lang="de">Den Zugriff erlauben, wenn die Customer ID übereinstimmt und auf die Gruppe zugegriffen werden darf.</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
         <Setting>
@@ -3143,8 +3094,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="CustomerTicket::Permission###2-CustomerIDCheck" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">Module to check customer permissions.</Description>
+        <Description Lang="de">Modul zum überprüfen der Rechte eines Customers.</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
         <Setting>
@@ -3165,8 +3116,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="CustomerTicket::Permission###3-GroupCheck" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">Module to check the grouppermissions for the access to customer tickets.</Description>
+        <Description Lang="de">Modul zur Überprüfung der Zugriffsrechte für Benutzergruppen auf Customer-Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
         <Setting>
@@ -3474,11 +3425,11 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
                 <Item Key="Label">Screen after new ticket</Item>
                 <Item Key="Data">
                     <Hash>
-                        <Item Key="">CreateTicket</Item>
+                        <Item Key="''">CreateTicket</Item>
                         <Item Key="AgentTicketZoom">TicketZoom</Item>
                     </Hash>
                 </Item>
-                <Item Key="DataSelected"></Item>
+                <Item Key="DataSelected">''</Item>
                 <Item Key="PrefKey">UserCreateNextMask</Item>
                 <Item Key="Prio">5000</Item>
                 <Item Key="Activ">1</Item>
@@ -3504,7 +3455,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
     </ConfigItem>
     <ConfigItem Name="CustomerNotifyJustToRealCustomer" Required="1" Valid="1">
         <Description Lang="en">Send customer notifications just to mapped customer. Normally if no customer is mapped, the latest customer sender gets the notification.</Description>
-        <Description Lang="de"></Description>
+        <Description Lang="de">Customer-Benachrichtigungen an bestimmte gemapte Customer verschicken. Standardmäßig wird nur der letzte Customer-Sender benachrichtigt.</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
         <Setting>
@@ -3873,7 +3824,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Group>Ticket</Group>
         <SubGroup>AgentFrontend</SubGroup>
         <Setting>
-            <String>Kernel::System::Queue</String>
+            <String Regex="">Kernel::System::Queue</String>
         </Setting>
         <!-- $Self->{'Frontend::CommonObject'}->{QueueObject} = 'Kernel::System::Queue'; -->
     </ConfigItem>
@@ -3883,7 +3834,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Group>Ticket</Group>
         <SubGroup>AgentFrontend</SubGroup>
         <Setting>
-<String>Kernel::System::Ticket</String>
+            <String Regex="">Kernel::System::Ticket</String>
         </Setting>
        <!-- $Self->{'Frontend::CommonObject'}->{TicketObject} = 'Kernel::System::Ticket'; -->
     </ConfigItem>
@@ -3893,7 +3844,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Group>Ticket</Group>
         <SubGroup>AgentFrontend</SubGroup>
         <Setting>
-            <String>AgentTicketQueue</String>
+            <String Regex="">AgentTicketQueue</String>
         </Setting>
         <!-- $Self->{'Frontend::CommonParam'}->{Action} = 'AgentTicketQueue'; -->
     </ConfigItem>
@@ -3903,7 +3854,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Group>Ticket</Group>
         <SubGroup>AgentFrontend</SubGroup>
         <Setting>
-            <String>0</String>
+            <String Regex="">0</String>
         </Setting>
         <!-- $Self->{'Frontend::CommonParam'}->{QueueID} = 0; -->
     </ConfigItem>
@@ -3913,7 +3864,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Group>Ticket</Group>
         <SubGroup>AgentFrontend</SubGroup>
         <Setting>
-            <String></String>
+            <String Regex=""></String>
         </Setting>
         <!-- $Self->{'Frontend::CommonParam'}->{TicketID} = ''; -->
     </ConfigItem>
@@ -3923,7 +3874,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Group>Ticket</Group>
         <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
-            <String>Kernel::System::Queue</String>
+            <String Regex="">Kernel::System::Queue</String>
         </Setting>
         <!-- $Self->{'CustomerFrontend::CommonObject'}->{QueueObject} = 'Kernel::System::Queue'; -->
     </ConfigItem>
@@ -3933,7 +3884,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Group>Ticket</Group>
         <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
-            <String>Kernel::System::Ticket</String>
+            <String Regex="">Kernel::System::Ticket</String>
         </Setting>>
         <!-- $Self->{'CustomerFrontend::CommonObject'}->{TicketObject} = 'Kernel::System::Ticket'; -->
     </ConfigItem>
@@ -3943,7 +3894,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Group>Ticket</Group>
         <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
-            <String>CustomerTicketOverView</String>
+            <String Regex="">CustomerTicketOverView</String>
         </Setting>
         <!-- $Self->{'CustomerFrontend::CommonParam'}->{Action} = 'CustomerTicketOverView'; -->
     </ConfigItem>
@@ -3953,7 +3904,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Group>Ticket</Group>
         <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
-            <String>0</String>
+            <String Regex="">0</String>
         </Setting>
         <!-- $Self->{'CustomerFrontend::CommonParam'}->{QueueID} = 0; -->
     </ConfigItem>
@@ -3963,7 +3914,7 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <Group>Ticket</Group>
         <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
-            <String></String>
+            <String Regex=""></String>
         </Setting>
         <!-- $Self->{'CustomerFrontend::CommonParam'}->{TicketID} = ''; -->
     </ConfigItem>
@@ -4240,8 +4191,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketPlain" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">describe if the module "Note" (AgentTicketPlain) is shown in the agent interface. Describe also the notation of the module.</Description>
+        <Description Lang="de">Hier wird festgelegt ob das Modul "Plain Article" (AgentTicketPlain) im Agent Interface angezeigt wird. Weiterhin wird beschrieben an welcher Stelle oder in welcher Darstellungsweise das Modul dargestellt wird.</Description>
         <Group>Ticket</Group>
         <SubGroup>AgentFrontendModulRegistration</SubGroup>
         <Setting>
@@ -4260,8 +4211,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketNote" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">describe if the module "Note" (AgentTicketNote) is shown in the agent interface. Describe also the notation of the module.</Description>
+        <Description Lang="de">Hier wird festgelegt ob das Modul "Note" (AgentTicketNote) im Agent Interface angezeigt wird. Weiterhin wird beschrieben an welcher Stelle oder in welcher Darstellungsweise das Modul dargestellt wird.</Description>
         <Group>Ticket</Group>
         <SubGroup>AgentFrontendModulRegistration</SubGroup>
         <Setting>
@@ -4280,8 +4231,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketPending" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">describe if the module "Pending" (AgentTicketPending) is shown in the agent interface. Describe also the notation of the module.</Description>
+        <Description Lang="de">Hier wird festgelegt ob das Modul "Pending" (AgentTicketPending) im Agent Interface angezeigt wird. Weiterhin wird beschrieben an welcher Stelle oder in welcher Darstellungsweise das Modul dargestellt wird.</Description>
         <Group>Ticket</Group>
         <SubGroup>AgentFrontendModulRegistration</SubGroup>
         <Setting>
@@ -4300,8 +4251,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketPriority" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">describe if the module "Priority" (AgentTicketPriority) is shown in the agent interface. Describe also the notation of the module.</Description>
+        <Description Lang="de">Hier wird festgelegt ob das Modul "Priority" (AgentTicketPriority) im Agent Interface angezeigt wird. Weiterhin wird beschrieben an welcher Stelle oder in welcher Darstellungsweise das Modul dargestellt wird.</Description>
         <Group>Ticket</Group>
         <SubGroup>AgentFrontendModulRegistration</SubGroup>
         <Setting>
@@ -4320,13 +4271,14 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketLock" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">describe if the module "Lock" (AgentTicketLock) is shown in the agent interface. Describe also the notation of the module.</Description>
+        <Description Lang="de">Hier wird festgelegt ob das Modul "Lock" (AgentTicketLock) im Agent Interface angezeigt wird. Weiterhin wird beschrieben an welcher Stelle oder in welcher Darstellungsweise das Modul dargestellt wird.</Description>
         <Group>Ticket</Group>
         <SubGroup>AgentFrontendModulRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Description>Ticket Lock</Description>
+				<Title>Lock</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
@@ -4338,8 +4290,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
 -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketMove" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">describe if the module "Move" (AgentTicketMove) is shown in the agent interface. Describe also the notation of the module.</Description>
+        <Description Lang="de">Hier wird festgelegt ob das Modul "Move" (AgentTicketMove) im Agent Interface angezeigt wird. Weiterhin wird beschrieben an welcher Stelle oder in welcher Darstellungsweise das Modul dargestellt wird.</Description>
         <Group>Ticket</Group>
         <SubGroup>AgentFrontendModulRegistration</SubGroup>
         <Setting>
@@ -4358,8 +4310,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketHistory" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">describe if the module "History" (AgentTicketHistory) is shown in the agent interface. Describe also the notation of the module.</Description>
+        <Description Lang="de">Hier wird festgelegt ob das Modul "History" (AgentTicketHistory) im Agent Interface angezeigt wird. Weiterhin wird beschrieben an welcher Stelle oder in welcher Darstellungsweise das Modul dargestellt wird.</Description>
         <Group>Ticket</Group>
         <SubGroup>AgentFrontendModulRegistration</SubGroup>
         <Setting>
@@ -4378,8 +4330,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
 -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketOwner" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">describe if the module "Owner" (AgentTicketOwner) is shown in the agent interface. Describe also the notation of the module.</Description>
+        <Description Lang="de">Hier wird festgelegt ob das Modul "Owner" (AgentTicketOwner) im Agent Interface angezeigt wird. Weiterhin wird beschrieben an welcher Stelle oder in welcher Darstellungsweise das Modul dargestellt wird.</Description>
         <Group>Ticket</Group>
         <SubGroup>AgentFrontendModulRegistration</SubGroup>
         <Setting>
@@ -4398,8 +4350,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketCompose" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">describe if the module "Compose" (AgentTicketCompose) is shown in the agent interface. Describe also the notation of the module.</Description>
+        <Description Lang="de">Hier wird festgelegt ob das Modul "Compose" (AgentTicketCompose) im Agent Interface angezeigt wird. Weiterhin wird beschrieben an welcher Stelle oder in welcher Darstellungsweise das Modul dargestellt wird.</Description>
         <Group>Ticket</Group>
         <SubGroup>AgentFrontendModulRegistration</SubGroup>
         <Setting>
@@ -4418,8 +4370,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketCustomerFollowUp" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">describe if the module "Compose Follow up" (AgentTicketCustomerFollowUp) is shown in the agent interface. Describe also the notation of the module.</Description>
+        <Description Lang="de">Hier wird festgelegt ob das Modul "Compose Follow up" (AgentTicketCustomerFollowUp) im Agent Interface angezeigt wird. Weiterhin wird beschrieben an welcher Stelle oder in welcher Darstellungsweise das Modul dargestellt wird.</Description>
         <Group>Ticket</Group>
         <SubGroup>AgentFrontendModulRegistration</SubGroup>
         <Setting>
@@ -4438,8 +4390,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketBounce" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">describe if the module "Bounce" (AgentTicketBounce) is shown in the agent interface. Describe also the notation of the module.</Description>
+        <Description Lang="de">Hier wird festgelegt ob das Modul "Bounce" (AgentTicketBounce) im Agent Interface angezeigt wird. Weiterhin wird beschrieben an welcher Stelle oder in welcher Darstellungsweise das Modul dargestellt wird.</Description>
         <Group>Ticket</Group>
         <SubGroup>AgentFrontendModulRegistration</SubGroup>
         <Setting>
@@ -4458,8 +4410,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketForward" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">describe if the module "Forward" (AgentTicketForward) is shown in the agent interface. Describe also the notation of the module.</Description>
+        <Description Lang="de">Hier wird festgelegt ob das Modul "Forward" (AgentTicketForward) im Agent Interface angezeigt wird. Weiterhin wird beschrieben an welcher Stelle oder in welcher Darstellungsweise das Modul dargestellt wird.</Description>
         <Group>Ticket</Group>
         <SubGroup>AgentFrontendModulRegistration</SubGroup>
         <Setting>
@@ -4478,8 +4430,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketCustomer" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">describe if the module "Customer" (AgentTicketCustomer) is shown in the agent interface. Describe also the notation of the module.</Description>
+        <Description Lang="de">Hier wird festgelegt ob das Modul "Customer" (AgentTicketCustomer) im Agent Interface angezeigt wird. Weiterhin wird beschrieben an welcher Stelle oder in welcher Darstellungsweise das Modul dargestellt wird.</Description>
         <Group>Ticket</Group>
         <SubGroup>AgentFrontendModulRegistration</SubGroup>
         <Setting>
@@ -4498,8 +4450,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketClose" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">describe if the module "Close" (AgentTicketClose) is shown in the agent interface. Describe also the notation of the module.</Description>
+        <Description Lang="de">Hier wird festgelegt ob das Modul "Close" (AgentTicketClose) im Agent Interface angezeigt wird. Weiterhin wird beschrieben an welcher Stelle oder in welcher Darstellungsweise das Modul dargestellt wird.</Description>
         <Group>Ticket</Group>
         <SubGroup>AgentFrontendModulRegistration</SubGroup>
         <Setting>
@@ -4518,8 +4470,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketFreeText" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">describe if the module "Free Fields" (AgentTicketFreeText) is shown in the agent interface. Describe also the notation of the module.</Description>
+        <Description Lang="de">Hier wird festgelegt ob das Modul "Free Fields" (AgentTicketFreeText) im Agent Interface angezeigt wird. Weiterhin wird beschrieben an welcher Stelle oder in welcher Darstellungsweise das Modul dargestellt wird.</Description>
         <Group>Ticket</Group>
         <SubGroup>AgentFrontendModulRegistration</SubGroup>
         <Setting>
@@ -4538,8 +4490,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketPrint" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">describe if the module "Print" (AgentTicketPrint) is shown in the agent interface. Describe also the notation of the module.</Description>
+        <Description Lang="de">Hier wird festgelegt ob das Modul "Print" (AgentTicketPrint) im Agent Interface angezeigt wird. Weiterhin wird beschrieben an welcher Stelle oder in welcher Darstellungsweise das Modul dargestellt wird.</Description>
         <Group>Ticket</Group>
         <SubGroup>AgentFrontendModulRegistration</SubGroup>
         <Setting>
@@ -4558,8 +4510,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketBulk" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">describe if the module "Bulk Action" (AgentTicketBulk) is shown in the agent interface. Describe also the notation of the module.</Description>
+        <Description Lang="de">Hier wird festgelegt ob das Modul "Bulk Action" (AgentTicketBulk) im Agent Interface angezeigt wird. Weiterhin wird beschrieben an welcher Stelle oder in welcher Darstellungsweise das Modul dargestellt wird.</Description>
         <Group>Ticket</Group>
         <SubGroup>AgentFrontendModulRegistration</SubGroup>
         <Setting>
@@ -4578,8 +4530,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminQueue" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">describe if the module "Queue" (AdminQueue) is shown in the admin interface. Describe also the notation of the module.</Description>
+        <Description Lang="de">Hier wird festgelegt ob das Modul "Queue" (AdminQueue) im Admin Interface angezeigt wird. Weiterhin wird beschrieben an welcher Stelle oder in welcher Darstellungsweise das Modul dargestellt wird.</Description>
         <Group>Ticket</Group>
         <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
@@ -4612,8 +4564,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminResponse" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">describe if the module "Responses" (AdminResponse) is shown in the admin interface. Describe also the notation of the module.</Description>
+        <Description Lang="de">Hier wird festgelegt ob das Modul "Responses" (AdminResponse) im Admin Interface angezeigt wird. Weiterhin wird beschrieben an welcher Stelle oder in welcher Darstellungsweise das Modul dargestellt wird.</Description>
         <Group>Ticket</Group>
         <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
@@ -4646,8 +4598,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminQueueResponses" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">describe if the module "Responses &lt;-&gt; Queue" (AdminQueueResponses) is shown in the admin interface. Describe also the notation of the module.</Description>
+        <Description Lang="de">Hier wird festgelegt ob das Modul "Responses &lt;-&gt; Queue" (AdminQueueResponses) im Admin Interface angezeigt wird. Weiterhin wird beschrieben an welcher Stelle oder in welcher Darstellungsweise das Modul dargestellt wird.</Description>
         <Group>Ticket</Group>
         <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
@@ -4680,8 +4632,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminAutoResponse" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">describe if the module "Auto Responses" (AdminAutoResponse) is shown in the admin interface. Describe also the notation of the module.</Description>
+        <Description Lang="de">Hier wird festgelegt ob das Modul "Auto Responses" (AdminAutoResponse) im Admin Interface angezeigt wird. Weiterhin wird beschrieben an welcher Stelle oder in welcher Darstellungsweise das Modul dargestellt wird.</Description>
         <Group>Ticket</Group>
         <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
@@ -4714,8 +4666,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminQueueAutoResponse" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">describe if the module "Queue &lt;-&gt; Auto Response" (AdminQueueAutoResponse) is shown in the admin interface. Describe also the notation of the module.</Description>
+        <Description Lang="de">Hier wird festgelegt ob das Modul "Queue &lt;-&gt; Auto Response" (AdminQueueAutoResponse) im Admin Interface angezeigt wird. Weiterhin wird beschrieben an welcher Stelle oder in welcher Darstellungsweise das Modul dargestellt wird.</Description>
         <Group>Ticket</Group>
         <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
@@ -4748,8 +4700,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminAttachment" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">describe if the module "Attachment" (AdminAttachment) is shown in the admin interface. Describe also the notation of the module.</Description>
+        <Description Lang="de">Hier wird festgelegt ob das Modul "Attachment" (AdminAttachment) im Admin Interface angezeigt wird. Weiterhin wird beschrieben an welcher Stelle oder in welcher Darstellungsweise das Modul dargestellt wird.</Description>
         <Group>Ticket</Group>
         <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
@@ -4782,8 +4734,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminResponseAttachment" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">describe if the module "Response &lt;-&gt; Queue" (AdminResponseAttachment) is shown in the admin interface. Describe also the notation of the module.</Description>
+        <Description Lang="de">Hier wird festgelegt ob das Modul "Response &lt;-&gt; Queue" (AdminResponseAttachment) im Admin Interface angezeigt wird. Weiterhin wird beschrieben an welcher Stelle oder in welcher Darstellungsweise das Modul dargestellt wird.</Description>
         <Group>Ticket</Group>
         <SubGroup>CustomerFrontendModulRegistration</SubGroup>
         <Setting>
@@ -4816,8 +4768,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminSalutation" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">describe if the module "Salutations" (AdminSalutation) is shown in the admin interface. Describe also the notation of the module.</Description>
+        <Description Lang="de">Hier wird festgelegt ob das Modul "Salutations" (AdminSalutation) im Admin Interface angezeigt wird. Weiterhin wird beschrieben an welcher Stelle oder in welcher Darstellungsweise das Modul dargestellt wird.</Description>
         <Group>Ticket</Group>
         <SubGroup>CustomerFrontendModulRegistration</SubGroup>
         <Setting>
@@ -4850,8 +4802,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminSignature" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">describe if the module "Signature" (AdminSignature) is shown in the admin interface. Describe also the notation of the module.</Description>
+        <Description Lang="de">Hier wird festgelegt ob das Modul "Signature" (AdminSignature) im Admin Interface angezeigt wird. Weiterhin wird beschrieben an welcher Stelle oder in welcher Darstellungsweise das Modul dargestellt wird.</Description>
         <Group>Ticket</Group>
         <SubGroup>AgentFrontendModulRegistration</SubGroup>
         <Setting>
@@ -4884,8 +4836,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminSystemAddress" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">describe if the module "System address" (AdminSystemAddress) is shown in the admin interface. Describe also the notation of the module.</Description>
+        <Description Lang="de">Hier wird festgelegt ob das Modul "System address" (AdminSystemAddress) im Admin Interface angezeigt wird. Weiterhin wird beschrieben an welcher Stelle oder in welcher Darstellungsweise das Modul dargestellt wird.</Description>
         <Group>Ticket</Group>
         <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
@@ -4918,8 +4870,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminNotification" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">describe if the module "Notification" (AdminNotification) is shown in the admin interface. Describe also the notation of the module.</Description>
+        <Description Lang="de">Hier wird festgelegt ob das Modul "Notification" (AdminNotification) im Admin Interface angezeigt wird. Weiterhin wird beschrieben an welcher Stelle oder in welcher Darstellungsweise das Modul dargestellt wird.</Description>
         <Group>Ticket</Group>
         <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
@@ -4952,8 +4904,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminState" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">describe if the module "State" (AdminState) is shown in the admin interface. Describe also the notation of the module.</Description>
+        <Description Lang="de">Hier wird festgelegt ob das Modul "Status" (AdminState) im Admin Interface angezeigt wird. Weiterhin wird beschrieben an welcher Stelle oder in welcher Darstellungsweise das Modul dargestellt wird.</Description>
         <Group>Ticket</Group>
         <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
@@ -4986,8 +4938,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminGenericAgent" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">describe if the module GenericAgent is shown in the admin interface. Describe also the notation of the module GenericAgent. </Description>
+        <Description Lang="de">Hier wird festgelegt ob das Modul GenericAgent im Admin Interface angezeigt wird. Weiterhin wird beschrieben an welcher Stelle oder in welcher Darstellungsweise das Modul dargestellt wird.</Description>
         <Group>Ticket</Group>
         <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
@@ -5020,8 +4972,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerTicketOverView" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">describe the notation of the ticket overview</Description>
+        <Description Lang="de">Legt die Darstellungsart der Ticketübersicht fest.</Description>
         <Group>Ticket</Group>
         <SubGroup>CustomerFrontendModulRegistration</SubGroup>
         <Setting>
@@ -5072,8 +5024,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerTicketMessage" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">enables the customer to create and update tickets</Description>
+        <Description Lang="de">Ermöglicht dem Kunden das Aktualisieren und Erstellen neuer Tickets</Description>
         <Group>Ticket</Group>
         <SubGroup>CustomerFrontendModulRegistration</SubGroup>
         <Setting>
@@ -5109,8 +5061,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerTicketZoom" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">makes it for customer posible, to show tickets in zoom mode</Description>
+        <Description Lang="de">Ermöglicht es den Kunden, Tickets im Zoom Modus zu betrachten und zu bearbeiten</Description>
         <Group>Ticket</Group>
         <SubGroup>CustomerFrontendModulRegistration</SubGroup>
         <Setting>
@@ -5129,8 +5081,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerZoom" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">Customerinterface zoom mode</Description>
+        <Description Lang="de">Zoom Modus im Customerinterface</Description>
         <Group>Ticket</Group>
         <SubGroup>CustomerFrontendModulRegistration</SubGroup>
         <Setting>
@@ -5145,8 +5097,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerTicketAttachment" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">Make it for Customers possible, to download attachments</Description>
+        <Description Lang="de">Ermöglicht den Kunden, Anhänge herunter zu laden</Description>
         <Group>Ticket</Group>
         <SubGroup>CustomerFrontendModulRegistration</SubGroup>
         <Setting>
@@ -5161,8 +5113,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::ModuleCustomerTicketSearch" Required="1" Valid="1">
-        <Description Lang="en"></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">Added inside the customerinterface the ticket search. </Description>
+        <Description Lang="de">Fügt im Customer Interface die Ticketsuche hinzu.</Description>
         <Group>Ticket</Group>
         <SubGroup>CustomerFrontendModulRegistration</SubGroup>
         <Setting>
@@ -5198,68 +5150,68 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="TicketACL::Default::Action" Required="1" Valid="1">
-        <Description Lang="en">Default Ticket Action ACL</Description>
-        <Description Lang="de">Standard ACL für Ticketaktion</Description>
+        <Description Lang="en">Default Ticket Action ACL.</Description>
+        <Description Lang="de">Standard ACL für Ticketaktion.</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
         <Setting>
-            <String></String>String>
+            <String Regex=""></String>String>
         </Setting>
         <!-- $Self->{'TicketACL::Default::Action'} = {}; -->
     </ConfigItem>
     <ConfigItem Name="PostmasterMaxEmails" Required="1" Valid="1">
         <Description Lang="en">Maximal post master daemon email to own email-address a day. Loop-Protection! Default: 40</Description>
-        <Description Lang="de">Maximale Anzahl an postmaster Daemon E-Mails pro Tag an  eigene Mailadressen. Schutz vor Mailschleifen! Default: 40</Description>
+        <Description Lang="de">Maximale Anzahl an Postmaster Daemon E-Mails pro Tag an die eigenen Mailadressen. Schutz vor Mailschleifen! Default: 40</Description>
         <Group>Ticket</Group>
         <SubGroup>Postmaster</SubGroup>
         <Setting>
-            <String>40</String>
+            <String Regex="">40</String>
         </Setting>
         <!-- $Self->{PostmasterMaxEmails} = 40; -->
     </ConfigItem>
     <ConfigItem Name="PostMasterPOP3MaxEmailSize" Required="1" Valid="1">
-        <Description Lang="en">Maximal pop3 mail size</Description>
-        <Description Lang="de">Maimale Größe für Mails, die via pop3 abgeholt werden.</Description>
+        <Description Lang="en">Maximal size in KBytes for mails that can be fetched via pop3 (KBytes).</Description>
+        <Description Lang="de">Maximale Größe für Mails, die via pop3 abgeholt werden können (in KBytes).</Description>
         <Group>Ticket</Group>
         <SubGroup>Postmaster</SubGroup>
         <Setting>
-            <String>6144</String>
+            <String Regex="">6144</String>
         </Setting>
         <!-- $Self->{PostMasterPOP3MaxEmailSize} = 1024 * 6; -->
     </ConfigItem>C
     <ConfigItem Name="PostMasterPOP3ReconnectMessage" Required="1" Valid="1">
-        <Description Lang="en">(bin/PostMasterPOP3.pl will reconnect to pop3 host after n messages</Description>
-        <Description Lang="de">bin/PostMasterPOP3.pl baut eine neue Verbindung zum pop3-Server nach n Nachrichten</Description>
+        <Description Lang="en">"bin/PostMasterPOP3.pl" will reconnect to pop3 host after the specifiyed count of messages.</Description>
+        <Description Lang="de">"bin/PostMasterPOP3.pl" baut eine neue Verbindung zum pop3-Server nach der hier angegebenen Anzahl an Nachrichten auf.</Description>
         <Group>Ticket</Group>
         <SubGroup>Postmaster</SubGroup>
         <Setting>
-            <String>20</String>
+            <String Regex="">20</String>
         </Setting>
         <!-- $Self->{PostMasterPOP3ReconnectMessage} = 20; -->
     </ConfigItem>
     <ConfigItem Name="LoopProtectionModule" Required="1" Valid="1">
         <Description Lang="en">Default loop protection modul</Description>
-        <Description Lang="de">Standard Modul zum Schutz vor Schleifen</Description>
+        <Description Lang="de">Standard Modul zum Schutz vor Endlos-Schleifen</Description>
         <Group>Ticket</Group>
         <SubGroup>Postmaster</SubGroup>
         <Setting>
-            <String>Kernel::System::PostMaster::LoopProtection::DB</String>
+            <Option Location="Kernel/System/PostMaster/LoopProtection/*.pm" SelectedID="DB"></Option>
         </Setting>
         <!-- $Self->{LoopProtectionModule} = 'Kernel::System::PostMaster::LoopProtection::DB'; -->
     </ConfigItem>
     <ConfigItem Name="LoopProtectionLog" Required="1" Valid="1">
-        <Description Lang="en">Loop protection log, only needed for fs</Description>
-        <Description Lang="de">Logfiel für die Schleifenunterdrückung, wird nur mit fs benötigt</Description>
+        <Description Lang="en">If "FS" was selected for LoopProtectionModule, a logfile has to be specifyed.</Description>
+        <Description Lang="de">Wenn "FS" für LoopProtectionModule ausgewählt wurde, muss ein Logfile angegeben werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Postmaster</SubGroup>
         <Setting>
-            <String>&lt;OTRS_CONFIG_Home&gt;/var/log/LoopProtection</String>
+            <String Regex="">&lt;OTRS_CONFIG_Home&gt;/var/log/LoopProtection</String>
         </Setting>
         <!-- $Self->{LoopProtectionLog} = '<OTRS_CONFIG_Home>/var/log/LoopProtection'; -->
     </ConfigItem>
     <ConfigItem Name="PostmasterAutoHTML2Text" Required="1" Valid="1">
-        <Description Lang="en">Should OTRS convert HTML mails into text?</Description>
-        <Description Lang="de">Soll OTRS HTML E-Mails automatisch in Text umwandeln?</Description>
+        <Description Lang="en">Would you like to convert HTML mails into text messages?</Description>
+        <Description Lang="de">Sollen HTML-Mails in Textnachrichten umgewandelt werden?</Description>
         <Group>Ticket</Group>
         <SubGroup>Postmaster</SubGroup>
         <Setting>
@@ -5271,8 +5223,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <!-- $Self->{PostmasterAutoHTML2Text} = 1; -->
     </ConfigItem>
     <ConfigItem Name="PostmasterFollowUpSearchInReferences" Required="1" Valid="1">
-        <Description Lang="en">If no ticket number in subject, otrs also looks in In-Reply-To and References for follow up checks</Description>
-        <Description Lang="de">Enthält der Betreff einer E-Mail keine Ticketnummer, sucht OTRS im IN-Reply-To- und im References-Header nach Followups</Description>
+        <Description Lang="en">Would you like to execute followup checks on In-Reply-To or References headers for mails, that don't have a ticket number in the subject?</Description>
+        <Description Lang="de">Sollen auf die Header-Einträge für IN-Reply-To und References-Header Followups Checks ausgeführt werden, wenn im Betreff einer Mail keine Ticketnummer angegeben ist?</Description>
         <Group>Ticket</Group>
         <SubGroup>Postmaster</SubGroup>
         <Setting>
@@ -5284,58 +5236,58 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <!-- $Self->{PostmasterFollowUpSearchInReferences} = 0; -->
     </ConfigItem>
     <ConfigItem Name="PostmasterUserID" Required="1" Valid="1">
-        <Description Lang="en">The postmaster DB userID</Description>
-        <Description Lang="de">Die postmaster DB UserID</Description>
+        <Description Lang="en">Specify the postmaster DB userID.</Description>
+        <Description Lang="de">Geben Sie die UserID in der Datenbank für Postmaster an.</Description>
         <Group>Ticket</Group>
         <SubGroup>Postmaster</SubGroup>
         <Setting>
-            <String>1</String>
+            <String Regex="">1</String>
         </Setting>
         <!-- $Self->{PostmasterUserID} = 1; -->
     </ConfigItem>
     <ConfigItem Name="PostmasterDefaultQueue" Required="1" Valid="1">
-        <Description Lang="en">postmaster default queue</Description>
-        <Description Lang="de">postmaster default Queue</Description>
+        <Description Lang="en">What is the postmaster default queue?</Description>
+        <Description Lang="de">Postmaster default Queue?</Description>
         <Group>Ticket</Group>
         <SubGroup>Postmaster</SubGroup>
         <Setting>
-            <String>Raw</String>
+            <String Regex="">Raw</String>
         </Setting>
         <!-- $Self->{PostmasterDefaultQueue} = 'Raw'; -->
     </ConfigItem>
     <ConfigItem Name="PostmasterDefaultPriority" Required="1" Valid="1">
-        <Description Lang="en">The default priority of new tickets</Description>
-        <Description Lang="de">Die Standard-Priorität von neuen Tickets</Description>
+        <Description Lang="en">The default priority of new tickets.</Description>
+        <Description Lang="de">Die Standard-Priorität neuer Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Postmaster</SubGroup>
         <Setting>
-            <String>3 normal</String>
+            <String Regex="">3 normal</String>
         </Setting>
         <!-- $Self->{PostmasterDefaultPriority} = '3 normal'; -->
     </ConfigItem>
     <ConfigItem Name="PostmasterDefaultState" Required="1" Valid="1">
-        <Description Lang="en">Default state of new tickets</Description>
-        <Description Lang="de">Standard-Status von neuen Tickets</Description>
+        <Description Lang="en">Default state of new tickets.</Description>
+        <Description Lang="de">Der Standard-Status neuer Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Postmaster</SubGroup>
         <Setting>
-            <String>new</String>
+            <String Regex="">new</String>
         </Setting>
         <!-- $Self->{PostmasterDefaultState} = 'new'; -->
     </ConfigItem>
     <ConfigItem Name="PostmasterFollowUpState" Required="1" Valid="1">
-        <Description Lang="en">The state if a ticket got a followup</Description>
-        <Description Lang="de">Der Status für ein Followup auf ein Ticket</Description>
+        <Description Lang="en">The state if a ticket got a followup.</Description>
+        <Description Lang="de">Status für ein Ticket, für das ein Followup eintrifft.</Description>
         <Group>Ticket</Group>
         <SubGroup>Postmaster</SubGroup>
         <Setting>
-            <String>open</String>
+            <String Regex="">open</String>
         </Setting>
         <!-- $Self->{PostmasterFollowUpState} = 'open'; -->
     </ConfigItem>
     <ConfigItem Name="PostmasterFollowUpOnUnlockAgentNotifyOnlyToOwner" Required="1" Valid="1">
-        <Description Lang="en">Send agent follow up notification just to the owner if a ticket is unlocked. Normally if a ticket is unlocked, the  agent follow up notification goes to all agents</Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">Send agent follow up notification just to the owner, if a ticket is unlocked? The default is to send a notification to all agents, if a ticket is unlocked.</Description>
+        <Description Lang="de">Soll eine Benachrichtigung über ein Followup nur an den Eigentümer des Tickets gesendet werden? Der Standard ist, dass ale Agenten über ein Followup und somit über ein entsperrtes Ticket benachrichtig werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Postmaster</SubGroup>
         <Setting>
@@ -5347,8 +5299,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         <!-- $Self->{PostmasterFollowUpOnUnlockAgentNotifyOnlyToOwner} = 0; -->
     </ConfigItem>
     <ConfigItem Name="PostmasterX-Header" Required="1" Valid="1">
-        <Description Lang="en">All scanned X-headers</Description>
-        <Description Lang="de">Alle überwachten X-Headers</Description>
+        <Description Lang="en">All X-headers that should be scanned.</Description>
+        <Description Lang="de">Alle überwachten X-Header-Einträge.</Description>
         <Group>Ticket</Group>
         <SubGroup>Postmaster</SubGroup>
         <Setting>
@@ -5482,8 +5434,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="PostMaster::PreFilterModule###1-Match" Required="0" Valid="0">
-        <Description Lang="en">Filtering and manipulaiting of incoming emails. Block/ignore all spam email with From: noreply@ address.</Description>
-        <Description Lang="de">Filtern und ändern eintreffender Nachrichten. Blocken und ignorieren von Spam mit Hilfe der noreply@-Adresse</Description>
+        <Description Lang="en">Module to filter and manipulate incoming messages. Block/ignore all spam email with From: noreply@ address.</Description>
+        <Description Lang="de">Modul zum Filtern und ändern eingehender Nachrichten. Blocken und ignorieren von Spam mit Hilfe der noreply@-Adresse.</Description>
         <Group>Ticket</Group>
         <SubGroup>Postmaster</SubGroup>
         <Setting>
@@ -5514,8 +5466,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="PostMaster::PreFilterModule###2-Match" Required="0" Valid="0">
-        <Description Lang="en">Get a 4 digit number to ticket free text, use regex in Match e. g. From => '(.+?)@.+?', and use () as [***] in Set =></Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">Module to filter and manipulate incoming messages. Get a 4 digit number to ticket free text, use regex in Match e. g. From => '(.+?)@.+?', and use () as [***] in Set =>.</Description>
+        <Description Lang="de">Modul zum Filtern und Ändern eingehender Nachrichten. Generiert eine 4 stellige Nummer im Ticket-Frei-Text, verwendet reguläre Ausdrücke in Form von => '(.+?)@.+?', und verwendet () als [***] in Set =>.</Description>
         <Group>Ticket</Group>
         <SubGroup>Postmaster</SubGroup>
         <Setting>
@@ -5548,8 +5500,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="PostMaster::PreFilterModule###5-SpamAssassin" Required="0" Valid="0">
-        <Description Lang="en">SpamAssassin example setup, ignore spam emails</Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">SpamAssassin example setup. Ignore emails that are marked with SpamAssassin.</Description>
+        <Description Lang="de">SpamAssassin Beispiel Setup. Von Spamassassin gekennzeichnete Nachrichten werden ignoriert.</Description>
         <Group>Ticket</Group>
         <SubGroup>Postmaster</SubGroup>
         <Setting>
@@ -5574,8 +5526,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="PostMaster::PreFilterModule###5-SpamAssassin" Required="0" Valid="0">
-        <Description Lang="en">SpamAssassin example setup, move it to spam queue</Description>
-        <Description Lang="de">Beispiel für Spamassassin, Nachrichten in Spam-Queue verschieben</Description>
+        <Description Lang="en">SpamAssassin example setup. Move  marked mails to spam queue.</Description>
+        <Description Lang="de">SpamAssassin Beispiel Setup. Markierte Nachrichten werden in eine Spam-Queue verschoben.</Description>
         <Group>Ticket</Group>
         <SubGroup>Postmaster</SubGroup>
         <Setting>
@@ -5600,8 +5552,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="PostMaster::PreFilterModule###000-MatchDBSource" Required="1" Valid="1">
-        <Description Lang="en">Module to use database filter storage (use it at first)</Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">Module to use database filter storage (use it at first).</Description>
+        <Description Lang="de">Modul zum Anwenden von Datenbank Filter Ablagen (als erstes anwenden).</Description>
         <Group>Ticket</Group>
         <SubGroup>Postmaster</SubGroup>
         <Setting>
@@ -5616,8 +5568,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="PostMaster::PreFilterModule###999-AgentInterface" Required="0" Valid="0">
-        <Description Lang="en">A email agent interface</Description>
-        <Description Lang="de"></Description>
+        <Description Lang="en">A email agent interface.</Description>
+        <Description Lang="de">Ein Email-Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Postmaster</SubGroup>
         <Setting>
@@ -5634,8 +5586,8 @@ see http://yourhost/otrs/index.pl?Action=AdminState -> StateType
         -->
     </ConfigItem>
     <ConfigItem Name="SendNoAutoResponseRegExp" Required="1" Valid="1">
-        <Description Lang="en">Does this regex match, then no message will be send by the autoresponder</Description>
-        <Description Lang="de">Trifft dieer reguläre Ausdruck, dann wird keine Nachricht vom Autoresponder gesendet.</Description>
+        <Description Lang="en">If this regex matches, no message will be send by the autoresponder.</Description>
+        <Description Lang="de">Trifft dieser reguläre Ausdruck zu, wird keine Nachricht vom Autoresponder gesendet.</Description>
         <Group>Ticket</Group>
         <SubGroup>Postmaster</SubGroup>
         <Setting>
