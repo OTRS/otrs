@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.pm,v 1.16 2005-05-19 10:33:42 rk Exp $
+# $Id: AdminSysConfig.pm,v 1.17 2005-05-19 14:54:13 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -123,11 +123,20 @@ sub Run {
                                 $Anker = $ItemHash{Name};
                             }
                         }
+                        # New SubHashElement
+                        if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#'.$Keys[$Index].'#NewSubElement')) {
+                            $Anker = $ItemHash{Name};
+                        }                              
                         $Content{$Keys[$Index]} = \%SubHash;
                     }
                     # SubArray
                     elsif ($Values[$Index] eq '##SubArray##') {
                         my @SubArray = $Self->{ParamObject}->GetArray(Param => $_.'##SubArray##'.$Keys[$Index].'Content[]');
+                        # New SubArrayElement
+                        if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#'.$Keys[$Index].'#NewSubElement')) {
+                            push (@SubArray, '');
+                            $Anker = $ItemHash{Name};
+                        }      
                         #Delete SubArray Element?
                         foreach my $Index2 (0...$#SubArray) {
                             if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'##SubArray##'.$Keys[$Index].'#DeleteSubArrayElement'.($Index2+1))) {
@@ -145,6 +154,10 @@ sub Run {
                         $Anker = $ItemHash{Name};
                     }
                 }
+                # New HashElement
+                if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#NewHashElement')) {
+                    $Anker = $ItemHash{Name};
+                }                                          
                 # write ConfigItem
                 if (!$Self->{SysConfigObject}->ConfigItemUpdate(Key => $_, Value => \%Content, Valid => $Aktiv)) {
                     $Self->{LayoutObject}->FatalError(Message => "Can't write ConfigItem!");
@@ -153,6 +166,11 @@ sub Run {
             # ConfigElement Array
             elsif (defined ($ItemHash{Setting}[1]{Array})) {
                 my @Content = $Self->{ParamObject}->GetArray(Param => $_.'Content[]');
+                # New ArrayElement
+                if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#NewArrayElement')) {
+                    push (@Content, '');
+                    $Anker = $ItemHash{Name};
+                }
                 #Delete Array Element
                 foreach my $Index (0...$#Content) {
                     if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#DeleteArrayElement'.($Index+1))) {
@@ -177,6 +195,11 @@ sub Run {
                 }
                 foreach my $Typ (qw (Group GroupRo)) {
                     my @Group = $Self->{ParamObject}->GetArray(Param => $ElementKey.'#'.$Typ.'[]');
+                    # New Group(Ro)Element
+                    if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#New'.$Typ.'Element')) {
+                        push (@Group, '');
+                        $Anker = $ItemHash{Name};
+                    }                   
                     #Delete Group Element
                     foreach my $Index (0...$#Group) {
                         if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#Delete'.$Typ.'Element'.($Index+1))) {
@@ -196,6 +219,11 @@ sub Run {
                 foreach my $Index (0...$#{$NavBarParams{Description}}) {
                     foreach my $Typ (qw (Group GroupRo)) {
                         my @Group = $Self->{ParamObject}->GetArray(Param => $ElementKey.'#NavBar'.($Index+1).'#'.$Typ.'[]');
+                        # New Group(Ro)Element
+                        if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#NavBar'.($Index+1).'#New'.$Typ.'Element')) {
+                            push (@Group, '');
+                            $Anker = $ItemHash{Name};
+                        }                        
                         #Delete Group Element
                         foreach my $Index2 (0...$#Group) {
                             if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#NavBar'.($Index+1).'#Delete'.$Typ.'Element'.($Index2+1))) {
@@ -243,6 +271,10 @@ sub Run {
                         $Anker = $ItemHash{Name};
                     }
                 }
+                # New TimeVacationDaysOneTimeElement
+                if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#NewTimeVacationDaysOneTimeElement')) {
+                    $Anker = $ItemHash{Name};
+                }                      
                 # write ConfigItem
                 if (!$Self->{SysConfigObject}->ConfigItemUpdate(Key => $_, Value => \%Content, Valid => $Aktiv)) {
                     $Self->{LayoutObject}->FatalError(Message => "Can't write ConfigItem!");
@@ -263,6 +295,10 @@ sub Run {
                         $Anker = $ItemHash{Name};
                     }
                 }
+                # New TimeVacationDaysElement
+                if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#NewTimeVacationDaysElement')) {
+                    $Anker = $ItemHash{Name};
+                }                  
                 # write ConfigItem
                 if (!$Self->{SysConfigObject}->ConfigItemUpdate(Key => $_, Value => \%Content, Valid => $Aktiv)) {
                     $Self->{LayoutObject}->FatalError(Message => "Can't write ConfigItem!");
@@ -324,7 +360,7 @@ sub Run {
             }
             my $AnkerAktiv = '';
             if ($Anker eq $_) {
-                $AnkerAktiv = '<href="#Anker">';
+                $AnkerAktiv = '<a name="Anker">';
             }
             $Self->{LayoutObject}->Block(
                 Name => 'ConfigElementBlock',
@@ -528,10 +564,6 @@ sub ListConfigItem {
                         Index      => $Index,
                     },
                 );
-                # New SubArrayElement
-                if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#'.$ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Key}.'#NewSubElement')) {
-                    push (@{$ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Array}[1]{Item}}, {Content => ''});
-                }      
                 # SubArrayElements                
                 foreach my $Index2 (1...$#{$ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Array}[1]{Item}}) {
                     $Self->{LayoutObject}->Block(
@@ -589,10 +621,6 @@ sub ListConfigItem {
                 ElementKey => $ItemHash{Name},
             },
         );
-        # New ArrayElement
-        if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#NewArrayElement')) {
-            push (@{$ItemHash{Setting}[1]{Array}[1]{Item}}, {Content => ''});
-        }
         # ArrayElements
         foreach my $Index (1...$#{$ItemHash{Setting}[1]{Array}[1]{Item}}) {
             $Self->{LayoutObject}->Block(
@@ -623,13 +651,6 @@ sub ListConfigItem {
         );
         # Array Element Group
         foreach my $ArrayElement qw(Group GroupRo) {
-            # New Group(Ro)Element
-            if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#New'.$ArrayElement.'Element')) {
-                if (!defined($ItemHash{Setting}[1]{FrontendModuleReg}[1]{$ArrayElement})) {
-                    push (@{$ItemHash{Setting}[1]{FrontendModuleReg}[1]{$ArrayElement}}, undef);
-                }          
-                push (@{$ItemHash{Setting}[1]{FrontendModuleReg}[1]{$ArrayElement}}, {Content => ''});
-            }
             foreach my $Index (1...$#{$ItemHash{Setting}[1]{FrontendModuleReg}[1]{$ArrayElement}}) {                    
                 $Self->{LayoutObject}->Block(
                     Name => 'ConfigElementFrontendModuleRegContent'.$ArrayElement,
@@ -659,13 +680,6 @@ sub ListConfigItem {
             );
             # Array Element Group
             foreach my $ArrayElement qw(Group GroupRo) {
-                # New Group(Ro)Element
-                if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#NavBar'.$Index.'#New'.$ArrayElement.'Element')) {
-                    if (!defined($ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBar}[$Index]{$ArrayElement})) {
-                        push (@{$ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBar}[$Index]{$ArrayElement}}, undef);
-                    }          
-                    push (@{$ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBar}[$Index]{$ArrayElement}}, {Content => ''});
-                }
                 foreach my $Index2 (1...$#{$ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBar}[$Index]{$ArrayElement}}) {                    
                     $Self->{LayoutObject}->Block(
                         Name => 'ConfigElementFrontendModuleRegContentNavBar'.$ArrayElement,
