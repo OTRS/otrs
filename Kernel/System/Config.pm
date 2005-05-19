@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.20 2005-05-19 10:33:42 rk Exp $
+# $Id: Config.pm,v 1.21 2005-05-19 15:18:25 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -175,6 +175,9 @@ sub CreateConfig {
                 if ($ConfigItem->{Setting}->[1]->{Option}) {
                     print OUT "    \$Self->{'$Name'} = '$ConfigItem->{Setting}->[1]->{Option}->[1]->{SelectedID}';\n";
                 }
+                if ($ConfigItem->{Setting}->[1]->{TextArea}) {
+                    print OUT "    \$Self->{'$Name'} = '$ConfigItem->{Setting}->[1]->{TextArea}->[1]->{Content}';\n";
+                }                
                 if ($ConfigItem->{Setting}->[1]->{Hash}) {
                     my %Hash = ();
                     my @Array = ();
@@ -436,6 +439,13 @@ sub ConfigItemGet {
                     $ConfigItem->{Setting}->[1]->{String}->[1]->{Content} = $Self->ModGet(ConfigName => $ConfigItem->{Name});
                 }
             }
+            if ($ConfigItem->{Setting}->[1]->{TextArea}) {
+                # fill default
+                $ConfigItem->{Setting}->[1]->{TextArea}->[1]->{Default} = $ConfigItem->{Setting}->[1]->{TextArea}->[1]->{Content};
+                if (defined($Self->ModGet(ConfigName => $ConfigItem->{Name}))) {
+                    $ConfigItem->{Setting}->[1]->{TextArea}->[1]->{Content} = $Self->ModGet(ConfigName => $ConfigItem->{Name});
+                }
+            }            
             if ($ConfigItem->{Setting}->[1]->{Option}) {
                 # fill default
                 $ConfigItem->{Setting}->[1]->{Option}->[1]->{Default} = $ConfigItem->{Setting}->[1]->{Option}->[1]->{SelectedID};
@@ -814,6 +824,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.20 $ $Date: 2005-05-19 10:33:42 $
+$Revision: 1.21 $ $Date: 2005-05-19 15:18:25 $
 
 =cut
