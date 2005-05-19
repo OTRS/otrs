@@ -93,7 +93,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.31 2005-05-18 11:46:40 cs Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.32 2005-05-19 07:44:13 cs Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der WEB-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -2130,8 +2130,8 @@ Your OTRS Notification Master
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###Logout" Required="1" Valid="1">
-        <Description Lang="en">Frontend module registration of the Logout object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des Logout-Objekts im Agent-Interface.</Description>
+        <Description Lang="en">Frontend module registration for the Logout object in the agent interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration für das Logout-Objekts im Agent-Interface.</Description>
         <Group>Framework</Group>
         <SubGroup>AgentFrontendModulRegistration</SubGroup>
         <Setting>
@@ -2168,7 +2168,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentPreferences" Required="1" Valid="1">
         <Description Lang="en">All parameters for the AgentPreference object in the agent interface.</Description>
-        <Description Lang="de">Alle Parameter des AgentPreference-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Alle Parameter für das AgentPreference-Objekts im Agent-Interface.</Description>
         <Group>Framework</Group>
         <SubGroup>AgentFrontendModulRegistration</SubGroup>
         <Setting>
@@ -2203,7 +2203,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentSpelling" Required="1" Valid="1">
         <Description Lang="en">All parameters for the AgentSpelling object in the agent interface.</Description>
-        <Description Lang="de">Alle Parameter des AgentSpelling-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Alle Parameter für das AgentSpelling-Objekts im Agent-Interface.</Description>
         <Group>Framework</Group>
         <SubGroup>AgentFrontendModulRegistration</SubGroup>
         <Setting>
@@ -2221,7 +2221,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentBook" Required="1" Valid="1">
         <Description Lang="en">All parameters for the AgentBook object in the agent interface.</Description>
-        <Description Lang="de">Alle Parameter des AgentBook-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Alle Parameter für das AgentBook-Objekts im Agent-Interface.</Description>
         <Group>Framework</Group>
         <SubGroup>AgentFrontendModulRegistration</SubGroup>
         <Setting>
@@ -2239,7 +2239,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentLinkObject" Required="1" Valid="1">
         <Description Lang="en">All parameters for the AgentLinkObject object in the agent interface.</Description>
-        <Description Lang="de">Alle Parameter des AgentLinkObject-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Alle Parameter für das AgentLinkObject-Objekts im Agent-Interface.</Description>
         <Group>Framework</Group>
         <SubGroup>AgentFrontendModulRegistration</SubGroup>
         <Setting>
@@ -2257,7 +2257,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentInfo" Required="1" Valid="1">
         <Description Lang="en">All parameters for the AgentInfo object in the agent interface.</Description>
-        <Description Lang="de">Alle Parameter des AgentInfo-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Alle Parameter für das AgentInfo-Objekts im Agent-Interface.</Description>
         <Group>Framework</Group>
         <SubGroup>AgentFrontendModulRegistration</SubGroup>
         <Setting>
@@ -2275,7 +2275,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###SystemStats" Required="1" Valid="1">
         <Description Lang="en">All parameters for the SystemStats object in the agent interface.</Description>
-        <Description Lang="de">Alle Parameter des SystemStats-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Alle Parameter für das SystemStats-Objekts im Agent-Interface.</Description>
         <Group>Framework</Group>
         <SubGroup>AgentFrontendModulRegistration</SubGroup>
         <Setting>
@@ -2316,7 +2316,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###Admin" Required="1" Valid="1">
         <Description Lang="en">All parameters for the Admin object in the admin area.</Description>
-        <Description Lang="de">Alle Parameter des Admin-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Alle Parameter für das Admin-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
@@ -2367,7 +2367,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminUser" Required="1" Valid="1">
         <Description Lang="en">All parameters for the AdminUser object in the admin area.</Description>
-        <Description Lang="de">Alle Parameter des AdminUser-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Alle Parameter für das AdminUser-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
@@ -2401,7 +2401,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminGroup" Required="1" Valid="1">
         <Description Lang="en">All parameters for the AdminGroup object in the admin area.</Description>
-        <Description Lang="de">Alle Parameter des AdminGroup-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Alle Parameter für das AdminGroup-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
@@ -2435,7 +2435,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminUserGroup" Required="1" Valid="1">
         <Description Lang="en">All parameters for the AdminUserGroup object in the admin area.</Description>
-        <Description Lang="de">Alle Parameter des AdminUserGroup-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Alle Parameter für das AdminUserGroup-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
@@ -2469,7 +2469,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminCustomerUser" Required="1" Valid="1">
         <Description Lang="en">All parameters for the AdminCustomerUser object in the admin area.</Description>
-        <Description Lang="de">Alle Parameter des AdminCustomerUser-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Alle Parameter für das AdminCustomerUser-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
@@ -2525,7 +2525,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminCustomerUserGroup" Required="1" Valid="1">
         <Description Lang="en">All parameters for the AdminCustomerUserGroup object in the admin area.</Description>
-        <Description Lang="de">Alle Parameter des AdminCustomerUserGroup-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Alle Parameter für das AdminCustomerUserGroup-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
@@ -2559,7 +2559,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminRole" Required="1" Valid="1">
         <Description Lang="en">All parameters for the AdminRole object in the admin area.</Description>
-        <Description Lang="de">Alle Parameter des AdminRole-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Alle Parameter für das AdminRole-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
@@ -2593,7 +2593,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminRoleUser" Required="1" Valid="1">
         <Description Lang="en">All parameters for the AdminRoleUser object in the admin area.</Description>
-        <Description Lang="de">Alle Parameter des AdminRoleUser-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Alle Parameter für das AdminRoleUser-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
@@ -2627,7 +2627,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminRoleGroup" Required="1" Valid="1">
         <Description Lang="en">All parameters for the AdminRoleGroup object in the admin area.</Description>
-        <Description Lang="de">Alle Parameter des AdminRoleGroup-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Alle Parameter für das AdminRoleGroup-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
@@ -2661,7 +2661,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminSMIME" Required="1" Valid="1">
         <Description Lang="en">All parameters for the AdminSMIME object in the admin area.</Description>
-        <Description Lang="de">Alle Parameter des AdminSMIME-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Alle Parameter für das AdminSMIME-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
@@ -2695,7 +2695,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminPGP" Required="1" Valid="1">
         <Description Lang="en">All parameters for the AdminPGP object in the admin area.</Description>
-        <Description Lang="de">Alle Parameter des AdminPGP-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Alle Parameter für das AdminPGP-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
@@ -2729,7 +2729,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminPOP3" Required="1" Valid="1">
         <Description Lang="en">All parameters for the AdminPop3 object in the admin area.</Description>
-        <Description Lang="de">Alle Parameter des AdminPop3-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Alle Parameter für das AdminPop3-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
@@ -2763,7 +2763,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminPostMasterFilter" Required="1" Valid="1">
         <Description Lang="en">All parameters for the AdminPostMasterFilter object in the admin area.</Description>
-        <Description Lang="de">Alle Parameter des AdminPostMasterFilter-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Alle Parameter für das AdminPostMasterFilter-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
@@ -2797,7 +2797,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminEmail" Required="1" Valid="1">
         <Description Lang="en">All parameters for the AdminEmail object in the admin area.</Description>
-        <Description Lang="de">Alle Parameter des AdminEmail-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Alle Parameter für das AdminEmail-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
@@ -2831,7 +2831,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminSession" Required="1" Valid="1">
         <Description Lang="en">All parameters for the AdminSession object in the admin area.</Description>
-        <Description Lang="de">Alle Parameter des AdminSession-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Alle Parameter für das AdminSession-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
@@ -2865,7 +2865,7 @@ Your OTRS Notification Master
      </ConfigItem>    
      <ConfigItem Name="Frontend::Module###AdminLog" Required="1" Valid="1">
         <Description Lang="en">All parameters for the AdminLog object in the admin area.</Description>
-        <Description Lang="de">Alle Parameter des AdminLog-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Alle Parameter für das AdminLog-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
@@ -2899,7 +2899,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminSelectBox" Required="1" Valid="1">
         <Description Lang="en">All parameters for the AdminSelectBox object in the admin area.</Description>
-        <Description Lang="de">Alle Parameter des AdminSelectBox-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Alle Parameter für das AdminSelectBox-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
@@ -2933,7 +2933,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminPackageManager" Required="1" Valid="1">
         <Description Lang="en">All parameters for the AdminPackageManager object in the admin area.</Description>
-        <Description Lang="de">Alle Parameter des AdminPackageManager-Objekts im Admin-Bereich.</Description>
+        <Description Lang="de">Alle Parameter für das AdminPackageManager-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>AdminFrontendModulRegistration</SubGroup>
         <Setting>
