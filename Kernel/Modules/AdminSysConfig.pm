@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.pm,v 1.15 2005-05-13 14:26:26 rk Exp $
+# $Id: AdminSysConfig.pm,v 1.16 2005-05-19 10:33:42 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -216,11 +216,12 @@ sub Run {
                     $NavBarModuleParams{$_} = \@Param;
                 }
                 # Create Hash
-                foreach my $Index (0...$#{$NavBarModuleParams{Module}}) {
+#                foreach my $Index (0...$#{$NavBarModuleParams{Module}}) {
                     foreach (qw (Group GroupRo Module Name Block Prio)) {
-                        $Content{NavBarModule}[$Index]{$_} = $NavBarModuleParams{$_}[$Index];
+#                        $Content{NavBarModule}[$Index]{$_} = $NavBarModuleParams{$_}[$Index];
+                        $Content{NavBarModule}{$_} = $NavBarModuleParams{$_}[0];
                     }
-                }
+#                }
                 # write ConfigItem
                 if (!$Self->{SysConfigObject}->ConfigItemUpdate(Key => $_, Value => \%Content, Valid => $Aktiv)) {
                     $Self->{LayoutObject}->FatalError(Message => "Can't write ConfigItem!");
@@ -427,7 +428,7 @@ sub ListConfigItem {
     my %Param = @_;
     my %ItemHash    = %{$Param{Hash}};
     my %InvalidValue = %{$Param{InvalidValue}};
-    my $Valid = '';
+    my $Valid = '';    
     # ConfigElement String
     if (defined ($ItemHash{Setting}[1]{String})) {
         if (defined ($InvalidValue{$ItemHash{Name}})) {
@@ -679,13 +680,30 @@ sub ListConfigItem {
             }
         }
         # NavBarModule
-        foreach my $Index (1...$#{$ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBarModule}}) {
+        if (ref($ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBarModule}) eq 'ARRAY') {
+            foreach my $Index (1...$#{$ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBarModule}}) {
+                my %Data = {};
+                foreach my $Key qw (Module Name Block Prio) {
+                    $Data{'Key'.$Key} = $Key;
+                    $Data{'Content'.$Key} = '';
+                    if (defined ($ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBarModule}[1]{$Key}[1]{Content})) {
+                        $Data{'Content'.$Key} = $ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBarModule}[1]{$Key}[1]{Content};
+                    }
+                }            
+                $Data{ElementKey} = $ItemHash{Name}.'#NavBarModule';
+                $Self->{LayoutObject}->Block(
+                    Name => 'ConfigElementFrontendModuleRegContentNavBarModule',
+                    Data => \%Data,
+                );
+            }
+        }
+        elsif (defined($ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBarModule})) {
             my %Data = {};
             foreach my $Key qw (Module Name Block Prio) {
                 $Data{'Key'.$Key} = $Key;
                 $Data{'Content'.$Key} = '';
-                if (defined ($ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBarModule}[1]{$Key}[1]{Content})) {
-                    $Data{'Content'.$Key} = $ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBarModule}[1]{$Key}[1]{Content};
+                if (defined ($ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBarModule}{$Key}[1]{Content})) {
+                    $Data{'Content'.$Key} = $ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBarModule}{$Key}[1]{Content};
                 }
             }            
             $Data{ElementKey} = $ItemHash{Name}.'#NavBarModule';
