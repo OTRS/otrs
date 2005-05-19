@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.196 2005-05-16 12:24:39 martin Exp $
+# $Id: Defaults.pm,v 1.197 2005-05-19 12:13:34 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.196 $';
+$VERSION = '$Revision: 1.197 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1320,7 +1320,7 @@ Your OTRS Notification Master
         },
     };
     $Self->{'Frontend::Module'}->{'AdminCustomerUser'} = {
-        GroupRo => '',
+        GroupRo => [],
         Group => ['admin', 'users'],
         Description => 'Edit Customer Users',
         Title => 'Customer User',
@@ -1680,6 +1680,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.196 $ $Date: 2005-05-16 12:24:39 $
+$Revision: 1.197 $ $Date: 2005-05-19 12:13:34 $
 
 =cut

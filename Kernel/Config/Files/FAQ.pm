@@ -27,13 +27,13 @@
     # faq interface
     # --------------------------------------------------- #
     $Self->{'Frontend::Module'}->{'FAQ'} = {
-        Group => 'faq',
-        GroupRo => 'faq',
+        Group => ['faq'],
+        GroupRo => ['faq'],
         Description => 'FAQ-Area',
         NavBarName => 'FAQ',
         NavBar => [
           {
-            GroupRo => 'faq',
+            GroupRo => ['faq'],
             Description => 'FAQ-Area',
             Type => 'Menu',
             Block => 'ItemArea',
@@ -45,7 +45,7 @@
             AccessKey => 'f',
           },
           {
-            Group => 'faq',
+            Group => ['faq'],
             Description => 'New Article',
             Name => 'New Article',
             Image => 'new.png',
@@ -55,7 +55,7 @@
             AccessKey => 'n',
           },
           {
-            GroupRo => 'faq',
+            GroupRo => ['faq'],
             Description => 'FAQ-Search',
             Name => 'Search',
             Image => 'search.png',
@@ -65,7 +65,7 @@
             AccessKey => 's',
           },
           {
-            GroupRo => 'faq',
+            GroupRo => ['faq'],
             Description => 'History',
             Name => 'History',
             Image => 'list.png',
@@ -77,8 +77,8 @@
         ],
     };
 #    $Self->{'Frontend::Module'}->{'FAQState'} = {
-#        GroupRo => '',
-#        Group => 'faq',
+#        GroupRo => [],
+#        Group => ['faq'],
 #        Description => 'FAQ-State',
 #        NavBarName => 'FAQ',
 #        NavBar => [
@@ -94,8 +94,8 @@
 #        ],
 #    };
     $Self->{'Frontend::Module'}->{'FAQCategory'} = {
-        GroupRo => '',
-        Group => 'faq',
+        GroupRo => [],
+        Group => ['faq'],
         Description => 'FAQ-Category',
         Title => 'Category',
         NavBarName => 'FAQ',
@@ -112,8 +112,8 @@
         ],
     };
     $Self->{'Frontend::Module'}->{'FAQLanguage'} = {
-        GroupRo => '',
-        Group => 'faq',
+        GroupRo => [],
+        Group => ['faq'],
         Description => 'FAQ-Language',
         Title => 'Language',
         NavBarName => 'FAQ',
