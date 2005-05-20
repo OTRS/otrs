@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.21 2005-05-19 15:18:25 rk Exp $
+# $Id: Config.pm,v 1.22 2005-05-20 11:20:15 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -108,11 +108,11 @@ sub _Init {
             else {
                 print STDERR "ERROR: $!: $File\n";
             }
-            if ($ConfigFile) {
+            if ($ConfigFile) { 
                 my @XMLHash = $Self->{XMLObject}->XMLParse2XMLHash(String => $ConfigFile);
                 $Data{$File} = \@XMLHash;
             }
-        }
+        } 
         $Self->{XMLConfig} = [];
         # load framework, application, config, changes
         foreach my $Init (qw(Framework Application Config Changes)) {
@@ -428,9 +428,9 @@ sub ConfigItemGet {
 #            $ConfigItem->{Name} =~ s/'/\'/g;
 #            $ConfigItem->{Name} =~ s/###/'}->{'/g;
             # add current valid state
-            if ($Self->{ConfigObject}->Get('Valid') && defined($Self->{ConfigObject}->Get('Valid')->{$ConfigItem->{Name}})) {
-                $ConfigItem->{Valid} = $Self->{ConfigObject}->Get('Valid')->{$ConfigItem->{Name}};
-            }
+            if ($Self->{ConfigObject}->Get('Valid') && defined($Self->ModGet(ConfigName => 'Valid###'.$ConfigItem->{Name}))) {
+                $ConfigItem->{Valid} = $Self->ModGet(ConfigName => 'Valid###'.$ConfigItem->{Name});
+            }            
             # update xml with current config setting
             if ($ConfigItem->{Setting}->[1]->{String}) {
                 # fill default
@@ -531,7 +531,7 @@ sub ConfigItemGet {
                  if (defined($Self->ModGet(ConfigName => $ConfigItem->{Name}))) {
                     @{$ConfigItem->{Setting}->[1]->{FrontendModuleReg}} = (undef);
                     my %Hash = %{$Self->ModGet(ConfigName => $ConfigItem->{Name})};
-#                    $Self->{LogObject}->Dumper(jkl => %Hash);
+#                   $Self->{LogObject}->Dumper(jkl => %Hash);
                     foreach my $Key (sort keys %Hash) {
                         @{$ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}} = (undef);
                         if ($Key eq 'Group' || $Key eq 'GroupRo') {
@@ -824,6 +824,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2005-05-19 15:18:25 $
+$Revision: 1.22 $ $Date: 2005-05-20 11:20:15 $
 
 =cut
