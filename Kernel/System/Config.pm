@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.23 2005-05-20 12:36:00 rk Exp $
+# $Id: Config.pm,v 1.24 2005-05-20 13:52:10 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -254,7 +254,12 @@ sub CreateConfig {
                                             }
                                         }
                                     }
-                                    push (@{$Hash{$Key}}, \%NavBar);                            
+                                    if ($Key eq 'NavBar') {
+                                        push (@{$Hash{$Key}}, \%NavBar);                            
+                                    }
+                                    else {
+                                        $Hash{$Key} = \%NavBar;
+                                    }
                                 }
                             }
                             else {
@@ -824,6 +829,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.23 $ $Date: 2005-05-20 12:36:00 $
+$Revision: 1.24 $ $Date: 2005-05-20 13:52:10 $
 
 =cut
