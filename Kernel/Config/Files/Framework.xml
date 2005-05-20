@@ -93,7 +93,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.33 2005-05-20 12:25:31 tr Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.34 2005-05-20 12:50:07 tr Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der WEB-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -1082,8 +1082,8 @@ Your OTRS Notification Master
         <!--   $Self->{'Package::RepositoryList'} = {'ftp://ftp.example.com/pub/otrs/misc/packages/' => '[Example] ftp://ftp.example.com/',}; -->
     </ConfigItem>   
     <ConfigItem Name="Package::Timeout" Required="1" Valid="1">
-        <Description Lang="en">http/ftp timeout for package downloads.</Description>
-        <Description Lang="de">Timeout für das Herunterladen von zusätzlichen Paketen.</Description>
+        <Description Lang="en">http/ftp timeout for package downloads (in sec).</Description>
+        <Description Lang="de">Timeout für das Herunterladen von zusätzlichen Paketen (in Sekunden).</Description>
         <Group>Framework</Group>
         <SubGroup>Package</SubGroup>
         <Setting>
