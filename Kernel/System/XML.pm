@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: XML.pm,v 1.15 2005-03-02 08:50:57 martin Exp $
+# $Id: XML.pm,v 1.16 2005-05-20 08:03:40 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Base64;
 use XML::Parser::Lite;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -593,7 +593,11 @@ sub _XMLStructur2XMLHash {
         }
 #        $Param{Item}->{TagKey} = $Key;
         foreach (keys %{$Param{Item}}) {
-            if (defined($Param{Item}->{$_}) && $_ !~ /^Tag/) {
+            if (!defined($Param{Item}->{$_})) {
+                $Param{Item}->{$_} = ' ';
+            }
+            if ($_ !~ /^Tag/) {
+#            if (defined($Param{Item}->{$_}) && $_ !~ /^Tag/) {
 #            if (defined($Param{Item}->{$_})) {
                 my $I = $Param{Item}->{$_};
                 $I =~ s/'/\\'/g;
@@ -721,6 +725,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2005-03-02 08:50:57 $
+$Revision: 1.16 $ $Date: 2005-05-20 08:03:40 $
 
 =cut
