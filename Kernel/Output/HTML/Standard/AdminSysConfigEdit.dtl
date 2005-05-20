@@ -2,7 +2,7 @@
 # AdminSysConfigEdit.dtl - provides HTML form for SysConfig
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfigEdit.dtl,v 1.10 2005-05-13 14:26:26 rk Exp $
+# $Id: AdminSysConfigEdit.dtl,v 1.11 2005-05-20 11:19:14 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@
 <tr>
   <td align="center" class="mainbody">
 <br>
-<form action="$Env{"CGIHandle"}" method="post">
+<form action="$Env{"CGIHandle"}#Anker" method="post">
 <input type="hidden" name="Action" value="$Env{"Action"}">
 <input type="hidden" name="Subaction" value="Update">
 <input type="hidden" name="SysConfigGroup" value="$Data{"Group"}">
@@ -143,7 +143,7 @@
         <tr>
           <td></td>
           <td></td>
-          <td class="contentkey"><input type="submit" name="$Data{"ElementKey"}#NewGroupElement" value="$Text{"New Group"}"></td>
+          <td class="contentvalue"><input type="submit" name="$Data{"ElementKey"}#NewGroupElement" value="$Text{"New Group"}"></td>
         </tr>
         <tr>
           <td class="contentkey">$Text{"Group Ro"}:</td>
@@ -160,7 +160,7 @@
         <tr>
           <td></td>
           <td></td>
-          <td class="contentkey"><input type="submit" name="$Data{"ElementKey"}#NewGroupRoElement" value="$Text{"New Group Ro"}"></td>
+          <td class="contentvalue"><input type="submit" name="$Data{"ElementKey"}#NewGroupRoElement" value="$Text{"New Group Ro"}"></td>
         </tr>  
         <tr>
           <td class="contentkey">$Text{"Title"}:</td>
@@ -203,7 +203,7 @@
                 <td width="50">&nbsp;</td>
                 <td></td>
                 <td></td>
-                <td class="contentkey"><input type="submit" name="$Data{"ElementKey"}$Data{"Index"}#NewGroupElement" value="$Text{"New Group"}"></td>
+                <td class="contentvalue"><input type="submit" name="$Data{"ElementKey"}$Data{"Index"}#NewGroupElement" value="$Text{"New Group"}"></td>
               </tr>
               <tr>
                 <td></td>
@@ -223,7 +223,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td class="contentkey"><input type="submit" name="$Data{"ElementKey"}$Data{"Index"}#NewGroupRoElement" value="$Text{"New Group Ro"}"></td>
+                <td class="contentvalue"><input type="submit" name="$Data{"ElementKey"}$Data{"Index"}#NewGroupRoElement" value="$Text{"New Group Ro"}"></td>
               </tr>  
               <tr>
                 <td></td>
@@ -410,7 +410,7 @@
   </tr>
   <!-- dtl:block:ConfigElementBlock -->
   <tr class="contentfooter">
-    <td class="contentkey" colspan="3"><input class="button" type="submit" value="$Text{"Update"}"></td>
+    <td class="contentvalue" colspan="3"><input class="button" type="submit" value="$Text{"Update"}"></td>
   </tr>
 </table>
 </form>
