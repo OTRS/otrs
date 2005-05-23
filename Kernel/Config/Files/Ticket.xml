@@ -132,12 +132,12 @@ TimeWorkingHours
 <otrs_config version="1.0" init="Application">
 <<<<<<< Ticket.xml
 <<<<<<< Ticket.xml
-    <CVS>$Id: Ticket.xml,v 1.25 2005-05-20 17:57:35 cs Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.26 2005-05-23 12:34:11 rk Exp $</CVS>
 =======
-    <CVS>$Id: Ticket.xml,v 1.25 2005-05-20 17:57:35 cs Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.26 2005-05-23 12:34:11 rk Exp $</CVS>
 >>>>>>> 1.23
 =======
-    <CVS>$Id: Ticket.xml,v 1.25 2005-05-20 17:57:35 cs Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.26 2005-05-23 12:34:11 rk Exp $</CVS>
 >>>>>>> 1.24
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifyer for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
@@ -5155,7 +5155,8 @@ $Data{"Signature"}
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
         <Setting>
-            <String Regex=""></String>String>
+            <Hash>
+            </Hash>
         </Setting>
         <!-- $Self->{'TicketACL::Default::Action'} = {}; -->
     </ConfigItem>
