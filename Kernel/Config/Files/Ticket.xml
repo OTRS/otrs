@@ -133,22 +133,22 @@ TimeWorkingHours
 <<<<<<< Ticket.xml
 <<<<<<< Ticket.xml
 <<<<<<< Ticket.xml
-    <CVS>$Id: Ticket.xml,v 1.27 2005-05-23 13:29:13 cs Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.28 2005-05-23 13:31:51 cs Exp $</CVS>
 =======
-    <CVS>$Id: Ticket.xml,v 1.27 2005-05-23 13:29:13 cs Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.28 2005-05-23 13:31:51 cs Exp $</CVS>
 >>>>>>> 1.23
 =======
-    <CVS>$Id: Ticket.xml,v 1.27 2005-05-23 13:29:13 cs Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.28 2005-05-23 13:31:51 cs Exp $</CVS>
 >>>>>>> 1.24
 =======
 <<<<<<< Ticket.xml
 <<<<<<< Ticket.xml
-    <CVS>$Id: Ticket.xml,v 1.27 2005-05-23 13:29:13 cs Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.28 2005-05-23 13:31:51 cs Exp $</CVS>
 =======
-    <CVS>$Id: Ticket.xml,v 1.27 2005-05-23 13:29:13 cs Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.28 2005-05-23 13:31:51 cs Exp $</CVS>
 >>>>>>> 1.23
 =======
-    <CVS>$Id: Ticket.xml,v 1.27 2005-05-23 13:29:13 cs Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.28 2005-05-23 13:31:51 cs Exp $</CVS>
 >>>>>>> 1.24
 >>>>>>> 1.25
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
@@ -5157,7 +5157,8 @@ $Data{"Signature"}
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
         <Setting>
-            <String Regex=""></String>String>
+            <Hash>
+            </Hash>
         </Setting>
         <!-- $Self->{'TicketACL::Default::Action'} = {}; -->
     </ConfigItem>
