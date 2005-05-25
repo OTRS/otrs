@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.50 2005-04-22 08:52:49 martin Exp $
+# $Id: PostMaster.pm,v 1.51 2005-05-25 14:30:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.50 $';
+$VERSION = '$Revision: 1.51 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -399,8 +399,8 @@ sub GetEmailParams {
     if (!$GetParam{'X-OTRS-SenderType'}) {
         $GetParam{'X-OTRS-SenderType'} = 'customer';
     }
-# check if X-OTRS-SenderType exists, if not, set customer
-if (!$Self->{TicketObject}->ArticleSenderTypeLookup(SenderType => $GetParam{'X-OTRS-SenderType'})) {
+    # check if X-OTRS-SenderType exists, if not, set customer
+    if (!$Self->{TicketObject}->ArticleSenderTypeLookup(SenderType => $GetParam{'X-OTRS-SenderType'})) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message => "Can't find sender type '$GetParam{'X-OTRS-SenderType'}' in db, take 'customer'",
