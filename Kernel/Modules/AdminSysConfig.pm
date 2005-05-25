@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.pm,v 1.19 2005-05-25 10:33:12 rk Exp $
+# $Id: AdminSysConfig.pm,v 1.20 2005-05-25 13:29:50 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -673,7 +673,7 @@ sub ListConfigItem {
                 $Data{'Key'.$Key} = $Key;
                 $Data{'Content'.$Key} = '';
                 if (defined ($ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBar}[1]{$Key}[1]{Content})) {
-                    $Data{'Content'.$Key} = $ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBar}[1]{$Key}[1]{Content};
+                    $Data{'Content'.$Key} = $ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBar}[$Index]{$Key}[1]{Content};
                 }
             }
             $Data{ElementKey} = $ItemHash{Name}.'#NavBar';
