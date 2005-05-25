@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.25 2005-05-25 14:22:43 martin Exp $
+# $Id: Config.pm,v 1.26 2005-05-25 14:58:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -432,7 +432,7 @@ sub ConfigItemGet {
             # add current valid state
             if ($Self->{ConfigObject}->Get('Valid') && defined($Self->ModGet(ConfigName => 'Valid###'.$ConfigItem->{Name}))) {
                 $ConfigItem->{Valid} = $Self->ModGet(ConfigName => 'Valid###'.$ConfigItem->{Name});
-            }            
+            }
             # update xml with current config setting
             if ($ConfigItem->{Setting}->[1]->{String}) {
                 # fill default
@@ -447,7 +447,7 @@ sub ConfigItemGet {
                 if (defined($Self->ModGet(ConfigName => $ConfigItem->{Name}))) {
                     $ConfigItem->{Setting}->[1]->{TextArea}->[1]->{Content} = $Self->ModGet(ConfigName => $ConfigItem->{Name});
                 }
-            }            
+            }
             if ($ConfigItem->{Setting}->[1]->{Option}) {
                 # fill default
                 $ConfigItem->{Setting}->[1]->{Option}->[1]->{Default} = $ConfigItem->{Setting}->[1]->{Option}->[1]->{SelectedID};
@@ -469,7 +469,7 @@ sub ConfigItemGet {
                             @{$Array[1]{Item}} = (undef);
                             foreach my $Content (@{$Hash{$Key}}) {
                                 push (@{$Array[1]{Item}}, {Content => $Content});
-                            }                           
+                            }
                             push (@{$ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}}, {
                                     Key     => $Key,
                                     Content => '',
@@ -488,7 +488,7 @@ sub ConfigItemGet {
                                     Content => '',
                                     Hash    => \@Array,
                                 },
-                            );                        
+                            );
                         }
                         else {
                             my $Option = 0;
@@ -501,10 +501,10 @@ sub ConfigItemGet {
                                             Content => '',
                                             Option  => $Array[$Index]{Option},
                                         },
-                                    );                                    
+                                    );
                                 }
                             }
-                            if ($Option == 0) {     
+                            if ($Option == 0) {
                                 push (@{$ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}}, {
                                         Key     => $Key,
                                         Content => $Hash{$Key},
@@ -553,14 +553,14 @@ sub ConfigItemGet {
                                         if ($_ eq 'Group' || $_ eq 'GroupRo') {
                                             @{$NavBar{$_}} = (undef);
                                             foreach my $Group (@{$Content->{$_}}) {
-                                            push (@{$NavBar{$_}}, {Content => $Group});                                        
+                                            push (@{$NavBar{$_}}, {Content => $Group});
                                             }
                                         }
                                         else {
                                             push (@{$NavBar{$_}}, (undef, {Content => $Content->{$_}}));
                                         }
                                     }
-                                    push (@{$ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}}, \%NavBar);                            
+                                    push (@{$ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}}, \%NavBar);
                                 }
                             }
                             else {
@@ -570,7 +570,7 @@ sub ConfigItemGet {
                                     if ($_ eq 'Group' || $_ eq 'GroupRo') {
                                         @{$NavBar{$_}} = (undef);
                                         foreach my $Group (@{$Content->{$_}}) {
-                                        push (@{$NavBar{$_}}, {Content => $Group});                                        
+                                        push (@{$NavBar{$_}}, {Content => $Group});
                                         }
                                     }
                                     else {
@@ -587,8 +587,8 @@ sub ConfigItemGet {
                         }
                     }
                 }
-#  $Self->{LogObject}->Dumper(jkl => $ConfigItem);              
-            }            
+#  $Self->{LogObject}->Dumper(jkl => $ConfigItem);
+            }
             if ($ConfigItem->{Setting}->[1]->{TimeWorkingHours}) {
                 if (defined($Self->ModGet(ConfigName => $ConfigItem->{Name}))) {
                     @{$ConfigItem->{Setting}->[1]->{TimeWorkingHours}->[1]->{Day}} = (undef);
@@ -611,7 +611,7 @@ sub ConfigItemGet {
                 if (defined($Self->ModGet(ConfigName => $ConfigItem->{Name}))) {
                     @{$ConfigItem->{Setting}->[1]->{TimeVacationDays}->[1]->{Item}} = (undef);
                     my %Hash = %{$Self->ModGet(ConfigName => $ConfigItem->{Name})};
-                    foreach my $Month (sort keys %Hash) {                    
+                    foreach my $Month (sort keys %Hash) {
                         foreach my $Day (sort keys %{$Hash{$Month}}) {
                             push (@{$ConfigItem->{Setting}->[1]->{TimeVacationDays}->[1]->{Item}}, {
                                     Month => $Month,
@@ -687,7 +687,7 @@ sub ConfigGroupList {
     my %Param = @_;
     # check needed stuff
     foreach (qw()) {
-        if (!$Param{$_}) { 
+        if (!$Param{$_}) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
         }
@@ -710,7 +710,7 @@ sub ConfigGroupList {
 get a list of config sub groups
 
     my %ConfigGroupList = $ConfigToolObject->ConfigSubGroupList(Name => 'Framework');
-    
+
 =cut
 
 sub ConfigSubGroupList {
@@ -718,7 +718,7 @@ sub ConfigSubGroupList {
     my %Param = @_;
     # check needed stuff
     foreach (qw(Name)) {
-        if (!$Param{$_}) { 
+        if (!$Param{$_}) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
         }
@@ -752,7 +752,7 @@ get a list of config items of a sub group
         Group => 'Framework',
         SubGroup => 'Web',
     );
-    
+
 =cut
 
 sub ConfigSubGroupConfigItemList {
@@ -760,13 +760,15 @@ sub ConfigSubGroupConfigItemList {
     my %Param = @_;
     # check needed stuff
     foreach (qw(Group SubGroup)) {
-        if (!$Param{$_}) { 
+        if (!$Param{$_}) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
         }
     }
     my @List = ();
+    my %Used = ();
     foreach my $ConfigItem (@{$Self->{XMLConfig}}) {
+        my $Name = $ConfigItem->{Name};
         if ($ConfigItem->{Group} && ref($ConfigItem->{Group}) eq 'ARRAY') {
             my $Hit = 0;
             foreach my $Group (@{$ConfigItem->{Group}}) {
@@ -777,7 +779,8 @@ sub ConfigSubGroupConfigItemList {
             if ($Hit) {
                 if ($ConfigItem->{SubGroup} && ref($ConfigItem->{SubGroup}) eq 'ARRAY') {
                     foreach my $SubGroup (@{$ConfigItem->{SubGroup}}) {
-                        if ($SubGroup->{Content} && $SubGroup->{Content} eq $Param{SubGroup}) {
+                        if (!$Used{$ConfigItem->{Name}} && $SubGroup->{Content} && $SubGroup->{Content} eq $Param{SubGroup}) {
+                            $Used{$ConfigItem->{Name}} = 1;
                             push (@List, $ConfigItem->{Name});
                         }
                     }
@@ -806,12 +809,9 @@ sub ModGet {
         if (defined($Self->{ConfigObject}->Get($Param{ConfigName}))) {
             $Content = $Self->{ConfigObject}->Get($Param{ConfigName});
         }
-    }    
+    }
     return $Content;
 }
-
-
-
 1;
 
 =head1 TERMS AND CONDITIONS
@@ -826,6 +826,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.25 $ $Date: 2005-05-25 14:22:43 $
+$Revision: 1.26 $ $Date: 2005-05-25 14:58:21 $
 
 =cut
