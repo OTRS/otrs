@@ -130,27 +130,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Application">
-<<<<<<< Ticket.xml
-<<<<<<< Ticket.xml
-<<<<<<< Ticket.xml
-    <CVS>$Id: Ticket.xml,v 1.28 2005-05-23 13:31:51 cs Exp $</CVS>
-=======
-    <CVS>$Id: Ticket.xml,v 1.28 2005-05-23 13:31:51 cs Exp $</CVS>
->>>>>>> 1.23
-=======
-    <CVS>$Id: Ticket.xml,v 1.28 2005-05-23 13:31:51 cs Exp $</CVS>
->>>>>>> 1.24
-=======
-<<<<<<< Ticket.xml
-<<<<<<< Ticket.xml
-    <CVS>$Id: Ticket.xml,v 1.28 2005-05-23 13:31:51 cs Exp $</CVS>
-=======
-    <CVS>$Id: Ticket.xml,v 1.28 2005-05-23 13:31:51 cs Exp $</CVS>
->>>>>>> 1.23
-=======
-    <CVS>$Id: Ticket.xml,v 1.28 2005-05-23 13:31:51 cs Exp $</CVS>
->>>>>>> 1.24
->>>>>>> 1.25
+    <CVS>$Id: Ticket.xml,v 1.29 2005-05-25 14:20:08 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifyer for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z.B. Ticket#,Call#, MyTicket#. _Als Standard wird Ticket# verwendet.</Description>
@@ -1599,7 +1579,7 @@ TimeWorkingHours
         <Description Lang="en">If this is in use, "just this selection is valid" for the PhoneView.</Description>
         <Description Lang="de">Wenn Sie diese Auswahl benutzen, ist sie nur für die TelefonAnsicht gültig.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="1">First Queue!</Item>
@@ -1766,7 +1746,7 @@ TimeWorkingHours
         <Description Lang="en">Specify the different note types, that you want to use in your system.</Description>
         <Description Lang="de">Hier können die verschiedenen Notiz-Typen festgelegt werden, die innerhalb des Systems verwendet werden sollen.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="note-internal">1</Item>
@@ -2350,7 +2330,7 @@ $Data{"Signature"}
         <Description Lang="en">Agent interface notification module to check the used charset.</Description>
         <Description Lang="de">Modul mit dem Agents über das Agent-Interface über den Zeichensatz von Tickets benachrichtigt werden.</Description>
         <Group>Ticket</Group>
-        <SubGroup>AgentFrontend</SubGroup>
+        <SubGroup>AgentFrontendNavBarModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::NavBarLockedTickets</Item>
@@ -2366,7 +2346,7 @@ $Data{"Signature"}
         <Description Lang="en">Module registration for the BulkAction object in the agent interface.</Description>
         <Description Lang="de">Modul-Registration für das BulkAction-Objekt im Agent-Interface.</Description>
         <Group>Ticket</Group>
-        <SubGroup>AgentFrontend</SubGroup>
+        <SubGroup>AgentFrontendNavBarModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::NavBarLockedTickets</Item>
@@ -2382,7 +2362,7 @@ $Data{"Signature"}
         <Description Lang="en">Modul for the agent interface that to sets tickets to "seen".</Description>
         <Description Lang="de">Modul für das Agent-Interface, das Tickets in den Status "seen" setzt.</Description>
         <Group>Ticket</Group>
-        <SubGroup>FrontendModuleNotify</SubGroup>
+        <SubGroup>AgentFrontendModuleNotify</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::NotificationAgentTicketSeen</Item>
@@ -2398,7 +2378,7 @@ $Data{"Signature"}
         <Description Lang="en">Module to show agents important tickets via the agent interface.</Description>
         <Description Lang="de">Modul, das den Agents auf wichtige Tickets aufmerksam macht.</Description>
         <Group>Ticket</Group>
-        <SubGroup>FrontendModuleNotify</SubGroup>
+        <SubGroup>AgentFrontendModuleNotify</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::NotificationAgentTicket</Item>
@@ -2538,11 +2518,11 @@ $Data{"Signature"}
             };
         -->        
     </ConfigItem>       
-    <ConfigItem Name="Ticket::Frontend::MenuModule###000-Back" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::MenuModule###000-Back" Required="0" Valid="1">
         <Description Lang="en">Module to show back link in menu.</Description>
         <Description Lang="de">Über dieses Modul werden die Zurück-Links in der Linkleiste angezeigt.</Description>
         <Group>Ticket</Group>
-        <SubGroup>AgentFrontend</SubGroup>
+        <SubGroup>AgentFrontendMenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
@@ -2562,11 +2542,11 @@ $Data{"Signature"}
             };
         -->        
     </ConfigItem>  
-    <ConfigItem Name="Ticket::Frontend::MenuModule###100-Lock" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::MenuModule###100-Lock" Required="0" Valid="1">
         <Description Lang="en">Module to show lock/unlock link in menu.</Description>
         <Description Lang="de">Über dieses Modul werden die Sperren- bzw. Freigeben-Links in der Linkleiste angezeigt.</Description>
         <Group>Ticket</Group>
-        <SubGroup>AgentFrontend</SubGroup>
+        <SubGroup>AgentFrontendMenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuLock</Item>
@@ -2582,11 +2562,11 @@ $Data{"Signature"}
             };
         -->        
     </ConfigItem>      
-    <ConfigItem Name="Ticket::Frontend::MenuModule###200-History" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::MenuModule###200-History" Required="0" Valid="1">
         <Description Lang="en">Module to show history link in menu.</Description>
         <Description Lang="de">Über dieses Modul werden die Historie-Links in der Linkleiste angezeigt.</Description>
         <Group>Ticket</Group>
-        <SubGroup>AgentFrontend</SubGroup>
+        <SubGroup>AgentFrontendMenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
@@ -2606,11 +2586,11 @@ $Data{"Signature"}
             };        
         -->        
     </ConfigItem>    
-    <ConfigItem Name="Ticket::Frontend::MenuModule###210-Print" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::MenuModule###210-Print" Required="0" Valid="1">
         <Description Lang="en">Module to show print link in menu.</Description>
         <Description Lang="de">Über dieses Modul werden die Drucken-Links in der Linkleiste angezeigt.</Description>
         <Group>Ticket</Group>
-        <SubGroup>AgentFrontend</SubGroup>
+        <SubGroup>AgentFrontendMenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
@@ -2632,11 +2612,11 @@ $Data{"Signature"}
             };   
         -->        
     </ConfigItem>     
-    <ConfigItem Name="Ticket::Frontend::MenuModule###300-Priority" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::MenuModule###300-Priority" Required="0" Valid="1">
         <Description Lang="en">Module to show priority link in menu.</Description>
         <Description Lang="de">Über dieses Modul werden die Priorität-Links in der Linkleiste angezeigt.</Description>
         <Group>Ticket</Group>
-        <SubGroup>AgentFrontend</SubGroup>
+        <SubGroup>AgentFrontendMenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
@@ -2656,11 +2636,11 @@ $Data{"Signature"}
             };
         -->        
     </ConfigItem>        
-    <ConfigItem Name="Ticket::Frontend::MenuModule###310-FreeText" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::MenuModule###310-FreeText" Required="0" Valid="1">
         <Description Lang="en">Module to show free text link in menu.</Description>
         <Description Lang="de">Frei definierten Textlink im Menü anzeigen.</Description>
         <Group>Ticket</Group>
-        <SubGroup>AgentFrontend</SubGroup>
+        <SubGroup>AgentFrontendMenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
@@ -2680,11 +2660,11 @@ $Data{"Signature"}
             };
         -->
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::MenuModule###320-Link" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::MenuModule###320-Link" Required="0" Valid="1">
         <Description Lang="en">Module to show link to link a ticket with another object.</Description>
         <Description Lang="de">Über dieses Module wird ein Link im Menü angezeigt, mit eim ein Ticket mit einem anderen Objekt verknüpft werden kann.</Description>
         <Group>Ticket</Group>
-        <SubGroup>AgentFrontend</SubGroup>
+        <SubGroup>AgentFrontendMenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
@@ -2704,11 +2684,11 @@ $Data{"Signature"}
             };
         -->
      </ConfigItem>
-     <ConfigItem Name="Ticket::Frontend::MenuModule###400-Owner" Required="1" Valid="1">
+     <ConfigItem Name="Ticket::Frontend::MenuModule###400-Owner" Required="0" Valid="1">
         <Description Lang="en">Module to show owner link in menu.</Description>
         <Description Lang="de">Dieses Modul zeigt einen Link zum Besitzer eines Tickets im Menü an.</Description>
         <Group>Ticket</Group>
-        <SubGroup>AgentFrontend</SubGroup>
+        <SubGroup>AgentFrontendMenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
@@ -2728,11 +2708,11 @@ $Data{"Signature"}
             };
         -->
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::MenuModule###410-Customer" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::MenuModule###410-Customer" Required="0" Valid="1">
         <Description Lang="en">Module to show customer link in menu.</Description>
         <Description Lang="de">Modul zur Anzeige des Customer-Links im Menü.</Description>
         <Group>Ticket</Group>
-        <SubGroup>AgentFrontend</SubGroup>
+        <SubGroup>AgentFrontendMenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
@@ -2752,11 +2732,11 @@ $Data{"Signature"}
             };
         -->
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::MenuModule###420-Note" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::MenuModule###420-Note" Required="0" Valid="1">
         <Description Lang="en">Module to show link to note in menu.</Description>
         <Description Lang="de">Link zu Notiz anzeigen innerhalb des Menüs.</Description>
         <Group>Ticket</Group>
-        <SubGroup>AgentFrontend</SubGroup>
+        <SubGroup>AgentFrontendMenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
@@ -2776,11 +2756,11 @@ $Data{"Signature"}
             };
         -->
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::MenuModule###430-Pending" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::MenuModule###430-Pending" Required="0" Valid="1">
         <Description Lang="en">Module to show pending link in menu.</Description>
         <Description Lang="de">Über dieses Modul kann der Link für "Warten" (pending) im Menü angezeigt werden.</Description>
         <Group>Ticket</Group>
-        <SubGroup>AgentFrontend</SubGroup>
+        <SubGroup>AgentFrontendMenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
@@ -2800,11 +2780,11 @@ $Data{"Signature"}
             };
         -->
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::MenuModule###440-Close" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::MenuModule###440-Close" Required="0" Valid="1">
         <Description Lang="en">Module to show close link in menu.</Description>
         <Description Lang="de">Über dieses Modul wird der Link zum schließen eines Tickets im Menü angezeigt.</Description>
         <Group>Ticket</Group>
-        <SubGroup>AgentFrontend</SubGroup>
+        <SubGroup>AgentFrontendMenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
@@ -2824,11 +2804,11 @@ $Data{"Signature"}
             };
         -->
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::PreMenuModule###100-Lock" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::PreMenuModule###100-Lock" Required="0" Valid="1">
         <Description Lang="en">Show lock / unlock link</Description>
         <Description Lang="de">Link für gesperrt / nicht gesperrt anzeigen</Description>
         <Group>Ticket</Group>
-        <SubGroup>AgentFrontend</SubGroup>
+        <SubGroup>AgentFrontendPreMenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuLock</Item>
@@ -2844,11 +2824,11 @@ $Data{"Signature"}
             };
         -->
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::PreMenuModule###200-Zoom" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::PreMenuModule###200-Zoom" Required="0" Valid="1">
         <Description Lang="en">Show zoom link</Description>
         <Description Lang="de">Link zum Zoomen anzeigen</Description>
         <Group>Ticket</Group>
-        <SubGroup>AgentFrontend</SubGroup>
+        <SubGroup>AgentFrontendPreMenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
@@ -2868,11 +2848,11 @@ $Data{"Signature"}
             };
         -->
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::PreMenuModule###210-History" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::PreMenuModule###210-History" Required="0" Valid="1">
         <Description Lang="en">Show history link</Description>
         <Description Lang="de">History Link anzeigen</Description>
         <Group>Ticket</Group>
-        <SubGroup>AgentFrontend</SubGroup>
+        <SubGroup>AgentFrontendPreMenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
@@ -2892,11 +2872,11 @@ $Data{"Signature"}
             };
         -->
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::PreMenuModule###300-Priority" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::PreMenuModule###300-Priority" Required="0" Valid="1">
         <Description Lang="en">Show priority link</Description>
         <Description Lang="de">Link für die Priorität anzeigen</Description>
         <Group>Ticket</Group>
-        <SubGroup>AgentFrontend</SubGroup>
+        <SubGroup>AgentFrontendPreMenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
@@ -2916,11 +2896,11 @@ $Data{"Signature"}
             };
         -->
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::PreMenuModule###420-Note" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::PreMenuModule###420-Note" Required="0" Valid="1">
         <Description Lang="en">Show note link</Description>
         <Description Lang="de">Link für eine Notiz anzeigen</Description>
         <Group>Ticket</Group>
-        <SubGroup>AgentFrontend</SubGroup>
+        <SubGroup>AgentFrontendPreMenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
@@ -2940,11 +2920,11 @@ $Data{"Signature"}
             };
         -->
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::PreMenuModule###440-Close" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::PreMenuModule###440-Close" Required="0" Valid="1">
         <Description Lang="en">Show close link</Description>
         <Description Lang="de">Link zum Schließen anzeigen</Description>
         <Group>Ticket</Group>
-        <SubGroup>AgentFrontend</SubGroup>
+        <SubGroup>AgentFrontendPreMenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
@@ -2968,7 +2948,7 @@ $Data{"Signature"}
         <Description Lang="en">Show delete link</Description>
         <Description Lang="de">Link zum Löschen anzeigen</Description>
         <Group>Ticket</Group>
-        <SubGroup>AgentFrontend</SubGroup>
+        <SubGroup>AgentFrontendPreMenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
@@ -2992,7 +2972,7 @@ $Data{"Signature"}
         <Description Lang="en">Show spam link</Description>
         <Description Lang="de">Link zum Spam verarbeiten</Description>
         <Group>Ticket</Group>
-        <SubGroup>AgentFrontend</SubGroup>
+        <SubGroup>AgentFrontendPreMenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
