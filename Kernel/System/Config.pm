@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.26 2005-05-25 14:58:21 martin Exp $
+# $Id: Config.pm,v 1.27 2005-05-25 15:22:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -177,14 +177,14 @@ sub CreateConfig {
                 }
                 if ($Config{Setting}->[1]->{TextArea}) {
                     print OUT "    \$Self->{'$Name'} = '$Config{Setting}->[1]->{TextArea}->[1]->{Content}';\n";
-                }                
+                }
                 if ($Config{Setting}->[1]->{Hash}) {
                     my %Hash = ();
                     my @Array = ();
                     if (ref($Config{Setting}->[1]->{Hash}->[1]->{Item}) eq 'ARRAY') {
-                        @Array = @{$Config{Setting}->[1]->{Hash}->[1]->{Item}};                  
+                        @Array = @{$Config{Setting}->[1]->{Hash}->[1]->{Item}};
                     }
-                    foreach my $Item (1..$#Array) {                    
+                    foreach my $Item (1..$#Array) {
                         if (defined($Array[$Item]->{Hash})) {
                             my %SubHash = ();
                             foreach my $Index (1...$#{$Config{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Hash}->[1]->{Item}}) {
@@ -201,8 +201,8 @@ sub CreateConfig {
                         }
                         else {
                             $Hash{$Array[$Item]->{Key}} = $Array[$Item]->{Content};
-                        };                         
-                    }                    
+                        };
+                    }
                     # store in config
                     require Data::Dumper;
                     my $Dump = Data::Dumper::Dumper(\%Hash);
@@ -235,7 +235,7 @@ sub CreateConfig {
                             $Hash{$Key} = \@Array;
                         }
                         elsif ($Key eq 'NavBar' || $Key eq 'NavBarModule') {
-                            if (ref($Config{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}) eq 'ARRAY') {         
+                            if (ref($Config{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}) eq 'ARRAY') {
                                 foreach my $Index (1...$#{$Config{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}}) {
                                     my $Content = $Config{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}->[$Index];
                                     my %NavBar = ();
@@ -254,7 +254,7 @@ sub CreateConfig {
                                         }
                                     }
                                     if ($Key eq 'NavBar') {
-                                        push (@{$Hash{$Key}}, \%NavBar);                            
+                                        push (@{$Hash{$Key}}, \%NavBar);
                                     }
                                     else {
                                         $Hash{$Key} = \%NavBar;
@@ -436,6 +436,8 @@ sub ConfigItemGet {
             # update xml with current config setting
             if ($ConfigItem->{Setting}->[1]->{String}) {
                 # fill default
+                $ConfigItem->{Setting}->[1]->{String}->[1]->{Content} =~ s/&lt;/</g;
+                $ConfigItem->{Setting}->[1]->{String}->[1]->{Content} =~ s/&gt;/>/g;
                 $ConfigItem->{Setting}->[1]->{String}->[1]->{Default} = $ConfigItem->{Setting}->[1]->{String}->[1]->{Content};
                 if (defined($Self->ModGet(ConfigName => $ConfigItem->{Name}))) {
                     $ConfigItem->{Setting}->[1]->{String}->[1]->{Content} = $Self->ModGet(ConfigName => $ConfigItem->{Name});
@@ -443,6 +445,8 @@ sub ConfigItemGet {
             }
             if ($ConfigItem->{Setting}->[1]->{TextArea}) {
                 # fill default
+                $ConfigItem->{Setting}->[1]->{TextArea}->[1]->{Content} =~ s/&lt;/</g;
+                $ConfigItem->{Setting}->[1]->{TextArea}->[1]->{Content} =~ s/&gt;/>/g;
                 $ConfigItem->{Setting}->[1]->{TextArea}->[1]->{Default} = $ConfigItem->{Setting}->[1]->{TextArea}->[1]->{Content};
                 if (defined($Self->ModGet(ConfigName => $ConfigItem->{Name}))) {
                     $ConfigItem->{Setting}->[1]->{TextArea}->[1]->{Content} = $Self->ModGet(ConfigName => $ConfigItem->{Name});
@@ -450,6 +454,8 @@ sub ConfigItemGet {
             }
             if ($ConfigItem->{Setting}->[1]->{Option}) {
                 # fill default
+                $ConfigItem->{Setting}->[1]->{Option}->[1]->{SelectedID} =~ s/&lt;/</g;
+                $ConfigItem->{Setting}->[1]->{Option}->[1]->{SelectedID} =~ s/&gt;/>/g;
                 $ConfigItem->{Setting}->[1]->{Option}->[1]->{Default} = $ConfigItem->{Setting}->[1]->{Option}->[1]->{SelectedID};
                 if (defined($Self->ModGet(ConfigName => $ConfigItem->{Name}))) {
                     $ConfigItem->{Setting}->[1]->{Option}->[1]->{SelectedID} = $Self->ModGet(ConfigName => $ConfigItem->{Name});
@@ -826,6 +832,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.26 $ $Date: 2005-05-25 14:58:21 $
+$Revision: 1.27 $ $Date: 2005-05-25 15:22:48 $
 
 =cut
