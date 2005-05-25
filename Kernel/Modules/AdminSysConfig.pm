@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.pm,v 1.17 2005-05-19 14:54:13 rk Exp $
+# $Id: AdminSysConfig.pm,v 1.18 2005-05-25 08:42:48 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -237,19 +237,19 @@ sub Run {
                         $Content{NavBar}[$Index]{$_} = $NavBarParams{$_}[$Index];
                     }
                 }
-                # NavBarModule get Params
-                my %NavBarModuleParams;
-                foreach (qw (Module Name Block Prio)) {
-                    my @Param = $Self->{ParamObject}->GetArray(Param => $ElementKey.'#NavBarModule#'.$_.'[]');
-                    $NavBarModuleParams{$_} = \@Param;
-                }
-                # Create Hash
-#                foreach my $Index (0...$#{$NavBarModuleParams{Module}}) {
+                # NavBarModule
+                if ($Self->{ParamObject}->GetArray(Param => $ElementKey.'#NavBarModule#Module[]')) {
+                    # get Params
+                    my %NavBarModuleParams;
+                    foreach (qw (Module Name Block Prio)) {
+                        my @Param = $Self->{ParamObject}->GetArray(Param => $ElementKey.'#NavBarModule#'.$_.'[]');
+                        $NavBarModuleParams{$_} = \@Param;
+                    }
+                    # Create Hash
                     foreach (qw (Group GroupRo Module Name Block Prio)) {
-#                        $Content{NavBarModule}[$Index]{$_} = $NavBarModuleParams{$_}[$Index];
                         $Content{NavBarModule}{$_} = $NavBarModuleParams{$_}[0];
                     }
-#                }
+                }
                 # write ConfigItem
                 if (!$Self->{SysConfigObject}->ConfigItemUpdate(Key => $_, Value => \%Content, Valid => $Aktiv)) {
                     $Self->{LayoutObject}->FatalError(Message => "Can't write ConfigItem!");

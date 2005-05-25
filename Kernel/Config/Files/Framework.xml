@@ -93,7 +93,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.34 2005-05-20 12:50:07 tr Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.35 2005-05-25 08:42:48 rk Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der WEB-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -3052,24 +3052,6 @@ Your OTRS Notification Master
                 Title => 'Info',
             };
         -->
-    </ConfigItem>
-    <ConfigItem Name="Frontend::Module###AgentPreferences" Required="1" Valid="1">
-        <Description Lang="en">All parameters of AgentPreferences object in the agent interface.</Description>
-        <Description Lang="de">Alle Parameter des AgentPreferences-Objekts im Agent-Interface.</Description>
-        <Group>Framework</Group>
-        <SubGroup>AgentFrontendModulRegistration</SubGroup>        
-        <Setting>
-            <FrontendModuleReg>
-                <Title>Preferences</Title>
-                <NavBar>
-                    <Description>Agent Preferences</Description>
-                    <Name>Preferences</Name>
-                    <Image>prefer.png</Image>
-                    <Link>Action=AgentPreferences</Link>
-                    <Prio>1000</Prio>
-                </NavBar>
-            </FrontendModuleReg>
-        </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::NavBarStyle" Required="1" Valid="1">
         <Description Lang="en">With this setting you can define how the icons in the Navbar are displayed.</Description>
