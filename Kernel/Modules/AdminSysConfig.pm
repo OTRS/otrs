@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.pm,v 1.18 2005-05-25 08:42:48 rk Exp $
+# $Id: AdminSysConfig.pm,v 1.19 2005-05-25 10:33:12 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -207,7 +207,9 @@ sub Run {
                             $Anker = $ItemHash{Name};
                         }
                     }
-                    $Content{$Typ} = \@Group;
+                    if ($#Group > -1) {
+                        $Content{$Typ} = \@Group;
+                    }
                 }
                 # NavBar get Params
                 my %NavBarParams;
@@ -231,7 +233,9 @@ sub Run {
                                 $Anker = $ItemHash{Name};
                             }
                         }
-                        $Content{NavBar}[$Index]{$Typ} = \@Group;
+                        if ($#Group > -1) {
+                            $Content{NavBar}[$Index]{$Typ} = \@Group;
+                        }
                     }
                     foreach (qw (Description Name Image Link Typ Prio Block NavBar AccessKey)) {
                         $Content{NavBar}[$Index]{$_} = $NavBarParams{$_}[$Index];
