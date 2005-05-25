@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.24 2005-05-20 13:52:10 rk Exp $
+# $Id: Config.pm,v 1.25 2005-05-25 14:22:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -164,38 +164,38 @@ sub CreateConfig {
             my %Config = $Self->ConfigItemGet(
                 Name => $ConfigItem->{Name},
             );
-            my $Name = $ConfigItem->{Name};
+            my $Name = $Config{Name};
             $Name =~ s/\\/\\\\/g;
             $Name =~ s/'/\'/g;
             $Name =~ s/###/'}->{'/g;
-            if ($ConfigItem->{Valid}) {
-                if ($ConfigItem->{Setting}->[1]->{String}) {
-                    print OUT "    \$Self->{'$Name'} = '$ConfigItem->{Setting}->[1]->{String}->[1]->{Content}';\n";
+            if ($Config{Valid}) {
+                if ($Config{Setting}->[1]->{String}) {
+                    print OUT "    \$Self->{'$Name'} = '$Config{Setting}->[1]->{String}->[1]->{Content}';\n";
                 }
-                if ($ConfigItem->{Setting}->[1]->{Option}) {
-                    print OUT "    \$Self->{'$Name'} = '$ConfigItem->{Setting}->[1]->{Option}->[1]->{SelectedID}';\n";
+                if ($Config{Setting}->[1]->{Option}) {
+                    print OUT "    \$Self->{'$Name'} = '$Config{Setting}->[1]->{Option}->[1]->{SelectedID}'; ###\n";
                 }
-                if ($ConfigItem->{Setting}->[1]->{TextArea}) {
-                    print OUT "    \$Self->{'$Name'} = '$ConfigItem->{Setting}->[1]->{TextArea}->[1]->{Content}';\n";
+                if ($Config{Setting}->[1]->{TextArea}) {
+                    print OUT "    \$Self->{'$Name'} = '$Config{Setting}->[1]->{TextArea}->[1]->{Content}';\n";
                 }                
-                if ($ConfigItem->{Setting}->[1]->{Hash}) {
+                if ($Config{Setting}->[1]->{Hash}) {
                     my %Hash = ();
                     my @Array = ();
-                    if (ref($ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}) eq 'ARRAY') {
-                        @Array = @{$ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}};                  
+                    if (ref($Config{Setting}->[1]->{Hash}->[1]->{Item}) eq 'ARRAY') {
+                        @Array = @{$Config{Setting}->[1]->{Hash}->[1]->{Item}};                  
                     }
                     foreach my $Item (1..$#Array) {                    
                         if (defined($Array[$Item]->{Hash})) {
                             my %SubHash = ();
-                            foreach my $Index (1...$#{$ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Hash}->[1]->{Item}}) {
-                                $SubHash{$ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Hash}->[1]->{Item}->[$Index]->{Key}} = $ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Hash}->[1]->{Item}->[$Index]->{Content};
+                            foreach my $Index (1...$#{$Config{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Hash}->[1]->{Item}}) {
+                                $SubHash{$Config{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Hash}->[1]->{Item}->[$Index]->{Key}} = $Config{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Hash}->[1]->{Item}->[$Index]->{Content};
                             }
                             $Hash{$Array[$Item]->{Key}} = \%SubHash;
                         }
                         elsif (defined($Array[$Item]->{Array})) {
                             my @SubArray = ();
-                            foreach my $Index (1...$#{$ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Array}->[1]->{Item}}) {
-                                push (@SubArray, $ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Array}->[1]->{Item}->[$Index]->{Content});
+                            foreach my $Index (1...$#{$Config{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Array}->[1]->{Item}}) {
+                                push (@SubArray, $Config{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Array}->[1]->{Item}->[$Index]->{Content});
                             }
                             $Hash{$Array[$Item]->{Key}} = \@SubArray;
                         }
@@ -209,14 +209,13 @@ sub CreateConfig {
                     $Dump =~ s/\$VAR1/\$Self->{'$Name'}/;
                     print OUT $Dump;
                 }
-                if ($ConfigItem->{Setting}->[1]->{Array}) {
+                if ($Config{Setting}->[1]->{Array}) {
                     my @ArrayNew = ();
                     my @Array = ();
-                    if (ref($ConfigItem->{Setting}->[1]->{Array}->[1]->{Item}) eq 'ARRAY') {
-                        @Array = @{$ConfigItem->{Setting}->[1]->{Array}->[1]->{Item}};
+                    if (ref($Config{Setting}->[1]->{Array}->[1]->{Item}) eq 'ARRAY') {
+                        @Array = @{$Config{Setting}->[1]->{Array}->[1]->{Item}};
                     }
                     foreach my $Item (1..$#Array) {
-#                    foreach my $Item (0..$#Array) {
                         push (@ArrayNew, $Array[$Item]->{Content});
                     }
                     # store in config
@@ -225,20 +224,20 @@ sub CreateConfig {
                     $Dump =~ s/\$VAR1/\$Self->{'$Name'}/;
                     print OUT $Dump;
                 }
-                if ($ConfigItem->{Setting}->[1]->{FrontendModuleReg}) {
+                if ($Config{Setting}->[1]->{FrontendModuleReg}) {
                     my %Hash = ();
-                    foreach my $Key (sort keys %{$ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]}) {
+                    foreach my $Key (sort keys %{$Config{Setting}->[1]->{FrontendModuleReg}->[1]}) {
                         if ($Key eq 'Group' || $Key eq 'GroupRo') {
                             my @Array = ();
-                            foreach my $Index (1...$#{$ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}}) {
-                                push(@Array, $ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}->[1]->{Content});
+                            foreach my $Index (1...$#{$Config{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}}) {
+                                push(@Array, $Config{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}->[1]->{Content});
                             }
                             $Hash{$Key} = \@Array;
                         }
                         elsif ($Key eq 'NavBar' || $Key eq 'NavBarModule') {
-                            if (ref($ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}) eq 'ARRAY') {         
-                                foreach my $Index (1...$#{$ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}}) {
-                                    my $Content = $ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}->[$Index];
+                            if (ref($Config{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}) eq 'ARRAY') {         
+                                foreach my $Index (1...$#{$Config{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}}) {
+                                    my $Content = $Config{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}->[$Index];
                                     my %NavBar = ();
                                     foreach $Key (sort keys %{$Content}) {
                                         if ($Key eq 'Group' || $Key eq 'GroupRo') {
@@ -263,7 +262,7 @@ sub CreateConfig {
                                 }
                             }
                             else {
-                                my $Content = $ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key};
+                                my $Content = $Config{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key};
                                 my %NavBar = ();
                                 foreach $Key (sort keys %{$Content}) {
                                     if ($Key eq 'Group' || $Key eq 'GroupRo') {
@@ -284,7 +283,7 @@ sub CreateConfig {
                         }
                         else {
                             if ($Key ne 'Content') {
-                                $Hash{$Key} = $ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}->[1]->{Content};
+                                $Hash{$Key} = $Config{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}->[1]->{Content};
                             }
                         }
                     }
@@ -294,9 +293,9 @@ sub CreateConfig {
                     $Dump =~ s/\$VAR1/\$Self->{'$Name'}/;
                     print OUT $Dump;
                 }
-                if ($ConfigItem->{Setting}->[1]->{TimeWorkingHours}) {
+                if ($Config{Setting}->[1]->{TimeWorkingHours}) {
                     my %Days = ();
-                    my @Array = @{$ConfigItem->{Setting}->[1]->{TimeWorkingHours}->[1]->{Day}};
+                    my @Array = @{$Config{Setting}->[1]->{TimeWorkingHours}->[1]->{Day}};
                     foreach my $Day (1..$#Array) {
                         my @Array2 = ();
                         if ($Array[$Day]->{Hour}) {
@@ -313,11 +312,10 @@ sub CreateConfig {
                     $Dump =~ s/\$VAR1/\$Self->{'$Name'}/;
                     print OUT $Dump;
                 }
-                if ($ConfigItem->{Setting}->[1]->{TimeVacationDays}) {
+                if ($Config{Setting}->[1]->{TimeVacationDays}) {
                     my %Hash = ();
-                    my @Array = @{$ConfigItem->{Setting}->[1]->{TimeVacationDays}->[1]->{Item}};
+                    my @Array = @{$Config{Setting}->[1]->{TimeVacationDays}->[1]->{Item}};
                     foreach my $Item (1..$#Array) {
-#                    foreach my $Item (0..$#Array) {
                         $Hash{$Array[$Item]->{Month}}->{$Array[$Item]->{Day}} = $Array[$Item]->{Content};
                     }
                     # store in config
@@ -326,11 +324,10 @@ sub CreateConfig {
                     $Dump =~ s/\$VAR1/\$Self->{'$Name'}/;
                     print OUT $Dump;
                 }
-                if ($ConfigItem->{Setting}->[1]->{TimeVacationDaysOneTime}) {
+                if ($Config{Setting}->[1]->{TimeVacationDaysOneTime}) {
                     my %Hash = ();
-                    my @Array = @{$ConfigItem->{Setting}->[1]->{TimeVacationDaysOneTime}->[1]->{Item}};
+                    my @Array = @{$Config{Setting}->[1]->{TimeVacationDaysOneTime}->[1]->{Item}};
                     foreach my $Item (1..$#Array) {
-#                    foreach my $Item (0..$#Array) {
                         $Hash{$Array[$Item]->{Year}}->{$Array[$Item]->{Month}}->{$Array[$Item]->{Day}} = $Array[$Item]->{Content};
                     }
                     # store in config
@@ -339,7 +336,7 @@ sub CreateConfig {
                     $Dump =~ s/\$VAR1/\$Self->{'$Name'}/;
                     print OUT $Dump;
                 }
-                print OUT "    \$Self->{'Valid'}->{'$Name'} = '$ConfigItem->{Valid}';\n";
+                print OUT "    \$Self->{'Valid'}->{'$Name'} = '$Config{Valid}';\n";
             }
         }
     }
@@ -829,6 +826,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.24 $ $Date: 2005-05-20 13:52:10 $
+$Revision: 1.25 $ $Date: 2005-05-25 14:22:43 $
 
 =cut
