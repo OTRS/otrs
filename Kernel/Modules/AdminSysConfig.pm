@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.pm,v 1.20 2005-05-25 13:29:50 rk Exp $
+# $Id: AdminSysConfig.pm,v 1.21 2005-05-25 14:35:00 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -468,18 +468,23 @@ sub ListConfigItem {
     my %Param = @_;
     my %ItemHash    = %{$Param{Hash}};
     my %InvalidValue = %{$Param{InvalidValue}};
-    my $Valid = '';    
+    my $Valid = '';
+    my $Default = '';
     # ConfigElement String
     if (defined ($ItemHash{Setting}[1]{String})) {
         if (defined ($InvalidValue{$ItemHash{Name}})) {
             $Valid = 'Invalid Value!';
+        }
+        if ($ItemHash{Setting}[1]{String}[1]{Default} ne '' && length($ItemHash{Setting}[1]{String}[1]{Default}) < 80) {
+            $Default = "(default: ".$ItemHash{Setting}[1]{String}[1]{Default}.")";
         }
         $Self->{LayoutObject}->Block(
             Name => 'ConfigElementString',
             Data => {
                 ElementKey => $ItemHash{Name},
                 Content    => $ItemHash{Setting}[1]{String}[1]{Content},
-                Valid      => $Valid,   
+                Valid      => $Valid,
+                Default    => $Default,
             },
         );
     }
