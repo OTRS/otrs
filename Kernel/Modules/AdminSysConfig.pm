@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.pm,v 1.22 2005-05-25 15:19:30 rk Exp $
+# $Id: AdminSysConfig.pm,v 1.23 2005-05-25 17:00:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -321,7 +321,6 @@ sub Run {
                     $Self->{LayoutObject}->FatalError(Message => "Can't write ConfigItem!");
                 }
             }
-            
         }
         $Self->{Subaction} = 'Edit';
     }
@@ -331,7 +330,7 @@ sub Run {
         my $Group = $Self->{ParamObject}->GetParam(Param => 'SysConfigGroup');
         my @List = $Self->{SysConfigObject}->ConfigSubGroupConfigItemList(Group => $Group, SubGroup => $SubGroup);
         #Language
-        my $UserLang = $Self->{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage');     
+        my $UserLang = $Self->{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage');
         # list all Items
         foreach (@List) {
             # Get all Attributes from Item
@@ -385,7 +384,7 @@ sub Run {
         $Data{Group} = $Group;
         $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'SysConfig');
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminSysConfigEdit', Data => \%Data);   
+        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminSysConfigEdit', Data => \%Data);
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
@@ -394,7 +393,7 @@ sub Run {
         my %Groups = $Self->{SysConfigObject}->ConfigGroupList();
         foreach my $Group (sort keys(%Groups)) {
             my %SubGroups = $Self->{SysConfigObject}->ConfigSubGroupList(Name => $Group);
-            foreach my $SubGroup (sort keys(%SubGroups)) {
+            foreach my $SubGroup (sort keys %SubGroups) {
                 my $Found = 0;
                 my @Items = $Self->{SysConfigObject}->ConfigSubGroupConfigItemList(Group => $Group, SubGroup => $SubGroup);
                 foreach my $Item (@Items) {
@@ -416,6 +415,7 @@ sub Run {
                         Name  => 'Row',
                         Data  => {
                             SubGroup => $SubGroup,
+                            SubGroupCount => $SubGroups{$SubGroup},
                             Group    => $Group,
                         },
                     );
@@ -431,7 +431,8 @@ sub Run {
             $Self->{LayoutObject}->Block(
                 Name  => 'Row',
                 Data  => {
-                    SubGroup => $List{$_},
+                    SubGroup => $_,
+                    SubGroupCount => $List{$_},
                     Group    => $Group,
                 },
             );
@@ -445,7 +446,7 @@ sub Run {
     )) {
         return $Self->{LayoutObject}->ErrorScreen();
     }
-    
+
     # list Groups
     my %List = $Self->{SysConfigObject}->ConfigGroupList();
     # create select Box
@@ -454,11 +455,11 @@ sub Run {
         Selected => $Group,
         Name     => 'SysConfigGroup',
     );
-  
+
     $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'SysConfig');
     $Output .= $Self->{LayoutObject}->NavigationBar();
     $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminSysConfig', Data => \%Data);
-    $Output .= $Self->{LayoutObject}->Footer();    
+    $Output .= $Self->{LayoutObject}->Footer();
     return $Output;
 }
 
@@ -489,16 +490,16 @@ sub ListConfigItem {
         );
     }
     # ConfigElement TextArea
-    elsif (defined ($ItemHash{Setting}[1]{TextArea})) {    
+    elsif (defined ($ItemHash{Setting}[1]{TextArea})) {
         $Self->{LayoutObject}->Block(
             Name => 'ConfigElementTextArea',
             Data => {
                 ElementKey => $ItemHash{Name},
                 Content    => $ItemHash{Setting}[1]{TextArea}[1]{Content},
-                Valid      => $Valid,   
+                Valid      => $Valid,
             },
         );
-    }    
+    }
     # ConfigElement PulldownMenue
     elsif (defined ($ItemHash{Setting}[1]{Option})) {
         my %Hash;
@@ -535,7 +536,7 @@ sub ListConfigItem {
         # New HashElement
         if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#NewHashElement')) {
             push (@{$ItemHash{Setting}[1]{Hash}[1]{Item}}, {Key => '', Content => ''});
-        }      
+        }
         # Hashelements
         foreach my $Index (1...$#{$ItemHash{Setting}[1]{Hash}[1]{Item}}) {
             #SubHash
@@ -552,7 +553,7 @@ sub ListConfigItem {
                 # New SubHashElement
                 if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#'.$ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Key}.'#NewSubElement')) {
                     push (@{$ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Hash}[1]{Item}}, {Key => '', Content => ''});
-                }      
+                }
                 # SubHashElements
                 foreach my $Index2 (1...$#{$ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Hash}[1]{Item}}) {
                     $Self->{LayoutObject}->Block(
@@ -578,7 +579,7 @@ sub ListConfigItem {
                         Index      => $Index,
                     },
                 );
-                # SubArrayElements                
+                # SubArrayElements
                 foreach my $Index2 (1...$#{$ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Array}[1]{Item}}) {
                     $Self->{LayoutObject}->Block(
                         Name => 'ConfigElementSubArrayContent',
@@ -589,7 +590,7 @@ sub ListConfigItem {
                             Index2     => $Index2,
                         },
                     );
-                }                
+                }
             }
             #SubOption
             elsif (defined($ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Option})) {
@@ -608,11 +609,11 @@ sub ListConfigItem {
                     Data => {
                         ElementKey => $ItemHash{Name},
                         Key        => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Key},
-                        Liste      => $PulldownMenue, 
+                        Liste      => $PulldownMenue,
                         Index      => $Index,
                     },
                 );
-            }            
+            }
             # StandardElement
             else {
                 $Self->{LayoutObject}->Block(
@@ -623,9 +624,9 @@ sub ListConfigItem {
                         Content    => $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Content},
                         Index      => $Index,
                     },
-                );            
-            }           
-        }               
+                );
+            }
+        }
     }
     # ConfigElement Array
     elsif (defined ($ItemHash{Setting}[1]{Array})) {
