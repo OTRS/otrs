@@ -23,7 +23,7 @@
     <ConfigItem Name="FAQ::Field1" Required="1" Valid="1">
         <Description Lang="en">Description of first FAQ field</Description>
         <Description Lang="de">Beschreibung des ersten FAQ Feldes</Description>
-        <Group>Framework</Group>
+        <Group>FAQ</Group>
         <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <String>Symptom</String>
