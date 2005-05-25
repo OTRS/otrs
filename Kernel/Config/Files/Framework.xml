@@ -93,7 +93,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.35 2005-05-25 08:42:48 rk Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.36 2005-05-25 14:21:20 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der WEB-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -107,6 +107,16 @@ TimeWorkingHours
         </Setting>
         <!--  $Self->{SecureMode} = 0; -->
     </ConfigItem>     
+    <ConfigItem Name="ProductName" Required="1" Valid="1">
+        <Description Lang="en">The name of the application that is shown in the frontend.</Description>
+        <Description Lang="de">Im WebFrontend angezeigter Softwarename.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core</SubGroup>
+        <Setting>
+            <String Regex="">OTRS</String>
+        </Setting>
+        <!-- $Self->{ProductName} = 'OTRS'; -->
+    </ConfigItem>                     
     <ConfigItem Name="SystemID" Required="1" Valid="1">
         <Description Lang="en">The system identifyer. Every ticket number and ID of a http session starts with this number.</Description>
         <Description Lang="de">Identifikationsnummer für das installierte System. Jede Ticketnummer und ID einer http-Session beginnt mit dieser Nummer.</Description>
@@ -169,16 +179,6 @@ TimeWorkingHours
             <String Regex=""></String>
         </Setting>
         <!-- $Self->{Organization} = ''; -->
-    </ConfigItem>                     
-    <ConfigItem Name="ProductName" Required="1" Valid="1">
-        <Description Lang="en">The name of the application that is shown in the frontend.</Description>
-        <Description Lang="de">Im WebFrontend angezeigter Softwarename.</Description>
-        <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
-        <Setting>
-            <String Regex="">OTRS</String>
-        </Setting>
-        <!-- $Self->{ProductName} = 'OTRS'; -->
     </ConfigItem>                     
     <ConfigItem Name="DefaultCharset" Required="1" Valid="1">
         <Description Lang="en">Default frontend charset. "utf-8" is a good choice for envirorments with many possible charsetss. Specify another charset (e.g "iso-8859-1"), if only this specific charset is needed.</Description>
@@ -333,19 +333,6 @@ Your OTRS Notification Master
         </Setting>
         <!-- $Self->{'AttachmentDownloadType'} = 'inline'; -->
     </ConfigItem>   
-    <ConfigItem Name="CheckEmailAddresses" Required="1" Valid="1">
-        <Description Lang="en">Check the syntax of email addresses?</Description>
-        <Description Lang="de">Sollen Mailadressen auf ihre korrekte Syntax überprüft werden?</Description>
-        <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
-        <Setting>
-            <Option SelectedID="1">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>               
-            </Option>
-        </Setting>
-        <!-- $Self->{CheckEmailAddresses} = 1; -->
-    </ConfigItem>                     
     <ConfigItem Name="CheckMXRecord" Required="1" Valid="1">
         <Description Lang="en">Check the MX record of email addresses before sending a mail?</Description>
         <Description Lang="de">Soll der MX-Record von Mailadressen vor dem Versenden überprüft werden?</Description>
@@ -358,6 +345,19 @@ Your OTRS Notification Master
             </Option>
         </Setting>
         <!-- $Self->{CheckMXRecord} = 1; -->
+    </ConfigItem>                     
+    <ConfigItem Name="CheckEmailAddresses" Required="1" Valid="1">
+        <Description Lang="en">Check the syntax of email addresses?</Description>
+        <Description Lang="de">Sollen Mailadressen auf ihre korrekte Syntax überprüft werden?</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>               
+            </Option>
+        </Setting>
+        <!-- $Self->{CheckEmailAddresses} = 1; -->
     </ConfigItem>                     
     <ConfigItem Name="CheckEmailValidAddress" Required="1" Valid="1">
         <Description Lang="en">Regex for email addresses, that aren't syntacticaly valid but necesary for the system, e.g. "root@localhost".</Description>
@@ -389,7 +389,7 @@ Your OTRS Notification Master
         </Setting>
         <!-- $Self->{CheckMXRecord} = 1; -->
     </ConfigItem>                     
-    <ConfigItem Name="LogModule::SysLog::Facility" Required="0" Valid="0">
+    <ConfigItem Name="LogModule::SysLog::Facility" Required="1" Valid="1">
         <Description Lang="en">If "SysLog" was selected for LogModule, you can specify a special log facility.</Description>
         <Description Lang="de">Wenn für LogModule der Wert "SysLog" ausgewählt wurde, kann hier ein spezielles Log-Facility angegeben werden.</Description>
         <Group>Framework</Group>
@@ -423,7 +423,7 @@ Your OTRS Notification Master
         </Setting>
         <!--  $Self->{'LogModule::LogFile'} = '/tmp/otrs.log'; -->
     </ConfigItem>   
-    <ConfigItem Name="LogModule::LogFile::Date" Required="0" Valid="0">
+    <ConfigItem Name="LogModule::LogFile::Date" Required="1" Valid="1">
         <Description Lang="en">Would you like to add a time stamp as sufix for every log entry?</Description>
         <Description Lang="de">Soll für jeden Logeintrag das Datum und die aktuelle Zeit mit protokolliert werden?</Description>
         <Group>Framework</Group>
@@ -447,11 +447,11 @@ Your OTRS Notification Master
         <!--  $Self->{'LogSystemCacheSize'} = 4*1024; -->
         <!-- Angabe der Größeneinheit? byte? kbyte? -->
     </ConfigItem>   
-    <ConfigItem Name="SendmailModule" Required="0" Valid="0">
+    <ConfigItem Name="SendmailModule" Required="1" Valid="1">
         <Description Lang="en">Module to send E-Mails. "Sendmail" directly uses the sendmail binary of your operating system. "SMTP" uses a specifyed mailserver.</Description>
         <Description Lang="de">Modul zum Versenden von Mails. "Sendmail" verwendet das sendmail-Binary Ihres Betriebssystems. "SMTP" versendet die Nachrichten über den dafür vorgesehenen Mailserver.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>Sendmail</SubGroup>
         <Setting>
             <Option Location="Kernel/System/Email/*.pm" SelectedID="Kernel::System::Email::Sendmail"></Option>
         </Setting>
@@ -461,17 +461,17 @@ Your OTRS Notification Master
         <Description Lang="en">If "Sendmail" was selected for SendmailModule, you have to specify the location of your sendmail binary and the needed options.</Description>
         <Description Lang="de">Wenn "Sendmail" als SendmailModule ausgewählt wurde, müssen Sie dem System den Pfad zu Ihrem sendmail-Binary und die benötigten Optionen mitteilen.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>Sendmail</SubGroup>
         <Setting>
             <String Regex="">/usr/sbin/sendmail -i -f</String>
         </Setting>
         <!--  $Self->{'SendmailModule::CMD'} = '/usr/sbin/sendmail -i -f '; -->
     </ConfigItem>   
-    <ConfigItem Name="SendmailModule::Host" Required="0" Valid="0">
+    <ConfigItem Name="SendmailModule::Host" Required="1" Valid="1">
         <Description Lang="en">If "SMTP" was selected for SendmailModule, you have to specify the mailhost, that sends out the mails.</Description>
         <Description Lang="de">Wenn Sie für SendmailModule "SMTP" ausgwählt haben, müssen Sie hier den Mailserver angeben, der zum Versenden von Nachrichten genutzt werden soll.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>Sendmail</SubGroup>
         <Setting>
             <String Regex="">mail.example.com</String>
         </Setting>
@@ -481,7 +481,7 @@ Your OTRS Notification Master
         <Description Lang="en">If "SMTP" was selected for SendmailModule, specify the port where your mailserver is listening for incoming connections.</Description>
         <Description Lang="de">Wenn Sie für SendmailModule den Wert "SMTP" ausgewählt haben, können Sie hier den Port angeben, auf dem Ihr Mailserver Mails entgegen nimmt.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>Sendmail</SubGroup>
         <Setting>
             <String Regex="">25</String>
         </Setting>
@@ -491,7 +491,7 @@ Your OTRS Notification Master
         <Description Lang="en">If "SMTP" was selected for SendmailModule and you need to authenticate to your mailserver, specify the username.</Description>
         <Description Lang="de">Wenn Sie für SendmailModule den Wert "SMTP" ausgewählt haben und sich an Ihrem Mailserver anmelden müssen, geben Sie hier bitte den Benutzernamen für die Authentifizierung an.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>Sendmail</SubGroup>
         <Setting>
             <String Regex="">MailserverLogin</String>
         </Setting>
@@ -501,39 +501,39 @@ Your OTRS Notification Master
         <Description Lang="en">If "SMTP" was selected for SendmailModule and you need to authenticate to your mailserver, specify the password.</Description>
         <Description Lang="de">Wenn Sie für SendmailModule den Wert "SMTP" ausgewählt haben und sich an Ihrem Mailserver anmelden müssen, geben Sie hier das Passwort für die Authentifizierung an.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>Sendmail</SubGroup>
         <Setting>
             <String Regex="">MailserverPassword</String>
         </Setting>
         <!-- $Self->{'SendmailModule::AuthPassword'} = ''; -->
     </ConfigItem>   
-    <ConfigItem Name="SendmailBcc" Required="1" Valid="1">
+    <ConfigItem Name="SendmailBcc" Required="0" Valid="0">
         <Description Lang="en">Send all outgoing email via bcc to the specifyed address. Please use this only for backup reasons!</Description>
         <Description Lang="de">Alle ausgehenden Nachrichten werden via BCC an die angegebene Adresse gesendet. Bitte nutzen Sie dieses Feature nur aus Gründen der Datensicherung!</Description>
         <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>Sendmail</SubGroup>
         <Setting>
             <String Regex=""></String>
         </Setting>
         <!-- $Self->{'SendmailBcc'} = ''; -->
     </ConfigItem>   
-    <ConfigItem Name="LoginURL" Required="1" Valid="1">
+    <ConfigItem Name="LoginURL" Required="0" Valid="0">
         <Description Lang="en">Alternate URL, where the login link refers to.</Description>
         <Description Lang="de">Alternative URL, auf die der Link für die Anmeldung am system verweist.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
-            <String Regex=""></String>
+            <String Regex="">http://host.example.com/login.html</String>
         </Setting>
         <!-- $Self->{LoginURL} = ''; -->
     </ConfigItem>   
-    <ConfigItem Name="LogoutURL" Required="1" Valid="1">
+    <ConfigItem Name="LogoutURL" Required="0" Valid="0">
         <Description Lang="en">Alternate URL, where the logout link refers to.</Description>
         <Description Lang="de">Alternative URL, auf die der Linkk für die Abmeldung vom System verweist.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
-            <String Regex=""></String>
+            <String Regex="">http://host.example.com/thanks-for-using-otrs.html</String>
         </Setting>
         <!-- $Self->{LogoutURL} = ''; -->
     </ConfigItem>   
@@ -542,9 +542,8 @@ Your OTRS Notification Master
         <Description Lang="de">Mit Hilfe dieses Moduls können bestimmt Benutzeroptionen geladen oder Neuigkeiten angezeigt werden. Z. B. Kernel::Modules::AgentWorkingRoleSelection oder Kernel::Modules::AgentInfo</Description>
         <Group>Framework</Group>
         <SubGroup>AgentFrontend</SubGroup>
-        <SubGroup>Core</SubGroup>
         <Setting>
-            <String Regex="">Kernel::Modules::AgentInfo.pm</String>
+            <String Regex="">Kernel::Modules::AgentInfo</String>
         </Setting>
         <!-- $Self->{PreApplicationModule} = 'Kernel::Modules::AgentInfo'; -->
     </ConfigItem>   
@@ -552,7 +551,7 @@ Your OTRS Notification Master
         <Description Lang="en">Key to check with Kernel::Modules::AgentInfo module. If this user preferences key is true, then the message is accepted by the system.</Description>
         <Description Lang="de">Key, der mit Hilfe des Moduls Kernel::Modules::AgentInfo überprüft werden soll. Wird dieser Key angegeben, wird auch die Nachricht akzeptiert.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <String Regex="">wpt22</String>
         </Setting>
@@ -562,7 +561,7 @@ Your OTRS Notification Master
         <Description Lang="en">File that is displayed, if located under Kernel/Output/HTML/Standard/AgentInfo.dtl.</Description>
         <Description Lang="de">Datei die mit Hilfe des Moduls Kernel/Output/HTML/Standard/AgentInfo.dtl angezeigt werden soll.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <String Regex="">AgentInfo</String>
         </Setting>
@@ -572,7 +571,7 @@ Your OTRS Notification Master
         <Description Lang="en">Module to inform agents via the agent interface about the used charset. A notification is displayed, if the default charset is not used, e.g. in tickets.</Description>
         <Description Lang="de">Modul, das die Agenten innerhalb des Agent-Interfaces über den benutzten Zeichensatz informiert. Es wird ein Hinweis ausgegeben, wenn z.B. Tickets mit einem anderen als den Standard-Zeichensatz angezeigt werden.</Description>
         <Group>Framework</Group>
-        <SubGroup>FrontendModuleNotify</SubGroup>
+        <SubGroup>AgentFrontendModuleNotify</SubGroup>
             <Setting>
                 <Hash>
                     <Item Key="Module">Kernel::Output::HTML::NotificationCharsetCheck</Item>              
@@ -586,7 +585,7 @@ Your OTRS Notification Master
         <Description Lang="en">Module to display a notification in the agent interface, if the system is used by the admin user (normaly you shouldn't work as admin!).</Description>
         <Description Lang="de">Modul zur Ausgabe eines Hinweises, wenn als Admin-Benutzer im System gearbeitet wird (normal sollte nicht als Administrator gearbeitet werden).</Description>
         <Group>Framework</Group>
-        <SubGroup>FrontendModuleNotify</SubGroup>
+        <SubGroup>AgentFrontendModuleNotify</SubGroup>
             <Setting>
                 <Hash>
                     <Item Key="Module">Kernel::Output::HTML::NotificationUIDCheck</Item>              
@@ -599,7 +598,7 @@ Your OTRS Notification Master
         <Description Lang="en">Module to show currently logged in agents in the agent interface.</Description>
         <Description Lang="de">Mit diesem Modul können andere Agents innerhalb des Agent-Interfaces angezeigt werden, die im Moment am System angemeldet sind.</Description>
         <Group>Framework</Group>
-        <SubGroup>FrontendModuleNotify</SubGroup>
+        <SubGroup>AgentFrontendModuleNotify</SubGroup>
             <Setting>
                 <Hash>
                     <Item Key="Module">Kernel::Output::HTML::NotificationAgentOnline</Item>              
@@ -613,7 +612,7 @@ Your OTRS Notification Master
         <Description Lang="en">Module to show currently loged in customers in the agent interface.</Description>
         <Description Lang="de">Mit diesem Modul können die Kunden innerhalb des Agent-Interfaces angezeigt werden, die gerade am System angemeldet sind.</Description>
         <Group>Framework</Group>
-        <SubGroup>FrontendModuleNotify</SubGroup>
+        <SubGroup>AgentFrontendModuleNotify</SubGroup>
             <Setting>
                 <Hash>
                     <Item Key="Module">Kernel::Output::HTML::NotificationCustomerOnline</Item>              
@@ -622,18 +621,6 @@ Your OTRS Notification Master
         <!--    $Self->{'Frontend::NotifyModule'}->{'4-ShowCustomerOnline'} = {
                 Module => 'Kernel::Output::HTML::NotificationCustomerOnline',}; -->
     </ConfigItem>   
-    <ConfigItem Name="Frontend::Output::PostFilter###ActiveElementFilter" Required="0" Valid="0">
-        <Description Lang="en">A filter for html output of the application. With this filter you can for example filter out javascript or suppress java applets.</Description>
-        <Description Lang="de">Ein Filter für den HTML-Inhalt innerhalb der Applikation. Mit Hilfe des Filters kann z.B. die Anzeige von Javaapplets oder Javascript unterdrückt werden.</Description>
-        <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
-            <Setting>
-                <Hash>
-                    <Item Key="Module">Kernel::Output::HTML::OutputFilterActiveElement</Item>
-                    <Item Key="Debug">0</Item>                 
-                </Hash>
-            </Setting>
-    </ConfigItem> 
     <ConfigItem Name="SessionModule" Required="1" Valid="1">
         <Description Lang="en">How do you want to store the session data? Advantage of "DB" is that you can split the frontend server from the db server. "FS" or "IPC" is much faster.</Description>
         <Description Lang="de">Wie sollen die Session-Daten gespeichert werden? "DB" hat den Vorteil, dass die WEB-Oberfläche und die Datenbank auf verschiedenen Maschinen installiert werden kann, "FS" oder "IPC" sind hingegen viel schneller.</Description>
@@ -909,8 +896,7 @@ Your OTRS Notification Master
         <Description Lang="en">Maximal size for file uploads via the browser (in Bytes).</Description>
         <Description Lang="de">Maximale Dateigröße für Dateiuploads über den Browser (in Bytes).</Description>
         <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
-        <SubGroup>Web</SubGroup>        
+        <SubGroup>Core</SubGroup>        
         <Setting>
             <String Regex="">5242880</String>
         </Setting>
@@ -921,8 +907,7 @@ Your OTRS Notification Master
         <Description Lang="en">Select the module to handle uplads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.</Description>
         <Description Lang="de">Wählen Sie das Modul, welches Uploads über die WEB-Oberfläche speichert. "DB" benutzt die Datenbank zum Speichern der Uploads, "FS" legt die Daten im Dateisystem ab.</Description>
         <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
-        <SubGroup>Web</SubGroup>        
+        <SubGroup>Core</SubGroup>        
         <Setting>
             <Option Location="Kernel/System/Web/UploadCache/*.pm" SelectedID="Kernel::System::Web::UploadCache::DB"></Option>
         </Setting>
@@ -938,11 +923,23 @@ Your OTRS Notification Master
         </Setting>
         <!-- $Self->{CGILogPrefix} = 'OTRS-CGI'; -->
     </ConfigItem>
+    <ConfigItem Name="Frontend::Output::PostFilter###ActiveElementFilter" Required="0" Valid="0">
+        <Description Lang="en">A filter for html output of the application. With this filter you can for example filter out javascript or suppress java applets.</Description>
+        <Description Lang="de">Ein Filter für den HTML-Inhalt innerhalb der Applikation. Mit Hilfe des Filters kann z.B. die Anzeige von Javaapplets oder Javascript unterdrückt werden.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core</SubGroup>
+            <Setting>
+                <Hash>
+                    <Item Key="Module">Kernel::Output::HTML::OutputFilterActiveElement</Item>
+                    <Item Key="Debug">0</Item>                 
+                </Hash>
+            </Setting>
+    </ConfigItem> 
     <ConfigItem Name="LostPassword" Required="1" Valid="1">
         <Description Lang="en">Activate lost password feature fpr agents?</Description>
         <Description Lang="de">Feature für verlorenes Kennwort aktivieren?</Description>
         <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <Option SelectedID="1">
                 <Item Key="0">No</Item>
@@ -955,7 +952,7 @@ Your OTRS Notification Master
         <Description Lang="en">Show message of the day after login screen?</Description>
         <Description Lang="de">Meldungen des Tages nach Login anzeigen?</Description>
         <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
+        <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <Option SelectedID="0">
                 <Item Key="0">No</Item>
@@ -1134,14 +1131,15 @@ Your OTRS Notification Master
         </Setting>
         <!-- $Self->{'PGP::Options'} = '--homedir /var/lib/wwwrun/.gnupg/ --batch --no-tty --yes'; -->
     </ConfigItem>
-    <ConfigItem Name="PGP::Key::Password" Required="0" Valid="0">
+    <ConfigItem Name="PGP::Key::Password" Required="1" Valid="1">
         <Description Lang="en">Password for PGP key.</Description>
         <Description Lang="de">Kennwort für PGP-Schlüssel.</Description>
         <Group>Framework</Group>
         <SubGroup>PGP</SubGroup>
         <Setting>
              <Hash>
-                <Item Key="Module">Kernel::Output::HTML::OutputFilterActiveElement</Item>                 
+                <Item Key="D2DF79FA">SomePassword</Item>                 
+                <Item Key="488A0B8F">SomePassword</Item>                 
             </Hash>
         </Setting>
         <!-- $Self->{'PGP::Key::Password'} = {'488A0B8F' => 1234,}; -->
@@ -1159,19 +1157,9 @@ Your OTRS Notification Master
         </Setting>
         <!-- $Self->{'SMIME'} = 1; -->
     </ConfigItem>
-    <ConfigItem Name="HOME" Required="0" Valid="0">
-        <Description Lang="en">Directory to store S/MIME settings.</Description>
-        <Description Lang="de">Verzeichnis zum Speichern der S/MIME-Einstellungen.</Description>
-        <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
-        <Setting>
-            <String Regex="">/var/lib/wwwrun</String>
-        </Setting>
-        <!-- $ENV{HOME} = '/var/lib/wwwrun'; -->
-    </ConfigItem>
     <ConfigItem Name="SMIME::Bin" Required="1" Valid="1">
-        <Description Lang="en">Path to openssl binary.</Description>
-        <Description Lang="de">Pfad zum openssl Binary.</Description>
+        <Description Lang="en">Path to openssl binary. Maybe openssl need a HOME env ($ENV{HOME} = '/var/lib/wwwrun';)!</Description>
+        <Description Lang="de">Pfad zum openssl Binary. Evtl. openssl need a HOME env ($ENV{HOME} = '/var/lib/wwwrun';)!</Description>
         <Group>Framework</Group>
         <SubGroup>SMIME</SubGroup>
         <Setting>
@@ -1179,7 +1167,7 @@ Your OTRS Notification Master
         </Setting>
         <!-- $Self->{'SMIME::Bin'} = '/usr/bin/openssl'; -->
     </ConfigItem>
-    <ConfigItem Name="SMIME::CertPath" Required="0" Valid="0">
+    <ConfigItem Name="SMIME::CertPath" Required="1" Valid="1">
         <Description Lang="en">In which directory are your SSL certificates stored?</Description>
         <Description Lang="de">In welchem Verzeichnis sind Ihre SSL-Zertifikate gespeichert?</Description>
         <Group>Framework</Group>
@@ -1189,7 +1177,7 @@ Your OTRS Notification Master
         </Setting>
         <!-- $Self->{'SMIME::CertPath'} = '/etc/ssl/certs'; -->
     </ConfigItem>
-    <ConfigItem Name="SMIME::PrivatePath" Required="0" Valid="0">
+    <ConfigItem Name="SMIME::PrivatePath" Required="1" Valid="1">
         <Description Lang="en">In which directory are the private SSL certificates stored?</Description>
         <Description Lang="de">In welchem Verzeichnis werden die privaten SSL-Zertifikate gespeichert?</Description>
         <Group>Framework</Group>
@@ -1574,7 +1562,7 @@ Your OTRS Notification Master
         <Description Lang="en">Module that shows the currently loged in agents in the customer interface.</Description>
         <Description Lang="de">Modul für die Anzeige von gerade am System angemeldeten Agenten innerhalb des Customer-Interfaces.</Description>
         <Group>Framework</Group>
-        <SubGroup>FrontendModuleNotify</SubGroup>
+        <SubGroup>CustomerFrontendModuleNotify</SubGroup>
             <Setting>
                 <Hash>
                     <Item Key="Module">Kernel::Output::HTML::NotificationAgentOnline</Item>
@@ -1584,23 +1572,23 @@ Your OTRS Notification Master
                      Module => 'Kernel::Output::HTML::NotificationAgentOnline',   };
  -->
     </ConfigItem>   
-    <ConfigItem Name="CustomerPanelLoginURL" Required="1" Valid="1">
+    <ConfigItem Name="CustomerPanelLoginURL" Required="0" Valid="0">
         <Description Lang="en">Alternate login URL for the customer panel..</Description>
         <Description Lang="de">Alternative Login-URL für das Customer-Panel.</Description>
         <Group>Framework</Group>
         <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
-            <String Regex=""></String>
+            <String Regex="">http://host.example.com/cgi-bin/login.pl</String>
         </Setting>
         <!-- $Self->{CustomerPanelLoginURL} = ''; -->
     </ConfigItem>
-    <ConfigItem Name="CustomerPanelLogoutURL" Required="1" Valid="1">
+    <ConfigItem Name="CustomerPanelLogoutURL" Required="0" Valid="0">
         <Description Lang="en">Alternate logout URL for the customer panel.</Description>
         <Description Lang="de">Alternative Logout-URL für das Customer-Panel.</Description>
         <Group>Framework</Group>
         <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
-            <String Regex=""></String>
+            <String Regex="">http://host.example.com/cgi-bin/login.pl</String>
         </Setting>
         <!-- $Self->{CustomerPanelLogoutURL} = ''; -->
     </ConfigItem>
@@ -1903,7 +1891,7 @@ Your OTRS Notification Master
                 <Item Key="port">389</Item>
                 <Item Key="timeout">120</Item>
                 <Item Key="async">0</Item>
-                <Item Key=" version">3</Item>
+                <Item Key="version">3</Item>
             </Hash>
         </Setting>
         <!--
