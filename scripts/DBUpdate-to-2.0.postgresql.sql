@@ -2,10 +2,10 @@
 -- Update an existing OTRS database from 1.3 to 2.0
 -- Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-2.0.postgresql.sql,v 1.18 2005-04-22 08:00:38 martin Exp $
+-- $Id: DBUpdate-to-2.0.postgresql.sql,v 1.19 2005-05-26 10:58:48 martin Exp $
 -- --
 --
--- usage: cat DBUpdate-to-2.0.postgresql.sql | mysql -f -u root otrs
+-- usage: cat DBUpdate-to-2.0.postgresql.sql | psql otrs 
 --
 -- --
 
