@@ -130,7 +130,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.31 2005-05-27 14:41:48 tr Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.32 2005-05-27 18:08:48 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifyer for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z.B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -167,7 +167,7 @@ TimeWorkingHours
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
         <Setting>
-            <String Regex="">Re: </String>
+            <String Regex="">Re</String>
         </Setting>
         <!--  $Self->{'Ticket::SubjectRe'} = 'Re'; -->
     </ConfigItem>    
@@ -833,12 +833,12 @@ TimeWorkingHours
         <!--  $Self->{ArticleDir} = '<OTRS_CONFIG_Home>/var/article';   -->
     </ConfigItem>   
     <ConfigItem Name="Ticket::CustomModule" Required="0" Valid="0">
-        <Description Lang="en">A module with custom functions to redefine Kernel::System::Ticket functions.</Description>
-        <Description Lang="de">Ein Modul mit angepassten Funktionen welche die Standard-Kernel::System::Ticket überschreibt.</Description>
+        <Description Lang="en">A module with custom functions to redefine Kernel::System::Ticket functions (e. g. Kernel::System::Ticket::Custom).</Description>
+        <Description Lang="de">Ein Modul mit angepassten Funktionen welche die standard Kernel::System::Ticket überschreibt (z. B. Kernel::System::Ticket::Custom).</Description>
         <Group>Ticket</Group>
         <SubGroup>TicketCore</SubGroup>
         <Setting>
-            <String Regex="">Kernel::System::Ticket::Custom</String>
+            <String Regex=""></String>
         </Setting>
         <!--  $Self->{'Ticket::CustomModule'} = 'Kernel::System::Ticket::Custom';   -->
     </ConfigItem>       
@@ -1915,8 +1915,7 @@ $Data{"Body"}
 $Data{"StdResponse"}
 
 $Data{"Signature"}
-                
-            </TextArea>
+</TextArea>
         </Setting>
         <!--                    
             # unix_style
@@ -2049,10 +2048,10 @@ $Data{"Signature"}
         <SubGroup>TicketCore</SubGroup>
         <Setting>
             <Array>
-                <Item>'new'</Item>     
-                <Item>'open'</Item>
-                <Item>'pending reminder'</Item>     
-                <Item>'pending auto'</Item>                                                                                                                                                                                                    
+                <Item>new</Item>     
+                <Item>open</Item>
+                <Item>pending reminder</Item>     
+                <Item>pending auto</Item>
             </Array>
         </Setting>
         <!-- $Self->{'Ticket::ViewableStateType'} = ['new', 'open', 'pending reminder', 'pending auto'];  -->
@@ -2064,8 +2063,8 @@ $Data{"Signature"}
         <SubGroup>TicketCore</SubGroup>
         <Setting>
             <Array>
-                <Item>'new'</Item>     
-                <Item>'open'</Item>                                                                                                                                                                                              
+                <Item>new</Item>     
+                <Item>open</Item>
             </Array>
         </Setting>
         <!-- $Self->{'Ticket::UnlockStateType'} = ['open', 'new'];  -->
@@ -2077,7 +2076,7 @@ $Data{"Signature"}
         <SubGroup>AgentFrontend</SubGroup>
         <Setting>
             <Array>
-                <Item>'pending reminder'</Item>                                                                                                                                                                                         
+                <Item>pending reminder</Item>
             </Array>
         </Setting>
         <!-- $Self->{'Ticket::PendingReminderStateType'} = ['pending reminder'];  -->
@@ -2089,7 +2088,7 @@ $Data{"Signature"}
         <SubGroup>TicketCore</SubGroup>
         <Setting>
             <Array>
-                <Item>'pending auto'</Item>                                                                                                                                                                                         
+                <Item>pending auto</Item>                                                                                                                                                                                         
             </Array>
         </Setting>
         <!-- $Self->{'Ticket::PendingAutoStateType'} = ['pending auto'];  -->
@@ -2326,7 +2325,7 @@ $Data{"Signature"}
             };
         -->
     </ConfigItem>
-    <ConfigItem Name="Frontend::NavBarModule###1-Ticket::LockedTickets" Required="1" Valid="1">
+    <ConfigItem Name="Frontend::NavBarModule###1-Ticket::LockedTickets" Required="0" Valid="1">
         <Description Lang="en">Agent interface notification module to check the used charset.</Description>
         <Description Lang="de">Modul mit dem Agents über das Agent-Interface über den Zeichensatz von Tickets benachrichtigt werden.</Description>
         <Group>Ticket</Group>
@@ -2342,14 +2341,14 @@ $Data{"Signature"}
             };
         -->        
     </ConfigItem>  
-    <ConfigItem Name="Frontend::NavBarModule###2-Ticket::BulkAction" Required="1" Valid="1">
+    <ConfigItem Name="Frontend::NavBarModule###2-Ticket::BulkAction" Required="0" Valid="1">
         <Description Lang="en">Module registration for the BulkAction object in the agent interface.</Description>
         <Description Lang="de">Modul-Registration für das BulkAction-Objekt im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>AgentFrontendNavBarModule</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::NavBarLockedTickets</Item>
+                <Item Key="Module">Kernel::Output::HTML::NavBarTicketBulkAction</Item>
             </Hash>
         </Setting>
         <!-- 
@@ -2644,8 +2643,8 @@ $Data{"Signature"}
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
-                <Item Key="Name">Free fields</Item>
-                <Item Key="Description">Change the ticket free fields</Item>
+                <Item Key="Name">Free Fields</Item>
+                <Item Key="Description">Change the ticket free fields!</Item>
                 <Item Key="Action">AgentTicketFreeText</Item>
                 <Item Key="Link">Action=AgentTicketFreeText&TicketID=$QData{"TicketID"}</Item>
             </Hash>
@@ -2669,7 +2668,7 @@ $Data{"Signature"}
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
                 <Item Key="Name">Link</Item>
-                <Item Key="Description">Link this ticket to an other object</Item>
+                <Item Key="Description">Link this ticket to an other objects!</Item>
                 <Item Key="Action">AgentLinkObject</Item>
                 <Item Key="Link">Action=AgentLinkObject&SourceObject=Ticket&SourceID=$QData{"TicketID"}</Item>
             </Hash>
@@ -2693,7 +2692,7 @@ $Data{"Signature"}
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
                 <Item Key="Name">Owner</Item>
-                <Item Key="Description">Change the ticket owner</Item>
+                <Item Key="Description">Change the ticket owner!</Item>
                 <Item Key="Action">AgentTicketOwner</Item>
                 <Item Key="Link">Action=AgentTicketOwner&TicketID=$QData{"TicketID"}</Item>
             </Hash>
@@ -2717,7 +2716,7 @@ $Data{"Signature"}
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
                 <Item Key="Name">Customer</Item>
-                <Item Key="Description">Change the ticket customer</Item>
+                <Item Key="Description">Change the ticket customer!</Item>
                 <Item Key="Action">AgentTicketCustomer</Item>
                 <Item Key="Link">Action=AgentTicketCustomer&TicketID=$QData{"TicketID"}</Item>
             </Hash>
@@ -2741,7 +2740,7 @@ $Data{"Signature"}
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
                 <Item Key="Name">Note</Item>
-                <Item Key="Description">Add a note to this ticket</Item>
+                <Item Key="Description">Add a note to this ticket!</Item>
                 <Item Key="Action">AgentTicketNote</Item>
                 <Item Key="Link">Action=AgentTicketNote&TicketID=$QData{"TicketID"}</Item>
             </Hash>
@@ -2834,7 +2833,7 @@ $Data{"Signature"}
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
                 <Item Key="Name">Zoom</Item>
                 <Item Key="Action">AgentTicketZoom</Item>
-                <Item Key="Description">Look into a ticket</Item>
+                <Item Key="Description">Look into a ticket!</Item>
                 <Item Key="Link">Action=AgentTicketZoom&TicketID=$QData{"TicketID"}</Item>
             </Hash>
         </Setting>
@@ -2882,7 +2881,7 @@ $Data{"Signature"}
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
                 <Item Key="Name">Priority</Item>
                 <Item Key="Action">AgentTicketPriority</Item>
-                <Item Key="Description">Change the ticket priority</Item>
+                <Item Key="Description">Change the ticket priority!</Item>
                 <Item Key="Link">Action=AgentTicketPriority&TicketID=$QData{"TicketID"}</Item>
             </Hash>
         </Setting>
@@ -2931,7 +2930,7 @@ $Data{"Signature"}
                 <Item Key="Name">Close</Item>
                 <Item Key="Action">AgentTicketClose</Item>
                 <Item Key="Description">Close this ticket!</Item>
-                <Item Key="Link">AgentTicketClose&TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Link">Action=AgentTicketClose&TicketID=$QData{"TicketID"}</Item>
             </Hash>
         </Setting>
         <!--
@@ -3098,7 +3097,7 @@ $Data{"Signature"}
         <SubGroup>TicketCore</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::System::Ticket::CustomerPermission::GroupChec</Item>
+                <Item Key="Module">Kernel::System::Ticket::CustomerPermission::GroupCheck</Item>
                 <Item Key="Required">1</Item>
                 <Item Key="Granted">0</Item>
             </Hash>
@@ -3243,7 +3242,7 @@ $Data{"Signature"}
                 <Item Key="Module">Kernel::Output::HTML::PreferencesCustomQueue</Item>
                 <Item Key="Colum">Other Options</Item>
                 <Item Key="Label">My Queues</Item>
-                <Item Key="Desc">Your queue selection of your favorite queues. You also get notified about this queues via email if enabled</Item>
+                <Item Key="Desc">Your queue selection of your favorite queues. You also get notified about this queues via email if enabled.</Item>
                 <Item Key="Prio">2000</Item>
                 <Item Key="Activ">1</Item>
             </Hash>
@@ -3405,7 +3404,7 @@ $Data{"Signature"}
                         <Item Key="AgentTicketZoom">TicketZoom</Item>
                     </Hash>
                 </Item>
-                <Item Key="DataSelected">''</Item>
+                <Item Key="DataSelected"></Item>
                 <Item Key="PrefKey">UserCreateNextMask</Item>
                 <Item Key="Prio">5000</Item>
                 <Item Key="Activ">1</Item>
@@ -3481,8 +3480,8 @@ $Data{"Signature"}
         <Group>Ticket</Group>
         <SubGroup>CustomerFrontend</SubGroup>
         <Setting>
-            <Option SelectecID="CustomerTicketOverview">
-                <Item Key="CustomerTicketOverview">CustomerTicketOverview</Item>
+            <Option SelectecID="CustomerTicketOverView">
+                <Item Key="CustomerTicketOverView">CustomerTicketOverView</Item>
                 <Item Key="CustomerTicketZoom">CustomerTicketZoom</Item>
             </Option>
         </Setting>
@@ -5187,7 +5186,7 @@ $Data{"Signature"}
         <Group>Ticket</Group>
         <SubGroup>Postmaster</SubGroup>
         <Setting>
-            <Option Location="Kernel/System/PostMaster/LoopProtection/*.pm" SelectedID="DB"></Option>
+            <Option Location="Kernel/System/PostMaster/LoopProtection/*.pm" SelectedID="Kernel::System::PostMaster::LoopProtection::DB"></Option>
         </Setting>
         <!-- $Self->{LoopProtectionModule} = 'Kernel::System::PostMaster::LoopProtection::DB'; -->
     </ConfigItem>
@@ -5327,7 +5326,6 @@ $Data{"Signature"}
                 <Item>Delivered-To</Item>
                 <Item>X-OTRS-Loop</Item>
                 <Item>X-OTRS-Info</Item>
-                <Item>X-OTRS-Info</Item>
                 <Item>X-OTRS-Priority</Item>
                 <Item>X-OTRS-Queue</Item>
                 <Item>X-OTRS-Ignore</Item>
@@ -5348,7 +5346,7 @@ $Data{"Signature"}
                 <Item>X-OTRS-TicketKey4</Item>
                 <Item>X-OTRS-TicketKey5</Item>
                 <Item>X-OTRS-TicketKey6</Item>
-                <Ittem>X-OTRS-TicketKey7</Ittem>
+                <Item>X-OTRS-TicketKey7</Item>
                 <Item>X-OTRS-TicketKey8</Item>
                 <Item>X-OTRS-TicketValue1</Item>
                 <Item>X-OTRS-TicketValue2</Item>

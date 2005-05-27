@@ -93,7 +93,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.37 2005-05-26 11:26:34 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.38 2005-05-27 18:09:14 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der WEB-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -176,7 +176,7 @@ TimeWorkingHours
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
-            <String Regex=""></String>
+            <String Regex="">Example Company</String>
         </Setting>
         <!-- $Self->{Organization} = ''; -->
     </ConfigItem>                     
@@ -231,17 +231,17 @@ TimeWorkingHours
                 <Item Key="en">English</Item>
                 <Item Key="de">Deutsch</Item>
                 <Item Key="nl">Nederlands</Item>
-                <Item Key="fr">Francais</Item>
+                <Item Key="fr">Fran&ccedil;ais</Item>
                 <Item Key="bg">Bulgarian</Item>
                 <Item Key="fi">Suomi</Item>
-                <Item Key="es">Espaniol</Item>
-                <Item Key="pt_BR">Portuguise Brasileiro</Item>
-                <Item Key="pt">Portuguise</Item>
+                <Item Key="es">Espa&ntilde;ol</Item>
+                <Item Key="pt_BR">Portugu&ecirc;s Brasileiro</Item>
+                <Item Key="pt">Portugu&ecirc;s</Item>
                 <Item Key="it">Italiano</Item>
                 <Item Key="ru">Russian</Item>
                 <Item Key="cz">Czech</Item>
                 <Item Key="pl">Polski</Item>
-                <Item Key="nb_NO">Norsk bokmål</Item>
+                <Item Key="nb_NO">Norsk bokm&aring;l</Item>
                 <Item Key="sv">Svenska</Item>
                 <Item Key="hu">Hungarian</Item>
             </Hash>
@@ -261,10 +261,10 @@ you (&lt;OTRS_USERFIRSTNAME&gt; &lt;OTRS_USERLASTNAME&gt;).
 Login: &lt;OTRS_USERLOGIN&gt;
 Password: &lt;OTRS_USERPASSWORD&gt;
 
-&lt;OTRS_CONFIG_HttpType>://&lt;OTRS_CONFIG_FQDN>/&lt;OTRS_CONFIG_ScriptAlias&gt;customer.pl
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;customer.pl
 
 Your OTRS Notification Master
-            </TextArea>
+</TextArea>
         </Setting>
     </ConfigItem> 
     <ConfigItem Name="DefaultTheme" Required="1" Valid="1">
@@ -1417,7 +1417,7 @@ Your OTRS Notification Master
                     <Item Key="Module">Kernel::Output::HTML::PreferencesLanguage</Item>
                     <Item Key="Colum">Frontend</Item>
                     <Item Key="Label">Language</Item>
-                    <Item Key="Desc">Select your frontend language</Item>
+                    <Item Key="Desc">Select your frontend language.</Item>
                     <Item Key="PrefKey">UserLanguage</Item>
                     <Item Key="Prio">1000</Item>
                     <Item Key="Activ">1</Item>
@@ -1444,7 +1444,7 @@ Your OTRS Notification Master
                     <Item Key="Module">Kernel::Output::HTML::PreferencesTheme</Item>
                     <Item Key="Colum">Frontend</Item>
                     <Item Key="Label">Theme</Item>
-                    <Item Key="Desc">Select your frontend Theme</Item>
+                    <Item Key="Desc">Select your frontend Theme.</Item>
                     <Item Key="PrefKey">UserTheme</Item>
                     <Item Key="Prio">2000</Item>
                     <Item Key="Activ">1</Item>
@@ -1966,7 +1966,7 @@ Your OTRS Notification Master
         </Setting>
         <!-- $Self->{CustomerPreferencesView} = ['Frontend', 'Other Options']; -->
     </ConfigItem>
-    <ConfigItem Name="CustomerPreferencesGroups###Password" Required="1" Valid="1">
+    <ConfigItem Name="CustomerPreferencesGroups###Password" Required="0" Valid="1">
         <Description Lang="en">All parameters for the password area in the customer preferences.</Description>
         <Description Lang="de">Alle Parameter für den Passwort-Bereich in den Customer-Einstellungen.</Description>
         <Group>Framework</Group>
@@ -2003,7 +2003,7 @@ Your OTRS Notification Master
             };
         -->
     </ConfigItem>
-    <ConfigItem Name="CustomerPreferencesGroups###Language" Required="1" Valid="1">
+    <ConfigItem Name="CustomerPreferencesGroups###Language" Required="0" Valid="1">
         <Description Lang="en">All parameters for the language area in the customer preferences.</Description>
         <Description Lang="de">Alle Parameter für den Bereich zur Sprachenauswahl in den Customer-Einstellungen.</Description>
         <Group>Framework</Group>
@@ -2013,8 +2013,7 @@ Your OTRS Notification Master
                 <Item Key="Module">Kernel::Output::HTML::PreferencesLanguage</Item>
                 <Item Key="Colum">Frontend</Item>
                 <Item Key="Label">Language</Item>
-                <Item Key="Desc">Select your frontend language</Item>
-                <Item Key="Data">Get('DefaultUsedLanguages')</Item>
+                <Item Key="Desc">Select your frontend language.</Item>
                 <Item Key="PrefKey">UserLanguage</Item>
                 <Item Key="Prio">2000</Item>
                 <Item Key="Activ">1</Item>
@@ -2033,7 +2032,7 @@ Your OTRS Notification Master
             };
         -->
     </ConfigItem>
-    <ConfigItem Name="CustomerPreferencesGroups###Theme" Required="1" Valid="1">
+    <ConfigItem Name="CustomerPreferencesGroups###Theme" Required="0" Valid="1">
         <Description Lang="en">All parameters for the theme area in the customer preferences.</Description>
         <Description Lang="de">Alle Parameter für den Bereich der Theme-Auswahl innerhalb der Customer-Einstellungen.</Description>
         <Group>Framework</Group>
@@ -2043,7 +2042,7 @@ Your OTRS Notification Master
                 <Item Key="Module">Kernel::Output::HTML::PreferencesTheme</Item>
                 <Item Key="Colum">Frontend</Item>
                 <Item Key="Label">Theme</Item>
-                <Item Key="Desc">Select your frontend Theme</Item>
+                <Item Key="Desc">Select your frontend Theme.</Item>
                 <Item Key="PrefKey">UserTheme</Item>
                 <Item Key="Prio">1000</Item>
                 <Item Key="Activ">0</Item>
@@ -2061,7 +2060,7 @@ Your OTRS Notification Master
             };
         -->
     </ConfigItem>
-    <ConfigItem Name="CustomerPreferencesGroups###PGP" Required="1" Valid="1">
+    <ConfigItem Name="CustomerPreferencesGroups###PGP" Required="0" Valid="1">
         <Description Lang="en">All parameters for the PGP area in the customer preferences.</Description>
         <Description Lang="de">Alle Parameter für die PGP-Einstellungen innerhalb der Customer-Einstellungen.</Description>
         <Group>Framework</Group>
@@ -2089,7 +2088,7 @@ Your OTRS Notification Master
             };
         -->
     </ConfigItem>
-    <ConfigItem Name="CustomerPreferencesGroups###SMIME" Required="1" Valid="1">
+    <ConfigItem Name="CustomerPreferencesGroups###SMIME" Required="0" Valid="1">
         <Description Lang="en">All parameters for the S/MIME area in the customer preferences.</Description>
         <Description Lang="de">Alle Parameter für die S/MIME-Einstellungen innerhalb der Customer-Einstellungen.</Description>
         <Group>Framework</Group>
