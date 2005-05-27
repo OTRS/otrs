@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.197 2005-05-19 12:13:34 rk Exp $
+# $Id: Defaults.pm,v 1.198 2005-05-27 18:11:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.197 $';
+$VERSION = '$Revision: 1.198 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -335,14 +335,14 @@ sub LoadDefaults {
     # (If this is anything other than '', then it is assumed to be the
     # URL of an alternate login screen which will be used in place of
     # the default one.)
-    $Self->{LoginURL} = '';
+#    $Self->{LoginURL} = '';
 #    $Self->{LoginURL} = 'http://host.example.com/cgi-bin/login.pl';
 
     # LogoutURL
     # (If this is anything other than '', it is assumed to be the URL
     # of an alternate logout page which users will be sent to when they
     # logout.)
-    $Self->{LogoutURL} = '';
+#    $Self->{LogoutURL} = '';
 #    $Self->{LogoutURL} = 'http://host.example.com/cgi-bin/login.pl';
 
     # PreApplicationModule
@@ -806,14 +806,14 @@ Your OTRS Notification Master
     # (If this is anything other than '', then it is assumed to be the
     # URL of an alternate login screen which will be used in place of
     # the default one.)
-    $Self->{CustomerPanelLoginURL} = '';
+#    $Self->{CustomerPanelLoginURL} = '';
 #    $Self->{CustomerPanelLoginURL} = 'http://host.example.com/cgi-bin/login.pl';
 
     # CustomerPanelLogoutURL
     # (If this is anything other than '', it is assumed to be the URL
     # of an alternate logout page which users will be sent to when they
     # logout.)
-    $Self->{CustomerPanelLogoutURL} = '';
+#    $Self->{CustomerPanelLogoutURL} = '';
 #    $Self->{CustomerPanelLogoutURL} = 'http://host.example.com/cgi-bin/login.pl';
 
     # CustomerPanelPreApplicationModule
@@ -1116,7 +1116,6 @@ Your OTRS Notification Master
         Colum => 'Frontend',
         Label => 'Language',
         Desc => 'Select your frontend language.',
-        Data => $Self->Get('DefaultUsedLanguages'),
         PrefKey => 'UserLanguage',
         Prio => 2000,
         Activ => 1,
@@ -1608,6 +1607,10 @@ sub new {
         }
         @Files = (@NewFileOrderPre, @NewFileOrderPost);
         foreach my $File (@Files) {
+            # do not use ZZZ files
+            if ($Param{Level} && $Param{Level} eq 'Default' && $File =~ /ZZZ/) {
+                next;
+            }
             my $ConfigFile = '';
             if (open (IN, "< $File")) {
                 while (<IN>) {
@@ -1651,14 +1654,17 @@ sub new {
     # load config (again)
     $Self->Load();
 
-    # replace config variables in config variables
-    foreach (keys %{$Self}) {
-        if ($_) {
-            if (defined($Self->{$_})) {
-                $Self->{$_} =~ s/\<OTRS_CONFIG_(.+?)\>/$Self->{$1}/g;
-            }
-            else {
-                print STDERR "ERROR: $_ not defined!\n";
+    # do not use ZZZ files
+    if (!$Param{Level}) {
+        # replace config variables in config variables
+        foreach (keys %{$Self}) {
+            if ($_) {
+                if (defined($Self->{$_})) {
+                    $Self->{$_} =~ s/\<OTRS_CONFIG_(.+?)\>/$Self->{$1}/g;
+                }
+                else {
+                    print STDERR "ERROR: $_ not defined!\n";
+                }
             }
         }
     }
@@ -1680,6 +1686,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.197 $ $Date: 2005-05-19 12:13:34 $
+$Revision: 1.198 $ $Date: 2005-05-27 18:11:31 $
 
 =cut
