@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.29 2005-05-27 18:10:43 martin Exp $
+# $Id: Config.pm,v 1.30 2005-05-27 19:43:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::XML;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -716,7 +716,12 @@ sub ConfigSubGroupList {
             if ($Hit) {
                 foreach my $SubGroup (@{$ConfigItem->{SubGroup}}) {
                     if ($SubGroup->{Content}) {
-                        $List{$SubGroup->{Content}} = $SubGroup->{Content};
+                         # get sub count
+                         my @List = $Self->ConfigSubGroupConfigItemList(
+                             Group => $Param{Name},
+                             SubGroup => $SubGroup->{Content},
+                         );
+                         $List{$SubGroup->{Content}} = ($#List+1);
                     }
                 }
             }
@@ -729,7 +734,7 @@ sub ConfigSubGroupList {
 
 get a list of config items of a sub group
 
-    my %ConfigItemList = $ConfigToolObject->ConfigSubGroupConfigItemList(
+    my @ConfigItemList = $ConfigToolObject->ConfigSubGroupConfigItemList(
         Group => 'Framework',
         SubGroup => 'Web',
     );
@@ -1019,6 +1024,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.29 $ $Date: 2005-05-27 18:10:43 $
+$Revision: 1.30 $ $Date: 2005-05-27 19:43:33 $
 
 =cut
