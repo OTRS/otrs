@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.pm,v 1.23 2005-05-25 17:00:52 martin Exp $
+# $Id: AdminSysConfig.pm,v 1.24 2005-05-27 06:47:00 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -476,8 +476,8 @@ sub ListConfigItem {
         if (defined ($InvalidValue{$ItemHash{Name}})) {
             $Valid = 'Invalid Value!';
         }
-        if ($ItemHash{Setting}[1]{String}[1]{Default} ne '' && length($ItemHash{Setting}[1]{String}[1]{Default}) < 80) {
-            $Default = "(default: ".$ItemHash{Setting}[1]{String}[1]{Default}.")";
+        if ($ItemHash{Setting}[1]{String}[1]{Default} ne '' && $ItemHash{Setting}[1]{String}[1]{Default} ne ' ') {
+            $Default = "default: ".$ItemHash{Setting}[1]{String}[1]{Default};
         }
         $Self->{LayoutObject}->Block(
             Name => 'ConfigElementString',
@@ -507,7 +507,7 @@ sub ListConfigItem {
         foreach my $Index (1...$#{$ItemHash{Setting}[1]{Option}[1]{Item}}) {
             $Hash{$ItemHash{Setting}[1]{Option}[1]{Item}[$Index]{Key}} = $ItemHash{Setting}[1]{Option}[1]{Item}[$Index]{Content};
             if ($ItemHash{Setting}[1]{Option}[1]{Item}[$Index]{Key} eq $ItemHash{Setting}[1]{Option}[1]{Default}) {
-                $Default = '(default: '.$ItemHash{Setting}[1]{Option}[1]{Item}[$Index]{Content}.')';
+                $Default = 'default: '.$ItemHash{Setting}[1]{Option}[1]{Item}[$Index]{Content};
             }
         }
         my $PulldownMenue = $Self->{LayoutObject}->OptionStrgHashRef(

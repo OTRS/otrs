@@ -2,7 +2,7 @@
 # AdminSysConfigEdit.dtl - provides HTML form for SysConfig
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfigEdit.dtl,v 1.14 2005-05-25 15:19:30 rk Exp $
+# $Id: AdminSysConfigEdit.dtl,v 1.15 2005-05-27 06:47:00 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -37,7 +37,7 @@
     <td valign="top">$Data{"Anker"}<input type="checkbox" value="1" name="$Data{"ItemKey"}ItemAktiv" $Data{"Valid"} $Data{"Required"}></td>
     <td width="50%"><span class="contentkey$Data{"Validstyle"}">$QData{"ItemKey"}:</span><br><span class="contentvalue$Data{"Validstyle"}">$QData{"Description"}</span></td>
     <!-- dtl:block:ConfigElementString -->
-    <td width="50%" class="contentvalue" valign="top"><input name="$Data{"ElementKey"}" value="$QData{"Content"}" size="50"><span class="validity">&nbsp;$QData{"Valid"}</span><br><span class="contentvalue">$QData{"Default"}</span></td>
+    <td width="50%" class="contentvalue" valign="top"><input name="$Data{"ElementKey"}" value="$QData{"Content"}" size="50"><span class="validity">&nbsp;$QData{"Valid", "70"}</span><br><span class="contentvalue">$QData{"Default"}</span></td>
     <!-- dtl:block:ConfigElementString -->
     <!-- dtl:block:ConfigElementTextArea -->
     <td width="50%" class="contentvalue" valign="top"><textarea name="$Data{"ElementKey"}" rows="7" cols="50">$QData{"Content"}</textarea></td>
