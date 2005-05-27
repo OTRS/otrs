@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.28 2005-05-27 16:09:55 martin Exp $
+# $Id: Config.pm,v 1.29 2005-05-27 18:10:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,10 +12,12 @@
 package Kernel::System::Config;
 
 use strict;
+
 use Kernel::System::XML;
+use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -70,13 +72,21 @@ sub new {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
-    # create xml object
-    $Self->{XMLObject} = Kernel::System::XML->new(%Param);
-
     $Self->{Home} = $Self->{ConfigObject}->Get('Home');
 
+    # create xml object
+    $Self->{XMLObject} = Kernel::System::XML->new(%Param);
+    # create config object
+    $Self->{ConfigDefaultObject} = Kernel::Config->new(%Param, Level => 'Default');
+    # create config object
+    $Self->{ConfigObject} = Kernel::Config->new(%Param, Level => 'First');
+
+
     # read all config files
-    $Self->_Init();
+    $Self->_Init(Type => 'XMLConfig');
+    $Self->_Init(Type => 'XMLConfigDefault');
+    # write default file 
+    $Self->_WriteDefault();
     # reorga of old config
     $Self->CreateConfig();
 
@@ -87,7 +97,7 @@ sub _Init {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
-    foreach (qw()) {
+    foreach (qw(Type)) {
         if (!$Param{$_}) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
@@ -113,13 +123,13 @@ sub _Init {
                 $Data{$File} = \@XMLHash;
             }
         } 
-        $Self->{XMLConfig} = [];
+        $Self->{$Param{Type}} = [];
         # load framework, application, config, changes
         foreach my $Init (qw(Framework Application Config Changes)) {
             foreach my $Set (sort keys %Data) {
                 if ($Data{$Set}->[1]->{otrs_config}->[1]->{init} eq $Init) {
 #$Self->{LogObject}->Dumper($Data{$Set}->[1]->{otrs_config}->[1]->{ConfigItem});
-                    push (@{$Self->{XMLConfig}}, @{$Data{$Set}->[1]->{otrs_config}->[1]->{ConfigItem}});
+                    push (@{$Self->{$Param{Type}}}, @{$Data{$Set}->[1]->{otrs_config}->[1]->{ConfigItem}});
                     delete $Data{$Set};
                 }
             }
@@ -127,10 +137,45 @@ sub _Init {
         # load misc
         foreach my $Set (sort keys %Data) {
 #$Self->{LogObject}->Dumper($Data{$Set}->[1]->{otrs_config}->[1]->{init});
-            push (@{$Self->{XMLConfig}}, @{$Data{$Set}->[1]->{otrs_config}->[1]->{ConfigItem}});
+            push (@{$Self->{$Param{Type}}}, @{$Data{$Set}->[1]->{otrs_config}->[1]->{ConfigItem}});
             delete $Data{$Set};
         }
 #$Self->{LogObject}->Dumper($Self->{XMLConfig});
+    }
+}
+
+sub _WriteDefault {
+    my $Self = shift;
+    my %Param = @_;
+    my %UsedKeys = ();
+    my $Home = $Self->{Home};
+    # check needed stuff
+    foreach (qw()) {
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    if (!open(OUT, "> $Home/Kernel/Config/Files/ZZZAAuto.pm")) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Can't write $Home/Kernel/Config/Files/ZZZAAuto.pm!");
+        return;
+    }
+    # read all config files
+    foreach my $ConfigItem (@{$Self->{XMLConfig}}) {
+        if ($ConfigItem->{Name} && !$UsedKeys{$ConfigItem->{Name}}) {
+            $UsedKeys{$ConfigItem->{Name}} = 1;
+            my %Config = $Self->ConfigItemGet(
+                Name => $ConfigItem->{Name},
+                Default => 1,
+            );
+            if ($Config{Valid}) {
+                my $Name = $Config{Name};
+                $Name =~ s/\\/\\\\/g;
+                $Name =~ s/'/\'/g;
+                $Name =~ s/###/'}->{'/g;
+                print OUT "\$Self->{'$Name'} = ".$Self->_XML2Perl(Data => \%Config);
+            }
+        }
     }
 }
 
@@ -146,7 +191,7 @@ sub CreateConfig {
     my $Self = shift;
     my %Param = @_;
     my %UsedKeys = ();
-    my $Home = $Self->{ConfigObject}->Get('Home');
+    my $Home = $Self->{'Home'};
     # check needed stuff
     foreach (qw()) {
         if (!$Param{$_}) {
@@ -158,185 +203,93 @@ sub CreateConfig {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Can't write $Home/Kernel/Config/Files/ZZZAuto.pm!");
         return;
     }
+    # read all config files
     foreach my $ConfigItem (@{$Self->{XMLConfig}}) {
         if ($ConfigItem->{Name} && !$UsedKeys{$ConfigItem->{Name}}) {
-            $UsedKeys{$ConfigItem->{Name}} = 1;
             my %Config = $Self->ConfigItemGet(
                 Name => $ConfigItem->{Name},
             );
+            my %ConfigDefault = $Self->ConfigItemGet(
+                Name => $ConfigItem->{Name},
+                Default => 1,
+            );
+            $UsedKeys{$ConfigItem->{Name}} = 1;
             my $Name = $Config{Name};
             $Name =~ s/\\/\\\\/g;
             $Name =~ s/'/\'/g;
             $Name =~ s/###/'}->{'/g;
             if ($Config{Valid}) {
+                my $C = $Self->_XML2Perl(Data => \%Config);
+                my $D = $Self->_XML2Perl(Data => \%ConfigDefault);
+#                if ($C ne $D) {
+#                    print OUT "\$Self->{'$Name'} = ".$Self->_XML2Perl(Data => \%Config);
+#                }
                 if ($Config{Setting}->[1]->{String}) {
-                    print OUT "    \$Self->{'$Name'} = '$Config{Setting}->[1]->{String}->[1]->{Content}';\n";
+                    if ($Config{Setting}->[1]->{String}->[1]->{Content} ne $ConfigDefault{Setting}->[1]->{String}->[1]->{Content}) {
+                        print OUT "\$Self->{'$Name'} = $C";
+                    }
                 }
                 if ($Config{Setting}->[1]->{Option}) {
-                    print OUT "    \$Self->{'$Name'} = '$Config{Setting}->[1]->{Option}->[1]->{SelectedID}'; ###\n";
+                    if ($Config{Setting}->[1]->{Option}->[1]->{SelectedID} ne $ConfigDefault{Setting}->[1]->{Option}->[1]->{SelectedID}) {
+                        print OUT "\$Self->{'$Name'} = $C";
+                    }
                 }
                 if ($Config{Setting}->[1]->{TextArea}) {
-                    print OUT "    \$Self->{'$Name'} = '$Config{Setting}->[1]->{TextArea}->[1]->{Content}';\n";
-                }
-                if ($Config{Setting}->[1]->{Hash}) {
-                    my %Hash = ();
-                    my @Array = ();
-                    if (ref($Config{Setting}->[1]->{Hash}->[1]->{Item}) eq 'ARRAY') {
-                        @Array = @{$Config{Setting}->[1]->{Hash}->[1]->{Item}};
+                    if ($Config{Setting}->[1]->{TextArea}->[1]->{Content} ne $ConfigDefault{Setting}->[1]->{TextArea}->[1]->{Content}) {
+                        print OUT "\$Self->{'$Name'} = $C";
                     }
-                    foreach my $Item (1..$#Array) {
-                        if (defined($Array[$Item]->{Hash})) {
-                            my %SubHash = ();
-                            foreach my $Index (1...$#{$Config{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Hash}->[1]->{Item}}) {
-                                $SubHash{$Config{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Hash}->[1]->{Item}->[$Index]->{Key}} = $Config{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Hash}->[1]->{Item}->[$Index]->{Content};
-                            }
-                            $Hash{$Array[$Item]->{Key}} = \%SubHash;
-                        }
-                        elsif (defined($Array[$Item]->{Array})) {
-                            my @SubArray = ();
-                            foreach my $Index (1...$#{$Config{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Array}->[1]->{Item}}) {
-                                push (@SubArray, $Config{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Array}->[1]->{Item}->[$Index]->{Content});
-                            }
-                            $Hash{$Array[$Item]->{Key}} = \@SubArray;
-                        }
-                        else {
-                            $Hash{$Array[$Item]->{Key}} = $Array[$Item]->{Content};
-                        };
-                    }
-                    # store in config
-                    require Data::Dumper;
-                    my $Dump = Data::Dumper::Dumper(\%Hash);
-                    $Dump =~ s/\$VAR1/\$Self->{'$Name'}/;
-                    print OUT $Dump;
                 }
                 if ($Config{Setting}->[1]->{Array}) {
-                    my @ArrayNew = ();
-                    my @Array = ();
-                    if (ref($Config{Setting}->[1]->{Array}->[1]->{Item}) eq 'ARRAY') {
-                        @Array = @{$Config{Setting}->[1]->{Array}->[1]->{Item}};
+                    my $A1;
+                    my $A2;
+                    eval "\$A1 = $C";
+                    eval "\$A2 = $D";
+                    my $Hit = 0;
+                    if ($#{$A1} ne $#{$A2}) {
+                        $Hit = 1;
+#print STDERR "DDDDDDDDD$Name: not supported by cvs2svn $#{$A1} ne $#{$A2} $C,$D\n";
+
                     }
-                    foreach my $Item (1..$#Array) {
-                        push (@ArrayNew, $Array[$Item]->{Content});
-                    }
-                    # store in config
-                    require Data::Dumper;
-                    my $Dump = Data::Dumper::Dumper(\@ArrayNew);
-                    $Dump =~ s/\$VAR1/\$Self->{'$Name'}/;
-                    print OUT $Dump;
-                }
-                if ($Config{Setting}->[1]->{FrontendModuleReg}) {
-                    my %Hash = ();
-                    foreach my $Key (sort keys %{$Config{Setting}->[1]->{FrontendModuleReg}->[1]}) {
-                        if ($Key eq 'Group' || $Key eq 'GroupRo') {
-                            my @Array = ();
-                            foreach my $Index (1...$#{$Config{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}}) {
-                                push(@Array, $Config{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}->[1]->{Content});
+                    else {
+                        foreach my $Count (0..$#{$A1}) {
+                            if ($A1->[$Count] ne $A2->[$Count]) {
+                                $Hit = 1;
+#print STDERR "ddddddddd$Name: not supported by cvs2svn $A1->[$Count] ne $A2->[$Count]\n";
                             }
-                            $Hash{$Key} = \@Array;
                         }
-                        elsif ($Key eq 'NavBar' || $Key eq 'NavBarModule') {
-                            if (ref($Config{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}) eq 'ARRAY') {
-                                foreach my $Index (1...$#{$Config{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}}) {
-                                    my $Content = $Config{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}->[$Index];
-                                    my %NavBar = ();
-                                    foreach $Key (sort keys %{$Content}) {
-                                        if ($Key eq 'Group' || $Key eq 'GroupRo') {
-                                            my @Array = ();
-                                            foreach my $Index (1...$#{$Content->{$Key}}) {
-                                                push(@Array, $Content->{$Key}->[1]->{Content});
-                                            }
-                                            $NavBar{$Key} = \@Array;
-                                        }
-                                        else {
-                                            if ($Key ne 'Content') {
-                                                $NavBar{$Key} = $Content->{$Key}->[1]->{Content};
-                                            }
-                                        }
-                                    }
-                                    if ($Key eq 'NavBar') {
-                                        push (@{$Hash{$Key}}, \%NavBar);
-                                    }
-                                    else {
-                                        $Hash{$Key} = \%NavBar;
-                                    }
-                                }
+                    }
+                    if ($Hit) {
+                        print OUT "\$Self->{'$Name'} = $C";
+                        print OUT "\$Self->{'$Name'} = ".$Self->_XML2Perl(Data => \%Config);
+                    }
+                }
+                if ($Config{Setting}->[1]->{Hash}) {
+                    my $A1;
+                    my $A2;
+#print STDERR $C;
+                    eval "\$A1 = $C";
+                    eval "\$A2 = $D";
+                    my $Hit = 0;
+                    if (ref($A1) eq 'HASH') {
+                        foreach my $Key (keys %{$A1}) {
+                            if ($A1->{$Key} eq $A2->{$Key}) {
+                                delete $A1->{$Key};
+                                delete $A2->{$Key};
                             }
                             else {
-                                my $Content = $Config{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key};
-                                my %NavBar = ();
-                                foreach $Key (sort keys %{$Content}) {
-                                    if ($Key eq 'Group' || $Key eq 'GroupRo') {
-                                        my @Array = ();
-                                        foreach my $Index (1...$#{$Content->{$Key}}) {
-                                            push(@Array, $Content->{$Key}->[1]->{Content});
-                                        }
-                                        $NavBar{$Key} = \@Array;
-                                    }
-                                    else {
-                                        if ($Key ne 'Content') {
-                                            $NavBar{$Key} = $Content->{$Key}->[1]->{Content};
-                                        }
-                                    }
-                                }
-                                $Hash{$Key} = \%NavBar;
-                            }
-                        }
-                        else {
-                            if ($Key ne 'Content') {
-                                $Hash{$Key} = $Config{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}->[1]->{Content};
+#print STDERR "cccccccccc$Name: not supported by cvs2svn $A1->{$Key} ne $A2->{$Key}\n";
+                                $Hit = 1;
                             }
                         }
                     }
-                    # store in config
-                    require Data::Dumper;
-                    my $Dump = Data::Dumper::Dumper(\%Hash);
-                    $Dump =~ s/\$VAR1/\$Self->{'$Name'}/;
-                    print OUT $Dump;
-                }
-                if ($Config{Setting}->[1]->{TimeWorkingHours}) {
-                    my %Days = ();
-                    my @Array = @{$Config{Setting}->[1]->{TimeWorkingHours}->[1]->{Day}};
-                    foreach my $Day (1..$#Array) {
-                        my @Array2 = ();
-                        if ($Array[$Day]->{Hour}) {
-                            my @Hours = @{$Array[$Day]->{Hour}};
-                            foreach my $Hour (1..$#Hours) {
-                                push (@Array2, $Hours[$Hour]->{Content});
-                            }
-                        }
-                        $Days{$Array[$Day]->{Name}} = \@Array2;
+                    if ($A2 && %{$A2}) {
+#print STDERR "rrrrrrrrrrr$Name:\n";
+                        $Hit = 1;
                     }
-                    # store in config
-                    require Data::Dumper;
-                    my $Dump = Data::Dumper::Dumper(\%Days);
-                    $Dump =~ s/\$VAR1/\$Self->{'$Name'}/;
-                    print OUT $Dump;
-                }
-                if ($Config{Setting}->[1]->{TimeVacationDays}) {
-                    my %Hash = ();
-                    my @Array = @{$Config{Setting}->[1]->{TimeVacationDays}->[1]->{Item}};
-                    foreach my $Item (1..$#Array) {
-                        $Hash{$Array[$Item]->{Month}}->{$Array[$Item]->{Day}} = $Array[$Item]->{Content};
+                    if ($Hit) {
+                        print OUT "\$Self->{'$Name'} = $C";
                     }
-                    # store in config
-                    require Data::Dumper;
-                    my $Dump = Data::Dumper::Dumper(\%Hash);
-                    $Dump =~ s/\$VAR1/\$Self->{'$Name'}/;
-                    print OUT $Dump;
                 }
-                if ($Config{Setting}->[1]->{TimeVacationDaysOneTime}) {
-                    my %Hash = ();
-                    my @Array = @{$Config{Setting}->[1]->{TimeVacationDaysOneTime}->[1]->{Item}};
-                    foreach my $Item (1..$#Array) {
-                        $Hash{$Array[$Item]->{Year}}->{$Array[$Item]->{Month}}->{$Array[$Item]->{Day}} = $Array[$Item]->{Content};
-                    }
-                    # store in config
-                    require Data::Dumper;
-                    my $Dump = Data::Dumper::Dumper(\%Hash);
-                    $Dump =~ s/\$VAR1/\$Self->{'$Name'}/;
-                    print OUT $Dump;
-                }
-                print OUT "    \$Self->{'Valid'}->{'$Name'} = '$Config{Valid}';\n";
             }
         }
     }
@@ -361,7 +314,7 @@ sub ConfigItemUpdate {
     my $Self = shift;
     my %Param = @_;
     my %UsedKeys = ();
-    my $Home = $Self->{ConfigObject}->Get('Home');
+    my $Home = $Self->{'Home'};
     # check needed stuff
     foreach (qw(Valid Key Value)) {
         if (!defined($Param{$_})) {
@@ -374,6 +327,11 @@ sub ConfigItemUpdate {
         return;
     }
     else {
+        # diff
+        my %ConfigDefault = $Self->ConfigItemGet(
+            Name => $Param{Key}, 
+            Default => 1,
+        );
         $Param{Key} =~ s/\\/\\\\/g;
         $Param{Key} =~ s/'/\'/g;
         $Param{Key} =~ s/###/'}->{'/g;
@@ -391,9 +349,15 @@ sub ConfigItemUpdate {
         }
         else {
             my $Dump = Data::Dumper::Dumper($Param{Value});
+            my $C = $Dump;#$Self->_XML2Perl(Data => \%Config);
+            $C =~ s/\$VAR1 =//;
             $Dump =~ s/\$VAR1/\$Self->{'$Param{Key}'}/;
             $Dump .= "\$Self->{'Valid'}->{'$Param{Key}'} = '$Param{Valid}';\n1;\n";
-            print OUT $Dump;
+            my $D = $Self->_XML2Perl(Data => \%ConfigDefault);
+            if ($C ne $D) {
+                print OUT $Dump;
+#                print OUT " \$Self->{'$Name'} = ".$Self->_XML2Perl(Data => \%Config);
+            }
             close(OUT);
             # set in runtime
             $Dump =~ s/^\$Self->/\$Self->{ConfigObject}->/gm;
@@ -405,10 +369,17 @@ sub ConfigItemUpdate {
 
 =item ConfigItemGet()
 
-get a config setting
+get the current config setting
 
     my %Config = $ConfigToolObject->ConfigItemGet(
         Name => 'Ticket::NumberGenerator',
+    );
+
+get the default config setting
+
+    my %Config = $ConfigToolObject->ConfigItemGet(
+        Name => 'Ticket::NumberGenerator',
+        Default => 1,
     );
 
 =cut
@@ -416,6 +387,7 @@ get a config setting
 sub ConfigItemGet {
     my $Self = shift;
     my %Param = @_;
+    my $XMLConfig;
     # check needed stuff
     foreach (qw(Name)) {
         if (!$Param{$_}) {
@@ -423,52 +395,57 @@ sub ConfigItemGet {
             return;
         }
     }
-
-    foreach my $ConfigItem (reverse @{$Self->{XMLConfig}}) {
+    my $Level = '';
+    if ($Param{Default}) {
+        $Level = 'Default';
+        $XMLConfig = 'XMLConfigDefault';
+    }
+    else {
+        $XMLConfig = 'XMLConfig';
+    }
+    # read all config files
+    foreach my $ConfigItem (reverse @{$Self->{$XMLConfig}}) {
         if ($ConfigItem->{Name} && $ConfigItem->{Name} eq $Param{Name}) {
-#            $ConfigItem->{Name} =~ s/\\/\\\\/g;
-#            $ConfigItem->{Name} =~ s/'/\'/g;
-#            $ConfigItem->{Name} =~ s/###/'}->{'/g;
             # add current valid state
-            if ($Self->{ConfigObject}->Get('Valid') && defined($Self->ModGet(ConfigName => 'Valid###'.$ConfigItem->{Name}))) {
-                $ConfigItem->{Valid} = $Self->ModGet(ConfigName => 'Valid###'.$ConfigItem->{Name});
+            if (!$Param{Default} && $Self->{ConfigObject}->Get('Valid') && defined($Self->ModGet(ConfigName => 'Valid###'.$ConfigItem->{Name}))) {
+                $ConfigItem->{Valid} = $Self->ModGet(ConfigName => 'Valid###'.$ConfigItem->{Name}, Level => $Level);
             }
             # update xml with current config setting
             if ($ConfigItem->{Setting}->[1]->{String}) {
                 # fill default
                 $ConfigItem->{Setting}->[1]->{String}->[1]->{Content} =~ s/&lt;/</g;
                 $ConfigItem->{Setting}->[1]->{String}->[1]->{Content} =~ s/&gt;/>/g;
-                $ConfigItem->{Setting}->[1]->{String}->[1]->{Default} = $ConfigItem->{Setting}->[1]->{String}->[1]->{Content};
-                if (defined($Self->ModGet(ConfigName => $ConfigItem->{Name}))) {
-                    $ConfigItem->{Setting}->[1]->{String}->[1]->{Content} = $Self->ModGet(ConfigName => $ConfigItem->{Name});
+                $ConfigItem->{Setting}->[1]->{String}->[1]->{Default} = $Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => 'Default');
+                if (!$Param{Default} && defined($Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level))) {
+                    $ConfigItem->{Setting}->[1]->{String}->[1]->{Content} = $Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level);
                 }
             }
             if ($ConfigItem->{Setting}->[1]->{TextArea}) {
                 # fill default
                 $ConfigItem->{Setting}->[1]->{TextArea}->[1]->{Content} =~ s/&lt;/</g;
                 $ConfigItem->{Setting}->[1]->{TextArea}->[1]->{Content} =~ s/&gt;/>/g;
-                $ConfigItem->{Setting}->[1]->{TextArea}->[1]->{Default} = $ConfigItem->{Setting}->[1]->{TextArea}->[1]->{Content};
-                if (defined($Self->ModGet(ConfigName => $ConfigItem->{Name}))) {
-                    $ConfigItem->{Setting}->[1]->{TextArea}->[1]->{Content} = $Self->ModGet(ConfigName => $ConfigItem->{Name});
+                $ConfigItem->{Setting}->[1]->{TextArea}->[1]->{Default} = $Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => 'Default'); 
+                if (!$Param{Default} && defined($Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level))) {
+                    $ConfigItem->{Setting}->[1]->{TextArea}->[1]->{Content} = $Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level);
                 }
             }
             if ($ConfigItem->{Setting}->[1]->{Option}) {
                 # fill default
                 $ConfigItem->{Setting}->[1]->{Option}->[1]->{SelectedID} =~ s/&lt;/</g;
                 $ConfigItem->{Setting}->[1]->{Option}->[1]->{SelectedID} =~ s/&gt;/>/g;
-                $ConfigItem->{Setting}->[1]->{Option}->[1]->{Default} = $ConfigItem->{Setting}->[1]->{Option}->[1]->{SelectedID};
-                if (defined($Self->ModGet(ConfigName => $ConfigItem->{Name}))) {
-                    $ConfigItem->{Setting}->[1]->{Option}->[1]->{SelectedID} = $Self->ModGet(ConfigName => $ConfigItem->{Name});
+                $ConfigItem->{Setting}->[1]->{Option}->[1]->{Default} = $Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => 'Default');
+                if (!$Param{Default} && defined($Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level))) {
+                    $ConfigItem->{Setting}->[1]->{Option}->[1]->{SelectedID} = $Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level);
                 }
             }
             if ($ConfigItem->{Setting}->[1]->{Hash}) {
-                if (defined($Self->ModGet(ConfigName => $ConfigItem->{Name}))) {
+                if (!$Param{Default} && defined($Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level))) {
                     my @Array = ();
                     if (ref($ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}) eq 'ARRAY') {
                         @Array = @{$ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}};
                     }
                     @{$ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item}} = (undef);
-                    my %Hash = %{$Self->ModGet(ConfigName => $ConfigItem->{Name})};
+                    my %Hash = %{$Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level)};
                     foreach my $Key (sort keys %Hash) {
                         if (ref($Hash{$Key}) eq 'ARRAY') {
                             my @Array = (undef,{Content => '',});
@@ -523,22 +500,21 @@ sub ConfigItemGet {
                 }
             }
             if ($ConfigItem->{Setting}->[1]->{Array}) {
-                if (defined($Self->ModGet(ConfigName => $ConfigItem->{Name}))) {
+                if (!$Param{Default} && defined($Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level))) {
                     @{$ConfigItem->{Setting}->[1]->{Array}->[1]->{Item}} = (undef);
-                    my @Array = @{$Self->ModGet(ConfigName => $ConfigItem->{Name})};
+                    my @Array = @{$Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level)};
                     foreach my $Key (@Array) {
                         push (@{$ConfigItem->{Setting}->[1]->{Array}->[1]->{Item}}, {
                                 Content => $Key,
                             },
                         );
                     }
-#$Self->{LogObject}->Dumper($ConfigItem);
                 }
             }
             if ($ConfigItem->{Setting}->[1]->{FrontendModuleReg}) {
-                 if (defined($Self->ModGet(ConfigName => $ConfigItem->{Name}))) {
+                 if (!$Param{Default} && defined($Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level))) {
                     @{$ConfigItem->{Setting}->[1]->{FrontendModuleReg}} = (undef);
-                    my %Hash = %{$Self->ModGet(ConfigName => $ConfigItem->{Name})};
+                    my %Hash = %{$Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level)};
 #                   $Self->{LogObject}->Dumper(jkl => %Hash);
                     foreach my $Key (sort keys %Hash) {
                         @{$ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}} = (undef);
@@ -596,9 +572,9 @@ sub ConfigItemGet {
 #  $Self->{LogObject}->Dumper(jkl => $ConfigItem);
             }
             if ($ConfigItem->{Setting}->[1]->{TimeWorkingHours}) {
-                if (defined($Self->ModGet(ConfigName => $ConfigItem->{Name}))) {
+                if (!$Param{Default} && defined($Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level))) {
                     @{$ConfigItem->{Setting}->[1]->{TimeWorkingHours}->[1]->{Day}} = (undef);
-                    my %Days = %{$Self->ModGet(ConfigName => $ConfigItem->{Name})};
+                    my %Days = %{$Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level)};
                     foreach my $Day (keys %Days) {
                         my @Array = (undef);
                         foreach my $Hour (@{$Days{$Day}}) {
@@ -614,9 +590,9 @@ sub ConfigItemGet {
                 }
             }
             if ($ConfigItem->{Setting}->[1]->{TimeVacationDays}) {
-                if (defined($Self->ModGet(ConfigName => $ConfigItem->{Name}))) {
+                if (!$Param{Default} && defined($Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level))) {
                     @{$ConfigItem->{Setting}->[1]->{TimeVacationDays}->[1]->{Item}} = (undef);
-                    my %Hash = %{$Self->ModGet(ConfigName => $ConfigItem->{Name})};
+                    my %Hash = %{$Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level)};
                     foreach my $Month (sort keys %Hash) {
                         foreach my $Day (sort keys %{$Hash{$Month}}) {
                             push (@{$ConfigItem->{Setting}->[1]->{TimeVacationDays}->[1]->{Item}}, {
@@ -631,9 +607,9 @@ sub ConfigItemGet {
                 }
             }
             if ($ConfigItem->{Setting}->[1]->{TimeVacationDaysOneTime}) {
-                if (defined($Self->ModGet(ConfigName => $ConfigItem->{Name}))) {
+                if (!$Param{Default} && defined($Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level))) {
                     @{$ConfigItem->{Setting}->[1]->{TimeVacationDaysOneTime}->[1]->{Item}} = (undef);
-                    my %Hash = %{$Self->ModGet(ConfigName => $ConfigItem->{Name})};
+                    my %Hash = %{$Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level)};
                     foreach my $Year (sort keys %Hash) {
                         foreach my $Month (sort keys %{$Hash{$Year}}) {
                             foreach my $Day (sort keys %{$Hash{$Year}->{$Month}}) {
@@ -651,7 +627,7 @@ sub ConfigItemGet {
                 }
             }
             if ($ConfigItem->{Setting}->[1]->{Option} && $ConfigItem->{Setting}->[1]->{Option}->[1]->{Location}) {
-                my $Home = $Self->{ConfigObject}->Get('Home');
+                my $Home = $Self->{Home};
                 my @List = glob($Home."/$ConfigItem->{Setting}->[1]->{Option}->[1]->{Location}");
                 foreach my $Item (@List) {
                     $Item =~ s/$Home//g;
@@ -674,7 +650,6 @@ sub ConfigItemGet {
 #                    print STDERR "$Key $Value-----\n";
                 }
             }
-
             return %{$ConfigItem};
         }
     }
@@ -741,12 +716,7 @@ sub ConfigSubGroupList {
             if ($Hit) {
                 foreach my $SubGroup (@{$ConfigItem->{SubGroup}}) {
                     if ($SubGroup->{Content}) {
-                        # get sub count
-                        my @List = $Self->ConfigSubGroupConfigItemList(
-                            Group => $Param{Name},
-                            SubGroup => $SubGroup->{Content},
-                        );
-                        $List{$SubGroup->{Content}} = ($#List+1);
+                        $List{$SubGroup->{Content}} = $SubGroup->{Content};
                     }
                 }
             }
@@ -759,7 +729,7 @@ sub ConfigSubGroupList {
 
 get a list of config items of a sub group
 
-    my @ConfigItemList = $ConfigToolObject->ConfigSubGroupConfigItemList(
+    my %ConfigItemList = $ConfigToolObject->ConfigSubGroupConfigItemList(
         Group => 'Framework',
         SubGroup => 'Web',
     );
@@ -806,23 +776,235 @@ sub ModGet {
     my $Self = shift;
     my %Param = @_;
     my $Content;
+    my $ConfigObject;
+    # do not use ZZZ files
+    if ($Param{Level} && $Param{Level} eq 'Default') {
+         $ConfigObject = $Self->{ConfigDefaultObject}; 
+    }
+    else {
+         $ConfigObject = $Self->{ConfigObject}; 
+    } 
     if ($Param{ConfigName} =~ /^(.*)###(.*)###(.*)$/) {
-        if (defined($Self->{ConfigObject}->Get($1))) {
-            $Content = $Self->{ConfigObject}->Get($1)->{$2}->{$3};
+        if (defined($ConfigObject->Get($1))) {
+            $Content = $ConfigObject->Get($1)->{$2}->{$3};
         }
     }
     elsif ($Param{ConfigName} =~ /^(.*)###(.*)$/) {
-        if (defined($Self->{ConfigObject}->Get($1))) {
-            $Content = $Self->{ConfigObject}->Get($1)->{$2};
+        if (defined($ConfigObject->Get($1))) {
+            $Content = $ConfigObject->Get($1)->{$2};
         }
     }
     else {
-        if (defined($Self->{ConfigObject}->Get($Param{ConfigName}))) {
-            $Content = $Self->{ConfigObject}->Get($Param{ConfigName});
+        if (defined($ConfigObject->Get($Param{ConfigName}))) {
+            $Content = $ConfigObject->Get($Param{ConfigName});
         }
     }
     return $Content;
 }
+
+sub _XML2Perl {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(Data)) {
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    my $Data;
+    if ($Param{Data}->{Setting}->[1]->{String}) {
+        $Data = $Param{Data}->{Setting}->[1]->{String}->[1]->{Content};
+        my $D = $Data;
+        $Data = $D;
+        # store in config
+        require Data::Dumper;
+        my $Dump = Data::Dumper::Dumper($Data);
+        $Dump =~ s/\$VAR1 =//;
+        $Data = $Dump;
+    }
+    if ($Param{Data}->{Setting}->[1]->{Option}) {
+        $Data = $Param{Data}->{Setting}->[1]->{Option}->[1]->{SelectedID};
+        my $D = $Data;
+        $Data = $D;
+        # store in config
+        require Data::Dumper;
+        my $Dump = Data::Dumper::Dumper($Data);
+        $Dump =~ s/\$VAR1 =//;
+        $Data = $Dump;
+    }
+    if ($Param{Data}->{Setting}->[1]->{TextArea}) {
+        $Data = $Param{Data}->{Setting}->[1]->{TextArea}->[1]->{Content};
+        my $D = $Data;
+        $Data = $D;
+        # store in config
+        require Data::Dumper;
+        my $Dump = Data::Dumper::Dumper($Data);
+        $Dump =~ s/\$VAR1 =//;
+        $Data = $Dump;
+    }
+    if ($Param{Data}->{Setting}->[1]->{Hash}) {
+        my %Hash = ();
+        my @Array = ();
+        if (ref($Param{Data}->{Setting}->[1]->{Hash}->[1]->{Item}) eq 'ARRAY') {
+                        @Array = @{$Param{Data}->{Setting}->[1]->{Hash}->[1]->{Item}};
+        }
+        foreach my $Item (1..$#Array) {
+            if (defined($Array[$Item]->{Hash})) {
+                my %SubHash = ();
+                foreach my $Index (1...$#{$Param{Data}->{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Hash}->[1]->{Item}}) {
+                    $SubHash{$Param{Data}->{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Hash}->[1]->{Item}->[$Index]->{Key}} = $Param{Data}->{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Hash}->[1]->{Item}->[$Index]->{Content};
+                }
+                $Hash{$Array[$Item]->{Key}} = \%SubHash;
+            }
+            elsif (defined($Array[$Item]->{Array})) {
+                my @SubArray = ();
+                foreach my $Index (1...$#{$Param{Data}->{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Array}->[1]->{Item}}) {
+                    push (@SubArray, $Param{Data}->{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Array}->[1]->{Item}->[$Index]->{Content});
+                }
+                $Hash{$Array[$Item]->{Key}} = \@SubArray;
+            }
+            else {
+                $Hash{$Array[$Item]->{Key}} = $Array[$Item]->{Content};
+            };
+        }
+        # store in config
+        require Data::Dumper;
+        my $Dump = Data::Dumper::Dumper(\%Hash);
+        $Dump =~ s/\$VAR1 =//;
+        $Data = $Dump;
+    }
+    if ($Param{Data}->{Setting}->[1]->{Array}) {
+        my @ArrayNew = ();
+        my @Array = ();
+        if (ref($Param{Data}->{Setting}->[1]->{Array}->[1]->{Item}) eq 'ARRAY') {
+            @Array = @{$Param{Data}->{Setting}->[1]->{Array}->[1]->{Item}};
+        }
+        foreach my $Item (1..$#Array) {
+            push (@ArrayNew, $Array[$Item]->{Content});
+        }
+        # store in config
+        require Data::Dumper;
+        my $Dump = Data::Dumper::Dumper(\@ArrayNew);
+        $Dump =~ s/\$VAR1 =//;
+        $Data = $Dump;
+    }
+    if ($Param{Data}->{Setting}->[1]->{FrontendModuleReg}) {
+        my %Hash = ();
+        foreach my $Key (sort keys %{$Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]}) {
+            if ($Key eq 'Group' || $Key eq 'GroupRo') {
+                my @Array = ();
+                foreach my $Index (1...$#{$Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}}) {
+                    push(@Array, $Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}->[1]->{Content});
+                }
+                $Hash{$Key} = \@Array;
+            }
+            elsif ($Key eq 'NavBar' || $Key eq 'NavBarModule') {
+                if (ref($Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}) eq 'ARRAY') {
+                    foreach my $Index (1...$#{$Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}}) {
+                        my $Content = $Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}->[$Index];
+                        my %NavBar = ();
+                        foreach $Key (sort keys %{$Content}) {
+                            if ($Key eq 'Group' || $Key eq 'GroupRo') {
+                                my @Array = ();
+                                foreach my $Index (1...$#{$Content->{$Key}}) {
+                                    push(@Array, $Content->{$Key}->[1]->{Content});
+                                }
+                                $NavBar{$Key} = \@Array;
+                            }
+                            else {
+                                if ($Key ne 'Content') {
+                                    $NavBar{$Key} = $Content->{$Key}->[1]->{Content};
+                                }
+                            }
+                        }
+                        if ($Key eq 'NavBar') {
+                            push (@{$Hash{$Key}}, \%NavBar);
+                        }
+                        else {
+                            $Hash{$Key} = \%NavBar;
+                        }
+                    }
+                }
+                else {
+                    my $Content = $Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key};
+                    my %NavBar = ();
+                    foreach $Key (sort keys %{$Content}) {
+                        if ($Key eq 'Group' || $Key eq 'GroupRo') {
+                            my @Array = ();
+                            foreach my $Index (1...$#{$Content->{$Key}}) {
+                                push(@Array, $Content->{$Key}->[1]->{Content});
+                            }
+                            $NavBar{$Key} = \@Array;
+                        }
+                        else {
+                            if ($Key ne 'Content') {
+                                $NavBar{$Key} = $Content->{$Key}->[1]->{Content};
+                            }
+                        }
+                    }
+                    $Hash{$Key} = \%NavBar;
+                }
+            }
+            else {
+               if ($Key ne 'Content') {
+                   $Hash{$Key} = $Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}->[1]->{Content};
+               }
+            }
+        }
+        # store in config
+        require Data::Dumper;
+        my $Dump = Data::Dumper::Dumper(\%Hash);
+        $Dump =~ s/\$VAR1 =//;
+        $Data = $Dump;
+    }
+    if ($Param{Data}->{Setting}->[1]->{TimeWorkingHours}) {
+        my %Days = ();
+        my @Array = @{$Param{Data}->{Setting}->[1]->{TimeWorkingHours}->[1]->{Day}};
+        foreach my $Day (1..$#Array) {
+            my @Array2 = ();
+            if ($Array[$Day]->{Hour}) {
+                my @Hours = @{$Array[$Day]->{Hour}};
+                foreach my $Hour (1..$#Hours) {
+                    push (@Array2, $Hours[$Hour]->{Content});
+                }
+            }
+            $Days{$Array[$Day]->{Name}} = \@Array2;
+        }
+        # store in config
+        require Data::Dumper;
+        my $Dump = Data::Dumper::Dumper(\%Days);
+        $Dump =~ s/\$VAR1 =//;
+        $Data = $Dump;
+    }
+    if ($Param{Data}->{Setting}->[1]->{TimeVacationDays}) {
+        my %Hash = ();
+        my @Array = @{$Param{Data}->{Setting}->[1]->{TimeVacationDays}->[1]->{Item}};
+        foreach my $Item (1..$#Array) {
+            $Hash{$Array[$Item]->{Month}}->{$Array[$Item]->{Day}} = $Array[$Item]->{Content};
+        }
+        # store in config
+        require Data::Dumper;
+        my $Dump = Data::Dumper::Dumper(\%Hash);
+        $Dump =~ s/\$VAR1 =//;
+        $Data = $Dump;
+    }
+    if ($Param{Data}->{Setting}->[1]->{TimeVacationDaysOneTime}) {
+        my %Hash = ();
+        my @Array = @{$Param{Data}->{Setting}->[1]->{TimeVacationDaysOneTime}->[1]->{Item}};
+        foreach my $Item (1..$#Array) {
+            $Hash{$Array[$Item]->{Year}}->{$Array[$Item]->{Month}}->{$Array[$Item]->{Day}} = $Array[$Item]->{Content};
+        }
+        # store in config
+        require Data::Dumper;
+        my $Dump = Data::Dumper::Dumper(\%Hash);
+        $Dump =~ s/\$VAR1 =//;
+        $Data = $Dump;
+    }
+#    print OUT "    \$Self->{'Valid'}->{'$Name'} = '$Param{Data}->{Valid}';\n";
+    return $Data;
+}
+
 1;
 
 =head1 TERMS AND CONDITIONS
@@ -837,6 +1019,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.28 $ $Date: 2005-05-27 16:09:55 $
+$Revision: 1.29 $ $Date: 2005-05-27 18:10:43 $
 
 =cut
