@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.30 2005-05-27 19:43:33 martin Exp $
+# $Id: Config.pm,v 1.31 2005-05-29 16:05:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::XML;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -88,7 +88,7 @@ sub new {
     # write default file 
     $Self->_WriteDefault();
     # reorga of old config
-    $Self->CreateConfig();
+#    $Self->CreateConfig();
 
     return $Self;
 }
@@ -221,81 +221,29 @@ sub CreateConfig {
             if ($Config{Valid}) {
                 my $C = $Self->_XML2Perl(Data => \%Config);
                 my $D = $Self->_XML2Perl(Data => \%ConfigDefault);
-#                if ($C ne $D) {
-#                    print OUT "\$Self->{'$Name'} = ".$Self->_XML2Perl(Data => \%Config);
-#                }
-                if ($Config{Setting}->[1]->{String}) {
-                    if ($Config{Setting}->[1]->{String}->[1]->{Content} ne $ConfigDefault{Setting}->[1]->{String}->[1]->{Content}) {
-                        print OUT "\$Self->{'$Name'} = $C";
-                    }
+                my ($A1, $A2);
+#if ($Name eq 'CustomerPanelNewSenderType') {
+#    print STDERR "$C - $D\n";
+#}
+                eval "\$A1 = $C";
+                eval "\$A2 = $D";
+                if (!defined($A1) && !defined($A2)) {
+                    # do nothing 
                 }
-                if ($Config{Setting}->[1]->{Option}) {
-                    if ($Config{Setting}->[1]->{Option}->[1]->{SelectedID} ne $ConfigDefault{Setting}->[1]->{Option}->[1]->{SelectedID}) {
-                        print OUT "\$Self->{'$Name'} = $C";
-                    }
+                elsif ((defined($A1) && !defined($A2)) || (!defined($A1) && defined($A2)) || $Self->DataDiff(Data1 => $A1, Data2 => $A2)) {
+                    print OUT "\$Self->{'$Name'} = $C";
                 }
-                if ($Config{Setting}->[1]->{TextArea}) {
-                    if ($Config{Setting}->[1]->{TextArea}->[1]->{Content} ne $ConfigDefault{Setting}->[1]->{TextArea}->[1]->{Content}) {
-                        print OUT "\$Self->{'$Name'} = $C";
-                    }
-                }
-                if ($Config{Setting}->[1]->{Array}) {
-                    my $A1;
-                    my $A2;
-                    eval "\$A1 = $C";
-                    eval "\$A2 = $D";
-                    my $Hit = 0;
-                    if ($#{$A1} ne $#{$A2}) {
-                        $Hit = 1;
-#print STDERR "DDDDDDDDD$Name: not supported by cvs2svn $#{$A1} ne $#{$A2} $C,$D\n";
-
-                    }
-                    else {
-                        foreach my $Count (0..$#{$A1}) {
-                            if ($A1->[$Count] ne $A2->[$Count]) {
-                                $Hit = 1;
-#print STDERR "ddddddddd$Name: not supported by cvs2svn $A1->[$Count] ne $A2->[$Count]\n";
-                            }
-                        }
-                    }
-                    if ($Hit) {
-                        print OUT "\$Self->{'$Name'} = $C";
-                        print OUT "\$Self->{'$Name'} = ".$Self->_XML2Perl(Data => \%Config);
-                    }
-                }
-                if ($Config{Setting}->[1]->{Hash}) {
-                    my $A1;
-                    my $A2;
-#print STDERR $C;
-                    eval "\$A1 = $C";
-                    eval "\$A2 = $D";
-                    my $Hit = 0;
-                    if (ref($A1) eq 'HASH') {
-                        foreach my $Key (keys %{$A1}) {
-                            if ($A1->{$Key} eq $A2->{$Key}) {
-                                delete $A1->{$Key};
-                                delete $A2->{$Key};
-                            }
-                            else {
-#print STDERR "cccccccccc$Name: not supported by cvs2svn $A1->{$Key} ne $A2->{$Key}\n";
-                                $Hit = 1;
-                            }
-                        }
-                    }
-                    if ($A2 && %{$A2}) {
-#print STDERR "rrrrrrrrrrr$Name:\n";
-                        $Hit = 1;
-                    }
-                    if ($Hit) {
-                        print OUT "\$Self->{'$Name'} = $C";
-                    }
-                }
+            }
+            elsif (!$Config{Valid} && $ConfigDefault{Valid}) {
+#            elsif (!$Config{Valid}) {
+                print OUT "delete \$Self->{'$Name'};\n";
+#                print OUT "    \$Self->{'Valid'}->{'$Name'} = '$Config{Valid}';\n";
             }
         }
     }
-
+    print OUT "\$Self->{'1'} = 1;\n";
     close(OUT);
-
+    return 1;
 }
 
 =item ConfigItemUpdate()
@@ -332,6 +280,9 @@ sub ConfigItemUpdate {
             Name => $Param{Key}, 
             Default => 1,
         );
+        my %Config = $Self->ConfigItemGet(
+            Name => $Param{Key}, 
+        );
         $Param{Key} =~ s/\\/\\\\/g;
         $Param{Key} =~ s/'/\'/g;
         $Param{Key} =~ s/###/'}->{'/g;
@@ -339,29 +290,29 @@ sub ConfigItemUpdate {
         require Data::Dumper;
         if (!$Param{Valid}) {
             my $Dump = "delete \$Self->{'$Param{Key}'};";
-            $Dump .= "\$Self->{'Valid'}->{'$Param{Key}'} = '$Param{Valid}';\n1;\n";
+#            $Dump .= "\$Self->{'Valid'}->{'$Param{Key}'} = '$Param{Valid}';\n1;\n";
             print OUT $Dump;
             close(OUT);
             # set in runtime
-            $Dump =~ s/\$Self->/\$Self->{ConfigObject}->/gm;
-            eval $Dump || die "ERROR: Syntax error in $Dump\n";
+#           $Dump =~ s/\$Self->/\$Self->{ConfigObject}->/gm;
+#           eval $Dump || die "ERROR: Syntax error in $Dump\n";
             return 1;
         }
         else {
             my $Dump = Data::Dumper::Dumper($Param{Value});
-            my $C = $Dump;#$Self->_XML2Perl(Data => \%Config);
-            $C =~ s/\$VAR1 =//;
+#            my $C = $Dump;#$Self->_XML2Perl(Data => \%Config);
+#            $C =~ s/\$VAR1 =//;
             $Dump =~ s/\$VAR1/\$Self->{'$Param{Key}'}/;
-            $Dump .= "\$Self->{'Valid'}->{'$Param{Key}'} = '$Param{Valid}';\n1;\n";
-            my $D = $Self->_XML2Perl(Data => \%ConfigDefault);
-            if ($C ne $D) {
+#            $Dump .= "\$Self->{'Valid'}->{'$Param{Key}'} = '$Param{Valid}';\n1;\n";
+#            my $D = $Self->_XML2Perl(Data => \%ConfigDefault);
+#            if ($C ne $D) {
                 print OUT $Dump;
 #                print OUT " \$Self->{'$Name'} = ".$Self->_XML2Perl(Data => \%Config);
-            }
+#            }
             close(OUT);
             # set in runtime
-            $Dump =~ s/^\$Self->/\$Self->{ConfigObject}->/gm;
-            eval $Dump || die "ERROR: Syntax error in $Dump\n";
+#            $Dump =~ s/^\$Self->/\$Self->{ConfigObject}->/gm;
+#            eval $Dump || die "ERROR: Syntax error in $Dump\n";
             return 1;
         }
     }
@@ -403,12 +354,19 @@ sub ConfigItemGet {
     else {
         $XMLConfig = 'XMLConfig';
     }
+    my $Count = $#{$Self->{$XMLConfig}} + 1;
     # read all config files
     foreach my $ConfigItem (reverse @{$Self->{$XMLConfig}}) {
+        $Count = $Count - 1; 
         if ($ConfigItem->{Name} && $ConfigItem->{Name} eq $Param{Name}) {
             # add current valid state
-            if (!$Param{Default} && $Self->{ConfigObject}->Get('Valid') && defined($Self->ModGet(ConfigName => 'Valid###'.$ConfigItem->{Name}))) {
-                $ConfigItem->{Valid} = $Self->ModGet(ConfigName => 'Valid###'.$ConfigItem->{Name}, Level => $Level);
+#            if (!$Param{Default} && $Self->{ConfigObject}->Get('Valid') && defined($Self->ModGet(ConfigName => 'Valid###'.$ConfigItem->{Name}))) {
+            if (!$Param{Default} && !defined($Self->ModGet(ConfigName => $ConfigItem->{Name}))) {
+                $ConfigItem->{Valid} = 0;
+            }
+#            elsif (!$Param{Default} && defined($Self->ModGet(ConfigName => $ConfigItem->{Name}))) {
+            elsif (!$Param{Default}) {
+                $ConfigItem->{Valid} = 1;
             }
             # update xml with current config setting
             if ($ConfigItem->{Setting}->[1]->{String}) {
@@ -431,8 +389,10 @@ sub ConfigItemGet {
             }
             if ($ConfigItem->{Setting}->[1]->{Option}) {
                 # fill default
-                $ConfigItem->{Setting}->[1]->{Option}->[1]->{SelectedID} =~ s/&lt;/</g;
-                $ConfigItem->{Setting}->[1]->{Option}->[1]->{SelectedID} =~ s/&gt;/>/g;
+                if ($ConfigItem->{Setting}->[1]->{Option}->[1]->{SelectedID}) {
+                    $ConfigItem->{Setting}->[1]->{Option}->[1]->{SelectedID} =~ s/&lt;/</g;
+                    $ConfigItem->{Setting}->[1]->{Option}->[1]->{SelectedID} =~ s/&gt;/>/g;
+                }
                 $ConfigItem->{Setting}->[1]->{Option}->[1]->{Default} = $Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => 'Default');
                 if (!$Param{Default} && defined($Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level))) {
                     $ConfigItem->{Setting}->[1]->{Option}->[1]->{SelectedID} = $Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level);
@@ -626,6 +586,25 @@ sub ConfigItemGet {
 #$Self->{LogObject}->Dumper($ConfigItem);
                 }
             }
+            if (!$Param{Default}) {
+                my $ConfigItemDefault = $Self->{XMLConfigDefault}->[$Count];
+                my $C = $Self->_XML2Perl(Data => $ConfigItem);
+                my $D = $Self->_XML2Perl(Data => $ConfigItemDefault);
+                my ($A1, $A2);
+#if ($Name eq 'CustomerPanelNewSenderType') {
+#    print STDERR "$C - $D\n";
+#}
+                eval "\$A1 = $C";
+                eval "\$A2 = $D";
+                if (!defined($A1) && !defined($A2)) {
+                    $ConfigItem->{Diff} = 0;
+                }
+                elsif ((defined($A1) && !defined($A2)) || (!defined($A1) && defined($A2)) || $Self->DataDiff(Data1 => $A1, Data2 => $A2)) {
+#                    print STDERR "$ConfigItem->{Name} -----$C-$D-- DIFFFFFF\n";
+#                    print STDERR "$ConfigItem->{Name} -- $ConfigItemDefault->{Name} DIFFFFFF\n";
+                    $ConfigItem->{Diff} = 1;
+                }
+            }
             if ($ConfigItem->{Setting}->[1]->{Option} && $ConfigItem->{Setting}->[1]->{Option}->[1]->{Location}) {
                 my $Home = $Self->{Home};
                 my @List = glob($Home."/$ConfigItem->{Setting}->[1]->{Option}->[1]->{Location}");
@@ -805,6 +784,128 @@ sub ModGet {
         }
     }
     return $Content;
+}
+
+sub DataDiff {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(Data1 Data2)) {
+        if (!defined($Param{$_})) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    # ''
+    if (ref($Param{Data1}) eq '' && ref($Param{Data2}) eq '') {
+        if (!defined($Param{Data1}) && !defined($Param{Data2})) {
+            # do noting, it's ok
+            return 0;
+        }
+        elsif (!defined($Param{Data1}) || !defined($Param{Data2})) {
+            # return diff, because its different
+            return 1;
+        }
+        elsif ($Param{Data1} ne $Param{Data2}) {
+            # return diff, because its different
+            return 1;
+        }
+        else {
+            # return 0, because its not different
+            return 0;
+        }
+    }
+    # SCALAR
+    if (ref($Param{Data1}) eq 'SCALAR' && ref($Param{Data2}) eq 'SCALAR') {
+        if (!defined(${$Param{Data1}}) && !defined(${$Param{Data2}})) {
+            # do noting, it's ok
+            return 0;
+        }
+        elsif (!defined(${$Param{Data1}}) || !defined(${$Param{Data2}})) {
+            # return diff, because its different
+            return 1;
+        }
+        elsif (${$Param{Data1}} ne ${$Param{Data2}}) {
+            # return diff, because its different
+            return 1;
+        }
+        else {
+            # return 0, because its not different
+            return 0;
+        }
+    }
+    # ARRAY
+    if (ref($Param{Data1}) eq 'ARRAY' && ref($Param{Data2}) eq 'ARRAY') {
+        my @A = @{$Param{Data1}};
+        my @B = @{$Param{Data2}};
+        # check if the count is different 
+        if ($#A ne $#B) {
+            return 1; 
+        }
+        # compare array
+        foreach my $Count (0..$#A) {
+            if (!defined($A[$Count]) && !defined($B[$Count])) {
+                # do noting, it's ok
+            }
+            elsif (!defined($A[$Count]) || !defined($B[$Count])) {
+                # return diff, because its different
+                return 1; 
+            }
+            elsif ($A[$Count] ne $B[$Count]) {
+                if (ref($A[$Count]) eq 'ARRAY' || ref($A[$Count]) eq 'HASH') {
+                    if ($Self->DataDiff(Data1 => $A[$Count], Data2 => $B[$Count])) {
+                        return 1;
+                    }
+                }
+                else {
+                    return 1; 
+                }
+            }
+        }
+        return 0;
+    }
+    # HASH
+    if (ref($Param{Data1}) eq 'HASH' && ref($Param{Data2}) eq 'HASH') {
+        my %A = %{$Param{Data1}};
+        my %B = %{$Param{Data2}};
+        # compare %A with %B and remove it if checked
+        foreach my $Key (keys %A) {
+            if (!defined($A{$Key}) && !defined($B{$Key})) {
+                # do noting, it's ok
+            }
+            elsif (!defined($A{$Key}) || !defined($B{$Key})) {
+                # return diff, because its different
+                return 1;
+            }
+            elsif ($A{$Key} eq $B{$Key}) {
+                delete $A{$Key};
+                delete $B{$Key};
+            }
+            # return if values are different
+            else {
+                if (ref($A{$Key}) eq 'ARRAY' || ref($A{$Key}) eq 'HASH') {
+                    if ($Self->DataDiff(Data1 => $A{$Key}, Data2 => $B{$Key})) {
+                        return 1;
+                    }
+                    else {
+                        delete $A{$Key};
+                        delete $B{$Key};
+                    }
+                }
+                else {
+                    return 1; 
+                }
+            }
+        }
+        # check rest
+        if (%B) {
+            return 1; 
+        }
+        else {
+            return 0;
+        }
+    }
+    return 1;
 }
 
 sub _XML2Perl {
@@ -1024,6 +1125,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.30 $ $Date: 2005-05-27 19:43:33 $
+$Revision: 1.31 $ $Date: 2005-05-29 16:05:07 $
 
 =cut
