@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.pm,v 1.24 2005-05-27 06:47:00 rk Exp $
+# $Id: AdminSysConfig.pm,v 1.25 2005-05-29 16:06:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -59,6 +59,7 @@ sub Run {
     $Data{Search} = $Self->{ParamObject}->GetParam(Param => 'Search');
     # update config
     if ($Self->{Subaction} eq 'Update') {
+#        $Self->{SysConfigObject}->CreateConfig();
         my $SubGroup = $Self->{ParamObject}->GetParam(Param => 'SysConfigSubGroup');
         my $Group = $Self->{ParamObject}->GetParam(Param => 'SysConfigGroup');
         my @List = $Self->{SysConfigObject}->ConfigSubGroupConfigItemList(Group => $Group, SubGroup => $SubGroup);
@@ -127,6 +128,10 @@ sub Run {
                         if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#'.$Keys[$Index].'#NewSubElement')) {
                             $Anker = $ItemHash{Name};
                         }                              
+                        # New SubHashElement
+                        if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#'.$ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Key}.'#NewSubElement')) {
+                            $SubHash{''} = '';
+                        }
                         $Content{$Keys[$Index]} = \%SubHash;
                     }
                     # SubArray
@@ -158,6 +163,9 @@ sub Run {
                 if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#NewHashElement')) {
                     $Anker = $ItemHash{Name};
                 }                                          
+                if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#NewHashElement')) {
+                    $Content{''} = '';
+                }
                 # write ConfigItem
                 if (!$Self->{SysConfigObject}->ConfigItemUpdate(Key => $_, Value => \%Content, Valid => $Aktiv)) {
                     $Self->{LayoutObject}->FatalError(Message => "Can't write ConfigItem!");
@@ -322,12 +330,16 @@ sub Run {
                 }
             }
         }
-        $Self->{Subaction} = 'Edit';
+        $Self->{SysConfigObject} = Kernel::System::Config->new(%{$Self});
+        $Self->{SysConfigObject}->CreateConfig();
+        # redirect
+        return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}&Subaction=Edit&SysConfigSubGroup=$SubGroup&SysConfigGroup=$Group&Anker=$Anker#Anker");
     }
     # edit config
     if ($Self->{Subaction} eq 'Edit') {
         my $SubGroup = $Self->{ParamObject}->GetParam(Param => 'SysConfigSubGroup');
         my $Group = $Self->{ParamObject}->GetParam(Param => 'SysConfigGroup');
+        my $Anker = $Self->{ParamObject}->GetParam(Param => 'Anker') || '';
         my @List = $Self->{SysConfigObject}->ConfigSubGroupConfigItemList(Group => $Group, SubGroup => $SubGroup);
         #Language
         my $UserLang = $Self->{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage');
@@ -337,13 +349,19 @@ sub Run {
             my %ItemHash = $Self->{SysConfigObject}->ConfigItemGet(Name => $_);
             # Required
             my $Required = '';
-            if ($ItemHash{Required} && $ItemHash{Required} == 1) {
+            if ($ItemHash{Required}) {
                 $Required = 'disabled';
+            }
+            # Diff 
+            my $Diff = '';
+            my $DiffStyle = 'contentvalue';
+            if ($ItemHash{Diff}) {
+                $DiffStyle = 'contenthead';
             }
             # Valid
             my $Valid = '';
             my $Validstyle = 'passiv';
-            if ($ItemHash{Valid} && $ItemHash{Valid} == 1) {
+            if ($ItemHash{Valid}) {
                 $Valid = 'checked';
                 $Validstyle = '';
             }
@@ -373,6 +391,8 @@ sub Run {
                     Valid       => $Valid,
                     Validstyle  => $Validstyle,
                     Required    => $Required,
+                    Diff        => $Diff,
+                    DiffStyle   => $DiffStyle,
                     Anker       => $AnkerAktiv,
                 },
             );
@@ -477,7 +497,7 @@ sub ListConfigItem {
             $Valid = 'Invalid Value!';
         }
         if ($ItemHash{Setting}[1]{String}[1]{Default} ne '' && $ItemHash{Setting}[1]{String}[1]{Default} ne ' ') {
-            $Default = "default: ".$ItemHash{Setting}[1]{String}[1]{Default};
+            $Default = $ItemHash{Setting}[1]{String}[1]{Default};
         }
         $Self->{LayoutObject}->Block(
             Name => 'ConfigElementString',
@@ -507,7 +527,7 @@ sub ListConfigItem {
         foreach my $Index (1...$#{$ItemHash{Setting}[1]{Option}[1]{Item}}) {
             $Hash{$ItemHash{Setting}[1]{Option}[1]{Item}[$Index]{Key}} = $ItemHash{Setting}[1]{Option}[1]{Item}[$Index]{Content};
             if ($ItemHash{Setting}[1]{Option}[1]{Item}[$Index]{Key} eq $ItemHash{Setting}[1]{Option}[1]{Default}) {
-                $Default = 'default: '.$ItemHash{Setting}[1]{Option}[1]{Item}[$Index]{Content};
+                $Default = $ItemHash{Setting}[1]{Option}[1]{Item}[$Index]{Content};
             }
         }
         my $PulldownMenue = $Self->{LayoutObject}->OptionStrgHashRef(
@@ -533,10 +553,6 @@ sub ListConfigItem {
             },
         );
 #        $Self->{LogObject}->Dumper(ddd => $ItemHash{Setting}[1]{Hash});
-        # New HashElement
-        if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#NewHashElement')) {
-            push (@{$ItemHash{Setting}[1]{Hash}[1]{Item}}, {Key => '', Content => ''});
-        }
         # Hashelements
         foreach my $Index (1...$#{$ItemHash{Setting}[1]{Hash}[1]{Item}}) {
             #SubHash
@@ -550,10 +566,6 @@ sub ListConfigItem {
                         Index      => $Index,
                     },
                 );
-                # New SubHashElement
-                if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#'.$ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Key}.'#NewSubElement')) {
-                    push (@{$ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Hash}[1]{Item}}, {Key => '', Content => ''});
-                }
                 # SubHashElements
                 foreach my $Index2 (1...$#{$ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Hash}[1]{Item}}) {
                     $Self->{LayoutObject}->Block(
@@ -832,9 +844,7 @@ sub ListConfigItem {
                 );
             }          
         }
-                
     }
-    
 }
 
 # --
