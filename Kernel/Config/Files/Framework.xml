@@ -1,24 +1,43 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <!--
-Possible SubGroups
-        - AgentFrontend
-        - AgentPreferences
-        - Core        
-        - CustomerFrontend
-        - CustomerPreferences
-        - FrontendModuleNotify                   
-        - FrontendModulReg
-        - LinkObject
-        - Log  
-        - MIME-Viewer         
-        - Package            
-        - PGP
-        - Session
-        - SMIME
-        - SpellChecker
-        - Stats        
-        - TicketCore
-        - Time                     
+    - Possible SubGroups
+    - Core 
+    - Core::LinkObject
+    - Core::Log
+    - Core::PostMaster
+    - Core::MIME-Viewer
+    - Core::Package
+    - Core::Sendmail
+    - Core::Session
+    - Core::SpellChecker
+    - Core::Time
+    - Core::Web
+    - Core::PostMaster
+    - Core::Stats 
+    - Core::Ticket
+    - Core::TicketFreeText
+    - Crypt::PGP
+    - Crypt::SMIME
+    - Frontend::Agent  
+    - Frontend::Admin::ModuleRegistration
+    - Frontend::Agent::ModuleRegistration 
+    - Frontend::Agent::ModuleNotify
+    - Frontend::Agent::NavBarModule
+    - Frontend::Agent::Preferences
+    - Frontend::Agent::Ticket::ArticleAttachmentModule
+    - Frontend::Agent::Ticket::ArticleComposeModule
+    - Frontend::Agent::Ticket::ArticleViewModule
+    - Frontend::Agent::Ticket::ArticleViewModulePre
+    - Frontend::Agent::Ticket::MenuModule
+    - Frontend::Agent::Ticket::MenuModulePre
+    - Frontend::Customer
+    - Frontend::Customer::Auth
+    - Frontend::Customer::ModuleNotify
+    - Frontend::Customer::ModuleRegistration
+    - Frontend::Customer::Preferences
+    - Frontend::Public
+    - Frontend::Public::ModuleRegistration
+
 
 String
     <ConfigItem Name="" Required="1" Valid="1">
@@ -93,7 +112,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.40 2005-05-29 16:07:52 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.41 2005-05-30 11:07:59 tr Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der WEB-Installer (installer.pl) nicht genutzt werden.</Description>
