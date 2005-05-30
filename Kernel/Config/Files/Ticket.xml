@@ -148,7 +148,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.35 2005-05-30 11:07:32 tr Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.36 2005-05-30 12:03:59 tr Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifyer for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z.B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -175,7 +175,7 @@ TimeWorkingHours
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
-            <String Regex="">60</String>
+            <String Regex="^[0-9]{1,3}$">60</String>
         </Setting>
         <!-- $Self->{'Ticket::SubjectSize'} = 60; -->
     </ConfigItem>    
@@ -866,7 +866,7 @@ TimeWorkingHours
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
-            <String Regex="">1440</String>
+            <String Regex="^[0-9]{1,5}$">1440</String>
         </Setting>
         <!--  $Self->{HighlightAge1} = 1440;   -->
     </ConfigItem>       
@@ -886,7 +886,7 @@ TimeWorkingHours
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
-            <String Regex="">2880</String>
+            <String Regex="^[0-9]{1,5}$">2880</String>
         </Setting>
         <!--  $Self->{HighlightAge2} = 2880;   -->
     </ConfigItem>       
@@ -906,7 +906,7 @@ TimeWorkingHours
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
-            <String Regex="">86400</String>
+            <String Regex="^[0-9]{1,6}$">86400</String>
         </Setting>
         <!--  $Self->{'Ticket::Frontend::PendingDiffTime'} = 24*60*60;   -->
     </ConfigItem>      
@@ -987,7 +987,7 @@ TimeWorkingHours
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
-            <String Regex="">78</String>
+            <String Regex="^[0-9]{1,3}$">78</String>
         </Setting>
         <!--  $Self->{'Ticket::Frontend::TextAreaEmail'} = 78;   -->
     </ConfigItem>   
@@ -997,7 +997,7 @@ TimeWorkingHours
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
-            <String Regex="">70</String>
+            <String Regex="^[0-9]{1,3}$">70</String>
         </Setting>
         <!--  $Self->{'Ticket::Frontend::TextAreaNote'} = 70;   -->
     </ConfigItem>   
@@ -1020,7 +1020,7 @@ TimeWorkingHours
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
-            <String Regex="">22</String>
+            <String Regex="^[0-9]{1,3}$">22</String>
         </Setting>
         <!--  $Self->{'Ticket::Frontend::CustomerInfoComposeMaxSize'} = 22;   -->
     </ConfigItem>       
@@ -1043,7 +1043,7 @@ TimeWorkingHours
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
-            <String Regex="">22</String>
+            <String Regex="^[0-9]{1,3}$">22</String>
         </Setting>
         <!-- $Self->{'Ticket::Frontend::CustomerInfoZoomMaxSize'} = 22;   -->
     </ConfigItem>     
@@ -1066,7 +1066,7 @@ TimeWorkingHours
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
-            <String Regex="">18</String>
+            <String Regex="^[0-9]{1,3}$">18</String>
         </Setting>
         <!-- $Self->{'Ticket::Frontend::CustomerInfoQueueMaxSize'} = 18;   -->
     </ConfigItem>        
@@ -1086,7 +1086,7 @@ TimeWorkingHours
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
-            <String Regex="">1200</String>
+            <String Regex="^[0-9]{1,4}$">1200</String>
         </Setting>
         <!-- $Self->{'Ticket::Frontend::QueueMaxShown'} = 1200;   -->
     </ConfigItem>         
@@ -3563,7 +3563,7 @@ $Data{"Signature"}
         <Setting>
             <String Regex="">1</String>
         </Setting>
-        <!-- $Self->{CustomerPanelHistoryComment} = ''; -->
+        <!-- $Self->{CustomerPanelNextComposeState} = 1; -->
     </ConfigItem>
     <ConfigItem Name="Ticket::CustomerPanelDefaultNextComposeStateType" Required="1" Valid="1">
         <Description Lang="en">Next possible states for customer tickets.</Description>
@@ -3679,7 +3679,7 @@ $Data{"Signature"}
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
-            <String Regex="">5000</String>
+            <String Regex="^[0-9]{1,6}$">5000</String>
         </Setting>
         <!-- $Self->{'Ticket::CustomerTicketSearch::SearchLimit'} = 5000;  -->
     </ConfigItem>
@@ -3689,7 +3689,7 @@ $Data{"Signature"}
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
-            <String Regex="">40</String>
+            <String Regex="^[0-9]{1,3}$">40</String>
           </Setting>
         <!-- $Self->{'Ticket::CustomerTicketSearch::SearchPageShown'} = 40; -->
       </ConfigItem>
@@ -3852,7 +3852,7 @@ $Data{"Signature"}
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
-            <String Regex="">0</String>
+            <String Regex="^[0-9]{1,3}$">0</String>
         </Setting>
         <!-- $Self->{'Frontend::CommonParam'}->{QueueID} = 0; -->
     </ConfigItem>
@@ -5174,7 +5174,7 @@ $Data{"Signature"}
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
         <Setting>
-            <String Regex="">40</String>
+            <String Regex="^[0-9]{1,3}$">40</String>
         </Setting>
         <!-- $Self->{PostmasterMaxEmails} = 40; -->
     </ConfigItem>
@@ -5184,7 +5184,7 @@ $Data{"Signature"}
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
         <Setting>
-            <String Regex="">6144</String>
+            <String Regex="^[0-9]{1,5}$">6144</String>
         </Setting>
         <!-- $Self->{PostMasterPOP3MaxEmailSize} = 1024 * 6; -->
     </ConfigItem>C
@@ -5194,7 +5194,7 @@ $Data{"Signature"}
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
         <Setting>
-            <String Regex="">20</String>
+            <String Regex="^[0-9]{1,3}$">20</String>
         </Setting>
         <!-- $Self->{PostMasterPOP3ReconnectMessage} = 20; -->
     </ConfigItem>
@@ -5250,7 +5250,7 @@ $Data{"Signature"}
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
         <Setting>
-            <String Regex="">1</String>
+            <String Regex="^[0-9]{1,3}$">1</String>
         </Setting>
         <!-- $Self->{PostmasterUserID} = 1; -->
     </ConfigItem>
