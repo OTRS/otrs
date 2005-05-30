@@ -25,11 +25,6 @@
         <Description Lang="de">Beschreibung des ersten FAQ Feldes.</Description>
         <Group>FAQ</Group>
         <SubGroup>Core</SubGroup>
-=======
-        <Description Lang="en">Description of first FAQ field</Description>
-        <Description Lang="de">Beschreibung des ersten FAQ Feldes</Description>
-        <Group>FAQ</Group>
-        <SubGroup>Core</SubGroup>
         <Setting>
             <String>Symptom</String>
         </Setting>
@@ -113,10 +108,6 @@
     <ConfigItem Name="Frontend::Module###FAQ" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the FAQ object in the agent interface.</Description>
         <Description Lang="de">Frontendmodul-Registration für das FAQ-Objekt im Agent-Interface.</Description>
-=======
-    <ConfigItem Name="Frontend::Module###FAQ" Required="0" Valid="1">
-        <Description Lang="en">Interface settings for the FAQ-area</Description>
-        <Description Lang="de">Einstellungen für das FAQ-Interface</Description>
         <Group>FAQ</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -348,10 +339,6 @@
     <ConfigItem Name="CustomerFrontend::Module###CustomerFAQ" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the CustomerFAQ object in the customer interface.</Description>
         <Description Lang="de">Frontendmodul-Registration für das CustomerFAQ-Objekt im Customer-Interface.</Description>
-=======
-    <ConfigItem Name="CustomerFrontend::Module###CustomerFAQ" Required="0" Valid="1">
-        <Description Lang="de">Frontend settings for customer FAQ</Description>
-        <Description Lang="de">Einstellungen für das Front-End der Kunden-FAQ</Description>
         <Group>FAQ</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
