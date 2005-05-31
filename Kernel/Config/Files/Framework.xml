@@ -112,7 +112,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.45 2005-05-31 15:18:54 cs Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.46 2005-05-31 17:09:45 cs Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der WEB-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -727,7 +727,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="SessionDir" Required="1" Valid="1">
         <Description Lang="en">If "FS" was selected for SessionModule you have to specify a directory where the session data will be stored.</Description>
-        <Description Lang="de">Wenn "FS" für SessionModule ausgewählt wurde, muss ein Verzeichnis zum Zwischenspeichern der Session-Daten angegeben werden.</Description#>
+        <Description Lang="de">Wenn "FS" für SessionModule ausgewählt wurde, muss ein Verzeichnis zum Zwischenspeichern der Session-Daten angegeben werden.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Session</SubGroup>
         <Setting>
