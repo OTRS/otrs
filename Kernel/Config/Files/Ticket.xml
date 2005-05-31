@@ -148,7 +148,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.36 2005-05-30 12:03:59 tr Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.37 2005-05-31 17:11:54 cs Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifyer for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z.B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -201,7 +201,7 @@ TimeWorkingHours
     </ConfigItem>    
     <ConfigItem Name="Ticket::ForceNewStateAfterLock" Required="0" Valid="0">
         <Description Lang="en">Force a new ticket state after lock action. For key you have to define the current state and for value you have to define the next state after lock action.</Description>
-        <Description Lang="de">Automatisches setzen eines neun Ticket-Status nach dem das Ticket gesperrt wurde. Die Zuteilung ist im Key der aktuelle Status und als Inhalt der Status nach der Sperr-Aktion.</Description>
+        <Description Lang="de">Automatisches Setzen eines neuen Ticketstatus nach dem das Ticket gesperrt wurde. Der Schlüssel ist der aktuelle Status, der Inhalt der Status nach dem Sperren.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -924,8 +924,8 @@ TimeWorkingHours
         <!-- $Self->{'Ticket::Frontend::QueueListType'} = 'tree';  -->
     </ConfigItem>     
     <ConfigItem Name="Ticket::Frontend::StdResponsesMode" Required="1" Valid="1">
-        <Description Lang="en">Is the standard responses in the agent interface  shown as form or links?</Description>
-        <Description Lang="de">Sollen Standard-Antworten im Agent-Interface als Formular oder als Links angezeigt werden?</Description>
+        <Description Lang="en">The standard responses in the agent interface can be displayed as form or links.</Description>
+        <Description Lang="de">Die Standard-Antworten im Agent-Interface können als Formular oder als Links angezeigt werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -1161,8 +1161,8 @@ TimeWorkingHours
         <!-- $Self->{'Ticket::Frontend::NeedAccountedTime'} = 0; -->
     </ConfigItem>    
     <ConfigItem Name="Ticket::Frontend::NeedSpellCheck" Required="1" Valid="1">
-        <Description Lang="en">Newly composed messages have to be spell checked?</Description>
-        <Description Lang="de">Müssen neu erstelle Nachrichten auf Rechtschreibfehler geprüft werden?</Description>
+        <Description Lang="en">Do Newly composed messages have to be spell checked?</Description>
+        <Description Lang="de">Müssen neu erstellte Nachrichten auf Rechtschreibfehler geprüft werden?</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -1200,8 +1200,8 @@ TimeWorkingHours
         <!-- $Self->{'Ticket::Frontend::BulkFeatureJavaScriptAlert'} = 1; -->
     </ConfigItem>   
     <ConfigItem Name="Ticket::Frontend::MoveType" Required="1" Valid="1">
-        <Description Lang="en">Show queue selection as dropdown box or open a new window to select a new queue?</Description>
-        <Description Lang="de">Anzeige der Queue-Auswahl beim Verschieben als Dropdown Box oder öffnen eines neuen Fensters zur Auswahl der neuen Queue?</Description>
+        <Description Lang="en">The queue selection can be shown as dropdown box or in a new opened window.</Description>
+        <Description Lang="de">Die Queue-Auswahl beim Verschieben eines Tickets kann als Dropdown Box oder in einem neuen Fensters angezeigt werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -1214,7 +1214,7 @@ TimeWorkingHours
     </ConfigItem>    
     <ConfigItem Name="Ticket::Frontend::MoveSetState" Required="1" Valid="1">
         <Description Lang="en">Set new ticket state after ticket move?</Description>
-        <Description Lang="de">Setzen eines neuen Ticket-Status nach dem verscheiben?</Description>
+        <Description Lang="de">Setzen eines neuen Ticket-Status nach dem Verschieben?</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -1227,7 +1227,7 @@ TimeWorkingHours
     </ConfigItem>        
     <ConfigItem Name="Ticket::DefaultNextMoveStateType" Required="1" Valid="1">
         <Description Lang="en">Possible state types after moving a ticket.</Description>
-        <Description Lang="de">Mögliche Stati nach dem Verschieben von Tickets.</Description>
+        <Description Lang="de">Mögliche Status nach dem Verschieben von Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -1420,7 +1420,7 @@ TimeWorkingHours
     </ConfigItem>     
     <ConfigItem Name="Ticket::PhoneDefaultNextStateType" Required="1" Valid="1">
         <Description Lang="en">Next possible states after phone.</Description>
-        <Description Lang="de">Mögliche Stati nach dem Telefonat.</Description>
+        <Description Lang="de">Mögliche Status nach dem Telefonat.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -1674,7 +1674,7 @@ TimeWorkingHours
     </ConfigItem>   
     <ConfigItem Name="Ticket::EmailDefaultNextStateType" Required="1" Valid="1">
         <Description Lang="en">Next possible states after e-mailphone.</Description>
-        <Description Lang="de">Mögliche Stati nach dem erstellen einer Email.</Description>
+        <Description Lang="de">Mögliche Status nach dem Erstellen einer Email.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -1712,7 +1712,7 @@ TimeWorkingHours
     </ConfigItem>    
     <ConfigItem Name="Ticket::Frontend::NoteInformInvolvedAgent" Required="1" Valid="1">
         <Description Lang="en">Show selection of involved agents?</Description>
-        <Description Lang="de">Auswahl der innvolvierten Agents anzeigen?</Description>
+        <Description Lang="de">Auswahl der involvierten Agents anzeigen?</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -1725,7 +1725,7 @@ TimeWorkingHours
     </ConfigItem>    
     <ConfigItem Name="Ticket::Frontend::NoteInformAgent" Required="1" Valid="1">
         <Description Lang="en">Show selection of agents to inform?</Description>
-        <Description Lang="de">Auswahl zu informierender Agents anzeigen?</Description>
+        <Description Lang="de">Auswahl der zu informierenden Agents anzeigen?</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -1738,7 +1738,7 @@ TimeWorkingHours
     </ConfigItem>      
     <ConfigItem Name="Ticket::DefaultNextNoteStateType" Required="1" Valid="1">
         <Description Lang="en">Default states of next note.</Description>
-        <Description Lang="de">Standard Stati der nächsten Notiz.</Description>
+        <Description Lang="de">Standard Status der nächsten Notiz.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -1832,7 +1832,7 @@ TimeWorkingHours
     </ConfigItem>          
     <ConfigItem Name="Ticket::DefaultPendingNextStateType" Required="1" Valid="1">
         <Description Lang="en">Next possible states for pending tickets.</Description>
-        <Description Lang="de">Nächst mögliche Stati für anstehende (pending) Tickets.</Description>
+        <Description Lang="de">Nächstmögliche Status für anstehende (pending) Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -1885,7 +1885,7 @@ TimeWorkingHours
     </ConfigItem>          
     <ConfigItem Name="Ticket::DefaultCloseNextStateType" Required="1" Valid="1">
         <Description Lang="en">Next possible states for close tickets.</Description>
-        <Description Lang="de">Nächst möglicher Status für geschlossene Tickets.</Description>
+        <Description Lang="de">Nächstmöglicher Status für geschlossene Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -1897,7 +1897,7 @@ TimeWorkingHours
     </ConfigItem>         
     <ConfigItem Name="Ticket::DefaultNextComposeType" Required="1" Valid="1"> 
         <Description Lang="en">Default compose next state.</Description>
-        <Description Lang="de">Standardmäßig eingestellter Status für die Erstellung eines nächsten neuen Tickets.</Description>
+        <Description Lang="de">Standardmäßig eingestellter Status bei der Beantwortung eines Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -1907,7 +1907,7 @@ TimeWorkingHours
     </ConfigItem>      
     <ConfigItem Name="Ticket::DefaultNextComposeStateType" Required="1" Valid="1">
         <Description Lang="en">Next possible states for compose message.</Description>
-        <Description Lang="de">Nächst mögliche Stati für die Erstellung von Ticktes.</Description>
+        <Description Lang="de">Nächstmögliche Status für die Erstellung von Ticktes.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -1922,7 +1922,7 @@ TimeWorkingHours
     </ConfigItem>        
     <ConfigItem Name="Ticket::Frontend::ResponseFormat" Required="1" Valid="1">
         <Description Lang="en">Format of responses.</Description>
-        <Description Lang="de">Textformat für Responses.</Description>
+        <Description Lang="de">Textformat für Antworten.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -1969,7 +1969,7 @@ $Data{"Signature"}
     </ConfigItem>       
     <ConfigItem Name="Ticket::DefaultNextBounceStateType" Required="1" Valid="1">
         <Description Lang="en">Next possible states for bounced message.</Description>
-        <Description Lang="de">Nächst mögliche Stati für gebouncete Nachrichten.</Description>
+        <Description Lang="de">Nächstmögliche Status für 'gebouncete' Nachrichten.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -1995,7 +1995,7 @@ $Data{"Signature"}
     </ConfigItem>  
     <ConfigItem Name="Ticket::DefaultNextForwardStateType" Required="1" Valid="1">
         <Description Lang="en">Next possible states for forwarded message.</Description>
-        <Description Lang="de">Mögliche Stati für weitergeleitete Nachrichten.</Description>
+        <Description Lang="de">Mögliche Status für weitergeleitete Nachrichten.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -2035,8 +2035,8 @@ $Data{"Signature"}
         <!--   $Self->{'Ticket::Frontend::ForwardArticleType'} = 'email-external';  -->
     </ConfigItem>     
     <ConfigItem Name="Ticket::ViewableSenderTypes" Required="1" Valid="1">
-        <Description Lang="en">Which sender types are viewable by default (default:  customer)?</Description>
-        <Description Lang="de">Welche Sender Typen sind standardmäßig sichtbar (Default: customer)?</Description>
+        <Description Lang="en">Default viewable sender types (default:  customer).</Description>
+        <Description Lang="de">Standardmäßig sichtbare Sender Typen (Default: customer).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -2047,8 +2047,8 @@ $Data{"Signature"}
         <!-- $Self->{'Ticket::ViewableSenderTypes'} = ["'customer'"];  -->
     </ConfigItem>     
     <ConfigItem Name="Ticket::ViewableLocks" Required="1" Valid="1">
-        <Description Lang="en">Which locks are viewable? Default: unlock, tmp_lock.</Description>
-        <Description Lang="de">Welche Locks sollen angezeigt werden? Default: unlock, tmp_lock.</Description>
+        <Description Lang="en">Viewable locks. Default: unlock, tmp_lock.</Description>
+        <Description Lang="de">Standardmäßig angezeigte Locks. Default: unlock, tmp_lock.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -2060,8 +2060,8 @@ $Data{"Signature"}
         <!-- $Self->{'Ticket::ViewableLocks'} = ["'unlock'", "'tmp_lock'"];  -->
     </ConfigItem>    
     <ConfigItem Name="Ticket::ViewableStateType" Required="1" Valid="1">
-        <Description Lang="en">Which state types for a ticket do you want to display?</Description>
-        <Description Lang="de">Welche Stati für Tickets sollen angezeigt werden?</Description>
+        <Description Lang="en">State types for a ticket to display.</Description>
+        <Description Lang="de">Angezeigte Status für Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -2075,8 +2075,8 @@ $Data{"Signature"}
         <!-- $Self->{'Ticket::ViewableStateType'} = ['new', 'open', 'pending reminder', 'pending auto'];  -->
     </ConfigItem>       
     <ConfigItem Name="Ticket::UnlockStateType" Required="1" Valid="1">
-        <Description Lang="en">What are the states for unlocked tickets? You can unlock tickets with the script "bin/UnlockTickets.pl".</Description>
-        <Description Lang="de">Welche Stati soll für nicht gelockte Ticketes verwendet werden? Sie können Tickets mit Hilfe des Skripts "bin/UnlockTickets.pl" in diesen Status versetzen.</Description>
+        <Description Lang="en">The states for unlocked tickets. You can unlock tickets with the script "bin/UnlockTickets.pl".</Description>
+        <Description Lang="de">Status für nicht gelockte Ticketes. Sie können Tickets mit Hilfe des Skripts "bin/UnlockTickets.pl" in diesen Status versetzen.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -2100,8 +2100,8 @@ $Data{"Signature"}
         <!-- $Self->{'Ticket::PendingReminderStateType'} = ['pending reminder'];  -->
     </ConfigItem>    
     <ConfigItem Name="Ticket::PendingAutoStateType" Required="1" Valid="1">
-        <Description Lang="en">What are the states for pending tickets that changed state after reached time limit?</Description>
-        <Description Lang="de">In welche Stati können anstehende (pending) Tickets versetzt werden, für die das Zeitlimit erreicht wurde?</Description>
+        <Description Lang="en">Possible states for pending tickets that changed state after reached time limit.</Description>
+        <Description Lang="de">Mögliche Status für anstehende (pending) Tickets, für die das Zeitlimit erreicht wurde.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -2425,7 +2425,7 @@ $Data{"Signature"}
     </ConfigItem>           
     <ConfigItem Name="Ticket::Frontend::ArticleViewModule###1-SMIME" Required="1" Valid="1">
         <Description Lang="en">Agent interface article notification module to check smime.</Description>
-        <Description Lang="de">Ein Agent-Interface-Artikel-Notiz-Modul um den SMIME-Schlüssel zu checken?.</Description>
+        <Description Lang="de">Ein Agent-Interface-Artikel-Notiz-Modul um den SMIME-Schlüssel zu checken.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ArticleViewModule</SubGroup>
         <Setting>
@@ -2679,7 +2679,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###320-Link" Required="0" Valid="1">
         <Description Lang="en">Module to show link to link a ticket with another object.</Description>
-        <Description Lang="de">Über dieses Modul wird ein Link im Menü angezeigt, mit dem ein Ticket mit einem anderen Objekt verknüpft werden kann.</Description>
+        <Description Lang="de">Über dieses Modul wird ein Link im Menü angezeigt, mit dem ein Ticket mit einem anderen Objekt verknüpft werden kann.</Description>"
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
@@ -3567,7 +3567,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::CustomerPanelDefaultNextComposeStateType" Required="1" Valid="1">
         <Description Lang="en">Next possible states for customer tickets.</Description>
-        <Description Lang="de">Nächst mögliche Stati für vom Customer erstellte Tickets.</Description>
+        <Description Lang="de">Nächstmögliche Status für vom Customer erstellte Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
@@ -3818,7 +3818,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::CommonObject###QueueObject" Required="1" Valid="1">
         <Description Lang="en">Path to the file where all settings for the QueueObject object for the frontend are stored.</Description>
-        <Description Lang="de">Pfad zur Datei in der alle Einstellung für das QueueObject-Objekt innerhalb des Frontends gespeichert sind.</Description>
+        <Description Lang="de">Pfad zur Datei in der alle Einstellung zum QueueObject-Objekt gespeichert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -3918,7 +3918,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketQueue" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketQuee object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das AgentTicketQueue-Objekt im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AgentTicketQueue-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -3978,7 +3978,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketPhone" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketPhone    uee object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das AgentTicketPhone-Objekt im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AgentTicketPhone-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -4017,7 +4017,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketEmail" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketEmail object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das AgentTicketEmail-Objekt im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AgentTicketEmail-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -4057,7 +4057,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketSearch" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketSearch object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das AgentTicketSearch-Objekt im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AgentTicketSearch-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -4096,7 +4096,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketMailbox" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketMailbox object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das AgentTicketMailbox-Objekt im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AgentTicketMailbox-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -4116,7 +4116,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketStatusView" Required="0" Valid="0">
         <Description Lang="en">Frontend module registration for the AgentTicketStatusView object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das AgentTicketStatusView-Objekt im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AgentTicketStatusView-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -4145,7 +4145,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentZoom" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentZoom object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das AgentZoom-Objekt im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AgentZoom-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -4163,7 +4163,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketZoom" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketZoom object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das AgentTicketZoom-Objekt im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AgentTicketZoom-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -4183,7 +4183,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketAttachment" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketAtachment object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das AgentTicketAttachment-Objekt im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AgentTicketAttachment-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -4199,7 +4199,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketPlain" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketPlain object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das AgentTicketPlain-Objekt im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AgentTicketPlain-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -4219,7 +4219,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketNote" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketNote object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das AgentTicketNote-Objekt im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AgentTicketNote-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -4239,7 +4239,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketPending" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketPending ote object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das AgentTicketPending-Objekt im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AgentTicketPending-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -4259,7 +4259,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketPriority" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketPriority object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das AgentTicketPriority-Objekt im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AgentTicketPriority-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -4279,7 +4279,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketLock" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketLock object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das AgentTicketLock-Objekt im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AgentTicketLock-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -4298,7 +4298,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketMove" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketMove object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das AgentTicketMove-Objekt im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AgentTicketMove-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -4318,7 +4318,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketHistory" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketHistory object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das AgentTicketHistory-Objekt im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AgentTicketHistory-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -4338,7 +4338,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketOwner" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketOwner object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das AgentTicketOwner-Objekt im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AgentTicketOwner-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -4358,7 +4358,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketCompose" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketCompose object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das AgentTicketCompose-Objekt im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AgentTicketCompose-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -4378,7 +4378,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketCustomerFollowUp" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketCustomerFollowup object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das AgentTicketCustomerFollowup-Objekt im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AgentTicketCustomerFollowup-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -4398,7 +4398,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketBounce" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketBounce object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das AgentTicketBounce-Objekt im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AgentTicketBounce-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -4418,7 +4418,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketForward" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketForward object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das AgentTicketForward-Objekt im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AgentTicketForward-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -4438,7 +4438,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketCustomer" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketCustomer object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das AgentTicketCustomer-Objekt im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AgentTicketCustomer-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -4458,7 +4458,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketClose" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketClose object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das AgentTicketClose-Objekt im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AgentTicketClose-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -4478,7 +4478,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketFreeText" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketFreeText object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das AgentTicketFreeText-Objekt im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AgentTicketFreeText-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -4498,7 +4498,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketPrint" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketPrint object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das AgentTicketPrint-Objekt im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AgentTicketPrint-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -4518,7 +4518,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketBulk" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketBulk object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das AgentTicketBulk-Objekt im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AgentTicketBulk-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -4538,7 +4538,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminQueue" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminQueue object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das AdminQueue-Objekt im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AdminQueue-Objekts im Admin-Bereich.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4572,7 +4572,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminResponse" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminResponse object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das AdminResponse-Objekt im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AdminResponse-Objekts im Admin-Bereich.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4606,7 +4606,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminQueueResponses" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminQueueResponses object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das AdminQueueRespnses-Objekt im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AdminQueueRespnses-Objekts im Admin-Bereich.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4640,7 +4640,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminAutoResponse" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminAutoResponses object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das AdminAutoResponses-Objekt im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AdminAutoResponses-Objekts im Admin-Bereich.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4674,7 +4674,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminQueueAutoResponse" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminQueueAutoResponses object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das AdminQueueAutoResponses-Objekt im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AdminQueueAutoResponses-Objekts im Admin-Bereich.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4709,7 +4709,7 @@ $Data{"Signature"}
     <ConfigItem Name="Frontend::Module###AdminAttachment" Required="0" Valid="1">
         <Description Lang="en">describe if the module "Attachment" (AdminAttachment) is shown in the admin interface. Describe also the notation of the module.</Description>
         <Description Lang="en">Frontend module registration for the AdminAttachment object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das AdminAttachment-Objekt im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AdminAttachment-Objekts im Admin-Bereich.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4743,7 +4743,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminResponseAttachment" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminResponseAttachment object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das AdminResponseAttachment-Objekt im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AdminResponseAttachment-Objekts im Admin-Bereich.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -4777,7 +4777,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminSalutation" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminSalutation object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das AdminSalutation-Objekt im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AdminSalutation-Objekts im Admin-Bereich.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -4811,7 +4811,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminSignature" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminSignature object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das AdminSignature-Objekt im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AdminSignature-Objekts im Admin-Bereich.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -4845,7 +4845,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminSystemAddress" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminSystemAddress object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das AdminSystemAddress-Objekt im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AdminSystemAddress-Objekts im Admin-Bereich.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4879,7 +4879,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminNotification" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminNotification object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das AdminNotification-Objekt im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AdminNotification-Objekts im Admin-Bereich.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4913,7 +4913,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminState" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminState object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das AdminState-Objekt im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AdminState-Objekts im Admin-Bereich.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4947,7 +4947,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminGenericAgent" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminGenericAgent object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das AdminGenericAgent-Objekt im Admin-Bereich.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AdminGenericAgent-Objekts im Admin-Bereich.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -4981,7 +4981,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerTicketOverView" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the CustomerTicketOverview object in the customer interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das CustomerTicketOverview-Objekt im Customer-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des CustomerTicketOverview-Objekts im Customer-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -5033,7 +5033,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerTicketMessage" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the CustomerTicketMessage object in the customer interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das CustomerTicketMessage-Objekt im Customer-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des CustomerTicketMessage-Objekts im Customer-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -5070,7 +5070,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerTicketZoom" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the CustomerTicketZoom object in the customer interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das CustomerTicketZoom-Objekt im Customer-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des CustomerTicketZoom-Objekts im Customer-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -5090,7 +5090,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerZoom" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the CustomerZoom object in the customer interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das CustomerZoom-Objekt im Customer-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des CustomerZoom-Objekts im Customer-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -5106,7 +5106,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerTicketAttachment" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the CustomerTicketAttachment object in the customer interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das CustomerTicketAttachment-Objekt im Customer-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des CustomerTicketAttachment-Objekts im Customer-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -5122,7 +5122,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::ModuleCustomerTicketSearch" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the CustomerTicketSearch object in the customer interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das CustomerTicketSearch-Objekt im Customer-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des CustomerTicketSearch-Objekts im Customer-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -5255,8 +5255,8 @@ $Data{"Signature"}
         <!-- $Self->{PostmasterUserID} = 1; -->
     </ConfigItem>
     <ConfigItem Name="PostmasterDefaultQueue" Required="1" Valid="1">
-        <Description Lang="en">What is the postmaster default queue?</Description>
-        <Description Lang="de">Postmaster default Queue?</Description>
+        <Description Lang="en">The postmaster default queue.</Description>
+        <Description Lang="de">Postmaster default Queue.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
         <Setting>
@@ -5286,7 +5286,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="PostmasterFollowUpState" Required="1" Valid="1">
         <Description Lang="en">The state if a ticket got a followup.</Description>
-        <Description Lang="de">Status für ein Ticket, für das ein FollowUp eintrifft.</Description>
+        <Description Lang="de">Status für ein Ticket, für das ein Follow up eintrifft.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
         <Setting>
@@ -5296,7 +5296,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="PostmasterFollowUpOnUnlockAgentNotifyOnlyToOwner" Required="1" Valid="1">
         <Description Lang="en">Send agent follow up notification just to the owner, if a ticket is unlocked? The default is to send a notification to all agents, if a ticket is unlocked.</Description>
-        <Description Lang="de">Soll eine Benachrichtigung über ein FollowUp nur an den Eigentümer des Tickets gesendet werden? Der Standard ist, dass alle Agenten über ein FollowUp und somit über ein entsperrtes Ticket benachrichtig werden.</Description>
+        <Description Lang="de">Soll eine Benachrichtigung über ein Follow up nur an den Eigentümer des Tickets gesendet werden? Der Standard ist, dass alle Agenten über ein Follow up und somit über ein freies Ticket benachrichtigt werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
         <Setting>
@@ -5443,7 +5443,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="PostMaster::PreFilterModule###1-Match" Required="0" Valid="0">
         <Description Lang="en">Module to filter and manipulate incoming messages. Block/ignore all spam email with From: noreply@ address.</Description>
-        <Description Lang="de">Modul zum Filtern und ändern eingehender Nachrichten. Blocken und ignorieren von Spam mit Hilfe der noreply@-Adresse.</Description>
+        <Description Lang="de">Modul zum Filtern und Ändern eingehender Nachrichten. Blocken und Ignorieren von Spam mit Hilfe der noreply@-Adresse.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
         <Setting>
