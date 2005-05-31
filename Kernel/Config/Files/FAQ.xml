@@ -81,8 +81,8 @@
         <!-- $Self->{'FAQ::Field6'} = 'Comment (internal)'; -->
     </ConfigItem>
     <ConfigItem Name="LinkObject###FAQ" Required="1" Valid="1">
-        <Description Lang="en">Link object settings for FAQ. What objects are known by the system?</Description>
-        <Description Lang="de">Link Objekt Einstellungen für die FAQ. Welche Objekte sind dem System bekannt?</Description>
+        <Description Lang="en">Link object settings for FAQ. Objects that are known by the system.</Description>
+        <Description Lang="de">Link Objekt Einstellungen für die FAQ. Objekte, die dem System bekannt sind.</Description>
         <Group>FAQ</Group>
         <SubGroup>Core::LinkObject</SubGroup>
         <Setting>
