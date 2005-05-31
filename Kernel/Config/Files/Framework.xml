@@ -112,7 +112,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.44 2005-05-31 15:10:58 cs Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.45 2005-05-31 15:18:54 cs Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der WEB-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -3013,7 +3013,7 @@ Your OTRS Notification Master
         -->
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerPreferences" Required="0" Valid="1">
-        <Description Lang="en">Front module registration for the CustomerPreferences object in the customer frontend.</Description>
+        <Description Lang="en">Frontend module registration for the CustomerPreferences object in the customer frontend.</Description>
         <Description Lang="de">Frontendmodul-Registration des CustomerPreferences-Objekts innerhalb des Customer-Frontends.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
