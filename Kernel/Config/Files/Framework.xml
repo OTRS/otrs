@@ -112,7 +112,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.43 2005-05-30 12:03:39 tr Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.44 2005-05-31 15:10:58 cs Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der WEB-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -190,8 +190,8 @@ TimeWorkingHours
         <!-- $Self->{AdminEmail} = 'admin@example.com'; -->
     </ConfigItem>
     <ConfigItem Name="Organization" Required="1" Valid="1">
-        <Description Lang="en">If an organization name is specifyed, every outgoing message will contain a X-header entry with the organization string.</Description>
-        <Description Lang="de">Name der Firma bzw. Organisation. Jede ausgehende Nachricht wird mit einem X-Header-Eintrag für die Organisation und dem angegebenen Namen als Wert versehen.</Description>
+        <Description Lang="en">If an organization or company name is specifyed, every outgoing message will contain a X-header entry with this string.</Description>
+        <Description Lang="de">Firma bzw. Name der Organisation. Jede ausgehende Nachricht wird mit einem X-Header-Eintrag für die Organisation und dem angegebenen Namen als Wert versehen.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -277,8 +277,8 @@ TimeWorkingHours
         <!-- $Self->{DefaultTheme} = 'Standard'; -->
     </ConfigItem>
     <ConfigItem Name="DefaultViewNewLine" Required="1" Valid="1">
-        <Description Lang="en">Automatical line break in text messages after how many characters?</Description>
-        <Description Lang="de">Nach wie vielen Zeichen soll in Textnachrichten automatisch eine neue Zeile begonnen werden?</Description>
+        <Description Lang="en">Automated line break in text messages after that count of characters.</Description>
+        <Description Lang="de">Nach dieser Anzahl an Zeichen wird in Textnachrichten automatisch eine neue Zeile begonnen.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
@@ -287,8 +287,8 @@ TimeWorkingHours
         <!-- $Self->{DefaultViewNewLine} = 85; -->
     </ConfigItem>
     <ConfigItem Name="DefaultPreViewLines" Required="1" Valid="1">
-        <Description Lang="en">How many lines should be displayed in the preview for messages (e.g. for tickets in the QueueView)?</Description>
-        <Description Lang="de">Wie viele Zeilen sollen bei der Vorschau von Textnachrichten angezeigt werden (z.B. bei Tickets in der Queue Ansicht)?</Description>
+        <Description Lang="en">Count of lines that are displayed in the preview for messages (e.g. for tickets in the QueueView).</Description>
+        <Description Lang="de">Anzhal der Zeilen bei der Vorschau von Textnachrichten (z.B. bei Tickets in der Queue-Ansicht).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
@@ -297,8 +297,8 @@ TimeWorkingHours
         <!-- $Self->{DefaultPreViewLines} = 18; -->
     </ConfigItem>
     <ConfigItem Name="DefaultViewLines" Required="1" Valid="1">
-        <Description Lang="en">How many lines should be displayed in text messages (e.g. ticket lines in the QueueZoom)?</Description>
-        <Description Lang="de">Wie viele Zeilen sollen für eine Textnachricht angezeigt werden (z.B. im QueueZoom)?</Description>
+        <Description Lang="en">Count of lines that are  displayed in text messages (e.g. ticket lines in the QueueZoom).</Description>
+        <Description Lang="de">Anzahl der Zeilen für Textnachricht (z.B. im QueueZoom).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
@@ -307,8 +307,8 @@ TimeWorkingHours
         <!-- $Self->{DefaultViewLines} = 6000; -->
     </ConfigItem>
     <ConfigItem Name="ShowAlwaysLongTime" Required="1" Valid="1">
-        <Description Lang="en">Show always time in long (days, hours, minutes) or short (days, hours) format?</Description>
-        <Description Lang="de">Zeitangaben immer im ausführlichen (Tag, Stunden, Minuten oder im kurzem Format (Tag, Stunden) anzeigen?</Description>
+        <Description Lang="en">Show time in long (days, hours, minutes) or short (days, hours) format.</Description>
+        <Description Lang="de">Zeitangaben immer im ausführlichen (Tag, Stunden, Minuten) oder im kurzem Format (Tag, Stunden) anzeigen.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time</SubGroup>
         <Setting>
@@ -320,8 +320,8 @@ TimeWorkingHours
         <!-- $Self->{ShowAlwaysLongTime} = 0; -->
     </ConfigItem>
     <ConfigItem Name="AttachmentDownloadType" Required="1" Valid="1">
-        <Description Lang="en">Show the attachments of a ticket in the browser (inline) or just make them downloadable (attachment)?</Description>
-        <Description Lang="de">Sollen Dateianhänge von Tickets im Browser angezeigt (inline) oder lediglich zum Download angeboten werden (attachment)?</Description>
+        <Description Lang="en">Show the attachments of a ticket in the browser (inline) or just make them downloadable (attachment).</Description>
+        <Description Lang="de">Anzeige von Dateianhänge für Tickets im Browser (inline) oder lediglich als Download anbieten (attachment).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
@@ -379,8 +379,8 @@ TimeWorkingHours
         <!--  $Self->{CheckEmailInvalidAddress} = '@(aa|aaa|aaaa|aaaaa|abc|any|anywhere|anonymous|bar|demo|example|foo|hello|hallo|me|nospam|nowhere|null|some|somewhere|test|teste.|there|user|xx|xxx|xxxx)\.(..|...)$'; -->
     </ConfigItem>   
     <ConfigItem Name="LogModule" Required="1" Valid="1">
-        <Description Lang="en">Which log module do you want to use? "File" writes all messages in a given logfile, "SysLog" uses the syslog daemon of the system, e.g. syslogd.</Description>
-        <Description Lang="de">Welches Logmodul soll verwendet werden? "File" schreibt in eine anzugebende Datei, "SysLog" logt mit Hilfe des systemspezifischen Logdaemons, z.B. syslogd.</Description>
+        <Description Lang="en">Log module for the system. "File" writes all messages in a given logfile, "SysLog" uses the syslog daemon of the system, e.g. syslogd.</Description>
+        <Description Lang="de">Logmodul für das System? "File" schreibt in eine anzugebende Datei, "SysLog" logt mit Hilfe des systemspezifischen Logdaemons, z.B. syslogd.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Log</SubGroup>
         <Setting>
@@ -508,7 +508,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="SendmailBcc" Required="0" Valid="0">
         <Description Lang="en">Send all outgoing email via bcc to the specifyed address. Please use this only for backup reasons!</Description>
-        <Description Lang="de">Alle ausgehenden Nachrichten werden via BCC an die angegebene Adresse gesendet. Bitte nutzen Sie dieses Feature nur aus Gründen der Datensicherung!</Description>
+        <Description Lang="de">Alle ausgehenden Nachrichten werden via BCC ('Blind Copy') an die angegebene Adresse gesendet. Bitte nutzen Sie diese Funktionalität nur aus Gründen der Datensicherung.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
         <Setting>
@@ -518,7 +518,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="LoginURL" Required="0" Valid="0">
         <Description Lang="en">Alternate URL, where the login link refers to.</Description>
-        <Description Lang="de">Alternative URL, auf die der Link für die Anmeldung am system verweist.</Description>
+        <Description Lang="de">Alternative URL, auf die der Link für die Anmeldung am System verweist.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -548,7 +548,7 @@ TimeWorkingHours
     </ConfigItem>   
     <ConfigItem Name="InfoKey" Required="0" Valid="0">
         <Description Lang="en">Key to check with Kernel::Modules::AgentInfo module. If this user preferences key is true, then the message is accepted by the system.</Description>
-        <Description Lang="de">Key, der mit Hilfe des Moduls Kernel::Modules::AgentInfo überprüft werden soll. Wird dieser Key angegeben, wird auch die Nachricht akzeptiert.</Description>
+        <Description Lang="de">Schlüssel, der mit Hilfe des Moduls Kernel::Modules::AgentInfo überprüft wird. Wird dieser Schlüssel angegeben, wird auch die Nachricht akzeptiert.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -558,7 +558,7 @@ TimeWorkingHours
     </ConfigItem>   
     <ConfigItem Name="InfoFile" Required="0" Valid="0">
         <Description Lang="en">File that is displayed, if located under Kernel/Output/HTML/Standard/AgentInfo.dtl.</Description>
-        <Description Lang="de">Datei die mit Hilfe des Moduls Kernel/Output/HTML/Standard/AgentInfo.dtl angezeigt werden soll.</Description>
+        <Description Lang="de">Datei, die mit Hilfe des Moduls Kernel/Output/HTML/Standard/AgentInfo.dtl angezeigt werden soll.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -568,7 +568,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="Frontend::NotifyModule###1-CharsetCheck" Required="1" Valid="1">
         <Description Lang="en">Module to inform agents via the agent interface about the used charset. A notification is displayed, if the default charset is not used, e.g. in tickets.</Description>
-        <Description Lang="de">Modul, das die Agenten innerhalb des Agent-Interfaces über den benutzten Zeichensatz informiert. Es wird ein Hinweis ausgegeben, wenn z.B. Tickets mit einem anderen als den Standard-Zeichensatz angezeigt werden.</Description>
+        <Description Lang="de">Modul, welches die Agents innerhalb des Agent-Interfaces über den benutzten Zeichensatz informiert. Es wird ein Hinweis ausgegeben, wenn z.B. ein Ticket mit einem anderen als den Standard-Zeichensatz angezeigt wird.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>
             <Setting>
@@ -581,8 +581,8 @@ TimeWorkingHours
         -->
     </ConfigItem>   
     <ConfigItem Name="Frontend::NotifyModule###2-UID-Check" Required="1" Valid="1">
-        <Description Lang="en">Module to display a notification in the agent interface, if the system is used by the admin user (normaly you shouldn't work as admin!).</Description>
-        <Description Lang="de">Modul zur Ausgabe eines Hinweises, wenn als Admin-Benutzer im System gearbeitet wird (normal sollte nicht als Administrator gearbeitet werden).</Description>
+        <Description Lang="en">Module to display a notification in the agent interface, if the system is used by the admin user (normaly you shouldn't work as admin).</Description>
+        <Description Lang="de">Modul zur Ausgabe eines Hinweises, wenn als Admin-Benutzer im System gearbeitet wird (Normalerweise sollte nicht als Administrator gearbeitet werden).</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>
             <Setting>
@@ -595,7 +595,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="Frontend::NotifyModule###3-ShowAgentOnline" Required="0" Valid="0">
         <Description Lang="en">Module to show currently logged in agents in the agent interface.</Description>
-        <Description Lang="de">Mit diesem Modul können andere Agents innerhalb des Agent-Interfaces angezeigt werden, die im Moment am System angemeldet sind.</Description>
+        <Description Lang="de">Mit diesem Modul können andere, am System angemeldete Agents innerhalb des Agent-Interfaces angezeigt werden.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>
             <Setting>
@@ -609,7 +609,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="Frontend::NotifyModule###4-ShowCustomerOnline" Required="0" Valid="0">
         <Description Lang="en">Module to show currently loged in customers in the agent interface.</Description>
-        <Description Lang="de">Mit diesem Modul können die Kunden innerhalb des Agent-Interfaces angezeigt werden, die gerade am System angemeldet sind.</Description>
+        <Description Lang="de">Mit diesem Modul können die am System angemeldete Kunden innerhalb des Agent-Interfaces angezeigt werden.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>
             <Setting>
@@ -621,8 +621,8 @@ TimeWorkingHours
                 Module => 'Kernel::Output::HTML::NotificationCustomerOnline',}; -->
     </ConfigItem>
     <ConfigItem Name="SessionModule" Required="1" Valid="1">
-        <Description Lang="en">How do you want to store the session data? Advantage of "DB" is that you can split the frontend server from the db server. "FS" or "IPC" is much faster.</Description>
-        <Description Lang="de">Wie sollen die Session-Daten gespeichert werden? "DB" hat den Vorteil, dass die WEB-Oberfläche und die Datenbank auf verschiedenen Maschinen installiert werden kann, "FS" oder "IPC" sind hingegen viel schneller.</Description>
+        <Description Lang="en">Module to store the session data. Advantage of "DB" is that you can split the frontend server from the db server. "FS" or "IPC" is much faster.</Description>
+        <Description Lang="de">Modul zum Speichern der Session-Daten. "DB" hat den Vorteil, dass die WEB-Oberfläche und die Datenbank auf verschiedenen Maschinen installiert werden kann, "FS" oder "IPC" sind hingegen viel schneller.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Session</SubGroup>
         <Setting>
@@ -714,7 +714,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="SessionUseCookieAfterBrowserClose" Required="1" Valid="1">
         <Description Lang="en">Store cookies after the browser has ben closed?</Description>
-        <Description Lang="de">Cookies nach dem schließen des Browsers nicht löschen?</Description>
+        <Description Lang="de">Cookies nach dem Schließen des Browsers nicht löschen?</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Session</SubGroup>
         <Setting>
@@ -727,7 +727,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="SessionDir" Required="1" Valid="1">
         <Description Lang="en">If "FS" was selected for SessionModule you have to specify a directory where the session data will be stored.</Description>
-        <Description Lang="de">Wenn "FS" für SessionModule ausgewählt wurde, muss ein Verzeichnis zum zwischenspeichern der Session-Daten angegeben werden.</Description>
+        <Description Lang="de">Wenn "FS" für SessionModule ausgewählt wurde, muss ein Verzeichnis zum Zwischenspeichern der Session-Daten angegeben werden.</Description#>
         <Group>Framework</Group>
         <SubGroup>Core::Session</SubGroup>
         <Setting>
@@ -757,7 +757,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="SessionTableValue" Required="1" Valid="1">
         <Description Lang="en">If "DB" was selected for SessionModule, you have to specify a column for the values in session table.</Description>
-        <Description Lang="de">Wenn "DB" als SessionModule ausgewählt wurde, muss ein Feld für die Values innerhalb der Session-Tabelle angegeben werden.</Description>
+        <Description Lang="de">Wenn "DB" als SessionModule ausgewählt wurde, muss ein Feld für die Werte innerhalb der Session-Tabelle angegeben werden.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Session</SubGroup>
         <Setting>
@@ -767,7 +767,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="TimeZone" Required="0" Valid="0">
         <Description Lang="en">Set the system time zone (required a system with GMT as system time). Otherwise this is a diff time to the local time.</Description>
-        <Description Lang="de">Einstellen der Zeitzone (Voraussetzung ist ein System mit GMT als Systemzeit). Andererseits ist es nur eine Differenzzeit zur lokalen Systemzeit.</Description>
+        <Description Lang="de">Einstellen der Zeitzone. Standardmäßig wird die lokale Systemzeit verwendet, (+ / - 0).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time</SubGroup>
         <Setting>
@@ -802,8 +802,8 @@ TimeWorkingHours
         <!-- $Self->{TimeZone} = '+9'; -->
     </ConfigItem>
     <ConfigItem Name="TimeWorkingHours" Required="1" Valid="1">
-        <Description Lang="en">For which hours and week days do you want to count the working time?</Description>
-        <Description Lang="de">Für welche Wochentage und Stunden soll die Arbeitszeit erfasst werden?</Description>
+        <Description Lang="en">Hours and week days to count the working time.</Description>
+        <Description Lang="de">Wochentage und Stunden für die die Arbeitszeit erfasst werden soll.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time</SubGroup>
         <Setting>
@@ -908,7 +908,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="TimeVacationDaysOneTime" Required="1" Valid="1">
         <Description Lang="en">One time vacation days.</Description>
-        <Description Lang="de">Einmaligen Freizeit-Tage im System hinterlegen.</Description>
+        <Description Lang="de">Einmalige Freizeit-Tage im System hinterlegen.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time</SubGroup>
         <Setting>
@@ -1041,7 +1041,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="SpellChecker" Required="1" Valid="1">
         <Description Lang="en">Install ispell or aspell on your system, if you want to use a spellchecker. Please specify the path to the aspell or ispell binary on your operating system.</Description>
-        <Description Lang="de">Installieren Sie ispell oder aspell, um auf eine Rechtschreibhilfe zurück greifen zu können. Bitte geben Sie hier den Pfad zum Binary von ispell oder aspell an.</Description>
+        <Description Lang="de">Installieren Sie ispell oder aspell, um auf eine Rechtschreibhilfe zurückgreifen zu können. Bitte geben Sie hier den Pfad zum Binary von ispell oder aspell an.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::SpellChecker</SubGroup>
         <Setting>
@@ -1050,8 +1050,8 @@ TimeWorkingHours
         <!-- $Self->{SpellChecker} = '/usr/bin/ispell'; -->
     </ConfigItem>
     <ConfigItem Name="SpellCheckerDictDefault" Required="1" Valid="1">
-        <Description Lang="en">What is the default spell checker dictionary?</Description>
-        <Description Lang="de">Welches Wörterbuch soll standardmäßig für die Rechtschreibprüfung verwendet werden?</Description>
+        <Description Lang="en">Default spell checker dictionary.</Description>
+        <Description Lang="de">Standard Wörterbuch für die Rechtschreibprüfung.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::SpellChecker</SubGroup>
         <Setting>
@@ -1170,7 +1170,7 @@ TimeWorkingHours
         <!-- $Self->{'PGP::Key::Password'} = {'488A0B8F' => 1234,}; -->
     </ConfigItem>
     <ConfigItem Name="SMIME" Required="1" Valid="1">
-        <Description Lang="en">Activate S/MIME support?</Description>
+        <Description Lang="en">Enable S/MIME support?</Description>
         <Description Lang="de">Unterstützung für S/MIME aktivieren?</Description>
         <Group>Framework</Group>
         <SubGroup>Crypt::SMIME</SubGroup>
@@ -1184,7 +1184,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="SMIME::Bin" Required="1" Valid="1">
         <Description Lang="en">Path to openssl binary. Maybe openssl need a HOME env ($ENV{HOME} = '/var/lib/wwwrun';)!</Description>
-        <Description Lang="de">Pfad zum openssl Binary. Evtl. openssl need a HOME env ($ENV{HOME} = '/var/lib/wwwrun';)!</Description>
+        <Description Lang="de">Pfad zum openssl Binary. Evtl. benötigt openssl eine '$ENV{HOME}' Variable ($ENV{HOME} = '/var/lib/wwwrun';).</Description>
         <Group>Framework</Group>
         <SubGroup>Crypt::SMIME</SubGroup>
         <Setting>
@@ -1193,8 +1193,8 @@ TimeWorkingHours
         <!-- $Self->{'SMIME::Bin'} = '/usr/bin/openssl'; -->
     </ConfigItem>
     <ConfigItem Name="SMIME::CertPath" Required="1" Valid="1">
-        <Description Lang="en">In which directory are your SSL certificates stored?</Description>
-        <Description Lang="de">In welchem Verzeichnis sind Ihre SSL-Zertifikate gespeichert?</Description>
+        <Description Lang="en">Directory where SSL certificates are stored.</Description>
+        <Description Lang="de">Verzeichnis in dem die SSL-Zertifikate gespeichert werden.</Description>
         <Group>Framework</Group>
         <SubGroup>Crypt::SMIME</SubGroup>
         <Setting>
@@ -1203,8 +1203,8 @@ TimeWorkingHours
         <!-- $Self->{'SMIME::CertPath'} = '/etc/ssl/certs'; -->
     </ConfigItem>
     <ConfigItem Name="SMIME::PrivatePath" Required="1" Valid="1">
-        <Description Lang="en">In which directory are the private SSL certificates stored?</Description>
-        <Description Lang="de">In welchem Verzeichnis werden die privaten SSL-Zertifikate gespeichert?</Description>
+        <Description Lang="en">Directory where private SSL certificates are stored.</Description>
+        <Description Lang="de">Verzeichnis in dem die privaten SSL-Zertifikate gespeichert sind.</Description>
         <Group>Framework</Group>
         <SubGroup>Crypt::SMIME</SubGroup>
         <Setting>
@@ -1213,8 +1213,8 @@ TimeWorkingHours
         <!-- $Self->{'SMIME::PrivatePath'} = '/etc/ssl/private/private'; -->
     </ConfigItem>
     <ConfigItem Name="NotificationSenderName" Required="1" Valid="1">
-        <Description Lang="en">Which name do you want to use for the sender of system notification messages?</Description>
-        <Description Lang="de">Welcher Name soll für den Sender von Benachrichtigungsmails verwendet werden?</Description>
+        <Description Lang="en">Sender name for system notification messages.</Description>
+        <Description Lang="de">Absendername für Benachrichtigungsmails verwendet.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -1223,8 +1223,8 @@ TimeWorkingHours
         <!-- $Self->{NotificationSenderName} = 'OTRS Notification Master'; -->
     </ConfigItem>
     <ConfigItem Name="NotificationSenderEmail" Required="1" Valid="1">
-        <Description Lang="en">Which mail address should be used for the sender of notification messages?</Description>
-        <Description Lang="de">Welche Mailadresse soll für das Versenden von Benachrichtigungsmails verwendet werden?</Description>
+        <Description Lang="en">Mail address of sender for notification messages.</Description>
+        <Description Lang="de">Mailadresse die beim Versenden von Benachrichtigungsmails verwendet wird.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -1310,7 +1310,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="PreferencesTableValue" Required="1" Valid="1">
         <Description Lang="en">Name of column in preferences table to store the data.</Description>
-        <Description Lang="de">Spaltenname in der Tabelle für die Einstellungen, in der die Daten gespeichert werden.</Description>
+        <Description Lang="de">Spaltenname in der Einstellungstabelle, in welcher die Agentendaten gespeichert werden.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Preferences</SubGroup>
         <Setting>
@@ -1320,7 +1320,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="PreferencesTableUserID" Required="1" Valid="1">
         <Description Lang="en">Name of column in preference table, where the UserID is stored.</Description>
-        <Description Lang="de">Spaltenname in der Tabelle für die Einstellungen, in der die UserID gespeichert wird.</Description>
+        <Description Lang="de">Spaltenname in der Einstellungstabelle, in der die UserID gespeichert wird.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Preferences</SubGroup>
         <Setting>
@@ -1329,8 +1329,8 @@ Your OTRS Notification Master
         <!-- $Self->{PreferencesTableUserID} = 'user_id'; -->
     </ConfigItem>
     <ConfigItem Name="PreferencesView" Required="1" Valid="1">
-        <Description Lang="en">In which order are the different items in the preference view displayed?</Description>
-        <Description Lang="de">In welcher Reihenfolge sollen die verschiedenen Abschnitte innerhalb der Ansicht für die Einstellungen angezeigt werden?</Description>
+        <Description Lang="en">Display order of the different items in the preference view.</Description>
+        <Description Lang="de">Reihenfolge, in welcher die verschiedenen Abschnitte der Einstellungs-Ansicht angezeigt werden.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Preferences</SubGroup>
         <Setting>
@@ -1344,7 +1344,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="PreferencesGroups###Password" Required="0" Valid="1">
         <Description Lang="en">Parameters for the Password object in the preference view.</Description>
-        <Description Lang="de">Parameter für das Password-Objekt in der Ansicht für die Einstellungen.</Description>
+        <Description Lang="de">Parameter des Password-Objekts in der Ansicht für die Einstellungen.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Preferences</SubGroup>
             <Setting>
@@ -1379,7 +1379,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="PreferencesGroups###SpellDict" Required="0" Valid="1">
         <Description Lang="en">Parameters for the SpellDict object in the preference view.</Description>
-                <Description Lang="de">Parameter für das SpellDict-Objekt in der Ansicht für die Einstellungen.</Description>
+                <Description Lang="de">Parameter des SpellDict-Objekts in der Ansicht für die Einstellungen.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Preferences</SubGroup>
             <Setting>
@@ -1422,7 +1422,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="PreferencesGroups###Comment" Required="0" Valid="1">
         <Description Lang="en">Parameters for the Comment object in the preference view.</Description>
-        <Description Lang="de">Parameter für das Comment-Objekt in der Ansicht für die Einstellungen.</Description>
+        <Description Lang="de">Parameter des Comment-Objekts in der Ansicht für die Einstellungen.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Preferences</SubGroup>
             <Setting>
@@ -1453,7 +1453,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="PreferencesGroups###FreeText" Required="0" Valid="0">
         <Description Lang="en">Parameters for the Freetext object in the preference view.</Description>
-        <Description Lang="de">Parameter für das Freetext-Objekt in der Ansicht für die Einstellungen.</Description>
+        <Description Lang="de">Parameter des Freetext-Objekts in der Ansicht für die Einstellungen.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Preferences</SubGroup>
             <Setting>
@@ -1484,7 +1484,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="PreferencesGroups###Language" Required="0" Valid="1">
         <Description Lang="en">Parameters for the Language object in the preference view.</Description>
-        <Description Lang="de">Parameter für das Language-Objekt in der Ansicht für die Einstellungen.</Description>
+        <Description Lang="de">Parameter des Language-Objekts in der Ansicht für die Einstellungen.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Preferences</SubGroup>
             <Setting>
@@ -1511,7 +1511,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="PreferencesGroups###Theme" Required="0" Valid="1">
         <Description Lang="en">Parameters for the Time object in the preference view.</Description>
-        <Description Lang="de">Parameter für das Time-Objekt in der Ansicht für die Einstellungen.</Description>
+        <Description Lang="de">Parameter des Time-Objekts in der Ansicht für die Einstellungen.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Preferences</SubGroup>
             <Setting>
@@ -1619,7 +1619,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="CustomerPanelPreApplicationModule" Required="0" Valid="0">
         <Description Lang="en">CustomerPanelPreApplicationModule. This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.</Description>
-        <Description Lang="de">CustomerPanelPreApplicationModule. Dieses Modul und seine PreRun() Funktion wird für jede Anfrage ausgeführt. Das Modul kann für die Überprüfung einiger Benutzeroptionen oder für die Anzeige von Neuigkeiten verwendet werden.</Description>
+        <Description Lang="de">Dieses Modul und seine PreRun() Funktion wird für jede Anfrage ausgeführt. Das Modul kann für die Überprüfung einiger Benutzeroptionen oder für die Anzeige von Neuigkeiten verwendet werden.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
@@ -1714,7 +1714,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="CustomerPanelBodyNewAccount" Required="1" Valid="1">
         <Description Lang="en">Body of notification email to customer about new account.</Description>
-        <Description Lang="de">Body der Benachrichtigungsmail an den Customer bei einem neuen Account.</Description>
+        <Description Lang="de">Body der Benachrichtigungsmail an den Customer beim Anlegen eines neuen Kontos für diesen Customer.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
@@ -1774,7 +1774,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::DB::DSN" Required="0" Valid="0">
         <Description Lang="en">If "DB" was selected for Customer::AuthModule, you hav to specify the DSN for the connection to the customer table.</Description>
-        <Description Lang="de">Wenn "DB" als Customer::AuthModule ausgewählt wurde, muss der DSN für die Verbindung zur Customer-Tablle angegeben werden.</Description>
+        <Description Lang="de">Wenn "DB" als Customer::AuthModule ausgewählt wurde, muss der DSN für die Verbindung zur Customer-Tabelle angegeben werden.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
         <Setting>
@@ -1868,7 +1868,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::LDAP::SearchUserDN" Required="0" Valid="0">
         <Description Lang="en">If "LDAP" was selected for Customer::AuthMOdule and your ussers have only anonymous access to the LDAP tree, but you want to search throug the data, you can do this with a user who has access to the LDAP directory. Specify the username for this special user here.</Description>
-        <Description Lang="de">Wenn "LDAP" als Customer::AuthMOdule ausgewählt wurde und die Benutzer nur anonymen Zugriff auf die Daten im LDAP-Baum haben, diese Daten aber trotzdem durchsucht werden sollen, dann kann dies über einen speziellen Benutzer mit Zugriff auf das LDAP-Verzeichnis realisiert werden. Hier kann der Benutzername für diesen speziellen User angegeben werden.</Description>
+        <Description Lang="de">Wenn "LDAP" als Customer::AuthModule ausgewählt wurde und die Benutzer nur anonymen Zugriff auf die Daten im LDAP-Baum haben, diese Daten aber trotzdem durchsucht werden sollen, dann kann dies über einen speziellen Benutzer mit Zugriff auf das LDAP-Verzeichnis realisiert werden. Hier kann der Benutzername für diesen speziellen User angegeben werden.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
         <Setting>
@@ -1878,7 +1878,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::LDAP::SearchUserPw" Required="0" Valid="0">
         <Description Lang="en">If "LDAP" was selected for Customer::AuthMOdule and your ussers have only anonymous access to the LDAP tree, but you want to search throug the data, you can do this with a user who has access to the LDAP directory. Specify the password for this special user here.</Description>
-        <Description Lang="de">Wenn "LDAP" als Customer::AuthMOdule ausgewählt wurde und die Benutzer nur anonymen Zugriff auf die Daten im LDAP-Baum haben, diese Daten aber trotzdem durchsucht werden sollen, dann kann dies über einen speziellen Benutzer mit Zugriff auf das LDAP-Verzeichnis realisiert werden. Hier kann das Kennwort für diesen speziellen User angegeben werden.</Description>
+        <Description Lang="de">Wenn "LDAP" als Customer::AuthModule ausgewählt wurde und die Benutzer nur anonymen Zugriff auf die Daten im LDAP-Baum haben, diese Daten aber trotzdem durchsucht werden sollen, dann kann dies über einen speziellen Benutzer mit Zugriff auf das LDAP-Verzeichnis realisiert werden. Hier kann das Kennwort für diesen speziellen User angegeben werden.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
         <Setting>
@@ -1898,7 +1898,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::LDAP::UserSuffix" Required="0" Valid="0">
         <Description Lang="en">If "LDAP" was selected for Customer::AuthModule an if you want to add a suffix to every customer login name, specifiy it here, e. g. you just want to write the username user but in your ldap directory exists user@domain.</Description>
-        <Description Lang="de">Wenn "LDAP" als Customer::AuthMOdule ausgewählt wurde und automatisch ein Suffix an jeden Benutzernamen gehängt werden soll, dann kann dieses Suffix hier angegeben werden. ZB. soll nur user als Benutzername eingegeben werden, im LDAP-Tree existiert aber user@domain.com.</Description>
+        <Description Lang="de">Wenn "LDAP" als Customer::AuthMOdule ausgewählt wurde und automatisch ein Suffix an jeden Benutzernamen gehängt werden soll, dann kann dieses Suffix hier angegeben werden. Z.B. soll nur user als Benutzername eingegeben werden, im LDAP-Tree existiert aber user@domain.com.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
         <Setting>
@@ -1979,8 +1979,8 @@ Your OTRS Notification Master
         -->
     </ConfigItem>
     <ConfigItem Name="CustomerPreferencesView" Required="1" Valid="1">
-        <Description Lang="en">How are the different items in the customer preferences view ordered?</Description>
-        <Description Lang="de">In welcher Reihenfolge werden die verschiedenen Abschnitte innerhalb der Customer-Einstellungen angezeigt?</Description>
+        <Description Lang="en">Order of the different items in the customer preferences view.</Description>
+        <Description Lang="de">Reihenfolge, in der die verschiedenen Abschnitte der Customer-Einstellungen angezeigt werden.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Preferences</SubGroup>
         <Setting>
@@ -2143,7 +2143,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###Logout" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the Logout object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das Logout-Objekts im Agent-Interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des Logout-Objekts im Agent-Interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -2179,8 +2179,8 @@ Your OTRS Notification Master
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentPreferences" Required="0" Valid="1">
-        <Description Lang="en">All parameters for the AgentPreference object in the agent interface.</Description>
-        <Description Lang="de">Alle Parameter für das AgentPreference-Objekts im Agent-Interface.</Description>
+        <Description Lang="en">Frontend module registration for the AgentPreference object in the agent interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AgentPreference-Objekts im Agent-Interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -2214,8 +2214,8 @@ Your OTRS Notification Master
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentSpelling" Required="0" Valid="1">
-        <Description Lang="en">All parameters for the AgentSpelling object in the agent interface.</Description>
-        <Description Lang="de">Alle Parameter für das AgentSpelling-Objekts im Agent-Interface.</Description>
+        <Description Lang="en">Frontend module registration for the AgentSpelling object in the agent interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AgentSpelling-Objekts im Agent-Interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -2232,8 +2232,8 @@ Your OTRS Notification Master
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentBook" Required="0" Valid="1">
-        <Description Lang="en">All parameters for the AgentBook object in the agent interface.</Description>
-        <Description Lang="de">Alle Parameter für das AgentBook-Objekts im Agent-Interface.</Description>
+        <Description Lang="en">Frontend module registration for the AgentBook object in the agent interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AgentBook-Objekts im Agent-Interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -2250,8 +2250,8 @@ Your OTRS Notification Master
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentLinkObject" Required="0" Valid="1">
-        <Description Lang="en">All parameters for the AgentLinkObject object in the agent interface.</Description>
-        <Description Lang="de">Alle Parameter für das AgentLinkObject-Objekts im Agent-Interface.</Description>
+        <Description Lang="en">Frontend module registration for the AgentLinkObject object in the agent interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AgentLinkObject-Objekts im Agent-Interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -2268,8 +2268,8 @@ Your OTRS Notification Master
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentInfo" Required="0" Valid="1">
-        <Description Lang="en">All parameters for the AgentInfo object in the agent interface.</Description>
-        <Description Lang="de">Alle Parameter für das AgentInfo-Objekts im Agent-Interface.</Description>
+        <Description Lang="en">Frontend module registration for the AgentInfo object in the agent interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AgentInfo-Objekts im Agent-Interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -2286,8 +2286,8 @@ Your OTRS Notification Master
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###SystemStats" Required="0" Valid="1">
-        <Description Lang="en">All parameters for the SystemStats object in the agent interface.</Description>
-        <Description Lang="de">Alle Parameter für das SystemStats-Objekts im Agent-Interface.</Description>
+        <Description Lang="en">Frontend module registration for the SystemStats object in the agent interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des SystemStats-Objekts im Agent-Interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
@@ -2327,8 +2327,8 @@ Your OTRS Notification Master
     -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###Admin" Required="0" Valid="1">
-        <Description Lang="en">All parameters for the Admin object in the admin area.</Description>
-        <Description Lang="de">Alle Parameter für das Admin-Objekts im Admin-Bereich.</Description>
+        <Description Lang="en">Frontend module registration for the Admin object in the admin area.</Description>
+        <Description Lang="de">Frontendmodul-Registration des Admin-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -2378,8 +2378,8 @@ Your OTRS Notification Master
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminUser" Required="0" Valid="1">
-        <Description Lang="en">All parameters for the AdminUser object in the admin area.</Description>
-        <Description Lang="de">Alle Parameter für das AdminUser-Objekts im Admin-Bereich.</Description>
+        <Description Lang="en">Frontend module registration for the AdminUser object in the admin area.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AdminUser-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -2412,8 +2412,8 @@ Your OTRS Notification Master
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminGroup" Required="0" Valid="1">
-        <Description Lang="en">All parameters for the AdminGroup object in the admin area.</Description>
-        <Description Lang="de">Alle Parameter für das AdminGroup-Objekts im Admin-Bereich.</Description>
+        <Description Lang="en">Frontend module registration for the AdminGroup object in the admin area.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AdminGroup-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -2446,8 +2446,8 @@ Your OTRS Notification Master
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminUserGroup" Required="0" Valid="1">
-        <Description Lang="en">All parameters for the AdminUserGroup object in the admin area.</Description>
-        <Description Lang="de">Alle Parameter für das AdminUserGroup-Objekts im Admin-Bereich.</Description>
+        <Description Lang="en">Frontend module registration for the AdminUserGroup object in the admin area.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AdminUserGroup-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -2480,8 +2480,8 @@ Your OTRS Notification Master
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminCustomerUser" Required="0" Valid="1">
-        <Description Lang="en">All parameters for the AdminCustomerUser object in the admin area.</Description>
-        <Description Lang="de">Alle Parameter für das AdminCustomerUser-Objekts im Admin-Bereich.</Description>
+        <Description Lang="en">Frontend module registration for the AdminCustomerUser object in the admin area.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AdminCustomerUser-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -2536,8 +2536,8 @@ Your OTRS Notification Master
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminCustomerUserGroup" Required="0" Valid="1">
-        <Description Lang="en">All parameters for the AdminCustomerUserGroup object in the admin area.</Description>
-        <Description Lang="de">Alle Parameter für das AdminCustomerUserGroup-Objekts im Admin-Bereich.</Description>
+        <Description Lang="en">Frontend module registration for the AdminCustomerUserGroup object in the admin area.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AdminCustomerUserGroup-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -2570,8 +2570,8 @@ Your OTRS Notification Master
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminRole" Required="0" Valid="1">
-        <Description Lang="en">All parameters for the AdminRole object in the admin area.</Description>
-        <Description Lang="de">Alle Parameter für das AdminRole-Objekts im Admin-Bereich.</Description>
+        <Description Lang="en">Frontend module registration for the AdminRole object in the admin area.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AdminRole-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -2604,8 +2604,8 @@ Your OTRS Notification Master
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminRoleUser" Required="0" Valid="1">
-        <Description Lang="en">All parameters for the AdminRoleUser object in the admin area.</Description>
-        <Description Lang="de">Alle Parameter für das AdminRoleUser-Objekts im Admin-Bereich.</Description>
+        <Description Lang="en">Frontend module registration for the AdminRoleUser object in the admin area.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AdminRoleUser-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -2638,8 +2638,8 @@ Your OTRS Notification Master
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminRoleGroup" Required="0" Valid="1">
-        <Description Lang="en">All parameters for the AdminRoleGroup object in the admin area.</Description>
-        <Description Lang="de">Alle Parameter für das AdminRoleGroup-Objekts im Admin-Bereich.</Description>
+        <Description Lang="en">Frontend module registration for the AdminRoleGroup object in the admin area.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AdminRoleGroup-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -2672,8 +2672,8 @@ Your OTRS Notification Master
         -->        
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminSMIME" Required="0" Valid="1">
-        <Description Lang="en">All parameters for the AdminSMIME object in the admin area.</Description>
-        <Description Lang="de">Alle Parameter für das AdminSMIME-Objekts im Admin-Bereich.</Description>
+        <Description Lang="en">Frontend module registration for the AdminSMIME object in the admin area.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AdminSMIME-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -2706,8 +2706,8 @@ Your OTRS Notification Master
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminPGP" Required="0" Valid="1">
-        <Description Lang="en">All parameters for the AdminPGP object in the admin area.</Description>
-        <Description Lang="de">Alle Parameter für das AdminPGP-Objekts im Admin-Bereich.</Description>
+        <Description Lang="en">Frontend module registration for the AdminPGP object in the admin area.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AdminPGP-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -2740,8 +2740,8 @@ Your OTRS Notification Master
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminPOP3" Required="0" Valid="1">
-        <Description Lang="en">All parameters for the AdminPop3 object in the admin area.</Description>
-        <Description Lang="de">Alle Parameter für das AdminPop3-Objekts im Admin-Bereich.</Description>
+        <Description Lang="en">Frontend module registration for the AdminPop3 object in the admin area.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AdminPop3-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -2774,8 +2774,8 @@ Your OTRS Notification Master
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminPostMasterFilter" Required="0" Valid="1">
-        <Description Lang="en">All parameters for the AdminPostMasterFilter object in the admin area.</Description>
-        <Description Lang="de">Alle Parameter für das AdminPostMasterFilter-Objekts im Admin-Bereich.</Description>
+        <Description Lang="en">Frontend module registration for the AdminPostMasterFilter object in the admin area.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AdminPostMasterFilter-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -2808,8 +2808,8 @@ Your OTRS Notification Master
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminEmail" Required="0" Valid="1">
-        <Description Lang="en">All parameters for the AdminEmail object in the admin area.</Description>
-        <Description Lang="de">Alle Parameter für das AdminEmail-Objekts im Admin-Bereich.</Description>
+        <Description Lang="en">Frontend module registration for the AdminEmail object in the admin area.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AdminEmail-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -2842,8 +2842,8 @@ Your OTRS Notification Master
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminSession" Required="0" Valid="1">
-        <Description Lang="en">All parameters for the AdminSession object in the admin area.</Description>
-        <Description Lang="de">Alle Parameter für das AdminSession-Objekts im Admin-Bereich.</Description>
+        <Description Lang="en">Frontend module registration for the AdminSession object in the admin area.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AdminSession-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -2876,8 +2876,8 @@ Your OTRS Notification Master
         -->
      </ConfigItem>    
      <ConfigItem Name="Frontend::Module###AdminLog" Required="0" Valid="1">
-        <Description Lang="en">All parameters for the AdminLog object in the admin area.</Description>
-        <Description Lang="de">Alle Parameter für das AdminLog-Objekts im Admin-Bereich.</Description>
+        <Description Lang="en">Frontend module registration for the AdminLog object in the admin area.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AdminLog-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -2910,8 +2910,8 @@ Your OTRS Notification Master
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminSelectBox" Required="0" Valid="1">
-        <Description Lang="en">All parameters for the AdminSelectBox object in the admin area.</Description>
-        <Description Lang="de">Alle Parameter für das AdminSelectBox-Objekts im Admin-Bereich.</Description>
+        <Description Lang="en">Frontend module registration for the AdminSelectBox object in the admin area.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AdminSelectBox-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -2944,8 +2944,8 @@ Your OTRS Notification Master
         -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminPackageManager" Required="0" Valid="1">
-        <Description Lang="en">All parameters for the AdminPackageManager object in the admin area.</Description>
-        <Description Lang="de">Alle Parameter für das AdminPackageManager-Objekts im Admin-Bereich.</Description>
+        <Description Lang="en">Frontend module registration for the AdminPackageManager object in the admin area.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AdminPackageManager-Objekts im Admin-Bereich.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
@@ -2978,8 +2978,8 @@ Your OTRS Notification Master
         -->
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###Logout" Required="0" Valid="1">
-        <Description Lang="en">All parameters for the Logout object in the customer frontend.</Description>
-        <Description Lang="de">Alle Parameter für das Logout-Objekt innerhalb des Customer-Frontends.</Description>
+        <Description Lang="en">Frontend module registration for the Logout object in the customer frontend.</Description>
+        <Description Lang="de">Frontendmodul-Registration des Logout-Objekts innerhalb des Customer-Frontends.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -3013,8 +3013,8 @@ Your OTRS Notification Master
         -->
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerPreferences" Required="0" Valid="1">
-        <Description Lang="en">All parameters for the CustomerPreferences object in the customer frontend.</Description>
-        <Description Lang="de">Alle Parameter für das CustomerPreferences-Objekt innerhalb des Customer-Frontends.</Description>
+        <Description Lang="en">Front module registration for the CustomerPreferences object in the customer frontend.</Description>
+        <Description Lang="de">Frontendmodul-Registration des CustomerPreferences-Objekts innerhalb des Customer-Frontends.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
@@ -3048,8 +3048,8 @@ Your OTRS Notification Master
         -->
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerAccept" Required="0" Valid="1">
-        <Description Lang="en">All parameters for the CustomerAccept object in the customer frontend.</Description>
-        <Description Lang="de">Alle Parameter für das CustomerAccept-Objekt innerhalb des Customer-Frontends.</Description>
+        <Description Lang="en">Frontend module registration for the CustomerAccept object in the customer frontend.</Description>
+        <Description Lang="de">Frontendmodul-Registration des CustomerAccept-Objekts innerhalb des Customer-Frontends.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
