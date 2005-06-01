@@ -2,7 +2,7 @@
 # AdminSysConfigEdit.dtl - provides HTML form for SysConfig
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfigEdit.dtl,v 1.16 2005-05-29 16:05:49 martin Exp $
+# $Id: AdminSysConfigEdit.dtl,v 1.17 2005-06-01 12:56:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@
 <tr>
   <td align="center" class="mainbody">
 <br>
-<form action="$Env{"CGIHandle"}#Anker" method="post">
+<form action="$Env{"CGIHandle"}" method="post">
 <input type="hidden" name="Action" value="$Env{"Action"}">
 <input type="hidden" name="Subaction" value="Update">
 <input type="hidden" name="SysConfigGroup" value="$Data{"Group"}">
@@ -34,10 +34,11 @@
   </tr>
   <!-- dtl:block:ConfigElementBlock -->
   <tr class="contentbody">
-    <td class="$Data{"DiffStyle"}">$Data{"Anker"}<input type="checkbox" value="1" name="$Data{"ItemKey"}ItemAktiv" $Data{"Valid"} $Data{"Required"}></td>
+    <td class="$Data{"DiffStyle"}"><a name="$QData{"Name"}"><input type="checkbox" value="1" name="$Data{"ItemKey"}ItemAktiv" $Data{"Valid"} $Data{"Required"}></td>
     <td width="50%"><span class="contentkey$Data{"Validstyle"}">$QData{"ItemKey"}:</span><br><span class="contentvalue$Data{"Validstyle"}">$QData{"Description"}</span></td>
     <!-- dtl:block:ConfigElementString -->
-    <td width="50%" class="contentvalue"><input name="$Data{"ElementKey"}" value="$QData{"Content"}" size="50"><span class="validity">&nbsp;$QData{"Valid", "70"}</span><br><span class="contentvalue" title="$QData{"Default"}">($Text{"Default"}: $QData{"Default","45"})</span></td>
+    <td width="50%" class="contentvalue"><input name="$Data{"ElementKey"}" value="$QData{"Content"}" size="50"><br><font color="red">$Text{"$QData{"Valid"}"}</font>
+      <span class="contentvalue" title="$QData{"Default"}">($Text{"Default"}: $QData{"Default","45"})</span></td>
     <!-- dtl:block:ConfigElementString -->
     <!-- dtl:block:ConfigElementTextArea -->
     <td width="50%" class="contentvalue"><textarea name="$Data{"ElementKey"}" rows="7" cols="50">$QData{"Content"}</textarea></td>
