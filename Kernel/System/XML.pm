@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: XML.pm,v 1.16 2005-05-20 08:03:40 rk Exp $
+# $Id: XML.pm,v 1.17 2005-06-01 12:58:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Base64;
 use XML::Parser::Lite;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -594,7 +594,7 @@ sub _XMLStructur2XMLHash {
 #        $Param{Item}->{TagKey} = $Key;
         foreach (keys %{$Param{Item}}) {
             if (!defined($Param{Item}->{$_})) {
-                $Param{Item}->{$_} = ' ';
+                $Param{Item}->{$_} = '';
             }
             if ($_ !~ /^Tag/) {
 #            if (defined($Param{Item}->{$_}) && $_ !~ /^Tag/) {
@@ -634,7 +634,7 @@ sub XMLParse {
     undef $Self->{XMLLevelCount};
     $S = $Self;
     # parse package
-    my $Parser = new XML::Parser::Lite(Handlers => {Start => \&HS, End => \&ES, Char => \&CS});
+    my $Parser = XML::Parser::Lite->new(Handlers => {Start => \&HS, End => \&ES, Char => \&CS});
     $Parser->parse($Param{String});
     return @{$Self->{XMLARRAY}};
 }
@@ -725,6 +725,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2005-05-20 08:03:40 $
+$Revision: 1.17 $ $Date: 2005-06-01 12:58:06 $
 
 =cut
