@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.pm,v 1.25 2005-05-29 16:06:15 martin Exp $
+# $Id: AdminSysConfig.pm,v 1.26 2005-06-01 12:42:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -53,13 +53,11 @@ sub Run {
     my $Output = '';
     my %Data;
     my $Group = '';
-    my %InvalidValue;
     my $Anker = '';
     
     $Data{Search} = $Self->{ParamObject}->GetParam(Param => 'Search');
     # update config
     if ($Self->{Subaction} eq 'Update') {
-#        $Self->{SysConfigObject}->CreateConfig();
         my $SubGroup = $Self->{ParamObject}->GetParam(Param => 'SysConfigSubGroup');
         my $Group = $Self->{ParamObject}->GetParam(Param => 'SysConfigGroup');
         my @List = $Self->{SysConfigObject}->ConfigSubGroupConfigItemList(Group => $Group, SubGroup => $SubGroup);
@@ -76,11 +74,6 @@ sub Run {
             if (defined ($ItemHash{Setting}[1]{String})) {
                 # Get Value (Content)
                 my $Content = $Self->{ParamObject}->GetParam(Param => $_);
-                # Regex check
-                if (defined ($ItemHash{Setting}[1]{String}[1]{Regex}) && $ItemHash{Setting}[1]{String}[1]{Regex} ne "" && !($Content =~ /$ItemHash{Setting}[1]{String}[1]{Regex}/)) {
-                    $InvalidValue{$_} = 1;
-                    $Anker = $ItemHash{Name};
-                }
                 # write ConfigItem
                 if (!$Self->{SysConfigObject}->ConfigItemUpdate(Key => $_, Value => $Content, Valid => $Aktiv)) {
                     $Self->{LayoutObject}->FatalError(Message => "Can't write ConfigItem!");
@@ -109,7 +102,7 @@ sub Run {
                 my @Values = $Self->{ParamObject}->GetArray(Param => $_.'Content[]');
                 my @DeleteNumber = $Self->{ParamObject}->GetArray(Param => $_.'DeleteNumber[]');
                 my %Content;
-                foreach my $Index (0...$#Keys) {
+                foreach my $Index (0..$#Keys) {
                     # SubHash
                     if ($Values[$Index] eq '##SubHash##') {
                         my @SubHashKeys   = $Self->{ParamObject}->GetArray(Param => $_.'##SubHash##'.$Keys[$Index].'Key[]');
@@ -196,12 +189,12 @@ sub Run {
                 my $ElementKey = $_;
                 my %Content;
                 # get Params
-                foreach (qw (Description Title NavBarName)) {
+                foreach (qw(Description Title NavBarName)) {
                     if (my $Value = $Self->{ParamObject}->GetParam(Param => $ElementKey.'#'.$_)) {
                         $Content{$_} = $Value;
                     }
                 }
-                foreach my $Typ (qw (Group GroupRo)) {
+                foreach my $Typ (qw(Group GroupRo)) {
                     my @Group = $Self->{ParamObject}->GetArray(Param => $ElementKey.'#'.$Typ.'[]');
                     # New Group(Ro)Element
                     if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#New'.$Typ.'Element')) {
@@ -221,13 +214,13 @@ sub Run {
                 }
                 # NavBar get Params
                 my %NavBarParams;
-                foreach (qw (Description Name Image Link Typ Prio Block NavBar AccessKey)) {
+                foreach (qw(Description Name Image Link Type Prio Block NavBar AccessKey)) {
                     my @Param = $Self->{ParamObject}->GetArray(Param => $ElementKey.'#NavBar#'.$_.'[]');
                     $NavBarParams{$_} = \@Param;
                 }
                 # Create Hash
                 foreach my $Index (0...$#{$NavBarParams{Description}}) {
-                    foreach my $Typ (qw (Group GroupRo)) {
+                    foreach my $Typ (qw(Group GroupRo)) {
                         my @Group = $Self->{ParamObject}->GetArray(Param => $ElementKey.'#NavBar'.($Index+1).'#'.$Typ.'[]');
                         # New Group(Ro)Element
                         if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#NavBar'.($Index+1).'#New'.$Typ.'Element')) {
@@ -245,21 +238,26 @@ sub Run {
                             $Content{NavBar}[$Index]{$Typ} = \@Group;
                         }
                     }
-                    foreach (qw (Description Name Image Link Typ Prio Block NavBar AccessKey)) {
-                        $Content{NavBar}[$Index]{$_} = $NavBarParams{$_}[$Index];
+                    foreach (qw(Description Name Image Link Type Prio Block NavBar AccessKey)) {
+                        if (defined($NavBarParams{$_}[$Index])) {
+                            $Content{NavBar}[$Index]{$_} = $NavBarParams{$_}[$Index];
+                        }
                     }
                 }
                 # NavBarModule
                 if ($Self->{ParamObject}->GetArray(Param => $ElementKey.'#NavBarModule#Module[]')) {
                     # get Params
                     my %NavBarModuleParams;
-                    foreach (qw (Module Name Block Prio)) {
+                    foreach (qw(Module Name Block Prio)) {
                         my @Param = $Self->{ParamObject}->GetArray(Param => $ElementKey.'#NavBarModule#'.$_.'[]');
                         $NavBarModuleParams{$_} = \@Param;
                     }
                     # Create Hash
-                    foreach (qw (Group GroupRo Module Name Block Prio)) {
-                        $Content{NavBarModule}{$_} = $NavBarModuleParams{$_}[0];
+                    foreach (qw(Group GroupRo Module Name Block Prio)) {
+#                    foreach (qw(Module Name Block Prio)) {
+                        if (defined($NavBarModuleParams{$_}[0]) && $NavBarModuleParams{$_}[0] ne '') {
+                            $Content{NavBarModule}{$_} = $NavBarModuleParams{$_}[0];
+                        }
                     }
                 }
                 # write ConfigItem
@@ -333,13 +331,12 @@ sub Run {
         $Self->{SysConfigObject} = Kernel::System::Config->new(%{$Self});
         $Self->{SysConfigObject}->CreateConfig();
         # redirect
-        return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}&Subaction=Edit&SysConfigSubGroup=$SubGroup&SysConfigGroup=$Group&Anker=$Anker#Anker");
+        return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}&Subaction=Edit&SysConfigSubGroup=$SubGroup&SysConfigGroup=$Group&#$Anker");
     }
     # edit config
     if ($Self->{Subaction} eq 'Edit') {
         my $SubGroup = $Self->{ParamObject}->GetParam(Param => 'SysConfigSubGroup');
         my $Group = $Self->{ParamObject}->GetParam(Param => 'SysConfigGroup');
-        my $Anker = $Self->{ParamObject}->GetParam(Param => 'Anker') || '';
         my @List = $Self->{SysConfigObject}->ConfigSubGroupConfigItemList(Group => $Group, SubGroup => $SubGroup);
         #Language
         my $UserLang = $Self->{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage');
@@ -379,13 +376,10 @@ sub Run {
             else {
                 $Description = $HashLang{'en'};
             }
-            my $AnkerAktiv = '';
-            if ($Anker eq $_) {
-                $AnkerAktiv = '<a name="Anker">';
-            }
             $Self->{LayoutObject}->Block(
                 Name => 'ConfigElementBlock',
                 Data => {
+                    Name        => $ItemHash{Name},
                     ItemKey     => $_,
                     Description => $Description,
                     Valid       => $Valid,
@@ -393,12 +387,11 @@ sub Run {
                     Required    => $Required,
                     Diff        => $Diff,
                     DiffStyle   => $DiffStyle,
-                    Anker       => $AnkerAktiv,
                 },
             );
 
             # ListConfigItem
-            $Self->ListConfigItem(Hash => \%ItemHash, InvalidValue => \%InvalidValue);
+            $Self->ListConfigItem(Hash => \%ItemHash);
         }
         $Data{SubGroup} = $SubGroup;
         $Data{Group} = $Group;
@@ -488,15 +481,15 @@ sub ListConfigItem {
     my $Self = shift;
     my %Param = @_;
     my %ItemHash    = %{$Param{Hash}};
-    my %InvalidValue = %{$Param{InvalidValue}};
     my $Valid = '';
     my $Default = '';
     # ConfigElement String
-    if (defined ($ItemHash{Setting}[1]{String})) {
-        if (defined ($InvalidValue{$ItemHash{Name}})) {
-            $Valid = 'Invalid Value!';
+    if (defined($ItemHash{Setting}[1]{String})) {
+        # Regex check
+        if ($ItemHash{Setting}[1]{String}[1]{Regex} && $ItemHash{Setting}[1]{String}[1]{Content} !~ /$ItemHash{Setting}[1]{String}[1]{Regex}/) {
+            $Valid = 'invalid';
         }
-        if ($ItemHash{Setting}[1]{String}[1]{Default} ne '' && $ItemHash{Setting}[1]{String}[1]{Default} ne ' ') {
+        if ($ItemHash{Setting}[1]{String}[1]{Default}) {
             $Default = $ItemHash{Setting}[1]{String}[1]{Default};
         }
         $Self->{LayoutObject}->Block(
@@ -692,7 +685,7 @@ sub ListConfigItem {
         # NavBar
         foreach my $Index (1...$#{$ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBar}}) {
             my %Data = {};
-            foreach my $Key qw (Description Name Image Link Typ Prio Block NavBar AccessKey) {
+            foreach my $Key qw (Description Name Image Link Type Prio Block NavBar AccessKey) {
                 $Data{'Key'.$Key} = $Key;
                 $Data{'Content'.$Key} = '';
                 if (defined ($ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBar}[1]{$Key}[1]{Content})) {
