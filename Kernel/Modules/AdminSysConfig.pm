@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.pm,v 1.26 2005-06-01 12:42:39 martin Exp $
+# $Id: AdminSysConfig.pm,v 1.27 2005-06-04 16:17:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -190,26 +190,24 @@ sub Run {
                 my %Content;
                 # get Params
                 foreach (qw(Description Title NavBarName)) {
-                    if (my $Value = $Self->{ParamObject}->GetParam(Param => $ElementKey.'#'.$_)) {
-                        $Content{$_} = $Value;
-                    }
+                    $Content{$_} = $Self->{ParamObject}->GetParam(Param => $ElementKey.'#'.$_); 
                 }
-                foreach my $Typ (qw(Group GroupRo)) {
-                    my @Group = $Self->{ParamObject}->GetArray(Param => $ElementKey.'#'.$Typ.'[]');
+                foreach my $Type (qw(Group GroupRo)) {
+                    my @Group = $Self->{ParamObject}->GetArray(Param => $ElementKey.'#'.$Type.'[]');
                     # New Group(Ro)Element
-                    if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#New'.$Typ.'Element')) {
+                    if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#New'.$Type.'Element')) {
                         push (@Group, '');
                         $Anker = $ItemHash{Name};
                     }                   
                     #Delete Group Element
                     foreach my $Index (0...$#Group) {
-                        if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#Delete'.$Typ.'Element'.($Index+1))) {
+                        if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#Delete'.$Type.'Element'.($Index+1))) {
                             splice(@Group,$Index,1);
                             $Anker = $ItemHash{Name};
                         }
                     }
                     if ($#Group > -1) {
-                        $Content{$Typ} = \@Group;
+                        $Content{$Type} = \@Group;
                     }
                 }
                 # NavBar get Params
@@ -220,22 +218,22 @@ sub Run {
                 }
                 # Create Hash
                 foreach my $Index (0...$#{$NavBarParams{Description}}) {
-                    foreach my $Typ (qw(Group GroupRo)) {
-                        my @Group = $Self->{ParamObject}->GetArray(Param => $ElementKey.'#NavBar'.($Index+1).'#'.$Typ.'[]');
+                    foreach my $Type (qw(Group GroupRo)) {
+                        my @Group = $Self->{ParamObject}->GetArray(Param => $ElementKey.'#NavBar'.($Index+1).'#'.$Type.'[]');
                         # New Group(Ro)Element
-                        if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#NavBar'.($Index+1).'#New'.$Typ.'Element')) {
+                        if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#NavBar'.($Index+1).'#New'.$Type.'Element')) {
                             push (@Group, '');
                             $Anker = $ItemHash{Name};
                         }                        
                         #Delete Group Element
                         foreach my $Index2 (0...$#Group) {
-                            if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#NavBar'.($Index+1).'#Delete'.$Typ.'Element'.($Index2+1))) {
+                            if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#NavBar'.($Index+1).'#Delete'.$Type.'Element'.($Index2+1))) {
                                 splice(@Group,$Index2,1);
                                 $Anker = $ItemHash{Name};
                             }
                         }
                         if ($#Group > -1) {
-                            $Content{NavBar}[$Index]{$Typ} = \@Group;
+                            $Content{NavBar}[$Index]{$Type} = \@Group;
                         }
                     }
                     foreach (qw(Description Name Image Link Type Prio Block NavBar AccessKey)) {
@@ -657,7 +655,7 @@ sub ListConfigItem {
     elsif (defined ($ItemHash{Setting}[1]{FrontendModuleReg})) {
 #    $Self->{LogObject}->Dumper(fdsa => $ItemHash{Setting}[1]{FrontendModuleReg});
         my %Data = {};
-        foreach my $Key qw (Title Description NavBarName) {
+        foreach my $Key (qw(Title Description NavBarName)) {
             $Data{'Key'.$Key} = $Key;
             $Data{'Content'.$Key} = '';
             if (defined ($ItemHash{Setting}[1]{FrontendModuleReg}[1]{$Key})) {
@@ -685,7 +683,7 @@ sub ListConfigItem {
         # NavBar
         foreach my $Index (1...$#{$ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBar}}) {
             my %Data = {};
-            foreach my $Key qw (Description Name Image Link Type Prio Block NavBar AccessKey) {
+            foreach my $Key (qw(Description Name Image Link Type Prio Block NavBar AccessKey)) {
                 $Data{'Key'.$Key} = $Key;
                 $Data{'Content'.$Key} = '';
                 if (defined ($ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBar}[1]{$Key}[1]{Content})) {

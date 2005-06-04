@@ -2,7 +2,7 @@
 # AdminSysConfig.dtl - provides HTML form for AdminSysConfig html
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.dtl,v 1.4 2005-05-25 17:00:52 martin Exp $
+# $Id: AdminSysConfig.dtl,v 1.5 2005-06-04 16:19:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -41,7 +41,9 @@
   </tr>
   </table>
   </form>
+
   <br>
+
   <form action="$Env{"CGIHandle"}" method="get">
   <input type="hidden" name="Action" value="$Env{"Action"}">
   <input type="hidden" name="Subaction" value="SelectGroup">
@@ -66,6 +68,61 @@
   </tr>
   </table>
   </form>
+
+  <br>
+
+  <form action="$Env{"CGIHandle"}" method="get">
+  <input type="hidden" name="Action" value="$Env{"Action"}">
+  <input type="hidden" name="Subaction" value="Download">
+  <table width="100%" cellspacing="0" cellpadding="4">
+  <tr>
+    <td class="contenthead">$Text{"Download Settings"}:</td>
+  </tr>
+  <tr>
+    <td class="contentbody">
+    <table>
+      <tr>
+        <td class="contentvalue">$Text{"Download all system config changes."}</td>
+        <td class="contentvalue"></td>
+      </tr>
+    </table>
+    </td>
+  </tr>
+  <tr>
+    <td class="contentfooter">
+     <input class="button" type="submit" value="$Text{"Download"}">
+    </td>
+  </tr>
+  </table>
+  </form>
+
+  <br>
+
+  <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+  <input type="hidden" name="Action" value="$Env{"Action"}">
+  <input type="hidden" name="Subaction" value="Load">
+  <table width="100%" cellspacing="0" cellpadding="4">
+  <tr>
+    <td class="contenthead">$Text{"Load Settings"}:</td>
+  </tr>
+  <tr>
+    <td class="contentbody">
+    <table border="0" cellspacing="0" cellpadding="3">
+    <tr>
+      <td class="contentkey">$Text{"File"}: </td>
+      <td class="contentvalue"> <input name="file_upload" type="file" size="14" class="fixed"></td>
+    </tr>
+    </table>
+    </td>
+  </tr>
+  <tr>
+    <td class="contentfooter">
+    <input class="button" type="submit" value="$Text{"Load"}">
+    </td>
+  </tr>
+  </table>
+  </form>
+
   </td>
   <td width="70%" class="mainbody">
   <table width="100%" cellspacing="0" cellpadding="4">

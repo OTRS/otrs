@@ -2,7 +2,7 @@
 # AdminSysConfigEdit.dtl - provides HTML form for SysConfig
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfigEdit.dtl,v 1.17 2005-06-01 12:56:43 martin Exp $
+# $Id: AdminSysConfigEdit.dtl,v 1.18 2005-06-04 16:19:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -254,7 +254,7 @@
                 <td></td>
                 <td class="contentkey">$Text{"Typ"}:</td>
                 <td>&nbsp;</td>
-                <td class="contentvalue"><input type="text" name="$Data{"ElementKey"}#Typ[]" value="$QData{"ContentTyp"}" size="20"></td>
+                <td class="contentvalue"><input type="text" name="$Data{"ElementKey"}#Type[]" value="$QData{"ContentType"}" size="20"></td>
               </tr>   
               <tr>
                 <td></td>
