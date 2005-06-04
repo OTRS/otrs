@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.32 2005-06-01 12:42:40 martin Exp $
+# $Id: Config.pm,v 1.33 2005-06-04 16:15:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::XML;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -228,6 +228,8 @@ sub CreateConfig {
                     # do nothing 
                 }
                 elsif ((defined($A1) && !defined($A2)) || (!defined($A1) && defined($A2)) || $Self->DataDiff(Data1 => $A1, Data2 => $A2)) {
+#            my $Dump = Data::Dumper::Dumper(\%Config);
+#                    print STDERR "\$Self->{'$Name'} = $C - $Dump";
                     print OUT "\$Self->{'$Name'} = $C";
                 }
             }
@@ -466,6 +468,9 @@ sub ConfigItemGet {
                             push (@{$ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}},
                                 {Content => $Content}
                             );
+#if ($ConfigItem->{Name} eq 'Frontend::Module###Admin') {
+#print STDERR "GROUP: $Content\n";
+#}
                         }
                     }
                     elsif ($Key eq 'NavBar' || $Key eq 'NavBarModule') {
@@ -477,7 +482,7 @@ sub ConfigItemGet {
                                     if ($_ eq 'Group' || $_ eq 'GroupRo') {
                                         @{$NavBar{$_}} = (undef);
                                         foreach my $Group (@{$Content->{$_}}) {
-                                        push (@{$NavBar{$_}}, {Content => $Group});
+                                            push (@{$NavBar{$_}}, {Content => $Group});
                                         }
                                     }
                                     else {
@@ -980,7 +985,7 @@ sub _XML2Perl {
             if ($Key eq 'Group' || $Key eq 'GroupRo') {
                 my @Array = ();
                 foreach my $Index (1...$#{$Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}}) {
-                    push(@Array, $Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}->[1]->{Content});
+                    push(@Array, $Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}->[$Index]->{Content});
                 }
                 $Hash{$Key} = \@Array;
             }
@@ -993,7 +998,7 @@ sub _XML2Perl {
                             if ($Key eq 'Group' || $Key eq 'GroupRo') {
                                 my @Array = ();
                                 foreach my $Index (1...$#{$Content->{$Key}}) {
-                                    push(@Array, $Content->{$Key}->[1]->{Content});
+                                    push(@Array, $Content->{$Key}->[$Index]->{Content});
                                 }
                                 $NavBar{$Key} = \@Array;
                             }
@@ -1103,6 +1108,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.32 $ $Date: 2005-06-01 12:42:40 $
+$Revision: 1.33 $ $Date: 2005-06-04 16:15:26 $
 
 =cut
