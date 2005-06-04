@@ -1,8 +1,8 @@
 # --
-# Header.dtl - provides global HTML header
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# HeaderSmall.dtl - provides global HTML header
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: HeaderSmall.dtl,v 1.3 2004-12-02 00:39:44 martin Exp $
+# $Id: HeaderSmall.dtl,v 1.4 2005-06-04 16:45:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,8 +33,6 @@ $Include{"Copyright"}
 # --
 # check title
 # --
-<dtl if ($Data{"Area"} ne "") { $Data{"TitleArea"} = " :: $Text{"$Data{"Area"}"}"; }>
-<dtl if ($Data{"Title"} ne "") { $Data{"TitleArea"} = " :: $Text{"$Data{"Area"}"} :: $Text{"$Data{"Title"}"}"; }>
 # --
 # create $Data{"UserLoginTop"} if user is loged in
 # --
@@ -43,7 +41,7 @@ $Include{"Copyright"}
 <html>
 <head>
     $Data{"MetaHttpEquiv"}
-    <title>OTRS $Data{"TitleArea"}</title>
+    <title>$Config{"ProductName"} $Data{"TitleArea"}</title>
 # include css.dtl file
 $Include{"css"}
 </head>
