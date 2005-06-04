@@ -148,7 +148,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.38 2005-06-01 12:55:43 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.39 2005-06-04 16:18:31 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifyer for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z.B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -3912,6 +3912,8 @@ $Data{"Signature"}
                     <Image>overview.png</Image>
                     <Link>Action=AgentTicketQueue</Link>
                     <NavBar>Ticket</NavBar>
+                    <Type></Type>
+                    <Block></Block>
                     <AccessKey>o</AccessKey>
                     <Prio>100</Prio>
                 </NavBar>
@@ -3972,6 +3974,8 @@ $Data{"Signature"}
                     <Image>phone-new.png</Image>
                     <Link>Action=AgentTicketPhone</Link>
                     <NavBar>Ticket</NavBar>
+                    <Type></Type>
+                    <Block></Block>
                     <AccessKey>n</AccessKey>
                     <Prio>200</Prio>
                 </NavBar>
@@ -4011,6 +4015,8 @@ $Data{"Signature"}
                     <Image>mail_new.png</Image>
                     <Link>Action=AgentTicketEmail</Link>
                     <NavBar>Ticket</NavBar>
+                    <Type></Type>
+                    <Block></Block>
                     <AccessKey>e</AccessKey>
                     <Prio>210</Prio>
                 </NavBar>
@@ -4051,6 +4057,8 @@ $Data{"Signature"}
                     <Image>search.png</Image>
                     <Link>Action=AgentTicketSearch</Link>
                     <NavBar>Ticket</NavBar>
+                    <Type></Type>
+                    <Block></Block>
                     <AccessKey>s</AccessKey>
                     <Prio>300</Prio>
                 </NavBar>
@@ -4110,6 +4118,8 @@ $Data{"Signature"}
                     <Image>overview.png</Image>
                     <Link>Action=AgentTicketStatusView</Link>
                     <NavBar>Ticket</NavBar>
+                    <Type></Type>
+                    <Block></Block>
                     <AccessKey>v</AccessKey>
                     <Prio>110</Prio>
                 </NavBar>
@@ -4132,6 +4142,7 @@ $Data{"Signature"}
             <FrontendModuleReg>
                 <Description>compat module for Ticket Zoom</Description>
                 <NavBarName>Ticket</NavBarName>
+                <Title></Title>
             </FrontendModuleReg>
         </Setting>
         <!--
@@ -4150,7 +4161,7 @@ $Data{"Signature"}
             <FrontendModuleReg>
                 <Description>Ticket Zoom</Description>
                 <Title>Zoom</Title>
-                <NavBarName>Ticket</NavBarName>
+                <NavBarName></NavBarName>
             </FrontendModuleReg>
         </Setting>
         <!--
@@ -4168,6 +4179,8 @@ $Data{"Signature"}
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
+                <Title></Title>
+                <NavBarName>Ticket</NavBarName>
                 <Description>To download attachments</Description>
             </FrontendModuleReg>
         </Setting>

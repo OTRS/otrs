@@ -112,7 +112,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.47 2005-06-01 12:55:54 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.48 2005-06-04 16:18:44 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der WEB-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -2149,12 +2149,15 @@ Your OTRS Notification Master
         <Setting>
             <FrontendModuleReg>
                 <Description>Logout</Description>
+                <Title></Title>
+                <NavBarName></NavBarName>
                 <NavBar>
                     <Description>Logout</Description>
                     <Name>Logout</Name>
                     <Image>exit.png</Image>
                     <Link>Action=Logout</Link>
                     <NavBar></NavBar>
+                    <Type></Type>
                     <Block>ItemPre</Block>
                     <AccessKey>l</AccessKey>
                     <Prio>100</Prio>
@@ -2187,11 +2190,15 @@ Your OTRS Notification Master
             <FrontendModuleReg>
                 <Description>Agent Preferences</Description>
                 <Title>Preferences</Title>
+                <NavBarName></NavBarName>
                 <NavBar>
                     <Description>Agent Preferences</Description>
                     <Name>Preferences</Name>
                     <Image>prefer.png</Image>
                     <Link>Action=AgentPreferences</Link>
+                    <NavBar></NavBar>
+                    <Type></Type>
+                    <Block></Block>
                     <AccessKey>p</AccessKey>
                     <Prio>1000</Prio>
                 </NavBar>
@@ -2222,6 +2229,7 @@ Your OTRS Notification Master
             <FrontendModuleReg>
                 <Description>Spell checker</Description>
                 <Title>Spell Checker</Title>
+                <NavBarName></NavBarName>
             </FrontendModuleReg>
         </Setting>
         <!--
@@ -2240,6 +2248,7 @@ Your OTRS Notification Master
             <FrontendModuleReg>
                 <Description>Address book of CustomerUser sources</Description>
                 <Title>Address Book</Title>
+                <NavBarName></NavBarName>
             </FrontendModuleReg>
         </Setting>
         <!--
@@ -2258,6 +2267,7 @@ Your OTRS Notification Master
             <FrontendModuleReg>
                 <Description>Link Object</Description>
                 <Title>Link Object</Title>
+                <NavBarName></NavBarName>
             </FrontendModuleReg>
         </Setting>
         <!--
@@ -2276,6 +2286,7 @@ Your OTRS Notification Master
             <FrontendModuleReg>
                 <Description>Generic Info module</Description>
                 <Title>Info</Title>
+                <NavBarName></NavBarName>
             </FrontendModuleReg>
         </Setting>
         <!--
@@ -2302,6 +2313,8 @@ Your OTRS Notification Master
                     <Image>stats.png</Image>
                     <Link>Action=SystemStats</Link>
                     <NavBar>Ticket</NavBar>
+                    <Type></Type>
+                    <Block></Block>
                     <AccessKey>t</AccessKey>
                     <Prio>400</Prio>
                 </NavBar>
@@ -2498,6 +2511,8 @@ Your OTRS Notification Master
                     <Image>folder_yellow.png</Image>
                     <Link>Action=AdminCustomerUser&Nav=Agent</Link>
                     <NavBar>Ticket</NavBar>
+                    <Type></Type>
+                    <Block></Block>
                     <AccessKey>c</AccessKey>
                     <Prio>9000</Prio>
                 </NavBar>
