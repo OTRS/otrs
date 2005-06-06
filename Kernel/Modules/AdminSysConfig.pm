@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.pm,v 1.27 2005-06-04 16:17:07 martin Exp $
+# $Id: AdminSysConfig.pm,v 1.28 2005-06-06 09:14:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -119,12 +119,9 @@ sub Run {
                         }
                         # New SubHashElement
                         if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#'.$Keys[$Index].'#NewSubElement')) {
+                            $SubHash{''} = '';
                             $Anker = $ItemHash{Name};
                         }                              
-                        # New SubHashElement
-                        if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#'.$ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Key}.'#NewSubElement')) {
-                            $SubHash{''} = '';
-                        }
                         $Content{$Keys[$Index]} = \%SubHash;
                     }
                     # SubArray
@@ -155,10 +152,8 @@ sub Run {
                 # New HashElement
                 if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#NewHashElement')) {
                     $Anker = $ItemHash{Name};
-                }                                          
-                if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#NewHashElement')) {
                     $Content{''} = '';
-                }
+                }                                          
                 # write ConfigItem
                 if (!$Self->{SysConfigObject}->ConfigItemUpdate(Key => $_, Value => \%Content, Valid => $Aktiv)) {
                     $Self->{LayoutObject}->FatalError(Message => "Can't write ConfigItem!");
@@ -483,6 +478,14 @@ sub ListConfigItem {
     my $Default = '';
     # ConfigElement String
     if (defined($ItemHash{Setting}[1]{String})) {
+        # file check
+        if ($ItemHash{Setting}[1]{String}[1]{Check} && $ItemHash{Setting}[1]{String}[1]{Check} eq 'File' && ! -f $ItemHash{Setting}[1]{String}[1]{Content}) {
+            $Valid = 'file not found';
+        }
+        # file check
+        if ($ItemHash{Setting}[1]{String}[1]{Check} && $ItemHash{Setting}[1]{String}[1]{Check} eq 'Directory' && ! -d $ItemHash{Setting}[1]{String}[1]{Content}) {
+            $Valid = 'directory not found';
+        }
         # Regex check
         if ($ItemHash{Setting}[1]{String}[1]{Regex} && $ItemHash{Setting}[1]{String}[1]{Content} !~ /$ItemHash{Setting}[1]{String}[1]{Regex}/) {
             $Valid = 'invalid';
