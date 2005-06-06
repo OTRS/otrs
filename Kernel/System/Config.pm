@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.33 2005-06-04 16:15:26 martin Exp $
+# $Id: Config.pm,v 1.34 2005-06-06 09:12:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::XML;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -147,6 +147,7 @@ sub _Init {
 sub _WriteDefault {
     my $Self = shift;
     my %Param = @_;
+    my $File = '';
     my %UsedKeys = ();
     my $Home = $Self->{Home};
     # check needed stuff
@@ -155,10 +156,6 @@ sub _WriteDefault {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
         }
-    }
-    if (!open(OUT, "> $Home/Kernel/Config/Files/ZZZAAuto.pm")) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Can't write $Home/Kernel/Config/Files/ZZZAAuto.pm!");
-        return;
     }
     # read all config files
     foreach my $ConfigItem (@{$Self->{XMLConfig}}) {
@@ -173,9 +170,17 @@ sub _WriteDefault {
                 $Name =~ s/\\/\\\\/g;
                 $Name =~ s/'/\'/g;
                 $Name =~ s/###/'}->{'/g;
-                print OUT "\$Self->{'$Name'} = ".$Self->_XML2Perl(Data => \%Config);
+                $File .= "\$Self->{'$Name'} = ".$Self->_XML2Perl(Data => \%Config);
             }
         }
+    }
+    if (!open(OUT, "> $Home/Kernel/Config/Files/ZZZAAuto.pm")) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Can't write $Home/Kernel/Config/Files/ZZZAAuto.pm!");
+        return;
+    }
+    else {
+        print OUT $File;
+        close (OUT);
     }
 }
 
@@ -190,6 +195,7 @@ submit config settings to application
 sub CreateConfig {
     my $Self = shift;
     my %Param = @_;
+    my $File = '';
     my %UsedKeys = ();
     my $Home = $Self->{'Home'};
     # check needed stuff
@@ -198,10 +204,6 @@ sub CreateConfig {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
         }
-    }
-    if (!open(OUT, "> $Home/Kernel/Config/Files/ZZZAuto.pm")) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Can't write $Home/Kernel/Config/Files/ZZZAuto.pm!");
-        return;
     }
     # read all config files
     foreach my $ConfigItem (@{$Self->{XMLConfig}}) {
@@ -230,19 +232,26 @@ sub CreateConfig {
                 elsif ((defined($A1) && !defined($A2)) || (!defined($A1) && defined($A2)) || $Self->DataDiff(Data1 => $A1, Data2 => $A2)) {
 #            my $Dump = Data::Dumper::Dumper(\%Config);
 #                    print STDERR "\$Self->{'$Name'} = $C - $Dump";
-                    print OUT "\$Self->{'$Name'} = $C";
+                    $File .= "\$Self->{'$Name'} = $C";
                 }
             }
             elsif (!$Config{Valid} && $ConfigDefault{Valid}) {
 #            elsif (!$Config{Valid}) {
-                print OUT "delete \$Self->{'$Name'};\n";
+                $File .= "delete \$Self->{'$Name'};\n";
 #                print OUT "    \$Self->{'Valid'}->{'$Name'} = '$Config{Valid}';\n";
             }
         }
     }
-    print OUT "\$Self->{'1'} = 1;\n";
-    close(OUT);
-    return 1;
+    if (!open(OUT, "> $Home/Kernel/Config/Files/ZZZAuto.pm")) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Can't write $Home/Kernel/Config/Files/ZZZAuto.pm!");
+        return;
+    }
+    else {
+        print OUT $File;
+        print OUT "\$Self->{'1'} = 1;\n";
+        close(OUT);
+        return 1;
+    }
 }
 
 =item ConfigItemUpdate()
@@ -1108,6 +1117,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.33 $ $Date: 2005-06-04 16:15:26 $
+$Revision: 1.34 $ $Date: 2005-06-06 09:12:35 $
 
 =cut
