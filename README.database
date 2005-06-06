@@ -2,7 +2,7 @@
 # README.database - database description of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: README.database,v 1.13 2005-01-24 22:18:58 martin Exp $
+# $Id: README.database,v 1.14 2005-06-06 20:46:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ XML:
 $HOME_OTRS/scripts/database/otrs-schema.xml
 
 The XML description files for torque which generate the SQL for your
-target database e. g. MySQL, PostgreSQL, DB2, Oracle, ...)
+target database e. g. MySQL, PostgreSQL, MaxDB/SAPDB, DB2, Oracle, ...)
 
 From OTRS 2.0 on we moved from the torque project to our own xml2sql (
 based on Kernel/System/DB/*.pm driver).
