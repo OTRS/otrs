@@ -1,8 +1,8 @@
 # --
 # Kernel/System/DB/maxdb.pm - maxdb database backend
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: maxdb.pm,v 1.1 2004-11-16 17:26:58 martin Exp $
+# $Id: maxdb.pm,v 1.2 2005-06-06 20:47:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::DB::maxdb;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub LoadPreferences {
@@ -324,3 +324,4 @@ sub UniqueDrop {
     my $SQL = "ALTER TABLE $Param{TableName} DROP CONSTRAINT $Param{Name}";
     return ($SQL);
 }
+1;
