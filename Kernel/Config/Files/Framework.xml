@@ -112,7 +112,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.48 2005-06-04 16:18:44 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.49 2005-06-06 09:13:43 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der WEB-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -1142,7 +1142,7 @@ TimeWorkingHours
         <Group>Framework</Group>
         <SubGroup>Crypt::PGP</SubGroup>
         <Setting>
-            <String Regex="">/usr/bin/gpg</String>
+            <String Regex="" Check="File">/usr/bin/gpg</String>
         </Setting>
         <!-- $Self->{'PGP::Bin'} = '/usr/bin/gpg'; -->
     </ConfigItem>
@@ -1188,7 +1188,7 @@ TimeWorkingHours
         <Group>Framework</Group>
         <SubGroup>Crypt::SMIME</SubGroup>
         <Setting>
-            <String Regex="">/usr/bin/openssl</String>
+            <String Regex="" Check="File">/usr/bin/openssl</String>
         </Setting>
         <!-- $Self->{'SMIME::Bin'} = '/usr/bin/openssl'; -->
     </ConfigItem>
@@ -1198,7 +1198,7 @@ TimeWorkingHours
         <Group>Framework</Group>
         <SubGroup>Crypt::SMIME</SubGroup>
         <Setting>
-            <String Regex="">/etc/ssl/certs</String>
+            <String Regex="" Check="Directory">/etc/ssl/certs</String>
         </Setting>
         <!-- $Self->{'SMIME::CertPath'} = '/etc/ssl/certs'; -->
     </ConfigItem>
@@ -1208,7 +1208,7 @@ TimeWorkingHours
         <Group>Framework</Group>
         <SubGroup>Crypt::SMIME</SubGroup>
         <Setting>
-            <String Regex="">/etc/ssl/private/private</String>
+            <String Regex="" Check="Directory">/etc/ssl/private/private</String>
         </Setting>
         <!-- $Self->{'SMIME::PrivatePath'} = '/etc/ssl/private/private'; -->
     </ConfigItem>
@@ -1583,7 +1583,7 @@ Your OTRS Notification Master
         </Setting>
         <!-- $Self->{CustomerGroupAlwaysGroups} = ['users', 'info']; -->
     </ConfigItem>
-    <ConfigItem Name="CustomerFrontend::NotifyModule###1-ShowAgentOnline" Required="1" Valid="1">
+    <ConfigItem Name="CustomerFrontend::NotifyModule###1-ShowAgentOnline" Required="0" Valid="0">
         <Description Lang="en">Module that shows the currently loged in agents in the customer interface.</Description>
         <Description Lang="de">Modul für die Anzeige von gerade am System angemeldeten Agenten innerhalb des Customer-Interfaces.</Description>
         <Group>Framework</Group>
@@ -1596,6 +1596,17 @@ Your OTRS Notification Master
         <!--  $Self->{'CustomerFrontend::NotifyModule'}->{'1-ShowAgentOnline'} = {
                      Module => 'Kernel::Output::HTML::NotificationAgentOnline',   };
  -->
+    </ConfigItem>
+    <ConfigItem Name="CustomerFrontend::NotifyModule###1-ShowCustomerOnline" Required="0" Valid="0">
+        <Description Lang="en">Module that shows the currently loged in customers in the customer interface.</Description>
+        <Description Lang="de">Modul für die Anzeige von gerade am System angemeldeten Kunden innerhalb des Customer-Interfaces.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Customer::ModuleNotify</SubGroup>
+            <Setting>
+                <Hash>
+                    <Item Key="Module">Kernel::Output::HTML::NotificationCustomerOnline</Item>
+                </Hash>
+            </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerPanelLoginURL" Required="0" Valid="0">
         <Description Lang="en">Alternate login URL for the customer panel..</Description>
@@ -1942,7 +1953,7 @@ Your OTRS Notification Master
         <Description Lang="en">If "Radius" was selected for Customer::AuthModule, specfiy the password to authenticate to your radius host.</Description>
         <Description Lang="de">Wenn "Radius" als Customer::AuthModule ausgewählt wurde, kann hier das Kennwort für die Anmeldung am Radius-Server angegeben werden.</Description>
         <Group>Framework</Group>
-        <SubGroup>Frontend::Customer</SubGroup>
+        <SubGroup>Frontend::Customer::Auth</SubGroup>
         <Setting>
             <String Regex="">radiussecret</String>
         </Setting>
@@ -3000,12 +3011,16 @@ Your OTRS Notification Master
         <Setting>
             <FrontendModuleReg>
                 <Description>Logout of customer panel</Description>
+                <Title></Title>
                 <NavBarName></NavBarName>
                 <NavBar>
                     <Description>Logout</Description>
                     <Name>Logout</Name>
                     <Image>exit.png</Image>
                     <Link>Action=Logout</Link>
+                    <Block></Block>
+                    <NavBar></NavBar>
+                    <Type></Type>
                     <AccessKey>l</AccessKey>
                     <Prio>10</Prio>
                 </NavBar>
@@ -3036,10 +3051,14 @@ Your OTRS Notification Master
             <FrontendModuleReg>
                 <Description>Customer preferences</Description>
                 <Title>Preferences</Title>
+                <NavBarName></NavBarName>
                 <NavBar>
                     <Description>Preferences</Description>
                     <Name>Preferences</Name>
                     <Image>prefer.png</Image>
+                    <Block></Block>
+                    <NavBar></NavBar>
+                    <Type></Type>
                     <Link>Action=CustomerPreferences</Link>
                     <AccessKey>p</AccessKey>
                     <Prio>1000</Prio>
@@ -3071,6 +3090,7 @@ Your OTRS Notification Master
             <FrontendModuleReg>
                 <Description>To accept login infos</Description>
                 <Title>Info</Title>
+                <NavBarName></NavBarName>
             </FrontendModuleReg>
         </Setting>
         <!--

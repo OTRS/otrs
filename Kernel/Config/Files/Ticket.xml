@@ -148,7 +148,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.39 2005-06-04 16:18:31 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.40 2005-06-06 09:13:20 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifyer for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z.B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -1254,7 +1254,7 @@ TimeWorkingHours
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
-            <String Regex="^[0-9]${1,10}">5000</String>
+            <String Regex="^[0-9]{1,10}$">5000</String>
         </Setting>
         <!--  $Self->{'Ticket::Frontend::SearchLimit'} = 5000;   -->                
     </ConfigItem>     
@@ -3121,7 +3121,12 @@ $Data{"Signature"}
                 <Item Key="Colum">Mail Management</Item>
                 <Item Key="Label">New ticket notification</Item>
                 <Item Key="Desc">Send me a notification if there is a new ticket in "My Queues"</Item>
-                <Item Key="Data">Get('YesNoOptions')</Item>
+                <Item Key="Data">
+                    <Hash>
+                        <Item Key="0">No</Item>
+                        <Item Key="1">Yes</Item>
+                    </Hash>
+                </Item>
                 <Item Key="PrefKey">UserSendNewTicketNotification</Item>
                 <Item Key="Prio">1000</Item>
                 <Item Key="Activ">1</Item>
@@ -3151,7 +3156,12 @@ $Data{"Signature"}
                 <Item Key="Colum">Mail Management</Item>
                 <Item Key="Label">Follow up notification</Item>
                 <Item Key="Desc">Send me a notification if a customer sends a follow up and I'm the owner of this ticket</Item>
-                <Item Key="Data">Get('YesNoOptions')</Item>
+                <Item Key="Data">
+                    <Hash>
+                        <Item Key="0">No</Item>
+                        <Item Key="1">Yes</Item>
+                    </Hash>
+                </Item>
                 <Item Key="PrefKey">UserSendFollowUpNotification</Item>
                 <Item Key="Prio">2000</Item>
                 <Item Key="Activ">1</Item>
@@ -3178,10 +3188,15 @@ $Data{"Signature"}
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
-                <Item Key="Colum">Mail Management"</Item>
+                <Item Key="Colum">Mail Management</Item>
                 <Item Key="Label">Ticket lock timeout notification</Item>
                 <Item Key="Desc">Send me a notification if a ticket is unlocked by the system</Item>
-                <Item Key="Data">Self->Get('YesNoOptions</Item>
+                <Item Key="Data">
+                    <Hash>
+                        <Item Key="0">No</Item>
+                        <Item Key="1">Yes</Item>
+                    </Hash>
+                </Item>
                 <Item Key="PrefKey">UserSendLockTimeoutNotification</Item>
                 <Item Key="Prio">3000</Item>
                 <Item Key="Activ">1</Item>
@@ -3208,10 +3223,15 @@ $Data{"Signature"}
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
-                <Item Key="Colum">Mail Management"</Item>
-                <Item Key="Label">Move notification"</Item>
+                <Item Key="Colum">Mail Management</Item>
+                <Item Key="Label">Move notification</Item>
                 <Item Key="Desc">Send me a notification if a ticket is moved into one of "My Queues"</Item>
-                <Item Key="Data">Self->Get('YesNoOptions</Item>
+                <Item Key="Data">
+                    <Hash>
+                        <Item Key="0">No</Item>
+                        <Item Key="1">Yes</Item>
+                    </Hash>
+                </Item>
                 <Item Key="PrefKey">UserSendMoveNotification</Item>
                 <Item Key="Prio">4000</Item>
                 <Item Key="Activ">1</Item>
@@ -3269,7 +3289,7 @@ $Data{"Signature"}
                 <Item Key="Desc">Select your QueueView refresh time</Item>
                 <Item Key="Data">
                     <Hash>
-                        <Item Key="''">off</Item>
+                        <Item Key="">off</Item>
                         <Item Key="2">2 minutes</Item>
                         <Item Key="5">5 minutes</Item>
                         <Item Key="7">7 minutes</Item>
@@ -3398,7 +3418,7 @@ $Data{"Signature"}
                 <Item Key="Label">Screen after new ticket</Item>
                 <Item Key="Data">
                     <Hash>
-                        <Item Key="''">CreateTicket</Item>
+                        <Item Key="">CreateTicket</Item>
                         <Item Key="AgentTicketZoom">TicketZoom</Item>
                     </Hash>
                 </Item>
@@ -3684,7 +3704,12 @@ $Data{"Signature"}
                 <Item Key="Colum">Other Options</Item>
                 <Item Key="Label">Closed Tickets</Item>
                 <Item Key="Desc">Show closed tickets</Item>
-                <Item Key="Data">Get('YesNoOptions')</Item>
+                <Item Key="Data">
+                    <Hash>
+                        <Item Key="0">No</Item>
+                        <Item Key="1">Yes</Item>
+                    </Hash>
+                </Item>
                 <Item Key="DataSelected">1</Item>
                 <Item Key="PrefKey">UserShowClosedTickets</Item>
                 <Item Key="Prio">2000</Item>
@@ -4986,6 +5011,9 @@ $Data{"Signature"}
                     <Description>MyTickets</Description>
                     <Name>MyTickets</Name>
                     <Image>ticket.png</Image>
+                    <Block></Block>
+                    <Type></Type>
+                    <NavBar></NavBar>
                     <Link>Action=CustomerTicketOverView&Type=MyTickets</Link>
                     <AccessKey>m</AccessKey>
                     <Prio>110</Prio>
@@ -4994,6 +5022,9 @@ $Data{"Signature"}
                     <Description>CompanyTickets</Description>
                     <Name>CompanyTickets</Name>
                     <Image>tickets.png</Image>
+                    <Block></Block>
+                    <Type></Type>
+                    <NavBar></NavBar>
                     <Link>Action=CustomerTicketOverView&Type=CompanyTickets</Link>
                     <AccessKey>c</AccessKey>
                     <Prio>120</Prio>
@@ -5038,6 +5069,9 @@ $Data{"Signature"}
                     <Description>Create new Ticket</Description>
                     <Name>New Ticket</Name>
                     <Image>new.png</Image>
+                    <Block></Block>
+                    <Type></Type>
+                    <NavBar></NavBar>
                     <Link>Action=CustomerTicketMessage</Link>
                     <AccessKey>n</AccessKey>
                     <Prio>100</Prio>
@@ -5089,6 +5123,8 @@ $Data{"Signature"}
         <Setting>
             <FrontendModuleReg>
                 <Description>compat mod</Description>
+                <NavBarName></NavBarName>
+                <Title></Title>
             </FrontendModuleReg>
         </Setting>
         <!--
@@ -5105,6 +5141,8 @@ $Data{"Signature"}
         <Setting>
             <FrontendModuleReg>
                 <Description>To download attachments</Description>
+                <NavBarName></NavBarName>
+                <Title></Title>
             </FrontendModuleReg>
         </Setting>
         <!--
@@ -5127,6 +5165,9 @@ $Data{"Signature"}
                     <Description>Search</Description>
                     <Name>Search</Name>
                     <Image>search.png</Image>
+                    <Block></Block>
+                    <Type></Type>
+                    <NavBar></NavBar>
                     <Link>Action=CustomerTicketSearch</Link>
                     <AccessKey>s</AccessKey>
                     <Prio>300</Prio>
