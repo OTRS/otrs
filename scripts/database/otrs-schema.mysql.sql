@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  database: mysql, generated: Tue Feb 15 13:21:04 2005
+#  database: mysql, generated: Mon Jun  6 22:18:34 2005
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -428,8 +428,8 @@ CREATE TABLE article_flag (
     article_flag VARCHAR (50) NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
-    PRIMARY KEY(article_id),
-    INDEX create_by (create_by)
+    INDEX article_flag_create_by (create_by),
+    INDEX article_flag_article_id (article_id)
 );
 # ----------------------------------------------------------
 #  create table article

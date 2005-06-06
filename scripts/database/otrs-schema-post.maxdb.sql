@@ -1,5 +1,5 @@
 // ----------------------------------------------------------
-//  database: maxdb, generated: Mon May  2 01:36:22 2005
+//  database: maxdb, generated: Mon Jun  6 22:18:41 2005
 // ----------------------------------------------------------
 ALTER TABLE valid ADD FOREIGN KEY (create_by) REFERENCES system_user(id)
 //
@@ -276,8 +276,6 @@ ALTER TABLE pop3_account ADD FOREIGN KEY (create_by) REFERENCES system_user(id)
 ALTER TABLE pop3_account ADD FOREIGN KEY (change_by) REFERENCES system_user(id)
 //
 ALTER TABLE pop3_account ADD FOREIGN KEY (valid_id) REFERENCES valid(id)
-//
-ALTER TABLE pop3_account ADD FOREIGN KEY (queue_id) REFERENCES queue(id)
 //
 ALTER TABLE notifications ADD FOREIGN KEY (create_by) REFERENCES system_user(id)
 //

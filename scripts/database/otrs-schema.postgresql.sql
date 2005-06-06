@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  database: postgresql, generated: Tue Feb 15 13:20:33 2005
+--  database: postgresql, generated: Mon Jun  6 22:21:08 2005
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -427,10 +427,10 @@ CREATE TABLE article_flag (
     article_id INTEGER NOT NULL,
     article_flag VARCHAR (50) NOT NULL,
     create_time timestamp(0) NOT NULL,
-    create_by INTEGER NOT NULL,
-    PRIMARY KEY(article_id)
+    create_by INTEGER NOT NULL
 );
-CREATE INDEX create_by ON article_flag (create_by);
+CREATE INDEX article_flag_create_by ON article_flag (create_by);
+CREATE INDEX article_flag_article_id ON article_flag (article_id);
 -- ----------------------------------------------------------
 --  create table article
 -- ----------------------------------------------------------

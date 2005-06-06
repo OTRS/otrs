@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  database: oracle, generated: Mon May  2 01:30:51 2005
+--  database: oracle, generated: Mon Jun  6 22:18:29 2005
 -- ----------------------------------------------------------
 ALTER TABLE valid ADD CONSTRAINT fk_valid_create_by_id FOREIGN KEY (create_by) REFERENCES system_user(id);
 ALTER TABLE valid ADD CONSTRAINT fk_valid_change_by_id FOREIGN KEY (change_by) REFERENCES system_user(id);
@@ -139,7 +139,6 @@ ALTER TABLE customer_user ADD CONSTRAINT fk_customer_user_valid_id_id FOREIGN KE
 ALTER TABLE pop3_account ADD CONSTRAINT fk_pop3_account_create_by_id FOREIGN KEY (create_by) REFERENCES system_user(id);
 ALTER TABLE pop3_account ADD CONSTRAINT fk_pop3_account_change_by_id FOREIGN KEY (change_by) REFERENCES system_user(id);
 ALTER TABLE pop3_account ADD CONSTRAINT fk_pop3_account_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid(id);
-ALTER TABLE pop3_account ADD CONSTRAINT fk_pop3_account_queue_id_id FOREIGN KEY (queue_id) REFERENCES queue(id);
 ALTER TABLE notifications ADD CONSTRAINT fk_notifications_create_by_id FOREIGN KEY (create_by) REFERENCES system_user(id);
 ALTER TABLE notifications ADD CONSTRAINT fk_notifications_change_by_id FOREIGN KEY (change_by) REFERENCES system_user(id);
 ALTER TABLE faq_item ADD CONSTRAINT fk_faq_item_category_id_id FOREIGN KEY (category_id) REFERENCES faq_category(id);

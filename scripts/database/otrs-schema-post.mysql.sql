@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  database: mysql, generated: Tue Feb 15 13:21:04 2005
+#  database: mysql, generated: Mon Jun  6 22:18:34 2005
 # ----------------------------------------------------------
 ALTER TABLE valid ADD FOREIGN KEY (create_by) REFERENCES `system_user(id)`;
 ALTER TABLE valid ADD FOREIGN KEY (change_by) REFERENCES `system_user(id)`;
@@ -139,7 +139,6 @@ ALTER TABLE customer_user ADD FOREIGN KEY (valid_id) REFERENCES `valid(id)`;
 ALTER TABLE pop3_account ADD FOREIGN KEY (create_by) REFERENCES `system_user(id)`;
 ALTER TABLE pop3_account ADD FOREIGN KEY (change_by) REFERENCES `system_user(id)`;
 ALTER TABLE pop3_account ADD FOREIGN KEY (valid_id) REFERENCES `valid(id)`;
-ALTER TABLE pop3_account ADD FOREIGN KEY (queue_id) REFERENCES `queue(id)`;
 ALTER TABLE notifications ADD FOREIGN KEY (create_by) REFERENCES `system_user(id)`;
 ALTER TABLE notifications ADD FOREIGN KEY (change_by) REFERENCES `system_user(id)`;
 ALTER TABLE faq_item ADD FOREIGN KEY (category_id) REFERENCES `faq_category(id)`;

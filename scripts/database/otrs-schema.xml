@@ -5,9 +5,12 @@
   XML File for the OTRS database description
   Copyright (C) 2001-2003 Martin Edenhofer
 
-  $Id: otrs-schema.xml,v 1.42 2005-03-03 12:06:15 martin Exp $
+  $Id: otrs-schema.xml,v 1.43 2005-06-06 20:42:44 martin Exp $
 
   $Log: not supported by cvs2svn $
+  Revision 1.42  2005/03/03 12:06:15  martin
+  removed not needed PRIMARY KEY of article_flag, added normal index
+
   Revision 1.41  2005/02/15 12:22:25  martin
   added article_flag table
 
@@ -1258,9 +1261,6 @@
   <Column Name="create_by" Required="true" Type="INTEGER"/>
   <Column Name="change_time" Required="true" Type="DATE"/>
   <Column Name="change_by" Required="true" Type="INTEGER"/>
-  <ForeignKey ForeignTable="queue">
-    <Reference Local="queue_id" Foreign="id"/>
-  </ForeignKey>
   <ForeignKey ForeignTable="valid">
     <Reference Local="valid_id" Foreign="id"/>
   </ForeignKey>
