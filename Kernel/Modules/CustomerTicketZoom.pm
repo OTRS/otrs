@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerTicketZoom.pm,v 1.1 2005-03-27 11:35:56 martin Exp $
+# $Id: CustomerTicketZoom.pm,v 1.2 2005-06-07 11:42:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -239,7 +239,7 @@ sub _Mask {
     foreach my $FileID (keys %AtmIndex) {
         my %File = %{$AtmIndex{$FileID}};
         $File{Filename} = $Self->{LayoutObject}->Ascii2Html(Text => $File{Filename});
-        $Param{"Article::ATM"} .= '<a href="$Env{"Baselink"}Action=CustomerAttachment&'.
+        $Param{"Article::ATM"} .= '<a href="$Env{"Baselink"}Action=CustomerTicketAttachment&'.
           'ArticleID='.$Article{ArticleID}.'&FileID='.$FileID.'" target="attachment" '.
           "onmouseover=\"window.status='\$Text{\"Download\"}: $File{Filename}';".
           ' return true;" onmouseout="window.status=\'\';">'.
