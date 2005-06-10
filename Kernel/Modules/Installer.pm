@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Installer.pm,v 1.33 2005-05-01 18:45:12 martin Exp $
+# $Id: Installer.pm,v 1.34 2005-06-10 10:57:53 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use strict;
 use DBI;
 
 use vars qw($VERSION %INC);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -586,10 +586,10 @@ sub ReConfigure {
             # --
             foreach (keys %Param) {
                 if ($Param{$_} =~ /^[0-9]+$/ && $Param{$_} !~ /^0/) {
-                    $NewConfig =~ s/(\$Self->{$_} =.+?);/\$Self->{$_} = $Param{$_};/g;
+                    $NewConfig =~ s/(\$Self->{$_} =.+?);/\$Self->{'$_'} = $Param{$_};/g;
                 }
                 else {
-                    $NewConfig =~ s/(\$Self->{$_} =.+?');/\$Self->{$_} = '$Param{$_}';/g;
+                    $NewConfig =~ s/(\$Self->{$_} =.+?');/\$Self->{'$_'} = '$Param{$_}';/g;
                 }
             }
             $Config .= $NewConfig;
@@ -598,12 +598,12 @@ sub ReConfigure {
     close (IN);
     # add new config settings
     foreach (sort keys %Param) {
-        if ($Config !~ /\$Self->{$_} =.+?;/) {
-            if ($Param{$_} =~ /^[0-9]+$/) {
-                $Config =~ s/\$DIBI\$/\$DIBI\$\n    \$Self->{$_} = $Param{$_};/g;
+        if ($Config !~ /\$Self->{$_} =.+?;/ && $Config !~ /\$Self->{'$_'} =.+?;/) {
+            if ($Param{$_} =~ /^[0-9]+$/ && $Param{$_} !~ /^0/) {
+                $Config =~ s/\$DIBI\$/\$DIBI\$\n    \$Self->{'$_'} = $Param{$_};/g;
             }
             else {
-                $Config =~ s/\$DIBI\$/\$DIBI\$\n    \$Self->{$_} = '$Param{$_}';/g;
+                $Config =~ s/\$DIBI\$/\$DIBI\$\n    \$Self->{'$_'} = '$Param{$_}';/g;
             }
         }
     }
