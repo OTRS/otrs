@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: XML.pm,v 1.17 2005-06-01 12:58:06 martin Exp $
+# $Id: XML.pm,v 1.18 2005-06-11 10:12:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,10 +13,9 @@ package Kernel::System::XML;
 
 use strict;
 use MIME::Base64;
-use XML::Parser::Lite;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -295,7 +294,7 @@ generate a xml string from an XMLHash
 sub XMLHash2XML {
     my $Self = shift;
     my @XMLHash = @_;
-    my $Output = '';
+    my $Output = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n";
     $Self->{XMLHash2XMLLayer} = 0;
     foreach my $Key (@XMLHash) {
         $Output .= $Self->_ElementBuild(%{$Key});
@@ -327,8 +326,12 @@ sub _ElementBuild {
     if ($Param{Key}) {
         $Output .= ">";
     }
-    if ($Param{Content}) {
-        $Output .= "$Param{Content}";
+    if (defined($Param{Content})) {
+        # encode
+        $Param{Content} =~ s/&/&amp;/g;
+        $Param{Content} =~ s/</&lt;/g;
+        $Param{Content} =~ s/>/&gt;/g;
+        $Output .= $Param{Content};
     }
     else {
         $Output .= "\n";
@@ -634,7 +637,14 @@ sub XMLParse {
     undef $Self->{XMLLevelCount};
     $S = $Self;
     # parse package
-    my $Parser = XML::Parser::Lite->new(Handlers => {Start => \&HS, End => \&ES, Char => \&CS});
+    my $Parser;
+    if (eval "require XML::Parser") {
+        $Parser = XML::Parser->new(Handlers => {Start => \&HS, End => \&ES, Char => \&CS});
+    }
+    else {
+        eval "require XML::Parser::Lite";
+        $Parser = XML::Parser::Lite->new(Handlers => {Start => \&HS, End => \&ES, Char => \&CS});
+    }
     $Parser->parse($Param{String});
     return @{$Self->{XMLARRAY}};
 }
@@ -643,6 +653,10 @@ sub HS {
     my ($Expat, $Element, %Attr) = @_;
 #    print "s:'$Element'\n";
     if ($S->{LastTag}) {
+        # decode
+        $S->{C} =~ s/&amp;/&/g;
+        $S->{C} =~ s/&lt;/</g;
+        $S->{C} =~ s/&gt;/>/g;
         push (@{$S->{XMLARRAY}}, {%{$S->{LastTag}}, Content => $S->{C}});
     }
     undef $S->{LastTag};
@@ -698,6 +712,10 @@ sub ES {
 #    print "e:'$Element'\n";
     $S->{XMLTagCount}++;
     if ($S->{LastTag}) {
+        # decode
+        $S->{C} =~ s/&amp;/&/g;
+        $S->{C} =~ s/&lt;/</g;
+        $S->{C} =~ s/&gt;/>/g;
         push (@{$S->{XMLARRAY}}, {%{$S->{LastTag}}, Content => $S->{C}, });
     }
     undef $S->{LastTag};
@@ -725,6 +743,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2005-06-01 12:58:06 $
+$Revision: 1.18 $ $Date: 2005-06-11 10:12:48 $
 
 =cut
