@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: XML.pm,v 1.18 2005-06-11 10:12:48 martin Exp $
+# $Id: XML.pm,v 1.19 2005-06-11 11:44:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use MIME::Base64;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -654,9 +654,11 @@ sub HS {
 #    print "s:'$Element'\n";
     if ($S->{LastTag}) {
         # decode
-        $S->{C} =~ s/&amp;/&/g;
-        $S->{C} =~ s/&lt;/</g;
-        $S->{C} =~ s/&gt;/>/g;
+        if (defined($S->{C})) {
+            $S->{C} =~ s/&amp;/&/g;
+            $S->{C} =~ s/&lt;/</g;
+            $S->{C} =~ s/&gt;/>/g;
+        }
         push (@{$S->{XMLARRAY}}, {%{$S->{LastTag}}, Content => $S->{C}});
     }
     undef $S->{LastTag};
@@ -713,9 +715,11 @@ sub ES {
     $S->{XMLTagCount}++;
     if ($S->{LastTag}) {
         # decode
-        $S->{C} =~ s/&amp;/&/g;
-        $S->{C} =~ s/&lt;/</g;
-        $S->{C} =~ s/&gt;/>/g;
+        if (defined($S->{C})) {
+            $S->{C} =~ s/&amp;/&/g;
+            $S->{C} =~ s/&lt;/</g;
+            $S->{C} =~ s/&gt;/>/g;
+        }
         push (@{$S->{XMLARRAY}}, {%{$S->{LastTag}}, Content => $S->{C}, });
     }
     undef $S->{LastTag};
@@ -743,6 +747,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2005-06-11 10:12:48 $
+$Revision: 1.19 $ $Date: 2005-06-11 11:44:26 $
 
 =cut
