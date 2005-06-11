@@ -112,6 +112,54 @@ $Text{"Close this ticket!"}
 $Text{"Look into a ticket!"}
 $Text{"Delete this ticket!"}
 $Text{"Mark as Spam!"}
+$Text{"My Queues"}
+$Text{"Shown Tickets"}
+# preferences
+$Text{"New ticket notification"}
+$Text{"Send me a notification if there is a new ticket in "My Queues"."}
+
+$Text{"Follow up notification"}
+#$Text{"Send me a notification if a customer sends a follow up and I'm the owner of this ticket."}
+$Text{"Send me a notification if a customer sends a follow up and I'm the owner of this ticket."}
+
+$Text{"Ticket lock timeout notification"}
+$Text{"Send me a notification if a ticket is unlocked by the system."}
+
+$Text{"Move notification"}
+$Text{"Send me a notification if a ticket is moved into one of "My Queues"."}
+
+$Text{"Your queue selection of your favorite queues. You also get notified about this queues via email if enabled."}
+$Text{"Custom Queue"}
+
+$Text{"QueueView refresh time"}
+$Text{"Select your QueueView refresh time."}
+
+$Text{"Screen after new ticket"}
+$Text{"Select your screen after creating a new ticket."}
+
+$Text{"Closed Tickets"}
+$Text{"Show closed tickets."};
+$Text{"Max. shown Tickets a page in QueueView."}
+
+
+$Text{""}
+$Text{""}
+
+# agent nav bar
+$Text{"Customer Users"}
+$Text{"Customer Users <-> Groups"}
+$Text{"Roles"}
+$Text{"Roles <-> Users"}
+$Text{"Roles <-> Groups"}
+$Text{"Responses"}
+$Text{"Responses <-> Queue"}
+$Text{"Auto Responses <-> Queue"}
+$Text{"Attachments"}
+$Text{"Attachments <-> Responses"}
+$Text{"Salutations"}
+$Text{"Signatures"}
+$Text{"Email Addresses"}
+$Text{"Notifications"}
 $Text{""}
 
 # hticket history text
