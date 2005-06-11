@@ -1,8 +1,11 @@
+$Text{"Admin-Area"}
+$Text{"Agent-Area"}
 $Text{"Ticket-Area"}
 $Text{"Logout"}
 $Text{"Agent Preferences"}
 $Text{"Preferences"}
 $Text{"Agent Mailbox"}
+$Text{"Stats"}
 $Text{"Stats-Area"}
 $Text{"Stats"}
 $Text{"FAQ-Area"}
