@@ -148,7 +148,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.40 2005-06-06 09:13:20 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.41 2005-06-11 10:10:58 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifyer for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z.B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -2135,7 +2135,7 @@ $Data{"Signature"}
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
-            <String Regex="">$Env{"CGIHandle"}?Action=AgentTicketCustomer&TicketID=$Data{"TicketID"}</String>
+            <String Regex="">$Env{"CGIHandle"}?Action=AgentTicketCustomer&amp;TicketID=$Data{"TicketID"}</String>
         </Setting>
         <!--   
         #    $Self->{CustomerDBLink} = 'http://yourhost/customer.php?CID=$Data{"CustomerID"}';
@@ -2526,7 +2526,7 @@ $Data{"Signature"}
                 <Item Key="Name">Back</Item>
                 <Item Key="Description">Back</Item>
                 <Item Key="Action"></Item>
-                <Item Key="Link">$Env{"LastScreenOverview"}&TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Link">$Env{"LastScreenOverview"}&amp;TicketID=$QData{"TicketID"}</Item>
             </Hash>
         </Setting>
         <!-- 
@@ -2570,7 +2570,7 @@ $Data{"Signature"}
                 <Item Key="Name">History</Item>
                 <Item Key="Description">Shows the ticket history!</Item>
                 <Item Key="Action">AgentTicketHistory</Item>
-                <Item Key="Link">Action=AgentTicketHistory&TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Link">Action=AgentTicketHistory&amp;TicketID=$QData{"TicketID"}</Item>
             </Hash>
         </Setting>
         <!-- 
@@ -2594,7 +2594,7 @@ $Data{"Signature"}
                 <Item Key="Name">Print</Item>
                 <Item Key="Description">Print this ticket!</Item>
                 <Item Key="Action">AgentTicketPrint</Item>
-                <Item Key="Link">Action=AgentTicketPrint&TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Link">Action=AgentTicketPrint&amp;TicketID=$QData{"TicketID"}</Item>
                 <Item Key="LinkParam">target="print"</Item>                
             </Hash>
         </Setting>
@@ -2620,7 +2620,7 @@ $Data{"Signature"}
                 <Item Key="Name">Priority</Item>
                 <Item Key="Description">Change the ticket priority!</Item>
                 <Item Key="Action">AgentTicketPriority</Item>
-                <Item Key="Link">Action=AgentTicketPriority&TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Link">Action=AgentTicketPriority&amp;TicketID=$QData{"TicketID"}</Item>
             </Hash>
         </Setting>
         <!-- 
@@ -2644,7 +2644,7 @@ $Data{"Signature"}
                 <Item Key="Name">Free Fields</Item>
                 <Item Key="Description">Change the ticket free fields!</Item>
                 <Item Key="Action">AgentTicketFreeText</Item>
-                <Item Key="Link">Action=AgentTicketFreeText&TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Link">Action=AgentTicketFreeText&amp;TicketID=$QData{"TicketID"}</Item>
             </Hash>
         </Setting>
         <!--
@@ -2668,7 +2668,7 @@ $Data{"Signature"}
                 <Item Key="Name">Link</Item>
                 <Item Key="Description">Link this ticket to an other objects!</Item>
                 <Item Key="Action">AgentLinkObject</Item>
-                <Item Key="Link">Action=AgentLinkObject&SourceObject=Ticket&SourceID=$QData{"TicketID"}</Item>
+                <Item Key="Link">Action=AgentLinkObject&amp;SourceObject=Ticket&amp;SourceID=$QData{"TicketID"}</Item>
             </Hash>
         </Setting>
         <!--
@@ -2692,7 +2692,7 @@ $Data{"Signature"}
                 <Item Key="Name">Owner</Item>
                 <Item Key="Description">Change the ticket owner!</Item>
                 <Item Key="Action">AgentTicketOwner</Item>
-                <Item Key="Link">Action=AgentTicketOwner&TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Link">Action=AgentTicketOwner&amp;TicketID=$QData{"TicketID"}</Item>
             </Hash>
         </Setting>
         <!--
@@ -2716,7 +2716,7 @@ $Data{"Signature"}
                 <Item Key="Name">Customer</Item>
                 <Item Key="Description">Change the ticket customer!</Item>
                 <Item Key="Action">AgentTicketCustomer</Item>
-                <Item Key="Link">Action=AgentTicketCustomer&TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Link">Action=AgentTicketCustomer&amp;TicketID=$QData{"TicketID"}</Item>
             </Hash>
         </Setting>
         <!--
@@ -2740,7 +2740,7 @@ $Data{"Signature"}
                 <Item Key="Name">Note</Item>
                 <Item Key="Description">Add a note to this ticket!</Item>
                 <Item Key="Action">AgentTicketNote</Item>
-                <Item Key="Link">Action=AgentTicketNote&TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Link">Action=AgentTicketNote&amp;TicketID=$QData{"TicketID"}</Item>
             </Hash>
         </Setting>
         <!--
@@ -2764,7 +2764,7 @@ $Data{"Signature"}
                 <Item Key="Name">Pending</Item>
                 <Item Key="Description">Set this ticket to pending</Item>
                 <Item Key="Action">AgentTicketPending</Item>
-                <Item Key="Link">Action=AgentTicketPending&TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Link">Action=AgentTicketPending&amp;TicketID=$QData{"TicketID"}</Item>
             </Hash>
         </Setting>
         <!--
@@ -2788,7 +2788,7 @@ $Data{"Signature"}
                 <Item Key="Name">Close</Item>
                 <Item Key="Description">Close this ticket</Item>
                 <Item Key="Action">AgentTicketClose</Item>
-                <Item Key="Link">AgentTicketClose&TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Link">AgentTicketClose&amp;TicketID=$QData{"TicketID"}</Item>
             </Hash>
         </Setting>
         <!--
@@ -2832,7 +2832,7 @@ $Data{"Signature"}
                 <Item Key="Name">Zoom</Item>
                 <Item Key="Action">AgentTicketZoom</Item>
                 <Item Key="Description">Look into a ticket!</Item>
-                <Item Key="Link">Action=AgentTicketZoom&TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Link">Action=AgentTicketZoom&amp;TicketID=$QData{"TicketID"}</Item>
             </Hash>
         </Setting>
         <!--
@@ -2856,7 +2856,7 @@ $Data{"Signature"}
                 <Item Key="Name">History</Item>
                 <Item Key="Action">AgentTicketHistory</Item>
                 <Item Key="Description">Shows the ticket history!</Item>
-                <Item Key="Link">Action=AgentTicketHistory&TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Link">Action=AgentTicketHistory&amp;TicketID=$QData{"TicketID"}</Item>
             </Hash>
         </Setting>
         <!--
@@ -2880,7 +2880,7 @@ $Data{"Signature"}
                 <Item Key="Name">Priority</Item>
                 <Item Key="Action">AgentTicketPriority</Item>
                 <Item Key="Description">Change the ticket priority!</Item>
-                <Item Key="Link">Action=AgentTicketPriority&TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Link">Action=AgentTicketPriority&amp;TicketID=$QData{"TicketID"}</Item>
             </Hash>
         </Setting>
         <!--
@@ -2904,7 +2904,7 @@ $Data{"Signature"}
                 <Item Key="Name">Note</Item>
                 <Item Key="Action">AgentTicketNote</Item>
                 <Item Key="Description">Add a note to this ticket!</Item>
-                <Item Key="Link">Action=AgentTicketNote&TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Link">Action=AgentTicketNote&amp;TicketID=$QData{"TicketID"}</Item>
             </Hash>
         </Setting>
         <!--
@@ -2928,7 +2928,7 @@ $Data{"Signature"}
                 <Item Key="Name">Close</Item>
                 <Item Key="Action">AgentTicketClose</Item>
                 <Item Key="Description">Close this ticket!</Item>
-                <Item Key="Link">Action=AgentTicketClose&TicketID=$QData{"TicketID"}</Item>
+                <Item Key="Link">Action=AgentTicketClose&amp;TicketID=$QData{"TicketID"}</Item>
             </Hash>
         </Setting>
         <!--
@@ -2952,7 +2952,7 @@ $Data{"Signature"}
                 <Item Key="Name">Delete</Item>
                 <Item Key="Action">AgentTicketMove</Item>
                 <Item Key="Description">Delete this ticket!</Item>
-                <Item Key="Link">Action=AgentTicketMove&TicketID=$Data{"TicketID"}&DestQueue=Delete</Item>
+                <Item Key="Link">Action=AgentTicketMove&amp;TicketID=$Data{"TicketID"}&amp;DestQueue=Delete</Item>
             </Hash>
         </Setting>
         <!--
@@ -2976,7 +2976,7 @@ $Data{"Signature"}
                 <Item Key="Name">Spam</Item>
                 <Item Key="Action">AgentTicketMove</Item>
                 <Item Key="Description">Mark as Spam!</Item>
-                <Item Key="Link">Action=AgentTicketMove&TicketID=$Data{"TicketID"}&DestQueue=Delete</Item>
+                <Item Key="Link">Action=AgentTicketMove&amp;TicketID=$Data{"TicketID"}&amp;DestQueue=Delete</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -3120,7 +3120,7 @@ $Data{"Signature"}
                 <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
                 <Item Key="Colum">Mail Management</Item>
                 <Item Key="Label">New ticket notification</Item>
-                <Item Key="Desc">Send me a notification if there is a new ticket in "My Queues"</Item>
+                <Item Key="Desc">Send me a notification if there is a new ticket in "My Queues".</Item>
                 <Item Key="Data">
                     <Hash>
                         <Item Key="0">No</Item>
@@ -3155,7 +3155,7 @@ $Data{"Signature"}
                 <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
                 <Item Key="Colum">Mail Management</Item>
                 <Item Key="Label">Follow up notification</Item>
-                <Item Key="Desc">Send me a notification if a customer sends a follow up and I'm the owner of this ticket</Item>
+                <Item Key="Desc">Send me a notification if a customer sends a follow up and I'm the owner of this ticket.</Item>
                 <Item Key="Data">
                     <Hash>
                         <Item Key="0">No</Item>
@@ -3190,7 +3190,7 @@ $Data{"Signature"}
                 <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
                 <Item Key="Colum">Mail Management</Item>
                 <Item Key="Label">Ticket lock timeout notification</Item>
-                <Item Key="Desc">Send me a notification if a ticket is unlocked by the system</Item>
+                <Item Key="Desc">Send me a notification if a ticket is unlocked by the system.</Item>
                 <Item Key="Data">
                     <Hash>
                         <Item Key="0">No</Item>
@@ -3225,7 +3225,7 @@ $Data{"Signature"}
                 <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
                 <Item Key="Colum">Mail Management</Item>
                 <Item Key="Label">Move notification</Item>
-                <Item Key="Desc">Send me a notification if a ticket is moved into one of "My Queues"</Item>
+                <Item Key="Desc">Send me a notification if a ticket is moved into one of "My Queues".</Item>
                 <Item Key="Data">
                     <Hash>
                         <Item Key="0">No</Item>
@@ -3332,7 +3332,7 @@ $Data{"Signature"}
                 <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
                 <Item Key="Colum">Frontend</Item>
                 <Item Key="Label">QueueView</Item>
-                <Item Key="Desc">Select your frontend QueueView</Item>
+                <Item Key="Desc">Select your frontend QueueView.</Item>
                 <Item Key="Data">
                     <Hash>
                         <Item Key="AgentTicketQueueTicketView">Standard</Item>
@@ -3372,7 +3372,7 @@ $Data{"Signature"}
                 <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
                 <Item Key="Colum">Frontend</Item>
                 <Item Key="Label">Shown Tickets</Item>
-                <Item Key="Desc">Max. shown Tickets a page in QueueView</Item>
+                <Item Key="Desc">Max. shown Tickets a page in QueueView.</Item>
                 <Item Key="Data">
                     <Hash>
                         <Item Key="10">10</Item>
@@ -3416,6 +3416,7 @@ $Data{"Signature"}
                 <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
                 <Item Key="Colum">Frontend</Item>
                 <Item Key="Label">Screen after new ticket</Item>
+                <Item Key="Desc">Select your screen after creating a new ticket.</Item>
                 <Item Key="Data">
                     <Hash>
                         <Item Key="">CreateTicket</Item>
@@ -3740,7 +3741,7 @@ $Data{"Signature"}
                 <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
                 <Item Key="Colum">Frontend</Item>
                 <Item Key="Label">Shown Tickets</Item>
-                <Item Key="Desc">Max. shown Tickets a page in Overview</Item>
+                <Item Key="Desc">Max. shown Tickets a page in Overview.</Item>
                 <Item Key="Data">
                     <Hash>
                         <Item Key="15">15</Item>
@@ -3785,7 +3786,7 @@ $Data{"Signature"}
                 <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
                 <Item Key="Colum">Frontend</Item>
                 <Item Key="Label">QueueView refresh time</Item>
-                <Item Key="Desc">Select your QueueView refresh time</Item>
+                <Item Key="Desc">Select your QueueView refresh time.</Item>
                 <Item Key="Data">
                     <Hash>
                         <Item Key="">off</Item>
@@ -5014,7 +5015,7 @@ $Data{"Signature"}
                     <Block></Block>
                     <Type></Type>
                     <NavBar></NavBar>
-                    <Link>Action=CustomerTicketOverView&Type=MyTickets</Link>
+                    <Link>Action=CustomerTicketOverView&amp;Type=MyTickets</Link>
                     <AccessKey>m</AccessKey>
                     <Prio>110</Prio>
                 </NavBar>
@@ -5025,7 +5026,7 @@ $Data{"Signature"}
                     <Block></Block>
                     <Type></Type>
                     <NavBar></NavBar>
-                    <Link>Action=CustomerTicketOverView&Type=CompanyTickets</Link>
+                    <Link>Action=CustomerTicketOverView&amp;Type=CompanyTickets</Link>
                     <AccessKey>c</AccessKey>
                     <Prio>120</Prio>
                 </NavBar>
