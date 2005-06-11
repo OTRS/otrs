@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.pm,v 1.30 2005-05-16 08:58:05 martin Exp $
+# $Id: Package.pm,v 1.31 2005-06-11 11:50:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,9 +16,10 @@ use MIME::Base64;
 use File::Copy;
 use LWP::UserAgent;
 use Kernel::System::XML;
+use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -497,30 +498,6 @@ sub PackageInstall {
         );
         return;
     }
-    # check config
-    my $ConfigCheckOk = 1;
-    if ($Structur{Config} && ref($Structur{Config}) eq 'ARRAY') {
-        foreach my $Config (@{$Structur{Config}}) {
-#            my %Config = $Self->{ConfigToolObject}->ConfigGet(
-#                Key => $Config->{Key},
-#            );
-#            if (%Config) {
-#                $ConfigCheckOk = 0;
-#                $Self->{LogObject}->Log(
-#                    Priority => 'error',
-#                    Message => "Config $Config->{Key} already exists!!",
-#                );
-#
-#            }
-        }
-    }
-    if (!$ConfigCheckOk && !$Param{Force}) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message => "Config conflict, can't install package!",
-        );
-        return;
-    }
     # add package
     if ($Self->RepositoryAdd(String => $Param{String})) {
         # update package status
@@ -539,7 +516,7 @@ sub PackageInstall {
             }
         }
         # install config
-
+        $Self->{SysConfigObject} = Kernel::System::Config->new(%{$Self});
         # install database
         if ($Structur{DatabaseInstall} && ref($Structur{DatabaseInstall}) eq 'ARRAY') {
             my @SQL = $Self->{DBObject}->SQLProcessor(Database => $Structur{DatabaseInstall}, );
@@ -588,6 +565,8 @@ sub PackageReinstall {
             $Self->_FileInstall(%{$File});
         }
     }
+    # install config
+    $Self->{SysConfigObject} = Kernel::System::Config->new(%{$Self});
     return 1;
 }
 
@@ -714,6 +693,7 @@ sub PackageUpgrade {
             }
         }
         # install config
+        $Self->{SysConfigObject} = Kernel::System::Config->new(%{$Self});
 
         # upgrade database
         if ($Structur{DatabaseUpgrade} && ref($Structur{DatabaseUpgrade}) eq 'ARRAY') {
@@ -783,18 +763,10 @@ sub PackageUninstall {
     }
     # remove old packages
     $Self->RepositoryRemove(Name => $Structur{Name}->{Content});
-#    # update package status
-#    my $SQL = "UPDATE package_repository SET install_status = 'not installed'".
-#        " WHERE ".
-#        " name = '".$Self->{DBObject}->Quote($Structur{Name}->{Content})."'".
-#        " AND ".
-#        " version = '".$Self->{DBObject}->Quote($Structur{Version}->{Content})."'";
-#    $Self->{DBObject}->Do(SQL => $SQL);
 
-    # remove config settings
-#    $Self->{ConfigToolObject}->ConfigDelete(
-##        Module => $Structur{Name}->{Content},
-#    );
+    # install config
+    $Self->{SysConfigObject} = Kernel::System::Config->new(%{$Self});
+
     if (!$FileCheckOk) {
 #        return;
     }
@@ -1418,7 +1390,6 @@ sub _FileSystemCheck {
     }
     return 1;
 }
-
 1;
 
 =head1 TERMS AND CONDITIONS
@@ -1433,6 +1404,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.30 $ $Date: 2005-05-16 08:58:05 $
+$Revision: 1.31 $ $Date: 2005-06-11 11:50:32 $
 
 =cut
