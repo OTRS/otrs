@@ -8,7 +8,6 @@
         <Setting>
             <String>FAQ</String>
         </Setting>
-        <!-- $Self->{'FAQ::FAQHook'} = 'FAQ#'; -->
     </ConfigItem>
     <ConfigItem Name="FAQ::Default::State" Required="1" Valid="1">
         <Description Lang="en">Default state for FAQ entry.</Description>
@@ -18,7 +17,6 @@
         <Setting>
             <String>internal (agent)</String>
         </Setting>
-        <!-- $Self->{'FAQ::Default::State'} = 'internal (agent)'; -->
     </ConfigItem>
     <ConfigItem Name="FAQ::Field1" Required="1" Valid="1">
         <Description Lang="en">Description of first FAQ field.</Description>
@@ -28,7 +26,6 @@
         <Setting>
             <String>Symptom</String>
         </Setting>
-        <!-- $Self->{'FAQ::Field1'} = 'Symptom'; -->
     </ConfigItem>
     <ConfigItem Name="FAQ::Field2" Required="1" Valid="1">
         <Description Lang="en">Description of secound FAQ field.</Description>
@@ -38,7 +35,6 @@
         <Setting>
             <String>Problem</String>
         </Setting>
-        <!-- $Self->{'FAQ::Field2'} = 'Problem'; -->
     </ConfigItem>
     <ConfigItem Name="FAQ::Field3" Required="1" Valid="1">
         <Description Lang="en">Description of third FAQ field.</Description>
@@ -48,7 +44,6 @@
         <Setting>
             <String>Solution</String>
         </Setting>
-        <!-- $Self->{'FAQ::Field3'} = 'Solution'; -->
     </ConfigItem>
     <ConfigItem Name="FAQ::Field4" Required="1" Valid="1">
         <Description Lang="en">Description of fourth FAQ field.</Description>
@@ -58,7 +53,6 @@
         <Setting>
             <String>field4</String>
         </Setting>
-        <!-- $Self->{'FAQ::Field4'} = 'field4'; -->
     </ConfigItem>
     <ConfigItem Name="FAQ::Field5" Required="1" Valid="1">
         <Description Lang="en">Description of fiifth FAQ field</Description>
@@ -68,7 +62,6 @@
         <Setting>
             <String>field5</String>
         </Setting>Setting>
-        <!-- $Self->{'FAQ::Field5'} = 'field5'; -->
     </ConfigItem>
     <ConfigItem Name="FAQ::Field6" Required="1" Valid="1">
         <Description Lang="en">Description of sixth FAQ field.</Description>
@@ -78,7 +71,6 @@
         <Setting>
             <String>Comment (internal)</String>
         </Setting>
-        <!-- $Self->{'FAQ::Field6'} = 'Comment (internal)'; -->
     </ConfigItem>
     <ConfigItem Name="LinkObject###FAQ" Required="1" Valid="1">
         <Description Lang="en">Link object settings for FAQ. Objects that are known by the system.</Description>
@@ -97,13 +89,6 @@
                 </Item>
             </Hash>
         </Setting>
-        <!--
-            $Self->{'LinkObject'}->{'FAQ'} = {
-                Name => 'FAQ Object',
-                Type => 'Object',
-                LinkObjects => ['Ticket', 'FAQ'],
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###FAQ" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the FAQ object in the agent interface.</Description>
@@ -116,6 +101,7 @@
                 <GroupRo>faq</GroupRo>
                 <Description>FAQ-Area</Description>
                 <NavBarName>FAQ</NavBarName>
+                <Title></Title>
                 <NavBar>
                     <GroupRo>faq</GroupRo>
                     <Description>FAQ-Area</Description>
@@ -123,7 +109,7 @@
                     <Block>ItemArea</Block>
                     <Name>FAQ</Name>
                     <Image>help.png</Image>
-                    <Link>Action=FAQ&Nav=Normal</Link>
+                    <Link>Action=FAQ&amp;Nav=Normal</Link>
                     <NavBar>FAQ</NavBar>
                     <AccessKey>f</AccessKey>
                     <Prio>8300</Prio>
@@ -133,7 +119,9 @@
                     <Description>New Article</Description>
                     <Name>New Article</Name>
                     <Image>new.png</Image>
-                    <Link>Action=FAQ&Subaction=Add</Link>
+                    <Link>Action=FAQ&amp;Subaction=Add</Link>
+                    <Type></Type>
+                    <Block></Block>
                     <NavBar>FAQ</NavBar>
                     <AccessKey>n</AccessKey>
                     <Prio>200</Prio>
@@ -143,7 +131,9 @@
                     <Description>FAQ-Search</Description>
                     <Name>Search</Name>
                     <Image>search.png</Image>
-                    <Link>Action=FAQ&Subaction=Search</Link>
+                    <Link>Action=FAQ&amp;Subaction=Search</Link>
+                    <Type></Type>
+                    <Block></Block>
                     <NavBar>FAQ</NavBar>
                     <AccessKey>s</AccessKey>
                     <Prio>300</Prio>
@@ -153,61 +143,15 @@
                     <Description>History</Description>
                     <Name>History</Name>
                     <Image>list.png</Image>
-                    <Link>Action=FAQ&Subaction=SystemHistory</Link>
+                    <Link>Action=FAQ&amp;Subaction=SystemHistory</Link>
+                    <Type></Type>
+                    <Block></Block>
                     <NavBar>FAQ</NavBar>
                     <AccessKey>h</AccessKey>
                     <Prio>310</Prio>
                 </NavBar>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'FAQ'} = {
-                Group => 'faq',
-                GroupRo => 'faq',
-                Description => 'FAQ-Area',
-                NavBarName => 'FAQ',
-                NavBar => [
-                {
-                    GroupRo => 'faq',
-                    Description => 'FAQ-Area',
-                    Type => 'Menu',
-                    Block => 'ItemArea',
-                    Name => 'FAQ',
-                    Image => 'help.png',
-                    Link => 'Action=FAQ',
-                    NavBar => 'FAQ',
-                    Prio => 8300,
-                },
-                {
-                    Group => 'faq',
-                    Description => 'New Article',
-                    Name => 'New Article',
-                    Image => 'new.png',
-                    Link => 'Action=FAQ&Subaction=Add',
-                    NavBar => 'FAQ',
-                    Prio => 200,
-                },
-                {
-                    GroupRo => 'faq',
-                    Description => 'FAQ-Search',
-                    Name => 'Search',
-                    Image => 'search.png',
-                    Link => 'Action=FAQ&Subaction=Search',
-                    NavBar => 'FAQ',
-                    Prio => 300,
-                },
-                {
-                    GroupRo => 'faq',
-                    Description => 'History',
-                    Name => 'History',
-                    Image => 'list.png',
-                    Link => 'Action=FAQ&Subaction=SystemHistory',
-                    NavBar => 'FAQ',
-                    Prio => 310,
-                },
-                ],
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###FAQState" Required="0" Valid="0">
         <Description Lang="en">Frontend module registration for the FAQState object in the FAQ area.</Description>
@@ -220,35 +164,20 @@
                 <Group>faq</Group>
                 <Description>FAQ-State</Description>
                 <NavBarName>FAQ</NavBarName>
+                <Title></Title>
                 <NavBar>
                     <Description>State</Description>
                     <Name>State</Name>
                     <Image>fileopen.png</Image>
                     <Link>Action=FAQState</Link>
+                    <Type></Type>
+                    <Block></Block>
                     <NavBar>FAQ</NavBar>
                     <AccessKey>e</AccessKey>
                     <Prio>920</Prio>
                 </NavBar>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            #    $Self->{'Frontend::Module'}->{'FAQState'} = {
-            #        GroupRo => '',
-            #        Gro    up => 'faq',
-            #        Description => 'FAQ-State',
-            #        NavBarName => 'FAQ',
-            #        NavBar => [
-            #          {
-            #            Description => 'State',
-            #            Name => 'State',
-            #            Image => 'fileopen.png',
-            #            Link => 'Action=FAQState',
-            #            NavBar => 'FAQ',
-            #            Prio => 920,
-            #          },
-            #        ],
-            #    };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###FAQCategory" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the FAQCategory object in the FAQ area.</Description>
@@ -267,31 +196,14 @@
                     <Name>Category</Name>
                     <Image>fileopen.png</Image>
                     <Link>Action=FAQCategory</Link>
+                    <Type></Type>
+                    <Block></Block>
                     <NavBar>FAQ</NavBar>
                     <AccessKey>g</AccessKey>
                     <Prio>900</Prio>
                 </NavBar>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'FAQCategory'} = {
-                GroupRo => '',
-                Group => 'faq',
-                Description => 'FAQ-Category',
-                Title => 'Category',
-                NavBarName => 'FAQ',
-                NavBar => [
-                {
-                    Description => 'Category',
-                    Name => 'Category',
-                    Image => 'fileopen.png',
-                    Link => 'Action=FAQCategory',
-                    NavBar => 'FAQ',
-                    Prio => 900,
-                },
-                ],
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###FAQLanguage" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the FAQLanguage object in the FAQ area.</Description>
@@ -310,31 +222,14 @@
                     <Name>Language</Name>
                     <Image>fileopen.png</Image>
                     <Link>Action=FAQLanguage</Link>
+                    <Type></Type>
+                    <Block></Block>
                     <NavBar>FAQ</NavBar>
                     <AccessKey>u</AccessKey>
                     <Prio>910</Prio>
                 </NavBar>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'FAQLanguage'} = {
-                GroupRo => '',
-                Group => 'faq',
-                Description => 'FAQ-Language',
-                Title => 'Language',
-                NavBarName => 'FAQ',
-                NavBar => [
-                {
-                    Description => 'Language',
-                    Name => 'Language',
-                    Image => 'fileopen.png',
-                    Link => 'Action=FAQLanguage',
-                    NavBar => 'FAQ',
-                    Prio => 910,
-                },
-                ],
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerFAQ" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the CustomerFAQ object in the customer interface.</Description>
@@ -345,31 +240,20 @@
             <FrontendModuleReg>
                 <Description>Customer faq</Description>
                 <NavBarName>FAQ</NavBarName>
+                <Title></Title>
                 <NavBar>
                     <Description>FAQ-Area</Description>
                     <Name>FAQ-Area</Name>
                     <Image>help.png</Image>
                     <Link>Action=CustomerFAQ</Link>
+                    <Type></Type>
+                    <Block></Block>
+                    <NavBar></NavBar>
                     <AccessKey>f</AccessKey>
                     <Prio>400</Prio>
                 </NavBar>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'CustomerFrontend::Module'}->{'CustomerFAQ'} = {
-                Description => 'Customer faq.',
-                NavBarName => 'FAQ',
-                NavBar => [
-                {
-                    Description => 'FAQ-Area',
-                    Name => 'FAQ-Area',
-                    Image => 'help.png',
-                    Link => 'Action=CustomerFAQ',
-                    Prio => 400,
-                },
-                ],
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="PublicFrontend::CommonParam###Action" Required="1" Valid="1">
         <Description Lang="en">Default value for the Action parameter for the public frontend. The Action parameter is used in the scripts of the system.</Description>
@@ -379,7 +263,6 @@
         <Setting>
             <String>PublicFAQ</String>
         </Setting>
-        <!-- $Self->{'PublicFrontend::CommonParam'}->{Action} = 'PublicFAQ'; -->
     </ConfigItem>
     <ConfigItem Name="PublicFrontend::Module###PublicFAQ" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the PublicFAQ object in the public FAQ area.</Description>
@@ -390,30 +273,19 @@
             <FrontendModuleReg>
                 <Description>Customer faq</Description>
                 <NavBarName>FAQ</NavBarName>
+                <Title></Title>
                 <NavBar>
                     <Description>FAQ-Area</Description>
                     <Name>FAQ-Area</Name>
                     <Image>help.png</Image>
                     <Link>Action=CustomerFAQ</Link>
+                    <Type></Type>
+                    <Block></Block>
+                    <NavBar></NavBar>
                     <AccessKey>f</AccessKey>
                     <Prio>400</Prio>
                 </NavBar>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'PublicFrontend::Module'}->{'PublicFAQ'} = {
-                Description => 'Customer faq.',
-                NavBarName => 'FAQ',
-                NavBar => [
-                {
-                    Description => 'FAQ-Area',
-                    Name => 'FAQ-Area',
-                    Image => 'help.png',
-                    Link => 'Action=CustomerFAQ',
-                    Prio => 400,
-                },
-                ],
-            };
-        -->
     </ConfigItem>
 </otrs_config>
