@@ -112,7 +112,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.49 2005-06-06 09:13:43 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.50 2005-06-11 10:13:23 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der WEB-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -250,17 +250,17 @@ TimeWorkingHours
                 <Item Key="en">English</Item>
                 <Item Key="de">Deutsch</Item>
                 <Item Key="nl">Nederlands</Item>
-                <Item Key="fr">Fran&ccedil;ais</Item>
+                <Item Key="fr">Fran&amp;ccedil;ais</Item>
                 <Item Key="bg">Bulgarian</Item>
                 <Item Key="fi">Suomi</Item>
-                <Item Key="es">Espa&ntilde;ol</Item>
-                <Item Key="pt_BR">Portugu&ecirc;s Brasileiro</Item>
-                <Item Key="pt">Portugu&ecirc;s</Item>
+                <Item Key="es">Espa&amp;ntilde;ol</Item>
+                <Item Key="pt_BR">Portugu&amp;ecirc;s Brasileiro</Item>
+                <Item Key="pt">Portugu&amp;ecirc;s</Item>
                 <Item Key="it">Italiano</Item>
                 <Item Key="ru">Russian</Item>
                 <Item Key="cz">Czech</Item>
                 <Item Key="pl">Polski</Item>
-                <Item Key="nb_NO">Norsk bokm&aring;l</Item>
+                <Item Key="nb_NO">Norsk bokm&amp;aring;l</Item>
                 <Item Key="sv">Svenska</Item>
                 <Item Key="hu">Hungarian</Item>
             </Hash>
@@ -1134,7 +1134,6 @@ TimeWorkingHours
                 <Item Key="1">Yes</Item>
             </Option>
         </Setting>
-        <!-- $Self->{'PGP'} = 1; -->
     </ConfigItem>
     <ConfigItem Name="PGP::Bin" Required="1" Valid="1">
         <Description Lang="en">Path to PGP binary.</Description>
@@ -1144,7 +1143,6 @@ TimeWorkingHours
         <Setting>
             <String Regex="" Check="File">/usr/bin/gpg</String>
         </Setting>
-        <!-- $Self->{'PGP::Bin'} = '/usr/bin/gpg'; -->
     </ConfigItem>
     <ConfigItem Name="PGP::Options" Required="1" Valid="1">
         <Description Lang="en">Options for PGP binary.</Description>
@@ -1154,7 +1152,6 @@ TimeWorkingHours
         <Setting>
             <String Regex="">--homedir /var/lib/wwwrun/.gnupg/ --batch --no-tty --yes</String>
         </Setting>
-        <!-- $Self->{'PGP::Options'} = '--homedir /var/lib/wwwrun/.gnupg/ --batch --no-tty --yes'; -->
     </ConfigItem>
     <ConfigItem Name="PGP::Key::Password" Required="1" Valid="1">
         <Description Lang="en">Password for PGP key.</Description>
@@ -1167,7 +1164,6 @@ TimeWorkingHours
                 <Item Key="488A0B8F">SomePassword</Item>
             </Hash>
         </Setting>
-        <!-- $Self->{'PGP::Key::Password'} = {'488A0B8F' => 1234,}; -->
     </ConfigItem>
     <ConfigItem Name="SMIME" Required="1" Valid="1">
         <Description Lang="en">Enable S/MIME support?</Description>
@@ -1180,7 +1176,6 @@ TimeWorkingHours
                 <Item Key="1">Yes</Item>
             </Option>
         </Setting>
-        <!-- $Self->{'SMIME'} = 1; -->
     </ConfigItem>
     <ConfigItem Name="SMIME::Bin" Required="1" Valid="1">
         <Description Lang="en">Path to openssl binary. Maybe openssl need a HOME env ($ENV{HOME} = '/var/lib/wwwrun';)!</Description>
@@ -1190,7 +1185,6 @@ TimeWorkingHours
         <Setting>
             <String Regex="" Check="File">/usr/bin/openssl</String>
         </Setting>
-        <!-- $Self->{'SMIME::Bin'} = '/usr/bin/openssl'; -->
     </ConfigItem>
     <ConfigItem Name="SMIME::CertPath" Required="1" Valid="1">
         <Description Lang="en">Directory where SSL certificates are stored.</Description>
@@ -1200,7 +1194,6 @@ TimeWorkingHours
         <Setting>
             <String Regex="" Check="Directory">/etc/ssl/certs</String>
         </Setting>
-        <!-- $Self->{'SMIME::CertPath'} = '/etc/ssl/certs'; -->
     </ConfigItem>
     <ConfigItem Name="SMIME::PrivatePath" Required="1" Valid="1">
         <Description Lang="en">Directory where private SSL certificates are stored.</Description>
@@ -1210,7 +1203,6 @@ TimeWorkingHours
         <Setting>
             <String Regex="" Check="Directory">/etc/ssl/private/private</String>
         </Setting>
-        <!-- $Self->{'SMIME::PrivatePath'} = '/etc/ssl/private/private'; -->
     </ConfigItem>
     <ConfigItem Name="NotificationSenderName" Required="1" Valid="1">
         <Description Lang="en">Sender name for system notification messages.</Description>
@@ -1248,8 +1240,7 @@ TimeWorkingHours
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
-            <TextArea>
-Hi &lt;OTRS_USERFIRSTNAME&gt;,
+            <TextArea>Hi &lt;OTRS_USERFIRSTNAME&gt;,
 
 you or someone impersonating you has requested to change your OTRS
 password.
@@ -1387,7 +1378,7 @@ Your OTRS Notification Master
                     <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
                     <Item Key="Colum">Other Options</Item>
                     <Item Key="Label">Spelling Dictionary</Item>
-                    <Item Key="Desc">Select your default spelling dictionary</Item>
+                    <Item Key="Desc">Select your default spelling dictionary.</Item>
                     <Item Key="Data">
                         <Hash>
                             <Item Key="english">English</Item>
@@ -2520,7 +2511,7 @@ Your OTRS Notification Master
                     <Description>Edit Customer Users</Description>
                     <Name>Customer</Name>
                     <Image>folder_yellow.png</Image>
-                    <Link>Action=AdminCustomerUser&Nav=Agent</Link>
+                    <Link>Action=AdminCustomerUser&amp;Nav=Agent</Link>
                     <NavBar>Ticket</NavBar>
                     <Type></Type>
                     <Block></Block>
