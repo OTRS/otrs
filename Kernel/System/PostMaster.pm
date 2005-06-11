@@ -2,16 +2,18 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.51 2005-05-25 14:30:39 martin Exp $
+# $Id: PostMaster.pm,v 1.52 2005-06-11 10:14:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 package Kernel::System::PostMaster;
 
 use strict;
 use Kernel::System::DB;
+use Kernel::System::Main;
 use Kernel::System::EmailParser;
 use Kernel::System::Ticket;
 use Kernel::System::Queue;
@@ -23,7 +25,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.51 $';
+$VERSION = '$Revision: 1.52 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -51,6 +53,7 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
 
     # create common objects
+    $Self->{MainObject} = Kernel::System::Main->new(%Param);
     $Self->{TicketObject} = Kernel::System::Ticket->new(%Param);
     $Self->{ParseObject} = Kernel::System::EmailParser->new(
         Email => $Param{Email},
@@ -104,14 +107,7 @@ sub Run {
     if (ref($Self->{ConfigObject}->Get('PostMaster::PreFilterModule')) eq 'HASH') {
         my %Jobs = %{$Self->{ConfigObject}->Get('PostMaster::PreFilterModule')};
         foreach my $Job (sort keys %Jobs) {
-            # log try of load module
-            if ($Self->{Debug} > 1) {
-                $Self->{LogObject}->Log(
-                    Priority => 'debug',
-                    Message => "Try to load PreFilterModule: $Jobs{$Job}->{Module}!",
-                );
-            }
-            if (eval "require $Jobs{$Job}->{Module}") {
+            if ($Self->{MainObject}->Require($Jobs{$Job}->{Module})) {
                 my $FilterObject = $Jobs{$Job}->{Module}->new(
                     ConfigObject => $Self->{ConfigObject},
                     LogObject => $Self->{LogObject},
@@ -121,13 +117,6 @@ sub Run {
                     TimeObject => $Self->{TimeObject},
                     Debug => $Self->{Debug},
                 );
-                # log loaded module
-                if ($Self->{Debug} > 1) {
-                    $Self->{LogObject}->Log(
-                        Priority => 'debug',
-                        Message => "PreFilterModule: $Jobs{$Job}->{Module} loaded!",
-                    );
-                }
                 # modify params
                 if (!$FilterObject->Run(
                     GetParam => $GetParam,
@@ -139,12 +128,6 @@ sub Run {
                         Message => "Execute Run() of PreFilterModule $Jobs{$Job}->{Module} not successfully!",
                     );
                 }
-            }
-            else {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message => "Can't load PreFilterModule $Jobs{$Job}->{Module}!",
-                );
             }
         }
     }
@@ -265,14 +248,7 @@ sub Run {
     if (ref($Self->{ConfigObject}->Get('PostMaster::PostFilterModule')) eq 'HASH') {
         my %Jobs = %{$Self->{ConfigObject}->Get('PostMaster::PostFilterModule')};
         foreach my $Job (sort keys %Jobs) {
-            # log try of load module
-            if ($Self->{Debug} > 1) {
-                $Self->{LogObject}->Log(
-                    Priority => 'debug',
-                    Message => "Try to load PostFilterModule: $Jobs{$Job}->{Module}!",
-                );
-            }
-            if (eval "require $Jobs{$Job}->{Module}") {
+            if ($Self->{MainObject}->Require($Jobs{$Job}->{Module})) {
                 my $FilterObject = $Jobs{$Job}->{Module}->new(
                     ConfigObject => $Self->{ConfigObject},
                     LogObject => $Self->{LogObject},
@@ -282,13 +258,6 @@ sub Run {
                     TimeObject => $Self->{TimeObject},
                     Debug => $Self->{Debug},
                 );
-                # log loaded module
-                if ($Self->{Debug} > 1) {
-                    $Self->{LogObject}->Log(
-                        Priority => 'debug',
-                        Message => "PostFilterModule: $Jobs{$Job}->{Module} loaded!",
-                    );
-                }
                 # modify params
                 if (!$FilterObject->Run(
                     TicketID => $TicketID,
@@ -300,12 +269,6 @@ sub Run {
                         Message => "Execute Run() of PostFilterModule $Jobs{$Job}->{Module} not successfully!",
                     );
                 }
-            }
-            else {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message => "Can't load PostFilterModule $Jobs{$Job}->{Module}!",
-                );
             }
         }
     }
