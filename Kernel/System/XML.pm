@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: XML.pm,v 1.19 2005-06-11 11:44:26 martin Exp $
+# $Id: XML.pm,v 1.20 2005-06-12 11:32:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use MIME::Base64;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -320,6 +320,11 @@ sub _ElementBuild {
             push (@Sub, $Param{$_});
         }
         elsif ($_ ne 'Content' && $_ ne 'Key' && $_ !~ /^Tag/) {
+            if (defined($Param{$_})) {
+                $Param{$_} =~ s/&/&amp;/g;
+                $Param{$_} =~ s/</&lt;/g;
+                $Param{$_} =~ s/>/&gt;/g;
+            }
             $Output .= " $_=\"$Param{$_}\"";
         }
     }
@@ -683,6 +688,16 @@ sub HS {
         $Key .= "{'$S->{XMLLevelTag}->{$_}'}";
         $Key .= "[".$S->{XMLLevelCount}->{$_}->{$S->{XMLLevelTag}->{$_}}."]";
     }
+    # quote attributes
+    if (%Attr) {
+        foreach (keys %Attr) {
+            if (defined($Attr{$_})) {
+                $Attr{$_} =~ s/&amp;/&/g;
+                $Attr{$_} =~ s/&lt;/</g;
+                $Attr{$_} =~ s/&gt;/>/g;
+            }
+        }
+    }
     $S->{LastTag} = {
         %Attr,
         TagType => 'Start',
@@ -747,6 +762,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.19 $ $Date: 2005-06-11 11:44:26 $
+$Revision: 1.20 $ $Date: 2005-06-12 11:32:12 $
 
 =cut
