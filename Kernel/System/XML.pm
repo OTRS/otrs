@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: XML.pm,v 1.20 2005-06-12 11:32:12 martin Exp $
+# $Id: XML.pm,v 1.21 2005-06-12 20:26:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,10 +12,9 @@
 package Kernel::System::XML;
 
 use strict;
-use MIME::Base64;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -714,13 +713,7 @@ sub CS {
 #    $Element = $Expat->recognized_string();
 #    print "v:'$Element'\n";
     if ($S->{LastTag}) {
-        # base64 encode
-        if ($S->{LastTag}->{Encode} && $S->{LastTag}->{Encode} eq 'Base64') {
-            $S->{C} .= decode_base64($Element);
-        }
-        else {
-            $S->{C} .= $Element;
-        }
+        $S->{C} .= $Element;
     }
 }
 
@@ -762,6 +755,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.20 $ $Date: 2005-06-12 11:32:12 $
+$Revision: 1.21 $ $Date: 2005-06-12 20:26:40 $
 
 =cut
