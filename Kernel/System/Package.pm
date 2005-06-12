@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.pm,v 1.31 2005-06-11 11:50:32 martin Exp $
+# $Id: Package.pm,v 1.32 2005-06-12 20:27:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1307,6 +1307,9 @@ sub _FileInstall {
     # write file
     if (open(OUT, "> $Self->{Home}/$Param{Location}")) {
         print STDERR "Notice: Install $Param{Location} ($Param{Permission})!\n";
+        if ($Param{Encode} && $Param{Encode} eq 'Base64') {
+            $Param{Content} = decode_base64($Param{Content});
+        }
         # set bin mode
         binmode OUT;
         print OUT $Param{Content};
@@ -1404,6 +1407,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.31 $ $Date: 2005-06-11 11:50:32 $
+$Revision: 1.32 $ $Date: 2005-06-12 20:27:44 $
 
 =cut
