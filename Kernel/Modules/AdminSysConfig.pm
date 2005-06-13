@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.pm,v 1.28 2005-06-06 09:14:15 martin Exp $
+# $Id: AdminSysConfig.pm,v 1.29 2005-06-13 14:09:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,16 +11,11 @@
 
 package Kernel::Modules::AdminSysConfig;
 
-# use ../../ as lib location
-use FindBin qw($Bin);
-use lib "$Bin/../..";
-use lib "$Bin/../../Kernel/cpan-lib";
-
 use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -61,13 +56,22 @@ sub Run {
         my $SubGroup = $Self->{ParamObject}->GetParam(Param => 'SysConfigSubGroup');
         my $Group = $Self->{ParamObject}->GetParam(Param => 'SysConfigGroup');
         my @List = $Self->{SysConfigObject}->ConfigSubGroupConfigItemList(Group => $Group, SubGroup => $SubGroup);
+#        my @List = ();
+#        my %Groups = $Self->{SysConfigObject}->ConfigGroupList();
+#        foreach my $Group (sort keys(%Groups)) {
+#            my %SubGroups = $Self->{SysConfigObject}->ConfigSubGroupList(Name => $Group);
+#            foreach my $SubGroup (sort keys %SubGroups) {
+#                push(@List, $Self->{SysConfigObject}->ConfigSubGroupConfigItemList(Group => $Group, SubGroup => $SubGroup));
+#            }
+#        }
+
         # list all Items
         foreach (@List) {
             # Get all Attributes from Item
             my %ItemHash = $Self->{SysConfigObject}->ConfigItemGet(Name => $_);
             # Get ElementAktiv (checkbox)
             my $Aktiv = 0;
-            if (($ItemHash{Required} && $ItemHash{Required} == 1) || $Self->{ParamObject}->GetParam(Param => $_.'ItemAktiv') == 1) {
+            if (($ItemHash{Required} && $ItemHash{Required} == 1) || ($Self->{ParamObject}->GetParam(Param => $_.'ItemAktiv') && $Self->{ParamObject}->GetParam(Param => $_.'ItemAktiv') == 1)) {
                 $Aktiv = 1;
             }
             # ConfigElement String
@@ -333,6 +337,16 @@ sub Run {
         my @List = $Self->{SysConfigObject}->ConfigSubGroupConfigItemList(Group => $Group, SubGroup => $SubGroup);
         #Language
         my $UserLang = $Self->{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage');
+        # all
+#        my @List = ();
+#        my %Groups = $Self->{SysConfigObject}->ConfigGroupList();
+#        foreach my $Group (sort keys(%Groups)) {
+#            my %SubGroups = $Self->{SysConfigObject}->ConfigSubGroupList(Name => $Group);
+#            foreach my $SubGroup (sort keys %SubGroups) {
+#                push(@List, $Self->{SysConfigObject}->ConfigSubGroupConfigItemList(Group => $Group, SubGroup => $SubGroup));
+#            }
+#        }
+
         # list all Items
         foreach (@List) {
             # Get all Attributes from Item
@@ -460,6 +474,7 @@ sub Run {
         Data     => \%List,
         Selected => $Group,
         Name     => 'SysConfigGroup',
+        LanguageTranslation => 0,
     );
 
     $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'SysConfig');
@@ -657,7 +672,7 @@ sub ListConfigItem {
     # ConfigElement FrontendModuleReg
     elsif (defined ($ItemHash{Setting}[1]{FrontendModuleReg})) {
 #    $Self->{LogObject}->Dumper(fdsa => $ItemHash{Setting}[1]{FrontendModuleReg});
-        my %Data = {};
+        my %Data = ();
         foreach my $Key (qw(Title Description NavBarName)) {
             $Data{'Key'.$Key} = $Key;
             $Data{'Content'.$Key} = '';
@@ -685,7 +700,7 @@ sub ListConfigItem {
         }
         # NavBar
         foreach my $Index (1...$#{$ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBar}}) {
-            my %Data = {};
+            my %Data = ();
             foreach my $Key (qw(Description Name Image Link Type Prio Block NavBar AccessKey)) {
                 $Data{'Key'.$Key} = $Key;
                 $Data{'Content'.$Key} = '';
@@ -733,7 +748,7 @@ sub ListConfigItem {
             }
         }
         elsif (defined($ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBarModule})) {
-            my %Data = {};
+            my %Data = ();
             foreach my $Key qw (Module Name Block Prio) {
                 $Data{'Key'.$Key} = $Key;
                 $Data{'Content'.$Key} = '';
