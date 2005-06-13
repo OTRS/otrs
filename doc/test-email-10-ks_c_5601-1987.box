@@ -1,0 +1,15 @@
+Content-Class: urn:content-classes:message
+MIME-Version: 1.0
+Content-Type: text/plain; charset="ks_c_5601-1987"
+Content-Transfer-Encoding: quoted-printable
+X-Mimeole: Produced By AAA BBB V6.5.6944.0
+Subject: Greek Test 
+Date: Fri, 10 Jun 2005 12:49:50 +0200
+Message-Id: <62AB7C5EBCB61F449482C3BFEC71388A13C16E@xxxxx.yyy>
+X-CVS: $Id: test-email-10-ks_c_5601-1987.box,v 1.1 2005-06-13 21:16:25 martin Exp $
+From: "Tester, Michael" <xyz@example.com>
+To: <abc@uvw.xyz>
+X-Virus-Scanned: true
+Status: O
+
+Greek: =A5=D5 =A5=D7 =A5=D8 =A5=E2 =A5=E3 =A5=E4 =A5=E5
