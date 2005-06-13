@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.183 2005-05-07 12:55:03 martin Exp $
+# $Id: Generic.pm,v 1.184 2005-06-13 14:10:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::Output::HTML::Agent;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.183 $';
+$VERSION = '$Revision: 1.184 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -1289,7 +1289,7 @@ sub CustomerAge {
         $AgeStrg .= $Space;
     }
     # get minutes (just if age < 1 day)
-    if ($Self->{ConfigObject}->Get('ShowAlwaysLongTime') || $Age < 86400) {
+    if ($Self->{ConfigObject}->Get('TimeShowAlwaysLong') || $Age < 86400) {
         $AgeStrg .= int( ($Age / 60) % 60) . ' ';
         if (int( ($Age / 60) % 60) > 1) {
             $AgeStrg .= $Self->{LanguageObject}->Get('minutes');
@@ -1977,6 +1977,7 @@ sub WindowTabStop {
 sub BuildDateSelection {
     my $Self = shift;
     my %Param = @_;
+    my $DateInputStyle = $Self->{ConfigObject}->Get('TimeInputFormat');
     my $Prefix = $Param{'Prefix'} || '';
     my $DiffTime = $Param{'DiffTime'} || 0;
     my $Format = defined($Param{Format}) ? $Param{Format} : 'DateInputFormatLong';
@@ -1984,60 +1985,85 @@ sub BuildDateSelection {
     $Y = $Y+1900;
     $M++;
     # year
-    my %Year = ();
-    foreach ($Y-10..$Y+1) {
-        $Year{$_} = $_;
+    if ($DateInputStyle eq 'Option') {
+        my %Year = ();
+        foreach ($Y-10..$Y+1) {
+            $Year{$_} = $_;
+        }
+        $Param{Year} = $Self->OptionStrgHashRef(
+            Name => $Prefix.'Year',
+            Data => \%Year,
+            SelectedID => int($Param{$Prefix.'Year'} || $Y),
+        );
     }
-    $Param{Year} = $Self->OptionStrgHashRef(
-        Name => $Prefix.'Year',
-        Data => \%Year,
-        SelectedID => int($Param{$Prefix.'Year'} || $Y),
-    );
+    else {
+        $Param{Year} = "<input type=\"text\" name=\"".$Prefix."Year\" size=\"4\" maxlength=\"4\" value=\"".sprintf("%02d", ($Param{$Prefix.'Year'} || $Y))."\">";
+    }
     # month
-    my %Month = ();
-    foreach (1..12) {
-        my $Tmp = sprintf("%02d", $_);
-        $Month{$_} = $Tmp;
+    if ($DateInputStyle eq 'Option') {
+        my %Month = ();
+        foreach (1..12) {
+            my $Tmp = sprintf("%02d", $_);
+            $Month{$_} = $Tmp;
+        }
+        $Param{Month} = $Self->OptionStrgHashRef(
+            Name => $Prefix.'Month',
+            Data => \%Month,
+            SelectedID => int($Param{$Prefix.'Month'} || $M),
+        );
     }
-    $Param{Month} = $Self->OptionStrgHashRef(
-        Name => $Prefix.'Month',
-        Data => \%Month,
-        SelectedID => int($Param{$Prefix.'Month'} || $M),
-    );
+    else {
+        $Param{Month} = "<input type=\"text\" name=\"".$Prefix."Month\" size=\"2\" maxlength=\"2\" value=\"".sprintf("%02d", ($Param{$Prefix.'Month'} || $M))."\">";
+    }
     # day
-    my %Day = ();
-    foreach (1..31) {
-        my $Tmp = sprintf("%02d", $_);
-        $Day{$_} = $Tmp;
+    if ($DateInputStyle eq 'Option') {
+        my %Day = ();
+        foreach (1..31) {
+            my $Tmp = sprintf("%02d", $_);
+            $Day{$_} = $Tmp;
+        }
+        $Param{Day} = $Self->OptionStrgHashRef(
+            Name => $Prefix.'Day',
+            Data => \%Day,
+            SelectedID => int($Param{$Prefix.'Day'} || $D),
+        );
     }
-    $Param{Day} = $Self->OptionStrgHashRef(
-        Name => $Prefix.'Day',
-        Data => \%Day,
-        SelectedID => int($Param{$Prefix.'Day'} || $D),
-    );
+    else {
+        $Param{Day} = "<input type=\"text\" name=\"".$Prefix."Day\" size=\"2\" maxlength=\"2\" value=\"".($Param{$Prefix.'Day'} || $D)."\">";
+    }
     if ($Format eq 'DateInputFormatLong') {
         # hour
-        my %Hour = ();
-        foreach (0..23) {
-            my $Tmp = sprintf("%02d", $_);
-            $Hour{$_} = $Tmp;
+        if ($DateInputStyle eq 'Option') {
+            my %Hour = ();
+            foreach (0..23) {
+                my $Tmp = sprintf("%02d", $_);
+                $Hour{$_} = $Tmp;
+            }
+            $Param{Hour} = $Self->OptionStrgHashRef(
+                Name => $Prefix.'Hour',
+                Data => \%Hour,
+                SelectedID => defined($Param{$Prefix.'Hour'}) ? int($Param{$Prefix.'Hour'}) : $h,
+            );
         }
-        $Param{Hour} = $Self->OptionStrgHashRef(
-            Name => $Prefix.'Hour',
-            Data => \%Hour,
-            SelectedID => defined($Param{$Prefix.'Hour'}) ? int($Param{$Prefix.'Hour'}) : $h,
-        );
+        else {
+            $Param{Hour} = "<input type=\"text\" name=\"".$Prefix."Hour\" size=\"2\" maxlength=\"2\" value=\"".sprintf("%02d", (defined($Param{$Prefix.'Hour'}) ? int($Param{$Prefix.'Hour'}) : $h))."\">";
+        }
         # minute
-        my %Minute = ();
-        foreach (0..59) {
-            my $Tmp = sprintf("%02d", $_);
-            $Minute{$_} = $Tmp;
+        if ($DateInputStyle eq 'Option') {
+            my %Minute = ();
+            foreach (0..59) {
+                my $Tmp = sprintf("%02d", $_);
+                $Minute{$_} = $Tmp;
+            }
+            $Param{Minute} = $Self->OptionStrgHashRef(
+                Name => $Prefix.'Minute',
+                Data => \%Minute,
+                SelectedID => defined($Param{$Prefix.'Minute'}) ? int($Param{$Prefix.'Minute'}) : $m,
+            );
         }
-        $Param{Minute} = $Self->OptionStrgHashRef(
-            Name => $Prefix.'Minute',
-            Data => \%Minute,
-            SelectedID => defined($Param{$Prefix.'Minute'}) ? int($Param{$Prefix.'Minute'}) : $m,
-        );
+        else {
+            $Param{Minute} = "<input type=\"text\" name=\"".$Prefix."Minute\" size=\"2\" maxlength=\"2\" value=\"".sprintf("%02d", (defined($Param{$Prefix.'Minute'}) ? int($Param{$Prefix.'Minute'}) : $m))."\">";
+        }
     }
     #DateFormat
     return $Self->{LanguageObject}->Time(
@@ -2157,6 +2183,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.183 $ $Date: 2005-05-07 12:55:03 $
+$Revision: 1.184 $ $Date: 2005-06-13 14:10:52 $
 
 =cut
