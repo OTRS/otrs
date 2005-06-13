@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Customer.pm - provides generic customer HTML output
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Customer.pm,v 1.40 2005-03-27 11:52:21 martin Exp $
+# $Id: Customer.pm,v 1.41 2005-06-13 21:04:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Customer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.40 $';
+$VERSION = '$Revision: 1.41 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -144,6 +144,7 @@ sub CustomerNavigationBar {
                     ConfigObject => $Self->{ConfigObject},
                     LogObject => $Self->{LogObject},
                     DBObject => $Self->{DBObject},
+                    TimeObject => $Self->{TimeObject},
                     LayoutObject => $Self,
                     UserID => $Self->{UserID},
                     Debug => $Self->{Debug},
