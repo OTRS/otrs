@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.198 2005-05-27 18:11:31 martin Exp $
+# $Id: Defaults.pm,v 1.199 2005-06-14 15:46:03 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.198 $';
+$VERSION = '$Revision: 1.199 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1241,6 +1241,12 @@ Your OTRS Notification Master
         Description => 'Generic Info module',
         Title => 'Info',
     };
+    #AgentCalendarSmall
+    $Self->{'Frontend::Module'}->{'AgentCalendarSmall'} = {
+        Description     => 'Small calendar for date selection.',
+        NavBarName      => '',
+        Title           => '',
+    };
     # stats
     $Self->{'Frontend::Module'}->{'SystemStats'} = {
         GroupRo => ['stats', 'admin'],
@@ -1686,6 +1692,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.198 $ $Date: 2005-05-27 18:11:31 $
+$Revision: 1.199 $ $Date: 2005-06-14 15:46:03 $
 
 =cut
