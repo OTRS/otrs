@@ -1,0 +1,77 @@
+# --
+# AgentCalendarSmall.dtl - provides HTML form for AgentSpelling
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+#
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start Spelling form -->
+<script language="JavaScript" type="text/javascript">
+<!--
+<!-- dtl:block:DateFormatOption -->
+function SelectDay(tt, mm, yyyy) {
+    for(var z=0;z < opener.document.compose.Day$Data{"Prefix"}.length;z++) {
+        if (opener.document.compose.Day$Data{"Prefix"}.options[z].value == tt) {
+            opener.document.compose.Day$Data{"Prefix"}.options[z].selected = true;
+        }
+    }
+    for(var z=0;z < opener.document.compose.Month$Data{"Prefix"}.length;z++) {
+        if (opener.document.compose.Month$Data{"Prefix"}.options[z].value == mm) {
+            opener.document.compose.Month$Data{"Prefix"}.options[z].selected = true;
+        }
+    }
+    for(var z=0;z < opener.document.compose.Year$Data{"Prefix"}.length;z++) {
+        if (opener.document.compose.Year$Data{"Prefix"}.options[z].value == yyyy) {
+            opener.document.compose.Year$Data{"Prefix"}.options[z].selected = true;
+        }
+    }
+    this.close();
+}
+<!-- dtl:block:DateFormatOption -->
+<!-- dtl:block:DateFormatInput -->
+function SelectDay(tt, mm, yyyy) {
+    opener.document.compose.Day$Data{"Prefix"}.value = true;
+    opener.document.compose.Month$Data{"Prefix"}.value = true;
+    opener.document.compose.Year$Data{"Prefix"}.value = true;
+    
+    this.close();
+}
+<!-- dtl:block:DateFormatInput -->
+
+//-->
+</script>
+
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
+<tr>
+  <th class="mainhead"><a href="$Env{"CGIHandle"}?Action=AgentCalendarSmall&Month=$Data{"Back"}&Prefix=$Data{"Prefix"}" class="headeritem">&#060;&#060;</a></th>
+  <th class="mainhead">$Text{"$QData{"Month"}"} $QData{"Year"}</th>
+  <th class="mainhead"><a href="$Env{"CGIHandle"}?Action=AgentCalendarSmall&Month=$Data{"Next"}&Prefix=$Data{"Prefix"}" class="headeritem">&#062;&#062;</a></th>
+</tr>
+<tr>
+  <td class="mainbody" colspan="3">
+    <table border="0" width="100%" cellspacing="0" cellpadding="1">
+      <tr class="contenthead">
+        <th>$Text{"Mo"}</th>
+        <th>$Text{"Tu"}</th>
+        <th>$Text{"We"}</th>
+        <th>$Text{"Th"}</th>
+        <th>$Text{"Fr"}</th>
+        <th>$Text{"Sa"}</th>
+        <th>$Text{"Su"}</th>
+      </tr>
+      <!-- dtl:block:Row -->
+      <tr>
+        <!-- dtl:block:ColEmpty -->
+        <th></th>
+        <!-- dtl:block:ColEmpty -->              
+        <!-- dtl:block:Col -->
+        <th $Data{"Style"}><a href="return false;" onClick="SelectDay($Data{"Day"}, $Data{"Month"}, $Data{"Year"})">$Data{"Day"}</a></th>
+        <!-- dtl:block:Col -->
+      </tr>
+      <!-- dtl:block:Row -->
+    </table>
+  </td>
+</tr>
+</table>
+<!-- end Spelling form -->
