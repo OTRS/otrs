@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: AgentTicketZoomStatus.dtl,v 1.1 2005-04-01 08:19:56 martin Exp $
+# $Id: AgentTicketZoomStatus.dtl,v 1.2 2005-06-15 11:56:51 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,6 +31,12 @@
       <td><b>$Text{"CustomerID"}:</b></td>
       <td><a href="$Config{"CustomerDBLink"}" $Config{"CustomerDBLinkTarget"}>$Quote{"$Data{"CustomerID"}","18"}</a></td>
     </tr>
+<!-- dtl:block:ArticleTime -->    
+    <tr valign="top">
+      <td><b>$Text{"Article time"}:</b></td>
+      <td>$Data{"ArticleTime"}</td>
+    </tr>
+<!-- dtl:block:ArticleTime -->
     <tr valign="top">
       <td><b>$Text{"Accounted time"}:</b></td>
       <td>$Data{"TicketTimeUnits"}</td>
