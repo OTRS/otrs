@@ -2,7 +2,7 @@
 # Kernel/Modules/Calendar.pm - spelling module
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCalendarSmall.pm,v 1.1 2005-06-14 15:23:24 rk Exp $
+# $Id: AgentCalendarSmall.pm,v 1.2 2005-06-15 11:47:25 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -109,7 +109,6 @@ sub Run {
     if ($Self->{ConfigObject}->Get('TimeInputFormat') eq 'Input') {
         $DateFormat = 'Input';
     }
-    $Self->{LogObject}->Dumper(fds => $DateFormat);
     $Self->{LayoutObject}->Block(
         Name => "DateFormat".$DateFormat,
         Data => {Prefix => $Prefix},
@@ -118,7 +117,7 @@ sub Run {
     my $CalDay = 1;
     while ($CalDay <= $DaysOfMonth) {
         $Self->{LayoutObject}->Block(
-            Name => "Row",
+            Name => "ArticleTime",
             Data => {},
         );
         for (my $Col=1;$Col<8 && $CalDay <= $DaysOfMonth; $Col++) {
