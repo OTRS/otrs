@@ -31,9 +31,9 @@ function SelectDay(tt, mm, yyyy) {
 <!-- dtl:block:DateFormatOption -->
 <!-- dtl:block:DateFormatInput -->
 function SelectDay(tt, mm, yyyy) {
-    opener.document.compose.Day$Data{"Prefix"}.value = true;
-    opener.document.compose.Month$Data{"Prefix"}.value = true;
-    opener.document.compose.Year$Data{"Prefix"}.value = true;
+    opener.document.compose.Day$Data{"Prefix"}.value = tt;
+    opener.document.compose.Month$Data{"Prefix"}.value = mm;
+    opener.document.compose.Year$Data{"Prefix"}.value = yyyy;
     
     this.close();
 }
