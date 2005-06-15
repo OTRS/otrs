@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketZoom.pm,v 1.5 2005-04-07 07:26:38 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.6 2005-06-15 11:59:46 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -347,6 +347,10 @@ sub MaskAgentZoom {
              '\'; return true;" onmouseout="window.status=\'\';">$Text{"plain"}</a>)';
         }
         $ThreadStrg .= '&nbsp;'.$TitleShort;
+        if ($Article{Atms}->{1} && $Self->{ConfigObject}->Get('ArticleAttachmentDisplay')) {
+            $ThreadStrg .= '<img border="0" src="$Env{"Images"}attach-small.png">';
+        }
+        
         # --
         # if this is the shown article -=> add </b>
         # --
@@ -399,17 +403,28 @@ sub MaskAgentZoom {
         if ($Self->{ZoomExpandSort} eq 'reverse') {
             @ArticleBox = reverse(@ArticleBox);
         }
-      # show no email-notification* article
-      foreach my $ArticleTmp (@ArticleBox) {
-          my %Article = %$ArticleTmp;
-          if ($Article{ArticleType} !~ /^email-notification/i) {
-              push (@NewArticleBox, $ArticleTmp);
-          }
-      }
+        # show no email-notification* article
+        foreach my $ArticleTmp (@ArticleBox) {
+            my %Article = %$ArticleTmp;
+            if ($Article{ArticleType} !~ /^email-notification/i) {
+                push (@NewArticleBox, $ArticleTmp);
+            }
+        }
     }
     # --
     # build shown article(s)
     # --
+    
+    # article time display
+    if ($Self->{ConfigObject}->Get('ArticleTimeDisplay')) {
+        my $ArticleTime = $Self->{TicketObject}->ArticleAccountedTimeGet(
+            ArticleID => $ArticleID,
+        );
+        $Self->{LayoutObject}->Block(
+                Name => "ArticleTime",
+                Data => {ArticleTime => $ArticleTime},
+        );
+    }
     $Param{TicketStatus} .= $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentTicketZoomStatus',
         Data => {%Param, %AclAction},
