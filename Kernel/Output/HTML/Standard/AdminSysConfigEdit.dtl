@@ -2,7 +2,7 @@
 # AdminSysConfigEdit.dtl - provides HTML form for SysConfig
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfigEdit.dtl,v 1.18 2005-06-04 16:19:25 martin Exp $
+# $Id: AdminSysConfigEdit.dtl,v 1.19 2005-06-15 03:48:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -34,7 +34,12 @@
   </tr>
   <!-- dtl:block:ConfigElementBlock -->
   <tr class="contentbody">
-    <td class="$Data{"DiffStyle"}"><a name="$QData{"Name"}"><input type="checkbox" value="1" name="$Data{"ItemKey"}ItemAktiv" $Data{"Valid"} $Data{"Required"}></td>
+    <td class="contentvalue"><a name="$QData{"Name"}"><input type="checkbox" value="1" name="$Data{"ItemKey"}ItemAktiv" $Data{"Valid"} $Data{"Required"}>
+<!-- dtl:block:ConfigElementBlockReset -->
+    <br>
+    <input type="image" src="$Env{"Images"}edit.png" name="Reset$QData{"ItemKey"}" value="1" alt="$Text{"Reset"}" title="$Text{"Reset"}">
+<!-- dtl:block:ConfigElementBlockReset -->
+    </td>
     <td width="50%"><span class="contentkey$Data{"Validstyle"}">$QData{"ItemKey"}:</span><br><span class="contentvalue$Data{"Validstyle"}">$QData{"Description"}</span></td>
     <!-- dtl:block:ConfigElementString -->
     <td width="50%" class="contentvalue"><input name="$Data{"ElementKey"}" value="$QData{"Content"}" size="50"><br><font color="red">$Text{"$QData{"Valid"}"}</font>

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.pm,v 1.29 2005-06-13 14:09:50 martin Exp $
+# $Id: AdminSysConfig.pm,v 1.30 2005-06-15 03:48:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -69,6 +69,12 @@ sub Run {
         foreach (@List) {
             # Get all Attributes from Item
             my %ItemHash = $Self->{SysConfigObject}->ConfigItemGet(Name => $_);
+            # Reset Item
+            if ($Self->{ParamObject}->GetParam(Param => "Reset$_")) {
+                $Self->{SysConfigObject}->ConfigItemReset(Name => $_);
+                $Anker = $ItemHash{Name};
+                next;
+            }
             # Get ElementAktiv (checkbox)
             my $Aktiv = 0;
             if (($ItemHash{Required} && $ItemHash{Required} == 1) || ($Self->{ParamObject}->GetParam(Param => $_.'ItemAktiv') && $Self->{ParamObject}->GetParam(Param => $_.'ItemAktiv') == 1)) {
@@ -356,12 +362,6 @@ sub Run {
             if ($ItemHash{Required}) {
                 $Required = 'disabled';
             }
-            # Diff 
-            my $Diff = '';
-            my $DiffStyle = 'contentvalue';
-            if ($ItemHash{Diff}) {
-                $DiffStyle = 'contenthead';
-            }
             # Valid
             my $Valid = '';
             my $Validstyle = 'passiv';
@@ -392,11 +392,16 @@ sub Run {
                     Valid       => $Valid,
                     Validstyle  => $Validstyle,
                     Required    => $Required,
-                    Diff        => $Diff,
-                    DiffStyle   => $DiffStyle,
                 },
             );
-
+            if ($ItemHash{Diff}) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'ConfigElementBlockReset',
+                    Data => {
+                        ItemKey     => $_,
+                    },
+                );
+            }
             # ListConfigItem
             $Self->ListConfigItem(Hash => \%ItemHash);
         }

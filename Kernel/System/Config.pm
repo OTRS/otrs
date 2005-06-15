@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.35 2005-06-11 10:13:56 martin Exp $
+# $Id: Config.pm,v 1.36 2005-06-15 03:48:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::XML;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -138,7 +138,7 @@ sub _Init {
     }
     # read all config files
     foreach my $ConfigItem (reverse @{$Self->{XMLConfig}}) {
-        if (!$Self->{Config}->{$ConfigItem->{Name}}) {
+        if ($ConfigItem->{Name} && !$Self->{Config}->{$ConfigItem->{Name}}) {
             $Self->{Config}->{$ConfigItem->{Name}} = $ConfigItem;
         }
     }
@@ -616,6 +616,27 @@ sub ConfigItemGet {
         }
         return %{$ConfigItem};
     }
+}
+
+sub ConfigItemReset {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(Name)) {
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    my %ConfigItemDefault = $Self->ConfigItemGet(
+        Name => $Param{Name},
+        Default => 1,
+    );
+    my $A = $Self->_XML2Perl(Data => \%ConfigItemDefault);
+    my ($B);
+    eval "\$B = $A";
+    $Self->ConfigItemUpdate(Key => $Param{Name}, Value => $B, Valid => $ConfigItemDefault{Valid});
+    return 1;
 }
 
 =item ConfigGroupList()
@@ -1109,6 +1130,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.35 $ $Date: 2005-06-11 10:13:56 $
+$Revision: 1.36 $ $Date: 2005-06-15 03:48:02 $
 
 =cut
