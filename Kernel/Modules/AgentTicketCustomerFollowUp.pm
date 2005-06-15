@@ -3,7 +3,7 @@
 # if the agent is customer
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketCustomerFollowUp.pm,v 1.2 2005-03-27 11:50:50 martin Exp $
+# $Id: AgentTicketCustomerFollowUp.pm,v 1.3 2005-06-15 03:51:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -88,6 +88,13 @@ sub Run {
                 Info =>
                   $Self->{LayoutObject}->{LanguageObject}->Get('You are the customer user of this message - customer modus!'),
             );
+            # show spell check
+            if ($Self->{ConfigObject}->Get('SpellChecker')) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'SpellCheck',
+                    Data => {},
+                );
+            }
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AgentTicketCustomerMessage',
                 Data => { %Param, %Ticket },

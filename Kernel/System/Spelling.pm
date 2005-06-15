@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Spelling.pm - the global spelling module
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Spelling.pm,v 1.11 2004-11-04 14:27:15 martin Exp $
+# $Id: Spelling.pm,v 1.12 2005-06-15 03:51:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::FileTemp;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -38,7 +38,7 @@ sub new {
     $Self->{FileTempObject} = Kernel::System::FileTemp->new(%Param);
 
     # spell checker config options
-    $Self->{SpellChecker} = $Self->{ConfigObject}->Get('SpellChecker') || 'ispell';
+    $Self->{SpellChecker} = $Self->{ConfigObject}->Get('SpellCheckerBin') || 'ispell';
     $Self->{SpellChecker} .= ' -a ';
 
     return $Self;

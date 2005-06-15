@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketCompose.pm,v 1.4 2005-04-14 11:45:20 martin Exp $
+# $Id: AgentTicketCompose.pm,v 1.5 2005-06-15 03:51:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -686,6 +686,13 @@ sub _Mask {
         $Self->{LayoutObject}->Block(
             Name => 'TimeUnits',
             Data => \%Param,
+        );
+    }
+    # show spell check
+    if ($Self->{ConfigObject}->Get('SpellChecker')) {
+        $Self->{LayoutObject}->Block(
+            Name => 'SpellCheck',
+            Data => {},
         );
     }
     # show attachments

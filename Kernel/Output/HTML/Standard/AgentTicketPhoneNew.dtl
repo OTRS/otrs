@@ -2,7 +2,7 @@
 # AgentPhoneNew.dtl - provides HTML form for phone
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPhoneNew.dtl,v 1.4 2005-05-16 13:36:33 martin Exp $
+# $Id: AgentTicketPhoneNew.dtl,v 1.5 2005-06-15 03:51:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -148,7 +148,9 @@ function clear_field()
   <tr>
     <td class="contentkey">$Text{"Options"}:</td>
     <td class="contentvalue">
+<!-- dtl:block:SpellCheck -->
        $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$Text{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"}
+<!-- dtl:block:SpellCheck -->
        $Env{"Box0"}<a href="#attachment" onmouseover="window.status='$Text{"Attachments"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}attach.png">$Text{"Attachments"}</a>$Env{"Box1"}
 # --
 # check if the faq link should be shown

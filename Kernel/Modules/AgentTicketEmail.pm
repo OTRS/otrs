@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose inital email to customer
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketEmail.pm,v 1.4 2005-05-04 08:04:49 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.5 2005-06-15 03:51:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -924,6 +924,13 @@ sub _MaskEmailNew {
         $Self->{LayoutObject}->Block(
             Name => 'TimeUnits',
             Data => \%Param,
+        );
+    }
+    # show spell check
+    if ($Self->{ConfigObject}->Get('SpellChecker')) {
+        $Self->{LayoutObject}->Block(
+            Name => 'SpellCheck',
+            Data => {},
         );
     }
     # show attachments
