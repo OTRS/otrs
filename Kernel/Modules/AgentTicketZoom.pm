@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketZoom.pm,v 1.6 2005-06-15 11:59:46 rk Exp $
+# $Id: AgentTicketZoom.pm,v 1.7 2005-06-16 06:47:26 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -347,7 +347,7 @@ sub MaskAgentZoom {
              '\'; return true;" onmouseout="window.status=\'\';">$Text{"plain"}</a>)';
         }
         $ThreadStrg .= '&nbsp;'.$TitleShort;
-        if ($Article{Atms}->{1} && $Self->{ConfigObject}->Get('ArticleAttachmentDisplay')) {
+        if ($Article{Atms}->{1} && $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplay')) {
             $ThreadStrg .= '<img border="0" src="$Env{"Images"}attach-small.png">';
         }
         
@@ -416,7 +416,7 @@ sub MaskAgentZoom {
     # --
     
     # article time display
-    if ($Self->{ConfigObject}->Get('ArticleTimeDisplay')) {
+    if ($Self->{ConfigObject}->Get('Ticket::ZoomTimeDisplay')) {
         my $ArticleTime = $Self->{TicketObject}->ArticleAccountedTimeGet(
             ArticleID => $ArticleID,
         );

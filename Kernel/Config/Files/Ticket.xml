@@ -148,7 +148,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.43 2005-06-15 12:46:32 cs Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.44 2005-06-16 06:47:25 rk Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifyer for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z.B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -5638,8 +5638,8 @@ $Data{"Signature"}
         </Setting>
         <!-- $Self->{SendNoAutoResponseRegExp} = '(MAILER-DAEMON|postmaster|abuse)@.+?\..+?'; -->
     </ConfigItem>
-    <ConfigItem Name="ArticleAttachmentDisplay" Required="0" Valid="0">
-        <Description Lang="en">Shows a icon in the ticket zoom, if a articleh as an attachment.</Description>
+    <ConfigItem Name="Ticket::ZoomAttachmentDisplay" Required="0" Valid="1">
+        <Description Lang="en">Shows a icon in the ticket zoom, if a article as an attachment.</Description>
         <Description Lang="de">Zeigt ein Icon in der Ansicht für den
         Ticketinhalt an, wenn ein Attachment für einen Artikel vorhanden ist.</Description>
         <Group>Ticket</Group>
@@ -5651,7 +5651,7 @@ $Data{"Signature"}
             </Option>
         </Setting>
     </ConfigItem>    
-    <ConfigItem Name="ArticleTimeDisplay" Required="0" Valid="0">
+    <ConfigItem Name="Ticket::ZoomTimeDisplay" Required="0" Valid="0">
         <Description Lang="en">Displays the time that is accounted for an article in the ticket zoom view.</Description>
         <Description Lang="de">Zeigt die Zeit innerhalb der Ansicht für den
         Ticketinhalt an, die für einen Artikel erfasst wurde.</Description>
