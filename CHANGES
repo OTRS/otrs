@@ -2,16 +2,25 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.140 2005-05-16 13:38:53 martin Exp $
+# $Id: CHANGES,v 1.141 2005-06-17 16:13:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS head
+2.0.0 beta3 (2005/06/??)
+ - (2005/06/13) fixed bug 773 - NotificationAgentOnline needs TimeObject
+ - (2005/06/12) fixed bug 776 - when adding a new user I got error message
+ - (2005/06/11) added XML::Parser support for Kernel::System::XML
+ - (2005/06/07) fixed bug 771 - Customer Web Interface - Attachement
+    View Error' Kernel/Modules/CustomerTicketZoom.pm 
+ - (2005/06/06) added experimental db2 support - thanks to Friedmar Moch!
+ - (2005/06/06) removed foreign key for queue_id in pop3_account, fixed 
+    indexes for article_flag
 
-2.0.0. beta2 (2005/05/16)
- - (2005/05/16) fixed bug 644 - GeriatricAgent module calls should not keep
+2.0.0 beta2 (2005/05/16)
+ - (2005/05/16) fixed bug 644 - GenericAgent module calls should not keep
     the error msg secret :-), moved to Kernel::System::Main
  - (2005/05/16) fixed bug 733 - Postgres: TicketOverview doesn't work in April
  - (2005/05/14) fixed bug 737 - cannot add FAQ categories in 2.0 beta1
@@ -48,7 +57,7 @@ CVS head
  - (2005/05/04) added ticket event module layer 
  - (2006/05/04) fixed priority default selection in priority screen
 
-2.0.0. beta1 (2005/05/02) 
+2.0.0 beta1 (2005/05/02) 
  - (2005/04/30) fixxed bug 712 - Reports ignore setting for http-type
  - (2005/04/22) added ticket merge feature
  - (2005/04/14) fixed From in article of AgentTicketPending and
