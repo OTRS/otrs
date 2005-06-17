@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.pm,v 1.32 2005-06-12 20:27:44 martin Exp $
+# $Id: Package.pm,v 1.33 2005-06-17 09:39:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -99,6 +99,9 @@ sub new {
         Framework => 'ARRAY',
         OS => 'ARRAY',
         PackageRequired => 'ARRAY',
+        CodeInstall => 'SCALAR',
+        CodeUninstall => 'SCALAR',
+        CodeReinstall => 'SCALAR',
 #        File => 'ARRAY',
 #        DatabaseInstall => 'SCALAR',
 #        DatabaseUninstall => 'SCALAR',
@@ -517,6 +520,15 @@ sub PackageInstall {
         }
         # install config
         $Self->{SysConfigObject} = Kernel::System::Config->new(%{$Self});
+        # install code 
+        if ($Structur{CodeInstall} && $Structur{CodeInstall}->{Content}) {
+            if ($Structur{CodeInstall}->{Content}) {
+                print STDERR "Code: $Structur{CodeInstall}->{Content}\n";
+                if (!eval $Structur{CodeInstall}->{Content}) {
+                    print STDERR "CodeError: $@\n";
+                }
+            }
+        }
         # install database
         if ($Structur{DatabaseInstall} && ref($Structur{DatabaseInstall}) eq 'ARRAY') {
             my @SQL = $Self->{DBObject}->SQLProcessor(Database => $Structur{DatabaseInstall}, );
@@ -770,7 +782,15 @@ sub PackageUninstall {
     if (!$FileCheckOk) {
 #        return;
     }
-
+    # uninstall code 
+    if ($Structur{CodeUninstall} && $Structur{CodeUninstall}->{Content}) {
+        if ($Structur{CodeUninstall}->{Content}) {
+            print STDERR "Code: $Structur{CodeUninstall}->{Content}\n";
+            if (!eval $Structur{CodeUninstall}->{Content}) {
+                print STDERR "CodeError: $@\n";
+            }
+        }
+    }
     # uninstall database
     if ($Structur{DatabaseUninstall} && ref($Structur{DatabaseUninstall}) eq 'ARRAY') {
         my @SQL = $Self->{DBObject}->SQLProcessor(Database => $Structur{DatabaseUninstall}, );
@@ -1043,7 +1063,7 @@ sub PackageBuild {
         $XML .= '<otrs_package version="1.0">';
         $XML .= "\n";
     }
-    foreach my $Tag (qw(Name Version Vendor URL License ChangeLog Description Framework OS PackageRequired)) {
+    foreach my $Tag (qw(Name Version Vendor URL License ChangeLog Description Framework OS PackageRequired CodeInstall CodeUninstall)) {
         if (ref($Param{$Tag}) eq 'HASH') {
             my %OldParam = ();
             foreach (qw(Content Encode TagType Tag TagLevel TagCount TagKey TagLastLevel)) {
@@ -1407,6 +1427,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.32 $ $Date: 2005-06-12 20:27:44 $
+$Revision: 1.33 $ $Date: 2005-06-17 09:39:51 $
 
 =cut
