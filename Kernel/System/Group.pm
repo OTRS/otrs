@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 #               2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Group.pm,v 1.29 2004-09-09 11:18:24 martin Exp $
+# $Id: Group.pm,v 1.30 2005-06-17 16:08:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Group;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -339,12 +339,12 @@ sub GroupList {
     my $Self = shift;
     my %Param = @_;
     my $Valid = $Param{Valid} || 0;
-    my %Users = $Self->{DBObject}->GetTableData(
+    my %Groups = $Self->{DBObject}->GetTableData(
         What => 'id, name',
         Table => 'groups',
         Valid => $Valid,
     );
-    return %Users;
+    return %Groups;
 }
 
 =item GroupMemberList()
@@ -1153,7 +1153,7 @@ sub RoleUpdate {
 
 returns a hash of all roles
 
-  my %Roles = $RoleObject->GroupList(Valid => 1);
+  my %Roles = $RoleObject->RoleList(Valid => 1);
 
 =cut
 
@@ -1183,6 +1183,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.29 $ $Date: 2004-09-09 11:18:24 $
+$Revision: 1.30 $ $Date: 2005-06-17 16:08:33 $
 
 =cut
