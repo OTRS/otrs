@@ -1,8 +1,8 @@
 # --
 # Kernel/Language.pm - provides multi language support
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Language.pm,v 1.36 2004-12-23 06:41:19 martin Exp $
+# $Id: Language.pm,v 1.37 2005-06-17 16:11:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -138,8 +138,6 @@ sub new {
         my @Chatsets = @{$Self->{Charset}};
         $Self->{TranslationCharset} = $Chatsets[$#Chatsets];
     }
-    # remember if a translation file should be written
-    $Self->{WriteNewTranslationFile} = $Self->{ConfigObject}->Get('WriteNewTranslationFile');
     return $Self;
 }
 
@@ -182,23 +180,14 @@ sub Get {
             );
         }
         # charset convert from source translation into shown charset
-        if (!$Self->{Translation}->{Convert}->{$What}) {
+        if (!$Self->{TranslationConvert}->{$What}) {
             # remember that charset convert is already done
-            $Self->{Translation}->{Convert}->{$What} = 1;
+            $Self->{TranslationConvert}->{$What} = 1;
             # convert it
             $Self->{Translation}->{$What} = $Self->CharsetConvert(
                 Text => $Self->{Translation}->{$What},
                 From => $Self->{TranslationCharset},
             );
-        }
-        # remember translated words
-        if ($Self->{WriteNewTranslationFile}) {
-            if ($Self->{UsedWords}->{$File}) {
-               $Self->{UsedWords}->{$File} = {$What => $Self->{Translation}->{$What}, %{$Self->{UsedWords}->{$File}}};
-            }
-            else {
-               $Self->{UsedWords}->{$File} = {$What => $Self->{Translation}->{$What}};
-            }
         }
         my $Text = $Self->{Translation}->{$What};
         foreach (0..3) {
@@ -224,15 +213,6 @@ sub Get {
             Priority => 'debug',
             Message => "->Get('$What') Is not translated!!!",
           );
-        }
-        # remember not translated words
-        if ($Self->{WriteNewTranslationFile}) {
-            if ($Self->{UsedWords}->{$File}) {
-                $Self->{UsedWords}->{$File} = {$What => '', %{$Self->{UsedWords}->{$File}}};
-            }
-            else {
-                $Self->{UsedWords}->{$File} = {$What => ''};
-            }
         }
         foreach (0..3) {
             if (defined $Dyn[$_]) {
@@ -458,6 +438,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.36 $ $Date: 2004-12-23 06:41:19 $
+$Revision: 1.37 $ $Date: 2005-06-17 16:11:09 $
 
 =cut

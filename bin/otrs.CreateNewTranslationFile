@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # otrs.CreateNewTranslationFile - create new translation file
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: otrs.CreateNewTranslationFile,v 1.8 2004-12-04 11:13:27 martin Exp $
+# $Id: otrs.CreateNewTranslationFile,v 1.9 2005-06-17 16:11:09 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION %Opts);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -113,7 +113,7 @@ foreach my $File (@List) {
             }
         }
         close (IN);
-    $File =~ s!^.*/(.+?)\.dtl!$1!;
+        $File =~ s!^.*/(.+?)\.dtl!$1!;
         print "# Template: $File\n";
         $Data .= "\n      # Template: $File\n";
         # do dtl
@@ -172,7 +172,17 @@ foreach my $File (@List) {
         die "Can't open $File: $!";
     }
 }
-
+# add misc words
+print "# Misc\n";
+$Data .= "      # Misc\n";
+foreach my $Key (keys %{$CommonObject{LanguageObject}->{Translation}}) {
+    if (!$UsedWords{$Key}) {
+        my $Translation = $CommonObject{LanguageObject}->{Translation}->{$Key};
+        $Translation =~ s/'/\\'/g;
+        $Key =~ s/'/\\'/g;
+        $Data .= "      '$Key' => '$Translation',\n";
+    }
+}
 # --
 # open old translation file
 # --
