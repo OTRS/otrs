@@ -1442,7 +1442,7 @@ $Data{"Signature"}
     $Self->{'Frontend::Module'}->{'AdminQueueResponses'} = {
         Group => ['admin'],
         Description => 'Admin',
-        Title => 'Response <-> Queue',
+        Title => 'Responses <-> Queue',
         NavBarName => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
@@ -1466,7 +1466,7 @@ $Data{"Signature"}
     $Self->{'Frontend::Module'}->{'AdminQueueAutoResponse'} = {
         Group => ['admin'],
         Description => 'Admin',
-        Title => 'Queue <-> Auto Response',
+        Title => 'Auto Responses <-> Queue',
         NavBarName => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',

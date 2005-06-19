@@ -148,7 +148,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.44 2005-06-16 06:47:25 rk Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.45 2005-06-19 22:44:58 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifyer for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z.B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -4632,7 +4632,7 @@ $Data{"Signature"}
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>Response &lt;-&gt; Queue</Title>
+                <Title>Responses &lt;-&gt; Queue</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
@@ -4700,7 +4700,7 @@ $Data{"Signature"}
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>Queue &lt;-&gt; Auto Response</Title>
+                <Title>Auto Responses &lt;-&gt; Queue</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
@@ -4769,7 +4769,7 @@ $Data{"Signature"}
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>Response &lt;-&gt; Queue</Title>
+                <Title>Attachments &lt;-&gt; Responses</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
