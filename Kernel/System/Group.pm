@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 #               2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Group.pm,v 1.30 2005-06-17 16:08:33 martin Exp $
+# $Id: Group.pm,v 1.31 2005-06-19 22:42:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Group;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -87,10 +87,30 @@ sub GetGroupIdByName {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     # sql
-    my $SQL = sprintf ("SELECT id from groups where name='%s'" , $Param{Group});
-    $Self->{DBObject}->Prepare(SQL => $SQL);
-    while  (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-       $ID=$RowTmp[0];
+    $Self->{DBObject}->Prepare(SQL => "SELECT id from groups where name = '$Param{Group}'");
+    while  (my @Row = $Self->{DBObject}->FetchrowArray()) {
+       $ID = $Row[0];
+    }
+    return $ID;
+}
+# just for compat!
+sub GetRoleIdByName {
+    my $Self = shift;
+    my %Param = @_;
+    my $ID;
+    # check needed stuff
+    if (!$Param{Role}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Role!");
+        return;
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    # sql
+    $Self->{DBObject}->Prepare(SQL => "SELECT id from roles where name = '$Param{Role}'");
+    while  (my @Row = $Self->{DBObject}->FetchrowArray()) {
+       $ID = $Row[0];
     }
     return $ID;
 }
@@ -1183,6 +1203,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.30 $ $Date: 2005-06-17 16:08:33 $
+$Revision: 1.31 $ $Date: 2005-06-19 22:42:48 $
 
 =cut
