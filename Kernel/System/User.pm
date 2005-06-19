@@ -1,8 +1,8 @@
 # --
 # Kernel/System/User.pm - some user functions
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: User.pm,v 1.43 2004-12-28 01:03:00 martin Exp $
+# $Id: User.pm,v 1.44 2005-06-19 22:43:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.43 $';
+$VERSION = '$Revision: 1.44 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -76,7 +76,7 @@ sub GetUserData {
         $SQL .= " $Self->{UserTableUser} = '".$Self->{DBObject}->Quote($User)."'";
     }
     else {
-        $SQL .= " $Self->{UserTableUserID} = '".$Self->{DBObject}->Quote($UserID)."'";
+        $SQL .= " $Self->{UserTableUserID} = ".$Self->{DBObject}->Quote($UserID)."";
     }
     # check valid
     if ($Param{Valid}) {
