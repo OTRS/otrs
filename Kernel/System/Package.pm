@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.pm,v 1.33 2005-06-17 09:39:51 martin Exp $
+# $Id: Package.pm,v 1.34 2005-06-19 22:42:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -100,13 +100,9 @@ sub new {
         OS => 'ARRAY',
         PackageRequired => 'ARRAY',
         CodeInstall => 'SCALAR',
+        CodeUpgrade => 'SCALAR',
         CodeUninstall => 'SCALAR',
         CodeReinstall => 'SCALAR',
-#        File => 'ARRAY',
-#        DatabaseInstall => 'SCALAR',
-#        DatabaseUninstall => 'SCALAR',
-#        DatabaseReinstall => 'SCALAR',
-#        Config => 'ARRAY',
     };
     $Self->{PackageMapFileList} = {
         File => 'ARRAY',
@@ -579,6 +575,15 @@ sub PackageReinstall {
     }
     # install config
     $Self->{SysConfigObject} = Kernel::System::Config->new(%{$Self});
+    # install code 
+    if ($Structur{CodeReinstall} && $Structur{CodeReinstall}->{Content}) {
+        if ($Structur{CodeReinstall}->{Content}) {
+            print STDERR "Code: $Structur{CodeReinstall}->{Content}\n";
+            if (!eval $Structur{CodeReinstall}->{Content}) {
+                print STDERR "CodeError: $@\n";
+            }
+        }
+    }
     return 1;
 }
 
@@ -706,7 +711,15 @@ sub PackageUpgrade {
         }
         # install config
         $Self->{SysConfigObject} = Kernel::System::Config->new(%{$Self});
-
+        # install code 
+        if ($Structur{CodeUpgrade} && $Structur{CodeUpgrade}->{Content}) {
+            if ($Structur{CodeUpgrade}->{Content}) {
+                print STDERR "Code: $Structur{CodeUpgrade}->{Content}\n";
+                if (!eval $Structur{CodeUpgrade}->{Content}) {
+                    print STDERR "CodeError: $@\n";
+                }
+            }
+        }
         # upgrade database
         if ($Structur{DatabaseUpgrade} && ref($Structur{DatabaseUpgrade}) eq 'ARRAY') {
             my @Part = ();
@@ -1063,7 +1076,7 @@ sub PackageBuild {
         $XML .= '<otrs_package version="1.0">';
         $XML .= "\n";
     }
-    foreach my $Tag (qw(Name Version Vendor URL License ChangeLog Description Framework OS PackageRequired CodeInstall CodeUninstall)) {
+    foreach my $Tag (qw(Name Version Vendor URL License ChangeLog Description Framework OS PackageRequired CodeInstall CodeUpgrade CodeUninstall CodeReinstall)) {
         if (ref($Param{$Tag}) eq 'HASH') {
             my %OldParam = ();
             foreach (qw(Content Encode TagType Tag TagLevel TagCount TagKey TagLastLevel)) {
@@ -1427,6 +1440,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.33 $ $Date: 2005-06-17 09:39:51 $
+$Revision: 1.34 $ $Date: 2005-06-19 22:42:31 $
 
 =cut
