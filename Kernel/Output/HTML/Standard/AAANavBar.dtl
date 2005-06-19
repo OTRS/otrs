@@ -28,3 +28,16 @@ $Text{"Incident"}
 $Text{"Advisory"}
 $Text{"WebWatcher"}
 $Text{""}
+
+# admin nav bar
+$Text{"Customer Users"}
+$Text{"Customer Users <-> Groups"}
+$Text{"Users <-> Groups"}
+$Text{"Roles"}
+$Text{"Roles <-> Users"}
+$Text{"Roles <-> Groups"}
+$Text{"Salutations"}
+$Text{"Signatures"} 
+$Text{"Email Addresses"}
+$Text{"Notifications"}
+
