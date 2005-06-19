@@ -145,21 +145,13 @@ $Text{"Max. shown Tickets a page in QueueView."}
 $Text{""}
 $Text{""}
 
-# agent nav bar
-$Text{"Customer Users"}
-$Text{"Customer Users <-> Groups"}
-$Text{"Roles"}
-$Text{"Roles <-> Users"}
-$Text{"Roles <-> Groups"}
+# admin nav bar
 $Text{"Responses"}
 $Text{"Responses <-> Queue"}
+$Text{"Auto Responses"}
 $Text{"Auto Responses <-> Queue"}
 $Text{"Attachments"}
 $Text{"Attachments <-> Responses"}
-$Text{"Salutations"}
-$Text{"Signatures"}
-$Text{"Email Addresses"}
-$Text{"Notifications"}
 $Text{""}
 
 # hticket history text
