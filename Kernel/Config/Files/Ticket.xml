@@ -148,7 +148,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.47 2005-06-20 00:23:44 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.48 2005-06-20 11:22:06 tr Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifyer for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z.B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -2779,7 +2779,31 @@ $Data{"Signature"}
             };
         -->
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::MenuModule###430-Pending" Required="0" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::MenuModule###430-Merge" Required="0" Valid="1">
+        <Description Lang="en">Module to show merge link in menu.</Description>
+        <Description Lang="de">Über dieses Modul kann der Link für "Merge" im Menü angezeigt werden.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
+                <Item Key="Name">Merge</Item>
+                <Item Key="Description">Merge this ticket!</Item>
+                <Item Key="Action">AgentTicketMerge</Item>
+                <Item Key="Link">Action=AgentTicketMerge&amp;TicketID=$QData{"TicketID"}</Item>
+            </Hash>
+        </Setting>
+        <!--
+            $Self->{'Ticket::Frontend::MenuModule'}->{'430-Merge'} = {
+                Module => 'Kernel::Output::HTML::TicketMenuGeneric',
+                Name => 'Merge',
+                Action => 'AgentTicketMerge',
+                Description => 'Merge this ticket!',
+                Link => 'Action=AgentTicketMerge&TicketID=$QData{"TicketID"}',
+            };
+        -->
+    </ConfigItem>    
+    <ConfigItem Name="Ticket::Frontend::MenuModule###440-Pending" Required="0" Valid="1">
         <Description Lang="en">Module to show pending link in menu.</Description>
         <Description Lang="de">Über dieses Modul kann der Link für "Warten" (pending) im Menü angezeigt werden.</Description>
         <Group>Ticket</Group>
@@ -2794,7 +2818,7 @@ $Data{"Signature"}
             </Hash>
         </Setting>
         <!--
-            $Self->{'Ticket::Frontend::MenuModule'}->{'430-Pending'} = {
+            $Self->{'Ticket::Frontend::MenuModule'}->{'440-Pending'} = {
                 Module => 'Kernel::Output::HTML::TicketMenuGeneric',
                 Name => 'Pending',
                 Action => 'AgentTicketPending',
@@ -2803,7 +2827,7 @@ $Data{"Signature"}
             };
         -->
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::MenuModule###440-Close" Required="0" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::MenuModule###450-Close" Required="0" Valid="1">
         <Description Lang="en">Module to show close link in menu.</Description>
         <Description Lang="de">Über dieses Modul wird der Link zum schließen eines Tickets im Menü angezeigt.</Description>
         <Group>Ticket</Group>
@@ -2812,13 +2836,13 @@ $Data{"Signature"}
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
                 <Item Key="Name">Close</Item>
-                <Item Key="Description">Close this ticket</Item>
+                <Item Key="Description">Close this ticket!</Item>
                 <Item Key="Action">AgentTicketClose</Item>
                 <Item Key="Link">AgentTicketClose&amp;TicketID=$QData{"TicketID"}</Item>
             </Hash>
         </Setting>
         <!--
-            $Self->{'Ticket::Frontend::MenuModule'}->{'440-Close'} = {
+            $Self->{'Ticket::Frontend::MenuModule'}->{'450-Close'} = {
                 Module => 'Kernel::Output::HTML::TicketMenuGeneric',
                 Name => 'Close',
                 Action => 'AgentTicketClose',
