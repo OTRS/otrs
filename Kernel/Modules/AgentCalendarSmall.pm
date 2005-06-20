@@ -2,7 +2,7 @@
 # Kernel/Modules/Calendar.pm - spelling module
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCalendarSmall.pm,v 1.2 2005-06-15 11:47:25 rk Exp $
+# $Id: AgentCalendarSmall.pm,v 1.3 2005-06-20 19:25:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -56,10 +56,8 @@ sub Run {
     my $TimeVacationDays = $Self->{ConfigObject}->Get('TimeVacationDays');
     my $TimeVacationDaysOneTime = $Self->{ConfigObject}->Get('TimeVacationDaysOneTime');
     # Today
-    {
-      (my $yyyy,my $mm,my $tt) = Today;
-      $TimeVacationDaysOneTime->{$yyyy}->{$mm}->{$tt} = 'Today';
-    }
+    my ($CYear, $CMonth, $CDay) = Today;
+    $TimeVacationDaysOneTime->{$CYear}->{$CMonth}->{$CDay} = 'Today';
     my @MonthArray = (
         '',
         'January', 
@@ -75,7 +73,6 @@ sub Run {
         'November', 
         'December',
     );
-
     # show month
     if ($Self->{ParamObject}->GetParam(Param => 'Month')) {
         my @Date = split /,/, $Self->{ParamObject}->GetParam(Param => 'Month');
@@ -111,13 +108,15 @@ sub Run {
     }
     $Self->{LayoutObject}->Block(
         Name => "DateFormat".$DateFormat,
-        Data => {Prefix => $Prefix},
+        Data => {
+            Prefix => $Prefix,
+        },
     );    
     # generate Calendar sheet
     my $CalDay = 1;
     while ($CalDay <= $DaysOfMonth) {
         $Self->{LayoutObject}->Block(
-            Name => "ArticleTime",
+            Name => "Row",
             Data => {},
         );
         for (my $Col=1;$Col<8 && $CalDay <= $DaysOfMonth; $Col++) {
