@@ -2,7 +2,7 @@
 # AgentTicketNote.dtl - provides HTML form for note mask
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketNote.dtl,v 1.4 2005-06-15 03:51:34 martin Exp $
+# $Id: AgentTicketNote.dtl,v 1.5 2005-06-20 19:26:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -128,7 +128,11 @@ function SpellCheckSubmit()
       </tr>
 #      <tr>
 #        <td class="contentkey">$Text{"Pending date"}:</td>
-#        <td class="contentvalue">$Data{"DateString"} <font color="red" size="-2">$Text{"$Data{"Date invalid"}"}</font></td>
+#        <td class="contentvalue">$Data{"DateString"} <font color="red" size="-2">$Text{"$Data{"Date invalid"}"}</font>
+#<!-- dtl:block:CalendarLookup -->
+#<a href="$Env{"CGIHandle"}?Action=AgentCalendarSmall&Prefix=" onClick="window.open('', 'calendar', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=110,height=210,left=500,top=450');" target="calendar"><img border="0" src="$Env{"Images"}calendar-small.png"></a>
+#<!-- dtl:block:CalendarLookup -->
+#        </td>
 #      </tr>
 <!-- dtl:block:NextState -->
       <tr>

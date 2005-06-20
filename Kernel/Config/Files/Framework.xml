@@ -112,7 +112,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.55 2005-06-19 22:44:25 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.56 2005-06-20 19:26:34 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der WEB-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -315,6 +315,18 @@ TimeWorkingHours
             <Option SelectedID="Option">
                 <Item Key="Option">Option</Item>
                 <Item Key="Input">Input</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeCalendarLookup" Required="1" Valid="1">
+        <Description Lang="en">Enable a calender lookup window on date selections.</Description>
+        <Description Lang="de">Aktivieren eines Kalender-Fensters bei Datumsauswahlen.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
