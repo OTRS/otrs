@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.36 2005-06-15 03:48:02 martin Exp $
+# $Id: Config.pm,v 1.37 2005-06-20 19:24:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::XML;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -180,7 +180,74 @@ sub _WriteDefault {
     }
     else {
         print OUT $File;
+        print OUT "\$Self->{'1'} = 1;\n";
         close (OUT);
+    }
+}
+
+=item Download()
+
+download config changes 
+
+    $ConfigToolObject->Download();
+
+=cut
+
+sub Download {
+    my $Self = shift;
+    my %Param = @_;
+    my $File = '';
+    my $Home = $Self->{'Home'};
+    # check needed stuff
+    foreach (qw()) {
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    if (!open(IN, "< $Home/Kernel/Config/Files/ZZZAuto.pm")) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Can't open $Home/Kernel/Config/Files/ZZZAuto.pm!");
+        return '';
+    }
+    else {
+        while (<IN>) {
+            $File .= $_;
+        }
+        close (IN);
+        return $File;
+    }
+}
+
+=item Upload()
+
+upload of config changes 
+
+    $ConfigToolObject->Upload(
+        Content => $Content,
+    );
+
+=cut
+
+sub Upload {
+    my $Self = shift;
+    my %Param = @_;
+    my $File = '';
+    my $Home = $Self->{'Home'};
+    # check needed stuff
+    foreach (qw(Content)) {
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    if (!open(OUT, "> $Home/Kernel/Config/Files/ZZZAuto.pm")) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Can't write $Home/Kernel/Config/Files/ZZZAuto.pm!");
+        return;
+    }
+    else {
+        print OUT $Param{Content};
+        close (OUT);
+        return 1; 
     }
 }
 
@@ -1130,6 +1197,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.36 $ $Date: 2005-06-15 03:48:02 $
+$Revision: 1.37 $ $Date: 2005-06-20 19:24:40 $
 
 =cut

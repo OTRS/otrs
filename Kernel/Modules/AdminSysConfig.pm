@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.pm,v 1.30 2005-06-15 03:48:01 martin Exp $
+# $Id: AdminSysConfig.pm,v 1.31 2005-06-20 19:24:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -51,8 +51,38 @@ sub Run {
     my $Anker = '';
     
     $Data{Search} = $Self->{ParamObject}->GetParam(Param => 'Search');
+    # download
+    if ($Self->{Subaction} eq 'Download') {
+        # return file
+        return $Self->{LayoutObject}->Attachment(
+            ContentType => 'application/octet-stream',
+            Content => $Self->{SysConfigObject}->Download(),
+            Filename => 'Config.pm',
+            Type => 'attached',
+        );
+    }
+    # upload 
+    if ($Self->{Subaction} eq 'Upload') {
+        # get submit attachment
+        my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+            Param => 'file_upload',
+            Source => 'String',
+        );
+        if (!%UploadStuff) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => 'Need File!',
+            );
+        }
+        elsif ($Self->{SysConfigObject}->Upload(Content => $UploadStuff{Content})) {
+            return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}");
+
+        }
+        else {
+            return $Self->{LayoutObject}->ErrorScreen();
+        } 
+    }
     # update config
-    if ($Self->{Subaction} eq 'Update') {
+    elsif ($Self->{Subaction} eq 'Update') {
         my $SubGroup = $Self->{ParamObject}->GetParam(Param => 'SysConfigSubGroup');
         my $Group = $Self->{ParamObject}->GetParam(Param => 'SysConfigGroup');
         my @List = $Self->{SysConfigObject}->ConfigSubGroupConfigItemList(Group => $Group, SubGroup => $SubGroup);
