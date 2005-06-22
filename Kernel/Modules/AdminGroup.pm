@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGroup.pm - to add/update/delete groups
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminGroup.pm,v 1.17 2005-03-27 11:50:49 martin Exp $
+# $Id: AdminGroup.pm,v 1.18 2005-06-22 04:56:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminGroup;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -81,10 +81,24 @@ sub Run {
         foreach (@Params) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
         }
-        if(my $Id = $Self->{GroupObject}->GroupAdd(%GetParam, UserID => $Self->{UserID})) {
-             return $Self->{LayoutObject}->Redirect(
-                 OP => "Action=AdminUserGroup&Subaction=Group&ID=$Id",
-             );
+        if (my $Id = $Self->{GroupObject}->GroupAdd(%GetParam, UserID => $Self->{UserID})) {
+            # redirect
+            if (!$Self->{ConfigObject}->Get('Frontend::Module')->{AdminUserGroup} && 
+                $Self->{ConfigObject}->Get('Frontend::Module')->{AdminRoleGroup}) {
+                return $Self->{LayoutObject}->Redirect(
+                    OP => "Action=AdminRoleGroup&Subaction=Group&ID=$Id",
+                );
+            }
+            if ($Self->{ConfigObject}->Get('Frontend::Module')->{AdminUserGroup}) {
+                return $Self->{LayoutObject}->Redirect(
+                    OP => "Action=AdminUserGroup&Subaction=Group&ID=$Id",
+                );
+            }
+            else {
+                return $Self->{LayoutObject}->Redirect(
+                    OP => "Action=AdminGroup",
+                );
+            }
         }
         else {
             return $Self->{LayoutObject}->ErrorScreen();

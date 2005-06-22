@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUser.pm,v 1.27 2005-03-27 11:43:12 martin Exp $
+# $Id: AdminUser.pm,v 1.28 2005-06-22 04:56:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminUser;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $ ';
+$VERSION = '$Revision: 1.28 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -175,9 +175,22 @@ sub Run {
                 }
             }
             # redirect
-            return $Self->{LayoutObject}->Redirect(
-                OP => "Action=AdminUserGroup&Subaction=User&ID=$UserID",
-            );
+            if (!$Self->{ConfigObject}->Get('Frontend::Module')->{AdminUserGroup} && 
+                $Self->{ConfigObject}->Get('Frontend::Module')->{AdminRoleUser}) {
+                return $Self->{LayoutObject}->Redirect(
+                    OP => "Action=AdminRoleUser&Subaction=User&ID=$UserID",
+                );
+            }
+            if ($Self->{ConfigObject}->Get('Frontend::Module')->{AdminUserGroup}) { 
+                return $Self->{LayoutObject}->Redirect(
+                    OP => "Action=AdminUserGroup&Subaction=User&ID=$UserID",
+                );
+            }
+            else {
+                return $Self->{LayoutObject}->Redirect(
+                    OP => "Action=AdminUser",
+                );
+            }
         }
         else {
             return $Self->{LayoutObject}->FatalError();
