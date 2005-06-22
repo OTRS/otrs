@@ -2,7 +2,7 @@
 # AdminResponseAttachmentChangeForm.dtl - provides HTML form for AdminResponse
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminResponseAttachmentChangeForm.dtl,v 1.5 2005-02-16 16:49:13 martin Exp $
+# $Id: AdminResponseAttachmentChangeForm.dtl,v 1.6 2005-06-22 05:02:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,22 +18,28 @@
 <tr align="center">
   <td class="mainbody">
 
-  <table width="500" cellspacing="2" cellpadding="3">
+  <br>
+
+  <form action="$Env{"CGIHandle"}" method="post">
+  <input type="hidden" name="Action" value="$Env{"Action"}">
+  <input type="hidden" name="Subaction" value="Change$Data{"Type"}">
+
+  <table width="500" cellspacing="0" cellpadding="4">
   <tr valign="top">
-    <td class="table3">$Text{"Change %s settings", "$Data{"Type"}"}:</td>
+    <td class="contenthead">$Text{"Change %s settings", "$Data{"Type"}"}:</td>
   </tr>
   <tr>
-    <td align="center">
-    <form action="$Env{"CGIHandle"}" method="post">
-    <input type="hidden" name="Action" value="$Env{"Action"}">
-    <input type="hidden" name="Subaction" value="Change$Data{"Type"}">
-    $Data{"OptionStrg0"}
-    <br>
-    <input class="button" type="submit" value="$Text{"submit"}">
-    </form>
+    <td align="center" class="contentbody">
+      $Data{"OptionStrg0"}
     </td>
   </tr>
+  <tr class="contentfooter">
+    <td class="contentvalue"><input class="button" type="submit" value="$Text{"submit"}"></td>
+  </tr>
   </table>
+  </form>
+
+  <br>
 
   </td> 
 </tr>

@@ -2,7 +2,7 @@
 # AdminUserGroupForm.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUserGroupForm.dtl,v 1.11 2005-02-16 16:49:13 martin Exp $
+# $Id: AdminUserGroupForm.dtl,v 1.12 2005-06-22 04:58:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,29 +15,35 @@
     $Env{"Box0"}$Text{"Users <-> Groups Management"}$Env{"Box1"}
   </td>
 </tr>
-<tr>
-  <td align="center" class="mainbody">
-  $Text{"Change user <-> group settings"}
-  </td>
-</tr>
 <tr class="mainbody">
- <td class="table1" align="center">
- <table border="0" cellspacing="0">
-  <th class="table1" width="50%">
-    <b>$Text{"User"}:$Text{"Group"} (1:n)</b>
-  </th>
-  <th class="table1" width="50%">
-    <b>$Text{"User"}:$Text{"Group"} (n:1)</b>
-  </th>
-</tr>
-<tr>
-  <td align="left" valign="top">
-    $Data{"UserStrg"}
-  </td>
-  <td align="left" valign="top">
-    $Data{"GroupStrg"}
-  </td>
- </table>
+ <td align="center">
+
+  <br>
+
+  <table width="500" cellspacing="0" cellpadding="4">
+  <tr>
+    <td class="contenthead" width="50%">
+      $Text{"User"}:$Text{"Group"} (1:n)
+    </td>
+    <td class="contenthead" width="50%">
+      $Text{"User"}:$Text{"Group"} (n:1)
+    </td>
+  </tr>
+  <tr class="contentbody">
+    <td align="left">
+      $Data{"UserStrg"}
+    </td>
+    <td align="left">
+      $Data{"GroupStrg"}
+    </td>
+  </tr>
+  <tr class="contentfooter">
+    <td class="contentvalue" colspan="2">&nbsp;</td>
+  </tr>
+  </table>
+
+  <br>
+
  </td>
 </tr>
 </table>

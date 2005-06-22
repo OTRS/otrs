@@ -2,7 +2,7 @@
 # AdminRoleGroupForm.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminRoleGroupForm.dtl,v 1.3 2005-02-16 16:49:13 martin Exp $
+# $Id: AdminRoleGroupForm.dtl,v 1.4 2005-06-22 04:58:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,28 +16,34 @@
   </td>
 </tr>
 <tr>
-  <td align="center" class="mainbody">
-  $Text{"Change roles <-> groups settings"}
-  </td>
-</tr>
-<tr>
  <td class="mainbody" align="center">
- <table border="0" cellspacing="0">
-  <th class="table1" width="50%">
-    <b>$Text{"Role"}:$Text{"Group"} (1:n)</b>
-  </th>
-  <th class="table1" width="50%">
-    <b>$Text{"Role"}:$Text{"Group"} (n:1)</b>
-  </th>
-</tr>
-<tr>
-  <td align="left" valign="top">
-    $Data{"RoleStrg"}
-  </td>
-  <td align="left" valign="top">
-    $Data{"GroupStrg"}
-  </td>
- </table>
+
+  <br>
+
+  <table cellspacing="0" cellpadding="4" border="0" width="500">
+  <tr class="contenthead">
+    <td width="50%">
+      $Text{"Role"}:$Text{"Group"} (1:n)
+    </td>
+    <td width="50%">
+      $Text{"Role"}:$Text{"Group"} (n:1)
+    </td>
+  </tr>
+  <tr class="contentbody">
+    <td align="left">
+      $Data{"RoleStrg"}
+    </td>
+    <td align="left">
+      $Data{"GroupStrg"}
+    </td>
+  </tr>
+  <tr class="contentfooter">
+    <td class="contentvalue" colspan="2">&nbsp;</td>
+  </tr>
+  </table>
+
+  <br>
+
  </td>
 </tr>
 </table>

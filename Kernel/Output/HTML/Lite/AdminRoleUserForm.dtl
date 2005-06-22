@@ -2,7 +2,7 @@
 # AdminRoleUserForm.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminRoleUserForm.dtl,v 1.3 2005-02-16 16:49:13 martin Exp $
+# $Id: AdminRoleUserForm.dtl,v 1.4 2005-06-22 04:58:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,29 +16,35 @@
   </td>
 </tr>
 <tr>
-  <td align="center" class="mainbody">
-  $Text{"Change users <-> roles settings"}
-  </td>
-</tr>
-<tr valign="top">
  <td align="center" class="mainbody">
- <table border="0" cellspacing="0">
-  <th class="table1" width="50%">
-    <b>$Text{"User"}:$Text{"Role"} (1:n)</b>
-  </th>
-  <th class="table1" width="50%">
-    <b>$Text{"User"}:$Text{"Role"} (n:1)</b>
-  </th>
-</tr>
-<tr>
-  <td align="left" valign="top">
-    $Data{"UserStrg"}
+
+  <br>
+
+  <table cellspacing="0" cellpadding="4" border="0" width="500">
+  <tr class="contenthead">
+    <td width="50%">
+      $Text{"User"}:$Text{"Role"} (1:n)
+    </td>
+    <td width="50%">
+      $Text{"User"}:$Text{"Role"} (n:1)
+    </td>
+  </tr>
+  <tr class="contentbody">
+    <td align="left">
+      $Data{"UserStrg"}
+    </td>
+    <td align="left">
+      $Data{"RoleStrg"}
+    </td>
+  </tr>
+  <tr class="contentfooter">
+    <td class="contentvalue" colspan="2">&nbsp;</td>
+  </tr>
+  </table>
+
+  <br>
+
   </td>
-  <td align="left" valign="top">
-    $Data{"RoleStrg"}
-  </td>
- </table>
- </td>
 </tr>
 </table>
 <!-- end form -->
