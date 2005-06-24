@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: XML.pm,v 1.21 2005-06-12 20:26:40 martin Exp $
+# $Id: XML.pm,v 1.22 2005-06-24 14:11:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::XML;
 use strict;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -650,19 +650,35 @@ sub XMLParse {
         $Parser = XML::Parser::Lite->new(Handlers => {Start => \&HS, End => \&ES, Char => \&CS});
     }
     $Parser->parse($Param{String});
+    # quote
+    foreach (@{$Self->{XMLARRAY}}) {
+        $Self->_Decode($_);
+    }
     return @{$Self->{XMLARRAY}};
+}
+
+sub _Decode{
+    my $Self = shift;
+    my $A = shift;
+    foreach (keys %{$A}) {
+        if (ref($A->{$_}) eq 'ARRAY') {
+            foreach my $B (@{$A->{$_}}) {
+                $Self->_Decode($B);
+            }
+        }
+        # decode
+        elsif ($A->{$_}) {
+            $A->{$_} =~ s/&amp;/&/g;
+            $A->{$_} =~ s/&lt;/</g;
+            $A->{$_} =~ s/&gt;/>/g;
+        }
+    }
 }
 
 sub HS {
     my ($Expat, $Element, %Attr) = @_;
 #    print "s:'$Element'\n";
     if ($S->{LastTag}) {
-        # decode
-        if (defined($S->{C})) {
-            $S->{C} =~ s/&amp;/&/g;
-            $S->{C} =~ s/&lt;/</g;
-            $S->{C} =~ s/&gt;/>/g;
-        }
         push (@{$S->{XMLARRAY}}, {%{$S->{LastTag}}, Content => $S->{C}});
     }
     undef $S->{LastTag};
@@ -686,16 +702,6 @@ sub HS {
         }
         $Key .= "{'$S->{XMLLevelTag}->{$_}'}";
         $Key .= "[".$S->{XMLLevelCount}->{$_}->{$S->{XMLLevelTag}->{$_}}."]";
-    }
-    # quote attributes
-    if (%Attr) {
-        foreach (keys %Attr) {
-            if (defined($Attr{$_})) {
-                $Attr{$_} =~ s/&amp;/&/g;
-                $Attr{$_} =~ s/&lt;/</g;
-                $Attr{$_} =~ s/&gt;/>/g;
-            }
-        }
     }
     $S->{LastTag} = {
         %Attr,
@@ -722,12 +728,6 @@ sub ES {
 #    print "e:'$Element'\n";
     $S->{XMLTagCount}++;
     if ($S->{LastTag}) {
-        # decode
-        if (defined($S->{C})) {
-            $S->{C} =~ s/&amp;/&/g;
-            $S->{C} =~ s/&lt;/</g;
-            $S->{C} =~ s/&gt;/>/g;
-        }
         push (@{$S->{XMLARRAY}}, {%{$S->{LastTag}}, Content => $S->{C}, });
     }
     undef $S->{LastTag};
@@ -755,6 +755,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2005-06-12 20:26:40 $
+$Revision: 1.22 $ $Date: 2005-06-24 14:11:39 $
 
 =cut
