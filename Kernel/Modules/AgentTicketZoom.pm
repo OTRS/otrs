@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketZoom.pm,v 1.8 2005-06-24 07:10:47 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.9 2005-06-24 07:12:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -347,15 +347,15 @@ sub MaskAgentZoom {
              '\'; return true;" onmouseout="window.status=\'\';">$Text{"plain"}</a>)';
         }
         $ThreadStrg .= '&nbsp;'.$TitleShort;
-        if ($Article{Atms}->{1} && $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplay')) {
-            $ThreadStrg .= ' &nbsp;<img border="0" src="$Env{"Images"}attach-small.png">';
-        }
-
         # --
         # if this is the shown article -=> add </b>
         # --
         if ($ArticleID eq $Article{ArticleID}) {
             $ThreadStrg .= '</u></b></i>';
+        }
+        # add attachment icon
+        if ($Article{Atms}->{1} && $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplay')) {
+            $ThreadStrg .= ' &nbsp;<img border="0" src="$Env{"Images"}attach-small.png">';
         }
         $ThreadStrg .= '</div></td></tr>';
       }
