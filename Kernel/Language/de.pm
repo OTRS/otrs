@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: de.pm,v 1.80 2005-06-22 05:01:16 martin Exp $
+# $Id: de.pm,v 1.81 2005-06-24 05:47:47 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.80 $';
+$VERSION = '$Revision: 1.81 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -799,11 +799,12 @@ sub Data {
 
       # Template: AgentLinkObject
       'Link Object' => 'Verknüpfe Objekt',
-      'Select' => 'Auswahl',
-      'Results' => 'Ergebnis',
-      'Total hits' => 'Treffer gesamt',
-      'Site' => 'Seite',
-      'Detail' => '',
+      'Select'      => 'Auswahl',
+      'Results'     => 'Ergebnis',
+      'Total hits'  => 'Treffer gesamt',
+      'Site'        => 'Seite',
+      'Detail'      => '',
+      'with'        => 'mit',
 
       # Template: AgentLookup
       'Lookup' => '',
