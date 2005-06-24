@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketZoom.pm,v 1.7 2005-06-16 06:47:26 rk Exp $
+# $Id: AgentTicketZoom.pm,v 1.8 2005-06-24 07:10:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -348,9 +348,9 @@ sub MaskAgentZoom {
         }
         $ThreadStrg .= '&nbsp;'.$TitleShort;
         if ($Article{Atms}->{1} && $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplay')) {
-            $ThreadStrg .= '<img border="0" src="$Env{"Images"}attach-small.png">';
+            $ThreadStrg .= ' &nbsp;<img border="0" src="$Env{"Images"}attach-small.png">';
         }
-        
+
         # --
         # if this is the shown article -=> add </b>
         # --
