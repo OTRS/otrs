@@ -33,7 +33,9 @@ $Text{"Subfunction"}
 $Text{"Line"}
 $Text{"Example"}
 $Text{"Examples"}
+$Text{"valid"}
 $Text{"invalid"}
+$Text{"invalid-temporarily"}
 
 $Text{" 2 minutes"}
 $Text{" 5 minutes"}
