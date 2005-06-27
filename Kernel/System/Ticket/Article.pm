@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.87 2005-05-04 11:24:40 martin Exp $
+# $Id: Article.pm,v 1.88 2005-06-27 07:11:01 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.87 $';
+$VERSION = '$Revision: 1.88 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -2097,6 +2097,44 @@ sub ArticleFlagGet {
     }
     return %Flag;
 }
+
+=item ArticleAccountedTimeGet()
+
+returns the accounted time of a article.
+
+  my $AccountedTime = $TicketObject->ArticleAccountedTimeGet(
+    ArticleID => $ArticleID, 
+  );
+
+=cut
+
+sub ArticleAccountedTimeGet {
+    my $Self = shift;
+    my %Param = @_;
+    my $AccountedTime = 0;
+    # check needed stuff
+    if (!$Param{ArticleID}) {
+      $Self->{LogObject}->Log(Priority => 'error', Message => "Need ArticleID!");
+      return;
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    # db query
+    my $SQL = "SELECT time_unit " .
+        " FROM " .
+        " time_accounting " .
+        " WHERE " .
+        " article_id = $Param{ArticleID} " .
+        "  ";
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $AccountedTime = $AccountedTime + $Row[0];
+    }
+    return $AccountedTime;
+}
+
 
 # --
 # the following is the pod for Kernel/System/Ticket/ArticleStorage*.pm
