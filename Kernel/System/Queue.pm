@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.50 2005-06-17 16:12:47 martin Exp $
+# $Id: Queue.pm,v 1.51 2005-06-27 17:08:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Group;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.50 $';
+$VERSION = '$Revision: 1.51 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -51,8 +51,18 @@ sub new {
 
     # lib object
     $Self->{StdResponseObject} = Kernel::System::StdResponse->new(%Param);
-    $Self->{GroupObject} = Kernel::System::Group->new(%Param);
-    $Self->{CustomerGroupObject} = Kernel::System::CustomerGroup->new(%Param);
+    if (!$Param{GroupObject}) {
+        $Self->{GroupObject} = Kernel::System::Group->new(%Param);
+    }
+    else {
+        $Self->{GroupObject} = $Param{GroupObject};
+    }
+    if (!$Param{CustomerGroupObject}) {
+        $Self->{CustomerGroupObject} = Kernel::System::CustomerGroup->new(%Param);
+    }
+    else {
+        $Self->{CustomerGroupObject} = $Param{CustomerGroupObject};
+    }
 
     # --------------------------------------------------- #
     #  default queue  settings                            #
@@ -912,6 +922,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.50 $ $Date: 2005-06-17 16:12:47 $
+$Revision: 1.51 $ $Date: 2005-06-27 17:08:14 $
 
 =cut
