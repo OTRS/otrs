@@ -2,7 +2,7 @@
 # AdminUserForm.dtl - provides HTML form for AdminUser
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUserForm.dtl,v 1.26 2005-01-25 09:03:11 martin Exp $
+# $Id: AdminUserForm.dtl,v 1.27 2005-06-28 08:05:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -152,7 +152,7 @@
   $Text{"User will be needed to handle tickets."}
   </p>
   <p>
-  $Text{"Attention"}: <a href="$Env{"Baselink"}Action=AdminUserGroup">$Text{"Don't forget to add a new user to groups!"}</a>
+  $Text{"Attention"}: $Text{"Don't forget to add a new user to groups and/or roles!"}
   </p>
   </td>
 </tr>
