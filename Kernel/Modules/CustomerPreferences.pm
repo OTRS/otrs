@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerPreferences.pm - provides agent preferences
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerPreferences.pm,v 1.9 2005-03-27 11:43:12 martin Exp $
+# $Id: CustomerPreferences.pm,v 1.10 2005-06-29 11:31:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::CustomerPreferences;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -119,32 +119,6 @@ sub Run {
     }
 }
 # --
-sub UpdatePw {
-    my $Self = shift;
-    my %Param = @_;
-    my $Output;
-    my $Pw = $Self->{ParamObject}->GetParam(Param => 'NewPw') || '';
-    my $Pw1 = $Self->{ParamObject}->GetParam(Param => 'NewPw1') || '';
-    my $UserID = $Self->{UserID};
-
-    if ($Pw eq $Pw1 && $Pw) {
-        $Self->{UserObject}->SetPassword(UserLogin => $Self->{UserLogin}, PW => $Pw);
-        $Output .= $Self->{LayoutObject}->Redirect(
-            OP => "Action=CustomerPreferences",
-        );
-    }
-    else {
-        $Output .= $Self->{LayoutObject}->CustomerHeader();
-        $Output .= $Self->{LayoutObject}->CustomerWarning(
-            Message => 'Passwords dosn\'t match! Please try it again!',
-            Comment => 'Passwords dosn\'t match! Please try it again!',
-        );
-        $Output .= $Self->{LayoutObject}->CustomerFooter();
-    }
-
-    return $Output;
-}
-# --
 sub CustomerPreferencesForm {
     my $Self = shift;
     my %Param = @_;
@@ -207,16 +181,9 @@ sub CustomerPreferencesForm {
             if ($Self->{MainObject}->Require($Module)) {
                 my $Object = $Module->new(
                     %{$Self},
-                    ConfigItem => \%Preferences,
+                    ConfigItem => $Preferences{$Group},
                     Debug => $Self->{Debug},
                 );
-                # log loaded module
-                if ($Self->{Debug} > 1) {
-                    $Self->{LogObject}->Log(
-                        Priority => 'debug',
-                        Message => "Module: $Module loaded!",
-                    );
-                }
                 my @Params = $Object->Param(UserData => $Param{UserData});
                 if (@Params) {
                     $Self->{LayoutObject}->Block(
