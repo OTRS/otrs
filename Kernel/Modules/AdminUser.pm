@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUser.pm,v 1.28 2005-06-22 04:56:29 martin Exp $
+# $Id: AdminUser.pm,v 1.29 2005-07-01 06:11:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminUser;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $ ';
+$VERSION = '$Revision: 1.29 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -149,7 +149,7 @@ sub Run {
                     next;
                 }
                 # get user data
-                my %UserData = $Self->{UserObject}->GetUserData(UserID => $GetParam{ID});
+                my %UserData = $Self->{UserObject}->GetUserData(UserID => $UserID);
                 my $Module = $Preferences{$Group}->{Module};
                 if ($Self->{MainObject}->Require($Module)) {
                     my $Object = $Module->new(
@@ -271,7 +271,8 @@ sub AdminUserForm {
                 next;
             }
             my %Preference = %{$Self->{ConfigObject}->{PreferencesGroups}->{$Group}};
-            if (!$Preference{Activ} || $Group eq 'Password') {
+#            if (!$Preference{Activ} || $Group eq 'Password') {
+            if ($Group eq 'Password') {
                 next;
             }
             my $Module = $Preference{Module} || 'Kernel::Output::HTML::PreferencesGeneric';
