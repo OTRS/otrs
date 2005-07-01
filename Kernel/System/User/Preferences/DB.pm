@@ -1,8 +1,8 @@
 # --
 # Kernel/System/User/Preferences/DB.pm - some user functions
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.6 2004-02-13 00:50:36 martin Exp $
+# $Id: DB.pm,v 1.6.6.1 2005-07-01 06:12:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::User::Preferences::DB;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.6.6.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -47,9 +47,13 @@ sub new {
 sub SetPreferences {
     my $Self = shift;
     my %Param = @_;
-    my $UserID = $Param{UserID} || return;
-    my $Key = $Param{Key} || return;
-    my $Value = $Param{Value} || '';
+    # check needed stuff
+    foreach (qw(UserID Key)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
     # db quote
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
@@ -58,9 +62,9 @@ sub SetPreferences {
     if (!$Self->{DBObject}->Do(
        SQL => "DELETE FROM $Self->{PreferencesTable} ".
               " WHERE ".
-              " $Self->{PreferencesTableUserID} = $UserID ".
+              " $Self->{PreferencesTableUserID} = $Param{UserID} ".
               " AND ".
-              " $Self->{PreferencesTableKey} = '$Key'",
+              " $Self->{PreferencesTableKey} = '$Param{Key}'",
     )) {
         $Self->{LogObject}->Log(
           Priority => 'error',
@@ -73,14 +77,14 @@ sub SetPreferences {
     if (!$Self->{DBObject}->Do(
        SQL => "INSERT INTO $Self->{PreferencesTable} ($Self->{PreferencesTableUserID}, ".
               " $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue}) " .
-              " VALUES ($UserID, '$Key', '$Value')",
+              " VALUES ($Param{UserID}, '$Param{Key}', '$Param{Value}')",
     )) {
         $Self->{LogObject}->Log(
           Priority => 'error',
           Message => "Can't insert new $Self->{PreferencesTable}!",
         );
         return;
-    } 
+    }
 
     return 1;
 }
@@ -88,15 +92,24 @@ sub SetPreferences {
 sub GetPreferences {
     my $Self = shift;
     my %Param = @_;
-    my $UserID = $Param{UserID} || return;
     my %Data;
-
+    # check needed stuff
+    foreach (qw(UserID)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
     # get preferences
     my $SQL = "SELECT $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue} " .
         " FROM " .
         " $Self->{PreferencesTable} ".
         " WHERE " .
-        " $Self->{PreferencesTableUserID} = $UserID";
+        " $Self->{PreferencesTableUserID} = $Param{UserID}";
 
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
