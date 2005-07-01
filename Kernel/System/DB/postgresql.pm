@@ -2,7 +2,7 @@
 # Kernel/System/DB/postgresql.pm - postgresql database backend
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: postgresql.pm,v 1.3 2005-06-06 20:47:47 martin Exp $
+# $Id: postgresql.pm,v 1.4 2005-07-01 06:24:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::DB::postgresql;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub LoadPreferences {
@@ -129,6 +129,9 @@ sub TableCreate {
             if ($Tag->{Size} >= 10000) {
                 $Tag->{Type} = "VARCHAR";
             }
+        }
+        if ($Tag->{Type} =~ /^DECIMAL$/i) {
+            $Tag->{Type} = "DECIMAL ($Tag->{Size})";
         }
         if ($SQL) {
             $SQL .= ",\n";

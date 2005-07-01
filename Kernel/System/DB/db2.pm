@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # Modified for DB2 UDB Friedmar Moch <friedmar@acm.org>
 # --
-# $Id: db2.pm,v 1.1 2005-06-06 20:44:26 martin Exp $
+# $Id: db2.pm,v 1.2 2005-07-01 06:24:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::DB::db2;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub LoadPreferences {
@@ -129,6 +129,9 @@ sub TableCreate {
             if ($Tag->{Size} >= 4000) {
                 $Tag->{Type} = "LONG VARCHAR";
             }
+        }
+        if ($Tag->{Type} =~ /^DECIMAL$/i) {
+            $Tag->{Type} = "DECIMAL ($Tag->{Size})";
         }
         if ($SQL) {
             $SQL .= ",\n";

@@ -2,7 +2,7 @@
 # Kernel/System/DB/oracle.pm - oracle database backend
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: oracle.pm,v 1.2 2005-06-06 20:47:47 martin Exp $
+# $Id: oracle.pm,v 1.3 2005-07-01 06:24:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::DB::oracle;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub LoadPreferences {
@@ -135,6 +135,9 @@ sub TableCreate {
             if ($Tag->{Size}  >= 10000) {
                 $Tag->{Type} = "CLOB";
             }
+        }
+        if ($Tag->{Type} =~ /^DECIMAL$/i) {
+            $Tag->{Type} = "DECIMAL ($Tag->{Size})";
         }
         if ($SQL) {
             $SQL .= ",\n";
