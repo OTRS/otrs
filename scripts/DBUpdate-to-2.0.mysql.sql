@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 1.3 to 2.0
 -- Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-2.0.mysql.sql,v 1.19 2005-04-22 08:00:38 martin Exp $
+-- $Id: DBUpdate-to-2.0.mysql.sql,v 1.20 2005-07-01 06:28:40 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.0.mysql.sql | mysql -f -u root otrs
@@ -13,7 +13,13 @@
 -- ticket
 --
 ALTER TABLE ticket ADD title varchar (255);
+ALTER TABLE ticket ADD freetime1 DATETIME;
+ALTER TABLE ticket ADD freetime2 DATETIME;
 
+--
+-- time_accounting
+--
+ALTER TABLE time_accounting CHANGE time_unit time_unit DECIMAL(10,2);
 --
 -- object_link
 --

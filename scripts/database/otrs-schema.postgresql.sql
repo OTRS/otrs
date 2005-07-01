@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  database: postgresql, generated: Mon Jun  6 22:21:08 2005
+--  database: postgresql, generated: Fri Jul  1 08:27:32 2005
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -609,7 +609,7 @@ CREATE TABLE time_accounting (
     id serial,
     ticket_id INTEGER NOT NULL,
     article_id INTEGER,
-    time_unit INTEGER NOT NULL,
+    time_unit DECIMAL (10,2) NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by INTEGER NOT NULL,
     change_time timestamp(0) NOT NULL,

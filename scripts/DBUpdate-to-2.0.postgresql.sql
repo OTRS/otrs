@@ -2,10 +2,10 @@
 -- Update an existing OTRS database from 1.3 to 2.0
 -- Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-2.0.postgresql.sql,v 1.19 2005-05-26 10:58:48 martin Exp $
+-- $Id: DBUpdate-to-2.0.postgresql.sql,v 1.20 2005-07-01 06:28:40 martin Exp $
 -- --
 --
--- usage: cat DBUpdate-to-2.0.postgresql.sql | psql otrs 
+-- usage: cat DBUpdate-to-2.0.postgresql.sql | psql otrs
 --
 -- --
 
@@ -13,6 +13,11 @@
 -- ticket
 --
 ALTER TABLE ticket ADD title varchar (255);
+
+--
+-- time_accounting
+--
+ALTER TABLE time_accounting ALTER COLUMN time_unit DECIMAL(10,2);
 
 --
 -- object_link

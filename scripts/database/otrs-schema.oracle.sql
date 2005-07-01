@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  database: oracle, generated: Mon Jun  6 22:18:29 2005
+--  database: oracle, generated: Fri Jul  1 08:27:22 2005
 -- ----------------------------------------------------------
 DROP TABLE valid CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
@@ -983,7 +983,7 @@ CREATE TABLE time_accounting (
     id NUMBER (20, 0) NOT NULL,
     ticket_id NUMBER (20, 0) NOT NULL,
     article_id NUMBER (20, 0),
-    time_unit NUMBER (5, 0) NOT NULL,
+    time_unit DECIMAL (10,2) NOT NULL,
     create_time DATE NOT NULL,
     create_by NUMBER NOT NULL,
     change_time DATE NOT NULL,

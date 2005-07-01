@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  database: mysql, generated: Mon Jun  6 22:18:34 2005
+#  database: mysql, generated: Fri Jul  1 08:26:52 2005
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -609,7 +609,7 @@ CREATE TABLE time_accounting (
     id BIGINT NOT NULL AUTO_INCREMENT,
     ticket_id BIGINT NOT NULL,
     article_id BIGINT,
-    time_unit SMALLINT NOT NULL,
+    time_unit DECIMAL (10,2) NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,

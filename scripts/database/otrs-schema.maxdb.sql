@@ -1,5 +1,5 @@
 // ----------------------------------------------------------
-//  database: maxdb, generated: Mon Jun  6 22:18:41 2005
+//  database: maxdb, generated: Fri Jul  1 08:27:12 2005
 // ----------------------------------------------------------
 // ----------------------------------------------------------
 //  create table valid
@@ -72,7 +72,7 @@ CREATE TABLE user_preferences (
     preferences_value VARCHAR (250)
 )
 //
-CREATE INDEX index_user_preferenc23 ON user_preferences (user_id)
+CREATE INDEX index_user_preferenc87 ON user_preferences (user_id)
 //
 // ----------------------------------------------------------
 //  create table groups
@@ -364,9 +364,9 @@ CREATE TABLE ticket (
 //
 CREATE INDEX index_ticket_user ON ticket (user_id)
 //
-CREATE INDEX index_ticket_queue_v51 ON ticket (ticket_state_id, ticket_lock_id, group_id)
+CREATE INDEX index_ticket_queue_v14 ON ticket (ticket_state_id, ticket_lock_id, group_id)
 //
-CREATE INDEX index_ticket_answere70 ON ticket (ticket_answered)
+CREATE INDEX index_ticket_answere57 ON ticket (ticket_answered)
 //
 // ----------------------------------------------------------
 //  create table object_link
@@ -400,9 +400,9 @@ CREATE TABLE ticket_history (
     PRIMARY KEY(id)
 )
 //
-CREATE INDEX ticket_history_ticke63 ON ticket_history (ticket_id)
+CREATE INDEX ticket_history_ticke90 ON ticket_history (ticket_id)
 //
-CREATE INDEX ticket_history_creat63 ON ticket_history (create_time)
+CREATE INDEX ticket_history_creat8 ON ticket_history (create_time)
 //
 // ----------------------------------------------------------
 //  create table ticket_history_type
@@ -462,9 +462,9 @@ CREATE TABLE article_flag (
     create_by INTEGER NOT NULL
 )
 //
-CREATE INDEX article_flag_create_60 ON article_flag (create_by)
+CREATE INDEX article_flag_create_95 ON article_flag (create_by)
 //
-CREATE INDEX article_flag_article30 ON article_flag (article_id)
+CREATE INDEX article_flag_article7 ON article_flag (article_id)
 //
 // ----------------------------------------------------------
 //  create table article
@@ -516,7 +516,7 @@ CREATE TABLE article_plain (
     PRIMARY KEY(id)
 )
 //
-CREATE INDEX article_plain_articl98 ON article_plain (article_id)
+CREATE INDEX article_plain_articl78 ON article_plain (article_id)
 //
 // ----------------------------------------------------------
 //  create table article_attachment
@@ -535,7 +535,7 @@ CREATE TABLE article_attachment (
     PRIMARY KEY(id)
 )
 //
-CREATE INDEX article_attachment_a81 ON article_attachment (article_id)
+CREATE INDEX article_attachment_a69 ON article_attachment (article_id)
 //
 // ----------------------------------------------------------
 //  create table standard_response
@@ -658,7 +658,7 @@ CREATE TABLE time_accounting (
     id serial,
     ticket_id BIGINT NOT NULL,
     article_id BIGINT,
-    time_unit SMALLINT NOT NULL,
+    time_unit DECIMAL (10,2) NOT NULL,
     create_time timestamp NOT NULL,
     create_by INTEGER NOT NULL,
     change_time timestamp NOT NULL,
@@ -666,7 +666,7 @@ CREATE TABLE time_accounting (
     PRIMARY KEY(id)
 )
 //
-CREATE INDEX index_time_accountin50 ON time_accounting (ticket_id)
+CREATE INDEX index_time_accountin94 ON time_accounting (ticket_id)
 //
 // ----------------------------------------------------------
 //  create table sessions
@@ -692,7 +692,7 @@ CREATE TABLE ticket_index (
     create_time_unix BIGINT NOT NULL
 )
 //
-CREATE INDEX index_ticket_index_t29 ON ticket_index (ticket_id)
+CREATE INDEX index_ticket_index_t41 ON ticket_index (ticket_id)
 //
 // ----------------------------------------------------------
 //  create table ticket_lock_index
@@ -701,7 +701,7 @@ CREATE TABLE ticket_lock_index (
     ticket_id BIGINT NOT NULL
 )
 //
-CREATE INDEX index_ticket_lock_ti89 ON ticket_lock_index (ticket_id)
+CREATE INDEX index_ticket_lock_ti95 ON ticket_lock_index (ticket_id)
 //
 // ----------------------------------------------------------
 //  create table customer_user
@@ -734,7 +734,7 @@ CREATE TABLE customer_preferences (
     preferences_value VARCHAR (250)
 )
 //
-CREATE INDEX index_customer_prefe36 ON customer_preferences (user_id)
+CREATE INDEX index_customer_prefe89 ON customer_preferences (user_id)
 //
 // ----------------------------------------------------------
 //  create table ticket_loop_protection
@@ -744,9 +744,9 @@ CREATE TABLE ticket_loop_protection (
     sent_date VARCHAR (150) NOT NULL
 )
 //
-CREATE INDEX index_ticket_loop_pr14 ON ticket_loop_protection (sent_to)
+CREATE INDEX index_ticket_loop_pr50 ON ticket_loop_protection (sent_to)
 //
-CREATE INDEX index_ticket_loop_pr87 ON ticket_loop_protection (sent_date)
+CREATE INDEX index_ticket_loop_pr12 ON ticket_loop_protection (sent_date)
 //
 // ----------------------------------------------------------
 //  create table pop3_account
