@@ -1,8 +1,8 @@
 # --
 # AgentCompose.dtl - provides HTML form for AgentCompose
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentForward.dtl,v 1.14 2004-09-08 23:46:58 martin Exp $
+# $Id: AgentForward.dtl,v 1.14.2.1 2005-07-01 09:17:14 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -126,7 +126,7 @@ $Data{"Signature"}
 
 ---- $Text{"Forwarded message from"} $Data{"From"} ----
 
-$Text{"Date"}: $Data{"Date"}
+$Text{"Date"}: $Data{"Created"}
 $Text{"From"}: $Data{"From"}
 $Text{"To"}: $Data{"To"}
 $Text{"Cc"}: $Data{"Cc"}
