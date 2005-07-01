@@ -2,13 +2,14 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.131.2.9 2005-07-01 06:12:51 martin Exp $
+# $Id: CHANGES,v 1.131.2.10 2005-07-01 06:19:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 1.3.3 (200?-??-??)
+ - (2005/07/01) fixed bug 808 - Stats: StopMonth in Ticket.pm
  - (2005/07/01) fixed bug 810 - single quote in comment field generates errors
  - (2005/06/27) updated to cpan CGI v3.10
  - (2005/02/15) updated to cpan MIME::Tools v5.417

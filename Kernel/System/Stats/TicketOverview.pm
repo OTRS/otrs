@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Stats/TicketOverview.pm - stats module
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TicketOverview.pm,v 1.1 2004-06-29 10:42:23 martin Exp $
+# $Id: TicketOverview.pm,v 1.1.2.1 2005-07-01 06:19:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::State;
 use Date::Pcalc qw(Today_and_Now Days_in_Month Day_of_Week Day_of_Week_Abbreviation);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $ ';
+$VERSION = '$Revision: 1.1.2.1 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -120,7 +120,7 @@ sub Run {
         StartDay => 1,
         StopYear => $Param{Year},
         StopMonth => => $Param{Month},
-        StopDay => 31,
+        StopDay => Date::Pcalc::Days_in_Month($Param{Year}, $Param{Month}),
     );
     my %Queue = ();
     my @HeadData = ('Queue');
@@ -130,12 +130,11 @@ sub Run {
             $Queue{$Ticket{Queue}}->{$Ticket{State}}++;
         }
     }
-  
 
     my %States = $Self->{StateObject}->StateList(UserID => 1);
     foreach my $StateID (sort {$States{$a} cmp $States{$b}} keys %States) {
         push (@HeadData, $States{$StateID});
-    } 
+    }
 
     my @Data = ();
     foreach my $QueueName (sort {$Queue{$a} cmp $Queue{$b}} keys %Queue) {
