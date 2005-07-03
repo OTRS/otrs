@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSelectBox.pm - provides a SelectBox for admins
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSelectBox.pm,v 1.14 2005-03-27 11:50:50 martin Exp $
+# $Id: AdminSelectBox.pm,v 1.15 2005-07-03 12:58:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminSelectBox;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -41,15 +41,15 @@ sub new {
 sub Run {
     my $Self = shift;
     my %Param = @_;
-    # get params
-    foreach (qw(SQL Max)) {
-        $Param{SQL} = $Self->{ParamObject}->GetParam(Param => 'SQL') || 'SELECT * FROM ';
-        $Param{Max} = $Self->{ParamObject}->GetParam(Param => 'Max') || '40';
-    }
     # ------------------------------------------------------------ #
     # print form
     # ------------------------------------------------------------ #
     if ($Self->{Subaction} eq '' || !$Self->{Subaction}) {
+        # get params
+        foreach (qw(SQL Max)) {
+            $Param{SQL} = $Self->{ParamObject}->GetParam(Param => 'SQL') || 'SELECT * FROM ';
+            $Param{Max} = $Self->{ParamObject}->GetParam(Param => 'Max') || 40;
+        }
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(
@@ -63,6 +63,11 @@ sub Run {
     # do select
     # ------------------------------------------------------------ #
     elsif ($Self->{Subaction} eq 'Select') {
+        # get params
+        foreach (qw(SQL Max)) {
+            $Param{SQL} = $Self->{ParamObject}->GetParam(Param => 'SQL') || '';
+            $Param{Max} = $Self->{ParamObject}->GetParam(Param => 'Max') || '';
+        }
         # add result block
         $Self->{LayoutObject}->Block(
             Name => 'Result',
