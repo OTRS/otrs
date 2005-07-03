@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.156 2005-02-22 13:50:43 martin Exp $
+# $Id: Agent.pm,v 1.157 2005-07-03 18:21:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.156 $';
+$VERSION = '$Revision: 1.157 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -293,6 +293,37 @@ sub AgentFreeText {
                 $Data{"TicketFreeTextField$_"} = '<input type="text" name="TicketFreeText'.$_.'" value="" size="30">';
             }
         }
+    }
+    return %Data;
+}
+# --
+sub AgentFreeDate {
+    my $Self = shift;
+    my %Param = @_;
+    my %NullOption = ();
+    my %SelectData = ();
+    my %Ticket = ();
+    my %Config = ();
+    if ($Param{NullOption}) {
+#        $NullOption{''} = '-';
+        $SelectData{Size} = 3;
+        $SelectData{Multiple} = 1;
+    }
+    if ($Param{Ticket}) {
+        %Ticket = %{$Param{Ticket}};
+    }
+    if ($Param{Config}) {
+        %Config = %{$Param{Config}};
+    }
+    my %Data = ();
+    foreach (1..2) {
+        $Data{"TicketFreeTime".$_} = $Self->BuildDateSelection(
+            %Param,
+            %Ticket,
+            Prefix => 'TicketFreeTime'.$_,
+            Format => 'DateInputFormatLong',
+            DiffTime => $Self->{ConfigObject}->Get('TicketFreeTimeDiff'.$_) || 0,
+        );
     }
     return %Data;
 }
