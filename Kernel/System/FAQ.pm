@@ -2,7 +2,7 @@
 # Kernel/System/FAQ.pm - all faq funktions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQ.pm,v 1.19 2005-05-08 15:21:59 martin Exp $
+# $Id: FAQ.pm,v 1.20 2005-07-03 09:26:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::FAQ;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -142,6 +142,15 @@ sub FAQGet {
             Number => $Row[27],
         );
     }
+    # update number
+    if (!$Data{Number}) {
+        my $Number = $Self->{ConfigObject}->Get('SystemID')."00".$Data{FAQID};
+        $Self->{DBObject}->Do(
+            SQL => "UPDATE faq_item SET f_number = '$Number' WHERE id = $Data{FAQID}",
+        );
+        $Data{Number} = $Number;
+    }
+    # get attachment
     $SQL = "SELECT filename, content_type, content_size, content ".
         " FROM faq_attachment WHERE faq_id = $Param{FAQID}";
     $Self->{DBObject}->Prepare(SQL => $SQL);
@@ -1145,6 +1154,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.19 $ $Date: 2005-05-08 15:21:59 $
+$Revision: 1.20 $ $Date: 2005-07-03 09:26:17 $
 
 =cut
