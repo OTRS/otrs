@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.142 2005-07-03 16:09:43 martin Exp $
+# $Id: CHANGES,v 1.143 2005-07-03 18:39:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,19 @@
 # --
 CVS head
 2.0.0 beta4 (2005/07/03)
+ - (2005/07/03) added ticket free time feature - take care, you need to
+    alter the ticket table:
+
+    ALTER TABLE ticket ADD freetime1 DATETIME;
+    ALTER TABLE ticket ADD freetime2 DATETIME;
+
+    new config options are:
+
+    $Self->{"TicketFreeTimeKey1"} = 'Termin1';
+    $Self->{"TicketFreeTimeDiff1"} = 0;
+    $Self->{"TicketFreeTimeKey2"} = 'Termin2';
+    $Self->{"TicketFreeTimeDiff2"} = 0;
+
  - (2005/07/03) fixed bug 797 - renamed AdminEmail to Admin Notification
     in admin interface.
  - (2005/07/03) rewritten faq customer and public area
@@ -19,6 +32,12 @@ CVS head
  - (2005/07/03) fixed bug 800 - FAQ insert overwrites response by default
  - (2005/07/03) removed CGI cpan module from dist because of incomapt.
    for mod_perl 1.99 and mod_perl 2.00
+ - (2005/07/01) added datatype DECIMAL support for time_accounting table
+    (changed datatype of time_unit in time_accounting table)
+ - (2005/06/29) fixed user language selection in customer panel
+ - (2005/06/28) fixed default customer valid selection in admin interface
+ - (2005/06/27) fixed XML::Parser::Lite backend with xml decode
+ - (2005/06/27) updated to cpan CGI v3.10
 
 2.0.0 beta3 (2005/06/21)
  - (2005/06/13) fixed bug 759 - error when changing default dictionary
@@ -243,6 +262,8 @@ CVS head
  - (2004/09/09) added ticket title support
 
 1.3.3 (200?-??-??)
+ - (2005/07/01) fixed bug 808 - Stats: StopMonth in Ticket.pm
+ - (2005/07/01) fixed bug 810 - single quote in comment field generates errors
  - (2005/02/15) updated to cpan MIME::Tools 5.417
  - (2005/02/10) fixed generic agent - was not able to set new owner
  - (2005/01/19) fixed bug 666 - INSERTs into 'ticket_history' fail sometimes
