@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.173 2005-06-13 20:01:42 martin Exp $
+# $Id: Ticket.pm,v 1.174 2005-07-03 18:30:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.173 $';
+$VERSION = '$Revision: 1.174 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -635,7 +635,8 @@ sub TicketGet {
         " st.freekey3, st.freetext3, st.freekey4, st.freetext4,".
         " st.freekey5, st.freetext5, st.freekey6, st.freetext6,".
         " st.freekey7, st.freetext7, st.freekey8, st.freetext8, ".
-        " st.change_time, st.title, st.escalation_start_time, st.timeout ".
+        " st.change_time, st.title, st.escalation_start_time, st.timeout, ".
+        " st.freetime1, st.freetime2".
         " FROM ".
         " ticket st, ticket_priority sp, ".
         " queue sq, $Self->{ConfigObject}->{DatabaseUserTable} su ".
@@ -688,6 +689,8 @@ sub TicketGet {
         $Ticket{TicketFreeText7} = defined($Row[31]) ? $Row[31] : '';
         $Ticket{TicketFreeKey8} = defined($Row[32]) ? $Row[32] : '';
         $Ticket{TicketFreeText8} = defined($Row[33]) ? $Row[33] : '';
+        $Ticket{TicketFreeTime1} = defined($Row[38]) ? $Row[38] : '';
+        $Ticket{TicketFreeTime2} = defined($Row[39]) ? $Row[39] : '';
     }
     # check ticket
     if (!$Ticket{TicketID}) {
@@ -1186,7 +1189,9 @@ sub SetCustomerData {
 
 =item TicketFreeTextGet()
 
-get possible ticket free text options
+get _possible_ ticket free text options
+
+Note: the current value is accessible over TicketGet()
 
   my $HashRef = $TicketObject->TicketFreeTextGet(
      Type => 'TicketFreeText3',
@@ -1289,6 +1294,81 @@ sub TicketFreeTextSet {
         # ticket event
         $Self->TicketEventHandlerPost(
             Event => 'TicketFreeTextSet',
+            UserID => $Param{UserID},
+            TicketID => $Param{TicketID},
+        );
+        return 1;
+    }
+    else {
+        return;
+    }
+}
+
+=item TicketFreeTimeSet()
+
+Set ticket free text.
+
+  $TicketObject->TicketFreeTimeSet(
+      Counter => 1,
+      Prefix => '',
+      Year => 1900,
+      Month => 12,
+      Day => 24,
+      Hour => 22,
+      Minute => 01,
+      TicketID => 123,
+      UserID => 23,
+  );
+
+=cut
+
+sub TicketFreeTimeSet {
+    my $Self = shift;
+    my %Param = @_;
+    my $Prefix = $Param{'Prefix'} || 'TicketFreeTime';
+    # check needed stuff
+    foreach (qw(TicketID UserID Counter)) {
+      if (!defined($Param{$_})) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    foreach (qw(Year Month Day Hour Minute)) {
+      if (!defined($Param{$Prefix.$Param{Counter}.$_})) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $Prefix".$Param{Counter}."$_!");
+        return;
+      }
+    }
+    my $TimeStamp = sprintf("%04d-%02d-%02d %02d:%02d:00",
+        $Param{$Prefix.$Param{Counter}.'Year'},
+        $Param{$Prefix.$Param{Counter}.'Month'},
+        $Param{$Prefix.$Param{Counter}.'Day'},
+        $Param{$Prefix.$Param{Counter}.'Hour'},
+        $Param{$Prefix.$Param{Counter}.'Minute'},
+    );
+    # check if update is needed
+    my %Ticket = $Self->TicketGet(TicketID => $Param{TicketID});
+    if ($TimeStamp eq $Ticket{"TicketFreeTime$Param{Counter}"}) {
+        return 1;
+    }
+    # db update
+    my $SQL = "UPDATE ticket SET freetime$Param{Counter} = '$TimeStamp', " .
+    " change_time = current_timestamp, change_by = $Param{UserID} " .
+    " WHERE id = $Param{TicketID}";
+    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+        # history insert
+        $Self->HistoryAdd(
+            TicketID => $Param{TicketID},
+            QueueID => $Ticket{QueueID},
+            HistoryType => 'TicketFreeTextUpdate',
+            Name => "\%\%FreeTime$Param{Counter}\%\%$TimeStamp",
+            CreateUserID => $Param{UserID},
+        );
+        # clear ticket cache
+        $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
+        # ticket event
+        $Self->TicketEventHandlerPost(
+            Event => 'TicketFreeTimeSet',
             UserID => $Param{UserID},
             TicketID => $Param{TicketID},
         );
@@ -3438,7 +3518,7 @@ account time to a ticket.
   $TicketObject->TicketAccountTime(
       TicketID => 1234,
       ArticleID => 23542,
-      TimeUnit => 4,
+      TimeUnit => '4.5',
       UserID => 1,
   );
 
@@ -3455,9 +3535,10 @@ sub TicketAccountTime {
       }
     }
     # check some wrong formats
-    my $TimeUnit = $Param{TimeUnit};
-    $TimeUnit =~ s/,/\./g;
-    $TimeUnit = int($TimeUnit);
+    $Param{TimeUnit} =~ s/,/\./g;
+    $Param{TimeUnit} =~ s/ //g;
+    $Param{TimeUnit} =~ s/^(\d{1,10}\.\d\d).+?$/$1/g;
+    chomp $Param{TimeUnit};
     # db quote
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
@@ -3466,24 +3547,17 @@ sub TicketAccountTime {
     my $SQL = "INSERT INTO time_accounting ".
       " (ticket_id, article_id, time_unit, create_time, create_by, change_time, change_by) ".
       " VALUES ".
-      " ($Param{TicketID}, $Param{ArticleID}, $TimeUnit, ".
+      " ($Param{TicketID}, $Param{ArticleID}, $Param{TimeUnit}, ".
       " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID}) ";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         # add history
         my $AccountedTime = $Self->TicketAccountedTimeGet(TicketID => $Param{TicketID});
-        my $HistoryComment = "\%\%$Param{TimeUnit}";
-        if ($TimeUnit ne $Param{TimeUnit}) {
-            $HistoryComment = "$TimeUnit time unit(s) accounted ($Param{TimeUnit} is invalid).";
-        }
-        else {
-            $HistoryComment .= "\%\%$AccountedTime";
-        }
         $Self->HistoryAdd(
             TicketID => $Param{TicketID},
              ArticleID => $Param{ArticleID},
             CreateUserID => $Param{UserID},
             HistoryType => 'TimeAccounting',
-            Name => $HistoryComment,
+            Name => "\%\%$Param{TimeUnit}\%\%$AccountedTime",
         );
         # clear ticket cache
         $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
@@ -3856,6 +3930,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.173 $ $Date: 2005-06-13 20:01:42 $
+$Revision: 1.174 $ $Date: 2005-07-03 18:30:49 $
 
 =cut
