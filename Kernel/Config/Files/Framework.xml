@@ -112,7 +112,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.57 2005-06-29 12:49:27 rk Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.58 2005-07-03 13:15:04 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der WEB-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -1286,8 +1286,8 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="System::Permission" Required="1" Valid="1">
-        <Description Lang="en">The different system permissions.</Description>
-        <Description Lang="de">Die unterschiedlichen Zugriffsrechte innerhalb des Systems.</Description>
+        <Description Lang="en">The different system permissions of the agents in the system.</Description>
+        <Description Lang="de">Die unterschiedlichen Zugriffsrechte der Agenten innerhalb des Systems.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -1296,11 +1296,10 @@ Your OTRS Notification Master
                 <Item>rw</Item>                
             </Array>
         </Setting>
-        <!-- $Self->{'System::Permission'} = ['ro', 'rw']; -->
     </ConfigItem>
     <ConfigItem Name="System::Customer::Permission" Required="1" Valid="1">
         <Description Lang="en">The different system permissions for customers.</Description>
-        <Description Lang="de">Die verschiedenen Zugrifssrechte für die Customer.</Description>
+        <Description Lang="de">Die verschiedenen Zugrifssrechte für die Kunden.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -1309,7 +1308,6 @@ Your OTRS Notification Master
                 <Item>rw</Item>                
             </Array>
         </Setting>
-        <!-- $Self->{'System::Customer::Permission'} = ['ro', 'rw']; -->
     </ConfigItem>    
     <ConfigItem Name="PreferencesTable" Required="1" Valid="1">
         <Description Lang="en">The name of the table, where the customer preferences are stored.</Description>
@@ -1319,7 +1317,6 @@ Your OTRS Notification Master
         <Setting>
             <String Regex="">user_preferences</String>
         </Setting>
-        <!-- $Self->{PreferencesTable} = 'user_preferences'; -->
     </ConfigItem>
     <ConfigItem Name="PreferencesTableKey" Required="1" Valid="1">
         <Description Lang="en">Key for preferences table.</Description>
@@ -1329,7 +1326,6 @@ Your OTRS Notification Master
         <Setting>
             <String Regex="">preferences_key</String>
         </Setting>
-        <!-- $Self->{PreferencesTableKey} = 'preferences_key'; -->
     </ConfigItem>
     <ConfigItem Name="PreferencesTableValue" Required="1" Valid="1">
         <Description Lang="en">Name of column in preferences table to store the data.</Description>
@@ -1339,7 +1335,6 @@ Your OTRS Notification Master
         <Setting>
             <String Regex="">preferences_value</String>
         </Setting>
-        <!-- $Self->{PreferencesTableValue} = 'preferences_value'; -->
     </ConfigItem>
     <ConfigItem Name="PreferencesTableUserID" Required="1" Valid="1">
         <Description Lang="en">Name of column in preference table, where the UserID is stored.</Description>
@@ -1349,7 +1344,6 @@ Your OTRS Notification Master
         <Setting>
             <String Regex="">user_id</String>
         </Setting>
-        <!-- $Self->{PreferencesTableUserID} = 'user_id'; -->
     </ConfigItem>
     <ConfigItem Name="PreferencesView" Required="1" Valid="1">
         <Description Lang="en">Display order of the different items in the preference view.</Description>
@@ -1363,7 +1357,6 @@ Your OTRS Notification Master
                 <Item>Other Options</Item>
             </Array>
         </Setting>
-        <!-- $Self->{PreferencesView} = ['Frontend', 'Mail Management', 'Other Options']; -->
     </ConfigItem>
     <ConfigItem Name="PreferencesGroups###Password" Required="0" Valid="1">
         <Description Lang="en">Parameters for the Password object in the preference view.</Description>
@@ -2883,26 +2876,12 @@ Your OTRS Notification Master
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>AdminEmail</Name>
+                    <Name>Admin Notification</Name>
                     <Block>Block4</Block>
                     <Prio>400</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AdminEmail'} = {
-                Group => admin,
-                Description => 'Admin',
-                Title => 'Admin-Email',
-                NavBarName => 'Admin',
-                NavBarModule => {
-                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-                    Name => 'AdminEmail',
-                    Block => 'Block4',
-                    Prio => 400,
-                },
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminSession" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminSession object in the admin area.</Description>
@@ -2923,21 +2902,7 @@ Your OTRS Notification Master
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AdminSession'} = {
-                Group => admin,
-                Description => 'Admin',
-                Title => 'Session Management',
-                NavBarName => 'Admin',
-                NavBarModule => {
-                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-                    Name => 'Session Management',
-                    Block => 'Block4',
-                    Prio => 500,
-                },
-            };    
-        -->
-     </ConfigItem>    
+     </ConfigItem>
      <ConfigItem Name="Frontend::Module###AdminLog" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminLog object in the admin area.</Description>
         <Description Lang="de">Frontendmodul-Registration des AdminLog-Objekts im Admin-Bereich.</Description>
@@ -2957,20 +2922,6 @@ Your OTRS Notification Master
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AdminLog'} = {
-                Group => admin,
-                Description => 'Admin',
-                Title => 'System Log',
-                NavBarName => 'Admin',
-                NavBarModule => {
-                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-                    Name => 'System Log',
-                    Block => 'Block4',
-                    Prio => 600,
-                },
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminSelectBox" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminSelectBox object in the admin area.</Description>
