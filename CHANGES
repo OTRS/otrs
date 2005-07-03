@@ -2,21 +2,33 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.141 2005-06-17 16:13:39 martin Exp $
+# $Id: CHANGES,v 1.142 2005-07-03 16:09:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS head
-2.0.0 beta3 (2005/06/??)
+2.0.0 beta4 (2005/07/03)
+ - (2005/07/03) fixed bug 797 - renamed AdminEmail to Admin Notification
+    in admin interface.
+ - (2005/07/03) rewritten faq customer and public area
+ - (2005/07/03) fixed bug 799 - improved FAQ article for utf8 support
+    http://faq.otrs.org/otrs/public.pl?Action=PublicFAQ&ID=3
+ - (2005/07/03) added fixed/auto update for faq articles with no number
+ - (2005/07/03) fixed bug 800 - FAQ insert overwrites response by default
+ - (2005/07/03) removed CGI cpan module from dist because of incomapt.
+   for mod_perl 1.99 and mod_perl 2.00
+
+2.0.0 beta3 (2005/06/21)
+ - (2005/06/13) fixed bug 759 - error when changing default dictionary
  - (2005/06/13) fixed bug 773 - NotificationAgentOnline needs TimeObject
  - (2005/06/12) fixed bug 776 - when adding a new user I got error message
  - (2005/06/11) added XML::Parser support for Kernel::System::XML
  - (2005/06/07) fixed bug 771 - Customer Web Interface - Attachement
-    View Error' Kernel/Modules/CustomerTicketZoom.pm 
+    View Error' Kernel/Modules/CustomerTicketZoom.pm
  - (2005/06/06) added experimental db2 support - thanks to Friedmar Moch!
- - (2005/06/06) removed foreign key for queue_id in pop3_account, fixed 
+ - (2005/06/06) removed foreign key for queue_id in pop3_account, fixed
     indexes for article_flag
 
 2.0.0 beta2 (2005/05/16)
@@ -29,35 +41,35 @@ CVS head
  - (2005/05/08) fixed bug 730 - Problem with FAQ nav bar
  - (2005/05/08) fixed bug 734 - Timezone not reflected in DB Tables (ticket
     create time, etc.)
- - (2005/05/07) fixed language translation files 
+ - (2005/05/07) fixed language translation files
  - (2005/05/07) fixed bug 647 - Allow setting of default language for FAQs
  - (2005/05/07) fixed bug 686 - defect attachments on download with firefox
  - (2005/05/07) added html access keys for nav bar
     general:
-    h = home 
+    h = home
     l = logout
     o = overview
-    n = new 
+    n = new
     s = search
     p = preferences
     a = admin interface
     t = ticket interface
     f = faq interface
-    g = formular submit 
- 
+    g = formular submit
+
     ticket:
     o = queue view
     n = phone ticket
     e = email ticket
     k = locked ticket list
     m = new messages in locked ticket list
- - (2005/05/07) fixed bug 719 - Timezone setting (US EDT -4) causes 
+ - (2005/05/07) fixed bug 719 - Timezone setting (US EDT -4) causes
     "Session Timeout"
- - (2005/05/04) removed html wrap from ticket text areas 
- - (2005/05/04) added ticket event module layer 
+ - (2005/05/04) removed html wrap from ticket text areas
+ - (2005/05/04) added ticket event module layer
  - (2006/05/04) fixed priority default selection in priority screen
 
-2.0.0 beta1 (2005/05/02) 
+2.0.0 beta1 (2005/05/02)
  - (2005/04/30) fixxed bug 712 - Reports ignore setting for http-type
  - (2005/04/22) added ticket merge feature
  - (2005/04/14) fixed From in article of AgentTicketPending and
