@@ -128,6 +128,7 @@ $Text{"Up"}
 $Text{"Down"}
 $Text{"Add"}
 $Text{"Category"}
+$Text{"Viewer"}
 
 $Text{"New message"}
 $Text{"New message!"}
