@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.37 2005-06-20 19:24:40 martin Exp $
+# $Id: Config.pm,v 1.38 2005-07-03 18:39:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::XML;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -418,6 +418,8 @@ sub ConfigItemGet {
         require Data::Dumper;
         my $Dump = Data::Dumper::Dumper($Self->{Config}->{$Param{Name}});
         $Dump =~ s/\$VAR1 =/\$ConfigItem =/;
+        # rh as 8 bug fix
+        $Dump =~ s/\${\\\$VAR1->{'.+?'}\[0\]}/\{\}/g;
         my $ConfigItem;
         if (!eval "$Dump") {
             die "ERROR: $!: $@ in $Dump";
@@ -1197,6 +1199,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.37 $ $Date: 2005-06-20 19:24:40 $
+$Revision: 1.38 $ $Date: 2005-07-03 18:39:12 $
 
 =cut
