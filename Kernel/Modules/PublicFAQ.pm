@@ -2,7 +2,7 @@
 # Kernel/Modules/PublicFAQ.pm - faq module
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PublicFAQ.pm,v 1.1 2005-03-28 20:30:29 martin Exp $
+# $Id: PublicFAQ.pm,v 1.2 2005-07-03 12:55:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::FAQ;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -82,15 +82,22 @@ sub Run {
 
     # search
     if (!$ID && !$Self->{Subaction}) {
-        $Output = $Self->{LayoutObject}->CustomerHeader(Title => 'Search');
-        $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'CustomerFAQSearch',
+        my $Output = $Self->{LayoutObject}->CustomerHeader(Title => 'Search');
+        $Self->{LayoutObject}->Block(
+            Name => 'Search',
+            Data => { %Param },
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'SearchOverview',
             Data => { %Param },
         );
         # build an overview
         my %Categories = $Self->{FAQObject}->CategoryList();
         foreach (sort {$Categories{$a} cmp $Categories{$b}} keys %Categories) {
-            $Param{Overview} .= "<b>".$Self->{LayoutObject}->Ascii2Html(Text => $Categories{$_})."</b><br>";
+            $Self->{LayoutObject}->Block(
+                Name => 'SearchOverviewCategory',
+                Data => { %Param, Category => $Categories{$_}, },
+            );
             my @FAQIDs = $Self->{FAQObject}->FAQSearch(
                 %Param,
                 States => $Param{States},
@@ -100,25 +107,23 @@ sub Run {
             my %AllArticle = ();
             foreach (@FAQIDs) {
                 my %Data = $Self->{FAQObject}->FAQGet(FAQID => $_);
-                foreach (keys %Data) {
-                    $Data{$_} = $Self->{LayoutObject}->Ascii2Html(Text => $Data{$_});
-                }
-                $AllArticle{$Data{ID}} = "<a href=\"\$Env{\"Baselink\"}Action=\$Env{\"Action\"}&FAQID=$_\">";
-                $AllArticle{$Data{ID}} .= "[$Data{Language}/$Data{Category}] $Data{Number} $Data{Title} (\$Text{\"modified\"} \$TimeLong{\"$Data{Changed}\"})</a><br>";
-            }
-            foreach (sort {$AllArticle{$a} cmp $AllArticle{$b}} keys %AllArticle) {
-                $Param{Overview} .= $AllArticle{$_};
+                $Self->{LayoutObject}->Block(
+                    Name => 'SearchOverviewCategoryRow',
+                    Data => { %Param, %Data },
+                );
             }
         }
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'CustomerFAQOverview',
+            TemplateFile => 'CustomerFAQ',
             Data => { %Param },
         );
+        $Output .= $Self->{LayoutObject}->CustomerFooter();
+        return $Output;
     }
     elsif ($Self->{Subaction} eq 'Download') {
         my $FAQID = $Self->{ParamObject}->GetParam(Param => 'FAQID');
         my %FAQ = $Self->{FAQObject}->FAQGet(FAQID => $FAQID);
-        if (%FAQ && $FAQ{State} =~ /(external \(customer\)|public \(all\))/i) {
+        if (%FAQ && $FAQ{State} =~ /(public \(all\))/i) {
             return $Self->{LayoutObject}->Attachment(%FAQ);
         }
         else {
@@ -127,7 +132,15 @@ sub Run {
     }
     # search action
     elsif ($Self->{Subaction} eq 'Search') {
-        $Output = $Self->{LayoutObject}->CustomerHeader(Title => 'Search');
+        my $Output = $Self->{LayoutObject}->CustomerHeader(Title => 'Search');
+        $Self->{LayoutObject}->Block(
+            Name => 'Search',
+            Data => { %Param },
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'SearchResult',
+            Data => { %Param },
+        );
 
         my @FAQIDs = $Self->{FAQObject}->FAQSearch(
             %Param,
@@ -139,70 +152,85 @@ sub Run {
         my %AllArticle = ();
         foreach (@FAQIDs) {
             my %Data = $Self->{FAQObject}->FAQGet(FAQID => $_);
-            foreach (keys %Data) {
-                $Data{$_} = $Self->{LayoutObject}->Ascii2Html(Text => $Data{$_});
-            }
-            $AllArticle{$Data{FAQID}} = "[$Data{Language}/$Data{Category}] $Data{Number} $Data{Title}</td><td> (\$Text{\"modified\"} \$TimeLong{\"$Data{Changed}\"})";
-        }
-        foreach (sort {$AllArticle{$a} cmp $AllArticle{$b}} keys %AllArticle) {
-            my %Data = $Self->{FAQObject}->FAQGet(FAQID => $_);
-            $Param{List} .= "<tr><td><a href='\$Env{\"Baselink\"}Action=\$Env{\"Action\"}&ID=$_'>$AllArticle{$Data{FAQID}}</a></td></tr>\n";
+            $Self->{LayoutObject}->Block(
+                Name => 'SearchResultRow',
+                Data => { %Param, %Data },
+            );
         }
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'CustomerFAQSearch',
+            TemplateFile => 'CustomerFAQ',
             Data => { %Param },
         );
-        $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'CustomerFAQSearchResult',
-            Data => { %Param },
-        );
-#        $Output .= $List;
+        $Output .= $Self->{LayoutObject}->CustomerFooter();
+        return $Output;
     }
     # system history
     elsif ($Self->{Subaction} eq 'SystemHistory') {
         $Output = $Self->{LayoutObject}->CustomerHeader(Title => 'History');
+        $Self->{LayoutObject}->Block(
+            Name => 'SystemHistory',
+            Data => { %Param },
+        );
         my @History = $Self->{FAQObject}->HistoryGet(
             UserID => $Self->{UserID},
         );
         foreach my $Row (@History) {
-            my %Data = $Self->{FAQObject}->FAQGet(FAQID => $Row->{ID});
-            foreach (keys %Data) {
-                $Data{$_} = $Self->{LayoutObject}->Ascii2Html(Text => $Data{$_});
+            my %Data = $Self->{FAQObject}->FAQGet(FAQID => $Row->{FAQID});
+            if ($Data{State} =~ /(public \(all\))/i) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'SystemHistoryRow',
+                    Data => { %Data },
+                );
             }
-            $Param{HistoryList} .= "<tr><td><a href=\"\$Env{\"Baselink\"}Action=\$Env{\"Action\"}&ID=$Row->{ID}\">[$Data{Language}/$Data{Category}] $Data{Number} $Data{Title}</a></td><td> (\$Text{\"$Row->{Name}\"} - \$TimeLong{\"$Data{Changed}\"})</td></tr>";
         }
         $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'CustomerFAQArticleSystemHistory',
-            Data => {
-                ID => $ID,
-                %Param
-            },
+            TemplateFile => 'CustomerFAQ',
+            Data => { %Param },
         );
+        $Output .= $Self->{LayoutObject}->CustomerFooter();
+        return $Output;
 
     }
     # view
     elsif ($ID && $Self->{Subaction} eq 'Print') {
         my %Data = $Self->{FAQObject}->FAQGet(FAQID => $ID);
-        $Output = $Self->{LayoutObject}->PrintHeader(Title => 'View', Value => $Data{Number});
-        if ($Data{State} =~ /(external \(customer\)|public \(all\))/i) {
-            $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'CustomerFAQArticlePrint',
-                Data => { %Param, %Data },
+        my $Output = $Self->{LayoutObject}->PrintHeader(Title => 'View', Value => $Data{Number});
+        # check permission
+        if ($Data{State} =~ /(public \(all\))/i) {
+            $Self->{LayoutObject}->Block(
+                Name => 'ViewPrint',
+                Data => { %Data },
             );
         }
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'CustomerFAQ',
+            Data => { %Param },
+        );
         $Output .= $Self->{LayoutObject}->PrintFooter();
         return $Output;
     }
     elsif ($ID) {
+        # get article
         my %Data = $Self->{FAQObject}->FAQGet(FAQID => $ID);
-        $Output = $Self->{LayoutObject}->CustomerHeader(Title => 'View', Value => $Data{Number});
-        if ($Data{State} =~ /(external \(customer\)|public \(all\))/i) {
-            $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'CustomerFAQArticleView',
-                Data => { %Param, %Data },
+        my $Output = $Self->{LayoutObject}->CustomerHeader(Title => 'View', Value => $Data{Number});
+        # check permission
+        if ($Data{State} =~ /(public \(all\))/i) {
+            $Self->{LayoutObject}->Block(
+                Name => 'View',
+                Data => { %Data },
             );
         }
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'CustomerFAQ',
+            Data => { %Param },
+        );
+        $Output .= $Self->{LayoutObject}->CustomerFooter();
+        return $Output;
     }
+    $Output .= $Self->{LayoutObject}->Output(
+        TemplateFile => 'CustomerFAQ',
+        Data => { %Param },
+    );
     $Output .= $Self->{LayoutObject}->CustomerFooter();
     return $Output;
 }
