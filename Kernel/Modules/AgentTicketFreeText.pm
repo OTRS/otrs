@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketFreeText.pm - to set the ticket free text
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketFreeText.pm,v 1.2 2005-03-27 11:50:50 martin Exp $
+# $Id: AgentTicketFreeText.pm,v 1.3 2005-07-03 18:37:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentTicketFreeText;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -92,6 +92,28 @@ sub Run {
                 );
             }
         }
+        # get free text params
+        my %TicketFreeTime = ();
+        foreach (1..2) {
+            foreach my $Type (qw(Year Month Day Hour Minute)) {
+                $TicketFreeTime{"TicketFreeTime".$_.$Type} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
+            }
+            # set ticket free time
+            foreach (1..2) {
+                if (defined($TicketFreeTime{"TicketFreeTime".$_."Year"}) &&
+                    defined($TicketFreeTime{"TicketFreeTime".$_."Month"}) &&
+                    defined($TicketFreeTime{"TicketFreeTime".$_."Day"}) &&
+                    defined($TicketFreeTime{"TicketFreeTime".$_."Hour"}) &&
+                    defined($TicketFreeTime{"TicketFreeTime".$_."Minute"})) {
+                    $Self->{TicketObject}->TicketFreeTimeSet(
+                        %TicketFreeTime,
+                        TicketID => $Self->{TicketID},
+                        Counter => $_,
+                        UserID => $Self->{UserID},
+                   );
+                }
+            }
+        }
         # print redirect
         return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenView});
     }
@@ -120,12 +142,28 @@ sub Run {
             Ticket => \%Ticket,
             Config => \%TicketFreeText,
         );
+        # get free text params
+        my %TicketFreeTime = ();
+        foreach (1..2) {
+            if ($Ticket{"TicketFreeTime".$_}) {
+                ($TicketFreeTime{"TicketFreeTime".$_.'Secunde'}, $TicketFreeTime{"TicketFreeTime".$_.'Minute'}, $TicketFreeTime{"TicketFreeTime".$_.'Hour'}, $TicketFreeTime{"TicketFreeTime".$_.'Day'}, $TicketFreeTime{"TicketFreeTime".$_.'Month'},  $TicketFreeTime{"TicketFreeTime".$_.'Year'}) = $Self->{TimeObject}->SystemTime2Date(
+                    SystemTime => $Self->{TimeObject}->TimeStamp2SystemTime(
+                        String => $Ticket{"TicketFreeTime".$_},
+                    ),
+                );
+            }
+        }
+        # free time
+        my %FreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate(
+            Ticket => \%TicketFreeTime,
+        );
         # print change form
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentTicketFreeText',
             Data => {
-                %TicketFreeTextHTML,
                 %Ticket,
+                %TicketFreeTextHTML,
+                %FreeTimeHTML,
                 QueueID => $Self->{QueueID},
             },
         );

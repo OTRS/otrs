@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose inital email to customer
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketEmail.pm,v 1.6 2005-06-20 19:29:26 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.7 2005-07-03 18:37:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -113,40 +113,51 @@ sub Run {
             }
             my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
                 Config => \%TicketFreeText,
-                Ticket => { %TicketFreeDefault,
-                            $Self->{UserObject}->GetUserData(
-                                UserID => $Self->{UserID},
-                                Cached => 1,
-                           ),
+                Ticket => {
+                    %TicketFreeDefault,
+                    $Self->{UserObject}->GetUserData(
+                        UserID => $Self->{UserID},
+                        Cached => 1,
+                    ),
                 }
             );
-    # run compose modules
-    if (ref($Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule')) eq 'HASH') {
-        my %Jobs = %{$Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule')};
-        foreach my $Job (sort keys %Jobs) {
-                # load module
-                if ($Self->{MainObject}->Require($Jobs{$Job}->{Module})) {
-                    my $Object = $Jobs{$Job}->{Module}->new(
-                        %{$Self},
-                        Debug => $Self->{Debug},
-                    );
-                    # get params
-                    my %GetParam;
-                    foreach ($Object->Option(%GetParam, Config => $Jobs{$Job})) {
-                        $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
-                    }
-                    # run module
-                    $Object->Run(%GetParam, Config => $Jobs{$Job});
-                    # get errors
-#                    %Error = (%Error, $Object->Error(%GetParam, Config => $Jobs{$Job}));
+            # get free text params
+            my %TicketFreeTime = ();
+            foreach (1..2) {
+                foreach my $Type (qw(Year Month Day Hour Minute)) {
+                    $TicketFreeTime{"TicketFreeTime".$_.$Type} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
                 }
-                else {
-                    return $Self->{LayoutObject}->FatalError();
+            }
+            # free time
+            my %FreeTime = $Self->{LayoutObject}->AgentFreeDate(
+                %Param,
+                Ticket => \%TicketFreeTime,
+            );
+            # run compose modules
+            if (ref($Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule')) eq 'HASH') {
+                my %Jobs = %{$Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule')};
+                foreach my $Job (sort keys %Jobs) {
+                        # load module
+                        if ($Self->{MainObject}->Require($Jobs{$Job}->{Module})) {
+                            my $Object = $Jobs{$Job}->{Module}->new(
+                                %{$Self},
+                                Debug => $Self->{Debug},
+                            );
+                            # get params
+                            my %GetParam;
+                            foreach ($Object->Option(%GetParam, Config => $Jobs{$Job})) {
+                                $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
+                            }
+                            # run module
+                            $Object->Run(%GetParam, Config => $Jobs{$Job});
+                            # get errors
+#                            %Error = (%Error, $Object->Error(%GetParam, Config => $Jobs{$Job}));
+                        }
+                        else {
+                            return $Self->{LayoutObject}->FatalError();
+                        }
                 }
-        }
-    }
-
-
+            }
             # html output
             $Output .= $Self->_MaskEmailNew(
               QueueID => $Self->{QueueID},
@@ -161,6 +172,7 @@ sub Run {
               CustomerUser =>  '',
               CustomerData => {},
               %TicketFreeTextHTML,
+              %FreeTime,
             );
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
@@ -249,6 +261,17 @@ sub Run {
         my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
             Config => \%TicketFreeText,
             Ticket => \%TicketFree,
+        );
+        # get free text params
+        my %TicketFreeTime = ();
+        foreach (1..2) {
+            foreach my $Type (qw(Year Month Day Hour Minute)) {
+                $TicketFreeTime{"TicketFreeTime".$_.$Type} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
+            }
+        }
+        # free time
+        my %FreeTime = $Self->{LayoutObject}->AgentFreeDate(
+            Ticket => \%TicketFreeTime,
         );
         # get params
         my %GetParam = ();
@@ -459,6 +482,7 @@ sub Run {
               Signature => $Signature,
               %GetParam,
               %TicketFreeTextHTML,
+              %FreeTime,
             );
             # show customer tickets
             my @TicketIDs = ();
@@ -574,19 +598,33 @@ sub Run {
                 );
             }
         }
-          # get pre loaded attachment
-          @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesData(
-              FormID => $Self->{FormID},
-          );
-          # get submit attachment
-          my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-              Param => 'file_upload',
-              Source => 'String',
-          );
-          if (%UploadStuff) {
-              push (@Attachments, \%UploadStuff);
-          }
-
+        # set ticket free time
+        foreach (1..2) {
+            if (defined($TicketFreeTime{"TicketFreeTime".$_."Year"}) &&
+                defined($TicketFreeTime{"TicketFreeTime".$_."Month"}) &&
+                defined($TicketFreeTime{"TicketFreeTime".$_."Day"}) &&
+                defined($TicketFreeTime{"TicketFreeTime".$_."Hour"}) &&
+                defined($TicketFreeTime{"TicketFreeTime".$_."Minute"})) {
+                $Self->{TicketObject}->TicketFreeTimeSet(
+                    %TicketFreeTime,
+                    TicketID => $TicketID,
+                    Counter => $_,
+                    UserID => $Self->{UserID},
+                );
+            }
+        }
+        # get pre loaded attachment
+        @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesData(
+            FormID => $Self->{FormID},
+        );
+        # get submit attachment
+        my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+            Param => 'file_upload',
+            Source => 'String',
+        );
+        if (%UploadStuff) {
+            push (@Attachments, \%UploadStuff);
+        }
         # prepare subject
         my $Tn = $Self->{TicketObject}->TicketNumberLookup(TicketID => $TicketID);
         $GetParam{Subject} = $Self->{TicketObject}->TicketSubjectBuild(

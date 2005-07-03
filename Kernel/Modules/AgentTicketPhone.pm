@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPhone.pm,v 1.5 2005-06-20 19:29:26 martin Exp $
+# $Id: AgentTicketPhone.pm,v 1.6 2005-07-03 18:37:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -159,6 +159,18 @@ sub Run {
                             ),
                 },
             );
+            # get free text params
+            my %TicketFreeTime = ();
+            foreach (1..2) {
+                foreach my $Type (qw(Year Month Day Hour Minute)) {
+                    $TicketFreeTime{"TicketFreeTime".$_.$Type} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
+                }
+            }
+            # free time
+            my %FreeTime = $Self->{LayoutObject}->AgentFreeDate(
+                %Param,
+                Ticket => \%TicketFreeTime,
+            );
             # html output
             $Output .= $Self->_MaskPhoneNew(
               QueueID => $Self->{QueueID},
@@ -173,6 +185,7 @@ sub Run {
               CustomerUser => $Article{CustomerUserID},
               CustomerData => \%CustomerData,
               %TicketFreeTextHTML,
+              %FreeTime,
             );
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
@@ -500,7 +513,17 @@ sub Run {
             $TicketFree{"TicketFreeKey$_"} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeKey$_");
             $TicketFree{"TicketFreeText$_"} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeText$_");
         }
-
+        # get free text params
+        my %TicketFreeTime = ();
+        foreach (1..2) {
+            foreach my $Type (qw(Year Month Day Hour Minute)) {
+                $TicketFreeTime{"TicketFreeTime".$_.$Type} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
+            }
+        }
+        # free time
+        my %FreeTime = $Self->{LayoutObject}->AgentFreeDate(
+            Ticket => \%TicketFreeTime,
+        );
         # get params
         my %GetParam = ();
         foreach (qw(AttachmentUpload
@@ -708,6 +731,7 @@ sub Run {
               Attachments => \@Attachments,
               %GetParam,
               %TicketFreeTextHTML,
+              %FreeTime,
             );
             # show customer tickets
             my @TicketIDs = ();
@@ -820,6 +844,21 @@ sub Run {
                     TicketID => $TicketID,
                     Key => $TicketFree{"TicketFreeKey$_"},
                     Value => $TicketFree{"TicketFreeText$_"},
+                    Counter => $_,
+                    UserID => $Self->{UserID},
+                );
+            }
+        }
+        # set ticket free time
+        foreach (1..2) {
+            if (defined($TicketFreeTime{"TicketFreeTime".$_."Year"}) &&
+                defined($TicketFreeTime{"TicketFreeTime".$_."Month"}) &&
+                defined($TicketFreeTime{"TicketFreeTime".$_."Day"}) &&
+                defined($TicketFreeTime{"TicketFreeTime".$_."Hour"}) &&
+                defined($TicketFreeTime{"TicketFreeTime".$_."Minute"})) {
+                $Self->{TicketObject}->TicketFreeTimeSet(
+                    %TicketFreeTime,
+                    TicketID => $TicketID,
                     Counter => $_,
                     UserID => $Self->{UserID},
                 );

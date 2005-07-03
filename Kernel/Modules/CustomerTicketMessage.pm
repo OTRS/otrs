@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerTicketMessage.pm,v 1.1 2005-03-27 11:35:56 martin Exp $
+# $Id: CustomerTicketMessage.pm,v 1.2 2005-07-03 18:37:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -111,6 +111,18 @@ sub Run {
                 Config => \%TicketFreeText,
                 Ticket => { %TicketFreeDefault },
             );
+            # get free text params
+            my %TicketFreeTime = ();
+            foreach (1..2) {
+                foreach my $Type (qw(Year Month Day Hour Minute)) {
+                    $TicketFreeTime{"TicketFreeTime".$_.$Type} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
+                }
+            }
+            # free time
+            my %FreeTime = $Self->{LayoutObject}->AgentFreeDate(
+                %Param,
+                Ticket => \%TicketFreeTime,
+            );
             my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject');
             my $Body = $Self->{ParamObject}->GetParam(Param => 'Body');
             # html output
@@ -118,6 +130,7 @@ sub Run {
                 To => \%NewTos,
                 Priorities => \%Priorities,
                 %TicketFreeTextHTML,
+                %FreeTime,
                 Body => $Body,
                 Subject => $Subject,
             );
@@ -216,6 +229,7 @@ sub Run {
               State => $NextState,
               UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
           );
+
           # set lock if ticket was cloased
           if ($Lock && $State{TypeName} =~ /^close/i && $Ticket{OwnerID} ne '1') {
               $Self->{TicketObject}->LockSet(
@@ -327,9 +341,31 @@ sub Run {
                 );
             }
           }
+          # get free text params
+          my %TicketFreeTime = ();
+          foreach (1..2) {
+              foreach my $Type (qw(Year Month Day Hour Minute)) {
+                  $TicketFreeTime{"TicketFreeTime".$_.$Type} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
+              }
+          }
+          # set ticket free time
+          foreach (1..2) {
+              if (defined($TicketFreeTime{"TicketFreeTime".$_."Year"}) &&
+                  defined($TicketFreeTime{"TicketFreeTime".$_."Month"}) &&
+                  defined($TicketFreeTime{"TicketFreeTime".$_."Day"}) &&
+                  defined($TicketFreeTime{"TicketFreeTime".$_."Hour"}) &&
+                  defined($TicketFreeTime{"TicketFreeTime".$_."Minute"})) {
+                  $Self->{TicketObject}->TicketFreeTimeSet(
+                      %TicketFreeTime,
+                      TicketID => $TicketID,
+                      Counter => $_,
+                      UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+                  );
+              }
+          }
           # get attachment
           my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-              Param => 'file_upload', 
+              Param => 'file_upload',
               Source => 'String',
           );
           if (%UploadStuff) {
