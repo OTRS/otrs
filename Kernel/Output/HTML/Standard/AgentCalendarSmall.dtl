@@ -34,7 +34,7 @@ function SelectDay(tt, mm, yyyy) {
     opener.document.compose.Day$Data{"Prefix"}.value = tt;
     opener.document.compose.Month$Data{"Prefix"}.value = mm;
     opener.document.compose.Year$Data{"Prefix"}.value = yyyy;
-    
+
     this.close();
 }
 <!-- dtl:block:DateFormatInput -->
@@ -52,19 +52,19 @@ function SelectDay(tt, mm, yyyy) {
   <td class="mainbody" colspan="3">
     <table border="0" width="100%" cellspacing="0" cellpadding="1">
       <tr class="contenthead">
-        <th>$Text{"Mo"}</th>
-        <th>$Text{"Tu"}</th>
-        <th>$Text{"We"}</th>
-        <th>$Text{"Th"}</th>
-        <th>$Text{"Fr"}</th>
-        <th>$Text{"Sa"}</th>
-        <th>$Text{"Su"}</th>
+        <th>$Text{"Mon"}</th>
+        <th>$Text{"Tue"}</th>
+        <th>$Text{"Wed"}</th>
+        <th>$Text{"Thu"}</th>
+        <th>$Text{"Fri"}</th>
+        <th>$Text{"Sat"}</th>
+        <th>$Text{"Sun"}</th>
       </tr>
       <!-- dtl:block:Row -->
       <tr>
         <!-- dtl:block:ColEmpty -->
         <th></th>
-        <!-- dtl:block:ColEmpty -->              
+        <!-- dtl:block:ColEmpty -->
         <!-- dtl:block:Col -->
         <td $Data{"Style"} align="center"><a href="return false;" onClick="SelectDay($Data{"Day"}, $Data{"Month"}, $Data{"Year"})">$Data{"Day"}</a></td>
         <!-- dtl:block:Col -->
