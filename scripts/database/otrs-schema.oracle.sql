@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  database: oracle, generated: Fri Jul  1 08:27:22 2005
+--  database: oracle, generated: Sun Jul  3 21:51:17 2005
 -- ----------------------------------------------------------
 DROP TABLE valid CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
@@ -520,6 +520,8 @@ CREATE TABLE ticket (
     freetext7 VARCHAR2 (150),
     freekey8 VARCHAR2 (80),
     freetext8 VARCHAR2 (150),
+    freetime1 DATE,
+    freetime2 DATE,
     valid_id NUMBER (5, 0) NOT NULL,
     create_time_unix NUMBER (20, 0) NOT NULL,
     create_time DATE NOT NULL,

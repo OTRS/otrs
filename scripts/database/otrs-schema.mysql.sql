@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  database: mysql, generated: Fri Jul  1 08:26:52 2005
+#  database: mysql, generated: Sun Jul  3 21:50:41 2005
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -331,6 +331,8 @@ CREATE TABLE ticket (
     freetext7 VARCHAR (150),
     freekey8 VARCHAR (80),
     freetext8 VARCHAR (150),
+    freetime1 DATETIME,
+    freetime2 DATETIME,
     valid_id SMALLINT NOT NULL,
     create_time_unix BIGINT NOT NULL,
     create_time DATETIME NOT NULL,
