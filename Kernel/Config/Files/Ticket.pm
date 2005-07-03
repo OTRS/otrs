@@ -74,6 +74,11 @@
     # default selections (if wanted)
     # $Self->{"TicketFreeText1::DefaultSelection"} = 'Notebook';
 
+    $Self->{"TicketFreeTimeKey1"} = 'Termin1';
+    $Self->{"TicketFreeTimeDiff1"} = 0;
+    $Self->{"TicketFreeTimeKey2"} = 'Termin2';
+    $Self->{"TicketFreeTimeDiff2"} = 0;
+
     # --------------------------------------------------- #
     # Ticket::NumberGenerator                             #
     # --------------------------------------------------- #
@@ -243,7 +248,7 @@
 
     # Ticket::Frontend::AccountTime
     # (add time accounting)
-    $Self->{'Ticket::Frontend::AccountTime'} = 0;
+    $Self->{'Ticket::Frontend::AccountTime'} = 1;
 
     # Ticket::Frontend::TimeUnits
     # (your choice of your used time units, minutes, hours, work units, ...)
@@ -1303,14 +1308,14 @@ $Data{"Signature"}
          },
        ],
     };
+#    $Self->{'Frontend::Module'}->{'AgentTicketStatusView'} = {
+#         Description => 'Overview of all open tickets',
+#         Title => 'Status View',
+#         NavBarName => 'Ticket',
+#    };
     $Self->{'Frontend::Module'}->{'AgentTicketMailbox'} = {
         Description => 'Agent Mailbox',
         Title => 'Locked Tickets',
-        NavBarName => 'Ticket',
-    };
-    $Self->{'Frontend::Module'}->{'AgentTicketStatusView'} = {
-        Description => 'Overview of all open tickets',
-        Title => 'Status View',
         NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentZoom'} = {
