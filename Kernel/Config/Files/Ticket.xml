@@ -148,7 +148,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.49 2005-06-22 05:00:31 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.50 2005-07-03 18:38:39 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifyer for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z.B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -1147,7 +1147,7 @@ TimeWorkingHours
             # $Self->{'Ticket::Frontend::QueueSort'} = {
             #       7 => 1,
             #     3 => 0,
-            # };    
+            # };
         -->
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AccountTime" Required="1" Valid="1">
@@ -1156,13 +1156,13 @@ TimeWorkingHours
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
-            <Option SelectedID="0">
+            <Option SelectedID="1">
                 <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>                
+                <Item Key="1">Yes</Item>
             </Option>
         </Setting>
         <!-- $Self->{'Ticket::Frontend::AccountTime'} = 0; -->
-    </ConfigItem>      
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::TimeUnits" Required="1" Valid="1">
         <Description Lang="en">Your choice of your used time units (e.g. work units, hours, minutes).</Description>
         <Description Lang="de">Auswahl der Zeiteinheiten bei der Zeiterfassung (z. B. Arbeitseinheiten, Stunden, Minuten).</Description>
