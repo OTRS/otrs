@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.88 2005-06-27 07:11:01 rk Exp $
+# $Id: Article.pm,v 1.89 2005-07-03 18:34:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.88 $';
+$VERSION = '$Revision: 1.89 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -938,7 +938,8 @@ sub ArticleGet {
         " st.freekey3, st.freetext3, st.freekey4, st.freetext4,".
         " st.freekey5, st.freetext5, st.freekey6, st.freetext6,".
         " st.freekey7, st.freetext7, st.freekey8, st.freetext8, ".
-        " st.ticket_lock_id, st.title, st.escalation_start_time ".
+        " st.ticket_lock_id, st.title, st.escalation_start_time, ".
+        " st.freetime1 , st.freetime2 ".
         " FROM ".
         " article sa, ticket st, ".
         " $Self->{ConfigObject}->{DatabaseUserTable} su ".
@@ -1037,6 +1038,9 @@ sub ArticleGet {
         $Data{TicketFreeText7} = $Row[45];
         $Data{TicketFreeKey8} = $Row[46];
         $Data{TicketFreeText8} = $Row[47];
+        $Data{TicketFreeTime1} = $Row[51];
+        $Data{TicketFreeTime2} = $Row[52];
+
         $Data{IncomingTime} = $Row[30];
         $Data{RealTillTimeNotUsed} = $Row[17];
         $Ticket{LockID} = $Row[48];
