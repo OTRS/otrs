@@ -1,77 +1,102 @@
 #!/usr/bin/perl -w
 # --
 # otrs.addQueue - Add Queue from CLI
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
-# $Id: otrs.addQueue,v 1.7 2003-01-23 22:50:09 martin Exp $
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+# $Id: otrs.addQueue,v 1.8 2005-07-04 11:45:03 martin Exp $
+# --
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
+# use ../ as lib location
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin)."/Kernel/cpan-lib";
 
-use vars qw (%opts);
-use Getopt::Std;
-getopt('g',  \%opts);
-unless ($ARGV[0] && $opts{'g'}){
-    print "$FindBin::Script -g group_name queue_name";
-    print "\n";
-    exit;
-}
-
 use strict;
+
+use vars qw($VERSION);
+$VERSION = '$Revision: 1.8 $';
+$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+
+
+use Getopt::Std;
 use Kernel::Config;
-use Kernel::System::Log;
+use Kernel::System::Time;
 use Kernel::System::DB;
+use Kernel::System::Log;
 use Kernel::System::Queue;
 use Kernel::System::Group;
 
+# --
+# get options
+# --
+my %Opts = ();
+getopt('hgnsc', \%Opts);
+if ($Opts{'h'}) {
+    print "otrs.addQueue.pl <Revision $VERSION> - add new queue\n";
+    print "Copyright (c) 2001-2005 Martin Edenhofer <martin\@otrs.org>\n";
+    print "Copyright (c) 2002 Atif Ghaffar <aghaffar\@developer.ch>\n";
+    print "usage: otrs.addQueue.pl -n <NAME> -g <GROUP> [-s <SYSTEMADDRESSID> -c <COMMENT>]\n";
+    exit 1;
+}
+
+
+if (!$Opts{'n'}) {
+    print STDERR "ERROR: Need -n <NAME>\n";
+    exit 1;
+}
+if (!$Opts{'g'}) {
+    print STDERR "ERROR: Need -g <GROUP>\n";
+    exit 1;
+}
 
 # --
-# create common objects 
+# create common objects
 # --
-
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
-$CommonObject{LogObject}    = Kernel::System::Log->new(%CommonObject, LogPrefix => 'otrs.addQueue');
+$CommonObject{LogObject}    = Kernel::System::Log->new(
+    %CommonObject,
+    LogPrefix => 'otrs.addQueue',
+);
 $CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
 $CommonObject{QueueObject}  = Kernel::System::Queue->new(%CommonObject);
 $CommonObject{GroupObject}  = Kernel::System::Group->new(%CommonObject);
 
-
-
-
-
-
-
-
-
-my %Param;
-undef %Param;
-
-#user id of the person adding the queue?
-$Param{UserID}='1';
-
-
-#Validrecord
-$Param{ValidID}='1';
-
-
-$Param{Group}=$opts{'g'};
-   
-if ($Param{GroupID}=$CommonObject{GroupObject}->GetGroupIdByName(%Param)){
-   print "Found Group.. GID is $Param{GroupID}" , "\n";
-} else {
-   print "Failed to get Group ID. Perhaps non-existent group..\n";
-   exit;
+# check group
+if (!$CommonObject{GroupObject}->GetGroupIdByName(Group => $Opts{'g'})){
+    print STDERR "ERROR: Found no GroupID for $Opts{'g'}\n";
+    exit 1;
 }
-
-$Param{Name}=$ARGV[0];
-$CommonObject{QueueObject}->QueueAdd(%Param);
-exit (0);
-
-__END__
+# add queue
+if (!$CommonObject{QueueObject}->QueueAdd(
+    Name => $Opts{'n'},
+    GroupID => $CommonObject{GroupObject}->GetGroupIdByName(Group => $Opts{'g'}),
+    SystemAddressID => $Opts{'s'} || undef,
+    Comment => $Opts{'c'} || undef,
+    ValidID => 1,
+    UserID => 1,
+)) {
+    print STDERR "ERROR: Can't create queue!\n";
+    exit 1;
+}
+else {
+    print "Notice: Queue '$Opts{'n'}' created.\n";
+    exit (0);
+}
 
