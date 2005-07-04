@@ -4,7 +4,7 @@
 # Copyright (C) 2004-2005 Yann Richard <ze at nbox.org>
 # Copyright (C) 2004 Igor Genibel <igor.genibel at eds-opensource.com>
 # --
-# $Id: fr.pm,v 1.45 2005-05-16 12:46:35 martin Exp $
+# $Id: fr.pm,v 1.46 2005-07-04 06:54:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.45 $';
+$VERSION = '$Revision: 1.46 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -23,7 +23,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Sun May  8 23:10:46 2005
+    # Last translation file sync: Mon Jul  4 08:46:54 2005
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -66,7 +66,9 @@ sub Data {
       'Line' => 'Ligne',
       'Example' => 'Exemple',
       'Examples' => 'Exemples',
+      'valid' => '',
       'invalid' => 'invalide',
+      'invalid-temporarily' => '',
       ' 2 minutes' => '',
       ' 5 minutes' => '',
       ' 7 minutes' => '',
@@ -156,13 +158,9 @@ sub Data {
       'Down' => 'Bas',
       'Add' => 'Ajouter',
       'Category' => 'Catégorie',
+      'Viewer' => '',
       'New message' => 'Nouveau message',
       'New message!' => 'Nouveau message !',
-      'Admin-Area' => 'Zone d\'administration',
-      'Agent-Area' => 'Interface du technicien',
-      'FAQ-Area' => 'Foire Aux Questions',
-      'QueueView' => 'Vue file',
-      'Stats' => 'Statistiques',
       'Please answer this ticket(s) to get back to the normal queue view!' => 'Il faut répondre à ce(s) ticket(s) pour revenir à une vue normale de la file !',
       'You got new message!' => 'Vous avez un nouveau message !',
       'You have %s new message(s)!' => 'Vous avez %s nouveau(x) message(s) !',
@@ -182,9 +180,6 @@ sub Data {
       'Logout successful. Thank you for using OTRS!' => 'Déconnexion réussie. Merci d\'avoir utilisé OTRS!',
       'Invalid SessionID!' => 'ID de Session Invalide !',
       'Feature not active!' => 'Cette fonctionnalité n\'est pas activée !',
-      'Ticket Number' => 'Numéro de ticket',
-      'Ticket Object' => '',
-      'No such Ticket Number "%s"! Can\'t link it!' => 'Pas de numéro de ticket "%s"! Je ne peut pas le lier',
       'Take this Customer' => 'Choisir ce client',
       'Take this User' => 'Choisir cet utilisateur',
       'possible' => '',
@@ -200,9 +195,6 @@ sub Data {
       'No Permission!' => 'Pas de permission!',
       'To: (%s) replaced with database email!' => 'Le champ \'À:\' (%s) a été remplacé avec la valeur de la base de données des des adresses de courriel !',
       'Cc: (%s) added database email!' => 'Cc: (%s) a été ajouté à la base de donnée d\'e-mail',
-      'Don\'t show closed Tickets' => 'Ne pas montrer les tickets fermés',
-      'Show closed Tickets' => 'Voir les tickets fermés',
-      'New Article' => 'Nouvel Article',
       '(Click here to add)' => '(Cliquez içi pour ajouter)',
       'last' => 'dernier',
       'before' => 'avant',
@@ -226,37 +218,6 @@ sub Data {
       'Sign' => 'Signer',
       'Crypted' => 'Crypté',
       'Crypt' => 'Crypter',
-      'History::Move' => 'Le ticket a été déplacé dans la file "%s" (%s) - Ancienne file: "%s" (%s).',
-      'History::NewTicket' => 'Un nouveau ticket a été crée: [%s] created (Q=%s;P=%s;S=%s).',
-      'History::FollowUp' => 'Un suivie du ticket [%s]. %s',
-      'History::SendAutoReject' => 'Rejet automatique envoyé à "%s".',
-      'History::SendAutoReply' => 'Réponse automatique envoyé à "%s".',
-      'History::SendAutoFollowUp' => 'Suivie automatique envoyé à "%s".',
-      'History::Forward' => 'Transféré vers "%s".',
-      'History::Bounce' => 'Redirigé vers "%s".',
-      'History::SendAnswer' => 'Email envoyé à "%s".',
-      'History::SendAgentNotification' => '"%s"-notification envoyé à "%s".',
-      'History::SendCustomerNotification' => 'Notification envoyé à "%s".',
-      'History::EmailAgent' => 'Email envoyé au client.',
-      'History::EmailCustomer' => 'Ajout d\'une adresse email. %s',
-      'History::PhoneCallAgent' => 'Agent a appellé le client.',
-      'History::PhoneCallCustomer' => 'Le client nous a appellé.',
-      'History::AddNote' => 'Ajout d\'une note (%s)',
-      'History::Lock' => 'Ticket vérouillé.',
-      'History::Unlock' => 'Ticket dévérouillé.',
-      'History::TimeAccounting' => 'Temps passé sur l\'action: %s . Total du temps passé pour ce ticket: %s unité(s).',
-      'History::Remove' => '%s',
-      'History::CustomerUpdate' => 'Mise à jour: %s',
-      'History::PriorityUpdate' => 'Changement de priorité de "%s" (%s) pour "%s" (%s).',
-      'History::OwnerUpdate' => 'Le nouveau propriétaire est "%s" (ID=%s).',
-      'History::LoopProtection' => 'Protection anti-boucle! Pas d\'auto réponse envoyé à "%s".',
-      'History::Misc' => '%s',
-      'History::SetPendingTime' => 'Mise à jour: %s',
-      'History::StateUpdate' => 'Avant: "%s" Après: "%s"',
-      'History::TicketFreeTextUpdate' => 'Mise à jour: %s=%s;%s=%s;',
-      'History::WebRequestCustomer' => 'Requête du client via le web.',
-      'History::TicketLinkAdd' => 'Added link to ticket "%s".',
-      'History::TicketLinkDelete' => 'Deleted link to ticket "%s".',
 
       # Template: AAAMonth
       'Jan' => '',
@@ -273,15 +234,20 @@ sub Data {
       'Dec' => 'Déc',
 
       # Template: AAANavBar
+      'Admin-Area' => 'Zone d\'administration',
+      'Agent-Area' => 'Interface du technicien',
       'Ticket-Area' => 'Tickets',
       'Logout' => 'Déconnexion',
       'Agent Preferences' => 'Préférences de l\'Agent',
       'Preferences' => 'Préférences',
       'Agent Mailbox' => 'Boite e-mail de l\'Agent',
+      'Stats' => 'Statistiques',
       'Stats-Area' => 'Statistiques',
+      'FAQ-Area' => 'Foire Aux Questions',
       'FAQ' => '',
       'FAQ-Search' => '(FAQ) Rechercher',
       'FAQ-Article' => '(FAQ) Article',
+      'New Article' => 'Nouvel Article',
       'FAQ-State' => '(FAQ) État',
       'Admin' => '',
       'A web calendar' => '',
@@ -293,22 +259,27 @@ sub Data {
       'Incident' => '',
       'Advisory' => '',
       'WebWatcher' => '',
+      'Customer Users' => '',
+      'Customer Users <-> Groups' => '',
+      'Users <-> Groups' => '',
+      'Roles' => 'Rôles',
+      'Roles <-> Users' => '',
+      'Roles <-> Groups' => '',
+      'Salutations' => '',
+      'Signatures' => '',
+      'Email Addresses' => '',
+      'Notifications' => '',
+      'Category Tree' => '',
+      'Admin Notification' => '',
 
       # Template: AAAPreferences
       'Preferences updated successfully!' => 'Les préférences ont bien été mises à jours !',
       'Mail Management' => 'Gestion des e-mails',
       'Frontend' => 'Interface',
       'Other Options' => 'Autres options',
-      'New ticket notification' => 'Notification de nouveau ticket',
-      'Send me a notification if there is a new ticket in "My Queues".' => 'Me prévenir si il y a un nouveau ticket dans une de "Mes files".',
-      'Follow up notification' => 'Notification de suivi',
-      'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Me prévenir si un client envoie un suivi (follow-up) et que je suis le propriétaire du ticket.',
-      'Ticket lock timeout notification' => 'Prévenir du dépassement du délai d\'un verrou',
-      'Send me a notification if a ticket is unlocked by the system.' => 'Me prévenir si un ticket est dévérouillé par le système',
-      'Move notification' => 'Notification de mouvement',
-      'Send me a notification if a ticket is moved into one of "My Queues".' => 'Me prévenir si un ticket est déplacé dans une de "Mes files".',
-      'Custom Queue' => 'File d\'attente personnalisé',
-      'QueueView refresh time' => 'Temps de rafraîchissement de la vue des files',
+      'Change Password' => '',
+      'New password' => '',
+      'New password again' => '',
       'Select your QueueView refresh time.' => 'Choix du délai de rafraîchissement de la vue des files',
       'Select your frontend language.' => 'Choix de la langue de l\'interface',
       'Select your frontend Charset.' => 'Choix du jeu de caractères de l\'interface',
@@ -316,14 +287,6 @@ sub Data {
       'Select your frontend QueueView.' => 'Choisissez votre interface de vue des files',
       'Spelling Dictionary' => 'Correcteur orthographique',
       'Select your default spelling dictionary.' => 'Sélectionnez votre correcteur orthographique par défaut',
-      'PhoneView' => 'Vue téléphone',
-      'TicketZoom' => 'Vue en détails',
-      'CreateTicket' => 'Créer Ticket',
-      'Screen after new ticket' => 'Écran après un nouveau ticket',
-      'Select your screen after creating a new ticket.' => 'Sélectionnez l\'écran qui sera affiché après avoir créé un nouveau ticket.',
-      'Closed Tickets' => 'Tickets fermés',
-      'Show closed tickets.' => 'Voir les tickets fermés',
-      'Max. shown Tickets a page in QueueView.' => 'Nombre de tickets maximum sur la page de la vue d\'une file',
       'Max. shown Tickets a page in Overview.' => 'Nombre de tickets maximum sur la page d\'aperçu des tickets',
       'Can\'t update password, passwords dosn\'t match! Please try it again!' => 'Mise à jour du mot de passe impossible, les mots de passe diffèrent! Essayez à nouveau svp!',
       'Can\'t update password, invalid characters!' => 'Mise à jour du mot de passe impossible, caractères invalides!',
@@ -398,6 +361,11 @@ sub Data {
       '4 high' => '4 important',
       '5 very high' => '5 très important',
       'Ticket "%s" created!' => 'Le ticket %s a été créé !',
+      'Ticket Number' => 'Numéro de ticket',
+      'Ticket Object' => '',
+      'No such Ticket Number "%s"! Can\'t link it!' => 'Pas de numéro de ticket "%s"! Je ne peut pas le lier',
+      'Don\'t show closed Tickets' => 'Ne pas montrer les tickets fermés',
+      'Show closed Tickets' => 'Voir les tickets fermés',
       'Email-Ticket' => '',
       'Create new Email Ticket' => '',
       'Phone-Ticket' => '',
@@ -424,6 +392,61 @@ sub Data {
       'Close this ticket!' => '',
       'Look into a ticket!' => '',
       'Delete this ticket!' => '',
+      'Mark as Spam!' => '',
+      'My Queues' => '',
+      'Shown Tickets' => '',
+      'New ticket notification' => 'Notification de nouveau ticket',
+      'Send me a notification if there is a new ticket in "My Queues".' => 'Me prévenir si il y a un nouveau ticket dans une de "Mes files".',
+      'Follow up notification' => 'Notification de suivi',
+      'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Me prévenir si un client envoie un suivi (follow-up) et que je suis le propriétaire du ticket.',
+      'Ticket lock timeout notification' => 'Prévenir du dépassement du délai d\'un verrou',
+      'Send me a notification if a ticket is unlocked by the system.' => 'Me prévenir si un ticket est dévérouillé par le système',
+      'Move notification' => 'Notification de mouvement',
+      'Send me a notification if a ticket is moved into one of "My Queues".' => 'Me prévenir si un ticket est déplacé dans une de "Mes files".',
+      'Your queue selection of your favorite queues. You also get notified about this queues via email if enabled.' => '',
+      'Custom Queue' => 'File d\'attente personnalisé',
+      'QueueView refresh time' => 'Temps de rafraîchissement de la vue des files',
+      'Screen after new ticket' => 'Écran après un nouveau ticket',
+      'Select your screen after creating a new ticket.' => 'Sélectionnez l\'écran qui sera affiché après avoir créé un nouveau ticket.',
+      'Closed Tickets' => 'Tickets fermés',
+      'Show closed tickets.' => 'Voir les tickets fermés',
+      'Max. shown Tickets a page in QueueView.' => 'Nombre de tickets maximum sur la page de la vue d\'une file',
+      'Responses' => 'Réponses',
+      'Responses <-> Queue' => '',
+      'Auto Responses' => '',
+      'Auto Responses <-> Queue' => '',
+      'Attachments <-> Responses' => '',
+      'History::Move' => 'Le ticket a été déplacé dans la file "%s" (%s) - Ancienne file: "%s" (%s).',
+      'History::NewTicket' => 'Un nouveau ticket a été crée: [%s] created (Q=%s;P=%s;S=%s).',
+      'History::FollowUp' => 'Un suivie du ticket [%s]. %s',
+      'History::SendAutoReject' => 'Rejet automatique envoyé à "%s".',
+      'History::SendAutoReply' => 'Réponse automatique envoyé à "%s".',
+      'History::SendAutoFollowUp' => 'Suivie automatique envoyé à "%s".',
+      'History::Forward' => 'Transféré vers "%s".',
+      'History::Bounce' => 'Redirigé vers "%s".',
+      'History::SendAnswer' => 'Email envoyé à "%s".',
+      'History::SendAgentNotification' => '"%s"-notification envoyé à "%s".',
+      'History::SendCustomerNotification' => 'Notification envoyé à "%s".',
+      'History::EmailAgent' => 'Email envoyé au client.',
+      'History::EmailCustomer' => 'Ajout d\'une adresse email. %s',
+      'History::PhoneCallAgent' => 'Agent a appellé le client.',
+      'History::PhoneCallCustomer' => 'Le client nous a appellé.',
+      'History::AddNote' => 'Ajout d\'une note (%s)',
+      'History::Lock' => 'Ticket vérouillé.',
+      'History::Unlock' => 'Ticket dévérouillé.',
+      'History::TimeAccounting' => 'Temps passé sur l\'action: %s . Total du temps passé pour ce ticket: %s unité(s).',
+      'History::Remove' => '%s',
+      'History::CustomerUpdate' => 'Mise à jour: %s',
+      'History::PriorityUpdate' => 'Changement de priorité de "%s" (%s) pour "%s" (%s).',
+      'History::OwnerUpdate' => 'Le nouveau propriétaire est "%s" (ID=%s).',
+      'History::LoopProtection' => 'Protection anti-boucle! Pas d\'auto réponse envoyé à "%s".',
+      'History::Misc' => '%s',
+      'History::SetPendingTime' => 'Mise à jour: %s',
+      'History::StateUpdate' => 'Avant: "%s" Après: "%s"',
+      'History::TicketFreeTextUpdate' => 'Mise à jour: %s=%s;%s=%s;',
+      'History::WebRequestCustomer' => 'Requête du client via le web.',
+      'History::TicketLinkAdd' => 'Added link to ticket "%s".',
+      'History::TicketLinkDelete' => 'Deleted link to ticket "%s".',
 
       # Template: AAAWeekDay
       'Sun' => 'Dim',
@@ -447,7 +470,7 @@ sub Data {
       'to get the first 5 lines of the email' => 'pour avoir les 5 premières ligne du mail',
       'to get the from line of the email' => 'pour avoir les lignes \'De\' du courriel',
       'to get the realname of the sender (if given)' => 'pour avoir le nom réel de l\'utilisateur (s\il est donné)',
-      'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
+      'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
 
       # Template: AdminCustomerUserForm
       'The message being composed has been closed.  Exiting.' => 'Le message en cours de rédaction a été clôturé. Sortie.',
@@ -473,10 +496,8 @@ sub Data {
       'Full read and write access to the tickets in this group/queue.' => 'Accès complet en lecture et écriture aux tickets dans cette file/groupe.',
 
       # Template: AdminCustomerUserGroupForm
-      'Change user <-> group settings' => 'Modifier les paramètres utilisateurs <-> groupes',
 
       # Template: AdminEmail
-      'Admin-Email' => 'Email de l\'administrateur',
       'Message sent to' => 'Message envoyé à',
       'Recipents' => 'Récipients',
       'Body' => 'Corps',
@@ -486,7 +507,6 @@ sub Data {
       'GenericAgent' => '',
       'Job-List' => '',
       'Last run' => '',
-      'valid' => '',
       'Run Now!' => '',
       'x' => '',
       'Save Job as?' => '',
@@ -543,8 +563,6 @@ sub Data {
       # Template: AdminNavigationBar
       'Users' => 'Utilisateurs',
       'Groups' => 'Groupes',
-      'Roles' => 'Rôles',
-      'Responses' => 'Réponses',
       'Misc' => 'Divers',
 
       # Template: AdminNotificationForm
@@ -667,7 +685,6 @@ sub Data {
       'Permissions to change the ticket priority in this group/queue.' => 'Permission de changer la priorité d\'un ticket dans cette file/groupe.',
 
       # Template: AdminRoleGroupForm
-      'Change roles <-> groups settings' => 'Changer les rôles <-> paramèttres des groupes',
       'Role' => 'Rôles',
 
       # Template: AdminRoleUserChangeForm
@@ -676,7 +693,6 @@ sub Data {
       'Select the role:user relations.' => 'Sélection des relations role/utilisateur',
 
       # Template: AdminRoleUserForm
-      'Change users <-> roles settings' => 'Changement d\'utilisateur <-> parramèttres des rôles',
 
       # Template: AdminSalutationForm
       'Salutation Management' => 'Préfixes des messages',
@@ -722,21 +738,27 @@ sub Data {
       'SysConfig' => 'Configuration Système',
       'Group selection' => 'Sélection du groupe',
       'Show' => 'Voir',
+      'Download Settings' => '',
+      'Download all system config changes.' => '',
+      'Load Settings' => '',
       'Subgroup' => 'Sous-groupe',
+      'Elements' => '',
 
       # Template: AdminSysConfigEdit
-      'Options ' => 'Options',
-      'for ' => 'pour',
-      'Subgroup \'' => 'Sous-groupe \'',
+      'Config Options' => '',
+      'Default' => '',
       'Content' => '',
       'New' => 'Nouveau',
+      'New Group' => '',
       'Group Ro' => 'Groupe lecture seule',
+      'New Group Ro' => '',
       'NavBarName' => 'Nom de la barre de navigation',
       'Image' => '',
       'Typ' => 'Type',
       'Prio' => 'Priorité',
       'Block' => '',
       'NavBar' => 'Barre de navigation',
+      'AccessKey' => '',
 
       # Template: AdminSystemAddressForm
       'System Email Addresses Management' => 'Gestion des adresses courriel du système',
@@ -749,7 +771,7 @@ sub Data {
       'Firstname' => 'Prénom',
       'Lastname' => 'Nom',
       'User will be needed to handle tickets.' => 'Un utilisateur sera nécessaire pour gérer les tickets.',
-      'Don\'t forget to add a new user to groups!' => 'Ne pas oublier d\'ajouter un nouvel utilisateur aux groupes !',
+      'Don\'t forget to add a new user to groups and/or roles!' => '',
 
       # Template: AdminUserGroupChangeForm
       'Users <-> Groups Management' => 'Utilisateurs <-> Gestion des groupes',
@@ -761,6 +783,8 @@ sub Data {
       'Return to the compose screen' => 'Retourner à l\'écran de saisie',
       'Discard all changes and return to the compose screen' => 'Annuler tous les changements et retourner à l\'écran de saisie',
 
+      # Template: AgentCalendarSmall
+
       # Template: AgentCustomerTableView
 
       # Template: AgentInfo
@@ -768,7 +792,6 @@ sub Data {
 
       # Template: AgentLinkObject
       'Link Object' => '',
-      '"}" $Text{"with' => '',
       'Select' => 'Sélectionner',
       'Results' => 'Résultat',
       'Total hits' => 'Total des hits',
@@ -803,7 +826,6 @@ sub Data {
       # Template: AgentTicketBulk
       'A message should have a subject!' => 'Un message doit avoir un sujet !',
       'Ticket Bulk Action' => 'Ticket en action groupé',
-      '$Text{"Note!' => '',
       'Spell Check' => 'Vérification orthographique',
       'Note type' => 'Type de note',
       'Unlock Tickets' => 'Dévérouiller Tickets',
@@ -868,8 +890,6 @@ sub Data {
       'Order' => 'Ordre',
       'up' => 'vers le haut',
       'down' => 'vers le bas',
-      '"}\'; return true;" onmouseout="window.status=\'\';" class="menuitem" title="$Text{"' => '',
-      '"}"}">$Quote{"$Text{""}' => '',
 
       # Template: AgentTicketMerge
       'You need to use a ticket number!' => 'Vous devez utiliser un numéro de ticket!',
@@ -961,6 +981,7 @@ sub Data {
       'U' => 'Z-A',
       'sort downward' => 'Tri décroissant',
       'D' => 'A-Z',
+      'Customer history"}\'; return true;" onmouseout="window.status=\'\';"><div title="">$Quote{"' => '',
 
       # Template: AgentTicketStatusView
       'Ticket Status View' => 'Vue de l\'état du ticket',
@@ -971,6 +992,7 @@ sub Data {
 
       # Template: AgentTicketZoomStatus
       'Locked' => 'Vérrouillé',
+      'Article time' => '',
 
       # Template: AgentWindowTabStart
 
@@ -987,33 +1009,21 @@ sub Data {
       # Template: CustomerError
       'Traceback' => 'Trace du retour d\'erreur',
 
-      # Template: CustomerFAQArticleHistory
-      'FAQ History' => 'Historique de la FAQ',
+      # Template: CustomerFAQ
       'Print' => 'Imprimer',
-
-      # Template: CustomerFAQArticlePrint
       'Keywords' => 'Mots clés',
-      'Last update' => 'Dernière mise à jour',
       'Symptom' => 'Symptôme',
       'Problem' => 'Problème',
       'Solution' => '',
-
-      # Template: CustomerFAQArticleSystemHistory
-      'FAQ System History' => 'Historique système de la FAQ',
-
-      # Template: CustomerFAQArticleView
       'Modified' => 'Modifié',
-
-      # Template: CustomerFAQOverview
-      'FAQ Overview' => 'Vue d\'ensemble de la FAQ',
-
-      # Template: CustomerFAQSearch
+      'Last update' => 'Dernière mise à jour',
+      'FAQ System History' => 'Historique système de la FAQ',
+      'modified' => '',
       'FAQ Search' => 'Chercher dans la FAQ',
       'Fulltext' => 'Texte Complet',
       'Keyword' => 'Mot clé',
-
-      # Template: CustomerFAQSearchResult
       'FAQ Search Result' => 'Résultat de la recherche dans la FAQ',
+      'FAQ Overview' => 'Vue d\'ensemble de la FAQ',
 
       # Template: CustomerFooter
       'Powered by' => 'Fonction assurée par',
@@ -1068,6 +1078,8 @@ sub Data {
       'FAQ Language' => 'Langue dans la FAQ',
 
       # Template: Footer
+      'QueueView' => 'Vue file',
+      'PhoneView' => 'Vue téléphone',
       'Top of Page' => 'Haut de page',
 
       # Template: FooterSmall
@@ -1160,14 +1172,21 @@ sub Data {
       # Template: Test
       'OTRS Test Page' => 'Page de test d\'OTRS',
       'Counter' => 'Compteur',
-      'Mark as Spam!' => '',
-      'Your queue selection of your favorite queues. You also get notified about this queues via email if enabled.' => '',
-      'New password' => '',
-      'New password again' => '',
-      'Change Password' => '',
-      'My Queues' => '',
 
       # Template: Warning
+      # Misc
+      'Change roles <-> groups settings' => 'Changer les rôles <-> paramèttres des groupes',
+      'Change users <-> roles settings' => 'Changement d\'utilisateur <-> parramèttres des rôles',
+      'Subgroup \'' => 'Sous-groupe \'',
+      'TicketZoom' => 'Vue en détails',
+      'Don\'t forget to add a new user to groups!' => 'Ne pas oublier d\'ajouter un nouvel utilisateur aux groupes !',
+      'CreateTicket' => 'Créer Ticket',
+      'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
+      'Change user <-> group settings' => 'Modifier les paramètres utilisateurs <-> groupes',
+      'for ' => 'pour',
+      'Admin-Email' => 'Email de l\'administrateur',
+      'Options ' => 'Options',
+      'FAQ History' => 'Historique de la FAQ',
     };
     # $$STOP$$
 }

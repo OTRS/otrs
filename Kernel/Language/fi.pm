@@ -2,7 +2,7 @@
 # Kernel/Language/fi.pm - provides fi language translation
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # --
-# $Id: fi.pm,v 1.31 2005-05-16 12:46:35 martin Exp $
+# $Id: fi.pm,v 1.32 2005-07-04 06:54:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::fi;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -21,7 +21,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Sun May  8 23:15:22 2005
+    # Last translation file sync: Mon Jul  4 08:46:51 2005
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -64,7 +64,9 @@ sub Data {
       'Line' => 'Rivi',
       'Example' => 'Esimerkki',
       'Examples' => 'Esimerkit',
+      'valid' => '',
       'invalid' => 'Virheellinen',
+      'invalid-temporarily' => '',
       ' 2 minutes' => ' 2 Minuuttia',
       ' 5 minutes' => ' 5 Minuuttia',
       ' 7 minutes' => ' 7 Minuuttia',
@@ -154,13 +156,9 @@ sub Data {
       'Down' => '',
       'Add' => '',
       'Category' => '',
+      'Viewer' => '',
       'New message' => 'Uusi viesti',
       'New message!' => 'Uusi viesti!',
-      'Admin-Area' => 'Ylläpito',
-      'Agent-Area' => '',
-      'FAQ-Area' => '',
-      'QueueView' => 'Jonotuslistanäkymä',
-      'Stats' => 'Tilastot',
       'Please answer this ticket(s) to get back to the normal queue view!' => 'Vastaa tähän viestiin saadaksesi se takaisin normaalille jonotuslistalle',
       'You got new message!' => 'Sinulla on uusi viesti!',
       'You have %s new message(s)!' => 'Sinulla on %s kpl uusia viestiä!',
@@ -180,9 +178,6 @@ sub Data {
       'Logout successful. Thank you for using OTRS!' => 'Uloskirjautuminen onnistui. Kiitos kun käytit OTRS-järjestelmää',
       'Invalid SessionID!' => 'Virheellinen SessionID',
       'Feature not active!' => 'Ominaisuus ei käytössä',
-      'Ticket Number' => '',
-      'Ticket Object' => '',
-      'No such Ticket Number "%s"! Can\'t link it!' => '',
       'Take this Customer' => '',
       'Take this User' => '',
       'possible' => 'Käytössä',
@@ -198,9 +193,6 @@ sub Data {
       'No Permission!' => '',
       'To: (%s) replaced with database email!' => '',
       'Cc: (%s) added database email!' => '',
-      'Don\'t show closed Tickets' => '',
-      'Show closed Tickets' => '',
-      'New Article' => '',
       '(Click here to add)' => '',
       'last' => '',
       'before' => '',
@@ -224,37 +216,6 @@ sub Data {
       'Sign' => '',
       'Crypted' => '',
       'Crypt' => '',
-      'History::Move' => 'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).',
-      'History::NewTicket' => 'New Ticket [%s] created (Q=%s;P=%s;S=%s).',
-      'History::FollowUp' => 'FollowUp for [%s]. %s',
-      'History::SendAutoReject' => 'AutoReject sent to "%s".',
-      'History::SendAutoReply' => 'AutoReply sent to "%s".',
-      'History::SendAutoFollowUp' => 'AutoFollowUp sent to "%s".',
-      'History::Forward' => 'Forwarded to "%s".',
-      'History::Bounce' => 'Bounced to "%s".',
-      'History::SendAnswer' => 'Email sent to "%s".',
-      'History::SendAgentNotification' => '"%s"-notification sent to "%s".',
-      'History::SendCustomerNotification' => 'Notification sent to "%s".',
-      'History::EmailAgent' => 'Email sent to customer.',
-      'History::EmailCustomer' => 'Added email. %s',
-      'History::PhoneCallAgent' => 'Agent called customer.',
-      'History::PhoneCallCustomer' => 'Customer called us.',
-      'History::AddNote' => 'Added note (%s)',
-      'History::Lock' => 'Locked ticket.',
-      'History::Unlock' => 'Unlocked ticket.',
-      'History::TimeAccounting' => '%s time unit(s) accounted. Now total %s time unit(s).',
-      'History::Remove' => '%s',
-      'History::CustomerUpdate' => 'Updated: %s',
-      'History::PriorityUpdate' => 'Changed priority from "%s" (%s) to "%s" (%s).',
-      'History::OwnerUpdate' => 'New owner is "%s" (ID=%s).',
-      'History::LoopProtection' => 'Loop-Protection! No auto-response sent to "%s".',
-      'History::Misc' => '%s',
-      'History::SetPendingTime' => 'Updated: %s',
-      'History::StateUpdate' => 'Old: "%s" New: "%s"',
-      'History::TicketFreeTextUpdate' => 'Updated: %s=%s;%s=%s;',
-      'History::WebRequestCustomer' => 'Customer request via web.',
-      'History::TicketLinkAdd' => 'Added link to ticket "%s".',
-      'History::TicketLinkDelete' => 'Deleted link to ticket "%s".',
 
       # Template: AAAMonth
       'Jan' => 'Tam',
@@ -271,15 +232,20 @@ sub Data {
       'Dec' => 'Jou',
 
       # Template: AAANavBar
+      'Admin-Area' => 'Ylläpito',
+      'Agent-Area' => '',
       'Ticket-Area' => '',
       'Logout' => 'Kirjaudu ulos',
       'Agent Preferences' => '',
       'Preferences' => 'Käyttäjäasetukset',
       'Agent Mailbox' => '',
+      'Stats' => 'Tilastot',
       'Stats-Area' => '',
+      'FAQ-Area' => '',
       'FAQ' => 'FAQ/UKK',
       'FAQ-Search' => '',
       'FAQ-Article' => '',
+      'New Article' => '',
       'FAQ-State' => '',
       'Admin' => '',
       'A web calendar' => '',
@@ -291,22 +257,27 @@ sub Data {
       'Incident' => '',
       'Advisory' => '',
       'WebWatcher' => '',
+      'Customer Users' => '',
+      'Customer Users <-> Groups' => '',
+      'Users <-> Groups' => '',
+      'Roles' => '',
+      'Roles <-> Users' => '',
+      'Roles <-> Groups' => '',
+      'Salutations' => '',
+      'Signatures' => '',
+      'Email Addresses' => '',
+      'Notifications' => '',
+      'Category Tree' => '',
+      'Admin Notification' => '',
 
       # Template: AAAPreferences
       'Preferences updated successfully!' => 'Asetukset tallennettu onnistuneesti',
       'Mail Management' => 'Osoitteiden hallinta',
       'Frontend' => 'Käyttöliittymä',
       'Other Options' => 'Muita asetuksia',
-      'New ticket notification' => 'Ilmoitus uusista viesteistä',
-      'Send me a notification if there is a new ticket in "My Queues".' => '',
-      'Follow up notification' => 'Ilmoitus jatkokysymyksistä',
-      'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Lähetä ilmoitus jatkokysymyksistä, jos olen kyseisen tiketin omistaja',
-      'Ticket lock timeout notification' => 'Ilmoitus tiketin lukituksen vanhenemisesta',
-      'Send me a notification if a ticket is unlocked by the system.' => 'Lähetä minulle ilmoitus, jos järjestelmä poistaa tiketin lukituksen.',
-      'Move notification' => 'Siirrä ilmoitus',
-      'Send me a notification if a ticket is moved into one of "My Queues".' => '',
-      'Custom Queue' => 'Valitsemasi jonotuslistat',
-      'QueueView refresh time' => 'Jonotusnäkymän päivitysaika',
+      'Change Password' => '',
+      'New password' => '',
+      'New password again' => '',
       'Select your QueueView refresh time.' => 'Valitse jonotusnäkymän päivitysaika',
       'Select your frontend language.' => 'Valitse käyttöliittymän kieli',
       'Select your frontend Charset.' => 'Valitse käyttöliittymän kirjaisinasetukset',
@@ -314,14 +285,6 @@ sub Data {
       'Select your frontend QueueView.' => 'Valitse käyttöliittymäsi jonotusnäkymä',
       'Spelling Dictionary' => 'Oikolukusanasto',
       'Select your default spelling dictionary.' => '',
-      'PhoneView' => 'Puhelu / Uusi tiketti',
-      'TicketZoom' => '',
-      'CreateTicket' => '',
-      'Screen after new ticket' => '',
-      'Select your screen after creating a new ticket.' => '',
-      'Closed Tickets' => '',
-      'Show closed tickets.' => 'Näytä suljetut tiketit.',
-      'Max. shown Tickets a page in QueueView.' => '',
       'Max. shown Tickets a page in Overview.' => '',
       'Can\'t update password, passwords dosn\'t match! Please try it again!' => '',
       'Can\'t update password, invalid characters!' => '',
@@ -396,6 +359,11 @@ sub Data {
       '4 high' => '4 Kiireellinen',
       '5 very high' => '5 Erittäin kiireellinen',
       'Ticket "%s" created!' => '',
+      'Ticket Number' => '',
+      'Ticket Object' => '',
+      'No such Ticket Number "%s"! Can\'t link it!' => '',
+      'Don\'t show closed Tickets' => '',
+      'Show closed Tickets' => '',
       'Email-Ticket' => '',
       'Create new Email Ticket' => '',
       'Phone-Ticket' => '',
@@ -422,6 +390,61 @@ sub Data {
       'Close this ticket!' => '',
       'Look into a ticket!' => '',
       'Delete this ticket!' => '',
+      'Mark as Spam!' => '',
+      'My Queues' => '',
+      'Shown Tickets' => '',
+      'New ticket notification' => 'Ilmoitus uusista viesteistä',
+      'Send me a notification if there is a new ticket in "My Queues".' => '',
+      'Follow up notification' => 'Ilmoitus jatkokysymyksistä',
+      'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Lähetä ilmoitus jatkokysymyksistä, jos olen kyseisen tiketin omistaja',
+      'Ticket lock timeout notification' => 'Ilmoitus tiketin lukituksen vanhenemisesta',
+      'Send me a notification if a ticket is unlocked by the system.' => 'Lähetä minulle ilmoitus, jos järjestelmä poistaa tiketin lukituksen.',
+      'Move notification' => 'Siirrä ilmoitus',
+      'Send me a notification if a ticket is moved into one of "My Queues".' => '',
+      'Your queue selection of your favorite queues. You also get notified about this queues via email if enabled.' => '',
+      'Custom Queue' => 'Valitsemasi jonotuslistat',
+      'QueueView refresh time' => 'Jonotusnäkymän päivitysaika',
+      'Screen after new ticket' => '',
+      'Select your screen after creating a new ticket.' => '',
+      'Closed Tickets' => '',
+      'Show closed tickets.' => 'Näytä suljetut tiketit.',
+      'Max. shown Tickets a page in QueueView.' => '',
+      'Responses' => 'Vastaukset',
+      'Responses <-> Queue' => '',
+      'Auto Responses' => '',
+      'Auto Responses <-> Queue' => '',
+      'Attachments <-> Responses' => '',
+      'History::Move' => 'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).',
+      'History::NewTicket' => 'New Ticket [%s] created (Q=%s;P=%s;S=%s).',
+      'History::FollowUp' => 'FollowUp for [%s]. %s',
+      'History::SendAutoReject' => 'AutoReject sent to "%s".',
+      'History::SendAutoReply' => 'AutoReply sent to "%s".',
+      'History::SendAutoFollowUp' => 'AutoFollowUp sent to "%s".',
+      'History::Forward' => 'Forwarded to "%s".',
+      'History::Bounce' => 'Bounced to "%s".',
+      'History::SendAnswer' => 'Email sent to "%s".',
+      'History::SendAgentNotification' => '"%s"-notification sent to "%s".',
+      'History::SendCustomerNotification' => 'Notification sent to "%s".',
+      'History::EmailAgent' => 'Email sent to customer.',
+      'History::EmailCustomer' => 'Added email. %s',
+      'History::PhoneCallAgent' => 'Agent called customer.',
+      'History::PhoneCallCustomer' => 'Customer called us.',
+      'History::AddNote' => 'Added note (%s)',
+      'History::Lock' => 'Locked ticket.',
+      'History::Unlock' => 'Unlocked ticket.',
+      'History::TimeAccounting' => '%s time unit(s) accounted. Now total %s time unit(s).',
+      'History::Remove' => '%s',
+      'History::CustomerUpdate' => 'Updated: %s',
+      'History::PriorityUpdate' => 'Changed priority from "%s" (%s) to "%s" (%s).',
+      'History::OwnerUpdate' => 'New owner is "%s" (ID=%s).',
+      'History::LoopProtection' => 'Loop-Protection! No auto-response sent to "%s".',
+      'History::Misc' => '%s',
+      'History::SetPendingTime' => 'Updated: %s',
+      'History::StateUpdate' => 'Old: "%s" New: "%s"',
+      'History::TicketFreeTextUpdate' => 'Updated: %s=%s;%s=%s;',
+      'History::WebRequestCustomer' => 'Customer request via web.',
+      'History::TicketLinkAdd' => 'Added link to ticket "%s".',
+      'History::TicketLinkDelete' => 'Deleted link to ticket "%s".',
 
       # Template: AAAWeekDay
       'Sun' => 'Su',
@@ -445,7 +468,7 @@ sub Data {
       'to get the first 5 lines of the email' => 'nähdäksesi 5 ensimmäistä riviä sähköpostista',
       'to get the from line of the email' => 'nähdäksesi yhden rivin sähköpostista',
       'to get the realname of the sender (if given)' => 'nähdäksesi käyttäjän nimen',
-      'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
+      'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
 
       # Template: AdminCustomerUserForm
       'The message being composed has been closed.  Exiting.' => '',
@@ -471,10 +494,8 @@ sub Data {
       'Full read and write access to the tickets in this group/queue.' => '',
 
       # Template: AdminCustomerUserGroupForm
-      'Change user <-> group settings' => 'Vaihda käyttäjä <-> Ryhmähallinta',
 
       # Template: AdminEmail
-      'Admin-Email' => 'Ylläpidon sähköposti',
       'Message sent to' => 'Viesti lähetetty, vastaanottaja: ',
       'Recipents' => 'Vastaanottajat',
       'Body' => 'Runko-osa',
@@ -484,7 +505,6 @@ sub Data {
       'GenericAgent' => '',
       'Job-List' => '',
       'Last run' => '',
-      'valid' => '',
       'Run Now!' => '',
       'x' => '',
       'Save Job as?' => '',
@@ -541,8 +561,6 @@ sub Data {
       # Template: AdminNavigationBar
       'Users' => '',
       'Groups' => 'Ryhmät',
-      'Roles' => '',
-      'Responses' => 'Vastaukset',
       'Misc' => 'Muut',
 
       # Template: AdminNotificationForm
@@ -665,7 +683,6 @@ sub Data {
       'Permissions to change the ticket priority in this group/queue.' => '',
 
       # Template: AdminRoleGroupForm
-      'Change roles <-> groups settings' => '',
       'Role' => '',
 
       # Template: AdminRoleUserChangeForm
@@ -674,7 +691,6 @@ sub Data {
       'Select the role:user relations.' => '',
 
       # Template: AdminRoleUserForm
-      'Change users <-> roles settings' => '',
 
       # Template: AdminSalutationForm
       'Salutation Management' => 'Tervehdysten hallinta',
@@ -720,22 +736,27 @@ sub Data {
       'SysConfig' => '',
       'Group selection' => '',
       'Show' => '',
+      'Download Settings' => '',
+      'Download all system config changes.' => '',
+      'Load Settings' => '',
       'Subgroup' => '',
+      'Elements' => '',
 
       # Template: AdminSysConfigEdit
-      'Options ' => '',
-      'for ' => '',
-      'Subgroup \'' => '',
-      '\' ' => '',
+      'Config Options' => '',
+      'Default' => '',
       'Content' => '',
       'New' => 'Uusi',
+      'New Group' => '',
       'Group Ro' => '',
+      'New Group Ro' => '',
       'NavBarName' => '',
       'Image' => '',
       'Typ' => '',
       'Prio' => '',
       'Block' => '',
       'NavBar' => '',
+      'AccessKey' => '',
 
       # Template: AdminSystemAddressForm
       'System Email Addresses Management' => 'Sähköpostiosoitteiden määritys',
@@ -748,7 +769,7 @@ sub Data {
       'Firstname' => 'Etunimi',
       'Lastname' => 'Sukunimi',
       'User will be needed to handle tickets.' => 'Käyttäjä tarvitaan tikettien käsittelemiseen.',
-      'Don\'t forget to add a new user to groups!' => 'Älä unohda lisätä käyttäjää ryhmiin!',
+      'Don\'t forget to add a new user to groups and/or roles!' => '',
 
       # Template: AdminUserGroupChangeForm
       'Users <-> Groups Management' => '',
@@ -760,6 +781,8 @@ sub Data {
       'Return to the compose screen' => 'Palaa viestin kirjoitusikkunaan',
       'Discard all changes and return to the compose screen' => 'Hylkää muutokset ja palaa viestin kirjoitusikkunaan',
 
+      # Template: AgentCalendarSmall
+
       # Template: AgentCustomerTableView
 
       # Template: AgentInfo
@@ -767,7 +790,6 @@ sub Data {
 
       # Template: AgentLinkObject
       'Link Object' => '',
-      '"}" $Text{"with' => '',
       'Select' => '',
       'Results' => 'Hakutulokset',
       'Total hits' => 'Hakutuloksia yhteensä',
@@ -802,7 +824,6 @@ sub Data {
       # Template: AgentTicketBulk
       'A message should have a subject!' => 'Viestissä pitää olla otsikko!',
       'Ticket Bulk Action' => '',
-      '$Text{"Note!' => '',
       'Spell Check' => 'Oikeinkirjoituksen tarkistus',
       'Note type' => 'Viestityyppi',
       'Unlock Tickets' => '',
@@ -958,6 +979,7 @@ sub Data {
       'U' => 'Y',
       'sort downward' => 'Järjestä laskevasti',
       'D' => 'A',
+      'Customer history"}\'; return true;" onmouseout="window.status=\'\';"><div title="">$Quote{"' => '',
 
       # Template: AgentTicketStatusView
       'Ticket Status View' => '',
@@ -968,6 +990,7 @@ sub Data {
 
       # Template: AgentTicketZoomStatus
       'Locked' => '',
+      'Article time' => '',
 
       # Template: AgentWindowTabStart
 
@@ -984,33 +1007,21 @@ sub Data {
       # Template: CustomerError
       'Traceback' => '',
 
-      # Template: CustomerFAQArticleHistory
-      'FAQ History' => '',
+      # Template: CustomerFAQ
       'Print' => 'Tulosta',
-
-      # Template: CustomerFAQArticlePrint
       'Keywords' => '',
-      'Last update' => '',
       'Symptom' => '',
       'Problem' => '',
       'Solution' => '',
-
-      # Template: CustomerFAQArticleSystemHistory
-      'FAQ System History' => '',
-
-      # Template: CustomerFAQArticleView
       'Modified' => '',
-
-      # Template: CustomerFAQOverview
-      'FAQ Overview' => '',
-
-      # Template: CustomerFAQSearch
+      'Last update' => '',
+      'FAQ System History' => '',
+      'modified' => '',
       'FAQ Search' => '',
       'Fulltext' => '',
       'Keyword' => '',
-
-      # Template: CustomerFAQSearchResult
       'FAQ Search Result' => '',
+      'FAQ Overview' => '',
 
       # Template: CustomerFooter
       'Powered by' => '',
@@ -1065,6 +1076,8 @@ sub Data {
       'FAQ Language' => '',
 
       # Template: Footer
+      'QueueView' => 'Jonotuslistanäkymä',
+      'PhoneView' => 'Puhelu / Uusi tiketti',
       'Top of Page' => '',
 
       # Template: FooterSmall
@@ -1157,14 +1170,22 @@ sub Data {
       # Template: Test
       'OTRS Test Page' => 'OTRS - Testisivu',
       'Counter' => '',
-      'Mark as Spam!' => '',
-      'Your queue selection of your favorite queues. You also get notified about this queues via email if enabled.' => '',
-      'New password' => '',
-      'New password again' => '',
-      'Change Password' => '',
-      'My Queues' => '',
 
       # Template: Warning
+      # Misc
+      'Change roles <-> groups settings' => '',
+      'Change users <-> roles settings' => '',
+      'Subgroup \'' => '',
+      'TicketZoom' => '',
+      'Don\'t forget to add a new user to groups!' => 'Älä unohda lisätä käyttäjää ryhmiin!',
+      'CreateTicket' => '',
+      'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
+      'Change user <-> group settings' => 'Vaihda käyttäjä <-> Ryhmähallinta',
+      'for ' => '',
+      'Admin-Email' => 'Ylläpidon sähköposti',
+      '\' ' => '',
+      'Options ' => '',
+      'FAQ History' => '',
     };
     # $$STOP$$
 }

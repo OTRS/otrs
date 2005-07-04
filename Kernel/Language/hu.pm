@@ -2,7 +2,7 @@
 # Kernel/Language/hu.pm - provides de language translation
 # Copyright (C) 2004 RLAN Internet <MAGIC at rlan.hu>
 # --
-# $Id: hu.pm,v 1.10 2005-05-16 12:46:35 martin Exp $
+# $Id: hu.pm,v 1.11 2005-07-04 06:54:27 martin Exp $
 # Translation: Gabor Gancs /gg@magicnet.hu/ & Krisztian Gancs /krisz@gancs.hu/
 # Verify: Flora Szabo /szaboflora@magicnet.hu/
 # Hungary Sopron Europe
@@ -17,7 +17,7 @@ package Kernel::Language::hu;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -26,7 +26,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Sun May  8 23:16:12 2005
+    # Last translation file sync: Mon Jul  4 08:46:58 2005
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-2', 'iso-8859-15', ];
@@ -69,7 +69,9 @@ sub Data {
       'Line' => 'Vonal',
       'Example' => 'Példa',
       'Examples' => 'Példa',
+      'valid' => 'érvényes',
       'invalid' => 'érvénytelen',
+      'invalid-temporarily' => '',
       ' 2 minutes' => ' 2 Perc',
       ' 5 minutes' => ' 5 Perc',
       ' 7 minutes' => ' 7 Perc',
@@ -159,13 +161,9 @@ sub Data {
       'Down' => '',
       'Add' => 'Hozzáad',
       'Category' => 'Kategória',
+      'Viewer' => '',
       'New message' => 'Új üzenet',
       'New message!' => 'Új üzenet!',
-      'Admin-Area' => 'Admin terület',
-      'Agent-Area' => 'Ügynök-terület',
-      'FAQ-Area' => 'GYIK terület',
-      'QueueView' => 'ÜgyekNézet',
-      'Stats' => 'Statisztika',
       'Please answer this ticket(s) to get back to the normal queue view!' => 'Kérjük válaszoljon erre(ezekre) a jegy(ek)re hogy visszatérhessen a normál ügyek nézethez!',
       'You got new message!' => 'Új üzenete érkezett!',
       'You have %s new message(s)!' => '%s új üzenete van!',
@@ -185,9 +183,6 @@ sub Data {
       'Logout successful. Thank you for using OTRS!' => 'Kilépés rendben! Köszönjük, hogy az OTRS-t használja!',
       'Invalid SessionID!' => 'Hibás SessionID!',
       'Feature not active!' => 'Képesség nem aktív!',
-      'Ticket Number' => 'Jegy szám',
-      'Ticket Object' => '',
-      'No such Ticket Number "%s"! Can\'t link it!' => 'Nincs "%s" számú jegy! Nem tudom csatolni!',
       'Take this Customer' => 'Átveszi ez az ügyfél',
       'Take this User' => 'Átveszi ez a felhasználó',
       'possible' => 'lehetséges',
@@ -203,9 +198,6 @@ sub Data {
       'No Permission!' => 'Nincs jogosultság!',
       'To: (%s) replaced with database email!' => 'Címzett: (%s) felülírva az adatbázis címmel!',
       'Cc: (%s) added database email!' => '',
-      'Don\'t show closed Tickets' => 'Ne jelenítse meg a lezárt jegyeket.',
-      'Show closed Tickets' => 'Mutasd a lezárt jegyeket',
-      'New Article' => 'Új cikk',
       '(Click here to add)' => '(Kattinst ide a hozzáadáshoz)',
       'last' => 'utolsó',
       'before' => 'elõtt',
@@ -229,37 +221,6 @@ sub Data {
       'Sign' => 'Aláír',
       'Crypted' => 'Kódolt',
       'Crypt' => 'Kódol',
-      'History::Move' => 'Történet::Mozgat',
-      'History::NewTicket' => 'Történet::ÚjJegy',
-      'History::FollowUp' => 'Történet::Válasz',
-      'History::SendAutoReject' => 'Történet::AutomatikusElutasításKüldés',
-      'History::SendAutoReply' => 'Történet::AutomatikusVálaszKüldés',
-      'History::SendAutoFollowUp' => 'Történet::AutomatikusReakcióKüldés',
-      'History::Forward' => 'Történet::Továbbít',
-      'History::Bounce' => 'Történet::Visszaküld',
-      'History::SendAnswer' => 'Történet::VálaszKüldés',
-      'History::SendAgentNotification' => 'Történet::ÜgynökÉrtesítésKüldés',
-      'History::SendCustomerNotification' => 'Történet::ÜgyfélÉrtesítésKüldés',
-      'History::EmailAgent' => 'Történet::EmailÜgynök',
-      'History::EmailCustomer' => 'Történet::EmailÜgyfél',
-      'History::PhoneCallAgent' => 'Történet::ÜgynökTelefonHívás',
-      'History::PhoneCallCustomer' => 'Történet::ÜgyfélTelefonHívás',
-      'History::AddNote' => 'Történet::MegjegyzésHozzáadás',
-      'History::Lock' => 'Történet::Zárol',
-      'History::Unlock' => 'Történet::Feloldás',
-      'History::TimeAccounting' => 'Történet::IdõElszámolás',
-      'History::Remove' => 'Történet::Eltávolítás',
-      'History::CustomerUpdate' => 'Történet::ÜgyfélMódosítás',
-      'History::PriorityUpdate' => 'Történet::SürgõsségMódosítás',
-      'History::OwnerUpdate' => 'Történet::TulajdonosVáltás',
-      'History::LoopProtection' => 'Történet::VisszacsatolásVédelem',
-      'History::Misc' => 'Történet::Vegyes',
-      'History::SetPendingTime' => 'Történet::VárakozásiIdõBeállítás',
-      'History::StateUpdate' => 'Történet::ÁllapotMódosítás',
-      'History::TicketFreeTextUpdate' => 'Történet::JegySzabadSzövegMódosítás',
-      'History::WebRequestCustomer' => 'Történet::ÜgyfélWebKérés',
-      'History::TicketLinkAdd' => 'Történet::JegyCsatolásHozzáadás',
-      'History::TicketLinkDelete' => 'Történet::JegyCsatolásTörlés',
 
       # Template: AAAMonth
       'Jan' => '',
@@ -276,15 +237,20 @@ sub Data {
       'Dec' => '',
 
       # Template: AAANavBar
+      'Admin-Area' => 'Admin terület',
+      'Agent-Area' => 'Ügynök-terület',
       'Ticket-Area' => '',
       'Logout' => 'Kilép',
       'Agent Preferences' => 'Ügynök beállítások',
       'Preferences' => 'Beállítások',
       'Agent Mailbox' => '',
+      'Stats' => 'Statisztika',
       'Stats-Area' => '',
+      'FAQ-Area' => 'GYIK terület',
       'FAQ' => 'GYIK',
       'FAQ-Search' => '',
       'FAQ-Article' => '',
+      'New Article' => 'Új cikk',
       'FAQ-State' => '',
       'Admin' => '',
       'A web calendar' => '',
@@ -296,22 +262,27 @@ sub Data {
       'Incident' => '',
       'Advisory' => '',
       'WebWatcher' => '',
+      'Customer Users' => '',
+      'Customer Users <-> Groups' => '',
+      'Users <-> Groups' => '',
+      'Roles' => 'Szabályok',
+      'Roles <-> Users' => '',
+      'Roles <-> Groups' => '',
+      'Salutations' => '',
+      'Signatures' => '',
+      'Email Addresses' => '',
+      'Notifications' => '',
+      'Category Tree' => '',
+      'Admin Notification' => '',
 
       # Template: AAAPreferences
       'Preferences updated successfully!' => 'Beállítások sikeresen frissítve!',
       'Mail Management' => 'Email kezelés',
       'Frontend' => 'Munkafelület',
       'Other Options' => 'Egyéb beállítások',
-      'New ticket notification' => 'Új jegy értesítés',
-      'Send me a notification if there is a new ticket in "My Queues".' => 'Küldjön nekem értesítést, ha új jegy van a "Saját Ügyeim"-ben.',
-      'Follow up notification' => 'Válaszlevél értesítés',
-      'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Küldjön értesítést ha az ügyfél válaszol és én vagyok a tulajdonosa a jegynek.',
-      'Ticket lock timeout notification' => 'Jegyzárolás-lejárat értesítés',
-      'Send me a notification if a ticket is unlocked by the system.' => 'Küldjön értesítést ha a jegy zárolását a renszer feloldotta.',
-      'Move notification' => 'Áthelyezés értesítés',
-      'Send me a notification if a ticket is moved into one of "My Queues".' => 'Küldjön nekem értesítést, ha egy jegyet a "Saját Ügyeim" egyikébe mozgatták.',
-      'Custom Queue' => 'Egyedi ügyek',
-      'QueueView refresh time' => 'ÜgyekNézet frissítési idõ',
+      'Change Password' => '',
+      'New password' => '',
+      'New password again' => '',
       'Select your QueueView refresh time.' => 'Válassza ki az ÜgyekNézet frissítési idejét.',
       'Select your frontend language.' => 'Válassza ki a munkafelület nyelvét.',
       'Select your frontend Charset.' => 'Válassza ki a munkafelület karakterkészletét.',
@@ -319,14 +290,6 @@ sub Data {
       'Select your frontend QueueView.' => 'Válassza ki a munkafelület Ügyek-nézetét.',
       'Spelling Dictionary' => 'Helyesírás-ellenõrzõ szótár',
       'Select your default spelling dictionary.' => 'Válassza ki az alapértelmezett helyesírásellenõrzõ szótárat.',
-      'PhoneView' => 'TelefonNézet',
-      'TicketZoom' => 'JegyNagyítás',
-      'CreateTicket' => 'Jegylétrehozás',
-      'Screen after new ticket' => 'Új jegy utáni képernyõ',
-      'Select your screen after creating a new ticket.' => 'Válassza ki a képernyõt új jegy létrehozása után.',
-      'Closed Tickets' => 'Lezárt jegyek',
-      'Show closed tickets.' => 'Mutasd a lezárt jegyeket.',
-      'Max. shown Tickets a page in QueueView.' => 'Max. megjelenített jegy az ügyek nézetnél.',
       'Max. shown Tickets a page in Overview.' => 'Max. megjelenített jegy az áttekintésnél.',
       'Can\'t update password, passwords dosn\'t match! Please try it again!' => '',
       'Can\'t update password, invalid characters!' => '',
@@ -401,6 +364,11 @@ sub Data {
       '4 high' => '4 magas',
       '5 very high' => '5 nagyon magas',
       'Ticket "%s" created!' => 'A "%s" jegy létrehozva!',
+      'Ticket Number' => 'Jegy szám',
+      'Ticket Object' => '',
+      'No such Ticket Number "%s"! Can\'t link it!' => 'Nincs "%s" számú jegy! Nem tudom csatolni!',
+      'Don\'t show closed Tickets' => 'Ne jelenítse meg a lezárt jegyeket.',
+      'Show closed Tickets' => 'Mutasd a lezárt jegyeket',
       'Email-Ticket' => '',
       'Create new Email Ticket' => '',
       'Phone-Ticket' => '',
@@ -427,6 +395,61 @@ sub Data {
       'Close this ticket!' => '',
       'Look into a ticket!' => '',
       'Delete this ticket!' => '',
+      'Mark as Spam!' => '',
+      'My Queues' => '',
+      'Shown Tickets' => '',
+      'New ticket notification' => 'Új jegy értesítés',
+      'Send me a notification if there is a new ticket in "My Queues".' => 'Küldjön nekem értesítést, ha új jegy van a "Saját Ügyeim"-ben.',
+      'Follow up notification' => 'Válaszlevél értesítés',
+      'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Küldjön értesítést ha az ügyfél válaszol és én vagyok a tulajdonosa a jegynek.',
+      'Ticket lock timeout notification' => 'Jegyzárolás-lejárat értesítés',
+      'Send me a notification if a ticket is unlocked by the system.' => 'Küldjön értesítést ha a jegy zárolását a renszer feloldotta.',
+      'Move notification' => 'Áthelyezés értesítés',
+      'Send me a notification if a ticket is moved into one of "My Queues".' => 'Küldjön nekem értesítést, ha egy jegyet a "Saját Ügyeim" egyikébe mozgatták.',
+      'Your queue selection of your favorite queues. You also get notified about this queues via email if enabled.' => '',
+      'Custom Queue' => 'Egyedi ügyek',
+      'QueueView refresh time' => 'ÜgyekNézet frissítési idõ',
+      'Screen after new ticket' => 'Új jegy utáni képernyõ',
+      'Select your screen after creating a new ticket.' => 'Válassza ki a képernyõt új jegy létrehozása után.',
+      'Closed Tickets' => 'Lezárt jegyek',
+      'Show closed tickets.' => 'Mutasd a lezárt jegyeket.',
+      'Max. shown Tickets a page in QueueView.' => 'Max. megjelenített jegy az ügyek nézetnél.',
+      'Responses' => 'Válaszok',
+      'Responses <-> Queue' => '',
+      'Auto Responses' => '',
+      'Auto Responses <-> Queue' => '',
+      'Attachments <-> Responses' => '',
+      'History::Move' => 'Történet::Mozgat',
+      'History::NewTicket' => 'Történet::ÚjJegy',
+      'History::FollowUp' => 'Történet::Válasz',
+      'History::SendAutoReject' => 'Történet::AutomatikusElutasításKüldés',
+      'History::SendAutoReply' => 'Történet::AutomatikusVálaszKüldés',
+      'History::SendAutoFollowUp' => 'Történet::AutomatikusReakcióKüldés',
+      'History::Forward' => 'Történet::Továbbít',
+      'History::Bounce' => 'Történet::Visszaküld',
+      'History::SendAnswer' => 'Történet::VálaszKüldés',
+      'History::SendAgentNotification' => 'Történet::ÜgynökÉrtesítésKüldés',
+      'History::SendCustomerNotification' => 'Történet::ÜgyfélÉrtesítésKüldés',
+      'History::EmailAgent' => 'Történet::EmailÜgynök',
+      'History::EmailCustomer' => 'Történet::EmailÜgyfél',
+      'History::PhoneCallAgent' => 'Történet::ÜgynökTelefonHívás',
+      'History::PhoneCallCustomer' => 'Történet::ÜgyfélTelefonHívás',
+      'History::AddNote' => 'Történet::MegjegyzésHozzáadás',
+      'History::Lock' => 'Történet::Zárol',
+      'History::Unlock' => 'Történet::Feloldás',
+      'History::TimeAccounting' => 'Történet::IdõElszámolás',
+      'History::Remove' => 'Történet::Eltávolítás',
+      'History::CustomerUpdate' => 'Történet::ÜgyfélMódosítás',
+      'History::PriorityUpdate' => 'Történet::SürgõsségMódosítás',
+      'History::OwnerUpdate' => 'Történet::TulajdonosVáltás',
+      'History::LoopProtection' => 'Történet::VisszacsatolásVédelem',
+      'History::Misc' => 'Történet::Vegyes',
+      'History::SetPendingTime' => 'Történet::VárakozásiIdõBeállítás',
+      'History::StateUpdate' => 'Történet::ÁllapotMódosítás',
+      'History::TicketFreeTextUpdate' => 'Történet::JegySzabadSzövegMódosítás',
+      'History::WebRequestCustomer' => 'Történet::ÜgyfélWebKérés',
+      'History::TicketLinkAdd' => 'Történet::JegyCsatolásHozzáadás',
+      'History::TicketLinkDelete' => 'Történet::JegyCsatolásTörlés',
 
       # Template: AAAWeekDay
       'Sun' => 'Vas',
@@ -450,7 +473,7 @@ sub Data {
       'to get the first 5 lines of the email' => 'hogy megkapja az elsõ 5 sort az email-bõl',
       'to get the from line of the email' => 'hogy megkapja a feladót az email-bõl',
       'to get the realname of the sender (if given)' => 'hogy megkapja a feladó valódi nevét (ha lehetséges)',
-      'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
+      'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
 
       # Template: AdminCustomerUserForm
       'The message being composed has been closed.  Exiting.' => 'Az éppen elkészült levél lezárásra került. Kilépés.',
@@ -476,10 +499,8 @@ sub Data {
       'Full read and write access to the tickets in this group/queue.' => 'Teljes írás és olvasási jog a jegyekhez ebben a csoportban/ügyben.',
 
       # Template: AdminCustomerUserGroupForm
-      'Change user <-> group settings' => 'A felhasználó <-> csoport beállítások megváltoztatása',
 
       # Template: AdminEmail
-      'Admin-Email' => 'Kezelõ-Email',
       'Message sent to' => 'Üzenet elküldve',
       'Recipents' => 'Címzettek',
       'Body' => 'Törzs',
@@ -489,7 +510,6 @@ sub Data {
       'GenericAgent' => 'ÁltalánosÜgynök',
       'Job-List' => 'Feladat-Lista',
       'Last run' => 'Utolsó végrehajtás',
-      'valid' => 'érvényes',
       'Run Now!' => '',
       'x' => '',
       'Save Job as?' => 'Feladat mentése másképp?',
@@ -546,8 +566,6 @@ sub Data {
       # Template: AdminNavigationBar
       'Users' => '',
       'Groups' => 'Csoportok',
-      'Roles' => 'Szabályok',
-      'Responses' => 'Válaszok',
       'Misc' => 'Egyéb',
 
       # Template: AdminNotificationForm
@@ -670,7 +688,6 @@ sub Data {
       'Permissions to change the ticket priority in this group/queue.' => 'Jogosultágok a jegy prioritásnak megváltoztatásához ebben a csoportban/ügyben.',
 
       # Template: AdminRoleGroupForm
-      'Change roles <-> groups settings' => '',
       'Role' => 'Szabály',
 
       # Template: AdminRoleUserChangeForm
@@ -679,7 +696,6 @@ sub Data {
       'Select the role:user relations.' => 'Válassza ki a szabály:felhasználó kapcsolatokat.',
 
       # Template: AdminRoleUserForm
-      'Change users <-> roles settings' => '',
 
       # Template: AdminSalutationForm
       'Salutation Management' => 'Megszólítás kezelés',
@@ -725,22 +741,27 @@ sub Data {
       'SysConfig' => '',
       'Group selection' => '',
       'Show' => '',
+      'Download Settings' => '',
+      'Download all system config changes.' => '',
+      'Load Settings' => '',
       'Subgroup' => '',
+      'Elements' => '',
 
       # Template: AdminSysConfigEdit
-      'Options ' => '',
-      'for ' => '',
-      'Subgroup \'' => '',
-      '\' ' => '',
+      'Config Options' => '',
+      'Default' => '',
       'Content' => '',
       'New' => 'Új',
+      'New Group' => '',
       'Group Ro' => '',
+      'New Group Ro' => '',
       'NavBarName' => '',
       'Image' => '',
       'Typ' => '',
       'Prio' => '',
       'Block' => '',
       'NavBar' => '',
+      'AccessKey' => '',
 
       # Template: AdminSystemAddressForm
       'System Email Addresses Management' => 'Rendszer email címek kezelése',
@@ -753,7 +774,7 @@ sub Data {
       'Firstname' => 'Keresztnév',
       'Lastname' => 'Családi név',
       'User will be needed to handle tickets.' => 'Felhasználó kell a jegyek kezeléséhez.',
-      'Don\'t forget to add a new user to groups!' => 'Ne felejtsen el új felhasználót hozzáadni a csoportokhoz!',
+      'Don\'t forget to add a new user to groups and/or roles!' => '',
 
       # Template: AdminUserGroupChangeForm
       'Users <-> Groups Management' => '',
@@ -765,6 +786,8 @@ sub Data {
       'Return to the compose screen' => 'Visszatérés a szerkesztõképernyõre',
       'Discard all changes and return to the compose screen' => 'Minden változtatás megsemmisítése és visszatérés a szerkesztõképernyõre',
 
+      # Template: AgentCalendarSmall
+
       # Template: AgentCustomerTableView
 
       # Template: AgentInfo
@@ -772,7 +795,6 @@ sub Data {
 
       # Template: AgentLinkObject
       'Link Object' => '',
-      '"}" $Text{"with' => '',
       'Select' => 'Kiválaszt',
       'Results' => 'Eredmények',
       'Total hits' => 'Összes találat',
@@ -807,7 +829,6 @@ sub Data {
       # Template: AgentTicketBulk
       'A message should have a subject!' => 'Egy üzenetnek kell legyen tárgya!',
       'Ticket Bulk Action' => 'Csoportos Jegy Mûvelet',
-      '$Text{"Note!' => '$Text{"Megjegyzés!',
       'Spell Check' => 'Helyesírásellenõrzés',
       'Note type' => 'Jegyzet típus',
       'Unlock Tickets' => '',
@@ -963,6 +984,7 @@ sub Data {
       'U' => 'A',
       'sort downward' => 'rendezés lefelé',
       'D' => 'Z',
+      'Customer history"}\'; return true;" onmouseout="window.status=\'\';"><div title="">$Quote{"' => '',
 
       # Template: AgentTicketStatusView
       'Ticket Status View' => '',
@@ -973,6 +995,7 @@ sub Data {
 
       # Template: AgentTicketZoomStatus
       'Locked' => 'Zárolt',
+      'Article time' => '',
 
       # Template: AgentWindowTabStart
 
@@ -989,33 +1012,21 @@ sub Data {
       # Template: CustomerError
       'Traceback' => 'Visszakövetés',
 
-      # Template: CustomerFAQArticleHistory
-      'FAQ History' => 'GYIK történet',
+      # Template: CustomerFAQ
       'Print' => 'Nyomtat',
-
-      # Template: CustomerFAQArticlePrint
       'Keywords' => 'Kulcsszó',
-      'Last update' => 'Utolsó frissítés',
       'Symptom' => 'Jelenség',
       'Problem' => 'Probléma',
       'Solution' => 'Megoldás',
-
-      # Template: CustomerFAQArticleSystemHistory
-      'FAQ System History' => 'GYIK rendszer történet',
-
-      # Template: CustomerFAQArticleView
       'Modified' => 'Módosítva',
-
-      # Template: CustomerFAQOverview
-      'FAQ Overview' => 'GYIK Áttekintõ',
-
-      # Template: CustomerFAQSearch
+      'Last update' => 'Utolsó frissítés',
+      'FAQ System History' => 'GYIK rendszer történet',
+      'modified' => '',
       'FAQ Search' => 'GYIK keresés',
       'Fulltext' => 'Teljesszöveg',
       'Keyword' => 'Kulcsszó',
-
-      # Template: CustomerFAQSearchResult
       'FAQ Search Result' => 'GYIK keresés eredmény',
+      'FAQ Overview' => 'GYIK Áttekintõ',
 
       # Template: CustomerFooter
       'Powered by' => 'Készítette',
@@ -1070,6 +1081,8 @@ sub Data {
       'FAQ Language' => 'GYIK nyelv',
 
       # Template: Footer
+      'QueueView' => 'ÜgyekNézet',
+      'PhoneView' => 'TelefonNézet',
       'Top of Page' => 'Lap teteje',
 
       # Template: FooterSmall
@@ -1162,14 +1175,22 @@ sub Data {
       # Template: Test
       'OTRS Test Page' => 'OTRS tesztoldal',
       'Counter' => '',
-      'Mark as Spam!' => '',
-      'Your queue selection of your favorite queues. You also get notified about this queues via email if enabled.' => '',
-      'New password' => '',
-      'New password again' => '',
-      'Change Password' => '',
-      'My Queues' => '',
 
       # Template: Warning
+      # Misc
+      'Change roles <-> groups settings' => '',
+      'Change users <-> roles settings' => '',
+      'Subgroup \'' => '',
+      'TicketZoom' => 'JegyNagyítás',
+      'Don\'t forget to add a new user to groups!' => 'Ne felejtsen el új felhasználót hozzáadni a csoportokhoz!',
+      'CreateTicket' => 'Jegylétrehozás',
+      'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
+      'Change user <-> group settings' => 'A felhasználó <-> csoport beállítások megváltoztatása',
+      'for ' => '',
+      'Admin-Email' => 'Kezelõ-Email',
+      '\' ' => '',
+      'Options ' => '',
+      'FAQ History' => 'GYIK történet',
     };
     # $$STOP$$
 }

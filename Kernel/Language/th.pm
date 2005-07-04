@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # Copyright (C) 2005 Pornthep Nivatyakul <seal at cattelecom.com>
 # --
-# $Id: th.pm,v 1.1 2005-06-27 15:06:20 rk Exp $
+# $Id: th.pm,v 1.2 2005-07-04 06:54:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::th;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -24,7 +24,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation file sync: Tue May 17 09:05:01 2005
+    # Last translation file sync: Mon Jul  4 08:47:31 2005
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-11', 'tis-620', ];
@@ -67,7 +67,9 @@ sub Data {
       'Line' => '',
       'Example' => '',
       'Examples' => '',
+      'valid' => '',
       'invalid' => '',
+      'invalid-temporarily' => '',
       ' 2 minutes' => '',
       ' 5 minutes' => '',
       ' 7 minutes' => '',
@@ -157,6 +159,7 @@ sub Data {
       'Down' => '',
       'Add' => '',
       'Category' => '',
+      'Viewer' => '',
       'New message' => '',
       'New message!' => '',
       'Please answer this ticket(s) to get back to the normal queue view!' => '',
@@ -232,20 +235,21 @@ sub Data {
       'Dec' => '',
 
       # Template: AAANavBar
+      'Admin-Area' => '',
+      'Agent-Area' => '',
       'Ticket-Area' => '',
       'Logout' => '',
       'Agent Preferences' => '',
       'Preferences' => '',
       'Agent Mailbox' => '',
-      'Stats-Area' => '',
       'Stats' => '',
+      'Stats-Area' => '',
       'FAQ-Area' => '',
       'FAQ' => '',
       'FAQ-Search' => '',
       'FAQ-Article' => '',
       'New Article' => '',
       'FAQ-State' => '',
-      'Admin-Area' => '',
       'Admin' => '',
       'A web calendar' => '',
       'WebMail' => '',
@@ -256,27 +260,27 @@ sub Data {
       'Incident' => '',
       'Advisory' => '',
       'WebWatcher' => '',
+      'Customer Users' => '',
+      'Customer Users <-> Groups' => '',
+      'Users <-> Groups' => '',
+      'Roles' => '',
+      'Roles <-> Users' => '',
+      'Roles <-> Groups' => '',
+      'Salutations' => '',
+      'Signatures' => '',
+      'Email Addresses' => '',
+      'Notifications' => '',
+      'Category Tree' => '',
+      'Admin Notification' => '',
 
       # Template: AAAPreferences
       'Preferences updated successfully!' => '',
       'Mail Management' => '',
       'Frontend' => '',
       'Other Options' => '',
-      'New ticket notification' => '',
-      'Send me a notification if there is a new ticket in "My Queues".' => '',
-      'Follow up notification' => '',
-      'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => '',
-      'Ticket lock timeout notification' => '',
-      'Send me a notification if a ticket is unlocked by the system.' => '',
-      'Move notification' => '',
-      'Send me a notification if a ticket is moved into one of "My Queues".' => '',
       'Change Password' => '',
       'New password' => '',
       'New password again' => '',
-      'My Queue' => '',
-      'Your queue selection of your favorite queues. You also get notified about this queues via email if enabled.' => '',
-      'Custom Queue' => '',
-      'QueueView refresh time' => '',
       'Select your QueueView refresh time.' => '',
       'Select your frontend language.' => '',
       'Select your frontend Charset.' => '',
@@ -284,14 +288,6 @@ sub Data {
       'Select your frontend QueueView.' => '',
       'Spelling Dictionary' => '',
       'Select your default spelling dictionary.' => '',
-      'PhoneView' => '',
-      'TicketZoom' => '',
-      'CreateTicket' => '',
-      'Screen after new ticket' => '',
-      'Select your screen after creating a new ticket.' => '',
-      'Closed Tickets' => '',
-      'Show closed tickets.' => '',
-      'Max. shown Tickets a page in QueueView.' => '',
       'Max. shown Tickets a page in Overview.' => '',
       'Can\'t update password, passwords dosn\'t match! Please try it again!' => '',
       'Can\'t update password, invalid characters!' => '',
@@ -398,6 +394,29 @@ sub Data {
       'Look into a ticket!' => '',
       'Delete this ticket!' => '',
       'Mark as Spam!' => '',
+      'My Queues' => '',
+      'Shown Tickets' => '',
+      'New ticket notification' => '',
+      'Send me a notification if there is a new ticket in "My Queues".' => '',
+      'Follow up notification' => '',
+      'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => '',
+      'Ticket lock timeout notification' => '',
+      'Send me a notification if a ticket is unlocked by the system.' => '',
+      'Move notification' => '',
+      'Send me a notification if a ticket is moved into one of "My Queues".' => '',
+      'Your queue selection of your favorite queues. You also get notified about this queues via email if enabled.' => '',
+      'Custom Queue' => '',
+      'QueueView refresh time' => '',
+      'Screen after new ticket' => '',
+      'Select your screen after creating a new ticket.' => '',
+      'Closed Tickets' => '',
+      'Show closed tickets.' => '',
+      'Max. shown Tickets a page in QueueView.' => '',
+      'Responses' => '',
+      'Responses <-> Queue' => '',
+      'Auto Responses' => '',
+      'Auto Responses <-> Queue' => '',
+      'Attachments <-> Responses' => '',
       'History::Move' => '',
       'History::NewTicket' => '',
       'History::FollowUp' => '',
@@ -444,7 +463,6 @@ sub Data {
 
       # Template: AdminAutoResponseForm
       'Auto Response Management' => '',
-      '"} <a href="Action=">$Text{"' => '',
       'Response' => '',
       'Auto Response From' => '',
       'Note' => '',
@@ -453,7 +471,7 @@ sub Data {
       'to get the first 5 lines of the email' => '',
       'to get the from line of the email' => '',
       'to get the realname of the sender (if given)' => '',
-      'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
+      'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
 
       # Template: AdminCustomerUserForm
       'The message being composed has been closed.  Exiting.' => '',
@@ -463,11 +481,7 @@ sub Data {
       'Result' => '',
       'Select Source (for add)' => '',
       'Source' => '',
-      '"} <a href="Action=AdminCustomerUser&Nav=">$Text{"' => '',
-      '"}: <font color="red" title="$Text{"This values are required.' => '',
       'This values are read only.' => '',
-      '"} $Text{"' => '',
-      '"}:<br><i class="small">($Text{"' => '',
       'This values are required.' => '',
       'Customer user will be needed to have an customer histor and to to login via customer panels.' => '',
 
@@ -483,10 +497,8 @@ sub Data {
       'Full read and write access to the tickets in this group/queue.' => '',
 
       # Template: AdminCustomerUserGroupForm
-      'Change user <-> group settings' => '',
 
       # Template: AdminEmail
-      'Admin-Email' => '',
       'Message sent to' => '',
       'Recipents' => '',
       'Body' => '',
@@ -496,7 +508,6 @@ sub Data {
       'GenericAgent' => '',
       'Job-List' => '',
       'Last run' => '',
-      'valid' => '',
       'Run Now!' => '',
       'x' => '',
       'Save Job as?' => '',
@@ -542,7 +553,6 @@ sub Data {
 
       # Template: AdminGroupForm
       'Group Management' => '',
-      '"} <a href="Action=AdminGroup">$Text{"' => '',
       'The admin group is to get in the admin area and the stats group to get stats area.' => '',
       'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).' => '',
       'It\'s useful for ASP solutions.' => '',
@@ -554,8 +564,6 @@ sub Data {
       # Template: AdminNavigationBar
       'Users' => '',
       'Groups' => '',
-      'Roles' => '',
-      'Responses' => '',
       'Misc' => '',
 
       # Template: AdminNotificationForm
@@ -678,7 +686,6 @@ sub Data {
       'Permissions to change the ticket priority in this group/queue.' => '',
 
       # Template: AdminRoleGroupForm
-      'Change roles <-> groups settings' => '',
       'Role' => '',
 
       # Template: AdminRoleUserChangeForm
@@ -687,11 +694,9 @@ sub Data {
       'Select the role:user relations.' => '',
 
       # Template: AdminRoleUserForm
-      'Change users <-> roles settings' => '',
 
       # Template: AdminSalutationForm
       'Salutation Management' => '',
-      '"} <a href="Action=AdminSalutation">$Text{"' => '',
       'customer realname' => '',
       'for agent firstname' => '',
       'for agent lastname' => '',
@@ -714,7 +719,6 @@ sub Data {
 
       # Template: AdminSignatureForm
       'Signature Management' => '',
-      '"} <a href="Action=AdminSignature">$Text{"' => '',
 
       # Template: AdminSMIMEForm
       'SMIME Management' => '',
@@ -735,10 +739,15 @@ sub Data {
       'SysConfig' => '',
       'Group selection' => '',
       'Show' => '',
+      'Download Settings' => '',
+      'Download all system config changes.' => '',
+      'Load Settings' => '',
       'Subgroup' => '',
+      'Elements' => '',
 
       # Template: AdminSysConfigEdit
       'Config Options' => '',
+      'Default' => '',
       'Content' => '',
       'New' => '',
       'New Group' => '',
@@ -760,11 +769,10 @@ sub Data {
 
       # Template: AdminUserForm
       'User Management' => '',
-      '"} <a href="Action=AdminUser">$Text{"' => '',
       'Firstname' => '',
       'Lastname' => '',
       'User will be needed to handle tickets.' => '',
-      'Don\'t forget to add a new user to groups!' => '',
+      'Don\'t forget to add a new user to groups and/or roles!' => '',
 
       # Template: AdminUserGroupChangeForm
       'Users <-> Groups Management' => '',
@@ -776,6 +784,8 @@ sub Data {
       'Return to the compose screen' => '',
       'Discard all changes and return to the compose screen' => '',
 
+      # Template: AgentCalendarSmall
+
       # Template: AgentCustomerTableView
 
       # Template: AgentInfo
@@ -783,7 +793,6 @@ sub Data {
 
       # Template: AgentLinkObject
       'Link Object' => '',
-      '"}" $Text{"with' => '',
       'Select' => '',
       'Results' => '',
       'Total hits' => '',
@@ -794,8 +803,6 @@ sub Data {
       'Lookup' => '',
 
       # Template: AgentNavigationBar
-      '"}"><a href="" accesskey="" onmouseover="window.status=\'$Text{"' => '',
-      '"}"><br>$Text{"' => '',
       'Ticket selected for bulk action!' => '',
       'You need min. one selected Ticket!' => '',
 
@@ -820,7 +827,6 @@ sub Data {
       # Template: AgentTicketBulk
       'A message should have a subject!' => '',
       'Ticket Bulk Action' => '',
-      '$Text{"Note!' => '',
       'Spell Check' => '',
       'Note type' => '',
       'Unlock Tickets' => '',
@@ -885,8 +891,6 @@ sub Data {
       'Order' => '',
       'up' => '',
       'down' => '',
-      '"}\'; return true;" onmouseout="window.status=\'\';" class="menuitem" title="$Text{"' => '',
-      '"}"}">$Quote{"$Text{""}' => '',
 
       # Template: AgentTicketMerge
       'You need to use a ticket number!' => '',
@@ -985,12 +989,11 @@ sub Data {
       'Open Tickets' => '',
 
       # Template: AgentTicketZoom
-      '"}: \';return true;" onmouseout="window.status=\'\';"><img src="" border="0" alt="$Text{"' => '',
-      '"}" title="$Text{"' => '',
       'Split' => '',
 
       # Template: AgentTicketZoomStatus
       'Locked' => '',
+      'Article time' => '',
 
       # Template: AgentWindowTabStart
 
@@ -1007,33 +1010,21 @@ sub Data {
       # Template: CustomerError
       'Traceback' => '',
 
-      # Template: CustomerFAQArticleHistory
-      'FAQ History' => '',
+      # Template: CustomerFAQ
       'Print' => '',
-
-      # Template: CustomerFAQArticlePrint
       'Keywords' => '',
-      'Last update' => '',
       'Symptom' => '',
       'Problem' => '',
       'Solution' => '',
-
-      # Template: CustomerFAQArticleSystemHistory
-      'FAQ System History' => '',
-
-      # Template: CustomerFAQArticleView
       'Modified' => '',
-
-      # Template: CustomerFAQOverview
-      'FAQ Overview' => '',
-
-      # Template: CustomerFAQSearch
+      'Last update' => '',
+      'FAQ System History' => '',
+      'modified' => '',
       'FAQ Search' => '',
       'Fulltext' => '',
       'Keyword' => '',
-
-      # Template: CustomerFAQSearchResult
       'FAQ Search Result' => '',
+      'FAQ Overview' => '',
 
       # Template: CustomerFooter
       'Powered by' => '',
@@ -1047,7 +1038,6 @@ sub Data {
       'Create Account' => '',
 
       # Template: CustomerNavigationBar
-      '"}"><a href="" onmouseover="window.status=\'$Text{"' => '',
       'Welcome %s' => '',
 
       # Template: CustomerPreferencesForm
@@ -1090,6 +1080,7 @@ sub Data {
 
       # Template: Footer
       'QueueView' => '',
+      'PhoneView' => '',
       'Top of Page' => '',
 
       # Template: FooterSmall
@@ -1184,6 +1175,7 @@ sub Data {
       'Counter' => '',
 
       # Template: Warning
+      # Misc
     };
     # $$STOP$$
     $Self->{Translation} = \%Hash;

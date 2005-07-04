@@ -6,7 +6,7 @@
 #		     Vadim Buzek 
 #		     Petr Ocasek
 # --
-# $Id: cz.pm,v 1.17 2005-05-16 12:46:35 martin Exp $
+# $Id: cz.pm,v 1.18 2005-07-04 06:54:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ package Kernel::Language::cz;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -26,7 +26,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Mon May  2 00:38:00 2005
+    # Last translation file sync: Mon Jul  4 08:44:55 2005
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-2', ];
@@ -69,7 +69,9 @@ sub Data {
       'Line' => 'Linka',
       'Example' => 'Pøíklad',
       'Examples' => 'Pøíklady',
+      'valid' => 'platný',
       'invalid' => 'neplatný',
+      'invalid-temporarily' => '',
       ' 2 minutes' => ' 2 minuty',
       ' 5 minutes' => ' 5 minut',
       ' 7 minutes' => ' 7 minut',
@@ -159,13 +161,9 @@ sub Data {
       'Down' => '',
       'Add' => 'Pøidat',
       'Category' => 'Kategorie',
+      'Viewer' => '',
       'New message' => 'Nová zpráva',
       'New message!' => 'Nová zpráva!',
-      'Admin-Area' => 'Administraèní zóna',
-      'Agent-Area' => 'Zóna agentù',
-      'FAQ-Area' => 'FAQ zóna',
-      'QueueView' => 'Náhled fronty',
-      'Stats' => 'Statistiky',
       'Please answer this ticket(s) to get back to the normal queue view!' => 'Prosím, odpovìzte na tento (tyto) tiket(y) pro návrat do normálního náhledu fronty!',
       'You got new message!' => 'Máte novou zprávu!',
       'You have %s new message(s)!' => 'Máte %s novou zprávu (nových zpráv)!',
@@ -185,9 +183,6 @@ sub Data {
       'Logout successful. Thank you for using OTRS!' => 'Odhlá¹ení bylo úspìsné. Dìkujeme Vám za pou¾ívání OTRS!',
       'Invalid SessionID!' => 'Neplatné ID relace!',
       'Feature not active!' => 'Funkce je neaktivní!',
-      'Ticket Number' => '',
-      'Ticket Object' => '',
-      'No such Ticket Number "%s"! Can\'t link it!' => '',
       'Take this Customer' => '',
       'Take this User' => 'Pou¾íj tohoto u¾ivatele',
       'possible' => 'mo¾ný',
@@ -203,9 +198,6 @@ sub Data {
       'No Permission!' => '',
       'To: (%s) replaced with database email!' => 'To: (%s) nahrazeno emailem z databáze!',
       'Cc: (%s) added database email!' => '',
-      'Don\'t show closed Tickets' => 'Nezobrazovat uzavøené tikety',
-      'Show closed Tickets' => 'Zobrazit zavøené tikety',
-      'New Article' => 'Nová polo¾ka',
       '(Click here to add)' => '(Pro pøidání kliknìte zde)',
       'last' => 'poslední',
       'before' => 'pøed',
@@ -229,37 +221,6 @@ sub Data {
       'Sign' => '',
       'Crypted' => '',
       'Crypt' => '',
-      'History::Move' => 'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).',
-      'History::NewTicket' => 'New Ticket [%s] created (Q=%s;P=%s;S=%s).',
-      'History::FollowUp' => 'FollowUp for [%s]. %s',
-      'History::SendAutoReject' => 'AutoReject sent to "%s".',
-      'History::SendAutoReply' => 'AutoReply sent to "%s".',
-      'History::SendAutoFollowUp' => 'AutoFollowUp sent to "%s".',
-      'History::Forward' => 'Forwarded to "%s".',
-      'History::Bounce' => 'Bounced to "%s".',
-      'History::SendAnswer' => 'Email sent to "%s".',
-      'History::SendAgentNotification' => '"%s"-notification sent to "%s".',
-      'History::SendCustomerNotification' => 'Notification sent to "%s".',
-      'History::EmailAgent' => 'Email sent to customer.',
-      'History::EmailCustomer' => 'Added email. %s',
-      'History::PhoneCallAgent' => 'Agent called customer.',
-      'History::PhoneCallCustomer' => 'Customer called us.',
-      'History::AddNote' => 'Added note (%s)',
-      'History::Lock' => 'Locked ticket.',
-      'History::Unlock' => 'Unlocked ticket.',
-      'History::TimeAccounting' => '%s time unit(s) accounted. Now total %s time unit(s).',
-      'History::Remove' => '%s',
-      'History::CustomerUpdate' => 'Updated: %s',
-      'History::PriorityUpdate' => 'Changed priority from "%s" (%s) to "%s" (%s).',
-      'History::OwnerUpdate' => 'New owner is "%s" (ID=%s).',
-      'History::LoopProtection' => 'Loop-Protection! No auto-response sent to "%s".',
-      'History::Misc' => '%s',
-      'History::SetPendingTime' => 'Updated: %s',
-      'History::StateUpdate' => 'Old: "%s" New: "%s"',
-      'History::TicketFreeTextUpdate' => 'Updated: %s=%s;%s=%s;',
-      'History::WebRequestCustomer' => 'Customer request via web.',
-      'History::TicketLinkAdd' => 'Added link to ticket "%s".',
-      'History::TicketLinkDelete' => 'Deleted link to ticket "%s".',
 
       # Template: AAAMonth
       'Jan' => 'Led',
@@ -276,38 +237,52 @@ sub Data {
       'Dec' => 'Pro',
 
       # Template: AAANavBar
-      'Send Email and create a new Ticket' => '',
-      'Create new Phone Ticket' => '',
+      'Admin-Area' => 'Administraèní zóna',
+      'Agent-Area' => 'Zóna agentù',
       'Ticket-Area' => '',
-      'Overview of all open Tickets' => '',
       'Logout' => 'Odhlásit',
       'Agent Preferences' => '',
       'Preferences' => 'Nastavení',
       'Agent Mailbox' => '',
+      'Stats' => 'Statistiky',
       'Stats-Area' => '',
+      'FAQ-Area' => 'FAQ zóna',
       'FAQ' => '',
       'FAQ-Search' => '',
       'FAQ-Article' => '',
+      'New Article' => 'Nová polo¾ka',
       'FAQ-State' => '',
       'Admin' => '',
-      'Create new Ticket' => 'Vytvoøit nový tiket',
-      'New Ticket' => 'Nový tiket',
+      'A web calendar' => '',
+      'WebMail' => '',
+      'A web mail client' => '',
+      'FileManager' => '',
+      'A web file manager' => '',
+      'Artefact' => '',
+      'Incident' => '',
+      'Advisory' => '',
+      'WebWatcher' => '',
+      'Customer Users' => '',
+      'Customer Users <-> Groups' => '',
+      'Users <-> Groups' => '',
+      'Roles' => '',
+      'Roles <-> Users' => '',
+      'Roles <-> Groups' => '',
+      'Salutations' => '',
+      'Signatures' => '',
+      'Email Addresses' => '',
+      'Notifications' => '',
+      'Category Tree' => '',
+      'Admin Notification' => '',
 
       # Template: AAAPreferences
       'Preferences updated successfully!' => 'Nastavení úspì¹nì aktualizováno!',
       'Mail Management' => 'Správa e-mailù',
       'Frontend' => 'Rozhraní',
       'Other Options' => 'Jiné mo¾nosti',
-      'New ticket notification' => 'Nové oznámení tiketu',
-      'Send me a notification if there is a new ticket in "My Queues".' => '',
-      'Follow up notification' => 'Následující oznámení',
-      'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Po¹li mi oznámení, pokud klient po¹le následující a jsem vlastník tohoto tiketu.',
-      'Ticket lock timeout notification' => 'Oznámení o vypr¹ení èasu uzamèení tiketu',
-      'Send me a notification if a ticket is unlocked by the system.' => 'Po¹li mi oznámení, pokud je tiket odemknut systémem.',
-      'Move notification' => 'Pøesunout oznámení',
-      'Send me a notification if a ticket is moved into one of "My Queues".' => '',
-      'Custom Queue' => 'Vlastní fronta',
-      'QueueView refresh time' => 'Doba obnovení náhledu fronty',
+      'Change Password' => '',
+      'New password' => '',
+      'New password again' => '',
       'Select your QueueView refresh time.' => 'Vyberte si dobu obnovení náhledu fronty.',
       'Select your frontend language.' => 'Vyberte si jazyk Va¹eho rozhraní.',
       'Select your frontend Charset.' => 'Vyberte si znakovou sadu Va¹eho rozhraní.',
@@ -315,14 +290,6 @@ sub Data {
       'Select your frontend QueueView.' => 'Vyberte si náhled fronty Va¹eho rozhraní.',
       'Spelling Dictionary' => 'Slovník kontroly pravopisu',
       'Select your default spelling dictionary.' => 'Vyberte si Vá¹ výchozí pravopisný slovník',
-      'PhoneView' => 'Nový tiket / hovor',
-      'TicketZoom' => 'Zobrazení tiketu',
-      'CreateTicket' => 'Vytvoøeno Tiketu',
-      'Screen after new ticket' => '',
-      'Select your screen after creating a new ticket.' => '',
-      'Closed Tickets' => 'Uzavøené Tikety',
-      'Show closed tickets.' => 'Ukázat uzavøené tikety.',
-      'Max. shown Tickets a page in QueueView.' => 'Max. zobrazených tiketù v náhledu fronty na stránku',
       'Max. shown Tickets a page in Overview.' => 'Max. zobrazených tiketù v pøehledu na stránku',
       'Can\'t update password, passwords dosn\'t match! Please try it again!' => '',
       'Can\'t update password, invalid characters!' => '',
@@ -397,6 +364,92 @@ sub Data {
       '4 high' => '4 vysoká',
       '5 very high' => '5 velmi vysoká',
       'Ticket "%s" created!' => 'Tiket "%s" vytvoøen!',
+      'Ticket Number' => '',
+      'Ticket Object' => '',
+      'No such Ticket Number "%s"! Can\'t link it!' => '',
+      'Don\'t show closed Tickets' => 'Nezobrazovat uzavøené tikety',
+      'Show closed Tickets' => 'Zobrazit zavøené tikety',
+      'Email-Ticket' => '',
+      'Create new Email Ticket' => '',
+      'Phone-Ticket' => '',
+      'Create new Phone Ticket' => '',
+      'Search Tickets' => '',
+      'Edit Customer Users' => '',
+      'Bulk-Action' => '',
+      'Bulk Actions on Tickets' => '',
+      'Send Email and create a new Ticket' => '',
+      'Overview of all open Tickets' => '',
+      'Locked tickets' => '',
+      'Lock it to work on it!' => '',
+      'Unlock to give it back to the queue!' => '',
+      'Shows the ticket history!' => '',
+      'Print this ticket!' => '',
+      'Change the ticket priority!' => '',
+      'Change the ticket free fields!' => '',
+      'Link this ticket to an other objects!' => '',
+      'Change the ticket owner!' => '',
+      'Change the ticket customer!' => '',
+      'Add a note to this ticket!' => '',
+      'Merge this ticket!' => '',
+      'Set this ticket to pending!' => '',
+      'Close this ticket!' => '',
+      'Look into a ticket!' => '',
+      'Delete this ticket!' => '',
+      'Mark as Spam!' => '',
+      'My Queues' => '',
+      'Shown Tickets' => '',
+      'New ticket notification' => 'Nové oznámení tiketu',
+      'Send me a notification if there is a new ticket in "My Queues".' => '',
+      'Follow up notification' => 'Následující oznámení',
+      'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Po¹li mi oznámení, pokud klient po¹le následující a jsem vlastník tohoto tiketu.',
+      'Ticket lock timeout notification' => 'Oznámení o vypr¹ení èasu uzamèení tiketu',
+      'Send me a notification if a ticket is unlocked by the system.' => 'Po¹li mi oznámení, pokud je tiket odemknut systémem.',
+      'Move notification' => 'Pøesunout oznámení',
+      'Send me a notification if a ticket is moved into one of "My Queues".' => '',
+      'Your queue selection of your favorite queues. You also get notified about this queues via email if enabled.' => '',
+      'Custom Queue' => 'Vlastní fronta',
+      'QueueView refresh time' => 'Doba obnovení náhledu fronty',
+      'Screen after new ticket' => '',
+      'Select your screen after creating a new ticket.' => '',
+      'Closed Tickets' => 'Uzavøené Tikety',
+      'Show closed tickets.' => 'Ukázat uzavøené tikety.',
+      'Max. shown Tickets a page in QueueView.' => 'Max. zobrazených tiketù v náhledu fronty na stránku',
+      'Responses' => 'Odpovìdi',
+      'Responses <-> Queue' => '',
+      'Auto Responses' => '',
+      'Auto Responses <-> Queue' => '',
+      'Attachments <-> Responses' => '',
+      'History::Move' => 'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).',
+      'History::NewTicket' => 'New Ticket [%s] created (Q=%s;P=%s;S=%s).',
+      'History::FollowUp' => 'FollowUp for [%s]. %s',
+      'History::SendAutoReject' => 'AutoReject sent to "%s".',
+      'History::SendAutoReply' => 'AutoReply sent to "%s".',
+      'History::SendAutoFollowUp' => 'AutoFollowUp sent to "%s".',
+      'History::Forward' => 'Forwarded to "%s".',
+      'History::Bounce' => 'Bounced to "%s".',
+      'History::SendAnswer' => 'Email sent to "%s".',
+      'History::SendAgentNotification' => '"%s"-notification sent to "%s".',
+      'History::SendCustomerNotification' => 'Notification sent to "%s".',
+      'History::EmailAgent' => 'Email sent to customer.',
+      'History::EmailCustomer' => 'Added email. %s',
+      'History::PhoneCallAgent' => 'Agent called customer.',
+      'History::PhoneCallCustomer' => 'Customer called us.',
+      'History::AddNote' => 'Added note (%s)',
+      'History::Lock' => 'Locked ticket.',
+      'History::Unlock' => 'Unlocked ticket.',
+      'History::TimeAccounting' => '%s time unit(s) accounted. Now total %s time unit(s).',
+      'History::Remove' => '%s',
+      'History::CustomerUpdate' => 'Updated: %s',
+      'History::PriorityUpdate' => 'Changed priority from "%s" (%s) to "%s" (%s).',
+      'History::OwnerUpdate' => 'New owner is "%s" (ID=%s).',
+      'History::LoopProtection' => 'Loop-Protection! No auto-response sent to "%s".',
+      'History::Misc' => '%s',
+      'History::SetPendingTime' => 'Updated: %s',
+      'History::StateUpdate' => 'Old: "%s" New: "%s"',
+      'History::TicketFreeTextUpdate' => 'Updated: %s=%s;%s=%s;',
+      'History::WebRequestCustomer' => 'Customer request via web.',
+      'History::TicketLinkAdd' => 'Added link to ticket "%s".',
+      'History::TicketLinkDelete' => 'Deleted link to ticket "%s".',
 
       # Template: AAAWeekDay
       'Sun' => 'Ne',
@@ -420,7 +473,7 @@ sub Data {
       'to get the first 5 lines of the email' => 'pro získání prvních 5 øádkù z emailu',
       'to get the from line of the email' => 'pro získaní øádku Od z emailu',
       'to get the realname of the sender (if given)' => 'pro získaní skuteèného jména odesílatele (pokud je zadáno)',
-      'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
+      'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
 
       # Template: AdminCustomerUserForm
       'The message being composed has been closed.  Exiting.' => 'Vytváøená zpráva byla uzavøena. Opou¹tím.',
@@ -446,10 +499,8 @@ sub Data {
       'Full read and write access to the tickets in this group/queue.' => 'Plný pøístup pro ètení a psaní do tiketù v této skupinì/frontì.',
 
       # Template: AdminCustomerUserGroupForm
-      'Change user <-> group settings' => 'Zmìnit u¾ivatele <-> nastavení skupiny',
 
       # Template: AdminEmail
-      'Admin-Email' => 'Email administrátora',
       'Message sent to' => 'Zpráva odeslána',
       'Recipents' => 'Adresáti',
       'Body' => 'Tìlo',
@@ -459,7 +510,6 @@ sub Data {
       'GenericAgent' => '',
       'Job-List' => '',
       'Last run' => '',
-      'valid' => 'platný',
       'Run Now!' => '',
       'x' => '',
       'Save Job as?' => '',
@@ -516,8 +566,6 @@ sub Data {
       # Template: AdminNavigationBar
       'Users' => '',
       'Groups' => 'Skupiny',
-      'Roles' => '',
-      'Responses' => 'Odpovìdi',
       'Misc' => 'Rùzné',
 
       # Template: AdminNotificationForm
@@ -640,7 +688,6 @@ sub Data {
       'Permissions to change the ticket priority in this group/queue.' => 'Práva zmìnit prioritu tiketu v této skupinì/frontì',
 
       # Template: AdminRoleGroupForm
-      'Change roles <-> groups settings' => '',
       'Role' => '',
 
       # Template: AdminRoleUserChangeForm
@@ -649,7 +696,6 @@ sub Data {
       'Select the role:user relations.' => '',
 
       # Template: AdminRoleUserForm
-      'Change users <-> roles settings' => '',
 
       # Template: AdminSalutationForm
       'Salutation Management' => 'Správa oslovení',
@@ -695,22 +741,27 @@ sub Data {
       'SysConfig' => '',
       'Group selection' => '',
       'Show' => '',
+      'Download Settings' => '',
+      'Download all system config changes.' => '',
+      'Load Settings' => '',
       'Subgroup' => '',
+      'Elements' => '',
 
       # Template: AdminSysConfigEdit
-      'Options ' => '',
-      'for ' => '',
-      'Subgroup \'' => '',
-      '\' ' => '',
+      'Config Options' => '',
+      'Default' => '',
       'Content' => '',
       'New' => 'Nové',
+      'New Group' => '',
       'Group Ro' => '',
+      'New Group Ro' => '',
       'NavBarName' => '',
       'Image' => '',
       'Typ' => '',
       'Prio' => '',
       'Block' => '',
       'NavBar' => '',
+      'AccessKey' => '',
 
       # Template: AdminSystemAddressForm
       'System Email Addresses Management' => 'Správa emailových adres systému',
@@ -723,7 +774,7 @@ sub Data {
       'Firstname' => 'Køestní jméno',
       'Lastname' => 'Pøíjmení',
       'User will be needed to handle tickets.' => 'U¾ivatel bude potøebovat práva pro ovládání tiketù.',
-      'Don\'t forget to add a new user to groups!' => 'Nezapomeòte pøidat nového u¾ivatele do skupin!',
+      'Don\'t forget to add a new user to groups and/or roles!' => '',
 
       # Template: AdminUserGroupChangeForm
       'Users <-> Groups Management' => '',
@@ -735,6 +786,8 @@ sub Data {
       'Return to the compose screen' => 'Vrátit se zpìt do okna vytváøení',
       'Discard all changes and return to the compose screen' => 'Zru¹it v¹echny zmìny a vrátit se zpìt do okna vytváøení',
 
+      # Template: AgentCalendarSmall
+
       # Template: AgentCustomerTableView
 
       # Template: AgentInfo
@@ -742,7 +795,6 @@ sub Data {
 
       # Template: AgentLinkObject
       'Link Object' => '',
-      '"}" $Text{"with' => '',
       'Select' => 'Vybrat',
       'Results' => 'Výsledky',
       'Total hits' => 'Celkový poèet záznamù',
@@ -777,7 +829,6 @@ sub Data {
       # Template: AgentTicketBulk
       'A message should have a subject!' => 'Zpráva by mìla mít pøedmìt!',
       'Ticket Bulk Action' => '',
-      '$Text{"Note!' => '',
       'Spell Check' => 'Kontrola pravopisu',
       'Note type' => 'Typ poznámky',
       'Unlock Tickets' => '',
@@ -842,8 +893,6 @@ sub Data {
       'Order' => 'Seøadit',
       'up' => 'nahoru',
       'down' => 'dolù',
-      '"}\'; return true;" onmouseout="window.status=\'\';" class="menuitem" title="$Text{"' => '',
-      '"}"}">$Quote{"$Text{""}' => '',
 
       # Template: AgentTicketMerge
       'You need to use a ticket number!' => '',
@@ -935,6 +984,7 @@ sub Data {
       'U' => 'Z-A',
       'sort downward' => 'setøídit dolù',
       'D' => 'A-Z',
+      'Customer history"}\'; return true;" onmouseout="window.status=\'\';"><div title="">$Quote{"' => '',
 
       # Template: AgentTicketStatusView
       'Ticket Status View' => '',
@@ -945,6 +995,7 @@ sub Data {
 
       # Template: AgentTicketZoomStatus
       'Locked' => '',
+      'Article time' => '',
 
       # Template: AgentWindowTabStart
 
@@ -961,33 +1012,21 @@ sub Data {
       # Template: CustomerError
       'Traceback' => 'Jít zpìt',
 
-      # Template: CustomerFAQArticleHistory
-      'FAQ History' => 'Historie FAQ',
+      # Template: CustomerFAQ
       'Print' => 'Tisknout',
-
-      # Template: CustomerFAQArticlePrint
       'Keywords' => 'Klíèová slova',
-      'Last update' => 'Poslední aktualizace',
       'Symptom' => 'Pøíznak',
       'Problem' => 'Problém',
       'Solution' => 'Øe¹ení',
-
-      # Template: CustomerFAQArticleSystemHistory
-      'FAQ System History' => 'Historie FAQ systému',
-
-      # Template: CustomerFAQArticleView
       'Modified' => 'Zmìnìno',
-
-      # Template: CustomerFAQOverview
-      'FAQ Overview' => 'Pøehled FAQ',
-
-      # Template: CustomerFAQSearch
+      'Last update' => 'Poslední aktualizace',
+      'FAQ System History' => 'Historie FAQ systému',
+      'modified' => '',
       'FAQ Search' => 'Vyhledat FAQ',
       'Fulltext' => '',
       'Keyword' => 'Klíèové slovo',
-
-      # Template: CustomerFAQSearchResult
       'FAQ Search Result' => 'Výsledky vyhledávání FAQ',
+      'FAQ Overview' => 'Pøehled FAQ',
 
       # Template: CustomerFooter
       'Powered by' => 'Vytvoøeno',
@@ -1042,6 +1081,8 @@ sub Data {
       'FAQ Language' => 'Jazyk FAQ',
 
       # Template: Footer
+      'QueueView' => 'Náhled fronty',
+      'PhoneView' => 'Nový tiket / hovor',
       'Top of Page' => 'Hlava stránky',
 
       # Template: FooterSmall
@@ -1134,14 +1175,24 @@ sub Data {
       # Template: Test
       'OTRS Test Page' => 'Testovací OTRS stránka',
       'Counter' => '',
-      'Mark as Spam!' => '',
-      'Your queue selection of your favorite queues. You also get notified about this queues via email if enabled.' => '',
-      'New password' => '',
-      'New password again' => '',
-      'Change Password' => '',
-      'My Queues' => '',
 
       # Template: Warning
+      # Misc
+      'Change roles <-> groups settings' => '',
+      'Create new Ticket' => 'Vytvoøit nový tiket',
+      'Change users <-> roles settings' => '',
+      'Subgroup \'' => '',
+      'TicketZoom' => 'Zobrazení tiketu',
+      'Don\'t forget to add a new user to groups!' => 'Nezapomeòte pøidat nového u¾ivatele do skupin!',
+      'CreateTicket' => 'Vytvoøeno Tiketu',
+      'New Ticket' => 'Nový tiket',
+      'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
+      'Change user <-> group settings' => 'Zmìnit u¾ivatele <-> nastavení skupiny',
+      'for ' => '',
+      'Admin-Email' => 'Email administrátora',
+      '\' ' => '',
+      'Options ' => '',
+      'FAQ History' => 'Historie FAQ',
     };
     # $$STOP$$
 }

@@ -2,7 +2,7 @@
 # Kernel/Language/nb_SW.pm - Swedish language translation
 # Copyright (C) 2004 Mats Eric Olausson <mats@synergy.se>
 # --
-# $Id: sv.pm,v 1.8 2005-05-16 12:46:35 martin Exp $
+# $Id: sv.pm,v 1.9 2005-07-04 06:54:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::sv;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.8 $;
+$VERSION = q$Revision: 1.9 $;
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -22,7 +22,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Sun May  8 23:22:23 2005
+    # Last translation file sync: Mon Jul  4 08:47:28 2005
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -65,7 +65,9 @@ sub Data {
       'Line' => 'Rad',
       'Example' => 'Exempel',
       'Examples' => 'Exempel',
+      'valid' => 'giltig',
       'invalid' => 'ogiltig',
+      'invalid-temporarily' => '',
       ' 2 minutes' => ' 2 minuter',
       ' 5 minutes' => ' 5 minuter',
       ' 7 minutes' => ' 7 minuter',
@@ -155,13 +157,9 @@ sub Data {
       'Down' => '',
       'Add' => 'Lägg till',
       'Category' => 'Kategori',
+      'Viewer' => '',
       'New message' => 'Nytt meddelande',
       'New message!' => 'Nytt meddelande!',
-      'Admin-Area' => 'Admin-område',
-      'Agent-Area' => 'Agent-område',
-      'FAQ-Area' => 'FAQ-område',
-      'QueueView' => 'Köer',
-      'Stats' => 'Statistik',
       'Please answer this ticket(s) to get back to the normal queue view!' => 'Vänligen besvara denna/dessa ärenden för att komma tillbaka till den normala kö-visningsbilden!',
       'You got new message!' => 'Du har fått ett nytt meddelande!',
       'You have %s new message(s)!' => 'Du har %s nya meddelanden!',
@@ -181,9 +179,6 @@ sub Data {
       'Logout successful. Thank you for using OTRS!' => 'Utloggningen lyckades.  Tack för att du använde OTRS!',
       'Invalid SessionID!' => 'Ogiltigt SessionID!',
       'Feature not active!' => 'Funktion inte aktiverad!',
-      'Ticket Number' => '',
-      'Ticket Object' => '',
-      'No such Ticket Number "%s"! Can\'t link it!' => '',
       'Take this Customer' => '',
       'Take this User' => 'Välj denna användare',
       'possible' => 'möjlig',
@@ -199,9 +194,6 @@ sub Data {
       'No Permission!' => '',
       'To: (%s) replaced with database email!' => 'Till: (%s) ersatt med epost från databas!',
       'Cc: (%s) added database email!' => '',
-      'Don\'t show closed Tickets' => 'Visa inte låsta ärenden',
-      'Show closed Tickets' => 'Visa låsta ärenden',
-      'New Article' => 'Ny artikel',
       '(Click here to add)' => '(Klicka här för att lägga till)',
       'last' => 'sista',
       'before' => 'före',
@@ -225,37 +217,6 @@ sub Data {
       'Sign' => '',
       'Crypted' => '',
       'Crypt' => '',
-      'History::Move' => 'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).',
-      'History::NewTicket' => 'New Ticket [%s] created (Q=%s;P=%s;S=%s).',
-      'History::FollowUp' => 'FollowUp for [%s]. %s',
-      'History::SendAutoReject' => 'AutoReject sent to "%s".',
-      'History::SendAutoReply' => 'AutoReply sent to "%s".',
-      'History::SendAutoFollowUp' => 'AutoFollowUp sent to "%s".',
-      'History::Forward' => 'Forwarded to "%s".',
-      'History::Bounce' => 'Bounced to "%s".',
-      'History::SendAnswer' => 'Email sent to "%s".',
-      'History::SendAgentNotification' => '"%s"-notification sent to "%s".',
-      'History::SendCustomerNotification' => 'Notification sent to "%s".',
-      'History::EmailAgent' => 'Email sent to customer.',
-      'History::EmailCustomer' => 'Added email. %s',
-      'History::PhoneCallAgent' => 'Agent called customer.',
-      'History::PhoneCallCustomer' => 'Customer called us.',
-      'History::AddNote' => 'Added note (%s)',
-      'History::Lock' => 'Locked ticket.',
-      'History::Unlock' => 'Unlocked ticket.',
-      'History::TimeAccounting' => '%s time unit(s) accounted. Now total %s time unit(s).',
-      'History::Remove' => '%s',
-      'History::CustomerUpdate' => 'Updated: %s',
-      'History::PriorityUpdate' => 'Changed priority from "%s" (%s) to "%s" (%s).',
-      'History::OwnerUpdate' => 'New owner is "%s" (ID=%s).',
-      'History::LoopProtection' => 'Loop-Protection! No auto-response sent to "%s".',
-      'History::Misc' => '%s',
-      'History::SetPendingTime' => 'Updated: %s',
-      'History::StateUpdate' => 'Old: "%s" New: "%s"',
-      'History::TicketFreeTextUpdate' => 'Updated: %s=%s;%s=%s;',
-      'History::WebRequestCustomer' => 'Customer request via web.',
-      'History::TicketLinkAdd' => 'Added link to ticket "%s".',
-      'History::TicketLinkDelete' => 'Deleted link to ticket "%s".',
 
       # Template: AAAMonth
       'Jan' => 'jan',
@@ -272,15 +233,20 @@ sub Data {
       'Dec' => 'dec',
 
       # Template: AAANavBar
+      'Admin-Area' => 'Admin-område',
+      'Agent-Area' => 'Agent-område',
       'Ticket-Area' => '',
       'Logout' => 'Logga ut',
       'Agent Preferences' => '',
       'Preferences' => 'Inställningar',
       'Agent Mailbox' => '',
+      'Stats' => 'Statistik',
       'Stats-Area' => '',
+      'FAQ-Area' => 'FAQ-område',
       'FAQ' => '',
       'FAQ-Search' => '',
       'FAQ-Article' => '',
+      'New Article' => 'Ny artikel',
       'FAQ-State' => '',
       'Admin' => '',
       'A web calendar' => '',
@@ -292,22 +258,27 @@ sub Data {
       'Incident' => '',
       'Advisory' => '',
       'WebWatcher' => '',
+      'Customer Users' => '',
+      'Customer Users <-> Groups' => '',
+      'Users <-> Groups' => '',
+      'Roles' => '',
+      'Roles <-> Users' => '',
+      'Roles <-> Groups' => '',
+      'Salutations' => '',
+      'Signatures' => '',
+      'Email Addresses' => '',
+      'Notifications' => '',
+      'Category Tree' => '',
+      'Admin Notification' => '',
 
       # Template: AAAPreferences
       'Preferences updated successfully!' => 'Inställningar lagrade!',
       'Mail Management' => 'Eposthantering',
       'Frontend' => 'Gränssnitt',
       'Other Options' => 'Andra tillval',
-      'New ticket notification' => 'Meddelande om nyskapat ärende',
-      'Send me a notification if there is a new ticket in "My Queues".' => '',
-      'Follow up notification' => 'Meddelande om uppföljning',
-      'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Skicka mig ett meddelande om kundkorrespondens för ärenden som jag är ägare till.',
-      'Ticket lock timeout notification' => 'Meddela mig då tiden gått ut för ett ärende-lås',
-      'Send me a notification if a ticket is unlocked by the system.' => 'Skicka mig ett meddelande ifall systemet tar bort låset på ett ärende.',
-      'Move notification' => 'Meddelande om ändring av kö',
-      'Send me a notification if a ticket is moved into one of "My Queues".' => '',
-      'Custom Queue' => 'Utvald kö',
-      'QueueView refresh time' => 'Automatisk uppdateringsintervall fö Kö-bild',
+      'Change Password' => '',
+      'New password' => '',
+      'New password again' => '',
       'Select your QueueView refresh time.' => 'Välj automatisk uppdateringsintervall för Kö-bild.',
       'Select your frontend language.' => 'Välj språk.',
       'Select your frontend Charset.' => 'Välj teckenuppsättning.',
@@ -315,14 +286,6 @@ sub Data {
       'Select your frontend QueueView.' => 'Välj Kö-bild.',
       'Spelling Dictionary' => 'Stavningslexikon',
       'Select your default spelling dictionary.' => 'Välj standard ordbok for stavningskontroll.',
-      'PhoneView' => 'Tel.samtal',
-      'TicketZoom' => 'Ärende Zoom',
-      'CreateTicket' => 'Skapa Ärende',
-      'Screen after new ticket' => 'Skärm efter inmatning av nytt ärende',
-      'Select your screen after creating a new ticket.' => 'Välj skärmbild som visas efter registrering av ny hänvisning/ärende.',
-      'Closed Tickets' => 'Låsta ärenden',
-      'Show closed tickets.' => 'Visa låsta ärenden.',
-      'Max. shown Tickets a page in QueueView.' => 'Max. visade ärenden per sida i Kö-bild.',
       'Max. shown Tickets a page in Overview.' => 'Max. visade ärenden per sida i Översikt.',
       'Can\'t update password, passwords dosn\'t match! Please try it again!' => '',
       'Can\'t update password, invalid characters!' => '',
@@ -397,6 +360,11 @@ sub Data {
       '4 high' => '4 hög',
       '5 very high' => '5 kritisk',
       'Ticket "%s" created!' => 'Ärende "%s" skapad!',
+      'Ticket Number' => '',
+      'Ticket Object' => '',
+      'No such Ticket Number "%s"! Can\'t link it!' => '',
+      'Don\'t show closed Tickets' => 'Visa inte låsta ärenden',
+      'Show closed Tickets' => 'Visa låsta ärenden',
       'Email-Ticket' => '',
       'Create new Email Ticket' => '',
       'Phone-Ticket' => '',
@@ -423,6 +391,61 @@ sub Data {
       'Close this ticket!' => '',
       'Look into a ticket!' => '',
       'Delete this ticket!' => '',
+      'Mark as Spam!' => '',
+      'My Queues' => '',
+      'Shown Tickets' => '',
+      'New ticket notification' => 'Meddelande om nyskapat ärende',
+      'Send me a notification if there is a new ticket in "My Queues".' => '',
+      'Follow up notification' => 'Meddelande om uppföljning',
+      'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Skicka mig ett meddelande om kundkorrespondens för ärenden som jag är ägare till.',
+      'Ticket lock timeout notification' => 'Meddela mig då tiden gått ut för ett ärende-lås',
+      'Send me a notification if a ticket is unlocked by the system.' => 'Skicka mig ett meddelande ifall systemet tar bort låset på ett ärende.',
+      'Move notification' => 'Meddelande om ändring av kö',
+      'Send me a notification if a ticket is moved into one of "My Queues".' => '',
+      'Your queue selection of your favorite queues. You also get notified about this queues via email if enabled.' => '',
+      'Custom Queue' => 'Utvald kö',
+      'QueueView refresh time' => 'Automatisk uppdateringsintervall fö Kö-bild',
+      'Screen after new ticket' => 'Skärm efter inmatning av nytt ärende',
+      'Select your screen after creating a new ticket.' => 'Välj skärmbild som visas efter registrering av ny hänvisning/ärende.',
+      'Closed Tickets' => 'Låsta ärenden',
+      'Show closed tickets.' => 'Visa låsta ärenden.',
+      'Max. shown Tickets a page in QueueView.' => 'Max. visade ärenden per sida i Kö-bild.',
+      'Responses' => 'Svar',
+      'Responses <-> Queue' => '',
+      'Auto Responses' => '',
+      'Auto Responses <-> Queue' => '',
+      'Attachments <-> Responses' => '',
+      'History::Move' => 'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).',
+      'History::NewTicket' => 'New Ticket [%s] created (Q=%s;P=%s;S=%s).',
+      'History::FollowUp' => 'FollowUp for [%s]. %s',
+      'History::SendAutoReject' => 'AutoReject sent to "%s".',
+      'History::SendAutoReply' => 'AutoReply sent to "%s".',
+      'History::SendAutoFollowUp' => 'AutoFollowUp sent to "%s".',
+      'History::Forward' => 'Forwarded to "%s".',
+      'History::Bounce' => 'Bounced to "%s".',
+      'History::SendAnswer' => 'Email sent to "%s".',
+      'History::SendAgentNotification' => '"%s"-notification sent to "%s".',
+      'History::SendCustomerNotification' => 'Notification sent to "%s".',
+      'History::EmailAgent' => 'Email sent to customer.',
+      'History::EmailCustomer' => 'Added email. %s',
+      'History::PhoneCallAgent' => 'Agent called customer.',
+      'History::PhoneCallCustomer' => 'Customer called us.',
+      'History::AddNote' => 'Added note (%s)',
+      'History::Lock' => 'Locked ticket.',
+      'History::Unlock' => 'Unlocked ticket.',
+      'History::TimeAccounting' => '%s time unit(s) accounted. Now total %s time unit(s).',
+      'History::Remove' => '%s',
+      'History::CustomerUpdate' => 'Updated: %s',
+      'History::PriorityUpdate' => 'Changed priority from "%s" (%s) to "%s" (%s).',
+      'History::OwnerUpdate' => 'New owner is "%s" (ID=%s).',
+      'History::LoopProtection' => 'Loop-Protection! No auto-response sent to "%s".',
+      'History::Misc' => '%s',
+      'History::SetPendingTime' => 'Updated: %s',
+      'History::StateUpdate' => 'Old: "%s" New: "%s"',
+      'History::TicketFreeTextUpdate' => 'Updated: %s=%s;%s=%s;',
+      'History::WebRequestCustomer' => 'Customer request via web.',
+      'History::TicketLinkAdd' => 'Added link to ticket "%s".',
+      'History::TicketLinkDelete' => 'Deleted link to ticket "%s".',
 
       # Template: AAAWeekDay
       'Sun' => 'sön',
@@ -446,7 +469,7 @@ sub Data {
       'to get the first 5 lines of the email' => 'för att få fram de första 5 raderna av emailen',
       'to get the from line of the email' => 'för att få fram avsändarraden i emailen',
       'to get the realname of the sender (if given)' => 'för att få fram avsändarens fulla namn (om möjligt)',
-      'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
+      'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
 
       # Template: AdminCustomerUserForm
       'The message being composed has been closed.  Exiting.' => 'Det tilhörande redigeringsfönstret har stängts. Avslutar.',
@@ -472,10 +495,8 @@ sub Data {
       'Full read and write access to the tickets in this group/queue.' => 'Fulla läs- och skrivrättigheter till ärenden i denna grupp/kö.',
 
       # Template: AdminCustomerUserGroupForm
-      'Change user <-> group settings' => 'Ändra användar- <-> grupp-inställningar',
 
       # Template: AdminEmail
-      'Admin-Email' => 'Admin-email',
       'Message sent to' => 'Meddelande skicakt till',
       'Recipents' => 'Mottagare',
       'Body' => 'Meddelandetext',
@@ -485,7 +506,6 @@ sub Data {
       'GenericAgent' => '',
       'Job-List' => '',
       'Last run' => '',
-      'valid' => 'giltig',
       'Run Now!' => '',
       'x' => '',
       'Save Job as?' => '',
@@ -542,8 +562,6 @@ sub Data {
       # Template: AdminNavigationBar
       'Users' => '',
       'Groups' => 'grupper',
-      'Roles' => '',
-      'Responses' => 'Svar',
       'Misc' => 'Div',
 
       # Template: AdminNotificationForm
@@ -666,7 +684,6 @@ sub Data {
       'Permissions to change the ticket priority in this group/queue.' => 'Rätt att ändra ärendeprioritet i denna grupp/Kö.',
 
       # Template: AdminRoleGroupForm
-      'Change roles <-> groups settings' => '',
       'Role' => '',
 
       # Template: AdminRoleUserChangeForm
@@ -675,7 +692,6 @@ sub Data {
       'Select the role:user relations.' => '',
 
       # Template: AdminRoleUserForm
-      'Change users <-> roles settings' => '',
 
       # Template: AdminSalutationForm
       'Salutation Management' => 'Hantering av Hälsningsfraser',
@@ -721,22 +737,27 @@ sub Data {
       'SysConfig' => '',
       'Group selection' => '',
       'Show' => '',
+      'Download Settings' => '',
+      'Download all system config changes.' => '',
+      'Load Settings' => '',
       'Subgroup' => '',
+      'Elements' => '',
 
       # Template: AdminSysConfigEdit
-      'Options ' => '',
-      'for ' => '',
-      'Subgroup \'' => '',
-      '\' ' => '',
+      'Config Options' => '',
+      'Default' => '',
       'Content' => '',
       'New' => 'Nytt',
+      'New Group' => '',
       'Group Ro' => '',
+      'New Group Ro' => '',
       'NavBarName' => '',
       'Image' => '',
       'Typ' => '',
       'Prio' => '',
       'Block' => '',
       'NavBar' => '',
+      'AccessKey' => '',
 
       # Template: AdminSystemAddressForm
       'System Email Addresses Management' => 'Hantera System-emailadresser',
@@ -749,7 +770,7 @@ sub Data {
       'Firstname' => 'Förnamn',
       'Lastname' => 'Efternamn',
       'User will be needed to handle tickets.' => 'Användare krävs för att hantera ärenden.',
-      'Don\'t forget to add a new user to groups!' => 'Glöm inte att lägga in en ny användare i en grupp!',
+      'Don\'t forget to add a new user to groups and/or roles!' => '',
 
       # Template: AdminUserGroupChangeForm
       'Users <-> Groups Management' => '',
@@ -761,6 +782,8 @@ sub Data {
       'Return to the compose screen' => 'Stäng fönstret',
       'Discard all changes and return to the compose screen' => 'Bortse från ändringarna och stäng fönstret',
 
+      # Template: AgentCalendarSmall
+
       # Template: AgentCustomerTableView
 
       # Template: AgentInfo
@@ -768,7 +791,6 @@ sub Data {
 
       # Template: AgentLinkObject
       'Link Object' => '',
-      '"}" $Text{"with' => '',
       'Select' => 'Välj',
       'Results' => 'Resultat',
       'Total hits' => 'Totalt hittade',
@@ -803,7 +825,6 @@ sub Data {
       # Template: AgentTicketBulk
       'A message should have a subject!' => 'Ett meddelande måste ha en Ämnesrad!',
       'Ticket Bulk Action' => '',
-      '$Text{"Note!' => '',
       'Spell Check' => 'Stavningskontroll',
       'Note type' => 'Anteckningstyp',
       'Unlock Tickets' => '',
@@ -959,6 +980,7 @@ sub Data {
       'U' => '',
       'sort downward' => 'Sortera sjunkande',
       'D' => 'N',
+      'Customer history"}\'; return true;" onmouseout="window.status=\'\';"><div title="">$Quote{"' => '',
 
       # Template: AgentTicketStatusView
       'Ticket Status View' => '',
@@ -969,6 +991,7 @@ sub Data {
 
       # Template: AgentTicketZoomStatus
       'Locked' => '',
+      'Article time' => '',
 
       # Template: AgentWindowTabStart
 
@@ -985,33 +1008,21 @@ sub Data {
       # Template: CustomerError
       'Traceback' => '',
 
-      # Template: CustomerFAQArticleHistory
-      'FAQ History' => '',
+      # Template: CustomerFAQ
       'Print' => 'Skriv ut',
-
-      # Template: CustomerFAQArticlePrint
       'Keywords' => 'Nyckelord',
-      'Last update' => 'Senast ändrat',
       'Symptom' => '',
       'Problem' => '',
       'Solution' => 'Lösning',
-
-      # Template: CustomerFAQArticleSystemHistory
-      'FAQ System History' => '',
-
-      # Template: CustomerFAQArticleView
       'Modified' => 'Ändrat',
-
-      # Template: CustomerFAQOverview
-      'FAQ Overview' => 'FAQ Översikt',
-
-      # Template: CustomerFAQSearch
+      'Last update' => 'Senast ändrat',
+      'FAQ System History' => '',
+      'modified' => '',
       'FAQ Search' => 'FAQ Sök',
       'Fulltext' => 'Fritext',
       'Keyword' => 'Nyckelord',
-
-      # Template: CustomerFAQSearchResult
       'FAQ Search Result' => 'FAQ Sökresultat',
+      'FAQ Overview' => 'FAQ Översikt',
 
       # Template: CustomerFooter
       'Powered by' => '',
@@ -1066,6 +1077,8 @@ sub Data {
       'FAQ Language' => 'FAQ Språk',
 
       # Template: Footer
+      'QueueView' => 'Köer',
+      'PhoneView' => 'Tel.samtal',
       'Top of Page' => 'Början av sidan',
 
       # Template: FooterSmall
@@ -1158,14 +1171,22 @@ sub Data {
       # Template: Test
       'OTRS Test Page' => 'OTRS Test-sida',
       'Counter' => '',
-      'Mark as Spam!' => '',
-      'Your queue selection of your favorite queues. You also get notified about this queues via email if enabled.' => '',
-      'New password' => '',
-      'New password again' => '',
-      'Change Password' => '',
-      'My Queues' => '',
 
       # Template: Warning
+      # Misc
+      'Change roles <-> groups settings' => '',
+      'Change users <-> roles settings' => '',
+      'Subgroup \'' => '',
+      'TicketZoom' => 'Ärende Zoom',
+      'Don\'t forget to add a new user to groups!' => 'Glöm inte att lägga in en ny användare i en grupp!',
+      'CreateTicket' => 'Skapa Ärende',
+      'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
+      'Change user <-> group settings' => 'Ändra användar- <-> grupp-inställningar',
+      'for ' => '',
+      'Admin-Email' => 'Admin-email',
+      '\' ' => '',
+      'Options ' => '',
+      'FAQ History' => '',
     };
     # $$STOP$$
 }
