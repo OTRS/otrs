@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - to get a closer view
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPrint.pm,v 1.20 2005-04-14 06:00:30 martin Exp $
+# $Id: AgentTicketPrint.pm,v 1.21 2005-07-08 19:16:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -208,6 +208,43 @@ sub _Mask {
                 Name => 'Article',
                 Data => {%Param,%Article},
             );
+        }
+        # do some strips && quoting
+        foreach (qw(From To Cc Subject)) {
+            if ($Article{$_}) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'Row',
+                    Data => {
+                        Key => $_,
+                        Value => $Article{$_},
+                    },
+                );
+            }
+        }
+        # show accounted article time
+        if ($Self->{ConfigObject}->Get('Ticket::ZoomTimeDisplay')) {
+            my $ArticleTime = $Self->{TicketObject}->ArticleAccountedTimeGet(
+                ArticleID => $Article{ArticleID},
+            );
+            $Self->{LayoutObject}->Block(
+                Name => "Row",
+                Data => {
+                    Key => 'Time',
+                    Value => $ArticleTime,
+                },
+            );
+        }
+        # show article free text
+        foreach (qw(1 2 3 4 5)) {
+            if ($Article{"FreeText$_"}) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'ArticleFreeText',
+                    Data => {
+                        Key => $Article{"FreeKey$_"},
+                        Value => $Article{"FreeText$_"},
+                    },
+                );
+            }
         }
     }
     # return output
