@@ -1,11 +1,11 @@
 # --
 # Kernel/System/PostMaster/DestQueue.pm - sub part of PostMaster.pm
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DestQueue.pm,v 1.15 2003-12-20 06:22:32 martin Exp $
+# $Id: DestQueue.pm,v 1.16 2005-07-08 19:01:46 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::DestQueue;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub new {
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     $Self->{Debug} = $Param{Debug} || 0;
@@ -48,7 +48,7 @@ sub GetQueueID {
         What => 'value0, queue_id',
         Valid => 1
     );
-    # check possible to, cc and resent-to emailaddresses 
+    # check possible to, cc and resent-to emailaddresses
     my $Recipient = '';
     foreach (qw(Cc To Resent-To)) {
         if ($GetParam{$_}) {
@@ -60,7 +60,7 @@ sub GetQueueID {
     }
     # get addresses
     my @EmailAddresses = $Self->{ParseObject}->SplitAddressLine(
-        Line => $Recipient, 
+        Line => $Recipient,
     );
     # check addresses
     foreach (@EmailAddresses) {
