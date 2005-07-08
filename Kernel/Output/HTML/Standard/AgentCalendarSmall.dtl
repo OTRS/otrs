@@ -11,19 +11,19 @@
 <!--
 <!-- dtl:block:DateFormatOption -->
 function SelectDay(tt, mm, yyyy) {
-    for(var z=0;z < opener.document.compose.Day$Data{"Prefix"}.length;z++) {
-        if (opener.document.compose.Day$Data{"Prefix"}.options[z].value == tt) {
-            opener.document.compose.Day$Data{"Prefix"}.options[z].selected = true;
+    for(var z=0;z < opener.document.compose.$Data{"Prefix"}Day.length;z++) {
+        if (opener.document.compose.$Data{"Prefix"}Day.options[z].value == tt) {
+            opener.document.compose.$Data{"Prefix"}Day.options[z].selected = true;
         }
     }
-    for(var z=0;z < opener.document.compose.Month$Data{"Prefix"}.length;z++) {
-        if (opener.document.compose.Month$Data{"Prefix"}.options[z].value == mm) {
-            opener.document.compose.Month$Data{"Prefix"}.options[z].selected = true;
+    for(var z=0;z < opener.document.compose.$Data{"Prefix"}Month.length;z++) {
+        if (opener.document.compose.$Data{"Prefix"}Month.options[z].value == mm) {
+            opener.document.compose.$Data{"Prefix"}Month.options[z].selected = true;
         }
     }
-    for(var z=0;z < opener.document.compose.Year$Data{"Prefix"}.length;z++) {
-        if (opener.document.compose.Year$Data{"Prefix"}.options[z].value == yyyy) {
-            opener.document.compose.Year$Data{"Prefix"}.options[z].selected = true;
+    for(var z=0;z < opener.document.compose.$Data{"Prefix"}Year.length;z++) {
+        if (opener.document.compose.$Data{"Prefix"}Year.options[z].value == yyyy) {
+            opener.document.compose.$Data{"Prefix"}Year.options[z].selected = true;
         }
     }
     this.close();
@@ -31,9 +31,9 @@ function SelectDay(tt, mm, yyyy) {
 <!-- dtl:block:DateFormatOption -->
 <!-- dtl:block:DateFormatInput -->
 function SelectDay(tt, mm, yyyy) {
-    opener.document.compose.Day$Data{"Prefix"}.value = tt;
-    opener.document.compose.Month$Data{"Prefix"}.value = mm;
-    opener.document.compose.Year$Data{"Prefix"}.value = yyyy;
+    opener.document.compose.$Data{"Prefix"}Day.value = tt;
+    opener.document.compose.$Data{"Prefix"}Month.value = mm;
+    opener.document.compose.$Data{"Prefix"}Year.value = yyyy;
 
     this.close();
 }
@@ -50,15 +50,15 @@ function SelectDay(tt, mm, yyyy) {
 </tr>
 <tr>
   <td class="mainbody" colspan="3">
-    <table border="0" width="100%" cellspacing="0" cellpadding="1">
+    <table border="0" width="100%" cellspacing="0" cellpadding="2">
       <tr class="contenthead">
-        <th>$Text{"Mon"}</th>
-        <th>$Text{"Tue"}</th>
-        <th>$Text{"Wed"}</th>
-        <th>$Text{"Thu"}</th>
-        <th>$Text{"Fri"}</th>
-        <th>$Text{"Sat"}</th>
-        <th>$Text{"Sun"}</th>
+        <td>$Text{"Mon"}</td>
+        <td>$Text{"Tue"}</td>
+        <td>$Text{"Wed"}</td>
+        <td>$Text{"Thu"}</td>
+        <td>$Text{"Fri"}</td>
+        <td>$Text{"Sat"}</td>
+        <td>$Text{"Sun"}</td>
       </tr>
       <!-- dtl:block:Row -->
       <tr>
