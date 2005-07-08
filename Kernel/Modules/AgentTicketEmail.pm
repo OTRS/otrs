@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose inital email to customer
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketEmail.pm,v 1.7 2005-07-03 18:37:41 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.8 2005-07-08 08:49:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -562,7 +562,7 @@ sub Run {
                     }
                 }
                 $Output .= $Self->{LayoutObject}->Output(
-                    TemplateFile => 'TicketViewLite',
+                    TemplateFile => 'AgentTicketQueueTicketViewLite',
                     Data => {
                         %AclAction,
                         %Article,
