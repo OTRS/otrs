@@ -2,7 +2,7 @@
 # AgentTicketPending.dtl - provides HTML form for pending mask
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPending.dtl,v 1.5 2005-06-20 19:26:34 martin Exp $
+# $Id: AgentTicketPending.dtl,v 1.6 2005-07-08 19:13:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -99,13 +99,7 @@ $Include{"AgentTicketLocked"}
       </tr>
       <tr>
         <td class="contentkey">$Text{"Pending date"}:</td>
-        <td class="contentvalue">
-          $Data{"DateString"} 
-<!-- dtl:block:CalendarLookup -->
-          <a href="$Env{"CGIHandle"}?Action=AgentCalendarSmall&Prefix=" onClick="window.open('', 'calendar', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=110,height=210,left=500,top=450');" target="calendar"><img border="0" src="$Env{"Images"}calendar-small.png"></a> 
-<!-- dtl:block:CalendarLookup -->
-          <font color="red" size="-2">$Text{"$Data{"Date invalid"}"}</font>
-        </td>
+        <td class="contentvalue"> $Data{"DateString"} <font color="red" size="-2">$Text{"$Data{"Date invalid"}"}</font> </td>
       </tr>
 #     <tr>
 #        <td class="contentkey">$Text{"Next Queue"}:</td>

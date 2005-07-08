@@ -2,7 +2,7 @@
 # AgentTicketForward.dtl - provides HTML form for AgentTicketForward
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketForward.dtl,v 1.4 2005-06-15 03:51:34 martin Exp $
+# $Id: AgentTicketForward.dtl,v 1.5 2005-07-08 19:13:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -164,7 +164,7 @@ $QData{"Body"}
     </tr>
     <tr>
       <td class="contentkey">$Text{"Pending Date"} ($Text{"for pending* states"}):</td>
-      <td class="contentvalue">$Data{"PendingDateString"} <font color="red" size="-2">$Text{"$Data{"Date invalid"}"}</font></td>
+      <td class="contentvalue">$Data{"PendingDateString"} <font color="red" size="-2">$Text{"$Data{"Date invalid"}"}</font> </td>
     </tr>
     <tr>
       <td class="contentkey">$Text{"Article type"}:</td>

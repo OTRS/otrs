@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPhone.pm,v 1.7 2005-07-08 08:49:06 martin Exp $
+# $Id: AgentTicketPhone.pm,v 1.8 2005-07-08 19:17:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1169,13 +1169,6 @@ sub _MaskPhone {
             Data => {},
         );
     }
-    # show calendar lookup
-    if ($Self->{ConfigObject}->Get('TimeCalendarLookup')) {
-        $Self->{LayoutObject}->Block(
-            Name => 'CalendarLookup',
-            Data => {},
-        ); 
-    }
     # show attachments
     foreach my $DataRef (@{$Param{Attachments}}) {
         $Self->{LayoutObject}->Block(
@@ -1299,13 +1292,6 @@ sub _MaskPhoneNew {
             Name => 'SpellCheck',
             Data => {},
         );
-    }
-    # show calendar lookup
-    if ($Self->{ConfigObject}->Get('TimeCalendarLookup')) {
-        $Self->{LayoutObject}->Block(
-            Name => 'CalendarLookup',
-            Data => {},
-        ); 
     }
     # show attachments
     foreach my $DataRef (@{$Param{Attachments}}) {
