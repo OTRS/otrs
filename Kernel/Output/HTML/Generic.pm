@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.184 2005-06-13 14:10:52 martin Exp $
+# $Id: Generic.pm,v 1.185 2005-07-08 13:02:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::Output::HTML::Agent;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.184 $';
+$VERSION = '$Revision: 1.185 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -788,11 +788,13 @@ sub Output {
             my $Target = $2;
             my $End = $3;
             my $RealEnd = $4;
-            if ($Target =~ /^(http:|https:|#|ftp:)/i || $Target !~ /\.(pl|php|cgi|fcg|fcgi|fpl)(\?|$)/) {
-                "$AHref$Target$End$RealEnd";
+            if ($Target =~ /^(http:|https:|#|ftp:)/i ||
+                 $Target !~ /\.(pl|php|cgi|fcg|fcgi|fpl)(\?|$)/ ||
+                 $Target =~ /\Q$Self->{SessionName}\E/) {
+                $AHref.$Target.$End.$RealEnd;
             }
             else {
-                "$AHref$Target&$Self->{SessionName}=$Self->{SessionID}$End$RealEnd";
+                $AHref.$Target.'&'.$Self->{SessionName}.'='.$Self->{SessionID}.$End.$RealEnd;
             }
         }iegx;
         # rewrite img src
@@ -804,11 +806,12 @@ sub Output {
             my $Target = $2;
             my $End = $3;
             if ($Target =~ /^(http:|https:)/i || !$Self->{SessionID} ||
-                 $Target !~ /\.(pl|php|cgi|fcg|fcgi|fpl)(\?|$)/) {
-                "$AHref$Target$End";
+                 $Target !~ /\.(pl|php|cgi|fcg|fcgi|fpl)(\?|$)/ ||
+                 $Target =~ /\Q$Self->{SessionName}\E/) {
+                $AHref.$Target.$End;
             }
             else {
-                "$AHref$Target&$Self->{SessionName}=$Self->{SessionID}$End";
+                $AHref.$Target.'&'.$Self->{SessionName}.'='.$Self->{SessionID}.$End;
             }
         }iegx;
         # rewrite forms: <form action="index.pl" method="get">
@@ -820,10 +823,10 @@ sub Output {
             my $Target = $2;
             my $End = "$3";
             if ($Target =~ /^(http:|https:)/i || !$Self->{SessionID}) {
-                "$Start$Target$End";
+                $Start.$Target.$End;
             }
             else {
-                "$Start$Target$End<input type=\"hidden\" name=\"$Self->{SessionName}\" value=\"$Self->{SessionID}\">";
+                $Start.$Target.$End."<input type=\"hidden\" name=\"$Self->{SessionName}\" value=\"$Self->{SessionID}\">";
             }
         }iegx;
     }
@@ -2183,6 +2186,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.184 $ $Date: 2005-06-13 14:10:52 $
+$Revision: 1.185 $ $Date: 2005-07-08 13:02:19 $
 
 =cut
