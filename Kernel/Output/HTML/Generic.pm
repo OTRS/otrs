@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.185 2005-07-08 13:02:19 martin Exp $
+# $Id: Generic.pm,v 1.186 2005-07-08 19:08:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::Output::HTML::Agent;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.185 $';
+$VERSION = '$Revision: 1.186 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -1072,7 +1072,21 @@ sub Notify {
       }
       $Param{Info} = $Param{BackendMessage};
     }
-    $Param{Info} =~ s/\n//g if ($Param{Info});
+    if ($Param{Info}) {
+        $Param{Info} =~ s/\n//g;
+    }
+    if ($Param{Priority} && $Param{Priority} eq 'Error') {
+        $Self->Block(
+            Name => 'Error',
+            Data => {},
+        );
+    }
+    else {
+        $Self->Block(
+            Name => 'Warning',
+            Data => {},
+        );
+    }
     return $Self->Output(TemplateFile => 'Notify', Data => \%Param);
 }
 # --
@@ -2069,12 +2083,26 @@ sub BuildDateSelection {
         }
     }
     #DateFormat
-    return $Self->{LanguageObject}->Time(
+    my $Output = $Self->{LanguageObject}->Time(
         Action => 'Return',
         Format => 'DateInputFormat',
         Mode => 'NotNumeric',
         %Param,
     );
+    # show calendar lookup
+    if ($Self->{ConfigObject}->Get('TimeCalendarLookup')) {
+        $Self->{LayoutObject}->Output(
+             TemplateFile => 'HeaderSmall',
+             Data => {}
+        );
+        $Output .= $Self->{LayoutObject}->Output(
+             TemplateFile => 'AgentCalendarSmallIcon',
+             Data => {
+                    Prefix => $Prefix,
+             }
+        );
+    }
+    return $Output;
 }
 
 =item OutputCSV()
@@ -2186,6 +2214,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.185 $ $Date: 2005-07-08 13:02:19 $
+$Revision: 1.186 $ $Date: 2005-07-08 19:08:10 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPreferences.pm - provides agent preferences
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentPreferences.pm,v 1.29 2005-03-27 11:43:12 martin Exp $
+# $Id: AgentPreferences.pm,v 1.30 2005-07-08 19:08:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPreferences;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -72,15 +72,17 @@ sub Run {
                 $GetParam{$ParamItem->{Name}} = \@Array;
             }
             my $Message = '';
+            my $Priority = '';
             if ($Object->Run(GetParam => \%GetParam, UserData => \%UserData)) {
                 $Message = $Object->Message();
             }
             else {
+                $Priority = 'Error';
                 $Message = $Object->Error();
             }
             # mk rediect
             return $Self->{LayoutObject}->Redirect(
-                OP => "Action=AgentPreferences&What=$Message",
+                OP => "Action=AgentPreferences&Priority=$Priority&Message=$Message",
             );
         }
         else {
@@ -91,15 +93,20 @@ sub Run {
         # get header
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        # --
         # get param
-        # --
-        my $What = $Self->{ParamObject}->GetParam(Param => 'What') || '';
-        # --
-        # get notification
-        # --
-        if ($What) {
-            $Output .= $Self->{LayoutObject}->Notify(Info => $What);
+        my $Message = $Self->{ParamObject}->GetParam(Param => 'Message') || '';
+        my $Priority = $Self->{ParamObject}->GetParam(Param => 'Priority') || '';
+        # add notification
+        if ($Message && $Priority eq 'Error') {
+            $Output .= $Self->{LayoutObject}->Notify(
+                Priority => $Priority,
+                Info => $Message,
+            );
+        }
+        elsif ($Message) {
+            $Output .= $Self->{LayoutObject}->Notify(
+                Info => $Message,
+            );
         }
         # get user data
         my %UserData = $Self->{UserObject}->GetUserData(UserID => $Self->{UserID});

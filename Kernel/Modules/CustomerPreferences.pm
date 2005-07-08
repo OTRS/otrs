@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerPreferences.pm - provides agent preferences
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerPreferences.pm,v 1.10 2005-06-29 11:31:43 martin Exp $
+# $Id: CustomerPreferences.pm,v 1.11 2005-07-08 19:08:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::CustomerPreferences;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -82,15 +82,17 @@ sub Run {
                 $GetParam{$ParamItem->{Name}} = \@Array;
             }
             my $Message = '';
+            my $Priority = '';
             if ($Object->Run(GetParam => \%GetParam, UserData => \%UserData)) {
                 $Message = $Object->Message();
             }
             else {
+                $Priority = 'Error';
                 $Message = $Object->Error();
             }
             # mk rediect
             return $Self->{LayoutObject}->Redirect(
-                OP => "Action=CustomerPreferences&What=$Message",
+                OP => "Action=CustomerPreferences&Priority=$Priority&Message=$Message",
             );
         }
         else {
@@ -98,21 +100,25 @@ sub Run {
         }
     }
     else {
-        # get user data
-        my %UserData = $Self->{UserObject}->CustomerUserDataGet(User => $Self->{UserLogin});
         my $Output = $Self->{LayoutObject}->CustomerHeader(Title => 'Preferences');
         $Output .= $Self->{LayoutObject}->CustomerNavigationBar();
-        # --
         # get param
-        # --
-        my $What = $Self->{ParamObject}->GetParam(Param => 'What') || '';
-        # --
-        # get notification
-        # --
-        if ($What) {
-            $Output .= $Self->{LayoutObject}->Notify(Info => $What);
+        my $Message = $Self->{ParamObject}->GetParam(Param => 'Message') || '';
+        my $Priority = $Self->{ParamObject}->GetParam(Param => 'Priority') || '';
+        # add notification
+        if ($Message && $Priority eq 'Error') {
+            $Output .= $Self->{LayoutObject}->Notify(
+                Priority => $Priority,
+                Info => $Message,
+            );
         }
-
+        elsif ($Message) {
+            $Output .= $Self->{LayoutObject}->Notify(
+                Info => $Message,
+            );
+        }
+        # get user data
+        my %UserData = $Self->{UserObject}->CustomerUserDataGet(User => $Self->{UserLogin});
         $Output .= $Self->CustomerPreferencesForm(UserData => \%UserData);
         $Output .= $Self->{LayoutObject}->CustomerFooter();
         return $Output;
