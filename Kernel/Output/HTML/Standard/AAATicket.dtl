@@ -17,6 +17,7 @@ $Text{"State"}
 $Text{"Compose"}
 $Text{"Pending"}
 $Text{"Owner"}
+$Text{"Owner Update"}
 $Text{"Sender"}
 $Text{"Article"}
 $Text{"Ticket"}

@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: de.pm,v 1.83 2005-07-03 18:20:26 martin Exp $
+# $Id: de.pm,v 1.84 2005-07-08 14:33:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.83 $';
+$VERSION = '$Revision: 1.84 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1188,6 +1188,8 @@ sub Data {
       'My Queue' => 'Meine Queue',
       'Load' => 'Laden',
       'FAQ History' => 'FAQ Historie',
+      'Invalid Option!' => 'Ungültige Option!',
+      'Password is needed!' => 'Passwort wird benötigt!',
     };
     # $$STOP$$
 }
