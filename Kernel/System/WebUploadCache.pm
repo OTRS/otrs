@@ -1,8 +1,8 @@
 # --
-# Kernel/System/Kernel/System/WebUploadCache.pm - a fs upload cache
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Kernel/System/WebUploadCache.pm - a fs upload cache
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: WebUploadCache.pm,v 1.2.2.1 2004-09-09 14:48:36 martin Exp $
+# $Id: WebUploadCache.pm,v 1.2.2.2 2005-07-08 10:00:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.2.2.1 $ ';
+$VERSION = '$Revision: 1.2.2.2 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -138,6 +138,7 @@ sub FormIDAddFile {
     # files hust readable for creater
     umask(066);
     open (OUT, "> $Self->{TempDir}/$Param{FormID}.$Param{Filename}") || die "$!";
+    binmode(OUT);
     print OUT $Param{Content};
     close (OUT);
     open (OUT, "> $Self->{TempDir}/$Param{FormID}.$Param{Filename}.ContentType") || die "$!";
@@ -218,6 +219,7 @@ sub FormIDGetAllFilesData {
             }
             my $Content = '';
             open (IN, "< $File") || die "$!";
+            binmode(IN);
             while (<IN>) {
                 $Content .= $_;
             }
@@ -344,6 +346,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.2.2.1 $ $Date: 2004-09-09 14:48:36 $
+$Revision: 1.2.2.2 $ $Date: 2005-07-08 10:00:11 $
 
 =cut
