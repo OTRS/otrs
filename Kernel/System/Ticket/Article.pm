@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.89 2005-07-03 18:34:27 martin Exp $
+# $Id: Article.pm,v 1.90 2005-07-08 14:34:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.89 $';
+$VERSION = '$Revision: 1.90 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -173,6 +173,13 @@ MessageID => $Param{MessageID},
         HistoryType => $Param{HistoryType},
         Name => $Param{HistoryComment},
     );
+    # ticket event
+    $Self->TicketEventHandlerPost(
+        Event => 'ArticleCreate',
+        ArticleID => $ArticleID,
+        TicketID => $Param{TicketID},
+        UserID => $Param{UserID},
+    );
     # send auto response
     my %Ticket = $Self->TicketGet(TicketID => $Param{TicketID});
     my %State = $Self->{StateObject}->StateGet(ID => $Ticket{StateID});
@@ -262,12 +269,6 @@ MessageID => $Param{MessageID},
             );
         }
     }
-    # ticket event
-    $Self->TicketEventHandlerPost(
-        Event => 'ArticleCreate',
-        TicketID => $Param{TicketID},
-        UserID => $Param{UserID},
-    );
     # --
     # send no agent notification!?
     # --
@@ -380,7 +381,7 @@ MessageID => $Param{MessageID},
                         UserID => $Param{UserID},
                     );
                 }
-            } 
+            }
         }
     }
     # send forced notifications
