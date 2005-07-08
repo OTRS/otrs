@@ -42,7 +42,7 @@
             Link => 'Action=FAQ&Nav=Normal',
             NavBar => 'FAQ',
             Prio => 8300,
-            AccessKey => 'f',
+            AccessKey => 'q',
           },
           {
             Group => ['faq'],
@@ -72,7 +72,7 @@
             Link => 'Action=FAQ&Subaction=SystemHistory',
             NavBar => 'FAQ',
             Prio => 310,
-            AccessKey => 'h',
+            AccessKey => 'o',
           },
         ],
     };

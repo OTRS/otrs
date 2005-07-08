@@ -111,7 +111,7 @@
                     <Image>help.png</Image>
                     <Link>Action=FAQ&amp;Nav=Normal</Link>
                     <NavBar>FAQ</NavBar>
-                    <AccessKey>f</AccessKey>
+                    <AccessKey>q</AccessKey>
                     <Prio>8300</Prio>
                 </NavBar>
                 <NavBar>
@@ -147,7 +147,7 @@
                     <Type></Type>
                     <Block></Block>
                     <NavBar>FAQ</NavBar>
-                    <AccessKey>h</AccessKey>
+                    <AccessKey>o</AccessKey>
                     <Prio>310</Prio>
                 </NavBar>
             </FrontendModuleReg>
