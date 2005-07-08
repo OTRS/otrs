@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.157 2005-07-03 18:21:42 martin Exp $
+# $Id: Agent.pm,v 1.158 2005-07-08 14:36:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.157 $';
+$VERSION = '$Revision: 1.158 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -316,13 +316,13 @@ sub AgentFreeDate {
         %Config = %{$Param{Config}};
     }
     my %Data = ();
-    foreach (1..2) {
-        $Data{"TicketFreeTime".$_} = $Self->BuildDateSelection(
+    foreach my $Count (1..2) {
+        $Data{'TicketFreeTime'.$Count} = $Self->BuildDateSelection(
             %Param,
             %Ticket,
-            Prefix => 'TicketFreeTime'.$_,
+            Prefix => 'TicketFreeTime'.$Count,
             Format => 'DateInputFormatLong',
-            DiffTime => $Self->{ConfigObject}->Get('TicketFreeTimeDiff'.$_) || 0,
+            DiffTime => $Self->{ConfigObject}->Get('TicketFreeTimeDiff'.$Count) || 0,
         );
     }
     return %Data;
