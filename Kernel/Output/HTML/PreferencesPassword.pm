@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/PreferencesPassword.pm
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PreferencesPassword.pm,v 1.5 2005-05-16 12:24:40 martin Exp $
+# $Id: PreferencesPassword.pm,v 1.6 2005-07-08 14:33:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::PreferencesPassword;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -88,9 +88,14 @@ sub Run {
     if ($Param{GetParam}->{NewPw1} && $Param{GetParam}->{NewPw1}->[0]) {
         $Pw1 = $Param{GetParam}->{NewPw1}->[0];
     }
-
+    # compare pws
     if ($Pw ne $Pw1) {
         $Self->{Error} = "Can\'t update password, passwords dosn\'t match! Please try it again!";
+        return;
+    }
+    # check if pw is true
+    if (!$Pw || !$Pw1) {
+        $Self->{Error} = "Password is needed!";
         return;
     }
     # check pw
