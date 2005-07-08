@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/FollowUp.pm - the sub part of PostMaster.pm
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FollowUp.pm,v 1.37 2005-02-10 20:37:26 martin Exp $
+# $Id: FollowUp.pm,v 1.38 2005-07-08 10:35:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::FollowUp;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -87,6 +87,47 @@ sub Run {
             print "State: $State\n";
         }
     }
+    # set priority
+    if ($GetParam{'X-OTRS-Priority'}) {
+        $Self->{TicketObject}->PrioritySet(
+            TicketID => $Param{TicketID},
+            Priority => $GetParam{'X-OTRS-Priority'},
+            UserID => $Param{InmailUserID},
+        );
+        if ($Self->{Debug} > 0) {
+            print "PriorityUpdate: $GetParam{'X-OTRS-Priority'}\n";
+        }
+    }
+    # set queue
+    if ($GetParam{'X-OTRS-Queue'}) {
+        $Self->{TicketObject}->MoveTicket(
+            Queue => $GetParam{'X-OTRS-Queue'},
+            TicketID => $Param{TicketID},
+            UserID => $Param{InmailUserID},
+        );
+        if ($Self->{Debug} > 0) {
+            print "QueueUpdate: $GetParam{'X-OTRS-Queue'}\n";
+        }
+    }
+    # set free ticket text
+    my @Values = ('X-OTRS-TicketKey', 'X-OTRS-TicketValue');
+    my $CounterTmp = 0;
+    while ($CounterTmp <= 8) {
+        $CounterTmp++;
+        if ($GetParam{"$Values[0]$CounterTmp"}) {
+            $Self->{TicketObject}->TicketFreeTextSet(
+                TicketID => $Param{TicketID},
+                Key => $GetParam{"$Values[0]$CounterTmp"},
+                Value => $GetParam{"$Values[1]$CounterTmp"},
+                Counter => $CounterTmp,
+                UserID => $Param{InmailUserID},
+            );
+            if ($Self->{Debug} > 0) {
+                print "TicketKey$CounterTmp: ".$GetParam{"$Values[0]$CounterTmp"}."\n";
+                print "TicketValue$CounterTmp: ".$GetParam{"$Values[1]$CounterTmp"}."\n";
+            }
+        }
+    }
     # do db insert
     my $ArticleID = $Self->{TicketObject}->ArticleCreate(
         TicketID => $Param{TicketID},
@@ -107,9 +148,7 @@ sub Run {
         AutoResponseType => $AutoResponseType,
         OrigHeader => \%GetParam,
     );
-    # --
     # debug
-    # --
     if ($Self->{Debug} > 0) {
         print "Follow up Ticket\n";
         print "TicketNumber: $Param{Tn}\n";
@@ -122,17 +161,13 @@ sub Run {
         print "SenderType: $GetParam{'X-OTRS-SenderType'}\n";
         print "ArticleType: $GetParam{'X-OTRS-ArticleType'}\n";
     }
-    # --
     # write plain email to the storage
-    # --
     $Self->{TicketObject}->ArticleWritePlain(
         ArticleID => $ArticleID,
         Email => $Self->{ParseObject}->GetPlainEmail(),
         UserID => $Param{InmailUserID},
     );
-    # --
     # write attachments to the storage
-    # --
     foreach my $Attachment ($Self->{ParseObject}->GetAttachments()) {
         $Self->{TicketObject}->ArticleWriteAttachment(
             Content => $Attachment->{Content},
@@ -142,11 +177,9 @@ sub Run {
             UserID => $Param{InmailUserID},
         );
     }
-    # --
     # set free article text
-    # --
-    my @Values = ('X-OTRS-ArticleKey', 'X-OTRS-ArticleValue');
-    my $CounterTmp = 0;
+    @Values = ('X-OTRS-ArticleKey', 'X-OTRS-ArticleValue');
+    $CounterTmp = 0;
     while ($CounterTmp <= 3) {
         $CounterTmp++;
         if ($GetParam{"$Values[0]$CounterTmp"}) {
