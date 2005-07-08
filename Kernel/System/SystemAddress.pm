@@ -1,11 +1,11 @@
 # --
 # Kernel/System/SystemAddress.pm - lib for system addresses
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SystemAddress.pm,v 1.6 2004-02-02 23:27:23 martin Exp $
+# $Id: SystemAddress.pm,v 1.7 2005-07-08 14:28:33 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
@@ -14,7 +14,7 @@ package Kernel::System::SystemAddress;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub new {
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     # get common opjects
@@ -90,11 +90,11 @@ sub SystemAddressGet {
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
     }
-    # sql 
+    # sql
     my $SQL = "SELECT value0, value1, comments, valid_id, queue_id ".
         " FROM ".
         " system_address ".
-        " WHERE ". 
+        " WHERE ".
         " id = $Param{ID}";
 
     if (!$Self->{DBObject}->Prepare(SQL => $SQL)) {
@@ -102,8 +102,8 @@ sub SystemAddressGet {
     }
     my %Data = ();
     while (my @Data = $Self->{DBObject}->FetchrowArray()) {
-        %Data = ( 
-            ID => $Param{ID}, 
+        %Data = (
+            ID => $Param{ID},
             Name => $Data[0],
             Realname => $Data[1],
             Comment => $Data[2],
@@ -157,23 +157,20 @@ sub SystemAddressIsLocalAddress {
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
     }
-    # sql 
+    # sql
     my $SQL = "SELECT value0, value1, comments, valid_id, queue_id ".
         " FROM ".
         " system_address ".
-        " WHERE ". 
+        " WHERE ".
         " valid_id IN ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} )";
-#        " AND ".
-#        " value0 LIKE '$Param{Address}'";
 
     if (!$Self->{DBObject}->Prepare(SQL => $SQL)) {
         return;
     }
-    my $Hit = 0; 
-    $Param{Address} =~ s/\\/\\\\/g;
-    $Param{Address} =~ s/\+/\\\+/g;
+    my $Hit = 0;
+    $Param{Address} =~ s/ //g;
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-        if ($Row[0] =~ /^$Param{Address}$/i) {
+        if ($Row[0] =~ /^\Q$Param{Address}\E$/i) {
             $Hit = 1;
         }
     }
