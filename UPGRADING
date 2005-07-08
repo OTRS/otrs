@@ -2,7 +2,7 @@
 # UPGRADING - upgrading OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: UPGRADING,v 1.15 2005-05-06 15:06:41 martin Exp $
+# $Id: UPGRADING,v 1.16 2005-07-08 10:01:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,6 +14,8 @@ These instructions are for people upgrading OTRS from "1.3" to "2.0".
 *) Stop all your services (e. g. rcotrs stop-force)
 
 *) Backup everything (database, Kernel/Config.pm, Kernel/Config/GenericAgent.pm, var/*)
+   (Remember: 80% of all config settings are renamed in OTRS 2.0, so most of the
+   Kernel/Config.pm settings will not be compatible)
 
 *) Make sure that you have backed up everything ,-)
 
