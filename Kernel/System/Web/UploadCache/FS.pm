@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Web/UploadCache/FS.pm - a fs upload cache
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FS.pm,v 1.1 2004-11-26 23:43:34 martin Exp $
+# $Id: FS.pm,v 1.2 2005-07-08 10:00:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.1 $ ';
+$VERSION = '$Revision: 1.2 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -76,6 +76,7 @@ sub FormIDAddFile {
     # files must readable for creater
     umask(066);
     open (OUT, "> $Self->{TempDir}/$Param{FormID}.$Param{Filename}") || die "$!";
+    binmode(OUT);
     print OUT $Param{Content};
     close (OUT);
     open (OUT, "> $Self->{TempDir}/$Param{FormID}.$Param{Filename}.ContentType") || die "$!";
@@ -139,6 +140,7 @@ sub FormIDGetAllFilesData {
             close (IN);
             my $ContentType = '';
             open (IN, "< $File.ContentType") || die "$!";
+            binmode(IN);
             while (<IN>) {
                 $ContentType .= $_;
             }
