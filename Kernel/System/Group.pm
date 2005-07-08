@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 #               2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Group.pm,v 1.31 2005-06-19 22:42:48 martin Exp $
+# $Id: Group.pm,v 1.32 2005-07-08 11:08:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Group;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -455,6 +455,20 @@ foreach (keys %{$Self->{$CacheKey}}) {
                 push (@Result, $Self->GroupRoleMemberList(%Param, RoleID => $_));
             }
         }
+        # get roles of group
+        elsif ($Param{GroupID}) {
+            my %Roles = $Self->GroupRoleMemberList(
+                GroupID => $Param{GroupID},
+                Type => $Param{Type},
+                Result => 'HASH',
+            );
+            foreach (keys %Roles) {
+                push (@Result, $Self->GroupUserRoleMemberList(
+                    %Param,
+                    RoleID => $_,
+                ));
+            }
+        }
         # cache result
         $Self->{$CacheKey} = \@Result;
         return @Result;
@@ -472,6 +486,21 @@ foreach (keys %{$Self->{$CacheKey}}) {
                 %Result = (%Result, $Self->GroupRoleMemberList(%Param, RoleID => $_));
             }
         }
+        # get roles of group
+        elsif ($Param{GroupID}) {
+            my %Roles = $Self->GroupRoleMemberList(
+                GroupID => $Param{GroupID},
+                Type => $Param{Type},
+                Result => 'HASH',
+            );
+            foreach (keys %Roles) {
+                %Result = (%Result, $Self->GroupUserRoleMemberList(
+                    RoleID => $_,
+                    Result => 'HASH',
+                ));
+            }
+        }
+
         $Self->{$CacheKey} = \%Result;
         return %Result;
     }
@@ -1203,6 +1232,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.31 $ $Date: 2005-06-19 22:42:48 $
+$Revision: 1.32 $ $Date: 2005-07-08 11:08:11 $
 
 =cut
