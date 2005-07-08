@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketZoom.pm,v 1.9 2005-06-24 07:12:33 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.10 2005-07-08 19:17:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -414,17 +414,6 @@ sub MaskAgentZoom {
     # --
     # build shown article(s)
     # --
-    
-    # article time display
-    if ($Self->{ConfigObject}->Get('Ticket::ZoomTimeDisplay')) {
-        my $ArticleTime = $Self->{TicketObject}->ArticleAccountedTimeGet(
-            ArticleID => $ArticleID,
-        );
-        $Self->{LayoutObject}->Block(
-                Name => "ArticleTime",
-                Data => {ArticleTime => $ArticleTime},
-        );
-    }
     $Param{TicketStatus} .= $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentTicketZoomStatus',
         Data => {%Param, %AclAction},
@@ -473,6 +462,20 @@ sub MaskAgentZoom {
                 );
             }
         }
+        # show accounted article time
+        if ($Self->{ConfigObject}->Get('Ticket::ZoomTimeDisplay')) {
+            my $ArticleTime = $Self->{TicketObject}->ArticleAccountedTimeGet(
+                ArticleID => $Article{ArticleID},
+            );
+            $Self->{LayoutObject}->Block(
+                Name => "Row",
+                Data => {
+                    Key => 'Time',
+                    Value => $ArticleTime,
+                },
+            );
+        }
+        # show article free text
         foreach (qw(1 2 3 4 5)) {
             if ($Article{"FreeText$_"}) {
                 $Self->{LayoutObject}->Block(
