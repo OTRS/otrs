@@ -2,7 +2,7 @@
 # Kernel/Modules/Calendar.pm - spelling module
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCalendarSmall.pm,v 1.3 2005-06-20 19:25:05 martin Exp $
+# $Id: AgentCalendarSmall.pm,v 1.4 2005-07-09 17:48:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -145,8 +145,8 @@ sub Run {
                         Month => $Month,
                         Year  => $Year,
                         Style => $Style,
-                    },                
-                );  
+                    },
+                );
                 $CalDay++;
             }
         }
