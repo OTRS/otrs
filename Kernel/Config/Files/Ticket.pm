@@ -313,7 +313,7 @@
 
     # Ticket::Frontend::SearchCSVData
     # (used csv data)
-    $Self->{'Ticket::Frontend::SearchCSVData'} = ['TicketNumber','Age','Created','State','Priority','Queue','Lock','Owner','UserFirstname','UserLastname','CustomerID','CustomerName','From','Subject','AccountedTime','TicketFreeKey1','TicketFreeText1','TicketFreeKey2','TicketFreeText2','TicketFreeKey3','TicketFreeText3','TicketFreeKey4','TicketFreeText4','TicketFreeKey5','TicketFreeText5','TicketFreeKey6','TicketFreeText6','TicketFreeKey7','TicketFreeText7','TicketFreeKey8','TicketFreeText8','ArticleTree',''];
+    $Self->{'Ticket::Frontend::SearchCSVData'} = ['TicketNumber','Age','Created','State','Priority','Queue','Lock','Owner','UserFirstname','UserLastname','CustomerID','CustomerName','From','Subject','AccountedTime','TicketFreeKey1','TicketFreeText1','TicketFreeKey2','TicketFreeText2','TicketFreeKey3','TicketFreeText3','TicketFreeKey4','TicketFreeText4','TicketFreeKey5','TicketFreeText5','TicketFreeKey6','TicketFreeText6','TicketFreeKey7','TicketFreeText7','TicketFreeKey8','TicketFreeText8', 'TicketFreeTime1', 'TicketFreeTime2', 'ArticleTree',''];
 
     # Ticket::Frontend::Search::DB::*
     # (if you want to use a mirror database for agent ticket fulltext search)
@@ -448,7 +448,7 @@
 
     # Ticket::Frontend::NoteSubject
     # (default note subject)
-    $Self->{'Ticket::Frontend::NoteSubject'} = '$Text{"Note!"}';
+    $Self->{'Ticket::Frontend::NoteSubject'} = '$Text{"Note"}!';
 
     # Ticket::Frontend::NoteText
     # (default note text)
@@ -458,7 +458,7 @@
     # Ticket Frontend Ticket Pending stuff
     # --------------------------------------------------- #
     # Ticket::Frontend::PendingSubject
-    $Self->{'Ticket::Frontend::PendingSubject'} = 'Pending!';
+    $Self->{'Ticket::Frontend::PendingSubject'} = '$Text{"Pending"}!';
     # Ticket::Frontend::PendingText
     $Self->{'Ticket::Frontend::PendingText'} = '';
     # Ticket::Frontend::PendingState
@@ -472,7 +472,7 @@
     # Ticket::Frontend::CloseNoteType
     $Self->{'Ticket::Frontend::CloseNoteType'} = 'note-internal';
     # Ticket::Frontend::CloseSubject
-    $Self->{'Ticket::Frontend::CloseSubject'} = 'Close!';
+    $Self->{'Ticket::Frontend::CloseSubject'} = '$Text{"Close"}!';
     # Ticket::Frontend::CloseText
     $Self->{'Ticket::Frontend::CloseText'} = '';
     # Ticket::Frontend::CloseState
@@ -1318,6 +1318,11 @@ $Data{"Signature"}
         Title => 'Locked Tickets',
         NavBarName => 'Ticket',
     };
+#    $Self->{'Frontend::Module'}->{'AgentTicketStatusView'} = {
+#        Description => 'Overview of all open tickets',
+#        Title => 'Status View',
+#        NavBarName => 'Ticket',
+#    };
     $Self->{'Frontend::Module'}->{'AgentZoom'} = {
         Description => 'compat module for Ticket Zoom',
         NavBarName => 'Ticket',

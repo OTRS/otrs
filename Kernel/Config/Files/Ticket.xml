@@ -148,7 +148,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.50 2005-07-03 18:38:39 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.51 2005-07-09 17:46:36 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifyer for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z.B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -245,14 +245,13 @@ TimeWorkingHours
         <Description Lang="en">Show all ro and rw queues in the queue view (not only rw queues)?</Description>
         <Description Lang="de">Zeigen aller Queues in der Queue-Ansicht für die Schreib- und Leserechte vorhanden sind? Standardmäßig werden nur die Queues angezeigt, für die Schreibrechte vergeben wurden.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
         <Setting>
             <Option SelectedID="0">
                 <Item Key="0">No</Item>
                 <Item Key="1">Yes</Item>
             </Option>
         </Setting>
-        <!-- $Self->{'Ticket::QueueViewAllPossibleTickets'} = 0; -->
     </ConfigItem>
     <ConfigItem Name="Ticket::NewMessageMode" Required="1" Valid="1">
         <Description Lang="en">Mode how the new message count in the agent navigation bar is used.</Description>
@@ -864,41 +863,37 @@ TimeWorkingHours
         <Description Lang="en">Set the age (first level) for highlighting of old queue (Age in min).</Description>
         <Description Lang="de">Zeit ab dem eine Queue mit nicht bearbeiteten Inhalten in erster Stufe gehighlighted wird (Angabe in min).</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
         <Setting>
             <String Regex="^[0-9]{1,5}$">1440</String>
         </Setting>
-        <!--  $Self->{HighlightAge1} = 1440;   -->
     </ConfigItem>       
     <ConfigItem Name="HighlightColor1" Required="1" Valid="1">
         <Description Lang="en">Set the color for highlighting of old queue (first level).</Description>
         <Description Lang="de">Farbe mit der eine Queue mit nicht bearbeiteten Inhalten in erster Stufe gehighlighted wird.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
         <Setting>
             <String Regex="">orange</String>
         </Setting>
-        <!--  $Self->{HighlightColor1} = 'orange';   -->
     </ConfigItem>           
     <ConfigItem Name="HighlightAge2" Required="1" Valid="1">
         <Description Lang="en">Set the age (second level) for highlighting of old queue (Age in min).</Description>
         <Description Lang="de">Zeit ab dem eine Queue mit nicht bearbeiteten Inhalten in zweiter Stufe gehighlighted wird (Angabe in min).</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
         <Setting>
             <String Regex="^[0-9]{1,5}$">2880</String>
         </Setting>
-        <!--  $Self->{HighlightAge2} = 2880;   -->
     </ConfigItem>       
     <ConfigItem Name="HighlightColor2" Required="1" Valid="1">
         <Description Lang="en">Set the color for highlighting of old queue (second level).</Description>
         <Description Lang="de">Farbe mit der eine Queue mit nicht bearbeiteten Inhalten in zweiter Stufe gehighlighted wird.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
         <Setting>
             <String Regex="">red</String>
         </Setting>
-        <!--  $Self->{HighlightColor2} = 'red';   -->
     </ConfigItem>         
     <ConfigItem Name="Ticket::Frontend::PendingDiffTime" Required="1" Valid="1">
         <Description Lang="en">Time in sec. which "pending date" shows per default) (default: 24*60*60 = 1 day.</Description>
@@ -921,7 +916,6 @@ TimeWorkingHours
                 <Item Key="list">list</Item>                
             </Option>
         </Setting>
-        <!-- $Self->{'Ticket::Frontend::QueueListType'} = 'tree';  -->
     </ConfigItem>     
     <ConfigItem Name="Ticket::Frontend::StdResponsesMode" Required="1" Valid="1">
         <Description Lang="en">The standard responses in the agent interface can be displayed as form or links.</Description>
@@ -934,43 +928,37 @@ TimeWorkingHours
                 <Item Key="Form">Form</Item>                
             </Option>
         </Setting>
-        <!-- $Self->{'Ticket::Frontend::StdResponsesMode'} = 'Link';  -->
     </ConfigItem>      
     <ConfigItem Name="Ticket::Frontend::ZoomExpand" Required="1" Valid="1">
         <Description Lang="en">Show article expanded in agent interface under ticket zoom.</Description>
         <Description Lang="de">Zeige die Artikel erweitert im Agent-Interface unter Ticket-Zoom-Ansicht.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewZoom</SubGroup>
         <Setting>
             <Option SelectedID="0">
                 <Item Key="0">No</Item>
                 <Item Key="1">Yes</Item>                
             </Option>
         </Setting>
-        <!-- $Self->{'Ticket::Frontend::ZoomExpand'} = 0; -->
     </ConfigItem>       
     <ConfigItem Name="Ticket::Frontend::ZoomExpandSort" Required="1" Valid="1">
         <Description Lang="en">Show article normal or in reverse order in the agent interface under ticket zoom.</Description>
         <Description Lang="de">Zeige die Artikel normal oder rückwärts sortiert im Agent-Interface unter der Ticket-Zoom-Ansicht.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewZoom</SubGroup>
         <Setting>
             <Option SelectedID="normal">
                 <Item Key="reverse">reverse</Item>
                 <Item Key="normal">normal</Item>                
             </Option>
         </Setting>
-        <!-- 
-        # $Self->{'Ticket::Frontend::ZoomExpandSort'} = 'reverse';
-        $Self->{'Ticket::Frontend::ZoomExpandSort'} = 'normal';
-        -->
     </ConfigItem>   
     <ConfigItem Name="Ticket::ZoomAttachmentDisplay" Required="0" Valid="1">
         <Description Lang="en">Shows a icon in the ticket zoom, if a article as an attachment.</Description>
         <Description Lang="de">Zeigt ein Icon in der Ansicht für den
         Ticketinhalt an, wenn ein Attachment für einen Artikel vorhanden ist.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewZoom</SubGroup>
         <Setting>
             <Option SelectedID="1">
                 <Item Key="0">No</Item>
@@ -983,7 +971,7 @@ TimeWorkingHours
         <Description Lang="de">Zeigt die Zeit innerhalb der Ansicht für den
         Ticketinhalt an, die für einen Artikel erfasst wurde.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewZoom</SubGroup>
         <Setting>
             <Option SelectedID="0">
                 <Item Key="0">No</Item>
@@ -995,17 +983,13 @@ TimeWorkingHours
         <Description Lang="en">Show history order reverse in the agent interface under ticket history.</Description>
         <Description Lang="de">Zeige die History normal oder rückwärts sortiert im Agent-Interface unter der Ticket-History.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewHistory</SubGroup>
         <Setting>
             <Option SelectedID="normal">
                 <Item Key="reverse">reverse</Item>
                 <Item Key="normal">normal</Item>                
             </Option>
         </Setting>
-        <!-- 
-        $Self->{'Ticket::Frontend::HistoryOrder'} = 'normal';
-        # $Self->{'Ticket::Frontend::HistoryOrder'} = 'reverse';
-        -->
     </ConfigItem>   
     <ConfigItem Name="Ticket::Frontend::TextAreaEmail" Required="1" Valid="1">
         <Description Lang="en">Width of compose email windows.</Description>
@@ -1025,7 +1009,6 @@ TimeWorkingHours
         <Setting>
             <String Regex="^[0-9]{1,3}$">70</String>
         </Setting>
-        <!--  $Self->{'Ticket::Frontend::TextAreaNote'} = 70;   -->
     </ConfigItem>   
     <ConfigItem Name="Ticket::Frontend::CustomerInfoCompose" Required="1" Valid="1">
         <Description Lang="en">Show customer user info in Compose screen (Phone and Email)?</Description>
@@ -1081,11 +1064,11 @@ TimeWorkingHours
         <Setting>
             <Option SelectedID="0">
                 <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>                
+                <Item Key="1">Yes</Item>
             </Option>
         </Setting>
         <!-- $Self->{'Ticket::Frontend::CustomerInfoQueue'} = 0; -->
-    </ConfigItem>      
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerInfoQueueMaxSize" Required="1" Valid="1">
         <Description Lang="en">Max size (in characters) of customer info table - Queue.</Description>
         <Description Lang="de">Max. Anzeige der Zeichen in der Customer-Info für die Queue-Ansicht.</Description>
@@ -1095,60 +1078,48 @@ TimeWorkingHours
             <String Regex="^[0-9]{1,3}$">18</String>
         </Setting>
         <!-- $Self->{'Ticket::Frontend::CustomerInfoQueueMaxSize'} = 18;   -->
-    </ConfigItem>        
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::NoEscalationGroup" Required="1" Valid="1">
         <Description Lang="en">Don't show escalated tickets to agents, who have write permissions for their specifyed group.</Description>
         <Description Lang="de">Zeige keinem Agenten mit Schreibrechten aus der angegebenen Gruppe eskalierte Tickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
         <Setting>
             <String Regex="">some_group</String>
         </Setting>
-        <!-- $Self->{'Ticket::Frontend::NoEscalationGroup'} = 'some_group';   -->
-    </ConfigItem>      
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::QueueMaxShown" Required="1" Valid="1">
         <Description Lang="en">Max shown tickets in queue view.</Description>
         <Description Lang="de">Maximale Anzahl der in der QueueAnsicht angezeigten Tickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
         <Setting>
             <String Regex="^[0-9]{1,4}$">1200</String>
         </Setting>
-        <!-- $Self->{'Ticket::Frontend::QueueMaxShown'} = 1200;   -->
-    </ConfigItem>         
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::QueueSortDefault" Required="1" Valid="1">
         <Description Lang="en">Default sort order of the queue view (after priority sort). ASC: oldest on top. DESC: youngest on top.</Description>
         <Description Lang="de">Standard Sortierreihenfolge in der QueueAnsicht. ASC: die ältesten Tickets zuerst. DESC: die neuesten zuerst.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
         <Setting>
             <Option SelectedID="ASC">
                 <Item Key="ASC">ASC</Item>
-                <Item Key="DESC">DESC</Item>                
+                <Item Key="DESC">DESC</Item>
             </Option>
         </Setting>
-        <!-- 
-        $Self->{'Ticket::Frontend::QueueSortDefault'} = 'ASC';
-        $Self->{'Ticket::Frontend::QueueSortDefault'} = 'DESC'; 
-        -->
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::QueueSort" Required="0" Valid="0">
         <Description Lang="en">Sort a queue ascending or descending after priority sort. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top)</Description>
         <Description Lang="de">Queue auf- oder absteigend sortieren, nach der Sortierung nach Priorität. Mögliche Werte: 0 = Aufsteigend (alte Tickets zuerst), 1 = absteigend</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="7">1</Item>
                 <Item Key="3">0</Item>
             </Hash>
         </Setting>
-        <!--
-            # $Self->{'Ticket::Frontend::QueueSort'} = {
-            #       7 => 1,
-            #     3 => 0,
-            # };
-        -->
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AccountTime" Required="1" Valid="1">
         <Description Lang="en">Aktivate time accounting.</Description>
@@ -1229,167 +1200,157 @@ TimeWorkingHours
         <Description Lang="en">The queue selection can be shown as dropdown box or in a new opened window.</Description>
         <Description Lang="de">Die Queue-Auswahl beim Verschieben eines Tickets kann als Dropdown Box oder in einem neuen Fensters angezeigt werden.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewMove</SubGroup>
         <Setting>
             <Option SelectedID="form">
                 <Item Key="link">New Window</Item>
                 <Item Key="form">Dropdown</Item>
             </Option>
         </Setting>
-        <!-- $Self->{'Ticket::Frontend::MoveType'} = 'form'; -->
     </ConfigItem>    
     <ConfigItem Name="Ticket::Frontend::MoveSetState" Required="1" Valid="1">
         <Description Lang="en">Set new ticket state after ticket move?</Description>
         <Description Lang="de">Setzen eines neuen Ticket-Status nach dem Verschieben?</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewMove</SubGroup>
         <Setting>
             <Option SelectedID="1">
                 <Item Key="0">No</Item>
                 <Item Key="1">Yes</Item>                
             </Option>
         </Setting>
-        <!-- $Self->{'Ticket::Frontend::MoveSetState'} = 1; -->
     </ConfigItem>        
     <ConfigItem Name="Ticket::DefaultNextMoveStateType" Required="1" Valid="1">
         <Description Lang="en">Possible state types after moving a ticket.</Description>
         <Description Lang="de">Mögliche Status nach dem Verschieben von Tickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewMove</SubGroup>
         <Setting>
             <Array>
                 <Item>open</Item>
                 <Item>closed</Item>                
             </Array>
         </Setting>
-        <!-- $Self->{'Ticket::DefaultNextMoveStateType'} = ['open', 'closed']; -->
     </ConfigItem>    
     <ConfigItem Name="Ticket::Frontend::StatusView::ViewableTicketsPage" Required="1" Valid="1">
         <Description Lang="en">Shows all open tickets.</Description>
         <Description Lang="de">Zeigt alle offenen Tickets an.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewStatus</SubGroup>
         <Setting>
             <String Regex="">50</String>
         </Setting>
-        <!-- $Self->{'Ticket::Frontend::StatusView::ViewableTicketsPage'} = 50;   -->
     </ConfigItem>    
      <ConfigItem Name="Ticket::Frontend::SearchLimit" Required="1" Valid="1">
         <Description Lang="en">Search limit for ticket frontend.</Description>
         <Description Lang="de">Hier legen Sie das Ergebnislimit für die Ticketsuche fest.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
         <Setting>
             <String Regex="^[0-9]{1,10}$">5000</String>
         </Setting>
-        <!--  $Self->{'Ticket::Frontend::SearchLimit'} = 5000;   -->                
     </ConfigItem>     
     <ConfigItem Name="Ticket::Frontend::SearchPageShown" Required="1" Valid="1">
         <Description Lang="en">Default of shown article a page.</Description>
         <Description Lang="de">Anzahl der angezeigten Treffer pro Seite bei der Ticketsuche.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
         <Setting>
             <String Regex="">40</String>
         </Setting>
-        <!--  $Self->{'Ticket::Frontend::SearchPageShown'} = 40;   -->
     </ConfigItem>  
     <ConfigItem Name="Ticket::Frontend::SearchViewableTicketLines" Required="1" Valid="1">
         <Description Lang="en">Viewable ticket lines by search utility.</Description>
         <Description Lang="de">Anzahl der Zeilen, die durch das Suchwerkzeug angezeigt werden.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
         <Setting>
             <String Regex="">10</String>
         </Setting>
-        <!--  $Self->{'Ticket::Frontend::SearchViewableTicketLines'} = 10;   -->
-    </ConfigItem>  
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::SearchArticleCSVTree" Required="1" Valid="1">
         <Description Lang="en">Export also whole article tree in search result export (take care of the system performance!).</Description>
         <Description Lang="de">Exportiere im Suchergebnisexport auch den ganzen ArtikelBaum (Achten Sie bei dieser Einstellung auf die System-Performance).</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
         <Setting>
             <Option SelectedID="0">
                 <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>                
+                <Item Key="1">Yes</Item>
             </Option>
         </Setting>
-        <!-- $Self->{'Ticket::Frontend::SearchArticleCSVTree'} = 0; -->
-    </ConfigItem>     
+    </ConfigItem>
     <ConfigItem Name="Ticket::SearchCSVData" Required="1" Valid="1">
         <Description Lang="en">Used data to export the search result in CSV format..</Description>
         <Description Lang="de">Angaben für den Export des Suchergebnisses im CSV-Format.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
         <Setting>
             <Array>
                 <Item>TicketNumber</Item>
-                <Item>Age</Item> 
+                <Item>Age</Item>
                 <Item>Created</Item>
-                <Item>State</Item>  
+                <Item>State</Item>
                 <Item>Priority</Item>
-                <Item>Queue</Item>  
+                <Item>Queue</Item>
                 <Item>Lock</Item>
-                <Item>Owner</Item>  
+                <Item>Owner</Item>
                 <Item>UserFirstname</Item>
-                <Item>UserLastname</Item>    
+                <Item>UserLastname</Item>
                 <Item>CustomerID</Item>
-                <Item>CustomerName</Item> 
+                <Item>CustomerName</Item>
                 <Item>From</Item>
-                <Item>Subject</Item>  
+                <Item>Subject</Item>
                 <Item>AccountedTime</Item>
-                <Item>TicketFreeKey1</Item>  
+                <Item>TicketFreeKey1</Item>
                 <Item>TicketFreeText1</Item>
-                <Item>TicketFreeKey2</Item>  
+                <Item>TicketFreeKey2</Item>
                 <Item>TicketFreeText2</Item>
-                <Item>TicketFreeKey3</Item>   
+                <Item>TicketFreeKey3</Item>
                 <Item>TicketFreeText3</Item>
-                <Item>TicketFreeKey4</Item> 
+                <Item>TicketFreeKey4</Item>
                 <Item>TicketFreeText4</Item>
-                <Item>TicketFreeKey5</Item>  
+                <Item>TicketFreeKey5</Item>
                 <Item>TicketFreeText5</Item>
-                <Item>TicketFreeKey6</Item>  
+                <Item>TicketFreeKey6</Item>
                 <Item>TicketFreeText6</Item>
-                <Item>TicketFreeKey7</Item>  
+                <Item>TicketFreeKey7</Item>
                 <Item>TicketFreeText7</Item>
-                <Item>TicketFreeKey8</Item>    
+                <Item>TicketFreeKey8</Item>
                 <Item>TicketFreeText8</Item>
-                <Item>CustomerName</Item> 
-                <Item>ArticleTree</Item>                                                                              
+                <Item>TicketFreeTime1</Item>
+                <Item>TicketFreeTime2</Item>
+                <Item>CustomerName</Item>
+                <Item>ArticleTree</Item>
             </Array>
         </Setting>
-        <!--     $Self->{'Ticket::Frontend::SearchCSVData'} = ['TicketNumber','Age','Created','State','Priority','Queue','Lock','Owner','UserFirstname','UserLastname','CustomerID','CustomerName','From','Subject','AccountedTime','TicketFreeKey1','TicketFreeText1','TicketFreeKey2','TicketFreeText2','TicketFreeKey3','TicketFreeText3','TicketFreeKey4','TicketFreeText4','TicketFreeKey5','TicketFreeText5','TicketFreeKey6','TicketFreeText6','TicketFreeKey7','TicketFreeText7','TicketFreeKey8','TicketFreeText8','ArticleTree','']; -->
-    </ConfigItem>    
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::Search::DB::DSN" Required="0" Valid="0">
         <Description Lang="en">If you want to use a mirror database for agent ticket fulltext search, specify the DSN to this database.</Description>
         <Description Lang="de">Wenn eine Datenbank mit den gespiegelten Daten für die Volltextsuche genutzt werden soll, kann hier die DSN für dieser Datenbank angegeben werden.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
         <Setting>
             <String Regex="">DBI:mysql:database=mirrordb;host=mirrordbhost</String>
         </Setting>
-        <!--  $Self->{'Ticket::Frontend::Search::DB::DSN'} = "DBI:mysql:database=mirrordb;host=mirrordbhost";   -->
     </ConfigItem>      
     <ConfigItem Name="Ticket::Frontend::Search::DB::User" Required="0" Valid="0">
         <Description Lang="en">If you want to use a mirror database for agent ticket fulltext search, you can specify the user to authenticate to this database.</Description>
         <Description Lang="de">Wenn eine Datenbank mit den gespiegelten Daten für die Volltextsuche genutzt werden soll, kann hier der Benutzer angegeben werden, der für die Anmeldung an dieser Datenbank benötigt wird.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
         <Setting>
             <String Regex="">some_user</String>
         </Setting>
-        <!--  $Self->{'Ticket::Frontend::Search::DB::User'} = "some_user";   -->
     </ConfigItem>        
     <ConfigItem Name="Ticket::Frontend::Search::DB::Password" Required="0" Valid="0">
         <Description Lang="en">If you want to use a mirror database for agent ticket fulltext search, you can specify the password to authenticate to this database.</Description>
         <Description Lang="de">Wenn eine Datenbank mit den gespiegelten Daten für die Volltextsuche genutzt werden soll, kann hier das Kennwort angegeben werden, das für die Anmeldung an dieser Datenbank benötigt wird.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
         <Setting>
             <String Regex="">some_password</String>
         </Setting>
-        <!--  $Self->{'Ticket::Frontend::Search::DB::Password'} = "some_password";   -->
     </ConfigItem>         
     <ConfigItem Name="Ticket::AgentCanBeCustomer" Required="1" Valid="1">
         <Description Lang="en">Can a agent also be a customer via the agent interface?</Description>
@@ -1408,47 +1369,43 @@ TimeWorkingHours
         <Description Lang="en">Default note type for phone tickets.</Description>
         <Description Lang="de">Standard Notiztyp bei Telefontickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhone</SubGroup>
         <Setting>
             <String Regex="">phone</String>
         </Setting>
-        <!--  $Self->{'Ticket::Frontend::PhoneArticleType'} = 'phone';   -->
     </ConfigItem> 
     <ConfigItem Name="Ticket::Frontend::PhoneSenderType" Required="1" Valid="1">
         <Description Lang="en">Default sender type for phone tickets.</Description>
         <Description Lang="de">Standard Sendertyp bei Telefontickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhone</SubGroup>
         <Setting>
             <String Regex="">agent</String>
         </Setting>
-        <!--  $Self->{'Ticket::Frontend::PhoneSenderType'} = 'agent';   -->
     </ConfigItem>     
     <ConfigItem Name="Ticket::Frontend::PhoneSubject" Required="1" Valid="1">        
         <Description Lang="en">Default subject for phone tickets.</Description>
         <Description Lang="de">Standard Betreff bei Telefontickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhone</SubGroup>
         <Setting>
-            <String Regex="">$Text{"Phone call at %s", "Time(DateFormatLong)"}</String>
+            <String Regex="">$Text{"Phone call"}!</String>
         </Setting>
-        <!--  $Self->{'Ticket::Frontend::PhoneSubject'} = '$Text{"Phone call at %s", "Time(DateFormatLong)"}';   -->
     </ConfigItem>     
     <ConfigItem Name="Ticket::Frontend::PhoneNote" Required="1" Valid="1">         
         <Description Lang="en">Default note text for phone tickets.</Description>
         <Description Lang="de">Standard Text für Notizen für Telefontickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhone</SubGroup>
         <Setting>
-            <String Regex="">$Text{"Customer called"}</String>
+            <String Regex="">Customer called</String>
         </Setting>
-        <!--  $Self->{'Ticket::Frontend::PhoneNote'} = '$Text{"Customer called"}';   -->
     </ConfigItem>     
     <ConfigItem Name="Ticket::PhoneDefaultNextStateType" Required="1" Valid="1">
         <Description Lang="en">Next possible states after phone.</Description>
         <Description Lang="de">Mögliche Status nach dem Telefonat.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhone</SubGroup>
         <Setting>
             <Array>
                 <Item>open</Item>
@@ -1457,123 +1414,105 @@ TimeWorkingHours
                 <Item>closed</Item>                        
             </Array>
         </Setting>
-        <!--  $Self->{'Ticket::PhoneDefaultNextStateType'} = ['open', 'pending auto', 'pending reminder', 'closed']; -->
     </ConfigItem>      
     <ConfigItem Name="Ticket::Frontend::PhoneNextState" Required="1" Valid="1">     
         <Description Lang="en">Default next state after phone.</Description>
         <Description Lang="de">Vorauswahl für den nächsten Status der Telefonnotiz.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhone</SubGroup>
         <Setting>
             <String Regex="">closed successful</String>
         </Setting>
-        <!--  $Self->{'Ticket::Frontend::PhoneNextState'} = 'closed successful';   -->
     </ConfigItem> 
-    <ConfigItem Name="Ticket::Frontend::PhoneHistoryType" Required="1" Valid="1">      
+    <ConfigItem Name="Ticket::Frontend::PhoneHistoryType" Required="1" Valid="1">
         <Description Lang="en">Default history type for phone tickets.</Description>
         <Description Lang="de">Standard History-Typ für Telefontickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhone</SubGroup>
         <Setting>
             <String Regex="">PhoneCallAgent</String>
         </Setting>
-        <!--  $Self->{'Ticket::Frontend::PhoneHistoryType'} = 'PhoneCallAgent';   -->
     </ConfigItem>     
-    <ConfigItem Name="Ticket::Frontend::PhoneHistoryComment" Required="1" Valid="1">      
+    <ConfigItem Name="Ticket::Frontend::PhoneHistoryComment" Required="1" Valid="1">
         <Description Lang="en">Default history comment for phone tickets.</Description>
         <Description Lang="de">Standard History-Kommentar bei Telefontickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhone</SubGroup>
         <Setting>
             <String Regex=""></String>
         </Setting>
-        <!--  $Self->{'Ticket::Frontend::PhoneHistoryComment'} = '';   -->
     </ConfigItem>   
-    <ConfigItem Name="Ticket::Frontend::PhoneNewArticleType" Required="1" Valid="1">      
+    <ConfigItem Name="Ticket::Frontend::PhoneNewArticleType" Required="1" Valid="1">
         <Description Lang="en">Default article type for phone tickets.</Description>
         <Description Lang="de">Default Artikeltyp für Telefontickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
         <Setting>
             <String Regex="">phone</String>
         </Setting>
-        <!--  $Self->{'Ticket::Frontend::PhoneNewArticleType'} = 'phone';   -->
     </ConfigItem>  
-    <ConfigItem Name="Ticket::Frontend::PhoneNewSenderType" Required="1" Valid="1">      
+    <ConfigItem Name="Ticket::Frontend::PhoneNewSenderType" Required="1" Valid="1">
         <Description Lang="en">Default sender type for new phone ticket.</Description>
         <Description Lang="de">Standard Sender-Typ bei neuen Telefontickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
         <Setting>
             <String Regex="">customer</String>
         </Setting>
-        <!--  $Self->{'Ticket::Frontend::PhoneNewSenderType'} = 'customer';   -->
     </ConfigItem>  
-    <ConfigItem Name="Ticket::Frontend::PhoneNewSubject" Required="1" Valid="1">      
-        <Description Lang="en">Default subject for new phone tickets (e.g. '$Text{"Phone call at %s", "Time(DateFormatLong)"}').</Description>
-        <Description Lang="de">Standard Betreff für neue Telefontickets (z.B.         '$Text{"Phone call at %s", "Time(DateFormatLong)"}').</Description>
+    <ConfigItem Name="Ticket::Frontend::PhoneNewSubject" Required="1" Valid="1">
+        <Description Lang="en">Default subject for new phone tickets (e.g. 'Phone call').</Description>
+        <Description Lang="de">Standard Betreff für neue Telefontickets (z.B. 'Telefon Anruf').</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
         <Setting>
             <String Regex=""></String>
         </Setting>
-        <!--  
-        $Self->{'Ticket::Frontend::PhoneNewSubject'} = '$Text{"Phone call at %s", "Time(DateFormatLong)"}';
-        $Self->{'Ticket::Frontend::PhoneNewSubject'} = '';
-        -->
     </ConfigItem>  
     <ConfigItem Name="Ticket::Frontend::PhoneNewNote" Required="1" Valid="1">      
         <Description Lang="en">Default note text. E.g 'New ticket via call.'</Description>
         <Description Lang="de">Standard-Text für die Notiz bei Telefontickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
         <Setting>
             <String Regex=""></String>
         </Setting>
-        <!--  
-        $Self->{'Ticket::Frontend::PhoneNewNote'} = 'New ticket via call.';
-        $Self->{'Ticket::Frontend::PhoneNewNote'} = '';
-        -->
     </ConfigItem>          
-    <ConfigItem Name="Ticket::Frontend::PhoneNewNextState" Required="1" Valid="1">    
+    <ConfigItem Name="Ticket::Frontend::PhoneNewNextState" Required="1" Valid="1">
         <Description Lang="en">Default next state.</Description>
         <Description Lang="de">Standardmäßig vergebener nächster Status.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
         <Setting>
             <String Regex="">open</String>
         </Setting>
-        <!--  $Self->{'Ticket::Frontend::PhoneNewNextState'} = 'open';  -->
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PhonePriority" Required="1" Valid="1">    
         <Description Lang="en">Default priority for phone tickets.</Description>
         <Description Lang="de">Standardpriorität eines Telefontickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhone</SubGroup>
         <Setting>
             <String Regex="">3 normal</String>
         </Setting>
-        <!--  $Self->{'Ticket::Frontend::PhonePriority'} = '3 normal';  -->
     </ConfigItem>    
     <ConfigItem Name="Ticket::Frontend::PhoneNewHistoryType" Required="1" Valid="1">    
         <Description Lang="en">Default history type for phone tickets.</Description>
         <Description Lang="de">Standard History-Typ bei Telefontickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
         <Setting>
             <String Regex="">PhoneCallCustomer</String>
         </Setting>
-        <!--  $Self->{'Ticket::Frontend::PhoneNewHistoryType'} = 'PhoneCallCustomer';  -->
     </ConfigItem>    
-    <ConfigItem Name="Ticket::Frontend::PhoneNewHistoryComment" Required="1" Valid="1">    
+    <ConfigItem Name="Ticket::Frontend::PhoneNewHistoryComment" Required="1" Valid="1">
         <Description Lang="en">Default history comment for phone tickets.</Description>
         <Description Lang="de">Standard Kommentar für die History bei Telefontickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
         <Setting>
             <String Regex=""></String>
         </Setting>
-        <!--  $Self->{'Ticket::Frontend::PhoneNewHistoryComment'} = '';  -->
     </ConfigItem>    
     <ConfigItem Name="Ticket::Frontend::NewOwnerSelection" Required="1" Valid="1">
         <Description Lang="en">Show owner selection in phone and email ticket?</Description>
@@ -1612,13 +1551,13 @@ TimeWorkingHours
         <Setting>
             <String Regex="">&lt;Queue&gt;</String>
         </Setting>
-        <!-- 
+        <!--
         $Self->{'Ticket::Frontend::NewQueueSelectionString'} = 'Queue: <Queue> - <QueueComment>';
         $Self->{'Ticket::Frontend::NewQueueSelectionString'} = '<Queue>';
         $Self->{'Ticket::Frontend::NewQueueSelectionString'} = '<Realname> <<Email>> - Queue: <Queue> - <QueueComment>';
         $Self->{'Ticket::Frontend::NewQueueSelectionString'} = '<Realname> <<Email>> - Queue: <Queue>';
         -->
-    </ConfigItem>         
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::NewQueueOwnSelection" Required="0" Valid="0">
         <Description Lang="en">If this is in use, "just this selection is valid" for the PhoneView.</Description>
         <Description Lang="de">Wenn Sie diese Auswahl benutzen, ist sie nur für die TelefonAnsicht gültig.</Description>
@@ -1642,67 +1581,61 @@ TimeWorkingHours
         <Description Lang="en">Default priority for emails.</Description>
         <Description Lang="de">Standard Priorität für Emails.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
         <Setting>
             <String Regex="">3 normal</String>
         </Setting>
-        <!--  $Self->{'Ticket::Frontend::EmailPriority'} = '3 normal';  -->
     </ConfigItem>     
     <ConfigItem Name="Ticket::Frontend::EmailNewArticleType" Required="1" Valid="1">    
         <Description Lang="en">Default article type for new article.</Description>
         <Description Lang="de">Standard Artikeltyp beim erstellen eines Artikels.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
         <Setting>
             <String Regex="">email-external</String>
         </Setting>
-        <!--  $Self->{'Ticket::Frontend::EmailNewArticleType'} = 'email-external';  -->
     </ConfigItem>     
     <ConfigItem Name="Ticket::Frontend::EmailNewSenderType" Required="1" Valid="1">    
         <Description Lang="en">Default sender type for article.</Description>
         <Description Lang="de">Standard Sender-Typ für Artikel.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
         <Setting>
             <String Regex="">agent</String>
         </Setting>
-        <!--  $Self->{'Ticket::Frontend::EmailNewSenderType'} = 'agent';  -->
     </ConfigItem> 
     <ConfigItem Name="Ticket::Frontend::EmailNewHistoryType" Required="1" Valid="1">    
         <Description Lang="en">Type for article history.</Description>
         <Description Lang="de">Typ für Artikel Historie.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
         <Setting>
             <String Regex="">EmailAgent</String>
         </Setting>
-        <!--  $Self->{'Ticket::Frontend::EmailNewHistoryType'} = 'EmailAgent';  -->
     </ConfigItem>   
     <ConfigItem Name="Ticket::Frontend::EmailNewHistoryComment" Required="1" Valid="1">    
         <Description Lang="en">Default comment for new email history.</Description>
         <Description Lang="de">Standard Kommentar für History-Eintrag bei neuen Emails.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
         <Setting>
             <String Regex=""></String>
         </Setting>
-        <!--  $Self->{'Ticket::Frontend::EmailNewHistoryComment'} = '';  -->
     </ConfigItem>   
     <ConfigItem Name="Ticket::Frontend::EmailNewNote" Required="1" Valid="1">    
         <Description Lang="en">Default note text for emails.</Description>
         <Description Lang="de">Standard Text für Email-Notiz.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
         <Setting>
             <TextArea></TextArea>
         </Setting>
-        <!--  $Self->{'Ticket::Frontend::EmailNewNote'} = '';  -->
     </ConfigItem>   
     <ConfigItem Name="Ticket::EmailDefaultNextStateType" Required="1" Valid="1">
         <Description Lang="en">Next possible states after e-mailphone.</Description>
         <Description Lang="de">Mögliche Status nach dem Erstellen einer Email.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
         <Setting>
             <Array>
                 <Item>open</Item>
@@ -1711,62 +1644,57 @@ TimeWorkingHours
                 <Item>closed</Item>                        
             </Array>
         </Setting>
-        <!--  $Self->{'Ticket::EmailDefaultNextStateType'} = ['open', 'pending auto', 'pending reminder', 'closed']; -->
     </ConfigItem>     
     <ConfigItem Name="Ticket::Frontend::EmailNewNextState" Required="1" Valid="1">    
         <Description Lang="en">Default next state for the next new email.</Description>
         <Description Lang="de">Vorauswahl des Status für die nächste neue Email.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
         <Setting>
             <String Regex="">open</String>
         </Setting>
-        <!--  $Self->{'Ticket::Frontend::EmailNewNextState'} = 'open';  -->
     </ConfigItem>   
     <ConfigItem Name="Ticket::Frontend::NoteSetState" Required="1" Valid="1">
         <Description Lang="en">Would you like to set the state of a ticket if a note is created by an agent?</Description>
         <Description Lang="de">Soll der Status eines Tickets gesetzt werden können, wenn eine Notiz durch einen Agent angelegt wird?</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
         <Setting>
             <Option SelectedID="0">
                 <Item Key="0">No</Item>
                 <Item Key="1">Yes</Item>                
             </Option>
         </Setting>
-        <!-- $Self->{'Ticket::Frontend::NoteSetState'} = 0;  -->
     </ConfigItem>    
     <ConfigItem Name="Ticket::Frontend::NoteInformInvolvedAgent" Required="1" Valid="1">
         <Description Lang="en">Show selection of involved agents?</Description>
         <Description Lang="de">Auswahl der involvierten Agents anzeigen?</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
         <Setting>
             <Option SelectedID="0">
                 <Item Key="0">No</Item>
                 <Item Key="1">Yes</Item>                
             </Option>
         </Setting>
-        <!-- $Self->{'Ticket::Frontend::NoteInformInvolvedAgent'} = 0;  -->
     </ConfigItem>    
     <ConfigItem Name="Ticket::Frontend::NoteInformAgent" Required="1" Valid="1">
         <Description Lang="en">Show selection of agents to inform?</Description>
         <Description Lang="de">Auswahl der zu informierenden Agents anzeigen?</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
         <Setting>
             <Option SelectedID="0">
                 <Item Key="0">No</Item>
                 <Item Key="1">Yes</Item>                
             </Option>
         </Setting>
-        <!-- $Self->{'Ticket::Frontend::NoteInformAgent'} = 0;  -->
     </ConfigItem>      
     <ConfigItem Name="Ticket::DefaultNextNoteStateType" Required="1" Valid="1">
         <Description Lang="en">Default states of next note.</Description>
         <Description Lang="de">Standard Status der nächsten Notiz.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
         <Setting>
             <Array>
                 <Item>new</Item>
@@ -1774,23 +1702,21 @@ TimeWorkingHours
                 <Item>closed</Item>                        
             </Array>
         </Setting>
-        <!--  $Self->{'Ticket::DefaultNextNoteStateType'} = ['new', 'open', 'closed']; -->
     </ConfigItem> 
     <ConfigItem Name="Ticket::Frontend::NoteType" Required="1" Valid="1"> 
         <Description Lang="en">Default note type.</Description>
         <Description Lang="de">Voreingestellter Notiztyp.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
         <Setting>
             <String Regex="">note-internal</String>
         </Setting>
-        <!--  $Self->{'Ticket::Frontend::NoteType'} = 'note-internal';  -->
     </ConfigItem>   
     <ConfigItem Name="Ticket::Frontend::NoteTypes" Required="1" Valid="1">
         <Description Lang="en">Specify the different note types, that you want to use in your system.</Description>
         <Description Lang="de">Hier können die verschiedenen Notiz-Typen festgelegt werden, die innerhalb des Systems verwendet werden sollen.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="note-internal">1</Item>
@@ -1798,159 +1724,139 @@ TimeWorkingHours
                 <Item Key="note-report">0</Item>
             </Hash>
         </Setting>
-        <!--
-        $Self->{'Ticket::Frontend::NoteTypes'} = {
-            'note-internal' => 1,
-            'note-external' => 0,
-            'note-report' => 0,
-        };        
-        -->
     </ConfigItem> 
     <ConfigItem Name="Ticket::Frontend::NoteSubject" Required="1" Valid="1"> 
         <Description Lang="en">Default note subject.</Description>
         <Description Lang="de">Standardtext im Betreff einer Notiz.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
         <Setting>
-            <String Regex="">$Text{"Note!"}</String>
+            <String Regex="">$Text{"Note"}!</String>
         </Setting>
-        <!--  $Self->{'Ticket::Frontend::NoteSubject'} = '$Text{"Note!"}';  -->
     </ConfigItem>       
     <ConfigItem Name="Ticket::Frontend::NoteText" Required="1" Valid="1"> 
         <Description Lang="en">Default note text.</Description>
         <Description Lang="de">Standardtext im Textfeld einer Notiz.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
         <Setting>
             <TextArea></TextArea>
         </Setting>
-        <!--  $Self->{'Ticket::Frontend::NoteText'} = '';  -->
     </ConfigItem>       
     <ConfigItem Name="Ticket::Frontend::PendingSubject" Required="1" Valid="1"> 
         <Description Lang="en">Default text in the subject of pending tickets.</Description>
         <Description Lang="de">Standardtext im Betreff für anstehende (pendig) Tickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
         <Setting>
-            <String Regex="">Pending!</String>
+            <String Regex="">$Text{"Pending"}!</String>
         </Setting>
-        <!--  $Self->{'Ticket::Frontend::PendingSubject'} = 'Pending!';  -->
     </ConfigItem>      
     <ConfigItem Name="Ticket::Frontend::PendingText" Required="1" Valid="1"> 
         <Description Lang="en">Default text for pending tickets.</Description>
         <Description Lang="de">Standardtext für anstehende (pending) Tickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
         <Setting>
             <String Regex=""></String>
         </Setting>
-        <!--  $Self->{'Ticket::Frontend::PendingText'} = '';  -->
     </ConfigItem>      
     <ConfigItem Name="Ticket::Frontend::PendingState" Required="1" Valid="1"> 
         <Description Lang="en">Default state of pending ticket.</Description>
         <Description Lang="de">Standard Status für anstehende (pending) Tickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
         <Setting>
             <String Regex="">pending reminder</String>
         </Setting>
-        <!--  $Self->{'Ticket::Frontend::PendingState'} = 'pending reminder';  -->
     </ConfigItem>          
     <ConfigItem Name="Ticket::DefaultPendingNextStateType" Required="1" Valid="1">
         <Description Lang="en">Next possible states for pending tickets.</Description>
         <Description Lang="de">Nächstmögliche Status für anstehende (pending) Tickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
         <Setting>
             <Array>
                 <Item>pending reminder</Item>
                 <Item>pending auto</Item> 
             </Array>
         </Setting>
-        <!--  $Self->{'Ticket::DefaultPendingNextStateType'} = ['pending reminder', 'pending auto']; -->
     </ConfigItem>     
     <ConfigItem Name="Ticket::Frontend::CloseNoteType" Required="1" Valid="1"> 
         <Description Lang="en">Default note type for closed tickets.</Description>
         <Description Lang="de">Standard Notiz Typ für geschlossene Tickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
         <Setting>
             <String Regex="">note-internal</String>
         </Setting>
-        <!--  $Self->{'Ticket::Frontend::CloseNoteType'} = 'note-internal'  -->
     </ConfigItem>          
     <ConfigItem Name="Ticket::Frontend::CloseSubject" Required="1" Valid="1"> 
         <Description Lang="en">Default text for subject of closed tickets.</Description>
         <Description Lang="de">Textvorgabe für den Betreff bei geschlossenen Tickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
         <Setting>
-            <String Regex="">Close!</String>
+            <String Regex="">$Text{"Close"}!</String>
         </Setting>
-        <!--  $Self->{'Ticket::Frontend::CloseSubject'} = 'Close!';  -->
     </ConfigItem>          
     <ConfigItem Name="Ticket::Frontend::CloseText" Required="1" Valid="1"> 
         <Description Lang="en">Default text for closed tickets.</Description>
         <Description Lang="de">Standardtext für geschlossene Tickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
         <Setting>
             <TextArea></TextArea>
         </Setting>
-        <!--  $Self->{'Ticket::Frontend::CloseText'} = '';  -->
     </ConfigItem>          
     <ConfigItem Name="Ticket::Frontend::CloseState" Required="1" Valid="1"> 
         <Description Lang="en">Default state for closed tickets.</Description>
         <Description Lang="de">Standard Status für geschlossene Tickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
         <Setting>
             <String Regex="">closed successful</String>
         </Setting>
-        <!--  $Self->{'Ticket::Frontend::CloseState'} = 'closed successful';  -->
     </ConfigItem>          
     <ConfigItem Name="Ticket::DefaultCloseNextStateType" Required="1" Valid="1">
         <Description Lang="en">Next possible states for close tickets.</Description>
         <Description Lang="de">Nächstmöglicher Status für geschlossene Tickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
         <Setting>
             <Array>
                 <Item>closed</Item>                        
             </Array>
         </Setting>
-        <!--  $Self->{'Ticket::DefaultCloseNextStateType'} = ['closed'];   -->
     </ConfigItem>         
     <ConfigItem Name="Ticket::DefaultNextComposeType" Required="1" Valid="1"> 
         <Description Lang="en">Default compose next state.</Description>
         <Description Lang="de">Standardmäßig eingestellter Status bei der Beantwortung eines Tickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewCompose</SubGroup>
         <Setting>
             <String Regex="">open</String>
         </Setting>
-        <!--   $Self->{'Ticket::DefaultNextComposeType'} = 'open';  -->
     </ConfigItem>      
     <ConfigItem Name="Ticket::DefaultNextComposeStateType" Required="1" Valid="1">
         <Description Lang="en">Next possible states for compose message.</Description>
         <Description Lang="de">Nächstmögliche Status für die Erstellung von Ticktes.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewCompose</SubGroup>
         <Setting>
             <Array>
                 <Item>open</Item>
                 <Item>closed</Item>                        
                 <Item>pending auto</Item>                        
-                <Item>pending reminder</Item>                                                                
+                <Item>pending reminder</Item>
             </Array>
         </Setting>
-        <!--  $Self->{'Ticket::DefaultNextComposeStateType'} = ['open', 'closed', 'pending auto', 'pending reminder'];   -->
     </ConfigItem>        
     <ConfigItem Name="Ticket::Frontend::ResponseFormat" Required="1" Valid="1">
         <Description Lang="en">Format of responses.</Description>
         <Description Lang="de">Textformat für Antworten.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewCompose</SubGroup>
         <Setting>
             <TextArea>$Data{"Salutation"}
 $Data{"OrigFrom"} $Text{"wrote"}:
@@ -1987,78 +1893,64 @@ $Data{"Signature"}
         <Description Lang="en">Default bounce next state.</Description>
         <Description Lang="de">Nächster standardmäßiger Status bei Bounces.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewBounce</SubGroup>
         <Setting>
             <String Regex="">closed successful</String>
         </Setting>
-        <!--   $Self->{'Ticket::Frontend::BounceState'} = 'closed successful';  -->
     </ConfigItem>       
     <ConfigItem Name="Ticket::DefaultNextBounceStateType" Required="1" Valid="1">
         <Description Lang="en">Next possible states for bounced message.</Description>
         <Description Lang="de">Nächstmögliche Status für 'gebouncete' Nachrichten.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewBounce</SubGroup>
         <Setting>
             <Array>
                 <Item>open</Item>
                 <Item>closed</Item>                                                                                    
             </Array>
         </Setting>
-        <!--  $Self->{'Ticket::DefaultNextBounceStateType'} = ['open', 'closed'];  -->
     </ConfigItem>          
     <ConfigItem Name="Ticket::Frontend::BounceText" Required="1" Valid="1"> 
         <Description Lang="en">Default note text</Description>
         <Description Lang="de">Standardnotiztext beim bouncen einer Email</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewBounce</SubGroup>
         <Setting>
             <TextArea>Your email with ticket number "&lt;OTRS_TICKET&gt;" is bounced to "&lt;OTRS_BOUNCE_TO&gt;". Contact this address for further informations.</TextArea>
         </Setting>
-        <!--       
-        $Self->{'Ticket::Frontend::BounceText'} = 'Your email with ticket number "<OTRS_TICKET>" '.
-        'is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.';
-        -->
     </ConfigItem>  
     <ConfigItem Name="Ticket::DefaultNextForwardStateType" Required="1" Valid="1">
         <Description Lang="en">Next possible states for forwarded message.</Description>
         <Description Lang="de">Mögliche Status für weitergeleitete Nachrichten.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewForward</SubGroup>
         <Setting>
             <Array>
                 <Item>open</Item>
-                <Item>closed</Item>                                                                                    
+                <Item>closed</Item>
             </Array>
         </Setting>
-        <!--  $Self->{'Ticket::DefaultNextForwardStateType'} = ['open', 'closed'];  -->
     </ConfigItem>          
     <ConfigItem Name="Ticket::Frontend::ForwardArticleTypes" Required="1" Valid="1">
         <Description Lang="en">Possible email types.</Description>
         <Description Lang="de">Mögliche Email-Typen.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewForward</SubGroup>
         <Setting>
             <Array>
                 <Item>email-external</Item>
                 <Item>email-internal</Item>                                                                                    
             </Array>
         </Setting>
-        <!--
-            $Self->{'Ticket::Frontend::ForwardArticleTypes'} = [
-                'email-external',
-                'email-internal',
-            ];        
-        -->
     </ConfigItem>   
     <ConfigItem Name="Ticket::Frontend::ForwardArticleType" Required="1" Valid="1"> 
         <Description Lang="en">Default type of forwarded message.</Description>
         <Description Lang="de">Standard Typ für weitergeleitete Nachrichten.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewForward</SubGroup>
         <Setting>
             <String Regex="">email-external</String>
         </Setting>
-        <!--   $Self->{'Ticket::Frontend::ForwardArticleType'} = 'email-external';  -->
     </ConfigItem>     
     <ConfigItem Name="Ticket::ViewableSenderTypes" Required="1" Valid="1">
         <Description Lang="en">Default viewable sender types (default:  customer).</Description>
@@ -2067,7 +1959,7 @@ $Data{"Signature"}
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
             <Array>
-                <Item>'customer'</Item>                                                                                    
+                <Item>'customer'</Item>
             </Array>
         </Setting>
         <!-- $Self->{'Ticket::ViewableSenderTypes'} = ["'customer'"];  -->
@@ -2117,7 +2009,7 @@ $Data{"Signature"}
         <Description Lang="en">State type für reminder for pending tickets.</Description>
         <Description Lang="de">Status für die Erinnerung an wartende Tickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
+        <SubGroup>Core::Ticket</SubGroup>
         <Setting>
             <Array>
                 <Item>pending reminder</Item>
@@ -3031,8 +2923,8 @@ $Data{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="System::Permission" Required="1" Valid="1">
-        <Description Lang="en">The different system permissions for tickets.</Description>
-        <Description Lang="de">Die unterschiedlichen Zugriffsrechte innerhalb des Systems.</Description>
+        <Description Lang="en">The different system permissions of the agents in the system (also possible in addition is note, close, pending, customer, freetext, forward and bounce - rw should be the latest in the line).</Description>
+        <Description Lang="de">Die unterschiedlichen Zugriffsrechte der Agenten innerhalb des Systems (möglich sind zusätzlich note, close, pending, customer, freetext, forward und bounce - rw sollte das letzte in der Aufzählung bleiben).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -3045,10 +2937,6 @@ $Data{"Signature"}
                 <Item>rw</Item>
             </Array>
         </Setting>
-        <!--
-            $Self->{'System::Permission'} = ['ro', 'move_into', 'create', 'owner', 'priority', 'rw'];
-            # $Self->{'System::Permission'} = ['ro', 'move_into', 'create', 'note', 'close', 'pending', 'owner', 'priority', 'customer', 'freetext', 'forward', 'bounce', 'move', 'rw'];
-        -->
     </ConfigItem>
     <ConfigItem Name="Ticket::Permission###1-OwnerCheck" Required="1" Valid="1">
         <Description Lang="en">MOdule to check the owner.</Description>
@@ -4237,7 +4125,7 @@ $Data{"Signature"}
             <FrontendModuleReg>
                 <Description>Ticket Zoom</Description>
                 <Title>Zoom</Title>
-                <NavBarName></NavBarName>
+                <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
         <!--
@@ -4318,13 +4206,6 @@ $Data{"Signature"}
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AgentTicketPending'} = {
-                Description => 'Ticket Pending',
-                Title => 'Pending',
-                NavBarName => 'Ticket',
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketPriority" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketPriority object in the agent interface.</Description>
@@ -4377,13 +4258,6 @@ $Data{"Signature"}
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AgentTicketMove'} = {
-                Description => 'Ticket Move',
-                Title => 'Move',
-                NavBarName => 'Ticket',
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketHistory" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketHistory object in the agent interface.</Description>
@@ -4417,13 +4291,6 @@ $Data{"Signature"}
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AgentTicketOwner'} = {
-                Description => 'Ticket Owner',
-                Title => 'Owner',
-                NavBarName => 'Ticket',
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketCompose" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketCompose object in the agent interface.</Description>
@@ -4437,13 +4304,6 @@ $Data{"Signature"}
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AgentTicketCompose'} = {
-                Description => 'Ticket Compose Email Answer',
-                Title => 'Compose',
-                NavBarName => 'Ticket',
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketCustomerFollowUp" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketCustomerFollowup object in the agent interface.</Description>
@@ -4477,13 +4337,6 @@ $Data{"Signature"}
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AgentTicketBounce'} = {
-                Description => 'Ticket Compose Bounce Email',
-                Title => 'Bounce',
-                NavBarName => 'Ticket',
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketForward" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketForward object in the agent interface.</Description>
@@ -4497,13 +4350,6 @@ $Data{"Signature"}
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AgentTicketForward'} = {
-                Description => 'Ticket Forward Email',
-                Title => 'Forward',
-                NavBarName => 'Ticket',
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketCustomer" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketCustomer object in the agent interface.</Description>
@@ -4537,13 +4383,6 @@ $Data{"Signature"}
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AgentTicketClose'} = {
-                Description => 'Ticket Close',
-                Title => 'Close',
-                NavBarName => 'Ticket',
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketFreeText" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketFreeText object in the agent interface.</Description>
