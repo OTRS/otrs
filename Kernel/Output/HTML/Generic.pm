@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.186 2005-07-08 19:08:10 martin Exp $
+# $Id: Generic.pm,v 1.187 2005-07-09 17:49:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::Output::HTML::Agent;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.186 $';
+$VERSION = '$Revision: 1.187 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -2091,11 +2091,7 @@ sub BuildDateSelection {
     );
     # show calendar lookup
     if ($Self->{ConfigObject}->Get('TimeCalendarLookup')) {
-        $Self->{LayoutObject}->Output(
-             TemplateFile => 'HeaderSmall',
-             Data => {}
-        );
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $Self->Output(
              TemplateFile => 'AgentCalendarSmallIcon',
              Data => {
                     Prefix => $Prefix,
@@ -2214,6 +2210,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.186 $ $Date: 2005-07-08 19:08:10 $
+$Revision: 1.187 $ $Date: 2005-07-09 17:49:43 $
 
 =cut
