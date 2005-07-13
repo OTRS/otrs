@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerTicketMessage.pm,v 1.2 2005-07-03 18:37:41 martin Exp $
+# $Id: CustomerTicketMessage.pm,v 1.3 2005-07-13 23:24:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -98,13 +98,13 @@ sub Run {
                     TicketID => $Self->{TicketID},
                     Action => $Self->{Action},
                     Type => "TicketFreeKey$_",
-                    UserID => $Self->{UserID},
+                    CustomerUserID => $Self->{UserID},
                 );
                 $TicketFreeText{"TicketFreeText$_"} = $Self->{TicketObject}->TicketFreeTextGet(
                     TicketID => $Self->{TicketID},
                     Action => $Self->{Action},
                     Type => "TicketFreeText$_",
-                    UserID => $Self->{UserID},
+                    CustomerUserID => $Self->{UserID},
                 );
             }
             my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
@@ -119,7 +119,7 @@ sub Run {
                 }
             }
             # free time
-            my %FreeTime = $Self->{LayoutObject}->AgentFreeDate(
+            my %FreeTime = $Self->{LayoutObject}->CustomerFreeDate(
                 %Param,
                 Ticket => \%TicketFreeTime,
             );

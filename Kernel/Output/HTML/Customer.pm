@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Customer.pm - provides generic customer HTML output
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Customer.pm,v 1.41 2005-06-13 21:04:49 martin Exp $
+# $Id: Customer.pm,v 1.42 2005-07-13 23:24:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Customer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.42 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -63,6 +63,7 @@ sub CustomerHeader {
     my $Self = shift;
     my %Param = @_;
     my $Output = '';
+    my $Type = $Param{Type} || '';
     # add cookies if exists
     if ($Self->{SetCookies} && $Self->{ConfigObject}->Get('SessionUseCookie')) {
         foreach (keys %{$Self->{SetCookies}}) {
@@ -88,16 +89,16 @@ sub CustomerHeader {
         }
     }
     # create & return output
-    $Output .= $Self->Output(TemplateFile => 'CustomerHeader', Data => \%Param);
+    $Output .= $Self->Output(TemplateFile => "CustomerHeader$Type", Data => \%Param);
     return $Output;
 }
 # --
 sub CustomerFooter {
     my $Self = shift;
     my %Param = @_;
-
+    my $Type = $Param{Type} || '';
     # create & return output
-    return $Self->Output(TemplateFile => 'CustomerFooter', Data => \%Param);
+    return $Self->Output(TemplateFile => "CustomerFooter$Type", Data => \%Param);
 }
 # --
 sub CustomerNavigationBar {
@@ -237,5 +238,36 @@ sub CustomerNoPermission {
     return $Output;
 }
 # --
+sub CustomerFreeDate {
+    my $Self = shift;
+    my %Param = @_;
+    my %NullOption = ();
+    my %SelectData = ();
+    my %Ticket = ();
+    my %Config = ();
+    if ($Param{NullOption}) {
+#        $NullOption{''} = '-';
+        $SelectData{Size} = 3;
+        $SelectData{Multiple} = 1;
+    }
+    if ($Param{Ticket}) {
+        %Ticket = %{$Param{Ticket}};
+    }
+    if ($Param{Config}) {
+        %Config = %{$Param{Config}};
+    }
+    my %Data = ();
+    foreach my $Count (1..2) {
+        $Data{'TicketFreeTime'.$Count} = $Self->BuildDateSelection(
+            Area => 'Customer',
+            %Param,
+            %Ticket,
+            Prefix => 'TicketFreeTime'.$Count,
+            Format => 'DateInputFormatLong',
+            DiffTime => $Self->{ConfigObject}->Get('TicketFreeTimeDiff'.$Count) || 0,
+        );
+    }
+    return %Data;
+}
 
 1;
