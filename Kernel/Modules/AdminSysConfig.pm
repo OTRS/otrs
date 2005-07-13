@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.pm,v 1.31 2005-06-20 19:24:40 martin Exp $
+# $Id: AdminSysConfig.pm,v 1.32 2005-07-13 23:37:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -49,19 +49,26 @@ sub Run {
     my %Data;
     my $Group = '';
     my $Anker = '';
-    
+
     $Data{Search} = $Self->{ParamObject}->GetParam(Param => 'Search');
     # download
     if ($Self->{Subaction} eq 'Download') {
+        my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = $Self->{TimeObject}->SystemTime2Date(
+            SystemTime => $Self->{TimeObject}->SystemTime(),
+        );
+        $M = sprintf("%02d", $M);
+        $D = sprintf("%02d", $D);
+        $h = sprintf("%02d", $h);
+        $m = sprintf("%02d", $m);
         # return file
         return $Self->{LayoutObject}->Attachment(
             ContentType => 'application/octet-stream',
             Content => $Self->{SysConfigObject}->Download(),
-            Filename => 'Config.pm',
+            Filename => "SysConfigBackup"."_"."$Y-$M-$D"."_$h-$m.pm",
             Type => 'attached',
         );
     }
-    # upload 
+    # upload
     if ($Self->{Subaction} eq 'Upload') {
         # get submit attachment
         my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
@@ -79,7 +86,7 @@ sub Run {
         }
         else {
             return $Self->{LayoutObject}->ErrorScreen();
-        } 
+        }
     }
     # update config
     elsif ($Self->{Subaction} eq 'Update') {
@@ -149,7 +156,7 @@ sub Run {
                         my @SubHashValues = $Self->{ParamObject}->GetArray(Param => $_.'##SubHash##'.$Keys[$Index].'Content[]');
                         my %SubHash;
                         foreach my $Index2 (0...$#SubHashKeys) {
-                            # Delete SubHash Element?                  
+                            # Delete SubHash Element?
                             if (!$Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'##SubHash##'.$Keys[$Index].'#DeleteSubHashElement'.($Index2+1))) {
                                 $SubHash{$SubHashKeys[$Index2]} = $SubHashValues[$Index2];
                             }
@@ -161,7 +168,7 @@ sub Run {
                         if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#'.$Keys[$Index].'#NewSubElement')) {
                             $SubHash{''} = '';
                             $Anker = $ItemHash{Name};
-                        }                              
+                        }
                         $Content{$Keys[$Index]} = \%SubHash;
                     }
                     # SubArray
@@ -171,7 +178,7 @@ sub Run {
                         if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#'.$Keys[$Index].'#NewSubElement')) {
                             push (@SubArray, '');
                             $Anker = $ItemHash{Name};
-                        }      
+                        }
                         #Delete SubArray Element?
                         foreach my $Index2 (0...$#SubArray) {
                             if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'##SubArray##'.$Keys[$Index].'#DeleteSubArrayElement'.($Index2+1))) {
@@ -193,7 +200,7 @@ sub Run {
                 if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#NewHashElement')) {
                     $Anker = $ItemHash{Name};
                     $Content{''} = '';
-                }                                          
+                }
                 # write ConfigItem
                 if (!$Self->{SysConfigObject}->ConfigItemUpdate(Key => $_, Value => \%Content, Valid => $Aktiv)) {
                     $Self->{LayoutObject}->FatalError(Message => "Can't write ConfigItem!");
@@ -225,7 +232,7 @@ sub Run {
                 my %Content;
                 # get Params
                 foreach (qw(Description Title NavBarName)) {
-                    $Content{$_} = $Self->{ParamObject}->GetParam(Param => $ElementKey.'#'.$_); 
+                    $Content{$_} = $Self->{ParamObject}->GetParam(Param => $ElementKey.'#'.$_);
                 }
                 foreach my $Type (qw(Group GroupRo)) {
                     my @Group = $Self->{ParamObject}->GetArray(Param => $ElementKey.'#'.$Type.'[]');
@@ -233,7 +240,7 @@ sub Run {
                     if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#New'.$Type.'Element')) {
                         push (@Group, '');
                         $Anker = $ItemHash{Name};
-                    }                   
+                    }
                     #Delete Group Element
                     foreach my $Index (0...$#Group) {
                         if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#Delete'.$Type.'Element'.($Index+1))) {
@@ -259,7 +266,7 @@ sub Run {
                         if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#NavBar'.($Index+1).'#New'.$Type.'Element')) {
                             push (@Group, '');
                             $Anker = $ItemHash{Name};
-                        }                        
+                        }
                         #Delete Group Element
                         foreach my $Index2 (0...$#Group) {
                             if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#NavBar'.($Index+1).'#Delete'.$Type.'Element'.($Index2+1))) {
@@ -317,11 +324,11 @@ sub Run {
                 # New TimeVacationDaysOneTimeElement
                 if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#NewTimeVacationDaysOneTimeElement')) {
                     $Anker = $ItemHash{Name};
-                }                      
+                }
                 # write ConfigItem
                 if (!$Self->{SysConfigObject}->ConfigItemUpdate(Key => $_, Value => \%Content, Valid => $Aktiv)) {
                     $Self->{LayoutObject}->FatalError(Message => "Can't write ConfigItem!");
-                }            
+                }
             }
             # ConfigElement TimeVacationDays
             elsif (defined ($ItemHash{Setting}[1]{TimeVacationDays})) {
@@ -341,11 +348,11 @@ sub Run {
                 # New TimeVacationDaysElement
                 if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#NewTimeVacationDaysElement')) {
                     $Anker = $ItemHash{Name};
-                }                  
+                }
                 # write ConfigItem
                 if (!$Self->{SysConfigObject}->ConfigItemUpdate(Key => $_, Value => \%Content, Valid => $Aktiv)) {
                     $Self->{LayoutObject}->FatalError(Message => "Can't write ConfigItem!");
-                }            
+                }
             }
             # ConfigElement TimeWorkingHours
             elsif (defined ($ItemHash{Setting}[1]{TimeWorkingHours})) {
@@ -437,7 +444,7 @@ sub Run {
         }
         $Data{SubGroup} = $SubGroup;
         $Data{Group} = $Group;
-        $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'SysConfig');
+        $Output .= $Self->{LayoutObject}->Header(Value => "$Group -> $SubGroup");
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminSysConfigEdit', Data => \%Data);
         $Output .= $Self->{LayoutObject}->Footer();
@@ -512,9 +519,15 @@ sub Run {
         LanguageTranslation => 0,
     );
 
-    $Output .= $Self->{LayoutObject}->Header(Area => 'Admin', Title => 'SysConfig');
+    $Output .= $Self->{LayoutObject}->Header(Value => $Group);
     $Output .= $Self->{LayoutObject}->NavigationBar();
-    $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminSysConfig', Data => \%Data);
+    $Output .= $Self->{LayoutObject}->Output(
+        TemplateFile => 'AdminSysConfig',
+        Data => {
+            %Data,
+            ConfigCounter => $Self->{SysConfigObject}->{ConfigCounter},
+        }
+    );
     $Output .= $Self->{LayoutObject}->Footer();
     return $Output;
 }
@@ -702,7 +715,7 @@ sub ListConfigItem {
                     Index      => $Index,
                 },
             );
-        }               
+        }
     }
     # ConfigElement FrontendModuleReg
     elsif (defined ($ItemHash{Setting}[1]{FrontendModuleReg})) {
@@ -722,7 +735,7 @@ sub ListConfigItem {
         );
         # Array Element Group
         foreach my $ArrayElement qw(Group GroupRo) {
-            foreach my $Index (1...$#{$ItemHash{Setting}[1]{FrontendModuleReg}[1]{$ArrayElement}}) {                    
+            foreach my $Index (1...$#{$ItemHash{Setting}[1]{FrontendModuleReg}[1]{$ArrayElement}}) {
                 $Self->{LayoutObject}->Block(
                     Name => 'ConfigElementFrontendModuleRegContent'.$ArrayElement,
                     Data => {
@@ -751,7 +764,7 @@ sub ListConfigItem {
             );
             # Array Element Group
             foreach my $ArrayElement qw(Group GroupRo) {
-                foreach my $Index2 (1...$#{$ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBar}[$Index]{$ArrayElement}}) {                    
+                foreach my $Index2 (1...$#{$ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBar}[$Index]{$ArrayElement}}) {
                     $Self->{LayoutObject}->Block(
                         Name => 'ConfigElementFrontendModuleRegContentNavBar'.$ArrayElement,
                         Data => {
@@ -774,7 +787,7 @@ sub ListConfigItem {
                     if (defined ($ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBarModule}[1]{$Key}[1]{Content})) {
                         $Data{'Content'.$Key} = $ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBarModule}[1]{$Key}[1]{Content};
                     }
-                }            
+                }
                 $Data{ElementKey} = $ItemHash{Name}.'#NavBarModule';
                 $Self->{LayoutObject}->Block(
                     Name => 'ConfigElementFrontendModuleRegContentNavBarModule',
@@ -790,7 +803,7 @@ sub ListConfigItem {
                 if (defined ($ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBarModule}{$Key}[1]{Content})) {
                     $Data{'Content'.$Key} = $ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBarModule}{$Key}[1]{Content};
                 }
-            }            
+            }
             $Data{ElementKey} = $ItemHash{Name}.'#NavBarModule';
             $Self->{LayoutObject}->Block(
                 Name => 'ConfigElementFrontendModuleRegContentNavBarModule',
