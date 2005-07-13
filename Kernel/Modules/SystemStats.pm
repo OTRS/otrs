@@ -2,7 +2,7 @@
 # Kernel/Modules/SystemStats.pm - show stats of otrs
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SystemStats.pm,v 1.21 2005-04-30 08:16:09 martin Exp $
+# $Id: SystemStats.pm,v 1.22 2005-07-13 23:35:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::SystemStats;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $ ';
+$VERSION = '$Revision: 1.22 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -211,9 +211,9 @@ sub Run {
                     Data => \@Data,
                 );
                 # return csv to download
-                my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = localtime(time);
-                $Y = $Y+1900;
-                $M++;
+                my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = $Self->{TimeObject}->SystemTime2Date(
+                    SystemTime => $Self->{TimeObject}->SystemTime(),
+                );
                 $M = sprintf("%02d", $M);
                 $D = sprintf("%02d", $D);
                 $h = sprintf("%02d", $h);
