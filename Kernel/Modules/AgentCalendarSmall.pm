@@ -1,8 +1,8 @@
 # --
-# Kernel/Modules/Calendar.pm - spelling module
+# Kernel/Modules/AgentCalendarSmall.pm - small calender lookup
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCalendarSmall.pm,v 1.4 2005-07-09 17:48:39 martin Exp $
+# $Id: AgentCalendarSmall.pm,v 1.5 2005-07-13 23:23:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,6 +16,8 @@ use strict;
 use Date::Pcalc qw(Today Days_in_Month Day_of_Week);
 
 use vars qw($VERSION);
+$VERSION = '$Revision: 1.5 $';
+$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
 sub new {
@@ -60,17 +62,17 @@ sub Run {
     $TimeVacationDaysOneTime->{$CYear}->{$CMonth}->{$CDay} = 'Today';
     my @MonthArray = (
         '',
-        'January', 
-        'February', 
-        'March', 
-        'April', 
-        'May', 
-        'Juny', 
-        'July', 
-        'August', 
-        'September', 
-        'October', 
-        'November', 
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'Juny',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
         'December',
     );
     # show month
@@ -100,7 +102,7 @@ sub Run {
     else {
         $Param{Next} = ($Month + 1).','.$Year;
     }
-    
+
     # TimeInputFormat
     my $DateFormat = 'Option';
     if ($Self->{ConfigObject}->Get('TimeInputFormat') eq 'Input') {
@@ -111,7 +113,7 @@ sub Run {
         Data => {
             Prefix => $Prefix,
         },
-    );    
+    );
     # generate Calendar sheet
     my $CalDay = 1;
     while ($CalDay <= $DaysOfMonth) {
@@ -145,6 +147,7 @@ sub Run {
                         Month => $Month,
                         Year  => $Year,
                         Style => $Style,
+                        Prefix => $Prefix,
                     },
                 );
                 $CalDay++;
@@ -155,7 +158,13 @@ sub Run {
     # start with page ...
     # --
     $Output .= $Self->{LayoutObject}->Header(Type => 'Small');
-    $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AgentCalendarSmall', Data => \%Param);
+    $Output .= $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentCalendarSmall',
+        Data => {
+            %Param,
+            Prefix => $Prefix,
+        }
+    );
     $Output .= $Self->{LayoutObject}->Footer(Type => 'Small');
     return $Output;
 }
