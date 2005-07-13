@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.204 2005-07-08 19:32:39 martin Exp $
+# $Id: Defaults.pm,v 1.205 2005-07-13 23:41:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.204 $';
+$VERSION = '$Revision: 1.205 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1244,7 +1244,6 @@ Your OTRS Notification Master
         Description => 'Generic Info module',
         Title => 'Info',
     };
-    #AgentCalendarSmall
     $Self->{'Frontend::Module'}->{'AgentCalendarSmall'} = {
         Description     => 'Small calendar for date selection.',
         NavBarName      => '',
@@ -1526,6 +1525,7 @@ Your OTRS Notification Master
     $Self->{'CustomerFrontend::Module'}->{'Logout'} = {
         Description => 'Logout of customer panel.',
         NavBarName => '',
+        Title => 'Preferences',
         NavBar => [
           {
             Description => 'Logout',
@@ -1539,6 +1539,7 @@ Your OTRS Notification Master
     };
     $Self->{'CustomerFrontend::Module'}->{'CustomerPreferences'} = {
         Description => 'Customer preferences.',
+        NavBarName => '',
         Title => 'Preferences',
         NavBar => [
           {
@@ -1551,8 +1552,14 @@ Your OTRS Notification Master
           },
         ],
     };
+    $Self->{'CustomerFrontend::Module'}->{'CustomerCalendarSmall'} = {
+        Description     => 'Small calendar for date selection.',
+        NavBarName      => '',
+        Title           => 'Calendar',
+    };
     $Self->{'CustomerFrontend::Module'}->{'CustomerAccept'} = {
         Description => 'To accept login infos',
+        NavBarName      => '',
         Title => 'Info',
     };
 
@@ -1597,6 +1604,12 @@ sub new {
     bless ($Self, $Type);
     # 0=off; 1=log if there exists no entry; 2=log all;
     $Self->{Debug} = 0;
+    # return on clear level
+    if ($Param{Level} && $Param{Level} eq 'Clear') {
+        # load config
+        $Self->Load();
+        return $Self;
+    }
     # load defaults
     $Self->LoadDefaults();
     # load config
@@ -1696,6 +1709,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.204 $ $Date: 2005-07-08 19:32:39 $
+$Revision: 1.205 $ $Date: 2005-07-13 23:41:49 $
 
 =cut
