@@ -1,8 +1,8 @@
 # --
-# Footer.dtl - provides global HTML footer
+# CustomerFooter.dtl - provides global HTML footer
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerFooter.dtl,v 1.6 2005-03-28 20:28:16 martin Exp $
+# $Id: CustomerFooter.dtl,v 1.7 2005-07-13 23:34:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
