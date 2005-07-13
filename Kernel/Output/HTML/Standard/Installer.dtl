@@ -1,15 +1,36 @@
 # --
-# InstallerLicense.dtl - provides HTML form for web installer
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Installer.dtl - provides HTML form for Installer
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: InstallerLicense.dtl,v 1.2 2003-04-13 22:24:30 martin Exp $
+# $Id: Installer.dtl,v 1.1 2005-07-13 23:19:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-<!-- start $Text{"License"} form -->
-<form action="$Env{"CGIHandle"}" method="post">
+<!-- start form -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+<tr>
+  <td valign="top" class="menu">
+  <h2>$Text{"Web-Installer"}</h2>
+  </td>
+</tr>
+<tr>
+  <td class="mainbody" align="center">
+#  <h2>$Text{"Web-Installer"}</h2>
+#  <img border="0" src="$Env{"Images"}$QData{"Image"}" alt="">
+<!-- dtl:block:Message -->
+$Data{"Body"}
+<!-- dtl:block:Message -->
+<!-- dtl:block:License -->
+  <img border="0" src="$Env{"Images"}installer.png" alt="">
+  <form action="$Env{"CGIHandle"}" method="post">
+  <table border="0" width="600" align="center" cellspacing="0" cellpadding="4">
+  <tr>
+    <td colspan="2" class="contenthead">$Text{"$Data{"Item"}"} ($Data{"Step"})</td>
+  </tr>
+  <tr>
+  <td class="contentbody" align="center">
 <textarea name="License" rows="22" cols="72">
 		    GNU GENERAL PUBLIC LICENSE
 		       Version 2, June 1991
@@ -352,21 +373,315 @@ consider it more useful to permit linking proprietary applications with the
 library.  If this is what you want to do, use the GNU Library General
 Public License instead of this License.
 </textarea>
-</form>
-<br>
-<table>
+      </td>
+    </tr>
+    <tr>
+      <td class="contentfooter">
+        <table width="100%" border="0" cellspacing="0" cellpadding="1">
+          <tr>
+            <td class="contentfooter">
+              <form action="$Env{"CGIHandle"}" method="post">
+                <input type="hidden" name="Subaction" value="Start">
+                <input class="button" type="submit" value="$Text{"accept license"}">
+              </form>
+            </td>
+            <td width="10" class="contentfooter">
+              <form action="$Env{"CGIHandle"}" method="post">
+                <input class="button" type="submit" value="$Text{"don't accept license"}">
+              </form>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+  </form>
+<!-- dtl:block:License -->
+<!-- dtl:block:DatabaseStart -->
+  <img border="0" src="$Env{"Images"}installer1.png" alt="">
+  <form action="$Env{"CGIHandle"}" method="post">
+  <input type="hidden" name="Action" value="Installer">
+  <input type="hidden" name="Subaction" value="DB">
+  <table border="0" width="600" align="center" cellspacing="0" cellpadding="4">
   <tr>
-    <td>
-    <form action="$Env{"CGIHandle"}" method="post">
-      <input type="hidden" name="Subaction" value="Start">
-      <input class="button" type="submit" value="$Text{"accept license"}">
-    </form>
-    </td>
-    <td>
-    <form action="$Env{"CGIHandle"}" method="post">
-      <input class="button" type="submit" value="$Text{"don't accept license"}">
-    </form>
+    <td colspan="3" class="contenthead">$Text{"$Data{"Item"}"} ($Data{"Step"})</td>
+  </tr>
+  <tr>
+    <td class="contentbody">
+      <table cols="3" width="100%" cellspacing="0" cellpadding="2">
+      <tr>
+        <td class="contentkey" width="25%">$Text{"Admin-User"}:</td>
+        <td class="contentvalue" width="35%"><input type="text" name="DBUser" value="root" size="25"></td>
+        <td class="contentvalue"></td>
+      </tr>
+      <tr>
+        <td class="contentkey">$Text{"Admin-Password"}:</td>
+        <td class="contentvalue"><input type="password" name="DBPassword" value="" size="25"></td>
+        <td class="contentvalue"><font color="red" size="-2"> (* $Text{"your MySQL DB should have a root password! Default is empty!"})</font></td>
+      </tr>
+      <tr>
+        <td class="contentkey">$Text{"Host"}:</td>
+        <td class="contentvalue"><input type="text" name="DBHost" value="$Config{"DatabaseHost"}" size="25"></td>
+        <td class="contentvalue"></td>
+      </tr>
+      <tr>
+        <td class="contentkey">$Text{"Type"}:</td>
+        <td class="contentvalue">
+            <select name="DBType">
+               <option value="MySQL" selected="selected">MySQL</option>
+            </select>
+        </td>
+        <td class="contentvalue"></td>
+      </tr>
+      <tr>
+        <td colspan="3" class="contenthead">$Text{"Database-User"} ($Text{"New"})</td>
+      </tr>
+      <tr>
+        <td class="contentkey">$Text{"User"}:</td>
+        <td class="contentvalue"><input type="text" name="OTRSDBUser" value="$Config{"DatabaseUser"}" size="25"></td>
+        <td class="contentvalue"></td>
+      </tr>
+      <tr>
+        <td class="contentkey">$Text{"Password"}:</td>
+        <td class="contentvalue"><input type="password" name="OTRSDBPassword" value="hot" size="25"></td>
+        <td class="contentvalue"><font color="red" size="-2">($Text{"default 'hot'"})</font></td>
+      </tr>
+      <tr>
+        <td class="contentkey">$Text{"DB connect host"}:</td>
+        <td class="contentvalue"><input type="text" name="OTRSDBConnectHost" value="localhost" size="25"></td>
+        <td class="contentvalue"></td>
+      </tr>
+      <tr>
+        <td colspan="3" class="contenthead">$Text{"Database"}</td>
+      </tr>
+      <tr>
+        <td class="contentkey">$Text{"Name"}:</td>
+        <td><input type="text" name="DBName" value="$Config{"Database"}" size="25"></td>
+        <td class="contentvalue"></td>
+      </tr>
+      <tr>
+        <td class="contentkey">$Text{"Action"}:</td>
+        <td class="contentvalue">$Text{"Create"} <input type="radio" name="DBAction" checked value="Create"> - $Text{"Delete"} <input type="radio" name="DBAction" value="Delete">
+        </td>
+        <td class="contentvalue"></td>
+      </tr>
+    </table>
     </td>
   </tr>
+  <tr>
+    <td class="contentfooter">
+      <input class="button" type="submit" value="$Text{"Next..."}">
+    </td>
+  </tr>
+  </table>
+  </form>
+<!-- dtl:block:DatabaseStart -->
+<!-- dtl:block:DatabaseResult -->
+  <img border="0" src="$Env{"Images"}installer1.png" alt="">
+  <form action="$Env{"CGIHandle"}" method="post">
+  <input type="hidden" name="Action" value="Installer">
+  <table border="0" width="600" align="center" cellspacing="0" cellpadding="4">
+  <tr>
+    <td colspan="2" class="contenthead">$Text{"$Data{"Item"}"} ($Data{"Step"})</td>
+  </tr>
+  <tr>
+  <td class="contentbody">
+<table border="0" width="100%">
+<!-- dtl:block:DatabaseResultItem -->
+  <tr>
+    <td>$Text{"$QData{"Item"}"}:</td>
+<!-- dtl:block:DatabaseResultItemDone -->
+    <td><font color="green"><b>done.</b></font></td>
+<!-- dtl:block:DatabaseResultItemDone -->
+<!-- dtl:block:DatabaseResultItemFalse -->
+    <td><font color="red"><b>$Text{"false"}! :-(</b></font></td>
+<!-- dtl:block:DatabaseResultItemFalse -->
+  </tr>
+  <tr>
+<!-- dtl:block:DatabaseResultItemMessage -->
+    <td colspan="2">---==> $QData{"Message"}</td>
+<!-- dtl:block:DatabaseResultItemMessage -->
+  </tr>
+<!-- dtl:block:DatabaseResultItem -->
 </table>
-<!-- end $Text{"License"} form -->
+    </td>
+  </tr>
+  <tr>
+    <td class="contentfooter">
+<!-- dtl:block:DatabaseResultBack -->
+<input type="hidden" name="Subaction" value="Start">
+<input class="button" type="submit" value="$Text{"...Back"}">
+<!-- dtl:block:DatabaseResultBack -->
+<!-- dtl:block:DatabaseResultNext -->
+<input type="hidden" name="Subaction" value="System">
+<input class="button" type="submit" value="$Text{"Next..."}">
+<!-- dtl:block:DatabaseResultNext -->
+    </td>
+  </tr>
+  </table>
+  </form>
+<!-- dtl:block:DatabaseResult -->
+<!-- dtl:block:System-->
+  <img border="0" src="$Env{"Images"}installer2.png" alt="">
+  <form action="$Env{"CGIHandle"}" method="post">
+  <input type="hidden" name="Action" value="Installer">
+  <input type="hidden" name="Subaction" value="Finish">
+  <table border="0" width="600" align="center" cellspacing="0" cellpadding="4">
+  <tr>
+    <td colspan="3" class="contenthead">$Text{"$Data{"Item"}"} ($Data{"Step"})</td>
+  </tr>
+  <tr>
+    <td class="contentbody">
+
+  <table cols="3" width="100%" cellspacing="0" cellpadding="2">
+  <tr>
+    <td class="contentkey" width="20%">$Text{"SystemID"}:</td>
+    <td class="contentvalue" width="40%">$Data{"SystemIDString"}</td>
+    <td class="contentvalue">$Text{"(The identify of the system. Each ticket number and each http session id starts with this number)"}</td>
+  </tr>
+  <tr>
+    <td class="contentkey">$Text{"System FQDN"}:</td>
+    <td class="contentvalue"><input type="text" name="FQDN" value="$Config{"FQDN"}" size="30"></td>
+    <td class="contentvalue">$Text{"(Full qualified domain name of your system)"}</td>
+  </tr>
+  <tr>
+    <td class="contentkey">$Text{"AdminEmail"}:</td>
+    <td class="contentvalue"><input type="text" name="AdminEmail" value="$Config{"AdminEmail"}" size="30"></td>
+    <td class="contentvalue">$Text{"(Email of the system admin)"}</td>
+  </tr>
+  <tr>
+    <td class="contentkey">$Text{"Organization"}:</td>
+    <td class="contentvalue"><input type="text" name="Organization" value="$Config{"Organization"}" size="30"></td>
+    <td class="contentvalue"></td>
+  </tr>
+  <tr>
+    <td colspan="3" class="contenthead">$Text{"Log"}</td>
+  </tr>
+  <tr>
+    <td class="contentkey">$Text{"LogModule"}:</td>
+    <td class="contentvalue">$Data{"LogModuleString"}</td>
+    <td class="contentvalue">$Text{"(Used log backend)"}</td>
+  </tr>
+  <tr>
+    <td class="contentkey">$Text{"Logfile"}:</td>
+    <td class="contentvalue"><input type="text" name="LogModule::LogFile" value="$Config{"LogModule::LogFile"}" size="30"></td>
+    <td class="contentvalue">$Text{"(Logfile just needed for File-LogModule!)"}</td>
+  </tr>
+  <tr>
+    <td colspan="3" class="contenthead">$Text{"Ticket"}</td>
+  </tr>
+  <tr>
+    <td class="contentkey">$Text{"Ticket Hook"}:</td>
+    <td class="contentvalue"><input type="text" name="Ticket::Hook" value="$Config{"Ticket::Hook"}" size="20"></td>
+    <td class="contentvalue">$Text{"(Ticket identifier. Some people want toset this to e. g. 'Ticket#', 'Call#' or 'MyTicket#')"}</td>
+  </tr>
+  <tr>
+    <td class="contentkey">$Text{"Ticket Number Generator"}:</td>
+    <td class="contentvalue"><select name="Ticket::NumberGenerator">
+          <option value="Kernel::System::Ticket::Number::AutoIncrement">AutoIncrement</option>
+          <option value="Kernel::System::Ticket::Number::Random">Random</option>
+          <option value="Kernel::System::Ticket::Number::DateChecksum" selected>DateChecksum</option>
+          <option value="Kernel::System::Ticket::Number::Date">Date</option>
+        </select></td>
+    <td class="contentvalue">$Text{"(Used ticket number format)"}</td>
+  </tr>
+  <tr>
+    <td colspan="3" class="contenthead">$Text{"Webfrontend"}</td>
+  </tr>
+  <tr>
+    <td class="contentkey">$Text{"Default Charset"}:</td>
+    <td class="contentvalue"><input type="text" name="DefaultCharset" value="$Data{"DefaultCharset"}" size="30"></td>
+    <td class="contentvalue">$Text{"Use utf-8 it your database supports it!"}</td>
+  </tr>
+  <tr>
+    <td class="contentkey">$Text{"Default Language"}:</td>
+    <td class="contentvalue">$Data{"LanguageString"}</td>
+    <td class="contentvalue">$Text{"(Used default language)"}</td>
+  </tr>
+  <tr>
+    <td class="contentkey">$Text{"CheckMXRecord"}:</td>
+    <td class="contentvalue"><select name="CheckMXRecord">
+        <option value="1" selected>$Text{"Yes"}</option>
+        <option value="0">$Text{"No"}</option>
+      </select></td>
+    <td class="contentvalue">$Text{"(Checks MX recordes of used email addresses by composing an answer. Don't use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)"}</td>
+  </tr>
+  </table>
+
+   </td>
+  </tr>
+  <tr>
+    <td class="contentfooter">
+      <input class="button" type="submit" value="$Text{"Next..."}">
+    </td>
+  </tr>
+  </table>
+  </form>
+<!-- dtl:block:System-->
+<!-- dtl:block:Finish -->
+  <img border="0" src="$Env{"Images"}installer3.png" alt="">
+  <form action="$Env{"CGIHandle"}" method="post">
+  <input type="hidden" name="Action" value="Installer">
+  <input type="hidden" name="Subaction" value="Finish">
+  <table border="0" width="600" align="center" cellspacing="0" cellpadding="4">
+  <tr>
+    <td colspan="3" class="contenthead">$Text{"$Data{"Item"}"} ($Data{"Step"})</td>
+  </tr>
+  <tr>
+    <td class="contentbody" align="center">
+
+<!-- dtl:block:Restart -->
+$Text{"To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root."}
+
+<p>
+<b>$Text{"Restart your webserver"}:</b><br>
+<font color='red'>$Data{"Webserver"}</font>
+</p>
+
+<p>
+$Text{"After doing so your OTRS is up and running."}
+</p>
+<!-- dtl:block:Restart -->
+
+    <p>
+    <table>
+      <tr>
+        <td class="contentkey">$Text{"Start page"}:</td>
+        <td class="contentvalue"><a href="http://$Env{"HTTP_HOST"}/$Data{"OTRSHandle"}/index.pl">http://$Env{"HTTP_HOST"}/$Data{"OTRSHandle"}/index.pl</a></td>
+      </tr>
+      <tr>
+        <td class="contentkey">$Text{"User"}:</td>
+        <td class="contentvalue">root@localhost</td>
+      </tr>
+      <tr>
+        <td class="contentkey">$Text{"Password"}:</td>
+        <td class="contentvalue">root</td>
+      </tr>
+      <tr>
+        <td class="contentkey" colspan="2"></td>
+      </tr>
+      <tr>
+        <td class="contentkey" colspan="2">$Text{"Have a lot of fun!"}<br>
+    $Text{"Your OTRS Team"}</td>
+      </tr>
+    </table>
+    </p>
+
+   </td>
+  </tr>
+  <tr>
+    <td class="contentfooter">
+      &nbsp;
+    </td>
+  </tr>
+  </table>
+  </form>
+<!-- dtl:block:Finish -->
+
+  <br>
+  <br>
+  <br>
+
+  </td>
+</tr>
+</table>

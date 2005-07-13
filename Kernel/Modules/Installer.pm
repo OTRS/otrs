@@ -2,14 +2,14 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Installer.pm,v 1.34 2005-06-10 10:57:53 rk Exp $
+# $Id: Installer.pm,v 1.35 2005-07-13 23:19:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-# Note: this is the first version to support mysql. More databases 
+# Note: this is the first version to support mysql. More databases
 # later.
 
 package Kernel::Modules::Installer;
@@ -18,7 +18,7 @@ use strict;
 use DBI;
 
 use vars qw($VERSION %INC);
-$VERSION = '$Revision: 1.34 $';
+$VERSION = '$Revision: 1.35 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -27,7 +27,7 @@ sub new {
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     foreach (keys %Param) {
@@ -39,9 +39,6 @@ sub new {
         die "Got no $_!" if (!$Self->{$_});
     }
 
-    # find fs dir (because of mod_perl2)
-    $Self->{Path} = $ENV{SCRIPT_FILENAME};
-    $Self->{Path} =~ s/^(.*\/).+?$/$1/;
 
     return $Self;
 }
@@ -50,40 +47,35 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output = '';
-    # --
-    # get sql source
-    # --
-    my $DirOfSQLFiles = $Self->{Path}.'../../scripts/database';
+    # check env directories
+    $Self->{Path} = $Self->{ConfigObject}->Get('Home');
+    if (! -d $Self->{Path}) {
+        return $Self->{LayoutObject}->ErrorScreen(
+            Message => "Directory '$Self->{Path}' doesn't exist!",
+            Comment => 'Configure Home in Kernel/Config.pm first!',
+        );
+    }
+    if (! -f "$Self->{Path}/Kernel/Config.pm") {
+        return $Self->{LayoutObject}->Error(
+            Message => "File '$Self->{Path}/Kernel/Config.pm' not found!",
+            Comment => 'Contact your Admin!',
+        );
+    }
+    # check/get sql source files
+    my $DirOfSQLFiles = $Self->{Path}.'/scripts/database';
     if (! -d $DirOfSQLFiles) {
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-        $Output .= $Self->{LayoutObject}->Error(
-               Message => "Directory '$DirOfSQLFiles' not found!",
-               Comment => 'Contact your Admin!',
+        return $Self->{LayoutObject}->ErrorScreen(
+            Message => "Directory '$DirOfSQLFiles' not found!",
+            Comment => 'Contact your Admin!',
         );
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
-    } 
+    }
     elsif (! -f "$DirOfSQLFiles/otrs-schema.xml") {
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-        $Output .= $Self->{LayoutObject}->Error(
-               Message => "File '$DirOfSQLFiles/otrs-schema.xml' not found!",
-               Comment => 'Contact your Admin!',
+        return $Self->{LayoutObject}->ErrorScreen(
+            Message => "File '$DirOfSQLFiles/otrs-schema.xml' not found!",
+            Comment => 'Contact your Admin!',
         );
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
     }
-    if (! -f "$Self->{Path}../../Kernel/Config.pm") {
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-        $Output .= $Self->{LayoutObject}->Error(
-               Message => "File '$Self->{Path}../../Kernel/Config.pm' not found!",
-               Comment => 'Contact your Admin!',
-        );
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
-    }
-    # --
     # check dist
-    # --
     my %Dist = ();
     $Dist{Vendor} = "Unix/Linux";
     $Dist{Webserver} = "restart your webserver";
@@ -130,64 +122,59 @@ sub Run {
             $Dist{Webserver} = '';
         }
     }
-    if ($Dist{Webserver}) {
-        $Self->{LayoutObject}->Block(
-            Name => 'restart',
-            Data => {
-                %Dist,
-            },
-        );
-    }
     # --
     # print form
     # --
     if (!$Self->{Subaction}) {
         $Output .= $Self->{LayoutObject}->Header(Title => 'License');
-        $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'InstallerBody',
+        $Self->{LayoutObject}->Block(
+            Name => 'License',
             Data => {
                 Item => 'License',
                 Step => '1/4',
-                Body => $Self->{LayoutObject}->Output(
-                    TemplateFile => 'InstallerLicense',
-                    Data => {},
-                ),
             }
+        );
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'Installer',
+            Data => { },
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
     # --
-    # do dem settings
+    # do database settings
     # --
     elsif ($Self->{Subaction} eq 'Start') {
         if ($Self->ReConfigure()) {
-           $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-           $Output .= $Self->{LayoutObject}->Warning(
-               Message => "Kernel/Config.pm isn't writable!",
-               Comment => 'If you want to use the installer, set the '.
-                 'Kernel/Config.pm writable for the werserver user!',
-           );
-           $Output .= $Self->{LayoutObject}->Footer();
+            $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
+            $Output .= $Self->{LayoutObject}->Warning(
+                Message => "Kernel/Config.pm isn't writable!",
+                Comment => 'If you want to use the installer, set the '.
+                  'Kernel/Config.pm writable for the werserver user! '.
+                  $Self->ReConfigure(),
+            );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
         }
         else {
-           $Output .= $Self->{LayoutObject}->Header(Title => 'Create Database');
-           $Output .= $Self->{LayoutObject}->Output(
-               TemplateFile => 'InstallerBody',
-               Data => {
+            $Output .= $Self->{LayoutObject}->Header(Title => 'Create Database');
+            $Self->{LayoutObject}->Block(
+                Name => 'DatabaseStart',
+                Data => {
                     Item => 'Create Database',
                     Step => '2/4',
-                    Body => $Self->{LayoutObject}->Output(
-                        TemplateFile => 'InstallerStart',
-                        Data => { },
-                    ),
-               }
-           );
-           $Output .= $Self->{LayoutObject}->Footer();
+                }
+            );
+            $Output .= $Self->{LayoutObject}->Output(
+                TemplateFile => 'Installer',
+                Data => { },
+            );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
         }
     }
     # --
-    # do dem settings
+    # do database settings
     # --
     elsif ($Self->{Subaction} eq 'DB') {
         $Output .= $Self->{LayoutObject}->Header(Title => 'Installer');
@@ -205,11 +192,10 @@ sub Run {
         # check params
         foreach (keys %DB) {
             if (!$DB{$_} && $_ ne 'Password') {
-                $Output .= $Self->{LayoutObject}->Error(
+                return $Self->{LayoutObject}->ErrorScreen(
                    Message => "You need '$_'!!",
-                   Comment => 'Please go back');
-                $Output .= $Self->{LayoutObject}->Footer();
-                return $Output;
+                   Comment => 'Please go back',
+                );
             }
         }
         # connect to database
@@ -219,40 +205,58 @@ sub Run {
             $DB{Password},
         );
         if (!$DBH) {
-            $Output .= $Self->{LayoutObject}->Error(
+            return $Self->{LayoutObject}->ErrorScreen(
                 Message => "Can't connect to database, read comment!",
                 Comment => "$DBI::errstr",
             );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
         }
 
-        my $SetupOutput = '';
 
         if ($DB{DBAction} eq 'Create') {
           # FIXME !!! use $DB{Type}!!!
+            $Self->{LayoutObject}->Block(
+                Name => 'DatabaseResult',
+                Data => {
+                    Item => 'Create Database',
+                    Step => '2/4',
+                },
+            );
             # --
             # create db
             # --
-            $SetupOutput .= "<table border='0' width='100%'>";
-            $SetupOutput .= "<tr>";
-            $SetupOutput .= "<td><b>Createing database '$DB{Database}':</b></td><td>";
+            $Self->{LayoutObject}->Block(
+                Name => 'DatabaseResultItem',
+                Data => {
+                    Item => "Createing database '$DB{Database}'",
+                },
+            );
             if (!$DBH->do("CREATE DATABASE $DB{Database}")) {
-                $SetupOutput .= "<font color='red'><b>false! :-(</b></font></td></tr>";
-                $SetupOutput .= "</table><br> ---==> $DBI::errstr";
-                $Output .= $Self->{LayoutObject}->Output(
-                    TemplateFile => 'InstallerBody',
+                $Self->{LayoutObject}->Block(
+                    Name => 'DatabaseResultItemFalse',
+                    Data => { },
+                );
+                $Self->{LayoutObject}->Block(
+                    Name => 'DatabaseResultItemMessage',
                     Data => {
-                        Item => 'Create Database',
-                        Step => '2/4',
-                        Body => $SetupOutput,
-                    }
+                        Message => $DBI::errstr,
+                    },
+                );
+                $Self->{LayoutObject}->Block(
+                    Name => 'DatabaseResultBack',
+                    Data => { },
+                );
+                $Output .= $Self->{LayoutObject}->Output(
+                    TemplateFile => 'Installer',
+                    Data => { },
                 );
                 $Output .= $Self->{LayoutObject}->Footer();
                 return $Output;
             }
             else {
-                $SetupOutput .= "<font color='green'><b>done.</b></font></td></tr>";
+                $Self->{LayoutObject}->Block(
+                    Name => 'DatabaseResultItemDone',
+                    Data => { },
+                );
             }
             # --
             # create db tables
@@ -260,125 +264,194 @@ sub Run {
             # read otrs-schema.mysql.sql and process stuff
             my @SQL = $Self->ParseSQLFile("$DirOfSQLFiles/otrs-schema.mysql.sql");
             $DBH->do("use $DB{Database}");
-            $SetupOutput .= "<tr>";
-            $SetupOutput .= "<td><b>Createing tables 'otrs-schema.mysql.sql':</B></td><td>";
+            $Self->{LayoutObject}->Block(
+                Name => 'DatabaseResultItem',
+                Data => {
+                    Item => "Createing tables 'otrs-schema.mysql.sql'",
+                },
+            );
             foreach (@SQL) {
                 if (!$DBH->do($_)) {
-                    $SetupOutput .= "<font color='red'><b>false! :-(</b></font></td></tr>";
-                    $SetupOutput .= "</table><br> ---==> $DBI::errstr";
+                    $Self->{LayoutObject}->Block(
+                        Name => 'DatabaseResultItemFalse',
+                        Data => { },
+                    );
+                    $Self->{LayoutObject}->Block(
+                        Name => 'DatabaseResultItemMessage',
+                        Data => {
+                            Message => $DBI::errstr,
+                        },
+                    );
+                    $Self->{LayoutObject}->Block(
+                        Name => 'DatabaseResultBack',
+                        Data => { },
+                    );
                     print STDERR "ERR: $DBI::errstr - $_\n";
                     $Output .= $Self->{LayoutObject}->Output(
-                        TemplateFile => 'InstallerBody',
-                        Data => {
-                            Item => 'Create Database',
-                            Step => '2/4',
-                            Body => $SetupOutput,
-                        },
+                        TemplateFile => 'Installer',
+                        Data => { },
                     );
                     $Output .= $Self->{LayoutObject}->Footer();
                     return $Output;
                 }
             }
-            $SetupOutput .= "<font color='green'><b>done.</b></font></td>";
-            $SetupOutput .= "</tr>";
+            $Self->{LayoutObject}->Block(
+                Name => 'DatabaseResultItemDone',
+                Data => { },
+            );
             # --
             # inital insert
             # - read initial_insert.sql and process stuff -
             # --
             @SQL = $Self->ParseSQLFile("$DirOfSQLFiles/initial_insert.sql");
-            $SetupOutput .= "<tr>";
-            $SetupOutput .= "<td><b>Inserting Inital inserts 'initial_insert.sql':</b></td><td>";
+            $Self->{LayoutObject}->Block(
+                Name => 'DatabaseResultItem',
+                Data => {
+                    Item => "Inserting Inital inserts 'initial_insert.sql'",
+                },
+            );
             foreach (@SQL) {
                 if (!$DBH->do($_)) {
-                    $SetupOutput .= "<font color='red'><b>false! :-(</b></font></td></tr>";
-                    $SetupOutput .= "</table><br> ---==> $DBI::errstr";
+                    $Self->{LayoutObject}->Block(
+                        Name => 'DatabaseResultItemFalse',
+                        Data => { },
+                    );
+                    $Self->{LayoutObject}->Block(
+                        Name => 'DatabaseResultItemMessage',
+                        Data => {
+                            Message => $DBI::errstr,
+                        },
+                    );
+                    $Self->{LayoutObject}->Block(
+                        Name => 'DatabaseResultBack',
+                        Data => { },
+                    );
                     print STDERR "ERR: $DBI::errstr - $_\n";
                     $Output .= $Self->{LayoutObject}->Output(
-                        TemplateFile => 'InstallerBody',
-                        Data => {
-                            Item => 'Create Database',
-                            Step => '2/4',
-                            Body => $SetupOutput,
-                        },
+                        TemplateFile => 'Installer',
+                        Data => { },
                     );
                     $Output .= $Self->{LayoutObject}->Footer();
                     return $Output;
                 }
             }
-            $SetupOutput .= "<font color='green'><b>done.</b></font></td>";
-            $SetupOutput .= "</tr>";
+            $Self->{LayoutObject}->Block(
+                Name => 'DatabaseResultItemDone',
+                Data => { },
+            );
             # --
             # foreign key
             # - read otrs-schema-post.mysql.sql and process stuff -
             # --
             @SQL = $Self->ParseSQLFile("$DirOfSQLFiles/otrs-schema-post.mysql.sql");
-            $SetupOutput .= "<tr>";
-            $SetupOutput .= "<td><b>Foreign Keys 'otrs-schema-post.mysql.sql':</b></td><td>";
+            $Self->{LayoutObject}->Block(
+                Name => 'DatabaseResultItem',
+                Data => {
+                    Item => "Foreign Keys 'otrs-schema-post.mysql.sql'",
+                },
+            );
             foreach (@SQL) {
                 if (!$DBH->do($_)) {
-                    $SetupOutput .= "<font color='red'><b>false! :-(</b></font></td></tr>";
-                    $SetupOutput .= "</table><br> ---==> $DBI::errstr";
+                    $Self->{LayoutObject}->Block(
+                        Name => 'DatabaseResultItemFalse',
+                        Data => { },
+                    );
+                    $Self->{LayoutObject}->Block(
+                        Name => 'DatabaseResultItemMessage',
+                        Data => {
+                            Message => $DBI::errstr,
+                        },
+                    );
+                    $Self->{LayoutObject}->Block(
+                        Name => 'DatabaseResultBack',
+                        Data => { },
+                    );
                     print STDERR "ERR: $DBI::errstr - $_\n";
                     $Output .= $Self->{LayoutObject}->Output(
-                        TemplateFile => 'InstallerBody',
-                        Data => {
-                            Item => 'Create Database',
-                            Step => '2/4',
-                            Body => $SetupOutput,
-                        },
+                        TemplateFile => 'Installer',
+                        Data => { },
                     );
                     $Output .= $Self->{LayoutObject}->Footer();
                     return $Output;
                 }
             }
-            $SetupOutput .= "<font color='green'><b>done.</b></font></td>";
-            $SetupOutput .= "</tr>";
+            $Self->{LayoutObject}->Block(
+                Name => 'DatabaseResultItemDone',
+                Data => { },
+            );
             # --
             # user add
             # --
-            $SetupOutput .= "<tr>";
-            $SetupOutput .= "<td><b>Createing database user '$DB{DatabaseUser}\@$DB{NewHost}':</b></td><td>";
-            if (!$DBH->do("GRANT ALL PRIVILEGES ON $DB{Database}.* TO $DB{DatabaseUser}\@$DB{NewHost} IDENTIFIED BY '$DB{DatabasePw}' WITH GRANT OPTION")) {
-                $SetupOutput .= "<font color='red'><b>false! :-(</b></font></td></tr>";
-                $SetupOutput .= "</table><br> ---==> $DBI::errstr";
-                $Output .= $Self->{LayoutObject}->Output(
-                    TemplateFile => 'InstallerBody',
+            $Self->{LayoutObject}->Block(
+                Name => 'DatabaseResultItem',
+                Data => {
+                    Item => "Createing database user '$DB{DatabaseUser}\@$DB{NewHost}'",
+                },
+            );
+            if (!$DBH->do("GRANT ALL PRIVILEGES ON $DB{Database}.* TO $DB{DatabaseUser}\@$DB{NewHost} IDENTIFIED BY '$DB{DatabasePw}' WITH GRANT OPTION;")) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'DatabaseResultItemFalse',
+                    Data => { },
+                );
+                $Self->{LayoutObject}->Block(
+                    Name => 'DatabaseResultItemMessage',
                     Data => {
-                        Item => 'Create Database',
-                        Step => '2/4',
-                        Body => $SetupOutput,
-                    }
+                        Message => $DBI::errstr,
+                    },
+                );
+                $Self->{LayoutObject}->Block(
+                    Name => 'DatabaseResultBack',
+                    Data => { },
+                );
+                $Output .= $Self->{LayoutObject}->Output(
+                    TemplateFile => 'Installer',
+                    Data => { },
                 );
                 $Output .= $Self->{LayoutObject}->Footer();
                 return $Output;
             }
             else {
-                $SetupOutput .= "<font color='green'><b>done.</b></font></td>";
-                $SetupOutput .= "</tr>";
+                $Self->{LayoutObject}->Block(
+                    Name => 'DatabaseResultItemDone',
+                    Data => { },
+                );
             }
             # --
             # Reload the grant tables of your mysql-daemon
             # --
-            $SetupOutput .= "<tr>";
-            $SetupOutput .= "<td><b>Reloading grant tables:</b></td><td>";
+            $Self->{LayoutObject}->Block(
+                Name => 'DatabaseResultItem',
+                Data => {
+                    Item => "Reloading grant tables",
+                },
+            );
             if (!$DBH->do("FLUSH PRIVILEGES")) {
-                $SetupOutput .= "<font color='red'><b>false! :-(</b></font></td></tr>";
-                $SetupOutput .= "</table><br> ---==> $DBI::errstr";
-                $Output .= $Self->{LayoutObject}->Output(
-                    TemplateFile => 'InstallerBody',
+                $Self->{LayoutObject}->Block(
+                    Name => 'DatabaseResultItemFalse',
+                    Data => { },
+                );
+                $Self->{LayoutObject}->Block(
+                    Name => 'DatabaseResultItemMessage',
                     Data => {
-                        Item => 'Create Database',
-                        Step => '2/4',
-                        Body => $SetupOutput,
-                    }
+                        Message => $DBI::errstr,
+                    },
+                );
+                $Self->{LayoutObject}->Block(
+                    Name => 'DatabaseResultBack',
+                    Data => { },
+                );
+                $Output .= $Self->{LayoutObject}->Output(
+                    TemplateFile => 'Installer',
+                    Data => { },
                 );
                 $Output .= $Self->{LayoutObject}->Footer();
                 return $Output;
             }
             else {
-                $SetupOutput .= "<font color='green'><b>done.</b></font></td>";
-                $SetupOutput .= "</tr>";
-                $SetupOutput .= "</table>";
+                $Self->{LayoutObject}->Block(
+                    Name => 'DatabaseResultItemDone',
+                    Data => { },
+                );
             }
             # --
             # ReConfigure Config.pm
@@ -389,65 +462,101 @@ sub Run {
                 DatabaseUser => $DB{DatabaseUser},
                 DatabasePw => $DB{DatabasePw},
             )) {
-                $SetupOutput .= "<u>Can't write Config.pm!!! Fatal Error!:</u><br>";
-                $Output .= $SetupOutput;
-            }
-            else {
-                $SetupOutput .= "<p> ---==> <b><font color='green'>Database setup successful!</font></b></p>";
-                $SetupOutput .= "<p><a href='installer.pl?Subaction=System'>Next Step</a></p>";
-                $Output .= $Self->{LayoutObject}->Output(
-                    TemplateFile => 'InstallerBody',
-                    Data => {
-                        Item => 'Create Database',
-                        Step => '2/4',
-                        Body => $SetupOutput,
-                    }
-                );
-            }
-
-        }
-        elsif ($DB{DBAction} eq 'Delete') {
-          # FIXME !!! use $DB{Type}!!!
-            # --
-            # drop database
-            # --
-            $SetupOutput .= "<table border='0' width='100%'>";
-            $SetupOutput .= "<tr>";
-            $SetupOutput .= "<td><b>Drop database '$DB{Database}':</b></td><td>";
-            if (!$DBH->do("DROP DATABASE $DB{Database}")) {
-                $SetupOutput .= "<font color='red'><b>false</b>.</font></td></tr>";
-                $SetupOutput .= "</table><br> ---==> $DBI::errstr";
-                $Output .= $Self->{LayoutObject}->Output(
-                    TemplateFile => 'InstallerBody',
-                    Data => {
-                        Item => 'Drop Database',
-                        Step => '4/4',
-                        Body => $SetupOutput,
-                    }
+                $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
+                $Output .= $Self->{LayoutObject}->Warning(
+                    Message => "Kernel/Config.pm isn't writable!",
+                    Comment => 'If you want to use the installer, set the '.
+                      'Kernel/Config.pm writable for the werserver user!',
                 );
                 $Output .= $Self->{LayoutObject}->Footer();
                 return $Output;
             }
             else {
-                $SetupOutput .= "<b><font color='green'>done.</font></b></td></tr>";
-                $SetupOutput .= "</table><br>";
-                $SetupOutput .= " ---==> <b><font color='green'>Database deleted.</font></b>";
+                $Self->{LayoutObject}->Block(
+                    Name => 'DatabaseResultItemMessage',
+                    Data => {
+                        Message => "Database setup successful!",
+                    },
+                );
+                $Self->{LayoutObject}->Block(
+                    Name => 'DatabaseResultNext',
+                    Data => { },
+                );
+                $Output .= $Self->{LayoutObject}->Output(
+                    TemplateFile => 'Installer',
+                    Data => { },
+                );
+            }
+        }
+        elsif ($DB{DBAction} eq 'Delete') {
+            # drop database
+            $Self->{LayoutObject}->Block(
+                Name => 'DatabaseResult',
+                Data => {
+                    Item => 'Database',
+                    Step => '2/4',
+                },
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'DatabaseResultItem',
+                Data => {
+                    Item => "Drop database '$DB{Database}'",
+                },
+            );
+            if (!$DBH->do("DROP DATABASE $DB{Database}")) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'DatabaseResultItemFalse',
+                    Data => { },
+                );
+                $Self->{LayoutObject}->Block(
+                    Name => 'DatabaseResultItemMessage',
+                    Data => {
+                        Message => $DBI::errstr,
+                    },
+                );
+                $Self->{LayoutObject}->Block(
+                    Name => 'DatabaseResultBack',
+                    Data => { },
+                );
+                $Output .= $Self->{LayoutObject}->Output(
+                    TemplateFile => 'Installer',
+                    Data => { },
+                );
+                $Output .= $Self->{LayoutObject}->Footer();
+                return $Output;
+            }
+            else {
+                $Self->{LayoutObject}->Block(
+                    Name => 'DatabaseResultItemDone',
+                    Data => { },
+                );
+                $Self->{LayoutObject}->Block(
+                    Name => 'DatabaseResultItemMessage',
+                    Data => {
+                        Message => "Database deleted.",
+                    },
+                );
+                $Self->{LayoutObject}->Block(
+                    Name => 'DatabaseResultBack',
+                    Data => { },
+                );
             }
             $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'InstallerBody',
+                TemplateFile => 'Installer',
                 Data => {
                     Item => 'Drop Database',
                     Step => '4/4',
-                    Body => $SetupOutput,
                 }
             );
         }
         else {
-            $Output .= $Self->{LayoutObject}->Error(
-                   Message => "Unknown DBAction '$DB{DBAction}'!!",
-                   Comment => 'Please go back');
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "Unknown DBAction '$DB{DBAction}'!!",
+                Comment => 'Please go back',
+            );
         }
         $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
     # --
     # do system settings
@@ -487,16 +596,17 @@ sub Run {
 #        }
         $Param{DefaultCharset} = $Self->{ConfigObject}->Get('DefaultCharset') || 'iso-8859-1';
         $Output .= $Self->{LayoutObject}->Header(Title => 'System Settings');
-        $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'InstallerBody',
+        $Self->{LayoutObject}->Block(
+            Name => 'System',
             Data => {
                 Item => 'System Settings',
                 Step => '3/4',
-                Body => $Self->{LayoutObject}->Output(
-                    TemplateFile => 'InstallerSystem',
-                    Data => \%Param,
-                ),
+                %Param,
             }
+        );
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'Installer',
+            Data => { },
         );
         $Output .= $Self->{LayoutObject}->Footer();
     }
@@ -504,7 +614,6 @@ sub Run {
     # do system settings action
     # --
     elsif ($Self->{Subaction} eq 'Finish') {
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Finished');
         # --
         # ReConfigure Config.pm
         # --
@@ -518,29 +627,39 @@ sub Run {
             %Config,
             SecureMode => 1,
         )) {
-             $Output .= "<u>Can't write Config.pm - Fatal Error!</u><br>";
+            $Self->{LayoutObject}->FatalError(
+                Message => "Can't write Kernel/Config.pm!",
+            );
         }
         else {
 #           my $SetPermission = $ENV{SCRIPT_FILENAME} || '/opt/otrs/bin/SetPermissions.sh';
 #           $SetPermission =~ s/(.+?)\/cgi-bin\/installer.pl/$1\/SetPermissions.sh/g;
 #           my $BaseDir = $SetPermission;
 #           $BaseDir =~ s/(.*\/)bin\/SetPermissions.sh/$1/;
-           my $OTRSHandle = $ENV{SCRIPT_NAME};
-           $OTRSHandle =~ s/\/(.*)\/installer\.pl/$1/;
-           $Output .= $Self->{LayoutObject}->Output(
-               TemplateFile => 'InstallerBody',
-               Data => {
-                   Item => 'Finished',
-                   Step => '4/4',
-                   Body => $Self->{LayoutObject}->Output(
-                       TemplateFile => 'InstallerFinish',
-                       Data => {
-                           OTRSHandle => $OTRSHandle,
-                           %Dist,
-                       },
-                   ),
-               }
-           );
+            my $OTRSHandle = $ENV{SCRIPT_NAME};
+            $OTRSHandle =~ s/\/(.*)\/installer\.pl/$1/;
+            $Output .= $Self->{LayoutObject}->Header(Title => 'Finished');
+            $Self->{LayoutObject}->Block(
+                Name => 'Finish',
+                Data => {
+                    Item => 'Finished',
+                    Step => '4/4',
+                    OTRSHandle => $OTRSHandle,
+                    %Dist,
+                },
+            );
+            if ($Dist{Webserver}) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'Restart',
+                    Data => {
+                        %Dist,
+                    },
+                );
+            }
+            $Output .= $Self->{LayoutObject}->Output(
+                TemplateFile => 'Installer',
+                Data => { }
+            );
         }
         $Output .= $Self->{LayoutObject}->Footer();
     }
@@ -548,11 +667,10 @@ sub Run {
     # else! error!
     # --
     else {
-        $Output .= $Self->{LayoutObject}->Header(Title => 'Error');
-        $Output .= $Self->{LayoutObject}->Error(
-                Message => "Unknown Subaction $Self->{Subaction}!",
-                Comment => 'Please contact your admin');
-        $Output .= $Self->{LayoutObject}->Footer();
+        return $Self->{LayoutObject}->ErrorScreen(
+            Message => "Unknown Subaction $Self->{Subaction}!",
+            Comment => 'Please contact your admin',
+        );
     }
 
     return $Output;
@@ -573,8 +691,8 @@ sub ReConfigure {
     # --
     # read config file
     # --
-    open (IN, "< $Self->{Path}/../../Kernel/Config.pm") ||
-        return "Can't open $Self->{Path}/../../Kernel/Config.pm: $!";
+    open (IN, "< $Self->{Path}/Kernel/Config.pm") ||
+        return "Can't open $Self->{Path}/Kernel/Config.pm: $!";
     while (<IN>) {
         if ($_ =~ /^#/) {
             $Config .= $_;
@@ -610,8 +728,8 @@ sub ReConfigure {
     # --
     # write new config file
     # --
-    open (OUT, "> $Self->{Path}/../../Kernel/Config.pm") ||
-        return "Can't open $Self->{Path}/../../Kernel/Config.pm: $!";
+    open (OUT, "> $Self->{Path}/Kernel/Config.pm") ||
+        return "Can't open $Self->{Path}/Kernel/Config.pm: $!";
     print OUT $Config;
     close (OUT);
 
@@ -620,7 +738,7 @@ sub ReConfigure {
 # --
 sub ParseSQLFile {
     my $Self = shift;
-    my $File = shift; 
+    my $File = shift;
     my @SQL = ();
     if (open(IN, "< $File")) {
         my $SQLEnd = 0;
