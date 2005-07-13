@@ -44,9 +44,9 @@ function SelectDay(tt, mm, yyyy) {
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
 <tr>
-  <th class="mainhead"><a href="$Env{"CGIHandle"}?Action=AgentCalendarSmall&Month=$Data{"Back"}&Prefix=$Data{"Prefix"}" class="headeritem">&#060;&#060;</a></th>
+  <th class="mainhead"><a href="$Env{"CGIHandle"}?Action=$Env{"Action"}&Month=$Data{"Back"}&Prefix=$Data{"Prefix"}" class="headeritem">&#060;&#060;</a></th>
   <th class="mainhead">$Text{"$QData{"Month"}"} $QData{"Year"}</th>
-  <th class="mainhead"><a href="$Env{"CGIHandle"}?Action=AgentCalendarSmall&Month=$Data{"Next"}&Prefix=$Data{"Prefix"}" class="headeritem">&#062;&#062;</a></th>
+  <th class="mainhead"><a href="$Env{"CGIHandle"}?Action=$Env{"Action"}&Month=$Data{"Next"}&Prefix=$Data{"Prefix"}" class="headeritem">&#062;&#062;</a></th>
 </tr>
 <tr>
   <td class="mainbody" colspan="3">
