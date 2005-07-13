@@ -3,7 +3,7 @@
 # SetPermissions.sh - to set the otrs permissions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SetPermissions.sh,v 1.26 2005-05-15 09:27:21 martin Exp $
+# $Id: SetPermissions.sh,v 1.27 2005-07-13 17:47:43 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "SetPermissions.sh <\$Revision: 1.26 $> - set OTRS file permissions"
+echo "SetPermissions.sh <\$Revision: 1.27 $> - set OTRS file permissions"
 echo "Copyright (c) 2001-2004 Martin Edenhofer <martin@otrs.org>"
 
 if ! test $1 || ! test $2 || ! test $3; then
@@ -64,22 +64,28 @@ echo "chown $OTRSUSER:$OTRSGROUP $OTRSDEST"
 chown $OTRSUSER:$OTRSGROUP $OTRSDEST
 
 # set the fetchmail rc to OTRS user
-echo "chown $OTRSUSER:$OTRSGROUP $OTRSDEST/.fetchmailrc"
-chown $OTRSUSER:$OTRSGROUP $OTRSDEST/.fetchmailrc
-echo "chmod 0710 $OTRSDEST/.fetchmailrc"
-chmod 0710 $OTRSDEST/.fetchmailrc
+if test -e $OTRSDEST/.fetchmailrc; then
+    echo "chown $OTRSUSER:$OTRSGROUP $OTRSDEST/.fetchmailrc"
+    chown $OTRSUSER:$OTRSGROUP $OTRSDEST/.fetchmailrc
+    echo "chmod 0710 $OTRSDEST/.fetchmailrc"
+    chmod 0710 $OTRSDEST/.fetchmailrc
+fi
 
 # set procmailrc
-echo "chown $OTRSUSER:$OTRSGROUP $OTRSDEST/.procmailrc"
-chown $OTRSUSER:$OTRSGROUP $OTRSDEST/.procmailrc
-echo "chmod 0644 $OTRSDEST/.procmailrc"
-chmod 0644 $OTRSDEST/.procmailrc
+if test -e $OTRSDEST/.procmailrc; then
+    echo "chown $OTRSUSER:$OTRSGROUP $OTRSDEST/.procmailrc"
+    chown $OTRSUSER:$OTRSGROUP $OTRSDEST/.procmailrc
+    echo "chmod 0644 $OTRSDEST/.procmailrc"
+    chmod 0644 $OTRSDEST/.procmailrc
+fi
 
 # set mailfilter
-echo "chown $OTRSUSER:$OTRSGROUP $OTRSDEST/.mailfilter"
-chown $OTRSUSER:$OTRSGROUP $OTRSDEST/.mailfilter
-echo "chmod 0600 $OTRSDEST/.mailfilter"
-chmod 0600 $OTRSDEST/.mailfilter
+if test -e $OTRSDEST/.mailfilter; then
+    echo "chown $OTRSUSER:$OTRSGROUP $OTRSDEST/.mailfilter"
+    chown $OTRSUSER:$OTRSGROUP $OTRSDEST/.mailfilter
+    echo "chmod 0600 $OTRSDEST/.mailfilter"
+    chmod 0600 $OTRSDEST/.mailfilter
+fi
 
 # set forward (just for Exim)
 if test -e $OTRSDEST/.forward; then
