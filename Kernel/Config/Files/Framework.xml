@@ -112,7 +112,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.59 2005-07-08 19:32:39 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.60 2005-07-13 23:41:39 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der WEB-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -2361,24 +2361,6 @@ Your OTRS Notification Master
                 </NavBar>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'SystemStats'} = {
-                GroupRo => ['stats', 'admin'],
-                Description => 'Stats',
-                Title => 'Stats',
-                NavBarName => 'Ticket',
-                NavBar => [
-                {
-                    Description => 'Stats-Area',
-                    Name => 'Stats',
-                    Image => 'stats.png',
-                    Link => 'Action=SystemStats',
-                    NavBar => 'Ticket',
-                    Prio => 400,
-                },
-            ],
-        };
-    -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###Admin" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the Admin object in the admin area.</Description>
@@ -2407,29 +2389,6 @@ Your OTRS Notification Master
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'Admin'} = {
-                Group => admin,
-                Description => 'Admin-Area',
-                Title => '',
-                NavBarName => 'Admin',
-                NavBar => [
-                {
-                    Description => 'Admin-Area',
-                    Type => 'Menu',
-                    Block => 'ItemArea',
-                    Name => 'Admin',
-                    Image => 'admin.png',
-                    Link => 'Action=Admin',
-                    NavBar => 'Admin',
-                    Prio => 10000,
-                },
-                ],
-                NavBarModule => {
-                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-                },
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminUser" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminUser object in the admin area.</Description>
@@ -2450,20 +2409,6 @@ Your OTRS Notification Master
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AdminUser'} = {
-                Group => admin,
-                Description => 'Admin',
-                Title => 'User',
-                NavBarName => 'Admin',
-                NavBarModule => {
-                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-                    Name => 'Users',
-                    Block => 'Block1',
-                    Prio => 100,
-                },
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminGroup" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminGroup object in the admin area.</Description>
@@ -2484,20 +2429,6 @@ Your OTRS Notification Master
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AdminGroup'} = {
-                Group => admin,
-                Description => 'Admin',
-                Title => 'Group',
-                NavBarName => 'Admin',
-                NavBarModule => {
-                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-                    Name => 'Groups',
-                    Block => 'Block1',
-                    Prio => 150,
-                },
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminUserGroup" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminUserGroup object in the admin area.</Description>
@@ -2518,20 +2449,6 @@ Your OTRS Notification Master
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AdminUserGroup'} = {
-                Group => admin,
-                Description => 'Admin',
-                Title => 'User <-> Groups',
-                NavBarName => 'Admin',
-                NavBarModule => {
-                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-                    Name => 'Users <-> Groups',
-                    Block => 'Block1',
-                    Prio => 200,
-                },
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminCustomerUser" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminCustomerUser object in the admin area.</Description>
@@ -2565,31 +2482,6 @@ Your OTRS Notification Master
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AdminCustomerUser'} = {
-                GroupRo => '',
-                Group => ['admin', 'users'],
-                Description => 'Edit Customer Users',
-                Title => 'Customer User',
-                NavBarName => '',
-                NavBar => [
-                {
-                    Description => 'Edit Customer Users',
-                    Name => 'Customer',
-                    Image => 'folder_yellow.png',
-                    Link => 'Action=AdminCustomerUser&Nav=Agent',
-                    NavBar => 'Ticket',
-                    Prio => 9000,
-                }
-                ],
-                NavBarModule => {
-                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-                    Name => 'Customer Users',
-                    Block => 'Block1',
-                    Prio => 300,
-                },
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminCustomerUserGroup" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminCustomerUserGroup object in the admin area.</Description>
@@ -2610,20 +2502,6 @@ Your OTRS Notification Master
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AdminCustomerUserGroup'} = {
-                Group => admin,
-                Description => 'Admin',
-                Title => 'Customer User <-> Group',
-                NavBarName => 'Admin',
-                NavBarModule => {
-                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-                    Name => 'Customer Users <-> Groups',
-                    Block => 'Block1',
-                    Prio => 400,
-                },
-                };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminRole" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminRole object in the admin area.</Description>
@@ -2644,20 +2522,6 @@ Your OTRS Notification Master
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AdminRole'} = {
-                Group => admin,
-                Description => 'Admin',
-                Title => 'Role',
-                NavBarName => 'Admin',
-                NavBarModule => {
-                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-                    Name => 'Roles',
-                    Block => 'Block1',
-                    Prio => 500,
-                },
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminRoleUser" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminRoleUser object in the admin area.</Description>
@@ -2678,20 +2542,6 @@ Your OTRS Notification Master
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AdminRoleUser'} = {
-                Group => admin,
-                Description => 'Admin',
-                Title => 'Role <-> User',
-                NavBarName => 'Admin',
-                NavBarModule => {
-                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-                    Name => 'Roles <-> Users',
-                    Block => 'Block1',
-                    Prio => 600,
-                },
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminRoleGroup" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminRoleGroup object in the admin area.</Description>
@@ -2712,20 +2562,6 @@ Your OTRS Notification Master
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AdminRoleGroup'} = {
-                Group => admin,
-                Description => 'Admin',
-                Title => 'Role <-> Groups',
-                NavBarName => 'Admin',
-                NavBarModule => {
-                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-                    Name => 'Roles <-> Groups',
-                    Block => 'Block1',
-                    Prio => 700,
-                },
-            };
-        -->        
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminSMIME" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminSMIME object in the admin area.</Description>
@@ -2746,20 +2582,6 @@ Your OTRS Notification Master
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AdminSMIME'} = {
-                Group => admin,
-                Description => 'Admin',
-                Title => 'SMIME Management',
-                NavBarName => 'Admin',
-                NavBarModule => {
-                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-                    Name => 'SMIME',
-                    Block => 'Block3',
-                    Prio => 500,
-                },
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminPGP" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminPGP object in the admin area.</Description>
@@ -2780,20 +2602,6 @@ Your OTRS Notification Master
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AdminPGP'} = {
-                Group => admin,
-                Description => 'Admin',
-                Title => 'PGP Key Management',
-                NavBarName => 'Admin',
-                NavBarModule => {
-                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-                    Name => 'PGP',
-                    Block => 'Block3',
-                    Prio => 600,
-                 },
-             };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminPOP3" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminPop3 object in the admin area.</Description>
@@ -2814,20 +2622,6 @@ Your OTRS Notification Master
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AdminPOP3'} = {
-                Group => admin,
-                Description => 'Admin',
-                Title => 'POP3 Account',
-                NavBarName => 'Admin',
-                NavBarModule => {
-                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-                    Name => 'PostMaster POP3 Account',
-                    Block => 'Block4',
-                    Prio => 100,
-                },  
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminPostMasterFilter" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminPostMasterFilter object in the admin area.</Description>
@@ -2848,20 +2642,6 @@ Your OTRS Notification Master
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AdminPostMasterFilter'} = {
-                Group => admin,
-                Description => 'Admin',
-                Title => 'PostMaster Filter',
-                NavBarName => 'Admin',
-                NavBarModule => {
-                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-                    Name => 'PostMaster Filter',
-                    Block => 'Block4',
-                    Prio => 200,
-                },
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminEmail" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminEmail object in the admin area.</Description>
@@ -2942,20 +2722,6 @@ Your OTRS Notification Master
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AdminSelectBox'} = {
-                Group => admin,
-                Description => 'Admin',
-                Title => 'Select box',
-                NavBarName => 'Admin',
-                NavBarModule => {
-                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-                    Name => 'Select Box',
-                    Block => 'Block4',
-                    Prio => 700,
-                },
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminPackageManager" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminPackageManager object in the admin area.</Description>
@@ -2976,20 +2742,6 @@ Your OTRS Notification Master
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AdminPackageManager'} = {
-                Group => admin,
-                Description => 'Software Package Manager',
-                Title => 'Package Manager',
-                NavBarName => 'Admin',
-                NavBarModule => {
-                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-                    Name => 'Package Manager',
-                    Block => 'Block4',
-                    Prio => 1000,
-                },
-                };
-        -->
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###Logout" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the Logout object in the customer frontend.</Description>
@@ -3014,21 +2766,6 @@ Your OTRS Notification Master
                 </NavBar>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'CustomerFrontend::Module'}->{'Logout'} = {
-                Description => 'Logout of customer panel.',
-                NavBarName => '',
-                NavBar => [
-                {
-                    Description => 'Logout',
-                    Name => 'Logout',
-                    Image => 'exit.png',
-                    Link => 'Action=Logout',
-                    Prio => 10,
-                },
-                ],
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerPreferences" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the CustomerPreferences object in the customer frontend.</Description>
@@ -3053,21 +2790,19 @@ Your OTRS Notification Master
                 </NavBar>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'CustomerFrontend::Module'}->{'CustomerPreferences'} = {
-                Description => 'Customer preferences.',
-                Title => 'Preferences',
-                NavBar => [
-                {     
-                    Description => 'Preferences',
-                    Name => 'Preferences',
-                    Image => 'prefer.png',
-                    Link => 'Action=CustomerPreferences',
-                    Prio => 1000,
-                },
-                ],
-            };
-        -->
+    </ConfigItem>
+    <ConfigItem Name="CustomerFrontend::Module###CustomerCalendarSmall" Required="0" Valid="1">
+        <Description Lang="en">Frontend module registration for the CustomerCalendarSmall object in the agent interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des CustomerCalendarSmall-Objekts im Agent-Interface.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Description>Small calendar for date selection.</Description>
+                <Title>Calendar</Title>
+                <NavBarName></NavBarName>
+            </FrontendModuleReg>
+        </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerAccept" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the CustomerAccept object in the customer frontend.</Description>
@@ -3081,12 +2816,6 @@ Your OTRS Notification Master
                 <NavBarName></NavBarName>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'CustomerFrontend::Module'}->{'CustomerAccept'} = {
-                Description => 'To accept login infos',
-                Title => 'Info',
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::NavBarStyle" Required="1" Valid="1">
         <Description Lang="en">With this setting you can define how the icons in the Navbar are displayed.</Description>
@@ -3096,10 +2825,9 @@ Your OTRS Notification Master
         <Setting>
             <Option SelectedID="Classic">
                 <Item Key="Classic">Classic</Item>
-                <Item Key="Modern">Modern</Item>               
+                <Item Key="Modern">Modern</Item>
             </Option>
         </Setting>
-        <!-- $Self->{'Frontend::NavBarStyle'} = 'Classic'; -->
     </ConfigItem>
     <ConfigItem Name="Frontend::NavBarStyle::ShowSelectedArea" Required="1" Valid="1">
         <Description Lang="en">Do you want to highlight the link to the selected module in the NavBar?</Description>
@@ -3109,9 +2837,8 @@ Your OTRS Notification Master
         <Setting>
             <Option SelectedID="0">
                 <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>               
+                <Item Key="1">Yes</Item>
             </Option>
         </Setting>
-        <!-- $Self->{'Frontend::NavBarStyle::ShowSelectedArea'} = 0; -->
     </ConfigItem>
 </otrs_config>
