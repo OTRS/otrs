@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Agent.pm - provides generic agent HTML output
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.158 2005-07-08 14:36:16 martin Exp $
+# $Id: Agent.pm,v 1.159 2005-07-14 21:28:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Agent;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.158 $';
+$VERSION = '$Revision: 1.159 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -225,7 +225,12 @@ sub AgentFreeText {
                 $Counter++;
                 $LastKey = $_;
             }
-            if ($Counter > 1 || $Param{NullOption}) {
+            if ($Counter == 1 && $Param{NullOption}) {
+                if ($LastKey) {
+                    $Data{"TicketFreeKeyField$_"} = $Config{"TicketFreeKey$_"}->{$LastKey};
+                }
+            }
+            elsif ($Counter > 1) {
                 $Data{"TicketFreeKeyField$_"} = $Self->OptionStrgHashRef(
                     Data => {
                         %NullOption,
