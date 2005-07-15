@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.145 2005-07-08 11:08:19 martin Exp $
+# $Id: CHANGES,v 1.146 2005-07-15 00:26:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,16 @@
 # --
 CVS head
 2.0.0 beta5 (2005/07/??)
+ - (2005/07/15) fixed bug 821 - Admin SysConfig (Values cannot be activated)
+ - (2005/07/14) removed not needed admin dtls from lite theme, because this
+    standard is used as default
+ - (2005/07/14) removed not needed customer dtls from lite theme, because this
+    standard is used as default
+ - (2005/07/13) web installer rewritten - moved to block feature
+ - (2005/07/13) added check in bin/SetPermissions.sh if . files exists
+ - (2005/07/09) splited big sub groups Frontend::Agent in smaller groups in
+    Kernel/Config/Files/Ticket.xml
+ - (2005/07/08) improved notify layer with error or notice icon
  - (2005/07/08) fixed bug in Kernel/System/Group.pm GroupMemberList() if GroupID
     is given (possible in AgentTicketOwner.pm if roles are used)
  - (2005/07/08) added postmaster follow up with X-OTRS-Header update function
