@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.38 2005-07-03 18:39:12 martin Exp $
+# $Id: Config.pm,v 1.39 2005-07-15 00:24:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::XML;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.39 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -80,11 +80,13 @@ sub new {
     $Self->{ConfigDefaultObject} = Kernel::Config->new(%Param, Level => 'Default');
     # create config object
     $Self->{ConfigObject} = Kernel::Config->new(%Param, Level => 'First');
+    # create config object
+    $Self->{ConfigClearObject} = Kernel::Config->new(%Param, Level => 'Clear');
 
 
     # read all config files
-    $Self->_Init();
-    # write default file 
+    $Self->{ConfigCounter} = $Self->_Init();
+    # write default file
     $Self->_WriteDefault();
 
     return $Self;
@@ -93,6 +95,7 @@ sub new {
 sub _Init {
     my $Self = shift;
     my %Param = @_;
+    my $Counter = 0;
     # check needed stuff
     foreach (qw()) {
         if (!$Param{$_}) {
@@ -115,11 +118,11 @@ sub _Init {
             else {
                 print STDERR "ERROR: $!: $File\n";
             }
-            if ($ConfigFile) { 
+            if ($ConfigFile) {
                 my @XMLHash = $Self->{XMLObject}->XMLParse2XMLHash(String => $ConfigFile);
                 $Data{$File} = \@XMLHash;
             }
-        } 
+        }
         $Self->{XMLConfig} = [];
         # load framework, application, config, changes
         foreach my $Init (qw(Framework Application Config Changes)) {
@@ -138,10 +141,12 @@ sub _Init {
     }
     # read all config files
     foreach my $ConfigItem (reverse @{$Self->{XMLConfig}}) {
+        $Counter++;
         if ($ConfigItem->{Name} && !$Self->{Config}->{$ConfigItem->{Name}}) {
             $Self->{Config}->{$ConfigItem->{Name}} = $ConfigItem;
         }
     }
+    return $Counter;
 }
 
 sub _WriteDefault {
@@ -187,7 +192,7 @@ sub _WriteDefault {
 
 =item Download()
 
-download config changes 
+download config changes
 
     $ConfigToolObject->Download();
 
@@ -220,7 +225,7 @@ sub Download {
 
 =item Upload()
 
-upload of config changes 
+upload of config changes
 
     $ConfigToolObject->Upload(
         Content => $Content,
@@ -247,7 +252,7 @@ sub Upload {
     else {
         print OUT $Param{Content};
         close (OUT);
-        return 1; 
+        return 1;
     }
 }
 
@@ -294,12 +299,15 @@ sub CreateConfig {
                 eval "\$A1 = $C";
                 eval "\$A2 = $D";
                 if (!defined($A1) && !defined($A2)) {
-                    # do nothing 
+                    # do nothing
                 }
-                elsif ((defined($A1) && !defined($A2)) || (!defined($A1) && defined($A2)) || $Self->DataDiff(Data1 => $A1, Data2 => $A2)) {
+                elsif ((defined($A1) && !defined($A2)) || (!defined($A1) && defined($A2)) || $Self->DataDiff(Data1 => $A1, Data2 => $A2) || ($Config{Valid} && !$ConfigDefault{Valid})) {
 #            my $Dump = Data::Dumper::Dumper(\%Config);
 #                    print STDERR "\$Self->{'$Name'} = $C - $Dump";
                     $File .= "\$Self->{'$Name'} = $C";
+                }
+                else {
+                    # do nothing
                 }
             }
             elsif (!$Config{Valid} && $ConfigDefault{Valid}) {
@@ -352,11 +360,11 @@ sub ConfigItemUpdate {
     else {
         # diff
         my %ConfigDefault = $Self->ConfigItemGet(
-            Name => $Param{Key}, 
+            Name => $Param{Key},
             Default => 1,
         );
         my %Config = $Self->ConfigItemGet(
-            Name => $Param{Key}, 
+            Name => $Param{Key},
         );
         $Param{Key} =~ s/\\/\\\\/g;
         $Param{Key} =~ s/'/\'/g;
@@ -837,11 +845,14 @@ sub ModGet {
     my $ConfigObject;
     # do not use ZZZ files
     if ($Param{Level} && $Param{Level} eq 'Default') {
-         $ConfigObject = $Self->{ConfigDefaultObject}; 
+         $ConfigObject = $Self->{ConfigDefaultObject};
+    }
+    elsif ($Param{Level} && $Param{Level} eq 'Clear') {
+         $ConfigObject = $Self->{ConfigClearObject};
     }
     else {
-         $ConfigObject = $Self->{ConfigObject}; 
-    } 
+         $ConfigObject = $Self->{ConfigObject};
+    }
     if ($Param{ConfigName} =~ /^(.*)###(.*)###(.*)$/) {
         if (defined($ConfigObject->Get($1))) {
             $Content = $ConfigObject->Get($1)->{$2}->{$3};
@@ -1199,6 +1210,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.38 $ $Date: 2005-07-03 18:39:12 $
+$Revision: 1.39 $ $Date: 2005-07-15 00:24:33 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.pm,v 1.32 2005-07-13 23:37:16 martin Exp $
+# $Id: AdminSysConfig.pm,v 1.33 2005-07-15 00:24:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -323,6 +323,13 @@ sub Run {
                 }
                 # New TimeVacationDaysOneTimeElement
                 if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#NewTimeVacationDaysOneTimeElement')) {
+                    my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = $Self->{TimeObject}->SystemTime2Date(
+                        SystemTime => $Self->{TimeObject}->SystemTime(),
+                    );
+                    $M = sprintf("%02d", $M);
+                    $D = sprintf("%02d", $D);
+
+                    $Content{$Y}->{$M}->{$D} = '-new-';
                     $Anker = $ItemHash{Name};
                 }
                 # write ConfigItem
@@ -347,6 +354,13 @@ sub Run {
                 }
                 # New TimeVacationDaysElement
                 if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#NewTimeVacationDaysElement')) {
+                    my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = $Self->{TimeObject}->SystemTime2Date(
+                        SystemTime => $Self->{TimeObject}->SystemTime(),
+                    );
+                    $M = sprintf("%02d", $M);
+                    $D = sprintf("%02d", $D);
+
+                    $Content{$M}->{$D} = '-new-';
                     $Anker = $ItemHash{Name};
                 }
                 # write ConfigItem
