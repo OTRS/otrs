@@ -148,7 +148,7 @@ TimeWorkingHours
                                       
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.51 2005-07-09 17:46:36 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.52 2005-07-15 00:45:00 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifyer for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z.B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -3570,7 +3570,7 @@ $Data{"Signature"}
         </Setting>
         <!-- $Self->{CustomerPanelSelectionType} = 'Queue'; -->
     </ConfigItem>
-    <ConfigItem Name="CustomerPanelSelectionString" Required="0" Valid="0">
+    <ConfigItem Name="CustomerPanelSelectionString" Required="0" Valid="1">
         <Description Lang="en">If "Queue" was selected for CustomerPanelSelectionType, you can specify a selection string (e. g. 'Queue: &lt;Queue&gt; - &lt;QueueComment&gt;').</Description>
         <Description Lang="de">Wenn "Queue" für CustomerPanelSelectionType ausgewählt wurde, kann hier eine Zeichenkette für die Auswahl angegeben werden (z. B. 'Queue: &lt;Queue&gt; - &lt;QueueComment&gt;').</Description>
         <Group>Ticket</Group>
