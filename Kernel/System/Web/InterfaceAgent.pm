@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceAgent.pm - the agent interface file (incl. auth)
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: InterfaceAgent.pm,v 1.6 2005-03-27 11:46:37 martin Exp $
+# $Id: InterfaceAgent.pm,v 1.7 2005-07-16 09:33:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Web::InterfaceAgent;
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -610,17 +610,17 @@ sub Run {
                         if ($Group && $UserData{$Key."[$Group]"} && $UserData{$Key."[$Group]"} eq 'Yes') {
                             $AccessOk = 1;
                         }
-#print STDERR "$Group $AccessOk pppppp UserIs$Permission"."[$Group]\n";
                     }
                     if ($Permission eq 'Group' && $AccessOk) {
+                        $Param{AccessRo} = 1;
                         $Param{AccessRw} = 1;
                     }
-                    else {
+                    elsif ($Permission eq 'GroupRo' && $AccessOk) {
                         $Param{AccessRo} = 1;
                     }
                 }
             }
-            if (!$Param{AccessRo} && $Param{AccessRw}) {
+            if (!$Param{AccessRo} && !$Param{AccessRw} || !$Param{AccessRo} && $Param{AccessRw}) {
                 print $Self->{LayoutObject}->NoPermission(
                     Message => "No Permission to use this frontend module!",
                 );
@@ -735,6 +735,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2005-03-27 11:46:37 $
+$Revision: 1.7 $ $Date: 2005-07-16 09:33:19 $
 
 =cut
