@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.pm,v 1.34 2005-06-19 22:42:31 martin Exp $
+# $Id: Package.pm,v 1.35 2005-07-17 15:40:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.34 $';
+$VERSION = '$Revision: 1.35 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -516,7 +516,8 @@ sub PackageInstall {
         }
         # install config
         $Self->{SysConfigObject} = Kernel::System::Config->new(%{$Self});
-        # install code 
+        $Self->{SysConfigObject}->WriteDefault();
+        # install code
         if ($Structur{CodeInstall} && $Structur{CodeInstall}->{Content}) {
             if ($Structur{CodeInstall}->{Content}) {
                 print STDERR "Code: $Structur{CodeInstall}->{Content}\n";
@@ -575,7 +576,8 @@ sub PackageReinstall {
     }
     # install config
     $Self->{SysConfigObject} = Kernel::System::Config->new(%{$Self});
-    # install code 
+    $Self->{SysConfigObject}->WriteDefault();
+    # install code
     if ($Structur{CodeReinstall} && $Structur{CodeReinstall}->{Content}) {
         if ($Structur{CodeReinstall}->{Content}) {
             print STDERR "Code: $Structur{CodeReinstall}->{Content}\n";
@@ -711,7 +713,8 @@ sub PackageUpgrade {
         }
         # install config
         $Self->{SysConfigObject} = Kernel::System::Config->new(%{$Self});
-        # install code 
+        $Self->{SysConfigObject}->WriteDefault();
+        # install code
         if ($Structur{CodeUpgrade} && $Structur{CodeUpgrade}->{Content}) {
             if ($Structur{CodeUpgrade}->{Content}) {
                 print STDERR "Code: $Structur{CodeUpgrade}->{Content}\n";
@@ -791,11 +794,11 @@ sub PackageUninstall {
 
     # install config
     $Self->{SysConfigObject} = Kernel::System::Config->new(%{$Self});
-
+    $Self->{SysConfigObject}->WriteDefault();
     if (!$FileCheckOk) {
 #        return;
     }
-    # uninstall code 
+    # uninstall code
     if ($Structur{CodeUninstall} && $Structur{CodeUninstall}->{Content}) {
         if ($Structur{CodeUninstall}->{Content}) {
             print STDERR "Code: $Structur{CodeUninstall}->{Content}\n";
@@ -1440,6 +1443,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.34 $ $Date: 2005-06-19 22:42:31 $
+$Revision: 1.35 $ $Date: 2005-07-17 15:40:09 $
 
 =cut
