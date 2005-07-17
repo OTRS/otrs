@@ -2,7 +2,7 @@
 <!--
 Possible SubGroups
     - Possible SubGroups
-    - Core 
+    - Core
     - Core::LinkObject
     - Core::Log
     - Core::PostMaster
@@ -14,14 +14,14 @@ Possible SubGroups
     - Core::Time
     - Core::Web
     - Core::PostMaster
-    - Core::Stats 
+    - Core::Stats
     - Core::Ticket
     - Core::TicketFreeText
     - Crypt::PGP
     - Crypt::SMIME
-    - Frontend::Agent  
+    - Frontend::Agent
     - Frontend::Admin::ModuleRegistration
-    - Frontend::Agent::ModuleRegistration 
+    - Frontend::Agent::ModuleRegistration
     - Frontend::Agent::ModuleNotify
     - Frontend::Agent::NavBarModule
     - Frontend::Agent::Preferences
@@ -38,7 +38,7 @@ Possible SubGroups
     - Frontend::Customer::Preferences
     - Frontend::Public
     - Frontend::Public::ModuleRegistration
-    
+
 String
     <ConfigItem Name="" Required="1" Valid="1">
         <Description Lang="en"></Description>
@@ -48,7 +48,7 @@ String
         <Setting>
             <String Regex=""></String>
         </Setting>
-    </ConfigItem>                     
+    </ConfigItem>
 
 Options (PullDownMenu)
     <ConfigItem Name="" Required="1" Valid="1">
@@ -59,11 +59,11 @@ Options (PullDownMenu)
         <Setting>
             <Option SelectedID="Key">
                 <Item Key=""></Item>
-                <Item Key=""></Item>                
+                <Item Key=""></Item>
             </Option>
         </Setting>
-    </ConfigItem>   
-    
+    </ConfigItem>
+
 Hash
     <ConfigItem Name="" Required="1" Valid="1">
         <Description Lang="en"></Description>
@@ -73,11 +73,11 @@ Hash
         <Setting>
             <Hash>
                 <Item Key=""></Item>
-                <Item Key=""></Item>                
+                <Item Key=""></Item>
             </Hash>
         </Setting>
-    </ConfigItem> 
-    
+    </ConfigItem>
+
 Array
     <ConfigItem Name="" Required="1" Valid="1">
         <Description Lang="en"></Description>
@@ -87,11 +87,11 @@ Array
         <Setting>
             <Array>
                 <Item></Item>
-                <Item></Item>                
+                <Item></Item>
             </Array>
         </Setting>
-    </ConfigItem>             
-    
+    </ConfigItem>
+
 TextArea
     <ConfigItem Name="" Required="1" Valid="1">
         <Description Lang="en"></Description>
@@ -101,12 +101,12 @@ TextArea
         <Setting>
             <TextArea>
                 use &gt; instead of >
-                and &lt; instead of <           
+                and &lt; instead of <
             </TextArea>
         </Setting>
-    </ConfigItem> 
+    </ConfigItem>
 
-FrontendModulRegistration    
+FrontendModulRegistration
     <ConfigItem Name="" Required="1" Valid="1">
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
@@ -140,15 +140,15 @@ FrontendModulRegistration
                 </NavBar>
             </FrontendModuleReg>
         </Setting>
-    </ConfigItem>     
-       
-TimeVacationDaysOneTime 
-TimeVacationDays 
-TimeWorkingHours    
-                                      
+    </ConfigItem>
+
+TimeVacationDaysOneTime
+TimeVacationDays
+TimeWorkingHours
+
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.52 2005-07-15 00:45:00 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.53 2005-07-17 16:18:55 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifyer for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z.B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -157,7 +157,6 @@ TimeWorkingHours
         <Setting>
             <String Regex="">Ticket#</String>
         </Setting>
-        <!-- $Self->{'Ticket::Hook'} = 'Ticket#'; -->
     </ConfigItem>
     <ConfigItem Name="Ticket::HookDivider" Required="1" Valid="1">
         <Description Lang="en">The divider between TicketHook and ticket number. E.g ': '.</Description>
@@ -167,8 +166,7 @@ TimeWorkingHours
         <Setting>
             <String Regex=""></String>
         </Setting>
-        <!-- $Self->{'Ticket::HookDivider'} = ''; -->
-    </ConfigItem>    
+    </ConfigItem>
     <ConfigItem Name="Ticket::SubjectSize" Required="1" Valid="1">
         <Description Lang="en">Max size of the subjects in an email reply.</Description>
         <Description Lang="de">Maximal zulässige Größe des Betreffs bei einer Email-Antwort.</Description>
@@ -177,8 +175,7 @@ TimeWorkingHours
         <Setting>
             <String Regex="^[0-9]{1,3}$">60</String>
         </Setting>
-        <!-- $Self->{'Ticket::SubjectSize'} = 60; -->
-    </ConfigItem>    
+    </ConfigItem>
     <ConfigItem Name="Ticket::SubjectRe" Required="1" Valid="1">
         <Description Lang="en">The text at the beginning of the subject in a email reply, e.g. RE, AW or AS.</Description>
         <Description Lang="de">Präfix im Betreff bei einer E-Mail-Antwort, z.B. RE, AW oder AS.</Description>
@@ -187,8 +184,7 @@ TimeWorkingHours
         <Setting>
             <String Regex="">Re</String>
         </Setting>
-        <!--  $Self->{'Ticket::SubjectRe'} = 'Re'; -->
-    </ConfigItem>    
+    </ConfigItem>
     <ConfigItem Name="Ticket::CustomQueue" Required="1" Valid="1">
         <Description Lang="en">Name of custom queue. The custom queue is a queue selection of your prefered queues and can be selected in the preferences settings.</Description>
         <Description Lang="de">Name der persönlich zusammengestellten Queues eines Agenten. Diese Queues können innerhalb der persönlichen Einstellungen ausgewählt werden.</Description>
@@ -197,8 +193,7 @@ TimeWorkingHours
         <Setting>
             <String Regex="">My Queues</String>
         </Setting>
-        <!--  $Self->{'Ticket::CustomQueue'} = 'My Queues'; -->
-    </ConfigItem>    
+    </ConfigItem>
     <ConfigItem Name="Ticket::ForceNewStateAfterLock" Required="0" Valid="0">
         <Description Lang="en">Force a new ticket state after lock action. For key you have to define the current state and for value you have to define the next state after lock action.</Description>
         <Description Lang="de">Automatisches Setzen eines neuen Ticketstatus nach dem das Ticket gesperrt wurde. Der Schlüssel ist der aktuelle Status, der Inhalt der Status nach dem Sperren.</Description>
@@ -209,12 +204,7 @@ TimeWorkingHours
                 <Item Key="new">open</Item>
             </Hash>
         </Setting>
-        <!-- 
-            #    $Self->{'Ticket::ForceNewStateAfterLock'} = {
-            #        'new' => 'open',
-            #    };     
-        -->        
-    </ConfigItem>       
+    </ConfigItem>
     <ConfigItem Name="Ticket::ForceUnlockAfterMove" Required="1" Valid="1">
         <Description Lang="en">Would you like to force tickets to be unlocked after move action?</Description>
         <Description Lang="de">Möchten Sie dass die Sperrung eines Tickets automatisch aufgehoben wird, nachdem es in eine andere Queue verschoben worden ist?</Description>
@@ -223,11 +213,10 @@ TimeWorkingHours
         <Setting>
             <Option SelectedID="0">
                 <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>                
+                <Item Key="1">Yes</Item>
             </Option>
         </Setting>
-        <!--  $Self->{'Ticket::ForceUnlockAfterMove'} = 0; -->
-    </ConfigItem>    
+    </ConfigItem>
     <ConfigItem Name="Ticket::ChangeOwnerToEveryone" Required="1" Valid="1">
         <Description Lang="en">Would you like to make it possible to change owner of foreign tickets (useful for ASP).</Description>
         <Description Lang="de">Soll es möglich sein, den Besitzer eines fremden Tickets zuändern (Kann für ASP nützlich sein)?</Description>
@@ -236,11 +225,10 @@ TimeWorkingHours
         <Setting>
             <Option SelectedID="0">
                 <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>                
+                <Item Key="1">Yes</Item>
             </Option>
         </Setting>
-        <!--  $Self->{'Ticket::ChangeOwnerToEveryone'} = 0; -->
-    </ConfigItem>    
+    </ConfigItem>
     <ConfigItem Name="Ticket::QueueViewAllPossibleTickets" Required="1" Valid="1">
         <Description Lang="en">Show all ro and rw queues in the queue view (not only rw queues)?</Description>
         <Description Lang="de">Zeigen aller Queues in der Queue-Ansicht für die Schreib- und Leserechte vorhanden sind? Standardmäßig werden nur die Queues angezeigt, für die Schreibrechte vergeben wurden.</Description>
@@ -264,10 +252,6 @@ TimeWorkingHours
                 <Item Key="ArticleSeen">ArticleSeen</Item>
             </Option>
         </Setting>
-        <!--
-             $Self->{'Ticket::NewMessageMode'} = 'ArticleLastSender';
-        #    $Self->{'Ticket::NewMessageMode'} = 'ArticleSeen';
-        -->
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey1" Required="0" Valid="0">
         <Description Lang="en">Define the free key field 1 for tickets. With this setting you can define an new ticket property.</Description>
@@ -279,12 +263,6 @@ TimeWorkingHours
                 <Item Key="Product">Product</Item>
             </Hash>
         </Setting>
-        <!--
-        #    $Self->{"TicketFreeKey1"} = {
-        #        '' => '-',
-        #        'Product' => 'Product',
-        #    };
-        -->
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey1::DefaultSelection" Required="0" Valid="0">
         <Description Lang="en">The default selection of free text field 1 if more then one option is defined.</Description>
@@ -294,9 +272,6 @@ TimeWorkingHours
         <Setting>
             <String Regex=""></String>
         </Setting>
-        <!--
-            $Self->{"TicketFreeKey1::DefaultSelection"} = '';
-        -->
     </ConfigItem>
     <ConfigItem Name="TicketFreeText1" Required="0" Valid="0">
         <Description Lang="en">Define the free text field 1 for tickets. It's a new ticket property.</Description>
@@ -306,21 +281,12 @@ TimeWorkingHours
         <Setting>
             <Hash>
                 <Item Key="">-</Item>
-                <Item Key="PC">PC</Item> 
+                <Item Key="PC">PC</Item>
                 <Item Key="Notebook">Notebook</Item>
-                <Item Key="Phone">Phone</Item>                                
+                <Item Key="Phone">Phone</Item>
             </Hash>
         </Setting>
-        <!--
-        #    $Self->{"TicketFreeText1"} = {
-        #        '' => '-',
-        #        'PC' => 'PC',
-        #        'Notebook' => 'Notebook',
-        #        'LCD' => 'LCD',
-        #        'Phone' => 'Phone',
-        #    };      
-        -->
-    </ConfigItem> 
+    </ConfigItem>
     <ConfigItem Name="TicketFreeText1::DefaultSelection" Required="0" Valid="0">
         <Description Lang="en">The default selection of free text field 1 if more then one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des Freier-Text-Feldes 1 wenn mehrere Optionen definiert sind.</Description>
@@ -329,9 +295,6 @@ TimeWorkingHours
         <Setting>
             <String Regex="">Notebook</String>
         </Setting>
-        <!--
-            $Self->{"TicketFreeText1::DefaultSelection"} = 'Notebook';
-        -->
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey2" Required="0" Valid="0">
         <Description Lang="en">Define the free key field 2 for tickets. It's a new ticket property.</Description>
@@ -344,13 +307,7 @@ TimeWorkingHours
                 <Item Key="Product">Product</Item>
             </Hash>
         </Setting>
-        <!--
-        #    $Self->{"TicketFreeKey2"} = {
-        #        '' => '-',
-        #        'Product' => 'Product',
-        #    };        
-        -->
-    </ConfigItem> 
+    </ConfigItem>
     <ConfigItem Name="TicketFreeKey2::DefaultSelection" Required="0" Valid="0">
         <Description Lang="en">The default selection of free key field 2 if more then one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des Freier-Schlüssel-Feldes 2 wenn mehrere Optionen definiert sind.</Description>
@@ -359,10 +316,7 @@ TimeWorkingHours
         <Setting>
             <String Regex=""></String>
         </Setting>
-        <!--
-            $Self->{"TicketFreeKey2::DefaultSelection"} = '';        
-        -->
-    </ConfigItem>    
+    </ConfigItem>
     <ConfigItem Name="TicketFreeText2" Required="0" Valid="0">
         <Description Lang="en">Define the free text field 2 for tickets. It's a new ticket poperty.</Description>
         <Description Lang="de">Definition des Freier-Text-Feldes 2 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
@@ -371,21 +325,12 @@ TimeWorkingHours
         <Setting>
             <Hash>
                 <Item Key="">-</Item>
-                <Item Key="PC">PC</Item> 
+                <Item Key="PC">PC</Item>
                 <Item Key="Notebook">Notebook</Item>
-                <Item Key="Phone">Phone</Item>                                
+                <Item Key="Phone">Phone</Item>
             </Hash>
         </Setting>
-        <!--
-        #    $Self->{"TicketFreeText2"} = {
-        #        '' => '-',
-        #        'PC' => 'PC',
-        #        'Notebook' => 'Notebook',
-        #        'LCD' => 'LCD',
-        #        'Phone' => 'Phone',
-        #    };      
-        -->
-    </ConfigItem> 
+    </ConfigItem>
     <ConfigItem Name="TicketFreeText2::DefaultSelection" Required="0" Valid="0">
         <Description Lang="en">The default selection of free text field 2 if more then one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des Freier-Text-Feldes 2 wenn mehrere Optionen definiert sind.</Description>
@@ -394,10 +339,7 @@ TimeWorkingHours
         <Setting>
             <String Regex="">Notebook</String>
         </Setting>
-        <!--
-            $Self->{"TicketFreeText2::DefaultSelection"} = 'Notebook';        
-        -->
-    </ConfigItem>    
+    </ConfigItem>
     <ConfigItem Name="TicketFreeKey3" Required="0" Valid="0">
         <Description Lang="en">Define the free key field 3 for tickets. It's a new ticket property.</Description>
         <Description Lang="de">Definition des Freier-Schlüssel-Feldes 3 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
@@ -406,16 +348,10 @@ TimeWorkingHours
         <Setting>
             <Hash>
                 <Item Key="">-</Item>
-                <Item Key="Product">Product</Item>                
+                <Item Key="Product">Product</Item>
             </Hash>
         </Setting>
-        <!--
-        #    $Self->{"TicketFreeKey3"} = {
-        #        '' => '-',
-        #        'Product' => 'Product',
-        #    };        
-        -->
-    </ConfigItem> 
+    </ConfigItem>
     <ConfigItem Name="TicketFreeKey3::DefaultSelection" Required="0" Valid="0">
         <Description Lang="en">The default selection of free text field 3 if more then one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des Freier-Text-Feldes 3 wenn mehrere Optionen definiert sind.</Description>
@@ -424,10 +360,7 @@ TimeWorkingHours
         <Setting>
             <String Regex=""></String>
         </Setting>
-        <!--
-            $Self->{"TicketFreeKey3::DefaultSelection"} = '';        
-        -->
-    </ConfigItem>    
+    </ConfigItem>
     <ConfigItem Name="TicketFreeText3" Required="0" Valid="0">
         <Description Lang="en">Define the free text field 3 for tickets. It's a new ticket property.</Description>
         <Description Lang="de">Definition des Freier-Text-Feldes 3 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
@@ -436,21 +369,12 @@ TimeWorkingHours
         <Setting>
             <Hash>
                 <Item Key="">-</Item>
-                <Item Key="PC">PC</Item> 
+                <Item Key="PC">PC</Item>
                 <Item Key="Notebook">Notebook</Item>
-                <Item Key="Phone">Phone</Item>                                
+                <Item Key="Phone">Phone</Item>
             </Hash>
         </Setting>
-        <!--
-        #    $Self->{"TicketFreeText3"} = {
-        #        '' => '-',
-        #        'PC' => 'PC',
-        #        'Notebook' => 'Notebook',
-        #        'LCD' => 'LCD',
-        #        'Phone' => 'Phone',
-        #    };      
-        -->
-    </ConfigItem> 
+    </ConfigItem>
     <ConfigItem Name="TicketFreeText3::DefaultSelection" Required="0" Valid="0">
         <Description Lang="en">The default selection of free text field 3 if more then one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des Freier-Text-Feldes 3 wenn mehrere Optionen definiert sind.</Description>
@@ -459,10 +383,7 @@ TimeWorkingHours
         <Setting>
             <String Regex="">Notebook</String>
         </Setting>
-        <!--
-            $Self->{"TicketFreeText3::DefaultSelection"} = 'Notebook';        
-        -->
-    </ConfigItem>    
+    </ConfigItem>
     <ConfigItem Name="TicketFreeKey4" Required="0" Valid="0">
         <Description Lang="en">Define the free key field 4 for tickets. It's a new ticket property.</Description>
         <Description Lang="de">Definition des Freier-Schlüssel-Feldes 4 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
@@ -470,16 +391,10 @@ TimeWorkingHours
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Product">Product</Item>                
+                <Item Key="Product">Product</Item>
             </Hash>
         </Setting>
-        <!--
-        #    $Self->{"TicketFreeKey4"} = {
-        #        '' => '-',
-        #        'Product' => 'Product',
-        #    };        
-        -->
-    </ConfigItem> 
+    </ConfigItem>
     <ConfigItem Name="TicketFreeKey4::DefaultSelection" Required="0" Valid="0">
         <Description Lang="en">The default selection of free key field 4 if more then one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des Freier-Schlüssel-Feldes 4 wenn mehrere Optionen definiert sind.</Description>
@@ -488,10 +403,7 @@ TimeWorkingHours
         <Setting>
             <String Regex=""></String>
         </Setting>
-        <!--
-            $Self->{"TicketFreeKey4::DefaultSelection"} = '';        
-        -->
-    </ConfigItem>    
+    </ConfigItem>
     <ConfigItem Name="TicketFreeText4" Required="0" Valid="0">
         <Description Lang="en">Define the free text field 4 for tickets. It's a new ticket property.</Description>
         <Description Lang="de">Definition des Freier-Text-Feldes 4 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
@@ -500,21 +412,12 @@ TimeWorkingHours
         <Setting>
             <Hash>
                 <Item Key="">-</Item>
-                <Item Key="PC">PC</Item> 
+                <Item Key="PC">PC</Item>
                 <Item Key="Notebook">Notebook</Item>
-                <Item Key="Phone">Phone</Item>                                
+                <Item Key="Phone">Phone</Item>
             </Hash>
         </Setting>
-        <!--
-        #    $Self->{"TicketFreeText4"} = {
-        #        '' => '-',
-        #        'PC' => 'PC',
-        #        'Notebook' => 'Notebook',
-        #        'LCD' => 'LCD',
-        #        'Phone' => 'Phone',
-        #    };      
-        -->
-    </ConfigItem> 
+    </ConfigItem>
     <ConfigItem Name="TicketFreeText4::DefaultSelection" Required="0" Valid="0">
         <Description Lang="en">The default selection of free text field 4 if more then one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des Freier-Text-Feldes 4 wenn mehrere Optionen definiert sind.</Description>
@@ -523,10 +426,7 @@ TimeWorkingHours
         <Setting>
             <String Regex="">Notebook</String>
         </Setting>
-        <!--
-            $Self->{"TicketFreeText4::DefaultSelection"} = 'Notebook';        
-        -->
-    </ConfigItem>    
+    </ConfigItem>
     <ConfigItem Name="TicketFreeKey5" Required="0" Valid="0">
         <Description Lang="en">Define the free key field 5 for tickets. It's a new ticket property.</Description>
         <Description Lang="de">Definition des Freier-Schlüssel-Feldes 5 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
@@ -534,16 +434,10 @@ TimeWorkingHours
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Product">Product</Item>                
+                <Item Key="Product">Product</Item>
             </Hash>
         </Setting>
-        <!--
-        #    $Self->{"TicketFreeKey5"} = {
-        #        '' => '-',
-        #        'Product' => 'Product',
-        #    };        
-        -->
-    </ConfigItem> 
+    </ConfigItem>
     <ConfigItem Name="TicketFreeKey5::DefaultSelection" Required="0" Valid="0">
         <Description Lang="en">The default selection of free key field 5 if more then one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des Freier-Schlüssel-Feldes 5 wenn mehrere Optionen definiert sind.</Description>
@@ -552,10 +446,7 @@ TimeWorkingHours
         <Setting>
             <String Regex=""></String>
         </Setting>
-        <!--
-            $Self->{"TicketFreeKey5::DefaultSelection"} = '';        
-        -->
-    </ConfigItem>    
+    </ConfigItem>
     <ConfigItem Name="TicketFreeText5" Required="0" Valid="0">
         <Description Lang="en">Define the free text field 5 for tickets. It's a new ticket property.</Description>
         <Description Lang="de">Definition des Freier-Text-Feldes 5 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
@@ -564,21 +455,12 @@ TimeWorkingHours
         <Setting>
             <Hash>
                 <Item Key="">-</Item>
-                <Item Key="PC">PC</Item> 
+                <Item Key="PC">PC</Item>
                 <Item Key="Notebook">Notebook</Item>
-                <Item Key="Phone">Phone</Item>                                
+                <Item Key="Phone">Phone</Item>
             </Hash>
         </Setting>
-        <!--
-        #    $Self->{"TicketFreeText5"} = {
-        #        '' => '-',
-        #        'PC' => 'PC',
-        #        'Notebook' => 'Notebook',
-        #        'LCD' => 'LCD',
-        #        'Phone' => 'Phone',
-        #    };      
-        -->
-    </ConfigItem> 
+    </ConfigItem>
     <ConfigItem Name="TicketFreeText5::DefaultSelection" Required="0" Valid="0">
         <Description Lang="en">The default selection of free text field 5 if more then one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des Freier-Text-Feldes 5 wenn mehrere Optionen definiert sind.</Description>
@@ -587,10 +469,7 @@ TimeWorkingHours
         <Setting>
             <String Regex="">Notebook</String>
         </Setting>
-        <!--
-            $Self->{"TicketFreeText5::DefaultSelection"} = 'Notebook';        
-        -->
-    </ConfigItem>    
+    </ConfigItem>
     <ConfigItem Name="TicketFreeKey6" Required="0" Valid="0">
         <Description Lang="en">Define the free key field 6 for tickets. It's a new ticket property.</Description>
         <Description Lang="de">Definition des Freier-Schlüssel-Feldes 6 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
@@ -598,16 +477,10 @@ TimeWorkingHours
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Product">Product</Item>                
+                <Item Key="Product">Product</Item>
             </Hash>
         </Setting>
-        <!--
-        #    $Self->{"TicketFreeKey6"} = {
-        #        '' => '-',
-        #        'Product' => 'Product',
-        #    };        
-        -->
-    </ConfigItem> 
+    </ConfigItem>
     <ConfigItem Name="TicketFreeKey6::DefaultSelection" Required="0" Valid="0">
         <Description Lang="en">The default selection of free key field 6 if more then one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des Freier-Schlüssel-Feldes 6 wenn mehrere Optionen definiert sind.</Description>
@@ -616,10 +489,7 @@ TimeWorkingHours
         <Setting>
             <String Regex=""></String>
         </Setting>
-        <!--
-            $Self->{"TicketFreeKey6::DefaultSelection"} = '';        
-        -->
-    </ConfigItem>    
+    </ConfigItem>
     <ConfigItem Name="TicketFreeText6" Required="0" Valid="0">
         <Description Lang="en">Define the free text field 6 for tickets. It's a new ticket property.</Description>
         <Description Lang="de">Definition des Freier-Text-Feldes 6 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
@@ -628,21 +498,12 @@ TimeWorkingHours
         <Setting>
             <Hash>
                 <Item Key="">-</Item>
-                <Item Key="PC">PC</Item> 
+                <Item Key="PC">PC</Item>
                 <Item Key="Notebook">Notebook</Item>
-                <Item Key="Phone">Phone</Item>                                
+                <Item Key="Phone">Phone</Item>
             </Hash>
         </Setting>
-        <!--
-        #    $Self->{"TicketFreeText6"} = {
-        #        '' => '-',
-        #        'PC' => 'PC',
-        #        'Notebook' => 'Notebook',
-        #        'LCD' => 'LCD',
-        #        'Phone' => 'Phone',
-        #    };      
-        -->
-    </ConfigItem> 
+    </ConfigItem>
     <ConfigItem Name="TicketFreeText6::DefaultSelection" Required="0" Valid="0">
         <Description Lang="en">The default selection of free text field 6 if more then one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des Freier-Text-Feldes 6 wenn mehrere Optionen definiert sind.</Description>
@@ -651,10 +512,7 @@ TimeWorkingHours
         <Setting>
             <String Regex="">Notebook</String>
         </Setting>
-        <!--
-            $Self->{"TicketFreeText6::DefaultSelection"} = 'Notebook';        
-        -->
-    </ConfigItem>    
+    </ConfigItem>
     <ConfigItem Name="TicketFreeKey7" Required="0" Valid="0">
         <Description Lang="en">Define the free key field 7 for tickets. It's a new ticket property.</Description>
         <Description Lang="de">Definition des Freier-Schlüssel-Feldes 7 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
@@ -662,16 +520,10 @@ TimeWorkingHours
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Product">Product</Item>                
+                <Item Key="Product">Product</Item>
             </Hash>
         </Setting>
-        <!--
-        #    $Self->{"TicketFreeKey7"} = {
-        #        '' => '-',
-        #        'Product' => 'Product',
-        #    };        
-        -->
-    </ConfigItem> 
+    </ConfigItem>
     <ConfigItem Name="TicketFreeKey7::DefaultSelection" Required="0" Valid="0">
         <Description Lang="en">The default selection of free key field 7 if more then one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des Freier-Schlüssel-Feldes 7 wenn mehrere Optionen definiert sind.</Description>
@@ -680,10 +532,7 @@ TimeWorkingHours
         <Setting>
             <String Regex=""></String>
         </Setting>
-        <!--
-            $Self->{"TicketFreeKey7::DefaultSelection"} = '';        
-        -->
-    </ConfigItem>    
+    </ConfigItem>
     <ConfigItem Name="TicketFreeText7" Required="0" Valid="0">
         <Description Lang="en">Define the free text field 7 for tickets. It's a new ticket property.</Description>
         <Description Lang="de">Definition des Freier-Text-Feldes 7 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
@@ -692,21 +541,12 @@ TimeWorkingHours
         <Setting>
             <Hash>
                 <Item Key="">-</Item>
-                <Item Key="PC">PC</Item> 
+                <Item Key="PC">PC</Item>
                 <Item Key="Notebook">Notebook</Item>
-                <Item Key="Phone">Phone</Item>                                
+                <Item Key="Phone">Phone</Item>
             </Hash>
         </Setting>
-        <!--
-        #    $Self->{"TicketFreeText7"} = {
-        #        '' => '-',
-        #        'PC' => 'PC',
-        #        'Notebook' => 'Notebook',
-        #        'LCD' => 'LCD',
-        #        'Phone' => 'Phone',
-        #    };      
-        -->
-    </ConfigItem> 
+    </ConfigItem>
     <ConfigItem Name="TicketFreeText7::DefaultSelection" Required="0" Valid="0">
         <Description Lang="en">The default selection of free text field 7 if more then one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des Freier-Text-Feldes 7 wenn mehrere Optionen definiert sind.</Description>
@@ -715,10 +555,7 @@ TimeWorkingHours
         <Setting>
             <String Regex="">Notebook</String>
         </Setting>
-        <!--
-            $Self->{"TicketFreeText7::DefaultSelection"} = 'Notebook';        
-        -->
-    </ConfigItem>    
+    </ConfigItem>
     <ConfigItem Name="TicketFreeKey8" Required="0" Valid="0">
         <Description Lang="en">Define the free key field 8 for tickets. It's a new ticket property.</Description>
         <Description Lang="de">Definition des Freier-Schlüssel-Feldes 8 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
@@ -726,16 +563,10 @@ TimeWorkingHours
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Product">Product</Item>                
+                <Item Key="Product">Product</Item>
             </Hash>
         </Setting>
-        <!--
-        #    $Self->{"TicketFreeKey8"} = {
-        #        '' => '-',
-        #        'Product' => 'Product',
-        #    };        
-        -->
-    </ConfigItem> 
+    </ConfigItem>
     <ConfigItem Name="TicketFreeKey8::DefaultSelection" Required="0" Valid="0">
         <Description Lang="en">The default selection of free key field 8 if more then one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des Freier-Schlüssel-Feldes 8 wenn mehrere Optionen definiert sind.</Description>
@@ -744,10 +575,7 @@ TimeWorkingHours
         <Setting>
             <String Regex=""></String>
         </Setting>
-        <!--
-            $Self->{"TicketFreeKey8::DefaultSelection"} = '';        
-        -->
-    </ConfigItem>    
+    </ConfigItem>
     <ConfigItem Name="TicketFreeText8" Required="0" Valid="0">
         <Description Lang="en">Define the free text field 8 for tickets. It's a new ticket property.</Description>
         <Description Lang="de">Definition des Freier-Text-Feldes 8 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
@@ -756,21 +584,12 @@ TimeWorkingHours
         <Setting>
             <Hash>
                 <Item Key="">-</Item>
-                <Item Key="PC">PC</Item> 
+                <Item Key="PC">PC</Item>
                 <Item Key="Notebook">Notebook</Item>
-                <Item Key="Phone">Phone</Item>                                
+                <Item Key="Phone">Phone</Item>
             </Hash>
         </Setting>
-        <!--
-        #    $Self->{"TicketFreeText8"} = {
-        #        '' => '-',
-        #        'PC' => 'PC',
-        #        'Notebook' => 'Notebook',
-        #        'LCD' => 'LCD',
-        #        'Phone' => 'Phone',
-        #    };      
-        -->
-    </ConfigItem> 
+    </ConfigItem>
     <ConfigItem Name="TicketFreeText8::DefaultSelection" Required="0" Valid="0">
         <Description Lang="en">The default selection of free text field 8 if more then one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des Freier-Text-Feldes 8 wenn mehrere Optionen definiert sind.</Description>
@@ -779,10 +598,7 @@ TimeWorkingHours
         <Setting>
             <String Regex="">Notebook</String>
         </Setting>
-        <!--
-            $Self->{"TicketFreeText8::DefaultSelection"} = 'Notebook';        
-        -->
-    </ConfigItem>    
+    </ConfigItem>
     <ConfigItem Name="Ticket::NumberGenerator" Required="1" Valid="1">
         <Description Lang="en">Select the ticket number generator module. "AutoIncrement" just increments the ticket number, the SystemID and the counter are used. The format is SystemID.counter, e.g. 1010138, 1010139. With "Date" the ticket numbers will be generated by the current date, the SystemID and the counter. The format looks like Year.Month.Day.SystemID.counter, e.g. 200206231010138, 200206231010139. With "DateChecksum"  the counter will be appended as check summ to the string of date and SystemID. The check summ will be rotaded daily. The format looks like Year.Month.Day.SystemID.Counter.CheckSum, e.g. 2002070110101520, 2002070110101535. "Random" generates randomized ticket numbers in the format "SystemID.Random", e.g. 100057866352, 103745394596.</Description>
         <Description Lang="de">Auswahl des Moduls zur Generierung der Ticketnummern. "AutoIncrement" zählt die Ticketnummer automatisch hoch und verbindet sie mit der SystemID. Es wird das Format SystemID.Counter verwendet, z.B. 1010138, 1010139. "Date" generiert die Ticketnummer aus Datum, SystemID und dem Counter, es wird das Format "Jahr.Monat.Tag.SystemID.Counter verwendet, z.B 200206231010138, 200206231010139. "DateChecksum" erzeugt die Ticketnummer aus dem Datum, der SystemID, dem Counter und einer Checksumme. Es wird das Format "Jahr.Monat.Tag.SystemID.Counter.CheckSumme verwendet, z.B. 2002070110101520, 2002070110101535. "Random" generiert aus der SystemID und einer Zufallszahl die Ticketnummern. Es wird das Format SystemID.Random verwendet, z.B. 100057866352, 103745394596.</Description>
@@ -791,7 +607,7 @@ TimeWorkingHours
         <Setting>
             <Option Location="Kernel/System/Ticket/Number/*.pm" SelectedID="Kernel::System::Ticket::Number::DateChecksum"></Option>
         </Setting>
-    </ConfigItem>    
+    </ConfigItem>
     <ConfigItem Name="Ticket::NumberGenerator::MinCounterSize" Required="1" Valid="1">
         <Description Lang="en">If "AutoIncrement" was selected for TicketNumberGenerator, you can set the minimal ticket counter size. Default is 5, this means the counter starts from 10000.</Description>
         <Description Lang="de">Wenn "AutoIncrement" für TicketNumberGenerator ausgewählt wurde, kann hier die minimale Länge des Zählers (Counters) festgelegt werden. Standard ist 5, d.h. gezählt wird ab 10000.</Description>
@@ -809,8 +625,7 @@ TimeWorkingHours
         <Setting>
             <String Regex="">&lt;OTRS_CONFIG_Home&gt;/var/log/TicketCounter.log</String>
         </Setting>
-        <!--  $Self->{'Ticket::CounterLog'} = '<OTRS_CONFIG_Home>/var/log/TicketCounter.log';   -->
-    </ConfigItem>      
+    </ConfigItem>
     <ConfigItem Name="Ticket::IndexModule" Required="1" Valid="1">
         <Description Lang="en">IndexAccelerator, choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table. You won't have performance problems till 60.000 tickets and 6.000 open tickets in your system. "StaticDB" is the most powerfull module. It should be used, if more then 80.000 and 6.000 opten tickets are stored in the system. The module uses a extra ticket_index table, that works like a view. Use the script "bin/RebuildTicketIndex.pl" for initial index update.</Description>
         <Description Lang="de">IndexAccelerator, wählen Sie das gewünschte BackendModul aus. "RuntimeDB" generiert jede QueueAnsicht "on the fly" aus der Tickettabelle. Bis zu einer Anzahl von 60.000 Tickets insgesamt und 6.000 offenen Tickets sollten Sie mit diesem Modul kein Performanceproblem bekommen. Für Installationen mit über 80.000 Tickets insgesamt und 6.000 offenen Tickets sollte das Modul "StaticDB" gewählt werden. Für das Modul wird eine extra Tabelle (ticket_index) verwendet, die ähnlich wie ein "view" arbeitet. Benutzen für die erste Einrichtung der Tabelle das Skript "bin/RebuildTicketIndex.pl".</Description>
@@ -820,11 +635,7 @@ TimeWorkingHours
             <Option Location="Kernel/System/Ticket/IndexAccelerator/*.pm" SelectedID="Kernel::System::Ticket::IndexAccelerator::RuntimeDB">
             </Option>
         </Setting>
-        <!-- 
-        $Self->{'Ticket::IndexModule'} = 'Kernel::System::Ticket::IndexAccelerator::StaticDB'; 
-        $Self->{'Ticket::IndexModule'} = 'Kernel::System::Ticket::IndexAccelerator::RuntimeDB';
-        -->
-    </ConfigItem>         
+    </ConfigItem>
     <ConfigItem Name="Ticket::StorageModule" Required="1" Valid="1">
         <Description Lang="en">Select your TicketStorageModule to safe the attachments of articles. "DB" stores all data in the database. Don't use this module if big attachments will be stored. "FS" stores the data in the file system, it is faster but webserver user should be the otrs user. You can switch between the modules even with a running system, all data will be availabel and are searched for example.</Description>
         <Description Lang="de">Wählen Sie das TicketStorage-Modul aus und legen sie fest, wie die Anhänge zu Artikeln gespeichert werden sollen. "DB" speichert alle Daten in der Datenbank. Wird nur mit kleinen Anhängen gearbeitet, ist das kein Problem. "FS" legt die Daten im Filesystem ab, der Zugriff ist schneller. Allerdings sollte bei Verwendung von "FS" der WEB-Server unter dem selben Benutzer laufen, der auch für OTRS verwendet wird. Sie können das Modul auch für laufende Systeme ändern, es wird trotzdem weiter auf alle Daten zugegriffen und auch die Daten, die mit Hilfe des anderen Moduls gespeichert wurden, bleiben verfügbar.</Description>
@@ -834,11 +645,7 @@ TimeWorkingHours
             <Option Location="Kernel/System/Ticket/ArticleStorage*.pm" SelectedID="Kernel::System::Ticket::ArticleStorageDB">
             </Option>
         </Setting>
-        <!-- 
-        $Self->{'Ticket::StorageModule'} = 'Kernel::System::Ticket::ArticleStorageFS';
-        $Self->{'Ticket::StorageModule'} = 'Kernel::System::Ticket::ArticleStorageDB';        
-        -->
-    </ConfigItem>    
+    </ConfigItem>
     <ConfigItem Name="ArticleDir" Required="1" Valid="1">
         <Description Lang="en">If you have selected "FS" for TicketStorageModule, you have to specifiy the directory where to store the data.</Description>
         <Description Lang="de">Wurde "FS" als ArticleStoragModule ausgewählt, muss das Verzeichnis angegeben werden, in dem die Daten abgelegt werden sollen.</Description>
@@ -847,8 +654,7 @@ TimeWorkingHours
         <Setting>
             <String Regex="">&lt;OTRS_CONFIG_Home&gt;/var/article</String>
         </Setting>
-        <!--  $Self->{ArticleDir} = '<OTRS_CONFIG_Home>/var/article';   -->
-    </ConfigItem>   
+    </ConfigItem>
     <ConfigItem Name="Ticket::CustomModule" Required="0" Valid="0">
         <Description Lang="en">A module with custom functions to redefine Kernel::System::Ticket functions (e. g. Kernel::System::Ticket::Custom).</Description>
         <Description Lang="de">Ein Modul mit angepassten Funktionen welche die standard Kernel::System::Ticket überschreibt (z. B. Kernel::System::Ticket::Custom).</Description>
@@ -857,8 +663,7 @@ TimeWorkingHours
         <Setting>
             <String Regex=""></String>
         </Setting>
-        <!--  $Self->{'Ticket::CustomModule'} = 'Kernel::System::Ticket::Custom';   -->
-    </ConfigItem>       
+    </ConfigItem>
     <ConfigItem Name="HighlightAge1" Required="1" Valid="1">
         <Description Lang="en">Set the age (first level) for highlighting of old queue (Age in min).</Description>
         <Description Lang="de">Zeit ab dem eine Queue mit nicht bearbeiteten Inhalten in erster Stufe gehighlighted wird (Angabe in min).</Description>
@@ -867,7 +672,7 @@ TimeWorkingHours
         <Setting>
             <String Regex="^[0-9]{1,5}$">1440</String>
         </Setting>
-    </ConfigItem>       
+    </ConfigItem>
     <ConfigItem Name="HighlightColor1" Required="1" Valid="1">
         <Description Lang="en">Set the color for highlighting of old queue (first level).</Description>
         <Description Lang="de">Farbe mit der eine Queue mit nicht bearbeiteten Inhalten in erster Stufe gehighlighted wird.</Description>
@@ -876,7 +681,7 @@ TimeWorkingHours
         <Setting>
             <String Regex="">orange</String>
         </Setting>
-    </ConfigItem>           
+    </ConfigItem>
     <ConfigItem Name="HighlightAge2" Required="1" Valid="1">
         <Description Lang="en">Set the age (second level) for highlighting of old queue (Age in min).</Description>
         <Description Lang="de">Zeit ab dem eine Queue mit nicht bearbeiteten Inhalten in zweiter Stufe gehighlighted wird (Angabe in min).</Description>
@@ -885,7 +690,7 @@ TimeWorkingHours
         <Setting>
             <String Regex="^[0-9]{1,5}$">2880</String>
         </Setting>
-    </ConfigItem>       
+    </ConfigItem>
     <ConfigItem Name="HighlightColor2" Required="1" Valid="1">
         <Description Lang="en">Set the color for highlighting of old queue (second level).</Description>
         <Description Lang="de">Farbe mit der eine Queue mit nicht bearbeiteten Inhalten in zweiter Stufe gehighlighted wird.</Description>
@@ -894,7 +699,7 @@ TimeWorkingHours
         <Setting>
             <String Regex="">red</String>
         </Setting>
-    </ConfigItem>         
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PendingDiffTime" Required="1" Valid="1">
         <Description Lang="en">Time in sec. which "pending date" shows per default) (default: 24*60*60 = 1 day.</Description>
         <Description Lang="de">So lange wird ein Ticket per Defaulteinstellung als "Pending" eingestuft (Angabe in sec; Default: 24*60*60 = 1 Tag).</Description>
@@ -903,8 +708,7 @@ TimeWorkingHours
         <Setting>
             <String Regex="^[0-9]{1,6}$">86400</String>
         </Setting>
-        <!--  $Self->{'Ticket::Frontend::PendingDiffTime'} = 24*60*60;   -->
-    </ConfigItem>      
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::QueueListType" Required="1" Valid="1">
         <Description Lang="en">Show queues in system as tree or as list.</Description>
         <Description Lang="de">Anzeige der Queues als Liste (list) oder in Baumstruktur (tree).</Description>
@@ -913,10 +717,10 @@ TimeWorkingHours
         <Setting>
             <Option SelectedID="tree">
                 <Item Key="tree">tree</Item>
-                <Item Key="list">list</Item>                
+                <Item Key="list">list</Item>
             </Option>
         </Setting>
-    </ConfigItem>     
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::StdResponsesMode" Required="1" Valid="1">
         <Description Lang="en">The standard responses in the agent interface can be displayed as form or links.</Description>
         <Description Lang="de">Die Standard-Antworten im Agent-Interface können als Formular oder als Links angezeigt werden.</Description>
@@ -925,10 +729,10 @@ TimeWorkingHours
         <Setting>
             <Option SelectedID="Link">
                 <Item Key="Link">Link</Item>
-                <Item Key="Form">Form</Item>                
+                <Item Key="Form">Form</Item>
             </Option>
         </Setting>
-    </ConfigItem>      
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::ZoomExpand" Required="1" Valid="1">
         <Description Lang="en">Show article expanded in agent interface under ticket zoom.</Description>
         <Description Lang="de">Zeige die Artikel erweitert im Agent-Interface unter Ticket-Zoom-Ansicht.</Description>
@@ -937,10 +741,10 @@ TimeWorkingHours
         <Setting>
             <Option SelectedID="0">
                 <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>                
+                <Item Key="1">Yes</Item>
             </Option>
         </Setting>
-    </ConfigItem>       
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::ZoomExpandSort" Required="1" Valid="1">
         <Description Lang="en">Show article normal or in reverse order in the agent interface under ticket zoom.</Description>
         <Description Lang="de">Zeige die Artikel normal oder rückwärts sortiert im Agent-Interface unter der Ticket-Zoom-Ansicht.</Description>
@@ -949,10 +753,10 @@ TimeWorkingHours
         <Setting>
             <Option SelectedID="normal">
                 <Item Key="reverse">reverse</Item>
-                <Item Key="normal">normal</Item>                
+                <Item Key="normal">normal</Item>
             </Option>
         </Setting>
-    </ConfigItem>   
+    </ConfigItem>
     <ConfigItem Name="Ticket::ZoomAttachmentDisplay" Required="0" Valid="1">
         <Description Lang="en">Shows a icon in the ticket zoom, if a article as an attachment.</Description>
         <Description Lang="de">Zeigt ein Icon in der Ansicht für den
@@ -962,10 +766,10 @@ TimeWorkingHours
         <Setting>
             <Option SelectedID="1">
                 <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>                
+                <Item Key="1">Yes</Item>
             </Option>
         </Setting>
-    </ConfigItem>    
+    </ConfigItem>
     <ConfigItem Name="Ticket::ZoomTimeDisplay" Required="0" Valid="0">
         <Description Lang="en">Displays the time that is accounted for an article in the ticket zoom view.</Description>
         <Description Lang="de">Zeigt die Zeit innerhalb der Ansicht für den
@@ -975,10 +779,10 @@ TimeWorkingHours
         <Setting>
             <Option SelectedID="0">
                 <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>                
+                <Item Key="1">Yes</Item>
             </Option>
         </Setting>
-    </ConfigItem>    
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::HistoryOrder" Required="1" Valid="1">
         <Description Lang="en">Show history order reverse in the agent interface under ticket history.</Description>
         <Description Lang="de">Zeige die History normal oder rückwärts sortiert im Agent-Interface unter der Ticket-History.</Description>
@@ -987,10 +791,10 @@ TimeWorkingHours
         <Setting>
             <Option SelectedID="normal">
                 <Item Key="reverse">reverse</Item>
-                <Item Key="normal">normal</Item>                
+                <Item Key="normal">normal</Item>
             </Option>
         </Setting>
-    </ConfigItem>   
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::TextAreaEmail" Required="1" Valid="1">
         <Description Lang="en">Width of compose email windows.</Description>
         <Description Lang="de">Anzahl der Zeichen pro Zeile im E-Mail-Fenster.</Description>
@@ -999,8 +803,7 @@ TimeWorkingHours
         <Setting>
             <String Regex="^[0-9]{1,3}$">78</String>
         </Setting>
-        <!--  $Self->{'Ticket::Frontend::TextAreaEmail'} = 78;   -->
-    </ConfigItem>   
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::TextAreaNote" Required="1" Valid="1">
         <Description Lang="en">Width of compose note windows.</Description>
         <Description Lang="de">Anzahl der Zeichen pro Zeile im Notiz-Fenster.</Description>
@@ -1009,7 +812,7 @@ TimeWorkingHours
         <Setting>
             <String Regex="^[0-9]{1,3}$">70</String>
         </Setting>
-    </ConfigItem>   
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerInfoCompose" Required="1" Valid="1">
         <Description Lang="en">Show customer user info in Compose screen (Phone and Email)?</Description>
         <Description Lang="de">Anzeige von Customer-Informationen in der Maske zum Erstellen einer Antwort (Telefon und Email)?</Description>
@@ -1018,11 +821,10 @@ TimeWorkingHours
         <Setting>
             <Option SelectedID="1">
                 <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>                
+                <Item Key="1">Yes</Item>
             </Option>
         </Setting>
-        <!-- $Self->{'Ticket::Frontend::CustomerInfoCompose'} = 1; -->
-    </ConfigItem> 
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerInfoComposeMaxSize" Required="1" Valid="1">
         <Description Lang="en">Max size (in characters) of customer info table - Compose screen (Phone and Email).</Description>
         <Description Lang="de">Max. Anzeige an Zeichen für die Customer-Infomationen innerhalb der Antwort-Erstellen-Maske (Telefon and Email)?</Description>
@@ -1031,8 +833,7 @@ TimeWorkingHours
         <Setting>
             <String Regex="^[0-9]{1,3}$">22</String>
         </Setting>
-        <!--  $Self->{'Ticket::Frontend::CustomerInfoComposeMaxSize'} = 22;   -->
-    </ConfigItem>       
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerInfoZoom" Required="1" Valid="1">
         <Description Lang="en">Show customer user info in ticket zoom view?</Description>
         <Description Lang="de">Anzeige der Customer-Informationen im Ticket-Inhalt?</Description>
@@ -1041,11 +842,10 @@ TimeWorkingHours
         <Setting>
             <Option SelectedID="1">
                 <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>                
+                <Item Key="1">Yes</Item>
             </Option>
         </Setting>
-        <!-- $Self->{'Ticket::Frontend::CustomerInfoZoom'} = 1; -->
-    </ConfigItem>     
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerInfoZoomMaxSize" Required="1" Valid="1">
         <Description Lang="en">Max size (in characters) of customer info table - Zoom.</Description>
         <Description Lang="de">Max. Anzeige der Zeichen in der Customer-Info für die Ticket-Zoom-Maske.</Description>
@@ -1054,8 +854,7 @@ TimeWorkingHours
         <Setting>
             <String Regex="^[0-9]{1,3}$">22</String>
         </Setting>
-        <!-- $Self->{'Ticket::Frontend::CustomerInfoZoomMaxSize'} = 22;   -->
-    </ConfigItem>     
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerInfoQueue" Required="1" Valid="1">
         <Description Lang="en">Show customer user info in Queue view?</Description>
         <Description Lang="de">Anzeige der Customer-Info in der Queue-Ansicht?</Description>
@@ -1067,7 +866,6 @@ TimeWorkingHours
                 <Item Key="1">Yes</Item>
             </Option>
         </Setting>
-        <!-- $Self->{'Ticket::Frontend::CustomerInfoQueue'} = 0; -->
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerInfoQueueMaxSize" Required="1" Valid="1">
         <Description Lang="en">Max size (in characters) of customer info table - Queue.</Description>
@@ -1077,7 +875,6 @@ TimeWorkingHours
         <Setting>
             <String Regex="^[0-9]{1,3}$">18</String>
         </Setting>
-        <!-- $Self->{'Ticket::Frontend::CustomerInfoQueueMaxSize'} = 18;   -->
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::NoEscalationGroup" Required="1" Valid="1">
         <Description Lang="en">Don't show escalated tickets to agents, who have write permissions for their specifyed group.</Description>
@@ -1132,7 +929,6 @@ TimeWorkingHours
                 <Item Key="1">Yes</Item>
             </Option>
         </Setting>
-        <!-- $Self->{'Ticket::Frontend::AccountTime'} = 0; -->
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::TimeUnits" Required="1" Valid="1">
         <Description Lang="en">Your choice of your used time units (e.g. work units, hours, minutes).</Description>
@@ -1142,8 +938,7 @@ TimeWorkingHours
         <Setting>
             <String Regex=""> (work units)</String>
         </Setting>
-        <!-- $Self->{'Ticket::Frontend::TimeUnits'} = ' (work units)'; -->
-    </ConfigItem>          
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::NeedAccountedTime" Required="1" Valid="1">
         <Description Lang="en">Does the time have to be accounted?</Description>
         <Description Lang="de">Muss die benötigte Bearbeitungszeit angegeben werden?</Description>
@@ -1152,11 +947,10 @@ TimeWorkingHours
         <Setting>
             <Option SelectedID="0">
                 <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>                
+                <Item Key="1">Yes</Item>
             </Option>
         </Setting>
-        <!-- $Self->{'Ticket::Frontend::NeedAccountedTime'} = 0; -->
-    </ConfigItem>    
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::NeedSpellCheck" Required="1" Valid="1">
         <Description Lang="en">Do Newly composed messages have to be spell checked?</Description>
         <Description Lang="de">Müssen neu erstellte Nachrichten auf Rechtschreibfehler geprüft werden?</Description>
@@ -1165,11 +959,10 @@ TimeWorkingHours
         <Setting>
             <Option SelectedID="0">
                 <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>                
+                <Item Key="1">Yes</Item>
             </Option>
         </Setting>
-        <!-- $Self->{'Ticket::Frontend::NeedSpellCheck'} = 0; -->
-    </ConfigItem>    
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::BulkFeature" Required="1" Valid="1">
         <Description Lang="en">Do you want to activate a agent frontend feature to work on more then one ticket at the same time?</Description>
         <Description Lang="de">Soll eine Agent-Frontend-Funktion aktiviert werden, mit der gleichzeitig mit mehreren Tickets gearbeitet werden kann?</Description>
@@ -1178,11 +971,10 @@ TimeWorkingHours
         <Setting>
             <Option SelectedID="1">
                 <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>                
+                <Item Key="1">Yes</Item>
             </Option>
         </Setting>
-        <!-- $Self->{'Ticket::Frontend::BulkFeature'} = 1; -->
-    </ConfigItem>   
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::BulkFeatureJavaScriptAlert" Required="1" Valid="1">
         <Description Lang="en">Show java script popup if a ticket is selected for bulk action?</Description>
         <Description Lang="de">Zeige Java Script Popup, wenn ein Ticket für die Bulk-Aktion ausgewählt wurde?</Description>
@@ -1191,11 +983,10 @@ TimeWorkingHours
         <Setting>
             <Option SelectedID="1">
                 <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>                
+                <Item Key="1">Yes</Item>
             </Option>
         </Setting>
-        <!-- $Self->{'Ticket::Frontend::BulkFeatureJavaScriptAlert'} = 1; -->
-    </ConfigItem>   
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MoveType" Required="1" Valid="1">
         <Description Lang="en">The queue selection can be shown as dropdown box or in a new opened window.</Description>
         <Description Lang="de">Die Queue-Auswahl beim Verschieben eines Tickets kann als Dropdown Box oder in einem neuen Fensters angezeigt werden.</Description>
@@ -1207,7 +998,7 @@ TimeWorkingHours
                 <Item Key="form">Dropdown</Item>
             </Option>
         </Setting>
-    </ConfigItem>    
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MoveSetState" Required="1" Valid="1">
         <Description Lang="en">Set new ticket state after ticket move?</Description>
         <Description Lang="de">Setzen eines neuen Ticket-Status nach dem Verschieben?</Description>
@@ -1216,10 +1007,10 @@ TimeWorkingHours
         <Setting>
             <Option SelectedID="1">
                 <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>                
+                <Item Key="1">Yes</Item>
             </Option>
         </Setting>
-    </ConfigItem>        
+    </ConfigItem>
     <ConfigItem Name="Ticket::DefaultNextMoveStateType" Required="1" Valid="1">
         <Description Lang="en">Possible state types after moving a ticket.</Description>
         <Description Lang="de">Mögliche Status nach dem Verschieben von Tickets.</Description>
@@ -1228,10 +1019,10 @@ TimeWorkingHours
         <Setting>
             <Array>
                 <Item>open</Item>
-                <Item>closed</Item>                
+                <Item>closed</Item>
             </Array>
         </Setting>
-    </ConfigItem>    
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::StatusView::ViewableTicketsPage" Required="1" Valid="1">
         <Description Lang="en">Shows all open tickets.</Description>
         <Description Lang="de">Zeigt alle offenen Tickets an.</Description>
@@ -1240,7 +1031,7 @@ TimeWorkingHours
         <Setting>
             <String Regex="">50</String>
         </Setting>
-    </ConfigItem>    
+    </ConfigItem>
      <ConfigItem Name="Ticket::Frontend::SearchLimit" Required="1" Valid="1">
         <Description Lang="en">Search limit for ticket frontend.</Description>
         <Description Lang="de">Hier legen Sie das Ergebnislimit für die Ticketsuche fest.</Description>
@@ -1249,7 +1040,7 @@ TimeWorkingHours
         <Setting>
             <String Regex="^[0-9]{1,10}$">5000</String>
         </Setting>
-    </ConfigItem>     
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::SearchPageShown" Required="1" Valid="1">
         <Description Lang="en">Default of shown article a page.</Description>
         <Description Lang="de">Anzahl der angezeigten Treffer pro Seite bei der Ticketsuche.</Description>
@@ -1258,7 +1049,7 @@ TimeWorkingHours
         <Setting>
             <String Regex="">40</String>
         </Setting>
-    </ConfigItem>  
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::SearchViewableTicketLines" Required="1" Valid="1">
         <Description Lang="en">Viewable ticket lines by search utility.</Description>
         <Description Lang="de">Anzahl der Zeilen, die durch das Suchwerkzeug angezeigt werden.</Description>
@@ -1333,7 +1124,7 @@ TimeWorkingHours
         <Setting>
             <String Regex="">DBI:mysql:database=mirrordb;host=mirrordbhost</String>
         </Setting>
-    </ConfigItem>      
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::Search::DB::User" Required="0" Valid="0">
         <Description Lang="en">If you want to use a mirror database for agent ticket fulltext search, you can specify the user to authenticate to this database.</Description>
         <Description Lang="de">Wenn eine Datenbank mit den gespiegelten Daten für die Volltextsuche genutzt werden soll, kann hier der Benutzer angegeben werden, der für die Anmeldung an dieser Datenbank benötigt wird.</Description>
@@ -1342,7 +1133,7 @@ TimeWorkingHours
         <Setting>
             <String Regex="">some_user</String>
         </Setting>
-    </ConfigItem>        
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::Search::DB::Password" Required="0" Valid="0">
         <Description Lang="en">If you want to use a mirror database for agent ticket fulltext search, you can specify the password to authenticate to this database.</Description>
         <Description Lang="de">Wenn eine Datenbank mit den gespiegelten Daten für die Volltextsuche genutzt werden soll, kann hier das Kennwort angegeben werden, das für die Anmeldung an dieser Datenbank benötigt wird.</Description>
@@ -1351,7 +1142,7 @@ TimeWorkingHours
         <Setting>
             <String Regex="">some_password</String>
         </Setting>
-    </ConfigItem>         
+    </ConfigItem>
     <ConfigItem Name="Ticket::AgentCanBeCustomer" Required="1" Valid="1">
         <Description Lang="en">Can a agent also be a customer via the agent interface?</Description>
         <Description Lang="de">Kann ein Agent auch ein Kunde im Agent-Interface sein?</Description>
@@ -1360,10 +1151,9 @@ TimeWorkingHours
         <Setting>
             <Option SelectedID="0">
                 <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>                
+                <Item Key="1">Yes</Item>
             </Option>
         </Setting>
-        <!-- $Self->{'Ticket::AgentCanBeCustomer'} = 0;  -->
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PhoneArticleType" Required="1" Valid="1">
         <Description Lang="en">Default note type for phone tickets.</Description>
@@ -1373,7 +1163,7 @@ TimeWorkingHours
         <Setting>
             <String Regex="">phone</String>
         </Setting>
-    </ConfigItem> 
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PhoneSenderType" Required="1" Valid="1">
         <Description Lang="en">Default sender type for phone tickets.</Description>
         <Description Lang="de">Standard Sendertyp bei Telefontickets.</Description>
@@ -1382,8 +1172,8 @@ TimeWorkingHours
         <Setting>
             <String Regex="">agent</String>
         </Setting>
-    </ConfigItem>     
-    <ConfigItem Name="Ticket::Frontend::PhoneSubject" Required="1" Valid="1">        
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::PhoneSubject" Required="1" Valid="1">
         <Description Lang="en">Default subject for phone tickets.</Description>
         <Description Lang="de">Standard Betreff bei Telefontickets.</Description>
         <Group>Ticket</Group>
@@ -1391,8 +1181,8 @@ TimeWorkingHours
         <Setting>
             <String Regex="">$Text{"Phone call"}!</String>
         </Setting>
-    </ConfigItem>     
-    <ConfigItem Name="Ticket::Frontend::PhoneNote" Required="1" Valid="1">         
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::PhoneNote" Required="1" Valid="1">
         <Description Lang="en">Default note text for phone tickets.</Description>
         <Description Lang="de">Standard Text für Notizen für Telefontickets.</Description>
         <Group>Ticket</Group>
@@ -1400,7 +1190,7 @@ TimeWorkingHours
         <Setting>
             <String Regex="">Customer called</String>
         </Setting>
-    </ConfigItem>     
+    </ConfigItem>
     <ConfigItem Name="Ticket::PhoneDefaultNextStateType" Required="1" Valid="1">
         <Description Lang="en">Next possible states after phone.</Description>
         <Description Lang="de">Mögliche Status nach dem Telefonat.</Description>
@@ -1409,13 +1199,13 @@ TimeWorkingHours
         <Setting>
             <Array>
                 <Item>open</Item>
-                <Item>pending auto</Item> 
+                <Item>pending auto</Item>
                 <Item>pending reminder</Item>
-                <Item>closed</Item>                        
+                <Item>closed</Item>
             </Array>
         </Setting>
-    </ConfigItem>      
-    <ConfigItem Name="Ticket::Frontend::PhoneNextState" Required="1" Valid="1">     
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::PhoneNextState" Required="1" Valid="1">
         <Description Lang="en">Default next state after phone.</Description>
         <Description Lang="de">Vorauswahl für den nächsten Status der Telefonnotiz.</Description>
         <Group>Ticket</Group>
@@ -1423,7 +1213,7 @@ TimeWorkingHours
         <Setting>
             <String Regex="">closed successful</String>
         </Setting>
-    </ConfigItem> 
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PhoneHistoryType" Required="1" Valid="1">
         <Description Lang="en">Default history type for phone tickets.</Description>
         <Description Lang="de">Standard History-Typ für Telefontickets.</Description>
@@ -1432,7 +1222,7 @@ TimeWorkingHours
         <Setting>
             <String Regex="">PhoneCallAgent</String>
         </Setting>
-    </ConfigItem>     
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PhoneHistoryComment" Required="1" Valid="1">
         <Description Lang="en">Default history comment for phone tickets.</Description>
         <Description Lang="de">Standard History-Kommentar bei Telefontickets.</Description>
@@ -1441,7 +1231,7 @@ TimeWorkingHours
         <Setting>
             <String Regex=""></String>
         </Setting>
-    </ConfigItem>   
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PhoneNewArticleType" Required="1" Valid="1">
         <Description Lang="en">Default article type for phone tickets.</Description>
         <Description Lang="de">Default Artikeltyp für Telefontickets.</Description>
@@ -1450,7 +1240,7 @@ TimeWorkingHours
         <Setting>
             <String Regex="">phone</String>
         </Setting>
-    </ConfigItem>  
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PhoneNewSenderType" Required="1" Valid="1">
         <Description Lang="en">Default sender type for new phone ticket.</Description>
         <Description Lang="de">Standard Sender-Typ bei neuen Telefontickets.</Description>
@@ -1459,7 +1249,7 @@ TimeWorkingHours
         <Setting>
             <String Regex="">customer</String>
         </Setting>
-    </ConfigItem>  
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PhoneNewSubject" Required="1" Valid="1">
         <Description Lang="en">Default subject for new phone tickets (e.g. 'Phone call').</Description>
         <Description Lang="de">Standard Betreff für neue Telefontickets (z.B. 'Telefon Anruf').</Description>
@@ -1468,8 +1258,8 @@ TimeWorkingHours
         <Setting>
             <String Regex=""></String>
         </Setting>
-    </ConfigItem>  
-    <ConfigItem Name="Ticket::Frontend::PhoneNewNote" Required="1" Valid="1">      
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::PhoneNewNote" Required="1" Valid="1">
         <Description Lang="en">Default note text. E.g 'New ticket via call.'</Description>
         <Description Lang="de">Standard-Text für die Notiz bei Telefontickets.</Description>
         <Group>Ticket</Group>
@@ -1477,7 +1267,7 @@ TimeWorkingHours
         <Setting>
             <String Regex=""></String>
         </Setting>
-    </ConfigItem>          
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PhoneNewNextState" Required="1" Valid="1">
         <Description Lang="en">Default next state.</Description>
         <Description Lang="de">Standardmäßig vergebener nächster Status.</Description>
@@ -1487,7 +1277,7 @@ TimeWorkingHours
             <String Regex="">open</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::PhonePriority" Required="1" Valid="1">    
+    <ConfigItem Name="Ticket::Frontend::PhonePriority" Required="1" Valid="1">
         <Description Lang="en">Default priority for phone tickets.</Description>
         <Description Lang="de">Standardpriorität eines Telefontickets.</Description>
         <Group>Ticket</Group>
@@ -1495,8 +1285,8 @@ TimeWorkingHours
         <Setting>
             <String Regex="">3 normal</String>
         </Setting>
-    </ConfigItem>    
-    <ConfigItem Name="Ticket::Frontend::PhoneNewHistoryType" Required="1" Valid="1">    
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::PhoneNewHistoryType" Required="1" Valid="1">
         <Description Lang="en">Default history type for phone tickets.</Description>
         <Description Lang="de">Standard History-Typ bei Telefontickets.</Description>
         <Group>Ticket</Group>
@@ -1504,7 +1294,7 @@ TimeWorkingHours
         <Setting>
             <String Regex="">PhoneCallCustomer</String>
         </Setting>
-    </ConfigItem>    
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PhoneNewHistoryComment" Required="1" Valid="1">
         <Description Lang="en">Default history comment for phone tickets.</Description>
         <Description Lang="de">Standard Kommentar für die History bei Telefontickets.</Description>
@@ -1513,7 +1303,7 @@ TimeWorkingHours
         <Setting>
             <String Regex=""></String>
         </Setting>
-    </ConfigItem>    
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::NewOwnerSelection" Required="1" Valid="1">
         <Description Lang="en">Show owner selection in phone and email ticket?</Description>
         <Description Lang="de">Soll die Besitzerauswahl im Telefon- und E-Mail-Ticket gezeigt werden?</Description>
@@ -1522,11 +1312,10 @@ TimeWorkingHours
         <Setting>
             <Option SelectedID="1">
                 <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>                
+                <Item Key="1">Yes</Item>
             </Option>
         </Setting>
-        <!-- $Self->{'Ticket::Frontend::NewOwnerSelection'} = 1;  -->
-    </ConfigItem>    
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::NewQueueSelectionType" Required="1" Valid="1">
         <Description Lang="en">To: selection type. "Queue" shows all queues, "SystemAddress" displays all system addresses.</Description>
         <Description Lang="de">Auswahl des To: Anzeige-Typs. "Queue" zeigt alle Queues an, "SystemAddress" zeigt alle Systemadressen.</Description>
@@ -1535,14 +1324,10 @@ TimeWorkingHours
         <Setting>
             <Option SelectedID="Queue">
                 <Item Key="Queue">Queue</Item>
-                <Item Key="SystemAddress">SystemAddress</Item>                
+                <Item Key="SystemAddress">SystemAddress</Item>
             </Option>
         </Setting>
-        <!-- 
-        $Self->{'Ticket::Frontend::NewQueueSelectionType'} = 'Queue';
-        $Self->{'Ticket::Frontend::NewQueueSelectionType'} = 'SystemAddress';
-        -->
-    </ConfigItem>        
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::NewQueueSelectionString" Required="1" Valid="1">
         <Description Lang="en">If "Queue" was selected for NewQueueSelectionType, you can specify a selection string.</Description>
         <Description Lang="de">Wenn "Queue" für NewQueueSelectionType ausgewählt wurde, kann hier eine Zeichenkette für die Auswahl angegeben werden.</Description>
@@ -1551,12 +1336,6 @@ TimeWorkingHours
         <Setting>
             <String Regex="">&lt;Queue&gt;</String>
         </Setting>
-        <!--
-        $Self->{'Ticket::Frontend::NewQueueSelectionString'} = 'Queue: <Queue> - <QueueComment>';
-        $Self->{'Ticket::Frontend::NewQueueSelectionString'} = '<Queue>';
-        $Self->{'Ticket::Frontend::NewQueueSelectionString'} = '<Realname> <<Email>> - Queue: <Queue> - <QueueComment>';
-        $Self->{'Ticket::Frontend::NewQueueSelectionString'} = '<Realname> <<Email>> - Queue: <Queue>';
-        -->
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::NewQueueOwnSelection" Required="0" Valid="0">
         <Description Lang="en">If this is in use, "just this selection is valid" for the PhoneView.</Description>
@@ -1569,15 +1348,8 @@ TimeWorkingHours
                 <Item Key="2">Second Queue!</Item>
             </Hash>
         </Setting>
-        <!-- 
-        $Self->{'Ticket::Frontend::NewQueueOwnSelection'} = {
-            # QueueID => String
-            '1' => 'First Queue!',
-            '2' => 'Second Queue!',
-        };    
-        -->        
-    </ConfigItem> 
-    <ConfigItem Name="Ticket::Frontend::EmailPriority" Required="1" Valid="1">    
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::EmailPriority" Required="1" Valid="1">
         <Description Lang="en">Default priority for emails.</Description>
         <Description Lang="de">Standard Priorität für Emails.</Description>
         <Group>Ticket</Group>
@@ -1585,8 +1357,8 @@ TimeWorkingHours
         <Setting>
             <String Regex="">3 normal</String>
         </Setting>
-    </ConfigItem>     
-    <ConfigItem Name="Ticket::Frontend::EmailNewArticleType" Required="1" Valid="1">    
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::EmailNewArticleType" Required="1" Valid="1">
         <Description Lang="en">Default article type for new article.</Description>
         <Description Lang="de">Standard Artikeltyp beim erstellen eines Artikels.</Description>
         <Group>Ticket</Group>
@@ -1594,8 +1366,8 @@ TimeWorkingHours
         <Setting>
             <String Regex="">email-external</String>
         </Setting>
-    </ConfigItem>     
-    <ConfigItem Name="Ticket::Frontend::EmailNewSenderType" Required="1" Valid="1">    
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::EmailNewSenderType" Required="1" Valid="1">
         <Description Lang="en">Default sender type for article.</Description>
         <Description Lang="de">Standard Sender-Typ für Artikel.</Description>
         <Group>Ticket</Group>
@@ -1603,8 +1375,8 @@ TimeWorkingHours
         <Setting>
             <String Regex="">agent</String>
         </Setting>
-    </ConfigItem> 
-    <ConfigItem Name="Ticket::Frontend::EmailNewHistoryType" Required="1" Valid="1">    
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::EmailNewHistoryType" Required="1" Valid="1">
         <Description Lang="en">Type for article history.</Description>
         <Description Lang="de">Typ für Artikel Historie.</Description>
         <Group>Ticket</Group>
@@ -1612,8 +1384,8 @@ TimeWorkingHours
         <Setting>
             <String Regex="">EmailAgent</String>
         </Setting>
-    </ConfigItem>   
-    <ConfigItem Name="Ticket::Frontend::EmailNewHistoryComment" Required="1" Valid="1">    
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::EmailNewHistoryComment" Required="1" Valid="1">
         <Description Lang="en">Default comment for new email history.</Description>
         <Description Lang="de">Standard Kommentar für History-Eintrag bei neuen Emails.</Description>
         <Group>Ticket</Group>
@@ -1621,8 +1393,8 @@ TimeWorkingHours
         <Setting>
             <String Regex=""></String>
         </Setting>
-    </ConfigItem>   
-    <ConfigItem Name="Ticket::Frontend::EmailNewNote" Required="1" Valid="1">    
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::EmailNewNote" Required="1" Valid="1">
         <Description Lang="en">Default note text for emails.</Description>
         <Description Lang="de">Standard Text für Email-Notiz.</Description>
         <Group>Ticket</Group>
@@ -1630,7 +1402,7 @@ TimeWorkingHours
         <Setting>
             <TextArea></TextArea>
         </Setting>
-    </ConfigItem>   
+    </ConfigItem>
     <ConfigItem Name="Ticket::EmailDefaultNextStateType" Required="1" Valid="1">
         <Description Lang="en">Next possible states after e-mailphone.</Description>
         <Description Lang="de">Mögliche Status nach dem Erstellen einer Email.</Description>
@@ -1639,13 +1411,13 @@ TimeWorkingHours
         <Setting>
             <Array>
                 <Item>open</Item>
-                <Item>pending auto</Item> 
+                <Item>pending auto</Item>
                 <Item>pending reminder</Item>
-                <Item>closed</Item>                        
+                <Item>closed</Item>
             </Array>
         </Setting>
-    </ConfigItem>     
-    <ConfigItem Name="Ticket::Frontend::EmailNewNextState" Required="1" Valid="1">    
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::EmailNewNextState" Required="1" Valid="1">
         <Description Lang="en">Default next state for the next new email.</Description>
         <Description Lang="de">Vorauswahl des Status für die nächste neue Email.</Description>
         <Group>Ticket</Group>
@@ -1653,7 +1425,7 @@ TimeWorkingHours
         <Setting>
             <String Regex="">open</String>
         </Setting>
-    </ConfigItem>   
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::NoteSetState" Required="1" Valid="1">
         <Description Lang="en">Would you like to set the state of a ticket if a note is created by an agent?</Description>
         <Description Lang="de">Soll der Status eines Tickets gesetzt werden können, wenn eine Notiz durch einen Agent angelegt wird?</Description>
@@ -1662,10 +1434,10 @@ TimeWorkingHours
         <Setting>
             <Option SelectedID="0">
                 <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>                
+                <Item Key="1">Yes</Item>
             </Option>
         </Setting>
-    </ConfigItem>    
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::NoteInformInvolvedAgent" Required="1" Valid="1">
         <Description Lang="en">Show selection of involved agents?</Description>
         <Description Lang="de">Auswahl der involvierten Agents anzeigen?</Description>
@@ -1674,10 +1446,10 @@ TimeWorkingHours
         <Setting>
             <Option SelectedID="0">
                 <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>                
+                <Item Key="1">Yes</Item>
             </Option>
         </Setting>
-    </ConfigItem>    
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::NoteInformAgent" Required="1" Valid="1">
         <Description Lang="en">Show selection of agents to inform?</Description>
         <Description Lang="de">Auswahl der zu informierenden Agents anzeigen?</Description>
@@ -1686,10 +1458,10 @@ TimeWorkingHours
         <Setting>
             <Option SelectedID="0">
                 <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>                
+                <Item Key="1">Yes</Item>
             </Option>
         </Setting>
-    </ConfigItem>      
+    </ConfigItem>
     <ConfigItem Name="Ticket::DefaultNextNoteStateType" Required="1" Valid="1">
         <Description Lang="en">Default states of next note.</Description>
         <Description Lang="de">Standard Status der nächsten Notiz.</Description>
@@ -1698,12 +1470,12 @@ TimeWorkingHours
         <Setting>
             <Array>
                 <Item>new</Item>
-                <Item>open</Item> 
-                <Item>closed</Item>                        
+                <Item>open</Item>
+                <Item>closed</Item>
             </Array>
         </Setting>
-    </ConfigItem> 
-    <ConfigItem Name="Ticket::Frontend::NoteType" Required="1" Valid="1"> 
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::NoteType" Required="1" Valid="1">
         <Description Lang="en">Default note type.</Description>
         <Description Lang="de">Voreingestellter Notiztyp.</Description>
         <Group>Ticket</Group>
@@ -1711,7 +1483,7 @@ TimeWorkingHours
         <Setting>
             <String Regex="">note-internal</String>
         </Setting>
-    </ConfigItem>   
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::NoteTypes" Required="1" Valid="1">
         <Description Lang="en">Specify the different note types, that you want to use in your system.</Description>
         <Description Lang="de">Hier können die verschiedenen Notiz-Typen festgelegt werden, die innerhalb des Systems verwendet werden sollen.</Description>
@@ -1724,8 +1496,8 @@ TimeWorkingHours
                 <Item Key="note-report">0</Item>
             </Hash>
         </Setting>
-    </ConfigItem> 
-    <ConfigItem Name="Ticket::Frontend::NoteSubject" Required="1" Valid="1"> 
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::NoteSubject" Required="1" Valid="1">
         <Description Lang="en">Default note subject.</Description>
         <Description Lang="de">Standardtext im Betreff einer Notiz.</Description>
         <Group>Ticket</Group>
@@ -1733,8 +1505,8 @@ TimeWorkingHours
         <Setting>
             <String Regex="">$Text{"Note"}!</String>
         </Setting>
-    </ConfigItem>       
-    <ConfigItem Name="Ticket::Frontend::NoteText" Required="1" Valid="1"> 
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::NoteText" Required="1" Valid="1">
         <Description Lang="en">Default note text.</Description>
         <Description Lang="de">Standardtext im Textfeld einer Notiz.</Description>
         <Group>Ticket</Group>
@@ -1742,8 +1514,8 @@ TimeWorkingHours
         <Setting>
             <TextArea></TextArea>
         </Setting>
-    </ConfigItem>       
-    <ConfigItem Name="Ticket::Frontend::PendingSubject" Required="1" Valid="1"> 
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::PendingSubject" Required="1" Valid="1">
         <Description Lang="en">Default text in the subject of pending tickets.</Description>
         <Description Lang="de">Standardtext im Betreff für anstehende (pendig) Tickets.</Description>
         <Group>Ticket</Group>
@@ -1751,8 +1523,8 @@ TimeWorkingHours
         <Setting>
             <String Regex="">$Text{"Pending"}!</String>
         </Setting>
-    </ConfigItem>      
-    <ConfigItem Name="Ticket::Frontend::PendingText" Required="1" Valid="1"> 
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::PendingText" Required="1" Valid="1">
         <Description Lang="en">Default text for pending tickets.</Description>
         <Description Lang="de">Standardtext für anstehende (pending) Tickets.</Description>
         <Group>Ticket</Group>
@@ -1760,8 +1532,8 @@ TimeWorkingHours
         <Setting>
             <String Regex=""></String>
         </Setting>
-    </ConfigItem>      
-    <ConfigItem Name="Ticket::Frontend::PendingState" Required="1" Valid="1"> 
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::PendingState" Required="1" Valid="1">
         <Description Lang="en">Default state of pending ticket.</Description>
         <Description Lang="de">Standard Status für anstehende (pending) Tickets.</Description>
         <Group>Ticket</Group>
@@ -1769,7 +1541,7 @@ TimeWorkingHours
         <Setting>
             <String Regex="">pending reminder</String>
         </Setting>
-    </ConfigItem>          
+    </ConfigItem>
     <ConfigItem Name="Ticket::DefaultPendingNextStateType" Required="1" Valid="1">
         <Description Lang="en">Next possible states for pending tickets.</Description>
         <Description Lang="de">Nächstmögliche Status für anstehende (pending) Tickets.</Description>
@@ -1778,11 +1550,11 @@ TimeWorkingHours
         <Setting>
             <Array>
                 <Item>pending reminder</Item>
-                <Item>pending auto</Item> 
+                <Item>pending auto</Item>
             </Array>
         </Setting>
-    </ConfigItem>     
-    <ConfigItem Name="Ticket::Frontend::CloseNoteType" Required="1" Valid="1"> 
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::CloseNoteType" Required="1" Valid="1">
         <Description Lang="en">Default note type for closed tickets.</Description>
         <Description Lang="de">Standard Notiz Typ für geschlossene Tickets.</Description>
         <Group>Ticket</Group>
@@ -1790,8 +1562,8 @@ TimeWorkingHours
         <Setting>
             <String Regex="">note-internal</String>
         </Setting>
-    </ConfigItem>          
-    <ConfigItem Name="Ticket::Frontend::CloseSubject" Required="1" Valid="1"> 
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::CloseSubject" Required="1" Valid="1">
         <Description Lang="en">Default text for subject of closed tickets.</Description>
         <Description Lang="de">Textvorgabe für den Betreff bei geschlossenen Tickets.</Description>
         <Group>Ticket</Group>
@@ -1799,8 +1571,8 @@ TimeWorkingHours
         <Setting>
             <String Regex="">$Text{"Close"}!</String>
         </Setting>
-    </ConfigItem>          
-    <ConfigItem Name="Ticket::Frontend::CloseText" Required="1" Valid="1"> 
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::CloseText" Required="1" Valid="1">
         <Description Lang="en">Default text for closed tickets.</Description>
         <Description Lang="de">Standardtext für geschlossene Tickets.</Description>
         <Group>Ticket</Group>
@@ -1808,8 +1580,8 @@ TimeWorkingHours
         <Setting>
             <TextArea></TextArea>
         </Setting>
-    </ConfigItem>          
-    <ConfigItem Name="Ticket::Frontend::CloseState" Required="1" Valid="1"> 
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::CloseState" Required="1" Valid="1">
         <Description Lang="en">Default state for closed tickets.</Description>
         <Description Lang="de">Standard Status für geschlossene Tickets.</Description>
         <Group>Ticket</Group>
@@ -1817,7 +1589,7 @@ TimeWorkingHours
         <Setting>
             <String Regex="">closed successful</String>
         </Setting>
-    </ConfigItem>          
+    </ConfigItem>
     <ConfigItem Name="Ticket::DefaultCloseNextStateType" Required="1" Valid="1">
         <Description Lang="en">Next possible states for close tickets.</Description>
         <Description Lang="de">Nächstmöglicher Status für geschlossene Tickets.</Description>
@@ -1825,11 +1597,11 @@ TimeWorkingHours
         <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
         <Setting>
             <Array>
-                <Item>closed</Item>                        
+                <Item>closed</Item>
             </Array>
         </Setting>
-    </ConfigItem>         
-    <ConfigItem Name="Ticket::DefaultNextComposeType" Required="1" Valid="1"> 
+    </ConfigItem>
+    <ConfigItem Name="Ticket::DefaultNextComposeType" Required="1" Valid="1">
         <Description Lang="en">Default compose next state.</Description>
         <Description Lang="de">Standardmäßig eingestellter Status bei der Beantwortung eines Tickets.</Description>
         <Group>Ticket</Group>
@@ -1837,7 +1609,7 @@ TimeWorkingHours
         <Setting>
             <String Regex="">open</String>
         </Setting>
-    </ConfigItem>      
+    </ConfigItem>
     <ConfigItem Name="Ticket::DefaultNextComposeStateType" Required="1" Valid="1">
         <Description Lang="en">Next possible states for compose message.</Description>
         <Description Lang="de">Nächstmögliche Status für die Erstellung von Ticktes.</Description>
@@ -1846,12 +1618,12 @@ TimeWorkingHours
         <Setting>
             <Array>
                 <Item>open</Item>
-                <Item>closed</Item>                        
-                <Item>pending auto</Item>                        
+                <Item>closed</Item>
+                <Item>pending auto</Item>
                 <Item>pending reminder</Item>
             </Array>
         </Setting>
-    </ConfigItem>        
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::ResponseFormat" Required="1" Valid="1">
         <Description Lang="en">Format of responses.</Description>
         <Description Lang="de">Textformat für Antworten.</Description>
@@ -1867,29 +1639,8 @@ $Data{"StdResponse"}
 $Data{"Signature"}
 </TextArea>
         </Setting>
-        <!--                    
-            # unix_style
-            $Self->{'Ticket::Frontend::ResponseFormat'} = '$Data{"Salutation"}
-            $Data{"OrigFrom"} $Text{"wrote"}:
-            $Data{"Body"}
-
-            $Data{"StdResponse"}
-
-            $Data{"Signature"}
-            ';
-            # ms_style
-            #    $Self->{'Ticket::Frontend::ResponseFormat'} = '$Data{"Salutation"}
-            #
-            #$Data{"StdResponse"}
-            #
-            #$Data{"Signature"}
-            #
-            #$Data{"OrigFrom"} $Text{"wrote"}:
-            #$Data{"Body"}
-            #';        
-        -->
-    </ConfigItem>      
-    <ConfigItem Name="Ticket::Frontend::BounceState" Required="1" Valid="1"> 
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::BounceState" Required="1" Valid="1">
         <Description Lang="en">Default bounce next state.</Description>
         <Description Lang="de">Nächster standardmäßiger Status bei Bounces.</Description>
         <Group>Ticket</Group>
@@ -1897,7 +1648,7 @@ $Data{"Signature"}
         <Setting>
             <String Regex="">closed successful</String>
         </Setting>
-    </ConfigItem>       
+    </ConfigItem>
     <ConfigItem Name="Ticket::DefaultNextBounceStateType" Required="1" Valid="1">
         <Description Lang="en">Next possible states for bounced message.</Description>
         <Description Lang="de">Nächstmögliche Status für 'gebouncete' Nachrichten.</Description>
@@ -1906,11 +1657,11 @@ $Data{"Signature"}
         <Setting>
             <Array>
                 <Item>open</Item>
-                <Item>closed</Item>                                                                                    
+                <Item>closed</Item>
             </Array>
         </Setting>
-    </ConfigItem>          
-    <ConfigItem Name="Ticket::Frontend::BounceText" Required="1" Valid="1"> 
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::BounceText" Required="1" Valid="1">
         <Description Lang="en">Default note text</Description>
         <Description Lang="de">Standardnotiztext beim bouncen einer Email</Description>
         <Group>Ticket</Group>
@@ -1918,7 +1669,7 @@ $Data{"Signature"}
         <Setting>
             <TextArea>Your email with ticket number "&lt;OTRS_TICKET&gt;" is bounced to "&lt;OTRS_BOUNCE_TO&gt;". Contact this address for further informations.</TextArea>
         </Setting>
-    </ConfigItem>  
+    </ConfigItem>
     <ConfigItem Name="Ticket::DefaultNextForwardStateType" Required="1" Valid="1">
         <Description Lang="en">Next possible states for forwarded message.</Description>
         <Description Lang="de">Mögliche Status für weitergeleitete Nachrichten.</Description>
@@ -1930,7 +1681,7 @@ $Data{"Signature"}
                 <Item>closed</Item>
             </Array>
         </Setting>
-    </ConfigItem>          
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::ForwardArticleTypes" Required="1" Valid="1">
         <Description Lang="en">Possible email types.</Description>
         <Description Lang="de">Mögliche Email-Typen.</Description>
@@ -1939,11 +1690,11 @@ $Data{"Signature"}
         <Setting>
             <Array>
                 <Item>email-external</Item>
-                <Item>email-internal</Item>                                                                                    
+                <Item>email-internal</Item>
             </Array>
         </Setting>
-    </ConfigItem>   
-    <ConfigItem Name="Ticket::Frontend::ForwardArticleType" Required="1" Valid="1"> 
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::ForwardArticleType" Required="1" Valid="1">
         <Description Lang="en">Default type of forwarded message.</Description>
         <Description Lang="de">Standard Typ für weitergeleitete Nachrichten.</Description>
         <Group>Ticket</Group>
@@ -1951,7 +1702,7 @@ $Data{"Signature"}
         <Setting>
             <String Regex="">email-external</String>
         </Setting>
-    </ConfigItem>     
+    </ConfigItem>
     <ConfigItem Name="Ticket::ViewableSenderTypes" Required="1" Valid="1">
         <Description Lang="en">Default viewable sender types (default:  customer).</Description>
         <Description Lang="de">Standardmäßig sichtbare Sender Typen (Default: customer).</Description>
@@ -1962,8 +1713,7 @@ $Data{"Signature"}
                 <Item>'customer'</Item>
             </Array>
         </Setting>
-        <!-- $Self->{'Ticket::ViewableSenderTypes'} = ["'customer'"];  -->
-    </ConfigItem>     
+    </ConfigItem>
     <ConfigItem Name="Ticket::ViewableLocks" Required="1" Valid="1">
         <Description Lang="en">Viewable locks. Default: unlock, tmp_lock.</Description>
         <Description Lang="de">Standardmäßig angezeigte Locks. Default: unlock, tmp_lock.</Description>
@@ -1971,12 +1721,11 @@ $Data{"Signature"}
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
             <Array>
-                <Item>'unlock'</Item>     
-                <Item>'tmp_lock'</Item>                                                                                                                                                                                   
+                <Item>'unlock'</Item>
+                <Item>'tmp_lock'</Item>
             </Array>
         </Setting>
-        <!-- $Self->{'Ticket::ViewableLocks'} = ["'unlock'", "'tmp_lock'"];  -->
-    </ConfigItem>    
+    </ConfigItem>
     <ConfigItem Name="Ticket::ViewableStateType" Required="1" Valid="1">
         <Description Lang="en">State types for a ticket to display.</Description>
         <Description Lang="de">Angezeigte Status für Tickets.</Description>
@@ -1984,14 +1733,13 @@ $Data{"Signature"}
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
             <Array>
-                <Item>new</Item>     
+                <Item>new</Item>
                 <Item>open</Item>
-                <Item>pending reminder</Item>     
+                <Item>pending reminder</Item>
                 <Item>pending auto</Item>
             </Array>
         </Setting>
-        <!-- $Self->{'Ticket::ViewableStateType'} = ['new', 'open', 'pending reminder', 'pending auto'];  -->
-    </ConfigItem>       
+    </ConfigItem>
     <ConfigItem Name="Ticket::UnlockStateType" Required="1" Valid="1">
         <Description Lang="en">The states for unlocked tickets. You can unlock tickets with the script "bin/UnlockTickets.pl".</Description>
         <Description Lang="de">Status für nicht gelockte Ticketes. Sie können Tickets mit Hilfe des Skripts "bin/UnlockTickets.pl" in diesen Status versetzen.</Description>
@@ -1999,12 +1747,11 @@ $Data{"Signature"}
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
             <Array>
-                <Item>new</Item>     
+                <Item>new</Item>
                 <Item>open</Item>
             </Array>
         </Setting>
-        <!-- $Self->{'Ticket::UnlockStateType'} = ['open', 'new'];  -->
-    </ConfigItem>       
+    </ConfigItem>
     <ConfigItem Name="Ticket::PendingReminderStateType" Required="1" Valid="1">
         <Description Lang="en">State type für reminder for pending tickets.</Description>
         <Description Lang="de">Status für die Erinnerung an wartende Tickets.</Description>
@@ -2015,8 +1762,7 @@ $Data{"Signature"}
                 <Item>pending reminder</Item>
             </Array>
         </Setting>
-        <!-- $Self->{'Ticket::PendingReminderStateType'} = ['pending reminder'];  -->
-    </ConfigItem>    
+    </ConfigItem>
     <ConfigItem Name="Ticket::PendingAutoStateType" Required="1" Valid="1">
         <Description Lang="en">Possible states for pending tickets that changed state after reached time limit.</Description>
         <Description Lang="de">Mögliche Status für anstehende (pending) Tickets, für die das Zeitlimit erreicht wurde.</Description>
@@ -2024,11 +1770,10 @@ $Data{"Signature"}
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
             <Array>
-                <Item>pending auto</Item>                                                                                                                                                                                         
+                <Item>pending auto</Item>
             </Array>
         </Setting>
-        <!-- $Self->{'Ticket::PendingAutoStateType'} = ['pending auto'];  -->
-    </ConfigItem>    
+    </ConfigItem>
     <ConfigItem Name="Ticket::StateAfterPending" Required="1" Valid="1">
         <Description Lang="en">States after pending time has reached.</Description>
         <Description Lang="de">Status den das Ticket bekommt nach dem die Pendingzeit abgelaufen ist.</Description>
@@ -2037,17 +1782,11 @@ $Data{"Signature"}
         <Setting>
             <Hash>
                 <Item Key="pending auto close+">closed successful</Item>
-                <Item Key="pending auto close-">closed unsuccessful</Item>                
+                <Item Key="pending auto close-">closed unsuccessful</Item>
             </Hash>
         </Setting>
-        <!-- 
-            $Self->{'Ticket::StateAfterPending'} = {
-                'pending auto close+' => 'closed successful',
-                'pending auto close-' => 'closed unsuccessful',
-            };   
-        -->        
-    </ConfigItem>           
-    <ConfigItem Name="CustomerDBLink" Required="1" Valid="1"> 
+    </ConfigItem>
+    <ConfigItem Name="CustomerDBLink" Required="1" Valid="1">
         <Description Lang="en">External link to customer db. E.g. 'http://yourhost/customer.php?CID=$Data{"CustomerID"}' or ''</Description>
         <Description Lang="de">Standardlink zur Customer-Datenbank. z.B. 'http://yourhost/customer.php?CID=$Data{"CustomerID"}' oder ''</Description>
         <Group>Ticket</Group>
@@ -2055,13 +1794,8 @@ $Data{"Signature"}
         <Setting>
             <String Regex="">$Env{"CGIHandle"}?Action=AgentTicketCustomer&amp;TicketID=$Data{"TicketID"}</String>
         </Setting>
-        <!--   
-        #    $Self->{CustomerDBLink} = 'http://yourhost/customer.php?CID=$Data{"CustomerID"}';
-             $Self->{CustomerDBLink} = '$Env{"CGIHandle"}?Action=AgentTicketCustomer&TicketID=$Data{"TicketID"}';
-        #    $Self->{CustomerDBLink} = '';          
-        -->
-    </ConfigItem> 
-    <ConfigItem Name="CustomerDBLinkTarget" Required="1" Valid="1"> 
+    </ConfigItem>
+    <ConfigItem Name="CustomerDBLinkTarget" Required="1" Valid="1">
         <Description Lang="en">Target attribute in Link to external customer DB. E.g. 'target="cdb"'.</Description>
         <Description Lang="de">Target-Attribut für den Link zur externen Customer-DB. Z.B. 'Target="cdb"'.</Description>
         <Group>Ticket</Group>
@@ -2069,11 +1803,7 @@ $Data{"Signature"}
         <Setting>
             <String Regex=""></String>
         </Setting>
-        <!--   
-             $Self->{CustomerDBLinkTarget} = '';
-        #    $Self->{CustomerDBLinkTarget} = 'target="cdb"';  
-        -->
-    </ConfigItem>  
+    </ConfigItem>
     <ConfigItem Name="SystemStatsMap###Ticket::Stats1" Required="0" Valid="1">
         <Description Lang="en">Module to print stats about new tickets. Possible values: Print, CSV, GraphLine, GraphBars, GraphPie.</Description>
         <Description Lang="de">Modul für die Ausgabe von Statistiken für neue Tickets. Mögliche Ausgabeformate: Print, CSV, GraphLine, GraphBars und GraphPie.</Description>
@@ -2097,19 +1827,6 @@ $Data{"Signature"}
                 <Item Key="OutputDefault">Print</Item>
             </Hash>
         </Setting>
-        <!--
-            $Self->{SystemStatsMap}->{"Ticket::Stats1"} = {
-                Name => 'New Tickets',
-                Module => 'Kernel::System::Stats::NewTickets',
-                Desc => 'New created tickets for each queue in selected month.',
-                SumCol => 1,
-                SumRow => 1,
-                # UseResultCache => 1,
-                # Output => ['Print', 'CSV', 'GraphLine', 'GraphBars', 'GraphPie'],
-                Output => ['Print', 'CSV', 'Graph'],
-                OutputDefault => 'Print',
-            }
-        -->            
     </ConfigItem>
     <ConfigItem Name="SystemStatsMap###Ticket::Stats2" Required="0" Valid="1">
         <Description Lang="en">Module to generate a overview of tickets in a queue at the end of a month. Possible output options are Print, CSV, GraphLine, GraphBars and GraphPie.</Description>
@@ -2134,19 +1851,6 @@ $Data{"Signature"}
                 <Item Key="OutputDefault">Print</Item>
             </Hash>
         </Setting>
-        <!--
-            $Self->{SystemStatsMap}->{"Ticket::Stats2"} = {
-                Name => 'Ticket Overview',
-                Module => 'Kernel::System::Stats::TicketOverview',
-                Desc => 'Overview of the tickets in queue at the end of this month.',
-                SumCol => 1,
-                SumRow => 1,
-                UseResultCache => 1,
-                # Output => ['Print', 'CSV', 'GraphLine', 'GraphBars', 'GraphPie'],
-                Output => ['Print', 'CSV', 'Graph'],
-                OutputDefault => 'Print',
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="SystemStatsMap###Ticket::Stats4" Required="0" Valid="1">
         <Description Lang="en">Module to trace system activities (Replacement of old bin/mkStats.pl). Possible output options are Print, CSV, GraphLine, GraphBars and GraphPie.</Description>
@@ -2171,19 +1875,6 @@ $Data{"Signature"}
                 <Item Key="OutputDefault">Graph</Item>
             </Hash>
         </Setting>
-        <!--
-            $Self->{SystemStatsMap}->{"Ticket::Stats4"} = {
-                Name => 'State Action Overview',
-                Module => 'Kernel::System::Stats::StateAction',
-                Desc => 'Trace system activities (Replacement of old bin/mkStats.pl).',
-                SumCol => 1,
-                SumRow => 1,
-                # UseResultCache => 1,
-                # Output => ['Print', 'CSV', 'GraphLine', 'GraphBars', 'GraphPie'],
-                Output => ['Print', 'CSV', 'Graph'],
-                OutputDefault => 'Graph',
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="SystemStatsMap###Ticket::Stats5" Required="0" Valid="1">
         <Description Lang="en">Module to create a list about accounted time per customer. Possible values for the output are Print and CSV.</Description>
@@ -2205,16 +1896,6 @@ $Data{"Signature"}
                 <Item Key="OutputDefault">Print</Item>
             </Hash>
         </Setting>
-        <!--
-            $Self->{SystemStatsMap}->{"Ticket::Stats5"} = {
-                Name => 'Time Accounting',
-                Module => 'Kernel::System::Stats::AccountedTime',
-                Desc => 'A list about accounted time per customer.',
-                # UseResultCache => 1,
-                Output => ['Print', 'CSV'],
-                OutputDefault => 'Print',
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="LinkObject###Ticket" Required="1" Valid="1">
         <Description Lang="en">Objects that can be linked.</Description>
@@ -2233,13 +1914,6 @@ $Data{"Signature"}
                 </Item>
             </Hash>
         </Setting>
-        <!--
-            $Self->{'LinkObject'}->{'Ticket'} = {
-                Name => 'Ticket Object',
-                Type => 'Object',
-                LinkObjects => ['Ticket', 'FAQ'],
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::NavBarModule###1-Ticket::LockedTickets" Required="0" Valid="1">
         <Description Lang="en">Agent interface notification module to check the used charset.</Description>
@@ -2251,11 +1925,6 @@ $Data{"Signature"}
                 <Item Key="Module">Kernel::Output::HTML::NavBarLockedTickets</Item>
             </Hash>
         </Setting>
-        <!--
-            $Self->{'Frontend::NavBarModule'}->{'1-Ticket::LockedTickets'} = {
-                Module => 'Kernel::Output::HTML::NavBarLockedTickets',
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::NavBarModule###2-Ticket::BulkAction" Required="0" Valid="1">
         <Description Lang="en">Module registration for the BulkAction object in the agent interface.</Description>
@@ -2267,11 +1936,6 @@ $Data{"Signature"}
                 <Item Key="Module">Kernel::Output::HTML::NavBarTicketBulkAction</Item>
             </Hash>
         </Setting>
-        <!--
-            $Self->{'Frontend::NavBarModule'}->{'2-Ticket::BulkAction'} = {
-                Module => 'Kernel::Output::HTML::NavBarTicketBulkAction',
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::NotifyModule###3-Ticket::AgentTicketSeen" Required="1" Valid="1">
         <Description Lang="en">Modul for the agent interface that to sets tickets to "seen".</Description>
@@ -2283,12 +1947,7 @@ $Data{"Signature"}
                 <Item Key="Module">Kernel::Output::HTML::NotificationAgentTicketSeen</Item>
             </Hash>
         </Setting>
-        <!-- 
-            $Self->{'Frontend::NotifyModule'}->{'3-Ticket::AgentTicketSeen'} = {
-                Module => 'Kernel::Output::HTML::NotificationAgentTicketSeen',
-            };
-        -->        
-    </ConfigItem>      
+    </ConfigItem>
     <ConfigItem Name="Frontend::NotifyModule###4-Ticket::TicketNotify" Required="1" Valid="1">
         <Description Lang="en">Module to show agents important tickets via the agent interface.</Description>
         <Description Lang="de">Modul, das den Agents auf wichtige Tickets aufmerksam macht.</Description>
@@ -2299,12 +1958,7 @@ $Data{"Signature"}
                 <Item Key="Module">Kernel::Output::HTML::NotificationAgentTicket</Item>
             </Hash>
         </Setting>
-        <!-- 
-            $Self->{'Frontend::NotifyModule'}->{'4-Ticket::TicketNotify'} = {
-                Module => 'Kernel::Output::HTML::NotificationAgentTicket',
-            };
-        -->        
-    </ConfigItem>       
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::ArticleViewModule###1-PGP" Required="1" Valid="1">
         <Description Lang="en">Agent interface article notification module to check pgp.</Description>
         <Description Lang="de">Ein Agent-Interface-Artikel-Notiz-Modul um den PGP-Schlüssel zu checken.</Description>
@@ -2315,12 +1969,7 @@ $Data{"Signature"}
                 <Item Key="Module">Kernel::Output::HTML::ArticleCheckPGP</Item>
             </Hash>
         </Setting>
-        <!-- 
-            $Self->{'Ticket::Frontend::ArticleViewModule'}->{'1-PGP'} = {
-                Module => 'Kernel::Output::HTML::ArticleCheckPGP',
-            };
-        -->        
-    </ConfigItem>           
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::ArticleViewModule###1-SMIME" Required="1" Valid="1">
         <Description Lang="en">Agent interface article notification module to check smime.</Description>
         <Description Lang="de">Ein Agent-Interface-Artikel-Notiz-Modul um den SMIME-Schlüssel zu checken.</Description>
@@ -2331,12 +1980,7 @@ $Data{"Signature"}
                 <Item Key="Module">Kernel::Output::HTML::ArticleCheckSMIME</Item>
             </Hash>
         </Setting>
-        <!-- 
-            $Self->{'Ticket::Frontend::ArticleViewModule'}->{'1-SMIME'} = {
-                Module => 'Kernel::Output::HTML::ArticleCheckSMIME',
-            };  
-        -->        
-    </ConfigItem>       
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::ArticlePreViewModule###1-PGP" Required="1" Valid="1">
         <Description Lang="en">Agent interface article notification module to check pgp.</Description>
         <Description Lang="de">Modul für die Vorschau von Nachrichten mit PGP.</Description>
@@ -2347,12 +1991,7 @@ $Data{"Signature"}
                 <Item Key="Module">Kernel::Output::HTML::ArticleCheckPGP</Item>
             </Hash>
         </Setting>
-        <!-- 
-            $Self->{'Ticket::Frontend::ArticlePreViewModule'}->{'1-PGP'} = {
-                Module => 'Kernel::Output::HTML::ArticleCheckPGP',
-            };
-        -->        
-    </ConfigItem>     
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::ArticlePreViewModule###1-SMIME" Required="1" Valid="1">
         <Description Lang="en">Agent interface article notification module to check smime.</Description>
         <Description Lang="de">Module für die Vorschau von mit S/MIME verschlüsselten Nachrichten.</Description>
@@ -2363,12 +2002,7 @@ $Data{"Signature"}
                 <Item Key="Module">Kernel::Output::HTML::ArticleCheckSMIME</Item>
             </Hash>
         </Setting>
-        <!-- 
-            $Self->{'Ticket::Frontend::ArticlePreViewModule'}->{'1-SMIME'} = {
-                Module => 'Kernel::Output::HTML::ArticleCheckSMIME',
-            };
-        -->        
-    </ConfigItem>    
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::ArticleComposeModule###1-SignEmail" Required="1" Valid="1">
         <Description Lang="en">Module to compose signed messages (PG or S/MIME).</Description>
         <Description Lang="de">Modul zum Erstellen signierter Nachrichten (PGP oder S/MIME).</Description>
@@ -2379,12 +2013,7 @@ $Data{"Signature"}
                 <Item Key="Module">Kernel::Output::HTML::ArticleComposeSign</Item>
             </Hash>
         </Setting>
-        <!-- 
-            $Self->{'Ticket::Frontend::ArticleComposeModule'}->{'1-SignEmail'} = {
-                Module => 'Kernel::Output::HTML::ArticleComposeSign',
-            };
-        -->        
-    </ConfigItem>        
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::ArticleComposeModule###2-CryptEmail" Required="1" Valid="1">
         <Description Lang="en">Module to crypt composed messages (PGP or s/MIME).</Description>
         <Description Lang="de">Modul zum Verschlüsseln von neu erstellen Nachrichten (PGP oder S/MIME).</Description>
@@ -2395,12 +2024,7 @@ $Data{"Signature"}
                 <Item Key="Module">Kernel::Output::HTML::ArticleComposeCrypt</Item>
             </Hash>
         </Setting>
-        <!-- 
-            $Self->{'Ticket::Frontend::ArticleComposeModule'}->{'2-CryptEmail'} = {
-                Module => 'Kernel::Output::HTML::ArticleComposeCrypt',
-            };
-        -->        
-    </ConfigItem>       
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::ArticleAttachmentModule###1-Download" Required="1" Valid="1">
         <Description Lang="en">Links in agent zoom for attachments to download.</Description>
         <Description Lang="de">Links um im AgentZoom Attachments zum Download anzubieten.</Description>
@@ -2411,12 +2035,7 @@ $Data{"Signature"}
                 <Item Key="Module">Kernel::Output::HTML::ArticleAttachmentDownload</Item>
             </Hash>
         </Setting>
-        <!-- 
-            $Self->{'Ticket::Frontend::ArticleAttachmentModule'}->{'1-Download'} = {
-                Module => 'Kernel::Output::HTML::ArticleAttachmentDownload',
-            };
-        -->        
-    </ConfigItem>       
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::ArticleAttachmentModule###2-HTML-Viewer" Required="1" Valid="1">
         <Description Lang="en">Links in agent zoom for attachments html online viewer.</Description>
         <Description Lang="de">Links um im AgentZoom HTML-Attachments ansehen zu können.</Description>
@@ -2427,12 +2046,7 @@ $Data{"Signature"}
                 <Item Key="Module">Kernel::Output::HTML::ArticleAttachmentHTMLViewer</Item>
             </Hash>
         </Setting>
-        <!-- 
-            $Self->{'Ticket::Frontend::ArticleAttachmentModule'}->{'2-HTML-Viewer'} = {
-                Module => 'Kernel::Output::HTML::ArticleAttachmentHTMLViewer',
-            };
-        -->        
-    </ConfigItem>       
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###000-Back" Required="0" Valid="1">
         <Description Lang="en">Module to show back link in menu.</Description>
         <Description Lang="de">Über dieses Modul werden die Zurück-Links in der Linkleiste angezeigt.</Description>
@@ -2447,16 +2061,7 @@ $Data{"Signature"}
                 <Item Key="Link">$Env{"LastScreenOverview"}&amp;TicketID=$QData{"TicketID"}</Item>
             </Hash>
         </Setting>
-        <!-- 
-            $Self->{'Ticket::Frontend::MenuModule'}->{'000-Back'} = {
-                Module => 'Kernel::Output::HTML::TicketMenuGeneric',
-                Name => 'Back',
-                Description => 'Back',
-                Action => '',
-                Link => '$Env{"LastScreenOverview"}&TicketID=$QData{"TicketID"}',
-            };
-        -->        
-    </ConfigItem>  
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###100-Lock" Required="0" Valid="1">
         <Description Lang="en">Module to show lock/unlock link in menu.</Description>
         <Description Lang="de">Über dieses Modul werden die Sperren- bzw. Freigeben-Links in der Linkleiste angezeigt.</Description>
@@ -2469,14 +2074,7 @@ $Data{"Signature"}
                 <Item Key="Action">AgentTicketLock</Item>
             </Hash>
         </Setting>
-        <!-- 
-            $Self->{'Ticket::Frontend::MenuModule'}->{'100-Lock'} = {
-                Module => 'Kernel::Output::HTML::TicketMenuLock',
-                Name => 'Lock',
-                Action => 'AgentTicketLock',
-            };
-        -->        
-    </ConfigItem>      
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###200-History" Required="0" Valid="1">
         <Description Lang="en">Module to show history link in menu.</Description>
         <Description Lang="de">Über dieses Modul werden die Historie-Links in der Linkleiste angezeigt.</Description>
@@ -2491,16 +2089,7 @@ $Data{"Signature"}
                 <Item Key="Link">Action=AgentTicketHistory&amp;TicketID=$QData{"TicketID"}</Item>
             </Hash>
         </Setting>
-        <!-- 
-            $Self->{'Ticket::Frontend::MenuModule'}->{'200-History'} = {
-                Module => 'Kernel::Output::HTML::TicketMenuGeneric',
-                Name => 'History',
-                Action => 'AgentTicketHistory',
-                Description => 'Shows the ticket history!',
-                Link => 'Action=AgentTicketHistory&TicketID=$QData{"TicketID"}',
-            };        
-        -->        
-    </ConfigItem>    
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###210-Print" Required="0" Valid="1">
         <Description Lang="en">Module to show print link in menu.</Description>
         <Description Lang="de">Über dieses Modul werden die Drucken-Links in der Linkleiste angezeigt.</Description>
@@ -2513,20 +2102,10 @@ $Data{"Signature"}
                 <Item Key="Description">Print this ticket!</Item>
                 <Item Key="Action">AgentTicketPrint</Item>
                 <Item Key="Link">Action=AgentTicketPrint&amp;TicketID=$QData{"TicketID"}</Item>
-                <Item Key="LinkParam">target="print"</Item>                
+                <Item Key="LinkParam">target="print"</Item>
             </Hash>
         </Setting>
-        <!-- 
-            $Self->{'Ticket::Frontend::MenuModule'}->{'210-Print'} = {
-                Module => 'Kernel::Output::HTML::TicketMenuGeneric',
-                Name => 'Print',
-                Action => 'AgentTicketPrint',
-                Description => 'Print this ticket!',
-                Link => 'Action=AgentTicketPrint&TicketID=$QData{"TicketID"}',
-                LinkParam => 'target="print"',
-            };   
-        -->        
-    </ConfigItem>     
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###300-Priority" Required="0" Valid="1">
         <Description Lang="en">Module to show priority link in menu.</Description>
         <Description Lang="de">Über dieses Modul werden die Priorität-Links in der Linkleiste angezeigt.</Description>
@@ -2541,16 +2120,7 @@ $Data{"Signature"}
                 <Item Key="Link">Action=AgentTicketPriority&amp;TicketID=$QData{"TicketID"}</Item>
             </Hash>
         </Setting>
-        <!-- 
-            $Self->{'Ticket::Frontend::MenuModule'}->{'300-Priority'} = {
-                Module => 'Kernel::Output::HTML::TicketMenuGeneric',
-                Name => 'Priority',
-                Action => 'AgentTicketPriority',
-                Description => 'Change the ticket priority!',
-                Link => 'Action=AgentTicketPriority&TicketID=$QData{"TicketID"}',
-            };
-        -->        
-    </ConfigItem>        
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###310-FreeText" Required="0" Valid="1">
         <Description Lang="en">Module to show free text link in menu.</Description>
         <Description Lang="de">Frei definierten Textlink im Menü anzeigen.</Description>
@@ -2565,15 +2135,6 @@ $Data{"Signature"}
                 <Item Key="Link">Action=AgentTicketFreeText&amp;TicketID=$QData{"TicketID"}</Item>
             </Hash>
         </Setting>
-        <!--
-            $Self->{'Ticket::Frontend::MenuModule'}->{'310-FreeText'} = {
-                Module => 'Kernel::Output::HTML::TicketMenuGeneric',
-                Name => 'Free Fields',
-                Action => 'AgentTicketFreeText',
-                Description => 'Change the ticket free fields!',
-                Link => 'Action=AgentTicketFreeText&TicketID=$QData{"TicketID"}',
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###320-Link" Required="0" Valid="1">
         <Description Lang="en">Module to show link to link a ticket with another object.</Description>
@@ -2589,15 +2150,6 @@ $Data{"Signature"}
                 <Item Key="Link">Action=AgentLinkObject&amp;SourceObject=Ticket&amp;SourceID=$QData{"TicketID"}</Item>
             </Hash>
         </Setting>
-        <!--
-            $Self->{'Ticket::Frontend::MenuModule'}->{'320-Link'} = {
-                Module => 'Kernel::Output::HTML::TicketMenuGeneric',
-                Name => 'Link',
-                Action => 'AgentLinkObject',
-                Description => 'Link this ticket to an other objects!',
-                Link => 'Action=AgentLinkObject&SourceObject=Ticket&SourceID=$QData{"TicketID"}',
-            };
-        -->
      </ConfigItem>
      <ConfigItem Name="Ticket::Frontend::MenuModule###400-Owner" Required="0" Valid="1">
         <Description Lang="en">Module to show owner link in menu.</Description>
@@ -2613,15 +2165,6 @@ $Data{"Signature"}
                 <Item Key="Link">Action=AgentTicketOwner&amp;TicketID=$QData{"TicketID"}</Item>
             </Hash>
         </Setting>
-        <!--
-            $Self->{'Ticket::Frontend::MenuModule'}->{'400-Owner'} = {
-                Module => 'Kernel::Output::HTML::TicketMenuGeneric',
-                Name => 'Owner',
-                Action => 'AgentTicketOwner',
-                Description => 'Change the ticket owner!',
-                Link => 'Action=AgentTicketOwner&TicketID=$QData{"TicketID"}',
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###410-Customer" Required="0" Valid="1">
         <Description Lang="en">Module to show customer link in menu.</Description>
@@ -2637,15 +2180,6 @@ $Data{"Signature"}
                 <Item Key="Link">Action=AgentTicketCustomer&amp;TicketID=$QData{"TicketID"}</Item>
             </Hash>
         </Setting>
-        <!--
-            $Self->{'Ticket::Frontend::MenuModule'}->{'410-Customer'} = {
-                Module => 'Kernel::Output::HTML::TicketMenuGeneric',
-                Name => 'Customer',
-                Action => 'AgentTicketCustomer',
-                Description => 'Change the ticket customer!',
-                Link => 'Action=AgentTicketCustomer&TicketID=$QData{"TicketID"}',
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###420-Note" Required="0" Valid="1">
         <Description Lang="en">Module to show link to note in menu.</Description>
@@ -2661,15 +2195,6 @@ $Data{"Signature"}
                 <Item Key="Link">Action=AgentTicketNote&amp;TicketID=$QData{"TicketID"}</Item>
             </Hash>
         </Setting>
-        <!--
-            $Self->{'Ticket::Frontend::MenuModule'}->{'420-Note'} = {
-                Module => 'Kernel::Output::HTML::TicketMenuGeneric',
-                Name => 'Note',
-                Action => 'AgentTicketNote',
-                Description => 'Add a note to this ticket!',
-                Link => 'Action=AgentTicketNote&TicketID=$QData{"TicketID"}',
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###430-Merge" Required="0" Valid="1">
         <Description Lang="en">Module to show merge link in menu.</Description>
@@ -2685,16 +2210,7 @@ $Data{"Signature"}
                 <Item Key="Link">Action=AgentTicketMerge&amp;TicketID=$QData{"TicketID"}</Item>
             </Hash>
         </Setting>
-        <!--
-            $Self->{'Ticket::Frontend::MenuModule'}->{'430-Merge'} = {
-                Module => 'Kernel::Output::HTML::TicketMenuGeneric',
-                Name => 'Merge',
-                Action => 'AgentTicketMerge',
-                Description => 'Merge this ticket!',
-                Link => 'Action=AgentTicketMerge&TicketID=$QData{"TicketID"}',
-            };
-        -->
-    </ConfigItem>    
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###440-Pending" Required="0" Valid="1">
         <Description Lang="en">Module to show pending link in menu.</Description>
         <Description Lang="de">Über dieses Modul kann der Link für "Warten" (pending) im Menü angezeigt werden.</Description>
@@ -2709,15 +2225,6 @@ $Data{"Signature"}
                 <Item Key="Link">Action=AgentTicketPending&amp;TicketID=$QData{"TicketID"}</Item>
             </Hash>
         </Setting>
-        <!--
-            $Self->{'Ticket::Frontend::MenuModule'}->{'440-Pending'} = {
-                Module => 'Kernel::Output::HTML::TicketMenuGeneric',
-                Name => 'Pending',
-                Action => 'AgentTicketPending',
-                Description => 'Set this ticket to pending!',
-                Link => 'Action=AgentTicketPending&TicketID=$QData{"TicketID"}',
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###450-Close" Required="0" Valid="1">
         <Description Lang="en">Module to show close link in menu.</Description>
@@ -2733,15 +2240,6 @@ $Data{"Signature"}
                 <Item Key="Link">Action=AgentTicketClose&amp;TicketID=$QData{"TicketID"}</Item>
             </Hash>
         </Setting>
-        <!--
-            $Self->{'Ticket::Frontend::MenuModule'}->{'450-Close'} = {
-                Module => 'Kernel::Output::HTML::TicketMenuGeneric',
-                Name => 'Close',
-                Action => 'AgentTicketClose',
-                Description => 'Close this ticket!',
-                Link => 'Action=AgentTicketClose&TicketID=$QData{"TicketID"}',
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PreMenuModule###100-Lock" Required="0" Valid="1">
         <Description Lang="en">Show lock / unlock link</Description>
@@ -2755,13 +2253,6 @@ $Data{"Signature"}
                 <Item Key="Action">AgentTicketLock</Item>
             </Hash>
         </Setting>
-        <!--
-            $Self->{'Ticket::Frontend::PreMenuModule'}->{'100-Lock'} = {
-                Module => 'Kernel::Output::HTML::TicketMenuLock',
-                Name => 'Lock',
-                Action => 'AgentTicketLock',
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PreMenuModule###200-Zoom" Required="0" Valid="1">
         <Description Lang="en">Show zoom link</Description>
@@ -2777,15 +2268,6 @@ $Data{"Signature"}
                 <Item Key="Link">Action=AgentTicketZoom&amp;TicketID=$QData{"TicketID"}</Item>
             </Hash>
         </Setting>
-        <!--
-            $Self->{'Ticket::Frontend::PreMenuModule'}->{'200-Zoom'} = {
-                Module => 'Kernel::Output::HTML::TicketMenuGeneric',
-                Name => 'Zoom',
-                Action => 'AgentTicketZoom',
-                Description => 'Look into a ticket!',
-                Link => 'Action=AgentTicketZoom&TicketID=$QData{"TicketID"}',
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PreMenuModule###210-History" Required="0" Valid="1">
         <Description Lang="en">Show history link</Description>
@@ -2801,15 +2283,6 @@ $Data{"Signature"}
                 <Item Key="Link">Action=AgentTicketHistory&amp;TicketID=$QData{"TicketID"}</Item>
             </Hash>
         </Setting>
-        <!--
-            $Self->{'Ticket::Frontend::PreMenuModule'}->{'210-History'} = {
-                Module => 'Kernel::Output::HTML::TicketMenuGeneric',
-                Name => 'History',
-                Action => 'AgentTicketHistory',
-                Description => 'Shows the ticket history!',
-                Link => 'Action=AgentTicketHistory&TicketID=$QData{"TicketID"}',
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PreMenuModule###300-Priority" Required="0" Valid="1">
         <Description Lang="en">Show priority link</Description>
@@ -2825,15 +2298,6 @@ $Data{"Signature"}
                 <Item Key="Link">Action=AgentTicketPriority&amp;TicketID=$QData{"TicketID"}</Item>
             </Hash>
         </Setting>
-        <!--
-            $Self->{'Ticket::Frontend::PreMenuModule'}->{'300-Priority'} = {
-                Module => 'Kernel::Output::HTML::TicketMenuGeneric',
-                Name => 'Priority',
-                Action => 'AgentTicketPriority',
-                Description => 'Change the ticket priority!',
-                Link => 'Action=AgentTicketPriority&TicketID=$QData{"TicketID"}',
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PreMenuModule###420-Note" Required="0" Valid="1">
         <Description Lang="en">Show note link</Description>
@@ -2849,15 +2313,6 @@ $Data{"Signature"}
                 <Item Key="Link">Action=AgentTicketNote&amp;TicketID=$QData{"TicketID"}</Item>
             </Hash>
         </Setting>
-        <!--
-            $Self->{'Ticket::Frontend::PreMenuModule'}->{'420-Note'} = {
-                Module => 'Kernel::Output::HTML::TicketMenuGeneric',
-                Name => 'Note',
-                Action => 'AgentTicketNote',
-                Description => 'Add a note to this ticket!',
-                Link => 'Action=AgentTicketNote&TicketID=$QData{"TicketID"}',
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PreMenuModule###440-Close" Required="0" Valid="1">
         <Description Lang="en">Show close link</Description>
@@ -2873,15 +2328,6 @@ $Data{"Signature"}
                 <Item Key="Link">Action=AgentTicketClose&amp;TicketID=$QData{"TicketID"}</Item>
             </Hash>
         </Setting>
-        <!--
-            $Self->{'Ticket::Frontend::PreMenuModule'}->{'440-Close'} = {
-                Module => 'Kernel::Output::HTML::TicketMenuGeneric',
-                Name => 'Close',
-                Action => 'AgentTicketClose',
-                Description => 'Close this ticket!',
-                Link => 'Action=AgentTicketClose&TicketID=$QData{"TicketID"}',
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PreMenuModule###450-Delete" Required="0" Valid="0">
         <Description Lang="en">Show delete link</Description>
@@ -2897,15 +2343,6 @@ $Data{"Signature"}
                 <Item Key="Link">Action=AgentTicketMove&amp;TicketID=$Data{"TicketID"}&amp;DestQueue=Delete</Item>
             </Hash>
         </Setting>
-        <!--
-            # $Self->{'Ticket::Frontend::PreMenuModule'}->{'450-Delete'} = {
-                # Module => 'Kernel::Output::HTML::TicketMenuGeneric',
-                # Name => 'Delete',
-                # Action => 'AgentTicketMove',
-                # Description => 'Delete this ticket!',
-                # Link => 'Action=AgentTicketMove&TicketID=$Data{"TicketID"}&DestQueue=Delete',
-            # };
-        -->
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PreMenuModule###460-Spam" Required="0" Valid="0">
         <Description Lang="en">Show spam link</Description>
@@ -2950,15 +2387,6 @@ $Data{"Signature"}
                 <Item Key="Granted">0</Item>
             </Hash>
         </Setting>
-        <!--
-            $Self->{'Ticket::Permission'}->{'1-OwnerCheck'} = {
-                Module => 'Kernel::System::Ticket::Permission::OwnerCheck',
-                # if this check is needed
-                Required => 0,
-                # if this check is true, don't do more checks
-                Granted => 0,
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Ticket::Permission###2-GroupCheck" Required="1" Valid="1">
         <Description Lang="en">Module to check, if a user is in a special group. Access is granted, if the user is in the specifyed group and has ro and rw permissions.</Description>
@@ -2972,15 +2400,6 @@ $Data{"Signature"}
                 <Item Key="Granted">0</Item>
                 </Hash>
         </Setting>
-        <!--
-           $Self->{'Ticket::Permission'}->{'2-GroupCheck'} = {
-                Module => 'Kernel::System::Ticket::Permission::GroupCheck',
-                # if this check is needed
-                Required => 0,
-                # if this check is true, don't do more checks
-                Granted => 0,
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="CustomerTicket::Permission###1-CustomerUserIDCheck" Required="1" Valid="1">
         <Description Lang="en">Grant access, if customer ID is the same and group is accessable.</Description>
@@ -2994,15 +2413,6 @@ $Data{"Signature"}
                 <Item Key="Granted">1</Item>
             </Hash>
         </Setting>
-        <!--
-            $Self->{'CustomerTicket::Permission'}->{'1-CustomerUserIDCheck'} = {
-                Module => 'Kernel::System::Ticket::CustomerPermission::CustomerUserIDCheck',
-                # if this check is needed
-                Required => 0,
-                # if this check is true, don't do more checks
-                Granted => 1,
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="CustomerTicket::Permission###2-CustomerIDCheck" Required="1" Valid="1">
         <Description Lang="en">Module to check customer permissions.</Description>
@@ -3016,15 +2426,6 @@ $Data{"Signature"}
                 <Item Key="Granted">0</Item>
             </Hash>
         </Setting>
-        <!--
-            $Self->{'CustomerTicket::Permission'}->{'2-CustomerIDCheck'} = {
-                Module => 'Kernel::System::Ticket::CustomerPermission::CustomerIDCheck',
-                # if this check is needed
-                Required => 1,
-                # if this check is true, don't do more checks
-                Granted => 0,
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="CustomerTicket::Permission###3-GroupCheck" Required="1" Valid="1">
         <Description Lang="en">Module to check the grouppermissions for the access to customer tickets.</Description>
@@ -3038,15 +2439,6 @@ $Data{"Signature"}
                 <Item Key="Granted">0</Item>
             </Hash>
         </Setting>
-        <!--
-            $Self->{'CustomerTicket::Permission'}->{'3-GroupCheck'} = {
-                Module => 'Kernel::System::Ticket::CustomerPermission::GroupCheck',
-                # if this check is needed
-                Required => 1,
-                # if this check is true, don't do more checks
-                Granted => 0,
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="PreferencesGroups###NewTicketNotify" Required="0" Valid="1">
         <Description Lang="en">Parameters for the NewTicketNotify object in the preference view.</Description>
@@ -3070,18 +2462,6 @@ $Data{"Signature"}
                 <Item Key="Activ">1</Item>
             </Hash>
         </Setting>
-        <!--
-            $Self->{PreferencesGroups}->{NewTicketNotify} = {
-                Module => 'Kernel::Output::HTML::PreferencesGeneric',
-                Colum => 'Mail Management',
-                Label => 'New ticket notification',
-                Desc => 'Send me a notification if there is a new ticket in "My Queues".',
-                Data => $Self->Get('YesNoOptions'),
-                PrefKey => 'UserSendNewTicketNotification',
-                Prio => 1000,
-                Activ => 1,
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="PreferencesGroups###FollowUpNotify" Required="0" Valid="1">
         <Description Lang="en">Parameters for the FollowUpNotify object in the preference view.</Description>
@@ -3105,18 +2485,6 @@ $Data{"Signature"}
                 <Item Key="Activ">1</Item>
             </Hash>
         </Setting>
-        <!--
-            $Self->{PreferencesGroups}->{FollowUpNotify} = {
-                Module => 'Kernel::Output::HTML::PreferencesGeneric',
-                Colum => 'Mail Management',
-                Label => 'Follow up notification',
-                Desc => "Send me a notification if a customer sends a follow up and I'm the owner of this ticket.",
-                Data => $Self->Get('YesNoOptions'),
-                PrefKey => 'UserSendFollowUpNotification',
-                Prio => 2000,
-                Activ => 1,
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="PreferencesGroups###LockTimeoutNotify" Required="0" Valid="1">
         <Description Lang="en">Parameters for the LockTimeoutNotify object in the preference view.</Description>
@@ -3140,18 +2508,6 @@ $Data{"Signature"}
                 <Item Key="Activ">1</Item>
             </Hash>
         </Setting>
-        <!--
-            $Self->{PreferencesGroups}->{LockTimeoutNotify} = {
-                Module => 'Kernel::Output::HTML::PreferencesGeneric',
-                Colum => 'Mail Management',
-                Label => 'Ticket lock timeout notification',
-                Desc => 'Send me a notification if a ticket is unlocked by the system.',
-                Data => $Self->Get('YesNoOptions'),
-                PrefKey => 'UserSendLockTimeoutNotification',
-                Prio => 3000,
-                Activ => 1,
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="PreferencesGroups###MoveNotify" Required="0" Valid="1">
         <Description Lang="en">Parameters for the MoveNotify object in the preference view.</Description>
@@ -3175,18 +2531,6 @@ $Data{"Signature"}
                 <Item Key="Activ">1</Item>
             </Hash>
         </Setting>
-        <!--
-            $Self->{PreferencesGroups}->{MoveNotify} = {
-                Module => 'Kernel::Output::HTML::PreferencesGeneric',
-                Colum => 'Mail Management',
-                Label => 'Move notification',
-                Desc => 'Send me a notification if a ticket is moved into one of "My Queues".',
-                Data => $Self->Get('YesNoOptions'),
-                PrefKey => 'UserSendMoveNotification',
-                Prio => 4000,
-                Activ => 1,
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="PreferencesGroups###CustomQueue" Required="0" Valid="1">
         <Description Lang="en">Parameters for the CustomQueue object in the preference view.</Description>
@@ -3203,16 +2547,6 @@ $Data{"Signature"}
                 <Item Key="Activ">1</Item>
             </Hash>
         </Setting>
-        <!--
-            $Self->{PreferencesGroups}->{CustomQueue} = {
-                Module => 'Kernel::Output::HTML::PreferencesCustomQueue',
-                Colum => 'Other Options',
-                Label => 'My Queues',
-                Desc => 'Your queue selection of your favorite queues. You also get notified about this queues via email if enabled.',
-                Prio => 2000,
-                Activ => 1,
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="PreferencesGroups###RefreshTime" Required="0" Valid="1">
         <Description Lang="en">Parameters for the RefreshTime object in the preference view.</Description>
@@ -3240,25 +2574,6 @@ $Data{"Signature"}
                 <Item Key="Activ">1</Item>
             </Hash>
         </Setting>
-        <!--
-            $Self->{PreferencesGroups}->{RefreshTime} = {
-                Module => 'Kernel::Output::HTML::PreferencesGeneric',
-                Colum => 'Frontend',
-                Label => 'QueueView refresh time',
-                Desc => 'Select your QueueView refresh time.',
-                Data => {
-                    '' => 'off',
-                    2 => ' 2 minutes',
-                    5 => ' 5 minutes',
-                    7 => ' 7 minutes',
-                    10 => '10 minutes',
-                    15 => '15 minutes',
-                },
-                PrefKey => 'UserRefreshTime',
-                Prio => 3000,
-                Activ => 1,
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="PreferencesGroups###QueueView" Required="0" Valid="1">
         <Description Lang="en">Parameters for the QueueView object in the preference view.</Description>
@@ -3283,22 +2598,6 @@ $Data{"Signature"}
                 <Item Key="Activ">1</Item>
             </Hash>
         </Setting>
-        <!--
-            $Self->{PreferencesGroups}->{QueueView} = {
-                Module => 'Kernel::Output::HTML::PreferencesGeneric',
-                Colum => 'Frontend',
-                Label => 'QueueView',
-                Desc => 'Select your frontend QueueView.',
-                Data => {
-                    AgentTicketQueueTicketView => 'Standard',
-                    AgentTicketQueueTicketViewLite => 'Lite',
-                },
-                DataSelected => 'AgentTicketQueueTicketView',
-                Prio => 3000,
-                PrefKey => 'UserQueueView',
-                Activ => 1,
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="PreferencesGroups###QueueViewShownTickets" Required="0" Valid="1">
         <Description Lang="en">Parameters for the QueueViewShowTickets object in the preference view.</Description>
@@ -3325,24 +2624,6 @@ $Data{"Signature"}
                 <Item Key="Activ">1</Item>
             </Hash>
         </Setting>
-        <!--
-            $Self->{PreferencesGroups}->{QueueViewShownTickets} = {
-                Module => 'Kernel::Output::HTML::PreferencesGeneric',
-                Colum => 'Frontend',
-                Label => 'Shown Tickets',
-                Desc => 'Max. shown Tickets a page in QueueView.',
-                Data => {
-                    10 => 10,
-                    15 => 15,
-                    20 => 20,
-                    25 => 25,
-                },
-                DataSelected => 15,
-                PrefKey => 'UserQueueViewShowTickets',
-                Prio => 4000,
-                Activ => 1,
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="PreferencesGroups###CreateNextMask" Required="0" Valid="1">
         <Description Lang="en">Parameters for the CreateNextMask object in the preference view.</Description>
@@ -3367,23 +2648,6 @@ $Data{"Signature"}
                 <Item Key="Activ">1</Item>
             </Hash>
         </Setting>
-       <!--
-            $Self->{PreferencesGroups}->{CreateNextMask} = {
-                Module => 'Kernel::Output::HTML::PreferencesGeneric',
-                Colum => 'Frontend',
-                Label => 'Screen after new ticket',
-                Desc => 'Select your screen after creating a new ticket.',
-                Data => {
-                    '' => 'CreateTicket',
-                    AgentTicketZoom => 'TicketZoom',
-                },
-                DataSelected => '',
-                # DataSelected => 'AgentTicketZoom',
-                PrefKey => 'UserCreateNextMask',
-                Prio => 5000,
-                Activ => 1,
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="CustomerNotifyJustToRealCustomer" Required="1" Valid="1">
         <Description Lang="en">Send customer notifications just to mapped customer. Normally if no customer is mapped, the latest customer sender gets the notification.</Description>
@@ -3396,7 +2660,6 @@ $Data{"Signature"}
                 <Item Key="1">Yes</Item>
             </Option>
         </Setting>
-        <!-- $Self->{CustomerNotifyJustToRealCustomer} = 0; -->
     </ConfigItem>
     <ConfigItem Name="CustomerPriority" Required="1" Valid="1">
         <Description Lang="en">Is the customer allowed to set the priority for a ticket?</Description>
@@ -3409,7 +2672,6 @@ $Data{"Signature"}
                 <Item Key="1">Yes</Item>
             </Option>
         </Setting>
-        <!-- $Self->{CustomerPriority} = 1; -->
     </ConfigItem>
     <ConfigItem Name="CustomerDefaultPriority}" Required="1" Valid="1">
         <Description Lang="en">Default priority of new customer tickets.</Description>
@@ -3419,7 +2681,6 @@ $Data{"Signature"}
         <Setting>
             <String Regex="">3 normal</String>
         </Setting>
-        <!--  $Self->{CustomerDefaultPriority} = '3 normal'; -->
     </ConfigItem>
     <ConfigItem Name="CustomerDefaultState" Required="1" Valid="1">
         <Description Lang="en">Ddefault state of new customer tickets.</Description>
@@ -3429,7 +2690,6 @@ $Data{"Signature"}
         <Setting>
             <String Regex="">new</String>
         </Setting>
-        <!-- $Self->{CustomerDefaultState} = 'new'; -->
     </ConfigItem>
     <ConfigItem Name="CustomerNextScreenAfterNewTicket" Required="1" Valid="1">
         <Description Lang="en">Next screen after new customer ticket.</Description>
@@ -3442,7 +2702,6 @@ $Data{"Signature"}
                 <Item Key="CustomerTicketZoom">CustomerTicketZoom</Item>
             </Option>
         </Setting>
-        <!-- $Self->{CustomerNextScreenAfterNewTicket} = 'CustomerTicketOverView'; -->
     </ConfigItem>
     <ConfigItem Name="CustomerPanelArticleType" Required="1" Valid="1">
         <Description Lang="en">Type of note.</Description>
@@ -3452,7 +2711,6 @@ $Data{"Signature"}
         <Setting>
             <String Regex="">webrequest</String>
         </Setting>
-        <!-- $Self->{CustomerPanelArticleType} = 'webrequest';  -->
     </ConfigItem>
     <ConfigItem Name="CustomerPanelSenderType" Required="1" Valid="1">
         <Description Lang="en">Sender type for requests from the customer panel.</Description>
@@ -3462,7 +2720,6 @@ $Data{"Signature"}
         <Setting>
             <String Regex="">customer</String>
         </Setting>
-        <!-- $Self->{CustomerPanelSenderType} = 'customer'; -->
     </ConfigItem>
     <ConfigItem Name="CustomerPanelHistoryType" Required="1" Valid="1">
         <Description Lang="en">Default history type in the customer panel.</Description>
@@ -3472,7 +2729,6 @@ $Data{"Signature"}
         <Setting>
             <String Regex="">FollowUp</String>
         </Setting>
-        <!-- $Self->{CustomerPanelHistoryType} = 'FollowUp'; -->
     </ConfigItem>
     <ConfigItem Name="CustomerPanelHistoryComment" Required="1" Valid="1">
         <Description Lang="en">Default history comment in the customer panel.</Description>
@@ -3482,7 +2738,6 @@ $Data{"Signature"}
         <Setting>
             <String Regex=""></String>
         </Setting>
-        <!-- $Self->{CustomerPanelHistoryComment} = ''; -->
    </ConfigItem>
     <ConfigItem Name="CustomerPanelDefaultNextComposeType" Required="1" Valid="1">
         <Description Lang="en">Next state for ticket after customer followup.</Description>
@@ -3492,7 +2747,6 @@ $Data{"Signature"}
         <Setting>
             <String Regex="">open</String>
         </Setting>
-        <!-- $Self->{CustomerPanelDefaultNextComposeType} = 'open'; -->
     </ConfigItem>
     <ConfigItem Name="CustomerPanelNextComposeState" Required="1" Valid="1">
         <Description Lang="en">Next commpose state for customer tickets.</Description>
@@ -3502,7 +2756,6 @@ $Data{"Signature"}
         <Setting>
             <String Regex="">1</String>
         </Setting>
-        <!-- $Self->{CustomerPanelNextComposeState} = 1; -->
     </ConfigItem>
     <ConfigItem Name="Ticket::CustomerPanelDefaultNextComposeStateType" Required="1" Valid="1">
         <Description Lang="en">Next possible states for customer tickets.</Description>
@@ -3515,7 +2768,6 @@ $Data{"Signature"}
               <Item>closed</Item>
             </Array>
         </Setting>
-        <!-- $Self->{'Ticket::CustomerPanelDefaultNextComposeStateType'} = ['open', 'closed']; -->
     </ConfigItem>
     <ConfigItem Name="CustomerPanelNewArticleType" Required="1" Valid="1">
         <Description Lang="en">Default article type.</Description>
@@ -3525,7 +2777,6 @@ $Data{"Signature"}
         <Setting>
             <String Regex="">webrequest</String>
         </Setting>
-        <!-- $Self->{CustomerPanelNewArticleType} = 'webrequest'; -->
     </ConfigItem>
     <ConfigItem Name="CustomerPanelNewSenderType" Required="1" Valid="1">
         <Description Lang="en">Sender type for new tickets from the customer panel.</Description>
@@ -3535,7 +2786,6 @@ $Data{"Signature"}
         <Setting>
             <String Regex="">customer</String>
         </Setting>
-        <!-- $Self->{CustomerPanelNewSenderType} = 'customer'; -->
     </ConfigItem>
     <ConfigItem Name="CustomerPanelNewHistoryType" Required="1" Valid="1">
         <Description Lang="en">Default history type.</Description>
@@ -3545,7 +2795,6 @@ $Data{"Signature"}
         <Setting>
             <String Regex="">WebRequestCustomer</String>
         </Setting>
-        <!-- $Self->{CustomerPanelNewHistoryType} = 'WebRequestCustomer'; -->
     </ConfigItem>
     <ConfigItem Name="CustomerPanelNewHistoryComment" Required="1" Valid="1">
         <Description Lang="en">Comment for new history entrys in the customer panel.</Description>
@@ -3555,7 +2804,6 @@ $Data{"Signature"}
         <Setting>
             <String Regex=""></String>
         </Setting>
-        <!-- $Self->{CustomerPanelNewHistoryComment} = ''; -->
     </ConfigItem>
     <ConfigItem Name="CustomerPanelSelectionType" Required="1" Valid="1">
         <Description Lang="en">To: selection type. "Queue" shows all queues, "SystemAddress" displays all system addresses.</Description>
@@ -3568,7 +2816,6 @@ $Data{"Signature"}
                 <Item Key="SystemAdress">SystemAddress</Item>
             </Option>
         </Setting>
-        <!-- $Self->{CustomerPanelSelectionType} = 'Queue'; -->
     </ConfigItem>
     <ConfigItem Name="CustomerPanelSelectionString" Required="0" Valid="1">
         <Description Lang="en">If "Queue" was selected for CustomerPanelSelectionType, you can specify a selection string (e. g. 'Queue: &lt;Queue&gt; - &lt;QueueComment&gt;').</Description>
@@ -3578,7 +2825,6 @@ $Data{"Signature"}
         <Setting>
             <String Regex="">&lt;Queue&gt;</String>
         </Setting>
-        <!-- # $Self->{CustomerPanelSelectionString} = 'Queue: <Queue> - <QueueComment>'; -->
     </ConfigItem>
     <ConfigItem Name="CustomerPanelOwnSelection" Required="0" Valid="0">
         <Description Lang="en">CustomerPanelOwnSelection. If this is in use, just this selection is valid" for the CustomMessage.</Description>
@@ -3591,16 +2837,6 @@ $Data{"Signature"}
                 <Item Key="Misc">Second Queue</Item>
             </Hash>
         </Setting>
-        <!--
-            # $Self->{CustomerPanelOwnSelection} = {
-            #     # Queue => Frontend-Name
-            #       'Junk' => 'First Queue!',
-            #       'Misc' => 'Second Queue!',
-            #     # QueueID => Frontend-Name (or optional with QueueID)
-            #     # '1' => 'First Queue!',
-            #     # '2' => 'Second Queue!',
-            # };
-        -->
     </ConfigItem>
     <ConfigItem Name="CustomerPanel::NewTicketQueueSelectionModule" Required="1" Valid="1">
         <Description Lang="en">Module for To-selection in new ticket screen in the customer panel.</Description>
@@ -3610,7 +2846,6 @@ $Data{"Signature"}
         <Setting>
             <String Regex="">Kernel::Output::HTML::CustomerNewTicketQueueSelectionGeneric</String>
         </Setting>
-        <!-- $Self->{'CustomerPanel::NewTicketQueueSelectionModule'} = 'Kernel::Output::HTML::CustomerNewTicketQueueSelectionGeneric'; -->
     </ConfigItem>
     <ConfigItem Name="Ticket::CustomerTicketSearch::SearchLimit" Required="1" Valid="1">
         <Description Lang="en">Default limit for ticket search.</Description>
@@ -3620,7 +2855,6 @@ $Data{"Signature"}
         <Setting>
             <String Regex="^[0-9]{1,6}$">5000</String>
         </Setting>
-        <!-- $Self->{'Ticket::CustomerTicketSearch::SearchLimit'} = 5000;  -->
     </ConfigItem>
     <ConfigItem Name="Ticket::CustomerTicketSearch::SearchPageShown" Valid="1">
         <Description Lang="en">Default number of articles per page after searching through tickets.</Description>
@@ -3630,7 +2864,6 @@ $Data{"Signature"}
         <Setting>
             <String Regex="^[0-9]{1,3}$">40</String>
           </Setting>
-        <!-- $Self->{'Ticket::CustomerTicketSearch::SearchPageShown'} = 40; -->
       </ConfigItem>
     <ConfigItem Name="CustomerPreferencesGroups###ClosedTickets" Required="0" Valid="1">
         <Description Lang="en">All parameters for the ClosedTickets object in the customer preferences.</Description>
@@ -3655,19 +2888,6 @@ $Data{"Signature"}
                 <Item Key="Activ">1</Item>
             </Hash>
         </Setting>
-        <!--
-            $Self->{CustomerPreferencesGroups}->{ClosedTickets} = {
-                Module => 'Kernel::Output::HTML::PreferencesGeneric',
-                Colum => 'Other Options',
-                Label => 'Closed Tickets',
-                Desc => 'Show closed tickets.',
-                Data => $Self->Get('YesNoOptions'),
-                DataSelected => 1,
-                PrefKey => 'UserShowClosedTickets',
-                Prio => 2000,
-                Activ => 1,
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="CustomerPreferencesGroups###ShownTickets" Required="0" Valid="1">
         <Description Lang="en">All parameters for the ShownTickets object in the customer preferences.</Description>
@@ -3694,24 +2914,6 @@ $Data{"Signature"}
                 <Item Key="Activ">1</Item>
             </Hash>
         </Setting>
-        <!--
-            $Self->{CustomerPreferencesGroups}->{ShownTickets} = {
-                Module => 'Kernel::Output::HTML::PreferencesGeneric',
-                Colum => 'Frontend',
-                Label => 'Shown Tickets',
-                Desc => 'Max. shown Tickets a page in Overview.',
-                Data => {
-                    15 => 15,
-                    20 => 20,
-                    25 => 25,
-                    30 => 30,
-                },
-                DataSelected => 25,
-                PrefKey => 'UserShowTickets',
-                Prio => 4000,
-                Activ => 1,
-            };
-        -->
     </ConfigItem>
 
     <ConfigItem Name="CustomerPreferencesGroups###RefreshTime" Required="0" Valid="1">
@@ -3740,25 +2942,6 @@ $Data{"Signature"}
                 <Item Key="Activ">1</Item>
             </Hash>
         </Setting>
-        <!--
-            $Self->{CustomerPreferencesGroups}->{RefreshTime} = {
-                Module => 'Kernel::Output::HTML::PreferencesGeneric',
-                Colum => 'Frontend',
-                Label => 'QueueView refresh time',
-                Desc => 'Select your QueueView refresh time.',
-                Data => {
-                    '' => 'off',
-                    2 => ' 2 minutes',
-                    5 => ' 5 minutes',
-                    7 => ' 7 minutes',
-                    10 => '10 minutes',
-                    15 => '15 minutes',
-                },
-                PrefKey => 'UserRefreshTime',
-                Prio => 3000,
-                Activ => 1,
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::CommonObject###QueueObject" Required="1" Valid="1">
         <Description Lang="en">Path to the file where all settings for the QueueObject object for the frontend are stored.</Description>
@@ -3768,7 +2951,6 @@ $Data{"Signature"}
         <Setting>
             <String Regex="">Kernel::System::Queue</String>
         </Setting>
-        <!-- $Self->{'Frontend::CommonObject'}->{QueueObject} = 'Kernel::System::Queue'; -->
     </ConfigItem>
     <ConfigItem Name="Frontend::CommonObject###TicketObject" Required="1" Valid="1">
         <Description Lang="en">Path to the file where all settings for the TicketObject object are stored.</Description>
@@ -3778,7 +2960,6 @@ $Data{"Signature"}
         <Setting>
             <String Regex="">Kernel::System::Ticket</String>
         </Setting>
-       <!-- $Self->{'Frontend::CommonObject'}->{TicketObject} = 'Kernel::System::Ticket'; -->
     </ConfigItem>
     <ConfigItem Name="Frontend::CommonParam###Action" Required="1" Valid="1">
         <Description Lang="en">Default value for the Action parameter. The Action parameter is used in the scripts of the system.</Description>
@@ -3788,7 +2969,6 @@ $Data{"Signature"}
         <Setting>
             <String Regex="">AgentTicketQueue</String>
         </Setting>
-        <!-- $Self->{'Frontend::CommonParam'}->{Action} = 'AgentTicketQueue'; -->
     </ConfigItem>
     <ConfigItem Name="Frontend::CommonParam###QueueID" Required="1" Valid="1">
         <Description Lang="en">Default ID for queue, that is used by the system.</Description>
@@ -3798,7 +2978,6 @@ $Data{"Signature"}
         <Setting>
             <String Regex="^[0-9]{1,3}$">0</String>
         </Setting>
-        <!-- $Self->{'Frontend::CommonParam'}->{QueueID} = 0; -->
     </ConfigItem>
     <ConfigItem Name="Frontend::CommonParam###TicketID" Required="1" Valid="1">
         <Description Lang="en">Default ID for ticket, that is used by the system.</Description>
@@ -3808,7 +2987,6 @@ $Data{"Signature"}
         <Setting>
             <String Regex=""></String>
         </Setting>
-        <!-- $Self->{'Frontend::CommonParam'}->{TicketID} = ''; -->
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::CommonObject###QueueObject" Required="1" Valid="1">
         <Description Lang="en">Path to the file where all settings for the QueueObject object for the customer interface are stored.</Description>
@@ -3818,7 +2996,6 @@ $Data{"Signature"}
         <Setting>
             <String Regex="">Kernel::System::Queue</String>
         </Setting>
-        <!-- $Self->{'CustomerFrontend::CommonObject'}->{QueueObject} = 'Kernel::System::Queue'; -->
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::CommonObject###TicketObject" Required="1" Valid="1">
         <Description Lang="en">Path to the file where all settings for the TicketObject object for the customer interface are stored.</Description>
@@ -3827,18 +3004,16 @@ $Data{"Signature"}
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
             <String Regex="">Kernel::System::Ticket</String>
-        </Setting>>
-        <!-- $Self->{'CustomerFrontend::CommonObject'}->{TicketObject} = 'Kernel::System::Ticket'; -->
+        </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::CommonParam###Action" Required="1" Valid="1">
         <Description Lang="en">Specify the common action for the Action parameter in the customer interface.</Description>
-        <Description Lang="en">Standardwert für den Action-Parameter innerhalb des Customer-Interfaces.</Description>        
+        <Description Lang="en">Standardwert für den Action-Parameter innerhalb des Customer-Interfaces.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
             <String Regex="">CustomerTicketOverView</String>
         </Setting>
-        <!-- $Self->{'CustomerFrontend::CommonParam'}->{Action} = 'CustomerTicketOverView'; -->
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::CommonParam###QueueID" Required="1" Valid="1">
         <Description Lang="en">Standard parameter for the QueueID in the customer interface.</Description>
@@ -3848,7 +3023,6 @@ $Data{"Signature"}
         <Setting>
             <String Regex="">0</String>
         </Setting>
-        <!-- $Self->{'CustomerFrontend::CommonParam'}->{QueueID} = 0; -->
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::CommonParam###TicketID" Required="1" Valid="1">
         <Description Lang="en">Standard parameter for the TicketID in the customer interface.</Description>
@@ -3858,7 +3032,6 @@ $Data{"Signature"}
         <Setting>
             <String Regex=""></String>
         </Setting>
-        <!-- $Self->{'CustomerFrontend::CommonParam'}->{TicketID} = ''; -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketQueue" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketQuee object in the agent interface.</Description>
@@ -3894,33 +3067,6 @@ $Data{"Signature"}
                 </NavBar>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AgentTicketQueue'} = {
-                Description => 'Overview of all open Tickets',
-                Title => 'QueueView',
-                NavBarName => 'Ticket',
-                NavBar => [
-                    {
-                    Description => 'Overview of all open Tickets',
-                    Name => 'QueueView',
-                    Image => 'overview.png',
-                    Link => 'Action=AgentTicketQueue',
-                    NavBar => 'Ticket',
-                    Prio => 100,
-                    },
-                    {
-                    Description => 'Ticket-Area',
-                    Type => 'Menu',
-                    Block => 'ItemArea',
-                    Name => 'Ticket',
-                    Image => 'desktop.png',
-                    Link => 'Action=AgentTicketQueue',
-                    NavBar => 'Ticket',
-                    Prio => 200,
-                    },
-                ],
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketPhone" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketPhone    uee object in the agent interface.</Description>
@@ -3945,23 +3091,6 @@ $Data{"Signature"}
                 </NavBar>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AgentTicketPhone'} = {
-                Description => 'Create new Phone Ticket',
-                Title => 'Phone-Ticket',
-                NavBarName => 'Ticket',
-                NavBar => [
-                    {
-                    Description => 'Create new Phone Ticket',
-                    Name => 'Phone-Ticket',
-                    Image => 'phone-new.png',
-                    Link => 'Action=AgentTicketPhone',
-                    NavBar => 'Ticket',
-                    Prio => 200,
-                    },
-                ],
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketEmail" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketEmail object in the agent interface.</Description>
@@ -3986,24 +3115,6 @@ $Data{"Signature"}
                 </NavBar>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AgentTicketEmail'} = {
-                Description => 'Create new Email Ticket',
-                Title => 'Email-Ticket',
-                NavBarName => 'Ticket',
-                NavBar => [
-                    {
-                    # Description => 'Create new Email Ticket',
-                    Description => 'Send Email and create a new Ticket',
-                    Name => 'Email-Ticket',
-                    Image => 'mail_new.png',
-                    Link => 'Action=AgentTicketEmail',
-                    NavBar => 'Ticket',
-                    Prio => 210,
-                    },
-                ],
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketSearch" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketSearch object in the agent interface.</Description>
@@ -4028,23 +3139,6 @@ $Data{"Signature"}
                 </NavBar>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AgentTicketSearch'} = {
-                Description => 'Search Tickets',
-                Title => 'Search',
-                NavBarName => 'Ticket',
-                NavBar => [
-                    {
-                    Description => 'Search Tickets',
-                    Name => 'Search',
-                    Image => 'search.png',
-                    Link => 'Action=AgentTicketSearch',
-                    NavBar => 'Ticket',
-                    Prio => 300,
-                    },
-                ],
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketMailbox" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketMailbox object in the agent interface.</Description>
@@ -4058,13 +3152,6 @@ $Data{"Signature"}
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
-        <!--
-        $Self->{'Frontend::Module'}->{'AgentTicketMailbox'} = {
-            Description => 'Agent Mailbox',
-            Title => 'Locked Tickets',
-            NavBarName => 'Ticket',
-        };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketStatusView" Required="0" Valid="0">
         <Description Lang="en">Frontend module registration for the AgentTicketStatusView object in the agent interface.</Description>
@@ -4089,13 +3176,6 @@ $Data{"Signature"}
                 </NavBar>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AgentTicketStatusView'} = {
-                Description => 'Overview of all open tickets',
-                Title => 'Status View',
-                NavBarName => 'Ticket',
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentZoom" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentZoom object in the agent interface.</Description>
@@ -4109,12 +3189,6 @@ $Data{"Signature"}
                 <Title></Title>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AgentZoom'} = {
-                Description => 'compat module for Ticket Zoom',
-                NavBarName => 'Ticket',
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketZoom" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketZoom object in the agent interface.</Description>
@@ -4128,13 +3202,6 @@ $Data{"Signature"}
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AgentTicketZoom'} = {
-                Description => 'Ticket Zoom',
-                Title => 'Zoom',
-                NavBarName => 'Ticket',
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketAttachment" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketAtachment object in the agent interface.</Description>
@@ -4148,11 +3215,6 @@ $Data{"Signature"}
                 <Description>To download attachments</Description>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AgentTicketAttachment'} = {
-                Description => 'To download attachments',
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketPlain" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketPlain object in the agent interface.</Description>
@@ -4166,13 +3228,6 @@ $Data{"Signature"}
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AgentTicketPlain'} = {
-                Description => 'Ticket plain view of an email',
-                Title => 'Plain Article',
-                NavBarName => 'Ticket',
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketNote" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketNote object in the agent interface.</Description>
@@ -4186,13 +3241,6 @@ $Data{"Signature"}
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AgentTicketNote'} = {
-                Description => 'Ticket Note',
-                Title => 'Note',
-                NavBarName => 'Ticket',
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketPending" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketPending ote object in the agent interface.</Description>
@@ -4219,13 +3267,6 @@ $Data{"Signature"}
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AgentTicketPriority'} = {
-                Description => 'Ticket Priority',
-                Title => 'Priority',
-                NavBarName => 'Ticket',
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketLock" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketLock object in the agent interface.</Description>
@@ -4239,12 +3280,6 @@ $Data{"Signature"}
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AgentTicketLock'} = {
-                Description => 'Ticket Lock',
-                NavBarName => 'Ticket',
-            };
--->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketMove" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketMove object in the agent interface.</Description>
@@ -4271,13 +3306,6 @@ $Data{"Signature"}
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AgentTicketHistory'} = {
-                Description => 'Ticket History',
-                Title => 'History',
-                NavBarName => 'Ticket',
-            };
--->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketOwner" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketOwner object in the agent interface.</Description>
@@ -4317,13 +3345,6 @@ $Data{"Signature"}
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AgentTicketCustomerFollowUp'} = {
-                Description => 'Used if a agent can also be a customer',
-                Title => 'Compose Follow up',
-                NavBarName => 'Ticket',
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketBounce" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketBounce object in the agent interface.</Description>
@@ -4363,13 +3384,6 @@ $Data{"Signature"}
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AgentTicketCustomer'} = {
-                Description => 'Ticket Customer',
-                Title => 'Customer',
-                NavBarName => 'Ticket',
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketClose" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketClose object in the agent interface.</Description>
@@ -4396,13 +3410,6 @@ $Data{"Signature"}
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AgentTicketFreeText'} = {
-                Description => 'Ticket FreeText',
-                Title => 'Free Fields',
-                NavBarName => 'Ticket',
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketPrint" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketPrint object in the agent interface.</Description>
@@ -4416,13 +3423,6 @@ $Data{"Signature"}
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AgentTicketPrint'} = {
-                Description => 'Ticket Print',
-                Title => 'Print',
-                NavBarName => 'Ticket',
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketBulk" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AgentTicketBulk object in the agent interface.</Description>
@@ -4436,13 +3436,6 @@ $Data{"Signature"}
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AgentTicketBulk'} = {
-                Description => 'Ticket bulk module',
-                Title => 'Bulk Action',
-                NavBarName => 'Ticket',
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminQueue" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminQueue object in the admin area.</Description>
@@ -4463,20 +3456,6 @@ $Data{"Signature"}
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AdminQueue'} = {
-                Group => admin,
-                Description => 'Admin',
-                Title => 'Queue',
-                NavBarName => 'Admin',
-                NavBarModule => {
-                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-                    Name => 'Queue',
-                    Block => 'Block2',
-                    Prio => 100,
-                },
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminResponse" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminResponse object in the admin area.</Description>
@@ -4497,20 +3476,6 @@ $Data{"Signature"}
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AdminResponse'} = {
-                Group => admin,
-                Description => 'Admin',
-                Title => 'Response',
-                NavBarName => 'Admin',
-                NavBarModule => {
-                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-                    Name => 'Responses',
-                    Block => 'Block2',
-                    Prio => 200,
-                },
-    };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminQueueResponses" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminQueueResponses object in the admin area.</Description>
@@ -4531,20 +3496,6 @@ $Data{"Signature"}
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AdminQueueResponses'} = {
-                Group => admin,
-                Description => 'Admin',
-                Title => 'Response <-> Queue',
-                NavBarName => 'Admin',
-                NavBarModule => {
-                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-                    Name => 'Responses <-> Queue',
-                    Block => 'Block2',
-                    Prio => 300,
-                },
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminAutoResponse" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminAutoResponses object in the admin area.</Description>
@@ -4565,20 +3516,6 @@ $Data{"Signature"}
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AdminAutoResponse'} = {
-                Group => admin,
-                Description => 'Admin',
-                Title => 'Auto response change',
-                NavBarName => 'Admin',
-                NavBarModule => {
-                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-                    Name => 'Auto Responses',
-                    Block => 'Block2',
-                    Prio => 400,
-                },
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminQueueAutoResponse" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminQueueAutoResponses object in the admin area.</Description>
@@ -4599,20 +3536,6 @@ $Data{"Signature"}
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AdminQueueAutoResponse'} = {
-                Group => admin,
-                Description => 'Admin',
-                Title => 'Queue <-> Auto Response',
-                NavBarName => 'Admin',
-                NavBarModule => {
-                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-                    Name => 'Auto Responses <-> Queue',
-                    Block => 'Block2',
-                    Prio => 500,
-                },
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminAttachment" Required="0" Valid="1">
         <Description Lang="en">describe if the module "Attachment" (AdminAttachment) is shown in the admin interface. Describe also the notation of the module.</Description>
@@ -4634,20 +3557,6 @@ $Data{"Signature"}
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AdminAttachment'} = {
-                Group => admin,
-                Description => 'Admin',
-                Title => 'Attachment',
-                NavBarName => 'Admin',
-                NavBarModule => {
-                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-                    Name => 'Attachments',
-                    Block => 'Block2',
-                    Prio => 600,
-                },
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminResponseAttachment" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminResponseAttachment object in the admin area.</Description>
@@ -4668,20 +3577,6 @@ $Data{"Signature"}
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AdminResponseAttachment'} = {
-                Group => admin,
-                Description => 'Admin',
-                Title => 'Response <-> Queue',
-                NavBarName => 'Admin',
-                NavBarModule => {
-                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-                    Name => 'Attachments <-> Responses',
-                    Block => 'Block2',
-                    Prio => 700,
-                },
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminSalutation" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminSalutation object in the admin area.</Description>
@@ -4702,20 +3597,6 @@ $Data{"Signature"}
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AdminSalutation'} = {
-                Group => admin,
-                Description => 'Admin',
-                Title => 'Salutation',
-                NavBarName => 'Admin',
-                NavBarModule => {
-                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-                    Name => 'Salutations',
-                    Block => 'Block3',
-                    Prio => 100,
-                },
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminSignature" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminSignature object in the admin area.</Description>
@@ -4736,20 +3617,6 @@ $Data{"Signature"}
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AdminSignature'} = {
-                Group => admin,
-                Description => 'Admin',
-                Title => 'Signature',
-                NavBarName => 'Admin',
-                NavBarModule => {
-                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-                    Name => 'Signatures',
-                    Block => 'Block3',
-                    Prio => 200,
-                },
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminSystemAddress" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminSystemAddress object in the admin area.</Description>
@@ -4770,20 +3637,6 @@ $Data{"Signature"}
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AdminSystemAddress'} = {
-                Group => admin,
-                Description => 'Admin',
-                Title => 'System address',
-                NavBarName => 'Admin',
-                NavBarModule => {
-                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-                    Name => 'Email Addresses',
-                    Block => 'Block3',
-                    Prio => 300,
-                },
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminNotification" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminNotification object in the admin area.</Description>
@@ -4804,20 +3657,6 @@ $Data{"Signature"}
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AdminNotification'} = {
-                Group => admin,
-                Description => 'Admin',
-                Title => 'Notification',
-                NavBarName => 'Admin',
-                NavBarModule => {
-                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-                    Name => 'Notifications',
-                    Block => 'Block3',
-                    Prio => 400,
-                },
-                };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminState" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminState object in the admin area.</Description>
@@ -4838,20 +3677,6 @@ $Data{"Signature"}
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AdminState'} = {
-                Group => admin,
-                Description => 'Admin',
-                Title => 'State',
-                NavBarName => 'Admin',
-                NavBarModule => {
-                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-                    Name => 'Status',
-                    Block => 'Block3',
-                    Prio => 700,
-                },
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminGenericAgent" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminGenericAgent object in the admin area.</Description>
@@ -4872,20 +3697,6 @@ $Data{"Signature"}
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'Frontend::Module'}->{'AdminGenericAgent'} = {
-                Group => admin,
-                Description => 'Admin',
-                Title => 'GenericAgent',
-                NavBarName => 'Admin',
-                NavBarModule => {
-                    Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-                    Name => 'GenericAgent',
-                    Block => 'Block4',
-                    Prio => 300,
-                },
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerTicketOverView" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the CustomerTicketOverview object in the customer interface.</Description>
@@ -4921,29 +3732,6 @@ $Data{"Signature"}
                 </NavBar>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'CustomerFrontend::Module'}->{'CustomerTicketOverView'} = {
-                Description => 'Overview of customer tickets.',
-                NavBarName => 'Ticket',
-                Title => 'Overview',
-                NavBar => [
-                    {
-                    Description => 'MyTickets',
-                    Name => 'MyTickets',
-                    Image => 'ticket.png',
-                    Link => 'Action=CustomerTicketOverView&Type=MyTickets',
-                    Prio => 110,
-                    },
-                    {
-                    Description => 'CompanyTickets',
-                    Name => 'CompanyTickets',
-                    Image => 'tickets.png',
-                    Link => 'Action=CustomerTicketOverView&Type=CompanyTickets',
-                    Prio => 120,
-                    },
-                ],
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerTicketMessage" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the CustomerTicketMessage object in the customer interface.</Description>
@@ -4968,22 +3756,6 @@ $Data{"Signature"}
                 </NavBar>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'CustomerFrontend::Module'}->{'CustomerTicketMessage'} = {
-                Description => 'Create and updated tickets.',
-                NavBarName => 'Ticket',
-                Title => 'Message',
-                NavBar => [
-                    {
-                    Description => 'Create new Ticket',
-                    Name => 'New Ticket',
-                    Image => 'new.png',
-                    Link => 'Action=CustomerTicketMessage',
-                    Prio => 100,
-                    },
-                ],
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerTicketZoom" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the CustomerTicketZoom object in the customer interface.</Description>
@@ -4997,13 +3769,6 @@ $Data{"Signature"}
                 <Title>Zoom</Title>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'CustomerFrontend::Module'}->{'CustomerTicketZoom'} = {
-                Description => 'Ticket zoom view',
-                NavBarName => 'Ticket',
-                Title => 'Zoom',
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerZoom" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the CustomerZoom object in the customer interface.</Description>
@@ -5017,11 +3782,6 @@ $Data{"Signature"}
                 <Title></Title>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'CustomerFrontend::Module'}->{'CustomerZoom'} = {
-            Description => 'compat mod',
-        };
-        -->
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerTicketAttachment" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the CustomerTicketAttachment object in the customer interface.</Description>
@@ -5035,11 +3795,6 @@ $Data{"Signature"}
                 <Title></Title>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'CustomerFrontend::Module'}->{'CustomerTicketAttachment'} = {
-                Description => 'To download attachments',
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::ModuleCustomerTicketSearch" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the CustomerTicketSearch object in the customer interface.</Description>
@@ -5064,22 +3819,6 @@ $Data{"Signature"}
                 </NavBar>
             </FrontendModuleReg>
         </Setting>
-        <!--
-            $Self->{'CustomerFrontend::Module'}->{'CustomerTicketSearch'} = {
-                Description => 'Customer ticket search.',
-                NavBarName => 'Ticket',
-                Title => 'Search',
-                NavBar => [
-                    {
-                    Description => 'Search',
-                    Name => 'Search',
-                    Image => 'search.png',
-                    Link => 'Action=CustomerTicketSearch',
-                    Prio => 300,
-                    },
-                ],
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="TicketACL::Default::Action" Required="1" Valid="1">
         <Description Lang="en">Default Ticket Action ACL.</Description>
@@ -5090,7 +3829,6 @@ $Data{"Signature"}
             <Hash>
             </Hash>
         </Setting>
-        <!-- $Self->{'TicketACL::Default::Action'} = {}; -->
     </ConfigItem>
     <ConfigItem Name="PostmasterMaxEmails" Required="1" Valid="1">
         <Description Lang="en">Maximal post master daemon email to own email-address a day. Loop-Protection! Default: 40</Description>
@@ -5100,7 +3838,6 @@ $Data{"Signature"}
         <Setting>
             <String Regex="^[0-9]{1,3}$">40</String>
         </Setting>
-        <!-- $Self->{PostmasterMaxEmails} = 40; -->
     </ConfigItem>
     <ConfigItem Name="PostMasterPOP3MaxEmailSize" Required="1" Valid="1">
         <Description Lang="en">Maximal size in KBytes for mails that can be fetched via pop3 (KBytes).</Description>
@@ -5110,8 +3847,7 @@ $Data{"Signature"}
         <Setting>
             <String Regex="^[0-9]{1,5}$">6144</String>
         </Setting>
-        <!-- $Self->{PostMasterPOP3MaxEmailSize} = 1024 * 6; -->
-    </ConfigItem>C
+    </ConfigItem>
     <ConfigItem Name="PostMasterPOP3ReconnectMessage" Required="1" Valid="1">
         <Description Lang="en">"bin/PostMasterPOP3.pl" will reconnect to pop3 host after the specifiyed count of messages.</Description>
         <Description Lang="de">"bin/PostMasterPOP3.pl" baut eine neue Verbindung zum pop3-Server nach der hier angegebenen Anzahl an Nachrichten auf.</Description>
@@ -5120,7 +3856,6 @@ $Data{"Signature"}
         <Setting>
             <String Regex="^[0-9]{1,3}$">20</String>
         </Setting>
-        <!-- $Self->{PostMasterPOP3ReconnectMessage} = 20; -->
     </ConfigItem>
     <ConfigItem Name="LoopProtectionModule" Required="1" Valid="1">
         <Description Lang="en">Default loop protection modul</Description>
@@ -5130,7 +3865,6 @@ $Data{"Signature"}
         <Setting>
             <Option Location="Kernel/System/PostMaster/LoopProtection/*.pm" SelectedID="Kernel::System::PostMaster::LoopProtection::DB"></Option>
         </Setting>
-        <!-- $Self->{LoopProtectionModule} = 'Kernel::System::PostMaster::LoopProtection::DB'; -->
     </ConfigItem>
     <ConfigItem Name="LoopProtectionLog" Required="1" Valid="1">
         <Description Lang="en">If "FS" was selected for LoopProtectionModule, a logfile has to be specifyed.</Description>
@@ -5140,7 +3874,6 @@ $Data{"Signature"}
         <Setting>
             <String Regex="">&lt;OTRS_CONFIG_Home&gt;/var/log/LoopProtection</String>
         </Setting>
-        <!-- $Self->{LoopProtectionLog} = '<OTRS_CONFIG_Home>/var/log/LoopProtection'; -->
     </ConfigItem>
     <ConfigItem Name="PostmasterAutoHTML2Text" Required="1" Valid="1">
         <Description Lang="en">Would you like to convert HTML mails into text messages?</Description>
@@ -5153,7 +3886,6 @@ $Data{"Signature"}
                 <Item Key="1">Yes</Item>
             </Option>
         </Setting>
-        <!-- $Self->{PostmasterAutoHTML2Text} = 1; -->
     </ConfigItem>
     <ConfigItem Name="PostmasterFollowUpSearchInReferences" Required="1" Valid="1">
         <Description Lang="en">Would you like to execute followup checks on In-Reply-To or References headers for mails, that don't have a ticket number in the subject?</Description>
@@ -5166,7 +3898,6 @@ $Data{"Signature"}
                 <Item Key="1">Yes</Item>
             </Option>
         </Setting>
-        <!-- $Self->{PostmasterFollowUpSearchInReferences} = 0; -->
     </ConfigItem>
     <ConfigItem Name="PostmasterUserID" Required="1" Valid="1">
         <Description Lang="en">Specify the postmaster DB userID.</Description>
@@ -5176,7 +3907,6 @@ $Data{"Signature"}
         <Setting>
             <String Regex="^[0-9]{1,3}$">1</String>
         </Setting>
-        <!-- $Self->{PostmasterUserID} = 1; -->
     </ConfigItem>
     <ConfigItem Name="PostmasterDefaultQueue" Required="1" Valid="1">
         <Description Lang="en">The postmaster default queue.</Description>
@@ -5186,7 +3916,6 @@ $Data{"Signature"}
         <Setting>
             <String Regex="">Raw</String>
         </Setting>
-        <!-- $Self->{PostmasterDefaultQueue} = 'Raw'; -->
     </ConfigItem>
     <ConfigItem Name="PostmasterDefaultPriority" Required="1" Valid="1">
         <Description Lang="en">The default priority of new tickets.</Description>
@@ -5196,7 +3925,6 @@ $Data{"Signature"}
         <Setting>
             <String Regex="">3 normal</String>
         </Setting>
-        <!-- $Self->{PostmasterDefaultPriority} = '3 normal'; -->
     </ConfigItem>
     <ConfigItem Name="PostmasterDefaultState" Required="1" Valid="1">
         <Description Lang="en">Default state of new tickets.</Description>
@@ -5206,7 +3934,6 @@ $Data{"Signature"}
         <Setting>
             <String Regex="">new</String>
         </Setting>
-        <!-- $Self->{PostmasterDefaultState} = 'new'; -->
     </ConfigItem>
     <ConfigItem Name="PostmasterFollowUpState" Required="1" Valid="1">
         <Description Lang="en">The state if a ticket got a followup.</Description>
@@ -5216,7 +3943,6 @@ $Data{"Signature"}
         <Setting>
             <String Regex="">open</String>
         </Setting>
-        <!-- $Self->{PostmasterFollowUpState} = 'open'; -->
     </ConfigItem>
     <ConfigItem Name="PostmasterFollowUpOnUnlockAgentNotifyOnlyToOwner" Required="1" Valid="1">
         <Description Lang="en">Send agent follow up notification just to the owner, if a ticket is unlocked? The default is to send a notification to all agents, if a ticket is unlocked.</Description>
@@ -5229,7 +3955,6 @@ $Data{"Signature"}
                 <Item Key="0">Yes</Item>
             </Option>
         </Setting>
-        <!-- $Self->{PostmasterFollowUpOnUnlockAgentNotifyOnlyToOwner} = 0; -->
     </ConfigItem>
     <ConfigItem Name="PostmasterX-Header" Required="1" Valid="1">
         <Description Lang="en">All X-headers that should be scanned.</Description>
@@ -5300,70 +4025,6 @@ $Data{"Signature"}
                 <Item>X-OTRS-TicketValue8</Item>
             </Array>
         </Setting>
-        <!--
-            $Self->{'PostmasterX-Header'} = [
-                'From',
-                'To',
-                'Cc',
-                'Reply-To',
-                'ReplyTo',
-                'Subject',
-                'Message-ID',
-                'Message-Id',
-                'Resent-To',
-                'Resent-From',
-                'Precedence',
-                'Mailing-List',
-                'List-Id',
-                'List-Archive',
-                'Errors-To',
-                'References',
-                'In-Reply-To',
-                'X-Loop',
-                'X-Spam-Flag',
-                'X-Spam-Status',
-                'X-No-Loop',
-                'X-Priority',
-                'Importance',
-                'X-Mailer',
-                'User-Agent',
-                'Organization',
-                'X-Original-To',
-                'Delivered-To',
-                'X-OTRS-Loop',
-                'X-OTRS-Info',
-                'X-OTRS-Priority',
-                'X-OTRS-Queue',
-                'X-OTRS-Ignore',
-                'X-OTRS-State',
-                'X-OTRS-CustomerNo',
-                'X-OTRS-CustomerUser',
-                'X-OTRS-ArticleKey1',
-                'X-OTRS-ArticleKey2',
-                'X-OTRS-ArticleKey3',
-                'X-OTRS-ArticleValue1',
-                'X-OTRS-ArticleValue2',
-                'X-OTRS-ArticleValue3',
-                'X-OTRS-SenderType',
-                'X-OTRS-ArticleType',
-                'X-OTRS-TicketKey1',
-                'X-OTRS-TicketKey2',
-                'X-OTRS-TicketKey3',
-                'X-OTRS-TicketKey4',
-                'X-OTRS-TicketKey5',
-                'X-OTRS-TicketKey6',
-                'X-OTRS-TicketKey7',
-                'X-OTRS-TicketKey8',
-                'X-OTRS-TicketValue1',
-                'X-OTRS-TicketValue2',
-                'X-OTRS-TicketValue3',
-                'X-OTRS-TicketValue4',
-                'X-OTRS-TicketValue5',
-                'X-OTRS-TicketValue6',
-                'X-OTRS-TicketValue7',
-                'X-OTRS-TicketValue8',
-            ];
-        -->
     </ConfigItem>
     <ConfigItem Name="PostMaster::PreFilterModule###1-Match" Required="0" Valid="0">
         <Description Lang="en">Module to filter and manipulate incoming messages. Block/ignore all spam email with From: noreply@ address.</Description>
@@ -5385,17 +4046,6 @@ $Data{"Signature"}
                 </Item>
             </Hash>
         </Setting>
-        <!--
-            # $Self->{'PostMaster::PreFilterModule'}->{'1-Match'} = {
-            #     Module => 'Kernel::System::PostMaster::Filter::Match',
-            #     Match => {
-            #         From => 'noreply@',
-            #     },
-            #     Set => {
-            #         'X-OTRS-Ignore' => 'yes',
-            #     },
-            # };
-        -->
     </ConfigItem>
     <ConfigItem Name="PostMaster::PreFilterModule###2-Match" Required="0" Valid="0">
         <Description Lang="en">Module to filter and manipulate incoming messages. Get a 4 digit number to ticket free text, use regex in Match e. g. From => '(.+?)@.+?', and use () as [***] in Set =>.</Description>
@@ -5418,18 +4068,6 @@ $Data{"Signature"}
                 </Item>
             </Hash>
         </Setting>
-        <!--
-            #    $Self->{'PostMaster::PreFilterModule'}->{'2-Match'} = {
-            #        Module => 'Kernel::System::PostMaster::Filter::Match',
-            #        Match => {
-            #            Subject => 'SomeNumber:(\d\d\d\d)',
-            #        },
-            #        Set => {
-            #            'X-OTRS-TicketKey-1' => 'SomeNumber',
-            #            'X-OTRS-TicketValue-1' => '[***]',
-            #        },
-            #    };
-        -->
     </ConfigItem>
     <ConfigItem Name="PostMaster::PreFilterModule###5-SpamAssassin" Required="0" Valid="0">
         <Description Lang="en">SpamAssassin example setup. Ignore emails that are marked with SpamAssassin.</Description>
@@ -5447,15 +4085,6 @@ $Data{"Signature"}
                 </Item>
             </Hash>
         </Setting>
-        <!--
-        #    $Self->{'PostMaster::PreFilterModule'}->{'5-SpamAssassin'} = {
-        #        Module => 'Kernel::System::PostMaster::Filter::CMD',
-        #        CMD => '/usr/bin/spamassassin | grep -i "X-Spam-Status: yes"',
-        #        Set => {
-        #            'X-OTRS-Ignore' => 'yes',
-        #        },
-        #    };
-        -->
     </ConfigItem>
     <ConfigItem Name="PostMaster::PreFilterModule###5-SpamAssassin" Required="0" Valid="0">
         <Description Lang="en">SpamAssassin example setup. Move  marked mails to spam queue.</Description>
@@ -5473,15 +4102,6 @@ $Data{"Signature"}
                 </Item>
             </Hash>
         </Setting>
-        <!--
-            #    $Self->{'PostMaster::PreFilterModule'}->{'5-SpamAssassin'} = {
-            #        Module => 'Kernel::System::PostMaster::Filter::CMD',
-            #        CMD => '/usr/bin/spamassassin | grep -i "X-Spam-Status: yes"',
-            #        Set => {
-            #            'X-OTRS-Queue' => 'spam',
-            #        },
-            #    };
-        -->
     </ConfigItem>
     <ConfigItem Name="PostMaster::PreFilterModule###000-MatchDBSource" Required="1" Valid="1">
         <Description Lang="en">Module to use database filter storage (use it at first).</Description>
@@ -5493,11 +4113,6 @@ $Data{"Signature"}
                 <Item Key="Module">Kernel::System::PostMaster::Filter::MatchDBSource</Item>
             </Hash>
         </Setting>
-        <!--
-            $Self->{'PostMaster::PreFilterModule'}->{'000-MatchDBSource'} = {
-                Module => 'Kernel::System::PostMaster::Filter::MatchDBSource',
-            };
-        -->
     </ConfigItem>
     <ConfigItem Name="PostMaster::PreFilterModule###999-AgentInterface" Required="0" Valid="0">
         <Description Lang="en">A email agent interface.</Description>
@@ -5510,12 +4125,6 @@ $Data{"Signature"}
                 <Item Key="AgentInterfaceAddress">otrs-agent@example.org</Item>
             </Hash>
         </Setting>
-        <!--
-            #    $Self->{'PostMaster::PreFilterModule'}->{'999-AgentInterface'} = {
-            #        Module => 'Kernel::System::PostMaster::Filter::AgentInterface',
-            #        AgentInterfaceAddress => 'otrs-agent@example.org',
-            #    };
-        -->
     </ConfigItem>
     <ConfigItem Name="SendNoAutoResponseRegExp" Required="1" Valid="1">
         <Description Lang="en">If this regex matches, no message will be send by the autoresponder.</Description>
@@ -5525,6 +4134,5 @@ $Data{"Signature"}
         <Setting>
             <String Regex="">(MAILER-DAEMON|postmaster|abuse)@.+?\..+?</String>
         </Setting>
-        <!-- $Self->{SendNoAutoResponseRegExp} = '(MAILER-DAEMON|postmaster|abuse)@.+?\..+?'; -->
     </ConfigItem>
 </otrs_config>
