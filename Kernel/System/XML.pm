@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: XML.pm,v 1.22 2005-06-24 14:11:39 martin Exp $
+# $Id: XML.pm,v 1.23 2005-07-17 15:45:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::XML;
 use strict;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -262,7 +262,7 @@ sub XMLHashSearch {
                 $SQL .= " (xml_content_key LIKE '$Key' AND xml_content_value LIKE '$Value')";
 
             }
-            $SQL = "SELECT xml_key FROM xml_storage WHERE $SQL AND xml_type = '$Param{Type}' GROUP BY xml_key";   
+            $SQL = "SELECT xml_key FROM xml_storage WHERE $SQL AND xml_type = '$Param{Type}' GROUP BY xml_key";
             if (!$Self->{DBObject}->Prepare(SQL => $SQL)) {
                 return;
             }
@@ -553,20 +553,20 @@ sub XMLStructur2XMLHash {
     }
     $Self->{Tll} = 0;
     $Self->{XMLTagCount} = 0;
-    $Self->{XMLHash} = {};
+    $Self->{XMLHash2} = {};
     $Self->{XMLHashReturn} = 1;
     undef $Self->{XMLLevelTag};
     undef $Self->{XMLLevelCount};
     my $Output = '';
     foreach my $Item (@{$Param{XMLStructur}}) {
         if (ref($Item) eq 'HASH') {
-            $Output .= $Self->_XMLStructur2XMLHash(Key => $Item->{Tag}, Item => $Item, Type => 'ARRAY');
+            $Self->_XMLStructur2XMLHash(Key => $Item->{Tag}, Item => $Item, Type => 'ARRAY');
         }
     }
-#print STDERR $Output;
-    eval "$Output" || die $!;
+#     use Data::Dumper;
+#    print Data::Dumper->Dump([$Self->{XMLHash2}], [\$S]);
     $Self->{XMLHashReturn} = 0;
-    return (\%{$Self->{XMLHash}});
+    return (\%{$Self->{XMLHash2}});
 }
 sub _XMLStructur2XMLHash {
     my $Self = shift;
@@ -592,27 +592,158 @@ sub _XMLStructur2XMLHash {
         # remember old level
         $S->{Tll} = $Param{Item}->{TagLevel};
 
-        my $Key = '';
-        foreach (1..$Param{Item}->{TagLevel}) {
-#print STDERR "############### $_ $Param{Item}->{TagLevel} $Param{Key}\n";
-            $Key .= "{'$S->{XMLLevelTag}->{$_}'}";
-            $Key .= "[".$S->{XMLLevelCount}->{$_}->{$S->{XMLLevelTag}->{$_}}."]";
-        }
-#        $Param{Item}->{TagKey} = $Key;
-        foreach (keys %{$Param{Item}}) {
-            if (!defined($Param{Item}->{$_})) {
-                $Param{Item}->{$_} = '';
+        if ($Param{Item}->{TagLevel} == 1) {
+            foreach (keys %{$Param{Item}}) {
+                if (!defined($Param{Item}->{$_})) {
+                    $Param{Item}->{$_} = '';
+                }
+                if ($_ !~ /^Tag/) {
+                    $Self->{XMLHash2}->{$S->{XMLLevelTag}->{1}}->[$S->{XMLLevelCount}->{1}->{$S->{XMLLevelTag}->{1}}]->{$_} = $Param{Item}->{$_};
+                }
             }
-            if ($_ !~ /^Tag/) {
-#            if (defined($Param{Item}->{$_}) && $_ !~ /^Tag/) {
-#            if (defined($Param{Item}->{$_})) {
-                my $I = $Param{Item}->{$_};
-                $I =~ s/'/\\'/g;
-                $Output .= '$Self->{XMLHash}->'.$Key."{'$_'} = '$I';\n";
+        }
+        elsif ($Param{Item}->{TagLevel} == 2) {
+            foreach (keys %{$Param{Item}}) {
+                if (!defined($Param{Item}->{$_})) {
+                    $Param{Item}->{$_} = '';
+                }
+                if ($_ !~ /^Tag/) {
+                    $Self->{XMLHash2}->{$S->{XMLLevelTag}->{1}}->[$S->{XMLLevelCount}->{1}->{$S->{XMLLevelTag}->{1}}]->{$S->{XMLLevelTag}->{2}}->[$S->{XMLLevelCount}->{2}->{$S->{XMLLevelTag}->{2}}]->{$_} = $Param{Item}->{$_};
+                }
+            }
+        }
+        elsif ($Param{Item}->{TagLevel} == 3) {
+            foreach (keys %{$Param{Item}}) {
+                if (!defined($Param{Item}->{$_})) {
+                    $Param{Item}->{$_} = '';
+                }
+                if ($_ !~ /^Tag/) {
+                    $Self->{XMLHash2}->{$S->{XMLLevelTag}->{1}}->[$S->{XMLLevelCount}->{1}->{$S->{XMLLevelTag}->{1}}]->{$S->{XMLLevelTag}->{2}}->[$S->{XMLLevelCount}->{2}->{$S->{XMLLevelTag}->{2}}]->{$S->{XMLLevelTag}->{3}}->[$S->{XMLLevelCount}->{3}->{$S->{XMLLevelTag}->{3}}]->{$_} = $Param{Item}->{$_};
+                }
+            }
+        }
+        elsif ($Param{Item}->{TagLevel} == 4) {
+            foreach (keys %{$Param{Item}}) {
+                if (!defined($Param{Item}->{$_})) {
+                    $Param{Item}->{$_} = '';
+                }
+                if ($_ !~ /^Tag/) {
+                    $Self->{XMLHash2}->{$S->{XMLLevelTag}->{1}}->[$S->{XMLLevelCount}->{1}->{$S->{XMLLevelTag}->{1}}]->{$S->{XMLLevelTag}->{2}}->[$S->{XMLLevelCount}->{2}->{$S->{XMLLevelTag}->{2}}]->{$S->{XMLLevelTag}->{3}}->[$S->{XMLLevelCount}->{3}->{$S->{XMLLevelTag}->{3}}]->{$S->{XMLLevelTag}->{4}}->[$S->{XMLLevelCount}->{4}->{$S->{XMLLevelTag}->{4}}]->{$_} = $Param{Item}->{$_};
+                }
+            }
+        }
+        elsif ($Param{Item}->{TagLevel} == 5) {
+            foreach (keys %{$Param{Item}}) {
+                if (!defined($Param{Item}->{$_})) {
+                    $Param{Item}->{$_} = '';
+                }
+                if ($_ !~ /^Tag/) {
+                    $Self->{XMLHash2}->{$S->{XMLLevelTag}->{1}}->[$S->{XMLLevelCount}->{1}->{$S->{XMLLevelTag}->{1}}]->{$S->{XMLLevelTag}->{2}}->[$S->{XMLLevelCount}->{2}->{$S->{XMLLevelTag}->{2}}]->{$S->{XMLLevelTag}->{3}}->[$S->{XMLLevelCount}->{3}->{$S->{XMLLevelTag}->{3}}]->{$S->{XMLLevelTag}->{4}}->[$S->{XMLLevelCount}->{4}->{$S->{XMLLevelTag}->{4}}]->{$S->{XMLLevelTag}->{5}}->[$S->{XMLLevelCount}->{5}->{$S->{XMLLevelTag}->{5}}]->{$_} = $Param{Item}->{$_};
+                }
+            }
+        }
+        elsif ($Param{Item}->{TagLevel} == 6) {
+            foreach (keys %{$Param{Item}}) {
+                if (!defined($Param{Item}->{$_})) {
+                    $Param{Item}->{$_} = '';
+                }
+                if ($_ !~ /^Tag/) {
+                    $Self->{XMLHash2}->{$S->{XMLLevelTag}->{1}}->[$S->{XMLLevelCount}->{1}->{$S->{XMLLevelTag}->{1}}]->{$S->{XMLLevelTag}->{2}}->[$S->{XMLLevelCount}->{2}->{$S->{XMLLevelTag}->{2}}]->{$S->{XMLLevelTag}->{3}}->[$S->{XMLLevelCount}->{3}->{$S->{XMLLevelTag}->{3}}]->{$S->{XMLLevelTag}->{4}}->[$S->{XMLLevelCount}->{4}->{$S->{XMLLevelTag}->{4}}]->{$S->{XMLLevelTag}->{5}}->[$S->{XMLLevelCount}->{5}->{$S->{XMLLevelTag}->{5}}]->{$S->{XMLLevelTag}->{6}}->[$S->{XMLLevelCount}->{6}->{$S->{XMLLevelTag}->{6}}]->{$_} = $Param{Item}->{$_};
+                }
+            }
+        }
+        elsif ($Param{Item}->{TagLevel} == 7) {
+            foreach (keys %{$Param{Item}}) {
+                if (!defined($Param{Item}->{$_})) {
+                    $Param{Item}->{$_} = '';
+                }
+                if ($_ !~ /^Tag/) {
+                    $Self->{XMLHash2}->{$S->{XMLLevelTag}->{1}}->[$S->{XMLLevelCount}->{1}->{$S->{XMLLevelTag}->{1}}]->{$S->{XMLLevelTag}->{2}}->[$S->{XMLLevelCount}->{2}->{$S->{XMLLevelTag}->{2}}]->{$S->{XMLLevelTag}->{3}}->[$S->{XMLLevelCount}->{3}->{$S->{XMLLevelTag}->{3}}]->{$S->{XMLLevelTag}->{4}}->[$S->{XMLLevelCount}->{4}->{$S->{XMLLevelTag}->{4}}]->{$S->{XMLLevelTag}->{5}}->[$S->{XMLLevelCount}->{5}->{$S->{XMLLevelTag}->{5}}]->{$S->{XMLLevelTag}->{6}}->[$S->{XMLLevelCount}->{6}->{$S->{XMLLevelTag}->{6}}]->{$S->{XMLLevelTag}->{7}}->[$S->{XMLLevelCount}->{7}->{$S->{XMLLevelTag}->{7}}]->{$_} = $Param{Item}->{$_};
+                }
+            }
+        }
+        elsif ($Param{Item}->{TagLevel} == 8) {
+            foreach (keys %{$Param{Item}}) {
+                if (!defined($Param{Item}->{$_})) {
+                    $Param{Item}->{$_} = '';
+                }
+                if ($_ !~ /^Tag/) {
+                    $Self->{XMLHash2}->{$S->{XMLLevelTag}->{1}}->[$S->{XMLLevelCount}->{1}->{$S->{XMLLevelTag}->{1}}]->{$S->{XMLLevelTag}->{2}}->[$S->{XMLLevelCount}->{2}->{$S->{XMLLevelTag}->{2}}]->{$S->{XMLLevelTag}->{3}}->[$S->{XMLLevelCount}->{3}->{$S->{XMLLevelTag}->{3}}]->{$S->{XMLLevelTag}->{4}}->[$S->{XMLLevelCount}->{4}->{$S->{XMLLevelTag}->{4}}]->{$S->{XMLLevelTag}->{5}}->[$S->{XMLLevelCount}->{5}->{$S->{XMLLevelTag}->{5}}]->{$S->{XMLLevelTag}->{6}}->[$S->{XMLLevelCount}->{6}->{$S->{XMLLevelTag}->{6}}]->{$S->{XMLLevelTag}->{7}}->[$S->{XMLLevelCount}->{7}->{$S->{XMLLevelTag}->{7}}]->{$S->{XMLLevelTag}->{8}}->[$S->{XMLLevelCount}->{8}->{$S->{XMLLevelTag}->{8}}]->{$_} = $Param{Item}->{$_};
+                }
+            }
+        }
+        elsif ($Param{Item}->{TagLevel} == 9) {
+            foreach (keys %{$Param{Item}}) {
+                if (!defined($Param{Item}->{$_})) {
+                    $Param{Item}->{$_} = '';
+                }
+                if ($_ !~ /^Tag/) {
+                    $Self->{XMLHash2}->{$S->{XMLLevelTag}->{1}}->[$S->{XMLLevelCount}->{1}->{$S->{XMLLevelTag}->{1}}]->{$S->{XMLLevelTag}->{2}}->[$S->{XMLLevelCount}->{2}->{$S->{XMLLevelTag}->{2}}]->{$S->{XMLLevelTag}->{3}}->[$S->{XMLLevelCount}->{3}->{$S->{XMLLevelTag}->{3}}]->{$S->{XMLLevelTag}->{4}}->[$S->{XMLLevelCount}->{4}->{$S->{XMLLevelTag}->{4}}]->{$S->{XMLLevelTag}->{5}}->[$S->{XMLLevelCount}->{5}->{$S->{XMLLevelTag}->{5}}]->{$S->{XMLLevelTag}->{6}}->[$S->{XMLLevelCount}->{6}->{$S->{XMLLevelTag}->{6}}]->{$S->{XMLLevelTag}->{7}}->[$S->{XMLLevelCount}->{7}->{$S->{XMLLevelTag}->{7}}]->{$S->{XMLLevelTag}->{8}}->[$S->{XMLLevelCount}->{8}->{$S->{XMLLevelTag}->{8}}]->{$S->{XMLLevelTag}->{9}}->[$S->{XMLLevelCount}->{9}->{$S->{XMLLevelTag}->{9}}]->{$_} = $Param{Item}->{$_};
+                }
+            }
+        }
+        elsif ($Param{Item}->{TagLevel} == 10) {
+            foreach (keys %{$Param{Item}}) {
+                if (!defined($Param{Item}->{$_})) {
+                    $Param{Item}->{$_} = '';
+                }
+                if ($_ !~ /^Tag/) {
+                    $Self->{XMLHash2}->{$S->{XMLLevelTag}->{1}}->[$S->{XMLLevelCount}->{1}->{$S->{XMLLevelTag}->{1}}]->{$S->{XMLLevelTag}->{2}}->[$S->{XMLLevelCount}->{2}->{$S->{XMLLevelTag}->{2}}]->{$S->{XMLLevelTag}->{3}}->[$S->{XMLLevelCount}->{3}->{$S->{XMLLevelTag}->{3}}]->{$S->{XMLLevelTag}->{4}}->[$S->{XMLLevelCount}->{4}->{$S->{XMLLevelTag}->{4}}]->{$S->{XMLLevelTag}->{5}}->[$S->{XMLLevelCount}->{5}->{$S->{XMLLevelTag}->{5}}]->{$S->{XMLLevelTag}->{6}}->[$S->{XMLLevelCount}->{6}->{$S->{XMLLevelTag}->{6}}]->{$S->{XMLLevelTag}->{7}}->[$S->{XMLLevelCount}->{7}->{$S->{XMLLevelTag}->{7}}]->{$S->{XMLLevelTag}->{8}}->[$S->{XMLLevelCount}->{8}->{$S->{XMLLevelTag}->{8}}]->{$S->{XMLLevelTag}->{9}}->[$S->{XMLLevelCount}->{9}->{$S->{XMLLevelTag}->{9}}]->{$S->{XMLLevelTag}->{10}}->[$S->{XMLLevelCount}->{10}->{$S->{XMLLevelTag}->{10}}]->{$_} = $Param{Item}->{$_};
+                }
+            }
+        }
+        elsif ($Param{Item}->{TagLevel} == 11) {
+            foreach (keys %{$Param{Item}}) {
+                if (!defined($Param{Item}->{$_})) {
+                    $Param{Item}->{$_} = '';
+                }
+                if ($_ !~ /^Tag/) {
+                    $Self->{XMLHash2}->{$S->{XMLLevelTag}->{1}}->[$S->{XMLLevelCount}->{1}->{$S->{XMLLevelTag}->{1}}]->{$S->{XMLLevelTag}->{2}}->[$S->{XMLLevelCount}->{2}->{$S->{XMLLevelTag}->{2}}]->{$S->{XMLLevelTag}->{3}}->[$S->{XMLLevelCount}->{3}->{$S->{XMLLevelTag}->{3}}]->{$S->{XMLLevelTag}->{4}}->[$S->{XMLLevelCount}->{4}->{$S->{XMLLevelTag}->{4}}]->{$S->{XMLLevelTag}->{5}}->[$S->{XMLLevelCount}->{5}->{$S->{XMLLevelTag}->{5}}]->{$S->{XMLLevelTag}->{6}}->[$S->{XMLLevelCount}->{6}->{$S->{XMLLevelTag}->{6}}]->{$S->{XMLLevelTag}->{7}}->[$S->{XMLLevelCount}->{7}->{$S->{XMLLevelTag}->{7}}]->{$S->{XMLLevelTag}->{8}}->[$S->{XMLLevelCount}->{8}->{$S->{XMLLevelTag}->{8}}]->{$S->{XMLLevelTag}->{9}}->[$S->{XMLLevelCount}->{9}->{$S->{XMLLevelTag}->{9}}]->{$S->{XMLLevelTag}->{10}}->[$S->{XMLLevelCount}->{10}->{$S->{XMLLevelTag}->{10}}]->{$S->{XMLLevelTag}->{11}}->[$S->{XMLLevelCount}->{11}->{$S->{XMLLevelTag}->{11}}]->{$_} = $Param{Item}->{$_};
+                }
+            }
+        }
+        elsif ($Param{Item}->{TagLevel} == 12) {
+            foreach (keys %{$Param{Item}}) {
+                if (!defined($Param{Item}->{$_})) {
+                    $Param{Item}->{$_} = '';
+                }
+                if ($_ !~ /^Tag/) {
+                    $Self->{XMLHash2}->{$S->{XMLLevelTag}->{1}}->[$S->{XMLLevelCount}->{1}->{$S->{XMLLevelTag}->{1}}]->{$S->{XMLLevelTag}->{2}}->[$S->{XMLLevelCount}->{2}->{$S->{XMLLevelTag}->{2}}]->{$S->{XMLLevelTag}->{3}}->[$S->{XMLLevelCount}->{3}->{$S->{XMLLevelTag}->{3}}]->{$S->{XMLLevelTag}->{4}}->[$S->{XMLLevelCount}->{4}->{$S->{XMLLevelTag}->{4}}]->{$S->{XMLLevelTag}->{5}}->[$S->{XMLLevelCount}->{5}->{$S->{XMLLevelTag}->{5}}]->{$S->{XMLLevelTag}->{6}}->[$S->{XMLLevelCount}->{6}->{$S->{XMLLevelTag}->{6}}]->{$S->{XMLLevelTag}->{7}}->[$S->{XMLLevelCount}->{7}->{$S->{XMLLevelTag}->{7}}]->{$S->{XMLLevelTag}->{8}}->[$S->{XMLLevelCount}->{8}->{$S->{XMLLevelTag}->{8}}]->{$S->{XMLLevelTag}->{9}}->[$S->{XMLLevelCount}->{9}->{$S->{XMLLevelTag}->{9}}]->{$S->{XMLLevelTag}->{10}}->[$S->{XMLLevelCount}->{10}->{$S->{XMLLevelTag}->{10}}]->{$S->{XMLLevelTag}->{11}}->[$S->{XMLLevelCount}->{11}->{$S->{XMLLevelTag}->{11}}]->{$S->{XMLLevelTag}->{12}}->[$S->{XMLLevelCount}->{12}->{$S->{XMLLevelTag}->{12}}]->{$_} = $Param{Item}->{$_};
+                }
+            }
+        }
+        elsif ($Param{Item}->{TagLevel} == 13) {
+            foreach (keys %{$Param{Item}}) {
+                if (!defined($Param{Item}->{$_})) {
+                    $Param{Item}->{$_} = '';
+                }
+                if ($_ !~ /^Tag/) {
+                    $Self->{XMLHash2}->{$S->{XMLLevelTag}->{1}}->[$S->{XMLLevelCount}->{1}->{$S->{XMLLevelTag}->{1}}]->{$S->{XMLLevelTag}->{2}}->[$S->{XMLLevelCount}->{2}->{$S->{XMLLevelTag}->{2}}]->{$S->{XMLLevelTag}->{3}}->[$S->{XMLLevelCount}->{3}->{$S->{XMLLevelTag}->{3}}]->{$S->{XMLLevelTag}->{4}}->[$S->{XMLLevelCount}->{4}->{$S->{XMLLevelTag}->{4}}]->{$S->{XMLLevelTag}->{5}}->[$S->{XMLLevelCount}->{5}->{$S->{XMLLevelTag}->{5}}]->{$S->{XMLLevelTag}->{6}}->[$S->{XMLLevelCount}->{6}->{$S->{XMLLevelTag}->{6}}]->{$S->{XMLLevelTag}->{7}}->[$S->{XMLLevelCount}->{7}->{$S->{XMLLevelTag}->{7}}]->{$S->{XMLLevelTag}->{8}}->[$S->{XMLLevelCount}->{8}->{$S->{XMLLevelTag}->{8}}]->{$S->{XMLLevelTag}->{9}}->[$S->{XMLLevelCount}->{9}->{$S->{XMLLevelTag}->{9}}]->{$S->{XMLLevelTag}->{10}}->[$S->{XMLLevelCount}->{10}->{$S->{XMLLevelTag}->{10}}]->{$S->{XMLLevelTag}->{11}}->[$S->{XMLLevelCount}->{11}->{$S->{XMLLevelTag}->{11}}]->{$S->{XMLLevelTag}->{12}}->[$S->{XMLLevelCount}->{12}->{$S->{XMLLevelTag}->{12}}]->{$S->{XMLLevelTag}->{13}}->[$S->{XMLLevelCount}->{13}->{$S->{XMLLevelTag}->{13}}]->{$_} = $Param{Item}->{$_};
+                }
+            }
+        }
+        elsif ($Param{Item}->{TagLevel} == 14) {
+            foreach (keys %{$Param{Item}}) {
+                if (!defined($Param{Item}->{$_})) {
+                    $Param{Item}->{$_} = '';
+                }
+                if ($_ !~ /^Tag/) {
+                    $Self->{XMLHash2}->{$S->{XMLLevelTag}->{1}}->[$S->{XMLLevelCount}->{1}->{$S->{XMLLevelTag}->{1}}]->{$S->{XMLLevelTag}->{2}}->[$S->{XMLLevelCount}->{2}->{$S->{XMLLevelTag}->{2}}]->{$S->{XMLLevelTag}->{3}}->[$S->{XMLLevelCount}->{3}->{$S->{XMLLevelTag}->{3}}]->{$S->{XMLLevelTag}->{4}}->[$S->{XMLLevelCount}->{4}->{$S->{XMLLevelTag}->{4}}]->{$S->{XMLLevelTag}->{5}}->[$S->{XMLLevelCount}->{5}->{$S->{XMLLevelTag}->{5}}]->{$S->{XMLLevelTag}->{6}}->[$S->{XMLLevelCount}->{6}->{$S->{XMLLevelTag}->{6}}]->{$S->{XMLLevelTag}->{7}}->[$S->{XMLLevelCount}->{7}->{$S->{XMLLevelTag}->{7}}]->{$S->{XMLLevelTag}->{8}}->[$S->{XMLLevelCount}->{8}->{$S->{XMLLevelTag}->{8}}]->{$S->{XMLLevelTag}->{9}}->[$S->{XMLLevelCount}->{9}->{$S->{XMLLevelTag}->{9}}]->{$S->{XMLLevelTag}->{10}}->[$S->{XMLLevelCount}->{10}->{$S->{XMLLevelTag}->{10}}]->{$S->{XMLLevelTag}->{11}}->[$S->{XMLLevelCount}->{11}->{$S->{XMLLevelTag}->{11}}]->{$S->{XMLLevelTag}->{12}}->[$S->{XMLLevelCount}->{12}->{$S->{XMLLevelTag}->{12}}]->{$S->{XMLLevelTag}->{13}}->[$S->{XMLLevelCount}->{13}->{$S->{XMLLevelTag}->{13}}]->{$S->{XMLLevelTag}->{14}}->[$S->{XMLLevelCount}->{14}->{$S->{XMLLevelTag}->{14}}]->{$_} = $Param{Item}->{$_};
+                }
+            }
+        }
+        elsif ($Param{Item}->{TagLevel} == 15) {
+            foreach (keys %{$Param{Item}}) {
+                if (!defined($Param{Item}->{$_})) {
+                    $Param{Item}->{$_} = '';
+                }
+                if ($_ !~ /^Tag/) {
+                    $Self->{XMLHash2}->{$S->{XMLLevelTag}->{1}}->[$S->{XMLLevelCount}->{1}->{$S->{XMLLevelTag}->{1}}]->{$S->{XMLLevelTag}->{2}}->[$S->{XMLLevelCount}->{2}->{$S->{XMLLevelTag}->{2}}]->{$S->{XMLLevelTag}->{3}}->[$S->{XMLLevelCount}->{3}->{$S->{XMLLevelTag}->{3}}]->{$S->{XMLLevelTag}->{4}}->[$S->{XMLLevelCount}->{4}->{$S->{XMLLevelTag}->{4}}]->{$S->{XMLLevelTag}->{5}}->[$S->{XMLLevelCount}->{5}->{$S->{XMLLevelTag}->{5}}]->{$S->{XMLLevelTag}->{6}}->[$S->{XMLLevelCount}->{6}->{$S->{XMLLevelTag}->{6}}]->{$S->{XMLLevelTag}->{7}}->[$S->{XMLLevelCount}->{7}->{$S->{XMLLevelTag}->{7}}]->{$S->{XMLLevelTag}->{8}}->[$S->{XMLLevelCount}->{8}->{$S->{XMLLevelTag}->{8}}]->{$S->{XMLLevelTag}->{9}}->[$S->{XMLLevelCount}->{9}->{$S->{XMLLevelTag}->{9}}]->{$S->{XMLLevelTag}->{10}}->[$S->{XMLLevelCount}->{10}->{$S->{XMLLevelTag}->{10}}]->{$S->{XMLLevelTag}->{11}}->[$S->{XMLLevelCount}->{11}->{$S->{XMLLevelTag}->{11}}]->{$S->{XMLLevelTag}->{12}}->[$S->{XMLLevelCount}->{12}->{$S->{XMLLevelTag}->{12}}]->{$S->{XMLLevelTag}->{13}}->[$S->{XMLLevelCount}->{13}->{$S->{XMLLevelTag}->{13}}]->{$S->{XMLLevelTag}->{14}}->[$S->{XMLLevelCount}->{14}->{$S->{XMLLevelTag}->{14}}]->{$S->{XMLLevelTag}->{15}}->[$S->{XMLLevelCount}->{15}->{$S->{XMLLevelTag}->{15}}]->{$_} = $Param{Item}->{$_};
+                }
             }
         }
     }
-    return $Output;
+    return 1;
 }
 
 =item XMLParse()
@@ -755,6 +886,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.22 $ $Date: 2005-06-24 14:11:39 $
+$Revision: 1.23 $ $Date: 2005-07-17 15:45:45 $
 
 =cut
