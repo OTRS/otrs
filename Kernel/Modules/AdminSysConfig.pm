@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.pm,v 1.33 2005-07-15 00:24:16 martin Exp $
+# $Id: AdminSysConfig.pm,v 1.34 2005-07-17 15:48:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -329,7 +329,7 @@ sub Run {
                     $M = sprintf("%02d", $M);
                     $D = sprintf("%02d", $D);
 
-                    $Content{$Y}->{$M}->{$D} = '-new-';
+                    $Content{$Y}->{''}->{''} = '-new-';
                     $Anker = $ItemHash{Name};
                 }
                 # write ConfigItem
@@ -360,7 +360,7 @@ sub Run {
                     $M = sprintf("%02d", $M);
                     $D = sprintf("%02d", $D);
 
-                    $Content{$M}->{$D} = '-new-';
+                    $Content{$M}->{''} = '-new-';
                     $Anker = $ItemHash{Name};
                 }
                 # write ConfigItem
@@ -388,7 +388,7 @@ sub Run {
         return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}&Subaction=Edit&SysConfigSubGroup=$SubGroup&SysConfigGroup=$Group&#$Anker");
     }
     # edit config
-    if ($Self->{Subaction} eq 'Edit') {
+    elsif ($Self->{Subaction} eq 'Edit') {
         my $SubGroup = $Self->{ParamObject}->GetParam(Param => 'SysConfigSubGroup');
         my $Group = $Self->{ParamObject}->GetParam(Param => 'SysConfigGroup');
         my @List = $Self->{SysConfigObject}->ConfigSubGroupConfigItemList(Group => $Group, SubGroup => $SubGroup);
@@ -836,7 +836,7 @@ sub ListConfigItem {
         # New TimeVacationDaysOneTimeElement
         if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#NewTimeVacationDaysOneTimeElement')) {
             push (@{$ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}}, {Key => '', Content => ''});
-        }      
+        }
         # TimeVacationDaysOneTimeElements
         foreach my $Index (1...$#{$ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}}) {
             $Self->{LayoutObject}->Block(
@@ -846,10 +846,10 @@ sub ListConfigItem {
                     Year       => $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Year},
                     Month      => $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Month},
                     Day        => $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Day},
-                    Content    => $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Content},                  
+                    Content    => $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Content},
                     Index      => $Index,
                 },
-            );           
+            );
         }
     }
     # ConfigElement TimeVacationDays
@@ -863,7 +863,7 @@ sub ListConfigItem {
         # New TimeVacationDaysElement
         if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#NewTimeVacationDaysElement')) {
             push (@{$ItemHash{Setting}[1]{TimeVacationDays}[1]{Item}}, {Key => '', Content => ''});
-        }  
+        }
         # TimeVacationDaysElements
         foreach my $Index (1...$#{$ItemHash{Setting}[1]{TimeVacationDays}[1]{Item}}) {
             $Self->{LayoutObject}->Block(
@@ -872,10 +872,10 @@ sub ListConfigItem {
                     ElementKey => $ItemHash{Name},
                     Month      => $ItemHash{Setting}[1]{TimeVacationDays}[1]{Item}[$Index]{Month},
                     Day        => $ItemHash{Setting}[1]{TimeVacationDays}[1]{Item}[$Index]{Day},
-                    Content    => $ItemHash{Setting}[1]{TimeVacationDays}[1]{Item}[$Index]{Content},                  
+                    Content    => $ItemHash{Setting}[1]{TimeVacationDays}[1]{Item}[$Index]{Content},
                     Index      => $Index,
                 },
-            );           
+            );
         }
     }
     # ConfigElement TimeWorkingHours
@@ -902,9 +902,9 @@ sub ListConfigItem {
             if (defined($ItemHash{Setting}[1]{TimeWorkingHours}[1]{Day}[$Index]{Hour})) {
                 foreach my $Index2 (1...$#{$ItemHash{Setting}[1]{TimeWorkingHours}[1]{Day}[$Index]{Hour}}) {
                     $ArrayHours[$ItemHash{Setting}[1]{TimeWorkingHours}[1]{Day}[$Index]{Hour}[$Index2]{Content}] = 'checked';
-                }            
+                }
             }
-            foreach my $Z (1...24) {                
+            foreach my $Z (1...24) {
                 $Self->{LayoutObject}->Block(
                     Name => 'ConfigElementTimeWorkingHoursHours',
                     Data => {
@@ -913,7 +913,7 @@ sub ListConfigItem {
                         Aktiv      => $ArrayHours[$Z],
                     },
                 );
-            }          
+            }
         }
     }
 }
