@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.39 2005-07-15 00:24:33 martin Exp $
+# $Id: Config.pm,v 1.40 2005-07-17 15:38:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::XML;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -86,8 +86,8 @@ sub new {
 
     # read all config files
     $Self->{ConfigCounter} = $Self->_Init();
-    # write default file
-    $Self->_WriteDefault();
+#    # write default file
+#    $Self->WriteDefault();
 
     return $Self;
 }
@@ -149,7 +149,7 @@ sub _Init {
     return $Counter;
 }
 
-sub _WriteDefault {
+sub WriteDefault {
     my $Self = shift;
     my %Param = @_;
     my $File = '';
@@ -270,6 +270,8 @@ sub CreateConfig {
     my $File = '';
     my %UsedKeys = ();
     my $Home = $Self->{'Home'};
+    # remember to update defaults
+    $Self->{Update} = 1;
     # check needed stuff
     foreach (qw()) {
         if (!$Param{$_}) {
@@ -346,6 +348,8 @@ sub ConfigItemUpdate {
     my %Param = @_;
     my %UsedKeys = ();
     my $Home = $Self->{'Home'};
+    # remember to update defaults
+    $Self->{Update} = 1;
     # check needed stuff
     foreach (qw(Valid Key Value)) {
         if (!defined($Param{$_})) {
@@ -923,9 +927,9 @@ sub DataDiff {
     if (ref($Param{Data1}) eq 'ARRAY' && ref($Param{Data2}) eq 'ARRAY') {
         my @A = @{$Param{Data1}};
         my @B = @{$Param{Data2}};
-        # check if the count is different 
+        # check if the count is different
         if ($#A ne $#B) {
-            return 1; 
+            return 1;
         }
         # compare array
         foreach my $Count (0..$#A) {
@@ -934,7 +938,7 @@ sub DataDiff {
             }
             elsif (!defined($A[$Count]) || !defined($B[$Count])) {
                 # return diff, because its different
-                return 1; 
+                return 1;
             }
             elsif ($A[$Count] ne $B[$Count]) {
                 if (ref($A[$Count]) eq 'ARRAY' || ref($A[$Count]) eq 'HASH') {
@@ -943,7 +947,7 @@ sub DataDiff {
                     }
                 }
                 else {
-                    return 1; 
+                    return 1;
                 }
             }
         }
@@ -978,13 +982,13 @@ sub DataDiff {
                     }
                 }
                 else {
-                    return 1; 
+                    return 1;
                 }
             }
         }
         # check rest
         if (%B) {
-            return 1; 
+            return 1;
         }
         else {
             return 0;
@@ -1195,7 +1199,15 @@ sub _XML2Perl {
     }
     return $Data;
 }
-
+sub DESTROY {
+    my $Self = shift;
+    my %Param = @_;
+    if ($Self->{Update}) {
+        # write default file
+        $Self->WriteDefault();
+    }
+    return 1;
+}
 1;
 
 =head1 TERMS AND CONDITIONS
@@ -1210,6 +1222,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.39 $ $Date: 2005-07-15 00:24:33 $
+$Revision: 1.40 $ $Date: 2005-07-17 15:38:29 $
 
 =cut
