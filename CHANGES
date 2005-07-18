@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.146 2005-07-15 00:26:00 martin Exp $
+# $Id: CHANGES,v 1.147 2005-07-18 10:29:45 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,7 @@
 # --
 CVS head
 2.0.0 beta5 (2005/07/??)
+ - (2005/07/18) added Number-Check for TimeUnits (JavaScript)
  - (2005/07/15) fixed bug 821 - Admin SysConfig (Values cannot be activated)
  - (2005/07/14) removed not needed admin dtls from lite theme, because this
     standard is used as default
