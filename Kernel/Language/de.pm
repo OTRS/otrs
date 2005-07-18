@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: de.pm,v 1.85 2005-07-18 12:17:50 martin Exp $
+# $Id: de.pm,v 1.86 2005-07-18 22:15:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.85 $';
+$VERSION = '$Revision: 1.86 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -373,8 +373,8 @@ sub Data {
       'Search Tickets' => 'Ticket-Suche',
       'Edit Customer Users' => 'Kunden-Benutzer bearbeiten',
       'Bulk-Action' => '',
-      'Bulk Actions on Tickets' => 'Bulk aktion an Tickets',
-      'Send Email and create a new Ticket' => 'Email senden und neunes Ticket erstellen',
+      'Bulk Actions on Tickets' => 'Bulk-Action an Tickets',
+      'Send Email and create a new Ticket' => 'Email senden und neues Ticket erstellen',
       'Overview of all open Tickets' => 'Übersicht über alle offenen Tickets',
       'Locked tickets' => 'Gesperrte Tickets',
       'Lock it to work on it!' => 'Sperren um es zu bearbeiten!',
@@ -384,7 +384,7 @@ sub Data {
       'Change the ticket priority!' => 'Ändern der Ticket-Priorität',
       'Change the ticket free fields!' => 'Ändern der Ticket-Frei-Felder',
       'Link this ticket to an other objects!' => 'Ticket zu anderen Objekten verknüpfen!',
-      'Change the ticket owner!' => 'Ändern des Ticket-Benitzers!',
+      'Change the ticket owner!' => 'Ändern des Ticket-Besitzers!',
       'Change the ticket customer!' => 'Ändern des Ticket-Kunden!',
       'Add a note to this ticket!' => 'Hinzufügen einer Notiz!',
       'Merge this ticket!' => 'Ticket Mergen!',
@@ -394,7 +394,7 @@ sub Data {
       'Delete this ticket!' => 'Ticket löschen!',
       'Mark as Spam!' => 'Als Spam makieren!',
       'My Queues' => 'Meine Queues',
-      'Shown Tickets' => 'Gezeiget Tickets',
+      'Shown Tickets' => 'Gezeigte Tickets',
       'New ticket notification' => 'Mitteilung bei neuem Ticket',
       'Send me a notification if there is a new ticket in "My Queues".' => 'Zusenden einer Mitteilung bei neuem Ticket in "Meine Queues".',
       'Follow up notification' => 'Mitteilung bei Nachfragen',
@@ -678,6 +678,7 @@ sub Data {
       'move_into' => 'Verschieben in',
       'Permissions to move tickets into this group/queue.' => 'Rechte, um Tickets in eine Gruppe/Queue zu verschieben.',
       'create' => 'Erstellen',
+      'Create' => 'Erstellen',
       'Permissions to create tickets in this group/queue.' => 'Rechte, um in einer Gruppe/Queue Tickets zu erstellen.',
       'owner' => 'Besitzer',
       'Permissions to change the ticket owner in this group/queue.' => 'Rechte, um den Besitzer eines Ticket in einer Gruppe/Queue zu ändern.',
@@ -1149,7 +1150,7 @@ sub Data {
       'Webfrontend' => 'Web-Oberfläche',
       'Default Charset' => 'Standard-Zeichensatz',
       'Use utf-8 it your database supports it!' => 'Benutzen Sie utf-8 nur, wenn Ihre Datenbank es unterstützt!',
-      'Default Language' => 'Standardsprache',
+      'Default Language' => 'Standard-Sprache',
       '(Used default language)' => '(Standardwert für die Sprache)',
 
       # Template: Login
