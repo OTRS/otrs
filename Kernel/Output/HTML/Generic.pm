@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.188 2005-07-13 23:24:49 martin Exp $
+# $Id: Generic.pm,v 1.189 2005-07-18 08:32:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::Output::HTML::Agent;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.188 $';
+$VERSION = '$Revision: 1.189 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -2092,6 +2092,11 @@ sub BuildDateSelection {
     );
     # show calendar lookup
     if ($Area eq 'Agent' && $Self->{ConfigObject}->Get('TimeCalendarLookup')) {
+        # loas site preferences
+        $Self->Output(
+             TemplateFile => 'HeaderSmall',
+             Data => { },
+        );
         $Output .= $Self->Output(
              TemplateFile => 'AgentCalendarSmallIcon',
              Data => {
@@ -2100,6 +2105,11 @@ sub BuildDateSelection {
         );
     }
     elsif ($Area eq 'Customer' && $Self->{ConfigObject}->Get('TimeCalendarLookup')) {
+        # loas site preferences
+        $Self->Output(
+             TemplateFile => 'CustomerHeaderSmall',
+             Data => { },
+        );
         $Output .= $Self->Output(
              TemplateFile => 'CustomerCalendarSmallIcon',
              Data => {
@@ -2219,6 +2229,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.188 $ $Date: 2005-07-13 23:24:49 $
+$Revision: 1.189 $ $Date: 2005-07-18 08:32:26 $
 
 =cut
