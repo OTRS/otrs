@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.40 2005-07-17 15:38:29 martin Exp $
+# $Id: Config.pm,v 1.41 2005-07-18 13:36:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::XML;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.40 $';
+$VERSION = '$Revision: 1.41 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -86,8 +86,8 @@ sub new {
 
     # read all config files
     $Self->{ConfigCounter} = $Self->_Init();
-#    # write default file
-#    $Self->WriteDefault();
+    # write default file
+    $Self->WriteDefault();
 
     return $Self;
 }
@@ -1222,6 +1222,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.40 $ $Date: 2005-07-17 15:38:29 $
+$Revision: 1.41 $ $Date: 2005-07-18 13:36:15 $
 
 =cut
