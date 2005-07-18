@@ -100,6 +100,8 @@ $Text{"click here"}
 $Text{"Comment"}
 $Text{"Valid"}
 $Text{"Invalid Option!"}
+$Text{"Invalid time!"}
+$Text{"Invalid date!"}
 $Text{"Name"}
 $Text{"Group"}
 $Text{"Description"}
