@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketSearch.pm,v 1.2 2005-03-27 11:50:50 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.3 2005-07-18 11:59:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -100,6 +100,16 @@ sub Run {
     else {
         foreach (qw(TicketNumber From To Cc Subject Body CustomerID CustomerUserLogin
           Agent ResultForm TimeSearchType
+          TicketFreeTime1
+          TicketFreeTime1Start TicketFreeTime1StartDay TicketFreeTime1StartMonth
+          TicketFreeTime1StartYear
+          TicketFreeTime1Stop TicketFreeTime1StopDay TicketFreeTime1StopMonth
+          TicketFreeTime1StopYear
+          TicketFreeTime2
+          TicketFreeTime2Start TicketFreeTime2StartDay TicketFreeTime2StartMonth
+          TicketFreeTime2StartYear
+          TicketFreeTime2Stop TicketFreeTime2StopDay TicketFreeTime2StopMonth
+          TicketFreeTime2StopYear
           TicketCreateTimePointFormat TicketCreateTimePoint
           TicketCreateTimePointStart
           TicketCreateTimeStart TicketCreateTimeStartDay TicketCreateTimeStartMonth
@@ -238,6 +248,32 @@ sub Run {
                 $GetParam{TicketCreateTimeNewerMinutes} = $Time;
             }
           }
+        }
+        # free time
+        foreach (1..2) {
+            if (!$GetParam{'TicketFreeTime'.$_}) {
+                foreach my $Type (qw(Year Month Day)) {
+                    $GetParam{'TicketFreeTime'.$_.'Start'.$Type} = undef;
+                    $GetParam{'TicketFreeTime'.$_.'Stop'.$Type} = undef;
+                }
+                $GetParam{'TicketFreeTime'.$_.'NewerDate'} = undef;
+                $GetParam{'TicketFreeTime'.$_.'OlderDate'} = undef;
+            }
+            else {
+                $GetParam{'TicketFreeTime'.$_} = 'checked';
+                if ($GetParam{'TicketFreeTime'.$_.'StartDay'} && $GetParam{'TicketFreeTime'.$_.'StartMonth'} && $GetParam{'TicketFreeTime'.$_.'StartYear'}) {
+                    $GetParam{'TicketFreeTime'.$_.'NewerDate'} = $GetParam{'TicketFreeTime'.$_.'StartYear'}.
+                    '-'.$GetParam{'TicketFreeTime'.$_.'StartMonth'}.
+                    '-'.$GetParam{'TicketFreeTime'.$_.'StartDay'}.
+                    ' 00:00:01';
+                }
+                if ($GetParam{'TicketFreeTime'.$_.'StopDay'} && $GetParam{'TicketFreeTime'.$_.'StopMonth'} && $GetParam{'TicketFreeTime'.$_.'StopYear'}) {
+                    $GetParam{'TicketFreeTime'.$_.'OlderDate'} = $GetParam{'TicketFreeTime'.$_.'StopYear'}.
+                    '-'.$GetParam{'TicketFreeTime'.$_.'StopMonth'}.
+                    '-'.$GetParam{'TicketFreeTime'.$_.'StopDay'}.
+                    ' 23:59:59';
+                }
+            }
         }
         # focus of "From To Cc Subject Body"
         foreach (qw(From To Cc Subject Body)) {
@@ -678,6 +714,20 @@ sub MaskForm {
         Prefix => 'TicketCreateTimeStop',
         Format => 'DateInputFormat',
     );
+    foreach (1..2) {
+        $Param{'TicketFreeTime'.$_.'Start'} = $Self->{LayoutObject}->BuildDateSelection(
+            %Param,
+            Prefix => 'TicketFreeTime'.$_.'Start',
+            Format => 'DateInputFormat',
+            DiffTime => -((60*60*24)*30),
+        );
+        $Param{'TicketFreeTime'.$_.'Stop'} = $Self->{LayoutObject}->BuildDateSelection(
+            %Param,
+            Prefix => 'TicketFreeTime'.$_.'Stop',
+            Format => 'DateInputFormat',
+            DiffTime => +((60*60*24)*30),
+        );
+    }
     # html search mask output
     $Self->{LayoutObject}->Block(
         Name => 'Search',

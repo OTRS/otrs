@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.175 2005-07-18 10:29:54 martin Exp $
+# $Id: Ticket.pm,v 1.176 2005-07-18 11:59:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.175 $';
+$VERSION = '$Revision: 1.176 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -1786,6 +1786,12 @@ To find tickets in your system.
       TicketFreeKey2 => ['Product', 'Product2'],
       TicketFreeText2 => ['Browser', 'Sound', 'Mouse'],
 
+      # 1..2 (optional)
+      # tickets with free time after ... (optional)
+      TicketFreeTime1NewerDate => '2004-01-09 00:00:01',
+      # tickets with free time before then .... (optional)
+      TicketFreeTime1OlderDate => '2004-01-19 23:59:59',
+
       # article stuff (optional)
       From => '%spam@example.com%',
       To => '%support@example.com%',
@@ -2179,6 +2185,35 @@ sub TicketSearch {
             }
         }
     }
+    foreach (1..2) {
+        # get tickets older then xxxx-xx-xx xx:xx date
+        if ($Param{'TicketFreeTime'.$_.'OlderDate'}) {
+            # check time format
+            if ($Param{'TicketFreeTime'.$_.'OlderDate'} !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message => "No valid time format '".$Param{'TicketFreeTime'.$_.'OlderDate'}."'!",
+                );
+                return;
+            }
+            else {
+                $SQLExt .= " AND st.freetime$_ <= '".$Self->{DBObject}->Quote($Param{'TicketFreeTime'.$_.'OlderDate'})."'";
+            }
+        }
+        # get tickets newer then xxxx-xx-xx xx:xx date
+        if ($Param{'TicketFreeTime'.$_.'NewerDate'}) {
+            if ($Param{'TicketFreeTime'.$_.'NewerDate'} !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message => "No valid time format '".$Param{'TicketFreeTime'.$_.'NewerDate'}."'!",
+                );
+                return;
+            }
+            else {
+                $SQLExt .= " AND st.freetime$_ >= '".$Self->{DBObject}->Quote($Param{'TicketFreeTime'.$_.'NewerDate'})."'";
+            }
+        }
+    }
     # get tickets older then x minutes
     if ($Param{TicketCreateTimeOlderMinutes}) {
         my $Time = $Self->{TimeObject}->SystemTime()-($Param{TicketCreateTimeOlderMinutes}*60);
@@ -2192,7 +2227,7 @@ sub TicketSearch {
     # get tickets older then xxxx-xx-xx xx:xx date
     if ($Param{TicketCreateTimeOlderDate}) {
         # check time format
-        if ($Param{TicketCreateTimeOlderDate} !~ /\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d/) {
+        if ($Param{TicketCreateTimeOlderDate} !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message => "No valid time format '$Param{TicketCreateTimeOlderDate}'!",
@@ -2205,7 +2240,7 @@ sub TicketSearch {
     }
     # get tickets newer then xxxx-xx-xx xx:xx date
     if ($Param{TicketCreateTimeNewerDate}) {
-        if ($Param{TicketCreateTimeNewerDate} !~ /\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d/) {
+        if ($Param{TicketCreateTimeNewerDate} !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message => "No valid time format '$Param{TicketCreateTimeNewerDate}'!",
@@ -3949,6 +3984,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.175 $ $Date: 2005-07-18 10:29:54 $
+$Revision: 1.176 $ $Date: 2005-07-18 11:59:55 $
 
 =cut
