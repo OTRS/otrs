@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.174 2005-07-03 18:30:49 martin Exp $
+# $Id: Ticket.pm,v 1.175 2005-07-18 10:29:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.174 $';
+$VERSION = '$Revision: 1.175 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -1807,7 +1807,8 @@ To find tickets in your system.
 
       # OrderBy and SortBy (optional)
       OrderBy => 'Down',       # Down|Up
-      SortBy => 'Age',         # Owner|CustomerID|State|Ticket|Queue|Priority|Age
+      SortBy => 'Age',         # Owner|CustomerID|State|Ticket|Queue|Priority|Age|
+                               # TicketFreeTime1-2|TicketFreeKey1-8|TicketFreeText1-8
 
       # user search (optional)
       UserID => 123,
@@ -1837,6 +1838,24 @@ sub TicketSearch {
         Queue => 'sq.name',
         Priority => 'st.ticket_priority_id',
         Age => 'st.create_time_unix',
+        TicketFreeTime1 => 'st.freetime1',
+        TicketFreeTime2 => 'st.freetime2',
+        TicketFreeKey1 => 'st.freekey1',
+        TicketFreeText1 => 'st.freetext1',
+        TicketFreeKey2 => 'st.freekey2',
+        TicketFreeText2 => 'st.freetext2',
+        TicketFreeKey3 => 'st.freekey3',
+        TicketFreeText3 => 'st.freetext3',
+        TicketFreeKey4 => 'st.freekey4',
+        TicketFreeText4 => 'st.freetext4',
+        TicketFreeKey5 => 'st.freekey5',
+        TicketFreeText5 => 'st.freetext5',
+        TicketFreeKey6 => 'st.freekey6',
+        TicketFreeText6 => 'st.freetext6',
+        TicketFreeKey7 => 'st.freekey7',
+        TicketFreeText7 => 'st.freetext7',
+        TicketFreeKey8 => 'st.freekey8',
+        TicketFreeText8 => 'st.freetext8',
     );
     # check options
     if (!$SortOptions{$SortBy}) {
@@ -2664,7 +2683,7 @@ sub OwnerSet {
       # clear ticket cache
       $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
       # send agent notify
-      if ($Param{UserID} ne $Param{NewUserID} && 
+      if ($Param{UserID} ne $Param{NewUserID} &&
            $Param{NewUserID} ne $Self->{ConfigObject}->Get('PostmasterUserID')) {
         if (!$Param{Comment}) {
             $Param{Comment} = '';
@@ -3635,7 +3654,7 @@ sub TicketMerge {
         $Self->{LinkObject} = Kernel::System::LinkObject->new(%Param, %{$Self}, TicketObject => $Self);
         $Self->{LinkObject}->LoadBackend(Module => 'Ticket');
         $Self->{LinkObject}->LinkObject(
-            LinkType => 'Parent', 
+            LinkType => 'Parent',
             LinkID1 => $Param{MainTicketID},
             LinkObject1 => 'Ticket',
             LinkID2 => $Param{MergeTicketID},
@@ -3930,6 +3949,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.174 $ $Date: 2005-07-03 18:30:49 $
+$Revision: 1.175 $ $Date: 2005-07-18 10:29:54 $
 
 =cut
