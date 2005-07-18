@@ -2,19 +2,24 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.149 2005-07-18 12:00:22 martin Exp $
+# $Id: CHANGES,v 1.150 2005-07-18 22:17:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS head
-2.0.0 beta5 (2005/07/??)
+2.0.0 beta6 (2005/07/??)
+ - (2005/07/17) improved speed of xml parsing - also speed of SysConfig
+ - (2005/07/16) fixed module permission check bug in agent handle
+ - (2005/07/16) fixed not shown calendar lookup icon
  - (2005/07/18) added ticket search option for ticket free time
  - (2005/07/18) fixed not shown calendar lookup icons
  - (2005/07/18) added date-check (JavaScript)
  - (2005/07/18) added number-check for TimeUnits (JavaScript)
  - (2005/07/15) fixed bug 821 - Admin SysConfig (Values cannot be activated)
+
+2.0.0 beta5 (2005/07/14)
  - (2005/07/14) removed not needed admin dtls from lite theme, because this
     standard is used as default
  - (2005/07/14) removed not needed customer dtls from lite theme, because this

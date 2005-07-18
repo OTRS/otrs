@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # Modified for DB2 UDB Friedmar Moch <friedmar@acm.org>
 # --
-# $Id: db2.pm,v 1.2 2005-07-01 06:24:12 martin Exp $
+# $Id: db2.pm,v 1.3 2005-07-18 22:14:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,14 +15,13 @@ package Kernel::System::DB::db2;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub LoadPreferences {
     my $Self = shift;
     my %Param = @_;
 
-    printf("LoadPreferences");
     # db settings
     $Self->{'DB::Limit'} = 0;
     $Self->{'DB::DirectBlob'} = 0;
@@ -33,7 +32,6 @@ sub LoadPreferences {
         LongTruncOk => 1,
         LongReadLen => 100*1024,
     };
-    $Self->{'DB::CurrentTimestamp'} = 'timestamp';
 
     # shell setting
     $Self->{'DB::Comment'} = '-- ';
