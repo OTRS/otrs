@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.41 2005-07-18 13:36:15 martin Exp $
+# $Id: Config.pm,v 1.42 2005-07-18 22:14:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::XML;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.42 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -438,7 +438,7 @@ sub ConfigItemGet {
         }
         # add current valid state
         if (!$Param{Default} && !defined($Self->ModGet(ConfigName => $ConfigItem->{Name}))) {
-                $ConfigItem->{Valid} = 0;
+            $ConfigItem->{Valid} = 0;
         }
         elsif (!$Param{Default}) {
             $ConfigItem->{Valid} = 1;
@@ -665,7 +665,10 @@ sub ConfigItemGet {
             my ($A1, $A2);
             eval "\$A1 = $C";
             eval "\$A2 = $D";
-            if (!defined($A1) && !defined($A2)) {
+            if ($ConfigItemDefault{Valid} ne $ConfigItem->{Valid}) {
+                $ConfigItem->{Diff} = 1;
+            }
+            elsif (!defined($A1) && !defined($A2)) {
                 $ConfigItem->{Diff} = 0;
             }
             elsif ((defined($A1) && !defined($A2)) || (!defined($A1) && defined($A2)) || $Self->DataDiff(Data1 => $A1, Data2 => $A2)) {
@@ -1222,6 +1225,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.41 $ $Date: 2005-07-18 13:36:15 $
+$Revision: 1.42 $ $Date: 2005-07-18 22:14:30 $
 
 =cut
