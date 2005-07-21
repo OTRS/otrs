@@ -36,7 +36,8 @@ $Text{"If it is not displayed correctly,"}
 $Text{"This is a"}
 $Text{"to open it in a new window."}
 $Text{"This is a HTML email. Click here to show it."}
-
+$Text{"Free Fields"}
+$Text{"Merge"}
 $Text{"closed successful"}
 $Text{"closed unsuccessful"}
 $Text{"new"}
