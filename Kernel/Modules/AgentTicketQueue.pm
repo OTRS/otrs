@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketQueue.pm,v 1.3 2005-03-27 11:50:50 martin Exp $
+# $Id: AgentTicketQueue.pm,v 1.4 2005-07-23 08:53:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -427,7 +427,7 @@ sub ShowTicket {
         }
     }
     # create output
-    if ($Self->{ConfigObject}->Get('Ticket::AgentCanBeCustomer') && $Article{CustomerUserID} =~ /^$Self->{UserLogin}$/i) {
+    if ($Self->{ConfigObject}->Get('Ticket::AgentCanBeCustomer') && $Article{CustomerUserID} && $Article{CustomerUserID} =~ /^$Self->{UserLogin}$/i) {
         $Self->{LayoutObject}->Block(
             Name => 'AgentIsCustomer',
             Data => {%Param, %Article, %AclAction},
