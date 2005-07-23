@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.42 2005-07-18 22:14:30 martin Exp $
+# $Id: Config.pm,v 1.43 2005-07-23 08:51:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::XML;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -86,8 +86,8 @@ sub new {
 
     # read all config files
     $Self->{ConfigCounter} = $Self->_Init();
-    # write default file
-    $Self->WriteDefault();
+#    # write default file
+#    $Self->WriteDefault();
 
     return $Self;
 }
@@ -154,7 +154,6 @@ sub WriteDefault {
     my %Param = @_;
     my $File = '';
     my %UsedKeys = ();
-    my $Home = $Self->{Home};
     # check needed stuff
     foreach (qw()) {
         if (!$Param{$_}) {
@@ -179,14 +178,19 @@ sub WriteDefault {
             }
         }
     }
-    if (!open(OUT, "> $Home/Kernel/Config/Files/ZZZAAuto.pm")) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Can't write $Home/Kernel/Config/Files/ZZZAAuto.pm!");
+    # write default config file
+    if (!open(OUT, "> $Self->{Home}/Kernel/Config/Files/ZZZAAuto.pm")) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Can't write $Self->{Home}/Kernel/Config/Files/ZZZAAuto.pm: $!!",
+        );
         return;
     }
     else {
         print OUT $File;
         print OUT "\$Self->{'1'} = 1;\n";
         close (OUT);
+        return 1;
     }
 }
 
@@ -1225,6 +1229,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.42 $ $Date: 2005-07-18 22:14:30 $
+$Revision: 1.43 $ $Date: 2005-07-23 08:51:36 $
 
 =cut

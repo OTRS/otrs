@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.pm,v 1.34 2005-07-17 15:48:37 martin Exp $
+# $Id: AdminSysConfig.pm,v 1.35 2005-07-23 08:51:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.34 $';
+$VERSION = '$Revision: 1.35 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -49,6 +49,11 @@ sub Run {
     my %Data;
     my $Group = '';
     my $Anker = '';
+
+    # write default file
+    if (!$Self->{SysConfigObject}->WriteDefault()) {
+        return $Self->{LayoutObject}->ErrorScreen();
+    }
 
     $Data{Search} = $Self->{ParamObject}->GetParam(Param => 'Search');
     # download
