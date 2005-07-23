@@ -1,8 +1,8 @@
 # --
-# Kernel/Modules/AgentTicketMerge.pm - to merge tickets 
+# Kernel/Modules/AgentTicketMerge.pm - to merge tickets
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketMerge.pm,v 1.3 2005-05-04 07:53:41 martin Exp $
+# $Id: AgentTicketMerge.pm,v 1.4 2005-07-23 08:57:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -137,12 +137,6 @@ sub Run {
                     return $Self->{LayoutObject}->ErrorScreen();
                 }
             }
-            # unlock ticket
-            $Self->{TicketObject}->LockSet(
-                UserID => $Self->{UserID},
-                TicketID => $Self->{TicketID},
-                Lock => 'unlock'
-            );
             # redirect
             return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenOverview});
         }
@@ -211,7 +205,7 @@ sub Run {
         $Article{RealName} = $Address{RealName};
         # prepare salutation
         $Param{Salutation} = $Self->{QueueObject}->GetSalutation(%Article);
-        # prepare signature 
+        # prepare signature
         $Param{Signature} = $Self->{QueueObject}->GetSignature(%Article);
         foreach (qw(Signature Salutation)) {
             # get and prepare realname
