@@ -2,7 +2,7 @@
 # AgentTicketPending.dtl - provides HTML form for pending mask
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPending.dtl,v 1.8 2005-07-18 11:51:07 rk Exp $
+# $Id: AgentTicketPending.dtl,v 1.9 2005-07-23 10:51:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -124,7 +124,7 @@ $Include{"AgentTicketLocked"}
 <!-- dtl:block:TimeUnits -->
       <tr>
         <td class="contentkey">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</td>
-        <td class="contentvalue"><input type="text" name="TimeUnits" value="" size="3"></td>
+        <td class="contentvalue"><input type="text" name="TimeUnits" value="$QData{"TimeUnits"}" size="3"></td>
       </tr>
 <!-- dtl:block:TimeUnits -->
       </table>
