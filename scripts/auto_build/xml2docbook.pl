@@ -3,7 +3,7 @@
 # xml2docbook.pl - config xml to docbook
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: xml2docbook.pl,v 1.1 2005-07-22 09:55:41 martin Exp $
+# $Id: xml2docbook.pl,v 1.2 2005-07-23 16:26:49 cs Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,9 +27,10 @@ use lib dirname($RealBin)."/../";
 use lib dirname($RealBin)."/../Kernel/cpan-lib";
 
 use strict;
+use Getopt::Std;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Kernel::Config;
@@ -54,26 +55,36 @@ $CommonObject{SysConfigObject} = Kernel::System::Config->new(%CommonObject);
 # list Groups
 #my %List = $CommonObject{SysConfigObject}->ConfigGroupList();
 my @Groups = (qw(Framework Ticket FAQ));
-my $UserLang = 'de';
+my $UserLang = '';
+
+# --
+# get options
+# --
+my %Opts = ();
+
+getopt('l',  \%Opts);
+
+if ($Opts{'l'}) {
+    $UserLang = $Opts{'l'};
+}
+else {
+   die "Need -l <Language>\n";
+}
+
+# --
+# start xml output
+# --
+
 print '<?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
-  <!ENTITY auml   "&#x00E4;"> <!-- LATIN SMALL LETTER A WITH DIAERESIS -->
-  <!ENTITY Auml   "&#x00C4;"> <!-- LATIN CAPITAL LETTER A WITH DIAERESIS -->
-  <!ENTITY ouml   "&#x00F6;"> <!-- LATIN SMALL LETTER O WITH DIAERESIS -->
-  <!ENTITY Ouml   "&#x00D6;"> <!-- LATIN CAPITAL LETTER O WITH DIAERESIS -->
-  <!ENTITY uuml   "&#x00FC;"> <!-- LATIN SMALL LETTER U WITH DIAERESIS -->
-  <!ENTITY Uuml   "&#x00DC;"> <!-- LATIN CAPITAL LETTER U WITH DIAERESIS -->
-  <!ENTITY szlig  "&#x00DF;"> <!-- LATIN SMALL LETTER SHARP S -->
-]>
+  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
 ';
-print "<appendix id=\"config\"><title>Config Referenzliste</title>\n";
+print "\n<appendix id=\"config\"><title>Config Referenzliste</title>\n";
 foreach my $Group (@Groups) {
     my %SubList = $CommonObject{SysConfigObject}->ConfigSubGroupList(Name => $Group);
     print "<sect1 id=\"$Group\"><title>$Group</title> \n";
     foreach my $SubGroup (sort keys %SubList) {
         print "<sect2 id=\"$Group:$SubGroup\"><title>$SubGroup</title> \n";
-#        print "$Group: $SubGroup \n";
         my @List = $CommonObject{SysConfigObject}->ConfigSubGroupConfigItemList(Group => $Group, SubGroup => $SubGroup);
         foreach my $Name (@List) {
             my %Item = $CommonObject{SysConfigObject}->ConfigItemGet(Name => $Name);
@@ -81,6 +92,9 @@ foreach my $Group (@Groups) {
             $Link =~ s/###/_/g;
             $Link =~ s/\///g;
             print "<sect3 id=\"$Group:$SubGroup:$Link\"><title>$Name</title> \n";
+	    print "<informaltable>\n<tgroup cols=\"1\">\n";
+	    print "<thead>\n<row>\n<entry>Description</entry>\n";
+	    print "<entry>Value</entry>\n</row>\n</thead>\n<tbody>\n";
             #Description
             my %HashLang;
             foreach my $Index (1...$#{$Item{Description}}) {
@@ -93,21 +107,17 @@ foreach my $Group (@Groups) {
             }
             # Description in Default Language
             else {
-                $Description = $HashLang{'en'};
+	        $Description = $HashLang{'en'};
             }
-#            print " Name: $_ \n";
-#            print " Description: $Description\n";
             $Description =~ s/&/&amp;/g;
             $Description =~ s/</&lt;/g;
             $Description =~ s/>/&gt;/g;
-            print "<para>$Description</para>\n";
-            print "<itemizedlist>\n";
+	    print "<row>\n<entry>Description:</entry>\n";
+            print "<entry>$Description</entry>\n</row>\n";
             foreach my $Area (qw(Group SubGroup)) {
                 foreach (1..10) {
                     if ($Item{$Area}->[$_]) {
-                        print "<listitem><para>\n";
-                        print "$Area: $Item{$Area}->[$_]->{Content}\n";
-                        print "</para></listitem>\n";
+                        print "<row>\n<entry>$Area:</entry>\n<entry>$Item{$Area}->[$_]->{Content}</entry>\n</row>\n";
                     }
                 }
             }
@@ -124,11 +134,11 @@ foreach my $Group (@Groups) {
             $Config =~ s/&/&amp;/g;
             $Config =~ s/</&lt;/g;
             $Config =~ s/>/&gt;/g;
-            print "<listitem><para>Config-Setting</para><programlisting>\n";
+            print "<row>\n<entry>Config-Setting:</entry>\n<entry><programlisting>\n";
             print $Config;
             print "</programlisting>\n";
-            print "</listitem>\n";
-            print "</itemizedlist>\n";
+            print "</entry>\n</row>\n";
+	    print "</tbody>\n</tgroup>\n</informaltable>\n";
             print "</sect3> \n";
         }
         print "</sect2> \n";
