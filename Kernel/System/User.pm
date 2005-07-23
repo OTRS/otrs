@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: User.pm,v 1.44 2005-06-19 22:43:43 martin Exp $
+# $Id: User.pm,v 1.45 2005-07-23 08:50:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.44 $';
+$VERSION = '$Revision: 1.45 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -59,11 +59,19 @@ sub new {
 sub GetUserData {
     my $Self = shift;
     my %Param = @_;
-    my $User = $Param{User} || '';
-    my $UserID = $Param{UserID} || '';
+    # check needed stuff
+    if (!$Param{User} && !$Param{UserID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need User or UserID!");
+        return;
+    }
     # check if result is cached
-    if ($Param{Cached} && $Self->{'GetUserData'.$User.$UserID}) {
-        return %{$Self->{'GetUserData'.$User.$UserID}};
+    if ($Param{Cached}) {
+        if ($Param{User} && $Self->{'GetUserData::User::'.$Param{User}}) {
+            return %{$Self->{'GetUserData::User::'.$Param{User}}};
+        }
+        elsif ($Param{UserID} && $Self->{'GetUserData::UserID::'.$Param{UserID}}) {
+            return %{$Self->{'GetUserData::UserID::'.$Param{UserID}}};
+        }
     }
     my %Data;
     # get inital data
@@ -72,33 +80,50 @@ sub GetUserData {
         " FROM " .
         " $Self->{UserTable} " .
         " WHERE ";
-    if ($User) {
-        $SQL .= " $Self->{UserTableUser} = '".$Self->{DBObject}->Quote($User)."'";
+    if ($Param{User}) {
+        $SQL .= " $Self->{UserTableUser} = '".$Self->{DBObject}->Quote($Param{User})."'";
     }
     else {
-        $SQL .= " $Self->{UserTableUserID} = ".$Self->{DBObject}->Quote($UserID)."";
-    }
-    # check valid
-    if ($Param{Valid}) {
-        $SQL .= " AND valid_id in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} )";
+        $SQL .= " $Self->{UserTableUserID} = ".$Self->{DBObject}->Quote($Param{UserID})."";
     }
     $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        $Data{UserID} = $RowTmp[0];
-        $Data{UserLogin} = $RowTmp[1];
-        $Data{UserSalutation} = $RowTmp[2];
-        $Data{UserFirstname} = $RowTmp[3];
-        $Data{UserLastname} = $RowTmp[4];
-        $Data{UserPw} = $RowTmp[5];
-        $Data{ValidID} = $RowTmp[6];
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $Data{UserID} = $Row[0];
+        $Data{UserLogin} = $Row[1];
+        $Data{UserSalutation} = $Row[2];
+        $Data{UserFirstname} = $Row[3];
+        $Data{UserLastname} = $Row[4];
+        $Data{UserPw} = $Row[5];
+        $Data{ValidID} = $Row[6];
     }
     # check data
-    if (! exists $Data{UserID} && ! $UserID && !$Param{Valid}) {
-        $Self->{LogObject}->Log(
-            Priority => 'notice',
-            Message => "Panic! No UserData for user: '$User'!!!",
-        );
-        return;
+    if (!$Data{UserID}) {
+        if ($Param{User}) {
+            $Self->{LogObject}->Log(
+                Priority => 'notice',
+                Message => "Panic! No UserData for user: '$Param{User}'!!!",
+            );
+            return;
+        }
+        else {
+            $Self->{LogObject}->Log(
+                Priority => 'notice',
+                Message => "Panic! No UserData for user id: '$Param{UserID}'!!!",
+            );
+            return;
+        }
+    }
+    # check valid, return if there is locked for valid users
+    if ($Param{Valid}) {
+        my $Hit = 0;
+        foreach ($Self->{DBObject}->GetValidIDs()) {
+            if ($_ eq $Data{ValidID}) {
+                $Hit = 1;
+            }
+        }
+        if (!$Hit) {
+            return;
+        }
     }
     # get preferences
     my %Preferences = $Self->GetPreferences(UserID => $Data{UserID});
@@ -107,7 +132,12 @@ sub GetUserData {
         $Preferences{UserEmail} = $Data{UserLogin};
     }
     # cache user result
-    $Self->{'GetUserData'.$User.$UserID} = {%Data, %Preferences};
+    if ($Param{User} && $Self->{'GetUserData::User::'.$Param{User}}) {
+        $Self->{'GetUserData::User::'.$Param{User}} = {%Data, %Preferences};
+    }
+    elsif ($Param{UserID} && $Self->{'GetUserData::UserID::'.$Param{UserID}}) {
+        $Self->{'GetUserData::UserID::'.$Param{UserID}} = {%Data, %Preferences};
+    }
     # return data
     return (%Data, %Preferences);
 }
