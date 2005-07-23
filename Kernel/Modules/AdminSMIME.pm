@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSMIME.pm - to add/update/delete pgp keys
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSMIME.pm,v 1.10 2005-03-27 11:50:50 martin Exp $
+# $Id: AdminSMIME.pm,v 1.11 2005-07-23 08:52:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -238,7 +238,10 @@ sub Run {
     }
     # search key
     else {
-        my @List = $Self->{CryptObject}->Search(Search => $Param{Search});
+        my @List = ();
+        if ($Self->{CryptObject}) {
+            @List = $Self->{CryptObject}->KeySearch(Search => $Param{Search});
+        }
         foreach my $Key (@List) {
             $Self->{LayoutObject}->Block(
                 Name => 'Row',
@@ -251,6 +254,13 @@ sub Run {
         }
         $Output .= $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
+        if (!$Self->{CryptObject}) {
+            $Output .= $Self->{LayoutObject}->Notify(
+                Priority => 'Error',
+                Data => '$Text{"You need to activate %s first to use it!", "SMIME"}',
+                Link => '$Env{"Baselink"}Action=AdminSysConfig&Subaction=Edit&SysConfigGroup=Framework&SysConfigSubGroup=Crypt::SMIME"',
+            );
+        }
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminSMIMEForm', Data => \%Param);
         $Output .= $Self->{LayoutObject}->Footer();
     }

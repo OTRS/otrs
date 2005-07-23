@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.205 2005-07-13 23:41:49 martin Exp $
+# $Id: Defaults.pm,v 1.206 2005-07-23 08:52:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.205 $';
+$VERSION = '$Revision: 1.206 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -623,7 +623,7 @@ sub LoadDefaults {
     # --------------------------------------------------- #
     # PGP settings (supports gpg)                         #
     # --------------------------------------------------- #
-    $Self->{'PGP'} = 1;
+    $Self->{'PGP'} = 0;
     $Self->{'PGP::Bin'} = '/usr/bin/gpg';
     $Self->{'PGP::Options'} = '--homedir /var/lib/wwwrun/.gnupg/ --batch --no-tty --yes';
 #    $Self->{'PGP::Options'} = '--batch --no-tty --yes';
@@ -633,7 +633,7 @@ sub LoadDefaults {
     # --------------------------------------------------- #
     # S/MIME settings (supports smime)                    #
     # --------------------------------------------------- #
-    $Self->{'SMIME'} = 1;
+    $Self->{'SMIME'} = 0;
     # maybe openssl need a HOME env!
     #$ENV{HOME} = '/var/lib/wwwrun';
     $Self->{'SMIME::Bin'} = '/usr/bin/openssl';
@@ -1238,7 +1238,7 @@ Your OTRS Notification Master
     };
     $Self->{'Frontend::Module'}->{'AgentLinkObject'} = {
         Description => 'Link Object',
-        Title => 'Link Object',    
+        Title => 'Link Object',
     };
     $Self->{'Frontend::Module'}->{'AgentInfo'} = {
         Description => 'Generic Info module',
@@ -1421,7 +1421,7 @@ Your OTRS Notification Master
             Block => 'Block3',
             Prio => 600,
         },
-    };   
+    };
     $Self->{'Frontend::Module'}->{'AdminSysConfig'} = {
         Group => ['admin'],
         Description => 'Admin',
@@ -1433,7 +1433,7 @@ Your OTRS Notification Master
             Block => 'Block3',
             Prio => 1100,
         },
-    };  
+    };
     $Self->{'Frontend::Module'}->{'AdminPOP3'} = {
         Group => ['admin'],
         Description => 'Admin',
@@ -1709,6 +1709,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.205 $ $Date: 2005-07-13 23:41:49 $
+$Revision: 1.206 $ $Date: 2005-07-23 08:52:38 $
 
 =cut
