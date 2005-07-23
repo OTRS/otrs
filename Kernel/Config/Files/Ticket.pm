@@ -1337,7 +1337,7 @@ $Data{"Signature"}
     };
     $Self->{'Frontend::Module'}->{'AgentTicketPlain'} = {
         Description => 'Ticket plain view of an email',
-        Title => 'Plain Article',
+        Title => 'Plain',
         NavBarName => 'Ticket',
     };
     $Self->{'Frontend::Module'}->{'AgentTicketNote'} = {

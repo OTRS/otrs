@@ -148,7 +148,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.55 2005-07-20 07:00:43 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.56 2005-07-23 09:51:06 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifyer for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z.B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -3224,7 +3224,7 @@ $Data{"Signature"}
         <Setting>
             <FrontendModuleReg>
                 <Description>Ticket plain view of an email</Description>
-                <Title>Plain Article</Title>
+                <Title>Plain</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
