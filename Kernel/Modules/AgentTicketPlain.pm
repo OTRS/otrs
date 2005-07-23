@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPlain.pm - to get a plain view
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPlain.pm,v 1.2 2005-03-27 11:50:50 martin Exp $
+# $Id: AgentTicketPlain.pm,v 1.3 2005-07-23 09:57:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentTicketPlain;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -67,13 +67,14 @@ sub Run {
     }
 
 
-    my $Text = $Self->{TicketObject}->ArticlePlain(ArticleID => $Self->{ArticleID}) || '';
+    my %Article = $Self->{TicketObject}->ArticleGet(ArticleID => $Self->{ArticleID});
+    my $Text = $Self->{TicketObject}->ArticlePlain(ArticleID => $Self->{ArticleID});
     if ($Text) {
         if ($Self->{Subaction} eq 'Download') {
             # return new page
             return $Self->{LayoutObject}->Attachment(
 #                Type => 'attached',
-                Filename => "TicketID-$Self->{TicketID}-ArticleID-$Self->{ArticleID}.eml",
+                Filename => "Ticket-$Article{TicketNumber}-TicketID-$Self->{TicketID}-ArticleID-$Self->{ArticleID}.eml",
                 ContentType => 'text/plain',
                 Content => $Text,
                 Type => 'attachment',
@@ -94,12 +95,13 @@ sub Run {
             $Text =~ s/^(From .*)/<font color=\"gray\">$1<\/font>/gm;
             $Text =~ s/^(X-OTRS.*)/<font color=\"#99BBDD\">$1<\/font>/gmi;
 
-            my $Output = $Self->{LayoutObject}->Header();
+            my $Output = $Self->{LayoutObject}->Header(Value => "$Article{TicketNumber} / $Self->{TicketID} / $Self->{ArticleID}");
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AgentTicketPlain',
                 Data => {
                     Text => $Text,
+                    %Article,
                     TicketID => $Self->{TicketID},
                     ArticleID => $Self->{ArticleID},
                 }
