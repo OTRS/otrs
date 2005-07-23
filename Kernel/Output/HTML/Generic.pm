@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.189 2005-07-18 08:32:26 martin Exp $
+# $Id: Generic.pm,v 1.190 2005-07-23 08:53:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::Output::HTML::Agent;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.189 $';
+$VERSION = '$Revision: 1.190 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -1085,6 +1085,34 @@ sub Notify {
         $Self->Block(
             Name => 'Warning',
             Data => {},
+        );
+    }
+    if ($Param{Link}) {
+        $Self->Block(
+            Name => 'LinkStart',
+            Data => {
+                LinkStart => $Param{Link},
+            },
+        );
+    }
+    if ($Param{Data}) {
+        $Self->Block(
+            Name => 'Data',
+            Data => \%Param,
+        );
+    }
+    else {
+        $Self->Block(
+            Name => 'Text',
+            Data => \%Param,
+        );
+    }
+    if ($Param{Link}) {
+        $Self->Block(
+            Name => 'LinkStop',
+            Data => {
+                LinkStop => '</a>',
+            },
         );
     }
     return $Self->Output(TemplateFile => 'Notify', Data => \%Param);
@@ -2229,6 +2257,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.189 $ $Date: 2005-07-18 08:32:26 $
+$Revision: 1.190 $ $Date: 2005-07-23 08:53:23 $
 
 =cut
