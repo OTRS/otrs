@@ -1,8 +1,8 @@
 # --
-# Kernel/Output/HTML/NotificationUIDCheck.pm  
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Kernel/Output/HTML/NotificationUIDCheck.pm
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NotificationUIDCheck.pm,v 1.2 2004-04-15 08:40:33 martin Exp $
+# $Id: NotificationUIDCheck.pm,v 1.3 2005-07-23 10:47:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::NotificationUIDCheck;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub new {
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     # get needed objects
@@ -39,8 +39,9 @@ sub Run {
     my $Output = '';
     if ($Self->{UserID} == 1) {
         $Output .= $Self->{LayoutObject}->Notify(
-          Info => '<a href="$Env{"Baselink"}Action=AdminUser">'.
-          $Self->{LayoutObject}->{LanguageObject}->Get("Don't work with UserID 1 (System account)! Create new users!").'</a>',
+            Priority => 'Notice',
+            Link => '$Env{"Baselink"}Action=AdminUser',
+            Data => '$Text{"Don\'t work with UserID 1 (System account)! Create new users!"}',
         );
     }
     return $Output;

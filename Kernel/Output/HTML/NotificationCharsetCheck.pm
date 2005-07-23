@@ -1,8 +1,8 @@
 # --
-# Kernel/Output/HTML/NotificationCharsetCheck.pm  
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Kernel/Output/HTML/NotificationCharsetCheck.pm
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NotificationCharsetCheck.pm,v 1.2 2004-04-15 08:40:33 martin Exp $
+# $Id: NotificationCharsetCheck.pm,v 1.3 2005-07-23 10:47:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::NotificationCharsetCheck;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub new {
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     # get needed objects
@@ -50,7 +50,8 @@ sub Run {
     }
     if (!$Param{CorrectDisplayCharset} && $Self->{LayoutObject}->{LanguageObject}->GetRecommendedCharset()) {
         $Output .= $Self->{LayoutObject}->Notify(
-          Info => $Self->{LayoutObject}->{LanguageObject}->Get('The recommended charset for your language is %s!", "'.$Self->{LayoutObject}->{LanguageObject}->GetRecommendedCharset()),
+            Priority => 'Notice',
+            Data => '$Text{"The recommended charset for your language is %s!", "'.$Self->{LayoutObject}->{LanguageObject}->GetRecommendedCharset().'"}',
         );
     }
     return $Output;
