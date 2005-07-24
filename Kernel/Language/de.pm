@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: de.pm,v 1.87 2005-07-24 19:50:49 martin Exp $
+# $Id: de.pm,v 1.88 2005-07-24 20:05:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.87 $';
+$VERSION = '$Revision: 1.88 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -22,7 +22,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Sun Jul  3 18:03:19 2005
+    # Last translation file sync: Sun Jul 24 21:56:43 2005
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -128,6 +128,9 @@ sub Data {
       'click here' => 'hier klicken',
       'Comment' => 'Kommentar',
       'Valid' => 'Gültig',
+      'Invalid Option!' => 'Ungültige Option!',
+      'Invalid time!' => 'Ungültige Zeitangabe!',
+      'Invalid date!' => 'Ungültige Zeitangabe!',
       'Name' => '',
       'Group' => 'Gruppe',
       'Description' => 'Beschreibung',
@@ -168,6 +171,7 @@ sub Data {
       'Passwords dosn\'t match! Please try it again!' => 'Passwörter stimme nicht überein! Bitte wiederholen!',
       'Password is already in use! Please use an other password!' => 'Dieses Password wird bereits benutzt, es kann nicht verwendet werden!',
       'Password is already used! Please use an other password!' => 'Dieses Password wurde bereits benutzt, es kann nicht verwendet werden!',
+      'You need to activate %s first to use it!' => '%s muss zuerst aktiviert werden um es zu benutzen!',
       'No suggestions' => 'Keine Vorschläge',
       'Word' => 'Wort',
       'Ignore' => 'Ignorieren',
@@ -268,8 +272,8 @@ sub Data {
       'Signatures' => 'Signaturen',
       'Email Addresses' => 'Email Adressen',
       'Notifications' => 'Benachrichtigungen',
-      'Category Tree' => '',
-      'Admin Notification' => '',
+      'Category Tree' => 'Kategorie-Baum',
+      'Admin Notification' => 'Admin-Benachrichtigung',
 
       # Template: AAAPreferences
       'Preferences updated successfully!' => 'Benutzereinstellungen erfolgreich aktualisiert!',
@@ -293,6 +297,7 @@ sub Data {
       'Can\'t update password, need 2 lower and 2 upper characters!' => 'Passwort konnte nicht aktuallisiert werden, benötige min. einen großgeschriebener und einen kleingeschriebener Buchstaben.',
       'Can\'t update password, need min. 1 digit!' => 'Passwort konnte nicht aktuallisiert werden, Passwort muss mit eine Zahl enthalten!',
       'Can\'t update password, need min. 2 characters!' => 'Passwort konnte nicht aktuallisiert werden, Passwort muss zwei Buchstaben enthalten!',
+      'Password is needed!' => 'Passwort wird benötigt!',
 
       # Template: AAATicket
       'Lock' => 'Sperren',
@@ -314,7 +319,7 @@ sub Data {
       'Compose' => 'Verfassen',
       'Pending' => 'Warten',
       'Owner' => 'Besitzer',
-      'Owner Update' => '',
+      'Owner Update' => 'Besitzer aktualisiert',
       'Sender' => '',
       'Article' => 'Artikel',
       'Ticket' => '',
@@ -331,6 +336,8 @@ sub Data {
       'This is a' => 'Dies ist eine',
       'to open it in a new window.' => 'um sie in einem neuen Fenster angezeigt zu bekommen',
       'This is a HTML email. Click here to show it.' => 'Dies ist eine HTML E-Mail. Hier klicken, um sie anzuzeigen.',
+      'Free Fields' => '',
+      'Merge' => '',
       'closed successful' => 'erfolgreich geschlossen',
       'closed unsuccessful' => 'erfolglos geschlossen',
       'new' => 'neu',
@@ -470,7 +477,7 @@ sub Data {
       'to get the first 5 lines of the email' => 'Um die ersten 5 Zeilen der E-Mail zu erhalten',
       'to get the from line of the email' => 'Um die From: Zeile zu erhalten',
       'to get the realname of the sender (if given)' => 'Um den Realnamen des Senders zu erhalten (wenn möglich)',
-      'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
+      'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => 'Optionen von Ticket Daten (z. B. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)',
 
       # Template: AdminCustomerUserForm
       'The message being composed has been closed.  Exiting.' => 'Die erstellte Nachricht wurde geschlossen.',
@@ -678,7 +685,6 @@ sub Data {
       'move_into' => 'Verschieben in',
       'Permissions to move tickets into this group/queue.' => 'Rechte, um Tickets in eine Gruppe/Queue zu verschieben.',
       'create' => 'Erstellen',
-      'Create' => 'Erstellen',
       'Permissions to create tickets in this group/queue.' => 'Rechte, um in einer Gruppe/Queue Tickets zu erstellen.',
       'owner' => 'Besitzer',
       'Permissions to change the ticket owner in this group/queue.' => 'Rechte, um den Besitzer eines Ticket in einer Gruppe/Queue zu ändern.',
@@ -755,7 +761,7 @@ sub Data {
       'New Group Ro' => 'Neue Gruppe Ro',
       'NavBarName' => '',
       'Image' => '',
-      'Typ' => '',
+      'Type' => 'Type',
       'Prio' => '',
       'Block' => '',
       'NavBar' => '',
@@ -786,6 +792,8 @@ sub Data {
 
       # Template: AgentCalendarSmall
 
+      # Template: AgentCalendarSmallIcon
+
       # Template: AgentCustomerTableView
 
       # Template: AgentInfo
@@ -814,10 +822,6 @@ sub Data {
       'or' => 'oder',
       'Apply these changes' => 'Änderungen übernehmen',
 
-      # Template: AgentTicketAutoCc
-      'Change watchers of ticket' => '',
-      'Watcher' => '',
-
       # Template: AgentTicketBounce
       'A message should have a To: recipient!' => 'Eine Nachricht sollte einen Empfänger im Feld An: haben!',
       'You need a email address (e. g. customer@example.com) in To:!' => 'Im Feld An: wird eine E-Mail-Adresse (z.B. kunde@example.com) benötigt!',
@@ -842,7 +846,6 @@ sub Data {
       'Note Text' => 'Notiztext',
       'Close type' => 'Art des Schließens',
       'Time units' => 'Zeiteinheiten',
-      ' (work units)' => ' (Arbeitseinheiten)',
 
       # Template: AgentTicketCompose
       'A message must be spell checked!' => 'Eine Nachricht müssen rechtschreibüberprüft sein!',
@@ -978,14 +981,12 @@ sub Data {
       'Change search options' => 'Such-Optionen ändern',
 
       # Template: AgentTicketSearchResultPrint
-      '"}' => '',
 
       # Template: AgentTicketSearchResultShort
       'sort upward' => 'aufwärts sortieren',
       'U' => '',
       'sort downward' => 'abwärts sortieren',
       'D' => '',
-      'Customer history"}\'; return true;" onmouseout="window.status=\'\';"><div title="">$Quote{"' => '',
 
       # Template: AgentTicketStatusView
       'Ticket Status View' => 'Ticket Status Ansicht',
@@ -996,7 +997,6 @@ sub Data {
 
       # Template: AgentTicketZoomStatus
       'Locked' => 'Sperre',
-      'Article time' => '',
 
       # Template: AgentWindowTabStart
 
@@ -1010,6 +1010,8 @@ sub Data {
 
       # Template: CustomerAccept
 
+      # Template: CustomerCalendarSmallIcon
+
       # Template: CustomerError
       'Traceback' => '',
 
@@ -1022,7 +1024,7 @@ sub Data {
       'Modified' => 'Verändert',
       'Last update' => 'Letzte Änderungen',
       'FAQ System History' => 'FAQ System Historie',
-      'modified' => '',
+      'modified' => 'geändert',
       'FAQ Search' => 'FAQ Suche',
       'Fulltext' => 'Volltext',
       'Keyword' => 'Schlüsselwort',
@@ -1032,7 +1034,11 @@ sub Data {
       # Template: CustomerFooter
       'Powered by' => '',
 
+      # Template: CustomerFooterSmall
+
       # Template: CustomerHeader
+
+      # Template: CustomerHeaderSmall
 
       # Template: CustomerLogin
       'Login' => '',
@@ -1093,43 +1099,19 @@ sub Data {
 
       # Template: HeaderSmall
 
-      # Template: InstallerBody
+      # Template: Installer
       'Web-Installer' => '',
-      'Create Database' => 'Datenbank erstellen',
-      'Drop Database' => 'Datenbank löschen',
-      'System Settings' => 'System Einstellungen',
-      'Finished' => 'Fertig',
-
-      # Template: InstallerFinish
-      'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' => 'Um OTRS nutzen zu können, müssen die die folgenden Zeilen als root in die Befehlszeile (Terminal/Shell) eingeben.',
-      'Restart your webserver' => 'Starte Deinen Webserver neu.',
-      'After doing so your OTRS is up and running.' => 'Danach läuft Dein OTRS.',
-      'Start page' => 'Startseite',
-      'Admin-User' => 'Admin-Benutzer',
-      'Have a lot of fun!' => 'Viel Spaß!',
-      'Your OTRS Team' => 'Dein OTRS-Team',
-
-      # Template: InstallerLicense
-      'License' => 'Lizenz',
       'accept license' => 'Lizenz anerkennen',
       'don\'t accept license' => 'Lizenz nicht anerkennen',
-
-      # Template: InstallerStart
-      'DB Admin User' => 'DB Admin Benutzer',
-      'DB Admin Password' => 'DB Admin Passwort',
+      'Admin-User' => 'Admin-Benutzer',
+      'Admin-Password' => 'Admin-Passwort',
       'your MySQL DB should have a root password! Default is empty!' => 'Deine MySQL DB sollte ein Root Passwort haben! Voreingestellt ist keines!',
-      'DB Host' => 'DB Rechner',
-      'DB Type' => 'DB Typ',
-      'OTRS DB Name' => '',
-      'OTRS DB User' => 'OTRS DB Benutzer',
-      'OTRS DB Password' => 'OTRS DB Passwort',
+      'Database-User' => 'Datenbank-Benutzer',
       'default \'hot\'' => 'voreingestellt \'hot\'',
-      'OTRS DB connect host' => 'OTRS DB Verbindungs-Rechner',
-      'Create new database' => 'Neue Datenbank erstellen',
-      'Delete old database' => 'Alte Datenbank löschen',
-      'next step' => 'Nächster Schritt',
-
-      # Template: InstallerSystem
+      'DB connect host' => '',
+      'Database' => '',
+      'Create' => 'Erstellen',
+      'false' => '',
       'SystemID' => '',
       '(The identify of the system. Each ticket number and each http session id starts with this number)' => '(Das Kennzeichnen des Systems. Jede Ticketnummer und http-Sitzung beginnt mit dieser Kennung)',
       'System FQDN' => '',
@@ -1137,12 +1119,11 @@ sub Data {
       'AdminEmail' => '',
       '(Email of the system admin)' => '(E-Mail des System-Administrators)',
       'Organization' => 'Organisation',
+      'Log' => '',
       'LogModule' => '',
       '(Used log backend)' => '(Benutztes Log Backend)',
       'Logfile' => 'Logdatei',
       '(Logfile just needed for File-LogModule!)' => '(Logfile nur benötigt für File-LogModule!)',
-      'CheckMXRecord' => '',
-      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Überprüfen des MX-Eintrags der benutzen E-Mail-Adressen im Verfassen-Fenster. Benutzen Sie CheckMXRecord nicht, wenn Ihr OTRS hinter einer Wählleitung ist!)',
       'Ticket Hook' => '',
       '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Ticket Kennzeichnen. Z.B. \'Ticket#\', \'Call#\' oder \'MyTicket#\')',
       'Ticket Number Generator' => 'Ticketnummer Generator',
@@ -1152,6 +1133,14 @@ sub Data {
       'Use utf-8 it your database supports it!' => 'Benutzen Sie utf-8 nur, wenn Ihre Datenbank es unterstützt!',
       'Default Language' => 'Standard-Sprache',
       '(Used default language)' => '(Standardwert für die Sprache)',
+      'CheckMXRecord' => '',
+      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Überprüfen des MX-Eintrags der benutzen E-Mail-Adressen im Verfassen-Fenster. Benutzen Sie CheckMXRecord nicht, wenn Ihr OTRS hinter einer Wählleitung ist!)',
+      'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' => 'Um OTRS nutzen zu können, müssen die die folgenden Zeilen als root in die Befehlszeile (Terminal/Shell) eingeben.',
+      'Restart your webserver' => 'Starte Deinen Webserver neu.',
+      'After doing so your OTRS is up and running.' => 'Danach läuft Dein OTRS.',
+      'Start page' => 'Startseite',
+      'Have a lot of fun!' => 'Viel Spaß!',
+      'Your OTRS Team' => 'Dein OTRS-Team',
 
       # Template: Login
 
@@ -1161,6 +1150,7 @@ sub Data {
       'No Permission' => 'Keine Berechtigung',
 
       # Template: Notify
+      'Important' => 'Wichtig',
 
       # Template: PrintFooter
       'URL' => '',
@@ -1175,25 +1165,36 @@ sub Data {
 
       # Template: Test
       'OTRS Test Page' => 'OTRS Testseite',
-      'Counter' => '',
+      'Counter' => 'Zähler',
 
       # Template: Warning
       # Misc
+      'OTRS DB connect host' => 'OTRS DB Verbindungs-Rechner',
+      'Create Database' => 'Datenbank erstellen',
+      ' (work units)' => ' (Arbeitseinheiten)',
+      'DB Host' => 'DB Rechner',
       'Close!' => 'Schließen!',
       'TicketZoom' => 'Ticket Inhalt',
       'Don\'t forget to add a new user to groups!' => 'Ein neuer Benutzer muss einer Gruppe zugewiesen werden!',
+      'License' => 'Lizenz',
       'CreateTicket' => 'Ticket Erstellen',
+      'OTRS DB Name' => '',
+      'System Settings' => 'System Einstellungen',
+      'Finished' => 'Fertig',
       'with' => 'mit',
-      'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
+      'DB Admin User' => 'DB Admin Benutzer',
       'Change user <-> group settings' => 'Ändern der Benutzer <-> Gruppen Einstellungen',
+      'DB Type' => 'DB Typ',
+      'next step' => 'Nächster Schritt',
       'My Queue' => 'Meine Queue',
+      'Create new database' => 'Neue Datenbank erstellen',
+      'Delete old database' => 'Alte Datenbank löschen',
       'Load' => 'Laden',
+      'OTRS DB User' => 'OTRS DB Benutzer',
+      'OTRS DB Password' => 'OTRS DB Passwort',
+      'DB Admin Password' => 'DB Admin Passwort',
+      'Drop Database' => 'Datenbank löschen',
       'FAQ History' => 'FAQ Historie',
-      'Invalid Option!' => 'Ungültige Option!',
-      'Invalid date!' => 'Ungültige Zeitangabe!',
-      'Invalid time!' => 'Ungültige Zeitangabe!',
-      'Password is needed!' => 'Passwort wird benötigt!',
-      'You need to activate %s first to use it!' => '%s muss zuerst aktiviert werden um es zu benutzen!',
     };
     # $$STOP$$
 }
