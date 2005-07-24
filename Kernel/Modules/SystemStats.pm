@@ -2,7 +2,7 @@
 # Kernel/Modules/SystemStats.pm - show stats of otrs
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SystemStats.pm,v 1.22 2005-07-13 23:35:32 martin Exp $
+# $Id: SystemStats.pm,v 1.23 2005-07-24 09:42:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::SystemStats;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $ ';
+$VERSION = '$Revision: 1.23 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -66,18 +66,7 @@ sub Run {
         foreach my $Stats (sort keys %Config) {
           if ($Self->{MainObject}->Require($Config{$Stats}->{Module})) {
             my $StatsModule = $Config{$Stats}->{Module}->new(%{$Self});
-            my @Params = $StatsModule->Param();
             my $ParamString = '';
-            foreach my $ParamItem (@Params) {
-                $ParamString .= "<tr><td>$ParamItem->{Frontend}</td><td>";
-                $ParamString .= $Self->{LayoutObject}->OptionStrgHashRef(
-                    Data => $ParamItem->{Data},
-                    Name => $ParamItem->{Name},
-                    SelectedID => $Config{$Stats}->{"$ParamItem->{Name}Default"} || $ParamItem->{SelectedID} || '',
-                    Multiple => $ParamItem->{Multiple} || 0,
-                    Size => $ParamItem->{Size} || '',
-                )."</td></tr>";
-            }
             my %OutputFormat = ();
             foreach (@{$Config{$Stats}->{Output}}) {
                 $OutputFormat{$_} = $_;
@@ -95,6 +84,24 @@ sub Run {
                     Param => $ParamString,
                 },
             );
+            my @Params = $StatsModule->Param();
+            foreach my $ParamItem (@Params) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'ItemParam',
+                    Data => {
+                        Param => $ParamItem->{Frontend},
+                        Field => $Self->{LayoutObject}->OptionStrgHashRef(
+                            Data => $ParamItem->{Data},
+                            Name => $ParamItem->{Name},
+                            SelectedID => $Config{$Stats}->{"$ParamItem->{Name}Default"} || $ParamItem->{SelectedID} || '',
+                            Multiple => $ParamItem->{Multiple} || 0,
+                            Size => $ParamItem->{Size} || '',
+                        ),
+                        %Param,
+                        %{$Config{$Stats}},
+                    },
+                );
+            }
           }
           else {
               return $Self->{LayoutObject}->FatalError();

@@ -1,8 +1,8 @@
 # --
 # SystemStats.dtl - provides HTML stats
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SystemStats.dtl,v 1.7 2004-09-27 14:06:07 martin Exp $
+# $Id: SystemStats.dtl,v 1.8 2005-07-24 09:42:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -34,7 +34,9 @@
   <input type="hidden" name="Subaction" value="Output">
   <input type="hidden" name="Module" value="$Data{"Module"}">
   <table>
-    $Data{"Param"}
+<!--dtl:block:ItemParam -->
+    <tr><td width="100">$Text{"$QData{"Param"}"}</td><td>$Data{"Field"}</td></tr>
+<!--dtl:block:ItemParam -->
     <tr><td>$Text{"Format"}</td><td>$Data{"OutputFormat"}</td></tr>
   </table>
   <input class="button" type="submit" value="$Text{"go"}">
