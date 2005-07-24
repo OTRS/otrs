@@ -96,7 +96,7 @@ $Text{"Bulk Actions on Tickets"}
 $Text{"Send Email and create a new Ticket"}
 $Text{"Create new Phone Ticket"}
 $Text{"Overview of all open Tickets"}
-$Text{"Locked tickets"}
+$Text{"Locked Tickets"}
 $Text{"New message"}
 $Text{"Lock it to work on it!"}
 $Text{"Unlock to give it back to the queue!"}
@@ -144,7 +144,6 @@ $Text{"Show closed tickets."};
 $Text{"Max. shown Tickets a page in QueueView."}
 
 
-$Text{""}
 $Text{""}
 
 # admin nav bar
