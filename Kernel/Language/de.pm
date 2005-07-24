@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: de.pm,v 1.86 2005-07-18 22:15:36 martin Exp $
+# $Id: de.pm,v 1.87 2005-07-24 19:50:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.86 $';
+$VERSION = '$Revision: 1.87 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -376,7 +376,7 @@ sub Data {
       'Bulk Actions on Tickets' => 'Bulk-Action an Tickets',
       'Send Email and create a new Ticket' => 'Email senden und neues Ticket erstellen',
       'Overview of all open Tickets' => 'Übersicht über alle offenen Tickets',
-      'Locked tickets' => 'Gesperrte Tickets',
+      'Locked Tickets' => 'Gesperrte Tickets',
       'Lock it to work on it!' => 'Sperren um es zu bearbeiten!',
       'Unlock to give it back to the queue!' => 'Freigeben um es in die Queue zurück zu geben!',
       'Shows the ticket history!' => 'Ticket Historie anzeigen!',
@@ -1193,6 +1193,7 @@ sub Data {
       'Invalid date!' => 'Ungültige Zeitangabe!',
       'Invalid time!' => 'Ungültige Zeitangabe!',
       'Password is needed!' => 'Passwort wird benötigt!',
+      'You need to activate %s first to use it!' => '%s muss zuerst aktiviert werden um es zu benutzen!',
     };
     # $$STOP$$
 }
