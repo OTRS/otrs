@@ -112,7 +112,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.62 2005-07-23 08:52:38 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.63 2005-07-27 08:41:44 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -2025,7 +2025,6 @@ Your OTRS Notification Master
         <Setting>
             <FrontendModuleReg>
                 <GroupRo>stats</GroupRo>
-                <GroupRo>admin</GroupRo>
                 <Description>Stats</Description>
                 <Title>Stats</Title>
                 <NavBarName>Ticket</NavBarName>
