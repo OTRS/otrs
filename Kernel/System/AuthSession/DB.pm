@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/DB.pm - provides session db backend
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.18 2005-05-07 12:45:14 martin Exp $
+# $Id: DB.pm,v 1.19 2005-07-27 13:59:17 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Digest::MD5;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -58,7 +58,7 @@ sub CheckSessionID {
     # set default message
     $Kernel::System::AuthSession::CheckSessionID = "SessionID is invalid!!!";
     # session id check
-    my %Data = $Self->GetSessionIDData(SessionID => $SessionID); 
+    my %Data = $Self->GetSessionIDData(SessionID => $SessionID);
 
     if (!$Data{UserID} || !$Data{UserLogin}) {
         $Kernel::System::AuthSession::CheckSessionID = "SessionID invalid! Need user data!";
@@ -69,7 +69,7 @@ sub CheckSessionID {
         return;
     }
     # remote ip check
-    if ( $Data{UserRemoteAddr} ne $RemoteAddr && 
+    if ( $Data{UserRemoteAddr} ne $RemoteAddr &&
           $Self->{ConfigObject}->Get('SessionCheckRemoteIP') ) {
         $Self->{LogObject}->Log(
           Priority => 'notice',
@@ -103,7 +103,7 @@ sub CheckSessionID {
          $Kernel::System::AuthSession::CheckSessionID = 'Session has timed out. Please log in again.';
          $Self->{LogObject}->Log(
           Priority => 'notice',
-          Message => "SessionID ($SessionID) too old (". int(($Self->{TimeObject}->SystemTime() - $Data{UserSessionStart})/(60*60)) 
+          Message => "SessionID ($SessionID) too old (". int(($Self->{TimeObject}->SystemTime() - $Data{UserSessionStart})/(60*60))
           ."h)! Don't grant access!!!",
         );
         # delete session id if too old?
@@ -242,7 +242,7 @@ sub UpdateSessionID {
     # update db enrty
     my $SQL = "UPDATE $Self->{SQLSessionTable} ".
             " SET ".
-            " $Self->{SQLSessionTableValue} = '$NewDataToStore' ".
+            " $Self->{SQLSessionTableValue} = '".$Self->{DBObject}->Quote($NewDataToStore)."' ".
             " WHERE ".
             " $Self->{SQLSessionTableID} = '".$Self->{DBObject}->Quote($SessionID)."'";
     $Self->{DBObject}->Do(SQL => $SQL) || die "Can't update session table!";
