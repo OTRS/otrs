@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminCustomerUser.pm,v 1.36 2005-06-28 12:03:07 martin Exp $
+# $Id: AdminCustomerUser.pm,v 1.37 2005-07-27 08:33:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.36 $ ';
+$VERSION = '$Revision: 1.37 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -379,6 +379,7 @@ sub AdminCustomerUserForm {
                 $Param{Option} = $Self->{LayoutObject}->OptionStrgHashRef(
                     Data => $Self->{ConfigObject}->Get($Param{Source})->{Selections}->{$Entry->[0]},
                     Name => $Entry->[0],
+                    LanguageTranslation => 0,
                     SelectedID => $Param{$Entry->[0]},
                 );
 
