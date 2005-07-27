@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleStorageDB.pm,v 1.25 2005-06-13 20:01:42 martin Exp $
+# $Id: ArticleStorageDB.pm,v 1.26 2005-07-27 13:20:57 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Base64;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -282,7 +282,7 @@ sub ArticleAttachmentIndex {
     }
     # get ContentPath if not given
     if (!$Param{ContentPath}) {
-        $Param{ContentPath} = $Self->ArticleGetContentPath(ArticleID => $Param{ArticleID});
+        $Param{ContentPath} = $Self->ArticleGetContentPath(ArticleID => $Param{ArticleID}) || '';
     }
     my %Index = ();
     my $Counter = 0;
