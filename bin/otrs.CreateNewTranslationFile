@@ -3,7 +3,7 @@
 # otrs.CreateNewTranslationFile - create new translation file
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: otrs.CreateNewTranslationFile,v 1.9 2005-06-17 16:11:09 martin Exp $
+# $Id: otrs.CreateNewTranslationFile,v 1.10 2005-07-28 19:55:03 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION %Opts);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -163,7 +163,9 @@ foreach my $File (@List) {
                 $Translation =~ s/'/\\'/g;
                 my $Key = $Word;
                 $Key =~ s/'/\\'/g;
-                $Data .= "      '$Key' => '$Translation',\n";
+                if ($Key !~ /(a href|\$(Text|Quote)\{")/i) {
+                    $Data .= "      '$Key' => '$Translation',\n";
+                }
             }
             '';
         }egx;
@@ -180,7 +182,9 @@ foreach my $Key (keys %{$CommonObject{LanguageObject}->{Translation}}) {
         my $Translation = $CommonObject{LanguageObject}->{Translation}->{$Key};
         $Translation =~ s/'/\\'/g;
         $Key =~ s/'/\\'/g;
-        $Data .= "      '$Key' => '$Translation',\n";
+        if ($Key !~ /(a href|\$(Text|Quote)\{")/i) {
+            $Data .= "      '$Key' => '$Translation',\n";
+        }
     }
 }
 # --
