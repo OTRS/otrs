@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: de.pm,v 1.88 2005-07-24 20:05:56 martin Exp $
+# $Id: de.pm,v 1.89 2005-07-28 20:32:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.88 $';
+$VERSION = '$Revision: 1.89 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -22,7 +22,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Sun Jul 24 21:56:43 2005
+    # Last translation file sync: Thu Jul 28 22:12:45 2005
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -47,12 +47,25 @@ sub Data {
       'Done' => 'Fertig',
       'Cancel' => 'Abbrechen',
       'Reset' => 'Rücksetzen',
+      'last' => 'letzten',
+      'before' => 'vor',
       'day' => 'Tag',
       'days' => 'Tage',
+      'day(s)' => 'Tag(e)',
       'hour' => 'Stunde',
       'hours' => 'Stunden',
+      'hour(s)' => 'Stunde(n)',
       'minute' => 'Minute',
       'minutes' => 'Minuten',
+      'minute(s)' => 'Minute(n)',
+      'month' => 'Monat',
+      'months' => 'Monate',
+      'month(s)' => 'Monat(e)',
+      'week' => 'Woche',
+      'week(s)' => 'Woche(n)',
+      'year' => 'Jahr',
+      'years' => 'Jahre',
+      'year(s)' => 'Jahr(e)',
       'wrote' => 'schrieb',
       'Message' => 'Nachricht',
       'Error' => 'Fehler',
@@ -199,12 +212,6 @@ sub Data {
       'To: (%s) replaced with database email!' => 'An: (%s) ersetzt mit Datenbank E-Mail!',
       'Cc: (%s) added database email!' => 'Cc: (%s) Datenbank E-Mail hinzugefügt!',
       '(Click here to add)' => '(Hier klicken um hinzuzufügen)',
-      'last' => 'letzten',
-      'before' => 'vor',
-      'day(s)' => 'Tag(e)',
-      'month(s)' => 'Monat(e)',
-      'week(s)' => 'Woche(n)',
-      'year(s)' => 'Jahr(e)',
       'Preview' => 'Vorschau',
       'Added User "%s"' => 'Benutzer "%s" hinzugefügt.',
       'Contract' => 'Vertrag',
@@ -336,7 +343,7 @@ sub Data {
       'This is a' => 'Dies ist eine',
       'to open it in a new window.' => 'um sie in einem neuen Fenster angezeigt zu bekommen',
       'This is a HTML email. Click here to show it.' => 'Dies ist eine HTML E-Mail. Hier klicken, um sie anzuzeigen.',
-      'Free Fields' => '',
+      'Free Fields' => 'Freie Felder',
       'Merge' => '',
       'closed successful' => 'erfolgreich geschlossen',
       'closed unsuccessful' => 'erfolglos geschlossen',
@@ -520,9 +527,6 @@ sub Data {
       'Is Job Valid?' => 'Ist Job gültig?',
       'Is Job Valid' => 'Ist Job gültig',
       'Schedule' => 'Zeitplan',
-      'Minutes' => 'Minuten',
-      'Hours' => 'Stunden',
-      'Days' => 'Tage',
       'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Volltextsuche in Artikel (z.B. "Mar*in" oder "Baue*")',
       '(e. g. 10*5155 or 105658*)' => 'z.B. 10*5144 oder 105658*',
       '(e. g. 234321)' => 'z.B. 234321',
@@ -606,8 +610,7 @@ sub Data {
       'Key' => 'Schlüssel',
       'Fingerprint' => '',
       'Expires' => 'Erlischt',
-      'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Üer diesen Weg kann man den Schlüsselring (konfiguriert in Kernel/Config.pm) direkt bearbeiten.',
-      'FIXME: WHAT IS PGP?' => '',
+      'In this way you can directly edit the keyring configured in SysConfig.' => 'Üer diesen Weg kann man den Schlüsselring (konfiguriert in SysConfig) direkt bearbeiten.',
 
       # Template: AdminPOP3Form
       'POP3 Account Management' => 'POP3-Konten Verwaltung',
@@ -733,7 +736,6 @@ sub Data {
       'Secret' => '',
       'Hash' => '',
       'In this way you can directly edit the certification and private keys in file system.' => 'Über diesen Weg können die Zertifikate und privaten Schlüssel im Dateisystem bearbeitet werden.',
-      'FIXME: WHAT IS SMIME?' => '',
 
       # Template: AdminStateForm
       'System State Management' => 'Status Verwaltung',
@@ -761,7 +763,6 @@ sub Data {
       'New Group Ro' => 'Neue Gruppe Ro',
       'NavBarName' => '',
       'Image' => '',
-      'Type' => 'Type',
       'Prio' => '',
       'Block' => '',
       'NavBar' => '',
@@ -846,6 +847,7 @@ sub Data {
       'Note Text' => 'Notiztext',
       'Close type' => 'Art des Schließens',
       'Time units' => 'Zeiteinheiten',
+      ' (work units)' => ' (Arbeitseinheiten)',
 
       # Template: AgentTicketCompose
       'A message must be spell checked!' => 'Eine Nachricht müssen rechtschreibüberprüft sein!',
@@ -871,6 +873,7 @@ sub Data {
       'new ticket' => 'Neues Ticket',
       'Clear To' => 'An: löschen',
       'All Agents' => 'Alle Agenten',
+      'Termin1' => '',
 
       # Template: AgentTicketForward
       'Article type' => 'Artikeltyp',
@@ -981,6 +984,7 @@ sub Data {
       'Change search options' => 'Such-Optionen ändern',
 
       # Template: AgentTicketSearchResultPrint
+      '"}' => '',
 
       # Template: AgentTicketSearchResultShort
       'sort upward' => 'aufwärts sortieren',
@@ -1124,10 +1128,6 @@ sub Data {
       '(Used log backend)' => '(Benutztes Log Backend)',
       'Logfile' => 'Logdatei',
       '(Logfile just needed for File-LogModule!)' => '(Logfile nur benötigt für File-LogModule!)',
-      'Ticket Hook' => '',
-      '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Ticket Kennzeichnen. Z.B. \'Ticket#\', \'Call#\' oder \'MyTicket#\')',
-      'Ticket Number Generator' => 'Ticketnummer Generator',
-      '(Used ticket number format)' => '(Benutztes Format für die Ticketnummer)',
       'Webfrontend' => 'Web-Oberfläche',
       'Default Charset' => 'Standard-Zeichensatz',
       'Use utf-8 it your database supports it!' => 'Benutzen Sie utf-8 nur, wenn Ihre Datenbank es unterstützt!',
@@ -1171,8 +1171,11 @@ sub Data {
       # Misc
       'OTRS DB connect host' => 'OTRS DB Verbindungs-Rechner',
       'Create Database' => 'Datenbank erstellen',
-      ' (work units)' => ' (Arbeitseinheiten)',
       'DB Host' => 'DB Rechner',
+      'Ticket Number Generator' => 'Ticketnummer Generator',
+      '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Ticket Kennzeichnen. Z.B. \'Ticket#\', \'Call#\' oder \'MyTicket#\')',
+      'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
+      'Ticket Hook' => '',
       'Close!' => 'Schließen!',
       'TicketZoom' => 'Ticket Inhalt',
       'Don\'t forget to add a new user to groups!' => 'Ein neuer Benutzer muss einer Gruppe zugewiesen werden!',
@@ -1181,19 +1184,24 @@ sub Data {
       'OTRS DB Name' => '',
       'System Settings' => 'System Einstellungen',
       'Finished' => 'Fertig',
+      'Days' => 'Tage',
       'with' => 'mit',
       'DB Admin User' => 'DB Admin Benutzer',
       'Change user <-> group settings' => 'Ändern der Benutzer <-> Gruppen Einstellungen',
       'DB Type' => 'DB Typ',
       'next step' => 'Nächster Schritt',
+      'FIXME: WHAT IS PGP?' => '',
       'My Queue' => 'Meine Queue',
       'Create new database' => 'Neue Datenbank erstellen',
+      'Stunden' => '',
       'Delete old database' => 'Alte Datenbank löschen',
       'Load' => 'Laden',
       'OTRS DB User' => 'OTRS DB Benutzer',
+      'FIXME: WHAT IS SMIME?' => '',
       'OTRS DB Password' => 'OTRS DB Passwort',
       'DB Admin Password' => 'DB Admin Passwort',
       'Drop Database' => 'Datenbank löschen',
+      '(Used ticket number format)' => '(Benutztes Format für die Ticketnummer)',
       'FAQ History' => 'FAQ Historie',
     };
     # $$STOP$$

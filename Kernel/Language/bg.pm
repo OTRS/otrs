@@ -11,7 +11,7 @@ package Kernel::Language::bg;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.34 $';
+$VERSION = '$Revision: 1.35 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -19,7 +19,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Mon Jul  4 08:46:32 2005
+    # Last translation file sync: Thu Jul 28 22:13:40 2005
 
     # possible charsets
     $Self->{Charset} = ['cp1251', 'Windows-1251', ];
@@ -44,12 +44,25 @@ sub Data {
       'Done' => 'Готово.',
       'Cancel' => 'Отказ',
       'Reset' => 'Рестартирай',
+      'last' => '',
+      'before' => '',
       'day' => 'ден',
       'days' => 'дни',
+      'day(s)' => '',
       'hour' => 'час',
       'hours' => 'часове',
+      'hour(s)' => '',
       'minute' => 'минута',
       'minutes' => 'минути',
+      'minute(s)' => '',
+      'month' => '',
+      'months' => '',
+      'month(s)' => '',
+      'week' => '',
+      'week(s)' => '',
+      'year' => '',
+      'years' => '',
+      'year(s)' => '',
       'wrote' => 'записано',
       'Message' => 'Съобщение',
       'Error' => 'Грешка',
@@ -125,6 +138,9 @@ sub Data {
       'click here' => 'натиснете тук',
       'Comment' => 'Коментар',
       'Valid' => 'Валиден',
+      'Invalid Option!' => '',
+      'Invalid time!' => '',
+      'Invalid date!' => '',
       'Name' => 'Име',
       'Group' => 'Група',
       'Description' => 'Описание',
@@ -165,6 +181,7 @@ sub Data {
       'Passwords dosn\'t match! Please try it again!' => '',
       'Password is already in use! Please use an other password!' => '',
       'Password is already used! Please use an other password!' => '',
+      'You need to activate %s first to use it!' => '',
       'No suggestions' => 'Няма предположения',
       'Word' => 'Дума',
       'Ignore' => 'Пренебрегване',
@@ -192,12 +209,6 @@ sub Data {
       'To: (%s) replaced with database email!' => '',
       'Cc: (%s) added database email!' => '',
       '(Click here to add)' => '',
-      'last' => '',
-      'before' => '',
-      'day(s)' => '',
-      'month(s)' => '',
-      'week(s)' => '',
-      'year(s)' => '',
       'Preview' => '',
       'Added User "%s"' => '',
       'Contract' => '',
@@ -290,6 +301,7 @@ sub Data {
       'Can\'t update password, need 2 lower and 2 upper characters!' => '',
       'Can\'t update password, need min. 1 digit!' => '',
       'Can\'t update password, need min. 2 characters!' => '',
+      'Password is needed!' => '',
 
       # Template: AAATicket
       'Lock' => 'Заключи',
@@ -311,6 +323,7 @@ sub Data {
       'Compose' => 'Създаване',
       'Pending' => 'В очакване',
       'Owner' => 'Собственик',
+      'Owner Update' => '',
       'Sender' => 'Изпращач',
       'Article' => 'Клауза',
       'Ticket' => 'Билет',
@@ -327,6 +340,8 @@ sub Data {
       'This is a' => 'Това е',
       'to open it in a new window.' => 'да го отворите в нов прозорец',
       'This is a HTML email. Click here to show it.' => 'Това е поща в HTML формат. Натиснете тук, за да покажете коректно',
+      'Free Fields' => '',
+      'Merge' => '',
       'closed successful' => 'успешно затворен',
       'closed unsuccessful' => 'неуспешно затворен',
       'new' => 'нов',
@@ -372,7 +387,7 @@ sub Data {
       'Bulk Actions on Tickets' => '',
       'Send Email and create a new Ticket' => '',
       'Overview of all open Tickets' => '',
-      'Locked tickets' => '',
+      'Locked Tickets' => '',
       'Lock it to work on it!' => '',
       'Unlock to give it back to the queue!' => '',
       'Shows the ticket history!' => '',
@@ -509,9 +524,6 @@ sub Data {
       'Is Job Valid?' => '',
       'Is Job Valid' => '',
       'Schedule' => '',
-      'Minutes' => '',
-      'Hours' => '',
-      'Days' => '',
       'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => '',
       '(e. g. 10*5155 or 105658*)' => '',
       '(e. g. 234321)' => '',
@@ -595,8 +607,7 @@ sub Data {
       'Key' => 'Ключ',
       'Fingerprint' => '',
       'Expires' => '',
-      'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
-      'FIXME: WHAT IS PGP?' => '',
+      'In this way you can directly edit the keyring configured in SysConfig.' => '',
 
       # Template: AdminPOP3Form
       'POP3 Account Management' => 'Управление на POP3 анаунта',
@@ -722,7 +733,6 @@ sub Data {
       'Secret' => '',
       'Hash' => '',
       'In this way you can directly edit the certification and private keys in file system.' => '',
-      'FIXME: WHAT IS SMIME?' => '',
 
       # Template: AdminStateForm
       'System State Management' => 'Управление на системно състояние',
@@ -750,7 +760,6 @@ sub Data {
       'New Group Ro' => '',
       'NavBarName' => '',
       'Image' => '',
-      'Typ' => '',
       'Prio' => '',
       'Block' => '',
       'NavBar' => '',
@@ -780,6 +789,8 @@ sub Data {
       'Discard all changes and return to the compose screen' => 'Отказвате се от всички промени и се връщате към екрана за създаване',
 
       # Template: AgentCalendarSmall
+
+      # Template: AgentCalendarSmallIcon
 
       # Template: AgentCustomerTableView
 
@@ -830,7 +841,6 @@ sub Data {
       'A message should have a body!' => '',
       'You need to account time!' => 'Вие се нуждаете от отчет за времето',
       'Close ticket' => 'Затворете бълетът',
-      'Close!' => 'Затворете!',
       'Note Text' => 'Текст на билежката',
       'Close type' => 'Тип затваряне',
       'Time units' => 'Мерни единици за времето',
@@ -860,6 +870,7 @@ sub Data {
       'new ticket' => 'нов билет',
       'Clear To' => '',
       'All Agents' => '',
+      'Termin1' => '',
 
       # Template: AgentTicketForward
       'Article type' => 'Клауза тип',
@@ -977,7 +988,6 @@ sub Data {
       'U' => '',
       'sort downward' => 'низходящо сортиране',
       'D' => '',
-      'Customer history"}\'; return true;" onmouseout="window.status=\'\';"><div title="">$Quote{"' => '',
 
       # Template: AgentTicketStatusView
       'Ticket Status View' => '',
@@ -988,7 +998,6 @@ sub Data {
 
       # Template: AgentTicketZoomStatus
       'Locked' => '',
-      'Article time' => '',
 
       # Template: AgentWindowTabStart
 
@@ -1001,6 +1010,8 @@ sub Data {
       # Template: customer-css
 
       # Template: CustomerAccept
+
+      # Template: CustomerCalendarSmallIcon
 
       # Template: CustomerError
       'Traceback' => 'Проследяване',
@@ -1024,7 +1035,11 @@ sub Data {
       # Template: CustomerFooter
       'Powered by' => 'С помощта на',
 
+      # Template: CustomerFooterSmall
+
       # Template: CustomerHeader
+
+      # Template: CustomerHeaderSmall
 
       # Template: CustomerLogin
       'Login' => 'Вход',
@@ -1085,43 +1100,19 @@ sub Data {
 
       # Template: HeaderSmall
 
-      # Template: InstallerBody
+      # Template: Installer
       'Web-Installer' => 'Web инсталатор',
-      'Create Database' => 'Създаване на база данни',
-      'Drop Database' => 'Нулиране базата данни',
-      'System Settings' => 'Системни настройки',
-      'Finished' => 'Приключено',
-
-      # Template: InstallerFinish
-      'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' => 'За да може да използвате OTRS, Вие трябва да въведете, като супер потребител root в командна линия (Terminal/Shell) следната команда',
-      'Restart your webserver' => 'Рестарт на web сървърът',
-      'After doing so your OTRS is up and running.' => 'След извършването на това, Вашият OTRS е напълно работоспособен.',
-      'Start page' => 'Начална страница',
-      'Admin-User' => 'Администратор',
-      'Have a lot of fun!' => 'Приятна работа!',
-      'Your OTRS Team' => 'Вашият OTRS екип',
-
-      # Template: InstallerLicense
-      'License' => 'Лиценз',
       'accept license' => 'Приемате лиценза',
       'don\'t accept license' => 'Не приемате лиценза',
-
-      # Template: InstallerStart
-      'DB Admin User' => 'Потребител на базата данни',
-      'DB Admin Password' => 'Парола на администратора на базата',
+      'Admin-User' => 'Администратор',
+      'Admin-Password' => '',
       'your MySQL DB should have a root password! Default is empty!' => 'Вашата MYSQL база данни трябва да има парола за root потребителя. По подразбиране е празна!',
-      'DB Host' => 'Хост на базата данни',
-      'DB Type' => 'Тип на базата данни',
-      'OTRS DB Name' => 'Име свързано към OTRS база данни',
-      'OTRS DB User' => 'Потребител на OTRS база данни',
-      'OTRS DB Password' => 'Парола на OTRS база данни',
+      'Database-User' => '',
       'default \'hot\'' => 'по подразбиране',
-      'OTRS DB connect host' => 'Хост свързан към OTRS база данни',
-      'Create new database' => 'Създаване на нова база данни',
-      'Delete old database' => 'Изтриване на стара база данни',
-      'next step' => 'следваща стъпка',
-
-      # Template: InstallerSystem
+      'DB connect host' => '',
+      'Database' => '',
+      'Create' => '',
+      'false' => '',
       'SystemID' => 'Системно ID',
       '(The identify of the system. Each ticket number and each http session id starts with this number)' => '(Идентифициране на системата. Всики номер на билет и всяка http сесия започва с този номер)',
       'System FQDN' => 'Системно FQDN',
@@ -1129,21 +1120,24 @@ sub Data {
       'AdminEmail' => 'Admin е-поща',
       '(Email of the system admin)' => '(еМейл на системният администратор)',
       'Organization' => 'Организация',
+      'Log' => '',
       'LogModule' => 'Журнален модул',
       '(Used log backend)' => '(Използван журнален изход)',
       'Logfile' => 'Журнален файл',
       '(Logfile just needed for File-LogModule!)' => '(Журналният файл е необходим само за File-LogModule)',
-      'CheckMXRecord' => 'CheckMXRecord (Проверка MX запис)',
-      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Проверете MX записите на адреса на писмата-отговори. Не използвайте CheckMXRecord, ако вашата OTRS машина е на комутируема линия! ',
-      'Ticket Hook' => 'Прикачване на билетът',
-      '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Идентификатор на билета. Примерно: \'Ticket#\', \'Call#\' or \'MyTicket#\')',
-      'Ticket Number Generator' => 'Генератор на номера на билети',
-      '(Used ticket number format)' => '(Използван формат за номера на билетът)',
       'Webfrontend' => 'Web-зона',
       'Default Charset' => 'Символен набор по подразбиране',
       'Use utf-8 it your database supports it!' => '',
       'Default Language' => 'Език по подразбиране',
       '(Used default language)' => '(Изполван език по подразбиране)',
+      'CheckMXRecord' => 'CheckMXRecord (Проверка MX запис)',
+      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Проверете MX записите на адреса на писмата-отговори. Не използвайте CheckMXRecord, ако вашата OTRS машина е на комутируема линия! ',
+      'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' => 'За да може да използвате OTRS, Вие трябва да въведете, като супер потребител root в командна линия (Terminal/Shell) следната команда',
+      'Restart your webserver' => 'Рестарт на web сървърът',
+      'After doing so your OTRS is up and running.' => 'След извършването на това, Вашият OTRS е напълно работоспособен.',
+      'Start page' => 'Начална страница',
+      'Have a lot of fun!' => 'Приятна работа!',
+      'Your OTRS Team' => 'Вашият OTRS екип',
 
       # Template: Login
 
@@ -1153,6 +1147,7 @@ sub Data {
       'No Permission' => 'Нямате позволение',
 
       # Template: Notify
+      'Important' => '',
 
       # Template: PrintFooter
       'URL' => 'Адрес',
@@ -1171,19 +1166,32 @@ sub Data {
 
       # Template: Warning
       # Misc
-      'Change roles <-> groups settings' => '',
-      'Change users <-> roles settings' => '',
-      'Subgroup \'' => '',
-      'TicketZoom' => '',
+      'OTRS DB connect host' => 'Хост свързан към OTRS база данни',
+      'Create Database' => 'Създаване на база данни',
+      'DB Host' => 'Хост на базата данни',
+      'Ticket Number Generator' => 'Генератор на номера на билети',
+      '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Идентификатор на билета. Примерно: \'Ticket#\', \'Call#\' or \'MyTicket#\')',
+      'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
+      'Ticket Hook' => 'Прикачване на билетът',
+      'Close!' => 'Затворете!',
       'Don\'t forget to add a new user to groups!' => 'Не забравяйте да добавите новият потребител в някаква група!',
-      'CreateTicket' => '',
-      'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
+      'License' => 'Лиценз',
+      'OTRS DB Name' => 'Име свързано към OTRS база данни',
+      'System Settings' => 'Системни настройки',
+      'Finished' => 'Приключено',
+      'DB Admin User' => 'Потребител на базата данни',
       'Change user <-> group settings' => 'Промяна на потребител <-> Настройки за група',
-      'for ' => '',
+      'DB Type' => 'Тип на базата данни',
+      'next step' => 'следваща стъпка',
       'Admin-Email' => 'еМейл от Admin',
-      '\' ' => '',
+      'Create new database' => 'Създаване на нова база данни',
+      'Delete old database' => 'Изтриване на стара база данни',
+      'OTRS DB User' => 'Потребител на OTRS база данни',
       'Options ' => '',
-      'FAQ History' => '',
+      'OTRS DB Password' => 'Парола на OTRS база данни',
+      'DB Admin Password' => 'Парола на администратора на базата',
+      'Drop Database' => 'Нулиране базата данни',
+      '(Used ticket number format)' => '(Използван формат за номера на билетът)',
     };
     # $$STOP$$
 }

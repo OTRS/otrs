@@ -2,7 +2,7 @@
 # Kernel/Language/es.pm - provides es language translation
 # Copyright (C) 2003-2004 Jorge Becerra <jorge at icc-cuba.com>
 # --
-# $Id: es.pm,v 1.29 2005-07-04 06:54:27 martin Exp $
+# $Id: es.pm,v 1.30 2005-07-28 20:32:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::es;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -22,7 +22,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Mon Jul  4 08:46:44 2005
+    # Last translation file sync: Thu Jul 28 22:14:13 2005
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -47,12 +47,25 @@ sub Data {
       'Done' => 'Hecho',
       'Cancel' => 'Cancelar',
       'Reset' => 'Resetear',
+      'last' => 'último',
+      'before' => 'antes',
       'day' => 'dia',
       'days' => 'dias',
+      'day(s)' => 'dias(s)',
       'hour' => 'hora',
       'hours' => 'horas',
+      'hour(s)' => '',
       'minute' => 'minuto',
       'minutes' => 'minutos',
+      'minute(s)' => '',
+      'month' => '',
+      'months' => '',
+      'month(s)' => 'mes(es)',
+      'week' => '',
+      'week(s)' => 'semana(s)',
+      'year' => '',
+      'years' => '',
+      'year(s)' => 'año(s)',
       'wrote' => 'escribió',
       'Message' => 'Mensaje',
       'Error' => '',
@@ -128,6 +141,9 @@ sub Data {
       'click here' => 'haga click aquí',
       'Comment' => 'Comentario',
       'Valid' => 'Válido',
+      'Invalid Option!' => '',
+      'Invalid time!' => '',
+      'Invalid date!' => '',
       'Name' => 'Nombre',
       'Group' => 'Grupo',
       'Description' => 'Descripción',
@@ -168,6 +184,7 @@ sub Data {
       'Passwords dosn\'t match! Please try it again!' => 'Las contraseñas no coinciden. Por favor Reintente!',
       'Password is already in use! Please use an other password!' => '',
       'Password is already used! Please use an other password!' => '',
+      'You need to activate %s first to use it!' => '',
       'No suggestions' => 'Sin sugerencias',
       'Word' => 'Palabra',
       'Ignore' => 'Ignorar',
@@ -195,12 +212,6 @@ sub Data {
       'To: (%s) replaced with database email!' => 'To: (%s) sustituido con email de la base de datos!',
       'Cc: (%s) added database email!' => '',
       '(Click here to add)' => '(Haga click aqui para agregar)',
-      'last' => 'último',
-      'before' => 'antes',
-      'day(s)' => 'dias(s)',
-      'month(s)' => 'mes(es)',
-      'week(s)' => 'semana(s)',
-      'year(s)' => 'año(s)',
       'Preview' => 'Vista Previa',
       'Added User "%s"' => 'Añadido Usuario "%s"',
       'Contract' => 'Contrato',
@@ -293,6 +304,7 @@ sub Data {
       'Can\'t update password, need 2 lower and 2 upper characters!' => '',
       'Can\'t update password, need min. 1 digit!' => '',
       'Can\'t update password, need min. 2 characters!' => '',
+      'Password is needed!' => '',
 
       # Template: AAATicket
       'Lock' => 'Bloquear',
@@ -314,6 +326,7 @@ sub Data {
       'Compose' => 'Componer',
       'Pending' => 'Pendiente',
       'Owner' => 'Propietario',
+      'Owner Update' => '',
       'Sender' => 'Emisor',
       'Article' => 'Artículo',
       'Ticket' => '',
@@ -330,6 +343,8 @@ sub Data {
       'This is a' => 'Este es un',
       'to open it in a new window.' => 'Para abrir en una nueva ventana',
       'This is a HTML email. Click here to show it.' => 'Este es un mensaje HTML. Haga click aquí para mostrarlo.',
+      'Free Fields' => '',
+      'Merge' => '',
       'closed successful' => 'cerrado exitosamente',
       'closed unsuccessful' => 'cerrado sin éxito',
       'new' => 'nuevo',
@@ -375,7 +390,7 @@ sub Data {
       'Bulk Actions on Tickets' => '',
       'Send Email and create a new Ticket' => '',
       'Overview of all open Tickets' => 'Resumen de todos los tickets abiertos',
-      'Locked tickets' => '',
+      'Locked Tickets' => '',
       'Lock it to work on it!' => '',
       'Unlock to give it back to the queue!' => '',
       'Shows the ticket history!' => '',
@@ -512,9 +527,6 @@ sub Data {
       'Is Job Valid?' => '',
       'Is Job Valid' => '',
       'Schedule' => 'Horario',
-      'Minutes' => 'Minutos',
-      'Hours' => 'Horas',
-      'Days' => 'Dias',
       'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Búsqueda de texto en Articulo (ej. "Mar*in" or "Baue*")',
       '(e. g. 10*5155 or 105658*)' => '',
       '(e. g. 234321)' => '',
@@ -598,8 +610,7 @@ sub Data {
       'Key' => 'Llave',
       'Fingerprint' => '',
       'Expires' => 'Expira',
-      'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'De esta forma Ud puede editar directamente las llaves configuradas en Kernel/Config.pm.',
-      'FIXME: WHAT IS PGP?' => '',
+      'In this way you can directly edit the keyring configured in SysConfig.' => '',
 
       # Template: AdminPOP3Form
       'POP3 Account Management' => 'Gestión de cuenta POP3',
@@ -725,7 +736,6 @@ sub Data {
       'Secret' => 'Secreto',
       'Hash' => '',
       'In this way you can directly edit the certification and private keys in file system.' => 'De esta fomra Ud puede editar directamente la certificacion y llaves privadas el el sistema de archivos.',
-      'FIXME: WHAT IS SMIME?' => '',
 
       # Template: AdminStateForm
       'System State Management' => 'Gestión de estados del Sistema',
@@ -753,7 +763,6 @@ sub Data {
       'New Group Ro' => '',
       'NavBarName' => '',
       'Image' => '',
-      'Typ' => '',
       'Prio' => '',
       'Block' => '',
       'NavBar' => '',
@@ -783,6 +792,8 @@ sub Data {
       'Discard all changes and return to the compose screen' => 'Descartar todos los cambios y regresar a la pantalla de redacción',
 
       # Template: AgentCalendarSmall
+
+      # Template: AgentCalendarSmallIcon
 
       # Template: AgentCustomerTableView
 
@@ -833,7 +844,6 @@ sub Data {
       'A message should have a body!' => 'Los mensajes deben tener contenido',
       'You need to account time!' => 'Necesita contabilizar el tiempo!',
       'Close ticket' => 'Cerrar el ticket',
-      'Close!' => 'Cerrar!',
       'Note Text' => 'Nota!',
       'Close type' => 'Tipo de cierre',
       'Time units' => 'Unidades de tiempo',
@@ -863,6 +873,7 @@ sub Data {
       'new ticket' => 'nuevo ticket',
       'Clear To' => 'Copia Oculta a',
       'All Agents' => 'Todos los Agentes',
+      'Termin1' => '',
 
       # Template: AgentTicketForward
       'Article type' => 'Tipo de artículo',
@@ -980,7 +991,6 @@ sub Data {
       'U' => 'A',
       'sort downward' => 'ordenar descendente',
       'D' => '',
-      'Customer history"}\'; return true;" onmouseout="window.status=\'\';"><div title="">$Quote{"' => '',
 
       # Template: AgentTicketStatusView
       'Ticket Status View' => '',
@@ -991,7 +1001,6 @@ sub Data {
 
       # Template: AgentTicketZoomStatus
       'Locked' => 'Bloqueado',
-      'Article time' => '',
 
       # Template: AgentWindowTabStart
 
@@ -1004,6 +1013,8 @@ sub Data {
       # Template: customer-css
 
       # Template: CustomerAccept
+
+      # Template: CustomerCalendarSmallIcon
 
       # Template: CustomerError
       'Traceback' => '',
@@ -1027,7 +1038,11 @@ sub Data {
       # Template: CustomerFooter
       'Powered by' => '',
 
+      # Template: CustomerFooterSmall
+
       # Template: CustomerHeader
+
+      # Template: CustomerHeaderSmall
 
       # Template: CustomerLogin
       'Login' => 'Identificador',
@@ -1088,43 +1103,19 @@ sub Data {
 
       # Template: HeaderSmall
 
-      # Template: InstallerBody
+      # Template: Installer
       'Web-Installer' => 'Instalador Web',
-      'Create Database' => 'Crear Base de Datos',
-      'Drop Database' => 'Eliminar Base de Datos',
-      'System Settings' => 'Configuración del sistema',
-      'Finished' => 'Finalizado',
-
-      # Template: InstallerFinish
-      'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' => 'Para poder utilizar el OTRS debe escribir la siguiente linea de comandos (Terminal/Shell) como root',
-      'Restart your webserver' => 'Reinicie su servidor web',
-      'After doing so your OTRS is up and running.' => 'Después de hacer esto su OTRS estará activo y ejecutandose',
-      'Start page' => 'Página de inicio',
-      'Admin-User' => 'Usuario-Admin',
-      'Have a lot of fun!' => 'Disfrutelo!',
-      'Your OTRS Team' => 'Su equipo OTRS',
-
-      # Template: InstallerLicense
-      'License' => 'Licencia',
       'accept license' => 'aceptar licencia',
       'don\'t accept license' => 'no acepto la licencia',
-
-      # Template: InstallerStart
-      'DB Admin User' => 'Usuario Admin de la BD',
-      'DB Admin Password' => 'Contraseña del Admin de la BD',
+      'Admin-User' => 'Usuario-Admin',
+      'Admin-Password' => '',
       'your MySQL DB should have a root password! Default is empty!' => 'Su BD MySQL debe tener una contrase&ntiulde; de root! Por defecto es va&itilde;a!',
-      'DB Host' => '',
-      'DB Type' => 'Tipo de BD',
-      'OTRS DB Name' => 'Nombre de la BD OTRS',
-      'OTRS DB User' => 'Usuario de BD OTRS',
-      'OTRS DB Password' => 'Contraseña para BD del usuario OTRS',
+      'Database-User' => '',
       'default \'hot\'' => 'por defecto \'hot\'',
-      'OTRS DB connect host' => '',
-      'Create new database' => 'Crear nueva base de datos',
-      'Delete old database' => 'Eliminar BD antigua',
-      'next step' => 'próximo paso',
-
-      # Template: InstallerSystem
+      'DB connect host' => '',
+      'Database' => '',
+      'Create' => '',
+      'false' => '',
       'SystemID' => 'ID de sistema',
       '(The identify of the system. Each ticket number and each http session id starts with this number)' => '(La identidad del sistema. Cada número de ticket y cada id de sesi&oacuten http comienza con este número)',
       'System FQDN' => 'FQDN del sistema',
@@ -1132,21 +1123,24 @@ sub Data {
       'AdminEmail' => 'Correo del administrador.',
       '(Email of the system admin)' => '(email del administrador del sistema)',
       'Organization' => 'Organización',
+      'Log' => '',
       'LogModule' => 'Modulo de trazas',
       '(Used log backend)' => '(Interface de trazas Utilizada)',
       'Logfile' => 'Archivo de trazas',
       '(Logfile just needed for File-LogModule!)' => '(Archivo de trazas necesario para File-LogModule)',
-      'CheckMXRecord' => 'Revisar record MX',
-      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Chequear record MX de direcciones utilizadas al responder. No usarlo si la PC con el Otrs esta detrás de una linea conmutada $!)',
-      'Ticket Hook' => '',
-      '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Identificador de Ticker. Algunas personas gustan de usar por ejemplo \'Ticket#\', \'Call#\' or \'MyTicket#\')',
-      'Ticket Number Generator' => 'Generador de números de Tickets',
-      '(Used ticket number format)' => '(Formato de ticket usado)',
       'Webfrontend' => 'Interface Web',
       'Default Charset' => 'Juego de caracteres por defecto',
       'Use utf-8 it your database supports it!' => 'Usar utf-8 si su base de datos lo soporta!',
       'Default Language' => 'Lenguaje por defecto',
       '(Used default language)' => '(Lenguaje por defecto)',
+      'CheckMXRecord' => 'Revisar record MX',
+      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Chequear record MX de direcciones utilizadas al responder. No usarlo si la PC con el Otrs esta detrás de una linea conmutada $!)',
+      'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' => 'Para poder utilizar el OTRS debe escribir la siguiente linea de comandos (Terminal/Shell) como root',
+      'Restart your webserver' => 'Reinicie su servidor web',
+      'After doing so your OTRS is up and running.' => 'Después de hacer esto su OTRS estará activo y ejecutandose',
+      'Start page' => 'Página de inicio',
+      'Have a lot of fun!' => 'Disfrutelo!',
+      'Your OTRS Team' => 'Su equipo OTRS',
 
       # Template: Login
 
@@ -1156,6 +1150,7 @@ sub Data {
       'No Permission' => 'No tiene autorización',
 
       # Template: Notify
+      'Important' => '',
 
       # Template: PrintFooter
       'URL' => '',
@@ -1174,18 +1169,34 @@ sub Data {
 
       # Template: Warning
       # Misc
-      'Change roles <-> groups settings' => '',
+      'Create Database' => 'Crear Base de Datos',
+      'Ticket Number Generator' => 'Generador de números de Tickets',
+      '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Identificador de Ticker. Algunas personas gustan de usar por ejemplo \'Ticket#\', \'Call#\' or \'MyTicket#\')',
+      'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'De esta forma Ud puede editar directamente las llaves configuradas en Kernel/Config.pm.',
       'Change users <-> roles settings' => '',
-      'Subgroup \'' => '',
+      'Close!' => 'Cerrar!',
       'TicketZoom' => 'Detalle de Ticket',
       'Don\'t forget to add a new user to groups!' => 'No olvide incluir el usuario en grupos!',
+      'License' => 'Licencia',
       'CreateTicket' => 'CrearTicket',
-      'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
-      'Change user <-> group settings' => 'Modificar usuario <-> Especificaciones de grupo',
-      'for ' => '',
+      'OTRS DB Name' => 'Nombre de la BD OTRS',
+      'System Settings' => 'Configuración del sistema',
+      'Hours' => 'Horas',
+      'Finished' => 'Finalizado',
+      'Days' => 'Dias',
+      'DB Admin User' => 'Usuario Admin de la BD',
+      'DB Type' => 'Tipo de BD',
+      'next step' => 'próximo paso',
       'Admin-Email' => 'Correo Administrativo',
-      '\' ' => '',
+      'Create new database' => 'Crear nueva base de datos',
+      'Delete old database' => 'Eliminar BD antigua',
+      'OTRS DB User' => 'Usuario de BD OTRS',
       'Options ' => '',
+      'OTRS DB Password' => 'Contraseña para BD del usuario OTRS',
+      'DB Admin Password' => 'Contraseña del Admin de la BD',
+      'Drop Database' => 'Eliminar Base de Datos',
+      'Minutes' => 'Minutos',
+      '(Used ticket number format)' => '(Formato de ticket usado)',
       'FAQ History' => 'Historia de FAQ',
     };
     # $$STOP$$

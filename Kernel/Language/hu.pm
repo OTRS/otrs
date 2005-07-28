@@ -2,7 +2,7 @@
 # Kernel/Language/hu.pm - provides de language translation
 # Copyright (C) 2004 RLAN Internet <MAGIC at rlan.hu>
 # --
-# $Id: hu.pm,v 1.11 2005-07-04 06:54:27 martin Exp $
+# $Id: hu.pm,v 1.12 2005-07-28 20:32:31 martin Exp $
 # Translation: Gabor Gancs /gg@magicnet.hu/ & Krisztian Gancs /krisz@gancs.hu/
 # Verify: Flora Szabo /szaboflora@magicnet.hu/
 # Hungary Sopron Europe
@@ -17,7 +17,7 @@ package Kernel::Language::hu;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -26,7 +26,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Mon Jul  4 08:46:58 2005
+    # Last translation file sync: Thu Jul 28 22:14:22 2005
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-2', 'iso-8859-15', ];
@@ -51,12 +51,25 @@ sub Data {
       'Done' => 'Kész',
       'Cancel' => 'Mégsem',
       'Reset' => 'Alapállás',
+      'last' => 'utolsó',
+      'before' => 'elõtt',
       'day' => 'nap',
       'days' => 'nap',
+      'day(s)' => 'nap',
       'hour' => 'óra',
       'hours' => 'óra',
+      'hour(s)' => '',
       'minute' => 'Perc',
       'minutes' => 'perc',
+      'minute(s)' => '',
+      'month' => '',
+      'months' => '',
+      'month(s)' => 'hónap',
+      'week' => '',
+      'week(s)' => 'hét',
+      'year' => '',
+      'years' => '',
+      'year(s)' => 'év',
       'wrote' => 'írta',
       'Message' => 'Üzenet',
       'Error' => 'Hiba',
@@ -132,6 +145,9 @@ sub Data {
       'click here' => 'kattints ide',
       'Comment' => 'Megjegyzés',
       'Valid' => 'Érvényes',
+      'Invalid Option!' => '',
+      'Invalid time!' => '',
+      'Invalid date!' => '',
       'Name' => 'Név',
       'Group' => 'Csoport',
       'Description' => 'Leírás',
@@ -172,6 +188,7 @@ sub Data {
       'Passwords dosn\'t match! Please try it again!' => 'A jelszavak nem egyeznek! Próbálja meg újra!',
       'Password is already in use! Please use an other password!' => '',
       'Password is already used! Please use an other password!' => '',
+      'You need to activate %s first to use it!' => '',
       'No suggestions' => 'Nincsenek javaslatok',
       'Word' => 'Szó',
       'Ignore' => 'Figyelmen kívül hagy',
@@ -199,12 +216,6 @@ sub Data {
       'To: (%s) replaced with database email!' => 'Címzett: (%s) felülírva az adatbázis címmel!',
       'Cc: (%s) added database email!' => '',
       '(Click here to add)' => '(Kattinst ide a hozzáadáshoz)',
-      'last' => 'utolsó',
-      'before' => 'elõtt',
-      'day(s)' => 'nap',
-      'month(s)' => 'hónap',
-      'week(s)' => 'hét',
-      'year(s)' => 'év',
       'Preview' => 'Elõnézet',
       'Added User "%s"' => 'A "%s" felhasználó hozzáadva',
       'Contract' => 'Kapcsolat',
@@ -297,6 +308,7 @@ sub Data {
       'Can\'t update password, need 2 lower and 2 upper characters!' => '',
       'Can\'t update password, need min. 1 digit!' => '',
       'Can\'t update password, need min. 2 characters!' => '',
+      'Password is needed!' => '',
 
       # Template: AAATicket
       'Lock' => 'Zárol',
@@ -318,6 +330,7 @@ sub Data {
       'Compose' => 'Készít',
       'Pending' => 'Várakozik',
       'Owner' => 'Tulajdonos',
+      'Owner Update' => '',
       'Sender' => 'Küldõ',
       'Article' => 'Cikk',
       'Ticket' => 'Jegy',
@@ -334,6 +347,8 @@ sub Data {
       'This is a' => 'Ez egy',
       'to open it in a new window.' => 'hogy megnyissa új ablakban.',
       'This is a HTML email. Click here to show it.' => 'Ez egy HTML email. Kattintson ide a megtekintéshez.',
+      'Free Fields' => '',
+      'Merge' => '',
       'closed successful' => 'sikeresen lezárva',
       'closed unsuccessful' => 'sikertelenül lezárva',
       'new' => 'új',
@@ -379,7 +394,7 @@ sub Data {
       'Bulk Actions on Tickets' => '',
       'Send Email and create a new Ticket' => '',
       'Overview of all open Tickets' => 'Összes nyitott jegy áttekintése',
-      'Locked tickets' => '',
+      'Locked Tickets' => '',
       'Lock it to work on it!' => '',
       'Unlock to give it back to the queue!' => '',
       'Shows the ticket history!' => '',
@@ -516,9 +531,6 @@ sub Data {
       'Is Job Valid?' => '',
       'Is Job Valid' => '',
       'Schedule' => 'Idõzít',
-      'Minutes' => 'Perc',
-      'Hours' => 'Óra',
-      'Days' => 'Nap',
       'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Teljesszöveg keresés a cikkben (pl. "Mar*in" oder "Baue*")',
       '(e. g. 10*5155 or 105658*)' => 'pl. 10*5144 vagy 105658*',
       '(e. g. 234321)' => 'pl. 234321',
@@ -602,8 +614,7 @@ sub Data {
       'Key' => 'Kulcs',
       'Fingerprint' => 'Ujjlenyomat',
       'Expires' => 'Lejár',
-      'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Íly módon közvetlenül szerkesztheti a Kernel/Config.pm-ben beállított kulcskarikát.',
-      'FIXME: WHAT IS PGP?' => 'JAVÍTSKI: MI AZ A PGP?',
+      'In this way you can directly edit the keyring configured in SysConfig.' => '',
 
       # Template: AdminPOP3Form
       'POP3 Account Management' => 'POP3 azonosító kezelése',
@@ -729,7 +740,6 @@ sub Data {
       'Secret' => 'Titok',
       'Hash' => 'Kivonat',
       'In this way you can directly edit the certification and private keys in file system.' => 'Íly módon közvetlenül szerkesztheti a fájlrendszeren tárolt tanusítványokat és titkos kulcsokat.',
-      'FIXME: WHAT IS SMIME?' => 'JAVÍTSKI: MI AZ Az SMIME?',
 
       # Template: AdminStateForm
       'System State Management' => 'Rendszerállapot kezelés',
@@ -757,7 +767,6 @@ sub Data {
       'New Group Ro' => '',
       'NavBarName' => '',
       'Image' => '',
-      'Typ' => '',
       'Prio' => '',
       'Block' => '',
       'NavBar' => '',
@@ -787,6 +796,8 @@ sub Data {
       'Discard all changes and return to the compose screen' => 'Minden változtatás megsemmisítése és visszatérés a szerkesztõképernyõre',
 
       # Template: AgentCalendarSmall
+
+      # Template: AgentCalendarSmallIcon
 
       # Template: AgentCustomerTableView
 
@@ -837,7 +848,6 @@ sub Data {
       'A message should have a body!' => 'Egy üzenetnek kell legyen törzse!',
       'You need to account time!' => 'El kell számolnia az idõvel!',
       'Close ticket' => 'Jegy lezárása',
-      'Close!' => 'Lezár!',
       'Note Text' => 'Jegyzet szöveg',
       'Close type' => 'Típus lezárása',
       'Time units' => 'Idõ egységek',
@@ -867,6 +877,7 @@ sub Data {
       'new ticket' => 'új jegy',
       'Clear To' => 'Tisztítás Neki',
       'All Agents' => 'Minden ügynök',
+      'Termin1' => '',
 
       # Template: AgentTicketForward
       'Article type' => 'Cikk típusa',
@@ -984,7 +995,6 @@ sub Data {
       'U' => 'A',
       'sort downward' => 'rendezés lefelé',
       'D' => 'Z',
-      'Customer history"}\'; return true;" onmouseout="window.status=\'\';"><div title="">$Quote{"' => '',
 
       # Template: AgentTicketStatusView
       'Ticket Status View' => '',
@@ -995,7 +1005,6 @@ sub Data {
 
       # Template: AgentTicketZoomStatus
       'Locked' => 'Zárolt',
-      'Article time' => '',
 
       # Template: AgentWindowTabStart
 
@@ -1008,6 +1017,8 @@ sub Data {
       # Template: customer-css
 
       # Template: CustomerAccept
+
+      # Template: CustomerCalendarSmallIcon
 
       # Template: CustomerError
       'Traceback' => 'Visszakövetés',
@@ -1031,7 +1042,11 @@ sub Data {
       # Template: CustomerFooter
       'Powered by' => 'Készítette',
 
+      # Template: CustomerFooterSmall
+
       # Template: CustomerHeader
+
+      # Template: CustomerHeaderSmall
 
       # Template: CustomerLogin
       'Login' => 'Belépés',
@@ -1092,43 +1107,19 @@ sub Data {
 
       # Template: HeaderSmall
 
-      # Template: InstallerBody
+      # Template: Installer
       'Web-Installer' => 'Web-telepítõ',
-      'Create Database' => 'Adatbázis létrehozása',
-      'Drop Database' => 'Adatbázis törlése',
-      'System Settings' => 'Rendszerbeállítások',
-      'Finished' => 'Befejezve',
-
-      # Template: InstallerFinish
-      'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' => 'Ahhoz, hogy az OTRS-t használni tudja, a következõ parancsot kell begépelnie parancssorban (terminálban/héjjban) root-ként.',
-      'Restart your webserver' => 'Indítsa újra a web-kiszolgálót',
-      'After doing so your OTRS is up and running.' => 'Ha ez kész, az OTRS kész és fut.',
-      'Start page' => 'Start oldal',
-      'Admin-User' => 'Admin-felhasználó',
-      'Have a lot of fun!' => 'Sok sikert!',
-      'Your OTRS Team' => 'Az ön OTRS csapata',
-
-      # Template: InstallerLicense
-      'License' => 'Licenc',
       'accept license' => 'Licenc elfogadása',
       'don\'t accept license' => 'Licenc elutasítása',
-
-      # Template: InstallerStart
-      'DB Admin User' => 'DB Admin felhasználó',
-      'DB Admin Password' => 'DB Admin jelszó',
+      'Admin-User' => 'Admin-felhasználó',
+      'Admin-Password' => '',
       'your MySQL DB should have a root password! Default is empty!' => 'Az ön MySQL adatbázisának kell legyen root jelszava! Az alapértelmezett üres!',
-      'DB Host' => 'DB Gazda',
-      'DB Type' => 'DB típusa',
-      'OTRS DB Name' => 'OTRS DB név',
-      'OTRS DB User' => 'OTRS DB felhasználó',
-      'OTRS DB Password' => 'OTRS DB jelszó',
+      'Database-User' => '',
       'default \'hot\'' => 'alapértelmezett',
-      'OTRS DB connect host' => 'OTRS DB kapcsolódik a gazdához',
-      'Create new database' => 'Új adatbázis létrehozása',
-      'Delete old database' => 'Régi adatbázis törlése',
-      'next step' => 'következõ lépés',
-
-      # Template: InstallerSystem
+      'DB connect host' => '',
+      'Database' => '',
+      'Create' => '',
+      'false' => '',
       'SystemID' => 'Rendszer azonosító',
       '(The identify of the system. Each ticket number and each http session id starts with this number)' => '(Azonosítás a rendszerben. Minden jegyhez és minden http eljárás ezzel a sorszámmal indul)',
       'System FQDN' => 'Rendszer FQDN',
@@ -1136,21 +1127,24 @@ sub Data {
       'AdminEmail' => 'KezelõEmail',
       '(Email of the system admin)' => '(E-Mail a rendszergazdának)',
       'Organization' => 'Szervezet',
+      'Log' => '',
       'LogModule' => 'Log modul',
       '(Used log backend)' => '(Használt háttér log)',
       'Logfile' => 'Log file',
       '(Logfile just needed for File-LogModule!)' => '(Logfile szükséges a File-LogModul számára!)',
-      'CheckMXRecord' => 'MX Rekord ellenõrzés',
-      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Ellenõrizd le az MX rekordot a használt email címben a válasz írásakor!)',
-      'Ticket Hook' => 'Jegy pöcök',
-      '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Jegy azonosítûs. pl. \'Jegy#\', \'Hívó#\' vagy \'Jegyem#\')',
-      'Ticket Number Generator' => 'Jegy sorszám generátor',
-      '(Used ticket number format)' => '(Nyitott jegyek sorszámának formátuma)',
       'Webfrontend' => 'Web-munkafelület',
       'Default Charset' => 'Alapértelmezett karakterkészlet',
       'Use utf-8 it your database supports it!' => 'Használd utf-8-at az adatbázis támogatásoknál!',
       'Default Language' => 'Alapértelmezett nyelv',
       '(Used default language)' => '(A felhasználó alapértelmezett nyelve)',
+      'CheckMXRecord' => 'MX Rekord ellenõrzés',
+      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Ellenõrizd le az MX rekordot a használt email címben a válasz írásakor!)',
+      'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' => 'Ahhoz, hogy az OTRS-t használni tudja, a következõ parancsot kell begépelnie parancssorban (terminálban/héjjban) root-ként.',
+      'Restart your webserver' => 'Indítsa újra a web-kiszolgálót',
+      'After doing so your OTRS is up and running.' => 'Ha ez kész, az OTRS kész és fut.',
+      'Start page' => 'Start oldal',
+      'Have a lot of fun!' => 'Sok sikert!',
+      'Your OTRS Team' => 'Az ön OTRS csapata',
 
       # Template: Login
 
@@ -1160,6 +1154,7 @@ sub Data {
       'No Permission' => 'Nincs jogosultság',
 
       # Template: Notify
+      'Important' => '',
 
       # Template: PrintFooter
       'URL' => '',
@@ -1178,18 +1173,37 @@ sub Data {
 
       # Template: Warning
       # Misc
-      'Change roles <-> groups settings' => '',
-      'Change users <-> roles settings' => '',
-      'Subgroup \'' => '',
+      'OTRS DB connect host' => 'OTRS DB kapcsolódik a gazdához',
+      'Create Database' => 'Adatbázis létrehozása',
+      'DB Host' => 'DB Gazda',
+      'Ticket Number Generator' => 'Jegy sorszám generátor',
+      '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Jegy azonosítûs. pl. \'Jegy#\', \'Hívó#\' vagy \'Jegyem#\')',
+      'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Íly módon közvetlenül szerkesztheti a Kernel/Config.pm-ben beállított kulcskarikát.',
+      'Ticket Hook' => 'Jegy pöcök',
+      'Close!' => 'Lezár!',
       'TicketZoom' => 'JegyNagyítás',
       'Don\'t forget to add a new user to groups!' => 'Ne felejtsen el új felhasználót hozzáadni a csoportokhoz!',
+      'License' => 'Licenc',
       'CreateTicket' => 'Jegylétrehozás',
-      'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
+      'OTRS DB Name' => 'OTRS DB név',
+      'System Settings' => 'Rendszerbeállítások',
+      'Hours' => 'Óra',
+      'Finished' => 'Befejezve',
+      'Days' => 'Nap',
+      'DB Admin User' => 'DB Admin felhasználó',
       'Change user <-> group settings' => 'A felhasználó <-> csoport beállítások megváltoztatása',
-      'for ' => '',
+      'DB Type' => 'DB típusa',
+      'next step' => 'következõ lépés',
       'Admin-Email' => 'Kezelõ-Email',
-      '\' ' => '',
+      'Create new database' => 'Új adatbázis létrehozása',
+      'Delete old database' => 'Régi adatbázis törlése',
+      'OTRS DB User' => 'OTRS DB felhasználó',
       'Options ' => '',
+      'OTRS DB Password' => 'OTRS DB jelszó',
+      'DB Admin Password' => 'DB Admin jelszó',
+      'Drop Database' => 'Adatbázis törlése',
+      'Minutes' => 'Perc',
+      '(Used ticket number format)' => '(Nyitott jegyek sorszámának formátuma)',
       'FAQ History' => 'GYIK történet',
     };
     # $$STOP$$

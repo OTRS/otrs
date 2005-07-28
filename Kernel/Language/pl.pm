@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # Translated by Tomasz Melissa <janek at rumianek.com>
 # --
-# $Id: pl.pm,v 1.19 2005-07-04 06:54:27 martin Exp $
+# $Id: pl.pm,v 1.20 2005-07-28 20:32:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::pl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Mon Jul  4 08:47:13 2005
+    # Last translation file sync: Thu Jul 28 22:14:38 2005
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-2', ];
@@ -48,12 +48,25 @@ sub Data {
       'Done' => 'Zrobione',
       'Cancel' => 'Anuluj',
       'Reset' => 'Resetuj',
+      'last' => 'ostatnie',
+      'before' => 'przedtem',
       'day' => 'dzieñ',
       'days' => 'dni',
+      'day(s)' => 'dzieñ(dni)',
       'hour' => 'godzina',
       'hours' => 'godz.',
+      'hour(s)' => '',
       'minute' => 'minuta',
       'minutes' => 'min.',
+      'minute(s)' => '',
+      'month' => '',
+      'months' => '',
+      'month(s)' => 'miesi±c(-cy)',
+      'week' => '',
+      'week(s)' => 'tydzieñ(tygodnie)',
+      'year' => '',
+      'years' => '',
+      'year(s)' => 'rok(lat)',
       'wrote' => 'napisa³',
       'Message' => 'Wiadomo¶æ',
       'Error' => 'B³±d',
@@ -129,6 +142,9 @@ sub Data {
       'click here' => 'kliknij tutaj',
       'Comment' => 'Komentarz',
       'Valid' => 'Zastosowanie',
+      'Invalid Option!' => '',
+      'Invalid time!' => '',
+      'Invalid date!' => '',
       'Name' => 'Nazwa',
       'Group' => 'Grupa',
       'Description' => 'Opis',
@@ -169,6 +185,7 @@ sub Data {
       'Passwords dosn\'t match! Please try it again!' => '',
       'Password is already in use! Please use an other password!' => '',
       'Password is already used! Please use an other password!' => '',
+      'You need to activate %s first to use it!' => '',
       'No suggestions' => 'Brak podpowiedzi',
       'Word' => 'S³owo',
       'Ignore' => 'Ignoruj',
@@ -196,12 +213,6 @@ sub Data {
       'To: (%s) replaced with database email!' => 'DO: (%s) zamienione z adresem email z bazy danych',
       'Cc: (%s) added database email!' => '',
       '(Click here to add)' => '(By dodaæ kliknij tutaj)',
-      'last' => 'ostatnie',
-      'before' => 'przedtem',
-      'day(s)' => 'dzieñ(dni)',
-      'month(s)' => 'miesi±c(-cy)',
-      'week(s)' => 'tydzieñ(tygodnie)',
-      'year(s)' => 'rok(lat)',
       'Preview' => 'Podgl±d',
       'Added User "%s"' => '',
       'Contract' => '',
@@ -294,6 +305,7 @@ sub Data {
       'Can\'t update password, need 2 lower and 2 upper characters!' => '',
       'Can\'t update password, need min. 1 digit!' => '',
       'Can\'t update password, need min. 2 characters!' => '',
+      'Password is needed!' => '',
 
       # Template: AAATicket
       'Lock' => 'Zablokowane',
@@ -315,6 +327,7 @@ sub Data {
       'Compose' => 'Stwórz',
       'Pending' => 'Oczekuj±ce',
       'Owner' => 'W³a¶ciciel',
+      'Owner Update' => '',
       'Sender' => 'Nadawca',
       'Article' => 'Artyku³',
       'Ticket' => 'Zg³oszenie',
@@ -331,6 +344,8 @@ sub Data {
       'This is a' => 'To jest',
       'to open it in a new window.' => 'by otworzyæ w oddzielnym oknie',
       'This is a HTML email. Click here to show it.' => 'To jest e-mail w formacie HTML. Kliknij tutaj, by go przeczytaæ.',
+      'Free Fields' => '',
+      'Merge' => '',
       'closed successful' => 'zamkniête z powodzeniem',
       'closed unsuccessful' => 'zamkniête bez powodzenia',
       'new' => 'nowe',
@@ -376,7 +391,7 @@ sub Data {
       'Bulk Actions on Tickets' => '',
       'Send Email and create a new Ticket' => '',
       'Overview of all open Tickets' => '',
-      'Locked tickets' => '',
+      'Locked Tickets' => '',
       'Lock it to work on it!' => '',
       'Unlock to give it back to the queue!' => '',
       'Shows the ticket history!' => '',
@@ -513,9 +528,6 @@ sub Data {
       'Is Job Valid?' => '',
       'Is Job Valid' => '',
       'Schedule' => '',
-      'Minutes' => '',
-      'Hours' => '',
-      'Days' => '',
       'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Przeszukiwanie pe³notekstowe w artykule (np. "Ja*k" lub "Rumia*)',
       '(e. g. 10*5155 or 105658*)' => '(np. 10*5155 lub 105658*)',
       '(e. g. 234321)' => '(np. 3242442)',
@@ -599,8 +611,7 @@ sub Data {
       'Key' => 'Klucz',
       'Fingerprint' => '',
       'Expires' => '',
-      'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
-      'FIXME: WHAT IS PGP?' => '',
+      'In this way you can directly edit the keyring configured in SysConfig.' => '',
 
       # Template: AdminPOP3Form
       'POP3 Account Management' => 'Konfiguracja kont POP3',
@@ -726,7 +737,6 @@ sub Data {
       'Secret' => '',
       'Hash' => '',
       'In this way you can directly edit the certification and private keys in file system.' => '',
-      'FIXME: WHAT IS SMIME?' => '',
 
       # Template: AdminStateForm
       'System State Management' => 'Konfiguracja statusów',
@@ -754,7 +764,6 @@ sub Data {
       'New Group Ro' => '',
       'NavBarName' => '',
       'Image' => '',
-      'Typ' => '',
       'Prio' => '',
       'Block' => '',
       'NavBar' => '',
@@ -784,6 +793,8 @@ sub Data {
       'Discard all changes and return to the compose screen' => 'Anuluj wszystkie zmiany i powróæ do ekranu edycji',
 
       # Template: AgentCalendarSmall
+
+      # Template: AgentCalendarSmallIcon
 
       # Template: AgentCustomerTableView
 
@@ -834,7 +845,6 @@ sub Data {
       'A message should have a body!' => 'Wiadomo¶æ powinna zawieraæ jak±¶ tre¶æ!',
       'You need to account time!' => 'Musisz zaraportowaæ czas!',
       'Close ticket' => 'Zamknij zg³oszenie',
-      'Close!' => 'Zamknij!',
       'Note Text' => 'Tekst notatki',
       'Close type' => 'Typ zamkniêcia',
       'Time units' => 'Jednostek czasu',
@@ -864,6 +874,7 @@ sub Data {
       'new ticket' => 'Nowe zg³oszenie',
       'Clear To' => '',
       'All Agents' => 'Wszyscy agenci',
+      'Termin1' => '',
 
       # Template: AgentTicketForward
       'Article type' => 'Typ artyku³u',
@@ -981,7 +992,6 @@ sub Data {
       'U' => 'G',
       'sort downward' => 'sortuj malej±co',
       'D' => '',
-      'Customer history"}\'; return true;" onmouseout="window.status=\'\';"><div title="">$Quote{"' => '',
 
       # Template: AgentTicketStatusView
       'Ticket Status View' => '',
@@ -992,7 +1002,6 @@ sub Data {
 
       # Template: AgentTicketZoomStatus
       'Locked' => '',
-      'Article time' => '',
 
       # Template: AgentWindowTabStart
 
@@ -1005,6 +1014,8 @@ sub Data {
       # Template: customer-css
 
       # Template: CustomerAccept
+
+      # Template: CustomerCalendarSmallIcon
 
       # Template: CustomerError
       'Traceback' => '¦led¼ wstecz',
@@ -1028,7 +1039,11 @@ sub Data {
       # Template: CustomerFooter
       'Powered by' => 'Oparte na',
 
+      # Template: CustomerFooterSmall
+
       # Template: CustomerHeader
+
+      # Template: CustomerHeaderSmall
 
       # Template: CustomerLogin
       'Login' => '',
@@ -1089,43 +1104,19 @@ sub Data {
 
       # Template: HeaderSmall
 
-      # Template: InstallerBody
+      # Template: Installer
       'Web-Installer' => 'Instalator Web',
-      'Create Database' => 'Stwórz bazê danych',
-      'Drop Database' => 'Usuñ bazê danych',
-      'System Settings' => 'Ustawienia systemu',
-      'Finished' => 'Zakoñczono',
-
-      # Template: InstallerFinish
-      'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' => 'Musisz wpisaæ nastêpuj±ce polecenie w linii komend (Terminal/Shell).',
-      'Restart your webserver' => 'Uruchom ponownie serwer WWW',
-      'After doing so your OTRS is up and running.' => 'Po zakoñczeniu tych czynno¶ci Twój system OTRS bêdzie gotowy do pracy',
-      'Start page' => 'Strona startowa',
-      'Admin-User' => 'Administrator',
-      'Have a lot of fun!' => '¯yczymy dobrej zabawy!',
-      'Your OTRS Team' => 'Twój Team OTRS',
-
-      # Template: InstallerLicense
-      'License' => 'Licencja',
       'accept license' => 'akceptujê Licencjê',
       'don\'t accept license' => 'nie akceptujê Licencji',
-
-      # Template: InstallerStart
-      'DB Admin User' => 'U¿ytkownik administruj±cy baz± danych',
-      'DB Admin Password' => 'Has³o Administratora bazy danych',
+      'Admin-User' => 'Administrator',
+      'Admin-Password' => '',
       'your MySQL DB should have a root password! Default is empty!' => 'Twoja baza danych MYSQL powinna mieæ ustawione jakie¶ has³o dla u¿ytkownika root. Domy¶lnie jest puste!',
-      'DB Host' => 'Host bazy danych',
-      'DB Type' => 'Typ bazy danych',
-      'OTRS DB Name' => 'Nazwa bazy danych OTRS',
-      'OTRS DB User' => 'U¿ytkownik bazy danych OTRS',
-      'OTRS DB Password' => 'Has³o dostêpu do bazy dla OTRS',
+      'Database-User' => '',
       'default \'hot\'' => 'domy¶lne \'hot\'',
-      'OTRS DB connect host' => 'Host bazy danych',
-      'Create new database' => 'Stwórz now± bazê danych',
-      'Delete old database' => 'Usuñ star± bazê danych',
-      'next step' => 'Nastêpny krok',
-
-      # Template: InstallerSystem
+      'DB connect host' => '',
+      'Database' => '',
+      'Create' => '',
+      'false' => '',
       'SystemID' => 'ID Systemu',
       '(The identify of the system. Each ticket number and each http session id starts with this number)' => '(Identyfikator systemu. Wszystkie zg³oszenia oraz sesje http bêd± zaczyna³y siê od tego ci±gu)',
       'System FQDN' => 'Pe³na domena systemu FQDN',
@@ -1133,21 +1124,24 @@ sub Data {
       'AdminEmail' => 'Email od Admina',
       '(Email of the system admin)' => '(Adres E-Mail Administratora Systemu)',
       'Organization' => 'Organizacja',
+      'Log' => '',
       'LogModule' => 'Modu³ logowania',
       '(Used log backend)' => '(U¿ywany log backend)',
       'Logfile' => 'Plik logu',
       '(Logfile just needed for File-LogModule!)' => '(Logfile jest potrzebny jedynie dla modu³u File-Log!)',
-      'CheckMXRecord' => 'Sprawd¼ rekord MX',
-      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '',
-      'Ticket Hook' => 'Identyfikator zg³oszenia',
-      '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Identyfikator zg³oszenia. np. \'Ticket#\', \'Call#\' lub \'MyTicket#\')',
-      'Ticket Number Generator' => 'Generator numerów zg³oszeñ',
-      '(Used ticket number format)' => '(U¿ywany format numerowania zg³oszeñ)',
       'Webfrontend' => 'Interfejs webowy',
       'Default Charset' => 'Domy¶lne kodowanie',
       'Use utf-8 it your database supports it!' => 'U¿ywaj kodowania UTF-8 je¶li pozwala Ci na to baza danych!',
       'Default Language' => 'Domy¶lny jêzyk',
       '(Used default language)' => '(Domy¶lny jêzyk)',
+      'CheckMXRecord' => 'Sprawd¼ rekord MX',
+      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '',
+      'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' => 'Musisz wpisaæ nastêpuj±ce polecenie w linii komend (Terminal/Shell).',
+      'Restart your webserver' => 'Uruchom ponownie serwer WWW',
+      'After doing so your OTRS is up and running.' => 'Po zakoñczeniu tych czynno¶ci Twój system OTRS bêdzie gotowy do pracy',
+      'Start page' => 'Strona startowa',
+      'Have a lot of fun!' => '¯yczymy dobrej zabawy!',
+      'Your OTRS Team' => 'Twój Team OTRS',
 
       # Template: Login
 
@@ -1157,6 +1151,7 @@ sub Data {
       'No Permission' => 'Brak dostêpu',
 
       # Template: Notify
+      'Important' => '',
 
       # Template: PrintFooter
       'URL' => '',
@@ -1175,18 +1170,32 @@ sub Data {
 
       # Template: Warning
       # Misc
-      'Change roles <-> groups settings' => '',
-      'Change users <-> roles settings' => '',
-      'Subgroup \'' => '',
+      'OTRS DB connect host' => 'Host bazy danych',
+      'Create Database' => 'Stwórz bazê danych',
+      'DB Host' => 'Host bazy danych',
+      'Ticket Number Generator' => 'Generator numerów zg³oszeñ',
+      '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Identyfikator zg³oszenia. np. \'Ticket#\', \'Call#\' lub \'MyTicket#\')',
+      'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
+      'Ticket Hook' => 'Identyfikator zg³oszenia',
+      'Close!' => 'Zamknij!',
       'TicketZoom' => 'Podgl±d zg³oszenia',
       'Don\'t forget to add a new user to groups!' => 'Nie zapomnij dodaæ u¿ytkownika do grup!',
-      'CreateTicket' => '',
-      'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
+      'License' => 'Licencja',
+      'OTRS DB Name' => 'Nazwa bazy danych OTRS',
+      'System Settings' => 'Ustawienia systemu',
+      'Finished' => 'Zakoñczono',
+      'DB Admin User' => 'U¿ytkownik administruj±cy baz± danych',
       'Change user <-> group settings' => 'Zmieñ u¿ytkownika <-> Ustawienia grupy',
-      'for ' => '',
+      'DB Type' => 'Typ bazy danych',
+      'next step' => 'Nastêpny krok',
       'Admin-Email' => 'Wiadomo¶æ od Administratora',
-      '\' ' => '',
-      'Options ' => '',
+      'Create new database' => 'Stwórz now± bazê danych',
+      'Delete old database' => 'Usuñ star± bazê danych',
+      'OTRS DB User' => 'U¿ytkownik bazy danych OTRS',
+      'OTRS DB Password' => 'Has³o dostêpu do bazy dla OTRS',
+      'DB Admin Password' => 'Has³o Administratora bazy danych',
+      'Drop Database' => 'Usuñ bazê danych',
+      '(Used ticket number format)' => '(U¿ywany format numerowania zg³oszeñ)',
       'FAQ History' => 'Historia FAQ',
     };
     # $$STOP$$

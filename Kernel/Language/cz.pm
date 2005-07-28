@@ -3,10 +3,10 @@
 # Copyright (C) 2003 Lukas Vicanek alias networ <lulka at centrum dot cz>
 # Copyright (C) 2004 BENETA.cz, s.r.o. <info at beneta dot cz>
 #	Translators: Marta Macalkova
-#		     Vadim Buzek 
+#		     Vadim Buzek
 #		     Petr Ocasek
 # --
-# $Id: cz.pm,v 1.18 2005-07-04 06:54:27 martin Exp $
+# $Id: cz.pm,v 1.19 2005-07-28 20:32:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ package Kernel::Language::cz;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -26,7 +26,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Mon Jul  4 08:44:55 2005
+    # Last translation file sync: Thu Jul 28 22:14:03 2005
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-2', ];
@@ -51,12 +51,25 @@ sub Data {
       'Done' => 'Hotovo',
       'Cancel' => 'Stornovat',
       'Reset' => '',
+      'last' => 'poslední',
+      'before' => 'pøed',
       'day' => 'den',
       'days' => 'dní(dny)',
+      'day(s)' => 'den(dní)',
       'hour' => 'hodina',
       'hours' => 'hodin',
+      'hour(s)' => '',
       'minute' => 'minuta',
       'minutes' => 'minut',
+      'minute(s)' => '',
+      'month' => '',
+      'months' => '',
+      'month(s)' => 'mìsíc(e)',
+      'week' => '',
+      'week(s)' => 'týden(týdny)',
+      'year' => '',
+      'years' => '',
+      'year(s)' => 'rok(y)',
       'wrote' => 'napsal',
       'Message' => 'Zpráva',
       'Error' => 'Chyba',
@@ -132,6 +145,9 @@ sub Data {
       'click here' => 'kliknìte zde',
       'Comment' => 'Komentáø',
       'Valid' => 'Platnost',
+      'Invalid Option!' => '',
+      'Invalid time!' => '',
+      'Invalid date!' => '',
       'Name' => 'Jméno',
       'Group' => 'Skupina',
       'Description' => 'Popis',
@@ -172,6 +188,7 @@ sub Data {
       'Passwords dosn\'t match! Please try it again!' => '',
       'Password is already in use! Please use an other password!' => '',
       'Password is already used! Please use an other password!' => '',
+      'You need to activate %s first to use it!' => '',
       'No suggestions' => '¾ádné návrhy',
       'Word' => 'Slovo',
       'Ignore' => 'Ignorovat',
@@ -199,12 +216,6 @@ sub Data {
       'To: (%s) replaced with database email!' => 'To: (%s) nahrazeno emailem z databáze!',
       'Cc: (%s) added database email!' => '',
       '(Click here to add)' => '(Pro pøidání kliknìte zde)',
-      'last' => 'poslední',
-      'before' => 'pøed',
-      'day(s)' => 'den(dní)',
-      'month(s)' => 'mìsíc(e)',
-      'week(s)' => 'týden(týdny)',
-      'year(s)' => 'rok(y)',
       'Preview' => 'Zobrazit',
       'Added User "%s"' => '',
       'Contract' => '',
@@ -297,6 +308,7 @@ sub Data {
       'Can\'t update password, need 2 lower and 2 upper characters!' => '',
       'Can\'t update password, need min. 1 digit!' => '',
       'Can\'t update password, need min. 2 characters!' => '',
+      'Password is needed!' => '',
 
       # Template: AAATicket
       'Lock' => 'Zámek',
@@ -318,6 +330,7 @@ sub Data {
       'Compose' => 'Sestavit',
       'Pending' => 'Èeká na vyøízení',
       'Owner' => 'Vlastník',
+      'Owner Update' => '',
       'Sender' => 'Odesílatel',
       'Article' => 'Polo¾ka',
       'Ticket' => 'Tiket',
@@ -334,6 +347,8 @@ sub Data {
       'This is a' => 'Toto je',
       'to open it in a new window.' => 'pro otevøení v novém oknì.',
       'This is a HTML email. Click here to show it.' => 'Toto je HTML email. Pro zobrazení kliknìte zde.',
+      'Free Fields' => '',
+      'Merge' => '',
       'closed successful' => 'uzavøeno - vyøe¹eno',
       'closed unsuccessful' => 'uzavøeno - nevyøe¹eno',
       'new' => 'nová',
@@ -379,7 +394,7 @@ sub Data {
       'Bulk Actions on Tickets' => '',
       'Send Email and create a new Ticket' => '',
       'Overview of all open Tickets' => '',
-      'Locked tickets' => '',
+      'Locked Tickets' => '',
       'Lock it to work on it!' => '',
       'Unlock to give it back to the queue!' => '',
       'Shows the ticket history!' => '',
@@ -516,9 +531,6 @@ sub Data {
       'Is Job Valid?' => '',
       'Is Job Valid' => '',
       'Schedule' => '',
-      'Minutes' => '',
-      'Hours' => '',
-      'Days' => '',
       'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Fulltextové vyhledávání v polo¾ce (napø. "Mar*in" or "Baue*")',
       '(e. g. 10*5155 or 105658*)' => '(napø. 10*5155 or 105658*)',
       '(e. g. 234321)' => '(napø. 234321)',
@@ -602,8 +614,7 @@ sub Data {
       'Key' => 'Klíè',
       'Fingerprint' => '',
       'Expires' => '',
-      'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
-      'FIXME: WHAT IS PGP?' => '',
+      'In this way you can directly edit the keyring configured in SysConfig.' => '',
 
       # Template: AdminPOP3Form
       'POP3 Account Management' => 'Správa POP3 úètù',
@@ -729,7 +740,6 @@ sub Data {
       'Secret' => '',
       'Hash' => '',
       'In this way you can directly edit the certification and private keys in file system.' => '',
-      'FIXME: WHAT IS SMIME?' => '',
 
       # Template: AdminStateForm
       'System State Management' => 'Správa stavu systému',
@@ -757,7 +767,6 @@ sub Data {
       'New Group Ro' => '',
       'NavBarName' => '',
       'Image' => '',
-      'Typ' => '',
       'Prio' => '',
       'Block' => '',
       'NavBar' => '',
@@ -787,6 +796,8 @@ sub Data {
       'Discard all changes and return to the compose screen' => 'Zru¹it v¹echny zmìny a vrátit se zpìt do okna vytváøení',
 
       # Template: AgentCalendarSmall
+
+      # Template: AgentCalendarSmallIcon
 
       # Template: AgentCustomerTableView
 
@@ -837,7 +848,6 @@ sub Data {
       'A message should have a body!' => 'Zpráva by mìla mít tìlo!',
       'You need to account time!' => 'Potøebujete úètovat dobu!',
       'Close ticket' => 'Zavøít tiket',
-      'Close!' => 'Zavøít!',
       'Note Text' => 'Text poznámky',
       'Close type' => 'Zavøít typ',
       'Time units' => 'Jednotky èasu',
@@ -867,6 +877,7 @@ sub Data {
       'new ticket' => 'nový tiket',
       'Clear To' => '',
       'All Agents' => 'V¹ichni agenti',
+      'Termin1' => '',
 
       # Template: AgentTicketForward
       'Article type' => 'Typ polo¾ky',
@@ -984,7 +995,6 @@ sub Data {
       'U' => 'Z-A',
       'sort downward' => 'setøídit dolù',
       'D' => 'A-Z',
-      'Customer history"}\'; return true;" onmouseout="window.status=\'\';"><div title="">$Quote{"' => '',
 
       # Template: AgentTicketStatusView
       'Ticket Status View' => '',
@@ -995,7 +1005,6 @@ sub Data {
 
       # Template: AgentTicketZoomStatus
       'Locked' => '',
-      'Article time' => '',
 
       # Template: AgentWindowTabStart
 
@@ -1008,6 +1017,8 @@ sub Data {
       # Template: customer-css
 
       # Template: CustomerAccept
+
+      # Template: CustomerCalendarSmallIcon
 
       # Template: CustomerError
       'Traceback' => 'Jít zpìt',
@@ -1031,7 +1042,11 @@ sub Data {
       # Template: CustomerFooter
       'Powered by' => 'Vytvoøeno',
 
+      # Template: CustomerFooterSmall
+
       # Template: CustomerHeader
+
+      # Template: CustomerHeaderSmall
 
       # Template: CustomerLogin
       'Login' => '',
@@ -1092,43 +1107,19 @@ sub Data {
 
       # Template: HeaderSmall
 
-      # Template: InstallerBody
+      # Template: Installer
       'Web-Installer' => 'Web-instalátor',
-      'Create Database' => 'Vytvoøit Databazi',
-      'Drop Database' => 'Odstranit databazi',
-      'System Settings' => 'Nastavení systému',
-      'Finished' => 'Dokonèeno',
-
-      # Template: InstallerFinish
-      'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' => 'Abyste mohli pou¾ívat OTRS, musíte zadat následující øádek do Va¹eho pøíkazového øádku (Terminal/Shell) jako root.',
-      'Restart your webserver' => 'Restartujte Vá¹ webserver',
-      'After doing so your OTRS is up and running.' => 'Po dokonèení následujících operací je Vá¹ OTRS spu¹tìn a pobì¾í',
-      'Start page' => 'Úvodní stránka',
-      'Admin-User' => 'Administrátor',
-      'Have a lot of fun!' => 'Pøejeme hodnì úspìchù s OTRS!',
-      'Your OTRS Team' => 'Vá¹ OTRS tým',
-
-      # Template: InstallerLicense
-      'License' => 'Licence',
       'accept license' => 'souhlasím s licencí',
       'don\'t accept license' => 'nesouhlasím s licencí',
-
-      # Template: InstallerStart
-      'DB Admin User' => 'Administrátor databáze',
-      'DB Admin Password' => 'Heslo administrátora databáze',
+      'Admin-User' => 'Administrátor',
+      'Admin-Password' => '',
       'your MySQL DB should have a root password! Default is empty!' => 'Va¹e MySQL databáze by mìla mít root heslo! Výchozí je prázdné!',
-      'DB Host' => 'Hostitel (server) databáze',
-      'DB Type' => 'Typ databáze',
-      'OTRS DB Name' => 'Název OTRS databáze',
-      'OTRS DB User' => 'U¾ivatel OTRS databáze',
-      'OTRS DB Password' => 'Heslo OTRS databáze',
+      'Database-User' => '',
       'default \'hot\'' => 'výchozí \'hot\'',
-      'OTRS DB connect host' => 'Hostitel OTRS databáze (server)',
-      'Create new database' => 'Vytvoøit novou databázi',
-      'Delete old database' => 'Smazat starou databázi',
-      'next step' => 'dal¹í krok',
-
-      # Template: InstallerSystem
+      'DB connect host' => '',
+      'Database' => '',
+      'Create' => '',
+      'false' => '',
       'SystemID' => 'Systémové ID',
       '(The identify of the system. Each ticket number and each http session id starts with this number)' => '(Identita systému. Ka¾dé èíslo tiketu a ID ka¾dá HTTP relace zaèíná tímto èíslem)',
       'System FQDN' => 'Systém FQDN',
@@ -1136,21 +1127,24 @@ sub Data {
       'AdminEmail' => 'Email Administrátora',
       '(Email of the system admin)' => '(Email administrátora systému)',
       'Organization' => 'Organizace',
+      'Log' => '',
       'LogModule' => 'Log Modul',
       '(Used log backend)' => '(Pou¾it výstup do logu)',
       'Logfile' => 'Log soubor',
       '(Logfile just needed for File-LogModule!)' => '(Pro logování do souboru je nutné zadat název souboru logu!)',
-      'CheckMXRecord' => 'Kontrolovat MX záznam',
-      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Kontroluj MX záznamy pou¾itých emailových adres pøi sestavování odpovìdi. Nepou¾ívejte pokud OTRS server pøipojen pomocí vytáèené linky!)',
-      'Ticket Hook' => 'Oznaèení tiketu',
-      '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Identifikátor tiketù. Nekteøí lidé chtìjí nastavit napø. \'Tiket#\',  \'Hovor#\' nebo \'MujTiket#\')',
-      'Ticket Number Generator' => 'Generátor èísel tiketù',
-      '(Used ticket number format)' => '(Pou¾itý formát èísel tiketù)',
       'Webfrontend' => 'Webove rozhraní',
       'Default Charset' => 'Výchozí znaková sada',
       'Use utf-8 it your database supports it!' => 'Pou¾ijte utf-8 pokud to Va¹e databáze podporuje',
       'Default Language' => 'Výchozí jazyk',
       '(Used default language)' => '(Pou¾itý výchozí jazyk)',
+      'CheckMXRecord' => 'Kontrolovat MX záznam',
+      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Kontroluj MX záznamy pou¾itých emailových adres pøi sestavování odpovìdi. Nepou¾ívejte pokud OTRS server pøipojen pomocí vytáèené linky!)',
+      'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' => 'Abyste mohli pou¾ívat OTRS, musíte zadat následující øádek do Va¹eho pøíkazového øádku (Terminal/Shell) jako root.',
+      'Restart your webserver' => 'Restartujte Vá¹ webserver',
+      'After doing so your OTRS is up and running.' => 'Po dokonèení následujících operací je Vá¹ OTRS spu¹tìn a pobì¾í',
+      'Start page' => 'Úvodní stránka',
+      'Have a lot of fun!' => 'Pøejeme hodnì úspìchù s OTRS!',
+      'Your OTRS Team' => 'Vá¹ OTRS tým',
 
       # Template: Login
 
@@ -1160,6 +1154,7 @@ sub Data {
       'No Permission' => '®ádná práva',
 
       # Template: Notify
+      'Important' => '',
 
       # Template: PrintFooter
       'URL' => '',
@@ -1178,20 +1173,36 @@ sub Data {
 
       # Template: Warning
       # Misc
+      'OTRS DB connect host' => 'Hostitel OTRS databáze (server)',
+      'Create Database' => 'Vytvoøit Databazi',
+      'DB Host' => 'Hostitel (server) databáze',
       'Change roles <-> groups settings' => '',
+      'Ticket Number Generator' => 'Generátor èísel tiketù',
+      '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Identifikátor tiketù. Nekteøí lidé chtìjí nastavit napø. \'Tiket#\',  \'Hovor#\' nebo \'MujTiket#\')',
+      'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
       'Create new Ticket' => 'Vytvoøit nový tiket',
-      'Change users <-> roles settings' => '',
-      'Subgroup \'' => '',
+      'Ticket Hook' => 'Oznaèení tiketu',
+      'Close!' => 'Zavøít!',
       'TicketZoom' => 'Zobrazení tiketu',
       'Don\'t forget to add a new user to groups!' => 'Nezapomeòte pøidat nového u¾ivatele do skupin!',
+      'License' => 'Licence',
       'CreateTicket' => 'Vytvoøeno Tiketu',
+      'OTRS DB Name' => 'Název OTRS databáze',
+      'System Settings' => 'Nastavení systému',
+      'Finished' => 'Dokonèeno',
       'New Ticket' => 'Nový tiket',
-      'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
+      'DB Admin User' => 'Administrátor databáze',
       'Change user <-> group settings' => 'Zmìnit u¾ivatele <-> nastavení skupiny',
-      'for ' => '',
+      'DB Type' => 'Typ databáze',
+      'next step' => 'dal¹í krok',
       'Admin-Email' => 'Email administrátora',
-      '\' ' => '',
+      'Delete old database' => 'Smazat starou databázi',
+      'OTRS DB User' => 'U¾ivatel OTRS databáze',
       'Options ' => '',
+      'OTRS DB Password' => 'Heslo OTRS databáze',
+      'DB Admin Password' => 'Heslo administrátora databáze',
+      'Drop Database' => 'Odstranit databazi',
+      '(Used ticket number format)' => '(Pou¾itý formát èísel tiketù)',
       'FAQ History' => 'Historie FAQ',
     };
     # $$STOP$$

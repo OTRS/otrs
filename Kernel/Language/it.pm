@@ -3,7 +3,7 @@
 # Copyright (C) 2003 Remo Catelotti <Remo.Catelotti at bull.it>
 #               2003 Gabriele Santilli <gsantilli at omnibus.net>
 # --
-# $Id: it.pm,v 1.20 2005-07-04 06:54:27 martin Exp $
+# $Id: it.pm,v 1.21 2005-07-28 20:32:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::it;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Mon Jul  4 08:47:01 2005
+    # Last translation file sync: Thu Jul 28 22:14:25 2005
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -48,12 +48,25 @@ sub Data {
       'Done' => 'Fatto',
       'Cancel' => 'Annulla',
       'Reset' => 'Ripristina',
+      'last' => 'ultimo',
+      'before' => 'precedente',
       'day' => 'giorno',
       'days' => 'giorni',
+      'day(s)' => 'giorno(i)',
       'hour' => 'ora',
       'hours' => 'ore',
+      'hour(s)' => '',
       'minute' => 'minuto',
       'minutes' => 'minuti',
+      'minute(s)' => '',
+      'month' => '',
+      'months' => '',
+      'month(s)' => 'mese(i)',
+      'week' => '',
+      'week(s)' => 'settimana(e)',
+      'year' => '',
+      'years' => '',
+      'year(s)' => 'anno(i)',
       'wrote' => 'ha scritto',
       'Message' => 'Messaggio',
       'Error' => 'Errore',
@@ -129,6 +142,9 @@ sub Data {
       'click here' => 'clicca qui',
       'Comment' => 'Commento',
       'Valid' => 'Valido',
+      'Invalid Option!' => '',
+      'Invalid time!' => '',
+      'Invalid date!' => '',
       'Name' => 'Nome',
       'Group' => 'Gruppo',
       'Description' => 'Descrizione',
@@ -169,6 +185,7 @@ sub Data {
       'Passwords dosn\'t match! Please try it again!' => 'La password non corrisponde! Per favore, prova di nuovo',
       'Password is already in use! Please use an other password!' => '',
       'Password is already used! Please use an other password!' => '',
+      'You need to activate %s first to use it!' => '',
       'No suggestions' => 'Non ci sono suggerimenti',
       'Word' => 'Parola',
       'Ignore' => 'Ignora',
@@ -196,12 +213,6 @@ sub Data {
       'To: (%s) replaced with database email!' => 'A: (%s) sostituito con l\'indirizzo presente nel database',
       'Cc: (%s) added database email!' => '',
       '(Click here to add)' => '(clicca per aggiungere)',
-      'last' => 'ultimo',
-      'before' => 'precedente',
-      'day(s)' => 'giorno(i)',
-      'month(s)' => 'mese(i)',
-      'week(s)' => 'settimana(e)',
-      'year(s)' => 'anno(i)',
       'Preview' => 'Anteprima',
       'Added User "%s"' => 'Utente "%s" aggiunto',
       'Contract' => 'Contratto',
@@ -294,6 +305,7 @@ sub Data {
       'Can\'t update password, need 2 lower and 2 upper characters!' => '',
       'Can\'t update password, need min. 1 digit!' => '',
       'Can\'t update password, need min. 2 characters!' => '',
+      'Password is needed!' => '',
 
       # Template: AAATicket
       'Lock' => 'Prendi in gestione',
@@ -315,6 +327,7 @@ sub Data {
       'Compose' => 'Componi',
       'Pending' => 'In attesa',
       'Owner' => 'Operatore',
+      'Owner Update' => '',
       'Sender' => 'Mittente',
       'Article' => 'Articolo',
       'Ticket' => 'Richiesta',
@@ -331,6 +344,8 @@ sub Data {
       'This is a' => 'Questo è un',
       'to open it in a new window.' => 'per aprire in una nuova finestra.',
       'This is a HTML email. Click here to show it.' => 'Questa è una email in HTML. Clicca qui per visualizzarla.',
+      'Free Fields' => '',
+      'Merge' => '',
       'closed successful' => 'chiuso con successo',
       'closed unsuccessful' => 'chiuso senza successo',
       'new' => 'nuovo',
@@ -376,7 +391,7 @@ sub Data {
       'Bulk Actions on Tickets' => '',
       'Send Email and create a new Ticket' => '',
       'Overview of all open Tickets' => 'Vista globale di tutte le richieste aperte',
-      'Locked tickets' => '',
+      'Locked Tickets' => '',
       'Lock it to work on it!' => '',
       'Unlock to give it back to the queue!' => '',
       'Shows the ticket history!' => '',
@@ -513,9 +528,6 @@ sub Data {
       'Is Job Valid?' => '',
       'Is Job Valid' => '',
       'Schedule' => 'Programma',
-      'Minutes' => 'Minuti',
-      'Hours' => 'Ore',
-      'Days' => 'Giorni',
       'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Ricerca a testo libero nel testo dell\'articolo (per esempio \'Ro*si\' o \'Ma*io\')',
       '(e. g. 10*5155 or 105658*)' => '(per esempio \'10*5155\' o \'105658*\')',
       '(e. g. 234321)' => '(per esempio \'234321\')',
@@ -599,8 +611,7 @@ sub Data {
       'Key' => 'Etichetta',
       'Fingerprint' => 'Impronta (fingerprint)',
       'Expires' => 'Scade',
-      'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'In questo modo puoi modificare direttamente il \'keyring\' configurato nel file Kernel/Config.pm',
-      'FIXME: WHAT IS PGP?' => 'CORREGGIMI: COS\'E\' PGP?',
+      'In this way you can directly edit the keyring configured in SysConfig.' => '',
 
       # Template: AdminPOP3Form
       'POP3 Account Management' => 'Gestione accessi POP3',
@@ -726,7 +737,6 @@ sub Data {
       'Secret' => 'Segreto',
       'Hash' => '',
       'In this way you can directly edit the certification and private keys in file system.' => 'Puoi modificare il certificato e la chiave privata direttamente sul filesystem.',
-      'FIXME: WHAT IS SMIME?' => 'CORREGGIMI: COS\'E\' SMIME?',
 
       # Template: AdminStateForm
       'System State Management' => 'Gestione stati richieste',
@@ -754,7 +764,6 @@ sub Data {
       'New Group Ro' => '',
       'NavBarName' => '',
       'Image' => '',
-      'Typ' => '',
       'Prio' => '',
       'Block' => '',
       'NavBar' => '',
@@ -784,6 +793,8 @@ sub Data {
       'Discard all changes and return to the compose screen' => 'Annulla tutte le modifiche e torna alla composizione del messaggio',
 
       # Template: AgentCalendarSmall
+
+      # Template: AgentCalendarSmallIcon
 
       # Template: AgentCustomerTableView
 
@@ -834,7 +845,6 @@ sub Data {
       'A message should have a body!' => 'Un messaggio deve avere un contenuto!',
       'You need to account time!' => 'Devi inserire il tempo impiegato per la risposta!',
       'Close ticket' => 'Chiudi richiesta',
-      'Close!' => 'Chiuso!',
       'Note Text' => 'Nota',
       'Close type' => 'Tipologia chiusura',
       'Time units' => 'Tempo',
@@ -864,6 +874,7 @@ sub Data {
       'new ticket' => 'nuova richiesta',
       'Clear To' => 'Cancella destinatario',
       'All Agents' => 'Tutti gli operatori',
+      'Termin1' => '',
 
       # Template: AgentTicketForward
       'Article type' => 'Tipo articolo',
@@ -981,7 +992,6 @@ sub Data {
       'U' => 'C',
       'sort downward' => 'ordine decrescente',
       'D' => '',
-      'Customer history"}\'; return true;" onmouseout="window.status=\'\';"><div title="">$Quote{"' => '',
 
       # Template: AgentTicketStatusView
       'Ticket Status View' => '',
@@ -992,7 +1002,6 @@ sub Data {
 
       # Template: AgentTicketZoomStatus
       'Locked' => 'In gestione',
-      'Article time' => '',
 
       # Template: AgentWindowTabStart
 
@@ -1005,6 +1014,8 @@ sub Data {
       # Template: customer-css
 
       # Template: CustomerAccept
+
+      # Template: CustomerCalendarSmallIcon
 
       # Template: CustomerError
       'Traceback' => 'Dettaglio del passato',
@@ -1028,7 +1039,11 @@ sub Data {
       # Template: CustomerFooter
       'Powered by' => '',
 
+      # Template: CustomerFooterSmall
+
       # Template: CustomerHeader
+
+      # Template: CustomerHeaderSmall
 
       # Template: CustomerLogin
       'Login' => 'Codice utente',
@@ -1089,43 +1104,19 @@ sub Data {
 
       # Template: HeaderSmall
 
-      # Template: InstallerBody
+      # Template: Installer
       'Web-Installer' => 'Installazione guidata via web',
-      'Create Database' => 'Crea database ',
-      'Drop Database' => 'Cancella database',
-      'System Settings' => 'Impostazioni di sistema',
-      'Finished' => 'Operazione terminata',
-
-      # Template: InstallerFinish
-      'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' => 'Per poter usare OTRS devi inserire questa riga di comando in una shell come utente root.',
-      'Restart your webserver' => 'Riavvia il tuo server web',
-      'After doing so your OTRS is up and running.' => 'Dopo di ciò OTRS sarà pronto all\'uso.',
-      'Start page' => 'Pagina iniziale',
-      'Admin-User' => 'Utente amministratore',
-      'Have a lot of fun!' => 'Divertiti con OTRS!',
-      'Your OTRS Team' => 'Gruppo di sviluppo di OTRS',
-
-      # Template: InstallerLicense
-      'License' => 'Licenza',
       'accept license' => 'accetto la licenza',
       'don\'t accept license' => 'non accetto la licenza',
-
-      # Template: InstallerStart
-      'DB Admin User' => 'Nome utente DB Admin',
-      'DB Admin Password' => 'Password del DB Admin',
+      'Admin-User' => 'Utente amministratore',
+      'Admin-Password' => '',
       'your MySQL DB should have a root password! Default is empty!' => 'dovresti impostare una password di root per il tuo server MySQL!',
-      'DB Host' => '',
-      'DB Type' => 'Tipo di DBMS',
-      'OTRS DB Name' => '',
-      'OTRS DB User' => '',
-      'OTRS DB Password' => '',
+      'Database-User' => '',
       'default \'hot\'' => '\'hot\' predefinito',
-      'OTRS DB connect host' => '',
-      'Create new database' => 'Crea un nuovo database',
-      'Delete old database' => 'Cancella il vecchio database',
-      'next step' => 'Fase successiva',
-
-      # Template: InstallerSystem
+      'DB connect host' => '',
+      'Database' => '',
+      'Create' => '',
+      'false' => '',
       'SystemID' => 'ID del sistema',
       '(The identify of the system. Each ticket number and each http session id starts with this number)' => '(ID del sistema. Ogni ID di sessione e numero di ticket inizia con questo numero)',
       'System FQDN' => 'FQDN del sistema',
@@ -1133,21 +1124,24 @@ sub Data {
       'AdminEmail' => 'Messaggio agli operatori',
       '(Email of the system admin)' => '(Indirizzo email dell\'amministratore di sistema)',
       'Organization' => 'Azienda',
+      'Log' => '',
       'LogModule' => 'Modulo di log',
       '(Used log backend)' => '(Modulo da usare per il log)',
       'Logfile' => 'File di log',
       '(Logfile just needed for File-LogModule!)' => '(File di log --- necessario solo per il log su file (File-LogModule))',
-      'CheckMXRecord' => 'Verifica record MX',
-      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Controlla il record MX per i domini degli indirizzi email quando si compone un messaggio. Non usare se il vostro server con OTRS ha una connessione dial-up!)',
-      'Ticket Hook' => 'Prefisso richieste',
-      '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Prefisso per il numero di ticket --- es. "N.ro Ticket:" o "Ticket#" ecc.)',
-      'Ticket Number Generator' => 'Generatore numero ticket',
-      '(Used ticket number format)' => '(Formato del numero dei ticket)',
       'Webfrontend' => 'Interfaccia web',
       'Default Charset' => 'Set di caratteri predefinito',
       'Use utf-8 it your database supports it!' => '',
       'Default Language' => 'Lingua predefinita',
       '(Used default language)' => '(Lingua predefinita)',
+      'CheckMXRecord' => 'Verifica record MX',
+      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Controlla il record MX per i domini degli indirizzi email quando si compone un messaggio. Non usare se il vostro server con OTRS ha una connessione dial-up!)',
+      'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' => 'Per poter usare OTRS devi inserire questa riga di comando in una shell come utente root.',
+      'Restart your webserver' => 'Riavvia il tuo server web',
+      'After doing so your OTRS is up and running.' => 'Dopo di ciò OTRS sarà pronto all\'uso.',
+      'Start page' => 'Pagina iniziale',
+      'Have a lot of fun!' => 'Divertiti con OTRS!',
+      'Your OTRS Team' => 'Gruppo di sviluppo di OTRS',
 
       # Template: Login
 
@@ -1157,6 +1151,7 @@ sub Data {
       'No Permission' => 'Autorizzazione negata',
 
       # Template: Notify
+      'Important' => '',
 
       # Template: PrintFooter
       'URL' => '',
@@ -1175,18 +1170,33 @@ sub Data {
 
       # Template: Warning
       # Misc
-      'Change roles <-> groups settings' => '',
-      'Change users <-> roles settings' => '',
-      'Subgroup \'' => '',
+      'Create Database' => 'Crea database ',
+      'Ticket Number Generator' => 'Generatore numero ticket',
+      '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Prefisso per il numero di ticket --- es. "N.ro Ticket:" o "Ticket#" ecc.)',
+      'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'In questo modo puoi modificare direttamente il \'keyring\' configurato nel file Kernel/Config.pm',
+      'Ticket Hook' => 'Prefisso richieste',
+      'Close!' => 'Chiuso!',
       'TicketZoom' => 'DettagliRichiesta',
       'Don\'t forget to add a new user to groups!' => 'Non dimenticare di aggiungere i nuovi operatori ad un gruppo!',
+      'License' => 'Licenza',
       'CreateTicket' => 'CreaRichiesta',
+      'System Settings' => 'Impostazioni di sistema',
+      'Hours' => 'Ore',
+      'Finished' => 'Operazione terminata',
+      'Days' => 'Giorni',
+      'DB Admin User' => 'Nome utente DB Admin',
       'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
       'Change user <-> group settings' => 'Modifica impostazioni Utente <-> Gruppo',
-      'for ' => '',
+      'DB Type' => 'Tipo di DBMS',
+      'next step' => 'Fase successiva',
       'Admin-Email' => 'Invia messaggio agli operatori',
-      '\' ' => '',
+      'Create new database' => 'Crea un nuovo database',
+      'Delete old database' => 'Cancella il vecchio database',
       'Options ' => '',
+      'DB Admin Password' => 'Password del DB Admin',
+      'Drop Database' => 'Cancella database',
+      'Minutes' => 'Minuti',
+      '(Used ticket number format)' => '(Formato del numero dei ticket)',
       'FAQ History' => 'Storico FAQ',
     };
     # $$STOP$$

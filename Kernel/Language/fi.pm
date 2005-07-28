@@ -2,7 +2,7 @@
 # Kernel/Language/fi.pm - provides fi language translation
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # --
-# $Id: fi.pm,v 1.32 2005-07-04 06:54:27 martin Exp $
+# $Id: fi.pm,v 1.33 2005-07-28 20:32:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::fi;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -21,7 +21,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Mon Jul  4 08:46:51 2005
+    # Last translation file sync: Thu Jul 28 22:14:16 2005
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -46,12 +46,25 @@ sub Data {
       'Done' => 'Valmis',
       'Cancel' => 'Peruuta',
       'Reset' => 'Tyhjennä',
+      'last' => '',
+      'before' => '',
       'day' => 'päivä',
       'days' => 'päivää',
+      'day(s)' => '',
       'hour' => 'tunti',
       'hours' => 'tuntia',
+      'hour(s)' => '',
       'minute' => 'minutti',
       'minutes' => 'minuuttia',
+      'minute(s)' => '',
+      'month' => '',
+      'months' => '',
+      'month(s)' => '',
+      'week' => '',
+      'week(s)' => '',
+      'year' => '',
+      'years' => '',
+      'year(s)' => '',
       'wrote' => 'kirjoittaa',
       'Message' => 'Viesti',
       'Error' => 'Virhe',
@@ -127,6 +140,9 @@ sub Data {
       'click here' => 'klikkaa tästä',
       'Comment' => 'Kommentti',
       'Valid' => 'Käytössä',
+      'Invalid Option!' => '',
+      'Invalid time!' => '',
+      'Invalid date!' => '',
       'Name' => 'Nimi',
       'Group' => 'Ryhmä',
       'Description' => 'Selitys',
@@ -167,6 +183,7 @@ sub Data {
       'Passwords dosn\'t match! Please try it again!' => '',
       'Password is already in use! Please use an other password!' => '',
       'Password is already used! Please use an other password!' => '',
+      'You need to activate %s first to use it!' => '',
       'No suggestions' => 'Ei ehdotusta',
       'Word' => 'Sana',
       'Ignore' => 'Ohita',
@@ -194,12 +211,6 @@ sub Data {
       'To: (%s) replaced with database email!' => '',
       'Cc: (%s) added database email!' => '',
       '(Click here to add)' => '',
-      'last' => '',
-      'before' => '',
-      'day(s)' => '',
-      'month(s)' => '',
-      'week(s)' => '',
-      'year(s)' => '',
       'Preview' => '',
       'Added User "%s"' => '',
       'Contract' => '',
@@ -292,6 +303,7 @@ sub Data {
       'Can\'t update password, need 2 lower and 2 upper characters!' => '',
       'Can\'t update password, need min. 1 digit!' => '',
       'Can\'t update password, need min. 2 characters!' => '',
+      'Password is needed!' => '',
 
       # Template: AAATicket
       'Lock' => 'Lukitse',
@@ -313,6 +325,7 @@ sub Data {
       'Compose' => 'uusia viesti',
       'Pending' => 'Odottaa',
       'Owner' => 'Omistaja',
+      'Owner Update' => '',
       'Sender' => 'Lähettäjä',
       'Article' => 'Artikkeli',
       'Ticket' => 'Tiketti',
@@ -329,6 +342,8 @@ sub Data {
       'This is a' => 'Tämä on',
       'to open it in a new window.' => 'avataksesi se uuteen ikkunaan.',
       'This is a HTML email. Click here to show it.' => 'Tämä sähköposti on HTML-muodossa. Klikkaa tästä katsoaksesi sitä',
+      'Free Fields' => '',
+      'Merge' => '',
       'closed successful' => 'Valmistui - Sulje',
       'closed unsuccessful' => 'Keskeneräinen - Sulje',
       'new' => 'uusi',
@@ -374,7 +389,7 @@ sub Data {
       'Bulk Actions on Tickets' => '',
       'Send Email and create a new Ticket' => '',
       'Overview of all open Tickets' => '',
-      'Locked tickets' => '',
+      'Locked Tickets' => '',
       'Lock it to work on it!' => '',
       'Unlock to give it back to the queue!' => '',
       'Shows the ticket history!' => '',
@@ -511,9 +526,6 @@ sub Data {
       'Is Job Valid?' => '',
       'Is Job Valid' => '',
       'Schedule' => '',
-      'Minutes' => '',
-      'Hours' => '',
-      'Days' => '',
       'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => '',
       '(e. g. 10*5155 or 105658*)' => '',
       '(e. g. 234321)' => '',
@@ -597,8 +609,7 @@ sub Data {
       'Key' => '',
       'Fingerprint' => '',
       'Expires' => '',
-      'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
-      'FIXME: WHAT IS PGP?' => '',
+      'In this way you can directly edit the keyring configured in SysConfig.' => '',
 
       # Template: AdminPOP3Form
       'POP3 Account Management' => 'POP3 -tunnusten hallinta',
@@ -724,7 +735,6 @@ sub Data {
       'Secret' => '',
       'Hash' => '',
       'In this way you can directly edit the certification and private keys in file system.' => '',
-      'FIXME: WHAT IS SMIME?' => '',
 
       # Template: AdminStateForm
       'System State Management' => 'Tilamahdollisuuksien määrittäminen',
@@ -752,7 +762,6 @@ sub Data {
       'New Group Ro' => '',
       'NavBarName' => '',
       'Image' => '',
-      'Typ' => '',
       'Prio' => '',
       'Block' => '',
       'NavBar' => '',
@@ -782,6 +791,8 @@ sub Data {
       'Discard all changes and return to the compose screen' => 'Hylkää muutokset ja palaa viestin kirjoitusikkunaan',
 
       # Template: AgentCalendarSmall
+
+      # Template: AgentCalendarSmallIcon
 
       # Template: AgentCustomerTableView
 
@@ -832,7 +843,6 @@ sub Data {
       'A message should have a body!' => '',
       'You need to account time!' => 'Käsittelyaika',
       'Close ticket' => 'Sulje tiketti',
-      'Close!' => 'Sulje!',
       'Note Text' => 'Huomautusteksti',
       'Close type' => 'Sulkemisen syy',
       'Time units' => 'Työaika',
@@ -862,6 +872,7 @@ sub Data {
       'new ticket' => 'Uusi tiketti',
       'Clear To' => '',
       'All Agents' => '',
+      'Termin1' => '',
 
       # Template: AgentTicketForward
       'Article type' => 'Huomautustyyppi',
@@ -979,7 +990,6 @@ sub Data {
       'U' => 'Y',
       'sort downward' => 'Järjestä laskevasti',
       'D' => 'A',
-      'Customer history"}\'; return true;" onmouseout="window.status=\'\';"><div title="">$Quote{"' => '',
 
       # Template: AgentTicketStatusView
       'Ticket Status View' => '',
@@ -990,7 +1000,6 @@ sub Data {
 
       # Template: AgentTicketZoomStatus
       'Locked' => '',
-      'Article time' => '',
 
       # Template: AgentWindowTabStart
 
@@ -1003,6 +1012,8 @@ sub Data {
       # Template: customer-css
 
       # Template: CustomerAccept
+
+      # Template: CustomerCalendarSmallIcon
 
       # Template: CustomerError
       'Traceback' => '',
@@ -1026,7 +1037,11 @@ sub Data {
       # Template: CustomerFooter
       'Powered by' => '',
 
+      # Template: CustomerFooterSmall
+
       # Template: CustomerHeader
+
+      # Template: CustomerHeaderSmall
 
       # Template: CustomerLogin
       'Login' => 'Käyttäjätunnus',
@@ -1087,43 +1102,19 @@ sub Data {
 
       # Template: HeaderSmall
 
-      # Template: InstallerBody
+      # Template: Installer
       'Web-Installer' => '',
-      'Create Database' => 'Luo tietokanta',
-      'Drop Database' => 'Poista tietokanta',
-      'System Settings' => '',
-      'Finished' => 'Valmis',
-
-      # Template: InstallerFinish
-      'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' => '',
-      'Restart your webserver' => '',
-      'After doing so your OTRS is up and running.' => '',
-      'Start page' => 'Aloitussivu',
-      'Admin-User' => '',
-      'Have a lot of fun!' => '',
-      'Your OTRS Team' => '',
-
-      # Template: InstallerLicense
-      'License' => 'Lisenssi',
       'accept license' => 'Hyväksy lisenssi',
       'don\'t accept license' => 'En hyväksy lisenssiä',
-
-      # Template: InstallerStart
-      'DB Admin User' => '',
-      'DB Admin Password' => '',
+      'Admin-User' => '',
+      'Admin-Password' => '',
       'your MySQL DB should have a root password! Default is empty!' => '',
-      'DB Host' => '',
-      'DB Type' => '',
-      'OTRS DB Name' => '',
-      'OTRS DB User' => '',
-      'OTRS DB Password' => '',
+      'Database-User' => '',
       'default \'hot\'' => '',
-      'OTRS DB connect host' => '',
-      'Create new database' => '',
-      'Delete old database' => '',
-      'next step' => 'Seuraava',
-
-      # Template: InstallerSystem
+      'DB connect host' => '',
+      'Database' => '',
+      'Create' => '',
+      'false' => '',
       'SystemID' => '',
       '(The identify of the system. Each ticket number and each http session id starts with this number)' => '',
       'System FQDN' => '',
@@ -1131,21 +1122,24 @@ sub Data {
       'AdminEmail' => 'Ylläpidon sähköposti',
       '(Email of the system admin)' => 'Ylläpitäjän sähköpostiosoite',
       'Organization' => 'Organisaatio',
+      'Log' => '',
       'LogModule' => '',
       '(Used log backend)' => '',
       'Logfile' => 'Logitiedosto',
       '(Logfile just needed for File-LogModule!)' => '',
-      'CheckMXRecord' => '',
-      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '',
-      'Ticket Hook' => '',
-      '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '',
-      'Ticket Number Generator' => 'Tikettinumeroiden generoija',
-      '(Used ticket number format)' => 'Tikettinumeroiden oletusformaatti',
       'Webfrontend' => 'Webnäkymä',
       'Default Charset' => 'Oletuskirjaisinasetus',
       'Use utf-8 it your database supports it!' => '',
       'Default Language' => 'Oletuskieli',
       '(Used default language)' => 'Oletuskieli',
+      'CheckMXRecord' => '',
+      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '',
+      'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' => '',
+      'Restart your webserver' => '',
+      'After doing so your OTRS is up and running.' => '',
+      'Start page' => 'Aloitussivu',
+      'Have a lot of fun!' => '',
+      'Your OTRS Team' => '',
 
       # Template: Login
 
@@ -1155,6 +1149,7 @@ sub Data {
       'No Permission' => 'Ei käyttöoikeutta',
 
       # Template: Notify
+      'Important' => '',
 
       # Template: PrintFooter
       'URL' => '',
@@ -1173,19 +1168,21 @@ sub Data {
 
       # Template: Warning
       # Misc
-      'Change roles <-> groups settings' => '',
-      'Change users <-> roles settings' => '',
-      'Subgroup \'' => '',
-      'TicketZoom' => '',
+      'Create Database' => 'Luo tietokanta',
+      'Ticket Number Generator' => 'Tikettinumeroiden generoija',
+      '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '',
+      'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
+      'Close!' => 'Sulje!',
       'Don\'t forget to add a new user to groups!' => 'Älä unohda lisätä käyttäjää ryhmiin!',
-      'CreateTicket' => '',
-      'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
+      'License' => 'Lisenssi',
+      'System Settings' => '',
+      'Finished' => 'Valmis',
       'Change user <-> group settings' => 'Vaihda käyttäjä <-> Ryhmähallinta',
-      'for ' => '',
+      'next step' => 'Seuraava',
       'Admin-Email' => 'Ylläpidon sähköposti',
-      '\' ' => '',
       'Options ' => '',
-      'FAQ History' => '',
+      'Drop Database' => 'Poista tietokanta',
+      '(Used ticket number format)' => 'Tikettinumeroiden oletusformaatti',
     };
     # $$STOP$$
 }

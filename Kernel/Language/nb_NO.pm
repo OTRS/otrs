@@ -1,8 +1,8 @@
-# -- 
+# --
 # Kernel/Language/nb_NO.pm - Norwegian language translation (bokmål)
 # Copyright (C) 2004 Arne Georg Gleditsch <argggh@linpro.no>
 # --
-# $Id: nb_NO.pm,v 1.12 2005-07-04 06:54:27 martin Exp $
+# $Id: nb_NO.pm,v 1.13 2005-07-28 20:32:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::nb_NO;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.12 $;
+$VERSION = q$Revision: 1.13 $;
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -22,7 +22,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Mon Jul  4 08:47:06 2005
+    # Last translation file sync: Thu Jul 28 22:14:31 2005
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -47,12 +47,25 @@ sub Data {
       'Done' => 'Ferdig',
       'Cancel' => 'Avbryt',
       'Reset' => 'Nullstill',
+      'last' => 'siste',
+      'before' => 'før',
       'day' => 'dag',
       'days' => 'dager',
+      'day(s)' => 'dag(er)',
       'hour' => 'time',
       'hours' => 'timer',
+      'hour(s)' => '',
       'minute' => 'minutt',
       'minutes' => 'minutter',
+      'minute(s)' => '',
+      'month' => '',
+      'months' => '',
+      'month(s)' => 'måned(er)',
+      'week' => '',
+      'week(s)' => 'uke(r)',
+      'year' => '',
+      'years' => '',
+      'year(s)' => 'år',
       'wrote' => 'skrev',
       'Message' => 'Melding',
       'Error' => 'Feil',
@@ -128,6 +141,9 @@ sub Data {
       'click here' => 'klikk her',
       'Comment' => 'Kommentar',
       'Valid' => 'Gyldig',
+      'Invalid Option!' => '',
+      'Invalid time!' => '',
+      'Invalid date!' => '',
       'Name' => 'Navn',
       'Group' => 'Gruppe',
       'Description' => 'Beskrivelse',
@@ -168,6 +184,7 @@ sub Data {
       'Passwords dosn\'t match! Please try it again!' => '',
       'Password is already in use! Please use an other password!' => '',
       'Password is already used! Please use an other password!' => '',
+      'You need to activate %s first to use it!' => '',
       'No suggestions' => 'Ingen forslag',
       'Word' => 'Ord',
       'Ignore' => 'Ignorere',
@@ -195,12 +212,6 @@ sub Data {
       'To: (%s) replaced with database email!' => 'Til: (%s) erstattet med mail fra database!',
       'Cc: (%s) added database email!' => '',
       '(Click here to add)' => '(Klikk her for å legge til)',
-      'last' => 'siste',
-      'before' => 'før',
-      'day(s)' => 'dag(er)',
-      'month(s)' => 'måned(er)',
-      'week(s)' => 'uke(r)',
-      'year(s)' => 'år',
       'Preview' => 'Forhåndsvisning',
       'Added User "%s"' => '',
       'Contract' => '',
@@ -293,6 +304,7 @@ sub Data {
       'Can\'t update password, need 2 lower and 2 upper characters!' => '',
       'Can\'t update password, need min. 1 digit!' => '',
       'Can\'t update password, need min. 2 characters!' => '',
+      'Password is needed!' => '',
 
       # Template: AAATicket
       'Lock' => 'Lås',
@@ -314,6 +326,7 @@ sub Data {
       'Compose' => 'Forfatt',
       'Pending' => 'Utsett',
       'Owner' => 'Eier',
+      'Owner Update' => '',
       'Sender' => '',
       'Article' => 'Artikkel',
       'Ticket' => '',
@@ -330,6 +343,8 @@ sub Data {
       'This is a' => 'Dette er en',
       'to open it in a new window.' => 'for å åpne i nytt vindu',
       'This is a HTML email. Click here to show it.' => 'Dette er en HTML-email. Klikk her for å vise.',
+      'Free Fields' => '',
+      'Merge' => '',
       'closed successful' => 'løst og lukket',
       'closed unsuccessful' => 'uløst men lukket',
       'new' => 'ny',
@@ -375,7 +390,7 @@ sub Data {
       'Bulk Actions on Tickets' => '',
       'Send Email and create a new Ticket' => '',
       'Overview of all open Tickets' => '',
-      'Locked tickets' => '',
+      'Locked Tickets' => '',
       'Lock it to work on it!' => '',
       'Unlock to give it back to the queue!' => '',
       'Shows the ticket history!' => '',
@@ -512,9 +527,6 @@ sub Data {
       'Is Job Valid?' => '',
       'Is Job Valid' => '',
       'Schedule' => '',
-      'Minutes' => '',
-      'Hours' => '',
-      'Days' => '',
       'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Fritekstsøk i artikler (f.eks. "Mar*in" eller "Baue*")',
       '(e. g. 10*5155 or 105658*)' => 'f.eks. 10*5144 eller 105658*',
       '(e. g. 234321)' => 'f.eks. 234321',
@@ -598,8 +610,7 @@ sub Data {
       'Key' => 'Nøkkel',
       'Fingerprint' => '',
       'Expires' => '',
-      'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
-      'FIXME: WHAT IS PGP?' => '',
+      'In this way you can directly edit the keyring configured in SysConfig.' => '',
 
       # Template: AdminPOP3Form
       'POP3 Account Management' => 'Administrasjon POP3-Konto',
@@ -725,7 +736,6 @@ sub Data {
       'Secret' => '',
       'Hash' => '',
       'In this way you can directly edit the certification and private keys in file system.' => '',
-      'FIXME: WHAT IS SMIME?' => '',
 
       # Template: AdminStateForm
       'System State Management' => 'Administrer Status',
@@ -753,7 +763,6 @@ sub Data {
       'New Group Ro' => '',
       'NavBarName' => '',
       'Image' => '',
-      'Typ' => '',
       'Prio' => '',
       'Block' => '',
       'NavBar' => '',
@@ -783,6 +792,8 @@ sub Data {
       'Discard all changes and return to the compose screen' => 'Forkast endringer og lukk vindu',
 
       # Template: AgentCalendarSmall
+
+      # Template: AgentCalendarSmallIcon
 
       # Template: AgentCustomerTableView
 
@@ -833,7 +844,6 @@ sub Data {
       'A message should have a body!' => 'En melding må inneholde en meldingstekst!',
       'You need to account time!' => 'Du har ikke ført tidsregnskap!',
       'Close ticket' => 'Lukk ticket',
-      'Close!' => 'Lukk!',
       'Note Text' => 'Notistekst',
       'Close type' => 'Lukketilstand',
       'Time units' => 'Tidsenheter',
@@ -863,6 +873,7 @@ sub Data {
       'new ticket' => 'Ny ticket',
       'Clear To' => '',
       'All Agents' => 'Alle agenter',
+      'Termin1' => '',
 
       # Template: AgentTicketForward
       'Article type' => 'Artikkeltype',
@@ -980,7 +991,6 @@ sub Data {
       'U' => 'O',
       'sort downward' => 'Sorter synkende',
       'D' => 'N',
-      'Customer history"}\'; return true;" onmouseout="window.status=\'\';"><div title="">$Quote{"' => '',
 
       # Template: AgentTicketStatusView
       'Ticket Status View' => '',
@@ -991,7 +1001,6 @@ sub Data {
 
       # Template: AgentTicketZoomStatus
       'Locked' => '',
-      'Article time' => '',
 
       # Template: AgentWindowTabStart
 
@@ -1004,6 +1013,8 @@ sub Data {
       # Template: customer-css
 
       # Template: CustomerAccept
+
+      # Template: CustomerCalendarSmallIcon
 
       # Template: CustomerError
       'Traceback' => '',
@@ -1027,7 +1038,11 @@ sub Data {
       # Template: CustomerFooter
       'Powered by' => '',
 
+      # Template: CustomerFooterSmall
+
       # Template: CustomerHeader
+
+      # Template: CustomerHeaderSmall
 
       # Template: CustomerLogin
       'Login' => '',
@@ -1088,43 +1103,19 @@ sub Data {
 
       # Template: HeaderSmall
 
-      # Template: InstallerBody
+      # Template: Installer
       'Web-Installer' => 'Web-installasjon',
-      'Create Database' => 'Opprett database',
-      'Drop Database' => 'Slett database',
-      'System Settings' => 'Systeminnstillinger',
-      'Finished' => 'Ferdig',
-
-      # Template: InstallerFinish
-      'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' => 'For å kunne bruke OTRS, må følgende linje utføres på kommandolinjen som root.',
-      'Restart your webserver' => 'Restart webserveren din',
-      'After doing so your OTRS is up and running.' => 'Etter dette vil OTRS være oppe å kjøre.',
-      'Start page' => 'Startside',
-      'Admin-User' => 'Admin-bruker',
-      'Have a lot of fun!' => 'Ha det gøy!',
-      'Your OTRS Team' => 'Ditt OTRS-Team',
-
-      # Template: InstallerLicense
-      'License' => 'Lisens',
       'accept license' => 'aksepter lisens',
       'don\'t accept license' => 'ikke aksepter lisens',
-
-      # Template: InstallerStart
-      'DB Admin User' => 'DB administratorbruker',
-      'DB Admin Password' => 'DB administratorpassord',
+      'Admin-User' => 'Admin-bruker',
+      'Admin-Password' => '',
       'your MySQL DB should have a root password! Default is empty!' => 'Din MySQL-database bør ha et root-passord satt!  Default er intet passord!',
-      'DB Host' => 'DB maskin',
-      'DB Type' => 'DB type',
-      'OTRS DB Name' => 'OTRS DB navn',
-      'OTRS DB User' => 'OTRS DB bruker',
-      'OTRS DB Password' => 'OTRS DB passord',
+      'Database-User' => '',
       'default \'hot\'' => '',
-      'OTRS DB connect host' => '',
-      'Create new database' => 'Opprett ny database',
-      'Delete old database' => 'Slett gammel database',
-      'next step' => 'neste steg',
-
-      # Template: InstallerSystem
+      'DB connect host' => '',
+      'Database' => '',
+      'Create' => '',
+      'false' => '',
       'SystemID' => '',
       '(The identify of the system. Each ticket number and each http session id starts with this number)' => '(Unik id for dette systemet.  Alle ticketnummer og http-sesjonsid-er starter med denne id-en)',
       'System FQDN' => '',
@@ -1132,21 +1123,24 @@ sub Data {
       'AdminEmail' => 'Admin-email',
       '(Email of the system admin)' => '(Email til systemadmin)',
       'Organization' => 'Organisasjon',
+      'Log' => '',
       'LogModule' => '',
       '(Used log backend)' => '(Valgt logge-backend)',
       'Logfile' => 'Logfil',
       '(Logfile just needed for File-LogModule!)' => '(Logfile kun påkrevet for File-LogModule!)',
-      'CheckMXRecord' => '',
-      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Sjekker mx-innslag for oppgitte email-adresser i meldiger som skrives.  Bruk ikke CheckMXRecord om din OTRS-maskin er bak en oppringt-linje!)',
-      'Ticket Hook' => '',
-      '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Ticket-kjennetegn, f.eks. \'Ticket#\', \'Call#\' eller \'MyTicket#\')',
-      'Ticket Number Generator' => 'Ticket-nummergenerator',
-      '(Used ticket number format)' => '(Valgt format for ticketnummer)',
       'Webfrontend' => 'Web-grensesnitt',
       'Default Charset' => 'Standardtegnsett',
       'Use utf-8 it your database supports it!' => 'Bruk utf-8 dersom din database støtter det!',
       'Default Language' => 'Standardspråk',
       '(Used default language)' => '(Valgt standardspråk)',
+      'CheckMXRecord' => '',
+      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Sjekker mx-innslag for oppgitte email-adresser i meldiger som skrives.  Bruk ikke CheckMXRecord om din OTRS-maskin er bak en oppringt-linje!)',
+      'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' => 'For å kunne bruke OTRS, må følgende linje utføres på kommandolinjen som root.',
+      'Restart your webserver' => 'Restart webserveren din',
+      'After doing so your OTRS is up and running.' => 'Etter dette vil OTRS være oppe å kjøre.',
+      'Start page' => 'Startside',
+      'Have a lot of fun!' => 'Ha det gøy!',
+      'Your OTRS Team' => 'Ditt OTRS-Team',
 
       # Template: Login
 
@@ -1156,6 +1150,7 @@ sub Data {
       'No Permission' => 'Ingen tilgang',
 
       # Template: Notify
+      'Important' => '',
 
       # Template: PrintFooter
       'URL' => '',
@@ -1174,19 +1169,31 @@ sub Data {
 
       # Template: Warning
       # Misc
-      'Change roles <-> groups settings' => '',
-      'Change users <-> roles settings' => '',
-      'Subgroup \'' => '',
-      'TicketZoom' => 'Ticket Zoom',
+      'Create Database' => 'Opprett database',
+      'DB Host' => 'DB maskin',
+      'Ticket Number Generator' => 'Ticket-nummergenerator',
+      '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Ticket-kjennetegn, f.eks. \'Ticket#\', \'Call#\' eller \'MyTicket#\')',
+      'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
+      'Close!' => 'Lukk!',
       'Don\'t forget to add a new user to groups!' => 'Ikke glem å gi nye brukere en gruppe!',
+      'License' => 'Lisens',
       'CreateTicket' => 'Opprettet Ticket',
+      'OTRS DB Name' => 'OTRS DB navn',
+      'System Settings' => 'Systeminnstillinger',
+      'Finished' => 'Ferdig',
+      'DB Admin User' => 'DB administratorbruker',
       'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
       'Change user <-> group settings' => 'Endre bruker <-> gruppe-instillinger',
-      'for ' => '',
+      'DB Type' => 'DB type',
+      'next step' => 'neste steg',
       'Admin-Email' => 'Admin-email',
-      '\' ' => '',
-      'Options ' => '',
-      'FAQ History' => '',
+      'Create new database' => 'Opprett ny database',
+      'Delete old database' => 'Slett gammel database',
+      'OTRS DB User' => 'OTRS DB bruker',
+      'OTRS DB Password' => 'OTRS DB passord',
+      'DB Admin Password' => 'DB administratorpassord',
+      'Drop Database' => 'Slett database',
+      '(Used ticket number format)' => '(Valgt format for ticketnummer)',
     };
     # $$STOP$$
 }

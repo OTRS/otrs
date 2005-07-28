@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # Copyright (C) 2005 Pornthep Nivatyakul <seal at cattelecom.com>
 # --
-# $Id: th.pm,v 1.2 2005-07-04 06:54:28 martin Exp $
+# $Id: th.pm,v 1.3 2005-07-28 20:32:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::th;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -24,7 +24,7 @@ sub Data {
     my %Hash = ();
 
     # $$START$$
-    # Last translation file sync: Mon Jul  4 08:47:31 2005
+    # Last translation file sync: Thu Jul 28 22:14:56 2005
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-11', 'tis-620', ];
@@ -49,12 +49,25 @@ sub Data {
       'Done' => '',
       'Cancel' => '',
       'Reset' => '',
+      'last' => '',
+      'before' => '',
       'day' => '',
       'days' => '',
+      'day(s)' => '',
       'hour' => '',
       'hours' => '',
+      'hour(s)' => '',
       'minute' => '',
       'minutes' => '',
+      'minute(s)' => '',
+      'month' => '',
+      'months' => '',
+      'month(s)' => '',
+      'week' => '',
+      'week(s)' => '',
+      'year' => '',
+      'years' => '',
+      'year(s)' => '',
       'wrote' => '',
       'Message' => '',
       'Error' => '',
@@ -130,6 +143,9 @@ sub Data {
       'click here' => '',
       'Comment' => '',
       'Valid' => '',
+      'Invalid Option!' => '',
+      'Invalid time!' => '',
+      'Invalid date!' => '',
       'Name' => '',
       'Group' => '',
       'Description' => '',
@@ -170,6 +186,7 @@ sub Data {
       'Passwords dosn\'t match! Please try it again!' => '',
       'Password is already in use! Please use an other password!' => '',
       'Password is already used! Please use an other password!' => '',
+      'You need to activate %s first to use it!' => '',
       'No suggestions' => '',
       'Word' => '',
       'Ignore' => '',
@@ -197,12 +214,6 @@ sub Data {
       'To: (%s) replaced with database email!' => '',
       'Cc: (%s) added database email!' => '',
       '(Click here to add)' => '',
-      'last' => '',
-      'before' => '',
-      'day(s)' => '',
-      'month(s)' => '',
-      'week(s)' => '',
-      'year(s)' => '',
       'Preview' => '',
       'Added User "%s"' => '',
       'Contract' => '',
@@ -295,6 +306,7 @@ sub Data {
       'Can\'t update password, need 2 lower and 2 upper characters!' => '',
       'Can\'t update password, need min. 1 digit!' => '',
       'Can\'t update password, need min. 2 characters!' => '',
+      'Password is needed!' => '',
 
       # Template: AAATicket
       'Lock' => '',
@@ -316,6 +328,7 @@ sub Data {
       'Compose' => '',
       'Pending' => '',
       'Owner' => '',
+      'Owner Update' => '',
       'Sender' => '',
       'Article' => '',
       'Ticket' => '',
@@ -332,6 +345,8 @@ sub Data {
       'This is a' => '',
       'to open it in a new window.' => '',
       'This is a HTML email. Click here to show it.' => '',
+      'Free Fields' => '',
+      'Merge' => '',
       'closed successful' => '',
       'closed unsuccessful' => '',
       'new' => '',
@@ -377,7 +392,7 @@ sub Data {
       'Bulk Actions on Tickets' => '',
       'Send Email and create a new Ticket' => '',
       'Overview of all open Tickets' => '',
-      'Locked tickets' => '',
+      'Locked Tickets' => '',
       'Lock it to work on it!' => '',
       'Unlock to give it back to the queue!' => '',
       'Shows the ticket history!' => '',
@@ -514,9 +529,6 @@ sub Data {
       'Is Job Valid?' => '',
       'Is Job Valid' => '',
       'Schedule' => '',
-      'Minutes' => '',
-      'Hours' => '',
-      'Days' => '',
       'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => '',
       '(e. g. 10*5155 or 105658*)' => '',
       '(e. g. 234321)' => '',
@@ -600,8 +612,7 @@ sub Data {
       'Key' => '',
       'Fingerprint' => '',
       'Expires' => '',
-      'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
-      'FIXME: WHAT IS PGP?' => '',
+      'In this way you can directly edit the keyring configured in SysConfig.' => '',
 
       # Template: AdminPOP3Form
       'POP3 Account Management' => '',
@@ -727,7 +738,6 @@ sub Data {
       'Secret' => '',
       'Hash' => '',
       'In this way you can directly edit the certification and private keys in file system.' => '',
-      'FIXME: WHAT IS SMIME?' => '',
 
       # Template: AdminStateForm
       'System State Management' => '',
@@ -755,7 +765,6 @@ sub Data {
       'New Group Ro' => '',
       'NavBarName' => '',
       'Image' => '',
-      'Typ' => '',
       'Prio' => '',
       'Block' => '',
       'NavBar' => '',
@@ -785,6 +794,8 @@ sub Data {
       'Discard all changes and return to the compose screen' => '',
 
       # Template: AgentCalendarSmall
+
+      # Template: AgentCalendarSmallIcon
 
       # Template: AgentCustomerTableView
 
@@ -835,7 +846,6 @@ sub Data {
       'A message should have a body!' => '',
       'You need to account time!' => '',
       'Close ticket' => '',
-      'Close!' => '',
       'Note Text' => '',
       'Close type' => '',
       'Time units' => '',
@@ -865,6 +875,7 @@ sub Data {
       'new ticket' => '',
       'Clear To' => '',
       'All Agents' => '',
+      'Termin1' => '',
 
       # Template: AgentTicketForward
       'Article type' => '',
@@ -982,7 +993,6 @@ sub Data {
       'U' => '',
       'sort downward' => '',
       'D' => '',
-      'Customer history"}\'; return true;" onmouseout="window.status=\'\';"><div title="">$Quote{"' => '',
 
       # Template: AgentTicketStatusView
       'Ticket Status View' => '',
@@ -993,7 +1003,6 @@ sub Data {
 
       # Template: AgentTicketZoomStatus
       'Locked' => '',
-      'Article time' => '',
 
       # Template: AgentWindowTabStart
 
@@ -1006,6 +1015,8 @@ sub Data {
       # Template: customer-css
 
       # Template: CustomerAccept
+
+      # Template: CustomerCalendarSmallIcon
 
       # Template: CustomerError
       'Traceback' => '',
@@ -1029,7 +1040,11 @@ sub Data {
       # Template: CustomerFooter
       'Powered by' => '',
 
+      # Template: CustomerFooterSmall
+
       # Template: CustomerHeader
+
+      # Template: CustomerHeaderSmall
 
       # Template: CustomerLogin
       'Login' => '',
@@ -1090,43 +1105,19 @@ sub Data {
 
       # Template: HeaderSmall
 
-      # Template: InstallerBody
+      # Template: Installer
       'Web-Installer' => '',
-      'Create Database' => '',
-      'Drop Database' => '',
-      'System Settings' => '',
-      'Finished' => '',
-
-      # Template: InstallerFinish
-      'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' => '',
-      'Restart your webserver' => '',
-      'After doing so your OTRS is up and running.' => '',
-      'Start page' => '',
-      'Admin-User' => '',
-      'Have a lot of fun!' => '',
-      'Your OTRS Team' => '',
-
-      # Template: InstallerLicense
-      'License' => '',
       'accept license' => '',
       'don\'t accept license' => '',
-
-      # Template: InstallerStart
-      'DB Admin User' => '',
-      'DB Admin Password' => '',
+      'Admin-User' => '',
+      'Admin-Password' => '',
       'your MySQL DB should have a root password! Default is empty!' => '',
-      'DB Host' => '',
-      'DB Type' => '',
-      'OTRS DB Name' => '',
-      'OTRS DB User' => '',
-      'OTRS DB Password' => '',
+      'Database-User' => '',
       'default \'hot\'' => '',
-      'OTRS DB connect host' => '',
-      'Create new database' => '',
-      'Delete old database' => '',
-      'next step' => '',
-
-      # Template: InstallerSystem
+      'DB connect host' => '',
+      'Database' => '',
+      'Create' => '',
+      'false' => '',
       'SystemID' => '',
       '(The identify of the system. Each ticket number and each http session id starts with this number)' => '',
       'System FQDN' => '',
@@ -1134,21 +1125,24 @@ sub Data {
       'AdminEmail' => '',
       '(Email of the system admin)' => '',
       'Organization' => '',
+      'Log' => '',
       'LogModule' => '',
       '(Used log backend)' => '',
       'Logfile' => '',
       '(Logfile just needed for File-LogModule!)' => '',
-      'CheckMXRecord' => '',
-      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '',
-      'Ticket Hook' => '',
-      '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '',
-      'Ticket Number Generator' => '',
-      '(Used ticket number format)' => '',
       'Webfrontend' => '',
       'Default Charset' => '',
       'Use utf-8 it your database supports it!' => '',
       'Default Language' => '',
       '(Used default language)' => '',
+      'CheckMXRecord' => '',
+      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '',
+      'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' => '',
+      'Restart your webserver' => '',
+      'After doing so your OTRS is up and running.' => '',
+      'Start page' => '',
+      'Have a lot of fun!' => '',
+      'Your OTRS Team' => '',
 
       # Template: Login
 
@@ -1158,6 +1152,7 @@ sub Data {
       'No Permission' => '',
 
       # Template: Notify
+      'Important' => '',
 
       # Template: PrintFooter
       'URL' => '',

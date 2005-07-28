@@ -5,7 +5,7 @@
 # Copyright (C) 2003 A-NeT Internet Services bv
 # Copyright (C) 2004 Martijn Lohmeijer (martijn.lohmeijer 'at' sogeti.nl)
 # --
-# $Id: nl.pm,v 1.31 2005-07-04 06:54:27 martin Exp $
+# $Id: nl.pm,v 1.32 2005-07-28 20:32:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -45,7 +45,7 @@ package Kernel::Language::nl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
@@ -53,7 +53,7 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Mon Jul  4 08:47:09 2005
+    # Last translation file sync: Thu Jul 28 22:14:35 2005
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -78,12 +78,25 @@ sub Data {
       'Done' => 'Klaar',
       'Cancel' => 'Annuleren',
       'Reset' => 'leegmaken',
+      'last' => 'laatste',
+      'before' => 'voor',
       'day' => 'dag',
       'days' => 'dagen',
+      'day(s)' => 'dag(en)',
       'hour' => 'uur',
       'hours' => 'uren',
+      'hour(s)' => '',
       'minute' => 'minuut',
       'minutes' => 'minuten',
+      'minute(s)' => '',
+      'month' => '',
+      'months' => '',
+      'month(s)' => 'maand(en)',
+      'week' => '',
+      'week(s)' => 'we(e)k(en)',
+      'year' => '',
+      'years' => '',
+      'year(s)' => 'ja(a)r(en)',
       'wrote' => 'schreef',
       'Message' => 'Bericht',
       'Error' => 'Fout',
@@ -159,6 +172,9 @@ sub Data {
       'click here' => 'klik hier',
       'Comment' => 'Commentaar',
       'Valid' => 'Geldig',
+      'Invalid Option!' => '',
+      'Invalid time!' => '',
+      'Invalid date!' => '',
       'Name' => 'Naam',
       'Group' => 'Groep',
       'Description' => 'Omschrijving',
@@ -199,6 +215,7 @@ sub Data {
       'Passwords dosn\'t match! Please try it again!' => 'Passwords komen niet overeen! Probeer het opnieuw!',
       'Password is already in use! Please use an other password!' => '',
       'Password is already used! Please use an other password!' => '',
+      'You need to activate %s first to use it!' => '',
       'No suggestions' => 'Geen suggesties',
       'Word' => 'Woord',
       'Ignore' => 'Negeren',
@@ -226,12 +243,6 @@ sub Data {
       'To: (%s) replaced with database email!' => 'Aan: (%s) vervangen met database email!',
       'Cc: (%s) added database email!' => '',
       '(Click here to add)' => '(Klik hier om toe te voegen)',
-      'last' => 'laatste',
-      'before' => 'voor',
-      'day(s)' => 'dag(en)',
-      'month(s)' => 'maand(en)',
-      'week(s)' => 'we(e)k(en)',
-      'year(s)' => 'ja(a)r(en)',
       'Preview' => '',
       'Added User "%s"' => 'Gebruiker "%s" toegevoegd.',
       'Contract' => '',
@@ -324,6 +335,7 @@ sub Data {
       'Can\'t update password, need 2 lower and 2 upper characters!' => '',
       'Can\'t update password, need min. 1 digit!' => '',
       'Can\'t update password, need min. 2 characters!' => '',
+      'Password is needed!' => '',
 
       # Template: AAATicket
       'Lock' => '',
@@ -345,6 +357,7 @@ sub Data {
       'Compose' => 'Maken',
       'Pending' => 'Wachtend',
       'Owner' => 'Eigenaar',
+      'Owner Update' => '',
       'Sender' => 'Afzender',
       'Article' => 'Artikel',
       'Ticket' => '',
@@ -361,6 +374,8 @@ sub Data {
       'This is a' => 'Dit is een',
       'to open it in a new window.' => 'om deze in een nieuw venster te openen',
       'This is a HTML email. Click here to show it.' => '',
+      'Free Fields' => '',
+      'Merge' => '',
       'closed successful' => 'succesvol gesloten',
       'closed unsuccessful' => 'niet succesvol gesloten',
       'new' => 'nieuw',
@@ -406,7 +421,7 @@ sub Data {
       'Bulk Actions on Tickets' => '',
       'Send Email and create a new Ticket' => '',
       'Overview of all open Tickets' => '',
-      'Locked tickets' => '',
+      'Locked Tickets' => '',
       'Lock it to work on it!' => '',
       'Unlock to give it back to the queue!' => '',
       'Shows the ticket history!' => '',
@@ -543,9 +558,6 @@ sub Data {
       'Is Job Valid?' => '',
       'Is Job Valid' => '',
       'Schedule' => '',
-      'Minutes' => '',
-      'Hours' => '',
-      'Days' => '',
       'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Fulltext-Search in artikel (b.v. "Mar*in" of "Baue*")',
       '(e. g. 10*5155 or 105658*)' => '(b.v. 10*5155 or 105658*)',
       '(e. g. 234321)' => '(b.v. 234321)',
@@ -629,8 +641,7 @@ sub Data {
       'Key' => '',
       'Fingerprint' => '',
       'Expires' => '',
-      'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
-      'FIXME: WHAT IS PGP?' => '',
+      'In this way you can directly edit the keyring configured in SysConfig.' => '',
 
       # Template: AdminPOP3Form
       'POP3 Account Management' => 'POP3 account-beheer',
@@ -756,7 +767,6 @@ sub Data {
       'Secret' => '',
       'Hash' => '',
       'In this way you can directly edit the certification and private keys in file system.' => '',
-      'FIXME: WHAT IS SMIME?' => '',
 
       # Template: AdminStateForm
       'System State Management' => 'Systeem-status beheer',
@@ -784,7 +794,6 @@ sub Data {
       'New Group Ro' => '',
       'NavBarName' => '',
       'Image' => '',
-      'Typ' => '',
       'Prio' => '',
       'Block' => '',
       'NavBar' => '',
@@ -814,6 +823,8 @@ sub Data {
       'Discard all changes and return to the compose screen' => 'Veranderingen niet toepassen en ga terug naar het berichtscherm',
 
       # Template: AgentCalendarSmall
+
+      # Template: AgentCalendarSmallIcon
 
       # Template: AgentCustomerTableView
 
@@ -864,7 +875,6 @@ sub Data {
       'A message should have a body!' => 'Een bericht moet een berichttekst hebben!',
       'You need to account time!' => 'Het is verplicht tijd te verantwoorden!',
       'Close ticket' => 'Sluit ticket',
-      'Close!' => 'Sluit!',
       'Note Text' => 'Notitietekst',
       'Close type' => 'Sluit-type',
       'Time units' => 'Tijdseenheden',
@@ -894,6 +904,7 @@ sub Data {
       'new ticket' => 'nieuw ticket',
       'Clear To' => '',
       'All Agents' => 'Alle agents',
+      'Termin1' => '',
 
       # Template: AgentTicketForward
       'Article type' => 'Artikel-type',
@@ -1011,7 +1022,6 @@ sub Data {
       'U' => '',
       'sort downward' => 'sorteer aflopend',
       'D' => '',
-      'Customer history"}\'; return true;" onmouseout="window.status=\'\';"><div title="">$Quote{"' => '',
 
       # Template: AgentTicketStatusView
       'Ticket Status View' => '',
@@ -1022,7 +1032,6 @@ sub Data {
 
       # Template: AgentTicketZoomStatus
       'Locked' => '',
-      'Article time' => '',
 
       # Template: AgentWindowTabStart
 
@@ -1035,6 +1044,8 @@ sub Data {
       # Template: customer-css
 
       # Template: CustomerAccept
+
+      # Template: CustomerCalendarSmallIcon
 
       # Template: CustomerError
       'Traceback' => 'Terug traceren',
@@ -1058,7 +1069,11 @@ sub Data {
       # Template: CustomerFooter
       'Powered by' => '',
 
+      # Template: CustomerFooterSmall
+
       # Template: CustomerHeader
+
+      # Template: CustomerHeaderSmall
 
       # Template: CustomerLogin
       'Login' => '',
@@ -1119,43 +1134,19 @@ sub Data {
 
       # Template: HeaderSmall
 
-      # Template: InstallerBody
+      # Template: Installer
       'Web-Installer' => '',
-      'Create Database' => '',
-      'Drop Database' => '',
-      'System Settings' => '',
-      'Finished' => '',
-
-      # Template: InstallerFinish
-      'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' => '',
-      'Restart your webserver' => '',
-      'After doing so your OTRS is up and running.' => '',
-      'Start page' => '',
-      'Admin-User' => '',
-      'Have a lot of fun!' => '',
-      'Your OTRS Team' => '',
-
-      # Template: InstallerLicense
-      'License' => '',
       'accept license' => '',
       'don\'t accept license' => '',
-
-      # Template: InstallerStart
-      'DB Admin User' => '',
-      'DB Admin Password' => '',
+      'Admin-User' => '',
+      'Admin-Password' => '',
       'your MySQL DB should have a root password! Default is empty!' => '',
-      'DB Host' => '',
-      'DB Type' => '',
-      'OTRS DB Name' => '',
-      'OTRS DB User' => '',
-      'OTRS DB Password' => '',
+      'Database-User' => '',
       'default \'hot\'' => '',
-      'OTRS DB connect host' => '',
-      'Create new database' => '',
-      'Delete old database' => '',
-      'next step' => 'volgende stap',
-
-      # Template: InstallerSystem
+      'DB connect host' => '',
+      'Database' => '',
+      'Create' => '',
+      'false' => '',
       'SystemID' => '',
       '(The identify of the system. Each ticket number and each http session id starts with this number)' => '',
       'System FQDN' => '',
@@ -1163,21 +1154,24 @@ sub Data {
       'AdminEmail' => 'Admin e-mail adres',
       '(Email of the system admin)' => '',
       'Organization' => '',
+      'Log' => '',
       'LogModule' => '',
       '(Used log backend)' => '',
       'Logfile' => '',
       '(Logfile just needed for File-LogModule!)' => '',
-      'CheckMXRecord' => '',
-      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '',
-      'Ticket Hook' => '',
-      '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '',
-      'Ticket Number Generator' => '',
-      '(Used ticket number format)' => '',
       'Webfrontend' => '',
       'Default Charset' => '',
       'Use utf-8 it your database supports it!' => '',
       'Default Language' => '',
       '(Used default language)' => '',
+      'CheckMXRecord' => '',
+      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '',
+      'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' => '',
+      'Restart your webserver' => '',
+      'After doing so your OTRS is up and running.' => '',
+      'Start page' => '',
+      'Have a lot of fun!' => '',
+      'Your OTRS Team' => '',
 
       # Template: Login
 
@@ -1187,6 +1181,7 @@ sub Data {
       'No Permission' => 'Geen rechten',
 
       # Template: Notify
+      'Important' => '',
 
       # Template: PrintFooter
       'URL' => '',
@@ -1205,19 +1200,15 @@ sub Data {
 
       # Template: Warning
       # Misc
-      'Change roles <-> groups settings' => '',
-      'Change users <-> roles settings' => '',
-      'Subgroup \'' => '',
+      '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '',
+      'Close!' => 'Sluit!',
       'TicketZoom' => 'Inhoud ticket',
       'Don\'t forget to add a new user to groups!' => 'Vergeet niet om groepen aan deze gebruiker toe te kennen!',
       'CreateTicket' => 'Ticket aanmaken',
       'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_TicketID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
       'Change user <-> group settings' => 'Wijzigen van gebruiker <-> groep toekenning',
-      'for ' => '',
+      'next step' => 'volgende stap',
       'Admin-Email' => 'Admin e-mail adres',
-      '\' ' => '',
-      'Options ' => '',
-      'FAQ History' => 'FAQ Geschiedenis',
     };
     # $$STOP$$
 }

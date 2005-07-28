@@ -14,16 +14,25 @@ $Text{"Done"}
 $Text{"Cancel"}
 $Text{"Reset"}
 
+$Text{"last"}
+$Text{"before"}
 $Text{"day"}
 $Text{"days"}
+$Text{"day(s)"}
 $Text{"hour"}
 $Text{"hours"}
+$Text{"hour(s)"}
 $Text{"minute"}
 $Text{"minutes"}
-
-$Text{"Year"}
-$Text{"Month"}
-$Text{"Day"}
+$Text{"minute(s)"}
+$Text{"month"}
+$Text{"months"}
+$Text{"month(s)"}
+$Text{"week"}
+$Text{"week(s)"}
+$Text{"year"}
+$Text{"years"}
+$Text{"year(s)"}
 
 $Text{"wrote"}
 $Text{"Message"}
@@ -166,6 +175,7 @@ $Text{"Invalid SessionID!"}
 $Text{"Feature not active!"}
 
 # misc
+$Text{"License"}
 $Text{"Take this Customer"}
 $Text{"Take this User"}
 $Text{"possible"}
@@ -182,12 +192,6 @@ $Text{"No Permission!"}
 $Text{"To: (%s) replaced with database email!"}
 $Text{"Cc: (%s) added database email!"}
 $Text{"(Click here to add)"}
-$Text{"last"}
-$Text{"before"}
-$Text{"day(s)"}
-$Text{"month(s)"}
-$Text{"week(s)"}
-$Text{"year(s)"}
 $Text{"Normal"}
 $Text{"Preview"}
 
