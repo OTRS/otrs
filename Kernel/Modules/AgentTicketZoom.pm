@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketZoom.pm,v 1.10 2005-07-08 19:17:28 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.11 2005-07-28 20:09:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -418,6 +418,7 @@ sub MaskAgentZoom {
         TemplateFile => 'AgentTicketZoomStatus',
         Data => {%Param, %AclAction},
     );
+    my $Count = 0;
     my $BodyOutput = '';
     foreach my $ArticleTmp (@NewArticleBox) {
         my %Article = %$ArticleTmp;
@@ -450,6 +451,16 @@ sub MaskAgentZoom {
              Name => 'Body',
              Data => {%Param, %Article, %AclAction},
         );
+        # show article tree
+        if ($Count == 1) {
+            $Self->{LayoutObject}->Block(
+                 Name => 'Tree',
+                 Data => {%Param, %Article, %AclAction},
+            );
+        }
+        else {
+            $Param{TicketStatus} = '';
+        }
         # do some strips && quoting
         foreach (qw(From To Cc Subject)) {
             if ($Article{$_}) {

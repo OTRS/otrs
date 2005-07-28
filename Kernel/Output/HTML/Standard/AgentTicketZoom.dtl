@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: AgentTicketZoom.dtl,v 1.1 2005-04-01 08:19:56 martin Exp $
+# $Id: AgentTicketZoom.dtl,v 1.2 2005-07-28 20:09:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -27,7 +27,7 @@
 
 <!-- dtl:block:Menu -->
 <!-- dtl:block:MenuItemSplit -->
- - 
+ -
 <!-- dtl:block:MenuItemSplit -->
 <!-- dtl:block:MenuItem -->
 <a href="$Env{"Baselink"}$Data{"Link"}" $Data{"LinkParam"} onmouseover="window.status='$Text{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"$QData{"Description"}"}">
@@ -51,11 +51,13 @@ $Text{"$QData{"Name"}"}</a>
 <!-- dtl:block:Body -->
 <tr>
   <td rowspan="2" valign="top" width="75%" class="mainbody">
-    <a name="$Data{"ArticleID"}"></a>
+<!-- dtl:block:Tree -->
     <table border="0" width="100%" cellspacing="0" cellpadding="0">
     $Data{"ArticleStrg"}
     </table>
+<!-- dtl:block:Tree -->
     <hr size="2">
+    <a name="$Data{"ArticleID"}"></a>
     <table border="0" width="100%" cellspacing="0" cellpadding="1">
 # From:, To:, Cc:
 <!-- dtl:block:Row -->
