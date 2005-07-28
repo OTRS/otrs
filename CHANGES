@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.152 2005-07-28 20:37:35 martin Exp $
+# $Id: CHANGES,v 1.153 2005-07-28 20:38:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,8 +10,18 @@
 # --
 CVS head
 2.0.0 beta7 (2005/07/??)
+ - (2005/07/28) updated translation files
+ - (2005/07/28) fixed bug in ticket expand view
+ - (2005/07/28) just framework options for web installer, removed
+    ticket options
  - (2005/07/28) moved to globle GetExpiredSessionIDs() for
     bin/DeleteSessionIDs.pl and Kernel/System/AuthSession.pm
+ - (2005/07/24) added missing from realname on phone follow up in
+    Kernel::Modules::AgentTicketPhone
+ - (2005/07/24) improved scripts/tools/charset-convert.pl tool with
+    get opt params and with file option
+ - (2005/07/24) added block feature for system stats
+ - (2005/07/24) added auto removed of expired sessions on CreateSessionID()
  - (2005/07/23) removed access of admin group to stats module (because
     of existing own stats group)
  - (2005/07/23) improved page title with ticket number of
