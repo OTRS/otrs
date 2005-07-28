@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
-# DeleteSessionIDs.pl - to delete all existing, idle or expired session ids
+# bin/DeleteSessionIDs.pl - to delete all existing, idle or expired session ids
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DeleteSessionIDs.pl,v 1.14 2005-05-09 10:58:12 martin Exp $
+# $Id: DeleteSessionIDs.pl,v 1.15 2005-07-28 19:58:28 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Kernel::Config;
@@ -68,7 +68,7 @@ if (($Command eq '--all') || ($Command eq '--showall')) {
     my @List = $CommonObject{SessionObject}->GetAllSessionIDs();
     foreach my $SessionID (@List) {
         if ($Command eq '--showall') {
-            print " Printing SessionID $SessionID!\n";
+            print " SessionID $SessionID!\n";
         }
         elsif ($CommonObject{SessionObject}->RemoveSessionID(SessionID => $SessionID)) {
             print " SessionID $SessionID deleted.\n";
@@ -84,37 +84,30 @@ if (($Command eq '--all') || ($Command eq '--showall')) {
 # --
 elsif (($Command eq '--expired') || ($Command eq '--showexpired')) {
     print " Working on expired session ids:\n";
-    my @List = $CommonObject{SessionObject}->GetAllSessionIDs();
-    foreach my $SessionID (@List) {
-        my %SessionData = $CommonObject{SessionObject}->GetSessionIDData(SessionID => $SessionID);
-        my $MaxSessionTime = $CommonObject{ConfigObject}->Get('SessionMaxTime');
-        my $ValidTime = (($SessionData{UserSessionStart}||0) + $MaxSessionTime) - time();
-        my $MaxSessionIdleTime = $CommonObject{ConfigObject}->Get('SessionMaxIdleTime');
-        my $ValidIdleTime = (($SessionData{UserLastRequest}||0) + $MaxSessionIdleTime) - time();
-        if ($ValidTime <= 0) {
-            if ($Command eq '--showexpired') {
-                print " SessionID $SessionID expired!\n";
-            }
-            elsif ($CommonObject{SessionObject}->RemoveSessionID(SessionID => $SessionID)) {
-                print " SessionID $SessionID deleted (too old).\n";
-            }
-            else {
-                print " Warning: Can't delete SessionID $SessionID!\n";
-            }
+    # get expired session ids
+    my @Expired = $CommonObject{SessionObject}->GetExpiredSessionIDs();
+    # expired session
+    foreach my $SessionID (@{$Expired[0]}) {
+        if ($Command eq '--showexpired') {
+            print " SessionID $SessionID expired!\n";
         }
-        elsif ($ValidIdleTime <= 0) {
-            if ($Command eq '--showexpired') {
-                print " SessionID $SessionID idle timeout!\n";
-            }
-            elsif ($CommonObject{SessionObject}->RemoveSessionID(SessionID => $SessionID)) {
-                print " SessionID $SessionID deleted (idle timeout).\n";
-            }
-            else {
-                print " Warning: Can't delete SessionID $SessionID!\n";
-            }
+        elsif ($CommonObject{SessionObject}->RemoveSessionID(SessionID => $SessionID)) {
+            print " SessionID $SessionID deleted (too old).\n";
         }
         else {
-            print " SessionID $SessionID valid (till ". int(($ValidTime/60)) ." minutes, idle timeout in ". int(($ValidIdleTime/60)) ." minutes).\n";
+            print " Warning: Can't delete SessionID $SessionID!\n";
+        }
+    }
+    # idle session
+    foreach my $SessionID (@{$Expired[1]}) {
+        if ($Command eq '--showexpired') {
+            print " SessionID $SessionID idle timeout!\n";
+        }
+        elsif ($CommonObject{SessionObject}->RemoveSessionID(SessionID => $SessionID)) {
+            print " SessionID $SessionID deleted (idle timeout).\n";
+        }
+        else {
+            print " Warning: Can't delete SessionID $SessionID!\n";
         }
     }
     exit (0);

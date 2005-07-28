@@ -1,8 +1,8 @@
 # --
 # Kernel/System/AuthSession.pm - provides session check and session data
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AuthSession.pm,v 1.22 2004-09-27 13:37:24 martin Exp $
+# $Id: AuthSession.pm,v 1.23 2005-07-28 19:58:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::AuthSession;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 
@@ -67,7 +67,7 @@ sub new {
     bless ($Self, $Type);
 
     # check needed objects
-    foreach (qw(LogObject ConfigObject DBObject)) {
+    foreach (qw(LogObject ConfigObject TimeObject DBObject)) {
         $Self->{$_} = $Param{$_} || die "No $_!";
     }
 
@@ -125,6 +125,14 @@ create a new session with given data
 sub CreateSessionID {
     my $Self = shift;
     my %Param = @_;
+    # delete old session ids
+    my @Expired = $Self->GetExpiredSessionIDs();
+    foreach (0..1) {
+        foreach my $SessionID (@{$Expired[$_]}) {
+            $Self->RemoveSessionID(SessionID => $SessionID);
+        }
+    }
+    # return created session id
     return $Self->{Backend}->CreateSessionID(%Param);
 }
 
@@ -169,6 +177,41 @@ sub UpdateSessionID {
     return $Self->{Backend}->UpdateSessionID(%Param);
 }
 
+=item GetExpiredSessionIDs()
+
+returns a array with expired session ids
+
+  my @Sessions = $SessionObject->GetExpiredSessionIDs();
+
+  my @ExpiredSession = @{$Session[0]};
+  my @ExpiredIdle = @{$Session[1]};
+
+=cut
+
+sub GetExpiredSessionIDs {
+    my $Self = shift;
+    my %Param = @_;
+    my @ExpiredSession = ();
+    my @ExpiredIdle = ();
+    my @List = $Self->{Backend}->GetAllSessionIDs();
+    foreach my $SessionID (@List) {
+        my %SessionData = $Self->GetSessionIDData(SessionID => $SessionID);
+        my $MaxSessionTime = $Self->{ConfigObject}->Get('SessionMaxTime');
+        my $ValidTime = (($SessionData{UserSessionStart}||0) + $MaxSessionTime) - $Self->{TimeObject}->SystemTime();
+        my $MaxSessionIdleTime = $Self->{ConfigObject}->Get('SessionMaxIdleTime');
+        my $ValidIdleTime = (($SessionData{UserLastRequest}||0) + $MaxSessionIdleTime) - $Self->{TimeObject}->SystemTime();
+        # delete invalid session time
+        if ($ValidTime <= 0) {
+            push (@ExpiredSession, $SessionID);
+        }
+        # delete invalid idle session time
+        elsif ($ValidIdleTime <= 0) {
+            push (@ExpiredIdle, $SessionID);
+        }
+    }
+    return (\@ExpiredSession, \@ExpiredIdle);
+}
+
 =item GetAllSessionIDs()
 
 returns a array with all session ids
@@ -208,6 +251,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.22 $ $Date: 2004-09-27 13:37:24 $
+$Revision: 1.23 $ $Date: 2005-07-28 19:58:28 $
 
 =cut
