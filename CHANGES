@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.151 2005-07-23 12:06:59 martin Exp $
+# $Id: CHANGES,v 1.152 2005-07-28 20:37:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,10 @@
 # --
 CVS head
 2.0.0 beta7 (2005/07/??)
+ - (2005/07/28) moved to globle GetExpiredSessionIDs() for
+    bin/DeleteSessionIDs.pl and Kernel/System/AuthSession.pm
+ - (2005/07/23) removed access of admin group to stats module (because
+    of existing own stats group)
  - (2005/07/23) improved page title with ticket number of
     Kernel::Modules::AgentTicketPlain frontend module
  - (2005/07/23) moved ticket unlock after merge from frontend module to
