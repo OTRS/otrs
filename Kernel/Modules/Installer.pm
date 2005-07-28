@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Installer.pm,v 1.35 2005-07-13 23:19:34 martin Exp $
+# $Id: Installer.pm,v 1.36 2005-07-28 20:05:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use strict;
 use DBI;
 
 use vars qw($VERSION %INC);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -582,7 +582,7 @@ sub Run {
             Data => {
                 'Kernel::System::Log::SysLog' => 'Syslog',
                 'Kernel::System::Log::File' => 'File',
-            }, 
+            },
             Name => 'LogModule',
             HTMLQuote => 0,
             SelectedID => $Self->{ConfigObject}->Get('LogModule'),
@@ -619,7 +619,7 @@ sub Run {
         # --
         my %Config = ();
         foreach (qw(SystemID FQDN AdminEmail Organization LogModule LogModule::LogFile
-          Ticket::Hook Ticket::NumberGenerator DefaultCharset DefaultLanguage CheckMXRecord)) {
+          DefaultCharset DefaultLanguage CheckMXRecord)) {
             my $Value = $Self->{ParamObject}->GetParam(Param => $_);
             $Config{$_} = defined $Value ? $Value : '';
         }

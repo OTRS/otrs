@@ -2,7 +2,7 @@
 # Installer.dtl - provides HTML form for Installer
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Installer.dtl,v 1.1 2005-07-13 23:19:34 martin Exp $
+# $Id: Installer.dtl,v 1.2 2005-07-28 20:05:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -566,24 +566,6 @@ Public License instead of this License.
     <td class="contentkey">$Text{"Logfile"}:</td>
     <td class="contentvalue"><input type="text" name="LogModule::LogFile" value="$Config{"LogModule::LogFile"}" size="30"></td>
     <td class="contentvalue">$Text{"(Logfile just needed for File-LogModule!)"}</td>
-  </tr>
-  <tr>
-    <td colspan="3" class="contenthead">$Text{"Ticket"}</td>
-  </tr>
-  <tr>
-    <td class="contentkey">$Text{"Ticket Hook"}:</td>
-    <td class="contentvalue"><input type="text" name="Ticket::Hook" value="$Config{"Ticket::Hook"}" size="20"></td>
-    <td class="contentvalue">$Text{"(Ticket identifier. Some people want toset this to e. g. 'Ticket#', 'Call#' or 'MyTicket#')"}</td>
-  </tr>
-  <tr>
-    <td class="contentkey">$Text{"Ticket Number Generator"}:</td>
-    <td class="contentvalue"><select name="Ticket::NumberGenerator">
-          <option value="Kernel::System::Ticket::Number::AutoIncrement">AutoIncrement</option>
-          <option value="Kernel::System::Ticket::Number::Random">Random</option>
-          <option value="Kernel::System::Ticket::Number::DateChecksum" selected>DateChecksum</option>
-          <option value="Kernel::System::Ticket::Number::Date">Date</option>
-        </select></td>
-    <td class="contentvalue">$Text{"(Used ticket number format)"}</td>
   </tr>
   <tr>
     <td colspan="3" class="contenthead">$Text{"Webfrontend"}</td>
