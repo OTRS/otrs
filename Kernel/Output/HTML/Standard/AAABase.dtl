@@ -21,6 +21,10 @@ $Text{"hours"}
 $Text{"minute"}
 $Text{"minutes"}
 
+$Text{"Year"}
+$Text{"Month"}
+$Text{"Day"}
+
 $Text{"wrote"}
 $Text{"Message"}
 $Text{"Error"}
