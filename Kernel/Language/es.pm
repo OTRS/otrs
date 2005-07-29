@@ -2,7 +2,7 @@
 # Kernel/Language/es.pm - provides es language translation
 # Copyright (C) 2003-2004 Jorge Becerra <jorge at icc-cuba.com>
 # --
-# $Id: es.pm,v 1.31 2005-07-29 10:22:06 martin Exp $
+# $Id: es.pm,v 1.32 2005-07-29 10:31:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::es;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -63,9 +63,9 @@ sub Data {
       'month(s)' => 'mes(es)',
       'week' => 'semana',
       'week(s)' => 'semana(s)',
-      'year' => 'a&ntilde;o',
-      'years' => 'a&ntilde;os',
-      'year(s)' => 'a&ntilde;o(s)',
+      'year' => 'año',
+      'years' => 'años',
+      'year(s)' => 'año(s)',
       'wrote' => 'escribió',
       'Message' => 'Mensaje',
       'Error' => '',
@@ -114,7 +114,7 @@ sub Data {
       'Username' => 'Nombre de Usuario',
       'Language' => 'Idioma',
       'Languages' => 'Idiomas',
-      'Password' => 'Contrase&ntilde;a',
+      'Password' => 'Contraseña',
       'Salutation' => 'Saludo',
       'Signature' => 'Firmas',
       'Customer' => 'Cliente',
@@ -181,9 +181,9 @@ sub Data {
       'You have %s new message(s)!' => 'Ud tiene %s nuevos mensaje(s)!',
       'You have %s reminder ticket(s)!' => 'Ud tiene %s tickets recordatorios',
       'The recommended charset for your language is %s!' => 'EL juego de caracteres recomendado para su idioma es %s!',
-      'Passwords dosn\'t match! Please try it again!' => 'Las contrase&ntilde;as no coinciden. Por favor Reintente!',
-      'Password is already in use! Please use an other password!' => 'La contrase&ntilde;a ya se esta utilizando! Por Favor utilice otra!',
-      'Password is already used! Please use an other password!' => 'La contrase&ntilde;a ya fue usada! Por favor use otra!',
+      'Passwords dosn\'t match! Please try it again!' => 'Las contraseñas no coinciden. Por favor Reintente!',
+      'Password is already in use! Please use an other password!' => 'La contraseña ya se esta utilizando! Por Favor utilice otra!',
+      'Password is already used! Please use an other password!' => 'La contraseña ya fue usada! Por favor use otra!',
       'You need to activate %s first to use it!' => 'Necesita activar %s primero para usarlo!',
       'No suggestions' => 'Sin sugerencias',
       'Word' => 'Palabra',
@@ -191,7 +191,7 @@ sub Data {
       'replace with' => 'reemplazar con',
       'Welcome to OTRS' => 'Bienvenido a OTRS',
       'There is no account with that login name.' => 'No existe una cuenta con ese login',
-      'Login failed! Your username or password was entered incorrectly.' => 'Identificación incorrecta. Su nombre de usuario o contrase&ntilde;a fue introducido incorrectamente',
+      'Login failed! Your username or password was entered incorrectly.' => 'Identificación incorrecta. Su nombre de usuario o contraseña fue introducido incorrectamente',
       'Please contact your admin' => 'Por favor contace su administrador',
       'Logout successful. Thank you for using OTRS!' => 'Desconexión exitosa. Gracias por utilizar OTRS!',
       'Invalid SessionID!' => 'Sesión no válida',
@@ -210,10 +210,10 @@ sub Data {
       'Session has timed out. Please log in again.' => 'La sesión ha expirado. Por favor conectese nuevamente.',
       'No Permission!' => 'No tiene Permiso!',
       'To: (%s) replaced with database email!' => 'To: (%s) sustituido con email de la base de datos!',
-      'Cc: (%s) added database email!' => 'Cc: (%s) A&ntilde;adido a la base de correo!',
+      'Cc: (%s) added database email!' => 'Cc: (%s) Añadido a la base de correo!',
       '(Click here to add)' => '(Haga click aqui para agregar)',
       'Preview' => 'Vista Previa',
-      'Added User "%s"' => 'A&ntilde;adido Usuario "%s"',
+      'Added User "%s"' => 'Añadido Usuario "%s"',
       'Contract' => 'Contrato',
       'Online Customer: %s' => 'Cliente Conectado: %s',
       'Online Agent: %s' => 'Agente Conectado: %s',
@@ -221,7 +221,7 @@ sub Data {
       'File' => 'Archivo',
       'Filename' => 'Nombre del archivo',
       'Type' => 'Tipo',
-      'Size' => 'Tama&ntilde;o',
+      'Size' => 'Tamaño',
       'Upload' => 'Subir',
       'Directory' => 'Directorio',
       'Signed' => 'Firmado',
@@ -287,9 +287,9 @@ sub Data {
       'Mail Management' => 'Gestión de Correos',
       'Frontend' => 'Frontal',
       'Other Options' => 'Otras Opciones',
-      'Change Password' => 'Cambiar contrase&ntilde;a',
-      'New password' => 'Nueva contrase&ntilde;a',
-      'New password again' => 'Repetir Contrase&ntilde;a',
+      'Change Password' => 'Cambiar contraseña',
+      'New password' => 'Nueva contraseña',
+      'New password again' => 'Repetir Contraseña',
       'Select your QueueView refresh time.' => 'Seleccione su tiempo de actualización de la vista de colas',
       'Select your frontend language.' => 'Seleccione su idioma de trabajo',
       'Select your frontend Charset.' => 'Seleccione su juego de caracteres',
@@ -298,13 +298,13 @@ sub Data {
       'Spelling Dictionary' => 'Diccionario Ortográfico',
       'Select your default spelling dictionary.' => 'Seleccione su diccionario por defecto',
       'Max. shown Tickets a page in Overview.' => 'Cantidad de Tickets a mostrar en Resumen',
-      'Can\'t update password, passwords dosn\'t match! Please try it again!' => 'No se puede actualizar la contrase&ntilde;a, no coinciden! Por favor reintentelo!',
-      'Can\'t update password, invalid characters!' => 'No se puede actualizar la contrase&ntilde;a, caracteres no validos!',
-      'Can\'t update password, need min. 8 characters!' => 'No se puede actualizar la contrase&ntilde;a, se necesitan al menos 8 caracteres',
-      'Can\'t update password, need 2 lower and 2 upper characters!' => 'No se puede actualizar la contrase&ntilde;a, se necesitan al menos 2 en minuscula y 2 en mayuscula!',
-      'Can\'t update password, need min. 1 digit!' => 'No se puede actualizar la contrase&ntilde;a, se necesita al menos 1 digito!',
-      'Can\'t update password, need min. 2 characters!' => 'No se puede actualizar la contrase&ntilde;a, se necesitan al menos 2 caracteres!',
-      'Password is needed!' => 'Falta la contrase&ntilde;a!',
+      'Can\'t update password, passwords dosn\'t match! Please try it again!' => 'No se puede actualizar la contraseña, no coinciden! Por favor reintentelo!',
+      'Can\'t update password, invalid characters!' => 'No se puede actualizar la contraseña, caracteres no validos!',
+      'Can\'t update password, need min. 8 characters!' => 'No se puede actualizar la contraseña, se necesitan al menos 8 caracteres',
+      'Can\'t update password, need 2 lower and 2 upper characters!' => 'No se puede actualizar la contraseña, se necesitan al menos 2 en minuscula y 2 en mayuscula!',
+      'Can\'t update password, need min. 1 digit!' => 'No se puede actualizar la contraseña, se necesita al menos 1 digito!',
+      'Can\'t update password, need min. 2 characters!' => 'No se puede actualizar la contraseña, se necesitan al menos 2 caracteres!',
+      'Password is needed!' => 'Falta la contraseña!',
 
       # Template: AAATicket
       'Lock' => 'Bloquear',
@@ -330,7 +330,7 @@ sub Data {
       'Sender' => 'Emisor',
       'Article' => 'Artículo',
       'Ticket' => '',
-      'Createtime' => 'Fecha de creaci&ntilde;n ',
+      'Createtime' => 'Fecha de creaciñn ',
       'plain' => 'texto',
       'eMail' => 'Correo',
       'email' => 'correo',
@@ -412,7 +412,7 @@ sub Data {
       'New ticket notification' => 'Notificación de nuevos tickets',
       'Send me a notification if there is a new ticket in "My Queues".' => 'Notifíqueme si hay un nuevo ticket en "Mis Colas".',
       'Follow up notification' => 'Seguimiento a notificaciones',
-      'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Notifíqueme si un cliente enví un seguimiento y yo soy el due&ntilde;o del ticket.',
+      'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Notifíqueme si un cliente enví un seguimiento y yo soy el dueño del ticket.',
       'Ticket lock timeout notification' => 'Notificación de bloqueo de tickets por tiempo',
       'Send me a notification if a ticket is unlocked by the system.' => 'Notifíqueme si un ticket es desbloqueado por el sistema',
       'Move notification' => 'Notificación de movimientos',
@@ -647,7 +647,7 @@ sub Data {
       'Systemaddress' => 'Direcciones de correo del sistema',
       'Customer Move Notify' => 'Notificar al Cliente al Mover',
       'Customer State Notify' => 'Notificación de estado al Cliente',
-      'Customer Owner Notify' => 'Notificar al Due&ntilde;o al Mover',
+      'Customer Owner Notify' => 'Notificar al Dueño al Mover',
       'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Si un agente bloquea un ticket y el/ella no enví una respuesta en este tiempo, el ticket sera desbloqueado automáticamente',
       'If a ticket will not be answered in thos time, just only this ticket will be shown.' => 'Si un ticket no ha sido respondido es este tiempo, solo este ticket se mostrará',
       'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => 'Si el tickes esta cerrado y el cliente enví un seguimiento al mismo este será bloqueado para el antiguo propietario',
@@ -1046,8 +1046,8 @@ sub Data {
 
       # Template: CustomerLogin
       'Login' => 'Identificador',
-      'Lost your password?' => 'Perdió su contrase&ntilde;a',
-      'Request new password' => 'Solicitar una nueva contrase&ntilde;a',
+      'Lost your password?' => 'Perdió su contraseña',
+      'Request new password' => 'Solicitar una nueva contraseña',
       'Create Account' => 'Crear Cuenta',
 
       # Template: CustomerNavigationBar
@@ -1079,7 +1079,7 @@ sub Data {
 
       # Template: FAQ
       'Comment (internal)' => 'Comentario (interno)',
-      'A article should have a title!' => 'Los articulos deben tener t&ntilde;tulo',
+      'A article should have a title!' => 'Los articulos deben tener tñtulo',
       'New FAQ Article' => 'Nuevo Articulo de la FAQ',
       'Do you really want to delete this Object?' => 'VErdaderamente desea eliminar esre objeto?',
       'System History' => 'Historia del Sistema',
@@ -1192,8 +1192,8 @@ sub Data {
       'Delete old database' => 'Eliminar BD antigua',
       'OTRS DB User' => 'Usuario de BD OTRS',
       'Options ' => 'Opciones',
-      'OTRS DB Password' => 'Contrase&ntilde;a para BD del usuario OTRS',
-      'DB Admin Password' => 'Contrase&ntilde;a del Admin de la BD',
+      'OTRS DB Password' => 'Contraseña para BD del usuario OTRS',
+      'DB Admin Password' => 'Contraseña del Admin de la BD',
       'Drop Database' => 'Eliminar Base de Datos',
       'Minutes' => 'Minutos',
       '(Used ticket number format)' => '(Formato de ticket usado)',
