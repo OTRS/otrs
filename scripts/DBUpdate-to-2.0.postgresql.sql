@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 1.3 to 2.0
 -- Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-2.0.postgresql.sql,v 1.20 2005-07-01 06:28:40 martin Exp $
+-- $Id: DBUpdate-to-2.0.postgresql.sql,v 1.21 2005-07-29 23:12:41 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.0.postgresql.sql | psql otrs
@@ -13,6 +13,8 @@
 -- ticket
 --
 ALTER TABLE ticket ADD title varchar (255);
+ALTER TABLE ticket ADD freetime1 timestamp(0);
+ALTER TABLE ticket ADD freetime2 timestamp(0);
 
 --
 -- time_accounting
