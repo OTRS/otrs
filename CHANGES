@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.153 2005-07-28 20:38:44 martin Exp $
+# $Id: CHANGES,v 1.154 2005-07-29 11:38:50 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 CVS head
 2.0.0 beta7 (2005/07/??)
+ - (2005/07/29) added hour and minutes in time selection in ticket search
+    in admin, agent and customer interface - bug [843]
  - (2005/07/28) updated translation files
  - (2005/07/28) fixed bug in ticket expand view
  - (2005/07/28) just framework options for web installer, removed
