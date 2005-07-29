@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminGenericAgent.pm,v 1.17 2005-03-27 11:50:49 martin Exp $
+# $Id: AdminGenericAgent.pm,v 1.18 2005-07-29 11:32:16 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::State;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -205,7 +205,13 @@ sub Run {
         elsif ($GetParam{TimeSearchType} eq 'TimePoint') {
           if ($GetParam{TicketCreateTimePoint} && $GetParam{TicketCreateTimePointStart} && $GetParam{TicketCreateTimePointFormat}) {
             my $Time = 0;
-            if ($GetParam{TicketCreateTimePointFormat} eq 'day') {
+            if ($GetParam{TicketCreateTimePointFormat} eq 'minute') {
+                $Time = $GetParam{TicketCreateTimePoint};
+            }
+            elsif ($GetParam{TicketCreateTimePointFormat} eq 'hour') {
+                $Time = $GetParam{TicketCreateTimePoint} * 60;
+            }
+            elsif ($GetParam{TicketCreateTimePointFormat} eq 'day') {
                 $Time = $GetParam{TicketCreateTimePoint} * 60 * 24;
             }
             elsif ($GetParam{TicketCreateTimePointFormat} eq 'week') {
@@ -215,7 +221,7 @@ sub Run {
                 $Time = $GetParam{TicketCreateTimePoint} * 60 * 24 * 30;
             }
             elsif ($GetParam{TicketCreateTimePointFormat} eq 'year') {
-                $Time = $GetParam{TicketCreateTimePoint} * 60 * 24 * 356;
+                $Time = $GetParam{TicketCreateTimePoint} * 60 * 24 * 365;
             }
             if ($GetParam{TicketCreateTimePointStart} eq 'Before') {
                 $GetParam{TicketCreateTimeOlderMinutes} = $Time;
@@ -470,15 +476,65 @@ sub MaskForm {
     );
     $Param{'TicketCreateTimePoint'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
-            1 => 1,
-            2 => 2,
-            3 => 3,
-            4 => 4,
-            5 => 5,
-            6 => 6,
-            7 => 7,
-            8 => 8,
-            9 => 9,
+            1 => ' 1',
+            2 => ' 2',
+            3 => ' 3',
+            4 => ' 4',
+            5 => ' 5',
+            6 => ' 6',
+            7 => ' 7',
+            8 => ' 8',
+            9 => ' 9',
+            10 => '10',
+            11 => '11',
+            12 => '12',
+            13 => '13',
+            14 => '14',
+            15 => '15',
+            16 => '16',
+            17 => '17',
+            18 => '18',
+            19 => '19',
+            20 => '20',
+            21 => '21',
+            22 => '22',
+            23 => '23',
+            24 => '24',
+            25 => '25',
+            26 => '26',
+            27 => '27',
+            28 => '28',
+            29 => '29',
+            30 => '30',
+            31 => '31',
+            32 => '32',
+            33 => '33',
+            34 => '34',
+            35 => '35',
+            36 => '36',
+            37 => '37',
+            38 => '38',
+            39 => '39',
+            40 => '40',
+            41 => '41',
+            42 => '42',
+            43 => '43',
+            44 => '44',
+            45 => '45',
+            46 => '46',
+            47 => '47',
+            48 => '48',
+            49 => '49',
+            50 => '50',
+            51 => '51',
+            52 => '52',
+            53 => '53',
+            54 => '54',
+            55 => '55',
+            56 => '56',
+            57 => '57',
+            58 => '58',
+            59 => '59',
         },
         Name => 'TicketCreateTimePoint',
         SelectedID => $Param{TicketCreateTimePoint},
@@ -493,6 +549,8 @@ sub MaskForm {
     );
     $Param{'TicketCreateTimePointFormat'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
+            minute => 'minute(s)',
+            hour => 'hour(s)',
             day => 'day(s)',
             week => 'week(s)',
             month => 'month(s)',

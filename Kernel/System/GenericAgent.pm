@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pm,v 1.10 2005-05-16 10:41:53 martin Exp $
+# $Id: GenericAgent.pm,v 1.11 2005-07-29 11:32:16 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Main;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $ ';
+$VERSION = '$Revision: 1.11 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -720,7 +720,13 @@ sub JobGet {
         }
         if ($Data{TicketCreateTimePoint} && $Data{TicketCreateTimePointStart} && $Data{TicketCreateTimePointFormat}) {
             my $Time = 0;
-            if ($Data{TicketCreateTimePointFormat} eq 'day') {
+            if ($Data{TicketCreateTimePointFormat} eq 'minute') {
+                $Time = $Data{TicketCreateTimePoint};
+            }
+            elsif ($Data{TicketCreateTimePointFormat} eq 'hour') {
+                $Time = $Data{TicketCreateTimePoint} * 60;
+            }
+            elsif ($Data{TicketCreateTimePointFormat} eq 'day') {
                 $Time = $Data{TicketCreateTimePoint} * 60 * 24;
             }
             elsif ($Data{TicketCreateTimePointFormat} eq 'week') {
@@ -850,6 +856,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2005-05-16 10:41:53 $
+$Revision: 1.11 $ $Date: 2005-07-29 11:32:16 $
 
 =cut
