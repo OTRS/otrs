@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 1.3 to 2.0
 -- Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-2.0.postgresql.sql,v 1.21 2005-07-29 23:12:41 martin Exp $
+-- $Id: DBUpdate-to-2.0.postgresql.sql,v 1.22 2005-07-31 09:18:53 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.0.postgresql.sql | psql otrs
@@ -19,7 +19,21 @@ ALTER TABLE ticket ADD freetime2 timestamp(0);
 --
 -- time_accounting
 --
-ALTER TABLE time_accounting ALTER COLUMN time_unit DECIMAL(10,2);
+CREATE TABLE time_accounting_old AS SELECT id, ticket_id, article_id, time_unit, create_time, create_by, change_time, change_by FROM time_accounting;
+DROP TABLE time_accounting;
+CREATE TABLE time_accounting (
+    id serial,
+    ticket_id INTEGER NOT NULL,
+    article_id INTEGER,
+    time_unit DECIMAL (10,2) NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id)
+);
+INSERT INTO time_accounting SELECT * FROM time_accounting_old;
+DROP TABLE time_accounting_old;
 
 --
 -- object_link
@@ -82,7 +96,7 @@ CREATE TABLE role_user
 -- improve ticket table
 --
 ALTER TABLE ticket ADD escalation_start_time INTEGER;
-UPDATE ticket SET escalation_start_time = o WHERE escalation_start_time IS NULL;
+UPDATE ticket SET escalation_start_time = 0 WHERE escalation_start_time IS NULL;
 ALTER TABLE ticket ALTER escalation_start_time SET NOT NULL;
 
 --
