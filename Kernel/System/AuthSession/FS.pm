@@ -2,43 +2,45 @@
 # Kernel/System/AuthSession/FS.pm - provides session filesystem backend
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FS.pm,v 1.14 2005-05-07 12:45:14 martin Exp $
+# $Id: FS.pm,v 1.15 2005-07-31 14:49:05 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-package Kernel::System::AuthSession::FS; 
+package Kernel::System::AuthSession::FS;
 
 use strict;
 use Digest::MD5;
 use MIME::Base64;
+use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
- 
+
 # --
 sub new {
     my $Type = shift;
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     # check needed objects
     foreach (qw(LogObject ConfigObject DBObject TimeObject)) {
         $Self->{$_} = $Param{$_} || die "No $_!";
     }
-
+    # encode object
+    $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
     # get more common params
     $Self->{SessionSpool} = $Self->{ConfigObject}->Get('SessionDir');
     $Self->{SystemID} = $Self->{ConfigObject}->Get('SystemID');
- 
+
     # Debug 0=off 1=on
-    $Self->{Debug} = 0;    
+    $Self->{Debug} = 0;
 
     return $Self;
 }
@@ -51,7 +53,7 @@ sub CheckSessionID {
     # set default message
     $Kernel::System::AuthSession::CheckSessionID = "SessionID is invalid!!!";
     # session id check
-    my %Data = $Self->GetSessionIDData(SessionID => $SessionID); 
+    my %Data = $Self->GetSessionIDData(SessionID => $SessionID);
 
     if (!$Data{UserID} || !$Data{UserLogin}) {
         $Kernel::System::AuthSession::CheckSessionID = "SessionID invalid! Need user data!";
@@ -62,7 +64,7 @@ sub CheckSessionID {
         return;
     }
     # remote ip check
-    if ( $Data{UserRemoteAddr} ne $RemoteAddr && 
+    if ( $Data{UserRemoteAddr} ne $RemoteAddr &&
           $Self->{ConfigObject}->Get('SessionCheckRemoteIP') ) {
         $Self->{LogObject}->Log(
           Priority => 'notice',
@@ -96,7 +98,7 @@ sub CheckSessionID {
          $Kernel::System::AuthSession::CheckSessionID = 'Session has timed out. Please log in again.';
          $Self->{LogObject}->Log(
           Priority => 'notice',
-          Message => "SessionID ($SessionID) too old (". int(($Self->{TimeObject}->SystemTime() - $Data{UserSessionStart})/(60*60)) 
+          Message => "SessionID ($SessionID) too old (". int(($Self->{TimeObject}->SystemTime() - $Data{UserSessionStart})/(60*60))
           ."h)! Don't grant access!!!",
         );
         # delete session id if too old?
@@ -120,7 +122,7 @@ sub GetSessionIDData {
         return;
     }
     # read data
-    open (SESSION, "< $Self->{SessionSpool}/$SessionID") 
+    open (SESSION, "< $Self->{SessionSpool}/$SessionID")
             || warn "Can't open $Self->{SessionSpool}/$SessionID: $!\n";
     while (<SESSION>) {
         chomp;
@@ -128,7 +130,8 @@ sub GetSessionIDData {
         # split data
         # --
         my @PaarData = split(/:/, $_);
-        $Data{$PaarData[0]} = decode_base64($PaarData[1]) || '';
+        $Data{$PaarData[0]} = decode_base64($PaarData[1]);
+        $Self->{EncodeObject}->Encode(\$Data{$PaarData[0]});
         # Debug
         if ($Self->{Debug}) {
             $Self->{LogObject}->Log(
@@ -159,16 +162,16 @@ sub CreateSessionID {
     my $DataToStore = '';
     foreach (keys %Param) {
         if (defined($Param{$_})) {
-            $Param{$_} = encode_base64($Param{$_}, '');
-            $DataToStore .= "$_:". $Param{$_} ."\n";
+            $Self->{EncodeObject}->EncodeOutput(\$Param{$_});
+            $DataToStore .= "$_:". encode_base64($Param{$_}, '') ."\n";
         }
     }
     $DataToStore .= "UserSessionStart:". encode_base64($Self->{TimeObject}->SystemTime(), '') ."\n";
     $DataToStore .= "UserRemoteAddr:". encode_base64($RemoteAddr, '') ."\n";
     $DataToStore .= "UserRemoteUserAgent:". encode_base64($RemoteUserAgent, '') ."\n";
     # store SessionID + data
-    open (SESSION, ">> $Self->{SessionSpool}/$SessionID") 
-            || die "Can't create $Self->{SessionSpool}/$SessionID: $!"; 
+    open (SESSION, ">> $Self->{SessionSpool}/$SessionID")
+            || die "Can't create $Self->{SessionSpool}/$SessionID: $!";
     print SESSION "$DataToStore";
     close (SESSION);
 
@@ -180,7 +183,7 @@ sub RemoveSessionID {
     my %Param = @_;
     my $SessionID = $Param{SessionID};
     # delete fs file
-    if (unlink("$Self->{SessionSpool}/$SessionID")) { 
+    if (unlink("$Self->{SessionSpool}/$SessionID")) {
         # log event
         $Self->{LogObject}->Log(
             Priority => 'notice',
@@ -205,13 +208,13 @@ sub UpdateSessionID {
     my $Value = defined($Param{Value}) ? $Param{Value} : '';
     my $SessionID = $Param{SessionID} || die 'No SessionID!';
     my %SessionData = $Self->GetSessionIDData(SessionID => $SessionID);
-    # update the value 
-    $SessionData{$Key} = $Value; 
+    # update the value
+    $SessionData{$Key} = $Value;
     # set new data sting
     my $NewDataToStore = '';
     foreach (keys %SessionData) {
-        $SessionData{$_} = encode_base64($SessionData{$_}, '');
-        $NewDataToStore .= "$_:$SessionData{$_}\n";
+        $Self->{EncodeObject}->EncodeOutput(\$SessionData{$_});
+        $NewDataToStore .= "$_:".encode_base64($SessionData{$_}, '')."\n";
         # Debug
         if ($Self->{Debug}) {
             $Self->{LogObject}->Log(

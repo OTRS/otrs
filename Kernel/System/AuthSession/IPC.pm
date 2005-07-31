@@ -2,10 +2,10 @@
 # Kernel/System/AuthSession/IPC.pm - provides session IPC/Mem backend
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: IPC.pm,v 1.16 2005-05-07 12:45:14 martin Exp $
+# $Id: IPC.pm,v 1.17 2005-07-31 14:49:05 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
@@ -15,18 +15,19 @@ use strict;
 use IPC::SysV qw(IPC_PRIVATE IPC_RMID S_IRWXU);
 use Digest::MD5;
 use MIME::Base64;
+use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
- 
+
 # --
 sub new {
     my $Type = shift;
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     # check needed objects
@@ -35,12 +36,15 @@ sub new {
     }
     # Debug 0=off 1=on
     $Self->{Debug} = 0;
+
+    # encode object
+    $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
     # get more common params
     $Self->{SystemID} = $Self->{ConfigObject}->Get('SystemID');
     # ipc stuff
-    $Self->{IPCKeyMeta} = "444421$Self->{SystemID}"; 
+    $Self->{IPCKeyMeta} = "444421$Self->{SystemID}";
     $Self->{IPCSizeMeta} = 20;
-    $Self->{IPCKey} = "444422$Self->{SystemID}"; 
+    $Self->{IPCKey} = "444422$Self->{SystemID}";
     $Self->{IPCAddBufferSize} = 10*1024;
     $Self->{IPCSize} = 80*1024;
     $Self->{IPCSizeMax} = (360*1024) - $Self->{IPCAddBufferSize};
@@ -80,7 +84,7 @@ sub _WriteSHM {
         my $NewIPCSize = $DataSize + $Self->{IPCAddBufferSize};
         if ($NewIPCSize > $Self->{IPCSizeMax}) {
             $NewIPCSize = $Self->{IPCSizeMax};
-        } 
+        }
         # delete old shm
         shmctl($Self->{Key}, IPC_RMID, 0) || die "$!";
         # init new mem
@@ -135,7 +139,7 @@ sub CheckSessionID {
     # set default message
     $Kernel::System::AuthSession::CheckSessionID = "SessionID is invalid!!!";
     # session id check
-    my %Data = $Self->GetSessionIDData(SessionID => $SessionID); 
+    my %Data = $Self->GetSessionIDData(SessionID => $SessionID);
 
     if (!$Data{UserID} || !$Data{UserLogin}) {
         $Kernel::System::AuthSession::CheckSessionID = "SessionID invalid! Need user data!";
@@ -146,7 +150,7 @@ sub CheckSessionID {
         return;
     }
     # remote ip check
-    if ( $Data{UserRemoteAddr} ne $RemoteAddr && 
+    if ( $Data{UserRemoteAddr} ne $RemoteAddr &&
           $Self->{ConfigObject}->Get('SessionCheckRemoteIP') ) {
         $Self->{LogObject}->Log(
           Priority => 'notice',
@@ -165,7 +169,7 @@ sub CheckSessionID {
          $Kernel::System::AuthSession::CheckSessionID = 'Session has timed out. Please log in again.';
          $Self->{LogObject}->Log(
           Priority => 'notice',
-          Message => "SessionID ($SessionID) idle timeout (". int(($Self->{TimeObject}->SystemTime() - $Data{UserLastRequest})/(60*60)) 
+          Message => "SessionID ($SessionID) idle timeout (". int(($Self->{TimeObject}->SystemTime() - $Data{UserLastRequest})/(60*60))
           ."h)! Don't grant access!!!",
         );
         # delete session id if too old?
@@ -180,7 +184,7 @@ sub CheckSessionID {
          $Kernel::System::AuthSession::CheckSessionID = 'Session has timed out. Please log in again.';
          $Self->{LogObject}->Log(
           Priority => 'notice',
-          Message => "SessionID ($SessionID) too old (". int(($Self->{TimeObject}->SystemTime() - $Data{UserSessionStart})/(60*60)) 
+          Message => "SessionID ($SessionID) too old (". int(($Self->{TimeObject}->SystemTime() - $Data{UserSessionStart})/(60*60))
           ."h)! Don't grant access!!!",
         );
         # delete session id if too old?
@@ -216,7 +220,8 @@ sub GetSessionIDData {
             if ($Item =~ /^SessionID:$SessionIDBase64;/) {
                 foreach (@PaarData) {
                     my ($Key, $Value) = split(/:/, $_);
-                    $Data{$Key} = decode_base64($Value); 
+                    $Data{$Key} = decode_base64($Value);
+                    $Self->{EncodeObject}->Encode(\$Data{$Key});
                 }
                 # Debug
                 if ($Self->{Debug}) {
@@ -249,8 +254,8 @@ sub CreateSessionID {
     my $DataToStore = "SessionID:". encode_base64($SessionID, '') .";";
     foreach (keys %Param) {
         if (defined($Param{$_})) {
-            $Param{$_} = encode_base64($Param{$_}, '');
-            $DataToStore .= "$_:". $Param{$_} .";";
+            $Self->{EncodeObject}->EncodeOutput(\$Param{$_});
+            $DataToStore .= "$_:". encode_base64($Param{$_}, '') .";";
         }
     }
     $DataToStore .= "UserSessionStart:". encode_base64($Self->{TimeObject}->SystemTime(), '') .";";
@@ -259,7 +264,7 @@ sub CreateSessionID {
     # read old session data (the rest)
     my $String = $Self->_ReadSHM();
     # split data
-    my @Items = split(/\n/, $String); 
+    my @Items = split(/\n/, $String);
     foreach my $Item (@Items) {
         if ($Item !~ /^SessionID:$SessionIDBase64;/) {
             $DataToStore .= $Item ."\n";
@@ -279,7 +284,7 @@ sub RemoveSessionID {
     my $DataToStore = '';
     my $String = $Self->_ReadSHM();
     # split data
-    my @Items = split(/\n/, $String); 
+    my @Items = split(/\n/, $String);
     foreach my $Item (@Items) {
         if ($Item !~ /^SessionID:$SessionIDBase64;/) {
             $DataToStore .= $Item ."\n";
@@ -303,13 +308,13 @@ sub UpdateSessionID {
     my $SessionID = $Param{SessionID} || die 'No SessionID!';
     my %SessionData = $Self->GetSessionIDData(SessionID => $SessionID);
     # check needed update! (no changes)
-    if (((exists $SessionData{$Key}) && $SessionData{$Key} eq $Value) 
+    if (((exists $SessionData{$Key}) && $SessionData{$Key} eq $Value)
       || (!exists $SessionData{$Key} && $Value eq '')) {
         return 1;
     }
-    # update the value 
+    # update the value
     if (defined($Value)) {
-        $SessionData{$Key} = $Value; 
+        $SessionData{$Key} = $Value;
     }
     else {
         delete $SessionData{$Key};
@@ -317,6 +322,7 @@ sub UpdateSessionID {
     # set new data sting
     my $NewDataToStore = "SessionID:". encode_base64($SessionID, '').";";
     foreach (keys %SessionData) {
+        $Self->{EncodeObject}->EncodeOutput(\$SessionData{$_});
         $SessionData{$_} = encode_base64($SessionData{$_}, '');
         $NewDataToStore .= "$_:$SessionData{$_};";
         chomp ($SessionData{$_});
@@ -332,7 +338,7 @@ sub UpdateSessionID {
     # read old session data (the rest)
     my $String = $Self->_ReadSHM();
     # split data
-    my @Items = split(/\n/, $String); 
+    my @Items = split(/\n/, $String);
     foreach my $Item (@Items) {
         my $SessionIDBase64 = encode_base64($SessionID, '');
         if ($Item !~ /^SessionID:$SessionIDBase64;/) {

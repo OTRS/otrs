@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/DB.pm - provides session db backend
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.19 2005-07-27 13:59:17 cs Exp $
+# $Id: DB.pm,v 1.20 2005-07-31 14:49:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,9 +14,10 @@ package Kernel::System::AuthSession::DB;
 use strict;
 use Digest::MD5;
 use MIME::Base64;
+use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -32,7 +33,8 @@ sub new {
     foreach (qw(LogObject ConfigObject DBObject TimeObject)) {
         $Self->{$_} = $Param{$_} || die "No $_!";
     }
-
+    # encode object
+    $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
     # get more common params
     $Self->{SystemID} = $Self->{ConfigObject}->Get('SystemID');
     # Debug 0=off 1=on
@@ -142,15 +144,16 @@ sub GetSessionIDData {
     # split data
     my @StrgData = split(/;/, $Strg);
     foreach (@StrgData) {
-         my @PaarData = split(/:/, $_);
-         if ($PaarData[1]) {
-              $Data{$PaarData[0]} = decode_base64($PaarData[1]);
-         }
-         else {
-              $Data{$PaarData[0]} = '';
-         }
-         # Debug
-         if ($Self->{Debug}) {
+        my @PaarData = split(/:/, $_);
+        if ($PaarData[1]) {
+            $Data{$PaarData[0]} = decode_base64($PaarData[1]);
+            $Self->{EncodeObject}->Encode(\$Data{$PaarData[0]});
+        }
+        else {
+            $Data{$PaarData[0]} = '';
+        }
+        # Debug
+        if ($Self->{Debug}) {
              $Self->{LogObject}->Log(
                 Priority => 'debug',
                 Message => "GetSessionIDData: '$PaarData[0]:".decode_base64($PaarData[1])."'",
@@ -177,9 +180,10 @@ sub CreateSessionID {
     # data 2 strg
     my $DataToStore = '';
     foreach (keys %Param) {
-      if (defined($Param{$_})) {
-        $DataToStore .= "$_:".encode_base64($Param{$_}, '').":;";
-      }
+        if (defined($Param{$_})) {
+            $Self->{EncodeObject}->EncodeOutput(\$Param{$_});
+            $DataToStore .= "$_:".encode_base64($Param{$_}, '').":;";
+        }
     }
     $DataToStore .= "UserSessionStart:" . encode_base64($Self->{TimeObject}->SystemTime(), '') .":;";
     $DataToStore .= "UserRemoteAddr:" . encode_base64($RemoteAddr, '') .":;";
@@ -230,6 +234,7 @@ sub UpdateSessionID {
     # set new data sting
     my $NewDataToStore = '';
     foreach (keys %SessionData) {
+        $Self->{EncodeObject}->EncodeOutput(\$SessionData{$_});
         $NewDataToStore .= "$_:".encode_base64($SessionData{$_}, '').":;";
         # Debug
         if ($Self->{Debug}) {
