@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.177 2005-07-23 08:57:22 martin Exp $
+# $Id: Ticket.pm,v 1.178 2005-07-31 09:38:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.177 $';
+$VERSION = '$Revision: 1.178 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -1766,8 +1766,10 @@ To find tickets in your system.
       Locks => ['unlock'],
       UserIDs => [1, 12, 455, 32]
       Owner => '123',
-      # CustomerID as ARRAY or more as ARRAYREF
+      # CustomerID as STRING or more as ARRAYREF
       CustomerID => '123',
+      CustomerID => ['123', 'ABC'],
+      # CustomerUserLogin as STRING
       CustomerUserLogin => 'uid123',
 
       # create ticket properties (optional)
@@ -1816,11 +1818,11 @@ To find tickets in your system.
       SortBy => 'Age',         # Owner|CustomerID|State|Ticket|Queue|Priority|Age|
                                # TicketFreeTime1-2|TicketFreeKey1-8|TicketFreeText1-8
 
-      # user search (optional)
+      # user search (UserID or CustomerUserID is required)
       UserID => 123,
       Permission => 'ro' || 'rw',
 
-      # customer search (optional)
+      # customer search (UserID or CustomerUserID is required)
       CustomerUserID => 123,
       Permission => 'ro' || 'rw',
   );
@@ -1865,11 +1867,11 @@ sub TicketSearch {
     );
     # check options
     if (!$SortOptions{$SortBy}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need valid SortBy!");
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need valid SortBy ($SortBy)!");
         return;
     }
     if ($OrderBy ne 'Down' && $OrderBy ne 'Up') {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need valid OrderBy!");
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need valid OrderBy ($OrderBy)!");
         return;
     }
     # sql
@@ -2027,7 +2029,7 @@ sub TicketSearch {
     if ($Param{CustomerUserID}) {
         @GroupIDs = $Self->{CustomerGroupObject}->GroupMemberList(
             UserID => $Param{CustomerUserID},
-            Type => 'ro',
+            Type => $Param{Permission} || 'ro',
             Result => 'ID',
             Cached => 1,
         );
@@ -3990,6 +3992,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.177 $ $Date: 2005-07-23 08:57:22 $
+$Revision: 1.178 $ $Date: 2005-07-31 09:38:34 $
 
 =cut
