@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.pm,v 1.35 2005-07-17 15:40:09 martin Exp $
+# $Id: Package.pm,v 1.36 2005-07-31 09:34:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -478,16 +478,7 @@ sub PackageInstall {
     my $FileCheckOk = 1;
     if ($Structur{Filelist} && ref($Structur{Filelist}) eq 'ARRAY') {
         foreach my $File (@{$Structur{Filelist}}) {
-            if (-e $File->{Location} && ($File->{Type} && $File->{Type} !~ /^replace$/i)) {
-                $FileCheckOk = 0;
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message => "File $File->{Location} already exists!!",
-                );
-            }
-            else {
-                print STDERR "Notice: Want to install $File->{Location}!\n";
-            }
+            print STDERR "Notice: Want to install $File->{Location}!\n";
         }
     }
     if (!$FileCheckOk && !$Param{Force}) {
@@ -1382,7 +1373,12 @@ sub _FileRemove {
             print STDERR "Notice: Removed file: $RealFile\n";
             # restore old file (if exists)
             if (-e "$RealFile.backup") {
+                print STDERR "Notice: Recovered: $RealFile.backup\n";
                 move("$RealFile.backup", $RealFile);
+            }
+            elsif (-e "$RealFile.save") {
+                print STDERR "Notice: Recovered: $RealFile.save\n";
+                move("$RealFile.save", $RealFile);
             }
             return 1;
         }
@@ -1443,6 +1439,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.35 $ $Date: 2005-07-17 15:40:09 $
+$Revision: 1.36 $ $Date: 2005-07-31 09:34:33 $
 
 =cut
