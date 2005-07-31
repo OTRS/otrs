@@ -112,7 +112,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.63 2005-07-27 08:41:44 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.64 2005-07-31 17:46:48 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -1259,7 +1259,7 @@ Your OTRS Notification Master
         <Description Lang="en">Display order of the different items in the preference view.</Description>
         <Description Lang="de">Reihenfolge, in welcher die verschiedenen Abschnitte der Einstellungs-Ansicht angezeigt werden.</Description>
         <Group>Framework</Group>
-        <SubGroup>Frontend::Preferences</SubGroup>
+        <SubGroup>Frontend::Agent::Preferences</SubGroup>
         <Setting>
             <Array>
                 <Item>Frontend</Item>
