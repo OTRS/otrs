@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose inital email to customer
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketEmail.pm,v 1.9 2005-07-08 19:17:33 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.10 2005-07-31 13:50:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -185,9 +185,12 @@ sub Run {
     elsif ($Self->{Subaction} eq 'StoreNew') {
         my %Error = ();
         my $NextStateID = $Self->{ParamObject}->GetParam(Param => 'NextStateID') || '';
-        my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
-            ID => $NextStateID,
-        );
+        my %StateData = ();
+        if ($NextStateID) {
+            %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+                ID => $NextStateID,
+            );
+        }
         my $NextState = $StateData{Name};
         my $NewUserID = $Self->{ParamObject}->GetParam(Param => 'NewUserID') || '';
         my $Lock = $Self->{ParamObject}->GetParam(Param => 'Lock') || '';
@@ -416,7 +419,7 @@ sub Run {
             $Error{"Destination invalid"} = 'invalid';
         }
         # check if date is valid
-        if ($StateData{TypeName} =~ /^pending/i) {
+        if ($StateData{TypeName} && $StateData{TypeName} =~ /^pending/i) {
             if (!$Self->{TimeObject}->Date2SystemTime(%GetParam, Second => 0)) {
                 $Error{"Date invalid"} = 'invalid';
             }

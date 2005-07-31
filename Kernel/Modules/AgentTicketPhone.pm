@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPhone.pm,v 1.9 2005-07-24 11:17:46 martin Exp $
+# $Id: AgentTicketPhone.pm,v 1.10 2005-07-31 13:49:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -466,10 +466,13 @@ sub Run {
         my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject') || '';
         my $Text = $Self->{ParamObject}->GetParam(Param => 'Body') || '';
         my $NextStateID = $Self->{ParamObject}->GetParam(Param => 'NextStateID') || '';
-        my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
-            ID => $NextStateID,
-        );
-        my $NextState = $StateData{Name};
+        my %StateData = ();
+        if ($NextStateID) {
+            %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+                ID => $NextStateID,
+            );
+        }
+        my $NextState = $StateData{Name} || '';
         my $PriorityID = $Self->{ParamObject}->GetParam(Param => 'PriorityID') || '';
         my $ArticleTypeID = $Self->{ParamObject}->GetParam(Param => 'NoteID');
         my $NewUserID = $Self->{ParamObject}->GetParam(Param => 'NewUserID') || '';
