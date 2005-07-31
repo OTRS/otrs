@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleStorageDB.pm,v 1.26 2005-07-27 13:20:57 rk Exp $
+# $Id: ArticleStorageDB.pm,v 1.27 2005-07-31 08:10:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Base64;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -259,6 +259,7 @@ sub ArticlePlain {
     }
     else {
         # read whole article
+        binmode(DATA);
         while (<DATA>) {
             $Data .= $_;
         }
@@ -368,6 +369,7 @@ sub ArticleAttachment {
     my $Counter = 0;
 
     if (open (DATA, "< $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/$Data{Filename}")) {
+        binmode(DATA);
         while (<DATA>) {
             $Data{ContentType} = $_ if ($Counter == 0);
             $Data{Content} .= $_ if ($Counter > 0);

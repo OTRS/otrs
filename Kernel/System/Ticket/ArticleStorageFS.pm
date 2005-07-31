@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleStorageFS.pm,v 1.21 2005-06-13 20:01:42 martin Exp $
+# $Id: ArticleStorageFS.pm,v 1.22 2005-07-31 08:10:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use MIME::Base64;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -170,15 +170,16 @@ sub ArticleWritePlain {
     }
     # write article to fs 1:1
     File::Path::mkpath([$Path], 0, 0775);
-    # write article to fs 
-    if (open (DATA, "> $Path/plain.txt")) { 
+    # write article to fs
+    if (open (DATA, "> $Path/plain.txt")) {
+        binmode(DATA);
         print DATA $Param{Email};
         close (DATA);
         return 1;
     }
     else {
         $Self->{LogObject}->Log(
-            Priority => 'error', 
+            Priority => 'error',
             Message => "Can't write: $Path/plain.txt: $!",
         );
         return;
@@ -218,7 +219,7 @@ sub ArticleWriteAttachment {
         }
     }
     $Param{Filename} = $NewFileName;
-    # write attachment to backend           
+    # write attachment to backend
     if (! -d $Param{Path}) {
         if (! File::Path::mkpath([$Param{Path}], 0, 0775)) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Can't create $Param{Path}: $!");
@@ -227,6 +228,7 @@ sub ArticleWriteAttachment {
     }
     # write attachment to fs
     if (open (DATA, "> $Param{Path}/$Param{Filename}")) {
+        binmode(DATA);
         print DATA "$Param{ContentType}\n";
         print DATA $Param{Content};
         close (DATA);
@@ -234,7 +236,7 @@ sub ArticleWriteAttachment {
     }
     else {
         $Self->{LogObject}->Log(
-            Priority => 'error', 
+            Priority => 'error',
             Message => "Can't write: $Param{Path}/$Param{Filename}: $!",
         );
         return;
@@ -279,6 +281,7 @@ sub ArticlePlain {
     }
     else {
         # read whole article
+        binmode(DATA);
         while (<DATA>) {
             $Data .= $_;
         }
@@ -382,9 +385,10 @@ sub ArticleAttachment {
     my %Index = $Self->ArticleAttachmentIndex(ArticleID => $Param{ArticleID});
     # get content path
     my $ContentPath = $Self->ArticleGetContentPath(ArticleID => $Param{ArticleID});
-    my %Data = %{$Index{$Param{FileID}}};; 
+    my %Data = %{$Index{$Param{FileID}}};;
     my $Counter = 0;
     if (open (DATA, "< $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/$Data{Filename}")) {
+        binmode(DATA);
         while (<DATA>) {
             $Data{ContentType} = $_ if ($Counter == 0);
             $Data{Content} .= $_ if ($Counter > 0);
