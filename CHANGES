@@ -2,14 +2,27 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.154 2005-07-29 11:38:50 cs Exp $
+# $Id: CHANGES,v 1.155 2005-08-01 10:29:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS head
-2.0.0 beta7 (2005/07/??)
+
+2.0.1 (2005/08/01)
+ - (2005/07/31) fixed bug 602 - CustomerIDs and CustomerUserIDs are lowercased
+    before being assigned to a ticket
+ - (2005/07/31) fixed bug 600 - Wide character death in IPC.pl
+ - (2005/07/31) fixed bug 593 - Need ID or Name in log file
+ - (2005/07/31) fixed missing recover of .save files on uninstall of
+    .opm packages
+ - (2005/07/31) fixed DBUpdate-to-2.0.postgresql.sql - alter table
+    time_accounting - DECIMAL(10,2), fixed UPDATE ticket SET
+    escalation_start_time
+ - (2005/07/31) fixed bug 566 - Wide character in print, ArticleStorageFS.pm
+ - (2005/07/29) fixed bug 817 - added missing freetime1, freetime2 in
+    otrs-schema.postgresql.sql and scripts/DBUpdate-to-2.0.postgresql.sql
  - (2005/07/29) added hour and minutes in time selection in ticket search
     in admin, agent and customer interface - bug [843]
  - (2005/07/28) updated translation files
