@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.155 2005-08-01 10:29:07 martin Exp $
+# $Id: CHANGES,v 1.156 2005-08-01 11:53:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,10 +21,13 @@ CVS head
     time_accounting - DECIMAL(10,2), fixed UPDATE ticket SET
     escalation_start_time
  - (2005/07/31) fixed bug 566 - Wide character in print, ArticleStorageFS.pm
+ - (2005/07/29) fixed required time accounting option in js of phone
+    and email ticket
  - (2005/07/29) fixed bug 817 - added missing freetime1, freetime2 in
     otrs-schema.postgresql.sql and scripts/DBUpdate-to-2.0.postgresql.sql
  - (2005/07/29) added hour and minutes in time selection in ticket search
     in admin, agent and customer interface - bug [843]
+ - (2005/07/28) updated es tranlsation file by Jorge Becerra - Thanks!
  - (2005/07/28) updated translation files
  - (2005/07/28) fixed bug in ticket expand view
  - (2005/07/28) just framework options for web installer, removed
