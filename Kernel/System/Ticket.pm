@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.181 2005-08-01 11:41:34 martin Exp $
+# $Id: Ticket.pm,v 1.182 2005-08-04 09:55:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.181 $';
+$VERSION = '$Revision: 1.182 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -3717,7 +3717,7 @@ sub TicketMerge {
             UserID => $Param{UserID},
         );
         # unlock ticket
-        $Self->{TicketObject}->LockSet(
+        $Self->LockSet(
             Lock => 'unlock',
             TicketID => $Param{MergeTicketID},
             UserID => $Param{UserID},
@@ -4004,6 +4004,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.181 $ $Date: 2005-08-01 11:41:34 $
+$Revision: 1.182 $ $Date: 2005-08-04 09:55:03 $
 
 =cut
