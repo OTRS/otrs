@@ -5,27 +5,27 @@ Feedback: feedback@otrs.org
 
 Authors:
 --------
-    Antti Kämäräinen <antti at seu.net>
-    Carsten Gross <carsten at siski.de>
-    Franz Breu <breu.franz at bogen.net>
-    Fred van Dijk <fvandijk at marklin.nl>
-    Gilberto Cezar de Almeida <gilberto at visaonet.com.br>
-    Jorge Becerra <jorge at icc-cuba.com>
-    Nicolas Goralski <ngoralski at oceanet-technology.com>
-    Remo Catelotti <Remo.Catelotti at bull.it>
-    Stefan Wintermeyer <stefan at wintermeyer.de>
-    Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
-    Martin Edenhofer <martin at otrs.org>
-  
+  Carsten Gross <carsten at siski.de>
+  Christian Schoepplein <cs at otrs.de>
+  Franz Breu <breu.franz at bogen.net>
+  Fred van Dijk <fvandijk at marklin.nl>
+  Lars MÜLLER <lars at m5r.de>
+  Nicolas Goralski <ngoralski at oceanet-technology.com>
+  Richard Kammermayer <rk at otrs.de>
+  Stefan Rother <sr at otrs.de>
+  Thomas Raith <tr at otrs.de>
+  Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
+  Martin Edenhofer <me at otrs.de>
+
   OTRS is an Open source Ticket Request System with many features to manage
   customer telephone calls and e-mails. It is distributed under the GNU
-  General Public License (GPL) and tested on Linux, Solaris, AIX, FreeBSD, 
-  OpenBSD and Mac OS 10.x. Do you receive many e-mails and want to answer 
+  General Public License (GPL) and tested on Linux, Solaris, AIX, FreeBSD,
+  OpenBSD and Mac OS 10.x. Do you receive many e-mails and want to answer
   them with a team of agents? You're going to love the OTRS!
-  
+
   Feature list:
 
-   Web-Interface: 
+   Web-Interface:
     - Agent web interface for viewing and working on all customer requests
     - Admin web interface for changing system things
     - Customer web interface for viewing and sending infos to the agents
@@ -35,7 +35,7 @@ Authors:
     - customize the output templates (dtl) release independently
     - Webinterface with attachment support
     - easy and logical to use
-    
+
    Email-Interface:
     - PGP support
     - SMIME support
@@ -46,13 +46,13 @@ Authors:
 
    Ticket:
     - custom queue view and queue view of all requests
-    - Ticket locking 
+    - Ticket locking
     - Ticket replies (standard responses)
     - Ticket autoresponders per queue
     - Ticket history, evolution of ticket status and actions taken on ticket
     - abaility to add notes (with different note types) to a ticket
     - Ticket zoom feature
-    - Tickets can be bounced or forwarded to other email addresses 
+    - Tickets can be bounced or forwarded to other email addresses
     - Ticket can be moved to a different queue (this is helpful if emails are
        for a specific subject)
     - Ticket priority
