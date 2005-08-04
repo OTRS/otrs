@@ -148,7 +148,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.56 2005-07-23 09:51:06 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.57 2005-08-04 09:54:31 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifyer for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z.B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -1668,6 +1668,15 @@ $Data{"Signature"}
         <SubGroup>Frontend::Agent::Ticket::ViewBounce</SubGroup>
         <Setting>
             <TextArea>Your email with ticket number "&lt;OTRS_TICKET&gt;" is bounced to "&lt;OTRS_BOUNCE_TO&gt;". Contact this address for further informations.</TextArea>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::MergeText" Required="1" Valid="1">
+        <Description Lang="en">Default merge text</Description>
+        <Description Lang="de">Standardnotiztext beim Ticket Merge</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewMerge</SubGroup>
+        <Setting>
+            <TextArea>Your email with ticket number "&lt;OTRS_TICKET&gt;" is merged to "&lt;OTRS_MERGE_TO_TICKET&gt;".</TextArea>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::DefaultNextForwardStateType" Required="1" Valid="1">
@@ -3238,6 +3247,19 @@ $Data{"Signature"}
             <FrontendModuleReg>
                 <Description>Ticket Note</Description>
                 <Title>Note</Title>
+                <NavBarName>Ticket</NavBarName>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AgentTicketMerge" Required="0" Valid="1">
+        <Description Lang="en">Frontend module registration for the AgentTicketNote object in the agent interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AgentTicketNote-Objekts im Agent-Interface.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Description>Ticket Merge</Description>
+                <Title>Merge</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
