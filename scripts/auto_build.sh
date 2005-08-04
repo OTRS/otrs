@@ -3,7 +3,7 @@
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: auto_build.sh,v 1.30 2005-08-01 10:24:31 martin Exp $
+# $Id: auto_build.sh,v 1.31 2005-08-04 09:53:24 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.30 $>"
+echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.31 $>"
 echo "Copyright (c) 2002-2004 Martin Edenhofer <martin@otrs.org>"
 
 PATH_TO_CVS_SRC=$1
@@ -311,6 +311,9 @@ if which md5sum >> /dev/null; then
 else
     echo "No md5sum found in \$PATH!"
 fi
+echo "-----------------------------------------------------------------";
+echo "Note: You may have to tag your cvs tree: cvs tag rel-2_0_0";
+echo "Note: You may have to braunch your cvs tree: cvs tag -b rel-2_0_0";
 echo "-----------------------------------------------------------------";
 
 # --
