@@ -2,7 +2,7 @@
 # AgentTicketSearchResultShort.dtl - html for ticket status view (all tickets)
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketSearchResultShort.dtl,v 1.2 2005-07-18 10:45:12 martin Exp $
+# $Id: AgentTicketSearchResultShort.dtl,v 1.3 2005-08-04 13:27:28 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -80,7 +80,7 @@ $Text{"Results"}: <b>$QData{"Result"}</b> - $Text{"Total hits"}: <b>$Data{"Total
    $Data{"StartFont"}<div title="$QData{"Owner"}">$QData{"Owner","30"}</div> <div title="($QData{"UserFirstname"} $QData{"UserLastname"})">($QData{"UserFirstname","15"} $QData{"UserLastname","15"})</div>$Data{"StopFont"}
  </td>
  <td class="PriorityID-$Data{"PriorityID"}">
-  <a href="$Env{"Baselink"}Action=AgentCustomer&TicketID=$QData{"TicketID"}" onmouseover="window.status='$Text{"Customer history"}'; return true;" onmouseout="window.status='';"><div title="$Data{"CustomerID"}">$Quote{"$Data{"CustomerID"}","15"}</div></a>
+  <a href="$Env{"Baselink"}Action=AgentTicketCustomer&TicketID=$QData{"TicketID"}" onmouseover="window.status='$Text{"Customer history"}'; return true;" onmouseout="window.status='';"><div title="$Data{"CustomerID"}">$Quote{"$Data{"CustomerID"}","15"}</div></a>
   <div title="$QData{"CustomerName"}">$QData{"CustomerName","15"}</div>
  </td>
 # TicketFreeTime1
