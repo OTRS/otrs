@@ -2,13 +2,19 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.156 2005-08-01 11:53:03 martin Exp $
+# $Id: CHANGES,v 1.157 2005-08-04 09:56:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS head
+
+2.0.2 (2005/08/??)
+ - (2005/08/04) changed default state of new faq articles to 'internal (agent)'
+ - (2005/08/04) fixed Can't call method "LockSet" on an undefined value at
+    Kernel/System/Ticket.pm line 3720
+ - (2005/08/04) added missing merge params to Kernel/Config/Files/Ticket.xml
 
 2.0.1 (2005/08/01)
  - (2005/07/31) fixed bug 602 - CustomerIDs and CustomerUserIDs are lowercased
