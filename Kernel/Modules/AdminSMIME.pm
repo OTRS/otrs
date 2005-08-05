@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSMIME.pm - to add/update/delete pgp keys
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSMIME.pm,v 1.11 2005-07-23 08:52:38 martin Exp $
+# $Id: AdminSMIME.pm,v 1.12 2005-08-05 13:36:14 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -240,7 +240,7 @@ sub Run {
     else {
         my @List = ();
         if ($Self->{CryptObject}) {
-            @List = $Self->{CryptObject}->KeySearch(Search => $Param{Search});
+            @List = $Self->{CryptObject}->Search(Search => $Param{Search});
         }
         foreach my $Key (@List) {
             $Self->{LayoutObject}->Block(
