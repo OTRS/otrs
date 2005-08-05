@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketForward.pm,v 1.7 2005-07-08 19:17:33 martin Exp $
+# $Id: AgentTicketForward.pm,v 1.8 2005-08-05 10:58:59 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -138,6 +138,7 @@ sub Form {
             TicketID => $Self->{TicketID},
         );
         if ($OwnerID != $Self->{UserID}) {
+            $Output = $Self->{LayoutObject}->Header(Title => 'Error');
             $Output .= $Self->{LayoutObject}->Warning(
                 Message => "Sorry, the current owner is $OwnerLogin!",
                 Comment => 'Please change the owner first.',
@@ -259,7 +260,7 @@ sub Form {
     $Data{Body} = "\n> " . $Data{Body};
     if ($Data{Created}) {
         $Data{Body} = "Date: $Data{Created}\n".$Data{Body};
-    } 
+    }
     foreach (qw(Subject ReplyTo Reply-To Cc To From)) {
         if ($Data{$_}) {
             $Data{Body} = "$_: $Data{$_}\n".$Data{Body};
