@@ -2,7 +2,7 @@
 # Kernel/Modules/FAQ.pm - faq module
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQ.pm,v 1.14 2005-08-04 09:53:58 martin Exp $
+# $Id: FAQ.pm,v 1.15 2005-08-06 17:51:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::FAQ;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -472,6 +472,20 @@ sub Run {
         my $Output = $Self->{LayoutObject}->Header(Title => $Data{Number}, Type => $HeaderType);
         $Output .= $NavBar;
 
+        # show article
+        if ($HeaderType eq 'Small') {
+            $Self->{LayoutObject}->Block(
+                Name => 'ViewSmall',
+                Data => { %Param, %Data },
+            );
+        }
+        else {
+            $Self->{LayoutObject}->Block(
+                Name => 'View',
+                Data => { %Param, %Data },
+            );
+        }
+
         # get linked objects
         my %Links = $Self->{LinkObject}->AllLinkedObjects(
             Object => 'FAQ',
@@ -491,18 +505,6 @@ sub Run {
             }
         }
 
-        if ($HeaderType eq 'Small') {
-            $Self->{LayoutObject}->Block(
-                Name => 'ViewSmall',
-                Data => { %Param, %Data },
-            );
-        }
-        else {
-            $Self->{LayoutObject}->Block(
-                Name => 'View',
-                Data => { %Param, %Data },
-            );
-        }
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'FAQ',
             Data => { %Param },
