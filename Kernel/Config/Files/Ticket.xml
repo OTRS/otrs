@@ -148,7 +148,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.57 2005-08-04 09:54:31 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.58 2005-08-06 18:33:06 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifyer for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z.B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -701,8 +701,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PendingDiffTime" Required="1" Valid="1">
-        <Description Lang="en">Time in sec. which "pending date" shows per default) (default: 24*60*60 = 1 day.</Description>
-        <Description Lang="de">So lange wird ein Ticket per Defaulteinstellung als "Pending" eingestuft (Angabe in sec; Default: 24*60*60 = 1 Tag).</Description>
+        <Description Lang="en">The additional time in sec. which "pending date" shows per default (default: 86400 = 1 day).</Description>
+        <Description Lang="de">Die zuzügliche Zeit welchen per default in "Pending"-Zeit-Auswahlen addiert wird (Angabe in sec; Default: 86400 = 1 Tag).</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
