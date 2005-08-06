@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: InterfaceCustomer.pm,v 1.5 2005-03-27 11:46:37 martin Exp $
+# $Id: InterfaceCustomer.pm,v 1.6 2005-08-06 16:22:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Web::InterfaceCustomer;
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -461,7 +461,9 @@ sub Run {
             if ($Self->{UserObject}->CustomerUserAdd(
                 %GetParams,
                 Comment => "Added via Customer Panel (".
-                    $Self->{TimeObject}->SystemTime2TimeStamp($Self->{TimeObject}->SystemTime()).")",
+                    $Self->{TimeObject}->SystemTime2TimeStamp(
+                        SystemTime => $Self->{TimeObject}->SystemTime()
+                    ).")",
                 ValidID => 1,
                 UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
             )) {
@@ -723,6 +725,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2005-03-27 11:46:37 $
+$Revision: 1.6 $ $Date: 2005-08-06 16:22:49 $
 
 =cut
