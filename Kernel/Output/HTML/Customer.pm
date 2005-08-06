@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Customer.pm - provides generic customer HTML output
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Customer.pm,v 1.42 2005-07-13 23:24:49 martin Exp $
+# $Id: Customer.pm,v 1.43 2005-08-06 16:19:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::Customer;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -219,6 +219,9 @@ sub CustomerWarning {
           Text => $Param{'Backend'.$_},
           HTMLResultMode => 1,
       );
+    }
+    if (!$Param{Message}) {
+      $Param{Message} = $Param{BackendMessage};
     }
     # create & return output
     return $Self->Output(TemplateFile => 'CustomerWarning', Data => \%Param);
