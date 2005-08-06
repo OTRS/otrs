@@ -153,32 +153,6 @@
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::Module###FAQState" Required="0" Valid="0">
-        <Description Lang="en">Frontend module registration for the FAQState object in the FAQ area.</Description>
-        <Description Lang="de">Frontendmodul-Registration für das FAQState-Objekt im FAQ-Bereich.</Description>
-        <Group>FAQ</Group>
-        <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
-        <Setting>
-            <FrontendModuleReg>
-                <GroupRo></GroupRo>
-                <Group>faq</Group>
-                <Description>FAQ-State</Description>
-                <NavBarName>FAQ</NavBarName>
-                <Title></Title>
-                <NavBar>
-                    <Description>State</Description>
-                    <Name>State</Name>
-                    <Image>fileopen.png</Image>
-                    <Link>Action=FAQState</Link>
-                    <Type></Type>
-                    <Block></Block>
-                    <NavBar>FAQ</NavBar>
-                    <AccessKey>e</AccessKey>
-                    <Prio>920</Prio>
-                </NavBar>
-            </FrontendModuleReg>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="Frontend::Module###FAQCategory" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the FAQCategory object in the FAQ area.</Description>
         <Description Lang="de">Frontendmodul-Registration für das FAQCategory-Objekt im FAQ-Bereich.</Description>

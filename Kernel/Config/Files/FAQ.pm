@@ -76,23 +76,6 @@
           },
         ],
     };
-#    $Self->{'Frontend::Module'}->{'FAQState'} = {
-#        GroupRo => [],
-#        Group => ['faq'],
-#        Description => 'FAQ-State',
-#        NavBarName => 'FAQ',
-#        NavBar => [
-#          {
-#            Description => 'State',
-#            Name => 'State',
-#            Image => 'fileopen.png',
-#            Link => 'Action=FAQState',
-#            NavBar => 'FAQ',
-#            Prio => 920,
-#            AccessKey => 'e',
-#          },
-#        ],
-#    };
     $Self->{'Frontend::Module'}->{'FAQCategory'} = {
         GroupRo => [],
         Group => ['faq'],
