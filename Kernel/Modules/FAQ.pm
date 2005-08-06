@@ -2,7 +2,7 @@
 # Kernel/Modules/FAQ.pm - faq module
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQ.pm,v 1.15 2005-08-06 17:51:07 martin Exp $
+# $Id: FAQ.pm,v 1.16 2005-08-06 18:02:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::FAQ;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -446,10 +446,29 @@ sub Run {
     # ---------------------------------------------------------- #
     elsif ($Self->{Subaction} eq 'Print') {
         my %Data = $Self->{FAQObject}->FAQGet(FAQID => $ID);
+        # add article
         $Self->{LayoutObject}->Block(
              Name => 'Print',
              Data => { %Data },
         );
+        # get linked objects
+        my %Links = $Self->{LinkObject}->AllLinkedObjects(
+            Object => 'FAQ',
+            ObjectID => $ID,
+            UserID => $Self->{UserID},
+        );
+        foreach my $LinkType (sort keys %Links) {
+            my %ObjectType = %{$Links{$LinkType}};
+            foreach my $Object (sort keys %ObjectType) {
+                my %Data = %{$ObjectType{$Object}};
+                foreach my $Item (sort keys %Data) {
+                    $Self->{LayoutObject}->Block(
+                        Name => "Link$LinkType",
+                        Data => $Data{$Item},
+                    );
+                }
+            }
+        }
         my $Output = $Self->{LayoutObject}->PrintHeader(Title => $Data{Subject}, Type => $HeaderType);
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'FAQ',

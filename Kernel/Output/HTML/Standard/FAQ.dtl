@@ -2,7 +2,7 @@
 # FAQ.dtl - provides HTML view for faq articles
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQ.dtl,v 1.5 2005-07-03 07:54:45 martin Exp $
+# $Id: FAQ.dtl,v 1.6 2005-08-06 18:02:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -423,9 +423,9 @@ function submit_compose()
 </tr>
 <tr>
   <td class="contentbody">
-    <table border="0" cellspacing="0" cellpadding="3">
+    <table border="0" width="100%" cellspacing="0" cellpadding="2">
     <tr>
-      <td class="contentkey">$Text{"Title"}: </td>
+      <td width="20%" class="contentkey">$Text{"Title"}: </td>
       <td class="contentvalue"> $QData{"Title"}</td>
     </tr>
     <tr>
@@ -443,6 +443,35 @@ function submit_compose()
     <tr>
       <td class="contentkey">$Text{"Keywords"}: </td>
       <td class="contentvalue"> $Quote{"$Data{"Keywords"}"}</td>
+    </tr>
+# --
+# object links
+# --
+    <tr>
+      <td class="contentkey">$Text{"Linked"} ($Text{"Normal"}):</td>
+      <td class="contentvalue">
+<!-- dtl:block:LinkNormal -->
+      <a href="$Env{"Baselink"}$Data{"FrontendDest"}$QData{"ID"}" title="$QData{"Object"}: $QData{"Number"}">$QData{"Text"}</a>
+<!-- dtl:block:LinkNormal -->
+      </td>
+    </tr>
+
+    <tr>
+      <td class="contentkey">$Text{"Linked"} ($Text{"Parent"}):</td>
+      <td class="contentvalue">
+<!-- dtl:block:LinkParent -->
+      <a href="$Env{"Baselink"}$Data{"FrontendDest"}$QData{"ID"}" title="$QData{"Object"}: $QData{"Number"}">$QData{"Text"}</a>
+<!-- dtl:block:LinkParent -->
+      </td>
+    </tr>
+
+    <tr>
+      <td class="contentkey">$Text{"Linked"} ($Text{"Child"}):</td>
+      <td class="contentvalue">
+<!-- dtl:block:LinkChild -->
+      <a href="$Env{"Baselink"}$Data{"FrontendDest"}$QData{"ID"}" title="$QData{"Object"}: $QData{"Number"}">$QData{"Text"}</a>
+<!-- dtl:block:LinkChild -->
+      </td>
     </tr>
     <tr>
       <td class="contentkey">$Text{"Last update"}: </td>
