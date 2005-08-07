@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Installer.pm,v 1.36 2005-07-28 20:05:30 martin Exp $
+# $Id: Installer.pm,v 1.37 2005-08-07 10:41:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use strict;
 use DBI;
 
 use vars qw($VERSION %INC);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -227,7 +227,7 @@ sub Run {
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseResultItem',
                 Data => {
-                    Item => "Createing database '$DB{Database}'",
+                    Item => "Creating database '$DB{Database}'",
                 },
             );
             if (!$DBH->do("CREATE DATABASE $DB{Database}")) {
@@ -267,7 +267,7 @@ sub Run {
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseResultItem',
                 Data => {
-                    Item => "Createing tables 'otrs-schema.mysql.sql'",
+                    Item => "Creating tables 'otrs-schema.mysql.sql'",
                 },
             );
             foreach (@SQL) {
@@ -385,7 +385,7 @@ sub Run {
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseResultItem',
                 Data => {
-                    Item => "Createing database user '$DB{DatabaseUser}\@$DB{NewHost}'",
+                    Item => "Creating database user '$DB{DatabaseUser}\@$DB{NewHost}'",
                 },
             );
             if (!$DBH->do("GRANT ALL PRIVILEGES ON $DB{Database}.* TO $DB{DatabaseUser}\@$DB{NewHost} IDENTIFIED BY '$DB{DatabasePw}' WITH GRANT OPTION;")) {
