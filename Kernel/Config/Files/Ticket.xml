@@ -148,7 +148,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.58 2005-08-06 18:33:06 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.59 2005-08-07 11:21:30 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifyer for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z.B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -3584,7 +3584,7 @@ $Data{"Signature"}
         <Description Lang="en">Frontend module registration for the AdminResponseAttachment object in the admin area.</Description>
         <Description Lang="de">Frontendmodul-Registration des AdminResponseAttachment-Objekts im Admin-Bereich.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
+        <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
@@ -3604,7 +3604,7 @@ $Data{"Signature"}
         <Description Lang="en">Frontend module registration for the AdminSalutation object in the admin area.</Description>
         <Description Lang="de">Frontendmodul-Registration des AdminSalutation-Objekts im Admin-Bereich.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
+        <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Group>admin</Group>
