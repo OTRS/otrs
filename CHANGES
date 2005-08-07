@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.158 2005-08-06 16:23:40 martin Exp $
+# $Id: CHANGES,v 1.159 2005-08-07 22:52:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,6 +11,16 @@
 CVS head
 
 2.0.2 (2005/08/??)
+ - (2005/08/08) fixed bug 815 - strange line in history
+ - (2005/08/08) added add/delete option in SysConfig for NavBar
+ - (2005/08/07) fixed bug 658 - Typo in installer.pl
+ - (2005/08/06) fixed bug 836 - GenericAgent (GUI based) seem to ignore
+    priority - added some db quote
+ - (2005/08/06) changed description text of Ticket::Frontend::PendingDiffTime
+    config setting
+ - (2005/08/06) fixed not shown linked objects in faq zoom and print view
+ - (2005/08/06) removed not needed Kernel/Modules/FAQState.pm and not
+    needed config setting
  - (2005/08/06) added warning message in customer panel on account create
     if invalid email address is given
  - (2005/08/04) changed default state of new faq articles to 'internal (agent)'
