@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketHistory.pm - ticket history
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketHistory.pm,v 1.2 2005-03-27 11:50:50 martin Exp $
+# $Id: AgentTicketHistory.pm,v 1.3 2005-08-07 22:27:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentTicketHistory;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -95,6 +95,8 @@ sub Run {
                 $Data{Name} = '" ';
             }
             $Data{Name} = $Self->{LayoutObject}->{LanguageObject}->Get('History::'.$Data{HistoryType}.'", '.$Data{Name});
+            # remove not needed place holder
+            $Data{Name} =~ s/\%s//g
         }
         $Self->{LayoutObject}->Block(
             Name => "Row",
