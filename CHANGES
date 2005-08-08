@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.159 2005-08-07 22:52:30 martin Exp $
+# $Id: CHANGES,v 1.160 2005-08-08 11:38:30 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,6 +11,8 @@
 CVS head
 
 2.0.2 (2005/08/??)
+ - (2005/08/09) fixed bug 822 - Missing FAQID in TicketZoom for linked
+    FAQ article
  - (2005/08/08) fixed bug 815 - strange line in history
  - (2005/08/08) added add/delete option in SysConfig for NavBar
  - (2005/08/07) fixed bug 658 - Typo in installer.pl
