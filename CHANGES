@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.160 2005-08-08 11:38:30 cs Exp $
+# $Id: CHANGES,v 1.161 2005-08-08 11:54:57 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -25,6 +25,10 @@ CVS head
     needed config setting
  - (2005/08/06) added warning message in customer panel on account create
     if invalid email address is given
+ - (2005/08/05) Fixed bug 850 - Can't locate object method "KeySearch"
+    error"
+ - (2005/08/05) Fixed bug 860 - Error in AgentTicketForward.pm, missing
+    title in the warning for the owner check
  - (2005/08/04) changed default state of new faq articles to 'internal (agent)'
  - (2005/08/04) fixed Can't call method "LockSet" on an undefined value at
     Kernel/System/Ticket.pm line 3720
