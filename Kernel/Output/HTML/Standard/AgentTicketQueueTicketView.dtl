@@ -2,7 +2,7 @@
 # AgentTicketQueueTicketView.dtl - provides HTML TicketView for AgentTicketQueueView
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketQueueTicketView.dtl,v 1.1 2005-02-17 07:01:15 martin Exp $
+# $Id: AgentTicketQueueTicketView.dtl,v 1.2 2005-08-08 19:47:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@
 
 <!-- dtl:block:Menu -->
 <!-- dtl:block:MenuItemSplit -->
- - 
+ -
 <!-- dtl:block:MenuItemSplit -->
 <!-- dtl:block:MenuItem -->
 <a href="$Env{"Baselink"}$Data{"Link"}" $Data{"LinkParam"} onmouseover="window.status='$Text{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"$QData{"Description"}"}">
@@ -191,7 +191,7 @@ $Data{"Body"}
      <table border="0">
        <tr align="left">
          <td>
-<dtl if ($Data{"AgentPhone"} ne "0") { $Data{"AgentPhoneStrg"} = "<li><a href="$Env{"Baselink"}Action=AgentTicketPhone&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"phone call"}'; return true;" onmouseout="window.status='';">$Text{"phone call"}</a></li>"; }>
+<dtl if ($Data{"AgentPhone"} ne "0") { $Data{"AgentPhoneStrg"} = "<li><a href="$Env{"Baselink"}Action=AgentTicketPhone&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Phone call"}'; return true;" onmouseout="window.status='';">$Text{"Phone call"}</a></li>"; }>
 $Data{"AgentPhoneStrg"}
          </td>
        </tr>
