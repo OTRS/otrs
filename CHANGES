@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.161 2005-08-08 11:54:57 cs Exp $
+# $Id: CHANGES,v 1.162 2005-08-08 19:33:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,6 +11,8 @@
 CVS head
 
 2.0.2 (2005/08/??)
+ - (2005/08/09) added config option for defaul sortby and order in ticket
+    search result in customer and agent interface
  - (2005/08/09) fixed bug 822 - Missing FAQID in TicketZoom for linked
     FAQ article
  - (2005/08/08) fixed bug 815 - strange line in history
@@ -29,6 +31,7 @@ CVS head
     error"
  - (2005/08/05) Fixed bug 860 - Error in AgentTicketForward.pm, missing
     title in the warning for the owner check
+ - (2005/08/04) updated it translation - thanks to Giordano Bianchi!
  - (2005/08/04) changed default state of new faq articles to 'internal (agent)'
  - (2005/08/04) fixed Can't call method "LockSet" on an undefined value at
     Kernel/System/Ticket.pm line 3720

@@ -305,6 +305,16 @@
     # [default: 10]
     $Self->{'Ticket::Frontend::SearchViewableTicketLines'} = 10;
 
+    # Ticket::Frontend::SortBy::Default
+    # Search result sort by default.
+    # (Age, Subject, Ticket, Queue, TicketFreeTime1-2, TicketFreeKey1-8, TicketFreeText1-8, ...)
+    $Self->{'Ticket::Frontend::SortBy::Default'} = 'Age';
+
+    # Ticket::Frontend::Order::Default
+    # Search result order default.
+    # (Down|Up)
+    $Self->{'Ticket::Frontend::Order::Default'} = 'Down';
+
     # Ticket::Frontend::SearchArticleCSVTree
     # export also whole article tree in search result export
     # (take care of your performance!)
@@ -1148,13 +1158,26 @@ $Data{"Signature"}
     # (own module layer for to selection in new ticket screen)
     $Self->{'CustomerPanel::NewTicketQueueSelectionModule'} = 'Kernel::Output::HTML::CustomerNewTicketQueueSelectionGeneric';
 
+    # Ticket::CustomerTicketSearch::SearchLimit
     # default limit for ticket search
     # [default: 5000]
     $Self->{'Ticket::CustomerTicketSearch::SearchLimit'} = 5000;
 
+    # Ticket::CustomerTicketSearch::SearchPageShown
     # defaut of shown article a page
     # [default: 15]
     $Self->{'Ticket::CustomerTicketSearch::SearchPageShown'} = 40;
+
+    # Ticket::CustomerTicketSearch::SortBy::Default
+    # Search result sort by default.
+    # (Age, Subject, Ticket, Queue, TicketFreeTime1-2, TicketFreeKey1-8, TicketFreeText1-8, ...)
+    $Self->{'Ticket::CustomerTicketSearch::SortBy::Default'} = 'Age';
+
+    # Ticket::CustomerTicketSearch::Order::Default
+    # Search result order default.
+    # (Down|Up)
+    $Self->{'Ticket::CustomerTicketSearch::Order::Default'} = 'Down';
+
 
     # --------------------------------------------------- #
     # Customer Preferences
