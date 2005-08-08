@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.pm,v 1.35 2005-07-23 08:51:36 martin Exp $
+# $Id: AdminSysConfig.pm,v 1.36 2005-08-08 19:36:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -263,6 +263,11 @@ sub Run {
                     my @Param = $Self->{ParamObject}->GetArray(Param => $ElementKey.'#NavBar#'.$_.'[]');
                     $NavBarParams{$_} = \@Param;
                 }
+                # Add NavBar Element
+                if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#NavBar#AddElement')) {
+                    push(@{$NavBarParams{Description}}, '');
+                    $Anker = $ItemHash{Name};
+                }
                 # Create Hash
                 foreach my $Index (0...$#{$NavBarParams{Description}}) {
                     foreach my $Type (qw(Group GroupRo)) {
@@ -287,6 +292,13 @@ sub Run {
                         if (defined($NavBarParams{$_}[$Index])) {
                             $Content{NavBar}[$Index]{$_} = $NavBarParams{$_}[$Index];
                         }
+                    }
+                }
+                # Delete NavBar Element
+                foreach my $Index (0...$#{$NavBarParams{Description}}) {
+                    if ($Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#NavBar#'.($Index+1).'#DeleteElement')) {
+                        splice(@{$Content{NavBar}},$Index,1);
+                        $Anker = $ItemHash{Name};
                     }
                 }
                 # NavBarModule
