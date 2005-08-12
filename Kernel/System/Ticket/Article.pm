@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.90 2005-07-08 14:34:59 martin Exp $
+# $Id: Article.pm,v 1.91 2005-08-12 14:05:47 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.90 $';
+$VERSION = '$Revision: 1.91 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1602,11 +1602,11 @@ sub SendAgentNotification {
 send a customer notification via email
 
   my $ArticleID = $TicketObject->SendCustomerNotification(
-      TicketID => 123,
+      Type => 'Move', # notification types, see database
       CustomerMessageParams => {
          SomeParams => 'For the message!',
       },
-      Type => 'Move', # notification types, see database
+      TicketID => 123,
       UserID => 123,
   );
 
@@ -2108,7 +2108,7 @@ sub ArticleFlagGet {
 returns the accounted time of a article.
 
   my $AccountedTime = $TicketObject->ArticleAccountedTimeGet(
-    ArticleID => $ArticleID, 
+    ArticleID => $ArticleID,
   );
 
 =cut
