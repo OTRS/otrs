@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.164 2005-08-12 09:24:12 martin Exp $
+# $Id: CHANGES,v 1.165 2005-08-12 14:06:17 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,6 +11,8 @@
 CVS head
 
 2.0.2 (2005/08/??)
+ - (2005/08/12) fixed bug #870 - wron parameter order in
+    Kernel::System::Ticket::Article::SendCustomerNotification routine
  - (2005/08/12) removed default selections (UserSalutation) from CustomerUser
     config
  - (2005/08/12) updated nb_NO translation - thanks to Espen Stefansen!
