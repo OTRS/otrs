@@ -3,7 +3,7 @@
 # xml2docbook.pl - config xml to docbook
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: xml2docbook.pl,v 1.2 2005-07-23 16:26:49 cs Exp $
+# $Id: xml2docbook.pl,v 1.3 2005-08-14 16:41:40 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use strict;
 use Getopt::Std;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Kernel::Config;
@@ -92,7 +92,7 @@ foreach my $Group (@Groups) {
             $Link =~ s/###/_/g;
             $Link =~ s/\///g;
             print "<sect3 id=\"$Group:$SubGroup:$Link\"><title>$Name</title> \n";
-	    print "<informaltable>\n<tgroup cols=\"1\">\n";
+	    print "<informaltable>\n<tgroup cols=\"2\">\n";
 	    print "<thead>\n<row>\n<entry>Description</entry>\n";
 	    print "<entry>Value</entry>\n</row>\n</thead>\n<tbody>\n";
             #Description
