@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Stats/AccountedTime.pm - stats module
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AccountedTime.pm,v 1.1 2004-10-07 16:05:32 martin Exp $
+# $Id: AccountedTime.pm,v 1.2 2005-08-16 13:44:32 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Date::Pcalc qw(Days_in_Month);
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $ ';
+$VERSION = '$Revision: 1.2 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -129,7 +129,7 @@ sub Run {
             UserLogin => $Ticket{CustomerUserID},
         ) || '-';
 
-        $Accounted{"$Ticket{CustomerUserID}::$Ticket{CustomerID}"}->{Time} = ($Accounted{$Customer}->{Time}||0) + $Row->[1];
+        $Accounted{"$Ticket{CustomerUserID}::$Ticket{CustomerID}"}->{Time} = ($Accounted{"$Ticket{CustomerUserID}::$Ticket{CustomerID}"}->{Time}||0) + $Row->[1];
         $Accounted{"$Ticket{CustomerUserID}::$Ticket{CustomerID}"}->{CustomerID} = $Ticket{CustomerID};
         $Accounted{"$Ticket{CustomerUserID}::$Ticket{CustomerID}"}->{Customer} = $Customer;
         if ($Accounted{"$Ticket{CustomerUserID}::$Ticket{CustomerID}"}->{Ticket}) {
