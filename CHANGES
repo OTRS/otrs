@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.167 2005-08-16 17:33:32 cs Exp $
+# $Id: CHANGES,v 1.168 2005-08-17 11:27:15 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,6 +11,8 @@
 CVS head
 
 2.0.2 (2005/08/??)
+ - (2005/08/17) fixed bug #872 - CustomerCalendarSmall not working, module
+    not registered
  - (2005/08/16) fixed bug #847 - Broken download of public PGP keys via
     customer preferences pannel
  - (2005/08/16) fixed bug #862 - wrong sum for time acounting
