@@ -66,7 +66,7 @@ function SelectDay(tt, mm, yyyy) {
         <th></th>
         <!-- dtl:block:ColEmpty -->
         <!-- dtl:block:Col -->
-        <td $Data{"Style"} align="center"><a href="return false;" onClick="SelectDay($Data{"Day"}, $Data{"Month"}, $Data{"Year"})">$Data{"Day"}</a></td>
+        <td $Data{"Style"} align="center"><a href="#" onClick="SelectDay($Data{"Day"}, $Data{"Month"}, $Data{"Year"})">$Data{"Day"}</a></td>
         <!-- dtl:block:Col -->
       </tr>
       <!-- dtl:block:Row -->

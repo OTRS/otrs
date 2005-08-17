@@ -2,7 +2,7 @@
 # CustomerTicketSearch.dtl - provides HTML form for CustomerTicketSearch.pm
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerTicketSearch.dtl,v 1.6 2005-03-11 06:00:09 martin Exp $
+# $Id: CustomerTicketSearch.dtl,v 1.7 2005-08-17 11:25:13 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@
 <tr>
   <td class="mainbody">
 
-<form action="$Env{"CGIHandle"}" method="get">
+<form action="$Env{"CGIHandle"}" method="get" name="compose">
 <input type="hidden" name="Action" value="$Env{"Action"}">
 <input type="hidden" name="Subaction" value="Search">
 
