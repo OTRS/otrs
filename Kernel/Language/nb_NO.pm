@@ -1,8 +1,9 @@
 # --
 # Kernel/Language/nb_NO.pm - Norwegian language translation (bokmål)
 # Copyright (C) 2004 Arne Georg Gleditsch <argggh@linpro.no>
+#               2005 Stefansen Espen <espen.stefansen@imr.no>
 # --
-# $Id: nb_NO.pm,v 1.14 2005-08-12 08:14:20 martin Exp $
+# $Id: nb_NO.pm,v 1.15 2005-08-18 06:58:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +14,7 @@ package Kernel::Language::nb_NO;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.14 $;
+$VERSION = q$Revision: 1.15 $;
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -151,20 +152,20 @@ sub Data {
       'Theme' => 'Tema',
       'Created' => 'Opprettet',
       'Created by' => '',
-      'Changed' => '',
+      'Changed' => 'Endret',
       'Changed by' => '',
       'Search' => 'Søk',
       'and' => 'og',
       'between' => '',
       'Fulltext Search' => '',
       'Data' => '',
-      'Options' => 'Opsjoner',
-      'Title' => '',
+      'Options' => 'Valg',
+      'Title' => 'Tittel',
       'Item' => '',
       'Delete' => 'Slett',
       'Edit' => 'Rediger',
       'View' => 'Bilde',
-      'Number' => '',
+      'Number' => 'Nummer',
       'System' => '',
       'Contact' => 'Kontakt',
       'Contacts' => '',
@@ -196,7 +197,7 @@ sub Data {
       'Logout successful. Thank you for using OTRS!' => 'Utlogging utført.  Takk for at du brukte OTRS!',
       'Invalid SessionID!' => 'Ugydlig SessionID!',
       'Feature not active!' => 'Funksjon ikke aktivert!',
-      'Take this Customer' => '',
+      'Take this Customer' => 'Velg denne kunden',
       'Take this User' => 'Velg denne brukeren',
       'possible' => 'Gjenåpner',
       'reject' => 'Avvises',
@@ -217,12 +218,12 @@ sub Data {
       'Contract' => '',
       'Online Customer: %s' => '',
       'Online Agent: %s' => '',
-      'Calendar' => '',
-      'File' => '',
+      'Calendar' => 'Kalender',
+      'File' => 'Fil',
       'Filename' => 'Filnavn',
       'Type' => '',
-      'Size' => '',
-      'Upload' => '',
+      'Size' => 'Størrelse',
+      'Upload' => 'Last opp',
       'Directory' => '',
       'Signed' => '',
       'Sign' => '',
@@ -269,16 +270,16 @@ sub Data {
       'Incident' => '',
       'Advisory' => '',
       'WebWatcher' => '',
-      'Customer Users' => '',
-      'Customer Users <-> Groups' => '',
-      'Users <-> Groups' => '',
-      'Roles' => '',
-      'Roles <-> Users' => '',
-      'Roles <-> Groups' => '',
-      'Salutations' => '',
-      'Signatures' => '',
-      'Email Addresses' => '',
-      'Notifications' => '',
+      'Customer Users' => 'Kunder',
+      'Customer Users <-> Groups' => 'Kunder <-> Grupper',
+      'Users <-> Groups' => 'Saksbehandlere <-> Grupper',
+      'Roles' => 'Roller',
+      'Roles <-> Users' => 'Roller <-> Saksbehandlere',
+      'Roles <-> Groups' => 'Roller <-> Grupper',
+      'Salutations' => 'Hilsninger',
+      'Signatures' => 'Signaturer',
+      'Email Addresses' => 'E-postadresser',
+      'Notifications' => 'Meldinger i e-poster',
       'Category Tree' => '',
       'Admin Notification' => '',
 
@@ -407,7 +408,7 @@ sub Data {
       'Look into a ticket!' => '',
       'Delete this ticket!' => '',
       'Mark as Spam!' => '',
-      'My Queues' => '',
+      'My Queues' => 'Mine mapper',
       'Shown Tickets' => 'Viste saker',
       'New ticket notification' => 'Merknad ved nyopprettet sak',
       'Send me a notification if there is a new ticket in "My Queues".' => 'Send meg en melding dersom det kommer en ny sak i mine utvalgte mapper.',
@@ -472,10 +473,10 @@ sub Data {
       'Sat' => 'lør',
 
       # Template: AdminAttachmentForm
-      'Attachment Management' => 'Vedleggsadministrering',
+      'Attachment Management' => 'Administrasjon: Vedlegg',
 
       # Template: AdminAutoResponseForm
-      'Auto Response Management' => 'Autosvar-administrering',
+      'Auto Response Management' => 'Administrasjon: Autosvar',
       'Response' => 'Svar',
       'Auto Response From' => 'Autosvar-avsender',
       'Note' => 'Notis',
@@ -518,10 +519,10 @@ sub Data {
       'send' => 'Send',
 
       # Template: AdminGenericAgent
-      'GenericAgent' => '',
-      'Job-List' => '',
-      'Last run' => '',
-      'Run Now!' => '',
+      'GenericAgent' => 'Administrasjon: GenericAgent',
+      'Job-List' => 'Liste over jobber',
+      'Last run' => 'Sist kjørt',
+      'Run Now!' => 'Kjør nå!',
       'x' => '',
       'Save Job as?' => '',
       'Is Job Valid?' => '',
@@ -562,24 +563,24 @@ sub Data {
       'Save' => '',
 
       # Template: AdminGroupForm
-      'Group Management' => 'Grupper',
+      'Group Management' => 'Administrasjon: Grupper',
       'The admin group is to get in the admin area and the stats group to get stats area.' => '\'admin\'-gruppen gir tilgang til Admin-området, \'stats\'-gruppen til Statistikk-området.',
       'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).' => 'Opprett nye grupper for å kunne håndtere forskjellige rettigheter for forskjellige grupper agenter (f.eks. innkjøpsavdeling, supportavdeling, salgsavdeling, ...).',
       'It\'s useful for ASP solutions.' => 'Nyttig for ASP-løsninger.',
 
       # Template: AdminLog
       'System Log' => 'Systemlogg',
-      'Time' => '',
+      'Time' => 'Tid',
 
       # Template: AdminNavigationBar
-      'Users' => '',
+      'Users' => 'Saksbehandlere',
       'Groups' => 'Grupper',
       'Misc' => 'Diverse',
 
       # Template: AdminNotificationForm
-      'Notification Management' => 'Meldingsadministrasjon',
-      'Notification' => '',
-      'Notifications are sent to an agent or a customer.' => 'Meldinger sendes til agenter eller kunder.',
+      'Notification Management' => 'Administrasjon: Meldinger i e-poster',
+      'Notification' => 'Melding',
+      'Notifications are sent to an agent or a customer.' => 'Meldinger som sendes til agenter eller kunder.',
       'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Konfigurasjonsvalg (f.eks. &lt;OTRS_CONFIG_HttpType&gt;)',
       'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => 'gir tilgang til data for agenten som står som eier av saken (f.eks. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)',
       'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => 'gir tilgang til data for agenten som utfører handlingen (f.eks. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)',
@@ -587,19 +588,19 @@ sub Data {
 
       # Template: AdminPackageManager
       'Package Manager' => '',
-      'Uninstall' => '',
-      'Verion' => '',
-      'Do you really want to uninstall this package?' => '',
-      'Install' => '',
+      'Uninstall' => 'Avinstaller',
+      'Verion' => 'Versjon',
+      'Do you really want to uninstall this package?' => 'Vil du virkelig avinstallere denne pakken?',
+      'Install' => 'Installer',
       'Package' => '',
       'Online Repository' => '',
-      'Version' => '',
+      'Version' => 'Versjon',
       'Vendor' => '',
-      'Upgrade' => '',
+      'Upgrade' => 'Oppgrader',
       'Local Repository' => '',
       'Status' => '',
       'Overview' => 'Oversikt',
-      'Download' => '',
+      'Download' => 'Last ned',
       'Rebuild' => '',
       'Reinstall' => '',
 
@@ -609,11 +610,11 @@ sub Data {
       'Bit' => '',
       'Key' => 'Nøkkel',
       'Fingerprint' => '',
-      'Expires' => '',
+      'Expires' => 'Utgår',
       'In this way you can directly edit the keyring configured in SysConfig.' => '',
 
       # Template: AdminPOP3Form
-      'POP3 Account Management' => 'Administrasjon POP3-Konto',
+      'POP3 Account Management' => 'Administrasjon: POP3-Konto',
       'Host' => 'Maskin',
       'Trusted' => 'Betrodd',
       'Dispatching' => 'Fordeling',
@@ -621,7 +622,7 @@ sub Data {
       'If your account is trusted, the already existing x-otrs header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => '',
 
       # Template: AdminPostMasterFilter
-      'PostMaster Filter Management' => '',
+      'PostMaster Filter Management' => 'Administrasjon: E-postfilter',
       'Filtername' => 'Filternavn',
       'Match' => 'Treff',
       'Header' => 'Overskrift',
@@ -631,12 +632,12 @@ sub Data {
       'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' => '',
 
       # Template: AdminQueueAutoResponseForm
-      'Queue <-> Auto Responses Management' => 'Administrasjon Mappe <-> Autosvar',
+      'Queue <-> Auto Responses Management' => 'Administrasjon: Mappe <-> Autosvar',
 
       # Template: AdminQueueAutoResponseTable
 
       # Template: AdminQueueForm
-      'Queue Management' => 'Administrasjon av mapper',
+      'Queue Management' => 'Administrasjon: Mapper',
       'Sub-Queue of' => 'Undermappe av',
       'Unlock timeout' => 'Tidsintervall for å sette sak tilgjengelig for andre',
       '0 = no unlock' => '0 = ikke gjør saker tilgjengelig',
@@ -659,32 +660,32 @@ sub Data {
       'OTRS sends an notification email to the customer if the ticket owner has changed.' => 'OTRS sender en merknad til kunden ved skifte av saksbehandler.',
 
       # Template: AdminQueueResponsesChangeForm
-      'Responses <-> Queue Management' => 'Administrasjon av Ferdigsvar <-> Mapper',
+      'Responses <-> Queue Management' => 'Administrasjon: Ferdigsvar <-> Mapper',
 
       # Template: AdminQueueResponsesForm
       'Answer' => 'Ferdigsvar',
 
       # Template: AdminResponseAttachmentChangeForm
-      'Responses <-> Attachments Management' => 'Administrasjon av Ferdigsvar <-> Vedlegg',
+      'Responses <-> Attachments Management' => 'Administrasjon: Ferdigsvar <-> Vedlegg',
 
       # Template: AdminResponseAttachmentForm
 
       # Template: AdminResponseForm
-      'Response Management' => 'Administrer Ferdigsvar',
+      'Response Management' => 'Administrasjon: Ferdigsvar',
       'A response is default text to write faster answer (with default text) to customers.' => 'Et ferdigsvar er en forhåndsdefinert tekst for å lette skriving av svar på vanlige henvendelser.',
       'Don\'t forget to add a new response a queue!' => 'Husk å tilordne nye ferdigsvar til en mappe!',
       'Next state' => 'Neste status',
-      'All Customer variables like defined in config option CustomerUser.' => '',
-      'The current ticket state is' => 'Nåværende statuspå sak',
-      'Your email address is new' => '',
+      'All Customer variables like defined in config option CustomerUser.' => 'Alle "kunde-variabler" som er definert i konfigurasjonen CustomerUser',
+      'The current ticket state is' => 'Nåværende status på sak',
+      'Your email address is new' => 'Din e-postadresse er',
 
       # Template: AdminRoleForm
-      'Role Management' => '',
-      'Create a role and put groups in it. Then add the role to the users.' => '',
-      'It\'s useful for a lot of users and groups.' => '',
+      'Role Management' => 'Administrasjon: Roller',
+      'Create a role and put groups in it. Then add the role to the users.' => 'Opprett en rolle og legg grupper til rollen. Legg deretter til saksbehandlere til rollen.',
+      'It\'s useful for a lot of users and groups.' => 'Dette er nyttig når du administrerer mange brukere og grupper.',
 
       # Template: AdminRoleGroupChangeForm
-      'Roles <-> Groups Management' => '',
+      'Roles <-> Groups Management' => 'Administrasjon: Roller <-> Grupper',
       'move_into' => 'Flytt til',
       'Permissions to move tickets into this group/queue.' => 'Rett til å flytte saker i denne gruppen/mappen.',
       'create' => 'Opprett',
@@ -695,17 +696,17 @@ sub Data {
       'Permissions to change the ticket priority in this group/queue.' => 'Rett til å endre prioritet i denne gruppen/mappen.',
 
       # Template: AdminRoleGroupForm
-      'Role' => '',
+      'Role' => 'Rolle',
 
       # Template: AdminRoleUserChangeForm
-      'Roles <-> Users Management' => '',
-      'Active' => '',
+      'Roles <-> Users Management' => 'Administrasjon: Roller <-> Saksbehandlere',
+      'Active' => 'Aktiv',
       'Select the role:user relations.' => '',
 
       # Template: AdminRoleUserForm
 
       # Template: AdminSalutationForm
-      'Salutation Management' => 'Administrer Hilsninger',
+      'Salutation Management' => 'Administrasjon: Hilsninger',
       'customer realname' => 'Fullt kundenavn',
       'for agent firstname' => 'gir agents fornavn',
       'for agent lastname' => 'gir agents etternavn',
@@ -721,37 +722,37 @@ sub Data {
       # Template: AdminSession
       'Session Management' => 'Sesjonshåndtering',
       'Sessions' => 'Sesjoner',
-      'Uniq' => '',
+      'Uniq' => 'Unik',
       'kill all sessions' => 'Terminer alle sesjoner',
-      'Session' => '',
+      'Session' => 'Sesjon',
       'kill session' => 'Terminer sesjon',
 
       # Template: AdminSignatureForm
-      'Signature Management' => 'Administrasjon Signaturer',
+      'Signature Management' => 'Administrasjon: Signaturer',
 
       # Template: AdminSMIMEForm
-      'SMIME Management' => '',
-      'Add Certificate' => '',
-      'Add Private Key' => '',
+      'SMIME Management' => 'Administrasjon: SMIME',
+      'Add Certificate' => 'Legg til sertifikat',
+      'Add Private Key' => 'Legg til privat nøkkel',
       'Secret' => '',
       'Hash' => '',
       'In this way you can directly edit the certification and private keys in file system.' => '',
 
       # Template: AdminStateForm
-      'System State Management' => 'Administrer Status',
+      'System State Management' => 'Administrasjon: Status',
       'State Type' => 'Status-type',
       'Take care that you also updated the default states in you Kernel/Config.pm!' => 'Forsikre deg om at du også har oppdatert standard tilstander i Kernel/Config.pm!',
       'See also' => 'Se også',
 
       # Template: AdminSysConfig
       'SysConfig' => '',
-      'Group selection' => '',
-      'Show' => '',
+      'Group selection' => 'Valg av gruppe',
+      'Show' => 'Vis',
       'Download Settings' => '',
       'Download all system config changes.' => '',
       'Load Settings' => '',
-      'Subgroup' => '',
-      'Elements' => '',
+      'Subgroup' => 'Undergruppe',
+      'Elements' => 'Elementer',
 
       # Template: AdminSysConfigEdit
       'Config Options' => '',
@@ -769,20 +770,20 @@ sub Data {
       'AccessKey' => '',
 
       # Template: AdminSystemAddressForm
-      'System Email Addresses Management' => 'Administrer System e-postadresser',
+      'System Email Addresses Management' => 'Administrer: Systemets e-postadresser',
       'Email' => 'E-post',
       'Realname' => 'Fullt navn',
       'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Alle innkommende e-poster til denne addressen (To:) vil bli fordelt til valgt mappe.',
 
       # Template: AdminUserForm
-      'User Management' => 'Administrasjon Brukere',
+      'User Management' => 'Administrasjon: Saksbehandlere',
       'Firstname' => 'Fornavn',
       'Lastname' => 'Etternavn',
       'User will be needed to handle tickets.' => 'Brukere er nødvendig for å jobbe med saker.',
-      'Don\'t forget to add a new user to groups and/or roles!' => '',
+      'Don\'t forget to add a new user to groups and/or roles!' => 'Ikke glem og legg til nye saksbehandlere til grupper og/eller roller!',
 
       # Template: AdminUserGroupChangeForm
-      'Users <-> Groups Management' => 'Administrer Bruker <-> Gruppe',
+      'Users <-> Groups Management' => 'Administrer: Saksbehandlere <-> Gruppe',
 
       # Template: AdminUserGroupForm
 
@@ -813,7 +814,7 @@ sub Data {
 
       # Template: AgentNavigationBar
       'Ticket selected for bulk action!' => '',
-      'You need min. one selected Ticket!' => '',
+      'You need min. one selected Ticket!' => 'Du må minimum velge èn sak!',
 
       # Template: AgentPreferencesForm
 
@@ -939,7 +940,7 @@ sub Data {
       'ArticleID' => '',
 
       # Template: AgentTicketPrint
-      'Ticket-Info' => '',
+      'Ticket-Info' => 'Saksinfo',
       'Accounted time' => 'Benyttet tid',
       'Escalation in' => 'Eskalering om',
       'Linked-Object' => '',
@@ -1027,7 +1028,7 @@ sub Data {
       'Solution' => 'Løsning',
       'Modified' => 'Endret',
       'Last update' => 'Sist endret',
-      'FAQ System History' => 'FAQ System Historie',
+      'FAQ System History' => 'FAQ Historikk',
       'modified' => 'endret',
       'FAQ Search' => 'FAQ Søk',
       'Fulltext' => 'Fritekst',
@@ -1082,7 +1083,7 @@ sub Data {
       'A article should have a title!' => '',
       'New FAQ Article' => '',
       'Do you really want to delete this Object?' => '',
-      'System History' => '',
+      'System History' => 'Historikk',
 
       # Template: FAQCategoryForm
       'Name is required!' => '',
