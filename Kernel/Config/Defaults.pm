@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.208 2005-08-12 08:13:21 martin Exp $
+# $Id: Defaults.pm,v 1.209 2005-08-18 06:59:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.208 $';
+$VERSION = '$Revision: 1.209 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -147,11 +147,11 @@ sub LoadDefaults {
             sv => 'Svenska',
             hu => 'Hungarian',
             th => 'Thai',
+#            da => 'Dansk',
 #            ro => 'Romanian',
 #            hr => 'Croatian',
 #            sk => 'Slovak',
 #            sl => 'Slovenian',
-#            da => 'Dansk',
 #            tr => 'tr',
 #            jp => 'jp',
     };
@@ -1139,7 +1139,7 @@ Your OTRS Notification Master
         Desc => 'PGP Key Upload',
         PrefKey => 'UserPGPKey',
         Prio => 10000,
-        Activ => 0,
+        Activ => 1,
     };
     $Self->{CustomerPreferencesGroups}->{SMIME} = {
         Module => 'Kernel::Output::HTML::PreferencesSMIME',
@@ -1148,7 +1148,7 @@ Your OTRS Notification Master
         Desc => 'SMIME Certificate Upload',
         PrefKey => 'UserSMIMEKey',
         Prio => 11000,
-        Activ => 0,
+        Activ => 1,
     };
 
     # --------------------------------------------------- #
@@ -1709,6 +1709,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.208 $ $Date: 2005-08-12 08:13:21 $
+$Revision: 1.209 $ $Date: 2005-08-18 06:59:25 $
 
 =cut
