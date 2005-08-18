@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: User.pm,v 1.45 2005-07-23 08:50:00 martin Exp $
+# $Id: User.pm,v 1.46 2005-08-18 06:57:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.45 $';
+$VERSION = '$Revision: 1.46 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -385,7 +385,7 @@ sub SetPassword {
         chomp $CryptedPw;
     }
     # set pw history
-    $Self->SetPreferences(UserID => $User{UserID}, Key => 'UserLastPw', Value => $User{UserPw});
+    $Self->SetPreferences(UserID => $User{UserID}, Key => 'UserLastPw', Value => $CryptedPw);
     # db quote
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
