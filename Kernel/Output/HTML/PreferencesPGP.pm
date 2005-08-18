@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/PreferencesPGP.pm
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PreferencesPGP.pm,v 1.3 2005-08-16 17:31:28 cs Exp $
+# $Id: PreferencesPGP.pm,v 1.4 2005-08-18 07:04:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -65,7 +65,7 @@ sub Run {
         Param => "UserPGPKey",
         Source => 'String',
     );
-    if (!%UploadStuff) {
+    if (!$UploadStuff{Content}) {
         return 1;
     }
     my $CryptObject = Kernel::System::Crypt->new(
@@ -93,11 +93,6 @@ sub Run {
             }
         }
 
-#        $Self->{UserObject}->SetPreferences(
-#            UserID => $Param{UserData}->{UserID},
-#            Key => 'UserPGPKey',
-#            Value => $UploadStuff{Content},
-#        );
         $Self->{UserObject}->SetPreferences(
             UserID => $Param{UserData}->{UserID},
             Key => "PGPKeyID",	# new parameter PGPKeyID
@@ -108,6 +103,11 @@ sub Run {
             Key => "PGPFilename",
             Value => $UploadStuff{Filename},
         );
+#        $Self->{UserObject}->SetPreferences(
+#            UserID => $Param{UserData}->{UserID},
+#            Key => 'UserPGPKey',
+#            Value => $UploadStuff{Content},
+#        );
 #        $Self->{UserObject}->SetPreferences(
 #            UserID => $Param{UserData}->{UserID},
 #            Key => "PGPContentType",
@@ -121,13 +121,6 @@ sub Download {
     my $Self = shift;
     my %Param = @_;
 
-    my %Preferences = ();
-
-    my $UserID = $Param{UserData}->{UserID};
-    my $KeyID = undef;
-    my $KeyString = undef;
-    my $FileName = undef;
-
     my $CryptObject = Kernel::System::Crypt->new(
         LogObject => $Self->{LogObject},
         DBObject => $Self->{DBObject},
@@ -139,33 +132,37 @@ sub Download {
     }
 
     # get preferences with key parameters
-    %Preferences = $Self->{UserObject}->GetPreferences(UserID => $UserID);
-    # get key related stuff
-    $KeyID = $Preferences{'PGPKeyID'};
-    $FileName = $Preferences{'PGPFilename'};
-    if ((! defined $KeyID) || ($KeyID eq '')) {
-        $Self->{LogObject}->Log(
-            Priority => 'Error',
-            Message => 'Need KeyID to get pgp public key of '.$UserID,
-        );
-    }
-
-    else {
-	$KeyString = $CryptObject->PublicKeyGet(Key => $KeyID);
-    }
-
-    if ((! defined $KeyString) || ($KeyString eq '')) {
-        $Self->{LogObject}->Log(
-            Priority => 'Error',
-            Message => 'Couldn\'t get ASCII exported pubKey for KeyID '.$KeyID,
-        );
-    }
-
-    return (
-       ContentType => 'text/plain',
-       Content => $KeyString,
-       Filename => ($FileName?$UserID.'_'.$FileName:'pgp.asc'),
+    my %Preferences = $Self->{UserObject}->GetPreferences(
+        UserID => $Param{UserData}->{UserID},
     );
+    # check if PGPKeyID is there
+    if (!$Preferences{'PGPKeyID'}) {
+        $Self->{LogObject}->Log(
+            Priority => 'Error',
+            Message => 'Need KeyID to get pgp public key of '.$Param{UserData}->{UserID},
+        );
+        return ();
+    }
+    else {
+    	$Preferences{'PGPKeyContent'} = $CryptObject->PublicKeyGet(
+            Key => $Preferences{'PGPKeyID'},
+        );
+    }
+
+    # return content of key
+    if (!$Preferences{'PGPKeyContent'}) {
+        $Self->{LogObject}->Log(
+            Priority => 'Error',
+            Message => 'Couldn\'t get ASCII exported pubKey for KeyID '.$Preferences{'PGPKeyID'},
+        );
+    }
+    else {
+        return (
+            ContentType => 'text/plain',
+            Content => $Preferences{'PGPKeyContent'},
+            Filename => $Preferences{'PGPFilename'} || $Preferences{'PGPKeyID'}.'_pgp.asc',
+        );
+    }
 }
 sub Error {
     my $Self = shift;
