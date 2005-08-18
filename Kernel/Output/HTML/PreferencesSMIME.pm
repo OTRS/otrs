@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/PreferencesSMIME.pm
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PreferencesSMIME.pm,v 1.2 2005-03-27 11:40:34 martin Exp $
+# $Id: PreferencesSMIME.pm,v 1.3 2005-08-18 07:04:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -65,7 +65,7 @@ sub Run {
         Param => "UserSMIMEKey",
         Source => 'String',
     );
-    if (!%UploadStuff) {
+    if (!$UploadStuff{Content}) {
         return 1;
     }
     my $CryptObject = Kernel::System::Crypt->new(
@@ -92,21 +92,26 @@ sub Run {
         if ($Attributes{Hash}) {
             $UploadStuff{Filename} = "$Attributes{Hash}.pem";
         }
-#        $Self->{UserObject}->SetPreferences(
-#            UserID => $Param{UserData}->{UserID},
-#            Key => 'UserPGPKey',
-#            Value => $UploadStuff{Content},
-#        );
+        $Self->{UserObject}->SetPreferences(
+            UserID => $Param{UserData}->{UserID},
+            Key => "SMIMEHash",
+            Value => $Attributes{Hash},
+        );
         $Self->{UserObject}->SetPreferences(
             UserID => $Param{UserData}->{UserID},
             Key => "SMIMEFilename",
             Value => $UploadStuff{Filename},
         );
-        $Self->{UserObject}->SetPreferences(
-            UserID => $Param{UserData}->{UserID},
-            Key => "SMIMEContentType",
-            Value => $UploadStuff{ContentType},
-        );
+#        $Self->{UserObject}->SetPreferences(
+#            UserID => $Param{UserData}->{UserID},
+#            Key => 'SMIMECert',
+#            Value => $UploadStuff{Content},
+#        );
+#        $Self->{UserObject}->SetPreferences(
+#            UserID => $Param{UserData}->{UserID},
+#            Key => "SMIMEContentType",
+#            Value => $UploadStuff{ContentType},
+#        );
         $Self->{Message} = $Message;
         return 1;
     }
@@ -114,11 +119,51 @@ sub Run {
 sub Download {
     my $Self = shift;
     my %Param = @_;
-    return (
-        Content => 123,
-        ContentType => ,
-        Filename => ,
+
+    my $CryptObject = Kernel::System::Crypt->new(
+        LogObject => $Self->{LogObject},
+        DBObject => $Self->{DBObject},
+        ConfigObject => $Self->{ConfigObject},
+        CryptType => 'SMIME',
     );
+    if (!$CryptObject) {
+        return 1;
+    }
+
+    # get preferences with key parameters
+    my %Preferences = $Self->{UserObject}->GetPreferences(
+        UserID => $Param{UserData}->{UserID},
+    );
+
+    # check if SMIMEHash is there
+    if (!$Preferences{'SMIMEHash'}) {
+        $Self->{LogObject}->Log(
+            Priority => 'Error',
+            Message => 'Need SMIMEHash to get certificat key of '.$Param{UserData}->{UserID},
+        );
+        return ();
+    }
+    else {
+        $Preferences{'SMIMECert'} = $CryptObject->CertificateGet(
+            Hash => $Preferences{'SMIMEHash'},
+        );
+    }
+
+    # check if cert exists
+    if (!$Preferences{'SMIMECert'}) {
+        $Self->{LogObject}->Log(
+            Priority => 'Error',
+            Message => 'Couldn\'t get cert of hash '.$Preferences{'SMIMEHash'},
+        );
+        return ();
+    }
+    else {
+        return (
+            ContentType => 'text/plain',
+            Content => $Preferences{'SMIMECert'},
+            Filename => $Preferences{'SMIMEFilename'},
+        );
+    }
 }
 sub Error {
     my $Self = shift;
