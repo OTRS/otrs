@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.168 2005-08-17 11:27:15 cs Exp $
+# $Id: CHANGES,v 1.169 2005-08-18 07:07:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,12 +11,17 @@
 CVS head
 
 2.0.2 (2005/08/??)
+ - (2005/08/19) updated nb_NO translation again - thanks to Espen Stefansen!
+ - (2005/08/18) enabled customer PGP and SMIME preferences if PGP or
+    SMIME is enabeled
+ - (2005/08/18) fixed broken download of public SMIME certs
+ - (2005/08/18) fixed bug 874 - password plaintext in UserLastPw
  - (2005/08/17) fixed bug #872 - CustomerCalendarSmall not working, module
     not registered
  - (2005/08/16) fixed bug #847 - Broken download of public PGP keys via
     customer preferences pannel
  - (2005/08/16) fixed bug #862 - wrong sum for time acounting
- - (2005/08/12) fixed bug #870 - wron parameter order in
+ - (2005/08/12) fixed bug #870 - wrong parameter order in
     Kernel::System::Ticket::Article::SendCustomerNotification routine
  - (2005/08/12) removed default selections (UserSalutation) from CustomerUser
     config
@@ -44,8 +49,8 @@ CVS head
     title in the warning for the owner check
  - (2005/08/04) updated it translation - thanks to Giordano Bianchi!
  - (2005/08/04) changed default state of new faq articles to 'internal (agent)'
- - (2005/08/04) fixed Can't call method "LockSet" on an undefined value at
-    Kernel/System/Ticket.pm line 3720
+ - (2005/08/04) fixed bug 877 - Error when merging tickets - Can't call
+    method "LockSet" on an undefined value at Kernel/System/Ticket.pm line 3720
  - (2005/08/04) added missing merge params to Kernel/Config/Files/Ticket.xml
 
 2.0.1 (2005/08/01)
