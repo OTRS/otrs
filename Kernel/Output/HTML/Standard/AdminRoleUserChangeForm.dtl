@@ -2,7 +2,7 @@
 # AdminRoleUserChangeForm.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminRoleUserChangeForm.dtl,v 1.4 2005-06-22 04:58:40 martin Exp $
+# $Id: AdminRoleUserChangeForm.dtl,v 1.5 2005-08-19 21:34:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@
   <tr>
     <td align="center" class="contentbody">
 
-    <b>$Text{"$QData{"Type"}"}:</b> <a href="$Env{"BaseLink"}Action=Admin$QData{"Type"}&Subaction=Change&ID=$QData{"ID"}">$QData{"Name"}</a> (id=$QData{"ID"})<br>
+    <b>$Text{"$QData{"Type"}"}:</b> <a href="$Env{"Baselink"}Action=Admin$QData{"Type"}&Subaction=Change&ID=$QData{"ID"}">$QData{"Name"}</a> (id=$QData{"ID"})<br>
 
     <table>
     <tr>
@@ -51,7 +51,7 @@
   <tr class="contentfooter">
     <td class="contentvalue"><input class="button" type="submit" value="$Text{"submit"}"></td>
   </tr>
-  </table> 
+  </table>
   </form>
 
   <br>
