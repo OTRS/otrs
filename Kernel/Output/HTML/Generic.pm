@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.191 2005-07-23 11:08:45 martin Exp $
+# $Id: Generic.pm,v 1.192 2005-08-19 15:33:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::Output::HTML::Agent;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.191 $';
+$VERSION = '$Revision: 1.192 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -1245,6 +1245,7 @@ sub Ascii2Html {
     $Text =~ s/</&lt;/g;
     $Text =~ s/>/&gt;/g;
     $Text =~ s/"/&quot;/g;
+#    $Text =~ s/'/&apos;/g;
     # text -> html format quoting
     if ($HTMLMode) {
         $Text =~ s/\n/<br>\n/g;
@@ -1699,7 +1700,13 @@ sub Attachment {
         $Output .= '; ';
     }
     $Output .= "filename=\"$Param{Filename}\"\n";
-    $Output .= "Content-Length: ".length($Param{Content})."\n";
+    # get attachment size
+    {
+        use bytes;
+        $Param{Size} = length($Param{Content});
+        no bytes;
+    }
+    $Output .= "Content-Length: $Param{Size}\n";
     $Output .= "Content-Type: $Param{ContentType}\n\n";
     # fix for firefox HEAD problem
     if (!$ENV{REQUEST_METHOD} || $ENV{REQUEST_METHOD} ne 'HEAD') {
@@ -2257,6 +2264,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.191 $ $Date: 2005-07-23 11:08:45 $
+$Revision: 1.192 $ $Date: 2005-08-19 15:33:41 $
 
 =cut
