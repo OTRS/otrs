@@ -2,7 +2,7 @@
 # Kernel/System/FAQ.pm - all faq funktions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQ.pm,v 1.22 2005-08-19 14:56:56 cs Exp $
+# $Id: FAQ.pm,v 1.23 2005-08-19 15:37:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -79,7 +79,7 @@ get an article
 
   my %Article = $FAQObject->FAQGet(
       ID => 1,
-   );
+  );
 
 =cut
 
@@ -156,10 +156,10 @@ sub FAQGet {
         " FROM faq_attachment WHERE faq_id = $Param{FAQID}";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while  (my @Row = $Self->{DBObject}->FetchrowArray()) {
-	# decode attachment if it's a postgresql backend and not BLOB
-	if (!$Self->{DBObject}->GetDatabaseFunction('DirectBlob')) {
-	    $Row[3] = decode_base64($Row[3]);
-	}
+        # decode attachment if it's a postgresql backend and not BLOB
+        if (!$Self->{DBObject}->GetDatabaseFunction('DirectBlob')) {
+            $Row[3] = decode_base64($Row[3]);
+        }
         $Data{Filename} = $Row[0];
         $Data{ContentType} = $Row[1];
         $Data{ContentSize} = $Row[2];
@@ -273,10 +273,10 @@ sub FAQAdd {
                 " (faq_id, filename, content_type, content_size, content, ".
                 " create_time, create_by, change_time, change_by) " .
                 " VALUES ".
-                " ($ID, '$Param{Filename}', '$Param{ContentType}', '$Param{Filesize}', '$Param{Content}', ".
+                " ($ID, '$Param{Filename}', '$Param{ContentType}', '$Param{Filesize}', ?, ".
                 " current_timestamp, $Self->{UserID}, current_timestamp, $Self->{UserID})";
             # write attachment to db
-            if ($Self->{DBObject}->Do(SQL => $SQL)) {
+            if ($Self->{DBObject}->Do(SQL => $SQL, Bind => [\$Param{Content}])) {
 
             }
         }
@@ -377,10 +377,10 @@ sub FAQUpdate {
                 " (faq_id, filename, content_type, content_size, content, ".
                 " create_time, create_by, change_time, change_by) " .
                 " VALUES ".
-                " ($Param{FAQID}, '$Param{Filename}', '$Param{ContentType}', '$Param{Filesize}', '$Param{Content}', ".
+                " ($Param{FAQID}, '$Param{Filename}', '$Param{ContentType}', '$Param{Filesize}', ?, ".
                 " current_timestamp, $Self->{UserID}, current_timestamp, $Self->{UserID})";
             # write attachment to db
-            if ($Self->{DBObject}->Do(SQL => $SQL)) {
+            if ($Self->{DBObject}->Do(SQL => $SQL, Bind => [\$Param{Content}])) {
 
             }
         }
@@ -1161,6 +1161,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.22 $ $Date: 2005-08-19 14:56:56 $
+$Revision: 1.23 $ $Date: 2005-08-19 15:37:47 $
 
 =cut
