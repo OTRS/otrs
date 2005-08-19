@@ -2,7 +2,7 @@
 # Kernel/System/FAQ.pm - all faq funktions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQ.pm,v 1.21 2005-07-03 12:54:10 martin Exp $
+# $Id: FAQ.pm,v 1.22 2005-08-19 14:56:56 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,9 +12,10 @@
 package Kernel::System::FAQ;
 
 use strict;
+use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -155,11 +156,16 @@ sub FAQGet {
         " FROM faq_attachment WHERE faq_id = $Param{FAQID}";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while  (my @Row = $Self->{DBObject}->FetchrowArray()) {
+	# decode attachment if it's a postgresql backend and not BLOB
+	if (!$Self->{DBObject}->GetDatabaseFunction('DirectBlob')) {
+	    $Row[3] = decode_base64($Row[3]);
+	}
         $Data{Filename} = $Row[0];
         $Data{ContentType} = $Row[1];
         $Data{ContentSize} = $Row[2];
         $Data{Content} = $Row[3];
     }
+
     return %Data;
 }
 
@@ -205,10 +211,11 @@ sub FAQAdd {
     if (!$Param{Number}) {
         $Param{Number} = $Self->{ConfigObject}->Get('SystemID').rand(100);
     }
-    # db quote
+    # db quote (just not Content, use db Bind values)
     foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) if ($_ ne 'Content');
     }
+
     foreach my $Type (qw(Field FreeKey FreeText)) {
         foreach (1..6) {
             if (!defined($Param{$Type.$_})) {
@@ -323,9 +330,9 @@ sub FAQUpdate {
         my %Article = $Self->FAQGet(%Param);
         $Param{Name} = $Article{Name};
     }
-    # db quote
+    # db quote (just not Content, use db Bind values)
     foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) if ($_ ne 'Content');
     }
     # fill up empty stuff
     foreach my $Type (qw(Field FreeKey FreeText)) {
@@ -1154,6 +1161,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2005-07-03 12:54:10 $
+$Revision: 1.22 $ $Date: 2005-08-19 14:56:56 $
 
 =cut
