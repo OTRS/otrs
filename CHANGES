@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.169 2005-08-18 07:07:09 martin Exp $
+# $Id: CHANGES,v 1.170 2005-08-19 15:00:04 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,6 +11,8 @@
 CVS head
 
 2.0.2 (2005/08/??)
+ - (2005/8/19) fixedbug #861 - Problems in faq attachments and postgresql
+    backend
  - (2005/08/19) updated nb_NO translation again - thanks to Espen Stefansen!
  - (2005/08/18) enabled customer PGP and SMIME preferences if PGP or
     SMIME is enabeled
