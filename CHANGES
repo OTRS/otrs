@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.173 2005-08-23 09:03:12 cs Exp $
+# $Id: CHANGES,v 1.174 2005-08-23 12:02:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,8 +10,10 @@
 # --
 CVS head
 
-2.0.2 (2005/08/??)
+2.0.3 (2005/08/??)
  - (2005/08/23) fixed bug #891 - typo in Login.dtl
+
+2.0.2 (2005/08/22)
  - (2005/08/19) Added new config parameter to include a envelope from
     header in outgoing notifications for customer and agents:
 
