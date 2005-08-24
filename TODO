@@ -2,7 +2,7 @@
 # TODO - todo list of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TODO,v 1.62 2005-08-08 19:37:13 martin Exp $
+# $Id: TODO,v 1.63 2005-08-24 08:25:46 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -32,6 +32,7 @@
 - A better way to reset password, hash confirmation...
    http://bugs.otrs.org/show_bug.cgi?id=443
 - sub categories in faq application
+- checkfunction if all packages witch are registrated already exists when the admin open the package manager
 
 2.2
 - move ticket and article free text fields to "reference tables".
