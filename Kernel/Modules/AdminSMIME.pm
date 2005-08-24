@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSMIME.pm - to add/update/delete pgp keys
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSMIME.pm,v 1.12 2005-08-05 13:36:14 cs Exp $
+# $Id: AdminSMIME.pm,v 1.13 2005-08-24 09:45:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -259,6 +259,12 @@ sub Run {
                 Priority => 'Error',
                 Data => '$Text{"You need to activate %s first to use it!", "SMIME"}',
                 Link => '$Env{"Baselink"}Action=AdminSysConfig&Subaction=Edit&SysConfigGroup=Framework&SysConfigSubGroup=Crypt::SMIME"',
+            );
+        }
+        if ($Self->{CryptObject} && $Self->{CryptObject}->Check()) {
+            $Output .= $Self->{LayoutObject}->Notify(
+                Priority => 'Error',
+                Data => '$Text{"'.$Self->{CryptObject}->Check().'"}',
             );
         }
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminSMIMEForm', Data => \%Param);

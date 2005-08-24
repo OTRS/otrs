@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPGP.pm - to add/update/delete pgp keys
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPGP.pm,v 1.10 2005-07-23 08:52:38 martin Exp $
+# $Id: AdminPGP.pm,v 1.11 2005-08-24 09:45:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -223,6 +223,12 @@ sub Run {
                 Priority => 'Error',
                 Data => '$Text{"You need to activate %s first to use it!", "PGP"}',
                 Link => '$Env{"Baselink"}Action=AdminSysConfig&Subaction=Edit&SysConfigGroup=Framework&SysConfigSubGroup=Crypt::PGP"',
+            );
+        }
+        if ($Self->{CryptObject} && $Self->{CryptObject}->Check()) {
+            $Output .= $Self->{LayoutObject}->Notify(
+                Priority => 'Error',
+                Data => '$Text{"'.$Self->{CryptObject}->Check().'"}',
             );
         }
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminPGPForm', Data => \%Param);

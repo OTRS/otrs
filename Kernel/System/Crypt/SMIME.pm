@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SMIME.pm,v 1.7 2005-01-28 09:58:15 martin Exp $
+# $Id: SMIME.pm,v 1.8 2005-08-24 09:45:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Crypt::SMIME;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 =head1 NAME
@@ -47,6 +47,44 @@ sub Init {
     }
 
     return $Self;
+}
+
+=item Check()
+
+check if environment is working
+
+  my $Message = $CryptObject->Check();
+
+=cut
+
+sub Check {
+    my $Self = shift;
+    my %Param = @_;
+
+    if (! -e $Self->{Bin}) {
+        return "No such $Self->{Bin}!";
+    }
+    elsif (! -x $Self->{Bin}) {
+        return "$Self->{Bin} not executable!";
+    }
+    elsif (! -e $Self->{CertPath}) {
+        return "No such $Self->{CertPath}!";
+    }
+    elsif (! -d $Self->{CertPath}) {
+        return "No such $Self->{CertPath} directory!";
+    }
+    elsif (! -w $Self->{CertPath}) {
+        return "$Self->{CertPath} not writable!";
+    }
+    elsif (! -e $Self->{PrivatePath}) {
+        return "No such $Self->{PrivatePath}!";
+    }
+    elsif (! -d $Self->{PrivatePath}) {
+        return "No such $Self->{PrivatePath} directory!";
+    }
+    elsif (! -w $Self->{PrivatePath}) {
+        return "$Self->{PrivatePath} not writable!";
+    }
 }
 
 =item Crypt()
@@ -829,6 +867,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2005-01-28 09:58:15 $
+$Revision: 1.8 $ $Date: 2005-08-24 09:45:16 $
 
 =cut
