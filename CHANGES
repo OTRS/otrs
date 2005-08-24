@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.175 2005-08-24 09:45:35 martin Exp $
+# $Id: CHANGES,v 1.176 2005-08-24 21:54:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,11 +11,15 @@
 CVS head
 
 2.0.3 (2005/08/??)
+ - (2005/08/24) replaced scripts/restore.sh and scripts/backup.sh with improved
+    scripts/backup.pl and scripts/restore.pl scripts
  - (2005/08/24) added SMIME and PGP environment check in admin
     interface
  - (2005/08/23) fixed bug #891 - typo in Login.dtl
 
 2.0.2 (2005/08/22)
+ - (2005/08/19) fixed bug #811 - 404 Error for role link OTRS::Admin::Role
+    <-> User
  - (2005/08/19) Added new config parameter to include a envelope from
     header in outgoing notifications for customer and agents:
 
