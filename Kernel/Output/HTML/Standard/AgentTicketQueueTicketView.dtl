@@ -2,7 +2,7 @@
 # AgentTicketQueueTicketView.dtl - provides HTML TicketView for AgentTicketQueueView
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketQueueTicketView.dtl,v 1.2 2005-08-08 19:47:24 martin Exp $
+# $Id: AgentTicketQueueTicketView.dtl,v 1.3 2005-08-25 06:53:32 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,6 @@
   </td>
   <td align="right" width="49%" class="mainhead">
     $Env{"Box0"}$Text{"Age"}: $Data{"Age"}$Env{"Box1"}
-  </font>
   </td>
 </tr>
 </table>
