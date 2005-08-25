@@ -2,7 +2,7 @@
 # TODO - todo list of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TODO,v 1.63 2005-08-24 08:25:46 tr Exp $
+# $Id: TODO,v 1.64 2005-08-25 07:39:22 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,6 +33,11 @@
    http://bugs.otrs.org/show_bug.cgi?id=443
 - sub categories in faq application
 - checkfunction if all packages witch are registrated already exists when the admin open the package manager
+- merge SIRIOS QueueView with OTRS QueueView
+- QueueView: A config setting if all tickets or only unlocked Tickets should be shown
+- QueueView: rename Tickets available to Tickets unlocked
+
+
 
 2.2
 - move ticket and article free text fields to "reference tables".
