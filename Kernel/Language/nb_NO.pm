@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Arne Georg Gleditsch <argggh@linpro.no>
 #               2005 Stefansen Espen <espen.stefansen@imr.no>
 # --
-# $Id: nb_NO.pm,v 1.16 2005-08-26 15:58:46 martin Exp $
+# $Id: nb_NO.pm,v 1.17 2005-08-26 16:08:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::nb_NO;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.16 $;
+$VERSION = q$Revision: 1.17 $;
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1196,6 +1196,13 @@ sub Data {
       'Drop Database' => 'Slett database',
       '(Used ticket number format)' => '(Valgt format for saksnummer)',
       'Package not correctly deployed, you need to deploy it again!' => '',
+      'Customer called' => '',
+      'Phone' => '',
+      'Office' => '',
+      'CompanyTickets' => '',
+      'MyTickets' => '',
+      'New Ticket' => '',
+      'Create new Ticket' => '',
     };
     # $$STOP$$
 }

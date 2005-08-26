@@ -2,7 +2,7 @@
 # Kernel/Language/pt_BR.pm - provides pt_BR language translation
 # Copyright (C) 2003 Gilberto Cezar de Almeida <gibalmeida at hotmail.com>
 # --
-# $Id: pt_BR.pm,v 1.28 2005-08-26 15:58:46 martin Exp $
+# $Id: pt_BR.pm,v 1.29 2005-08-26 16:08:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::pt_BR;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1189,6 +1189,13 @@ sub Data {
       'Options ' => 'Opções',
       '(Used ticket number format)' => '(Formato de Chamado utilizado)',
       'Package not correctly deployed, you need to deploy it again!' => '',
+      'Customer called' => '',
+      'Phone' => '',
+      'Office' => '',
+      'CompanyTickets' => '',
+      'MyTickets' => '',
+      'New Ticket' => '',
+      'Create new Ticket' => '',
     };
     # $$STOP$$
 }

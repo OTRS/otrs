@@ -2,7 +2,7 @@
 # Kernel/Language/es.pm - provides es language translation
 # Copyright (C) 2003-2004 Jorge Becerra <jorge at icc-cuba.com>
 # --
-# $Id: es.pm,v 1.33 2005-08-26 15:58:46 martin Exp $
+# $Id: es.pm,v 1.34 2005-08-26 16:08:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::es;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1199,6 +1199,13 @@ sub Data {
       '(Used ticket number format)' => '(Formato de ticket usado)',
       'FAQ History' => 'Historia de FAQ',
       'Package not correctly deployed, you need to deploy it again!' => '',
+      'Customer called' => '',
+      'Phone' => '',
+      'Office' => '',
+      'CompanyTickets' => '',
+      'MyTickets' => '',
+      'New Ticket' => '',
+      'Create new Ticket' => '',
     };
     # $$STOP$$
 }

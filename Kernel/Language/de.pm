@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: de.pm,v 1.90 2005-08-26 15:58:46 martin Exp $
+# $Id: de.pm,v 1.91 2005-08-26 16:08:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.90 $';
+$VERSION = '$Revision: 1.91 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1203,6 +1203,13 @@ sub Data {
       'Drop Database' => 'Datenbank löschen',
       '(Used ticket number format)' => '(Benutztes Format für die Ticketnummer)',
       'FAQ History' => 'FAQ Historie',
+      'Customer called' => 'Kunden angerufen',
+      'Phone' => 'Telefon',
+      'Office' => 'Büro',
+      'CompanyTickets' => 'Firmen Ticket',
+      'MyTickets' => 'Meine Tickets',
+      'New Ticket' => 'Neues Ticket',
+      'Create new Ticket' => 'Neues Ticket erstellen',
       'Package not correctly deployed, you need to deploy it again!' => 'Paket nicht korrekt installiert, bitte nochmal installieren!',
     };
     # $$STOP$$
