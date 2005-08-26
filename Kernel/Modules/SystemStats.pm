@@ -2,7 +2,7 @@
 # Kernel/Modules/SystemStats.pm - show stats of otrs
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SystemStats.pm,v 1.23 2005-07-24 09:42:16 martin Exp $
+# $Id: SystemStats.pm,v 1.24 2005-08-26 15:55:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::SystemStats;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $ ';
+$VERSION = '$Revision: 1.24 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -218,7 +218,7 @@ sub Run {
                     Data => \@Data,
                 );
                 # return csv to download
-                my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = $Self->{TimeObject}->SystemTime2Date(
+                my ($s,$m,$h, $D,$M,$Y) = $Self->{TimeObject}->SystemTime2Date(
                     SystemTime => $Self->{TimeObject}->SystemTime(),
                 );
                 $M = sprintf("%02d", $M);
@@ -306,9 +306,9 @@ sub Run {
                     $graph->set_legend(@YLine);
                 }
                 # return csv to download
-                my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = localtime(time);
-                $Y = $Y+1900;
-                $M++;
+                my ($s,$m,$h, $D,$M,$Y) = $Self->{TimeObject}->SystemTime2Date(
+                    SystemTime => $Self->{TimeObject}->SystemTime(),
+                );
                 $M = sprintf("%02d", $M);
                 $D = sprintf("%02d", $D);
                 $h = sprintf("%02d", $h);
@@ -371,9 +371,9 @@ sub WriteResultCache {
     my @Data = @{$Param{Data}};
     my $Cache = 0;
     # check if we should cache this result
-    my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = localtime(time);
-    $Y = $Y+1900;
-    $M++;
+    my ($s,$m,$h, $D,$M,$Y) = $Self->{TimeObject}->SystemTime2Date(
+        SystemTime => $Self->{TimeObject}->SystemTime(),
+    );
     if ($GetParam{Year} && $GetParam{Month}) {
         if ($Y > $GetParam{Year}) {
             $Cache = 1;

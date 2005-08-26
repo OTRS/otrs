@@ -2,7 +2,7 @@
 # Ticket/Number/Date.pm - a date ticket number generator
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Date.pm,v 1.12 2005-02-15 11:58:13 martin Exp $
+# $Id: Date.pm,v 1.13 2005-08-26 15:55:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ package Kernel::System::Ticket::Number::Date;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub CreateTicketNr {
@@ -29,9 +29,9 @@ sub CreateTicketNr {
     my $CounterLog = $Self->{ConfigObject}->Get('Ticket::CounterLog');
     my $SystemID = $Self->{ConfigObject}->Get('SystemID');
     # get current time
-    my ($Sec, $Min, $Hour, $Day, $Month, $Year) = localtime(time);
-    $Year = $Year+1900;
-    $Month = $Month+1;
+    my ($Sec, $Min, $Hour, $Day, $Month, $Year) = $Self->{TimeObject}->SystemTime2Date(
+        SystemTime => $Self->{TimeObject}->SystemTime(),
+    );
     $Month  = "0$Month" if ($Month <10);
     $Day = "0$Day" if ($Day <10);
     # read count

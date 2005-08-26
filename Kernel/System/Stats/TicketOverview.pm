@@ -2,7 +2,7 @@
 # Kernel/System/Stats/TicketOverview.pm - stats module
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TicketOverview.pm,v 1.2 2005-05-16 10:15:51 martin Exp $
+# $Id: TicketOverview.pm,v 1.3 2005-08-26 15:55:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::State;
 use Date::Pcalc qw(Today_and_Now Days_in_Month Day_of_Week Day_of_Week_Abbreviation);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $ ';
+$VERSION = '$Revision: 1.3 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -26,7 +26,7 @@ sub new {
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     # get common opjects
@@ -49,9 +49,9 @@ sub Param {
     my $Self = shift;
     my @Params = ();
     # get current time
-    my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = localtime(time());
-    $Y = $Y+1900;
-    $M++;
+    my ($s,$m,$h, $D,$M,$Y) = $Self->{TimeObject}->SystemTime2Date(
+        SystemTime => $Self->{TimeObject}->SystemTime(),
+    );
     # get one month bevore
     if ($M == 1) {
         $M = 12;
@@ -70,7 +70,7 @@ sub Param {
         my $Tmp = sprintf("%02d", $_);
         $Month{$_} = $Tmp;
     }
- 
+
     push (@Params, {
             Frontend => 'Year',
             Name => 'Year',
@@ -99,7 +99,7 @@ sub Param {
             Multiple => 0,
             Size => 0,
             SelectedID => '550x350',
-            Data => { 
+            Data => {
                 '550x350' => ' 550x350',
                 '800x600' => ' 800x600',
                 '1200x800' => '1200x800',
@@ -130,12 +130,12 @@ sub Run {
             $Queue{$Ticket{Queue}}->{$Ticket{State}}++;
         }
     }
-  
+
 
     my %States = $Self->{StateObject}->StateList(UserID => 1);
     foreach my $StateID (sort {$States{$a} cmp $States{$b}} keys %States) {
         push (@HeadData, $States{$StateID});
-    } 
+    }
 
     my @Data = ();
     foreach my $QueueName (sort {$Queue{$a} cmp $Queue{$b}} keys %Queue) {

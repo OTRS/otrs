@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Stats/NewTickets.pm - stats module
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NewTickets.pm,v 1.2 2004-11-28 11:22:14 martin Exp $
+# $Id: NewTickets.pm,v 1.3 2005-08-26 15:55:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Queue;
 use Date::Pcalc qw(Today_and_Now Days_in_Month Day_of_Week Day_of_Week_Abbreviation);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $ ';
+$VERSION = '$Revision: 1.3 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -26,7 +26,7 @@ sub new {
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     # get common opjects
@@ -49,9 +49,9 @@ sub Param {
     my $Self = shift;
     my @Params = ();
     # get current time
-    my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = localtime(time());
-    $Y = $Y+1900;
-    $M++;
+    my ($s,$m,$h, $D,$M,$Y) = $Self->{TimeObject}->SystemTime2Date(
+        SystemTime => $Self->{TimeObject}->SystemTime(),
+    );
     # get one month bevore
     if ($M == 1) {
         $M = 12;
@@ -142,7 +142,7 @@ sub Run {
         $DayCounter++;
     }
 
-    my %Queues = $Self->{QueueObject}->GetAllQueues(); 
+    my %Queues = $Self->{QueueObject}->GetAllQueues();
     my @Data = ();
     foreach my $QueueName (sort {$Queue{$a} cmp $Queue{$b}} keys %Queue) {
         $DayCounter = 1;

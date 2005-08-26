@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerTicketSearch.pm,v 1.14 2005-08-17 11:24:19 cs Exp $
+# $Id: CustomerTicketSearch.pm,v 1.15 2005-08-26 15:55:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -336,9 +336,9 @@ sub Run {
         elsif ($GetParam{ResultForm} eq 'CSV') {
             # return csv to download
             my $CSVFile = 'search';
-            my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = localtime(time);
-            $Y = $Y+1900;
-            $M++;
+            my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = $Self->{TimeObject}->SystemTime2Date(
+                SystemTime => $Self->{TimeObject}->SystemTime(),
+            );
             $M = sprintf("%02d", $M);
             $D = sprintf("%02d", $D);
             $h = sprintf("%02d", $h);

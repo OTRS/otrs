@@ -2,7 +2,7 @@
 # Kernel/System/Stats/AccountedTime.pm - stats module
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AccountedTime.pm,v 1.2 2005-08-16 13:44:32 cs Exp $
+# $Id: AccountedTime.pm,v 1.3 2005-08-26 15:55:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Date::Pcalc qw(Days_in_Month);
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $ ';
+$VERSION = '$Revision: 1.3 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -47,9 +47,9 @@ sub Param {
     my $Self = shift;
     my @Params = ();
     # get current time
-    my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = localtime(time());
-    $Y = $Y+1900;
-    $M++;
+    my ($s,$m,$h, $D,$M,$Y) = $Self->{TimeObject}->SystemTime2Date(
+        SystemTime => $Self->{TimeObject}->SystemTime(),
+    );
     # get one month bevore
     if ($M == 1) {
         $M = 12;

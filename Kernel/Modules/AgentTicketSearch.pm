@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketSearch.pm,v 1.5 2005-08-08 19:33:13 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.6 2005-08-26 15:55:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -493,9 +493,9 @@ sub Run {
             );
             # return csv to download
             my $CSVFile = 'ticket_search';
-            my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = localtime(time);
-            $Y = $Y+1900;
-            $M++;
+            my ($s,$m,$h, $D,$M,$Y) = $Self->{TimeObject}->SystemTime2Date(
+                SystemTime => $Self->{TimeObject}->SystemTime(),
+            );
             $M = sprintf("%02d", $M);
             $D = sprintf("%02d", $D);
             $h = sprintf("%02d", $h);
