@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.178 2005-08-26 15:37:14 martin Exp $
+# $Id: CHANGES,v 1.179 2005-08-26 16:00:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,6 +14,9 @@ CVS head
  - (2005/08/26) added package manager deploy check in admin interface, if
     package is really deployed (compare files in filesystem and package)
  - (2005/08/26) added time accounting option to ticket move mask
+ - (2005/08/26) replaced localtime(time) with Kernel::System::Time core
+    module in several files
+ - (2005/08/26) removed empty thai translation file
  - (2005/08/24) replaced scripts/restore.sh and scripts/backup.sh with improved
     scripts/backup.pl and scripts/restore.pl scripts
  - (2005/08/24) added SMIME and PGP environment check in admin
