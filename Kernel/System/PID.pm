@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PID.pm - all system pid functions
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PID.pm,v 1.1 2004-09-16 09:39:43 martin Exp $
+# $Id: PID.pm,v 1.2 2005-08-26 17:58:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,16 +14,16 @@ package Kernel::System::PID;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
 
-Kernel::System::POP3Account - to manage pop3 accounts
+Kernel::System::PID - to manage PIDs
 
 =head1 SYNOPSIS
 
-All functions to manage the pop3 accounts.
+All functions to manage process ids
 
 =head1 PUBLIC INTERFACE
 
@@ -229,6 +229,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2004-09-16 09:39:43 $
+$Revision: 1.2 $ $Date: 2005-08-26 17:58:37 $
 
 =cut
