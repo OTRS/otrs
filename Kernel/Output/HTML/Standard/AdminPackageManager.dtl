@@ -2,7 +2,7 @@
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPackageManager.dtl,v 1.8 2005-01-14 07:16:26 martin Exp $
+# $Id: AdminPackageManager.dtl,v 1.9 2005-08-26 15:34:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -205,6 +205,9 @@
 <!-- dtl:block:ShowLocalPackageUninstall -->
     <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Uninstall&Name=$QData{"Name"}&Version=$QData{"Version"}">$Text{"Uninstall"}</a>
 <!-- dtl:block:ShowLocalPackageUninstall -->
+<!-- dtl:block:ShowLocalPackageReinstall -->
+    <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Reinstall&Name=$QData{"Name"}&Version=$QData{"Version"}" title="$Text{"Package not correctly deployed, you need to deploy it again!"}">$Text{"Reinstall"}</a>
+<!-- dtl:block:ShowLocalPackageReinstall -->
         </td>
       </tr>
 <!-- dtl:block:ShowLocalPackage -->
@@ -231,7 +234,7 @@
     -
     <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=RebuildPackage&Name=$QData{"Name"}&Version=$QData{"Version"}">$Text{"Rebuild"}</a>
     -
-    <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=ReinstallPackage&Name=$QData{"Name"}&Version=$QData{"Version"}">$Text{"Reinstall"}</a>
+    <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Reinstall&Name=$QData{"Name"}&Version=$QData{"Version"}">$Text{"Reinstall"}</a>
   </td>
 </tr>
 <tr>

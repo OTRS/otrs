@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.pm,v 1.36 2005-07-31 09:34:33 martin Exp $
+# $Id: Package.pm,v 1.37 2005-08-26 15:34:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1017,6 +1017,66 @@ sub PackageOnlineGet {
     return $Self->_Download(URL => $Param{Source}."/$Param{File}");
 }
 
+=item DeployCheck()
+
+check if package (files) is deployed
+
+    $PackageObject->DeployCheck(
+        Name => 'Application A',
+        Version => '1.0',
+    );
+
+=cut
+
+sub DeployCheck {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(Name Version)) {
+      if (!defined $Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+        return;
+      }
+    }
+    my $Package = $Self->RepositoryGet(%Param);
+    my %Structur = $Self->PackageParse(String => $Package);
+    if ($Structur{Filelist} && ref($Structur{Filelist}) eq 'ARRAY') {
+        my $Hit = 0;
+        foreach my $File (@{$Structur{Filelist}}) {
+            my $LocalFile = "$Self->{Home}/$File->{Location}";
+            if (! -e $LocalFile) {
+                $Self->{LogObject}->Log(Priority => 'error', Message => "$Param{Name}-$Param{Version}: No such $LocalFile!");
+                $Hit = 1;
+            }
+            elsif (-e $LocalFile) {
+                my $Content = '';
+                if (open(IN, "< $LocalFile")) {
+                    # set bin mode
+                    binmode IN;
+                    while (<IN>) {
+                        $Content .= $_;
+                    }
+                    close (IN);
+                    if ($File->{Encode} && $File->{Encode} eq 'Base64') {
+                        $File->{Content} = decode_base64($File->{Content});
+                    }
+                    if ($Content ne $File->{Content}) {
+                        $Self->{LogObject}->Log(Priority => 'error', Message => "$Param{Name}-$Param{Version}: $LocalFile is different!");
+                        $Hit = 1;
+                    }
+                }
+                else {
+                    $Self->{LogObject}->Log(Priority => 'error', Message => "Can't read $LocalFile!");
+                }
+            }
+        }
+        if ($Hit) {
+            return;
+        }
+    }
+    return 1;
+}
+
 =item PackageBuild()
 
 build a opm package
@@ -1133,6 +1193,8 @@ sub PackageBuild {
             my $File = $Self->{ConfigObject}->Get('Home')."/$File->{Location}";
             my $FileContent = '';
             if (open(IN, "< $File")) {
+                # set bin mode
+                binmode IN;
                 while (<IN>) {
                     $FileContent .= $_;
                 }
@@ -1439,6 +1501,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.36 $ $Date: 2005-07-31 09:34:33 $
+$Revision: 1.37 $ $Date: 2005-08-26 15:34:49 $
 
 =cut

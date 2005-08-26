@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPackageManager.pm,v 1.18 2005-08-19 17:03:30 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.19 2005-08-26 15:34:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Package;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -230,7 +230,7 @@ sub Run {
     # ------------------------------------------------------------ #
     # reinstall package
     # ------------------------------------------------------------ #
-    elsif ($Self->{Subaction} eq 'ReinstallPackage') {
+    elsif ($Self->{Subaction} eq 'Reinstall') {
         my $Name = $Self->{ParamObject}->GetParam(Param => 'Name') || '';
         my $Version = $Self->{ParamObject}->GetParam(Param => 'Version') || '';
         my %Frontend = ();
@@ -355,6 +355,7 @@ sub Run {
     # ------------------------------------------------------------ #
     else {
         my %Frontend = ();
+        my %NeedReinstall = ();
         my %List = %{$Self->{ConfigObject}->Get('Package::RepositoryList')};
         $Frontend{'SourceList'} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data => {
@@ -436,6 +437,20 @@ sub Run {
                         URL => $Package->{URL}->{Content},
                     },
                 );
+                if (!$Self->{PackageObject}->DeployCheck(
+                    Name => $Package->{Name}->{Content},
+                    Version => $Package->{Version}->{Content})) {
+                    $NeedReinstall{$Package->{Name}->{Content}} = $Package->{Version}->{Content};
+                    $Self->{LayoutObject}->Block(
+                        Name => 'ShowLocalPackageReinstall',
+                        Data => { %{$Package},
+                            Name => $Package->{Name}->{Content},
+                            Version => $Package->{Version}->{Content},
+                            Vendor => $Package->{Vendor}->{Content},
+                            URL => $Package->{URL}->{Content},
+                        },
+                    );
+                }
             }
             else {
                 $Self->{LayoutObject}->Block(
@@ -451,6 +466,13 @@ sub Run {
         }
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
+        foreach (sort keys %NeedReinstall) {
+            $Output .= $Self->{LayoutObject}->Notify(
+                Priority => 'Error',
+                Data => "$_ $NeedReinstall{$_}".' - $Text{"Package not correctly deployed, you need to deploy it again!"}',
+                Link => '$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Reinstall&Name='.$_.'&Version='.$NeedReinstall{$_},
+            );
+        }
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminPackageManager', Data => \%Param);
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
