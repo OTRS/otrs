@@ -3,7 +3,7 @@
 # xml2docbook.pl - config xml to docbook
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: xml2docbook.pl,v 1.3 2005-08-14 16:41:40 martin Exp $
+# $Id: xml2docbook.pl,v 1.4 2005-08-26 15:53:18 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use strict;
 use Getopt::Std;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Kernel::Config;
@@ -92,9 +92,9 @@ foreach my $Group (@Groups) {
             $Link =~ s/###/_/g;
             $Link =~ s/\///g;
             print "<sect3 id=\"$Group:$SubGroup:$Link\"><title>$Name</title> \n";
-	    print "<informaltable>\n<tgroup cols=\"2\">\n";
-	    print "<thead>\n<row>\n<entry>Description</entry>\n";
-	    print "<entry>Value</entry>\n</row>\n</thead>\n<tbody>\n";
+            print "<informaltable>\n<tgroup cols=\"2\">\n";
+            print "<thead>\n<row>\n<entry>Description</entry>\n";
+            print "<entry>Value</entry>\n</row>\n</thead>\n<tbody>\n";
             #Description
             my %HashLang;
             foreach my $Index (1...$#{$Item{Description}}) {
@@ -112,7 +112,7 @@ foreach my $Group (@Groups) {
             $Description =~ s/&/&amp;/g;
             $Description =~ s/</&lt;/g;
             $Description =~ s/>/&gt;/g;
-	    print "<row>\n<entry>Description:</entry>\n";
+            print "<row>\n<entry>Description:</entry>\n";
             print "<entry>$Description</entry>\n</row>\n";
             foreach my $Area (qw(Group SubGroup)) {
                 foreach (1..10) {
@@ -125,11 +125,13 @@ foreach my $Group (@Groups) {
                 Name => $Name,
                 Default => 1,
             );
+            print "<row>\n<entry>Valid:</entry>\n<entry>".($ConfigItemDefault{Valid}||1)."</entry>\n</row>\n";
+            print "<row>\n<entry>Required:</entry>\n<entry>".($ConfigItemDefault{Required}||0)."</entry>\n</row>\n";
+
             my $Key = $Name;
             $Key =~ s/\\/\\\\/g;
             $Key =~ s/'/\'/g;
             $Key =~ s/###/'}->{'/g;
-
             my $Config = " \$Self->{'$Key'} = ".$CommonObject{SysConfigObject}->_XML2Perl(Data => \%ConfigItemDefault);
             $Config =~ s/&/&amp;/g;
             $Config =~ s/</&lt;/g;
