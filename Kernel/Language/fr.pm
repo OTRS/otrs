@@ -4,7 +4,7 @@
 # Copyright (C) 2004-2005 Yann Richard <ze at nbox.org>
 # Copyright (C) 2004 Igor Genibel <igor.genibel at eds-opensource.com>
 # --
-# $Id: fr.pm,v 1.47 2005-07-28 20:32:31 martin Exp $
+# $Id: fr.pm,v 1.48 2005-08-26 15:58:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.47 $';
+$VERSION = '$Revision: 1.48 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -1204,6 +1204,7 @@ sub Data {
       'Drop Database' => 'Effacer la base de données',
       '(Used ticket number format)' => '(Format numérique utilisé pour les tickets)',
       'FAQ History' => 'Historique de la FAQ',
+      'Package not correctly deployed, you need to deploy it again!' => '',
     };
     # $$STOP$$
 }

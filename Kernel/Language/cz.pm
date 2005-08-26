@@ -6,7 +6,7 @@
 #		     Vadim Buzek
 #		     Petr Ocasek
 # --
-# $Id: cz.pm,v 1.19 2005-07-28 20:32:31 martin Exp $
+# $Id: cz.pm,v 1.20 2005-08-26 15:58:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ package Kernel::Language::cz;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1204,6 +1204,7 @@ sub Data {
       'Drop Database' => 'Odstranit databazi',
       '(Used ticket number format)' => '(Pou¾itý formát èísel tiketù)',
       'FAQ History' => 'Historie FAQ',
+      'Package not correctly deployed, you need to deploy it again!' => '',
     };
     # $$STOP$$
 }

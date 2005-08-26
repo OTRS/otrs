@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # Translated by Tomasz Melissa <janek at rumianek.com>
 # --
-# $Id: pl.pm,v 1.20 2005-07-28 20:32:31 martin Exp $
+# $Id: pl.pm,v 1.21 2005-08-26 15:58:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::pl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1197,6 +1197,7 @@ sub Data {
       'Drop Database' => 'Usuñ bazê danych',
       '(Used ticket number format)' => '(U¿ywany format numerowania zg³oszeñ)',
       'FAQ History' => 'Historia FAQ',
+      'Package not correctly deployed, you need to deploy it again!' => '',
     };
     # $$STOP$$
 }

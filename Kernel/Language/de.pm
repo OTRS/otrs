@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: de.pm,v 1.89 2005-07-28 20:32:31 martin Exp $
+# $Id: de.pm,v 1.90 2005-08-26 15:58:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.89 $';
+$VERSION = '$Revision: 1.90 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -601,7 +601,7 @@ sub Data {
       'Overview' => 'Übersicht',
       'Download' => 'Herunterladen',
       'Rebuild' => '',
-      'Reinstall' => '',
+      'Reinstall' => 'reinstallieren',
 
       # Template: AdminPGPForm
       'PGP Management' => 'PGP Verwaltung',
@@ -914,9 +914,9 @@ sub Data {
 
       # Template: AgentTicketNote
       'Add note to ticket' => 'Anheften einer Notiz an Ticket',
-      'Inform Agent' => 'Agenten Informieren',
+      'Inform Agent' => 'Agenten informieren',
       'Optional' => '',
-      'Inform involved Agents' => 'Invlivierte Agenten Informieren',
+      'Inform involved Agents' => 'Invlivierte Agenten informieren',
 
       # Template: AgentTicketOwner
       'Change owner of ticket' => 'Ticket-Besitzer ändern',
@@ -1203,6 +1203,7 @@ sub Data {
       'Drop Database' => 'Datenbank löschen',
       '(Used ticket number format)' => '(Benutztes Format für die Ticketnummer)',
       'FAQ History' => 'FAQ Historie',
+      'Package not correctly deployed, you need to deploy it again!' => 'Paket nicht korrekt installiert, bitte nochmal installieren!',
     };
     # $$STOP$$
 }
