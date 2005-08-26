@@ -3,7 +3,7 @@
 # PostMasterPOP3.pl - the global eMail handle for email2db
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMasterPOP3.pl,v 1.16 2005-05-07 15:26:56 martin Exp $
+# $Id: PostMasterPOP3.pl,v 1.17 2005-08-26 18:00:26 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin)."/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use strict;
@@ -80,7 +80,7 @@ my $MaxEmailSize = $CommonObject{ConfigObject}->Get('PostMasterPOP3MaxEmailSize'
 my $MaxPopEmailSession = $CommonObject{ConfigObject}->Get('PostMasterPOP3ReconnectMessage') || 20;
 # create pid lock
 if (!$Opts{'f'} && !$CommonObject{PIDObject}->PIDCreate(Name => 'PostMasterPOP3')) {
-    print "Notice: PostMasterPOP3.pl is already running!\n";
+    print "Notice: PostMasterPOP3.pl is already running (use '-f 1' if you want to start it forced)!\n";
     exit 1;
 }
 elsif ($Opts{'f'} && !$CommonObject{PIDObject}->PIDCreate(Name => 'PostMasterPOP3')) {
