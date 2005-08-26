@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketMove.pm,v 1.5 2005-05-15 09:08:59 martin Exp $
+# $Id: AgentTicketMove.pm,v 1.6 2005-08-26 12:48:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -46,11 +46,12 @@ sub new {
     $Self->{TicketUnlock} = $Self->{ParamObject}->GetParam(Param => 'TicketUnlock');
     $Self->{ExpandQueueUsers} = $Self->{ParamObject}->GetParam(Param => 'ExpandQueueUsers') || 0;
     $Self->{AllUsers} = $Self->{ParamObject}->GetParam(Param => 'AllUsers') || 0;
+    $Self->{TimeUnits} = $Self->{ParamObject}->GetParam(Param => 'TimeUnits');
     $Self->{Comment} = $Self->{ParamObject}->GetParam(Param => 'Comment') || '';
     $Self->{NewStateID} = $Self->{ParamObject}->GetParam(Param => 'NewStateID') || '';
     # DestQueueID lookup
     if (!$Self->{DestQueueID} && $Self->{DestQueue}) {
-        $Self->{DestQueueID} = $Self->{QueueObject}->QueueLookup(Queue => $Self->{DestQueue}); 
+        $Self->{DestQueueID} = $Self->{QueueObject}->QueueLookup(Queue => $Self->{DestQueue});
     }
 
     return $Self;
@@ -173,6 +174,7 @@ sub Run {
             TicketID => $Self->{TicketID},
             NextStates => \%NextStates,
             TicketUnlock => $Self->{TicketUnlock},
+            TimeUnits => $Self->{TimeUnits},
             Comment => $Self->{Comment},
             %Ticket,
         );
@@ -240,9 +242,10 @@ sub Run {
                 );
             }
         }
+        # add note
+        my $ArticleID;
         if ($Self->{Comment}) {
-            # add note
-            my $ArticleID = $Self->{TicketObject}->ArticleCreate(
+            $ArticleID = $Self->{TicketObject}->ArticleCreate(
                 TicketID => $Self->{TicketID},
                 ArticleType => 'note-internal',
                 SenderType => 'agent',
@@ -253,6 +256,15 @@ sub Run {
                 UserID => $Self->{UserID},
                 HistoryType => 'AddNote',
                 HistoryComment => '%%Move',
+            );
+        }
+        # time accounting
+        if ($Self->{TimeUnits}) {
+            $Self->{TicketObject}->TicketAccountTime(
+                TicketID => $Self->{TicketID},
+                ArticleID => $ArticleID || '',
+                TimeUnit => $Self->{TimeUnits},
+                UserID => $Self->{UserID},
             );
         }
         # redirect
@@ -329,14 +341,25 @@ sub AgentMove {
         );
     }
     $Param{MoveQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
-            Data => { %MoveQueues, '' => '-' },
-            Multiple => 0,
-            Size => 0,
-            Name => 'DestQueueID',
-            SelectedID => $Self->{DestQueueID},
-            OnChangeSubmit => 0,
-            OnChange => "document.compose.ExpandQueueUsers.value='3'; document.compose.submit(); return false;",
+        Data => { %MoveQueues, '' => '-' },
+        Multiple => 0,
+        Size => 0,
+        Name => 'DestQueueID',
+        SelectedID => $Self->{DestQueueID},
+        OnChangeSubmit => 0,
+        OnChange => "document.compose.ExpandQueueUsers.value='3'; document.compose.submit(); return false;",
+    );
+    # show time accounting box
+    if ($Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime')) {
+        $Self->{LayoutObject}->Block(
+            Name => 'TimeUnitsJs',
+            Data => \%Param,
         );
+        $Self->{LayoutObject}->Block(
+            Name => 'TimeUnits',
+            Data => \%Param,
+        );
+    }
 
     return $Self->{LayoutObject}->Output(TemplateFile => 'AgentTicketMove', Data => \%Param);
 }

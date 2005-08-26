@@ -2,7 +2,7 @@
 # AgentTicketMove.dtl - provides HTML form for move mask
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketMove.dtl,v 1.2 2005-05-16 13:36:33 martin Exp $
+# $Id: AgentTicketMove.dtl,v 1.3 2005-08-26 12:48:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,19 +10,6 @@
 # --
 <!-- start form -->
 
-<script language="JavaScript" type="text/javascript">
-<!--
-function submit_compose()
-{
-alert(start_elements);
-    if (document.compose.DestQueueID.value == "") {
-        alert('$Text{"Queue ID"}');
-        document.compose.DestQueueID.focus();
-        return false;
-    }
-}
-//-->
-</script>
 <script language="JavaScript" type="text/javascript">
 <!--
 
@@ -44,10 +31,25 @@ function change_selected(sel)
 function submit_compose()
 {
     if (document.compose.DestQueueID.value == "") {
-        alert('$Text{"Queue ID"}');
+        alert('$Text{"Queue"}');
         document.compose.DestQueueID.focus();
         return false;
     }
+<!-- dtl:block:TimeUnitsJs -->
+    else if (document.compose.TimeUnits.value != "") {
+        var reg = /^-{0,1}\d+?((\.|,){0,1}\d+?){0,1}$/;
+        if (reg.test(document.compose.TimeUnits.value) == false) {
+            alert('$Text{"Invalid time!"}');
+            document.compose.TimeUnits.focus();
+            return false;
+        }
+    }
+    else if (document.compose.TimeUnits.value == "" && $Config{"Ticket::Frontend::NeedAccountedTime"}) {
+        alert('$Text{"You need to account time!"}');
+        document.compose.TimeUnits.focus();
+        return false;
+    }
+<!-- dtl:block:TimeUnitsJs -->
 }
 //-->
 </script>
@@ -109,15 +111,27 @@ $Include{"AgentTicketLocked"}
 <!-- dtl:block:State -->
   <tr>
     <td width="20%" class="contentkey">$Text{"Next ticket state"}:</td>
-    <td></td>
+    <td class="contentvalue"></td>
     <td width="80%">$Data{"NextStatesStrg"}</td>
-</tr>
+  </tr>
 <!-- dtl:block:State -->
+<!-- dtl:block:TimeUnits -->
+  <tr>
+    <td class="contentkey">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</td>
+    <td class="contentvalue"></td>
+    <td class="contentvalue"><input type="text" name="TimeUnits" value="$QData{"TimeUnits"}" size="3"></td>
+  </tr>
+<!-- dtl:block:TimeUnits -->
+
   </table>
-  <input class="button" accesskey="g" type="submit" value="$Text{"Move"}" onclick="return submit_compose();">
+  <tr>
+    <td class="contentfooter">
+      <input class="button" accesskey="g" type="submit" value="$Text{"submit"}" onclick="return submit_compose();">
+    </td>
+  </tr>
   </form>
 
-    </td>
+  </td>
   </tr>
   </table>
 
