@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.211 2005-08-26 15:46:43 martin Exp $
+# $Id: Defaults.pm,v 1.212 2005-08-26 18:09:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.211 $';
+$VERSION = '$Revision: 1.212 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -179,6 +179,10 @@ sub LoadDefaults {
     # /days hours/ format)
     $Self->{ShowAlwaysLongTime} = 0;
     $Self->{TimeShowAlwaysLong} = 0;
+
+    # TimeInputFormat
+    # (default date input format) [Option|Input]
+    $Self->{TimeInputFormat} = 'Option';
 
     # AttachmentDownloadType
     # (if the tickets attachments will be opened in browser or just to
@@ -1714,6 +1718,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.211 $ $Date: 2005-08-26 15:46:43 $
+$Revision: 1.212 $ $Date: 2005-08-26 18:09:46 $
 
 =cut
