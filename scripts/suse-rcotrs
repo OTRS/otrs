@@ -1,12 +1,12 @@
 #!/bin/sh
 # --
 # suse-rcotrs - rc script of otrs for SuSE Linux
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: suse-rcotrs,v 1.25 2003-10-29 20:57:11 martin Exp $
+# $Id: suse-rcotrs,v 1.26 2005-08-29 21:39:41 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
@@ -14,13 +14,16 @@
 # Provides:          otrs
 # Required-Start:    mysql apache
 # Required-Stop:
-# Default-Start:     3
-# Default-Stop:
+# Default-Start:     3 5
+# Default-Stop:      0 1 2 6
 # Description:       Open Ticket Request System
 ### END INIT INFO
 
 
-# PS: I'm not a shell hacker! 
+# PS: I'm not a shell hacker!
+
+export LANG=POSIX
+PATH="/bin:/usr/bin:/sbin:/usr/sbin"
 
 #
 # load the configuration
@@ -43,9 +46,9 @@ test -r /etc/sysconfig/otrs && . /etc/sysconfig/otrs && CONFIGFILE=/etc/sysconfi
 #      rc_exit          exit appropriate to overall rc status
 test -s /etc/rc.status && . /etc/rc.status
 
-# 
+#
 # check needed variable
-# 
+#
 if ! test $OTRS_ROOT; then
     echo "Error: Corrupt config file ($CONFIGFILE)! OTRS_ROOT not found! Please check your /etc/sysconfig/otrs - maybe it wasn't changed by rpm!"
     exit 5
@@ -58,9 +61,9 @@ if ! test $OTRS_SPOOLDIR; then
     echo "Error: Corrupt config file ($CONFIGFILE)! OTRS_SPOOLDIR not found! Please check your /etc/sysconfig/otrs - maybe it wasn't changed by rpm!"
     exit 5
 fi
-# 
+#
 # check needed files
-# 
+#
 if ! test -r $OTRS_ROOT; then
     echo "Error: $OTRS_ROOT not found!"
     exit 5
@@ -87,7 +90,7 @@ if test $OTRS_CLEANUP; then
         exit 5
     fi
 fi
- 
+
 # reset status of this service
 rc_reset
 
@@ -96,9 +99,9 @@ rc_reset
 #
 return=$rc_done
 
-# 
+#
 # main part
-# 
+#
 case "$1" in
     # ------------------------------------------------------
     # start
@@ -127,17 +130,17 @@ case "$1" in
       # check database
       # --
       if test $OTRS_DB_RUNNING -gt 0; then
-        if $OTRS_USED_DB_RCSCRIPT status > /dev/null 2>&1 ; then 
+        if $OTRS_USED_DB_RCSCRIPT status > /dev/null 2>&1 ; then
           echo " Checking $OTRS_USED_DB ... done."
-          rc_status 
-        else 
+          rc_status
+        else
           echo " Checking $OTRS_USED_DB ... failed."
           echo "  --> Please start the database at first! ($OTRS_USED_DB_RCSCRIPT start) <--"
           rc_failed
-          rc_status -v 
+          rc_status -v
           exit 1;
         fi
-      else 
+      else
           echo " Disabled: database check!"
       fi
 
@@ -156,17 +159,17 @@ case "$1" in
           echo ""
           echo ""
           echo "     -->> http://$OTRS_HOST/$OTRS_HTTP_LOCATION/installer.pl <<-- "
-          echo ""                               
+          echo ""
           echo ""
           echo "----------------------------------------------------------------------------"
           echo " or configure your database with README.database (DB - Setup Example)    "
           echo "----------------------------------------------------------------------------"
-          rc_failed 
+          rc_failed
           rc_status -v
           exit 1;
-      else 
+      else
           echo ")."
-          rc_status 
+          rc_status
       fi
 
       # --
@@ -187,17 +190,17 @@ case "$1" in
       for i in $OTRS_SPOOLDIR/* ; do
           # process old emails
           if echo $i | grep -v '*' >> /dev/null; then
-              echo -n "   Starting otrs PostMaster... ($i) " 
+              echo -n "   Starting otrs PostMaster... ($i) "
               if cat $i | $OTRS_POSTMASTER >> /dev/null 2>&1; then
                   rm $i && echo "(remove email)";
-              else 
+              else
                   rc_failed
-              fi 
+              fi
           fi
       done
       echo " done."
       rc_status
-    
+
       # --
       # start cron stuff
       # --
@@ -241,7 +244,7 @@ case "$1" in
       # stop cron stuff
       # --
       if test $OTRS_CRON_RUNNING -gt 0; then
-        if crontab $OTRS_CRON_USER -r ; then
+        if type -a crontab 2&>/dev/null && crontab $OTRS_CRON_USER -r ; then
           echo " Shutting down cronjobs ... done."
           rc_status
         else
@@ -283,18 +286,18 @@ case "$1" in
       # check database
       # --
       if test $OTRS_DB_RUNNING -gt 0; then
-        if $OTRS_USED_DB_RCSCRIPT restart > /dev/null 2>&1 ; then 
+        if $OTRS_USED_DB_RCSCRIPT restart > /dev/null 2>&1 ; then
           # just in case, some databases can't get ready so fast!
           sleep 5;
           echo " Starting $OTRS_USED_DB ... done."
-          rc_status 
-        else 
+          rc_status
+        else
           echo " Starting $OTRS_USED_DB ... failed."
           rc_failed
-          rc_status -v 
+          rc_status -v
           exit 1;
         fi
-      else 
+      else
           echo " Disabled: database check!"
       fi
 
@@ -335,7 +338,7 @@ case "$1" in
       if test $OTRS_HTTP_RUNNING -gt 0; then
         if $OTRS_USED_WEBSERVER_RCSCRIPT stop > /dev/null 2>&1 ; then
           echo " Shutting down $OTRS_USED_WEBSERVER ... done."
-          rc_status 
+          rc_status
         else
           echo " Shutting down $OTRS_USED_WEBSERVER ... failed."
           rc_failed
@@ -348,7 +351,7 @@ case "$1" in
       if test $OTRS_DB_RUNNING -gt 0; then
         if $OTRS_USED_DB_RCSCRIPT stop > /dev/null 2>&1 ; then
           echo " Shutting down $OTRS_USED_DB ... done."
-          rc_status 
+          rc_status
         else
           echo " Shutting down $OTRS_USED_DB ... failed."
           rc_failed
@@ -362,7 +365,7 @@ case "$1" in
     # restart
     # ------------------------------------------------------
     restart)
-      $0 stop  
+      $0 stop
       $0 start
       # Remember status and be quiet
       rc_status
@@ -377,9 +380,26 @@ case "$1" in
       rc_status
     ;;
     # ------------------------------------------------------
+    # try-restart
+    # ------------------------------------------------------
+    try-restart|condrestart)
+      if test "$1" = "condrestart"; then
+         echo "${attn} Use try-restart ${done}(LSB)${attn} rather than condrestart ${warn}(RH)${norm}"
+      fi
+      $0 status
+      if test $? = 0; then
+        $0 restart
+      else
+        # Not running is not a failure.
+        rc_reset
+      fi
+      # Remember status and be quiet
+      rc_status
+    ;;
+    # ------------------------------------------------------
     # cleanup
     # ------------------------------------------------------
-    cleanup) 
+    cleanup)
       # --
       # check otrs spool dir
       # --
@@ -391,7 +411,7 @@ case "$1" in
             echo -n "   Starting otrs PostMaster... ($i) " && \
             cat $i | $OTRS_POSTMASTER >> /dev/null 2>&1 && \
             echo -n "remove email... " && \
-            (rm $i || rc_failed) 
+            (rm $i || rc_failed)
       done
       echo " done."
       rc_status
@@ -401,7 +421,7 @@ case "$1" in
     # ------------------------------------------------------
     # status
     # ------------------------------------------------------
-    status) 
+    status)
       # --
       # webserver
       # --
@@ -443,7 +463,7 @@ case "$1" in
           # echo old emails
           echo $i | grep -v '*' > /dev/null && \
             echo "" && \
-            echo -n " (message:$i) found! " 
+            echo -n " (message:$i) found! "
       done
       echo "done."
     ;;
