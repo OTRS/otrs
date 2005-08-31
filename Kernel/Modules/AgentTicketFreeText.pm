@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketFreeText.pm - to set the ticket free text
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketFreeText.pm,v 1.3 2005-07-03 18:37:41 martin Exp $
+# $Id: AgentTicketFreeText.pm,v 1.4 2005-08-31 22:25:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentTicketFreeText;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -78,8 +78,17 @@ sub Run {
     }
 
     if ($Self->{Subaction} eq 'Update') {
+        # update ticket title
+        my $Title = $Self->{ParamObject}->GetParam(Param => "Title");
+        if (defined($Title)) {
+            $Self->{TicketObject}->TicketTitleUpdate(
+                Title => $Title,
+                TicketID => $Self->{TicketID},
+                UserID => $Self->{UserID},
+            );
+        }
         # update ticket free text
-        foreach (1..8) {
+        foreach (1..9) {
             my $FreeKey = $Self->{ParamObject}->GetParam(Param => "TicketFreeKey$_");
             my $FreeValue = $Self->{ParamObject}->GetParam(Param => "TicketFreeText$_");
             if (defined($FreeKey) && defined($FreeValue)) {
@@ -122,7 +131,7 @@ sub Run {
         my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
         # get free text config options
         my %TicketFreeText = ();
-        foreach (1..8) {
+        foreach (1..9) {
             $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
                 TicketID => $Self->{TicketID},
                 Type => "TicketFreeKey$_",
