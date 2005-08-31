@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.184 2005-08-06 19:29:23 martin Exp $
+# $Id: Ticket.pm,v 1.185 2005-08-31 22:24:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.184 $';
+$VERSION = '$Revision: 1.185 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -725,6 +725,7 @@ update ticket title
   $TicketObject->TicketTitleUpdate(
       Title => 'Some Title',
       TicketID => 123,
+      UserID => 1,
   );
 
 =cut
@@ -733,11 +734,16 @@ sub TicketTitleUpdate {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
-    foreach (qw(Title TicketID)) {
+    foreach (qw(Title TicketID UserID)) {
         if (!defined($Param{$_})) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
         }
+    }
+    # check if update is needed
+    my %Ticket = $Self->TicketGet(%Param);
+    if ($Ticket{Title} eq $Param{Title}) {
+        return 1;
     }
     # db quote
     foreach (keys %Param) {
@@ -4090,6 +4096,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.184 $ $Date: 2005-08-06 19:29:23 $
+$Revision: 1.185 $ $Date: 2005-08-31 22:24:04 $
 
 =cut
