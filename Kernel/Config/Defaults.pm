@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.213 2005-09-04 13:30:39 martin Exp $
+# $Id: Defaults.pm,v 1.214 2005-09-04 16:45:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.213 $';
+$VERSION = '$Revision: 1.214 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -434,7 +434,7 @@ sub LoadDefaults {
 
     # SessionMaxTime
     # (Max valid time of one session id in second (8h = 28800).)
-    $Self->{SessionMaxTime} = 9*60*60;
+    $Self->{SessionMaxTime} = 10*60*60;
 
     # SessionMaxIdleTime
     # (After this time (in seconds) without new http request, then
@@ -1722,6 +1722,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.213 $ $Date: 2005-09-04 13:30:39 $
+$Revision: 1.214 $ $Date: 2005-09-04 16:45:25 $
 
 =cut
