@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.180 2005-09-04 13:31:39 martin Exp $
+# $Id: CHANGES,v 1.181 2005-09-04 16:45:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,6 +11,10 @@
 CVS head
 
 2.0.3 (2005/08/??)
+ - (2005/09/04) changed max. session time from 9h to 10h
+ - (2005/09/04) added missing config options in
+    Kernel/Modules/AgentTicketEmail.pm and Kernel/Modules/AgentTicketPhone.pm
+    for show count of customer ticket history
  - (2005/09/04) added missing Kernel::Modules::AgentLookup module registration
  - (2005/09/04) fixed ArticleGetContentPath() in Kernel/System/Ticket/Article.pm,
     removed "uninitialized value" warning if no content path is set in db'
