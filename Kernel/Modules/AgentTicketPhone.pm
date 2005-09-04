@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPhone.pm,v 1.10 2005-07-31 13:49:19 martin Exp $
+# $Id: AgentTicketPhone.pm,v 1.11 2005-09-04 15:27:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -738,7 +738,7 @@ sub Run {
             );
             # show customer tickets
             my @TicketIDs = ();
-            if ($CustomerUser) {
+            if ($CustomerUser && $Self->{ConfigObject}->Get('Ticket::Frontend::PhoneNewShownCustomerTickets')) {
                 # get secondary customer ids
                 my @CustomerIDs = $Self->{CustomerUserObject}->CustomerIDs(User => $CustomerUser);
                 # get own customer id
@@ -749,7 +749,7 @@ sub Run {
 
                 @TicketIDs = $Self->{TicketObject}->TicketSearch(
                     Result => 'ARRAY',
-                    Limit => $Self->{ConfigObject}->Get('PhoneViewMaxShownCustomerTickets') || '10',
+                    Limit => $Self->{ConfigObject}->Get('Ticket::Frontend::PhoneNewShownCustomerTickets'),
                     CustomerID => \@CustomerIDs,
 
                     UserID => $Self->{UserID},
