@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: de.pm,v 1.91 2005-08-26 16:08:18 martin Exp $
+# $Id: de.pm,v 1.92 2005-09-04 09:06:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.91 $';
+$VERSION = '$Revision: 1.92 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -417,7 +417,7 @@ sub Data {
       'Send me a notification if a ticket is unlocked by the system.' => 'Zusenden einer Mitteilung, wenn ein Ticket vom System freigegeben ("unlocked") wird.',
       'Move notification' => 'Mitteilung bei Queue-Wechsel',
       'Send me a notification if a ticket is moved into one of "My Queues".' => 'Zusenden einer Mitteilung beim Verschieben eines Tickets in "Meine Queues".',
-      'Your queue selection of your favorite queues. You also get notified about this queues via email if enabled.' => 'Queue Auswahl der bevorzugte Queues. Es werden Email-Benachrichtigungen über diese ausgewählten Queues versenden.',
+      'Your queue selection of your favorite queues. You also get notified about this queues via email if enabled.' => 'Queue Auswahl der bevorzugten Queues. Es werden Email-Benachrichtigungen über diese ausgewählten Queues versendet.',
       'Custom Queue' => 'Bevorzugte Queue',
       'QueueView refresh time' => 'Queue-Ansicht Aktualisierungszeit',
       'Screen after new ticket' => 'Fenster nach neuem Ticket',
