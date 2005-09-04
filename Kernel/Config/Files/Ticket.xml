@@ -148,7 +148,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.61 2005-09-04 13:17:47 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.62 2005-09-04 13:20:36 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifyer for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z.B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -817,7 +817,7 @@ TimeWorkingHours
         <Description Lang="en">Show customer user info in Compose screen (Phone and Email)?</Description>
         <Description Lang="de">Anzeige von Customer-Informationen in der Maske zum Erstellen einer Antwort (Telefon und Email)?</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer</SubGroup>
+        <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
             <Option SelectedID="1">
                 <Item Key="0">No</Item>
@@ -829,7 +829,7 @@ TimeWorkingHours
         <Description Lang="en">Max size (in characters) of customer info table - Compose screen (Phone and Email).</Description>
         <Description Lang="de">Max. Anzeige an Zeichen für die Customer-Infomationen innerhalb der Antwort-Erstellen-Maske (Telefon and Email)?</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer</SubGroup>
+        <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
             <String Regex="^[0-9]{1,3}$">22</String>
         </Setting>
@@ -838,7 +838,7 @@ TimeWorkingHours
         <Description Lang="en">Show customer user info in ticket zoom view?</Description>
         <Description Lang="de">Anzeige der Customer-Informationen im Ticket-Inhalt?</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer</SubGroup>
+        <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
             <Option SelectedID="1">
                 <Item Key="0">No</Item>
@@ -850,7 +850,7 @@ TimeWorkingHours
         <Description Lang="en">Max size (in characters) of customer info table - Zoom.</Description>
         <Description Lang="de">Max. Anzeige der Zeichen in der Customer-Info für die Ticket-Zoom-Maske.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer</SubGroup>
+        <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
             <String Regex="^[0-9]{1,3}$">22</String>
         </Setting>
@@ -859,7 +859,7 @@ TimeWorkingHours
         <Description Lang="en">Show customer user info in Queue view?</Description>
         <Description Lang="de">Anzeige der Customer-Info in der Queue-Ansicht?</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer</SubGroup>
+        <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
             <Option SelectedID="0">
                 <Item Key="0">No</Item>
@@ -871,7 +871,7 @@ TimeWorkingHours
         <Description Lang="en">Max size (in characters) of customer info table - Queue.</Description>
         <Description Lang="de">Max. Anzeige der Zeichen in der Customer-Info für die Queue-Ansicht.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer</SubGroup>
+        <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
             <String Regex="^[0-9]{1,3}$">18</String>
         </Setting>
