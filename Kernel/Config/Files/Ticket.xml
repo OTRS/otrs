@@ -148,7 +148,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.62 2005-09-04 13:20:36 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.63 2005-09-04 15:24:26 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifyer for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z.B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -1322,6 +1322,15 @@ TimeWorkingHours
             <String Regex="">open</String>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::PhoneNewShownCustomerTickets" Required="0" Valid="1">
+        <Description Lang="en">Max. shown customer history tickets in phone-ticket mask.</Description>
+        <Description Lang="de">Max. gezeigte Kunden-Historie-Tickets in Telefon-Ticket.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
+        <Setting>
+            <String Regex="">10</String>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PhonePriority" Required="1" Valid="1">
         <Description Lang="en">Default priority for phone tickets.</Description>
         <Description Lang="de">Standardpriorität eines Telefontickets.</Description>
@@ -1469,6 +1478,15 @@ TimeWorkingHours
         <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
         <Setting>
             <String Regex="">open</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::EmailNewShownCustomerTickets" Required="0" Valid="1">
+        <Description Lang="en">Max. shown customer history tickets in email-ticket mask.</Description>
+        <Description Lang="de">Max. gezeigte Kunden-Historie-Tickets in Email-Ticket.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
+        <Setting>
+            <String Regex="">10</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::NoteSetState" Required="1" Valid="1">
@@ -2755,7 +2773,7 @@ $Data{"Signature"}
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="0">No"</Item>
+                <Item Key="0">No</Item>
                 <Item Key="1">Yes</Item>
             </Option>
         </Setting>
@@ -2841,7 +2859,10 @@ $Data{"Signature"}
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
-            <String Regex="">1</String>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::CustomerPanelDefaultNextComposeStateType" Required="1" Valid="1">
