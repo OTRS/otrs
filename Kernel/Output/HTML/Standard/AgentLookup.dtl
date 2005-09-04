@@ -1,8 +1,8 @@
 # --
 # AgentLookup.dtl - provides HTML form for AgentLookup
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentLookup.dtl,v 1.1 2004-04-26 11:37:06 martin Exp $
+# $Id: AgentLookup.dtl,v 1.2 2005-09-04 16:41:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,12 +36,12 @@ function updateMessage(x)
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
 <tr>
-  <td align="left" class="table0"> 
-    <b>$Env{"Box0"}$Text{"Lookup"}$Env{"Box1"}</b>
+  <td align="left" class="mainhead">
+    $Env{"Box0"}$Text{"Lookup"}$Env{"Box1"}
   </td>
 </tr>
 <tr>
-  <td align="left" valign="top" class="table1">
+  <td align="left" valign="top" class="mainbody">
 
   <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="lookup">
   <input type="hidden" name="Action" value="$Env{"Action"}">
@@ -53,8 +53,8 @@ function updateMessage(x)
 <tr>
   <td>
     <input type="text" name="Search" value="$Data{"Search"}" size="40">
-    <input class="button" type="submit" value="$Text{"Search"}"> 
-    <input class="button" type="reset" value="$Text{"Reset"}"> 
+    <input class="button" type="submit" value="$Text{"Search"}">
+    <input class="button" type="reset" value="$Text{"Reset"}">
     <input class="button" type="button" onclick="window.close();" value="$Text{"Cancel"}">
   </td>
 </tr>
@@ -65,7 +65,7 @@ $Data{"Table"}
 </table>
 
 <hr>
-  </td> 
+  </td>
 </tr>
 </table>
 <!-- end Spelling form -->
