@@ -465,6 +465,21 @@
     $Self->{'Ticket::Frontend::NoteText'} = '';
 
     # --------------------------------------------------- #
+    # Ticket Frontend Ticket Owner stuff
+    # --------------------------------------------------- #
+    # Ticket::Frontend::OwnerSetState
+    # (possible to set ticket state via AgentTicketOwner)
+    $Self->{'Ticket::Frontend::OwnerSetState'} = 0;
+
+    # Ticket::DefaultNextOwnerStateType
+    # (default note next state)
+    $Self->{'Ticket::DefaultNextOwnerStateType'} = ['open', 'closed'];
+
+    # Ticket::Frontend::OwnerSubject
+    # (default owner subject)
+    $Self->{'Ticket::Frontend::OwnerSubject'} = '$Text{"Owner Update"}';
+
+    # --------------------------------------------------- #
     # Ticket Frontend Ticket Pending stuff
     # --------------------------------------------------- #
     # Ticket::Frontend::PendingSubject

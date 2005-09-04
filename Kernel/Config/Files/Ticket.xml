@@ -148,7 +148,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.60 2005-08-08 19:33:12 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.61 2005-09-04 13:17:47 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifyer for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z.B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -1558,6 +1558,39 @@ TimeWorkingHours
         <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
         <Setting>
             <TextArea></TextArea>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::OwnerSetState" Required="1" Valid="1">
+        <Description Lang="en">Would you like to set the state of a ticket if a owner will be set in frontend?</Description>
+        <Description Lang="de">Soll der Status eines Tickets gesetzt werden können, wenn ein Besitzer gesetzt wird?</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewOwner</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::DefaultNextOwnerStateType" Required="1" Valid="1">
+        <Description Lang="en">Possible states of next owner screen.</Description>
+        <Description Lang="de">Mögliche nächster Status beim Besizer setzen.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewOwner</SubGroup>
+        <Setting>
+            <Array>
+                <Item>open</Item>
+                <Item>closed</Item>
+            </Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::OwnerSubject" Required="1" Valid="1">
+        <Description Lang="en">Default owner update subject.</Description>
+        <Description Lang="de">Standardtext im Betreff eine Besitzer ändern Aktion.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewOwner</SubGroup>
+        <Setting>
+            <String Regex="">$Text{"Owner Update"}</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PendingSubject" Required="1" Valid="1">

@@ -2,7 +2,7 @@
 # AgentTicketOwner.dtl - provides HTML for AgentTicketOwner mask
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketOwner.dtl,v 1.2 2005-05-16 13:36:33 martin Exp $
+# $Id: AgentTicketOwner.dtl,v 1.3 2005-09-04 13:17:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -74,6 +74,18 @@ function change_selected(sel)
         <td class="contentvalue"></td>
         <td class="contentvalue"><textarea name="Comment" rows="12" cols="$Config{"Ticket::Frontend::TextAreaNote"}" wrap="$Env{"BrowserWrap"}"></textarea></td>
       </tr>
+<!-- dtl:block:NextState -->
+      <tr>
+        <td class="contentkey">$Text{"Next ticket state"}:</td>
+        <td class="contentvalue"></td>
+        <td class="contentvalue">$Data{"NextStatesStrg"}</td>
+      </tr>
+#      <tr>
+#        <td class="contentkey">$Text{"Pending date"}:</td>
+#        <td class="contentvalue"></td>
+#        <td class="contentvalue">$Data{"DateString"} <font color="red" size="-2">$Text{"$Data{"Date invalid"}"}</font></td>
+#      </tr>
+<!-- dtl:block:NextState -->
     </table>
       </td>
     </tr>

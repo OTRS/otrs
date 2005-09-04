@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketOwner.pm - to set the ticket owner
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketOwner.pm,v 1.3 2005-06-27 17:12:57 martin Exp $
+# $Id: AgentTicketOwner.pm,v 1.4 2005-09-04 13:17:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentTicketOwner;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -41,7 +41,6 @@ sub new {
     $Self->{NewUserID} = $Self->{ParamObject}->GetParam(Param => 'NewUserID') || '';
     $Self->{OldUserID} = $Self->{ParamObject}->GetParam(Param => 'OldUserID') || '';
     $Self->{UserSelection} = $Self->{ParamObject}->GetParam(Param => 'UserSelection') || '';
-    $Self->{Comment} = $Self->{ParamObject}->GetParam(Param => 'Comment') || '';
 
     return $Self;
 }
@@ -57,6 +56,13 @@ sub Run {
         UserID => $Self->{UserID})) {
         # error screen, don't show ticket
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
+    }
+
+
+    # get params
+    my %GetParam = ();
+    foreach (qw(NewStateID Comment Year Month Day Hour Minute)) {
+            $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
     }
 
     if ($Self->{Subaction} eq 'Update') {
@@ -96,23 +102,50 @@ sub Run {
             TicketID => $Self->{TicketID},
             UserID => $Self->{UserID},
             NewUserID => $Self->{NewUserID},
-            Comment => $Self->{Comment},
+            Comment => $GetParam{Comment},
 		)) {
             # add note
-            if ($Self->{Comment}) {
+            if ($GetParam{Comment}) {
               my $ArticleID = $Self->{TicketObject}->ArticleCreate(
                 TicketID => $Self->{TicketID},
                 ArticleType => 'note-internal',
                 SenderType => 'agent',
                 From => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
-                Subject => $Self->{LayoutObject}->Output(Template => '$Text{"Owner Update"}'),
-                Body => $Self->{Comment},
+                Subject => $Self->{LayoutObject}->Output(Template => $Self->{ConfigObject}->Get('Ticket::Frontend::OwnerSubject') || '$Text{"Owner Update"}'),
+                Body => $GetParam{Comment},
                 ContentType => "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}",
                 UserID => $Self->{UserID},
                 HistoryType => 'AddNote',
                 HistoryComment => '%%Owner',
                 NoAgentNotify => 1, # because of owner updated notify
               );
+            }
+            if ($Self->{ConfigObject}->Get('Ticket::Frontend::OwnerSetState') && $GetParam{NewStateID}) {
+                $Self->{TicketObject}->StateSet(
+                    TicketID => $Self->{TicketID},
+                    StateID => $GetParam{NewStateID},
+                    UserID => $Self->{UserID},
+                );
+                # unlock the ticket after close
+                my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+                    ID => $GetParam{NewStateID},
+                );
+                # set unlock on close
+                if ($StateData{TypeName} =~ /^close/i) {
+                    $Self->{TicketObject}->LockSet(
+                        TicketID => $Self->{TicketID},
+                        Lock => 'unlock',
+                        UserID => $Self->{UserID},
+                    );
+                }
+                # set pending time
+                elsif ($StateData{TypeName} =~ /^pending/i) {
+                    $Self->{TicketObject}->TicketPendingTimeSet(
+                        UserID => $Self->{UserID},
+                        TicketID => $Self->{TicketID},
+                        %GetParam,
+                    );
+                }
             }
           # redirect
           return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenView});
@@ -199,6 +232,31 @@ sub MaskOwner {
         OnClick => "change_selected(2)",
 #        Size => 10,
     );
+    # get next states
+    if ($Self->{ConfigObject}->Get('Ticket::Frontend::OwnerSetState')) {
+        my %NextStates = $Self->{TicketObject}->StateList(
+            Type => 'DefaultNextOwner',
+            Action => $Self->{Action},
+            TicketID => $Self->{TicketID},
+            UserID => $Self->{UserID},
+        );
+        $NextStates{''} = '-';
+        # build next states string
+        $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data => \%NextStates,
+            Name => 'NewStateID',
+            SelectedID => $Param{NewStateID},
+        );
+        $Param{DateString} = $Self->{LayoutObject}->BuildDateSelection(
+            Format => 'DateInputFormatLong',
+            DiffTime => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
+            %Param,
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'NextState',
+            Data => \%Param,
+        );
+    }
     # create & return output
     return $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentTicketOwner',
