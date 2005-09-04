@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketSearch.pm,v 1.6 2005-08-26 15:55:29 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.7 2005-09-04 19:44:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -541,11 +541,13 @@ sub Run {
         foreach (1..8) {
             $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
                 Type => "TicketFreeKey$_",
+                FillUp => 1,
                 Action => $Self->{Action},
                 UserID => $Self->{UserID},
             );
             $TicketFreeText{"TicketFreeText$_"} = $Self->{TicketObject}->TicketFreeTextGet(
                 Type => "TicketFreeText$_",
+                FillUp => 1,
                 Action => $Self->{Action},
                 UserID => $Self->{UserID},
             );

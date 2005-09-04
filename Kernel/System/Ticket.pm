@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.185 2005-08-31 22:24:04 martin Exp $
+# $Id: Ticket.pm,v 1.186 2005-09-04 19:39:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.185 $';
+$VERSION = '$Revision: 1.186 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -1210,6 +1210,14 @@ Note: the current value is accessible over TicketGet()
      UserID => 123, # or CustomerUserID
   );
 
+  # fill up with existing values
+  my $HashRef = $TicketObject->TicketFreeTextGet(
+     Type => 'TicketFreeText3',
+     FillUp => 1,
+     UserID => 123, # or CustomerUserID
+  );
+
+
 =cut
 
 sub TicketFreeTextGet {
@@ -1228,9 +1236,31 @@ sub TicketFreeTextGet {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserID or CustomerUserID!");
         return;
     }
+    # get config
     my %Data = ();
     if (ref($Self->{ConfigObject}->Get($Param{Type})) eq 'HASH') {
         %Data = %{$Self->{ConfigObject}->Get($Param{Type})};
+    }
+    # check existing
+    if ($Param{FillUp}) {
+        my $Counter = $Param{Type};
+        $Counter =~ s/^.*(\d)$/$1/;
+        if (%Data && $Param{Type} =~ /text/i) {
+            $Self->{DBObject}->Prepare(SQL => "SELECT distinct(freetext$Counter) FROM ticket");
+            while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+                if ($Row[0] && !$Data{$Row[0]}) {
+                    $Data{$Row[0]} = $Row[0];
+                }
+            }
+        }
+        elsif (%Data) {
+            $Self->{DBObject}->Prepare(SQL => "SELECT distinct(freekey$Counter) FROM ticket");
+            while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+                if ($Row[0] && !$Data{$Row[0]}) {
+                    $Data{$Row[0]} = $Row[0];
+                }
+            }
+        }
     }
     # workflow
     if ($Self->TicketAcl(
@@ -1243,7 +1273,12 @@ sub TicketFreeTextGet {
         return \%Hash;
     }
     # /workflow
-    return $Self->{ConfigObject}->Get($Param{Type});
+    if (%Data) {
+        return \%Data;
+    }
+    else {
+        return;
+    }
 }
 
 =item TicketFreeTextSet()
@@ -4096,6 +4131,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.185 $ $Date: 2005-08-31 22:24:04 $
+$Revision: 1.186 $ $Date: 2005-09-04 19:39:52 $
 
 =cut
