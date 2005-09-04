@@ -368,6 +368,8 @@
     $Self->{'Ticket::Frontend::PhoneNewNote'} = '';
     # default next state [default: open]
     $Self->{'Ticket::Frontend::PhoneNewNextState'} = 'open';
+    # Max. shown customer history tickets in phone-ticket mask.
+    $Self->{'Ticket::Frontend::PhoneNewShownCustomerTickets'} = 10;
     # default priority [default: 3 normal]
     $Self->{'Ticket::Frontend::PhonePriority'} = '3 normal';
     # default history type
@@ -427,6 +429,9 @@
 
     # default next state
     $Self->{'Ticket::Frontend::EmailNewNextState'} = 'open';
+
+    # Max. shown customer history tickets in email-ticket mask.
+    $Self->{'Ticket::Frontend::EmailNewShownCustomerTickets'} = 10;
 
     # --------------------------------------------------- #
     # Ticket Frontend Ticket Note stuff
