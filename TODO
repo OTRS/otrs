@@ -2,7 +2,7 @@
 # TODO - todo list of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TODO,v 1.65 2005-08-29 12:41:05 tr Exp $
+# $Id: TODO,v 1.66 2005-09-05 15:24:17 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -37,7 +37,8 @@
 - QueueView: A config setting if all tickets or only unlocked Tickets should be shown
 - QueueView: rename Tickets available to Tickets unlocked
 - otrs installation: Check if perl is insert in ApacheModules
-
+- create a configelement for max logfilesize in log.pm
+- create a configelement for image path - delete path insert in header.dtl
 
 
 2.2
