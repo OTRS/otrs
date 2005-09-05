@@ -148,7 +148,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.63 2005-09-04 15:24:26 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.64 2005-09-05 04:58:46 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifyer for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z.B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -3028,7 +3028,7 @@ $Data{"Signature"}
                 <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
                 <Item Key="Colum">Other Options</Item>
                 <Item Key="Label">Closed Tickets</Item>
-                <Item Key="Desc">Show closed tickets</Item>
+                <Item Key="Desc">Show closed tickets.</Item>
                 <Item Key="Data">
                     <Hash>
                         <Item Key="0">No</Item>

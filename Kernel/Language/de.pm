@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: de.pm,v 1.92 2005-09-04 09:06:44 martin Exp $
+# $Id: de.pm,v 1.93 2005-09-05 04:58:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.92 $';
+$VERSION = '$Revision: 1.93 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -421,7 +421,7 @@ sub Data {
       'Custom Queue' => 'Bevorzugte Queue',
       'QueueView refresh time' => 'Queue-Ansicht Aktualisierungszeit',
       'Screen after new ticket' => 'Fenster nach neuem Ticket',
-      'Select your screen after creating a new ticket.' => 'Auswahlt des Fensters, welches nach der Erstellung eines neuen Tickets angezeigt werden soll.',
+      'Select your screen after creating a new ticket.' => 'Auswahl des Fensters, welches nach der Erstellung eines neuen Tickets angezeigt werden soll.',
       'Closed Tickets' => 'Geschlossene Tickets',
       'Show closed tickets.' => 'Geschlossene Tickets anzeigen.',
       'Max. shown Tickets a page in QueueView.' => 'Maximale Anzahl angezeigter Tickets pro Seite in der Queue-Ansicht.',
