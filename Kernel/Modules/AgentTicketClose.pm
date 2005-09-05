@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketClose.pm - to close a ticket
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketClose.pm,v 1.4 2005-06-20 19:29:26 martin Exp $
+# $Id: AgentTicketClose.pm,v 1.5 2005-09-05 04:57:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -280,12 +280,14 @@ sub _Mask {
     # build string
     $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => $Param{NextStatesStrg},
-        Name => 'CloseStateID'
+        Name => 'CloseStateID',
+        Selected => $Self->{ConfigObject}->Get('Ticket::Frontend::CloseState'),
     );
     # build string
     $Param{'NoteTypesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => $Param{NoteTypesStrg},
         Name => 'CloseNoteID'
+        Selected => $Self->{ConfigObject}->Get('Ticket::Frontend::CloseNoteType'),
     );
     # get MoveQueuesStrg
     $Param{MoveQueuesStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
@@ -317,7 +319,7 @@ sub _Mask {
         $Self->{LayoutObject}->Block(
             Name => 'CalendarLookup',
             Data => {},
-        ); 
+        );
     }
     # create & return output
     return $Self->{LayoutObject}->Output(TemplateFile => 'AgentTicketClose', Data => \%Param);
