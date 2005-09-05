@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketClose.pm - to close a ticket
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketClose.pm,v 1.5 2005-09-05 04:57:54 martin Exp $
+# $Id: AgentTicketClose.pm,v 1.6 2005-09-05 05:04:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -286,7 +286,7 @@ sub _Mask {
     # build string
     $Param{'NoteTypesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => $Param{NoteTypesStrg},
-        Name => 'CloseNoteID'
+        Name => 'CloseNoteID',
         Selected => $Self->{ConfigObject}->Get('Ticket::Frontend::CloseNoteType'),
     );
     # get MoveQueuesStrg
