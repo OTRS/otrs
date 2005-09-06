@@ -148,7 +148,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.64 2005-09-05 04:58:46 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.65 2005-09-06 15:50:56 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifyer for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z.B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -3962,7 +3962,7 @@ $Data{"Signature"}
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="CustomerFrontend::ModuleCustomerTicketSearch" Required="0" Valid="1">
+    <ConfigItem Name="CustomerFrontend::Module###CustomerTicketSearch" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the CustomerTicketSearch object in the customer interface.</Description>
         <Description Lang="de">Frontendmodul-Registration des CustomerTicketSearch-Objekts im Customer-Interface.</Description>
         <Group>Ticket</Group>
