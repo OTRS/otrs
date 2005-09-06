@@ -112,7 +112,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.69 2005-09-04 16:45:25 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.70 2005-09-06 22:09:29 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -942,6 +942,18 @@ TimeWorkingHours
     <ConfigItem Name="DemoSystem" Required="1" Valid="1">
         <Description Lang="en">Activate the demo system? If set to "Yes", agents can change their preferences like selection of language and theme via the agent frontend just for the current session. Also it isn't possible to change passwords.</Description>
         <Description Lang="de">Demosystem aktivieren? Wenn diese Einstellung aktiviert wird, können Agenten nur für die aktuelle Sitzung ihre Sprache oder das Anzeige-Schema auswählen. Weiterhin können keine Kennwörter geändert werden.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="SwitchToUser" Required="1" Valid="1">
+        <Description Lang="en">Allow the admin to switch into a selected user session.</Description>
+        <Description Lang="de">Dem Administrator erlauben in eine Sitzung eines ausgewählten Benutzers zu schalten.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUser.pm,v 1.29 2005-07-01 06:11:04 martin Exp $
+# $Id: AdminUser.pm,v 1.30 2005-09-06 22:09:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminUser;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.29 $ ';
+$VERSION = '$Revision: 1.30 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -48,7 +48,37 @@ sub Run {
     # --
     # get user data 2 form
     # --
-    if ($Self->{Subaction} eq 'Change') {
+    if ($Self->{ConfigObject}->Get('SwitchToUser') && $Self->{ParamObject}->GetParam(Param => 'Switch')) {
+        my $UserID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
+        my %UserData = $Self->{UserObject}->GetUserData(UserID => $UserID);
+        my $NewSessionID = $Self->{SessionObject}->CreateSessionID(
+            _UserLogin => $UserData{UserLogin},
+            _UserPw => 'lal',
+            %UserData,
+            UserLastRequest => $Self->{TimeObject}->SystemTime(),
+            UserType => 'User',
+        );
+        # create a new LayoutObject with SessionIDCookie
+        my $Expires = '+'.$Self->{ConfigObject}->Get('SessionMaxTime').'s';
+        if (!$Self->{ConfigObject}->Get('SessionUseCookieAfterBrowserClose')) {
+            $Expires = '';
+        }
+        my $LayoutObject = Kernel::Output::HTML::Generic->new(
+            %{$Self},
+            SetCookies => {
+                SessionIDCookie => $Self->{ParamObject}->SetCookie(
+                    Key => $Self->{ConfigObject}->Get('SessionName'),
+                    Value => $NewSessionID,
+                    Expires => $Expires,
+                ),
+            },
+            SessionID => $NewSessionID,
+            SessionName => $Self->{ConfigObject}->Get('SessionName'),
+        );
+        # redirect with new session id
+        print $LayoutObject->Redirect(OP => "");
+    }
+    elsif ($Self->{Subaction} eq 'Change') {
         my $UserID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
         # get user data
         my %UserData = $Self->{UserObject}->GetUserData(UserID => $UserID);
@@ -175,13 +205,13 @@ sub Run {
                 }
             }
             # redirect
-            if (!$Self->{ConfigObject}->Get('Frontend::Module')->{AdminUserGroup} && 
+            if (!$Self->{ConfigObject}->Get('Frontend::Module')->{AdminUserGroup} &&
                 $Self->{ConfigObject}->Get('Frontend::Module')->{AdminRoleUser}) {
                 return $Self->{LayoutObject}->Redirect(
                     OP => "Action=AdminRoleUser&Subaction=User&ID=$UserID",
                 );
             }
-            if ($Self->{ConfigObject}->Get('Frontend::Module')->{AdminUserGroup}) { 
+            if ($Self->{ConfigObject}->Get('Frontend::Module')->{AdminUserGroup}) {
                 return $Self->{LayoutObject}->Redirect(
                     OP => "Action=AdminUserGroup&Subaction=User&ID=$UserID",
                 );
@@ -312,7 +342,12 @@ sub AdminUserForm {
             }
         }
     }
-
+    if ($Self->{ConfigObject}->Get('SwitchToUser')) {
+        $Self->{LayoutObject}->Block(
+            Name => 'SwitchToUser',
+            Data => { },
+        );
+    }
     return $Self->{LayoutObject}->Output(TemplateFile => 'AdminUserForm', Data => {%Param, %{$Param{UserData}}});
 }
 # --

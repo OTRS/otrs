@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.214 2005-09-04 16:45:25 martin Exp $
+# $Id: Defaults.pm,v 1.215 2005-09-06 22:09:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.214 $';
+$VERSION = '$Revision: 1.215 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -564,6 +564,10 @@ sub LoadDefaults {
     # frontend can be updated! Just for the current session. Alow no password can
     # be changed on agent frontend.)
     $Self->{DemoSystem} = 0;
+
+    # SwitchToUser
+    # (Allow the admin to switch into a selected user session.)
+    $Self->{SwitchToUser} = 0;
 
     # --------------------------------------------------- #
     # MIME-Viewer for online to html converter
@@ -1722,6 +1726,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.214 $ $Date: 2005-09-04 16:45:25 $
+$Revision: 1.215 $ $Date: 2005-09-06 22:09:29 $
 
 =cut
