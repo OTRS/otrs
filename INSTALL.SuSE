@@ -1,29 +1,35 @@
 # --
 # INSTALL.SuSE description of OTRS installation for SuSE Linux with RPM
-# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: INSTALL.SuSE,v 1.4 2002-11-10 23:18:10 martin Exp $
+# $Id: INSTALL.SuSE,v 1.5 2005-09-09 16:53:52 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
 Installation:
 =============
 
-1. Install the latest OTRS-RPM for SuSE Linux (http://otrs.org/) and all required 
-   software packages (if needed, Apache, MySQL, ...) with YaST or "rpm -i otrs-xxx.rpm".
+1. Install the latest OTRS-RPM for SuSE Linux (http://otrs.org/) and all required
+   software packages (if needed, Apache2, MySQL, ...) with YaST or "rpm -i otrs-xxx.rpm".
 
-2. Start SuSEconfig 
-  
-3. Restart the webserver (rcapache restart)
- 
-4. Setup the database via "http://yourhost/otrs/installer.pl" (just for MySQL) 
+   Note: If you install it on SLES9 or OES, follow this description to
+   install the missing perl-GD packages.
 
-5. restart the whole OTRS system (rcotrs restart-force) 
+   http://www.otrs.com/otrs/public.pl?FAQID=49
 
-6. Installation finished, login ("http://yourhost/otrs/index.pl") as user "root@localhost" 
+2. execute SuSEconfig to configure your system
+   shell> SuSEconfig
+
+3. Restart the webserver (rcapache2 restart)
+
+4. Restart the database (rcmysql restart)
+
+5. Setup the database via "http://yourhost/otrs/installer.pl" (just for MySQL)
+
+6. Installation finished, login ("http://yourhost/otrs/index.pl") as user "root@localhost"
    with password "root"
 
    --> goto AdminArea and set some config settings (UserAdd, Queues, ...).
