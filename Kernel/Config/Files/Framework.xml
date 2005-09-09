@@ -112,7 +112,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.70 2005-09-06 22:09:29 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.71 2005-09-09 11:45:09 cs Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -242,6 +242,7 @@ TimeWorkingHours
                 <Item Key="nb_NO">Norsk bokm&amp;aring;l</Item>
                 <Item Key="sv">Svenska</Item>
                 <Item Key="hu">Hungarian</Item>
+                <Item Key="zh_CN">Traditional Chinese</Item>
             </Hash>
         </Setting>
     </ConfigItem>
