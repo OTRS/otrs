@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.183 2005-09-09 11:37:14 cs Exp $
+# $Id: CHANGES,v 1.184 2005-09-11 13:34:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,8 +11,10 @@
 CVS head
 
 2.0.3 (2005/08/??)
+ - (2005/09/11) improved html style in customer panel
  - (2005/09/09) Added Chinese translation, thanks to zuowei
-    <j2ee@hirain-sh.com>
+ - (2005/09/07) added admin "su" (Switch To User) feature (it's disabled
+    per default)
  - (2005/09/05) moved to german "Ihr OTRS Benachrichtigungs-Master" wording
     in default notifications
  - (2005/09/05) added missing default state and article type option to
