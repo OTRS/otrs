@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUser.pm,v 1.30 2005-09-06 22:09:29 martin Exp $
+# $Id: AdminUser.pm,v 1.31 2005-09-11 11:48:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminUser;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30 $ ';
+$VERSION = '$Revision: 1.31 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -51,6 +51,24 @@ sub Run {
     if ($Self->{ConfigObject}->Get('SwitchToUser') && $Self->{ParamObject}->GetParam(Param => 'Switch')) {
         my $UserID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
         my %UserData = $Self->{UserObject}->GetUserData(UserID => $UserID);
+        # get groups rw
+        my %GroupData = $Self->{GroupObject}->GroupMemberList(
+            Result => 'HASH',
+            Type => 'rw',
+            UserID => $UserData{UserID},
+        );
+        foreach (keys %GroupData) {
+            $UserData{"UserIsGroup[$GroupData{$_}]"} = 'Yes';
+        }
+        # get groups ro
+        %GroupData = $Self->{GroupObject}->GroupMemberList(
+            Result => 'HASH',
+            Type => 'ro',
+            UserID => $UserData{UserID},
+        );
+        foreach (keys %GroupData) {
+            $UserData{"UserIsGroupRo[$GroupData{$_}]"} = 'Yes';
+        }
         my $NewSessionID = $Self->{SessionObject}->CreateSessionID(
             _UserLogin => $UserData{UserLogin},
             _UserPw => 'lal',
