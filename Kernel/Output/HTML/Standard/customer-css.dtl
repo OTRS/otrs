@@ -1,8 +1,8 @@
 # --
-# customer-css.dtl - customer css 
+# customer-css.dtl - customer css
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: customer-css.dtl,v 1.7 2005-03-11 06:00:09 martin Exp $
+# $Id: customer-css.dtl,v 1.8 2005-09-11 13:40:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -49,7 +49,7 @@
   .mainvalue { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
 # content
   .contenthead { color:#000000;background-color:#dedede;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
-  .contentbody { color:#000000;background-color:#ffffff;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+  .contentbody { color:#000000;background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
   .contentfooter { color:#000000;background-color:#dedede;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:normal;vertical-align:top;text-align:right; }
   .contentkey { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:normal;vertical-align:top; }
   .contentvalue { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
