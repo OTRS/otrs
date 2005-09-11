@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketQueue.pm,v 1.4 2005-07-23 08:53:48 martin Exp $
+# $Id: AgentTicketQueue.pm,v 1.5 2005-09-11 13:33:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -342,7 +342,10 @@ sub ShowTicket {
     # customer info string
     if ($Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoQueue')) {
         $Param{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
-            Data => \%CustomerData,
+            Data => {
+                %Article,
+                %CustomerData,
+            },
             Type => 'Lite',
             Max => $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoQueueMaxSize'),
         );
