@@ -2,7 +2,7 @@
 # CustomerHeaderSmall.dtl - provides global HTML header
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerHeaderSmall.dtl,v 1.1 2005-07-13 23:24:15 martin Exp $
+# $Id: CustomerHeaderSmall.dtl,v 1.2 2005-09-11 11:49:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,8 +23,8 @@ $Include{"Copyright"}
 # --
 # set some html variables
 # --
-<dtl set $Env{"Box0"} = "[ ">
-<dtl set $Env{"Box1"} = " ]">
+#<dtl set $Env{"Box0"} = "[ ">
+#<dtl set $Env{"Box1"} = " ]">
 <dtl set $Env{"Images"} = "/otrs-web/images/Standard/">
 # --
 # check refresh

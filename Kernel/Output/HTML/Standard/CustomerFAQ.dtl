@@ -2,7 +2,7 @@
 # CustomerFAQ.dtl - provides HTML view for faq articles
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerFAQ.dtl,v 1.1 2005-07-03 12:55:29 martin Exp $
+# $Id: CustomerFAQ.dtl,v 1.2 2005-09-11 11:49:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,7 +12,7 @@
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
   <td colspan="2" class="mainhead">
-    $Env{"Box0"}$Config{"FAQ::FAQHook"} $QData{"Number"}$Env{"Box1"}
+    $Env{"Box0"}$Config{"FAQ::FAQHook"} $QData{"Number"} / $QData{"Title"}$Env{"Box1"}
   </td>
 </tr>
 <tr>
@@ -22,66 +22,72 @@
 </tr>
 <tr>
   <td width="100%" class="mainbody">
-    <table border="0" cellspacing="0" cellpadding="3">
+
+  <br>
+
+  <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
     <tr>
-      <td class="contentkey">$Text{"Title"}: </td>
-      <td class="contentvalue"> $QData{"Title"}</td>
+      <td colspan="2" class="contenthead">$Text{"Options"}</td>
     </tr>
     <tr>
-      <td class="contentkey">$Text{"Category"}: </td>
-      <td class="contentvalue"> $Quote{"$Data{"Category"}"}</td>
-    </tr>
-    <tr>
-      <td class="contentkey">$Text{"State"}: </td>
-      <td class="contentvalue"> $Quote{"$Data{"State"}"}</td>
-    </tr>
-    <tr>
-      <td class="contentkey">$Text{"Language"}: </td>
-      <td class="contentvalue"> $Quote{"$Data{"Language"}"}</td>
-    </tr>
-    <tr>
-      <td class="contentkey">$Text{"Keywords"}: </td>
-      <td class="contentvalue"> $Quote{"$Data{"Keywords"}"}</td>
-    </tr>
-    <tr>
-      <td class="contentkey">$Text{"Attachment"}: </td>
-      <td class="contentvalue"> <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Download&FAQID=$QData{"FAQID"}">$QData{"Filename"}</a></td>
-    </tr>
-    <tr>
-      <td class="contentkey">$Text{"$Config{"FAQ::Field1"}"}: </td>
-      <td class="contentvalue"><pre>$Data{"Field1"}</pre>
-    </tr>
-    <tr>
-      <td class="contentkey">$Text{"$Config{"FAQ::Field2"}"}: </td>
-      <td class="contentvalue"><pre>$Data{"Field2"}</pre>
+    <td class="contentbody">
+
+      <table border="0" cellspacing="0" cellpadding="3">
+      <tr>
+        <td class="contentkey">$Text{"Category"}: </td>
+        <td class="contentvalue"> $Quote{"$Data{"Category"}"}</td>
+      </tr>
+      <tr>
+        <td class="contentkey">$Text{"Language"}: </td>
+        <td class="contentvalue"> $Quote{"$Data{"Language"}"}</td>
+      </tr>
+#      <tr>
+#        <td class="contentkey">$Text{"Keywords"}: </td>
+#        <td class="contentvalue"> $Quote{"$Data{"Keywords"}"}</td>
+#      </tr>
+      <tr>
+        <td class="contentkey">$Text{"Attachment"}: </td>
+        <td class="contentvalue"> <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Download&FAQID=$QData{"FAQID"}">$QData{"Filename"}</a></td>
+      </tr>
+      <tr>
+        <td class="contentkey">$Text{"$Config{"FAQ::Field1"}"}: </td>
+        <td class="contentvalue"><pre>$Data{"Field1"}</pre>
+      </tr>
+      <tr>
+        <td class="contentkey">$Text{"$Config{"FAQ::Field2"}"}: </td>
+        <td class="contentvalue"><pre>$Data{"Field2"}</pre></td>
+      </tr>
+      <tr>
+        <td class="contentkey" valign="top">$Text{"$Config{"FAQ::Field3"}"}: </td>
+        <td class="contentvalue"><pre>$Data{"Field3"}</pre></td>
+      </tr>
+#      <tr>
+#        <td class="contentkey">$Text{"$Config{"FAQ::Field4"}"}: </td>
+#        <td class="contentvalue"><pre>$Data{"Field4"}</pre></td>
+#      </tr>
+#      <tr>
+#        <td class="contentkey">$Text{"$Config{"FAQ::Field5"}"}: </td>
+#        <td class="contentvalue"><pre>$Data{"Field5"}</pre></td>
+#      </tr>
+#      <tr>
+#        <td class="contentkey">$Text{"$Config{"FAQ::Field6"}"}: </td>
+#        <td class="contentvalue"><pre>$Data{"Field6"}</pre></td>
+#      </tr>
+      <tr>
+        <td class="contentkey">$Text{"Modified"}: </td>
+        <td class="contentvalue">$TimeLong{"$Data{"Created"}"}</td>
+      </tr>
+      </table>
+
       </td>
     </tr>
     <tr>
-      <td class="contentkey" valign="top">$Text{"$Config{"FAQ::Field3"}"}: </td>
-      <td class="contentvalue"><pre>$Data{"Field3"}</pre>
-      </td>
+      <td class="contentfooter">&nbsp;</td>
     </tr>
-#    <tr>
-#      <td class="contentkey">$Text{"$Config{"FAQ::Field4"}"}: </td>
-#      <td class="contentvalue"><pre>$Data{"Field4"}</pre>
-#      </td>
-#    </tr>
-#    <tr>
-#      <td class="contentkey">$Text{"$Config{"FAQ::Field5"}"}: </td>
-#      <td class="contentvalue"><pre>$Data{"Field5"}</pre>
-#      </td>
-#    </tr>
-#    <tr>
-#      <td class="contentkey">$Text{"$Config{"FAQ::Field6"}"}: </td>
-#      <td class="contentvalue"><pre>$Data{"Field6"}</pre>
-#      </td>
-#    </tr>
-    <tr>
-      <td class="contentkey">$Text{"Modified"}: </td>
-      <td class="contentvalue">$TimeLong{"$Data{"Created"}"}
-      </td>
-    </tr>
-    </table>
+  </table>
+
+  <br>
+
   </td>
 </tr>
 </table>
@@ -198,27 +204,50 @@
 </tr>
 <tr>
   <td width="100%" class="mainbody">
-    <form action="$Env{"CGIHandle"}" method="post">
-    <input type="hidden" name="Action" value="$Env{"Action"}">
-    <input type="hidden" name="Subaction" value="Search">
-    <table border="0" cellspacing="0" cellpadding="3">
+
+  <br>
+
+  <form action="$Env{"CGIHandle"}" method="post">
+  <input type="hidden" name="Action" value="$Env{"Action"}">
+  <input type="hidden" name="Subaction" value="Search">
+
+  <table border="0" width="650" align="center" cellspacing="0" cellpadding="4">
     <tr>
-      <td class="contentkey">$Text{"Fulltext"}: </td>
-      <td class="contentvalue" colspan="3"> <input type="text" name="What" value="$QData{"What"}" size="50" maxlength="50"></td>
+      <td colspan="2" class="contenthead">$Text{"Options"}</td>
     </tr>
     <tr>
-      <td class="contentkey">$Text{"Keyword"}: </td>
-      <td class="contentvalue" colspan="3"> <input type="text" name="Keyword" value="$QData{"Keyword"}" size="50" maxlength="50"></td>
+    <td class="contentbody">
+
+      <table border="0">
+      <tr>
+        <td width="20%" class="contentkey">$Text{"Fulltext"}: </td>
+        <td width="80%" class="contentvalue" colspan="3"> <input type="text" name="What" value="$QData{"What"}" size="50" maxlength="50"></td>
+      </tr>
+      <tr>
+        <td class="contentkey">$Text{"Keyword"}: </td>
+        <td class="contentvalue" colspan="3"> <input type="text" name="Keyword" value="$QData{"Keyword"}" size="50" maxlength="50"></td>
+      </tr>
+      <tr>
+        <td class="contentkey">$Text{"Language"}:</td>
+        <td class="contentvalue">$Data{"LanguageOption"}</td>
+        <td class="contentkey">$Text{"Category"}:</td>
+        <td class="contentvalue">$Data{"CategoryOption"}</td>
+      </tr>
+      </table>
+
+      </td>
     </tr>
     <tr>
-      <td valign="top" class="contentkey">$Text{"Language"}:</td>
-      <td valign="top" class="contentvalue">$Data{"LanguageOption"}</td>
-      <td valign="top" class="contentkey">$Text{"Category"}:</td>
-      <td valign="top" class="contentvalue">$Data{"CategoryOption"}</td>
+      <td class="contentfooter">
+        <input class="button" accesskey="g" type="submit" value="$Text{"Search"}">
+      </td>
     </tr>
-    </table>
-    <input class="button" type="submit" value="$Text{"Search"}">
-    </form>
+  </table>
+
+  </form>
+
+  <br>
+
   </td>
 </tr>
 </table>
@@ -231,37 +260,37 @@
   </td>
 </tr>
 <tr>
-  <td width="100%" class="mainbody">
-    <table border="0" cellspacing="0" cellpadding="0">
+  <td class="mainbody" align="center">
+
+  <br>
+
+    <table border="0" width="650" cellspacing="0" cellpadding="2">
+    <tr class="contenthead">
+      <td class="contentkey">$Config{"FAQ::FAQHook"}</td>
+      <td class="contentkey">$Text{"Title"}</td>
+      <td class="contentkey">$Text{"Category"}</td>
+      <td class="contentkey">$Text{"Language"}</td>
+      <td class="contentkey">$Text{"Changed"}</td>
+    </tr>
 <!-- dtl:block:SearchResultRow -->
       <tr>
-        <td><a href="$Env{"Baselink"}Action=$Env{"Action"}&ID=$QData{"FAQID"}">[$QData{"Language"}/$QData{"Category"}] $QData{"Number"} $QData{"Title"}</a></td>
+<dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchpassive"; }>
+    <tr class="contentbody">
+      <td class="$Env{"Color"}"><a href="$Env{"Baselink"}Action=$Env{"Action"}&ID=$QData{"FAQID"}">$QData{"Number"}</a></td>
+      <td class="$Env{"Color"}">$QData{"Title"}</td>
+      <td class="$Env{"Color"}">$QData{"Category"}</td>
+      <td class="$Env{"Color"}">$QData{"Language"}</td>
+      <td class="$Env{"Color"}">($TimeLong{"$Data{"Changed"}"})</td>
+    </tr>
+<dtl if ($Env{"Color"} eq "searchactive") { $Env{"Color"} = ""; }>
+<dtl if ($Env{"Color"} eq "searchpassive") { $Env{"Color"} = "searchactive"; }>
       </tr>
 <!-- dtl:block:SearchResultRow -->
     </table>
+
+  <br>
+
   </td>
 </tr>
 </table>
 <!-- dtl:block:SearchResult -->
-<!-- dtl:block:SearchOverview -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr>
-  <td colspan="2" class="mainhead">
-    $Env{"Box0"}$Text{"FAQ Overview"}$Env{"Box1"}
-  </td>
-</tr>
-<tr>
-  <td width="100%" class="mainbody">
-    <table>
-<!-- dtl:block:SearchOverviewCategory -->
-<b>$QData{"Category"}</b><br>
-<!-- dtl:block:SearchOverviewCategoryRow -->
-<a href="$Env{"Baselink"}Action=$Env{"Action"}&FAQID=$QData{"FAQID"}">[$QData{"Language"}/$QData{"Category"}] $QData{"Number"} $QData{"Title"} ($Text{"modified"} $TimeLong{"$QData{"Changed"}"})</a><br>
-<!-- dtl:block:SearchOverviewCategoryRow -->
-<!-- dtl:block:SearchOverviewCategory -->
-    </table>
-  </td>
-</tr>
-</table>
-<!-- dtl:block:SearchOverview -->
-
