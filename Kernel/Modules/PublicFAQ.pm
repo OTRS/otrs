@@ -2,7 +2,7 @@
 # Kernel/Modules/PublicFAQ.pm - faq module
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PublicFAQ.pm,v 1.2 2005-07-03 12:55:29 martin Exp $
+# $Id: PublicFAQ.pm,v 1.3 2005-09-11 13:38:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::FAQ;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -87,32 +87,6 @@ sub Run {
             Name => 'Search',
             Data => { %Param },
         );
-        $Self->{LayoutObject}->Block(
-            Name => 'SearchOverview',
-            Data => { %Param },
-        );
-        # build an overview
-        my %Categories = $Self->{FAQObject}->CategoryList();
-        foreach (sort {$Categories{$a} cmp $Categories{$b}} keys %Categories) {
-            $Self->{LayoutObject}->Block(
-                Name => 'SearchOverviewCategory',
-                Data => { %Param, Category => $Categories{$_}, },
-            );
-            my @FAQIDs = $Self->{FAQObject}->FAQSearch(
-                %Param,
-                States => $Param{States},
-#                LanguageIDs => \@LanguageIDs,
-                CategoryIDs => [$_],
-            );
-            my %AllArticle = ();
-            foreach (@FAQIDs) {
-                my %Data = $Self->{FAQObject}->FAQGet(FAQID => $_);
-                $Self->{LayoutObject}->Block(
-                    Name => 'SearchOverviewCategoryRow',
-                    Data => { %Param, %Data },
-                );
-            }
-        }
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'CustomerFAQ',
             Data => { %Param },
