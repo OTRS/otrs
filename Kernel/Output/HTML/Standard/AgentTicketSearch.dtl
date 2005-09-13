@@ -2,7 +2,7 @@
 # AgentTicketSearch.dtl - provides HTML form for AgentTicketSearch
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketSearch.dtl,v 1.5 2005-07-18 11:59:55 martin Exp $
+# $Id: AgentTicketSearch.dtl,v 1.6 2005-09-13 17:36:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -42,7 +42,7 @@
 
 <br>
 
-<form action="$Env{"CGIHandle"}" method="get" name="compose">
+<form action="$Env{"CGIHandle"}" method="post" name="compose">
 <input type="hidden" name="Action" value="$Env{"Action"}">
 <input type="hidden" name="Subaction" value="Search">
 
