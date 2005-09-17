@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.216 2005-09-09 11:45:09 cs Exp $
+# $Id: Defaults.pm,v 1.217 2005-09-17 10:38:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.216 $';
+$VERSION = '$Revision: 1.217 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -159,6 +159,13 @@ sub LoadDefaults {
     # default theme
     # (the default html theme) [default: Standard]
     $Self->{DefaultTheme} = 'Standard';
+
+    # DefaultTheme::HostBased
+    # (set theme based on host name)
+#    $Self->{'DefaultTheme::HostBased'} = {
+#        'host1\.example\.com' => 'SomeTheme1',
+#        'host2\.example\.com' => 'SomeTheme1',
+#    };
 
     # DefaultViewNewLine
     # (insert new line in text messages after max x chars and
@@ -1727,6 +1734,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.216 $ $Date: 2005-09-09 11:45:09 $
+$Revision: 1.217 $ $Date: 2005-09-17 10:38:40 $
 
 =cut

@@ -112,7 +112,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.72 2005-09-14 12:09:18 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.73 2005-09-17 10:38:40 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -253,6 +253,18 @@ TimeWorkingHours
         <SubGroup>Core</SubGroup>
         <Setting>
             <String Regex="">Standard</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="DefaultTheme::HostBased" Required="0" Valid="0">
+        <Description Lang="en">Used default frontend HTML theme based on used web server host name (regexp possible in key).</Description>
+        <Description Lang="de">Benutzer HTML Weboberfläche basierend am Webserver Hostnamen (regexp ist im Schlüssel möglich).</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="host1\.example\.com">SomeTheme1</Item>
+                <Item Key="host2\.example\.com">SomeTheme2</Item>
+            </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DefaultViewNewLine" Required="1" Valid="1">
