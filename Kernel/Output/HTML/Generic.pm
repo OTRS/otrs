@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.192 2005-08-19 15:33:41 martin Exp $
+# $Id: Generic.pm,v 1.193 2005-09-17 10:39:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::Output::HTML::Agent;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.192 $';
+$VERSION = '$Revision: 1.193 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -54,7 +54,7 @@ sub new {
     # set debug
     $Self->{Debug} = 0;
     # check needed objects
-    foreach (qw(ConfigObject LogObject)) {
+    foreach (qw(ConfigObject LogObject TimeObject)) {
         if (!$Self->{$_}) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -164,13 +164,17 @@ sub new {
             $Self->{Browser} = "Unknown - $ENV{'HTTP_USER_AGENT'}";
         }
     }
-    # --
     # load theme
-    # --
     my $Theme = $Self->{UserTheme} || $Self->{ConfigObject}->Get('DefaultTheme') || 'Standard';
-    # --
+    # force a theme based on host name
+    if ($Self->{ConfigObject}->Get('DefaultTheme::HostBased') && $ENV{HTTP_HOST}) {
+        foreach (sort keys %{$Self->{ConfigObject}->Get('DefaultTheme::HostBased')}) {
+            if ($ENV{HTTP_HOST} =~ /$_/i) {
+                $Theme = $Self->{ConfigObject}->Get('DefaultTheme::HostBased')->{$_};
+            }
+        }
+    }
     # locate template files
-    # --
     $Self->{TemplateDir} = $Self->{ConfigObject}->Get('TemplateDir')."/HTML/$Theme";
     if (! -e $Self->{TemplateDir}) {
         $Self->{LogObject}->Log(
@@ -2034,9 +2038,9 @@ sub BuildDateSelection {
     my $DiffTime = $Param{'DiffTime'} || 0;
     my $Format = defined($Param{Format}) ? $Param{Format} : 'DateInputFormatLong';
     my $Area = $Param{Area} || 'Agent';
-    my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = localtime(time()+$DiffTime);
-    $Y = $Y+1900;
-    $M++;
+    my ($s,$m,$h, $D,$M,$Y) = $Self->{TimeObject}->SystemTime2Date(
+        SystemTime => $Self->{TimeObject}->SystemTime() + $DiffTime,
+    );
     # year
     if ($DateInputStyle eq 'Option') {
         my %Year = ();
@@ -2264,6 +2268,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.192 $ $Date: 2005-08-19 15:33:41 $
+$Revision: 1.193 $ $Date: 2005-09-17 10:39:10 $
 
 =cut
