@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminGenericAgent.dtl,v 1.14 2005-07-28 20:02:36 martin Exp $
+# $Id: AdminGenericAgent.dtl,v 1.15 2005-09-18 13:35:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -386,7 +386,7 @@
   $QData{"Message"}
   </p>
 <!-- dtl:block:Ticket -->
-    <a href="$Env{"Baselink"}&Action=AgentZoom&TicketID=$QData{"TicketID"}">$QData{"TicketNumber"}</a>
+    <a href="$Env{"Baselink"}&Action=AgentTicketZoom&TicketID=$QData{"TicketID"}">$QData{"TicketNumber"}</a>
 <!-- dtl:block:Ticket -->
   </td>
 </tr>

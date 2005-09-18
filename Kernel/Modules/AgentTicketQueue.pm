@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketQueue.pm,v 1.5 2005-09-11 13:33:58 martin Exp $
+# $Id: AgentTicketQueue.pm,v 1.6 2005-09-18 13:35:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -363,7 +363,7 @@ sub ShowTicket {
     # --
     # check if just a only html email
     # --
-    if (my $MimeTypeText = $Self->{LayoutObject}->CheckMimeType(%Article, Action => 'AgentZoom')) {
+    if (my $MimeTypeText = $Self->{LayoutObject}->CheckMimeType(%Article, Action => 'AgentTicketZoom')) {
         $Article{BodyNote} = $MimeTypeText;
         $Article{Body} = '';
     }
@@ -379,7 +379,7 @@ sub ShowTicket {
         $Article{Body} = $Self->{LayoutObject}->LinkQuote(Text => $Article{Body});
         # do charset check
         if (my $CharsetText = $Self->{LayoutObject}->CheckCharset(
-            Action => 'AgentZoom',
+            Action => 'AgentTicketZoom',
             ContentCharset => $Article{ContentCharset},
             TicketID => $Article{TicketID},
             ArticleID => $Article{ArticleID} )) {

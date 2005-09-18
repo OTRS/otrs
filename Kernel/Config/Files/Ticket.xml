@@ -148,7 +148,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.65 2005-09-06 15:50:56 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.66 2005-09-18 13:35:00 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifyer for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z.B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -2132,7 +2132,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::ArticleAttachmentModule###1-Download" Required="1" Valid="1">
         <Description Lang="en">Links in agent zoom for attachments to download.</Description>
-        <Description Lang="de">Links um im AgentZoom Attachments zum Download anzubieten.</Description>
+        <Description Lang="de">Links um im AgentTicketZoom Attachments zum Download anzubieten.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ArticleAttachmentModule</SubGroup>
         <Setting>
@@ -2143,7 +2143,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::ArticleAttachmentModule###2-HTML-Viewer" Required="1" Valid="1">
         <Description Lang="en">Links in agent zoom for attachments html online viewer.</Description>
-        <Description Lang="de">Links um im AgentZoom HTML-Attachments ansehen zu können.</Description>
+        <Description Lang="de">Links um im AgentTicketZoom HTML-Attachments ansehen zu können.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ArticleAttachmentModule</SubGroup>
         <Setting>
