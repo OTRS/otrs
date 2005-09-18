@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.19 2005-07-03 18:37:41 martin Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.20 2005-09-18 13:52:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -98,7 +98,6 @@ $Data{"Article::Text"}
 <input type="hidden" name="Action" value="CustomerTicketMessage">
 <input type="hidden" name="Subaction" value="Store">
 <input type="hidden" name="TicketID" value="$QData{"TicketID"}">
-<input type="hidden" name="NextScreen" value="$QData{"NextScreen"}">
   <table border="0" width="100%">
   <tr>
     <td class="contentkey" width="15%">$Text{"Subject"}:</td>
@@ -107,7 +106,8 @@ $Data{"Article::Text"}
   <tr>
     <td class="contentkey">$Text{"Text"}:</td>
     <td class="contentvalue">
-<textarea name="Body" rows="15" cols="60" wrap="$Env{"BrowserWrap"}">$QData{"Body"}</textarea>
+#<textarea name="Body" rows="15" cols="60" wrap="$Env{"BrowserWrap"}">$QData{"Body"}</textarea>
+     <textarea name="Body" rows="15" cols="60" wrap="$Env{"BrowserWrap"}"></textarea>
     </td>
   </tr>
   <tr>
