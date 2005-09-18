@@ -2,7 +2,7 @@
 # TODO - todo list of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TODO,v 1.66 2005-09-05 15:24:17 tr Exp $
+# $Id: TODO,v 1.67 2005-09-18 14:02:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,8 +16,6 @@
 - add "--please select--" in queue selection of customer panel
 - disable form multi submit
 - prevent unauthorized person submit ticket via email via PostMaster*.pl
-- change time column format of time_accounting table from int to
-   float(6,2) - http://lists.otrs.org/pipermail/otrs/2003-April/001480.html
 - send bulk answer -
    http://lists.otrs.org/pipermail/otrs/2002-June/000066.html (martin)
 - delete option for records (martin)
@@ -74,7 +72,6 @@ ideas (just ideas - nobody is working on it)
 - module feature on set state, owner, lock and queue
 - QueueView: Additional drop-down to set ticket owner
    http://bugs.otrs.org/show_bug.cgi?id=129
-- web editor for Kernel/Config.pm (Kernel/Config/Defaults.pm)
 - read/unread highlighting of articles
 - show agent name in CustomerTicketOverView
 - GenericAgent with forward full message tree to other email address
@@ -86,7 +83,6 @@ ideas (just ideas - nobody is working on it)
   <GENERIC_BRUSH_OFF_RESPONSE>
   <SIGNATURE>
   <QUOTED_MESSAGE>
-- su from admin user to an other agent
 - "Ticket" Threading - http://bugs.otrs.org/show_bug.cgi?id=353
 - FAQ category with permissions like queues
 - ticket order by pending time

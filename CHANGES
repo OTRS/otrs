@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.185 2005-09-14 21:34:10 martin Exp $
+# $Id: CHANGES,v 1.186 2005-09-18 14:02:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,6 +11,10 @@
 CVS head
 
 2.0.3 (2005/08/??)
+ - (2005/09/18) removed auto result in object link mask (search submit
+    required first!) and improved html design
+ - (2005/09/17) added DefaultTheme::HostBased config option for host
+    name based theme selection
  - (2005/09/14) fixed move action module in
     Kernel/Output/HTML/Standard/AgentTicketQueueTicketViewLite.dtl
  - (2005/09/13) fixed ticket search with IE if many options are selected
