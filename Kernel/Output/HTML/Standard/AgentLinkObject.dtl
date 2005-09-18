@@ -2,7 +2,7 @@
 # AgentLinkObject.dtl - provides HTML for AgentLinkObject mask
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentLinkObject.dtl,v 1.7 2005-09-15 10:29:57 tr Exp $
+# $Id: AgentLinkObject.dtl,v 1.8 2005-09-18 13:19:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -69,6 +69,8 @@
 <tr>
   <td class="mainbody">
 
+    <br>
+
     <form name="AgentTicketLink" action="$Env{"CGIHandle"}" method="post">
     <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
     <tr>
@@ -97,11 +99,12 @@
     </table>
     </form>
 
+    <br>
+
   </td>
 </tr>
 </table>
 <!-- dtl:block:Search -->
-
 
 <!-- dtl:block:SearchResult -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
@@ -121,37 +124,40 @@ $Text{"Results"}: <b>$QData{"Result"}</b> - $Text{"Total hits"}: <b>$Data{"Total
 <tr>
   <td class="mainbody">
 
-  <table border="0" width="100%" cellpadding="3">
-  <tr>
-      <td width="10%">$Text{"Number"}</td>
-      <td width="40%">$Text{"Title"}</td>
-      <td width="20%">$Text{"Created"}</td>
-      <td width="20%">$Text{"Changed"}</td>
-      <td width="10%" align="center">$Text{"Normal"}</td>
-      <td width="10%" align="center">$Text{"Parent"}</td>
-      <td width="10%" align="center">$Text{"Child"}</td>
+  <table border="0" width="100%" cellspacing="0" cellpadding="2">
+  <tr class="contenthead">
+      <td class="contentkey" width="10%">$Text{"Number"}</td>
+      <td class="contentkey" width="40%">$Text{"Title"}</td>
+      <td class="contentkey" width="20%">$Text{"Created"}</td>
+      <td class="contentkey" width="20%">$Text{"Changed"}</td>
+      <td class="contentkey" width="10%" align="center">$Text{"Normal"}</td>
+      <td class="contentkey" width="10%" align="center">$Text{"Parent"}</td>
+      <td class="contentkey" width="10%" align="center">$Text{"Child"}</td>
   </tr>
 <!-- dtl:block:SearchResultItem -->
+<dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchpassive"; }>
 <dtl if ($Data{"Linked"} eq "1") { $Data{"Color"} = "bgcolor="red""; }>
 <dtl if ($Data{"LinkedParent"} eq "1") { $Data{"LinkParent"} = "Unlink"; }>
 <dtl if ($Data{"LinkedParent"} eq "0") { $Data{"LinkParent"} = "Link"; }>
-<dtl if ($Data{"LinkedParent"} eq "2") { $Data{"LinkParent"} = "-"; }>
+<dtl if ($Data{"LinkedParent"} eq "2") { $Data{"LinkParent"} = ""; }>
 <dtl if ($Data{"LinkedChild"} eq "1") { $Data{"LinkChild"} = "Unlink"; }>
-<dtl if ($Data{"LinkedChild"} eq "2") { $Data{"LinkChild"} = "-"; }>
+<dtl if ($Data{"LinkedChild"} eq "2") { $Data{"LinkChild"} = ""; }>
 <dtl if ($Data{"LinkedChild"} eq "0") { $Data{"LinkChild"} = "Link"; }>
 <dtl if ($Data{"LinkedNormal"} eq "1") { $Data{"LinkNormal"} = "Unlink"; }>
-<dtl if ($Data{"LinkedNormal"} eq "2") { $Data{"LinkNormal"} = "-"; }>
+<dtl if ($Data{"LinkedNormal"} eq "2") { $Data{"LinkNormal"} = ""; }>
 <dtl if ($Data{"LinkedNormal"} eq "0") { $Data{"LinkNormal"} = "Link"; }>
 <dtl if ($Data{"LinkedParent"} eq "1") { $Data{"LinkedParentLink"} = " (linked as Parent)"; }>
   <tr $Data{"Color"} class="contentbody">
-      <td><a href="$Env{"Baselink"}Action=$Env{"Action"}&PreviewID=$QData{"ID"}">$QData{"Number"}</a></td>
-      <td>$QData{"Title"}</td>
-      <td>$TimeLong{"$Data{"Created"}"}</td>
-      <td>$TimeLong{"$Data{"Changed"}"}</td>
-      <td align="center"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$QData{"LinkNormal"}Normal&ID=$QData{"ID"}&StartHit=$QData{"StartHit"}">$Text{"$QData{"LinkNormal"}"}</a></td>
-      <td align="center"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$QData{"LinkParent"}Parent&ID=$QData{"ID"}&StartHit=$QData{"StartHit"}">$Text{"$QData{"LinkParent"}"}</a></td>
-      <td align="center"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$QData{"LinkChild"}Child&ID=$QData{"ID"}&StartHit=$QData{"StartHit"}">$Text{"$QData{"LinkChild"}"}</a></td>
+      <td class="$Env{"Color"}"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&PreviewID=$QData{"ID"}">$QData{"Number"}</a></td>
+      <td class="$Env{"Color"}">$QData{"Title"}</td>
+      <td class="$Env{"Color"}">$TimeLong{"$Data{"Created"}"}</td>
+      <td class="$Env{"Color"}">$TimeLong{"$Data{"Changed"}"}</td>
+      <td class="$Env{"Color"}" align="center"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$QData{"LinkNormal"}Normal&ID=$QData{"ID"}&StartHit=$QData{"StartHit"}">$Text{"$QData{"LinkNormal"}"}</a></td>
+      <td class="$Env{"Color"}" align="center"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$QData{"LinkParent"}Parent&ID=$QData{"ID"}&StartHit=$QData{"StartHit"}">$Text{"$QData{"LinkParent"}"}</a></td>
+      <td class="$Env{"Color"}" align="center"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$QData{"LinkChild"}Child&ID=$QData{"ID"}&StartHit=$QData{"StartHit"}">$Text{"$QData{"LinkChild"}"}</a></td>
   </tr>
+<dtl if ($Env{"Color"} eq "searchactive") { $Env{"Color"} = ""; }>
+<dtl if ($Env{"Color"} eq "searchpassive") { $Env{"Color"} = "searchactive"; }>
 <!-- dtl:block:SearchResultItem -->
   </table>
 
@@ -176,7 +182,7 @@ $Text{"Results"}: <b>$QData{"Result"}</b> - $Text{"Total hits"}: <b>$Data{"Total
 </table>
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
 <tr>
-  <td valign="top" colspan="2" class="table1">
+  <td valign="top" colspan="2" class="mainbody">
 
   $Data{"Body"}
   <hr>
