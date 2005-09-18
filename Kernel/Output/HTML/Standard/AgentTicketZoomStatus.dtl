@@ -1,9 +1,9 @@
 # --
-# AgentZoomStatus.dtl - provides HTML AgentZoom for AgentZoom.pm
+# AgentTicketZoomStatus.dtl - provides HTML for AgentTicketZoom
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 #               2002 Stefan Wintermeyer <stefan@otrs.org>
 # --
-# $Id: AgentTicketZoomStatus.dtl,v 1.5 2005-09-11 11:49:52 martin Exp $
+# $Id: AgentTicketZoomStatus.dtl,v 1.6 2005-09-18 13:59:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -51,7 +51,30 @@
 # --
 # object links
 # --
-
+    <tr valign="top">
+      <td><b>$Text{"Linked"} ($Text{"Normal"}):</b></td>
+      <td>
+ <!-- dtl:block:LinkNormal -->
+      <a href="$Env{"Baselink"}$Data{"FrontendDest"}$QData{"ID"}" title="$QData{"Object"}: $QData{"Number"}">$QData{"Text"}</a>
+ <!-- dtl:block:LinkNormal -->
+      </td>
+    </tr>
+    <tr valign="top">
+      <td><b>$Text{"Linked"} ($Text{"Parent"}):</b></td>
+      <td>
+ <!-- dtl:block:LinkParent -->
+      <a href="$Env{"Baselink"}$Data{"FrontendDest"}$QData{"ID"}" title="$QData{"Object"}: $QData{"Number"}">$QData{"Text"}</a>
+ <!-- dtl:block:LinkParent -->
+      </td>
+    </tr>
+    <tr valign="top">
+      <td><b>$Text{"Linked"} ($Text{"Child"}):</b></td>
+      <td>
+ <!-- dtl:block:LinkChild -->
+      <a href="$Env{"Baselink"}$Data{"FrontendDest"}$QData{"ID"}" title="$QData{"Object"}: $QData{"Number"}">$QData{"Text"}</a>
+ <!-- dtl:block:LinkChild -->
+      </td>
+    </tr>
 # --
 # use this if you want to show TicketFreeKey1-8 and TicketFreeText1-8
 # --
