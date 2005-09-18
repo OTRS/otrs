@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject/Ticket.pm - to link ticket objects
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.4 2005-05-01 17:42:08 martin Exp $
+# $Id: Ticket.pm,v 1.5 2005-09-18 13:53:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::LinkObject::Ticket;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Init {
@@ -39,7 +39,7 @@ sub FillDataMap {
         Number => $Ticket{TicketNumber},
         ID => $Param{ID},
         Object => 'Ticket',
-        FrontendDest => "Action=AgentZoom&TicketID=",
+        FrontendDest => "Action=AgentTicketZoom&TicketID=",
     );
 }
 
