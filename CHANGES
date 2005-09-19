@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.186 2005-09-18 14:02:11 martin Exp $
+# $Id: CHANGES,v 1.187 2005-09-19 11:56:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,6 +11,8 @@
 CVS head
 
 2.0.3 (2005/08/??)
+ - (2005/09/19) removed js from change ticket customer
+ - (2005/09/19) fixed bin/mkStats.pl - no attachments are sent
  - (2005/09/18) removed auto result in object link mask (search submit
     required first!) and improved html design
  - (2005/09/17) added DefaultTheme::HostBased config option for host
