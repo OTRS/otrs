@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Email.pm,v 1.13 2005-08-19 17:00:19 martin Exp $
+# $Id: Email.pm,v 1.14 2005-09-19 08:30:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -272,7 +272,8 @@ sub Send {
                     Filename => $Upload{Filename},
                     Data     => $Upload{Content},
                     Type     => $Upload{ContentType},
-                    Encoding => "base64",
+                    Disposition => $Upload{Disposition} || 'inline',
+                    Encoding => $Upload{Encoding} || 'base64',
                 );
             }
         }
@@ -565,7 +566,7 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2005-08-19 17:00:19 $
+$Revision: 1.14 $ $Date: 2005-09-19 08:30:16 $
 
 =cut
 
