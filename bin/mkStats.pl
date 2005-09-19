@@ -3,7 +3,7 @@
 # SendStats.pl - send stats output via email
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: mkStats.pl,v 1.27 2005-05-07 15:26:56 martin Exp $
+# $Id: mkStats.pl,v 1.28 2005-09-19 08:23:59 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -217,8 +217,8 @@ if (eval "require $Module") {
         $m = sprintf("%02d", $m);
         %Attachment = (
             Filename => "$ConfigItem{Module}"."_"."$Y-$M-$D"."_"."$h-$m.csv",
-            Type => "text/csv",
-            Data => $Output,
+            ContentType => "text/csv",
+            Content => $Output,
             Encoding => "base64",
             Disposition => "attachment",
         );
@@ -226,7 +226,7 @@ if (eval "require $Module") {
     # write output
     if ($Opts{'o'}) {
         if (open(OUT, "> $Opts{'o'}/$Attachment{Filename}")) {
-            print OUT $Attachment{Data};
+            print OUT $Attachment{Content};
             close (OUT);
             print "NOTICE: Writing file $Opts{'o'}/$Attachment{Filename}.\n";
             exit;
