@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketSearch.pm,v 1.8 2005-09-18 13:35:00 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.9 2005-09-19 12:00:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -204,14 +204,10 @@ sub Run {
         }
         elsif ($GetParam{TimeSearchType} eq 'TimeSlot') {
           foreach (qw(Month Day)) {
-              if ($GetParam{"TicketCreateTimeStart$_"} <= 9) {
-                  $GetParam{"TicketCreateTimeStart$_"} = '0'.$GetParam{"TicketCreateTimeStart$_"};
-              }
+              $GetParam{"TicketCreateTimeStart$_"} = sprintf("%02d", $GetParam{"TicketCreateTimeStart$_"});
           }
           foreach (qw(Month Day)) {
-              if ($GetParam{"TicketCreateTimeStop$_"} <= 9) {
-                  $GetParam{"TicketCreateTimeStop$_"} = '0'.$GetParam{"TicketCreateTimeStop$_"};
-              }
+              $GetParam{"TicketCreateTimeStop$_"} = sprintf("%02d", $GetParam{"TicketCreateTimeStop$_"});
           }
           if ($GetParam{TicketCreateTimeStartDay} && $GetParam{TicketCreateTimeStartMonth} && $GetParam{TicketCreateTimeStartYear}) {
               $GetParam{TicketCreateTimeNewerDate} = $GetParam{TicketCreateTimeStartYear}.
