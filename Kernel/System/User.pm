@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: User.pm,v 1.46 2005-08-18 06:57:52 martin Exp $
+# $Id: User.pm,v 1.47 2005-09-19 16:39:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.46 $';
+$VERSION = '$Revision: 1.47 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -146,7 +146,7 @@ sub UserAdd {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
-    foreach (qw(Firstname Lastname Login Pw ValidID UserID Email)) {
+    foreach (qw(Firstname Lastname Login ValidID UserID Email)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
@@ -160,6 +160,10 @@ sub UserAdd {
               $Self->{CheckItemObject}->CheckError().")!",
         );
         return;
+    }
+    # check password
+    if (!$Param{Pw}) {
+        $Param{Pw} = $Self->GenerateRandomPassword();
     }
     # quote params
     foreach (keys %Param) {
@@ -528,92 +532,6 @@ sub GenerateRandomPassword {
 
     # Return the password.
     return $Password;
-}
-# --
-sub SyncLDAP2Database {
-    my $Self = shift;
-    my %Param = @_;
-    # check needed stuff
-    if (!$Param{User}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need User!");
-        return;
-    }
-    # check if we run LDAP and add aproperiate data into the RDBMS
-    if ($Self->{ConfigObject}->Get('AuthModule') ne 'Kernel::System::Auth::LDAP') {
-        return 1;
-    }
-    # get LDAP variables
-    if (eval {'require Net::LDAP;'}) {
-        $Self->{Host} = $Self->{ConfigObject}->Get('AuthModule::LDAP::Host')
-          || die "Need AuthModule::LDAPHost in Kernel/Config.pm";
-        $Self->{BaseDN} = $Self->{ConfigObject}->Get('AuthModule::LDAP::BaseDN')
-          || die "Need AuthModule::LDAPBaseDN in Kernel/Config.pm";
-        $Self->{UID} = $Self->{ConfigObject}->Get('AuthModule::LDAP::UID')
-          || die "Need AuthModule::LDAPBaseDN in Kernel/Config.pm";
-        $Self->{SearchUserDN} = $Self->{ConfigObject}->Get('AuthModule::LDAP::SearchUserDN') || '';
-        $Self->{SearchUserPw} = $Self->{ConfigObject}->Get('AuthModule::LDAP::SearchUserPw') || '';
-        $Self->{GroupDN} = $Self->{ConfigObject}->Get('AuthModule::LDAP::GroupDN') || '';
-        $Self->{AccessAttr} = $Self->{ConfigObject}->Get('AuthModule::LDAP::AccessAttr') || '';
-        # Net::LDAP new params
-        if ($Self->{ConfigObject}->Get('AuthModule::LDAP::Params')) {
-            $Self->{Params} = $Self->{ConfigObject}->Get('AuthModule::LDAP::Params');
-        }
-        else {
-            $Self->{Params} = {};
-        }
-        # bind to LDAP
-        my $LDAP = Net::LDAP->new($Self->{Host}, %{$Self->{Params}}) or die "$@";
-        if (!$LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw})) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message => "First LDAP bind failed!",
-            );
-            return;
-        }
-        # --
-        # perform user search
-        # --
-        my $Filter = "($Self->{UID}=$Param{User})";
-        my $Result = $LDAP->search (
-            base   => $Self->{BaseDN},
-            filter => $Filter,
-        );
-        # --
-        # get whole user data
-        # --
-        my $UserDN = '';
-        my $UserPassword = '';
-        my %SyncUser = ();
-        foreach my $Entry ($Result->all_entries) {
-            $UserDN = $Entry->dn();
-            foreach (keys %{$Self->{ConfigObject}->Get('UserSyncLDAPMap')}) {
-                $SyncUser{$_} = $Entry->get_value($Self->{ConfigObject}->Get('UserSyncLDAPMap')->{$_});
-            }
-            $UserPassword = $Entry->get_value('userPassword') || $Self->GenerateRandomPassword();
-        }
-        if ($Self->UserAdd(
-            Salutation => 'Mr/Mrs',
-            Login => $Param{User},
-            Pw => $UserPassword,
-            %SyncUser,
-            UserType => 'User',
-            ValidID => 1,
-            UserID => 1,
-        )) {
-            $Self->{LogObject}->Log(
-                Priority => 'notice',
-                Message => "Data for '$Param{User} ($UserDN)' created in RDBMS, proceed.",
-            );
-            return 1;
-        }
-        else {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message => "Can't create user '$Param{User} ($UserDN)' in RDBMS!",
-            );
-            return;
-        }
-    }
 }
 # --
 sub SetPreferences {

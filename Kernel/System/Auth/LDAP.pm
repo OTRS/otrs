@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Auth/LDAP.pm - provides the ldap authentification
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LDAP.pm,v 1.14 2004-11-04 11:00:16 martin Exp $
+# $Id: LDAP.pm,v 1.15 2005-09-19 16:39:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use strict;
 use Net::LDAP;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -31,7 +31,7 @@ sub new {
     bless ($Self, $Type);
 
     # check needed objects
-    foreach (qw(LogObject ConfigObject DBObject)) {
+    foreach (qw(LogObject ConfigObject DBObject UserObject)) {
         $Self->{$_} = $Param{$_} || die "No $_!";
     }
 
@@ -217,6 +217,75 @@ sub Auth {
           Priority => 'notice',
           Message => "User: $Param{User} ($UserDN) authentication ok (REMOTE_ADDR: $RemoteAddr).",
         );
+        # sync user from ldap
+        if ($Self->{ConfigObject}->Get('UserSyncLDAPMap')) {
+            if (!$LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw})) {
+                $Self->{LogObject}->Log(
+                  Priority => 'error',
+                  Message => "Sync bind failed!",
+                );
+            }
+            else {
+                # build filter
+                my $Filter = "($Self->{UID}=$Param{User})";
+                # prepare filter
+                if ($Self->{AlwaysFilter}) {
+                        $Filter = "(&$Filter$Self->{AlwaysFilter})";
+                }
+                # perform user search
+                my $Result = $LDAP->search (
+                    base   => $Self->{BaseDN},
+                    filter => $Filter,
+                );
+                # get whole user dn
+                my $UserDN = '';
+                my %SyncUser = ();
+                foreach my $Entry ($Result->all_entries) {
+                    $UserDN = $Entry->dn();
+                    foreach (keys %{$Self->{ConfigObject}->Get('UserSyncLDAPMap')}) {
+                        $SyncUser{$_} = $Entry->get_value($Self->{ConfigObject}->Get('UserSyncLDAPMap')->{$_});
+                    }
+                    if ($Entry->get_value('userPassword')) {
+                        $SyncUser{Pw} = $Entry->get_value('userPassword');
+                    }
+                }
+                if (%SyncUser) {
+                    my %UserData = $Self->{UserObject}->GetUserData(User => $Param{User});
+                    if (!%UserData) {
+                        if ($Self->{UserObject}->UserAdd(
+                            Salutation => 'Mr/Mrs',
+                            Login => $Param{User},
+                            %SyncUser,
+                            UserType => 'User',
+                            ValidID => 1,
+                            UserID => 1,
+                        )) {
+                            $Self->{LogObject}->Log(
+                                Priority => 'notice',
+                                Message => "Data for '$Param{User} ($UserDN)' created in RDBMS, proceed.",
+                            );
+                        }
+                        else {
+                            $Self->{LogObject}->Log(
+                                Priority => 'error',
+                                Message => "Can't create user '$Param{User} ($UserDN)' in RDBMS!",
+                            );
+                        }
+                    }
+                    else {
+                        $Self->{UserObject}->UserUpdate(
+                            ID => $UserData{UserID},
+                            Salutation => 'Mr/Mrs',
+                            Login => $Param{User},
+                            %SyncUser,
+                            UserType => 'User',
+                            ValidID => 1,
+                            UserID => 1,
+                        );
+                    }
+                }
+            }
+        }
         # take down session
         $LDAP->unbind;
         return $Param{User};
