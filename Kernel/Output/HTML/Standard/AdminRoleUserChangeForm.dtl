@@ -2,7 +2,7 @@
 # AdminRoleUserChangeForm.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminRoleUserChangeForm.dtl,v 1.5 2005-08-19 21:34:47 martin Exp $
+# $Id: AdminRoleUserChangeForm.dtl,v 1.6 2005-09-19 16:05:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@
   <input type="hidden" name="Action" value="$Env{"Action"}">
   <input type="hidden" name="Subaction" value="Change$QData{"Type"}">
   <input type="hidden" name="ID" value="$QData{"ID"}">
-  <table width="500" cellspacing="0" cellpadding="4">
+  <table width="600" cellspacing="0" cellpadding="4">
   <tr valign="top">
     <td class="contenthead">$Text{"Change %s settings", "$Data{"Type"}"}:</td>
   </tr>

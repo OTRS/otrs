@@ -2,7 +2,7 @@
 # AdminRoleUserForm.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminRoleUserForm.dtl,v 1.4 2005-06-22 04:58:40 martin Exp $
+# $Id: AdminRoleUserForm.dtl,v 1.5 2005-09-19 16:05:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@
 
   <br>
 
-  <table cellspacing="0" cellpadding="4" border="0" width="500">
+  <table cellspacing="0" cellpadding="4" border="0" width="600">
   <tr class="contenthead">
     <td width="50%">
       $Text{"User"}:$Text{"Role"} (1:n)

@@ -2,7 +2,7 @@
 # AdminUserGroupForm.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUserGroupForm.dtl,v 1.12 2005-06-22 04:58:40 martin Exp $
+# $Id: AdminUserGroupForm.dtl,v 1.13 2005-09-19 16:05:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@
 
   <br>
 
-  <table width="500" cellspacing="0" cellpadding="4">
+  <table width="600" cellspacing="0" cellpadding="4">
   <tr>
     <td class="contenthead" width="50%">
       $Text{"User"}:$Text{"Group"} (1:n)
