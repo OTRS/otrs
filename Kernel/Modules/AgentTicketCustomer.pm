@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCustomer.pm - to set the ticket customer and show the customer history
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketCustomer.pm,v 1.2 2005-03-27 11:50:50 martin Exp $
+# $Id: AgentTicketCustomer.pm,v 1.3 2005-09-19 11:56:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -64,12 +64,13 @@ sub Run {
 
     if ($Self->{Subaction} eq 'Update') {
         # set customer id
-        my $ExpandCustomerName = $Self->{ParamObject}->GetParam(Param => 'ExpandCustomerName') || 0;
+        my $ExpandCustomerName1 = $Self->{ParamObject}->GetParam(Param => 'ExpandCustomerName1') || 0;
+        my $ExpandCustomerName2 = $Self->{ParamObject}->GetParam(Param => 'ExpandCustomerName2') || 0;
         my $CustomerUserOption = $Self->{ParamObject}->GetParam(Param => 'CustomerUserOption') || '';
         $Param{CustomerUserID} = $Self->{ParamObject}->GetParam(Param => 'CustomerUserID') || '';
         $Param{CustomerID} = $Self->{ParamObject}->GetParam(Param => 'CustomerID') || '';
         # Expand Customer Name
-        if ($ExpandCustomerName == 1) {
+        if ($ExpandCustomerName1) {
             # search customer
             my %CustomerUserList = ();
             %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
@@ -103,7 +104,7 @@ sub Run {
             return $Self->Form(%Param);
         }
         # get customer user and customer id
-        elsif ($ExpandCustomerName == 2) {
+        elsif ($ExpandCustomerName2) {
             my %CustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
                 User => $CustomerUserOption,
             );
@@ -154,21 +155,13 @@ sub Form {
     if ($Self->{TicketID}) {
         # get ticket data
         my %TicketData = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
-        if ($TicketData{CustomerUserID}) {
+        if ($TicketData{CustomerUserID} || $Param{CustomerUserID}) {
             %CustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-                User => $TicketData{CustomerUserID},
+                User => $Param{CustomerUserID} || $TicketData{CustomerUserID},
             );
         }
         $TicketCustomerID = $TicketData{CustomerID};
         $Param{Table} = $Self->{LayoutObject}->AgentCustomerViewTable(Data => \%CustomerUserData);
-        # build from string
-        if ($Param{CustomerUserOptions} && %{$Param{CustomerUserOptions}}) {
-            $Param{'CustomerUserStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-                Data => $Param{CustomerUserOptions},
-                Name => 'CustomerUserOption',
-                Max => 70,
-                ).'$Env{"Box0"}<a href="" onclick="document.compose.ExpandCustomerName.value=\'2\'; document.compose.submit(); return false;" onmouseout="window.status=\'\';" onmouseover="window.status=\'$Text{"Take this Customer"}\'; return true;">$Text{"Take this Customer"}</a>$Env{"Box1"}';
-        }
         $Self->{LayoutObject}->Block(
             Name => 'Customer',
             Data => {
@@ -176,6 +169,20 @@ sub Form {
                 %Param,
             },
         );
+        # build from string
+        if ($Param{CustomerUserOptions} && %{$Param{CustomerUserOptions}}) {
+            $Param{'CustomerUserStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+                Data => $Param{CustomerUserOptions},
+                Name => 'CustomerUserOption',
+                Max => 70,
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'CustomerTakeOver',
+                Data => {
+                    %Param,
+                },
+            );
+        }
     }
     # --
     # get ticket ids with customer id
@@ -195,7 +202,7 @@ sub Form {
                 CustomerID => \@CustomerIDs,
                 UserID => $Self->{UserID},
                 Permission => 'ro',
-                Limit => 50,
+                Limit => 15,
             );
         }
         elsif ($TicketCustomerID) {
@@ -204,7 +211,7 @@ sub Form {
                 CustomerID => $TicketCustomerID,
                 UserID => $Self->{UserID},
                 Permission => 'ro',
-                Limit => 50,
+                Limit => 15,
             );
         }
     }
