@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: de.pm,v 1.93 2005-09-05 04:58:25 martin Exp $
+# $Id: de.pm,v 1.94 2005-09-22 13:55:02 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.93 $';
+$VERSION = '$Revision: 1.94 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -461,6 +461,7 @@ sub Data {
       'History::WebRequestCustomer' => 'Kunde stellte Anfrage über Web.',
       'History::TicketLinkAdd' => 'Verknüpfung zu "%s" hergestellt.',
       'History::TicketLinkDelete' => 'Verknüpfung zu "%s" gelöscht.',
+      'Workflow Groups' => 'Workflow Gruppen',
 
       # Template: AAAWeekDay
       'Sun' => 'Son',
