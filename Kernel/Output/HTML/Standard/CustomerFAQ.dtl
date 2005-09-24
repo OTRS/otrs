@@ -2,7 +2,7 @@
 # CustomerFAQ.dtl - provides HTML view for faq articles
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerFAQ.dtl,v 1.2 2005-09-11 11:49:52 martin Exp $
+# $Id: CustomerFAQ.dtl,v 1.3 2005-09-24 16:55:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,6 +17,7 @@
 </tr>
 <tr>
   <td width="100%" class="menu">
+    <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Back"}</a>
     <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Print&FAQID=$Data{"FAQID"}" target="print">$Text{"Print"}</a>
   </td>
 </tr>
