@@ -3,7 +3,7 @@
 # bin/otrs.checkModules - to check needed cpan framework modules
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: otrs.checkModules,v 1.8 2005-06-27 12:57:07 rk Exp $
+# $Id: otrs.checkModules,v 1.9 2005-09-24 16:55:10 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,6 +30,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 my @NeededModules = (qw(
     CGI
     Date::Pcalc
+    Date::Format
     DBI DBD::mysql
     Digest::MD5
     LWP::UserAgent
@@ -58,7 +59,7 @@ foreach (@NeededModules) {
         }
         elsif ($_ =~ /^XML::Parser$/) {
             print sprintf(" %20s %s\n", $_, '... not installed! (required for strong xml use - not required!)');
-        }        
+        }
         else {
             print sprintf(" %20s %s\n", $_, '... not installed! (required - use "perl -MCPAN -e shell;")');
         }
