@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  database: oracle, generated: Sun Jul  3 21:51:17 2005
+--  database: oracle, generated: Wed Sep 21 17:55:46 2005
 -- ----------------------------------------------------------
 DROP TABLE valid CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
@@ -924,9 +924,9 @@ DROP TABLE auto_response CASCADE CONSTRAINTS;
 CREATE TABLE auto_response (
     id NUMBER (5, 0) NOT NULL,
     name VARCHAR2 (100) NOT NULL,
-    text0 VARCHAR2 (6000),
-    text1 VARCHAR2 (6000),
-    text2 VARCHAR2 (6000),
+    text0 CLOB,
+    text1 CLOB,
+    text2 CLOB,
     type_id NUMBER (5, 0) NOT NULL,
     system_address_id NUMBER (5, 0) NOT NULL,
     charset VARCHAR2 (80) NOT NULL,
@@ -1150,7 +1150,7 @@ CREATE TABLE search_profile (
     profile_name VARCHAR2 (200) NOT NULL,
     profile_type VARCHAR2 (30) NOT NULL,
     profile_key VARCHAR2 (200) NOT NULL,
-    profile_value VARCHAR2 (200) NOT NULL
+    profile_value VARCHAR2 (200)
 );
 DROP TABLE process_id CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------

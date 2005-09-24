@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # UnlockTickets.pl - to unlock tickets
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: UnlockTickets.pl,v 1.18 2004-10-01 11:23:20 martin Exp $
+# $Id: UnlockTickets.pl,v 1.19 2005-09-24 16:46:36 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Date::Pcalc qw(Delta_Days Add_Delta_Days Day_of_Week Day_of_Week_Abbreviation);
@@ -79,7 +79,7 @@ if ($Command eq '--all') {
     print " Unlock all tickets:\n";
     my @Tickets = ();
     my $SQL = "SELECT st.tn, st.ticket_answered, st.id, st.user_id FROM " .
-    " ticket as st, queue as sq " .
+    " ticket st, queue sq " .
     " WHERE " .
     " st.queue_id = sq.id " .
     " AND " .
@@ -113,7 +113,7 @@ elsif ($Command eq '--timeout') {
     my $SQL = "SELECT st.tn, st.ticket_answered, st.id, st.timeout, ".
     " sq.unlock_timeout  ".
     " FROM " .
-    " ticket as st, queue as sq " .
+    " ticket st, queue sq " .
     " WHERE " .
     " st.queue_id = sq.id " .
     " AND " .

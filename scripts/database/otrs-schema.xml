@@ -5,9 +5,12 @@
   XML File for the OTRS database description
   Copyright (C) 2001-2003 Martin Edenhofer
 
-  $Id: otrs-schema.xml,v 1.45 2005-07-03 19:52:20 martin Exp $
+  $Id: otrs-schema.xml,v 1.46 2005-09-24 16:46:35 martin Exp $
 
   $Log: not supported by cvs2svn $
+  Revision 1.45  2005/07/03 19:52:20  martin
+  added ticket free time feature
+
   Revision 1.44  2005/07/01 06:28:40  martin
   added datatype DECIMAL support for time_accounting table
 
@@ -1299,7 +1302,7 @@
     <Column Name="profile_name" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="profile_type" Required="true" Size="30" Type="VARCHAR"/>
     <Column Name="profile_key" Required="true" Size="200" Type="VARCHAR"/>
-    <Column Name="profile_value" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="profile_value" Required="false" Size="200" Type="VARCHAR"/>
 </Table>
 
 <!-- process_id -->

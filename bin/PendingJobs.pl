@@ -3,7 +3,7 @@
 # PendingJobs.pl - check pending tickets
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PendingJobs.pl,v 1.16 2005-02-15 11:58:13 martin Exp $
+# $Id: PendingJobs.pl,v 1.17 2005-09-24 16:46:36 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Date::Pcalc qw(Day_of_Week Day_of_Week_Abbreviation);
@@ -73,7 +73,7 @@ my @PendingAutoStateIDs = $CommonObject{StateObject}->StateGetStatesByType(
 if (@PendingAutoStateIDs) {
     my @TicketIDs = ();
     my $SQL = "SELECT st.id FROM " .
-      " ticket as st " .
+      " ticket st " .
       " WHERE " .
       " st.ticket_state_id IN ( ${\(join ', ', @PendingAutoStateIDs)} ) ";
     $CommonObject{DBObject}->Prepare(SQL => $SQL);
@@ -120,7 +120,7 @@ my @PendingReminderStateIDs = $CommonObject{StateObject}->StateGetStatesByType(
 if (@PendingReminderStateIDs) {
     my @TicketIDs = ();
     my $SQL = "SELECT st.tn, st.id, st.user_id FROM " .
-      " ticket as st, ticket_state tsd " .
+      " ticket st, ticket_state tsd " .
       " WHERE " .
       " st.ticket_state_id = tsd.id " .
       " AND " .

@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  database: oracle, generated: Mon Jun  6 22:18:29 2005
+--  database: oracle, generated: Wed Sep 21 17:55:46 2005
 -- ----------------------------------------------------------
 ALTER TABLE valid ADD CONSTRAINT fk_valid_create_by_id FOREIGN KEY (create_by) REFERENCES system_user(id);
 ALTER TABLE valid ADD CONSTRAINT fk_valid_change_by_id FOREIGN KEY (change_by) REFERENCES system_user(id);

@@ -2,7 +2,7 @@
 # Kernel/System/DB/oracle.pm - oracle database backend
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: oracle.pm,v 1.3 2005-07-01 06:24:12 martin Exp $
+# $Id: oracle.pm,v 1.4 2005-09-24 16:46:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::DB::oracle;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub LoadPreferences {
@@ -132,7 +132,7 @@ sub TableCreate {
         }
         if ($Tag->{Type} =~ /^VARCHAR$/i) {
             $Tag->{Type} = "VARCHAR2 ($Tag->{Size})";
-            if ($Tag->{Size}  >= 10000) {
+            if ($Tag->{Size}  > 4000) {
                 $Tag->{Type} = "CLOB";
             }
         }
@@ -216,7 +216,7 @@ sub TableDrop {
             $SQL .= $Self->{'DB::Comment'}." drop table $Tag->{Name}\n";
             $SQL .= $Self->{'DB::Comment'}."----------------------------------------------------------\n";
         }
-        $SQL .= "DROP TABLE IF EXISTS $Tag->{Name}";
+        $SQL .= "DROP TABLE $Tag->{Name}";
         return ($SQL);
     }
     return ();
