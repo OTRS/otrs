@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 1.3 to 2.0
 -- Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-2.0.postgresql.sql,v 1.23 2005-09-05 05:00:32 martin Exp $
+-- $Id: DBUpdate-to-2.0.postgresql.sql,v 1.24 2005-09-24 16:48:21 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.0.postgresql.sql | psql otrs
@@ -288,7 +288,7 @@ INSERT INTO notifications
 INSERT INTO notifications
   (notification_type, notification_charset, notification_language, subject, text, create_time, create_by, change_time, change_by)
   VALUES
-  ('Agent::FollowUp', 'iso-8859-1', 'de', 'Nachfrage! (<OTRS_CUSTOMER_SUBJECT[18]>)', 'Hi <OTRS_OWNER_USERFIRSTNAME>,Du hast eine Nachfrage bekommen!<OTRS_CUSTOMER_FROM> schrieb:<snip><OTRS_CUSTOMER_EMAIL[16]><snip><OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_TicketID>Ihr OTRS Benachrichtigungs-Master', current_timestamp, 1, current_timestamp, 1);
+  ('Agent::FollowUp', 'iso-8859-1', 'de', 'Nachfrage! (<OTRS_CUSTOMER_SUBJECT[18]>)', 'Hi <OTRS_OWNER_USERFIRSTNAME>,Sie haben eine Nachfrage bekommen!<OTRS_CUSTOMER_FROM> schrieb:<snip><OTRS_CUSTOMER_EMAIL[16]><snip><OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_TicketID>Ihr OTRS Benachrichtigungs-Master', current_timestamp, 1, current_timestamp, 1);
 INSERT INTO notifications
   (notification_type, notification_charset, notification_language, subject, text, create_time, create_by, change_time, change_by)
   VALUES
@@ -296,7 +296,7 @@ INSERT INTO notifications
 INSERT INTO notifications
   (notification_type, notification_charset, notification_language, subject, text, create_time, create_by, change_time, change_by)
   VALUES
-  ('Agent::OwnerUpdate', 'iso-8859-1', 'de', 'Ticket uebertragen an Dich! (<OTRS_CUSTOMER_SUBJECT[18]>)', 'Hi <OTRS_OWNER_USERFIRSTNAME>,ein Ticket [<OTRS_TICKET_TicketNumber>] wurde an Dich von "<OTRS_CURRENT_USERFIRSTNAME> <OTRS_CURRENT_USERLASTNAME>" uebertragen.Kommentar:<OTRS_COMMENT><OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_TicketID>Ihr OTRS Benachrichtigungs-Master', current_timestamp, 1, current_timestamp, 1);
+  ('Agent::OwnerUpdate', 'iso-8859-1', 'de', 'Ticket uebertragen an Sie! (<OTRS_CUSTOMER_SUBJECT[18]>)', 'Hi <OTRS_OWNER_USERFIRSTNAME>,ein Ticket [<OTRS_TICKET_TicketNumber>] wurde an Sie von "<OTRS_CURRENT_USERFIRSTNAME> <OTRS_CURRENT_USERLASTNAME>" uebertragen.Kommentar:<OTRS_COMMENT><OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_TicketID>Ihr OTRS Benachrichtigungs-Master', current_timestamp, 1, current_timestamp, 1);
 INSERT INTO notifications
   (notification_type, notification_charset, notification_language, subject, text, create_time, create_by, change_time, change_by)
   VALUES
