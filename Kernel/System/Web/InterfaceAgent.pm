@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceAgent.pm - the agent interface file (incl. auth)
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: InterfaceAgent.pm,v 1.7 2005-07-16 09:33:19 martin Exp $
+# $Id: InterfaceAgent.pm,v 1.8 2005-09-24 16:52:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Web::InterfaceAgent;
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -214,42 +214,6 @@ sub Run {
             my %UserData = $Self->{UserObject}->GetUserData(User => $User, Valid => 1);
             # check needed data
             if (!$UserData{UserID} || !$UserData{UserLogin}) {
-                if ($Self->{ConfigObject}->Get('AuthModule') eq 'Kernel::System::Auth::LDAP') {
-                    # sync user
-                    if ($Self->{UserObject}->SyncLDAP2Database(User => $User)) {
-                        if ($Self->{ConfigObject}->Get('LoginURL')) {
-                            # redirect to alternate login
-                            print $Self->{LayoutObject}->Redirect(
-                                ExtURL => $Self->{ConfigObject}->Get('LoginURL')."?Reason=AccountActivated",
-                            );
-                        }
-                        else {
-                            # show error login screen
-                            print $Self->{LayoutObject}->Login(
-                                Title => 'First Visit?',
-                                Message => 'Useraccount activated, retry.',
-                                %Param,
-                            );
-                        }
-                    }
-                    else {
-                        if ($Self->{ConfigObject}->Get('LoginURL')) {
-                            # redirect to alternate login
-                            print $Self->{LayoutObject}->Redirect(
-                                ExtURL => $Self->{ConfigObject}->Get('LoginURL')."?Reason=SystemError",
-                            );
-                        }
-                        else {
-                            # show error login screen
-                            print $Self->{LayoutObject}->Login(
-                                Title => 'First Visit?',
-                                Message => 'Can\'t activate user.',
-                                %Param,
-                            );
-                        }
-                    }
-                    exit (0);
-                }
                 if ($Self->{ConfigObject}->Get('LoginURL')) {
                     # redirect to alternate login
                     print $Self->{LayoutObject}->Redirect(
@@ -735,6 +699,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2005-07-16 09:33:19 $
+$Revision: 1.8 $ $Date: 2005-09-24 16:52:08 $
 
 =cut
