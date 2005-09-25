@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.217 2005-09-17 10:38:40 martin Exp $
+# $Id: Defaults.pm,v 1.218 2005-09-25 10:01:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.217 $';
+$VERSION = '$Revision: 1.218 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -333,12 +333,18 @@ sub LoadDefaults {
 
     # UserSyncLDAPMap
     # (map if agent should create/synced from LDAP to DB after login)
-    $Self->{UserSyncLDAPMap} = {
-        # DB -> LDAP
-        Firstname => 'givenName',
-        Lastname => 'sn',
-        Email => 'mail',
-    };
+#    $Self->{UserSyncLDAPMap} = {
+#        # DB -> LDAP
+#        Firstname => 'givenName',
+#        Lastname => 'sn',
+#        Email => 'mail',
+#    };
+    # UserSyncLDAPGroups
+    # (If "LDAP" was selected for AuthModule, you can specify inital
+    # user groups for first login.)
+#    $Self->{UserSyncLDAPGroups} = [
+#        'users',
+#    ];
 
     # UserTable
     $Self->{DatabaseUserTable} = 'system_user';
@@ -1734,6 +1740,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.217 $ $Date: 2005-09-17 10:38:40 $
+$Revision: 1.218 $ $Date: 2005-09-25 10:01:00 $
 
 =cut

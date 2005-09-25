@@ -2,7 +2,7 @@
 # Kernel/System/Auth/LDAP.pm - provides the ldap authentification
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LDAP.pm,v 1.15 2005-09-19 16:39:43 martin Exp $
+# $Id: LDAP.pm,v 1.16 2005-09-25 10:01:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use strict;
 use Net::LDAP;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -31,7 +31,7 @@ sub new {
     bless ($Self, $Type);
 
     # check needed objects
-    foreach (qw(LogObject ConfigObject DBObject UserObject)) {
+    foreach (qw(LogObject ConfigObject DBObject UserObject GroupObject)) {
         $Self->{$_} = $Param{$_} || die "No $_!";
     }
 
@@ -249,21 +249,45 @@ sub Auth {
                         $SyncUser{Pw} = $Entry->get_value('userPassword');
                     }
                 }
+                # sync user
                 if (%SyncUser) {
                     my %UserData = $Self->{UserObject}->GetUserData(User => $Param{User});
                     if (!%UserData) {
-                        if ($Self->{UserObject}->UserAdd(
+                        my $UserID = $Self->{UserObject}->UserAdd(
                             Salutation => 'Mr/Mrs',
                             Login => $Param{User},
                             %SyncUser,
                             UserType => 'User',
                             ValidID => 1,
                             UserID => 1,
-                        )) {
+                        );
+                        if ($UserID) {
                             $Self->{LogObject}->Log(
                                 Priority => 'notice',
                                 Message => "Data for '$Param{User} ($UserDN)' created in RDBMS, proceed.",
                             );
+                            # sync inital groups
+                            if ($Self->{ConfigObject}->Get('UserSyncLDAPGroups')) {
+                                my %Groups = $Self->{GroupObject}->GroupList();
+                                foreach (@{$Self->{ConfigObject}->Get('UserSyncLDAPGroups')}) {
+                                    my $GroupID = '';
+                                    foreach my $GID (keys %Groups) {
+                                        if ($Groups{$GID} eq $_) {
+                                            $GroupID = $GID;
+                                        }
+                                    }
+                                    if ($GroupID) {
+                                        $Self->{GroupObject}->GroupMemberAdd(
+                                            GID => $GroupID,
+                                            UID => $UserID,
+                                            Permission => {
+                                                rw => 1,
+                                            },
+                                            UserID => 1,
+                                        );
+                                    }
+                                }
+                            }
                         }
                         else {
                             $Self->{LogObject}->Log(
