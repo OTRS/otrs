@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.187 2005-09-19 11:56:44 martin Exp $
+# $Id: CHANGES,v 1.188 2005-09-25 10:02:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,7 +10,12 @@
 # --
 CVS head
 
-2.0.3 (2005/08/??)
+2.0.3 (2005/09/25)
+ - (2005/09/24) fixed small oracle database driver bugs
+ - (2005/09/24) added inital user groups add (UserSyncLDAPGroups) after
+    inital login
+ - (2005/09/19) moved ldap user sync after login from Kernel/System/User.pm
+    to Kernel/System/Auth/LDAP.pm (already an existing ldap module)
  - (2005/09/19) removed js from change ticket customer
  - (2005/09/19) fixed bin/mkStats.pl - no attachments are sent
  - (2005/09/18) removed auto result in object link mask (search submit
