@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: User.pm,v 1.47 2005-09-19 16:39:44 martin Exp $
+# $Id: User.pm,v 1.48 2005-09-26 05:50:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.47 $';
+$VERSION = '$Revision: 1.48 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -132,10 +132,10 @@ sub GetUserData {
         $Preferences{UserEmail} = $Data{UserLogin};
     }
     # cache user result
-    if ($Param{User} && $Self->{'GetUserData::User::'.$Param{User}}) {
+    if ($Param{User}) {
         $Self->{'GetUserData::User::'.$Param{User}} = {%Data, %Preferences};
     }
-    elsif ($Param{UserID} && $Self->{'GetUserData::UserID::'.$Param{UserID}}) {
+    elsif ($Param{UserID}) {
         $Self->{'GetUserData::UserID::'.$Param{UserID}} = {%Data, %Preferences};
     }
     # return data

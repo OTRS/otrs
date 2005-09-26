@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.188 2005-09-25 10:02:32 martin Exp $
+# $Id: CHANGES,v 1.189 2005-09-26 05:50:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,7 +10,8 @@
 # --
 CVS head
 
-2.0.3 (2005/09/25)
+2.0.3 (2005/09/26)
+ - (2005/09/26) fixed not working cache in Kernel::System::User->UserGetData()
  - (2005/09/24) fixed small oracle database driver bugs
  - (2005/09/24) added inital user groups add (UserSyncLDAPGroups) after
     inital login
