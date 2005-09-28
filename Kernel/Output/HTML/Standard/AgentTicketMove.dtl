@@ -2,7 +2,7 @@
 # AgentTicketMove.dtl - provides HTML form for move mask
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketMove.dtl,v 1.3 2005-08-26 12:48:44 martin Exp $
+# $Id: AgentTicketMove.dtl,v 1.4 2005-09-28 09:58:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -74,7 +74,7 @@ $Include{"AgentTicketLocked"}
   <td class="contentbody">
 
 #$Data{"TicketUnlock"}
-  <form action="$Env{"CGIHandle"}" method="get" name="compose">
+  <form action="$Env{"CGIHandle"}" method="post" name="compose">
   <input type="hidden" name="Action" value="$Env{"Action"}">
   <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
   <input type="hidden" name="TicketUnlock" value="$Data{"TicketUnlock"}">
