@@ -2,7 +2,7 @@
 # AgentMailboxNavBar.dtl - provides HTML AgentMailboxNavBar for AgentAgentMailboxNavBar.pm
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketMailbox.dtl,v 1.1 2005-02-17 07:01:15 martin Exp $
+# $Id: AgentTicketMailbox.dtl,v 1.2 2005-09-28 07:02:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,9 @@
 </tr>
 <tr>
   <td class="menu">
-  $Text{"Tickets"}:
+  $Text{"Tickets"}: $Data{"Result"} $Text{"of"} $Data{"TotalHits"} -
+  $Text{"Page"}: $Data{"SiteNavBar"} - $Text{"Filter"}:
+
   <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=All&SortBy=$Data{"SortBy"}&OrderBy=$Data{"OrderBy"}" onmouseover="window.status='$Text{"All messages"} ($Data{"All"})'; return true;" onmouseout="window.status='';">$Text{"All"} ($Data{"All"})</a>
 #  -
 #  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Open&SortBy=$Data{"SortBy"}&OrderBy=$Data{"OrderBy"}" onmouseover="window.status='$Text{"Open messages"} ($Data{"Open"})'; return true;" onmouseout="window.status='';">$Text{"Old messages"} ($Data{"Open"})</a>
@@ -51,7 +53,9 @@
 <!-- dtl:block:Bulk -->
 
   <td align="left" width="65%" class="mainhead">
-    $Env{"Box0"}$Config{"Ticket::Hook"}: $Data{"TicketNumber"}$Env{"Box1"}</b> <font color="red">$Text{"$Data{"Message"}"}
+    $Env{"Box0"}$Config{"Ticket::Hook"}: $Data{"TicketNumber"}$Env{"Box1"}
+#    $QData{"Title","30"}
+    <font color="red">$Text{"$Data{"Message"}"}
   </td>
   <td align="right" width="34%" class="mainhead">
     $Env{"Box0"}$Text{"Age"}: $Data{"Age"}$Env{"Box1"}
@@ -64,7 +68,7 @@
 
 <!-- dtl:block:Menu -->
 <!-- dtl:block:MenuItemSplit -->
- - 
+ -
 <!-- dtl:block:MenuItemSplit -->
 <!-- dtl:block:MenuItem -->
 <a href="$Env{"Baselink"}$Data{"Link"}" $Data{"LinkParam"} onmouseover="window.status='$Text{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" class="menuitem" title="$Text{"$QData{"Description"}"}">
@@ -116,7 +120,7 @@ $Text{"$QData{"Name"}"}</a>
      $Data{"ArticleFreeString3"}
 # --
   </table>
-  </td> 
+  </td>
   <td width="20%" align="left" valign="top" class="PriorityID-$Data{"PriorityID"}">
     <table border="0">
     <tr valign="top">
@@ -140,7 +144,7 @@ $Text{"$QData{"Name"}"}</a>
       <td><a href="$Config{"CustomerDBLink"}" $Config{"CustomerDBLinkTarget"}>$Quote{"$Data{"CustomerID"}","14"}</a></td>
     </tr>
 # --
-# use ticket is pending 
+# use ticket is pending
 # --
 <dtl if ($Data{"PendingUntil"} ne "") { $Data{"PendingUntilString"} = "<tr valign="top"><td><b>$Text{"Pending till"}:</b></td><td>$Data{"PendingUntil"}</td></tr>"; }>
     $Data{"PendingUntilString"}
