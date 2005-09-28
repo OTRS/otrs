@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.190 2005-09-28 07:06:06 martin Exp $
+# $Id: CHANGES,v 1.191 2005-09-28 10:00:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,6 +11,8 @@
 CVS head
 
 2.0.3 (2005/09/28)
+ - (2005/09/28) fixed typo in config option name for csv search output,
+    so configable csv search output is now possible
  - (2005/09/28) improved speed of Kernel::System::AgentTicketMailbox
     (added page jumper)
  - (2005/09/28) fixed not deleting var/tmp/XXXXXX.tmp files
@@ -20,6 +22,8 @@ CVS head
     inital login
  - (2005/09/19) moved ldap user sync after login from Kernel/System/User.pm
     to Kernel/System/Auth/LDAP.pm (already an existing ldap module)
+ - (2005/09/19) fixed ticket search create day and month selection
+    (e. g. 009) if input fields (no pull downs) are used
  - (2005/09/19) removed js from change ticket customer
  - (2005/09/19) fixed bin/mkStats.pl - no attachments are sent
  - (2005/09/18) removed auto result in object link mask (search submit
