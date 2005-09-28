@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.186 2005-09-04 19:39:52 martin Exp $
+# $Id: Ticket.pm,v 1.187 2005-09-28 12:05:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.186 $';
+$VERSION = '$Revision: 1.187 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -2658,13 +2658,13 @@ sub StateSet {
             CreateUserID => $Param{UserID},
         );
         # reset escalation time if ticket will be reopend
-#        if ($State{TypeName} ne 'closed' && $Ticket{StateType} eq 'closed'){
-#            $Self->TicketEscalationStartUpdate(
-#                EscalationStartTime => $Self->{TimeObject}->SystemTime(),
-#                TicketID => $Param{TicketID},
-#                UserID => $Param{UserID},
-#            );
-#        }
+        if ($State{TypeName} ne 'closed' && $Ticket{StateType} eq 'closed'){
+            $Self->TicketEscalationStartUpdate(
+                EscalationStartTime => $Self->{TimeObject}->SystemTime(),
+                TicketID => $Param{TicketID},
+                UserID => $Param{UserID},
+            );
+        }
         # send customer notification email
         $Self->SendCustomerNotification(
             Type => 'StateUpdate',
@@ -4131,6 +4131,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.186 $ $Date: 2005-09-04 19:39:52 $
+$Revision: 1.187 $ $Date: 2005-09-28 12:05:57 $
 
 =cut
