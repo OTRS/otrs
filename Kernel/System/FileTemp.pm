@@ -1,8 +1,8 @@
 # --
 # Kernel/System/FileTemp.pm - tmp files
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FileTemp.pm,v 1.3 2004-12-23 06:01:13 martin Exp $
+# $Id: FileTemp.pm,v 1.4 2005-09-28 06:52:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use File::Temp qw/ tempfile tempdir /;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -93,7 +93,24 @@ sub TempFile {
         SUFFIX => '.tmp',
         UNLINK => 1,
     );
+    # remember created tmp files
+    push (@{$Self->{FileList}}, $Filename);
+    # return FH and Filename
     return ($FH, $Filename);
+}
+
+sub DESTROY {
+    my $Self = shift;
+    my %Param = @_;
+    # remove all existing tmp files
+    if ($Self->{FileList}) {
+        foreach (@{$Self->{FileList}}) {
+            if (-f $_) {
+                unlink $_;
+            }
+        }
+    }
+    return 1;
 }
 
 1;
@@ -110,6 +127,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2004-12-23 06:01:13 $
+$Revision: 1.4 $ $Date: 2005-09-28 06:52:33 $
 
 =cut
