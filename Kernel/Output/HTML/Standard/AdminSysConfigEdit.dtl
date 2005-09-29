@@ -2,7 +2,7 @@
 # AdminSysConfigEdit.dtl - provides HTML form for SysConfig
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfigEdit.dtl,v 1.21 2005-08-08 19:36:25 martin Exp $
+# $Id: AdminSysConfigEdit.dtl,v 1.22 2005-09-29 06:10:08 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -49,7 +49,7 @@
     <td width="50%" class="contentvalue"><textarea name="$Data{"ElementKey"}" rows="7" cols="50">$QData{"Content"}</textarea></td>
     <!-- dtl:block:ConfigElementTextArea -->
     <!-- dtl:block:ConfigElementSelect -->
-    <td width="50%" class="contentvalue">$Data{"Liste"}<br><span class="contentvalue" title="$QData{"Default"}">($Text{"Default"}: $QData{"Default","45"})</span></td>
+    <td width="50%" class="contentvalue">$Data{"Liste"}<br><span class="contentvalue" title="$QData{"Default"}">($Text{"Default"}: $Text{"$QData{"Default","45"}"})</span></td>
     <!-- dtl:block:ConfigElementSelect -->
     <!-- dtl:block:ConfigElementHash -->
     <td class="contentvalue">
