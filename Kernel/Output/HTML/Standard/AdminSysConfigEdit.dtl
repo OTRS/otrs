@@ -2,7 +2,7 @@
 # AdminSysConfigEdit.dtl - provides HTML form for SysConfig
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfigEdit.dtl,v 1.22 2005-09-29 06:10:08 tr Exp $
+# $Id: AdminSysConfigEdit.dtl,v 1.23 2005-09-29 07:46:26 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,20 +36,33 @@
   <tr class="contentbody">
     <td class="contentvalue"><a name="$QData{"Name"}"><input type="checkbox" value="1" name="$Data{"ItemKey"}ItemAktiv" $Data{"Valid"} $Data{"Required"}>
 <!-- dtl:block:ConfigElementBlockReset -->
-    <br>
-    <input type="image" src="$Env{"Images"}edit.png" name="Reset$QData{"ItemKey"}" value="1" alt="$Text{"Reset"}" title="$Text{"Reset"}">
+      <br>
+      <input type="image" src="$Env{"Images"}edit.png" name="Reset$QData{"ItemKey"}" value="1" alt="$Text{"Reset"}" title="$Text{"Reset"}">
 <!-- dtl:block:ConfigElementBlockReset -->
     </td>
-    <td width="50%"><span class="contentkey$Data{"Validstyle"}">$QData{"ItemKey"}:</span><br><span class="contentvalue$Data{"Validstyle"}">$QData{"Description"}</span></td>
+    <td width="50%">
+      <span class="contentkey$Data{"Validstyle"}">$QData{"ItemKey"}:</span>
+      <br>
+      <span class="contentvalue$Data{"Validstyle"}">$QData{"Description"}</span>
+    </td>
     <!-- dtl:block:ConfigElementString -->
-    <td width="50%" class="contentvalue"><input name="$Data{"ElementKey"}" value="$QData{"Content"}" size="50"><br><font color="red">$Text{"$QData{"Valid"}"}</font>
-      <span class="contentvalue" title="$QData{"Default"}">($Text{"Default"}: $QData{"Default","45"})</span></td>
+    <td width="50%" class="contentvalue">
+      <input name="$Data{"ElementKey"}"  size="50" value="$QData{"Content"}">
+      <br>
+      <font color="red">$Text{"$QData{"Valid"}"}</font>
+      <span class="contentvalue" title="$QData{"Default"}">($Text{"Default"}: $QData{"Default","45"})</span>
+    </td>
     <!-- dtl:block:ConfigElementString -->
     <!-- dtl:block:ConfigElementTextArea -->
-    <td width="50%" class="contentvalue"><textarea name="$Data{"ElementKey"}" rows="7" cols="50">$QData{"Content"}</textarea></td>
+    <td width="50%" class="contentvalue">
+      <textarea name="$Data{"ElementKey"}" rows="7" cols="50">$QData{"Content"}</textarea>
+    </td>
     <!-- dtl:block:ConfigElementTextArea -->
     <!-- dtl:block:ConfigElementSelect -->
-    <td width="50%" class="contentvalue">$Data{"Liste"}<br><span class="contentvalue" title="$QData{"Default"}">($Text{"Default"}: $Text{"$QData{"Default","45"}"})</span></td>
+    <td width="50%" class="contentvalue">$Data{"Liste"}
+      <br>
+      <span class="contentvalue" title="$QData{"Default"}">($Text{"Default"}: $Text{"$QData{"Default","45"}"})</span>
+    </td>
     <!-- dtl:block:ConfigElementSelect -->
     <!-- dtl:block:ConfigElementHash -->
     <td class="contentvalue">
