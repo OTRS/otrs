@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 #               2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Group.pm,v 1.32 2005-07-08 11:08:11 martin Exp $
+# $Id: Group.pm,v 1.33 2005-09-29 08:56:53 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Group;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -780,7 +780,7 @@ sub GroupRoleMemberList {
 
 =item GroupRoleMemberAdd()
 
-to add a member to a group
+to add a role to a group
 
   Permission: ro,move_into,priority,create,rw
 
@@ -1232,6 +1232,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.32 $ $Date: 2005-07-08 11:08:11 $
+$Revision: 1.33 $ $Date: 2005-09-29 08:56:53 $
 
 =cut
