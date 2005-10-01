@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/ArticleCheckPGP.pm
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleCheckPGP.pm,v 1.5 2004-12-06 22:27:35 martin Exp $
+# $Id: ArticleCheckPGP.pm,v 1.6 2005-10-01 13:13:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -29,7 +29,13 @@ sub new {
 
     # get needed objects
     foreach (qw(ConfigObject LogObject DBObject LayoutObject UserID TicketObject ArticleID)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
+        if ($Param{$_}) {
+            $Self->{$_} = $Param{$_};
+        }
+        else {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+#            return;
+        }
     }
     $Self->{CryptObject} = Kernel::System::Crypt->new(%Param, CryptType => 'PGP');
     return $Self;
