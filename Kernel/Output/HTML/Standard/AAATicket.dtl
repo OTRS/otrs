@@ -144,7 +144,12 @@ $Text{"Show closed tickets."};
 $Text{"Max. shown Tickets a page in QueueView."}
 
 
-$Text{""}
+$Text{"CompanyTickets"}
+$Text{"MyTickets"}
+$Text{"New Ticket"}
+$Text{"Create new Ticket"}
+$Text{"Customer called"}
+$Text{"phone call"}
 
 # admin nav bar
 $Text{"Responses"}
