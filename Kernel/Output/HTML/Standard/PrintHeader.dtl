@@ -2,7 +2,7 @@
 # PrintHeader.dtl - provides global print header
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PrintHeader.dtl,v 1.14 2005-04-01 08:24:09 martin Exp $
+# $Id: PrintHeader.dtl,v 1.15 2005-10-01 13:18:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -44,7 +44,7 @@ $Include{"Copyright"}
   .contentvalueactive { color:#000000;background-color:#cccccc;font-size:11px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
 # message
   .message { color:#000000;font-size:12px;font-family:monospace, fixed; }
-  .small { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:10px; }
+  .small { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:10px;vertical-align:top; }
   .container {
     color: #333;
     margin-top: 0px;
