@@ -3,7 +3,7 @@
 # xml2docbook.pl - config xml to docbook
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: xml2docbook.pl,v 1.4 2005-08-26 15:53:18 martin Exp $
+# $Id: xml2docbook.pl,v 1.5 2005-10-02 10:46:24 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use strict;
 use Getopt::Std;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Kernel::Config;
@@ -92,9 +92,19 @@ foreach my $Group (@Groups) {
             $Link =~ s/###/_/g;
             $Link =~ s/\///g;
             print "<sect3 id=\"$Group:$SubGroup:$Link\"><title>$Name</title> \n";
-            print "<informaltable>\n<tgroup cols=\"2\">\n";
-            print "<thead>\n<row>\n<entry>Description</entry>\n";
-            print "<entry>Value</entry>\n</row>\n</thead>\n<tbody>\n";
+            print "<informaltable>\n";
+            print " <tgroup cols=\"4\">\n";
+            print "   <colspec colnum=\"1\" colname=\"col1\" colwidth=\"1*\"/>\n";
+            print "   <colspec colnum=\"2\" colname=\"col2\" colwidth=\"1*\"/>\n";
+            print "   <colspec colnum=\"3\" colname=\"col3\" colwidth=\"1*\"/>\n";
+            print "   <colspec colnum=\"4\" colname=\"col4\" colwidth=\"1*\"/>\n";
+            print "   <thead>\n";
+            print "     <row>\n";
+            print "       <entry>Description</entry>\n";
+            print "       <entry namest=\"col2\" nameend=\"col4\">Value</entry>\n";
+            print "     </row>\n";
+            print "   </thead>\n";
+            print "   <tbody>\n";
             #Description
             my %HashLang;
             foreach my $Index (1...$#{$Item{Description}}) {
@@ -107,17 +117,22 @@ foreach my $Group (@Groups) {
             }
             # Description in Default Language
             else {
-	        $Description = $HashLang{'en'};
+                $Description = $HashLang{'en'};
             }
             $Description =~ s/&/&amp;/g;
             $Description =~ s/</&lt;/g;
             $Description =~ s/>/&gt;/g;
-            print "<row>\n<entry>Description:</entry>\n";
-            print "<entry>$Description</entry>\n</row>\n";
+            print "<row>\n";
+            print " <entry>Description:</entry>\n";
+            print " <entry namest=\"col2\" nameend=\"col4\">$Description</entry>\n";
+            print "</row>\n";
             foreach my $Area (qw(Group SubGroup)) {
                 foreach (1..10) {
                     if ($Item{$Area}->[$_]) {
-                        print "<row>\n<entry>$Area:</entry>\n<entry>$Item{$Area}->[$_]->{Content}</entry>\n</row>\n";
+                        print "<row>\n";
+                        print " <entry>$Area:</entry>\n";
+                        print " <entry namest=\"col2\" nameend=\"col4\">$Item{$Area}->[$_]->{Content}</entry>\n";
+                        print "</row>\n";
                     }
                 }
             }
@@ -125,8 +140,14 @@ foreach my $Group (@Groups) {
                 Name => $Name,
                 Default => 1,
             );
-            print "<row>\n<entry>Valid:</entry>\n<entry>".($ConfigItemDefault{Valid}||1)."</entry>\n</row>\n";
-            print "<row>\n<entry>Required:</entry>\n<entry>".($ConfigItemDefault{Required}||0)."</entry>\n</row>\n";
+            print "<row>\n";
+            print " <entry>Valid:</entry>\n";
+            print " <entry namest=\"col2\" nameend=\"col4\">".($ConfigItemDefault{Valid}||1)."</entry>\n";
+            print "</row>\n";
+            print "<row>\n";
+            print " <entry>Required:</entry>\n";
+            print " <entry namest=\"col2\" nameend=\"col4\">".($ConfigItemDefault{Required}||0)."</entry>\n";
+            print "</row>\n";
 
             my $Key = $Name;
             $Key =~ s/\\/\\\\/g;
@@ -136,11 +157,16 @@ foreach my $Group (@Groups) {
             $Config =~ s/&/&amp;/g;
             $Config =~ s/</&lt;/g;
             $Config =~ s/>/&gt;/g;
-            print "<row>\n<entry>Config-Setting:</entry>\n<entry><programlisting>\n";
+            print "<row>\n";
+            print " <entry>Config-Setting:</entry>\n";
+            print " <entry namest=\"col2\" nameend=\"col4\"><programlisting>\n";
             print $Config;
             print "</programlisting>\n";
-            print "</entry>\n</row>\n";
-	    print "</tbody>\n</tgroup>\n</informaltable>\n";
+            print " </entry>\n";
+            print "</row>\n";
+            print "</tbody>\n";
+            print "</tgroup>\n";
+            print "</informaltable>\n";
             print "</sect3> \n";
         }
         print "</sect2> \n";
