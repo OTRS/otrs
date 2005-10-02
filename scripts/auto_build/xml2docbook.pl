@@ -3,7 +3,7 @@
 # xml2docbook.pl - config xml to docbook
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: xml2docbook.pl,v 1.5 2005-10-02 10:46:24 martin Exp $
+# $Id: xml2docbook.pl,v 1.6 2005-10-02 11:28:04 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use strict;
 use Getopt::Std;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Kernel::Config;
@@ -142,11 +142,11 @@ foreach my $Group (@Groups) {
             );
             print "<row>\n";
             print " <entry>Valid:</entry>\n";
-            print " <entry namest=\"col2\" nameend=\"col4\">".($ConfigItemDefault{Valid}||1)."</entry>\n";
+            print " <entry namest=\"col2\" nameend=\"col4\">".(defined $ConfigItemDefault{Valid} ? $ConfigItemDefault{Valid} : 1)."</entry>\n";
             print "</row>\n";
             print "<row>\n";
             print " <entry>Required:</entry>\n";
-            print " <entry namest=\"col2\" nameend=\"col4\">".($ConfigItemDefault{Required}||0)."</entry>\n";
+            print " <entry namest=\"col2\" nameend=\"col4\">".(defined $ConfigItemDefault{Required} ? $ConfigItemDefault{Required} : 0)."</entry>\n";
             print "</row>\n";
 
             my $Key = $Name;
