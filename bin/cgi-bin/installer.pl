@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
-# instaler.pl - the OTRS Installer
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# installer.pl - the OTRS Installer
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: installer.pl,v 1.14 2004-11-16 12:26:31 martin Exp $
+# $Id: installer.pl,v 1.15 2005-10-03 19:32:40 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -48,10 +48,11 @@ use Kernel::Modules::Installer;
 use Kernel::Output::HTML::Generic;
 
 # --
-# create common objects 
+# create common objects
 # --
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
+$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
 $CommonObject{LogObject} = Kernel::System::Log->new(
     LogPrefix => 'OTRS-Installer',
     %CommonObject,
@@ -91,7 +92,7 @@ if ($CommonObject{ConfigObject}->Get('SecureMode')) {
 # --
 elsif (eval '$Kernel::Modules::'. $Param{Action} .'::VERSION'){
     $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(
-        %CommonObject, 
+        %CommonObject,
         %Param,
     );
     GenericModules(%CommonObject, %Param);
@@ -99,7 +100,7 @@ elsif (eval '$Kernel::Modules::'. $Param{Action} .'::VERSION'){
 # --
 # else print an error screen
 # --
-else { 
+else {
     # create new LayoutObject with '%Param'
     print $CommonObject{LayoutObject}->Header();
     print $CommonObject{LayoutObject}->Error(
@@ -145,7 +146,7 @@ sub GenericModules {
     # debug info
     if ($Debug) {
         $Data{LogObject}->Log(
-            Priority => 'debug', 
+            Priority => 'debug',
             Message => ''. 'Kernel::Modules::' . $Data{Action} .'->run',
         );
     }
