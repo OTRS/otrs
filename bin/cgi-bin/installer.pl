@@ -3,7 +3,7 @@
 # installer.pl - the OTRS Installer
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: installer.pl,v 1.15 2005-10-03 19:32:40 martin Exp $
+# $Id: installer.pl,v 1.16 2005-10-04 19:25:18 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -43,6 +43,7 @@ use Kernel::Config;
 use Kernel::System::Log;
 use Kernel::System::Web::Request;
 use Kernel::System::DB;
+use Kernel::System::Main;
 use Kernel::Modules::Test;
 use Kernel::Modules::Installer;
 use Kernel::Output::HTML::Generic;
@@ -57,6 +58,7 @@ $CommonObject{LogObject} = Kernel::System::Log->new(
     LogPrefix => 'OTRS-Installer',
     %CommonObject,
 );
+$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
 # debug info
 if ($Debug) {
     $CommonObject{LogObject}->Log(

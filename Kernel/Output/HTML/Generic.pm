@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.194 2005-10-01 14:13:25 martin Exp $
+# $Id: Generic.pm,v 1.195 2005-10-04 19:25:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::Output::HTML::Agent;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.194 $';
+$VERSION = '$Revision: 1.195 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -54,7 +54,7 @@ sub new {
     # set debug
     $Self->{Debug} = 0;
     # check needed objects
-    foreach (qw(ConfigObject LogObject TimeObject)) {
+    foreach (qw(ConfigObject LogObject TimeObject MainObject)) {
         if (!$Self->{$_}) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -2268,6 +2268,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.194 $ $Date: 2005-10-01 14:13:25 $
+$Revision: 1.195 $ $Date: 2005-10-04 19:25:18 $
 
 =cut

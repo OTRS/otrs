@@ -3,7 +3,7 @@
 # SendStats.pl - send stats output via email
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: mkStats.pl,v 1.28 2005-09-19 08:23:59 martin Exp $
+# $Id: mkStats.pl,v 1.29 2005-10-04 19:25:18 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,12 +29,13 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
 use Kernel::Config;
 use Kernel::System::Time;
+use Kernel::System::Main;
 use Kernel::System::DB;
 use Kernel::System::Log;
 use Kernel::System::Email;
@@ -46,13 +47,12 @@ use Kernel::Output::HTML::Generic;
 # --
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{TimeObject} = Kernel::System::Time->new(
-    %CommonObject,
-);
+$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
 $CommonObject{LogObject} = Kernel::System::Log->new(
     LogPrefix => 'OTRS-SendStats',
     %CommonObject,
 );
+$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
 # create needed objects
 $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
 $CommonObject{CheckItemObject} = Kernel::System::CheckItem->new(%CommonObject);
