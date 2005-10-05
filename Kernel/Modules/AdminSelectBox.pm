@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSelectBox.pm - provides a SelectBox for admins
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSelectBox.pm,v 1.15 2005-07-03 12:58:01 martin Exp $
+# $Id: AdminSelectBox.pm,v 1.16 2005-10-05 18:36:50 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminSelectBox;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -67,6 +67,21 @@ sub Run {
         foreach (qw(SQL Max)) {
             $Param{SQL} = $Self->{ParamObject}->GetParam(Param => 'SQL') || '';
             $Param{Max} = $Self->{ParamObject}->GetParam(Param => 'Max') || '';
+        }
+	# Only SELECT statements are allowed!!!
+		if ($Param{SQL} !~ /^\ *SELECT/i) {
+            my $Output = $Self->{LayoutObject}->Header();
+            $Output .= $Self->{LayoutObject}->NavigationBar();
+            $Output .= $Self->{LayoutObject}->Output(
+                TemplateFile => 'AdminSelectBoxForm',
+                Data => \%Param,
+            );
+            $Output .= $Self->{LayoutObject}->Warning(
+	        Message => "Wrong or not allowed SQL statement!",
+		Comment => "Either your SQL statement is syntacticaly wrong or you tryed to change data in the OTRS database via this interface. Only SELECT statements are allowed!"
+	    );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
         }
         # add result block
         $Self->{LayoutObject}->Block(
