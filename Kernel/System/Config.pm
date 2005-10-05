@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.43 2005-07-23 08:51:36 martin Exp $
+# $Id: Config.pm,v 1.44 2005-10-05 23:00:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::XML;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.43 $';
+$VERSION = '$Revision: 1.44 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -545,22 +545,19 @@ sub ConfigItemGet {
              if (!$Param{Default} && defined($Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level))) {
                 @{$ConfigItem->{Setting}->[1]->{FrontendModuleReg}} = (undef);
                 my %Hash = %{$Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level)};
-#                   $Self->{LogObject}->Dumper(jkl => %Hash);
                 foreach my $Key (sort keys %Hash) {
                     @{$ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}} = (undef);
                     if ($Key eq 'Group' || $Key eq 'GroupRo') {
                         my @Array = (undef);
                         foreach my $Content (@{$Hash{$Key}}) {
                             push (@{$ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}},
-                                {Content => $Content}
+                                {
+                                    Content => $Content,
+                                }
                             );
-#if ($ConfigItem->{Name} eq 'Frontend::Module###Admin') {
-#print STDERR "GROUP: $Content\n";
-#}
                         }
                     }
                     elsif ($Key eq 'NavBar' || $Key eq 'NavBarModule') {
-#                         $Self->{LogObject}->Dumper($Key => \%Hash);
                         if (ref($Hash{$Key}) eq 'ARRAY') {
                             foreach my $Content (@{$Hash{$Key}}) {
                                 my %NavBar;
@@ -602,7 +599,6 @@ sub ConfigItemGet {
                     }
                 }
             }
-#  $Self->{LogObject}->Dumper(jkl => $ConfigItem);
         }
         if ($ConfigItem->{Setting}->[1]->{TimeWorkingHours}) {
             if (!$Param{Default} && defined($Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level))) {
@@ -619,24 +615,25 @@ sub ConfigItemGet {
                         },
                     );
                 }
-#$Self->{LogObject}->Dumper($ConfigItem);
             }
         }
         if ($ConfigItem->{Setting}->[1]->{TimeVacationDays}) {
             if (!$Param{Default} && defined($Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level))) {
                 @{$ConfigItem->{Setting}->[1]->{TimeVacationDays}->[1]->{Item}} = (undef);
                 my %Hash = %{$Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level)};
-                foreach my $Month (sort keys %Hash) {
-                    foreach my $Day (sort keys %{$Hash{$Month}}) {
-                        push (@{$ConfigItem->{Setting}->[1]->{TimeVacationDays}->[1]->{Item}}, {
-                                Month => $Month,
-                                Day => $Day,
-                                Content => $Hash{$Month}->{$Day},
-                            },
-                        );
+                foreach my $Month (sort {$Hash{sprintf("%02d", $a)} <=> $Hash{sprintf("%02d", $b)}} keys %Hash) {
+                    if ($Hash{$Month}) {
+                        my %Days = %{$Hash{$Month}};
+                        foreach my $Day (sort {$Days{$a} <=> $Days{$b}} keys %Days) {
+                            push (@{$ConfigItem->{Setting}->[1]->{TimeVacationDays}->[1]->{Item}}, {
+                                    Month => $Month,
+                                    Day => $Day,
+                                    Content => $Hash{$Month}->{$Day},
+                                },
+                            );
+                        }
                     }
                 }
-#$Self->{LogObject}->Dumper($ConfigItem);
             }
         }
         if ($ConfigItem->{Setting}->[1]->{TimeVacationDaysOneTime}) {
@@ -644,19 +641,21 @@ sub ConfigItemGet {
                 @{$ConfigItem->{Setting}->[1]->{TimeVacationDaysOneTime}->[1]->{Item}} = (undef);
                 my %Hash = %{$Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level)};
                 foreach my $Year (sort keys %Hash) {
-                    foreach my $Month (sort keys %{$Hash{$Year}}) {
-                        foreach my $Day (sort keys %{$Hash{$Year}->{$Month}}) {
-                            push (@{$ConfigItem->{Setting}->[1]->{TimeVacationDaysOneTime}->[1]->{Item}}, {
-                                    Year => $Year,
-                                    Month => $Month,
-                                    Day => $Day,
-                                    Content => $Hash{$Year}->{$Month}->{$Day},
-                                },
-                            );
+                    my %Months = %{$Hash{$Year}};
+                    if (%Months) {
+                        foreach my $Month (sort {$Months{sprintf("%02d", $a)} <=> $Months{sprintf("%02d", $b)}} keys %Months) {
+                            foreach my $Day (sort keys %{$Hash{$Year}->{$Month}}) {
+                                push (@{$ConfigItem->{Setting}->[1]->{TimeVacationDaysOneTime}->[1]->{Item}}, {
+                                        Year => $Year,
+                                        Month => $Month,
+                                        Day => $Day,
+                                        Content => $Hash{$Year}->{$Month}->{$Day},
+                                    },
+                                );
+                            }
                         }
                     }
                 }
-#$Self->{LogObject}->Dumper($ConfigItem);
             }
         }
         if (!$Param{Default}) {
@@ -684,6 +683,8 @@ sub ConfigItemGet {
             my @List = glob($Home."/$ConfigItem->{Setting}->[1]->{Option}->[1]->{Location}");
             foreach my $Item (@List) {
                 $Item =~ s/$Home//g;
+                $Item =~ s/^[A-z]://g;
+                $Item =~ s/\\/\//g;
                 $Item =~ s/\/\//\//g;
                 $Item =~ s/^\///g;
                 $Item =~ s/^(.*)\.pm/$1/g;
@@ -1229,6 +1230,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.43 $ $Date: 2005-07-23 08:51:36 $
+$Revision: 1.44 $ $Date: 2005-10-05 23:00:27 $
 
 =cut
