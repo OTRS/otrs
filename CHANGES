@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.192 2005-10-05 18:52:29 cs Exp $
+# $Id: CHANGES,v 1.193 2005-10-05 23:04:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,8 +10,12 @@
 # --
 CVS head
 
+2.0.4 (2005/10/??)
+ - (2005/10/06) fixed input check of TimeVacationDays and
+    TimeVacationDaysOneTime in admin interface (just integer values allowed)
  - (2005/10/05) fixed bug #947 - Admin -> SelectBox: Insert, Delete, Update
     etc. possible
+ - (2005/10/04) added MainObject as required for Kernel/Output/HTML/Generic.pm
 
 2.0.3 (2005/09/28)
  - (2005/09/28) fixed typo in config option name for csv search output,
