@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.218 2005-09-25 10:01:00 martin Exp $
+# $Id: Defaults.pm,v 1.219 2005-10-05 23:02:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.218 $';
+$VERSION = '$Revision: 1.219 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -513,7 +513,7 @@ sub LoadDefaults {
 
     $Self->{'TimeVacationDays'} = {
         1 => {
-            01 => 'New Year\'s Eve!',
+            1 => 'New Year\'s Eve!',
         },
         5 => {
             1 => '1 St. May',
@@ -532,18 +532,18 @@ sub LoadDefaults {
 
     $Self->{'TimeVacationDaysOneTime'} = {
 #        2004 => {
-#          6 => {
-#              07 => 'Some Day',
-#          },
-#          12 => {
-#              24 => 'Some A Day',
-#              31 => 'Some B Day',
-#          },
+#            6 => {
+#                7 => 'Some Day',
+#            },
+#            12 => {
+#                24 => 'Some A Day',
+#                31 => 'Some B Day',
+#            },
 #        },
 #        2005 => {
-#          1 => {
-#              11 => 'Some Day',
-#          },
+#            1 => {
+#                11 => 'Some Day',
+#            },
 #        },
     };
 
@@ -1740,6 +1740,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.218 $ $Date: 2005-09-25 10:01:00 $
+$Revision: 1.219 $ $Date: 2005-10-05 23:02:39 $
 
 =cut

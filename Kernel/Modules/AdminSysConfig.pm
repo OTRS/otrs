@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.pm,v 1.36 2005-08-08 19:36:25 martin Exp $
+# $Id: AdminSysConfig.pm,v 1.37 2005-10-05 23:02:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -343,9 +343,6 @@ sub Run {
                     my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = $Self->{TimeObject}->SystemTime2Date(
                         SystemTime => $Self->{TimeObject}->SystemTime(),
                     );
-                    $M = sprintf("%02d", $M);
-                    $D = sprintf("%02d", $D);
-
                     $Content{$Y}->{''}->{''} = '-new-';
                     $Anker = $ItemHash{Name};
                 }
@@ -374,8 +371,6 @@ sub Run {
                     my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = $Self->{TimeObject}->SystemTime2Date(
                         SystemTime => $Self->{TimeObject}->SystemTime(),
                     );
-                    $M = sprintf("%02d", $M);
-                    $D = sprintf("%02d", $D);
 
                     $Content{$M}->{''} = '-new-';
                     $Anker = $ItemHash{Name};
@@ -477,6 +472,13 @@ sub Run {
         $Data{Group} = $Group;
         $Output .= $Self->{LayoutObject}->Header(Value => "$Group -> $SubGroup");
         $Output .= $Self->{LayoutObject}->NavigationBar();
+        if (!$Self->{ConfigObject}->Get('SecureMode')) {
+            $Output .= $Self->{LayoutObject}->Notify(
+                Priority => 'Error',
+                Data => '$Text{"Security Note: You should activate %s because applications is already running!", "SecureMode"}',
+                Link => '$Env{"Baselink"}Action=AdminSysConfig&Subaction=Edit&SysConfigGroup=Framework&SysConfigSubGroup=Core"',
+            );
+        }
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminSysConfigEdit', Data => \%Data);
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
@@ -552,6 +554,13 @@ sub Run {
 
     $Output .= $Self->{LayoutObject}->Header(Value => $Group);
     $Output .= $Self->{LayoutObject}->NavigationBar();
+    if (!$Self->{ConfigObject}->Get('SecureMode')) {
+        $Output .= $Self->{LayoutObject}->Notify(
+            Priority => 'Error',
+            Data => '$Text{"Security Note: You should activate %s because applications is already running!", "SecureMode"}',
+            Link => '$Env{"Baselink"}Action=AdminSysConfig&Subaction=Edit&SysConfigGroup=Framework&SysConfigSubGroup=Core"',
+        );
+    }
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => 'AdminSysConfig',
         Data => {
@@ -856,6 +865,19 @@ sub ListConfigItem {
         }
         # TimeVacationDaysOneTimeElements
         foreach my $Index (1...$#{$ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}}) {
+            my %Valid = ();
+            if ($ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Year} &&
+               $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Year} !~ /^\d\d\d\d$/) {
+                $Valid{ValidYear} = 'invalid';
+            }
+            if ($ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Month} &&
+               $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Month} !~ /^(1[0-2]|[1-9])$/) {
+                $Valid{ValidMonth} = 'invalid';
+            }
+            if ($ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Day} &&
+               $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Day} !~ /^([1-3][0-9]|[1-9])$/) {
+                $Valid{ValidDay} = 'invalid';
+            }
             $Self->{LayoutObject}->Block(
                 Name => 'ConfigElementTimeVacationDaysOneTimeContent',
                 Data => {
@@ -865,6 +887,7 @@ sub ListConfigItem {
                     Day        => $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Day},
                     Content    => $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Content},
                     Index      => $Index,
+                    %Valid,
                 },
             );
         }
@@ -883,6 +906,15 @@ sub ListConfigItem {
         }
         # TimeVacationDaysElements
         foreach my $Index (1...$#{$ItemHash{Setting}[1]{TimeVacationDays}[1]{Item}}) {
+            my %Valid = ();
+            if ($ItemHash{Setting}[1]{TimeVacationDays}[1]{Item}[$Index]{Month} &&
+               $ItemHash{Setting}[1]{TimeVacationDays}[1]{Item}[$Index]{Month} !~ /^(1[0-2]|[1-9])$/) {
+                $Valid{ValidMonth} = 'invalid';
+            }
+            if ($ItemHash{Setting}[1]{TimeVacationDays}[1]{Item}[$Index]{Day} &&
+               $ItemHash{Setting}[1]{TimeVacationDays}[1]{Item}[$Index]{Day} !~ /^([1-3][0-9]|[1-9])$/) {
+                $Valid{ValidDay} = 'invalid';
+            }
             $Self->{LayoutObject}->Block(
                 Name => 'ConfigElementTimeVacationDaysContent',
                 Data => {
@@ -891,6 +923,7 @@ sub ListConfigItem {
                     Day        => $ItemHash{Setting}[1]{TimeVacationDays}[1]{Item}[$Index]{Day},
                     Content    => $ItemHash{Setting}[1]{TimeVacationDays}[1]{Item}[$Index]{Content},
                     Index      => $Index,
+                    %Valid,
                 },
             );
         }

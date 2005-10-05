@@ -112,7 +112,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.74 2005-09-25 10:01:00 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.75 2005-10-05 23:02:39 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -804,8 +804,8 @@ TimeWorkingHours
         <SubGroup>Core::Time</SubGroup>
         <Setting>
             <TimeVacationDays>
-                <Item Month="01" Day="01">New Year's Eve!</Item>
-                <Item Month="05" Day="01">1 St. May</Item>
+                <Item Month="1" Day="1">New Year's Eve!</Item>
+                <Item Month="5" Day="1">1 St. May</Item>
                 <Item Month="12" Day="24">Christmas</Item>
                 <Item Month="12" Day="25">First Christmas Day</Item>
                 <Item Month="12" Day="26">Second Christmas Day</Item>
@@ -820,7 +820,7 @@ TimeWorkingHours
         <SubGroup>Core::Time</SubGroup>
         <Setting>
             <TimeVacationDaysOneTime>
-                <Item Year="2004" Month="01" Day="01">test</Item>
+                <Item Year="2004" Month="1" Day="1">test</Item>
             </TimeVacationDaysOneTime>
         </Setting>
     </ConfigItem>
