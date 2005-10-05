@@ -2,13 +2,16 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.191 2005-09-28 10:00:23 martin Exp $
+# $Id: CHANGES,v 1.192 2005-10-05 18:52:29 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS head
+
+ - (2005/10/05) fixed bug #947 - Admin -> SelectBox: Insert, Delete, Update
+    etc. possible
 
 2.0.3 (2005/09/28)
  - (2005/09/28) fixed typo in config option name for csv search output,
