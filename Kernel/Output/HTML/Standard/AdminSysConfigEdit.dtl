@@ -2,7 +2,7 @@
 # AdminSysConfigEdit.dtl - provides HTML form for SysConfig
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfigEdit.dtl,v 1.23 2005-09-29 07:46:26 tr Exp $
+# $Id: AdminSysConfigEdit.dtl,v 1.24 2005-10-05 23:35:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -379,19 +379,34 @@
         </tr>
         <!-- dtl:block:ConfigElementTimeVacationDaysOneTimeContent -->
         <tr>
-          <td class="contentvalue"><input type="text" name="$Data{"ElementKey"}year[]" value="$QData{"Year"}" size="4" maxlength="4"></td>
+          <td class="contentvalue">
+            <input type="text" name="$Data{"ElementKey"}year[]" value="$QData{"Year"}" size="4" maxlength="4">
+            <font color="red">$Text{"$QData{"ValidYear"}"}</font>
+          </td>
           <td>-</td>
-          <td class="contentvalue"><input type="text" name="$Data{"ElementKey"}month[]" value="$QData{"Month"}" size="2" maxlength="2"></td>
+          <td class="contentvalue">
+            <input type="text" name="$Data{"ElementKey"}month[]" value="$QData{"Month"}" size="2" maxlength="2">
+            <font color="red">$Text{"$QData{"ValidMonth"}"}</font>
+          </td>
           <td>-</td>
-          <td class="contentvalue"><input type="text" name="$Data{"ElementKey"}day[]" value="$QData{"Day"}" size="2" maxlength="2"></td>
+          <td class="contentvalue">
+            <input type="text" name="$Data{"ElementKey"}day[]" value="$QData{"Day"}" size="2" maxlength="2">
+            <font color="red">$Text{"$QData{"ValidDay"}"}</font>
+          </td>
           <td>&nbsp;</td>
-          <td class="contentvalue"><input type="text" name="$Data{"ElementKey"}Content[]" value="$QData{"Content"}" size="20"></td>
+          <td class="contentvalue">
+            <input type="text" name="$Data{"ElementKey"}Content[]" value="$QData{"Content"}" size="20">
+          </td>
           <td>&nbsp;</td>
-          <td class="contentvalue"><input type="submit" name="$Data{"ElementKey"}#DeleteTimeVacationDaysOneTimeElement$Data{"Index"}" value="$Text{"Delete"}"></td>
+          <td class="contentvalue">
+            <input type="submit" name="$Data{"ElementKey"}#DeleteTimeVacationDaysOneTimeElement$Data{"Index"}" value="$Text{"Delete"}">
+          </td>
         </tr>
         <!-- dtl:block:ConfigElementTimeVacationDaysOneTimeContent -->
         <tr class="contentbody">
-          <td class="contentvalue"><input type="submit" name="$Data{"ElementKey"}#NewTimeVacationDaysOneTimeElement" value="$Text{"New"}"></td>
+          <td class="contentvalue">
+            <input type="submit" name="$Data{"ElementKey"}#NewTimeVacationDaysOneTimeElement" value="$Text{"New"}">
+          </td>
         </tr>
       </table>
     </td>
@@ -408,17 +423,29 @@
         </tr>
         <!-- dtl:block:ConfigElementTimeVacationDaysContent -->
         <tr>
-          <td class="contentvalue"><input type="text" name="$Data{"ElementKey"}month[]" value="$QData{"Month"}" size="2"></td>
+          <td class="contentvalue">
+            <input type="text" name="$Data{"ElementKey"}month[]" value="$QData{"Month"}" size="2">
+            <font color="red">$Text{"$QData{"ValidMonth"}"}</font>
+          </td>
+          <td>-</td>
+          <td class="contentvalue">
+            <input type="text" name="$Data{"ElementKey"}day[]" value="$QData{"Day"}" size="2">
+            <font color="red">$Text{"$QData{"ValidDay"}"}</font>
+          </td>
           <td>&nbsp;</td>
-          <td class="contentvalue"><input type="text" name="$Data{"ElementKey"}day[]" value="$QData{"Day"}" size="2"></td>
+          <td class="contentvalue">
+            <input type="text" name="$Data{"ElementKey"}Content[]" value="$QData{"Content"}" size="20">
+          </td>
           <td>&nbsp;</td>
-          <td class="contentvalue"><input type="text" name="$Data{"ElementKey"}Content[]" value="$QData{"Content"}" size="20"></td>
-          <td>&nbsp;</td>
-          <td class="contentvalue"><input type="submit" name="$Data{"ElementKey"}#DeleteTimeVacationDaysElement$Data{"Index"}" value="$Text{"Delete"}"></td>
+          <td class="contentvalue">
+            <input type="submit" name="$Data{"ElementKey"}#DeleteTimeVacationDaysElement$Data{"Index"}" value="$Text{"Delete"}">
+          </td>
         </tr>
         <!-- dtl:block:ConfigElementTimeVacationDaysContent -->
         <tr class="contentbody">
-          <td class="contentvalue"><input type="submit" name="$Data{"ElementKey"}#NewTimeVacationDaysElement" value="$Text{"New"}"></td>
+          <td class="contentvalue">
+            <input type="submit" name="$Data{"ElementKey"}#NewTimeVacationDaysElement" value="$Text{"New"}">
+          </td>
         </tr>
       </table>
     </td>
