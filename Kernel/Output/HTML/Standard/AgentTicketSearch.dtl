@@ -2,7 +2,7 @@
 # AgentTicketSearch.dtl - provides HTML form for AgentTicketSearch
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketSearch.dtl,v 1.6 2005-09-13 17:36:10 martin Exp $
+# $Id: AgentTicketSearch.dtl,v 1.7 2005-10-08 12:49:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -194,43 +194,3 @@
 </tr>
 </table>
 <!-- dtl:block:Search -->
-<!-- dtl:block:SearchByCustomerID -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
-<tr>
-  <td class="mainhead">
-    $Env{"Box0"}$Text{"Customer history search"}$Env{"Box1"}
-  </td>
-</tr>
-<tr>
-  <td align="center" class="mainbody">
-
-    <br>
-
-    <form action="$Env{"CGIHandle"}" method="post">
-      <table width="700" border="0" cellspacing="0" cellpadding="3">
-        <tr>
-          <td class="contenthead">$Text{"Customer history search (e. g. "ID342425")."} $Text{"No * possible!"}</td>
-        </tr>
-        <tr>
-          <td class="contentbody">
-            <font color="red">$Text{"$Data{"Message"}"}</font>
-            <input type="hidden" name="Action" value="AgentTicketCustomer">
-            <input type="hidden" name="Subaction" value="CustomerID">
-            <input type="hidden" name="Search" value="1">
-            $Text{"CustomerID"} <input type="text" name="CustomerID" size="20" value="$QData{"CustomerID"}">
-          </td>
-       </tr>
-       <tr>
-         <td class="contentfooter">
-           <input class="button" type="submit" value="$Text{"Search"}">
-         </td>
-       </tr>
-     </table>
-   </form>
-
-   <br>
-
-  </td>
-</tr>
-</table>
-<!-- dtl:block:SearchByCustomerID -->

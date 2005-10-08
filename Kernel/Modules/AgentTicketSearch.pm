@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketSearch.pm,v 1.9 2005-09-19 12:00:15 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.10 2005-10-08 12:49:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -787,12 +787,6 @@ sub MaskForm {
     # html search mask output
     $Self->{LayoutObject}->Block(
         Name => 'Search',
-        Data => {
-            %Param,
-        },
-    );
-    $Self->{LayoutObject}->Block(
-        Name => 'SearchByCustomerID',
         Data => {
             %Param,
         },
