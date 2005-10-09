@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSelectBox.pm - provides a SelectBox for admins
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSelectBox.pm,v 1.17 2005-10-06 08:10:10 cs Exp $
+# $Id: AdminSelectBox.pm,v 1.18 2005-10-09 07:07:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminSelectBox;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -68,13 +68,13 @@ sub Run {
             $Param{SQL} = $Self->{ParamObject}->GetParam(Param => 'SQL') || '';
             $Param{Max} = $Self->{ParamObject}->GetParam(Param => 'Max') || '';
         }
-	# Only SELECT statements are allowed!!!
-		if ($Param{SQL} !~ /^\ *SELECT/i) {
+    	# check, only SELECT statements are allowed
+        if ($Param{SQL} !~ /^\ *SELECT/i) {
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Notify(
                 Priority => 'Error',
-                Data => '$Text{"Either your SQL syntax wasnt correct or you have tryed to change data in the OTRS database. Please only use syntacticaly correct SELECT statements in this interface!"}',
+                Data => '$Text{"Either your SQL syntax wasnt correct. Please only use syntacticaly correct SELECT statements in this interface!"}',
             );
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AdminSelectBoxForm',
@@ -96,17 +96,17 @@ sub Run {
                     my $Item1 = '';
                     my $Item2 = '';
                     if (! defined $Item) {
-                        $Item1 = '<i>undef</i>';
-                        $Item2 = 'undef';
+                        $Item1 = '<i>NULL</i>';
+                        $Item2 = 'NULL';
                     }
                     else {
                         $Item1 = $Self->{LayoutObject}->Ascii2Html(
                             Text => $Item,
-                            Max => 10,
+                            Max => 16,
                         );
                         $Item2 = $Self->{LayoutObject}->Ascii2Html(
                             Text => $Item,
-                            Max => 60,
+                            Max => 80,
                         );
                     }
                     $Item2 =~ s/\n|\r//g;
