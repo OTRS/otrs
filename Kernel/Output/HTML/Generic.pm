@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.195 2005-10-04 19:25:18 martin Exp $
+# $Id: Generic.pm,v 1.196 2005-10-10 19:53:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::Output::HTML::Agent;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.195 $';
+$VERSION = '$Revision: 1.196 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -2099,7 +2099,7 @@ sub BuildDateSelection {
             $Param{Hour} = $Self->OptionStrgHashRef(
                 Name => $Prefix.'Hour',
                 Data => \%Hour,
-                SelectedID => defined($Param{$Prefix.'Hour'}) ? sprintf("%02d",int($Param{$Prefix.'Hour'})) : $h,
+                SelectedID => defined($Param{$Prefix.'Hour'}) ? int($Param{$Prefix.'Hour'}) : int($h),
             );
         }
         else {
@@ -2115,7 +2115,7 @@ sub BuildDateSelection {
             $Param{Minute} = $Self->OptionStrgHashRef(
                 Name => $Prefix.'Minute',
                 Data => \%Minute,
-                SelectedID => defined($Param{$Prefix.'Minute'}) ? sprintf("%02d",int($Param{$Prefix.'Minute'})) : $m,
+                SelectedID => defined($Param{$Prefix.'Minute'}) ? int($Param{$Prefix.'Minute'}) : int($m),
             );
         }
         else {
@@ -2268,6 +2268,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.195 $ $Date: 2005-10-04 19:25:18 $
+$Revision: 1.196 $ $Date: 2005-10-10 19:53:37 $
 
 =cut
