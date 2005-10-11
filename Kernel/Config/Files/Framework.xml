@@ -112,7 +112,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.76 2005-10-11 17:15:26 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.77 2005-10-11 17:17:29 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -685,7 +685,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="SessionMaxIdleTime" Required="1" Valid="1">
         <Description Lang="en">A session will be killed and the user will be loged out after this time of inactifity (in seconds).</Description>
-        <Description Lang="de">Eine Session wird beendet und der Benutzer automatisch abgemeldet, wenn er für die hier angegebene Zeit in Sekunden inaktiv war.</Description>
+        <Description Lang="de">Eine Session wird beendet und der Benutzer automatisch abgemeldet, wenn er für die hier angegebene Zeit in Sekunden inaktiv war (in Sekunden).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Session</SubGroup>
         <Setting>
