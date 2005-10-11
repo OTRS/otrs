@@ -112,7 +112,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.75 2005-10-05 23:02:39 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.76 2005-10-11 17:15:26 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -703,8 +703,10 @@ TimeWorkingHours
                 <Item Key="1">Yes</Item>
             </Option>
         </Setting>
-        <Description Lang="en">Should the session management use html cookies? It's more comfortable to send the session id via links. If you have a valid session, you don't have to login again. If the client browser disabled html cookies, the system will work as usual and append the session id to the links.</Description>
-        <Description Lang="de">Sessionmanagement mit Cookies? Es ist komfortabler, wenn Sie die Session-ID per Link und nicht via Cookie übermitteln. Wenn eine gültige Session vorliegt, wird so eine Neuanmeldung am System überflüssig. Werden vom verwendeten Browser keine Cookies unterstützt, wird die Session-ID automatisch per Link übermittelt.</Description>
+    </ConfigItem>
+    <ConfigItem Name="SessionUseCookie" Required="1" Valid="1">
+        <Description Lang="en">Should the session management use html cookies? If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.</Description>
+        <Description Lang="de">Sessionmanagement mit Cookies? Wenn Cookies deaktiviert sind oder werden vom verwendeten Browser keine Cookies unterstützt, wird die SessionID automatisch an Links angehängt.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Session</SubGroup>
         <Setting>
