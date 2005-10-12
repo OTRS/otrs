@@ -2,7 +2,7 @@
 # AgentLinkObject.dtl - provides HTML for AgentLinkObject mask
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentLinkObject.dtl,v 1.8 2005-09-18 13:19:03 martin Exp $
+# $Id: AgentLinkObject.dtl,v 1.9 2005-10-12 13:48:43 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -127,12 +127,12 @@ $Text{"Results"}: <b>$QData{"Result"}</b> - $Text{"Total hits"}: <b>$Data{"Total
   <table border="0" width="100%" cellspacing="0" cellpadding="2">
   <tr class="contenthead">
       <td class="contentkey" width="10%">$Text{"Number"}</td>
-      <td class="contentkey" width="40%">$Text{"Title"}</td>
-      <td class="contentkey" width="20%">$Text{"Created"}</td>
-      <td class="contentkey" width="20%">$Text{"Changed"}</td>
-      <td class="contentkey" width="10%" align="center">$Text{"Normal"}</td>
-      <td class="contentkey" width="10%" align="center">$Text{"Parent"}</td>
-      <td class="contentkey" width="10%" align="center">$Text{"Child"}</td>
+      <td class="contentkey" width="30%">$Text{"Title"}</td>
+      <td class="contentkey" width="18%">$Text{"Created"}</td>
+      <td class="contentkey" width="18%">$Text{"Changed"}</td>
+      <td class="contentkey" width="8%" align="center">$Text{"Normal"}</td>
+      <td class="contentkey" width="8%" align="center">$Text{"Parent"}</td>
+      <td class="contentkey" width="8%" align="center">$Text{"Child"}</td>
   </tr>
 <!-- dtl:block:SearchResultItem -->
 <dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchpassive"; }>
