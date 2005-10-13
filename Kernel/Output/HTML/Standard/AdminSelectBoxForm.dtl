@@ -2,7 +2,7 @@
 # AdminSelectBoxForm.dtl - provides HTML form for SelectBox
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSelectBoxForm.dtl,v 1.15 2005-02-17 12:16:31 martin Exp $
+# $Id: AdminSelectBoxForm.dtl,v 1.16 2005-10-13 07:17:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,16 +18,18 @@
 <tr>
   <td align="center" class="mainbody">
 
+  <br>
+
 <form action="$Env{"CGIHandle"}" method="post">
 <input type="hidden" name="Action" value="$Env{"Action"}">
 <input type="hidden" name="Subaction" value="Select">
-<table cellspacing="0" cellpadding="4" border="0">
+<table cellspacing="0" cellpadding="4" border="0" width="700">
 <tr class="contenthead">
   <td colspan="2">$Text{"Options"}</td>
 </tr>
 <tr class="contentbody">
-  <td class="contentkey">$Text{"SQL"}:</td>
-  <td class="contentvalue"><textarea name="SQL" rows="3" cols="80">$QData{"SQL"}</textarea></td>
+  <td width="15%" class="contentkey">$Text{"SQL"}:</td>
+  <td width="85%" class="contentvalue"><textarea name="SQL" rows="3" cols="75">$QData{"SQL"}</textarea></td>
 </tr>
 <tr class="contentbody">
   <td class="contentkey">$Text{"Limit"}:</td>
@@ -38,6 +40,8 @@
 </tr>
 </table>
 </form>
+
+  <br>
 
   </td>
 </tr>
