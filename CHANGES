@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.195 2005-10-11 17:15:56 martin Exp $
+# $Id: CHANGES,v 1.196 2005-10-13 07:13:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,6 +11,10 @@
 CVS head
 
 2.0.4 (2005/10/??)
+ - (2005/10/13) improved bin/PendingJobs.pl to send reminder notifications
+    to queue subscriber if ticket is unlocked (not longer to the ticket
+    owner).
+ - (2005/10/13) improved html style of package view in admin interface
  - (2005/10/11) added missing SessionUseCookie config setting to SysConfig
  - (2005/10/10) fixed time (hour and minute) selection on 0x default selections
     in framework (00 selection if 0x was selected)
