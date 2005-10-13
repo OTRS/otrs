@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: de.pm,v 1.94 2005-09-22 13:55:02 tr Exp $
+# $Id: de.pm,v 1.95 2005-10-13 12:03:03 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.94 $';
+$VERSION = '$Revision: 1.95 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -756,18 +756,18 @@ sub Data {
 
       # Template: AdminSysConfigEdit
       'Config Options' => 'Config Einstellungen',
-      'Default' => '',
-      'Content' => 'Kontent',
-      'New' => 'Neu',
-      'New Group' => 'Neue Gruppe',
-      'Group Ro' => 'Gruppe Ro',
-      'New Group Ro' => 'Neue Gruppe Ro',
-      'NavBarName' => '',
-      'Image' => '',
-      'Prio' => '',
-      'Block' => '',
-      'NavBar' => '',
-      'AccessKey' => '',
+      'Default'        => '',
+      'Content'        => 'Inhalt',
+      'New'            => 'Neu',
+      'New Group'      => 'Neue Gruppe',
+      'Group Ro'       => 'Gruppe Ro',
+      'New Group Ro'   => 'Neue Gruppe Ro',
+      'NavBarName'     => '',
+      'Image'          => '',
+      'Prio'           => '',
+      'Block'          => '',
+      'NavBar'         => '',
+      'AccessKey'      => '',
 
       # Template: AdminSystemAddressForm
       'System Email Addresses Management' => 'E-Mail-Adressen Verwaltung',
