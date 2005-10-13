@@ -3,7 +3,7 @@
 # PendingJobs.pl - check pending tickets
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PendingJobs.pl,v 1.17 2005-09-24 16:46:36 martin Exp $
+# $Id: PendingJobs.pl,v 1.18 2005-10-13 07:13:23 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Date::Pcalc qw(Day_of_Week Day_of_Week_Abbreviation);
@@ -146,21 +146,34 @@ if (@PendingReminderStateIDs) {
             next;
         }
         if ($Ticket{UntilTime} < 1) {
+            my @UserID = ();
+            # send reminder to ticket onwer if ticket is locked
+            if ($Ticket{Lock} eq 'lock') {
+                @UserID = ($Ticket{UserID});
+            }
+            # send reminder to queue subscriber if ticket is unlocked
+            else {
+                @UserID = $CommonObject{TicketObject}->GetSubscribedUserIDsByQueueID(
+                    QueueID => $Ticket{QueueID},
+                );
+            }
             # --
             # send reminder notification
             # --
             print " Send reminder notification (TicketID=$_)\n";
-            # get user data
-            my %Preferences = $CommonObject{UserObject}->GetUserData(UserID => $Ticket{UserID});
-            $CommonObject{TicketObject}->SendAgentNotification(
-                UserData => \%Preferences,
-                Type => 'PendingReminder',
-                To => $Preferences{UserEmail},
-                CustomerMessageParams => {},
-                TicketNumber => $CommonObject{TicketObject}->TicketNumberLookup(TicketID => $Ticket{TicketID}),
-                TicketID => $Ticket{TicketID},
-                UserID => 1,
-            );
+            foreach (@UserID) {
+                # get user data
+                my %Preferences = $CommonObject{UserObject}->GetUserData(UserID => $_);
+                $CommonObject{TicketObject}->SendAgentNotification(
+                    UserData => \%Preferences,
+                    Type => 'PendingReminder',
+                    To => $Preferences{UserEmail},
+                    CustomerMessageParams => {},
+                    TicketNumber => $CommonObject{TicketObject}->TicketNumberLookup(TicketID => $Ticket{TicketID}),
+                    TicketID => $Ticket{TicketID},
+                    UserID => 1,
+                );
+            }
         }
     }
 }
