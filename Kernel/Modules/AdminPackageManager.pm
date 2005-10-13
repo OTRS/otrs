@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPackageManager.pm,v 1.19 2005-08-26 15:34:49 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.20 2005-10-13 05:41:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Package;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -93,17 +93,33 @@ sub Run {
 
         foreach my $Key (sort keys %Structur) {
             if (ref($Structur{$Key}) eq 'HASH') {
-                $Self->{LayoutObject}->Block(
-                    Name => 'PackageItem',
-                    Data => {Tag => $Key, %{$Structur{$Key}}},
-                );
+                    if ($Key =~ /^(Description|Filelist)$/) {
+                        $Self->{LayoutObject}->Block(
+                            Name => "PackageItem$Key",
+                            Data => {Tag => $Key, %{$Structur{$Key}}},
+                        );
+                    }
+                    else {
+                        $Self->{LayoutObject}->Block(
+                            Name => "PackageItemGeneric",
+                            Data => {Tag => $Key, %{$Structur{$Key}}},
+                        );
+                    }
             }
             elsif (ref($Structur{$Key}) eq 'ARRAY') {
                 foreach my $Hash (@{$Structur{$Key}}) {
-                    $Self->{LayoutObject}->Block(
-                        Name => "PackageItem$Key",
-                        Data => {Tag => $Key, %{$Hash}},
-                    );
+                    if ($Key =~ /^(Description|Filelist)$/) {
+                        $Self->{LayoutObject}->Block(
+                            Name => "PackageItem$Key",
+                            Data => { %{$Hash}, Tag => $Key, },
+                        );
+                    }
+                    else {
+                        $Self->{LayoutObject}->Block(
+                            Name => "PackageItemGeneric",
+                            Data => { %{$Hash}, Tag => $Key, },
+                        );
+                    }
                 }
             }
         }

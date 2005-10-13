@@ -2,7 +2,7 @@
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPackageManager.dtl,v 1.9 2005-08-26 15:34:49 martin Exp $
+# $Id: AdminPackageManager.dtl,v 1.10 2005-10-13 05:41:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -239,46 +239,46 @@
 </tr>
 <tr>
   <td class="mainbody">
+
+  <br>
+
+  <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
+  <tr>
+    <td colspan="2" class="contenthead">$Text{"Options"}</td>
+  </tr>
+  <tr>
+  <td class="contentbody">
+
   <table border="0">
-<!-- dtl:block:PackageItem -->
-    <tr>
-      <td>$QData{"Tag"}: </td><td>$QData{"Content"}</td>
-    </tr>
-<!-- dtl:block:PackageItem -->
 <!-- dtl:block:PackageItemDescription -->
     <tr>
-      <td>$QData{"Tag"}: </td><td>($QData{"Lang"}) $QData{"Content"}</td>
+      <td class="contentkey">$QData{"Tag"}: </td>
+      <td class="contentvalue">($QData{"Lang"}) $QData{"Content"}</td>
     </tr>
 <!-- dtl:block:PackageItemDescription -->
-<!-- dtl:block:PackageItemChangeLog -->
+<!-- dtl:block:PackageItemGeneric -->
     <tr>
-      <td>$QData{"Tag"}: </td><td>$QData{"Content"}</td>
+      <td class="contentkey">$QData{"Tag"}: </td>
+      <td class="contentvalue">$QData{"Content"}</td>
     </tr>
-<!-- dtl:block:PackageItemChangeLog -->
-<!-- dtl:block:PackageItemFramework -->
+<!-- dtl:block:PackageItemGeneric -->
+<!-- dtl:block:PackageItemFilelist -->
     <tr>
-      <td>$QData{"Tag"}: </td><td>$QData{"Content"}</td>
+      <td class="contentkey">$QData{"Tag"}: </td>
+      <td class="contentvalue">($QData{"Permission"}) $QData{"Location"}</td>
     </tr>
-<!-- dtl:block:PackageItemFramework -->
-<!-- dtl:block:PackageItemOS -->
-    <tr>
-      <td>$QData{"Tag"}: </td><td>$QData{"Content"}</td>
-    </tr>
-<!-- dtl:block:PackageItemOS -->
-<!-- dtl:block:PackageItemConfig -->
-    <tr>
-      <td>$QData{"Tag"}: </td><td>$QData{"Key"} = $QData{"Content"}</td>
-    </tr>
-<!-- dtl:block:PackageItemConfig -->
-<!-- dtl:block:PackageItemFile -->
-    <tr>
-      <td>$QData{"Tag"}: </td><td>$QData{"Location"}</td>
-    </tr>
-    <tr>
-      <td> </td><td>$QData{"Content"}</td>
-    </tr>
-<!-- dtl:block:PackageItemFile -->
+<!-- dtl:block:PackageItemFilelist -->
   </table>
+
+      </td>
+    </tr>
+    <tr>
+      <td class="contentfooter">&nbsp;</td>
+    </tr>
+    </table>
+
+    <br>
+
   </td>
 </tr>
 <!-- dtl:block:Package -->
