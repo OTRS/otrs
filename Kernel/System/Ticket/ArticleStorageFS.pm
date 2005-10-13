@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleStorageFS.pm,v 1.23 2005-09-04 13:23:40 martin Exp $
+# $Id: ArticleStorageFS.pm,v 1.24 2005-10-13 17:24:13 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use MIME::Base64;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -88,6 +88,11 @@ sub ArticleDelete {
             ArticleID => $_,
             UserID => $Param{UserID},
         );
+	# delete storage directory
+        $Self->ArticleDeleteDir(
+            ArticleID => $_,
+            UserID => $Param{UserID},
+        );
     }
     # delete articles
     if ($Self->{DBObject}->Do(SQL => "DELETE FROM article WHERE ticket_id = $Param{TicketID}")) {
@@ -103,6 +108,27 @@ sub ArticleDelete {
         return;
     }
 }
+# --
+sub ArticleDeleteDir {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(ArticleID UserID)) {
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    # delete directory from fs
+    my $ContentPath = $Self->ArticleGetContentPath(ArticleID => $Param{ArticleID});
+    my $Path = "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}";
+    $Self->{LogObject}->Log(Priority => 'error', Message => "Need $Path");
+    if (-d $Path) {
+        rmdir $Path or die "Can't remove $Path";
+    }
+    return 1;
+}
+# --
 sub ArticleDeletePlain {
     my $Self = shift;
     my %Param = @_;
@@ -117,7 +143,7 @@ sub ArticleDeletePlain {
     $Self->{DBObject}->Do(SQL => "DELETE FROM article_plain WHERE article_id = $Param{ArticleID}");
     # delete from fs
     my $ContentPath = $Self->ArticleGetContentPath(ArticleID => $Param{ArticleID});
-    my $Path = "$Self->{ArticleDataDir}/$ContentPath/plain.txt";
+    my $Path = "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt";
     if (-f $Path) {
         unlink $Path;
     }
@@ -138,12 +164,12 @@ sub ArticleDeleteAttachment {
     $Self->{DBObject}->Do(SQL => "DELETE FROM article_attachment WHERE article_id = $Param{ArticleID}");
     # delete from fs
     my $ContentPath = $Self->ArticleGetContentPath(ArticleID => $Param{ArticleID});
-    my $Path = "$Self->{ArticleDataDir}/$ContentPath/";
-    my @List = glob($Path);
+    my $Path = "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}";
+    my @List = glob($Path."/*");
     foreach my $File (@List) {
         $File =~ s!^.*/!!;
         if ($File !~ /^plain.txt$/) {
-            unlink "$Path/$File";
+            unlink "$Path/$File" or die "Cannot unlink $Path/$File ($!)";
         }
     }
     return 1;
