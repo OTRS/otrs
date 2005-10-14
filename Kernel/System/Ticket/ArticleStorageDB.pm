@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleStorageDB.pm,v 1.27 2005-07-31 08:10:06 martin Exp $
+# $Id: ArticleStorageDB.pm,v 1.28 2005-10-14 07:47:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Base64;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -62,6 +62,11 @@ sub ArticleDelete {
             ArticleID => $_,
             UserID => $Param{UserID},
         );
+        # delete storage directory
+        $Self->_ArticleDeleteDirectory(
+            ArticleID => $_,
+            UserID => $Param{UserID},
+        );
     }
     # delete articles
     if ($Self->{DBObject}->Do(SQL => "DELETE FROM article WHERE ticket_id = $Param{TicketID}")) {
@@ -78,6 +83,31 @@ sub ArticleDelete {
     }
 }
 # --
+sub _ArticleDeleteDirectory {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(ArticleID UserID)) {
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    # delete directory from fs
+    my $ContentPath = $Self->ArticleGetContentPath(ArticleID => $Param{ArticleID});
+    my $Path = "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}";
+    if (-d $Path) {
+        if (! rmdir($Path)) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "Can't remove: $Path: $!!",
+            );
+            return;
+        }
+    }
+    return 1;
+}
+# --
 sub ArticleDeletePlain {
     my $Self = shift;
     my %Param = @_;
@@ -92,9 +122,15 @@ sub ArticleDeletePlain {
     $Self->{DBObject}->Do(SQL => "DELETE FROM article_plain WHERE article_id = $Param{ArticleID}");
     # delete from fs
     my $ContentPath = $Self->ArticleGetContentPath(ArticleID => $Param{ArticleID});
-    my $Path = "$Self->{ArticleDataDir}/$ContentPath/plain.txt";
-    if (-f $Path) {
-        unlink $Path;
+    my $File = "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt";
+    if (-f $File) {
+        if (!unlink($File)) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "Can't remove: $File: $!!",
+            );
+            return;
+        }
     }
     return 1;
 }
@@ -113,12 +149,17 @@ sub ArticleDeleteAttachment {
     $Self->{DBObject}->Do(SQL => "DELETE FROM article_attachment WHERE article_id = $Param{ArticleID}");
     # delete from fs
     my $ContentPath = $Self->ArticleGetContentPath(ArticleID => $Param{ArticleID});
-    my $Path = "$Self->{ArticleDataDir}/$ContentPath/";
+    my $Path = "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}";
     my @List = glob($Path);
     foreach my $File (@List) {
         $File =~ s!^.*/!!;
         if ($File !~ /^plain.txt$/) {
-            unlink "$Path/$File";
+            if (!unlink "$Path/$File") {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message => "Can't remove: $Path/$File: $!!",
+                );
+            }
         }
     }
     return 1;
@@ -168,18 +209,21 @@ sub ArticleWriteAttachment {
       }
     }
     # check used name (we want just uniq names)
-    my $NewFileName = decode_mimewords($Param{Filename});
+    $Param{Filename} = decode_mimewords($Param{Filename});
+    my $NewFileName = $Param{Filename};
     my %UsedFile = ();
     my %Index = $Self->ArticleAttachmentIndex(ArticleID => $Param{ArticleID});
     foreach (keys %Index) {
-        $UsedFile{$Index{$_}} = 1;
+        $UsedFile{$Index{$_}->{Filename}} = 1;
     }
     for (my $i=1; $i<=12; $i++) {
         if (exists $UsedFile{$NewFileName}) {
-            $NewFileName = "$Param{Filename}-$i";
-        }
-        else {
-            $i = 20;
+            if ($Param{Filename} =~ /^(.*)\.(.+?)$/) {
+               $NewFileName = "$1-$i.$2";
+            }
+            else {
+               $NewFileName = "$Param{Filename}-$i";
+            }
         }
     }
     # get file name
