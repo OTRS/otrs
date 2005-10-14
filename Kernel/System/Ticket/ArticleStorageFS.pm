@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleStorageFS.pm,v 1.24 2005-10-13 17:24:13 cs Exp $
+# $Id: ArticleStorageFS.pm,v 1.25 2005-10-14 07:46:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use MIME::Base64;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -40,13 +40,13 @@ sub ArticleStorageInit {
     $Self->{ArticleContentPath} = $Year.'/'.$Month.'/'.$Day;
 
     # check fs write permissions!
-    my $Path = "$Self->{ArticleDataDir}/$Self->{ArticleContentPath}/check_permissons.$$";
+    my $Path = "$Self->{ArticleDataDir}/$Self->{ArticleContentPath}/check_permissions.$$";
     if (-d $Path) {
         File::Path::rmtree([$Path]) || die "Can't remove $Path: $!\n";
     }
-    if (mkdir("$Self->{ArticleDataDir}/check_permissons_$$", 022)) {
-        if (!rmdir("$Self->{ArticleDataDir}/check_permissons_$$")) {
-            die "Can't remove $Self->{ArticleDataDir}/check_permissons_$$: $!\n";
+    if (mkdir("$Self->{ArticleDataDir}/check_permissions_$$", 022)) {
+        if (!rmdir("$Self->{ArticleDataDir}/check_permissions_$$")) {
+            die "Can't remove $Self->{ArticleDataDir}/check_permissions_$$: $!\n";
         }
         if (File::Path::mkpath([$Path], 0, 0775)) {
             File::Path::rmtree([$Path]) || die "Can't remove $Path: $!\n";
@@ -56,10 +56,10 @@ sub ArticleStorageInit {
         my $Error = $!;
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message => "Can't create $Self->{ArticleDataDir}/check_permissons_$$: $Error, ".
+            Message => "Can't create $Self->{ArticleDataDir}/check_permissions_$$: $Error, ".
             "Try: \$OTRS_HOME/bin/SetPermissions.sh !",
         );
-        die "Error: Can't create $Self->{ArticleDataDir}/check_permissons_$$: $Error \n\n ".
+        die "Error: Can't create $Self->{ArticleDataDir}/check_permissions_$$: $Error \n\n ".
             "Try: \$OTRS_HOME/bin/SetPermissions.sh !!!\n";
     }
     return 1;
@@ -88,8 +88,8 @@ sub ArticleDelete {
             ArticleID => $_,
             UserID => $Param{UserID},
         );
-	# delete storage directory
-        $Self->ArticleDeleteDir(
+        # delete storage directory
+        $Self->_ArticleDeleteDirectory(
             ArticleID => $_,
             UserID => $Param{UserID},
         );
@@ -109,7 +109,7 @@ sub ArticleDelete {
     }
 }
 # --
-sub ArticleDeleteDir {
+sub _ArticleDeleteDirectory {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
@@ -122,9 +122,14 @@ sub ArticleDeleteDir {
     # delete directory from fs
     my $ContentPath = $Self->ArticleGetContentPath(ArticleID => $Param{ArticleID});
     my $Path = "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}";
-    $Self->{LogObject}->Log(Priority => 'error', Message => "Need $Path");
     if (-d $Path) {
-        rmdir $Path or die "Can't remove $Path";
+        if (! rmdir($Path)) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "Can't remove: $Path: $!!",
+            );
+            return;
+        }
     }
     return 1;
 }
@@ -143,9 +148,15 @@ sub ArticleDeletePlain {
     $Self->{DBObject}->Do(SQL => "DELETE FROM article_plain WHERE article_id = $Param{ArticleID}");
     # delete from fs
     my $ContentPath = $Self->ArticleGetContentPath(ArticleID => $Param{ArticleID});
-    my $Path = "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt";
-    if (-f $Path) {
-        unlink $Path;
+    my $File = "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt";
+    if (-f $File) {
+        if (!unlink($File)) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "Can't remove: $File: $!!",
+            );
+            return;
+        }
     }
     return 1;
 }
@@ -169,7 +180,12 @@ sub ArticleDeleteAttachment {
     foreach my $File (@List) {
         $File =~ s!^.*/!!;
         if ($File !~ /^plain.txt$/) {
-            unlink "$Path/$File" or die "Cannot unlink $Path/$File ($!)";
+            if (!unlink "$Path/$File") {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message => "Can't remove: $Path/$File: $!!",
+                );
+            }
         }
     }
     return 1;
@@ -229,20 +245,27 @@ sub ArticleWriteAttachment {
     # define path
     $Param{Path} = $Self->{ArticleDataDir}.'/'.$ContentPath.'/'.$Param{ArticleID};
     # check used name (we want just uniq names)
-    my $NewFileName = decode_mimewords($Param{Filename});
+    $Param{Filename} = decode_mimewords($Param{Filename});
+    # strip spaces from filenames
+    $Param{Filename} =~ s/ /_/g;
+    # strip dots from filenames
+    $Param{Filename} =~ s/^\.//g;
+    my $NewFileName = $Param{Filename};
     my %UsedFile = ();
-    my @Index = $Self->ArticleAttachmentIndex(
+    my %Index = $Self->ArticleAttachmentIndex(
         ArticleID => $Param{ArticleID},
     );
-    foreach (@Index) {
-        $UsedFile{$_} = 1;
+    foreach (keys %Index) {
+        $UsedFile{$Index{$_}->{Filename}} = 1;
     }
     for (my $i=1; $i<=12; $i++) {
         if (exists $UsedFile{$NewFileName}) {
-            $NewFileName = "$Param{Filename}-$i";
-        }
-        else {
-            $i = 20;
+            if ($Param{Filename} =~ /^(.*)\.(.+?)$/) {
+               $NewFileName = "$1-$i.$2";
+            }
+            else {
+               $NewFileName = "$Param{Filename}-$i";
+            }
         }
     }
     $Param{Filename} = $NewFileName;
