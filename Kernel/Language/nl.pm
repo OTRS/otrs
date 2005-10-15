@@ -5,7 +5,7 @@
 # Copyright (C) 2003 A-NeT Internet Services bv
 # Copyright (C) 2004 Martijn Lohmeijer (martijn.lohmeijer 'at' sogeti.nl)
 # --
-# $Id: nl.pm,v 1.34 2005-08-26 16:08:18 martin Exp $
+# $Id: nl.pm,v 1.35 2005-10-15 12:08:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -45,7 +45,7 @@ package Kernel::Language::nl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.34 $';
+$VERSION = '$Revision: 1.35 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
@@ -1217,6 +1217,8 @@ sub Data {
       'MyTickets' => '',
       'New Ticket' => '',
       'Create new Ticket' => '',
+      'installed' => '',
+      'uninstalled' => '',
     };
     # $$STOP$$
 }

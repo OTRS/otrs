@@ -2,7 +2,7 @@
 # Kernel/Language/nl.pm - provides za_CN language translation
 # Copyright (C) 2005 zuowei <j2ee@hirain-sh.com>
 # --
-# $Id: zh_CN.pm,v 1.1 2005-09-09 11:35:11 cs Exp $
+# $Id: zh_CN.pm,v 1.2 2005-10-15 12:08:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ package Kernel::Language::zh_CN;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1209,6 +1209,8 @@ sub Data {
       'Drop Database' => '删除数据库',
       '(Used ticket number format)' => '(使用 Ticket 编号格式)',
       'FAQ History' => 'FAQ 历史',
+      'installed' => '',
+      'uninstalled' => '',
     };
     # $$STOP$$
 }

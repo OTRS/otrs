@@ -4,7 +4,7 @@
 # Copyright (C) 2004-2005 Yann Richard <ze at nbox.org>
 # Copyright (C) 2004 Igor Genibel <igor.genibel at eds-opensource.com>
 # --
-# $Id: fr.pm,v 1.49 2005-08-26 16:08:18 martin Exp $
+# $Id: fr.pm,v 1.50 2005-10-15 12:08:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.49 $';
+$VERSION = '$Revision: 1.50 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -1212,6 +1212,8 @@ sub Data {
       'MyTickets' => '',
       'New Ticket' => '',
       'Create new Ticket' => '',
+      'installed' => '',
+      'uninstalled' => '',
     };
     # $$STOP$$
 }

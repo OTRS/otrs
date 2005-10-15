@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: de.pm,v 1.95 2005-10-13 12:03:03 tr Exp $
+# $Id: de.pm,v 1.96 2005-10-15 12:08:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.95 $';
+$VERSION = '$Revision: 1.96 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -386,8 +386,8 @@ sub Data {
       'Create new Phone Ticket' => 'Neues Telefon-Ticket erstellen',
       'Search Tickets' => 'Ticket-Suche',
       'Edit Customer Users' => 'Kunden-Benutzer bearbeiten',
-      'Bulk-Action' => '',
-      'Bulk Actions on Tickets' => 'Bulk-Action an Tickets',
+      'Bulk-Action' => 'Sammel-Aktion',
+      'Bulk Actions on Tickets' => 'Sammel-Action an Tickets',
       'Send Email and create a new Ticket' => 'Email senden und neues Ticket erstellen',
       'Overview of all open Tickets' => 'Übersicht über alle offenen Tickets',
       'Locked Tickets' => 'Gesperrte Tickets',
@@ -441,8 +441,8 @@ sub Data {
       'History::SendAnswer' => 'E-Mail versandt an "%s".',
       'History::SendAgentNotification' => '"%s"-Benachrichtigung versand an "%s".',
       'History::SendCustomerNotification' => 'Benachrichtigung versandt an "%s".',
-      'History::EmailAgent' => 'E-mail an Kunden versandt.',
-      'History::EmailCustomer' => 'E-mail hinzugefügt. %s',
+      'History::EmailAgent' => 'Email an Kunden versandt.',
+      'History::EmailCustomer' => 'Email hinzugefügt. %s',
       'History::PhoneCallAgent' => 'Kunden angerufen.',
       'History::PhoneCallCustomer' => 'Kunde hat angerufen.',
       'History::AddNote' => 'Notiz hinzugefügt (%s)',
@@ -588,21 +588,21 @@ sub Data {
 
       # Template: AdminPackageManager
       'Package Manager' => 'Paket Verwaltung',
-      'Uninstall' => 'deinstallieren',
+      'Uninstall' => 'Deinstallieren',
       'Verion' => '',
       'Do you really want to uninstall this package?' => 'Soll das Paket wirklich deinstalliert werden?',
-      'Install' => 'installieren',
+      'Install' => 'Installieren',
       'Package' => 'Paket',
       'Online Repository' => '',
       'Version' => '',
       'Vendor' => 'Anbieter',
-      'Upgrade' => 'erneuern',
+      'Upgrade' => 'Erneuern',
       'Local Repository' => 'Lokales Repository',
       'Status' => '',
       'Overview' => 'Übersicht',
       'Download' => 'Herunterladen',
       'Rebuild' => '',
-      'Reinstall' => 'reinstallieren',
+      'Reinstall' => 'Reinstallieren',
 
       # Template: AdminPGPForm
       'PGP Management' => 'PGP Verwaltung',
@@ -748,9 +748,9 @@ sub Data {
       'SysConfig' => '',
       'Group selection' => 'Gruppenauswahl',
       'Show' => 'Zeigen',
-      'Download Settings' => 'Einstellungen download',
-      'Download all system config changes.' => 'Runterladen aller Änderungen der Konfiguration.',
-      'Load Settings' => 'Einstellungen laden',
+      'Download Settings' => 'Einstellungen herunterladen',
+      'Download all system config changes.' => 'Herunterladen aller Änderungen der Konfiguration.',
+      'Load Settings' => 'Einstellungen hinaufladen',
       'Subgroup' => 'Untergruppe',
       'Elements' => 'Elemente',
 
@@ -1176,7 +1176,6 @@ sub Data {
       'Ticket Number Generator' => 'Ticketnummer Generator',
       '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Ticket Kennzeichnen. Z.B. \'Ticket#\', \'Call#\' oder \'MyTicket#\')',
       'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
-      'Ticket Hook' => '',
       'Close!' => 'Schließen!',
       'TicketZoom' => 'Ticket Inhalt',
       'Don\'t forget to add a new user to groups!' => 'Ein neuer Benutzer muss einer Gruppe zugewiesen werden!',
@@ -1191,14 +1190,11 @@ sub Data {
       'Change user <-> group settings' => 'Ändern der Benutzer <-> Gruppen Einstellungen',
       'DB Type' => 'DB Typ',
       'next step' => 'Nächster Schritt',
-      'FIXME: WHAT IS PGP?' => '',
       'My Queue' => 'Meine Queue',
       'Create new database' => 'Neue Datenbank erstellen',
-      'Stunden' => '',
       'Delete old database' => 'Alte Datenbank löschen',
       'Load' => 'Laden',
       'OTRS DB User' => 'OTRS DB Benutzer',
-      'FIXME: WHAT IS SMIME?' => '',
       'OTRS DB Password' => 'OTRS DB Passwort',
       'DB Admin Password' => 'DB Admin Passwort',
       'Drop Database' => 'Datenbank löschen',
@@ -1212,6 +1208,8 @@ sub Data {
       'New Ticket' => 'Neues Ticket',
       'Create new Ticket' => 'Neues Ticket erstellen',
       'Package not correctly deployed, you need to deploy it again!' => 'Paket nicht korrekt installiert, bitte nochmal installieren!',
+      'installed' => 'installiert',
+      'uninstalled' => 'nicht installiert',
     };
     # $$STOP$$
 }

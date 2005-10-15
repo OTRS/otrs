@@ -11,7 +11,7 @@ package Kernel::Language::bg;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -1192,6 +1192,8 @@ sub Data {
       'DB Admin Password' => 'Парола на администратора на базата',
       'Drop Database' => 'Нулиране базата данни',
       '(Used ticket number format)' => '(Използван формат за номера на билетът)',
+      'installed' => '',
+      'uninstalled' => '',
     };
     # $$STOP$$
 }
