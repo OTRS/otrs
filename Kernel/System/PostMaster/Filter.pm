@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Filter.pm - all functions to add/delete/list pm db filters
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Filter.pm,v 1.4 2005-07-27 18:14:06 cs Exp $
+# $Id: Filter.pm,v 1.5 2005-10-15 13:13:10 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::Filter;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -156,6 +156,7 @@ sub FilterDelete {
         return;
       }
     }
+    $Param{Name} = $Self->{DBObject}->Quote($Param{Name}) || '';
     if ($Self->{DBObject}->Prepare(SQL => "DELETE FROM postmaster_filter WHERE f_name = '$Param{Name}'")) {
         return 1;
     }
@@ -212,6 +213,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2005-07-27 18:14:06 $
+$Revision: 1.5 $ $Date: 2005-10-15 13:13:10 $
 
 =cut
