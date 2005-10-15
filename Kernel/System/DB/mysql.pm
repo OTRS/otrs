@@ -2,7 +2,7 @@
 # Kernel/System/DB/mysql.pm - mysql database backend
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: mysql.pm,v 1.5 2005-07-01 06:24:12 martin Exp $
+# $Id: mysql.pm,v 1.6 2005-10-15 13:41:32 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::DB::mysql;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub LoadPreferences {
@@ -24,7 +24,7 @@ sub LoadPreferences {
     # db settings
     $Self->{'DB::Limit'} = 'limit';
     $Self->{'DB::DirectBlob'} = 1;
-    $Self->{'DB::QuoteSignle'} = '\\';
+    $Self->{'DB::QuoteSingle'} = '\\';
     $Self->{'DB::QuoteBack'} = '\\';
     $Self->{'DB::QuoteSemicolon'} = '\\';
     $Self->{'DB::Attribute'} = {};

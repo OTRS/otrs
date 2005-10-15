@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # Modified for DB2 UDB Friedmar Moch <friedmar@acm.org>
 # --
-# $Id: db2.pm,v 1.3 2005-07-18 22:14:54 martin Exp $
+# $Id: db2.pm,v 1.4 2005-10-15 13:41:32 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::DB::db2;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub LoadPreferences {
@@ -25,7 +25,7 @@ sub LoadPreferences {
     # db settings
     $Self->{'DB::Limit'} = 0;
     $Self->{'DB::DirectBlob'} = 0;
-    $Self->{'DB::QuoteSignle'} = '\'';
+    $Self->{'DB::QuoteSingle'} = '\'';
     $Self->{'DB::QuoteBack'} = 0;
     $Self->{'DB::QuoteSemicolon'} = '\'';
     $Self->{'DB::Attribute'} = {
