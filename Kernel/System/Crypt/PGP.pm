@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/PGP.pm - the main crypt module
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PGP.pm,v 1.9 2005-08-24 09:45:16 martin Exp $
+# $Id: PGP.pm,v 1.10 2005-10-17 20:41:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Crypt::PGP;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
 =head1 NAME
@@ -353,6 +353,9 @@ sub PrivateKeySearch {
             $Key{Created} .= $4;
             $Key{Identifier} .= $5;
         }
+        if ($InKey && $Line =~ /^uid\s+(.*)/) {
+            $Key{Identifier} .= $1;
+        }
         if ($InKey && $Line =~ /^(ssb)\s(.+?)\/(.+?)\s(.+?)\s/) {
             $Key{Bit} = $2;
             $Key{Key} = $3;
@@ -404,6 +407,9 @@ sub PublicKeySearch {
             $Key{Key} .= $3;
             $Key{Created} .= $4;
             $Key{Identifier} .= $5;
+        }
+        if ($InKey && $Line =~ /^uid\s+(.*)/) {
+            $Key{Identifier} .= $1;
         }
         if ($InKey && $Line =~ /\[expires:\s(.+?)\]/) {
             $Key{Expires} = $1;
@@ -583,6 +589,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2005-08-24 09:45:16 $
+$Revision: 1.10 $ $Date: 2005-10-17 20:41:55 $
 
 =cut
