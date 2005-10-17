@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CustomerAuth/DB.pm - provides the db authentification
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.11 2004-08-10 10:31:56 martin Exp $
+# $Id: DB.pm,v 1.12 2005-10-17 20:14:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ package Kernel::System::CustomerAuth::DB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -85,10 +85,6 @@ sub Auth {
       $Self->{LogObject}->Log(Priority => 'error', Message => "Need User!");
       return;
     }
-    # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
-    }
     # get params
     my $User = $Param{User} || '';
     my $Pw = $Param{Pw} || '';
@@ -101,7 +97,7 @@ sub Auth {
       " FROM ".
       " $Self->{Table} ".
       " WHERE ".
-      " $Self->{Key} = '$User'";
+      " $Self->{Key} = '".$Self->{DBObject}->Quote($User)."'";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         $GetPw = $Row[0];
