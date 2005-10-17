@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerTicketZoom.pm,v 1.2 2005-06-07 11:42:24 martin Exp $
+# $Id: CustomerTicketZoom.pm,v 1.3 2005-10-17 20:27:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -175,7 +175,7 @@ sub _Mask {
     # try to use the latest non internal agent article
     if (!$ArticleID) {
         foreach my $ArticleTmp (@ArticleBox) {
-            if ($ArticleTmp->{ArticleType} !~ /int/) {
+            if ($ArticleTmp->{StateType} eq 'merged' || $ArticleTmp->{ArticleType} !~ /int/) {
                 $ArticleID = $ArticleTmp->{ArticleID};
             }
         }
@@ -227,7 +227,7 @@ sub _Mask {
         }
     }
     # check show article type
-    if ($Article{ArticleType} =~ /int/) {
+    if ($Article{StateType} ne 'merged' && $Article{ArticleType} =~ /int/) {
         return $Self->{LayoutObject}->CustomerError(Message => 'No permission!');
     }
     # get attacment string
@@ -280,7 +280,13 @@ sub _Mask {
     # get article id
     $Param{"Article::ArticleID"} = $Article{ArticleID};
     # select the output template
-    return $Self->{LayoutObject}->Output(TemplateFile => 'CustomerTicketZoom', Data => {%Article, %Param});
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'CustomerTicketZoom',
+        Data => {
+            %Article,
+            %Param,
+        },
+    );
 }
 # --
 1;

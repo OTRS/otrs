@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerTicketOverView.pm,v 1.36 2005-03-27 11:45:02 martin Exp $
+# $Id: CustomerTicketOverView.pm,v 1.37 2005-10-17 20:27:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -152,7 +152,7 @@ sub Run {
     );
     # create & return output
     $Output .= $Self->{LayoutObject}->Output(
-        TemplateFile => 'CustomerStatusView', 
+        TemplateFile => 'CustomerStatusView',
         Data => {
             Type => $Self->{Type},
             ShowClosed => $ShowClosed,
@@ -175,7 +175,11 @@ sub ShowTicketStatus {
     my %Param = @_;
     my $TicketID = $Param{TicketID} || return;
     # get last article
+    my @Index = $Self->{TicketObject}->ArticleIndex(TicketID => $Param{TicketID});
     my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(TicketID => $TicketID);
+    if (!%Article) {
+        %Article = $Self->{TicketObject}->ArticleGet(ArticleID => $Index[0]);
+    }
     # condense down the subject
     my $Subject = $Self->{TicketObject}->TicketSubjectClean(
         TicketNumber => $Article{TicketNumber},
