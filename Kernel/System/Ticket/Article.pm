@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.92 2005-09-04 13:26:53 martin Exp $
+# $Id: Article.pm,v 1.93 2005-10-17 20:34:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.92 $';
+$VERSION = '$Revision: 1.93 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -741,7 +741,7 @@ sub ArticleLastCustomerArticle {
                     ArticleID => $_,
                     TicketOverTime => 1,
                 );
-                if ($Article{ArticleType} !~ /int/) {
+                if ($Article{StateType} eq 'merged' || $Article{ArticleType} !~ /int/) {
                     return %Article;
                 }
             }
