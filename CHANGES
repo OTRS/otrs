@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.197 2005-10-17 20:31:21 martin Exp $
+# $Id: CHANGES,v 1.198 2005-10-17 20:50:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,6 +11,7 @@
 CVS head
 
 2.0.4 (2005/10/17)
+ - (2005/10/17) fixed bug #792 - GPG 1.4.1 is no handled correct
  - (2005/10/17) fixed missing db quoting in Kernel/System/Auth/DB.pm
  - (2005/10/15) small rework of Kernel/Language/de.pm with improved wording
  - (2005/10/13) changed merge article type to note-external to be shown
