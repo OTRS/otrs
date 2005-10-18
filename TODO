@@ -2,7 +2,7 @@
 # TODO - todo list of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TODO,v 1.69 2005-10-14 14:19:11 martin Exp $
+# $Id: TODO,v 1.70 2005-10-18 07:17:28 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -87,3 +87,4 @@ ideas (just ideas - nobody is working on it)
 - ticket order by pending time
 - view/search for tickets which escalate in future, e. g. in one hour
 - http://bugs.otrs.org/show_bug.cgi?id=728 - Last Told
+- opm package installing by click on Ticket-Attachment
