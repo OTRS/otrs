@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.pm,v 1.37 2005-10-05 23:02:39 martin Exp $
+# $Id: AdminSysConfig.pm,v 1.38 2005-10-18 12:22:07 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -649,9 +649,13 @@ sub ListConfigItem {
                 ElementKey => $ItemHash{Name},
             },
         );
-#        $Self->{LogObject}->Dumper(ddd => $ItemHash{Setting}[1]{Hash});
         # Hashelements
+        my %SortContainer = ();
         foreach my $Index (1...$#{$ItemHash{Setting}[1]{Hash}[1]{Item}}) {
+            $SortContainer{$Index} =  $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Key};
+        }
+        foreach my $Index (sort {$SortContainer{$a} cmp $SortContainer{$b}} keys %SortContainer){
+#        foreach my $Index (1...$#{$ItemHash{Setting}[1]{Hash}[1]{Item}}) {
             #SubHash
             if (defined($ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Hash})) {
                 $Self->{LayoutObject}->Block(
@@ -746,7 +750,12 @@ sub ListConfigItem {
             },
         );
         # ArrayElements
+        my %SortContainer = ();
         foreach my $Index (1...$#{$ItemHash{Setting}[1]{Array}[1]{Item}}) {
+            $SortContainer{$Index} =  $ItemHash{Setting}[1]{Array}[1]{Item}[$Index]{Content};
+        }
+        foreach my $Index (sort {$SortContainer{$a} cmp $SortContainer{$b}} keys %SortContainer){
+#        foreach my $Index (1...$#{$ItemHash{Setting}[1]{Array}[1]{Item}}) {
             $Self->{LayoutObject}->Block(
                 Name => 'ConfigElementArrayContent',
                 Data => {
