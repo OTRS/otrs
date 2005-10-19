@@ -2,7 +2,7 @@
 # css.dtl - css file
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: css.dtl,v 1.11 2005-05-23 14:36:56 rk Exp $
+# $Id: css.dtl,v 1.12 2005-10-19 05:49:42 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -58,12 +58,13 @@
   .mainvalue { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
 # content
   .contenthead { color:#000000;background-color:#dedede;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
+  .contentheadpassiv { color:#BBBBBB;background-color:#dedede;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
   .contentbody { color:#000000;background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
   .contentfooter { color:#000000;background-color:#dedede;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:normal;vertical-align:top;text-align:right; }
   .contentkey { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
-  .contentkeypassiv { color:#BBBBBB;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; } 
+  .contentkeypassiv { color:#BBBBBB;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
   .contentvalue { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
-  .contentvaluepassiv { color:#BBBBBB;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }  
+  .contentvaluepassiv { color:#BBBBBB;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
   .searchactive { color:#000000;background-color:#ffffff;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
   .searchpassive { color:#000000;background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
 # singleboxhead
@@ -71,24 +72,14 @@
   .singleboxbody { color:#000000;background-color:#ffffff;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
   .singleboxkey { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:normal;vertical-align:top; }
   .singleboxvalue { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
-
-# table color
-# table0 = header for tables
-#  .table0 { color:#ffffff;background-color:#000000;font-size:13px;font-family:Geneva,Helvetica,Arial,sans-serif;}
-## table1 = table content
-#  .table1 { color:#000000;background-color:#ffffff;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;}
-## table2 = sub sub header for tables
-#  .table2 { color:#000000;background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;}
-## table3 = sub header for tables
-#  .table3 { color:#000000;background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold; }
 # tab window layer 0
-  .tablayer0 { background-color:#efefef; }
+  .tablayer0 { background-color:#ffffff; }
 # tab window layer 1
-  .tablayer1 { background-color:#dedede; }
+  .tablayer1 { background-color:#e5e5e5; }
 # tabs passive
-  .tabpassive { background-color:#e5e5e5; border: 0px; }
+  .tabpassive { background-color:#efefef; border: 0px; }
 # tabs active
-  .tabactive { background-color:#dedede; border: 0px; }
+  .tabactive { background-color:#e5e5e5; border: 0px; }
 # message
   .message { color:#000000;font-size:12px;font-family:monospace, fixed; }
 # article type color
