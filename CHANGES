@@ -2,13 +2,14 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.198 2005-10-17 20:50:00 martin Exp $
+# $Id: CHANGES,v 1.199 2005-10-19 06:00:28 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS head
+ - (2005/10/18) sortfunction for hashes and array in adminsysconfig
 
 2.0.4 (2005/10/17)
  - (2005/10/17) fixed bug #792 - GPG 1.4.1 is no handled correct
