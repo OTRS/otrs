@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.199 2005-10-19 06:00:28 tr Exp $
+# $Id: CHANGES,v 1.200 2005-10-19 07:28:08 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,9 +15,13 @@ CVS head
  - (2005/10/17) fixed bug #792 - GPG 1.4.1 is no handled correct
  - (2005/10/17) fixed missing db quoting in Kernel/System/Auth/DB.pm
  - (2005/10/15) small rework of Kernel/Language/de.pm with improved wording
+ - (2005/10/15) fixed bug #889 - Fixed QuoteSignle typo and added changed
+    QuoteSingle for PostgreSQL
+ - (2005/10/15) Added correct quoting in Filter.pm when deleting a
+    PostMasterFilter rule
  - (2005/10/13) changed merge article type to note-external to be shown
     in the customer interface, other way the customer will get an no
-    permisson screen for this ticket
+    permission screen for this ticket
  - (2005/10/13) improved bin/PendingJobs.pl to send reminder notifications
     to queue subscriber if ticket is unlocked (not longer to the ticket
     owner).
