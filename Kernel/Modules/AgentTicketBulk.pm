@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketBulk.pm,v 1.3 2005-06-15 03:51:34 martin Exp $
+# $Id: AgentTicketBulk.pm,v 1.4 2005-10-20 21:26:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -63,12 +63,12 @@ sub Run {
     }
     $Output = $Self->{LayoutObject}->Header();
     # process tickets
-    foreach (@TicketIDs) {
-        my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $_);
+    foreach my $TicketID (@TicketIDs) {
+        my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $TicketID);
         # check permissions
         if (!$Self->{TicketObject}->Permission(
             Type => 'rw',
-            TicketID => $_,
+            TicketID => $TicketID,
             UserID => $Self->{UserID})) {
             # error screen, don't show ticket
             $Output .= $Self->{LayoutObject}->Notify(
@@ -76,12 +76,12 @@ sub Run {
             );
         }
         else {
-            $Param{TicketIDHidden} .= "<input type='hidden' name='TicketIDs' value='$_'>\n";
+            $Param{TicketIDHidden} .= "<input type='hidden' name='TicketIDs' value='$TicketID'>\n";
             # show locked tickets
             my $LockIt = 1;
-            if ($Self->{TicketObject}->LockIsTicketLocked(TicketID => $_)) {
+            if ($Self->{TicketObject}->LockIsTicketLocked(TicketID => $TicketID)) {
                 my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->OwnerCheck(
-                    TicketID => $_,
+                    TicketID => $TicketID,
                 );
                 if ($OwnerID ne $Self->{UserID}) {
                     $LockIt = 0;
@@ -93,15 +93,15 @@ sub Run {
             if ($LockIt) {
                 # set lock
                 $Self->{TicketObject}->LockSet(
-                    TicketID => $_,
+                    TicketID => $TicketID,
                     Lock => 'lock',
                     UserID => $Self->{UserID},
                 );
                 # set user id
                 $Self->{TicketObject}->OwnerSet(
-                    TicketID => $_,
+                    TicketID => $TicketID,
                     UserID => $Self->{UserID},
-	            NewUserID => $Self->{UserID},
+	                NewUserID => $Self->{UserID},
                 );
                 $Output .= $Self->{LayoutObject}->Notify(
                     Info => 'Ticket %s locked.", "$Quote{"'.$Ticket{TicketNumber}.'"}',
@@ -115,7 +115,7 @@ sub Run {
                         $Self->{TicketObject}->MoveTicket(
                             QueueID => $QueueID,
                             Queue => $Queue,
-                            TicketID => $_,
+                            TicketID => $TicketID,
                             UserID => $Self->{UserID},
                         );
                     }
@@ -125,9 +125,9 @@ sub Run {
                     my $ArticleTypeID = $Self->{ParamObject}->GetParam(Param => 'ArticleTypeID') || '';
                     my $ArticleType = $Self->{ParamObject}->GetParam(Param => 'ArticleType') || '';
 
-                    if (($Subject || $Body) && ($ArticleTypeID||$ArticleType)) {
+                    if ($Subject && $Body && ($ArticleTypeID||$ArticleType)) {
                       my $ArticleID = $Self->{TicketObject}->ArticleCreate(
-                        TicketID => $_,
+                        TicketID => $TicketID,
                         ArticleTypeID => $ArticleTypeID,
                         ArticleType => $ArticleType,
                         SenderType => 'agent',
@@ -145,19 +145,19 @@ sub Run {
                     my $State = $Self->{ParamObject}->GetParam(Param => 'State') || '';
                     if ($StateID || $State) {
                         $Self->{TicketObject}->StateSet(
-                            TicketID => $_,
+                            TicketID => $TicketID,
                             StateID => $StateID,
                             State => $State,
                             UserID => $Self->{UserID},
                         );
-                        my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $_);
+                        my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $TicketID);
                         my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
                             ID => $Ticket{StateID},
                         );
                         # should I set an unlock?
                         if ($Ticket{StateType} =~ /^close/i) {
                             $Self->{TicketObject}->LockSet(
-                                TicketID => $_,
+                                TicketID => $TicketID,
                                 Lock => 'unlock',
                                 UserID => $Self->{UserID},
                             );
@@ -165,8 +165,8 @@ sub Run {
                     }
 					# Should I unlock tickets at user request?
 					if ($Self->{ParamObject}->GetParam(Param => 'Unlock')) {
-						$Self->{TicketObject}->LockSet(
-							TicketID => $_,
+                        $Self->{TicketObject}->LockSet(
+							TicketID => $TicketID,
 							Lock => 'unlock',
 							UserID => $Self->{UserID},
 						);

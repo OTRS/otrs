@@ -2,7 +2,7 @@
 # AgentTicketBulk.dtl - provides HTML form for bulk mask
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketBulk.dtl,v 1.3 2005-06-15 03:51:34 martin Exp $
+# $Id: AgentTicketBulk.dtl,v 1.4 2005-10-20 21:26:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -52,16 +52,17 @@ function SpellCheckSubmit()
 
   <br>
 
+  <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
+  <input type="hidden" name="Action" value="$Env{"Action"}">
+  <input type="hidden" name="Subaction" value="Do">
+
   <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
   <tr>
     <td colspan="2" class="contenthead">$Text{"Options"}</td>
   </tr>
   <tr>
-  <td class="contentbody">
+    <td class="contentbody">
 
-    <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
-    <input type="hidden" name="Action" value="$Env{"Action"}">
-    <input type="hidden" name="Subaction" value="Do">
     $Data{"TicketIDHidden"}
       <table border="0" width="100%">
       <tr>
@@ -97,20 +98,22 @@ function SpellCheckSubmit()
         <td class="contentvalue">$Data{"UnlockYesNoOption"}</td>
       </tr>
       </table>
-    <input class="button" accesskey="g" type="submit" value="$Text{"submit"}" onclick="return submit_compose();">
-    </form>
 
-      </td>
-    </tr>
-    </table>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="contentfooter"><input class="button" accesskey="g" type="submit" value="$Text{"submit"}" onclick="return submit_compose();"></td>
+  </tr>
+  </table>
+  </form>
 
-    <br>
+  <br>
 
-    <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
-      <input type="hidden" name="Action" value="AgentSpelling">
-      <input type="hidden" name="Body" value="">
-      <input type="hidden" name="spell_lang" value="">
-    </form>
+  <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
+    <input type="hidden" name="Action" value="AgentSpelling">
+    <input type="hidden" name="Body" value="">
+    <input type="hidden" name="spell_lang" value="">
+  </form>
 
   </td>
 </tr>
