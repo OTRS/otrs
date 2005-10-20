@@ -2,7 +2,7 @@
 # AdminAutoResponse.dtl - provides HTML form for AdminAutoResponse
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminAutoResponseForm.dtl,v 1.18 2005-06-30 14:51:53 cs Exp $
+# $Id: AdminAutoResponseForm.dtl,v 1.19 2005-10-20 21:25:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -150,11 +150,11 @@ $Data{"Note"}
       <table>
        <tr>
         <td>$Text{"Subject"}:</td>
-        <td><input type="text" name="Subject" value="RE: &lt;OTRS_CUSTOMER_SUBJECT[22]&gt;" size="50" maxlength="50"></td>
+        <td><input type="text" name="Subject" value="RE: &lt;OTRS_CUSTOMER_SUBJECT[22]&gt;" size="50" maxlength="60"></td>
        </tr>
        <tr>
         <td>$Text{"Response"}:</td>
-        <td><textarea rows="10" cols="60" name="Response">
+        <td><textarea rows="12" cols="70" name="Response">
 Thanks for your e-mail.
 
 You wrote:
@@ -162,7 +162,11 @@ You wrote:
 &lt;OTRS_CUSTOMER_EMAIL[6]&gt;
 &lt;/snip&gt;
 
-...
+--
+ Super Support Company Inc. - Waterford Business Park
+ 5201 Blue Lagoon Drive - 8th Floor & 9th Floor - Miami, 33126 USA
+ Email: hot@florida.com - Web: http://hot.florida.com/
+--
 </textarea></td>
        </tr>
       </table>

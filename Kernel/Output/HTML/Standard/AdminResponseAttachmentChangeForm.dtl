@@ -2,7 +2,7 @@
 # AdminResponseAttachmentChangeForm.dtl - provides HTML form for AdminResponse
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminResponseAttachmentChangeForm.dtl,v 1.6 2005-06-22 05:02:00 martin Exp $
+# $Id: AdminResponseAttachmentChangeForm.dtl,v 1.7 2005-10-20 21:25:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@
   <input type="hidden" name="Action" value="$Env{"Action"}">
   <input type="hidden" name="Subaction" value="Change$Data{"Type"}">
 
-  <table width="500" cellspacing="0" cellpadding="4">
+  <table width="700" cellspacing="0" cellpadding="4">
   <tr valign="top">
     <td class="contenthead">$Text{"Change %s settings", "$Data{"Type"}"}:</td>
   </tr>
@@ -41,7 +41,7 @@
 
   <br>
 
-  </td> 
+  </td>
 </tr>
 </table>
 <!-- end form -->
