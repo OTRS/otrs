@@ -112,7 +112,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.77 2005-10-11 17:17:29 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.78 2005-10-20 21:36:35 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -499,7 +499,7 @@ TimeWorkingHours
             <String Regex="">MailserverPassword</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="SendmailBcc" Required="0" Valid="0">
+    <ConfigItem Name="SendmailBcc" Required="0" Valid="1">
         <Description Lang="en">Send all outgoing email via bcc to the specifyed address. Please use this only for backup reasons!</Description>
         <Description Lang="de">Alle ausgehenden Nachrichten werden via BCC ('Blind Copy') an die angegebene Adresse gesendet. Bitte nutzen Sie diese Funktionalität nur aus Gründen der Datensicherung.</Description>
         <Group>Framework</Group>
