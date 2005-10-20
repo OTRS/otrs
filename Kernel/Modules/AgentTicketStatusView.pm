@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Phil Davis <phil.davis at itaction.co.uk>
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketStatusView.pm,v 1.2 2005-03-27 11:50:50 martin Exp $
+# $Id: AgentTicketStatusView.pm,v 1.3 2005-10-20 21:40:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -46,8 +46,8 @@ sub new {
     # --
     # get params
     # --
-    $Self->{SortBy} = $Self->{ParamObject}->GetParam(Param => 'SortBy') || 'Age';
-    $Self->{Order} = $Self->{ParamObject}->GetParam(Param => 'Order') || 'Up';
+    $Self->{SortBy} = $Self->{ParamObject}->GetParam(Param => 'SortBy') || $Self->{ConfigObject}->Get('Ticket::Frontend::QueueSortBy::Default') || 'Age';
+    $Self->{Order} = $Self->{ParamObject}->GetParam(Param => 'Order') || $Self->{ConfigObject}->Get('Ticket::Frontend::QueueOrder::Default') || 'Up';
     # viewable tickets a page
     $Self->{Limit} = $Self->{ParamObject}->GetParam(Param => 'Limit') || 6000;
 
