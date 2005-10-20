@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CustomerUser.pm - some customer user functions
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerUser.pm,v 1.21 2004-09-04 23:18:17 martin Exp $
+# $Id: CustomerUser.pm,v 1.22 2005-10-20 21:27:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,10 +14,48 @@ package Kernel::System::CustomerUser;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
+=head1 NAME
+
+Kernel::System::CustomerUser - customer user lib
+
+=head1 SYNOPSIS
+
+All customer user functions. E. g. to add and updated user and other functions.
+
+=head1 PUBLIC INTERFACE
+
+=over 4
+
+=cut
+
+=item new()
+
+create a object
+
+  use Kernel::Config;
+  use Kernel::System::Log;
+  use Kernel::System::DB;
+  use Kernel::System::CustomerUser;
+
+  my $ConfigObject = Kernel::Config->new();
+  my $LogObject    = Kernel::System::Log->new(
+      ConfigObject => $ConfigObject,
+  );
+  my $DBObject = Kernel::System::DB->new(
+      ConfigObject => $ConfigObject,
+      LogObject => $LogObject,
+  );
+  my $CustomerUserObject = Kernel::System::CustomerUser->new(
+      ConfigObject => $ConfigObject,
+      LogObject => $LogObject,
+      DBObject => $DBObject,
+  );
+
+=cut
+
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -60,7 +98,15 @@ sub new {
 
     return $Self;
 }
-# --
+
+=item CustomerSourceList()
+
+return customer soruce list
+
+  my %List = $CustomerUserObject->CustomerSourceList();
+
+=cut
+
 sub CustomerSourceList {
     my $Self = shift;
     my %Param = @_;
@@ -72,7 +118,28 @@ sub CustomerSourceList {
     }
     return %Data;
 }
-# --
+
+=item CustomerSearch()
+
+to search users
+
+  my %List = $CustomerUserObject->CustomerSearch(
+      Search => '*some*', # also 'hans+huber' possible
+      ValidID => 1, # not required
+  );
+
+  my %List = $CustomerUserObject->CustomerSearch(
+      UserLogin => '*some*',
+      ValidID => 1, # not required
+  );
+
+  my %List = $CustomerUserObject->CustomerSearch(
+      PostMasterSearch => 'email@example.com',
+      ValidID => 1, # not required
+  );
+
+=cut
+
 sub CustomerSearch {
     my $Self = shift;
     my %Param = @_;
@@ -90,7 +157,17 @@ sub CustomerSearch {
     }
     return %Data;
 }
-# --
+
+=item CustomerUserList()
+
+return a hash with all users
+
+  my %List = $CustomerUserObject->CustomerUserList(
+      Valid => 1, # not required
+  );
+
+=cut
+
 sub CustomerUserList {
     my $Self = shift;
     my %Param = @_;
@@ -103,7 +180,17 @@ sub CustomerUserList {
     }
     return %Data;
 }
-# --
+
+=item CustomerName()
+
+get customer user name
+
+  my $Name = $CustomerUserObject->GetPreferences(
+      UserLogin => 'some-login',
+  );
+
+=cut
+
 sub CustomerName {
     my $Self = shift;
     my %Param = @_;
@@ -117,7 +204,17 @@ sub CustomerName {
     }
     return;
 }
-# --
+
+=item CustomerIDs()
+
+get customer user customer ids
+
+  my @CustomerIDs = $CustomerUserObject->CustomerIDs(
+      User => 'some-login',
+  );
+
+=cut
+
 sub CustomerIDs {
     my $Self = shift;
     my %Param = @_;
@@ -131,7 +228,17 @@ sub CustomerIDs {
     }
     return;
 }
-# --
+
+=item CustomerUserDataGet()
+
+get user data (UserLogin, UserFirstname, UserLastname, UserEmail, ...)
+
+    my %User = $CustomerUserObject->CustomerUserDataGet(
+        User => 'franz',
+    );
+
+=cut
+
 sub CustomerUserDataGet {
     my $Self = shift;
     my %Param = @_;
@@ -151,15 +258,30 @@ sub CustomerUserDataGet {
     }
     return;
 }
-# --
+
+=item CustomerUserAdd()
+
+to add new customer users
+
+  my $UserID = $CustomerUserObject->CustomerUserAdd(
+      Source => 'CustomerUser', # CustomerUser source config
+      UserFirstname => 'Huber',
+      UserLastname => 'Manfred',
+      UserLogin => 'mhuber',
+      UserPassword => 'some-pass', # not required
+      UserEmail => 'email@example.com',
+      ValidID => 1,
+      UserID => 123,
+  );
+
+=cut
+
 sub CustomerUserAdd {
     my $Self = shift;
     my %Param = @_;
     # check data source
     if (!$Param{Source}) {
-#        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Source!");
         $Param{Source} = 'CustomerUser';
-#        return;
     }
     # check if user exists
     my %User = $Self->CustomerUserDataGet(User => $Param{UserLogin});
@@ -171,7 +293,24 @@ sub CustomerUserAdd {
         return $Self->{$Param{Source}}->CustomerUserAdd(@_);
     }
 }
-# --
+
+=item CustomerUserUpdate()
+
+to update customer users
+
+  $CustomerUserObject->CustomerUserUpdate(
+      Source => 'CustomerUser', # CustomerUser source config
+      UserLogin => 'mhuber',
+      UserFirstname => 'Huber',
+      UserLastname => 'Manfred',
+      UserPassword => 'some-pass', # not required
+      UserEmail => 'email@example.com',
+      ValidID => 1,
+      UserID => 123,
+  );
+
+=cut
+
 sub CustomerUserUpdate {
     my $Self = shift;
     my %Param = @_;
@@ -188,7 +327,18 @@ sub CustomerUserUpdate {
     }
     return $Self->{$User{Source}}->CustomerUserUpdate(%Param);
 }
-# --
+
+=item SetPassword()
+
+to set customer users passwords
+
+  $CustomerUserObject->SetPassword(
+      UserLogin => 'some-login',
+      PW => 'some-new-password'
+  );
+
+=cut
+
 sub SetPassword {
     my $Self = shift;
     my %Param = @_;
@@ -205,22 +355,73 @@ sub SetPassword {
     }
     return $Self->{$User{Source}}->SetPassword(%Param);
 }
-# --
+
+=item GenerateRandomPassword()
+
+generate a random password
+
+  my $Password = $CustomerUserObject->GenerateRandomPassword();
+
+  or
+
+  my $Password = $CustomerUserObject->GenerateRandomPassword(
+      Size => 16,
+  );
+
+=cut
+
 sub GenerateRandomPassword {
     my $Self = shift;
     my %Param = @_;
     return $Self->{CustomerUser}->GenerateRandomPassword(@_);
 }
-# --
-sub GetPreferences {
-    my $Self = shift;
-    return $Self->{PreferencesObject}->GetPreferences(@_);
-}
-# --
+
+=item SetPreferences()
+
+set customer user preferences
+
+  $CustomerUserObject->SetPreferences(
+      Key => 'UserComment',
+      Value => 'some comment',
+      UserID => 'some-login',
+  );
+
+=cut
+
 sub SetPreferences {
     my $Self = shift;
     return $Self->{PreferencesObject}->SetPreferences(@_);
 }
-# --
+
+=item GetPreferences()
+
+get customer user preferences
+
+  my %Preferences = $CustomerUserObject->GetPreferences(
+      UserID => 'some-login',
+  );
+
+=cut
+
+sub GetPreferences {
+    my $Self = shift;
+    return $Self->{PreferencesObject}->GetPreferences(@_);
+}
 
 1;
+
+=head1 TERMS AND CONDITIONS
+
+This software is part of the OTRS project (http://otrs.org/).
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (GPL). If you
+did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+
+=cut
+
+=head1 VERSION
+
+$Revision: 1.22 $ $Date: 2005-10-20 21:27:51 $
+
+=cut

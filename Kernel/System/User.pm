@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: User.pm,v 1.48 2005-09-26 05:50:25 martin Exp $
+# $Id: User.pm,v 1.49 2005-10-20 21:27:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,10 +15,48 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.48 $';
+$VERSION = '$Revision: 1.49 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
+=head1 NAME
+
+Kernel::System::User - user lib
+
+=head1 SYNOPSIS
+
+All user functions. E. g. to add and updated user and other functions.
+
+=head1 PUBLIC INTERFACE
+
+=over 4
+
+=cut
+
+=item new()
+
+create a object
+
+  use Kernel::Config;
+  use Kernel::System::Log;
+  use Kernel::System::DB;
+  use Kernel::System::User;
+
+  my $ConfigObject = Kernel::Config->new();
+  my $LogObject    = Kernel::System::Log->new(
+      ConfigObject => $ConfigObject,
+  );
+  my $DBObject = Kernel::System::DB->new(
+      ConfigObject => $ConfigObject,
+      LogObject => $LogObject,
+  );
+  my $UserObject = Kernel::System::User->new(
+      ConfigObject => $ConfigObject,
+      LogObject => $LogObject,
+      DBObject => $DBObject,
+  );
+
+=cut
+
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -26,15 +64,11 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless ($Self, $Type);
-    # --
     # check needed objects
-    # --
     foreach (qw(DBObject ConfigObject LogObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
-    # --
     # get user table
-    # --
     $Self->{UserTable} = $Self->{ConfigObject}->Get('DatabaseUserTable')
       || 'user';
     $Self->{UserTableUserID} = $Self->{ConfigObject}->Get('DatabaseUserTableUserID')
@@ -43,9 +77,7 @@ sub new {
       || 'pw';
     $Self->{UserTableUser} = $Self->{ConfigObject}->Get('DatabaseUserTableUser')
       || 'login';
-    # --
     # load generator customer preferences module
-    # --
     my $GeneratorModule = $Self->{ConfigObject}->Get('User::PreferencesModule')
       || 'Kernel::System::User::Preferences::DB';
     eval "require $GeneratorModule";
@@ -55,7 +87,25 @@ sub new {
 
     return $Self;
 }
-# --
+
+=item GetUserData()
+
+get user data (UserLogin, UserFirstname, UserLastname, UserEmail, ...)
+
+    my %User = $UserObject->GetUserData(
+        UserID => 123,
+        Cached => 1, # not required -> 0|1
+    );
+
+    or
+
+    my %User = $UserObject->GetUserData(
+        User => 'franz',
+        Cached => 1, # not required -> 0|1
+    );
+
+=cut
+
 sub GetUserData {
     my $Self = shift;
     my %Param = @_;
@@ -141,7 +191,23 @@ sub GetUserData {
     # return data
     return (%Data, %Preferences);
 }
-# --
+
+=item UserAdd()
+
+to add new users
+
+  my $UserID = $UserObject->UserAdd(
+      Firstname => 'Huber',
+      Lastname => 'Manfred',
+      Login => 'mhuber',
+      Pw => 'some-pass', # not required
+      Email => 'email@example.com',
+      ValidID => 1,
+      UserID => 123,
+  );
+
+=cut
+
 sub UserAdd {
     my $Self = shift;
     my %Param = @_;
@@ -187,33 +253,50 @@ sub UserAdd {
        " current_timestamp, $Param{UserID})";
 
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
-      # get new user id
-      $SQL = "SELECT $Self->{UserTableUserID} ".
-        " FROM " .
-        " $Self->{UserTable} " .
-        " WHERE " .
-        " $Self->{UserTableUser} = '$Param{Login}'";
-      my $UserID = '';
-      $Self->{DBObject}->Prepare(SQL => $SQL);
-      while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        $UserID = $RowTmp[0];
-      }
-      # log notice
-      $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "User: '$Param{Login}' ID: '$UserID' created successfully ($Param{UserID})!",
-      );
-      # set password
-      $Self->SetPassword(UserLogin => $Param{Login}, PW => $Param{Pw});
-      # set email address
-      $Self->SetPreferences(UserID => $UserID, Key => 'UserEmail', Value => $Param{Email});
-      return $UserID;
+        # get new user id
+        $SQL = "SELECT $Self->{UserTableUserID} ".
+            " FROM " .
+            " $Self->{UserTable} " .
+            " WHERE " .
+            " $Self->{UserTableUser} = '$Param{Login}'";
+        my $UserID = '';
+        $Self->{DBObject}->Prepare(SQL => $SQL);
+        while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+            $UserID = $Row[0];
+        }
+        # log notice
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message => "User: '$Param{Login}' ID: '$UserID' created successfully ($Param{UserID})!",
+        );
+        # set password
+        $Self->SetPassword(UserLogin => $Param{Login}, PW => $Param{Pw});
+        # set email address
+        $Self->SetPreferences(UserID => $UserID, Key => 'UserEmail', Value => $Param{Email});
+        return $UserID;
     }
     else {
         return;
     }
 }
-# --
+
+=item UserUpdate()
+
+to update users
+
+  $UserObject->UserUpdate(
+      ID => 4321,
+      Firstname => 'Huber',
+      Lastname => 'Manfred',
+      Login => 'mhuber',
+      Pw => 'some-pass', # not required
+      Email => 'email@example.com',
+      ValidID => 1,
+      UserID => 123,
+  );
+
+=cut
+
 sub UserUpdate {
     my $Self = shift;
     my %Param = @_;
@@ -268,6 +351,28 @@ sub UserUpdate {
         return;
     }
 }
+
+=item UserSearch()
+
+to search users
+
+  my %List = $UserObject->UserSearch(
+      Search => '*some*', # also 'hans+huber' possible
+      ValidID => 1, # not required
+  );
+
+  my %List = $UserObject->UserSearch(
+      UserLogin => '*some*',
+      ValidID => 1, # not required
+  );
+
+  my %List = $UserObject->UserSearch(
+      PostMasterSearch => 'email@example.com',
+      ValidID => 1, # not required
+  );
+
+=cut
+
 sub UserSearch {
     my $Self = shift;
     my %Param = @_;
@@ -351,7 +456,18 @@ sub UserSearch {
     }
     return %Users;
 }
-# --
+
+=item SetPassword()
+
+to set users passwords
+
+  $UserObject->SetPassword(
+      UserLogin => 'some-login',
+      PW => 'some-new-password'
+  );
+
+=cut
+
 sub SetPassword {
     my $Self = shift;
     my %Param = @_;
@@ -405,8 +521,8 @@ sub SetPassword {
     )) {
         # log notice
         $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "User: '$Param{UserLogin}' changed password successfully!",
+            Priority => 'notice',
+            Message => "User: '$Param{UserLogin}' changed password successfully!",
         );
         return 1;
     }
@@ -414,7 +530,7 @@ sub SetPassword {
         return;
     }
 }
-# --
+# just for compat. - not longer used
 sub GetUserIdByName {
     my $Self = shift;
     my %Param = @_;
@@ -443,17 +559,17 @@ sub GetUserIdByName {
     }
     # return
     if ($ID) {
-      return $ID;
+        return $ID;
     }
     else {
-      $Self->{LogObject}->Log(
-        Priority => 'error',
-        Message => "No UserID found with User $Param{User}!",
-      );
-      return;
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "No UserID found with User $Param{User}!",
+        );
+        return;
     }
 }
-# --
+# just for compat. - not longer used
 sub GetUserByID {
     my $Self = shift;
     my %Param = @_;
@@ -462,6 +578,10 @@ sub GetUserByID {
     if (!$Param{UserID}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserID!");
         return;
+    }
+    # db quote
+    foreach (keys %Param) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     # build sql query
     my $SQL = sprintf (
@@ -477,17 +597,56 @@ sub GetUserByID {
     }
     # return
     if ($User) {
-      return $User;
+        return $User;
     }
     else {
-      $Self->{LogObject}->Log(
-        Priority => 'error',
-        Message => "No User found with ID $Param{UserID}!",
-      );
-      return;
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "No User found with ID $Param{UserID}!",
+        );
+        return;
     }
 }
-# --
+
+=item UserName()
+
+get user name
+
+  my $Name = $UserObject->UserName(
+      UserLogin => 'some-login',
+  );
+
+  or
+
+  my $Name = $UserObject->UserName(
+      UserID => 123,
+  );
+
+=cut
+
+sub UserName {
+    my $Self = shift;
+    my %Param = @_;
+    my %User = $Self->GetUserData(%Param);
+    if (%User) {
+        return "$User{UserFirstname} $User{UserLastname}";
+    }
+    else {
+        return;
+    }
+}
+
+=item UserList()
+
+return a hash with all users
+
+  my %List = $UserObject->UserList(
+      Type => 'Short', # Short|Long
+      Valid => 1, # not required
+  );
+
+=cut
+
 sub UserList {
     my $Self = shift;
     my %Param = @_;
@@ -510,7 +669,21 @@ sub UserList {
     );
     return %Users;
 }
-# --
+
+=item GenerateRandomPassword()
+
+generate a random password
+
+  my $Password = $UserObject->GenerateRandomPassword();
+
+  or
+
+  my $Password = $UserObject->GenerateRandomPassword(
+      Size => 16,
+  );
+
+=cut
+
 sub GenerateRandomPassword {
     my $Self = shift;
     my %Param = @_;
@@ -533,21 +706,69 @@ sub GenerateRandomPassword {
     # Return the password.
     return $Password;
 }
-# --
+
+=item SetPreferences()
+
+set user preferences
+
+  $UserObject->SetPreferences(
+      Key => 'UserComment',
+      Value => 'some comment',
+      UserID => 123,
+  );
+
+=cut
+
 sub SetPreferences {
     my $Self = shift;
     return $Self->{PreferencesObject}->SetPreferences(@_);
 }
-# --
+
+=item GetPreferences()
+
+get user preferences
+
+  my %Preferences = $UserObject->GetPreferences(
+      UserID => 123,
+  );
+
+=cut
+
 sub GetPreferences {
     my $Self = shift;
     return $Self->{PreferencesObject}->GetPreferences(@_);
 }
-# --
+
+=item SearchPreferences()
+
+search in user preferences
+
+  my %UserList = $Self->SearchPreferences(
+      Key => 'UserEmail',
+      Value => 'email@example.com',
+  );
+
+=cut
+
 sub SearchPreferences {
     my $Self = shift;
     return $Self->{PreferencesObject}->SearchPreferences(@_);
 }
-# --
 
 1;
+
+=head1 TERMS AND CONDITIONS
+
+This software is part of the OTRS project (http://otrs.org/).
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (GPL). If you
+did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+
+=cut
+
+=head1 VERSION
+
+$Revision: 1.49 $ $Date: 2005-10-20 21:27:51 $
+
+=cut
