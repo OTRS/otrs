@@ -2,16 +2,21 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.200 2005-10-19 07:28:08 cs Exp $
+# $Id: CHANGES,v 1.201 2005-10-20 21:43:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS head
- - (2005/10/18) sortfunction for hashes and array in adminsysconfig
 
-2.0.4 (2005/10/17)
+2.0.4 (2005/10/??)
+ - (2005/10/20) improved html of admin auto responses <-> queue relation
+ - (2005/10/20) fixed unlock of closed bulk-action tickets
+ - (2005/10/20) fixed calendar lookup in admin generic agent time
+    selection
+ - (2005/10/18) added sortfunction for hashes and array in admin interface
+    -> SysConfig
  - (2005/10/17) fixed bug #792 - GPG 1.4.1 is no handled correct
  - (2005/10/17) fixed missing db quoting in Kernel/System/Auth/DB.pm
  - (2005/10/15) small rework of Kernel/Language/de.pm with improved wording
