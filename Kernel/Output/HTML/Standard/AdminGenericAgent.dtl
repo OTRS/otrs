@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminGenericAgent.dtl,v 1.15 2005-09-18 13:35:00 martin Exp $
+# $Id: AdminGenericAgent.dtl,v 1.16 2005-10-20 21:31:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -101,8 +101,9 @@
   <td colspan="2" align="center" class="mainbody">
 
 <br>
-<form action="$Env{"CGIHandle"}" method="get">
-<input type="hidden" name="Action" value="AdminGenericAgent">
+
+<form action="$Env{"CGIHandle"}" method="post" name="compose">
+<input type="hidden" name="Action" value="$Env{"Action"}">
 <input type="hidden" name="Subaction" value="Search">
 <input type="hidden" name="ScheduleLastRun" value="$QData{"ScheduleLastRun"}">
 
