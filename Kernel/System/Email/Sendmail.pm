@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Email/Sendmail.pm - the global email send module
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Sendmail.pm,v 1.15 2004-12-23 21:10:09 martin Exp $
+# $Id: Sendmail.pm,v 1.16 2005-10-20 22:21:29 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Email::Sendmail;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -64,6 +64,9 @@ sub Send {
     # send mail
     if (open( MAIL, "| $Self->{Sendmail} $Arg")) {
         # set handle to binmode if utf-8 is used
+        if ($Self->{ConfigObject}->Get('DefaultCharset') =~ /^utf(-8|8)$/i) {
+            binmode MAIL, ":utf8";
+        }
         print MAIL ${$Param{Header}};
         print MAIL "\n";
         print MAIL ${$Param{Body}};
