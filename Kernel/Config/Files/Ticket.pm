@@ -285,6 +285,21 @@
     # default move next state
     $Self->{'Ticket::DefaultNextMoveStateType'} = ['open', 'closed'];
 
+    # Ticket::Frontend::QueueSortBy::Default
+    # (Queue sort by default.)
+    $Self->{"Ticket::Frontend::QueueSortBy::Default"} = 'Age';
+
+    # Ticket::Frontend::QueueOrder::Default
+    # (Queue order default.)
+    $Self->{"Ticket::Frontend::QueueOrder::Default"} = 'Up';
+
+    # Ticket::Frontend::MailboxSortBy::Default
+    # (Mailbox sort by default.)
+    $Self->{"Ticket::Frontend::MailboxSortBy::Default"} = 'CreateTime';
+
+    # Ticket::Frontend::MailboxOrder::Default
+    # (Mailbox order default.)
+    $Self->{"Ticket::Frontend::MailboxOrder::Default"} = 'Up';
 
     # Ticket::Frontend::StatusView
     # (shows all open tickets)
@@ -1464,7 +1479,7 @@ $Data{"Signature"}
     };
     $Self->{'Frontend::Module'}->{'AgentTicketBulk'} = {
         Description => 'Ticket bulk module',
-        Title => 'Bulk Action',
+        Title => 'Bulk-Action',
         NavBarName => 'Ticket',
     };
 
@@ -1507,7 +1522,7 @@ $Data{"Signature"}
     $Self->{'Frontend::Module'}->{'AdminAutoResponse'} = {
         Group => ['admin'],
         Description => 'Admin',
-        Title => 'Auto response change',
+        Title => 'Auto Responses',
         NavBarName => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',

@@ -148,7 +148,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.67 2005-09-28 09:49:37 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.68 2005-10-20 21:39:44 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifyer for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z.B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -918,6 +918,52 @@ TimeWorkingHours
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::QueueSortBy::Default" Required="1" Valid="1">
+        <Description Lang="en">Queue sort by default.</Description>
+        <Description Lang="de">Standard Sortierung der Queue.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
+        <Setting>
+            <Option SelectedID="Age">
+                <Item Key="CreateTime">CreateTime</Item>
+                <Item Key="Age">Age</Item>
+                <Item Key="Ticket">Ticket</Item>
+                <Item Key="Subject">Subject</Item>
+                <Item Key="Queue">Queue</Item>
+                <Item Key="Priority">Priority</Item>
+                <Item Key="TicketFreeTime1">TicketFreeTime1</Item>
+                <Item Key="TicketFreeTime2">TicketFreeTime2</Item>
+                <Item Key="TicketFreeKey1">TicketFreeKey1</Item>
+                <Item Key="TicketFreeKey2">TicketFreeKey2</Item>
+                <Item Key="TicketFreeKey3">TicketFreeKey3</Item>
+                <Item Key="TicketFreeKey4">TicketFreeKey4</Item>
+                <Item Key="TicketFreeKey5">TicketFreeKey5</Item>
+                <Item Key="TicketFreeKey6">TicketFreeKey6</Item>
+                <Item Key="TicketFreeKey7">TicketFreeKey7</Item>
+                <Item Key="TicketFreeKey8">TicketFreeKey8</Item>
+                <Item Key="TicketFreeText1">TicketFreeText1</Item>
+                <Item Key="TicketFreeText2">TicketFreeText2</Item>
+                <Item Key="TicketFreeText3">TicketFreeText3</Item>
+                <Item Key="TicketFreeText4">TicketFreeText4</Item>
+                <Item Key="TicketFreeText5">TicketFreeText5</Item>
+                <Item Key="TicketFreeText6">TicketFreeText6</Item>
+                <Item Key="TicketFreeText7">TicketFreeText7</Item>
+                <Item Key="TicketFreeText8">TicketFreeText8</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::QueueOrder::Default" Required="1" Valid="1">
+        <Description Lang="en">Queue order default.</Description>
+        <Description Lang="de">Standard Reihenfolge der Queue.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
+        <Setting>
+            <Option SelectedID="Down">
+                <Item Key="Down">Down</Item>
+                <Item Key="Up">Up</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AccountTime" Required="1" Valid="1">
         <Description Lang="en">Aktivate time accounting.</Description>
         <Description Lang="de">Aktivieren der Zeiterfassung.</Description>
@@ -1059,6 +1105,52 @@ TimeWorkingHours
             <String Regex="">10</String>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::MailboxSortBy::Default" Required="1" Valid="1">
+        <Description Lang="en">Mailbox sort by default.</Description>
+        <Description Lang="de">Standard Sortierung der Mailbox.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewMainbox</SubGroup>
+        <Setting>
+            <Option SelectedID="CreateTime">
+                <Item Key="CreateTime">CreateTime</Item>
+                <Item Key="Age">Age</Item>
+                <Item Key="Ticket">Ticket</Item>
+                <Item Key="Subject">Subject</Item>
+                <Item Key="Queue">Queue</Item>
+                <Item Key="Priority">Priority</Item>
+                <Item Key="TicketFreeTime1">TicketFreeTime1</Item>
+                <Item Key="TicketFreeTime2">TicketFreeTime2</Item>
+                <Item Key="TicketFreeKey1">TicketFreeKey1</Item>
+                <Item Key="TicketFreeKey2">TicketFreeKey2</Item>
+                <Item Key="TicketFreeKey3">TicketFreeKey3</Item>
+                <Item Key="TicketFreeKey4">TicketFreeKey4</Item>
+                <Item Key="TicketFreeKey5">TicketFreeKey5</Item>
+                <Item Key="TicketFreeKey6">TicketFreeKey6</Item>
+                <Item Key="TicketFreeKey7">TicketFreeKey7</Item>
+                <Item Key="TicketFreeKey8">TicketFreeKey8</Item>
+                <Item Key="TicketFreeText1">TicketFreeText1</Item>
+                <Item Key="TicketFreeText2">TicketFreeText2</Item>
+                <Item Key="TicketFreeText3">TicketFreeText3</Item>
+                <Item Key="TicketFreeText4">TicketFreeText4</Item>
+                <Item Key="TicketFreeText5">TicketFreeText5</Item>
+                <Item Key="TicketFreeText6">TicketFreeText6</Item>
+                <Item Key="TicketFreeText7">TicketFreeText7</Item>
+                <Item Key="TicketFreeText8">TicketFreeText8</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::MailboxOrder::Default" Required="1" Valid="1">
+        <Description Lang="en">Mailbox order default.</Description>
+        <Description Lang="de">Standard Reihenfolge der Mailbox.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewMailbox</SubGroup>
+        <Setting>
+            <Option SelectedID="Down">
+                <Item Key="Down">Down</Item>
+                <Item Key="Up">Up</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::SortBy::Default" Required="1" Valid="1">
         <Description Lang="en">Search result sort by default.</Description>
         <Description Lang="de">Standard Sortierung beim Suchergebnissen.</Description>
@@ -1066,6 +1158,7 @@ TimeWorkingHours
         <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
         <Setting>
             <Option SelectedID="Age">
+                <Item Key="CreateTime">CreateTime</Item>
                 <Item Key="Age">Age</Item>
                 <Item Key="Ticket">Ticket</Item>
                 <Item Key="Subject">Subject</Item>
@@ -3598,7 +3691,7 @@ $Data{"Signature"}
         <Setting>
             <FrontendModuleReg>
                 <Description>Ticket bulk module</Description>
-                <Title>Bulk Action</Title>
+                <Title>Bulk-Action</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
@@ -3672,7 +3765,7 @@ $Data{"Signature"}
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title>Auto response change</Title>
+                <Title>Auto Responses</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
