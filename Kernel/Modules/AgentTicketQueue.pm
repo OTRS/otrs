@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketQueue.pm,v 1.6 2005-09-18 13:35:00 martin Exp $
+# $Id: AgentTicketQueue.pm,v 1.7 2005-10-20 21:37:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -171,6 +171,36 @@ sub Run {
     # get data (viewable tickets...)
     # --
     my @ViewableTickets = ();
+    my $SortBy = $Self->{ConfigObject}->Get('Ticket::Frontend::QueueSortBy::Default') || 'Age';
+    my %SortOptions = (
+        Owner => 'st.user_id',
+        CustomerID => 'st.customer_id',
+        State => 'st.ticket_state_id',
+        Ticket => 'st.tn',
+        Title => 'st.title',
+        Queue => 'sq.name',
+        Priority => 'st.ticket_priority_id',
+        Age => 'st.create_time_unix',
+        TicketFreeTime1 => 'st.freetime1',
+        TicketFreeTime2 => 'st.freetime2',
+        TicketFreeKey1 => 'st.freekey1',
+        TicketFreeText1 => 'st.freetext1',
+        TicketFreeKey2 => 'st.freekey2',
+        TicketFreeText2 => 'st.freetext2',
+        TicketFreeKey3 => 'st.freekey3',
+        TicketFreeText3 => 'st.freetext3',
+        TicketFreeKey4 => 'st.freekey4',
+        TicketFreeText4 => 'st.freetext4',
+        TicketFreeKey5 => 'st.freekey5',
+        TicketFreeText5 => 'st.freetext5',
+        TicketFreeKey6 => 'st.freekey6',
+        TicketFreeText6 => 'st.freetext6',
+        TicketFreeKey7 => 'st.freekey7',
+        TicketFreeText7 => 'st.freetext7',
+        TicketFreeKey8 => 'st.freekey8',
+        TicketFreeText8 => 'st.freetext8',
+    );
+
     my $Order = $Self->{ConfigObject}->Get('Ticket::Frontend::QueueSortDefault') || 'ASC';
     if (@ViewableQueueIDs && @GroupIDs) {
         # if we have only one queue, check if there
@@ -193,10 +223,18 @@ sub Run {
           $SQL .= " st.ticket_lock_id in ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) ".
           " AND ";
         }
-        $SQL .= " st.queue_id in ( ${\(join ', ', @ViewableQueueIDs)} ) ".
-          " AND ".
+        $SQL .= " st.queue_id in ( ";
+        foreach (0..$#ViewableQueueIDs) {
+            if ($_ > 0) {
+                $SQL .= ",";
+            }
+            $SQL .= $Self->{DBObject}->Quote($_);
+        }
+        $SQL .= " ) AND ".
           " sq.group_id IN ( ${\(join ', ', @GroupIDs)} ) ".
-          " ORDER BY st.ticket_priority_id DESC, st.create_time_unix $Order";
+          " ORDER BY st.ticket_priority_id DESC, $SortOptions{$SortBy} $Order";
+#          " ORDER BY st.ticket_priority_id DESC, st.freetime1 ASC";
+#          " ORDER BY st.ticket_priority_id DESC, st.create_time_unix $Order";
 
           $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{Limit});
           my $Counter = 0;
