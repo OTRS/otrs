@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueueAutoResponse.pm - to add/update/delete QueueAutoResponses
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueueAutoResponse.pm,v 1.15 2005-03-27 11:50:50 martin Exp $
+# $Id: AdminQueueAutoResponse.pm,v 1.16 2005-10-20 21:22:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminQueueAutoResponse;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -48,8 +48,6 @@ sub Run {
     $Param{ID} = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
     $Param{ID} = $Self->{DBObject}->Quote($Param{ID});
 
-    $Param{NextScreen} = 'AdminQueueAutoResponse';
-
     if ($Self->{Subaction} eq 'Change') {
         $Output .= $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
@@ -64,7 +62,14 @@ sub Run {
             What => 'id, name',
             Where => "id = $Param{ID}",
         );
-
+        $Self->{LayoutObject}->Block(
+            Name => 'Selection',
+            Data => {
+                Queue => $QueueData{$Param{ID}},
+                %QueueData,
+                %Param,
+            }
+        );
         foreach (keys %TypeResponsesData) {
             my %Data = $Self->{DBObject}->GetTableData(
                 Table => 'auto_response ar, auto_response_type art',
@@ -77,18 +82,25 @@ sub Run {
                 Where => " art.id = $_ AND ar.type_id = art.id AND qar.queue_id = $Param{ID} " .
 					"AND qar.auto_response_id = ar.id",
             );
-            $Param{DataStrg} .= $Self->_MaskHits(
-                Type => $TypeResponsesData{$_},
-		TypeID => $_,
+            $Param{DataStrg} =  $Self->{LayoutObject}->OptionStrgHashRef(
+                Name => 'IDs',
+                SelectedID => $SelectedID || '',
                 Data => \%Data,
-		SelectedID => $SelectedID,
+                Size => 3,
+                PossibleNone => 1,
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'ItemList',
+                Data => {
+                    Type => $TypeResponsesData{$_},
+                    TypeID => $_,
+                    %Param,
+                }
             );
         }
-	# end with form
-	$Output .= $Self->_Mask(
-            Queue => $QueueData{$Param{ID}},
-            QueueID => $Param{ID},
-            %Param, 
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminQueueAutoResponseForm',
+            Data => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
     }
@@ -110,7 +122,7 @@ sub Run {
               $Self->{DBObject}->Do(SQL => $SQL);
           }
         }
-        $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=$Param{NextScreen}");
+        return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}");
     }
     # else ! print form
     else {
@@ -121,6 +133,13 @@ sub Run {
             Table => 'queue',
             What => 'id, name',
             Valid => 1,
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'Overview',
+            Data => {
+                %QueueData,
+                %Param,
+            }
         );
 
         foreach (sort {$QueueData{$a} cmp $QueueData{$b}} keys %QueueData) {
@@ -133,79 +152,45 @@ sub Run {
             " ar.id = qar.auto_response_id " .
             " AND ".
             " qar.queue_id = $_ ";
-            
             $Self->{DBObject}->Prepare(SQL => $SQL);
-            while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
+            while (my @Row = $Self->{DBObject}->FetchrowArray()) {
                 my %AutoResponseData;
-                $AutoResponseData{Name}	= $RowTmp[0];
-                $AutoResponseData{Type} = $RowTmp[1];
-                $AutoResponseData{ID} = $RowTmp[2];
+                $AutoResponseData{Name}	= $Row[0];
+                $AutoResponseData{Type} = $Row[1];
+                $AutoResponseData{ID} = $Row[2];
                 push (@Data, \%AutoResponseData);
             }
-            $Output .= $Self->_MaskQueueAutoResponseTable(
-                Queue => $QueueData{$_},
-                QueueID => $_,
-                Data => \@Data,
+            $Self->{LayoutObject}->Block(
+                Name => 'Item',
+                Data => {
+                    Queue => $QueueData{$_},
+                    QueueID => $_,
+                    %QueueData,
+                    %Param,
+                }
             );
+            foreach my $ResponseData (@Data){
+                $Self->{LayoutObject}->Block(
+                    Name => 'ItemList',
+                    Data => $ResponseData,
+                );
+            }
+            if (@Data == 0) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'ItemNo',
+                    Data => {
+                        %Param,
+                    }
+                );
+            }
         }
-        
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminQueueAutoResponseForm',
+            Data => \%Param,
+        );
         $Output .= $Self->{LayoutObject}->Footer();
     }
     return $Output;
-}
-# --
-sub _Mask {
-    my $Self = shift;
-    my %Param = @_;
-
-    return $Self->{LayoutObject}->Output(TemplateFile => 'AdminQueueAutoResponseForm', Data => \%Param);
-}
-# --
-sub _MaskHits {
-    my $Self = shift;
-    my %Param = @_;
-    my $SessionID = $Self->{SessionID} || '';
-    my $Type = $Param{Type} || '?';
-    my $Data = $Param{Data};
-    my $SelectedID = $Param{SelectedID} || -1;
-    my $Output = '';
-($Output .= <<EOF);
-<BR>
-  <B>${\$Self->{LayoutObject}->{LanguageObject}->Get("Change")} 
-    "${\$Self->{LayoutObject}->{LanguageObject}->Get($Type)}" 
-    ${\$Self->{LayoutObject}->{LanguageObject}->Get("settings")}</B>: 
-  <BR>
-
-EOF
-
-    $Output .= $Self->{LayoutObject}->OptionStrgHashRef(
-        Name => 'IDs',
-        SelectedID => $SelectedID,
-        Data => $Data,
-        Size => 3,
-        PossibleNone => 1,
-    );
-
-    return $Output;
-}
-# --
-sub _MaskQueueAutoResponseTable {
-    my $Self = shift;
-    my %Param = @_;
-    my $DataTmp = $Param{Data};
-    my @Data = @$DataTmp;
-    my $BaseLink = $Self->{LayoutObject}->{Baselink} . "Action=AdminQueueAutoResponse&";
-    $Param{DataStrg} = '<br>';
-    
-    foreach (@Data){
-      my %ResponseData = %$_;
-      $Param{DataStrg} .= "<B>*</B> <A HREF=\"$Self->{LayoutObject}->{Baselink}Action=AdminAutoResponse&Subaction=" .
-        "Change&ID=$ResponseData{ID}\">$ResponseData{Name}</A> ($ResponseData{Type}) <BR>";
-    }
-    if (@Data == 0) {
-      $Param{DataStrg}.= '$Text{"Sorry"}, <FONT COLOR="RED">$Text{"no"}</FONT> $Text{"auto responses set"}!';
-    }
-    return $Self->{LayoutObject}->Output(TemplateFile => 'AdminQueueAutoResponseTable', Data => \%Param);
 }
 # --
 1;
