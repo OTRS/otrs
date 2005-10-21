@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/FollowUp.pm - the sub part of PostMaster.pm
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FollowUp.pm,v 1.38 2005-07-08 10:35:12 martin Exp $
+# $Id: FollowUp.pm,v 1.39 2005-10-21 15:46:21 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::FollowUp;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.39 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -56,20 +56,49 @@ sub Run {
     # get ticket data
     my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Param{TicketID});
 
-	my $Comment = $Param{Comment} || '';
+    my $Comment = $Param{Comment} || '';
     my $Lock = $Param{Lock} || '';
     my $AutoResponseType = $Param{AutoResponseType} || '';
 
-    # set lock (if ticket should be locked on follow up)
-    if ($Lock && $Ticket{StateType} =~ /^close/i) {
-        $Self->{TicketObject}->LockSet(
-           TicketID => $Param{TicketID},
-           Lock => 'lock',
-           UserID => => $Param{InmailUserID},
-        );
-        if ($Self->{Debug} > 0) {
-            print "Lock: lock\n";
+    # Check if owner of ticket is still valid
+    my $UserTable = $Self->{ConfigObject}->Get('DatabaseUserTable') || 'system_user';
+    my $Owner = $Self->{ConfigObject}->Get('DatabaseUserTableUserID') || '';
+    my $ValidID = 1;
+    my $SQL = "SELECT id,valid_id FROM ".$UserTable." WHERE id = ".$Ticket{UserID}.";";
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $Owner = $Row[0];
+        $ValidID = $Row[1];
+    }
+    # check data
+    if (($Owner == $Ticket{UserID}) && $ValidID == 1) {
+        # set lock (if ticket should be locked on follow up)
+        if ($Lock && $Ticket{StateType} =~ /^close/i) {
+            $Self->{TicketObject}->LockSet(
+                TicketID => $Param{TicketID},
+                Lock => 'lock',
+                UserID => => $Param{InmailUserID},
+            );
+            if ($Self->{Debug} > 0) {
+                print "Lock: lock\n";
+            }
+            $Self->{LogObject}->Log(
+                Priority => 'notice',
+                Message => "Ticket [$Param{Tn}] still locked",
+            );
         }
+    }
+    else {
+        # Unlock ticket, because current user is set to invalid
+        $Self->{TicketObject}->LockSet(
+            TicketID => $Param{TicketID},
+            Lock => 'unlock',
+            UserID => => $Param{InmailUserID},
+        );
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message => "Ticket [$Param{Tn}] unlocked, current owner ist invalid!",
+        );
     }
     # set state
     my $State = $Self->{ConfigObject}->Get('PostmasterFollowUpState') || 'open';
@@ -202,7 +231,7 @@ sub Run {
     $Self->{LogObject}->Log(
         Priority => 'notice',
         Message => "FollowUp Article to Ticket [$Param{Tn}] created ".
-          "(TicketID=$Param{TicketID}, ArticleID=$ArticleID). $Comment"
+          "(TicketID=$Param{TicketID}, ArticleID=$ArticleID). $Comment,"
     );
 
     return 1;
