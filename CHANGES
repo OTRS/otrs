@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.202 2005-10-20 22:22:46 cs Exp $
+# $Id: CHANGES,v 1.203 2005-10-22 11:07:09 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,6 +11,8 @@
 CVS head
 
 2.0.4 (2005/10/??)
+
+ - (2005/10/21) fixed bug 948 - Invalid agents should no longer get follow-ups
  - (2005/10/21) fixed bug 957 - Got "no ArticleID" error when viewing queues (p1 of 5)
  - (2005/10/20) improved html of admin auto responses <-> queue relation
  - (2005/10/20) fixed unlock of closed bulk-action tickets
