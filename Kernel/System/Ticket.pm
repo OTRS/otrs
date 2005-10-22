@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.188 2005-10-17 20:29:33 martin Exp $
+# $Id: Ticket.pm,v 1.189 2005-10-22 16:09:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.188 $';
+$VERSION = '$Revision: 1.189 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -2534,18 +2534,21 @@ sub LockSet {
             my $To = '';
             my $Notification = defined $Param{Notification} ? $Param{Notification} : 1;
             if ($TicketData{UserID} ne $Param{UserID} && $Notification) {
-              # get user data of owner
-              my %Preferences = $Self->{UserObject}->GetUserData(UserID => $TicketData{UserID});
-              if ($Preferences{UserSendLockTimeoutNotification}) {
-                  # send
-                  $Self->SendAgentNotification(
-                      Type => 'LockTimeout',
-                      UserData => \%Preferences,
-                      CustomerMessageParams => {},
-                      TicketID => $Param{TicketID},
-                      UserID => $Param{UserID},
-                  );
-              }
+                # get user data of owner
+                my %Preferences = $Self->{UserObject}->GetUserData(
+                    UserID => $TicketData{UserID},
+                    Valid => 1,
+                );
+                if ($Preferences{UserSendLockTimeoutNotification}) {
+                    # send
+                    $Self->SendAgentNotification(
+                        Type => 'LockTimeout',
+                        UserData => \%Preferences,
+                        CustomerMessageParams => {},
+                        TicketID => $Param{TicketID},
+                        UserID => $Param{UserID},
+                    );
+                }
             }
         }
         # should I unlock a ticket after move?
@@ -4131,6 +4134,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.188 $ $Date: 2005-10-17 20:29:33 $
+$Revision: 1.189 $ $Date: 2005-10-22 16:09:51 $
 
 =cut
