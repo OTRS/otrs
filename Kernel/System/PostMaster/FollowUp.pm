@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/FollowUp.pm - the sub part of PostMaster.pm
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FollowUp.pm,v 1.39 2005-10-21 15:46:21 cs Exp $
+# $Id: FollowUp.pm,v 1.40 2005-10-22 07:54:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,9 +12,10 @@
 package Kernel::System::PostMaster::FollowUp;
 
 use strict;
+use Kernel::System::User;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -36,6 +37,8 @@ sub new {
     foreach (qw(DBObject ConfigObject TicketObject LogObject ParseObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
+
+    $Self->{UserObject} = Kernel::System::User->new(%Param);
 
     return $Self;
 }
@@ -61,17 +64,11 @@ sub Run {
     my $AutoResponseType = $Param{AutoResponseType} || '';
 
     # Check if owner of ticket is still valid
-    my $UserTable = $Self->{ConfigObject}->Get('DatabaseUserTable') || 'system_user';
-    my $Owner = $Self->{ConfigObject}->Get('DatabaseUserTableUserID') || '';
-    my $ValidID = 1;
-    my $SQL = "SELECT id,valid_id FROM ".$UserTable." WHERE id = ".$Ticket{UserID}.";";
-    $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-        $Owner = $Row[0];
-        $ValidID = $Row[1];
-    }
+    my %UserInfo = $Self->{UserObject}->GetUserData(
+        UserID => $Ticket{UserID},
+    );
     # check data
-    if (($Owner == $Ticket{UserID}) && $ValidID == 1) {
+    if ($UserInfo{ValidID} eq 1) {
         # set lock (if ticket should be locked on follow up)
         if ($Lock && $Ticket{StateType} =~ /^close/i) {
             $Self->{TicketObject}->LockSet(
@@ -81,11 +78,11 @@ sub Run {
             );
             if ($Self->{Debug} > 0) {
                 print "Lock: lock\n";
+                $Self->{LogObject}->Log(
+                    Priority => 'notice',
+                    Message => "Ticket [$Param{Tn}] still locked",
+                );
             }
-            $Self->{LogObject}->Log(
-                Priority => 'notice',
-                Message => "Ticket [$Param{Tn}] still locked",
-            );
         }
     }
     else {
@@ -97,7 +94,7 @@ sub Run {
         );
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message => "Ticket [$Param{Tn}] unlocked, current owner ist invalid!",
+            Message => "Ticket [$Param{Tn}] unlocked, current owner is invalid!",
         );
     }
     # set state
