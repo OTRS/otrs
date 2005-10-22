@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.220 2005-10-20 21:36:35 martin Exp $
+# $Id: Defaults.pm,v 1.221 2005-10-22 16:13:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.220 $';
+$VERSION = '$Revision: 1.221 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -665,7 +665,7 @@ sub LoadDefaults {
     #$ENV{HOME} = '/var/lib/wwwrun';
     $Self->{'SMIME::Bin'} = '/usr/bin/openssl';
 #    $Self->{'SMIME::CertPath'} = '/etc/ssl/certs';
-#    $Self->{'SMIME::PrivatePath'} = '/etc/ssl/private/private';
+#    $Self->{'SMIME::PrivatePath'} = '/etc/ssl/private';
 
     # --------------------------------------------------- #
     # system permissions
@@ -1740,6 +1740,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.220 $ $Date: 2005-10-20 21:36:35 $
+$Revision: 1.221 $ $Date: 2005-10-22 16:13:02 $
 
 =cut
