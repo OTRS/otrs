@@ -1,8 +1,8 @@
 # --
 # AdminQueueForm.dtl - provides HTML form for AdminQueue
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueueForm.dtl,v 1.24 2004-10-18 19:23:05 martin Exp $
+# $Id: AdminQueueForm.dtl,v 1.25 2005-10-22 07:55:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -78,13 +78,13 @@
     </tr>
     <tr>
       <td class="contentkey">$Text{"Unlock timeout"} ($Text{"minutes"}): </td>
-      <td class="contentvalue"> <input type="text" name="UnlockTimeout" value="$QData{"UnlockTimeout"}" size="10" maxlength="10"> $Text{"0 = no unlock"} - 1 $Text{"day"} = 1440 $Text{"minutes"}</td>
+      <td class="contentvalue"> <input type="text" name="UnlockTimeout" value="$QData{"UnlockTimeout"}" size="10" maxlength="10"> $Text{"0 = no unlock"} - 24 $Text{"hours"} = 1440 $Text{"minutes"}</td>
     </tr>
 </td>
     </tr>
     <tr>
       <td class="contentkey">$Text{"Escalation time"} ($Text{"minutes"}): </td>
-      <td class="contentvalue"> <input type="text" name="EscalationTime" value="$QData{"EscalationTime"}" size="10" maxlength="10"> $Text{"0 = no escalation"} - 1 $Text{"day"} = 1440 $Text{"minutes"}</td>
+      <td class="contentvalue"> <input type="text" name="EscalationTime" value="$QData{"EscalationTime"}" size="10" maxlength="10"> $Text{"0 = no escalation"} - 24 $Text{"hours"} = 1440 $Text{"minutes"}</td>
     </tr>
     <tr>
       <td class="contentkey">$Text{"Follow up Option"}: </td>
