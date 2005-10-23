@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketQueue.pm,v 1.7 2005-10-20 21:37:34 martin Exp $
+# $Id: AgentTicketQueue.pm,v 1.8 2005-10-23 23:49:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -228,14 +228,13 @@ sub Run {
             if ($_ > 0) {
                 $SQL .= ",";
             }
-            $SQL .= $Self->{DBObject}->Quote($_);
+            $SQL .= $Self->{DBObject}->Quote($ViewableQueueIDs[$_]);
         }
         $SQL .= " ) AND ".
           " sq.group_id IN ( ${\(join ', ', @GroupIDs)} ) ".
           " ORDER BY st.ticket_priority_id DESC, $SortOptions{$SortBy} $Order";
 #          " ORDER BY st.ticket_priority_id DESC, st.freetime1 ASC";
 #          " ORDER BY st.ticket_priority_id DESC, st.create_time_unix $Order";
-
           $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{Limit});
           my $Counter = 0;
           while (my @Row = $Self->{DBObject}->FetchrowArray()) {
