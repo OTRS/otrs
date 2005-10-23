@@ -2,7 +2,7 @@
 # Kernel/System/Time.pm - time functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Time.pm,v 1.9 2005-05-08 15:18:17 martin Exp $
+# $Id: Time.pm,v 1.10 2005-10-23 23:42:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Time::Local;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -400,7 +400,7 @@ sub WorkingTime {
     $BYear = $BYear+1900;
     $BMonth = $BMonth+1;
     my $BDate = "$BYear-$BMonth-$BDay";
-    while ($Param{StartTime} < $Param{StopTime}) {
+    while ($Param{StartTime} < $Param{StopTime}+60*60*24) {
         my ($Sec, $Min, $Hour, $Day, $Month, $Year, $WDay) = localtime($Param{StartTime});
         $Year = $Year+1900;
         $Month = $Month+1;
@@ -420,11 +420,14 @@ sub WorkingTime {
 #print STDERR "Vacation: $Year-$Month-$Day\n";
         }
         else {
-#print STDERR "NoVacation: $Year-$Month-$Day $WDay $LDay{$WDay} $TimeWorkingHours{$LDay{$WDay}}\n";
-#            %TimeWorkingHours
             if ($TimeWorkingHours{$LDay{$WDay}}) {
                 foreach (@{$TimeWorkingHours{$LDay{$WDay}}}) {
+#print STDERR "$CDate eq $ADate: $_ - $WDay - $LDay{$WDay}\n";
 #print STDERR "$Year-$Month-$Day: $LDay{$WDay}: $_\n";
+                    if ($Param{StartTime} - 60*60*$_ > $Param{StopTime}) {
+#                        print STDERR "Stop reached at $Year-$Month-$Day ($WDay): $_:00\n";
+                        return $Counted;
+                    }
                     # count minutes
                     if ($CDate eq $ADate && $AHour == $_ && $CDate eq $BDate && $BHour == $_) {
                         $Counted = $Counted + ($BMin-$AMin)*60;
@@ -436,8 +439,8 @@ sub WorkingTime {
                     }
                     # count minutes
                     elsif ($CDate eq $ADate && $AHour == $_) {
-                        $Counted = $Counted + (60-$AMin)*60;
-#                         print STDERR "StartDay.. $_:00 ".(60-$AMin)."\n";
+                        $Counted = $Counted + ((60-$AMin)*60);
+#                         print STDERR "StartDay.. $_:00 ". (60-$AMin)*60 ."\n";
                     }
                     # do nothing
                     elsif ($CDate eq $BDate && $BHour < $_) {
@@ -453,18 +456,12 @@ sub WorkingTime {
                         $Counted = $Counted + (60*60);
 #                         print STDERR "Counted.. $Year-$Month-$Day $_:00 ($WDay/$LDay{$WDay}):".(60*60)."\n";
                     }
-                    if ($Param{StartTime} > $Param{StopTime} - $Counted) {
-#                        print STDERR "Stop reached at $Year-$Month-$Day ($WDay): $_:00\n";
-                        last;
-                    }
-#print STDERR "($Param{StartTime} < $Param{StopTime} - $Counted)\n";
                 }
             }
         }
         # reduce time
         $Param{StartTime} = $Param{StartTime} + 60*60*24;
     }
-#    print STDERR "Counted: $Counted\n";
     return $Counted;
 }
 
@@ -482,6 +479,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2005-05-08 15:18:17 $
+$Revision: 1.10 $ $Date: 2005-10-23 23:42:11 $
 
 =cut
