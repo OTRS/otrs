@@ -2,7 +2,7 @@
 # Kernel/System/DB/oracle.pm - oracle database backend
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: oracle.pm,v 1.5 2005-10-15 13:41:32 cs Exp $
+# $Id: oracle.pm,v 1.6 2005-10-25 18:29:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::DB::oracle;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub LoadPreferences {
@@ -29,7 +29,7 @@ sub LoadPreferences {
     $Self->{'DB::QuoteSemicolon'} = '';
     $Self->{'DB::Attribute'} = {
         LongTruncOk => 1,
-        LongReadLen => 100*1024,
+        LongReadLen => 4*1024*1024,
     };
 
     # shell setting
