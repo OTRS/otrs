@@ -3,7 +3,7 @@
 # scripts/auto_build/docbuild.sh - build automatically OTRS docu
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: docbuild.sh,v 1.2 2005-09-18 15:12:40 martin Exp $
+# $Id: docbuild.sh,v 1.3 2005-10-25 18:51:35 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "docbuild.sh - build automatically OTRS docu <\$Revision: 1.2 $>"
+echo "docbuild.sh - build automatically OTRS docu <\$Revision: 1.3 $>"
 echo "Copyright (c) 2001-2005 Martin Edenhofer <martin@otrs.org>"
 
 
@@ -94,10 +94,10 @@ for Language in en de; do
     docbook2html otrs_admin_book.xml
     mkdir -p $PACKAGE_DEST_DIR/$Language/html
     mkdir -p $PACKAGE_DEST_DIR/$Language/html/screenshots
-    mkdir -p $PACKAGE_DEST_DIR/$Language/html/images
+    mkdir -p $PACKAGE_DEST_DIR/$Language/images
     cp -R *.html $PACKAGE_DEST_DIR/$Language/html/
     cp -R screenshots/* $PACKAGE_DEST_DIR/$Language/html/screenshots/
-    cp -R images/* $PACKAGE_DEST_DIR/$Language/html/images/
+    cp -R images/* $PACKAGE_DEST_DIR/$Language/images/
     # convert images to 50% of orig. size
     for i in $PACKAGE_DEST_DIR/$Language/html/screenshots/*.png ; do
         echo "convert image to 60% $i"; convert $i -resize 60% $i;
