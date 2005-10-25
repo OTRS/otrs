@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.pm,v 1.37 2005-08-26 15:34:49 martin Exp $
+# $Id: Package.pm,v 1.38 2005-10-25 18:30:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -562,7 +562,7 @@ sub PackageReinstall {
         foreach my $File (@{$Structur{Filelist}}) {
             # install file
 #            print STDERR "Notice: Reinstall $File->{Location}!\n";
-            $Self->_FileInstall(%{$File});
+            $Self->_FileInstall(%{$File}, Reinstall => 1);
         }
     }
     # install config
@@ -1364,13 +1364,17 @@ sub _FileInstall {
         return;
       }
     }
-    # backup old file
+    # backup old file (if reinstall, don't overwrite .backup an .save files)
     if (-e "$Self->{Home}/$Param{Location}") {
         if ($Param{Type} && $Param{Type} =~ /^replace$/i) {
-             move("$Self->{Home}/$Param{Location}", "$Self->{Home}/$Param{Location}.backup");
+            if (!$Param{Reinstall} || ($Param{Reinstall} && -e ! "$Self->{Home}/$Param{Location}.backup")) {
+                move("$Self->{Home}/$Param{Location}", "$Self->{Home}/$Param{Location}.backup");
+            }
         }
         else {
-             move("$Self->{Home}/$Param{Location}", "$Self->{Home}/$Param{Location}.save");
+            if (!$Param{Reinstall} || ($Param{Reinstall} && -e ! "$Self->{Home}/$Param{Location}.save")) {
+                move("$Self->{Home}/$Param{Location}", "$Self->{Home}/$Param{Location}.save");
+            }
         }
     }
     # check directory of loaction (in case create a directory)
@@ -1501,6 +1505,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.37 $ $Date: 2005-08-26 15:34:49 $
+$Revision: 1.38 $ $Date: 2005-10-25 18:30:38 $
 
 =cut
