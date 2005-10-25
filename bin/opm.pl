@@ -3,7 +3,7 @@
 # opm.pl - otrs package manager cmd version
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: opm.pl,v 1.4 2005-05-16 08:59:01 martin Exp $
+# $Id: opm.pl,v 1.5 2005-10-25 18:32:44 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@ use Kernel::System::Package;
 
 # get file version
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # common objects
@@ -73,19 +73,32 @@ if ($Opts{'a'} && $Opts{'a'} eq 'index') {
 if ($Opts{'h'}) {
     print "opm.pl <Revision $VERSION> - OTRS Package Manager\n";
     print "Copyright (c) 2001-2005 Martin Edenhofer <martin\@otrs.org>\n";
-    print "usage: opm.pl -a list|install|upgrade|uninstall|build|index -p package.opm [-o OUTPUTDIR] [-f FORCE]\n";
+    print "usage: opm.pl -a list|install|upgrade|uninstall|build|index [-p package.opm|package.sopm|package-version] [-o OUTPUTDIR] [-f FORCE]\n";
     exit 1;
 }
 my $FileString = '';
 if ($Opts{'a'} ne 'list' && $Opts{'p'}) {
-    if (open(IN, "< $Opts{'p'}")) {
-        while (<IN>) {
-            $FileString .= $_;
+    if (-e $Opts{'p'}) {
+        if (open(IN, "< $Opts{'p'}")) {
+            while (<IN>) {
+                $FileString .= $_;
+            }
+            close (IN);
         }
-        close (IN);
+        else {
+            die "Can't open: $Opts{'p'}: $!";
+        }
     }
     else {
-        die "Can't open: $Opts{'p'}: $!";
+        if ($Opts{'p'} =~ /^(.*)\-(\d{1,4}\.\d{1,4}\.\d{1,4})$/) {
+            $FileString = $CommonObject{PackageObject}->RepositoryGet(
+                Name => $1,
+                Version => $2,
+            );
+        }
+        else {
+            die "ERROR: No such file '$Opts{'p'}' or invalid 'package-version'!";
+        }
     }
 }
 # build
@@ -124,6 +137,7 @@ if ($Opts{'a'} eq 'build') {
     exit;
 }
 elsif ($Opts{'a'} eq 'uninstall') {
+    # get package file from db
     # uninstall
     $CommonObject{PackageObject}->PackageUninstall(
         String => $FileString,
@@ -140,7 +154,7 @@ elsif ($Opts{'a'} eq 'install') {
     exit;
 }
 elsif ($Opts{'a'} eq 'upgrade') {
-    # upgrade 
+    # upgrade
     $CommonObject{PackageObject}->PackageUpgrade(
         String => $FileString,
         Force => $Opts{'f'},
