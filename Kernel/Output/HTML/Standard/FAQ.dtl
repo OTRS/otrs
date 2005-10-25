@@ -2,7 +2,7 @@
 # FAQ.dtl - provides HTML view for faq articles
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQ.dtl,v 1.6 2005-08-06 18:02:24 martin Exp $
+# $Id: FAQ.dtl,v 1.7 2005-10-25 18:41:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -402,7 +402,7 @@ function submit_compose()
       </td>
     </tr>
     <tr>
-      <td class="contentfooter"><input class="button" type="submit" value="$Text{"submit"}" onclick="return submit_compose();"></td>
+      <td class="contentfooter"><input accesskey="g" class="button" type="submit" value="$Text{"submit"}" onclick="return submit_compose();"></td>
     </tr>
     </table>
     </form>
@@ -628,7 +628,7 @@ function submit_compose()
       </td>
     </tr>
     <tr>
-      <td class="contentfooter"><input class="button" type="submit" value="$Text{"submit"}" onclick="return submit_compose();"></td>
+      <td class="contentfooter"><input accesskey="g" class="button" type="submit" value="$Text{"submit"}" onclick="return submit_compose();"></td>
     </tr>
     </table>
     </form>
@@ -781,7 +781,7 @@ function submit_compose()
       </td>
     </tr>
     <tr>
-      <td class="contentfooter"> <input class="button" type="submit" value="$Text{"Search"}"></td>
+      <td class="contentfooter"> <input accesskey="g" class="button" type="submit" value="$Text{"Search"}"></td>
     </tr>
     </table>
     </form>
@@ -829,5 +829,4 @@ function submit_compose()
 </tr>
 </table>
 <!-- dtl:block:SearchResult -->
-
 
