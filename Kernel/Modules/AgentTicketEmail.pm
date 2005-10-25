@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose inital email to customer
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketEmail.pm,v 1.11 2005-09-04 15:27:53 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.12 2005-10-25 18:40:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -161,8 +161,8 @@ sub Run {
             # html output
             $Output .= $Self->_MaskEmailNew(
               QueueID => $Self->{QueueID},
-              NextStates => $Self->_GetNextStates(),
-              Priorities => $Self->_GetPriorities(),
+              NextStates => $Self->_GetNextStates(QueueID => 1),
+              Priorities => $Self->_GetPriorities(QueueID => 1),
               Users => $Self->_GetUsers(),
               FromList => $Self->_GetTos(),
               To => '',
