@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.204 2005-10-23 23:44:17 martin Exp $
+# $Id: CHANGES,v 1.205 2005-10-25 18:41:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,10 +11,19 @@
 CVS head
 
 2.0.4 (2005/10/??)
+ - (2005/10/25) improved bin/opm.pl to uninstall packages via
+   -p package-verions of installed package
+ - (2005/10/25) moved to default selected priority and state in
+    first mask of phone and email mask
+ - (2005/10/25) fixed lost of original .backup and .save files if
+    packages are reinstalled
+ - (2005/10/25) added html access keys for customer panel
+ - (2005/10/24) moved oracle database param LongReadLen to 4*1024*1024 to
+   store biger attachments
  - (2005/10/23) fixed small bug for WorkingTime calculation
- - (2005/10/22) fixed bug 971 - Invalid agents get LockTimeOut notification
- - (2005/10/21) fixed bug 948 - Invalid agents should not longer get follow-ups
- - (2005/10/21) fixed bug 957 - Got "no ArticleID" error when viewing queues (p1 of 5)
+ - (2005/10/22) fixed bug #971 - Invalid agents get LockTimeOut notification
+ - (2005/10/21) fixed bug #948 - Invalid agents should not longer get follow-ups
+ - (2005/10/21) fixed bug #957 - Got "no ArticleID" error when viewing queues (p1 of 5)
  - (2005/10/20) improved html of admin auto responses <-> queue relation
  - (2005/10/20) fixed unlock of closed bulk-action tickets
  - (2005/10/20) fixed calendar lookup in admin generic agent time
