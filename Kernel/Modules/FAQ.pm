@@ -2,7 +2,7 @@
 # Kernel/Modules/FAQ.pm - faq module
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQ.pm,v 1.16 2005-08-06 18:02:24 martin Exp $
+# $Id: FAQ.pm,v 1.17 2005-10-28 07:27:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::FAQ;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -91,7 +91,7 @@ sub Run {
     );
 
     # ---------------------------------------------------------- #
-    # add a new object (Note: dtl text „New“)
+    # add a new object (Note: dtl text "New")
     # ---------------------------------------------------------- #
     if ($Self->{Subaction} eq 'Add') {
         my $Output   = '';
@@ -165,7 +165,7 @@ sub Run {
         }
     }
     # ---------------------------------------------------------- #
-    # update object (Note: dtl text „Edit“)
+    # update object (Note: dtl text "Edit")
     # ---------------------------------------------------------- #
     elsif ($Self->{Subaction} eq 'Update') {
         my $Output      = '';
