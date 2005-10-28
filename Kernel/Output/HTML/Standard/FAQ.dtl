@@ -2,7 +2,7 @@
 # FAQ.dtl - provides HTML view for faq articles
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQ.dtl,v 1.7 2005-10-25 18:41:43 martin Exp $
+# $Id: FAQ.dtl,v 1.8 2005-10-28 07:26:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -553,11 +553,11 @@ function submit_compose()
     <table border="0" cellspacing="0" cellpadding="3">
     <tr>
       <td class="contentkey">$Text{"Title"}: </td>
-      <td class="contentvalue"> <input type="text" name="Title" value="$Data{"Title"}" size="75" maxlength="120"></td>
+      <td class="contentvalue"> <input type="text" name="Title" value="$QData{"Title"}" size="75" maxlength="120"></td>
     </tr>
     <tr>
       <td class="contentkey">$Text{"Keywords"}: </td>
-      <td class="contentvalue"> <input type="text" name="Keywords" value="$Data{"Keywords"}" size="75" maxlength="120"></td>
+      <td class="contentvalue"> <input type="text" name="Keywords" value="$QData{"Keywords"}" size="75" maxlength="120"></td>
     </tr>
     <tr>
       <td width="20%" class="contentkey">$Text{"Category"}: </td>
@@ -569,7 +569,7 @@ function submit_compose()
     </tr>
 #    <tr>
 #      <td class="contentkey">$Text{"Filename"} ($Text{"for publish"}): </td>
-#      <td class="contentvalue"> <input type="text" name="Name" value="$Data{"Name"}" size="50" maxlength="50"></td>
+#      <td class="contentvalue"> <input type="text" name="Name" value="$QData{"Name"}" size="50" maxlength="50"></td>
 #    </tr>
     <tr>
       <td class="contentkey">$Text{"Attachment"}:</td>
@@ -584,41 +584,41 @@ function submit_compose()
     </tr>
     <tr>
       <td class="contentkey">$Text{"$Config{"FAQ::Field1"}"}: </td>
-      <td class="contentvalue"><textarea name="Field1" rows="12" cols="75" wrap="$Env{"BrowserWrap"}">$Data{"Field1"}</textarea></tr>
+      <td class="contentvalue"><textarea name="Field1" rows="12" cols="75" wrap="$Env{"BrowserWrap"}">$QData{"Field1"}</textarea></tr>
     <tr>
       <td colspan="2"><hr></td>
     </tr>
     <tr>
       <td class="contentkey">$Text{"$Config{"FAQ::Field2"}"}: </td>
-      <td class="contentvalue"><textarea name="Field2" rows="12" cols="75" wrap="$Env{"BrowserWrap"}">$Data{"Field2"}</textarea></td>
+      <td class="contentvalue"><textarea name="Field2" rows="12" cols="75" wrap="$Env{"BrowserWrap"}">$QData{"Field2"}</textarea></td>
     </tr>
     <tr>
       <td colspan="2"><hr></td>
     </tr>
     <tr>
       <td class="contentkey">$Text{"$Config{"FAQ::Field3"}"}: </td>
-      <td class="contentvalue"><textarea name="Field3" rows="12" cols="75" wrap="$Env{"BrowserWrap"}">$Data{"Field3"}</textarea></td>
+      <td class="contentvalue"><textarea name="Field3" rows="12" cols="75" wrap="$Env{"BrowserWrap"}">$QData{"Field3"}</textarea></td>
     </tr>
     <tr>
       <td colspan="2"><hr></td>
     </tr>
 #    <tr>
 #      <td class="contentkey">$Text{"$Config{"FAQ::Field4"}"}: </td>
-#      <td class="contentvalue"><textarea name="Field4" rows="12" cols="75" wrap="$Env{"BrowserWrap"}">$Data{"Field4"}</textarea></td>
+#      <td class="contentvalue"><textarea name="Field4" rows="12" cols="75" wrap="$Env{"BrowserWrap"}">$QData{"Field4"}</textarea></td>
 #    </tr>
 #    <tr>
 #      <td colspan="2"><hr></td>
 #    </tr>
 #    <tr>
 #      <td class="contentkey">$Text{"$Config{"FAQ::Field5"}"}: </td>
-#      <td class="contentvalue"><textarea name="Field5" rows="12" cols="75" wrap="$Env{"BrowserWrap"}">$Data{"Field5"}</textarea></td>
+#      <td class="contentvalue"><textarea name="Field5" rows="12" cols="75" wrap="$Env{"BrowserWrap"}">$QData{"Field5"}</textarea></td>
 #    </tr>
 #    <tr>
 #      <td colspan="2"><hr></td>
 #    </tr>
     <tr>
       <td class="contentkey">$Text{"$Config{"FAQ::Field6"}"}: </td>
-      <td class="contentvalue"><textarea name="Field6" rows="4" cols="75" wrap="$Env{"BrowserWrap"}">$Data{"Field6"}</textarea></td>
+      <td class="contentvalue"><textarea name="Field6" rows="4" cols="75" wrap="$Env{"BrowserWrap"}">$QData{"Field6"}</textarea></td>
     </tr>
     <tr>
       <td colspan="2"><hr></td>
