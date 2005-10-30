@@ -2,7 +2,7 @@
 # Kernel/System/DB/oracle.pm - oracle database backend
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: oracle.pm,v 1.7 2005-10-30 09:44:18 martin Exp $
+# $Id: oracle.pm,v 1.8 2005-10-30 12:34:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::DB::oracle;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub LoadPreferences {
@@ -153,9 +153,13 @@ sub TableCreate {
         }
         # auto increment
         if ($Tag->{AutoIncrement} && $Tag->{AutoIncrement} =~ /^true$/i) {
+            my $Shell = '';
+            if ($Self->{ConfigObject}->Get('Database::ShellOutput')) {
+                $Shell = "/\n--";
+            }
             push (@Return2, "DROP SEQUENCE $TableName"."_seq");
             push (@Return2, "CREATE SEQUENCE $TableName"."_seq");
-            push (@Return2, "CREATE OR REPLACE TRIGGER $TableName"."_seq_t\nbefore insert on $TableName\nfor each row\nbegin\n    select $TableName"."_seq.nextval\n    into :new.$Tag->{Name}\n    from dual;\nend;\n/\n--");
+            push (@Return2, "CREATE OR REPLACE TRIGGER $TableName"."_seq_t\nbefore insert on $TableName\nfor each row\nbegin\n    select $TableName"."_seq.nextval\n    into :new.$Tag->{Name}\n    from dual;\nend;\n$Shell");
         }
     }
     # add uniq
