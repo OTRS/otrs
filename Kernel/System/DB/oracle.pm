@@ -2,7 +2,7 @@
 # Kernel/System/DB/oracle.pm - oracle database backend
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: oracle.pm,v 1.6 2005-10-25 18:29:32 martin Exp $
+# $Id: oracle.pm,v 1.7 2005-10-30 09:44:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::DB::oracle;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub LoadPreferences {
@@ -231,7 +231,12 @@ sub IndexCreate {
             return;
         }
     }
-    my $SQL = "CREATE INDEX $Param{Name} ON $Param{TableName} (";
+    my $Index = $Param{Name};
+    if (length($Index) > 30) {
+        $Index = substr($Index, 0, 28);
+        $Index .= int(rand(99));
+    }
+    my $SQL = "CREATE INDEX $Index ON $Param{TableName} (";
     my @Array = @{$Param{'Data'}};
     foreach (0..$#Array) {
         if ($_ > 0) {
@@ -270,7 +275,12 @@ sub ForeignKeyCreate {
             return;
         }
     }
-    my $SQL = "ALTER TABLE $Param{LocalTableName} ADD CONSTRAINT fk_$Param{LocalTableName}_$Param{Local}_$Param{Foreign} FOREIGN KEY (";
+    my $ForeignKey = "fk_$Param{LocalTableName}_$Param{Local}_$Param{Foreign}";
+    if (length($ForeignKey) > 30) {
+        $ForeignKey = substr($ForeignKey, 0, 28);
+        $ForeignKey .= int(rand(99));
+    }
+    my $SQL = "ALTER TABLE $Param{LocalTableName} ADD CONSTRAINT $ForeignKey FOREIGN KEY (";
     $SQL .= "$Param{Local}) REFERENCES ";
     $SQL .= "$Param{ForeignTableName}($Param{Foreign})";
     # return SQL
