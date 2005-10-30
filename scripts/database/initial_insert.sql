@@ -2,9 +2,12 @@
 -- initial_insert.sql - provides initial system data
 -- Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: initial_insert.sql,v 1.41 2005-10-30 09:47:37 martin Exp $
+-- $Id: initial_insert.sql,v 1.42 2005-10-30 12:29:12 martin Exp $
 --
 -- $Log: not supported by cvs2svn $
+-- Revision 1.41  2005/10/30 09:47:37  martin
+-- added spaces for oracle init
+--
 -- Revision 1.40  2005/09/24 16:48:21  martin
 -- moved to german "Sie" form in notifcations
 --
@@ -375,20 +378,12 @@ INSERT INTO salutation
     (name, text, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('system standard salutation (en)', 'Dear <OTRS_CUSTOMER_REALNAME>,Thank you for your request.', 'std. salutation', 1, 1, current_timestamp, 1, current_timestamp);
-INSERT INTO salutation
-    (name, text, comments, valid_id, create_by, create_time, change_by, change_time)
-    VALUES
-    ('system standard salutation (de/buiss)', 'Sehr geehrter <OTRS_CUSTOMER_REALNAME>,Danke fuer Ihre Anfrage.', 'std. salutation', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- signature
 INSERT INTO signature
     (name, text, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('system standard signature (en)', 'Your OTRS-Team - <OTRS_FIRST_NAME> <OTRS_LAST_NAME> --', 'std signature', 1, 1, current_timestamp, 1, current_timestamp);
-INSERT INTO signature
-    (name, text, comments, valid_id, create_by, create_time, change_by, change_time)
-    VALUES
-    ('system standard signature (de/buiss)', 'Ihr OTRS Team--   <OTRS_FIRST_NAME> <OTRS_LAST_NAME> --', 'std. signature', 1, 1, current_timestamp, 1, current_timestamp);
+    ('system standard signature (en)', 'Your Ticket-Team - <OTRS_FIRST_NAME> <OTRS_LAST_NAME> -- Super Support - Waterford Business Park 5201 Blue Lagoon Drive - 8th Floor & 9th Floor - Miami, 33126 USA Email: hot@example.com - Web: http://www.example.com/--', 'std signature', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- system_address
 INSERT INTO system_address
