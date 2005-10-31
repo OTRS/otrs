@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.196 2005-10-10 19:53:37 martin Exp $
+# $Id: Generic.pm,v 1.197 2005-10-31 20:10:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::Output::HTML::Agent;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.196 $';
+$VERSION = '$Revision: 1.197 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -632,7 +632,7 @@ sub Output {
         # --
         foreach (1..3) {
             $Line =~ s{
-                \$(QData|LQData|Data|Env|Config|Include){"(.+?)"}
+                \$(QData|LQData|Data|Env|QEnv|Config|Include){"(.+?)"}
             }
             {
               if ($1 eq "Data" || $1 eq "Env") {
@@ -644,6 +644,30 @@ sub Output {
                       "";
                   }
               }
+              elsif ($1 eq "QEnv") {
+                  my $Text = $2;
+                  if (!defined($Text) || $Text =~ /^","(.+?)$/) {
+                      "";
+                  }
+                  elsif ($Text =~ /^(.+?)","(.+?)$/) {
+                      if (defined $GlobalRef->{"EnvRef"}->{$1}) {
+                          $Self->Ascii2Html(Text => $GlobalRef->{"EnvRef"}->{$1}, Max => $2);
+                      }
+                      else {
+                          # output replace with nothing!
+                          "";
+                      }
+                  }
+                  else {
+                      if (defined $GlobalRef->{"EnvRef"}->{$Text}) {
+                          $Self->Ascii2Html(Text => $GlobalRef->{"EnvRef"}->{$Text});
+                      }
+                      else {
+                          # output replace with nothing!
+                          "";
+                      }
+                  }
+              }
               elsif ($1 eq "QData") {
                   my $Text = $2;
                   if (!defined($Text) || $Text =~ /^","(.+?)$/) {
@@ -651,20 +675,20 @@ sub Output {
                   }
                   elsif ($Text =~ /^(.+?)","(.+?)$/) {
                       if (defined $GlobalRef->{"DataRef"}->{$1}) {
-                        $Self->Ascii2Html(Text => $GlobalRef->{"DataRef"}->{$1}, Max => $2);
+                          $Self->Ascii2Html(Text => $GlobalRef->{"DataRef"}->{$1}, Max => $2);
                       }
                       else {
-                        # output replace with nothing!
-                        "";
+                          # output replace with nothing!
+                          "";
                       }
                   }
                   else {
                       if (defined $GlobalRef->{"DataRef"}->{$Text}) {
-                        $Self->Ascii2Html(Text => $GlobalRef->{"DataRef"}->{$Text});
+                          $Self->Ascii2Html(Text => $GlobalRef->{"DataRef"}->{$Text});
                       }
                       else {
-                        # output replace with nothing!
-                        "";
+                          # output replace with nothing!
+                          "";
                       }
                   }
               }
@@ -2268,6 +2292,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.196 $ $Date: 2005-10-10 19:53:37 $
+$Revision: 1.197 $ $Date: 2005-10-31 20:10:28 $
 
 =cut
