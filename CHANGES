@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.206 2005-10-31 08:08:40 martin Exp $
+# $Id: CHANGES,v 1.207 2005-10-31 16:59:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,6 +11,14 @@
 CVS head
 
 2.0.4 (2005/10/??)
+ - (2005/10/31) moved to default download type as attachment (not inline)
+    for a better security default setting
+ - (2005/10/31) fixed bug in html mime online viewer module
+    (Kernel/Modules/AgentTicketAttachment.pm)
+ - (2005/10/31) added missing ContentType in ArticleAttachmentIndex() if
+    fs lookup is used (Kernel/System/Ticket/ArticleStorage*.pm)
+ - (2005/10/31) improved sql quote with type (String, Integer and Number)
+    to have a better security
  - (2005/10/30) removed not needed german default salutation and signature
     from scripts/database/initial_insert.sql
  - (2005/10/30) improved oracle backend with max length of index and foreign
