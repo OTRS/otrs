@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.221 2005-10-22 16:13:02 martin Exp $
+# $Id: Defaults.pm,v 1.222 2005-10-31 14:07:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.221 $';
+$VERSION = '$Revision: 1.222 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -195,8 +195,8 @@ sub LoadDefaults {
     # AttachmentDownloadType
     # (if the tickets attachments will be opened in browser or just to
     # force the download) [attachment|inline]
-    $Self->{'AttachmentDownloadType'} = 'inline';
-#    $Self->{'AttachmentDownloadType'} = 'attachment';
+#    $Self->{'AttachmentDownloadType'} = 'inline';
+    $Self->{'AttachmentDownloadType'} = 'attachment';
 
     # --------------------------------------------------- #
     # Check Settings
@@ -1740,6 +1740,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.221 $ $Date: 2005-10-22 16:13:02 $
+$Revision: 1.222 $ $Date: 2005-10-31 14:07:29 $
 
 =cut
