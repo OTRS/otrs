@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketAttachment.pm - to get the attachments
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketAttachment.pm,v 1.2 2005-03-27 11:50:50 martin Exp $
+# $Id: AgentTicketAttachment.pm,v 1.3 2005-10-31 14:05:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,9 +12,10 @@
 package Kernel::Modules::AgentTicketAttachment;
 
 use strict;
+use Kernel::System::FileTemp;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -36,6 +37,8 @@ sub new {
             $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
         }
     }
+
+    $Self->{FileTempObject} = Kernel::System::FileTemp->new(%Param);
 
     # get ArticleID
     $Self->{ArticleID} = $Self->{ParamObject}->GetParam(Param => 'ArticleID');
@@ -86,14 +89,15 @@ sub Run {
                 foreach (keys %{$Self->{ConfigObject}->Get('MIME-Viewer')}) {
                     if ($Data{ContentType} =~ /^$_/i) {
                         $Viewer = $Self->{ConfigObject}->Get('MIME-Viewer')->{$_};
+                        $Viewer =~ s/\<OTRS_CONFIG_(.+?)\>/$Self->{ConfigObject}->{$1}/g;
                     }
                 }
             }
             # show with viewer
             if ($Self->{Viewer} && $Viewer) {
                 # write tmp file
-                my $TmpFile = $Self->{ConfigObject}->Get('TempDir').'/view-'.$Self->{SessionID}.'.tmp';
-                if (open (DATA, "> $TmpFile")) {
+                my ($FH, $Filename) = $Self->{FileTempObject}->TempFile();
+                if (open (DATA, "> $Filename")) {
                     print DATA $Data{Content};
                     close (DATA);
                 }
@@ -101,19 +105,23 @@ sub Run {
                     # log error
                     $Self->{LogObject}->Log(
                         Priority => 'error',
-                        Message => "Cant write $TmpFile: $!",
+                        Message => "Cant write $Filename: $!",
                     );
                     return $Self->{LayoutObject}->ErrorScreen();
                 }
                 # use viewer
                 my $Content = '';
-                open (DATA, "$Viewer $TmpFile |");
-                while (<DATA>) {
-                    $Content .= $_;
+                if (open (DATA, "$Viewer $Filename |")) {
+                    while (<DATA>) {
+                        $Content .= $_;
+                    }
+                    close (DATA);
                 }
-                close (DATA);
-                # remove tmp file
-                unlink ($TmpFile);
+                else {
+                    return $Self->{LayoutObject}->FatalError(
+                        Message => "Can't open: $Viewer $Filename: $!",
+                    );
+                }
                 # return new page
                 return $Self->{LayoutObject}->Attachment(%Data, ContentType => 'text/html', Content => $Content, Type => 'inline');
             }
