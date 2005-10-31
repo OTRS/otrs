@@ -1,8 +1,8 @@
 # --
 # Error.dtl - provides HTML Error screen
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Error.dtl,v 1.14 2004-10-14 15:20:48 martin Exp $
+# $Id: Error.dtl,v 1.15 2005-10-31 20:11:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -39,7 +39,7 @@ $Data{"Comment"}
 Traceback:
 $Data{"BackendTraceback"}
 ">
-              <input type="hidden" name="bug_file_loc" value="$Env{"SERVER_NAME"}$Env{"REQUEST_URI"}">
+              <input type="hidden" name="bug_file_loc" value="$QEnv{"SERVER_NAME"}$QEnv{"REQUEST_URI"}">
               <input class="button" type="submit" value="$Text{"Click here to report a bug!"}">
               </form>
             </td>
