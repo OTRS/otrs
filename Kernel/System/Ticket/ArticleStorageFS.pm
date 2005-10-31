@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleStorageFS.pm,v 1.26 2005-10-31 10:07:03 martin Exp $
+# $Id: ArticleStorageFS.pm,v 1.27 2005-10-31 14:03:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use MIME::Base64;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -370,9 +370,9 @@ sub ArticleAttachmentIndex {
     my $Counter = 0;
     # try fs
     my @List = glob("$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/*");
-    foreach (@List) {
+    foreach my $Filename (@List) {
         $Counter++;
-        my $FileSize = -s $_;
+        my $FileSize = -s $Filename;
         # human readable file size
         if ($FileSize) {
             # remove meta data in files
@@ -387,13 +387,27 @@ sub ArticleAttachmentIndex {
                 $FileSize = $FileSize.' Bytes';
             }
         }
+        # read content type
+        my $ContentType = '';
+        if (open(IN, "< $Filename")) {
+            while (<IN>) {
+                if ($ContentType) {
+                    last;
+                }
+                else {
+                    $ContentType = $_;
+                }
+            }
+            close(IN);
+        }
         # strip filename
-        s!^.*/!!;
-        if ($_ ne 'plain.txt') {
+        $Filename =~ s!^.*/!!;
+        if ($Filename ne 'plain.txt') {
             # add the info the the hash
             $Index{$Counter} = {
-                Filename => $_,
+                Filename => $Filename,
                 Filesize => $FileSize,
+                ContentType => $ContentType,
             };
         }
 
