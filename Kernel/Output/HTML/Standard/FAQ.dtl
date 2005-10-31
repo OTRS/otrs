@@ -2,7 +2,7 @@
 # FAQ.dtl - provides HTML view for faq articles
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQ.dtl,v 1.8 2005-10-28 07:26:57 martin Exp $
+# $Id: FAQ.dtl,v 1.9 2005-10-31 20:54:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -680,12 +680,13 @@ function submit_compose()
               <tr>
                 <td colspan="2" class="contentkey">$Text{"Do you really want to delete this Object?"}:</td>
               </tr>
-              <tr>
-                <td colspan="2" class="contentvalue">
-                  <a href="$Env{"Baselink"}$Env{"LastScreenView"}">$Text{"No"}</a> <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=DeleteAction&FAQID=$QData{"FAQID"}">$Text{"Yes"}</a>
-                </td>
-              </tr>
             </table>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" class="contentfooter">
+
+            <a href="$Env{"Baselink"}$Env{"LastScreenView"}">$Text{"No"}</a> <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=DeleteAction&FAQID=$QData{"FAQID"}">$Text{"Yes"}</a>
           </td>
         </tr>
       </table>
