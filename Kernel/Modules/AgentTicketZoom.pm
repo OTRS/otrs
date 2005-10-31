@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketZoom.pm,v 1.13 2005-09-11 13:33:58 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.14 2005-10-31 17:39:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -575,7 +575,10 @@ sub MaskAgentZoom {
                         );
                         # run module
                         my %Data = $Object->Run(
-                            File => {%File, FileID => $FileID, },
+                            File => {
+                                %File,
+                                FileID => $FileID,
+                            },
                             Article => \%Article,
                         );
                         if (%Data) {
