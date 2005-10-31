@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.205 2005-10-25 18:41:00 martin Exp $
+# $Id: CHANGES,v 1.206 2005-10-31 08:08:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,6 +11,10 @@
 CVS head
 
 2.0.4 (2005/10/??)
+ - (2005/10/30) removed not needed german default salutation and signature
+    from scripts/database/initial_insert.sql
+ - (2005/10/30) improved oracle backend with max length of index and foreign
+    key ident, fixed triger creation - removed not needed / if DBI is used.
  - (2005/10/25) improved bin/opm.pl to uninstall packages via
    -p package-verions of installed package
  - (2005/10/25) moved to default selected priority and state in
