@@ -1,9 +1,9 @@
 # --
 # Kernel/System/Group.pm - All Groups related function should be here eventually
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
-#               2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Group.pm,v 1.33 2005-09-29 08:56:53 tr Exp $
+# $Id: Group.pm,v 1.34 2005-10-31 10:07:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Group;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -149,8 +149,11 @@ sub GroupMemberAdd {
       }
     }
     # db quote
-    foreach (keys %Param) {
+    foreach (qw(Permission)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    foreach (qw(GID UID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # check if update is needed
     my %Value = ();
@@ -228,8 +231,11 @@ sub GroupAdd {
       }
     }
     # qoute params
-    foreach (keys %Param) {
+    foreach (qw(Name Comment)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    }
+    foreach (qw(ValidID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     my $SQL = "INSERT INTO groups (name, comments, valid_id, ".
             " create_time, create_by, change_time, change_by)".
@@ -280,8 +286,8 @@ sub GroupGet {
         return;
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(ID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # sql
     my $SQL = "SELECT name, valid_id, comments ".
@@ -330,8 +336,11 @@ sub GroupUpdate {
       }
     }
     # db quote
-    foreach (keys %Param) {
+    foreach (qw(Name Comment)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    }
+    foreach (qw(ID ValidID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # sql
     my $SQL = "UPDATE groups SET name = '$Param{Name}', ".
@@ -552,10 +561,6 @@ sub GroupGroupMemberList {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserID or GroupID!");
         return;
     }
-    # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
-    }
     # create cache key
     my $CacheKey = 'GroupGroupMemberList::'.$Param{Type}.'::'.$Param{Result}.'::';
     if ($Param{UserID}) {
@@ -579,6 +584,10 @@ sub GroupGroupMemberList {
         }
     }
 #print STDERR "not cached $CacheKey\n";
+    # db quote
+    foreach (qw(Type)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
     # sql
     my %Data = ();
     my @Name = ();
@@ -597,10 +606,10 @@ sub GroupGroupMemberList {
       " gu.permission_key IN ('$Param{Type}', 'rw') ".
       " AND ";
     if ($Param{UserID}) {
-      $SQL .= " gu.user_id = $Param{UserID}";
+        $SQL .= " gu.user_id = ".$Self->{DBObject}->Quote($Param{UserID}, 'Integer');
     }
     else {
-      $SQL .= " gu.group_id = $Param{GroupID}";
+        $SQL .= " gu.group_id = ".$Self->{DBObject}->Quote($Param{GroupID}, 'Integer');
     }
 #print STDERR "SQL: $Param{Type}::$Param{Result} $SQL\n";
     $Self->{DBObject}->Prepare(SQL => $SQL);
@@ -688,10 +697,6 @@ sub GroupRoleMemberList {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need RoleID or GroupID!");
         return;
     }
-    # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
-    }
     # create cache key
     my $CacheKey = 'GroupRoleMemberList::'.$Param{Type}.'::'.$Param{Result}.'::';
     if ($Param{RoleID}) {
@@ -715,6 +720,10 @@ sub GroupRoleMemberList {
         }
     }
 #print STDERR "not cached $CacheKey\n";
+    # db quote
+    foreach (qw(Type)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
     # sql
     my %Data = ();
     my @Name = ();
@@ -733,10 +742,10 @@ sub GroupRoleMemberList {
       " gu.permission_key IN ('$Param{Type}', 'rw') ".
       " AND ";
     if ($Param{RoleID}) {
-      $SQL .= " gu.role_id = $Param{RoleID}";
+        $SQL .= " gu.role_id = ".$Self->{DBObject}->Quote($Param{RoleID}, 'Integer');
     }
     else {
-      $SQL .= " gu.group_id = $Param{GroupID}";
+        $SQL .= " gu.group_id = ".$Self->{DBObject}->Quote($Param{GroupID}, 'Integer');
     }
 #print STDERR "SQL: $Param{Type}::$Param{Result} $SQL\n";
     $Self->{DBObject}->Prepare(SQL => $SQL);
@@ -812,8 +821,11 @@ sub GroupRoleMemberAdd {
       }
     }
     # db quote
-    foreach (keys %Param) {
+    foreach (qw(Permission)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    foreach (qw(RID GID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # check if update is needed
     my %Value = ();
@@ -914,13 +926,16 @@ sub GroupUserRoleMemberList {
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
+    foreach (qw(RoleID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
     # create cache key
     my $CacheKey = 'GroupUserRoleMemberList::'.$Param{Result}.'::';
     if ($Param{RoleID}) {
         $CacheKey .= 'RoleID::'.$Param{RoleID};
     }
     else {
-      $CacheKey .= 'UserID::'.$Param{UserID};
+        $CacheKey .= 'UserID::'.$Param{UserID};
     }
 #print STDERR "$CacheKey -\n";
     # check cache
@@ -1020,8 +1035,8 @@ sub GroupUserRoleMemberAdd {
       }
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(UID RID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # delete existing relation
     my $SQL = "DELETE FROM role_user ".
@@ -1079,8 +1094,11 @@ sub RoleAdd {
       }
     }
     # qoute params
-    foreach (keys %Param) {
+    foreach (qw(Name Comment)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    }
+    foreach (qw(ValidID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     my $SQL = "INSERT INTO roles (name, comments, valid_id, ".
             " create_time, create_by, change_time, change_by)".
@@ -1131,8 +1149,8 @@ sub RoleGet {
         return;
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(ID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # sql
     my $SQL = "SELECT name, valid_id, comments ".
@@ -1181,8 +1199,11 @@ sub RoleUpdate {
       }
     }
     # db quote
-    foreach (keys %Param) {
+    foreach (qw(Name Comment)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    }
+    foreach (qw(ID ValidID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # sql
     my $SQL = "UPDATE roles SET name = '$Param{Name}', ".
@@ -1232,6 +1253,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.33 $ $Date: 2005-09-29 08:56:53 $
+$Revision: 1.34 $ $Date: 2005-10-31 10:07:03 $
 
 =cut

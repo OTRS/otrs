@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/IndexAccelerator/StaticDB.pm - static db queue ticket index module
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: StaticDB.pm,v 1.30 2005-10-23 23:46:33 martin Exp $
+# $Id: StaticDB.pm,v 1.31 2005-10-31 10:09:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::IndexAccelerator::StaticDB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketAcceleratorUpdate {
@@ -69,12 +69,19 @@ sub TicketAcceleratorUpdate {
     if ($IndexUpdateNeeded) {
       if ($IndexSelcected) {
         if ($IndexTicketData{TicketID}) {
-          my $SQL = "UPDATE ticket_index SET ".
-            " queue_id = $TicketData{QueueID}, ".
-            " queue = '$TicketData{Queue}', group_id = $TicketData{GroupID}, ".
-            " s_lock = '$TicketData{Lock}', s_state = '$TicketData{State}' ".
-            " WHERE  ".
-            " ticket_id = ".$Self->{DBObject}->Quote($Param{TicketID})." ";
+            # db quote
+            foreach (qw(TicketID QueueID GroupID)) {
+                $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+            }
+            foreach (qw(Queue State Lock)) {
+                $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+            }
+            my $SQL = "UPDATE ticket_index SET ".
+                " queue_id = $TicketData{QueueID}, ".
+                " queue = '$TicketData{Queue}', group_id = $TicketData{GroupID}, ".
+                " s_lock = '$TicketData{Lock}', s_state = '$TicketData{State}' ".
+                " WHERE  ".
+                " ticket_id = $Param{TicketID}";
           $Self->{DBObject}->Do(SQL => $SQL);
         }
         else {
@@ -111,8 +118,8 @@ sub TicketAcceleratorDelete {
       }
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(TicketID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     my $SQL = "DELETE FROM ticket_index WHERE ticket_id = $Param{TicketID} ";
     $Self->{DBObject}->Do(SQL => $SQL);
@@ -136,7 +143,10 @@ sub TicketAcceleratorAdd {
         $TicketData{$_} = $Self->{DBObject}->Quote($TicketData{$_});
     }
     # db quote
-    foreach (keys %Param) {
+    foreach (qw(TicketID QueueID GroupID CreateTimeUnix)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
+    foreach (qw(Queue State Lock)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     my $SQL = "INSERT INTO ticket_index ".
@@ -164,8 +174,8 @@ sub TicketLockAcceleratorDelete {
       }
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(TicketID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # db query
     my $SQL = "DELETE FROM ticket_lock_index WHERE ticket_id = $Param{TicketID} ";
@@ -184,8 +194,8 @@ sub TicketLockAcceleratorAdd {
       }
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(TicketID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # get ticket data
     my %TicketData = $Self->TicketGet(%Param);
@@ -399,8 +409,8 @@ sub GetIndexTicket {
       }
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(TicketID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # sql query
     my $SQL = "SELECT ticket_id, queue_id, queue, group_id, s_lock, s_state, create_time_unix ".
@@ -431,8 +441,8 @@ sub GetIndexTicketLock {
       }
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(TicketID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # sql query
     my $SQL = "SELECT ticket_id ".
@@ -457,8 +467,8 @@ sub GetLockedCount {
       }
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # db query
     $Self->{DBObject}->Prepare(
@@ -528,10 +538,6 @@ sub GetLockedCount {
 sub GetOverTimeTickets {
     my $Self = shift;
     my %Param = @_;
-    # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
-    }
     # get data (viewable tickets...)
     my @TicketIDsOverTime = ();
     my %TicketIDs = ();

@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleStorageFS.pm,v 1.25 2005-10-14 07:46:55 martin Exp $
+# $Id: ArticleStorageFS.pm,v 1.26 2005-10-31 10:07:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use MIME::Base64;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -95,6 +95,9 @@ sub ArticleDelete {
         );
     }
     # delete articles
+    foreach (qw(TicketID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
     if ($Self->{DBObject}->Do(SQL => "DELETE FROM article WHERE ticket_id = $Param{TicketID}")) {
         # delete history
         if ($Self->HistoryDelete(TicketID => $Param{TicketID}, UserID => $Param{UserID})) {
@@ -145,6 +148,9 @@ sub ArticleDeletePlain {
       }
     }
     # delete attachments
+    foreach (qw(ArticleID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
     $Self->{DBObject}->Do(SQL => "DELETE FROM article_plain WHERE article_id = $Param{ArticleID}");
     # delete from fs
     my $ContentPath = $Self->ArticleGetContentPath(ArticleID => $Param{ArticleID});
@@ -172,6 +178,9 @@ sub ArticleDeleteAttachment {
       }
     }
     # delete attachments
+    foreach (qw(ArticleID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
     $Self->{DBObject}->Do(SQL => "DELETE FROM article_attachment WHERE article_id = $Param{ArticleID}");
     # delete from fs
     my $ContentPath = $Self->ArticleGetContentPath(ArticleID => $Param{ArticleID});
@@ -311,9 +320,12 @@ sub ArticlePlain {
     if (!open (DATA, "< $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt")) {
         # can't open article
         # try database
+        foreach (qw(ArticleID)) {
+            $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+        }
         my $SQL = "SELECT body FROM article_plain ".
-        " WHERE ".
-        " article_id = ".$Self->{DBObject}->Quote($Param{ArticleID})."";
+          " WHERE ".
+          " article_id = $Param{ArticleID}";
         $Self->{DBObject}->Prepare(SQL => $SQL);
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
             $Data = $Row[0];
@@ -323,8 +335,8 @@ sub ArticlePlain {
         }
         else {
             $Self->{LogObject}->Log(
-              Priority => 'error',
-              Message => "Can't open $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt: $!",
+                Priority => 'error',
+                Message => "Can't open $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt: $!",
             );
             return;
         }
@@ -350,8 +362,8 @@ sub ArticleAttachmentIndex {
     }
     # check needed stuff
     if (!$Param{ArticleID}) {
-      $Self->{LogObject}->Log(Priority => 'error', Message => "Need ArticleID!");
-      return;
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need ArticleID!");
+        return;
     }
     my $ContentPath = $Self->ArticleGetContentPath(ArticleID => $Param{ArticleID});
     my %Index = ();
@@ -388,10 +400,12 @@ sub ArticleAttachmentIndex {
     }
     # try database (if there is no index in fs)
     if (!%Index) {
+        foreach (qw(ArticleID)) {
+            $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+        }
         my $SQL = "SELECT filename, content_type, content_size FROM article_attachment ".
-        " WHERE ".
-        " article_id = ".$Self->{DBObject}->Quote($Param{ArticleID})."".
-        " ORDER BY id";
+          " WHERE ".
+          " article_id = $Param{ArticleID} ORDER BY id";
         $Self->{DBObject}->Prepare(SQL => $SQL);
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
            $Counter++;
@@ -450,9 +464,12 @@ sub ArticleAttachment {
     }
     else {
         # try database
+        foreach (qw(ArticleID)) {
+            $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+        }
         my $SQL = "SELECT content_type, content FROM article_attachment ".
-        " WHERE ".
-        " article_id = ".$Self->{DBObject}->Quote($Param{ArticleID})."";
+          " WHERE ".
+          " article_id = $Param{ArticleID}";
         $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Param{FileID});
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
             $Data{ContentType} = $Row[0];

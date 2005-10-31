@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: User.pm,v 1.49 2005-10-20 21:27:51 martin Exp $
+# $Id: User.pm,v 1.50 2005-10-31 10:07:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.49 $';
+$VERSION = '$Revision: 1.50 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -134,7 +134,7 @@ sub GetUserData {
         $SQL .= " $Self->{UserTableUser} = '".$Self->{DBObject}->Quote($Param{User})."'";
     }
     else {
-        $SQL .= " $Self->{UserTableUserID} = ".$Self->{DBObject}->Quote($Param{UserID})."";
+        $SQL .= " $Self->{UserTableUserID} = ".$Self->{DBObject}->Quote($Param{UserID}, 'Integer')."";
     }
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
@@ -232,8 +232,11 @@ sub UserAdd {
         $Param{Pw} = $Self->GenerateRandomPassword();
     }
     # quote params
-    foreach (keys %Param) {
-       $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    foreach (qw(Salutation Firstname Lastname Login Pw)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    }
+    foreach (qw(ValidID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # sql
     my $SQL = "INSERT INTO $Self->{UserTable} " .
@@ -319,8 +322,11 @@ sub UserUpdate {
     # get old user data (pw)
     my %UserData = $Self->GetUserData(UserID => $Param{ID});
     # quote params
-    foreach (keys %Param) {
+    foreach (qw(Salutation Firstname Lastname)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    }
+    foreach (qw(ID ValidID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # update db
     my $SQL = "UPDATE $Self->{UserTable} SET " .
@@ -541,7 +547,7 @@ sub GetUserIdByName {
         return;
     }
     # db quote
-    foreach (keys %Param) {
+    foreach (qw(User)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     # build sql query
@@ -580,8 +586,8 @@ sub GetUserByID {
         return;
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # build sql query
     my $SQL = sprintf (
@@ -769,6 +775,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.49 $ $Date: 2005-10-20 21:27:51 $
+$Revision: 1.50 $ $Date: 2005-10-31 10:07:03 $
 
 =cut

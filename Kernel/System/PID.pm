@@ -2,7 +2,7 @@
 # Kernel/System/PID.pm - all system pid functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PID.pm,v 1.2 2005-08-26 17:58:37 martin Exp $
+# $Id: PID.pm,v 1.3 2005-10-31 10:07:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PID;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -117,7 +117,7 @@ sub PIDCreate {
     # remember to delete it in DESTROY
     $Self->{Name} = $Param{Name};
     # db quote
-    foreach (keys %Param) {
+    foreach (qw(Name)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     # sql
@@ -155,7 +155,7 @@ sub PIDGet {
         }
     }
     # db quote
-    foreach (keys %Param) {
+    foreach (qw(Name)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     # sql
@@ -200,7 +200,7 @@ sub PIDDelete {
         }
     }
     # db quote
-    foreach (keys %Param) {
+    foreach (qw(Name)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     # sql
@@ -229,6 +229,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2005-08-26 17:58:37 $
+$Revision: 1.3 $ $Date: 2005-10-31 10:07:03 $
 
 =cut

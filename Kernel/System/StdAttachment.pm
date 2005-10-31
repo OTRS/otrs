@@ -1,11 +1,11 @@
 # --
-# Kernel/System/StdAttachment.pm - lib for std attachemnt 
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Kernel/System/StdAttachment.pm - lib for std attachemnt
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: StdAttachment.pm,v 1.10 2004-02-29 19:09:13 martin Exp $
+# $Id: StdAttachment.pm,v 1.11 2005-10-31 10:07:03 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
@@ -15,7 +15,7 @@ use strict;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -24,7 +24,7 @@ sub new {
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     # get common opjects
@@ -56,9 +56,12 @@ sub StdAttachmentAdd {
     if (!$Self->{DBObject}->GetDatabaseFunction('DirectBlob')) {
         $Param{Content} = encode_base64($Param{Content});
     }
-    # db quote (just not Content, use db Bind values)
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) if ($_ ne 'Content');
+    # db quote
+    foreach (qw(Name ContentType Filename Comment)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    foreach (qw(ValidID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # sql
     my $SQL = "INSERT INTO standard_attachment ".
@@ -93,10 +96,10 @@ sub StdAttachmentGet {
       return;
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    foreach (qw(ID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
-    # sql 
+    # sql
     my $SQL = "SELECT name, content_type, content, filename, valid_id, comments ".
         " FROM ".
         " standard_attachment ".
@@ -112,7 +115,7 @@ sub StdAttachmentGet {
         if (!$Self->{DBObject}->GetDatabaseFunction('DirectBlob')) {
             $Data[2] = decode_base64($Data[2]);
         }
-        my %Data = ( 
+        my %Data = (
             ID => $Param{ID},
             Name => $Data[0],
             ContentType => $Data[1],
@@ -123,7 +126,7 @@ sub StdAttachmentGet {
         );
         return %Data;
     }
-    else { 
+    else {
         return;
     }
 }
@@ -143,22 +146,25 @@ sub StdAttachmentUpdate {
         $Param{Content} = encode_base64($Param{Content});
     }
     # db quote
-    foreach (keys %Param) {
-            $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    foreach (qw(Name ContentType Filename Comment)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    foreach (qw(ID ValidID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # sql
     my $SQL = "UPDATE standard_attachment SET " .
         " name = '$Param{Name}', " .
-        " content = '$Param{Content}', " .
+        " content = ?, " .
         " content_type = '$Param{ContentType}', " .
         " comments = '$Param{Comment}', " .
         " filename = '$Param{Filename}', " .
-        " valid_id = $Param{ValidID}, " . 
+        " valid_id = $Param{ValidID}, " .
         " change_time = current_timestamp, " .
         " change_by = $Param{UserID} " .
         " WHERE " .
         " id = $Param{ID}";
-    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+    if ($Self->{DBObject}->Do(SQL => $SQL, Bind => [\$Param{Content}])) {
         return 1;
     }
     else {
@@ -177,6 +183,9 @@ sub StdAttachmentDelete {
       }
     }
     # sql
+    foreach (qw(ID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
     if ($Self->{DBObject}->Do(SQL => "DELETE FROM standard_attachment WHERE ID = $Param{ID}")) {
         return 1;
     }
@@ -209,7 +218,7 @@ sub StdAttachmentLookup {
     }
     else {
         $Suffix = 'StdAttachment';
-        $SQL = "SELECT name FROM standard_attachment WHERE id = ".$Self->{DBObject}->Quote($Param{StdAttachmentID})."";
+        $SQL = "SELECT name FROM standard_attachment WHERE id = ".$Self->{DBObject}->Quote($Param{StdAttachmentID}, 'Integer')."";
     }
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
@@ -234,8 +243,8 @@ sub StdAttachmentsByResponseID {
         return;
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(ID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # return data
     my %Relation = $Self->{DBObject}->GetTableData(
@@ -277,8 +286,8 @@ sub SetStdAttachmentsOfResponseID {
       }
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(ID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # add attachments to response
     $Self->{DBObject}->Do(

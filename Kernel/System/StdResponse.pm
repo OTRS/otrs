@@ -1,11 +1,11 @@
 # --
 # Kernel/System/StdResponse.pm - lib for std responses
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: StdResponse.pm,v 1.10 2004-02-13 00:50:36 martin Exp $
+# $Id: StdResponse.pm,v 1.11 2005-10-31 10:07:03 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
@@ -14,7 +14,7 @@ package Kernel::System::StdResponse;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub new {
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     # get common opjects
@@ -50,8 +50,11 @@ sub StdResponseAdd {
       }
     }
     # db quote
-    foreach (keys %Param) {
+    foreach (qw(Name Comment Response)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    }
+    foreach (qw(ValidID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # sql
     my $SQL = "INSERT INTO standard_response ".
@@ -85,10 +88,10 @@ sub StdResponseGet {
       return;
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    foreach (qw(ID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
-    # sql 
+    # sql
     my $SQL = "SELECT name, valid_id, comments, text ".
         " FROM ".
         " standard_response ".
@@ -98,7 +101,7 @@ sub StdResponseGet {
         return;
     }
     if (my @Data = $Self->{DBObject}->FetchrowArray()) {
-        my %Data = ( 
+        my %Data = (
             ID => $Param{ID},
             Name => $Data[0],
             Comment => $Data[2],
@@ -107,7 +110,7 @@ sub StdResponseGet {
         );
         return %Data;
     }
-    else { 
+    else {
         return;
     }
 }
@@ -121,10 +124,10 @@ sub StdResponseDelete {
       return;
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(ID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
-    # sql 
+    # sql
     if ($Self->{DBObject}->Prepare(SQL => "DELETE FROM standard_response WHERE ID = $Param{ID}")) {
         return 1;
     }
@@ -144,15 +147,18 @@ sub StdResponseUpdate {
       }
     }
     # db quote
-    foreach (keys %Param) {
+    foreach (qw(Name Comment Response)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    }
+    foreach (qw(ID ValidID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # sql
     my $SQL = "UPDATE standard_response SET " .
         " name = '$Param{Name}', " .
         " text = '$Param{Response}', " .
         " comments = '$Param{Comment}', " .
-        " valid_id = $Param{ValidID}, " . 
+        " valid_id = $Param{ValidID}, " .
         " change_time = current_timestamp, " .
         " change_by = $Param{UserID} " .
         " WHERE " .
@@ -193,7 +199,7 @@ sub StdResponseLookup {
     }
     else {
         $Suffix = 'StdResponse';
-        $SQL = "SELECT name FROM standard_response WHERE id = ".$Self->{DBObject}->Quote($Param{StdResponseID})."";
+        $SQL = "SELECT name FROM standard_response WHERE id = ".$Self->{DBObject}->Quote($Param{StdResponseID}, 'Integer')."";
     }
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
@@ -221,7 +227,7 @@ sub GetAllStdResponses {
         What => 'id, name',
         Valid => $Param{Valid},
     );
-}   
+}
 # --
 
 1;

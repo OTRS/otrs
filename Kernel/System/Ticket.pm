@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.189 2005-10-22 16:09:51 martin Exp $
+# $Id: Ticket.pm,v 1.190 2005-10-31 10:07:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.189 $';
+$VERSION = '$Revision: 1.190 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -358,6 +358,9 @@ sub TicketCreate {
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
+    foreach (qw(QueueID LockID UserID PriorityID StateID CreateUserID CreateUserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
     # create db record
     my $SQL = "INSERT INTO ticket (tn, title, create_time_unix, queue_id, ticket_lock_id, ".
     " user_id, group_id, ticket_priority_id, ticket_state_id, ticket_answered, ".
@@ -437,6 +440,9 @@ sub TicketDelete {
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
+    foreach (qw(TicketID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
     # clear ticket cache
     $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
     # update ticket index
@@ -477,8 +483,8 @@ sub TicketIDLookup {
     my $Id;
     # check needed stuff
     if (!$Param{TicketNumber}) {
-      $Self->{LogObject}->Log(Priority => 'error', Message => "Need TicketNumber!");
-      return;
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need TicketNumber!");
+        return;
     }
     # db quote
     foreach (keys %Param) {
@@ -486,8 +492,8 @@ sub TicketIDLookup {
     }
     # db query
     my $SQL = "SELECT id FROM ticket " .
-    " WHERE " .
-    " tn = '$Param{TicketNumber}' ";
+      " WHERE " .
+      " tn = '$Param{TicketNumber}'";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         $Id = $Row[0];
@@ -512,8 +518,8 @@ sub TicketNumberLookup {
     my $Tn = '';
     # check needed stuff
     if (!$Param{TicketID}) {
-      $Self->{LogObject}->Log(Priority => 'error', Message => "Need TicketID!");
-      return;
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need TicketID!");
+        return;
     }
     my %Ticket = $Self->TicketGet(%Param);
     if (%Ticket) {
@@ -601,7 +607,7 @@ sub TicketSubjectClean {
 
 =item TicketGet()
 
-get ticket info (TicketNumber, State, StateID, StateType,
+get ticket info (TicketNumber, TicketID, State, StateID, StateType,
 Priority, PriorityID, Lock, LockID, Queue, QueueID,
 CustomerID, CustomerUserID, UserID, Owner, OwnerID,
 Created, Changed, TicketFreeKey1-8, TicketFreeText1-8, ...)
@@ -626,6 +632,10 @@ sub TicketGet {
     if ($Self->{'Cache::GetTicket'.$Param{TicketID}}) {
         return %{$Self->{'Cache::GetTicket'.$Param{TicketID}}};
     }
+    # db quote
+    foreach (qw(TicketID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
     # db query
     my $SQL = "SELECT st.id, st.queue_id, sq.name, st.ticket_state_id, st.ticket_lock_id, ".
         " sp.id, sp.name, st.create_time_unix, st.create_time, sq.group_id, st.tn, ".
@@ -647,7 +657,7 @@ sub TicketGet {
         " AND ".
         " st.user_id = su.$Self->{ConfigObject}->{DatabaseUserTableUserID} ".
         " AND ".
-        " st.id = ".$Self->{DBObject}->Quote($Param{TicketID})."";
+        " st.id = $Param{TicketID}";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         $Ticket{TicketID} = $Row[0];
@@ -746,8 +756,11 @@ sub TicketTitleUpdate {
         return 1;
     }
     # db quote
-    foreach (keys %Param) {
+    foreach (qw(Title)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    foreach (qw(TicketID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     my $SQL = "UPDATE ticket SET title = '$Param{Title}' ".
       " WHERE ".
@@ -794,8 +807,8 @@ sub TicketUnlockTimeoutUpdate {
         return 1;
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(TicketID UnlockTimeout)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # reset unlock time
     my $SQL = "UPDATE ticket SET timeout = $Param{UnlockTimeout} ".
@@ -845,8 +858,8 @@ sub TicketEscalationStartUpdate {
         }
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(TicketID EscalationStartTime)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     my $SQL = "UPDATE ticket SET escalation_start_time = $Param{EscalationStartTime} ".
       " WHERE ".
@@ -1002,10 +1015,12 @@ sub MoveTicket {
         );
         return;
     }
-    # db update
-    my $SQL = "UPDATE ticket SET ".
-      " queue_id = ".$Self->{DBObject}->Quote($Param{QueueID}).
-      "  where id = ".$Self->{DBObject}->Quote($Param{TicketID})."";
+    # db quote
+    foreach (qw(TicketID QueueID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
+    my $SQL = "UPDATE ticket SET queue_id = $Param{QueueID} ".
+      "  where id = $Param{TicketID}";
     if ($Self->{DBObject}->Do(SQL => $SQL) ) {
         # queue lookup
         my $Queue = $Self->{QueueObject}->QueueLookup(QueueID => $Param{QueueID});
@@ -1081,8 +1096,8 @@ sub MoveQueueList {
       }
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(TicketID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # db query
     my @Queue = ();
@@ -1147,12 +1162,14 @@ sub SetCustomerData {
         return;
     }
     # db quote
-    foreach (keys %Param) {
+    foreach (qw(No User)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    foreach (qw(TicketID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # db customer id update
     if (defined($Param{No})) {
-        $Param{No} = $Self->{DBObject}->Quote($Param{No});
         my $SQL = "UPDATE ticket SET customer_id = '$Param{No}', " .
           " change_time = current_timestamp, change_by = $Param{UserID} " .
           " WHERE id = $Param{TicketID} ";
@@ -1162,7 +1179,6 @@ sub SetCustomerData {
     }
     # db customer user update
     if (defined($Param{User})) {
-        $Param{User} = $Self->{DBObject}->Quote($Param{User});
         my $SQL = "UPDATE ticket SET customer_user_id = '$Param{User}', " .
           " change_time = current_timestamp, change_by = $Param{UserID} " .
           " WHERE id = $Param{TicketID} ";
@@ -1316,6 +1332,9 @@ sub TicketFreeTextSet {
     # db quote
     my $DBValue = $Self->{DBObject}->Quote($Value);
     my $DBKey = $Self->{DBObject}->Quote($Key);
+    foreach (qw(TicketID UserID Counter)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
     # db update
     my $SQL = "UPDATE ticket SET freekey$Param{Counter} = '$DBKey', " .
     " freetext$Param{Counter} = '$DBValue', " .
@@ -1393,9 +1412,13 @@ sub TicketFreeTimeSet {
         return 1;
     }
     # db update
-    my $SQL = "UPDATE ticket SET freetime$Param{Counter} = '$TimeStamp', " .
-    " change_time = current_timestamp, change_by = $Param{UserID} " .
-    " WHERE id = $Param{TicketID}";
+    foreach (qw(TicketID UserID Counter)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
+    my $SQL = "UPDATE ticket SET ".
+        " freetime$Param{Counter} = '".$Self->{DBObject}->Quote($TimeStamp)."', " .
+        " change_time = current_timestamp, change_by = $Param{UserID} " .
+        " WHERE id = $Param{TicketID}";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         # history insert
         $Self->HistoryAdd(
@@ -1618,6 +1641,9 @@ sub GetLockedTicketIDs {
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
+    foreach (qw(UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
     my @ViewableTickets;
     my @ViewableLocks = @{$Self->{ConfigObject}->Get('Ticket::ViewableLocks')};
     my $SQL = "SELECT ti.id " .
@@ -1684,8 +1710,8 @@ sub GetSubscribedUserIDsByQueueID {
     # get group of queue
     my %Queue = $Self->{QueueObject}->QueueGet(ID => $Param{QueueID});
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(QueueID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # fetch all queues
     my @UserIDs = ();
@@ -1752,8 +1778,8 @@ sub TicketPendingTimeSet {
     }
 
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(TicketID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # db update
     my $SQL = "UPDATE ticket SET until_time = $Time, " .
@@ -2487,8 +2513,8 @@ sub LockSet {
         return 1;
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(TicketID LockID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # db update
     my $SQL = "UPDATE ticket SET ticket_lock_id = $Param{LockID}, " .
@@ -2638,8 +2664,8 @@ sub StateSet {
         return;
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(TicketID ID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # db update
     my $SQL = "UPDATE ticket SET ticket_state_id = $State{ID}, " .
@@ -2769,8 +2795,8 @@ sub OwnerCheck {
       return;
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(TicketID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # db query
     if ($Param{UserID}) {
@@ -2797,10 +2823,10 @@ sub OwnerCheck {
         $Param{SearchUser} = $Row[1];
     }
     if ($Param{SearchUserID}) {
-      return $Param{SearchUserID}, $Param{SearchUser};
+        return $Param{SearchUserID}, $Param{SearchUser};
     }
     else {
-      return;
+        return;
     }
 }
 
@@ -2844,8 +2870,8 @@ sub OwnerSet {
         return 1;
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(TicketID NewUserID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # db update
     my $SQL = "UPDATE ticket SET user_id = $Param{NewUserID}, " .
@@ -2921,8 +2947,8 @@ sub OwnerList {
       }
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(TicketID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # db query
     my @User = ();
@@ -2980,8 +3006,8 @@ sub InvolvedAgents {
       }
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(TicketID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # db query
     my @User = ();
@@ -3035,7 +3061,7 @@ sub PriorityLookup {
         $SQL = "SELECT id FROM ticket_priority WHERE name = '".$Self->{DBObject}->Quote($Param{Type})."'";
     }
     else {
-        $SQL = "SELECT name FROM ticket_priority WHERE id = ".$Self->{DBObject}->Quote($Param{ID})."";
+        $SQL = "SELECT name FROM ticket_priority WHERE id = ".$Self->{DBObject}->Quote($Param{ID}, 'Integer')."";
     }
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
@@ -3112,8 +3138,8 @@ sub PrioritySet {
     my %TicketData = $Self->TicketGet(%Param);
     # check if update is needed
     if ($TicketData{Priority} eq $Param{Priority}) {
-       # update not needed
-       return 1;
+        # update not needed
+        return 1;
     }
     # permission check
     my %PriorityList = $Self->PriorityList(%Param);
@@ -3125,8 +3151,8 @@ sub PrioritySet {
         return;
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(TicketID PriorityID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # db update
     my $SQL = "UPDATE ticket SET ticket_priority_id = $Param{PriorityID}, " .
@@ -3218,8 +3244,8 @@ sub HistoryTicketStatusGet {
         $Param{$_} = sprintf("%02d", $Param{$_});
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(StopYear StopMonth StopDay StartYear StartMonth StartDay)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     my $SQL = "SELECT DISTINCT(th.ticket_id), th.create_time FROM ".
         "ticket_history th ".
@@ -3303,8 +3329,8 @@ sub HistoryTicketGet {
         }
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(TicketID StopYear StopMonth StopDay)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     my $SQL = "SELECT th.name, tht.name, th.create_time, th.create_by, th.ticket_id, th.article_id, th.queue_id, th.state_id, th.priority_id, th.owner_id FROM ".
         "ticket_history th, ticket_history_type tht ".
@@ -3600,8 +3626,8 @@ sub HistoryGet {
       }
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(TicketID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     my $SQL = "SELECT sh.name, sh.article_id, sh.create_time, sh.create_by, ".
         " ht.name ".
@@ -3656,8 +3682,8 @@ sub HistoryDelete {
       }
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(TicketID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # delete from db
     if ($Self->{DBObject}->Do(SQL => "DELETE FROM ticket_history WHERE ticket_id = $Param{TicketID}")) {
@@ -3692,8 +3718,8 @@ sub TicketAccountedTimeGet {
       return;
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(TicketID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # db query
     my $SQL = "SELECT time_unit " .
@@ -3738,8 +3764,11 @@ sub TicketAccountTime {
     $Param{TimeUnit} =~ s/^(\d{1,10}\.\d\d).+?$/$1/g;
     chomp $Param{TimeUnit};
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(TicketID ArticleID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
+    foreach (qw(TimeUnit)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Number');
     }
     # db update
     my $SQL = "INSERT INTO time_accounting ".
@@ -3795,8 +3824,8 @@ sub TicketMerge {
       }
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(MainTicketID MergeTicketID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # change ticket id of merge ticket to main ticket
     if ($Self->{DBObject}->Do(SQL => "UPDATE article SET ticket_id = $Param{MainTicketID} WHERE ticket_id = $Param{MergeTicketID}")) {
@@ -4121,7 +4150,6 @@ sub TicketEventHandlerPost {
     }
     return 1;
 }
-# --
 1;
 
 =head1 TERMS AND CONDITIONS
@@ -4134,6 +4162,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.189 $ $Date: 2005-10-22 16:09:51 $
+$Revision: 1.190 $ $Date: 2005-10-31 10:07:03 $
 
 =cut

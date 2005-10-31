@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.51 2005-06-27 17:08:14 martin Exp $
+# $Id: Queue.pm,v 1.52 2005-10-31 10:07:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Group;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.51 $';
+$VERSION = '$Revision: 1.52 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -128,8 +128,8 @@ sub GetSalutation {
         return;
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(QueueID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # sql
     my $String = '';
@@ -162,8 +162,8 @@ sub GetSignature {
         return;
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(QueueID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # sql
     my $String = '';
@@ -197,8 +197,8 @@ sub GetStdResponse {
         return;
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(ID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # sql
     my $SQL = "SELECT text FROM standard_response".
@@ -288,7 +288,7 @@ sub GetStdResponses {
         " FROM ".
         " standard_response sr, queue_standard_response qsr".
         " WHERE ".
-        " qsr.queue_id in (".$Self->{DBObject}->Quote($Param{QueueID}).")".
+        " qsr.queue_id in (".$Self->{DBObject}->Quote($Param{QueueID}, 'Integer').")".
         " AND ".
         " qsr.standard_response_id = sr.id".
         " AND ".
@@ -372,7 +372,6 @@ sub GetAllQueues {
     }
     return %MoveQueues;
 }
-# --
 
 =item GetAllCustomQueues()
 
@@ -391,8 +390,8 @@ sub GetAllCustomQueues {
         return;
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # fetch all queues
     my @QueueIDs;
@@ -438,7 +437,7 @@ sub QueueLookup {
     else {
         $Param{What} = $Param{QueueID};
         $Suffix = 'Queue';
-        $SQL = "SELECT name FROM queue WHERE id = ".$Self->{DBObject}->Quote($Param{QueueID})."";
+        $SQL = "SELECT name FROM queue WHERE id = ".$Self->{DBObject}->Quote($Param{QueueID}, 'Integer')."";
     }
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
@@ -474,8 +473,8 @@ sub GetFollowUpOption {
         return;
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(QueueID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # fetch queues data
     my $Return = '';
@@ -510,8 +509,8 @@ sub GetFollowUpLockOption {
         return;
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(QueueID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # fetch queues data
     my $Return = 0;
@@ -544,8 +543,8 @@ sub GetQueueGroupID {
         return;
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(QueueID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # sql
     my $GID = '';
@@ -563,9 +562,21 @@ sub GetQueueGroupID {
 
 =item QueueAdd()
 
-...
+add queue with attributes
 
-    ...
+    $QueueObject->QueueAdd(
+        Name            => 'Some::Queue',
+        ValidID         => 1,
+        GroupID         => 1,
+        SystemAddressID => 1,
+        SalutationID    => 1,
+        SignatureID     => 1,
+        UserID          => 123,
+        MoveNotify      => 0,
+        StateNotify     => 0,
+        LockNotify      => 0,
+        OwnerNotify     => 0,
+    );
 
 =cut
 
@@ -603,11 +614,6 @@ sub QueueAdd {
        ValidID
    );
 
-
-   foreach (@Params) {
-       $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
-   };
-
    for (qw(UnlockTimeout EscalationTime FollowUpLock SystemAddressID SalutationID SignatureID FollowUpID FollowUpLock MoveNotify StateNotify LockNotify OwnerNotify DefaultSignKey)) {
       # these are coming from Config.pm
       # I added default values in the Load Routine
@@ -634,6 +640,13 @@ sub QueueAdd {
             Message => "Invalid Queue name '$Param{Name}'!",
         );
         return;
+    }
+    # quote db
+    foreach (qw(Name DefaultSignKey Comment)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    };
+    foreach (qw(GroupID UnlockTimeout SystemAddressID SalutationID SignatureID FollowUpID FollowUpLock EscalationTime MoveNotify StateNotify ValidID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     my $SQL = "INSERT INTO queue ".
        "(name, ".
@@ -678,53 +691,59 @@ sub QueueAdd {
        " current_timestamp, ".
        " $Param{UserID})";
 
-   if ($Self->{DBObject}->Do(SQL => $SQL)) {
-      # get new queue id
-      $SQL = "SELECT id ".
-       " FROM ".
-       " queue ".
-       " WHERE ".
-       " name = '$Param{Name}'";
-      my $QueueID = '';
-      $Self->{DBObject}->Prepare(SQL => $SQL);
-      while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-         $QueueID = $Row[0];
-      }
-      # add default responses (if needed), add response by name
-      if ($Self->{ConfigObject}->Get('StdResponse2QueueByCreating')) {
-          foreach (@{$Self->{ConfigObject}->{StdResponse2QueueByCreating}}) {
-              my $StdResponseID = $Self->{StdResponseObject}->StdResponseLookup(StdResponse => $_);
-              if ($StdResponseID) {
+    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+        # get new queue id
+        $SQL = "SELECT id ".
+            " FROM ".
+            " queue ".
+            " WHERE ".
+            " name = '$Param{Name}'";
+        my $QueueID = '';
+        $Self->{DBObject}->Prepare(SQL => $SQL);
+        while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+            $QueueID = $Row[0];
+        }
+        # add default responses (if needed), add response by name
+        if ($Self->{ConfigObject}->Get('StdResponse2QueueByCreating')) {
+            foreach (@{$Self->{ConfigObject}->{StdResponse2QueueByCreating}}) {
+                my $StdResponseID = $Self->{StdResponseObject}->StdResponseLookup(StdResponse => $_);
+                if ($StdResponseID) {
+                    $Self->SetQueueStdResponse(
+                        QueueID => $QueueID,
+                        ResponseID => $StdResponseID,
+                        UserID => $Param{UserID},
+                    );
+                }
+            }
+        }
+        # add response by id
+        if ($Self->{ConfigObject}->Get('StdResponseID2QueueByCreating')) {
+            foreach (@{$Self->{ConfigObject}->{StdResponseID2QueueByCreating}}) {
                 $Self->SetQueueStdResponse(
-                  QueueID => $QueueID,
-                  ResponseID => $StdResponseID,
-                  UserID => $Param{UserID},
+                    QueueID => $QueueID,
+                    ResponseID => $_,
+                    UserID => $Param{UserID},
                 );
-              }
-          }
-      }
-      # add response by id
-      if ($Self->{ConfigObject}->Get('StdResponseID2QueueByCreating')) {
-          foreach (@{$Self->{ConfigObject}->{StdResponseID2QueueByCreating}}) {
-              $Self->SetQueueStdResponse(
-                  QueueID => $QueueID,
-                  ResponseID => $_,
-                  UserID => $Param{UserID},
-              );
-          }
-      }
-      return $QueueID;
+            }
+        }
+        return $QueueID;
    }
    else {
-      return;
+        return;
    }
 }
 
 =item QueueGet()
 
-...
+get queue attributes
 
-    ...
+    my %Queue = $QueueObject->QueueGet(
+        ID => 123,
+    );
+
+    my %Queue = $QueueObject->QueueGet(
+        Name => 'Some::Queue',
+    );
 
 =cut
 
@@ -757,7 +776,7 @@ sub QueueGet {
     if ($Param{ID}) {
         $Param{What} = $Param{ID};
         $Suffix = 'ID';
-        $SQL .= " q.id = ".$Self->{DBObject}->Quote($Param{ID})."";
+        $SQL .= " q.id = ".$Self->{DBObject}->Quote($Param{ID}, 'Integer')."";
     }
     else {
         $Param{What} = $Param{Name};
@@ -804,9 +823,22 @@ sub QueueGet {
 
 =item QueueUpdate()
 
-...
+update queue attributes
 
-    ...
+    $QueueObject->QueueUpdate(
+        QueueID         => 123,
+        Name            => 'Some::Queue',
+        ValidID         => 1,
+        GroupID         => 1,
+        SystemAddressID => 1,
+        SalutationID    => 1,
+        SignatureID     => 1,
+        UserID          => 123,
+        MoveNotify      => 0,
+        StateNotify     => 0,
+        LockNotify      => 0,
+        OwnerNotify     => 0,
+    );
 
 =cut
 
@@ -828,12 +860,15 @@ sub QueueUpdate {
     }
     # db quote
     my %DB = ();
-    foreach (keys %Param) {
-        $DB{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
-    }
     # check !!!
     foreach (qw(UnlockTimeout EscalationTime FollowUpLock MoveNotify StateNotify LockNotify OwnerNotify DefaultSignKey)) {
         $DB{$_} = 0 if (!$Param{$_});
+    }
+    foreach (qw(Name DefaultSignKey Comment)) {
+        $DB{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    };
+    foreach (qw(GroupID UnlockTimeout SystemAddressID SalutationID SignatureID FollowUpID FollowUpLock EscalationTime MoveNotify StateNotify ValidID)) {
+        $DB{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # check queue name
     if ($Param{Name} =~ /::$/i) {
@@ -907,7 +942,6 @@ sub QueueUpdate {
         return;
     }
 }
-# --
 1;
 
 =head1 TERMS AND CONDITIONS
@@ -922,6 +956,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.51 $ $Date: 2005-06-27 17:08:14 $
+$Revision: 1.52 $ $Date: 2005-10-31 10:07:03 $
 
 =cut

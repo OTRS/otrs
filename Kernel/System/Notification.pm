@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Notification.pm - lib for notifications
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Notification.pm,v 1.7 2004-08-04 09:24:35 martin Exp $
+# $Id: Notification.pm,v 1.8 2005-10-31 10:07:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -52,12 +52,12 @@ sub NotificationGet {
     }
     my ($Language, $Type);
     if ($Param{Name} =~ /^(.+?)::(.*)/) {
-        $Language = $1;
-        $Type = $2;
+        $Language = $Self->{DBObject}->Quote($1);
+        $Type = $Self->{DBObject}->Quote($2);
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    foreach (qw(ID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # sql
     my $SQL = "SELECT id, notification_type, notification_charset, ".
@@ -180,8 +180,11 @@ sub NotificationUpdate {
     # fix some bad stuff from some browsers (Opera)!
     $Param{Body} =~ s/(\n\r|\r\r\n|\r\n|\r)/\n/g;
     # db quote
-    foreach (keys %Param) {
+    foreach (qw(Type Charset Language Subject Body)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    }
+    foreach (qw(UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # sql
     $Self->{DBObject}->Prepare(SQL => "DELETE FROM notifications WHERE notification_type = '$Param{Type}' AND notification_language = '$Param{Language}'");

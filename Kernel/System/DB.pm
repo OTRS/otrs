@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.45 2005-10-15 13:41:32 cs Exp $
+# $Id: DB.pm,v 1.46 2005-10-31 10:07:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.45 $';
+$VERSION = '$Revision: 1.46 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -222,29 +222,75 @@ sub Disconnect {
 
 =item Quote()
 
-to quote strings
+to quote sql params
 
+  quote strings:
+  ==============
   my $DBString = $DBObject->Quote("This isn't a problem!");
+
+  quote integers:
+  ===============
+  my $DBString = $DBObject->Quote(1234, 'Integer');
+
+  quote numbers (e. g. 1, 1.4, 42342.23424):
+  ==========================================
+  my $DBString = $DBObject->Quote(1234, 'Number');
 
 =cut
 
 sub Quote {
     my $Self = shift;
     my $Text = shift;
+    my $Type = shift;
     if (!defined $Text) {
         return;
     }
-    # do quote
-    if ($Self->{'DB::QuoteBack'}) {
-        $Text =~ s/\\/$Self->{'DB::QuoteBack'}\\/g;
+
+    # do quote integer
+    if ($Type && $Type eq 'Integer') {
+        if ($Text !~ /^\d{1,16}$/) {
+            $Self->{LogObject}->Log(
+                Caller => 1,
+                Priority => 'error',
+                Message => "Invalid number in query '$Text'!",
+            );
+            return '';
+        }
+        return $Text;
     }
-    if ($Self->{'DB::QuoteSingle'}) {
-        $Text =~ s/'/$Self->{'DB::QuoteSingle'}'/g;
+    # numbers
+    elsif ($Type && $Type eq 'Number') {
+        if ($Text !~ /^(\d{1,20}|\d{1,20}\.\d{1,20})$/) {
+            $Self->{LogObject}->Log(
+                Caller => 1,
+                Priority => 'error',
+                Message => "Invalid number in query '$Text'!",
+            );
+            return '';
+        }
+        return $Text;
     }
-    if ($Self->{'DB::QuoteSemicolon'}) {
-        $Text =~ s/;/$Self->{'DB::QuoteSemicolon'};/g;
+    # do quote string
+    elsif (!defined($Type)) {
+        if ($Self->{'DB::QuoteBack'}) {
+            $Text =~ s/\\/$Self->{'DB::QuoteBack'}\\/g;
+        }
+        if ($Self->{'DB::QuoteSingle'}) {
+            $Text =~ s/'/$Self->{'DB::QuoteSingle'}'/g;
+        }
+        if ($Self->{'DB::QuoteSemicolon'}) {
+            $Text =~ s/;/$Self->{'DB::QuoteSemicolon'};/g;
+        }
+        return $Text;
     }
-    return $Text;
+    else {
+        $Self->{LogObject}->Log(
+            Caller => 1,
+            Priority => 'error',
+            Message => "Invalid quote type '$Type'!",
+        );
+        return '';
+    }
 }
 
 =item Error()
@@ -658,6 +704,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.45 $ $Date: 2005-10-15 13:41:32 $
+$Revision: 1.46 $ $Date: 2005-10-31 10:07:03 $
 
 =cut

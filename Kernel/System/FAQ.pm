@@ -2,7 +2,7 @@
 # Kernel/System/FAQ.pm - all faq funktions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQ.pm,v 1.23 2005-08-19 15:37:47 martin Exp $
+# $Id: FAQ.pm,v 1.24 2005-10-31 10:07:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -94,8 +94,8 @@ sub FAQGet {
       }
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(FAQID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     my %Data = ();
     my $SQL = "SELECT i.f_name, i.f_language_id, i.f_subject, ".
@@ -214,6 +214,9 @@ sub FAQAdd {
     # db quote (just not Content, use db Bind values)
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) if ($_ ne 'Content');
+    }
+    foreach (qw(CategoryID StateID LanguageID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
 
     foreach my $Type (qw(Field FreeKey FreeText)) {
@@ -334,6 +337,9 @@ sub FAQUpdate {
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) if ($_ ne 'Content');
     }
+    foreach (qw(FAQID CategoryID StateID LanguageID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
     # fill up empty stuff
     foreach my $Type (qw(Field FreeKey FreeText)) {
         foreach (1..6) {
@@ -413,6 +419,10 @@ sub FAQDelete {
         return;
       }
     }
+    # db quote
+    foreach (qw(FAQID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
     if ($Self->FAQHistoryDelete(%Param)) {
         if ($Self->{DBObject}->Prepare(SQL => "DELETE FROM faq_item WHERE id = $Param{FAQID}")) {
             return 1;
@@ -448,8 +458,11 @@ sub FAQHistoryAdd {
       }
     }
     # db quote
-    foreach (keys %Param) {
+    foreach (qw(Name)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    }
+    foreach (qw(FAQID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     my $SQL = "INSERT INTO faq_history (name, item_id, ".
             " create_time, create_by, change_time, change_by)".
@@ -487,8 +500,8 @@ sub FAQHistoryGet {
       }
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(FAQID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     my @Data = ();
     $Self->{DBObject}->Prepare(
@@ -525,8 +538,8 @@ sub FAQHistoryDelete {
       }
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(FAQID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     $Self->{DBObject}->Prepare(
         SQL => "DELETE FROM faq_history WHERE item_id = $Param{FAQID}",
@@ -622,8 +635,8 @@ sub CategoryGet {
       }
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(ID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # sql
     my %Data = ();
@@ -719,8 +732,11 @@ sub CategoryUpdate {
       }
     }
     # db quote
-    foreach (keys %Param) {
+    foreach (qw(Name Comment)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    }
+    foreach (qw(ID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # sql
     my $SQL = "UPDATE faq_category SET name = '$Param{Name}', ".
@@ -841,8 +857,11 @@ sub StateUpdate {
       }
     }
     # db quote
-    foreach (keys %Param) {
+    foreach (qw(Name)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    }
+    foreach (qw(ID TypeID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # sql
     my $SQL = "UPDATE faq_state SET name = '$Param{Name}', type_id = $Param{TypeID}, ".
@@ -878,8 +897,11 @@ sub StateAdd {
       }
     }
     # db quote
-    foreach (keys %Param) {
+    foreach (qw(Name)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    }
+    foreach (qw(TypeID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     my $SQL = "INSERT INTO faq_state (name, type_id) ".
             " VALUES ".
@@ -914,8 +936,8 @@ sub StateGet {
       }
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(ID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # sql
     my %Data = ();
@@ -981,8 +1003,11 @@ sub LanguageUpdate {
       }
     }
     # db quote
-    foreach (keys %Param) {
+    foreach (qw(Name)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    }
+    foreach (qw(ID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # sql
     my $SQL = "UPDATE faq_language SET name = '$Param{Name}' ".
@@ -1016,7 +1041,7 @@ sub LanguageAdd {
       }
     }
     # db quote
-    foreach (keys %Param) {
+    foreach (qw(Name)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
     }
     my $SQL = "INSERT INTO faq_language (name) ".
@@ -1052,8 +1077,8 @@ sub LanguageGet {
       }
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(ID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # sql
     my %Data = ();
@@ -1161,6 +1186,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.23 $ $Date: 2005-08-19 15:37:47 $
+$Revision: 1.24 $ $Date: 2005-10-31 10:07:03 $
 
 =cut

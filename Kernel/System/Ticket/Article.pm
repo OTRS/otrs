@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.93 2005-10-17 20:34:19 martin Exp $
+# $Id: Article.pm,v 1.94 2005-10-31 10:07:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.93 $';
+$VERSION = '$Revision: 1.94 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -111,7 +111,7 @@ sub ArticleCreate {
     }
     # db quoting
     my %DBParam = ();
-    foreach (qw(From To Cc ReplyTo Subject Body MessageID ContentType TicketID ArticleTypeID SenderTypeID )) {
+    foreach (qw(From To Cc ReplyTo Subject Body MessageID ContentType)) {
         if ($Param{$_}) {
             # qb quoting
             $DBParam{$_} = $Self->{DBObject}->Quote($Param{$_});
@@ -119,6 +119,9 @@ sub ArticleCreate {
         else {
             $DBParam{$_} = '';
         }
+    }
+    foreach (qw(TicketID ArticleTypeID SenderTypeID UserID)) {
+        $DBParam{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # do db insert
     my $SQL = "INSERT INTO article ".
@@ -131,7 +134,7 @@ sub ArticleCreate {
       " '$DBParam{Subject}', ".
       " '$DBParam{MessageID}', ?, '$DBParam{ContentType}', ?, ".
       " $ValidID,  $IncomingTime, " .
-      " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
+      " current_timestamp, $DBParam{UserID}, current_timestamp, $DBParam{UserID})";
     if (!$Self->{DBObject}->Do(SQL => $SQL, Bind => [\$Param{Body}, \$Self->{ArticleContentPath}])) {
         return;
     }
@@ -417,10 +420,13 @@ sub _ArticleGetId {
       }
     }
     # db quote
-    foreach (keys %Param) {
+    foreach (qw(MessageID From Subject IncomingTime)) {
         if ($Param{$_}) {
             $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
         }
+    }
+    foreach (qw(TicketID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # sql query
     my $SQL = "SELECT id FROM article " .
@@ -516,8 +522,8 @@ sub ArticleGetContentPath {
       return;
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(ArticleID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # check cache
     if ($Self->{"ArticleGetContentPath::$Param{ArticleID}"}) {
@@ -688,6 +694,9 @@ sub ArticleFreeTextSet {
     # db quote for key an value
     $Param{Value} = $Self->{DBObject}->Quote($Param{Value}) || '';
     $Param{Key} = $Self->{DBObject}->Quote($Param{Key}) || '';
+    foreach (qw(Counter ArticleID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
     # db update
     if ($Self->{DBObject}->Do(
         SQL => "UPDATE article SET a_freekey$Param{Counter} = '$Param{Key}', " .
@@ -816,8 +825,11 @@ sub ArticleIndex {
         return;
     }
     # db quote
-    foreach (keys %Param) {
+    foreach (qw(SenderType)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    foreach (qw(TicketID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # db query
     my $SQL = '';
@@ -909,6 +921,9 @@ sub ArticleGet {
     # db quote
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    foreach (qw(TicketID ArticleID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # article type lookup
     my $ArticleTypeSQL = '';
@@ -1147,6 +1162,9 @@ sub ArticleUpdate {
     # db quote for key an value
     $Param{Value} = $Self->{DBObject}->Quote($Param{Value});
     $Param{Key} = $Self->{DBObject}->Quote($Param{Key});
+    foreach (qw(ArticleID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
     # db update
     if ($Self->{DBObject}->Do(
         SQL => "UPDATE article SET $Map{$Param{Key}} = '$Param{Value}', ".
@@ -2038,8 +2056,11 @@ sub ArticleFlagSet {
       }
     }
     # db quote
-    foreach (keys %Param) {
+    foreach (qw(Flag)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    foreach (qw(ArticleID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     my %Flag = $Self->ArticleFlagGet(%Param);
     if (!defined($Flag{Flag}) || $Flag{Flag} ne $Param{Flag}) {
@@ -2088,8 +2109,8 @@ sub ArticleFlagGet {
       }
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(ArticleID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # sql query
     $Self->{DBObject}->Prepare(
@@ -2123,8 +2144,8 @@ sub ArticleAccountedTimeGet {
       return;
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(ArticleID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # db query
     my $SQL = "SELECT time_unit " .

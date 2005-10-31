@@ -2,7 +2,7 @@
 # Kernel/System/State.pm - All state related function should be here eventually
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: State.pm,v 1.8 2005-02-15 11:58:13 martin Exp $
+# $Id: State.pm,v 1.9 2005-10-31 10:07:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::State;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -28,8 +28,6 @@ sub new {
     foreach (qw(DBObject ConfigObject LogObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
-    # state params
-    $Self->{StateParams} = ['ID', 'Name', 'Comment', 'ValidID', 'TypeID', 'UserID'];
     # check needed config options
     foreach (qw(Ticket::ViewableStateType Ticket::UnlockStateType)) {
         $Self->{ConfigObject}->Get($_) || die "Need $_ in Kernel/Config.pm!\n";
@@ -48,9 +46,12 @@ sub StateAdd {
         return;
       }
     }
-    # qoute params
-    foreach (@{$Self->{StateParams}}) {
+    # quote params
+    foreach (qw(Name Comment)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    }
+    foreach (qw(ValidID TypeID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     my $SQL = "INSERT INTO ticket_state (name, valid_id, type_id, comments, " .
         " create_time, create_by, change_time, change_by)" .
@@ -101,7 +102,7 @@ sub StateGet {
         $SQL .= " ts.name = '".$Self->{DBObject}->Quote($Param{Name})."'";
     }
     else {
-        $SQL .= " ts.id = ".$Self->{DBObject}->Quote($Param{ID})."";
+        $SQL .= " ts.id = ".$Self->{DBObject}->Quote($Param{ID}, 'Integer')."";
     }
     if ($Self->{DBObject}->Prepare(SQL => $SQL)) {
         my %Data = ();
@@ -140,9 +141,12 @@ sub StateUpdate {
         return;
       }
     }
-    # db quote
-    foreach (@{$Self->{StateParams}}) {
+    # quote params
+    foreach (qw(Name Comment)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    }
+    foreach (qw(ID ValidID TypeID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # sql
     my $SQL = "UPDATE ticket_state SET name = '$Param{Name}', " .

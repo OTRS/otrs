@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleStorageDB.pm,v 1.28 2005-10-14 07:47:41 martin Exp $
+# $Id: ArticleStorageDB.pm,v 1.29 2005-10-31 10:07:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Base64;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -45,10 +45,6 @@ sub ArticleDelete {
         return;
       }
     }
-    # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
-    }
     # delete attachments and plain emails
     my @Articles = $Self->ArticleIndex(TicketID => $Param{TicketID});
     foreach (@Articles) {
@@ -67,6 +63,10 @@ sub ArticleDelete {
             ArticleID => $_,
             UserID => $Param{UserID},
         );
+    }
+    # db quote
+    foreach (qw(TicketID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # delete articles
     if ($Self->{DBObject}->Do(SQL => "DELETE FROM article WHERE ticket_id = $Param{TicketID}")) {
@@ -118,6 +118,10 @@ sub ArticleDeletePlain {
         return;
       }
     }
+    # db quote
+    foreach (qw(ArticleID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
     # delete attachments
     $Self->{DBObject}->Do(SQL => "DELETE FROM article_plain WHERE article_id = $Param{ArticleID}");
     # delete from fs
@@ -144,6 +148,10 @@ sub ArticleDeleteAttachment {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
+    }
+    # db quote
+    foreach (qw(ArticleID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # delete attachments
     $Self->{DBObject}->Do(SQL => "DELETE FROM article_attachment WHERE article_id = $Param{ArticleID}");
@@ -180,9 +188,9 @@ sub ArticleWritePlain {
         $Self->{EncodeObject}->EncodeOutput(\$Param{Email});
         $Param{Email} = encode_base64($Param{Email});
     }
-    # db quote (just not Email, use db Bind values)
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) if ($_ ne 'Email');;
+    # db quote
+    foreach (qw(ArticleID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # write article to db 1:1
     my $SQL = "INSERT INTO article_plain ".
@@ -242,6 +250,9 @@ sub ArticleWriteAttachment {
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) if ($_ ne 'Content');
     }
+    foreach (qw(ArticleID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
     my $SQL = "INSERT INTO article_attachment ".
         " (article_id, filename, content_type, content_size, content, ".
         " create_time, create_by, change_time, change_by) " .
@@ -275,9 +286,12 @@ sub ArticlePlain {
     if (!open (DATA, "< $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt")) {
         # can't open article
         # try database
+        foreach (qw(ArticleID)) {
+            $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+        }
         my $SQL = "SELECT body FROM article_plain ".
           " WHERE ".
-          " article_id = ".$Self->{DBObject}->Quote($Param{ArticleID})."";
+          " article_id = $Param{ArticleID}";
         $Self->{DBObject}->Prepare(SQL => $SQL);
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
             # decode attachemnt if it's e. g. a postgresql backend!!!
@@ -332,10 +346,12 @@ sub ArticleAttachmentIndex {
     my %Index = ();
     my $Counter = 0;
     # try database
+    foreach (qw(ArticleID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
     my $SQL = "SELECT filename, content_type, content_size FROM article_attachment ".
         " WHERE ".
-        " article_id = ".$Self->{DBObject}->Quote($Param{ArticleID})."".
-        " ORDER BY id";
+        " article_id = $Param{ArticleID} ORDER BY id";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         $Counter++;
@@ -424,10 +440,12 @@ sub ArticleAttachment {
     }
     else {
         # try database
+        foreach (qw(ArticleID)) {
+            $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+        }
         my $SQL = "SELECT content_type, content FROM article_attachment ".
             " WHERE ".
-            " article_id = ".$Self->{DBObject}->Quote($Param{ArticleID}).
-            " ORDER BY id";
+            " article_id = $Param{ArticleID} ORDER BY id";
         $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Param{FileID});
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
             $Data{ContentType} = $Row[0];

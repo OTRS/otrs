@@ -1,8 +1,8 @@
 # --
 # Kernel/System/POP3Account.pm - lib for POP3 accounts
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: POP3Account.pm,v 1.9 2004-09-04 17:31:59 martin Exp $
+# $Id: POP3Account.pm,v 1.10 2005-10-31 10:07:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::POP3Account;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -119,8 +119,11 @@ sub POP3AccountAdd {
         return;
     }
     # db quote
-    foreach (keys %Param) {
+    foreach (qw(Login Password Host Comment)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    foreach (qw(ValidID QueueID Trusted UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # sql
     my $SQL = "INSERT INTO pop3_account (login, pw, host, valid_id, comments, queue_id, " .
@@ -166,8 +169,8 @@ sub POP3AccountGet {
       return;
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(ID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # sql
     my $SQL = "SELECT login, pw, host, queue_id, trusted, comments, valid_id " .
@@ -238,8 +241,11 @@ sub POP3AccountUpdate {
         return;
     }
     # db quote
-    foreach (keys %Param) {
+    foreach (qw(Login Password Host Comment)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    foreach (qw(ID ValidID QueueID Trusted UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # sql
     my $SQL = "UPDATE pop3_account SET login = '$Param{Login}', pw = '$Param{Password}', ".
@@ -274,8 +280,8 @@ sub POP3AccountDelete {
       return;
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(ID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # sql
     my $SQL = "DELETE FROM pop3_account WHERE id = $Param{ID}";
@@ -324,6 +330,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2004-09-04 17:31:59 $
+$Revision: 1.10 $ $Date: 2005-10-31 10:07:03 $
 
 =cut
