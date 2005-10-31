@@ -2,7 +2,7 @@
 # Kernel/Modules/FAQ.pm - faq module
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQ.pm,v 1.17 2005-10-28 07:27:18 martin Exp $
+# $Id: FAQ.pm,v 1.18 2005-10-31 20:59:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::FAQ;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -352,6 +352,7 @@ sub Run {
             %Param,
             %GetParam,
             States => ['external (customer)', 'public (all)', 'internal (agent)'],
+            Limit => 25,
         );
         $Self->{LayoutObject}->Block(
             Name => 'SearchResult',
