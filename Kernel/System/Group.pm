@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 # --
-# $Id: Group.pm,v 1.34 2005-10-31 10:07:03 martin Exp $
+# $Id: Group.pm,v 1.35 2005-10-31 20:14:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Group;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.34 $';
+$VERSION = '$Revision: 1.35 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -177,7 +177,8 @@ sub GroupMemberAdd {
 #            print STDERR "No updated neede! UID:$Param{UID} to GID:$Param{GID}, $_:$Param{Permission}->{$_}!\n";
         }
         else {
-#            print STDERR "Updated neede! UID:$Param{UID} to GID:$Param{GID}, $_:$Param{Permission}->{$_}!\n";
+            $Self->{"GroupMemberAdd::GID::$Param{GID}"} = undef;
+#            print STDERR "Updated needed! UID:$Param{UID} to GID:$Param{GID}, $_:$Param{Permission}->{$_}!\n";
             # delete existing permission
             my $SQL = "DELETE FROM group_user ".
               " WHERE ".
@@ -1253,6 +1254,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.34 $ $Date: 2005-10-31 10:07:03 $
+$Revision: 1.35 $ $Date: 2005-10-31 20:14:01 $
 
 =cut
