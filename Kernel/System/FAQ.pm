@@ -2,7 +2,7 @@
 # Kernel/System/FAQ.pm - all faq funktions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQ.pm,v 1.24 2005-10-31 10:07:03 martin Exp $
+# $Id: FAQ.pm,v 1.25 2005-10-31 10:26:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -212,8 +212,8 @@ sub FAQAdd {
         $Param{Number} = $Self->{ConfigObject}->Get('SystemID').rand(100);
     }
     # db quote (just not Content, use db Bind values)
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) if ($_ ne 'Content');
+    foreach (qw(Number Name Title Keywords Field1 Field2 Field3 Field4 Field5 Field6 FreeKey1 FreeText1 FreeKey2 FreeText2 FreeKey3 FreeText3 FreeKey4 FreeText4 Filename ContentType Filesize)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     foreach (qw(CategoryID StateID LanguageID)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
@@ -334,8 +334,8 @@ sub FAQUpdate {
         $Param{Name} = $Article{Name};
     }
     # db quote (just not Content, use db Bind values)
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) if ($_ ne 'Content');
+    foreach (qw(Number Name Title Keywords Field1 Field2 Field3 Field4 Field5 Field6 FreeKey1 FreeText1 FreeKey2 FreeText2 FreeKey3 FreeText3 FreeKey4 FreeText4 Filename ContentType Filesize)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     foreach (qw(FAQID CategoryID StateID LanguageID)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
@@ -675,7 +675,7 @@ sub CategoryAdd {
       }
     }
     # db quote
-    foreach (keys %Param) {
+    foreach (qw(Name Comment)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
     }
     my $SQL = "INSERT INTO faq_category (name, comments, ".
@@ -1186,6 +1186,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.24 $ $Date: 2005-10-31 10:07:03 $
+$Revision: 1.25 $ $Date: 2005-10-31 10:26:20 $
 
 =cut
