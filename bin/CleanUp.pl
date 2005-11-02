@@ -1,20 +1,20 @@
 #!/usr/bin/perl -w
 # --
-# bin/CleanUp.pl - to cleanup, remove used tmp data of ipc, database or fs 
-# Copyright (C) 2001-2002 Martin Edenhofer <martin+code@otrs.org>
+# bin/CleanUp.pl - to cleanup, remove used tmp data of ipc, database or fs
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CleanUp.pl,v 1.1 2003-10-29 20:42:28 martin Exp $
+# $Id: CleanUp.pl,v 1.2 2005-11-02 14:34:30 rk Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -28,13 +28,14 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
 use Kernel::Config;
 use Kernel::System::Log;
 use Kernel::System::DB;
+use Kernel::System::Time;
 use Kernel::System::AuthSession;
 
 # get options
@@ -46,9 +47,10 @@ if ($Opts{'h'}) {
     print "usage: CleanUp.pl \n";
     exit 1;
 }
-# create common objects 
+# create common objects
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
+$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
 $CommonObject{LogObject} = Kernel::System::Log->new(
     LogPrefix => 'OTRS-CleanUp',
     %CommonObject,
