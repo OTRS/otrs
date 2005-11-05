@@ -2,7 +2,7 @@
 # Kernel/System/SystemAddress.pm - lib for system addresses
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SystemAddress.pm,v 1.7 2005-07-08 14:28:33 martin Exp $
+# $Id: SystemAddress.pm,v 1.8 2005-11-05 16:23:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,10 +14,48 @@ package Kernel::System::SystemAddress;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
+=head1 NAME
+
+Kernel::System::SystemAddress - all system address functions
+
+=head1 SYNOPSIS
+
+Global module to add/edit/update system addresses.
+
+=head1 PUBLIC INTERFACE
+
+=over 4
+
+=cut
+
+=item new()
+
+create a object
+
+  use Kernel::Config;
+  use Kernel::System::Log;
+  use Kernel::System::DB;
+  use Kernel::System::SystemAddress;
+
+  my $ConfigObject = Kernel::Config->new();
+  my $LogObject    = Kernel::System::Log->new(
+      ConfigObject => $ConfigObject,
+  );
+  my $DBObject = Kernel::System::DB->new(
+      ConfigObject => $ConfigObject,
+      LogObject => $LogObject,
+  );
+  my $SystemAddressObject = Kernel::System::SystemAddress->new(
+      ConfigObject => $ConfigObject,
+      LogObject => $LogObject,
+      DBObject => $DBObject,
+  );
+
+=cut
+
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -38,13 +76,26 @@ sub new {
 
     return $Self;
 }
-# --
+
+=item SystemAddressAdd()
+
+add system address with attributes
+
+    my $ID = $SystemAddressObject->SystemAddressAdd(
+        Name            => 'info@example.com',
+        Realname        => 'Hotline',
+        ValidID         => 1,
+        QueueID         => 123,
+        Comment         => 'some comment',
+        UserID          => 123,
+    );
+
+=cut
+
 sub SystemAddressAdd {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     foreach (qw(Name ValidID Realname QueueID UserID)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
@@ -52,8 +103,11 @@ sub SystemAddressAdd {
       }
     }
     # db quote
-    foreach (keys %Param) {
+    foreach (qw(Name Realname Comment)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    }
+    foreach (qw(ValidID QueueID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # sql
     my $SQL = "INSERT INTO system_address (value0, value1, valid_id, comments, queue_id, " .
@@ -77,7 +131,17 @@ sub SystemAddressAdd {
         return;
     }
 }
-# --
+
+=item SystemAddressGet()
+
+get system address with attributes
+
+    my %SystemAddress = $SystemAddressObject->SystemAddressGet(
+        ID              => 1,
+    );
+
+=cut
+
 sub SystemAddressGet {
     my $Self = shift;
     my %Param = @_;
@@ -87,8 +151,8 @@ sub SystemAddressGet {
       return;
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    foreach (qw(ID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # sql
     my $SQL = "SELECT value0, value1, comments, valid_id, queue_id ".
@@ -113,13 +177,27 @@ sub SystemAddressGet {
     }
     return %Data;
 }
-# --
+
+=item SystemAddressUpdate()
+
+update system address with attributes
+
+    $SystemAddressObject->SystemAddressUpdate(
+        ID              => 1,
+        Name            => 'info@example.com',
+        Realname        => 'Hotline',
+        ValidID         => 1,
+        QueueID         => 123,
+        Comment         => 'some comment',
+        UserID          => 123,
+    );
+
+=cut
+
 sub SystemAddressUpdate {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     foreach (qw(ID Name ValidID Realname QueueID UserID)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
@@ -127,8 +205,11 @@ sub SystemAddressUpdate {
       }
     }
     # db quote
-    foreach (keys %Param) {
+    foreach (qw(Name Realname Comment)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    }
+    foreach (qw(ID ValidID QueueID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # sql
     my $SQL = "UPDATE system_address SET value0 = '$Param{Name}', value1 = '$Param{Realname}', " .
@@ -142,7 +223,20 @@ sub SystemAddressUpdate {
         return;
     }
 }
-# --
+
+=item SystemAddressIsLocalAddress()
+
+check if used system address is a local address
+
+    if ($SystemAddressObject->SystemAddressIsLocalAddress(Address => 'info@example.com')) {
+        # is local
+    }
+    else {
+        # is not local
+    }
+
+=cut
+
 sub SystemAddressIsLocalAddress {
     my $Self = shift;
     my %Param = @_;
@@ -153,11 +247,6 @@ sub SystemAddressIsLocalAddress {
         return;
       }
     }
-    # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
-    }
-    # sql
     my $SQL = "SELECT value0, value1, comments, valid_id, queue_id ".
         " FROM ".
         " system_address ".
@@ -176,6 +265,20 @@ sub SystemAddressIsLocalAddress {
     }
     return $Hit;
 }
-# --
-
 1;
+
+=head1 TERMS AND CONDITIONS
+
+This software is part of the OTRS project (http://otrs.org/).
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (GPL). If you
+did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+
+=cut
+
+=head1 VERSION
+
+$Revision: 1.8 $ $Date: 2005-11-05 16:23:21 $
+
+=cut
