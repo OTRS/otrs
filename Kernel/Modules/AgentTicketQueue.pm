@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketQueue.pm,v 1.8 2005-10-23 23:49:50 martin Exp $
+# $Id: AgentTicketQueue.pm,v 1.9 2005-11-05 12:49:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -132,8 +132,10 @@ sub Run {
                 TemplateFile => 'AgentTicketQueue',
                 Data => { %Param },
             );
+            my $Counter = 0;
             foreach (@ViewableTickets) {
-                print $Self->ShowTicket(TicketID => $_);
+                $Counter++;
+                print $Self->ShowTicket(TicketID => $_, Counter => $Counter);
             }
             # get page footer
             return $Self->{LayoutObject}->Footer();
