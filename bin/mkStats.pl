@@ -3,7 +3,7 @@
 # SendStats.pl - send stats output via email
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: mkStats.pl,v 1.29 2005-10-04 19:25:18 martin Exp $
+# $Id: mkStats.pl,v 1.30 2005-11-05 12:34:44 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -141,15 +141,29 @@ if (eval "require $Module") {
     my @Params = $StatsModule->Param();
     foreach my $ParamItem (@Params) {
         if (!$ParamItem->{Multiple}) {
-            $GetParam{$ParamItem->{Name}} = GetParam(
+            my $Value = GetParam(
                 Param => $ParamItem->{Name},
             );
+            if (defined($Value)) {
+                $GetParam{$ParamItem->{Name}} = GetParam(
+                    Param => $ParamItem->{Name},
+                );
+            }
+            elsif (defined($ParamItem->{SelectedID})) {
+                $GetParam{$ParamItem->{Name}} = $ParamItem->{SelectedID};
+            }
 #            print STDERR "$ParamItem->{Name}: $GetParam{$ParamItem->{Name}}\n";
        }
        else {
-            $GetParam{$ParamItem->{Name}} = [GetArray(
+            my @Value = GetArray(
                 Param => $ParamItem->{Name},
-            )];
+            );
+            if (defined(@Value)) {
+                $GetParam{$ParamItem->{Name}} = \@Value;
+            }
+            elsif (defined($ParamItem->{SelectedID})) {
+                $GetParam{$ParamItem->{Name}} = [$ParamItem->{SelectedID}];
+            }
 #            print STDERR "$ParamItem->{Name}: $GetParam{$ParamItem->{Name}}\n";
        }
     }
@@ -274,7 +288,7 @@ sub GetArray {
         print STDERR "ERROR: Need Param Arg in GetArray()\n";
     }
     my @P = split(/&/, $Opts{'p'}||'');
-    my @Array = ();
+    my @Array;
     foreach (@P) {
         my ($Key, $Value) = split(/=/, $_, 1);
         if ($Key eq $Param{Param}) {
