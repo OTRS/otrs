@@ -3,7 +3,7 @@
 # SendStats.pl - send stats output via email
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: mkStats.pl,v 1.30 2005-11-05 12:34:44 martin Exp $
+# $Id: mkStats.pl,v 1.31 2005-11-05 12:36:04 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -158,7 +158,7 @@ if (eval "require $Module") {
             my @Value = GetArray(
                 Param => $ParamItem->{Name},
             );
-            if (defined(@Value)) {
+            if (@Value) {
                 $GetParam{$ParamItem->{Name}} = \@Value;
             }
             elsif (defined($ParamItem->{SelectedID})) {
