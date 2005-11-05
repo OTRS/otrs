@@ -2,7 +2,7 @@
 # Kernel/System/FAQ.pm - all faq funktions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQ.pm,v 1.26 2005-10-31 20:59:37 martin Exp $
+# $Id: FAQ.pm,v 1.27 2005-11-05 11:59:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use MIME::Base64;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -142,6 +142,10 @@ sub FAQGet {
             Keywords => $Row[26],
             Number => $Row[27],
         );
+    }
+    if (!%Data) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "No such FAQID $Param{FAQID}!");
+        return;
     }
     # update number
     if (!$Data{Number}) {
@@ -1187,6 +1191,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.26 $ $Date: 2005-10-31 20:59:37 $
+$Revision: 1.27 $ $Date: 2005-11-05 11:59:52 $
 
 =cut
