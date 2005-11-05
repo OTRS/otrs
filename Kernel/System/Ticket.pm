@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.190 2005-10-31 10:07:03 martin Exp $
+# $Id: Ticket.pm,v 1.191 2005-11-05 12:06:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.190 $';
+$VERSION = '$Revision: 1.191 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -1823,16 +1823,25 @@ To find tickets in your system.
       # ticket properties (optional)
       TicketNumber => '%123546%',
       Title => '%SomeText%',
+
       Queues => ['system queue', 'other queue'],
       QueueIDs => [1, 42, 512],
+      # use also sub queues of Queue|Queues in search
+      UseSubQueues => 0,
+
       States => ['new', 'open'],
       StateIDs => [3, 4],
       StateType => 'Open', # Open|Closed tickets or other types
+
       Priorities => ['1 very low', '2 low', '3 normal'],
       PriorityIDs => [1, 2, 3],
+
       Locks => ['unlock'],
+
       UserIDs => [1, 12, 455, 32]
+
       Owner => '123',
+
       # CustomerID as STRING or more as ARRAYREF
       CustomerID => '123',
       CustomerID => ['123', 'ABC'],
@@ -2104,6 +2113,20 @@ sub TicketSearch {
                 return;
             }
         }
+    }
+    # current sub queue ids
+    if ($Param{UseSubQueues} && $Param{QueueIDs} && ref($Param{QueueIDs}) eq 'ARRAY') {
+        my @SubQueueIDs = ();
+        my %Queues = $Self->{QueueObject}->GetAllQueues();
+        foreach my $QueueID (@{$Param{QueueIDs}}) {
+            my $Queue = $Self->{QueueObject}->QueueLookup(QueueID => $QueueID);
+            foreach my $QueuesID (keys %Queues) {
+                if ($Queues{$QueuesID} =~ /^\Q$Queue::\E/i) {
+                    push (@SubQueueIDs, $QueuesID);
+                }
+            }
+        }
+        push (@{$Param{QueueIDs}}, @SubQueueIDs);
     }
     # current queue ids
     if ($Param{QueueIDs} && ref($Param{QueueIDs}) eq 'ARRAY') {
@@ -4162,6 +4185,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.190 $ $Date: 2005-10-31 10:07:03 $
+$Revision: 1.191 $ $Date: 2005-11-05 12:06:07 $
 
 =cut
