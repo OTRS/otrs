@@ -1,20 +1,21 @@
 # --
 # Kernel/System/AutoResponse.pm - lib for auto responses
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AutoResponse.pm,v 1.8 2004-02-02 23:27:23 martin Exp $
+# $Id: AutoResponse.pm,v 1.9 2005-11-05 15:46:12 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
 package Kernel::System::AutoResponse;
 
 use strict;
+use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,7 +24,7 @@ sub new {
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     # get common opjects
@@ -34,6 +35,10 @@ sub new {
     # check all needed objects
     foreach (qw(DBObject ConfigObject LogObject)) {
         die "Got no $_" if (!$Self->{$_});
+    }
+
+    if (!$Self->{QueueObject}) {
+        $Self->{QueueObject} = Kernel::System::Queue->new(%Param);
     }
 
     return $Self;
@@ -50,8 +55,11 @@ sub AutoResponseAdd {
       }
     }
     # db quote
-    foreach (keys %Param) {
-            $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    foreach (qw(Name Comment Response Charset Subject)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    }
+    foreach (qw(ValidID TypeID AddressID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # sql
     my $SQL = "INSERT INTO auto_response " .
@@ -78,10 +86,10 @@ sub AutoResponseGet {
       return;
     }
     # db quote
-    foreach (keys %Param) {
-            $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    foreach (qw(ID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
-    # sql 
+    # sql
     my $SQL = "SELECT name, valid_id, comments, text0, text1, " .
         " type_id, system_address_id, charset " .
         " FROM " .
@@ -92,7 +100,7 @@ sub AutoResponseGet {
         return;
     }
     if (my @Data = $Self->{DBObject}->FetchrowArray()) {
-        my %Data = ( 
+        my %Data = (
             ID => $Param{ID},
             Name => $Data[0],
             Comment => $Data[2],
@@ -105,7 +113,7 @@ sub AutoResponseGet {
         );
         return %Data;
     }
-    else { 
+    else {
         return;
     }
 }
@@ -121,8 +129,11 @@ sub AutoResponseUpdate {
       }
     }
     # db quote
-    foreach (keys %Param) {
+    foreach (qw(Name Comment Response Charset Subject)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
+    }
+    foreach (qw(ID ValidID TypeID AddressID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # sql
     my $SQL = "UPDATE auto_response SET " .
@@ -133,7 +144,7 @@ sub AutoResponseUpdate {
         " type_id = $Param{TypeID}, " .
         " system_address_id = $Param{AddressID}, " .
         " charset = '$Param{Charset}', " .
-        " valid_id = $Param{ValidID}, " . 
+        " valid_id = $Param{ValidID}, " .
         " change_time = current_timestamp, " .
         " change_by = $Param{UserID} " .
         " WHERE " .
@@ -158,14 +169,16 @@ sub AutoResponseGetByTypeQueueID {
       }
     }
     # db quote
-    foreach (keys %Param) {
+    foreach (qw(Type)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
     }
+    foreach (qw(QueueID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
     # SQL query
-    my $SQL = "SELECT ar.text0, sa.value0, sa.value1, ar.text1, ar.charset" .
+    my $SQL = "SELECT ar.text0, ar.text1, ar.charset" .
     " FROM " .
-    " auto_response_type art, auto_response ar, queue_auto_response qar, ".
-    " system_address sa  " .
+    " auto_response_type art, auto_response ar, queue_auto_response qar ".
     " WHERE " .
     " qar.queue_id = $Param{QueueID} " .
     " AND " .
@@ -173,18 +186,20 @@ sub AutoResponseGetByTypeQueueID {
     " AND " .
     " qar.auto_response_id = ar.id " .
     " AND " .
-    " ar.system_address_id = sa.id" .
-    " AND " .
     " art.name = '$Param{Type}'";
     $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        $Data{Text} = $RowTmp[0];
-        $Data{Address} = $RowTmp[1];
-        $Data{Realname} = $RowTmp[2];
-        $Data{Subject} = $RowTmp[3];
-        $Data{Charset} = $RowTmp[4];
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $Data{Text} = $Row[0];
+        $Data{Subject} = $Row[1];
+        $Data{Charset} = $Row[2];
     }
-    return %Data;
+    my %Adresss = $Self->{QueueObject}->GetSystemAddress(
+        QueueID => $Param{QueueID},
+    );
+    # COMPAT: 2.1
+    $Data{Realname} = $Adresss{RealName};
+    $Data{Address} = $Adresss{Email};
+    return (%Adresss, %Data);
 }
 # --
 
