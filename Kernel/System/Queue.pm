@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.52 2005-10-31 10:07:03 martin Exp $
+# $Id: Queue.pm,v 1.53 2005-11-05 11:52:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Group;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.52 $';
+$VERSION = '$Revision: 1.53 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -405,9 +405,11 @@ sub GetAllCustomQueues {
 
 =item QueueLookup()
 
-...
+get id or name for queue
 
-    ...
+    my $Queue = $QueueObject->QueueLookup(QueueID => $QueueID);
+
+    my $QueueID = $QueueObject->QueueLookup(Queue => $Queue);
 
 =cut
 
@@ -956,6 +958,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.52 $ $Date: 2005-10-31 10:07:03 $
+$Revision: 1.53 $ $Date: 2005-11-05 11:52:41 $
 
 =cut
