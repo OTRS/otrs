@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.53 2005-11-05 11:52:41 martin Exp $
+# $Id: Queue.pm,v 1.54 2005-11-05 15:47:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Group;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.53 $';
+$VERSION = '$Revision: 1.54 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -89,26 +89,33 @@ sub new {
 
 get a queue system email address as hash (Email, RealName)
 
-    my %Adresss = $Self->{QueueObject}->GetSystemAddress(QueueID => 123);
+    my %Adresss = $Self->{QueueObject}->GetSystemAddress(
+        QueueID => 123,
+    );
 
 =cut
 
 sub GetSystemAddress {
     my $Self = shift;
     my %Param = @_;
-    my %Adresss;
+    my %Address;
     my $QueueID = $Param{QueueID} || $Self->{QueueID};
     my $SQL = "SELECT sa.value0, sa.value1 FROM system_address sa, queue sq ".
 	" WHERE ".
-	" sq.id = ".$Self->{DBObject}->Quote($QueueID)." ".
+	" sq.id = ".$Self->{DBObject}->Quote($QueueID, 'Integer')." ".
 	" and ".
 	" sa.id = sq.system_address_id";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-        $Adresss{Email} = $Row[0];
-        $Adresss{RealName} = $Row[1];
+        $Address{Email} = $Row[0];
+        $Address{RealName} = $Row[1];
     }
-    return %Adresss;
+    # prepare realname quote
+    if ($Address{RealName} =~ /(,|@|\(|\))/ && $Address{RealName} !~ /^("|')/) {
+        $Address{RealName} =~ s/"/\"/g;
+        $Address{RealName} = '"'.$Address{RealName}.'"';
+    }
+    return %Address;
 }
 
 =item GetSalutation()
@@ -958,6 +965,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.53 $ $Date: 2005-11-05 11:52:41 $
+$Revision: 1.54 $ $Date: 2005-11-05 15:47:10 $
 
 =cut
