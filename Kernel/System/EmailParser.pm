@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: EmailParser.pm,v 1.41 2005-02-23 07:19:39 martin Exp $
+# $Id: EmailParser.pm,v 1.42 2005-11-05 14:35:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Mail::Address;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.42 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -144,7 +144,18 @@ sub GetParam {
             # word two times! Remember to the old one. :-(
             if (!$Remember{$Array->[0]}) {
                 if ($Array->[0] && $Array->[1]) {
-                    $Remember{$Array->[0]}++;
+                    $Remember{$Array->[0]} = 1;
+                }
+                # Workaround for OE problem:
+                # If a header contains =?iso-8859-1?Q?Fr=F6hlich=2C_Roman?=
+                # which is decoded ->Fröhlich, Roman<- which gets an problem
+                # because this means two email addresses. We add " at
+                # the start and at the end of this types of words mime.
+                if ($What =~ /^(From|To|Cc)/ && $Array->[1]) {
+                    if ($Array->[0] !~ /^("|')/ && $Array->[0] =~ /,/) {
+                        $Array->[0] = '"'.$Array->[0].'"';
+                        $Remember{$Array->[0]} = 1;
+                    }
                 }
                 $ReturnLine .= $Self->{EncodeObject}->Decode(
                     Text => $Array->[0],
@@ -689,6 +700,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.41 $ $Date: 2005-02-23 07:19:39 $
+$Revision: 1.42 $ $Date: 2005-11-05 14:35:55 $
 
 =cut
