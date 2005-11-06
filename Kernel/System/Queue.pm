@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.54 2005-11-05 15:47:10 martin Exp $
+# $Id: Queue.pm,v 1.55 2005-11-06 18:26:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Group;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.54 $';
+$VERSION = '$Revision: 1.55 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -871,12 +871,12 @@ sub QueueUpdate {
     my %DB = ();
     # check !!!
     foreach (qw(UnlockTimeout EscalationTime FollowUpLock MoveNotify StateNotify LockNotify OwnerNotify DefaultSignKey)) {
-        $DB{$_} = 0 if (!$Param{$_});
+        $Param{$_} = 0 if (!$Param{$_});
     }
     foreach (qw(Name DefaultSignKey Comment)) {
         $DB{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
     };
-    foreach (qw(GroupID UnlockTimeout SystemAddressID SalutationID SignatureID FollowUpID FollowUpLock EscalationTime MoveNotify StateNotify ValidID)) {
+    foreach (qw(QueueID GroupID UnlockTimeout SystemAddressID SalutationID SignatureID FollowUpID FollowUpLock EscalationTime StateNotify LockNotify OwnerNotify MoveNotify StateNotify ValidID UserID)) {
         $DB{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # check queue name
@@ -965,6 +965,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.54 $ $Date: 2005-11-05 15:47:10 $
+$Revision: 1.55 $ $Date: 2005-11-06 18:26:57 $
 
 =cut
