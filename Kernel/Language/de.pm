@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: de.pm,v 1.96 2005-10-15 12:08:12 martin Exp $
+# $Id: de.pm,v 1.97 2005-11-07 13:06:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.96 $';
+$VERSION = '$Revision: 1.97 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -917,7 +917,7 @@ sub Data {
       'Add note to ticket' => 'Anheften einer Notiz an Ticket',
       'Inform Agent' => 'Agenten informieren',
       'Optional' => '',
-      'Inform involved Agents' => 'Invlivierte Agenten informieren',
+      'Inform involved Agents' => 'Involvierte Agenten informieren',
 
       # Template: AgentTicketOwner
       'Change owner of ticket' => 'Ticket-Besitzer ändern',
