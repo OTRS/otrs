@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketNote.pm - to add notes to a ticket
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketNote.pm,v 1.5 2005-07-08 19:17:33 martin Exp $
+# $Id: AgentTicketNote.pm,v 1.6 2005-11-07 13:17:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -368,13 +368,11 @@ sub _Mask {
         my %UserHash = ();
         my $Counter = 0;
         foreach my $User (reverse @UserIDs) {
-            if ($Counter) {
-                if (!$UserHash{$User->{UserID}}) {
-                    $UserHash{$User->{UserID}} = "$Counter: $User->{UserLastname} ".
-                      "$User->{UserFirstname} ($User->{UserLogin})";
-                }
-            }
             $Counter++;
+            if (!$UserHash{$User->{UserID}}) {
+                $UserHash{$User->{UserID}} = "$Counter: $User->{UserLastname} ".
+                  "$User->{UserFirstname} ($User->{UserLogin})";
+            }
         }
         $Param{'InvolvedAgentStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data => \%UserHash,
