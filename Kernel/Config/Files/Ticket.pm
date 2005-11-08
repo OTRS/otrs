@@ -510,6 +510,8 @@
     $Self->{'Ticket::Frontend::PendingState'} = 'pending reminder';
     # next possible states for pendinf screen
     $Self->{'Ticket::DefaultPendingNextStateType'} = ['pending reminder', 'pending auto'];
+    # default note type
+    $Self->{'Ticket::Frontend::PendingNoteType'} = 'note-internal';
 
     # --------------------------------------------------- #
     # Ticket Frontend Ticket Close stuff

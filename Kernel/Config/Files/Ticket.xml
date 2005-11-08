@@ -148,7 +148,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.69 2005-10-27 09:39:30 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.70 2005-11-08 07:02:53 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifyer for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z.B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -1741,6 +1741,15 @@ TimeWorkingHours
                 <Item>pending reminder</Item>
                 <Item>pending auto</Item>
             </Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::PendingNoteType" Required="1" Valid="1">
+        <Description Lang="en">Default note type for pending tickets.</Description>
+        <Description Lang="de">Standard Notiz Typ für warten Tickets.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
+        <Setting>
+            <String Regex="">note-internal</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CloseNoteType" Required="1" Valid="1">

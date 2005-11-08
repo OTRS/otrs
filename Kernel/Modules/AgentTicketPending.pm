@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPending.pm - to set ticket in pending state
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPending.pm,v 1.7 2005-08-05 18:05:02 cs Exp $
+# $Id: AgentTicketPending.pm,v 1.8 2005-11-08 07:02:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -241,12 +241,19 @@ sub _Mask {
         TicketID => $Self->{TicketID},
         UserID => $Self->{UserID},
     );
+    my %SelectedNote = ();
+    if ($Param{NoteID}) {
+        $SelectedNote{SelectedID} = $Param{NoteID};
+    }
+    else {
+        $SelectedNote{Selected} = $Self->{ConfigObject}->Get('Ticket::Frontend::PendingNote');
+    }
     my %SelectedState = ();
     if ($Param{StateID}) {
         $SelectedState{SelectedID} = $Param{StateID};
     }
     else {
-        $SelectedState{Selected} = $Self->{ConfigObject}->Get('Ticket::Frontend::PendingState');
+        $SelectedState{Selected} = $Self->{ConfigObject}->Get('Ticket::Frontend::PendingNoteType');
     }
     # get possible notes
     my %DefaultNoteTypes = %{$Self->{ConfigObject}->Get('Ticket::Frontend::NoteTypes')};
@@ -271,6 +278,7 @@ sub _Mask {
         Data => \%NoteTypes,
         Name => 'NoteID',
         SelectedID => $Param{NoteID},
+        %SelectedNote,
     );
     $Param{DateString} = $Self->{LayoutObject}->BuildDateSelection(
         Format => 'DateInputFormatLong',
