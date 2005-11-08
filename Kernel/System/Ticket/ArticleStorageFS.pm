@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleStorageFS.pm,v 1.27 2005-10-31 14:03:41 martin Exp $
+# $Id: ArticleStorageFS.pm,v 1.28 2005-11-08 06:59:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use MIME::Base64;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -185,15 +185,17 @@ sub ArticleDeleteAttachment {
     # delete from fs
     my $ContentPath = $Self->ArticleGetContentPath(ArticleID => $Param{ArticleID});
     my $Path = "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}";
-    my @List = glob($Path."/*");
-    foreach my $File (@List) {
-        $File =~ s!^.*/!!;
-        if ($File !~ /^plain.txt$/) {
-            if (!unlink "$Path/$File") {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message => "Can't remove: $Path/$File: $!!",
-                );
+    if (-e $Path) {
+        my @List = glob($Path."/*");
+        foreach my $File (@List) {
+            $File =~ s!^.*/!!;
+            if ($File !~ /^plain.txt$/) {
+                if (!unlink "$Path/$File") {
+                    $Self->{LogObject}->Log(
+                        Priority => 'error',
+                        Message => "Can't remove: $Path/$File: $!!",
+                    );
+                }
             }
         }
     }
