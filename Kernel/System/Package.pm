@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.pm,v 1.38 2005-10-25 18:30:38 martin Exp $
+# $Id: Package.pm,v 1.39 2005-11-10 22:51:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.39 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1019,7 +1019,7 @@ sub PackageOnlineGet {
 
 =item DeployCheck()
 
-check if package (files) is deployed
+check if package (files) is deployed, returns true if it's ok
 
     $PackageObject->DeployCheck(
         Name => 'Application A',
@@ -1505,6 +1505,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.38 $ $Date: 2005-10-25 18:30:38 $
+$Revision: 1.39 $ $Date: 2005-11-10 22:51:59 $
 
 =cut
