@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LinkObject.pm,v 1.6 2005-10-31 10:08:29 martin Exp $
+# $Id: LinkObject.pm,v 1.7 2005-11-10 09:02:31 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::LinkObject;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -188,15 +188,25 @@ sub UnlinkObject {
         }
     }
     my $SQL = "DELETE FROM object_link WHERE ".
-        " object_link_a_id = $Param{LinkID1} ".
+        " (object_link_a_id = '$Param{LinkID1}' ".
         " AND ".
-        " object_link_b_id = $Param{LinkID2} ".
+        " object_link_b_id = '$Param{LinkID2}' ".
         " AND ".
         " object_link_a_object = '$Param{LinkObject1}' ".
         " AND ".
         " object_link_b_object = '$Param{LinkObject2}' ".
         " AND ".
-        " object_link_type = '$Param{LinkType}' ";
+        " object_link_type = '$Param{LinkType}') ".
+        " OR ".
+        " (object_link_a_id = '$Param{LinkID2}' ".
+        " AND ".
+        " object_link_b_id = '$Param{LinkID1}' ".
+        " AND ".
+        " object_link_a_object = '$Param{LinkObject2}' ".
+        " AND ".
+        " object_link_b_object = '$Param{LinkObject1}' ".
+        " AND ".
+        " object_link_type = '$Param{LinkType}') ";
 
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         $Self->BackendUnlinkObject(%Param);
@@ -406,6 +416,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2005-10-31 10:08:29 $
+$Revision: 1.7 $ $Date: 2005-11-10 09:02:31 $
 
 =cut
