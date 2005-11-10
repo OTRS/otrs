@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminResponseAttachment.pm - queue <-> responses
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminResponseAttachment.pm,v 1.11 2005-03-27 11:50:50 martin Exp $
+# $Id: AdminResponseAttachment.pm,v 1.12 2005-11-10 22:47:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::StdResponse;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -52,7 +52,7 @@ sub Run {
     my %Param = @_;
     my $Output = '';
     my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
-    $ID = $Self->{DBObject}->Quote($ID);
+    $ID = $Self->{DBObject}->Quote($ID, 'Integer') if ($ID);
 
     my $NextScreen = 'AdminResponseAttachment';
 
@@ -118,7 +118,7 @@ sub Run {
         );
         foreach my $NewID (@NewIDs) {
             # db quote
-            $NewID = $Self->{DBObject}->Quote($NewID);
+            $NewID = $Self->{DBObject}->Quote($NewID, 'Integer');
             my $SQL = "INSERT INTO standard_response_attachment (standard_attachment_id, ".
               "standard_response_id, create_time, create_by, " .
 	          " change_time, change_by)" .

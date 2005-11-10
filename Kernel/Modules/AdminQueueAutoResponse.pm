@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueueAutoResponse.pm - to add/update/delete QueueAutoResponses
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueueAutoResponse.pm,v 1.16 2005-10-20 21:22:56 martin Exp $
+# $Id: AdminQueueAutoResponse.pm,v 1.17 2005-11-10 22:47:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminQueueAutoResponse;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -46,7 +46,7 @@ sub Run {
     my %Param = @_;
     my $Output = '';
     $Param{ID} = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
-    $Param{ID} = $Self->{DBObject}->Quote($Param{ID});
+    $Param{ID} = $Self->{DBObject}->Quote($Param{ID}, 'Integer') if ($Param{ID});
 
     if ($Self->{Subaction} eq 'Change') {
         $Output .= $Self->{LayoutObject}->Header();
@@ -113,7 +113,7 @@ sub Run {
         foreach my $NewID (@NewIDs) {
             if ($NewID) {
               # db quote
-              $NewID = $Self->{DBObject}->Quote($NewID);
+              $NewID = $Self->{DBObject}->Quote($NewID, 'Integer');
               my $SQL = "INSERT INTO queue_auto_response (queue_id, auto_response_id, " .
   			" create_time, create_by, change_time, change_by)" .
               " VALUES " .

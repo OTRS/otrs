@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSignature.pm - to add/update/delete  signatures
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSignature.pm,v 1.17 2005-03-27 11:50:50 martin Exp $
+# $Id: AdminSignature.pm,v 1.18 2005-11-10 22:47:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminSignature;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -51,7 +51,7 @@ sub Run {
     if ($Self->{Subaction} eq 'Change') {
         my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
         # db quote
-        $ID = $Self->{DBObject}->Quote($ID);
+        $ID = $Self->{DBObject}->Quote($ID, 'Integer');
         $Output .= $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         my $SQL = "SELECT name, valid_id, comments, text " .
@@ -79,11 +79,14 @@ sub Run {
             $GetParam{$_} = $Self->{DBObject}->Quote($GetParam{$_}) || '';
             $GetParam{$_} = '' if (!exists $GetParam{$_});
         }
+        foreach (qw(ID ValidID)) {
+            $GetParam{$_} = $Self->{DBObject}->Quote($GetParam{$_}, 'Integer');
+        }
         my $SQL = "UPDATE signature SET name = '$GetParam{Name}', text = '$GetParam{Signature}', " .
-          " comments = '$GetParam{Comment}', valid_id = $GetParam{ValidID}, " . 
+          " comments = '$GetParam{Comment}', valid_id = $GetParam{ValidID}, " .
           " change_time = current_timestamp, change_by = $Self->{UserID} " .
           " WHERE id = $GetParam{ID}";
-        if ($Self->{DBObject}->Do(SQL => $SQL)) { 
+        if ($Self->{DBObject}->Do(SQL => $SQL)) {
             $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=$Param{NextScreen}");
         }
         else {
@@ -99,6 +102,9 @@ sub Run {
         foreach (@Params) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
             $GetParam{$_} = $Self->{DBObject}->Quote($GetParam{$_}) || '';
+        }
+        foreach (qw(ID ValidID)) {
+            $GetParam{$_} = $Self->{DBObject}->Quote($GetParam{$_}, 'Integer');
         }
         my $SQL = "INSERT INTO signature (name, valid_id, comments, text, create_time, create_by, change_time, change_by)" .
 		" VALUES " .
