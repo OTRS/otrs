@@ -2,7 +2,7 @@
 # Kernel/System/POP3Account.pm - lib for POP3 accounts
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: POP3Account.pm,v 1.10 2005-10-31 10:07:03 martin Exp $
+# $Id: POP3Account.pm,v 1.11 2005-11-10 22:52:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::POP3Account;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -120,7 +120,7 @@ sub POP3AccountAdd {
     }
     # db quote
     foreach (qw(Login Password Host Comment)) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
     }
     foreach (qw(ValidID QueueID Trusted UserID)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
@@ -242,7 +242,7 @@ sub POP3AccountUpdate {
     }
     # db quote
     foreach (qw(Login Password Host Comment)) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
     }
     foreach (qw(ID ValidID QueueID Trusted UserID)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
@@ -330,6 +330,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2005-10-31 10:07:03 $
+$Revision: 1.11 $ $Date: 2005-11-10 22:52:34 $
 
 =cut
