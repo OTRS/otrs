@@ -2,7 +2,7 @@
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPackageManager.dtl,v 1.10 2005-10-13 05:41:24 martin Exp $
+# $Id: AdminPackageManager.dtl,v 1.11 2005-11-10 09:17:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -268,6 +268,36 @@
       <td class="contentvalue">($QData{"Permission"}) $QData{"Location"}</td>
     </tr>
 <!-- dtl:block:PackageItemFilelist -->
+<!-- dtl:block:PackageItemDatabase -->
+    <tr>
+      <td class="contentkey">$QData{"TagName"}: </td>
+      <td class="contentvalue">$QData{"Tag"}: $QData{"Name"} ($QData{"Version"})<br>
+<!-- dtl:block:PackageItemDatabaseSub -->
+        <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="20"></td><td>$Text{"Type"}: </td><td>$QData{"Tag"}</td>
+          </tr>
+          <tr>
+            <td></td><td>$Text{"Name"}: </td><td>$QData{"Name"}</td>
+          </tr>
+          <tr>
+            <td></td><td>$Text{"Required"}: </td><td>$QData{"Required"}</td>
+          </tr>
+          <tr>
+            <td></td><td>$Text{"Size"}: </td><td>$QData{"Size"}</td>
+          </tr>
+          <tr>
+            <td></td><td>$Text{"PrimaryKey"}: </td><td>$QData{"PrimaryKey"}</td>
+          </tr>
+          <tr>
+            <td></td><td>$Text{"AutoIncrement"}: </td><td>$QData{"AutoIncrement"}</td>
+          </tr>
+        </table>
+        <hr width="100%">
+<!-- dtl:block:PackageItemDatabaseSub -->
+      </td>
+    </tr>
+<!-- dtl:block:PackageItemDatabase -->
   </table>
 
       </td>

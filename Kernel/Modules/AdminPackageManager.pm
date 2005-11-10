@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPackageManager.pm,v 1.20 2005-10-13 05:41:25 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.21 2005-11-10 09:17:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Package;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -113,6 +113,22 @@ sub Run {
                             Name => "PackageItem$Key",
                             Data => { %{$Hash}, Tag => $Key, },
                         );
+                    }
+                    elsif ($Key =~ /^Database(Install|Reinstall|Upgrade|Uninstall)$/) {
+                        if ($Hash->{TagType} eq 'Start') {
+                            if ($Hash->{Tag} =~ /^Table/) {
+                                $Self->{LayoutObject}->Block(
+                                    Name => "PackageItemDatabase",
+                                    Data => { %{$Hash}, TagName => $Key, },
+                                );
+                            }
+                            else {
+                                $Self->{LayoutObject}->Block(
+                                    Name => "PackageItemDatabaseSub",
+                                    Data => { %{$Hash}, TagName => $Key, },
+                                );
+                            }
+                        }
                     }
                     else {
                         $Self->{LayoutObject}->Block(
