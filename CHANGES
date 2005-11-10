@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.207 2005-10-31 16:59:28 martin Exp $
+# $Id: CHANGES,v 1.208 2005-11-10 22:47:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,6 +11,12 @@
 CVS head
 
 2.0.4 (2005/10/??)
+ - (2005/11/08) added missing default pending note type
+ - (2005/11/05) fixed bug #922 - rfc quoteing for emails with sender
+    like info@example.com <info@example.com> is now
+    "info@example.com <info@example.com>"
+ - (2005/11/05) fixed bug #639 - problems with german "umlaute" and
+    "," in realname if OE is the sender system
  - (2005/10/31) moved to default download type as attachment (not inline)
     for a better security default setting
  - (2005/10/31) fixed bug in html mime online viewer module
