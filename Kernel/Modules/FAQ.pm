@@ -2,7 +2,7 @@
 # Kernel/Modules/FAQ.pm - faq module
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FAQ.pm,v 1.18 2005-10-31 20:59:37 martin Exp $
+# $Id: FAQ.pm,v 1.19 2005-11-11 16:21:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::FAQ;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -302,18 +302,20 @@ sub Run {
     elsif ($Self->{Subaction} eq 'Search') {
         my %GetParam    = ();
         my %Frontend    = ();
-        # store last queue screen
-        $Self->{SessionObject}->UpdateSessionID(
-            SessionID => $Self->{SessionID},
-            Key => 'LastScreenOverview',
-            Value => $Self->{RequestedURL},
-        );
-        # store last screen
-        $Self->{SessionObject}->UpdateSessionID(
-            SessionID => $Self->{SessionID},
-            Key => 'LastScreenView',
-            Value => $Self->{RequestedURL},
-        );
+        if ($HeaderType ne 'Small') {
+            # store last queue screen
+            $Self->{SessionObject}->UpdateSessionID(
+                SessionID => $Self->{SessionID},
+                Key => 'LastScreenOverview',
+                Value => $Self->{RequestedURL},
+            );
+            # store last screen
+            $Self->{SessionObject}->UpdateSessionID(
+                SessionID => $Self->{SessionID},
+                Key => 'LastScreenView',
+                Value => $Self->{RequestedURL},
+            );
+        }
         # get params
         foreach (qw(LanguageIDs CategoryIDs)) {
             my @Array = $Self->{ParamObject}->GetArray(Param => $_);
@@ -483,11 +485,13 @@ sub Run {
     # ---------------------------------------------------------- #
     elsif ($ID) {
         # remember to last screen
-        $Self->{SessionObject}->UpdateSessionID(
-            SessionID => $Self->{SessionID},
-            Key => 'LastScreenView',
-            Value => $Self->{RequestedURL},
-        );
+        if ($HeaderType ne 'Small') {
+            $Self->{SessionObject}->UpdateSessionID(
+                SessionID => $Self->{SessionID},
+                Key => 'LastScreenView',
+                Value => $Self->{RequestedURL},
+            );
+        }
         my %Data = $Self->{FAQObject}->FAQGet(FAQID => $ID);
         my $Output = $Self->{LayoutObject}->Header(Title => $Data{Number}, Type => $HeaderType);
         $Output .= $NavBar;
