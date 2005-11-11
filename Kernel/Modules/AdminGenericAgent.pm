@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminGenericAgent.pm,v 1.19 2005-10-01 13:14:55 martin Exp $
+# $Id: AdminGenericAgent.pm,v 1.20 2005-11-11 11:02:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,10 +14,11 @@ package Kernel::Modules::AdminGenericAgent;
 use strict;
 use Kernel::System::Priority;
 use Kernel::System::State;
+use Kernel::System::Lock;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -42,6 +43,7 @@ sub new {
 
     $Self->{PriorityObject} = Kernel::System::Priority->new(%Param);
     $Self->{StateObject} = Kernel::System::State->new(%Param);
+    $Self->{LockObject} = Kernel::System::Lock->new(%Param);
     $Self->{GenericAgentObject} = Kernel::System::GenericAgent->new(%Param);
 
     return $Self;
@@ -581,10 +583,12 @@ sub MaskForm {
         SelectedID => defined($Param{Valid}) ? $Param{Valid} : 1,
     );
     $Param{'LockOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => { $Self->{DBObject}->GetTableData(
-            What => 'id, name',
-            Table => 'ticket_lock_type',
-        ) },
+        Data => { $Self->{LockObject}->LockList(
+#            UserID => $Self->{UserID},
+            UserID => 1,
+            Action => $Self->{Action},
+            ),
+        },
         Name => 'LockIDs',
         Multiple => 1,
         Size => 3,
@@ -592,10 +596,12 @@ sub MaskForm {
         SelectedIDRefArray => $Param{LockIDs},
     );
     $Param{'NewLockOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => { $Self->{DBObject}->GetTableData(
-            What => 'id, name',
-            Table => 'ticket_lock_type',
-        ) },
+        Data => { $Self->{LockObject}->LockList(
+#            UserID => $Self->{UserID},
+            UserID => 1,
+            Action => $Self->{Action},
+            ),
+        },
         Name => 'NewLockID',
         Multiple => 1,
         Size => 3,
