@@ -2,7 +2,7 @@
 # Kernel/System/State.pm - All state related function should be here eventually
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: State.pm,v 1.9 2005-10-31 10:07:03 martin Exp $
+# $Id: State.pm,v 1.10 2005-11-11 10:38:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,10 +14,53 @@ package Kernel::System::State;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
+=head1 NAME
+
+Kernel::System::State - state lib
+
+=head1 SYNOPSIS
+
+All state functions.
+
+=head1 PUBLIC INTERFACE
+
+=over 4
+
+=cut
+
+=item new()
+
+create a object
+
+    use Kernel::Config;
+    use Kernel::System::Time;
+    use Kernel::System::Log;
+    use Kernel::System::DB;
+    use Kernel::System::State;
+
+    my $ConfigObject = Kernel::Config->new();
+    my $TimeObject    = Kernel::System::Time->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $LogObject    = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $DBObject = Kernel::System::DB->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
+    my $StateObject = Kernel::System::State->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+        DBObject => $DBObject,
+        TimeObject => $TimeObject,
+    );
+
+=cut
+
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -35,7 +78,21 @@ sub new {
 
     return $Self;
 }
-# --
+
+=item StateAdd()
+
+add new states
+
+  my $ID = $StateObject->StateAdd(
+      Name => 'New State',
+      Comment => 'some comment',
+      ValidID => 1,
+      TypeID => 1,
+      UserID => 123,
+  );
+
+=cut
+
 sub StateAdd {
     my $Self = shift;
     my %Param = @_;
@@ -73,7 +130,23 @@ sub StateAdd {
         return;
     }
 }
-# --
+
+=item StateGet()
+
+get states attributes
+
+  my %State = $StateObject->StateGet(
+      Name => 'New State',
+      Cache => 1,
+  );
+
+  my %State = $StateObject->StateGet(
+      ID => 123,
+      Cache => 1,
+  );
+
+=cut
+
 sub StateGet {
     my $Self = shift;
     my %Param = @_;
@@ -130,7 +203,22 @@ sub StateGet {
         return;
     }
 }
-# --
+
+=item StateUpdate()
+
+update state attributes
+
+  $StateObject->StateUpdate(
+      ID => 123,
+      Name => 'New State',
+      Comment => 'some comment',
+      ValidID => 1,
+      TypeID => 1,
+      UserID => 123,
+  );
+
+=cut
+
 sub StateUpdate {
     my $Self = shift;
     my %Param = @_;
@@ -161,7 +249,23 @@ sub StateUpdate {
         return;
     }
 }
-# --
+
+=item StateGetStatesByType()
+
+get list of state types
+
+  my %List = $StateObject->StateGetStatesByType(
+      Type => 'Open',
+      Result => 'HASH', # HASH|ID|Name
+  );
+
+  my @List = $StateObject->StateGetStatesByType(
+      Type => 'Open',
+      Result => 'ID', # HASH|ID|Name
+  );
+
+=cut
+
 sub StateGetStatesByType {
     my $Self = shift;
     my %Param = @_;
@@ -213,7 +317,17 @@ sub StateGetStatesByType {
         }
     }
 }
-# --
+
+=item StateList()
+
+get state list
+
+  my %List = $StateObject->StateList(
+      UserID => 123,
+  );
+
+=cut
+
 sub StateList {
     my $Self = shift;
     my %Param = @_;
@@ -239,6 +353,20 @@ sub StateList {
         return;
     }
 }
-# --
-
 1;
+
+=head1 TERMS AND CONDITIONS
+
+This Software is part of the OTRS project (http://otrs.org/).
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (GPL). If you
+did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+
+=cut
+
+=head1 VERSION
+
+$Revision: 1.10 $ $Date: 2005-11-11 10:38:39 $
+
+=cut
