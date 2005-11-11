@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminRole.pm - to add/update/delete roles
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminRole.pm,v 1.5 2005-03-27 11:50:50 martin Exp $
+# $Id: AdminRole.pm,v 1.6 2005-11-11 16:00:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminRole;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -119,6 +119,7 @@ sub _Mask {
         Data => $Param{RoleList},
         Size => 12,
         Name => 'ID',
+        LanguageTranslation => 0,
         SelectedID => $Param{ID},
     );
 
