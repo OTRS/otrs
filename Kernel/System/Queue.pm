@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.56 2005-11-10 22:51:37 martin Exp $
+# $Id: Queue.pm,v 1.57 2005-11-11 16:35:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Group;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.56 $';
+$VERSION = '$Revision: 1.57 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -111,7 +111,7 @@ sub GetSystemAddress {
         $Address{RealName} = $Row[1];
     }
     # prepare realname quote
-    if ($Address{RealName} =~ /(,|@|\(|\))/ && $Address{RealName} !~ /^("|')/) {
+    if ($Address{RealName} =~ /(,|@|\(|\)|:)/ && $Address{RealName} !~ /^("|')/) {
         $Address{RealName} =~ s/"/\"/g;
         $Address{RealName} = '"'.$Address{RealName}.'"';
     }
@@ -965,6 +965,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.56 $ $Date: 2005-11-10 22:51:37 $
+$Revision: 1.57 $ $Date: 2005-11-11 16:35:58 $
 
 =cut
