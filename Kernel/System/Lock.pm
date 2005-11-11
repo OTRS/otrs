@@ -2,7 +2,7 @@
 # Kernel/System/Lock.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Lock.pm,v 1.6 2005-10-31 10:07:03 martin Exp $
+# $Id: Lock.pm,v 1.7 2005-11-11 11:02:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,10 +14,53 @@ package Kernel::System::Lock;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
+=head1 NAME
+
+Kernel::System::Lock - lock lib
+
+=head1 SYNOPSIS
+
+All lock functions.
+
+=head1 PUBLIC INTERFACE
+
+=over 4
+
+=cut
+
+=item new()
+
+create a object
+
+    use Kernel::Config;
+    use Kernel::System::Time;
+    use Kernel::System::Log;
+    use Kernel::System::DB;
+    use Kernel::System::Lock;
+
+    my $ConfigObject = Kernel::Config->new();
+    my $TimeObject    = Kernel::System::Time->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $LogObject    = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $DBObject = Kernel::System::DB->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
+    my $LockObject = Kernel::System::Lock->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+        DBObject => $DBObject,
+        TimeObject => $TimeObject,
+    );
+
+=cut
+
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -37,7 +80,23 @@ sub new {
 
     return $Self;
 }
-# --
+
+=item LockViewableLock()
+
+get list of lock types
+
+  my @List = $LockObject->LockViewableLock(
+      Type => 'Viewable',
+      Result => 'Name', # ID|Name
+  );
+
+  my @List = $LockObject->LockViewableLock(
+      Type => 'Viewable',
+      Result => 'ID', # ID|Name
+  );
+
+=cut
+
 sub LockViewableLock {
     my $Self = shift;
     my %Param = @_;
@@ -75,7 +134,17 @@ sub LockViewableLock {
         }
     }
 }
-# --
+
+=item LockLookup()
+
+lock lookup
+
+  my $LockID = $LockObject->LockLookup(Type => 'lock');
+
+  my $Lock = $LockObject->LockLookup(ID => 2);
+
+=cut
+
 sub LockLookup {
     my $Self = shift;
     my %Param = @_;
@@ -117,6 +186,54 @@ sub LockLookup {
         return $Self->{"Lock::Lookup::$Param{$Key}"};
     }
 }
-# --
 
+=item LockList()
+
+get lock list
+
+  my %List = $LockObject->LockList(
+      UserID => 123,
+  );
+
+=cut
+
+sub LockList {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    if (!$Param{UserID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "UserID!");
+        return;
+    }
+    # check cache
+    if ($Self->{LockList}) {
+        return %{$Self->{LockList}};
+    }
+    # sql
+    my %Data = ();
+    if ($Self->{DBObject}->Prepare(SQL => 'SELECT id, name FROM ticket_lock_type')) {
+        while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+            $Data{$Row[0]} = $Row[1];
+        }
+    }
+    # cache result
+    $Self->{LockList} = \%Data;
+    return %Data;
+}
 1;
+
+=head1 TERMS AND CONDITIONS
+
+This Software is part of the OTRS project (http://otrs.org/).
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (GPL). If you
+did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+
+=cut
+
+=head1 VERSION
+
+$Revision: 1.7 $ $Date: 2005-11-11 11:02:21 $
+
+=cut
