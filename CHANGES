@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.208 2005-11-10 22:47:27 martin Exp $
+# $Id: CHANGES,v 1.209 2005-11-12 12:24:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,7 +10,10 @@
 # --
 CVS head
 
-2.0.4 (2005/10/??)
+2.0.4 (2005/11/12)
+ - (2005/11/11) fixed bug #695 - From-Header missing quoting if : is used
+ - (2005/11/11) fixed bug #863 - error after using faq in tickets
+ - (2005/11/11) fixed bug #906 - group names are translated in admin interface
  - (2005/11/08) added missing default pending note type
  - (2005/11/05) fixed bug #922 - rfc quoteing for emails with sender
     like info@example.com <info@example.com> is now
