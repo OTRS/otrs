@@ -1,14 +1,14 @@
 # --
 # AdminPostMasterFilter.dtl - provides HTML form for AdminSystemAddess
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPostMasterFilter.dtl,v 1.8 2004-12-06 22:55:38 martin Exp $
+# $Id: AdminPostMasterFilter.dtl,v 1.9 2005-11-12 13:16:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-<!-- start form -->
+<!-- dtl:block:Overview -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
   <td colspan="2" class="mainhead">
@@ -20,20 +20,19 @@
 
   <form action="$Env{"CGIHandle"}" method="post">
   <input type="hidden" name="Action" value="$Env{"Action"}">
-  <input type="hidden" name="Subaction" value="Change">
+  <input type="hidden" name="Subaction" value="AddAction">
   <table width="100%" cellspacing="0" cellpadding="4">
   <tr>
-    <td class="contenthead">$Text{"Change"}:</td>
+    <td class="contenthead">$Text{"Add"}:</td>
   </tr>
   <tr>
     <td class="contentbody">
-    $Data{"List"}
+      $Text{"Name"}: <input type="text" name="Name" value="">
     </td>
   </tr>
   <tr>
     <td class="contentfooter">
-    <input class="button" type="submit" value="$Text{"Change"}" name="Change">
-    <input class="button" type="submit" value="$Text{"Delete"}" name="Delete">
+      <input class="button" type="submit" value="$Text{"Add"}">
     </td>
   </tr>
   </table>
@@ -42,25 +41,51 @@
   </td>
   <td width="70%" class="mainbody">
 
-# --
-# check subaction
-# --
-<dtl set $Data{"Headline"} = "Add">
-<dtl if ($Env{"Subaction"} eq "Change") { $Data{"Headline"} = "Update"; }>
-<dtl if ($Env{"Subaction"} eq "Change") { $Env{"Subaction"} = "Add"; }>
-# set subaction!
-<dtl if ($Env{"Subaction"} eq "") { $Env{"Subaction"} = "Add"; }>
-# check add link
-<dtl if ($Env{"Subaction"} eq "Change") { $Data{"AddLink"} = "(Click here to add)"; }>
-# --
+
+<!-- dtl:block:OverviewResult -->
+  <table width="100%" cellspacing="0" cellpadding="4">
+  <tr>
+    <td class="contenthead">
+    $Text{"List"}:</td>
+  </tr>
+  <tr>
+    <td class="contentbody">
+
+    <table width="100%" border="0" cellspacing="0" cellpadding="3">
+      <tr>
+        <td class="contentkey" width="85%">$Text{"Name"}</td>
+        <td align="center" class="contentkey">$Text{"Delete"}</td>
+    </tr>
+<!-- dtl:block:OverviewResultRow -->
+<dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchactive"; }>
+    <tr>
+      <td class="$Env{"Color"}"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Update&Name=$LQData{"Name"}">$QData{"Name"}</a></td>
+      <td align="center" class="$Env{"Color"}"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Delete&Name=$LQData{"Name"}">x</a></td>
+    </tr>
+<dtl if ($Env{"Color"} eq "searchpassive") { $Env{"Color"} = ""; }>
+<dtl if ($Env{"Color"} eq "searchactive") { $Env{"Color"} = "searchpassive"; }>
+<!-- dtl:block:OverviewResultRow -->
+    </table>
+
+    </td>
+  </tr>
+  <tr>
+    <td class="contentfooter">
+      &nbsp;
+    </td>
+  </tr>
+  </table>
+<!-- dtl:block:OverviewResult -->
+
+<!-- dtl:block:OverviewUpdate -->
   <form action="$Env{"CGIHandle"}" method="post">
   <input type="hidden" name="Action" value="$Env{"Action"}">
-  <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
+  <input type="hidden" name="Subaction" value="UpdateAction">
   <input type="hidden" name="OldName" value="$QData{"Name"}">
   <table width="100%" cellspacing="0" cellpadding="4">
   <tr>
     <td class="contenthead">
-    $Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"$Data{"AddLink"}"}</a>:</td>
+    $Text{"Edit"}:</td>
   </tr>
   <tr>
     <td class="contentbody">
@@ -130,11 +155,12 @@
   </tr>
   <tr>
     <td class="contentfooter">
-    <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}">
+      <input class="button" type="submit" value="$Text{"submit"}">
     </td>
   </tr>
   </table>
   </form>
+<!-- dtl:block:OverviewUpdate -->
 
   </td>
 </tr>
@@ -225,4 +251,4 @@
   </td>
 </tr>
 </table>
-<!-- end note -->
+<!-- dtl:block:Overview -->
