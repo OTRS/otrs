@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.94 2005-10-31 10:07:03 martin Exp $
+# $Id: Article.pm,v 1.95 2005-11-12 13:39:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.94 $';
+$VERSION = '$Revision: 1.95 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1923,6 +1923,9 @@ sub SendAutoResponse {
             $Param{Body} =~ s/<OTRS_CUSTOMER_$_>/$GetParam{$_}/gi;
         }
     }
+    # replace config options
+    $Param{Body} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
+    $Param{Subject} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
     # replace some special stuff
     $Param{Body} =~ s/<OTRS_TICKET_NUMBER>/$Article{TicketNumber}/gi;
     $Param{Body} =~ s/<OTRS_TICKET_ID>/$Param{TicketID}/gi;
