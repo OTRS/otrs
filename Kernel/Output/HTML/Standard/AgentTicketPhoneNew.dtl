@@ -2,7 +2,7 @@
 # AgentPhoneNew.dtl - provides HTML form for phone
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPhoneNew.dtl,v 1.14 2005-08-17 15:09:05 rk Exp $
+# $Id: AgentTicketPhoneNew.dtl,v 1.15 2005-11-12 13:23:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -133,7 +133,7 @@ function clear_field()
 <dtl if ($Data{"CustomerUserStrg"} ne "") { $Data{"TakeThisCustomer"} = "<br><input type="submit" name="ExpandCustomerName2" value="$Text{"Take this Customer"}">"; }>
     $Data{"TakeThisCustomer"}
     <input type="submit" name="ExpandCustomerName1" value="$Text{"Search Customer"}">
-    <input type="submit" name="" value="$Text{"Clear From"}" onclick="javascript:clear_field(); return false;">
+    <input type="submit" name="ClearFrom" value="$Text{"Clear From"}" onclick="javascript:clear_field(); return false;">
     </td>
     <td width="20%" rowspan="10" class="contentkey">
 # show customer info table
@@ -148,13 +148,24 @@ function clear_field()
   </tr>
   <tr>
     <td class="contentkey">$Text{"To"}:</td>
-    <td class="contentvalue">$Data{"ToStrg"} <font color="red" size="-2">$Text{"$Data{"Destination invalid"}"}</font></td>
+    <td class="contentvalue">$Data{"ToStrg"} <font color="red" size="-2">$Text{"$Data{"Destination invalid"}"}</font>
+<!-- dtl:block:ToUpdateSubmit -->
+      <input type="submit" value="$Text{"Refresh"}" name="ExpandCustomerName2">
+<!-- dtl:block:ToUpdateSubmit -->
+    </td>
   </td>
   </tr>
 <!-- dtl:block:OwnerSelection -->
   <tr>
     <td class="contentkey">$Text{"Owner"}:</td>
-    <td class="contentvalue">$Data{"OptionStrg"} $Env{"Box0"}<a href="" onclick="document.compose.ExpandCustomerName.value='3'; document.compose.AllUsers.value='1'; document.compose.submit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$Text{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}</td>
+    <td class="contentvalue">$Data{"OptionStrg"}
+<!-- dtl:block:OwnerSelectionAllJS -->
+      $Env{"Box0"}<a href="" onclick="document.compose.ExpandCustomerName.value='3'; document.compose.AllUsers.value='1'; document.compose.submit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$Text{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}
+<!-- dtl:block:OwnerSelectionAllJS -->
+<!-- dtl:block:OwnerSelectionAllSubmit -->
+      <input type="submit" value="$Text{"All"}" name="AllUsersRefresh">
+<!-- dtl:block:OwnerSelectionAllSubmit -->
+    </td>
   </tr>
 <!-- dtl:block:OwnerSelection -->
   <tr>

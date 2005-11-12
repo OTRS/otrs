@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPhone.pm,v 1.12 2005-10-25 18:40:30 martin Exp $
+# $Id: AgentTicketPhone.pm,v 1.13 2005-11-12 13:23:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -501,6 +501,14 @@ sub Run {
         my $SelectedCustomerUser = $Self->{ParamObject}->GetParam(Param => 'SelectedCustomerUser') || '';
         my $CustomerID = $Self->{ParamObject}->GetParam(Param => 'CustomerID') || '';
         my $ExpandCustomerName = $Self->{ParamObject}->GetParam(Param => 'ExpandCustomerName') || 0;
+        if ($Self->{ParamObject}->GetParam(Param => 'AllUsersRefresh')) {
+            $AllUsers = 1;
+            $ExpandCustomerName = 3;
+        }
+        if ($Self->{ParamObject}->GetParam(Param => 'ClearFrom')) {
+            $From = '';
+            $ExpandCustomerName = 3;
+        }
         foreach (1..2) {
             my $Item = $Self->{ParamObject}->GetParam(Param => "ExpandCustomerName$_") || 0;
             if ($_ == 1 && $Item) {
@@ -1166,7 +1174,7 @@ sub _MaskPhone {
         );
     }
     # show spell check
-    if ($Self->{ConfigObject}->Get('SpellChecker')) {
+    if ($Self->{ConfigObject}->Get('SpellChecker') && $Self->{LayoutObject}->{BrowserJavaScriptSupport}) {
         $Self->{LayoutObject}->Block(
             Name => 'SpellCheck',
             Data => {},
@@ -1271,12 +1279,31 @@ sub _MaskPhoneNew {
             $Param{$_} = "* ".$Self->{LayoutObject}->Ascii2Html(Text => $Param{Errors}->{$_});
         }
     }
+    # to update
+    if (!$Self->{LayoutObject}->{BrowserJavaScriptSupport}) {
+        $Self->{LayoutObject}->Block(
+            Name => 'ToUpdateSubmit',
+            Data => \%Param,
+        );
+    }
     # show owner selection
     if ($Self->{ConfigObject}->Get('Ticket::Frontend::NewOwnerSelection')) {
         $Self->{LayoutObject}->Block(
             Name => 'OwnerSelection',
             Data => \%Param,
         );
+        if ($Self->{LayoutObject}->{BrowserJavaScriptSupport}) {
+            $Self->{LayoutObject}->Block(
+                Name => 'OwnerSelectionAllJS',
+                Data => { },
+            );
+        }
+        else {
+            $Self->{LayoutObject}->Block(
+                Name => 'OwnerSelectionAllSubmit',
+                Data => { },
+            );
+        }
     }
     # show time accounting box
     if ($Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime')) {
@@ -1290,7 +1317,7 @@ sub _MaskPhoneNew {
         );
     }
     # show spell check
-    if ($Self->{ConfigObject}->Get('SpellChecker')) {
+    if ($Self->{ConfigObject}->Get('SpellChecker') && $Self->{LayoutObject}->{BrowserJavaScriptSupport}) {
         $Self->{LayoutObject}->Block(
             Name => 'SpellCheck',
             Data => {},

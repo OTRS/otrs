@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketBulk.pm,v 1.4 2005-10-20 21:26:24 martin Exp $
+# $Id: AgentTicketBulk.pm,v 1.5 2005-11-12 13:23:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -236,7 +236,7 @@ sub _Mask {
         SelectedID => 1,
     );
     # show spell check
-    if ($Self->{ConfigObject}->Get('SpellChecker')) {
+    if ($Self->{ConfigObject}->Get('SpellChecker') && $Self->{LayoutObject}->{BrowserJavaScriptSupport}) {
         $Self->{LayoutObject}->Block(
             Name => 'SpellCheck',
             Data => {},

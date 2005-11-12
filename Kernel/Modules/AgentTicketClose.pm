@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketClose.pm - to close a ticket
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketClose.pm,v 1.6 2005-09-05 05:04:06 martin Exp $
+# $Id: AgentTicketClose.pm,v 1.7 2005-11-12 13:23:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -308,16 +308,9 @@ sub _Mask {
         );
     }
     # show spell check
-    if ($Self->{ConfigObject}->Get('SpellChecker')) {
+    if ($Self->{ConfigObject}->Get('SpellChecker') && $Self->{LayoutObject}->{BrowserJavaScriptSupport}) {
         $Self->{LayoutObject}->Block(
             Name => 'SpellCheck',
-            Data => {},
-        );
-    }
-    # show calendar lookup
-    if ($Self->{ConfigObject}->Get('TimeCalendarLookup')) {
-        $Self->{LayoutObject}->Block(
-            Name => 'CalendarLookup',
             Data => {},
         );
     }

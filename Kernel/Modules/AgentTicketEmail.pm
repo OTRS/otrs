@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose inital email to customer
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketEmail.pm,v 1.12 2005-10-25 18:40:30 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.13 2005-11-12 13:23:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -228,6 +228,26 @@ sub Run {
         my $CustomerID = $Self->{ParamObject}->GetParam(Param => 'CustomerID') || '';
         my $SelectedCustomerUser = $Self->{ParamObject}->GetParam(Param => 'SelectedCustomerUser') || '';
         my $ExpandCustomerName = $Self->{ParamObject}->GetParam(Param => 'ExpandCustomerName') || 0;
+        # get params
+        my %GetParam = ();
+        $GetParam{From} = $Queue{Email};
+        $GetParam{QueueID} = $NewQueueID;
+        $GetParam{ExpandCustomerName} = $ExpandCustomerName;
+        foreach (qw(AttachmentUpload
+            Year Month Day Hour Minute To Cc Bcc TimeUnits PriorityID Subject Body
+            AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
+            AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
+            AttachmentDelete9 AttachmentDelete10 )) {
+            $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
+        }
+        if ($Self->{ParamObject}->GetParam(Param => 'AllUsersRefresh')) {
+            $AllUsers = 1;
+            $ExpandCustomerName = 3;
+        }
+        if ($Self->{ParamObject}->GetParam(Param => 'ClearTo')) {
+            $GetParam{To} = '';
+            $ExpandCustomerName = 3;
+        }
         foreach (1..2) {
             my $Item = $Self->{ParamObject}->GetParam(Param => "ExpandCustomerName$_") || 0;
             if ($_ == 1 && $Item) {
@@ -276,18 +296,6 @@ sub Run {
         my %FreeTime = $Self->{LayoutObject}->AgentFreeDate(
             Ticket => \%TicketFreeTime,
         );
-        # get params
-        my %GetParam = ();
-        $GetParam{From} = $Queue{Email};
-        $GetParam{QueueID} = $NewQueueID;
-        $GetParam{ExpandCustomerName} = $ExpandCustomerName;
-        foreach (qw(AttachmentUpload
-            Year Month Day Hour Minute To Cc Bcc TimeUnits PriorityID Subject Body
-            AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
-            AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
-            AttachmentDelete9 AttachmentDelete10 )) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
-        }
         # rewrap body if exists
         if ($GetParam{Body}) {
             $GetParam{Body} =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaEmail')})(?:\s|\z)/$1\n/gm;
@@ -949,12 +957,31 @@ sub _MaskEmailNew {
             $Param{$_} = "* ".$Self->{LayoutObject}->Ascii2Html(Text => $Param{Errors}->{$_});
         }
     }
+    # from update
+    if (!$Self->{LayoutObject}->{BrowserJavaScriptSupport}) {
+        $Self->{LayoutObject}->Block(
+            Name => 'FromUpdateSubmit',
+            Data => \%Param,
+        );
+    }
     # show owner selection
     if ($Self->{ConfigObject}->Get('Ticket::Frontend::NewOwnerSelection')) {
         $Self->{LayoutObject}->Block(
             Name => 'OwnerSelection',
             Data => \%Param,
         );
+        if ($Self->{LayoutObject}->{BrowserJavaScriptSupport}) {
+            $Self->{LayoutObject}->Block(
+                Name => 'OwnerSelectionAllJS',
+                Data => { },
+            );
+        }
+        else {
+            $Self->{LayoutObject}->Block(
+                Name => 'OwnerSelectionAllSubmit',
+                Data => { },
+            );
+        }
     }
     # show time accounting box
     if ($Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime')) {
@@ -968,9 +995,16 @@ sub _MaskEmailNew {
         );
     }
     # show spell check
-    if ($Self->{ConfigObject}->Get('SpellChecker')) {
+    if ($Self->{ConfigObject}->Get('SpellChecker')  && $Self->{LayoutObject}->{BrowserJavaScriptSupport}) {
         $Self->{LayoutObject}->Block(
             Name => 'SpellCheck',
+            Data => {},
+        );
+    }
+    # show address book
+    if ($Self->{LayoutObject}->{BrowserJavaScriptSupport}) {
+        $Self->{LayoutObject}->Block(
+            Name => 'AddressBook',
             Data => {},
         );
     }

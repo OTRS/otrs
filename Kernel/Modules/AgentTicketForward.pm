@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketForward.pm,v 1.8 2005-08-05 10:58:59 cs Exp $
+# $Id: AgentTicketForward.pm,v 1.9 2005-11-12 13:23:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -678,9 +678,16 @@ sub _Mask {
         );
     }
     # show spell check
-    if ($Self->{ConfigObject}->Get('SpellChecker')) {
+    if ($Self->{ConfigObject}->Get('SpellChecker') && $Self->{LayoutObject}->{BrowserJavaScriptSupport}) {
         $Self->{LayoutObject}->Block(
             Name => 'SpellCheck',
+            Data => {},
+        );
+    }
+    # show address book
+    if ($Self->{LayoutObject}->{BrowserJavaScriptSupport}) {
+        $Self->{LayoutObject}->Block(
+            Name => 'AddressBook',
             Data => {},
         );
     }

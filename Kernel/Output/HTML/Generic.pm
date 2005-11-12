@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.197 2005-10-31 20:10:28 martin Exp $
+# $Id: Generic.pm,v 1.198 2005-11-12 13:23:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::Output::HTML::Agent;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.197 $';
+$VERSION = '$Revision: 1.198 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -109,6 +109,13 @@ sub new {
     # --
     $Self->{BrowserWrap} = 'physical';
     $Self->{Browser} = 'Unknown';
+    if ($Self->{ConfigObject}->Get('Frontend::Output::PostFilter') &&
+        $Self->{ConfigObject}->Get('Frontend::Output::PostFilter')->{ActiveElementFilter}) {
+        $Self->{BrowserJavaScriptSupport} = 0;
+    }
+    else {
+        $Self->{BrowserJavaScriptSupport} = 1;
+    }
     if (!$ENV{'HTTP_USER_AGENT'}) {
         $Self->{Browser} = 'Unknown - no $ENV{"HTTP_USER_AGENT"}';
     }
@@ -151,10 +158,12 @@ sub new {
         # w3m
         elsif ($ENV{'HTTP_USER_AGENT'} =~ /^w3m.*/i) {
             $Self->{Browser} = 'w3m';
+            $Self->{BrowserJavaScriptSupport} = 0;
         }
         # lynx
         elsif ($ENV{'HTTP_USER_AGENT'} =~ /^lynx.*/i) {
             $Self->{Browser} = 'Lynx';
+            $Self->{BrowserJavaScriptSupport} = 0;
         }
         # links
         elsif ($ENV{'HTTP_USER_AGENT'} =~ /^links.*/i) {
@@ -2154,31 +2163,33 @@ sub BuildDateSelection {
         %Param,
     );
     # show calendar lookup
-    if ($Area eq 'Agent' && $Self->{ConfigObject}->Get('TimeCalendarLookup')) {
-        # loas site preferences
-        $Self->Output(
-             TemplateFile => 'HeaderSmall',
-             Data => { },
-        );
-        $Output .= $Self->Output(
-             TemplateFile => 'AgentCalendarSmallIcon',
-             Data => {
+    if ($Self->{LayoutObject}->{BrowserJavaScriptSupport}) {
+        if ($Area eq 'Agent' && $Self->{ConfigObject}->Get('TimeCalendarLookup')) {
+            # loas site preferences
+            $Self->Output(
+                TemplateFile => 'HeaderSmall',
+                Data => { },
+            );
+            $Output .= $Self->Output(
+                TemplateFile => 'AgentCalendarSmallIcon',
+                Data => {
                     Prefix => $Prefix,
-             }
-        );
-    }
-    elsif ($Area eq 'Customer' && $Self->{ConfigObject}->Get('TimeCalendarLookup')) {
-        # loas site preferences
-        $Self->Output(
-             TemplateFile => 'CustomerHeaderSmall',
-             Data => { },
-        );
-        $Output .= $Self->Output(
-             TemplateFile => 'CustomerCalendarSmallIcon',
-             Data => {
+                }
+            );
+        }
+        elsif ($Area eq 'Customer' && $Self->{ConfigObject}->Get('TimeCalendarLookup')) {
+            # loas site preferences
+            $Self->Output(
+                TemplateFile => 'CustomerHeaderSmall',
+                Data => { },
+            );
+            $Output .= $Self->Output(
+                TemplateFile => 'CustomerCalendarSmallIcon',
+                Data => {
                     Prefix => $Prefix,
-             }
-        );
+                }
+            );
+        }
     }
     return $Output;
 }
@@ -2292,6 +2303,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.197 $ $Date: 2005-10-31 20:10:28 $
+$Revision: 1.198 $ $Date: 2005-11-12 13:23:29 $
 
 =cut
