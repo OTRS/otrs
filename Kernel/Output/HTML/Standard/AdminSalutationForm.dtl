@@ -1,8 +1,8 @@
 # --
 # AdminSalutationForm.dtl - provides HTML form for AdminSalutation
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSalutationForm.dtl,v 1.18 2004-12-02 09:44:50 martin Exp $
+# $Id: AdminSalutationForm.dtl,v 1.19 2005-11-12 13:38:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -110,27 +110,27 @@
   $Text{"Useable options"}:
     <table>
      <tr>
-      <td><b>&lt;OTRS_CUSTOMER_REALNAME&gt;</b></td>
+      <td>&lt;OTRS_CUSTOMER_REALNAME&gt;</td>
       <td>$Text{"customer realname"}</td>
      </tr>
      <tr>
-      <td><b>&lt;OTRS_CUSTOMER_*&gt;</b></td>
+      <td>&lt;OTRS_CUSTOMER_*&gt;</td>
       <td>$Text{"All Customer variables like defined in config option CustomerUser."}</td>
      </tr>
      <tr>
-      <td><b>&lt;OTRS_FIRST_NAME&gt;</b></td>
+      <td>&lt;OTRS_FIRST_NAME&gt;</td>
       <td>$Text{"for agent firstname"}</td>
      </tr>
      <tr>
-      <td><b>&lt;OTRS_LAST_NAME&gt;</b></td>
+      <td>&lt;OTRS_LAST_NAME&gt;</td>
       <td>$Text{"for agent lastname"}</td>
      </tr>
      <tr>
-      <td><b>&lt;OTRS_USER_ID&gt;</b></td>
+      <td>&lt;OTRS_USER_ID&gt;</td>
       <td>$Text{"for agent user id"}</td>
      </tr>
      <tr>
-      <td><b>&lt;OTRS_USER_LOGIN&gt;</b></td>
+      <td>&lt;OTRS_USER_LOGIN&gt;</td>
       <td>$Text{"for agent login"}</td>
      </tr>
     </table>

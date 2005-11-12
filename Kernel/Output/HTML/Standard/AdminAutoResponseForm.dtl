@@ -2,7 +2,7 @@
 # AdminAutoResponse.dtl - provides HTML form for AdminAutoResponse
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminAutoResponseForm.dtl,v 1.19 2005-10-20 21:25:36 martin Exp $
+# $Id: AdminAutoResponseForm.dtl,v 1.20 2005-11-12 13:38:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -122,24 +122,28 @@ $Data{"Note"}
   $Text{"Useable options"}:
     <table>
      <tr>
-      <td class="contentkey"><b>&lt;OTRS_CUSTOMER_SUBJECT[20]&gt;</b></td>
+      <td class="contentkey">&lt;OTRS_CUSTOMER_SUBJECT[20]&gt;</td>
       <td class="contentvalue">$Text{"to get the first 20 character of the subject"}</td>
      </tr>
      <tr>
-      <td class="contentkey"><b>&lt;OTRS_CUSTOMER_EMAIL[5]&gt;</b></td>
+      <td class="contentkey">&lt;OTRS_CUSTOMER_EMAIL[5]&gt;</td>
       <td class="contentvalue">$Text{"to get the first 5 lines of the email"}</td>
      </tr>
      <tr>
-      <td class="contentkey"><b>&lt;OTRS_CUSTOMER_FROM&gt;</b></td>
+      <td class="contentkey">&lt;OTRS_CUSTOMER_FROM&gt;</td>
       <td class="contentvalue">$Text{"to get the from line of the email"}</td>
      </tr>
      <tr>
-      <td class="contentkey"><b>&lt;OTRS_CUSTOMER_REALNAME&gt;</b></td>
+      <td class="contentkey">&lt;OTRS_CUSTOMER_REALNAME&gt;</td>
       <td class="contentvalue">$Text{"to get the realname of the sender (if given)"}</td>
      </tr>
      <tr>
-      <td class="contentkey"><b>&lt;OTRS_TICKET_*&gt;</b></td>
+      <td class="contentkey">&lt;OTRS_TICKET_*&gt;</td>
       <td class="contentvalue">$Text{"Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)"}</td>
+     </tr>
+     <tr>
+      <td class="contentkey">&lt;OTRS_CONFIG_*&gt;</td>
+      <td class="contentvalue">$Text{"Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)"}</td>
      </tr>
     </table>
    </p>
