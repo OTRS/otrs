@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.pm,v 1.39 2005-11-10 22:51:59 martin Exp $
+# $Id: Package.pm,v 1.40 2005-11-12 13:14:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1057,9 +1057,6 @@ sub DeployCheck {
                         $Content .= $_;
                     }
                     close (IN);
-                    if ($File->{Encode} && $File->{Encode} eq 'Base64') {
-                        $File->{Content} = decode_base64($File->{Content});
-                    }
                     if ($Content ne $File->{Content}) {
                         $Self->{LogObject}->Log(Priority => 'error', Message => "$Param{Name}-$Param{Version}: $LocalFile is different!");
                         $Hit = 1;
@@ -1185,7 +1182,7 @@ sub PackageBuild {
 
             $XML .= "    <File";
             foreach (sort keys %{$File}) {
-                if ($_ ne 'Tag' && $_ ne 'Content' && $_ ne 'TagType') {
+                if ($_ ne 'Tag' && $_ ne 'Content' && $_ ne 'TagType' && $_ ne 'Size') {
                     $XML .= " $_=\"$File->{$_}\"";
                 }
             }
@@ -1293,7 +1290,19 @@ sub PackageParse {
             next;
         }
         if ($Open && $Tag->{TagType} eq 'Start') {
-#print STDERR "$Tag->{Tag}\n";
+            # get attachment size
+            {
+                if ($Tag->{Content}) {
+                    my $ContentPlain = 0;
+                    if ($Tag->{Encode} && $Tag->{Encode} eq 'Base64') {
+                        $Tag->{Encode} = '';
+                        $Tag->{Content} = decode_base64($Tag->{Content});
+                    }
+                    use bytes;
+                    $Tag->{Size} = length($Tag->{Content});
+                    no bytes;
+                }
+            }
             push (@{$Self->{Package}->{Filelist}}, $Tag);
         }
     }
@@ -1400,9 +1409,6 @@ sub _FileInstall {
     # write file
     if (open(OUT, "> $Self->{Home}/$Param{Location}")) {
         print STDERR "Notice: Install $Param{Location} ($Param{Permission})!\n";
-        if ($Param{Encode} && $Param{Encode} eq 'Base64') {
-            $Param{Content} = decode_base64($Param{Content});
-        }
         # set bin mode
         binmode OUT;
         print OUT $Param{Content};
@@ -1505,6 +1511,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.39 $ $Date: 2005-11-10 22:51:59 $
+$Revision: 1.40 $ $Date: 2005-11-12 13:14:57 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPackageManager.pm,v 1.21 2005-11-10 09:17:59 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.22 2005-11-12 13:14:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Package;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -77,6 +77,7 @@ sub Run {
     if ($Self->{Subaction} eq 'View') {
         my $Name = $Self->{ParamObject}->GetParam(Param => 'Name') || '';
         my $Version = $Self->{ParamObject}->GetParam(Param => 'Version') || '';
+        my $Loaction = $Self->{ParamObject}->GetParam(Param => 'Location');
         my %Frontend = ();
         my $Package = $Self->{PackageObject}->RepositoryGet(
             Name => $Name,
@@ -90,7 +91,20 @@ sub Run {
             Data => { %Param, %Frontend, Name => $Name, Version => $Version, },
         );
         my %Structur = $Self->{PackageObject}->PackageParse(String => $Package);
-
+        # check if file is requested
+        if ($Loaction) {
+            if (ref($Structur{Filelist}) eq 'ARRAY') {
+                foreach my $Hash (@{$Structur{Filelist}}) {
+                    if ($Hash->{Location} eq $Loaction) {
+                        return $Self->{LayoutObject}->Attachment(
+                            Filename => $Loaction,
+                            ContentType => 'application/octet-stream',
+                            Content => $Hash->{Content},
+                        );
+                    }
+                }
+            }
+        }
         foreach my $Key (sort keys %Structur) {
             if (ref($Structur{$Key}) eq 'HASH') {
                     if ($Key =~ /^(Description|Filelist)$/) {
@@ -108,10 +122,33 @@ sub Run {
             }
             elsif (ref($Structur{$Key}) eq 'ARRAY') {
                 foreach my $Hash (@{$Structur{$Key}}) {
-                    if ($Key =~ /^(Description|Filelist)$/) {
+                    if ($Key =~ /^(Description)$/) {
                         $Self->{LayoutObject}->Block(
                             Name => "PackageItem$Key",
                             Data => { %{$Hash}, Tag => $Key, },
+                        );
+                    }
+                    elsif ($Hash->{Tag} =~ /^(File)$/) {
+                        # add human readable file size
+                        if ($Hash->{Size}) {
+                            # remove meta data in files
+                            if ($Hash->{Size} > (1024*1024)) {
+                                $Hash->{Size} = sprintf "%.1f MBytes", ($Hash->{Size}/(1024*1024));
+                            }
+                            elsif ($Hash->{Size} > 1024) {
+                                $Hash->{Size} = sprintf "%.1f KBytes", (($Hash->{Size} /1024));
+                            }
+                            else {
+                                $Hash->{Size} = $Hash->{Size}.' Bytes';
+                            }
+                        }
+                        $Self->{LayoutObject}->Block(
+                            Name => "PackageItemFilelistFile",
+                            Data => {
+                                Name => $Name,
+                                Version => $Version,
+                                %{$Hash},
+                            },
                         );
                     }
                     elsif ($Key =~ /^Database(Install|Reinstall|Upgrade|Uninstall)$/) {
