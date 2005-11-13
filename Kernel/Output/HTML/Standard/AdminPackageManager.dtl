@@ -2,7 +2,7 @@
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPackageManager.dtl,v 1.12 2005-11-12 13:14:56 martin Exp $
+# $Id: AdminPackageManager.dtl,v 1.13 2005-11-13 13:23:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -278,9 +278,20 @@
         <table border="0" cellspacing="0" cellpadding="2">
 <!-- dtl:block:PackageItemFilelistFile -->
           <tr>
-            <td><div title="$QData{"Location"}">$QData{"Location","65"} ($QData{"Permission"})</div></td>
-            <td><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$Env{"Subaction"}&Name=$QData{"Name"}&Version=$QData{"Version"}&Location=$LQData{"Location"}"><img border="0" src="$Env{"Images"}disk-s.png"></a></td>
-            <td>$QData{"Size"}</td>
+            <td class="contentvalue">
+              <div title="$QData{"Location"}">$QData{"Location","65"} ($QData{"Permission"})</div>
+            </td>
+<!-- dtl:block:PackageItemFilelistFileNote -->
+            <td class="contentvalue">
+              <img border="0" src="$Env{"Images"}$QData{"Image"}" alt=" " title="$QData{"Message"}">
+            </td>
+<!-- dtl:block:PackageItemFilelistFileNote -->
+            <td class="contentvalue">
+              <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$Env{"Subaction"}&Name=$QData{"Name"}&Version=$QData{"Version"}&Location=$LQData{"Location"}"><img border="0" src="$Env{"Images"}disk-s.png"></a>
+            </td>
+            <td class="contentvalue">
+              $QData{"Size"}
+            </td>
           </tr>
 <!-- dtl:block:PackageItemFilelistFile -->
         </table>

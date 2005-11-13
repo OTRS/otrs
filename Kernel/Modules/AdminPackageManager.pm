@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPackageManager.pm,v 1.22 2005-11-12 13:14:57 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.23 2005-11-13 13:23:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Package;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -86,6 +86,12 @@ sub Run {
         if (!$Package) {
             return $Self->{LayoutObject}->ErrorScreen(Message => 'No such package!');
         }
+        # deploy check
+        my $Deployed = $Self->{PackageObject}->DeployCheck(
+            Name => $Name,
+            Version => $Version,
+        );
+        my %DeployInfo = $Self->{PackageObject}->DeployCheckInfo();
         $Self->{LayoutObject}->Block(
             Name => 'Package',
             Data => { %Param, %Frontend, Name => $Name, Version => $Version, },
@@ -150,6 +156,30 @@ sub Run {
                                 %{$Hash},
                             },
                         );
+                        if ($DeployInfo{File}->{$Hash->{Location}}) {
+                            $Self->{LayoutObject}->Block(
+                                Name => "PackageItemFilelistFileNote",
+                                Data => {
+                                    Name => $Name,
+                                    Version => $Version,
+                                    %{$Hash},
+                                    Message => $DeployInfo{File}->{$Hash->{Location}},
+                                    Image => 'notready.png',
+                                },
+                            );
+                        }
+                        else {
+                            $Self->{LayoutObject}->Block(
+                                Name => "PackageItemFilelistFileNote",
+                                Data => {
+                                    Name => $Name,
+                                    Version => $Version,
+                                    %{$Hash},
+                                    Message => 'ok',
+                                    Image => 'ready.png',
+                                },
+                            );
+                        }
                     }
                     elsif ($Key =~ /^Database(Install|Reinstall|Upgrade|Uninstall)$/) {
                         if ($Hash->{TagType} eq 'Start') {
@@ -178,6 +208,13 @@ sub Run {
         }
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
+        if (!$Deployed) {
+            $Output .= $Self->{LayoutObject}->Notify(
+                Priority => 'Error',
+                Data => "$Name $Version".' - $Text{"Package not correctly deployed, you need to deploy it again!"}',
+                Link => '$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Reinstall&Name='.$Name.'&Version='.$Version,
+            );
+        }
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminPackageManager', Data => \%Param);
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;

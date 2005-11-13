@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.pm,v 1.40 2005-11-12 13:14:57 martin Exp $
+# $Id: Package.pm,v 1.41 2005-11-13 13:23:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.40 $';
+$VERSION = '$Revision: 1.41 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1040,12 +1040,14 @@ sub DeployCheck {
     }
     my $Package = $Self->RepositoryGet(%Param);
     my %Structur = $Self->PackageParse(String => $Package);
+    $Self->{DeployCheckInfo} = undef;
     if ($Structur{Filelist} && ref($Structur{Filelist}) eq 'ARRAY') {
         my $Hit = 0;
         foreach my $File (@{$Structur{Filelist}}) {
             my $LocalFile = "$Self->{Home}/$File->{Location}";
             if (! -e $LocalFile) {
                 $Self->{LogObject}->Log(Priority => 'error', Message => "$Param{Name}-$Param{Version}: No such $LocalFile!");
+                $Self->{DeployCheckInfo}->{File}->{$File->{Location}} = 'No file installed!';
                 $Hit = 1;
             }
             elsif (-e $LocalFile) {
@@ -1060,6 +1062,7 @@ sub DeployCheck {
                     if ($Content ne $File->{Content}) {
                         $Self->{LogObject}->Log(Priority => 'error', Message => "$Param{Name}-$Param{Version}: $LocalFile is different!");
                         $Hit = 1;
+                        $Self->{DeployCheckInfo}->{File}->{$File->{Location}} = 'File is different!';
                     }
                 }
                 else {
@@ -1072,6 +1075,32 @@ sub DeployCheck {
         }
     }
     return 1;
+}
+
+=item DeployCheckInfo()
+
+returns the info of the latest DeployCheck(), what's not deployed correctly
+
+    my %Hash = $PackageObject->DeployCheckInfo();
+
+=cut
+
+sub DeployCheckInfo {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw()) {
+      if (!defined $Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+        return;
+      }
+    }
+    if ($Self->{DeployCheckInfo}) {
+        return %{$Self->{DeployCheckInfo}};
+    }
+    else {
+        return ();
+    }
 }
 
 =item PackageBuild()
@@ -1511,6 +1540,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.40 $ $Date: 2005-11-12 13:14:57 $
+$Revision: 1.41 $ $Date: 2005-11-13 13:23:44 $
 
 =cut
