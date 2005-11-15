@@ -3,7 +3,7 @@
 # scripts/backup.pl - the backup script
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: backup.pl,v 1.2 2005-10-25 18:50:38 martin Exp $
+# $Id: backup.pl,v 1.3 2005-11-15 11:31:16 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -123,14 +123,42 @@ foreach my $CMD ('cp', 'tar', $DBDump, $CompressCMD) {
     }
 }
 # remove old backups
-#use File::Remove;
 if ($Opts{'r'}) {
-#    my($Year, $Month, $Day) = Today_and_Now();
-#    my($DYear,$DMonth,$DDay) = Add_Delta_Days($Year, $Month, $Day, -$Opts{'r'});
-#    my $OLDBACKUP = sprintf("%04d-%02d-%02d*",$DYear,$DMonth,$DDay);
-#    print "deleting old backups in $Opts{'b'}/$OLDBACKUP...";
-#    File::Remove::remove \1, "$Opts{'b'}/$OLDBACKUP";
-#    print "done\n";
+    my %LeaveBackups = ();
+    my($Year, $Month, $Day) = Today_and_Now();
+    foreach (0..$Opts{'r'}) {
+        my($DYear,$DMonth,$DDay) = Add_Delta_Days($Year, $Month, $Day, -$_);
+        $LeaveBackups{sprintf("%04d-%01d-%01d", $DYear, $DMonth, $DDay)} = 1;
+        $LeaveBackups{sprintf("%04d-%02d-%01d", $DYear, $DMonth, $DDay)} = 1;
+        $LeaveBackups{sprintf("%04d-%01d-%02d", $DYear, $DMonth, $DDay)} = 1;
+        $LeaveBackups{sprintf("%04d-%02d-%02d", $DYear, $DMonth, $DDay)} = 1;
+    }
+    my @Direcroties = glob($Opts{'d'}."/*");
+    foreach my $Directory (@Direcroties) {
+        my $Leave = 0;
+        foreach my $Data (keys %LeaveBackups) {
+            if ($Directory =~ /$Data/) {
+                $Leave = 1;
+            }
+        }
+        if (!$Leave) {
+            # remove files and directory
+            print "deleting old backup in $Directory ... ";
+            my @Files = glob($Directory.'/*');
+            foreach my $File (@Files) {
+                if (-e $File) {
+#                    print "Notice: remove $File\n";
+                    unlink $File;
+                }
+            }
+            if (rmdir($Directory)) {
+                print "done\n";
+            }
+            else {
+                print "failed\n";
+            }
+        }
+    }
 }
 
 # create new backup directory
