@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.222 2005-10-31 14:07:29 martin Exp $
+# $Id: Defaults.pm,v 1.223 2005-11-20 23:02:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.222 $';
+$VERSION = '$Revision: 1.223 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -375,7 +375,7 @@ sub LoadDefaults {
     # this module will be used. This interface use useful to check
     # some user options or to redirect not accept new application
     # news)
-#    $Self->{PreApplicationModule} = 'Kernel::Modules::AgentInfo';
+#    $Self->{PreApplicationModule}->{AgentInfo} = 'Kernel::Modules::AgentInfo';
     # Kernel::Modules::AgentInfo check key, if this user preferences key
     # is true, then the message is already accepted
 #    $Self->{InfoKey} = 'wpt22';
@@ -851,7 +851,7 @@ Your OTRS Notification Master
     # this module will be used. This interface use useful to check
     # some user options or to redirect not accept new application
     # news)
-#    $Self->{CustomerPanelPreApplicationModule} = 'Kernel::Modules::CustomerAccept';
+#    $Self->{CustomerPanelPreApplicationModule}->{CustomerAccept} = 'Kernel::Modules::CustomerAccept';
     # Kernel::Modules::CustomerAccept check key, if this user preferences key
     # is true, then the message is already accepted
 #    $Self->{'CustomerPanel::InfoKey'} = 'CustomerAccept1';
@@ -1740,6 +1740,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.222 $ $Date: 2005-10-31 14:07:29 $
+$Revision: 1.223 $ $Date: 2005-11-20 23:02:14 $
 
 =cut

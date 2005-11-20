@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: InterfaceCustomer.pm,v 1.6 2005-08-06 16:22:49 martin Exp $
+# $Id: InterfaceCustomer.pm,v 1.7 2005-11-20 23:02:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Web::InterfaceCustomer;
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -632,24 +632,36 @@ sub Run {
             );
             # pre application module
             my $PreModule = $Self->{ConfigObject}->Get('CustomerPanelPreApplicationModule');
-            if ($PreModule && $Self->{MainObject}->Require($PreModule)) {
-                # debug info
-                if ($Self->{Debug}) {
-                    $Self->{LogObject}->Log(
-                        Priority => 'debug',
-                        Message => "CustomerPanelPreApplication module $PreModule is used.",
-                    );
+            if ($PreModule) {
+                my %PreModuleList = ();
+                if (ref($PreModule) eq 'HASH') {
+                    %PreModuleList = %{$PreModule};
                 }
-                # use module
-                my $PreModuleObject = $PreModule->new(
-                    %{$Self},
-                    %Param,
-                    %UserData,
-                );
-                my $Output = $PreModuleObject->PreRun();
-                if ($Output) {
-                    print $PreModuleObject->PreRun();
-                    exit (0);
+                else {
+                    $PreModuleList{Init} = $PreModule;
+                }
+                foreach my $PreModuleKey (sort keys %PreModuleList) {
+                    my $PreModule = $PreModuleList{$PreModuleKey};
+                    if ($PreModule && $Self->{MainObject}->Require($PreModule)) {
+                        # debug info
+                        if ($Self->{Debug}) {
+                            $Self->{LogObject}->Log(
+                                Priority => 'debug',
+                                Message => "CustomerPanelPreApplication module $PreModule is used.",
+                            );
+                        }
+                        # use module
+                        my $PreModuleObject = $PreModule->new(
+                            %{$Self},
+                            %Param,
+                            %UserData,
+                        );
+                        my $Output = $PreModuleObject->PreRun();
+                        if ($Output) {
+                            print $PreModuleObject->PreRun();
+                            exit (0);
+                        }
+                    }
                 }
             }
             # debug info
@@ -725,6 +737,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2005-08-06 16:22:49 $
+$Revision: 1.7 $ $Date: 2005-11-20 23:02:13 $
 
 =cut

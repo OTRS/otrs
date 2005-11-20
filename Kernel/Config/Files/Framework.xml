@@ -112,7 +112,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.80 2005-10-31 14:07:29 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.81 2005-11-20 23:02:14 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -561,7 +561,7 @@ TimeWorkingHours
             </Array>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="PreApplicationModule" Required="0" Valid="0">
+    <ConfigItem Name="PreApplicationModule###AgentInfo" Required="0" Valid="0">
         <Description Lang="en">This module is usefull to load some specific user options or to redirect not accept new application news. For example: Kernel::Modules::AgentWorkingRoleSelection or Kernel::Modules::AgentInfo</Description>
         <Description Lang="de">Mit Hilfe dieses Moduls können bestimmt Benutzeroptionen geladen oder Neuigkeiten angezeigt werden. Z. B. Kernel::Modules::AgentWorkingRoleSelection oder Kernel::Modules::AgentInfo</Description>
         <Group>Framework</Group>
@@ -1547,8 +1547,8 @@ Your OTRS Notification Master
             <String Regex="">http://host.example.com/cgi-bin/login.pl</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="CustomerPanelPreApplicationModule" Required="0" Valid="0">
-        <Description Lang="en">CustomerPanelPreApplicationModule. This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.</Description>
+    <ConfigItem Name="CustomerPanelPreApplicationModule###CustomerAccept" Required="0" Valid="0">
+        <Description Lang="en">This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.</Description>
         <Description Lang="de">Dieses Modul und seine PreRun() Funktion wird für jede Anfrage ausgeführt. Das Modul kann für die Überprüfung einiger Benutzeroptionen oder für die Anzeige von Neuigkeiten verwendet werden.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer</SubGroup>

@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceAgent.pm - the agent interface file (incl. auth)
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: InterfaceAgent.pm,v 1.8 2005-09-24 16:52:08 martin Exp $
+# $Id: InterfaceAgent.pm,v 1.9 2005-11-20 23:02:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Web::InterfaceAgent;
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -605,25 +605,37 @@ sub Run {
             );
             # pre application module
             my $PreModule = $Self->{ConfigObject}->Get('PreApplicationModule');
-            if ($PreModule && $Self->{MainObject}->Require($PreModule)) {
-                # debug info
-                if ($Self->{Debug}) {
-                    $Self->{LogObject}->Log(
-                        Priority => 'debug',
-                        Message => "PreApplication module $PreModule is used.",
-                    );
+            if ($PreModule) {
+                my %PreModuleList = ();
+                if (ref($PreModule) eq 'HASH') {
+                    %PreModuleList = %{$PreModule};
                 }
-                # use module
-                my $PreModuleObject = $PreModule->new(
-                    %{$Self},
-                    %Param,
-                    %UserData,
-                    ModuleReg => $ModuleReg,
-                );
-                my $Output = $PreModuleObject->PreRun();
-                if ($Output) {
-                    print $PreModuleObject->PreRun();
-                    exit (0);
+                else {
+                    $PreModuleList{Init} = $PreModule;
+                }
+                foreach my $PreModuleKey (sort keys %PreModuleList) {
+                    my $PreModule = $PreModuleList{$PreModuleKey};
+                    if ($PreModule && $Self->{MainObject}->Require($PreModule)) {
+                        # debug info
+                        if ($Self->{Debug}) {
+                            $Self->{LogObject}->Log(
+                                Priority => 'debug',
+                                Message => "PreApplication module $PreModule is used.",
+                            );
+                        }
+                        # use module
+                        my $PreModuleObject = $PreModule->new(
+                            %{$Self},
+                            %Param,
+                            %UserData,
+                            ModuleReg => $ModuleReg,
+                        );
+                        my $Output = $PreModuleObject->PreRun();
+                        if ($Output) {
+                            print $PreModuleObject->PreRun();
+                            exit (0);
+                        }
+                    }
                 }
             }
             # debug info
@@ -699,6 +711,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2005-09-24 16:52:08 $
+$Revision: 1.9 $ $Date: 2005-11-20 23:02:13 $
 
 =cut
