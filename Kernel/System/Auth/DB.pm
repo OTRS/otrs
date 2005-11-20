@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Auth/DB.pm - provides the db authentification
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.11 2004-08-10 10:37:32 martin Exp $
+# $Id: DB.pm,v 1.11.2.1 2005-11-20 20:23:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ package Kernel::System::Auth::DB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.11.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -87,7 +87,7 @@ sub Auth {
       " WHERE ".
       " valid_id in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ".
       " AND ".
-      " $Self->{UserTableUser} = '$User'";
+      " $Self->{UserTableUser} = '".$Self->{DBObject}->Quote($User)."'";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
         $GetPw = $RowTmp[0];
@@ -128,7 +128,7 @@ sub Auth {
           Message => "User: '$User' tried to authenticate with Pw: '$Pw' ($UserID/$CryptedPw/$GetPw/$Salt/$RemoteAddr)",
         );
     }
-    # just a note 
+    # just a note
     if (!$Pw) {
         $Self->{LogObject}->Log(
           Priority => 'notice',
