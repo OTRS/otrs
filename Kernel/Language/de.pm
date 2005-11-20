@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: de.pm,v 1.97 2005-11-07 13:06:27 martin Exp $
+# $Id: de.pm,v 1.98 2005-11-20 23:15:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.97 $';
+$VERSION = '$Revision: 1.98 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -189,7 +189,7 @@ sub Data {
       'Word' => 'Wort',
       'Ignore' => 'Ignorieren',
       'replace with' => 'ersetzen mit',
-      'Welcome to OTRS' => 'Willkommen zu OTRS',
+      'Welcome to %s' => 'Willkommen zu %s',
       'There is no account with that login name.' => 'Es existiert kein Benutzerkonto mit diesem Namen.',
       'Login failed! Your username or password was entered incorrectly.' => 'Anmeldung fehlgeschlagen! Benutzername oder Passwort falsch.',
       'Please contact your admin' => 'Bitte kontaktieren Sie Ihren Administrator',

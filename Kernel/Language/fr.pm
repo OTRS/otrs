@@ -4,7 +4,7 @@
 # Copyright (C) 2004-2005 Yann Richard <ze at nbox.org>
 # Copyright (C) 2004 Igor Genibel <igor.genibel at eds-opensource.com>
 # --
-# $Id: fr.pm,v 1.50 2005-10-15 12:08:12 martin Exp $
+# $Id: fr.pm,v 1.51 2005-11-20 23:15:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.50 $';
+$VERSION = '$Revision: 1.51 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -190,7 +190,7 @@ sub Data {
       'Word' => 'Mot',
       'Ignore' => 'Ignorer',
       'replace with' => 'remplacer par',
-      'Welcome to OTRS' => 'Bienvenue dans OTRS',
+      'Welcome to %s' => 'Bienvenue dans %s',
       'There is no account with that login name.' => 'Il n\'y a aucun compte avec ce nom de connexion',
       'Login failed! Your username or password was entered incorrectly.' => 'La connection a échoué ! Votre nom d\'utilisateur ou votre mot de passe sont erronés.',
       'Please contact your admin' => 'Veuillez contacter votre admnistrateur',

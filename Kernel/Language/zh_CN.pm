@@ -2,7 +2,7 @@
 # Kernel/Language/nl.pm - provides za_CN language translation
 # Copyright (C) 2005 zuowei <j2ee@hirain-sh.com>
 # --
-# $Id: zh_CN.pm,v 1.2 2005-10-15 12:08:12 martin Exp $
+# $Id: zh_CN.pm,v 1.3 2005-11-20 23:15:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ package Kernel::Language::zh_CN;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -192,7 +192,7 @@ sub Data {
       'Word' => '字',
       'Ignore' => '忽略',
       'replace with' => '替换',
-      'Welcome to OTRS' => '欢迎使用 恒润科技客户服务系统',
+      'Welcome to %s' => '欢迎使用 恒润科技客户服务系统 %s',
       'There is no account with that login name.' => '该用户名没有帐户信息.',
       'Login failed! Your username or password was entered incorrectly.' => '登录失败，您的用户名或密码不正确.',
       'Please contact your admin' => '请联系系统管理员',

@@ -2,7 +2,7 @@
 # Kernel/Language/hu.pm - provides de language translation
 # Copyright (C) 2004 RLAN Internet <MAGIC at rlan.hu>
 # --
-# $Id: hu.pm,v 1.15 2005-10-15 12:08:12 martin Exp $
+# $Id: hu.pm,v 1.16 2005-11-20 23:15:12 martin Exp $
 # Translation: Gabor Gancs /gg@magicnet.hu/ & Krisztian Gancs /krisz@gancs.hu/
 # Verify: Flora Szabo /szaboflora@magicnet.hu/
 # Hungary Sopron Europe
@@ -17,7 +17,7 @@ package Kernel::Language::hu;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -193,7 +193,7 @@ sub Data {
       'Word' => 'Szó',
       'Ignore' => 'Figyelmen kívül hagy',
       'replace with' => 'csere ezzel',
-      'Welcome to OTRS' => 'Üdvözli az OTRS',
+      'Welcome to %s' => 'Üdvözli az %s',
       'There is no account with that login name.' => 'Azzal a névvel nincs azonosító.',
       'Login failed! Your username or password was entered incorrectly.' => 'Belépés sikertelen! Hibásan adta meg a felhasználói nevét vagy jelszavát.',
       'Please contact your admin' => 'Kérjük vegye fel a kapcsolatot a rendszergazdájával',

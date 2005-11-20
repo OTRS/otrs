@@ -2,7 +2,7 @@
 # Kernel/Language/fi.pm - provides fi language translation
 # Copyright (C) 2002 Antti K‰m‰r‰inen <antti at seu.net>
 # --
-# $Id: fi.pm,v 1.36 2005-10-15 12:08:12 martin Exp $
+# $Id: fi.pm,v 1.37 2005-11-20 23:15:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::fi;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -188,7 +188,7 @@ sub Data {
       'Word' => 'Sana',
       'Ignore' => 'Ohita',
       'replace with' => 'Korvaa',
-      'Welcome to OTRS' => 'Tervetuloa k‰ytt‰m‰‰n OTRS-j‰rjestelm‰‰',
+      'Welcome to %s' => 'Tervetuloa k‰ytt‰m‰‰n %s',
       'There is no account with that login name.' => 'K‰ytt‰j‰tunnus tuntematon',
       'Login failed! Your username or password was entered incorrectly.' => '',
       'Please contact your admin' => 'Ota yhteytt‰ yll‰pit‰j‰‰si',

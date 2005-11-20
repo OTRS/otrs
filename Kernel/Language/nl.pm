@@ -6,7 +6,7 @@
 # Copyright (C) 2004 Martijn Lohmeijer (martijn.lohmeijer 'at' sogeti.nl)
 # Copyright (C) 2005 Jurgen Rutgers (jurgen 'at' besite.nl)
 # --
-# $Id: nl.pm,v 1.36 2005-11-19 12:45:04 cs Exp $
+# $Id: nl.pm,v 1.37 2005-11-20 23:15:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -51,7 +51,7 @@ package Kernel::Language::nl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
@@ -226,7 +226,7 @@ sub Data {
       'Word' => 'Woord',
       'Ignore' => 'Negeren',
       'replace with' => 'vervangen met',
-      'Welcome to OTRS' => 'Welkom bij OTRS',
+      'Welcome to %s' => 'Welkom bij %s',
       'There is no account with that login name.' => 'Er is geen account bekend met deze gebruikersnaam',
       'Login failed! Your username or password was entered incorrectly.' => 'Aanmelden is mislukt. Uw gebruikersnaam of wachtwoord is onjuist.',
       'Please contact your admin' => 'Vraag uw systeembeheerder',

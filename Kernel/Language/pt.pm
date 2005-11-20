@@ -2,7 +2,7 @@
 # Kernel/Language/pt.pm - provides pt language translation
 # Copyright (C) 2004 CAT <filipehenriques at ip.pt>
 # --
-# $Id: pt.pm,v 1.21 2005-10-15 12:08:12 martin Exp $
+# $Id: pt.pm,v 1.22 2005-11-20 23:15:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::pt;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -189,7 +189,7 @@ sub Data {
       'Word' => 'Palavra',
       'Ignore' => 'Ignorar',
       'replace with' => 'substituir por',
-      'Welcome to OTRS' => 'Bem-vindo ao OTRS',
+      'Welcome to %s' => 'Bem-vindo ao %s',
       'There is no account with that login name.' => 'Não existe conta com esse utilizador',
       'Login failed! Your username or password was entered incorrectly.' => 'Login inválido! O utilizador ou password foram introduzidos incorrectamente.',
       'Please contact your admin' => 'Por Favor contactar o administrador',

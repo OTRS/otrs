@@ -2,7 +2,7 @@
 # Kernel/Language/nb_SW.pm - Swedish language translation
 # Copyright (C) 2004 Mats Eric Olausson <mats@synergy.se>
 # --
-# $Id: sv.pm,v 1.13 2005-10-15 12:08:12 martin Exp $
+# $Id: sv.pm,v 1.14 2005-11-20 23:15:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::sv;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.13 $;
+$VERSION = q$Revision: 1.14 $;
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -189,7 +189,7 @@ sub Data {
       'Word' => 'Ord',
       'Ignore' => 'Ignorera',
       'replace with' => 'Ersätt med',
-      'Welcome to OTRS' => 'Välkommen till OTRS',
+      'Welcome to %s' => 'Välkommen till %s',
       'There is no account with that login name.' => 'Det finns inget konto med detta namn.',
       'Login failed! Your username or password was entered incorrectly.' => 'Inloggningen misslyckades! Angivet användarnamn och/eller lösenord är inte korrekt.',
       'Please contact your admin' => 'Vänligen kontakta administratören',

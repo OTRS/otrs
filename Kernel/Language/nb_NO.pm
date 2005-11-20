@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Arne Georg Gleditsch <argggh@linpro.no>
 #               2005 Stefansen Espen <espen.stefansen@imr.no>
 # --
-# $Id: nb_NO.pm,v 1.18 2005-10-15 12:08:12 martin Exp $
+# $Id: nb_NO.pm,v 1.19 2005-11-20 23:15:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::nb_NO;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.18 $;
+$VERSION = q$Revision: 1.19 $;
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -190,7 +190,7 @@ sub Data {
       'Word' => 'Ord',
       'Ignore' => 'Ignorere',
       'replace with' => 'Erstatt med',
-      'Welcome to OTRS' => 'Velkommen til OTRS',
+      'Welcome to %s' => 'Velkommen til %s',
       'There is no account with that login name.' => 'Finner ingen konto med det navnet.',
       'Login failed! Your username or password was entered incorrectly.' => 'Innlogging feilet! Oppgitt brukernavn og/eller passord er ikke korrekt.',
       'Please contact your admin' => 'Vennligst ta kontakt med administrator',

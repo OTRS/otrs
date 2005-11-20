@@ -2,7 +2,7 @@
 # Kernel/Language/es.pm - provides es language translation
 # Copyright (C) 2003-2004 Jorge Becerra <jorge at icc-cuba.com>
 # --
-# $Id: es.pm,v 1.35 2005-10-15 12:08:12 martin Exp $
+# $Id: es.pm,v 1.36 2005-11-20 23:15:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::es;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -189,7 +189,7 @@ sub Data {
       'Word' => 'Palabra',
       'Ignore' => 'Ignorar',
       'replace with' => 'reemplazar con',
-      'Welcome to OTRS' => 'Bienvenido a OTRS',
+      'Welcome to %s' => 'Bienvenido a %s',
       'There is no account with that login name.' => 'No existe una cuenta con ese login',
       'Login failed! Your username or password was entered incorrectly.' => 'Identificación incorrecta. Su nombre de usuario o contraseña fue introducido incorrectamente',
       'Please contact your admin' => 'Por favor contace su administrador',

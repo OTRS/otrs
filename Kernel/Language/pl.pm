@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # Translated by Tomasz Melissa <janek at rumianek.com>
 # --
-# $Id: pl.pm,v 1.23 2005-10-15 12:08:12 martin Exp $
+# $Id: pl.pm,v 1.24 2005-11-20 23:15:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::pl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -190,7 +190,7 @@ sub Data {
       'Word' => 'S³owo',
       'Ignore' => 'Ignoruj',
       'replace with' => 'zamieñ z',
-      'Welcome to OTRS' => 'Witamy w OTRS',
+      'Welcome to %s' => 'Witamy w %s',
       'There is no account with that login name.' => 'Nie istnieje konto z takim loginem.',
       'Login failed! Your username or password was entered incorrectly.' => 'Logowanie niepoprawne! Twój u¿ytkownik lub has³o zosta³y wpisane niepoprawnie.',
       'Please contact your admin' => 'Skontaktuj siê z Administratorem',

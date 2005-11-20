@@ -4,7 +4,7 @@
 #               2003 Gabriele Santilli <gsantilli at omnibus.net>
 #               2005 Giordano Bianchi <giordano.bianchi at gmail.com>
 # --
-# $Id: it.pm,v 1.25 2005-10-15 12:08:12 martin Exp $
+# $Id: it.pm,v 1.26 2005-11-20 23:15:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::it;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -191,7 +191,7 @@ sub Data {
       'Word' => 'Parola',
       'Ignore' => 'Ignora',
       'replace with' => 'sostituisci con',
-      'Welcome to OTRS' => 'Benvenuto in OTRS',
+      'Welcome to %s' => 'Benvenuto in %s',
       'There is no account with that login name.' => 'Nome utente non valido.',
       'Login failed! Your username or password was entered incorrectly.' => 'Accesso fallito! Nome utente o password non corretti.',
       'Please contact your admin' => 'Per favore contatta il tuo amministratore',

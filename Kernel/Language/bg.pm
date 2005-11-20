@@ -11,7 +11,7 @@ package Kernel::Language::bg;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -186,7 +186,7 @@ sub Data {
       'Word' => 'Дума',
       'Ignore' => 'Пренебрегване',
       'replace with' => 'замести с',
-      'Welcome to OTRS' => 'Добре дошли в OTRS',
+      'Welcome to %s' => 'Добре дошли в %s',
       'There is no account with that login name.' => 'Няма потребител с това име.',
       'Login failed! Your username or password was entered incorrectly.' => 'Неуспешно оторизиране! Вашето име и/или парола са некоректини!',
       'Please contact your admin' => 'Моля, свържете се с Вашият администратор',

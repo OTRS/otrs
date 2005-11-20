@@ -6,7 +6,7 @@
 #		     Vadim Buzek
 #		     Petr Ocasek
 # --
-# $Id: cz.pm,v 1.22 2005-10-15 12:08:12 martin Exp $
+# $Id: cz.pm,v 1.23 2005-11-20 23:15:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ package Kernel::Language::cz;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -193,7 +193,7 @@ sub Data {
       'Word' => 'Slovo',
       'Ignore' => 'Ignorovat',
       'replace with' => 'nahradit',
-      'Welcome to OTRS' => 'Vítejte v OTRS',
+      'Welcome to %s' => 'Vítejte v %s',
       'There is no account with that login name.' => '®ádný úèet s tímto pøihla¹ovacím jménem neexistuje.',
       'Login failed! Your username or password was entered incorrectly.' => 'Pøihlá¹ení neúspì¹né! Va¹e u¾ivatelské jméno èi heslo bylo zadáno nesprávnì.',
       'Please contact your admin' => 'Kontaktujte, prosím, Va¹eho administrátora',

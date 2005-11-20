@@ -2,7 +2,7 @@
 # Kernel/Language/pt_BR.pm - provides pt_BR language translation
 # Copyright (C) 2003 Gilberto Cezar de Almeida <gibalmeida at hotmail.com>
 # --
-# $Id: pt_BR.pm,v 1.30 2005-10-15 12:08:12 martin Exp $
+# $Id: pt_BR.pm,v 1.31 2005-11-20 23:15:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::pt_BR;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -191,7 +191,7 @@ sub Data {
       'Word' => 'Palavra',
       'Ignore' => 'Ignorar',
       'replace with' => 'substituir com',
-      'Welcome to OTRS' => 'Bem-vindo ao Service Desk SAP',
+      'Welcome to %s' => 'Bem-vindo ao %s',
       'There is no account with that login name.' => 'Não existe conta com este nome de usuário',
       'Login failed! Your username or password was entered incorrectly.' => 'Login incorreto! Seu Login  ou senha foram informados incorretamente.',
       'Please contact your admin' => 'Por favor, contate administrador do sistema!',

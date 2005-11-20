@@ -2,7 +2,7 @@
 # Kernel/Language/ru.pm - provides ru language translation
 # Copyright (C) 2003 Serg V Kravchenko <skraft at rgs.ru>
 # --
-# $Id: ru.pm,v 1.22 2005-10-15 12:08:12 martin Exp $
+# $Id: ru.pm,v 1.23 2005-11-20 23:15:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::ru;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
@@ -188,7 +188,7 @@ sub Data {
       'Word' => 'Слово ?',
       'Ignore' => 'Пренебречь',
       'replace with' => 'заменить на',
-      'Welcome to OTRS' => 'Добро пожаловать в OTRS',
+      'Welcome to %s' => 'Добро пожаловать в %s',
       'There is no account with that login name.' => 'Нет пользователя с таким именем.',
       'Login failed! Your username or password was entered incorrectly.' => 'Неуспешная авторизация! Ваше имя или пароль неверны!',
       'Please contact your admin' => 'Свяжитесь с администратором',
