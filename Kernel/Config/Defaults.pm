@@ -1,8 +1,8 @@
 # --
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.154.2.6 2004-10-25 09:47:22 martin Exp $
+# $Id: Defaults.pm,v 1.154.2.7 2005-11-20 21:41:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ package Kernel::Config::Defaults;
 
 use strict;
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.154.2.6 $';
+$VERSION = '$Revision: 1.154.2.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -107,7 +107,7 @@ sub LoadDefaults {
         Thu => 1,
         Fri => 1,
         Sat => 0,
-        Sun => 0, 
+        Sun => 0,
     };
 
     # TimeWorkingHours
@@ -503,7 +503,7 @@ sub LoadDefaults {
 
     # LoginURL
     # (If this is anything other than '', then it is assumed to be the
-    # URL of an alternate login screen which will be used in place of 
+    # URL of an alternate login screen which will be used in place of
     # the default one.)
     $Self->{LoginURL} = '';
 #    $Self->{LoginURL} = 'http://host.example.com/cgi-bin/login.pl';
@@ -515,13 +515,13 @@ sub LoadDefaults {
     $Self->{LogoutURL} = '';
 #    $Self->{LogoutURL} = 'http://host.example.com/cgi-bin/login.pl';
 
-    # PreApplicationModule 
+    # PreApplicationModule
     # (Used for every request, if defined, the PreRun() function of
     # this module will be used. This interface use useful to check
-    # some user options or to redirect not accept new application 
+    # some user options or to redirect not accept new application
     # news)
 #    $Self->{PreApplicationModule} = 'Kernel::Modules::AgentInfo';
-    # Kernel::Modules::AgentInfo check key, if this user preferences key 
+    # Kernel::Modules::AgentInfo check key, if this user preferences key
     # is true, then the message is already accepted
 #    $Self->{InfoKey} = 'wpt22';
     # shown InfoFile located under Kernel/Output/HTML/Standard/AgentInfo.dtl
@@ -575,7 +575,7 @@ sub LoadDefaults {
 
     # SpellChecker
     # (If ispell or aspell is available, then we will provide a spelling
-    # checker.) 
+    # checker.)
 #    $Self->{SpellChecker} = '';
     $Self->{SpellChecker} = '/usr/bin/ispell';
     $Self->{SpellCheckerDictDefault} = 'english';
@@ -597,8 +597,8 @@ sub LoadDefaults {
     # Agent::DownloadType
     # (if the tickets attachments will be opened in browser or just to
     # force the download) [attachment|inline]
-    $Self->{'Agent::DownloadType'} = 'inline';
-#    $Self->{'Agent::DownloadType'} = 'attachment';
+#    $Self->{'Agent::DownloadType'} = 'inline';
+    $Self->{'Agent::DownloadType'} = 'attachment';
 
     # --------------------------------------------------- #
     # directories                                         #
@@ -647,7 +647,7 @@ sub LoadDefaults {
     # see http://yourhost/otrs/index.pl?Action=AdminState -> StateType)
     $Self->{PendingAutoStateType} = ['pending auto'];
 
-    # state after pending 
+    # state after pending
     # (state after pending time has reached)
     $Self->{StateAfterPending} = {
         'pending auto close+' => 'closed successful',
@@ -695,7 +695,7 @@ sub LoadDefaults {
         Mon => [ 0,1,2,3,4,5,6,7,8 ],
     };
 
-    # SendNoPendingNotificationTime 
+    # SendNoPendingNotificationTime
     # (send no pending notification this hours)
     $Self->{SendNoPendingNotificationTime} = {
         Mon => [ 0,1,2,3,4,5,6 ],
@@ -1756,7 +1756,7 @@ Your OTRS Notification Master
 #            User => '',
 #            Password => '',
             Table => 'customer_user',
-        }, 
+        },
         # customer uniq id
         CustomerKey => 'login',
         # customer #
@@ -2002,7 +2002,7 @@ Your OTRS Notification Master
     $Self->{PhoneDefaultNewNoteText} = '';
     # default next state [default: open]
     $Self->{PhoneDefaultNewNextState} = 'open';
-    # default lock (lock|unlock) [default: unlock] 
+    # default lock (lock|unlock) [default: unlock]
     $Self->{PhoneDefaultNewLock} = 'unlock';
     # default priority [default: 3 normal]
     $Self->{PhoneDefaultPriority} = '3 normal';
@@ -2013,14 +2013,14 @@ Your OTRS Notification Master
     # PhoneViewOwnerSelection
     $Self->{PhoneViewOwnerSelection} = 1;
 
-    # PhoneViewSelectionType 
-    # (To: seection type. Queue => show all queues, SystemAddress => show all system 
+    # PhoneViewSelectionType
+    # (To: seection type. Queue => show all queues, SystemAddress => show all system
     # addresses;) [Queue|SystemAddress]
     $Self->{PhoneViewSelectionType} = 'Queue';
 #    $Self->{PhoneViewSelectionType} = 'SystemAddress';
 
     # PhoneViewSelectionString
-    # (String for To: selection.) 
+    # (String for To: selection.)
     # use this for PhoneViewSelectionType = Queue
 #   $Self->{PhoneViewSelectionString} = 'Queue: <Queue> - <QueueComment>';
    $Self->{PhoneViewSelectionString} = '<Queue>';
