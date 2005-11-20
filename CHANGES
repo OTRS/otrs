@@ -2,13 +2,17 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.209 2005-11-12 12:24:45 martin Exp $
+# $Id: CHANGES,v 1.209.2.1 2005-11-20 22:51:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-CVS head
+2.0.5 (2005/??/??)
+ - (2005/11/15) fixed not working -r option in scripts/backup.pl
+    (-r == removed backups older then -r days)
+ - (2005/11/13) remove leading and trailing spaces in ldap filter for
+    agent and customer authentication
 
 2.0.4 (2005/11/12)
  - (2005/11/11) fixed bug #695 - From-Header missing quoting if : is used
@@ -17,7 +21,7 @@ CVS head
  - (2005/11/08) added missing default pending note type
  - (2005/11/05) fixed bug #922 - rfc quoteing for emails with sender
     like info@example.com <info@example.com> is now
-    "info@example.com <info@example.com>"
+    "info@example.com" <info@example.com>
  - (2005/11/05) fixed bug #639 - problems with german "umlaute" and
     "," in realname if OE is the sender system
  - (2005/10/31) moved to default download type as attachment (not inline)
