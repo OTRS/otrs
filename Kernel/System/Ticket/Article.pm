@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.70.2.9 2004-10-14 15:17:54 martin Exp $
+# $Id: Article.pm,v 1.70.2.10 2005-11-20 21:22:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.70.2.9 $';
+$VERSION = '$Revision: 1.70.2.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -118,6 +118,9 @@ sub ArticleCreate {
         else {
             $DBParam{$_} = '';
         }
+    }
+    foreach (qw(TicketID ArticleTypeID SenderTypeID UserID)) {
+        $DBParam{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # do db insert
     my $SQL = "INSERT INTO article ".
@@ -341,10 +344,13 @@ sub _ArticleGetId {
       }
     }
     # db quote
-    foreach (keys %Param) {
+    foreach (qw(MessageID From Subject IncomingTime)) {
         if ($Param{$_}) {
             $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
         }
+    }
+    foreach (qw(TicketID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # sql query
     my $SQL = "SELECT id FROM article " .
@@ -440,8 +446,8 @@ sub ArticleGetContentPath {
       return;
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(ArticleID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # check cache
     if ($Self->{"ArticleGetContentPath::$Param{ArticleID}"}) {
@@ -493,16 +499,20 @@ sub ArticleSenderTypeLookup {
     if ($Self->{"ArticleSenderTypeLookup::$Param{$Param{Key}}"}) {
         return $Self->{"ArticleSenderTypeLookup::$Param{$Param{Key}}"};
     }
-    # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
-    }
     # get data
     my $SQL = '';
     if ($Param{SenderType}) {
+        # db quote
+        foreach (qw(SenderType)) {
+            $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+        }
         $SQL = "SELECT id FROM article_sender_type WHERE name = '$Param{SenderType}'";
     }
     else {
+        # db quote
+        foreach (qw(SenderTypeID)) {
+            $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+        }
         $SQL = "SELECT name FROM article_sender_type WHERE id = $Param{SenderTypeID}";
     }
     $Self->{DBObject}->Prepare(SQL => $SQL);
@@ -554,16 +564,20 @@ sub ArticleTypeLookup {
     if ($Self->{"ArticleTypeLookup::$Param{$Param{Key}}"}) {
         return $Self->{"ArticleTypeLookup::$Param{$Param{Key}}"};
     }
-    # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
-    }
     # get data
     my $SQL = '';
     if ($Param{ArticleType}) {
+        # db quote
+        foreach (qw(ArticleType)) {
+            $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+        }
         $SQL = "SELECT id FROM article_type WHERE name = '$Param{ArticleType}'",
     }
     else {
+        # db quote
+        foreach (qw(ArticleTypeID)) {
+            $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+        }
         $SQL = "SELECT name FROM article_type WHERE id = $Param{ArticleTypeID}",
     }
     $Self->{DBObject}->Prepare(SQL => $SQL);
@@ -610,6 +624,9 @@ sub ArticleFreeTextSet {
     # db quote for key an value
     $Param{Value} = $Self->{DBObject}->Quote($Param{Value}) || '';
     $Param{Key} = $Self->{DBObject}->Quote($Param{Key}) || '';
+    foreach (qw(Counter ArticleID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
     # db update
     if ($Self->{DBObject}->Do(
         SQL => "UPDATE article SET a_freekey$Param{Counter} = '$Param{Key}', " .
@@ -732,8 +749,11 @@ sub ArticleIndex {
         return;
     }
     # db quote
-    foreach (keys %Param) {
+    foreach (qw(SenderType)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    foreach (qw(TicketID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # db query
     my $SQL = '';
@@ -823,8 +843,8 @@ sub ArticleGet {
         return;
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(TicketID ArticleID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # article type lookup
     my $ArticleTypeSQL = '';
@@ -834,7 +854,7 @@ sub ArticleGet {
                 if ($ArticleTypeSQL) {
                     $ArticleTypeSQL .= ',';
                 }
-                $ArticleTypeSQL .= $Self->ArticleTypeLookup(ArticleType => $_);
+                $ArticleTypeSQL .= $Self->{DBObject}->Quote($Self->ArticleTypeLookup(ArticleType => $_), 'Integer');
             }
         }
         if ($ArticleTypeSQL) {
@@ -891,7 +911,7 @@ sub ArticleGet {
         $Data{Body} = $Row[7];
         $Data{Age} = $Self->{TimeObject}->SystemTime() - $Row[8];
         $Ticket{CreateTimeUnix} = $Row[8];
-#        $Ticket{Age} = $Data{Age}, 
+#        $Ticket{Age} = $Data{Age},
         $Data{PriorityID} = $Row[18];
         $Ticket{PriorityID} = $Row[18];
         $Data{StateID} = $Row[9];
@@ -915,7 +935,7 @@ sub ArticleGet {
         if ($Row[12] && $Data{ContentType} =~ /^(\w+\/\w+)/i) {
             $Data{MimeType} = $1;
             $Data{MimeType} =~ s/"|'//g ;
-        } 
+        }
         else {
             $Data{MimeType} = '';
         }
@@ -927,7 +947,7 @@ sub ArticleGet {
         $Ticket{UserID} = $Row[20];
         $Data{Owner} = $Row[21];
         $Data{ArticleTypeID} = $Row[22];
-        $Data{FreeKey1} = $Row[23]; 
+        $Data{FreeKey1} = $Row[23];
         $Data{FreeText1} = $Row[24];
         $Data{FreeKey2} = $Row[25];
         $Data{FreeText2} = $Row[26];
@@ -1049,6 +1069,9 @@ sub ArticleUpdate {
     # db quote for key an value
     $Param{Value} = $Self->{DBObject}->Quote($Param{Value});
     $Param{Key} = $Self->{DBObject}->Quote($Param{Key});
+    foreach (qw(ArticleID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
     # db update
     if ($Self->{DBObject}->Do(
         SQL => "UPDATE article SET $Map{$Param{Key}} = '$Param{Value}', ".
@@ -2025,7 +2048,7 @@ sub SendAutoResponse {
     $Param{Body} =~ s/<OTRS_TICKET_ID>/$Param{TicketID}/gi;
     # prepare customer realname
     if ($Param{Body} =~ /<OTRS_CUSTOMER_REALNAME>/) {
-        # get realname 
+        # get realname
         my $From = '';
         if ($Article{CustomerUserID}) {
             $From = $Self->{CustomerUserObject}->CustomerName(UserLogin => $Article{CustomerUserID});
@@ -2098,7 +2121,7 @@ sub SendAutoResponse {
         ArticleType => 'email-external',
         SenderType => 'system',
         TicketID => $Param{TicketID},
-        HistoryType => $Param{HistoryType}, 
+        HistoryType => $Param{HistoryType},
         HistoryComment => "\%\%$ToAll",
         From => "$Param{Realname} <$Param{Address}>",
         To => $GetParam{From},
