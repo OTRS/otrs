@@ -1,9 +1,9 @@
 # --
-# Kernel/System/Ticket/IndexAccelerator/RuntimeDB.pm - realtime database 
+# Kernel/System/Ticket/IndexAccelerator/RuntimeDB.pm - realtime database
 # queue ticket index module
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: RuntimeDB.pm,v 1.21 2004-04-16 08:08:55 martin Exp $
+# $Id: RuntimeDB.pm,v 1.21.2.1 2005-11-20 21:38:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.21.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketAcceleratorUpdate {
@@ -48,7 +48,10 @@ sub TicketAcceleratorIndex {
     foreach (keys %Param) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
-    # get user groups 
+    foreach (qw(UserID QueueID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
+    # get user groups
     my $Type = 'rw';
     if ($Self->{ConfigObject}->Get('QueueViewAllPossibleTickets')) {
         $Type = 'ro';
@@ -74,7 +77,7 @@ sub TicketAcceleratorIndex {
           " AND ".
           " st.queue_id in ( ${\(join ', ', @QueueIDs)} ) ".
           " ";
-    
+
         $Self->{DBObject}->Prepare(SQL => $SQL);
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
             $Queues{AllTickets} = $Row[0];
@@ -200,7 +203,7 @@ sub GetLockedCount {
               " AND " .
               " ts.type_id = tst.id " .
               " ORDER BY ar.create_time DESC",
-    ); 
+    );
     my %Data = ();
     $Data{'Reminder'} = 0;
     $Data{'Pending'} = 0;
@@ -265,7 +268,7 @@ sub GetOverTimeTickets {
             return;
         }
     }
-    $SQL .= " t.ticket_lock_id in ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) "; 
+    $SQL .= " t.ticket_lock_id in ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) ";
     $SQL .= " ORDER BY t.id, t.ticket_priority_id DESC, a.incoming_time";
     my $CustomerSenderID = $Self->ArticleSenderTypeLookup(SenderType => 'customer');
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 1500);
@@ -290,7 +293,7 @@ sub GetOverTimeTickets {
     my $Max = 40;
     my $Count = 0;
     foreach (sort {$TicketIDs{$a} cmp $TicketIDs{$b}} keys %TicketIDs) {
-        $Count++; 
+        $Count++;
         push (@TicketIDsOverTime, $_) if ($Count <= $Max);
     }
     # return overtime tickets

@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/IndexAccelerator/StaticDB.pm - static db queue ticket index module
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: StaticDB.pm,v 1.20 2004-04-16 08:08:55 martin Exp $
+# $Id: StaticDB.pm,v 1.20.2.1 2005-11-20 21:38:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,7 +12,7 @@
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.20.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketAcceleratorUpdate {
@@ -109,8 +109,8 @@ sub TicketAcceleratorDelete {
       }
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(TicketID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     my $SQL = "DELETE FROM ticket_index WHERE ticket_id = $Param{TicketID} ";
     $Self->{DBObject}->Do(SQL => $SQL);
@@ -129,7 +129,7 @@ sub TicketAcceleratorAdd {
     }
     # get ticket data
     my %TicketData = $Self->TicketGet(%Param);
-    # write/append index 
+    # write/append index
     foreach (keys %TicketData) {
         $TicketData{$_} = $Self->{DBObject}->Quote($TicketData{$_});
     }
@@ -145,7 +145,7 @@ sub TicketAcceleratorAdd {
         " $TicketData{CreateTimeUnix})";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         return 1;
-    } 
+    }
     else {
         return;
     }
@@ -162,8 +162,8 @@ sub TicketLockAcceleratorDelete {
       }
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(TicketID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # db query
     my $SQL = "DELETE FROM ticket_lock_index WHERE ticket_id = $Param{TicketID} ";
@@ -182,12 +182,12 @@ sub TicketLockAcceleratorAdd {
       }
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    foreach (qw(TicketID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # get ticket data
     my %TicketData = $Self->TicketGet(%Param);
-    # write/append index 
+    # write/append index
     foreach (keys %TicketData) {
         $TicketData{$_} = $Self->{DBObject}->Quote($TicketData{$_});
     }
@@ -197,7 +197,7 @@ sub TicketLockAcceleratorAdd {
         " ($Param{TicketID})";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         return 1;
-    } 
+    }
     else {
         return;
     }
@@ -212,6 +212,10 @@ sub TicketAcceleratorIndex {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
+    }
+    # db quote
+    foreach (qw(UserID QueueID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     my %Queues = ();
     $Queues{MaxAge} = 0;
@@ -245,7 +249,7 @@ sub TicketAcceleratorIndex {
         Result => 'ID',
         Cached => 1,
     );
-    # get index 
+    # get index
     $Queues{MaxAge} = 0;
     # check if user is in min. one group! if not, return here
     if (!@GroupIDs) {
@@ -346,7 +350,7 @@ sub TicketAcceleratorRebuild {
         $Data{CreateTimeUnix} = $Row[6];
         push (@RowBuffer, \%Data);
     }
-    # write index 
+    # write index
     $Self->{DBObject}->Do(SQL => "DELETE FROM ticket_index");
     foreach (@RowBuffer) {
         my %Data = %{$_};
@@ -459,7 +463,7 @@ sub GetLockedCount {
               " FROM ".
               " ticket ti, article ar, article_sender_type st, ".
               " ticket_state ts, ticket_lock_index tli, ticket_state_type tst ".
-              " WHERE ". 
+              " WHERE ".
               " tli.ticket_id = ti.id".
               " AND ".
               " tli.ticket_id = ar.ticket_id".
