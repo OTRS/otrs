@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.95 2005-11-12 13:39:47 martin Exp $
+# $Id: Article.pm,v 1.96 2005-11-20 22:11:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.95 $';
+$VERSION = '$Revision: 1.96 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -473,7 +473,7 @@ sub ArticleGetTicketIDOfMessageID {
         return;
     }
     # db quote
-    foreach (keys %Param) {
+    foreach (qw(MessageID)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     # sql query
@@ -575,16 +575,20 @@ sub ArticleSenderTypeLookup {
     if ($Self->{"ArticleSenderTypeLookup::$Param{$Param{Key}}"}) {
         return $Self->{"ArticleSenderTypeLookup::$Param{$Param{Key}}"};
     }
-    # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
-    }
     # get data
     my $SQL = '';
     if ($Param{SenderType}) {
+        # db quote
+        foreach (qw(SenderType)) {
+            $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+        }
         $SQL = "SELECT id FROM article_sender_type WHERE name = '$Param{SenderType}'";
     }
     else {
+        # db quote
+        foreach (qw(SenderTypeID)) {
+            $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+        }
         $SQL = "SELECT name FROM article_sender_type WHERE id = $Param{SenderTypeID}";
     }
     $Self->{DBObject}->Prepare(SQL => $SQL);
@@ -637,16 +641,20 @@ sub ArticleTypeLookup {
     if ($Self->{"ArticleTypeLookup::$Param{$Param{Key}}"}) {
         return $Self->{"ArticleTypeLookup::$Param{$Param{Key}}"};
     }
-    # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
-    }
     # get data
     my $SQL = '';
     if ($Param{ArticleType}) {
+        # db quote
+        foreach (qw(ArticleType)) {
+            $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+        }
         $SQL = "SELECT id FROM article_type WHERE name = '$Param{ArticleType}'",
     }
     else {
+        # db quote
+        foreach (qw(ArticleTypeID)) {
+            $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+        }
         $SQL = "SELECT name FROM article_type WHERE id = $Param{ArticleTypeID}",
     }
     $Self->{DBObject}->Prepare(SQL => $SQL);
@@ -919,9 +927,6 @@ sub ArticleGet {
         return;
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
-    }
     foreach (qw(TicketID ArticleID)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
@@ -933,7 +938,7 @@ sub ArticleGet {
                 if ($ArticleTypeSQL) {
                     $ArticleTypeSQL .= ',';
                 }
-                $ArticleTypeSQL .= $Self->ArticleTypeLookup(ArticleType => $_);
+                $ArticleTypeSQL .= $Self->{DBObject}->Quote($Self->ArticleTypeLookup(ArticleType => $_), 'Integer');
             }
         }
         if ($ArticleTypeSQL) {
