@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.194 2005-11-08 06:57:08 martin Exp $
+# $Id: Ticket.pm,v 1.195 2005-11-20 23:09:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.194 $';
+$VERSION = '$Revision: 1.195 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -63,21 +63,21 @@ create a object
     use Kernel::System::Ticket;
 
     my $ConfigObject = Kernel::Config->new();
-    my $TimeObject    = Kernel::System::Time->new(
+    my $TimeObjet    = Kernel::System::Time->new(
         ConfigObject => $ConfigObject,
     );
     my $LogObject    = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
-    my $DBObject = Kernel::System::DB->new(
+    my $DBObject     = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
     );
     my $TicketObject = Kernel::System::Ticket->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
-        DBObject => $DBObject,
-        TimeObject => $TimeObject,
+        LogObject    => $LogObject,
+        DBObject     => $DBObject,
+        TimeObject   => $TimeObject,
     );
 
 =cut
@@ -252,7 +252,7 @@ sub TicketCheckNumber {
         return;
     }
     # db quote
-    foreach (keys %Param) {
+    foreach (qw(Tn)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     # db query
@@ -377,10 +377,9 @@ sub TicketCreate {
     }
 
     # db quote
-    foreach (keys %Param) {
+    foreach (qw(TN Title)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
-
     foreach (qw(QueueID LockID UserID PriorityID StateID CreateUserID CreateUserID)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
@@ -429,6 +428,7 @@ sub TicketCreate {
             UserID => $Param{UserID},
             TicketID => $TicketID,
         );
+
         # return ticket id
         return $TicketID;
     }
@@ -460,16 +460,10 @@ sub TicketDelete {
             return;
         }
     }
-
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
-    }
-
     foreach (qw(TicketID)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
-
     # clear ticket cache
     $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
     # update ticket index
@@ -516,7 +510,7 @@ sub TicketIDLookup {
     }
 
     # db quote
-    foreach (keys %Param) {
+    foreach (qw(TicketNumber)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     # db query
@@ -675,7 +669,7 @@ sub TicketGet {
         " st.freekey5, st.freetext5, st.freekey6, st.freetext6,".
         " st.freekey7, st.freetext7, st.freekey8, st.freetext8, ".
         " st.change_time, st.title, st.escalation_start_time, st.timeout, ".
-        " st.freetime1, st.freetime2".
+        " st.freetime1, st.freetime2 ".
         " FROM ".
         " ticket st, ticket_priority sp, ".
         " queue sq, $Self->{ConfigObject}->{DatabaseUserTable} su ".
@@ -1050,7 +1044,7 @@ sub MoveTicket {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     my $SQL = "UPDATE ticket SET queue_id = $Param{QueueID} ".
-      "  where id = $Param{TicketID}";
+      " WHERE id = $Param{TicketID}";
     if ($Self->{DBObject}->Do(SQL => $SQL) ) {
         # queue lookup
         my $Queue = $Self->{QueueObject}->QueueLookup(QueueID => $Param{QueueID});
@@ -1668,9 +1662,6 @@ sub GetLockedTicketIDs {
         return;
     }
     # db quote
-    foreach (keys %Param) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
-    }
     foreach (qw(UserID)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
@@ -1712,8 +1703,8 @@ sub GetLockedTicketIDs {
     }
 
     $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @RowTmp = $Self->{DBObject}->FetchrowArray()) {
-        push (@ViewableTickets, $RowTmp[0]);
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        push (@ViewableTickets, $Row[0]);
     }
     return @ViewableTickets;
 }
@@ -3541,7 +3532,7 @@ sub HistoryTypeLookup {
       return;
     }
     # db quote
-    foreach (keys %Param) {
+    foreach (qw(Type)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
     # check if we ask the same request?
@@ -3631,8 +3622,11 @@ sub HistoryAdd {
         $Param{Name} = substr($Param{Name}, 0, 200);
     }
     # db quote
-    foreach (keys %Param) {
+    foreach (qw(Name)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+    }
+    foreach (qw(TicketID HistoryTypeID ArticleID QueueID OwnerID PriorityID StateID ValidID CreateUserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # db insert
     my $SQL = "INSERT INTO ticket_history " .
@@ -4218,6 +4212,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.194 $ $Date: 2005-11-08 06:57:08 $
+$Revision: 1.195 $ $Date: 2005-11-20 23:09:21 $
 
 =cut
