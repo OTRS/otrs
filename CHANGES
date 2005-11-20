@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.209.2.1 2005-11-20 22:51:25 martin Exp $
+# $Id: CHANGES,v 1.209.2.2 2005-11-20 22:52:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -516,7 +516,12 @@
  - (2004/09/09) added role/profile feature
  - (2004/09/09) added ticket title support
 
-1.3.3 (200?-??-??)
+1.3.3 (2005-10-20)
+ - (2005/10/20) moved to default download type as attachment (not inline)
+    for a better security default setting
+ - (2005/10/17) added security bugfix for missing SQL quote
+ - (2005/07/08) fixed win32 binmode problem in Kernel/System/WebUploadCache.pm
+ - (2005/07/01) fixed missing date in TicketForward.dtl
  - (2005/07/01) fixed bug 808 - Stats: StopMonth in Ticket.pm
  - (2005/07/01) fixed bug 810 - single quote in comment field generates errors
  - (2005/02/15) updated to cpan MIME::Tools 5.417
