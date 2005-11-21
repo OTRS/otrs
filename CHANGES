@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.211 2005-11-21 08:17:51 cs Exp $
+# $Id: CHANGES,v 1.212 2005-11-21 08:53:36 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,9 +12,9 @@ CVS head
  - (2005/11/20) added multi pre application module support, just
     define it like:
     $Self->{PreApplicationModule}->{AgentInfo} = 'Kernel::Modules::AgentInfo';
- - (2005/11/19) updated Dutch language file, thanks to Richard Hinkamp
 
 2.0.5 (2005/??/??)
+ - (2005/11/19) updated Dutch language file, thanks to Richard Hinkamp
  - (2005/11/15) fixed not working -r option in scripts/backup.pl
     (-r == removed backups older then -r days)
  - (2005/11/13) remove leading and trailing spaces in ldap filter for
