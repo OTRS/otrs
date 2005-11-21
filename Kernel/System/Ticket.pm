@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.195 2005-11-20 23:09:21 martin Exp $
+# $Id: Ticket.pm,v 1.196 2005-11-21 08:57:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.195 $';
+$VERSION = '$Revision: 1.196 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -3591,9 +3591,6 @@ sub HistoryAdd {
             return;
         }
     }
-    if (!$Param{ArticleID}) {
-        $Param{ArticleID} = 'NULL';
-    }
     # get ValidID!
     if (!$Param{ValidID}) {
         $Param{ValidID} = $Self->{DBObject}->GetValidIDs();
@@ -3625,8 +3622,14 @@ sub HistoryAdd {
     foreach (qw(Name)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
     }
-    foreach (qw(TicketID HistoryTypeID ArticleID QueueID OwnerID PriorityID StateID ValidID CreateUserID)) {
+    foreach (qw(TicketID HistoryTypeID QueueID OwnerID PriorityID StateID ValidID CreateUserID)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
+    if (!$Param{ArticleID}) {
+        $Param{ArticleID} = 'NULL';
+    }
+    else {
+        $Param{ArticleID} = $Self->{DBObject}->Quote($Param{ArticleID}, 'Integer');
     }
     # db insert
     my $SQL = "INSERT INTO ticket_history " .
@@ -4212,6 +4215,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.195 $ $Date: 2005-11-20 23:09:21 $
+$Revision: 1.196 $ $Date: 2005-11-21 08:57:16 $
 
 =cut
