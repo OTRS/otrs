@@ -1,13 +1,14 @@
 # --
 # AdminSysConfigEdit.dtl - provides HTML form for SysConfig
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2003-2005 OTRS GmbH, http://www.otrs.de/
 # --
-# $Id: AdminSysConfigEdit.dtl,v 1.24 2005-10-05 23:35:49 martin Exp $
+# $Id: AdminSysConfigEdit.dtl,v 1.25 2005-11-23 14:20:08 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
 <tr>
@@ -17,7 +18,7 @@
 </tr>
 <tr>
   <td colspan="2" class="menu">
-    <a href="$Env{"Baselink"}$Env{"LastScreenOverview"}">zur&uuml;ck</a>
+    <a href="$Env{"Baselink"}$Env{"LastScreenOverview"}">$Text{"Back"}</a>
   </td>
 </tr>
 <tr>
