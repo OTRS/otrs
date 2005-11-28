@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerTicketMessage.pm,v 1.3 2005-07-13 23:24:49 martin Exp $
+# $Id: CustomerTicketMessage.pm,v 1.3.2.1 2005-11-28 00:27:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.3.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -194,10 +194,18 @@ sub Run {
             $Output .= $Self->{LayoutObject}->CustomerFooter();
             return $Output;
         }
+        # set lock if ticket was cloased
+        if ($Lock && $State{TypeName} =~ /^close/i && $Ticket{OwnerID} ne '1') {
+            $Self->{TicketObject}->LockSet(
+                TicketID => $Self->{TicketID},
+                Lock => 'lock',
+                UserID => => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+            );
+        }
         my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject') || 'Follow up!';
         my $Body = $Self->{ParamObject}->GetParam(Param => 'Body');
         my $StateID = $Self->{ParamObject}->GetParam(Param => 'ComposeStateID');
-        my $From = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>"; 
+        my $From = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>";
         if (my $ArticleID = $Self->{TicketObject}->ArticleCreate(
             TicketID => $Self->{TicketID},
             ArticleType => $Self->{ConfigObject}->Get('CustomerPanelArticleType'),
@@ -206,7 +214,7 @@ sub Run {
             Subject => $Subject,
             Body => $Body,
             ContentType => "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}",
-            UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'), 
+            UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
             OrigHeader => {
                 From => $From,
                 To => 'System',
@@ -230,14 +238,6 @@ sub Run {
               UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
           );
 
-          # set lock if ticket was cloased
-          if ($Lock && $State{TypeName} =~ /^close/i && $Ticket{OwnerID} ne '1') {
-              $Self->{TicketObject}->LockSet(
-                  TicketID => $Self->{TicketID},
-                  Lock => 'lock',
-                  UserID => => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
-              );
-          }
           # get attachment
           my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
               Param => 'file_upload',
@@ -371,7 +371,7 @@ sub Run {
           if (%UploadStuff) {
               $Self->{TicketObject}->ArticleWriteAttachment(
                   %UploadStuff,
-                  ArticleID => $ArticleID, 
+                  ArticleID => $ArticleID,
                   UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
               );
           }
