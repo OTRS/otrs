@@ -2,26 +2,26 @@
 # RPM spec file for SuSE Linux of the OTRS package
 # Copyright (C) 2002-2003 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: suse-otrs-7.3.spec,v 1.25 2004-09-29 09:30:04 martin Exp $
+# $Id: suse-otrs-7.3.spec,v 1.26 2005-11-28 00:17:37 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 #
 # please send bugfixes or comments to bugs+rpm@otrs.org
 #
 # --
-Summary:      The Open Ticket Request System. 
+Summary:      The Open Ticket Request System.
 Name:         otrs
 Version:      0.0
 Copyright:    GNU GENERAL PUBLIC LICENSE Version 2, June 1991
 Group:        Applications/Mail
-Provides:     otrs 
+Provides:     otrs
 Requires:     perl perl-DBI perl-GD perl-Net-DNS perl-Digest-MD5 apache mod_perl mysql mysql-client perl-Msql-Mysql-modules mysql-shared fetchmail procmail perl-MIME-Base64
 Autoreqprov:  on
 Release:      01
-Source0:      otrs-%{version}-%{release}.tar.bz2
+Source0:      otrs-%{version}.tar.bz2
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 
 %description
@@ -80,8 +80,8 @@ if test -e /opt/otrs/RELEASE; then
 fi
 # useradd
 export OTRSUSER=otrs
-echo -n "Check OTRS user (/etc/passwd)... " 
-if cat /etc/passwd | grep $OTRSUSER > /dev/null ; then 
+echo -n "Check OTRS user (/etc/passwd)... "
+if cat /etc/passwd | grep $OTRSUSER > /dev/null ; then
     echo "$OTRSUSER exists."
     # update groups
     usermod -g nogroup $OTRSUSER
@@ -100,7 +100,7 @@ APACHERC=/etc/rc.config.d/apache.rc.config
 
 OTRSINCLUDE=/opt/otrs/scripts/apache-httpd.include.conf
 sed 's+^HTTPD_CONF_INCLUDE_FILES=.*$+HTTPD_CONF_INCLUDE_FILES='$OTRSINCLUDE'+' \
-$APACHERC > /tmp/apache.rc.config.tmp && mv /tmp/apache.rc.config.tmp $APACHERC 
+$APACHERC > /tmp/apache.rc.config.tmp && mv /tmp/apache.rc.config.tmp $APACHERC
 # if it's a major-update backup old version templates (maybe not compatible!)
 if test -e /tmp/otrs-old.tmp; then
     TOINSTALL=`echo %{version}| sed 's/..$//'`
@@ -164,9 +164,9 @@ rm -rf $RPM_BUILD_ROOT
 * Thu Jun 04 2002 - martin+rpm@otrs.org
 - added .fetchmailrc
 * Mon May 20 2002 - martin+rpm@otrs.org
-- moved all .dlt and all Kernel::Language::*.pm to %config(noreplace) 
+- moved all .dlt and all Kernel::Language::*.pm to %config(noreplace)
 * Sat May 05 2002 - martin+rpm@otrs.org
-- added Kernel/Output/HTML/Standard/Motd.dtl as config file 
+- added Kernel/Output/HTML/Standard/Motd.dtl as config file
 * Thu Apr 16 2002 - martin+rpm@otrs.org
 - moved to SuSE 8.0 support
 * Sun Feb 03 2002 - martin+rpm@otrs.org
@@ -175,6 +175,6 @@ rm -rf $RPM_BUILD_ROOT
 - added to useradd bash=/bin/false
 * Sat Jan 12 2002 - martin+rpm@otrs.org
 - added SuSE like rc scripts
-* Tue Jan 10 2002 - martin+rpm@otrs.org 
+* Tue Jan 10 2002 - martin+rpm@otrs.org
 - new package created
 

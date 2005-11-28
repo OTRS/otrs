@@ -2,7 +2,7 @@
 # RPM spec file for SUSE Linux 9.1 of the OTRS package
 # Copyright (C) 2001-2004 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: suse-otrs-9.1.spec,v 1.6 2005-05-01 17:35:16 martin Exp $
+# $Id: suse-otrs-9.1.spec,v 1.7 2005-11-28 00:17:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ Provides:     otrs
 Requires:     perl perl-DBI perl-GD perl-GDGraph perl-GDTextUtil perl-Net-DNS perl-Digest-MD5 apache2 apache2-mod_perl mysql mysql-client perl-Msql-Mysql-modules mysql-shared fetchmail procmail
 Autoreqprov:  on
 Release:      01
-Source0:      otrs-%{version}-%{release}.tar.bz2
+Source0:      otrs-%{version}.tar.bz2
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 
 %description
@@ -84,8 +84,8 @@ if test -e /opt/otrs/RELEASE; then
 fi
 # useradd
 export OTRSUSER=otrs
-echo -n "Check OTRS user (/etc/passwd)... " 
-if cat /etc/passwd | grep $OTRSUSER > /dev/null ; then 
+echo -n "Check OTRS user (/etc/passwd)... "
+if cat /etc/passwd | grep $OTRSUSER > /dev/null ; then
     echo "$OTRSUSER exists."
     # update groups
     usermod -g www $OTRSUSER
@@ -167,9 +167,9 @@ rm -rf $RPM_BUILD_ROOT
 * Thu Jun 04 2002 - martin+rpm@otrs.org
 - added .fetchmailrc
 * Mon May 20 2002 - martin+rpm@otrs.org
-- moved all .dlt and all Kernel::Language::*.pm to %config(noreplace) 
+- moved all .dlt and all Kernel::Language::*.pm to %config(noreplace)
 * Sat May 05 2002 - martin+rpm@otrs.org
-- added Kernel/Output/HTML/Standard/Motd.dtl as config file 
+- added Kernel/Output/HTML/Standard/Motd.dtl as config file
 * Thu Apr 16 2002 - martin+rpm@otrs.org
 - moved to SuSE 8.0 support
 * Sun Feb 03 2002 - martin+rpm@otrs.org
@@ -178,6 +178,6 @@ rm -rf $RPM_BUILD_ROOT
 - added to useradd bash=/bin/false
 * Sat Jan 12 2002 - martin+rpm@otrs.org
 - added SuSE like rc scripts
-* Tue Jan 10 2002 - martin+rpm@otrs.org 
+* Tue Jan 10 2002 - martin+rpm@otrs.org
 - new package created
 

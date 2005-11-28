@@ -2,18 +2,22 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.212 2005-11-21 08:53:36 cs Exp $
+# $Id: CHANGES,v 1.213 2005-11-28 00:17:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS head
+ - (2005/11/27) moved otrs archive directory for download and in RPMs
+    from otrs to otrs-x.x.x
  - (2005/11/20) added multi pre application module support, just
     define it like:
     $Self->{PreApplicationModule}->{AgentInfo} = 'Kernel::Modules::AgentInfo';
 
 2.0.5 (2005/??/??)
+ - (2005/11/24) fixed wrong follow up notification (to all agents)
+    via customer panel if ticket is already closed
  - (2005/11/19) updated Dutch language file, thanks to Richard Hinkamp
  - (2005/11/15) fixed not working -r option in scripts/backup.pl
     (-r == removed backups older then -r days)

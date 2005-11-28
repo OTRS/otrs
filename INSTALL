@@ -2,7 +2,7 @@
 # INSTALL description of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: INSTALL,v 1.38 2005-03-27 12:02:53 martin Exp $
+# $Id: INSTALL,v 1.39 2005-11-28 00:17:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -28,7 +28,13 @@ This few steps describe an OTRS installation incl. webserver and database
 settings. The OTRS user is "otrs" and the home (root) directory is /opt/otrs
 (of course you can choose an other directory or/and OTRS user).
 
-1. Install CPAN Modules (if needed):
+1. Install tar.gz:
+   ---------------
+   $shell: cd /opt/
+   $shell: tar -xzvf otrs-x.x.x.tar.gz
+   $shell: mv otrs-x.x.x otrs
+
+2. Install CPAN Modules (if needed):
    ---------------------------------
    Note: use "bin/otrs.checkModules" to get an overview of all installed and
    required cpan modules.
@@ -58,7 +64,7 @@ settings. The OTRS user is "otrs" and the home (root) directory is /opt/otrs
       ...
 
 
-2. Create user:
+3. Create user:
    ------------
     Add user:
     ---------
@@ -69,11 +75,6 @@ settings. The OTRS user is "otrs" and the home (root) directory is /opt/otrs
     $shell: usermod -G nogroup otrs
 
     (SuSE=nogroup, Red Hat=apache)
-
-3. Install tar.gz:
-   ---------------
-   $shell: cd /opt/
-   $shell: tar -xzvf otrs-xxxx-xx-xx.tar-gz
 
 4. Demo config files:
    ------------------
@@ -164,7 +165,7 @@ Notes:
 ======
 
 Also you should read the OTRS performance tuning chapter on our homepage:
-http://doc.otrs.org/cvs/en/html/performance-tuning.html
+http://doc.otrs.org/cvs/en/html/.
 
 For installation questions ask otrs@otrs.org (http://lists.otrs.org/).
 
@@ -172,6 +173,6 @@ Have a lot of fun.
 
  Your OTRS Team
 
-(January 2004 Frankfurt/Germany)
+(Dezember 2006 Straubing/Germany)
 
 EOF

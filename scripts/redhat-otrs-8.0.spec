@@ -2,26 +2,26 @@
 # RPM spec file for RedHat Linux of the OTRS package
 # Copyright (C) 2002-2003 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: redhat-otrs-8.0.spec,v 1.6 2004-09-29 09:30:04 martin Exp $
+# $Id: redhat-otrs-8.0.spec,v 1.7 2005-11-28 00:17:37 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 #
 # please send bugfixes or comments to bugs+rpm@otrs.org
 #
 # --
-Summary:      The Open Ticket Request System. 
+Summary:      The Open Ticket Request System.
 Name:         otrs
 Version:      0.0
 Copyright:    GNU GENERAL PUBLIC LICENSE Version 2, June 1991
 Group:        Applications/Mail
-Provides:     otrs 
+Provides:     otrs
 Requires:     perl perl-DBI perl-DBD-MySQL perl-URI mod_perl httpd mysql mysql-server fetchmail procmail sendmail
 Autoreqprov:  no
 Release:      01
-Source0:      otrs-%{version}-%{release}.tar.bz2
+Source0:      otrs-%{version}.tar.bz2
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 
 %description
@@ -45,13 +45,12 @@ cp .mailfilter.dist .mailfilter
 # delete old RPM_BUILD_ROOT
 rm -rf $RPM_BUILD_ROOT
 # set DESTROOT
-#export DESTROOT="/opt/OpenTRS/"
 export DESTROOT="/opt/otrs/"
 # create RPM_BUILD_ROOT DESTROOT
 mkdir -p $RPM_BUILD_ROOT/$DESTROOT/
 # copy files
 cp -R . $RPM_BUILD_ROOT/$DESTROOT
-# install init-Script 
+# install init-Script
 install -d -m 755 $RPM_BUILD_ROOT/etc/rc.d/init.d
 install -d -m 755 $RPM_BUILD_ROOT/etc/sysconfig
 install -d -m 755 $RPM_BUILD_ROOT/etc/httpd/conf.d
@@ -59,12 +58,12 @@ install -d -m 755 $RPM_BUILD_ROOT/etc/httpd/conf.d
 install -m 755 scripts/redhat-rcotrs $RPM_BUILD_ROOT/etc/rc.d/init.d/otrs
 install -m 644 scripts/redhat-rcotrs-config $RPM_BUILD_ROOT/etc/sysconfig/otrs
 
-# copy apache2-httpd.include.conf to /etc/httpd/conf.d/otrs.conf 
+# copy apache2-httpd.include.conf to /etc/httpd/conf.d/otrs.conf
 install -m 644 scripts/apache2-httpd.include.conf $RPM_BUILD_ROOT/etc/httpd/conf.d/otrs.conf
 
 # set permission
 export OTRSUSER=otrs
-useradd $OTRSUSER || : 
+useradd $OTRSUSER || :
 useradd apache || :
 groupadd apache || :
 $RPM_BUILD_ROOT/opt/otrs/bin/SetPermissions.sh $RPM_BUILD_ROOT/opt/otrs $OTRSUSER apache apache apache
@@ -76,8 +75,8 @@ if test -e /opt/otrs/RELEASE; then
 fi
 # useradd
 export OTRSUSER=otrs
-echo -n "Check OTRS user (/etc/passwd)... " 
-if cat /etc/passwd | grep $OTRSUSER > /dev/null ; then 
+echo -n "Check OTRS user (/etc/passwd)... "
+if cat /etc/passwd | grep $OTRSUSER > /dev/null ; then
     echo "$OTRSUSER exists."
     # update home dir
     usermod -d /opt/otrs $OTRSUSER
@@ -134,5 +133,5 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Thu Feb 12 2003 - martin+rpm@otrs.org
-- spec for RedHat 8.0 created 
+- spec for RedHat 8.0 created
 

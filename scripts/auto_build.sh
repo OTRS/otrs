@@ -3,7 +3,7 @@
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: auto_build.sh,v 1.33 2005-10-25 18:52:30 martin Exp $
+# $Id: auto_build.sh,v 1.34 2005-11-28 00:17:37 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,16 +20,16 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.33 $>"
-echo "Copyright (c) 2002-2004 Martin Edenhofer <martin@otrs.org>"
+echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.34 $>"
+echo "Copyright (c) 2001-2005 Martin Edenhofer <martin@otrs.org>"
 
 PATH_TO_CVS_SRC=$1
 PRODUCT=OTRS
 VERSION=$2
 RELEASE=$3
 #ARCHIVE_DIR="otrs-$VERSION-$RELEASE"
-#ARCHIVE_DIR="OpenTRS"
-ARCHIVE_DIR="otrs"
+ARCHIVE_DIR="otrs-$VERSION"
+#ARCHIVE_DIR="otrs"
 PACKAGE=otrs
 PACKAGE_BUILD_DIR="/tmp/$PACKAGE-build"
 PACKAGE_DEST_DIR="/tmp/$PACKAGE-packages"
@@ -174,7 +174,7 @@ cp -R /tmp/OTRSDOC-package/* doc/manual/
 # create tar
 # --
 cd $PACKAGE_BUILD_DIR/ || exit 1;
-SOURCE_LOCATION=$SYSTEM_SOURCE_DIR/$PACKAGE-$VERSION-$RELEASE.tar.gz
+SOURCE_LOCATION=$SYSTEM_SOURCE_DIR/$PACKAGE-$VERSION.tar.gz
 tar -czf $SOURCE_LOCATION $ARCHIVE_DIR/ || exit 1;
 cp $SOURCE_LOCATION $PACKAGE_DEST_DIR/
 
@@ -182,7 +182,7 @@ cp $SOURCE_LOCATION $PACKAGE_DEST_DIR/
 # create bzip2
 # --
 cd $PACKAGE_BUILD_DIR/ || exit 1;
-SOURCE_LOCATION=$SYSTEM_SOURCE_DIR/$PACKAGE-$VERSION-$RELEASE.tar.bz2
+SOURCE_LOCATION=$SYSTEM_SOURCE_DIR/$PACKAGE-$VERSION.tar.bz2
 tar -cjf $SOURCE_LOCATION $ARCHIVE_DIR/ || exit 1;
 cp $SOURCE_LOCATION $PACKAGE_DEST_DIR/
 
@@ -298,6 +298,8 @@ echo -n "Source code lines (*.pl) : "
 find $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ -name *.pl | xargs cat | wc -l
 echo -n "Source code lines (*.pm) : "
 find $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ -name *.pm | xargs cat | wc -l
+echo -n "Source code lines (*.t) : "
+find $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ -name *.t | xargs cat | wc -l
 echo -n "Source code lines (*.dtl): "
 find $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ -name *.dtl | xargs cat | wc -l
 echo -n "Source code lines (*.xml): "

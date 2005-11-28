@@ -2,26 +2,26 @@
 # RPM spec file for RedHat Linux of the OTRS package
 # Copyright (C) 2002-2003 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: redhat-otrs-7.3.spec,v 1.6 2004-09-29 09:30:04 martin Exp $
+# $Id: redhat-otrs-7.3.spec,v 1.7 2005-11-28 00:17:37 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 #
 # please send bugfixes or comments to bugs+rpm@otrs.org
 #
 # --
-Summary:      The Open Ticket Request System. 
+Summary:      The Open Ticket Request System.
 Name:         otrs
 Version:      0.0
 Copyright:    GNU GENERAL PUBLIC LICENSE Version 2, June 1991
 Group:        Applications/Mail
-Provides:     otrs 
+Provides:     otrs
 Requires:     perl perl-DBI perl-DBD-MySQL perl-Digest-MD5 perl-URI perl-MIME-Base64 mod_perl apache mysql mysqlclient9 mysql-server fetchmail procmail sendmail
 Autoreqprov:  no
 Release:      01
-Source0:      otrs-%{version}-%{release}.tar.bz2
+Source0:      otrs-%{version}.tar.bz2
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 
 %description
@@ -45,13 +45,12 @@ cp .mailfilter.dist .mailfilter
 # delete old RPM_BUILD_ROOT
 rm -rf $RPM_BUILD_ROOT
 # set DESTROOT
-#export DESTROOT="/opt/OpenTRS/"
 export DESTROOT="/opt/otrs/"
 # create RPM_BUILD_ROOT DESTROOT
 mkdir -p $RPM_BUILD_ROOT/$DESTROOT/
 # copy files
 cp -R . $RPM_BUILD_ROOT/$DESTROOT
-# install init-Script 
+# install init-Script
 install -d -m 755 $RPM_BUILD_ROOT/etc/rc.d/init.d
 install -d -m 755 $RPM_BUILD_ROOT/etc/sysconfig
 
@@ -72,8 +71,8 @@ if test -e /opt/otrs/RELEASE; then
 fi
 # useradd
 export OTRSUSER=otrs
-echo -n "Check OTRS user (/etc/passwd)... " 
-if cat /etc/passwd | grep $OTRSUSER > /dev/null ; then 
+echo -n "Check OTRS user (/etc/passwd)... "
+if cat /etc/passwd | grep $OTRSUSER > /dev/null ; then
     echo "$OTRSUSER exists."
     # update home dir
     usermod -d /opt/otrs $OTRSUSER
@@ -100,7 +99,7 @@ if test -e /tmp/otrs-old.tmp; then
         done
     fi
     rm -rf /tmp/otrs-old.tmp
-fi  
+fi
 
 # note
 HOST=`hostname -f`
@@ -152,9 +151,9 @@ rm -rf $RPM_BUILD_ROOT
 * Thu Jun 04 2002 - martin+rpm@otrs.org
 - added .fetchmailrc
 * Mon May 20 2002 - martin+rpm@otrs.org
-- moved all .dlt and all Kernel::Language::*.pm to %config(noreplace) 
+- moved all .dlt and all Kernel::Language::*.pm to %config(noreplace)
 * Sat May 05 2002 - martin+rpm@otrs.org
-- added Kernel/Output/HTML/Standard/Motd.dtl as config file 
+- added Kernel/Output/HTML/Standard/Motd.dtl as config file
 * Thu Apr 16 2002 - martin+rpm@otrs.org
 - moved to SuSE 8.0 support
 * Sun Feb 03 2002 - martin+rpm@otrs.org
@@ -163,6 +162,6 @@ rm -rf $RPM_BUILD_ROOT
 - added to useradd bash=/bin/false
 * Sat Jan 12 2002 - martin+rpm@otrs.org
 - added SuSE like rc scripts
-* Tue Jan 10 2002 - martin+rpm@otrs.org 
+* Tue Jan 10 2002 - martin+rpm@otrs.org
 - new package created
 
