@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CustomerUser/Preferences/DB.pm - some customer user functions
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.7 2004-01-10 15:34:15 martin Exp $
+# $Id: DB.pm,v 1.8 2005-11-28 00:10:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,10 +14,9 @@ package Kernel::System::CustomerUser::Preferences::DB;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -43,7 +42,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub SetPreferences {
     my $Self = shift;
     my %Param = @_;
@@ -72,7 +71,7 @@ sub SetPreferences {
     }
     return 1;
 }
-# --
+
 sub GetPreferences {
     my $Self = shift;
     my %Param = @_;
@@ -96,6 +95,5 @@ sub GetPreferences {
     # --
     return %Data;
 }
-# --
 
 1;

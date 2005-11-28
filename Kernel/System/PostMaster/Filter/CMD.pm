@@ -1,11 +1,11 @@
 # --
 # Kernel/System/PostMaster/Filter/CMD.pm - sub part of PostMaster.pm
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CMD.pm,v 1.1 2003-11-01 19:50:11 martin Exp $
+# $Id: CMD.pm,v 1.2 2005-11-28 00:10:01 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
@@ -14,16 +14,15 @@ package Kernel::System::PostMaster::Filter::CMD;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     $Self->{Debug} = $Param{Debug} || 0;
@@ -35,7 +34,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -43,7 +42,7 @@ sub Run {
     my %Config = ();
     my %Set = ();
     if ($Param{JobConfig} && ref($Param{JobConfig}) eq 'HASH') {
-        %Config = %{$Param{JobConfig}}; 
+        %Config = %{$Param{JobConfig}};
         if ($Config{Set}) {
             %Set = %{$Config{Set}};
         }
@@ -76,7 +75,7 @@ sub Run {
         }
     }
     unlink $TmpFile;
-    return 1; 
+    return 1;
 }
-# --
+
 1;
