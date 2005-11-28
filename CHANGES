@@ -2,13 +2,15 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.209.2.3 2005-11-21 08:16:53 cs Exp $
+# $Id: CHANGES,v 1.209.2.4 2005-11-28 00:28:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.0.5 (2005/??/??)
+ - (2005/11/24) fixed wrong follow up notification (to all agents)
+    via customer panel if ticket is already closed
  - (2005/11/19) updated Dutch language file, thanks to Richard Hinkamp
  - (2005/11/15) fixed not working -r option in scripts/backup.pl
     (-r == removed backups older then -r days)
