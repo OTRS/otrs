@@ -112,7 +112,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.81 2005-11-20 23:02:14 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.82 2005-11-28 00:09:10 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -1156,7 +1156,7 @@ TimeWorkingHours
         <Group>Framework</Group>
         <SubGroup>Crypt::PGP</SubGroup>
         <Setting>
-            <String Regex="">--homedir /var/lib/wwwrun/.gnupg/ --batch --no-tty --yes</String>
+            <String Regex="">--homedir /opt/otrs/.gnupg/ --batch --no-tty --yes</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PGP::Key::Password" Required="1" Valid="1">
