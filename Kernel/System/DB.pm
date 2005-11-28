@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.47 2005-11-07 15:28:31 martin Exp $
+# $Id: DB.pm,v 1.48 2005-11-28 00:11:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.47 $';
+$VERSION = '$Revision: 1.48 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -224,9 +224,11 @@ sub Disconnect {
 
 to quote sql params
 
-  quote strings:
-  ==============
+  quote strings, date and time:
+  =============================
   my $DBString = $DBObject->Quote("This isn't a problem!");
+
+  my $DBString = $DBObject->Quote("2005-10-27 20:15:01");
 
   quote integers:
   ===============
@@ -704,6 +706,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.47 $ $Date: 2005-11-07 15:28:31 $
+$Revision: 1.48 $ $Date: 2005-11-28 00:11:30 $
 
 =cut
