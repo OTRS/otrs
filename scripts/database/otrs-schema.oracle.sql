@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  database: oracle, generated: Tue Nov 29 21:52:27 2005
+--  database: oracle, generated: Tue Nov 29 22:19:53 2005
 -- ----------------------------------------------------------
 DROP TABLE valid CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
@@ -17,7 +17,7 @@ CREATE TABLE valid (
 ALTER TABLE valid ADD CONSTRAINT valid_PK PRIMARY KEY (id);
 DROP SEQUENCE valid_seq;
 CREATE SEQUENCE valid_seq;
-CREATE OR REPLACE TRIGGER valid_seq_t
+CREATE OR REPLACE TRIGGER valid_s_t
 before insert on valid
 for each row
 begin
@@ -43,7 +43,7 @@ CREATE TABLE ticket_priority (
 ALTER TABLE ticket_priority ADD CONSTRAINT ticket_priority_PK PRIMARY KEY (id);
 DROP SEQUENCE ticket_priority_seq;
 CREATE SEQUENCE ticket_priority_seq;
-CREATE OR REPLACE TRIGGER ticket_priority_seq_t
+CREATE OR REPLACE TRIGGER ticket_priority_s_t
 before insert on ticket_priority
 for each row
 begin
@@ -70,7 +70,7 @@ CREATE TABLE ticket_lock_type (
 ALTER TABLE ticket_lock_type ADD CONSTRAINT ticket_lock_type_PK PRIMARY KEY (id);
 DROP SEQUENCE ticket_lock_type_seq;
 CREATE SEQUENCE ticket_lock_type_seq;
-CREATE OR REPLACE TRIGGER ticket_lock_type_seq_t
+CREATE OR REPLACE TRIGGER ticket_lock_type_s_t
 before insert on ticket_lock_type
 for each row
 begin
@@ -101,7 +101,7 @@ CREATE TABLE system_user (
 ALTER TABLE system_user ADD CONSTRAINT system_user_PK PRIMARY KEY (id);
 DROP SEQUENCE system_user_seq;
 CREATE SEQUENCE system_user_seq;
-CREATE OR REPLACE TRIGGER system_user_seq_t
+CREATE OR REPLACE TRIGGER system_user_s_t
 before insert on system_user
 for each row
 begin
@@ -139,7 +139,7 @@ CREATE TABLE groups (
 ALTER TABLE groups ADD CONSTRAINT groups_PK PRIMARY KEY (id);
 DROP SEQUENCE groups_seq;
 CREATE SEQUENCE groups_seq;
-CREATE OR REPLACE TRIGGER groups_seq_t
+CREATE OR REPLACE TRIGGER groups_s_t
 before insert on groups
 for each row
 begin
@@ -209,7 +209,7 @@ CREATE TABLE roles (
 ALTER TABLE roles ADD CONSTRAINT roles_PK PRIMARY KEY (id);
 DROP SEQUENCE roles_seq;
 CREATE SEQUENCE roles_seq;
-CREATE OR REPLACE TRIGGER roles_seq_t
+CREATE OR REPLACE TRIGGER roles_s_t
 before insert on roles
 for each row
 begin
@@ -256,7 +256,7 @@ CREATE TABLE theme (
 ALTER TABLE theme ADD CONSTRAINT theme_PK PRIMARY KEY (id);
 DROP SEQUENCE theme_seq;
 CREATE SEQUENCE theme_seq;
-CREATE OR REPLACE TRIGGER theme_seq_t
+CREATE OR REPLACE TRIGGER theme_s_t
 before insert on theme
 for each row
 begin
@@ -285,7 +285,7 @@ CREATE TABLE ticket_state (
 ALTER TABLE ticket_state ADD CONSTRAINT ticket_state_PK PRIMARY KEY (id);
 DROP SEQUENCE ticket_state_seq;
 CREATE SEQUENCE ticket_state_seq;
-CREATE OR REPLACE TRIGGER ticket_state_seq_t
+CREATE OR REPLACE TRIGGER ticket_state_s_t
 before insert on ticket_state
 for each row
 begin
@@ -312,7 +312,7 @@ CREATE TABLE ticket_state_type (
 ALTER TABLE ticket_state_type ADD CONSTRAINT ticket_state_type_PK PRIMARY KEY (id);
 DROP SEQUENCE ticket_state_type_seq;
 CREATE SEQUENCE ticket_state_type_seq;
-CREATE OR REPLACE TRIGGER ticket_state_type_seq_t
+CREATE OR REPLACE TRIGGER ticket_state_type_s_t
 before insert on ticket_state_type
 for each row
 begin
@@ -341,7 +341,7 @@ CREATE TABLE salutation (
 ALTER TABLE salutation ADD CONSTRAINT salutation_PK PRIMARY KEY (id);
 DROP SEQUENCE salutation_seq;
 CREATE SEQUENCE salutation_seq;
-CREATE OR REPLACE TRIGGER salutation_seq_t
+CREATE OR REPLACE TRIGGER salutation_s_t
 before insert on salutation
 for each row
 begin
@@ -370,7 +370,7 @@ CREATE TABLE signature (
 ALTER TABLE signature ADD CONSTRAINT signature_PK PRIMARY KEY (id);
 DROP SEQUENCE signature_seq;
 CREATE SEQUENCE signature_seq;
-CREATE OR REPLACE TRIGGER signature_seq_t
+CREATE OR REPLACE TRIGGER signature_s_t
 before insert on signature
 for each row
 begin
@@ -401,7 +401,7 @@ CREATE TABLE system_address (
 ALTER TABLE system_address ADD CONSTRAINT system_address_PK PRIMARY KEY (id);
 DROP SEQUENCE system_address_seq;
 CREATE SEQUENCE system_address_seq;
-CREATE OR REPLACE TRIGGER system_address_seq_t
+CREATE OR REPLACE TRIGGER system_address_s_t
 before insert on system_address
 for each row
 begin
@@ -429,7 +429,7 @@ CREATE TABLE follow_up_possible (
 ALTER TABLE follow_up_possible ADD CONSTRAINT follow_up_possible_PK PRIMARY KEY (id);
 DROP SEQUENCE follow_up_possible_seq;
 CREATE SEQUENCE follow_up_possible_seq;
-CREATE OR REPLACE TRIGGER follow_up_possible_seq_t
+CREATE OR REPLACE TRIGGER follow_up_possible_s_t
 before insert on follow_up_possible
 for each row
 begin
@@ -470,7 +470,7 @@ CREATE TABLE queue (
 ALTER TABLE queue ADD CONSTRAINT queue_PK PRIMARY KEY (id);
 DROP SEQUENCE queue_seq;
 CREATE SEQUENCE queue_seq;
-CREATE OR REPLACE TRIGGER queue_seq_t
+CREATE OR REPLACE TRIGGER queue_s_t
 before insert on queue
 for each row
 begin
@@ -533,7 +533,7 @@ CREATE TABLE ticket (
 ALTER TABLE ticket ADD CONSTRAINT ticket_PK PRIMARY KEY (id);
 DROP SEQUENCE ticket_seq;
 CREATE SEQUENCE ticket_seq;
-CREATE OR REPLACE TRIGGER ticket_seq_t
+CREATE OR REPLACE TRIGGER ticket_s_t
 before insert on ticket
 for each row
 begin
@@ -580,7 +580,7 @@ CREATE TABLE ticket_history (
 ALTER TABLE ticket_history ADD CONSTRAINT ticket_history_PK PRIMARY KEY (id);
 DROP SEQUENCE ticket_history_seq;
 CREATE SEQUENCE ticket_history_seq;
-CREATE OR REPLACE TRIGGER ticket_history_seq_t
+CREATE OR REPLACE TRIGGER ticket_history_s_t
 before insert on ticket_history
 for each row
 begin
@@ -610,7 +610,7 @@ CREATE TABLE ticket_history_type (
 ALTER TABLE ticket_history_type ADD CONSTRAINT ticket_history_type_PK PRIMARY KEY (id);
 DROP SEQUENCE ticket_history_type_seq;
 CREATE SEQUENCE ticket_history_type_seq;
-CREATE OR REPLACE TRIGGER ticket_history_type_seq_t
+CREATE OR REPLACE TRIGGER ticket_history_type_s_t
 before insert on ticket_history_type
 for each row
 begin
@@ -638,7 +638,7 @@ CREATE TABLE article_type (
 ALTER TABLE article_type ADD CONSTRAINT article_type_PK PRIMARY KEY (id);
 DROP SEQUENCE article_type_seq;
 CREATE SEQUENCE article_type_seq;
-CREATE OR REPLACE TRIGGER article_type_seq_t
+CREATE OR REPLACE TRIGGER article_type_s_t
 before insert on article_type
 for each row
 begin
@@ -666,7 +666,7 @@ CREATE TABLE article_sender_type (
 ALTER TABLE article_sender_type ADD CONSTRAINT article_sender_type_PK PRIMARY KEY (id);
 DROP SEQUENCE article_sender_type_seq;
 CREATE SEQUENCE article_sender_type_seq;
-CREATE OR REPLACE TRIGGER article_sender_type_seq_t
+CREATE OR REPLACE TRIGGER article_sender_type_s_t
 before insert on article_sender_type
 for each row
 begin
@@ -722,7 +722,7 @@ CREATE TABLE article (
 ALTER TABLE article ADD CONSTRAINT article_PK PRIMARY KEY (id);
 DROP SEQUENCE article_seq;
 CREATE SEQUENCE article_seq;
-CREATE OR REPLACE TRIGGER article_seq_t
+CREATE OR REPLACE TRIGGER article_s_t
 before insert on article
 for each row
 begin
@@ -750,7 +750,7 @@ CREATE TABLE article_plain (
 ALTER TABLE article_plain ADD CONSTRAINT article_plain_PK PRIMARY KEY (id);
 DROP SEQUENCE article_plain_seq;
 CREATE SEQUENCE article_plain_seq;
-CREATE OR REPLACE TRIGGER article_plain_seq_t
+CREATE OR REPLACE TRIGGER article_plain_s_t
 before insert on article_plain
 for each row
 begin
@@ -780,7 +780,7 @@ CREATE TABLE article_attachment (
 ALTER TABLE article_attachment ADD CONSTRAINT article_attachment_PK PRIMARY KEY (id);
 DROP SEQUENCE article_attachment_seq;
 CREATE SEQUENCE article_attachment_seq;
-CREATE OR REPLACE TRIGGER article_attachment_seq_t
+CREATE OR REPLACE TRIGGER article_attachment_s_t
 before insert on article_attachment
 for each row
 begin
@@ -810,7 +810,7 @@ CREATE TABLE standard_response (
 ALTER TABLE standard_response ADD CONSTRAINT standard_response_PK PRIMARY KEY (id);
 DROP SEQUENCE standard_response_seq;
 CREATE SEQUENCE standard_response_seq;
-CREATE OR REPLACE TRIGGER standard_response_seq_t
+CREATE OR REPLACE TRIGGER standard_response_s_t
 before insert on standard_response
 for each row
 begin
@@ -853,7 +853,7 @@ CREATE TABLE standard_attachment (
 ALTER TABLE standard_attachment ADD CONSTRAINT standard_attachment_PK PRIMARY KEY (id);
 DROP SEQUENCE standard_attachment_seq;
 CREATE SEQUENCE standard_attachment_seq;
-CREATE OR REPLACE TRIGGER standard_attachment_seq_t
+CREATE OR REPLACE TRIGGER standard_attachment_s_t
 before insert on standard_attachment
 for each row
 begin
@@ -876,14 +876,14 @@ CREATE TABLE standard_response_attachment (
     change_time DATE NOT NULL,
     change_by NUMBER NOT NULL
 );
-ALTER TABLE standard_response_attachment ADD CONSTRAINT standard_response_attachment_PK PRIMARY KEY (id);
-DROP SEQUENCE standard_response_attachment_seq;
-CREATE SEQUENCE standard_response_attachment_seq;
-CREATE OR REPLACE TRIGGER standard_response_attachment_seq_t
+ALTER TABLE standard_response_attachment ADD CONSTRAINT standard_response_attach21_PK PRIMARY KEY (id);
+DROP SEQUENCE standard_response_attach21_seq;
+CREATE SEQUENCE standard_response_attach21_seq;
+CREATE OR REPLACE TRIGGER standard_response_attach21_s_t
 before insert on standard_response_attachment
 for each row
 begin
-    select standard_response_attachment_seq.nextval
+    select standard_response_attach21_seq.nextval
     into :new.id
     from dual;
 end;
@@ -907,7 +907,7 @@ CREATE TABLE auto_response_type (
 ALTER TABLE auto_response_type ADD CONSTRAINT auto_response_type_PK PRIMARY KEY (id);
 DROP SEQUENCE auto_response_type_seq;
 CREATE SEQUENCE auto_response_type_seq;
-CREATE OR REPLACE TRIGGER auto_response_type_seq_t
+CREATE OR REPLACE TRIGGER auto_response_type_s_t
 before insert on auto_response_type
 for each row
 begin
@@ -941,7 +941,7 @@ CREATE TABLE auto_response (
 ALTER TABLE auto_response ADD CONSTRAINT auto_response_PK PRIMARY KEY (id);
 DROP SEQUENCE auto_response_seq;
 CREATE SEQUENCE auto_response_seq;
-CREATE OR REPLACE TRIGGER auto_response_seq_t
+CREATE OR REPLACE TRIGGER auto_response_s_t
 before insert on auto_response
 for each row
 begin
@@ -967,7 +967,7 @@ CREATE TABLE queue_auto_response (
 ALTER TABLE queue_auto_response ADD CONSTRAINT queue_auto_response_PK PRIMARY KEY (id);
 DROP SEQUENCE queue_auto_response_seq;
 CREATE SEQUENCE queue_auto_response_seq;
-CREATE OR REPLACE TRIGGER queue_auto_response_seq_t
+CREATE OR REPLACE TRIGGER queue_auto_response_s_t
 before insert on queue_auto_response
 for each row
 begin
@@ -994,7 +994,7 @@ CREATE TABLE time_accounting (
 ALTER TABLE time_accounting ADD CONSTRAINT time_accounting_PK PRIMARY KEY (id);
 DROP SEQUENCE time_accounting_seq;
 CREATE SEQUENCE time_accounting_seq;
-CREATE OR REPLACE TRIGGER time_accounting_seq_t
+CREATE OR REPLACE TRIGGER time_accounting_s_t
 before insert on time_accounting
 for each row
 begin
@@ -1004,7 +1004,7 @@ begin
 end;
 /
 --;
-CREATE INDEX index_time_accounting_ticket7 ON time_accounting (ticket_id);
+CREATE INDEX index_time_accounting_ticket30 ON time_accounting (ticket_id);
 DROP TABLE sessions CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table sessions
@@ -1060,7 +1060,7 @@ CREATE TABLE customer_user (
 ALTER TABLE customer_user ADD CONSTRAINT customer_user_PK PRIMARY KEY (id);
 DROP SEQUENCE customer_user_seq;
 CREATE SEQUENCE customer_user_seq;
-CREATE OR REPLACE TRIGGER customer_user_seq_t
+CREATE OR REPLACE TRIGGER customer_user_s_t
 before insert on customer_user
 for each row
 begin
@@ -1079,7 +1079,7 @@ CREATE TABLE customer_preferences (
     preferences_key VARCHAR2 (150) NOT NULL,
     preferences_value VARCHAR2 (250)
 );
-CREATE INDEX index_customer_preferences_u76 ON customer_preferences (user_id);
+CREATE INDEX index_customer_preferences_u94 ON customer_preferences (user_id);
 DROP TABLE ticket_loop_protection CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table ticket_loop_protection
@@ -1088,8 +1088,8 @@ CREATE TABLE ticket_loop_protection (
     sent_to VARCHAR2 (250) NOT NULL,
     sent_date VARCHAR2 (150) NOT NULL
 );
-CREATE INDEX index_ticket_loop_protection11 ON ticket_loop_protection (sent_to);
-CREATE INDEX index_ticket_loop_protection15 ON ticket_loop_protection (sent_date);
+CREATE INDEX index_ticket_loop_protection38 ON ticket_loop_protection (sent_to);
+CREATE INDEX index_ticket_loop_protection76 ON ticket_loop_protection (sent_date);
 DROP TABLE pop3_account CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table pop3_account
@@ -1111,7 +1111,7 @@ CREATE TABLE pop3_account (
 ALTER TABLE pop3_account ADD CONSTRAINT pop3_account_PK PRIMARY KEY (id);
 DROP SEQUENCE pop3_account_seq;
 CREATE SEQUENCE pop3_account_seq;
-CREATE OR REPLACE TRIGGER pop3_account_seq_t
+CREATE OR REPLACE TRIGGER pop3_account_s_t
 before insert on pop3_account
 for each row
 begin
@@ -1192,7 +1192,7 @@ CREATE TABLE notifications (
 ALTER TABLE notifications ADD CONSTRAINT notifications_PK PRIMARY KEY (id);
 DROP SEQUENCE notifications_seq;
 CREATE SEQUENCE notifications_seq;
-CREATE OR REPLACE TRIGGER notifications_seq_t
+CREATE OR REPLACE TRIGGER notifications_s_t
 before insert on notifications
 for each row
 begin
@@ -1238,7 +1238,7 @@ CREATE TABLE faq_item (
 ALTER TABLE faq_item ADD CONSTRAINT faq_item_PK PRIMARY KEY (id);
 DROP SEQUENCE faq_item_seq;
 CREATE SEQUENCE faq_item_seq;
-CREATE OR REPLACE TRIGGER faq_item_seq_t
+CREATE OR REPLACE TRIGGER faq_item_s_t
 before insert on faq_item
 for each row
 begin
@@ -1260,7 +1260,7 @@ CREATE TABLE faq_language (
 ALTER TABLE faq_language ADD CONSTRAINT faq_language_PK PRIMARY KEY (id);
 DROP SEQUENCE faq_language_seq;
 CREATE SEQUENCE faq_language_seq;
-CREATE OR REPLACE TRIGGER faq_language_seq_t
+CREATE OR REPLACE TRIGGER faq_language_s_t
 before insert on faq_language
 for each row
 begin
@@ -1286,7 +1286,7 @@ CREATE TABLE faq_history (
 ALTER TABLE faq_history ADD CONSTRAINT faq_history_PK PRIMARY KEY (id);
 DROP SEQUENCE faq_history_seq;
 CREATE SEQUENCE faq_history_seq;
-CREATE OR REPLACE TRIGGER faq_history_seq_t
+CREATE OR REPLACE TRIGGER faq_history_s_t
 before insert on faq_history
 for each row
 begin
@@ -1313,7 +1313,7 @@ CREATE TABLE faq_category (
 ALTER TABLE faq_category ADD CONSTRAINT faq_category_PK PRIMARY KEY (id);
 DROP SEQUENCE faq_category_seq;
 CREATE SEQUENCE faq_category_seq;
-CREATE OR REPLACE TRIGGER faq_category_seq_t
+CREATE OR REPLACE TRIGGER faq_category_s_t
 before insert on faq_category
 for each row
 begin
@@ -1336,7 +1336,7 @@ CREATE TABLE faq_state (
 ALTER TABLE faq_state ADD CONSTRAINT faq_state_PK PRIMARY KEY (id);
 DROP SEQUENCE faq_state_seq;
 CREATE SEQUENCE faq_state_seq;
-CREATE OR REPLACE TRIGGER faq_state_seq_t
+CREATE OR REPLACE TRIGGER faq_state_s_t
 before insert on faq_state
 for each row
 begin
@@ -1358,7 +1358,7 @@ CREATE TABLE faq_state_type (
 ALTER TABLE faq_state_type ADD CONSTRAINT faq_state_type_PK PRIMARY KEY (id);
 DROP SEQUENCE faq_state_type_seq;
 CREATE SEQUENCE faq_state_type_seq;
-CREATE OR REPLACE TRIGGER faq_state_type_seq_t
+CREATE OR REPLACE TRIGGER faq_state_type_s_t
 before insert on faq_state_type
 for each row
 begin
@@ -1387,7 +1387,7 @@ CREATE TABLE faq_attachment (
 ALTER TABLE faq_attachment ADD CONSTRAINT faq_attachment_PK PRIMARY KEY (id);
 DROP SEQUENCE faq_attachment_seq;
 CREATE SEQUENCE faq_attachment_seq;
-CREATE OR REPLACE TRIGGER faq_attachment_seq_t
+CREATE OR REPLACE TRIGGER faq_attachment_s_t
 before insert on faq_attachment
 for each row
 begin
@@ -1433,7 +1433,7 @@ CREATE TABLE package_repository (
 ALTER TABLE package_repository ADD CONSTRAINT package_repository_PK PRIMARY KEY (id);
 DROP SEQUENCE package_repository_seq;
 CREATE SEQUENCE package_repository_seq;
-CREATE OR REPLACE TRIGGER package_repository_seq_t
+CREATE OR REPLACE TRIGGER package_repository_s_t
 before insert on package_repository
 for each row
 begin

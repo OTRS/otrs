@@ -2,7 +2,7 @@
 # Kernel/System/DB/oracle.pm - oracle database backend
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: oracle.pm,v 1.8 2005-10-30 12:34:53 martin Exp $
+# $Id: oracle.pm,v 1.8.2.1 2005-11-29 21:24:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::DB::oracle;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.8.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub LoadPreferences {
@@ -148,8 +148,13 @@ sub TableCreate {
             $SQL .= " NOT NULL";
         }
         # add primary key
+        my $Constraint = $TableName;
+        if (length($Constraint) > 26) {
+            $Constraint = substr($Constraint, 0, 24);
+            $Constraint .= int(rand(99));
+        }
         if ($Tag->{PrimaryKey} && $Tag->{PrimaryKey} =~ /true/i) {
-            push (@Return2, "ALTER TABLE $TableName ADD CONSTRAINT $TableName"."_PK PRIMARY KEY ($Tag->{Name})");
+            push (@Return2, "ALTER TABLE $TableName ADD CONSTRAINT $Constraint"."_PK PRIMARY KEY ($Tag->{Name})");
         }
         # auto increment
         if ($Tag->{AutoIncrement} && $Tag->{AutoIncrement} =~ /^true$/i) {
@@ -157,9 +162,9 @@ sub TableCreate {
             if ($Self->{ConfigObject}->Get('Database::ShellOutput')) {
                 $Shell = "/\n--";
             }
-            push (@Return2, "DROP SEQUENCE $TableName"."_seq");
-            push (@Return2, "CREATE SEQUENCE $TableName"."_seq");
-            push (@Return2, "CREATE OR REPLACE TRIGGER $TableName"."_seq_t\nbefore insert on $TableName\nfor each row\nbegin\n    select $TableName"."_seq.nextval\n    into :new.$Tag->{Name}\n    from dual;\nend;\n$Shell");
+            push (@Return2, "DROP SEQUENCE $Constraint"."_seq");
+            push (@Return2, "CREATE SEQUENCE $Constraint"."_seq");
+            push (@Return2, "CREATE OR REPLACE TRIGGER $Constraint"."_s_t\nbefore insert on $TableName\nfor each row\nbegin\n    select $Constraint"."_seq.nextval\n    into :new.$Tag->{Name}\n    from dual;\nend;\n$Shell");
         }
     }
     # add uniq
