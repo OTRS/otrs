@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  database: oracle, generated: Sun Oct 30 10:41:25 2005
+--  database: oracle, generated: Tue Nov 29 21:52:27 2005
 -- ----------------------------------------------------------
 DROP TABLE valid CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
@@ -1004,15 +1004,14 @@ begin
 end;
 /
 --;
-CREATE INDEX index_time_accounting_ticket94 ON time_accounting (ticket_id);
+CREATE INDEX index_time_accounting_ticket7 ON time_accounting (ticket_id);
 DROP TABLE sessions CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table sessions
 -- ----------------------------------------------------------
 CREATE TABLE sessions (
     session_id VARCHAR2 (150) NOT NULL,
-    session_value CLOB NOT NULL,
-    CONSTRAINT sessions_U_1 UNIQUE (session_id)
+    session_value CLOB NOT NULL
 );
 CREATE INDEX index_session_id ON sessions (session_id);
 DROP TABLE ticket_index CASCADE CONSTRAINTS;
@@ -1089,8 +1088,8 @@ CREATE TABLE ticket_loop_protection (
     sent_to VARCHAR2 (250) NOT NULL,
     sent_date VARCHAR2 (150) NOT NULL
 );
-CREATE INDEX index_ticket_loop_protection54 ON ticket_loop_protection (sent_to);
-CREATE INDEX index_ticket_loop_protection55 ON ticket_loop_protection (sent_date);
+CREATE INDEX index_ticket_loop_protection11 ON ticket_loop_protection (sent_to);
+CREATE INDEX index_ticket_loop_protection15 ON ticket_loop_protection (sent_date);
 DROP TABLE pop3_account CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table pop3_account
