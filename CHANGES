@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.214 2005-11-29 20:55:03 martin Exp $
+# $Id: CHANGES,v 1.215 2005-11-29 21:23:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,6 +16,7 @@ CVS head
     $Self->{PreApplicationModule}->{AgentInfo} = 'Kernel::Modules::AgentInfo';
 
 2.0.5 (2005/??/??)
+ - (2005/11/29) fixed bug #1010 - ORA-00972 Identifier is too long for oracle
  - (2005/11/29) fixed bug #1011 - ORA-01408: such column list already indexed,
     Oracle error
  - (2005/11/24) fixed wrong follow up notification (to all agents)
