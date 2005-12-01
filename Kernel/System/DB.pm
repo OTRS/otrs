@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.48 2005-11-28 00:11:30 martin Exp $
+# $Id: DB.pm,v 1.49 2005-12-01 11:07:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.48 $';
+$VERSION = '$Revision: 1.49 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -250,11 +250,11 @@ sub Quote {
 
     # do quote integer
     if ($Type && $Type eq 'Integer') {
-        if ($Text !~ /^\d{1,16}$/) {
+        if ($Text !~ /^(\+|\-|)\d{1,16}$/) {
             $Self->{LogObject}->Log(
                 Caller => 1,
                 Priority => 'error',
-                Message => "Invalid number in query '$Text'!",
+                Message => "Invalid integer in query '$Text'!",
             );
             return '';
         }
@@ -706,6 +706,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.48 $ $Date: 2005-11-28 00:11:30 $
+$Revision: 1.49 $ $Date: 2005-12-01 11:07:00 $
 
 =cut
