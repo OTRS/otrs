@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerTicketMessage.pm,v 1.3.2.1 2005-11-28 00:27:33 martin Exp $
+# $Id: CustomerTicketMessage.pm,v 1.3.2.2 2005-12-01 11:07:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3.2.1 $';
+$VERSION = '$Revision: 1.3.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -307,8 +307,42 @@ sub Run {
             UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
             CreateUserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
         );
-      # create article
-      if (my $ArticleID = $Self->{TicketObject}->ArticleCreate(
+        # set ticket free text
+        foreach (1..8) {
+            if (defined($TicketFree{"TicketFreeKey$_"})) {
+                $Self->{TicketObject}->TicketFreeTextSet(
+                    TicketID => $TicketID,
+                    Key => $TicketFree{"TicketFreeKey$_"},
+                    Value => $TicketFree{"TicketFreeText$_"},
+                    Counter => $_,
+                    UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+                );
+            }
+        }
+        # get free text params
+        my %TicketFreeTime = ();
+        foreach (1..2) {
+              foreach my $Type (qw(Year Month Day Hour Minute)) {
+                  $TicketFreeTime{"TicketFreeTime".$_.$Type} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
+              }
+        }
+        # set ticket free time
+        foreach (1..2) {
+              if (defined($TicketFreeTime{"TicketFreeTime".$_."Year"}) &&
+                  defined($TicketFreeTime{"TicketFreeTime".$_."Month"}) &&
+                  defined($TicketFreeTime{"TicketFreeTime".$_."Day"}) &&
+                  defined($TicketFreeTime{"TicketFreeTime".$_."Hour"}) &&
+                  defined($TicketFreeTime{"TicketFreeTime".$_."Minute"})) {
+                  $Self->{TicketObject}->TicketFreeTimeSet(
+                      %TicketFreeTime,
+                      TicketID => $TicketID,
+                      Counter => $_,
+                      UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+                  );
+              }
+        }
+        # create article
+        if (my $ArticleID = $Self->{TicketObject}->ArticleCreate(
             TicketID => $TicketID,
             ArticleType => $Self->{ConfigObject}->Get('CustomerPanelNewArticleType'),
             SenderType => $Self->{ConfigObject}->Get('CustomerPanelNewSenderType'),
@@ -329,40 +363,6 @@ sub Run {
             },
             Queue => $Self->{QueueObject}->QueueLookup(QueueID => $NewQueueID),
         )) {
-          # set ticket free text
-          foreach (1..8) {
-            if (defined($TicketFree{"TicketFreeKey$_"})) {
-                $Self->{TicketObject}->TicketFreeTextSet(
-                    TicketID => $TicketID,
-                    Key => $TicketFree{"TicketFreeKey$_"},
-                    Value => $TicketFree{"TicketFreeText$_"},
-                    Counter => $_,
-                    UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
-                );
-            }
-          }
-          # get free text params
-          my %TicketFreeTime = ();
-          foreach (1..2) {
-              foreach my $Type (qw(Year Month Day Hour Minute)) {
-                  $TicketFreeTime{"TicketFreeTime".$_.$Type} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
-              }
-          }
-          # set ticket free time
-          foreach (1..2) {
-              if (defined($TicketFreeTime{"TicketFreeTime".$_."Year"}) &&
-                  defined($TicketFreeTime{"TicketFreeTime".$_."Month"}) &&
-                  defined($TicketFreeTime{"TicketFreeTime".$_."Day"}) &&
-                  defined($TicketFreeTime{"TicketFreeTime".$_."Hour"}) &&
-                  defined($TicketFreeTime{"TicketFreeTime".$_."Minute"})) {
-                  $Self->{TicketObject}->TicketFreeTimeSet(
-                      %TicketFreeTime,
-                      TicketID => $TicketID,
-                      Counter => $_,
-                      UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
-                  );
-              }
-          }
           # get attachment
           my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
               Param => 'file_upload',
