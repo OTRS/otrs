@@ -2,13 +2,17 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.209.2.6 2005-11-29 21:24:01 martin Exp $
+# $Id: CHANGES,v 1.209.2.7 2005-12-01 11:08:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.0.5 (2005/??/??)
+ - (2005/12/01) improved database Quote() for integer, also allow +|-
+    in integer
+ - (2005/11/30) fixed order of create attributes (TicketCreate(), TicketFreeTime(),
+    TicketFreeTime(), ArticleCreate(), ...) on customer ticket creation
  - (2005/11/29) fixed bug #1010 - ORA-00972 Identifier is too long for oracle
  - (2005/11/29) fixed bug #1011 - ORA-01408: such column list already indexed,
     Oracle error
