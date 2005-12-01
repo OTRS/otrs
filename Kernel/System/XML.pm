@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: XML.pm,v 1.23 2005-07-17 15:45:45 martin Exp $
+# $Id: XML.pm,v 1.24 2005-12-01 12:07:32 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,9 +12,10 @@
 package Kernel::System::XML;
 
 use strict;
+use Kernel::System::Encode;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -73,6 +74,7 @@ sub new {
     foreach (qw(ConfigObject LogObject DBObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
+    $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
 
     $S = $Self;
 
@@ -780,6 +782,18 @@ sub XMLParse {
         eval "require XML::Parser::Lite";
         $Parser = XML::Parser::Lite->new(Handlers => {Start => \&HS, End => \&ES, Char => \&CS});
     }
+    if ($Param{String} =~ /(<.+?>)/) {
+        if ($1 !~ /(utf-8|utf8)/i && $1 =~ /encoding=('|")(.+?)('|")/i) {
+            my $SourceCharset = $2;
+            $Param{String} =~ s/$SourceCharset/utf-8/i;
+            $Param{String} = $Self->{EncodeObject}->Convert(
+                Text => $Param{String},
+                From => $SourceCharset,
+                To => 'utf-8',
+            );
+        }
+    }
+
     $Parser->parse($Param{String});
     # quote
     foreach (@{$Self->{XMLARRAY}}) {
@@ -802,6 +816,13 @@ sub _Decode{
             $A->{$_} =~ s/&amp;/&/g;
             $A->{$_} =~ s/&lt;/</g;
             $A->{$_} =~ s/&gt;/>/g;
+            # convert into default charset
+            $A->{$_} = $Self->{EncodeObject}->Convert(
+              Text => $A->{$_},
+              From => 'utf-8',
+              To => $Self->{ConfigObject}->Get('DefaultCharset'),
+              Force => 1,
+            );
         }
     }
 }
@@ -886,6 +907,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.23 $ $Date: 2005-07-17 15:45:45 $
+$Revision: 1.24 $ $Date: 2005-12-01 12:07:32 $
 
 =cut
