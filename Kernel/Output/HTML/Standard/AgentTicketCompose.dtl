@@ -2,7 +2,7 @@
 # AgentTicketCompose.dtl - provides HTML form for AgentTicketCompose
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketCompose.dtl,v 1.10 2005-08-05 08:11:45 rk Exp $
+# $Id: AgentTicketCompose.dtl,v 1.10.2.1 2005-12-03 13:12:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -166,12 +166,6 @@ $Data{"ResponseFormat"}
 </pre>
       </td>
     </tr>
-# --
-# use there are std. attachments for this response
-# --
-<dtl if ($Data{"StdAttachmentsStrg"} ne "") { $Data{"StdAttachmentsTable"} = "<tr><td>$Text{"Std. Attachment"}:</td><td>$Data{"StdAttachmentsStrg"}</td></tr>"; }>
-    $Data{"StdAttachmentsTable"}
-#
     <tr>
       <td class="contentkey">$Text{"Attachment"}:</td>
       <td class="contentvalue">
