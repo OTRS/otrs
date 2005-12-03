@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketCompose.pm,v 1.8 2005-11-12 13:23:29 martin Exp $
+# $Id: AgentTicketCompose.pm,v 1.9 2005-12-03 13:12:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -110,6 +110,23 @@ sub Form {
                 Comment => 'System Error!',
         );
     }
+    # add std. attachments to email
+    if ($GetParam{ResponseID}) {
+        my %AllStdAttachments = $Self->{StdAttachmentObject}->StdAttachmentsByResponseID(
+            ID => $GetParam{ResponseID},
+        );
+        foreach (sort keys %AllStdAttachments) {
+            my %Data = $Self->{StdAttachmentObject}->StdAttachmentGet(ID => $_);
+            $Self->{UploadCachObject}->FormIDAddFile(
+                FormID => $GetParam{FormID},
+                %Data,
+            );
+        }
+    }
+    # get all attachments meta data
+    my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
+        FormID => $GetParam{FormID},
+    );
     # get ticket data
     my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
     # start with page ...
@@ -317,10 +334,6 @@ sub Form {
             }
         }
     }
-    # get std attachments
-    my %AllStdAttachments = $Self->{StdAttachmentObject}->StdAttachmentsByResponseID(
-        ID => $GetParam{ResponseID},
-    );
     # run compose modules
     if (ref($Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule')) eq 'HASH') {
         my %Jobs = %{$Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule')};
@@ -372,8 +385,8 @@ sub Form {
         QueueID => $Ticket{QueueID},
         NextStates => $Self->_GetNextStates(),
         ResponseFormat => $Self->{ResponseFormat},
+        Attachments => \@Attachments,
         Errors => \%Error,
-        StdAttachments => \%AllStdAttachments,
         %Data,
         %GetParam,
         %TicketFreeTextHTML,
@@ -438,10 +451,6 @@ sub SendEmail {
             }
         }
     }
-    # --
-    # get std attachment ids
-    # --
-    my @StdAttachmentIDs = $Self->{ParamObject}->GetArray(Param => 'StdAttachmentID');
     # prepare subject
     my $Tn = $Self->{TicketObject}->TicketNumberLookup(TicketID => $Self->{TicketID});
     $GetParam{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
@@ -563,7 +572,6 @@ sub SendEmail {
         Charset => $Self->{LayoutObject}->{UserCharset},
         Type => 'text/plain',
         Attachment => \@AttachmentData,
-        StdAttachmentIDs => \@StdAttachmentIDs,
         %ArticleParam,
     )) {
         # time accounting
@@ -654,18 +662,6 @@ sub _Mask {
         Name => 'ComposeStateID',
         Selected => $Param{NextState} || $Self->{ConfigObject}->Get('Ticket::DefaultNextComposeType'),
     );
-    # build select string
-    if ($Param{StdAttachments} && %{$Param{StdAttachments}}) {
-      my %Data = %{$Param{StdAttachments}};
-      $Param{'StdAttachmentsStrg'} = "<select name=\"StdAttachmentID\" size=2 multiple>\n";
-      foreach (sort {$Data{$a} cmp $Data{$b}} keys %Data) {
-        if ((defined($_)) && ($Data{$_})) {
-            $Param{'StdAttachmentsStrg'} .= '    <option selected value="'.$Self->{LayoutObject}->Ascii2Html(Text => $_).'">'.
-                  $Self->{LayoutObject}->Ascii2Html(Text => $Self->{LayoutObject}->{LanguageObject}->Get($Data{$_})) ."</option>\n";
-        }
-      }
-      $Param{'StdAttachmentsStrg'} .= "</select>\n";
-    }
     # prepare errors!
     if ($Param{Errors}) {
         foreach (keys %{$Param{Errors}}) {
