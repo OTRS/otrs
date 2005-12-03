@@ -2,13 +2,15 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.209.2.7 2005-12-01 11:08:37 martin Exp $
+# $Id: CHANGES,v 1.209.2.8 2005-12-03 13:13:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.0.5 (2005/??/??)
+ - (2005/12/03) fixed std attachment feature (no attachment after
+    additional fiel upload) in agent ticket compose
  - (2005/12/01) improved database Quote() for integer, also allow +|-
     in integer
  - (2005/11/30) fixed order of create attributes (TicketCreate(), TicketFreeTime(),
