@@ -5,9 +5,12 @@
   XML File for the OTRS database description
   Copyright (C) 2001-2003 Martin Edenhofer
 
-  $Id: otrs-schema.xml,v 1.46.2.1 2005-11-29 20:55:24 martin Exp $
+  $Id: otrs-schema.xml,v 1.46.2.2 2005-12-04 11:24:50 martin Exp $
 
   $Log: not supported by cvs2svn $
+  Revision 1.46.2.1  2005/11/29 20:55:24  martin
+  fixed bug #1011 - ORA-01408: such column list already indexed
+
   Revision 1.46  2005/09/24 16:46:35  martin
   fixed small oracle database driver bugs
 
@@ -990,7 +993,7 @@
 <Table Name="standard_response">
   <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
   <Column Name="name" Required="true" Size="80" Type="VARCHAR"/>
-  <Column Name="text" Required="true" Size="10000" Type="VARCHAR"/>
+  <Column Name="text" Required="false" Size="10000" Type="VARCHAR"/>
   <Column Name="comments" Required="false" Size="100" Type="VARCHAR"/>
   <Column Name="valid_id" Required="true" Type="SMALLINT"/>
   <Column Name="create_time" Required="true" Type="DATE"/>
@@ -1214,11 +1217,11 @@
   <Column Name="login" Required="true" Size="100" Type="VARCHAR"/>
   <Column Name="email" Required="true" Size="150" Type="VARCHAR"/>
   <Column Name="customer_id" Required="true" Size="200" Type="VARCHAR"/>
-  <Column Name="pw" Required="true" Size="50" Type="VARCHAR"/>
+  <Column Name="pw" Required="false" Size="50" Type="VARCHAR"/>
   <Column Name="salutation" Required="false" Size="50" Type="VARCHAR"/>
   <Column Name="first_name" Required="true" Size="100" Type="VARCHAR"/>
   <Column Name="last_name" Required="true" Size="100" Type="VARCHAR"/>
-  <Column Name="comments" Required="true" Size="250" Type="VARCHAR"/>
+  <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
   <Column Name="valid_id" Required="true" Type="SMALLINT"/>
   <Column Name="create_time" Required="true" Type="DATE"/>
   <Column Name="create_by" Required="true" Type="INTEGER"/>
@@ -1418,7 +1421,7 @@
 <Table Name="faq_category">
   <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
   <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
-  <Column Name="comments" Required="true" Size="200" Type="VARCHAR"/>
+  <Column Name="comments" Required="false" Size="200" Type="VARCHAR"/>
   <Column Name="create_time" Required="true" Type="DATE"/>
   <Column Name="create_by" Required="true" Type="INTEGER"/>
   <Column Name="change_time" Required="true" Type="DATE"/>

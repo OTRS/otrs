@@ -2,13 +2,17 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.209.2.8 2005-12-03 13:13:38 martin Exp $
+# $Id: CHANGES,v 1.209.2.9 2005-12-04 11:24:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.0.5 (2005/??/??)
+ - (2005/12/04) fixed bug #1025 - ORA-01400: cannot insert NULL into ("OTRS"
+    ."CUSTOMER_USER"."COMMENTS"
+ - (2005/12/04) fixed bug #1018 - initial_insert.sql, oracle error ORA-01400:
+    cannot insert NULL into
  - (2005/12/03) fixed std attachment feature (no attachment after
     additional fiel upload) in agent ticket compose
  - (2005/12/01) improved database Quote() for integer, also allow +|-
