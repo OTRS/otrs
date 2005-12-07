@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Email.pm,v 1.14 2005-09-19 08:30:16 martin Exp $
+# $Id: Email.pm,v 1.15 2005-12-07 13:09:17 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -224,7 +224,7 @@ sub Send {
     # do some encode
     foreach (qw(From To Cc Bcc Subject)) {
         if ($Header{$_} && $Param{Charset}) {
-            $Header{$_} = encode_mimewords($Header{$_}, Charset => $Param{Charset}) || '';
+            $Header{$_} = encode_mimewords(Encode::encode($Param{Charset},$Header{$_}), Charset => $Param{Charset}) || '';
         }
     }
     $Header{'X-Mailer'} = $Self->{ConfigObject}->Get('Product')." Mail Service (".$Self->{ConfigObject}->Get('Version').")";
@@ -566,7 +566,7 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2005-09-19 08:30:16 $
+$Revision: 1.15 $ $Date: 2005-12-07 13:09:17 $
 
 =cut
 
