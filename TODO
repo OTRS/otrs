@@ -2,7 +2,7 @@
 # TODO - todo list of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TODO,v 1.71 2005-11-02 07:26:18 tr Exp $
+# $Id: TODO,v 1.71.2.1 2005-12-12 13:36:23 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,6 +38,9 @@
 - create a configelement for max logfilesize in log.pm
 - create a configelement for image path - delete path insert in header.dtl
 - rework code of header.dtl and footer.dtl (espacially the footer.dtl)
+- add possebility (maybe a Configoption) that for external notes not the
+  email address of the agent but the queue address is used:
+     http://lists.otrs.org/pipermail/otrs-de/2005-December/005103.html
 
 2.2
 - move ticket and article free text fields to "reference tables".
