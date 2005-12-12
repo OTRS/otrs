@@ -148,7 +148,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.70 2005-11-08 07:02:53 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.70.2.1 2005-12-12 17:30:09 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifyer for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z.B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -1836,6 +1836,18 @@ $Data{"StdResponse"}
 
 $Data{"Signature"}
 </TextArea>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::ComposeReplaceSenderAddress" Required="1" Valid="1">
+        <Description Lang="en">Replace on compose answer the original sender with current customers email address.</Description>
+        <Description Lang="de">Beim Antwort erstellen originale Sender-Email mit der Email des derzeitigen Kunden ersetzen.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewCompose</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::BounceState" Required="1" Valid="1">

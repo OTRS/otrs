@@ -2,13 +2,15 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.209.2.9 2005-12-04 11:24:51 martin Exp $
+# $Id: CHANGES,v 1.209.2.10 2005-12-12 17:30:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.0.5 (2005/??/??)
+ - (2005/12/12) added compat config option for compose answer to
+    replace original sender with current customers email address
  - (2005/12/04) fixed bug #1025 - ORA-01400: cannot insert NULL into ("OTRS"
     ."CUSTOMER_USER"."COMMENTS"
  - (2005/12/04) fixed bug #1018 - initial_insert.sql, oracle error ORA-01400:
