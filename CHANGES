@@ -2,13 +2,15 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.218 2005-12-04 11:25:19 martin Exp $
+# $Id: CHANGES,v 1.219 2005-12-12 17:30:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS head
+ - (2005/12/04) moved FAQ from framework to own application module
+    (can be installed over opm online repository now)
  - (2005/11/27) moved otrs archive directory for download and in RPMs
     from otrs to otrs-x.x.x
  - (2005/11/20) added multi pre application module support, just
@@ -16,6 +18,8 @@ CVS head
     $Self->{PreApplicationModule}->{AgentInfo} = 'Kernel::Modules::AgentInfo';
 
 2.0.5 (2005/??/??)
+ - (2005/12/12) added compat config option for compose answer to
+    replace original sender with current customers email address
  - (2005/12/04) fixed bug #1025 - ORA-01400: cannot insert NULL into ("OTRS"
     ."CUSTOMER_USER"."COMMENTS"
  - (2005/12/04) fixed bug #1018 - initial_insert.sql, oracle error ORA-01400:
