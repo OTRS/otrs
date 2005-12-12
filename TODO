@@ -2,7 +2,7 @@
 # TODO - todo list of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TODO,v 1.72 2005-12-01 14:13:27 tr Exp $
+# $Id: TODO,v 1.73 2005-12-12 13:35:01 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -40,6 +40,9 @@
 - rework code of header.dtl and footer.dtl (espacially the footer.dtl)
 - change SYSConfig XML-Files form iso8859-1 to utf8 - Warning, be careful of
   conflicts between the modules
+- add possebility (maybe a Configoption) that for external notes not the
+  email address of the agent but the queue address is used:
+   http://lists.otrs.org/pipermail/otrs-de/2005-December/005103.html
 
 2.2
 - move ticket and article free text fields to "reference tables".
