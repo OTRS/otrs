@@ -2,7 +2,7 @@
 # Kernel/System/Stats/AccountedTime.pm - stats module
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AccountedTime.pm,v 1.3 2005-08-26 15:55:29 martin Exp $
+# $Id: AccountedTime.pm,v 1.4 2005-12-20 23:33:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Date::Pcalc qw(Days_in_Month);
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $ ';
+$VERSION = '$Revision: 1.4 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -28,7 +28,7 @@ sub new {
     my $Self = {};
     bless ($Self, $Type);
 
-    # get common opjects
+    # get common objects
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }

@@ -2,7 +2,7 @@
 # Kernel/System/SystemAddress.pm - lib for system addresses
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SystemAddress.pm,v 1.8 2005-11-05 16:23:21 martin Exp $
+# $Id: SystemAddress.pm,v 1.9 2005-12-20 23:31:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::SystemAddress;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -64,7 +64,7 @@ sub new {
     my $Self = {};
     bless ($Self, $Type);
 
-    # get common opjects
+    # get common objects
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
@@ -279,6 +279,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2005-11-05 16:23:21 $
+$Revision: 1.9 $ $Date: 2005-12-20 23:31:57 $
 
 =cut

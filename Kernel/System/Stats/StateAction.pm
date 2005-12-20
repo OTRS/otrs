@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Stats/StateAction.pm - stats module
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: StateAction.pm,v 1.2 2004-10-18 07:27:11 martin Exp $
+# $Id: StateAction.pm,v 1.3 2005-12-20 23:33:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Date::Pcalc qw(Today_and_Now Days_in_Month Day_of_Week Day_of_Week_Abbreviation);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $ ';
+$VERSION = '$Revision: 1.3 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -27,7 +27,7 @@ sub new {
     my $Self = {}; 
     bless ($Self, $Type);
 
-    # get common opjects
+    # get common objects
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }

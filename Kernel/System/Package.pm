@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.pm,v 1.41 2005-11-13 13:23:44 martin Exp $
+# $Id: Package.pm,v 1.42 2005-12-20 23:32:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.42 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -75,7 +75,7 @@ sub new {
     my $Self = {};
     bless ($Self, $Type);
 
-    # get common opjects
+    # get common objects
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
@@ -1540,6 +1540,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.41 $ $Date: 2005-11-13 13:23:44 $
+$Revision: 1.42 $ $Date: 2005-12-20 23:32:36 $
 
 =cut

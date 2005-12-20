@@ -2,7 +2,7 @@
 # Kernel/System/XMLMaster.pm - the global XMLMaster module for OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: XMLMaster.pm,v 1.1 2005-07-01 09:57:31 martin Exp $
+# $Id: XMLMaster.pm,v 1.2 2005-12-20 23:31:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Main;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -28,7 +28,7 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless ($Self, $Type);
-    # get common opjects
+    # get common objects
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }

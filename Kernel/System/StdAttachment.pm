@@ -2,7 +2,7 @@
 # Kernel/System/StdAttachment.pm - lib for std attachemnt
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: StdAttachment.pm,v 1.11 2005-10-31 10:07:03 martin Exp $
+# $Id: StdAttachment.pm,v 1.12 2005-12-20 23:32:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -27,7 +27,7 @@ sub new {
     my $Self = {};
     bless ($Self, $Type);
 
-    # get common opjects
+    # get common objects
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
