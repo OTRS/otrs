@@ -148,7 +148,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.71 2005-12-12 17:30:29 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.72 2005-12-20 16:53:15 tr Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifyer for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z.B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -2030,7 +2030,7 @@ $Data{"Signature"}
         <SubGroup>Core::Stats</SubGroup>
         <Setting>
             <Hash>
-	        <Item Key="Name">New Tickets</Item>
+            <Item Key="Name">New Tickets</Item>
                 <Item Key="Module">Kernel::System::Stats::NewTickets</Item>
                 <Item Key="Desc">New created tickets for each queue in selected month</Item>
                 <Item Key="SumCol">1</Item>
@@ -3556,7 +3556,7 @@ $Data{"Signature"}
         <Setting>
             <FrontendModuleReg>
                 <Description>Ticket Lock</Description>
-				<Title>Lock</Title>
+                <Title>Lock</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
@@ -4111,8 +4111,8 @@ $Data{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PostmasterMaxEmails" Required="1" Valid="1">
-        <Description Lang="en">Maximal post master daemon email to own email-address a day. Loop-Protection! Default: 40</Description>
-        <Description Lang="de">Maximale Anzahl an Postmaster-Daemon-E-Mails pro Tag an die eigenen Mailadressen. Schutz vor Mailschleifen! Default: 40</Description>
+        <Description Lang="en">Maximal post master daemon email to own email-address a day. Loop-Protection!</Description>
+        <Description Lang="de">Maximale Anzahl an Postmaster-Daemon-Emails pro Tag an die eigenen Emailadressen. (Schutz vor Emailschleifen!)</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
         <Setting>
