@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.49 2005-12-01 11:07:00 martin Exp $
+# $Id: DB.pm,v 1.50 2005-12-20 23:46:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.49 $';
+$VERSION = '$Revision: 1.50 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -558,6 +558,8 @@ sub SQLProcessor {
                 @Table = ();
             }
             elsif ($Tag->{Tag} eq 'Column' && $Tag->{TagType} eq 'Start') {
+                # type check
+                $Self->_TypeCheck($Tag);
                 push (@Table, $Tag);
             }
             elsif ($Tag->{Tag} eq 'Unique' && $Tag->{TagType} eq 'Start') {
@@ -581,6 +583,29 @@ sub SQLProcessor {
             elsif ($Tag->{Tag} eq 'TableDrop' && $Tag->{TagType} eq 'Start') {
                 push (@Table, $Tag);
                 push (@SQL, $Self->TableDrop(@Table));
+                @Table = ();
+            }
+            elsif ($Tag->{Tag} eq 'TableAlter' && $Tag->{TagType} eq 'Start') {
+                push (@Table, $Tag);
+            }
+            elsif ($Tag->{Tag} eq 'ColumnAdd' && $Tag->{TagType} eq 'Start') {
+                # type check
+                $Self->_TypeCheck($Tag);
+                push (@Table, $Tag);
+            }
+            elsif ($Tag->{Tag} eq 'ColumnChange' && $Tag->{TagType} eq 'Start') {
+                # type check
+                $Self->_TypeCheck($Tag);
+                push (@Table, $Tag);
+            }
+            elsif ($Tag->{Tag} eq 'ColumnDrop' && $Tag->{TagType} eq 'Start') {
+                # type check
+                $Self->_TypeCheck($Tag);
+                push (@Table, $Tag);
+            }
+            elsif ($Tag->{Tag} eq 'TableAlter' && $Tag->{TagType} eq 'End') {
+                push (@Table, $Tag);
+                push (@SQL, $Self->TableAlter(@Table));
                 @Table = ();
             }
             elsif ($Tag->{Tag} eq 'Insert' && $Tag->{TagType} eq 'Start') {
@@ -688,6 +713,18 @@ sub GetValidIDs {
     return @ValidIDs;
 }
 
+sub _TypeCheck {
+    my $Self = shift;
+    my $Tag = shift;
+    if ($Tag->{Type} && $Tag->{Type} !~ /^(DATE|SMALLINT|BIGINT|INTEGER|DECIMAL|VARCHAR|LONGBLOB)$/i) {
+        $Self->{LogObject}->Log(
+            Priority => 'Error',
+            Message => "Unknown data type '$Tag->{Type}'!",
+        );
+    }
+    return 1;
+}
+
 sub DESTROY {
     my $Self = shift;
     $Self->Disconnect();
@@ -706,6 +743,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.49 $ $Date: 2005-12-01 11:07:00 $
+$Revision: 1.50 $ $Date: 2005-12-20 23:46:19 $
 
 =cut
