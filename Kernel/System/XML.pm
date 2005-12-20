@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: XML.pm,v 1.23 2005-07-17 15:45:45 martin Exp $
+# $Id: XML.pm,v 1.23.2.1 2005-12-20 22:48:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::XML;
 use strict;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.23.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -440,12 +440,15 @@ sub XMLParse2XMLHash {
     my $Self = shift;
     my %Param = @_;
     my @XMLStructur = $Self->XMLParse(%Param);
-    my @XMLHash = (undef, $Self->XMLStructur2XMLHash(XMLStructur => \@XMLStructur));
-
+    if (!@XMLStructur) {
+        return ();
+    }
+    else {
+        my @XMLHash = (undef, $Self->XMLStructur2XMLHash(XMLStructur => \@XMLStructur));
 #    $XMLHash[1]{'IODEF-Document'} = $XMLHash[1]{'otrs_package'};
 #    $XMLHash[0]{Meta}[0]{Created} = 'admin';
-
-    return @XMLHash;
+        return @XMLHash;
+    }
 }
 
 =item XMLHash2D()
@@ -780,7 +783,11 @@ sub XMLParse {
         eval "require XML::Parser::Lite";
         $Parser = XML::Parser::Lite->new(Handlers => {Start => \&HS, End => \&ES, Char => \&CS});
     }
-    $Parser->parse($Param{String});
+#    $Parser->parse($Param{String});
+    if (!eval { $Parser->parse($Param{String}) }) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Parser: $@!");
+        return ();
+    }
     # quote
     foreach (@{$Self->{XMLARRAY}}) {
         $Self->_Decode($_);
@@ -886,6 +893,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.23 $ $Date: 2005-07-17 15:45:45 $
+$Revision: 1.23.2.1 $ $Date: 2005-12-20 22:48:13 $
 
 =cut
