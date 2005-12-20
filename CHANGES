@@ -2,13 +2,16 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.220 2005-12-12 19:26:46 cs Exp $
+# $Id: CHANGES,v 1.221 2005-12-20 23:48:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS head
+ - (2005/12/21) added column type check in xml database defination
+ - (2005/12/20) added unit test system
+ - (2005/12/17) improved admin view of session management
  - (2005/12/04) moved FAQ from framework to own application module
     (can be installed over opm online repository now)
  - (2005/11/27) moved otrs archive directory for download and in RPMs
