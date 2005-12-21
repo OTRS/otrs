@@ -2,7 +2,7 @@
 # TicketNumberGenerator.t - TicketNumberGenerator tests
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.t,v 1.4 2005-12-21 01:20:02 martin Exp $
+# $Id: Ticket.t,v 1.5 2005-12-21 19:37:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -2646,6 +2646,62 @@ $Self->True(
 $Self->True(
     $Article{From} eq 'Some Agent Some Agent Some Agent Some Agent Some Agent Some Agent Some Agent Some Agent Some Agent Some Agent Some Agent <email@example.com>',
     'ArticleGet()',
+);
+
+
+my $TicketAccountTime = $Self->{TicketObject}->TicketAccountTime(
+    TicketID => $TicketID,
+    ArticleID => $ArticleID,
+    TimeUnit => '4.5',
+    UserID => 1,
+);
+
+$Self->True(
+    $TicketAccountTime,
+    'TicketAccountTime() 1',
+);
+
+my $TicketAccountTime2 = $Self->{TicketObject}->TicketAccountTime(
+    TicketID => $TicketID,
+    ArticleID => $ArticleID,
+    TimeUnit => '4123.53',
+    UserID => 1,
+);
+
+$Self->True(
+    $TicketAccountTime2,
+    'TicketAccountTime() 2',
+);
+
+my $TicketAccountTime3 = $Self->{TicketObject}->TicketAccountTime(
+    TicketID => $TicketID,
+    ArticleID => $ArticleID,
+    TimeUnit => '4,53',
+    UserID => 1,
+);
+
+$Self->True(
+    $TicketAccountTime3,
+    'TicketAccountTime() 3',
+);
+
+
+my $AccountedTime = $Self->{TicketObject}->TicketAccountedTimeGet(TicketID => $TicketID);
+
+$Self->True(
+    $AccountedTime eq 4132.56,
+    'TicketAccountedTimeGet()',
+);
+
+
+
+my $AccountedTime2 = $Self->{TicketObject}->ArticleAccountedTimeGet(
+    ArticleID => $ArticleID,
+);
+
+$Self->True(
+    $AccountedTime2 eq 4132.56,
+    'ArticleAccountedTimeGet()',
 );
 
 
