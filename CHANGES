@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.221 2005-12-20 23:48:38 martin Exp $
+# $Id: CHANGES,v 1.222 2005-12-21 19:37:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,6 +21,9 @@ CVS head
     $Self->{PreApplicationModule}->{AgentInfo} = 'Kernel::Modules::AgentInfo';
 
 2.0.5 (2005/??/??)
+ - (2005/12/21) fixed missing delete on time_accounting in
+    Kernel/System/Ticket/Article.pm if article got deleted
+ - (2005/12/20) improved die if xml is invalid in Kernel/System/XML.pm
  - (2005/12/12) added compat config option for compose answer to
     replace original sender with current customers email address
  - (2005/11/19) updated French language file, thanks to Yann Richard
