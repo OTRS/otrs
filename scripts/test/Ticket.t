@@ -2,7 +2,7 @@
 # TicketNumberGenerator.t - TicketNumberGenerator tests
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.t,v 1.2 2005-12-21 00:56:46 martin Exp $
+# $Id: Ticket.t,v 1.3 2005-12-21 01:19:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,25 +11,30 @@
 
 use Kernel::System::Ticket;
 
-$Self->{TicketObject} = Kernel::System::Ticket->new(%{$Self});
-
 my $Hook = $Self->{ConfigObject}->Get('Ticket::Hook');
-my $Tn = $Self->{TicketObject}->CreateTicketNr();
 
+$Self->{ConfigObject}->Set(
+    Key => 'Ticket::NumberGenerator',
+    Value => 'Kernel::System::Ticket::Number::DateChecksum',
+);
+$Self->{TicketObject} = Kernel::System::Ticket->new(%{$Self});
+$Self->{TicketObject} = Kernel::System::Ticket->new(%{$Self});
+my $Tn = $Self->{TicketObject}->CreateTicketNr();
 my $String = "Re: ".$Self->{TicketObject}->TicketSubjectBuild(
     TicketNumber => $Tn,
     Subject => 'Some Test',
 );
-
-
 $Self->True(
     $Self->{TicketObject}->GetTNByString($String) eq $Tn,
-    'GetTNByString() (true)',
+    "GetTNByString() (DateChecksum: true eq)",
 );
-
+$Self->True(
+    $Self->{TicketObject}->GetTNByString("Ticket#: 200206231010138") ne $Tn,
+    "GetTNByString() (DateChecksum: false eq)",
+);
 $Self->False(
-    $Self->{TicketObject}->GetTNByString("Ticket#: 200206231010138") || 0,
-    'GetTNByString() (false)',
+    $Self->{TicketObject}->GetTNByString("Ticket#: 1234567") || 0,
+    "GetTNByString() (DateChecksum: false)",
 );
 
 
