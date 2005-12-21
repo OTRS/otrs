@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleStorageDB.pm,v 1.31 2005-11-08 06:59:06 martin Exp $
+# $Id: ArticleStorageDB.pm,v 1.31.2.1 2005-12-21 19:33:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Base64;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.31.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -48,6 +48,11 @@ sub ArticleDelete {
     # delete attachments and plain emails
     my @Articles = $Self->ArticleIndex(TicketID => $Param{TicketID});
     foreach (@Articles) {
+        # delete time accounting
+        $Self->ArticleAccountedTimeDelete(
+            ArticleID => $_,
+            UserID => $Param{UserID},
+        );
         # delete attachments
         $Self->ArticleDeleteAttachment(
             ArticleID => $_,

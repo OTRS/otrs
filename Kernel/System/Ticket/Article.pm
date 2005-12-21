@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.94 2005-10-31 10:07:03 martin Exp $
+# $Id: Article.pm,v 1.94.2.1 2005-12-21 19:33:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.94 $';
+$VERSION = '$Revision: 1.94.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -2161,6 +2161,34 @@ sub ArticleAccountedTimeGet {
     return $AccountedTime;
 }
 
+=item ArticleAccountedTimeDelete()
+
+delete accounted time of article
+
+  $TicketObject->ArticleAccountedTimeDelete(
+    ArticleID => $ArticleID,
+  );
+
+=cut
+
+sub ArticleAccountedTimeDelete {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    if (!$Param{ArticleID}) {
+      $Self->{LogObject}->Log(Priority => 'error', Message => "Need ArticleID!");
+      return;
+    }
+    # db quote
+    foreach (qw(ArticleID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
+    # db query
+    my $SQL = "DELETE FROM time_accounting " .
+        " WHERE " .
+        " article_id = $Param{ArticleID}";
+    return $Self->{DBObject}->Do(SQL => $SQL);
+}
 
 # --
 # the following is the pod for Kernel/System/Ticket/ArticleStorage*.pm

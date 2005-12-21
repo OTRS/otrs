@@ -2,13 +2,15 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.209.2.12 2005-12-20 22:49:11 martin Exp $
+# $Id: CHANGES,v 1.209.2.13 2005-12-21 19:33:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.0.5 (2005/??/??)
+ - (2005/12/21) fixed missing delete on time_accounting in
+    Kernel/System/Ticket/Article.pm if article got deleted
  - (2005/12/20) improved die if xml is invalid in Kernel/System/XML.pm
  - (2005/12/12) added compat config option for compose answer to
     replace original sender with current customers email address
