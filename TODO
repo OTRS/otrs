@@ -1,8 +1,8 @@
 # --
-# TODO - todo list of TimeAccounting
-# Copyright (C) 2003-2005 OTRS GmbH, http://www.otrs.de/
+# TODO - todo list OTRS
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TODO,v 1.74 2005-12-20 16:55:00 tr Exp $
+# $Id: TODO,v 1.75 2005-12-21 19:39:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,7 +10,6 @@
 # --
 
 2.1
-
 - change SysConfigSetting for PreApplication from String to Arrayversion
 - -default- selection option in all state, answer type, ... fields
 - GenericAgent modules for PendingJobs.pl, UnlockTickets.pl and DeleteSessionIDs.
@@ -47,13 +46,53 @@
    http://lists.otrs.org/pipermail/otrs-de/2005-December/005103.html
 
 2.2
--
+- move ticket and article free text fields to "reference tables".
 
 3.0
--
+- new templates without logic
+- use more references in functions
+- log with log level
 
 misc (not scheduled yet - nobody is working on it yet)
--
+- delete personal queues if queue is set to invalid
+- Module Layer for signature, salutation in composing answers
+- store ticket before sending
+- AdminQueueList with all config options on one screen
+- Ticket print option for customer interface
+- interfaceing with bugzilla (martin)
+- interfaceing with Nagios (http://www.nagios.org/)
+- interfaceing with ISPMan (http://www.ispman.org/)
+- agent email interface (control via email - answer, ...)
+- add save draft in compose window
+- add count of user/customer user to admin area (LDAP-performance!?)
+   "You currently have 467 customers on the OTRS system"
+- enhance AdminEmail with customer user
+- ldap auth modules with multi group options (not just one)
 
 ideas (just ideas - nobody is working on it)
--
+- agent/customer timezone selection in preferences
+- copy std response botton
+- add 'Mark as Read' feature for QueueView like other 'web based email system'
+- imap service (queue view as imap service)
+- add icon in QueueView to show if there is a note on it or it's a new ticket
+- module feature on set state, owner, lock and queue
+- QueueView: Additional drop-down to set ticket owner
+   http://bugs.otrs.org/show_bug.cgi?id=129
+- read/unread highlighting of articles
+- show agent name in CustomerTicketOverView
+- GenericAgent with forward full message tree to other email address
+- improve fulltext search with 'article-type'
+- drop html Content-Type: multipart/alternative parts if text/plain extists
+- have easy insertion into the reply of a response 'template'
+- allow admin to create response templates like this:
+  <SALUTATION>
+  <GENERIC_BRUSH_OFF_RESPONSE>
+  <SIGNATURE>
+  <QUOTED_MESSAGE>
+- "Ticket" Threading - http://bugs.otrs.org/show_bug.cgi?id=353
+- FAQ category with permissions like queues
+- ticket order by pending time
+- view/search for tickets which escalate in future, e. g. in one hour
+- http://bugs.otrs.org/show_bug.cgi?id=728 - Last Told
+- opm package installing by click on Ticket-Attachment-
+
