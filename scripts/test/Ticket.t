@@ -2,7 +2,7 @@
 # TicketNumberGenerator.t - TicketNumberGenerator tests
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.t,v 1.3 2005-12-21 01:19:46 martin Exp $
+# $Id: Ticket.t,v 1.4 2005-12-21 01:20:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,6 @@ $Self->{ConfigObject}->Set(
     Key => 'Ticket::NumberGenerator',
     Value => 'Kernel::System::Ticket::Number::DateChecksum',
 );
-$Self->{TicketObject} = Kernel::System::Ticket->new(%{$Self});
 $Self->{TicketObject} = Kernel::System::Ticket->new(%{$Self});
 my $Tn = $Self->{TicketObject}->CreateTicketNr();
 my $String = "Re: ".$Self->{TicketObject}->TicketSubjectBuild(
