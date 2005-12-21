@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.198 2005-11-12 13:23:29 martin Exp $
+# $Id: Generic.pm,v 1.199 2005-12-21 19:38:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::Output::HTML::Agent;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.198 $';
+$VERSION = '$Revision: 1.199 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -1846,11 +1846,6 @@ sub NavigationBar {
         Key => 'LastNavBarName',
         Value => $Param{Type},
     );
-    my $NavBarType = $Self->{ConfigObject}->Get('Frontend::NavBarStyle') || 'Classic';
-    $Self->Block(
-        Name => $NavBarType,
-        Data => \%Param,
-    );
 
     # run notification modules
     if (ref($Self->{ConfigObject}->Get('Frontend::NotifyModule')) eq 'HASH') {
@@ -1969,6 +1964,12 @@ sub NavigationBar {
             }
         }
     }
+
+    my $NavBarType = $Self->{ConfigObject}->Get('Frontend::NavBarStyle') || 'Classic';
+    $Self->Block(
+        Name => $NavBarType,
+        Data => \%Param,
+    );
 
     foreach (sort keys %NavBarModule) {
         $Self->Block(
@@ -2303,6 +2304,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.198 $ $Date: 2005-11-12 13:23:29 $
+$Revision: 1.199 $ $Date: 2005-12-21 19:38:58 $
 
 =cut
