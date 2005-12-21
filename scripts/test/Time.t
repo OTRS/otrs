@@ -2,7 +2,7 @@
 # Time.t - Time tests
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Time.t,v 1.1 2005-12-20 22:53:43 martin Exp $
+# $Id: Time.t,v 1.2 2005-12-21 01:35:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -34,7 +34,7 @@ $Self->True(
 my $SystemTimeUnix = $Self->{TimeObject}->Date2SystemTime(
     Year => 2005,
     Month => 10,
-    Day => 20, 
+    Day => 20,
     Hour => 10, 
     Minute => 0, 
     Second => 0,
