@@ -2,7 +2,7 @@
 # TODO - todo list OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TODO,v 1.76 2005-12-22 06:40:46 tr Exp $
+# $Id: TODO,v 1.77 2005-12-22 06:47:42 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -99,4 +99,6 @@ ideas (just ideas - nobody is working on it)
 - http://bugs.otrs.org/show_bug.cgi?id=728 - Last Told
 - opm package installing by click on Ticket-Attachment-
 - show more Systemlog items
+- formattedtext elments for the sysconfig
+- include xml-attributs in the ConfigXMl, which manage if the delete or new-Buttons be shown.
 
