@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Stats/StateAction.pm - stats module
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: StateAction.pm,v 1.2 2004-10-18 07:27:11 martin Exp $
+# $Id: StateAction.pm,v 1.2.2.1 2005-12-23 09:20:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Date::Pcalc qw(Today_and_Now Days_in_Month Day_of_Week Day_of_Week_Abbreviation);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $ ';
+$VERSION = '$Revision: 1.2.2.1 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -24,7 +24,7 @@ sub new {
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     # get common opjects
@@ -55,7 +55,7 @@ sub Param {
     else {
         $M = $M -1;
     }
-    # create possible time selections 
+    # create possible time selections
     my %Year = ();
     foreach ($Y-10..$Y+1) {
         $Year{$_} = $_;
@@ -65,7 +65,7 @@ sub Param {
         my $Tmp = sprintf("%02d", $_);
         $Month{$_} = $Tmp;
     }
- 
+
     push (@Params, {
             Frontend => 'Year',
             Name => 'Year',
@@ -95,7 +95,6 @@ sub Param {
             Size => 0,
             SelectedID => '550x350',
             Data => {
-                '550x350' => ' 550x350',
                 '800x600' => ' 800x600',
                 '1200x800' => '1200x800',
             },
@@ -166,7 +165,7 @@ sub _GetHistoryTypes {
 # --
 sub _GetDBDataPerDay {
     my $Self = shift;
-    my %Param = @_; 
+    my %Param = @_;
     my $DayData = 0;
     my $SQL = "SELECT count(*) FROM ticket_history " .
         " WHERE " .
