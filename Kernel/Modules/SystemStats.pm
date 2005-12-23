@@ -2,7 +2,7 @@
 # Kernel/Modules/SystemStats.pm - show stats of otrs
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SystemStats.pm,v 1.24 2005-08-26 15:55:29 martin Exp $
+# $Id: SystemStats.pm,v 1.25 2005-12-23 09:19:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::SystemStats;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $ ';
+$VERSION = '$Revision: 1.25 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -326,11 +326,17 @@ sub Run {
                         Message => "Can't write png! Write: $Ext",
                     );
                 }
+                my $Content = eval { $graph->plot(\@PData)->$Ext() };
+                if (!$Content) {
+                    return $Self->{LayoutObject}->ErrorScreen(
+                        Message => "To much data, can't use it with graph!",
+                    );
+                }
                 # return image to bowser
                 return $Self->{LayoutObject}->Attachment(
                     Filename => "$ConfigItem{Module}"."_"."$Y-$M-$D"."_"."$h-$m.$Ext",
                     ContentType => "image/$Ext",
-                    Content => $graph->plot(\@PData)->$Ext(),
+                    Content => $Content,
                     Type => 'inline',
                 );
             }
