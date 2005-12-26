@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPackageManager.pm,v 1.23 2005-11-13 13:23:44 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.24 2005-12-26 13:51:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Package;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -96,6 +96,12 @@ sub Run {
             Name => 'Package',
             Data => { %Param, %Frontend, Name => $Name, Version => $Version, },
         );
+        foreach (qw(DownloadLocal Rebuild Reinstall)) {
+            $Self->{LayoutObject}->Block(
+                Name => 'Package'.$_,
+                Data => { %Param, %Frontend, Name => $Name, Version => $Version, },
+            );
+        }
         my %Structur = $Self->{PackageObject}->PackageParse(String => $Package);
         # check if file is requested
         if ($Loaction) {
@@ -111,6 +117,7 @@ sub Run {
                 }
             }
         }
+        my @DatabaseBuffer = ();
         foreach my $Key (sort keys %Structur) {
             if (ref($Structur{$Key}) eq 'HASH') {
                     if ($Key =~ /^(Description|Filelist)$/) {
@@ -184,17 +191,32 @@ sub Run {
                     elsif ($Key =~ /^Database(Install|Reinstall|Upgrade|Uninstall)$/) {
                         if ($Hash->{TagType} eq 'Start') {
                             if ($Hash->{Tag} =~ /^Table/) {
+                                push (@DatabaseBuffer, $Hash);
                                 $Self->{LayoutObject}->Block(
                                     Name => "PackageItemDatabase",
                                     Data => { %{$Hash}, TagName => $Key, },
                                 );
                             }
                             else {
+                                push (@DatabaseBuffer, $Hash);
                                 $Self->{LayoutObject}->Block(
                                     Name => "PackageItemDatabaseSub",
                                     Data => { %{$Hash}, TagName => $Key, },
                                 );
                             }
+                        }
+                        if ($Hash->{Tag} =~ /^Table/ && $Hash->{TagType} eq 'End') {
+                            push (@DatabaseBuffer, $Hash);
+                            my @SQL = $Self->{DBObject}->SQLProcessor(Database => \@DatabaseBuffer);
+                            my @SQLPost = $Self->{DBObject}->SQLProcessorPost();
+                            push (@SQL, @SQLPost);
+                            foreach my $SQL (@SQL) {
+                                $Self->{LayoutObject}->Block(
+                                    Name => "PackageItemDatabaseSQL",
+                                    Data => { TagName => $Key, SQL => $SQL, },
+                                );
+                            }
+                            @DatabaseBuffer = ();
                         }
                     }
                     else {
@@ -215,7 +237,145 @@ sub Run {
                 Link => '$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Reinstall&Name='.$Name.'&Version='.$Version,
             );
         }
-        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminPackageManager', Data => \%Param);
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminPackageManager',
+            Data => \%Param,
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
+    }
+    # ------------------------------------------------------------ #
+    # view remote package
+    # ------------------------------------------------------------ #
+    if ($Self->{Subaction} eq 'ViewRemote') {
+        my $File = $Self->{ParamObject}->GetParam(Param => 'File') || '';
+        my $Loaction = $Self->{ParamObject}->GetParam(Param => 'Location');
+        my %Frontend = ();
+        # download package
+        my $Package = $Self->{PackageObject}->PackageOnlineGet(
+            Source => $Source,
+            File => $File,
+        );
+        if (!$Package) {
+            return $Self->{LayoutObject}->ErrorScreen(Message => 'No such package!');
+        }
+        my %Structur = $Self->{PackageObject}->PackageParse(String => $Package);
+        $Self->{LayoutObject}->Block(
+            Name => 'Package',
+            Data => { %Param, %Frontend, },
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'PackageDownloadRemote',
+            Data => { %Param, %Frontend, File => $File, },
+        );
+        # check if file is requested
+        if ($Loaction) {
+            if (ref($Structur{Filelist}) eq 'ARRAY') {
+                foreach my $Hash (@{$Structur{Filelist}}) {
+                    if ($Hash->{Location} eq $Loaction) {
+                        return $Self->{LayoutObject}->Attachment(
+                            Filename => $Loaction,
+                            ContentType => 'application/octet-stream',
+                            Content => $Hash->{Content},
+                        );
+                    }
+                }
+            }
+        }
+        my @DatabaseBuffer = ();
+        foreach my $Key (sort keys %Structur) {
+            if (ref($Structur{$Key}) eq 'HASH') {
+                    if ($Key =~ /^(Description|Filelist)$/) {
+                        $Self->{LayoutObject}->Block(
+                            Name => "PackageItem$Key",
+                            Data => {Tag => $Key, %{$Structur{$Key}}},
+                        );
+                    }
+                    else {
+                        $Self->{LayoutObject}->Block(
+                            Name => "PackageItemGeneric",
+                            Data => {Tag => $Key, %{$Structur{$Key}}},
+                        );
+                    }
+            }
+            elsif (ref($Structur{$Key}) eq 'ARRAY') {
+                foreach my $Hash (@{$Structur{$Key}}) {
+                    if ($Key =~ /^(Description)$/) {
+                        $Self->{LayoutObject}->Block(
+                            Name => "PackageItem$Key",
+                            Data => { %{$Hash}, Tag => $Key, },
+                        );
+                    }
+                    elsif ($Hash->{Tag} =~ /^(File)$/) {
+                        # add human readable file size
+                        if ($Hash->{Size}) {
+                            # remove meta data in files
+                            if ($Hash->{Size} > (1024*1024)) {
+                                $Hash->{Size} = sprintf "%.1f MBytes", ($Hash->{Size}/(1024*1024));
+                            }
+                            elsif ($Hash->{Size} > 1024) {
+                                $Hash->{Size} = sprintf "%.1f KBytes", (($Hash->{Size} /1024));
+                            }
+                            else {
+                                $Hash->{Size} = $Hash->{Size}.' Bytes';
+                            }
+                        }
+                        $Self->{LayoutObject}->Block(
+                            Name => "PackageItemFilelistFile",
+                            Data => {
+                                Name => $Structur{Name}->{Content},
+                                Version => $Structur{Version}->{Content},
+                                File => $File,
+                                %{$Hash},
+                            },
+                        );
+                    }
+                    elsif ($Key =~ /^Database(Install|Reinstall|Upgrade|Uninstall)$/) {
+                        if ($Hash->{TagType} eq 'Start') {
+                            if ($Hash->{Tag} =~ /^Table/) {
+                                $Self->{LayoutObject}->Block(
+                                    Name => "PackageItemDatabase",
+                                    Data => { %{$Hash}, TagName => $Key, },
+                                );
+                                push (@DatabaseBuffer, $Hash);
+                            }
+                            else {
+                                $Self->{LayoutObject}->Block(
+                                    Name => "PackageItemDatabaseSub",
+                                    Data => { %{$Hash}, TagName => $Key, },
+                                );
+                                push (@DatabaseBuffer, $Hash);
+                            }
+                        }
+                        if ($Hash->{Tag} =~ /^Table/ && $Hash->{TagType} eq 'End') {
+                            push (@DatabaseBuffer, $Hash);
+                            my @SQL = $Self->{DBObject}->SQLProcessor(Database => \@DatabaseBuffer);
+                            my @SQLPost = $Self->{DBObject}->SQLProcessorPost();
+                            push (@SQL, @SQLPost);
+                            foreach my $SQL (@SQL) {
+                                $Self->{LayoutObject}->Block(
+                                    Name => "PackageItemDatabaseSQL",
+                                    Data => { TagName => $Key, SQL => $SQL, },
+                                );
+                            }
+                            @DatabaseBuffer = ();
+                        }
+                    }
+                    else {
+                        $Self->{LayoutObject}->Block(
+                            Name => "PackageItemGeneric",
+                            Data => { %{$Hash}, Tag => $Key, },
+                        );
+                    }
+                }
+            }
+        }
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminPackageManager',
+            Data => \%Param,
+        );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
@@ -238,6 +398,30 @@ sub Run {
                 Content => $Package,
                 ContentType => 'plain/xml',
                 Filename => "$Name-$Version.opm",
+                Type => 'attachment',
+            );
+        }
+    }
+    # ------------------------------------------------------------ #
+    # download remote package
+    # ------------------------------------------------------------ #
+    elsif ($Self->{Subaction} eq 'DownloadRemote') {
+        my $File = $Self->{ParamObject}->GetParam(Param => 'File') || '';
+        my %Frontend = ();
+        # download package
+        my $Package = $Self->{PackageObject}->PackageOnlineGet(
+            Source => $Source,
+            File => $File,
+        );
+        # check
+        if (!$Package) {
+            return $Self->{LayoutObject}->ErrorScreen(Message => 'No such package!');
+        }
+        else {
+            return $Self->{LayoutObject}->Attachment(
+                Content => $Package,
+                ContentType => 'plain/xml',
+                Filename => $File,
                 Type => 'attachment',
             );
         }
@@ -381,7 +565,10 @@ sub Run {
             );
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminPackageManager', Data => \%Param);
+            $Output .= $Self->{LayoutObject}->Output(
+                TemplateFile => 'AdminPackageManager',
+                Data => \%Param,
+            );
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
         }
@@ -579,7 +766,10 @@ sub Run {
                 Link => '$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Reinstall&Name='.$_.'&Version='.$NeedReinstall{$_},
             );
         }
-        $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminPackageManager', Data => \%Param);
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminPackageManager',
+            Data => \%Param,
+        );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }

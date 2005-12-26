@@ -2,7 +2,7 @@
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPackageManager.dtl,v 1.13 2005-11-13 13:23:44 martin Exp $
+# $Id: AdminPackageManager.dtl,v 1.14 2005-12-26 13:51:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -155,7 +155,7 @@
       </tr>
 <!-- dtl:block:ShowRemotePackage -->
       <tr>
-        <td class="contentvalue">$QData{"Name"}</td>
+        <td class="contentvalue"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=ViewRemote&Source=$LQData{"Source"}&File=$QData{"File"}&Name=$QData{"Name"}&Version=$QData{"Version"}">$QData{"Name"}</a></td>
         <td class="contentvalue">$QData{"Version"}</td>
         <td class="contentvalue"><a href="$QData{"URL"}" target="_blank">$QData{"Vendor"}</a></td>
         <td class="contentvalue" title="$QData{"Description"}">$QData{"Description","70"}</td>
@@ -239,12 +239,22 @@
 <tr>
   <td class="menu">
     <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Overview"}</a>
+<!-- dtl:block:PackageDownloadLocal -->
     -
     <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Download&Name=$QData{"Name"}&Version=$QData{"Version"}">$Text{"Download"}</a>
+<!-- dtl:block:PackageDownloadLocal -->
+<!-- dtl:block:PackageDownloadRemote -->
+    -
+    <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=DownloadRemote&File=$QData{"File"}">$Text{"Download"}</a>
+<!-- dtl:block:PackageDownloadRemote -->
+<!-- dtl:block:PackageRebuild -->
     -
     <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=RebuildPackage&Name=$QData{"Name"}&Version=$QData{"Version"}">$Text{"Rebuild"}</a>
+<!-- dtl:block:PackageRebuild -->
+<!-- dtl:block:PackageReinstall -->
     -
     <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Reinstall&Name=$QData{"Name"}&Version=$QData{"Version"}">$Text{"Reinstall"}</a>
+<!-- dtl:block:PackageReinstall -->
   </td>
 </tr>
 <tr>
@@ -287,7 +297,7 @@
             </td>
 <!-- dtl:block:PackageItemFilelistFileNote -->
             <td class="contentvalue">
-              <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$Env{"Subaction"}&Name=$QData{"Name"}&Version=$QData{"Version"}&Location=$LQData{"Location"}"><img border="0" src="$Env{"Images"}disk-s.png"></a>
+              <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$Env{"Subaction"}&Name=$QData{"Name"}&Version=$QData{"Version"}&File=$QData{"File"}&Location=$LQData{"Location"}"><img border="0" src="$Env{"Images"}disk-s.png"></a>
             </td>
             <td class="contentvalue">
               $QData{"Size"}
@@ -324,6 +334,12 @@
         </table>
         <hr width="100%">
 <!-- dtl:block:PackageItemDatabaseSub -->
+<!-- dtl:block:PackageItemDatabaseSQL -->
+    <tr>
+      <td class="contentkey"></td>
+      <td class="contentvalue"> $Text{"SQL"}: $QData{"SQL"}</td>
+    </tr>
+<!-- dtl:block:PackageItemDatabaseSQL -->
       </td>
     </tr>
 <!-- dtl:block:PackageItemDatabase -->
