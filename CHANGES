@@ -2,7 +2,7 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.223 2005-12-23 09:19:44 martin Exp $
+# $Id: CHANGES,v 1.224 2005-12-27 20:19:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,6 +21,8 @@ CVS head
     $Self->{PreApplicationModule}->{AgentInfo} = 'Kernel::Modules::AgentInfo';
 
 2.0.5 (2005/??/??)
+ - (2005/12/27) fixed default note-type and default state-type in ticket
+    pending mask
  - (2005/12/23) fixed stats/graph error message 'Can't call method "png"
     on an undefined value at ...'
  - (2005/12/21) fixed missing delete on time_accounting in
