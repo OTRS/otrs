@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPending.pm - to set ticket in pending state
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPending.pm,v 1.8 2005-11-08 07:02:53 martin Exp $
+# $Id: AgentTicketPending.pm,v 1.8.2.1 2005-12-27 20:19:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.8.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -246,14 +246,14 @@ sub _Mask {
         $SelectedNote{SelectedID} = $Param{NoteID};
     }
     else {
-        $SelectedNote{Selected} = $Self->{ConfigObject}->Get('Ticket::Frontend::PendingNote');
+        $SelectedNote{Selected} = $Self->{ConfigObject}->Get('Ticket::Frontend::PendingNoteType');
     }
     my %SelectedState = ();
     if ($Param{StateID}) {
         $SelectedState{SelectedID} = $Param{StateID};
     }
     else {
-        $SelectedState{Selected} = $Self->{ConfigObject}->Get('Ticket::Frontend::PendingNoteType');
+        $SelectedState{Selected} = $Self->{ConfigObject}->Get('Ticket::Frontend::PendingState');
     }
     # get possible notes
     my %DefaultNoteTypes = %{$Self->{ConfigObject}->Get('Ticket::Frontend::NoteTypes')};

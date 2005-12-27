@@ -2,13 +2,15 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.209.2.14 2005-12-23 09:20:01 martin Exp $
+# $Id: CHANGES,v 1.209.2.15 2005-12-27 20:19:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.0.5 (2005/??/??)
+ - (2005/12/27) fixed default note-type and default state-type in ticket
+    pending mask
  - (2005/12/23) fixed stats/graph error message 'Can't call method "png"
      on an undefined value at ...'
  - (2005/12/21) fixed missing delete on time_accounting in
