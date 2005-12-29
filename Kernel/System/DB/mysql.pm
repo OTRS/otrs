@@ -2,7 +2,7 @@
 # Kernel/System/DB/mysql.pm - mysql database backend
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: mysql.pm,v 1.6 2005-10-15 13:41:32 cs Exp $
+# $Id: mysql.pm,v 1.7 2005-12-29 02:23:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::DB::mysql;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub LoadPreferences {
@@ -109,27 +109,7 @@ sub TableCreate {
         }
     }
     foreach my $Tag (@Column) {
-        # Type translation
-        if ($Tag->{Type} =~ /^DATE$/i) {
-            $Tag->{Type} = 'DATETIME';
-        }
-        if ($Tag->{Type} =~ /^VARCHAR$/i) {
-            if ($Tag->{Size} > 16777215) {
-                $Tag->{Type} = "LONGTEXT";
-            }
-            elsif ($Tag->{Size} > 65535) {
-                $Tag->{Type} = "MEDIUMTEXT";
-            }
-            elsif ($Tag->{Size} > 255) {
-                $Tag->{Type} = "TEXT";
-            }
-            else {
-                $Tag->{Type} = "VARCHAR ($Tag->{Size})";
-            }
-        }
-        if ($Tag->{Type} =~ /^DECIMAL$/i) {
-            $Tag->{Type} = "DECIMAL ($Tag->{Size})";
-        }
+        $Tag = $Self->_TypeTranslation($Tag);
         if ($SQL) {
             $SQL .= ",\n";
         }
@@ -233,6 +213,42 @@ sub TableDrop {
         return ($SQL);
     }
     return ();
+}
+sub TableAlter {
+    my $Self = shift;
+    my @Param = @_;
+    my $SQLStart = '';
+    my @SQL = ();
+    foreach my $Tag (@Param) {
+        if ($Tag->{Tag} eq 'TableAlter' && $Tag->{TagType} eq 'Start') {
+            $SQLStart .= "ALTER TABLE $Tag->{Name}";
+        }
+        elsif ($Tag->{Tag} eq 'ColumnAdd' && $Tag->{TagType} eq 'Start') {
+            # Type translation
+            $Tag = $Self->_TypeTranslation($Tag);
+            # normal data type
+            my $SQLEnd = $SQLStart." ADD $Tag->{Name} $Tag->{Type}";
+            if ($Tag->{Required} && $Tag->{Required} =~ /^true$/i) {
+                $SQLEnd .= " NOT NULL";
+            }
+            push (@SQL, $SQLEnd);
+        }
+        elsif ($Tag->{Tag} eq 'ColumnChange' && $Tag->{TagType} eq 'Start') {
+            # Type translation
+            $Tag = $Self->_TypeTranslation($Tag);
+            # normal data type
+            my $SQLEnd = $SQLStart." CHANGE $Tag->{NameOld} $Tag->{NameNew} $Tag->{Type}";
+            if ($Tag->{Required} && $Tag->{Required} =~ /^true$/i) {
+                $SQLEnd .= " NOT NULL";
+            }
+            push (@SQL, $SQLEnd);
+        }
+        elsif ($Tag->{Tag} eq 'ColumnDrop' && $Tag->{TagType} eq 'Start') {
+            my $SQLEnd = $SQLStart." DROP $Tag->{Name}";
+            push (@SQL, $SQLEnd);
+        }
+    }
+    return @SQL;
 }
 sub IndexCreate {
     my $Self = shift;
@@ -376,5 +392,30 @@ sub Insert {
     }
     $SQL .= "($Key) VALUES ($Value)";
     return ($SQL);
+}
+sub _TypeTranslation {
+    my $Self = shift;
+    my $Tag = shift;
+    if ($Tag->{Type} =~ /^DATE$/i) {
+        $Tag->{Type} = 'DATETIME';
+    }
+    if ($Tag->{Type} =~ /^VARCHAR$/i) {
+        if ($Tag->{Size} > 16777215) {
+            $Tag->{Type} = "LONGTEXT";
+        }
+        elsif ($Tag->{Size} > 65535) {
+            $Tag->{Type} = "MEDIUMTEXT";
+        }
+        elsif ($Tag->{Size} > 255) {
+            $Tag->{Type} = "TEXT";
+        }
+        else {
+            $Tag->{Type} = "VARCHAR ($Tag->{Size})";
+        }
+    }
+    if ($Tag->{Type} =~ /^DECIMAL$/i) {
+        $Tag->{Type} = "DECIMAL ($Tag->{Size})";
+    }
+    return $Tag;
 }
 1;
