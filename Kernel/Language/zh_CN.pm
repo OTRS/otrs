@@ -1,8 +1,8 @@
 # --
 # Kernel/Language/nl.pm - provides za_CN language translation
-# Copyright (C) 2005 zuowei <j2ee@hirain-sh.com>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: zh_CN.pm,v 1.3 2005-11-20 23:15:12 martin Exp $
+# $Id: zh_CN.pm,v 1.4 2005-12-29 00:53:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ package Kernel::Language::zh_CN;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -32,6 +32,7 @@ sub Data {
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Jear;)
     $Self->{DateFormat} = '%Y.%M.%D %T';
     $Self->{DateFormatLong} = ' %A %Y/%M/%D %T';
+    $Self->{DateFormatShort} = '%Y.%M.%D';
     $Self->{DateInputFormat} = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
 

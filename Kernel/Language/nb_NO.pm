@@ -1,9 +1,9 @@
 # --
 # Kernel/Language/nb_NO.pm - Norwegian language translation (bokmål)
-# Copyright (C) 2004 Arne Georg Gleditsch <argggh@linpro.no>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 #               2005 Stefansen Espen <espen.stefansen@imr.no>
 # --
-# $Id: nb_NO.pm,v 1.19 2005-11-20 23:15:12 martin Exp $
+# $Id: nb_NO.pm,v 1.20 2005-12-29 00:53:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::nb_NO;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.19 $;
+$VERSION = q$Revision: 1.20 $;
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -30,6 +30,7 @@ sub Data {
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Jear;)
     $Self->{DateFormat} = '%D/%M %Y %T';
     $Self->{DateFormatLong} = '%A %D. %B %Y %T';
+    $Self->{DateFormatShort} = '%D.%M.%Y';
     $Self->{DateInputFormat} = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
 

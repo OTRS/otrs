@@ -1,12 +1,12 @@
 # --
 # Kernel/Language/nl.pm - provides nl language translation
-# Copyright (C) 2002-2003 Fred van Dijk <fvandijk at marklin.nl>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # Maintenance responsibility taken over by Hans Bakker (h.bakker@a-net.nl)
-# Copyright (C) 2003 A-NeT Internet Services bv
-# Copyright (C) 2004 Martijn Lohmeijer (martijn.lohmeijer 'at' sogeti.nl)
-# Copyright (C) 2005 Jurgen Rutgers (jurgen 'at' besite.nl)
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: nl.pm,v 1.37 2005-11-20 23:15:12 martin Exp $
+# $Id: nl.pm,v 1.38 2005-12-29 00:53:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -51,7 +51,7 @@ package Kernel::Language::nl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
@@ -66,6 +66,7 @@ sub Data {
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Jear;)
     $Self->{DateFormat} = '%D.%M.%Y %T';
     $Self->{DateFormatLong} = '%A %D %B %T %Y';
+    $Self->{DateFormatShort} = '%D.%M.%Y';
     $Self->{DateInputFormat} = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
 

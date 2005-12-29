@@ -1,12 +1,12 @@
 # --
 # Kernel/Language/cz.pm - provides cz language translation
-# Copyright (C) 2003 Lukas Vicanek alias networ <lulka at centrum dot cz>
-# Copyright (C) 2004 BENETA.cz, s.r.o. <info at beneta dot cz>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 #	Translators: Marta Macalkova
 #		     Vadim Buzek
 #		     Petr Ocasek
 # --
-# $Id: cz.pm,v 1.23 2005-11-20 23:15:12 martin Exp $
+# $Id: cz.pm,v 1.24 2005-12-29 00:53:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ package Kernel::Language::cz;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -33,6 +33,7 @@ sub Data {
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Jear;)
     $Self->{DateFormat} = '%D/%M/%Y %T';
     $Self->{DateFormatLong} = '%A %D %B %Y %T';
+    $Self->{DateFormatShort} = '%D/%M/%Y';
     $Self->{DateInputFormat} = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
 

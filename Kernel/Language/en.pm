@@ -2,7 +2,7 @@
 # Kernel/Language/en.pm - provides en languag translation
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: en.pm,v 1.12 2005-02-23 10:04:21 martin Exp $
+# $Id: en.pm,v 1.13 2005-12-29 00:53:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::en;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -21,7 +21,7 @@ sub Data {
     my $Self = shift;
     my %Param = @_;
     my %Hash = ();
-    
+
     # $$START$$
 
     # possible charsets
@@ -30,6 +30,7 @@ sub Data {
     $Self->{DateFormat} = '%M/%D/%Y %T';
     $Self->{DateFormatShort} = '%M/%D/%Y';
     $Self->{DateFormatLong} = '%A %B %D %T %Y';
+    $Self->{DateFormatShort} = '%M/%D/%Y';
     $Self->{DateInputFormat} = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
 

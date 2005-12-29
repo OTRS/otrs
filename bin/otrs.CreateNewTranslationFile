@@ -3,7 +3,7 @@
 # otrs.CreateNewTranslationFile - create new translation file
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: otrs.CreateNewTranslationFile,v 1.10 2005-07-28 19:55:03 martin Exp $
+# $Id: otrs.CreateNewTranslationFile,v 1.11 2005-12-29 00:53:58 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION %Opts);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -209,6 +209,7 @@ while (<IN>) {
             "    # date formats (\%A=WeekDay;\%B=LongMonth;\%T=Time;\%D=Day;\%M=Month;\%Y=Jear;)\n".
             "    \$Self->{DateFormat} = '$CommonObject{LanguageObject}->{DateFormat}';\n".
             "    \$Self->{DateFormatLong} = '$CommonObject{LanguageObject}->{DateFormatLong}';\n".
+            "    \$Self->{DateFormatShort} = '$CommonObject{LanguageObject}->{DateFormatShort}';\n".
             "    \$Self->{DateInputFormat} = '$CommonObject{LanguageObject}->{DateInputFormat}';\n".
             "    \$Self->{DateInputFormatLong} = '$CommonObject{LanguageObject}->{DateInputFormatLong}';\n\n".
             "    \$Self->{Translation} = {";
