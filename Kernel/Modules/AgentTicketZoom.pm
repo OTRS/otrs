@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketZoom.pm,v 1.14 2005-10-31 17:39:43 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.15 2005-12-29 02:49:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,10 +16,9 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -65,7 +64,7 @@ sub new {
     $Self->{LinkObject} = Kernel::System::LinkObject->new(%Param);
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -103,25 +102,6 @@ sub Run {
     }
     # get content
     my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
-    # get linked objects
-    my %Links = $Self->{LinkObject}->AllLinkedObjects(
-        Object => 'Ticket',
-        ObjectID => $Self->{TicketID},
-        UserID => $Self->{UserID},
-    );
-    foreach my $LinkType (sort keys %Links) {
-        my %ObjectType = %{$Links{$LinkType}};
-        foreach my $Object (sort keys %ObjectType) {
-            my %Data = %{$ObjectType{$Object}};
-            foreach my $Item (sort keys %Data) {
-                $Self->{LayoutObject}->Block(
-                    Name => "Link$LinkType",
-                    Data => $Data{$Item},
-                );
-            }
-        }
-    }
-
     my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(TicketID => $Self->{TicketID});
     # --
     # return if HTML email
@@ -203,7 +183,7 @@ sub Run {
     # return output
     return $Output;
 }
-# --
+
 sub MaskAgentZoom {
     my $Self = shift;
     my %Param = @_;
@@ -265,22 +245,6 @@ sub MaskAgentZoom {
                 return $Self->{LayoutObject}->FatalError();
             }
         }
-    }
-    # --
-    # customer info string
-    # --
-    if ($Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoZoom')) {
-        $Param{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
-            Data => {
-                %Param,
-                %{$Param{CustomerData}},
-            },
-            Max => $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoZoomMaxSize'),
-        );
-        $Self->{LayoutObject}->Block(
-            Name => 'CustomerTable',
-            Data => \%Param,
-        );
     }
     # --
     # build article stuff
@@ -417,10 +381,6 @@ sub MaskAgentZoom {
     # --
     # build shown article(s)
     # --
-    $Param{TicketStatus} .= $Self->{LayoutObject}->Output(
-        TemplateFile => 'AgentTicketZoomStatus',
-        Data => {%Param, %AclAction},
-    );
     my $Count = 0;
     my $BodyOutput = '';
     foreach my $ArticleTmp (@NewArticleBox) {
@@ -628,6 +588,43 @@ sub MaskAgentZoom {
                 Data => {%Param, %Article, %AclAction},
             );
         }
+    }
+    # show status info
+    $Self->{LayoutObject}->Block(
+         Name => 'Status',
+         Data => {%Param, %AclAction},
+    );
+    # get linked objects
+    my %Links = $Self->{LinkObject}->AllLinkedObjects(
+        Object => 'Ticket',
+        ObjectID => $Self->{TicketID},
+        UserID => $Self->{UserID},
+    );
+    foreach my $LinkType (sort keys %Links) {
+        my %ObjectType = %{$Links{$LinkType}};
+        foreach my $Object (sort keys %ObjectType) {
+            my %Data = %{$ObjectType{$Object}};
+            foreach my $Item (sort keys %Data) {
+                $Self->{LayoutObject}->Block(
+                    Name => "Link$LinkType",
+                    Data => $Data{$Item},
+                );
+            }
+        }
+    }
+    # customer info string
+    if ($Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoZoom')) {
+        $Param{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
+            Data => {
+                %Param,
+                %{$Param{CustomerData}},
+            },
+            Max => $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoZoomMaxSize'),
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'CustomerTable',
+            Data => \%Param,
+        );
     }
     $Self->{LayoutObject}->Block(
         Name => 'Footer',
