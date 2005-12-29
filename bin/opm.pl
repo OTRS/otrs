@@ -3,7 +3,7 @@
 # opm.pl - otrs package manager cmd version
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: opm.pl,v 1.7 2005-12-29 04:33:19 martin Exp $
+# $Id: opm.pl,v 1.8 2005-12-29 19:41:43 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@ use Kernel::System::Package;
 
 # get file version
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # common objects
@@ -245,37 +245,56 @@ elsif ($Opts{'a'} eq 'list') {
                 }
             }
         }
-        print "+-------------------------------------------------------+\n";
+        print "+-----------------------------------------------------------------+\n";
         print "| Name:        $Package->{Name}->{Content}\n";
         print "| Version:     $Package->{Version}->{Content}\n";
         print "| Vendor:      $Package->{Vendor}->{Content}\n";
         print "| URL:         $Package->{URL}->{Content}\n";
         print "| Description: $Description\n";
     }
-    print "+-------------------------------------------------------+\n";
+    print "+-----------------------------------------------------------------+\n";
     exit;
 }
 elsif ($Opts{'a'} eq 'list-repository') {
+    my $Count = 0;
     my %List = %{$CommonObject{ConfigObject}->Get('Package::RepositoryList')};
     %List = (%List, $CommonObject{PackageObject}->PackageOnlineRepositories());
     foreach my $URL (sort keys %List) {
-        print "+-------------------------------------------------------+\n";
-        print "| Name: $List{$URL}\n";
-        print "| URL:  $URL\n";
-        my @Packages = $CommonObject{PackageObject}->PackageOnlineList(
-            URL => $URL,
-            Lang => $CommonObject{ConfigObject}->Get('DefaultLanguage'),
-        );
-        foreach my $Package (@Packages) {
-            print "+\n";
-            print "|   Name:        $Package->{Name}\n";
-            print "|   Version:     $Package->{Version}\n";
-            print "|   URL:         $Package->{URL}\n";
-            print "|   Description: $Package->{Description}\n";
-            print "|   Install:     -p $URL:$Package->{File}\n";
+        $Count++;
+        print "+-----------------------------------------------------------------+\n";
+        print "| $Count) Name: $List{$URL}\n";
+        print "|    URL:  $URL\n";
+    }
+    print "+-----------------------------------------------------------------+\n";
+    print "| Select the repository [1]: ";
+    my $Repository = <STDIN>;
+    chomp ($Repository);
+    if (!$Repository) {
+        $Repository = 1;
+    }
+    $Count = 0;
+    foreach my $URL (sort keys %List) {
+        $Count++;
+        if ($Count == $Repository) {
+            print "+-----------------------------------------------------------------+\n";
+            print "| Package Overview:\n";
+            my @Packages = $CommonObject{PackageObject}->PackageOnlineList(
+                URL => $URL,
+                Lang => $CommonObject{ConfigObject}->Get('DefaultLanguage'),
+            );
+            my $Count = 0;
+            foreach my $Package (@Packages) {
+                $Count++;
+                print "+-----------------------------------------------------------------+\n";
+                print "| $Count) Name:        $Package->{Name}\n";
+                print "|    Version:     $Package->{Version}\n";
+                print "|    URL:         $Package->{URL}\n";
+                print "|    Description: $Package->{Description}\n";
+                print "|    Install:     -p $URL:$Package->{File}\n";
+            }
+            print "+-----------------------------------------------------------------+\n";
         }
     }
-    print "+-------------------------------------------------------+\n";
     exit;
 }
 elsif ($Opts{'a'} eq 'p') {
