@@ -2,7 +2,7 @@
 # AgentPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPhone.dtl,v 1.10 2005-08-05 08:11:45 rk Exp $
+# $Id: AgentTicketPhone.dtl,v 1.11 2005-12-29 02:09:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -111,11 +111,11 @@ $Include{"AgentTicketLocked"}
        <tr>
          <td>$QData{"Filename"}</td>
          <td>$QData{"Filesize"}</td>
-         <td align="right"><input type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}"></td>
+         <td align="right"><input class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}"></td>
        </tr>
 <!-- dtl:block:Attachment -->
        <tr>
-         <td colspan="2"><input name="file_upload" type="file" size="40" class="fixed"></td><td align="right"><input type="submit" name="AttachmentUpload" value="$Text{"Attach"}"><a name="attachment"></td>
+         <td colspan="2"><input name="file_upload" type="file" size="40" class="fixed"></td><td align="right"><input class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}"><a name="attachment"></td>
        </tr>
      </table>
     </td>
@@ -136,7 +136,7 @@ $Include{"AgentTicketLocked"}
 <!-- dtl:block:TimeUnits -->
   </table>
 <br>
-<input class="button" accesskey="g" type="submit" value="$Text{"submit"}" onclick="return submit_compose();">
+<input accesskey="g" class="button" type="submit" value="$Text{"submit"}" onclick="return submit_compose();">
 </form>
 
 <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">

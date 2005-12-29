@@ -2,7 +2,7 @@
 # AgentTicketForward.dtl - provides HTML form for AgentTicketForward
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketForward.dtl,v 1.11 2005-11-12 13:23:29 martin Exp $
+# $Id: AgentTicketForward.dtl,v 1.12 2005-12-29 02:09:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -168,10 +168,10 @@ $QData{"Body"}
       <td class="contentvalue">
        <table cellspacing="0" cellpadding="0" width="400">
 <!-- dtl:block:Attachment -->
-         <tr><td>$QData{"Filename"}</td><td>$QData{"Filesize"}</td><td align="right"><input type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}"></td></tr>
+         <tr><td>$QData{"Filename"}</td><td>$QData{"Filesize"}</td><td align="right"><input class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}"></td></tr>
 <!-- dtl:block:Attachment -->
          <tr><td colspan="2">
-         <input name="file_upload" type="file" size="40" class="fixed"></td><td align="right"><input type="submit" name="AttachmentUpload" value="$Text{"Attach"}"><a name="attachment">
+         <input name="file_upload" type="file" size="40" class="fixed"></td><td align="right"><input class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}"><a name="attachment">
        </td></tr>
        </table>
       </td>
@@ -228,7 +228,7 @@ $QData{"Body"}
 <!-- dtl:block:TimeUnits -->
   </table>
   <br>
-  <input class="button" accesskey="g" type="submit" value="$Text{"Send mail!"}" onclick="return submit_compose();">
+  <input accesskey="g" class="button" type="submit" value="$Text{"Send mail!"}" onclick="return submit_compose();">
   </form>
 
   <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
