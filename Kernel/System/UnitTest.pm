@@ -2,7 +2,7 @@
 # Kernel/System/UnitTest.pm - the global test wrapper
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: UnitTest.pm,v 1.1 2005-12-20 22:53:43 martin Exp $
+# $Id: UnitTest.pm,v 1.2 2005-12-29 00:41:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::UnitTest;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -146,6 +146,7 @@ sub Run {
     $ResultSummary{Time} = $Self->{TimeObject}->SystemTime2TimeStamp(
         SystemTime => $Self->{TimeObject}->SystemTime(),
     );
+    $ResultSummary{Host} = $Self->{ConfigObject}->Get('FQDN');
     $ResultSummary{Perl} = sprintf "%vd", $^V;
     $ResultSummary{OS} = $^O;
     $ResultSummary{TestOk} = $Self->{TestCountOk};
@@ -210,7 +211,7 @@ sub False {
 
 =item Is()
 
-A Is $A eq $B test.
+A Is $A (is) eq $B (should be) test.
 
      $Self->Is($A, $B, 'Test Name');
 
@@ -222,11 +223,34 @@ sub Is {
     my $ShouldBe = shift;
     my $Name = shift;
     if ($Test eq $ShouldBe) {
-        $Self->_Print(1, "$Name (is $ShouldBe)");
+        $Self->_Print(1, "$Name (is '$ShouldBe')");
         return 1;
     }
     else {
-        $Self->_Print(0, "$Name (is $Test should be $ShouldBe)" );
+        $Self->_Print(0, "$Name (is '$Test' should be '$ShouldBe')" );
+        return;
+    }
+}
+
+=item IsNot()
+
+A Is $A (is) nq $B (should not be) test.
+
+     $Self->IsNot($A, $B, 'Test Name');
+
+=cut
+
+sub IsNot {
+    my $Self = shift;
+    my $Test = shift;
+    my $ShouldBe = shift;
+    my $Name = shift;
+    if ($Test ne $ShouldBe) {
+        $Self->_Print(1, "$Name (is '$ShouldBe')");
+        return 1;
+    }
+    else {
+        $Self->_Print(0, "$Name (is '$Test' should not be '$ShouldBe')" );
         return;
     }
 }
@@ -246,6 +270,7 @@ sub _PrintSummary {
         print "<tr><td>Product: </td><td>".$Self->{ConfigObject}->Get('Product')." ".$Self->{ConfigObject}->Get('Version')."</td></tr>\n";
         print "<tr><td>Test Time:</td><td>$ResultSummary{TimeTaken} s</td></tr>\n";
         print "<tr><td>Time:     </td><td> $ResultSummary{Time}</td></tr>\n";
+        print "<tr><td>Host:     </td><td>$ResultSummary{Host}</td></tr>\n";
         print "<tr><td>Perl:     </td><td>$ResultSummary{Perl}</td></tr>\n";
         print "<tr><td>OS:       </td><td>$ResultSummary{OS}</td></tr>\n";
         print "<tr><td>TestOk:   </td><td>$ResultSummary{TestOk}</td></tr>\n";
@@ -257,6 +282,7 @@ sub _PrintSummary {
         print " Product:   ".$Self->{ConfigObject}->Get('Product')." ".$Self->{ConfigObject}->Get('Version')."\n";
         print " Test Time: $ResultSummary{TimeTaken} s\n";
         print " Time:      $ResultSummary{Time}\n";
+        print " Host:      $ResultSummary{Host}\n";
         print " Perl:      $ResultSummary{Perl}\n";
         print " OS:        $ResultSummary{OS}\n";
         print " TestOk:    $ResultSummary{TestOk}\n";
@@ -344,6 +370,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2005-12-20 22:53:43 $
+$Revision: 1.2 $ $Date: 2005-12-29 00:41:45 $
 
 =cut
