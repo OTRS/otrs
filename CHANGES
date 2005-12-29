@@ -2,13 +2,16 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.224 2005-12-27 20:19:31 martin Exp $
+# $Id: CHANGES,v 1.225 2005-12-29 04:33:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS head
+ - (2005/12/29) added online repository access for bin/opm.pl
+ - (2005/12/29) added Delete and Spam config option to
+    Kernel/Config/Files/Ticket.xml for Ticket::Frontend::MenuModule
  - (2005/12/21) added column type check in xml database defination
  - (2005/12/20) added unit test system
  - (2005/12/17) improved admin view of session management
@@ -21,6 +24,8 @@ CVS head
     $Self->{PreApplicationModule}->{AgentInfo} = 'Kernel::Modules::AgentInfo';
 
 2.0.5 (2005/??/??)
+ - (2005/12/29) added added missing class="button" in submit type="submit"
+    of .dtl templates
  - (2005/12/27) fixed default note-type and default state-type in ticket
     pending mask
  - (2005/12/23) fixed stats/graph error message 'Can't call method "png"
