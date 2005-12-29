@@ -3,7 +3,7 @@
 # opm.pl - otrs package manager cmd version
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: opm.pl,v 1.5 2005-10-25 18:32:44 martin Exp $
+# $Id: opm.pl,v 1.6 2005-12-29 02:39:56 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@ use Kernel::System::Package;
 
 # get file version
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # common objects
@@ -73,7 +73,7 @@ if ($Opts{'a'} && $Opts{'a'} eq 'index') {
 if ($Opts{'h'}) {
     print "opm.pl <Revision $VERSION> - OTRS Package Manager\n";
     print "Copyright (c) 2001-2005 Martin Edenhofer <martin\@otrs.org>\n";
-    print "usage: opm.pl -a list|install|upgrade|uninstall|build|index [-p package.opm|package.sopm|package-version] [-o OUTPUTDIR] [-f FORCE]\n";
+    print "usage: opm.pl -a list|install|upgrade|uninstall|build|index [-p package.opm|package.sopm|package|package-version] [-o OUTPUTDIR] [-f FORCE]\n";
     exit 1;
 }
 my $FileString = '';
@@ -97,6 +97,17 @@ if ($Opts{'a'} ne 'list' && $Opts{'p'}) {
             );
         }
         else {
+            foreach my $Package ($CommonObject{PackageObject}->RepositoryList()) {
+                if ($Opts{'p'} eq $Package->{Name}->{Content}) {
+                    $FileString = $CommonObject{PackageObject}->RepositoryGet(
+                        Name => $Package->{Name}->{Content},
+                        Version => $Package->{Version}->{Content},
+                    );
+                    last;
+                }
+            }
+        }
+        if (!$FileString) {
             die "ERROR: No such file '$Opts{'p'}' or invalid 'package-version'!";
         }
     }
@@ -148,6 +159,14 @@ elsif ($Opts{'a'} eq 'uninstall') {
 elsif ($Opts{'a'} eq 'install') {
     # install
     $CommonObject{PackageObject}->PackageInstall(
+        String => $FileString,
+        Force => $Opts{'f'},
+    );
+    exit;
+}
+elsif ($Opts{'a'} eq 'reinstall') {
+    # install
+    $CommonObject{PackageObject}->PackageReinstall(
         String => $FileString,
         Force => $Opts{'f'},
     );
