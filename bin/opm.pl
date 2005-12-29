@@ -3,7 +3,7 @@
 # opm.pl - otrs package manager cmd version
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: opm.pl,v 1.8 2005-12-29 19:41:43 martin Exp $
+# $Id: opm.pl,v 1.9 2005-12-29 20:11:38 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@ use Kernel::System::Package;
 
 # get file version
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # common objects
@@ -293,6 +293,23 @@ elsif ($Opts{'a'} eq 'list-repository') {
                 print "|    Install:     -p $URL:$Package->{File}\n";
             }
             print "+-----------------------------------------------------------------+\n";
+            print "| Install/upgrade package: ";
+            my $PackageCount = <STDIN>;
+            chomp ($PackageCount);
+            $Count = 0;
+            foreach my $Package (@Packages) {
+                $Count++;
+                if ($Count eq $PackageCount) {
+                    my $FileString = $CommonObject{PackageObject}->PackageOnlineGet(
+                        Source => $URL,
+                        File => $Package->{File},
+                    );
+                    $CommonObject{PackageObject}->PackageInstall(
+                        String => $FileString,
+                        Force => $Opts{'f'},
+                    );
+                }
+            }
         }
     }
     exit;
