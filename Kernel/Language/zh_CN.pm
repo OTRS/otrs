@@ -1,22 +1,21 @@
 # --
 # Kernel/Language/nl.pm - provides za_CN language translation
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2005 zuowei <j2ee@hirain-sh.com>
 # --
-# $Id: zh_CN.pm,v 1.4 2005-12-29 00:53:58 martin Exp $
+# $Id: zh_CN.pm,v 1.5 2005-12-29 00:56:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 #
-###########################################################################
 
 package Kernel::Language::zh_CN;
 
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1216,4 +1215,3 @@ sub Data {
     # $$STOP$$
 }
 # --
-1;
