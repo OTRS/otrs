@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.57 2005-11-11 16:35:58 martin Exp $
+# $Id: Queue.pm,v 1.58 2005-12-29 02:04:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Group;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.57 $';
+$VERSION = '$Revision: 1.58 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -855,7 +855,7 @@ sub QueueUpdate {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
-    foreach (qw(QueueID Name ValidID GroupID SystemAddressID SalutationID SignatureID UserID MoveNotify StateNotify LockNotify OwnerNotify)) {
+    foreach (qw(QueueID Name ValidID GroupID SystemAddressID SalutationID SignatureID FollowUpID UserID MoveNotify StateNotify LockNotify OwnerNotify)) {
       if (!defined ($Param{$_})) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
@@ -965,6 +965,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.57 $ $Date: 2005-11-11 16:35:58 $
+$Revision: 1.58 $ $Date: 2005-12-29 02:04:58 $
 
 =cut
