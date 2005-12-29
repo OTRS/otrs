@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: XML.pm,v 1.24 2005-12-01 12:07:32 tr Exp $
+# $Id: XML.pm,v 1.25 2005-12-29 01:57:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Encode;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -74,6 +74,7 @@ sub new {
     foreach (qw(ConfigObject LogObject DBObject)) {
         die "Got no $_" if (!$Self->{$_});
     }
+
     $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
 
     $S = $Self;
@@ -116,6 +117,59 @@ sub XMLHashAdd {
         foreach my $Key (sort keys %ValueHASH) {
             my $Value = $Self->{DBObject}->Quote($ValueHASH{$Key});
             $Key = $Self->{DBObject}->Quote($Key);
+            $Self->{DBObject}->Do(
+                SQL => "INSERT INTO xml_storage (xml_type, xml_key, xml_content_key, xml_content_value) VALUES ('$Param{Type}', '$Param{Key}', '$Key', '$Value')",
+            );
+        }
+        return 1;
+    }
+    else {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Got no \%ValueHASH from XMLHash2D()");
+        return;
+    }
+}
+
+
+=item XMLHashUpdate()
+
+update an XMLHash part to storage
+
+    $XMLHash[1]->{Name}->[1]->{Content} = 'Some Name';
+
+    $XMLObject->XMLHashUpdate(
+        Type => 'SomeType',
+        Key => '123',
+        XMLHash => \@XMLHash,
+    );
+
+=cut
+
+sub XMLHashUpdate {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(Type Key XMLHash)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+    my %ValueHASH = $Self->XMLHash2D(XMLHash => $Param{XMLHash});
+#use Data::Dumper;
+#print Data::Dumper->Dump([\%ValueHASH], [qw($Ref)]);
+#exit;
+    if (%ValueHASH) {
+#        $Self->XMLHashDelete(%Param);
+        # db quote
+        foreach (keys %Param) {
+            $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+        }
+        foreach my $Key (sort keys %ValueHASH) {
+            my $Value = $Self->{DBObject}->Quote($ValueHASH{$Key});
+            $Key = $Self->{DBObject}->Quote($Key);
+            $Self->{DBObject}->Do(
+                SQL => "DELETE FROM xml_storage WHERE xml_type = '$Param{Type}' AND xml_key = '$Param{Key}' AND xml_content_key = '$Key'",
+            );
             $Self->{DBObject}->Do(
                 SQL => "INSERT INTO xml_storage (xml_type, xml_key, xml_content_key, xml_content_value) VALUES ('$Param{Type}', '$Param{Key}', '$Key', '$Value')",
             );
@@ -286,7 +340,7 @@ sub XMLHashSearch {
 
 =item XMLHash2XML()
 
-generate a xml string from an XMLHash
+generate a xml string from a XMLHash
 
     my $XMLString = $XMLObject->XMLHash2XML(@XMLHash);
 
@@ -442,12 +496,15 @@ sub XMLParse2XMLHash {
     my $Self = shift;
     my %Param = @_;
     my @XMLStructur = $Self->XMLParse(%Param);
-    my @XMLHash = (undef, $Self->XMLStructur2XMLHash(XMLStructur => \@XMLStructur));
-
+    if (!@XMLStructur) {
+        return ();
+    }
+    else {
+        my @XMLHash = (undef, $Self->XMLStructur2XMLHash(XMLStructur => \@XMLStructur));
 #    $XMLHash[1]{'IODEF-Document'} = $XMLHash[1]{'otrs_package'};
 #    $XMLHash[0]{Meta}[0]{Created} = 'admin';
-
-    return @XMLHash;
+        return @XMLHash;
+    }
 }
 
 =item XMLHash2D()
@@ -773,7 +830,7 @@ sub XMLParse {
     undef $Self->{XMLLevelTag};
     undef $Self->{XMLLevelCount};
     $S = $Self;
-    # parse package
+    # load parse package
     my $Parser;
     if (eval "require XML::Parser") {
         $Parser = XML::Parser->new(Handlers => {Start => \&HS, End => \&ES, Char => \&CS});
@@ -782,6 +839,7 @@ sub XMLParse {
         eval "require XML::Parser::Lite";
         $Parser = XML::Parser::Lite->new(Handlers => {Start => \&HS, End => \&ES, Char => \&CS});
     }
+    # parse string
     if ($Param{String} =~ /(<.+?>)/) {
         if ($1 !~ /(utf-8|utf8)/i && $1 =~ /encoding=('|")(.+?)('|")/i) {
             my $SourceCharset = $2;
@@ -793,8 +851,11 @@ sub XMLParse {
             );
         }
     }
-
-    $Parser->parse($Param{String});
+#    $Parser->parse($Param{String});
+    if (!eval { $Parser->parse($Param{String}) }) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Parser: $@!");
+        return ();
+    }
     # quote
     foreach (@{$Self->{XMLARRAY}}) {
         $Self->_Decode($_);
@@ -812,16 +873,16 @@ sub _Decode{
             }
         }
         # decode
-        elsif ($A->{$_}) {
+        elsif (defined($A->{$_})) {
             $A->{$_} =~ s/&amp;/&/g;
             $A->{$_} =~ s/&lt;/</g;
             $A->{$_} =~ s/&gt;/>/g;
             # convert into default charset
             $A->{$_} = $Self->{EncodeObject}->Convert(
-              Text => $A->{$_},
-              From => 'utf-8',
-              To => $Self->{ConfigObject}->Get('DefaultCharset'),
-              Force => 1,
+                Text => $A->{$_},
+                From => 'utf-8',
+                To => $Self->{ConfigObject}->Get('DefaultCharset'),
+                Force => 1,
             );
         }
     }
@@ -907,6 +968,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.24 $ $Date: 2005-12-01 12:07:32 $
+$Revision: 1.25 $ $Date: 2005-12-29 01:57:26 $
 
 =cut
