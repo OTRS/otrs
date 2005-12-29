@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.45 2005-10-05 23:21:26 martin Exp $
+# $Id: Config.pm,v 1.46 2005-12-29 02:02:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,10 +14,11 @@ package Kernel::System::Config;
 use strict;
 
 use Kernel::System::XML;
+use Kernel::System::Main;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.45 $';
+$VERSION = '$Revision: 1.46 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -76,6 +77,9 @@ sub new {
 
     # create xml object
     $Self->{XMLObject} = Kernel::System::XML->new(%Param);
+    # create main object to load Data::Dumper
+    $Self->{MainObject} = Kernel::System::Main->new(%Param);
+    $Self->{MainObject}->Require('Data::Dumper');
     # create config object
     $Self->{ConfigDefaultObject} = Kernel::Config->new(%Param, Level => 'Default');
     # create config object
@@ -378,7 +382,6 @@ sub ConfigItemUpdate {
         $Param{Key} =~ s/'/\'/g;
         $Param{Key} =~ s/###/'}->{'/g;
         # store in config
-        require Data::Dumper;
         if (!$Param{Valid}) {
             my $Dump = "delete \$Self->{'$Param{Key}'};";
             print OUT $Dump;
@@ -431,7 +434,6 @@ sub ConfigItemGet {
 
     if ($Self->{Config}->{$Param{Name}}) {
         # copy config and store it as default
-        require Data::Dumper;
         my $Dump = Data::Dumper::Dumper($Self->{Config}->{$Param{Name}});
         $Dump =~ s/\$VAR1 =/\$ConfigItem =/;
         # rh as 8 bug fix
@@ -1021,7 +1023,6 @@ sub _XML2Perl {
         my $D = $Data;
         $Data = $D;
         # store in config
-        require Data::Dumper;
         my $Dump = Data::Dumper::Dumper($Data);
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
@@ -1031,7 +1032,6 @@ sub _XML2Perl {
         my $D = $Data;
         $Data = $D;
         # store in config
-        require Data::Dumper;
         my $Dump = Data::Dumper::Dumper($Data);
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
@@ -1042,7 +1042,6 @@ sub _XML2Perl {
         my $D = $Data;
         $Data = $D;
         # store in config
-        require Data::Dumper;
         my $Dump = Data::Dumper::Dumper($Data);
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
@@ -1073,7 +1072,6 @@ sub _XML2Perl {
             };
         }
         # store in config
-        require Data::Dumper;
         my $Dump = Data::Dumper::Dumper(\%Hash);
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
@@ -1088,7 +1086,6 @@ sub _XML2Perl {
             push (@ArrayNew, $Array[$Item]->{Content});
         }
         # store in config
-        require Data::Dumper;
         my $Dump = Data::Dumper::Dumper(\@ArrayNew);
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
@@ -1157,7 +1154,6 @@ sub _XML2Perl {
             }
         }
         # store in config
-        require Data::Dumper;
         my $Dump = Data::Dumper::Dumper(\%Hash);
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
@@ -1176,7 +1172,6 @@ sub _XML2Perl {
             $Days{$Array[$Day]->{Name}} = \@Array2;
         }
         # store in config
-        require Data::Dumper;
         my $Dump = Data::Dumper::Dumper(\%Days);
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
@@ -1188,7 +1183,6 @@ sub _XML2Perl {
             $Hash{$Array[$Item]->{Month}}->{$Array[$Item]->{Day}} = $Array[$Item]->{Content};
         }
         # store in config
-        require Data::Dumper;
         my $Dump = Data::Dumper::Dumper(\%Hash);
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
@@ -1200,7 +1194,6 @@ sub _XML2Perl {
             $Hash{$Array[$Item]->{Year}}->{$Array[$Item]->{Month}}->{$Array[$Item]->{Day}} = $Array[$Item]->{Content};
         }
         # store in config
-        require Data::Dumper;
         my $Dump = Data::Dumper::Dumper(\%Hash);
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
@@ -1230,6 +1223,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.45 $ $Date: 2005-10-05 23:21:26 $
+$Revision: 1.46 $ $Date: 2005-12-29 02:02:36 $
 
 =cut
