@@ -2,7 +2,7 @@
 # Package.t - Package tests
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.t,v 1.1 2005-12-20 22:53:43 martin Exp $
+# $Id: Package.t,v 1.2 2005-12-29 00:44:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,6 +24,7 @@ my $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
   <Framework>2.1.x</Framework>
+  <Framework>2.0.x</Framework>
   <BuildDate>2005-11-10 21:17:16</BuildDate>
   <BuildHost>yourhost.example.com</BuildHost>
   <Filelist>

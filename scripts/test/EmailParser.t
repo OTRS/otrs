@@ -2,7 +2,7 @@
 # EmailParser.t - email parser tests
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: EmailParser.t,v 1.1 2005-12-20 22:53:43 martin Exp $
+# $Id: EmailParser.t,v 1.2 2005-12-29 00:44:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -26,33 +26,39 @@ $Self->{EmailParserObject} = Kernel::System::EmailParser->new(
 
 
 
-$Self->True(
-    $Self->{EmailParserObject}->GetParam(WHAT => 'To') eq 'darthvader@otrs.org',
+$Self->Is(
+    $Self->{EmailParserObject}->GetParam(WHAT => 'To'),
+    'darthvader@otrs.org',
     "GetParam(WHAT => 'To')",
 );
 
-$Self->True(
-    $Self->{EmailParserObject}->GetParam(WHAT => 'From') eq 'Skywalker Attachment <skywalker@otrs.org>',
+$Self->Is(
+    $Self->{EmailParserObject}->GetParam(WHAT => 'From'),
+    'Skywalker Attachment <skywalker@otrs.org>',
     "GetParam(WHAT => 'From')",
 );
 
-$Self->True(
-    $Self->{EmailParserObject}->GetEmailAddress(Email => 'Juergen Weber <juergen.qeber@air.com>') eq 'juergen.qeber@air.com',
+$Self->Is(
+    $Self->{EmailParserObject}->GetEmailAddress(Email => 'Juergen Weber <juergen.qeber@air.com>'),
+    'juergen.qeber@air.com',
     "GetEmailAddress()",
 );
 
-$Self->True(
-    $Self->{EmailParserObject}->GetEmailAddress(Email => 'Juergen Weber <juergen+qeber@air.com>') eq 'juergen+qeber@air.com',
+$Self->Is(
+    $Self->{EmailParserObject}->GetEmailAddress(Email => 'Juergen Weber <juergen+qeber@air.com>'),
+    'juergen+qeber@air.com',
     "GetEmailAddress()",
 );
 
-$Self->True(
-    $Self->{EmailParserObject}->GetEmailAddress(Email => 'Juergen Weber <juergen+qeber@air.com> (Comment)') eq 'juergen+qeber@air.com',
+$Self->Is(
+    $Self->{EmailParserObject}->GetEmailAddress(Email => 'Juergen Weber <juergen+qeber@air.com> (Comment)'),
+    'juergen+qeber@air.com',
     "GetEmailAddress()",
 );
 
-$Self->True(
-    $Self->{EmailParserObject}->GetEmailAddress(Email => 'juergen+qeber@air.com (Comment)') eq 'juergen+qeber@air.com',
+$Self->Is(
+    $Self->{EmailParserObject}->GetEmailAddress(Email => 'juergen+qeber@air.com (Comment)'),
+    'juergen+qeber@air.com',
     "GetEmailAddress()",
 );
 
@@ -61,19 +67,22 @@ my @Addresses = $Self->{EmailParserObject}->SplitAddressLine(
     Line => 'Juergen Weber <juergen.qeber@air.com>, me@example.com, hans@example.com (Hans Huber)',
 );
 
-$Self->True(
-    $Addresses[2] eq 'hans@example.com (Hans Huber)',
+$Self->Is(
+    $Addresses[2],
+    'hans@example.com (Hans Huber)',
     "SplitAddressLine()",
 );
 
-$Self->True(
-    $Self->{EmailParserObject}->GetCharset() eq 'us-ascii',
+$Self->Is(
+    $Self->{EmailParserObject}->GetCharset(),
+    'us-ascii',
     "GetCharset()",
 );
 
 my @Attachments = $Self->{EmailParserObject}->GetAttachments();
-$Self->True(
-    $Attachments[1]->{Filename} eq 'otrs.jpg',
+$Self->Is(
+    $Attachments[1]->{Filename},
+    'otrs.jpg',
     "GetAttachments()",
 );
 

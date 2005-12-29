@@ -2,7 +2,7 @@
 # TicketNumberGenerator.t - TicketNumberGenerator tests
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.t,v 1.5 2005-12-21 19:37:39 martin Exp $
+# $Id: Ticket.t,v 1.6 2005-12-29 00:44:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,12 +23,14 @@ my $String = "Re: ".$Self->{TicketObject}->TicketSubjectBuild(
     TicketNumber => $Tn,
     Subject => 'Some Test',
 );
-$Self->True(
-    $Self->{TicketObject}->GetTNByString($String) eq $Tn,
+$Self->Is(
+    $Self->{TicketObject}->GetTNByString($String),
+    $Tn,
     "GetTNByString() (DateChecksum: true eq)",
 );
-$Self->True(
-    $Self->{TicketObject}->GetTNByString("Ticket#: 200206231010138") ne $Tn,
+$Self->IsNot(
+    $Self->{TicketObject}->GetTNByString("Ticket#: 200206231010138"),
+    $Tn,
     "GetTNByString() (DateChecksum: false eq)",
 );
 $Self->False(
@@ -56,8 +58,9 @@ $Self->True(
 my %Ticket = $Self->{TicketObject}->TicketGet(
     TicketID => $TicketID,
 );
-$Self->True(
-    $Ticket{Title} eq 'Some Ticket Title',
+$Self->Is(
+    $Ticket{Title},
+    'Some Ticket Title',
     'TicketGet()',
 );
 
@@ -2639,8 +2642,9 @@ $Self->True(
 my %Article = $Self->{TicketObject}->ArticleGet(
     ArticleID => $ArticleID,
 );
-$Self->True(
-    $Article{Title} eq 'Some Ticket Title',
+$Self->Is(
+    $Article{Title},
+    'Some Ticket Title',
     'ArticleGet()',
 );
 $Self->True(
@@ -2688,8 +2692,9 @@ $Self->True(
 
 my $AccountedTime = $Self->{TicketObject}->TicketAccountedTimeGet(TicketID => $TicketID);
 
-$Self->True(
-    $AccountedTime eq 4132.56,
+$Self->Is(
+    $AccountedTime,
+    4132.56,
     'TicketAccountedTimeGet()',
 );
 
@@ -2699,8 +2704,9 @@ my $AccountedTime2 = $Self->{TicketObject}->ArticleAccountedTimeGet(
     ArticleID => $ArticleID,
 );
 
-$Self->True(
-    $AccountedTime2 eq 4132.56,
+$Self->Is(
+    $AccountedTime2,
+    4132.56,
     'ArticleAccountedTimeGet()',
 );
 

@@ -2,7 +2,7 @@
 # Time.t - Time tests
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Time.t,v 1.3 2005-12-21 01:36:10 martin Exp $
+# $Id: Time.t,v 1.4 2005-12-29 00:44:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,8 +16,9 @@ $Self->{TimeObject} = Kernel::System::Time->new(%{$Self});
 my $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
     String => '2005-10-20 10:00:00',
 );
-$Self->True(
-    $SystemTime == 1129795200,
+$Self->Is(
+    $SystemTime,
+    1129795200,
     'TimeStamp2SystemTime()',
 );
 
@@ -25,8 +26,9 @@ $Self->True(
 my ($Sec, $Min, $Hour, $Day, $Month, $Year) = $Self->{TimeObject}->SystemTime2Date(
     SystemTime => $SystemTime,
 );
-$Self->True(
-    "$Year-$Month-$Day $Hour:$Min:$Sec" eq '2005-10-20 10:00:00',
+$Self->Is(
+    "$Year-$Month-$Day $Hour:$Min:$Sec",
+    '2005-10-20 10:00:00',
     'SystemTime2Date()',
 );
 
@@ -39,8 +41,9 @@ my $SystemTimeUnix = $Self->{TimeObject}->Date2SystemTime(
     Minute => 0,
     Second => 0,
 );
-$Self->True(
-    $SystemTime == $SystemTimeUnix,
+$Self->Is(
+    $SystemTime,
+    $SystemTimeUnix,
     'Date2SystemTime()',
 );
 

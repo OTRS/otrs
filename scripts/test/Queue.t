@@ -2,7 +2,7 @@
 # Queue.t - Queue tests
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.t,v 1.1 2005-12-20 22:53:43 martin Exp $
+# $Id: Queue.t,v 1.2 2005-12-29 00:44:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -41,6 +41,7 @@ my $QueueUpdate = $Self->{QueueObject}->QueueUpdate(
     SystemAddressID => 1,
     SalutationID    => 1,
     SignatureID     => 1,
+    FollowUpID      => 1,
     UserID          => 1,
     MoveNotify      => 0,
     StateNotify     => 0,
