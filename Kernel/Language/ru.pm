@@ -1,21 +1,22 @@
 # --
 # Kernel/Language/ru.pm - provides ru language translation
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2003 Serg V Kravchenko <skraft at rgs.ru>
 # --
-# $Id: ru.pm,v 1.24 2005-12-29 00:53:58 martin Exp $
+# $Id: ru.pm,v 1.25 2005-12-29 01:12:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 package Kernel::Language::ru;
 
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
-# --
+
 sub Data {
     my $Self = shift;
     my %Param = @_;
