@@ -3,7 +3,7 @@
 # CheckDB.pl - to check the db access
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CheckDB.pl,v 1.12 2004-12-04 18:28:59 martin Exp $
+# $Id: CheckDB.pl,v 1.13 2005-12-29 02:14:17 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use strict;
 use Getopt::Std;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Kernel::Config;
@@ -38,7 +38,7 @@ use Kernel::System::Log;
 use Kernel::System::DB;
 #
 # common objects
-#  
+#
 my $ConfigObject = Kernel::Config->new();
 my $LogObject = Kernel::System::Log->new(
     LogPrefix => 'OTRS-CheckDB',
@@ -48,9 +48,9 @@ my $DBObject = Kernel::System::DB->new(
     LogObject => $LogObject,
     ConfigObject => $ConfigObject,
 );
-# 
+#
 # get options
-# 
+#
 my %Opts = ();
 getopt('s',  \%Opts);
 my $End = "\n";
@@ -59,7 +59,7 @@ if ($Opts{'s'}) {
 }
 #
 # chech database state
-# 
+#
 if ($DBObject) {
     $DBObject->Prepare(SQL => "SELECT * FROM valid");
     my $Check = 0;
