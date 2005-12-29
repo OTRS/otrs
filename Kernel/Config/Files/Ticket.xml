@@ -148,7 +148,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.73 2005-12-21 11:37:14 tr Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.74 2005-12-29 00:48:00 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifyer for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z.B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -2457,6 +2457,36 @@ $Data{"Signature"}
                 <Item Key="Description">Close this ticket!</Item>
                 <Item Key="Action">AgentTicketClose</Item>
                 <Item Key="Link">Action=AgentTicketClose&amp;TicketID=$QData{"TicketID"}</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::MenuModule###460-Delete" Required="0" Valid="0">
+        <Description Lang="en">Show delete link.</Description>
+        <Description Lang="de">Link zum Löschen anzeigen.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
+                <Item Key="Name">Delete</Item>
+                <Item Key="Action">AgentTicketMove</Item>
+                <Item Key="Description">Delete this ticket!</Item>
+                <Item Key="Link">Action=AgentTicketMove&amp;TicketID=$Data{"TicketID"}&amp;DestQueue=Delete</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::MenuModule###470-Spam" Required="0" Valid="0">
+        <Description Lang="en">Show spam link.</Description>
+        <Description Lang="de">Link zum Spam verarbeiten.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
+                <Item Key="Name">Spam</Item>
+                <Item Key="Action">AgentTicketMove</Item>
+                <Item Key="Description">Mark as Spam!</Item>
+                <Item Key="Link">Action=AgentTicketMove&amp;TicketID=$Data{"TicketID"}&amp;DestQueue=Delete</Item>
             </Hash>
         </Setting>
     </ConfigItem>
