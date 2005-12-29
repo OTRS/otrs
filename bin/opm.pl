@@ -3,7 +3,7 @@
 # opm.pl - otrs package manager cmd version
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: opm.pl,v 1.6 2005-12-29 02:39:56 martin Exp $
+# $Id: opm.pl,v 1.7 2005-12-29 04:33:19 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@ use Kernel::System::Package;
 
 # get file version
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # common objects
@@ -63,7 +63,7 @@ if (!$Opts{'f'}) {
 if (!$Opts{'a'}) {
     $Opts{'h'} = 1;
 }
-if ($Opts{'a'} && ($Opts{'a'} ne 'list' && !$Opts{'p'})) {
+if ($Opts{'a'} && ($Opts{'a'} !~ /^list/ && !$Opts{'p'})) {
     $Opts{'h'} = 1;
 }
 if ($Opts{'a'} && $Opts{'a'} eq 'index') {
@@ -73,11 +73,27 @@ if ($Opts{'a'} && $Opts{'a'} eq 'index') {
 if ($Opts{'h'}) {
     print "opm.pl <Revision $VERSION> - OTRS Package Manager\n";
     print "Copyright (c) 2001-2005 Martin Edenhofer <martin\@otrs.org>\n";
-    print "usage: opm.pl -a list|install|upgrade|uninstall|build|index [-p package.opm|package.sopm|package|package-version] [-o OUTPUTDIR] [-f FORCE]\n";
+    print "usage: opm.pl -a list|install|upgrade|uninstall|reinstall|list-repository|build|index \n";
+    print "        [-p package.opm|package.sopm|package|package-version] [-o OUTPUTDIR] [-f FORCE]\n";
+    print "   user (local):\n";
+    print "       opm.pl -a list\n";
+    print "       opm.pl -a install -p /path/to/Package-1.0.0.opm\n";
+    print "       opm.pl -a upgrade -p /path/to/Package-1.0.1.opm\n";
+    print "       opm.pl -a reinstall -p Package\n";
+    print "       opm.pl -a uninstall -p Package\n";
+    print "   user (remote):\n";
+    print "       opm.pl -a list-repository\n";
+    print "       opm.pl -a install -p online:Package\n";
+    print "       opm.pl -a install -p http://ftp.otrs.org/pub/otrs/packages/:Package-1.0.0.opm\n";
+    print "       opm.pl -a upgrade -p online:Package\n";
+    print "       opm.pl -a upgrade -p http://ftp.otrs.org/pub/otrs/packages/:Package-1.0.0.opm\n";
+    print "   developer: \n";
+    print "       opm.pl -a build -p /path/to/Package-1.0.0.sopm\n";
+    print "       opm.pl -a index -d /path/to/repository/\n";
     exit 1;
 }
 my $FileString = '';
-if ($Opts{'a'} ne 'list' && $Opts{'p'}) {
+if ($Opts{'a'} !~ /^list/ && $Opts{'p'}) {
     if (-e $Opts{'p'}) {
         if (open(IN, "< $Opts{'p'}")) {
             while (<IN>) {
@@ -87,6 +103,38 @@ if ($Opts{'a'} ne 'list' && $Opts{'p'}) {
         }
         else {
             die "Can't open: $Opts{'p'}: $!";
+        }
+    }
+    elsif ($Opts{'p'} =~ /^(online|.*):(.+?)$/) {
+        my $URL = $1;
+        my $PackageName = $2;
+        if ($URL eq 'online') {
+            my %List = %{$CommonObject{ConfigObject}->Get('Package::RepositoryList')};
+            %List = (%List, $CommonObject{PackageObject}->PackageOnlineRepositories());
+            foreach (sort keys %List) {
+                if ($List{$_} =~ /^\[-Master-\]/) {
+                    $URL = $_;
+                }
+            }
+        }
+        if ($PackageName !~ /^.+?.opm$/) {
+            my @Packages = $CommonObject{PackageObject}->PackageOnlineList(
+                URL => $URL,
+                Lang => $CommonObject{ConfigObject}->Get('DefaultLanguage'),
+            );
+            foreach my $Package (@Packages) {
+                if ($Package->{Name} eq $PackageName) {
+                    $PackageName = $Package->{File};
+                    last;
+                }
+            }
+        }
+        $FileString = $CommonObject{PackageObject}->PackageOnlineGet(
+            Source => $URL,
+            File => $PackageName,
+        );
+        if (!$FileString) {
+            die "ERROR: No such file '$Opts{'p'}' in $URL!";
         }
     }
     else {
@@ -203,6 +251,29 @@ elsif ($Opts{'a'} eq 'list') {
         print "| Vendor:      $Package->{Vendor}->{Content}\n";
         print "| URL:         $Package->{URL}->{Content}\n";
         print "| Description: $Description\n";
+    }
+    print "+-------------------------------------------------------+\n";
+    exit;
+}
+elsif ($Opts{'a'} eq 'list-repository') {
+    my %List = %{$CommonObject{ConfigObject}->Get('Package::RepositoryList')};
+    %List = (%List, $CommonObject{PackageObject}->PackageOnlineRepositories());
+    foreach my $URL (sort keys %List) {
+        print "+-------------------------------------------------------+\n";
+        print "| Name: $List{$URL}\n";
+        print "| URL:  $URL\n";
+        my @Packages = $CommonObject{PackageObject}->PackageOnlineList(
+            URL => $URL,
+            Lang => $CommonObject{ConfigObject}->Get('DefaultLanguage'),
+        );
+        foreach my $Package (@Packages) {
+            print "+\n";
+            print "|   Name:        $Package->{Name}\n";
+            print "|   Version:     $Package->{Version}\n";
+            print "|   URL:         $Package->{URL}\n";
+            print "|   Description: $Package->{Description}\n";
+            print "|   Install:     -p $URL:$Package->{File}\n";
+        }
     }
     print "+-------------------------------------------------------+\n";
     exit;
