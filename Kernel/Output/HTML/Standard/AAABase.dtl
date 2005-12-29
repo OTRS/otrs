@@ -217,6 +217,10 @@ $Text{"Crypt"}
 $Text{"Office"}
 $Text{"Phone"}
 $Text{"Fax"}
+$Text{"Mobile"}
+$Text{"Zip"}
+$Text{"City"}
+$Text{"Country"}
 
 $Text{"installed"}
 $Text{"uninstalled"}
