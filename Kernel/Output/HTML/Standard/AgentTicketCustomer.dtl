@@ -2,7 +2,7 @@
 # AgentTicketCustomer.dtl - provides HTML for AgentCustomer.pm
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketCustomer.dtl,v 1.4 2005-09-19 11:56:19 martin Exp $
+# $Id: AgentTicketCustomer.dtl,v 1.4.2.1 2005-12-29 02:09:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -45,9 +45,9 @@
               <td class="contentvalue"><input type="text" name="CustomerUserID" value="$QData{"CustomerUserID"}" size="40">
 <!-- dtl:block:CustomerTakeOver -->
               <br> $Data{"CustomerUserStrg"}
-              <input type="submit" name="ExpandCustomerName2" value="$Text{"Take this Customer"}">
+              <input class="button" type="submit" name="ExpandCustomerName2" value="$Text{"Take this Customer"}">
 <!-- dtl:block:CustomerTakeOver -->
-              <input type="submit" name="ExpandCustomerName1" value="$Text{"Search Customer"}">
+              <input class="button" type="submit" name="ExpandCustomerName1" value="$Text{"Search Customer"}">
               </td>
             </tr>
             <tr>
@@ -59,7 +59,7 @@
       </tr>
       <tr>
         <td class="contentfooter">
-          <input class="button" accesskey="g" type="submit" value="$Text{"update"}">
+          <input accesskey="g" class="button" type="submit" value="$Text{"update"}">
         </td>
       </tr>
     </table>
