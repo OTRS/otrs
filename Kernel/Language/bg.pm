@@ -1,19 +1,20 @@
 # --
 # Kernel/Language/bg.pm - provides bg language translation
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 package Kernel::Language::bg;
 
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.39 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
-# --
+
 sub Data {
     my $Self = shift;
     my %Param = @_;

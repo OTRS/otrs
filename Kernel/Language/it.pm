@@ -1,24 +1,24 @@
 # --
 # Kernel/Language/it.pm - provides it language translation
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2003 Remo Catelotti <Remo.Catelotti at bull.it>
 #               2003 Gabriele Santilli <gsantilli at omnibus.net>
 #               2005 Giordano Bianchi <giordano.bianchi at gmail.com>
 # --
-# $Id: it.pm,v 1.27 2005-12-29 00:53:58 martin Exp $
+# $Id: it.pm,v 1.28 2005-12-29 01:25:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 package Kernel::Language::it;
 
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub Data {
     my $Self = shift;
     my %Param = @_;

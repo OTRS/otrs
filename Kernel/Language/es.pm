@@ -1,22 +1,22 @@
 # --
 # Kernel/Language/es.pm - provides es language translation
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2003-2004 Jorge Becerra <jorge at icc-cuba.com>
 # --
-# $Id: es.pm,v 1.37 2005-12-29 00:53:58 martin Exp $
+# $Id: es.pm,v 1.38 2005-12-29 01:25:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 package Kernel::Language::es;
 
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub Data {
     my $Self = shift;
     my %Param = @_;

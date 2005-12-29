@@ -1,8 +1,8 @@
 # --
 # Kernel/Language/hu.pm - provides de language translation
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2004 RLAN Internet <MAGIC at rlan.hu>
 # --
-# $Id: hu.pm,v 1.17 2005-12-29 00:53:58 martin Exp $
+# $Id: hu.pm,v 1.18 2005-12-29 01:25:53 martin Exp $
 # Translation: Gabor Gancs /gg@magicnet.hu/ & Krisztian Gancs /krisz@gancs.hu/
 # Verify: Flora Szabo /szaboflora@magicnet.hu/
 # Hungary Sopron Europe
@@ -12,15 +12,15 @@
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 package Kernel::Language::hu;
 
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub Data {
     my $Self = shift;
     my %Param = @_;

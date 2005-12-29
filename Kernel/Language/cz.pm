@@ -1,26 +1,26 @@
 # --
 # Kernel/Language/cz.pm - provides cz language translation
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2003 Lukas Vicanek alias networ <lulka at centrum dot cz>
+# Copyright (C) 2004 BENETA.cz, s.r.o. <info at beneta dot cz>
 #	Translators: Marta Macalkova
 #		     Vadim Buzek
 #		     Petr Ocasek
 # --
-# $Id: cz.pm,v 1.24 2005-12-29 00:53:58 martin Exp $
+# $Id: cz.pm,v 1.25 2005-12-29 01:25:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 package Kernel::Language::cz;
 
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub Data {
     my $Self = shift;
     my %Param = @_;

@@ -3,21 +3,21 @@
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # Translated by Tomasz Melissa <janek at rumianek.com>
 # --
-# $Id: pl.pm,v 1.25 2005-12-29 00:53:58 martin Exp $
+# $Id: pl.pm,v 1.26 2005-12-29 01:25:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+
 package Kernel::Language::pl;
 
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub Data {
     my $Self = shift;
     my %Param = @_;
