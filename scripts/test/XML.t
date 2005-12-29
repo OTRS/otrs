@@ -2,7 +2,7 @@
 # XML.t - XML tests
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: XML.t,v 1.2 2005-12-29 00:44:38 martin Exp $
+# $Id: XML.t,v 1.3 2005-12-29 03:31:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -25,7 +25,7 @@ my $String = '
 my @XMLHash = $Self->{XMLObject}->XMLParse2XMLHash(String => $String);
 $Self->True(
     $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{role} eq 'admin',
-    'XMLParse2XMLHash',
+    'XMLParse2XMLHash()',
 );
 $Self->True(
     $Self->{XMLObject}->XMLHashAdd(
@@ -33,7 +33,7 @@ $Self->True(
         Key => '123',
         XMLHash => \@XMLHash,
     ),
-    'XMLHashAdd',
+    'XMLHashAdd()',
 );
 
 
@@ -43,7 +43,7 @@ $Self->True(
 );
 $Self->True(
     $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{role} eq 'admin',
-    'XMLHashGet (admin)',
+    'XMLHashGet() (admin)',
 );
 
 
@@ -57,7 +57,7 @@ my $XMLHashUpdateTrue = $Self->{XMLObject}->XMLHashUpdate(
 );
 $Self->True(
     $XMLHashUpdateTrue,
-    'XMLHashUpdate (admin1)',
+    'XMLHashUpdate() (admin1)',
 );
 
 
@@ -67,7 +67,7 @@ $Self->True(
 );
 $Self->True(
     $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{role} eq 'admin1',
-    'XMLHashGet (admin1)',
+    'XMLHashGet() (admin1)',
 );
 
 
@@ -81,7 +81,7 @@ $XMLHashUpdateTrue = $Self->{XMLObject}->XMLHashUpdate(
 );
 $Self->True(
     $XMLHashUpdateTrue,
-    'XMLHashUpdate (admin)',
+    'XMLHashUpdate() (admin)',
 );
 
 
@@ -91,7 +91,7 @@ $Self->True(
 );
 $Self->True(
     $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{role} eq 'admin',
-    'XMLHashGet (admin)',
+    'XMLHashGet() (admin)',
 );
 
 
@@ -100,7 +100,7 @@ my $XML = $Self->{XMLObject}->XMLHash2XML(@XMLHash);
 my $XML2 = $Self->{XMLObject}->XMLHash2XML(@XMLHash);
 $Self->True(
     $XML eq $XML2,
-    'XMLHash2XML -> XMLParse2XMLHash -> XMLHash2XML',
+    'XMLHash2XML() -> XMLParse2XMLHash() -> XMLHash2XML()',
 );
 
 my $XML3 = $Self->{XMLObject}->XMLHash2XML(@XMLHash);
@@ -108,7 +108,7 @@ my $XML3 = $Self->{XMLObject}->XMLHash2XML(@XMLHash);
 my $XML4 = $Self->{XMLObject}->XMLHash2XML(@XMLHash);
 $Self->True(
     ($XML2 eq $XML3 && $XML3 eq $XML4),
-    'XMLHash2XML -> XMLHash2XML -> XMLParse2XMLHash -> XMLHash2XML',
+    'XMLHash2XML() -> XMLHash2XML() -> XMLParse2XMLHash() -> XMLHash2XML()',
 );
 
 my $XMLHashDelete = $Self->{XMLObject}->XMLHashDelete(
@@ -117,7 +117,7 @@ my $XMLHashDelete = $Self->{XMLObject}->XMLHashDelete(
 );
 $Self->True(
     $XMLHashDelete,
-    'XMLHashDelete',
+    'XMLHashDelete()',
 );
 
 1;
