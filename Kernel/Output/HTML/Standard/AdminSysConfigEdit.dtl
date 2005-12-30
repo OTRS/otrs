@@ -2,7 +2,7 @@
 # AdminSysConfigEdit.dtl - provides HTML form for SysConfig
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfigEdit.dtl,v 1.24.2.1 2005-12-29 02:09:23 martin Exp $
+# $Id: AdminSysConfigEdit.dtl,v 1.24.2.2 2005-12-30 15:54:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -28,6 +28,7 @@
 <input type="hidden" name="Subaction" value="Update">
 <input type="hidden" name="SysConfigGroup" value="$Data{"Group"}">
 <input type="hidden" name="SysConfigSubGroup" value="$Data{"SubGroup"}">
+<input type="image" src="$Env{"Images"}empty.png" alt=" ">
 <table cellspacing="0" cellpadding="4" border="0" width="790">
   <tr class="contenthead">
     <td colspan="3">$Text{"Config Options"}: $Data{"Group"} -&#062; $Data{"SubGroup"}</td>
