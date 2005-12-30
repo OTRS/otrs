@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleStorageDB.pm,v 1.31.2.1 2005-12-21 19:33:06 martin Exp $
+# $Id: ArticleStorageDB.pm,v 1.31.2.2 2005-12-30 12:22:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use MIME::Base64;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.31.2.1 $';
+$VERSION = '$Revision: 1.31.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -361,7 +361,6 @@ sub ArticleAttachmentIndex {
         " article_id = $Param{ArticleID} ORDER BY id";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-        $Counter++;
         # human readable file size
         if ($Row[2]) {
             if ($Row[2] > (1024*1024)) {
@@ -375,6 +374,7 @@ sub ArticleAttachmentIndex {
             }
         }
         # add the info the the hash
+        $Counter++;
         $Index{$Counter} = {
             Filename => $Row[0],
             ContentType => $Row[1],
@@ -385,7 +385,6 @@ sub ArticleAttachmentIndex {
     if (!%Index) {
         my @List = glob("$Self->{ArticleDataDir}/$Param{ContentPath}/$Param{ArticleID}/*");
         foreach my $Filename (@List) {
-            $Counter++;
             my $FileSize = -s $Filename;
             # human readable file size
             if ($FileSize) {
@@ -418,6 +417,7 @@ sub ArticleAttachmentIndex {
             $Filename =~ s!^.*/!!;
             if ($Filename ne 'plain.txt') {
                 # add the info the the hash
+                $Counter++;
                 $Index{$Counter} = {
                     Filename => $Filename,
                     Filesize => $FileSize,
