@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.pm,v 1.38 2005-10-18 12:22:07 tr Exp $
+# $Id: AdminSysConfig.pm,v 1.38.2.1 2005-12-30 16:05:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.38.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -485,6 +485,7 @@ sub Run {
     }
     # search config
     elsif ($Self->{Subaction} eq 'Search') {
+        $Data{Search} =~ s/\*//;
         my %Groups = $Self->{SysConfigObject}->ConfigGroupList();
         foreach my $Group (sort keys(%Groups)) {
             my %SubGroups = $Self->{SysConfigObject}->ConfigSubGroupList(Name => $Group);
@@ -492,14 +493,14 @@ sub Run {
                 my $Found = 0;
                 my @Items = $Self->{SysConfigObject}->ConfigSubGroupConfigItemList(Group => $Group, SubGroup => $SubGroup);
                 foreach my $Item (@Items) {
-                    if ($Item =~ /$Data{Search}/i) {
+                    if ($Item =~ /\Q$Data{Search}\E/i) {
                         $Found = 1;
                     }
                     else {
                         my %ItemHash = $Self->{SysConfigObject}->ConfigItemGet(Name => $Item);
                         foreach my $Index (1...$#{$ItemHash{Description}}) {
                             my $Description = $ItemHash{Description}[$Index]{Content};
-                            if ($Description =~ /$Data{Search}/i) {
+                            if ($Description =~ /\Q$Data{Search}\E/i) {
                                 $Found = 1;
                             }
                         }

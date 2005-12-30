@@ -2,13 +2,15 @@
 # Changes of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.209.2.18 2005-12-30 15:54:04 martin Exp $
+# $Id: CHANGES,v 1.209.2.19 2005-12-30 16:05:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.0.5 (2005/??/??)
+ - (2005/12/29) fixed internal server error if in sysconfig search
+    * is used
  - (2005/12/29) fixed "enter" submit bug in sysconfig (e. g. reset first
     item in the edit site)
  - (2005/12/29) fixed ArticleAttachmentIndex() - wrong index count in
