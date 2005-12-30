@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.t,v 1.2 2005-12-29 01:55:45 martin Exp $
+# $Id: DB.t,v 1.3 2005-12-30 08:37:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -130,7 +130,7 @@ my $XML = '
 <TableCreate Name="test_a">
     <Column Name="name_a" Required="true" Size="60" Type="VARCHAR"/>
     <Column Name="name_b" Required="true" Size="60" Type="VARCHAR"/>
-    <Index Name="index_bench_test_name_a">
+    <Index Name="index_test_name_a">
         <IndexColumn Name="name_a"/>
     </Index>
 </TableCreate>
@@ -202,7 +202,7 @@ $XML = '
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
     <Column Name="name_a" Required="true" Size="60" Type="VARCHAR"/>
     <Column Name="name_b" Required="true" Size="500000" Type="VARCHAR"/>
-    <Index Name="index_bench_test_name_a">
+    <Index Name="index_test_name_a">
         <IndexColumn Name="name_a"/>
     </Index>
 </TableCreate>
