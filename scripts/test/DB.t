@@ -1,8 +1,8 @@
 # --
 # DB.t - database tests
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.t,v 1.3 2005-12-30 08:37:36 martin Exp $
+# $Id: DB.t,v 1.4 2006-01-03 20:12:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -27,23 +27,30 @@ $Self->Is(
     123,
     'Quote() Integer - 123',
 );
-
 $Self->Is(
     $Self->{DBObject}->Quote(61712, 'Integer'),
     61712,
     'Quote() Integer - 61712',
 );
-
 $Self->Is(
     $Self->{DBObject}->Quote(-61712, 'Integer'),
     -61712,
     'Quote() Integer - -61712',
 );
-
 $Self->Is(
     $Self->{DBObject}->Quote('+61712', 'Integer'),
     '+61712',
     'Quote() Integer - +61712',
+);
+$Self->Is(
+    $Self->{DBObject}->Quote('02', 'Integer'),
+    '02',
+    'Quote() Integer - 02',
+);
+$Self->Is(
+    $Self->{DBObject}->Quote('0000123', 'Integer'),
+    '0000123',
+    'Quote() Integer - 0000123',
 );
 
 $Self->Is(
@@ -51,43 +58,36 @@ $Self->Is(
     123.23,
     'Quote() Number - 123.23',
 );
-
 $Self->Is(
     $Self->{DBObject}->Quote(0.23, 'Number'),
     0.23,
     'Quote() Number - 0.23',
 );
-
 $Self->Is(
     $Self->{DBObject}->Quote('+123.23', 'Number'),
     '+123.23',
     'Quote() Number - +123.23',
 );
-
 $Self->Is(
     $Self->{DBObject}->Quote('+0.23132', 'Number'),
     '+0.23132',
     'Quote() Number - +0.23132',
 );
-
 $Self->Is(
     $Self->{DBObject}->Quote('+12323', 'Number'),
     '+12323',
     'Quote() Number - +12323',
 );
-
 $Self->Is(
     $Self->{DBObject}->Quote(-123.23, 'Number'),
     -123.23,
     'Quote() Number - -123.23',
 );
-
 $Self->Is(
     $Self->{DBObject}->Quote(-123, 'Number'),
     -123,
     'Quote() Number - -123',
 );
-
 $Self->Is(
     $Self->{DBObject}->Quote(-0.23, 'Number'),
     -0.23,
