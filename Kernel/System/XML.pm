@@ -1,8 +1,8 @@
 # --
 # Kernel/System/XML.pm - lib xml
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: XML.pm,v 1.25 2005-12-29 01:57:26 martin Exp $
+# $Id: XML.pm,v 1.26 2006-01-03 11:36:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Encode;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -830,16 +830,7 @@ sub XMLParse {
     undef $Self->{XMLLevelTag};
     undef $Self->{XMLLevelCount};
     $S = $Self;
-    # load parse package
-    my $Parser;
-    if (eval "require XML::Parser") {
-        $Parser = XML::Parser->new(Handlers => {Start => \&HS, End => \&ES, Char => \&CS});
-    }
-    else {
-        eval "require XML::Parser::Lite";
-        $Parser = XML::Parser::Lite->new(Handlers => {Start => \&HS, End => \&ES, Char => \&CS});
-    }
-    # parse string
+    # convert string
     if ($Param{String} =~ /(<.+?>)/) {
         if ($1 !~ /(utf-8|utf8)/i && $1 =~ /encoding=('|")(.+?)('|")/i) {
             my $SourceCharset = $2;
@@ -851,10 +842,19 @@ sub XMLParse {
             );
         }
     }
-#    $Parser->parse($Param{String});
-    if (!eval { $Parser->parse($Param{String}) }) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Parser: $@!");
-        return ();
+    # load parse package and parse
+    my $Parser;
+    if (eval "require XML::Parser") {
+        $Parser = XML::Parser->new(Handlers => {Start => \&HS, End => \&ES, Char => \&CS});
+        if (!eval { $Parser->parse($Param{String}) }) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Parser: $@!");
+            return ();
+        }
+    }
+    else {
+        eval "require XML::Parser::Lite";
+        $Parser = XML::Parser::Lite->new(Handlers => {Start => \&HS, End => \&ES, Char => \&CS});
+        $Parser->parse($Param{String});
     }
     # quote
     foreach (@{$Self->{XMLARRAY}}) {
@@ -968,6 +968,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.25 $ $Date: 2005-12-29 01:57:26 $
+$Revision: 1.26 $ $Date: 2006-01-03 11:36:54 $
 
 =cut
