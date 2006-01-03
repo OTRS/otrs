@@ -1,8 +1,8 @@
 # --
 # Kernel/System/XML.pm - lib xml
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: XML.pm,v 1.23.2.1 2005-12-20 22:48:13 martin Exp $
+# $Id: XML.pm,v 1.23.2.2 2006-01-03 11:36:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::XML;
 use strict;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.23.2.1 $';
+$VERSION = '$Revision: 1.23.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -774,19 +774,19 @@ sub XMLParse {
     undef $Self->{XMLLevelTag};
     undef $Self->{XMLLevelCount};
     $S = $Self;
-    # parse package
+    # load parse package and parse
     my $Parser;
     if (eval "require XML::Parser") {
         $Parser = XML::Parser->new(Handlers => {Start => \&HS, End => \&ES, Char => \&CS});
+        if (!eval { $Parser->parse($Param{String}) }) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Parser: $@!");
+            return ();
+        }
     }
     else {
         eval "require XML::Parser::Lite";
         $Parser = XML::Parser::Lite->new(Handlers => {Start => \&HS, End => \&ES, Char => \&CS});
-    }
-#    $Parser->parse($Param{String});
-    if (!eval { $Parser->parse($Param{String}) }) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Parser: $@!");
-        return ();
+        $Parser->parse($Param{String});
     }
     # quote
     foreach (@{$Self->{XMLARRAY}}) {
@@ -893,6 +893,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.23.2.1 $ $Date: 2005-12-20 22:48:13 $
+$Revision: 1.23.2.2 $ $Date: 2006-01-03 11:36:07 $
 
 =cut
