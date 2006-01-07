@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket.pm - the global ticket handle
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.196 2005-11-21 08:57:16 martin Exp $
+# $Id: Ticket.pm,v 1.197 2006-01-07 15:09:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.196 $';
+$VERSION = '$Revision: 1.197 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -63,21 +63,21 @@ create a object
     use Kernel::System::Ticket;
 
     my $ConfigObject = Kernel::Config->new();
-    my $TimeObjet    = Kernel::System::Time->new(
+    my $TimeObjet = Kernel::System::Time->new(
         ConfigObject => $ConfigObject,
     );
-    my $LogObject    = Kernel::System::Log->new(
+    my $LogObject = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
-    my $DBObject     = Kernel::System::DB->new(
+    my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
+        LogObject => $LogObject,
     );
     my $TicketObject = Kernel::System::Ticket->new(
         ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-        DBObject     => $DBObject,
-        TimeObject   => $TimeObject,
+        LogObject => $LogObject,
+        DBObject => $DBObject,
+        TimeObject => $TimeObject,
     );
 
 =cut
@@ -790,6 +790,8 @@ sub TicketTitleUpdate {
       " WHERE ".
       " id = $Param{TicketID}";
     if ($Self->{DBObject}->Do(SQL => $SQL) ) {
+        # clear ticket cache
+        $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
         # ticket event
         $Self->TicketEventHandlerPost(
             Event => 'TicketTitleUpdate',
@@ -998,12 +1000,14 @@ to move a ticket (send notification to agents of selected my queues, it ticket i
   $TicketObject->MoveTicket(
       QueueID => 123,
       TicketID => 123,
+      SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
       UserID => 123,
   );
 
   $TicketObject->MoveTicket(
       Queue => 'Some Queue Name',
       TicketID => 123,
+      SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
       UserID => 123,
   );
 
@@ -1061,7 +1065,7 @@ sub MoveTicket {
             CreateUserID => $Param{UserID},
         );
         # send move notify to queue subscriber
-        if ($Ticket{StateType} ne 'closed') {
+        if (!$Param{SendNoNotification} & $Ticket{StateType} ne 'closed') {
             foreach ($Self->GetSubscribedUserIDsByQueueID(QueueID => $Param{QueueID})) {
                 my %UserData = $Self->{UserObject}->GetUserData(
                     UserID => $_,
@@ -1841,9 +1845,12 @@ To find tickets in your system.
       # result limit
       Limit => 100,
 
-      # ticket properties (optional)
+      # ticket number (optional) as STRING or as ARRAYREF
       TicketNumber => '%123546%',
+      TicketNumber => ['%123546%', '%123666%'],
+      # ticket title (optional) as STRING or as ARRAYREF
       Title => '%SomeText%',
+      Title => ['%SomeTest1%', '%SomeTest2%'],
 
       Queues => ['system queue', 'other queue'],
       QueueIDs => [1, 42, 512],
@@ -1863,11 +1870,12 @@ To find tickets in your system.
 
       Owner => '123',
 
-      # CustomerID as STRING or more as ARRAYREF
+      # CustomerID (optional) as STRING or as ARRAYREF
       CustomerID => '123',
       CustomerID => ['123', 'ABC'],
-      # CustomerUserLogin as STRING
+      # CustomerUserLogin (optional) as STRING as ARRAYREF
       CustomerUserLogin => 'uid123',
+      CustomerUserLogin => ['uid123', 'uid777'],
 
       # create ticket properties (optional)
       CreatedUserIDs => [1, 12, 455, 32]
@@ -2293,41 +2301,32 @@ sub TicketSearch {
             $SQLExt .= ") AND th.history_type_id = $ID ";
         }
     }
-    # ticket number
-    if ($Param{TicketNumber}) {
-        my $TicketNumber = $Param{TicketNumber};
-        $TicketNumber =~ s/\*/%/gi;
-        $SQLExt .= " AND st.tn LIKE '".$Self->{DBObject}->Quote($TicketNumber)."'";
-    }
     # other ticket stuff
     my %FieldSQLMap = (
+        TicketNumber => 'st.tn',
         Title => 'st.title',
+        CustomerID => 'st.customer_id',
         CustomerUserLogin => 'st.customer_user_id',
     );
-    foreach my $Key (keys %FieldSQLMap) {
-        if ($Param{$Key}) {
-            $Param{$Key} =~ s/\*/%/gi;
-                $SQLExt .= " AND LOWER($FieldSQLMap{$Key}) LIKE LOWER('".$Self->{DBObject}->Quote($Param{$Key})."')";
-        }
-    }
-    # customer id
-    if ($Param{CustomerID}) {
-        if (ref($Param{CustomerID}) eq 'ARRAY') {
-            $SQLExt .= " AND LOWER(st.customer_id) IN (";
+    foreach my $Key (sort keys %FieldSQLMap) {
+        if (ref($Param{$Key}) eq 'ARRAY') {
+            $SQLExt .= " AND LOWER($FieldSQLMap{$Key}) IN (";
             my $Exists = 0;
-            foreach (@{$Param{CustomerID}}) {
+            foreach my $Key (@{$Param{$Key}}) {
+                $Key =~ s/\*/%/gi;
                 if ($Exists) {
                     $SQLExt .= ", ";
                 }
                 else {
                     $Exists = 1;
                 }
-                $SQLExt .= "LOWER('".$Self->{DBObject}->Quote($_)."')";
+                $SQLExt .= "LOWER('".$Self->{DBObject}->Quote($Key)."')";
             }
             $SQLExt .= " )";
         }
-        else {
-            $SQLExt .= " AND LOWER(st.customer_id) LIKE LOWER('".$Self->{DBObject}->Quote($Param{CustomerID})."')";
+        elsif (defined($Param{$Key})) {
+            $Param{$Key} =~ s/\*/%/gi;
+            $SQLExt .= " AND LOWER($FieldSQLMap{$Key}) LIKE LOWER('".$Self->{DBObject}->Quote($Param{$Key})."')";
         }
     }
     # article stuff
@@ -2525,6 +2524,14 @@ to set a ticket lock or unlock
   $TicketObject->LockSet(
       Lock => 'lock',
       TicketID => 123,
+      SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
+      UserID => 123,
+  );
+
+  $TicketObject->LockSet(
+      LockID => 1,
+      TicketID => 123,
+      SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
       UserID => 123,
   );
 
@@ -2606,7 +2613,7 @@ sub LockSet {
             # check if the current user is the current owner, if not send a notify
             my $To = '';
             my $Notification = defined $Param{Notification} ? $Param{Notification} : 1;
-            if ($TicketData{UserID} ne $Param{UserID} && $Notification) {
+            if (!$Param{SendNoNotification} && $TicketData{UserID} ne $Param{UserID} && $Notification) {
                 # get user data of owner
                 my %Preferences = $Self->{UserObject}->GetUserData(
                     UserID => $TicketData{UserID},
@@ -2884,6 +2891,7 @@ to set the ticket owner (notification to the new owner will be sent)
   $TicketObject->OwnerSet(
       TicketID => 123,
       NewUserID => 555,
+      SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
       UserID => 213,
   );
 
@@ -2935,30 +2943,32 @@ sub OwnerSet {
         # clear ticket cache
         $Self->{'Cache::GetTicket'.$Param{TicketID}} = 0;
         # send agent notify
-        if ($Param{UserID} ne $Param{NewUserID} &&
-            $Param{NewUserID} ne $Self->{ConfigObject}->Get('PostmasterUserID')) {
-            if (!$Param{Comment}) {
-                $Param{Comment} = '';
+        if (!$Param{SendNoNotification}) {
+            if ($Param{UserID} ne $Param{NewUserID} &&
+                $Param{NewUserID} ne $Self->{ConfigObject}->Get('PostmasterUserID')) {
+                if (!$Param{Comment}) {
+                    $Param{Comment} = '';
+                }
+                # get user data
+                my %Preferences = $Self->{UserObject}->GetUserData(UserID => $Param{NewUserID});
+                # send agent notification
+                $Self->SendAgentNotification(
+                    Type => 'OwnerUpdate',
+                    UserData => \%Preferences,
+                    CustomerMessageParams => \%Param,
+                    TicketID => $Param{TicketID},
+                    UserID => $Param{UserID},
+                );
             }
-            # get user data
+            # send customer notification email
             my %Preferences = $Self->{UserObject}->GetUserData(UserID => $Param{NewUserID});
-            # send agent notification
-            $Self->SendAgentNotification(
+            $Self->SendCustomerNotification(
                 Type => 'OwnerUpdate',
-                UserData => \%Preferences,
-                CustomerMessageParams => \%Param,
+                CustomerMessageParams => \%Preferences,
                 TicketID => $Param{TicketID},
                 UserID => $Param{UserID},
             );
         }
-        # send customer notification email
-        my %Preferences = $Self->{UserObject}->GetUserData(UserID => $Param{NewUserID});
-        $Self->SendCustomerNotification(
-            Type => 'OwnerUpdate',
-            CustomerMessageParams => \%Preferences,
-            TicketID => $Param{TicketID},
-            UserID => $Param{UserID},
-        );
         # ticket event
         $Self->TicketEventHandlerPost(
             Event => 'OwnerSet',
@@ -3274,7 +3284,23 @@ sub PriorityList {
     # /workflow
     return %Data;
 }
-# --
+
+=item HistoryTicketStatusGet()
+
+to get the priority list for a ticket (depends on workflow, if configured)
+
+  my %Priorities = $TicketObject->PriorityList(
+      TicketID => 123,
+      UserID => 123,
+  );
+
+  my %Priorities = $TicketObject->PriorityList(
+      QueueID => 123,
+      UserID => 123,
+  );
+
+=cut
+
 sub HistoryTicketStatusGet {
     my $Self = shift;
     my %Param = @_;
@@ -3294,14 +3320,28 @@ sub HistoryTicketStatusGet {
     foreach (qw(StopYear StopMonth StopDay StartYear StartMonth StartDay)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
+    my $SQLExt = '';
+    foreach (qw(NewTicket FollowUp AddNote Move Remove OwnerUpdate PriorityUpdate CustomerUpdate StateUpdate)) {
+        my $ID = $Self->HistoryTypeLookup(Type => $_);
+        if (!$SQLExt) {
+            $SQLExt = "AND history_type_id NOT IN ($ID";
+        }
+        else {
+            $SQLExt .= ",$ID";
+        }
+    }
+    if ($SQLExt) {
+        $SQLExt .= ')';
+    }
     my $SQL = "SELECT DISTINCT(th.ticket_id), th.create_time FROM ".
         "ticket_history th ".
         "WHERE ".
         "th.create_time <= '$Param{StopYear}-$Param{StopMonth}-$Param{StopDay} 23:59:59' ".
         "AND ".
         "th.create_time >= '$Param{StartYear}-$Param{StartMonth}-$Param{StartDay} 00:00:01' ".
+        "$SQLExt ".
         "ORDER BY th.create_time DESC";
-    $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 50000);
+    $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 150000);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         $Ticket{$Row[0]} = 1;
     }
@@ -3387,8 +3427,8 @@ sub HistoryTicketGet {
         "th.ticket_id = $Param{TicketID} ".
         "AND ".
         "th.create_time <= '$Param{StopYear}-$Param{StopMonth}-$Param{StopDay} 23:59:59' ".
-        "ORDER BY th.create_time ASC";
-    $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 600);
+        "ORDER BY th.create_time, th.id ASC";
+    $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 2000);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         if ($Row[1] eq 'NewTicket') {
             if ($Row[0] =~ /^\%\%(.+?)\%\%(.+?)\%\%(.+?)\%\%(.+?)\%\%(.+?)/ || $Row[0] =~ /Ticket=\[(.+?)\],.+?Q\=(.+?);P\=(.+?);S\=(.+?)/) {
@@ -3403,6 +3443,7 @@ sub HistoryTicketGet {
                 $Ticket{Owner} = 'root';
                 $Ticket{CreateUserID} = $Row[3];
                 $Ticket{CreateTime} = $Row[2];
+#print STDERR "1.3-2.0\n";
             }
             else {
                 # compat to otrs 1.1
@@ -3411,6 +3452,7 @@ sub HistoryTicketGet {
                 $Ticket{TicketID} = $Row[4];
                 $Ticket{CreateUserID} = $Row[3];
                 $Ticket{CreateTime} = $Row[2];
+##print STDERR "1.1\n";
             }
             $Ticket{CreateOwnerID} = $Row[9] || '';
             $Ticket{CreatePriorityID} = $Row[8] || '';
@@ -3963,7 +4005,7 @@ sub TicketAcl {
       }
     }
     # check if workflows are configured, if not, just return
-    if (!$Self->{ConfigObject}->Get('TicketAcl') || ($Param{UserID} && $Param{UserID} == 1)) {
+    if ((!$Self->{ConfigObject}->Get('TicketAcl') && !$Self->{ConfigObject}->Get('Ticket::EventModulePost')) || ($Param{UserID} && $Param{UserID} == 1)) {
         return;
     }
     # get used data
@@ -4006,8 +4048,29 @@ sub TicketAcl {
         my %Queue = $Self->{QueueObject}->QueueGet(Name => $Param{Queue}, Cache => 1);
         $Checks{Queue} = \%Queue;
     }
-    # check workflow config
-    my %Acls = %{$Self->{ConfigObject}->Get('TicketAcl')};
+    # check acl config
+    my %Acls = ();
+    if ($Self->{ConfigObject}->Get('TicketAcl')) {
+        %Acls = %{$Self->{ConfigObject}->Get('TicketAcl')};
+    }
+    # check acl module
+    my $Modules = $Self->{ConfigObject}->Get('Ticket::Acl::Module');
+    if ($Modules) {
+        foreach my $Module (sort keys %{$Modules}) {
+            if ($Self->{MainObject}->Require($Modules->{$Module}->{Module})) {
+                my $Generic = $Modules->{$Module}->{Module}->new(
+                    %{$Self},
+                    TicketObject => $Self,
+                );
+                $Generic->Run(
+                    %Param,
+                    Acl => \%Acls,
+                    Config => $Modules->{$Module},
+                );
+            }
+        }
+    }
+
     my %NewData = ();
     my $UseNewMasterParams = 0;
     foreach my $Acl (sort keys %Acls) {
@@ -4215,6 +4278,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.196 $ $Date: 2005-11-21 08:57:16 $
+$Revision: 1.197 $ $Date: 2006-01-07 15:09:57 $
 
 =cut
