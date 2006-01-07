@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.199 2005-12-21 19:38:58 martin Exp $
+# $Id: Generic.pm,v 1.200 2006-01-07 19:59:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::Output::HTML::Agent;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.199 $';
+$VERSION = '$Revision: 1.200 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -897,6 +897,10 @@ return html for browser to redirect
 
     my $HTML = $LayoutObject->Redirect(
         OP => "Action=AdminUserGroup&Subaction=User&ID=$UserID",
+    );
+
+    my $HTML = $LayoutObject->Redirect(
+        ExtURL => "http://some.example.com/",
     );
 
 =cut
@@ -2304,6 +2308,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.199 $ $Date: 2005-12-21 19:38:58 $
+$Revision: 1.200 $ $Date: 2006-01-07 19:59:42 $
 
 =cut
