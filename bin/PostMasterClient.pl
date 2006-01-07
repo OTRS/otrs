@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
-# PostMasterClient.pl - the PostMasterDaemon.pl client
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# bin/PostMasterClient.pl - the PostMasterDaemon.pl client
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMasterClient.pl,v 1.3 2004-08-03 18:16:08 martin Exp $
+# $Id: PostMasterClient.pl,v 1.4 2006-01-07 15:13:29 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
