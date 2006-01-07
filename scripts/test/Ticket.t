@@ -1,8 +1,8 @@
 # --
 # TicketNumberGenerator.t - TicketNumberGenerator tests
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.t,v 1.6 2005-12-29 00:44:37 martin Exp $
+# $Id: Ticket.t,v 1.7 2006-01-07 14:56:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -61,7 +61,27 @@ my %Ticket = $Self->{TicketObject}->TicketGet(
 $Self->Is(
     $Ticket{Title},
     'Some Ticket Title',
-    'TicketGet()',
+    'TicketGet() (Title)',
+);
+$Self->Is(
+    $Ticket{Queue},
+    'Raw',
+    'TicketGet() (Queue)',
+);
+$Self->Is(
+    $Ticket{Priority},
+    '3 normal',
+    'TicketGet() (Priority)',
+);
+$Self->Is(
+    $Ticket{State},
+    'closed successful',
+    'TicketGet() (State)',
+);
+$Self->Is(
+    $Ticket{Lock},
+    'unlock',
+    'TicketGet() (Lock)',
 );
 
 my $ArticleID = $Self->{TicketObject}->ArticleCreate(
@@ -2653,6 +2673,234 @@ $Self->True(
 );
 
 
+my %TicketIDs = $Self->{TicketObject}->TicketSearch(
+      # result (required)
+      Result => 'HASH',
+      # result limit
+      Limit => 100,
+      TicketNumber => $Ticket{TicketNumber},
+      UserID => 1,
+      Permission => 'rw',
+);
+$Self->True(
+    $TicketIDs{$TicketID},
+    'TicketSearch() (HASH:TicketNumber)',
+);
+
+%TicketIDs = $Self->{TicketObject}->TicketSearch(
+      # result (required)
+      Result => 'HASH',
+      # result limit
+      Limit => 100,
+      TicketNumber => [$Ticket{TicketNumber}, '1234'],
+      UserID => 1,
+      Permission => 'rw',
+);
+$Self->True(
+    $TicketIDs{$TicketID},
+    'TicketSearch() (HASH:TicketNumber[ARRAY])',
+);
+
+%TicketIDs = $Self->{TicketObject}->TicketSearch(
+      # result (required)
+      Result => 'HASH',
+      # result limit
+      Limit => 100,
+      Title => $Ticket{Title},
+      UserID => 1,
+      Permission => 'rw',
+);
+$Self->True(
+    $TicketIDs{$TicketID},
+    'TicketSearch() (HASH:Title)',
+);
+
+%TicketIDs = $Self->{TicketObject}->TicketSearch(
+      # result (required)
+      Result => 'HASH',
+      # result limit
+      Limit => 100,
+      Title => [$Ticket{Title}, 'SomeTitleABC'],
+      UserID => 1,
+      Permission => 'rw',
+);
+$Self->True(
+    $TicketIDs{$TicketID},
+    'TicketSearch() (HASH:Title[ARRAY])',
+);
+
+%TicketIDs = $Self->{TicketObject}->TicketSearch(
+      # result (required)
+      Result => 'HASH',
+      # result limit
+      Limit => 100,
+      CustomerID => $Ticket{CustomerID},
+      UserID => 1,
+      Permission => 'rw',
+);
+$Self->True(
+    $TicketIDs{$TicketID},
+    'TicketSearch() (HASH:CustomerID)',
+);
+
+%TicketIDs = $Self->{TicketObject}->TicketSearch(
+      # result (required)
+      Result => 'HASH',
+      # result limit
+      Limit => 100,
+      CustomerID => [$Ticket{CustomerID}, 'LULU'],
+      UserID => 1,
+      Permission => 'rw',
+);
+$Self->True(
+    $TicketIDs{$TicketID},
+    'TicketSearch() (HASH:CustomerID[ARRAY])',
+);
+
+%TicketIDs = $Self->{TicketObject}->TicketSearch(
+      # result (required)
+      Result => 'HASH',
+      # result limit
+      Limit => 100,
+      CustomerUserLogin => $Ticket{CustomerUser},
+      UserID => 1,
+      Permission => 'rw',
+);
+$Self->True(
+    $TicketIDs{$TicketID},
+    'TicketSearch() (HASH:CustomerUser)',
+);
+
+%TicketIDs = $Self->{TicketObject}->TicketSearch(
+      # result (required)
+      Result => 'HASH',
+      # result limit
+      Limit => 100,
+      CustomerUserLogin => [$Ticket{CustomerUserID}, '1234'],
+      UserID => 1,
+      Permission => 'rw',
+);
+$Self->True(
+    $TicketIDs{$TicketID},
+    'TicketSearch() (HASH:CustomerUser[ARRAY])',
+);
+
+%TicketIDs = $Self->{TicketObject}->TicketSearch(
+      # result (required)
+      Result => 'HASH',
+      # result limit
+      Limit => 100,
+      TicketNumber => $Ticket{TicketNumber},
+      Title => $Ticket{Title},
+      CustomerID => $Ticket{CustomerID},
+      CustomerUserLogin => $Ticket{CustomerUserID},
+      UserID => 1,
+      Permission => 'rw',
+);
+$Self->True(
+    $TicketIDs{$TicketID},
+    'TicketSearch() (HASH:TicketNumber,Title,CustomerID,CustomerUserID)',
+);
+
+%TicketIDs = $Self->{TicketObject}->TicketSearch(
+      # result (required)
+      Result => 'HASH',
+      # result limit
+      Limit => 100,
+      TicketNumber => [$Ticket{TicketNumber}, 'ABC'],
+      Title => [$Ticket{Title}, '123'],
+      CustomerID => [$Ticket{CustomerID}, '1213421'],
+      CustomerUserLogin => [$Ticket{CustomerUserID}, 'iadasd'],
+      UserID => 1,
+      Permission => 'rw',
+);
+$Self->True(
+    $TicketIDs{$TicketID},
+    'TicketSearch() (HASH:TicketNumber,Title,CustomerID,CustomerUser[ARRAY])',
+);
+
+my $TicketMove = $Self->{TicketObject}->MoveTicket(
+    Queue => 'Junk',
+    TicketID => $TicketID,
+    SendNoNotification => 1,
+    UserID => 1,
+);
+$Self->True(
+    $TicketMove,
+    'MoveTicket()',
+);
+
+my $TicketState = $Self->{TicketObject}->StateSet(
+    State => 'open',
+    TicketID => $TicketID,
+    UserID => 1,
+);
+$Self->True(
+    $TicketState,
+    'StateSet()',
+);
+
+my $TicketPriority = $Self->{TicketObject}->PrioritySet(
+    Priority => '2 low',
+    TicketID => $TicketID,
+    UserID => 1,
+);
+$Self->True(
+    $TicketPriority,
+    'PrioritySet()',
+);
+
+my $TicketTitle = $Self->{TicketObject}->TicketTitleUpdate(
+    Title => 'Some Title 1234567',
+    TicketID => $TicketID,
+    UserID => 1,
+);
+$Self->True(
+    $TicketTitle,
+    'TicketTitleUpdate()',
+);
+
+my $TicketLock = $Self->{TicketObject}->LockSet(
+    Lock => 'lock',
+    TicketID => $TicketID,
+    SendNoNotification => 1,
+    UserID => 1,
+);
+$Self->True(
+    $TicketLock,
+    'LockSet()',
+);
+
+my %Ticket2 = $Self->{TicketObject}->TicketGet(
+    TicketID => $TicketID,
+);
+$Self->Is(
+    $Ticket2{Title},
+    'Some Title 1234567',
+    'TicketGet() (Title)',
+);
+$Self->Is(
+    $Ticket2{Queue},
+    'Junk',
+    'TicketGet() (Queue)',
+);
+$Self->Is(
+    $Ticket2{Priority},
+    '2 low',
+    'TicketGet() (Priority)',
+);
+$Self->Is(
+    $Ticket2{State},
+    'open',
+    'TicketGet() (State)',
+);
+$Self->Is(
+    $Ticket2{Lock},
+    'lock',
+    'TicketGet() (Lock)',
+);
+
+
 my $TicketAccountTime = $Self->{TicketObject}->TicketAccountTime(
     TicketID => $TicketID,
     ArticleID => $ArticleID,
@@ -2709,6 +2957,75 @@ $Self->Is(
     4132.56,
     'ArticleAccountedTimeGet()',
 );
+
+
+my ($Sec, $Min, $Hour, $Day, $Month, $Year) = $Self->{TimeObject}->SystemTime2Date(
+    SystemTime => $Self->{TimeObject}->SystemTime(),
+);
+
+my %TicketStatus = $Self->{TicketObject}->HistoryTicketStatusGet(
+    StopYear => $Year,
+    StopMonth => $Month,
+    StopDay => $Day,
+    StartYear => $Year-2,
+    StartMonth => $Month,
+    StartDay => $Day,
+);
+
+if ($TicketStatus{$TicketID}) {
+    my %TicketHistory = %{$TicketStatus{$TicketID}};
+    $Self->Is(
+        $TicketHistory{TicketNumber},
+        $Ticket{TicketNumber},
+        "HistoryTicketStatusGet() (TicketNumber)",
+    );
+    $Self->Is(
+        $TicketHistory{TicketID},
+        $TicketID,
+        "HistoryTicketStatusGet() (TicketID)",
+    );
+    $Self->Is(
+        $TicketHistory{CreateUserID},
+        1,
+        "HistoryTicketStatusGet() (CreateUserID)",
+    );
+    $Self->Is(
+        $TicketHistory{Queue},
+        'Junk',
+        "HistoryTicketStatusGet() (Queue)",
+    );
+    $Self->Is(
+        $TicketHistory{CreateQueue},
+        'Raw',
+        "HistoryTicketStatusGet() (CreateQueue)",
+    );
+    $Self->Is(
+        $TicketHistory{State},
+        'open',
+        "HistoryTicketStatusGet() (State)",
+    );
+    $Self->Is(
+        $TicketHistory{CreateState},
+        'closed successful',
+        "HistoryTicketStatusGet() (CreateState)",
+    );
+    $Self->Is(
+        $TicketHistory{Priority},
+        '2 low',
+        "HistoryTicketStatusGet() (Priority)",
+    );
+    $Self->Is(
+        $TicketHistory{CreatePriority},
+        '3 normal',
+        "HistoryTicketStatusGet() (CreatePriority)",
+    );
+}
+else {
+    $Self->True(
+        0,
+        'HistoryTicketStatusGet()',
+    );
+}
 
 
 $Self->True(
