@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.52 2005-06-11 10:14:21 martin Exp $
+# $Id: PostMaster.pm,v 1.52.2.1 2006-01-07 15:31:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.52 $';
+$VERSION = '$Revision: 1.52.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -183,12 +183,15 @@ sub Run {
                 $Param{QueueID} = $TQueueID;
             }
             $TicketID = $Self->{NewTicket}->Run(
-              InmailUserID => $Self->{PostmasterUserID},
-              GetParam => $GetParam,
-              QueueID => $Param{QueueID},
-              Comment => "Because the old ticket [$Tn] is '$State{Name}'",
-              AutoResponseType => 'auto reply/new ticket',
+                InmailUserID => $Self->{PostmasterUserID},
+                GetParam => $GetParam,
+                QueueID => $Param{QueueID},
+                Comment => "Because the old ticket [$Tn] is '$State{Name}'",
+                AutoResponseType => 'auto reply/new ticket',
             );
+            if (!$TicketID) {
+                return;
+            }
         }
         # reject follow up
         elsif ($FollowUpPossible =~ /reject/i && $State{TypeName} =~ /^close/i) {
@@ -242,6 +245,9 @@ sub Run {
             QueueID => $Param{QueueID},
             AutoResponseType => 'auto reply',
         );
+        if (!$TicketID) {
+            return;
+        }
     }
 
     # run all PostFilterModules (modify email params)
