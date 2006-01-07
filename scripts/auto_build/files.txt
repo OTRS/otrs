@@ -12,6 +12,7 @@
 
 %dir /opt/otrs/
 /opt/otrs/RELEASE
+/opt/otrs/ARCHIVE
 /opt/otrs/.procmailrc.dist
 /opt/otrs/.fetchmailrc.dist
 /opt/otrs/.mailfilter.dist
@@ -44,12 +45,12 @@
 
 /opt/otrs/Kernel/cpan-lib*
 
-%doc /opt/otrs/INSTAL* 
-%doc /opt/otrs/UPGRADING 
-%doc /opt/otrs/TODO 
-%doc /opt/otrs/COPYING 
-%doc /opt/otrs/CHANGES 
-%doc /opt/otrs/READM* 
+%doc /opt/otrs/INSTAL*
+%doc /opt/otrs/UPGRADING
+%doc /opt/otrs/TODO
+%doc /opt/otrs/COPYING
+%doc /opt/otrs/CHANGES
+%doc /opt/otrs/READM*
 %doc /opt/otrs/doc*
 %doc /opt/otrs/CREDITS
 
