@@ -1,8 +1,8 @@
 # --
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminGenericAgent.dtl,v 1.17 2005-11-28 00:02:17 martin Exp $
+# $Id: AdminGenericAgent.dtl,v 1.18 2006-01-07 19:58:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -304,10 +304,10 @@
     <td colspan="2" class="contentbody">
      <table>
        <tr>
-         <td valign="top">$Text{"From"}:</td><td><input type="text" name="NewNoteFrom" value="$QData{"NewNoteFrom"}"></td>
+         <td valign="top">$Text{"From"}:</td><td><input type="text" name="NewNoteFrom" size="60" value="$QData{"NewNoteFrom"}"></td>
        </tr>
        <tr>
-         <td valign="top">$Text{"Subject"}:</td><td><input type="text" name="NewNoteSubject" value="$QData{"NewNoteSubject"}"></td>
+         <td valign="top">$Text{"Subject"}:</td><td><input type="text" name="NewNoteSubject" size="60" value="$QData{"NewNoteSubject"}"></td>
        </tr>
        <tr>
          <td valign="top">$Text{"Text"}:</td><td><textarea name="NewNoteBody" rows="7" cols="60" wrap="hard">$QData{"NewNoteBody"}</textarea></td>
@@ -335,11 +335,12 @@
   </tr>
 
   <tr>
-    <td colspan="2" class="mainhead" width="50%">$Text{"Modules"}</td>
+    <td class="mainhead" width="50%">$Text{"Modules"}</td>
+    <td class="mainhead" width="50%">$Text{"Send Notification"}</td>
   </tr>
 
   <tr>
-    <td colspan="2" class="contentbody">
+    <td class="contentbody">
      <table>
        <tr>
          <td valign="top">$Text{"Module"}:</td><td><input type="text" name="NewModule" value="$QData{"NewModule"}" size="45"></td>
@@ -363,6 +364,12 @@
          <td valign="top">$Text{"Param 6"}:</td><td><input type="text" name="NewParamKey6" value="$QData{"NewParamKey6"}" size="12">=&gt;<input type="text" name="NewParamValue6" value="$QData{"NewParamValue6"}" size="20"></td>
        </tr>
       </table>
+    </td>
+    <td class="contentbody">
+        $Text{"Send no notifications"}: $Data{"SendNoNotificationOption"}
+        <br>
+        $Text{"Yes means, send no agent and customer notifications on changes."}
+        $Text{"No means, send agent and customer notifications on changes."}
     </td>
   </tr>
   <tr>

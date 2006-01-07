@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminGenericAgent.pm,v 1.20 2005-11-11 11:02:57 martin Exp $
+# $Id: AdminGenericAgent.pm,v 1.21 2006-01-07 19:58:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Lock;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -110,7 +110,7 @@ sub Run {
       NewParamValue1 NewParamValue2 NewParamValue3 NewParamValue4
       NewParamKey5 NewParamKey6 NewParamKey7 NewParamKey8
       NewParamValue5 NewParamValue6 NewParamValue7 NewParamValue8
-      NewLockID NewDelete NewCMD
+      NewLockID NewDelete NewCMD NewSendNoNotification
       ScheduleLastRun Valid
     )) {
         # load profiles string params (press load profile)
@@ -607,6 +607,11 @@ sub MaskForm {
         Size => 3,
         LanguageTranslation => 0,
         SelectedID => $Param{NewLockID},
+    );
+    $Param{'SendNoNotificationOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => $Self->{ConfigObject}->Get('YesNoOptions'),
+        Name => 'NewSendNoNotification',
+        SelectedID => $Param{NewSendNoNotification} || 0,
     );
 
     if ($Self->{Profile} && $Self->{Subaction} eq 'LoadProfile') {

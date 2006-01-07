@@ -1,8 +1,8 @@
 # --
 # Kernel/System/GenericAgent.pm - generic agent system module
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pm,v 1.11 2005-07-29 11:32:16 cs Exp $
+# $Id: GenericAgent.pm,v 1.12 2006-01-07 19:58:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Main;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $ ';
+$VERSION = '$Revision: 1.12 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -394,6 +394,7 @@ sub JobRunTicket {
         }
         $Self->{TicketObject}->MoveTicket(
             QueueID => $Self->{QueueObject}->QueueLookup(Queue=>$Param{Config}->{New}->{Queue}, Cache => 1),
+            SendNoNotification => $Param{Config}->{New}->{SendNoNotification} || 0,
             UserID => $Param{UserID},
             TicketID => $Param{TicketID},
         );
@@ -404,6 +405,7 @@ sub JobRunTicket {
         }
         $Self->{TicketObject}->MoveTicket(
             QueueID => $Param{Config}->{New}->{QueueID},
+            SendNoNotification => $Param{Config}->{New}->{SendNoNotification} || 0,
             UserID => $Param{UserID},
             TicketID => $Param{TicketID},
         );
@@ -437,6 +439,7 @@ sub JobRunTicket {
         $Self->{TicketObject}->StateSet(
             TicketID => $Param{TicketID},
             UserID => $Param{UserID},
+            SendNoNotification => $Param{Config}->{New}->{SendNoNotification} || 0,
             State => $Param{Config}->{New}->{State},
         );
     }
@@ -447,6 +450,7 @@ sub JobRunTicket {
         $Self->{TicketObject}->StateSet(
             TicketID => $Param{TicketID},
             UserID => $Param{UserID},
+            SendNoNotification => $Param{Config}->{New}->{SendNoNotification} || 0,
             StateID => $Param{Config}->{New}->{StateID},
         );
     }
@@ -504,6 +508,7 @@ sub JobRunTicket {
         $Self->{TicketObject}->OwnerSet(
             TicketID => $Param{TicketID},
             UserID => $Param{UserID},
+            SendNoNotification => $Param{Config}->{New}->{SendNoNotification} || 0,
             NewUser => $Param{Config}->{New}->{Owner},
         );
     }
@@ -514,6 +519,7 @@ sub JobRunTicket {
         $Self->{TicketObject}->OwnerSet(
             TicketID => $Param{TicketID},
             UserID => $Param{UserID},
+            SendNoNotification => $Param{Config}->{New}->{SendNoNotification} || 0,
             NewUserID => $Param{Config}->{New}->{OwnerID},
         );
     }
@@ -527,6 +533,7 @@ sub JobRunTicket {
         $Self->{TicketObject}->LockSet(
             TicketID => $Param{TicketID},
             UserID => $Param{UserID},
+            SendNoNotification => $Param{Config}->{New}->{SendNoNotification} || 0,
             Lock => $Param{Config}->{New}->{Lock},
         );
     }
@@ -537,6 +544,7 @@ sub JobRunTicket {
         $Self->{TicketObject}->LockSet(
             TicketID => $Param{TicketID},
             UserID => $Param{UserID},
+            SendNoNotification => $Param{Config}->{New}->{SendNoNotification} || 0,
             LockID => $Param{Config}->{New}->{LockID},
         );
     }
@@ -856,6 +864,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2005-07-29 11:32:16 $
+$Revision: 1.12 $ $Date: 2006-01-07 19:58:02 $
 
 =cut
