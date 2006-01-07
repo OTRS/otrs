@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.53 2005-12-20 23:32:36 martin Exp $
+# $Id: PostMaster.pm,v 1.54 2006-01-07 16:26:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.53 $';
+$VERSION = '$Revision: 1.54 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -183,12 +183,15 @@ sub Run {
                 $Param{QueueID} = $TQueueID;
             }
             $TicketID = $Self->{NewTicket}->Run(
-              InmailUserID => $Self->{PostmasterUserID},
-              GetParam => $GetParam,
-              QueueID => $Param{QueueID},
-              Comment => "Because the old ticket [$Tn] is '$State{Name}'",
-              AutoResponseType => 'auto reply/new ticket',
+                InmailUserID => $Self->{PostmasterUserID},
+                GetParam => $GetParam,
+                QueueID => $Param{QueueID},
+                Comment => "Because the old ticket [$Tn] is '$State{Name}'",
+                AutoResponseType => 'auto reply/new ticket',
             );
+            if (!$TicketID) {
+                return;
+            }
         }
         # reject follow up
         elsif ($FollowUpPossible =~ /reject/i && $State{TypeName} =~ /^close/i) {
@@ -197,7 +200,7 @@ sub Run {
                 Message=>"Follow up for [$Tn] but follow up not possible. Follow up rejected."
             );
             # send reject mail && and add article to ticket
-            $Self->{Reject}->Run(
+            if (!$Self->{Reject}->Run(
                 TicketID => $TicketID,
                 InmailUserID => $Self->{PostmasterUserID},
                 GetParam => $GetParam,
@@ -205,18 +208,22 @@ sub Run {
                 Tn => $Tn,
                 Comment => 'Follow up rejected.',
                 AutoResponseType => 'auto reject',
-            );
+            )) {
+                return;
+            }
         }
         # create normal follow up
         else {
-            $Self->{FollowUp}->Run(
+            if (!$Self->{FollowUp}->Run(
                 TicketID => $TicketID,
                 InmailUserID => $Self->{PostmasterUserID},
                 GetParam => $GetParam,
                 Lock => $Lock,
                 Tn => $Tn,
                 AutoResponseType => 'auto follow up',
-            );
+            )) {
+                return;
+            }
         }
     }
     # create new ticket
@@ -242,6 +249,9 @@ sub Run {
             QueueID => $Param{QueueID},
             AutoResponseType => 'auto reply',
         );
+        if (!$TicketID) {
+            return;
+        }
     }
 
     # run all PostFilterModules (modify email params)

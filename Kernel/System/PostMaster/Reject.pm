@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster/Reject.pm - the sub part of PostMaster.pm
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Reject.pm,v 1.1 2004-11-26 10:57:03 martin Exp $
+# $Id: Reject.pm,v 1.2 2006-01-07 16:26:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::Reject;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -80,6 +80,9 @@ sub Run {
         AutoResponseType => $AutoResponseType,
         OrigHeader => \%GetParam,
     );
+    if (!$ArticleID) {
+        return;
+    }
     # --
     # debug
     # --

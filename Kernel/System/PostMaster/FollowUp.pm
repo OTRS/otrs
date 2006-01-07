@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster/FollowUp.pm - the sub part of PostMaster.pm
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FollowUp.pm,v 1.40 2005-10-22 07:54:58 martin Exp $
+# $Id: FollowUp.pm,v 1.41 2006-01-07 16:26:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::User;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.40 $';
+$VERSION = '$Revision: 1.41 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -174,6 +174,9 @@ sub Run {
         AutoResponseType => $AutoResponseType,
         OrigHeader => \%GetParam,
     );
+    if (!$ArticleID) {
+        return;
+    }
     # debug
     if ($Self->{Debug} > 0) {
         print "Follow up Ticket\n";
