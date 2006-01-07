@@ -1,5 +1,5 @@
 # --
-# $Id: CREDITS,v 1.13 2004-10-18 09:52:31 martin Exp $
+# $Id: CREDITS,v 1.14 2006-01-07 15:24:28 martin Exp $
 # --
 
 This is at least a partial credits-file of people that have
@@ -72,14 +72,8 @@ E: Remo.Catelotti at bull.it
 D: Maintainer of Italian translation
 S: Italy
 --
-N: Stefan Wintermeyer
-E: stefan at wintermeyer.de
-W: http://www.wintermeyer.de/
-D: Webpage, Documentation and Coder
-S: Germany
---
 N: Thomas Raith
-E: thomas.raith at freesign.de
+E: thomas.raith at otrs.org
 D: Module development, creation of coding style guide, dtl block feature.
 S: Germany
 --
