@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminPostMasterFilter.pm - to add/update/delete filters
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPostMasterFilter.pm,v 1.7 2005-11-12 13:16:31 martin Exp $
+# $Id: AdminPostMasterFilter.pm,v 1.8 2006-01-08 17:21:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::PostMaster::Filter;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -91,18 +91,114 @@ sub Run {
         if (!%Data) {
             return $Self->{LayoutObject}->ErrorScreen(Message => "No such filter: $Name");
         }
-        my $Counter = 0;
-        if ($Data{Match}) {
-            foreach (sort keys %{$Data{Match}}) {
+        else {
+            return $Self->_MaskUpdate(Name => $Name, Data => \%Data);
+        }
+    }
+    # ------------------------------------------------------------ #
+    # update action
+    # ------------------------------------------------------------ #
+    elsif ($Self->{Subaction} eq 'UpdateAction') {
+        my %Match = ();
+        my %Set = ();
+        foreach (1..8) {
+            if ($GetParam{"MatchHeader$_"} && $GetParam{"MatchValue$_"}) {
+                $Match{$GetParam{"MatchHeader$_"}} = $GetParam{"MatchValue$_"};
+            }
+            if ($GetParam{"SetHeader$_"} && $GetParam{"SetValue$_"}) {
+                $Set{$GetParam{"SetHeader$_"}} = $GetParam{"SetValue$_"};
+            }
+        }
+        my %Invalid = ();
+        if (%Match) {
+            my $InvalidCount = 0;
+            foreach (sort keys %Match) {
+                $InvalidCount++;
+                my $I = $Match{$_};
+                if (!eval { $I =~ /(.|$Match{$_})/i }) {
+                    $Invalid{'InvalidMatch'.$InvalidCount} = 'invalid';
+                }
+            }
+        }
+        if (!%Set) {
+            $Invalid{'InvalidSet1'} = 'invalid';
+        }
+        if (!%Match) {
+            $Invalid{'InvalidMatch1'} = 'invalid';
+        }
+        if (%Invalid) {
+            return $Self->_MaskUpdate(
+                Name => $Name,
+                Data => {
+                    %Invalid,
+                    Name => $Name,
+                    Set => \%Set,
+                    Match => \%Match,
+                },
+            );
+        }
+        $Self->{PostMasterFilter}->FilterDelete(Name => $OldName);
+        $Self->{PostMasterFilter}->FilterAdd(
+            Name => $Name,
+            Match => \%Match,
+            Set => \%Set,
+        );
+        return $Self->{LayoutObject}->Redirect(OP => 'Action=$Env{"Action"}');
+    }
+    # ------------------------------------------------------------ #
+    # overview
+    # ------------------------------------------------------------ #
+    else {
+        my %List = $Self->{PostMasterFilter}->FilterList();
+
+        $Self->{LayoutObject}->Block(
+            Name => 'Overview',
+            Data => {
+                %Param,
+            },
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'OverviewResult',
+            Data => {
+                %Param,
+            },
+        );
+        foreach my $Key (sort keys %List) {
+            $Self->{LayoutObject}->Block(
+                Name => 'OverviewResultRow',
+                Data => {
+                    Name => $Key,
+                },
+            );
+        }
+
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminPostMasterFilter',
+            Data => \%Param,
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
+    }
+}
+
+sub _MaskUpdate {
+    my $Self = shift;
+    my %Param = @_;
+    my %Data= %{$Param{Data}};
+    my $Counter = 0;
+    if ($Data{Match}) {
+        foreach (sort keys %{$Data{Match}}) {
               if ($_ && $Data{Match}->{$_}) {
                 $Counter++;
                 $Data{"MatchValue$Counter"} = $Data{Match}->{$_};
                 $Data{"MatchHeader$Counter"} = $_;
               }
             }
-        }
-        $Counter = 0;
-        if ($Data{Set}) {
+    }
+    $Counter = 0;
+    if ($Data{Set}) {
             foreach (sort keys %{$Data{Set}}) {
               if ($_ && $Data{Set}->{$_}) {
                 $Counter++;
@@ -110,23 +206,23 @@ sub Run {
                 $Data{"SetHeader$Counter"} = $_;
               }
             }
-        }
-        $Self->{LayoutObject}->Block(
+    }
+    $Self->{LayoutObject}->Block(
             Name => 'Overview',
             Data => {
                 %Param,
             },
-        );
-        # all headers
-        my %Header = ();
-        foreach (@{$Self->{ConfigObject}->Get('PostmasterX-Header')}) {
+    );
+    # all headers
+    my %Header = ();
+    foreach (@{$Self->{ConfigObject}->Get('PostmasterX-Header')}) {
             $Header{$_} = $_;
-        }
-        $Header{''} = '-';
-        $Header{'Body'} = 'Body';
-        # otrs header
-        my %SetHeader = ();
-        foreach (keys %Header) {
+    }
+    $Header{''} = '-';
+    $Header{'Body'} = 'Body';
+    # otrs header
+    my %SetHeader = ();
+    foreach (keys %Header) {
             if ($_ =~ /^x-otrs/i) {
                 $SetHeader{$_} = $_;
             }
@@ -166,72 +262,6 @@ sub Run {
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
-    }
-    # ------------------------------------------------------------ #
-    # update action
-    # ------------------------------------------------------------ #
-    elsif ($Self->{Subaction} eq 'UpdateAction') {
-        my %Match = ();
-        my %Set = ();
-        foreach (1..8) {
-            if ($GetParam{"MatchHeader$_"} && $GetParam{"MatchValue$_"}) {
-                $Match{$GetParam{"MatchHeader$_"}} = $GetParam{"MatchValue$_"};
-            }
-            if ($GetParam{"SetHeader$_"} && $GetParam{"SetValue$_"}) {
-                $Set{$GetParam{"SetHeader$_"}} = $GetParam{"SetValue$_"};
-            }
-        }
-        if (%Match && %Set) {
-            $Self->{PostMasterFilter}->FilterDelete(Name => $OldName);
-            $Self->{PostMasterFilter}->FilterAdd(
-                Name => $Name,
-                Match => \%Match,
-                Set => \%Set,
-            );
-            return $Self->{LayoutObject}->Redirect(OP => 'Action=$Env{"Action"}');
-        }
-        else {
-           return $Self->{LayoutObject}->ErrorScreen(
-                Message => 'Need min. one Match and one Set',
-            );
-        }
-    }
-    # ------------------------------------------------------------ #
-    # overview
-    # ------------------------------------------------------------ #
-    else {
-        my %List = $Self->{PostMasterFilter}->FilterList();
-
-        $Self->{LayoutObject}->Block(
-            Name => 'Overview',
-            Data => {
-                %Param,
-            },
-        );
-        $Self->{LayoutObject}->Block(
-            Name => 'OverviewResult',
-            Data => {
-                %Param,
-            },
-        );
-        foreach my $Key (sort keys %List) {
-            $Self->{LayoutObject}->Block(
-                Name => 'OverviewResultRow',
-                Data => {
-                    Name => $Key,
-                },
-            );
-        }
-
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminPostMasterFilter',
-            Data => \%Param,
-        );
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
-    }
 }
-# --
+
 1;

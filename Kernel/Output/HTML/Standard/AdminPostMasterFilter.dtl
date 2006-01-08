@@ -1,8 +1,8 @@
 # --
 # AdminPostMasterFilter.dtl - provides HTML form for AdminSystemAddess
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPostMasterFilter.dtl,v 1.10 2005-11-14 08:51:09 martin Exp $
+# $Id: AdminPostMasterFilter.dtl,v 1.11 2006-01-08 17:21:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -102,25 +102,25 @@
       <td class="contentkey">$Text{"Header"} 1: </td>
       <td class="contentvalue"> $Data{"MatchHeader1"}</td>
       <td class="contentkey">$Text{"Value"}: </td>
-      <td class="contentvalue"> <input type="text" name="MatchValue1" value="$QData{"MatchValue1"}" size="40" maxlength="100"></td>
+      <td class="contentvalue"> <input type="text" name="MatchValue1" value="$QData{"MatchValue1"}" size="40" maxlength="100"> <font size="-2" color="red">$Text{"$QData{"InvalidMatch1"}"}</font></td>
     </tr>
     <tr>
       <td class="contentkey">$Text{"Header"} 2: </td>
       <td class="contentvalue"> $Data{"MatchHeader2"}</td>
       <td class="contentkey">$Text{"Value"}: </td>
-      <td class="contentvalue"> <input type="text" name="MatchValue2" value="$QData{"MatchValue2"}" size="40" maxlength="100"></td>
+      <td class="contentvalue"> <input type="text" name="MatchValue2" value="$QData{"MatchValue2"}" size="40" maxlength="100"> <font size="-2" color="red">$Text{"$QData{"InvalidMatch2"}"}</font></td>
     </tr>
     <tr>
       <td class="contentkey">$Text{"Header"} 3: </td>
       <td class="contentvalue"> $Data{"MatchHeader3"}</td>
       <td class="contentkey">$Text{"Value"}: </td>
-      <td class="contentvalue"> <input type="text" name="MatchValue3" value="$QData{"MatchValue3"}" size="40" maxlength="100"></td>
+      <td class="contentvalue"> <input type="text" name="MatchValue3" value="$QData{"MatchValue3"}" size="40" maxlength="100"> <font size="-2" color="red">$Text{"$QData{"InvalidMatch3"}"}</font></td>
     </tr>
     <tr>
       <td class="contentkey">$Text{"Header"} 4: </td>
       <td class="contentvalue"> $Data{"MatchHeader4"}</td>
       <td class="contentkey">$Text{"Value"}: </td>
-      <td class="contentvalue"> <input type="text" name="MatchValue4" value="$QData{"MatchValue4"}" size="40" maxlength="100"></td>
+      <td class="contentvalue"> <input type="text" name="MatchValue4" value="$QData{"MatchValue4"}" size="40" maxlength="100"> <font size="-2" color="red">$Text{"$QData{"InvalidMatch4"}"}</font></td>
     </tr>
     <tr>
       <td colspan="4" class="contentkey">$Text{"Set"}:</td>
@@ -129,25 +129,25 @@
       <td class="contentkey">$Text{"Header"} 1: </td>
       <td class="contentvalue"> $Data{"SetHeader1"}</td>
       <td class="contentkey">$Text{"Value"}: </td>
-      <td class="contentvalue"> <input type="text" name="SetValue1" value="$QData{"SetValue1"}" size="40" maxlength="100"></td>
+      <td class="contentvalue"> <input type="text" name="SetValue1" value="$QData{"SetValue1"}" size="40" maxlength="100"> <font size="-2" color="red">$Text{"$QData{"InvalidSet1"}"}</font></td>
     </tr>
     <tr>
       <td class="contentkey">$Text{"Header"} 2: </td>
       <td class="contentvalue"> $Data{"SetHeader2"}</td>
       <td class="contentkey">$Text{"Value"}: </td>
-      <td class="contentvalue"> <input type="text" name="SetValue2" value="$QData{"SetValue2"}" size="40" maxlength="100"></td>
+      <td class="contentvalue"> <input type="text" name="SetValue2" value="$QData{"SetValue2"}" size="40" maxlength="100"> <font size="-2" color="red">$Text{"$QData{"InvalidSet2"}"}</font></td>
     </tr>
     <tr>
       <td class="contentkey">$Text{"Header"} 3: </td>
       <td class="contentvalue"> $Data{"SetHeader3"}</td>
       <td class="contentkey">$Text{"Value"}: </td>
-      <td class="contentvalue"> <input type="text" name="SetValue3" value="$QData{"SetValue3"}" size="40" maxlength="100"></td>
+      <td class="contentvalue"> <input type="text" name="SetValue3" value="$QData{"SetValue3"}" size="40" maxlength="100"> <font size="-2" color="red">$Text{"$QData{"InvalidSet3"}"}</font></td>
     </tr>
     <tr>
       <td class="contentkey">$Text{"Header"} 4: </td>
       <td class="contentvalue"> $Data{"SetHeader4"}</td>
       <td class="contentkey">$Text{"Value"}: </td>
-      <td class="contentvalue"> <input type="text" name="SetValue4" value="$QData{"SetValue4"}" size="40" maxlength="100"></td>
+      <td class="contentvalue"> <input type="text" name="SetValue4" value="$QData{"SetValue4"}" size="40" maxlength="100"> <font size="-2" color="red">$Text{"$QData{"InvalidSet4"}"}</font></td>
     </tr>
     </table>
 
