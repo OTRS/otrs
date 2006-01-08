@@ -1,14 +1,14 @@
 # --
 # AdminPostMasterFilter.dtl - provides HTML form for AdminSystemAddess
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPostMasterFilter.dtl,v 1.8 2004-12-06 22:55:38 martin Exp $
+# $Id: AdminPostMasterFilter.dtl,v 1.8.2.1 2006-01-08 17:21:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-<!-- start form -->
+<!-- dtl:block:Overview -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
 <tr>
   <td colspan="2" class="mainhead">
@@ -20,20 +20,19 @@
 
   <form action="$Env{"CGIHandle"}" method="post">
   <input type="hidden" name="Action" value="$Env{"Action"}">
-  <input type="hidden" name="Subaction" value="Change">
+  <input type="hidden" name="Subaction" value="AddAction">
   <table width="100%" cellspacing="0" cellpadding="4">
   <tr>
-    <td class="contenthead">$Text{"Change"}:</td>
+    <td class="contenthead">$Text{"Add"}:</td>
   </tr>
   <tr>
     <td class="contentbody">
-    $Data{"List"}
+      $Text{"Name"}: <input type="text" name="Name" value="">
     </td>
   </tr>
   <tr>
     <td class="contentfooter">
-    <input class="button" type="submit" value="$Text{"Change"}" name="Change">
-    <input class="button" type="submit" value="$Text{"Delete"}" name="Delete">
+      <input class="button" type="submit" value="$Text{"Add"}">
     </td>
   </tr>
   </table>
@@ -42,25 +41,51 @@
   </td>
   <td width="70%" class="mainbody">
 
-# --
-# check subaction
-# --
-<dtl set $Data{"Headline"} = "Add">
-<dtl if ($Env{"Subaction"} eq "Change") { $Data{"Headline"} = "Update"; }>
-<dtl if ($Env{"Subaction"} eq "Change") { $Env{"Subaction"} = "Add"; }>
-# set subaction!
-<dtl if ($Env{"Subaction"} eq "") { $Env{"Subaction"} = "Add"; }>
-# check add link
-<dtl if ($Env{"Subaction"} eq "Change") { $Data{"AddLink"} = "(Click here to add)"; }>
-# --
+
+<!-- dtl:block:OverviewResult -->
+  <table width="100%" cellspacing="0" cellpadding="4">
+  <tr>
+    <td class="contenthead">
+    $Text{"List"}:</td>
+  </tr>
+  <tr>
+    <td class="contentbody">
+
+    <table width="100%" border="0" cellspacing="0" cellpadding="3">
+      <tr>
+        <td class="contentkey" width="85%">$Text{"Name"}</td>
+        <td align="center" class="contentkey">$Text{"Delete"}</td>
+    </tr>
+<!-- dtl:block:OverviewResultRow -->
+<dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchactive"; }>
+    <tr>
+      <td class="$Env{"Color"}"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Update&Name=$LQData{"Name"}">$QData{"Name"}</a></td>
+      <td align="center" class="$Env{"Color"}"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Delete&Name=$LQData{"Name"}">x</a></td>
+    </tr>
+<dtl if ($Env{"Color"} eq "searchpassive") { $Env{"Color"} = ""; }>
+<dtl if ($Env{"Color"} eq "searchactive") { $Env{"Color"} = "searchpassive"; }>
+<!-- dtl:block:OverviewResultRow -->
+    </table>
+
+    </td>
+  </tr>
+  <tr>
+    <td class="contentfooter">
+      &nbsp;
+    </td>
+  </tr>
+  </table>
+<!-- dtl:block:OverviewResult -->
+
+<!-- dtl:block:OverviewUpdate -->
   <form action="$Env{"CGIHandle"}" method="post">
   <input type="hidden" name="Action" value="$Env{"Action"}">
-  <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
+  <input type="hidden" name="Subaction" value="UpdateAction">
   <input type="hidden" name="OldName" value="$QData{"Name"}">
   <table width="100%" cellspacing="0" cellpadding="4">
   <tr>
     <td class="contenthead">
-    $Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"$Data{"AddLink"}"}</a>:</td>
+    $Text{"Edit"}:</td>
   </tr>
   <tr>
     <td class="contentbody">
@@ -77,25 +102,25 @@
       <td class="contentkey">$Text{"Header"} 1: </td>
       <td class="contentvalue"> $Data{"MatchHeader1"}</td>
       <td class="contentkey">$Text{"Value"}: </td>
-      <td class="contentvalue"> <input type="text" name="MatchValue1" value="$QData{"MatchValue1"}" size="30" maxlength="50"></td>
+      <td class="contentvalue"> <input type="text" name="MatchValue1" value="$QData{"MatchValue1"}" size="40" maxlength="100"> <font size="-2" color="red">$Text{"$QData{"InvalidMatch1"}"}</font></td>
     </tr>
     <tr>
       <td class="contentkey">$Text{"Header"} 2: </td>
       <td class="contentvalue"> $Data{"MatchHeader2"}</td>
       <td class="contentkey">$Text{"Value"}: </td>
-      <td class="contentvalue"> <input type="text" name="MatchValue2" value="$QData{"MatchValue2"}" size="30" maxlength="50"></td>
+      <td class="contentvalue"> <input type="text" name="MatchValue2" value="$QData{"MatchValue2"}" size="40" maxlength="100"> <font size="-2" color="red">$Text{"$QData{"InvalidMatch2"}"}</font></td>
     </tr>
     <tr>
       <td class="contentkey">$Text{"Header"} 3: </td>
       <td class="contentvalue"> $Data{"MatchHeader3"}</td>
       <td class="contentkey">$Text{"Value"}: </td>
-      <td class="contentvalue"> <input type="text" name="MatchValue3" value="$QData{"MatchValue3"}" size="30" maxlength="50"></td>
+      <td class="contentvalue"> <input type="text" name="MatchValue3" value="$QData{"MatchValue3"}" size="40" maxlength="100"> <font size="-2" color="red">$Text{"$QData{"InvalidMatch3"}"}</font></td>
     </tr>
     <tr>
       <td class="contentkey">$Text{"Header"} 4: </td>
       <td class="contentvalue"> $Data{"MatchHeader4"}</td>
       <td class="contentkey">$Text{"Value"}: </td>
-      <td class="contentvalue"> <input type="text" name="MatchValue4" value="$QData{"MatchValue4"}" size="30" maxlength="50"></td>
+      <td class="contentvalue"> <input type="text" name="MatchValue4" value="$QData{"MatchValue4"}" size="40" maxlength="100"> <font size="-2" color="red">$Text{"$QData{"InvalidMatch4"}"}</font></td>
     </tr>
     <tr>
       <td colspan="4" class="contentkey">$Text{"Set"}:</td>
@@ -104,25 +129,25 @@
       <td class="contentkey">$Text{"Header"} 1: </td>
       <td class="contentvalue"> $Data{"SetHeader1"}</td>
       <td class="contentkey">$Text{"Value"}: </td>
-      <td class="contentvalue"> <input type="text" name="SetValue1" value="$QData{"SetValue1"}" size="30" maxlength="50"></td>
+      <td class="contentvalue"> <input type="text" name="SetValue1" value="$QData{"SetValue1"}" size="40" maxlength="100"> <font size="-2" color="red">$Text{"$QData{"InvalidSet1"}"}</font></td>
     </tr>
     <tr>
       <td class="contentkey">$Text{"Header"} 2: </td>
       <td class="contentvalue"> $Data{"SetHeader2"}</td>
       <td class="contentkey">$Text{"Value"}: </td>
-      <td class="contentvalue"> <input type="text" name="SetValue2" value="$QData{"SetValue2"}" size="30" maxlength="50"></td>
+      <td class="contentvalue"> <input type="text" name="SetValue2" value="$QData{"SetValue2"}" size="40" maxlength="100"> <font size="-2" color="red">$Text{"$QData{"InvalidSet2"}"}</font></td>
     </tr>
     <tr>
       <td class="contentkey">$Text{"Header"} 3: </td>
       <td class="contentvalue"> $Data{"SetHeader3"}</td>
       <td class="contentkey">$Text{"Value"}: </td>
-      <td class="contentvalue"> <input type="text" name="SetValue3" value="$QData{"SetValue3"}" size="30" maxlength="50"></td>
+      <td class="contentvalue"> <input type="text" name="SetValue3" value="$QData{"SetValue3"}" size="40" maxlength="100"> <font size="-2" color="red">$Text{"$QData{"InvalidSet3"}"}</font></td>
     </tr>
     <tr>
       <td class="contentkey">$Text{"Header"} 4: </td>
       <td class="contentvalue"> $Data{"SetHeader4"}</td>
       <td class="contentkey">$Text{"Value"}: </td>
-      <td class="contentvalue"> <input type="text" name="SetValue4" value="$QData{"SetValue4"}" size="30" maxlength="50"></td>
+      <td class="contentvalue"> <input type="text" name="SetValue4" value="$QData{"SetValue4"}" size="40" maxlength="100"> <font size="-2" color="red">$Text{"$QData{"InvalidSet4"}"}</font></td>
     </tr>
     </table>
 
@@ -130,11 +155,12 @@
   </tr>
   <tr>
     <td class="contentfooter">
-    <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}">
+      <input class="button" type="submit" value="$Text{"submit"}">
     </td>
   </tr>
   </table>
   </form>
+<!-- dtl:block:OverviewUpdate -->
 
   </td>
 </tr>
@@ -225,4 +251,4 @@
   </td>
 </tr>
 </table>
-<!-- end note -->
+<!-- dtl:block:Overview -->

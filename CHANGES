@@ -2,13 +2,16 @@
 # Changes of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.209.2.20 2006-01-07 16:26:03 martin Exp $
+# $Id: CHANGES,v 1.209.2.21 2006-01-08 17:21:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-2.0.5 (2005/??/??)
+2.0.5 (2006/??/??)
+ - (2006/01/08) fixed PostMaster filter admin interface if wrong syntax
+    regexp is used (don't save invalid regexp because not email can be
+    received)
  - (2006/01/07) added bin/CheckSum.pl and also ARCHIVE file to include
     md5 sum archive of current distribution
  - (2006/01/07) improved PostMaster if no article can be created
