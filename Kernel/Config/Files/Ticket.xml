@@ -148,7 +148,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.70.2.1 2005-12-12 17:30:09 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.70.2.2 2006-01-11 11:47:05 cs Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifyer for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z.B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -1058,7 +1058,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::DefaultNextMoveStateType" Required="1" Valid="1">
-        <Description Lang="en">Possible state types after moving a ticket.</Description>
+        <Description Lang="en">Possible states after a ticket is moved.</Description>
         <Description Lang="de">Mögliche Status nach dem Verschieben von Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewMove</SubGroup>
@@ -1330,8 +1330,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::PhoneDefaultNextStateType" Required="1" Valid="1">
-        <Description Lang="en">Next possible states after phone.</Description>
-        <Description Lang="de">Mögliche Status nach dem Telefonat.</Description>
+        <Description Lang="en">Next possible states after phone note.</Description>
+        <Description Lang="de">Mögliche Status nach dem hinzufügen einer Telefonnotiz.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPhone</SubGroup>
         <Setting>
@@ -1344,8 +1344,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PhoneNextState" Required="1" Valid="1">
-        <Description Lang="en">Default next state after phone.</Description>
-        <Description Lang="de">Vorauswahl für den nächsten Status der Telefonnotiz.</Description>
+        <Description Lang="en">Default next state after adding a phone note.</Description>
+        <Description Lang="de">Vorauswahl des nächsten Status bei einer Telefonnotiz.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPhone</SubGroup>
         <Setting>
@@ -1371,8 +1371,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PhoneNewArticleType" Required="1" Valid="1">
-        <Description Lang="en">Default article type for phone tickets.</Description>
-        <Description Lang="de">Default Artikeltyp für Telefontickets.</Description>
+        <Description Lang="en">Default article type for a new phone ticket.</Description>
+        <Description Lang="de">Default Artikeltyp für ein neues Telefonticket.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
         <Setting>
@@ -1389,8 +1389,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PhoneNewSubject" Required="1" Valid="1">
-        <Description Lang="en">Default subject for new phone tickets (e.g. 'Phone call').</Description>
-        <Description Lang="de">Standard Betreff für neue Telefontickets (z.B. 'Telefon Anruf').</Description>
+        <Description Lang="en">Default subject for new phone ticket (e.g. 'Phone call').</Description>
+        <Description Lang="de">Standard Betreff für ein neues Telefonticket (z.B. 'Telefon Anruf').</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
         <Setting>
@@ -1398,8 +1398,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PhoneNewNote" Required="1" Valid="1">
-        <Description Lang="en">Default note text. E.g 'New ticket via call.'</Description>
-        <Description Lang="de">Standard-Text für die Notiz bei Telefontickets.</Description>
+        <Description Lang="en">Default text for new phone tickets. E.g 'New ticket via call.'</Description>
+        <Description Lang="de">Standard-Text für neue Telefontickets, z.B. 'Neues ticket auf Grund eines Anrufes!'.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
         <Setting>
@@ -1407,8 +1407,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PhoneNewNextState" Required="1" Valid="1">
-        <Description Lang="en">Default next state.</Description>
-        <Description Lang="de">Standardmäßig vergebener nächster Status.</Description>
+        <Description Lang="en">Default next state for a new phone ticket.</Description>
+        <Description Lang="de">Standardmäßig vergebener nächster Status bei einem neuen Telefonticket..</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
         <Setting>
@@ -1425,8 +1425,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PhonePriority" Required="1" Valid="1">
-        <Description Lang="en">Default priority for phone tickets.</Description>
-        <Description Lang="de">Standardpriorität eines Telefontickets.</Description>
+        <Description Lang="en">Default priority for new phone tickets.</Description>
+        <Description Lang="de">Standardpriorität für neue Telefontickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPhone</SubGroup>
         <Setting>
@@ -1434,8 +1434,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PhoneNewHistoryType" Required="1" Valid="1">
-        <Description Lang="en">Default history type for phone tickets.</Description>
-        <Description Lang="de">Standard History-Typ bei Telefontickets.</Description>
+        <Description Lang="en">Default history type for new phone tickets.</Description>
+        <Description Lang="de">Standard History-Typ für neue Telefontickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
         <Setting>
@@ -1443,8 +1443,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PhoneNewHistoryComment" Required="1" Valid="1">
-        <Description Lang="en">Default history comment for phone tickets.</Description>
-        <Description Lang="de">Standard Kommentar für die History bei Telefontickets.</Description>
+        <Description Lang="en">Default history comment for new phone tickets.</Description>
+        <Description Lang="de">Standard Kommentar für die History bei neuen Telefontickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
         <Setting>
@@ -1497,8 +1497,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::EmailPriority" Required="1" Valid="1">
-        <Description Lang="en">Default priority for emails.</Description>
-        <Description Lang="de">Standard Priorität für Emails.</Description>
+        <Description Lang="en">Default priority for new email tickets.</Description>
+        <Description Lang="de">Standard Priorität für neue Email-tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
         <Setting>
@@ -1506,8 +1506,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::EmailNewArticleType" Required="1" Valid="1">
-        <Description Lang="en">Default article type for new article.</Description>
-        <Description Lang="de">Standard Artikeltyp beim erstellen eines Artikels.</Description>
+        <Description Lang="en">Default article type for new email tickets.</Description>
+        <Description Lang="de">Standard Artikeltyp für neue Email-Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
         <Setting>
@@ -1515,8 +1515,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::EmailNewSenderType" Required="1" Valid="1">
-        <Description Lang="en">Default sender type for article.</Description>
-        <Description Lang="de">Standard Sender-Typ für Artikel.</Description>
+        <Description Lang="en">Default sender type for new email tickets.</Description>
+        <Description Lang="de">Standard Sender-Typ für neue Email-Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
         <Setting>
@@ -1524,8 +1524,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::EmailNewHistoryType" Required="1" Valid="1">
-        <Description Lang="en">Type for article history.</Description>
-        <Description Lang="de">Typ für Artikel Historie.</Description>
+        <Description Lang="en">Default history type for new email tickets.</Description>
+        <Description Lang="de">Standard Historien-Typ für neue Email-Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
         <Setting>
@@ -1533,7 +1533,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::EmailNewHistoryComment" Required="1" Valid="1">
-        <Description Lang="en">Default comment for new email history.</Description>
+        <Description Lang="en">Default hoistory comment for new email tickets.</Description>
         <Description Lang="de">Standard Kommentar für History-Eintrag bei neuen Emails.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
@@ -1542,8 +1542,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::EmailNewNote" Required="1" Valid="1">
-        <Description Lang="en">Default note text for emails.</Description>
-        <Description Lang="de">Standard Text für Email-Notiz.</Description>
+        <Description Lang="en">Default text for new email tickets.</Description>
+        <Description Lang="de">Standardtext für ein neues Email-Ticket.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
         <Setting>
@@ -1551,8 +1551,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::EmailDefaultNextStateType" Required="1" Valid="1">
-        <Description Lang="en">Next possible states after e-mailphone.</Description>
-        <Description Lang="de">Mögliche Status nach dem Erstellen einer Email.</Description>
+        <Description Lang="en">Next possible states after email ticket.</Description>
+        <Description Lang="de">Mögliche Status nach der Erstellung eines Email-Tickets</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
         <Setting>
@@ -1565,8 +1565,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::EmailNewNextState" Required="1" Valid="1">
-        <Description Lang="en">Default next state for the next new email.</Description>
-        <Description Lang="de">Vorauswahl des Status für die nächste neue Email.</Description>
+        <Description Lang="en">Default next state after an email ticket.</Description>
+        <Description Lang="de">Standardmäßig ausgewählter nächster Status nach einem Email-Ticket.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
         <Setting>
@@ -1619,8 +1619,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::DefaultNextNoteStateType" Required="1" Valid="1">
-        <Description Lang="en">Default states of next note.</Description>
-        <Description Lang="de">Standard Status der nächsten Notiz.</Description>
+        <Description Lang="en">Default next states after adding a note.</Description>
+        <Description Lang="de">Nächstmögliche Status nach dem Hinzufügen einer Notiz.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
         <Setting>
@@ -1684,8 +1684,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::DefaultNextOwnerStateType" Required="1" Valid="1">
-        <Description Lang="en">Possible states of next owner screen.</Description>
-        <Description Lang="de">Mögliche nächster Status beim Besizer setzen.</Description>
+        <Description Lang="en">Default next states after owner selection.</Description>
+        <Description Lang="de">Nächstmögliche Status nach der Änderung des Ticket-Eigentümers.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewOwner</SubGroup>
         <Setting>
@@ -1745,7 +1745,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PendingNoteType" Required="1" Valid="1">
         <Description Lang="en">Default note type for pending tickets.</Description>
-        <Description Lang="de">Standard Notiz Typ für warten Tickets.</Description>
+        <Description Lang="de">Standard Notiz Typ für warten (pending) Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
         <Setting>
@@ -1800,7 +1800,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::DefaultNextComposeType" Required="1" Valid="1">
-        <Description Lang="en">Default compose next state.</Description>
+        <Description Lang="en">Default next state after a ticket is composed, answered, e.g..</Description>
         <Description Lang="de">Standardmäßig eingestellter Status bei der Beantwortung eines Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewCompose</SubGroup>
@@ -1809,8 +1809,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::DefaultNextComposeStateType" Required="1" Valid="1">
-        <Description Lang="en">Next possible states for compose message.</Description>
-        <Description Lang="de">Nächstmögliche Status für die Erstellung von Ticktes.</Description>
+        <Description Lang="en">Next possible states after composing / answering a ticket.</Description>
+        <Description Lang="de">Nächstmögliche Status nach der Beantwortung eines Ticktes.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewCompose</SubGroup>
         <Setting>
@@ -1851,8 +1851,8 @@ $Data{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::BounceState" Required="1" Valid="1">
-        <Description Lang="en">Default bounce next state.</Description>
-        <Description Lang="de">Nächster standardmäßiger Status bei Bounces.</Description>
+        <Description Lang="en">Default next state after bouncing a ticket.</Description>
+        <Description Lang="de">Nächster standardmäßiger Status nach dem Bouncen eines Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewBounce</SubGroup>
         <Setting>
@@ -1860,7 +1860,7 @@ $Data{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::DefaultNextBounceStateType" Required="1" Valid="1">
-        <Description Lang="en">Next possible states for bounced message.</Description>
+        <Description Lang="en">Next possible states when a ticket is bounced.</Description>
         <Description Lang="de">Nächstmögliche Status für 'gebouncete' Nachrichten.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewBounce</SubGroup>
@@ -1890,8 +1890,8 @@ $Data{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::DefaultNextForwardStateType" Required="1" Valid="1">
-        <Description Lang="en">Next possible states for forwarded message.</Description>
-        <Description Lang="de">Mögliche Status für weitergeleitete Nachrichten.</Description>
+        <Description Lang="en">Next possible states when forwarding a ticket.</Description>
+        <Description Lang="de">Nächstmögliche Status nach dem Weiterleiten eines Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewForward</SubGroup>
         <Setting>
