@@ -282,7 +282,7 @@
     $Self->{'Ticket::Frontend::MoveSetState'} = 1;
 
     # Ticket::DefaultNextMoveStateType
-    # default move next state
+    # possible next states after a ticket is moved
     $Self->{'Ticket::DefaultNextMoveStateType'} = ['open', 'closed'];
 
     # Ticket::Frontend::QueueSortBy::Default
@@ -360,10 +360,10 @@
     $Self->{'Ticket::Frontend::PhoneSubject'} = '$Text{"Phone call at %s", "Time(DateFormatLong)"}';
     # default note text
     $Self->{'Ticket::Frontend::PhoneNote'} = '$Text{"Customer called"}';
-    # next possible states after phone
+    # next possible states after adding a phone note
     $Self->{'Ticket::PhoneDefaultNextStateType'} = ['open', 'pending auto', 'pending reminder', 'closed'];
 
-    # default next state
+    # default next state after adding a phone note
     $Self->{'Ticket::Frontend::PhoneNextState'} = 'closed successful';
     # default history type
     $Self->{'Ticket::Frontend::PhoneHistoryType'} = 'PhoneCallAgent';
@@ -372,22 +372,22 @@
     # --------------------------------------------------- #
     # Ticket Frontend Phone Ticket stuff
     # --------------------------------------------------- #
-    # default article type
+    # default article type for a new phone ticket
     $Self->{'Ticket::Frontend::PhoneNewArticleType'} = 'phone';
     $Self->{'Ticket::Frontend::PhoneNewSenderType'} = 'customer';
-    # default note subject
+    # default subject for a new phone ticket
 #    $Self->{'Ticket::Frontend::PhoneNewSubject'} = '$Text{"Phone call at %s", "Time(DateFormatLong)"}';
     $Self->{'Ticket::Frontend::PhoneNewSubject'} = '';
-    # default note text
+    # default text for a new phone ticket
 #    $Self->{'Ticket::Frontend::PhoneNewNote'} = 'New ticket via call.';
     $Self->{'Ticket::Frontend::PhoneNewNote'} = '';
-    # default next state [default: open]
+    # default next state for a new phone ticket[default: open]
     $Self->{'Ticket::Frontend::PhoneNewNextState'} = 'open';
     # Max. shown customer history tickets in phone-ticket mask.
     $Self->{'Ticket::Frontend::PhoneNewShownCustomerTickets'} = 10;
-    # default priority [default: 3 normal]
+    # default priority for a new phone ticket [default: 3 normal]
     $Self->{'Ticket::Frontend::PhonePriority'} = '3 normal';
-    # default history type
+    # default history type for a new phone ticket
     $Self->{'Ticket::Frontend::PhoneNewHistoryType'} = 'PhoneCallCustomer';
     $Self->{'Ticket::Frontend::PhoneNewHistoryComment'} = '';
 
@@ -422,27 +422,29 @@
     # Ticket Frontend Email Ticket stuff
     # --------------------------------------------------- #
     # Ticket::Frontend::EmailPriority
-    # default priority [default: 3 normal]
+    # default priority for new email tickets [default: 3 normal]
     $Self->{'Ticket::Frontend::EmailPriority'} = '3 normal';
 
     # Ticket::Frontend::EmailNewArticleType
-    # default article type
+    # default article type for new email tickets
     $Self->{'Ticket::Frontend::EmailNewArticleType'} = 'email-external';
     # Ticket::Frontend::EmailNewSenderType
-    # default sender type
+    # default sender type for new email tickets
     $Self->{'Ticket::Frontend::EmailNewSenderType'} = 'agent';
 
-    # history
+    # default history type for new email tickets
     $Self->{'Ticket::Frontend::EmailNewHistoryType'} = 'EmailAgent';
+
+    # default history comment for new email tickets
     $Self->{'Ticket::Frontend::EmailNewHistoryComment'} = '';
 
-    # default note text
+    # default text for new email tickets
     $Self->{'Ticket::Frontend::EmailNewNote'} = '';
 
-    # next possible states after phone
+    # next possible states after an email ticket
     $Self->{'Ticket::EmailDefaultNextStateType'} = ['open', 'pending auto', 'pending reminder', 'closed'];
 
-    # default next state
+    # default next state after an email ticket
     $Self->{'Ticket::Frontend::EmailNewNextState'} = 'open';
 
     # Max. shown customer history tickets in email-ticket mask.
@@ -464,7 +466,7 @@
     $Self->{'Ticket::Frontend::NoteInformAgent'} = 0;
 
     # Ticket::DefaultNextNoteStateType
-    # (default note next state)
+    # (default next states after adding a note)
     $Self->{'Ticket::DefaultNextNoteStateType'} = ['new', 'open', 'closed'];
 
     # Ticket::Frontend::NoteType
@@ -492,7 +494,7 @@
     $Self->{'Ticket::Frontend::OwnerSetState'} = 0;
 
     # Ticket::DefaultNextOwnerStateType
-    # (default note next state)
+    # (default next states after new owner selection)
     $Self->{'Ticket::DefaultNextOwnerStateType'} = ['open', 'closed'];
 
     # Ticket::Frontend::OwnerSubject
@@ -508,9 +510,9 @@
     $Self->{'Ticket::Frontend::PendingText'} = '';
     # Ticket::Frontend::PendingState
     $Self->{'Ticket::Frontend::PendingState'} = 'pending reminder';
-    # next possible states for pendinf screen
+    # next possible states for pending screen
     $Self->{'Ticket::DefaultPendingNextStateType'} = ['pending reminder', 'pending auto'];
-    # default note type
+    # default note type for pending note
     $Self->{'Ticket::Frontend::PendingNoteType'} = 'note-internal';
 
     # --------------------------------------------------- #
@@ -530,9 +532,9 @@
     # --------------------------------------------------- #
     # Ticket Frontend Ticket Compose stuff
     # --------------------------------------------------- #
-    # default compose next state
+    # default next state after a ticket is composed, answered, e.g.
     $Self->{'Ticket::DefaultNextComposeType'} = 'open';
-    # next possible states for compose message
+    # next possible states after composing / answering a ticket
     $Self->{'Ticket::DefaultNextComposeStateType'} = ['open', 'closed', 'pending auto', 'pending reminder'];
     # unix_style
     $Self->{'Ticket::Frontend::ResponseFormat'} = '$Data{"Salutation"}
@@ -557,9 +559,9 @@ $Data{"Signature"}
     # --------------------------------------------------- #
     # Ticket Frontend Ticket Bounce stuff
     # --------------------------------------------------- #
-    # default bounce next state
+    # default next state after bouncing a ticket
     $Self->{'Ticket::Frontend::BounceState'} = 'closed successful';
-    # next possible states for bounce message
+    # next possible states when a ticket is bounced
     $Self->{'Ticket::DefaultNextBounceStateType'} = ['open', 'closed'];
     # default note text
     $Self->{'Ticket::Frontend::BounceText'} = 'Your email with ticket number "<OTRS_TICKET>" '.
@@ -574,7 +576,7 @@ $Data{"Signature"}
     # --------------------------------------------------- #
     # Ticket Frontend Ticket Forward stuff
     # --------------------------------------------------- #
-    # next possible states for forward message
+    # next possible states when forwarding a ticket
     $Self->{'Ticket::DefaultNextForwardStateType'} = ['open', 'closed'];
     # possible email type
     $Self->{'Ticket::Frontend::ForwardArticleTypes'} = [
@@ -1711,3 +1713,4 @@ $Data{"Signature"}
     # Default Ticket Action ACL
     $Self->{'TicketACL::Default::Action'} = {};
 
+1;
