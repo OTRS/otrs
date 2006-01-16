@@ -2,7 +2,7 @@
 # TODO - todo list OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TODO,v 1.79 2006-01-13 14:15:02 tr Exp $
+# $Id: TODO,v 1.80 2006-01-16 13:32:46 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -49,7 +49,7 @@
 - configoption which shows or masking the Freetextfilds individual
 - insert in each form requierd field stars, because of the patency to the other modules
 - GenericAgent: insert a delete.dtl if job should be removed (tr)
-
+- rename SMIME to S/MIME
 
 2.2
 - move ticket and article free text fields to "reference tables".
