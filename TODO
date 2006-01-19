@@ -2,7 +2,7 @@
 # TODO - todo list OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TODO,v 1.81 2006-01-18 12:08:07 tr Exp $
+# $Id: TODO,v 1.82 2006-01-19 08:45:44 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -75,6 +75,7 @@ misc (not scheduled yet - nobody is working on it yet)
 - enhance AdminEmail with customer user
 - ldap auth modules with multi group options (not just one)
 
+
 ideas (just ideas - nobody is working on it)
 - agent/customer timezone selection in preferences
 - copy std response botton
@@ -105,4 +106,4 @@ ideas (just ideas - nobody is working on it)
 - formattedtext elments for the sysconfig
 - include xml-attributs in the ConfigXMl, which manage if the delete or new-Buttons be shown.
 - include a ticket monitoring function
-
+- maybe could format tags in the ConfigXML be useful, simular like EISPP-DAF
