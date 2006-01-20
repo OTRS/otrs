@@ -1,8 +1,8 @@
 # --
 # AdminSysConfig.dtl - provides HTML form for AdminSysConfig html
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.dtl,v 1.7 2005-12-30 16:07:09 martin Exp $
+# $Id: AdminSysConfig.dtl,v 1.8 2006-01-20 11:26:50 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,12 +10,12 @@
 # --
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr>
-  <td colspan="2" class="mainhead">
-    $Env{"Box0"}$Text{"SysConfig"}$Env{"Box1"}
-  </td>
-</tr>
-<tr>
+  <tr>
+    <td colspan="2" class="mainhead">
+      $Env{"Box0"}$Text{"SysConfig"}$Env{"Box1"}
+    </td>
+  </tr>
+  <tr>
   <td width="30%" class="mainbody">
   <form action="$Env{"CGIHandle"}" method="get">
   <input type="hidden" name="Action" value="$Env{"Action"}">
