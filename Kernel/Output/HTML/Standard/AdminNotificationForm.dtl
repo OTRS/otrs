@@ -1,8 +1,8 @@
 # --
 # AdminNotificationForm.dtl - provides HTML form for AdminNotification
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminNotificationForm.dtl,v 1.11 2005-11-12 13:38:40 martin Exp $
+# $Id: AdminNotificationForm.dtl,v 1.12 2006-01-20 11:41:53 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,126 +10,122 @@
 # --
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr>
-  <td colspan="2" class="mainhead">
-    $Env{"Box0"}$Text{"Notification Management"}$Env{"Box1"}
-  </td>
-</tr>
-<tr>
-  <td width="30%" class="mainbody">
-
-  <form action="$Env{"CGIHandle"}" method="post">
-  <input type="hidden" name="Action" value="$Env{"Action"}">
-  <input type="hidden" name="Subaction" value="Change">
-  <table width="100%" cellspacing="0" cellpadding="4">
   <tr>
-    <td class="contenthead">$Text{"Change"}:</td>
-  </tr>
-  <tr>
-    <td class="contentbody">
-    $Data{"NotificationOption"}
+    <td colspan="2" class="mainhead">
+      $Env{"Box0"}$Text{"Notification Management"}$Env{"Box1"}
     </td>
   </tr>
   <tr>
-    <td class="contentfooter">
-    <input class="button" type="submit" value="$Text{"Change"}">
+    <td width="30%" class="mainbody">
+      <form action="$Env{"CGIHandle"}" method="post">
+        <input type="hidden" name="Action" value="$Env{"Action"}">
+        <input type="hidden" name="Subaction" value="Change">
+        <table width="100%" cellspacing="0" cellpadding="4">
+          <tr>
+            <td class="contenthead">$Text{"Change"}:</td>
+          </tr>
+          <tr>
+            <td class="contentbody">
+              $Data{"NotificationOption"}
+            </td>
+          </tr>
+          <tr>
+            <td class="contentfooter">
+              &nbsp;<input class="button" type="submit" value="$Text{"Change"}">
+            </td>
+          </tr>
+        </table>
+      </form>
     </td>
-  </tr>
-  </table>
-  </form>
-
-  </td>
-  <td width="70%" class="mainbody">
+    <td width="70%" class="mainbody">
 
 # --
 # check subaction
 # --
 <dtl if ($Env{"Subaction"} eq "Change") { $Data{"Botton"} = "<input class="button" type="submit" value="$Text{"Update"}">"; }>
 # --
-  <form action="$Env{"CGIHandle"}" method="post">
-  <input type="hidden" name="Action" value="$Env{"Action"}">
-  <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
-  <input type="hidden" name="ID" value="$QData{"ID"}">
-  <input type="hidden" name="Charset" value="$Env{"Charset"}">
-  <input type="hidden" name="Language" value="$QData{"Language"}">
-  <input type="hidden" name="Type" value="$QData{"Type"}">
-  <table width="100%" cellspacing="0" cellpadding="4">
-  <tr>
-    <td class="contenthead">$Text{"Notification"}:</td>
-  </tr>
-  <tr>
-    <td class="contentbody">
-    <table border="0" cellspacing="0" cellpadding="3">
-    <tr>
-      <td class="contentkey">$Text{"Type"}: </td>
-      <td class="contentvalue"> $Data{"Language"}::$QData{"Type"}</td>
-    </tr>
-    <tr>
-      <td class="contentkey">$Text{"Subject"}: </td>
-      <td class="contentvalue"> <input type="text" name="Subject" value="$QData{"Subject"}" size="80" maxlength="120"></td>
-    </tr>
-    <tr>
-      <td class="contentkey">$Text{"Body"}: </td>
-      <td class="contentvalue"> <textarea rows="12" cols="75" name="Body" wrap="$Env{"BrowserWrap"}">$QData{"Body"}</textarea></td>
-    </tr>
-    </table>
-
+      <form action="$Env{"CGIHandle"}" method="post">
+        <input type="hidden" name="Action"    value="$Env{"Action"}">
+        <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
+        <input type="hidden" name="ID"        value="$QData{"ID"}">
+        <input type="hidden" name="Charset"   value="$Env{"Charset"}">
+        <input type="hidden" name="Language"  value="$QData{"Language"}">
+        <input type="hidden" name="Type"      value="$QData{"Type"}">
+        <table width="100%" cellspacing="0" cellpadding="4">
+          <tr>
+            <td class="contenthead">$Text{"Notification"}:</td>
+          </tr>
+          <tr>
+            <td class="contentbody">
+              <table border="0" cellspacing="0" cellpadding="3">
+                <tr>
+                  <td class="contentkey">$Text{"Type"}: </td>
+                  <td class="contentvalue"> $Data{"Language"}::$QData{"Type"}</td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Subject"}: </td>
+                  <td class="contentvalue"> <input type="text" name="Subject" value="$QData{"Subject"}" size="80" maxlength="120"></td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Text"}: </td>
+                  <td class="contentvalue"> <textarea rows="12" cols="75" name="Body" wrap="$Env{"BrowserWrap"}">$QData{"Body"}</textarea></td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td class="contentfooter">
+              &nbsp;$Data{"Botton"}
+            </td>
+          </tr>
+        </table>
+      </form>
     </td>
   </tr>
-  <tr>
-    <td class="contentfooter">
-    $Data{"Botton"}
-    </td>
-  </tr>
-  </table>
-  </form>
-
-  </td>
-</tr>
 </table>
 <!-- end form -->
 
 <!-- start note -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-<tr>
-  <td class="mainhead">
-    $Env{"Box0"}$Text{"Note"}$Env{"Box1"}
-  </td>
-</tr>
-<tr>
-  <td class="mainbody">
-  <p>
-  $Text{"Notifications are sent to an agent or a customer."}
-  </p>
-  <hr>
-  <p>
-  $Text{"Useable options"}:
-    <table>
-     <tr>
-      <td class="contentkey">&lt;OTRS_CONFIG_*&gt;</td>
-      <td class="contentvalue">$Text{"Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)"}</td>
-     </tr>
-     <tr>
-      <td class="contentkey">&lt;OTRS_OWNER_*&gt;</td>
-      <td class="contentvalue">$Text{"Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)"}</td>
-     </tr>
-     <tr>
-      <td class="contentkey">&lt;OTRS_CURRENT_*&gt;</td>
-      <td class="contentvalue">$Text{"Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)"}</td>
-     </tr>
-     <tr>
-      <td class="contentkey">&lt;OTRS_CUSTOMER_DATA_*&gt;</td>
-      <td class="contentvalue">$Text{"Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)"}</td>
-     </tr>
-     <tr>
-      <td class="contentkey">&lt;OTRS_TICKET_*&gt;</td>
-      <td class="contentvalue">$Text{"Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)"}</td>
-     </tr>
-    </table>
-   </p>
-    <p>
-    $Text{"Example"}:
-    <pre>
+  <tr>
+    <td class="mainhead">
+      $Env{"Box0"}$Text{"Note"}$Env{"Box1"}
+    </td>
+  </tr>
+  <tr>
+    <td class="mainbody">
+      <p>
+        $Text{"Notifications are sent to an agent or a customer."}
+      </p>
+      <hr>
+      <p>
+        $Text{"Useable options"}:
+        <table>
+          <tr>
+            <td class="contentkey">&lt;OTRS_CONFIG_*&gt;</td>
+            <td class="contentvalue">$Text{"Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)"}</td>
+          </tr>
+          <tr>
+            <td class="contentkey">&lt;OTRS_OWNER_*&gt;</td>
+            <td class="contentvalue">$Text{"Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)"}</td>
+          </tr>
+          <tr>
+            <td class="contentkey">&lt;OTRS_CURRENT_*&gt;</td>
+            <td class="contentvalue">$Text{"Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)"}</td>
+          </tr>
+          <tr>
+            <td class="contentkey">&lt;OTRS_CUSTOMER_DATA_*&gt;</td>
+            <td class="contentvalue">$Text{"Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)"}</td>
+          </tr>
+          <tr>
+            <td class="contentkey">&lt;OTRS_TICKET_*&gt;</td>
+            <td class="contentvalue">$Text{"Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)"}</td>
+          </tr>
+        </table>
+      </p>
+      <p>
+        $Text{"Example"}:
+        <pre>
 Hi &lt;OTRS_CURRENT_USERFIRSTNAME&gt;,
 
 there is a new ticket in "&lt;OTRS_QUEUE&gt;"!
@@ -142,10 +138,9 @@ there is a new ticket in "&lt;OTRS_QUEUE&gt;"!
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom&TicketID=&lt;OTRS_TICKET_ID&gt;
 
 Your OTRS Notification Master
-    </pre>
-    </p>
-
-  </td>
-</tr>
+        </pre>
+      </p>
+    </td>
+  </tr>
 </table>
 <!-- end note -->
