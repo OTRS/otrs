@@ -148,7 +148,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.76 2006-01-23 08:58:39 tr Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.77 2006-01-23 17:01:39 tr Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifyer for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z.B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -2190,8 +2190,8 @@ $Data{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::ArticleViewModule###1-SMIME" Required="1" Valid="1">
-        <Description Lang="en">Agent interface article notification module to check smime.</Description>
-        <Description Lang="de">Ein Agent-Interface-Artikel-Notiz-Modul um den S/MIME-Schlüssel zu checken.</Description>
+        <Description Lang="en">A agent interface module to check incoming emails in the Ticket-Zoom-View if the S/MIME-key is available and true.</Description>
+        <Description Lang="de">Ein Agent-Interface-Modul um bei eingehenden Emails im der Ticketansicht den S/MIME-Schlüssel zu checken.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ArticleViewModule</SubGroup>
         <Setting>
