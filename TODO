@@ -2,7 +2,7 @@
 # TODO - todo list OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TODO,v 1.84 2006-01-23 15:08:16 tr Exp $
+# $Id: TODO,v 1.85 2006-01-23 17:22:40 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -55,6 +55,8 @@
   Solution 2: Checkfunction in SysConfig, witch check if the current
               value is also configured in the Config.pm
 - delete in CVS the directory var/sesstions
+- rework AdminGenericAgent.pm, theres useless Code e.g. StartHit and OrderBy
+- AdminGenericAgent.pm: implement a unique ID für each generic agentjob.
 
 2.2
 - move ticket and article free text fields to "reference tables".
