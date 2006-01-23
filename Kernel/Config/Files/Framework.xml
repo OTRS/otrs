@@ -112,7 +112,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.80 2005-10-31 14:07:29 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.80.2.1 2006-01-23 17:00:17 tr Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -127,7 +127,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="ProductName" Required="1" Valid="1">
         <Description Lang="en">The name of the application that is shown in the frontend.</Description>
-        <Description Lang="de">Im WebFrontend angezeigter Softwarename.</Description>
+        <Description Lang="de">Im WebFrontend angezeigter Name der Software.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -174,8 +174,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="AdminEmail" Required="1" Valid="1">
-        <Description Lang="en">Mailaddress of the system administrator.</Description>
-        <Description Lang="de">Mailadresse des Systemadministrators.</Description>
+        <Description Lang="en">Emailaddress of the system administrator.</Description>
+        <Description Lang="de">Emailadresse des Systemadministrators.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -256,8 +256,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DefaultTheme::HostBased" Required="0" Valid="0">
-        <Description Lang="en">Used default frontend HTML theme based on used web server host name (regexp possible in key).</Description>
-        <Description Lang="de">Benutzer HTML Weboberfläche basierend am Webserver Hostnamen (regexp ist im Schlüssel möglich).</Description>
+      <Description Lang="en">Individual themes for Customer and Agents are possible in OTRS. These can be activated by a seperate domain. The field "Key" contains the domain or a regexp to match a domin. In field "Content" the Theme will be insert. </Description>
+      <Description Lang="de">OTRS bietet die Möglichkeit individuelle Themes für Kunden und Agents festzulegen. Diese können unter anderem durch den Aufruf einer extra dafür geschaffenen Domain angezeigt werden. Dabei enthält das Feld "Schlüssel" eine Domain oder eine RegExp die eine Domain matched. Das zugehörige Theme wird im Feld "Inhalt" angegeben.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -278,7 +278,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="DefaultPreViewLines" Required="1" Valid="1">
         <Description Lang="en">Count of lines that are displayed in the preview for messages (e.g. for tickets in the QueueView).</Description>
-        <Description Lang="de">Anzhal der Zeilen bei der Vorschau von Textnachrichten (z.B. bei Tickets in der Queue-Ansicht).</Description>
+        <Description Lang="de">Anzahl der Zeilen bei der Vorschau von Textnachrichten (z.B. bei Tickets in der Queue-Ansicht).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
@@ -296,7 +296,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="TimeInputFormat" Required="1" Valid="1">
         <Description Lang="en">Used date input format in forms (option or input fields).</Description>
-        <Description Lang="de">Benutztes Datumseingabeformat in Formularen (Auswahl- ode Eingabefelder).</Description>
+        <Description Lang="de">Benutztes Datumseingabeformat in Formularen (Auswahl- oder Eingabefelder).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time</SubGroup>
         <Setting>
@@ -356,7 +356,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="CheckEmailAddresses" Required="1" Valid="1">
         <Description Lang="en">Check the syntax of email addresses?</Description>
-        <Description Lang="de">Sollen Mailadressen auf ihre korrekte Syntax überprüft werden?</Description>
+        <Description Lang="de">Sollen Emailadressen auf ihre korrekte Syntax überprüft werden?</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -368,7 +368,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="CheckEmailValidAddress" Required="1" Valid="1">
         <Description Lang="en">Regex for email addresses, that aren't syntacticaly valid but necesary for the system, e.g. "root@localhost".</Description>
-        <Description Lang="de">Regulärer Ausdruck für syntaktisch nicht korrekte Mailadressen, die aber trotzdem im System verwendet werden sollen, z.B. "root@localhost".</Description>
+        <Description Lang="de">Regulärer Ausdruck für syntaktisch nicht korrekte Emailadressen, die aber trotzdem im System verwendet werden sollen, z.B. "root@localhost".</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -377,7 +377,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="CheckEmailInvalidAddress" Required="1" Valid="1">
         <Description Lang="en">Regex of not allowed email addresses.</Description>
-        <Description Lang="de">Regulärer Ausdruck für nicht zulässige Mailadressen.</Description>
+        <Description Lang="de">Regulärer Ausdruck für nicht zulässige Emailadressen.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -512,7 +512,7 @@ TimeWorkingHours
         <Description Lang="en">If set, this address is used as envelope
         from header in outgoing notifications. If no address is specifyed,         the envelope from header is empty.</Description>
         <Description Lang="de">Die hier angegebene Adresse wird für
-        ausgehende Benachrichtigungen als envelope from Header genutzt. Wird keine Adresse angegeben, bleibt der envelope from Header leer</Description>
+        ausgehende Benachrichtigungen als envelope from Header genutzt. Wird keine Adresse angegeben, bleibt der envelope from Header leer.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
         <Setting>
@@ -530,7 +530,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="LogoutURL" Required="0" Valid="0">
         <Description Lang="en">Alternate URL, where the logout link refers to.</Description>
-        <Description Lang="de">Alternative URL, auf die der Linkk für die Abmeldung vom System verweist.</Description>
+        <Description Lang="de">Alternative URL, auf die der Link für die Abmeldung vom System verweist.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -563,7 +563,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="PreApplicationModule" Required="0" Valid="0">
         <Description Lang="en">This module is usefull to load some specific user options or to redirect not accept new application news. For example: Kernel::Modules::AgentWorkingRoleSelection or Kernel::Modules::AgentInfo</Description>
-        <Description Lang="de">Mit Hilfe dieses Moduls können bestimmt Benutzeroptionen geladen oder Neuigkeiten angezeigt werden. Z. B. Kernel::Modules::AgentWorkingRoleSelection oder Kernel::Modules::AgentInfo</Description>
+        <Description Lang="de">Mit Hilfe dieses Moduls können bestimmte Benutzeroptionen geladen oder Neuigkeiten angezeigt werden (z.B. Kernel::Modules::AgentWorkingRoleSelection oder Kernel::Modules::AgentInfo).</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -642,8 +642,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SessionName" Required="1" Valid="1">
-        <Description Lang="en">Name of the session key. E.g. Session, SessionID, OTRS.</Description>
-        <Description Lang="de">Name der Session-Kennung. Z.B. Session, SessionID, OTRS.</Description>
+        <Description Lang="en">Name of the session key. E.g. Session, SessionID or OTRS.</Description>
+        <Description Lang="de">Name der Session-Kennung. Z.B. Session, SessionID oder OTRS.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Session</SubGroup>
         <Setting>
@@ -706,7 +706,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="SessionUseCookie" Required="1" Valid="1">
         <Description Lang="en">Should the session management use html cookies? If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.</Description>
-        <Description Lang="de">Sessionmanagement mit Cookies? Wenn Cookies deaktiviert sind oder werden vom verwendeten Browser keine Cookies unterstützt, wird die SessionID automatisch an Links angehängt.</Description>
+        <Description Lang="de">Sessionmanagement mit Cookies? Wenn Cookies deaktiviert sind oder werden vom verwendeten Browser keine Cookies unterstützt, wird die SessionID automatisch an per Link übermittelt.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Session</SubGroup>
         <Setting>
@@ -1212,7 +1212,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="NotificationSenderName" Required="1" Valid="1">
         <Description Lang="en">Sender name for system notification messages.</Description>
-        <Description Lang="de">Absendername für Benachrichtigungsmails verwendet.</Description>
+        <Description Lang="de">Absendername für Benachrichtigungsemails verwendet.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -1220,8 +1220,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="NotificationSenderEmail" Required="1" Valid="1">
-        <Description Lang="en">Mail address of sender for notification messages.</Description>
-        <Description Lang="de">Mailadresse die beim Versenden von Benachrichtigungsmails verwendet wird.</Description>
+        <Description Lang="en">Email address of sender for notification messages.</Description>
+        <Description Lang="de">Emailadresse die beim Versenden von Benachrichtigungsemails verwendet wird.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -1270,7 +1270,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="System::Customer::Permission" Required="1" Valid="1">
         <Description Lang="en">The different system permissions for customers.</Description>
-        <Description Lang="de">Die verschiedenen Zugrifssrechte für die Kunden.</Description>
+        <Description Lang="de">Die verschiedenen Zugriffsrechte für die Kunden.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -1757,7 +1757,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::LDAP::AccessAttr" Required="0" Valid="0">
         <Description Lang="en">If "LDAP" was selected for Customer::AuthModule, you can specify access attributes here.</Description>
-        <Description Lang="de">Wenn "LDAP" als Customer::AuthModule ausgewählt wurde, können hier Zugriffssattribute angegeben werden.</Description>
+        <Description Lang="de">Wenn "LDAP" als Customer::AuthModule ausgewählt wurde, können hier Zugriffsattribute angegeben werden.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
         <Setting>
@@ -1805,7 +1805,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::LDAP::UserSuffix" Required="0" Valid="0">
         <Description Lang="en">If "LDAP" was selected for Customer::AuthModule an if you want to add a suffix to every customer login name, specifiy it here, e. g. you just want to write the username user but in your ldap directory exists user@domain.</Description>
-        <Description Lang="de">Wenn "LDAP" als Customer::AuthMOdule ausgewählt wurde und automatisch ein Suffix an jeden Benutzernamen gehängt werden soll, dann kann dieses Suffix hier angegeben werden. Z.B. soll nur user als Benutzername eingegeben werden, im LDAP-Tree existiert aber user@domain.com.</Description>
+        <Description Lang="de">Wenn "LDAP" als Customer::AuthModule ausgewählt wurde und automatisch ein Suffix an jeden Benutzernamen gehängt werden soll, dann kann dieses Suffix hier angegeben werden. Z.B. soll nur user als Benutzername eingegeben werden, im LDAP-Tree existiert aber user@domain.com.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
         <Setting>
@@ -1814,7 +1814,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::LDAP::Params" Required="0" Valid="0">
         <Description Lang="en">If "LDAP" was selected for Customer::AuthModule and special paramaters are needed for the Net::LDAP perl module, you can specify them here. See "perldoc Net::LDAP" for more information about the parameters.</Description>
-        <Description Lang="de">Wenn "LDAP" als Customer::AuthModule ausgewählt wurde und spezielle Parameter für das Net::LDAP-perl-Modul angegeben werden sollen, dann kann das hier gemacht werden. Mehr Infos zu den möglichen Parametern bekommt man mit "perdoc Net::LDAP".</Description>
+        <Description Lang="de">Wenn "LDAP" als Customer::AuthModule ausgewählt wurde und spezielle Parameter für das Net::LDAP-perl-Modul angegeben werden sollen, dann kann das hier gemacht werden. Mehr Infos zu den möglichen Parametern bekommt man mit "perldoc Net::LDAP".</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
         <Setting>
