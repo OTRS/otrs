@@ -112,7 +112,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.83 2005-12-20 16:50:21 tr Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.84 2006-01-23 07:26:53 tr Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -256,8 +256,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DefaultTheme::HostBased" Required="0" Valid="0">
-        <Description Lang="en">Used default frontend HTML theme based on used web server host name (regexp possible in key).</Description>
-        <Description Lang="de">Benutzer HTML Weboberfläche basierend am Webserver Hostnamen (regexp ist im Schlüssel möglich).</Description>
+        <Description Lang="en">Individual themes for Customer and Agents are possible in OTRS. These can be activated by a seperate domain. The field "Key" contains the domain or a regexp to match a domin. In field "Content" the Theme will be insert. </Description>
+        <Description Lang="de">OTRS bietet die Möglichkeit individuelle Themes für Kunden und Agents festzulegen. Diese können unter anderem durch den Aufruf einer extra dafür geschaffenen Domain angezeigt werden. Dabei enthält das Feld "Schlüssel" eine Domain oder eine RegExp die eine Domain matched. Das zugehörige Theme wird im Feld "Inhalt" angegeben.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -567,7 +567,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="PreApplicationModule###AgentInfo" Required="0" Valid="0">
         <Description Lang="en">This module is usefull to load some specific user options or to redirect not accept new application news. For example: Kernel::Modules::AgentWorkingRoleSelection or Kernel::Modules::AgentInfo</Description>
-        <Description Lang="de">Mit Hilfe dieses Moduls können bestimmt Benutzeroptionen geladen oder Neuigkeiten angezeigt werden. Z. B. Kernel::Modules::AgentWorkingRoleSelection oder Kernel::Modules::AgentInfo</Description>
+        <Description Lang="de">Mit Hilfe dieses Moduls können bestimmte Benutzeroptionen geladen oder Neuigkeiten angezeigt werden (z.B. Kernel::Modules::AgentWorkingRoleSelection oder Kernel::Modules::AgentInfo).</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -710,7 +710,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="SessionUseCookie" Required="1" Valid="1">
         <Description Lang="en">Should the session management use html cookies? If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.</Description>
-        <Description Lang="de">Sessionmanagement mit Cookies? Wenn Cookies deaktiviert sind oder werden vom verwendeten Browser keine Cookies unterstützt, wird die SessionID automatisch an Links angehängt.</Description>
+        <Description Lang="de">Sessionmanagement mit Cookies? Wenn Cookies deaktiviert sind oder werden vom verwendeten Browser keine Cookies unterstützt, wird die SessionID automatisch an per Link übermittelt.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Session</SubGroup>
         <Setting>
