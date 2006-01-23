@@ -1,8 +1,8 @@
 # --
 # Changes of OTRS
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.226 2005-12-30 12:29:47 martin Exp $
+# $Id: CHANGES,v 1.227 2006-01-23 20:40:30 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,9 @@ CVS head
     define it like:
     $Self->{PreApplicationModule}->{AgentInfo} = 'Kernel::Modules::AgentInfo';
 
-2.0.5 (2005/??/??)
+2.0.5 (2006/??/??)
+ - (2006/01/23) fixed bug #1069 - Problem when the name of a GenericAgent
+    job was updated
  - (2005/12/29) fixed ArticleAttachmentIndex() - wrong index count in
     fs lookup - attachment icons sometimes not shown
  - (2005/12/29) added added missing class="button" in submit type="submit"

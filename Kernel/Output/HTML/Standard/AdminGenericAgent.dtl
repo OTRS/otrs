@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminGenericAgent.dtl,v 1.18 2006-01-07 19:58:02 martin Exp $
+# $Id: AdminGenericAgent.dtl,v 1.19 2006-01-23 20:40:30 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -108,6 +108,7 @@
 <input type="hidden" name="Action" value="$Env{"Action"}">
 <input type="hidden" name="Subaction" value="Search">
 <input type="hidden" name="ScheduleLastRun" value="$QData{"ScheduleLastRun"}">
+<input type="hidden" name="OldProfile" value="$QData{"Profile"}">
 
 <table width="800" border="0" cellspacing="0" cellpadding="4">
 
