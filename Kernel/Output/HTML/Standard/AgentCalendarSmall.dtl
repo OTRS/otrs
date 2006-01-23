@@ -1,12 +1,11 @@
 # --
 # AgentCalendarSmall.dtl - provides HTML form for AgentSpelling
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 #
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-<!-- start Spelling form -->
 <script language="JavaScript" type="text/javascript">
 <!--
 <!-- dtl:block:DateFormatOption -->
@@ -42,7 +41,7 @@ function SelectDay(tt, mm, yyyy) {
 //-->
 </script>
 
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
 <tr>
   <th class="mainhead"><a href="$Env{"CGIHandle"}?Action=$Env{"Action"}&Month=$Data{"Back"}&Prefix=$Data{"Prefix"}" class="headeritem">&#060;&#060;</a></th>
   <th class="mainhead">$Text{"$QData{"Month"}"} $QData{"Year"}</th>
@@ -74,4 +73,3 @@ function SelectDay(tt, mm, yyyy) {
   </td>
 </tr>
 </table>
-<!-- end Spelling form -->
