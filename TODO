@@ -2,7 +2,7 @@
 # TODO - todo list OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TODO,v 1.83 2006-01-19 08:52:20 tr Exp $
+# $Id: TODO,v 1.84 2006-01-23 15:08:16 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -50,6 +50,11 @@
 - insert in each form requierd field stars, because of the patency to the other modules
 - GenericAgent: insert a delete.dtl if job should be removed (tr)
 - rename SMIME to S/MIME
+- dublicate configuration in Config.pm (Webinstaller) and SysConfig
+  Solution 1: insert the settings from the Webinstaller in ZZZAAuto
+  Solution 2: Checkfunction in SysConfig, witch check if the current
+              value is also configured in the Config.pm
+- delete in CVS the directory var/sesstions
 
 2.2
 - move ticket and article free text fields to "reference tables".
