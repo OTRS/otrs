@@ -148,7 +148,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.75 2006-01-11 11:46:31 cs Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.76 2006-01-23 08:58:39 tr Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifyer for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z.B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -178,7 +178,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="Ticket::SubjectRe" Required="1" Valid="1">
         <Description Lang="en">The text at the beginning of the subject in a email reply, e.g. RE, AW or AS.</Description>
-        <Description Lang="de">Präfix im Betreff bei einer E-Mail-Antwort, z.B. RE, AW oder AS.</Description>
+        <Description Lang="de">Präfix im Betreff bei einer Email-Antwort, z.B. RE, AW oder AS.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -207,7 +207,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="Ticket::ForceUnlockAfterMove" Required="1" Valid="1">
         <Description Lang="en">Would you like to force tickets to be unlocked after move action?</Description>
-        <Description Lang="de">Möchten Sie dass die Sperrung eines Tickets automatisch aufgehoben wird, nachdem es in eine andere Queue verschoben worden ist?</Description>
+        <Description Lang="de">Möchten Sie, dass die Sperrung eines Tickets automatisch aufgehoben wird, nachdem es in eine andere Queue verschoben worden ist?</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -219,7 +219,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="Ticket::ChangeOwnerToEveryone" Required="1" Valid="1">
         <Description Lang="en">Would you like to make it possible to change owner of foreign tickets (useful for ASP).</Description>
-        <Description Lang="de">Soll es möglich sein, den Besitzer eines fremden Tickets zuändern (Kann für ASP nützlich sein)?</Description>
+        <Description Lang="de">Soll es möglich sein, den Besitzer eines fremden Tickets zu ändern (kann für ASP nützlich sein)?</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -665,7 +665,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="HighlightAge1" Required="1" Valid="1">
-        <Description Lang="en">Set the age (first level) for highlighting of old queue (Age in min).</Description>
+        <Description Lang="en">Set the age (first level) for highlighting of old queue (Age in minutes).</Description>
         <Description Lang="de">Zeit ab dem eine Queue mit nicht bearbeiteten Inhalten in erster Stufe gehighlighted wird (Angabe in Minuten).</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
@@ -683,7 +683,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="HighlightAge2" Required="1" Valid="1">
-        <Description Lang="en">Set the age (second level) for highlighting of old queue (Age in min).</Description>
+        <Description Lang="en">Set the age (second level) for highlighting of old queue (Age in minutes).</Description>
         <Description Lang="de">Zeit ab dem eine Queue mit nicht bearbeiteten Inhalten in zweiter Stufe gehighlighted wird (Angabe in Minuten).</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
@@ -702,7 +702,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PendingDiffTime" Required="1" Valid="1">
         <Description Lang="en">The additional time in sec. which "pending date" shows per default (default: 86400 = 1 day).</Description>
-        <Description Lang="de">Die zuzügliche Zeit welchen per default in "Pending"-Zeit-Auswahlen addiert wird (Angabe in sec; Default: 86400 = 1 Tag).</Description>
+        <Description Lang="de">Die zuzügliche Zeit welche per default in "Pending"-Zeit-Auswählen addiert wird (Angabe in Sekunden; 86400 Sekunden = 1 Tag).</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -773,7 +773,7 @@ TimeWorkingHours
     <ConfigItem Name="Ticket::ZoomTimeDisplay" Required="0" Valid="0">
         <Description Lang="en">Displays the time that is accounted for an article in the ticket zoom view.</Description>
         <Description Lang="de">Zeigt die Zeit innerhalb der Ansicht für den
-        Ticketinhalt an, die für einen Artikel erfasst wurde.</Description>
+        Ticketinhalt an, die für einen Artikel erfasst wurde (Die Zeitangabe bezieht sich immer auf einen Artikel).</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewZoom</SubGroup>
         <Setting>
@@ -1035,7 +1035,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MoveType" Required="1" Valid="1">
         <Description Lang="en">The queue selection can be shown as dropdown box or in a new opened window.</Description>
-        <Description Lang="de">Die Queue-Auswahl beim Verschieben eines Tickets kann als Dropdown Box oder in einem neuen Fensters angezeigt werden.</Description>
+        <Description Lang="de">Die Queue-Auswahl beim Verschieben eines Tickets kann als Dropdown-Box oder in einem neuen Fensters angezeigt werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewMove</SubGroup>
         <Setting>
@@ -1417,7 +1417,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PhoneNewShownCustomerTickets" Required="0" Valid="1">
         <Description Lang="en">Max. shown customer history tickets in phone-ticket mask.</Description>
-        <Description Lang="de">Max. gezeigte Kunden-Historie-Tickets in Telefon-Ticket.</Description>
+        <Description Lang="de">Max. gezeigte Kunden-Historie-Tickets in Telefon-Ticket (diese werden unterhalb der Telefon-Ticket-Maske angezeigt).</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
         <Setting>
@@ -1706,7 +1706,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PendingSubject" Required="1" Valid="1">
         <Description Lang="en">Default text in the subject of pending tickets.</Description>
-        <Description Lang="de">Standardtext im Betreff für anstehende (pendig) Tickets.</Description>
+        <Description Lang="de">Standardtext im Betreff für anstehende (pending) Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
         <Setting>
@@ -2268,7 +2268,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###000-Back" Required="0" Valid="1">
         <Description Lang="en">Module to show back link in menu.</Description>
-        <Description Lang="de">Über dieses Modul werden die Zurück-Links in der Linkleiste angezeigt.</Description>
+        <Description Lang="de">Über dieses Modul wird der Zurück-Link in der Linkleiste der Ticketansicht angezeigt.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
@@ -2283,7 +2283,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###100-Lock" Required="0" Valid="1">
         <Description Lang="en">Module to show lock/unlock link in menu.</Description>
-        <Description Lang="de">Über dieses Modul werden die Sperren- bzw. Freigeben-Links in der Linkleiste angezeigt.</Description>
+        <Description Lang="de">Über dieses Modul wird der Sperren- bzw. Freigeben-Link in der Linkleiste der Ticketansicht angezeigt.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
@@ -2296,7 +2296,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###200-History" Required="0" Valid="1">
         <Description Lang="en">Module to show history link in menu.</Description>
-        <Description Lang="de">Über dieses Modul werden die Historie-Links in der Linkleiste angezeigt.</Description>
+        <Description Lang="de">Über dieses Modul wird der Historie-Link in der Linkleiste der Ticketansicht angezeigt.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
@@ -2311,7 +2311,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###210-Print" Required="0" Valid="1">
         <Description Lang="en">Module to show print link in menu.</Description>
-        <Description Lang="de">Über dieses Modul werden die Drucken-Links in der Linkleiste angezeigt.</Description>
+        <Description Lang="de">Über dieses Modul wird der Drucken-Link in der Linkleiste der Ticketansicht angezeigt.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
@@ -2327,7 +2327,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###300-Priority" Required="0" Valid="1">
         <Description Lang="en">Module to show priority link in menu.</Description>
-        <Description Lang="de">Über dieses Modul werden die Priorität-Links in der Linkleiste angezeigt.</Description>
+        <Description Lang="de">Über dieses Modul wird der Priorität-Link in der Linkleiste der Ticketansicht angezeigt.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
@@ -2342,7 +2342,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###310-FreeText" Required="0" Valid="1">
         <Description Lang="en">Module to show free text link in menu.</Description>
-        <Description Lang="de">Frei definierten Textlink im Menü anzeigen.</Description>
+        <Description Lang="de">Link für "Freifelder" im Menü der Ticketansicht anzeigen.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
@@ -2357,7 +2357,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###320-Link" Required="0" Valid="1">
         <Description Lang="en">Module to show link to link a ticket with another object.</Description>
-        <Description Lang="de">Über dieses Modul wird ein Link im Menü angezeigt, mit dem ein Ticket mit einem anderen Objekt verknüpft werden kann.</Description>"
+        <Description Lang="de">Über dieses Modul wird ein Link im Menü der Ticketansicht angezeigt, mit dem ein Ticket mit einem anderen Objekt verknüpft werden kann.</Description>"
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
@@ -2372,7 +2372,7 @@ $Data{"Signature"}
      </ConfigItem>
      <ConfigItem Name="Ticket::Frontend::MenuModule###400-Owner" Required="0" Valid="1">
         <Description Lang="en">Module to show owner link in menu.</Description>
-        <Description Lang="de">Dieses Modul zeigt einen Link zum Besitzer eines Tickets im Menü an.</Description>
+        <Description Lang="de">Link zu den Besitzereinstellungen eines Tickets im Menü der Ticketansicht.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
@@ -2387,7 +2387,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###410-Customer" Required="0" Valid="1">
         <Description Lang="en">Module to show customer link in menu.</Description>
-        <Description Lang="de">Modul zur Anzeige des Customer-Links im Menü.</Description>
+        <Description Lang="de">Modul zur Anzeige des Customer-Links im Menü der Ticketansicht.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
@@ -2402,7 +2402,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###420-Note" Required="0" Valid="1">
         <Description Lang="en">Module to show link to note in menu.</Description>
-        <Description Lang="de">Modul zur Anzeige des Notiz-Links innerhalb des Menüs.</Description>
+        <Description Lang="de">Modul zur Anzeige des Notiz-Links innerhalb des Menüs der Ticketansicht.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
@@ -2417,7 +2417,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###430-Merge" Required="0" Valid="1">
         <Description Lang="en">Module to show merge link in menu.</Description>
-        <Description Lang="de">Über dieses Modul kann der Link für "Merge" im Menü angezeigt werden.</Description>
+        <Description Lang="de">Über dieses Modul kann der Link für "Merge" im Menü der Ticketansicht angezeigt werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
@@ -2432,7 +2432,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###440-Pending" Required="0" Valid="1">
         <Description Lang="en">Module to show pending link in menu.</Description>
-        <Description Lang="de">Über dieses Modul kann der Link für "Warten" (pending) im Menü angezeigt werden.</Description>
+        <Description Lang="de">Über dieses Modul kann der Link für "Warten" (pending) im Menü der Ticketansicht angezeigt werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
@@ -2447,7 +2447,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###450-Close" Required="0" Valid="1">
         <Description Lang="en">Module to show close link in menu.</Description>
-        <Description Lang="de">Über dieses Modul wird der Link zum schließen eines Tickets im Menü angezeigt.</Description>
+        <Description Lang="de">Über dieses Modul wird der Link zum schließen eines Tickets im Menü der Ticketansicht angezeigt.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
@@ -2492,7 +2492,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PreMenuModule###100-Lock" Required="0" Valid="1">
         <Description Lang="en">Show lock / unlock link.</Description>
-        <Description Lang="de">Link für gesperrt / nicht gesperrt anzeigen.</Description>
+        <Description Lang="de">Link für gesperrt / nicht gesperrt in der Ticketvorschau anzeigen.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModulePre</SubGroup>
         <Setting>
@@ -2505,7 +2505,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PreMenuModule###200-Zoom" Required="0" Valid="1">
         <Description Lang="en">Show zoom link.</Description>
-        <Description Lang="de">Link zum Zoomen anzeigen.</Description>
+        <Description Lang="de">Link zum Zoomen in der Ticketvorschau anzeigen.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModulePre</SubGroup>
         <Setting>
@@ -2520,7 +2520,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PreMenuModule###210-History" Required="0" Valid="1">
         <Description Lang="en">Show history link.</Description>
-        <Description Lang="de">History Link anzeigen.</Description>
+        <Description Lang="de">History Link in der Ticketvorschau anzeigen.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModulePre</SubGroup>
         <Setting>
@@ -2535,7 +2535,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PreMenuModule###300-Priority" Required="0" Valid="1">
         <Description Lang="en">Show priority link.</Description>
-        <Description Lang="de">Link für die Priorität anzeigen.</Description>
+        <Description Lang="de">Link für die Priorität in der Ticketvorschau anzeigen.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModulePre</SubGroup>
         <Setting>
@@ -2550,7 +2550,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PreMenuModule###420-Note" Required="0" Valid="1">
         <Description Lang="en">Show note link.</Description>
-        <Description Lang="de">Link für eine Notiz anzeigen.</Description>
+        <Description Lang="de">Link für eine Notiz in der Ticketvorschau anzeigen.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModulePre</SubGroup>
         <Setting>
@@ -2565,7 +2565,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PreMenuModule###440-Close" Required="0" Valid="1">
         <Description Lang="en">Show close link.</Description>
-        <Description Lang="de">Link zum Schließen anzeigen.</Description>
+        <Description Lang="de">Link zum Schließen in der Ticketvorschau anzeigen.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModulePre</SubGroup>
         <Setting>
@@ -2580,7 +2580,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PreMenuModule###450-Delete" Required="0" Valid="0">
         <Description Lang="en">Show delete link.</Description>
-        <Description Lang="de">Link zum Löschen anzeigen.</Description>
+        <Description Lang="de">Link zum Löschen in der Ticketvorschau anzeigen.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModulePre</SubGroup>
         <Setting>
@@ -2595,7 +2595,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PreMenuModule###460-Spam" Required="0" Valid="0">
         <Description Lang="en">Show spam link.</Description>
-        <Description Lang="de">Link zum Spam verarbeiten.</Description>
+        <Description Lang="de">Link zum Spam verarbeiten in der Ticketvorschau anzeigen.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModulePre</SubGroup>
         <Setting>
@@ -3079,8 +3079,8 @@ $Data{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerPanelOwnSelection" Required="0" Valid="0">
-        <Description Lang="en">CustomerPanelOwnSelection. If this is in use, just this selection is valid" for the CustomMessage.</Description>
-        <Description Lang="de">CustomerPanelOwnSelection. Wird hier etwas eingetragen, ist nur dieser Eintrag für die CustomMessage gültig.</Description>
+      <Description Lang="en">Here you can insert the Queues, witch the Customer can select in the Customer-Interface.</Description>
+        <Description Lang="de">Hier können die Queues eingegeben werden, aus dennen ein Kunde im Kunden-Panel auswählen kann.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
