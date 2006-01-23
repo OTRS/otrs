@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminGenericAgent.pm,v 1.20 2005-11-11 11:02:57 martin Exp $
+# $Id: AdminGenericAgent.pm,v 1.20.2.1 2006-01-23 17:11:12 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Lock;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.20.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -59,6 +59,7 @@ sub Run {
     $Self->{SortBy} = $Self->{ParamObject}->GetParam(Param => 'SortBy') || 'Age';
     $Self->{Order} = $Self->{ParamObject}->GetParam(Param => 'Order') || 'Down';
     $Self->{Profile} = $Self->{ParamObject}->GetParam(Param => 'Profile') || '';
+    $Self->{OldProfile} = $Self->{ParamObject}->GetParam(Param => 'OldProfile') || '';
     $Self->{SaveProfile} = 1;
     $Self->{TakeLastSearch} = $Self->{ParamObject}->GetParam(Param => 'TakeLastSearch') || '';
     $Self->{SelectTemplate} = $Self->{ParamObject}->GetParam(Param => 'SelectTemplate') || '';
@@ -172,7 +173,7 @@ sub Run {
         # remember last search values
         if ($Self->{SaveProfile} && $Self->{Profile}) {
             # remove/clean up old profile stuff
-            $Self->{GenericAgentObject}->JobDelete(Name => $Self->{Profile});
+            $Self->{GenericAgentObject}->JobDelete(Name => $Self->{OldProfile});
             # insert new profile params
             $Self->{GenericAgentObject}->JobAdd(Name => $Self->{Profile}, Data => \%GetParam);
         }
