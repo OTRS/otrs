@@ -148,7 +148,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.77 2006-01-23 17:01:39 tr Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.78 2006-01-24 12:22:36 cs Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifyer for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z.B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -4293,6 +4293,7 @@ $Data{"Signature"}
                 <Item>X-Loop</Item>
                 <Item>X-Spam-Flag</Item>
                 <Item>X-Spam-Status</Item>
+                <Item>X-Spam-Level</Item>
                 <Item>X-No-Loop</Item>
                 <Item>X-Priority</Item>
                 <Item>Importance</Item>

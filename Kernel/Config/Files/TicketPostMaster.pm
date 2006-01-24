@@ -79,6 +79,7 @@
       'X-Loop',
       'X-Spam-Flag',
       'X-Spam-Status',
+      'X-Spam-Level',
       'X-No-Loop',
       'X-Priority',
       'Importance',
@@ -188,3 +189,4 @@
     # auto response will be sent)
     $Self->{SendNoAutoResponseRegExp} = '(MAILER-DAEMON|postmaster|abuse)@.+?\..+?';
 
+1;
