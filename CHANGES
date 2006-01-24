@@ -1,14 +1,16 @@
 # --
-# Changes of OTRS
+# CHANGES - change log  of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.209.2.22 2006-01-23 17:11:13 cs Exp $
+# $Id: CHANGES,v 1.209.2.23 2006-01-24 12:15:46 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.0.5 (2006/??/??)
+ - (2006/01/24) Added X-Spam-Level to config files to have the possibility
+    to filter for this header with PostMasterFilter
  - (2006/01/23) fixed bug #1069 - Problem when the name of a GenericAgent
    job was updated
  -  (2006/01/08) fixed PostMaster filter admin interface if wrong syntax
