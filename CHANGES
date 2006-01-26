@@ -2,13 +2,18 @@
 # CHANGES - change log  of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.209.2.24 2006-01-24 12:19:04 cs Exp $
+# $Id: CHANGES,v 1.209.2.25 2006-01-26 15:57:55 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.0.5 (2006/??/??)
+ - (2006/01/26) changed wrong config option
+    "Ticket::Frontend::QueueSortBy::Default" to
+    "Ticket::Frontend::QueueSortByDefault in Kernel/Config/Files/Ticket.xml
+ - (2006/01/26) fixed some spelling mistakes in
+    Kernel/Config/Files/Ticket.xml and Kernel/Config/Files/Framework.xml
  - (2006/01/24) Added X-Spam-Level to config files to have the possibility
     to filter for this header with PostMasterFilter
  - (2006/01/23) fixed bug #1069 - Problem when the name of a GenericAgent
