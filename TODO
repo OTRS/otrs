@@ -2,7 +2,7 @@
 # TODO - todo list OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TODO,v 1.85 2006-01-23 17:22:40 tr Exp $
+# $Id: TODO,v 1.86 2006-01-26 14:32:49 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -115,3 +115,4 @@ ideas (just ideas - nobody is working on it)
 - include a ticket monitoring function
 - maybe could format tags in the ConfigXML be useful, simular like EISPP-DAF
 - sopm: Maybe wie need tags like FileUninstall or FileDontUpdate
+- ConfigOption for use other separators for e.g. comma, semicolon, colon and tabulator in the function OutputCSV
