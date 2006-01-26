@@ -148,7 +148,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.70.2.4 2006-01-24 12:15:46 cs Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.70.2.5 2006-01-26 11:50:16 cs Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifyer for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z.B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -877,7 +877,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::NoEscalationGroup" Required="1" Valid="1">
-        <Description Lang="en">Don't show escalated tickets to agents, who have write permissions for their specifyed group.</Description>
+        <Description Lang="en">Don't show escalated tickets to agents, who have write permissions for their specified group.</Description>
         <Description Lang="de">Zeige keinem Agenten mit Schreibrechten aus der angegebenen Gruppe eskalierte Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
@@ -2608,7 +2608,7 @@ $Data{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Permission###2-GroupCheck" Required="1" Valid="1">
-        <Description Lang="en">Module to check, if a user is in a special group. Access is granted, if the user is in the specifyed group and has ro and rw permissions.</Description>
+        <Description Lang="en">Module to check, if a user is in a special group. Access is granted, if the user is in the specified group and has ro and rw permissions.</Description>
         <Description Lang="de">Modul zur Überprüfung, ob ein Benutzer in einer bestimmten Gruppe ist. Hat der Benutzer ro- und rw-Zugriffsrechte, wird der Zugriff erlaubt.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
@@ -4129,7 +4129,7 @@ $Data{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PostMasterPOP3ReconnectMessage" Required="1" Valid="1">
-        <Description Lang="en">"bin/PostMasterPOP3.pl" will reconnect to pop3 host after the specifiyed count of messages.</Description>
+        <Description Lang="en">"bin/PostMasterPOP3.pl" will reconnect to pop3 host after the specified count of messages.</Description>
         <Description Lang="de">"bin/PostMasterPOP3.pl" baut eine neue Verbindung zum pop3-Server nach der hier angegebenen Anzahl an Nachrichten auf.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
@@ -4147,7 +4147,7 @@ $Data{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="LoopProtectionLog" Required="1" Valid="1">
-        <Description Lang="en">If "FS" was selected for LoopProtectionModule, a logfile has to be specifyed.</Description>
+        <Description Lang="en">If "FS" was selected for LoopProtectionModule, a logfile has to be specified.</Description>
         <Description Lang="de">Wenn "FS" für LoopProtectionModule ausgewählt wurde, muss ein Logfile angegeben werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>

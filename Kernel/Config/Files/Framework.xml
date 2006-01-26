@@ -112,7 +112,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.80.2.1 2006-01-23 17:00:17 tr Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.80.2.2 2006-01-26 11:50:15 cs Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -165,7 +165,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="ScriptAlias" Required="1" Valid="1">
-        <Description Lang="en">Prefix to index.pl, like it is specifyed in your webserver configuration.</Description>
+        <Description Lang="en">Prefix to index.pl, like it is specified in your webserver configuration.</Description>
         <Description Lang="de">ScriptAlias zur Datei index.pl, wie in der Webserver-Konfiguration festgelegt.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -183,7 +183,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Organization" Required="1" Valid="1">
-        <Description Lang="en">If an organization or company name is specifyed, every outgoing message will contain a X-header entry with this string.</Description>
+        <Description Lang="en">If an organization or company name is specified, every outgoing message will contain a X-header entry with this string.</Description>
         <Description Lang="de">Firma bzw. Name der Organisation. Jede ausgehende Nachricht wird mit einem X-Header-Eintrag für die Organisation und dem angegebenen Namen als Wert versehen.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -446,7 +446,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SendmailModule" Required="1" Valid="1">
-        <Description Lang="en">Module to send E-Mails. "Sendmail" directly uses the sendmail binary of your operating system. "SMTP" uses a specifyed mailserver.</Description>
+        <Description Lang="en">Module to send E-Mails. "Sendmail" directly uses the sendmail binary of your operating system. "SMTP" uses a specified mailserver.</Description>
         <Description Lang="de">Modul zum Versenden von Mails. "Sendmail" verwendet das sendmail-Binary Ihres Betriebssystems. "SMTP" versendet die Nachrichten über den dafür vorgesehenen Mailserver.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
@@ -500,7 +500,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SendmailBcc" Required="0" Valid="1">
-        <Description Lang="en">Send all outgoing email via bcc to the specifyed address. Please use this only for backup reasons!</Description>
+        <Description Lang="en">Send all outgoing email via bcc to the specified address. Please use this only for backup reasons!</Description>
         <Description Lang="de">Alle ausgehenden Nachrichten werden via BCC ('Blind Copy') an die angegebene Adresse gesendet. Bitte nutzen Sie diese Funktionalität nur aus Gründen der Datensicherung.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
@@ -509,8 +509,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SendmailNotificationEnvelopeFrom" Required="0" Valid="0">
-        <Description Lang="en">If set, this address is used as envelope
-        from header in outgoing notifications. If no address is specifyed,         the envelope from header is empty.</Description>
+        <Description Lang="en">If set, this address is used as envelope from header in outgoing notifications. If no address is specified,         the envelope from header is empty.</Description>
         <Description Lang="de">Die hier angegebene Adresse wird für
         ausgehende Benachrichtigungen als envelope from Header genutzt. Wird keine Adresse angegeben, bleibt der envelope from Header leer.</Description>
         <Group>Framework</Group>
