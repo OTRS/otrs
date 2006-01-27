@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.200 2006-01-07 19:59:42 martin Exp $
+# $Id: Generic.pm,v 1.201 2006-01-27 11:16:47 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::Output::HTML::Agent;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.200 $';
+$VERSION = '$Revision: 1.201 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -2203,7 +2203,7 @@ sub BuildDateSelection {
 
 returns a csv based on a array
 
-    $CSV = $LayoutObject->OutputHTMLTable(
+    $CSV = $LayoutObject->OutputCSVTable(
         Head => ['RowA', 'RowB', ],
         Data => [
             [1,4],
@@ -2308,6 +2308,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.200 $ $Date: 2006-01-07 19:59:42 $
+$Revision: 1.201 $ $Date: 2006-01-27 11:16:47 $
 
 =cut
