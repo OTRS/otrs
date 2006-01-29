@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Auth/LDAP.pm - provides the ldap authentification
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LDAP.pm,v 1.17 2005-11-13 21:35:51 martin Exp $
+# $Id: LDAP.pm,v 1.18 2006-01-29 11:45:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,9 +16,10 @@ package Kernel::System::Auth::LDAP;
 
 use strict;
 use Net::LDAP;
+use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -35,6 +36,9 @@ sub new {
         $Self->{$_} = $Param{$_} || die "No $_!";
     }
 
+    # encode object
+    $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
+
     # Debug 0=off 1=on
     $Self->{Debug} = 0;
 
@@ -48,9 +52,10 @@ sub new {
     $Self->{SearchUserDN} = $Self->{ConfigObject}->Get('AuthModule::LDAP::SearchUserDN') || '';
     $Self->{SearchUserPw} = $Self->{ConfigObject}->Get('AuthModule::LDAP::SearchUserPw') || '';
     $Self->{GroupDN} = $Self->{ConfigObject}->Get('AuthModule::LDAP::GroupDN') || '';
-    $Self->{AccessAttr} = $Self->{ConfigObject}->Get('AuthModule::LDAP::AccessAttr') || '';
+    $Self->{AccessAttr} = $Self->{ConfigObject}->Get('AuthModule::LDAP::AccessAttr') || 'memberUid';
     $Self->{UserAttr} = $Self->{ConfigObject}->Get('AuthModule::LDAP::UserAttr') || 'DN';
     $Self->{UserSuffix} = $Self->{ConfigObject}->Get('AuthModule::LDAP::UserSuffix') || '';
+    $Self->{DestCharset} = $Self->{ConfigObject}->Get('AuthModule::LDAP::Charset') || 'utf-8';
 
     # ldap filter always used
     $Self->{AlwaysFilter} = $Self->{ConfigObject}->Get('AuthModule::LDAP::AlwaysFilter') || '';
@@ -87,10 +92,12 @@ sub Auth {
     # check needed stuff
     foreach (qw(User Pw)) {
         if (!$Param{$_}) {
-          $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-          return;
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
         }
     }
+    $Param{User} = $Self->_ConvertTo($Param{User}, $Self->{ConfigObject}->Get('DefaultCharset'));
+    $Param{Pw} = $Self->_ConvertTo($Param{Pw}, $Self->{ConfigObject}->Get('DefaultCharset'));
     # get params
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'Got no REMOTE_ADDR env!';
     # remove leading and trailing spaces
@@ -266,7 +273,7 @@ sub Auth {
                         if ($UserID) {
                             $Self->{LogObject}->Log(
                                 Priority => 'notice',
-                                Message => "Data for '$Param{User} ($UserDN)' created in RDBMS, proceed.",
+                                Message => "Initial data for '$Param{User}' ($UserDN) created in RDBMS.",
                             );
                             # sync inital groups
                             if ($Self->{ConfigObject}->Get('UserSyncLDAPGroups')) {
@@ -294,7 +301,7 @@ sub Auth {
                         else {
                             $Self->{LogObject}->Log(
                                 Priority => 'error',
-                                Message => "Can't create user '$Param{User} ($UserDN)' in RDBMS!",
+                                Message => "Can't create user '$Param{User}' ($UserDN) in RDBMS!",
                             );
                         }
                     }
@@ -308,6 +315,91 @@ sub Auth {
                             ValidID => 1,
                             UserID => 1,
                         );
+                        # sync permissions
+                        if ($Self->{ConfigObject}->Get('UserSyncLDAPGroupsDefination')) {
+                            # system permissions
+                            my %PermissionsEmpty = ();
+                            foreach (@{$Self->{ConfigObject}->Get('System::Permission')}) {
+                                $PermissionsEmpty{$_} = 0;
+                            }
+                            # remove all permissions
+                            my %Groups = $Self->{GroupObject}->GroupList();
+                            foreach my $GID (keys %Groups) {
+                                $Self->{GroupObject}->GroupMemberAdd(
+                                    GID => $GID,
+                                    UID => $UserData{UserID},
+                                        Permission => {
+                                            %PermissionsEmpty,
+                                        },
+                                    UserID => 1,
+                                );
+                            }
+                            # group config settings
+                            foreach my $GroupDN (sort keys %{$Self->{ConfigObject}->Get('UserSyncLDAPGroupsDefination')}) {
+                                # just in case for debug
+                                $Self->{LogObject}->Log(
+                                    Priority => 'notice',
+                                    Message => "User: '$Param{User}' sync groups $GroupDN!",
+                                );
+                                # search if we're allowed to
+                                my $Filter = '';
+                                if ($Self->{UserAttr} eq 'DN') {
+                                    $Filter = "($Self->{AccessAttr}=$UserDN)";
+                                }
+                                else {
+                                    $Filter = "($Self->{AccessAttr}=$Param{User})";
+                                }
+                                my $Result = $LDAP->search (
+                                    base   => $GroupDN,
+                                    filter => $Filter,
+                                );
+                                # extract it
+                                my $Valid = '';
+                                foreach my $Entry ($Result->all_entries) {
+                                    $Valid = $Entry->dn();
+                                }
+                                # log if there is no LDAP entry
+                                if (!$Valid) {
+                                    # failed login note
+                                    $Self->{LogObject}->Log(
+                                        Priority => 'notice',
+                                        Message => "User: $Param{User} not in ".
+                                            "GroupDN='$GroupDN', Filter='$Filter'! (REMOTE_ADDR: $RemoteAddr).",
+                                    );
+                                }
+                                else {
+                                    # sync groups permissions
+                                    my %SGroups = %{$Self->{ConfigObject}->Get('UserSyncLDAPGroupsDefination')->{$GroupDN}};
+                                    foreach my $SGroup (sort keys %SGroups) {
+                                        my %Permissions = %{$SGroups{$SGroup}};
+                                        # get group id
+                                        my $GroupID = '';
+                                        my %Groups = $Self->{GroupObject}->GroupList();
+                                        foreach my $GID (keys %Groups) {
+                                            if ($Groups{$GID} eq $SGroup) {
+                                                $GroupID = $GID;
+                                            }
+                                        }
+                                        if ($GroupID) {
+                                            # just in case for debug
+                                            $Self->{LogObject}->Log(
+                                                Priority => 'notice',
+                                                Message => "User: '$Param{User}' sync groups $GroupDN in $SGroup!",
+                                            );
+                                            $Self->{GroupObject}->GroupMemberAdd(
+                                                GID => $GroupID,
+                                                UID => $UserData{UserID},
+                                                Permission => {
+                                                    %PermissionsEmpty,
+                                                    %Permissions,
+                                                },
+                                                UserID => 1,
+                                            );
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -317,6 +409,24 @@ sub Auth {
         return $Param{User};
     }
 }
-# --
+
+sub _ConvertTo {
+    my $Self = shift;
+    my $Text = shift;
+    my $Charset = shift;
+    if (!$Charset || !$Self->{DestCharset}) {
+        return $Text;
+    }
+    if (!defined($Text)) {
+        return;
+    }
+    else {
+        return $Self->{EncodeObject}->Convert(
+            Text => $Text,
+            From => $Charset,
+            To => $Self->{DestCharset},
+        );
+    }
+}
 
 1;
