@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CustomerAuth/LDAP.pm - provides the ldap authentification
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LDAP.pm,v 1.9.2.1 2005-11-20 22:51:01 martin Exp $
+# $Id: LDAP.pm,v 1.9.2.2 2006-01-29 11:55:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,9 +16,10 @@ package Kernel::System::CustomerAuth::LDAP;
 
 use strict;
 use Net::LDAP;
+use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9.2.1 $';
+$VERSION = '$Revision: 1.9.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -34,6 +35,9 @@ sub new {
     foreach (qw(LogObject ConfigObject DBObject)) {
         $Self->{$_} = $Param{$_} || die "No $_!";
     }
+
+    # encode object
+    $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
 
     # Debug 0=off 1=on
     $Self->{Debug} = 0;
@@ -91,6 +95,8 @@ sub Auth {
             return;
         }
     }
+    $Param{User} = $Self->_ConvertTo($Param{User}, $Self->{ConfigObject}->Get('DefaultCharset'));
+    $Param{Pw} = $Self->_ConvertTo($Param{Pw}, $Self->{ConfigObject}->Get('DefaultCharset'));
     # get params
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'Got no REMOTE_ADDR env!';
     # remove leading and trailing spaces
@@ -215,6 +221,24 @@ sub Auth {
         return $Param{User};
     }
 }
-# --
+
+sub _ConvertTo {
+    my $Self = shift;
+    my $Text = shift;
+    my $Charset = shift;
+    if (!$Charset || !$Self->{DestCharset}) {
+        return $Text;
+    }
+    if (!defined($Text)) {
+        return;
+    }
+    else {
+        return $Self->{EncodeObject}->Convert(
+            Text => $Text,
+            From => $Charset,
+            To => $Self->{DestCharset},
+        );
+    }
+}
 
 1;
