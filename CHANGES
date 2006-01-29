@@ -2,19 +2,19 @@
 # CHANGES - change log  of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.209.2.27 2006-01-29 20:51:38 martin Exp $
+# $Id: CHANGES,v 1.209.2.28 2006-01-29 23:41:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.0.5 (2006/??/??)
+ - (2006/01/29) fixed/removed wrong config option
+    "Ticket::Frontend::QueueSortDefault", added own config option for
+    StatusView of tickets
  - (2006/01/29) fixed bug #1047 forward fails if " is in From
  - (2006/01/29) fixed ldap authentication if application charset is
     e. g. iso-8859-1 and not utf-8
- - (2006/01/26) changed wrong config option
-    "Ticket::Frontend::QueueSortBy::Default" to
-    "Ticket::Frontend::QueueSortByDefault in Kernel/Config/Files/Ticket.xml
  - (2006/01/26) fixed some spelling mistakes in
     Kernel/Config/Files/Ticket.xml and Kernel/Config/Files/Framework.xml
  - (2006/01/24) Added X-Spam-Level to config files to have the possibility

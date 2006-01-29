@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketQueue.pm,v 1.9 2005-11-05 12:49:42 martin Exp $
+# $Id: AgentTicketQueue.pm,v 1.9.2.1 2006-01-29 23:41:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.9.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -203,15 +203,21 @@ sub Run {
         TicketFreeText8 => 'st.freetext8',
     );
 
-    my $Order = $Self->{ConfigObject}->Get('Ticket::Frontend::QueueSortDefault') || 'ASC';
+    my $Order = $Self->{ConfigObject}->Get('Ticket::Frontend::QueueOrder::Default') || 'Down';
     if (@ViewableQueueIDs && @GroupIDs) {
         # if we have only one queue, check if there
         # is a setting in Config.pm for sorting
         if ($#ViewableQueueIDs == 0) {
             my $QueueID = $ViewableQueueIDs[0];
             if ($Self->{ConfigObject}->Get('Ticket::Frontend::QueueSort') && $Self->{ConfigObject}->Get('Ticket::Frontend::QueueSort')->{$QueueID}) {
-                $Order = 'DESC';
+                $Order = 'Down';
             }
+        }
+        if ($Order eq 'Up') {
+            $Order = 'ASC';
+        }
+        else {
+            $Order = 'DESC';
         }
         # build query
         my $SQL = "SELECT st.id, st.queue_id FROM ".
@@ -493,13 +499,13 @@ sub ShowTicket {
     if ($TicketView ne 'AgentTicketQueueTicketViewLite') {
         return $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentTicketQueueTicketView',
-            Data => {%Param, %Article, %AclAction},
+            Data => { %Param, %Article, %AclAction},
         );
     }
     else {
         return $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentTicketQueueTicketViewLite',
-            Data => {%Param, %Article, %AclAction},
+            Data => { %Param, %Article, %AclAction},
         );
     }
 }

@@ -227,12 +227,6 @@
     # (max shown ticket in queue view)
     $Self->{'Ticket::Frontend::QueueMaxShown'} = 1200;
 
-    # Ticket::Frontend::QueueSortDefault
-    # (default sort order of the queue view / after priority sort)
-    # ASC: oldest on top, default
-    # DESC: youngest on top
-    $Self->{'Ticket::Frontend::QueueSortDefault'} = 'ASC';
-
     # Ticket::Frontend::QueueSort
     # (sort a queue ascending or descending / after priority sort)
     #
@@ -295,7 +289,7 @@
 
     # Ticket::Frontend::MailboxSortBy::Default
     # (Mailbox sort by default.)
-    $Self->{"Ticket::Frontend::MailboxSortBy::Default"} = 'CreateTime';
+    $Self->{"Ticket::Frontend::MailboxSortBy::Default"} = 'Age';
 
     # Ticket::Frontend::MailboxOrder::Default
     # (Mailbox order default.)
