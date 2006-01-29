@@ -2,13 +2,15 @@
 # CHANGES - change log  of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.209.2.25 2006-01-26 15:57:55 cs Exp $
+# $Id: CHANGES,v 1.209.2.26 2006-01-29 11:58:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.0.5 (2006/??/??)
+ - (2006/01/29) fixed ldap authentication if application charset is
+    e. g. iso-8859-1 and not utf-8
  - (2006/01/26) changed wrong config option
     "Ticket::Frontend::QueueSortBy::Default" to
     "Ticket::Frontend::QueueSortByDefault in Kernel/Config/Files/Ticket.xml
