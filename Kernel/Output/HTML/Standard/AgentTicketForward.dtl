@@ -1,8 +1,8 @@
 # --
 # AgentTicketForward.dtl - provides HTML form for AgentTicketForward
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketForward.dtl,v 1.10.2.1 2005-12-29 02:09:23 martin Exp $
+# $Id: AgentTicketForward.dtl,v 1.10.2.2 2006-01-29 20:51:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -115,7 +115,7 @@ $Include{"AgentTicketLocked"}
   <table border="0" width="100%">
     <tr>
       <td class="contentkey" width="20%">$Text{"From"}:</td>
-      <td class="contentvalue" width="80%">$QData{"From"} <input type="hidden" name="From" value="$Data{"From"}"> <font color="red" size="-2">$Data{"From invalid"}</font></td>
+      <td class="contentvalue" width="80%">$QData{"From"} <input type="hidden" name="From" value="$QData{"From"}"> <font color="red" size="-2">$Data{"From invalid"}</font></td>
     </tr>
     <tr>
       <td class="contentkey">$Text{"To"}:</td>
