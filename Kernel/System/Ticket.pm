@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.198 2006-01-07 19:55:21 martin Exp $
+# $Id: Ticket.pm,v 1.199 2006-01-29 23:52:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.198 $';
+$VERSION = '$Revision: 1.199 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -1683,10 +1683,7 @@ sub GetLockedTicketIDs {
       " AND ".
       " slt.name not in ( ${\(join ', ', @ViewableLocks)} ) ORDER BY ";
     # sort by
-    if (!$Param{SortBy} || $Param{SortBy} =~ /^CreateTime$/i) {
-        $SQL .= "ti.create_time";
-    }
-    elsif ($Param{SortBy} =~ /^Queue$/i) {
+    if ($Param{SortBy} =~ /^Queue$/i) {
         $SQL .= " sq.name";
     }
     elsif ($Param{SortBy} =~ /^CustomerID$/i) {
@@ -4278,6 +4275,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.198 $ $Date: 2006-01-07 19:55:21 $
+$Revision: 1.199 $ $Date: 2006-01-29 23:52:49 $
 
 =cut
