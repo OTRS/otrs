@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketMailbox.pm - to view all locked tickets
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketMailbox.pm,v 1.4 2005-09-28 07:02:06 martin Exp $
+# $Id: AgentTicketMailbox.pm,v 1.5 2006-01-29 23:55:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -55,7 +55,7 @@ sub Run {
     my $Output;
     my $QueueID = $Self->{QueueID};
 
-    my $SortBy = $Self->{ParamObject}->GetParam(Param => 'SortBy') || $Self->{ConfigObject}->Get('Ticket::Frontend::MailboxSortBy::Default') || 'CreateTime';
+    my $SortBy = $Self->{ParamObject}->GetParam(Param => 'SortBy') || $Self->{ConfigObject}->Get('Ticket::Frontend::MailboxSortBy::Default') || 'Age';
     my $OrderBy = $Self->{ParamObject}->GetParam(Param => 'OrderBy') || $Self->{ConfigObject}->Get('Ticket::Frontend::MailboxOrder::Default') || 'Up';
 
     # store last screen
