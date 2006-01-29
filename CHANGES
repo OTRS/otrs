@@ -2,13 +2,16 @@
 # CHANGES - change log  of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.229 2006-01-26 16:01:23 cs Exp $
+# $Id: CHANGES,v 1.230 2006-01-29 23:51:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS head
+ - (2006/01/07) added SendNoNotification option for MoveTicket(),
+    LockSet() and OwnerSet() in Kernel/System/Ticket.pm (used in
+    GenericAgent to do some admin stuff).
  - (2005/12/29) added online repository access for bin/opm.pl
  - (2005/12/29) added Delete and Spam config option to
     Kernel/Config/Files/Ticket.xml for Ticket::Frontend::MenuModule
@@ -24,16 +27,28 @@ CVS head
     $Self->{PreApplicationModule}->{AgentInfo} = 'Kernel::Modules::AgentInfo';
 
 2.0.5 (2006/??/??)
- - (2006/01/26) changed wrong config option
-    "Ticket::Frontend::QueueSortBy::Default" to
-    "Ticket::Frontend::QueueSortByDefault" in
-    Kernel/Config/Files/Ticket.xml
+ - (2006/01/29) fixed/removed wrong config option
+    "Ticket::Frontend::QueueSortDefault", added own config option for
+    StatusView of tickets
+ - (2006/01/29) fixed bug #1047 forward fails if " is in From
+ - (2006/01/29) fixed ldap authentication if application charset is
+    e. g. iso-8859-1 and not utf-8
  - (2006/01/26) fixed some spelling mistakes in
     Kernel/Config/Files/Ticket.xml and Kernel/Config/Files/Framework.xml
  - (2006/01/24) Added X-Spam-Level to config files to have the possibility
      to filter for this header with PostMasterFilter
  - (2006/01/23) fixed bug #1069 - Problem when the name of a GenericAgent
     job was updated
+ - (2006/01/08) fixed PostMaster filter admin interface if wrong syntax
+    regexp is used (don't save invalid regexp because not email can be
+    received)
+ - (2006/01/07) added bin/CheckSum.pl and also ARCHIVE file to include
+    md5 sum archive of current distribution
+ - (2006/01/07) improved PostMaster if no article can be created
+ - (2005/12/29) fixed internal server error if in sysconfig search
+    * is used
+ - (2005/12/29) fixed "enter" submit bug in sysconfig (e. g. reset first
+    item in the edit site)
  - (2005/12/29) fixed ArticleAttachmentIndex() - wrong index count in
     fs lookup - attachment icons sometimes not shown
  - (2005/12/29) added added missing class="button" in submit type="submit"
