@@ -2,7 +2,7 @@
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPackageManager.dtl,v 1.15 2006-01-30 01:28:45 martin Exp $
+# $Id: AdminPackageManager.dtl,v 1.16 2006-01-30 01:35:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -379,7 +379,9 @@
     </tr>
     <tr>
       <td class="contentbody">
+<pre>
 $QData{"Diff"}
+</pre>
       </td>
     </tr>
     <tr>
