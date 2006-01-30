@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CustomerUser.pm - some customer user functions
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerUser.pm,v 1.22 2005-10-20 21:27:51 martin Exp $
+# $Id: CustomerUser.pm,v 1.23 2006-01-30 13:54:54 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::CustomerUser;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -101,7 +101,7 @@ sub new {
 
 =item CustomerSourceList()
 
-return customer soruce list
+return customer source list
 
   my %List = $CustomerUserObject->CustomerSourceList();
 
@@ -422,6 +422,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.22 $ $Date: 2005-10-20 21:27:51 $
+$Revision: 1.23 $ $Date: 2006-01-30 13:54:54 $
 
 =cut
