@@ -1,8 +1,8 @@
 # --
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPackageManager.dtl,v 1.14 2005-12-26 13:51:12 martin Exp $
+# $Id: AdminPackageManager.dtl,v 1.15 2006-01-30 01:28:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -291,6 +291,11 @@
             <td class="contentvalue">
               <div title="$QData{"Location"}">$QData{"Location","65"} ($QData{"Permission"})</div>
             </td>
+<!-- dtl:block:PackageItemFilelistFileNoteDiff -->
+            <td class="contentvalue">
+              <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=ViewDiff&Name=$QData{"Name"}&Version=$QData{"Version"}&File=$QData{"File"}&Location=$LQData{"Location"}"><img border="0" src="$Env{"Images"}$QData{"Image"}" alt=" " title="$QData{"Message"}"></a>
+            </td>
+<!-- dtl:block:PackageItemFilelistFileNoteDiff -->
 <!-- dtl:block:PackageItemFilelistFileNote -->
             <td class="contentvalue">
               <img border="0" src="$Env{"Images"}$QData{"Image"}" alt=" " title="$QData{"Message"}">
@@ -357,6 +362,37 @@
   </td>
 </tr>
 <!-- dtl:block:Package -->
+<!-- dtl:block:FileDiff -->
+<tr>
+  <td class="menu">
+    <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=View&Name=$QData{"Name"}&Version=$QData{"Version"}">$Text{"Back"}</a>
+  </td>
+</tr>
+<tr>
+  <td class="mainbody">
 
+  <br>
+
+    <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
+    <tr>
+      <td colspan="2" class="contenthead">$Text{"Options"}</td>
+    </tr>
+    <tr>
+      <td class="contentbody">
+$QData{"Diff"}
+      </td>
+    </tr>
+    <tr>
+      <td class="contentfooter">&nbsp;</td>
+    </tr>
+    </table>
+
+    <br>
+
+  </td>
+</tr>
+
+
+<!-- dtl:block:FileDiff -->
 </table>
 <!-- end -->

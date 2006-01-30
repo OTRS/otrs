@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPackageManager.pm,v 1.24 2005-12-26 13:51:12 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.25 2006-01-30 01:28:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Package;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -70,6 +70,85 @@ sub Run {
                 return $Self->{LayoutObject}->ErrorScreen(Message => 'Sorry, for this interface is mod_perl2 with Apache2::Reload required. Other way you need to use the cmd tool bin/opm.pl to install packages!');
             }
         }
+    }
+    # ------------------------------------------------------------ #
+    # view diff file
+    # ------------------------------------------------------------ #
+    if ($Self->{Subaction} eq 'ViewDiff') {
+        my $Name = $Self->{ParamObject}->GetParam(Param => 'Name') || '';
+        my $Version = $Self->{ParamObject}->GetParam(Param => 'Version') || '';
+        my $Location = $Self->{ParamObject}->GetParam(Param => 'Location');
+        my %Frontend = ();
+        my $Package = $Self->{PackageObject}->RepositoryGet(
+            Name => $Name,
+            Version => $Version,
+        );
+        if (!$Package) {
+            return $Self->{LayoutObject}->ErrorScreen(Message => 'No such package!');
+        }
+        my %Structur = $Self->{PackageObject}->PackageParse(String => $Package);
+        my $File = '';
+        if (!$Location) {
+
+        }
+        if (ref($Structur{Filelist}) eq 'ARRAY') {
+            foreach my $Hash (@{$Structur{Filelist}}) {
+                if ($Hash->{Location} eq $Location) {
+                    $File = $Hash->{Content};
+                }
+            }
+        }
+        my $LocalFile = $Self->{ConfigObject}->Get('Home')."/$Location";
+        if (! -e $LocalFile) {
+                $Self->{LayoutObject}->Block(
+                    Name => "FileDiff",
+                    Data => {
+                        Name => $Name,
+                        Version => $Version,
+                        Diff => "No such file $LocalFile!",
+                    },
+                );
+        }
+        elsif (-e $LocalFile) {
+            my $Content = '';
+            if (open(IN, "< $LocalFile")) {
+                # set bin mode
+                binmode IN;
+                while (<IN>) {
+                    $Content .= $_;
+                }
+                close (IN);
+                use Text::Diff;
+                my $Diff = diff(\$Content,   \$File, { STYLE => 'OldStyle' });
+                $Self->{LayoutObject}->Block(
+                    Name => "FileDiff",
+                    Data => {
+                        Name => $Name,
+                        Version => $Version,
+                        Diff => $Diff,
+                    },
+                );
+            }
+            else {
+                $Self->{LayoutObject}->Block(
+                    Name => "FileDiff",
+                    Data => {
+                        Name => $Name,
+                        Version => $Version,
+                        Diff => "Can't read $LocalFile!",
+                    },
+                );
+            }
+        }
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminPackageManager',
+            Data => \%Param,
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
+
     }
     # ------------------------------------------------------------ #
     # view package
@@ -164,16 +243,30 @@ sub Run {
                             },
                         );
                         if ($DeployInfo{File}->{$Hash->{Location}}) {
-                            $Self->{LayoutObject}->Block(
-                                Name => "PackageItemFilelistFileNote",
-                                Data => {
-                                    Name => $Name,
-                                    Version => $Version,
-                                    %{$Hash},
-                                    Message => $DeployInfo{File}->{$Hash->{Location}},
-                                    Image => 'notready.png',
-                                },
-                            );
+                            if ($DeployInfo{File}->{$Hash->{Location}} =~ /different/) {
+                                $Self->{LayoutObject}->Block(
+                                    Name => "PackageItemFilelistFileNoteDiff",
+                                    Data => {
+                                        Name => $Name,
+                                        Version => $Version,
+                                        %{$Hash},
+                                        Message => $DeployInfo{File}->{$Hash->{Location}},
+                                        Image => 'notready.png',
+                                    },
+                                );
+                            }
+                            else {
+                                $Self->{LayoutObject}->Block(
+                                    Name => "PackageItemFilelistFileNote",
+                                    Data => {
+                                        Name => $Name,
+                                        Version => $Version,
+                                        %{$Hash},
+                                        Message => $DeployInfo{File}->{$Hash->{Location}},
+                                        Image => 'notready-sw.png',
+                                    },
+                                );
+                            }
                         }
                         else {
                             $Self->{LayoutObject}->Block(
