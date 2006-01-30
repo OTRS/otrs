@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Package.pm - lib package manager
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.pm,v 1.42 2005-12-20 23:32:36 martin Exp $
+# $Id: Package.pm,v 1.43 2006-01-30 01:27:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -138,7 +138,7 @@ sub RepositoryList {
         return;
       }
     }
-    my $SQL = "SELECT name, version, install_status, content FROM package_repository ORDER BY name";
+    my $SQL = "SELECT name, version, install_status, content FROM package_repository ORDER BY name, create_time";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         my %Package = (
@@ -478,7 +478,7 @@ sub PackageInstall {
     my $FileCheckOk = 1;
     if ($Structur{Filelist} && ref($Structur{Filelist}) eq 'ARRAY') {
         foreach my $File (@{$Structur{Filelist}}) {
-            print STDERR "Notice: Want to install $File->{Location}!\n";
+#            print STDERR "Notice: Want to install $File->{Location}!\n";
         }
     }
     if (!$FileCheckOk && !$Param{Force}) {
@@ -1238,8 +1238,6 @@ sub PackageBuild {
         if ($Param{$_}) {
             $XML .= "  <$_>\n";
             my @Close = ();
-            my $TB = '';
-            my $LL = 0;
             my $Space = '    ';
             foreach my $Tag (@{$Param{$_}}) {
                 if ($Tag->{TagType} eq 'Start') {
@@ -1540,6 +1538,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.42 $ $Date: 2005-12-20 23:32:36 $
+$Revision: 1.43 $ $Date: 2006-01-30 01:27:41 $
 
 =cut
