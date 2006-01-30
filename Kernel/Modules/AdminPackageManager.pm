@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPackageManager.pm,v 1.25 2006-01-30 01:28:45 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.26 2006-01-30 01:41:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Package;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -119,7 +119,7 @@ sub Run {
                 }
                 close (IN);
                 use Text::Diff;
-                my $Diff = diff(\$Content,   \$File, { STYLE => 'OldStyle' });
+                my $Diff = diff(\$File, \$Content, { STYLE => 'OldStyle' });
                 $Self->{LayoutObject}->Block(
                     Name => "FileDiff",
                     Data => {
