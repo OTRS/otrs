@@ -1,8 +1,8 @@
 # --
 # SystemStats.dtl - provides HTML stats
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SystemStats.dtl,v 1.8 2005-07-24 09:42:16 martin Exp $
+# $Id: SystemStats.dtl,v 1.9 2006-01-31 12:11:00 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,46 +10,50 @@
 # --
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
-<tr>
-  <td class="mainhead">
-    $Env{"Box0"}$Text{"Stats"}$Env{"Box1"}
-  </td>
-</tr>
+  <tr>
+    <td class="mainhead">
+      $Env{"Box0"}$Text{"Stats"}$Env{"Box1"}
+    </td>
+  </tr>
 </table>
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr>
-  <td align="center" valign="top" colspan="2" class="mainbody">
-
-<table border="0" width="600" cellspacing="0" cellpadding="3" cols="2">
+  <tr>
+    <td align="center" valign="top" colspan="2" class="mainbody">
+      <table border="0" width="600" cellspacing="0" cellpadding="3" cols="2">
 <!-- dtl:block:Item -->
-<tr>
-  <td class="contenthead" colspan="2">
-    $Env{"Box0"}$Data{"Name"}$Env{"Box1"}
-  </td>
-</tr>
-<tr>
-  <td class="contentbody">
-  <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
-  <input type="hidden" name="Action" value="$Env{"Action"}">
-  <input type="hidden" name="Subaction" value="Output">
-  <input type="hidden" name="Module" value="$Data{"Module"}">
-  <table>
-<!--dtl:block:ItemParam -->
-    <tr><td width="100">$Text{"$QData{"Param"}"}</td><td>$Data{"Field"}</td></tr>
-<!--dtl:block:ItemParam -->
-    <tr><td>$Text{"Format"}</td><td>$Data{"OutputFormat"}</td></tr>
-  </table>
-  <input class="button" type="submit" value="$Text{"go"}">
-  </form>
-  </td>
-  <td class="contentbody">
-  $Text{"$Data{"Desc"}"}
-  </td>
-</tr>
+        <tr>
+          <td class="contenthead" colspan="2">
+            $Env{"Box0"}$Data{"Name"}$Env{"Box1"}
+          </td>
+        </tr>
+        <tr>
+          <td class="contentbody">
+            <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+              <input type="hidden" name="Action"    value="$Env{"Action"}">
+              <input type="hidden" name="Subaction" value="Output">
+              <input type="hidden" name="Module"    value="$Data{"Module"}">
+              <table>
+    <!--dtl:block:ItemParam -->
+                <tr>
+                  <td width="100">$Text{"$QData{"Param"}"}</td>
+                  <td>$Data{"Field"}</td>
+                </tr>
+    <!--dtl:block:ItemParam -->
+                <tr>
+                  <td>$Text{"Format"}</td>
+                  <td>$Data{"OutputFormat"}</td>
+                </tr>
+              </table>
+              <input class="button" type="submit" value="$Text{"go"}">
+            </form>
+          </td>
+          <td class="contentbody">
+            $Text{"$Data{"Desc"}"}
+          </td>
+        </tr>
 <!--dtl:block:Item-->
-</table>
-
-  </td>
-</tr>
+      </table>
+    </td>
+  </tr>
 </table>
 <!-- end form -->
