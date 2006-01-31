@@ -650,7 +650,7 @@ $Data{"Signature"}
         SumRow => 1,
         UseResultCache => 1,
 #        Output => ['Print', 'CSV', 'GraphLine', 'GraphBars', 'GraphPie'],
-        Output => ['Print', 'CSV', 'Graph'],
+        Output => ['Print', 'CSV', 'GraphBars'],
         OutputDefault => 'Print',
     };
     $Self->{SystemStatsMap}->{"Ticket::Stats4"} = {
