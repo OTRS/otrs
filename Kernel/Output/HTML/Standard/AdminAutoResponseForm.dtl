@@ -1,8 +1,8 @@
 # --
 # AdminAutoResponse.dtl - provides HTML form for AdminAutoResponse
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminAutoResponseForm.dtl,v 1.19 2005-10-20 21:25:36 martin Exp $
+# $Id: AdminAutoResponseForm.dtl,v 1.19.2.1 2006-01-31 19:43:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -140,6 +140,10 @@ $Data{"Note"}
      <tr>
       <td class="contentkey"><b>&lt;OTRS_TICKET_*&gt;</b></td>
       <td class="contentvalue">$Text{"Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)"}</td>
+     </tr>
+     <tr>
+      <td class="contentkey"><b>&lt;OTRS_CONFIG_*&gt;</b></td>
+      <td class="contentvalue">$Text{"Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)"}</td>
      </tr>
     </table>
    </p>

@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.94.2.1 2005-12-21 19:33:06 martin Exp $
+# $Id: Article.pm,v 1.94.2.2 2006-01-31 19:43:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.94.2.1 $';
+$VERSION = '$Revision: 1.94.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1923,9 +1923,24 @@ sub SendAutoResponse {
             $Param{Body} =~ s/<OTRS_CUSTOMER_$_>/$GetParam{$_}/gi;
         }
     }
+    # ticket data
+    my %Ticket = $Self->TicketGet(TicketID => $Param{TicketID});
+    foreach (keys %Ticket) {
+        if (defined($Ticket{$_})) {
+            $Param{Body} =~ s/<OTRS_TICKET_$_>/$Ticket{$_}/gi;
+            $Param{Subject} =~ s/<OTRS_TICKET_$_>/$Ticket{$_}/gi;
+        }
+    }
     # replace some special stuff
     $Param{Body} =~ s/<OTRS_TICKET_NUMBER>/$Article{TicketNumber}/gi;
     $Param{Body} =~ s/<OTRS_TICKET_ID>/$Param{TicketID}/gi;
+    # cleanup
+    $Param{Subject} =~ s/<OTRS_TICKET_.+?>/-/gi;
+    $Param{Body} =~ s/<OTRS_TICKET_.+?>/-/gi;
+
+    # replace config options
+    $Param{Body} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
+    $Param{Subject} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
     # prepare customer realname
     if ($Param{Body} =~ /<OTRS_CUSTOMER_REALNAME>/) {
         # get realname
