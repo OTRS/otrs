@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Stats/TicketOverview.pm - stats module
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TicketOverview.pm,v 1.3.2.1 2005-12-23 09:20:00 martin Exp $
+# $Id: TicketOverview.pm,v 1.3.2.2 2006-01-31 12:33:58 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::State;
 use Date::Pcalc qw(Today_and_Now Days_in_Month Day_of_Week Day_of_Week_Abbreviation);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3.2.1 $ ';
+$VERSION = '$Revision: 1.3.2.2 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -98,7 +98,7 @@ sub Param {
             Name => 'GraphSize',
             Multiple => 0,
             Size => 0,
-            SelectedID => '550x350',
+            SelectedID => '800x600',
             Data => {
                 '800x600' => ' 800x600',
                 '1200x800' => '1200x800',
