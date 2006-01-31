@@ -2,7 +2,7 @@
 # Kernel/System/Stats/NewTickets.pm - stats module
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NewTickets.pm,v 1.6 2006-01-27 11:22:41 tr Exp $
+# $Id: NewTickets.pm,v 1.7 2006-01-31 12:39:12 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Queue;
 use Date::Pcalc qw(Today_and_Now Days_in_Month Day_of_Week Day_of_Week_Abbreviation);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $ ';
+$VERSION = '$Revision: 1.7 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -122,7 +122,6 @@ sub Run {
         StartMonth => $Param{Month},
         StartDay   => 1,
         StopYear   => $Param{Year},
-        StopMonth => => $Param{Month},
         StopDay    => $Days,
     );
 
