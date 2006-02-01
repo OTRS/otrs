@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketSearch.pm,v 1.10 2005-10-08 12:49:40 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.11 2006-02-01 09:58:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -53,7 +53,10 @@ sub new {
             DatabaseDSN => $Self->{ConfigObject}->Get('Ticket::Frontend::Search::DB::DSN'),
             DatabaseUser => $Self->{ConfigObject}->Get('Ticket::Frontend::Search::DB::User'),
             DatabasePw => $Self->{ConfigObject}->Get('Ticket::Frontend::Search::DB::Password'),
-        ) || die $DBI::errstr;
+        );
+        if (!$ExtraDatabaseObject) {
+            $Self->{LayoutObject}->FatalError();
+        }
         $Self->{TicketObjectSearch} = Kernel::System::Ticket->new(
             %Param,
             DBObject => $ExtraDatabaseObject,
@@ -750,7 +753,7 @@ sub MaskForm {
     $Param{'TicketCreateTimePointFormat'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
             minute => 'minute(s)',
-            hour => 'hour(s',
+            hour => 'hour(s)',
             day => 'day(s)',
             week => 'week(s)',
             month => 'month(s)',
