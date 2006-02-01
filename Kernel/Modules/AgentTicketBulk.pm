@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketBulk.pm,v 1.4 2005-10-20 21:26:24 martin Exp $
+# $Id: AgentTicketBulk.pm,v 1.4.2.1 2006-02-01 10:52:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.4.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -104,7 +104,7 @@ sub Run {
 	                NewUserID => $Self->{UserID},
                 );
                 $Output .= $Self->{LayoutObject}->Notify(
-                    Info => 'Ticket %s locked.", "$Quote{"'.$Ticket{TicketNumber}.'"}',
+                    Data => $Ticket{TicketNumber}.': $Text{"Ticket locked!"}',
                 );
                 # do some actions on tickets
                 if ($Self->{Subaction} eq 'Do') {
