@@ -10,3 +10,15 @@ $Text{"Sep"}
 $Text{"Oct"}
 $Text{"Nov"}
 $Text{"Dec"}
+$Text{"January"}
+$Text{"February"}
+$Text{"March"}
+$Text{"April"}
+$Text{"Mai"}
+$Text{"Juny"}
+$Text{"July"}
+$Text{"August"}
+$Text{"September"}
+$Text{"October"}
+$Text{"November"}
+$Text{"December"}

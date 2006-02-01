@@ -1,8 +1,8 @@
 # --
 # Kernel/Language/de.pm - provides de language translation
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: de.pm,v 1.99 2005-12-29 00:53:58 martin Exp $
+# $Id: de.pm,v 1.100 2006-02-01 09:52:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.99 $';
+$VERSION = '$Revision: 1.100 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -243,6 +243,17 @@ sub Data {
       'Oct' => 'Okt',
       'Nov' => '',
       'Dec' => 'Dez',
+      'January' => 'Januar',
+      'February' => 'Februar',
+      'March' => 'März',
+      'April' => '',
+      'Juny' => 'Juni',
+      'July' => 'Juli',
+      'August' => '',
+      'September' => '',
+      'October' => 'Oktober',
+      'November' => '',
+      'December' => 'Dezember',
 
       # Template: AAANavBar
       'Admin-Area' => 'Admin-Bereich',
