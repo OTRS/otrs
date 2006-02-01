@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Spelling.pm - the global spelling module
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Spelling.pm,v 1.12 2005-06-15 03:51:33 martin Exp $
+# $Id: Spelling.pm,v 1.12.2.1 2006-02-01 17:05:26 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::FileTemp;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.12.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -84,7 +84,7 @@ sub Check {
     # --
     # get spell output
     # --
-    # write text to file and cat it throuh (i|a)spell
+    # write text to file and read it with (i|a)spell
     # - can't use IPC::Open* because it's not working with mod_perl* :-/
     my ($FH, $TmpFile) = $Self->{FileTempObject}->TempFile();
     if ($FH) {
@@ -98,7 +98,7 @@ sub Check {
         );
         return;
     }
-    if (open (SPELL, "cat $TmpFile | $Self->{SpellChecker} |")) {
+    if (open (SPELL, "$Self->{SpellChecker} < $TmpFile |")) {
         my $Output = '';
         my %Data = ();
         my $Lines = 1;
