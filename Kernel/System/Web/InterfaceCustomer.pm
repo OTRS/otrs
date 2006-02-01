@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: InterfaceCustomer.pm,v 1.7 2005-11-20 23:02:13 martin Exp $
+# $Id: InterfaceCustomer.pm,v 1.8 2006-02-01 10:19:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Web::InterfaceCustomer;
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -150,7 +150,6 @@ sub Run {
     if (!$Self->{DBObject}) {
         print $Self->{LayoutObject}->CustomerHeader(Area => 'Core', Title => 'Error!');
         print $Self->{LayoutObject}->CustomerError(
-            Message => $DBI::errstr,
             Comment => 'Please contact your admin'
         );
         print $Self->{LayoutObject}->CustomerFooter();
@@ -287,7 +286,7 @@ sub Run {
                         Type => 'Info',
                         What => 'Message',
                         ) || 'Login failed! Your username or password was entered incorrectly.',
-                    User => $User,
+                    User => $PostUser,
                     %Param,
                 );
             }
@@ -555,10 +554,10 @@ sub Run {
             # create new LayoutObject with new '%Param'
             $Self->{LayoutObject} = Kernel::Output::HTML::Generic->new(
                 SetCookies => {
-                  SessionIDCookie => $Self->{ParamObject}->SetCookie(
-                      Key => $Param{SessionName},
-                     Value => '',
-                  ),
+                    SessionIDCookie => $Self->{ParamObject}->SetCookie(
+                        Key => $Param{SessionName},
+                        Value => '',
+                    ),
                 },
                 %{$Self},
                 %Param,
@@ -575,7 +574,7 @@ sub Run {
                 # show login
                 print $Self->{LayoutObject}->CustomerLogin(
                     Title => 'Login',
-                    Message => $Kernel::System::AuthSession::CheckSessionID,
+                    Message => $Self->{SessionObject}->CheckSessionIDMessage(),
                     %Param,
                 );
             }
@@ -737,6 +736,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2005-11-20 23:02:13 $
+$Revision: 1.8 $ $Date: 2006-02-01 10:19:47 $
 
 =cut

@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/SystemStats.pm - show stats of otrs
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: SystemStats.pm,v 1.25 2005-12-23 09:19:44 martin Exp $
+# $Id: SystemStats.pm,v 1.26 2006-02-01 10:23:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::SystemStats;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $ ';
+$VERSION = '$Revision: 1.26 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -44,7 +44,10 @@ sub new {
             DatabaseDSN => $Self->{ConfigObject}->Get('Stats::DB::DSN'),
             DatabaseUser => $Self->{ConfigObject}->Get('Stats::DB::User'),
             DatabasePw => $Self->{ConfigObject}->Get('Stats::DB::Password'),
-        ) || die $DBI::errstr;
+        );
+        if (!$ExtraDatabaseObject) {
+            $Self->{LayoutObject}->FatalError();
+        }
         $Self->{TicketObject} = Kernel::System::Ticket->new(
             %Param,
             DBObject => $ExtraDatabaseObject,

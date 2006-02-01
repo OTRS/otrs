@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Web/InterfacePublic.pm - the public interface file
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: InterfacePublic.pm,v 1.3 2005-04-19 08:13:52 martin Exp $
+# $Id: InterfacePublic.pm,v 1.4 2006-02-01 10:19:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Web::InterfacePublic;
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -150,7 +150,6 @@ sub Run {
     if (!$Self->{DBObject}) {
         print $Self->{LayoutObject}->Header(Area => 'Core', Title => 'Error!');
         print $Self->{LayoutObject}->Error(
-            Message => $DBI::errstr,
             Comment => 'Please contact your admin'
         );
         print $Self->{LayoutObject}->Footer();
@@ -179,7 +178,7 @@ sub Run {
         }
         else {
             # print error
-            print $Self->{LayoutObject}->CustomerHeader(Area => 'Core', Title => 'Error!');   
+            print $Self->{LayoutObject}->CustomerHeader(Area => 'Core', Title => 'Error!');
             print $Self->{LayoutObject}->CustomerError();
             print $Self->{LayoutObject}->CustomerFooter();
             exit;
@@ -188,7 +187,7 @@ sub Run {
     # --
     # get common application and add on application params
     # --
-    my %CommonObjectParam = %{$Self->{ConfigObject}->Get('PublicFrontend::CommonParam')};   
+    my %CommonObjectParam = %{$Self->{ConfigObject}->Get('PublicFrontend::CommonParam')};
     foreach my $Key (keys %CommonObjectParam) {
         $Param{$Key} = $Self->{ParamObject}->GetParam(Param => $Key) || $CommonObjectParam{$Key};
     }
@@ -271,6 +270,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2005-04-19 08:13:52 $
+$Revision: 1.4 $ $Date: 2006-02-01 10:19:47 $
 
 =cut

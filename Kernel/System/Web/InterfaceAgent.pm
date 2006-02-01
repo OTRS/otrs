@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Web/InterfaceAgent.pm - the agent interface file (incl. auth)
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: InterfaceAgent.pm,v 1.9 2005-11-20 23:02:13 martin Exp $
+# $Id: InterfaceAgent.pm,v 1.10 2006-02-01 10:19:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Web::InterfaceAgent;
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -151,7 +151,6 @@ sub Run {
     if (!$Self->{DBObject}) {
         print $Self->{LayoutObject}->Header(Area => 'Core', Title => 'Error!');
         print $Self->{LayoutObject}->Error(
-            Message => $DBI::errstr,
             Comment => 'Please contact your admin'
         );
         print $Self->{LayoutObject}->Footer();
@@ -510,7 +509,7 @@ sub Run {
                 # show login
                 print $Self->{LayoutObject}->Login(
                     Title => 'Login',
-                    Message => $Kernel::System::AuthSession::CheckSessionID,
+                    Message => $Self->{SessionObject}->CheckSessionIDMessage(),
                     %Param,
                 );
             }
@@ -711,6 +710,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2005-11-20 23:02:13 $
+$Revision: 1.10 $ $Date: 2006-02-01 10:19:47 $
 
 =cut

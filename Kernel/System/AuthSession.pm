@@ -1,8 +1,8 @@
 # --
 # Kernel/System/AuthSession.pm - provides session check and session data
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AuthSession.pm,v 1.23 2005-07-28 19:58:28 martin Exp $
+# $Id: AuthSession.pm,v 1.24 2006-02-01 10:19:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::AuthSession;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 
@@ -97,7 +97,22 @@ sub CheckSessionID {
     return $Self->{Backend}->CheckSessionID(%Param);
 }
 
-=item CheckSessionID()
+=item CheckSessionIDMessage()
+
+returns why CheckSessionID() returns false (e. g. invalid session id,
+ different remote ip, ...)
+
+  my $Message = $SessionObject->CheckSessionIDMessage();
+
+=cut
+
+sub CheckSessionIDMessage {
+    my $Self = shift;
+    my %Param = @_;
+    return $Self->{Backend}->CheckSessionID(%Param);
+}
+
+=item GetSessionIDData()
 
 get session data in a hash
 
@@ -251,6 +266,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.23 $ $Date: 2005-07-28 19:58:28 $
+$Revision: 1.24 $ $Date: 2006-02-01 10:19:47 $
 
 =cut

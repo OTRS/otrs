@@ -1,8 +1,8 @@
 # --
 # Kernel/System/AuthSession/IPC.pm - provides session IPC/Mem backend
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: IPC.pm,v 1.17 2005-07-31 14:49:05 martin Exp $
+# $Id: IPC.pm,v 1.18 2006-02-01 10:19:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use MIME::Base64;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -137,12 +137,12 @@ sub CheckSessionID {
     my $SessionID = $Param{SessionID};
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'none';
     # set default message
-    $Kernel::System::AuthSession::CheckSessionID = "SessionID is invalid!!!";
+    $Self->{CheckSessionIDMessage} = "SessionID is invalid!!!";
     # session id check
     my %Data = $Self->GetSessionIDData(SessionID => $SessionID);
 
     if (!$Data{UserID} || !$Data{UserLogin}) {
-        $Kernel::System::AuthSession::CheckSessionID = "SessionID invalid! Need user data!";
+        $Self->{CheckSessionIDMessage} = "SessionID invalid! Need user data!";
         $Self->{LogObject}->Log(
           Priority => 'notice',
           Message => "SessionID: '$SessionID' is invalid!!!",
@@ -166,7 +166,7 @@ sub CheckSessionID {
     # check session idle time
     my $MaxSessionIdleTime = $Self->{ConfigObject}->Get('SessionMaxIdleTime');
     if ( ($Self->{TimeObject}->SystemTime() - $MaxSessionIdleTime) >= $Data{UserLastRequest} ) {
-         $Kernel::System::AuthSession::CheckSessionID = 'Session has timed out. Please log in again.';
+         $Self->{CheckSessionIDMessage} = 'Session has timed out. Please log in again.';
          $Self->{LogObject}->Log(
           Priority => 'notice',
           Message => "SessionID ($SessionID) idle timeout (". int(($Self->{TimeObject}->SystemTime() - $Data{UserLastRequest})/(60*60))
@@ -181,7 +181,7 @@ sub CheckSessionID {
     # check session time
     my $MaxSessionTime = $Self->{ConfigObject}->Get('SessionMaxTime');
     if ( ($Self->{TimeObject}->SystemTime() - $MaxSessionTime) >= $Data{UserSessionStart} ) {
-         $Kernel::System::AuthSession::CheckSessionID = 'Session has timed out. Please log in again.';
+         $Self->{CheckSessionIDMessage} = 'Session has timed out. Please log in again.';
          $Self->{LogObject}->Log(
           Priority => 'notice',
           Message => "SessionID ($SessionID) too old (". int(($Self->{TimeObject}->SystemTime() - $Data{UserSessionStart})/(60*60))
@@ -194,6 +194,12 @@ sub CheckSessionID {
         return;
     }
     return 1;
+}
+# --
+sub CheckSessionIDMessage {
+    my $Self = shift;
+    my %Param = @_;
+    return $Self->{CheckSessionIDMessage} || '';
 }
 # --
 sub GetSessionIDData {
