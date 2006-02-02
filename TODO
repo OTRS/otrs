@@ -2,7 +2,7 @@
 # TODO - todo list OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TODO,v 1.86 2006-01-26 14:32:49 tr Exp $
+# $Id: TODO,v 1.87 2006-02-02 16:03:06 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -116,3 +116,6 @@ ideas (just ideas - nobody is working on it)
 - maybe could format tags in the ConfigXML be useful, simular like EISPP-DAF
 - sopm: Maybe wie need tags like FileUninstall or FileDontUpdate
 - ConfigOption for use other separators for e.g. comma, semicolon, colon and tabulator in the function OutputCSV
+- include a check function to CustomerUserAdd and CustomerUserUpdate
+  if the values a valid. A Extension of $CustomerUser->{map} with regexp
+  can be the solution
