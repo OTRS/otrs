@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser.pm - some customer user functions
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerUser.pm,v 1.23 2006-01-30 13:54:54 tr Exp $
+# $Id: CustomerUser.pm,v 1.24 2006-02-03 09:02:06 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::CustomerUser;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -125,17 +125,17 @@ to search users
 
   my %List = $CustomerUserObject->CustomerSearch(
       Search => '*some*', # also 'hans+huber' possible
-      ValidID => 1, # not required
+      ValidID => 1, # not required, default 1
   );
 
   my %List = $CustomerUserObject->CustomerSearch(
       UserLogin => '*some*',
-      ValidID => 1, # not required
+      ValidID => 1, # not required, default 1
   );
 
   my %List = $CustomerUserObject->CustomerSearch(
       PostMasterSearch => 'email@example.com',
-      ValidID => 1, # not required
+      ValidID => 1, # not required, default 1
   );
 
 =cut
@@ -263,10 +263,11 @@ sub CustomerUserDataGet {
 
 to add new customer users
 
-  my $UserID = $CustomerUserObject->CustomerUserAdd(
+  my $UserLogin = $CustomerUserObject->CustomerUserAdd(
       Source => 'CustomerUser', # CustomerUser source config
       UserFirstname => 'Huber',
       UserLastname => 'Manfred',
+      UserCustomerID => 'A124',
       UserLogin => 'mhuber',
       UserPassword => 'some-pass', # not required
       UserEmail => 'email@example.com',
@@ -422,6 +423,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.23 $ $Date: 2006-01-30 13:54:54 $
+$Revision: 1.24 $ $Date: 2006-02-03 09:02:06 $
 
 =cut
