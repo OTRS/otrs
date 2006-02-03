@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser.pm - some customer user functions
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerUser.pm,v 1.22.2.2 2006-02-03 09:02:58 tr Exp $
+# $Id: CustomerUser.pm,v 1.22.2.3 2006-02-03 15:01:26 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::CustomerUser;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.22.2.2 $';
+$VERSION = '$Revision: 1.22.2.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -285,14 +285,14 @@ sub CustomerUserAdd {
         $Param{Source} = 'CustomerUser';
     }
     # check if user exists
-    my %User = $Self->CustomerUserDataGet(User => $Param{UserLogin});
-    if (%User) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "User already exists '$Param{UserLogin}'!");
-        return;
+    if ($Param{UserLogin}) {
+        my %User = $Self->CustomerUserDataGet(User => $Param{UserLogin});
+        if (%User) {
+           $Self->{LogObject}->Log(Priority => 'error', Message => "User already exists '$Param{UserLogin}'!");
+           return;
+        }
     }
-    else {
-        return $Self->{$Param{Source}}->CustomerUserAdd(@_);
-    }
+    return $Self->{$Param{Source}}->CustomerUserAdd(@_);
 }
 
 =item CustomerUserUpdate()
@@ -423,6 +423,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.22.2.2 $ $Date: 2006-02-03 09:02:58 $
+$Revision: 1.22.2.3 $ $Date: 2006-02-03 15:01:26 $
 
 =cut
