@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketZoom.pm,v 1.15 2005-12-29 02:49:10 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.16 2006-02-03 20:22:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -514,7 +514,7 @@ sub MaskAgentZoom {
                 },
             );
         }
-        foreach my $FileID (keys %AtmIndex) {
+        foreach my $FileID (sort keys %AtmIndex) {
             my %File = %{$AtmIndex{$FileID}};
             $Self->{LayoutObject}->Block(
                 Name => 'ArticleAttachmentRow',
