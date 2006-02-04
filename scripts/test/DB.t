@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.t,v 1.4 2006-01-03 20:12:28 martin Exp $
+# $Id: DB.t,v 1.5 2006-02-04 13:35:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -223,9 +223,9 @@ foreach my $SQL (@SQL) {
 
 $XML = '
 <TableAlter Name="test_a">
-    <ColumnAdd Name="test2" Type="varchar" Size="20" Required="1"/>
-    <ColumnChange NameOld="test2" NameNew="test3" Type="varchar" Size="30" Required="1"/>
-    <ColumnChange NameOld="test3" NameNew="test3" Type="varchar" Size="30" Required="0"/>
+    <ColumnAdd Name="test2" Type="varchar" Size="20" Required="true"/>
+    <ColumnChange NameOld="test2" NameNew="test3" Type="varchar" Size="30" Required="true"/>
+    <ColumnChange NameOld="test3" NameNew="test3" Type="varchar" Size="30" Required="false"/>
     <ColumnDrop Name="test3"/>
 </TableAlter>
 ';
