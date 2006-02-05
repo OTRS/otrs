@@ -2,13 +2,18 @@
 # CHANGES - change log  of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.231 2006-02-01 17:02:34 cs Exp $
+# $Id: CHANGES,v 1.232 2006-02-05 21:04:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS head
+ - (2006/02/05) added update and insert via admin sql box
+ - (2006/02/05) 'removed old compat files' Kernel/Config/Files/Ticket.pm
+    and Kernel/Config/Files/TicketPostMaster.pm
+ - (2006/02/05) added 8 more ticket free text fields
+     (db update with scripts/DBUpdate-to-2.1.(mysql|postgres).sql)
  - (2006/01/07) added SendNoNotification option for MoveTicket(),
     LockSet() and OwnerSet() in Kernel/System/Ticket.pm (used in
     GenericAgent to do some admin stuff).
@@ -27,8 +32,12 @@ CVS head
     $Self->{PreApplicationModule}->{AgentInfo} = 'Kernel::Modules::AgentInfo';
 
 2.0.5 (2006/??/??)
+ - (2006/02/01) fixed missing translation after new ticket was created
+ - (2006/02/01) added long month translation for calendar popup
  - (2006/02/01) changed Kernel/System/Spelling.pm to work with (a|i)spell
     on Windows systems
+ - (2006/01/30) added <OTRS_TICKET_*> and <OTRS_CONFIG_*> support to
+    auto respons templates
  - (2006/01/29) fixed/removed wrong config option
     "Ticket::Frontend::QueueSortDefault", added own config option for
     StatusView of tickets
