@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession.pm - provides session check and session data
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AuthSession.pm,v 1.24 2006-02-01 10:19:47 martin Exp $
+# $Id: AuthSession.pm,v 1.25 2006-02-05 09:46:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::AuthSession;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 
@@ -109,7 +109,7 @@ returns why CheckSessionID() returns false (e. g. invalid session id,
 sub CheckSessionIDMessage {
     my $Self = shift;
     my %Param = @_;
-    return $Self->{Backend}->CheckSessionID(%Param);
+    return $Self->{Backend}->CheckSessionIDMessage(%Param);
 }
 
 =item GetSessionIDData()
@@ -266,6 +266,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.24 $ $Date: 2006-02-01 10:19:47 $
+$Revision: 1.25 $ $Date: 2006-02-05 09:46:06 $
 
 =cut
