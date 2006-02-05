@@ -1,8 +1,8 @@
 # --
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.224 2005-11-28 00:09:10 martin Exp $
+# $Id: Defaults.pm,v 1.225 2006-02-05 20:48:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.224 $';
+$VERSION = '$Revision: 1.225 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1008,6 +1008,7 @@ Your OTRS Notification Master
 #        CustomerUserExcludePrimaryCustomerID => 0,
 #        # generate auto logins
 #        AutoLoginCreation => 0,
+#        # generate auto login prefix
 #        AutoLoginCreationPrefix => 'auto',
 #        # admin can change customer preferences
 #        AdminSetPreferences => 1,
@@ -1020,7 +1021,7 @@ Your OTRS Notification Master
             [ 'UserFirstname',  'Firstname',  'first_name',  1, 1, 'var', '', 0 ],
             [ 'UserLastname',   'Lastname',   'last_name',   1, 1, 'var', '', 0 ],
             [ 'UserLogin',      'Username',   'login',       1, 1, 'var', '', 0 ],
-            [ 'UserPassword',   'Password',   'pw',          0, 1, 'var', '', 0 ],
+            [ 'UserPassword',   'Password',   'pw',          0, 0, 'var', '', 0 ],
             [ 'UserEmail',      'Email',      'email',       0, 1, 'var', '', 0 ],
 #            [ 'UserEmail',      'Email', 'email',           1, 1, 'var', '$Env{"CGIHandle"}?Action=AgentTicketCompose&ResponseID=1&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}', 0 ],
             [ 'UserCustomerID', 'CustomerID', 'customer_id', 0, 1, 'var', '', 0 ],
@@ -1528,11 +1529,11 @@ Your OTRS Notification Master
     $Self->{'Frontend::Module'}->{'AdminSelectBox'} = {
         Group => ['admin'],
         Description => 'Admin',
-        Title => 'Select box',
+        Title => 'SQL Box',
         NavBarName => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'Select Box',
+            Name => 'SQL Box',
             Block => 'Block4',
             Prio => 700,
         },
@@ -1740,6 +1741,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.224 $ $Date: 2005-11-28 00:09:10 $
+$Revision: 1.225 $ $Date: 2006-02-05 20:48:20 $
 
 =cut
