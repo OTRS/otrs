@@ -1,18 +1,19 @@
 # --
-# AgentTicketPending.dtl - provides HTML form for pending mask
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# AgentTicketPending.dtl - set ticket to pending
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPending.dtl,v 1.10 2005-08-05 08:11:45 rk Exp $
+# $Id: AgentTicketPending.dtl,v 1.11 2006-02-05 20:32:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-<!-- start form -->
+<!-- dtl:block:Properties -->
 <script language="JavaScript" type="text/javascript">
 <!--
 function submit_compose()
 {
+<!-- dtl:block:NoteJs -->
     if (document.compose.Subject.value == "") {
         alert('$Text{"A message should have a subject!"}');
         document.compose.Subject.focus();
@@ -23,16 +24,9 @@ function submit_compose()
         document.compose.Body.focus();
         return false;
     }
-    else if (isNaN(document.compose.Day.value) || isNaN(document.compose.Month.value) || isNaN(document.compose.Year.value) || isNaN(document.compose.Hour.value) || isNaN(document.compose.Minute.value)) {
-        alert('$Text{"Invalid date!"}');
-        return false;
-    }
-    else if (document.compose.Day.value < 1 || document.compose.Day.value > 31 || document.compose.Month.value < 1 || document.compose.Month.value > 31 || document.compose.Year.value < 999 || document.compose.Year.value > 10000 || document.compose.Hour.value < 0 || document.compose.Hour.value > 23 ||document.compose.Minute.value < 0 || document.compose.Minute.value > 59  ) {
-        alert('$Text{"Invalid date!"}');
-        return false;
-    }
+<!-- dtl:block:NoteJs -->
 <!-- dtl:block:TimeUnitsJs -->
-    else if (document.compose.TimeUnits.value != "") {
+    if (document.compose.TimeUnits.value != "") {
         var reg = /^-{0,1}\d+?((\.|,){0,1}\d+?){0,1}$/;
         if (reg.test(document.compose.TimeUnits.value) == false) {
             alert('$Text{"Invalid time!"}');
@@ -46,9 +40,7 @@ function submit_compose()
         return false;
     }
 <!-- dtl:block:TimeUnitsJs -->
-    else {
-        return true;
-    }
+    return true;
 }
 //-->
 </script>
@@ -64,13 +56,43 @@ function SpellCheckSubmit()
 // -->
 </script>
 
+<!-- dtl:block:OwnerJs -->
+<script language="JavaScript" type="text/javascript">
+<!--
+function change_selected(sel)
+{
+   start_elements = (sel + 4);
+   if (document.compose.elements[0].name == "$Config{"SessionName"}") {
+       start_elements = start_elements + 1;
+   }
+   if (!document.compose.elements[start_elements].checked) {
+        document.compose.elements[start_elements].checked = true;
+   }
+# just for debug!
+#alert(start_elements);
+#alert(document.owner.elements[start_elements].name)
+#alert(document.owner.elements[start_elements].checked)
+}
+//-->
+</script>
+<!-- dtl:block:OwnerJs -->
+
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
 <tr>
-  <td class="mainhead2">
+  <td class="mainhead">
     $Env{"Box0"}$Text{"Set Pending"}: $Data{"TicketNumber"}$Env{"Box1"}
   </td>
 </tr>
-$Include{"AgentTicketLocked"}
+<tr>
+  <td class="menu">
+<!-- dtl:block:TicketBack -->
+    <a href="$Env{"Baselink"}$Env{"LastScreenView"}" onmouseover="window.status='$Text{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
+<!-- dtl:block:TicketBack -->
+<!-- dtl:block:PropertiesLock -->
+  <img border="0" src="$Env{"Images"}warning.png" alt="$Text{"Info"}">: <font color="red">$Text{"Ticket locked!"}</font> (<a href="$Env{"CGIHandle"}?Action=AgentTicketLock&Subaction=Unlock&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Ticket unlock!"}'; return true;" onmouseout="window.status='';">$Text{"Ticket unlock!"}</a>)
+<!-- dtl:block:PropertiesLock -->
+  </td>
+</tr>
 <tr>
   <td class="mainbody">
 
@@ -79,64 +101,142 @@ $Include{"AgentTicketLocked"}
   <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
   <input type="hidden" name="Action" value="$Env{"Action"}">
   <input type="hidden" name="Subaction" value="Store">
-  <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
+  <input type="hidden" name="TicketID" value="$QData{"TicketID"}">
+  <input type="hidden" name="FormID" value="$QData{"FormID"}">
+
   <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
   <tr>
     <td colspan="2" class="contenthead">$Text{"Options"}</td>
   </tr>
   <tr>
   <td class="contentbody">
-      <table border="0" width="100%">
+    <table border="0" width="100%">
+<!-- dtl:block:Owner -->
       <tr>
-        <td class="contentkey" width="20%">$Text{"Subject"}:</td>
-        <td class="contentvalue" width="80%"><input type="text" name="Subject" value="$QData{"Subject"}" size="70"><font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font></td>
+        <td width="18%" class="contentkey">$Text{"New Owner"}:</td>
+        <td width="2%" class="contentvalue"><input type="radio" name="NewOwnerType" value="New" $Data{"NewOwnerType::New"}></td>
+        <td width="80%" class="contentvalue">$Data{"OwnerStrg"}</td>
       </tr>
       <tr>
-        <td class="contentkey">$Text{"Options"}:</td>
+        <td class="contentkey">$Text{"Previous Owner"}:</td>
+        <td class="contentvalue"><input type="radio" name="NewOwnerType" value="Old" $Data{"NewOwnerType::Old"}></td>
+        <td class="contentvalue">$Data{"OldOwnerStrg"}</td>
+      </tr>
+<!-- dtl:block:Owner -->
+<!-- dtl:block:Note -->
+<!-- dtl:block:InformAgent -->
+      <tr>
+        <td colspan="2" class="contentkey">$Text{"Inform Agent"}: ($Text{"Optional"})</td>
+        <td class="contentvalue">$Data{"OptionStrg"}</td>
+      </tr>
+<!-- dtl:block:InformAgent -->
+<!-- dtl:block:InvolvedAgent -->
+      <tr>
+        <td colspan="2" class="contentkey">$Text{"Inform involved Agents"}:</td>
+        <td class="contentvalue">$Data{"InvolvedAgentStrg"}</td>
+      </tr>
+<!-- dtl:block:InvolvedAgent -->
+      <tr>
+        <td colspan="2" width="20%" class="contentkey">$Text{"Subject"}:</td>
+        <td width="80%" class="contentvalue"><input type="text" name="Subject" value="$QData{"Subject"}" size="70"><font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font></td>
+      </tr>
+      <tr>
+        <td colspan="2" class="contentkey">$Text{"Options"}:</td>
         <td class="contentvalue">
 <!-- dtl:block:SpellCheck -->
            $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$Text{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"}
 <!-- dtl:block:SpellCheck -->
+           $Env{"Box0"}<a href="#attachment" onmouseover="window.status='$Text{"Attachments"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}attach.png">$Text{"Attachments"}</a>$Env{"Box1"}
         </td>
       </tr>
       <tr>
-        <td class="contentkey">$Text{"Note Text"}:</td>
+        <td colspan="2" class="contentkey">$Text{"Text"}:</td>
         <td class="contentvalue">
-        <textarea name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}" wrap="$Env{"BrowserWrap"}">$QData{"Body"}</textarea> <font color="red" size="-2">$Text{"$Data{"Body invalid"}"}</font>
+        <textarea name="Body" rows="16" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea> <font color="red" size="-2">$Text{"$Data{"Body invalid"}"}</font>
         </td>
       </tr>
       <tr>
-        <td class="contentkey">$Text{"Note type"}:</td>
-        <td class="contentvalue">$Data{"NoteTypesStrg"}</td>
+        <td colspan="2" class="contentkey">$Text{"Attachment"}:</td>
+        <td class="contentvalue">
+         <table cellspacing="0" cellpadding="0" width="400">
+<!-- dtl:block:Attachment -->
+           <tr><td>$QData{"Filename"}</td><td>$QData{"Filesize"}</td><td align="right"><input class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}"></td></tr>
+<!-- dtl:block:Attachment -->
+          <tr><td colspan="2">
+           <input name="file_upload" type="file" size="40" class="fixed"></td><td align="right"><input class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}"><a name="attachment">
+           </td></tr>
+         </table>
+        </td>
       </tr>
+<!-- dtl:block:ArticleType -->
       <tr>
-        <td class="contentkey">$Text{"Pending type"}:</td>
-        <td class="contentvalue">$Data{"NextStatesStrg"}</td>
+        <td colspan="2" class="contentkey">$Text{"Note type"}:</td>
+        <td class="contentvalue">$Data{"ArticleTypeStrg"}</td>
       </tr>
+<!-- dtl:block:ArticleType -->
+<!-- dtl:block:Note -->
+<!-- dtl:block:State -->
       <tr>
-        <td class="contentkey">$Text{"Pending date"}:</td>
-        <td class="contentvalue"> $Data{"DateString"} <font color="red" size="-2">$Text{"$Data{"Date invalid"}"}</font> </td>
+        <td colspan="2" class="contentkey">$Text{"Next state"}:</td>
+        <td class="contentvalue">$Data{"StateStrg"}</td>
       </tr>
+<!-- dtl:block:StatePending -->
+      <tr>
+        <td colspan="2" class="contentkey">$Text{"Pending date"}:</td>
+        <td class="contentvalue">$Data{"DateString"} <font color="red" size="-2">$Text{"$Data{"Date invalid"}"}</font></td>
+      </tr>
+<!-- dtl:block:StatePending -->
+<!-- dtl:block:State -->
+<!-- dtl:block:Priority -->
+      <tr>
+        <td colspan="2" class="contentkey">$Text{"Priority"}:</td>
+        <td class="contentvalue">$Data{"PriorityStrg"}</td>
+      </tr>
+<!-- dtl:block:Priority -->
+<!-- dtl:block:FreeText -->
+      <tr>
+        <td colspan="2" class="contentkey">$Data{"TicketFreeKeyField"}</td>
+        <td class="contentvalue">$Data{"TicketFreeTextField"}</td>
+      </tr>
+<!-- dtl:block:FreeText -->
+#      <tr>
+#        <td colspan="2" class="contentkey">$Data{"TicketFreeKeyField1"}:</td>
+#        <td class="contentvalue">$Data{"TicketFreeTextField1"}</td>
+#      </tr>
 #     <tr>
-#        <td class="contentkey">$Text{"Next Queue"}:</td>
-#        <td class="contentvalue">$Data{"MoveQueuesStrg"}</td>
+#       <td colspan="2" class="contentkey">$Data{"TicketFreeKeyField2"}:</td>
+#       <td class="contentvalue">$Data{"TicketFreeTextField2"}</td>
 #     </tr>
+#     <tr>
+#       <td colspan="2" class="contentkey">$Data{"TicketFreeKeyField3"}:</td>
+#       <td class="contentvalue">$Data{"TicketFreeTextField3"}</td>
+#     </tr>
+#     <tr>
+#       <td colspan="2" class="contentkey">$Data{"TicketFreeKeyField4"}:</td>
+#       <td class="contentvalue">$Data{"TicketFreeTextField4"}</td>
+#     </tr>
+<!-- dtl:block:FreeTime -->
+     <tr>
+       <td colspan="2" class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}</td>
+       <td class="contentvalue">$Data{"TicketFreeTime"}</td>
+     </tr>
+<!-- dtl:block:FreeTime -->
 <!-- dtl:block:TimeUnits -->
       <tr>
-        <td class="contentkey">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</td>
+        <td colspan="2" class="contentkey">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</td>
         <td class="contentvalue"><input type="text" name="TimeUnits" value="$QData{"TimeUnits"}" size="3"></td>
       </tr>
 <!-- dtl:block:TimeUnits -->
       </table>
-    </td>
-  </tr>
-  <tr>
-    <td class="contentfooter">
-      <input class="button" accesskey="g" type="submit" value="$Text{"submit"}" onclick="return submit_compose();">
-    </td>
-  </tr>
-  </table>
-  </form>
+      </td>
+    </tr>
+    <tr>
+      <td class="contentfooter">
+        <input class="button" accesskey="g" type="submit" value="$Text{"submit"}" onclick="return submit_compose();">
+      </td>
+    </tr>
+    </table>
+    </form>
 
 <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
   <input type="hidden" name="Action" value="AgentSpelling">
@@ -144,9 +244,9 @@ $Include{"AgentTicketLocked"}
   <input type="hidden" name="spell_lang" value="">
 </form>
 
-    <br>
+  <br>
 
   </td>
 </tr>
 </table>
-<!-- end form -->
+<!-- dtl:block:Properties -->
