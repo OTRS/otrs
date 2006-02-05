@@ -5,9 +5,12 @@
   XML File for the OTRS database description
   Copyright (C) 2001-2003 Martin Edenhofer
 
-  $Id: otrs-schema.xml,v 1.48 2005-12-04 11:25:19 martin Exp $
+  $Id: otrs-schema.xml,v 1.49 2006-02-05 20:17:49 martin Exp $
 
   $Log: not supported by cvs2svn $
+  Revision 1.48  2005/12/04 11:25:19  martin
+  fixed bug #1025 and bug #1018 - ORA-01400: cannot insert NULL into ...
+
   Revision 1.47  2005/11/29 20:55:03  martin
   fixed bug #1011 - ORA-01408: such column list already indexed
 
@@ -707,6 +710,22 @@
   <Column Name="freetext7" Required="false" Size="150" Type="VARCHAR"/>
   <Column Name="freekey8" Required="false" Size="80" Type="VARCHAR"/>
   <Column Name="freetext8" Required="false" Size="150" Type="VARCHAR"/>
+  <Column Name="freekey9" Required="false" Size="80" Type="VARCHAR"/>
+  <Column Name="freetext9" Required="false" Size="150" Type="VARCHAR"/>
+  <Column Name="freekey10" Required="false" Size="80" Type="VARCHAR"/>
+  <Column Name="freetext10" Required="false" Size="150" Type="VARCHAR"/>
+  <Column Name="freekey11" Required="false" Size="80" Type="VARCHAR"/>
+  <Column Name="freetext11" Required="false" Size="150" Type="VARCHAR"/>
+  <Column Name="freekey12" Required="false" Size="80" Type="VARCHAR"/>
+  <Column Name="freetext12" Required="false" Size="150" Type="VARCHAR"/>
+  <Column Name="freekey13" Required="false" Size="80" Type="VARCHAR"/>
+  <Column Name="freetext13" Required="false" Size="150" Type="VARCHAR"/>
+  <Column Name="freekey14" Required="false" Size="80" Type="VARCHAR"/>
+  <Column Name="freetext14" Required="false" Size="150" Type="VARCHAR"/>
+  <Column Name="freekey15" Required="false" Size="80" Type="VARCHAR"/>
+  <Column Name="freetext15" Required="false" Size="150" Type="VARCHAR"/>
+  <Column Name="freekey16" Required="false" Size="80" Type="VARCHAR"/>
+  <Column Name="freetext16" Required="false" Size="150" Type="VARCHAR"/>
   <Column Name="freetime1" Required="false" Type="DATE"/>
   <Column Name="freetime2" Required="false" Type="DATE"/>
   <Column Name="valid_id" Required="true" Type="SMALLINT"/>
@@ -1338,143 +1357,6 @@
   <Column Name="create_by" Required="true" Type="INTEGER"/>
   <Column Name="change_time" Required="true" Type="DATE"/>
   <Column Name="change_by" Required="true" Type="INTEGER"/>
-  <ForeignKey ForeignTable="system_user">
-    <Reference Local="create_by" Foreign="id"/>
-    <Reference Local="change_by" Foreign="id"/>
-  </ForeignKey>
-</Table>
-
-<!-- faq_item -->
-<Table Name="faq_item">
-  <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
-  <Column Name="f_number" Required="true" Size="200" Type="VARCHAR"/>
-  <Column Name="f_subject" Required="false" Size="200" Type="VARCHAR"/>
-  <Column Name="f_name" Required="true" Size="200" Type="VARCHAR"/>
-  <Column Name="f_language_id" Required="true" Type="SMALLINT"/>
-  <Column Name="state_id" Required="true" Type="SMALLINT"/>
-  <Column Name="category_id" Required="true" Type="SMALLINT"/>
-  <Column Name="f_keywords" Required="false" Size="20000" Type="VARCHAR"/>
-  <Column Name="f_field1" Required="false" Size="20000" Type="VARCHAR"/>
-  <Column Name="f_field2" Required="false" Size="20000" Type="VARCHAR"/>
-  <Column Name="f_field3" Required="false" Size="20000" Type="VARCHAR"/>
-  <Column Name="f_field4" Required="false" Size="20000" Type="VARCHAR"/>
-  <Column Name="f_field5" Required="false" Size="20000" Type="VARCHAR"/>
-  <Column Name="f_field6" Required="false" Size="20000" Type="VARCHAR"/>
-  <Column Name="free_key1" Required="false" Size="80" Type="VARCHAR"/>
-  <Column Name="free_value1" Required="false" Size="200" Type="VARCHAR"/>
-  <Column Name="free_key2" Required="false" Size="80" Type="VARCHAR"/>
-  <Column Name="free_value2" Required="false" Size="200" Type="VARCHAR"/>
-  <Column Name="free_key3" Required="false" Size="80" Type="VARCHAR"/>
-  <Column Name="free_value3" Required="false" Size="200" Type="VARCHAR"/>
-  <Column Name="free_key4" Required="false" Size="80" Type="VARCHAR"/>
-  <Column Name="free_value4" Required="false" Size="200" Type="VARCHAR"/>
-  <Column Name="create_time" Required="true" Type="DATE"/>
-  <Column Name="create_by" Required="true" Type="INTEGER"/>
-  <Column Name="change_time" Required="true" Type="DATE"/>
-  <Column Name="change_by" Required="true" Type="INTEGER"/>
-  <Unique>
-    <UniqueColumn Name="f_name"/>
-  </Unique>
-  <ForeignKey ForeignTable="faq_category">
-    <Reference Local="category_id" Foreign="id"/>
-  </ForeignKey>
-  <ForeignKey ForeignTable="faq_state">
-    <Reference Local="state_id" Foreign="id"/>
-  </ForeignKey>
-  <ForeignKey ForeignTable="faq_language">
-    <Reference Local="f_language_id" Foreign="id"/>
-  </ForeignKey>
-  <ForeignKey ForeignTable="system_user">
-    <Reference Local="create_by" Foreign="id"/>
-    <Reference Local="change_by" Foreign="id"/>
-  </ForeignKey>
-</Table>
-
-<!-- faq_language -->
-<Table Name="faq_language">
-  <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
-  <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
-  <Unique>
-    <UniqueColumn Name="name"/>
-  </Unique>
-</Table>
-
-<!-- faq_history -->
-<Table Name="faq_history">
-  <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
-  <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
-  <Column Name="item_id" Required="true" Type="INTEGER"/>
-  <Column Name="create_time" Required="true" Type="DATE"/>
-  <Column Name="create_by" Required="true" Type="INTEGER"/>
-  <Column Name="change_time" Required="true" Type="DATE"/>
-  <Column Name="change_by" Required="true" Type="INTEGER"/>
-  <ForeignKey ForeignTable="faq_item">
-    <Reference Local="item_id" Foreign="id"/>
-  </ForeignKey>
-  <ForeignKey ForeignTable="system_user">
-    <Reference Local="create_by" Foreign="id"/>
-    <Reference Local="change_by" Foreign="id"/>
-  </ForeignKey>
-</Table>
-
-<!-- faq_category -->
-<Table Name="faq_category">
-  <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
-  <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
-  <Column Name="comments" Required="false" Size="200" Type="VARCHAR"/>
-  <Column Name="create_time" Required="true" Type="DATE"/>
-  <Column Name="create_by" Required="true" Type="INTEGER"/>
-  <Column Name="change_time" Required="true" Type="DATE"/>
-  <Column Name="change_by" Required="true" Type="INTEGER"/>
-  <Unique>
-    <UniqueColumn Name="name"/>
-  </Unique>
-  <ForeignKey ForeignTable="system_user">
-    <Reference Local="create_by" Foreign="id"/>
-    <Reference Local="change_by" Foreign="id"/>
-  </ForeignKey>
-</Table>
-
-<!-- faq_state -->
-<Table Name="faq_state">
-  <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
-  <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
-  <Column Name="type_id" Required="true" Type="INTEGER"/>
-  <Unique>
-    <UniqueColumn Name="name"/>
-  </Unique>
-  <ForeignKey ForeignTable="faq_state_type">
-    <Reference Local="type_id" Foreign="id"/>
-  </ForeignKey>
-</Table>
-
-<!-- faq_state_type -->
-<Table Name="faq_state_type">
-  <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
-  <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
-  <Unique>
-    <UniqueColumn Name="name"/>
-  </Unique>
-</Table>
-
-<!-- faq - attachments -->
-<Table Name="faq_attachment">
-  <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
-  <Column Name="faq_id" Required="true" Type="BIGINT"/>
-  <Column Name="filename" Required="false" Size="250" Type="VARCHAR"/>
-  <Column Name="content_size" Required="false" Size="30" Type="VARCHAR"/>
-  <Column Name="content_type" Required="false" Size="250" Type="VARCHAR"/>
-  <Column Name="content" Required="true" Type="LONGBLOB"/>
-  <Column Name="create_time" Required="true" Type="DATE"/>
-  <Column Name="create_by" Required="true" Type="INTEGER"/>
-  <Column Name="change_time" Required="true" Type="DATE"/>
-  <Column Name="change_by" Required="true" Type="INTEGER"/>
-  <Index Name="faq_id">
-    <IndexColumn Name="faq_id"/>
-  </Index>
-  <ForeignKey ForeignTable="faq_item">
-    <Reference Local="faq_id" Foreign="id"/>
-  </ForeignKey>
   <ForeignKey ForeignTable="system_user">
     <Reference Local="create_by" Foreign="id"/>
     <Reference Local="change_by" Foreign="id"/>
