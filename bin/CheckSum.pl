@@ -3,7 +3,7 @@
 # bin/CheckSum.pl - a tool to compare changes in a installation
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CheckSum.pl,v 1.2 2006-01-07 16:22:31 martin Exp $
+# $Id: CheckSum.pl,v 1.3 2006-02-05 20:48:55 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION $RealBin);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -94,7 +94,7 @@ sub R {
     my @List = glob("$In/*");
     foreach my $File (@List) {
         $File =~ s/\/\//\//g;
-        if (-d $File && $File !~ /CVS/ && $File !~ /^doc\//) {
+        if (-d $File && $File !~ /CVS/ && $File !~ /^doc\// && $File !~ /^var\/tmp/) {
             R($File);
             $File =~ s/$Start//;
 #            print "Directory: $File\n";
@@ -104,7 +104,7 @@ sub R {
             $File =~ s/$Start//;
             $File =~ s/^\/(.*)$/$1/;
 #            print "File: $File\n";
-            if ($File !~ /Entries|Repository|Root|CVS/ && $File !~ /^doc\//) {
+            if ($File !~ /Entries|Repository|Root|CVS/ && $File !~ /^doc\// && $File !~ /^var\/tmp/) {
                 my $Content = '';
                 open (IN, "< $OrigFile") || die "ERROR: $!";
                 while (<IN>) {
