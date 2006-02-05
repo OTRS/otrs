@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerTicketMessage.pm,v 1.5 2005-12-01 11:08:01 martin Exp $
+# $Id: CustomerTicketMessage.pm,v 1.6 2006-02-05 21:00:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -87,13 +87,13 @@ sub Run {
             );
             # get default selections
             my %TicketFreeDefault = ();
-            foreach (1..8) {
+            foreach (1..16) {
                 $TicketFreeDefault{'TicketFreeKey'.$_} = $Self->{ConfigObject}->Get('TicketFreeKey'.$_.'::DefaultSelection');
                 $TicketFreeDefault{'TicketFreeText'.$_} = $Self->{ConfigObject}->Get('TicketFreeText'.$_.'::DefaultSelection');
             }
             # get free text config options
             my %TicketFreeText = ();
-            foreach (1..8) {
+            foreach (1..16) {
                 $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
                     TicketID => $Self->{TicketID},
                     Action => $Self->{Action},
@@ -276,13 +276,13 @@ sub Run {
             if ($Queue) {
                 my $QueueID = $Self->{QueueObject}->QueueLookup(Queue => $Queue);
                 $NewQueueID = $QueueID;
-                $To = $QueueID;
+                $To = $Queue;
             }
         }
         my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject') || 'New!';
         my $Body = $Self->{ParamObject}->GetParam(Param => 'Body');
         my %TicketFree = ();
-        foreach (1..8) {
+        foreach (1..16) {
             $TicketFree{"TicketFreeKey$_"} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeKey$_");
             $TicketFree{"TicketFreeText$_"} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeText$_");
         }
@@ -308,7 +308,7 @@ sub Run {
             CreateUserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
         );
         # set ticket free text
-        foreach (1..8) {
+        foreach (1..16) {
             if (defined($TicketFree{"TicketFreeKey$_"})) {
                 $Self->{TicketObject}->TicketFreeTextSet(
                     TicketID => $TicketID,

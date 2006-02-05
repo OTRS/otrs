@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerTicketSearch.pm,v 1.15 2005-08-26 15:55:29 martin Exp $
+# $Id: CustomerTicketSearch.pm,v 1.16 2006-02-05 20:58:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -336,9 +336,9 @@ sub Run {
         elsif ($GetParam{ResultForm} eq 'CSV') {
             # return csv to download
             my $CSVFile = 'search';
-            my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = $Self->{TimeObject}->SystemTime2Date(
-                SystemTime => $Self->{TimeObject}->SystemTime(),
-            );
+            my ($s,$m,$h, $D,$M,$Y, $wd,$yd,$dst) = localtime(time);
+            $Y = $Y+1900;
+            $M++;
             $M = sprintf("%02d", $M);
             $D = sprintf("%02d", $D);
             $h = sprintf("%02d", $h);
@@ -378,7 +378,7 @@ sub Run {
         }
         # get free text config options
         my %TicketFreeText = ();
-        foreach (1..8) {
+        foreach (1..16) {
             $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
                 Type => "TicketFreeKey$_",
                 Action => $Self->{Action},
@@ -412,6 +412,7 @@ sub Run {
 sub MaskForm {
     my $Self = shift;
     my %Param = @_;
+
     $Param{'ResultFormStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
             Normal => 'Normal',
