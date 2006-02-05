@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  database: postgresql, generated: Mon Jun  6 22:21:08 2005
+--  database: postgresql, generated: Sat Feb  4 13:52:54 2006
 -- ----------------------------------------------------------
 ALTER TABLE valid ADD FOREIGN KEY (create_by) REFERENCES system_user(id);
 ALTER TABLE valid ADD FOREIGN KEY (change_by) REFERENCES system_user(id);
@@ -141,19 +141,5 @@ ALTER TABLE pop3_account ADD FOREIGN KEY (change_by) REFERENCES system_user(id);
 ALTER TABLE pop3_account ADD FOREIGN KEY (valid_id) REFERENCES valid(id);
 ALTER TABLE notifications ADD FOREIGN KEY (create_by) REFERENCES system_user(id);
 ALTER TABLE notifications ADD FOREIGN KEY (change_by) REFERENCES system_user(id);
-ALTER TABLE faq_item ADD FOREIGN KEY (category_id) REFERENCES faq_category(id);
-ALTER TABLE faq_item ADD FOREIGN KEY (create_by) REFERENCES system_user(id);
-ALTER TABLE faq_item ADD FOREIGN KEY (change_by) REFERENCES system_user(id);
-ALTER TABLE faq_item ADD FOREIGN KEY (f_language_id) REFERENCES faq_language(id);
-ALTER TABLE faq_item ADD FOREIGN KEY (state_id) REFERENCES faq_state(id);
-ALTER TABLE faq_history ADD FOREIGN KEY (create_by) REFERENCES system_user(id);
-ALTER TABLE faq_history ADD FOREIGN KEY (change_by) REFERENCES system_user(id);
-ALTER TABLE faq_history ADD FOREIGN KEY (item_id) REFERENCES faq_item(id);
-ALTER TABLE faq_category ADD FOREIGN KEY (create_by) REFERENCES system_user(id);
-ALTER TABLE faq_category ADD FOREIGN KEY (change_by) REFERENCES system_user(id);
-ALTER TABLE faq_state ADD FOREIGN KEY (type_id) REFERENCES faq_state_type(id);
-ALTER TABLE faq_attachment ADD FOREIGN KEY (create_by) REFERENCES system_user(id);
-ALTER TABLE faq_attachment ADD FOREIGN KEY (change_by) REFERENCES system_user(id);
-ALTER TABLE faq_attachment ADD FOREIGN KEY (faq_id) REFERENCES faq_item(id);
 ALTER TABLE package_repository ADD FOREIGN KEY (create_by) REFERENCES system_user(id);
 ALTER TABLE package_repository ADD FOREIGN KEY (change_by) REFERENCES system_user(id);

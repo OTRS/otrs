@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  database: oracle, generated: Tue Nov 29 22:19:53 2005
+--  database: oracle, generated: Sat Feb  4 13:53:02 2006
 -- ----------------------------------------------------------
 DROP TABLE valid CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
@@ -520,6 +520,22 @@ CREATE TABLE ticket (
     freetext7 VARCHAR2 (150),
     freekey8 VARCHAR2 (80),
     freetext8 VARCHAR2 (150),
+    freekey9 VARCHAR2 (80),
+    freetext9 VARCHAR2 (150),
+    freekey10 VARCHAR2 (80),
+    freetext10 VARCHAR2 (150),
+    freekey11 VARCHAR2 (80),
+    freetext11 VARCHAR2 (150),
+    freekey12 VARCHAR2 (80),
+    freetext12 VARCHAR2 (150),
+    freekey13 VARCHAR2 (80),
+    freetext13 VARCHAR2 (150),
+    freekey14 VARCHAR2 (80),
+    freetext14 VARCHAR2 (150),
+    freekey15 VARCHAR2 (80),
+    freetext15 VARCHAR2 (150),
+    freekey16 VARCHAR2 (80),
+    freetext16 VARCHAR2 (150),
     freetime1 DATE,
     freetime2 DATE,
     valid_id NUMBER (5, 0) NOT NULL,
@@ -876,14 +892,14 @@ CREATE TABLE standard_response_attachment (
     change_time DATE NOT NULL,
     change_by NUMBER NOT NULL
 );
-ALTER TABLE standard_response_attachment ADD CONSTRAINT standard_response_attach21_PK PRIMARY KEY (id);
-DROP SEQUENCE standard_response_attach21_seq;
-CREATE SEQUENCE standard_response_attach21_seq;
-CREATE OR REPLACE TRIGGER standard_response_attach21_s_t
+ALTER TABLE standard_response_attachment ADD CONSTRAINT standard_response_attach42_PK PRIMARY KEY (id);
+DROP SEQUENCE standard_response_attach42_seq;
+CREATE SEQUENCE standard_response_attach42_seq;
+CREATE OR REPLACE TRIGGER standard_response_attach42_s_t
 before insert on standard_response_attachment
 for each row
 begin
-    select standard_response_attach21_seq.nextval
+    select standard_response_attach42_seq.nextval
     into :new.id
     from dual;
 end;
@@ -1004,7 +1020,7 @@ begin
 end;
 /
 --;
-CREATE INDEX index_time_accounting_ticket30 ON time_accounting (ticket_id);
+CREATE INDEX index_time_accounting_ticket40 ON time_accounting (ticket_id);
 DROP TABLE sessions CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table sessions
@@ -1079,7 +1095,7 @@ CREATE TABLE customer_preferences (
     preferences_key VARCHAR2 (150) NOT NULL,
     preferences_value VARCHAR2 (250)
 );
-CREATE INDEX index_customer_preferences_u94 ON customer_preferences (user_id);
+CREATE INDEX index_customer_preferences_u0 ON customer_preferences (user_id);
 DROP TABLE ticket_loop_protection CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table ticket_loop_protection
@@ -1088,8 +1104,8 @@ CREATE TABLE ticket_loop_protection (
     sent_to VARCHAR2 (250) NOT NULL,
     sent_date VARCHAR2 (150) NOT NULL
 );
-CREATE INDEX index_ticket_loop_protection38 ON ticket_loop_protection (sent_to);
-CREATE INDEX index_ticket_loop_protection76 ON ticket_loop_protection (sent_date);
+CREATE INDEX index_ticket_loop_protection65 ON ticket_loop_protection (sent_to);
+CREATE INDEX index_ticket_loop_protection44 ON ticket_loop_protection (sent_date);
 DROP TABLE pop3_account CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table pop3_account
@@ -1202,202 +1218,6 @@ begin
 end;
 /
 --;
-DROP TABLE faq_item CASCADE CONSTRAINTS;
--- ----------------------------------------------------------
---  create table faq_item
--- ----------------------------------------------------------
-CREATE TABLE faq_item (
-    id NUMBER NOT NULL,
-    f_number VARCHAR2 (200) NOT NULL,
-    f_subject VARCHAR2 (200),
-    f_name VARCHAR2 (200) NOT NULL,
-    f_language_id NUMBER (5, 0) NOT NULL,
-    state_id NUMBER (5, 0) NOT NULL,
-    category_id NUMBER (5, 0) NOT NULL,
-    f_keywords CLOB,
-    f_field1 CLOB,
-    f_field2 CLOB,
-    f_field3 CLOB,
-    f_field4 CLOB,
-    f_field5 CLOB,
-    f_field6 CLOB,
-    free_key1 VARCHAR2 (80),
-    free_value1 VARCHAR2 (200),
-    free_key2 VARCHAR2 (80),
-    free_value2 VARCHAR2 (200),
-    free_key3 VARCHAR2 (80),
-    free_value3 VARCHAR2 (200),
-    free_key4 VARCHAR2 (80),
-    free_value4 VARCHAR2 (200),
-    create_time DATE NOT NULL,
-    create_by NUMBER NOT NULL,
-    change_time DATE NOT NULL,
-    change_by NUMBER NOT NULL,
-    CONSTRAINT faq_item_U_1 UNIQUE (f_name)
-);
-ALTER TABLE faq_item ADD CONSTRAINT faq_item_PK PRIMARY KEY (id);
-DROP SEQUENCE faq_item_seq;
-CREATE SEQUENCE faq_item_seq;
-CREATE OR REPLACE TRIGGER faq_item_s_t
-before insert on faq_item
-for each row
-begin
-    select faq_item_seq.nextval
-    into :new.id
-    from dual;
-end;
-/
---;
-DROP TABLE faq_language CASCADE CONSTRAINTS;
--- ----------------------------------------------------------
---  create table faq_language
--- ----------------------------------------------------------
-CREATE TABLE faq_language (
-    id NUMBER (5, 0) NOT NULL,
-    name VARCHAR2 (200) NOT NULL,
-    CONSTRAINT faq_language_U_1 UNIQUE (name)
-);
-ALTER TABLE faq_language ADD CONSTRAINT faq_language_PK PRIMARY KEY (id);
-DROP SEQUENCE faq_language_seq;
-CREATE SEQUENCE faq_language_seq;
-CREATE OR REPLACE TRIGGER faq_language_s_t
-before insert on faq_language
-for each row
-begin
-    select faq_language_seq.nextval
-    into :new.id
-    from dual;
-end;
-/
---;
-DROP TABLE faq_history CASCADE CONSTRAINTS;
--- ----------------------------------------------------------
---  create table faq_history
--- ----------------------------------------------------------
-CREATE TABLE faq_history (
-    id NUMBER NOT NULL,
-    name VARCHAR2 (200) NOT NULL,
-    item_id NUMBER NOT NULL,
-    create_time DATE NOT NULL,
-    create_by NUMBER NOT NULL,
-    change_time DATE NOT NULL,
-    change_by NUMBER NOT NULL
-);
-ALTER TABLE faq_history ADD CONSTRAINT faq_history_PK PRIMARY KEY (id);
-DROP SEQUENCE faq_history_seq;
-CREATE SEQUENCE faq_history_seq;
-CREATE OR REPLACE TRIGGER faq_history_s_t
-before insert on faq_history
-for each row
-begin
-    select faq_history_seq.nextval
-    into :new.id
-    from dual;
-end;
-/
---;
-DROP TABLE faq_category CASCADE CONSTRAINTS;
--- ----------------------------------------------------------
---  create table faq_category
--- ----------------------------------------------------------
-CREATE TABLE faq_category (
-    id NUMBER (5, 0) NOT NULL,
-    name VARCHAR2 (200) NOT NULL,
-    comments VARCHAR2 (200),
-    create_time DATE NOT NULL,
-    create_by NUMBER NOT NULL,
-    change_time DATE NOT NULL,
-    change_by NUMBER NOT NULL,
-    CONSTRAINT faq_category_U_1 UNIQUE (name)
-);
-ALTER TABLE faq_category ADD CONSTRAINT faq_category_PK PRIMARY KEY (id);
-DROP SEQUENCE faq_category_seq;
-CREATE SEQUENCE faq_category_seq;
-CREATE OR REPLACE TRIGGER faq_category_s_t
-before insert on faq_category
-for each row
-begin
-    select faq_category_seq.nextval
-    into :new.id
-    from dual;
-end;
-/
---;
-DROP TABLE faq_state CASCADE CONSTRAINTS;
--- ----------------------------------------------------------
---  create table faq_state
--- ----------------------------------------------------------
-CREATE TABLE faq_state (
-    id NUMBER (5, 0) NOT NULL,
-    name VARCHAR2 (200) NOT NULL,
-    type_id NUMBER NOT NULL,
-    CONSTRAINT faq_state_U_1 UNIQUE (name)
-);
-ALTER TABLE faq_state ADD CONSTRAINT faq_state_PK PRIMARY KEY (id);
-DROP SEQUENCE faq_state_seq;
-CREATE SEQUENCE faq_state_seq;
-CREATE OR REPLACE TRIGGER faq_state_s_t
-before insert on faq_state
-for each row
-begin
-    select faq_state_seq.nextval
-    into :new.id
-    from dual;
-end;
-/
---;
-DROP TABLE faq_state_type CASCADE CONSTRAINTS;
--- ----------------------------------------------------------
---  create table faq_state_type
--- ----------------------------------------------------------
-CREATE TABLE faq_state_type (
-    id NUMBER (5, 0) NOT NULL,
-    name VARCHAR2 (200) NOT NULL,
-    CONSTRAINT faq_state_type_U_1 UNIQUE (name)
-);
-ALTER TABLE faq_state_type ADD CONSTRAINT faq_state_type_PK PRIMARY KEY (id);
-DROP SEQUENCE faq_state_type_seq;
-CREATE SEQUENCE faq_state_type_seq;
-CREATE OR REPLACE TRIGGER faq_state_type_s_t
-before insert on faq_state_type
-for each row
-begin
-    select faq_state_type_seq.nextval
-    into :new.id
-    from dual;
-end;
-/
---;
-DROP TABLE faq_attachment CASCADE CONSTRAINTS;
--- ----------------------------------------------------------
---  create table faq_attachment
--- ----------------------------------------------------------
-CREATE TABLE faq_attachment (
-    id NUMBER (20, 0) NOT NULL,
-    faq_id NUMBER (20, 0) NOT NULL,
-    filename VARCHAR2 (250),
-    content_size VARCHAR2 (30),
-    content_type VARCHAR2 (250),
-    content CLOB NOT NULL,
-    create_time DATE NOT NULL,
-    create_by NUMBER NOT NULL,
-    change_time DATE NOT NULL,
-    change_by NUMBER NOT NULL
-);
-ALTER TABLE faq_attachment ADD CONSTRAINT faq_attachment_PK PRIMARY KEY (id);
-DROP SEQUENCE faq_attachment_seq;
-CREATE SEQUENCE faq_attachment_seq;
-CREATE OR REPLACE TRIGGER faq_attachment_s_t
-before insert on faq_attachment
-for each row
-begin
-    select faq_attachment_seq.nextval
-    into :new.id
-    from dual;
-end;
-/
---;
-CREATE INDEX faq_id ON faq_attachment (faq_id);
 DROP TABLE xml_storage CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table xml_storage

@@ -1,5 +1,5 @@
 // ----------------------------------------------------------
-//  database: maxdb, generated: Mon Jun  6 22:18:41 2005
+//  database: maxdb, generated: Sat Feb  4 13:53:08 2006
 // ----------------------------------------------------------
 ALTER TABLE valid ADD FOREIGN KEY (create_by) REFERENCES system_user(id)
 //
@@ -280,34 +280,6 @@ ALTER TABLE pop3_account ADD FOREIGN KEY (valid_id) REFERENCES valid(id)
 ALTER TABLE notifications ADD FOREIGN KEY (create_by) REFERENCES system_user(id)
 //
 ALTER TABLE notifications ADD FOREIGN KEY (change_by) REFERENCES system_user(id)
-//
-ALTER TABLE faq_item ADD FOREIGN KEY (category_id) REFERENCES faq_category(id)
-//
-ALTER TABLE faq_item ADD FOREIGN KEY (create_by) REFERENCES system_user(id)
-//
-ALTER TABLE faq_item ADD FOREIGN KEY (change_by) REFERENCES system_user(id)
-//
-ALTER TABLE faq_item ADD FOREIGN KEY (f_language_id) REFERENCES faq_language(id)
-//
-ALTER TABLE faq_item ADD FOREIGN KEY (state_id) REFERENCES faq_state(id)
-//
-ALTER TABLE faq_history ADD FOREIGN KEY (create_by) REFERENCES system_user(id)
-//
-ALTER TABLE faq_history ADD FOREIGN KEY (change_by) REFERENCES system_user(id)
-//
-ALTER TABLE faq_history ADD FOREIGN KEY (item_id) REFERENCES faq_item(id)
-//
-ALTER TABLE faq_category ADD FOREIGN KEY (create_by) REFERENCES system_user(id)
-//
-ALTER TABLE faq_category ADD FOREIGN KEY (change_by) REFERENCES system_user(id)
-//
-ALTER TABLE faq_state ADD FOREIGN KEY (type_id) REFERENCES faq_state_type(id)
-//
-ALTER TABLE faq_attachment ADD FOREIGN KEY (create_by) REFERENCES system_user(id)
-//
-ALTER TABLE faq_attachment ADD FOREIGN KEY (change_by) REFERENCES system_user(id)
-//
-ALTER TABLE faq_attachment ADD FOREIGN KEY (faq_id) REFERENCES faq_item(id)
 //
 ALTER TABLE package_repository ADD FOREIGN KEY (create_by) REFERENCES system_user(id)
 //

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminGenericAgent.pm,v 1.22 2006-01-23 20:40:30 cs Exp $
+# $Id: AdminGenericAgent.pm,v 1.23 2006-02-05 20:23:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Lock;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -301,7 +301,7 @@ sub Run {
         my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
         # get free text config options
         my %TicketFreeText = ();
-        foreach (1..8) {
+        foreach (1..16) {
             $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
                 Type => "TicketFreeKey$_",
                 Action => $Self->{Action},

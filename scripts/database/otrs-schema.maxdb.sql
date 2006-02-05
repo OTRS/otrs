@@ -1,5 +1,5 @@
 // ----------------------------------------------------------
-//  database: maxdb, generated: Sun Jul  3 21:51:07 2005
+//  database: maxdb, generated: Sat Feb  4 13:53:08 2006
 // ----------------------------------------------------------
 // ----------------------------------------------------------
 //  create table valid
@@ -72,7 +72,7 @@ CREATE TABLE user_preferences (
     preferences_value VARCHAR (250)
 )
 //
-CREATE INDEX index_user_preferenc35 ON user_preferences (user_id)
+CREATE INDEX index_user_preferenc32 ON user_preferences (user_id)
 //
 // ----------------------------------------------------------
 //  create table groups
@@ -352,6 +352,22 @@ CREATE TABLE ticket (
     freetext7 VARCHAR (150),
     freekey8 VARCHAR (80),
     freetext8 VARCHAR (150),
+    freekey9 VARCHAR (80),
+    freetext9 VARCHAR (150),
+    freekey10 VARCHAR (80),
+    freetext10 VARCHAR (150),
+    freekey11 VARCHAR (80),
+    freetext11 VARCHAR (150),
+    freekey12 VARCHAR (80),
+    freetext12 VARCHAR (150),
+    freekey13 VARCHAR (80),
+    freetext13 VARCHAR (150),
+    freekey14 VARCHAR (80),
+    freetext14 VARCHAR (150),
+    freekey15 VARCHAR (80),
+    freetext15 VARCHAR (150),
+    freekey16 VARCHAR (80),
+    freetext16 VARCHAR (150),
     freetime1 timestamp,
     freetime2 timestamp,
     valid_id SMALLINT NOT NULL,
@@ -366,9 +382,9 @@ CREATE TABLE ticket (
 //
 CREATE INDEX index_ticket_user ON ticket (user_id)
 //
-CREATE INDEX index_ticket_queue_v97 ON ticket (ticket_state_id, ticket_lock_id, group_id)
+CREATE INDEX index_ticket_queue_v94 ON ticket (ticket_state_id, ticket_lock_id, group_id)
 //
-CREATE INDEX index_ticket_answere19 ON ticket (ticket_answered)
+CREATE INDEX index_ticket_answere59 ON ticket (ticket_answered)
 //
 // ----------------------------------------------------------
 //  create table object_link
@@ -402,7 +418,7 @@ CREATE TABLE ticket_history (
     PRIMARY KEY(id)
 )
 //
-CREATE INDEX ticket_history_ticke27 ON ticket_history (ticket_id)
+CREATE INDEX ticket_history_ticke36 ON ticket_history (ticket_id)
 //
 CREATE INDEX ticket_history_creat49 ON ticket_history (create_time)
 //
@@ -464,9 +480,9 @@ CREATE TABLE article_flag (
     create_by INTEGER NOT NULL
 )
 //
-CREATE INDEX article_flag_create_94 ON article_flag (create_by)
+CREATE INDEX article_flag_create_31 ON article_flag (create_by)
 //
-CREATE INDEX article_flag_article51 ON article_flag (article_id)
+CREATE INDEX article_flag_article43 ON article_flag (article_id)
 //
 // ----------------------------------------------------------
 //  create table article
@@ -518,7 +534,7 @@ CREATE TABLE article_plain (
     PRIMARY KEY(id)
 )
 //
-CREATE INDEX article_plain_articl52 ON article_plain (article_id)
+CREATE INDEX article_plain_articl84 ON article_plain (article_id)
 //
 // ----------------------------------------------------------
 //  create table article_attachment
@@ -537,7 +553,7 @@ CREATE TABLE article_attachment (
     PRIMARY KEY(id)
 )
 //
-CREATE INDEX article_attachment_a31 ON article_attachment (article_id)
+CREATE INDEX article_attachment_a57 ON article_attachment (article_id)
 //
 // ----------------------------------------------------------
 //  create table standard_response
@@ -545,7 +561,7 @@ CREATE INDEX article_attachment_a31 ON article_attachment (article_id)
 CREATE TABLE standard_response (
     id serial,
     name VARCHAR (80) NOT NULL,
-    text LONG NOT NULL,
+    text LONG,
     comments VARCHAR (100),
     valid_id SMALLINT NOT NULL,
     create_time timestamp NOT NULL,
@@ -668,15 +684,14 @@ CREATE TABLE time_accounting (
     PRIMARY KEY(id)
 )
 //
-CREATE INDEX index_time_accountin42 ON time_accounting (ticket_id)
+CREATE INDEX index_time_accountin86 ON time_accounting (ticket_id)
 //
 // ----------------------------------------------------------
 //  create table sessions
 // ----------------------------------------------------------
 CREATE TABLE sessions (
     session_id VARCHAR (150) NOT NULL,
-    session_value LONG NOT NULL,
-    UNIQUE (session_id)
+    session_value LONG NOT NULL
 )
 //
 CREATE INDEX index_session_id ON sessions (session_id)
@@ -694,7 +709,7 @@ CREATE TABLE ticket_index (
     create_time_unix BIGINT NOT NULL
 )
 //
-CREATE INDEX index_ticket_index_t90 ON ticket_index (ticket_id)
+CREATE INDEX index_ticket_index_t68 ON ticket_index (ticket_id)
 //
 // ----------------------------------------------------------
 //  create table ticket_lock_index
@@ -703,7 +718,7 @@ CREATE TABLE ticket_lock_index (
     ticket_id BIGINT NOT NULL
 )
 //
-CREATE INDEX index_ticket_lock_ti42 ON ticket_lock_index (ticket_id)
+CREATE INDEX index_ticket_lock_ti3 ON ticket_lock_index (ticket_id)
 //
 // ----------------------------------------------------------
 //  create table customer_user
@@ -713,11 +728,11 @@ CREATE TABLE customer_user (
     login VARCHAR (100) NOT NULL,
     email VARCHAR (150) NOT NULL,
     customer_id VARCHAR (200) NOT NULL,
-    pw VARCHAR (50) NOT NULL,
+    pw VARCHAR (50),
     salutation VARCHAR (50),
     first_name VARCHAR (100) NOT NULL,
     last_name VARCHAR (100) NOT NULL,
-    comments VARCHAR (250) NOT NULL,
+    comments VARCHAR (250),
     valid_id SMALLINT NOT NULL,
     create_time timestamp NOT NULL,
     create_by INTEGER NOT NULL,
@@ -736,7 +751,7 @@ CREATE TABLE customer_preferences (
     preferences_value VARCHAR (250)
 )
 //
-CREATE INDEX index_customer_prefe9 ON customer_preferences (user_id)
+CREATE INDEX index_customer_prefe33 ON customer_preferences (user_id)
 //
 // ----------------------------------------------------------
 //  create table ticket_loop_protection
@@ -746,9 +761,9 @@ CREATE TABLE ticket_loop_protection (
     sent_date VARCHAR (150) NOT NULL
 )
 //
-CREATE INDEX index_ticket_loop_pr98 ON ticket_loop_protection (sent_to)
+CREATE INDEX index_ticket_loop_pr72 ON ticket_loop_protection (sent_to)
 //
-CREATE INDEX index_ticket_loop_pr71 ON ticket_loop_protection (sent_date)
+CREATE INDEX index_ticket_loop_pr90 ON ticket_loop_protection (sent_date)
 //
 // ----------------------------------------------------------
 //  create table pop3_account
@@ -796,7 +811,7 @@ CREATE TABLE search_profile (
     profile_name VARCHAR (200) NOT NULL,
     profile_type VARCHAR (30) NOT NULL,
     profile_key VARCHAR (200) NOT NULL,
-    profile_value VARCHAR (200) NOT NULL
+    profile_value VARCHAR (200)
 )
 //
 // ----------------------------------------------------------
@@ -837,119 +852,6 @@ CREATE TABLE notifications (
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id)
 )
-//
-// ----------------------------------------------------------
-//  create table faq_item
-// ----------------------------------------------------------
-CREATE TABLE faq_item (
-    id serial,
-    f_number VARCHAR (200) NOT NULL,
-    f_subject VARCHAR (200),
-    f_name VARCHAR (200) NOT NULL,
-    f_language_id SMALLINT NOT NULL,
-    state_id SMALLINT NOT NULL,
-    category_id SMALLINT NOT NULL,
-    f_keywords LONG,
-    f_field1 LONG,
-    f_field2 LONG,
-    f_field3 LONG,
-    f_field4 LONG,
-    f_field5 LONG,
-    f_field6 LONG,
-    free_key1 VARCHAR (80),
-    free_value1 VARCHAR (200),
-    free_key2 VARCHAR (80),
-    free_value2 VARCHAR (200),
-    free_key3 VARCHAR (80),
-    free_value3 VARCHAR (200),
-    free_key4 VARCHAR (80),
-    free_value4 VARCHAR (200),
-    create_time timestamp NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time timestamp NOT NULL,
-    change_by INTEGER NOT NULL,
-    PRIMARY KEY(id),
-    UNIQUE (f_name)
-)
-//
-// ----------------------------------------------------------
-//  create table faq_language
-// ----------------------------------------------------------
-CREATE TABLE faq_language (
-    id serial,
-    name VARCHAR (200) NOT NULL,
-    PRIMARY KEY(id),
-    UNIQUE (name)
-)
-//
-// ----------------------------------------------------------
-//  create table faq_history
-// ----------------------------------------------------------
-CREATE TABLE faq_history (
-    id serial,
-    name VARCHAR (200) NOT NULL,
-    item_id INTEGER NOT NULL,
-    create_time timestamp NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time timestamp NOT NULL,
-    change_by INTEGER NOT NULL,
-    PRIMARY KEY(id)
-)
-//
-// ----------------------------------------------------------
-//  create table faq_category
-// ----------------------------------------------------------
-CREATE TABLE faq_category (
-    id serial,
-    name VARCHAR (200) NOT NULL,
-    comments VARCHAR (200) NOT NULL,
-    create_time timestamp NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time timestamp NOT NULL,
-    change_by INTEGER NOT NULL,
-    PRIMARY KEY(id),
-    UNIQUE (name)
-)
-//
-// ----------------------------------------------------------
-//  create table faq_state
-// ----------------------------------------------------------
-CREATE TABLE faq_state (
-    id serial,
-    name VARCHAR (200) NOT NULL,
-    type_id INTEGER NOT NULL,
-    PRIMARY KEY(id),
-    UNIQUE (name)
-)
-//
-// ----------------------------------------------------------
-//  create table faq_state_type
-// ----------------------------------------------------------
-CREATE TABLE faq_state_type (
-    id serial,
-    name VARCHAR (200) NOT NULL,
-    PRIMARY KEY(id),
-    UNIQUE (name)
-)
-//
-// ----------------------------------------------------------
-//  create table faq_attachment
-// ----------------------------------------------------------
-CREATE TABLE faq_attachment (
-    id serial,
-    faq_id BIGINT NOT NULL,
-    filename VARCHAR (250),
-    content_size VARCHAR (30),
-    content_type VARCHAR (250),
-    content LONG NOT NULL,
-    create_time timestamp NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time timestamp NOT NULL,
-    change_by INTEGER NOT NULL,
-    PRIMARY KEY(id)
-)
-//
-CREATE INDEX faq_id ON faq_attachment (faq_id)
 //
 // ----------------------------------------------------------
 //  create table xml_storage

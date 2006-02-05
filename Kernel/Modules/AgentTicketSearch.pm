@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketSearch.pm,v 1.11 2006-02-01 09:58:36 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.12 2006-02-05 20:23:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -134,7 +134,11 @@ sub Run {
           TicketFreeKey1 TicketFreeText1 TicketFreeKey2 TicketFreeText2
           TicketFreeKey3 TicketFreeText3 TicketFreeKey4 TicketFreeText4
           TicketFreeKey5 TicketFreeText5 TicketFreeKey6 TicketFreeText6
-          TicketFreeKey7 TicketFreeText7 TicketFreeKey8 TicketFreeText8)) {
+          TicketFreeKey7 TicketFreeText7 TicketFreeKey8 TicketFreeText8
+          TicketFreeKey9 TicketFreeText9 TicketFreeKey10 TicketFreeText10
+          TicketFreeKey11 TicketFreeText11 TicketFreeKey12 TicketFreeText12
+          TicketFreeKey13 TicketFreeText13 TicketFreeKey14 TicketFreeText14
+          TicketFreeKey15 TicketFreeText15 TicketFreeKey16 TicketFreeText16)) {
             # get search array params (get submitted params)
             my @Array = $Self->{ParamObject}->GetArray(Param => $_);
             if (@Array) {
@@ -537,7 +541,7 @@ sub Run {
         my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
         # get free text config options
         my %TicketFreeText = ();
-        foreach (1..8) {
+        foreach (1..16) {
             $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
                 Type => "TicketFreeKey$_",
                 FillUp => 1,
@@ -794,6 +798,35 @@ sub MaskForm {
             %Param,
         },
     );
+    my $Count = 0;
+    foreach (1..16) {
+        $Count++;
+        if ($Self->{ConfigObject}->Get('TicketFreeText'.$Count.'::Shown') && $Self->{ConfigObject}->Get('TicketFreeText'.$Count.'::Shown')->{Search}) {
+            $Self->{LayoutObject}->Block(
+                Name => 'FreeText',
+                Data => {
+                    TicketFreeKeyField => $Param{'TicketFreeKeyField'.$Count},
+                    TicketFreeTextField => $Param{'TicketFreeTextField'.$Count},
+                },
+            );
+        }
+    }
+    $Count = 0;
+    foreach (1..2) {
+        $Count++;
+        if ($Self->{ConfigObject}->Get('TicketFreeTime'.$Count.'::Shown') && $Self->{ConfigObject}->Get('TicketFreeText'.$Count.'::Shown')->{Search}) {
+            $Self->{LayoutObject}->Block(
+                Name => 'FreeTime',
+                Data => {
+                    TicketFreeTimeKey => $Self->{ConfigObject}->Get('TicketFreeTimeKey'.$Count),
+                    TicketFreeTime => $Param{'TicketFreeTime'.$Count},
+                    TicketFreeTimeStart => $Param{'TicketFreeTime'.$Count.'Start'},
+                    TicketFreeTimeStop => $Param{'TicketFreeTime'.$Count.'Stop'},
+                    Count => $Count,
+                },
+            );
+        }
+    }
     my $Output = $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentTicketSearch',
         Data => \%Param,

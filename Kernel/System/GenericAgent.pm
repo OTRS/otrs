@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pm,v 1.12 2006-01-07 19:58:02 martin Exp $
+# $Id: GenericAgent.pm,v 1.13 2006-02-05 20:20:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Main;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $ ';
+$VERSION = '$Revision: 1.13 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -551,7 +551,7 @@ sub JobRunTicket {
     # --
     # set ticket free text options
     # --
-    foreach (1..8) {
+    foreach (1..16) {
         if ($Param{Config}->{New}->{"TicketFreeKey$_"} || $Param{Config}->{New}->{"TicketFreeText$_"}) {
             my $Key = $Param{Config}->{New}->{"TicketFreeKey$_"} || '';
             my $Value = $Param{Config}->{New}->{"TicketFreeText$_"} || '';
@@ -864,6 +864,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2006-01-07 19:58:02 $
+$Revision: 1.13 $ $Date: 2006-02-05 20:20:35 $
 
 =cut

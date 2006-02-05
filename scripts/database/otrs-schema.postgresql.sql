@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  database: postgresql, generated: Sat Jul 30 01:09:21 2005
+--  database: postgresql, generated: Sat Feb  4 13:52:54 2006
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -331,6 +331,22 @@ CREATE TABLE ticket (
     freetext7 VARCHAR (150),
     freekey8 VARCHAR (80),
     freetext8 VARCHAR (150),
+    freekey9 VARCHAR (80),
+    freetext9 VARCHAR (150),
+    freekey10 VARCHAR (80),
+    freetext10 VARCHAR (150),
+    freekey11 VARCHAR (80),
+    freetext11 VARCHAR (150),
+    freekey12 VARCHAR (80),
+    freetext12 VARCHAR (150),
+    freekey13 VARCHAR (80),
+    freetext13 VARCHAR (150),
+    freekey14 VARCHAR (80),
+    freetext14 VARCHAR (150),
+    freekey15 VARCHAR (80),
+    freetext15 VARCHAR (150),
+    freekey16 VARCHAR (80),
+    freetext16 VARCHAR (150),
     freetime1 timestamp(0),
     freetime2 timestamp(0),
     valid_id INTEGER NOT NULL,
@@ -503,7 +519,7 @@ CREATE INDEX article_attachment_article_id ON article_attachment (article_id);
 CREATE TABLE standard_response (
     id serial,
     name VARCHAR (80) NOT NULL,
-    text VARCHAR NOT NULL,
+    text VARCHAR,
     comments VARCHAR (100),
     valid_id INTEGER NOT NULL,
     create_time timestamp(0) NOT NULL,
@@ -624,8 +640,7 @@ CREATE INDEX index_time_accounting_ticket_id ON time_accounting (ticket_id);
 -- ----------------------------------------------------------
 CREATE TABLE sessions (
     session_id VARCHAR (150) NOT NULL,
-    session_value VARCHAR NOT NULL,
-    UNIQUE (session_id)
+    session_value VARCHAR NOT NULL
 );
 CREATE INDEX index_session_id ON sessions (session_id);
 -- ----------------------------------------------------------
@@ -656,11 +671,11 @@ CREATE TABLE customer_user (
     login VARCHAR (100) NOT NULL,
     email VARCHAR (150) NOT NULL,
     customer_id VARCHAR (200) NOT NULL,
-    pw VARCHAR (50) NOT NULL,
+    pw VARCHAR (50),
     salutation VARCHAR (50),
     first_name VARCHAR (100) NOT NULL,
     last_name VARCHAR (100) NOT NULL,
-    comments VARCHAR (250) NOT NULL,
+    comments VARCHAR (250),
     valid_id INTEGER NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by INTEGER NOT NULL,
@@ -730,7 +745,7 @@ CREATE TABLE search_profile (
     profile_name VARCHAR (200) NOT NULL,
     profile_type VARCHAR (30) NOT NULL,
     profile_key VARCHAR (200) NOT NULL,
-    profile_value VARCHAR (200) NOT NULL
+    profile_value VARCHAR (200)
 );
 -- ----------------------------------------------------------
 --  create table process_id
@@ -768,111 +783,6 @@ CREATE TABLE notifications (
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id)
 );
--- ----------------------------------------------------------
---  create table faq_item
--- ----------------------------------------------------------
-CREATE TABLE faq_item (
-    id serial,
-    f_number VARCHAR (200) NOT NULL,
-    f_subject VARCHAR (200),
-    f_name VARCHAR (200) NOT NULL,
-    f_language_id INTEGER NOT NULL,
-    state_id INTEGER NOT NULL,
-    category_id INTEGER NOT NULL,
-    f_keywords VARCHAR,
-    f_field1 VARCHAR,
-    f_field2 VARCHAR,
-    f_field3 VARCHAR,
-    f_field4 VARCHAR,
-    f_field5 VARCHAR,
-    f_field6 VARCHAR,
-    free_key1 VARCHAR (80),
-    free_value1 VARCHAR (200),
-    free_key2 VARCHAR (80),
-    free_value2 VARCHAR (200),
-    free_key3 VARCHAR (80),
-    free_value3 VARCHAR (200),
-    free_key4 VARCHAR (80),
-    free_value4 VARCHAR (200),
-    create_time timestamp(0) NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time timestamp(0) NOT NULL,
-    change_by INTEGER NOT NULL,
-    PRIMARY KEY(id),
-    UNIQUE (f_name)
-);
--- ----------------------------------------------------------
---  create table faq_language
--- ----------------------------------------------------------
-CREATE TABLE faq_language (
-    id serial,
-    name VARCHAR (200) NOT NULL,
-    PRIMARY KEY(id),
-    UNIQUE (name)
-);
--- ----------------------------------------------------------
---  create table faq_history
--- ----------------------------------------------------------
-CREATE TABLE faq_history (
-    id serial,
-    name VARCHAR (200) NOT NULL,
-    item_id INTEGER NOT NULL,
-    create_time timestamp(0) NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time timestamp(0) NOT NULL,
-    change_by INTEGER NOT NULL,
-    PRIMARY KEY(id)
-);
--- ----------------------------------------------------------
---  create table faq_category
--- ----------------------------------------------------------
-CREATE TABLE faq_category (
-    id serial,
-    name VARCHAR (200) NOT NULL,
-    comments VARCHAR (200) NOT NULL,
-    create_time timestamp(0) NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time timestamp(0) NOT NULL,
-    change_by INTEGER NOT NULL,
-    PRIMARY KEY(id),
-    UNIQUE (name)
-);
--- ----------------------------------------------------------
---  create table faq_state
--- ----------------------------------------------------------
-CREATE TABLE faq_state (
-    id serial,
-    name VARCHAR (200) NOT NULL,
-    type_id INTEGER NOT NULL,
-    PRIMARY KEY(id),
-    UNIQUE (name)
-);
--- ----------------------------------------------------------
---  create table faq_state_type
--- ----------------------------------------------------------
-CREATE TABLE faq_state_type (
-    id serial,
-    name VARCHAR (200) NOT NULL,
-    PRIMARY KEY(id),
-    UNIQUE (name)
-);
--- ----------------------------------------------------------
---  create table faq_attachment
--- ----------------------------------------------------------
-CREATE TABLE faq_attachment (
-    id serial,
-    faq_id INTEGER NOT NULL,
-    filename VARCHAR (250),
-    content_size VARCHAR (30),
-    content_type VARCHAR (250),
-    content TEXT NOT NULL,
-    create_time timestamp(0) NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time timestamp(0) NOT NULL,
-    change_by INTEGER NOT NULL,
-    PRIMARY KEY(id)
-);
-CREATE INDEX faq_id ON faq_attachment (faq_id);
 -- ----------------------------------------------------------
 --  create table xml_storage
 -- ----------------------------------------------------------

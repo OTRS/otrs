@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  database: mysql, generated: Sun Jul  3 21:50:41 2005
+#  database: mysql, generated: Sat Feb  4 13:51:50 2006
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -331,6 +331,22 @@ CREATE TABLE ticket (
     freetext7 VARCHAR (150),
     freekey8 VARCHAR (80),
     freetext8 VARCHAR (150),
+    freekey9 VARCHAR (80),
+    freetext9 VARCHAR (150),
+    freekey10 VARCHAR (80),
+    freetext10 VARCHAR (150),
+    freekey11 VARCHAR (80),
+    freetext11 VARCHAR (150),
+    freekey12 VARCHAR (80),
+    freetext12 VARCHAR (150),
+    freekey13 VARCHAR (80),
+    freetext13 VARCHAR (150),
+    freekey14 VARCHAR (80),
+    freetext14 VARCHAR (150),
+    freekey15 VARCHAR (80),
+    freetext15 VARCHAR (150),
+    freekey16 VARCHAR (80),
+    freetext16 VARCHAR (150),
     freetime1 DATETIME,
     freetime2 DATETIME,
     valid_id SMALLINT NOT NULL,
@@ -503,7 +519,7 @@ CREATE TABLE article_attachment (
 CREATE TABLE standard_response (
     id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR (80) NOT NULL,
-    text TEXT NOT NULL,
+    text TEXT,
     comments VARCHAR (100),
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
@@ -625,7 +641,6 @@ CREATE TABLE time_accounting (
 CREATE TABLE sessions (
     session_id VARCHAR (150) NOT NULL,
     session_value TEXT NOT NULL,
-    UNIQUE (session_id),
     INDEX index_session_id (session_id)
 );
 # ----------------------------------------------------------
@@ -656,11 +671,11 @@ CREATE TABLE customer_user (
     login VARCHAR (100) NOT NULL,
     email VARCHAR (150) NOT NULL,
     customer_id VARCHAR (200) NOT NULL,
-    pw VARCHAR (50) NOT NULL,
+    pw VARCHAR (50),
     salutation VARCHAR (50),
     first_name VARCHAR (100) NOT NULL,
     last_name VARCHAR (100) NOT NULL,
-    comments VARCHAR (250) NOT NULL,
+    comments VARCHAR (250),
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
@@ -730,7 +745,7 @@ CREATE TABLE search_profile (
     profile_name VARCHAR (200) NOT NULL,
     profile_type VARCHAR (30) NOT NULL,
     profile_key VARCHAR (200) NOT NULL,
-    profile_value VARCHAR (200) NOT NULL
+    profile_value VARCHAR (200)
 );
 # ----------------------------------------------------------
 #  create table process_id
@@ -767,111 +782,6 @@ CREATE TABLE notifications (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id)
-);
-# ----------------------------------------------------------
-#  create table faq_item
-# ----------------------------------------------------------
-CREATE TABLE faq_item (
-    id INTEGER NOT NULL AUTO_INCREMENT,
-    f_number VARCHAR (200) NOT NULL,
-    f_subject VARCHAR (200),
-    f_name VARCHAR (200) NOT NULL,
-    f_language_id SMALLINT NOT NULL,
-    state_id SMALLINT NOT NULL,
-    category_id SMALLINT NOT NULL,
-    f_keywords TEXT,
-    f_field1 TEXT,
-    f_field2 TEXT,
-    f_field3 TEXT,
-    f_field4 TEXT,
-    f_field5 TEXT,
-    f_field6 TEXT,
-    free_key1 VARCHAR (80),
-    free_value1 VARCHAR (200),
-    free_key2 VARCHAR (80),
-    free_value2 VARCHAR (200),
-    free_key3 VARCHAR (80),
-    free_value3 VARCHAR (200),
-    free_key4 VARCHAR (80),
-    free_value4 VARCHAR (200),
-    create_time DATETIME NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time DATETIME NOT NULL,
-    change_by INTEGER NOT NULL,
-    PRIMARY KEY(id),
-    UNIQUE (f_name)
-);
-# ----------------------------------------------------------
-#  create table faq_language
-# ----------------------------------------------------------
-CREATE TABLE faq_language (
-    id SMALLINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR (200) NOT NULL,
-    PRIMARY KEY(id),
-    UNIQUE (name)
-);
-# ----------------------------------------------------------
-#  create table faq_history
-# ----------------------------------------------------------
-CREATE TABLE faq_history (
-    id INTEGER NOT NULL AUTO_INCREMENT,
-    name VARCHAR (200) NOT NULL,
-    item_id INTEGER NOT NULL,
-    create_time DATETIME NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time DATETIME NOT NULL,
-    change_by INTEGER NOT NULL,
-    PRIMARY KEY(id)
-);
-# ----------------------------------------------------------
-#  create table faq_category
-# ----------------------------------------------------------
-CREATE TABLE faq_category (
-    id SMALLINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR (200) NOT NULL,
-    comments VARCHAR (200) NOT NULL,
-    create_time DATETIME NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time DATETIME NOT NULL,
-    change_by INTEGER NOT NULL,
-    PRIMARY KEY(id),
-    UNIQUE (name)
-);
-# ----------------------------------------------------------
-#  create table faq_state
-# ----------------------------------------------------------
-CREATE TABLE faq_state (
-    id SMALLINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR (200) NOT NULL,
-    type_id INTEGER NOT NULL,
-    PRIMARY KEY(id),
-    UNIQUE (name)
-);
-# ----------------------------------------------------------
-#  create table faq_state_type
-# ----------------------------------------------------------
-CREATE TABLE faq_state_type (
-    id SMALLINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR (200) NOT NULL,
-    PRIMARY KEY(id),
-    UNIQUE (name)
-);
-# ----------------------------------------------------------
-#  create table faq_attachment
-# ----------------------------------------------------------
-CREATE TABLE faq_attachment (
-    id BIGINT NOT NULL AUTO_INCREMENT,
-    faq_id BIGINT NOT NULL,
-    filename VARCHAR (250),
-    content_size VARCHAR (30),
-    content_type VARCHAR (250),
-    content LONGBLOB NOT NULL,
-    create_time DATETIME NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time DATETIME NOT NULL,
-    change_by INTEGER NOT NULL,
-    PRIMARY KEY(id),
-    INDEX faq_id (faq_id)
 );
 # ----------------------------------------------------------
 #  create table xml_storage
