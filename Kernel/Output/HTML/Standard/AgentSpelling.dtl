@@ -1,8 +1,8 @@
 # --
 # AgentSpelling.dtl - provides HTML form for AgentSpelling
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentSpelling.dtl,v 1.12 2005-02-15 12:06:39 martin Exp $
+# $Id: AgentSpelling.dtl,v 1.13 2006-02-05 20:37:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -26,7 +26,7 @@ function updateMessage()
         return;
     }
 
-    parent.opener.document.compose.Body.value = document.spelling.Body.value
+    parent.opener.document.compose.$QData{"Field"}.value = document.spelling.Body.value
 
     this.close();
 }
@@ -60,6 +60,7 @@ function change_selected(sel)
 
   <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="spelling">
   <input type="hidden" name="Action" value="AgentSpelling">
+  <input type="hidden" name="Field" value="$QData{"Field"}">
 
 <table border="0" width="100%" cellspacing="0" cellpadding="1">
 <tr>
@@ -98,10 +99,10 @@ function change_selected(sel)
 <textarea name="Body" rows="22" cols="78" wrap="$Env{"BrowserWrap"}">$Data{"Body"}</textarea>
 </pre>
 
-<input class="button" type="button" onclick="updateMessage();" value="$Text{"Done"}"> 
+<input class="button" type="button" onclick="updateMessage();" value="$Text{"Done"}">
 <i>($Text{"Return to the compose screen"})</i>
 
-<input class="button" type="button" onclick="window.close();" value="$Text{"Cancel"}"> 
+<input class="button" type="button" onclick="window.close();" value="$Text{"Cancel"}">
 <i>($Text{"Discard all changes and return to the compose screen"})</i>
 
   <hr>

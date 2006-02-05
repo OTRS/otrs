@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentSpelling.pm - spelling module
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentSpelling.pm,v 1.14 2005-03-27 11:52:22 martin Exp $
+# $Id: AgentSpelling.pm,v 1.15 2006-02-05 20:37:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Spelling;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -55,6 +55,7 @@ sub Run {
     my $Output;
 
     $Param{Body} = $Self->{ParamObject}->GetParam(Param => 'Body');
+    $Param{Field} = $Self->{ParamObject}->GetParam(Param => 'Field') || 'Body';
     $Param{SpellLanguage} = $Self->{ParamObject}->GetParam(Param => 'SpellLanguage') ||
         $Self->{UserSpellDict} || $Self->{ConfigObject}->Get('SpellCheckerDictDefault');
     # --
