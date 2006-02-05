@@ -1,8 +1,8 @@
 # --
 # Kernel/System/State.pm - All state related function should be here eventually
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: State.pm,v 1.10 2005-11-11 10:38:39 martin Exp $
+# $Id: State.pm,v 1.11 2006-02-05 20:20:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::State;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -273,23 +273,32 @@ sub StateGetStatesByType {
     my @ID = ();
     my %Data = ();
     # check needed stuff
-    foreach (qw(Type Result)) {
+    foreach (qw(Result)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
       }
     }
+    if (!$Param{Type} && !$Param{StateType}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Type or StateType!");
+        return;
+    }
     # sql
     my @StateType = ();
-    if ($Self->{ConfigObject}->Get('Ticket::'.$Param{Type}.'StateType')) {
-        @StateType = @{$Self->{ConfigObject}->Get('Ticket::'.$Param{Type}.'StateType')};
+    if ($Param{Type}) {
+        if ($Self->{ConfigObject}->Get('Ticket::'.$Param{Type}.'StateType')) {
+            @StateType = @{$Self->{ConfigObject}->Get('Ticket::'.$Param{Type}.'StateType')};
+        }
+        else {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "Type 'Ticket::$Param{Type}StateType' not found in Kernel/Config.pm!",
+            );
+            die;
+       }
     }
     else {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message => "Type 'Ticket::$Param{Type}StateType' not found in Kernel/Config.pm!",
-        );
-        die;
+        @StateType = @{$Param{StateType}};
     }
     my $SQL = "SELECT ts.id, ts.name, tst.name  ".
         " FROM ".
@@ -367,6 +376,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2005-11-11 10:38:39 $
+$Revision: 1.11 $ $Date: 2006-02-05 20:20:10 $
 
 =cut
