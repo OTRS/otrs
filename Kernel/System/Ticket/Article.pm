@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.98 2006-01-31 19:44:10 martin Exp $
+# $Id: Article.pm,v 1.99 2006-02-05 20:19:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.98 $';
+$VERSION = '$Revision: 1.99 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -959,6 +959,10 @@ sub ArticleGet {
         " st.freekey3, st.freetext3, st.freekey4, st.freetext4,".
         " st.freekey5, st.freetext5, st.freekey6, st.freetext6,".
         " st.freekey7, st.freetext7, st.freekey8, st.freetext8, ".
+        " st.freekey9, st.freetext9, st.freekey10, st.freetext10, ".
+        " st.freekey11, st.freetext11, st.freekey12, st.freetext12, ".
+        " st.freekey13, st.freetext13, st.freekey14, st.freetext14, ".
+        " st.freekey15, st.freetext15, st.freekey16, st.freetext16, ".
         " st.ticket_lock_id, st.title, st.escalation_start_time, ".
         " st.freetime1 , st.freetime2 ".
         " FROM ".
@@ -988,9 +992,9 @@ sub ArticleGet {
         $Data{ArticleID} = $Row[31];
         $Data{TicketID} = $Row[0];
         $Ticket{TicketID} = $Data{TicketID};
-        $Data{Title} = $Row[49];
+        $Data{Title} = $Row[65];
         $Ticket{Title} = $Data{Title};
-        $Data{EscalationStartTime} = $Row[50];
+        $Data{EscalationStartTime} = $Row[66];
         $Ticket{EscalationStartTime} = $Data{EscalationStartTime};
         $Data{From} = $Row[1];
         $Data{To} = $Row[2];
@@ -1059,12 +1063,28 @@ sub ArticleGet {
         $Data{TicketFreeText7} = $Row[45];
         $Data{TicketFreeKey8} = $Row[46];
         $Data{TicketFreeText8} = $Row[47];
-        $Data{TicketFreeTime1} = $Row[51];
-        $Data{TicketFreeTime2} = $Row[52];
+        $Data{TicketFreeKey9} = $Row[48];
+        $Data{TicketFreeText9} = $Row[49];
+        $Data{TicketFreeKey10} = $Row[50];
+        $Data{TicketFreeText10} = $Row[51];
+        $Data{TicketFreeKey11} = $Row[52];
+        $Data{TicketFreeText11} = $Row[53];
+        $Data{TicketFreeKey12} = $Row[54];
+        $Data{TicketFreeText12} = $Row[55];
+        $Data{TicketFreeKey13} = $Row[56];
+        $Data{TicketFreeText13} = $Row[57];
+        $Data{TicketFreeKey14} = $Row[58];
+        $Data{TicketFreeText14} = $Row[59];
+        $Data{TicketFreeKey15} = $Row[60];
+        $Data{TicketFreeText15} = $Row[61];
+        $Data{TicketFreeKey16} = $Row[62];
+        $Data{TicketFreeText16} = $Row[63];
+        $Data{TicketFreeTime1} = $Row[67];
+        $Data{TicketFreeTime2} = $Row[68];
 
         $Data{IncomingTime} = $Row[30];
         $Data{RealTillTimeNotUsed} = $Row[17];
-        $Ticket{LockID} = $Row[48];
+        $Ticket{LockID} = $Row[64];
         # strip not wanted stuff
         foreach (qw(From To Cc Subject)) {
             $Data{$_} =~ s/\n|\r//g if ($Data{$_});

@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.199 2006-01-29 23:52:49 martin Exp $
+# $Id: Ticket.pm,v 1.200 2006-02-05 20:19:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.199 $';
+$VERSION = '$Revision: 1.200 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -668,6 +668,8 @@ sub TicketGet {
         " st.freekey3, st.freetext3, st.freekey4, st.freetext4,".
         " st.freekey5, st.freetext5, st.freekey6, st.freetext6,".
         " st.freekey7, st.freetext7, st.freekey8, st.freetext8, ".
+        " st.freekey9, st.freetext10, st.freekey11, st.freetext12, ".
+        " st.freekey13, st.freetext14, st.freekey15, st.freetext16, ".
         " st.change_time, st.title, st.escalation_start_time, st.timeout, ".
         " st.freetime1, st.freetime2 ".
         " FROM ".
@@ -685,7 +687,7 @@ sub TicketGet {
 
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         $Ticket{TicketID}            = $Row[0];
-        $Ticket{Title}               = $Row[35];
+        $Ticket{Title}               = $Row[51];
         $Ticket{QueueID}             = $Row[1];
         $Ticket{Queue}               = $Row[2];
         $Ticket{StateID}             = $Row[3];
@@ -696,9 +698,9 @@ sub TicketGet {
 #        $Ticket{SLAAge} = $Self->{TimeObject}->SLATime(StartTime => $Row[7]);
         $Ticket{CreateTimeUnix}      = $Row[7];
         $Ticket{Created}             = $Self->{TimeObject}->SystemTime2TimeStamp(SystemTime => $Row[7]);
-        $Ticket{Changed}             = $Row[34];
-        $Ticket{EscalationStartTime} = $Row[36];
-        $Ticket{UnlockTimeout}       = $Row[37];
+        $Ticket{Changed}             = $Row[50];
+        $Ticket{EscalationStartTime} = $Row[52];
+        $Ticket{UnlockTimeout}       = $Row[53];
         $Ticket{GroupID}             = $Row[9];
         $Ticket{TicketNumber}        = $Row[10];
         $Ticket{CustomerID}          = $Row[11];
@@ -723,8 +725,24 @@ sub TicketGet {
         $Ticket{TicketFreeText7}     = defined($Row[31]) ? $Row[31] : '';
         $Ticket{TicketFreeKey8}      = defined($Row[32]) ? $Row[32] : '';
         $Ticket{TicketFreeText8}     = defined($Row[33]) ? $Row[33] : '';
-        $Ticket{TicketFreeTime1}     = defined($Row[38]) ? $Row[38] : '';
-        $Ticket{TicketFreeTime2}     = defined($Row[39]) ? $Row[39] : '';
+        $Ticket{TicketFreeKey9}      = defined($Row[34]) ? $Row[34] : '';
+        $Ticket{TicketFreeText9}     = defined($Row[35]) ? $Row[35] : '';
+        $Ticket{TicketFreeKey10}     = defined($Row[36]) ? $Row[36] : '';
+        $Ticket{TicketFreeText10}    = defined($Row[37]) ? $Row[37] : '';
+        $Ticket{TicketFreeKey11}     = defined($Row[38]) ? $Row[38] : '';
+        $Ticket{TicketFreeText11}    = defined($Row[39]) ? $Row[39] : '';
+        $Ticket{TicketFreeKey12}     = defined($Row[40]) ? $Row[40] : '';
+        $Ticket{TicketFreeText12}    = defined($Row[41]) ? $Row[41] : '';
+        $Ticket{TicketFreeKey13}     = defined($Row[42]) ? $Row[42] : '';
+        $Ticket{TicketFreeText13}    = defined($Row[43]) ? $Row[43] : '';
+        $Ticket{TicketFreeKey14}     = defined($Row[44]) ? $Row[44] : '';
+        $Ticket{TicketFreeText14}    = defined($Row[45]) ? $Row[45] : '';
+        $Ticket{TicketFreeKey15}     = defined($Row[46]) ? $Row[46] : '';
+        $Ticket{TicketFreeText15}    = defined($Row[47]) ? $Row[47] : '';
+        $Ticket{TicketFreeKey16}     = defined($Row[48]) ? $Row[48] : '';
+        $Ticket{TicketFreeText16}    = defined($Row[49]) ? $Row[49] : '';
+        $Ticket{TicketFreeTime1}     = defined($Row[54]) ? $Row[54] : '';
+        $Ticket{TicketFreeTime2}     = defined($Row[55]) ? $Row[55] : '';
     }
     # check ticket
     if (!$Ticket{TicketID}) {
@@ -1883,7 +1901,7 @@ To find tickets in your system.
       CreatedQueues => ['system queue', 'other queue'],
       CreatedQueueIDs => [1, 42, 512],
 
-      # 1..8 (optional)
+      # 1..16 (optional)
       TicketFreeKey1 => 'Product',
       TicketFreeText1 => 'adasd',
       # or with multi options as array ref or string possible
@@ -1966,6 +1984,22 @@ sub TicketSearch {
         TicketFreeText7 => 'st.freetext7',
         TicketFreeKey8 => 'st.freekey8',
         TicketFreeText8 => 'st.freetext8',
+        TicketFreeKey9 => 'st.freekey9',
+        TicketFreeText9 => 'st.freetext9',
+        TicketFreeKey10 => 'st.freekey10',
+        TicketFreeText10 => 'st.freetext10',
+        TicketFreeKey11 => 'st.freekey11',
+        TicketFreeText11 => 'st.freetext11',
+        TicketFreeKey12 => 'st.freekey12',
+        TicketFreeText12 => 'st.freetext12',
+        TicketFreeKey13 => 'st.freekey13',
+        TicketFreeText13 => 'st.freetext13',
+        TicketFreeKey14 => 'st.freekey14',
+        TicketFreeText14 => 'st.freetext14',
+        TicketFreeKey15 => 'st.freekey15',
+        TicketFreeText15 => 'st.freetext15',
+        TicketFreeKey16 => 'st.freekey16',
+        TicketFreeText16 => 'st.freetext16',
     );
     # check options
     if (!$SortOptions{$SortBy}) {
@@ -2348,7 +2382,7 @@ sub TicketSearch {
         $SQLExt .= ' AND ('.$FullTextSQL.')';
     }
     # ticket free text
-    foreach (1..8) {
+    foreach (1..16) {
         if ($Param{"TicketFreeKey$_"} && ref($Param{"TicketFreeKey$_"}) eq '') {
             $Param{"TicketFreeKey$_"} =~ s/\*/%/gi;
             $SQLExt .= " AND LOWER(st.freekey$_) LIKE LOWER('".$Self->{DBObject}->Quote($Param{"TicketFreeKey$_"})."')";
@@ -2370,7 +2404,7 @@ sub TicketSearch {
             }
         }
     }
-    foreach (1..8) {
+    foreach (1..16) {
         if ($Param{"TicketFreeText$_"} && ref($Param{"TicketFreeText$_"}) eq '') {
             $Param{"TicketFreeText$_"} =~ s/\*/%/gi;
             $SQLExt .= " AND LOWER(st.freetext$_) LIKE LOWER('".$Self->{DBObject}->Quote($Param{"TicketFreeText$_"})."')";
@@ -2805,6 +2839,13 @@ sub StateList {
     if ($Param{Type}) {
         %States = $Self->{StateObject}->StateGetStatesByType(
             Type => $Param{Type},
+            Result => 'HASH',
+        );
+    }
+    elsif ($Param{Action}) {
+        my @StateType = @{$Self->{ConfigObject}->Get('Ticket::Frontend')->{$Param{Action}}->{StateType}};
+        %States = $Self->{StateObject}->StateGetStatesByType(
+            StateType => \@StateType,
             Result => 'HASH',
         );
     }
@@ -4275,6 +4316,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.199 $ $Date: 2006-01-29 23:52:49 $
+$Revision: 1.200 $ $Date: 2006-02-05 20:19:06 $
 
 =cut
