@@ -2,9 +2,12 @@
 -- initial_insert.sql - provides initial system data
 -- Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: initial_insert.sql,v 1.42 2005-10-30 12:29:12 martin Exp $
+-- $Id: initial_insert.sql,v 1.43 2006-02-05 20:20:56 martin Exp $
 --
 -- $Log: not supported by cvs2svn $
+-- Revision 1.42  2005/10/30 12:29:12  martin
+-- removed not needed german default salutation and signature
+--
 -- Revision 1.41  2005/10/30 09:47:37  martin
 -- added spaces for oracle init
 --
@@ -302,10 +305,6 @@ INSERT INTO groups
     (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('stats',  1, 1, current_timestamp, 1, current_timestamp);
-INSERT INTO groups
-    (name, valid_id, create_by, create_time, change_by, change_time)
-    VALUES
-    ('faq',  1, 1, current_timestamp, 1, current_timestamp);
 
 -- group_user (add admin to groups)
 INSERT INTO group_user
@@ -710,36 +709,8 @@ INSERT INTO ticket_history
   VALUES
   ('New Ticket [1010001] created.',1,1,1,3,1,1,1,1, current_timestamp,1,current_timestamp,1);
 
-INSERT INTO faq_item
-  (f_number, f_name, f_language_id, f_subject, state_id, category_id, f_field1, f_field2, f_field3, create_time, create_by, change_time, change_by)
-  VALUES
-  ('100001', 'welcome', 1, 'Welcome!', 1, 1, 'symptom...', 'problem...', 'solution...', current_timestamp, 1, current_timestamp, 1);
-
-INSERT INTO faq_history
-  (name, item_id, create_time, create_by, change_time, change_by)
-  VALUES
-  ('Created', 1, current_timestamp, 1, current_timestamp, 1);
-
-INSERT INTO faq_language (name) VALUES ('en');
-INSERT INTO faq_language (name) VALUES ('de');
-INSERT INTO faq_language (name) VALUES ('es');
-INSERT INTO faq_language (name) VALUES ('fr');
-
-INSERT INTO faq_category
-  (name, comments, create_time, create_by, change_time, change_by)
-  VALUES
-  ('all', 'default category', current_timestamp, 1, current_timestamp, 1);
-
-INSERT INTO faq_state (name, type_id) VALUES ('internal (agent)', 1);
-INSERT INTO faq_state (name, type_id) VALUES ('external (customer)', 2);
-INSERT INTO faq_state (name, type_id) VALUES ('public (all)', 3);
-
-INSERT INTO faq_state_type (name) VALUES ('internal');
-INSERT INTO faq_state_type (name) VALUES ('external');
-INSERT INTO faq_state_type (name) VALUES ('public');
-
 --
--- update agent notifications
+-- insert agent notifications
 --
 INSERT INTO notifications
   (notification_type, notification_charset, notification_language, subject, text, create_time, create_by, change_time, change_by)
