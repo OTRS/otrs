@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketFreeText.pm - to set the ticket free text
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketFreeText.pm,v 1.4 2005-08-31 22:25:03 martin Exp $
+# $Id: AgentTicketFreeText.pm,v 1.5 2006-02-05 20:35:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentTicketFreeText;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -88,7 +88,7 @@ sub Run {
             );
         }
         # update ticket free text
-        foreach (1..9) {
+        foreach (1..16) {
             my $FreeKey = $Self->{ParamObject}->GetParam(Param => "TicketFreeKey$_");
             my $FreeValue = $Self->{ParamObject}->GetParam(Param => "TicketFreeText$_");
             if (defined($FreeKey) && defined($FreeValue)) {

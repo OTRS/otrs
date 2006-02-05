@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketCompose.pm,v 1.11 2006-01-18 15:07:09 martin Exp $
+# $Id: AgentTicketCompose.pm,v 1.12 2006-02-05 20:35:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -368,7 +368,7 @@ sub Form {
     }
     # get free text config options
     my %TicketFreeText = ();
-    foreach (1..8) {
+    foreach (1..16) {
         $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
             TicketID => $Self->{TicketID},
             Type => "TicketFreeKey$_",
@@ -472,13 +472,13 @@ sub SendEmail {
     }
     # prepare free text
     my %TicketFree = ();
-    foreach (1..8) {
+    foreach (1..16) {
         $TicketFree{"TicketFreeKey$_"} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeKey$_");
         $TicketFree{"TicketFreeText$_"} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeText$_");
     }
     # get free text config options
     my %TicketFreeText = ();
-    foreach (1..8) {
+    foreach (1..16) {
         $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
             TicketID => $Self->{TicketID},
             Type => "TicketFreeKey$_",
@@ -592,7 +592,7 @@ sub SendEmail {
             );
         }
         # update ticket free text
-        foreach (1..8) {
+        foreach (1..16) {
             my $FreeKey = $Self->{ParamObject}->GetParam(Param => "TicketFreeKey$_");
             my $FreeValue = $Self->{ParamObject}->GetParam(Param => "TicketFreeText$_");
             if (defined($FreeKey) && defined($FreeValue)) {
@@ -682,6 +682,34 @@ sub _Mask {
         Format => 'DateInputFormatLong',
         DiffTime => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
     );
+    # ticket free text
+    my $Count = 0;
+    foreach (1..16) {
+        $Count++;
+        if ($Self->{ConfigObject}->Get('TicketFreeText'.$Count.'::Shown') && $Self->{ConfigObject}->Get('TicketFreeText'.$Count.'::Shown')->{Compose}) {
+            $Self->{LayoutObject}->Block(
+                Name => 'FreeText',
+                Data => {
+                    TicketFreeKeyField => $Param{'TicketFreeKeyField'.$Count},
+                    TicketFreeTextField => $Param{'TicketFreeTextField'.$Count},
+                },
+            );
+        }
+    }
+    $Count = 0;
+    foreach (1..2) {
+        $Count++;
+        if ($Self->{ConfigObject}->Get('TicketFreeTime'.$Count.'::Shown') && $Self->{ConfigObject}->Get('TicketFreeText'.$Count.'::Shown')->{Compose}) {
+            $Self->{LayoutObject}->Block(
+                Name => 'FreeTime',
+                Data => {
+                    TicketFreeTimeKey => $Self->{ConfigObject}->Get('TicketFreeTimeKey'.$Count),
+                    TicketFreeTime => $Param{'TicketFreeTime'.$Count},
+                    Count => $Count,
+                },
+            );
+        }
+    }
     # show time accounting box
     if ($Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime')) {
         $Self->{LayoutObject}->Block(

@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketForward.pm,v 1.9 2005-11-12 13:23:29 martin Exp $
+# $Id: AgentTicketForward.pm,v 1.10 2006-02-05 20:35:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,6 @@ package Kernel::Modules::AgentTicketForward;
 
 use strict;
 use Kernel::System::CheckItem;
-use Kernel::System::StdAttachment;
 use Kernel::System::State;
 use Kernel::System::SystemAddress;
 use Kernel::System::CustomerUser;
@@ -21,7 +20,7 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -48,7 +47,6 @@ sub new {
     # some new objects
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
     $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%Param);
-    $Self->{StdAttachmentObject} = Kernel::System::StdAttachment->new(%Param);
     $Self->{StateObject} = Kernel::System::State->new(%Param);
     $Self->{SystemAddress} = Kernel::System::SystemAddress->new(%Param);
     $Self->{UploadCachObject} = Kernel::System::Web::UploadCache->new(%Param);
@@ -312,7 +310,7 @@ sub Form {
     }
     # get free text config options
     my %TicketFreeText = ();
-    foreach (1..8) {
+    foreach (1..16) {
         $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
             TicketID => $Self->{TicketID},
             Type => "TicketFreeKey$_",
@@ -403,10 +401,6 @@ sub SendEmail {
             }
         }
     }
-    # --
-    # get std attachment ids
-    # --
-    my @StdAttachmentIDs = $Self->{ParamObject}->GetArray(Param => 'StdAttachmentID');
     # prepare subject
     my $Tn = $Self->{TicketObject}->TicketNumberLookup(TicketID => $Self->{TicketID});
     $GetParam{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
@@ -420,13 +414,13 @@ sub SendEmail {
     }
     # prepare free text
     my %TicketFree = ();
-    foreach (1..8) {
+    foreach (1..16) {
         $TicketFree{"TicketFreeKey$_"} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeKey$_");
         $TicketFree{"TicketFreeText$_"} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeText$_");
     }
     # get free text config options
     my %TicketFreeText = ();
-    foreach (1..8) {
+    foreach (1..16) {
         $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
             TicketID => $Self->{TicketID},
             Type => "TicketFreeKey$_",
@@ -541,7 +535,6 @@ sub SendEmail {
         Charset => $Self->{LayoutObject}->{UserCharset},
         Type => 'text/plain',
         Attachment => \@AttachmentData,
-        StdAttachmentIDs => \@StdAttachmentIDs,
         %ArticleParam,
     )) {
         # time accounting
@@ -554,7 +547,7 @@ sub SendEmail {
             );
         }
         # update ticket free text
-        foreach (1..8) {
+        foreach (1..16) {
             my $FreeKey = $Self->{ParamObject}->GetParam(Param => "TicketFreeKey$_");
             my $FreeValue = $Self->{ParamObject}->GetParam(Param => "TicketFreeText$_");
             if (defined($FreeKey) && defined($FreeValue)) {
@@ -666,6 +659,34 @@ sub _Mask {
         Format => 'DateInputFormatLong',
         DiffTime => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
     );
+    # ticket free text
+    my $Count = 0;
+    foreach (1..16) {
+        $Count++;
+        if ($Self->{ConfigObject}->Get('TicketFreeText'.$Count.'::Shown') && $Self->{ConfigObject}->Get('TicketFreeText'.$Count.'::Shown')->{Forward}) {
+            $Self->{LayoutObject}->Block(
+                Name => 'FreeText',
+                Data => {
+                    TicketFreeKeyField => $Param{'TicketFreeKeyField'.$Count},
+                    TicketFreeTextField => $Param{'TicketFreeTextField'.$Count},
+                },
+            );
+        }
+    }
+    $Count = 0;
+    foreach (1..2) {
+        $Count++;
+        if ($Self->{ConfigObject}->Get('TicketFreeTime'.$Count.'::Shown') && $Self->{ConfigObject}->Get('TicketFreeText'.$Count.'::Shown')->{Forward}) {
+            $Self->{LayoutObject}->Block(
+                Name => 'FreeTime',
+                Data => {
+                    TicketFreeTimeKey => $Self->{ConfigObject}->Get('TicketFreeTimeKey'.$Count),
+                    TicketFreeTime => $Param{'TicketFreeTime'.$Count},
+                    Count => $Count,
+                },
+            );
+        }
+    }
     # show time accounting box
     if ($Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime')) {
         $Self->{LayoutObject}->Block(
