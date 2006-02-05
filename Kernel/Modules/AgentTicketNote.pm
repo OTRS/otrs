@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketNote.pm - to add notes to a ticket
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketNote.pm,v 1.8 2006-02-05 20:32:05 martin Exp $
+# $Id: AgentTicketNote.pm,v 1.9 2006-02-05 21:08:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -119,6 +119,7 @@ sub Run {
                 TicketID => $Self->{TicketID},
             );
             if ($OwnerID != $Self->{UserID}) {
+                my $Output = $Self->{LayoutObject}->Header(Value => $Ticket{Number});
                 $Output .= $Self->{LayoutObject}->Warning(
                     Message => "Sorry, the current owner is $OwnerLogin!",
                     Comment => 'Please change the owner first.',
