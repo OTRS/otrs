@@ -1,8 +1,8 @@
 # --
 # AgentTicketSearchResultShort.dtl - html for ticket status view (all tickets)
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketSearchResultShort.dtl,v 1.3 2005-08-04 13:27:28 cs Exp $
+# $Id: AgentTicketSearchResultShort.dtl,v 1.4 2006-02-05 20:28:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -59,7 +59,7 @@ $Text{"Results"}: <b>$QData{"Result"}</b> - $Text{"Total hits"}: <b>$Data{"Total
 <!-- dtl:block:Record -->
 <tr valign="top">
  <td class="PriorityID-$Data{"PriorityID"}">
-  <a href="$Env{"Baselink"}Action=AgentZoom&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Zoom"}'; return true;" onmouseout="window.status='';">$Data{"TicketNumber"}</a>
+  <a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Zoom"}'; return true;" onmouseout="window.status='';">$Data{"TicketNumber"}</a>
  </td>
  <td class="PriorityID-$Data{"PriorityID"}">
   $Data{"StartFont"}$QData{"Age"}$Data{"StopFont"}

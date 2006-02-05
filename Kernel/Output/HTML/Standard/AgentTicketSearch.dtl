@@ -1,8 +1,8 @@
 # --
 # AgentTicketSearch.dtl - provides HTML form for AgentTicketSearch
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketSearch.dtl,v 1.8 2005-10-08 12:55:31 martin Exp $
+# $Id: AgentTicketSearch.dtl,v 1.9 2006-02-05 20:28:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -90,22 +90,28 @@
 <tr>
   <td colspan="2" class="contenthead">$Text{"TicketFreeText"}</td>
 </tr>
+<!-- dtl:block:FreeText -->
 <tr>
-  <td class="contentbody">$Data{"TicketFreeKeyField1"}</td>
-  <td class="contentbody">$Data{"TicketFreeTextField1"}</td>
+  <td class="contentbody">$Data{"TicketFreeKeyField"}</td>
+  <td class="contentbody">$Data{"TicketFreeTextField"}</td>
 </tr>
-<tr>
-  <td class="contentbody">$Data{"TicketFreeKeyField2"}</td>
-  <td class="contentbody">$Data{"TicketFreeTextField2"}</td>
-</tr>
-<tr>
-  <td class="contentbody">$Data{"TicketFreeKeyField3"}</td>
-  <td class="contentbody">$Data{"TicketFreeTextField3"}</td>
-</tr>
-<tr>
-  <td class="contentbody">$Data{"TicketFreeKeyField4"}</td>
-  <td class="contentbody">$Data{"TicketFreeTextField4"}</td>
-</tr>
+<!-- dtl:block:FreeText -->
+#<tr>
+#  <td class="contentbody">$Data{"TicketFreeKeyField1"}</td>
+#  <td class="contentbody">$Data{"TicketFreeTextField1"}</td>
+#</tr>
+#<tr>
+#  <td class="contentbody">$Data{"TicketFreeKeyField2"}</td>
+#  <td class="contentbody">$Data{"TicketFreeTextField2"}</td>
+#</tr>
+#<tr>
+#  <td class="contentbody">$Data{"TicketFreeKeyField3"}</td>
+#  <td class="contentbody">$Data{"TicketFreeTextField3"}</td>
+#</tr>
+#<tr>
+#  <td class="contentbody">$Data{"TicketFreeKeyField4"}</td>
+#  <td class="contentbody">$Data{"TicketFreeTextField4"}</td>
+#</tr>
 #<tr>
 #  <td class="contentbody">$Data{"TicketFreeKeyField5"}</td>
 #  <td class="contentbody">$Data{"TicketFreeTextField5"}</td>
@@ -122,6 +128,14 @@
 #  <td class="contentbody">$Data{"TicketFreeKeyField8"}</td>
 #  <td class="contentbody">$Data{"TicketFreeTextField8"}</td>
 #</tr>
+<!-- dtl:block:FreeTime -->
+<tr>
+  <td colspan="2" class="contentbody">$Text{"$QData{"TicketFreeTimeKey"}"}
+  <input type="checkbox" name="TicketFreeTime$QData{"Count"}" value="checked" $QData{"TicketFreeTime"}>
+  $Text{"Between"} $Data{"TicketFreeTimeStart"} $Text{"and"} $Data{"TicketFreeTimeStop"}.
+  </td>
+</tr>
+<!-- dtl:block:FreeTime -->
 #<tr>
 #  <td class="contentbody">$Text{"$Config{"TicketFreeTimeKey1"}"}</td>
 #  <td class="contentbody"><input type="checkbox" name="TicketFreeTime1" value="checked" $QData{"TicketFreeTime1"}>

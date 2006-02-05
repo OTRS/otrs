@@ -2,7 +2,7 @@
 # AgentTicketForward.dtl - provides HTML form for AgentTicketForward
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketForward.dtl,v 1.13 2006-01-29 20:50:53 martin Exp $
+# $Id: AgentTicketForward.dtl,v 1.14 2006-02-05 20:27:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -188,6 +188,12 @@ $QData{"Body"}
       <td class="contentkey">$Text{"Article type"}:</td>
       <td class="contentvalue">$Data{"ArticleTypesStrg"}</td>
     </tr>
+<!-- dtl:block:FreeText -->
+    <tr>
+      <td class="contentkey">$Data{"TicketFreeKeyField"}</td>
+      <td class="contentvalue">$Data{"TicketFreeTextField"}</td>
+    </tr>
+<!-- dtl:block:FreeText -->
 #    <tr>
 #      <td class="contentkey">$Data{"TicketFreeKeyField1"}:</td>
 #      <td class="contentvalue">$Data{"TicketFreeTextField1"}</td>
@@ -204,22 +210,20 @@ $QData{"Body"}
 #      <td class="contentkey">$Data{"TicketFreeKeyField4"}:</td>
 #      <td class="contentvalue">$Data{"TicketFreeTextField4"}</td>
 #   </tr>
-#   <tr>
-#      <td class="contentkey">$Data{"TicketFreeKeyField5"}:</td>
-#      <td class="contentvalue">$Data{"TicketFreeTextField5"}</td>
-#   </tr>
-#   <tr>
-#      <td class="contentkey">$Data{"TicketFreeKeyField6"}:</td>
-#      <td class="contentvalue">$Data{"TicketFreeTextField6"}</td>
-#   </tr>
-#   <tr>
-#      <td class="contentkey">$Data{"TicketFreeKeyField7"}:</td>
-#      <td class="contentvalue">$Data{"TicketFreeTextField7"}</td>
-#   </tr>
-#   <tr>
-#      <td class="contentkey">$Data{"TicketFreeKeyField8"}:</td>
-#      <td class="contentvalue">$Data{"TicketFreeTextField8"}</td>
-#   </tr>
+<!-- dtl:block:FreeTime -->
+    <tr>
+      <td class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}</td>
+      <td class="contentvalue">$Data{"TicketFreeTime"}</td>
+    </tr>
+<!-- dtl:block:FreeTime -->
+#  <tr>
+#    <td class="contentkey">$Text{"$Config{"TicketFreeTimeKey1"}"}:</td>
+#    <td class="contentvalue">$Data{"TicketFreeTime1"}</td>
+#  </tr>
+#  <tr>
+#    <td class="contentkey">$Text{"$Config{"TicketFreeTimeKey2"}"}:</td>
+#    <td class="contentvalue">$Data{"TicketFreeTime2"}</td>
+#  </tr>
 <!-- dtl:block:TimeUnits -->
     <tr>
       <td class="contentkey">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</td>

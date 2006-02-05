@@ -1,8 +1,8 @@
 # --
 # AgentPhoneNew.dtl - provides HTML form for phone
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPhoneNew.dtl,v 1.16 2005-12-29 02:09:06 martin Exp $
+# $Id: AgentTicketPhoneNew.dtl,v 1.17 2006-02-05 20:29:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -222,6 +222,12 @@ function clear_field()
     <td class="contentkey">$Text{"Priority"}:</td>
     <td class="contentvalue"> $Data{"PriorityStrg"}</td>
   </tr>
+<!-- dtl:block:FreeText -->
+  <tr>
+    <td class="contentkey">$Data{"TicketFreeKeyField"}</td>
+    <td class="contentvalue">$Data{"TicketFreeTextField"}</td>
+  </tr>
+<!-- dtl:block:FreeText -->
 #  <tr>
 #    <td class="contentkey">$Data{"TicketFreeKeyField1"}:</td>
 #    <td class="contentvalue">$Data{"TicketFreeTextField1"}</td>
@@ -238,22 +244,12 @@ function clear_field()
 #    <td class="contentkey">$Data{"TicketFreeKeyField4"}:</td>
 #    <td class="contentvalue">$Data{"TicketFreeTextField4"}</td>
 #  </tr>
-#  <tr>
-#    <td class="contentkey">$Data{"TicketFreeKeyField5"}:</td>
-#    <td class="contentvalue">$Data{"TicketFreeTextField5"}</td>
-#  </tr>
-#  <tr>
-#    <td class="contentkey">$Data{"TicketFreeKeyField6"}:</td>
-#    <td class="contentvalue">$Data{"TicketFreeTextField6"}</td>
-#  </tr>
-#  <tr>
-#    <td class="contentkey">$Data{"TicketFreeKeyField7"}:</td>
-#    <td class="contentvalue">$Data{"TicketFreeTextField7"}</td>
-#  </tr>
-#  <tr>
-#    <td class="contentkey">$Data{"TicketFreeKeyField8"}:</td>
-#    <td class="contentvalue">$Data{"TicketFreeTextField8"}</td>
-#  </tr>
+<!-- dtl:block:FreeTime -->
+  <tr>
+    <td class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}</td>
+    <td class="contentvalue">$Data{"TicketFreeTime"}</td>
+  </tr>
+<!-- dtl:block:FreeTime -->
 #  <tr>
 #    <td class="contentkey">$Text{"$Config{"TicketFreeTimeKey1"}"}:</td>
 #    <td class="contentvalue">$Data{"TicketFreeTime1"}</td>

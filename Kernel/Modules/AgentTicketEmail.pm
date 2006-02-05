@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketEmail.pm - to compose inital email to customer
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketEmail.pm,v 1.13 2005-11-12 13:23:29 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.14 2006-02-05 20:27:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -84,20 +84,23 @@ sub Run {
             # notify info
             if ($Self->{TicketID}) {
                 my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
-                $Output .= $Self->{LayoutObject}->Notify(Info => '<a href="$Env{"Baselink"}Action=AgentZoom&TicketID='.$Ticket{TicketID}.'">Ticket "%s" created!", "'.$Ticket{TicketNumber}).'</a>';
+                $Output .= $Self->{LayoutObject}->Notify(
+                    Info => 'Ticket "%s" created!", "'.$Ticket{TicketNumber},
+                    Link => '$Env{"Baselink"}Action=AgentTicketZoom&TicketID='.$Ticket{TicketID},
+                );
             }
             # --
             # get split article if given
             # --
             # get default selections
             my %TicketFreeDefault = ();
-            foreach (1..8) {
+            foreach (1..16) {
                 $TicketFreeDefault{'TicketFreeKey'.$_} = $Self->{ConfigObject}->Get('TicketFreeKey'.$_.'::DefaultSelection');
                 $TicketFreeDefault{'TicketFreeText'.$_} = $Self->{ConfigObject}->Get('TicketFreeText'.$_.'::DefaultSelection');
             }
             # get free text config options
             my %TicketFreeText = ();
-            foreach (1..8) {
+            foreach (1..16) {
                 $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
                     TicketID => $Self->{TicketID},
                     Type => "TicketFreeKey$_",
@@ -259,13 +262,13 @@ sub Run {
         }
         # get free text params
         my %TicketFree = ();
-        foreach (1..8) {
+        foreach (1..16) {
             $TicketFree{"TicketFreeKey$_"} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeKey$_");
             $TicketFree{"TicketFreeText$_"} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeText$_");
         }
         # get free text config options
         my %TicketFreeText = ();
-        foreach (1..8) {
+        foreach (1..16) {
             $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
                 TicketID => $Self->{TicketID},
                 Type => "TicketFreeKey$_",
@@ -598,7 +601,7 @@ sub Run {
             CreateUserID => $Self->{UserID},
         );
         # set ticket free text
-        foreach (1..8) {
+        foreach (1..16) {
             if (defined($TicketFree{"TicketFreeKey$_"})) {
                 $Self->{TicketObject}->TicketFreeTextSet(
                     TicketID => $TicketID,
@@ -980,6 +983,34 @@ sub _MaskEmailNew {
             $Self->{LayoutObject}->Block(
                 Name => 'OwnerSelectionAllSubmit',
                 Data => { },
+            );
+        }
+    }
+    # ticket free text
+    my $Count = 0;
+    foreach (1..16) {
+        $Count++;
+        if ($Self->{ConfigObject}->Get('TicketFreeText'.$Count.'::Shown') && $Self->{ConfigObject}->Get('TicketFreeText'.$Count.'::Shown')->{EmailNew}) {
+            $Self->{LayoutObject}->Block(
+                Name => 'FreeText',
+                Data => {
+                    TicketFreeKeyField => $Param{'TicketFreeKeyField'.$Count},
+                    TicketFreeTextField => $Param{'TicketFreeTextField'.$Count},
+                },
+            );
+        }
+    }
+    $Count = 0;
+    foreach (1..2) {
+        $Count++;
+        if ($Self->{ConfigObject}->Get('TicketFreeTime'.$Count.'::Shown') && $Self->{ConfigObject}->Get('TicketFreeText'.$Count.'::Shown')->{EmailNew}) {
+            $Self->{LayoutObject}->Block(
+                Name => 'FreeTime',
+                Data => {
+                    TicketFreeTimeKey => $Self->{ConfigObject}->Get('TicketFreeTimeKey'.$Count),
+                    TicketFreeTime => $Param{'TicketFreeTime'.$Count},
+                    Count => $Count,
+                },
             );
         }
     }

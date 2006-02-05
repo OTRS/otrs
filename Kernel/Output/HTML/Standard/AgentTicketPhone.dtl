@@ -1,8 +1,8 @@
 # --
 # AgentPhone.dtl - provides HTML form for phone
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPhone.dtl,v 1.11 2005-12-29 02:09:06 martin Exp $
+# $Id: AgentTicketPhone.dtl,v 1.12 2006-02-05 20:29:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -128,6 +128,42 @@ $Include{"AgentTicketLocked"}
     <td class="contentkey">$Text{"Pending Date"} ($Text{"for pending* states"}):</td>
     <td class="contentvalue">$Data{"PendingDateString"} <font color="red" size="-2">$Text{"$Data{"Date invalid"}"}</font> </td>
   </tr>
+<!-- dtl:block:FreeText -->
+  <tr>
+    <td class="contentkey">$Data{"TicketFreeKeyField"}</td>
+    <td class="contentvalue">$Data{"TicketFreeTextField"}</td>
+  </tr>
+<!-- dtl:block:FreeText -->
+#  <tr>
+#    <td class="contentkey">$Data{"TicketFreeKeyField1"}:</td>
+#    <td class="contentvalue">$Data{"TicketFreeTextField1"}</td>
+#  </tr>
+#  <tr>
+#    <td class="contentkey">$Data{"TicketFreeKeyField2"}:</td>
+#    <td class="contentvalue">$Data{"TicketFreeTextField2"}</td>
+#  </tr>
+#  <tr>
+#    <td class="contentkey">$Data{"TicketFreeKeyField3"}:</td>
+#    <td class="contentvalue">$Data{"TicketFreeTextField3"}</td>
+#  </tr>
+#  <tr>
+#    <td class="contentkey">$Data{"TicketFreeKeyField4"}:</td>
+#    <td class="contentvalue">$Data{"TicketFreeTextField4"}</td>
+#  </tr>
+<!-- dtl:block:FreeTime -->
+  <tr>
+    <td class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}</td>
+    <td class="contentvalue">$Data{"TicketFreeTime"}</td>
+  </tr>
+<!-- dtl:block:FreeTime -->
+#  <tr>
+#    <td class="contentkey">$Text{"$Config{"TicketFreeTimeKey1"}"}:</td>
+#    <td class="contentvalue">$Data{"TicketFreeTime1"}</td>
+#  </tr>
+#  <tr>
+#    <td class="contentkey">$Text{"$Config{"TicketFreeTimeKey2"}"}:</td>
+#    <td class="contentvalue">$Data{"TicketFreeTime2"}</td>
+#  </tr>
 <!-- dtl:block:TimeUnits -->
   <tr>
     <td class="contentkey">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</td>
