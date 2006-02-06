@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.225 2006-02-05 20:48:20 martin Exp $
+# $Id: Defaults.pm,v 1.226 2006-02-06 05:49:27 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.225 $';
+$VERSION = '$Revision: 1.226 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -997,7 +997,7 @@ Your OTRS Notification Master
         CustomerValid => 'valid_id',
         CustomerUserListFields => ['first_name', 'last_name', 'email'],
 #        CustomerUserListFields => ['login', 'first_name', 'last_name', 'customer_id', 'email'],
-        CustomerUserSearchFields => ['login', 'last_name', 'customer_id'],
+        CustomerUserSearchFields => ['login', 'first_name', 'last_name', 'customer_id'],
         CustomerUserSearchPrefix => '',
         CustomerUserSearchSuffix => '*',
         CustomerUserSearchListLimit => 250,
@@ -1741,6 +1741,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.225 $ $Date: 2006-02-05 20:48:20 $
+$Revision: 1.226 $ $Date: 2006-02-06 05:49:27 $
 
 =cut
