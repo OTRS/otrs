@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerTicketMessage.pm,v 1.3.2.2 2005-12-01 11:07:43 martin Exp $
+# $Id: CustomerTicketMessage.pm,v 1.3.2.3 2006-02-06 01:41:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3.2.2 $';
+$VERSION = '$Revision: 1.3.2.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -276,7 +276,7 @@ sub Run {
             if ($Queue) {
                 my $QueueID = $Self->{QueueObject}->QueueLookup(Queue => $Queue);
                 $NewQueueID = $QueueID;
-                $To = $QueueID;
+                $To = $Queue;
             }
         }
         my $Subject = $Self->{ParamObject}->GetParam(Param => 'Subject') || 'New!';
