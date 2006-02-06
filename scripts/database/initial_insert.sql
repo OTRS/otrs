@@ -2,9 +2,12 @@
 -- initial_insert.sql - provides initial system data
 -- Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: initial_insert.sql,v 1.43 2006-02-05 20:20:56 martin Exp $
+-- $Id: initial_insert.sql,v 1.44 2006-02-06 09:40:32 martin Exp $
 --
 -- $Log: not supported by cvs2svn $
+-- Revision 1.43  2006/02/05 20:20:56  martin
+-- removed faq
+--
 -- Revision 1.42  2005/10/30 12:29:12  martin
 -- removed not needed german default salutation and signature
 --
@@ -382,7 +385,7 @@ INSERT INTO salutation
 INSERT INTO signature
     (name, text, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('system standard signature (en)', 'Your Ticket-Team - <OTRS_FIRST_NAME> <OTRS_LAST_NAME> -- Super Support - Waterford Business Park 5201 Blue Lagoon Drive - 8th Floor & 9th Floor - Miami, 33126 USA Email: hot@example.com - Web: http://www.example.com/--', 'std signature', 1, 1, current_timestamp, 1, current_timestamp);
+    ('system standard signature (en)', 'Your Ticket-Team - <OTRS_Agent_UserFirstname> <OTRS_Agent_UserLastname> -- Super Support - Waterford Business Park 5201 Blue Lagoon Drive - 8th Floor & 9th Floor - Miami, 33126 USA Email: hot@example.com - Web: http://www.example.com/--', 'std signature', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- system_address
 INSERT INTO system_address
