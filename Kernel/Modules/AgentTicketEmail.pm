@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketEmail.pm - to compose inital email to customer
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketEmail.pm,v 1.12 2005-10-25 18:40:30 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.12.2.1 2006-02-06 01:38:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.12.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -84,7 +84,10 @@ sub Run {
             # notify info
             if ($Self->{TicketID}) {
                 my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
-                $Output .= $Self->{LayoutObject}->Notify(Info => '<a href="$Env{"Baselink"}Action=AgentZoom&TicketID='.$Ticket{TicketID}.'">Ticket "%s" created!", "'.$Ticket{TicketNumber}).'</a>';
+                $Output .= $Self->{LayoutObject}->Notify(
+                    Info => 'Ticket "%s" created!", "'.$Ticket{TicketNumber},
+                    Link => '$Env{"Baselink"}Action=AgentTicketZoom&TicketID='.$Ticket{TicketID},
+                );
             }
             # --
             # get split article if given
