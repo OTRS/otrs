@@ -2,7 +2,7 @@
 # TODO - todo list OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TODO,v 1.87 2006-02-02 16:03:06 tr Exp $
+# $Id: TODO,v 1.88 2006-02-06 07:18:06 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -57,6 +57,7 @@
 - delete in CVS the directory var/sesstions
 - rework AdminGenericAgent.pm, theres useless Code e.g. StartHit and OrderBy
 - AdminGenericAgent.pm: implement a unique ID für each generic agentjob.
+- The module SystemStatus has no english->german translation.
 
 2.2
 - move ticket and article free text fields to "reference tables".
