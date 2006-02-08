@@ -2,7 +2,7 @@
 # TODO - todo list OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TODO,v 1.89 2006-02-07 10:52:24 cs Exp $
+# $Id: TODO,v 1.90 2006-02-08 21:48:53 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.1
+- Possebility to search for customer (like for the To field) also in CC and
+  BCC field and when forwarding and bouncing a ticket.
 - Possebility to insert more than one attachment when a new ticket is
   created in customer interface
 - change SysConfigSetting for PreApplication from String to Arrayversion
