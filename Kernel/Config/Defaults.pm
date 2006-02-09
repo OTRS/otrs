@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.222.2.1 2006-02-06 05:57:40 tr Exp $
+# $Id: Defaults.pm,v 1.222.2.2 2006-02-09 17:26:16 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.222.2.1 $';
+$VERSION = '$Revision: 1.222.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1280,24 +1280,7 @@ Your OTRS Notification Master
         NavBarName      => '',
         Title           => 'Calendar',
     };
-    # stats
-    $Self->{'Frontend::Module'}->{'SystemStats'} = {
-        GroupRo => ['stats'],
-        Description => 'Stats',
-        Title => 'Stats',
-        NavBarName => 'Ticket',
-        NavBar => [
-          {
-            Description => 'Stats-Area',
-            Name => 'Stats',
-            Image => 'stats.png',
-            Link => 'Action=SystemStats',
-            NavBar => 'Ticket',
-            Prio => 400,
-            AccessKey => 't',
-          },
-        ],
-    };
+
     # admin interface
     $Self->{'Frontend::Module'}->{'Admin'} = {
         Group => ['admin'],
@@ -1740,6 +1723,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.222.2.1 $ $Date: 2006-02-06 05:57:40 $
+$Revision: 1.222.2.2 $ $Date: 2006-02-09 17:26:16 $
 
 =cut
