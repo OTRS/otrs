@@ -1,8 +1,8 @@
 # --
 # AdminSignatureForm.dtl - provides HTML form for AdminSignature
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSignatureForm.dtl,v 1.19 2005-11-12 13:38:40 martin Exp $
+# $Id: AdminSignatureForm.dtl,v 1.20 2006-02-09 23:52:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -109,23 +109,27 @@
   $Text{"Useable options"}:
     <table>
      <tr>
-      <td>&lt;OTRS_FIRST_NAME&gt;</td>
+      <td>&lt;OTRS_Agent_UserFirstname&gt;</td>
       <td>$Text{"for agent firstname"}</td>
      </tr>
      <tr>
-      <td>&lt;OTRS_LAST_NAME&gt;</td>
+      <td>&lt;OTRS_Agent_UserLastname&gt;</td>
       <td>$Text{"for agent lastname"}</td>
      </tr>
      <tr>
-      <td>&lt;OTRS_USER_ID&gt;</td>
+      <td>&lt;OTRS_Agent_UserID&gt;</td>
       <td>$Text{"for agent user id"}</td>
      </tr>
      <tr>
-      <td>&lt;OTRS_USER_LOGIN&gt;</td>
+      <td>&lt;OTRS_Agent_UserLogin&gt;</td>
       <td>$Text{"for agent login"}</td>
      </tr>
      <tr>
-      <td>&lt;OTRS_CUSTOMER_*&gt;</td>
+      <td>&lt;OTRS_Agent_*&gt;</td>
+      <td>$Text{"All Agent variables."}</td>
+     </tr>
+     <tr>
+      <td>&lt;OTRS_Customer_*&gt;</td>
       <td>$Text{"All Customer variables like defined in config option CustomerUser."}</td>
      </tr>
     </table>
@@ -136,14 +140,14 @@
     <pre>
  Your OTRS-Team
 
-  &lt;OTRS_FIRST_NAME&gt; &lt;OTRS_LAST_NAME&gt;
+  &lt;OTRS_Agent_UserFirstname&gt; &lt;OTRS_Agent_UserLastname&gt;
 
 --
  Super Support Company Inc. - Waterford Business Park
  5201 Blue Lagoon Drive - 8th Floor & 9th Floor - Miami, 33126 USA
  Email: hot@florida.com - Web: http://hot.florida.com/
 --
-PS: Your email address in our database is "&lt;OTRS_CUSTOMER_UserEmail&gt;".
+PS: Your email address in our database is "&lt;OTRS_Customer_UserEmail&gt;".
     </pre>
     <hr>
     </p>

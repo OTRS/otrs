@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketBounce.pm - to bounce articles of tickets
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketBounce.pm,v 1.3 2005-03-27 11:50:50 martin Exp $
+# $Id: AgentTicketBounce.pm,v 1.4 2006-02-09 23:52:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -166,7 +166,7 @@ sub Run {
         $Param{Salutation} = $Self->{QueueObject}->GetSalutation(%Article);
         # prepare customer realname
         if ($Param{Salutation} =~ /<OTRS_CUSTOMER_REALNAME>/) {
-            # get realname 
+            # get realname
             my $From = '';
             if ($Article{CustomerUserID}) {
                 $From = $Self->{CustomerUserObject}->CustomerName(UserLogin => $Article{CustomerUserID});
@@ -176,7 +176,7 @@ sub Run {
                 $From =~ s/<.*>|\(.*\)|\"|;|,//g;
                 $From =~ s/( $)|(  $)//g;
             }
-            # get realname 
+            # get realname
             $Param{Salutation} =~ s/<OTRS_CUSTOMER_REALNAME>/$From/g;
         }
         # --
@@ -188,6 +188,18 @@ sub Run {
             $Param{$_} =~ s/<OTRS_LAST_NAME>/$Self->{UserLastname}/g;
             $Param{$_} =~ s/<OTRS_USER_ID>/$Self->{UserID}/g;
             $Param{$_} =~ s/<OTRS_USER_LOGIN>/$Self->{UserLogin}/g;
+            # replace user staff
+            my %User = $Self->{UserObject}->GetUserData(
+                UserID => $Self->{UserID},
+                Cached => 1,
+            );
+            foreach my $UserKey (keys %User) {
+                if ($User{$UserKey}) {
+                    $Param{$_} =~ s/<OTRS_Agent_$UserKey>/$User{$UserKey}/gi;
+                }
+            }
+            # cleanup all not needed <OTRS_TICKET_ tags
+            $Param{$_} =~ s/<OTRS_Agent_.+?>/-/gi;
         }
         # --
         # prepare body ...
@@ -243,7 +255,7 @@ sub Run {
             if ($Self->{SystemAddress}->SystemAddressIsLocalAddress(Address => $Address)) {
                 # --
                 # error page
-                # -- 
+                # --
                 return $Self->{LayoutObject}->ErrorScreen(
                     Message => "Can't forward ticket to $Address! It's a local ".
                       "address! You need to move it!",
@@ -255,7 +267,7 @@ sub Run {
         # --
         # prepare from ...
         # --
-        # get article data 
+        # get article data
         # --
         my %Ticket = $Self->{TicketObject}->TicketGet(
             TicketID => $Self->{TicketID},

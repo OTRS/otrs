@@ -1,8 +1,8 @@
 # --
 # AdminSalutationForm.dtl - provides HTML form for AdminSalutation
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSalutationForm.dtl,v 1.19 2005-11-12 13:38:40 martin Exp $
+# $Id: AdminSalutationForm.dtl,v 1.20 2006-02-09 23:52:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -110,27 +110,31 @@
   $Text{"Useable options"}:
     <table>
      <tr>
-      <td>&lt;OTRS_CUSTOMER_REALNAME&gt;</td>
-      <td>$Text{"customer realname"}</td>
-     </tr>
-     <tr>
-      <td>&lt;OTRS_CUSTOMER_*&gt;</td>
+      <td>&lt;OTRS_Customer_*&gt;</td>
       <td>$Text{"All Customer variables like defined in config option CustomerUser."}</td>
      </tr>
      <tr>
-      <td>&lt;OTRS_FIRST_NAME&gt;</td>
+      <td>&lt;OTRS_Customer_Realname&gt;</td>
+      <td>$Text{"customer realname"}</td>
+     </tr>
+     <tr>
+      <td>&lt;OTRS_Agent_*&gt;</td>
+      <td>$Text{"All Agent variables."}</td>
+     </tr>
+     <tr>
+      <td>&lt;OTRS_Agent_UserFirstname&gt;</td>
       <td>$Text{"for agent firstname"}</td>
      </tr>
      <tr>
-      <td>&lt;OTRS_LAST_NAME&gt;</td>
+      <td>&lt;OTRS_Agent_UserLastname&gt;</td>
       <td>$Text{"for agent lastname"}</td>
      </tr>
      <tr>
-      <td>&lt;OTRS_USER_ID&gt;</td>
+      <td>&lt;OTRS_Agent_UserID&gt;</td>
       <td>$Text{"for agent user id"}</td>
      </tr>
      <tr>
-      <td>&lt;OTRS_USER_LOGIN&gt;</td>
+      <td>&lt;OTRS_Agent_UserLogin&gt;</td>
       <td>$Text{"for agent login"}</td>
      </tr>
     </table>
@@ -139,9 +143,9 @@
     $Text{"Example"}:
     <hr>
     <pre>
-Dear &lt;OTRS_CUSTOMER_REALNAME&gt;,
+Dear &lt;OTRS_Customer_Realname&gt;,
 
-Thank you for your request. Your email address in our database is "&lt;OTRS_CUSTOMER_UserEmail&gt;".
+Thank you for your request. Your email address in our database is "&lt;OTRS_Customer_UserEmail&gt;".
     </pre>
     <hr>
     </p>

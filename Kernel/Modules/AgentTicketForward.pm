@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketForward.pm,v 1.10 2006-02-05 20:35:32 martin Exp $
+# $Id: AgentTicketForward.pm,v 1.11 2006-02-09 23:52:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -214,6 +214,18 @@ sub Form {
             }
             $Data{$_} =~ s/<OTRS_CUSTOMER_REALNAME>/$From/g;
         }
+        # replace user staff
+        my %User = $Self->{UserObject}->GetUserData(
+            UserID => $Self->{UserID},
+            Cached => 1,
+        );
+        foreach my $UserKey (keys %User) {
+            if ($User{$UserKey}) {
+                $Data{$_} =~ s/<OTRS_Agent_$UserKey>/$User{$UserKey}/gi;
+            }
+        }
+        # cleanup all not needed <OTRS_TICKET_ tags
+        $Data{$_} =~ s/<OTRS_Agent_.+?>/-/gi;
         # replace other needed stuff
         $Data{$_} =~ s/<OTRS_FIRST_NAME>/$Self->{UserFirstname}/g;
         $Data{$_} =~ s/<OTRS_LAST_NAME>/$Self->{UserLastname}/g;
