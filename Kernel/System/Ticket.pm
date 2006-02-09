@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.200 2006-02-05 20:19:06 martin Exp $
+# $Id: Ticket.pm,v 1.201 2006-02-09 23:53:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.200 $';
+$VERSION = '$Revision: 1.201 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -633,7 +633,7 @@ sub TicketSubjectClean {
 get ticket info (TicketNumber, TicketID, State, StateID, StateType,
 Priority, PriorityID, Lock, LockID, Queue, QueueID,
 CustomerID, CustomerUserID, UserID, Owner, OwnerID,
-Created, Changed, TicketFreeKey1-8, TicketFreeText1-8, ...)
+Created, Changed, TicketFreeKey1-16, TicketFreeText1-16, ...)
 
   my %Ticket = $TicketObject->TicketGet(
       TicketID => 123,
@@ -668,8 +668,10 @@ sub TicketGet {
         " st.freekey3, st.freetext3, st.freekey4, st.freetext4,".
         " st.freekey5, st.freetext5, st.freekey6, st.freetext6,".
         " st.freekey7, st.freetext7, st.freekey8, st.freetext8, ".
-        " st.freekey9, st.freetext10, st.freekey11, st.freetext12, ".
-        " st.freekey13, st.freetext14, st.freekey15, st.freetext16, ".
+        " st.freekey9, st.freetext9, st.freekey10, st.freetext10, ".
+        " st.freekey11, st.freetext11, st.freekey12, st.freetext12,".
+        " st.freekey13, st.freetext13, st.freekey14, st.freetext14, ".
+        " st.freekey15, st.freetext15, st.freekey16, st.freetext16, ".
         " st.change_time, st.title, st.escalation_start_time, st.timeout, ".
         " st.freetime1, st.freetime2 ".
         " FROM ".
@@ -3359,10 +3361,10 @@ sub HistoryTicketStatusGet {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     my $SQLExt = '';
-    foreach (qw(NewTicket FollowUp AddNote Move Remove OwnerUpdate PriorityUpdate CustomerUpdate StateUpdate)) {
+    foreach (qw(NewTicket FollowUp OwnerUpdate PriorityUpdate CustomerUpdate StateUpdate TicketFreeTextUpdate PhoneCallCustomer Forward Bounce SendAnswer EmailCustomer PhoneCallAgent WebRequestCustomer)) {
         my $ID = $Self->HistoryTypeLookup(Type => $_);
         if (!$SQLExt) {
-            $SQLExt = "AND history_type_id NOT IN ($ID";
+            $SQLExt = "AND history_type_id IN ($ID";
         }
         else {
             $SQLExt .= ",$ID";
@@ -3469,7 +3471,7 @@ sub HistoryTicketGet {
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 2000);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         if ($Row[1] eq 'NewTicket') {
-            if ($Row[0] =~ /^\%\%(.+?)\%\%(.+?)\%\%(.+?)\%\%(.+?)\%\%(.+?)/ || $Row[0] =~ /Ticket=\[(.+?)\],.+?Q\=(.+?);P\=(.+?);S\=(.+?)/) {
+            if ($Row[0] =~ /^\%\%(.+?)\%\%(.+?)\%\%(.+?)\%\%(.+?)\%\%(.+?)$/ || $Row[0] =~ /Ticket=\[(.+?)\],.+?Q\=(.+?);P\=(.+?);S\=(.+?)/) {
                 $Ticket{TicketNumber} = $1;
                 $Ticket{Queue} = $2;
                 $Ticket{CreateQueue} = $2;
@@ -3510,13 +3512,15 @@ sub HistoryTicketGet {
             }
         }
         elsif ($Row[1] eq 'StateUpdate' || $Row[1] eq 'Close successful' || $Row[1] eq 'Close unsuccessful' || $Row[1] eq 'Open' || $Row[1] eq 'Misc') {
-            if ($Row[0] =~ /^\%\%(.+?)\%\%(.+?)$/ || $Row[0] =~ /^Old: '(.+?)' New: '(.+?)'/ || $Row[0] =~ /^Changed Ticket State from '(.+?)' to '(.+?)'/) {
+            if ($Row[0] =~ /^\%\%(.+?)\%\%(.+?)\%\%$/ || $Row[0] =~ /^Old: '(.+?)' New: '(.+?)'/ || $Row[0] =~ /^Changed Ticket State from '(.+?)' to '(.+?)'/) {
                 $Ticket{State} = $2;
                 $Ticket{StateTime} = $Row[2];
             }
         }
         elsif ($Row[1] eq 'TicketFreeTextUpdate') {
             if ($Row[0] =~ /^\%\%(.+?)\%\%(.+?)\%\%(.+?)\%\%(.+?)$/) {
+                $Ticket{'Ticket'.$1} = $2;
+                $Ticket{'Ticket'.$3} = $4;
                 $Ticket{$1} = $2;
                 $Ticket{$3} = $4;
             }
@@ -3546,23 +3550,15 @@ sub HistoryTicketGet {
     }
     else {
         # update old ticket info
-#        if ($Ticket{TicketVersion} eq '1.1') {
-            my %CurrentTicketData = $Self->TicketGet(TicketID => $Ticket{TicketID});
-            foreach (qw(State Priority Queue TicketNumber)) {
-                if (!$Ticket{$_}) {
-                    $Ticket{$_} = $CurrentTicketData{$_};
-                }
-                if (!$Ticket{"Create$_"}) {
-                    $Ticket{"Create$_"} = $CurrentTicketData{$_};
-                }
+        my %CurrentTicketData = $Self->TicketGet(TicketID => $Ticket{TicketID});
+        foreach (qw(State Priority Queue TicketNumber)) {
+            if (!$Ticket{$_}) {
+                $Ticket{$_} = $CurrentTicketData{$_};
             }
-            if (!$Self->{QueueObject}->QueueLookup(Queue => $Ticket{Queue})) {
-                $Ticket{Queue} = $CurrentTicketData{Queue};
+            if (!$Ticket{"Create$_"}) {
+                $Ticket{"Create$_"} = $CurrentTicketData{$_};
             }
-            if (!$Self->{StateObject}->StateGet(Name => $Ticket{State}, Cache => 1)) {
-                $Ticket{State} = $CurrentTicketData{State};
-            }
-#        }
+        }
         # check if we should cache this ticket data
         my ($Sec, $Min, $Hour, $Day, $Month, $Year, $WDay) = $Self->{TimeObject}->SystemTime2Date(
             SystemTime => $Self->{TimeObject}->SystemTime(),
@@ -4316,6 +4312,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.200 $ $Date: 2006-02-05 20:19:06 $
+$Revision: 1.201 $ $Date: 2006-02-09 23:53:11 $
 
 =cut
