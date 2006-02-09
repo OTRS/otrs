@@ -2,7 +2,7 @@
 # TicketNumberGenerator.t - TicketNumberGenerator tests
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.t,v 1.7 2006-01-07 14:56:16 martin Exp $
+# $Id: Ticket.t,v 1.8 2006-02-09 23:55:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -83,6 +83,50 @@ $Self->Is(
     'unlock',
     'TicketGet() (Lock)',
 );
+
+foreach (1..16) {
+    my $TicketFreeTextSet = $Self->{TicketObject}->TicketFreeTextSet(
+        Counter => $_,
+        Key => 'Planet'.$_,
+        Value => 'Sun'.$_,
+        TicketID => $TicketID,
+        UserID => 1,
+    );
+    $Self->True(
+        $TicketFreeTextSet,
+        'TicketFreeTextSet() '.$_,
+    );
+}
+
+my %TicketFreeText = $Self->{TicketObject}->TicketGet(
+    TicketID => $TicketID,
+);
+foreach (1..16) {
+    $Self->Is(
+        $TicketFreeText{'TicketFreeKey'.$_},
+        'Planet'.$_,
+        "TicketGet() (TicketFreeKey$_)",
+    );
+    $Self->Is(
+        $TicketFreeText{'TicketFreeText'.$_},
+        'Sun'.$_,
+        "TicketGet() (TicketFreeText$_)",
+    );
+}
+
+foreach (1..16) {
+    my $TicketFreeTextSet = $Self->{TicketObject}->TicketFreeTextSet(
+        Counter => $_,
+        Key => 'Hans'.$_,
+        Value => 'Max'.$_,
+        TicketID => $TicketID,
+        UserID => 1,
+    );
+    $Self->True(
+        $TicketFreeTextSet,
+        'TicketFreeTextSet() '.$_,
+    );
+}
 
 my $ArticleID = $Self->{TicketObject}->ArticleCreate(
     TicketID => $TicketID,
@@ -2960,7 +3004,7 @@ $Self->Is(
 
 
 my ($Sec, $Min, $Hour, $Day, $Month, $Year) = $Self->{TimeObject}->SystemTime2Date(
-    SystemTime => $Self->{TimeObject}->SystemTime(),
+    SystemTime  => $Self->{TimeObject}->SystemTime(),
 );
 
 my %TicketStatus = $Self->{TicketObject}->HistoryTicketStatusGet(
@@ -3019,6 +3063,18 @@ if ($TicketStatus{$TicketID}) {
         '3 normal',
         "HistoryTicketStatusGet() (CreatePriority)",
     );
+    foreach (1..16) {
+        $Self->Is(
+            $TicketHistory{'TicketFreeKey'.$_},
+            'Hans'.$_,
+            "HistoryTicketStatusGet() (TicketFreeKey$_)",
+        );
+        $Self->Is(
+            $TicketHistory{'TicketFreeText'.$_},
+            'Max'.$_,
+            "HistoryTicketStatusGet() (TicketFreeText$_)",
+        );
+    }
 }
 else {
     $Self->True(
