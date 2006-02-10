@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketForward.pm,v 1.11 2006-02-09 23:52:12 martin Exp $
+# $Id: AgentTicketForward.pm,v 1.12 2006-02-10 00:29:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -300,24 +300,24 @@ sub Form {
     if (ref($Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule')) eq 'HASH') {
         my %Jobs = %{$Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule')};
         foreach my $Job (sort keys %Jobs) {
-                # load module
-                if ($Self->{MainObject}->Require($Jobs{$Job}->{Module})) {
-                    my $Object = $Jobs{$Job}->{Module}->new(
-                        %{$Self},
-                        Debug => $Self->{Debug},
-                    );
-                    # get params
-                    foreach ($Object->Option(%Data, %GetParam, Config => $Jobs{$Job})) {
-                        $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
-                    }
-                    # run module
-                    $Object->Run(%Data, %GetParam, Config => $Jobs{$Job});
-                    # get errors
-                    %Error = (%Error, $Object->Error(%GetParam, Config => $Jobs{$Job}));
+            # load module
+            if ($Self->{MainObject}->Require($Jobs{$Job}->{Module})) {
+                my $Object = $Jobs{$Job}->{Module}->new(
+                    %{$Self},
+                    Debug => $Self->{Debug},
+                );
+                # get params
+                foreach ($Object->Option(%Data, %GetParam, Config => $Jobs{$Job})) {
+                    $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
                 }
-                else {
-                    return $Self->{LayoutObject}->FatalError();
-                }
+                # run module
+                $Object->Run(%Data, %GetParam, Config => $Jobs{$Job});
+                # get errors
+                %Error = (%Error, $Object->Error(%GetParam, Config => $Jobs{$Job}));
+            }
+            else {
+                return $Self->{LayoutObject}->FatalError();
+            }
         }
     }
     # get free text config options
@@ -504,7 +504,6 @@ sub SendEmail {
             TicketID => $Self->{TicketID},
             QueueID => $QueueID,
             NextStates => $Self->_GetNextStates(),
-            NextState => $NextState,
             Errors => \%Error,
             Attachments => \@Attachments,
             %TicketFreeTextHTML,
@@ -634,10 +633,18 @@ sub _Mask {
     my $Self = shift;
     my %Param = @_;
     # build next states string
+    my %State = ();
+    if (!$Param{ComposeStateID}) {
+        $State{Selected} = $Self->{ConfigObject}->Get('Ticket::Frontend::ForwardState');
+    }
+    else {
+        $State{SelectedID} = $Param{ComposeStateID};
+    }
+
     $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => $Param{NextStates},
         Name => 'ComposeStateID',
-        Selected => $Param{NextState}
+        %State,
     );
     my %ArticleTypes = ();
     my @ArticleTypesPossible = @{$Self->{ConfigObject}->Get('Ticket::Frontend::ForwardArticleTypes')};
