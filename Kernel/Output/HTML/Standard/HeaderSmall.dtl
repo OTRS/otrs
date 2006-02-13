@@ -1,8 +1,8 @@
 # --
 # HeaderSmall.dtl - provides global HTML header
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: HeaderSmall.dtl,v 1.4 2005-06-04 16:45:26 martin Exp $
+# $Id: HeaderSmall.dtl,v 1.5 2006-02-13 00:51:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -40,8 +40,8 @@ $Include{"Copyright"}
 # --
 <html>
 <head>
-    $Data{"MetaHttpEquiv"}
-    <title>$Config{"ProductName"} $Data{"TitleArea"}</title>
+  $Data{"MetaHttpEquiv"}
+  <title>$Config{"ProductName"} $Data{"TitleArea"}</title>
 # include css.dtl file
 $Include{"css"}
 </head>

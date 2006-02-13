@@ -1,8 +1,8 @@
 # --
 # Header.dtl - provides global HTML header
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Header.dtl,v 1.23 2005-05-07 12:53:28 martin Exp $
+# $Id: Header.dtl,v 1.24 2006-02-13 00:54:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,23 +38,23 @@ $Include{"Copyright"}
 # --
 <html>
 <head>
-    $Data{"MetaHttpEquiv"}
-    <title>$Config{"ProductName"} :: $Data{"TitleArea"}</title>
+  $Data{"MetaHttpEquiv"}
+  <title>$Config{"ProductName"} :: $Data{"TitleArea"}</title>
 # include css.dtl  file
 $Include{"css"}
 </head>
 <a name="top"></a>
 <body>
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr>
-  <td align="left" width="30%" class="header">
-   <b>$Env{"Box0"}$Config{"ProductName"} || </b>
-   <a href="$Env{"Baselink"}" accesskey="h" onmouseover="window.status='$Text{"Home"}'; return true;" onmouseout="window.status='';" class="headeritem">Home</a> <b>$Env{"Box1"}</b>
-  </td>
-  <td align="right" width="70%" class="header">
-   $Env{"UserFirstname"} $Env{"UserLastname"} $Data{"UserLoginTop"} $Env{"TimeLong"}
-  </td>
-</tr>
+  <tr>
+    <td align="left" width="30%" class="header">
+      <b>$Env{"Box0"}$Config{"ProductName"} || </b>
+      <a href="$Env{"Baselink"}" accesskey="h" onmouseover="window.status='$Text{"Home"}'; return true;" onmouseout="window.status='';" class="headeritem">Home</a> <b>$Env{"Box1"}</b>
+    </td>
+    <td align="right" width="70%" class="header">
+      $Env{"UserFirstname"} $Env{"UserLastname"} $Data{"UserLoginTop"} $Env{"TimeLong"}
+    </td>
+  </tr>
 </table>
 <hr>
 <!-- end header -->
