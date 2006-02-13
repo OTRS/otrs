@@ -1,8 +1,8 @@
 # --
 # AdminNavigationBar.dtl - provides global HTML NavigationBar
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminNavigationBar.dtl,v 1.29 2005-02-16 16:49:13 martin Exp $
+# $Id: AdminNavigationBar.dtl,v 1.30 2006-02-13 00:59:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,42 +10,42 @@
 # --
 <!-- dtl:block:AdminNavBar -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
-<tr>
-  <td class="mainhead">$Env{"Box0"}$Text{"Admin-Area"}$Env{"Box1"}</td>
-</tr>
+  <tr>
+    <td class="mainhead">$Env{"Box0"}$Text{"Admin-Area"}$Env{"Box1"}</td>
+  </tr>
 </table>
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="4">
-<tr>
-  <th class="menu">$Text{"Users"} & $Text{"Groups"} & $Text{"Roles"}</th>
-  <th class="menu">$Text{"Queue"} & $Text{"Responses"}</th>
-  <th class="menu">$Text{"System"}</th>
-  <th class="menu">$Text{"Misc"}</th>
-</tr>
-<tr>
-  <td class="nav">
+  <tr>
+    <th class="menu">$Text{"Users"} & $Text{"Groups"} & $Text{"Roles"}</th>
+    <th class="menu">$Text{"Queue"} & $Text{"Responses"}</th>
+    <th class="menu">$Text{"System"}</th>
+    <th class="menu">$Text{"Misc"}</th>
+  </tr>
+  <tr>
+    <td class="nav">
 <!-- dtl:block:Block1 -->
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=$QData{"Frontend::Module"}">$Text{"$Data{"Name"}"}</a>$Env{"Box1"}
-    <br>
+      $Env{"Box0"}<a href="$Env{"Baselink"}Action=$QData{"Frontend::Module"}">$Text{"$Data{"Name"}"}</a>$Env{"Box1"}
+      <br>
 <!-- dtl:block:Block1 -->
-  </td>
-  <td class="nav">
+    </td>
+    <td class="nav">
 <!-- dtl:block:Block2 -->
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=$QData{"Frontend::Module"}">$Text{"$Data{"Name"}"}</a>$Env{"Box1"}
-    <br>
+      $Env{"Box0"}<a href="$Env{"Baselink"}Action=$QData{"Frontend::Module"}">$Text{"$Data{"Name"}"}</a>$Env{"Box1"}
+      <br>
 <!-- dtl:block:Block2 -->
-  </td>
-  <td class="nav">
+    </td>
+    <td class="nav">
 <!-- dtl:block:Block3 -->
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=$QData{"Frontend::Module"}">$Text{"$Data{"Name"}"}</a>$Env{"Box1"}
-    <br>
+      $Env{"Box0"}<a href="$Env{"Baselink"}Action=$QData{"Frontend::Module"}">$Text{"$Data{"Name"}"}</a>$Env{"Box1"}
+      <br>
 <!-- dtl:block:Block3 -->
-  </td>
-  <td class="nav">
+    </td>
+    <td class="nav">
 <!-- dtl:block:Block4 -->
-    $Env{"Box0"}<a href="$Env{"Baselink"}Action=$QData{"Frontend::Module"}">$Text{"$Data{"Name"}"}</a>$Env{"Box1"}
-    <br>
+      $Env{"Box0"}<a href="$Env{"Baselink"}Action=$QData{"Frontend::Module"}">$Text{"$Data{"Name"}"}</a>$Env{"Box1"}
+      <br>
 <!-- dtl:block:Block4 -->
-  </td>
-</tr>
+    </td>
+  </tr>
 </table>
 <!-- dtl:block:AdminNavBar -->

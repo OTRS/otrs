@@ -1,8 +1,8 @@
 # --
 # AdminLog.dtl - provides HTML form for AdminLog
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminLog.dtl,v 1.9 2005-02-17 12:16:31 martin Exp $
+# $Id: AdminLog.dtl,v 1.10 2006-02-13 00:58:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,38 +10,38 @@
 # --
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
-<tr>
-  <td class="mainhead">
-    $Env{"Box0"}$Text{"System Log"}$Env{"Box1"}
-  </td>
-</tr>
-<tr>
-  <td class="mainbody">
+  <tr>
+    <td class="mainhead">
+      $Env{"Box0"}$Text{"System Log"}$Env{"Box1"}
+    </td>
+  </tr>
+  <tr>
+    <td class="mainbody">
 
-    <p>
-    <table border="0" width="100%" cellspacing="0" cellpadding="2">
-    <tr class="contenthead">
-      <td class="contentkey" width="20%">$Text{"Time"}</td>
-      <td class="contentkey">$Text{"Priority"}</td>
-      <td class="contentkey">$Text{"Facility"}</td>
-      <td class="contentkey" width="60%">$Text{"Message"}</td>
-    </tr>
+      <p>
+      <table border="0" width="100%" cellspacing="0" cellpadding="2">
+        <tr class="contenthead">
+          <td class="contentkey" width="20%">$Text{"Time"}</td>
+          <td class="contentkey">$Text{"Priority"}</td>
+          <td class="contentkey">$Text{"Facility"}</td>
+          <td class="contentkey" width="60%">$Text{"Message"}</td>
+        </tr>
 <!-- dtl:block:Row -->
-<dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchpassive"; }>
-    <tr class="contentbody">
-      <td class="$Env{"Color"}">$Data{"StartFont"}$QData{"Time"}$Data{"StartFont"}</td>
-      <td class="$Env{"Color"}">$Data{"StartFont"}$QData{"Priority"}$Data{"StartFont"}</td>
-      <td class="$Env{"Color"}">$Data{"StartFont"}$QData{"Facility"}$Data{"StopFont"}</td>
-      <td class="$Env{"Color"}">$Data{"StartFont"}$QData{"Message"}$Data{"StopFont"}</td>
-    </tr>
-<dtl if ($Env{"Color"} eq "searchactive") { $Env{"Color"} = ""; }>
-<dtl if ($Env{"Color"} eq "searchpassive") { $Env{"Color"} = "searchactive"; }>
+        <dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchpassive"; }>
+        <tr class="contentbody">
+          <td class="$Env{"Color"}">$Data{"StartFont"}$QData{"Time"}$Data{"StartFont"}</td>
+          <td class="$Env{"Color"}">$Data{"StartFont"}$QData{"Priority"}$Data{"StartFont"}</td>
+          <td class="$Env{"Color"}">$Data{"StartFont"}$QData{"Facility"}$Data{"StopFont"}</td>
+          <td class="$Env{"Color"}">$Data{"StartFont"}$QData{"Message"}$Data{"StopFont"}</td>
+        </tr>
+        <dtl if ($Env{"Color"} eq "searchactive") { $Env{"Color"} = ""; }>
+        <dtl if ($Env{"Color"} eq "searchpassive") { $Env{"Color"} = "searchactive"; }>
 <!-- dtl:block:Row -->
-    </table>
-    </p>
+      </table>
+      </p>
 
-  </td>
-</tr>
+    </td>
+  </tr>
 </table>
 <!-- end form -->
 
