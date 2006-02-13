@@ -2,13 +2,14 @@
 # AgentTicketPending.dtl - set ticket to pending
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPending.dtl,v 1.12 2006-02-12 23:45:21 martin Exp $
+# $Id: AgentTicketPending.dtl,v 1.13 2006-02-13 00:41:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 <!-- dtl:block:Properties -->
+<script language="JavaScript" type="text/javascript">
 <!--
 function submit_compose()
 {
@@ -44,6 +45,7 @@ function submit_compose()
 //-->
 </script>
 
+<script language="JavaScript" type="text/javascript">
 <!--
 function SpellCheckSubmit()
 {
@@ -55,6 +57,7 @@ function SpellCheckSubmit()
 </script>
 
 <!-- dtl:block:OwnerJs -->
+<script language="JavaScript" type="text/javascript">
 <!--
 function change_selected(sel)
 {
