@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # UnlockTickets.pl - to unlock tickets
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: UnlockTickets.pl,v 1.19 2005-09-24 16:46:36 martin Exp $
+# $Id: UnlockTickets.pl,v 1.20 2006-02-16 23:11:25 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Date::Pcalc qw(Delta_Days Add_Delta_Days Day_of_Week Day_of_Week_Abbreviation);
@@ -49,11 +49,11 @@ my $Debug = 0;
 # --
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
 $CommonObject{LogObject} = Kernel::System::Log->new(
     LogPrefix => 'OTRS-UnlockTickets',
     %CommonObject,
 );
+$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
 $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
 $CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
 $CommonObject{UserObject} = Kernel::System::User->new(%CommonObject);
