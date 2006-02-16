@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # XMLMaster.pl - the global xml handle for xml2db
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: XMLMaster.pl,v 1.1 2005-07-01 09:53:37 martin Exp $
+# $Id: XMLMaster.pl,v 1.2 2006-02-16 23:41:14 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -59,11 +59,11 @@ if (!$Opts{'d'}) {
 # --
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{TimeObject} = Kernel::System::Time->new(
-    %CommonObject,
-);
 $CommonObject{LogObject} = Kernel::System::Log->new(
     LogPrefix => 'OTRS-XMLMaster',
+    %CommonObject,
+);
+$CommonObject{TimeObject} = Kernel::System::Time->new(
     %CommonObject,
 );
 # Wrap the majority of the script in an "eval" block so that any
