@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.201 2006-02-09 23:53:11 martin Exp $
+# $Id: Ticket.pm,v 1.202 2006-02-16 22:18:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.201 $';
+$VERSION = '$Revision: 1.202 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -1132,10 +1132,27 @@ sub MoveTicket {
         return;
     }
 }
-# --
+
+=item MoveQueueList()
+
+returns a list of used queue ids / names
+
+  my @QueueIDList = $TicketObject->MoveQueueList(
+      TicketID => 123,
+      Type => 'ID',
+  );
+
+  my @QueueList = $TicketObject->MoveQueueList(
+      TicketID => 123,
+      Type => 'Name',
+  );
+
+=cut
+
 sub MoveQueueList {
     my $Self = shift;
     my %Param = @_;
+    my @QueueID = ();
     # check needed stuff
     foreach (qw(TicketID)) {
       if (!$Param{$_}) {
@@ -1148,8 +1165,7 @@ sub MoveQueueList {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     # db query
-    my @Queue = ();
-    my $SQL = "SELECT sh.name, ht.name, sh.create_by ".
+    my $SQL = "SELECT sh.name, ht.name, sh.create_by, sh.queue_id ".
         " FROM ".
         " ticket_history sh, ticket_history_type ht ".
         " WHERE ".
@@ -1163,23 +1179,31 @@ sub MoveQueueList {
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         # store result
         if ($Row[1] eq 'NewTicket') {
-            if ($Row[2] ne '1') {
-#                push (@Queue, $Row[2]);
+            if ($Row[3]) {
+                push (@QueueID, $Row[3]);
             }
         }
         elsif ($Row[1] eq 'Move') {
-            if ($Row[0] =~ /^Ticket moved to Queue '.+?' \(ID=(.+?)\)/) {
-                push (@Queue, $1);
+            if ($Row[0] =~ /^\%\%(.+?)\%\%(.+?)\%\%(.+?)\%\%(.+?)/) {
+                push (@QueueID, $2);
+            }
+            elsif ($Row[0] =~ /^Ticket moved to Queue '.+?' \(ID=(.+?)\)/) {
+                push (@QueueID, $1);
             }
         }
     }
-    my @QueueInfo = ();
-    foreach (@Queue) {
+    my @QueueName = ();
+    foreach (@QueueID) {
         # queue lookup
         my $Queue = $Self->{QueueObject}->QueueLookup(QueueID => $_, Cache => 1);
-        push (@QueueInfo, $Queue);
+        push (@QueueName, $Queue);
     }
-    return @Queue;
+    if ($Param{Type} && $Param{Type} eq 'Name') {
+        return @QueueName;
+    }
+    else {
+        return @QueueID;
+    }
 }
 
 =item SetCustomerData()
@@ -3512,7 +3536,7 @@ sub HistoryTicketGet {
             }
         }
         elsif ($Row[1] eq 'StateUpdate' || $Row[1] eq 'Close successful' || $Row[1] eq 'Close unsuccessful' || $Row[1] eq 'Open' || $Row[1] eq 'Misc') {
-            if ($Row[0] =~ /^\%\%(.+?)\%\%(.+?)\%\%$/ || $Row[0] =~ /^Old: '(.+?)' New: '(.+?)'/ || $Row[0] =~ /^Changed Ticket State from '(.+?)' to '(.+?)'/) {
+            if ($Row[0] =~ /^\%\%(.+?)\%\%(.+?)(\%\%|)$/ || $Row[0] =~ /^Old: '(.+?)' New: '(.+?)'/ || $Row[0] =~ /^Changed Ticket State from '(.+?)' to '(.+?)'/) {
                 $Ticket{State} = $2;
                 $Ticket{StateTime} = $Row[2];
             }
@@ -4312,6 +4336,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.201 $ $Date: 2006-02-09 23:53:11 $
+$Revision: 1.202 $ $Date: 2006-02-16 22:18:38 $
 
 =cut
