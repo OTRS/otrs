@@ -2,7 +2,7 @@
 # TicketNumberGenerator.t - TicketNumberGenerator tests
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.t,v 1.8 2006-02-09 23:55:42 martin Exp $
+# $Id: Ticket.t,v 1.9 2006-02-16 22:19:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -2944,6 +2944,21 @@ $Self->Is(
     'TicketGet() (Lock)',
 );
 
+my @MoveQueueList = $Self->{TicketObject}->MoveQueueList(
+    TicketID => $TicketID,
+    Type => 'Name',
+);
+
+$Self->Is(
+    $MoveQueueList[0],
+    'Raw',
+    'MoveQueueList() (Raw)',
+);
+$Self->Is(
+    $MoveQueueList[$#MoveQueueList],
+    'Junk',
+    'MoveQueueList() (Junk)',
+);
 
 my $TicketAccountTime = $Self->{TicketObject}->TicketAccountTime(
     TicketID => $TicketID,
