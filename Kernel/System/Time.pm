@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Time.pm - time functions
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Time.pm,v 1.10 2005-10-23 23:42:11 martin Exp $
+# $Id: Time.pm,v 1.11 2006-02-16 02:12:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Time::Local;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -42,8 +42,13 @@ create a language object
 
   my $ConfigObject = Kernel::Config->new();
 
+  my $LogObject = Kernel::System::Log->new(
+      ConfigObject => $ConfigObject,
+  );
+
   my $TimeObject = Kernel::System::Time->new(
       ConfigObject => $ConfigObject,
+      LogObject => $LogObject,
   );
 
 =cut
@@ -61,7 +66,7 @@ sub new {
         $Self->{$_} = $Param{$_};
     }
     # check needed objects
-    foreach (qw(ConfigObject)) {
+    foreach (qw(ConfigObject LogObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
 
@@ -479,6 +484,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2005-10-23 23:42:11 $
+$Revision: 1.11 $ $Date: 2006-02-16 02:12:32 $
 
 =cut
