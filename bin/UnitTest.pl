@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # UnitTest.pl - the global test handle
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: UnitTest.pl,v 1.1 2005-12-20 22:53:43 martin Exp $
+# $Id: UnitTest.pl,v 1.2 2006-02-16 02:13:46 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,14 +29,14 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
 use Kernel::Config;
+use Kernel::System::Log;
 use Kernel::System::Time;
 use Kernel::System::DB;
-use Kernel::System::Log;
 use Kernel::System::UnitTest;
 
 # --
@@ -55,11 +55,11 @@ if ($Opts{'h'}) {
 # --
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{TimeObject} = Kernel::System::Time->new(
-    %CommonObject,
-);
 $CommonObject{LogObject} = Kernel::System::Log->new(
     LogPrefix => 'OTRS-Test',
+    %CommonObject,
+);
+$CommonObject{TimeObject} = Kernel::System::Time->new(
     %CommonObject,
 );
 
