@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Priority.pm - All priority related function should be here eventually
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Priority.pm,v 1.2 2005-11-11 10:38:39 martin Exp $
+# $Id: Priority.pm,v 1.2.2.1 2006-02-17 12:24:00 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Priority;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.2.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -36,15 +36,11 @@ All priority functions.
 create a object
 
     use Kernel::Config;
-    use Kernel::System::Time;
     use Kernel::System::Log;
     use Kernel::System::DB;
     use Kernel::System::Priority;
 
     my $ConfigObject = Kernel::Config->new();
-    my $TimeObject    = Kernel::System::Time->new(
-        ConfigObject => $ConfigObject,
-    );
     my $LogObject    = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
@@ -56,7 +52,6 @@ create a object
         ConfigObject => $ConfigObject,
         LogObject => $LogObject,
         DBObject => $DBObject,
-        TimeObject => $TimeObject,
     );
 
 =cut
@@ -126,6 +121,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2005-11-11 10:38:39 $
+$Revision: 1.2.2.1 $ $Date: 2006-02-17 12:24:00 $
 
 =cut
