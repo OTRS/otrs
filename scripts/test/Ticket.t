@@ -2,7 +2,7 @@
 # TicketNumberGenerator.t - TicketNumberGenerator tests
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.t,v 1.9 2006-02-16 22:19:07 martin Exp $
+# $Id: Ticket.t,v 1.10 2006-02-28 05:58:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -47,8 +47,8 @@ my $TicketID = $Self->{TicketObject}->TicketCreate(
     State => 'closed successful',
     CustomerNo => '123465',
     CustomerUser => 'customer@example.com',
+    OwnerID => 1,
     UserID => 1,
-    CreateUserID => 1,
 );
 $Self->True(
     $TicketID,
@@ -77,6 +77,16 @@ $Self->Is(
     $Ticket{State},
     'closed successful',
     'TicketGet() (State)',
+);
+$Self->Is(
+    $Ticket{Owner},
+    'root@localhost',
+    'TicketGet() (Owner)',
+);
+$Self->Is(
+    $Ticket{Responsible},
+    'root@localhost',
+    'TicketGet() (Responsible)',
 );
 $Self->Is(
     $Ticket{Lock},
@@ -2943,6 +2953,58 @@ $Self->Is(
     'lock',
     'TicketGet() (Lock)',
 );
+
+%Article = $Self->{TicketObject}->ArticleGet(
+    ArticleID => $ArticleID,
+);
+$Self->Is(
+    $Article{Title},
+    'Some Title 1234567',
+    'ArticleGet() (Title)',
+);
+$Self->Is(
+    $Article{Queue},
+    'Junk',
+    'ArticleGet() (Queue)',
+);
+$Self->Is(
+    $Article{Priority},
+    '2 low',
+    'ArticleGet() (Priority)',
+);
+$Self->Is(
+    $Article{State},
+    'open',
+    'ArticleGet() (State)',
+);
+$Self->Is(
+    $Article{Owner},
+    'root@localhost',
+    'ArticleGet() (Owner)',
+);
+$Self->Is(
+    $Article{Responsible},
+    'root@localhost',
+    'ArticleGet() (Responsible)',
+);
+$Self->Is(
+    $Article{Lock},
+    'lock',
+    'ArticleGet() (Lock)',
+);
+foreach (1..16) {
+    $Self->Is(
+        $Article{'TicketFreeKey'.$_},
+        'Hans'.$_,
+        "ArticleGet() (TicketFreeKey$_)",
+    );
+    $Self->Is(
+        $Article{'TicketFreeText'.$_},
+        'Max'.$_,
+        "ArticleGet() (TicketFreeText$_)",
+    );
+}
+
 
 my @MoveQueueList = $Self->{TicketObject}->MoveQueueList(
     TicketID => $TicketID,
