@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketSearch.pm,v 1.12 2006-02-05 20:23:52 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.13 2006-02-28 06:00:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -129,7 +129,7 @@ sub Run {
             }
         }
         # get array params
-        foreach (qw(StateIDs StateTypeIDs QueueIDs PriorityIDs UserIDs
+        foreach (qw(StateIDs StateTypeIDs QueueIDs PriorityIDs OwnerIDs
           CreatedQueueIDs CreatedUserIDs
           TicketFreeKey1 TicketFreeText1 TicketFreeKey2 TicketFreeText2
           TicketFreeKey3 TicketFreeText3 TicketFreeKey4 TicketFreeText4
@@ -604,10 +604,10 @@ sub MaskForm {
     }
     $Param{'UserStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => \%ShownUsers,
-        Name => 'UserIDs',
+        Name => 'OwnerIDs',
         Multiple => 1,
         Size => 5,
-        SelectedIDRefArray => $Param{UserIDs},
+        SelectedIDRefArray => $Param{OwnerIDs},
     );
     $Param{'CreatedUserStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => \%ShownUsers,
