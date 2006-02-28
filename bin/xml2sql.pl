@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # xml2sql.pl - a xml 2 sql processor
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: xml2sql.pl,v 1.4 2005-10-30 12:34:53 martin Exp $
+# $Id: xml2sql.pl,v 1.5 2006-02-28 06:03:41 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@ use Kernel::System::DB;
 use Kernel::System::Log;
 use Kernel::System::XML;
 
-my $VERSION = '$Revision: 1.4 $';
+my $VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 my %Opts = ();
@@ -68,11 +68,11 @@ my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{ConfigObject}->Set(Key => 'Database::Type', Value => $Opts{t});
 $CommonObject{ConfigObject}->Set(Key => 'Database::ShellOutput', Value => 1);
-$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
 $CommonObject{LogObject} = Kernel::System::Log->new(
     LogPrefix => 'OTRS-xml2sql',
     %CommonObject,
 );
+$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
 $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
 $CommonObject{XMLObject} = Kernel::System::XML->new(%CommonObject);
 
