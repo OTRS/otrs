@@ -4,7 +4,7 @@
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: otrs.addUser2Group,v 1.9 2005-03-18 13:41:33 martin Exp $
+# $Id: otrs.addUser2Group,v 1.10 2006-02-28 05:55:09 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -35,25 +35,25 @@ use Kernel::System::Group;
 
 my %Param = ();
 my %CommonObject = ();
-my %opts = ();
+my %Opts = ();
 
 use Getopt::Std;
-getopt('guph',  \%opts);
+getopt('guph',  \%Opts);
 
-if ($opts{h}) {
+if ($Opts{h}) {
     print STDERR "Usage: bin/otrs.addUser2Group -g groupname -u username -p ro|rw\n";
     exit;
 }
 
-if (!$opts{g}) {
+if (!$Opts{g}) {
     print STDERR "ERROR: Need -g groupname\n";
     exit 1;
 }
-if (!$opts{u}) {
+if (!$Opts{u}) {
     print STDERR "ERROR: Need -u username\n";
     exit 1;
 }
-if (!$opts{p}) {
+if (!$Opts{p}) {
     print STDERR "ERROR: Need -p permission\n";
     exit 1;
 }
@@ -73,23 +73,23 @@ $Param{UserID}='1';
 #valid id
 $Param{ValidID}='1';
 
-$Param{Permission}->{$opts{p}} = 1;
-$Param{User}=$opts{u};
-$Param{Group}=$opts{g};
+$Param{Permission}->{$Opts{p}} = 1;
+$Param{UserLogin}=$Opts{u};
+$Param{Group}=$Opts{g};
 
-unless  ($Param{UID}=$CommonObject{UserObject}->GetUserIdByName(%Param)){
-   print STDERR "ERROR: Failed to get User ID. Perhaps non-existent user..\n";
-   exit 1;
+unless  ($Param{UID}=$CommonObject{UserObject}->UserLookup(UserLogin => $Param{UserLogin})){
+    print STDERR "ERROR: Failed to get User ID. Perhaps non-existent user..\n";
+    exit 1;
 }
 
 unless  ($Param{GID}=$CommonObject{GroupObject}->GetGroupIdByName(%Param)){
-   print STDERR "ERROR: Failed to get Group ID. Perhaps non-existent group..\n";
-   exit;
+    print STDERR "ERROR: Failed to get Group ID. Perhaps non-existent group..\n";
+    exit;
 }
 
 print "GID: $Param{Group}/$Param{GID} \n";
 print "UID: $Param{User}/$Param{UID} \n";
-print "Perrmission: $opts{p} \n";
+print "Perrmission: $Opts{p} \n";
 
 if (!$CommonObject{GroupObject}->GroupMemberAdd(%Param)) {
     print STDERR "ERROR: Can't add user to group\n";

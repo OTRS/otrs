@@ -2,7 +2,9 @@
 # --
 # otrs.getUserId - Returns numeric user id
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
-# $Id: otrs.getUserID,v 1.6 2003-01-23 22:50:09 martin Exp $
+# --
+# $Id: otrs.getUserID,v 1.7 2006-02-28 05:55:09 martin Exp $
+# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
@@ -36,20 +38,19 @@ $CommonObject{UserObject}   = Kernel::System::User->new(%CommonObject);
 
 
 
-my %Param;
-undef %Param;
-
+my %Param = ();
 
 #user id of the person making the query
 $Param{UserID}='1';
 
-$Param{User}=$ARGV[0];
+$Param{UserLogin}=$ARGV[0];
 
 
-if (my $uid=$CommonObject{UserObject}->GetUserIdByName(%Param)){
-   print $uid , "\n";
-} else {
-   print "Failed to get User ID. Perhaps non-existent user..\n";
+if (my $Uid=$CommonObject{UserObject}->UserLookup(UserLogin => $Param{UserLogin})){
+    print $Uid , "\n";
 }
-# --
+else {
+    print "Failed to get User ID. Perhaps non-existent user..\n";
+}
+
 exit (0);
