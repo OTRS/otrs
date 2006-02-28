@@ -1,8 +1,8 @@
 # --
 # AdminPGPForm.dtl - provides HTML form for AdminPGP html
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPGPForm.dtl,v 1.14 2005-11-28 00:02:17 martin Exp $
+# $Id: AdminPGPForm.dtl,v 1.15 2006-02-28 06:04:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,135 +10,135 @@
 # --
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr>
-  <td colspan="2" class="mainhead">
-    $Env{"Box0"}$Text{"PGP Management"}$Env{"Box1"}
-  </td>
-</tr>
-<tr>
-  <td width="30%" class="mainbody">
-
-  <form action="$Env{"CGIHandle"}" method="post">
-  <input type="hidden" name="Action" value="$Env{"Action"}">
-  <input type="hidden" name="Subaction" value="Search">
-  <table width="100%" cellspacing="0" cellpadding="4">
   <tr>
-    <td class="contenthead">$Text{"Search"}:</td>
-  </tr>
-  <tr>
-    <td class="contentbody">
-
-    <table>
-      <tr>
-        <td class="contentkey">$Text{"Search for"}:</td>
-        <td class="contentvalue"><input type="text" name="Search" value="$QData{"Search"}" size="20"></td>
-      </tr>
-    </table>
-
+    <td colspan="2" class="mainhead">
+      $Env{"Box0"}$Text{"PGP Management"}$Env{"Box1"}
     </td>
   </tr>
   <tr>
-    <td class="contentfooter">
-    <input class="button" type="submit" value="$Text{"Search"}">
-    </td>
-  </tr>
-  </table>
-  </form>
+    <td width="30%" class="mainbody">
 
-  <br>
+      <form action="$Env{"CGIHandle"}" method="post">
+        <input type="hidden" name="Action" value="$Env{"Action"}">
+        <input type="hidden" name="Subaction" value="Search">
+        <table width="100%" cellspacing="0" cellpadding="4">
+          <tr>
+            <td class="contenthead">$Text{"Search"}:</td>
+          </tr>
+          <tr>
+            <td class="contentbody">
 
-  <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
-  <input type="hidden" name="Action" value="$Env{"Action"}">
-  <input type="hidden" name="Subaction" value="Add">
-  <table width="100%" cellspacing="0" cellpadding="4">
-  <tr>
-    <td class="contenthead">$Text{"Add"}:</td>
-  </tr>
-  <tr>
-    <td class="contentbody">
+              <table>
+                <tr>
+                  <td class="contentkey">$Text{"Search for"}:</td>
+                  <td class="contentvalue"><input type="text" name="Search" value="$QData{"Search"}" size="25"></td>
+                </tr>
+              </table>
 
-    <table border="0" cellspacing="0" cellpadding="3">
+            </td>
+          </tr>
+          <tr>
+            <td class="contentfooter">
+              <input class="button" type="submit" value="$Text{"Search"}">
+            </td>
+          </tr>
+        </table>
+      </form>
+
+      <br>
+
+      <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="Action" value="$Env{"Action"}">
+        <input type="hidden" name="Subaction" value="Add">
+        <table width="100%" cellspacing="0" cellpadding="4">
+          <tr>
+            <td class="contenthead">$Text{"Add"}:</td>
+          </tr>
+          <tr>
+            <td class="contentbody">
+
+              <table border="0" cellspacing="0" cellpadding="3">
 #    <tr>
 #      <td class="contentkey">$Text{"Ascii"}: </td>
 #      <td class="contentbody"> <textarea name="String" rows="6" cols="40" wrap="$Env{"BrowserWrap"}"></textarea></td>
 #    </tr>
-    <tr>
-      <td class="contentkey">$Text{"File"}: </td>
-      <td class="contentbody"> <input name="file_upload" type="file" size="14" class="fixed"></td>
-    </tr>
-    </table>
+                <tr>
+                  <td class="contentkey">$Text{"File"}: </td>
+                  <td class="contentbody"> <input name="file_upload" type="file" size="18" class="fixed"></td>
+                </tr>
+              </table>
+
+            </td>
+          </tr>
+          <tr>
+            <td class="contentfooter">
+              <input class="button" type="submit" value="$Text{"Add"}">
+            </td>
+          </tr>
+        </table>
+      </form>
 
     </td>
-  </tr>
-  <tr>
-    <td class="contentfooter">
-    <input class="button" type="submit" value="$Text{"Add"}">
-    </td>
-  </tr>
-  </table>
-  </form>
+    <td width="70%" class="mainbody">
 
-  </td>
-  <td width="70%" class="mainbody">
+      <table width="100%" cellspacing="0" cellpadding="4">
+        <tr>
+          <td class="contenthead">$Text{"Result"}:</td>
+        </tr>
+        <tr>
+          <td class="contentbody">
 
-  <table width="100%" cellspacing="0" cellpadding="4">
-  <tr>
-    <td class="contenthead">$Text{"Result"}:</td>
-  </tr>
-  <tr>
-    <td class="contentbody">
-
-    <table border="0" cellspacing="0" cellpadding="3" width="100%">
-    <tr>
-        <td class="contentkey">$Text{"Type"}</td>
-        <td class="contentkey">$Text{"Identifier"}</td>
-        <td class="contentkey">$Text{"Bit"}</td>
-        <td class="contentkey">$Text{"Key"}/$Text{"Fingerprint"}</td>
-        <td class="contentkey">$Text{"Created"}/$Text{"Expires"}</td>
-        <td class="contentkey">$Text{"Delete"}</td>
-    </tr>
+            <table border="0" cellspacing="0" cellpadding="3" width="100%">
+              <tr>
+                <td class="contentkey">$Text{"Type"}</td>
+                <td class="contentkey">$Text{"Identifier"}</td>
+                <td class="contentkey">$Text{"Bit"}</td>
+                <td class="contentkey">$Text{"Key"}/$Text{"Fingerprint"}</td>
+                <td class="contentkey">$Text{"Created"}/$Text{"Expires"}</td>
+                <td class="contentkey">$Text{"Delete"}</td>
+              </tr>
 <!-- dtl:block:Row -->
-<dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchactive"; }>
-    <tr>
-        <td class="$Env{"Color"}">$QData{"Type"}</td>
-        <td class="$Env{"Color"}">$QData{"Identifier","80"}</td>
-        <td class="$Env{"Color"}">$QData{"Bit"}</td>
-        <td class="$Env{"Color"}"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Download&Type=$QData{"Type"}&Key=$QData{"Key"}">$QData{"Key"}</a>
-        <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=DownloadFingerprint&Type=$QData{"Type"}&Key=$QData{"Key"}"><div title="$QData{"Fingerprint"}">$QData{"Fingerprint","10"}</div></a></td>
-        <td class="$Env{"Color"}">$QData{"Created"}<br>$QData{"Expires"}</td>
-        <td align="center" class="$Env{"Color"}"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Delete&Type=$QData{"Type"}&Key=$QData{"FingerprintShort"}">x</a></td>
-    </tr>
-<dtl if ($Env{"Color"} eq "searchpassive") { $Env{"Color"} = ""; }>
-<dtl if ($Env{"Color"} eq "searchactive") { $Env{"Color"} = "searchpassive"; }>
+              <dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchactive"; }>
+              <tr>
+                <td class="$Env{"Color"}">$QData{"Type"}</td>
+                <td class="$Env{"Color"}">$QData{"Identifier","80"}</td>
+                <td class="$Env{"Color"}">$QData{"Bit"}</td>
+                <td class="$Env{"Color"}"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Download&Type=$QData{"Type"}&Key=$QData{"Key"}">$QData{"Key"}</a>
+                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=DownloadFingerprint&Type=$QData{"Type"}&Key=$QData{"Key"}"><div title="$QData{"Fingerprint"}">$QData{"Fingerprint","10"}</div></a></td>
+                  <td class="$Env{"Color"}">$QData{"Created"}<br>$QData{"Expires"}</td>
+                  <td align="center" class="$Env{"Color"}"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Delete&Type=$QData{"Type"}&Key=$QData{"FingerprintShort"}">x</a></td>
+                </tr>
+                <dtl if ($Env{"Color"} eq "searchpassive") { $Env{"Color"} = ""; }>
+                <dtl if ($Env{"Color"} eq "searchactive") { $Env{"Color"} = "searchpassive"; }>
 <!-- dtl:block:Row -->
-    </table>
+              </table>
 
-    </td>
-  </tr>
-  <tr>
-    <td class="contentfooter">&nbsp;</td>
-  </tr>
+            </td>
+          </tr>
+          <tr>
+            <td class="contentfooter">&nbsp;</td>
+          </tr>
+        </table>
+
+      </td>
+    </tr>
   </table>
-
-  </td>
-</tr>
-</table>
 <!-- end form -->
 <!-- start note -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
-<tr>
-  <td class="mainhead">
-    $Env{"Box0"}$Text{"Note"}$Env{"Box1"}
-  </td>
-</tr>
-<tr>
-  <td class="mainbody">
-  <p>
-  $Text{"In this way you can directly edit the keyring configured in SysConfig."}
-  <br>
-  $Text{"Description"}: <a href="http://en.wikipedia.org/wiki/Pretty_Good_Privacy" target="_blank">http://en.wikipedia.org/wiki/Pretty_Good_Privacy</a>
-  </p>
-  </td>
-</tr>
-</table>
+  <table border="0" width="100%" cellspacing="0" cellpadding="3">
+    <tr>
+      <td class="mainhead">
+        $Env{"Box0"}$Text{"Note"}$Env{"Box1"}
+      </td>
+    </tr>
+    <tr>
+      <td class="mainbody">
+        <p>
+        $Text{"In this way you can directly edit the keyring configured in SysConfig."}
+        <br>
+        $Text{"Description"}: <a href="http://en.wikipedia.org/wiki/Pretty_Good_Privacy" target="_blank">http://en.wikipedia.org/wiki/Pretty_Good_Privacy</a>
+        </p>
+      </td>
+    </tr>
+  </table>
 <!-- end note -->

@@ -2,7 +2,7 @@
 # AdminSysConfig.dtl - provides HTML form for AdminSysConfig html
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.dtl,v 1.8 2006-01-20 11:26:50 tr Exp $
+# $Id: AdminSysConfig.dtl,v 1.9 2006-02-28 06:05:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,143 +16,143 @@
     </td>
   </tr>
   <tr>
-  <td width="30%" class="mainbody">
-  <form action="$Env{"CGIHandle"}" method="get">
-  <input type="hidden" name="Action" value="$Env{"Action"}">
-  <input type="hidden" name="Subaction" value="Search">
-  <table width="100%" cellspacing="0" cellpadding="4">
-  <tr>
+    <td width="30%" class="mainbody">
+      <form action="$Env{"CGIHandle"}" method="get">
+        <input type="hidden" name="Action" value="$Env{"Action"}">
+        <input type="hidden" name="Subaction" value="Search">
+        <table width="100%" cellspacing="0" cellpadding="4">
+          <tr>
 #    <td class="contenthead">$Text{"Search"} ($QData{"ConfigCounter"}):</td>
-    <td class="contenthead">$Text{"Search"}:</td>
-  </tr>
-  <tr>
-    <td class="contentbody">
-    <table>
-      <tr>
-        <td class="contentkey">$Text{"Search for"}:</td>
-        <td class="contentvalue"><input type="text" name="Search" value="$QData{"Search"}" size="20"></td>
-      </tr>
-    </table>
-    </td>
-  </tr>
-  <tr>
-    <td class="contentfooter">
-    <input class="button" type="submit" value="$Text{"Search"}">
-    </td>
-  </tr>
-  </table>
-  </form>
+            <td class="contenthead">$Text{"Search"}:</td>
+          </tr>
+          <tr>
+            <td class="contentbody">
+              <table>
+                <tr>
+                  <td class="contentkey">$Text{"Search for"}:</td>
+                  <td class="contentvalue"><input type="text" name="Search" value="$QData{"Search"}" size="25"></td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td class="contentfooter">
+              <input class="button" type="submit" value="$Text{"Search"}">
+            </td>
+          </tr>
+        </table>
+      </form>
 
-  <br>
+      <br>
 
-  <form action="$Env{"CGIHandle"}" method="get">
-  <input type="hidden" name="Action" value="$Env{"Action"}">
-  <input type="hidden" name="Subaction" value="SelectGroup">
-  <table width="100%" cellspacing="0" cellpadding="4">
-  <tr>
-    <td class="contenthead">$Text{"Group selection"}:</td>
-  </tr>
-  <tr>
-    <td class="contentbody">
-    <table>
-      <tr>
-        <td class="contentkey">$Text{"Group"}:</td>
-        <td class="contentvalue">$Data{"Liste"}</td>
-      </tr>
-    </table>
-    </td>
-  </tr>
-  <tr>
-    <td class="contentfooter">
-     <input class="button" type="submit" name="subgroup" value="$Text{"Show"}">
-    </td>
-  </tr>
-  </table>
-  </form>
+      <form action="$Env{"CGIHandle"}" method="get">
+        <input type="hidden" name="Action" value="$Env{"Action"}">
+        <input type="hidden" name="Subaction" value="SelectGroup">
+        <table width="100%" cellspacing="0" cellpadding="4">
+          <tr>
+            <td class="contenthead">$Text{"Group selection"}:</td>
+          </tr>
+          <tr>
+            <td class="contentbody">
+              <table>
+                <tr>
+                  <td class="contentkey">$Text{"Group"}:</td>
+                  <td class="contentvalue">$Data{"Liste"}</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td class="contentfooter">
+              <input class="button" type="submit" name="subgroup" value="$Text{"Show"}">
+            </td>
+          </tr>
+        </table>
+      </form>
 
-  <br>
+      <br>
 
-  <form action="$Env{"CGIHandle"}" method="get">
-  <input type="hidden" name="Action" value="$Env{"Action"}">
-  <input type="hidden" name="Subaction" value="Download">
-  <table width="100%" cellspacing="0" cellpadding="4">
-  <tr>
-    <td class="contenthead">$Text{"Download Settings"}:</td>
-  </tr>
-  <tr>
-    <td class="contentbody">
-    <table>
-      <tr>
-        <td class="contentvalue">$Text{"Download all system config changes."}</td>
-        <td class="contentvalue"></td>
-      </tr>
-    </table>
-    </td>
-  </tr>
-  <tr>
-    <td class="contentfooter">
-     <input class="button" type="submit" value="$Text{"Download"}">
-    </td>
-  </tr>
-  </table>
-  </form>
+      <form action="$Env{"CGIHandle"}" method="get">
+        <input type="hidden" name="Action" value="$Env{"Action"}">
+        <input type="hidden" name="Subaction" value="Download">
+        <table width="100%" cellspacing="0" cellpadding="4">
+          <tr>
+            <td class="contenthead">$Text{"Download Settings"}:</td>
+          </tr>
+          <tr>
+            <td class="contentbody">
+              <table>
+                <tr>
+                  <td class="contentvalue">$Text{"Download all system config changes."}</td>
+                  <td class="contentvalue"></td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td class="contentfooter">
+              <input class="button" type="submit" value="$Text{"Download"}">
+            </td>
+          </tr>
+        </table>
+      </form>
 
-  <br>
+      <br>
 
-  <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
-  <input type="hidden" name="Action" value="$Env{"Action"}">
-  <input type="hidden" name="Subaction" value="Upload">
-  <table width="100%" cellspacing="0" cellpadding="4">
-  <tr>
-    <td class="contenthead">$Text{"Load Settings"}:</td>
-  </tr>
-  <tr>
-    <td class="contentbody">
-    <table border="0" cellspacing="0" cellpadding="3">
-    <tr>
-      <td class="contentkey">$Text{"File"}: </td>
-      <td class="contentvalue"> <input name="file_upload" type="file" size="14" class="fixed"></td>
-    </tr>
-    </table>
-    </td>
-  </tr>
-  <tr>
-    <td class="contentfooter">
-    <input class="button" type="submit" value="$Text{"Upload"}">
-    </td>
-  </tr>
-  </table>
-  </form>
+      <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="Action" value="$Env{"Action"}">
+        <input type="hidden" name="Subaction" value="Upload">
+        <table width="100%" cellspacing="0" cellpadding="4">
+          <tr>
+            <td class="contenthead">$Text{"Load Settings"}:</td>
+          </tr>
+          <tr>
+            <td class="contentbody">
+              <table border="0" cellspacing="0" cellpadding="3">
+                <tr>
+                  <td class="contentkey">$Text{"File"}: </td>
+                  <td class="contentvalue"> <input name="file_upload" type="file" size="18" class="fixed"></td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td class="contentfooter">
+              <input class="button" type="submit" value="$Text{"Upload"}">
+            </td>
+          </tr>
+        </table>
+      </form>
 
-  </td>
-  <td width="70%" class="mainbody">
-  <table width="100%" cellspacing="0" cellpadding="4">
-  <tr>
-    <td class="contenthead">$Text{"Result"}:</td>
-  </tr>
-  <tr>
-    <td class="contentbody">
-      <table border="0" cellspacing="0" cellpadding="3" width="100%">
-      <tr>
-        <td class="contentkey" width="33%">$Text{"Subgroup"}</td>
-        <td class="contentkey" width="33%">$Text{"Elements"}</td>
-        <td class="contentkey" width="33%">$Text{"Group"}</td>
-      </tr>
+    </td>
+    <td width="70%" class="mainbody">
+      <table width="100%" cellspacing="0" cellpadding="4">
+        <tr>
+          <td class="contenthead">$Text{"Result"}:</td>
+        </tr>
+        <tr>
+          <td class="contentbody">
+            <table border="0" cellspacing="0" cellpadding="3" width="100%">
+              <tr>
+                <td class="contentkey" width="33%">$Text{"Subgroup"}</td>
+                <td class="contentkey" width="33%">$Text{"Elements"}</td>
+                <td class="contentkey" width="33%">$Text{"Group"}</td>
+              </tr>
 <!-- dtl:block:Row -->
-      <tr>
-        <td class="contentvalue"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Edit&SysConfigSubGroup=$QData{"SubGroup"}&SysConfigGroup=$QData{"Group"}">$QData{"SubGroup"}</a></td>
-        <td class="contentvalue">$QData{"SubGroupCount"}</td>
-        <td class="contentvalue">$QData{"Group"}</td>
-      </tr>
+              <tr>
+                <td class="contentvalue"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Edit&SysConfigSubGroup=$QData{"SubGroup"}&SysConfigGroup=$QData{"Group"}">$QData{"SubGroup"}</a></td>
+                <td class="contentvalue">$QData{"SubGroupCount"}</td>
+                <td class="contentvalue">$QData{"Group"}</td>
+              </tr>
 <!-- dtl:block:Row -->
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td class="contentfooter">&nbsp;</td>
+        </tr>
       </table>
     </td>
   </tr>
-  <tr>
-    <td class="contentfooter">&nbsp;</td>
-  </tr>
-  </table>
-  </td>
-</tr>
 </table>
 <!-- end form -->
