@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminPOP3.pm - to add/update/delete POP3 acounts
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPOP3.pm,v 1.13 2005-03-27 11:50:50 martin Exp $
+# $Id: AdminPOP3.pm,v 1.14 2006-02-28 06:02:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::POP3Account;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -47,71 +47,104 @@ sub new {
 sub Run {
     my $Self = shift;
     my %Param = @_;
-    my $Output = '';
-    my $NextScreen = 'AdminPOP3';
+    my %GetParam = ();
     my @Params = (qw(ID Login Password Host Comment ValidID QueueID Trusted DispatchingBy));
-    # get data 2 form
-    if ($Self->{Subaction} eq 'Change') {
-        my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
-        my $Delete = $Self->{ParamObject}->GetParam(Param => 'Delete') || '';
-        if ($Delete) {
-            $Self->{POP3Account}->POP3AccountDelete(ID => $ID);
-            return $Self->{LayoutObject}->Redirect(OP => "Action=$NextScreen");
+    foreach (@Params) {
+        $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
+    }
+    # ------------------------------------------------------------ #
+    # delete
+    # ------------------------------------------------------------ #
+    if ($Self->{Subaction} eq 'Delete') {
+        if ($Self->{POP3Account}->POP3AccountDelete(%GetParam)) {
+            return $Self->{LayoutObject}->Redirect(OP => 'Action=$Env{"Action"}');
         }
         else {
-            my %Data = $Self->{POP3Account}->POP3AccountGet(ID => $ID);
-            my %List = $Self->{POP3Account}->POP3AccountList(Valid => 0);
-            $Output .= $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->_Mask(%Data, POP3AccountList => \%List);
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
+           return $Self->{LayoutObject}->ErrorScreen();
         }
     }
-    # update action
-    elsif ($Self->{Subaction} eq 'ChangeAction') {
-        my %GetParam;
-        foreach (@Params) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
-        }
-        if ($Self->{POP3Account}->POP3AccountUpdate(%GetParam, UserID => $Self->{UserID})) {
-            return $Self->{LayoutObject}->Redirect(OP => "Action=$NextScreen");
-        }
-        else {
-            return $Self->{LayoutObject}->ErrorScreen(
-                Comment => 'Click back and check your selection!',
-            );
-        }
-        return $Output;
-    }
-    # add new queue
+    # ------------------------------------------------------------ #
+    # add action
+    # ------------------------------------------------------------ #
     elsif ($Self->{Subaction} eq 'AddAction') {
-        my %GetParam;
-        foreach (@Params) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
-        }
-        if ($Self->{POP3Account}->POP3AccountAdd(%GetParam, UserID => $Self->{UserID}) ) {
-             return $Self->{LayoutObject}->Redirect(OP => "Action=$NextScreen");
-        }
-        else {
-            return $Self->{LayoutObject}->ErrorScreen(
-                Comment => 'Click back and check your selection!',
+        if (my $ID = $Self->{POP3Account}->POP3AccountAdd(
+            %GetParam,
+            QueueID => 0,
+            DispatchingBy => 0,
+            Trusted => 0,
+            ValidID => 1,
+            UserID => $Self->{UserID},
+        )) {
+            return $Self->{LayoutObject}->Redirect(
+                OP => 'Action=$Env{"Action"}&Subaction=Update&ID='.$ID,
             );
         }
-        return $Output;
+        else {
+           return $Self->{LayoutObject}->ErrorScreen();
+        }
     }
-    # else ! print form
+    # ------------------------------------------------------------ #
+    # update
+    # ------------------------------------------------------------ #
+    elsif ($Self->{Subaction} eq 'Update') {
+        my %Data = $Self->{POP3Account}->POP3AccountGet(%GetParam);
+        if (!%Data) {
+            return $Self->{LayoutObject}->ErrorScreen();
+        }
+        else {
+            return $Self->_MaskUpdate(%Data);
+        }
+    }
+    # ------------------------------------------------------------ #
+    # update action
+    # ------------------------------------------------------------ #
+    elsif ($Self->{Subaction} eq 'UpdateAction') {
+        if ($Self->{POP3Account}->POP3AccountUpdate(%GetParam, UserID => $Self->{UserID})) {
+            return $Self->{LayoutObject}->Redirect(OP => 'Action=$Env{"Action"}');
+        }
+        else {
+            return $Self->{LayoutObject}->ErrorScreen();
+        }
+    }
+    # ------------------------------------------------------------ #
+    # overview
+    # ------------------------------------------------------------ #
     else {
         my %List = $Self->{POP3Account}->POP3AccountList(Valid => 0);
-        $Output .= $Self->{LayoutObject}->Header();
+
+        $Self->{LayoutObject}->Block(
+            Name => 'Overview',
+            Data => {
+                %Param,
+            },
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'OverviewResult',
+            Data => {
+                %Param,
+            },
+        );
+        foreach my $Key (sort keys %List) {
+            $Self->{LayoutObject}->Block(
+                Name => 'OverviewResultRow',
+                Data => {
+                    $Self->{POP3Account}->POP3AccountGet(ID => $Key),
+                },
+            );
+        }
+
+        my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->_Mask(POP3AccountList => \%List);
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminPOP3',
+            Data => \%Param,
+        );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
 }
 # --
-sub _Mask {
+sub _MaskUpdate {
     my $Self = shift;
     my %Param = @_;
 
@@ -156,15 +189,23 @@ sub _Mask {
         SelectedID => $Param{QueueID},
         OnChangeSubmit => 0,
     );
-
-    $Param{POP3AccountOption} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => $Param{POP3AccountList},
-        Size => 15,
-        Name => 'ID',
-        SelectedID => $Param{ID},
+    $Self->{LayoutObject}->Block(
+            Name => 'Overview',
+            Data => {
+                %Param,
+            },
     );
-
-    return $Self->{LayoutObject}->Output(TemplateFile => 'AdminPOP3Form', Data => \%Param);
+    $Self->{LayoutObject}->Block(
+        Name => 'OverviewUpdate',
+        Data => {
+            %Param,
+        },
+    );
+    my $Output = $Self->{LayoutObject}->Header();
+    $Output .= $Self->{LayoutObject}->NavigationBar();
+    $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AdminPOP3', Data => \%Param);
+    $Output .= $Self->{LayoutObject}->Footer();
+    return $Output;
 }
 # --
 1;
