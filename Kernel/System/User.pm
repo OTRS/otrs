@@ -1,8 +1,8 @@
 # --
 # Kernel/System/User.pm - some user functions
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: User.pm,v 1.50 2005-10-31 10:07:03 martin Exp $
+# $Id: User.pm,v 1.51 2006-02-28 05:55:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.50 $';
+$VERSION = '$Revision: 1.51 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -536,81 +536,88 @@ sub SetPassword {
         return;
     }
 }
-# just for compat. - not longer used
-sub GetUserIdByName {
-    my $Self = shift;
-    my %Param = @_;
-    my $ID;
-    # check needed stuff
-    if (!$Param{User}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need User!");
-        return;
-    }
-    # db quote
-    foreach (qw(User)) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
-    }
-    # build sql query
-    my $SQL = sprintf (
-    "select %s from %s where %s='%s'",
-       $Self->{UserTableUserID},
-       $Self->{UserTable},
-      $Self->{UserTableUser},
-      $Param{User}
-      );
 
-    $Self->{DBObject}->Prepare(SQL => $SQL);
-    while  (my @Row = $Self->{DBObject}->FetchrowArray()) {
-       $ID = $Row[0];
-    }
-    # return
-    if ($ID) {
-        return $ID;
-    }
-    else {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message => "No UserID found with User $Param{User}!",
-        );
-        return;
-    }
-}
-# just for compat. - not longer used
-sub GetUserByID {
+=item UserLookup()
+
+user login or id lookup
+
+  my $UserLogin = $UserObject->UserLookup(
+      UserID => 1,
+  );
+
+  my $UserID = $UserObject->UserLookup(
+      UserLogin => 1,
+  );
+
+=cut
+
+sub UserLookup {
     my $Self = shift;
     my %Param = @_;
-    my $User = '';
     # check needed stuff
-    if (!$Param{UserID}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserID!");
+    if (!$Param{UserLogin} && !$Param{UserID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserLogin or UserID!");
         return;
     }
-    # db quote
-    foreach (qw(UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
-    }
-    # build sql query
-    my $SQL = sprintf (
-    "select %s from %s where %s='%s'",
-       $Self->{UserTableUser},
-       $Self->{UserTable},
-      $Self->{UserTableUserID},
-      $Param{UserID}
-      );
-    $Self->{DBObject}->Prepare(SQL => $SQL);
-    while  (my @Row = $Self->{DBObject}->FetchrowArray()) {
-       $User = $Row[0];
-    }
-    # return
-    if ($User) {
-        return $User;
+    if ($Param{UserLogin}) {
+        my $ID;
+        # db quote
+        foreach (qw(UserLogin)) {
+            $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
+        }
+        # check cache
+        if ($Self->{'UserLookup::ID::'.$Param{UserLogin}}) {
+            return $Self->{'UserLookup::ID::'.$Param{UserLogin}};
+        }
+        # build sql query
+        my $SQL = "SELECT $Self->{UserTableUserID} FROM $Self->{UserTable} ".
+            " WHERE $Self->{UserTableUser} = '$Param{UserLogin}'";
+        $Self->{DBObject}->Prepare(SQL => $SQL);
+        while  (my @Row = $Self->{DBObject}->FetchrowArray()) {
+            $ID = $Row[0];
+        }
+        if ($ID) {
+            # cache request
+            $Self->{'UserLookup::ID::'.$Param{UserLogin}} = $ID;
+            return $ID;
+        }
+        else {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "No UserID found for '$Param{UserLogin}'!",
+            );
+            return;
+        }
     }
     else {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message => "No User found with ID $Param{UserID}!",
-        );
-        return;
+        my $Login;
+        # db quote
+        foreach (qw(UserID)) {
+            $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+        }
+        # check cache
+        if ($Self->{'UserLookup::Login::'.$Param{UserID}}) {
+            return $Self->{'UserLookup::Login::'.$Param{UserID}};
+        }
+        # build sql query
+        my $SQL = "SELECT $Self->{UserTableUser} FROM $Self->{UserTable} ".
+            " WHERE $Self->{UserTableUserID} = $Param{UserID}";
+        $Self->{DBObject}->Prepare(SQL => $SQL);
+        while  (my @Row = $Self->{DBObject}->FetchrowArray()) {
+            $Login = $Row[0];
+        }
+        if ($Login) {
+            # cache request
+            $Self->{'UserLookup::Login::'.$Param{UserID}} = $Login;
+            return $Login;
+        }
+        else {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "No UserLogin found for '$Param{UserID}'!",
+            );
+            return;
+        }
     }
 }
 
@@ -775,6 +782,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.50 $ $Date: 2005-10-31 10:07:03 $
+$Revision: 1.51 $ $Date: 2006-02-28 05:55:59 $
 
 =cut
