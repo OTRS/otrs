@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.201 2006-01-27 11:16:47 tr Exp $
+# $Id: Generic.pm,v 1.202 2006-03-03 07:09:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::Output::HTML::Agent;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.201 $';
+$VERSION = '$Revision: 1.202 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -864,6 +864,34 @@ sub Output {
             }
             else {
                 $Start.$Target.$End."<input type=\"hidden\" name=\"$Self->{SessionName}\" value=\"$Self->{SessionID}\">";
+            }
+        }iegx;
+    }
+    # --
+    # do correct direction
+    # --
+    if ($Self->{LanguageObject}->{TextDirection} && $Self->{LanguageObject}->{TextDirection} eq 'rtl') {
+        $Output =~ s{
+            <(table.+?)>
+        }
+        {
+            my $Table = $1;
+            if ($Table !~ /dir=/) {
+                "<$Table dir=\"".$Self->{LanguageObject}->{TextDirection}."\">";
+            }
+            else {
+                "<$Table>";
+            }
+        }iegx;
+        $Output =~ s{
+           align="(left|right)"
+        }
+        {
+            if ($1 =~ /left/i) {
+               "align=\"right\"";
+            }
+            else {
+                "align=\"left\"";
             }
         }iegx;
     }
@@ -2082,7 +2110,7 @@ sub BuildDateSelection {
     # year
     if ($DateInputStyle eq 'Option') {
         my %Year = ();
-        foreach ($Y-10..$Y+1) {
+        foreach ($Y-10..$Y+1+($Param{YearDiff}||0)) {
             $Year{$_} = $_;
         }
         $Param{Year} = $Self->OptionStrgHashRef(
@@ -2308,6 +2336,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.201 $ $Date: 2006-01-27 11:16:47 $
+$Revision: 1.202 $ $Date: 2006-03-03 07:09:29 $
 
 =cut
