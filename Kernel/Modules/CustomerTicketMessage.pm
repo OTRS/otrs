@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerTicketMessage.pm,v 1.6 2006-02-05 21:00:08 martin Exp $
+# $Id: CustomerTicketMessage.pm,v 1.7 2006-03-04 11:36:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -304,8 +304,8 @@ sub Run {
             PriorityID => $PriorityID,
             CustomerNo => $Self->{UserCustomerID},
             CustomerUser => $Self->{UserLogin},
+            OwnerID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
             UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
-            CreateUserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
         );
         # set ticket free text
         foreach (1..16) {
