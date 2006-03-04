@@ -1,19 +1,36 @@
 # --
-# CHANGES - change log  of OTRS
+# CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.232 2006-02-05 21:04:43 martin Exp $
+# $Id: CHANGES,v 1.233 2006-03-04 11:11:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS head
+ - (2006/03/04) added own X-OTRS-FollowUp-* header if Queue, State, Priority,
+    ...  should be changed with follow up emails (see: doc/X-OTRS-Headers.txt)
+ - (2006/03/04) reworked "config options" and "interface" of _all_ agent
+    ticket interfaces to get is clear
+ - (2006/03/03) replaced ticket config option "Ticket::ForceUnlockAfterMove"
+    with ticket event module "Ticket::EventModulePost###99-ForceUnlockOnMove"
+ - (2006/03/03) replaced ticket config option "Ticket::ForceNewStateAfterLock"
+    with ticket event module "Ticket::EventModulePost###99-ForceStateChangeOnLock"
+ - (2006/03/03) added "responsible" ticket feature!
+    (db update with scripts/DBUpdate-to-2.1.(mysql|postgres).sql)
+ - (2006/03/03) added persian translation (incl. TextDirection support)
+    - Thanks to Amir Shams Parsa!
+ - (2006/02/16) added default ticket event module to reset ticket owner
+    after move action (it's disable per default)
+ - (2006/02/10) added default next state in ticket forward
+ - (2006/02/10) added OTRS_Agent_* tags like OTRS_Agent_UserFirstname and
+    OTRS_Agent_UserLastname for salutation and signature templates
  - (2006/02/05) added update and insert via admin sql box
  - (2006/02/05) 'removed old compat files' Kernel/Config/Files/Ticket.pm
     and Kernel/Config/Files/TicketPostMaster.pm
  - (2006/02/05) added 8 more ticket free text fields
-     (db update with scripts/DBUpdate-to-2.1.(mysql|postgres).sql)
+    (db update with scripts/DBUpdate-to-2.1.(mysql|postgres).sql)
  - (2006/01/07) added SendNoNotification option for MoveTicket(),
     LockSet() and OwnerSet() in Kernel/System/Ticket.pm (used in
     GenericAgent to do some admin stuff).
@@ -32,6 +49,8 @@ CVS head
     $Self->{PreApplicationModule}->{AgentInfo} = 'Kernel::Modules::AgentInfo';
 
 2.0.5 (2006/??/??)
+ - (2006/02/12) updated Brazilian Portuguese translation! thanks to
+    Fabricio Luiz Machado!
  - (2006/02/01) fixed missing translation after new ticket was created
  - (2006/02/01) added long month translation for calendar popup
  - (2006/02/01) changed Kernel/System/Spelling.pm to work with (a|i)spell
