@@ -1,21 +1,21 @@
 # --
 # X-OTRS-Headers.txt - X-headers for use in mail
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: X-OTRS-Headers.txt,v 1.9 2004-06-17 09:25:48 martin Exp $
+# $Id: X-OTRS-Headers.txt,v 1.10 2006-03-04 11:13:37 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
- 
+
 X-OTRS-Priority: (1 very low|2 low|3 normal|4 high|5 very high)
 -----------------------------------------------------
-Set priority of ticket.
+Set priority of ticket. For FollowUps use X-OTRS-FollowUp-Priority.
 
 X-OTRS-Queue: [one system queue]
 --------------------------------
-Presort of queue (highest sort priority).
+Presort of queue (highest sort priority). For FollowUps use X-OTRS-FollowUp-Queue.
 
 X-OTRS-Ignore: [yes]
 ---------------------
@@ -23,7 +23,7 @@ Ignore this email.
 
 X-OTRS-State: (new|open|closed successful|closed unsuccessful|...)
 --------------------------------------------
-Set state of ticket! Be careful!
+Set state of ticket! Be careful! For FollowUps use X-OTRS-FollowUp-State.
 
 X-OTRS-CustomerUser: [CustomerUser]
 -------------------------------
@@ -36,28 +36,32 @@ Set customer id.
 X-OTRS-ArticleKey(1|2|3): [additional info key]
 -----------------------------------------------
 Save additional info "key" to the incoming article (email).
+For FollowUps use X-OTRS-FollowUp-ArticleKey.
 
 X-OTRS-ArticleValue(1|2|3): [additional info value]
 ---------------------------------------------------
 Save additional info "value" to the incoming article (email).
+For FollowUps use X-OTRS-FollowUp-ArticleValue.
 
 X-OTRS-SenderType: (agent|system|customer)
 ------------------------------------------
-Info about the sender.
+Info about the sender. For FollowUps use X-OTRS-FollowUp-SenderType.
 
 X-OTRS-ArticleType: (email-external|email-internal|email-notification-ext|
 email-notification-int|phone|fax|sms|webrequest|note-internal|note-external|
 note-report)
 ----------------------------------------------------------------------------
-Article type.
+Article type. For FollowUps use X-OTRS-FollowUp-ArticleType.
 
-X-OTRS-TicketKey(1|2|...|8): [additional info key]
+X-OTRS-TicketKey(1|2|...|16): [additional info key]
 --------------------------------------------
 Save additional info "key" to the incoming ticket.
+For FollowUps use X-OTRS-FollowUp-TicketKey.
 
-X-OTRS-TicketValue(1|2|...|8): [additional info value]
+X-OTRS-TicketValue(1|2|...|16): [additional info value]
 ------------------------------------------------
 Save additional info "value" to the incoming ticket.
+For FollowUps use X-OTRS-FollowUp-TicketValue.
 
 X-OTRS-Loop: True
 -----------------

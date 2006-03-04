@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.54 2006-01-07 16:26:50 martin Exp $
+# $Id: PostMaster.pm,v 1.55 2006-03-04 11:13:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.54 $';
+$VERSION = '$Revision: 1.55 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -369,28 +369,32 @@ sub GetEmailParams {
         $GetParam{'X-OTRS-Loop'} = 'yes';
     }
     # set sender type if not given
-    if (!$GetParam{'X-OTRS-SenderType'}) {
-        $GetParam{'X-OTRS-SenderType'} = 'customer';
+    foreach my $Key (qw(X-OTRS-SenderType X-OTRS-FollowUp-SenderType)) {
+        if (!$GetParam{$Key}) {
+            $GetParam{$Key} = 'customer';
+        }
+        # check if X-OTRS-SenderType exists, if not, set customer
+        if (!$Self->{TicketObject}->ArticleSenderTypeLookup(SenderType => $GetParam{$Key})) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "Can't find sender type '$GetParam{$Key}' in db, take 'customer'",
+            );
+            $GetParam{$Key} = 'customer';
+        }
     }
-    # check if X-OTRS-SenderType exists, if not, set customer
-    if (!$Self->{TicketObject}->ArticleSenderTypeLookup(SenderType => $GetParam{'X-OTRS-SenderType'})) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message => "Can't find sender type '$GetParam{'X-OTRS-SenderType'}' in db, take 'customer'",
-        );
-        $GetParam{'X-OTRS-SenderType'} = 'customer';
-    }
-    # set article type f not given
-    if (!$GetParam{'X-OTRS-ArticleType'}) {
-        $GetParam{'X-OTRS-ArticleType'} = 'email-external';
-    }
-    # check if X-OTRS-ArticleType exists, if not, set 'email'
-    if (!$Self->{TicketObject}->ArticleTypeLookup(ArticleType => $GetParam{'X-OTRS-ArticleType'})) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message => "Can't find article type '$GetParam{'X-OTRS-ArticleType'}' in db, take 'email-external'",
-        );
-        $GetParam{'X-OTRS-ArticleType'} = 'email-external';
+    # set article type if not given
+    foreach my $Key (qw(X-OTRS-ArticleType X-OTRS-FollowUp-ArticleType)) {
+        if (!$GetParam{$Key}) {
+            $GetParam{$Key} = 'email-external';
+        }
+        # check if X-OTRS-ArticleType exists, if not, set 'email'
+        if (!$Self->{TicketObject}->ArticleTypeLookup(ArticleType => $GetParam{$Key})) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "Can't find article type '$GetParam{$Key}' in db, take 'email-external'",
+            );
+            $GetParam{$Key} = 'email-external';
+        }
     }
     # get body
     $GetParam{'Body'} = $Self->{ParseObject}->GetMessageBody();

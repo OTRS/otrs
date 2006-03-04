@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/FollowUp.pm - the sub part of PostMaster.pm
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FollowUp.pm,v 1.41 2006-01-07 16:26:50 martin Exp $
+# $Id: FollowUp.pm,v 1.42 2006-03-04 11:13:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::User;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.42 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -99,13 +99,13 @@ sub Run {
     }
     # set state
     my $State = $Self->{ConfigObject}->Get('PostmasterFollowUpState') || 'open';
-    if ($GetParam{'X-OTRS-State'}) {
-        $State = $GetParam{'X-OTRS-State'};
+    if ($GetParam{'X-OTRS-FollowUp-State'}) {
+        $State = $GetParam{'X-OTRS-FollowUp-State'};
     }
 
-    if ($Ticket{StateType} !~ /^new/ || $GetParam{'X-OTRS-State'}) {
+    if ($Ticket{StateType} !~ /^new/ || $GetParam{'X-OTRS-FollowUp-State'}) {
 	    $Self->{TicketObject}->StateSet(
-    	    State => $State,
+    	    State => $GetParam{'X-OTRS-FollowUp-State'} || $State,
         	TicketID => $Param{TicketID},
 	        UserID => $Param{InmailUserID},
     	);
@@ -114,29 +114,29 @@ sub Run {
         }
     }
     # set priority
-    if ($GetParam{'X-OTRS-Priority'}) {
+    if ($GetParam{'X-OTRS-FollowUp-Priority'}) {
         $Self->{TicketObject}->PrioritySet(
             TicketID => $Param{TicketID},
-            Priority => $GetParam{'X-OTRS-Priority'},
+            Priority => $GetParam{'X-OTRS-FollowUp-Priority'},
             UserID => $Param{InmailUserID},
         );
         if ($Self->{Debug} > 0) {
-            print "PriorityUpdate: $GetParam{'X-OTRS-Priority'}\n";
+            print "PriorityUpdate: $GetParam{'X-OTRS-FollowUp-Priority'}\n";
         }
     }
     # set queue
-    if ($GetParam{'X-OTRS-Queue'}) {
+    if ($GetParam{'X-OTRS-FollowUp-Queue'}) {
         $Self->{TicketObject}->MoveTicket(
-            Queue => $GetParam{'X-OTRS-Queue'},
+            Queue => $GetParam{'X-OTRS-FollowUp-Queue'},
             TicketID => $Param{TicketID},
             UserID => $Param{InmailUserID},
         );
         if ($Self->{Debug} > 0) {
-            print "QueueUpdate: $GetParam{'X-OTRS-Queue'}\n";
+            print "QueueUpdate: $GetParam{'X-OTRS-FollowUp-Queue'}\n";
         }
     }
     # set free ticket text
-    my @Values = ('X-OTRS-TicketKey', 'X-OTRS-TicketValue');
+    my @Values = ('X-OTRS-FollowUp-TicketKey', 'X-OTRS-FollowUp-TicketValue');
     my $CounterTmp = 0;
     while ($CounterTmp <= 8) {
         $CounterTmp++;
@@ -157,8 +157,8 @@ sub Run {
     # do db insert
     my $ArticleID = $Self->{TicketObject}->ArticleCreate(
         TicketID => $Param{TicketID},
-        ArticleType => $GetParam{'X-OTRS-ArticleType'},
-        SenderType => $GetParam{'X-OTRS-SenderType'},
+        ArticleType => $GetParam{'X-OTRS-FollowUp-ArticleType'},
+        SenderType => $GetParam{'X-OTRS-FollowUp-SenderType'},
         From => $GetParam{From},
         ReplyTo => $GetParam{ReplyTo},
         To => $GetParam{To},
@@ -181,14 +181,14 @@ sub Run {
     if ($Self->{Debug} > 0) {
         print "Follow up Ticket\n";
         print "TicketNumber: $Param{Tn}\n";
-        print "From: $GetParam{From}\n";
+        print "From: $GetParam{From}\n" if ($GetParam{From});
         print "ReplyTo: $GetParam{ReplyTo}\n" if ($GetParam{ReplyTo});
-        print "To: $GetParam{To}\n";
+        print "To: $GetParam{To}\n" if ($GetParam{To});
         print "Cc: $GetParam{Cc}\n" if ($GetParam{Cc});
         print "Subject: $GetParam{Subject}\n";
         print "MessageID: $GetParam{'Message-ID'}\n";
-        print "SenderType: $GetParam{'X-OTRS-SenderType'}\n";
-        print "ArticleType: $GetParam{'X-OTRS-ArticleType'}\n";
+        print "ArticleType: $GetParam{'X-OTRS-FollowUp-ArticleType'}\n";
+        print "SenderType: $GetParam{'X-OTRS-FollowUp-SenderType'}\n";
     }
     # write plain email to the storage
     $Self->{TicketObject}->ArticleWritePlain(
@@ -207,7 +207,7 @@ sub Run {
         );
     }
     # set free article text
-    @Values = ('X-OTRS-ArticleKey', 'X-OTRS-ArticleValue');
+    @Values = ('X-OTRS-FollowUp-ArticleKey', 'X-OTRS-ArticleValue');
     $CounterTmp = 0;
     while ($CounterTmp <= 3) {
         $CounterTmp++;
