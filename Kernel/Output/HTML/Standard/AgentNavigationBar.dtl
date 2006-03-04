@@ -2,7 +2,7 @@
 # AgentNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentNavigationBar.dtl,v 1.53 2006-02-13 00:52:59 martin Exp $
+# $Id: AgentNavigationBar.dtl,v 1.54 2006-03-04 11:45:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -39,7 +39,7 @@
       <table border="0" cellspacing="2" cellpadding="2">
         <tr>
 <!-- dtl:block:ItemPersonal -->
-          <td valign="top" align="center" class="nav"  width="120">
+          <td valign="top" align="center" class="nav">
             <div title="$Text{"$QData{"Description"}"}"><a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$Text{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitem"><img border="0" src="$Env{"Images"}$QData{"Image"}" alt="&nbsp;"><br>$Text{"$QData{"Name"}"}</a></div>
           </td>
 <!-- dtl:block:ItemPersonal -->
@@ -70,7 +70,7 @@
       <table border="0" cellspacing="2" cellpadding="2">
         <tr>
 <!-- dtl:block:ItemPersonal -->
-          <td valign="top" align="center" class="nav" width="120">
+          <td valign="top" align="center" class="nav">
             <div title="$Text{"$QData{"Description"}"}"><a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$Text{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitem"><img border="0" src="$Env{"Images"}$QData{"Image"}" alt="&nbsp;"><br>$Text{"$QData{"Name"}"}</a></div>
           </td>
 <!-- dtl:block:ItemPersonal -->
