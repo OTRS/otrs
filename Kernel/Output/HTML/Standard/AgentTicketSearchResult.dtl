@@ -2,7 +2,7 @@
 # AgentTicketSearchResult.dtl - provides HTML form for AgentTicketUtilities
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketSearchResult.dtl,v 1.2 2006-02-05 20:28:23 martin Exp $
+# $Id: AgentTicketSearchResult.dtl,v 1.3 2006-03-04 11:38:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,94 +10,94 @@
 # --
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-<tr>
-  <td class="mainhead">
-    $Env{"Box0"}$Text{"Search Result"}$Env{"Box1"}
-  </td>
-</tr>
-<tr>
-  <td class="menu">
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=LoadProfile&$QData{"Link"}">$Text{"Change search options"}</a> -
+  <tr>
+    <td class="mainhead">
+      $Env{"Box0"}$Text{"Search Result"}$Env{"Box1"}
+    </td>
+  </tr>
+  <tr>
+    <td class="menu">
+      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=LoadProfile&$QData{"Link"}">$Text{"Change search options"}</a> -
 $Text{"Results"}: <b>$QData{"Result"}</b> - $Text{"Total hits"}: <b>$Data{"TotalHits"}</b>
-- $Text{"Site"}: $Data{"SiteNavBar"}
-  </td>
-</tr>
+      - $Text{"Site"}: $Data{"SiteNavBar"}
+    </td>
+  </tr>
 </table>
 <!-- end form -->
 
 <!-- dtl:block:Record -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr>
-  <td align="left" width="50%" class="mainhead">
-    $Env{"Box0"}$Config{"Ticket::Hook"}: $Data{"TicketNumber"}$Env{"Box1"}
-  </td>
-  <td align="right" width="50%" class="mainhead">
-    $Env{"Box0"}$Text{"Age"}: $Data{"Age"}$Env{"Box1"}
-  </td>
-</tr>
+  <tr>
+    <td align="left" width="50%" class="mainhead">
+      $Env{"Box0"}$Config{"Ticket::Hook"}: $Data{"TicketNumber"}$Env{"Box1"}
+    </td>
+    <td align="right" width="50%" class="mainhead">
+      $Env{"Box0"}$Text{"Age"}: $Data{"Age"}$Env{"Box1"}
+    </td>
+  </tr>
 </table>
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr>
-  <td width="70%" class="menu">
-    <a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Zoom"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Zoom"}</a> -
-    <a href="$Env{"Baselink"}Action=AgentTicketHistory&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"History"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"History"}</a>
-  </td>
+  <tr>
+    <td width="70%" class="menu">
+      <a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Zoom"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Zoom"}</a> -
+      <a href="$Env{"Baselink"}Action=AgentTicketHistory&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"History"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"History"}</a>
+    </td>
 
-  <td align="right" width="30%" class="menu">
-    <table border="0" cellspacing="0" cellpadding="0">
-      <tr>
-        <td class="mainkey">$Text{"Created"}:</td>
-        <td class="mainvalue"> $TimeLong{"$Data{"Created"}"}</td>
-      </tr>
-    </table>
-  </td>
-</tr>
+    <td align="right" width="30%" class="menu">
+      <table border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td class="mainkey">$Text{"Created"}:</td>
+          <td class="mainvalue"> $TimeLong{"$Data{"Created"}"}</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
 </table>
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr>
-  <td align="left" width="75%" class="mainbody">
-  <table border="0" width="100%" cellspacing="0" cellpadding="1">
-    <tr>
-      <td width="15%"><b>$Text{"From"}:</b></td>
-      <td> $Data{"From"}</td>
-    </tr>
-    <tr>
-      <td><b>$Text{"To"}:</b></td>
-      <td> $Data{"To"}</td>
-    </tr>
-    <tr>
-      <td><b>$Text{"Subject"}:</b></td>
-      <td> $Data{"Subject"}</td>
-    </tr>
-  </table>
+  <tr>
+    <td align="left" width="75%" class="mainbody">
+      <table border="0" width="100%" cellspacing="0" cellpadding="1">
+        <tr>
+          <td width="15%"><b>$Text{"From"}:</b></td>
+          <td> $Data{"From"}</td>
+        </tr>
+        <tr>
+          <td><b>$Text{"To"}:</b></td>
+          <td> $Data{"To"}</td>
+        </tr>
+        <tr>
+          <td><b>$Text{"Subject"}:</b></td>
+          <td> $Data{"Subject"}</td>
+        </tr>
+      </table>
 $Data{"TextNote"}
-<div class="message">
+      <div class="message">
 $Data{"Body"}
-</div>
-  </td>
-  <td align="left" valign="top" width="25%" class="PriorityID-$Data{"PriorityID"}">
-    <table border="0">
-    <tr>
-      <td><b>$Text{"State"}:</b></td>
-      <td><font color="red"><div title="$Quote{"$Text{"$Data{"State"}"}"}">$Quote{"$Text{"$Data{"State"}"}","15"}</div></font></td>
-    </tr>
-    <tr>
-      <td><b>$Text{"Priority"}:</b></td>
-      <td><font color="red"><div title="$Quote{"$Text{"$Data{"Priority"}"}"}">$Quote{"$Text{"$Data{"Priority"}"}","15"}</div></font></td>
-    </tr>
-    <tr>
-      <td><b>$Text{"Queue"}:</b></td>
-      <td><font color="red"><div title="$Quote{"$Data{"Queue"}"}">$Quote{"$Data{"Queue"}","15"}</div></font></td>
-    </tr>
-    <tr>
-      <td><b>$Text{"CustomerID"}:</b></td>
-      <td><a href="$Config{"CustomerDBLink"}" $Config{"CustomerDBLinkTarget"}>$Quote{"$Data{"CustomerID"}","15"}</a></td>
-    </tr>
-    </table>
-    <p align="left"><hr><b>$Text{"Customer Info"}:</b> $Data{"CustomerTable"}<hr></p>
-  </td>
-</tr>
+      </div>
+    </td>
+    <td align="left" valign="top" width="25%" class="PriorityID-$Data{"PriorityID"}">
+      <table border="0">
+        <tr>
+          <td><b>$Text{"State"}:</b></td>
+          <td><font color="red"><div title="$Quote{"$Text{"$Data{"State"}"}"}">$Quote{"$Text{"$Data{"State"}"}","15"}</div></font></td>
+        </tr>
+        <tr>
+          <td><b>$Text{"Priority"}:</b></td>
+          <td><font color="red"><div title="$Quote{"$Text{"$Data{"Priority"}"}"}">$Quote{"$Text{"$Data{"Priority"}"}","15"}</div></font></td>
+        </tr>
+        <tr>
+          <td><b>$Text{"Queue"}:</b></td>
+          <td><font color="red"><div title="$Quote{"$Data{"Queue"}"}">$Quote{"$Data{"Queue"}","15"}</div></font></td>
+        </tr>
+        <tr>
+          <td><b>$Text{"CustomerID"}:</b></td>
+          <td><a href="$Config{"CustomerDBLink"}" $Config{"CustomerDBLinkTarget"}>$Quote{"$Data{"CustomerID"}","15"}</a></td>
+        </tr>
+      </table>
+      <p><hr><b>$Text{"Customer Info"}:</b> $Data{"CustomerTable"}<hr></p>
+    </td>
+  </tr>
 </table>
 <!-- dtl:block:Record -->
