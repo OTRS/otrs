@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.pm,v 1.39 2005-12-30 16:05:50 martin Exp $
+# $Id: AdminSysConfig.pm,v 1.40 2006-03-04 11:11:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -538,7 +538,7 @@ sub Run {
     if (!$Self->{SessionObject}->UpdateSessionID(
         SessionID => $Self->{SessionID},
         Key       => 'LastScreenOverview',
-        Value     => $Self->{RequestedURL},
+        Value     => "$Self->{Baselink}Action=$Self->{Action}&Subaction=SelectGroup&SysConfigGroup=$Group",
     )) {
         return $Self->{LayoutObject}->ErrorScreen();
     }
@@ -548,7 +548,7 @@ sub Run {
     # create select Box
     $Data{Liste} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data     => \%List,
-        Selected => $Group,
+        SelectedID => $Group,
         Name     => 'SysConfigGroup',
         LanguageTranslation => 0,
     );
@@ -977,6 +977,5 @@ sub ListConfigItem {
         }
     }
 }
-
 # --
 1;

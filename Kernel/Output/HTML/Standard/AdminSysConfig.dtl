@@ -2,7 +2,7 @@
 # AdminSysConfig.dtl - provides HTML form for AdminSysConfig html
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.dtl,v 1.9 2006-02-28 06:05:05 martin Exp $
+# $Id: AdminSysConfig.dtl,v 1.10 2006-03-04 11:11:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,8 +22,8 @@
         <input type="hidden" name="Subaction" value="Search">
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
-#    <td class="contenthead">$Text{"Search"} ($QData{"ConfigCounter"}):</td>
-            <td class="contenthead">$Text{"Search"}:</td>
+            <td class="contenthead">$Text{"Search"} ($QData{"ConfigCounter"}):</td>
+#            <td class="contenthead">$Text{"Search"}:</td>
           </tr>
           <tr>
             <td class="contentbody">
@@ -45,7 +45,7 @@
 
       <br>
 
-      <form action="$Env{"CGIHandle"}" method="get">
+      <form action="$Env{"CGIHandle"}" method="post">
         <input type="hidden" name="Action" value="$Env{"Action"}">
         <input type="hidden" name="Subaction" value="SelectGroup">
         <table width="100%" cellspacing="0" cellpadding="4">
@@ -64,7 +64,7 @@
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" type="submit" name="subgroup" value="$Text{"Show"}">
+              <input class="button" type="submit" name="" value="$Text{"Show"}">
             </td>
           </tr>
         </table>
@@ -139,11 +139,14 @@
                 <td class="contentkey" width="33%">$Text{"Group"}</td>
               </tr>
 <!-- dtl:block:Row -->
+              <dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchactive"; }>
               <tr>
-                <td class="contentvalue"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Edit&SysConfigSubGroup=$QData{"SubGroup"}&SysConfigGroup=$QData{"Group"}">$QData{"SubGroup"}</a></td>
-                <td class="contentvalue">$QData{"SubGroupCount"}</td>
-                <td class="contentvalue">$QData{"Group"}</td>
+                <td class="$Env{"Color"}"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Edit&SysConfigSubGroup=$QData{"SubGroup"}&SysConfigGroup=$QData{"Group"}">$QData{"SubGroup"}</a></td>
+                <td class="$Env{"Color"}">$QData{"SubGroupCount"}</td>
+                <td class="$Env{"Color"}">$QData{"Group"}</td>
               </tr>
+              <dtl if ($Env{"Color"} eq "searchpassive") { $Env{"Color"} = ""; }>
+              <dtl if ($Env{"Color"} eq "searchactive") { $Env{"Color"} = "searchpassive"; }>
 <!-- dtl:block:Row -->
             </table>
           </td>
