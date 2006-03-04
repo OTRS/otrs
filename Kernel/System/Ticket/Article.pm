@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.99 2006-02-05 20:19:06 martin Exp $
+# $Id: Article.pm,v 1.100 2006-03-04 11:26:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.99 $';
+$VERSION = '$Revision: 1.100 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -304,24 +304,27 @@ MessageID => $Param{MessageID},
         }
     }
     elsif ($Param{HistoryType} =~ /^AddNote$/i) {
-        # send agent notification to agent
-        if ($Ticket{OwnerID} ne 1 && $Ticket{OwnerID} ne $Param{UserID}) {
-            my %UserData = $Self->{UserObject}->GetUserData(
-                    UserID => $Ticket{OwnerID},
+        ######
+        # send owner/responsible notification to agent
+        foreach (qw(OwnerID ResponsibleID)) {
+            if ($Ticket{$_} ne 1 && $Ticket{$_} ne $Param{UserID}) {
+                my %UserData = $Self->{UserObject}->GetUserData(
+                    UserID => $Ticket{$_},
                     Cached => 1,
                     Valid => 1,
-            );
-            # send notification
-            $Self->SendAgentNotification(
-                Type => $Param{HistoryType},
-                UserData => \%UserData,
-                CustomerMessageParams => \%Param,
-                TicketID => $Param{TicketID},
-                Queue => $Param{Queue},
-                UserID => $Param{UserID},
-            );
+                );
+                # send notification
+                $Self->SendAgentNotification(
+                    Type => $Param{HistoryType},
+                    UserData => \%UserData,
+                    CustomerMessageParams => \%Param,
+                    TicketID => $Param{TicketID},
+                    Queue => $Param{Queue},
+                    UserID => $Param{UserID},
+                );
+            }
         }
-
+        ######
     }
     elsif ($Param{HistoryType} =~ /^FollowUp$/i) {
         # send agent notification to all agents
@@ -352,20 +355,24 @@ MessageID => $Param{MessageID},
                 }
             }
         }
-        # send agent notification the agents who locked the ticket
+        ######
+        # send owner/responsible notification the agents who locked the ticket
         else {
-            my %UserData = $Self->{UserObject}->GetUserData(UserID => $Ticket{OwnerID});
-            if ($UserData{UserSendFollowUpNotification}) {
-                # send notification
-                $Self->SendAgentNotification(
-                    Type => $Param{HistoryType},
-                    UserData => \%UserData,
-                    CustomerMessageParams => \%Param,
-                    TicketID => $Param{TicketID},
-                    Queue => $Param{Queue},
-                    UserID => $Param{UserID},
-                );
+            foreach (qw(OwnerID ResponsibleID)) {
+                my %UserData = $Self->{UserObject}->GetUserData(UserID => $Ticket{$_});
+                if ($UserData{UserSendFollowUpNotification}) {
+                    # send notification
+                    $Self->SendAgentNotification(
+                        Type => $Param{HistoryType},
+                        UserData => \%UserData,
+                        CustomerMessageParams => \%Param,
+                        TicketID => $Param{TicketID},
+                        Queue => $Param{Queue},
+                        UserID => $Param{UserID},
+                    );
+                }
             }
+        ######
             # send the rest of agents follow ups
             foreach ($Self->GetSubscribedUserIDsByQueueID(QueueID => $Ticket{QueueID})) {
                 my %UserData = $Self->{UserObject}->GetUserData(
@@ -714,7 +721,7 @@ sub ArticleFreeTextSet {
     )) {
         # ticket event
         $Self->TicketEventHandlerPost(
-            Event => 'ArticleFreeTextSet',
+            Event => 'ArticleFreeTextUpdate',
             TicketID => $Param{TicketID},
             UserID => $Param{UserID},
         );
@@ -952,7 +959,7 @@ sub ArticleGet {
         " st.create_time_unix, st.ticket_state_id, st.queue_id, sa.create_time, ".
         " sa.a_content_type, sa.create_by, st.tn, article_sender_type_id, st.customer_id, ".
         " st.until_time, st.ticket_priority_id, st.customer_user_id, st.user_id, ".
-        " su.$Self->{ConfigObject}->{DatabaseUserTableUser}, sa.article_type_id, ".
+        " st.responsible_user_id, sa.article_type_id, ".
         " sa.a_freekey1, sa.a_freetext1, sa.a_freekey2, sa.a_freetext2, ".
         " sa.a_freekey3, sa.a_freetext3, st.ticket_answered, ".
         " sa.incoming_time, sa.id, st.freekey1, st.freetext1, st.freekey2, st.freetext2,".
@@ -966,9 +973,8 @@ sub ArticleGet {
         " st.ticket_lock_id, st.title, st.escalation_start_time, ".
         " st.freetime1 , st.freetime2 ".
         " FROM ".
-        " article sa, ticket st, ".
-        " $Self->{ConfigObject}->{DatabaseUserTable} su ".
-        " where ";
+        " article sa, ticket st ".
+        " WHERE ";
     if ($Param{ArticleID}) {
         $SQL .= " sa.id = $Param{ArticleID}";
     }
@@ -981,9 +987,7 @@ sub ArticleGet {
     if ($ArticleTypeSQL) {
         $SQL .= $ArticleTypeSQL;
     }
-    $SQL .= " AND ".
-        " st.user_id = su.$Self->{ConfigObject}->{DatabaseUserTableUserID} ".
-        " ORDER BY sa.create_time, sa.id ASC";
+    $SQL .= " ORDER BY sa.create_time, sa.id ASC";
 
     $Self->{DBObject}->Prepare(SQL => $SQL);
     my %Ticket = ();
@@ -1033,13 +1037,14 @@ sub ArticleGet {
         else {
             $Data{MimeType} = '';
         }
-        $Ticket{CustomerID} = $Row[16];
+        $Data{CustomerUserID} = $Row[19];
         $Ticket{CustomerUserID} = $Row[19];
         $Data{CustomerID} = $Row[16];
-        $Data{CustomerUserID} = $Row[19];
-        $Data{UserID} = $Row[20];
-        $Ticket{UserID} = $Row[20];
-        $Data{Owner} = $Row[21];
+        $Ticket{CustomerID} = $Row[16];
+        $Data{OwnerID} = $Row[20];
+        $Ticket{OwnerID} = $Row[20];
+        $Data{ResponsibleID} = $Row[21];
+        $Ticket{ResponsibleID} = $Row[21];
         $Data{ArticleTypeID} = $Row[22];
         $Data{FreeKey1} = $Row[23];
         $Data{FreeText1} = $Row[24];
@@ -1093,8 +1098,13 @@ sub ArticleGet {
     }
     # get SLA time
 #    $Ticket{SLAAge} = $Self->{TimeObject}->SLATime(StartTime => $Ticket{CreateTimeUnix});
-    # get priority name
+    # get owner
+    $Ticket{Owner} = $Self->{UserObject}->UserLookup(UserID => $Ticket{OwnerID});
+    # get responsible
+    $Ticket{Responsible} = $Self->{UserObject}->UserLookup(UserID => $Ticket{ResponsibleID} || 1);
+    # get priority
     $Ticket{Priority} = $Self->PriorityLookup(ID => $Ticket{PriorityID});
+    # get lock
     $Ticket{Lock} = $Self->{LockObject}->LockLookup(ID => $Ticket{LockID});
     # get queue name and other stuff
     my %Queue = $Self->{QueueObject}->QueueGet(ID => $Ticket{QueueID}, Cache => 1);
@@ -1104,6 +1114,10 @@ sub ArticleGet {
     # article stuff
     my $LastCustomerCreateTime = 0;
     foreach my $Part (@Content) {
+        # get owner
+        $Part->{Owner} = $Ticket{Owner};
+        # get responsible
+        $Part->{Responsible} = $Ticket{Responsible};
         # get sender type
         $Part->{SenderType} = $Self->ArticleSenderTypeLookup(
             SenderTypeID => $Part->{SenderTypeID},
@@ -1497,7 +1511,7 @@ sub SendAgentNotification {
     $Notification{Subject} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
 
     # get owner data and replace it with <OTRS_OWNER_...
-    my %Preferences = $Self->{UserObject}->GetUserData(UserID => $Article{UserID});
+    my %Preferences = $Self->{UserObject}->GetUserData(UserID => $Article{OwnerID});
     foreach (keys %Preferences) {
         if ($Preferences{$_}) {
             $Notification{Body} =~ s/<OTRS_OWNER_$_>/$Preferences{$_}/gi;
@@ -1632,7 +1646,7 @@ sub SendAgentNotification {
 
     # ticket event
     $Self->TicketEventHandlerPost(
-        Event => 'SendAgentNotification',
+        Event => 'ArticleAgentNotification',
         TicketID => $Param{TicketID},
         UserID => $Param{UserID},
     );
@@ -1869,7 +1883,7 @@ sub SendCustomerNotification {
 
     # ticket event
     $Self->TicketEventHandlerPost(
-        Event => 'SendCustomerNotification',
+        Event => 'ArticleCustomerNotification',
         TicketID => $Param{TicketID},
         UserID => $Param{UserID},
     );
@@ -2065,7 +2079,7 @@ sub SendAutoResponse {
 
     # ticket event
     $Self->TicketEventHandlerPost(
-        Event => 'SendAutoResponse',
+        Event => 'ArticleAutoResponse',
         TicketID => $Param{TicketID},
         UserID => $Param{UserID},
     );
