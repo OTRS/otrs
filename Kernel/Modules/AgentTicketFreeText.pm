@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketFreeText.pm - to set the ticket free text
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketFreeText.pm,v 1.5 2006-02-05 20:35:43 martin Exp $
+# $Id: AgentTicketFreeText.pm,v 1.6 2006-03-04 11:34:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentTicketFreeText;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -31,10 +31,11 @@ sub new {
     }
 
     # check needed Opjects
-    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject
-      ConfigObject)) {
+    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject ConfigObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
+
+    $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
 
     return $Self;
 }
@@ -42,10 +43,8 @@ sub new {
 sub Run {
     my $Self = shift;
     my %Param = @_;
-    my $Output;
-    # --
+
     # check needed stuff
-    # --
     if (!$Self->{TicketID}) {
         # error page
         return $Self->{LayoutObject}->ErrorScreen(
@@ -53,27 +52,27 @@ sub Run {
             Comment => 'Please contact the admin.',
         );
     }
-    # --
     # check permissions
-    # --
     if (!$Self->{TicketObject}->Permission(
         Type => 'freetext',
         TicketID => $Self->{TicketID},
         UserID => $Self->{UserID})) {
-        # --
         # error screen, don't show ticket
-        # --
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
     }
     else {
-        my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->OwnerCheck(
+        my $AccessOk = $Self->{TicketObject}->OwnerCheck(
             TicketID => $Self->{TicketID},
+            OwnerID => $Self->{UserID},
         );
-        if ($OwnerID != $Self->{UserID}) {
-            return $Self->{LayoutObject}->ErrorScreen(
-                Message => "Sorry, the current owner is $OwnerLogin",
+        if (!$AccessOk) {
+            my $Output = $Self->{LayoutObject}->Header();
+            $Output .= $Self->{LayoutObject}->Warning(
+                Message => "Sorry, you need to be the owner to do this action!",
                 Comment => 'Please change the owner first.',
             );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
         }
     }
 
@@ -131,7 +130,7 @@ sub Run {
         my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
         # get free text config options
         my %TicketFreeText = ();
-        foreach (1..9) {
+        foreach (1..16) {
             $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
                 TicketID => $Self->{TicketID},
                 Type => "TicketFreeKey$_",
@@ -145,8 +144,6 @@ sub Run {
                 UserID => $Self->{UserID},
             );
         }
-        $Output .= $Self->{LayoutObject}->Header(Value => $Ticket{TicketNumber});
-        $Output .= $Self->{LayoutObject}->NavigationBar();
         my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
             Ticket => \%Ticket,
             Config => \%TicketFreeText,
@@ -166,7 +163,38 @@ sub Run {
         my %FreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate(
             Ticket => \%TicketFreeTime,
         );
+    # ticket free text
+    my $Count = 0;
+    foreach (1..16) {
+        $Count++;
+        if ($Self->{Config}->{'TicketFreeText'}->{$Count}) {
+            $Self->{LayoutObject}->Block(
+                Name => 'FreeText',
+                Data => {
+                    TicketFreeKeyField => $TicketFreeTextHTML{'TicketFreeKeyField'.$Count},
+                    TicketFreeTextField => $TicketFreeTextHTML{'TicketFreeTextField'.$Count},
+                },
+            );
+        }
+    }
+    $Count = 0;
+    foreach (1..2) {
+        $Count++;
+        if ($Self->{Config}->{'TicketFreeTime'}->{$Count}) {
+            $Self->{LayoutObject}->Block(
+                Name => 'FreeTime',
+                Data => {
+                    TicketFreeTimeKey => $Self->{ConfigObject}->Get('TicketFreeTimeKey'.$Count),
+                    TicketFreeTime => $FreeTimeHTML{'TicketFreeTime'.$Count},
+                    Count => $Count,
+                },
+            );
+        }
+    }
+
         # print change form
+        my $Output = $Self->{LayoutObject}->Header(Value => $Ticket{TicketNumber});
+        $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentTicketFreeText',
             Data => {

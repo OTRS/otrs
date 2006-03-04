@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketHistory.pm - ticket history
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketHistory.pm,v 1.3 2005-08-07 22:27:46 martin Exp $
+# $Id: AgentTicketHistory.pm,v 1.4 2006-03-04 11:34:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentTicketHistory;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -42,9 +42,7 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output;
-    # --
     # check needed stuff
-    # --
     if (!$Self->{TicketID}) {
       # error page
       return $Self->{LayoutObject}->ErrorScreen(
@@ -52,9 +50,7 @@ sub Run {
           Comment => 'Please contact the admin.',
       );
     }
-    # --
     # check permissions
-    # --
     if (!$Self->{TicketObject}->Permission(
         Type => 'ro',
         TicketID => $Self->{TicketID},

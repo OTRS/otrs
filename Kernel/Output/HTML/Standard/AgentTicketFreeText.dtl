@@ -1,8 +1,8 @@
 # --
 # AgentTicketFreeText.dtl - provides HTML for AgentFreeText mask
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketFreeText.dtl,v 1.7 2005-08-31 22:28:41 martin Exp $
+# $Id: AgentTicketFreeText.dtl,v 1.8 2006-03-04 11:34:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -37,96 +37,81 @@ function submit_compose()
 </script>
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-<tr>
-  <td class="mainhead">
-    $Env{"Box0"}$Text{"Change free text of ticket"}: $Data{"TicketNumber"}$Env{"Box1"}
-  </td>
-</tr>
-<tr>
-  <td class="menu">
-    <a href="$Env{"Baselink"}$Env{"LastScreenView"}" onmouseover="window.status='$Text{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
-  </td>
-</tr>
+  <tr>
+    <td class="mainhead">
+      $Env{"Box0"}$Text{"Change free text of ticket"}: $Data{"TicketNumber"}$Env{"Box1"}
+    </td>
+  </tr>
+  <tr>
+    <td class="menu">
+      <a href="$Env{"Baselink"}$Env{"LastScreenView"}" onmouseover="window.status='$Text{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
+    </td>
+  </tr>
 </table>
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-<tr>
-  <td class="mainbody">
-
-  <br>
-
-  <form action="$Env{"CGIHandle"}" method="post" name="compose">
-  <input type="hidden" name="Action" value="$Env{"Action"}">
-  <input type="hidden" name="Subaction" value="Update">
-  <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
-
-  <table border="0" width="500" align="center" cellspacing="0" cellpadding="4">
   <tr>
-    <td colspan="2" class="contenthead">$Text{"Options"}</td>
-  </tr>
-  <tr>
-  <td class="contentbody">
+    <td class="mainbody">
 
-      <table border="0">
-      <tr>
-        <td>$Text{"Key"}:</td>
-        <td>$Text{"Value"}</td>
-      </tr>
+      <br>
+
+      <form action="$Env{"CGIHandle"}" method="post" name="compose">
+        <input type="hidden" name="Action" value="$Env{"Action"}">
+        <input type="hidden" name="Subaction" value="Update">
+        <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
+
+        <table border="0" width="500" align="center" cellspacing="0" cellpadding="4">
+          <tr>
+            <td colspan="2" class="contenthead">$Text{"Options"}</td>
+          </tr>
+          <tr>
+            <td class="contentbody">
+
+              <table border="0">
+                <tr>
+                  <td class="contentkey">$Text{"Title"}:</td>
+                  <td class="contentvalue"><input type="text" name="Title" value="$QData{"Title"}" size="30"></td>
+                </tr>
+              </tr>
+<!-- dtl:block:FreeText -->
+              <tr>
+                <td class="contentkey">$Data{"TicketFreeKeyField"}</td>
+                <td class="contentvalue">$Data{"TicketFreeTextField"}</td>
+              </tr>
+<!-- dtl:block:FreeText -->
 #      <tr>
-#        <td>$Text{"Title"}:</td>
-#        <td><input type="text" name="Title" value="$QData{"Title"}" size="30"></td>
+#        <td class="contentkey">$Data{"TicketFreeKeyField1"}:</td>
+#        <td class="contentvalue">$Data{"TicketFreeTextField1"}</td>
 #      </tr>
-      <tr>
-        <td>$Data{"TicketFreeKeyField1"}:</td>
-        <td>$Data{"TicketFreeTextField1"}</td>
-      </tr>
-      <tr>
-        <td>$Data{"TicketFreeKeyField2"}:</td>
-        <td>$Data{"TicketFreeTextField2"}</td>
-      </tr>
-      <tr>
-        <td>$Data{"TicketFreeKeyField3"}:</td>
-        <td>$Data{"TicketFreeTextField3"}</td>
-      </tr>
-      <tr>
-        <td>$Data{"TicketFreeKeyField4"}:</td>
-        <td>$Data{"TicketFreeTextField4"}</td>
-      </tr>
 #     <tr>
-#       <td>$Data{"TicketFreeKeyField5"}:</td>
-#       <td>$Data{"TicketFreeTextField5"}</td>
+#       <td class="contentkey">$Data{"TicketFreeKeyField2"}:</td>
+#       <td class="contentvalue">$Data{"TicketFreeTextField2"}</td>
 #     </tr>
 #     <tr>
-#       <td>$Data{"TicketFreeKeyField6"}:</td>
-#       <td>$Data{"TicketFreeTextField6"}</td>
-#    </tr>
-#    <tr>
-#       <td>$Data{"TicketFreeKeyField7"}:</td>
-#       <td>$Data{"TicketFreeTextField7"}</td>
-#    </tr>
-#    <tr>
-#       <td>$Data{"TicketFreeKeyField8"}:</td>
-#       <td>$Data{"TicketFreeTextField8"}</td>
-#    </tr>
-#    <tr>
-#       <td>$Text{"$Config{"TicketFreeTimeKey1"}"}:</td>
-#       <td>$Data{"TicketFreeTime1"}</td>
-#    </tr>
-#    <tr>
-#       <td>$Text{"$Config{"TicketFreeTimeKey2"}"}:</td>
-#       <td>$Data{"TicketFreeTime2"}</td>
-#    </tr>
-   </table>
-    </td>
-  </tr>
-  <tr>
-    <td class="contentfooter">
-        <input class="button" accesskey="g" type="submit" value="$Text{"update"}" onclick="return submit_compose();">
-    </td>
-  </tr>
-  </table>
-  </form>
+#       <td class="contentkey">$Data{"TicketFreeKeyField3"}:</td>
+#       <td class="contentvalue">$Data{"TicketFreeTextField3"}</td>
+#     </tr>
+#     <tr>
+#       <td class="contentkey">$Data{"TicketFreeKeyField4"}:</td>
+#       <td class="contentvalue">$Data{"TicketFreeTextField4"}</td>
+#     </tr>
+<!-- dtl:block:FreeTime -->
+              <tr>
+                <td class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}</td>
+                <td class="contentvalue">$Data{"TicketFreeTime"}</td>
+              </tr>
+<!-- dtl:block:FreeTime -->
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td class="contentfooter">
+            <input class="button" accesskey="g" type="submit" value="$Text{"update"}" onclick="return submit_compose();">
+          </td>
+        </tr>
+      </table>
+    </form>
 
-  <br>
+    <br>
 
   </td>
 </tr>

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose inital email to customer
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketEmail.pm,v 1.15 2006-02-28 05:59:35 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.16 2006-03-04 11:34:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -57,6 +57,8 @@ sub new {
     if (!$Self->{FormID}) {
         $Self->{FormID} = $Self->{UploadCachObject}->FormIDCreate();
     }
+
+    $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
 
     return $Self;
 }
@@ -169,8 +171,8 @@ sub Run {
               Users => $Self->_GetUsers(),
               FromList => $Self->_GetTos(),
               To => '',
-              Subject => '',
-              Body => $Self->{ConfigObject}->Get('Ticket::Frontend::EmailNewNote'),
+              Subject => $Self->{LayoutObject}->Output(Template => $Self->{Config}->{Subject}),
+              Body => $Self->{LayoutObject}->Output(Template => $Self->{Config}->{Body}),
               CustomerID => '',
               CustomerUser =>  '',
               CustomerData => {},
@@ -500,7 +502,7 @@ sub Run {
             );
             # show customer tickets
             my @TicketIDs = ();
-            if ($CustomerUser && $Self->{ConfigObject}->Get('Ticket::Frontend::EmailNewShownCustomerTickets')) {
+            if ($CustomerUser && $Self->{Config}->{ShownCustomerTickets}) {
                 # get secondary customer ids
                 my @CustomerIDs = $Self->{CustomerUserObject}->CustomerIDs(User => $CustomerUser);
                 # get own customer id
@@ -510,7 +512,7 @@ sub Run {
                 }
                 @TicketIDs = $Self->{TicketObject}->TicketSearch(
                     Result => 'ARRAY',
-                    Limit => $Self->{ConfigObject}->Get('Ticket::Frontend::EmailNewShownCustomerTickets'),
+                    Limit => $Self->{Config}->{ShownCustomerTickets},
                     CustomerID => \@CustomerIDs,
                     UserID => $Self->{UserID},
                     Permission => 'ro',
@@ -658,8 +660,8 @@ sub Run {
             ArticleType => 'email-external',
             SenderType => 'agent',
             TicketID => $TicketID,
-            ArticleType => $Self->{ConfigObject}->Get('Ticket::Frontend::EmailNewArticleType'),
-            SenderType => $Self->{ConfigObject}->Get('Ticket::Frontend::EmailNewSenderType'),
+            ArticleType => $Self->{Config}->{ArticleType},
+            SenderType => $Self->{Config}->{SenderType},
             From => "$Queue{RealName} <$Queue{Email}>",
             To => $GetParam{To},
             Cc => $GetParam{Cc},
@@ -669,8 +671,8 @@ sub Run {
             Charset => $Self->{LayoutObject}->{UserCharset},
             Type => 'text/plain',
             UserID => $Self->{UserID},
-            HistoryType => $Self->{ConfigObject}->Get('Ticket::Frontend::EmailNewHistoryType'),
-            HistoryComment => $Self->{ConfigObject}->Get('Ticket::Frontend::EmailNewHistoryComment') || "\%\%$GetParam{To}, $GetParam{Cc}, $GetParam{Bcc}",
+            HistoryType => $Self->{Config}->{HistoryType},
+            HistoryComment => $Self->{Config}->{HistoryComment} || "\%\%$GetParam{To}, $GetParam{Cc}, $GetParam{Bcc}",
             %ArticleParam,
         );
         if ($ArticleID) {
@@ -749,7 +751,6 @@ sub _GetNextStates {
         %NextStates = $Self->{TicketObject}->StateList(
             %Param,
             Action => $Self->{Action},
-            Type => 'EmailDefaultNext',
             UserID => $Self->{UserID},
         );
     }
@@ -887,7 +888,7 @@ sub _MaskEmailNew {
     $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => $Param{NextStates},
         Name => 'NextStateID',
-        Selected => $Param{NextState} || $Self->{ConfigObject}->Get('Ticket::Frontend::EmailNewNextState'),
+        Selected => $Param{NextState} || $Self->{Config}->{StateDefault},
     );
     # build from string
     if ($Param{ToOptions} && %{$Param{ToOptions}}) {
@@ -940,7 +941,7 @@ sub _MaskEmailNew {
     }
     # build priority string
     if (!$Param{PriorityID}) {
-        $Param{Priority} = $Self->{ConfigObject}->Get('Ticket::Frontend::EmailPriority');
+        $Param{Priority} = $Self->{Config}->{Priority};
     }
     $Param{'PriorityStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => $Param{Priorities},
@@ -990,7 +991,7 @@ sub _MaskEmailNew {
     my $Count = 0;
     foreach (1..16) {
         $Count++;
-        if ($Self->{ConfigObject}->Get('TicketFreeText'.$Count.'::Shown') && $Self->{ConfigObject}->Get('TicketFreeText'.$Count.'::Shown')->{EmailNew}) {
+        if ($Self->{Config}->{'TicketFreeText'}->{$Count}) {
             $Self->{LayoutObject}->Block(
                 Name => 'FreeText',
                 Data => {
@@ -1003,7 +1004,7 @@ sub _MaskEmailNew {
     $Count = 0;
     foreach (1..2) {
         $Count++;
-        if ($Self->{ConfigObject}->Get('TicketFreeTime'.$Count.'::Shown') && $Self->{ConfigObject}->Get('TicketFreeText'.$Count.'::Shown')->{EmailNew}) {
+        if ($Self->{Config}->{'TicketFreeTime'}->{$Count}) {
             $Self->{LayoutObject}->Block(
                 Name => 'FreeTime',
                 Data => {

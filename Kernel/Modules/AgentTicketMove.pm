@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketMove.pm,v 1.6 2005-08-26 12:48:44 martin Exp $
+# $Id: AgentTicketMove.pm,v 1.7 2006-03-04 11:34:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -81,13 +81,14 @@ sub Run {
     }
     # check if ticket is locked
     if ($Self->{TicketObject}->LockIsTicketLocked(TicketID => $Self->{TicketID})) {
-        my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->OwnerCheck(
+        my $AccessOk = $Self->{TicketObject}->OwnerCheck(
             TicketID => $Self->{TicketID},
+            OwnerID => $Self->{UserID},
         );
-        if ($OwnerID != $Self->{UserID}) {
-            my $Output = $Self->{LayoutObject}->Header(Title => 'Error');
+        if (!$AccessOk) {
+            my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->Warning(
-                Message => "Can't move, the current owner is $OwnerLogin!",
+                Message => "Sorry, you need to be the owner to do this action!",
                 Comment => 'Please change the owner first.',
             );
             $Output .= $Self->{LayoutObject}->Footer();

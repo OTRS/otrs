@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketMerge.pm - to merge tickets
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketMerge.pm,v 1.4 2005-07-23 08:57:22 martin Exp $
+# $Id: AgentTicketMerge.pm,v 1.5 2006-03-04 11:34:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -38,6 +38,8 @@ sub new {
     }
 
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
+
+    $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
 
     return $Self;
 }
@@ -64,9 +66,76 @@ sub Run {
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
     }
 
+    # get ticket data
+    my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
+    # check permissions
+    if (!$Self->{TicketObject}->Permission(
+        Type => $Self->{Config}->{Permission},
+        TicketID => $Self->{TicketID},
+        UserID => $Self->{UserID})) {
+        # error screen, don't show ticket
+        return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
+    }
+    # get lock state && write (lock) permissions
+    if ($Self->{Config}->{RequiredLock}) {
+        if (!$Self->{TicketObject}->LockIsTicketLocked(TicketID => $Self->{TicketID})) {
+            $Self->{TicketObject}->LockSet(
+                TicketID => $Self->{TicketID},
+                Lock => 'lock',
+                UserID => $Self->{UserID}
+            );
+            if ($Self->{TicketObject}->OwnerSet(
+                TicketID => $Self->{TicketID},
+                UserID => $Self->{UserID},
+                NewUserID => $Self->{UserID},
+            )) {
+                # show lock state
+                $Self->{LayoutObject}->Block(
+                    Name => 'TicketLocked',
+                    Data => {
+                        %Param,
+                        TicketID => $Self->{TicketID},
+                    },
+                );
+            }
+        }
+        else {
+            my $AccessOk = $Self->{TicketObject}->OwnerCheck(
+                TicketID => $Self->{TicketID},
+                OwnerID => $Self->{UserID},
+            );
+            if (!$AccessOk) {
+                my $Output = $Self->{LayoutObject}->Header(Value => $Ticket{Number});
+                $Output .= $Self->{LayoutObject}->Warning(
+                    Message => "Sorry, you need to be the owner to do this action!",
+                    Comment => 'Please change the owner first.',
+                );
+                $Output .= $Self->{LayoutObject}->Footer();
+                return $Output;
+            }
+            else {
+                $Self->{LayoutObject}->Block(
+                    Name => 'TicketBack',
+                    Data => {
+                        %Param,
+                        TicketID => $Self->{TicketID},
+                    },
+                );
+            }
+        }
+    }
+    else {
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketBack',
+            Data => {
+                %Param,
+                %Ticket,
+            },
+        );
+    }
+
     # merge action
     if ($Self->{Subaction} eq 'Merge') {
-        my $Tn = $Self->{TicketObject}->TicketNumberLookup(TicketID => $Self->{TicketID});
         my $MainTicketNumber = $Self->{ParamObject}->GetParam(Param => 'MainTicketNumber');
         my $MainTicketID = $Self->{TicketObject}->TicketIDLookup(TicketNumber => $MainTicketNumber);
         # check permissions
@@ -79,7 +148,6 @@ sub Run {
         }
         # check errors
         if ($Self->{TicketID} == $MainTicketID || !$Self->{TicketObject}->TicketMerge(MainTicketID => $MainTicketID, MergeTicketID => $Self->{TicketID}, UserID => $Self->{UserID})) {
-            my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AgentTicketMerge', Data => {%Param,%Ticket});
@@ -88,15 +156,11 @@ sub Run {
             return $Output;
         }
         else {
-            # --
             # get params
-            # --
             foreach (qw(From To Subject Body InformSender)) {
                 $Param{$_} = $Self->{ParamObject}->GetParam(Param => $_) || '';
             }
-            # --
             # check forward email address
-            # --
             foreach my $Email (Mail::Address->parse($Param{BounceTo})) {
                 my $Address = $Email->address();
                 if ($Self->{SystemAddress}->SystemAddressIsLocalAddress(Address => $Address)) {
@@ -108,9 +172,7 @@ sub Run {
                     );
                 }
             }
-            # --
             # send customer info?
-            # --
             if ($Param{InformSender}) {
                 my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
                 $Param{Body} =~ s/<OTRS_TICKET>/$Ticket{TicketNumber}/g;
@@ -142,47 +204,13 @@ sub Run {
         }
     }
     else {
-        # merge box
-        my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
-        my $Output = $Self->{LayoutObject}->Header(Value => $Ticket{TicketNumber});
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        # get lock state && write (lock) permissions
-        if (!$Self->{TicketObject}->LockIsTicketLocked(TicketID => $Self->{TicketID})) {
-            # set owner
-            $Self->{TicketObject}->OwnerSet(
-                TicketID => $Self->{TicketID},
-                UserID => $Self->{UserID},
-                NewUserID => $Self->{UserID},
-            );
-            # set lock
-            if ($Self->{TicketObject}->LockSet(
-                TicketID => $Self->{TicketID},
-                Lock => 'lock',
-                UserID => $Self->{UserID}
-            )) {
-                # show lock state
-                $Output .= $Self->{LayoutObject}->TicketLocked(TicketID => $Self->{TicketID});
-            }
-        }
-        else {
-            my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->OwnerCheck(
-                TicketID => $Self->{TicketID},
-            );
-            if ($OwnerID != $Self->{UserID}) {
-                $Output .= $Self->{LayoutObject}->Warning(
-                    Message => "Sorry, the current owner is $OwnerLogin!",
-                    Comment => 'Please change the owner first.',
-                );
-               $Output .= $Self->{LayoutObject}->Footer();
-               return $Output;
-            }
-        }
+        # get last article
         my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(
             TicketID => $Self->{TicketID},
         );
-        # --
-        # prepare subject ...
-        # --
+        # merge box
+        my $Output = $Self->{LayoutObject}->Header(Value => $Ticket{TicketNumber});
+        $Output .= $Self->{LayoutObject}->NavigationBar();
         # get customer data
         my %Customer = ();
         if ($Ticket{CustomerUserID}) {
@@ -190,13 +218,12 @@ sub Run {
                 User => $Ticket{CustomerUserID},
             );
         }
+        # prepare subject ...
         $Article{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
             TicketNumber => $Ticket{TicketNumber},
             Subject => $Article{Subject} || '',
         );
-        # --
         # prepare from ...
-        # --
         my %Address = $Self->{QueueObject}->GetSystemAddress(
             QueueID => $Ticket{QueueID},
         );

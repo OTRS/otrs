@@ -1,76 +1,73 @@
 # --
 # AgentTicketHistory.dtl - provides HTML form for history
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketHistory.dtl,v 1.2 2005-09-18 13:35:00 martin Exp $
+# $Id: AgentTicketHistory.dtl,v 1.3 2006-03-04 11:34:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-<tr>
-  <td class="mainhead">
-    $Env{"Box0"}$Text{"History of"} $Config{"Ticket::Hook"}: $Data{"TicketNumber"}$Env{"Box1"}
-  </td>
-</tr>
-<tr>
-  <td class="menu">
-    <a href="$Env{"Baselink"}$Env{"LastScreenView"}" onmouseover="window.status='$Text{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
-  </td>
-</tr>
-<tr>
-  <td class="mainbody">
+  <tr>
+    <td class="mainhead">
+      $Env{"Box0"}$Text{"History of"} $Config{"Ticket::Hook"}: $Data{"TicketNumber"}$Env{"Box1"}
+    </td>
+  </tr>
+  <tr>
+    <td class="menu">
+      <a href="$Env{"Baselink"}$Env{"LastScreenView"}" onmouseover="window.status='$Text{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
+    </td>
+  </tr>
+  <tr>
+    <td class="mainbody">
 
-<table border="0" cellspacing="1" cellpadding="1" width="100%">
-<tr>
-  <td>
-  <B>$Text{"Action"}:</B>
-  </td>
-  <td>
-  <B>$Text{"Comment"}:</B>
-  </td>
-  <td WIDTH="60" ALIGN="CENTER">
-  <B>$Text{"Zoom"}:</B>
-  </td>
-  <td>
-  <B>$Text{"User"}:</B>
-  </td>
-  <td>
-  <B>$Text{"Createtime"}:</B>
-  </td>
-</tr>
+      <table border="0" cellspacing="1" cellpadding="1" width="100%">
+        <tr>
+          <td>
+            <B>$Text{"Action"}:</B>
+          </td>
+          <td>
+            <B>$Text{"Comment"}:</B>
+          </td>
+          <td WIDTH="60" ALIGN="CENTER">
+            <B>$Text{"Zoom"}:</B>
+          </td>
+          <td>
+            <B>$Text{"User"}:</B>
+          </td>
+          <td>
+            <B>$Text{"Createtime"}:</B>
+          </td>
+        </tr>
 <!-- dtl:block:Row -->
 # should i show  the zoom link?
-<dtl set $Data{"Link"} = "-">
-<dtl if ($Data{"ArticleID"} ne "0") { $Data{"Link"} = "<a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}" onmouseover="window.status='$Text{"Zoom"}'; return true;" onmouseout="window.status='';">x</a>"; }>
-
-<!-- start row-->
-<tr>
-  <td>
-  $Quote{"$Data{"HistoryType"}"}
-  </td>
-  <td>
-  <div title="$QData{"Name"}">$QData{"Name","100"}</div>
-  </td>
-  <td align="CENTER">
-    $Data{"Link"}
-  </td>
-  <td>
-  <div title="$Quote{"$Data{"UserLogin"} ($Data{"UserFirstname"} $Data{"UserLastname"})"}">
-  $Quote{"$Data{"UserLogin"}"} ($Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","20"})
-  </div>
-  </td>
-  <td>
-  $TimeLong{"$Data{"CreateTime"}"}
-  </td>
-</tr>
+        <dtl set $Data{"Link"} = "-">
+        <dtl if ($Data{"ArticleID"} ne "0") { $Data{"Link"} = "<a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}" onmouseover="window.status='$Text{"Zoom"}'; return true;" onmouseout="window.status='';">x</a>"; }>
+        <tr>
+          <td>
+            $Quote{"$Data{"HistoryType"}"}
+          </td>
+          <td>
+            <div title="$QData{"Name"}">$QData{"Name","100"}</div>
+          </td>
+          <td align="CENTER">
+            $Data{"Link"}
+          </td>
+          <td>
+            <div title="$Quote{"$Data{"UserLogin"} ($Data{"UserFirstname"} $Data{"UserLastname"})"}">
+            $Quote{"$Data{"UserLogin"}"} ($Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","20"})
+            </div>
+          </td>
+          <td>
+            $TimeLong{"$Data{"CreateTime"}"}
+          </td>
+        </tr>
 <!-- dtl:block:Row -->
-</table>
+      </table>
 
-  </td>
-</tr>
+    </td>
+  </tr>
 </table>
 <!-- end form -->

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketCompose.pm,v 1.13 2006-02-09 23:52:12 martin Exp $
+# $Id: AgentTicketCompose.pm,v 1.14 2006-03-04 11:34:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -80,6 +80,8 @@ $Data{"Signature"}
         $Self->{GetParam}->{FormID} = $Self->{UploadCachObject}->FormIDCreate();
     }
 
+    $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
+
     return $Self;
 }
 # --
@@ -106,8 +108,8 @@ sub Form {
     # check needed stuff
     if (!$Self->{TicketID}) {
         return $Self->{LayoutObject}->ErrorScreen(
-                Message => "Got no TicketID!",
-                Comment => 'System Error!',
+            Message => "Got no TicketID!",
+            Comment => 'System Error!',
         );
     }
     # add std. attachments to email
@@ -139,57 +141,68 @@ sub Form {
     }
     # check permissions
     if (!$Self->{TicketObject}->Permission(
-        Type => 'rw',
+        Type => $Self->{Config}->{Permission},
         TicketID => $Self->{TicketID},
         UserID => $Self->{UserID})) {
         # error screen, don't show ticket
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
     }
     # get lock state && write (lock) permissions
-    if (!$Self->{TicketObject}->LockIsTicketLocked(TicketID => $Self->{TicketID})) {
-        # set owner
-        $Self->{TicketObject}->OwnerSet(
-            TicketID => $Self->{TicketID},
-            UserID => $Self->{UserID},
-            NewUserID => $Self->{UserID},
-        );
-        # set lock
-        if ($Self->{TicketObject}->LockSet(
-            TicketID => $Self->{TicketID},
-            Lock => 'lock',
-            UserID => $Self->{UserID}
-        )) {
-            # show lock state
-            $Self->{LayoutObject}->Block(
-                Name => 'TicketLocked',
-                Data => {
-                    %Param,
-                    TicketID => $Self->{TicketID},
-                },
+    if ($Self->{Config}->{RequiredLock}) {
+        if (!$Self->{TicketObject}->LockIsTicketLocked(TicketID => $Self->{TicketID})) {
+            $Self->{TicketObject}->LockSet(
+                TicketID => $Self->{TicketID},
+                Lock => 'lock',
+                UserID => $Self->{UserID}
             );
+            if ($Self->{TicketObject}->OwnerSet(
+                TicketID => $Self->{TicketID},
+                UserID => $Self->{UserID},
+                NewUserID => $Self->{UserID},
+            )) {
+                # show lock state
+                $Self->{LayoutObject}->Block(
+                    Name => 'TicketLocked',
+                    Data => {
+                        %Param,
+                        TicketID => $Self->{TicketID},
+                    },
+                );
+            }
+        }
+        else {
+            my $AccessOk = $Self->{TicketObject}->OwnerCheck(
+                TicketID => $Self->{TicketID},
+                OwnerID => $Self->{UserID},
+            );
+            if (!$AccessOk) {
+                my $Output = $Self->{LayoutObject}->Header(Value => $Ticket{Number});
+                $Output .= $Self->{LayoutObject}->Warning(
+                    Message => "Sorry, you need to be the owner to do this action!",
+                    Comment => 'Please change the owner first.',
+                );
+                $Output .= $Self->{LayoutObject}->Footer();
+                return $Output;
+            }
+            else {
+                $Self->{LayoutObject}->Block(
+                    Name => 'TicketBack',
+                    Data => {
+                        %Param,
+                        TicketID => $Self->{TicketID},
+                    },
+                );
+            }
         }
     }
     else {
-        my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->OwnerCheck(
-            TicketID => $Self->{TicketID},
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketBack',
+            Data => {
+                %Param,
+                %Ticket,
+            },
         );
-        if ($OwnerID != $Self->{UserID}) {
-            $Output .= $Self->{LayoutObject}->Warning(
-                Message => "Sorry, the current owner is $OwnerLogin!",
-                Comment => 'Please change the owner first.',
-            );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
-        }
-        else {
-            $Self->{LayoutObject}->Block(
-                Name => 'TicketBack',
-                Data => {
-                    %Param,
-                    TicketID => $Self->{TicketID},
-                },
-            );
-        }
     }
     # get last customer article or selecte article ...
     my %Data = ();
@@ -238,8 +251,21 @@ sub Form {
     if ($Data{Body}) {
         my $NewLine = $Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaEmail') || 75;
         $Data{Body} =~ s/(^>.+|.{4,$NewLine})(?:\s|\z)/$1\n/gm;
-        $Data{Body} =~ s/\n/\n> /g;
-        $Data{Body} = "\n> " . $Data{Body};
+############
+#        $Data{Body} =~ s/\n/\n> /g;
+#        $Data{Body} = "\n> " . $Data{Body};
+        if ($Data{Created}) {
+            $Data{Body} = "Date: $Data{Created}\n".$Data{Body};
+        }
+        foreach (qw(Subject ReplyTo Reply-To Cc To From)) {
+            if ($Data{$_}) {
+                $Data{Body} = "$_: $Data{$_}\n".$Data{Body};
+            }
+        }
+        $Data{Body} = "\n---- Message from $Data{From} ---\n\n".$Data{Body};
+        $Data{Body} .= "\n---- End Message ---\n";
+############
+
     }
     $Data{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
         TicketNumber => $Ticket{TicketNumber},
@@ -281,7 +307,10 @@ sub Form {
     }
     $Data{OrigFrom} = $Data{From};
     my %Address = $Self->{QueueObject}->GetSystemAddress(%Ticket);
+#########
     $Data{From} = "$Address{RealName} <$Address{Email}>";
+    $Data{From} = "\"$Self->{UserLastname} $Self->{UserFirstname} via OTRS\" <$Address{Email}>";
+#########
     $Data{Email} = $Address{Email};
     $Data{RealName} = $Address{RealName};
     $Data{StdResponse} = $Self->{QueueObject}->GetStdResponse(ID => $GetParam{ResponseID});
@@ -665,7 +694,6 @@ sub _GetNextStates {
     my %Param = @_;
     # get next states
     my %NextStates = $Self->{TicketObject}->StateList(
-        Type => 'DefaultNextCompose',
         Action => $Self->{Action},
         TicketID => $Self->{TicketID},
         UserID => $Self->{UserID},
@@ -677,10 +705,13 @@ sub _Mask {
     my $Self = shift;
     my %Param = @_;
     # build next states string
+    if (!$Self->{Config}->{StateDefault}) {
+        $Param{NextStates}->{''} = '-';
+    }
     $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => $Param{NextStates},
         Name => 'ComposeStateID',
-        Selected => $Param{NextState} || $Self->{ConfigObject}->Get('Ticket::DefaultNextComposeType'),
+        Selected => $Param{NextState} || $Self->{Config}->{StateDefault},
     );
     # prepare errors!
     if ($Param{Errors}) {
@@ -698,7 +729,7 @@ sub _Mask {
     my $Count = 0;
     foreach (1..16) {
         $Count++;
-        if ($Self->{ConfigObject}->Get('TicketFreeText'.$Count.'::Shown') && $Self->{ConfigObject}->Get('TicketFreeText'.$Count.'::Shown')->{Compose}) {
+        if ($Self->{Config}->{'TicketFreeText'}->{$Count}) {
             $Self->{LayoutObject}->Block(
                 Name => 'FreeText',
                 Data => {
@@ -711,7 +742,7 @@ sub _Mask {
     $Count = 0;
     foreach (1..2) {
         $Count++;
-        if ($Self->{ConfigObject}->Get('TicketFreeTime'.$Count.'::Shown') && $Self->{ConfigObject}->Get('TicketFreeText'.$Count.'::Shown')->{Compose}) {
+        if ($Self->{Config}->{'TicketFreeTime'}->{$Count}) {
             $Self->{LayoutObject}->Block(
                 Name => 'FreeTime',
                 Data => {

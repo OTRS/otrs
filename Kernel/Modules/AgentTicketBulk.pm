@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketBulk.pm,v 1.6 2006-02-01 10:52:08 martin Exp $
+# $Id: AgentTicketBulk.pm,v 1.7 2006-03-04 11:34:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -80,13 +80,14 @@ sub Run {
             # show locked tickets
             my $LockIt = 1;
             if ($Self->{TicketObject}->LockIsTicketLocked(TicketID => $TicketID)) {
-                my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->OwnerCheck(
+                my $AccessOk = $Self->{TicketObject}->OwnerCheck(
                     TicketID => $TicketID,
+                    OwnerID => $Self->{UserID},
                 );
-                if ($OwnerID ne $Self->{UserID}) {
+                if (!$AccessOk) {
                     $LockIt = 0;
                     $Output .= $Self->{LayoutObject}->Notify(
-                        Info => 'Ticket %s is locked for an other agent!", "$Quote{"'.$OwnerLogin.'"}',
+                        Info => 'Ticket %s is locked for an other agent!", "$Quote{"'.$Ticket{TicketNumber}.'"}',
                     );
                 }
             }

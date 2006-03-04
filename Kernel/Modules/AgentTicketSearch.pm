@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketSearch.pm,v 1.13 2006-02-28 06:00:27 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.14 2006-03-04 11:34:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -66,6 +66,8 @@ sub new {
         $Self->{TicketObjectSearch} = $Self->{TicketObject};
     }
 
+    $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
+
     return $Self;
 }
 # --
@@ -75,10 +77,10 @@ sub Run {
     my $Output;
     # get confid data
     $Self->{StartHit} = $Self->{ParamObject}->GetParam(Param => 'StartHit') || 1;
-    $Self->{SearchLimit} = $Self->{ConfigObject}->Get('Ticket::Frontend::SearchLimit') || 200;
-    $Self->{SearchPageShown} = $Self->{ConfigObject}->Get('Ticket::Frontend::SearchPageShown') || 40;
-    $Self->{SortBy} = $Self->{ParamObject}->GetParam(Param => 'SortBy') || $Self->{ConfigObject}->Get('Ticket::Frontend::SortBy::Default') || 'Age';
-    $Self->{Order} = $Self->{ParamObject}->GetParam(Param => 'Order') || $Self->{ConfigObject}->Get('Ticket::Frontend::Order::Default') || 'Down';
+    $Self->{SearchLimit} = $Self->{Config}->{SearchLimit} || 200;
+    $Self->{SearchPageShown} = $Self->{Config}->{SearchPageShown} || 40;
+    $Self->{SortBy} = $Self->{ParamObject}->GetParam(Param => 'SortBy') || $Self->{Config}->{'SortBy::Default'} || 'Age';
+    $Self->{Order} = $Self->{ParamObject}->GetParam(Param => 'Order') || $Self->{Config}->{'Order::Default'} || 'Down';
     $Self->{Profile} = $Self->{ParamObject}->GetParam(Param => 'Profile') || '';
     $Self->{SaveProfile} = $Self->{ParamObject}->GetParam(Param => 'SaveProfile') || '';
     $Self->{TakeLastSearch} = $Self->{ParamObject}->GetParam(Param => 'TakeLastSearch') || '';
@@ -310,7 +312,7 @@ sub Run {
             # get first article data
             my %Data = $Self->{TicketObjectSearch}->ArticleFirstArticle(TicketID => $_);
             # get whole article (if configured!)
-            if ($Self->{ConfigObject}->Get('Ticket::Frontend::SearchArticleCSVTree') && $GetParam{ResultForm} eq 'CSV') {
+            if ($Self->{Config}->{'SearchArticleCSVTree'} && $GetParam{ResultForm} eq 'CSV') {
                 my @Article = $Self->{TicketObjectSearch}->ArticleGet(
                     TicketID => $_
                 );
@@ -362,7 +364,7 @@ sub Run {
                     $Data{Body} = $Self->{LayoutObject}->Ascii2Html(
                         NewLine => $Self->{ConfigObject}->Get('DefaultViewNewLine') || 85,
                         Text => $Data{Body},
-                        VMax => $Self->{ConfigObject}->Get('Ticket::Frontend::SearchViewableTicketLines') || 15,
+                        VMax => $Self->{Config}->{SearchViewableTicketLines} || 15,
                         StripEmptyLines => 1,
                         HTMLResultMode => 1,
                     );
@@ -429,7 +431,7 @@ sub Run {
                 );
                 # csv quote
                 if (!@CSVHead) {
-                    @CSVHead = @{$Self->{ConfigObject}->Get('Ticket::Frontend::SearchCSVData')};
+                    @CSVHead = @{$Self->{Config}->{SearchCSVData}};
                 }
                 my @Data = ();
                 foreach (@CSVHead) {
@@ -801,7 +803,7 @@ sub MaskForm {
     my $Count = 0;
     foreach (1..16) {
         $Count++;
-        if ($Self->{ConfigObject}->Get('TicketFreeText'.$Count.'::Shown') && $Self->{ConfigObject}->Get('TicketFreeText'.$Count.'::Shown')->{Search}) {
+        if ($Self->{Config}->{'TicketFreeText'}->{$Count}) {
             $Self->{LayoutObject}->Block(
                 Name => 'FreeText',
                 Data => {
@@ -814,7 +816,7 @@ sub MaskForm {
     $Count = 0;
     foreach (1..2) {
         $Count++;
-        if ($Self->{ConfigObject}->Get('TicketFreeTime'.$Count.'::Shown') && $Self->{ConfigObject}->Get('TicketFreeText'.$Count.'::Shown')->{Search}) {
+        if ($Self->{Config}->{'TicketFreeTime'}->{$Count}) {
             $Self->{LayoutObject}->Block(
                 Name => 'FreeTime',
                 Data => {

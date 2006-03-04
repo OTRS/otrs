@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketOwner.pm - set ticket owner
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketOwner.pm,v 1.6 2006-02-05 21:08:00 martin Exp $
+# $Id: AgentTicketOwner.pm,v 1.7 2006-03-04 11:34:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -52,7 +52,7 @@ sub new {
         $Self->{FormID} = $Self->{UploadCachObject}->FormIDCreate();
     }
 
-    $Self->{Config} = $Self->{ConfigObject}->Get('Ticket::Frontend')->{$Self->{Action}};
+    $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
 
     return $Self;
 }
@@ -115,13 +115,14 @@ sub Run {
             }
         }
         else {
-            my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->OwnerCheck(
+            my $AccessOk = $Self->{TicketObject}->OwnerCheck(
                 TicketID => $Self->{TicketID},
+                OwnerID => $Self->{UserID},
             );
-            if ($OwnerID != $Self->{UserID}) {
+            if (!$AccessOk) {
                 my $Output = $Self->{LayoutObject}->Header(Value => $Ticket{Number});
                 $Output .= $Self->{LayoutObject}->Warning(
-                    Message => "Sorry, the current owner is $OwnerLogin!",
+                    Message => "Sorry, you need to be the owner to do this action!",
                     Comment => 'Please change the owner first.',
                 );
                 $Output .= $Self->{LayoutObject}->Footer();
@@ -152,8 +153,8 @@ sub Run {
     # get params
     my %GetParam = ();
     foreach (qw(
-        NewOwnerID NewStateID NewPriorityID TimeUnits ArticleTypeID Body Subject
-        Year Month Day Hour Minute NewOwnerID NewOwnerType OldOwnerID
+        NewStateID NewPriorityID TimeUnits ArticleTypeID Body Subject
+        Year Month Day Hour Minute NewOwnerID NewOwnerType OldOwnerID NewResponsibleID
         AttachmentUpload
         AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
         AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
@@ -308,6 +309,17 @@ sub Run {
                 $GetParam{NoAgentNotify} = 1;
             }
         }
+        if ($Self->{Config}->{Responsible}) {
+            if ($GetParam{NewResponsibleID}) {
+                $Self->{TicketObject}->ResponsibleSet(
+                    TicketID => $Self->{TicketID},
+                    UserID => $Self->{UserID},
+                    NewUserID => $GetParam{NewResponsibleID},
+                    Comment => $GetParam{Body},
+                );
+                $GetParam{NoAgentNotify} = 1;
+            }
+        }
         # add note
         my $ArticleID = '';
         if ($Self->{Config}->{Note}) {
@@ -429,11 +441,11 @@ sub Run {
     }
     else {
         # fillup vars
-        if (!defined($GetParam{Body}) && $Self->{Config}->{NoteBodyDefault}) {
-            $GetParam{Body} = $Self->{LayoutObject}->Output(Template => $Self->{Config}->{NoteBodyDefault});
+        if (!defined($GetParam{Body}) && $Self->{Config}->{Body}) {
+            $GetParam{Body} = $Self->{LayoutObject}->Output(Template => $Self->{Config}->{Body});
         }
-        if (!defined($GetParam{Subject}) && $Self->{Config}->{NoteSubjectDefault}) {
-            $GetParam{Subject} = $Self->{LayoutObject}->Output(Template => $Self->{Config}->{NoteSubjectDefault});
+        if (!defined($GetParam{Subject}) && $Self->{Config}->{Subject}) {
+            $GetParam{Subject} = $Self->{LayoutObject}->Output(Template => $Self->{Config}->{Subject});
         }
         # get free text config options
         my %TicketFreeText = ();
@@ -555,6 +567,40 @@ sub _Mask {
         );
         $Self->{LayoutObject}->Block(
             Name => 'Owner',
+            Data => \%Param,
+        );
+    }
+    if ($Self->{Config}->{Responsible}) {
+        # get user of own groups
+        my %ShownUsers = ();
+        my %AllGroupsMembers = $Self->{UserObject}->UserList(
+            Type => 'Long',
+            Valid => 1,
+        );
+        if ($Self->{ConfigObject}->Get('Ticket::ChangeOwnerToEveryone')) {
+            %ShownUsers = %AllGroupsMembers;
+        }
+        else {
+            my $GID = $Self->{QueueObject}->GetQueueGroupID(QueueID => $Ticket{QueueID});
+            my %MemberList = $Self->{GroupObject}->GroupMemberList(
+                GroupID => $GID,
+                Type => 'rw',
+                Result => 'HASH',
+                Cached => 1,
+            );
+            foreach (keys %MemberList) {
+                $ShownUsers{$_} = $AllGroupsMembers{$_};
+            }
+        }
+        # get responsible
+        $Param{'ResponsibleStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data => \%ShownUsers,
+            SelectedID => $Param{NewResponsibleID} || $Ticket{ResponsibleID},
+            Name => 'NewResponsibleID',
+            Size => 10,
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'Responsible',
             Data => \%Param,
         );
     }
@@ -757,7 +803,7 @@ sub _Mask {
     my $Count = 0;
     foreach (1..16) {
         $Count++;
-        if ($Self->{ConfigObject}->Get('TicketFreeText'.$Count.'::Shown') && $Self->{ConfigObject}->Get('TicketFreeText'.$Count.'::Shown')->{Close}) {
+        if ($Self->{Config}->{'TicketFreeText'}->{$Count}) {
             $Self->{LayoutObject}->Block(
                 Name => 'FreeText',
                 Data => {
@@ -770,7 +816,7 @@ sub _Mask {
     $Count = 0;
     foreach (1..2) {
         $Count++;
-        if ($Self->{ConfigObject}->Get('TicketFreeTime'.$Count.'::Shown') && $Self->{ConfigObject}->Get('TicketFreeText'.$Count.'::Shown')->{Close}) {
+        if ($Self->{Config}->{'TicketFreeTime'}->{$Count}) {
             $Self->{LayoutObject}->Block(
                 Name => 'FreeTime',
                 Data => {

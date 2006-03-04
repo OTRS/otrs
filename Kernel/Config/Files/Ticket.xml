@@ -148,10 +148,10 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.86 2006-02-16 01:25:37 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.87 2006-03-04 11:37:18 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
-        <Description Lang="de">Ticket-Identifikator, z.B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
+        <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -178,7 +178,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="Ticket::SubjectRe" Required="1" Valid="1">
         <Description Lang="en">The text at the beginning of the subject in a email reply, e.g. RE, AW or AS.</Description>
-        <Description Lang="de">Präfix im Betreff bei einer Email-Antwort, z.B. RE, AW oder AS.</Description>
+        <Description Lang="de">Präfix im Betreff bei einer Email-Antwort, z. B. RE, AW oder AS.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -192,29 +192,6 @@ TimeWorkingHours
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
             <String Regex="">My Queues</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::ForceNewStateAfterLock" Required="0" Valid="0">
-        <Description Lang="en">Force a new ticket state after lock action. For key you have to define the current state and for value you have to define the next state after lock action.</Description>
-        <Description Lang="de">Automatisches Setzen eines neuen Ticketstatus nach dem das Ticket gesperrt wurde. Der Schlüssel ist der aktuelle Status, der Inhalt der Status nach dem Sperren.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="new">open</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::ForceUnlockAfterMove" Required="1" Valid="1">
-        <Description Lang="en">Would you like to force tickets to be unlocked after move action?</Description>
-        <Description Lang="de">Möchten Sie, dass die Sperrung eines Tickets automatisch aufgehoben wird, nachdem es in eine andere Queue verschoben worden ist?</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
-        <Setting>
-            <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
-            </Option>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::ChangeOwnerToEveryone" Required="1" Valid="1">
@@ -251,17 +228,6 @@ TimeWorkingHours
                 <Item Key="ArticleLastSender">ArticleLastSender</Item>
                 <Item Key="ArticleSeen">ArticleSeen</Item>
             </Option>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::EventModulePost###1-ResetOwnerOnMove" Required="0" Valid="0">
-        <Description Lang="en">Ticket event module to reset the owner if ticket gets moved.</Description>
-        <Description Lang="de">Ticket Event Modul um Besitzer zurück zu setzen wenn das Ticket verschoben wird.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Module">Kernel::System::Ticket::Event::ResetOwnerOnMove</Item>
-            </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey1" Required="0" Valid="0">
@@ -305,24 +271,6 @@ TimeWorkingHours
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
             <String Regex="">Notebook</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="TicketFreeText1::Shown" Required="0" Valid="1">
-        <Description Lang="en">Shown free text 1 option in different screens.</Description>
-        <Description Lang="de">Gezeigte Frei-Text-Felder 1 in den unterschiedlichen Masken.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::TicketFreeText</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Phone">0</Item>
-                <Item Key="PhoneNew">0</Item>
-                <Item Key="EmailNew">0</Item>
-                <Item Key="Close">0</Item>
-                <Item Key="Compose">0</Item>
-                <Item Key="Forward">0</Item>
-                <Item Key="FreeText">0</Item>
-                <Item Key="Search">0</Item>
-            </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey2" Required="0" Valid="0">
@@ -369,24 +317,6 @@ TimeWorkingHours
             <String Regex="">Notebook</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="TicketFreeText2::Shown" Required="0" Valid="1">
-        <Description Lang="en">Shown free text 2 option in different screens.</Description>
-        <Description Lang="de">Gezeigte Frei-Text-Felder 2 in den unterschiedlichen Masken.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::TicketFreeText</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Phone">0</Item>
-                <Item Key="PhoneNew">0</Item>
-                <Item Key="EmailNew">0</Item>
-                <Item Key="Close">0</Item>
-                <Item Key="Compose">0</Item>
-                <Item Key="Forward">0</Item>
-                <Item Key="FreeText">0</Item>
-                <Item Key="Search">0</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="TicketFreeKey3" Required="0" Valid="0">
         <Description Lang="en">Define the free key field 3 for tickets. It's a new ticket property.</Description>
         <Description Lang="de">Definition des Freier-Schlüssel-Feldes 3 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
@@ -429,24 +359,6 @@ TimeWorkingHours
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
             <String Regex="">Notebook</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="TicketFreeText3::Shown" Required="0" Valid="1">
-        <Description Lang="en">Shown free text 3 option in different screens.</Description>
-        <Description Lang="de">Gezeigte Frei-Text-Felder 3 in den unterschiedlichen Masken.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::TicketFreeText</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Phone">0</Item>
-                <Item Key="PhoneNew">0</Item>
-                <Item Key="EmailNew">0</Item>
-                <Item Key="Close">0</Item>
-                <Item Key="Compose">0</Item>
-                <Item Key="Forward">0</Item>
-                <Item Key="FreeText">0</Item>
-                <Item Key="Search">0</Item>
-            </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey4" Required="0" Valid="0">
@@ -492,24 +404,6 @@ TimeWorkingHours
             <String Regex="">Notebook</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="TicketFreeText4::Shown" Required="0" Valid="1">
-        <Description Lang="en">Shown free text 4 option in different screens.</Description>
-        <Description Lang="de">Gezeigte Frei-Text-Felder 4 in den unterschiedlichen Masken.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::TicketFreeText</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Phone">0</Item>
-                <Item Key="PhoneNew">0</Item>
-                <Item Key="EmailNew">0</Item>
-                <Item Key="Close">0</Item>
-                <Item Key="Compose">0</Item>
-                <Item Key="Forward">0</Item>
-                <Item Key="FreeText">0</Item>
-                <Item Key="Search">0</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="TicketFreeKey5" Required="0" Valid="0">
         <Description Lang="en">Define the free key field 5 for tickets. It's a new ticket property.</Description>
         <Description Lang="de">Definition des Freier-Schlüssel-Feldes 5 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
@@ -551,24 +445,6 @@ TimeWorkingHours
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
             <String Regex="">Notebook</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="TicketFreeText5::Shown" Required="0" Valid="1">
-        <Description Lang="en">Shown free text 5 option in different screens.</Description>
-        <Description Lang="de">Gezeigte Frei-Text-Felder 5 in den unterschiedlichen Masken.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::TicketFreeText</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Phone">0</Item>
-                <Item Key="PhoneNew">0</Item>
-                <Item Key="EmailNew">0</Item>
-                <Item Key="Close">0</Item>
-                <Item Key="Compose">0</Item>
-                <Item Key="Forward">0</Item>
-                <Item Key="FreeText">0</Item>
-                <Item Key="Search">0</Item>
-            </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey6" Required="0" Valid="0">
@@ -614,24 +490,6 @@ TimeWorkingHours
             <String Regex="">Notebook</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="TicketFreeText6::Shown" Required="0" Valid="1">
-        <Description Lang="en">Shown free text 6 option in different screens.</Description>
-        <Description Lang="de">Gezeigte Frei-Text-Felder 6 in den unterschiedlichen Masken.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::TicketFreeText</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Phone">0</Item>
-                <Item Key="PhoneNew">0</Item>
-                <Item Key="EmailNew">0</Item>
-                <Item Key="Close">0</Item>
-                <Item Key="Compose">0</Item>
-                <Item Key="Forward">0</Item>
-                <Item Key="FreeText">0</Item>
-                <Item Key="Search">0</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="TicketFreeKey7" Required="0" Valid="0">
         <Description Lang="en">Define the free key field 7 for tickets. It's a new ticket property.</Description>
         <Description Lang="de">Definition des Freier-Schlüssel-Feldes 7 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
@@ -673,24 +531,6 @@ TimeWorkingHours
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
             <String Regex="">Notebook</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="TicketFreeText7::Shown" Required="0" Valid="1">
-        <Description Lang="en">Shown free text 7 option in different screens.</Description>
-        <Description Lang="de">Gezeigte Frei-Text-Felder 7 in den unterschiedlichen Masken.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::TicketFreeText</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Phone">0</Item>
-                <Item Key="PhoneNew">0</Item>
-                <Item Key="EmailNew">0</Item>
-                <Item Key="Close">0</Item>
-                <Item Key="Compose">0</Item>
-                <Item Key="Forward">0</Item>
-                <Item Key="FreeText">0</Item>
-                <Item Key="Search">0</Item>
-            </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey8" Required="0" Valid="0">
@@ -736,24 +576,6 @@ TimeWorkingHours
             <String Regex="">Notebook</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="TicketFreeText8::Shown" Required="0" Valid="1">
-        <Description Lang="en">Shown free text 8 option in different screens.</Description>
-        <Description Lang="de">Gezeigte Frei-Text-Felder 8 in den unterschiedlichen Masken.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::TicketFreeText</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Phone">0</Item>
-                <Item Key="PhoneNew">0</Item>
-                <Item Key="EmailNew">0</Item>
-                <Item Key="Close">0</Item>
-                <Item Key="Compose">0</Item>
-                <Item Key="Forward">0</Item>
-                <Item Key="FreeText">0</Item>
-                <Item Key="Search">0</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="TicketFreeKey9" Required="0" Valid="0">
         <Description Lang="en">Define the free key field 9 for tickets. It's a new ticket property.</Description>
         <Description Lang="de">Definition des Freier-Schlüssel-Feldes 9 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
@@ -795,24 +617,6 @@ TimeWorkingHours
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
             <String Regex="">Notebook</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="TicketFreeText9::Shown" Required="0" Valid="1">
-        <Description Lang="en">Shown free text 9 option in different screens.</Description>
-        <Description Lang="de">Gezeigte Frei-Text-Felder 9 in den unterschiedlichen Masken.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::TicketFreeText</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Phone">0</Item>
-                <Item Key="PhoneNew">0</Item>
-                <Item Key="EmailNew">0</Item>
-                <Item Key="Close">0</Item>
-                <Item Key="Compose">0</Item>
-                <Item Key="Forward">0</Item>
-                <Item Key="FreeText">0</Item>
-                <Item Key="Search">0</Item>
-            </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey10" Required="0" Valid="0">
@@ -858,24 +662,6 @@ TimeWorkingHours
             <String Regex="">Notebook</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="TicketFreeText10::Shown" Required="0" Valid="1">
-        <Description Lang="en">Shown free text 10 option in different screens.</Description>
-        <Description Lang="de">Gezeigte Frei-Text-Felder 10 in den unterschiedlichen Masken.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::TicketFreeText</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Phone">0</Item>
-                <Item Key="PhoneNew">0</Item>
-                <Item Key="EmailNew">0</Item>
-                <Item Key="Close">0</Item>
-                <Item Key="Compose">0</Item>
-                <Item Key="Forward">0</Item>
-                <Item Key="FreeText">0</Item>
-                <Item Key="Search">0</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="TicketFreeKey11" Required="0" Valid="0">
         <Description Lang="en">Define the free key field 11 for tickets. It's a new ticket property.</Description>
         <Description Lang="de">Definition des Freier-Schlüssel-Feldes 11 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
@@ -917,24 +703,6 @@ TimeWorkingHours
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
             <String Regex="">Notebook</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="TicketFreeText11::Shown" Required="0" Valid="1">
-        <Description Lang="en">Shown free text 11 option in different screens.</Description>
-        <Description Lang="de">Gezeigte Frei-Text-Felder 11 in den unterschiedlichen Masken.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::TicketFreeText</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Phone">0</Item>
-                <Item Key="PhoneNew">0</Item>
-                <Item Key="EmailNew">0</Item>
-                <Item Key="Close">0</Item>
-                <Item Key="Compose">0</Item>
-                <Item Key="Forward">0</Item>
-                <Item Key="FreeText">0</Item>
-                <Item Key="Search">0</Item>
-            </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey12" Required="0" Valid="0">
@@ -980,24 +748,6 @@ TimeWorkingHours
             <String Regex="">Notebook</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="TicketFreeText12::Shown" Required="0" Valid="1">
-        <Description Lang="en">Shown free text 12 option in different screens.</Description>
-        <Description Lang="de">Gezeigte Frei-Text-Felder 12 in den unterschiedlichen Masken.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::TicketFreeText</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Phone">0</Item>
-                <Item Key="PhoneNew">0</Item>
-                <Item Key="EmailNew">0</Item>
-                <Item Key="Close">0</Item>
-                <Item Key="Compose">0</Item>
-                <Item Key="Forward">0</Item>
-                <Item Key="FreeText">0</Item>
-                <Item Key="Search">0</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="TicketFreeKey13" Required="0" Valid="0">
         <Description Lang="en">Define the free key field 13 for tickets. It's a new ticket property.</Description>
         <Description Lang="de">Definition des Freier-Schlüssel-Feldes 13 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
@@ -1039,24 +789,6 @@ TimeWorkingHours
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
             <String Regex="">Notebook</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="TicketFreeText13::Shown" Required="0" Valid="1">
-        <Description Lang="en">Shown free text 13 option in different screens.</Description>
-        <Description Lang="de">Gezeigte Frei-Text-Felder 13 in den unterschiedlichen Masken.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::TicketFreeText</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Phone">0</Item>
-                <Item Key="PhoneNew">0</Item>
-                <Item Key="EmailNew">0</Item>
-                <Item Key="Close">0</Item>
-                <Item Key="Compose">0</Item>
-                <Item Key="Forward">0</Item>
-                <Item Key="FreeText">0</Item>
-                <Item Key="Search">0</Item>
-            </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey14" Required="0" Valid="0">
@@ -1102,24 +834,6 @@ TimeWorkingHours
             <String Regex="">Notebook</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="TicketFreeText14::Shown" Required="0" Valid="1">
-        <Description Lang="en">Shown free text 14 option in different screens.</Description>
-        <Description Lang="de">Gezeigte Frei-Text-Felder 14 in den unterschiedlichen Masken.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::TicketFreeText</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Phone">0</Item>
-                <Item Key="PhoneNew">0</Item>
-                <Item Key="EmailNew">0</Item>
-                <Item Key="Close">0</Item>
-                <Item Key="Compose">0</Item>
-                <Item Key="Forward">0</Item>
-                <Item Key="FreeText">0</Item>
-                <Item Key="Search">0</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="TicketFreeKey15" Required="0" Valid="0">
         <Description Lang="en">Define the free key field 15 for tickets. It's a new ticket property.</Description>
         <Description Lang="de">Definition des Freier-Schlüssel-Feldes 15 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
@@ -1161,24 +875,6 @@ TimeWorkingHours
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
             <String Regex="">Notebook</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="TicketFreeText15::Shown" Required="0" Valid="1">
-        <Description Lang="en">Shown free text 15 option in different screens.</Description>
-        <Description Lang="de">Gezeigte Frei-Text-Felder 15 in den unterschiedlichen Masken.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::TicketFreeText</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Phone">0</Item>
-                <Item Key="PhoneNew">0</Item>
-                <Item Key="EmailNew">0</Item>
-                <Item Key="Close">0</Item>
-                <Item Key="Compose">0</Item>
-                <Item Key="Forward">0</Item>
-                <Item Key="FreeText">0</Item>
-                <Item Key="Search">0</Item>
-            </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey16" Required="0" Valid="0">
@@ -1224,24 +920,6 @@ TimeWorkingHours
             <String Regex="">Notebook</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="TicketFreeText16::Shown" Required="0" Valid="1">
-        <Description Lang="en">Shown free text 16 option in different screens.</Description>
-        <Description Lang="de">Gezeigte Frei-Text-Felder 16 in den unterschiedlichen Masken.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::TicketFreeText</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Phone">0</Item>
-                <Item Key="PhoneNew">0</Item>
-                <Item Key="EmailNew">0</Item>
-                <Item Key="Close">0</Item>
-                <Item Key="Compose">0</Item>
-                <Item Key="Forward">0</Item>
-                <Item Key="FreeText">0</Item>
-                <Item Key="Search">0</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="TicketFreeTimeKey1" Required="1" Valid="1">
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
@@ -1249,24 +927,6 @@ TimeWorkingHours
         <SubGroup>Core::TicketFreeTime</SubGroup>
         <Setting>
             <String>Termin1</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="TicketFreeTime1::Shown" Required="0" Valid="1">
-        <Description Lang="en">Shown free time 1 option in different screens.</Description>
-        <Description Lang="de">Gezeigte Frei-Zeit-Felder 1 in den unterschiedlichen Masken.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::TicketFreeTime</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Phone">0</Item>
-                <Item Key="PhoneNew">0</Item>
-                <Item Key="EmailNew">0</Item>
-                <Item Key="Close">0</Item>
-                <Item Key="Compose">0</Item>
-                <Item Key="Forward">0</Item>
-                <Item Key="FreeText">0</Item>
-                <Item Key="Search">0</Item>
-            </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeTimeKey2" Required="1" Valid="1">
@@ -1278,27 +938,9 @@ TimeWorkingHours
             <String>Termin2</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="TicketFreeTime2::Shown" Required="0" Valid="1">
-        <Description Lang="en">Shown free time 2 option in different screens.</Description>
-        <Description Lang="de">Gezeigte Frei-Zeit-Felder 2 in den unterschiedlichen Masken.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::TicketFreeTime</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Phone">0</Item>
-                <Item Key="PhoneNew">0</Item>
-                <Item Key="EmailNew">0</Item>
-                <Item Key="Close">0</Item>
-                <Item Key="Compose">0</Item>
-                <Item Key="Forward">0</Item>
-                <Item Key="FreeText">0</Item>
-                <Item Key="Search">0</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="Ticket::NumberGenerator" Required="1" Valid="1">
         <Description Lang="en">Select the ticket number generator module. "AutoIncrement" just increments the ticket number, the SystemID and the counter are used. The format is SystemID.counter, e.g. 1010138, 1010139. With "Date" the ticket numbers will be generated by the current date, the SystemID and the counter. The format looks like Year.Month.Day.SystemID.counter, e.g. 200206231010138, 200206231010139. With "DateChecksum"  the counter will be appended as check summ to the string of date and SystemID. The check summ will be rotaded daily. The format looks like Year.Month.Day.SystemID.Counter.CheckSum, e.g. 2002070110101520, 2002070110101535. "Random" generates randomized ticket numbers in the format "SystemID.Random", e.g. 100057866352, 103745394596.</Description>
-        <Description Lang="de">Auswahl des Moduls zur Generierung der Ticketnummern. "AutoIncrement" zählt die Ticketnummer automatisch hoch und verbindet sie mit der SystemID. Es wird das Format SystemID. Counter verwendet, z.B. 1010138, 1010139. "Date" generiert die Ticketnummer aus Datum, SystemID und dem Counter, es wird das Format "Jahr.Monat.Tag.SystemID.Counter verwendet, z.B 200206231010138, 200206231010139. "DateChecksum" erzeugt die Ticketnummer aus dem Datum, der SystemID, dem Counter und einer Checksumme. Es wird das Format "Jahr.Monat.Tag.SystemID.Counter.CheckSumme verwendet, z.B. 2002070110101520, 2002070110101535. "Random" generiert aus der SystemID und einer Zufallszahl die Ticketnummern. Es wird das Format SystemID.Random verwendet, z.B. 100057866352, 103745394596.</Description>
+        <Description Lang="de">Auswahl des Moduls zur Generierung der Ticketnummern. "AutoIncrement" zählt die Ticketnummer automatisch hoch und verbindet sie mit der SystemID. Es wird das Format SystemID. Counter verwendet, z. B. 1010138, 1010139. "Date" generiert die Ticketnummer aus Datum, SystemID und dem Counter, es wird das Format "Jahr.Monat.Tag.SystemID.Counter verwendet, z. B. 200206231010138, 200206231010139. "DateChecksum" erzeugt die Ticketnummer aus dem Datum, der SystemID, dem Counter und einer Checksumme. Es wird das Format "Jahr.Monat.Tag.SystemID.Counter.CheckSumme verwendet, z. B. 2002070110101520, 2002070110101535. "Random" generiert aus der SystemID und einer Zufallszahl die Ticketnummern. Es wird das Format SystemID.Random verwendet, z. B. 100057866352, 103745394596.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -1350,6 +992,43 @@ TimeWorkingHours
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
             <String Regex="">&lt;OTRS_CONFIG_Home&gt;/var/article</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::EventModulePost###1-ForceStateChangeOnLock" Required="0" Valid="0">
+        <Description Lang="en">Ticket event module to force a new ticket state after lock action. For key you have to define the current state and for value you have to define the next state after lock action.</Description>
+        <Description Lang="de">Ticket Event Modul für automatisches Setzen eines neuen Ticketstatus nach dem das Ticket gesperrt wurde. Der Schlüssel ist der aktuelle Status, der Inhalt der Status nach dem Sperren.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::Ticket::Event::ForceState</Item>
+                <Item Key="Event">TicketLockUpdate</Item>
+                <Item Key="new">open</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::EventModulePost###1-ForceOwnerResetOnMove" Required="0" Valid="0">
+        <Description Lang="en">Ticket event module to reset the owner if ticket gets moved.</Description>
+        <Description Lang="de">Ticket Event Modul um Besitzer zurück zu setzen wenn das Ticket verschoben wird.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::Ticket::Event::ForceOwnerReset</Item>
+                <Item Key="Event">TicketQueueUpdate</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::EventModulePost###99-ForceUnlockOnMove" Required="0" Valid="1">
+        <Description Lang="en">Ticket event module to force tickets to be unlocked after move action.</Description>
+        <Description Lang="de">Ticket Event Modul für automatische Aufhebung der Sperrung eines Tickets nach dem verschieben in eine andere Queue.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::Ticket::Event::ForceUnlock</Item>
+                <Item Key="Event">TicketQueueUpdate</Item>
+            </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::CustomModule" Required="0" Valid="0">
@@ -1717,6 +1396,18 @@ TimeWorkingHours
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::AgentCanBeCustomer" Required="1" Valid="1">
+        <Description Lang="en">Can a agent also be a customer via the agent interface?</Description>
+        <Description Lang="de">Kann ein Agent auch ein Kunde im Agent-Interface sein?</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MoveType" Required="1" Valid="1">
         <Description Lang="en">The queue selection can be shown as dropdown box or in a new opened window.</Description>
         <Description Lang="de">Die Queue-Auswahl beim Verschieben eines Tickets kann als Dropdown-Box oder in einem neuen Fensters angezeigt werden.</Description>
@@ -1807,7 +1498,7 @@ TimeWorkingHours
             </Option>
         </Setting>
      </ConfigItem>
-     <ConfigItem Name="Ticket::Frontend::SearchLimit" Required="1" Valid="1">
+     <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###SearchLimit" Required="1" Valid="1">
         <Description Lang="en">Search limit for ticket frontend.</Description>
         <Description Lang="de">Hier legen Sie die maximale Anzahl der Treffer in der Ticketsuche fest.</Description>
         <Group>Ticket</Group>
@@ -1816,7 +1507,7 @@ TimeWorkingHours
             <String Regex="^[0-9]{1,10}$">5000</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::SearchPageShown" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###SearchPageShown" Required="1" Valid="1">
         <Description Lang="en">Default of shown article a page.</Description>
         <Description Lang="de">Anzahl der angezeigten Treffer pro Seite bei der Ticketsuche.</Description>
         <Group>Ticket</Group>
@@ -1825,7 +1516,7 @@ TimeWorkingHours
             <String Regex="">40</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::SearchViewableTicketLines" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###SearchViewableTicketLines" Required="1" Valid="1">
         <Description Lang="en">Viewable ticket lines by search utility.</Description>
         <Description Lang="de">Anzahl der Zeilen, die durch das Suchwerkzeug angezeigt werden.</Description>
         <Group>Ticket</Group>
@@ -1834,52 +1525,45 @@ TimeWorkingHours
             <String Regex="">10</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::MailboxSortBy::Default" Required="1" Valid="1">
-        <Description Lang="en">Mailbox sort by default.</Description>
-        <Description Lang="de">Standard Sortierung der Mailbox.</Description>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###TicketFreeText" Required="0" Valid="1">
+        <Description Lang="en">Shown free text options.</Description>
+        <Description Lang="de">Gezeigte Frei-Text-Felder.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewMailbox</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
         <Setting>
-            <Option SelectedID="Age">
-                <Item Key="Age">Age</Item>
-                <Item Key="Ticket">Ticket</Item>
-                <Item Key="Subject">Subject</Item>
-                <Item Key="Queue">Queue</Item>
-                <Item Key="Priority">Priority</Item>
-                <Item Key="TicketFreeTime1">TicketFreeTime1</Item>
-                <Item Key="TicketFreeTime2">TicketFreeTime2</Item>
-                <Item Key="TicketFreeKey1">TicketFreeKey1</Item>
-                <Item Key="TicketFreeKey2">TicketFreeKey2</Item>
-                <Item Key="TicketFreeKey3">TicketFreeKey3</Item>
-                <Item Key="TicketFreeKey4">TicketFreeKey4</Item>
-                <Item Key="TicketFreeKey5">TicketFreeKey5</Item>
-                <Item Key="TicketFreeKey6">TicketFreeKey6</Item>
-                <Item Key="TicketFreeKey7">TicketFreeKey7</Item>
-                <Item Key="TicketFreeKey8">TicketFreeKey8</Item>
-                <Item Key="TicketFreeText1">TicketFreeText1</Item>
-                <Item Key="TicketFreeText2">TicketFreeText2</Item>
-                <Item Key="TicketFreeText3">TicketFreeText3</Item>
-                <Item Key="TicketFreeText4">TicketFreeText4</Item>
-                <Item Key="TicketFreeText5">TicketFreeText5</Item>
-                <Item Key="TicketFreeText6">TicketFreeText6</Item>
-                <Item Key="TicketFreeText7">TicketFreeText7</Item>
-                <Item Key="TicketFreeText8">TicketFreeText8</Item>
-            </Option>
+            <Hash>
+                <Item Key="1">1</Item>
+                <Item Key="2">1</Item>
+                <Item Key="3">0</Item>
+                <Item Key="4">0</Item>
+                <Item Key="5">0</Item>
+                <Item Key="6">0</Item>
+                <Item Key="7">0</Item>
+                <Item Key="8">0</Item>
+                <Item Key="9">0</Item>
+                <Item Key="10">0</Item>
+                <Item Key="11">0</Item>
+                <Item Key="12">0</Item>
+                <Item Key="13">0</Item>
+                <Item Key="14">0</Item>
+                <Item Key="15">0</Item>
+                <Item Key="16">0</Item>
+            </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::MailboxOrder::Default" Required="1" Valid="1">
-        <Description Lang="en">Mailbox order default.</Description>
-        <Description Lang="de">Standard Reihenfolge der Mailbox.</Description>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###TicketFreeTime" Required="0" Valid="1">
+        <Description Lang="en">Shown free time options.</Description>
+        <Description Lang="de">Gezeigte Frei-Zeit-Felder.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewMailbox</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
         <Setting>
-            <Option SelectedID="Up">
-                <Item Key="Down">Down</Item>
-                <Item Key="Up">Up</Item>
-            </Option>
+            <Hash>
+                <Item Key="1">0</Item>
+                <Item Key="2">0</Item>
+            </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::SortBy::Default" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###SortBy::Default" Required="1" Valid="1">
         <Description Lang="en">Search result sort by default.</Description>
         <Description Lang="de">Standard Sortierung beim Suchergebnissen.</Description>
         <Group>Ticket</Group>
@@ -1912,7 +1596,7 @@ TimeWorkingHours
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::Order::Default" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Order::Default" Required="1" Valid="1">
         <Description Lang="en">Search result order default.</Description>
         <Description Lang="de">Standard Reihenfolge beim Suchergebnissen.</Description>
         <Group>Ticket</Group>
@@ -1924,7 +1608,7 @@ TimeWorkingHours
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::SearchArticleCSVTree" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###SearchArticleCSVTree" Required="1" Valid="1">
         <Description Lang="en">Export also whole article tree in search result export (take care of the system performance!).</Description>
         <Description Lang="de">Exportiere im Suchergebnisexport auch den ganzen Artikelbaum. Achten Sie bei dieser Einstellung auf die System-Performance!.</Description>
         <Group>Ticket</Group>
@@ -1936,7 +1620,7 @@ TimeWorkingHours
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::SearchCSVData" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###SearchCSVData" Required="1" Valid="1">
         <Description Lang="en">Used data to export the search result in CSV format..</Description>
         <Description Lang="de">Angaben für den Export des Suchergebnisses im CSV-Format.</Description>
         <Group>Ticket</Group>
@@ -2008,59 +1692,162 @@ TimeWorkingHours
             <String Regex="">some_password</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::AgentCanBeCustomer" Required="1" Valid="1">
-        <Description Lang="en">Can a agent also be a customer via the agent interface?</Description>
-        <Description Lang="de">Kann ein Agent auch ein Kunde im Agent-Interface sein?</Description>
+
+    <ConfigItem Name="Ticket::Frontend::MailboxSortBy::Default" Required="1" Valid="1">
+        <Description Lang="en">Mailbox sort by default.</Description>
+        <Description Lang="de">Standard Sortierung der Mailbox.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewMailbox</SubGroup>
         <Setting>
-            <Option SelectedID="0">
+            <Option SelectedID="Age">
+                <Item Key="Age">Age</Item>
+                <Item Key="Ticket">Ticket</Item>
+                <Item Key="Subject">Subject</Item>
+                <Item Key="Queue">Queue</Item>
+                <Item Key="Priority">Priority</Item>
+                <Item Key="TicketFreeTime1">TicketFreeTime1</Item>
+                <Item Key="TicketFreeTime2">TicketFreeTime2</Item>
+                <Item Key="TicketFreeKey1">TicketFreeKey1</Item>
+                <Item Key="TicketFreeKey2">TicketFreeKey2</Item>
+                <Item Key="TicketFreeKey3">TicketFreeKey3</Item>
+                <Item Key="TicketFreeKey4">TicketFreeKey4</Item>
+                <Item Key="TicketFreeKey5">TicketFreeKey5</Item>
+                <Item Key="TicketFreeKey6">TicketFreeKey6</Item>
+                <Item Key="TicketFreeKey7">TicketFreeKey7</Item>
+                <Item Key="TicketFreeKey8">TicketFreeKey8</Item>
+                <Item Key="TicketFreeText1">TicketFreeText1</Item>
+                <Item Key="TicketFreeText2">TicketFreeText2</Item>
+                <Item Key="TicketFreeText3">TicketFreeText3</Item>
+                <Item Key="TicketFreeText4">TicketFreeText4</Item>
+                <Item Key="TicketFreeText5">TicketFreeText5</Item>
+                <Item Key="TicketFreeText6">TicketFreeText6</Item>
+                <Item Key="TicketFreeText7">TicketFreeText7</Item>
+                <Item Key="TicketFreeText8">TicketFreeText8</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::MailboxOrder::Default" Required="1" Valid="1">
+        <Description Lang="en">Mailbox order default.</Description>
+        <Description Lang="de">Standard Reihenfolge der Mailbox.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewMailbox</SubGroup>
+        <Setting>
+            <Option SelectedID="Up">
+                <Item Key="Down">Down</Item>
+                <Item Key="Up">Up</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketFreeText###TicketFreeText" Required="0" Valid="1">
+        <Description Lang="en">Shown free text options.</Description>
+        <Description Lang="de">Gezeigte Frei-Text-Felder.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="1">1</Item>
+                <Item Key="2">1</Item>
+                <Item Key="3">1</Item>
+                <Item Key="4">1</Item>
+                <Item Key="5">0</Item>
+                <Item Key="6">0</Item>
+                <Item Key="7">0</Item>
+                <Item Key="8">0</Item>
+                <Item Key="9">0</Item>
+                <Item Key="10">0</Item>
+                <Item Key="11">0</Item>
+                <Item Key="12">0</Item>
+                <Item Key="13">0</Item>
+                <Item Key="14">0</Item>
+                <Item Key="15">0</Item>
+                <Item Key="16">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketFreeText###TicketFreeTime" Required="0" Valid="1">
+        <Description Lang="en">Shown free time options.</Description>
+        <Description Lang="de">Gezeigte Frei-Zeit-Felder.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="1">0</Item>
+                <Item Key="2">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPhoneOutbound###Permission" Required="1" Valid="1">
+        <Description Lang="en">Required permisson to use this option.</Description>
+        <Description Lang="de">Benötigte Rechte zur Bearbeitung des Tickets.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhoneOutbound</SubGroup>
+        <Setting>
+            <String Regex="">phone</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPhoneOutbound###RequiredLock" Required="0" Valid="1">
+        <Description Lang="en">A ticket lock is required. In case the ticket isn't locked, the tickets get locked and the current agent will be set automatically as ticket owner.</Description>
+        <Description Lang="de">Eine Ticket-Sperre wird benötigt bzw. wenn Ticket nicht gesperrt ist, wird das Ticket automatisch gesperrt und der Agent zum Besitzer gemacht.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhoneOutbound</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
                 <Item Key="0">No</Item>
                 <Item Key="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::PhoneArticleType" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPhoneOutbound###ArticleType" Required="1" Valid="1">
         <Description Lang="en">Default note type for phone tickets.</Description>
         <Description Lang="de">Standard Notiztyp bei Telefontickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewPhone</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhoneOutbound</SubGroup>
         <Setting>
             <String Regex="">phone</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::PhoneSenderType" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPhoneOutbound###SenderType" Required="1" Valid="1">
         <Description Lang="en">Default sender type for phone tickets.</Description>
         <Description Lang="de">Standard Sendertyp bei Telefontickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewPhone</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhoneOutbound</SubGroup>
         <Setting>
             <String Regex="">agent</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::PhoneSubject" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPhoneOutbound###Subject" Required="1" Valid="1">
         <Description Lang="en">Default subject for phone tickets.</Description>
         <Description Lang="de">Standard Betreff bei Telefontickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewPhone</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhoneOutbound</SubGroup>
         <Setting>
             <String Regex="">$Text{"Phone call"}!</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::PhoneNote" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPhoneOutbound###Body" Required="1" Valid="1">
         <Description Lang="en">Default note text for phone tickets.</Description>
         <Description Lang="de">Standard Text für Notizen für Telefontickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewPhone</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhoneOutbound</SubGroup>
         <Setting>
-            <String Regex="">Customer called</String>
+            <TextArea></TextArea>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::PhoneDefaultNextStateType" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPhoneOutbound###State" Required="1" Valid="1">
+        <Description Lang="en">Default next state after adding a phone note.</Description>
+        <Description Lang="de">Vorauswahl des nächsten Status bei einer Telefonnotiz.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhoneOutbound</SubGroup>
+        <Setting>
+            <String Regex="">closed successful</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPhoneOutbound###StateType" Required="1" Valid="1">
         <Description Lang="en">Next possible states after phone note.</Description>
         <Description Lang="de">Mögliche Status nach dem hinzufügen einer Telefonnotiz.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewPhone</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhoneOutbound</SubGroup>
         <Setting>
             <Array>
                 <Item>open</Item>
@@ -2070,114 +1857,64 @@ TimeWorkingHours
             </Array>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::PhoneNextState" Required="1" Valid="1">
-        <Description Lang="en">Default next state after adding a phone note.</Description>
-        <Description Lang="de">Vorauswahl des nächsten Status bei einer Telefonnotiz.</Description>
+
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPhoneOutbound###TicketFreeText" Required="0" Valid="1">
+        <Description Lang="en">Shown free text options.</Description>
+        <Description Lang="de">Gezeigte Frei-Text-Felder.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewPhone</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhoneOutbound</SubGroup>
         <Setting>
-            <String Regex="">closed successful</String>
+            <Hash>
+                <Item Key="1">1</Item>
+                <Item Key="2">1</Item>
+                <Item Key="3">1</Item>
+                <Item Key="4">1</Item>
+                <Item Key="5">0</Item>
+                <Item Key="6">0</Item>
+                <Item Key="7">0</Item>
+                <Item Key="8">0</Item>
+                <Item Key="9">0</Item>
+                <Item Key="10">0</Item>
+                <Item Key="11">0</Item>
+                <Item Key="12">0</Item>
+                <Item Key="13">0</Item>
+                <Item Key="14">0</Item>
+                <Item Key="15">0</Item>
+                <Item Key="16">0</Item>
+            </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::PhoneHistoryType" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPhoneOutbound###TicketFreeTime" Required="0" Valid="1">
+        <Description Lang="en">Shown free time options.</Description>
+        <Description Lang="de">Gezeigte Frei-Zeit-Felder.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhoneOutbound</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="1">0</Item>
+                <Item Key="2">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPhoneOutbound###HistoryType" Required="1" Valid="1">
         <Description Lang="en">Default history type for phone tickets.</Description>
         <Description Lang="de">Standard History-Typ für Telefontickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewPhone</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhoneOutbound</SubGroup>
         <Setting>
             <String Regex="">PhoneCallAgent</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::PhoneHistoryComment" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPhoneOutbound###HistoryComment" Required="1" Valid="1">
         <Description Lang="en">Default history comment for phone tickets.</Description>
         <Description Lang="de">Standard Historie-Kommentar bei Telefontickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewPhone</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhoneOutbound</SubGroup>
         <Setting>
             <String Regex=""></String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::PhoneNewArticleType" Required="1" Valid="1">
-        <Description Lang="en">Default article type for new phone tickets.</Description>
-        <Description Lang="de">Default Artikeltyp für neue Telefontickets.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
-        <Setting>
-            <String Regex="">phone</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::PhoneNewSenderType" Required="1" Valid="1">
-        <Description Lang="en">Default sender type for new phone ticket.</Description>
-        <Description Lang="de">Standard Sender-Typ bei neuen Telefontickets.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
-        <Setting>
-            <String Regex="">customer</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::PhoneNewSubject" Required="1" Valid="1">
-        <Description Lang="en">Default subject for new phone tickets (e.g. 'Phone call').</Description>
-        <Description Lang="de">Standard Betreff für neue Telefontickets (z.B. 'Telefon Anruf').</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
-        <Setting>
-            <String Regex=""></String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::PhoneNewNote" Required="1" Valid="1">
-        <Description Lang="en">Default note text for new telephone tickets. E.g 'New ticket via call.'</Description>
-        <Description Lang="de">Standard-Text für neue Telefontickets, z.B. 'Neues Ticket durch Anruf!'.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
-        <Setting>
-            <String Regex=""></String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::PhoneNewNextState" Required="1" Valid="1">
-        <Description Lang="en">Default next state for new phone tickets.</Description>
-        <Description Lang="de">Standardmäßig vergebener nächster Status bei neuen Telefontickets.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
-        <Setting>
-            <String Regex="">open</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::PhoneNewShownCustomerTickets" Required="0" Valid="1">
-        <Description Lang="en">Max. shown customer history tickets in phone-ticket mask.</Description>
-        <Description Lang="de">Max. gezeigte Kunden-Historie-Tickets in Telefon-Ticket (diese werden unterhalb der Telefon-Ticket-Maske angezeigt).</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
-        <Setting>
-            <String Regex="">10</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::PhonePriority" Required="1" Valid="1">
-        <Description Lang="en">Default priority for new phone tickets.</Description>
-        <Description Lang="de">Standardpriorität eines neuen Telefontickets.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewPhone</SubGroup>
-        <Setting>
-            <String Regex="">3 normal</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::PhoneNewHistoryType" Required="1" Valid="1">
-        <Description Lang="en">Default history type for new phone tickets.</Description>
-        <Description Lang="de">Standard Historie-Typ bei neuen Telefontickets.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
-        <Setting>
-            <String Regex="">PhoneCallCustomer</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::PhoneNewHistoryComment" Required="1" Valid="1">
-        <Description Lang="en">Default history comment for new phone tickets.</Description>
-        <Description Lang="de">Standard Kommentar für die Historie bei neuen Telefontickets.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
-        <Setting>
-            <String Regex=""></String>
-        </Setting>
-    </ConfigItem>
+
     <ConfigItem Name="Ticket::Frontend::NewOwnerSelection" Required="1" Valid="1">
         <Description Lang="en">Show owner selection in phone and email ticket?</Description>
         <Description Lang="de">Soll die Besitzerauswahl im Telefon- und Email-Ticket gezeigt werden?</Description>
@@ -2223,7 +1960,142 @@ TimeWorkingHours
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::EmailPriority" Required="1" Valid="1">
+
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPhone###Priority" Required="1" Valid="1">
+        <Description Lang="en">Default priority for new phone tickets.</Description>
+        <Description Lang="de">Standardpriorität eines neuen Telefontickets.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
+        <Setting>
+            <String Regex="">3 normal</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPhone###ArticleType" Required="1" Valid="1">
+        <Description Lang="en">Default article type for new phone tickets.</Description>
+        <Description Lang="de">Default Artikeltyp für neue Telefontickets.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
+        <Setting>
+            <String Regex="">phone</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPhone###SenderType" Required="1" Valid="1">
+        <Description Lang="en">Default sender type for new phone ticket.</Description>
+        <Description Lang="de">Standard Sender-Typ bei neuen Telefontickets.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
+        <Setting>
+            <String Regex="">customer</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPhone###Subject" Required="1" Valid="1">
+        <Description Lang="en">Default subject for new phone tickets (e.g. 'Phone call').</Description>
+        <Description Lang="de">Standard Betreff für neue Telefontickets (z. B. 'Telefon Anruf').</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
+        <Setting>
+            <String Regex=""></String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPhone###Body" Required="1" Valid="1">
+        <Description Lang="en">Default note text for new telephone tickets. E.g 'New ticket via call.'</Description>
+        <Description Lang="de">Standard-Text für neue Telefontickets, z. B. 'Neues Ticket durch Anruf!'.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
+        <Setting>
+            <String Regex=""></String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPhone###StateDefault" Required="1" Valid="1">
+        <Description Lang="en">Default next state for new phone tickets.</Description>
+        <Description Lang="de">Standardmäßig vergebener nächster Status bei neuen Telefontickets.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
+        <Setting>
+            <String Regex="">open</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPhone###StateType" Required="1" Valid="1">
+        <Description Lang="en">Next possible states after a new phone ticket.</Description>
+        <Description Lang="de">Mögliche Status nach einem Telefonticket.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
+        <Setting>
+            <Array>
+                <Item>open</Item>
+                <Item>pending auto</Item>
+                <Item>pending reminder</Item>
+                <Item>closed</Item>
+            </Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPhone###ShownCustomerTickets" Required="0" Valid="1">
+        <Description Lang="en">Max. shown customer history tickets in phone-ticket mask.</Description>
+        <Description Lang="de">Max. gezeigte Kunden-Historie-Tickets in Telefon-Ticket (diese werden unterhalb der Telefon-Ticket-Maske angezeigt).</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
+        <Setting>
+            <String Regex="">10</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPhone###TicketFreeText" Required="0" Valid="1">
+        <Description Lang="en">Shown free text options.</Description>
+        <Description Lang="de">Gezeigte Frei-Text-Felder.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="1">0</Item>
+                <Item Key="2">0</Item>
+                <Item Key="3">0</Item>
+                <Item Key="4">0</Item>
+                <Item Key="5">0</Item>
+                <Item Key="6">0</Item>
+                <Item Key="7">0</Item>
+                <Item Key="8">0</Item>
+                <Item Key="9">0</Item>
+                <Item Key="10">0</Item>
+                <Item Key="11">0</Item>
+                <Item Key="12">0</Item>
+                <Item Key="13">0</Item>
+                <Item Key="14">0</Item>
+                <Item Key="15">0</Item>
+                <Item Key="16">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPhone###TicketFreeTime" Required="0" Valid="1">
+        <Description Lang="en">Shown free time options.</Description>
+        <Description Lang="de">Gezeigte Frei-Zeit-Felder.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="1">0</Item>
+                <Item Key="2">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPhone###HistoryType" Required="1" Valid="1">
+        <Description Lang="en">Default history type for new phone tickets.</Description>
+        <Description Lang="de">Standard Historie-Typ bei neuen Telefontickets.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
+        <Setting>
+            <String Regex="">PhoneCallCustomer</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPhone###HistoryComment" Required="1" Valid="1">
+        <Description Lang="en">Default history comment for new phone tickets.</Description>
+        <Description Lang="de">Standard Kommentar für die Historie bei neuen Telefontickets.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
+        <Setting>
+            <String Regex=""></String>
+        </Setting>
+    </ConfigItem>
+
+    <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###Priority" Required="1" Valid="1">
         <Description Lang="en">Default priority for new email tickets.</Description>
         <Description Lang="de">Standard Priorität für neue Email-tickets.</Description>
         <Group>Ticket</Group>
@@ -2232,7 +2104,7 @@ TimeWorkingHours
             <String Regex="">3 normal</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::EmailNewArticleType" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###ArticleType" Required="1" Valid="1">
         <Description Lang="en">Default article type for new email tickets.</Description>
         <Description Lang="de">Standard Artikeltyp für neue Email-Tickets.</Description>
         <Group>Ticket</Group>
@@ -2241,7 +2113,7 @@ TimeWorkingHours
             <String Regex="">email-external</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::EmailNewSenderType" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###SenderType" Required="1" Valid="1">
         <Description Lang="en">Default sender type for new email tickets.</Description>
         <Description Lang="de">Standard Sender-Typ für neue Email-Tickets.</Description>
         <Group>Ticket</Group>
@@ -2250,25 +2122,16 @@ TimeWorkingHours
             <String Regex="">agent</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::EmailNewHistoryType" Required="1" Valid="1">
-        <Description Lang="en">Standard history type for new email tickets.</Description>
-        <Description Lang="de">Standard Historien-Typ für neue Email-Tickets.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
-        <Setting>
-            <String Regex="">EmailAgent</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::EmailNewHistoryComment" Required="1" Valid="1">
-        <Description Lang="en">Default history comment for new email tickets.</Description>
-        <Description Lang="de">Standard Kommentar für Historie-Eintrag bei neuen Emails.</Description>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###Subject" Required="1" Valid="1">
+        <Description Lang="en">Default subject for new email tickets (e.g. 'Email Outbound').</Description>
+        <Description Lang="de">Standard Betreff für neue Emailtickets (z. B. 'Email ausgehend').</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
         <Setting>
             <String Regex=""></String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::EmailNewNote" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###Body" Required="1" Valid="1">
         <Description Lang="en">Default text for new email tickets.</Description>
         <Description Lang="de">Standardtext für ein neues Email-Ticket.</Description>
         <Group>Ticket</Group>
@@ -2277,7 +2140,16 @@ TimeWorkingHours
             <TextArea></TextArea>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::EmailDefaultNextStateType" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###StateDefault" Required="1" Valid="1">
+        <Description Lang="en">Default next state after an email ticket.</Description>
+        <Description Lang="de">Standardmäßig ausgewählter nächster Status nach einem Email-Ticket.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
+        <Setting>
+            <String Regex="">open</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###StateType" Required="1" Valid="1">
         <Description Lang="en">Next possible states after an email ticket.</Description>
         <Description Lang="de">Mögliche Status nach der Erstellung eines Email-Tickets</Description>
         <Group>Ticket</Group>
@@ -2291,16 +2163,7 @@ TimeWorkingHours
             </Array>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::EmailNewNextState" Required="1" Valid="1">
-        <Description Lang="en">Default next state after an email ticket.</Description>
-        <Description Lang="de">Standardmäßig ausgewählter nächster Status nach einem Email-Ticket.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
-        <Setting>
-            <String Regex="">open</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::EmailNewShownCustomerTickets" Required="0" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###ShownCustomerTickets" Required="0" Valid="1">
         <Description Lang="en">Max. shown customer history tickets in email-ticket mask.</Description>
         <Description Lang="de">Max. gezeigte Kunden-Historie-Tickets in Email-Ticket.</Description>
         <Group>Ticket</Group>
@@ -2309,18 +2172,306 @@ TimeWorkingHours
             <String Regex="">10</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketNote###Permission" Required="0" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###TicketFreeText" Required="0" Valid="1">
+        <Description Lang="en">Shown free text options.</Description>
+        <Description Lang="de">Gezeigte Frei-Text-Felder.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="1">0</Item>
+                <Item Key="2">0</Item>
+                <Item Key="3">0</Item>
+                <Item Key="4">0</Item>
+                <Item Key="5">0</Item>
+                <Item Key="6">0</Item>
+                <Item Key="7">0</Item>
+                <Item Key="8">0</Item>
+                <Item Key="9">0</Item>
+                <Item Key="10">0</Item>
+                <Item Key="11">0</Item>
+                <Item Key="12">0</Item>
+                <Item Key="13">0</Item>
+                <Item Key="14">0</Item>
+                <Item Key="15">0</Item>
+                <Item Key="16">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###TicketFreeTime" Required="0" Valid="1">
+        <Description Lang="en">Shown free time options.</Description>
+        <Description Lang="de">Gezeigte Frei-Zeit-Felder.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="1">0</Item>
+                <Item Key="2">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###HistoryType" Required="1" Valid="1">
+        <Description Lang="en">Standard history type for new email tickets.</Description>
+        <Description Lang="de">Standard Historien-Typ für neue Email-Tickets.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
+        <Setting>
+            <String Regex="">EmailAgent</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###HistoryComment" Required="1" Valid="1">
+        <Description Lang="en">Default history comment for new email tickets.</Description>
+        <Description Lang="de">Standard Kommentar für Historie-Eintrag bei neuen Emails.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
+        <Setting>
+            <String Regex=""></String>
+        </Setting>
+    </ConfigItem>
+
+    <ConfigItem Name="Ticket::Frontend::AgentTicketClose###Permission" Required="1" Valid="1">
         <Description Lang="en">Required permisson to use this option.</Description>
-        <Description Lang="de">Benötigte Rechte zur Bearbeitung.</Description>
+        <Description Lang="de">Benötigte Rechte zur Bearbeitung des Tickets.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
+        <Setting>
+            <String Regex="">close</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketClose###RequiredLock" Required="0" Valid="1">
+        <Description Lang="en">A ticket lock is required. In case the ticket isn't locked, the tickets get locked and the current agent will be set automatically as ticket owner.</Description>
+        <Description Lang="de">Eine Ticket-Sperre wird benötigt bzw. wenn Ticket nicht gesperrt ist, wird das Ticket automatisch gesperrt und der Agent zum Besitzer gemacht.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketClose###Owner" Required="0" Valid="1">
+        <Description Lang="en">If you want to set the owner.</Description>
+        <Description Lang="de">Wenn der Besitzer gesetzt werden soll.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketClose###Responsible" Required="0" Valid="1">
+        <Description Lang="en">If you want to set the responsible.</Description>
+        <Description Lang="de">Wenn der Verantwortliche gesetzt werden soll.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketClose###State" Required="0" Valid="1">
+        <Description Lang="en">Would you like to set the state of a ticket if a note is created by an agent?</Description>
+        <Description Lang="de">Soll der Status eines Tickets gesetzt werden können, wenn eine Notiz durch einen Agent angelegt wird?</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketClose###StateType" Required="1" Valid="1">
+        <Description Lang="en">Default next states after adding a note.</Description>
+        <Description Lang="de">Nächstmögliche Status nach dem Hinzufügen einer Notiz.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
+        <Setting>
+            <Array>
+                <Item>closed</Item>
+            </Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketClose###StateDefault" Required="0" Valid="1">
+        <Description Lang="en">Default next state after an email ticket.</Description>
+        <Description Lang="de">Standardmäßig ausgewählter nächster Status.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
+        <Setting>
+            <String Regex="">closed successful</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketClose###Note" Required="0" Valid="1">
+        <Description Lang="en">Show note fields.</Description>
+        <Description Lang="de">Eingabemöglichkeit für Notiz.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketClose###Subject" Required="0" Valid="1">
+        <Description Lang="en">Default note subject.</Description>
+        <Description Lang="de">Standardtext im Betreff einer Notiz.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
+        <Setting>
+            <String Regex="">$Text{"Close"}</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketClose###Body" Required="0" Valid="1">
+        <Description Lang="en">Default note text.</Description>
+        <Description Lang="de">Standardtext im Textfeld einer Notiz.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
+        <Setting>
+            <TextArea></TextArea>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketClose###InvolvedAgent" Required="0" Valid="0">
+        <Description Lang="en">Show selection of involved agents?</Description>
+        <Description Lang="de">Auswahl der involvierten Agents anzeigen?</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketClose###InformAgent" Required="0" Valid="0">
+        <Description Lang="en">Show selection of agents to inform?</Description>
+        <Description Lang="de">Auswahl der zu informierenden Agents anzeigen?</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketClose###ArticleTypeDefault" Required="0" Valid="1">
+        <Description Lang="en">Default note type.</Description>
+        <Description Lang="de">Voreingestellter Notiztyp.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
+        <Setting>
+            <String Regex="">note-internal</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketClose###ArticleTypes" Required="0" Valid="1">
+        <Description Lang="en">Specify the different note types, that you want to use in your system.</Description>
+        <Description Lang="de">Hier können die verschiedenen Notiz-Typen festgelegt werden, die innerhalb des Systems verwendet werden sollen.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="note-internal">1</Item>
+                <Item Key="note-external">0</Item>
+                <Item Key="note-report">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketClose###Priority" Required="0" Valid="0">
+        <Description Lang="en">Show priority options.</Description>
+        <Description Lang="de">Möglichkeit der Auswahl für die Priorität.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketClose###PriorityDefault" Required="0" Valid="0">
+        <Description Lang="en">Default priority options.</Description>
+        <Description Lang="de">Default Auswahl der Priorität.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
+        <Setting>
+            <String Regex="">3 normal</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketClose###TicketFreeText" Required="0" Valid="1">
+        <Description Lang="en">Shown free text options.</Description>
+        <Description Lang="de">Gezeigte Frei-Text-Felder.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="1">0</Item>
+                <Item Key="2">0</Item>
+                <Item Key="3">0</Item>
+                <Item Key="4">0</Item>
+                <Item Key="5">0</Item>
+                <Item Key="6">0</Item>
+                <Item Key="7">0</Item>
+                <Item Key="8">0</Item>
+                <Item Key="9">0</Item>
+                <Item Key="10">0</Item>
+                <Item Key="11">0</Item>
+                <Item Key="12">0</Item>
+                <Item Key="13">0</Item>
+                <Item Key="14">0</Item>
+                <Item Key="15">0</Item>
+                <Item Key="16">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketClose###TicketFreeTime" Required="0" Valid="1">
+        <Description Lang="en">Shown free time options.</Description>
+        <Description Lang="de">Gezeigte Frei-Zeit-Felder.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="1">0</Item>
+                <Item Key="2">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketClose###HistoryType" Required="0" Valid="1">
+        <Description Lang="en">History type for this action.</Description>
+        <Description Lang="de">Historientyp für diese Aktion.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
+        <Setting>
+            <String Regex="">AddNote</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketClose###HistoryComment" Required="0" Valid="1">
+        <Description Lang="en">History comment for this action.</Description>
+        <Description Lang="de">Historienkommentar für diese Aktion.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
+        <Setting>
+            <String Regex="">%%Close</String>
+        </Setting>
+    </ConfigItem>
+
+    <ConfigItem Name="Ticket::Frontend::AgentTicketNote###Permission" Required="1" Valid="1">
+        <Description Lang="en">Required permisson to use this option.</Description>
+        <Description Lang="de">Benötigte Rechte zur Bearbeitung des Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
         <Setting>
             <String Regex="">rw</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketNote###RequiredLock" Required="0" Valid="1">
-        <Description Lang="en">A ticket lock is required or will be set automatically.</Description>
-        <Description Lang="de">Eine Ticket-Sperre wird benötigt bzw. wird automatisch gesetzt.</Description>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketNote###RequiredLock" Required="0" Valid="1">
+        <Description Lang="en">A ticket lock is required. In case the ticket isn't locked, the tickets get locked and the current agent will be set automatically as ticket owner.</Description>
+        <Description Lang="de">Eine Ticket-Sperre wird benötigt bzw. wenn Ticket nicht gesperrt ist, wird das Ticket automatisch gesperrt und der Agent zum Besitzer gemacht.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
         <Setting>
@@ -2330,7 +2481,7 @@ TimeWorkingHours
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketNote###Owner" Required="0" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketNote###Owner" Required="0" Valid="1">
         <Description Lang="en">If you want to set the owner.</Description>
         <Description Lang="de">Wenn der Besitzer gesetzt werden soll.</Description>
         <Group>Ticket</Group>
@@ -2342,7 +2493,19 @@ TimeWorkingHours
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketNote###State" Required="0" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketNote###Responsible" Required="0" Valid="1">
+        <Description Lang="en">If you want to set the responsible.</Description>
+        <Description Lang="de">Wenn der Verantwortliche gesetzt werden soll.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketNote###State" Required="0" Valid="1">
         <Description Lang="en">Would you like to set the state of a ticket if a note is created by an agent?</Description>
         <Description Lang="de">Soll der Status eines Tickets gesetzt werden können, wenn eine Notiz durch einen Agent angelegt wird?</Description>
         <Group>Ticket</Group>
@@ -2354,7 +2517,7 @@ TimeWorkingHours
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketNote###StateType" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketNote###StateType" Required="1" Valid="1">
         <Description Lang="en">Default next states after adding a note.</Description>
         <Description Lang="de">Nächstmögliche Status nach dem Hinzufügen einer Notiz.</Description>
         <Group>Ticket</Group>
@@ -2368,7 +2531,7 @@ TimeWorkingHours
             </Array>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketNote###StateDefault" Required="0" Valid="0">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketNote###StateDefault" Required="0" Valid="0">
         <Description Lang="en">Default next state after an email ticket.</Description>
         <Description Lang="de">Standardmäßig ausgewählter nächster Status.</Description>
         <Group>Ticket</Group>
@@ -2377,7 +2540,7 @@ TimeWorkingHours
             <String Regex="">open</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketNote###Note" Required="0" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketNote###Note" Required="0" Valid="1">
         <Description Lang="en">Show note fields.</Description>
         <Description Lang="de">Eingabemöglichkeit für Notiz.</Description>
         <Group>Ticket</Group>
@@ -2389,7 +2552,7 @@ TimeWorkingHours
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketNote###NoteSubjectDefault" Required="0" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketNote###Subject" Required="0" Valid="1">
         <Description Lang="en">Default note subject.</Description>
         <Description Lang="de">Standardtext im Betreff einer Notiz.</Description>
         <Group>Ticket</Group>
@@ -2398,7 +2561,7 @@ TimeWorkingHours
             <String Regex="">$Text{"Note"}</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketNote###NoteBodyDefault" Required="0" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketNote###Body" Required="0" Valid="1">
         <Description Lang="en">Default note text.</Description>
         <Description Lang="de">Standardtext im Textfeld einer Notiz.</Description>
         <Group>Ticket</Group>
@@ -2407,7 +2570,7 @@ TimeWorkingHours
             <TextArea></TextArea>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketNote###InvolvedAgent" Required="0" Valid="0">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketNote###InvolvedAgent" Required="0" Valid="0">
         <Description Lang="en">Show selection of involved agents?</Description>
         <Description Lang="de">Auswahl der involvierten Agents anzeigen?</Description>
         <Group>Ticket</Group>
@@ -2419,7 +2582,7 @@ TimeWorkingHours
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketNote###InformAgent" Required="0" Valid="0">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketNote###InformAgent" Required="0" Valid="0">
         <Description Lang="en">Show selection of agents to inform?</Description>
         <Description Lang="de">Auswahl der zu informierenden Agents anzeigen?</Description>
         <Group>Ticket</Group>
@@ -2431,7 +2594,7 @@ TimeWorkingHours
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketNote###ArticleTypeDefault" Required="0" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketNote###ArticleTypeDefault" Required="0" Valid="1">
         <Description Lang="en">Default note type.</Description>
         <Description Lang="de">Voreingestellter Notiztyp.</Description>
         <Group>Ticket</Group>
@@ -2440,7 +2603,7 @@ TimeWorkingHours
             <String Regex="">note-internal</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketNote###ArticleTypes" Required="0" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketNote###ArticleTypes" Required="0" Valid="1">
         <Description Lang="en">Specify the different note types, that you want to use in your system.</Description>
         <Description Lang="de">Hier können die verschiedenen Notiz-Typen festgelegt werden, die innerhalb des Systems verwendet werden sollen.</Description>
         <Group>Ticket</Group>
@@ -2453,7 +2616,7 @@ TimeWorkingHours
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketNote###Priority" Required="0" Valid="0">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketNote###Priority" Required="0" Valid="0">
         <Description Lang="en">Show priority options.</Description>
         <Description Lang="de">Möglichkeit der Auswahl für die Priorität.</Description>
         <Group>Ticket</Group>
@@ -2465,7 +2628,7 @@ TimeWorkingHours
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketNote###PriorityDefault" Required="0" Valid="0">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketNote###PriorityDefault" Required="0" Valid="0">
         <Description Lang="en">Default priority options.</Description>
         <Description Lang="de">Default Auswahl der Priorität.</Description>
         <Group>Ticket</Group>
@@ -2474,7 +2637,45 @@ TimeWorkingHours
             <String Regex="">3 normal</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketNote###HistoryType" Required="0" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketNote###TicketFreeText" Required="0" Valid="1">
+        <Description Lang="en">Shown free text options.</Description>
+        <Description Lang="de">Gezeigte Frei-Text-Felder.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="1">0</Item>
+                <Item Key="2">0</Item>
+                <Item Key="3">0</Item>
+                <Item Key="4">0</Item>
+                <Item Key="5">0</Item>
+                <Item Key="6">0</Item>
+                <Item Key="7">0</Item>
+                <Item Key="8">0</Item>
+                <Item Key="9">0</Item>
+                <Item Key="10">0</Item>
+                <Item Key="11">0</Item>
+                <Item Key="12">0</Item>
+                <Item Key="13">0</Item>
+                <Item Key="14">0</Item>
+                <Item Key="15">0</Item>
+                <Item Key="16">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketNote###TicketFreeTime" Required="0" Valid="1">
+        <Description Lang="en">Shown free time options.</Description>
+        <Description Lang="de">Gezeigte Frei-Zeit-Felder.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="1">0</Item>
+                <Item Key="2">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketNote###HistoryType" Required="0" Valid="1">
         <Description Lang="en">History type for this action.</Description>
         <Description Lang="de">Historientyp für diese Aktion.</Description>
         <Group>Ticket</Group>
@@ -2483,7 +2684,7 @@ TimeWorkingHours
             <String Regex="">AddNote</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketNote###HistoryComment" Required="0" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketNote###HistoryComment" Required="0" Valid="1">
         <Description Lang="en">History comment for this action.</Description>
         <Description Lang="de">Historienkommentar für diese Aktion.</Description>
         <Group>Ticket</Group>
@@ -2492,383 +2693,19 @@ TimeWorkingHours
             <String Regex="">%%Note</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketClose###Permission" Required="0" Valid="1">
+
+    <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###Permission" Required="1" Valid="1">
         <Description Lang="en">Required permisson to use this option.</Description>
-        <Description Lang="de">Benötigte Rechte zur Bearbeitung.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
-        <Setting>
-            <String Regex="">close</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketClose###RequiredLock" Required="0" Valid="1">
-        <Description Lang="en">A ticket lock is required or will be set automatically.</Description>
-        <Description Lang="de">Eine Ticket-Sperre wird benötigt bzw. wird automatisch gesetzt.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
-        <Setting>
-            <Option SelectedID="1">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
-            </Option>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketClose###Owner" Required="0" Valid="1">
-        <Description Lang="en">If you want to set the owner.</Description>
-        <Description Lang="de">Wenn der Besitzer gesetzt werden soll.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
-        <Setting>
-            <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
-            </Option>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketClose###State" Required="0" Valid="1">
-        <Description Lang="en">Would you like to set the state of a ticket if a note is created by an agent?</Description>
-        <Description Lang="de">Soll der Status eines Tickets gesetzt werden können, wenn eine Notiz durch einen Agent angelegt wird?</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
-        <Setting>
-            <Option SelectedID="1">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
-            </Option>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketClose###StateType" Required="1" Valid="1">
-        <Description Lang="en">Default next states after adding a note.</Description>
-        <Description Lang="de">Nächstmögliche Status nach dem Hinzufügen einer Notiz.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
-        <Setting>
-            <Array>
-                <Item>closed</Item>
-            </Array>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketClose###StateDefault" Required="0" Valid="1">
-        <Description Lang="en">Default next state after an email ticket.</Description>
-        <Description Lang="de">Standardmäßig ausgewählter nächster Status.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
-        <Setting>
-            <String Regex="">closed successful</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketClose###Note" Required="0" Valid="1">
-        <Description Lang="en">Show note fields.</Description>
-        <Description Lang="de">Eingabemöglichkeit für Notiz.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
-        <Setting>
-            <Option SelectedID="1">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
-            </Option>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketClose###NoteSubjectDefault" Required="0" Valid="1">
-        <Description Lang="en">Default note subject.</Description>
-        <Description Lang="de">Standardtext im Betreff einer Notiz.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
-        <Setting>
-            <String Regex="">$Text{"Close"}</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketClose###NoteBodyDefault" Required="0" Valid="1">
-        <Description Lang="en">Default note text.</Description>
-        <Description Lang="de">Standardtext im Textfeld einer Notiz.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
-        <Setting>
-            <TextArea></TextArea>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketClose###InvolvedAgent" Required="0" Valid="0">
-        <Description Lang="en">Show selection of involved agents?</Description>
-        <Description Lang="de">Auswahl der involvierten Agents anzeigen?</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
-        <Setting>
-            <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
-            </Option>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketClose###InformAgent" Required="0" Valid="0">
-        <Description Lang="en">Show selection of agents to inform?</Description>
-        <Description Lang="de">Auswahl der zu informierenden Agents anzeigen?</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
-        <Setting>
-            <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
-            </Option>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketClose###ArticleTypeDefault" Required="0" Valid="1">
-        <Description Lang="en">Default note type.</Description>
-        <Description Lang="de">Voreingestellter Notiztyp.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
-        <Setting>
-            <String Regex="">note-internal</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketClose###ArticleTypes" Required="0" Valid="1">
-        <Description Lang="en">Specify the different note types, that you want to use in your system.</Description>
-        <Description Lang="de">Hier können die verschiedenen Notiz-Typen festgelegt werden, die innerhalb des Systems verwendet werden sollen.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="note-internal">1</Item>
-                <Item Key="note-external">0</Item>
-                <Item Key="note-report">0</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketClose###Priority" Required="0" Valid="0">
-        <Description Lang="en">Show priority options.</Description>
-        <Description Lang="de">Möglichkeit der Auswahl für die Priorität.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
-        <Setting>
-            <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
-            </Option>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketClose###PriorityDefault" Required="0" Valid="0">
-        <Description Lang="en">Default priority options.</Description>
-        <Description Lang="de">Default Auswahl der Priorität.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
-        <Setting>
-            <String Regex="">3 normal</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketClose###HistoryType" Required="0" Valid="1">
-        <Description Lang="en">History type for this action.</Description>
-        <Description Lang="de">Historientyp für diese Aktion.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
-        <Setting>
-            <String Regex="">AddNote</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketClose###HistoryComment" Required="0" Valid="1">
-        <Description Lang="en">History comment for this action.</Description>
-        <Description Lang="de">Historienkommentar für diese Aktion.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
-        <Setting>
-            <String Regex="">%%Close</String>
-        </Setting>
-    </ConfigItem>
-
-
-
-
-    <ConfigItem Name="Ticket::Frontend###AgentTicketPending###Permission" Required="0" Valid="1">
-        <Description Lang="en">Required permisson to use this option.</Description>
-        <Description Lang="de">Benötigte Rechte zur Bearbeitung.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
-        <Setting>
-            <String Regex="">pending</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketPending###RequiredLock" Required="0" Valid="1">
-        <Description Lang="en">A ticket lock is required or will be set automatically.</Description>
-        <Description Lang="de">Eine Ticket-Sperre wird benötigt bzw. wird automatisch gesetzt.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
-        <Setting>
-            <Option SelectedID="1">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
-            </Option>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketPending###Owner" Required="0" Valid="1">
-        <Description Lang="en">If you want to set the owner.</Description>
-        <Description Lang="de">Wenn der Besitzer gesetzt werden soll.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
-        <Setting>
-            <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
-            </Option>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketPending###State" Required="0" Valid="1">
-        <Description Lang="en">Would you like to set the state of a ticket if a note is created by an agent?</Description>
-        <Description Lang="de">Soll der Status eines Tickets gesetzt werden können, wenn eine Notiz durch einen Agent angelegt wird?</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
-        <Setting>
-            <Option SelectedID="1">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
-            </Option>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketPending###StateType" Required="1" Valid="1">
-        <Description Lang="en">Default next states after adding a note.</Description>
-        <Description Lang="de">Nächstmögliche Status nach dem Hinzufügen einer Notiz.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
-        <Setting>
-            <Array>
-                <Item>pending reminder</Item>
-                <Item>pending auto</Item>
-            </Array>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketPending###StateDefault" Required="0" Valid="1">
-        <Description Lang="en">Default next state after an email ticket.</Description>
-        <Description Lang="de">Standardmäßig ausgewählter nächster Status.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
-        <Setting>
-            <String Regex="">pending reminder</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketPending###Note" Required="0" Valid="1">
-        <Description Lang="en">Show note fields.</Description>
-        <Description Lang="de">Eingabemöglichkeit für Notiz.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
-        <Setting>
-            <Option SelectedID="1">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
-            </Option>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketPending###NoteSubjectDefault" Required="0" Valid="1">
-        <Description Lang="en">Default note subject.</Description>
-        <Description Lang="de">Standardtext im Betreff einer Notiz.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
-        <Setting>
-            <String Regex="">$Text{"Pending"}!</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketPending###NoteBodyDefault" Required="0" Valid="1">
-        <Description Lang="en">Default note text.</Description>
-        <Description Lang="de">Standardtext im Textfeld einer Notiz.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
-        <Setting>
-            <TextArea></TextArea>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketPending###InvolvedAgent" Required="0" Valid="0">
-        <Description Lang="en">Show selection of involved agents?</Description>
-        <Description Lang="de">Auswahl der involvierten Agents anzeigen?</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
-        <Setting>
-            <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
-            </Option>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketPending###InformAgent" Required="0" Valid="0">
-        <Description Lang="en">Show selection of agents to inform?</Description>
-        <Description Lang="de">Auswahl der zu informierenden Agents anzeigen?</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
-        <Setting>
-            <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
-            </Option>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketPending###ArticleTypeDefault" Required="0" Valid="1">
-        <Description Lang="en">Default note type.</Description>
-        <Description Lang="de">Voreingestellter Notiztyp.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
-        <Setting>
-            <String Regex="">note-internal</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketPending###ArticleTypes" Required="0" Valid="1">
-        <Description Lang="en">Specify the different note types, that you want to use in your system.</Description>
-        <Description Lang="de">Hier können die verschiedenen Notiz-Typen festgelegt werden, die innerhalb des Systems verwendet werden sollen.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="note-internal">1</Item>
-                <Item Key="note-external">0</Item>
-                <Item Key="note-report">0</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketPending###Priority" Required="0" Valid="0">
-        <Description Lang="en">Show priority options.</Description>
-        <Description Lang="de">Möglichkeit der Auswahl für die Priorität.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
-        <Setting>
-            <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
-            </Option>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketPending###PriorityDefault" Required="0" Valid="0">
-        <Description Lang="en">Default priority options.</Description>
-        <Description Lang="de">Default Auswahl der Priorität.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
-        <Setting>
-            <String Regex="">3 normal</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketPending###HistoryType" Required="0" Valid="1">
-        <Description Lang="en">History type for this action.</Description>
-        <Description Lang="de">Historientyp für diese Aktion.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
-        <Setting>
-            <String Regex="">AddNote</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketPending###HistoryComment" Required="0" Valid="1">
-        <Description Lang="en">History comment for this action.</Description>
-        <Description Lang="de">Historienkommentar für diese Aktion.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
-        <Setting>
-            <String Regex="">%%Pending</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketOwner###Permission" Required="0" Valid="1">
-        <Description Lang="en">Required permisson to use this option.</Description>
-        <Description Lang="de">Benötigte Rechte zur Bearbeitung.</Description>
+        <Description Lang="de">Benötigte Rechte zur Bearbeitung des Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewOwner</SubGroup>
         <Setting>
             <String Regex="">owner</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketOwner###RequiredLock" Required="0" Valid="1">
-        <Description Lang="en">A ticket lock is required or will be set automatically.</Description>
-        <Description Lang="de">Eine Ticket-Sperre wird benötigt bzw. wird automatisch gesetzt.</Description>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###RequiredLock" Required="0" Valid="1">
+        <Description Lang="en">A ticket lock is required. In case the ticket isn't locked, the tickets get locked and the current agent will be set automatically as ticket owner.</Description>
+        <Description Lang="de">Eine Ticket-Sperre wird benötigt bzw. wenn Ticket nicht gesperrt ist, wird das Ticket automatisch gesperrt und der Agent zum Besitzer gemacht.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewOwner</SubGroup>
         <Setting>
@@ -2878,7 +2715,7 @@ TimeWorkingHours
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketOwner###Owner" Required="0" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###Owner" Required="0" Valid="1">
         <Description Lang="en">If you want to set the owner.</Description>
         <Description Lang="de">Wenn der Besitzer gesetzt werden soll.</Description>
         <Group>Ticket</Group>
@@ -2890,7 +2727,19 @@ TimeWorkingHours
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketOwner###State" Required="0" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###Responsible" Required="0" Valid="1">
+        <Description Lang="en">If you want to set the responsible.</Description>
+        <Description Lang="de">Wenn der Verantwortliche gesetzt werden soll.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewOwner</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###State" Required="0" Valid="1">
         <Description Lang="en">Would you like to set the state of a ticket if a note is created by an agent?</Description>
         <Description Lang="de">Soll der Status eines Tickets gesetzt werden können, wenn eine Notiz durch einen Agent angelegt wird?</Description>
         <Group>Ticket</Group>
@@ -2902,7 +2751,7 @@ TimeWorkingHours
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketOwner###StateType" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###StateType" Required="1" Valid="1">
         <Description Lang="en">Default next states after adding a note.</Description>
         <Description Lang="de">Nächstmögliche Status nach dem Hinzufügen einer Notiz.</Description>
         <Group>Ticket</Group>
@@ -2915,7 +2764,7 @@ TimeWorkingHours
             </Array>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketOwner###StateDefault" Required="0" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###StateDefault" Required="0" Valid="1">
         <Description Lang="en">Default next state after an email ticket.</Description>
         <Description Lang="de">Standardmäßig ausgewählter nächster Status.</Description>
         <Group>Ticket</Group>
@@ -2924,7 +2773,7 @@ TimeWorkingHours
             <String Regex="">open</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketOwner###Note" Required="0" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###Note" Required="0" Valid="1">
         <Description Lang="en">Show note fields.</Description>
         <Description Lang="de">Eingabemöglichkeit für Notiz.</Description>
         <Group>Ticket</Group>
@@ -2936,7 +2785,7 @@ TimeWorkingHours
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketOwner###NoteSubjectDefault" Required="0" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###Subject" Required="0" Valid="1">
         <Description Lang="en">Default note subject.</Description>
         <Description Lang="de">Standardtext im Betreff einer Notiz.</Description>
         <Group>Ticket</Group>
@@ -2945,7 +2794,7 @@ TimeWorkingHours
             <String Regex="">$Text{"Owner Update"}!</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketOwner###NoteBodyDefault" Required="0" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###Body" Required="0" Valid="1">
         <Description Lang="en">Default note text.</Description>
         <Description Lang="de">Standardtext im Textfeld einer Notiz.</Description>
         <Group>Ticket</Group>
@@ -2954,7 +2803,7 @@ TimeWorkingHours
             <TextArea></TextArea>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketOwner###InvolvedAgent" Required="0" Valid="0">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###InvolvedAgent" Required="0" Valid="0">
         <Description Lang="en">Show selection of involved agents?</Description>
         <Description Lang="de">Auswahl der involvierten Agents anzeigen?</Description>
         <Group>Ticket</Group>
@@ -2966,7 +2815,7 @@ TimeWorkingHours
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketOwner###InformAgent" Required="0" Valid="0">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###InformAgent" Required="0" Valid="0">
         <Description Lang="en">Show selection of agents to inform?</Description>
         <Description Lang="de">Auswahl der zu informierenden Agents anzeigen?</Description>
         <Group>Ticket</Group>
@@ -2978,7 +2827,7 @@ TimeWorkingHours
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketOwner###ArticleTypeDefault" Required="0" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###ArticleTypeDefault" Required="0" Valid="1">
         <Description Lang="en">Default note type.</Description>
         <Description Lang="de">Voreingestellter Notiztyp.</Description>
         <Group>Ticket</Group>
@@ -2987,7 +2836,7 @@ TimeWorkingHours
             <String Regex="">note-internal</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketOwner###ArticleTypes" Required="0" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###ArticleTypes" Required="0" Valid="1">
         <Description Lang="en">Specify the different note types, that you want to use in your system.</Description>
         <Description Lang="de">Hier können die verschiedenen Notiz-Typen festgelegt werden, die innerhalb des Systems verwendet werden sollen.</Description>
         <Group>Ticket</Group>
@@ -3000,7 +2849,7 @@ TimeWorkingHours
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketOwner###Priority" Required="0" Valid="0">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###Priority" Required="0" Valid="0">
         <Description Lang="en">Show priority options.</Description>
         <Description Lang="de">Möglichkeit der Auswahl für die Priorität.</Description>
         <Group>Ticket</Group>
@@ -3012,7 +2861,7 @@ TimeWorkingHours
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketOwner###PriorityDefault" Required="0" Valid="0">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###PriorityDefault" Required="0" Valid="0">
         <Description Lang="en">Default priority options.</Description>
         <Description Lang="de">Default Auswahl der Priorität.</Description>
         <Group>Ticket</Group>
@@ -3021,7 +2870,45 @@ TimeWorkingHours
             <String Regex="">3 normal</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketOwner###HistoryType" Required="0" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###TicketFreeText" Required="0" Valid="1">
+        <Description Lang="en">Shown free text options.</Description>
+        <Description Lang="de">Gezeigte Frei-Text-Felder.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewOwner</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="1">0</Item>
+                <Item Key="2">0</Item>
+                <Item Key="3">0</Item>
+                <Item Key="4">0</Item>
+                <Item Key="5">0</Item>
+                <Item Key="6">0</Item>
+                <Item Key="7">0</Item>
+                <Item Key="8">0</Item>
+                <Item Key="9">0</Item>
+                <Item Key="10">0</Item>
+                <Item Key="11">0</Item>
+                <Item Key="12">0</Item>
+                <Item Key="13">0</Item>
+                <Item Key="14">0</Item>
+                <Item Key="15">0</Item>
+                <Item Key="16">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###TicketFreeTime" Required="0" Valid="1">
+        <Description Lang="en">Shown free time options.</Description>
+        <Description Lang="de">Gezeigte Frei-Zeit-Felder.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewOwner</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="1">0</Item>
+                <Item Key="2">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###HistoryType" Required="0" Valid="1">
         <Description Lang="en">History type for this action.</Description>
         <Description Lang="de">Historientyp für diese Aktion.</Description>
         <Group>Ticket</Group>
@@ -3030,7 +2917,7 @@ TimeWorkingHours
             <String Regex="">AddNote</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend###AgentTicketOwner###HistoryComment" Required="0" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###HistoryComment" Required="0" Valid="1">
         <Description Lang="en">History comment for this action.</Description>
         <Description Lang="de">Historienkommentar für diese Aktion.</Description>
         <Group>Ticket</Group>
@@ -3039,7 +2926,779 @@ TimeWorkingHours
             <String Regex="">%%Owner</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::DefaultNextComposeType" Required="1" Valid="1">
+
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPending###Permission" Required="1" Valid="1">
+        <Description Lang="en">Required permisson to use this option.</Description>
+        <Description Lang="de">Benötigte Rechte zur Bearbeitung des Tickets.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
+        <Setting>
+            <String Regex="">pending</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPending###RequiredLock" Required="0" Valid="1">
+        <Description Lang="en">A ticket lock is required. In case the ticket isn't locked, the tickets get locked and the current agent will be set automatically as ticket owner.</Description>
+        <Description Lang="de">Eine Ticket-Sperre wird benötigt bzw. wenn Ticket nicht gesperrt ist, wird das Ticket automatisch gesperrt und der Agent zum Besitzer gemacht.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPending###Owner" Required="0" Valid="1">
+        <Description Lang="en">If you want to set the owner.</Description>
+        <Description Lang="de">Wenn der Besitzer gesetzt werden soll.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPending###Responsible" Required="0" Valid="1">
+        <Description Lang="en">If you want to set the responsible.</Description>
+        <Description Lang="de">Wenn der Verantwortliche gesetzt werden soll.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPending###State" Required="0" Valid="1">
+        <Description Lang="en">Would you like to set the state of a ticket if a note is created by an agent?</Description>
+        <Description Lang="de">Soll der Status eines Tickets gesetzt werden können, wenn eine Notiz durch einen Agent angelegt wird?</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPending###StateType" Required="1" Valid="1">
+        <Description Lang="en">Default next states after adding a note.</Description>
+        <Description Lang="de">Nächstmögliche Status nach dem Hinzufügen einer Notiz.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
+        <Setting>
+            <Array>
+                <Item>pending reminder</Item>
+                <Item>pending auto</Item>
+            </Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPending###StateDefault" Required="0" Valid="1">
+        <Description Lang="en">Default next state after an email ticket.</Description>
+        <Description Lang="de">Standardmäßig ausgewählter nächster Status.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
+        <Setting>
+            <String Regex="">pending reminder</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPending###Note" Required="0" Valid="1">
+        <Description Lang="en">Show note fields.</Description>
+        <Description Lang="de">Eingabemöglichkeit für Notiz.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPending###Subject" Required="0" Valid="1">
+        <Description Lang="en">Default note subject.</Description>
+        <Description Lang="de">Standardtext im Betreff einer Notiz.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
+        <Setting>
+            <String Regex="">$Text{"Pending"}!</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPending###Body" Required="0" Valid="1">
+        <Description Lang="en">Default note text.</Description>
+        <Description Lang="de">Standardtext im Textfeld einer Notiz.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
+        <Setting>
+            <TextArea></TextArea>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPending###InvolvedAgent" Required="0" Valid="0">
+        <Description Lang="en">Show selection of involved agents?</Description>
+        <Description Lang="de">Auswahl der involvierten Agents anzeigen?</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPending###InformAgent" Required="0" Valid="0">
+        <Description Lang="en">Show selection of agents to inform?</Description>
+        <Description Lang="de">Auswahl der zu informierenden Agents anzeigen?</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPending###ArticleTypeDefault" Required="0" Valid="1">
+        <Description Lang="en">Default note type.</Description>
+        <Description Lang="de">Voreingestellter Notiztyp.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
+        <Setting>
+            <String Regex="">note-internal</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPending###ArticleTypes" Required="0" Valid="1">
+        <Description Lang="en">Specify the different note types, that you want to use in your system.</Description>
+        <Description Lang="de">Hier können die verschiedenen Notiz-Typen festgelegt werden, die innerhalb des Systems verwendet werden sollen.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="note-internal">1</Item>
+                <Item Key="note-external">0</Item>
+                <Item Key="note-report">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPending###Priority" Required="0" Valid="0">
+        <Description Lang="en">Show priority options.</Description>
+        <Description Lang="de">Möglichkeit der Auswahl für die Priorität.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPending###PriorityDefault" Required="0" Valid="0">
+        <Description Lang="en">Default priority options.</Description>
+        <Description Lang="de">Default Auswahl der Priorität.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
+        <Setting>
+            <String Regex="">3 normal</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPending###TicketFreeText" Required="0" Valid="1">
+        <Description Lang="en">Shown free text options.</Description>
+        <Description Lang="de">Gezeigte Frei-Text-Felder.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="1">0</Item>
+                <Item Key="2">0</Item>
+                <Item Key="3">0</Item>
+                <Item Key="4">0</Item>
+                <Item Key="5">0</Item>
+                <Item Key="6">0</Item>
+                <Item Key="7">0</Item>
+                <Item Key="8">0</Item>
+                <Item Key="9">0</Item>
+                <Item Key="10">0</Item>
+                <Item Key="11">0</Item>
+                <Item Key="12">0</Item>
+                <Item Key="13">0</Item>
+                <Item Key="14">0</Item>
+                <Item Key="15">0</Item>
+                <Item Key="16">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPending###TicketFreeTime" Required="0" Valid="1">
+        <Description Lang="en">Shown free time options.</Description>
+        <Description Lang="de">Gezeigte Frei-Zeit-Felder.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="1">0</Item>
+                <Item Key="2">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPending###HistoryType" Required="0" Valid="1">
+        <Description Lang="en">History type for this action.</Description>
+        <Description Lang="de">Historientyp für diese Aktion.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
+        <Setting>
+            <String Regex="">AddNote</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPending###HistoryComment" Required="0" Valid="1">
+        <Description Lang="en">History comment for this action.</Description>
+        <Description Lang="de">Historienkommentar für diese Aktion.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
+        <Setting>
+            <String Regex="">%%Pending</String>
+        </Setting>
+    </ConfigItem>
+
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###Permission" Required="1" Valid="1">
+        <Description Lang="en">Required permisson to use this option.</Description>
+        <Description Lang="de">Benötigte Rechte zur Bearbeitung des Tickets.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
+        <Setting>
+            <String Regex="">priority</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###RequiredLock" Required="0" Valid="1">
+        <Description Lang="en">A ticket lock is required. In case the ticket isn't locked, the tickets get locked and the current agent will be set automatically as ticket owner.</Description>
+        <Description Lang="de">Eine Ticket-Sperre wird benötigt bzw. wenn Ticket nicht gesperrt ist, wird das Ticket automatisch gesperrt und der Agent zum Besitzer gemacht.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###Owner" Required="0" Valid="1">
+        <Description Lang="en">If you want to set the owner.</Description>
+        <Description Lang="de">Wenn der Besitzer gesetzt werden soll.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###Responsible" Required="0" Valid="1">
+        <Description Lang="en">If you want to set the responsible.</Description>
+        <Description Lang="de">Wenn der Verantwortliche gesetzt werden soll.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###State" Required="0" Valid="1">
+        <Description Lang="en">Would you like to set the state of a ticket if a note is created by an agent?</Description>
+        <Description Lang="de">Soll der Status eines Tickets gesetzt werden können, wenn eine Notiz durch einen Agent angelegt wird?</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###StateType" Required="1" Valid="1">
+        <Description Lang="en">Default next states after adding a note.</Description>
+        <Description Lang="de">Nächstmögliche Status nach dem Hinzufügen einer Notiz.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
+        <Setting>
+            <Array>
+                <Item>open</Item>
+                <Item>pending reminder</Item>
+                <Item>pending auto</Item>
+            </Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###StateDefault" Required="0" Valid="1">
+        <Description Lang="en">Default next state after an email ticket.</Description>
+        <Description Lang="de">Standardmäßig ausgewählter nächster Status.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
+        <Setting>
+            <String Regex="">open</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###Note" Required="0" Valid="1">
+        <Description Lang="en">Show note fields.</Description>
+        <Description Lang="de">Eingabemöglichkeit für Notiz.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###Subject" Required="0" Valid="1">
+        <Description Lang="en">Default note subject.</Description>
+        <Description Lang="de">Standardtext im Betreff einer Notiz.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
+        <Setting>
+            <String Regex="">$Text{"Priority Update"}!</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###Body" Required="0" Valid="1">
+        <Description Lang="en">Default note text.</Description>
+        <Description Lang="de">Standardtext im Textfeld einer Notiz.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
+        <Setting>
+            <TextArea></TextArea>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###InvolvedAgent" Required="0" Valid="0">
+        <Description Lang="en">Show selection of involved agents?</Description>
+        <Description Lang="de">Auswahl der involvierten Agents anzeigen?</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###InformAgent" Required="0" Valid="0">
+        <Description Lang="en">Show selection of agents to inform?</Description>
+        <Description Lang="de">Auswahl der zu informierenden Agents anzeigen?</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###ArticleTypeDefault" Required="0" Valid="1">
+        <Description Lang="en">Default note type.</Description>
+        <Description Lang="de">Voreingestellter Notiztyp.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
+        <Setting>
+            <String Regex="">note-internal</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###ArticleTypes" Required="0" Valid="1">
+        <Description Lang="en">Specify the different note types, that you want to use in your system.</Description>
+        <Description Lang="de">Hier können die verschiedenen Notiz-Typen festgelegt werden, die innerhalb des Systems verwendet werden sollen.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="note-internal">1</Item>
+                <Item Key="note-external">0</Item>
+                <Item Key="note-report">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###Priority" Required="0" Valid="1">
+        <Description Lang="en">Show priority options.</Description>
+        <Description Lang="de">Möglichkeit der Auswahl für die Priorität.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###PriorityDefault" Required="0" Valid="0">
+        <Description Lang="en">Default priority options.</Description>
+        <Description Lang="de">Default Auswahl der Priorität.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
+        <Setting>
+            <String Regex="">3 normal</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###TicketFreeText" Required="0" Valid="1">
+        <Description Lang="en">Shown free text options.</Description>
+        <Description Lang="de">Gezeigte Frei-Text-Felder.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="1">0</Item>
+                <Item Key="2">0</Item>
+                <Item Key="3">0</Item>
+                <Item Key="4">0</Item>
+                <Item Key="5">0</Item>
+                <Item Key="6">0</Item>
+                <Item Key="7">0</Item>
+                <Item Key="8">0</Item>
+                <Item Key="9">0</Item>
+                <Item Key="10">0</Item>
+                <Item Key="11">0</Item>
+                <Item Key="12">0</Item>
+                <Item Key="13">0</Item>
+                <Item Key="14">0</Item>
+                <Item Key="15">0</Item>
+                <Item Key="16">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###TicketFreeTime" Required="0" Valid="1">
+        <Description Lang="en">Shown free time options.</Description>
+        <Description Lang="de">Gezeigte Frei-Zeit-Felder.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="1">0</Item>
+                <Item Key="2">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###HistoryType" Required="0" Valid="1">
+        <Description Lang="en">History type for this action.</Description>
+        <Description Lang="de">Historientyp für diese Aktion.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
+        <Setting>
+            <String Regex="">AddNote</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###HistoryComment" Required="0" Valid="1">
+        <Description Lang="en">History comment for this action.</Description>
+        <Description Lang="de">Historienkommentar für diese Aktion.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
+        <Setting>
+            <String Regex="">%%Priority</String>
+        </Setting>
+    </ConfigItem>
+
+    <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###Permission" Required="1" Valid="1">
+        <Description Lang="en">Required permisson to use this option.</Description>
+        <Description Lang="de">Benötigte Rechte zur Bearbeitung des Tickets.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
+        <Setting>
+            <String Regex="">responsible</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###RequiredLock" Required="0" Valid="1">
+        <Description Lang="en">A ticket lock is required. In case the ticket isn't locked, the tickets get locked and the current agent will be set automatically as ticket owner.</Description>
+        <Description Lang="de">Eine Ticket-Sperre wird benötigt bzw. wenn Ticket nicht gesperrt ist, wird das Ticket automatisch gesperrt und der Agent zum Besitzer gemacht.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###Owner" Required="0" Valid="1">
+        <Description Lang="en">If you want to set the owner.</Description>
+        <Description Lang="de">Wenn der Besitzer gesetzt werden soll.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###Responsible" Required="0" Valid="1">
+        <Description Lang="en">If you want to set the responsible.</Description>
+        <Description Lang="de">Wenn der Verantwortliche gesetzt werden soll.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###State" Required="0" Valid="1">
+        <Description Lang="en">Would you like to set the state of a ticket if a note is created by an agent?</Description>
+        <Description Lang="de">Soll der Status eines Tickets gesetzt werden können, wenn eine Notiz durch einen Agent angelegt wird?</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###StateType" Required="1" Valid="1">
+        <Description Lang="en">Default next states after adding a note.</Description>
+        <Description Lang="de">Nächstmögliche Status nach dem Hinzufügen einer Notiz.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
+        <Setting>
+            <Array>
+                <Item>open</Item>
+                <Item>pending reminder</Item>
+                <Item>pending auto</Item>
+            </Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###StateDefault" Required="0" Valid="1">
+        <Description Lang="en">Default next state after an email ticket.</Description>
+        <Description Lang="de">Standardmäßig ausgewählter nächster Status.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
+        <Setting>
+            <String Regex="">open</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###Note" Required="0" Valid="1">
+        <Description Lang="en">Show note fields.</Description>
+        <Description Lang="de">Eingabemöglichkeit für Notiz.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###Subject" Required="0" Valid="1">
+        <Description Lang="en">Default note subject.</Description>
+        <Description Lang="de">Standardtext im Betreff einer Notiz.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
+        <Setting>
+            <String Regex="">$Text{"Responsible Update"}!</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###Body" Required="0" Valid="1">
+        <Description Lang="en">Default note text.</Description>
+        <Description Lang="de">Standardtext im Textfeld einer Notiz.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
+        <Setting>
+            <TextArea></TextArea>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###InvolvedAgent" Required="0" Valid="0">
+        <Description Lang="en">Show selection of involved agents?</Description>
+        <Description Lang="de">Auswahl der involvierten Agents anzeigen?</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###InformAgent" Required="0" Valid="0">
+        <Description Lang="en">Show selection of agents to inform?</Description>
+        <Description Lang="de">Auswahl der zu informierenden Agents anzeigen?</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###ArticleTypeDefault" Required="0" Valid="1">
+        <Description Lang="en">Default note type.</Description>
+        <Description Lang="de">Voreingestellter Notiztyp.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
+        <Setting>
+            <String Regex="">note-internal</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###ArticleTypes" Required="0" Valid="1">
+        <Description Lang="en">Specify the different note types, that you want to use in your system.</Description>
+        <Description Lang="de">Hier können die verschiedenen Notiz-Typen festgelegt werden, die innerhalb des Systems verwendet werden sollen.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="note-internal">1</Item>
+                <Item Key="note-external">0</Item>
+                <Item Key="note-report">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###Priority" Required="0" Valid="0">
+        <Description Lang="en">Show priority options.</Description>
+        <Description Lang="de">Möglichkeit der Auswahl für die Priorität.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###PriorityDefault" Required="0" Valid="0">
+        <Description Lang="en">Default priority options.</Description>
+        <Description Lang="de">Default Auswahl der Priorität.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
+        <Setting>
+            <String Regex="">3 normal</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###TicketFreeText" Required="0" Valid="1">
+        <Description Lang="en">Shown free text options.</Description>
+        <Description Lang="de">Gezeigte Frei-Text-Felder.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="1">0</Item>
+                <Item Key="2">0</Item>
+                <Item Key="3">0</Item>
+                <Item Key="4">0</Item>
+                <Item Key="5">0</Item>
+                <Item Key="6">0</Item>
+                <Item Key="7">0</Item>
+                <Item Key="8">0</Item>
+                <Item Key="9">0</Item>
+                <Item Key="10">0</Item>
+                <Item Key="11">0</Item>
+                <Item Key="12">0</Item>
+                <Item Key="13">0</Item>
+                <Item Key="14">0</Item>
+                <Item Key="15">0</Item>
+                <Item Key="16">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###TicketFreeTime" Required="0" Valid="1">
+        <Description Lang="en">Shown free time options.</Description>
+        <Description Lang="de">Gezeigte Frei-Zeit-Felder.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="1">0</Item>
+                <Item Key="2">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###HistoryType" Required="0" Valid="1">
+        <Description Lang="en">History type for this action.</Description>
+        <Description Lang="de">Historientyp für diese Aktion.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
+        <Setting>
+            <String Regex="">AddNote</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###HistoryComment" Required="0" Valid="1">
+        <Description Lang="en">History comment for this action.</Description>
+        <Description Lang="de">Historienkommentar für diese Aktion.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
+        <Setting>
+            <String Regex="">%%Responsible</String>
+        </Setting>
+    </ConfigItem>
+
+    <ConfigItem Name="Ticket::Frontend::AgentTicketBounce###Permission" Required="1" Valid="1">
+        <Description Lang="en">Required permisson to use this option.</Description>
+        <Description Lang="de">Benötigte Rechte zur Bearbeitung des Tickets.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewBounce</SubGroup>
+        <Setting>
+            <String Regex="">bounce</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketBounce###RequiredLock" Required="0" Valid="1">
+        <Description Lang="en">A ticket lock is required. In case the ticket isn't locked, the tickets get locked and the current agent will be set automatically as ticket owner.</Description>
+        <Description Lang="de">Eine Ticket-Sperre wird benötigt bzw. wenn Ticket nicht gesperrt ist, wird das Ticket automatisch gesperrt und der Agent zum Besitzer gemacht.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewBounce</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketBounce###StateDefault" Required="0" Valid="1">
+        <Description Lang="en">Default next state after bouncing a ticket.</Description>
+        <Description Lang="de">Nächster standardmäßiger Status nach dem Bouncen eines Tickets.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewBounce</SubGroup>
+        <Setting>
+            <String Regex="">closed successful</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketBounce###StateType" Required="1" Valid="1">
+        <Description Lang="en">Next possible states when a ticket is bounced.</Description>
+        <Description Lang="de">Nächstmögliche Status für 'gebouncete' Nachrichten.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewBounce</SubGroup>
+        <Setting>
+            <Array>
+                <Item>open</Item>
+                <Item>closed</Item>
+            </Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::BounceText" Required="1" Valid="1">
+        <Description Lang="en">Default note text</Description>
+        <Description Lang="de">Standardnotiztext beim bouncen einer Email</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewBounce</SubGroup>
+        <Setting>
+            <TextArea>Your email with ticket number "&lt;OTRS_TICKET&gt;" is bounced to "&lt;OTRS_BOUNCE_TO&gt;". Contact this address for further informations.</TextArea>
+        </Setting>
+    </ConfigItem>
+
+    <ConfigItem Name="Ticket::Frontend::AgentTicketCompose###Permission" Required="1" Valid="1">
+        <Description Lang="en">Required permisson to use this option.</Description>
+        <Description Lang="de">Benötigte Rechte zur Bearbeitung des Tickets.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewCompose</SubGroup>
+        <Setting>
+            <String Regex="">rw</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketCompose###RequiredLock" Required="0" Valid="1">
+        <Description Lang="en">A ticket lock is required. In case the ticket isn't locked, the tickets get locked and the current agent will be set automatically as ticket owner.</Description>
+        <Description Lang="de">Eine Ticket-Sperre wird benötigt bzw. wenn Ticket nicht gesperrt ist, wird das Ticket automatisch gesperrt und der Agent zum Besitzer gemacht.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewCompose</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketCompose###StateDefault" Required="0" Valid="1">
         <Description Lang="en">Default next state if a ticket is composed, answered, e.g.</Description>
         <Description Lang="de">Standardmäßig eingestellter Status bei der Beantwortung eines Tickets.</Description>
         <Group>Ticket</Group>
@@ -3048,7 +3707,7 @@ TimeWorkingHours
             <String Regex="">open</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::DefaultNextComposeStateType" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketCompose###StateType" Required="1" Valid="1">
         <Description Lang="en">Next possible states after composing / answering a ticket.</Description>
         <Description Lang="de">Nächstmögliche Status nach der Beantwortung eines Tickets.</Description>
         <Group>Ticket</Group>
@@ -3090,46 +3749,67 @@ $Data{"Signature"}
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::BounceState" Required="1" Valid="1">
-        <Description Lang="en">Default next state after bouncing a ticket.</Description>
-        <Description Lang="de">Nächster standardmäßiger Status nach dem Bouncen eines Tickets.</Description>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketCompose###TicketFreeText" Required="0" Valid="1">
+        <Description Lang="en">Shown free text options.</Description>
+        <Description Lang="de">Gezeigte Frei-Text-Felder.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewBounce</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewCompose</SubGroup>
         <Setting>
-            <String Regex="">closed successful</String>
+            <Hash>
+                <Item Key="1">0</Item>
+                <Item Key="2">0</Item>
+                <Item Key="3">0</Item>
+                <Item Key="4">0</Item>
+                <Item Key="5">0</Item>
+                <Item Key="6">0</Item>
+                <Item Key="7">0</Item>
+                <Item Key="8">0</Item>
+                <Item Key="9">0</Item>
+                <Item Key="10">0</Item>
+                <Item Key="11">0</Item>
+                <Item Key="12">0</Item>
+                <Item Key="13">0</Item>
+                <Item Key="14">0</Item>
+                <Item Key="15">0</Item>
+                <Item Key="16">0</Item>
+            </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::DefaultNextBounceStateType" Required="1" Valid="1">
-        <Description Lang="en">Next possible states when a ticket is bounced.</Description>
-        <Description Lang="de">Nächstmögliche Status für 'gebouncete' Nachrichten.</Description>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketCompose###TicketFreeTime" Required="0" Valid="1">
+        <Description Lang="en">Shown free time options.</Description>
+        <Description Lang="de">Gezeigte Frei-Zeit-Felder.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewBounce</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewCompose</SubGroup>
         <Setting>
-            <Array>
-                <Item>open</Item>
-                <Item>closed</Item>
-            </Array>
+            <Hash>
+                <Item Key="1">0</Item>
+                <Item Key="2">0</Item>
+            </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::BounceText" Required="1" Valid="1">
-        <Description Lang="en">Default note text</Description>
-        <Description Lang="de">Standardnotiztext beim bouncen einer Email</Description>
+
+    <ConfigItem Name="Ticket::Frontend::AgentTicketForward###Permission" Required="1" Valid="1">
+        <Description Lang="en">Required permisson to use this option.</Description>
+        <Description Lang="de">Benötigte Rechte zur Bearbeitung des Tickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewBounce</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewForward</SubGroup>
         <Setting>
-            <TextArea>Your email with ticket number "&lt;OTRS_TICKET&gt;" is bounced to "&lt;OTRS_BOUNCE_TO&gt;". Contact this address for further informations.</TextArea>
+            <String Regex="">forward</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::MergeText" Required="1" Valid="1">
-        <Description Lang="en">Default merge text.</Description>
-        <Description Lang="de">Standardnotiztext beim Ticket Merge.</Description>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketForward###RequiredLock" Required="0" Valid="1">
+        <Description Lang="en">A ticket lock is required. In case the ticket isn't locked, the tickets get locked and the current agent will be set automatically as ticket owner.</Description>
+        <Description Lang="de">Eine Ticket-Sperre wird benötigt bzw. wenn Ticket nicht gesperrt ist, wird das Ticket automatisch gesperrt und der Agent zum Besitzer gemacht.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewMerge</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewForward</SubGroup>
         <Setting>
-            <TextArea>Your email with ticket number "&lt;OTRS_TICKET&gt;" is merged to "&lt;OTRS_MERGE_TO_TICKET&gt;".</TextArea>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::ForwardState" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketForward###StateDefault" Required="0" Valid="1">
         <Description Lang="en">Default next state after forwarding a ticket.</Description>
         <Description Lang="de">Nächster standardmäßiger Status nach dem Weiterleiten eines Tickets.</Description>
         <Group>Ticket</Group>
@@ -3138,7 +3818,7 @@ $Data{"Signature"}
             <String Regex="">closed successful</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::DefaultNextForwardStateType" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketForward###StateType" Required="0" Valid="1">
         <Description Lang="en">Next possible states after forwarding a ticket.</Description>
         <Description Lang="de">Nächstmögliche Status nach dem Weiterleiten eines Tickets.</Description>
         <Group>Ticket</Group>
@@ -3150,9 +3830,18 @@ $Data{"Signature"}
             </Array>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::ForwardArticleTypes" Required="1" Valid="1">
-        <Description Lang="en">Possible email types.</Description>
-        <Description Lang="de">Mögliche Email-Typen.</Description>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketForward###ArticleTypeDefault" Required="0" Valid="1">
+        <Description Lang="en">Default type of forwarded message.</Description>
+        <Description Lang="de">Standard Typ für weitergeleitete Nachrichten.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewForward</SubGroup>
+        <Setting>
+            <String Regex="">email-external</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketForward###ArticleTypes" Required="0" Valid="1">
+        <Description Lang="en">Possible atrticle types.</Description>
+        <Description Lang="de">Mögliche Artikel-Typen.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewForward</SubGroup>
         <Setting>
@@ -3162,15 +3851,76 @@ $Data{"Signature"}
             </Array>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::ForwardArticleType" Required="1" Valid="1">
-        <Description Lang="en">Default type of forwarded message.</Description>
-        <Description Lang="de">Standard Typ für weitergeleitete Nachrichten.</Description>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketForward###TicketFreeText" Required="0" Valid="1">
+        <Description Lang="en">Shown free text options.</Description>
+        <Description Lang="de">Gezeigte Frei-Text-Felder.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewForward</SubGroup>
         <Setting>
-            <String Regex="">email-external</String>
+            <Hash>
+                <Item Key="1">0</Item>
+                <Item Key="2">0</Item>
+                <Item Key="3">0</Item>
+                <Item Key="4">0</Item>
+                <Item Key="5">0</Item>
+                <Item Key="6">0</Item>
+                <Item Key="7">0</Item>
+                <Item Key="8">0</Item>
+                <Item Key="9">0</Item>
+                <Item Key="10">0</Item>
+                <Item Key="11">0</Item>
+                <Item Key="12">0</Item>
+                <Item Key="13">0</Item>
+                <Item Key="14">0</Item>
+                <Item Key="15">0</Item>
+                <Item Key="16">0</Item>
+            </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketForward###TicketFreeTime" Required="0" Valid="1">
+        <Description Lang="en">Shown free time options.</Description>
+        <Description Lang="de">Gezeigte Frei-Zeit-Felder.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewForward</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="1">0</Item>
+                <Item Key="2">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+
+    <ConfigItem Name="Ticket::Frontend::AgentTicketMerge###Permission" Required="1" Valid="1">
+        <Description Lang="en">Required permisson to use this option.</Description>
+        <Description Lang="de">Benötigte Rechte zur Bearbeitung des Tickets.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewMerge</SubGroup>
+        <Setting>
+            <String Regex="">rw</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketMerge###RequiredLock" Required="0" Valid="1">
+        <Description Lang="en">A ticket lock is required. In case the ticket isn't locked, the tickets get locked and the current agent will be set automatically as ticket owner.</Description>
+        <Description Lang="de">Eine Ticket-Sperre wird benötigt bzw. wenn Ticket nicht gesperrt ist, wird das Ticket automatisch gesperrt und der Agent zum Besitzer gemacht.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewMerge</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::MergeText" Required="1" Valid="1">
+        <Description Lang="en">Default merge text.</Description>
+        <Description Lang="de">Standardnotiztext beim Ticket Merge.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewMerge</SubGroup>
+        <Setting>
+            <TextArea>Your email with ticket number "&lt;OTRS_TICKET&gt;" is merged to "&lt;OTRS_MERGE_TO_TICKET&gt;".</TextArea>
+        </Setting>
+    </ConfigItem>
+
     <ConfigItem Name="Ticket::ViewableSenderTypes" Required="1" Valid="1">
         <Description Lang="en">Default viewable sender types (default:  customer).</Description>
         <Description Lang="de">Standardmäßig sichtbare Sender Typen (Default: customer).</Description>
@@ -3256,7 +4006,7 @@ $Data{"Signature"}
     </ConfigItem>
     <ConfigItem Name="CustomerDBLink" Required="1" Valid="1">
         <Description Lang="en">External link to customer db. E.g. 'http://yourhost/customer.php?CID=$Data{"CustomerID"}' or ''</Description>
-        <Description Lang="de">Standardlink zur Customer-Datenbank. z.B. 'http://yourhost/customer.php?CID=$Data{"CustomerID"}' oder ''</Description>
+        <Description Lang="de">Standardlink zur Customer-Datenbank. z. B. 'http://yourhost/customer.php?CID=$Data{"CustomerID"}' oder ''</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -3634,7 +4384,22 @@ $Data{"Signature"}
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::MenuModule###410-Customer" Required="0" Valid="1">
+     <ConfigItem Name="Ticket::Frontend::MenuModule###410-Responsible" Required="0" Valid="1">
+        <Description Lang="en">Module to show responsible link in menu.</Description>
+        <Description Lang="de">Link zu den Verantwortlichereinstellungen eines Tickets im Menü der Ticketansicht.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
+                <Item Key="Name">Responsible</Item>
+                <Item Key="Description">Change the ticket responsible!</Item>
+                <Item Key="Action">AgentTicketResponsible</Item>
+                <Item Key="Link">Action=AgentTicketResponsible&amp;TicketID=$QData{"TicketID"}</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::MenuModule###420-Customer" Required="0" Valid="1">
         <Description Lang="en">Module to show customer link in menu.</Description>
         <Description Lang="de">Modul zur Anzeige des Customer-Links im Menü der Ticketansicht.</Description>
         <Group>Ticket</Group>
@@ -4615,7 +5380,7 @@ $Data{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketPhone" Required="0" Valid="1">
-        <Description Lang="en">Frontend module registration for the AgentTicketPhone    uee object in the agent interface.</Description>
+        <Description Lang="en">Frontend module registration for the AgentTicketPhone object in the agent interface.</Description>
         <Description Lang="de">Frontendmodul-Registration des AgentTicketPhone-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
@@ -4635,6 +5400,19 @@ $Data{"Signature"}
                     <AccessKey>n</AccessKey>
                     <Prio>200</Prio>
                 </NavBar>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AgentTicketPhoneOutbound" Required="0" Valid="1">
+        <Description Lang="en">Frontend module registration for the AgentTicketPhoneOutbound object in the agent interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AgentTicketPhoneOutbound-Objekts im Agent-Interface.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Description>Phone Call</Description>
+                <Title>Phone-Ticket</Title>
+                <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -4875,6 +5653,19 @@ $Data{"Signature"}
             <FrontendModuleReg>
                 <Description>Ticket Owner</Description>
                 <Title>Owner</Title>
+                <NavBarName>Ticket</NavBarName>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AgentTicketResponsible" Required="0" Valid="1">
+        <Description Lang="en">Frontend module registration for the AgentTicketResponsible object in the agent interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AgentTicketResponsible-Objekts im Agent-Interface.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Description>Ticket Responsible</Description>
+                <Title>Responsible</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
@@ -5150,7 +5941,7 @@ $Data{"Signature"}
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Salutations</Name>
+                    <Name>Salutation</Name>
                     <Block>Block3</Block>
                     <Prio>100</Prio>
                 </NavBarModule>
@@ -5170,7 +5961,7 @@ $Data{"Signature"}
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Signatures</Name>
+                    <Name>Signature</Name>
                     <Block>Block3</Block>
                     <Prio>200</Prio>
                 </NavBarModule>
@@ -5210,7 +6001,7 @@ $Data{"Signature"}
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Notifications</Name>
+                    <Name>Notification</Name>
                     <Block>Block3</Block>
                     <Prio>400</Prio>
                 </NavBarModule>
@@ -5390,8 +6181,8 @@ $Data{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PostmasterMaxEmails" Required="1" Valid="1">
-        <Description Lang="en">Maximal post master daemon email to own email-address a day. Loop-Protection!</Description>
-        <Description Lang="de">Maximale Anzahl an Postmaster-Daemon-Emails pro Tag an die eigenen Emailadressen. (Schutz vor Emailschleifen!)</Description>
+        <Description Lang="en">Maximal auto email responses to own email-address a day (Loop-Protection)!</Description>
+        <Description Lang="de">Maximale Anzahl von Auto-Antworten an eine Email-Adresse pro Tag (Schutz vor Emailschleifen!).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
         <Setting>
@@ -5575,6 +6366,14 @@ $Data{"Signature"}
                 <Item>X-OTRS-TicketKey6</Item>
                 <Item>X-OTRS-TicketKey7</Item>
                 <Item>X-OTRS-TicketKey8</Item>
+                <Item>X-OTRS-TicketKey9</Item>
+                <Item>X-OTRS-TicketKey10</Item>
+                <Item>X-OTRS-TicketKey11</Item>
+                <Item>X-OTRS-TicketKey12</Item>
+                <Item>X-OTRS-TicketKey13</Item>
+                <Item>X-OTRS-TicketKey14</Item>
+                <Item>X-OTRS-TicketKey15</Item>
+                <Item>X-OTRS-TicketKey16</Item>
                 <Item>X-OTRS-TicketValue1</Item>
                 <Item>X-OTRS-TicketValue2</Item>
                 <Item>X-OTRS-TicketValue3</Item>
@@ -5583,6 +6382,57 @@ $Data{"Signature"}
                 <Item>X-OTRS-TicketValue6</Item>
                 <Item>X-OTRS-TicketValue7</Item>
                 <Item>X-OTRS-TicketValue8</Item>
+                <Item>X-OTRS-TicketValue9</Item>
+                <Item>X-OTRS-TicketValue10</Item>
+                <Item>X-OTRS-TicketValue11</Item>
+                <Item>X-OTRS-TicketValue12</Item>
+                <Item>X-OTRS-TicketValue13</Item>
+                <Item>X-OTRS-TicketValue14</Item>
+                <Item>X-OTRS-TicketValue15</Item>
+                <Item>X-OTRS-TicketValue16</Item>
+                <Item>X-OTRS-FollowUp-Priority</Item>
+                <Item>X-OTRS-FollowUp-Queue</Item>
+                <Item>X-OTRS-FollowUp-State</Item>
+                <Item>X-OTRS-FollowUp-ArticleKey1</Item>
+                <Item>X-OTRS-FollowUp-ArticleKey2</Item>
+                <Item>X-OTRS-FollowUp-ArticleKey3</Item>
+                <Item>X-OTRS-FollowUp-ArticleValue1</Item>
+                <Item>X-OTRS-FollowUp-ArticleValue2</Item>
+                <Item>X-OTRS-FollowUp-ArticleValue3</Item>
+                <Item>X-OTRS-FollowUp-SenderType</Item>
+                <Item>X-OTRS-FollowUp-ArticleType</Item>
+                <Item>X-OTRS-FollowUp-TicketKey1</Item>
+                <Item>X-OTRS-FollowUp-TicketKey2</Item>
+                <Item>X-OTRS-FollowUp-TicketKey3</Item>
+                <Item>X-OTRS-FollowUp-TicketKey4</Item>
+                <Item>X-OTRS-FollowUp-TicketKey5</Item>
+                <Item>X-OTRS-FollowUp-TicketKey6</Item>
+                <Item>X-OTRS-FollowUp-TicketKey7</Item>
+                <Item>X-OTRS-FollowUp-TicketKey8</Item>
+                <Item>X-OTRS-FollowUp-TicketKey9</Item>
+                <Item>X-OTRS-FollowUp-TicketKey10</Item>
+                <Item>X-OTRS-FollowUp-TicketKey11</Item>
+                <Item>X-OTRS-FollowUp-TicketKey12</Item>
+                <Item>X-OTRS-FollowUp-TicketKey13</Item>
+                <Item>X-OTRS-FollowUp-TicketKey14</Item>
+                <Item>X-OTRS-FollowUp-TicketKey15</Item>
+                <Item>X-OTRS-FollowUp-TicketKey16</Item>
+                <Item>X-OTRS-FollowUp-TicketValue1</Item>
+                <Item>X-OTRS-FollowUp-TicketValue2</Item>
+                <Item>X-OTRS-FollowUp-TicketValue3</Item>
+                <Item>X-OTRS-FollowUp-TicketValue4</Item>
+                <Item>X-OTRS-FollowUp-TicketValue5</Item>
+                <Item>X-OTRS-FollowUp-TicketValue6</Item>
+                <Item>X-OTRS-FollowUp-TicketValue7</Item>
+                <Item>X-OTRS-FollowUp-TicketValue8</Item>
+                <Item>X-OTRS-FollowUp-TicketValue9</Item>
+                <Item>X-OTRS-FollowUp-TicketValue10</Item>
+                <Item>X-OTRS-FollowUp-TicketValue11</Item>
+                <Item>X-OTRS-FollowUp-TicketValue12</Item>
+                <Item>X-OTRS-FollowUp-TicketValue13</Item>
+                <Item>X-OTRS-FollowUp-TicketValue14</Item>
+                <Item>X-OTRS-FollowUp-TicketValue15</Item>
+                <Item>X-OTRS-FollowUp-TicketValue16</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -5679,9 +6529,26 @@ Thanks for your help!
 </TextArea>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="PostMaster::PreFilterModule###4-CMD" Required="0" Valid="0">
+        <Description Lang="en">CMD example setup. Ignore emails where external CMD returnes some output on STDOUT (email will be piped into STDIN of some.bin).</Description>
+        <Description Lang="de">CMD Beispiel Setup. Ignorieren alle Emails wenn das externe eine Rückgabe liefert (Email wird auf STDIN in some.bin piped).</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::PostMaster</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::PostMaster::Filter::CMD</Item>
+                <Item Key="CMD">/usr/bin/some.bin</Item>
+                <Item Key="Set">
+                    <Hash>
+                        <Item Key="X-OTRS-Ignore">yes</Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="PostMaster::PreFilterModule###5-SpamAssassin" Required="0" Valid="0">
-        <Description Lang="en">SpamAssassin example setup. Ignore emails that are marked with SpamAssassin.</Description>
-        <Description Lang="de">SpamAssassin Beispiel Setup. Von Spamassassin gekennzeichnete Nachrichten werden ignoriert.</Description>
+        <Description Lang="en">Spam Assassin example setup. Ignore emails that are marked with SpamAssassin.</Description>
+        <Description Lang="de">Spam Assassin Beispiel Setup. Von Spamassassin gekennzeichnete Nachrichten werden ignoriert.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
         <Setting>
@@ -5696,9 +6563,9 @@ Thanks for your help!
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="PostMaster::PreFilterModule###5-SpamAssassin" Required="0" Valid="0">
-        <Description Lang="en">SpamAssassin example setup. Move  marked mails to spam queue.</Description>
-        <Description Lang="de">SpamAssassin Beispiel Setup. Markierte Nachrichten werden in eine Spam-Queue verschoben.</Description>
+    <ConfigItem Name="PostMaster::PreFilterModule###6-SpamAssassin" Required="0" Valid="0">
+        <Description Lang="en">Spam Assassin example setup. Move marked mails to spam queue.</Description>
+        <Description Lang="de">Spam Assassin Beispiel Setup. Markierte Nachrichten werden in eine Spam-Queue verschoben.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
         <Setting>

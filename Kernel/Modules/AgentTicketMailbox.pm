@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMailbox.pm - to view all locked tickets
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketMailbox.pm,v 1.5 2006-01-29 23:55:04 martin Exp $
+# $Id: AgentTicketMailbox.pm,v 1.6 2006-03-04 11:34:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -105,7 +105,7 @@ sub Run {
             Limit => 1000,
             StateIDs => \@StateIDs,
             Locks => ['lock'],
-            UserIDs => [$Self->{UserID}],
+            OwnerIDs => [$Self->{UserID}],
             OrderBy => $OrderBy,
             SortBy => $SortByS,
             UserID => 1,
@@ -123,7 +123,7 @@ sub Run {
             Limit => 1000,
             StateIDs => \@StateIDs,
             Locks => ['lock'],
-            UserIDs => [$Self->{UserID}],
+            OwnerIDs => [$Self->{UserID}],
             OrderBy => $OrderBy,
             SortBy => $SortByS,
             UserID => 1,
@@ -146,7 +146,7 @@ sub Run {
             Limit => 1000,
 #            StateType => 'Open',
             Locks => ['lock'],
-            UserIDs => [$Self->{UserID}],
+            OwnerIDs => [$Self->{UserID}],
             OrderBy => $OrderBy,
             SortBy => $SortByS,
             UserID => 1,
@@ -186,13 +186,25 @@ sub Run {
             }
         }
     }
+    elsif ($Self->{Subaction} eq 'Responsible') {
+        @ViewableTickets = $Self->{TicketObject}->TicketSearch(
+            Result => 'ARRAY',
+            Limit => 1000,
+            StateType => 'Open',
+            ResponsibleIDs => [$Self->{UserID}],
+            OrderBy => $OrderBy,
+            SortBy => $SortByS,
+            UserID => 1,
+            Permission => 'ro',
+        );
+    }
     else {
         @ViewableTickets = $Self->{TicketObject}->TicketSearch(
             Result => 'ARRAY',
             Limit => 1000,
 #            StateType => 'Open',
             Locks => ['lock'],
-            UserIDs => [$Self->{UserID}],
+            OwnerIDs => [$Self->{UserID}],
             OrderBy => $OrderBy,
             SortBy => $SortByS,
             UserID => 1,

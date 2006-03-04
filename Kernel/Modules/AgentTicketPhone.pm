@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPhone.pm,v 1.16 2006-02-28 05:59:35 martin Exp $
+# $Id: AgentTicketPhone.pm,v 1.17 2006-03-04 11:34:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -56,291 +56,111 @@ sub new {
         $Self->{FormID} = $Self->{UploadCachObject}->FormIDCreate();
     }
 
+    $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
+
     return $Self;
 }
 # --
 sub Run {
     my $Self = shift;
     my %Param = @_;
-    my $Output;
-
 
     if (!$Self->{Subaction} || $Self->{Subaction} eq 'Created') {
         # header
-        $Output .= $Self->{LayoutObject}->Header();
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
         # if there is no ticket id!
-        if (!$Self->{TicketID} || ($Self->{TicketID} && $Self->{Subaction} eq 'Created')) {
-            $Output .= $Self->{LayoutObject}->NavigationBar();
+        if ($Self->{TicketID} && $Self->{Subaction} eq 'Created') {
             # notify info
-            if ($Self->{TicketID}) {
-                my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
-                $Output .= $Self->{LayoutObject}->Notify(
-                    Info => 'Ticket "%s" created!", "'.$Ticket{TicketNumber},
-                    Link => '$Env{"Baselink"}Action=AgentTicketZoom&TicketID='.$Ticket{TicketID},
-                );
-            }
-            # store last queue screen
-            if ($Self->{LastScreenOverview} !~ /Action=AgentTicketPhone/) {
-                $Self->{SessionObject}->UpdateSessionID(
-                    SessionID => $Self->{SessionID},
-                    Key => 'LastScreenOverview',
-                    Value => $Self->{RequestedURL},
-                );
-            }
-            # --
-            # get split article if given
-            # --
-            # get ArticleID
-            my $ArticleID = $Self->{ParamObject}->GetParam(Param => 'ArticleID');
-            my %Article = ();
-            my %CustomerData = ();
-            if ($ArticleID) {
-                %Article = $Self->{TicketObject}->ArticleGet(ArticleID => $ArticleID);
-                $Article{Subject} = $Self->{TicketObject}->TicketSubjectClean(
-                    TicketNumber => $Article{TicketNumber},
-                    Subject => $Article{Subject} || '',
-                );
-                # check if original content isn't text/plain or text/html, don't use it
-                if ($Article{'ContentType'}) {
-                    if($Article{'ContentType'} =~ /text\/html/i) {
-                        $Article{Body} =~ s/\<.+?\>//gs;
-                    }
-                    elsif ($Article{'ContentType'} !~ /text\/plain/i) {
-                        $Article{Body} = "-> no quotable message <-";
-                    }
+            my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
+            $Output .= $Self->{LayoutObject}->Notify(
+                Info => 'Ticket "%s" created!", "'.$Ticket{TicketNumber},
+                Link => '$Env{"Baselink"}Action=AgentTicketZoom&TicketID='.$Ticket{TicketID},
+            );
+        }
+        # store last queue screen
+        if ($Self->{LastScreenOverview} !~ /Action=AgentTicketPhone/) {
+            $Self->{SessionObject}->UpdateSessionID(
+                SessionID => $Self->{SessionID},
+                Key => 'LastScreenOverview',
+                Value => $Self->{RequestedURL},
+            );
+        }
+        # --
+        # get split article if given
+        # --
+        # get ArticleID
+        my $ArticleID = $Self->{ParamObject}->GetParam(Param => 'ArticleID');
+        my %Article = ();
+        my %CustomerData = ();
+        if ($ArticleID) {
+            %Article = $Self->{TicketObject}->ArticleGet(ArticleID => $ArticleID);
+            $Article{Subject} = $Self->{TicketObject}->TicketSubjectClean(
+                TicketNumber => $Article{TicketNumber},
+                Subject => $Article{Subject} || '',
+            );
+            # check if original content isn't text/plain or text/html, don't use it
+            if ($Article{'ContentType'}) {
+                if ($Article{'ContentType'} =~ /text\/html/i) {
+                    $Article{Body} =~ s/\<.+?\>//gs;
                 }
-                # show customer info
-                if ($Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoCompose')) {
-                  if ($Article{CustomerUserID}) {
+                elsif ($Article{'ContentType'} !~ /text\/plain/i) {
+                    $Article{Body} = "-> no quotable message <-";
+                }
+            }
+            # show customer info
+            if ($Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoCompose')) {
+                if ($Article{CustomerUserID}) {
                     %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
                          User => $Article{CustomerUserID},
                     );
-                  }
-                  elsif ($Article{CustomerID}) {
+                }
+                elsif ($Article{CustomerID}) {
                     %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
                         CustomerID => $Article{CustomerID},
                     );
-                  }
-                }
-                if ($Article{CustomerUserID}) {
-                    my %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
-                        UserLogin => $Article{CustomerUserID},
-                    );
-                    foreach (sort keys %CustomerUserList) {
-                        $Article{From} = $CustomerUserList{$_};
-                    }
                 }
             }
-            # get default selections
-            my %TicketFreeDefault = ();
-            foreach (1..16) {
-                $TicketFreeDefault{'TicketFreeKey'.$_} = $Self->{ConfigObject}->Get('TicketFreeKey'.$_.'::DefaultSelection');
-                $TicketFreeDefault{'TicketFreeText'.$_} = $Self->{ConfigObject}->Get('TicketFreeText'.$_.'::DefaultSelection');
-            }
-            # get free text config options
-            my %TicketFreeText = ();
-            foreach (1..16) {
-                $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
-                    TicketID => $Self->{TicketID},
-                    Action => $Self->{Action},
-                    Type => "TicketFreeKey$_",
-                    UserID => $Self->{UserID},
+            if ($Article{CustomerUserID}) {
+                my %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
+                    UserLogin => $Article{CustomerUserID},
                 );
-                $TicketFreeText{"TicketFreeText$_"} = $Self->{TicketObject}->TicketFreeTextGet(
-                    TicketID => $Self->{TicketID},
-                    Action => $Self->{Action},
-                    Type => "TicketFreeText$_",
-                    UserID => $Self->{UserID},
-                );
-            }
-            my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
-                Config => \%TicketFreeText,
-                Ticket => { %TicketFreeDefault,
-                    $Self->{UserObject}->GetUserData(
-                        UserID => $Self->{UserID},
-                        Cached => 1,
-                    ),
-                },
-            );
-            # get free text params
-            my %TicketFreeTime = ();
-            foreach (1..2) {
-                foreach my $Type (qw(Year Month Day Hour Minute)) {
-                    $TicketFreeTime{"TicketFreeTime".$_.$Type} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
+                foreach (sort keys %CustomerUserList) {
+                    $Article{From} = $CustomerUserList{$_};
                 }
             }
-            # free time
-            my %FreeTime = $Self->{LayoutObject}->AgentFreeDate(
-                %Param,
-                Ticket => \%TicketFreeTime,
-            );
-            # html output
-            $Output .= $Self->_MaskPhoneNew(
-              QueueID => $Self->{QueueID},
-              NextStates => $Self->_GetNextStates(QueueID => $Self->{QueueID} || 1),
-              Priorities => $Self->_GetPriorities(QueueID => $Self->{QueueID} || 1),
-              Users => $Self->_GetUsers(QueueID => $Self->{QueueID}),
-              To => $Self->_GetTos(QueueID => $Self->{QueueID}),
-              From => $Article{From},
-              Subject => $Article{Subject} || '$Config{"Ticket::Frontend::PhoneNewSubject"}',
-              Body => $Article{Body} || '$Text{"$Config{"Ticket::Frontend::PhoneNewNote"}"}',
-              CustomerID => $Article{CustomerID},
-              CustomerUser => $Article{CustomerUserID},
-              CustomerData => \%CustomerData,
-              %TicketFreeTextHTML,
-              %FreeTime,
-            );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
         }
-        # get ticket info if ticket id is given
-        my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
-        # check it it's a agent-customer ticket
-        if ($Self->{ConfigObject}->Get('Ticket::AgentCanBeCustomer') && $Ticket{CustomerUserID} && $Ticket{CustomerUserID} eq $Self->{UserLogin}) {
-            # redirect for agent follow up screen
-            return $Self->{LayoutObject}->Redirect(
-                OP => "Action=AgentTicketCustomerFollowUp&TicketID=$Self->{TicketID}",
-            );
-        }
-        # check permissions if it's a existing ticket
-        if (!$Self->{TicketObject}->Permission(
-            Type => 'phone',
-            TicketID => $Self->{TicketID},
-            UserID => $Self->{UserID})) {
-            # error screen, don't show ticket
-            return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
-        }
-        # get ticket info
-        my $Tn = $Ticket{TicketNumber};
-        my %CustomerData = ();
-        if ($Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoCompose')) {
-            if ($Ticket{CustomerUserID}) {
-                %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-                    User => $Ticket{CustomerUserID},
-                );
-            }
-            elsif ($Ticket{CustomerID}) {
-                %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-                    CustomerID => $Ticket{CustomerID},
-                );
-            }
-        }
-        # get lock state && permissions
-        if (!$Self->{TicketObject}->LockIsTicketLocked(TicketID => $Self->{TicketID})) {
-          # set owner
-          $Self->{TicketObject}->OwnerSet(
-            TicketID => $Self->{TicketID},
-            UserID => $Self->{UserID},
-            NewUserID => $Self->{UserID},
-          );
-          # set lock
-          if ($Self->{TicketObject}->LockSet(
-            TicketID => $Self->{TicketID},
-            Lock => 'lock',
-            UserID => $Self->{UserID},
-          )) {
-                # show lock state
-                $Self->{LayoutObject}->Block(
-                    Name => 'TicketLocked',
-                    Data => {
-                        %Param,
-                        TicketID => $Self->{TicketID},
-                    },
-                );
-          }
-        }
-        else {
-            my ($OwnerID, $OwnerLogin) = $Self->{TicketObject}->OwnerCheck(
-                TicketID => $Self->{TicketID},
-            );
-
-            if ($OwnerID != $Self->{UserID}) {
-                $Output .= $Self->{LayoutObject}->Warning(
-                    Message => "Sorry, the current owner is $OwnerLogin!",
-                    Comment => 'Please change the owner first.',
-                );
-                $Output .= $Self->{LayoutObject}->Footer();
-                return $Output;
-            }
-            else {
-                $Self->{LayoutObject}->Block(
-                    Name => 'TicketBack',
-                    Data => {
-                        %Param,
-                        TicketID => $Self->{TicketID},
-                    },
-                );
-            }
+        # get default selections
+        my %TicketFreeDefault = ();
+        foreach (1..16) {
+            $TicketFreeDefault{'TicketFreeKey'.$_} = $Self->{ConfigObject}->Get('TicketFreeKey'.$_.'::DefaultSelection');
+            $TicketFreeDefault{'TicketFreeText'.$_} = $Self->{ConfigObject}->Get('TicketFreeText'.$_.'::DefaultSelection');
         }
         # get free text config options
         my %TicketFreeText = ();
         foreach (1..16) {
             $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
                 TicketID => $Self->{TicketID},
-                Type => "TicketFreeKey$_",
                 Action => $Self->{Action},
+                Type => "TicketFreeKey$_",
                 UserID => $Self->{UserID},
             );
             $TicketFreeText{"TicketFreeText$_"} = $Self->{TicketObject}->TicketFreeTextGet(
                 TicketID => $Self->{TicketID},
-                Type => "TicketFreeText$_",
                 Action => $Self->{Action},
+                Type => "TicketFreeText$_",
                 UserID => $Self->{UserID},
             );
         }
         my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
-            Ticket => \%Ticket,
             Config => \%TicketFreeText,
+            Ticket => { %TicketFreeDefault,
+                $Self->{UserObject}->GetUserData(
+                    UserID => $Self->{UserID},
+                    Cached => 1,
+                ),
+            },
         );
-        # get free text params
-        my %TicketFreeTime = ();
-        foreach (1..2) {
-            if ($Ticket{"TicketFreeTime".$_}) {
-                ($TicketFreeTime{"TicketFreeTime".$_.'Secunde'}, $TicketFreeTime{"TicketFreeTime".$_.'Minute'}, $TicketFreeTime{"TicketFreeTime".$_.'Hour'}, $TicketFreeTime{"TicketFreeTime".$_.'Day'}, $TicketFreeTime{"TicketFreeTime".$_.'Month'},  $TicketFreeTime{"TicketFreeTime".$_.'Year'}) = $Self->{TimeObject}->SystemTime2Date(
-                    SystemTime => $Self->{TimeObject}->TimeStamp2SystemTime(
-                        String => $Ticket{"TicketFreeTime".$_},
-                    ),
-                );
-            }
-        }
-        # free time
-        my %FreeTime = $Self->{LayoutObject}->AgentFreeDate(
-            Ticket => \%TicketFreeTime,
-        );
-        # print form ...
-        $Output .= $Self->_MaskPhone(
-            TicketID => $Self->{TicketID},
-            QueueID => $Self->{QueueID},
-            TicketNumber => $Tn,
-            NextStates => $Self->_GetNextStates(TicketID => $Self->{TicketID}),
-            CustomerData => \%CustomerData,
-            Subject => $Self->{LayoutObject}->Output(Template => $Self->{ConfigObject}->Get('Ticket::Frontend::PhoneSubject')) || '',
-            Body => $Self->{LayoutObject}->Output(Template => $Self->{ConfigObject}->Get('Ticket::Frontend::PhoneNote')) || '',
-            %TicketFreeTextHTML,
-            %FreeTime,
-        );
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
-    }
-    # save new phone article to existing ticket
-    elsif ($Self->{Subaction} eq 'Store') {
-        my %Error = ();
-        # get params
-        my %GetParam = ();
-        foreach (qw(AttachmentUpload
-            Body Subject TimeUnits NextStateID
-            Year Month Day Hour Minute
-            AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
-            AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
-            AttachmentDelete9 AttachmentDelete10 )) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
-        }
-        # get free text params
-        my %TicketFree = ();
-        foreach (1..16) {
-            $TicketFree{"TicketFreeKey$_"} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeKey$_");
-            $TicketFree{"TicketFreeText$_"} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeText$_");
-        }
         # get free text params
         my %TicketFreeTime = ();
         foreach (1..2) {
@@ -348,223 +168,29 @@ sub Run {
                 $TicketFreeTime{"TicketFreeTime".$_.$Type} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
             }
         }
-        # rewrap body if exists
-        if ($GetParam{Body}) {
-            $GetParam{Body} =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote')})(?:\s|\z)/$1\n/gm;
-        }
-        # attachment delete
-        foreach (1..10) {
-            if ($GetParam{"AttachmentDelete$_"}) {
-                $Error{AttachmentDelete} = 1;
-                $Self->{UploadCachObject}->FormIDRemoveFile(
-                     FormID => $Self->{FormID},
-                    FileID => $_,
-                );
-            }
-        }
-        # attachment upload
-        if ($GetParam{AttachmentUpload}) {
-            $Error{AttachmentUpload} = 1;
-            my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-                Param => "file_upload",
-                Source => 'string',
-            );
-            $Self->{UploadCachObject}->FormIDAddFile(
-                FormID => $Self->{FormID},
-                %UploadStuff,
-            );
-        }
-        # get all attachments meta data
-        my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
-            FormID => $Self->{FormID},
+        # free time
+        my %FreeTime = $Self->{LayoutObject}->AgentFreeDate(
+            %Param,
+            Ticket => \%TicketFreeTime,
         );
-        # check if date is valid
-        my %StateData = $Self->{StateObject}->StateGet(ID => $GetParam{NextStateID});
-        if ($StateData{TypeName} =~ /^pending/i) {
-            if (!$Self->{TimeObject}->Date2SystemTime(%GetParam, Second => 0)) {
-                $Error{"Date invalid"} = 'invalid';
-            }
-            if ($Self->{TimeObject}->Date2SystemTime(%GetParam, Second => 0) < $Self->{TimeObject}->SystemTime()) {
-                $Error{"Date invalid"} = 'invalid';
-            }
-        }
-        if (%Error) {
-            # free time
-            my %FreeTime = $Self->{LayoutObject}->AgentFreeDate(
-                Ticket => \%TicketFreeTime,
-            );
-            # get free text config options
-            my %TicketFreeText = ();
-            foreach (1..16) {
-                $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
-                    TicketID => $Self->{TicketID},
-                    Type => "TicketFreeKey$_",
-                    Action => $Self->{Action},
-                    UserID => $Self->{UserID},
-                );
-                $TicketFreeText{"TicketFreeText$_"} = $Self->{TicketObject}->TicketFreeTextGet(
-                    TicketID => $Self->{TicketID},
-                    Type => "TicketFreeText$_",
-                    Action => $Self->{Action},
-                    UserID => $Self->{UserID},
-                );
-            }
-            my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
-                Config => \%TicketFreeText,
-                Ticket => \%TicketFree,
-            );
-            # get ticket info if ticket id is given
-            my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
-            # check permissions if it's a existing ticket
-            if (!$Self->{TicketObject}->Permission(
-                Type => 'phone',
-                TicketID => $Self->{TicketID},
-                UserID => $Self->{UserID})) {
-                # error screen, don't show ticket
-                return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
-            }
-            # get ticket info
-            my $Tn = $Ticket{TicketNumber};
-            my %CustomerData = ();
-            if ($Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoCompose')) {
-                if ($Ticket{CustomerUserID}) {
-                    %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-                        User => $Ticket{CustomerUserID},
-                    );
-                }
-                elsif ($Ticket{CustomerID}) {
-                    %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-                         CustomerID => $Ticket{CustomerID},
-                    );
-                }
-            }
-            # header
-            my $Output = $Self->{LayoutObject}->Header();
-            # print form ...
-            $Output .= $Self->_MaskPhone(
-                TicketID => $Self->{TicketID},
-                QueueID => $Self->{QueueID},
-                TicketNumber => $Tn,
-                NextStates => $Self->_GetNextStates(TicketID => $Self->{TicketID}),
-                CustomerData => \%CustomerData,
-                Attachments => \@Attachments,
-                %GetParam,
-                %TicketFreeTextHTML,
-                %FreeTime,
-            );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
-        }
-        else {
-          if (my $ArticleID = $Self->{TicketObject}->ArticleCreate(
-            TicketID => $Self->{TicketID},
-            ArticleType => $Self->{ConfigObject}->Get('Ticket::Frontend::PhoneArticleType'),
-            SenderType => $Self->{ConfigObject}->Get('Ticket::Frontend::PhoneSenderType'),
-            From => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
-            Subject => $GetParam{Subject},
-            Body => $GetParam{Body},
-            ContentType => "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}",
-            UserID => $Self->{UserID},
-            HistoryType => $Self->{ConfigObject}->Get('Ticket::Frontend::PhoneHistoryType'),
-            HistoryComment => $Self->{ConfigObject}->Get('Ticket::Frontend::PhoneHistoryComment') || '%%',
-          )) {
-            # time accounting
-            if ($GetParam{TimeUnits}) {
-              $Self->{TicketObject}->TicketAccountTime(
-                TicketID => $Self->{TicketID},
-                ArticleID => $ArticleID,
-                TimeUnit => $GetParam{TimeUnits},
-                UserID => $Self->{UserID},
-              );
-            }
-            # get pre loaded attachment
-            my @AttachmentData = $Self->{UploadCachObject}->FormIDGetAllFilesData(
-                FormID => $Self->{FormID},
-            );
-            foreach my $Ref (@AttachmentData) {
-                $Self->{TicketObject}->ArticleWriteAttachment(
-                    %{$Ref},
-                    ArticleID => $ArticleID,
-                    UserID => $Self->{UserID},
-                );
-            }
-            # get submit attachment
-            my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-                Param => 'file_upload',
-                Source => 'String',
-            );
-            if (%UploadStuff) {
-                $Self->{TicketObject}->ArticleWriteAttachment(
-                    %UploadStuff,
-                    ArticleID => $ArticleID,
-                    UserID => $Self->{UserID},
-                );
-            }
-            # set ticket free text
-            foreach (1..16) {
-                if (defined($TicketFree{"TicketFreeKey$_"})) {
-                    $Self->{TicketObject}->TicketFreeTextSet(
-                        TicketID => $Self->{TicketID},
-                        Key => $TicketFree{"TicketFreeKey$_"},
-                        Value => $TicketFree{"TicketFreeText$_"},
-                        Counter => $_,
-                        UserID => $Self->{UserID},
-                    );
-                }
-            }
-            # set ticket free time
-            foreach (1..2) {
-                if (defined($TicketFreeTime{"TicketFreeTime".$_."Year"}) &&
-                    defined($TicketFreeTime{"TicketFreeTime".$_."Month"}) &&
-                    defined($TicketFreeTime{"TicketFreeTime".$_."Day"}) &&
-                    defined($TicketFreeTime{"TicketFreeTime".$_."Hour"}) &&
-                    defined($TicketFreeTime{"TicketFreeTime".$_."Minute"})) {
-                    $Self->{TicketObject}->TicketFreeTimeSet(
-                        %TicketFreeTime,
-                        TicketID => $Self->{TicketID},
-                        Counter => $_,
-                        UserID => $Self->{UserID},
-                    );
-                }
-            }
-            # set state
-            $Self->{TicketObject}->StateSet(
-                TicketID => $Self->{TicketID},
-                ArticleID => $ArticleID,
-                StateID => $GetParam{NextStateID},
-                UserID => $Self->{UserID},
-            );
-           # should i set an unlock? yes if the ticket is closed
-           my %StateData = $Self->{StateObject}->StateGet(ID => $GetParam{NextStateID});
-           if ($StateData{TypeName} =~ /^close/i) {
-               $Self->{TicketObject}->LockSet(
-                   TicketID => $Self->{TicketID},
-                   Lock => 'unlock',
-                   UserID => $Self->{UserID},
-               );
-           }
-           # set pending time if next state is a pending state
-           elsif ($StateData{TypeName} =~ /^pending/i) {
-               $Self->{TicketObject}->TicketPendingTimeSet(
-                   UserID => $Self->{UserID},
-                   TicketID => $Self->{TicketID},
-                   %GetParam,
-               );
-           }
-           # redirect to last screen (e. g. zoom view) and to queue view if
-           # the ticket is closed (move to the next task).
-           if ($StateData{TypeName} =~ /^close/i) {
-               return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenOverview});
-           }
-           else {
-               return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenView});
-           }
-        }
-        else {
-          # show error of creating article
-          return $Self->{LayoutObject}->ErrorScreen();
-        }
-      }
+        # html output
+        $Output .= $Self->_MaskPhoneNew(
+              QueueID => $Self->{QueueID},
+              NextStates => $Self->_GetNextStates(QueueID => $Self->{QueueID} || 1),
+              Priorities => $Self->_GetPriorities(QueueID => $Self->{QueueID} || 1),
+              Users => $Self->_GetUsers(QueueID => $Self->{QueueID}),
+              To => $Self->_GetTos(QueueID => $Self->{QueueID}),
+              From => $Article{From},
+              Subject => $Article{Subject} || $Self->{LayoutObject}->Output(Template => $Self->{Config}->{Subject}),
+              Body => $Article{Body} || $Self->{LayoutObject}->Output(Template => $Self->{Config}->{Body}),
+              CustomerID => $Article{CustomerID},
+              CustomerUser => $Article{CustomerUserID},
+              CustomerData => \%CustomerData,
+              %TicketFreeTextHTML,
+              %FreeTime,
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
     # create new ticket and article
     elsif ($Self->{Subaction} eq 'StoreNew') {
@@ -821,7 +447,7 @@ sub Run {
             # --
             # header
             # --
-            $Output .= $Self->{LayoutObject}->Header();
+            my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
             # --
             # html output
@@ -852,7 +478,7 @@ sub Run {
             );
             # show customer tickets
             my @TicketIDs = ();
-            if ($CustomerUser && $Self->{ConfigObject}->Get('Ticket::Frontend::PhoneNewShownCustomerTickets')) {
+            if ($CustomerUser && $Self->{Config}->{ShownCustomerTickets}) {
                 # get secondary customer ids
                 my @CustomerIDs = $Self->{CustomerUserObject}->CustomerIDs(User => $CustomerUser);
                 # get own customer id
@@ -863,7 +489,7 @@ sub Run {
 
                 @TicketIDs = $Self->{TicketObject}->TicketSearch(
                     Result => 'ARRAY',
-                    Limit => $Self->{ConfigObject}->Get('Ticket::Frontend::PhoneNewShownCustomerTickets'),
+                    Limit => $Self->{Config}->{ShownCustomerTickets},
                     CustomerID => \@CustomerIDs,
 
                     UserID => $Self->{UserID},
@@ -989,16 +615,16 @@ sub Run {
         if (my $ArticleID = $Self->{TicketObject}->ArticleCreate(
             NoAgentNotify => $NoAgentNotify,
             TicketID => $TicketID,
-            ArticleType => $Self->{ConfigObject}->Get('Ticket::Frontend::PhoneNewArticleType'),
-            SenderType => $Self->{ConfigObject}->Get('Ticket::Frontend::PhoneNewSenderType'),
+            ArticleType => $Self->{Config}->{ArticleType},
+            SenderType => $Self->{Config}->{SenderType},
             From => $From,
             To => $To,
             Subject => $Subject,
             Body => $Text,
             ContentType => "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}",
             UserID => $Self->{UserID},
-            HistoryType => $Self->{ConfigObject}->Get('Ticket::Frontend::PhoneNewHistoryType'),
-            HistoryComment => $Self->{ConfigObject}->Get('Ticket::Frontend::PhoneNewHistoryComment') || '%%',
+            HistoryType => $Self->{Config}->{HistoryType},
+            HistoryComment => $Self->{Config}->{HistoryComment} || '%%',
             AutoResponseType => 'auto reply',
             OrigHeader => {
               From => $From,
@@ -1100,7 +726,6 @@ sub _GetNextStates {
         %NextStates = $Self->{TicketObject}->StateList(
             %Param,
             Action => $Self->{Action},
-            Type => 'PhoneDefaultNext',
             UserID => $Self->{UserID},
         );
     }
@@ -1224,107 +849,6 @@ sub _GetTos {
     return \%NewTos;
 }
 # --
-sub _MaskPhone {
-    my $Self = shift;
-    my %Param = @_;
-    $Param{FormID} = $Self->{FormID};
-    # build next states string
-    my %Selected = ();
-    if ($Param{NextStateID}) {
-        $Selected{SelectedID} = $Param{NextStateID};
-    }
-    else {
-        $Selected{Selected} = $Self->{ConfigObject}->Get('Ticket::Frontend::PhoneNextState');
-    }
-    $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => $Param{NextStates},
-        Name => 'NextStateID',
-        %Selected,
-    );
-    # customer info string
-    if ($Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoCompose')) {
-        $Param{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
-            Data => $Param{CustomerData},
-            Max => $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoComposeMaxSize'),
-        );
-        $Self->{LayoutObject}->Block(
-            Name => 'CustomerTable',
-            Data => \%Param,
-        );
-    }
-    # pending data string
-    $Param{PendingDateString} = $Self->{LayoutObject}->BuildDateSelection(
-        %Param,
-        Format => 'DateInputFormatLong',
-        DiffTime => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
-    );
-    # do html quoting
-    foreach (qw(From To Cc)) {
-        $Param{$_} = $Self->{LayoutObject}->Ascii2Html(Text => $Param{$_}) || '';
-    }
-    # prepare errors!
-    if ($Param{Errors}) {
-        foreach (keys %{$Param{Errors}}) {
-            $Param{$_} = "* ".$Self->{LayoutObject}->Ascii2Html(Text => $Param{Errors}->{$_});
-        }
-    }
-    # ticket free text
-    my $Count = 0;
-    foreach (1..16) {
-        $Count++;
-        if ($Self->{ConfigObject}->Get('TicketFreeText'.$Count.'::Shown') && $Self->{ConfigObject}->Get('TicketFreeText'.$Count.'::Shown')->{Phone}) {
-            $Self->{LayoutObject}->Block(
-                Name => 'FreeText',
-                Data => {
-                    TicketFreeKeyField => $Param{'TicketFreeKeyField'.$Count},
-                    TicketFreeTextField => $Param{'TicketFreeTextField'.$Count},
-                },
-            );
-        }
-    }
-    $Count = 0;
-    foreach (1..2) {
-        $Count++;
-        if ($Self->{ConfigObject}->Get('TicketFreeTime'.$Count.'::Shown') && $Self->{ConfigObject}->Get('TicketFreeText'.$Count.'::Shown')->{Phone}) {
-            $Self->{LayoutObject}->Block(
-                Name => 'FreeTime',
-                Data => {
-                    TicketFreeTimeKey => $Self->{ConfigObject}->Get('TicketFreeTimeKey'.$Count),
-                    TicketFreeTime => $Param{'TicketFreeTime'.$Count},
-                    Count => $Count,
-                },
-            );
-        }
-    }
-    # show time accounting box
-    if ($Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime')) {
-        $Self->{LayoutObject}->Block(
-            Name => 'TimeUnitsJs',
-            Data => \%Param,
-        );
-        $Self->{LayoutObject}->Block(
-            Name => 'TimeUnits',
-            Data => \%Param,
-        );
-    }
-    # show spell check
-    if ($Self->{ConfigObject}->Get('SpellChecker') && $Self->{LayoutObject}->{BrowserJavaScriptSupport}) {
-        $Self->{LayoutObject}->Block(
-            Name => 'SpellCheck',
-            Data => {},
-        );
-    }
-    # show attachments
-    foreach my $DataRef (@{$Param{Attachments}}) {
-        $Self->{LayoutObject}->Block(
-            Name => 'Attachment',
-            Data => $DataRef,
-        );
-    }
-    # get output back
-    return $Self->{LayoutObject}->Output(TemplateFile => 'AgentTicketPhone', Data => \%Param);
-}
-# --
 sub _MaskPhoneNew {
     my $Self = shift;
     my %Param = @_;
@@ -1340,7 +864,7 @@ sub _MaskPhoneNew {
     $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => $Param{NextStates},
         Name => 'NextStateID',
-        Selected => $Param{NextState} || $Self->{ConfigObject}->Get('Ticket::Frontend::PhoneNewNextState'),
+        Selected => $Param{NextState} || $Self->{Config}->{StateDefault},
     );
     # build from string
     if ($Param{FromOptions} && %{$Param{FromOptions}}) {
@@ -1393,7 +917,7 @@ sub _MaskPhoneNew {
     }
     # build priority string
     if (!$Param{PriorityID}) {
-        $Param{Priority} = $Self->{ConfigObject}->Get('Ticket::Frontend::PhonePriority');
+        $Param{Priority} = $Self->{Config}->{Priority};
     }
     $Param{'PriorityStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => $Param{Priorities},
@@ -1443,7 +967,7 @@ sub _MaskPhoneNew {
     my $Count = 0;
     foreach (1..16) {
         $Count++;
-        if ($Self->{ConfigObject}->Get('TicketFreeText'.$Count.'::Shown') && $Self->{ConfigObject}->Get('TicketFreeText'.$Count.'::Shown')->{PhoneNew}) {
+        if ($Self->{Config}->{'TicketFreeText'}->{$Count}) {
             $Self->{LayoutObject}->Block(
                 Name => 'FreeText',
                 Data => {
@@ -1456,7 +980,7 @@ sub _MaskPhoneNew {
     $Count = 0;
     foreach (1..2) {
         $Count++;
-        if ($Self->{ConfigObject}->Get('TicketFreeTime'.$Count.'::Shown') && $Self->{ConfigObject}->Get('TicketFreeText'.$Count.'::Shown')->{PhoneNew}) {
+        if ($Self->{Config}->{'TicketFreeTime'}->{$Count}) {
             $Self->{LayoutObject}->Block(
                 Name => 'FreeTime',
                 Data => {
@@ -1493,7 +1017,7 @@ sub _MaskPhoneNew {
         );
     }
     # get output back
-    return $Self->{LayoutObject}->Output(TemplateFile => 'AgentTicketPhoneNew', Data => \%Param);
+    return $Self->{LayoutObject}->Output(TemplateFile => 'AgentTicketPhone', Data => \%Param);
 }
 # --
 1;
