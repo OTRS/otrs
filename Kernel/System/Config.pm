@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Config.pm - all system config tool functions
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.46 2005-12-29 02:02:36 martin Exp $
+# $Id: Config.pm,v 1.47 2006-03-04 11:12:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Main;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.46 $';
+$VERSION = '$Revision: 1.47 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -749,11 +749,13 @@ sub ConfigGroupList {
         }
     }
     my %List = ();
+    my %Count = ();
     foreach my $ConfigItem (@{$Self->{XMLConfig}}) {
         if ($ConfigItem->{Group} && ref($ConfigItem->{Group}) eq 'ARRAY') {
             foreach my $Group (@{$ConfigItem->{Group}}) {
                 if ($Group->{Content}) {
-                    $List{$Group->{Content}} = $Group->{Content};
+                    $Count{$Group->{Content}}++;
+                    $List{$Group->{Content}} = "$Group->{Content} ($Count{$Group->{Content}})";
                 }
             }
         }
@@ -1223,6 +1225,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.46 $ $Date: 2005-12-29 02:02:36 $
+$Revision: 1.47 $ $Date: 2006-03-04 11:12:34 $
 
 =cut
