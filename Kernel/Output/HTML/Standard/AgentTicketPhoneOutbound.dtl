@@ -1,0 +1,188 @@
+# --
+# AgentPhone.dtl - provides HTML form for phone
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: AgentTicketPhoneOutbound.dtl,v 1.1 2006-03-04 11:41:37 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start form -->
+<script language="JavaScript" type="text/javascript">
+<!--
+function submit_compose()
+{
+    if (document.compose.Subject.value == "") {
+        alert('$Text{"A message should have a subject!"}');
+        document.compose.Subject.focus();
+        return false;
+    }
+    else if (isNaN(document.compose.Day.value) || isNaN(document.compose.Month.value) || isNaN(document.compose.Year.value) || isNaN(document.compose.Hour.value) || isNaN(document.compose.Minute.value)) {
+        alert('$Text{"Invalid date!"}');
+        return false;
+    }
+    else if (document.compose.Day.value < 1 || document.compose.Day.value > 31 || document.compose.Month.value < 1 || document.compose.Month.value > 31 || document.compose.Year.value < 999 || document.compose.Year.value > 10000 || document.compose.Hour.value < 0 || document.compose.Hour.value > 23 ||document.compose.Minute.value < 0 || document.compose.Minute.value > 59  ) {
+        alert('$Text{"Invalid date!"}');
+        return false;
+    }
+<!-- dtl:block:TimeUnitsJs -->
+    else if (document.compose.TimeUnits.value != "") {
+        var reg = /^-{0,1}\d+?((\.|,){0,1}\d+?){0,1}$/;
+        if (reg.test(document.compose.TimeUnits.value) == false) {
+            alert('$Text{"Invalid time!"}');
+            document.compose.TimeUnits.focus();
+            return false;
+        }
+    }
+    else if (document.compose.TimeUnits.value == "" && $Config{"Ticket::Frontend::NeedAccountedTime"}) {
+        alert('$Text{"You need to account time!"}');
+        document.compose.TimeUnits.focus();
+        return false;
+    }
+<!-- dtl:block:TimeUnitsJs -->
+    else {
+        return true;
+    }
+}
+//-->
+</script>
+
+<script language="JavaScript" type="text/javascript">
+<!--
+function SpellCheckSubmit()
+{
+    document.spelling.Body.value = document.compose.Body.value;
+    window.open('', 'spelling', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
+    document.spelling.submit()
+}
+// -->
+</script>
+
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+  <tr>
+    <td class="mainhead">
+      $Env{"Box0"}$Text{"Phone call"}: $Data{"TicketNumber"}$Env{"Box1"}
+    </td>
+  </tr>
+$Include{"AgentTicketLocked"}
+  <tr>
+    <td class="mainbody">
+
+      <p>
+
+      <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
+        <input type="hidden" name="Action" value="$Env{"Action"}">
+        <input type="hidden" name="Subaction" value="Store">
+        <input type="hidden" name="FormID" value="$QData{"FormID"}">
+        <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
+        <table border="0" width="100%">
+          <tr>
+            <td width="20%" class="contentkey">$Text{"Subject"}:</td>
+            <td width="50%" class="contentvalue"><input type="text" name="Subject" value="$QData{"Subject"}" size="60"></td>
+            <td width="30%" rowspan="7" class="contentvalue">
+
+# show customer info table
+<!-- dtl:block:CustomerTable -->
+              <p><b>$Text{"Customer Info"}</b>:<br>$Data{"CustomerTable"}</p>
+<!-- dtl:block:CustomerTable -->
+
+            </td>
+          </tr>
+          <tr>
+            <td class="contentkey">$Text{"Options"}:</td>
+            <td class="contentvalue">
+<!-- dtl:block:SpellCheck -->
+              $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$Text{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"}
+<!-- dtl:block:SpellCheck -->
+              $Env{"Box0"}<a href="#attachment" onmouseover="window.status='$Text{"Attachments"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}attach.png">$Text{"Attachments"}</a>$Env{"Box1"}
+            </td>
+          </tr>
+          <tr>
+            <td class="contentkey">$Text{"Text"}:</td>
+            <td class="contentvalue"><textarea name="Body" rows="16" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea></td>
+          </tr>
+          <tr>
+            <td class="contentkey">$Text{"Attachment"}:</td>
+            <td class="contentvalue">
+              <table cellspacing="0" cellpadding="0" width="400">
+<!-- dtl:block:Attachment -->
+                <tr>
+                  <td>$QData{"Filename"}</td>
+                  <td>$QData{"Filesize"}</td>
+                  <td align="right"><input class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}"></td>
+                </tr>
+<!-- dtl:block:Attachment -->
+                <tr>
+                  <td colspan="2"><input name="file_upload" type="file" size="40" class="fixed"></td><td align="right"><input class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}"><a name="attachment"></td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td class="contentkey">$Text{"Next ticket state"}:</td>
+            <td class="contentvalue">$Data{"NextStatesStrg"}</td>
+          </tr>
+          <tr>
+            <td class="contentkey">$Text{"Pending Date"} ($Text{"for pending* states"}):</td>
+            <td class="contentvalue">$Data{"PendingDateString"} <font color="red" size="-2">$Text{"$Data{"Date invalid"}"}</font> </td>
+          </tr>
+<!-- dtl:block:FreeText -->
+          <tr>
+            <td class="contentkey">$Data{"TicketFreeKeyField"}</td>
+            <td class="contentvalue">$Data{"TicketFreeTextField"}</td>
+          </tr>
+<!-- dtl:block:FreeText -->
+#  <tr>
+#    <td class="contentkey">$Data{"TicketFreeKeyField1"}:</td>
+#    <td class="contentvalue">$Data{"TicketFreeTextField1"}</td>
+#  </tr>
+#  <tr>
+#    <td class="contentkey">$Data{"TicketFreeKeyField2"}:</td>
+#    <td class="contentvalue">$Data{"TicketFreeTextField2"}</td>
+#  </tr>
+#  <tr>
+#    <td class="contentkey">$Data{"TicketFreeKeyField3"}:</td>
+#    <td class="contentvalue">$Data{"TicketFreeTextField3"}</td>
+#  </tr>
+#  <tr>
+#    <td class="contentkey">$Data{"TicketFreeKeyField4"}:</td>
+#    <td class="contentvalue">$Data{"TicketFreeTextField4"}</td>
+#  </tr>
+<!-- dtl:block:FreeTime -->
+          <tr>
+            <td class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}</td>
+            <td class="contentvalue">$Data{"TicketFreeTime"}</td>
+          </tr>
+<!-- dtl:block:FreeTime -->
+#  <tr>
+#    <td class="contentkey">$Text{"$Config{"TicketFreeTimeKey1"}"}:</td>
+#    <td class="contentvalue">$Data{"TicketFreeTime1"}</td>
+#  </tr>
+#  <tr>
+#    <td class="contentkey">$Text{"$Config{"TicketFreeTimeKey2"}"}:</td>
+#    <td class="contentvalue">$Data{"TicketFreeTime2"}</td>
+#  </tr>
+<!-- dtl:block:TimeUnits -->
+          <tr>
+            <td class="contentkey">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</td>
+            <td class="contentvalue"><input type="text" name="TimeUnits" value="$QData{"TimeUnits"}" size="3"></td>
+          </tr>
+<!-- dtl:block:TimeUnits -->
+        </table>
+        <br>
+        <input accesskey="g" class="button" type="submit" value="$Text{"submit"}" onclick="return submit_compose();">
+      </form>
+
+      <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
+        <input type="hidden" name="Action" value="AgentSpelling">
+        <input type="hidden" name="Body" value="">
+        <input type="hidden" name="spell_lang" value="">
+      </form>
+
+      </p>
+
+    </td>
+  </tr>
+</table>
+<!-- end form -->
