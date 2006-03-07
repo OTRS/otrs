@@ -1,8 +1,8 @@
 # --
-# CustomerMessage.dtl - provides HTML form for customer message
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# CustomerMessageNew.dtl - provides HTML form for customer message
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerTicketMessage.dtl,v 1.1 2005-03-27 11:37:36 martin Exp $
+# $Id: CustomerTicketMessage.dtl,v 1.2 2006-03-07 06:43:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -32,48 +32,118 @@ function submit_compose()
 //-->
 </script>
 
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr>
-  <td class="mainhead">
-    $Env{"Box0"}$Text{"Follow up"}: $Data{"TicketNumber"}$Env{"Box1"}
-  </td>
-</tr>
-<tr>
-  <td class="mainbody">
-
-<p>
-
-<form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
-<input type="hidden" name="Action" value="$Env{"Action"}">
-<input type="hidden" name="Subaction" value="Store">
-<input type="hidden" name="QueueID" value="$Data{"QueueID"}">
-<input type="hidden" name="TicketID" value="$Data{"TicketID"}">
-<input type="hidden" name="NextScreen" value="$Data{"NextScreen"}">
-  <table border="0" width="100%">
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
   <tr>
-    <td width="15%">$Text{"Subject"}:</td>
-    <td width="85%"><input type="text" name="Subject" value="$QData{"Subject"}" size="60"></td>
-  </tr>
-  <tr>
-    <td valign="top">$Text{"Text"}:</td><td>
-<textarea name="Body" rows="15" cols="60" wrap="$Env{"BrowserWrap"}">$QData{"Body"}</textarea>
+    <td class="mainhead">
+      $Env{"Box0"}$Text{"new ticket"}$Env{"Box1"}
     </td>
   </tr>
   <tr>
-    <td>$Text{"Attachment"}:</td><td><input name="file_upload" type="file" size="40" class="fixed">&nbsp;<a name="attachment"></td>
+    <td class="mainbody">
+
+      <br>
+
+      <table border="0" width="680" align="center" cellspacing="0" cellpadding="4">
+        <tr>
+          <td colspan="2" class="contenthead">$Text{"Options"}</td>
+        </tr>
+        <tr>
+          <td class="contentbody">
+
+            <form action="$Env{"CGIHandle"}" method="post" name="compose" enctype="multipart/form-data">
+              <input type="hidden" name="Action" value="$Env{"Action"}">
+              <input type="hidden" name="Subaction" value="StoreNew">
+              <input type="hidden" name="FormID" value="$QData{"FormID"}">
+              <table border="0">
+                <tr>
+                  <td width="15%" class="contentkey">$Text{"To"}:</td>
+                  <td width="85%" class="contentvalue">$Data{"ToStrg"}</td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Subject"}:</td>
+                  <td class="contentvalue"><input type="text" name="Subject" value="$QData{"Subject"}" size="70"><font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font></td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Text"}:</td>
+                  <td class="contentvalue"><textarea name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}" wrap="$Env{"BrowserWrap"}">$QData{"Body"}</textarea><font color="red" size="-2">$Text{"$Data{"Body invalid"}"}</font>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Attachment"}:</td>
+                  <td class="contentvalue">
+                    <table cellspacing="0" cellpadding="0" width="400">
+<!-- dtl:block:Attachment -->
+                      <tr>
+                        <td>$QData{"Filename"}</td>
+                        <td>$QData{"Filesize"}</td>
+                        <td align="right"><input class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}"></td>
+                      </tr>
+<!-- dtl:block:Attachment -->
+                      <tr>
+                        <td colspan="2"><input name="file_upload" type="file" size="40" class="fixed"></td>
+                        <td align="right"><input class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}"><a name="attachment"></td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+<!-- dtl:block:Priority -->
+                <tr>
+                  <td class="contentkey">$Text{"Priority"}:</td>
+                  <td class="contentvalue"> $Data{"PriorityStrg"}</td>
+                </tr>
+<!-- dtl:block:Priority -->
+<!-- dtl:block:FreeText -->
+                <tr>
+                  <td class="contentkey">$Data{"TicketFreeKeyField"}</td>
+                  <td class="contentvalue">$Data{"TicketFreeTextField"}</td>
+                </tr>
+<!-- dtl:block:FreeText -->
+#       <tr>
+#         <td class="contentkey">$Data{"TicketFreeKeyField1"}:</td>
+#         <td class="contentvalue">$Data{"TicketFreeTextField1"}</td>
+#       </tr>
+#       <tr>
+#         <td class="contentkey">$Data{"TicketFreeKeyField2"}:</td>
+#         <td class="contentvalue">$Data{"TicketFreeTextField2"}</td>
+#       </tr>
+#       <tr>
+#         <td class="contentkey">$Data{"TicketFreeKeyField3"}:</td>
+#         <td class="contentvalue">$Data{"TicketFreeTextField3"}</td>
+#       </tr>
+#       <tr>
+#         <td class="contentkey">$Data{"TicketFreeKeyField4"}:</td>
+#         <td class="contentvalue">$Data{"TicketFreeTextField4"}</td>
+#       </tr>
+<!-- dtl:block:FreeTime -->
+                <tr>
+                  <td class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}</td>
+                  <td class="contentvalue">$Data{"TicketFreeTime"}</td>
+                </tr>
+<!-- dtl:block:FreeTime -->
+#       <tr>
+#         <td class="contentkey">$Text{"$Config{"TicketFreeTimeKey1"}"}:</td>
+#         <td class="contentvalue">$Data{"TicketFreeTime1"}</td>
+#       </tr>
+#       <tr>
+#         <td class="contentkey">$Text{"$Config{"TicketFreeTimeKey2"}"}:</td>
+#         <td class="contentvalue">$Data{"TicketFreeTime2"}</td>
+#       </tr>
+              </table>
+
+            </td>
+          </tr>
+          <tr>
+            <td class="contentfooter">
+              <input class="button" accesskey="g" type="submit" value="$Text{"submit"}" onclick="return submit_compose();">
+            </td>
+          </tr>
+        </table>
+
+      </form>
+
+      <br>
+
+    </td>
   </tr>
-# should the customer user change the ticket state!
-<dtl if ($Config{"CustomerPanelNextComposeState"} ne "0") { $Data{"NextStateString"} = "<tr><td>$Text{"Next state"}:</td><td> $Data{"NextStatesStrg"}</td></tr>"; }>
-  $Data{"NextStateString"}
-#
-  </table>
-<br>
-<input class="button" type="submit" value="$Text{"submit"}" onclick="return submit_compose();">
-</form>
-
-</p>
-
-  </td>
-</tr>
 </table>
 <!-- end form -->

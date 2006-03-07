@@ -148,7 +148,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.87 2006-03-04 11:37:18 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.88 2006-03-07 06:43:06 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -4924,41 +4924,14 @@ $Data{"Signature"}
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="CustomerPriority" Required="1" Valid="1">
-        <Description Lang="en">Is the customer allowed to set the priority for a ticket?</Description>
-        <Description Lang="de">Darf der Kunde die Priorität eines Tickets festlegen?</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer</SubGroup>
-        <Setting>
-            <Option SelectedID="1">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
-            </Option>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="CustomerDefaultPriority" Required="1" Valid="1">
-        <Description Lang="en">Default priority of new customer tickets.</Description>
-        <Description Lang="de">Standard Priorität von Customer-Tickets.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer</SubGroup>
-        <Setting>
-            <String Regex="">3 normal</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="CustomerDefaultState" Required="1" Valid="1">
-        <Description Lang="en">Ddefault state of new customer tickets.</Description>
-        <Description Lang="de">Standard Status neuer Customer-Tickets.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer</SubGroup>
-        <Setting>
-            <String Regex="">new</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="CustomerNextScreenAfterNewTicket" Required="1" Valid="1">
+
+
+
+    <ConfigItem Name="Ticket::Frontend::CustomerTicketMessage###NextScreenAfterNewTicket" Required="1" Valid="1">
         <Description Lang="en">Next screen after new customer ticket.</Description>
         <Description Lang="de">Nächster Bildschirm nach neuem Customer-Ticket.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer</SubGroup>
+        <SubGroup>Frontend::Customer::ViewNewTicket</SubGroup>
         <Setting>
             <Option SelectedID="CustomerTicketOverView">
                 <Item Key="CustomerTicketOverView">CustomerTicketOverView</Item>
@@ -4966,56 +4939,11 @@ $Data{"Signature"}
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="CustomerPanelArticleType" Required="1" Valid="1">
-        <Description Lang="en">Type of note.</Description>
-        <Description Lang="de">Notiztyp.</Description>
+    <ConfigItem Name="Ticket::Frontend::CustomerTicketMessage###Priority" Required="1" Valid="1">
+        <Description Lang="en">Allow customers to set the ticket priority.</Description>
+        <Description Lang="de">Priorität des Tickets darf vom Kunden gesetzt werden.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer</SubGroup>
-        <Setting>
-            <String Regex="">webrequest</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="CustomerPanelSenderType" Required="1" Valid="1">
-        <Description Lang="en">Sender type for requests from the customer panel.</Description>
-        <Description Lang="de">Sendertyp von Anfragen aus dem Kunden-Panel.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer</SubGroup>
-        <Setting>
-            <String Regex="">customer</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="CustomerPanelHistoryType" Required="1" Valid="1">
-        <Description Lang="en">Default history type in the customer panel.</Description>
-        <Description Lang="de">Standard Historie im Kunden-Panel.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer</SubGroup>
-        <Setting>
-            <String Regex="">FollowUp</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="CustomerPanelHistoryComment" Required="1" Valid="1">
-        <Description Lang="en">Default history comment in the customer panel.</Description>
-        <Description Lang="de">Standard Historie Kommentar im Kunden-Panel.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer</SubGroup>
-        <Setting>
-            <String Regex=""></String>
-        </Setting>
-   </ConfigItem>
-    <ConfigItem Name="CustomerPanelDefaultNextComposeType" Required="1" Valid="1">
-        <Description Lang="en">Next state for ticket after customer followup.</Description>
-        <Description Lang="de">Nächster Status eines Tickets nach einem Kunden-Follow-up.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer</SubGroup>
-        <Setting>
-            <String Regex="">open</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="CustomerPanelNextComposeState" Required="1" Valid="1">
-        <Description Lang="en">Next commpose state for customer tickets.</Description>
-        <Description Lang="de">Nächster Status für vom Customer erstellte Tickets.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer</SubGroup>
+        <SubGroup>Frontend::Customer::ViewNewTicket</SubGroup>
         <Setting>
             <Option SelectedID="1">
                 <Item Key="0">No</Item>
@@ -5023,50 +4951,56 @@ $Data{"Signature"}
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::CustomerPanelDefaultNextComposeStateType" Required="1" Valid="1">
-        <Description Lang="en">Next possible states for customer tickets.</Description>
-        <Description Lang="de">Nächstmögliche Status für vom Kunden erstellte Tickets.</Description>
+    <ConfigItem Name="Ticket::Frontend::CustomerTicketMessage###PriorityDefault" Required="1" Valid="1">
+        <Description Lang="en">Default priority of new customer tickets.</Description>
+        <Description Lang="de">Standard Priorität von Customer-Tickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer</SubGroup>
+        <SubGroup>Frontend::Customer::ViewNewTicket</SubGroup>
         <Setting>
-            <Array>
-              <Item>open</Item>
-              <Item>closed</Item>
-            </Array>
+            <String Regex="">3 normal</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="CustomerPanelNewArticleType" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::CustomerTicketMessage###StateDefault" Required="1" Valid="1">
+        <Description Lang="en">Ddefault state of new customer tickets.</Description>
+        <Description Lang="de">Standard Status neuer Customer-Tickets.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Customer::ViewNewTicket</SubGroup>
+        <Setting>
+            <String Regex="">new</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::CustomerTicketMessage###ArticleType" Required="1" Valid="1">
         <Description Lang="en">Default article type.</Description>
         <Description Lang="de">Standard Artikeltyp.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer</SubGroup>
+        <SubGroup>Frontend::Customer::ViewNewTicket</SubGroup>
         <Setting>
             <String Regex="">webrequest</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="CustomerPanelNewSenderType" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::CustomerTicketMessage###SenderType" Required="1" Valid="1">
         <Description Lang="en">Sender type for new tickets from the customer panel.</Description>
         <Description Lang="de">Sendertyp für neue Tickets aus dem Customer-Panel.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer</SubGroup>
+        <SubGroup>Frontend::Customer::ViewNewTicket</SubGroup>
         <Setting>
             <String Regex="">customer</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="CustomerPanelNewHistoryType" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::CustomerTicketMessage###HistoryType" Required="1" Valid="1">
         <Description Lang="en">Default history type.</Description>
         <Description Lang="de">Standard History Typ.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer</SubGroup>
+        <SubGroup>Frontend::Customer::ViewNewTicket</SubGroup>
         <Setting>
             <String Regex="">WebRequestCustomer</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="CustomerPanelNewHistoryComment" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::CustomerTicketMessage###HistoryComment" Required="1" Valid="1">
         <Description Lang="en">Comment for new history entrys in the customer panel.</Description>
         <Description Lang="de">Kommentar für Einträge in der History innerhalb des Customer-Panels.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer</SubGroup>
+        <SubGroup>Frontend::Customer::ViewNewTicket</SubGroup>
         <Setting>
             <String Regex=""></String>
         </Setting>
@@ -5075,7 +5009,7 @@ $Data{"Signature"}
         <Description Lang="en">To: selection type. "Queue" shows all queues, "SystemAddress" displays all system addresses.</Description>
         <Description Lang="de">Auswahl des To: Anzeige-Typs. "Queue" zeigt alle Queues an, "SystemAddress" zeigt alle Systemadressen.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer</SubGroup>
+        <SubGroup>Frontend::Customer::ViewNewTicket</SubGroup>
         <Setting>
             <Option SelectedID="Queue">
                 <Item Key="Queue">Queue</Item>
@@ -5087,7 +5021,7 @@ $Data{"Signature"}
         <Description Lang="en">If "Queue" was selected for CustomerPanelSelectionType, you can specify a selection string (e. g. 'Queue: &lt;Queue&gt; - &lt;QueueComment&gt;').</Description>
         <Description Lang="de">Wenn "Queue" für CustomerPanelSelectionType ausgewählt wurde, kann hier eine Zeichenkette für die Auswahl angegeben werden (z. B. 'Queue: &lt;Queue&gt; - &lt;QueueComment&gt;').</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer</SubGroup>
+        <SubGroup>Frontend::Customer::ViewNewTicket</SubGroup>
         <Setting>
             <String Regex="">&lt;Queue&gt;</String>
         </Setting>
@@ -5096,7 +5030,7 @@ $Data{"Signature"}
       <Description Lang="en">Here you can insert the Queues, witch the Customer can select in the Customer-Interface.</Description>
         <Description Lang="de">Hier können die Queues eingegeben werden, aus dennen ein Kunde im Kunden-Panel auswählen kann.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer</SubGroup>
+        <SubGroup>Frontend::Customer::ViewNewTicket</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Junk">First Queue</Item>
@@ -5108,16 +5042,119 @@ $Data{"Signature"}
         <Description Lang="en">Module for To-selection in new ticket screen in the customer panel.</Description>
         <Description Lang="de">Modul für die Auswahl im To-Feld innerhalb der Bildschirm-Maske für neue Tickets im Customer-Panel.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer</SubGroup>
+        <SubGroup>Frontend::Customer::ViewNewTicket</SubGroup>
         <Setting>
             <String Regex="">Kernel::Output::HTML::CustomerNewTicketQueueSelectionGeneric</String>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::CustomerTicketZoom###NextScreenAfterFollowUp" Required="1" Valid="1">
+        <Description Lang="en">Next screen after customer follow up ticket.</Description>
+        <Description Lang="de">Nächster Bildschirm nach neuem Kunden-Nachfrage.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Customer::ViewZoom</SubGroup>
+        <Setting>
+            <Option SelectedID="CustomerTicketOverView">
+                <Item Key="CustomerTicketOverView">CustomerTicketOverView</Item>
+                <Item Key="CustomerTicketZoom">CustomerTicketZoom</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::CustomerTicketZoom###ArticleType" Required="1" Valid="1">
+        <Description Lang="en">Type of note.</Description>
+        <Description Lang="de">Notiztyp.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Customer::ViewZoom</SubGroup>
+        <Setting>
+            <String Regex="">webrequest</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::CustomerTicketZoom###SenderType" Required="1" Valid="1">
+        <Description Lang="en">Sender type for requests from the customer panel.</Description>
+        <Description Lang="de">Sendertyp von Anfragen aus dem Kunden-Panel.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Customer::ViewZoom</SubGroup>
+        <Setting>
+            <String Regex="">customer</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::CustomerTicketZoom###HistoryType" Required="1" Valid="1">
+        <Description Lang="en">Default history type in the customer panel.</Description>
+        <Description Lang="de">Standard Historie im Kunden-Panel.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Customer::ViewZoom</SubGroup>
+        <Setting>
+            <String Regex="">FollowUp</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::CustomerTicketZoom###HistoryComment" Required="1" Valid="1">
+        <Description Lang="en">Default history comment in the customer panel.</Description>
+        <Description Lang="de">Standard Historie Kommentar im Kunden-Panel.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Customer::ViewZoom</SubGroup>
+        <Setting>
+            <String Regex=""></String>
+        </Setting>
+     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::CustomerTicketZoom###Priority" Required="1" Valid="1">
+        <Description Lang="en">Allow customers to change the ticket priority.</Description>
+        <Description Lang="de">Priorität des Tickets darf vom Kunden verändert werden.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Customer::ViewMessage</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::CustomerTicketZoom###PriorityDefault" Required="1" Valid="1">
+        <Description Lang="en">Default priority of follow up customer tickets.</Description>
+        <Description Lang="de">Standard Priorität von Kunden-Nachfragen.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Customer::ViewMessage</SubGroup>
+        <Setting>
+            <String Regex="">3 normal</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::CustomerTicketZoom###State" Required="1" Valid="1">
+        <Description Lang="en">Next commpose state for customer tickets.</Description>
+        <Description Lang="de">Nächster Status für vom Customer erstellte Tickets.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Customer::ViewZoom</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::CustomerTicketZoom###StateDefault" Required="1" Valid="1">
+        <Description Lang="en">Next state for ticket after customer followup.</Description>
+        <Description Lang="de">Nächster Status eines Tickets nach einem Kunden-Follow-up.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Customer::ViewZoom</SubGroup>
+        <Setting>
+            <String Regex="">open</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::CustomerTicketZoom###StateType" Required="1" Valid="1">
+        <Description Lang="en">Next possible states for customer tickets.</Description>
+        <Description Lang="de">Nächstmögliche Status für vom Kunden erstellte Tickets.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Customer::ViewZoom</SubGroup>
+        <Setting>
+            <Array>
+              <Item>open</Item>
+              <Item>closed</Item>
+            </Array>
+        </Setting>
+    </ConfigItem>
+
     <ConfigItem Name="Ticket::CustomerTicketSearch::SearchLimit" Required="1" Valid="1">
         <Description Lang="en">Default limit for ticket search.</Description>
         <Description Lang="de">Standard Limit für die Suche innerhalb von Customer-Tickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer</SubGroup>
+        <SubGroup>Frontend::Customer::ViewSearch</SubGroup>
         <Setting>
             <String Regex="^[0-9]{1,6}$">5000</String>
         </Setting>
@@ -5126,7 +5163,7 @@ $Data{"Signature"}
         <Description Lang="en">Default number of articles per page after searching through tickets.</Description>
         <Description Lang="de">Standard Limit für Artikel pro Seite, die nach einer Suche über die Tickets angezeigt werden.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer</SubGroup>
+        <SubGroup>Frontend::Customer::ViewSearch</SubGroup>
         <Setting>
             <String Regex="^[0-9]{1,3}$">40</String>
           </Setting>
@@ -5135,7 +5172,7 @@ $Data{"Signature"}
         <Description Lang="en">Search result sort by default.</Description>
         <Description Lang="de">Standard Sortierung beim Suchergebnissen.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer</SubGroup>
+        <SubGroup>Frontend::Customer::ViewSearch</SubGroup>
         <Setting>
             <Option SelectedID="Age">
                 <Item Key="Age">Age</Item>
@@ -5168,7 +5205,7 @@ $Data{"Signature"}
         <Description Lang="en">Search result order default.</Description>
         <Description Lang="de">Sortierreihenfolge bei Suchergebnissen.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer</SubGroup>
+        <SubGroup>Frontend::Customer::ViewSearch</SubGroup>
         <Setting>
             <Option SelectedID="Down">
                 <Item Key="Down">Down</Item>
@@ -5226,7 +5263,6 @@ $Data{"Signature"}
             </Hash>
         </Setting>
     </ConfigItem>
-
     <ConfigItem Name="CustomerPreferencesGroups###RefreshTime" Required="0" Valid="1">
         <Description Lang="en">All parameters for the RefreshTime object in the customer preferences.</Description>
         <Description Lang="de">Parameter für das RefreshTime-Objket in den Einstellungen für Customer.</Description>
@@ -5324,15 +5360,6 @@ $Data{"Signature"}
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
             <String Regex="">CustomerTicketOverView</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="CustomerFrontend::CommonParam###QueueID" Required="1" Valid="1">
-        <Description Lang="en">Standard parameter for the QueueID in the customer interface.</Description>
-        <Description Lang="de">Standardwert für die QueueID innerhalb des Kunden-Interface.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer</SubGroup>
-        <Setting>
-            <String Regex="">0</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::CommonParam###TicketID" Required="1" Valid="1">
@@ -6090,9 +6117,9 @@ $Data{"Signature"}
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Create and updated tickets</Description>
+                <Description>Create tickets</Description>
                 <NavBarName>Ticket</NavBarName>
-                <Title>Message</Title>
+                <Title>New Ticket</Title>
                 <NavBar>
                     <Description>Create new Ticket</Description>
                     <Name>New Ticket</Name>
