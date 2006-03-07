@@ -2,7 +2,7 @@
 # INSTALL.SuSE description of OTRS installation for SuSE Linux with RPM
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: INSTALL.SuSE,v 1.5 2005-09-09 16:53:52 martin Exp $
+# $Id: INSTALL.SuSE,v 1.5.2.1 2006-03-07 06:47:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ Installation:
    Note: If you install it on SLES9 or OES, follow this description to
    install the missing perl-GD packages.
 
-   http://www.otrs.com/otrs/public.pl?FAQID=49
+   http://faq.otrs.org/otrs/public.pl?FAQID=49
 
 2. execute SuSEconfig to configure your system
    shell> SuSEconfig
