@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/ForceState.pm - set state
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ForceState.pm,v 1.1 2006-03-04 11:39:51 martin Exp $
+# $Id: ForceState.pm,v 1.2 2006-03-07 06:39:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::Event::ForceState;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -52,6 +52,7 @@ sub Run {
                 $Self->{TicketObject}->StateSet(
                     TicketID => $Param{TicketID},
                     State => $Param{Config}->{$_},
+                    SendNoNotification => 1,
                     UserID => 1,
                 );
             }
