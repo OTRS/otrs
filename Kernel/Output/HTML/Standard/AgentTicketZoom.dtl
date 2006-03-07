@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketZoom.dtl,v 1.6 2006-03-04 11:38:49 martin Exp $
+# $Id: AgentTicketZoom.dtl,v 1.7 2006-03-07 06:48:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -62,27 +62,27 @@ $Text{"$QData{"Name"}"}</a>
 # From:, To:, Cc:
 <!-- dtl:block:Row -->
         <tr>
-          <td valign="top" width="15%"><b>$Text{"$Data{"Key"}"}:</b></td>
-          <td width="85%"> <div title="$QData{"Value"}">$QData{"Value","160"}</div></td>
+          <td class="contentkey" width="15%">$Text{"$Data{"Key"}"}:</td>
+          <td class="contentvalue" width="85%"> <div title="$QData{"Value"}">$QData{"Value","160"}</div></td>
         </tr>
 <!-- dtl:block:Row -->
         <tr>
-          <td valign="top"><b>$Text{"Created"}:</b></td>
-          <td> <div title="$TimeLong{"$Data{"Created"}"}">$TimeLong{"$Data{"Created"}"}</div></td>
+          <td class="contentkey">$Text{"Created"}:</td>
+          <td class="contentvalue"> <div title="$TimeLong{"$Data{"Created"}"}">$TimeLong{"$Data{"Created"}"}</div></td>
         </tr>
 # show the Article::FreeKey1-3 and Article::FreeText1-3
 <!-- dtl:block:ArticleFreeText -->
         <tr>
-          <td valign="top" width="15%"><b>$QData{"Key"}:</b></td>
-          <td width="85%"> <div title="$QData{"Value"}">$QData{"Value","160"}</div></td>
+          <td class="contentkey" width="15%">$QData{"Key"}:</td>
+          <td class="contentvalue" width="85%"> <div title="$QData{"Value"}">$QData{"Value","160"}</div></td>
         </tr>
 <!-- dtl:block:ArticleFreeText -->
 # --
 # show FreeKey1-3 and FreeText1-3 (in other way like the block, so you could add link or somethin else)
 # --
-#<dtl if ($Data{"FreeKey1"} ne "") { $Data{"ArticleFreeString1"} = "<tr><td valign="top"><b>$QData{"FreeKey1"}:</b></td><td> $QData{"FreeText1"}</td></tr>"; }>
-#<dtl if ($Data{"FreeKey2"} ne "") { $Data{"ArticleFreeString2"} = "<tr><td valign="top"><b>$QData{"FreeKey2"}:</b></td><td> $QData{"FreeText2"}</td></tr>"; }>
-#<dtl if ($Data{"FreeKey3"} ne "") { $Data{"ArticleFreeString3"} = "<tr><td valign="top"><b>$QData{"FreeKey3"}:</b></td><td> $QData{"FreeText3"}</td></tr>"; }>
+#<dtl if ($Data{"FreeKey1"} ne "") { $Data{"ArticleFreeString1"} = "<tr><td class="contentkey">$QData{"FreeKey1"}:</td><td class="contentvalue"> $QData{"FreeText1"}</td></tr>"; }>
+#<dtl if ($Data{"FreeKey2"} ne "") { $Data{"ArticleFreeString2"} = "<tr><td class="contentkey">$QData{"FreeKey2"}:</td><td class="contentvalue"> $QData{"FreeText2"}</td></tr>"; }>
+#<dtl if ($Data{"FreeKey3"} ne "") { $Data{"ArticleFreeString3"} = "<tr><td class="contentkey">$QData{"FreeKey3"}:</td><td class="contentvalue"> $QData{"FreeText3"}</td></tr>"; }>
 #     $Data{"ArticleFreeString1"}
 #     $Data{"ArticleFreeString2"}
 #     $Data{"ArticleFreeString3"}
@@ -94,15 +94,15 @@ $Text{"$QData{"Name"}"}</a>
         <dtl if ($Data{"Successful"} eq "1") { $Data{"StartFont"} = "<font color="green">"; }>
         <dtl if ($Data{"Successful"} eq "1") { $Data{"StopFont"} = "</font>"; }>
         <tr>
-          <td valign="top" width="15%"><b>$Text{"$Data{"Key"}"}:</b></td>
-          <td width="85%"> <div title="$QData{"Value"}">$Data{"StartFont"}$QData{"Value","160"}$Data{"StopFont"}</div></td>
+          <td class="contentkey" width="15%">$Text{"$Data{"Key"}"}:</td>
+          <td class="contentvalue" width="85%"> <div title="$QData{"Value"}">$Data{"StartFont"}$QData{"Value","160"}$Data{"StopFont"}</div></td>
         </tr>
 <!-- dtl:block:ArticleOption -->
 # show attachments
 <!-- dtl:block:ArticleAttachment -->
         <tr>
-          <td valign="top" width="15%"><b>$Text{"$Data{"Key"}"}:</b></td>
-          <td width="85%">
+          <td class="contentkey" width="15%">$Text{"$Data{"Key"}"}:</td>
+          <td class="contentvalue" width="85%">
             <table border="0" cellspacing="0" cellpadding="1">
 <!-- dtl:block:ArticleAttachmentRow -->
               <tr>
