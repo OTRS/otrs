@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.203 2006-03-04 11:26:45 martin Exp $
+# $Id: Ticket.pm,v 1.204 2006-03-07 06:40:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.203 $';
+$VERSION = '$Revision: 1.204 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -2733,12 +2733,14 @@ to set a ticket state
   $TicketObject->SateSet(
       State => 'open',
       TicketID => 123,
+      SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
       UserID => 123,
   );
 
   $TicketObject->SateSet(
       StateID => 3,
       TicketID => 123,
+      SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
       UserID => 123,
   );
 
@@ -2819,12 +2821,14 @@ sub StateSet {
             );
         }
         # send customer notification email
-        $Self->SendCustomerNotification(
-            Type => 'StateUpdate',
-  	        CustomerMessageParams => \%Param,
-            TicketID => $Param{TicketID},
-            UserID => $Param{UserID},
-        );
+        if (!$Param{SendNoNotification}) {
+            $Self->SendCustomerNotification(
+                Type => 'StateUpdate',
+      	        CustomerMessageParams => \%Param,
+                TicketID => $Param{TicketID},
+                UserID => $Param{UserID},
+            );
+        }
         # ticket event
         $Self->TicketEventHandlerPost(
             Event => 'TicketStateUpdate',
@@ -4590,6 +4594,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.203 $ $Date: 2006-03-04 11:26:45 $
+$Revision: 1.204 $ $Date: 2006-03-07 06:40:27 $
 
 =cut
