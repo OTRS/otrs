@@ -2,13 +2,30 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.233 2006-03-04 11:11:03 martin Exp $
+# $Id: CHANGES,v 1.234 2006-03-07 06:46:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS head
+ - (2006/03/04) splited Kernel::Modules::AgentTicketPhone into
+    two modules Kernel::Modules::AgentTicketPhone and
+    Kernel::Modules::AgentTicketPhoneOutbound (phone calls for existing
+    tickets) also templates are renamed!
+ - (2006/03/04) cleanup for ticket event names (added compat mode):
+    TicketCreate, TicketDelete, TicketTitleUpdate, TicketUnlockTimeoutUpdate,
+    TicketEscalationStartUpdate, TicketQueueUpdate (MoveTicket),
+    TicketCustomerUpdate (SetCustomerData), TicketFreeTextUpdate
+    (TicketFreeTextSet), TicketFreeTimeUpdate (TicketFreeTimeSet),
+    TicketPendingTimeUpdate (TicketPendingTimeSet), TicketLockUpdate (LockSet),
+    TicketStateUpdate (StateSet), TicketOwnerUpdate (OwnerSet),
+    TicketResponsibleUpdate, TicketPriorityUpdate (PrioritySet), HistoryAdd,
+    HistoryDelete, TicketAccountTime, TicketMerge, ArticleCreate,
+    ArticleFreeTextUpdate (ArticleFreeTextSet), ArticleUpdate, ArticleSend,
+    ArticleBounce, ArticleAgentNotification, (SendAgentNotification),
+    ArticleCustomerNotification (SendCustomerNotification), ArticleAutoResponse
+    (SendAutoResponse), ArticleFlagSet
  - (2006/03/04) added own X-OTRS-FollowUp-* header if Queue, State, Priority,
     ...  should be changed with follow up emails (see: doc/X-OTRS-Headers.txt)
  - (2006/03/04) reworked "config options" and "interface" of _all_ agent
