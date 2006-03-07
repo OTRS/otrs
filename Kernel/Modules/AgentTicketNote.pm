@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketNote.pm - to add notes to a ticket
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketNote.pm,v 1.10 2006-03-04 11:34:53 martin Exp $
+# $Id: AgentTicketNote.pm,v 1.11 2006-03-07 06:38:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -68,7 +68,6 @@ sub Run {
             Message => "Need TicketID is given!",
             Comment => 'Please contact the admin.',
         );
-        return $Output;
     }
     # check permissions
     if (!$Self->{TicketObject}->Permission(

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketResponsible.pm - set ticket responsible
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketResponsible.pm,v 1.1 2006-03-04 11:41:37 martin Exp $
+# $Id: AgentTicketResponsible.pm,v 1.2 2006-03-07 06:38:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -68,7 +68,6 @@ sub Run {
             Message => "Need TicketID is given!",
             Comment => 'Please contact the admin.',
         );
-        return $Output;
     }
     # check permissions
     if (!$Self->{TicketObject}->Permission(
