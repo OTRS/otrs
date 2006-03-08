@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: de.pm,v 1.97.2.1 2006-02-01 09:51:46 martin Exp $
+# $Id: de.pm,v 1.97.2.2 2006-03-08 19:08:11 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.97.2.1 $';
+$VERSION = '$Revision: 1.97.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -181,7 +181,7 @@ sub Data {
       'You have %s new message(s)!' => 'Sie haben %s neue Nachricht(en) bekommen!',
       'You have %s reminder ticket(s)!' => 'Sie haben %s Erinnerungs-Ticket(s)!',
       'The recommended charset for your language is %s!' => 'Der empfohlene Zeichensatz für Ihre Sprache ist %s!',
-      'Passwords dosn\'t match! Please try it again!' => 'Passwörter stimme nicht überein! Bitte wiederholen!',
+      'Passwords doesn\'t match! Please try it again!' => 'Passwörter stimme nicht überein! Bitte wiederholen!',
       'Password is already in use! Please use an other password!' => 'Dieses Password wird bereits benutzt, es kann nicht verwendet werden!',
       'Password is already used! Please use an other password!' => 'Dieses Password wurde bereits benutzt, es kann nicht verwendet werden!',
       'You need to activate %s first to use it!' => '%s muss zuerst aktiviert werden um es zu benutzen!',
@@ -246,7 +246,7 @@ sub Data {
       'February' => 'Februar',
       'March' => 'März',
       'April' => '',
-      'Juny' => 'Juni',
+      'June' => 'Juni',
       'July' => 'Juli',
       'August' => '',
       'September' => '',
@@ -309,7 +309,7 @@ sub Data {
       'Spelling Dictionary' => 'Rechtschreib-Wörterbuch',
       'Select your default spelling dictionary.' => 'Standard Rechtschreib-Wörterbuch auswählen.',
       'Max. shown Tickets a page in Overview.' => 'Maximale Anzahl angezeigter Tickets pro Seite in der Übersicht.',
-      'Can\'t update password, passwords dosn\'t match! Please try it again!' => 'Passwörter sind nicht identisch! Bitte erneut versuchen!',
+      'Can\'t update password, passwords doesn\'t match! Please try it again!' => 'Passwörter sind nicht identisch! Bitte erneut versuchen!',
       'Can\'t update password, invalid characters!' => 'Passwort konnte nicht aktuallisiert werden, Zeichen ungülig.',
       'Can\'t update password, need min. 8 characters!' => 'Passwort konnte nicht aktuallisiert werden, benötige min. 8 Zeichen.',
       'Can\'t update password, need 2 lower and 2 upper characters!' => 'Passwort konnte nicht aktuallisiert werden, benötige min. einen großgeschriebener und einen kleingeschriebener Buchstaben.',
@@ -343,7 +343,7 @@ sub Data {
       'Ticket' => '',
       'Createtime' => 'Erstellt am',
       'plain' => 'klar',
-      'eMail' => 'E-Mail',
+      'email' => 'E-Mail',
       'email' => 'E-Mail',
       'Close' => 'Schließen',
       'Action' => 'Aktion',
@@ -508,7 +508,7 @@ sub Data {
       'Source' => 'Quelle',
       'This values are read only.' => 'Diese Inhalte sind schreibgeschützt.',
       'This values are required.' => 'Diese Inhalte werden benötigt.',
-      'Customer user will be needed to have an customer histor and to to login via customer panels.' => 'Kunden-Benutzer werden für Kunden-Historien und für die Benutzung von Kunden-Weboberfläche benötigt.',
+      'Customer user will be needed to have a customer history and to to login via customer panel.' => 'Kunden-Benutzer werden für Kunden-Historien und für die Benutzung von Kunden-Weboberfläche benötigt.',
 
       # Template: AdminCustomerUserGroupChangeForm
       'Customer Users <-> Groups Management' => 'Kundenbenutzer <-> Gruppen Verwaltung',

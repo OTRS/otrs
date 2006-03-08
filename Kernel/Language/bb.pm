@@ -1,8 +1,8 @@
 # --
 # Kernel/Language/bb.pm - provides bavarian language translation
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: bb.pm,v 1.11 2005-07-28 20:32:31 martin Exp $
+# $Id: bb.pm,v 1.11.2.1 2006-03-08 19:08:04 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::bb;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.11.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -182,7 +182,7 @@ sub Data {
       'You have %s new message(s)!' => '%s neue Nachricht(en) bekommen!',
       'You have %s reminder ticket(s)!' => '%s Erinnerungs-Ticket(s)!',
       'The recommended charset for your language is %s!' => 'Der empfohlene Charset für Ihre Sprache ist %s!',
-      'Passwords dosn\'t match! Please try it again!' => '',
+      'Passwords doesn\'t match! Please try it again!' => '',
       'Password is already in use! Please use an other password!' => '',
       'Password is already used! Please use an other password!' => '',
       'You need to activate %s first to use it!' => '',
@@ -300,7 +300,7 @@ sub Data {
       'Spelling Dictionary' => '',
       'Select your default spelling dictionary.' => '',
       'Max. shown Tickets a page in Overview.' => '',
-      'Can\'t update password, passwords dosn\'t match! Please try it again!' => '',
+      'Can\'t update password, passwords doesn\'t match! Please try it again!' => '',
       'Can\'t update password, invalid characters!' => '',
       'Can\'t update password, need min. 8 characters!' => '',
       'Can\'t update password, need 2 lower and 2 upper characters!' => '',
@@ -334,7 +334,7 @@ sub Data {
       'Ticket' => '',
       'Createtime' => 'Erstellt am',
       'plain' => 'klar',
-      'eMail' => '',
+      'email' => '',
       'email' => 'eMail',
       'Close' => 'Schließen',
       'Action' => 'Aktion',
@@ -344,7 +344,7 @@ sub Data {
       'If it is not displayed correctly,' => 'Wenn sie nicht korrekt angezeigt wird,',
       'This is a' => 'Dies ist eine',
       'to open it in a new window.' => 'um sie in einem neuen Fenster angezeigt zu bekommen',
-      'This is a HTML email. Click here to show it.' => 'Dies ist eine HTML eMail. Do klicken um sie anzusehen.',
+      'This is a HTML email. Click here to show it.' => 'Dies ist eine HTML Email. Do klicken um sie anzusehen.',
       'Free Fields' => '',
       'Merge' => '',
       'closed successful' => 'erfolgreich geschlossen',
@@ -483,7 +483,7 @@ sub Data {
       'Note' => 'Notiz',
       'Useable options' => 'Benutzbare Optionen',
       'to get the first 20 character of the subject' => 'Um die ersten 20 Zeichen des Betreffs zu bekommen',
-      'to get the first 5 lines of the email' => 'Um die ersten 5 Zeilen der eMail zu bekommen',
+      'to get the first 5 lines of the email' => 'Um die ersten 5 Zeilen der Email zu bekommen',
       'to get the from line of the email' => '',
       'to get the realname of the sender (if given)' => '',
       'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
@@ -498,7 +498,7 @@ sub Data {
       'Source' => '',
       'This values are read only.' => '',
       'This values are required.' => '',
-      'Customer user will be needed to have an customer histor and to to login via customer panels.' => '',
+      'Customer user will be needed to have a customer history and to to login via customer panel.' => '',
 
       # Template: AdminCustomerUserGroupChangeForm
       'Customer Users <-> Groups Management' => '',
@@ -653,9 +653,9 @@ sub Data {
       'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Wird ein Ticket durch einen Agent gelocked jedoch nicht in dieser Zeit beantwortet, wird das Ticket automatisch unlocked.',
       'If a ticket will not be answered in thos time, just only this ticket will be shown.' => 'Wird ein Ticket nicht in jener Zeit beantortet, wird nur noch dieses Ticket gezeigt.',
       'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => 'Wenn ein Ticket geschlossen ist und der Kunde jedoch ein follow up sendet, wird das ticket für den alten Eigner gelocked.',
-      'Will be the sender address of this queue for email answers.' => 'Absende Adresse für eMails aus dieser Queue.',
-      'The salutation for email answers.' => 'Die Anrede für eMail Antworten.',
-      'The signature for email answers.' => 'Die Signatur für eMail Antworten.',
+      'Will be the sender address of this queue for email answers.' => 'Absende Adresse für Emails aus dieser Queue.',
+      'The salutation for email answers.' => 'Die Anrede für Email Antworten.',
+      'The signature for email answers.' => 'Die Signatur für Email Antworten.',
       'OTRS sends an notification email to the customer if the ticket is moved.' => '',
       'OTRS sends an notification email to the customer if the ticket state has changed.' => '',
       'OTRS sends an notification email to the customer if the ticket owner has changed.' => '',
@@ -772,7 +772,7 @@ sub Data {
 
       # Template: AdminSystemAddressForm
       'System Email Addresses Management' => 'System-Email-Adressen Verwaltung',
-      'Email' => 'eMail',
+      'email' => 'Email',
       'Realname' => '',
       'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Alle eingehenden Emails mit dem "To:" werden in die ausgewählte Queue einsortiert.',
 
@@ -827,7 +827,7 @@ sub Data {
 
       # Template: AgentTicketBounce
       'A message should have a To: recipient!' => 'Eine Nachricht sollte einen Empfänger im An: haben!',
-      'You need a email address (e. g. customer@example.com) in To:!' => 'Im An-Feld wird eine eMail-Adresse (z. B. kunde@beispiel.de) benötigt!',
+      'You need a email address (e. g. customer@example.com) in To:!' => 'Im An-Feld wird eine Email-Adresse (z. B. kunde@beispiel.de) benötigt!',
       'Bounce ticket' => '',
       'Bounce to' => 'Bounce an',
       'Next ticket state' => 'Nächster Status des Tickets',
@@ -1240,7 +1240,7 @@ sub Data {
       'Change system state setting' => 'Ändere System-State',
       'Change user <-> group settings' => 'Ändern der Benutzer <-> Gruppe Beziehung',
       'Update group' => 'Gruppe aktualisieren',
-      'You need a email address (e. g. customer@example.com) in From:!' => 'Im From-Feld wird eine eMail-Adresse (z. B. kunde@beispiel.de) benötigt!',
+      'You need a email address (e. g. customer@example.com) in From:!' => 'Im From-Feld wird eine Email-Adresse (z. B. kunde@beispiel.de) benötigt!',
       'Backend' => '',
       'next step' => 'Nächster Schritt',
       'Change system language setting' => 'Ändere System-Sprache',

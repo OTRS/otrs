@@ -2,7 +2,7 @@
 # Kernel/Language/pt_BR.pm - provides pt_BR language translation
 # Copyright (C) 2003 Gilberto Cezar de Almeida <gibalmeida at hotmail.com>
 # --
-# $Id: pt_BR.pm,v 1.30.2.1 2006-02-13 01:37:54 martin Exp $
+# $Id: pt_BR.pm,v 1.30.2.2 2006-03-08 19:08:34 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ package Kernel::Language::pt_BR;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30.2.1 $';
+$VERSION = '$Revision: 1.30.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -184,7 +184,7 @@ sub Data {
       'You have %s new message(s)!' => 'Você tem %s nova(s) mensagem(s)!',
       'You have %s reminder ticket(s)!' => 'Você tem %s chamado(s) remanescente(s)',
       'The recommended charset for your language is %s!' => 'O conjunto de caracteres recomendado para o seu idioma é %s!',
-      'Passwords dosn\'t match! Please try it again!' => 'Senha incorreta! Tente novamente!',
+      'Passwords doesn\'t match! Please try it again!' => 'Senha incorreta! Tente novamente!',
       'Password is already in use! Please use an other password!' => 'Senha em uso! Tente outra senha!',
       'Password is already used! Please use an other password!' => 'Senha está sendo utilizada! Tente outra senha!',
       'You need to activate %s first to use it!' => 'Primeiramente ative %s, para uso!',
@@ -301,7 +301,7 @@ sub Data {
       'Spelling Dictionary' => 'Dicionário (Língua)',
       'Select your default spelling dictionary.' => 'Escolha o seu corretor ortográfico padrão.',
       'Max. shown Tickets a page in Overview.' => 'Max. Chamados em uma tela.',
-      'Can\'t update password, passwords dosn\'t match! Please try it again!' => 'Senha não atualizada, por que estão diferentes! Tente novamente!',
+      'Can\'t update password, passwords doesn\'t match! Please try it again!' => 'Senha não atualizada, por que estão diferentes! Tente novamente!',
       'Can\'t update password, invalid characters!' => 'Senha não atualizada, caracteres inválidos!',
       'Can\'t update password, need min. 8 characters!' => 'Senha não atualizada, digite no mínimo 8 caracteres!',
       'Can\'t update password, need 2 lower and 2 upper characters!' => 'Senha não atualizada, digite no mínimo 2 caracteres minúsculos e 2 maiúsculos',
@@ -335,7 +335,7 @@ sub Data {
       'Ticket' => 'Chamado',
       'Createtime' => 'Hora de criação',
       'plain' => 'texto',
-      'eMail' => 'Mail',
+      'email' => 'Mail',
       'email' => 'mail',
       'Close' => 'Fechar',
       'Action' => 'Ação',
@@ -499,7 +499,7 @@ sub Data {
       'Source' => 'Origem',
       'This values are read only.' => 'Estes valores são apenas para leitura.',
       'This values are required.' => 'Estes valores são obrigatórios.',
-      'Customer user will be needed to have an customer histor and to to login via customer panels.' => 'O usuário do cliente será necessário para que exista um histórico do cliente e para login na área de clientes.',
+      'Customer user will be needed to have a customer history and to login via customer panel.' => 'O usuário do cliente será necessário para que exista um histórico do cliente e para login na área de clientes.',
 
       # Template: AdminCustomerUserGroupChangeForm
       'Customer Users <-> Groups Management' => 'Clientes <-> Admin Grupos',

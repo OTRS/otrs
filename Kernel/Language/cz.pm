@@ -6,7 +6,7 @@
 #		     Vadim Buzek
 #		     Petr Ocasek
 # --
-# $Id: cz.pm,v 1.22 2005-10-15 12:08:12 martin Exp $
+# $Id: cz.pm,v 1.22.2.1 2006-03-08 19:08:09 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ package Kernel::Language::cz;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.22.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -185,7 +185,7 @@ sub Data {
       'You have %s new message(s)!' => 'Máte %s novou zprávu (nových zpráv)!',
       'You have %s reminder ticket(s)!' => 'Máte %s upomínkový(ch) ticket(ù)',
       'The recommended charset for your language is %s!' => 'Doporuèená znaková sada pro Vá¹ jazyk je %s!',
-      'Passwords dosn\'t match! Please try it again!' => '',
+      'Passwords doesn\'t match! Please try it again!' => '',
       'Password is already in use! Please use an other password!' => '',
       'Password is already used! Please use an other password!' => '',
       'You need to activate %s first to use it!' => '',
@@ -302,7 +302,7 @@ sub Data {
       'Spelling Dictionary' => 'Slovník kontroly pravopisu',
       'Select your default spelling dictionary.' => 'Vyberte si Vá¹ výchozí pravopisný slovník',
       'Max. shown Tickets a page in Overview.' => 'Max. zobrazených tiketù v pøehledu na stránku',
-      'Can\'t update password, passwords dosn\'t match! Please try it again!' => '',
+      'Can\'t update password, passwords doesn\'t match! Please try it again!' => '',
       'Can\'t update password, invalid characters!' => '',
       'Can\'t update password, need min. 8 characters!' => '',
       'Can\'t update password, need 2 lower and 2 upper characters!' => '',
@@ -336,7 +336,7 @@ sub Data {
       'Ticket' => 'Tiket',
       'Createtime' => 'Doba vytvoøení',
       'plain' => 'jednoduchý',
-      'eMail' => '',
+      'email' => '',
       'email' => '',
       'Close' => 'Zavøít',
       'Action' => 'Akce',
@@ -500,7 +500,7 @@ sub Data {
       'Source' => '',
       'This values are read only.' => '',
       'This values are required.' => '',
-      'Customer user will be needed to have an customer histor and to to login via customer panels.' => '',
+      'Customer user will be needed to have a customer history and to to login via customer panel.' => '',
 
       # Template: AdminCustomerUserGroupChangeForm
       'Customer Users <-> Groups Management' => '',

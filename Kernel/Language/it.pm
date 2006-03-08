@@ -4,7 +4,7 @@
 #               2003 Gabriele Santilli <gsantilli at omnibus.net>
 #               2005 Giordano Bianchi <giordano.bianchi at gmail.com>
 # --
-# $Id: it.pm,v 1.25 2005-10-15 12:08:12 martin Exp $
+# $Id: it.pm,v 1.25.2.1 2006-03-08 19:08:22 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::it;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.25.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -183,7 +183,7 @@ sub Data {
       'You have %s new message(s)!' => 'Hai %s nuovi messaggi!',
       'You have %s reminder ticket(s)!' => 'Hai %s Richiesta(e) memorizzati',
       'The recommended charset for your language is %s!' => 'Il set di caratteri raccomandato per la tua lingua è %s!',
-      'Passwords dosn\'t match! Please try it again!' => 'La password non corrisponde! Per favore, prova di nuovo',
+      'Passwords doesn\'t match! Please try it again!' => 'La password non corrisponde! Per favore, prova di nuovo',
       'Password is already in use! Please use an other password!' => 'La password è già in uso. Per favore provare con un\' altra password',
       'Password is already used! Please use an other password!' => 'La password è già stata usata! Provare con un\' altra password',
       'You need to activate %s first to use it!' => 'Devi prima attivare %s per poterlo usare',
@@ -300,7 +300,7 @@ sub Data {
       'Spelling Dictionary' => 'Dizionario',
       'Select your default spelling dictionary.' => 'Seleziona il dizionario standard',
       'Max. shown Tickets a page in Overview.' => 'Numero massimo di richieste per pagina nel Sommario',
-      'Can\'t update password, passwords dosn\'t match! Please try it again!' => '',
+      'Can\'t update password, passwords doesn\'t match! Please try it again!' => '',
       'Can\'t update password, invalid characters!' => 'Non posso aggiornare la password, dei caratteri non sono validi',
       'Can\'t update password, need min. 8 characters!' => 'Non posso aggiornare la password, ho bisogno di almeno 8 caratteri ',
       'Can\'t update password, need 2 lower and 2 upper characters!' => 'Non posso aggiornare la password, ho bisogno di 2 caratteri maiuscoli e 2 minuscoli ',
@@ -334,7 +334,7 @@ sub Data {
       'Ticket' => 'Richiesta',
       'Createtime' => 'Istante di creazione',
       'plain' => 'diretto',
-      'eMail' => '',
+      'email' => '',
       'email' => '',
       'Close' => 'Chiudi',
       'Action' => 'Azione',
@@ -498,7 +498,7 @@ sub Data {
       'Source' => 'Sorgente',
       'This values are read only.' => 'Questi valori non sono modificabili',
       'This values are required.' => 'Questi valori sono richiesti',
-      'Customer user will be needed to have an customer histor and to to login via customer panels.' => 'Il cliente sarà necessario per registrare la sua storia e permettere il collegamento via web',
+      'Customer user will be needed to have a customer history and to to login via customer panel.' => 'Il cliente sarà necessario per registrare la sua storia e permettere il collegamento via web',
 
       # Template: AdminCustomerUserGroupChangeForm
       'Customer Users <-> Groups Management' => '',

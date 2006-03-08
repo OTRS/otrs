@@ -2,7 +2,7 @@
 # Kernel/Language/nl.pm - provides za_CN language translation
 # Copyright (C) 2005 zuowei <j2ee@hirain-sh.com>
 # --
-# $Id: zh_CN.pm,v 1.2 2005-10-15 12:08:12 martin Exp $
+# $Id: zh_CN.pm,v 1.2.2.1 2006-03-08 19:08:41 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ package Kernel::Language::zh_CN;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.2.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -184,7 +184,7 @@ sub Data {
       'You have %s new message(s)!' => '您有 %s 条新消息!',
       'You have %s reminder ticket(s)!' => '您有 %s 个提醒!',
       'The recommended charset for your language is %s!' => '建议您所用语言的字符集 %s!',
-      'Passwords dosn\'t match! Please try it again!' => '密码不符，请重试!',
+      'Passwords doesn\'t match! Please try it again!' => '密码不符，请重试!',
       'Password is already in use! Please use an other password!' => '该密码被使用，请使用其他密码!',
       'Password is already used! Please use an other password!' => '该密码被使用，请使用其他密码!',
       'You need to activate %s first to use it!' => '%s 在使用之前请先激活!',
@@ -302,7 +302,7 @@ sub Data {
       'Spelling Dictionary' => '拼写检查字典',
       'Select your default spelling dictionary.' => '缺省拼写检查字典.',
       'Max. shown Tickets a page in Overview.' => '每一页显示的最大 Tickets 数目.',
-      'Can\'t update password, passwords dosn\'t match! Please try it again!' => '密码两次不符，无法更新，请重新输入',
+      'Can\'t update password, passwords doesn\'t match! Please try it again!' => '密码两次不符，无法更新，请重新输入',
       'Can\'t update password, invalid characters!' => '无法更新密码，包含无效字符.',
       'Can\'t update password, need min. 8 characters!' => '无法更新密码，密码长度至少8位.',
       'Can\'t update password, need 2 lower and 2 upper characters!' => '无法更新密码，至少包含2个大写字符和2个小写字符.',
@@ -336,7 +336,7 @@ sub Data {
       'Ticket' => '',
       'Createtime' => '创建时间',
       'plain' => '纯文本',
-      'eMail' => 'E-Mail',
+      'email' => 'E-Mail',
       'email' => 'E-Mail',
       'Close' => '关闭',
       'Action' => '动作',
@@ -500,7 +500,7 @@ sub Data {
       'Source' => '数据源',
       'This values are read only.' => '该数据只读.',
       'This values are required.' => '该条目必须填写.',
-      'Customer user will be needed to have an customer histor and to to login via customer panels.' => '客户用户必须有一个账号从客户登录页面登录系统.',
+      'Customer user will be needed to have a customer history and to login via customer panel.' => '客户用户必须有一个账号从客户登录页面登录系统.',
 
       # Template: AdminCustomerUserGroupChangeForm
       'Customer Users <-> Groups Management' => '客户用户 <-> 组 管理',

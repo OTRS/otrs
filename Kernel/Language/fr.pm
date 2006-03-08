@@ -4,7 +4,7 @@
 # Copyright (C) 2004-2005 Yann Richard <ze at nbox.org>
 # Copyright (C) 2004 Igor Genibel <igor.genibel at eds-opensource.com>
 # --
-# $Id: fr.pm,v 1.50.2.1 2005-12-09 15:22:36 cs Exp $
+# $Id: fr.pm,v 1.50.2.2 2006-03-08 19:08:18 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.50.2.1 $';
+$VERSION = '$Revision: 1.50.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -182,7 +182,7 @@ sub Data {
       'You have %s new message(s)!' => 'Vous avez %s nouveau(x) message(s) !',
       'You have %s reminder ticket(s)!' => 'Vous avez %s rappel(s) de ticket(s) !',
       'The recommended charset for your language is %s!' => 'Le jeu de caractère correspondant à votre langue est %s!',
-      'Passwords dosn\'t match! Please try it again!' => 'Les mots de passes diffèrent! Essayez de nouveau svp!',
+      'Passwords doesn\'t match! Please try it again!' => 'Les mots de passes diffèrent! Essayez de nouveau svp!',
       'Password is already in use! Please use an other password!' => 'Mot de passe déjà utilisé! Essayez en un autre svp!',
       'Password is already used! Please use an other password!' => 'Ce mot de passe a déjà été utilisé! Essayez en un autre svp!',
       'You need to activate %s first to use it!' => 'Vous devez dabord activer %s pour l\'utiliser !',
@@ -299,7 +299,7 @@ sub Data {
       'Spelling Dictionary' => 'Correcteur orthographique',
       'Select your default spelling dictionary.' => 'Sélectionnez votre correcteur orthographique par défaut',
       'Max. shown Tickets a page in Overview.' => 'Nombre de tickets maximum sur la page d\'aperçu des tickets',
-      'Can\'t update password, passwords dosn\'t match! Please try it again!' => 'Mise à jour du mot de passe impossible, les mots de passe diffèrent! Essayez à nouveau svp!',
+      'Can\'t update password, passwords doesn\'t match! Please try it again!' => 'Mise à jour du mot de passe impossible, les mots de passe diffèrent! Essayez à nouveau svp!',
       'Can\'t update password, invalid characters!' => 'Mise à jour du mot de passe impossible, caractères invalides!',
       'Can\'t update password, need min. 8 characters!' => 'Mise à jour du mot de passe impossible, Le mot de passe doit avoir au moins 8 caractères!',
       'Can\'t update password, need 2 lower and 2 upper characters!' => 'Mise à jour du mot de passe impossible, Le mot de passe doit comporter 2 majuscules et 2 minuscules!',
@@ -333,7 +333,7 @@ sub Data {
       'Ticket' => 'Ticket',
       'Createtime' => 'Création du ',
       'plain' => 'tel quel',
-      'eMail' => 'courriel',
+      'email' => 'courriel',
       'email' => 'courriel',
       'Close' => 'Fermer',
       'Action' => 'Action',
@@ -497,7 +497,7 @@ sub Data {
       'Source' => 'Source',
       'This values are read only.' => 'Ces valeurs sont en lecture seule.',
       'This values are required.' => 'Ces valeurs sont obligatoires.',
-      'Customer user will be needed to have an customer histor and to to login via customer panels.' => 'Les clients utilisateurs seront invités à se connecter par la page client.',
+      'Customer user will be needed to have a customer history and to to login via customer panel.' => 'Les clients utilisateurs seront invités à se connecter par la page client.',
 
       # Template: AdminCustomerUserGroupChangeForm
       'Customer Users <-> Groups Management' => 'Clients <-> Gestion des groupes',

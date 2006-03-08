@@ -2,7 +2,7 @@
 # Kernel/Language/nb_SW.pm - Swedish language translation
 # Copyright (C) 2004 Mats Eric Olausson <mats@synergy.se>
 # --
-# $Id: sv.pm,v 1.13 2005-10-15 12:08:12 martin Exp $
+# $Id: sv.pm,v 1.13.2.1 2006-03-08 19:08:39 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::sv;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.13 $;
+$VERSION = q$Revision: 1.13.2.1 $;
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -181,7 +181,7 @@ sub Data {
       'You have %s new message(s)!' => 'Du har %s nya meddelanden!',
       'You have %s reminder ticket(s)!' => 'Du har %s påminnelse-ärende(n)!',
       'The recommended charset for your language is %s!' => 'Den rekommenderade teckenuppsättningen för ditt språk är %s!',
-      'Passwords dosn\'t match! Please try it again!' => '',
+      'Passwords doesn\'t match! Please try it again!' => '',
       'Password is already in use! Please use an other password!' => '',
       'Password is already used! Please use an other password!' => '',
       'You need to activate %s first to use it!' => '',
@@ -298,7 +298,7 @@ sub Data {
       'Spelling Dictionary' => 'Stavningslexikon',
       'Select your default spelling dictionary.' => 'Välj standard ordbok for stavningskontroll.',
       'Max. shown Tickets a page in Overview.' => 'Max. visade ärenden per sida i Översikt.',
-      'Can\'t update password, passwords dosn\'t match! Please try it again!' => '',
+      'Can\'t update password, passwords doesn\'t match! Please try it again!' => '',
       'Can\'t update password, invalid characters!' => '',
       'Can\'t update password, need min. 8 characters!' => '',
       'Can\'t update password, need 2 lower and 2 upper characters!' => '',
@@ -332,7 +332,7 @@ sub Data {
       'Ticket' => 'Ärende',
       'Createtime' => 'Tidpunkt för skapande',
       'plain' => 'rå',
-      'eMail' => '',
+      'email' => '',
       'email' => '',
       'Close' => 'Stäng',
       'Action' => 'Åtgärd',
@@ -496,7 +496,7 @@ sub Data {
       'Source' => 'Källa',
       'This values are read only.' => '',
       'This values are required.' => '',
-      'Customer user will be needed to have an customer histor and to to login via customer panels.' => '',
+      'Customer user will be needed to have a customer history and to login via customer panel.' => '',
 
       # Template: AdminCustomerUserGroupChangeForm
       'Customer Users <-> Groups Management' => '',

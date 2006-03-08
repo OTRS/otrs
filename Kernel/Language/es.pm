@@ -2,7 +2,7 @@
 # Kernel/Language/es.pm - provides es language translation
 # Copyright (C) 2003-2004 Jorge Becerra <jorge at icc-cuba.com>
 # --
-# $Id: es.pm,v 1.35 2005-10-15 12:08:12 martin Exp $
+# $Id: es.pm,v 1.35.2.1 2006-03-08 19:08:13 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::es;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.35.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -181,7 +181,7 @@ sub Data {
       'You have %s new message(s)!' => 'Ud tiene %s nuevos mensaje(s)!',
       'You have %s reminder ticket(s)!' => 'Ud tiene %s tickets recordatorios',
       'The recommended charset for your language is %s!' => 'EL juego de caracteres recomendado para su idioma es %s!',
-      'Passwords dosn\'t match! Please try it again!' => 'Las contraseñas no coinciden. Por favor Reintente!',
+      'Passwords doesn\'t match! Please try it again!' => 'Las contraseñas no coinciden. Por favor Reintente!',
       'Password is already in use! Please use an other password!' => 'La contraseña ya se esta utilizando! Por Favor utilice otra!',
       'Password is already used! Please use an other password!' => 'La contraseña ya fue usada! Por favor use otra!',
       'You need to activate %s first to use it!' => 'Necesita activar %s primero para usarlo!',
@@ -298,7 +298,7 @@ sub Data {
       'Spelling Dictionary' => 'Diccionario Ortográfico',
       'Select your default spelling dictionary.' => 'Seleccione su diccionario por defecto',
       'Max. shown Tickets a page in Overview.' => 'Cantidad de Tickets a mostrar en Resumen',
-      'Can\'t update password, passwords dosn\'t match! Please try it again!' => 'No se puede actualizar la contraseña, no coinciden! Por favor reintentelo!',
+      'Can\'t update password, passwords doesn\'t match! Please try it again!' => 'No se puede actualizar la contraseña, no coinciden! Por favor reintentelo!',
       'Can\'t update password, invalid characters!' => 'No se puede actualizar la contraseña, caracteres no validos!',
       'Can\'t update password, need min. 8 characters!' => 'No se puede actualizar la contraseña, se necesitan al menos 8 caracteres',
       'Can\'t update password, need 2 lower and 2 upper characters!' => 'No se puede actualizar la contraseña, se necesitan al menos 2 en minuscula y 2 en mayuscula!',
@@ -332,7 +332,7 @@ sub Data {
       'Ticket' => '',
       'Createtime' => 'Fecha de creaciñn ',
       'plain' => 'texto',
-      'eMail' => 'Correo',
+      'email' => 'Correo',
       'email' => 'correo',
       'Close' => 'Cerrar',
       'Action' => 'Acción',
@@ -496,7 +496,7 @@ sub Data {
       'Source' => 'Origen',
       'This values are read only.' => 'Estos valores son solo-lectura',
       'This values are required.' => 'Estos valores son obligatorios',
-      'Customer user will be needed to have an customer histor and to to login via customer panels.' => 'El cliente necesita tener una historia y conectarse via panel de clientes',
+      'Customer user will be needed to have a customer history and to to login via customer panel.' => 'El cliente necesita tener una historia y conectarse via panel de clientes',
 
       # Template: AdminCustomerUserGroupChangeForm
       'Customer Users <-> Groups Management' => 'Clientes <-> Gestion de Grupos',

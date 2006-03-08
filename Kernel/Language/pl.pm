@@ -1,9 +1,9 @@
 # --
 # Kernel/Language/pl.pm - provides pl language translation
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # Translated by Tomasz Melissa <janek at rumianek.com>
 # --
-# $Id: pl.pm,v 1.23 2005-10-15 12:08:12 martin Exp $
+# $Id: pl.pm,v 1.23.2.1 2006-03-08 19:08:30 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::pl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.23.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -182,7 +182,7 @@ sub Data {
       'You have %s new message(s)!' => 'Masz %s nowych wiadomo¶ci!',
       'You have %s reminder ticket(s)!' => 'Masz %s przypomnieñ o zg³oszeniach!',
       'The recommended charset for your language is %s!' => 'Sugerowane kodowanie dla Twojego jêzyka to %s!',
-      'Passwords dosn\'t match! Please try it again!' => '',
+      'Passwords doesn\'t match! Please try it again!' => '',
       'Password is already in use! Please use an other password!' => '',
       'Password is already used! Please use an other password!' => '',
       'You need to activate %s first to use it!' => '',
@@ -299,7 +299,7 @@ sub Data {
       'Spelling Dictionary' => 'S³ownik pisowni',
       'Select your default spelling dictionary.' => 'Wybierz domy¶lny s³ownik.',
       'Max. shown Tickets a page in Overview.' => 'Limit pokazywanych zg³oszeñ na stronie Podsumowania',
-      'Can\'t update password, passwords dosn\'t match! Please try it again!' => '',
+      'Can\'t update password, passwords doesn\'t match! Please try it again!' => '',
       'Can\'t update password, invalid characters!' => '',
       'Can\'t update password, need min. 8 characters!' => '',
       'Can\'t update password, need 2 lower and 2 upper characters!' => '',
@@ -333,7 +333,7 @@ sub Data {
       'Ticket' => 'Zg³oszenie',
       'Createtime' => 'Utworzone o',
       'plain' => 'bez formatowania',
-      'eMail' => 'E-Mail',
+      'email' => 'E-Mail',
       'email' => 'e-mail',
       'Close' => 'Zamknij',
       'Action' => 'Akcja',
@@ -497,7 +497,7 @@ sub Data {
       'Source' => '¬ród³o',
       'This values are read only.' => '',
       'This values are required.' => '',
-      'Customer user will be needed to have an customer histor and to to login via customer panels.' => '',
+      'Customer user will be needed to have a customer history and to login via customer panel.' => '',
 
       # Template: AdminCustomerUserGroupChangeForm
       'Customer Users <-> Groups Management' => '',
