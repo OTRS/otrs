@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/CustomerCalendarSmall.pm - small calendar lookup
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerCalendarSmall.pm,v 1.1 2005-07-13 23:24:49 martin Exp $
+# $Id: CustomerCalendarSmall.pm,v 1.1.2.1 2006-03-08 19:12:10 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use Date::Pcalc qw(Today Days_in_Month Day_of_Week);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.1.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -67,7 +67,7 @@ sub Run {
         'March',
         'April',
         'May',
-        'Juny',
+        'June',
         'July',
         'August',
         'September',
