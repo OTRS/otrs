@@ -2,13 +2,17 @@
 # CHANGES - change log  of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.209.2.33 2006-02-13 01:37:54 martin Exp $
+# $Id: CHANGES,v 1.209.2.34 2006-03-08 19:19:24 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.0.5 (2006/??/??)
+ - (2006/03/08) Added Danish translation (thanks to Thorsten Roﬂner)
+ - (2006/03/08) Updated Norwegian translation (thanks to Knut Haugen)
+ - (2006/03/08) fixed some spelling mistakes for the English original in
+    language templates and language files
  - (2006/02/12) updated Brazilian Portuguese translation! thanks to
     Fabricio Luiz Machado!
  - (2006/02/01) changed Kernel/System/Spelling.pm to work with (a|i)spell
