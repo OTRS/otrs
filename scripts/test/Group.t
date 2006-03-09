@@ -1,8 +1,8 @@
 # --
 # Group.t - Group tests
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Group.t,v 1.1 2005-12-20 22:53:43 martin Exp $
+# $Id: Group.t,v 1.2 2006-03-09 14:00:57 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -60,7 +60,7 @@ $Self->True(
 );
 
 
-my $RoleRand = 'example-group'.int(rand(1000000));
+my $RoleRand = 'example-role'.int(rand(1000000));
 
 my $RoleID = $Self->{GroupObject}->RoleAdd(
     Name => $RoleRand,
