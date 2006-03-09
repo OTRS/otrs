@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Auth/DB.pm - provides the db authentification
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.12 2005-10-17 20:15:08 martin Exp $
+# $Id: DB.pm,v 1.13 2006-03-09 17:07:06 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ package Kernel::System::Auth::DB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -39,13 +39,13 @@ sub new {
 
     # get user table
     $Self->{UserTable} = $Self->{ConfigObject}->Get('DatabaseUserTable')
-      || 'user';
+        || 'user';
     $Self->{UserTableUserID} = $Self->{ConfigObject}->Get('DatabaseUserTableUserID')
-      || 'id';
+        || 'id';
     $Self->{UserTableUserPW} = $Self->{ConfigObject}->Get('DatabaseUserTableUserPW')
-      || 'pw';
+        || 'pw';
     $Self->{UserTableUser} = $Self->{ConfigObject}->Get('DatabaseUserTableUser')
-      || 'login';
+        || 'login';
 
     return $Self;
 }
@@ -82,12 +82,12 @@ sub Auth {
     my $GetPw = '';
     # sql query
     my $SQL = "SELECT $Self->{UserTableUserPW}, $Self->{UserTableUserID} ".
-      " FROM ".
-      " $Self->{UserTable} ".
-      " WHERE ".
-      " valid_id in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ".
-      " AND ".
-      " $Self->{UserTableUser} = '".$Self->{DBObject}->Quote($User)."'";
+        " FROM ".
+        " $Self->{UserTable} ".
+        " WHERE ".
+        " valid_id IN ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ".
+        " AND ".
+        " $Self->{UserTableUser} = '".$Self->{DBObject}->Quote($User)."'";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         $GetPw = $Row[0];
@@ -124,15 +124,15 @@ sub Auth {
     # just in case for debug!
     if ($Self->{Debug} > 0) {
         $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "User: '$User' tried to authenticate with Pw: '$Pw' ($UserID/$CryptedPw/$GetPw/$Salt/$RemoteAddr)",
+            Priority => 'notice',
+            Message => "User: '$User' tried to authenticate with Pw: '$Pw' ($UserID/$CryptedPw/$GetPw/$Salt/$RemoteAddr)",
         );
     }
     # just a note
     if (!$Pw) {
         $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "User: $User without Pw!!! (REMOTE_ADDR: $RemoteAddr)",
+            Priority => 'notice',
+            Message => "User: $User without Pw!!! (REMOTE_ADDR: $RemoteAddr)",
         );
         return;
     }
@@ -147,24 +147,24 @@ sub Auth {
 #            return;
 #        }
         $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "User: $User authentication ok (REMOTE_ADDR: $RemoteAddr).",
+            Priority => 'notice',
+            Message => "User: $User authentication ok (REMOTE_ADDR: $RemoteAddr).",
         );
         return $User;
     }
     # just a note
     elsif (($UserID) && ($GetPw)) {
         $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "User: $User authentication with wrong Pw!!! (REMOTE_ADDR: $RemoteAddr)"
+            Priority => 'notice',
+            Message => "User: $User authentication with wrong Pw!!! (REMOTE_ADDR: $RemoteAddr)"
         );
         return;
     }
     # just a note
     else {
         $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "User: $User doesn't exist or is invalid!!! (REMOTE_ADDR: $RemoteAddr)"
+            Priority => 'notice',
+            Message => "User: $User doesn't exist or is invalid!!! (REMOTE_ADDR: $RemoteAddr)"
         );
         return;
     }

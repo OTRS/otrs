@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CustomerGroup.pm - All Groups related function should be here eventually
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerGroup.pm,v 1.6 2004-02-13 00:50:37 martin Exp $
+# $Id: CustomerGroup.pm,v 1.7 2006-03-09 17:07:24 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Group;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -54,8 +54,8 @@ sub new {
 =item GroupMemberAdd()
 
 to add a member to a group
-  
-  Permission: ro,move_into,priority,create,rw 
+
+  Permission: ro,move_into,priority,create,rw
 
   my $ID = $Self->{CustomerGroupObject}->GroupMemberAdd(
       GID => 12,
@@ -84,7 +84,7 @@ sub GroupMemberAdd {
         return;
       }
     }
-    # update permission 
+    # update permission
     foreach (keys %{$Param{Permission}}) {
         # delete existing permission
         my $SQL = "DELETE FROM group_customer_user ".
@@ -98,7 +98,7 @@ sub GroupMemberAdd {
         # debug
         if ($Self->{Debug}) {
             $Self->{LogObject}->Log(
-                Priority => 'error', 
+                Priority => 'error',
                 Message => "Add UID:$Param{UID} to GID:$Param{GID}, $_:$Param{Permission}->{$_}!",
             );
         }
@@ -115,11 +115,11 @@ sub GroupMemberAdd {
         $Self->{DBObject}->Do(SQL => $SQL);
     }
     return 1;
-} 
+}
 
 =item GroupMemberList()
 
-returns a list of users of a group with ro/move_into/create/owner/priority/rw permissions 
+returns a list of users of a group with ro/move_into/create/owner/priority/rw permissions
 
   UserID: user id
   GroupID: group id
@@ -150,7 +150,7 @@ sub GroupMemberList {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserID or GroupID!");
         return;
     }
-    my %Data = (); 
+    my %Data = ();
     my @Name = ();
     my @ID = ();
     # check if customer group feature is activ, if not, return all groups
@@ -168,7 +168,7 @@ sub GroupMemberList {
       " FROM ".
       " groups g, group_customer_user gu".
       " WHERE " .
-      " g.valid_id in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ".
+      " g.valid_id IN ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ".
       " AND ".
       " g.id = gu.group_id ".
       " AND ".
@@ -228,7 +228,7 @@ sub GroupMemberList {
 
 =head1 TERMS AND CONDITIONS
 
-This software is part of the OTRS project (http://otrs.org/).  
+This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
@@ -238,6 +238,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2004-02-13 00:50:37 $
+$Revision: 1.7 $ $Date: 2006-03-09 17:07:24 $
 
 =cut

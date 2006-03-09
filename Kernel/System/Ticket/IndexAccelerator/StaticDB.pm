@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/IndexAccelerator/StaticDB.pm - static db queue ticket index module
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: StaticDB.pm,v 1.31 2005-10-31 10:09:19 martin Exp $
+# $Id: StaticDB.pm,v 1.32 2006-03-09 17:05:47 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::IndexAccelerator::StaticDB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketAcceleratorUpdate {
@@ -236,9 +236,9 @@ sub TicketAcceleratorIndex {
           " FROM " .
           " ticket st " .
           " WHERE " .
-          " st.ticket_state_id in ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) " .
+          " st.ticket_state_id IN ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) " .
           " and " .
-          " st.queue_id in (";
+          " st.queue_id IN (";
         foreach (0..$#QueueIDs) {
             if ($_ > 0) {
                 $SQL .= ",";
@@ -281,7 +281,7 @@ sub TicketAcceleratorIndex {
     " WHERE ".
     " suq.queue_id = ti.queue_id ".
     " AND ".
-    " ti.group_id in ( ${\(join ', ', @GroupIDs)} ) ".
+    " ti.group_id IN ( ${\(join ', ', @GroupIDs)} ) ".
     " AND ".
     " suq.user_id = $Param{UserID}";
     $Self->{DBObject}->Prepare(SQL => $SQL);
@@ -303,7 +303,7 @@ sub TicketAcceleratorIndex {
     " FROM " .
     " ticket_index ".
     " WHERE " .
-    " group_id in ( ${\(join ', ', @GroupIDs)} ) ".
+    " group_id IN ( ${\(join ', ', @GroupIDs)} ) ".
     " GROUP BY queue_id, queue " .
     " ORDER BY queue";
     $Self->{DBObject}->Prepare(SQL => $SQL);
@@ -346,9 +346,9 @@ sub TicketAcceleratorRebuild {
     " AND " .
     " st.ticket_lock_id = slt.id " .
     " AND " .
-    " st.ticket_state_id in ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) " .
+    " st.ticket_state_id IN ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) " .
     " AND " .
-    " st.ticket_lock_id in ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) " .
+    " st.ticket_lock_id IN ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) " .
     " ";
 
     $Self->{DBObject}->Prepare(SQL => $SQL);
@@ -384,7 +384,7 @@ sub TicketAcceleratorRebuild {
          " FROM ".
          " ticket ti ".
          " WHERE ".
-         " ti.ticket_lock_id not in ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) ",
+         " ti.ticket_lock_id not IN ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) ",
     );
     my @LockRowBuffer = ();
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
@@ -547,7 +547,7 @@ sub GetOverTimeTickets {
         " WHERE ".
         " q.escalation_time != 0 ".
         " AND " .
-        " st.ticket_state_id in ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) " .
+        " st.ticket_state_id IN ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) " .
         " AND " .
         " q.id = st.queue_id ".
         " AND ";
@@ -565,7 +565,7 @@ sub GetOverTimeTickets {
             return;
         }
     }
-    $SQL .= " st.ticket_lock_id in ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) ";
+    $SQL .= " st.ticket_lock_id IN ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) ";
     $SQL .= " ORDER BY st.ticket_priority_id DESC, st.escalation_start_time ASC";
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 40);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
