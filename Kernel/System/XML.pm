@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: XML.pm,v 1.23.2.2 2006-01-03 11:36:07 martin Exp $
+# $Id: XML.pm,v 1.23.2.3 2006-03-09 09:39:03 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::XML;
 use strict;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.23.2.2 $';
+$VERSION = '$Revision: 1.23.2.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -779,7 +779,7 @@ sub XMLParse {
     if (eval "require XML::Parser") {
         $Parser = XML::Parser->new(Handlers => {Start => \&HS, End => \&ES, Char => \&CS});
         if (!eval { $Parser->parse($Param{String}) }) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Parser: $@!");
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Modul-Kernel::System::XML Function-XMLParse Message: C-Parser: $@!");
             return ();
         }
     }
@@ -893,6 +893,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.23.2.2 $ $Date: 2006-01-03 11:36:07 $
+$Revision: 1.23.2.3 $ $Date: 2006-03-09 09:39:03 $
 
 =cut
