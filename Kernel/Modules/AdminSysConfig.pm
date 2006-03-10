@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.pm,v 1.41 2006-03-10 10:27:24 tr Exp $
+# $Id: AdminSysConfig.pm,v 1.42 2006-03-10 10:30:21 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.42 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -751,7 +751,6 @@ sub ListConfigItem {
             },
         );
         # ArrayElements
-        my %SortContainer = ();
         foreach my $Index (1...$#{$ItemHash{Setting}[1]{Array}[1]{Item}}) {
             $Self->{LayoutObject}->Block(
                 Name => 'ConfigElementArrayContent',
