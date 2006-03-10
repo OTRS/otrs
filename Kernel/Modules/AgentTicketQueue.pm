@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketQueue.pm,v 1.11 2006-03-10 06:42:45 tr Exp $
+# $Id: AgentTicketQueue.pm,v 1.12 2006-03-10 07:31:11 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -71,7 +71,7 @@ sub new {
     # all static variables
     # --
     my @ViewableStateIDs = $Self->{StateObject}->StateGetStatesByType(
-        Type => 'Viewable',
+        Type   => 'Viewable',
         Result => 'ID',
     );
     $Self->{ViewableStateIDs} = \@ViewableStateIDs;
@@ -175,32 +175,49 @@ sub Run {
     my @ViewableTickets = ();
     my $SortBy = $Self->{ConfigObject}->Get('Ticket::Frontend::QueueSortBy::Default') || 'Age';
     my %SortOptions = (
-        Owner => 'st.user_id',
-        CustomerID => 'st.customer_id',
-        State => 'st.ticket_state_id',
-        Ticket => 'st.tn',
-        Title => 'st.title',
-        Queue => 'sq.name',
-        Priority => 'st.ticket_priority_id',
-        Age => 'st.create_time_unix',
-        TicketFreeTime1 => 'st.freetime1',
-        TicketFreeTime2 => 'st.freetime2',
-        TicketFreeKey1 => 'st.freekey1',
-        TicketFreeText1 => 'st.freetext1',
-        TicketFreeKey2 => 'st.freekey2',
-        TicketFreeText2 => 'st.freetext2',
-        TicketFreeKey3 => 'st.freekey3',
-        TicketFreeText3 => 'st.freetext3',
-        TicketFreeKey4 => 'st.freekey4',
-        TicketFreeText4 => 'st.freetext4',
-        TicketFreeKey5 => 'st.freekey5',
-        TicketFreeText5 => 'st.freetext5',
-        TicketFreeKey6 => 'st.freekey6',
-        TicketFreeText6 => 'st.freetext6',
-        TicketFreeKey7 => 'st.freekey7',
-        TicketFreeText7 => 'st.freetext7',
-        TicketFreeKey8 => 'st.freekey8',
-        TicketFreeText8 => 'st.freetext8',
+        Owner            => 'st.user_id',
+        CustomerID       => 'st.customer_id',
+        State            => 'st.ticket_state_id',
+        Ticket           => 'st.tn',
+        Title            => 'st.title',
+        Queue            => 'sq.name',
+        Priority         => 'st.ticket_priority_id',
+        Age              => 'st.create_time_unix',
+        TicketFreeTime1  => 'st.freetime1',
+        TicketFreeTime2  => 'st.freetime2',
+        TicketFreeKey1   => 'st.freekey1',
+        TicketFreeText1  => 'st.freetext1',
+        TicketFreeKey2   => 'st.freekey2',
+        TicketFreeText2  => 'st.freetext2',
+        TicketFreeKey3   => 'st.freekey3',
+        TicketFreeText3  => 'st.freetext3',
+        TicketFreeKey4   => 'st.freekey4',
+        TicketFreeText4  => 'st.freetext4',
+        TicketFreeKey5   => 'st.freekey5',
+        TicketFreeText5  => 'st.freetext5',
+        TicketFreeKey6   => 'st.freekey6',
+        TicketFreeText6  => 'st.freetext6',
+        TicketFreeKey7   => 'st.freekey7',
+        TicketFreeText7  => 'st.freetext7',
+        TicketFreeKey8   => 'st.freekey8',
+        TicketFreeText8  => 'st.freetext8',
+        TicketFreeKey9   => 'st.freekey9',
+        TicketFreeText9  => 'st.freetext9',
+        TicketFreeKey10  => 'st.freekey10',
+        TicketFreeText10 => 'st.freetext10',
+        TicketFreeKey11  => 'st.freekey11',
+        TicketFreeText11 => 'st.freetext11',
+        TicketFreeKey12  => 'st.freekey12',
+        TicketFreeText12 => 'st.freetext12',
+        TicketFreeKey13  => 'st.freekey13',
+        TicketFreeText13 => 'st.freetext13',
+        TicketFreeKey14  => 'st.freekey14',
+        TicketFreeText14 => 'st.freetext14',
+        TicketFreeKey15  => 'st.freekey15',
+        TicketFreeText15 => 'st.freetext15',
+        TicketFreeKey16  => 'st.freekey16',
+        TicketFreeText16 => 'st.freetext16',
+
     );
 
     my $Order = $Self->{ConfigObject}->Get('Ticket::Frontend::QueueOrder::Default') || 'Down';
@@ -221,15 +238,15 @@ sub Run {
         }
         # build query
         my $SQL = "SELECT st.id, st.queue_id FROM ".
-          " ticket st, queue sq ".
-          " WHERE ".
-          " sq.id = st.queue_id ".
-          " AND ".
-          " st.ticket_state_id IN ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) ".
-          " AND ";
+            " ticket st, queue sq ".
+            " WHERE ".
+            " sq.id = st.queue_id ".
+            " AND ".
+            " st.ticket_state_id IN ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) ".
+            " AND ";
         if (!$Self->{ViewAll}) {
-          $SQL .= " st.ticket_lock_id IN ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) ".
-          " AND ";
+            $SQL .= " st.ticket_lock_id IN ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) ".
+            " AND ";
         }
         $SQL .= " st.queue_id IN ( ";
         foreach (0..$#ViewableQueueIDs) {
@@ -239,10 +256,10 @@ sub Run {
             $SQL .= $Self->{DBObject}->Quote($ViewableQueueIDs[$_]);
         }
         $SQL .= " ) AND ".
-          " sq.group_id IN ( ${\(join ', ', @GroupIDs)} ) ".
-          " ORDER BY st.ticket_priority_id DESC, $SortOptions{$SortBy} $Order";
-#          " ORDER BY st.ticket_priority_id DESC, st.freetime1 ASC";
-#          " ORDER BY st.ticket_priority_id DESC, st.create_time_unix $Order";
+            " sq.group_id IN ( ${\(join ', ', @GroupIDs)} ) ".
+            " ORDER BY st.ticket_priority_id DESC, $SortOptions{$SortBy} $Order";
+#            " ORDER BY st.ticket_priority_id DESC, st.freetime1 ASC";
+#            " ORDER BY st.ticket_priority_id DESC, st.create_time_unix $Order";
           $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{Limit});
           my $Counter = 0;
           while (my @Row = $Self->{DBObject}->FetchrowArray()) {
@@ -640,34 +657,34 @@ sub _MaskQueueView {
         # remember to selected queue info
         # --
         if ($QueueID eq $Queue{QueueID}) {
-           $Param{SelectedQueue} = $Queue{Queue};
-           $Param{AllSubTickets} = $Counter{$Queue{Queue}};
-           # --
-           # build Page Navigator for AgentTicketQueue
-           # --
-           $Param{PageShown} = $Param{'ViewableTickets'};
-           if ($Param{TicketsAvailAll} == 1 || $Param{TicketsAvailAll} == 0) {
-               $Param{Result} = $Param{TicketsAvailAll};
-           }
-           elsif ($Param{TicketsAvailAll} >= ($Param{Start}+$Param{PageShown})) {
-               $Param{Result} = $Param{Start}."-".($Param{Start}+$Param{PageShown}-1);
-           }
-           else {
-               $Param{Result} = "$Param{Start}-$Param{TicketsAvailAll}";
-           }
-           my $Pages = int(($Param{TicketsAvailAll} / $Param{PageShown}) + 0.99999);
-           my $Page = int(($Param{Start} / $Param{PageShown}) + 0.99999);
-           for (my $i = 1; $i <= $Pages; $i++) {
-               $Param{PageNavBar} .= " <a href=\"$Self->{LayoutObject}->{Baselink}Action=\$Env{\"Action\"}".
-                '&QueueID=$Data{"QueueID"}&ViewAll='.$Self->{ViewAll}.'&Start='. (($i-1)*$Param{PageShown}+1) .= '">';
-               if ($Page == $i) {
-                   $Param{PageNavBar} .= '<b>'.($i).'</b>';
-               }
-               else {
-                   $Param{PageNavBar} .= ($i);
-               }
-               $Param{PageNavBar} .= '</a> ';
-           }
+            $Param{SelectedQueue} = $Queue{Queue};
+            $Param{AllSubTickets} = $Counter{$Queue{Queue}};
+            # --
+            # build Page Navigator for AgentTicketQueue
+            # --
+            $Param{PageShown} = $Param{'ViewableTickets'};
+            if ($Param{TicketsAvailAll} == 1 || $Param{TicketsAvailAll} == 0) {
+                $Param{Result} = $Param{TicketsAvailAll};
+            }
+            elsif ($Param{TicketsAvailAll} >= ($Param{Start}+$Param{PageShown})) {
+                $Param{Result} = $Param{Start}."-".($Param{Start}+$Param{PageShown}-1);
+            }
+            else {
+                $Param{Result} = "$Param{Start}-$Param{TicketsAvailAll}";
+            }
+            my $Pages = int(($Param{TicketsAvailAll} / $Param{PageShown}) + 0.99999);
+            my $Page = int(($Param{Start} / $Param{PageShown}) + 0.99999);
+            for (my $i = 1; $i <= $Pages; $i++) {
+                $Param{PageNavBar} .= " <a href=\"$Self->{LayoutObject}->{Baselink}Action=\$Env{\"Action\"}".
+                    '&QueueID=$Data{"QueueID"}&ViewAll='.$Self->{ViewAll}.'&Start='. (($i-1)*$Param{PageShown}+1) .= '">';
+                if ($Page == $i) {
+                    $Param{PageNavBar} .= '<b>'.($i).'</b>';
+                }
+                else {
+                    $Param{PageNavBar} .= ($i);
+                }
+                $Param{PageNavBar} .= '</a> ';
+            }
         }
         $QueueStrg .= "<a href=\"$Self->{LayoutObject}->{Baselink}Action=AgentTicketQueue&QueueID=$Queue{QueueID}\"";
         $QueueStrg .= ' onmouseover="window.status=\'$Text{"Queue"}: '.$Queue{Queue}.'\'; return true;" onmouseout="window.status=\'\';">';
