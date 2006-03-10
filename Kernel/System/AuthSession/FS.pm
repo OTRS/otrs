@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/FS.pm - provides session filesystem backend
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FS.pm,v 1.16 2006-02-01 10:19:47 martin Exp $
+# $Id: FS.pm,v 1.17 2006-03-10 10:52:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use MIME::Base64;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -119,7 +119,7 @@ sub CheckSessionIDMessage {
 sub GetSessionIDData {
     my $Self = shift;
     my %Param = @_;
-    my $SessionID = $Param{SessionID} || die '';
+    my $SessionID = $Param{SessionID} || '';
     my $Strg = '';
     my %Data;
     # check session id
@@ -132,9 +132,7 @@ sub GetSessionIDData {
             || warn "Can't open $Self->{SessionSpool}/$SessionID: $!\n";
     while (<SESSION>) {
         chomp;
-        # --
         # split data
-        # --
         my @PaarData = split(/:/, $_);
         $Data{$PaarData[0]} = decode_base64($PaarData[1]);
         $Self->{EncodeObject}->Encode(\$Data{$PaarData[0]});
