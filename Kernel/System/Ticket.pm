@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.204 2006-03-07 06:40:27 martin Exp $
+# $Id: Ticket.pm,v 1.205 2006-03-10 06:36:03 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.204 $';
+$VERSION = '$Revision: 1.205 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -1736,7 +1736,7 @@ sub GetLockedTicketIDs {
       " AND ".
       " sq.id = ti.queue_id".
       " AND ".
-      " slt.name not in ( ${\(join ', ', @ViewableLocks)} ) ORDER BY ";
+      " slt.name not IN ( ${\(join ', ', @ViewableLocks)} ) ORDER BY ";
     # sort by
     if ($Param{SortBy} =~ /^Queue$/i) {
         $SQL .= " sq.name";
@@ -2824,7 +2824,7 @@ sub StateSet {
         if (!$Param{SendNoNotification}) {
             $Self->SendCustomerNotification(
                 Type => 'StateUpdate',
-      	        CustomerMessageParams => \%Param,
+                CustomerMessageParams => \%Param,
                 TicketID => $Param{TicketID},
                 UserID => $Param{UserID},
             );
@@ -4594,6 +4594,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.204 $ $Date: 2006-03-07 06:40:27 $
+$Revision: 1.205 $ $Date: 2006-03-10 06:36:03 $
 
 =cut

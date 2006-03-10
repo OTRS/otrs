@@ -1,8 +1,8 @@
 # --
 # Kernel/System/DB.pm - the global database wrapper to support different databases
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.50 2005-12-20 23:46:19 martin Exp $
+# $Id: DB.pm,v 1.51 2006-03-10 06:37:31 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.50 $';
+$VERSION = '$Revision: 1.51 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -145,7 +145,7 @@ sub new {
         $Self->{LogObject}->Log(
             Priority => 'Error',
             Message => "Unknown database type! Set option Database::Type in ".
-              "Kernel/Config.pm to (mysql|postgresql|maxdb|oracle|db2|mssql).",
+                "Kernel/Config.pm to (mysql|postgresql|maxdb|oracle|db2|mssql).",
         );
         return;
     }
@@ -190,9 +190,9 @@ sub Connect {
     # db connect
     if (!($Self->{dbh} = DBI->connect("$Self->{DSN}", $Self->{USER}, $Self->{PW}, $Self->{'DB::Attribute'}))) {
         $Self->{LogObject}->Log(
-          Caller => 1,
-          Priority => 'Error',
-          Message => $DBI::errstr,
+            Caller => 1,
+            Priority => 'Error',
+            Message => $DBI::errstr,
         );
         return;
     }
@@ -210,9 +210,9 @@ sub Disconnect {
     # debug
     if ($Self->{Debug} > 2) {
         $Self->{LogObject}->Log(
-          Caller => 1,
-          Priority => 'debug',
-          Message => "DB.pm->Disconnect",
+            Caller => 1,
+            Priority => 'debug',
+            Message => "DB.pm->Disconnect",
         );
     }
     # do disconnect
@@ -369,17 +369,17 @@ sub Do {
     if ($Self->{Debug} > 0) {
         $Self->{DoCounter}++;
         $Self->{LogObject}->Log(
-          Caller => 1,
-          Priority => 'debug',
-          Message => "DB.pm->Do ($Self->{DoCounter}) SQL: '$Param{SQL}'",
+            Caller => 1,
+            Priority => 'debug',
+            Message => "DB.pm->Do ($Self->{DoCounter}) SQL: '$Param{SQL}'",
         );
     }
     # send sql to database
     if (!$Self->{dbh}->do($Param{SQL}, undef, @Array)) {
         $Self->{LogObject}->Log(
-          Caller => 1,
-          Priority => 'Error',
-          Message => "$DBI::errstr, SQL: '$Param{SQL}'",
+            Caller => 1,
+            Priority => 'Error',
+            Message => "$DBI::errstr, SQL: '$Param{SQL}'",
         );
         return;
     }
@@ -425,25 +425,25 @@ sub Prepare {
     if ($Self->{Debug} > 1) {
         $Self->{PrepareCounter}++;
         $Self->{LogObject}->Log(
-          Caller => 1,
-          Priority => 'debug',
-          Message => "DB.pm->Prepare ($Self->{PrepareCounter}/".time().") SQL: '$SQL'",
+            Caller => 1,
+            Priority => 'debug',
+            Message => "DB.pm->Prepare ($Self->{PrepareCounter}/".time().") SQL: '$SQL'",
         );
     }
     # do
     if (!($Self->{Curser} = $Self->{dbh}->prepare($SQL))) {
         $Self->{LogObject}->Log(
-          Caller => 1,
-          Priority => 'Error',
-          Message => "$DBI::errstr, SQL: '$SQL'",
+            Caller => 1,
+            Priority => 'Error',
+            Message => "$DBI::errstr, SQL: '$SQL'",
         );
         return;
     }
     if (!$Self->{Curser}->execute()) {
         $Self->{LogObject}->Log(
-          Caller => 1,
-          Priority => 'Error',
-          Message => "$DBI::errstr, SQL: '$SQL'",
+            Caller => 1,
+            Priority => 'Error',
+            Message => "$DBI::errstr, SQL: '$SQL'",
         );
         return;
     }
@@ -479,7 +479,7 @@ sub FetchrowArray {
     my @Row = $Self->{Curser}->fetchrow_array();
     # e. g. set utf-8 flag
     foreach (@Row) {
-         $Self->{EncodeObject}->Encode(\$_);
+        $Self->{EncodeObject}->Encode(\$_);
     }
     return @Row;
 }
@@ -669,7 +669,7 @@ sub GetTableData {
     my %Data;
     my $SQL = "SELECT $What FROM $Table ";
     $SQL .= " WHERE " . $Whare if ($Whare);
-    $SQL .= " WHERE valid_id in ( ${\(join ', ', $Self->GetValidIDs())} )" if ((!$Whare) && ($Valid));
+    $SQL .= " WHERE valid_id IN ( ${\(join ', ', $Self->GetValidIDs())} )" if ((!$Whare) && ($Valid));
     $Self->Prepare(SQL => $SQL);
     while (my @Row = $Self->FetchrowArray()) {
         if ($Row[3]) {
@@ -743,6 +743,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.50 $ $Date: 2005-12-20 23:46:19 $
+$Revision: 1.51 $ $Date: 2006-03-10 06:37:31 $
 
 =cut

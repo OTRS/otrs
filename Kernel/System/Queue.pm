@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Queue.pm - lib for queue functions
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Queue.pm,v 1.58 2005-12-29 02:04:58 martin Exp $
+# $Id: Queue.pm,v 1.59 2006-03-10 06:36:15 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Group;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.58 $';
+$VERSION = '$Revision: 1.59 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -101,10 +101,10 @@ sub GetSystemAddress {
     my %Address;
     my $QueueID = $Param{QueueID} || $Self->{QueueID};
     my $SQL = "SELECT sa.value0, sa.value1 FROM system_address sa, queue sq ".
-	" WHERE ".
-	" sq.id = ".$Self->{DBObject}->Quote($QueueID, 'Integer')." ".
-	" and ".
-	" sa.id = sq.system_address_id";
+        " WHERE ".
+        " sq.id = ".$Self->{DBObject}->Quote($QueueID, 'Integer')." ".
+        " and ".
+        " sa.id = sq.system_address_id";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         $Address{Email} = $Row[0];
@@ -223,11 +223,11 @@ sub SetQueueStdResponse {
     my $Self = shift;
     my %Param = @_;
     unless  ($Param{ResponseID} && $Param{QueueID} && $Param{UserID}) {
-       $Self->{LogObject}->Log(Priority => 'error', Message => "Need ResponseID, QueueID and UserID!");
-       return;
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need ResponseID, QueueID and UserID!");
+        return;
     }
     if ($Self->QueueHasStdResponse(%Param)){
-       return;
+        return;
     }
     # db quote
     foreach (keys %Param) {
@@ -238,10 +238,10 @@ sub SetQueueStdResponse {
     VALUES ( %s, %s, current_timestamp, %s, current_timestamp, %s)| , $Param{QueueID}, $Param{ResponseID}, $Param{UserID}, $Param{UserID});
    # print "SQL was\n$SQL\n\n";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
-       return 1;
+        return 1;
     }
     else {
-       return 0;
+        return 0;
     }
 }
 # --
@@ -250,8 +250,8 @@ sub QueueHasStdResponse {
     my $Self = shift;
     my %Param = @_;
     unless  ($Param{ResponseID} && $Param{QueueID}) {
-       $Self->{LogObject}->Log(Priority => 'error', Message => "Need ResponseID and QueueID!");
-       return;
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need ResponseID and QueueID!");
+        return;
     }
     # db quote
     foreach (keys %Param) {
@@ -295,11 +295,11 @@ sub GetStdResponses {
         " FROM ".
         " standard_response sr, queue_standard_response qsr".
         " WHERE ".
-        " qsr.queue_id in (".$Self->{DBObject}->Quote($Param{QueueID}, 'Integer').")".
+        " qsr.queue_id IN (".$Self->{DBObject}->Quote($Param{QueueID}, 'Integer').")".
         " AND ".
         " qsr.standard_response_id = sr.id".
         " AND ".
-        " sr.valid_id in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} )".
+        " sr.valid_id IN ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} )".
         " ORDER BY sr.name";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
@@ -338,11 +338,11 @@ sub GetAllQueues {
             Cached => 1,
         );
         if (@GroupIDs) {
-          my $SQL = "SELECT id, name FROM queue".
-            " WHERE ".
-            " group_id IN ( ${\(join ', ', @GroupIDs)} )".
-            " AND ".
-            " valid_id in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} )";
+            my $SQL = "SELECT id, name FROM queue".
+                " WHERE ".
+                " group_id IN ( ${\(join ', ', @GroupIDs)} )".
+                " AND ".
+                " valid_id IN ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} )";
             $Self->{DBObject}->Prepare(SQL => $SQL);
         }
         else {
@@ -357,11 +357,11 @@ sub GetAllQueues {
             Cached => 1,
         );
         if (@GroupIDs) {
-          my $SQL = "SELECT id, name FROM queue".
-            " WHERE ".
-            " group_id IN ( ${\(join ', ', @GroupIDs)} )".
-            " AND ".
-            " valid_id in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} )";
+            my $SQL = "SELECT id, name FROM queue".
+                " WHERE ".
+                " group_id IN ( ${\(join ', ', @GroupIDs)} )".
+                " AND ".
+                " valid_id IN ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} )";
             $Self->{DBObject}->Prepare(SQL => $SQL);
         }
         else {
@@ -370,9 +370,9 @@ sub GetAllQueues {
     }
     else {
         $Self->{DBObject}->Prepare(
-          SQL => "SELECT id, name FROM queue WHERE valid_id in ".
-            "( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} )",
-          );
+            SQL => "SELECT id, name FROM queue WHERE valid_id IN ".
+                "( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} )",
+            );
     }
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         $MoveQueues{$Row[0]} = $Row[1];
@@ -488,15 +488,15 @@ sub GetFollowUpOption {
     # fetch queues data
     my $Return = '';
     my $SQL = "SELECT sf.name ".
-		" FROM ".
-		" follow_up_possible sf, queue sq ".
-		" WHERE ".
-		" sq.follow_up_id = sf.id ".
-		" AND ".
-		" sq.id = $Param{QueueID}";
+        " FROM ".
+        " follow_up_possible sf, queue sq ".
+        " WHERE ".
+        " sq.follow_up_id = sf.id ".
+        " AND ".
+        " sq.id = $Param{QueueID}";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-		$Return = $Row[0];
+        $Return = $Row[0];
     }
     return $Return;
 }
@@ -590,57 +590,57 @@ add queue with attributes
 =cut
 
 sub QueueAdd {
-   my $Self=shift;
-   my %Param = @_;
-   # Add Queue to the Database
+    my $Self=shift;
+    my %Param = @_;
+    # Add Queue to the Database
 
-   # Requires
-   # Params{GroupID}   : ID of the group responsible for this quese
-   # Param{QueueName}  : Duh! Name of the Queue
-   # Param{ValidID}    : Is the queue invalid, valid, suspended etc
-   # Param{UserID}     : ID of the person creating the Queue
+    # Requires
+    # Params{GroupID}   : ID of the group responsible for this quese
+    # Param{QueueName}  : Duh! Name of the Queue
+    # Param{ValidID}    : Is the queue invalid, valid, suspended etc
+    # Param{UserID}     : ID of the person creating the Queue
 
-   # Returns
-   # new Queue ID on success
-   # null/false on failure
+    # Returns
+    # new Queue ID on success
+    # null/false on failure
 
-   # ' and , are for modems. Line noise
-   # A less noisy way to defining @Params is
-   my @Params = qw(
-       Name
-       GroupID
-       UnlockTimeout
-       SystemAddressID
-       DefaultSignKey
-       SalutationID
-       SignatureID
-       FollowUpID
-       FollowUpLock
-       EscalationTime
-       MoveNotify
-       StateNotify
-       Comment
-       ValidID
-   );
+    # ' and , are for modems. Line noise
+    # A less noisy way to defining @Params is
+    my @Params = qw(
+        Name
+        GroupID
+        UnlockTimeout
+        SystemAddressID
+        DefaultSignKey
+        SalutationID
+        SignatureID
+        FollowUpID
+        FollowUpLock
+        EscalationTime
+        MoveNotify
+        StateNotify
+        Comment
+        ValidID
+    );
 
-   for (qw(UnlockTimeout EscalationTime FollowUpLock SystemAddressID SalutationID SignatureID FollowUpID FollowUpLock MoveNotify StateNotify LockNotify OwnerNotify DefaultSignKey)) {
-      # these are coming from Config.pm
-      # I added default values in the Load Routine
-      $Param{$_} = $Self->{QueueDefaults}{$_} || 0  unless ($Param{$_});
-   };
+    for (qw(UnlockTimeout EscalationTime FollowUpLock SystemAddressID SalutationID SignatureID FollowUpID FollowUpLock MoveNotify StateNotify LockNotify OwnerNotify DefaultSignKey)) {
+        # these are coming from Config.pm
+        # I added default values in the Load Routine
+        $Param{$_} = $Self->{QueueDefaults}{$_} || 0  unless ($Param{$_});
+    };
 
-   # check needed stuff
-   foreach (qw(Name GroupID SystemAddressID SalutationID SignatureID MoveNotify StateNotify LockNotify OwnerNotify ValidID UserID)) {
-      if (!defined($Param{$_})) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+    # check needed stuff
+    foreach (qw(Name GroupID SystemAddressID SalutationID SignatureID MoveNotify StateNotify LockNotify OwnerNotify ValidID UserID)) {
+        if (!defined($Param{$_})) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     foreach (qw(Name GroupID SystemAddressID SalutationID SignatureID ValidID)) {
-       if (!$Param{$_}) {
-         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-         return;
-       }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # check queue name
     if ($Param{Name} =~ /::$/i) {
@@ -658,47 +658,47 @@ sub QueueAdd {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     my $SQL = "INSERT INTO queue ".
-       "(name, ".
-       " group_id, ".
-       " unlock_timeout, ".
-       " system_address_id, ".
-       " default_sign_key, ".
-       " salutation_id, ".
-       " signature_id, ".
-       " escalation_time, ".
-       " follow_up_id, ".
-       " follow_up_lock, ".
-       " state_notify, ".
-       " move_notify, ".
-       " lock_notify, ".
-       " owner_notify, ".
-       " valid_id, ".
-       " comments, ".
-       " create_time, ".
-       " create_by, ".
-       " change_time, ".
-       " change_by)".
-       " VALUES ".
-       " ('$Param{Name}', ".
-       " $Param{GroupID}, ".
-       " $Param{UnlockTimeout}, ".
-       " $Param{SystemAddressID}, ".
-       " '$Param{DefaultSignKey}', ".
-       " $Param{SalutationID}, ".
-       " $Param{SignatureID}, ".
-       " $Param{EscalationTime}, ".
-       " $Param{FollowUpID}, ".
-       " $Param{FollowUpLock}, ".
-       " $Param{StateNotify}, ".
-       " $Param{MoveNotify}, ".
-       " $Param{LockNotify}, ".
-       " $Param{OwnerNotify}, ".
-       " $Param{ValidID}, ".
-       " '$Param{Comment}', ".
-       " current_timestamp, ".
-       " $Param{UserID}, ".
-       " current_timestamp, ".
-       " $Param{UserID})";
+        "(name, ".
+        " group_id, ".
+        " unlock_timeout, ".
+        " system_address_id, ".
+        " default_sign_key, ".
+        " salutation_id, ".
+        " signature_id, ".
+        " escalation_time, ".
+        " follow_up_id, ".
+        " follow_up_lock, ".
+        " state_notify, ".
+        " move_notify, ".
+        " lock_notify, ".
+        " owner_notify, ".
+        " valid_id, ".
+        " comments, ".
+        " create_time, ".
+        " create_by, ".
+        " change_time, ".
+        " change_by)".
+        " VALUES ".
+        " ('$Param{Name}', ".
+        " $Param{GroupID}, ".
+        " $Param{UnlockTimeout}, ".
+        " $Param{SystemAddressID}, ".
+        " '$Param{DefaultSignKey}', ".
+        " $Param{SalutationID}, ".
+        " $Param{SignatureID}, ".
+        " $Param{EscalationTime}, ".
+        " $Param{FollowUpID}, ".
+        " $Param{FollowUpLock}, ".
+        " $Param{StateNotify}, ".
+        " $Param{MoveNotify}, ".
+        " $Param{LockNotify}, ".
+        " $Param{OwnerNotify}, ".
+        " $Param{ValidID}, ".
+        " '$Param{Comment}', ".
+        " current_timestamp, ".
+        " $Param{UserID}, ".
+        " current_timestamp, ".
+        " $Param{UserID})";
 
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         # get new queue id
@@ -856,16 +856,16 @@ sub QueueUpdate {
     my %Param = @_;
     # check needed stuff
     foreach (qw(QueueID Name ValidID GroupID SystemAddressID SalutationID SignatureID FollowUpID UserID MoveNotify StateNotify LockNotify OwnerNotify)) {
-      if (!defined ($Param{$_})) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!defined ($Param{$_})) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     foreach (qw(QueueID Name ValidID GroupID SystemAddressID SalutationID SignatureID UserID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # db quote
     my %DB = ();
@@ -965,6 +965,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.58 $ $Date: 2005-12-29 02:04:58 $
+$Revision: 1.59 $ $Date: 2006-03-10 06:36:15 $
 
 =cut

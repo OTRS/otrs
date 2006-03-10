@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Lock.pm - All Groups related function should be here eventually
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Lock.pm,v 1.7 2005-11-11 11:02:21 martin Exp $
+# $Id: Lock.pm,v 1.8 2006-03-10 06:36:46 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Lock;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -76,7 +76,7 @@ sub new {
 
     # get ViewableLocks
     $Self->{ViewableLocks} = $Self->{ConfigObject}->Get('Ticket::ViewableLocks')
-           || die 'No Config entry "Ticket::ViewableLocks"!';
+        || die 'No Config entry "Ticket::ViewableLocks"!';
 
     return $Self;
 }
@@ -104,10 +104,10 @@ sub LockViewableLock {
     my @ID = ();
     # check needed stuff
     foreach (qw(Type)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # db quote
     foreach (keys %Param) {
@@ -118,9 +118,9 @@ sub LockViewableLock {
         " FROM ".
         " ticket_lock_type ".
         " WHERE ".
-        " name in ( ${\(join ', ', @{$Self->{ViewableLocks}})} ) " .
+        " name IN ( ${\(join ', ', @{$Self->{ViewableLocks}})} ) " .
         " AND ".
-        " valid_id in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} )";
+        " valid_id IN ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} )";
     if ($Self->{DBObject}->Prepare(SQL => $SQL)) {
         while (my @Data = $Self->{DBObject}->FetchrowArray()) {
             push (@Name, $Data[1]);
@@ -151,14 +151,14 @@ sub LockLookup {
     my $Key = '';
     # check needed stuff
     if (!$Param{Type} && $Param{ID}) {
-      $Key = 'ID';
+        $Key = 'ID';
     }
     if ($Param{Type} && !$Param{ID}) {
-      $Key = 'Type';
+        $Key = 'Type';
     }
     if (!$Param{Type} && !$Param{ID}) {
-      $Self->{LogObject}->Log(Priority => 'error', Message => "Need Type od ID!");
-      return;
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Type od ID!");
+        return;
     }
     # check if we ask the same request?
     if (exists $Self->{"Lock::Lookup::$Param{$Key}"}) {
@@ -234,6 +234,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2005-11-11 11:02:21 $
+$Revision: 1.8 $ $Date: 2006-03-10 06:36:46 $
 
 =cut

@@ -1,9 +1,9 @@
 # --
 # Kernel/System/Group.pm - All Groups related function should be here eventually
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 # --
-# $Id: Group.pm,v 1.35 2005-10-31 20:14:01 martin Exp $
+# $Id: Group.pm,v 1.36 2006-03-10 06:37:11 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Group;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -143,10 +143,10 @@ sub GroupMemberAdd {
     my $count;
     # check needed stuff
     foreach (qw(UID GID UserID Permission)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+           $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+           return;
+        }
     }
     # db quote
     foreach (qw(Permission)) {
@@ -181,12 +181,12 @@ sub GroupMemberAdd {
 #            print STDERR "Updated needed! UID:$Param{UID} to GID:$Param{GID}, $_:$Param{Permission}->{$_}!\n";
             # delete existing permission
             my $SQL = "DELETE FROM group_user ".
-              " WHERE ".
-              " group_id = $Param{GID} ".
-              " AND ".
-              " user_id = $Param{UID} ".
-              " AND ".
-              " permission_key = '".$Self->{DBObject}->Quote($_)."'";
+                " WHERE ".
+                " group_id = $Param{GID} ".
+                " AND ".
+                " user_id = $Param{UID} ".
+                " AND ".
+                " permission_key = '".$Self->{DBObject}->Quote($_)."'";
             $Self->{DBObject}->Do(SQL => $SQL);
             # debug
             if ($Self->{Debug}) {
@@ -197,12 +197,12 @@ sub GroupMemberAdd {
             }
             # insert new permission
             $SQL = "INSERT INTO group_user ".
-              " (user_id, group_id, permission_key, permission_value, ".
-              " create_time, create_by, change_time, change_by) ".
-              " VALUES ".
-              " ($Param{UID}, $Param{GID}, '".$Self->{DBObject}->Quote($_)."', ".
-              " ".$Self->{DBObject}->Quote($Param{Permission}->{$_}).", ".
-              " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
+                " (user_id, group_id, permission_key, permission_value, ".
+                " create_time, create_by, change_time, change_by) ".
+                " VALUES ".
+                " ($Param{UID}, $Param{GID}, '".$Self->{DBObject}->Quote($_)."', ".
+                " ".$Self->{DBObject}->Quote($Param{Permission}->{$_}).", ".
+                " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
             $Self->{DBObject}->Do(SQL => $SQL);
         }
     }
@@ -226,10 +226,10 @@ sub GroupAdd {
     my %Param = @_;
     # check needed stuff
     foreach (qw(Name ValidID UserID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+           $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+           return;
+        }
     }
     # qoute params
     foreach (qw(Name Comment)) {
@@ -239,31 +239,31 @@ sub GroupAdd {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     my $SQL = "INSERT INTO groups (name, comments, valid_id, ".
-            " create_time, create_by, change_time, change_by)".
-            " VALUES ".
-            " ('$Param{Name}', '$Param{Comment}', ".
-            " $Param{ValidID}, current_timestamp, $Param{UserID}, ".
-            " current_timestamp, $Param{UserID})";
+        " create_time, create_by, change_time, change_by)".
+        " VALUES ".
+        " ('$Param{Name}', '$Param{Comment}', ".
+        " $Param{ValidID}, current_timestamp, $Param{UserID}, ".
+        " current_timestamp, $Param{UserID})";
 
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
-      # get new group id
-      $SQL = "SELECT id ".
-        " FROM " .
-        " groups " .
-        " WHERE " .
-        " name = '$Param{Name}'";
-      my $GroupID = '';
-      $Self->{DBObject}->Prepare(SQL => $SQL);
-      while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-        $GroupID = $Row[0];
-      }
+        # get new group id
+        $SQL = "SELECT id ".
+            " FROM " .
+            " groups " .
+            " WHERE " .
+            " name = '$Param{Name}'";
+        my $GroupID = '';
+        $Self->{DBObject}->Prepare(SQL => $SQL);
+        while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+            $GroupID = $Row[0];
+        }
 
-      # log notice
-      $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "Group: '$Param{Name}' ID: '$GroupID' created successfully ($Param{UserID})!",
-      );
-      return $GroupID;
+        # log notice
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message => "Group: '$Param{Name}' ID: '$GroupID' created successfully ($Param{UserID})!",
+        );
+        return $GroupID;
     }
     else {
         return;
@@ -331,10 +331,10 @@ sub GroupUpdate {
     my %Param = @_;
     # check needed stuff
     foreach (qw(ID Name ValidID UserID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # db quote
     foreach (qw(Name Comment)) {
@@ -345,10 +345,10 @@ sub GroupUpdate {
     }
     # sql
     my $SQL = "UPDATE groups SET name = '$Param{Name}', ".
-          " comments = '$Param{Comment}', ".
-          " valid_id = $Param{ValidID}, ".
-          " change_time = current_timestamp, change_by = $Param{UserID} ".
-          " WHERE id = $Param{ID}";
+        " comments = '$Param{Comment}', ".
+        " valid_id = $Param{ValidID}, ".
+        " change_time = current_timestamp, change_by = $Param{UserID} ".
+        " WHERE id = $Param{ID}";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         return 1;
     }
@@ -415,10 +415,10 @@ sub GroupMemberList {
     my %Param = @_;
     # check needed stuff
     foreach (qw(Result Type)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     if (!$Param{UserID} && !$Param{GroupID}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserID or GroupID!");
@@ -428,16 +428,16 @@ sub GroupMemberList {
     # create cache key
     my $CacheKey = 'GroupMemberList::'.$Param{Type}.'::'.$Param{Result}.'::';
     if ($Param{UserID}) {
-      $CacheKey .= 'UserID::'.$Param{UserID};
+        $CacheKey .= 'UserID::'.$Param{UserID};
     }
     else {
-      $CacheKey .= 'GroupID::'.$Param{GroupID};
+        $CacheKey .= 'GroupID::'.$Param{GroupID};
     }
 #print STDERR "$CacheKey -------------------------\n";
     # check cache
 #$Param{Cached} = 1;
     if ($Self->{ForceCache}) {
-         $Param{Cached} = $Self->{ForceCache};
+        $Param{Cached} = $Self->{ForceCache};
     }
     if ($Param{Cached} && exists ($Self->{$CacheKey})) {
 #print STDERR "Cached: $CacheKey-------------------------\n";
@@ -445,9 +445,9 @@ sub GroupMemberList {
             return @{$Self->{$CacheKey}};
         }
         elsif (ref($Self->{$CacheKey}) eq 'HASH') {
-foreach (keys %{$Self->{$CacheKey}}) {
+#foreach (keys %{$Self->{$CacheKey}}) {
 #print STDERR "asdasd $CacheKey - $_ : $Self->{$CacheKey}->{$_}\n";
-}
+#}
             return %{$Self->{$CacheKey}};
         }
     }
@@ -553,10 +553,10 @@ sub GroupGroupMemberList {
     my %Param = @_;
     # check needed stuff
     foreach (qw(Result Type)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     if (!$Param{UserID} && !$Param{GroupID}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserID or GroupID!");
@@ -565,16 +565,16 @@ sub GroupGroupMemberList {
     # create cache key
     my $CacheKey = 'GroupGroupMemberList::'.$Param{Type}.'::'.$Param{Result}.'::';
     if ($Param{UserID}) {
-      $CacheKey .= 'UserID::'.$Param{UserID};
+        $CacheKey .= 'UserID::'.$Param{UserID};
     }
     else {
-      $CacheKey .= 'GroupID::'.$Param{GroupID};
+        $CacheKey .= 'GroupID::'.$Param{GroupID};
     }
 #print STDERR "$CacheKey -\n";
     # check cache
 #$Param{Cached} = 1;
     if ($Self->{ForceCache}) {
-         $Param{Cached} = $Self->{ForceCache};
+        $Param{Cached} = $Self->{ForceCache};
     }
     if ($Param{Cached} && $Self->{$CacheKey}) {
         if (ref($Self->{$CacheKey}) eq 'ARRAY') {
@@ -594,18 +594,18 @@ sub GroupGroupMemberList {
     my @Name = ();
     my @ID = ();
     my $SQL = "SELECT g.id, g.name, gu.permission_key, gu.permission_value, ".
-      " gu.user_id ".
-      " FROM ".
-      " groups g, group_user gu".
-      " WHERE " .
-      " g.valid_id in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ".
-      " AND ".
-      " g.id = gu.group_id ".
-      " AND ".
-      " gu.permission_value = 1 ".
-      " AND ".
-      " gu.permission_key IN ('$Param{Type}', 'rw') ".
-      " AND ";
+        " gu.user_id ".
+        " FROM ".
+        " groups g, group_user gu".
+        " WHERE " .
+        " g.valid_id IN ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ".
+        " AND ".
+        " g.id = gu.group_id ".
+        " AND ".
+        " gu.permission_value = 1 ".
+        " AND ".
+        " gu.permission_key IN ('$Param{Type}', 'rw') ".
+        " AND ";
     if ($Param{UserID}) {
         $SQL .= " gu.user_id = ".$Self->{DBObject}->Quote($Param{UserID}, 'Integer');
     }
@@ -689,10 +689,10 @@ sub GroupRoleMemberList {
     my %Param = @_;
     # check needed stuff
     foreach (qw(Result Type)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     if (!$Param{RoleID} && !$Param{GroupID}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need RoleID or GroupID!");
@@ -701,16 +701,16 @@ sub GroupRoleMemberList {
     # create cache key
     my $CacheKey = 'GroupRoleMemberList::'.$Param{Type}.'::'.$Param{Result}.'::';
     if ($Param{RoleID}) {
-      $CacheKey .= 'RoleID::'.$Param{RoleID};
+        $CacheKey .= 'RoleID::'.$Param{RoleID};
     }
     else {
-      $CacheKey .= 'GroupID::'.$Param{GroupID};
+        $CacheKey .= 'GroupID::'.$Param{GroupID};
     }
 #print STDERR "$CacheKey -\n";
     # check cache
 #$Param{Cached} = 1;
     if ($Self->{ForceCache}) {
-         $Param{Cached} = $Self->{ForceCache};
+        $Param{Cached} = $Self->{ForceCache};
     }
     if ($Param{Cached} && $Self->{$CacheKey}) {
         if (ref($Self->{$CacheKey}) eq 'ARRAY') {
@@ -730,18 +730,18 @@ sub GroupRoleMemberList {
     my @Name = ();
     my @ID = ();
     my $SQL = "SELECT g.id, g.name, gu.permission_key, gu.permission_value, ".
-      " gu.role_id ".
-      " FROM ".
-      " groups g, group_role gu".
-      " WHERE " .
-      " g.valid_id in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ".
-      " AND ".
-      " g.id = gu.group_id ".
-      " AND ".
-      " gu.permission_value = 1 ".
-      " AND ".
-      " gu.permission_key IN ('$Param{Type}', 'rw') ".
-      " AND ";
+        " gu.role_id ".
+        " FROM ".
+        " groups g, group_role gu".
+        " WHERE " .
+        " g.valid_id IN ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ".
+        " AND ".
+        " g.id = gu.group_id ".
+        " AND ".
+        " gu.permission_value = 1 ".
+        " AND ".
+        " gu.permission_key IN ('$Param{Type}', 'rw') ".
+        " AND ";
     if ($Param{RoleID}) {
         $SQL .= " gu.role_id = ".$Self->{DBObject}->Quote($Param{RoleID}, 'Integer');
     }
@@ -816,10 +816,10 @@ sub GroupRoleMemberAdd {
     my $count;
     # check needed stuff
     foreach (qw(RID GID UserID Permission)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # db quote
     foreach (qw(Permission)) {
@@ -853,12 +853,12 @@ sub GroupRoleMemberAdd {
 #            print STDERR "Updated neede! UID:$Param{UID} to GID:$Param{GID}, $_:$Param{Permission}->{$_}!\n";
             # delete existing permission
             my $SQL = "DELETE FROM group_role ".
-              " WHERE ".
-              " group_id = $Param{GID} ".
-              " AND ".
-              " role_id = $Param{RID} ".
-              " AND ".
-              " permission_key = '".$Self->{DBObject}->Quote($_)."'";
+                " WHERE ".
+                " group_id = $Param{GID} ".
+                " AND ".
+                " role_id = $Param{RID} ".
+                " AND ".
+                " permission_key = '".$Self->{DBObject}->Quote($_)."'";
             $Self->{DBObject}->Do(SQL => $SQL);
             # debug
             if ($Self->{Debug}) {
@@ -869,12 +869,12 @@ sub GroupRoleMemberAdd {
             }
             # insert new permission
             $SQL = "INSERT INTO group_role ".
-              " (role_id, group_id, permission_key, permission_value, ".
-              " create_time, create_by, change_time, change_by) ".
-              " VALUES ".
-              " ($Param{RID}, $Param{GID}, '".$Self->{DBObject}->Quote($_)."', ".
-              " ".$Self->{DBObject}->Quote($Param{Permission}->{$_}).", ".
-              " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
+                " (role_id, group_id, permission_key, permission_value, ".
+                " create_time, create_by, change_time, change_by) ".
+                " VALUES ".
+                " ($Param{RID}, $Param{GID}, '".$Self->{DBObject}->Quote($_)."', ".
+                " ".$Self->{DBObject}->Quote($Param{Permission}->{$_}).", ".
+                " current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
             $Self->{DBObject}->Do(SQL => $SQL);
         }
     }
@@ -914,10 +914,10 @@ sub GroupUserRoleMemberList {
     my %Param = @_;
     # check needed stuff
     foreach (qw(Result)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     if (!$Param{RoleID} && !$Param{UserID}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need RoleID or UserID!");
@@ -958,18 +958,18 @@ sub GroupUserRoleMemberList {
     my @Name = ();
     my @ID = ();
     my $SQL = "SELECT ru.role_id, ru.user_id, r.name ".
-      " FROM ".
-      " role_user ru, roles r".
-      " WHERE " .
-      " r.valid_id in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ".
-      " AND ".
-      " r.id = ru.role_id ".
-      " AND ";
+        " FROM ".
+        " role_user ru, roles r".
+        " WHERE " .
+        " r.valid_id IN ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ".
+        " AND ".
+        " r.id = ru.role_id ".
+        " AND ";
     if ($Param{RoleID}) {
-      $SQL .= " ru.role_id = $Param{RoleID}";
+        $SQL .= " ru.role_id = $Param{RoleID}";
     }
     else {
-      $SQL .= " ru.user_id = $Param{UserID}";
+        $SQL .= " ru.user_id = $Param{UserID}";
     }
 #print STDERR "SQL: $Param{Result} $SQL\n";
     $Self->{DBObject}->Prepare(SQL => $SQL);
@@ -1030,10 +1030,10 @@ sub GroupUserRoleMemberAdd {
     my $count;
     # check needed stuff
     foreach (qw(RID UID UserID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # db quote
     foreach (qw(UID RID UserID)) {
@@ -1089,10 +1089,10 @@ sub RoleAdd {
     my %Param = @_;
     # check needed stuff
     foreach (qw(Name ValidID UserID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # qoute params
     foreach (qw(Name Comment)) {
@@ -1102,31 +1102,31 @@ sub RoleAdd {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
     }
     my $SQL = "INSERT INTO roles (name, comments, valid_id, ".
-            " create_time, create_by, change_time, change_by)".
-            " VALUES ".
-            " ('$Param{Name}', '$Param{Comment}', ".
-            " $Param{ValidID}, current_timestamp, $Param{UserID}, ".
-            " current_timestamp, $Param{UserID})";
+        " create_time, create_by, change_time, change_by)".
+        " VALUES ".
+        " ('$Param{Name}', '$Param{Comment}', ".
+        " $Param{ValidID}, current_timestamp, $Param{UserID}, ".
+        " current_timestamp, $Param{UserID})";
 
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
-      # get new group id
-      $SQL = "SELECT id ".
-        " FROM " .
-        " roles " .
-        " WHERE " .
-        " name = '$Param{Name}'";
-      my $RoleID = '';
-      $Self->{DBObject}->Prepare(SQL => $SQL);
-      while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-          $RoleID = $Row[0];
-      }
+        # get new group id
+        $SQL = "SELECT id ".
+            " FROM " .
+            " roles " .
+            " WHERE " .
+            " name = '$Param{Name}'";
+        my $RoleID = '';
+        $Self->{DBObject}->Prepare(SQL => $SQL);
+        while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+            $RoleID = $Row[0];
+        }
 
-      # log notice
-      $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "Role: '$Param{Name}' ID: '$RoleID' created successfully ($Param{UserID})!",
-      );
-      return $RoleID;
+        # log notice
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message => "Role: '$Param{Name}' ID: '$RoleID' created successfully ($Param{UserID})!",
+        );
+        return $RoleID;
     }
     else {
         return;
@@ -1194,10 +1194,10 @@ sub RoleUpdate {
     my %Param = @_;
     # check needed stuff
     foreach (qw(ID Name ValidID UserID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # db quote
     foreach (qw(Name Comment)) {
@@ -1208,10 +1208,10 @@ sub RoleUpdate {
     }
     # sql
     my $SQL = "UPDATE roles SET name = '$Param{Name}', ".
-          " comments = '$Param{Comment}', ".
-          " valid_id = $Param{ValidID}, ".
-          " change_time = current_timestamp, change_by = $Param{UserID} ".
-          " WHERE id = $Param{ID}";
+        " comments = '$Param{Comment}', ".
+        " valid_id = $Param{ValidID}, ".
+        " change_time = current_timestamp, change_by = $Param{UserID} ".
+        " WHERE id = $Param{ID}";
     if ($Self->{DBObject}->Do(SQL => $SQL)) {
         return 1;
     }
@@ -1254,6 +1254,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.35 $ $Date: 2005-10-31 20:14:01 $
+$Revision: 1.36 $ $Date: 2006-03-10 06:37:11 $
 
 =cut
