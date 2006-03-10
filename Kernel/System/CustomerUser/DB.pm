@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.36 2004-12-28 01:03:00 martin Exp $
+# $Id: DB.pm,v 1.37 2006-03-10 06:52:46 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CheckItem;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -34,12 +34,12 @@ sub new {
     $Self->{UserSearchListLimit} = $Self->{CustomerUserMap}->{'CustomerUserSearchListLimit'} || 250;
     # config options
     $Self->{CustomerTable} = $Self->{CustomerUserMap}->{Params}->{Table}
-      || die "Need CustomerUser->Params->Table in Kernel/Config.pm!";
+        || die "Need CustomerUser->Params->Table in Kernel/Config.pm!";
     $Self->{CustomerKey} = $Self->{CustomerUserMap}->{CustomerKey}
-      || $Self->{CustomerUserMap}->{Key}
-      || die "Need CustomerUser->CustomerKey in Kernel/Config.pm!";
+        || $Self->{CustomerUserMap}->{Key}
+        || die "Need CustomerUser->CustomerKey in Kernel/Config.pm!";
     $Self->{CustomerID} = $Self->{CustomerUserMap}->{CustomerID}
-      || die "Need CustomerUser->CustomerID in Kernel/Config.pm!";
+        || die "Need CustomerUser->CustomerID in Kernel/Config.pm!";
     $Self->{ReadOnly} = $Self->{CustomerUserMap}->{ReadOnly};
     $Self->{ExcludePrimaryCustomerID} = $Self->{CustomerUserMap}->{CustomerUserExcludePrimaryCustomerID} || 0;
     $Self->{SearchPrefix} = $Self->{CustomerUserMap}->{'CustomerUserSearchPrefix'};
@@ -59,7 +59,7 @@ sub new {
             DatabaseDSN => $Self->{CustomerUserMap}->{Params}->{DSN},
             DatabaseUser => $Self->{CustomerUserMap}->{Params}->{User},
             DatabasePw => $Self->{CustomerUserMap}->{Params}->{Password},
-        ) || die $DBI::errstr;
+        ) || die ('Can\'t connect to database!');
         # remember that we have the DBObject not from parent call
         $Self->{NotParentDBObject} = 1;
     }
@@ -88,7 +88,7 @@ sub CustomerName {
         $SQL .= " , first_name, last_name ";
     }
     $SQL .= " FROM $Self->{CustomerTable} WHERE ".
-      " $Self->{CustomerKey} = '".$Self->{DBObject}->Quote($Param{UserLogin})."'";
+        " $Self->{CustomerKey} = '".$Self->{DBObject}->Quote($Param{UserLogin})."'";
     # get data
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => 1);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
@@ -128,8 +128,8 @@ sub CustomerSearch {
     }
     # build SQL string 2/2
     $SQL .= " FROM " .
-    " $Self->{CustomerTable} ".
-    " WHERE ";
+        " $Self->{CustomerTable} ".
+        " WHERE ";
     if ($Param{Search}) {
         my $Count = 0;
         my @Parts = split(/\+/, $Param{Search}, 6);
@@ -177,7 +177,7 @@ sub CustomerSearch {
     # add valid option
     if ($Self->{CustomerUserMap}->{CustomerValid} && $Valid) {
         $SQL .= "AND ".$Self->{CustomerUserMap}->{CustomerValid}.
-        " in ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ";
+        " IN ( ${\(join ', ', $Self->{DBObject}->GetValidIDs())} ) ";
     }
     # get data
     $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{UserSearchListLimit});
@@ -308,10 +308,10 @@ sub CustomerUserAdd {
     }
     # check needed stuff
     foreach my $Entry (@{$Self->{CustomerUserMap}->{Map}}) {
-      if (!$Param{$Entry->[0]} && $Entry->[4]) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $Entry->[0]!");
-        return;
-      }
+        if (!$Param{$Entry->[0]} && $Entry->[4]) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $Entry->[0]!");
+            return;
+        }
     }
     if (!$Param{UserID}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserID!");
@@ -398,10 +398,10 @@ sub CustomerUserUpdate {
     }
     # check needed stuff
     foreach my $Entry (@{$Self->{CustomerUserMap}->{Map}}) {
-      if (!$Param{$Entry->[0]} && $Entry->[4] && $Entry->[0] ne 'UserPassword') {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $Entry->[0]!");
-        return;
-      }
+        if (!$Param{$Entry->[0]} && $Entry->[4] && $Entry->[0] ne 'UserPassword') {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $Entry->[0]!");
+            return;
+        }
     }
     # check email address
     if ($Param{UserEmail} && !$Self->{CheckItemObject}->CheckEmail(Address => $Param{UserEmail})) {
@@ -493,15 +493,15 @@ sub SetPassword {
     if ($Param{PasswordCol} && $Param{LoginCol}) {
         if ($Self->{DBObject}->Do(
             SQL => "UPDATE $Self->{CustomerTable} ".
-               " SET ".
-               " $Param{PasswordCol} = '".$Self->{DBObject}->Quote($CryptedPw)."' ".
-               " WHERE ".
-               " $Param{LoginCol} = '".$Self->{DBObject}->Quote($Param{UserLogin})."'",
+                " SET ".
+                " $Param{PasswordCol} = '".$Self->{DBObject}->Quote($CryptedPw)."' ".
+                " WHERE ".
+                " $Param{LoginCol} = '".$Self->{DBObject}->Quote($Param{UserLogin})."'",
         )) {
             # log notice
             $Self->{LogObject}->Log(
-              Priority => 'notice',
-              Message => "CustomerUser: '$Param{UserLogin}' changed password successfully!",
+                Priority => 'notice',
+                Message => "CustomerUser: '$Param{UserLogin}' changed password successfully!",
             );
             return 1;
         }
