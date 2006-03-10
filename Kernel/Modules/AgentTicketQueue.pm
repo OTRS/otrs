@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketQueue.pm,v 1.10 2006-01-29 23:51:01 martin Exp $
+# $Id: AgentTicketQueue.pm,v 1.11 2006-03-10 06:42:45 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -225,13 +225,13 @@ sub Run {
           " WHERE ".
           " sq.id = st.queue_id ".
           " AND ".
-          " st.ticket_state_id in ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) ".
+          " st.ticket_state_id IN ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) ".
           " AND ";
         if (!$Self->{ViewAll}) {
-          $SQL .= " st.ticket_lock_id in ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) ".
+          $SQL .= " st.ticket_lock_id IN ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) ".
           " AND ";
         }
-        $SQL .= " st.queue_id in ( ";
+        $SQL .= " st.queue_id IN ( ";
         foreach (0..$#ViewableQueueIDs) {
             if ($_ > 0) {
                 $SQL .= ",";
