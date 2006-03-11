@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentCalendarSmall.pm - small calender lookup
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentCalendarSmall.pm,v 1.5 2005-07-13 23:23:12 martin Exp $
+# $Id: AgentCalendarSmall.pm,v 1.6 2006-03-11 15:56:06 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use Date::Pcalc qw(Today Days_in_Month Day_of_Week);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -67,7 +67,7 @@ sub Run {
         'March',
         'April',
         'May',
-        'Juny',
+        'June',
         'July',
         'August',
         'September',
