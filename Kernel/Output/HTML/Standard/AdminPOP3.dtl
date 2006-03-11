@@ -2,7 +2,7 @@
 # AdminPOP3.dtl - provides HTML form for AdminPOP3
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPOP3.dtl,v 1.1 2006-02-28 06:02:23 martin Exp $
+# $Id: AdminPOP3.dtl,v 1.2 2006-03-11 16:02:53 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -170,7 +170,7 @@
           <p>
           $Text{"All incoming emails with one account will be dispatched in the selected queue!"}
           <br>
-          $Text{"If your account is trusted, the already existing x-otrs header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway."}
+          $Text{"If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway."}
           </p>
           <p>
           $Text{"Example"}:
