@@ -1,8 +1,8 @@
-﻿# --
+# --
 # Kernel/Language/fa.pm - provides fa language translation
 # Copyright (C) 2006 Amir Shams Parsa <amir at parsa.name>
 # --
-# $Id: fa.pm,v 1.5 2006-03-05 02:14:39 martin Exp $
+# $Id: fa.pm,v 1.6 2006-03-11 16:25:32 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::fa;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -182,7 +182,7 @@ sub Data {
       'You have %s new message(s)!' => 'شما %s پیام جدید دارید !',
       'You have %s reminder ticket(s)!' => 'شما %s تیکت یادآوری دارید !',
       'The recommended charset for your language is %s!' => 'charset پیشنهادی برای زبان شما  %s است!',
-      'Passwords dosn\'t match! Please try it again!' => 'رمز عبور ها یکسان نیست لطفا مجددا سعی نمائید!',
+      'Passwords doesn\'t match! Please try it again!' => 'رمز عبور ها یکسان نیست لطفا مجددا سعی نمائید!',
       'Password is already in use! Please use an other password!' => 'این رمز عبور در حال استفاده است لطفا آنرا تغییر دهید!',
       'Password is already used! Please use an other password!' => 'این رمز عبور در حال استفاده است لطفا آنرا تغییر دهید!',
       'You need to activate %s first to use it!' => 'شما برای استفاده  %s ابتدا میبایست آنرا فعال نمائید!',
@@ -299,7 +299,7 @@ sub Data {
       'Spelling Dictionary' => 'دیکشنری غلط یابی',
       'Select your default spelling dictionary.' => 'دیکشنری غلط یابی خود را انتخاب نمائید',
       'Max. shown Tickets a page in Overview.' => 'حداکثر تعداد نمایش تیکت ها در پیش نمایش',
-      'Can\'t update password, passwords dosn\'t match! Please try it again!' => 'رمز های عبور وارد شده یکسان نیست!',
+      'Can\'t update password, passwords doesn\'t match! Please try it again!' => 'رمز های عبور وارد شده یکسان نیست!',
       'Can\'t update password, invalid characters!' => 'کاراکتر غیر مجاز !',
       'Can\'t update password, need min. 8 characters!' => 'حداقل طول رمز عبور 8 رقم میباشد!',
       'Can\'t update password, need 2 lower and 2 upper characters!' => 'دست کم 2 حرف کوچک و 2 حرف بزرگ میبایست در رمز عبور استفاده شود!',
@@ -333,7 +333,7 @@ sub Data {
       'Ticket' => 'تیکت',
       'Createtime' => 'زمان ایجاد ',
       'plain' => 'ساده',
-      'eMail' => 'e-mail',
+      'Email' => 'e-mail',
       'email' => 'e-mail',
       'Close' => 'بستن',
       'Action' => 'فعالیت',
@@ -497,7 +497,7 @@ sub Data {
       'Source' => 'منبع',
       'This values are read only.' => 'این مقادیر فقط قابل خواندن هستند.',
       'This values are required.' => 'این مقادیر مورد نیاز هستند.',
-      'Customer user will be needed to have an customer histor and to to login via customer panels.' => 'نام کاربری مشترکین برای ورود به سیستم مورد استفاده قرار خوهد گرفت',
+      'Customer user will be needed to have a customer history and to login via customer panel.' => 'نام کاربری مشترکین برای ورود به سیستم مورد استفاده قرار خوهد گرفت',
 
       # Template: AdminCustomerUserGroupChangeForm
       'Customer Users <-> Groups Management' => 'مدیریت مشترک <-> گروه',
@@ -620,7 +620,7 @@ sub Data {
       'Trusted' => 'مجاز',
       'Dispatching' => 'توزیع',
       'All incoming emails with one account will be dispatched in the selected queue!' => 'همه نامه ها از طریق یک آدرس به لیست تیکت ها منتقل خواهد شد !',
-      'If your account is trusted, the already existing x-otrs header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => 'درصورتیکه آدرس شما مجاز و قابل اطمینان باشد زمان دریافت در header سیستم اولویل را تعیین کرده و پیام ها ارسال خواهد شد',
+      'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => 'درصورتیکه آدرس شما مجاز و قابل اطمینان باشد زمان دریافت در header سیستم اولویل را تعیین کرده و پیام ها ارسال خواهد شد',
 
       # Template: AdminPostMasterFilter
       'PostMaster Filter Management' => 'مدیریت فیلتر پستی',

@@ -6,7 +6,7 @@
 # Copyright (C) 2004 Martijn Lohmeijer (martijn.lohmeijer 'at' sogeti.nl)
 # Copyright (C) 2005 Jurgen Rutgers (jurgen 'at' besite.nl)
 # --
-# $Id: nl.pm,v 1.39 2005-12-29 01:25:54 martin Exp $
+# $Id: nl.pm,v 1.40 2006-03-11 16:28:41 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -51,7 +51,7 @@ package Kernel::Language::nl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 
 sub Data {
@@ -219,7 +219,7 @@ sub Data {
       'You have %s new message(s)!' => 'U heeft %s nieuwe bericht(en)!',
       'You have %s reminder ticket(s)!' => 'U heeft %s herinneringsTicket(s)!',
       'The recommended charset for your language is %s!' => 'De aanbevolen karakterset voor uw taal is %s!',
-      'Passwords dosn\'t match! Please try it again!' => 'Wachtwoorden komen niet overeen! Probeer het opnieuw!',
+      'Passwords doesn\'t match! Please try it again!' => 'Wachtwoorden komen niet overeen! Probeer het opnieuw!',
       'Password is already in use! Please use an other password!' => 'Wachtwoord wordt al gebruikt. Kies een ander wachtwoord!',
       'Password is already used! Please use an other password!' => 'Wachtwoord is al in gebruik. Kies een ander wachtwoord!',
       'You need to activate %s first to use it!' => 'U dient %s eerst te activeren voordat u het kunt gebruiken.',
@@ -336,7 +336,7 @@ sub Data {
       'Spelling Dictionary' => 'Spelling bibliotheek',
       'Select your default spelling dictionary.' => 'Selecteer uw standaard spellingsbibliotheek.',
       'Max. shown Tickets a page in Overview.' => 'Max. getoonde Tickets per pagina in overzichtsscherm.',
-      'Can\'t update password, passwords dosn\'t match! Please try it again!' => 'Uw wachtwoord kan niet worden gewijzigd, de wachtwoorden komen niet overeen. Probeer het opnieuw.',
+      'Can\'t update password, passwords doesn\'t match! Please try it again!' => 'Uw wachtwoord kan niet worden gewijzigd, de wachtwoorden komen niet overeen. Probeer het opnieuw.',
       'Can\'t update password, invalid characters!' => 'Uw wachtwoord kan niet worden gewijzigd, er zijn ongeldige karakters gevonden.',
       'Can\'t update password, need min. 8 characters!' => 'Uw wachtwoord kan niet worden gewijzigd, er zijn minimaal 8 karakters noodzakelijk.',
       'Can\'t update password, need 2 lower and 2 upper characters!' => 'Uw wachtwoord kan niet worden gewijzigd, er zijn minimaal 2 normale en 2 hoofdletters noodzakelijk.',
@@ -370,7 +370,7 @@ sub Data {
       'Ticket' => '',
       'Createtime' => 'Gemaakt op',
       'plain' => 'zonder opmaak',
-      'eMail' => 'e-mail',
+      'Email' => 'e-mail',
       'email' => 'e-mail',
       'Close' => 'Sluiten',
       'Action' => 'Actie',
@@ -534,7 +534,7 @@ sub Data {
       'Source' => 'Bron',
       'This values are read only.' => 'Deze waarden kunt u alleen lezen.',
       'This values are required.' => 'Deze waarden zijn verplicht.',
-      'Customer user will be needed to have an customer histor and to to login via customer panels.' => 'Klanten moeten een klanthistorie hebben voordat zij kunnen inloggen via de klantschermen.',
+      'Customer user will be needed to have a customer history and to login via customer panel.' => 'Klanten moeten een klanthistorie hebben voordat zij kunnen inloggen via de klantschermen.',
 
       # Template: AdminCustomerUserGroupChangeForm
       'Customer Users <-> Groups Management' => 'Klant gebruikers <-> Groepen beheer',
@@ -656,7 +656,7 @@ sub Data {
       'Trusted' => 'Vertrouwd',
       'Dispatching' => 'Sortering',
       'All incoming emails with one account will be dispatched in the selected queue!' => 'Alle binnenkomende e-mail\'s in een account zullen worden geplaatst in de geselecteerde wachtrij',
-      'If your account is trusted, the already existing x-otrs header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => '',
+      'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => '',
 
       # Template: AdminPostMasterFilter
       'PostMaster Filter Management' => 'Postmaster filter beheer',

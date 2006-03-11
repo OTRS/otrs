@@ -2,7 +2,7 @@
 # Kernel/Language/hu.pm - provides de language translation
 # Copyright (C) 2004 RLAN Internet <MAGIC at rlan.hu>
 # --
-# $Id: hu.pm,v 1.18 2005-12-29 01:25:53 martin Exp $
+# $Id: hu.pm,v 1.19 2006-03-11 16:27:04 cs Exp $
 # Translation: Gabor Gancs /gg@magicnet.hu/ & Krisztian Gancs /krisz@gancs.hu/
 # Verify: Flora Szabo /szaboflora@magicnet.hu/
 # Hungary Sopron Europe
@@ -18,7 +18,7 @@ package Kernel::Language::hu;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -186,7 +186,7 @@ sub Data {
       'You have %s new message(s)!' => '%s új üzenete van!',
       'You have %s reminder ticket(s)!' => '%s emlékeztetõ jegye van!',
       'The recommended charset for your language is %s!' => 'Az ajánlott karakterkészlet az ön nyelvénél %s!',
-      'Passwords dosn\'t match! Please try it again!' => 'A jelszavak nem egyeznek! Próbálja meg újra!',
+      'Passwords doesn\'t match! Please try it again!' => 'A jelszavak nem egyeznek! Próbálja meg újra!',
       'Password is already in use! Please use an other password!' => '',
       'Password is already used! Please use an other password!' => '',
       'You need to activate %s first to use it!' => '',
@@ -303,7 +303,7 @@ sub Data {
       'Spelling Dictionary' => 'Helyesírás-ellenõrzõ szótár',
       'Select your default spelling dictionary.' => 'Válassza ki az alapértelmezett helyesírásellenõrzõ szótárat.',
       'Max. shown Tickets a page in Overview.' => 'Max. megjelenített jegy az áttekintésnél.',
-      'Can\'t update password, passwords dosn\'t match! Please try it again!' => '',
+      'Can\'t update password, passwords doesn\'t match! Please try it again!' => '',
       'Can\'t update password, invalid characters!' => '',
       'Can\'t update password, need min. 8 characters!' => '',
       'Can\'t update password, need 2 lower and 2 upper characters!' => '',
@@ -337,7 +337,7 @@ sub Data {
       'Ticket' => 'Jegy',
       'Createtime' => 'Elkészült ',
       'plain' => 'sima',
-      'eMail' => '',
+      'Email' => '',
       'email' => '',
       'Close' => 'Lezár',
       'Action' => 'Mûvelet',
@@ -501,7 +501,7 @@ sub Data {
       'Source' => 'Forrás',
       'This values are read only.' => 'Ezek az értékek csak olvashatók.',
       'This values are required.' => 'Ezek az értékek szükségesek.',
-      'Customer user will be needed to have an customer histor and to to login via customer panels.' => 'Ügyfél felhasználóra lesz szükség, hogy legyen ügyfél történet és be lehessen lépni az ügyfél panelen.',
+      'Customer user will be needed to have a customer history and to login via customer panel.' => 'Ügyfél felhasználóra lesz szükség, hogy legyen ügyfél történet és be lehessen lépni az ügyfél panelen.',
 
       # Template: AdminCustomerUserGroupChangeForm
       'Customer Users <-> Groups Management' => '',
@@ -623,7 +623,7 @@ sub Data {
       'Trusted' => 'Megbízható',
       'Dispatching' => 'Hozzárendelés',
       'All incoming emails with one account will be dispatched in the selected queue!' => 'Az összes egy azonosítóval rendelkezõ bejövõ email egy kiválasztott ügynélhöz lesz rendelve!',
-      'If your account is trusted, the already existing x-otrs header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => 'Ha az ön azonosítójamegbízható, a már létezõ x-otrs fejlécet használjuk az érkezéskor (sörgõsséghez, ...)! Egyéb esetben a PostMaster szûrõ lesz alkalmazva.',
+      'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => 'Ha az ön azonosítójamegbízható, a már létezõ X-OTRS fejlécet használjuk az érkezéskor (sörgõsséghez, ...)! Egyéb esetben a PostMaster szûrõ lesz alkalmazva.',
 
       # Template: AdminPostMasterFilter
       'PostMaster Filter Management' => 'PostMaster Szûrõ Kezelés',

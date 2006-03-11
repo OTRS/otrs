@@ -12,7 +12,7 @@ package Kernel::Language::bg;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -180,7 +180,7 @@ sub Data {
       'You have %s new message(s)!' => 'Вие имате %s ново/нови съобщение/съобщения!',
       'You have %s reminder ticket(s)!' => 'Вие имате %s оставащ/оставащи билет/билети!',
       'The recommended charset for your language is %s!' => 'Препоръчителният символен набор за Вашият език е %s',
-      'Passwords dosn\'t match! Please try it again!' => '',
+      'Passwords doesn\'t match! Please try it again!' => '',
       'Password is already in use! Please use an other password!' => '',
       'Password is already used! Please use an other password!' => '',
       'You need to activate %s first to use it!' => '',
@@ -297,7 +297,7 @@ sub Data {
       'Spelling Dictionary' => 'Речик за проверка на правописа',
       'Select your default spelling dictionary.' => 'Изберете Вашият речник за проверка на правописът',
       'Max. shown Tickets a page in Overview.' => '',
-      'Can\'t update password, passwords dosn\'t match! Please try it again!' => '',
+      'Can\'t update password, passwords doesn\'t match! Please try it again!' => '',
       'Can\'t update password, invalid characters!' => '',
       'Can\'t update password, need min. 8 characters!' => '',
       'Can\'t update password, need 2 lower and 2 upper characters!' => '',
@@ -331,7 +331,7 @@ sub Data {
       'Ticket' => 'Билет',
       'Createtime' => 'време на създаване',
       'plain' => 'обикновен',
-      'eMail' => 'е-поща',
+      'Email' => 'е-поща',
       'email' => 'е-поща',
       'Close' => 'Затваряне',
       'Action' => 'Действие',
@@ -495,7 +495,7 @@ sub Data {
       'Source' => '',
       'This values are read only.' => '',
       'This values are required.' => '',
-      'Customer user will be needed to have an customer histor and to to login via customer panels.' => '',
+      'Customer user will be needed to have a customer history and to login via customer panel.' => '',
 
       # Template: AdminCustomerUserGroupChangeForm
       'Customer Users <-> Groups Management' => '',
@@ -617,7 +617,7 @@ sub Data {
       'Trusted' => 'Доверен',
       'Dispatching' => 'Разпределение',
       'All incoming emails with one account will be dispatched in the selected queue!' => 'Всички входящи писма с един акаунт ще се разпределят в избраната опашка!',
-      'If your account is trusted, the already existing x-otrs header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => '',
+      'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => '',
 
       # Template: AdminPostMasterFilter
       'PostMaster Filter Management' => '',

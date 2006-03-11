@@ -2,7 +2,7 @@
 # Kernel/Language/es.pm - provides es language translation
 # Copyright (C) 2003-2004 Jorge Becerra <jorge at icc-cuba.com>
 # --
-# $Id: es.pm,v 1.38 2005-12-29 01:25:52 martin Exp $
+# $Id: es.pm,v 1.39 2006-03-11 16:24:55 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::es;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.39 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -182,7 +182,7 @@ sub Data {
       'You have %s new message(s)!' => 'Ud tiene %s nuevos mensaje(s)!',
       'You have %s reminder ticket(s)!' => 'Ud tiene %s tickets recordatorios',
       'The recommended charset for your language is %s!' => 'EL juego de caracteres recomendado para su idioma es %s!',
-      'Passwords dosn\'t match! Please try it again!' => 'Las contraseñas no coinciden. Por favor Reintente!',
+      'Passwords doesn\'t match! Please try it again!' => 'Las contraseñas no coinciden. Por favor Reintente!',
       'Password is already in use! Please use an other password!' => 'La contraseña ya se esta utilizando! Por Favor utilice otra!',
       'Password is already used! Please use an other password!' => 'La contraseña ya fue usada! Por favor use otra!',
       'You need to activate %s first to use it!' => 'Necesita activar %s primero para usarlo!',
@@ -299,7 +299,7 @@ sub Data {
       'Spelling Dictionary' => 'Diccionario Ortográfico',
       'Select your default spelling dictionary.' => 'Seleccione su diccionario por defecto',
       'Max. shown Tickets a page in Overview.' => 'Cantidad de Tickets a mostrar en Resumen',
-      'Can\'t update password, passwords dosn\'t match! Please try it again!' => 'No se puede actualizar la contraseña, no coinciden! Por favor reintentelo!',
+      'Can\'t update password, passwords doesn\'t match! Please try it again!' => 'No se puede actualizar la contraseña, no coinciden! Por favor reintentelo!',
       'Can\'t update password, invalid characters!' => 'No se puede actualizar la contraseña, caracteres no validos!',
       'Can\'t update password, need min. 8 characters!' => 'No se puede actualizar la contraseña, se necesitan al menos 8 caracteres',
       'Can\'t update password, need 2 lower and 2 upper characters!' => 'No se puede actualizar la contraseña, se necesitan al menos 2 en minuscula y 2 en mayuscula!',
@@ -333,7 +333,7 @@ sub Data {
       'Ticket' => '',
       'Createtime' => 'Fecha de creaciñn ',
       'plain' => 'texto',
-      'eMail' => 'Correo',
+      'Email' => 'Correo',
       'email' => 'correo',
       'Close' => 'Cerrar',
       'Action' => 'Acción',
@@ -497,7 +497,7 @@ sub Data {
       'Source' => 'Origen',
       'This values are read only.' => 'Estos valores son solo-lectura',
       'This values are required.' => 'Estos valores son obligatorios',
-      'Customer user will be needed to have an customer histor and to to login via customer panels.' => 'El cliente necesita tener una historia y conectarse via panel de clientes',
+      'Customer user will be needed to have a customer history and to login via customer panel.' => 'El cliente necesita tener una historia y conectarse via panel de clientes',
 
       # Template: AdminCustomerUserGroupChangeForm
       'Customer Users <-> Groups Management' => 'Clientes <-> Gestion de Grupos',
@@ -619,7 +619,7 @@ sub Data {
       'Trusted' => 'Confiable',
       'Dispatching' => 'Remitiendo',
       'All incoming emails with one account will be dispatched in the selected queue!' => 'Todos los correos de entrada serán enviados a la cola seleccionada',
-      'If your account is trusted, the already existing x-otrs header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => 'Si su cuenta es confiable, los headers ya existentes x-otrs en la llegada se utilizarán para la prioridad! El filtro Postmaster se usa de todas formas.',
+      'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => 'Si su cuenta es confiable, los headers ya existentes X-OTRS en la llegada se utilizarán para la prioridad! El filtro Postmaster se usa de todas formas.',
 
       # Template: AdminPostMasterFilter
       'PostMaster Filter Management' => 'Gestión del filtro maestro',

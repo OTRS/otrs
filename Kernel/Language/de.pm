@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: de.pm,v 1.100 2006-02-01 09:52:18 martin Exp $
+# $Id: de.pm,v 1.101 2006-03-11 16:34:03 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.100 $';
+$VERSION = '$Revision: 1.101 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -182,7 +182,7 @@ sub Data {
       'You have %s new message(s)!' => 'Sie haben %s neue Nachricht(en) bekommen!',
       'You have %s reminder ticket(s)!' => 'Sie haben %s Erinnerungs-Ticket(s)!',
       'The recommended charset for your language is %s!' => 'Der empfohlene Zeichensatz für Ihre Sprache ist %s!',
-      'Passwords dosn\'t match! Please try it again!' => 'Passwörter stimme nicht überein! Bitte wiederholen!',
+      'Passwords doesn\'t match! Please try it again!' => 'Passwörter stimme nicht überein! Bitte wiederholen!',
       'Password is already in use! Please use an other password!' => 'Dieses Password wird bereits benutzt, es kann nicht verwendet werden!',
       'Password is already used! Please use an other password!' => 'Dieses Password wurde bereits benutzt, es kann nicht verwendet werden!',
       'You need to activate %s first to use it!' => '%s muss zuerst aktiviert werden um es zu benutzen!',
@@ -210,8 +210,8 @@ sub Data {
       'No entry found!' => 'Kein Eintrag gefunden!',
       'Session has timed out. Please log in again.' => 'Zeitüberschreitung der Session. Bitte neu anmelden.',
       'No Permission!' => 'Keine Zugriffsrechte!',
-      'To: (%s) replaced with database email!' => 'An: (%s) ersetzt mit Datenbank E-Mail!',
-      'Cc: (%s) added database email!' => 'Cc: (%s) Datenbank E-Mail hinzugefügt!',
+      'To: (%s) replaced with database email!' => 'An: (%s) ersetzt mit Datenbank Email!',
+      'Cc: (%s) added database email!' => 'Cc: (%s) Datenbank Email hinzugefügt!',
       '(Click here to add)' => '(Hier klicken um hinzuzufügen)',
       'Preview' => 'Vorschau',
       'Added User "%s"' => 'Benutzer "%s" hinzugefügt.',
@@ -247,7 +247,7 @@ sub Data {
       'February' => 'Februar',
       'March' => 'März',
       'April' => '',
-      'Juny' => 'Juni',
+      'June' => 'Juni',
       'July' => 'Juli',
       'August' => '',
       'September' => '',
@@ -310,7 +310,7 @@ sub Data {
       'Spelling Dictionary' => 'Rechtschreib-Wörterbuch',
       'Select your default spelling dictionary.' => 'Standard Rechtschreib-Wörterbuch auswählen.',
       'Max. shown Tickets a page in Overview.' => 'Maximale Anzahl angezeigter Tickets pro Seite in der Übersicht.',
-      'Can\'t update password, passwords dosn\'t match! Please try it again!' => 'Passwörter sind nicht identisch! Bitte erneut versuchen!',
+      'Can\'t update password, passwords doesn\'t match! Please try it again!' => 'Passwörter sind nicht identisch! Bitte erneut versuchen!',
       'Can\'t update password, invalid characters!' => 'Passwort konnte nicht aktuallisiert werden, Zeichen ungülig.',
       'Can\'t update password, need min. 8 characters!' => 'Passwort konnte nicht aktuallisiert werden, benötige min. 8 Zeichen.',
       'Can\'t update password, need 2 lower and 2 upper characters!' => 'Passwort konnte nicht aktuallisiert werden, benötige min. einen großgeschriebener und einen kleingeschriebener Buchstaben.',
@@ -344,8 +344,8 @@ sub Data {
       'Ticket' => '',
       'Createtime' => 'Erstellt am',
       'plain' => 'klar',
-      'eMail' => 'E-Mail',
-      'email' => 'E-Mail',
+      'Email' => 'Email',
+      'email' => 'Email',
       'Close' => 'Schließen',
       'Action' => 'Aktion',
       'Attachment' => 'Anlage',
@@ -354,7 +354,7 @@ sub Data {
       'If it is not displayed correctly,' => 'Wenn sie nicht korrekt angezeigt wird,',
       'This is a' => 'Dies ist eine',
       'to open it in a new window.' => 'um sie in einem neuen Fenster angezeigt zu bekommen',
-      'This is a HTML email. Click here to show it.' => 'Dies ist eine HTML E-Mail. Hier klicken, um sie anzuzeigen.',
+      'This is a HTML email. Click here to show it.' => 'Dies ist eine HTML Email. Hier klicken, um sie anzuzeigen.',
       'Free Fields' => 'Freie Felder',
       'Merge' => '',
       'closed successful' => 'erfolgreich geschlossen',
@@ -366,8 +366,8 @@ sub Data {
       'pending reminder' => 'warten zur Erinnerung',
       'pending auto close+' => 'warten auf erfolgreich schließen',
       'pending auto close-' => 'warten auf erfolglos schließen',
-      'email-external' => 'E-Mail an extern',
-      'email-internal' => 'E-Mail an intern',
+      'email-external' => 'Email an extern',
+      'email-internal' => 'Email an intern',
       'note-external' => 'Notiz für extern',
       'note-internal' => 'Notiz für intern',
       'note-report' => 'Notiz für reporting',
@@ -450,7 +450,7 @@ sub Data {
       'History::SendAutoFollowUp' => 'AutoFollowUp an "%s" versandt.',
       'History::Forward' => 'Weitergeleited an "%s".',
       'History::Bounce' => 'Bounced an "%s".',
-      'History::SendAnswer' => 'E-Mail versandt an "%s".',
+      'History::SendAnswer' => 'Email versandt an "%s".',
       'History::SendAgentNotification' => '"%s"-Benachrichtigung versand an "%s".',
       'History::SendCustomerNotification' => 'Benachrichtigung versandt an "%s".',
       'History::EmailAgent' => 'Email an Kunden versandt.',
@@ -494,7 +494,7 @@ sub Data {
       'Note' => 'Notiz',
       'Useable options' => 'Verfügbare Optionen',
       'to get the first 20 character of the subject' => 'Um die ersten 20 Zeichen des Betreffs zu erhalten',
-      'to get the first 5 lines of the email' => 'Um die ersten 5 Zeilen der E-Mail zu erhalten',
+      'to get the first 5 lines of the email' => 'Um die ersten 5 Zeilen der Email zu erhalten',
       'to get the from line of the email' => 'Um die From: Zeile zu erhalten',
       'to get the realname of the sender (if given)' => 'Um den Realnamen des Senders zu erhalten (wenn möglich)',
       'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => 'Optionen von Ticket Daten (z. B. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)',
@@ -509,7 +509,7 @@ sub Data {
       'Source' => 'Quelle',
       'This values are read only.' => 'Diese Inhalte sind schreibgeschützt.',
       'This values are required.' => 'Diese Inhalte werden benötigt.',
-      'Customer user will be needed to have an customer histor and to to login via customer panels.' => 'Kunden-Benutzer werden für Kunden-Historien und für die Benutzung von Kunden-Weboberfläche benötigt.',
+      'Customer user will be needed to have a customer history and to login via customer panel.' => 'Kunden-Benutzer werden für Kunden-Historien und für die Benutzung von Kunden-Weboberfläche benötigt.',
 
       # Template: AdminCustomerUserGroupChangeForm
       'Customer Users <-> Groups Management' => 'Kundenbenutzer <-> Gruppen Verwaltung',
@@ -540,11 +540,11 @@ sub Data {
       'Is Job Valid?' => 'Ist Job gültig?',
       'Is Job Valid' => 'Ist Job gültig',
       'Schedule' => 'Zeitplan',
-      'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Volltextsuche in Artikel (z.B. "Mar*in" oder "Baue*")',
-      '(e. g. 10*5155 or 105658*)' => 'z.B. 10*5144 oder 105658*',
-      '(e. g. 234321)' => 'z.B. 234321',
+      'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Volltextsuche in Artikel (z. B. "Mar*in" oder "Baue*")',
+      '(e. g. 10*5155 or 105658*)' => 'z .B. 10*5144 oder 105658*',
+      '(e. g. 234321)' => 'z. B. 234321',
       'Customer User Login' => 'Kunden-Benutzer-Login',
-      '(e. g. U5150)' => 'z.B. U5150',
+      '(e. g. U5150)' => 'z. B. U5150',
       'Agent' => '',
       'TicketFreeText' => '',
       'Ticket Lock' => 'Ticket Sperren',
@@ -577,7 +577,7 @@ sub Data {
       # Template: AdminGroupForm
       'Group Management' => 'Gruppen Verwaltung',
       'The admin group is to get in the admin area and the stats group to get stats area.' => 'Die \'admin\'-Gruppe wird für den Admin-Bereich benötigt, die \'stats\'-Gruppe für den Statistik-Bereich.',
-      'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).' => 'Erstellen Sie neue Gruppen, um die Zugriffe für verschiedene Agenten-Gruppen zu definieren (z.B. Einkaufs-Abteilung, Support-Abteilung, Verkaufs-Abteilung,...).',
+      'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).' => 'Erstellen Sie neue Gruppen, um die Zugriffe für verschiedene Agenten-Gruppen zu definieren (z. B. Einkaufs-Abteilung, Support-Abteilung, Verkaufs-Abteilung,...).',
       'It\'s useful for ASP solutions.' => 'Nützlich für ASP-Lösungen.',
 
       # Template: AdminLog
@@ -630,8 +630,8 @@ sub Data {
       'Host' => 'Rechner',
       'Trusted' => 'Vertraut',
       'Dispatching' => 'Verteilung',
-      'All incoming emails with one account will be dispatched in the selected queue!' => 'Einkommende E-Mails von POP3-Konten werden in die ausgewählte Queue einsortiert!',
-      'If your account is trusted, the already existing x-otrs header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => 'Wird dem Konto vertraut, werden die X-OTRS Header benutzt! PostMaster Filter werden trotzdem benutzt.',
+      'All incoming emails with one account will be dispatched in the selected queue!' => 'Einkommende Emails von POP3-Konten werden in die ausgewählte Queue einsortiert!',
+      'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => 'Wird dem Konto vertraut, werden die X-OTRS Header benutzt! PostMaster Filter werden trotzdem benutzt.',
 
       # Template: AdminPostMasterFilter
       'PostMaster Filter Management' => 'PostMaster Filter Verwaltung',
@@ -664,12 +664,12 @@ sub Data {
       'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Wird ein Ticket durch einen Agent gesperrt, jedoch nicht in dieser Zeit beantwortet, wird das Ticket automatisch freigegeben.',
       'If a ticket will not be answered in thos time, just only this ticket will be shown.' => 'Wird ein Ticket nicht in dieser Zeit beantwortet, wird nur noch dieses Ticket gezeigt.',
       'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => 'Wenn ein Ticket geschlossen ist und der Kunde ein Follow-Up sendet, wird das Ticket für den alten Besitzer gesperrt.',
-      'Will be the sender address of this queue for email answers.' => 'Absenderadresse für E-Mails aus dieser Queue.',
-      'The salutation for email answers.' => 'Die Anrede für E-Mail-Antworten.',
-      'The signature for email answers.' => 'Die Signatur für E-Mail-Antworten.',
-      'OTRS sends an notification email to the customer if the ticket is moved.' => 'OTRS sendet eine Info-E-Mail an Kunden beim Verschieben des Tickets.',
-      'OTRS sends an notification email to the customer if the ticket state has changed.' => 'OTRS sendet eine Info E-Mail an Kunden beim Ändern des Status.',
-      'OTRS sends an notification email to the customer if the ticket owner has changed.' => 'OTRS sendet eine Info-E-Mail an Kunden beim Ändern des Besitzers.',
+      'Will be the sender address of this queue for email answers.' => 'Absenderadresse für Emails aus dieser Queue.',
+      'The salutation for email answers.' => 'Die Anrede für Email-Antworten.',
+      'The signature for email answers.' => 'Die Signatur für Email-Antworten.',
+      'OTRS sends an notification email to the customer if the ticket is moved.' => 'OTRS sendet eine Info-Email an Kunden beim Verschieben des Tickets.',
+      'OTRS sends an notification email to the customer if the ticket state has changed.' => 'OTRS sendet eine Info Email an Kunden beim Ändern des Status.',
+      'OTRS sends an notification email to the customer if the ticket owner has changed.' => 'OTRS sendet eine Info-Email an Kunden beim Ändern des Besitzers.',
 
       # Template: AdminQueueResponsesChangeForm
       'Responses <-> Queue Management' => 'Antworten <-> Queue Verwaltung',
@@ -689,7 +689,7 @@ sub Data {
       'Next state' => 'Nächster Status',
       'All Customer variables like defined in config option CustomerUser.' => 'Alle Kundenvariablen wie definiert im den Konfigoptionen CustomerUser.',
       'The current ticket state is' => 'Der aktuelle Ticket-Status ist',
-      'Your email address is new' => 'Deine E-Mail-Adresse ist neu',
+      'Your email address is new' => 'Deine Email-Adresse ist neu',
 
       # Template: AdminRoleForm
       'Role Management' => 'Rollen Verwaltung',
@@ -782,10 +782,10 @@ sub Data {
       'AccessKey'      => '',
 
       # Template: AdminSystemAddressForm
-      'System Email Addresses Management' => 'E-Mail-Adressen Verwaltung',
-      'Email' => 'E-Mail',
+      'System Email Addresses Management' => 'Email-Adressen Verwaltung',
+      'Email' => 'Email',
       'Realname' => '',
-      'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Alle eingehenden E-Mails mit diesem Empfänger (To:) werden in die ausgewählte Queue einsortiert.',
+      'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Alle eingehenden Emails mit diesem Empfänger (To:) werden in die ausgewählte Queue einsortiert.',
 
       # Template: AdminUserForm
       'User Management' => 'Benutzer Verwaltung',
@@ -838,12 +838,12 @@ sub Data {
 
       # Template: AgentTicketBounce
       'A message should have a To: recipient!' => 'Eine Nachricht sollte einen Empfänger im Feld An: haben!',
-      'You need a email address (e. g. customer@example.com) in To:!' => 'Im Feld An: wird eine E-Mail-Adresse (z.B. kunde@example.com) benötigt!',
+      'You need a email address (e. g. customer@example.com) in To:!' => 'Im Feld An: wird eine Email-Adresse (z. B. kunde@example.com) benötigt!',
       'Bounce ticket' => '',
       'Bounce to' => 'Bounce an',
       'Next ticket state' => 'Nächster Status des Tickets',
       'Inform sender' => 'Sender informieren',
-      'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Die E-Mail mit der Ticketnummer "<OTRS_TICKET>" ist an "<OTRS_BOUNCE_TO>" gebounced. Kontaktieren Sie diese Adresse für weitere Nachfragen.',
+      'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Die Email mit der Ticketnummer "<OTRS_TICKET>" ist an "<OTRS_BOUNCE_TO>" gebounced. Kontaktieren Sie diese Adresse für weitere Nachfragen.',
       'Send mail!' => 'Mail senden!',
 
       # Template: AgentTicketBulk
@@ -882,7 +882,7 @@ sub Data {
       'Follow up' => 'Nachfrage',
 
       # Template: AgentTicketEmail
-      'Compose Email' => 'E-Mail erstellen',
+      'Compose Email' => 'Email erstellen',
       'new ticket' => 'Neues Ticket',
       'Clear To' => 'An: löschen',
       'All Agents' => 'Alle Agenten',
@@ -989,7 +989,7 @@ sub Data {
       'Save Search-Profile as Template?' => 'Speichere Such-Profil als Vorlage?',
       'Yes, save it with name' => 'Ja, speichere unter dem Namen',
       'Customer history search' => 'Kunden-Historie-Suche',
-      'Customer history search (e. g. "ID342425").' => 'Kunden-Historie-Suche (z.B. "ID342425").',
+      'Customer history search (e. g. "ID342425").' => 'Kunden-Historie-Suche (z. B. "ID342425").',
       'No * possible!' => 'Kein "*" möglich!',
 
       # Template: AgentTicketSearchResult
@@ -1134,7 +1134,7 @@ sub Data {
       'System FQDN' => '',
       '(Full qualified domain name of your system)' => '(Voll qualifizierter Domain-Name des Systems)',
       'AdminEmail' => '',
-      '(Email of the system admin)' => '(E-Mail des System-Administrators)',
+      '(Email of the system admin)' => '(Email des System-Administrators)',
       'Organization' => 'Organisation',
       'Log' => '',
       'LogModule' => '',
@@ -1147,7 +1147,7 @@ sub Data {
       'Default Language' => 'Standard-Sprache',
       '(Used default language)' => '(Standardwert für die Sprache)',
       'CheckMXRecord' => '',
-      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Überprüfen des MX-Eintrags der benutzen E-Mail-Adressen im Verfassen-Fenster. Benutzen Sie CheckMXRecord nicht, wenn Ihr OTRS hinter einer Wählleitung ist!)',
+      '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Überprüfen des MX-Eintrags der benutzen Email-Adressen im Verfassen-Fenster. Benutzen Sie CheckMXRecord nicht, wenn Ihr OTRS hinter einer Wählleitung ist!)',
       'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' => 'Um OTRS nutzen zu können, müssen die die folgenden Zeilen als root in die Befehlszeile (Terminal/Shell) eingeben.',
       'Restart your webserver' => 'Starte Deinen Webserver neu.',
       'After doing so your OTRS is up and running.' => 'Danach läuft Dein OTRS.',
