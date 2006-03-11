@@ -2,7 +2,7 @@
 # Kernel/Language/ru.pm - provides ru language translation
 # Copyright (C) 2003 Serg V Kravchenko <skraft at rgs.ru>
 # --
-# $Id: ru.pm,v 1.26 2006-02-17 13:11:17 cs Exp $
+# $Id: ru.pm,v 1.27 2006-03-11 16:01:31 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::ru;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
@@ -181,7 +181,7 @@ sub Data {
       'You have %s new message(s)!' => 'Количество новых сообщений: %s',
       'You have %s reminder ticket(s)!' => 'Количество %s напоминаний!',
       'The recommended charset for your language is %s!' => 'Рекомендуемая кодировка для вашего языка %s',
-      'Passwords dosn\'t match! Please try it again!' => 'Неверный пароль!',
+      'Passwords doesn\'t match! Please try it again!' => 'Неверный пароль!',
       'Password is already in use! Please use an other password!' => '',
       'Password is already used! Please use an other password!' => '',
       'You need to activate %s first to use it!' => '',
@@ -257,8 +257,8 @@ sub Data {
       'February' => 'Февраля',
       'March' => '',
       'April' => 'Апреля',
-      'Mai' => '',
-      'Juny' => '',
+      'May' => '',
+      'June' => '',
       'July' => '',
       'August' => 'Августа',
       'September' => 'Сентября',
@@ -321,7 +321,7 @@ sub Data {
       'Spelling Dictionary' => 'Словарь',
       'Select your default spelling dictionary.' => 'Выбирете основной словарь',
       'Max. shown Tickets a page in Overview.' => '',
-      'Can\'t update password, passwords dosn\'t match! Please try it again!' => 'Невозможно сменить пароль, пароли несоответствуют!',
+      'Can\'t update password, passwords doesn\'t match! Please try it again!' => 'Невозможно сменить пароль, пароли несоответствуют!',
       'Can\'t update password, invalid characters!' => 'Невозможно сменить пароль, неверная кодировка!',
       'Can\'t update password, need min. 8 characters!' => 'Невозможно сменить пароль, необходимо не менее 8 символов!',
       'Can\'t update password, need 2 lower and 2 upper characters!' => '',
@@ -355,7 +355,7 @@ sub Data {
       'Ticket' => 'Заявка',
       'Createtime' => 'Время создания',
       'plain' => 'обычный',
-      'eMail' => 'е-Mail',
+      'Email' => 'е-Mail',
       'email' => 'e-mail',
       'Close' => 'Закрыть',
       'Action' => 'Действие',
@@ -526,7 +526,7 @@ sub Data {
       'Source' => 'Источник',
       'This values are read only.' => 'Данное значение только для чтения',
       'This values are required.' => 'Данное значение обязательно',
-      'Customer user will be needed to have an customer histor and to to login via customer panels.' => '',
+      'Customer user will be needed to have a customer history and to login via customer panel.' => '',
 
       # Template: AdminCustomerUserGroupChangeForm
       'Customer Users <-> Groups Management' => 'Управление группами клиентов',
@@ -655,7 +655,7 @@ sub Data {
       'Trusted' => 'Безопасный',
       'Dispatching' => 'Перенаправление',
       'All incoming emails with one account will be dispatched in the selected queue!' => 'Все входящие письма с едной учетной записи будут перенесены в избранную очередь!',
-      'If your account is trusted, the already existing x-otrs header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => '',
+      'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => '',
 
       # Template: AdminPostMasterFilter
       'PostMaster Filter Management' => '',
