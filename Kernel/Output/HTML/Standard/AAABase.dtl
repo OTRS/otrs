@@ -156,7 +156,7 @@ $Text{"You have %s new message(s)!"}
 $Text{"You have %s reminder ticket(s)!"}
 
 $Text{"The recommended charset for your language is %s!"}
-$Text{"Passwords dosn't match! Please try it again!"}
+$Text{"Passwords doesn't match! Please try it again!"}
 $Text{"Password is already in use! Please use an other password!"}
 $Text{"Password is already used! Please use an other password!"}
 $Text{"You need to activate %s first to use it!"}
