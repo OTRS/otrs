@@ -4,7 +4,7 @@
 #               2003 Gabriele Santilli <gsantilli at omnibus.net>
 #               2005 Giordano Bianchi <giordano.bianchi at gmail.com>
 # --
-# $Id: it.pm,v 1.28 2005-12-29 01:25:54 martin Exp $
+# $Id: it.pm,v 1.29 2006-03-11 16:27:38 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ package Kernel::Language::it;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -184,7 +184,7 @@ sub Data {
       'You have %s new message(s)!' => 'Hai %s nuovi messaggi!',
       'You have %s reminder ticket(s)!' => 'Hai %s Richiesta(e) memorizzati',
       'The recommended charset for your language is %s!' => 'Il set di caratteri raccomandato per la tua lingua è %s!',
-      'Passwords dosn\'t match! Please try it again!' => 'La password non corrisponde! Per favore, prova di nuovo',
+      'Passwords doesn\'t match! Please try it again!' => 'La password non corrisponde! Per favore, prova di nuovo',
       'Password is already in use! Please use an other password!' => 'La password è già in uso. Per favore provare con un\' altra password',
       'Password is already used! Please use an other password!' => 'La password è già stata usata! Provare con un\' altra password',
       'You need to activate %s first to use it!' => 'Devi prima attivare %s per poterlo usare',
@@ -301,7 +301,7 @@ sub Data {
       'Spelling Dictionary' => 'Dizionario',
       'Select your default spelling dictionary.' => 'Seleziona il dizionario standard',
       'Max. shown Tickets a page in Overview.' => 'Numero massimo di richieste per pagina nel Sommario',
-      'Can\'t update password, passwords dosn\'t match! Please try it again!' => '',
+      'Can\'t update password, passwords doesn\'t match! Please try it again!' => '',
       'Can\'t update password, invalid characters!' => 'Non posso aggiornare la password, dei caratteri non sono validi',
       'Can\'t update password, need min. 8 characters!' => 'Non posso aggiornare la password, ho bisogno di almeno 8 caratteri ',
       'Can\'t update password, need 2 lower and 2 upper characters!' => 'Non posso aggiornare la password, ho bisogno di 2 caratteri maiuscoli e 2 minuscoli ',
@@ -335,7 +335,7 @@ sub Data {
       'Ticket' => 'Richiesta',
       'Createtime' => 'Istante di creazione',
       'plain' => 'diretto',
-      'eMail' => '',
+      'Email' => '',
       'email' => '',
       'Close' => 'Chiudi',
       'Action' => 'Azione',
@@ -357,8 +357,8 @@ sub Data {
       'pending reminder' => 'in attesa di risposta',
       'pending auto close+' => 'in attesa di chiusura automatica+',
       'pending auto close-' => 'in attesa di chiusura automatica-',
-      'email-external' => 'eMail esterna',
-      'email-internal' => 'eMail interna',
+      'email-external' => 'Email esterna',
+      'email-internal' => 'Email interna',
       'note-external' => 'Nota esterna',
       'note-internal' => 'Nota interna',
       'note-report' => 'Nota rapporto',
@@ -499,7 +499,7 @@ sub Data {
       'Source' => 'Sorgente',
       'This values are read only.' => 'Questi valori non sono modificabili',
       'This values are required.' => 'Questi valori sono richiesti',
-      'Customer user will be needed to have an customer histor and to to login via customer panels.' => 'Il cliente sarà necessario per registrare la sua storia e permettere il collegamento via web',
+      'Customer user will be needed to have a customer history and to login via customer panel.' => 'Il cliente sarà necessario per registrare la sua storia e permettere il collegamento via web',
 
       # Template: AdminCustomerUserGroupChangeForm
       'Customer Users <-> Groups Management' => '',
@@ -621,7 +621,7 @@ sub Data {
       'Trusted' => 'Fidato',
       'Dispatching' => 'Smistamento',
       'All incoming emails with one account will be dispatched in the selected queue!' => 'Tutti i messaggi in arrivo saranno smistati nella coda selezionata!',
-      'If your account is trusted, the already existing x-otrs header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => 'Se il tuo account è fidato (trusted), verrà utilizzato l\'header x-otrs dell\'istante di arrivo (priorità, ...)! Il filtro di ingresso verrà utilizzato in ogni caso.',
+      'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => 'Se il tuo account è fidato (trusted), verrà utilizzato l\'header X-OTRS dell\'istante di arrivo (priorità, ...)! Il filtro di ingresso verrà utilizzato in ogni caso.',
 
       # Template: AdminPostMasterFilter
       'PostMaster Filter Management' => 'Gestione filtri posta in ingresso',
@@ -773,7 +773,7 @@ sub Data {
 
       # Template: AdminSystemAddressForm
       'System Email Addresses Management' => 'Gestione indirizzi di sistema',
-      'Email' => 'eMail',
+      'Email' => 'Email',
       'Realname' => 'Nome',
       'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Tutte le email in arrivo indirizzate a questo indirizzo (campo To:) saranno smistate nella coda selezionata!',
 
