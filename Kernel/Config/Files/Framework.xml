@@ -112,7 +112,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.89 2006-03-09 16:38:18 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.90 2006-03-12 10:42:50 cs Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -193,7 +193,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="DefaultCharset" Required="1" Valid="1">
         <Description Lang="en">Default frontend charset. "utf-8" is a good choice for envirorments with many possible charsetss. Specify another charset (e.g "iso-8859-1"), if only this specific charset is needed.</Description>
-        <Description Lang="de">Standard-Zeichensatz des Frontends. Wählen Sie "utf-8", wenn verschiedene Zeichensätze für die Anzeige benötigt werden. Wir nur ein Zeichensatz eingesetzt (z.B. "iso-8859-1"), nutzen Sie bitte diese Einstellung.</Description>
+        <Description Lang="de">Standard-Zeichensatz des Frontends. Wählen Sie "utf-8", wenn verschiedene Zeichensätze für die Anzeige benötigt werden. Wir nur ein Zeichensatz eingesetzt (z. B. "iso-8859-1"), nutzen Sie bitte diese Einstellung.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -211,8 +211,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DefaultLanguage" Required="1" Valid="1">
-        <Description Lang="en">The default frontend language. Possible values are bg, cz, de, en, es, fi, fr, hu, it, nb, nl, pl, pt, ru, th and sv.</Description>
-        <Description Lang="de">Standard Frontend Sprache. Mögliche Werte sind bg, cz, de, en, es, fi, fr, hu, it, nb, nl, pl, pt, ru, th und sv.</Description>
+        <Description Lang="en">The default frontend language. Possible values are bg, cz, da, de, en, es, fi, fr, hu, it, nb, nl, pl, pt, ru, th and sv.</Description>
+        <Description Lang="de">Standard Frontend Sprache. Mögliche Werte sind bg, cz, da, de, en, es, fi, fr, hu, it, nb, nl, pl, pt, ru, th und sv.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -227,6 +227,7 @@ TimeWorkingHours
         <Setting>
             <Hash>
                 <Item Key="en">English</Item>
+                <Item Key="da">Dansk</Item>
                 <Item Key="de">Deutsch</Item>
                 <Item Key="nl">Nederlands</Item>
                 <Item Key="fa">Persian</Item>
@@ -279,7 +280,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="DefaultPreViewLines" Required="1" Valid="1">
         <Description Lang="en">Count of lines that are displayed in the preview for messages (e.g. for tickets in the QueueView).</Description>
-        <Description Lang="de">Anzahl der Zeilen bei der Vorschau von Textnachrichten (z.B. bei Tickets in der Queue-Ansicht).</Description>
+        <Description Lang="de">Anzahl der Zeilen bei der Vorschau von Textnachrichten (z. B. bei Tickets in der Queue-Ansicht).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
@@ -288,7 +289,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="DefaultViewLines" Required="1" Valid="1">
         <Description Lang="en">Count of lines that are displayed in text messages (e.g. ticket lines in the QueueZoom).</Description>
-        <Description Lang="de">Anzahl der Zeilen für Textnachricht (z.B. im QueueZoom).</Description>
+        <Description Lang="de">Anzahl der Zeilen für Textnachricht (z. B. im QueueZoom).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
@@ -369,7 +370,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="CheckEmailValidAddress" Required="1" Valid="1">
         <Description Lang="en">Regex for email addresses, that aren't syntacticaly valid but necesary for the system, e.g. "root@localhost".</Description>
-        <Description Lang="de">Regulärer Ausdruck für syntaktisch nicht korrekte Mailadressen, die aber trotzdem im System verwendet werden sollen, z.B. "root@localhost".</Description>
+        <Description Lang="de">Regulärer Ausdruck für syntaktisch nicht korrekte Mailadressen, die aber trotzdem im System verwendet werden sollen, z. B. "root@localhost".</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -387,7 +388,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="LogModule" Required="1" Valid="1">
         <Description Lang="en">Log module for the system. "File" writes all messages in a given logfile, "SysLog" uses the syslog daemon of the system, e.g. syslogd.</Description>
-        <Description Lang="de">Logmodul für das System. "File" schreibt in eine anzugebende Datei, "SysLog" logt mit Hilfe des systemspezifischen Logdaemons, z.B. syslogd.</Description>
+        <Description Lang="de">Logmodul für das System. "File" schreibt in eine anzugebende Datei, "SysLog" logt mit Hilfe des systemspezifischen Logdaemons, z. B. syslogd.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Log</SubGroup>
         <Setting>
@@ -567,7 +568,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="PreApplicationModule###AgentInfo" Required="0" Valid="0">
         <Description Lang="en">This module is usefull to load some specific user options or to redirect not accept new application news. For example: Kernel::Modules::AgentWorkingRoleSelection or Kernel::Modules::AgentInfo</Description>
-        <Description Lang="de">Mit Hilfe dieses Moduls können bestimmte Benutzeroptionen geladen oder Neuigkeiten angezeigt werden (z.B. Kernel::Modules::AgentWorkingRoleSelection oder Kernel::Modules::AgentInfo).</Description>
+        <Description Lang="de">Mit Hilfe dieses Moduls können bestimmte Benutzeroptionen geladen oder Neuigkeiten angezeigt werden (z. B. Kernel::Modules::AgentWorkingRoleSelection oder Kernel::Modules::AgentInfo).</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -594,7 +595,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="Frontend::NotifyModule###1-CharsetCheck" Required="1" Valid="1">
         <Description Lang="en">Module to inform agents via the agent interface about the used charset. A notification is displayed, if the default charset is not used, e.g. in tickets.</Description>
-        <Description Lang="de">Modul, welches die Agents innerhalb des Agent-Interfaces über den benutzten Zeichensatz informiert. Es wird ein Hinweis ausgegeben, wenn z.B. ein Ticket mit einem anderen als den Standard-Zeichensatz angezeigt wird.</Description>
+        <Description Lang="de">Modul, welches die Agents innerhalb des Agent-Interfaces über den benutzten Zeichensatz informiert. Es wird ein Hinweis ausgegeben, wenn z. B. ein Ticket mit einem anderen als den Standard-Zeichensatz angezeigt wird.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>
         <Setting>
@@ -656,7 +657,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="SessionCheckRemoteIP" Required="1" Valid="1">
         <Description Lang="en">If the application is used for example via a proxy farm or a dialup connection, the remote ip address is mostly different for the requests. Turn of this check, if you are in this situation.</Description>
-        <Description Lang="de">Wird das System z.B. über eine Proxy-Farm oder über eine Einwählverbindung angesprochen, kann sich die IP-Adresse für die einzelnen Anfragen oft ändern. Schalten Sie in diesem Fall diese Überprüfung ab.</Description>
+        <Description Lang="de">Wird das System z. B. über eine Proxy-Farm oder über eine Einwählverbindung angesprochen, kann sich die IP-Adresse für die einzelnen Anfragen oft ändern. Schalten Sie in diesem Fall diese Überprüfung ab.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Session</SubGroup>
         <Setting>
@@ -948,7 +949,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="Frontend::Output::PostFilter###ActiveElementFilter" Required="0" Valid="0">
         <Description Lang="en">A filter for html output of the application. With this filter you can for example filter out javascript or suppress java applets.</Description>
-        <Description Lang="de">Ein Filter für den HTML-Inhalt innerhalb der Applikation. Mit Hilfe des Filters kann z.B. die Anzeige von Javaapplets oder Javascript unterdrückt werden.</Description>
+        <Description Lang="de">Ein Filter für den HTML-Inhalt innerhalb der Applikation. Mit Hilfe des Filters kann z. B. die Anzeige von Javaapplets oder Javascript unterdrückt werden.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
@@ -1800,7 +1801,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::LDAP::AlwaysFilter" Required="0" Valid="0">
         <Description Lang="en">If "LDAP" was selected, you can add a filter to each LDAP query, e.g. (mail=*), (objectclass=user) or (!objectclass=computer).</Description>
-        <Description Lang="de">Wenn "LDAP" als Customer::AuthModule gewählt wurde und für jede Suche standardmäßig ein Filter vorhanden sein soll, dann kann dieser Filter hier angegeben werden, z.B. (mail=*), (objectclass=user) oder (!objectclass=computer).</Description>
+        <Description Lang="de">Wenn "LDAP" als Customer::AuthModule gewählt wurde und für jede Suche standardmäßig ein Filter vorhanden sein soll, dann kann dieser Filter hier angegeben werden, z. B. (mail=*), (objectclass=user) oder (!objectclass=computer).</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
         <Setting>
