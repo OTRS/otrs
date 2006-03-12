@@ -2,13 +2,17 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.237 2006-03-10 10:53:00 martin Exp $
+# $Id: CHANGES,v 1.238 2006-03-12 10:37:12 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS head
+ - (2006/03/11) Added Danish translation (thanks to Thorsten Rossner)
+ - (2006/03/11) Updated Norwegian translation (thanks to Knut Haugen)
+ - (2006/03/11) fixed some spelling mistakes for the English original in
+    language templates and language files
  - (2006/03/10) added admin init (Kernel/Modules/AdminInit.pm) to init
     config files .xml->.pm after a new setup (after inital root login)
  - (2006/03/04) splited Kernel::Modules::AgentTicketPhone into
