@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminGenericAgent.dtl,v 1.20 2006-03-04 11:37:46 martin Exp $
+# $Id: AdminGenericAgent.dtl,v 1.21 2006-03-14 10:26:46 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -388,7 +388,8 @@
 <tr>
   <td colspan="2" class="menu">
     <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"Job-List"}</a> -
-    <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=LoadProfile&Profile=$QData{"Name"}">$Text{"Edit"}</a>
+    <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=LoadProfile&Profile=$QData{"Name"}">$Text{"Edit"}</a> -
+    <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=RunNow&Profile=$QData{"Name"}">$Text{"Run Now!"}</a>
   </td>
 </tr>
 <tr>
