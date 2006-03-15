@@ -4,7 +4,7 @@
 #               2005 Stefansen Espen <espen.stefansen@imr.no>
 #               2006 Knut Haugen <knuthaug@linpro.no>
 # --
-# $Id: nb_NO.pm,v 1.18.2.1 2006-03-08 19:08:25 cs Exp $
+# $Id: nb_NO.pm,v 1.18.2.2 2006-03-15 18:49:30 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::nb_NO;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.18.2.1 $;
+$VERSION = q$Revision: 1.18.2.2 $;
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1133,7 +1133,7 @@ sub Data {
       'Admin-Password' => 'Administrator-passord',
       'your MySQL DB should have a root password! Default is empty!' => 'Din MySQL-database bør ha et root-passord satt!  Default er intet passord!',
       'Database-User' => 'Database-bruker',
-      'default \'hot\'' => 'Standard \'varm\'',
+      'default \'hot\'' => 'Standard \'hot\'',
       'DB connect host' => 'Tilkoblingsmaskin for database',
       'Database' => 'Database',
       'Create' => 'Opprett',
