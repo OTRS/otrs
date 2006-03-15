@@ -1,10 +1,10 @@
 # --
-# Kernel/Language/da.pm - provides de language translation
+# Kernel/Language/da.pm - provides da language translation
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 #
 # Last updated 2006/03/09 by Thorsten Rossner <thorsten.rossner[at]stepstone.de>
 # --
-# $Id: da.pm,v 1.1.2.2 2006-03-09 17:01:46 cs Exp $
+# $Id: da.pm,v 1.1.2.3 2006-03-15 19:00:28 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::da;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1.2.2 $';
+$VERSION = '$Revision: 1.1.2.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
