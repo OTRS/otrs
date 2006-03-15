@@ -1,8 +1,8 @@
 # --
-# Kernel/Language/de.pm - provides de language translation
+# Kernel/Language/sl.pm - provides sl language translation
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: sl.pm,v 1.1.2.1 2006-03-15 17:20:43 cs Exp $
+# $Id: sl.pm,v 1.1.2.2 2006-03-15 17:21:19 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::sl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1.2.1 $';
+$VERSION = '$Revision: 1.1.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
