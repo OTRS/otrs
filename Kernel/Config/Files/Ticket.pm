@@ -531,23 +531,23 @@
     # next possible states after composing / answering a ticket
     $Self->{'Ticket::DefaultNextComposeStateType'} = ['open', 'closed', 'pending auto', 'pending reminder'];
     # unix_style
-    $Self->{'Ticket::Frontend::ResponseFormat'} = '$Data{"Salutation"}
-$Data{"OrigFrom"} $Text{"wrote"}:
-$Data{"Body"}
+    $Self->{'Ticket::Frontend::ResponseFormat'} = '$QData{"Salutation"}
+$QData{"OrigFrom"} $Text{"wrote"}:
+$QData{"Body"}
 
-$Data{"StdResponse"}
+$QData{"StdResponse"}
 
-$Data{"Signature"}
+$QData{"Signature"}
 ';
     # ms_style
-#    $Self->{'Ticket::Frontend::ResponseFormat'} = '$Data{"Salutation"}
+#    $Self->{'Ticket::Frontend::ResponseFormat'} = '$QData{"Salutation"}
 #
-#$Data{"StdResponse"}
+#$QData{"StdResponse"}
 #
-#$Data{"Signature"}
+#$QData{"Signature"}
 #
-#$Data{"OrigFrom"} $Text{"wrote"}:
-#$Data{"Body"}
+#$QData{"OrigFrom"} $Text{"wrote"}:
+#$QData{"Body"}
 #';
 
     # --------------------------------------------------- #
