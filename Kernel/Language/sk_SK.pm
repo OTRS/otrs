@@ -2,18 +2,18 @@
 # Kernel/Language/sk_SK.pm - provides sk_SK language translation
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: sk_SK.pm,v 1.1.2.1 2006-03-15 17:52:37 cs Exp $
+# $Id: sk_SK.pm,v 1.1.2.2 2006-03-16 09:56:47 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-package Kernel::Language::sl;
+package Kernel::Language::sk_SK;
 
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1.2.1 $';
+$VERSION = '$Revision: 1.1.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -25,7 +25,7 @@ sub Data {
     # Last translation file sync: Thu Jul 28 22:12:45 2005
 
     # possible charsets
-    $Self->{Charset} = ['iso-8859-2', ];
+    $Self->{Charset} = ['iso-8859-2',];
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Jear;)
     $Self->{DateFormat} = '%D.%M.%Y %T';
     $Self->{DateFormatLong} = '%A %D %B %T %Y';
