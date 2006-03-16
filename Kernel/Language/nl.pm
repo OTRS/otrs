@@ -6,7 +6,7 @@
 # Copyright (C) 2004 Martijn Lohmeijer (martijn.lohmeijer 'at' sogeti.nl)
 # Copyright (C) 2005 Jurgen Rutgers (jurgen 'at' besite.nl)
 # --
-# $Id: nl.pm,v 1.35.2.2 2006-03-08 19:08:27 cs Exp $
+# $Id: nl.pm,v 1.35.2.3 2006-03-16 10:13:24 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,6 +31,11 @@
 # This update is by: Jurgen Rutgers (jurgen 'at' besite.nl)               #
 # Based on the CVS de.pm and nl.pm from OTRS 2.0.3                        #
 #                                                                         #
+# 15-03-2006                                                              #
+#                                                                         #
+# This update is by: Jurgen Rutgers (jurgen 'at' besite.nl)               #
+# Based on the CVS de.pm and nl.pm                                        #
+#                                                                         #
 ###########################################################################
 
 # Not translated terms / words:
@@ -51,7 +56,7 @@ package Kernel::Language::nl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.35.2.2 $';
+$VERSION = '$Revision: 1.35.2.3 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
@@ -213,7 +218,7 @@ sub Data {
       'Viewer' => 'Viewer',
       'New message' => 'Nieuw bericht',
       'New message!' => 'Nieuw bericht!',
-      'Please answer this ticket(s) to get back to the normal queue view!' => 'Onderstaande geëscaleerde Tickets dient u eerst te beantwoorden om terug te kunnen komen in de normale wachtwij',
+      'Please answer this ticket(s) to get back to the normal queue view!' => 'Onderstaande geëscaleerde Tickets dient u eerst te beantwoorden om terug te kunnen komen in de normale wachtrij',
       'You got new message!' => 'U heeft een nieuw bericht!',
       'You have %s new message(s)!' => 'U heeft %s nieuwe bericht(en)!',
       'You have %s reminder ticket(s)!' => 'U heeft %s herinneringsTicket(s)!',
@@ -279,6 +284,17 @@ sub Data {
       'Oct' => 'Okt',
       'Nov' => '',
       'Dec' => '',
+      'January' => 'Januari',
+      'February' => 'Februari',
+      'March' => 'Maart',
+      'April' => 'April',
+      'June' => 'Juni',
+      'July' => 'Juli',
+      'August' => 'Augustus',
+      'September' => '',
+      'October' => 'Oktober',
+      'November' => '',
+      'December' => '',
 
       # Template: AAANavBar
       'Admin-Area' => 'Admin',
@@ -370,7 +386,6 @@ sub Data {
       'Createtime' => 'Gemaakt op',
       'plain' => 'zonder opmaak',
       'email' => 'e-mail',
-      'email' => 'e-mail',
       'Close' => 'Sluiten',
       'Action' => 'Actie',
       'Attachment' => 'Bijlage',
@@ -389,8 +404,8 @@ sub Data {
       'closed' => 'gesloten',
       'removed' => 'verwijderd',
       'pending reminder' => 'wachtend op een herinnering',
-      'pending auto close+' => 'wachtend op automatisch sluiten+',
-      'pending auto close-' => 'wachtend op automatisch sluiten-',
+      'pending auto close+' => 'wachtend op automatisch succesvol sluiten',
+      'pending auto close-' => 'wachtend op automatisch niet succesvol sluiten',
       'email-external' => 'e-mail extern',
       'email-internal' => 'e-mail intern',
       'note-external' => 'externe notitie',
@@ -446,7 +461,7 @@ sub Data {
       'Mark as Spam!' => 'Markeer als SPAM.',
       'My Queues' => 'Mijn wachtrijen',
       'Shown Tickets' => 'Laat Tickets zien',
-      'New ticket notification' => 'Metlding bij een nieuw Ticket',
+      'New ticket notification' => 'Melding bij een nieuw Ticket',
       'Send me a notification if there is a new ticket in "My Queues".' => 'Stuur mij een melding als er een nieuw Ticket in Mijn wachtrijen komt.',
       'Follow up notification' => 'Melding bij vervolgvragen.',
       'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'Stuur mij een melding als een klant een vervolgvraag stelt en ik ben de eigenaar van het Ticket.',
@@ -890,8 +905,8 @@ sub Data {
       'A message must be spell checked!' => 'Van een bericht moet de spelling gecontroleerd worden',
       'Compose answer for ticket' => 'Bericht opstellen voor',
       'Attach' => 'Bijlage',
-      'Pending Date' => 'Nog hangende datum',
-      'for pending* states' => 'voor nog hangende* statussen',
+      'Pending Date' => 'Wachtende datum',
+      'for pending* states' => 'voor wachtende statussen',
 
       # Template: AgentTicketCustomer
       'Change customer of ticket' => 'Wijzig klant van een Ticket',
