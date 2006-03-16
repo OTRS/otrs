@@ -2,13 +2,16 @@
 # CHANGES - change log  of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.209.2.37 2006-03-16 10:15:00 cs Exp $
+# $Id: CHANGES,v 1.209.2.38 2006-03-16 17:03:39 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.0.5 (2006/??/??)
+ - (2006/03/16) Changed $Data to $Qdata in Ticket.xml and Ticket.pm config
+    files to solve problem when answering requests that contain HTML tags
+    (bug #991)
  - (2006/03/16) Update of Dutch language file (thanks to Richard Hinkamp)
  - (2006/03/16) Added Slovak translation
  - (2006/03/10) fixed/removed die in Kernel/System/AuthSession/FS.pm
