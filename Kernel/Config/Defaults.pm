@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.231 2006-03-16 10:05:36 cs Exp $
+# $Id: Defaults.pm,v 1.232 2006-03-18 20:16:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.231 $';
+$VERSION = '$Revision: 1.232 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -137,6 +137,7 @@ sub LoadDefaults {
             fr => 'Fran&ccedil;ais',
             bg => 'Bulgarian',
             fi => 'Suomi',
+            el => 'Greek',
             es => 'Espa&ntilde;ol',
             pt_BR => 'Portugu&ecirc;s Brasileiro',
             pt => 'Portugu&ecirc;s',
@@ -1173,8 +1174,8 @@ Your OTRS Notification Master
     $Self->{CustomerPreferencesGroups}->{SMIME} = {
         Module => 'Kernel::Output::HTML::PreferencesSMIME',
         Colum => 'Other Options',
-        Label => 'SMIME Certificate',
-        Desc => 'SMIME Certificate Upload',
+        Label => 'S/MIME Certificate',
+        Desc => 'S/MIME Certificate Upload',
         PrefKey => 'UserSMIMEKey',
         Prio => 11000,
         Activ => 1,
@@ -1423,11 +1424,11 @@ Your OTRS Notification Master
     $Self->{'Frontend::Module'}->{'AdminSMIME'} = {
         Group => ['admin'],
         Description => 'Admin',
-        Title => 'SMIME Management',
+        Title => 'S/MIME Management',
         NavBarName => 'Admin',
         NavBarModule => {
             Module => 'Kernel::Output::HTML::NavBarModuleAdmin',
-            Name => 'SMIME',
+            Name => 'S/MIME',
             Block => 'Block3',
             Prio => 500,
         },
@@ -1731,6 +1732,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.231 $ $Date: 2006-03-16 10:05:36 $
+$Revision: 1.232 $ $Date: 2006-03-18 20:16:31 $
 
 =cut

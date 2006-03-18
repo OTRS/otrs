@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.241 2006-03-16 17:06:51 cs Exp $
+# $Id: CHANGES,v 1.242 2006-03-18 20:16:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -77,7 +77,8 @@ CVS head
     $Self->{PreApplicationModule}->{AgentInfo} = 'Kernel::Modules::AgentInfo';
 
 2.0.5 (2006/??/??)
- - (2006/03/16) Changed $Data to $Qdata in Ticket.xml and Ticket.pm config
+ - (2006/03/18) Added Greek translation - Thanks to Stelios Maistros!
+ - (2006/03/16) Changed $Data to $QData in Ticket.xml and Ticket.pm config
     files to solve problem when answering requests that contain HTML tags
     (bug #991)
  - (2006/03/16) Updated Dutch language file (thanks to Richard Hinkamp)
