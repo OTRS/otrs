@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/IPC.pm - provides session IPC/Mem backend
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: IPC.pm,v 1.18 2006-02-01 10:19:47 martin Exp $
+# $Id: IPC.pm,v 1.19 2006-03-18 23:31:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use MIME::Base64;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -251,10 +251,10 @@ sub CreateSessionID {
     my $RemoteUserAgent = $ENV{HTTP_USER_AGENT} || 'none';
     # create SessionID
     my $md5 = Digest::MD5->new();
-    my $SessionID = $md5->add(
+    $md5->add(
         ($Self->{TimeObject}->SystemTime() . int(rand(999999999)) . $Self->{SystemID}) . $RemoteAddr . $RemoteUserAgent
     );
-    $SessionID = $Self->{SystemID} . $md5->hexdigest;
+    my $SessionID = $Self->{SystemID} . $md5->hexdigest;
     my $SessionIDBase64 = encode_base64($SessionID, '');
     # data 2 strg
     my $DataToStore = "SessionID:". encode_base64($SessionID, '') .";";
