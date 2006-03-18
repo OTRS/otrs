@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/ArticleCheckSMIME.pm
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: ArticleCheckSMIME.pm,v 1.5 2005-10-01 13:13:44 martin Exp $
+# $Id: ArticleCheckSMIME.pm,v 1.6 2006-03-18 20:45:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -65,7 +65,7 @@ sub Check {
             # return with error
             push (@Return, {
                 Key => 'Signed',
-                Value => '"SMIME SIGNED MESSAGE" header found, but invalid!',
+                Value => '"S/MIME SIGNED MESSAGE" header found, but invalid!',
             });
         }
     }

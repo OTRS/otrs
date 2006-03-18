@@ -2,7 +2,7 @@
 # AdminSMIMEForm.dtl - provides HTML form for AdminSMIME html
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSMIMEForm.dtl,v 1.14 2006-02-28 06:04:27 martin Exp $
+# $Id: AdminSMIMEForm.dtl,v 1.15 2006-03-18 20:45:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,7 +12,7 @@
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
   <tr>
     <td colspan="2" class="mainhead">
-      $Env{"Box0"}$Text{"SMIME Management"}$Env{"Box1"}
+      $Env{"Box0"}$Text{"S/MIME Management"}$Env{"Box1"}
     </td>
   </tr>
   <tr>
