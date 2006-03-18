@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Generic.pm - provides generic HTML output
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.203 2006-03-18 23:38:34 martin Exp $
+# $Id: Generic.pm,v 1.204 2006-03-18 23:40:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::Output::HTML::Agent;
 use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.203 $';
+$VERSION = '$Revision: 1.204 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = (
@@ -433,7 +433,7 @@ sub Output {
     # read template from filesystem
     # --
     my $TemplateString = '';
-    if ($Param{Template} && ref($Param{Template}) eq 'ARRAY') {
+    if (defined($Param{Template}) && ref($Param{Template}) eq 'ARRAY') {
          foreach (@{$Param{Template}}) {
              $TemplateString .= $_;
          }
@@ -441,7 +441,7 @@ sub Output {
     elsif (defined($Param{Template})) {
          $TemplateString = $Param{Template};
     }
-    elsif (defined($Param{TemplateFile})) {
+    elsif ($Param{TemplateFile}) {
         my $File = '';
         if (-f "$Self->{TemplateDir}/$Param{TemplateFile}.dtl") {
             $File = "$Self->{TemplateDir}/$Param{TemplateFile}.dtl";
@@ -2336,6 +2336,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.203 $ $Date: 2006-03-18 23:38:34 $
+$Revision: 1.204 $ $Date: 2006-03-18 23:40:33 $
 
 =cut
