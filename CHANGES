@@ -2,22 +2,23 @@
 # CHANGES - change log  of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.209.2.38 2006-03-16 17:03:39 cs Exp $
+# $Id: CHANGES,v 1.209.2.39 2006-03-18 20:25:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.0.5 (2006/??/??)
- - (2006/03/16) Changed $Data to $Qdata in Ticket.xml and Ticket.pm config
-    files to solve problem when answering requests that contain HTML tags
-    (bug #991)
- - (2006/03/16) Update of Dutch language file (thanks to Richard Hinkamp)
- - (2006/03/16) Added Slovak translation
+ - (2006/03/18) added Greek translation - Thanks to Stelios Maistros!
+ - (2006/03/16) fixed bug #991 - changed $Data{} to $QData{} in Ticket.xml
+    and Ticket.pm config files to solve problem when answering requests
+    that contain HTML tags
+ - (2006/03/16) update of Dutch language file (thanks to Richard Hinkamp)
+ - (2006/03/16) added Slovak translation
  - (2006/03/10) fixed/removed die in Kernel/System/AuthSession/FS.pm
     -=> GetSessionIDData() - not wanted to die if nn SessionID is given
- - (2006/03/08) Added Danish translation (thanks to Thorsten Rossner)
- - (2006/03/08) Updated Norwegian translation (thanks to Knut Haugen)
+ - (2006/03/08) added Danish translation (thanks to Thorsten Rossner)
+ - (2006/03/08) updated Norwegian translation (thanks to Knut Haugen)
  - (2006/03/08) fixed some spelling mistakes for the English original in
     language templates and language files
  - (2006/02/12) updated Brazilian Portuguese translation! thanks to
@@ -38,7 +39,7 @@
     e. g. iso-8859-1 and not utf-8
  - (2006/01/26) fixed some spelling mistakes in
     Kernel/Config/Files/Ticket.xml and Kernel/Config/Files/Framework.xml
- - (2006/01/24) Added X-Spam-Level to config files to have the possibility
+ - (2006/01/24) added X-Spam-Level to config files to have the possibility
     to filter for this header with PostMasterFilter
  - (2006/01/23) fixed bug #1069 - Problem when the name of a GenericAgent
    job was updated

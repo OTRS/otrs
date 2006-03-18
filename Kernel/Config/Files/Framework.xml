@@ -112,7 +112,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.80.2.6 2006-03-15 17:53:55 cs Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.80.2.7 2006-03-18 20:25:10 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -211,8 +211,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DefaultLanguage" Required="1" Valid="1">
-        <Description Lang="en">The default frontend language. Possible values are bg, cz, de, en, es, fi, fr, hu, it, nb, nl, pl, pt, ru, th and sv.</Description>
-        <Description Lang="de">Standard Frontend Sprache. Mögliche Werte sind bg, cz, de, en, es, fi, fr, hu, it, nb, nl, pl, pt, ru, th and sv.</Description>
+        <Description Lang="en">The default frontend language. Possible values are bg, cz, de, en, el, es, fi, fr, hu, it, nb, nl, pl, pt, ru, th and sv.</Description>
+        <Description Lang="de">Standard Frontend Sprache. Mögliche Werte sind bg, cz, de, en, el, es, fi, fr, hu, it, nb, nl, pl, pt, ru, th and sv.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -233,6 +233,7 @@ TimeWorkingHours
                 <Item Key="fr">Fran&amp;ccedil;ais</Item>
                 <Item Key="bg">Bulgarian</Item>
                 <Item Key="fi">Suomi</Item>
+                <Item Key="el">Greek</Item>
                 <Item Key="es">Espa&amp;ntilde;ol</Item>
                 <Item Key="pt_BR">Portugu&amp;ecirc;s Brasileiro</Item>
                 <Item Key="pt">Portugu&amp;ecirc;s</Item>
