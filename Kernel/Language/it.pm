@@ -4,7 +4,7 @@
 #               2003 Gabriele Santilli <gsantilli at omnibus.net>
 #               2005 Giordano Bianchi <giordano.bianchi at gmail.com>
 # --
-# $Id: it.pm,v 1.29 2006-03-11 16:27:38 cs Exp $
+# $Id: it.pm,v 1.30 2006-03-18 20:42:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ package Kernel::Language::it;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -733,7 +733,7 @@ sub Data {
       'Signature Management' => 'Gestione firme',
 
       # Template: AdminSMIMEForm
-      'SMIME Management' => '',
+      'S/MIME Management' => '',
       'Add Certificate' => 'Aggiungi certificato',
       'Add Private Key' => 'Aggiunti chiave privata',
       'Secret' => 'Segreto',

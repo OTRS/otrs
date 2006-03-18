@@ -6,7 +6,7 @@
 # Copyright (C) 2004 Martijn Lohmeijer (martijn.lohmeijer 'at' sogeti.nl)
 # Copyright (C) 2005 Jurgen Rutgers (jurgen 'at' besite.nl)
 # --
-# $Id: nl.pm,v 1.41 2006-03-16 10:19:44 cs Exp $
+# $Id: nl.pm,v 1.42 2006-03-18 20:42:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -56,7 +56,7 @@ package Kernel::Language::nl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.42 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
@@ -782,7 +782,7 @@ sub Data {
       'Signature Management' => 'Handtekening beheer',
 
       # Template: AdminSMIMEForm
-      'SMIME Management' => '',
+      'S/MIME Management' => '',
       'Add Certificate' => '',
       'Add Private Key' => '',
       'Secret' => '',
@@ -1250,7 +1250,6 @@ sub Data {
       'Delete old database' => '',
       'Load' => '',
       'OTRS DB User' => '',
-      'FIXME: WHAT IS SMIME?' => '',
       'OTRS DB Password' => '',
       'DB Admin Password' => '',
       'Drop Database' => '',

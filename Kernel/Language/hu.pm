@@ -2,7 +2,7 @@
 # Kernel/Language/hu.pm - provides de language translation
 # Copyright (C) 2004 RLAN Internet <MAGIC at rlan.hu>
 # --
-# $Id: hu.pm,v 1.19 2006-03-11 16:27:04 cs Exp $
+# $Id: hu.pm,v 1.20 2006-03-18 20:42:25 martin Exp $
 # Translation: Gabor Gancs /gg@magicnet.hu/ & Krisztian Gancs /krisz@gancs.hu/
 # Verify: Flora Szabo /szaboflora@magicnet.hu/
 # Hungary Sopron Europe
@@ -18,7 +18,7 @@ package Kernel::Language::hu;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -735,7 +735,7 @@ sub Data {
       'Signature Management' => 'Aláírás kezelés',
 
       # Template: AdminSMIMEForm
-      'SMIME Management' => '',
+      'S/MIME Management' => '',
       'Add Certificate' => 'Tanusítvány Hozzáadása',
       'Add Private Key' => 'Titkos Kulcs Hozáadása',
       'Secret' => 'Titok',

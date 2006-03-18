@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: de.pm,v 1.101 2006-03-11 16:34:03 cs Exp $
+# $Id: de.pm,v 1.102 2006-03-18 20:42:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.101 $';
+$VERSION = '$Revision: 1.102 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -743,7 +743,7 @@ sub Data {
       'Signature Management' => 'Signatur Verwaltung',
 
       # Template: AdminSMIMEForm
-      'SMIME Management' => 'SMIME Verwaltung',
+      'S/MIME Management' => 'S/MIME Verwaltung',
       'Add Certificate' => 'Zertifikat hinzufügen',
       'Add Private Key' => 'Privaten Schlüssel hinzufügen',
       'Secret' => '',
@@ -926,7 +926,7 @@ sub Data {
       'Previous Owner' => 'Vorheriger Besitzer',
 
       # Template: AgentTicketNote
-      'Add note to ticket' => 'Anheften einer Notiz an Ticket',
+      'Add note to ticket' => 'Notiz an Ticket hängen',
       'Inform Agent' => 'Agenten informieren',
       'Optional' => '',
       'Inform involved Agents' => 'Involvierte Agenten informieren',

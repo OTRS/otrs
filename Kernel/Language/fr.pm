@@ -5,7 +5,7 @@
 # Copyright (C) 2004-2005 Yann Richard <ze at nbox.org>
 # Copyright (C) 2004 Igor Genibel <igor.genibel at eds-opensource.com>
 # --
-# $Id: fr.pm,v 1.55 2006-03-11 16:26:31 cs Exp $
+# $Id: fr.pm,v 1.56 2006-03-18 20:42:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.55 $';
+$VERSION = '$Revision: 1.56 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -734,7 +734,7 @@ sub Data {
       'Signature Management' => 'Gestion des signatures',
 
       # Template: AdminSMIMEForm
-      'SMIME Management' => 'Gestion SMIME',
+      'S/MIME Management' => 'Gestion S/MIME',
       'Add Certificate' => 'Ajouter un certificat',
       'Add Private Key' => 'Ajouter une clé privée',
       'Secret' => 'Secrêt',

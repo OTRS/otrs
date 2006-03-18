@@ -4,7 +4,7 @@
 #               2005 Stefansen Espen <espen.stefansen@imr.no>
 #               2006 Knut Haugen <knuthaug@linpro.no>
 # --
-# $Id: nb_NO.pm,v 1.22 2006-03-11 16:28:12 cs Exp $
+# $Id: nb_NO.pm,v 1.23 2006-03-18 20:42:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::nb_NO;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.22 $;
+$VERSION = q$Revision: 1.23 $;
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -758,7 +758,7 @@ sub Data {
       'Signature Management' => 'Administrasjon: Signaturer',
 
       # Template: AdminSMIMEForm
-      'SMIME Management' => 'Administrasjon: SMIME',
+      'S/MIME Management' => 'Administrasjon: S/MIME',
       'Add Certificate' => 'Legg til sertifikat',
       'Add Private Key' => 'Legg til privat nøkkel',
       'Secret' => 'Hemmelighet',

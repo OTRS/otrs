@@ -6,7 +6,7 @@
 #		     Vadim Buzek
 #		     Petr Ocasek
 # --
-# $Id: cz.pm,v 1.26 2006-03-11 16:23:47 cs Exp $
+# $Id: cz.pm,v 1.27 2006-03-18 20:42:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ package Kernel::Language::cz;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -735,7 +735,7 @@ sub Data {
       'Signature Management' => 'Správa podpisù',
 
       # Template: AdminSMIMEForm
-      'SMIME Management' => '',
+      'S/MIME Management' => '',
       'Add Certificate' => '',
       'Add Private Key' => '',
       'Secret' => '',

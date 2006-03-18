@@ -2,7 +2,7 @@
 # Kernel/Language/es.pm - provides es language translation
 # Copyright (C) 2003-2004 Jorge Becerra <jorge at icc-cuba.com>
 # --
-# $Id: es.pm,v 1.39 2006-03-11 16:24:55 cs Exp $
+# $Id: es.pm,v 1.40 2006-03-18 20:42:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::es;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -731,7 +731,7 @@ sub Data {
       'Signature Management' => 'Gestión de firmas',
 
       # Template: AdminSMIMEForm
-      'SMIME Management' => 'Gestion SMIME',
+      'S/MIME Management' => 'Gestion S/MIME',
       'Add Certificate' => 'Adicionar un certificado',
       'Add Private Key' => 'Adicionar una Llave privada',
       'Secret' => 'Secreto',

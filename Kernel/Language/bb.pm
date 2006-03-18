@@ -2,7 +2,7 @@
 # Kernel/Language/bb.pm - provides bavarian language translation
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: bb.pm,v 1.12 2006-03-11 16:22:51 cs Exp $
+# $Id: bb.pm,v 1.13 2006-03-18 20:42:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::bb;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -732,7 +732,7 @@ sub Data {
       'Signature Management' => 'Signatur Verwaltung',
 
       # Template: AdminSMIMEForm
-      'SMIME Management' => '',
+      'S/MIME Management' => '',
       'Add Certificate' => '',
       'Add Private Key' => '',
       'Secret' => '',

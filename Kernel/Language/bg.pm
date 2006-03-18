@@ -12,7 +12,7 @@ package Kernel::Language::bg;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.40 $';
+$VERSION = '$Revision: 1.41 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -729,7 +729,7 @@ sub Data {
       'Signature Management' => 'Управление на подписът',
 
       # Template: AdminSMIMEForm
-      'SMIME Management' => '',
+      'S/MIME Management' => '',
       'Add Certificate' => '',
       'Add Private Key' => '',
       'Secret' => '',

@@ -2,7 +2,7 @@
 # Kernel/Language/nb_SW.pm - Swedish language translation
 # Copyright (C) 2004 Mats Eric Olausson <mats@synergy.se>
 # --
-# $Id: sv.pm,v 1.17 2006-03-11 15:59:44 cs Exp $
+# $Id: sv.pm,v 1.18 2006-03-18 20:42:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::sv;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.17 $;
+$VERSION = q$Revision: 1.18 $;
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -731,7 +731,7 @@ sub Data {
       'Signature Management' => 'Signaturhantering',
 
       # Template: AdminSMIMEForm
-      'SMIME Management' => '',
+      'S/MIME Management' => '',
       'Add Certificate' => '',
       'Add Private Key' => '',
       'Secret' => '',

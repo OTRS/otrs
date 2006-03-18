@@ -2,7 +2,7 @@
 # Kernel/Language/nl.pm - provides za_CN language translation
 # Copyright (C) 2005 zuowei <j2ee@hirain-sh.com>
 # --
-# $Id: zh_CN.pm,v 1.8 2006-03-11 16:05:03 cs Exp $
+# $Id: zh_CN.pm,v 1.9 2006-03-18 20:42:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::zh_CN;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -734,7 +734,7 @@ sub Data {
       'Signature Management' => '签名管理',
 
       # Template: AdminSMIMEForm
-      'SMIME Management' => 'SMIME 管理',
+      'S/MIME Management' => 'S/MIME 管理',
       'Add Certificate' => '添加证书',
       'Add Private Key' => '添加私匙',
       'Secret' => '密码',
@@ -1201,7 +1201,6 @@ sub Data {
       'Load' => '加载',
       'OTRS DB User' => 'OTRS 数据库用户名',
       'PhoneView' => '电话视图',
-      'FIXME: WHAT IS SMIME?' => '请更正:什么是SMIME?',
       'OTRS DB Password' => 'OTRS 用户密码',
       '链接地址' => '',
       'DB Admin Password' => '数据系统管理员密码',

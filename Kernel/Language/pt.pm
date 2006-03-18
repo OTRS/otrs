@@ -2,7 +2,7 @@
 # Kernel/Language/pt.pm - provides pt language translation
 # Copyright (C) 2004 CAT <filipehenriques at ip.pt>
 # --
-# $Id: pt.pm,v 1.25 2006-03-11 16:04:10 cs Exp $
+# $Id: pt.pm,v 1.26 2006-03-18 20:42:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::pt;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -731,7 +731,7 @@ sub Data {
       'Signature Management' => 'Gestão de Assinaturas',
 
       # Template: AdminSMIMEForm
-      'SMIME Management' => '',
+      'S/MIME Management' => '',
       'Add Certificate' => '',
       'Add Private Key' => '',
       'Secret' => '',

@@ -2,7 +2,7 @@
 # Kernel/Language/fi.pm - provides fi language translation
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # --
-# $Id: fi.pm,v 1.40 2006-03-11 16:26:02 cs Exp $
+# $Id: fi.pm,v 1.41 2006-03-18 20:42:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::fi;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.40 $';
+$VERSION = '$Revision: 1.41 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -731,7 +731,7 @@ sub Data {
       'Signature Management' => 'Allekirjoitusten hallinta',
 
       # Template: AdminSMIMEForm
-      'SMIME Management' => '',
+      'S/MIME Management' => '',
       'Add Certificate' => '',
       'Add Private Key' => '',
       'Secret' => '',

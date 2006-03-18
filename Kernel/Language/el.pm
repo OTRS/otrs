@@ -2,7 +2,7 @@
 # Kernel/Language/el.pm - provides el language translation
 # Copyright (C) 2006 Stelios Maistros
 # --
-# $Id: el.pm,v 1.1 2006-03-18 20:16:39 martin Exp $
+# $Id: el.pm,v 1.2 2006-03-18 20:42:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::el;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -763,7 +763,7 @@ anyway.' => 'Αν ο λογαριασμός σας είναι εμπιστευόμενος, θα χρησιμοποιηθεί(κατά π
       'Signature Management' => 'Διαχείριση υπογραφών',
 
       # Template: AdminSMIMEForm
-      'SMIME Management' => 'Διαχειριση SMIME',
+      'S/MIME Management' => 'Διαχειριση S/MIME',
       'Add Certificate' => 'Προσθήκη πιστοποιητικού',
       'Add Private Key' => 'Προσθήκη ιδιωτικού κλειδιού',
       'Secret' => 'Μυστικό',

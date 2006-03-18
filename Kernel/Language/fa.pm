@@ -2,7 +2,7 @@
 # Kernel/Language/fa.pm - provides fa language translation
 # Copyright (C) 2006 Amir Shams Parsa <amir at parsa.name>
 # --
-# $Id: fa.pm,v 1.6 2006-03-11 16:25:32 cs Exp $
+# $Id: fa.pm,v 1.7 2006-03-18 20:42:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::fa;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -732,7 +732,7 @@ sub Data {
       'Signature Management' => 'مدیریت امضاء',
 
       # Template: AdminSMIMEForm
-      'SMIME Management' => 'مدیریت SMIME',
+      'S/MIME Management' => 'مدیریت S/MIME',
       'Add Certificate' => 'افزودن Certificate',
       'Add Private Key' => 'افزودن کلید خصوصی',
       'Secret' => 'رمز',
