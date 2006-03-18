@@ -1,8 +1,9 @@
 # --
 # Kernel/Language/el.pm - provides el language translation
-# Copyright (C) 2006 Stelios Maistros
+# Copyright (C) 2006 Stelios Maistros <smaistros aegean.gr>
+#                    George Thomas <gthomas aegean.gr>
 # --
-# $Id: el.pm,v 1.1.2.2 2006-03-18 20:25:10 martin Exp $
+# $Id: el.pm,v 1.1.2.3 2006-03-18 21:52:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +14,7 @@ package Kernel::Language::el;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1.2.2 $';
+$VERSION = '$Revision: 1.1.2.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1249,6 +1250,3 @@ email σας με αριθμο δελτιου "<OTRS_TICKET>" αναπηδησε στο "<OTRS_BOUNCE_TO>".Επι
 }
 # --
 1;
-
-
-
