@@ -2,7 +2,7 @@
 # AgentTicketNote.dtl - provides HTML form for note mask
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketNote.dtl,v 1.12 2006-02-13 00:42:31 martin Exp $
+# $Id: AgentTicketNote.dtl,v 1.13 2006-03-18 23:43:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -123,6 +123,12 @@ function change_selected(sel)
                   <td class="contentvalue">$Data{"OldOwnerStrg"}</td>
                 </tr>
 <!-- dtl:block:Owner -->
+<!-- dtl:block:Responsible -->
+                <tr>
+                  <td colspan="2" class="contentkey">$Text{"Responsible"}:</td>
+                  <td class="contentvalue">$Data{"ResponsibleStrg"}</td>
+                </tr>
+<!-- dtl:block:Responsible -->
 <!-- dtl:block:Note -->
 <!-- dtl:block:InformAgent -->
                 <tr>

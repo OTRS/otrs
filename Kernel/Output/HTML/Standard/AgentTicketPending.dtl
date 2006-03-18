@@ -2,7 +2,7 @@
 # AgentTicketPending.dtl - set ticket to pending
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPending.dtl,v 1.13 2006-02-13 00:41:02 martin Exp $
+# $Id: AgentTicketPending.dtl,v 1.14 2006-03-18 23:44:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -123,6 +123,12 @@ function change_selected(sel)
                   <td class="contentvalue">$Data{"OldOwnerStrg"}</td>
                 </tr>
 <!-- dtl:block:Owner -->
+<!-- dtl:block:Responsible -->
+                <tr>
+                  <td colspan="2" class="contentkey">$Text{"Responsible"}:</td>
+                  <td class="contentvalue">$Data{"ResponsibleStrg"}</td>
+                </tr>
+<!-- dtl:block:Responsible -->
 <!-- dtl:block:Note -->
 <!-- dtl:block:InformAgent -->
                 <tr>
