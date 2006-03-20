@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketZoom.dtl,v 1.7 2006-03-07 06:48:07 martin Exp $
+# $Id: AgentTicketZoom.dtl,v 1.8 2006-03-20 21:29:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -53,6 +53,24 @@ $Text{"$QData{"Name"}"}</a>
     <td rowspan="2" valign="top" width="75%" class="mainbody">
 <!-- dtl:block:Tree -->
       <table border="0" width="100%" cellspacing="0" cellpadding="0">
+<!-- dtl:block:TreeItem -->
+        <tr class="$QData{"SenderType"}-$QData{"ArticleType"}">
+          <td class="small">
+            <div title="$QData{"From","50"}: $QData{"Subject","200"} - $TimeLong{"$QData{"Created"}"}">$Data{"Start"}$Data{"Space"} $QData{"Count"}. <a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$QData{"TicketID"}&ArticleID=$QData{"ArticleID"}#$QData{"ArticleID"}" onmouseover="window.status='$Text{"$QData{"SenderType"}"} ($Text{"$QData{"ArticleType"}"})'; return true;" onmouseout="window.status='';">$Text{"$QData{"SenderType"}"} ($Text{"$QData{"ArticleType"}"})</a>
+<!-- dtl:block:TreeItemEmail -->
+            (<a href="$Env{"Baselink"}Action=AgentTicketPlain&TicketID=$QData{"TicketID"}&ArticleID=$QData{"ArticleID"}" 'onmouseover="window.status='$Text{"plain"}'; return true;" onmouseout="window.status='';">$Text{"plain"}</a>)
+<!-- dtl:block:TreeItemEmail -->
+            &nbsp $QData{"From","16"}: $QData{"Subject","20"} - $TimeLong{"$QData{"Created"}"}$Data{"Stop"}
+<!-- dtl:block:TreeItemAttachment -->
+            &nbsp;<a href="$Env{"Baselink"}Action=AgentTicketAttachment&ArticleID=$QData{"ArticleID"}&FileID=$QData{"FileID"}" title="$QData{"Filename"} - $QData{"Filesize"}" $Data{"Target"}><img border="0" src="$Env{"Images"}attach-small.png"></a>
+<!-- dtl:block:TreeItemAttachment -->
+<!-- dtl:block:TreeItemAttachmentMore -->
+            &nbsp;[..]
+<!-- dtl:block:TreeItemAttachmentMore -->
+            </div>
+          </td>
+        </tr>
+<!-- dtl:block:TreeItem -->
         $Data{"ArticleStrg"}
       </table>
 <!-- dtl:block:Tree -->
@@ -70,7 +88,7 @@ $Text{"$QData{"Name"}"}</a>
           <td class="contentkey">$Text{"Created"}:</td>
           <td class="contentvalue"> <div title="$TimeLong{"$Data{"Created"}"}">$TimeLong{"$Data{"Created"}"}</div></td>
         </tr>
-# show the Article::FreeKey1-3 and Article::FreeText1-3
+# show the ArticleFreeKey1-3 and ArticleFreeText1-3
 <!-- dtl:block:ArticleFreeText -->
         <tr>
           <td class="contentkey" width="15%">$QData{"Key"}:</td>
@@ -78,11 +96,11 @@ $Text{"$QData{"Name"}"}</a>
         </tr>
 <!-- dtl:block:ArticleFreeText -->
 # --
-# show FreeKey1-3 and FreeText1-3 (in other way like the block, so you could add link or somethin else)
+# show ArticleFreeKey1-3 and ArticleFreeText1-3 (in other way like the block, so you could add link or somethin else)
 # --
-#<dtl if ($Data{"FreeKey1"} ne "") { $Data{"ArticleFreeString1"} = "<tr><td class="contentkey">$QData{"FreeKey1"}:</td><td class="contentvalue"> $QData{"FreeText1"}</td></tr>"; }>
-#<dtl if ($Data{"FreeKey2"} ne "") { $Data{"ArticleFreeString2"} = "<tr><td class="contentkey">$QData{"FreeKey2"}:</td><td class="contentvalue"> $QData{"FreeText2"}</td></tr>"; }>
-#<dtl if ($Data{"FreeKey3"} ne "") { $Data{"ArticleFreeString3"} = "<tr><td class="contentkey">$QData{"FreeKey3"}:</td><td class="contentvalue"> $QData{"FreeText3"}</td></tr>"; }>
+#       <dtl if ($Data{"ArticleFreeKey1"} ne "") { $Data{"ArticleFreeString1"} = "<tr><td class="contentkey">$QData{"ArticleFreeKey1"}:</td><td class="contentvalue"> $QData{"FreeText1"}</td></tr>"; }>
+#       <dtl if ($Data{"ArticleFreeKey2"} ne "") { $Data{"ArticleFreeString2"} = "<tr><td class="contentkey">$QData{"ArticleFreeKey2"}:</td><td class="contentvalue"> $QData{"FreeText2"}</td></tr>"; }>
+#       <dtl if ($Data{"ArticleFreeKey3"} ne "") { $Data{"ArticleFreeString3"} = "<tr><td class="contentkey">$QData{"ArticleFreeKey3"}:</td><td class="contentvalue"> $QData{"FreeText3"}</td></tr>"; }>
 #     $Data{"ArticleFreeString1"}
 #     $Data{"ArticleFreeString2"}
 #     $Data{"ArticleFreeString3"}
@@ -117,7 +135,6 @@ $Text{"$QData{"Name"}"}</a>
                 </td>
                 <td align="right">$QData{"Filesize"}</td>
               </tr>
-#$Data{"Value"}</div>
 <!-- dtl:block:ArticleAttachmentRow -->
             </table>
           </td>
@@ -225,7 +242,12 @@ $Data{"Body"}
       </table>
 # show customer info table
 <!-- dtl:block:CustomerTable -->
-      <p><hr><b>$Text{"Customer Info"}:</b> $Data{"CustomerTable"}<hr></p>
+      <p>
+        <hr>
+        <b>$Text{"Customer Info"}:</b>
+        $Data{"CustomerTable"}
+        <hr>
+      </p>
 <!-- dtl:block:CustomerTable -->
 
 <!-- dtl:block:Status -->
@@ -237,64 +259,64 @@ $Data{"Body"}
 # show compose links
 <!-- dtl:block:AgentIsCustomer -->
             <p>
-            <b>$Text{"Your own Ticket"}:</b>
-            <br>
-            <table border="0">
-              <tr>
-                <td>
-                  <li><a href="$Env{"Baselink"}Action=AgentTicketCustomerFollowUp&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Compose Follow up"}'; return true;" onmouseout="window.status='';">$Text{"Compose Follow up"}</a></li>
-                </td>
-              </tr>
-            </table>
+              <b>$Text{"Your own Ticket"}:</b>
+              <br>
+              <table border="0">
+                <tr>
+                  <td>
+                    <li><a href="$Env{"Baselink"}Action=AgentTicketCustomerFollowUp&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Compose Follow up"}'; return true;" onmouseout="window.status='';">$Text{"Compose Follow up"}</a></li>
+                  </td>
+                </tr>
+              </table>
             </p>
 <!-- dtl:block:AgentIsCustomer -->
 
 <!-- dtl:block:AgentAnswer -->
             <p>
-            <b>$Text{"Compose Answer"} ($Text{"email"}):</b>
-            <br>
-            <table border="0">
-              <tr>
-                <td>
-                  $Data{"StdResponsesStrg"}
-                </td>
-              </tr>
-            </table>
+              <b>$Text{"Compose Answer"} ($Text{"email"}):</b>
+              <br>
+              <table border="0">
+                <tr>
+                  <td>
+                    $Data{"StdResponsesStrg"}
+                  </td>
+                </tr>
+              </table>
             </p>
 
             <p>
-            <b>$Text{"Contact customer"} ($Text{"phone"}):</b>
-            <br>
-            <table border="0">
-              <tr>
-                <td>
-                  <dtl if ($Data{"AgentTicketPhoneOutbound"} ne "0") { $Data{"AgentPhoneStrg"} = "<li><a href="$Env{"Baselink"}Action=AgentTicketPhoneOutbound&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Phone call"}'; return true;" onmouseout="window.status='';">$Text{"Phone call"}</a></li>"; }>
+              <b>$Text{"Contact customer"} ($Text{"phone"}):</b>
+              <br>
+              <table border="0">
+                <tr>
+                  <td>
+                    <dtl if ($Data{"AgentTicketPhoneOutbound"} ne "0") { $Data{"AgentPhoneStrg"} = "<li><a href="$Env{"Baselink"}Action=AgentTicketPhoneOutbound&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Phone call"}'; return true;" onmouseout="window.status='';">$Text{"Phone call"}</a></li>"; }>
 $Data{"AgentPhoneStrg"}
-                </td>
-              </tr>
-            </table>
+                  </td>
+                </tr>
+              </table>
             </p>
 <!-- dtl:block:AgentAnswer -->
 # --
 # show article links
 <!-- dtl:block:AgentArticleCom -->
             <p>
-            <b>$Text{"Article"}</b>
-            <table border="0">
-              <tr>
-                <td>
-                  <a href="$Env{"Baselink"}Action=AgentTicketForward&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Forward"}'; return true;" onmouseout="window.status='';">$Text{"Forward"}</a>
+              <b>$Text{"Article"}</b>
+              <table border="0">
+                <tr>
+                  <td>
+                    <a href="$Env{"Baselink"}Action=AgentTicketForward&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Forward"}'; return true;" onmouseout="window.status='';">$Text{"Forward"}</a>
 # check if bounce should be shown
-                  <dtl if ($Data{"ArticleType"} eq "email-external") { $Data{"ArticleBounceString"} = "Bounce"; }>
-                  <dtl if ($Data{"SenderType"} ne "customer") { $Data{"ArticleBounceString"} = ""; }>
-                  <a href="$Env{"Baselink"}Action=AgentTicketBounce&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Bounce"}'; return true;" onmouseout="window.status='';">$Text{"$Data{"ArticleBounceString"}"}</a>
+                    <dtl if ($Data{"ArticleType"} eq "email-external") { $Data{"ArticleBounceString"} = "Bounce"; }>
+                    <dtl if ($Data{"SenderType"} ne "customer") { $Data{"ArticleBounceString"} = ""; }>
+                    <a href="$Env{"Baselink"}Action=AgentTicketBounce&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Bounce"}'; return true;" onmouseout="window.status='';">$Text{"$Data{"ArticleBounceString"}"}</a>
 # check if split should be shown
-                  <dtl if ($Data{"SenderType"} eq "customer") { $Data{"ArticleSplitString"} = "Split"; }>
+                    <dtl if ($Data{"SenderType"} eq "customer") { $Data{"ArticleSplitString"} = "Split"; }>
 
-                  <a href="$Env{"Baselink"}Action=AgentTicketPhone&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Split"}'; return true;" onmouseout="window.status='';">$Text{"$Data{"ArticleSplitString"}"}</a>
-                </td>
-              </tr>
-            </table>
+                    <a href="$Env{"Baselink"}Action=AgentTicketPhone&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Split"}'; return true;" onmouseout="window.status='';">$Text{"$Data{"ArticleSplitString"}"}</a>
+                  </td>
+                </tr>
+              </table>
             </p>
 <!-- dtl:block:AgentArticleCom -->
 
@@ -306,17 +328,19 @@ $Data{"AgentPhoneStrg"}
   </tr>
   <tr>
     <td valign="bottom" class="PriorityID-$Data{"PriorityID"}">
+<!-- dtl:block:Move -->
       <p>
-      <b>$Text{"Change queue"}:</b><br>
-      <form action="$Env{"CGIHandle"}" method="get">
-        <input type="hidden" name="Action" value="AgentTicketMove">
-        <input type="hidden" name="Subaction" value="InRage">
-        <input type="hidden" name="QueueID" value="$QData{"QueueID"}">
-        <input type="hidden" name="TicketID" value="$QData{"TicketID"}">
-        $Data{"MoveQueuesStrg"}
-        <input class="button" type="submit" value="$Text{"Move"}">
-      </form>
+        <b>$Text{"Change queue"}:</b><br>
+        <form action="$Env{"CGIHandle"}" method="get">
+          <input type="hidden" name="Action" value="AgentTicketMove">
+          <input type="hidden" name="Subaction" value="InRage">
+          <input type="hidden" name="QueueID" value="$QData{"QueueID"}">
+          <input type="hidden" name="TicketID" value="$QData{"TicketID"}">
+          $Data{"MoveQueuesStrg"}
+          <input class="button" type="submit" value="$Text{"Move"}">
+        </form>
       </p>
+<!-- dtl:block:Move -->
     </td>
   </tr>
 <!-- dtl:block:Body -->

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketZoom.pm,v 1.16 2006-02-03 20:22:01 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.17 2006-03-20 21:29:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -209,14 +209,6 @@ sub MaskAgentZoom {
             $Param{PendingUntil} .= "</font>";
         }
     }
-    # get MoveQueuesStrg
-    if ($Self->{ConfigObject}->Get('Ticket::Frontend::MoveType') =~ /^form$/i) {
-        $Param{MoveQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
-            Name => 'DestQueueID',
-            Data => $Param{MoveQueues},
-            SelectedID => $Param{QueueID},
-        );
-    }
     $Self->{LayoutObject}->Block(
         Name => 'Header',
         Data => {%Param, %AclAction},
@@ -272,7 +264,6 @@ sub MaskAgentZoom {
     # --
     # build thread string
     # --
-    my $ThreadStrg = '';
     my $Counter = '';
     my $Space = '';
     my $LastSenderType = '';
@@ -280,54 +271,7 @@ sub MaskAgentZoom {
     foreach my $ArticleTmp (@ArticleBox) {
       my %Article = %$ArticleTmp;
       $TicketOverTime = $Article{TicketOverTime};
-      if ($Article{ArticleType} !~ /^email-notification/i) {
-        my $TmpSubject = $Self->{TicketObject}->TicketSubjectClean(
-            TicketNumber => $Article{TicketNumber},
-            Subject => $Article{Subject} || '',
-        );
-        my $TitleShort = $Self->{LayoutObject}->Ascii2Html(Text => $Article{From}, Max => 16).': '.$Self->{LayoutObject}->Ascii2Html(Text => $TmpSubject, Max => 20).' - $TimeLong{"'.$Article{Created}.'"}';
-        my $Title = $Self->{LayoutObject}->Ascii2Html(Text => $Article{From}, Max => 50).': '.$Self->{LayoutObject}->Ascii2Html(Text => $TmpSubject, Max => 200).' - $TimeLong{"'.$Article{Created}.'"}';
-        $ThreadStrg .= '<tr class="'.$Article{SenderType}.'-'.$Article{ArticleType}.'"><td class="small">';
-        $ThreadStrg .= '<div title="'.$Title.'">';
-        if ($LastSenderType ne $Article{SenderType}) {
-            $Counter .= "&nbsp;";
-            $Space = "$Counter&nbsp;|--&gt;";
-        }
-        $LastSenderType = $Article{SenderType};
-        $ThreadStrg .= "$Space";
-        # --
-        # if this is the shown article -=> add <b>
-        # --
-        if ($ArticleID eq $Article{ArticleID}) {
-            $ThreadStrg .= '&gt;&gt;<i><b><u>';
-        }
-        # --
-        # the full part thread string
-        # --
-        $ThreadStrg .= "<a href=\"$BaseLink"."Action=AgentTicketZoom&ArticleID=$Article{ArticleID}#$Article{ArticleID}\" " .
-           'onmouseover="window.status=\''."\$Text{\"$Article{SenderType}\"} (".
-           "\$Text{\"$Article{ArticleType}\"})".'\'; return true;" onmouseout="window.status=\'\';">'.
-           "\$Text{\"$Article{SenderType}\"} (\$Text{\"$Article{ArticleType}\"})</a> ";
-        if ($Article{ArticleType} =~ /^email/) {
-            $ThreadStrg .= " (<a href=\"$BaseLink"."Action=AgentTicketPlain&ArticleID=$Article{ArticleID}\"".
-             'onmouseover="window.status=\'$Text{"plain"}'.
-             '\'; return true;" onmouseout="window.status=\'\';">$Text{"plain"}</a>)';
-        }
-        $ThreadStrg .= '&nbsp;'.$TitleShort;
-        # --
-        # if this is the shown article -=> add </b>
-        # --
-        if ($ArticleID eq $Article{ArticleID}) {
-            $ThreadStrg .= '</u></b></i>';
-        }
-        # add attachment icon
-        if ($Article{Atms}->{1} && $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplay')) {
-            $ThreadStrg .= ' &nbsp;<img border="0" src="$Env{"Images"}attach-small.png">';
-        }
-        $ThreadStrg .= '</div></td></tr>';
-      }
     }
-    $Param{ArticleStrg} .= $ThreadStrg;
     # --
     # prepare escalation time (if needed)
     # --
@@ -417,13 +361,101 @@ sub MaskAgentZoom {
         );
         # show article tree
         if ($Count == 1) {
+            # show status info
+            $Self->{LayoutObject}->Block(
+                 Name => 'Status',
+                 Data => {%Param, %AclAction},
+            );
             $Self->{LayoutObject}->Block(
                  Name => 'Tree',
                  Data => {%Param, %Article, %AclAction},
             );
-        }
-        else {
-            $Param{TicketStatus} = '';
+            # build thread string
+            my $CounterTree = 0;
+            my $Counter = '';
+            my $Space = '';
+            my $LastSenderType = '';
+            foreach my $ArticleTmp (@ArticleBox) {
+                $CounterTree++;
+                my %Article = %$ArticleTmp;
+                my $Start = '';
+                my $Stop = '';
+                if ($Article{ArticleType} !~ /^email-notification/i) {
+                    my $TmpSubject = $Self->{TicketObject}->TicketSubjectClean(
+                            TicketNumber => $Article{TicketNumber},
+                            Subject => $Article{Subject} || '',
+                    );
+                    if ($LastSenderType ne $Article{SenderType}) {
+                            $Counter .= "&nbsp;";
+                            $Space = "$Counter&nbsp;|--&gt;";
+                    }
+                    $LastSenderType = $Article{SenderType};
+                    # if this is the shown article -=> add <b>
+                    if ($ArticleID eq $Article{ArticleID}) {
+                        $Start = '&gt;&gt;<i><b><u>';
+                    }
+                    # if this is the shown article -=> add </b>
+                    if ($ArticleID eq $Article{ArticleID}) {
+                        $Stop = '</u></b></i>';
+                    }
+                    $Self->{LayoutObject}->Block(
+                        Name => 'TreeItem',
+                        Data => {
+                            %Article,
+                            Subject => $TmpSubject,
+                            Space => $Space,
+                            Start => $Start,
+                            Stop => $Stop,
+                            Count => $CounterTree,
+                        },
+                    );
+                    if ($Article{ArticleType} =~ /^email/) {
+                        $Self->{LayoutObject}->Block(
+                            Name => 'TreeItemEmail',
+                            Data => {
+                                %Article,
+                            },
+                        );
+                    }
+                    # add attachment icon
+                    if ($Article{Atms}->{1} && $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplay')) {
+                        my $Title = '';
+                        # download type
+                        my $Type = $Self->{ConfigObject}->Get('AttachmentDownloadType') || 'attachment';
+                        # if attachment will be forced to download, don't open a new download window!
+                        my $Target = '';
+                        if ($Type =~ /inline/i) {
+                            $Target = 'target="attachment" ';
+                        }
+                        foreach my $Count (1..($Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplayCount')+1)) {
+                            if ($Article{Atms}->{$Count}) {
+                                if ($Count > $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplayCount')) {
+                                    $Self->{LayoutObject}->Block(
+                                        Name => 'TreeItemAttachmentMore',
+                                        Data => {
+                                            %Article,
+                                            %{$Article{Atms}->{$Count}},
+                                            FileID => $Count,
+                                            Target => $Target,
+                                        },
+                                    );
+                                }
+                                elsif ($Article{Atms}->{$Count}) {
+                                    $Self->{LayoutObject}->Block(
+                                        Name => 'TreeItemAttachment',
+                                        Data => {
+                                            %Article,
+                                            %{$Article{Atms}->{$Count}},
+                                            FileID => $Count,
+                                            Target => $Target,
+                                        },
+                                    );
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
         # do some strips && quoting
         foreach (qw(From To Cc Subject)) {
@@ -451,13 +483,13 @@ sub MaskAgentZoom {
             );
         }
         # show article free text
-        foreach (qw(1 2 3 4 5)) {
-            if ($Article{"FreeText$_"}) {
+        foreach (1..5) {
+            if ($Article{"ArticleFreeText$_"}) {
                 $Self->{LayoutObject}->Block(
                     Name => 'ArticleFreeText',
                     Data => {
-                        Key => $Article{"FreeKey$_"},
-                        Value => $Article{"FreeText$_"},
+                        Key => $Article{"ArticleFreeKey$_"},
+                        Value => $Article{"ArticleFreeText$_"},
                     },
                 );
             }
@@ -488,11 +520,6 @@ sub MaskAgentZoom {
                     return $Self->{LayoutObject}->ErrorScreen();
                 }
             }
-        }
-        # delete ArticleStrg and TicketStatus if it's not the first shown article
-        if ($BodyOutput) {
-            $Param{ArticleStrg} = '';
-            $Param{TicketStatus} = '';
         }
         # get StdResponsesStrg
         $Param{StdResponsesStrg} = $Self->{LayoutObject}->TicketStdResponseString(
@@ -589,11 +616,6 @@ sub MaskAgentZoom {
             );
         }
     }
-    # show status info
-    $Self->{LayoutObject}->Block(
-         Name => 'Status',
-         Data => {%Param, %AclAction},
-    );
     # get linked objects
     my %Links = $Self->{LinkObject}->AllLinkedObjects(
         Object => 'Ticket',
@@ -626,6 +648,18 @@ sub MaskAgentZoom {
             Data => \%Param,
         );
     }
+    # get MoveQueuesStrg
+    if ($Self->{ConfigObject}->Get('Ticket::Frontend::MoveType') =~ /^form$/i) {
+        $Param{MoveQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
+            Name => 'DestQueueID',
+            Data => $Param{MoveQueues},
+            SelectedID => $Param{QueueID},
+        );
+    }
+    $Self->{LayoutObject}->Block(
+        Name => 'Move',
+        Data => {%Param, %AclAction},
+    );
     $Self->{LayoutObject}->Block(
         Name => 'Footer',
         Data => {%Param, %AclAction},

@@ -148,7 +148,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.91 2006-03-20 01:22:54 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.92 2006-03-20 21:29:02 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -1135,8 +1135,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="Ticket::ZoomAttachmentDisplay" Required="0" Valid="1">
         <Description Lang="en">Shows a icon in the ticket zoom, if a article as an attachment.</Description>
-        <Description Lang="de">Zeigt ein Icon in der Ansicht für den
-        Ticketinhalt an, wenn ein Attachment für einen Artikel vorhanden ist.</Description>
+        <Description Lang="de">Zeigt ein Icon in der Ansicht für den Ticketinhalt an, wenn ein Attachment für einen Artikel vorhanden ist.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewZoom</SubGroup>
         <Setting>
@@ -1146,10 +1145,37 @@ TimeWorkingHours
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::ZoomAttachmentDisplayCount" Required="0" Valid="1">
+        <Description Lang="en">Shows a count of icon in the ticket zoom, if a article as an attachment.</Description>
+        <Description Lang="de">Zeigt Anzahl von Icons in der Ansicht für den Ticketinhalt an, wenn ein Attachment für einen Artikel vorhanden ist.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewZoom</SubGroup>
+        <Setting>
+            <Option SelectedID="3">
+                <Item Key="1">01</Item>
+                <Item Key="2">02</Item>
+                <Item Key="3">03</Item>
+                <Item Key="4">04</Item>
+                <Item Key="5">05</Item>
+                <Item Key="6">06</Item>
+                <Item Key="7">07</Item>
+                <Item Key="8">08</Item>
+                <Item Key="9">09</Item>
+                <Item Key="10">10</Item>
+                <Item Key="11">11</Item>
+                <Item Key="12">12</Item>
+                <Item Key="13">13</Item>
+                <Item Key="14">14</Item>
+                <Item Key="15">15</Item>
+                <Item Key="16">16</Item>
+                <Item Key="17">17</Item>
+                <Item Key="18">18</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::ZoomTimeDisplay" Required="0" Valid="0">
         <Description Lang="en">Displays the time that is accounted for an article in the ticket zoom view.</Description>
-        <Description Lang="de">Zeigt die Zeit innerhalb der Ansicht für den
-        Ticketinhalt an, die für einen Artikel erfasst wurde (Die Zeitangabe bezieht sich immer auf einen Artikel).</Description>
+        <Description Lang="de">Zeigt die Zeit innerhalb der Ansicht für den Ticketinhalt an, die für einen Artikel erfasst wurde (Die Zeitangabe bezieht sich immer auf einen Artikel).</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewZoom</SubGroup>
         <Setting>
