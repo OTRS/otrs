@@ -2,7 +2,7 @@
 # Kernel/System/CSV.pm - all csv functions
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CSV.pm,v 1.1 2006-03-17 11:24:10 rk Exp $
+# $Id: CSV.pm,v 1.2 2006-03-20 09:44:11 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::CSV;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 SYNOPSIS
@@ -49,7 +49,7 @@ sub new {
 
 returns a csv based on a array
 
-    $CSV = $LayoutObject->OutputCSV(
+    $CSV = $CSVObject->GenerateCSV(
         Head => ['RowA', 'RowB', ],
         Data => [
             [1,4],
@@ -106,7 +106,7 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2006-03-17 11:24:10 $
+$Revision: 1.2 $ $Date: 2006-03-20 09:44:11 $
 
 =cut
 
