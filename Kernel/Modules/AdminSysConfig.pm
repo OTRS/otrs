@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.pm,v 1.42 2006-03-10 10:30:21 tr Exp $
+# $Id: AdminSysConfig.pm,v 1.43 2006-03-20 21:41:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,10 +15,9 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -41,11 +40,10 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
-    my $Output = '';
     my %Data;
     my $Group = '';
     my $Anker = '';
@@ -469,7 +467,7 @@ sub Run {
         }
         $Data{SubGroup} = $SubGroup;
         $Data{Group} = $Group;
-        $Output .= $Self->{LayoutObject}->Header(Value => "$Group -> $SubGroup");
+        my $Output .= $Self->{LayoutObject}->Header(Value => "$Group -> $SubGroup");
         $Output .= $Self->{LayoutObject}->NavigationBar();
         if (!$Self->{ConfigObject}->Get('SecureMode')) {
             $Output .= $Self->{LayoutObject}->Notify(
@@ -493,6 +491,28 @@ sub Run {
                 my $Found = 0;
                 my @Items = $Self->{SysConfigObject}->ConfigSubGroupConfigItemList(Group => $Group, SubGroup => $SubGroup);
                 foreach my $Item (@Items) {
+                    if ($Self->{SysConfigObject}->ModGet(ConfigName=> $Item)) {
+                        my $Config = $Self->{SysConfigObject}->ModGet(ConfigName=> $Item);
+                        if (ref($Config) eq 'ARRAY') {
+                            foreach (@{$Config}) {
+                                if ($_ && $_ =~ /\Q$Search\E/i) {
+                                    $Found = 1;
+                                }
+                            }
+                        }
+                        elsif (ref($Config) eq 'HASH') {
+                            foreach my $Key (keys %{$Config}) {
+                                if ($Config->{$Key} && $Config->{$Key} =~ /\Q$Search\E/i) {
+                                    $Found = 1;
+                                }
+                            }
+                        }
+                        else {
+                            if ($Config =~ /\Q$Search\E/i) {
+                                $Found = 1;
+                            }
+                        }
+                    }
                     if ($Item =~ /\Q$Search\E/i) {
                         $Found = 1;
                     }
@@ -506,7 +526,7 @@ sub Run {
                         }
                     }
                 }
-                if ($Found == 1) {
+                if ($Found) {
                     $Self->{LayoutObject}->Block(
                         Name  => 'Row',
                         Data  => {
@@ -553,7 +573,7 @@ sub Run {
         LanguageTranslation => 0,
     );
 
-    $Output .= $Self->{LayoutObject}->Header(Value => $Group);
+    my $Output .= $Self->{LayoutObject}->Header(Value => $Group);
     $Output .= $Self->{LayoutObject}->NavigationBar();
     if (!$Self->{ConfigObject}->Get('SecureMode')) {
         $Output .= $Self->{LayoutObject}->Notify(
@@ -572,7 +592,6 @@ sub Run {
     $Output .= $Self->{LayoutObject}->Footer();
     return $Output;
 }
-
 
 sub ListConfigItem {
     my $Self = shift;
@@ -972,5 +991,5 @@ sub ListConfigItem {
         }
     }
 }
-# --
+
 1;
