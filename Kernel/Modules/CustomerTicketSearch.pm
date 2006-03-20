@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerTicketSearch.pm,v 1.16 2006-02-05 20:58:45 martin Exp $
+# $Id: CustomerTicketSearch.pm,v 1.17 2006-03-20 01:22:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -46,6 +46,8 @@ sub new {
     $Self->{PriorityObject} = Kernel::System::Priority->new(%Param);
     $Self->{StateObject} = Kernel::System::State->new(%Param);
     $Self->{SearchProfileObject} = Kernel::System::SearchProfile->new(%Param);
+
+    $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
 
     return $Self;
 }
@@ -82,6 +84,16 @@ sub Run {
     # get search string params (get submitted params)
     else {
         foreach (qw(TicketNumber From To Cc Subject Body CustomerID ResultForm TimeSearchType
+          TicketFreeTime1
+          TicketFreeTime1Start TicketFreeTime1StartDay TicketFreeTime1StartMonth
+          TicketFreeTime1StartYear
+          TicketFreeTime1Stop TicketFreeTime1StopDay TicketFreeTime1StopMonth
+          TicketFreeTime1StopYear
+          TicketFreeTime2
+          TicketFreeTime2Start TicketFreeTime2StartDay TicketFreeTime2StartMonth
+          TicketFreeTime2StartYear
+          TicketFreeTime2Stop TicketFreeTime2StopDay TicketFreeTime2StopMonth
+          TicketFreeTime2StopYear
           TicketCreateTimePointFormat TicketCreateTimePoint
           TicketCreateTimePointStart
           TicketCreateTimeStart TicketCreateTimeStartDay TicketCreateTimeStartMonth
@@ -103,7 +115,10 @@ sub Run {
           TicketFreeKey3 TicketFreeText3 TicketFreeKey4 TicketFreeText4
           TicketFreeKey5 TicketFreeText5 TicketFreeKey6 TicketFreeText6
           TicketFreeKey7 TicketFreeText7 TicketFreeKey8 TicketFreeText8
-        )) {
+          TicketFreeKey9 TicketFreeText9 TicketFreeKey10 TicketFreeText10
+          TicketFreeKey11 TicketFreeText11 TicketFreeKey12 TicketFreeText12
+          TicketFreeKey13 TicketFreeText13 TicketFreeKey14 TicketFreeText14
+          TicketFreeKey15 TicketFreeText15 TicketFreeKey16 TicketFreeText16)) {
             # get search array params (get submitted params)
             my @Array = $Self->{ParamObject}->GetArray(Param => $_);
             if (@Array) {
@@ -214,6 +229,32 @@ sub Run {
                 $GetParam{TicketCreateTimeNewerMinutes} = $Time;
             }
           }
+        }
+        # free time
+        foreach (1..2) {
+            if (!$GetParam{'TicketFreeTime'.$_}) {
+                foreach my $Type (qw(Year Month Day)) {
+                    $GetParam{'TicketFreeTime'.$_.'Start'.$Type} = undef;
+                    $GetParam{'TicketFreeTime'.$_.'Stop'.$Type} = undef;
+                }
+                $GetParam{'TicketFreeTime'.$_.'NewerDate'} = undef;
+                $GetParam{'TicketFreeTime'.$_.'OlderDate'} = undef;
+            }
+            else {
+                $GetParam{'TicketFreeTime'.$_} = 'checked';
+                if ($GetParam{'TicketFreeTime'.$_.'StartDay'} && $GetParam{'TicketFreeTime'.$_.'StartMonth'} && $GetParam{'TicketFreeTime'.$_.'StartYear'}) {
+                    $GetParam{'TicketFreeTime'.$_.'NewerDate'} = $GetParam{'TicketFreeTime'.$_.'StartYear'}.
+                    '-'.$GetParam{'TicketFreeTime'.$_.'StartMonth'}.
+                    '-'.$GetParam{'TicketFreeTime'.$_.'StartDay'}.
+                    ' 00:00:01';
+                }
+                if ($GetParam{'TicketFreeTime'.$_.'StopDay'} && $GetParam{'TicketFreeTime'.$_.'StopMonth'} && $GetParam{'TicketFreeTime'.$_.'StopYear'}) {
+                    $GetParam{'TicketFreeTime'.$_.'OlderDate'} = $GetParam{'TicketFreeTime'.$_.'StopYear'}.
+                    '-'.$GetParam{'TicketFreeTime'.$_.'StopMonth'}.
+                    '-'.$GetParam{'TicketFreeTime'.$_.'StopDay'}.
+                    ' 23:59:59';
+                }
+            }
         }
         # focus of "From To Cc Subject Body"
         foreach (qw(From To Cc Subject Body)) {
@@ -401,7 +442,7 @@ sub Run {
         $Output .= $Self->MaskForm(
             %GetParam,
             Profile => $Self->{Profile},
-           Area => 'Customer',
+            Area => 'Customer',
             %TicketFreeTextHTML,
         );
         $Output .= $Self->{LayoutObject}->CustomerFooter();
@@ -540,6 +581,56 @@ sub MaskForm {
         Prefix => 'TicketCreateTimeStop',
         Format => 'DateInputFormat',
     );
+    foreach (1..2) {
+        $Param{'TicketFreeTime'.$_.'Start'} = $Self->{LayoutObject}->BuildDateSelection(
+            %Param,
+            Prefix => 'TicketFreeTime'.$_.'Start',
+            Format => 'DateInputFormat',
+            DiffTime => -((60*60*24)*30),
+        );
+        $Param{'TicketFreeTime'.$_.'Stop'} = $Self->{LayoutObject}->BuildDateSelection(
+            %Param,
+            Prefix => 'TicketFreeTime'.$_.'Stop',
+            Format => 'DateInputFormat',
+            DiffTime => +((60*60*24)*30),
+        );
+    }
+    # html search mask output
+    $Self->{LayoutObject}->Block(
+        Name => 'Search',
+        Data => {
+            %Param,
+        },
+    );
+    my $Count = 0;
+    foreach (1..16) {
+        $Count++;
+        if ($Self->{Config}->{'TicketFreeText'}->{$Count}) {
+            $Self->{LayoutObject}->Block(
+                Name => 'FreeText',
+                Data => {
+                    TicketFreeKeyField => $Param{'TicketFreeKeyField'.$Count},
+                    TicketFreeTextField => $Param{'TicketFreeTextField'.$Count},
+                },
+            );
+        }
+    }
+    $Count = 0;
+    foreach (1..2) {
+        $Count++;
+        if ($Self->{Config}->{'TicketFreeTime'}->{$Count}) {
+            $Self->{LayoutObject}->Block(
+                Name => 'FreeTime',
+                Data => {
+                    TicketFreeTimeKey => $Self->{ConfigObject}->Get('TicketFreeTimeKey'.$Count),
+                    TicketFreeTime => $Param{'TicketFreeTime'.$Count},
+                    TicketFreeTimeStart => $Param{'TicketFreeTime'.$Count.'Start'},
+                    TicketFreeTimeStop => $Param{'TicketFreeTime'.$Count.'Stop'},
+                    Count => $Count,
+                },
+            );
+        }
+    }
     # html search mask output
     return $Self->{LayoutObject}->Output(
         TemplateFile => 'CustomerTicketSearch',

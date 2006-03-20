@@ -2,15 +2,13 @@
 # CustomerMessageNew.dtl - provides HTML form for customer message
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerTicketMessage.dtl,v 1.2 2006-03-07 06:43:06 martin Exp $
+# $Id: CustomerTicketMessage.dtl,v 1.3 2006-03-20 01:24:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 <!-- start form -->
-
-<!-- This java script is just for nice to have funktions! -->
 <script language="JavaScript" type="text/javascript">
 <!--
 function submit_compose()

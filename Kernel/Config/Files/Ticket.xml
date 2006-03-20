@@ -148,7 +148,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.90 2006-03-16 17:05:36 cs Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.91 2006-03-20 01:22:54 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -1008,8 +1008,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::EventModulePost###1-ForceOwnerResetOnMove" Required="0" Valid="0">
-        <Description Lang="en">Ticket event module to reset the owner if ticket gets moved.</Description>
-        <Description Lang="de">Ticket Event Modul um Besitzer zurück zu setzen wenn das Ticket verschoben wird.</Description>
+        <Description Lang="en">Ticket event module to reset and unlock the owner if ticket gets moved.</Description>
+        <Description Lang="de">Ticket Event Modul um Besitzer zurück zu setzen Ticket zu entsperren wenn das Ticket verschoben wird.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -4931,7 +4931,7 @@ $QData{"Signature"}
         <Description Lang="en">Next screen after new customer ticket.</Description>
         <Description Lang="de">Nächster Bildschirm nach neuem Customer-Ticket.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer::ViewNewTicket</SubGroup>
+        <SubGroup>Frontend::Customer::Ticket::ViewNew</SubGroup>
         <Setting>
             <Option SelectedID="CustomerTicketOverView">
                 <Item Key="CustomerTicketOverView">CustomerTicketOverView</Item>
@@ -4943,7 +4943,7 @@ $QData{"Signature"}
         <Description Lang="en">Allow customers to set the ticket priority.</Description>
         <Description Lang="de">Priorität des Tickets darf vom Kunden gesetzt werden.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer::ViewNewTicket</SubGroup>
+        <SubGroup>Frontend::Customer::Ticket::ViewNew</SubGroup>
         <Setting>
             <Option SelectedID="1">
                 <Item Key="0">No</Item>
@@ -4955,7 +4955,7 @@ $QData{"Signature"}
         <Description Lang="en">Default priority of new customer tickets.</Description>
         <Description Lang="de">Standard Priorität von Customer-Tickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer::ViewNewTicket</SubGroup>
+        <SubGroup>Frontend::Customer::Ticket::ViewNew</SubGroup>
         <Setting>
             <String Regex="">3 normal</String>
         </Setting>
@@ -4964,7 +4964,7 @@ $QData{"Signature"}
         <Description Lang="en">Ddefault state of new customer tickets.</Description>
         <Description Lang="de">Standard Status neuer Customer-Tickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer::ViewNewTicket</SubGroup>
+        <SubGroup>Frontend::Customer::Ticket::ViewNew</SubGroup>
         <Setting>
             <String Regex="">new</String>
         </Setting>
@@ -4973,7 +4973,7 @@ $QData{"Signature"}
         <Description Lang="en">Default article type.</Description>
         <Description Lang="de">Standard Artikeltyp.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer::ViewNewTicket</SubGroup>
+        <SubGroup>Frontend::Customer::Ticket::ViewNew</SubGroup>
         <Setting>
             <String Regex="">webrequest</String>
         </Setting>
@@ -4982,7 +4982,7 @@ $QData{"Signature"}
         <Description Lang="en">Sender type for new tickets from the customer panel.</Description>
         <Description Lang="de">Sendertyp für neue Tickets aus dem Customer-Panel.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer::ViewNewTicket</SubGroup>
+        <SubGroup>Frontend::Customer::Ticket::ViewNew</SubGroup>
         <Setting>
             <String Regex="">customer</String>
         </Setting>
@@ -4991,7 +4991,7 @@ $QData{"Signature"}
         <Description Lang="en">Default history type.</Description>
         <Description Lang="de">Standard History Typ.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer::ViewNewTicket</SubGroup>
+        <SubGroup>Frontend::Customer::Ticket::ViewNew</SubGroup>
         <Setting>
             <String Regex="">WebRequestCustomer</String>
         </Setting>
@@ -5000,7 +5000,7 @@ $QData{"Signature"}
         <Description Lang="en">Comment for new history entrys in the customer panel.</Description>
         <Description Lang="de">Kommentar für Einträge in der History innerhalb des Customer-Panels.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer::ViewNewTicket</SubGroup>
+        <SubGroup>Frontend::Customer::Ticket::ViewNew</SubGroup>
         <Setting>
             <String Regex=""></String>
         </Setting>
@@ -5009,7 +5009,7 @@ $QData{"Signature"}
         <Description Lang="en">To: selection type. "Queue" shows all queues, "SystemAddress" displays all system addresses.</Description>
         <Description Lang="de">Auswahl des To: Anzeige-Typs. "Queue" zeigt alle Queues an, "SystemAddress" zeigt alle Systemadressen.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer::ViewNewTicket</SubGroup>
+        <SubGroup>Frontend::Customer::Ticket::ViewNew</SubGroup>
         <Setting>
             <Option SelectedID="Queue">
                 <Item Key="Queue">Queue</Item>
@@ -5021,7 +5021,7 @@ $QData{"Signature"}
         <Description Lang="en">If "Queue" was selected for CustomerPanelSelectionType, you can specify a selection string (e. g. 'Queue: &lt;Queue&gt; - &lt;QueueComment&gt;').</Description>
         <Description Lang="de">Wenn "Queue" für CustomerPanelSelectionType ausgewählt wurde, kann hier eine Zeichenkette für die Auswahl angegeben werden (z. B. 'Queue: &lt;Queue&gt; - &lt;QueueComment&gt;').</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer::ViewNewTicket</SubGroup>
+        <SubGroup>Frontend::Customer::Ticket::ViewNew</SubGroup>
         <Setting>
             <String Regex="">&lt;Queue&gt;</String>
         </Setting>
@@ -5030,7 +5030,7 @@ $QData{"Signature"}
       <Description Lang="en">Here you can insert the Queues, witch the Customer can select in the Customer-Interface.</Description>
         <Description Lang="de">Hier können die Queues eingegeben werden, aus dennen ein Kunde im Kunden-Panel auswählen kann.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer::ViewNewTicket</SubGroup>
+        <SubGroup>Frontend::Customer::Ticket::ViewNew</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Junk">First Queue</Item>
@@ -5042,16 +5042,54 @@ $QData{"Signature"}
         <Description Lang="en">Module for To-selection in new ticket screen in the customer panel.</Description>
         <Description Lang="de">Modul für die Auswahl im To-Feld innerhalb der Bildschirm-Maske für neue Tickets im Customer-Panel.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer::ViewNewTicket</SubGroup>
+        <SubGroup>Frontend::Customer::Ticket::ViewNew</SubGroup>
         <Setting>
             <String Regex="">Kernel::Output::HTML::CustomerNewTicketQueueSelectionGeneric</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::CustomerTicketMessage###TicketFreeText" Required="0" Valid="1">
+        <Description Lang="en">Shown free text options.</Description>
+        <Description Lang="de">Gezeigte Frei-Text-Felder.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Customer::Ticket::ViewNew</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="1">0</Item>
+                <Item Key="2">0</Item>
+                <Item Key="3">0</Item>
+                <Item Key="4">0</Item>
+                <Item Key="5">0</Item>
+                <Item Key="6">0</Item>
+                <Item Key="7">0</Item>
+                <Item Key="8">0</Item>
+                <Item Key="9">0</Item>
+                <Item Key="10">0</Item>
+                <Item Key="11">0</Item>
+                <Item Key="12">0</Item>
+                <Item Key="13">0</Item>
+                <Item Key="14">0</Item>
+                <Item Key="15">0</Item>
+                <Item Key="16">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::CustomerTicketMessage###TicketFreeTime" Required="0" Valid="1">
+        <Description Lang="en">Shown free time options.</Description>
+        <Description Lang="de">Gezeigte Frei-Zeit-Felder.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Customer::Ticket::ViewNew</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="1">0</Item>
+                <Item Key="2">0</Item>
+            </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerTicketZoom###NextScreenAfterFollowUp" Required="1" Valid="1">
         <Description Lang="en">Next screen after customer follow up ticket.</Description>
         <Description Lang="de">Nächster Bildschirm nach neuem Kunden-Nachfrage.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer::ViewZoom</SubGroup>
+        <SubGroup>Frontend::Customer::Ticket::ViewZoom</SubGroup>
         <Setting>
             <Option SelectedID="CustomerTicketOverView">
                 <Item Key="CustomerTicketOverView">CustomerTicketOverView</Item>
@@ -5063,7 +5101,7 @@ $QData{"Signature"}
         <Description Lang="en">Type of note.</Description>
         <Description Lang="de">Notiztyp.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer::ViewZoom</SubGroup>
+        <SubGroup>Frontend::Customer::Ticket::ViewZoom</SubGroup>
         <Setting>
             <String Regex="">webrequest</String>
         </Setting>
@@ -5072,7 +5110,7 @@ $QData{"Signature"}
         <Description Lang="en">Sender type for requests from the customer panel.</Description>
         <Description Lang="de">Sendertyp von Anfragen aus dem Kunden-Panel.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer::ViewZoom</SubGroup>
+        <SubGroup>Frontend::Customer::Ticket::ViewZoom</SubGroup>
         <Setting>
             <String Regex="">customer</String>
         </Setting>
@@ -5081,7 +5119,7 @@ $QData{"Signature"}
         <Description Lang="en">Default history type in the customer panel.</Description>
         <Description Lang="de">Standard Historie im Kunden-Panel.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer::ViewZoom</SubGroup>
+        <SubGroup>Frontend::Customer::Ticket::ViewZoom</SubGroup>
         <Setting>
             <String Regex="">FollowUp</String>
         </Setting>
@@ -5090,7 +5128,7 @@ $QData{"Signature"}
         <Description Lang="en">Default history comment in the customer panel.</Description>
         <Description Lang="de">Standard Historie Kommentar im Kunden-Panel.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer::ViewZoom</SubGroup>
+        <SubGroup>Frontend::Customer::Ticket::ViewZoom</SubGroup>
         <Setting>
             <String Regex=""></String>
         </Setting>
@@ -5099,7 +5137,7 @@ $QData{"Signature"}
         <Description Lang="en">Allow customers to change the ticket priority.</Description>
         <Description Lang="de">Priorität des Tickets darf vom Kunden verändert werden.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer::ViewMessage</SubGroup>
+        <SubGroup>Frontend::Customer::Ticket::ViewZoom</SubGroup>
         <Setting>
             <Option SelectedID="1">
                 <Item Key="0">No</Item>
@@ -5111,7 +5149,7 @@ $QData{"Signature"}
         <Description Lang="en">Default priority of follow up customer tickets.</Description>
         <Description Lang="de">Standard Priorität von Kunden-Nachfragen.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer::ViewMessage</SubGroup>
+        <SubGroup>Frontend::Customer::Ticket::ViewZoom</SubGroup>
         <Setting>
             <String Regex="">3 normal</String>
         </Setting>
@@ -5120,7 +5158,7 @@ $QData{"Signature"}
         <Description Lang="en">Next commpose state for customer tickets.</Description>
         <Description Lang="de">Nächster Status für vom Customer erstellte Tickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer::ViewZoom</SubGroup>
+        <SubGroup>Frontend::Customer::Ticket::ViewZoom</SubGroup>
         <Setting>
             <Option SelectedID="1">
                 <Item Key="0">No</Item>
@@ -5132,7 +5170,7 @@ $QData{"Signature"}
         <Description Lang="en">Next state for ticket after customer followup.</Description>
         <Description Lang="de">Nächster Status eines Tickets nach einem Kunden-Follow-up.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer::ViewZoom</SubGroup>
+        <SubGroup>Frontend::Customer::Ticket::ViewZoom</SubGroup>
         <Setting>
             <String Regex="">open</String>
         </Setting>
@@ -5141,7 +5179,7 @@ $QData{"Signature"}
         <Description Lang="en">Next possible states for customer tickets.</Description>
         <Description Lang="de">Nächstmögliche Status für vom Kunden erstellte Tickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer::ViewZoom</SubGroup>
+        <SubGroup>Frontend::Customer::Ticket::ViewZoom</SubGroup>
         <Setting>
             <Array>
               <Item>open</Item>
@@ -5154,7 +5192,7 @@ $QData{"Signature"}
         <Description Lang="en">Default limit for ticket search.</Description>
         <Description Lang="de">Standard Limit für die Suche innerhalb von Customer-Tickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer::ViewSearch</SubGroup>
+        <SubGroup>Frontend::Customer::Ticket::ViewSearch</SubGroup>
         <Setting>
             <String Regex="^[0-9]{1,6}$">5000</String>
         </Setting>
@@ -5163,7 +5201,7 @@ $QData{"Signature"}
         <Description Lang="en">Default number of articles per page after searching through tickets.</Description>
         <Description Lang="de">Standard Limit für Artikel pro Seite, die nach einer Suche über die Tickets angezeigt werden.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer::ViewSearch</SubGroup>
+        <SubGroup>Frontend::Customer::Ticket::ViewSearch</SubGroup>
         <Setting>
             <String Regex="^[0-9]{1,3}$">40</String>
           </Setting>
@@ -5172,7 +5210,7 @@ $QData{"Signature"}
         <Description Lang="en">Search result sort by default.</Description>
         <Description Lang="de">Standard Sortierung beim Suchergebnissen.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer::ViewSearch</SubGroup>
+        <SubGroup>Frontend::Customer::Ticket::ViewSearch</SubGroup>
         <Setting>
             <Option SelectedID="Age">
                 <Item Key="Age">Age</Item>
@@ -5205,12 +5243,50 @@ $QData{"Signature"}
         <Description Lang="en">Search result order default.</Description>
         <Description Lang="de">Sortierreihenfolge bei Suchergebnissen.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Customer::ViewSearch</SubGroup>
+        <SubGroup>Frontend::Customer::Ticket::ViewSearch</SubGroup>
         <Setting>
             <Option SelectedID="Down">
                 <Item Key="Down">Down</Item>
                 <Item Key="Up">Up</Item>
             </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::CustomerTicketSearch###TicketFreeText" Required="0" Valid="1">
+        <Description Lang="en">Shown free text options.</Description>
+        <Description Lang="de">Gezeigte Frei-Text-Felder.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Customer::Ticket::ViewSearch</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="1">0</Item>
+                <Item Key="2">0</Item>
+                <Item Key="3">0</Item>
+                <Item Key="4">0</Item>
+                <Item Key="5">0</Item>
+                <Item Key="6">0</Item>
+                <Item Key="7">0</Item>
+                <Item Key="8">0</Item>
+                <Item Key="9">0</Item>
+                <Item Key="10">0</Item>
+                <Item Key="11">0</Item>
+                <Item Key="12">0</Item>
+                <Item Key="13">0</Item>
+                <Item Key="14">0</Item>
+                <Item Key="15">0</Item>
+                <Item Key="16">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::CustomerTicketSearch###TicketFreeTime" Required="0" Valid="1">
+        <Description Lang="en">Shown free time options.</Description>
+        <Description Lang="de">Gezeigte Frei-Zeit-Felder.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Customer::Ticket::ViewSearch</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="1">0</Item>
+                <Item Key="2">0</Item>
+            </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerPreferencesGroups###ClosedTickets" Required="0" Valid="1">

@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerTicketMessage.pm,v 1.8 2006-03-07 06:43:05 martin Exp $
+# $Id: CustomerTicketMessage.pm,v 1.9 2006-03-20 01:22:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -72,10 +72,52 @@ sub Run {
     }
 
     if (!$Self->{Subaction}) {
+        # get default selections
+        my %TicketFreeDefault = ();
+        foreach (1..16) {
+            $TicketFreeDefault{'TicketFreeKey'.$_} = $Self->{ConfigObject}->Get('TicketFreeKey'.$_.'::DefaultSelection');
+            $TicketFreeDefault{'TicketFreeText'.$_} = $Self->{ConfigObject}->Get('TicketFreeText'.$_.'::DefaultSelection');
+        }
+        # get free text config options
+        my %TicketFreeText = ();
+        foreach (1..16) {
+            $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+                TicketID => $Self->{TicketID},
+                Action => $Self->{Action},
+                Type => "TicketFreeKey$_",
+                UserID => $Self->{UserID},
+            );
+            $TicketFreeText{"TicketFreeText$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+                TicketID => $Self->{TicketID},
+                Action => $Self->{Action},
+                Type => "TicketFreeText$_",
+                UserID => $Self->{UserID},
+            );
+        }
+        my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
+            Config => \%TicketFreeText,
+            Ticket => { %TicketFreeDefault },
+        );
+        # get free text params
+        my %TicketFreeTime = ();
+        foreach (1..2) {
+            foreach my $Type (qw(Year Month Day Hour Minute)) {
+                $TicketFreeTime{"TicketFreeTime".$_.$Type} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
+            }
+        }
+        # free time
+        my %FreeTime = $Self->{LayoutObject}->AgentFreeDate(
+            %Param,
+            Ticket => \%TicketFreeTime,
+        );
+
         # print form ...
         my $Output .= $Self->{LayoutObject}->CustomerHeader();
         $Output .= $Self->{LayoutObject}->CustomerNavigationBar();
-        $Output .= $Self->_MaskNew();
+        $Output .= $Self->_MaskNew(
+              %TicketFreeTextHTML,
+              %FreeTime,
+        );
         $Output .= $Self->{LayoutObject}->CustomerFooter();
         return $Output;
     }
@@ -103,6 +145,38 @@ sub Run {
             $TicketFree{"TicketFreeKey$_"} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeKey$_");
             $TicketFree{"TicketFreeText$_"} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeText$_");
         }
+        # get free text config options
+        my %TicketFreeText = ();
+        foreach (1..16) {
+            $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+                TicketID => $Self->{TicketID},
+                Action => $Self->{Action},
+                Type => "TicketFreeKey$_",
+                CustomerUserID => $Self->{UserID},
+            );
+            $TicketFreeText{"TicketFreeText$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+                TicketID => $Self->{TicketID},
+                Action => $Self->{Action},
+                Type => "TicketFreeText$_",
+                CustomerUserID => $Self->{UserID},
+            );
+        }
+        my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
+            Config => \%TicketFreeText,
+            Ticket => { %TicketFree },
+        );
+        # get free text params
+        my %TicketFreeTime = ();
+        foreach (1..2) {
+            foreach my $Type (qw(Year Month Day Hour Minute)) {
+                $TicketFreeTime{"TicketFreeTime".$_.$Type} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
+            }
+        }
+        # free time
+        my %FreeTime = $Self->{LayoutObject}->CustomerFreeDate(
+            %Param,
+            Ticket => \%TicketFreeTime,
+        );
         # rewrap body if exists
         if ($GetParam{Body}) {
             $GetParam{Body} =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote')})(?:\s|\z)/$1\n/gm;
@@ -149,6 +223,8 @@ sub Run {
                 Attachments => \@Attachments,
                 %GetParam,
                 ToSelected => $Dest,
+                %TicketFreeTextHTML,
+                %FreeTime,
             );
             $Output .= $Self->{LayoutObject}->CustomerFooter();
             return $Output;
@@ -184,7 +260,7 @@ sub Run {
             }
         }
         # get free text params
-        my %TicketFreeTime = ();
+        %TicketFreeTime = ();
         foreach (1..2) {
               foreach my $Type (qw(Year Month Day Hour Minute)) {
                   $TicketFreeTime{"TicketFreeTime".$_.$Type} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
@@ -342,44 +418,34 @@ sub _MaskNew {
         );
     }
 
-            # get default selections
-            my %TicketFreeDefault = ();
-            foreach (1..16) {
-                $TicketFreeDefault{'TicketFreeKey'.$_} = $Self->{ConfigObject}->Get('TicketFreeKey'.$_.'::DefaultSelection');
-                $TicketFreeDefault{'TicketFreeText'.$_} = $Self->{ConfigObject}->Get('TicketFreeText'.$_.'::DefaultSelection');
-            }
-            # get free text config options
-            my %TicketFreeText = ();
-            foreach (1..16) {
-                $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
-                    TicketID => $Self->{TicketID},
-                    Action => $Self->{Action},
-                    Type => "TicketFreeKey$_",
-                    CustomerUserID => $Self->{UserID},
-                );
-                $TicketFreeText{"TicketFreeText$_"} = $Self->{TicketObject}->TicketFreeTextGet(
-                    TicketID => $Self->{TicketID},
-                    Action => $Self->{Action},
-                    Type => "TicketFreeText$_",
-                    CustomerUserID => $Self->{UserID},
-                );
-            }
-            my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
-                Config => \%TicketFreeText,
-                Ticket => { %TicketFreeDefault },
+    # ticket free text
+    my $Count = 0;
+    foreach (1..16) {
+        $Count++;
+        if ($Self->{Config}->{'TicketFreeText'}->{$Count}) {
+            $Self->{LayoutObject}->Block(
+                Name => 'FreeText',
+                Data => {
+                    TicketFreeKeyField => $Param{'TicketFreeKeyField'.$Count},
+                    TicketFreeTextField => $Param{'TicketFreeTextField'.$Count},
+                },
             );
-            # get free text params
-            my %TicketFreeTime = ();
-            foreach (1..2) {
-                foreach my $Type (qw(Year Month Day Hour Minute)) {
-                    $TicketFreeTime{"TicketFreeTime".$_.$Type} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
-                }
-            }
-            # free time
-            my %FreeTime = $Self->{LayoutObject}->CustomerFreeDate(
-                %Param,
-                Ticket => \%TicketFreeTime,
+        }
+    }
+    $Count = 0;
+    foreach (1..2) {
+        $Count++;
+        if ($Self->{Config}->{'TicketFreeTime'}->{$Count}) {
+            $Self->{LayoutObject}->Block(
+                Name => 'FreeTime',
+                Data => {
+                    TicketFreeTimeKey => $Self->{ConfigObject}->Get('TicketFreeTimeKey'.$Count),
+                    TicketFreeTime => $Param{'TicketFreeTime'.$Count},
+                    Count => $Count,
+                },
             );
+        }
+    }
     # show attachments
     foreach my $DataRef (@{$Param{Attachments}}) {
         $Self->{LayoutObject}->Block(
