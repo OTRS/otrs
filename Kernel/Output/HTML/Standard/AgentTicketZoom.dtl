@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketZoom.dtl,v 1.8 2006-03-20 21:29:02 martin Exp $
+# $Id: AgentTicketZoom.dtl,v 1.9 2006-03-20 21:36:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -148,7 +148,6 @@ $Data{"Body"}
       </div>
     </td>
     <td width="25%" valign="top" class="PriorityID-$Data{"PriorityID"}">
-# --
 # show ticket status (state, lock, ...)
 <!-- dtl:block:Status -->
       <table border="0" cellspacing="1" cellpadding="0" width="100%">
@@ -180,18 +179,14 @@ $Data{"Body"}
           <td><b>$Text{"Escalation in"}:</b></td>
           <td>$Data{"TicketOverTime"}</td>
         </tr>
-# --
 # use ticket is pending
-# --
         <dtl if ($Data{"PendingUntil"} ne "") { $Data{"PendingUntilString"} = "<tr valign="top"><td><b>$Text{"Pending till"}:</b></td><td>$Data{"PendingUntil"}</td></tr>"; }>
         $Data{"PendingUntilString"}
         <tr  valign="top">
           <td><b>$Text{"Owner"}:</b></td>
           <td><div title="$QData{"Owner"} ($QData{"UserFirstname"}$QData{"UserLastname"})">$QData{"Owner","18"} ($Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","18"})</div></td>
         </tr>
-# --
 # object links
-# --
         <tr valign="top">
           <td><b>$Text{"Linked"} ($Text{"Normal"}):</b></td>
           <td>
@@ -255,7 +250,6 @@ $Data{"Body"}
       <table border="0" cellspacing="0" cellpadding="1" width="95%">
         <tr>
           <td>
-# --
 # show compose links
 <!-- dtl:block:AgentIsCustomer -->
             <p>
@@ -297,7 +291,6 @@ $Data{"AgentPhoneStrg"}
               </table>
             </p>
 <!-- dtl:block:AgentAnswer -->
-# --
 # show article links
 <!-- dtl:block:AgentArticleCom -->
             <p>
@@ -319,8 +312,6 @@ $Data{"AgentPhoneStrg"}
               </table>
             </p>
 <!-- dtl:block:AgentArticleCom -->
-
-# --
           </td>
         </tr>
       </table>
