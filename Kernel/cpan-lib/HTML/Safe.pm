@@ -2,7 +2,7 @@
 # HTML::Safe.pm - remove activ html stuff from html strings
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Safe.pm,v 1.1 2004-12-04 11:06:11 martin Exp $
+# $Id: Safe.pm,v 1.2 2006-03-20 21:29:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -39,7 +39,7 @@ create a object
   my $HTMLSafe = HTML::Safe->new();
 
 
-  Ot if you want do define own filter params
+  Or if you want do define own filter params
 
   my $HTMLSafe = HTML::Safe->new(
       NoApplet => 1,
@@ -278,6 +278,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2004-12-04 11:06:11 $
+$Revision: 1.2 $ $Date: 2006-03-20 21:29:18 $
 
 =cut
