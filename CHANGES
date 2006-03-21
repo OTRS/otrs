@@ -2,13 +2,15 @@
 # CHANGES - change log  of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.209.2.39 2006-03-18 20:25:10 martin Exp $
+# $Id: CHANGES,v 1.209.2.40 2006-03-21 12:44:09 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.0.5 (2006/??/??)
+ - (2006/03/21) update of Portuguese language file (thanks to
+    Manuel Menezes de Sequeira)
  - (2006/03/18) added Greek translation - Thanks to Stelios Maistros!
  - (2006/03/16) fixed bug #991 - changed $Data{} to $QData{} in Ticket.xml
     and Ticket.pm config files to solve problem when answering requests
