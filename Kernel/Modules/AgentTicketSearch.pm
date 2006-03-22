@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketSearch.pm,v 1.14 2006-03-04 11:34:53 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.15 2006-03-22 07:33:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,10 +18,9 @@ use Kernel::System::State;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -70,7 +69,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -572,13 +571,11 @@ sub Run {
         return $Output;
     }
 }
-# --
+
 sub MaskForm {
     my $Self = shift;
     my %Param = @_;
-    # --
     # get user of own groups
-    # --
     my %ShownUsers = ();
     my %AllGroupsMembers = $Self->{UserObject}->UserList(
         Type => 'Long',
@@ -805,10 +802,16 @@ sub MaskForm {
         $Count++;
         if ($Self->{Config}->{'TicketFreeText'}->{$Count}) {
             $Self->{LayoutObject}->Block(
-                Name => 'FreeText',
+                Name => 'TicketFreeText',
                 Data => {
                     TicketFreeKeyField => $Param{'TicketFreeKeyField'.$Count},
                     TicketFreeTextField => $Param{'TicketFreeTextField'.$Count},
+                },
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketFreeText'.$Count,
+                Data => {
+                    %Param,
                 },
             );
         }
@@ -818,12 +821,19 @@ sub MaskForm {
         $Count++;
         if ($Self->{Config}->{'TicketFreeTime'}->{$Count}) {
             $Self->{LayoutObject}->Block(
-                Name => 'FreeTime',
+                Name => 'TicketFreeTime',
                 Data => {
                     TicketFreeTimeKey => $Self->{ConfigObject}->Get('TicketFreeTimeKey'.$Count),
                     TicketFreeTime => $Param{'TicketFreeTime'.$Count},
                     TicketFreeTimeStart => $Param{'TicketFreeTime'.$Count.'Start'},
                     TicketFreeTimeStop => $Param{'TicketFreeTime'.$Count.'Stop'},
+                    Count => $Count,
+                },
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketFreeTime'.$Count,
+                Data => {
+                    %Param,
                     Count => $Count,
                 },
             );
@@ -835,5 +845,5 @@ sub MaskForm {
     );
     return $Output;
 }
-# --
+
 1;
