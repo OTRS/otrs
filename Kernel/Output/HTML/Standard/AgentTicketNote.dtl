@@ -2,7 +2,7 @@
 # AgentTicketNote.dtl - provides HTML form for note mask
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketNote.dtl,v 1.13 2006-03-18 23:43:30 martin Exp $
+# $Id: AgentTicketNote.dtl,v 1.14 2006-03-22 07:30:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -104,7 +104,7 @@ function change_selected(sel)
         <input type="hidden" name="TicketID" value="$QData{"TicketID"}">
         <input type="hidden" name="FormID" value="$QData{"FormID"}">
 
-        <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
+        <table border="0" width="800" align="center" cellspacing="0" cellpadding="4">
           <tr>
             <td colspan="2" class="contenthead">$Text{"Options"}</td>
           </tr>
@@ -204,34 +204,60 @@ function change_selected(sel)
                   <td class="contentvalue">$Data{"PriorityStrg"}</td>
                 </tr>
 <!-- dtl:block:Priority -->
-<!-- dtl:block:FreeText -->
+<!-- dtl:block:TicketFreeText -->
                 <tr>
-                  <td colspan="2" class="contentkey">$Data{"TicketFreeKeyField"}</td>
+                  <td colspan="2" class="contentkey">$Data{"TicketFreeKeyField"}:</td>
                   <td class="contentvalue">$Data{"TicketFreeTextField"}</td>
                 </tr>
-<!-- dtl:block:FreeText -->
-#      <tr>
-#        <td colspan="2" class="contentkey">$Data{"TicketFreeKeyField1"}:</td>
-#        <td class="contentvalue">$Data{"TicketFreeTextField1"}</td>
-#      </tr>
-#     <tr>
-#       <td colspan="2" class="contentkey">$Data{"TicketFreeKeyField2"}:</td>
-#       <td class="contentvalue">$Data{"TicketFreeTextField2"}</td>
-#     </tr>
-#     <tr>
-#       <td colspan="2" class="contentkey">$Data{"TicketFreeKeyField3"}:</td>
-#       <td class="contentvalue">$Data{"TicketFreeTextField3"}</td>
-#     </tr>
-#     <tr>
-#       <td colspan="2" class="contentkey">$Data{"TicketFreeKeyField4"}:</td>
-#       <td class="contentvalue">$Data{"TicketFreeTextField4"}</td>
-#     </tr>
-<!-- dtl:block:FreeTime -->
+<!-- dtl:block:TicketFreeText -->
+#<!-- dtl:block:TicketFreeText1 -->
+#                <tr>
+#                  <td colspan="2" class="contentkey">$Data{"TicketFreeKeyField1"}:</td>
+#                  <td class="contentvalue">$Data{"TicketFreeTextField1"}</td>
+#                </tr>
+#<!-- dtl:block:TicketFreeText1 -->
+#<!-- dtl:block:TicketFreeText2 -->
+#                <tr>
+#                  <td colspan="2" class="contentkey">$Data{"TicketFreeKeyField2"}:</td>
+#                  <td class="contentvalue">$Data{"TicketFreeTextField2"}</td>
+#                </tr>
+#<!-- dtl:block:TicketFreeText2 -->
+<!-- dtl:block:TicketFreeTime -->
                 <tr>
-                  <td colspan="2" class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}</td>
+                  <td colspan="2" class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}:</td>
                   <td class="contentvalue">$Data{"TicketFreeTime"}</td>
                 </tr>
-<!-- dtl:block:FreeTime -->
+<!-- dtl:block:TicketFreeTime -->
+#<!-- dtl:block:TicketFreeTime1 -->
+#                <tr>
+#                  <td colspan="2" class="contentkey">$Text{"$Config{"TicketFreeTimeKey1"}"}:</td>
+#                  <td class="contentvalue">$Data{"TicketFreeTime1"}</td>
+#                </tr>
+#<!-- dtl:block:TicketFreeTime1 -->
+#<!-- dtl:block:TicketFreeTime2 -->
+#                <tr>
+#                  <td colspan="2" class="contentkey">$Text{"$Config{"TicketFreeTimeKey2"}"}:</td>
+#                  <td class="contentvalue">$Data{"TicketFreeTime2"}</td>
+#                </tr>
+#<!-- dtl:block:TicketFreeTime2 -->
+<!-- dtl:block:ArticleFreeText -->
+                <tr>
+                  <td colspan="2" class="contentkey">$Data{"ArticleFreeKeyField"}:</td>
+                  <td class="contentvalue">$Data{"ArticleFreeTextField"}</td>
+                </tr>
+<!-- dtl:block:ArticleFreeText -->
+#<!-- dtl:block:ArticleFreeText1 -->
+#                <tr>
+#                  <td colspan="2" class="contentkey">$Data{"ArticleFreeKeyField1"}:</td>
+#                  <td class="contentvalue">$Data{"ArticleFreeTextField1"}</td>
+#                </tr>
+#<!-- dtl:block:ArticleFreeText1 -->
+#<!-- dtl:block:ArticleFreeText2 -->
+#                <tr>
+#                  <td colspan="2" class="contentkey">$Data{"ArticleFreeKeyField2"}:</td>
+#                  <td class="contentvalue">$Data{"ArticleFreeTextField2"}</td>
+#                </tr>
+#<!-- dtl:block:ArticleFreeText2 -->
 <!-- dtl:block:TimeUnits -->
                 <tr>
                   <td colspan="2" class="contentkey">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</td>
@@ -243,7 +269,7 @@ function change_selected(sel)
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" accesskey="g" type="submit" value="$Text{"submit"}" onclick="return submit_compose();">
+              <input class="button" accesskey="g" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();">
             </td>
           </tr>
         </table>

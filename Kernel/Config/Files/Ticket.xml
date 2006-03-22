@@ -148,7 +148,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.92 2006-03-20 21:29:02 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.93 2006-03-22 07:29:24 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -227,6 +227,18 @@ TimeWorkingHours
             <Option SelectedID="ArticleLastSender">
                 <Item Key="ArticleLastSender">ArticleLastSender</Item>
                 <Item Key="ArticleSeen">ArticleSeen</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Responsible" Required="0" Valid="1">
+        <Description Lang="en">Enable ticket responsible feature.</Description>
+        <Description Lang="de">Aktivieren des Ticket-Verantwortlichkeits-Featues.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="1">Yes</Item>
+                <Item Key="0">No</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -938,6 +950,137 @@ TimeWorkingHours
             <String>Termin2</String>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="ArticleFreeKey1" Required="0" Valid="0">
+        <Description Lang="en">Define the free key field 1 for articles. With this setting you can define an new article property.</Description>
+        <Description Lang="de">Definition des Freien-Schlüssel-Feldes 1 für Artikeln. Damit kann eine neue Artikel-Eigenschaft definiert werden.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::ArticleFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Work">Work</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="ArticleFreeKey1::DefaultSelection" Required="0" Valid="0">
+        <Description Lang="en">The default selection of article free text field 1 if more then one option is defined.</Description>
+        <Description Lang="de">Die Standard-Auswahl des Freier-Text-Feldes 1 wenn mehrere Optionen definiert sind.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::ArticleFreeText</SubGroup>
+        <Setting>
+            <String Regex=""></String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="ArticleFreeText1" Required="0" Valid="0">
+        <Description Lang="en">Define the free text field 1 for article. It's a new article property.</Description>
+        <Description Lang="de">Definition des Freier-Text-Feldes 1 für Artikel. Es ist eine neue Artikel-Eigenschaft.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::ArticleFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="">-</Item>
+                <Item Key="Research">Research</Item>
+                <Item Key="Bugfix">Bugfix</Item>
+                <Item Key="Consulting">Consulting</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="ArticleFreeText1::DefaultSelection" Required="0" Valid="0">
+        <Description Lang="en">The default selection of free text field 1 if more then one option is defined.</Description>
+        <Description Lang="de">Die Standard-Auswahl des Freier-Text-Feldes 1 wenn mehrere Optionen definiert sind.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::ArticleFreeText</SubGroup>
+        <Setting>
+            <String Regex="">Research</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="ArticleFreeKey2" Required="0" Valid="0">
+        <Description Lang="en">Define the free key field 2 for articles. It's a new article property.</Description>
+        <Description Lang="de">Definition des Freier-Key-Feldes 2 für Artikel. Es ist eine neue Artikel-Eigenschaft.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::ArticleFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="">-</Item>
+                <Item Key="Work">Work</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="ArticleFreeKey2::DefaultSelection" Required="0" Valid="0">
+        <Description Lang="en">The default selection of free key field 2 if more then one option is defined.</Description>
+        <Description Lang="de">Die Standard-Auswahl des Freier-Schlüssel-Feldes 2 wenn mehrere Optionen definiert sind.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::ArticleFreeText</SubGroup>
+        <Setting>
+            <String Regex=""></String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="ArticleFreeText2" Required="0" Valid="0">
+        <Description Lang="en">Define the free text field 2 for articles. It's a new article poperty.</Description>
+        <Description Lang="de">Definition des Freier-Text-Feldes 2 für Artikel. Es ist eine neue Artikel-Eigenschaft.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::ArticleFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="">-</Item>
+                <Item Key="Research">Research</Item>
+                <Item Key="Bugfix">Bugfix</Item>
+                <Item Key="Consulting">Consulting</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="ArticleFreeText2::DefaultSelection" Required="0" Valid="0">
+        <Description Lang="en">The default selection of free text field 2 if more then one option is defined.</Description>
+        <Description Lang="de">Die Standard-Auswahl des Freier-Text-Feldes 2 wenn mehrere Optionen definiert sind.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::ArticleFreeText</SubGroup>
+        <Setting>
+            <String Regex="">Research</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="ArticleFreeKey3" Required="0" Valid="0">
+        <Description Lang="en">Define the free key field 3 for articles. It's a new article property.</Description>
+        <Description Lang="de">Definition des Freier-Schlüssel-Feldes 3 für Artikel. Es ist eine neue Artikel-Eigenschaft.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::ArticleFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="">-</Item>
+                <Item Key="Work">Work</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="ArticleFreeKey3::DefaultSelection" Required="0" Valid="0">
+        <Description Lang="en">The default selection of free text field 3 if more then one option is defined.</Description>
+        <Description Lang="de">Die Standard-Auswahl des Freier-Text-Feldes 3 wenn mehrere Optionen definiert sind.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::ArticleFreeText</SubGroup>
+        <Setting>
+            <String Regex=""></String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="ArticleFreeText3" Required="0" Valid="0">
+        <Description Lang="en">Define the free text field 3 for article. It's a new article ticket property.</Description>
+        <Description Lang="de">Definition des Freier-Text-Feldes 3 für Artikel. Es ist eine neue Artikel-Eigenschaft.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::ArticleFreeText</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="">-</Item>
+                <Item Key="Research">Research</Item>
+                <Item Key="Bugfix">Bugfix</Item>
+                <Item Key="Consulting">Consulting</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="ArticleFreeText3::DefaultSelection" Required="0" Valid="0">
+        <Description Lang="en">The default selection of free text field 3 if more then one option is defined.</Description>
+        <Description Lang="de">Die Standard-Auswahl des Freier-Text-Feldes 3 wenn mehrere Optionen definiert sind.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::ArticleFreeText</SubGroup>
+        <Setting>
+            <String Regex="">Research</String>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::NumberGenerator" Required="1" Valid="1">
         <Description Lang="en">Select the ticket number generator module. "AutoIncrement" just increments the ticket number, the SystemID and the counter are used. The format is SystemID.counter, e.g. 1010138, 1010139. With "Date" the ticket numbers will be generated by the current date, the SystemID and the counter. The format looks like Year.Month.Day.SystemID.counter, e.g. 200206231010138, 200206231010139. With "DateChecksum"  the counter will be appended as check summ to the string of date and SystemID. The check summ will be rotaded daily. The format looks like Year.Month.Day.SystemID.Counter.CheckSum, e.g. 2002070110101520, 2002070110101535. "Random" generates randomized ticket numbers in the format "SystemID.Random", e.g. 100057866352, 103745394596.</Description>
         <Description Lang="de">Auswahl des Moduls zur Generierung der Ticketnummern. "AutoIncrement" zählt die Ticketnummer automatisch hoch und verbindet sie mit der SystemID. Es wird das Format SystemID. Counter verwendet, z. B. 1010138, 1010139. "Date" generiert die Ticketnummer aus Datum, SystemID und dem Counter, es wird das Format "Jahr.Monat.Tag.SystemID.Counter verwendet, z. B. 200206231010138, 200206231010139. "DateChecksum" erzeugt die Ticketnummer aus dem Datum, der SystemID, dem Counter und einer Checksumme. Es wird das Format "Jahr.Monat.Tag.SystemID.Counter.CheckSumme verwendet, z. B. 2002070110101520, 2002070110101535. "Random" generiert aus der SystemID und einer Zufallszahl die Ticketnummern. Es wird das Format SystemID.Random verwendet, z. B. 100057866352, 103745394596.</Description>
@@ -1552,8 +1695,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###TicketFreeText" Required="0" Valid="1">
-        <Description Lang="en">Shown free text options.</Description>
-        <Description Lang="de">Gezeigte Frei-Text-Felder.</Description>
+        <Description Lang="en">Shown ticket free text options.</Description>
+        <Description Lang="de">Gezeigte Ticket-Frei-Text-Felder.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
         <Setting>
@@ -1765,8 +1908,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketFreeText###TicketFreeText" Required="0" Valid="1">
-        <Description Lang="en">Shown free text options.</Description>
-        <Description Lang="de">Gezeigte Frei-Text-Felder.</Description>
+        <Description Lang="en">Shown ticket free text options.</Description>
+        <Description Lang="de">Gezeigte Ticket-Frei-Text-Felder.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewFreeText</SubGroup>
         <Setting>
@@ -1885,8 +2028,8 @@ TimeWorkingHours
     </ConfigItem>
 
     <ConfigItem Name="Ticket::Frontend::AgentTicketPhoneOutbound###TicketFreeText" Required="0" Valid="1">
-        <Description Lang="en">Shown free text options.</Description>
-        <Description Lang="de">Gezeigte Frei-Text-Felder.</Description>
+        <Description Lang="en">Shown ticket free text options.</Description>
+        <Description Lang="de">Gezeigte Ticket-Frei-Text-Felder.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPhoneOutbound</SubGroup>
         <Setting>
@@ -2065,8 +2208,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPhone###TicketFreeText" Required="0" Valid="1">
-        <Description Lang="en">Shown free text options.</Description>
-        <Description Lang="de">Gezeigte Frei-Text-Felder.</Description>
+        <Description Lang="en">Shown ticket free text options.</Description>
+        <Description Lang="de">Gezeigte Ticket-Frei-Text-Felder.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
         <Setting>
@@ -2199,8 +2342,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###TicketFreeText" Required="0" Valid="1">
-        <Description Lang="en">Shown free text options.</Description>
-        <Description Lang="de">Gezeigte Frei-Text-Felder.</Description>
+        <Description Lang="en">Shown ticket free text options.</Description>
+        <Description Lang="de">Gezeigte Ticket-Frei-Text-Felder.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
         <Setting>
@@ -2430,8 +2573,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketClose###TicketFreeText" Required="0" Valid="1">
-        <Description Lang="en">Shown free text options.</Description>
-        <Description Lang="de">Gezeigte Frei-Text-Felder.</Description>
+        <Description Lang="en">Shown ticket free text options.</Description>
+        <Description Lang="de">Gezeigte Ticket-Frei-Text-Felder.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
         <Setting>
@@ -2464,6 +2607,19 @@ TimeWorkingHours
             <Hash>
                 <Item Key="1">0</Item>
                 <Item Key="2">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketClose###ArticleFreeText" Required="0" Valid="1">
+        <Description Lang="en">Shown article free text options.</Description>
+        <Description Lang="de">Gezeigte Artikel-Frei-Text-Felder.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="1">0</Item>
+                <Item Key="2">0</Item>
+                <Item Key="3">0</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -2664,8 +2820,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketNote###TicketFreeText" Required="0" Valid="1">
-        <Description Lang="en">Shown free text options.</Description>
-        <Description Lang="de">Gezeigte Frei-Text-Felder.</Description>
+        <Description Lang="en">Shown ticket free text options.</Description>
+        <Description Lang="de">Gezeigte Ticket-Frei-Text-Felder.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
         <Setting>
@@ -2698,6 +2854,19 @@ TimeWorkingHours
             <Hash>
                 <Item Key="1">0</Item>
                 <Item Key="2">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketNote###ArticleFreeText" Required="0" Valid="1">
+        <Description Lang="en">Shown article free text options.</Description>
+        <Description Lang="de">Gezeigte Artikel-Frei-Text-Felder.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="1">0</Item>
+                <Item Key="2">0</Item>
+                <Item Key="3">0</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -2897,8 +3066,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###TicketFreeText" Required="0" Valid="1">
-        <Description Lang="en">Shown free text options.</Description>
-        <Description Lang="de">Gezeigte Frei-Text-Felder.</Description>
+        <Description Lang="en">Shown ticket free text options.</Description>
+        <Description Lang="de">Gezeigte Ticket-Frei-Text-Felder.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewOwner</SubGroup>
         <Setting>
@@ -2931,6 +3100,19 @@ TimeWorkingHours
             <Hash>
                 <Item Key="1">0</Item>
                 <Item Key="2">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###ArticleFreeText" Required="0" Valid="1">
+        <Description Lang="en">Shown article free text options.</Description>
+        <Description Lang="de">Gezeigte Artikel-Frei-Text-Felder.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewOwner</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="1">0</Item>
+                <Item Key="2">0</Item>
+                <Item Key="3">0</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -3129,8 +3311,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPending###TicketFreeText" Required="0" Valid="1">
-        <Description Lang="en">Shown free text options.</Description>
-        <Description Lang="de">Gezeigte Frei-Text-Felder.</Description>
+        <Description Lang="en">Shown ticket free text options.</Description>
+        <Description Lang="de">Gezeigte Ticket-Frei-Text-Felder.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
         <Setting>
@@ -3163,6 +3345,19 @@ TimeWorkingHours
             <Hash>
                 <Item Key="1">0</Item>
                 <Item Key="2">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPending###ArticleFreeText" Required="0" Valid="1">
+        <Description Lang="en">Shown article free text options.</Description>
+        <Description Lang="de">Gezeigte Artikel-Frei-Text-Felder.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="1">0</Item>
+                <Item Key="2">0</Item>
+                <Item Key="3">0</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -3200,7 +3395,7 @@ TimeWorkingHours
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
         <Setting>
-            <Option SelectedID="0">
+            <Option SelectedID="1">
                 <Item Key="0">No</Item>
                 <Item Key="1">Yes</Item>
             </Option>
@@ -3362,8 +3557,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###TicketFreeText" Required="0" Valid="1">
-        <Description Lang="en">Shown free text options.</Description>
-        <Description Lang="de">Gezeigte Frei-Text-Felder.</Description>
+        <Description Lang="en">Shown ticket free text options.</Description>
+        <Description Lang="de">Gezeigte Ticket-Frei-Text-Felder.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
         <Setting>
@@ -3396,6 +3591,19 @@ TimeWorkingHours
             <Hash>
                 <Item Key="1">0</Item>
                 <Item Key="2">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###ArticleFreeText" Required="0" Valid="1">
+        <Description Lang="en">Shown article free text options.</Description>
+        <Description Lang="de">Gezeigte Artikel-Frei-Text-Felder.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="1">0</Item>
+                <Item Key="2">0</Item>
+                <Item Key="3">0</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -3595,8 +3803,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###TicketFreeText" Required="0" Valid="1">
-        <Description Lang="en">Shown free text options.</Description>
-        <Description Lang="de">Gezeigte Frei-Text-Felder.</Description>
+        <Description Lang="en">Shown ticket free text options.</Description>
+        <Description Lang="de">Gezeigte Ticket-Frei-Text-Felder.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
         <Setting>
@@ -3629,6 +3837,19 @@ TimeWorkingHours
             <Hash>
                 <Item Key="1">0</Item>
                 <Item Key="2">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###ArticleFreeText" Required="0" Valid="1">
+        <Description Lang="en">Shown article free text options.</Description>
+        <Description Lang="de">Gezeigte Artikel-Frei-Text-Felder.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="1">0</Item>
+                <Item Key="2">0</Item>
+                <Item Key="3">0</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -3763,6 +3984,15 @@ $QData{"Signature"}
 </TextArea>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::Quote" Required="0" Valid="1">
+        <Description Lang="en">Char for email quotes.</Description>
+        <Description Lang="de">Zeichen für Email Quotes.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewCompose</SubGroup>
+        <Setting>
+            <String Regex="">&gt;</String>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::ComposeReplaceSenderAddress" Required="1" Valid="1">
         <Description Lang="en">Replace on compose answer the original sender with current customers email address.</Description>
         <Description Lang="de">Beim Antwort erstellen originale Sender-Email mit der Email des derzeitigen Kunden ersetzen.</Description>
@@ -3776,8 +4006,8 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketCompose###TicketFreeText" Required="0" Valid="1">
-        <Description Lang="en">Shown free text options.</Description>
-        <Description Lang="de">Gezeigte Frei-Text-Felder.</Description>
+        <Description Lang="en">Shown ticket free text options.</Description>
+        <Description Lang="de">Gezeigte Ticket-Frei-Text-Felder.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewCompose</SubGroup>
         <Setting>
@@ -3813,7 +4043,19 @@ $QData{"Signature"}
             </Hash>
         </Setting>
     </ConfigItem>
-
+    <ConfigItem Name="Ticket::Frontend::AgentTicketCompose###ArticleFreeText" Required="0" Valid="1">
+        <Description Lang="en">Shown article free text options.</Description>
+        <Description Lang="de">Gezeigte Artikel-Frei-Text-Felder.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewCompose</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="1">0</Item>
+                <Item Key="2">0</Item>
+                <Item Key="3">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketForward###Permission" Required="1" Valid="1">
         <Description Lang="en">Required permisson to use this option.</Description>
         <Description Lang="de">Benötigte Rechte zur Bearbeitung des Tickets.</Description>
@@ -3878,8 +4120,8 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketForward###TicketFreeText" Required="0" Valid="1">
-        <Description Lang="en">Shown free text options.</Description>
-        <Description Lang="de">Gezeigte Frei-Text-Felder.</Description>
+        <Description Lang="en">Shown ticket free text options.</Description>
+        <Description Lang="de">Gezeigte Ticket-Frei-Text-Felder.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewForward</SubGroup>
         <Setting>
@@ -4417,7 +4659,7 @@ $QData{"Signature"}
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
+                <Item Key="Module">Kernel::Output::HTML::TicketMenuResponsible</Item>
                 <Item Key="Name">Responsible</Item>
                 <Item Key="Description">Change the ticket responsible!</Item>
                 <Item Key="Action">AgentTicketResponsible</Item>
@@ -5074,8 +5316,8 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerTicketMessage###TicketFreeText" Required="0" Valid="1">
-        <Description Lang="en">Shown free text options.</Description>
-        <Description Lang="de">Gezeigte Frei-Text-Felder.</Description>
+        <Description Lang="en">Shown ticket free text options.</Description>
+        <Description Lang="de">Gezeigte Ticket-Frei-Text-Felder.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::Ticket::ViewNew</SubGroup>
         <Setting>
@@ -5278,8 +5520,8 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerTicketSearch###TicketFreeText" Required="0" Valid="1">
-        <Description Lang="en">Shown free text options.</Description>
-        <Description Lang="de">Gezeigte Frei-Text-Felder.</Description>
+        <Description Lang="en">Shown ticket free text options.</Description>
+        <Description Lang="de">Gezeigte Ticket-Frei-Text-Felder.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::Ticket::ViewSearch</SubGroup>
         <Setting>
