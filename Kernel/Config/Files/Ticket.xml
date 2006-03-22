@@ -148,7 +148,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.93 2006-03-22 07:29:24 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.94 2006-03-22 22:38:00 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -2065,6 +2065,19 @@ TimeWorkingHours
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPhoneOutbound###ArticleFreeText" Required="0" Valid="1">
+        <Description Lang="en">Shown article free text options.</Description>
+        <Description Lang="de">Gezeigte Artikel-Frei-Text-Felder.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhoneOutbound</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="1">0</Item>
+                <Item Key="2">0</Item>
+                <Item Key="3">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPhoneOutbound###HistoryType" Required="1" Valid="1">
         <Description Lang="en">Default history type for phone tickets.</Description>
         <Description Lang="de">Standard History-Typ für Telefontickets.</Description>
@@ -2245,6 +2258,19 @@ TimeWorkingHours
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPhone###ArticleFreeText" Required="0" Valid="1">
+        <Description Lang="en">Shown article free text options.</Description>
+        <Description Lang="de">Gezeigte Artikel-Frei-Text-Felder.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="1">0</Item>
+                <Item Key="2">0</Item>
+                <Item Key="3">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPhone###HistoryType" Required="1" Valid="1">
         <Description Lang="en">Default history type for new phone tickets.</Description>
         <Description Lang="de">Standard Historie-Typ bei neuen Telefontickets.</Description>
@@ -2376,6 +2402,19 @@ TimeWorkingHours
             <Hash>
                 <Item Key="1">0</Item>
                 <Item Key="2">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###ArticleFreeText" Required="0" Valid="1">
+        <Description Lang="en">Shown article free text options.</Description>
+        <Description Lang="de">Gezeigte Artikel-Frei-Text-Felder.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="1">0</Item>
+                <Item Key="2">0</Item>
+                <Item Key="3">0</Item>
             </Hash>
         </Setting>
     </ConfigItem>
