@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/NavBarLockedTickets.pm
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NavBarLockedTickets.pm,v 1.5 2005-07-23 09:32:36 martin Exp $
+# $Id: NavBarLockedTickets.pm,v 1.6 2006-03-22 07:28:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,10 +14,9 @@ package Kernel::Output::HTML::NavBarLockedTickets;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -32,11 +31,31 @@ sub new {
     }
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
     my %Return = ();
+    # get responsible
+    if ($Self->{ConfigObject}->Get('Ticket::Responsible')) {
+        my @ViewableTickets = $Self->{TicketObject}->TicketSearch(
+            Result => 'ARRAY',
+            Limit => 1000,
+            StateType => 'Open',
+            ResponsibleIDs => [$Self->{UserID}],
+            UserID => 1,
+            Permission => 'ro',
+        );
+        my $Text = $Self->{LayoutObject}->{LanguageObject}->Get('Responsible')." (".@ViewableTickets.")";
+        $Return{'0999899'} = {
+            Block => 'ItemPersonal',
+            Description => $Text,
+            Name => $Text,
+            Image => 'folder_yellow.png',
+            Link => 'Action=AgentTicketMailbox&Subaction=Responsible',
+            AccessKey => 'r',
+        };
+    }
     # get user lock data
     my %LockedData = $Self->{TicketObject}->GetLockedCount(UserID => $Self->{UserID});
 
@@ -60,6 +79,5 @@ sub Run {
     };
     return %Return;
 }
-# --
 
 1;
