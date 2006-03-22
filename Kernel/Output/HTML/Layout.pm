@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Layout.pm,v 1.1 2006-03-22 07:24:02 martin Exp $
+# $Id: Layout.pm,v 1.2 2006-03-22 22:31:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -253,7 +253,7 @@ sub _BlockTemplatePreferences {
     my $CurrentLayer = '';
     my %UsedNames = ();
     my $TemplateFile = $Param{TemplateFile} || '';
-    if (!$Param{Template}) {
+    if (!defined($Param{Template})) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need Template!");
         return;
     }
@@ -2576,6 +2576,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2006-03-22 07:24:02 $
+$Revision: 1.2 $ $Date: 2006-03-22 22:31:10 $
 
 =cut
