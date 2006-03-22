@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketNote.pm - to add notes to a ticket
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketNote.pm,v 1.12 2006-03-22 07:29:58 martin Exp $
+# $Id: AgentTicketNote.pm,v 1.13 2006-03-22 22:35:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -907,6 +907,7 @@ sub _Mask {
                 Data => {
                     ArticleFreeKeyField => $Param{'ArticleFreeKeyField'.$Count},
                     ArticleFreeTextField => $Param{'ArticleFreeTextField'.$Count},
+                    Count => $Count,
                 },
             );
             $Self->{LayoutObject}->Block(

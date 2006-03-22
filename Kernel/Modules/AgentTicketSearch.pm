@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketSearch.pm,v 1.15 2006-03-22 07:33:11 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.16 2006-03-22 22:36:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -806,6 +806,7 @@ sub MaskForm {
                 Data => {
                     TicketFreeKeyField => $Param{'TicketFreeKeyField'.$Count},
                     TicketFreeTextField => $Param{'TicketFreeTextField'.$Count},
+                    Count => $Count,
                 },
             );
             $Self->{LayoutObject}->Block(
