@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketZoom.dtl,v 1.9 2006-03-20 21:36:50 martin Exp $
+# $Id: AgentTicketZoom.dtl,v 1.10 2006-03-22 07:33:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -182,10 +182,18 @@ $Data{"Body"}
 # use ticket is pending
         <dtl if ($Data{"PendingUntil"} ne "") { $Data{"PendingUntilString"} = "<tr valign="top"><td><b>$Text{"Pending till"}:</b></td><td>$Data{"PendingUntil"}</td></tr>"; }>
         $Data{"PendingUntilString"}
+<!-- dtl:block:Owner -->
         <tr  valign="top">
           <td><b>$Text{"Owner"}:</b></td>
-          <td><div title="$QData{"Owner"} ($QData{"UserFirstname"}$QData{"UserLastname"})">$QData{"Owner","18"} ($Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","18"})</div></td>
+          <td><div title="$QData{"UserLogin"} ($QData{"UserFirstname"}$QData{"UserLastname"})">$QData{"UserLogin","18"} ($Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","18"})</div></td>
         </tr>
+<!-- dtl:block:Owner -->
+<!-- dtl:block:Responsible -->
+        <tr  valign="top">
+          <td><b>$Text{"Responsible"}:</b></td>
+          <td><div title="$QData{"UserLogin"} ($QData{"UserFirstname"}$QData{"UserLastname"})">$QData{"UserLogin","18"} ($Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","18"})</div></td>
+        </tr>
+<!-- dtl:block:Responsible -->
 # object links
         <tr valign="top">
           <td><b>$Text{"Linked"} ($Text{"Normal"}):</b></td>

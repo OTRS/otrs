@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketZoom.pm,v 1.17 2006-03-20 21:29:02 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.18 2006-03-22 07:33:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -142,11 +142,6 @@ sub Run {
     );
     # fetch all std. responses
     my %StdResponses = $Self->{QueueObject}->GetStdResponses(QueueID => $Ticket{QueueID});
-    # user info
-    my %UserInfo = $Self->{UserObject}->GetUserData(
-        User => $Ticket{Owner},
-        Cached => 1
-    );
     # customer info
     my %CustomerData = ();
     if ($Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoZoom')) {
@@ -175,7 +170,6 @@ sub Run {
         ArticleBox => \@ArticleBox,
         CustomerData => \%CustomerData,
         TicketTimeUnits => $Self->{TicketObject}->TicketAccountedTimeGet(%Ticket),
-        %UserInfo,
         %Ticket,
     );
     # add footer
@@ -187,6 +181,16 @@ sub Run {
 sub MaskAgentZoom {
     my $Self = shift;
     my %Param = @_;
+    # owner info
+    my %UserInfo = $Self->{UserObject}->GetUserData(
+        UserID => $Param{OwnerID},
+        Cached => 1
+    );
+    # responsible info
+    my %ResponsibleInfo = $Self->{UserObject}->GetUserData(
+        UserID => $Param{ResponsibleID} || 1,
+        Cached => 1
+    );
     # get ack actions
     $Self->{TicketObject}->TicketAcl(
         Data => '-',
@@ -366,6 +370,16 @@ sub MaskAgentZoom {
                  Name => 'Status',
                  Data => {%Param, %AclAction},
             );
+            $Self->{LayoutObject}->Block(
+                 Name => 'Owner',
+                 Data => {%Param, %UserInfo, %AclAction},
+            );
+            if ($Self->{ConfigObject}->Get('Ticket::Responsible')) {
+                $Self->{LayoutObject}->Block(
+                     Name => 'Responsible',
+                     Data => {%Param, %ResponsibleInfo, %AclAction},
+                );
+            }
             $Self->{LayoutObject}->Block(
                  Name => 'Tree',
                  Data => {%Param, %Article, %AclAction},
