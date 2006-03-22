@@ -2,7 +2,7 @@
 # AgentTicketFreeText.dtl - provides HTML for AgentFreeText mask
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketFreeText.dtl,v 1.8 2006-03-04 11:34:53 martin Exp $
+# $Id: AgentTicketFreeText.dtl,v 1.9 2006-03-22 07:27:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -105,7 +105,7 @@ function submit_compose()
         </tr>
         <tr>
           <td class="contentfooter">
-            <input class="button" accesskey="g" type="submit" value="$Text{"update"}" onclick="return submit_compose();">
+            <input class="button" accesskey="g" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();">
           </td>
         </tr>
       </table>
