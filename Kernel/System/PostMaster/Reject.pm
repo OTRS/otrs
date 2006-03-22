@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Reject.pm - the sub part of PostMaster.pm
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Reject.pm,v 1.2 2006-01-07 16:26:50 martin Exp $
+# $Id: Reject.pm,v 1.3 2006-03-22 07:22:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::Reject;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -121,12 +121,13 @@ sub Run {
     # --
     # set free article text
     # --
-    my @Values = ('X-OTRS-ArticleKey', 'X-OTRS-ArticleValue');
+    my @Values = ('X-OTRS-FollowUp-ArticleKey', 'X-OTRS-FollowUp-ArticleValue');
     my $CounterTmp = 0;
     while ($CounterTmp <= 3) {
         $CounterTmp++;
         if ($GetParam{"$Values[0]$CounterTmp"}) {
             $Self->{TicketObject}->ArticleFreeTextSet(
+                TicketID => $Param{TicketID},
                 ArticleID => $ArticleID,
                 Key => $GetParam{"$Values[0]$CounterTmp"},
                 Value => $GetParam{"$Values[1]$CounterTmp"},

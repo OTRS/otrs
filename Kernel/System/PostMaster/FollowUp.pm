@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/FollowUp.pm - the sub part of PostMaster.pm
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FollowUp.pm,v 1.42 2006-03-04 11:13:37 martin Exp $
+# $Id: FollowUp.pm,v 1.43 2006-03-22 07:22:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::User;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -207,12 +207,13 @@ sub Run {
         );
     }
     # set free article text
-    @Values = ('X-OTRS-FollowUp-ArticleKey', 'X-OTRS-ArticleValue');
+    @Values = ('X-OTRS-FollowUp-ArticleKey', 'X-OTRS-FollowUp-ArticleValue');
     $CounterTmp = 0;
     while ($CounterTmp <= 3) {
         $CounterTmp++;
         if ($GetParam{"$Values[0]$CounterTmp"}) {
             $Self->{TicketObject}->ArticleFreeTextSet(
+                TicketID => $Param{TicketID},
                 ArticleID => $ArticleID,
                 Key => $GetParam{"$Values[0]$CounterTmp"},
                 Value => $GetParam{"$Values[1]$CounterTmp"},
