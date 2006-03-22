@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminSelectBox.pm - provides a SelectBox for admins
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSelectBox.pm,v 1.18 2005-10-09 07:07:56 martin Exp $
+# $Id: AdminSelectBox.pm,v 1.18.2.1 2006-03-22 17:33:39 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminSelectBox;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.18.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -74,7 +74,7 @@ sub Run {
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Notify(
                 Priority => 'Error',
-                Data => '$Text{"Either your SQL syntax wasnt correct. Please only use syntacticaly correct SELECT statements in this interface!"}',
+                Data => '$Text{"Your SQL syntax wasnt correct. Please only use syntactical correct SELECT statements in this interface!"}',
             );
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AdminSelectBoxForm',
