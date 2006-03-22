@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/TicketMenuLock.pm
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TicketMenuLock.pm,v 1.2 2005-02-17 07:09:28 martin Exp $
+# $Id: TicketMenuLock.pm,v 1.3 2006-03-22 07:28:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::TicketMenuLock;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -43,6 +43,18 @@ sub Run {
         return;
     }
 
+    # check permission
+    if ($Self->{TicketObject}->LockIsTicketLocked(TicketID => $Param{TicketID})) {
+        my $AccessOk = $Self->{TicketObject}->OwnerCheck(
+            TicketID => $Param{TicketID},
+            OwnerID => $Self->{UserID},
+        );
+        if (!$AccessOk) {
+            return $Param{Counter};
+        }
+    }
+
+    # check acl
     if (!defined($Param{ACL}->{$Param{Config}->{Action}}) || $Param{ACL}->{$Param{Config}->{Action}}) {
         $Self->{LayoutObject}->Block(
             Name => 'Menu',
