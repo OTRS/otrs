@@ -2,7 +2,7 @@
 # AgentTicketSearch.dtl - provides HTML form for AgentTicketSearch
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketSearch.dtl,v 1.10 2006-03-22 07:33:11 martin Exp $
+# $Id: AgentTicketSearch.dtl,v 1.11 2006-03-22 22:37:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -96,18 +96,18 @@
             <td class="contentbody">$Data{"TicketFreeTextField"}</td>
           </tr>
 <!-- dtl:block:TicketFreeText -->
-<!-- dtl:block:TicketFreeText1 -->
-          <tr>
-            <td class="contentbody">$Data{"TicketFreeKeyField1"}</td>
-            <td class="contentbody">$Data{"TicketFreeTextField1"}</td>
-          </tr>
-<!-- dtl:block:TicketFreeText1 -->
-<!-- dtl:block:TicketFreeText2 -->
-          <tr>
-            <td class="contentbody">$Data{"TicketFreeKeyField2"}</td>
-            <td class="contentbody">$Data{"TicketFreeTextField2"}</td>
-          </tr>
-<!-- dtl:block:TicketFreeText2 -->
+#<!-- dtl:block:TicketFreeText1 -->
+#          <tr>
+#            <td class="contentbody">$Data{"TicketFreeKeyField1"}</td>
+#            <td class="contentbody">$Data{"TicketFreeTextField1"}</td>
+#          </tr>
+#<!-- dtl:block:TicketFreeText1 -->
+#<!-- dtl:block:TicketFreeText2 -->
+#          <tr>
+#            <td class="contentbody">$Data{"TicketFreeKeyField2"}</td>
+#            <td class="contentbody">$Data{"TicketFreeTextField2"}</td>
+#          </tr>
+#<!-- dtl:block:TicketFreeText2 -->
 <!-- dtl:block:TicketFreeTime -->
           <tr>
             <td colspan="2" class="contentbody">$Text{"$QData{"TicketFreeTimeKey"}"}
@@ -116,22 +116,22 @@
             </td>
           </tr>
 <!-- dtl:block:TicketFreeTime -->
-<!-- dtl:block:TicketFreeTime1 -->
-          <tr>
-            <td colspan="2" class="contentbody">$Text{"$Config{"TicketFreeTimeKey1"}"}
-              <input type="checkbox" name="TicketFreeTime1" value="checked" $QData{"TicketFreeTime1"}>
-              $Text{"Between"} $Data{"TicketFreeTime1Start"} $Text{"and"} $Data{"TicketFreeTime1Stop"}
-            </td>
-          </tr>
-<!-- dtl:block:TicketFreeTime1 -->
-<!-- dtl:block:TicketFreeTime2 -->
-          <tr>
-            <td colspan="2" class="contentbody">$Text{"$Config{"TicketFreeTimeKey2"}"}
-              <input type="checkbox" name="TicketFreeTime2" value="checked" $QData{"TicketFreeTime2"}>
-              $Text{"Between"} $Data{"TicketFreeTime2Start"} $Text{"and"} $Data{"TicketFreeTime2Stop"}
-            </td>
-          </tr>
-<!-- dtl:block:TicketFreeTime2 -->
+#<!-- dtl:block:TicketFreeTime1 -->
+#          <tr>
+#            <td colspan="2" class="contentbody">$Text{"$Config{"TicketFreeTimeKey1"}"}
+#              <input type="checkbox" name="TicketFreeTime1" value="checked" $QData{"TicketFreeTime1"}>
+#              $Text{"Between"} $Data{"TicketFreeTime1Start"} $Text{"and"} $Data{"TicketFreeTime1Stop"}
+#            </td>
+#          </tr>
+#<!-- dtl:block:TicketFreeTime1 -->
+#<!-- dtl:block:TicketFreeTime2 -->
+#          <tr>
+#            <td colspan="2" class="contentbody">$Text{"$Config{"TicketFreeTimeKey2"}"}
+#              <input type="checkbox" name="TicketFreeTime2" value="checked" $QData{"TicketFreeTime2"}>
+#              $Text{"Between"} $Data{"TicketFreeTime2Start"} $Text{"and"} $Data{"TicketFreeTime2Stop"}
+#            </td>
+#          </tr>
+#<!-- dtl:block:TicketFreeTime2 -->
           <tr>
             <td width="50%" class="contenthead">$Text{"Priority"}</td>
             <td width="50%" class="contenthead">$Text{"State"}</td>
