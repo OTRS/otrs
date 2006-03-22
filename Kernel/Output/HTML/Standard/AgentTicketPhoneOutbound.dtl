@@ -2,7 +2,7 @@
 # AgentPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPhoneOutbound.dtl,v 1.1 2006-03-04 11:41:37 martin Exp $
+# $Id: AgentTicketPhoneOutbound.dtl,v 1.2 2006-03-22 07:35:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -71,68 +71,68 @@ $Include{"AgentTicketLocked"}
 
       <p>
 
-      <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
-        <input type="hidden" name="Action" value="$Env{"Action"}">
-        <input type="hidden" name="Subaction" value="Store">
-        <input type="hidden" name="FormID" value="$QData{"FormID"}">
-        <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
-        <table border="0" width="100%">
-          <tr>
-            <td width="20%" class="contentkey">$Text{"Subject"}:</td>
-            <td width="50%" class="contentvalue"><input type="text" name="Subject" value="$QData{"Subject"}" size="60"></td>
-            <td width="30%" rowspan="7" class="contentvalue">
+        <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
+          <input type="hidden" name="Action" value="$Env{"Action"}">
+          <input type="hidden" name="Subaction" value="Store">
+          <input type="hidden" name="FormID" value="$QData{"FormID"}">
+          <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
+          <table border="0" width="100%">
+            <tr>
+              <td width="20%" class="contentkey">$Text{"Subject"}:</td>
+              <td width="50%" class="contentvalue"><input type="text" name="Subject" value="$QData{"Subject"}" size="60"></td>
+              <td width="30%" rowspan="7" class="contentvalue">
 
 # show customer info table
 <!-- dtl:block:CustomerTable -->
-              <p><b>$Text{"Customer Info"}</b>:<br>$Data{"CustomerTable"}</p>
+                <p><b>$Text{"Customer Info"}</b>:<br>$Data{"CustomerTable"}</p>
 <!-- dtl:block:CustomerTable -->
 
-            </td>
-          </tr>
-          <tr>
-            <td class="contentkey">$Text{"Options"}:</td>
-            <td class="contentvalue">
+              </td>
+            </tr>
+            <tr>
+              <td class="contentkey">$Text{"Options"}:</td>
+              <td class="contentvalue">
 <!-- dtl:block:SpellCheck -->
-              $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$Text{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"}
+                $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$Text{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"}
 <!-- dtl:block:SpellCheck -->
-              $Env{"Box0"}<a href="#attachment" onmouseover="window.status='$Text{"Attachments"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}attach.png">$Text{"Attachments"}</a>$Env{"Box1"}
-            </td>
-          </tr>
-          <tr>
-            <td class="contentkey">$Text{"Text"}:</td>
-            <td class="contentvalue"><textarea name="Body" rows="16" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea></td>
-          </tr>
-          <tr>
-            <td class="contentkey">$Text{"Attachment"}:</td>
-            <td class="contentvalue">
-              <table cellspacing="0" cellpadding="0" width="400">
+                $Env{"Box0"}<a href="#attachment" onmouseover="window.status='$Text{"Attachments"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}attach.png">$Text{"Attachments"}</a>$Env{"Box1"}
+              </td>
+            </tr>
+            <tr>
+              <td class="contentkey">$Text{"Text"}:</td>
+              <td class="contentvalue"><textarea name="Body" rows="16" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea></td>
+            </tr>
+            <tr>
+              <td class="contentkey">$Text{"Attachment"}:</td>
+              <td class="contentvalue">
+                <table cellspacing="0" cellpadding="0" width="400">
 <!-- dtl:block:Attachment -->
-                <tr>
-                  <td>$QData{"Filename"}</td>
-                  <td>$QData{"Filesize"}</td>
-                  <td align="right"><input class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}"></td>
-                </tr>
+                  <tr>
+                    <td>$QData{"Filename"}</td>
+                    <td>$QData{"Filesize"}</td>
+                    <td align="right"><input class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}"></td>
+                  </tr>
 <!-- dtl:block:Attachment -->
-                <tr>
-                  <td colspan="2"><input name="file_upload" type="file" size="40" class="fixed"></td><td align="right"><input class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}"><a name="attachment"></td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-          <tr>
-            <td class="contentkey">$Text{"Next ticket state"}:</td>
-            <td class="contentvalue">$Data{"NextStatesStrg"}</td>
-          </tr>
-          <tr>
-            <td class="contentkey">$Text{"Pending Date"} ($Text{"for pending* states"}):</td>
-            <td class="contentvalue">$Data{"PendingDateString"} <font color="red" size="-2">$Text{"$Data{"Date invalid"}"}</font> </td>
-          </tr>
-<!-- dtl:block:FreeText -->
-          <tr>
-            <td class="contentkey">$Data{"TicketFreeKeyField"}</td>
-            <td class="contentvalue">$Data{"TicketFreeTextField"}</td>
-          </tr>
-<!-- dtl:block:FreeText -->
+                  <tr>
+                    <td colspan="2"><input name="file_upload" type="file" size="40" class="fixed"></td><td align="right"><input class="button" type="submit" name="AttachmentUpload" value="$Text{"Attach"}"><a name="attachment"></td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td class="contentkey">$Text{"Next ticket state"}:</td>
+              <td class="contentvalue">$Data{"NextStatesStrg"}</td>
+            </tr>
+            <tr>
+              <td class="contentkey">$Text{"Pending Date"} ($Text{"for pending* states"}):</td>
+              <td class="contentvalue">$Data{"PendingDateString"} <font color="red" size="-2">$Text{"$Data{"Date invalid"}"}</font> </td>
+            </tr>
+<!-- dtl:block:TicketFreeText -->
+            <tr>
+              <td class="contentkey">$Data{"TicketFreeKeyField"}</td>
+              <td class="contentvalue">$Data{"TicketFreeTextField"}</td>
+            </tr>
+<!-- dtl:block:TicketFreeText -->
 #  <tr>
 #    <td class="contentkey">$Data{"TicketFreeKeyField1"}:</td>
 #    <td class="contentvalue">$Data{"TicketFreeTextField1"}</td>
@@ -149,12 +149,12 @@ $Include{"AgentTicketLocked"}
 #    <td class="contentkey">$Data{"TicketFreeKeyField4"}:</td>
 #    <td class="contentvalue">$Data{"TicketFreeTextField4"}</td>
 #  </tr>
-<!-- dtl:block:FreeTime -->
-          <tr>
-            <td class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}</td>
-            <td class="contentvalue">$Data{"TicketFreeTime"}</td>
-          </tr>
-<!-- dtl:block:FreeTime -->
+<!-- dtl:block:TicketFreeTime -->
+            <tr>
+              <td class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}</td>
+              <td class="contentvalue">$Data{"TicketFreeTime"}</td>
+            </tr>
+<!-- dtl:block:TicketFreeTime -->
 #  <tr>
 #    <td class="contentkey">$Text{"$Config{"TicketFreeTimeKey1"}"}:</td>
 #    <td class="contentvalue">$Data{"TicketFreeTime1"}</td>
@@ -164,21 +164,21 @@ $Include{"AgentTicketLocked"}
 #    <td class="contentvalue">$Data{"TicketFreeTime2"}</td>
 #  </tr>
 <!-- dtl:block:TimeUnits -->
-          <tr>
-            <td class="contentkey">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</td>
-            <td class="contentvalue"><input type="text" name="TimeUnits" value="$QData{"TimeUnits"}" size="3"></td>
-          </tr>
+            <tr>
+              <td class="contentkey">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</td>
+              <td class="contentvalue"><input type="text" name="TimeUnits" value="$QData{"TimeUnits"}" size="3"></td>
+            </tr>
 <!-- dtl:block:TimeUnits -->
-        </table>
-        <br>
-        <input accesskey="g" class="button" type="submit" value="$Text{"submit"}" onclick="return submit_compose();">
-      </form>
+          </table>
+          <br>
+          <input accesskey="g" class="button" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();">
+        </form>
 
-      <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
-        <input type="hidden" name="Action" value="AgentSpelling">
-        <input type="hidden" name="Body" value="">
-        <input type="hidden" name="spell_lang" value="">
-      </form>
+        <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
+          <input type="hidden" name="Action" value="AgentSpelling">
+          <input type="hidden" name="Body" value="">
+          <input type="hidden" name="spell_lang" value="">
+        </form>
 
       </p>
 
