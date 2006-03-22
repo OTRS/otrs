@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: de.pm,v 1.102 2006-03-18 20:42:25 martin Exp $
+# $Id: de.pm,v 1.103 2006-03-22 22:39:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.102 $';
+$VERSION = '$Revision: 1.103 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -182,7 +182,7 @@ sub Data {
       'You have %s new message(s)!' => 'Sie haben %s neue Nachricht(en) bekommen!',
       'You have %s reminder ticket(s)!' => 'Sie haben %s Erinnerungs-Ticket(s)!',
       'The recommended charset for your language is %s!' => 'Der empfohlene Zeichensatz für Ihre Sprache ist %s!',
-      'Passwords doesn\'t match! Please try it again!' => 'Passwörter stimme nicht überein! Bitte wiederholen!',
+      'Passwords doesn\'t match! Please try it again!' => 'Passwörter stimmen nicht überein! Bitte wiederholen!',
       'Password is already in use! Please use an other password!' => 'Dieses Password wird bereits benutzt, es kann nicht verwendet werden!',
       'Password is already used! Please use an other password!' => 'Dieses Password wurde bereits benutzt, es kann nicht verwendet werden!',
       'You need to activate %s first to use it!' => '%s muss zuerst aktiviert werden um es zu benutzen!',
@@ -439,6 +439,7 @@ sub Data {
       'Max. shown Tickets a page in QueueView.' => 'Maximale Anzahl angezeigter Tickets pro Seite in der Queue-Ansicht.',
       'Responses' => 'Antworten',
       'Responses <-> Queue' => 'Antworten <-> Queues',
+      'Responsible' => 'Verantwortlicher',
       'Auto Responses' => 'Auto Antworten',
       'Auto Responses <-> Queue' => 'Auto Antworten <-> Queues',
       'Attachments <-> Responses' => 'Anlagen <-> Antworten',
