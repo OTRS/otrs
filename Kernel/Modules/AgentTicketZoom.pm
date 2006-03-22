@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketZoom.pm,v 1.18 2006-03-22 07:33:42 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.19 2006-03-22 22:33:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -390,11 +390,11 @@ sub MaskAgentZoom {
             my $Space = '';
             my $LastSenderType = '';
             foreach my $ArticleTmp (@ArticleBox) {
-                $CounterTree++;
                 my %Article = %$ArticleTmp;
                 my $Start = '';
                 my $Stop = '';
                 if ($Article{ArticleType} !~ /^email-notification/i) {
+                    $CounterTree++;
                     my $TmpSubject = $Self->{TicketObject}->TicketSubjectClean(
                             TicketNumber => $Article{TicketNumber},
                             Subject => $Article{Subject} || '',
