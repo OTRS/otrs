@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminSalutation.pm - to add/update/delete salutations
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSalutation.pm,v 1.18 2005-11-10 22:47:30 martin Exp $
+# $Id: AdminSalutation.pm,v 1.18.2.1 2006-03-22 17:34:37 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminSalutation;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.18.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -83,21 +83,35 @@ sub Run {
         foreach (qw(ID ValidID)) {
             $GetParam{$_} = $Self->{DBObject}->Quote($GetParam{$_}, 'Integer');
         }
-        my $SQL = "UPDATE salutation SET name = '$GetParam{Name}', text = '$GetParam{Salutation}', " .
-        " comments = '$GetParam{Comment}', valid_id = $GetParam{ValidID}, " .
-  	" change_time = current_timestamp, change_by = $Self->{UserID} " .
-	" WHERE id = $GetParam{ID}";
-        if ($Self->{DBObject}->Do(SQL => $SQL)) {
-            $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=$Param{NextScreen}");
+        # Prevent creation of an entry without name
+        if($GetParam{Name} eq '') {
+            my $Output = $Self->{LayoutObject}->Header();
+            $Output .= $Self->{LayoutObject}->NavigationBar();
+            $Output .= $Self->{LayoutObject}->Notify(
+                Priority => 'Error',
+                Data => '$Text{"Please specifiy a name!"}',
+            );
+            $Output .= $Self->_Mask();
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
         }
         else {
-            return $Self->{LayoutObject}->ErrorScreen(
-                Message => 'DB Error!!',
-                Comment => 'Please contact your admin',
-            );
+            my $SQL = "UPDATE salutation SET name = '$GetParam{Name}', text = '$GetParam{Salutation}', " .
+                " comments = '$GetParam{Comment}', valid_id = $GetParam{ValidID}, " .
+                " change_time = current_timestamp, change_by = $Self->{UserID} " .
+                " WHERE id = $GetParam{ID}";
+            if ($Self->{DBObject}->Do(SQL => $SQL)) {
+                $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=$Param{NextScreen}");
+            }
+            else {
+                return $Self->{LayoutObject}->ErrorScreen(
+                    Message => 'DB Error!!',
+                    Comment => 'Please contact your admin',
+                );
+            }
         }
     }
-    # add new user
+    # add new salutation
     elsif ($Self->{Subaction} eq 'AddAction') {
         my %GetParam;
         my @Params = ('Name', 'Comment', 'ValidID', 'Salutation');
@@ -108,15 +122,29 @@ sub Run {
         foreach (qw(ID ValidID)) {
             $GetParam{$_} = $Self->{DBObject}->Quote($GetParam{$_}, 'Integer');
         }
-        my $SQL = "INSERT INTO salutation (name, valid_id, comments, text, create_time, create_by, change_time, change_by)" .
-		" VALUES " .
-		" ('$GetParam{Name}', $GetParam{ValidID}, '$GetParam{Comment}', '$GetParam{Salutation}', " .
-		" current_timestamp, $Self->{UserID}, current_timestamp, $Self->{UserID})";
-        if ($Self->{DBObject}->Do(SQL => $SQL)) {
-             $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=$Param{NextScreen}");
+        # Prevent creation of an entry without name
+        if($GetParam{Name} eq '') {
+            my $Output = $Self->{LayoutObject}->Header();
+            $Output .= $Self->{LayoutObject}->NavigationBar();
+            $Output .= $Self->{LayoutObject}->Notify(
+                Priority => 'Error',
+                Data => '$Text{"Please specifiy a name!"}',
+            );
+            $Output .= $Self->_Mask();
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
         }
         else {
-            return $Self->{LayoutObject}->ErrorScreen();
+            my $SQL = "INSERT INTO salutation (name, valid_id, comments, text, create_time, create_by, change_time, change_by)" .
+                    " VALUES " .
+                    " ('$GetParam{Name}', $GetParam{ValidID}, '$GetParam{Comment}', '$GetParam{Salutation}', " .
+                    " current_timestamp, $Self->{UserID}, current_timestamp, $Self->{UserID})";
+            if ($Self->{DBObject}->Do(SQL => $SQL)) {
+                 $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=$Param{NextScreen}");
+            }
+            else {
+                return $Self->{LayoutObject}->ErrorScreen();
+            }
         }
     }
     # else ! print form
