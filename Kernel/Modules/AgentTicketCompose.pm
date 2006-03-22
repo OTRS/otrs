@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketCompose.pm,v 1.15 2006-03-22 07:29:58 martin Exp $
+# $Id: AgentTicketCompose.pm,v 1.16 2006-03-22 22:30:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -815,6 +815,7 @@ sub _Mask {
                 Data => {
                     TicketFreeKeyField => $Param{'TicketFreeKeyField'.$Count},
                     TicketFreeTextField => $Param{'TicketFreeTextField'.$Count},
+                    Count => $Count,
                 },
             );
             $Self->{LayoutObject}->Block(
@@ -857,6 +858,7 @@ sub _Mask {
                 Data => {
                     ArticleFreeKeyField => $Param{'ArticleFreeKeyField'.$Count},
                     ArticleFreeTextField => $Param{'ArticleFreeTextField'.$Count},
+                    Count => $Count,
                 },
             );
             $Self->{LayoutObject}->Block(
