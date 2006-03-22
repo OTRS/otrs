@@ -2,7 +2,7 @@
 # AgentPhoneNew.dtl - provides HTML form for phone
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPhone.dtl,v 1.13 2006-03-04 11:34:53 martin Exp $
+# $Id: AgentTicketPhone.dtl,v 1.14 2006-03-22 22:31:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -128,7 +128,7 @@ function clear_field()
         <table border="0" width="100%">
           <tr>
             <td width="20%" class="contentkey">$Text{"From"}:</td>
-            <td width="60%" class="contentvalue"><input type="text" name="From" value="$Data{"From"}" size="70"> <font color="red" size="-2">$Text{"$Data{"From invalid"}"}</font><br>
+            <td width="60%" class="contentvalue"><input type="text" name="From" value="$QData{"From"}" size="70"> <font color="red" size="-2">$Text{"$Data{"From invalid"}"}</font><br>
               $Data{"CustomerUserStrg"}
               <dtl if ($Data{"CustomerUserStrg"} ne "") { $Data{"TakeThisCustomer"} = "<br><input class="button" type="submit" name="ExpandCustomerName2" value="$Text{"Take this Customer"}">"; }>
               $Data{"TakeThisCustomer"}
@@ -222,51 +222,69 @@ function clear_field()
           <td class="contentkey">$Text{"Priority"}:</td>
           <td class="contentvalue"> $Data{"PriorityStrg"}</td>
         </tr>
-<!-- dtl:block:FreeText -->
+<!-- dtl:block:TicketFreeText -->
         <tr>
           <td class="contentkey">$Data{"TicketFreeKeyField"}</td>
           <td class="contentvalue">$Data{"TicketFreeTextField"}</td>
         </tr>
-<!-- dtl:block:FreeText -->
-#  <tr>
-#    <td class="contentkey">$Data{"TicketFreeKeyField1"}:</td>
-#    <td class="contentvalue">$Data{"TicketFreeTextField1"}</td>
-#  </tr>
-#  <tr>
-#    <td class="contentkey">$Data{"TicketFreeKeyField2"}:</td>
-#    <td class="contentvalue">$Data{"TicketFreeTextField2"}</td>
-#  </tr>
-#  <tr>
-#    <td class="contentkey">$Data{"TicketFreeKeyField3"}:</td>
-#    <td class="contentvalue">$Data{"TicketFreeTextField3"}</td>
-#  </tr>
-#  <tr>
-#    <td class="contentkey">$Data{"TicketFreeKeyField4"}:</td>
-#    <td class="contentvalue">$Data{"TicketFreeTextField4"}</td>
-#  </tr>
-<!-- dtl:block:FreeTime -->
+<!-- dtl:block:TicketFreeText -->
+#<!-- dtl:block:TicketFreeText1 -->
+#        <tr>
+#          <td class="contentkey">$Data{"TicketFreeKeyField1"}:</td>
+#          <td class="contentvalue">$Data{"TicketFreeTextField1"}</td>
+#        </tr>
+#<!-- dtl:block:TicketFreeText1 -->
+#<!-- dtl:block:TicketFreeText2 -->
+#        <tr>
+#          <td class="contentkey">$Data{"TicketFreeKeyField2"}:</td>
+#          <td class="contentvalue">$Data{"TicketFreeTextField2"}</td>
+#        </tr>
+#<!-- dtl:block:TicketFreeText2 -->
+<!-- dtl:block:TicketFreeTime -->
         <tr>
           <td class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}</td>
           <td class="contentvalue">$Data{"TicketFreeTime"}</td>
         </tr>
-<!-- dtl:block:FreeTime -->
-#  <tr>
-#    <td class="contentkey">$Text{"$Config{"TicketFreeTimeKey1"}"}:</td>
-#    <td class="contentvalue">$Data{"TicketFreeTime1"}</td>
-#  </tr>
-#  <tr>
-#    <td class="contentkey">$Text{"$Config{"TicketFreeTimeKey2"}"}:</td>
-#    <td class="contentvalue">$Data{"TicketFreeTime2"}</td>
-#  </tr>
+<!-- dtl:block:TicketFreeTime -->
+#<!-- dtl:block:TicketFreeTime1 -->
+#        <tr>
+#          <td class="contentkey">$Text{"$Config{"TicketFreeTimeKey1"}"}:</td>
+#          <td class="contentvalue">$Data{"TicketFreeTime1"}</td>
+#        </tr>
+#<!-- dtl:block:TicketFreeTime1 -->
+#<!-- dtl:block:TicketFreeTime2 -->
+#        <tr>
+#          <td class="contentkey">$Text{"$Config{"TicketFreeTimeKey2"}"}:</td>
+#          <td class="contentvalue">$Data{"TicketFreeTime2"}</td>
+#        </tr>
+#<!-- dtl:block:TicketFreeTime2 -->
+<!-- dtl:block:ArticleFreeText -->
+        <tr>
+          <td class="contentkey">$Data{"ArticleFreeKeyField"}:</td>
+          <td class="contentvalue">$Data{"ArticleFreeTextField"}</td>
+        </tr>
+<!-- dtl:block:ArticleFreeText -->
+#<!-- dtl:block:ArticleFreeText1 -->
+#                <tr>
+#                  <td class="contentkey">$Data{"ArticleFreeKeyField1"}:</td>
+#                  <td class="contentvalue">$Data{"ArticleFreeTextField1"}</td>
+#                </tr>
+#<!-- dtl:block:ArticleFreeText1 -->
+#<!-- dtl:block:ArticleFreeText2 -->
+#                <tr>
+#                  <td class="contentkey">$Data{"ArticleFreeKeyField2"}:</td>
+#                  <td class="contentvalue">$Data{"ArticleFreeTextField2"}</td>
+#                </tr>
+#<!-- dtl:block:ArticleFreeText2 -->
 <!-- dtl:block:TimeUnits -->
         <tr>
           <td class="contentkey">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</td>
-          <td class="contentvalue"> <input type="text" name="TimeUnits" value="$Data{"TimeUnits"}" size="3"></td>
+          <td class="contentvalue"> <input type="text" name="TimeUnits" value="$QData{"TimeUnits"}" size="3"></td>
         </tr>
 <!-- dtl:block:TimeUnits -->
       </table>
       <br>
-      <input class="button" accesskey="g" type="submit" name="Create" value="$Text{"create"}" onclick="return submit_compose();">
+      <input class="button" accesskey="g" type="submit" name="Create" value="$Text{"Create"}" onclick="return submit_compose();">
     </form>
 
     <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">

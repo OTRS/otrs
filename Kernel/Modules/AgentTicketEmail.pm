@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose inital email to customer
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketEmail.pm,v 1.16 2006-03-04 11:34:53 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.17 2006-03-22 22:33:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,10 +20,9 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -62,7 +61,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -76,6 +75,34 @@ sub Run {
             Value => $Self->{RequestedURL},
         );
     }
+    # get params
+    my %GetParam = ();
+    foreach (qw(AttachmentUpload
+        Year Month Day Hour Minute To Cc Bcc TimeUnits PriorityID Subject Body
+        AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
+        AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
+        AttachmentDelete9 AttachmentDelete10 )) {
+        $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
+    }
+    # get ticket free text params
+    foreach (1..16) {
+        $GetParam{"TicketFreeKey$_"} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeKey$_");
+        $GetParam{"TicketFreeText$_"} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeText$_");
+    }
+    # get ticket free text params
+    foreach (1..2) {
+        foreach my $Type (qw(Year Month Day Hour Minute)) {
+            $GetParam{"TicketFreeTime".$_.$Type} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
+        }
+    }
+    # get article free text params
+    foreach (1..3) {
+        $GetParam{"ArticleFreeKey$_"} =  $Self->{ParamObject}->GetParam(Param => "ArticleFreeKey$_");
+        $GetParam{"ArticleFreeText$_"} =  $Self->{ParamObject}->GetParam(Param => "ArticleFreeText$_");
+    }
+
+
+
     if (!$Self->{Subaction} || $Self->{Subaction} eq 'Created') {
         # header
         $Output .= $Self->{LayoutObject}->Header();
@@ -126,17 +153,30 @@ sub Run {
                     ),
                 }
             );
-            # get free text params
-            my %TicketFreeTime = ();
-            foreach (1..2) {
-                foreach my $Type (qw(Year Month Day Hour Minute)) {
-                    $TicketFreeTime{"TicketFreeTime".$_.$Type} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
-                }
-            }
             # free time
-            my %FreeTime = $Self->{LayoutObject}->AgentFreeDate(
+            my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate(
                 %Param,
-                Ticket => \%TicketFreeTime,
+                Ticket => \%GetParam,
+            );
+            # article free text
+            my %ArticleFreeText = ();
+            foreach (1..16) {
+                $ArticleFreeText{"ArticleFreeKey$_"} = $Self->{TicketObject}->ArticleFreeTextGet(
+                    TicketID => $Self->{TicketID},
+                    Type => "ArticleFreeKey$_",
+                    Action => $Self->{Action},
+                    UserID => $Self->{UserID},
+                );
+                $ArticleFreeText{"ArticleFreeText$_"} = $Self->{TicketObject}->ArticleFreeTextGet(
+                    TicketID => $Self->{TicketID},
+                    Type => "ArticleFreeText$_",
+                    Action => $Self->{Action},
+                    UserID => $Self->{UserID},
+                );
+            }
+            my %ArticleFreeTextHTML = $Self->{LayoutObject}->TicketArticleFreeText(
+                Config => \%ArticleFreeText,
+                Article => \%GetParam,
             );
             # run compose modules
             if (ref($Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule')) eq 'HASH') {
@@ -177,7 +217,8 @@ sub Run {
               CustomerUser =>  '',
               CustomerData => {},
               %TicketFreeTextHTML,
-              %FreeTime,
+              %TicketFreeTimeHTML,
+              %ArticleFreeTextHTML,
             );
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
@@ -233,18 +274,9 @@ sub Run {
         my $CustomerID = $Self->{ParamObject}->GetParam(Param => 'CustomerID') || '';
         my $SelectedCustomerUser = $Self->{ParamObject}->GetParam(Param => 'SelectedCustomerUser') || '';
         my $ExpandCustomerName = $Self->{ParamObject}->GetParam(Param => 'ExpandCustomerName') || 0;
-        # get params
-        my %GetParam = ();
         $GetParam{From} = $Queue{Email};
         $GetParam{QueueID} = $NewQueueID;
         $GetParam{ExpandCustomerName} = $ExpandCustomerName;
-        foreach (qw(AttachmentUpload
-            Year Month Day Hour Minute To Cc Bcc TimeUnits PriorityID Subject Body
-            AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
-            AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
-            AttachmentDelete9 AttachmentDelete10 )) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
-        }
         if ($Self->{ParamObject}->GetParam(Param => 'AllUsersRefresh')) {
             $AllUsers = 1;
             $ExpandCustomerName = 3;
@@ -261,12 +293,6 @@ sub Run {
             elsif ($_ == 2 && $Item) {
                 $ExpandCustomerName = 2;
             }
-        }
-        # get free text params
-        my %TicketFree = ();
-        foreach (1..16) {
-            $TicketFree{"TicketFreeKey$_"} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeKey$_");
-            $TicketFree{"TicketFreeText$_"} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeText$_");
         }
         # get free text config options
         my %TicketFreeText = ();
@@ -288,18 +314,31 @@ sub Run {
         }
         my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
             Config => \%TicketFreeText,
-            Ticket => \%TicketFree,
+            Ticket => \%GetParam,
         );
-        # get free text params
-        my %TicketFreeTime = ();
-        foreach (1..2) {
-            foreach my $Type (qw(Year Month Day Hour Minute)) {
-                $TicketFreeTime{"TicketFreeTime".$_.$Type} =  $Self->{ParamObject}->GetParam(Param => "TicketFreeTime".$_.$Type);
-            }
-        }
         # free time
-        my %FreeTime = $Self->{LayoutObject}->AgentFreeDate(
-            Ticket => \%TicketFreeTime,
+        my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate(
+            Ticket => \%GetParam,
+        );
+        # article free text
+        my %ArticleFreeText = ();
+        foreach (1..16) {
+            $ArticleFreeText{"ArticleFreeKey$_"} = $Self->{TicketObject}->ArticleFreeTextGet(
+                TicketID => $Self->{TicketID},
+                Type => "ArticleFreeKey$_",
+                Action => $Self->{Action},
+                UserID => $Self->{UserID},
+            );
+            $ArticleFreeText{"ArticleFreeText$_"} = $Self->{TicketObject}->ArticleFreeTextGet(
+                TicketID => $Self->{TicketID},
+                Type => "ArticleFreeText$_",
+                Action => $Self->{Action},
+                UserID => $Self->{UserID},
+            );
+        }
+        my %ArticleFreeTextHTML = $Self->{LayoutObject}->TicketArticleFreeText(
+            Config => \%ArticleFreeText,
+            Article => \%GetParam,
         );
         # rewrap body if exists
         if ($GetParam{Body}) {
@@ -487,7 +526,6 @@ sub Run {
               CustomerID => $Self->{LayoutObject}->Ascii2Html(Text => $CustomerID),
               CustomerUser => $CustomerUser,
               CustomerData => \%CustomerData,
-              TimeUnits => $Self->{LayoutObject}->Ascii2Html(Text => $GetParam{TimeUnits} || ''),
               FromList => $Self->_GetTos(),
               FromSelected => $Dest,
               ToOptions => $Param{"ToOptions"},
@@ -498,7 +536,8 @@ sub Run {
               Signature => $Signature,
               %GetParam,
               %TicketFreeTextHTML,
-              %FreeTime,
+              %TicketFreeTimeHTML,
+              %ArticleFreeTextHTML,
             );
             # show customer tickets
             my @TicketIDs = ();
@@ -544,6 +583,7 @@ sub Run {
                             # run module
                             $Counter = $Object->Run(
                                 %Param,
+                                TicketID => $TicketID,
                                 Ticket => \%Article,
                                 Counter => $Counter,
                                 ACL => \%AclAction,
@@ -604,11 +644,11 @@ sub Run {
         );
         # set ticket free text
         foreach (1..16) {
-            if (defined($TicketFree{"TicketFreeKey$_"})) {
+            if (defined($GetParam{"TicketFreeKey$_"})) {
                 $Self->{TicketObject}->TicketFreeTextSet(
                     TicketID => $TicketID,
-                    Key => $TicketFree{"TicketFreeKey$_"},
-                    Value => $TicketFree{"TicketFreeText$_"},
+                    Key => $GetParam{"TicketFreeKey$_"},
+                    Value => $GetParam{"TicketFreeText$_"},
                     Counter => $_,
                     UserID => $Self->{UserID},
                 );
@@ -616,13 +656,13 @@ sub Run {
         }
         # set ticket free time
         foreach (1..2) {
-            if (defined($TicketFreeTime{"TicketFreeTime".$_."Year"}) &&
-                defined($TicketFreeTime{"TicketFreeTime".$_."Month"}) &&
-                defined($TicketFreeTime{"TicketFreeTime".$_."Day"}) &&
-                defined($TicketFreeTime{"TicketFreeTime".$_."Hour"}) &&
-                defined($TicketFreeTime{"TicketFreeTime".$_."Minute"})) {
+            if (defined($GetParam{"TicketFreeTime".$_."Year"}) &&
+                defined($GetParam{"TicketFreeTime".$_."Month"}) &&
+                defined($GetParam{"TicketFreeTime".$_."Day"}) &&
+                defined($GetParam{"TicketFreeTime".$_."Hour"}) &&
+                defined($GetParam{"TicketFreeTime".$_."Minute"})) {
                 $Self->{TicketObject}->TicketFreeTimeSet(
-                    %TicketFreeTime,
+                    %GetParam,
                     TicketID => $TicketID,
                     Counter => $_,
                     UserID => $Self->{UserID},
@@ -676,64 +716,78 @@ sub Run {
             %ArticleParam,
         );
         if ($ArticleID) {
-          # remove pre submited attachments
-          $Self->{UploadCachObject}->FormIDRemove(FormID => $Self->{FormID});
-          # set owner (if new user id is given)
-          if ($NewUserID) {
-              $Self->{TicketObject}->OwnerSet(
-                  TicketID => $TicketID,
-                  NewUserID => $NewUserID,
-                  UserID => $Self->{UserID},
-              );
-              # set lock
-              $Self->{TicketObject}->LockSet(
-                  TicketID => $TicketID,
-                  Lock => 'lock',
-                  UserID => $Self->{UserID},
-              );
-          }
-          # time accounting
-          if ($GetParam{TimeUnits}) {
-              $Self->{TicketObject}->TicketAccountTime(
-                  TicketID => $TicketID,
-                  ArticleID => $ArticleID,
-                  TimeUnit => $GetParam{TimeUnits},
-                  UserID => $Self->{UserID},
-              );
-              # set lock
-              $Self->{TicketObject}->LockSet(
-                  TicketID => $TicketID,
-                  Lock => $Self->{ConfigObject}->Get('EmailDefaultNewLock'),
-                  UserID => $Self->{UserID},
-              );
-          }
-          # should i set an unlock?
-          my %StateData = $Self->{StateObject}->StateGet(ID => $NextStateID);
-          if ($StateData{TypeName} =~ /^close/i) {
-              $Self->{TicketObject}->LockSet(
-                  TicketID => $TicketID,
-                  Lock => 'unlock',
-                  UserID => $Self->{UserID},
-              );
-          }
-          # set pending time
-          elsif ($StateData{TypeName} =~ /^pending/i) {
-              $Self->{TicketObject}->TicketPendingTimeSet(
-                  UserID => $Self->{UserID},
-                  TicketID => $TicketID,
-                  %GetParam,
-              );
-          }
-          # get redirect screen
-          my $NextScreen = $Self->{UserCreateNextMask} || $Self->{ConfigObject}->Get('PreferencesGroups')->{CreateNextMask}->{DataSelected} || 'AgentTicketEmail';
-          # redirect
-          return $Self->{LayoutObject}->Redirect(
-            OP => "Action=$NextScreen&Subaction=Created&TicketID=$TicketID",
-          );
-      }
-      else {
-          return $Self->{LayoutObject}->ErrorScreen();
-      }
+            # set article free text
+            foreach (1..3) {
+                if (defined($GetParam{"ArticleFreeKey$_"})) {
+                    $Self->{TicketObject}->ArticleFreeTextSet(
+                        TicketID => $TicketID,
+                        ArticleID => $ArticleID,
+                        Key => $GetParam{"ArticleFreeKey$_"},
+                        Value => $GetParam{"ArticleFreeText$_"},
+                        Counter => $_,
+                        UserID => $Self->{UserID},
+                    );
+                }
+            }
+
+            # remove pre submited attachments
+            $Self->{UploadCachObject}->FormIDRemove(FormID => $Self->{FormID});
+            # set owner (if new user id is given)
+            if ($NewUserID) {
+                $Self->{TicketObject}->OwnerSet(
+                    TicketID => $TicketID,
+                    NewUserID => $NewUserID,
+                    UserID => $Self->{UserID},
+                );
+                # set lock
+                $Self->{TicketObject}->LockSet(
+                    TicketID => $TicketID,
+                    Lock => 'lock',
+                    UserID => $Self->{UserID},
+                );
+            }
+            # time accounting
+            if ($GetParam{TimeUnits}) {
+                $Self->{TicketObject}->TicketAccountTime(
+                    TicketID => $TicketID,
+                    ArticleID => $ArticleID,
+                    TimeUnit => $GetParam{TimeUnits},
+                    UserID => $Self->{UserID},
+                );
+                # set lock
+                $Self->{TicketObject}->LockSet(
+                    TicketID => $TicketID,
+                    Lock => $Self->{ConfigObject}->Get('EmailDefaultNewLock'),
+                    UserID => $Self->{UserID},
+                );
+            }
+            # should i set an unlock?
+            my %StateData = $Self->{StateObject}->StateGet(ID => $NextStateID);
+            if ($StateData{TypeName} =~ /^close/i) {
+                $Self->{TicketObject}->LockSet(
+                    TicketID => $TicketID,
+                    Lock => 'unlock',
+                    UserID => $Self->{UserID},
+                );
+            }
+            # set pending time
+            elsif ($StateData{TypeName} =~ /^pending/i) {
+                $Self->{TicketObject}->TicketPendingTimeSet(
+                    UserID => $Self->{UserID},
+                    TicketID => $TicketID,
+                    %GetParam,
+                );
+            }
+            # get redirect screen
+            my $NextScreen = $Self->{UserCreateNextMask} || $Self->{ConfigObject}->Get('PreferencesGroups')->{CreateNextMask}->{DataSelected} || 'AgentTicketEmail';
+            # redirect
+            return $Self->{LayoutObject}->Redirect(
+                OP => "Action=$NextScreen&Subaction=Created&TicketID=$TicketID",
+            );
+        }
+        else {
+            return $Self->{LayoutObject}->ErrorScreen();
+        }
     }
     else {
         return $Self->{LayoutObject}->ErrorScreen(
@@ -742,7 +796,7 @@ sub Run {
         );
     }
 }
-# --
+
 sub _GetNextStates {
     my $Self = shift;
     my %Param = @_;
@@ -756,7 +810,7 @@ sub _GetNextStates {
     }
     return \%NextStates;
 }
-# --
+
 sub _GetUsers {
     my $Self = shift;
     my %Param = @_;
@@ -800,7 +854,7 @@ sub _GetUsers {
     }
     return \%ShownUsers;
 }
-# --
+
 sub _GetPriorities {
     my $Self = shift;
     my %Param = @_;
@@ -815,7 +869,7 @@ sub _GetPriorities {
     }
     return \%Priorities;
 }
-# --
+
 sub _GetTos {
     my $Self = shift;
     my %Param = @_;
@@ -872,7 +926,7 @@ sub _GetTos {
     $NewTos{''} = '-';
     return \%NewTos;
 }
-# --
+
 sub _MaskEmailNew {
     my $Self = shift;
     my %Param = @_;
@@ -993,10 +1047,18 @@ sub _MaskEmailNew {
         $Count++;
         if ($Self->{Config}->{'TicketFreeText'}->{$Count}) {
             $Self->{LayoutObject}->Block(
-                Name => 'FreeText',
+                Name => 'TicketFreeText',
                 Data => {
                     TicketFreeKeyField => $Param{'TicketFreeKeyField'.$Count},
                     TicketFreeTextField => $Param{'TicketFreeTextField'.$Count},
+                    Count => $Count,
+                },
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketFreeText'.$Count,
+                Data => {
+                    %Param,
+                    Count => $Count,
                 },
             );
         }
@@ -1006,10 +1068,39 @@ sub _MaskEmailNew {
         $Count++;
         if ($Self->{Config}->{'TicketFreeTime'}->{$Count}) {
             $Self->{LayoutObject}->Block(
-                Name => 'FreeTime',
+                Name => 'TicketFreeTime',
                 Data => {
                     TicketFreeTimeKey => $Self->{ConfigObject}->Get('TicketFreeTimeKey'.$Count),
                     TicketFreeTime => $Param{'TicketFreeTime'.$Count},
+                    Count => $Count,
+                },
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketFreeTime'.$Count,
+                Data => {
+                    %Param,
+                    Count => $Count,
+                },
+            );
+        }
+    }
+    # article free text
+    $Count = 0;
+    foreach (1..3) {
+        $Count++;
+        if ($Self->{Config}->{'ArticleFreeText'}->{$Count}) {
+            $Self->{LayoutObject}->Block(
+                Name => 'ArticleFreeText',
+                Data => {
+                    ArticleFreeKeyField => $Param{'ArticleFreeKeyField'.$Count},
+                    ArticleFreeTextField => $Param{'ArticleFreeTextField'.$Count},
+                    Count => $Count,
+                },
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'ArticleFreeText'.$Count,
+                Data => {
+                    %Param,
                     Count => $Count,
                 },
             );
@@ -1050,5 +1141,4 @@ sub _MaskEmailNew {
     # get output back
     return $Self->{LayoutObject}->Output(TemplateFile => 'AgentTicketEmail', Data => \%Param);
 }
-# --
 1;
