@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.205 2006-03-10 06:36:03 tr Exp $
+# $Id: Ticket.pm,v 1.206 2006-03-22 07:31:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.205 $';
+$VERSION = '$Revision: 1.206 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -1525,7 +1525,7 @@ sub TicketFreeTimeSet {
         return;
     }
 }
-# --
+
 sub Permission {
     my $Self = shift;
     my %Param = @_;
@@ -2948,6 +2948,10 @@ sub OwnerCheck {
     }
     # db query
     if ($Param{OwnerID}) {
+        # check cache
+        if (defined($Self->{OwnerCheck}->{$Param{OwnerID}})) {
+            return $Self->{OwnerCheck}->{$Param{OwnerID}};
+        }
         $SQL = "SELECT user_id " .
         " FROM " .
         " ticket " .
@@ -2972,9 +2976,13 @@ sub OwnerCheck {
     }
     if ($Param{OwnerID}) {
         if ($Param{SearchUserID}) {
+            # fill cache
+            $Self->{OwnerCheck}->{$Param{OwnerID}} = 1;
             return 1;
         }
         else {
+            # fill cache
+            $Self->{OwnerCheck}->{$Param{OwnerID}} = 0;
             return;
         }
     }
@@ -3131,15 +3139,19 @@ sub OwnerList {
         }
         elsif ($Row[1] eq 'OwnerUpdate') {
             if ($Row[0] =~ /^New Owner is '(.+?)' \(ID=(.+?)\)/ || $Row[0] =~ /^\%\%(.+?)\%\%(.+?)$/) {
-                $LastOwner = $2;
-                push (@User, $2);
+                if ($2 ne 1) {
+                    $LastOwner = $2;
+                    push (@User, $2);
+                }
             }
         }
     }
     my @UserInfo = ();
     foreach (@User) {
-        my %User = $Self->{UserObject}->GetUserData(UserID => $_, Cache => 1);
-        push (@UserInfo, \%User);
+        my %User = $Self->{UserObject}->GetUserData(UserID => $_, Cache => 1, Valid => 1);
+        if (%User) {
+            push (@UserInfo, \%User);
+        }
     }
     return @UserInfo;
 }
@@ -4594,6 +4606,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.205 $ $Date: 2006-03-10 06:36:03 $
+$Revision: 1.206 $ $Date: 2006-03-22 07:31:28 $
 
 =cut
