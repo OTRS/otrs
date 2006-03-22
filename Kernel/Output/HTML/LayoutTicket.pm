@@ -1,23 +1,22 @@
 # --
-# Kernel/Output/HTML/Agent.pm - provides generic agent HTML output
+# Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Agent.pm,v 1.161 2006-02-05 20:36:34 martin Exp $
+# $Id: LayoutTicket.pm,v 1.1 2006-03-22 07:24:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-package Kernel::Output::HTML::Agent;
+package Kernel::Output::HTML::LayoutTicket;
 
 use strict;
 
-use vars qw($VERSION);
-$VERSION = '$Revision: 1.161 $';
+use vars qw(@ISA $VERSION);
+$VERSION = '$Revision: 1.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub TicketStdResponseString {
     my $Self = shift;
     my %Param = @_;
@@ -54,7 +53,7 @@ sub TicketStdResponseString {
     }
     return $Param{StdResponsesStrg};
 }
-# --
+
 sub AgentCustomerView {
     my $Self = shift;
     my %Param = @_;
@@ -62,7 +61,7 @@ sub AgentCustomerView {
     # create & return output
     return $Self->Output(TemplateFile => 'AgentCustomerView', Data => \%Param);
 }
-# --
+
 sub AgentCustomerViewTable {
     my $Self = shift;
     my %Param = @_;
@@ -113,13 +112,7 @@ sub AgentCustomerViewTable {
     # create & return output
     return $Self->Output(TemplateFile => 'AgentCustomerTableView', Data => \%Param);
 }
-# --
-sub TicketLocked {
-    my $Self = shift;
-    my %Param = @_;
-    return $Self->Output(TemplateFile => 'AgentTicketLocked', Data => \%Param);
-}
-# --
+
 sub AgentQueueListOption {
     my $Self = shift;
     my %Param = @_;
@@ -197,7 +190,7 @@ sub AgentQueueListOption {
 
     return $Param{MoveQueuesStrg};
 }
-# --
+
 sub AgentFreeText {
     my $Self = shift;
     my %Param = @_;
@@ -302,7 +295,7 @@ sub AgentFreeText {
     }
     return %Data;
 }
-# --
+
 sub AgentFreeDate {
     my $Self = shift;
     my %Param = @_;
@@ -333,6 +326,142 @@ sub AgentFreeDate {
     }
     return %Data;
 }
-# --
+
+sub TicketArticleFreeText {
+    my $Self = shift;
+    my %Param = @_;
+    my %NullOption = ();
+    my %SelectData = ();
+    my %Article = ();
+    my %Config = ();
+    if ($Param{NullOption}) {
+#        $NullOption{''} = '-';
+        $SelectData{Size} = 3;
+        $SelectData{Multiple} = 1;
+    }
+    if ($Param{Article}) {
+        %Article = %{$Param{Article}};
+    }
+    if ($Param{Config}) {
+        %Config = %{$Param{Config}};
+    }
+    my %Data = ();
+    foreach (1..3) {
+        # key
+        if (ref($Config{"ArticleFreeKey$_"}) eq 'HASH' && %{$Config{"ArticleFreeKey$_"}}) {
+            my $Counter = 0;
+            my $LastKey = '';
+            foreach (keys %{$Config{"ArticleFreeKey$_"}}) {
+                $Counter++;
+                $LastKey = $_;
+            }
+            if ($Counter == 1 && $Param{NullOption}) {
+                if ($LastKey) {
+                    $Data{"ArticleFreeKeyField$_"} = $Config{"ArticleFreeKey$_"}->{$LastKey};
+                }
+            }
+            elsif ($Counter > 1) {
+                $Data{"ArticleFreeKeyField$_"} = $Self->OptionStrgHashRef(
+                    Data => {
+                        %NullOption,
+                        %{$Config{"ArticleFreeKey$_"}},
+                    },
+                    Name => "ArticleFreeKey$_",
+                    SelectedID => $Article{"ArticleFreeKey$_"},
+                    SelectedIDRefArray => $Article{"ArticleFreeKey$_"},
+                    LanguageTranslation => 0,
+                    HTMLQuote => 1,
+                    %SelectData,
+                );
+            }
+            else {
+                if ($LastKey) {
+                    $Data{"ArticleFreeKeyField$_"} = $Config{"ArticleFreeKey$_"}->{$LastKey}.
+                      '<input type="hidden" name="ArticleFreeKey'.$_.'" value="'.$Self->{LayoutObject}->Ascii2Html(Text => $LastKey).'">';
+                }
+            }
+        }
+        else {
+            if (defined($Article{"ArticleFreeKey$_"})) {
+                if (ref($Article{"ArticleFreeKey$_"}) eq 'ARRAY') {
+                    if ($Article{"ArticleFreeKey$_"}->[0]) {
+                        $Article{"ArticleFreeKey$_"} = $Article{"ArticleFreeKey$_"}->[0];
+                    }
+                    else {
+                       $Article{"ArticleFreeKey$_"} = '';
+                    }
+                }
+                $Data{"ArticleFreeKeyField$_"} = '<input type="text" name="ArticleFreeKey'.$_.'" value="'.$Self->{LayoutObject}->Ascii2Html(Text => $Article{"ArticleFreeKey$_"}).'" size="20">';
+            }
+            else {
+                $Data{"ArticleFreeKeyField$_"} = '<input type="text" name="ArticleFreeKey'.$_.'" value="" size="20">';
+            }
+        }
+        # value
+        if (ref($Config{"ArticleFreeText$_"}) eq 'HASH') {
+            $Data{"ArticleFreeTextField$_"} = $Self->OptionStrgHashRef(
+                Data => {
+                    %NullOption,
+                    %{$Config{"ArticleFreeText$_"}},
+                },
+                Name => "ArticleFreeText$_",
+                SelectedID => $Article{"ArticleFreeText$_"},
+                SelectedIDRefArray => $Article{"ArticleFreeText$_"},
+                LanguageTranslation => 0,
+                HTMLQuote => 1,
+                %SelectData,
+            );
+        }
+        else {
+            if (defined($Article{"ArticleFreeText$_"})) {
+                if (ref($Article{"ArticleFreeText$_"}) eq 'ARRAY') {
+                    if ($Article{"ArticleFreeText$_"}->[0]) {
+                        $Article{"ArticleFreeText$_"} = $Article{"ArticleFreeText$_"}->[0];
+                    }
+                    else {
+                        $Article{"ArticleFreeText$_"} = '';
+                    }
+                }
+                $Data{"ArticleFreeTextField$_"} = '<input type="text" name="ArticleFreeText'.$_.'" value="'.$Self->{LayoutObject}->Ascii2Html(Text => $Article{"ArticleFreeText$_"}).'" size="30">';
+            }
+            else {
+                $Data{"ArticleFreeTextField$_"} = '<input type="text" name="ArticleFreeText'.$_.'" value="" size="30">';
+            }
+        }
+    }
+    return %Data;
+}
+
+sub CustomerFreeDate {
+    my $Self = shift;
+    my %Param = @_;
+    my %NullOption = ();
+    my %SelectData = ();
+    my %Ticket = ();
+    my %Config = ();
+    if ($Param{NullOption}) {
+#        $NullOption{''} = '-';
+        $SelectData{Size} = 3;
+        $SelectData{Multiple} = 1;
+    }
+    if ($Param{Ticket}) {
+        %Ticket = %{$Param{Ticket}};
+    }
+    if ($Param{Config}) {
+        %Config = %{$Param{Config}};
+    }
+    my %Data = ();
+    foreach my $Count (1..2) {
+        $Data{'TicketFreeTime'.$Count} = $Self->BuildDateSelection(
+            Area => 'Customer',
+            %Param,
+            %Ticket,
+            Prefix => 'TicketFreeTime'.$Count,
+            Format => 'DateInputFormatLong',
+            DiffTime => $Self->{ConfigObject}->Get('TicketFreeTimeDiff'.$Count) || 0,
+        );
+    }
+    return %Data;
+}
 
 1;

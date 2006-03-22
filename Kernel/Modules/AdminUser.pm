@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminUser.pm,v 1.31 2005-09-11 11:48:51 martin Exp $
+# $Id: AdminUser.pm,v 1.32 2006-03-22 07:24:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminUser;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.31 $ ';
+$VERSION = '$Revision: 1.32 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -81,7 +81,7 @@ sub Run {
         if (!$Self->{ConfigObject}->Get('SessionUseCookieAfterBrowserClose')) {
             $Expires = '';
         }
-        my $LayoutObject = Kernel::Output::HTML::Generic->new(
+        my $LayoutObject = Kernel::Output::HTML::Layout->new(
             %{$Self},
             SetCookies => {
                 SessionIDCookie => $Self->{ParamObject}->SetCookie(

@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceAgent.pm - the agent interface file (incl. auth)
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: InterfaceAgent.pm,v 1.10 2006-02-01 10:19:47 martin Exp $
+# $Id: InterfaceAgent.pm,v 1.11 2006-03-22 07:23:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Web::InterfaceAgent;
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -31,7 +31,7 @@ use Kernel::System::AuthSession;
 use Kernel::System::User;
 use Kernel::System::Group;
 use Kernel::System::Permission;
-use Kernel::Output::HTML::Generic;
+use Kernel::Output::HTML::Layout;
 
 =head1 NAME
 
@@ -140,7 +140,7 @@ sub Run {
     # --
     # create common framework objects 2/3
     # --
-    $Self->{LayoutObject} = Kernel::Output::HTML::Generic->new(
+    $Self->{LayoutObject} = Kernel::Output::HTML::Layout->new(
         %{$Self},
         Lang => $Param{Lang},
     );
@@ -266,7 +266,7 @@ sub Run {
             if (!$Self->{ConfigObject}->Get('SessionUseCookieAfterBrowserClose')) {
                 $Expires = '';
             }
-            my $LayoutObject = Kernel::Output::HTML::Generic->new(
+            my $LayoutObject = Kernel::Output::HTML::Layout->new(
               SetCookies => {
                   SessionIDCookie => $Self->{ParamObject}->SetCookie(
                       Key => $Param{SessionName},
@@ -320,7 +320,7 @@ sub Run {
                 SessionID => $Param{SessionID},
             );
             # create new LayoutObject with new '%Param' and '%UserData'
-            $Self->{LayoutObject} = Kernel::Output::HTML::Generic->new(
+            $Self->{LayoutObject} = Kernel::Output::HTML::Layout->new(
               SetCookies => {
                   SessionIDCookie => $Self->{ParamObject}->SetCookie(
                       Key => $Param{SessionName},
@@ -478,7 +478,7 @@ sub Run {
         # check session id
         if ( !$Self->{SessionObject}->CheckSessionID(SessionID => $Param{SessionID}) ) {
             # create new LayoutObject with new '%Param'
-            $Self->{LayoutObject} = Kernel::Output::HTML::Generic->new(
+            $Self->{LayoutObject} = Kernel::Output::HTML::Layout->new(
               SetCookies => {
                   SessionIDCookie => $Self->{ParamObject}->SetCookie(
                       Key => $Param{SessionName},
@@ -590,7 +590,7 @@ sub Run {
                 exit (0);
             }
             # create new LayoutObject with new '%Param' and '%UserData'
-            $Self->{LayoutObject} = Kernel::Output::HTML::Generic->new(
+            $Self->{LayoutObject} = Kernel::Output::HTML::Layout->new(
                 %{$Self},
                 %Param,
                 %UserData,
@@ -671,7 +671,7 @@ sub Run {
         my %Data = $Self->{SessionObject}->GetSessionIDData(
             SessionID => $Param{SessionID},
         );
-        $Self->{LayoutObject} = Kernel::Output::HTML::Generic->new(
+        $Self->{LayoutObject} = Kernel::Output::HTML::Layout->new(
             %{$Self},
             %Param,
             %Data,
@@ -710,6 +710,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2006-02-01 10:19:47 $
+$Revision: 1.11 $ $Date: 2006-03-22 07:23:20 $
 
 =cut

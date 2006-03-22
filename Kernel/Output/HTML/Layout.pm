@@ -1,35 +1,28 @@
 # --
-# Kernel/Output/HTML/Generic.pm - provides generic HTML output
+# Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Generic.pm,v 1.204 2006-03-18 23:40:33 martin Exp $
+# $Id: Layout.pm,v 1.1 2006-03-22 07:24:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-package Kernel::Output::HTML::Generic;
+package Kernel::Output::HTML::Layout;
 
 use lib "../../";
 
 use strict;
 use Kernel::Language;
-use Kernel::Output::HTML::Agent;
-use Kernel::Output::HTML::Customer;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.204 $';
+$VERSION = '$Revision: 1.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
-
-@ISA = (
-    'Kernel::Output::HTML::Agent',
-    'Kernel::Output::HTML::Customer',
-);
 
 =head1 NAME
 
-Kernel::Output::HTML::Generic - all generic html finctions
+Kernel::Output::HTML::Layout - all generic html finctions
 
 =head1 SYNOPSIS
 
@@ -192,9 +185,24 @@ sub new {
         );
         $Self->FatalDie();
     }
+    # load sub layout files
+    my $Dir = $Self->{ConfigObject}->Get('TemplateDir').'/HTML/';
+    if (-e $Dir) {
+        my @Files = glob("$Dir/Layout*.pm");
+        foreach my $File (@Files) {
+            if ($File !~ /Layout.pm$/) {
+                $File =~ s/^.*\/(.+?).pm$/$1/g;
+                if (!$Self->{MainObject}->Require("Kernel::Output::HTML::$File")) {
+                    $Self->FatalError();
+                }
+                push (@ISA, "Kernel::Output::HTML::$File");
+            }
+        }
+    }
+
     return $Self;
 }
-# --
+
 sub SetEnv {
     my $Self = shift;
     my %Param = @_;
@@ -385,6 +393,15 @@ sub Output {
     my $Self = shift;
     my %Param = @_;
     my %Data = ();
+    # deep recursion protection
+    $Self->{OutputCount}++;
+    if ($Self->{OutputCount} > 20) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Loop detection!",
+        );
+        $Self->FatalDie();
+    }
     # get and check param Data
     if ($Param{Data}) {
         if (ref($Param{Data}) ne 'HASH') {
@@ -911,10 +928,11 @@ sub Output {
                 $Object->Run(%{$Filters{$Filter}}, Data => \$Output);
             }
             else {
-                $Self->FatalError();
+                $Self->FatalDie();
             }
         }
     }
+    $Self->{OutputCount} = 0;
     # return output
     return $Output;
 }
@@ -990,7 +1008,7 @@ sub Redirect {
         return $Output;
     }
 }
-# --
+
 sub Login {
     my $Self = shift;
     my %Param = @_;
@@ -1025,7 +1043,7 @@ sub Login {
     $Output .= $Self->Output(TemplateFile => 'Login', Data => \%Param);
     return $Output;
 }
-# --
+
 sub FatalError {
     my $Self = shift;
     my %Param = @_;
@@ -1041,7 +1059,7 @@ sub FatalError {
     print $Self->Footer();
     exit;
 }
-# --
+
 sub FatalDie {
     my $Self = shift;
     my %Param = @_;
@@ -1069,7 +1087,7 @@ sub FatalDie {
     die $Param{Message};
     exit;
 }
-# --
+
 sub ErrorScreen {
     my $Self = shift;
     my %Param = @_;
@@ -1078,7 +1096,7 @@ sub ErrorScreen {
     $Output .= $Self->Footer();
     return $Output;
 }
-# --
+
 sub Error {
     my $Self = shift;
     my %Param = @_;
@@ -1100,7 +1118,7 @@ sub Error {
     # create & return output
     return $Self->Output(TemplateFile => 'Error', Data => \%Param);
 }
-# --
+
 sub Warning {
     my $Self = shift;
     my %Param = @_;
@@ -1124,7 +1142,7 @@ sub Warning {
     # create & return output
     return $Self->Output(TemplateFile => 'Warning', Data => \%Param);
 }
-# --
+
 sub Notify {
     my $Self = shift;
     my %Param = @_;
@@ -1186,7 +1204,7 @@ sub Notify {
     }
     return $Self->Output(TemplateFile => 'Notify', Data => \%Param);
 }
-# --
+
 sub Header {
     my $Self = shift;
     my %Param = @_;
@@ -1221,7 +1239,7 @@ sub Header {
     $Output .= $Self->Output(TemplateFile => "Header$Type", Data => \%Param);
     return $Output;
 }
-# --
+
 sub Footer {
     my $Self = shift;
     my %Param = @_;
@@ -1229,7 +1247,7 @@ sub Footer {
     # create & return output
     return $Self->Output(TemplateFile => "Footer$Type", Data => \%Param);
 }
-# --
+
 sub PrintHeader {
     my $Self = shift;
     my %Param = @_;
@@ -1260,7 +1278,7 @@ sub PrintHeader {
     $Output .= $Self->Output(TemplateFile => 'PrintHeader', Data => \%Param);
     return $Output;
 }
-# --
+
 sub PrintFooter {
     my $Self = shift;
     my %Param = @_;
@@ -1271,7 +1289,7 @@ sub PrintFooter {
     # create & return output
     return $Self->Output(TemplateFile => 'PrintFooter', Data => \%Param);
 }
-# --
+
 sub Ascii2Html {
     my $Self = shift;
     my %Param = @_;
@@ -1323,7 +1341,7 @@ sub Ascii2Html {
     # return result
     return $Text;
 }
-# --
+
 sub LinkQuote {
     my $Self = shift;
     my %Param = @_;
@@ -1349,7 +1367,7 @@ sub LinkQuote {
     chop($Text);
     return $Text;
 }
-# --
+
 sub LinkEncode {
     my $Self = shift;
     my $Link = shift;
@@ -1370,7 +1388,7 @@ sub LinkEncode {
     $Link =~ s/ /\+/g;
     return $Link;
 }
-# --
+
 sub CustomerAge {
     my $Self = shift;
     my %Param = @_;
@@ -1415,7 +1433,7 @@ sub CustomerAge {
     }
     return $AgeStrg;
 }
-# --
+
 sub OptionStrgHashRef {
     my $Self = shift;
     my %Param = @_;
@@ -1602,7 +1620,6 @@ sub OptionElement {
         $Self->FatalError();
     }
 
-
     # detect
     # $Param{Data}{Key}{Value}
     my $Hash2 = 0;
@@ -1656,7 +1673,7 @@ sub OptionElement {
     }
     return $Output;
 }
-# --
+
 sub NoPermission {
     my $Self = shift;
     my %Param = @_;
@@ -1670,7 +1687,7 @@ sub NoPermission {
     # return output
     return $Output;
 }
-# --
+
 sub CheckCharset {
     my $Self = shift;
     my %Param = @_;
@@ -1699,7 +1716,7 @@ sub CheckCharset {
     # return note string
     return $Output;
 }
-# --
+
 sub CheckMimeType {
     my $Self = shift;
     my %Param = @_;
@@ -1734,7 +1751,7 @@ sub CheckMimeType {
     # return note string
     return $Output;
 }
-# --
+
 sub ReturnValue {
     my $Self = shift;
     my $What = shift;
@@ -1783,7 +1800,7 @@ sub Attachment {
     }
     return $Output;
 }
-# --
+
 sub PageNavBar {
     my $Self = shift;
     my %Param = @_;
@@ -1858,7 +1875,7 @@ sub PageNavBar {
         Link => $Param{Link},
     );
 }
-# --
+
 sub NavigationBar {
     my $Self = shift;
     my %Param = @_;
@@ -2035,7 +2052,7 @@ sub NavigationBar {
     }
     return $Output;
 }
-# --
+
 sub WindowTabStart {
     my $Self = shift;
     my %Param = @_;
@@ -2067,7 +2084,7 @@ sub WindowTabStart {
     $Output .= $Self->Output(TemplateFile => 'AgentWindowTabStart', Data => \%Param);
     return $Output;
 }
-# --
+
 sub WindowTabStop {
     my $Self = shift;
     my %Param = @_;
@@ -2095,7 +2112,7 @@ sub WindowTabStop {
     $Output .= $Self->Output(TemplateFile => 'AgentWindowTabStop', Data => \%Param);
     return $Output;
 }
-# --
+
 sub BuildDateSelection {
     my $Self = shift;
     my %Param = @_;
@@ -2322,6 +2339,229 @@ sub OutputHTMLTable {
     $Output .= "</table>\n";
     return $Output;
 }
+
+sub CustomerLogin {
+    my $Self = shift;
+    my %Param = @_;
+    my $Output = '';
+        $Param{TitleArea} = " :: ".$Self->{LanguageObject}->Get('Login');
+    # add cookies if exists
+    if ($Self->{SetCookies} && $Self->{ConfigObject}->Get('SessionUseCookie')) {
+        foreach (keys %{$Self->{SetCookies}}) {
+            $Output .= "Set-Cookie: $Self->{SetCookies}->{$_}\n";
+        }
+    }
+    # get language options
+    $Param{Language} = $Self->OptionStrgHashRef(
+        Data => $Self->{ConfigObject}->Get('DefaultUsedLanguages'),
+        Name => 'Lang',
+        SelectedID => $Self->{UserLanguage},
+        OnChange => 'submit()',
+        HTMLQuote => 0,
+        LanguageTranslation => 0,
+    );
+    # get lost password output
+    if ($Self->{ConfigObject}->Get('CustomerPanelLostPassword')
+        && $Self->{ConfigObject}->Get('Customer::AuthModule') eq 'Kernel::System::CustomerAuth::DB') {
+        $Self->Block(
+            Name => 'LostPassword',
+            Data => \%Param,
+        );
+    }
+    # get lost password output
+    if ($Self->{ConfigObject}->Get('CustomerPanelCreateAccount')
+        && $Self->{ConfigObject}->Get('Customer::AuthModule') eq 'Kernel::System::CustomerAuth::DB') {
+        $Self->Block(
+            Name => 'CreateAccount',
+            Data => \%Param,
+        );
+    }
+    # create & return output
+    $Output .= $Self->Output(TemplateFile => 'CustomerLogin', Data => \%Param);
+    return $Output;
+}
+
+sub CustomerHeader {
+    my $Self = shift;
+    my %Param = @_;
+    my $Output = '';
+    my $Type = $Param{Type} || '';
+    # add cookies if exists
+    if ($Self->{SetCookies} && $Self->{ConfigObject}->Get('SessionUseCookie')) {
+        foreach (keys %{$Self->{SetCookies}}) {
+            $Output .= "Set-Cookie: $Self->{SetCookies}->{$_}\n";
+        }
+    }
+    # area and title
+    if (!$Param{Area}) {
+        $Param{Area} = $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{$Self->{Action}}->{NavBarName} || '';
+    }
+    if (!$Param{Title}) {
+        $Param{Title} = $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{$Self->{Action}}->{Title} || '';
+    }
+    if (!$Param{Area}) {
+        $Param{Area} = $Self->{ConfigObject}->Get('PublicFrontend::Module')->{$Self->{Action}}->{NavBarName} || '';
+    }
+    if (!$Param{Title}) {
+        $Param{Title} = $Self->{ConfigObject}->Get('PublicFrontend::Module')->{$Self->{Action}}->{Title} || '';
+    }
+    foreach (qw(Area Title Value)) {
+        if ($Param{$_}) {
+            $Param{TitleArea} .= " :: ".$Self->{LanguageObject}->Get($Param{$_});
+        }
+    }
+    # create & return output
+    $Output .= $Self->Output(TemplateFile => "CustomerHeader$Type", Data => \%Param);
+    return $Output;
+}
+
+sub CustomerFooter {
+    my $Self = shift;
+    my %Param = @_;
+    my $Type = $Param{Type} || '';
+    # create & return output
+    return $Self->Output(TemplateFile => "CustomerFooter$Type", Data => \%Param);
+}
+
+sub CustomerNavigationBar {
+    my $Self = shift;
+    my %Param = @_;
+    # create menu items
+    my %NavBarModule = ();
+    foreach my $Module (sort keys %{$Self->{ConfigObject}->Get('CustomerFrontend::Module')}) {
+        my %Hash = %{$Self->{ConfigObject}->Get('CustomerFrontend::Module')->{$Module}};
+        if ($Hash{NavBar} && ref($Hash{NavBar}) eq 'ARRAY') {
+            my @Items = @{$Hash{NavBar}};
+            foreach my $Item (@Items) {
+                foreach (1..51) {
+                   if ($NavBarModule{sprintf("%07d", $Item->{Prio})}) {
+                       $Item->{Prio}++;
+                   }
+                   if (!$NavBarModule{sprintf("%07d", $Item->{Prio})}) {
+                        last;
+                    }
+                }
+                $NavBarModule{sprintf("%07d", $Item->{Prio})} = $Item;
+            }
+        }
+    }
+    foreach (sort keys %NavBarModule) {
+        $Self->Block(
+            Name => $NavBarModule{$_}->{Block} || 'Item',
+            Data => $NavBarModule{$_},
+        );
+    }
+    # run notification modules
+    if (ref($Self->{ConfigObject}->Get('CustomerFrontend::NotifyModule')) eq 'HASH') {
+        my %Jobs = %{$Self->{ConfigObject}->Get('CustomerFrontend::NotifyModule')};
+        foreach my $Job (sort keys %Jobs) {
+            # log try of load module
+            if ($Self->{Debug} > 1) {
+                $Self->{LogObject}->Log(
+                    Priority => 'debug',
+                    Message => "Try to load module: $Jobs{$Job}->{Module}!",
+                );
+            }
+            if (eval "require $Jobs{$Job}->{Module}") {
+                my $Object = $Jobs{$Job}->{Module}->new(
+                    ConfigObject => $Self->{ConfigObject},
+                    LogObject => $Self->{LogObject},
+                    DBObject => $Self->{DBObject},
+                    TimeObject => $Self->{TimeObject},
+                    LayoutObject => $Self,
+                    UserID => $Self->{UserID},
+                    Debug => $Self->{Debug},
+                );
+                # log loaded module
+                if ($Self->{Debug} > 1) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'debug',
+                        Message => "Module: $Jobs{$Job}->{Module} loaded!",
+                    );
+                }
+                # run module
+                $Param{Notification} .= $Object->Run(%Param, Config => $Jobs{$Job});
+            }
+            else {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message => "Can't load module $Jobs{$Job}->{Module}!",
+                );
+            }
+        }
+    }
+    if ($Self->{UserEmail} ne $Self->{UserCustomerID}) {
+        $Param{UserLoginTop} = "$Self->{UserEmail}/$Self->{UserCustomerID}";
+    }
+    else {
+        $Param{UserLoginTop} = $Self->{UserEmail};
+    }
+    # create & return output
+    return $Self->Output(TemplateFile => 'CustomerNavigationBar', Data => \%Param);
+}
+
+sub CustomerError {
+    my $Self = shift;
+    my %Param = @_;
+
+    # get backend error messages
+    foreach (qw(Message Traceback)) {
+      $Param{'Backend'.$_} = $Self->{LogObject}->GetLogEntry(
+          Type => 'Error',
+          What => $_
+      ) || '';
+      $Param{'Backend'.$_} = $Self->Ascii2Html(
+          Text => $Param{'Backend'.$_},
+          HTMLResultMode => 1,
+      );
+    }
+
+    if (!$Param{Message}) {
+      $Param{Message} = $Param{BackendMessage};
+    }
+
+    # create & return output
+    return $Self->Output(TemplateFile => 'CustomerError', Data => \%Param);
+}
+
+sub CustomerWarning {
+    my $Self = shift;
+    my %Param = @_;
+
+    # get backend error messages
+    foreach (qw(Message)) {
+      $Param{'Backend'.$_} = $Self->{LogObject}->GetLogEntry(
+          Type => 'Notice',
+          What => $_
+      ) || $Self->{LogObject}->GetLogEntry(
+          Type => 'Error',
+          What => $_
+      ) || '';
+      $Param{'Backend'.$_} = $Self->Ascii2Html(
+          Text => $Param{'Backend'.$_},
+          HTMLResultMode => 1,
+      );
+    }
+    if (!$Param{Message}) {
+      $Param{Message} = $Param{BackendMessage};
+    }
+    # create & return output
+    return $Self->Output(TemplateFile => 'CustomerWarning', Data => \%Param);
+}
+
+sub CustomerNoPermission {
+    my $Self = shift;
+    my %Param = @_;
+    my $WithHeader = $Param{WithHeader} || 'yes';
+    my $Output = '';
+    $Param{Message} = 'No Permission!' if (!$Param{Message});
+    # create output
+    $Output = $Self->CustomerHeader(Title => 'No Permission') if ($WithHeader eq 'yes');
+    $Output .= $Self->Output(TemplateFile => 'NoPermission', Data => \%Param);
+    $Output .= $Self->CustomerFooter() if ($WithHeader eq 'yes');
+    # return output
+    return $Output;
+}
 1;
 
 =head1 TERMS AND CONDITIONS
@@ -2336,6 +2576,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.204 $ $Date: 2006-03-18 23:40:33 $
+$Revision: 1.1 $ $Date: 2006-03-22 07:24:02 $
 
 =cut

@@ -3,7 +3,7 @@
 # installer.pl - the OTRS Installer
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: installer.pl,v 1.17 2006-03-09 16:05:56 martin Exp $
+# $Id: installer.pl,v 1.18 2006-03-22 07:25:16 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -46,7 +46,7 @@ use Kernel::System::DB;
 use Kernel::System::Main;
 use Kernel::Modules::Test;
 use Kernel::Modules::Installer;
-use Kernel::Output::HTML::Generic;
+use Kernel::Output::HTML::Layout;
 
 # --
 # create common objects
@@ -68,7 +68,7 @@ if ($Debug) {
 }
 # ... common objects ...
 $CommonObject{ParamObject} = Kernel::System::Web::Request->new(%CommonObject);
-$CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(%CommonObject);
+$CommonObject{LayoutObject} = Kernel::Output::HTML::Layout->new(%CommonObject);
 
 # --
 # get common parameters
@@ -93,7 +93,7 @@ if ($CommonObject{ConfigObject}->Get('SecureMode')) {
 # run modules if exists a version value
 # --
 elsif (eval '$Kernel::Modules::'. $Param{Action} .'::VERSION'){
-    $CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(
+    $CommonObject{LayoutObject} = Kernel::Output::HTML::Layout->new(
         %CommonObject,
         %Param,
     );

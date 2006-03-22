@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfacePublic.pm - the public interface file
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: InterfacePublic.pm,v 1.4 2006-02-01 10:19:47 martin Exp $
+# $Id: InterfacePublic.pm,v 1.5 2006-03-22 07:23:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Web::InterfacePublic;
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -27,7 +27,7 @@ use Kernel::System::Time;
 use Kernel::System::Web::Request;
 use Kernel::System::DB;
 use Kernel::System::CustomerUser;
-use Kernel::Output::HTML::Generic;
+use Kernel::Output::HTML::Layout;
 
 =head1 NAME
 
@@ -137,7 +137,7 @@ sub Run {
     # --
     # create common framework objects 2/3
     # --
-    $Self->{LayoutObject} = Kernel::Output::HTML::Generic->new(
+    $Self->{LayoutObject} = Kernel::Output::HTML::Layout->new(
         %Param,
         SessionIDCookie => 1,
         %{$Self},
@@ -270,6 +270,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2006-02-01 10:19:47 $
+$Revision: 1.5 $ $Date: 2006-03-22 07:23:20 $
 
 =cut
