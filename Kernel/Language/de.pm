@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: de.pm,v 1.97.2.2 2006-03-08 19:08:11 cs Exp $
+# $Id: de.pm,v 1.97.2.3 2006-03-22 22:41:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.97.2.2 $';
+$VERSION = '$Revision: 1.97.2.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -181,7 +181,7 @@ sub Data {
       'You have %s new message(s)!' => 'Sie haben %s neue Nachricht(en) bekommen!',
       'You have %s reminder ticket(s)!' => 'Sie haben %s Erinnerungs-Ticket(s)!',
       'The recommended charset for your language is %s!' => 'Der empfohlene Zeichensatz für Ihre Sprache ist %s!',
-      'Passwords doesn\'t match! Please try it again!' => 'Passwörter stimme nicht überein! Bitte wiederholen!',
+      'Passwords doesn\'t match! Please try it again!' => 'Passwörter stimmen nicht überein! Bitte wiederholen!',
       'Password is already in use! Please use an other password!' => 'Dieses Password wird bereits benutzt, es kann nicht verwendet werden!',
       'Password is already used! Please use an other password!' => 'Dieses Password wurde bereits benutzt, es kann nicht verwendet werden!',
       'You need to activate %s first to use it!' => '%s muss zuerst aktiviert werden um es zu benutzen!',
@@ -539,11 +539,11 @@ sub Data {
       'Is Job Valid?' => 'Ist Job gültig?',
       'Is Job Valid' => 'Ist Job gültig',
       'Schedule' => 'Zeitplan',
-      'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Volltextsuche in Artikel (z.B. "Mar*in" oder "Baue*")',
-      '(e. g. 10*5155 or 105658*)' => 'z.B. 10*5144 oder 105658*',
-      '(e. g. 234321)' => 'z.B. 234321',
+      'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Volltextsuche in Artikel (z. B. "Mar*in" oder "Baue*")',
+      '(e. g. 10*5155 or 105658*)' => 'z. B. 10*5144 oder 105658*',
+      '(e. g. 234321)' => 'z. B. 234321',
       'Customer User Login' => 'Kunden-Benutzer-Login',
-      '(e. g. U5150)' => 'z.B. U5150',
+      '(e. g. U5150)' => 'z. B. U5150',
       'Agent' => '',
       'TicketFreeText' => '',
       'Ticket Lock' => 'Ticket Sperren',
@@ -576,7 +576,7 @@ sub Data {
       # Template: AdminGroupForm
       'Group Management' => 'Gruppen Verwaltung',
       'The admin group is to get in the admin area and the stats group to get stats area.' => 'Die \'admin\'-Gruppe wird für den Admin-Bereich benötigt, die \'stats\'-Gruppe für den Statistik-Bereich.',
-      'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).' => 'Erstellen Sie neue Gruppen, um die Zugriffe für verschiedene Agenten-Gruppen zu definieren (z.B. Einkaufs-Abteilung, Support-Abteilung, Verkaufs-Abteilung,...).',
+      'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).' => 'Erstellen Sie neue Gruppen, um die Zugriffe für verschiedene Agenten-Gruppen zu definieren (z. B. Einkaufs-Abteilung, Support-Abteilung, Verkaufs-Abteilung,...).',
       'It\'s useful for ASP solutions.' => 'Nützlich für ASP-Lösungen.',
 
       # Template: AdminLog
@@ -837,7 +837,7 @@ sub Data {
 
       # Template: AgentTicketBounce
       'A message should have a To: recipient!' => 'Eine Nachricht sollte einen Empfänger im Feld An: haben!',
-      'You need a email address (e. g. customer@example.com) in To:!' => 'Im Feld An: wird eine E-Mail-Adresse (z.B. kunde@example.com) benötigt!',
+      'You need a email address (e. g. customer@example.com) in To:!' => 'Im Feld An: wird eine E-Mail-Adresse (z. B. kunde@example.com) benötigt!',
       'Bounce ticket' => '',
       'Bounce to' => 'Bounce an',
       'Next ticket state' => 'Nächster Status des Tickets',
@@ -988,7 +988,7 @@ sub Data {
       'Save Search-Profile as Template?' => 'Speichere Such-Profil als Vorlage?',
       'Yes, save it with name' => 'Ja, speichere unter dem Namen',
       'Customer history search' => 'Kunden-Historie-Suche',
-      'Customer history search (e. g. "ID342425").' => 'Kunden-Historie-Suche (z.B. "ID342425").',
+      'Customer history search (e. g. "ID342425").' => 'Kunden-Historie-Suche (z. B. "ID342425").',
       'No * possible!' => 'Kein "*" möglich!',
 
       # Template: AgentTicketSearchResult
