@@ -1,8 +1,8 @@
 # --
 # AgentTicketBulk.dtl - provides HTML form for bulk mask
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketBulk.dtl,v 1.4 2005-10-20 21:26:24 martin Exp $
+# $Id: AgentTicketBulk.dtl,v 1.5 2006-03-22 07:34:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -37,85 +37,85 @@ function SpellCheckSubmit()
 </script>
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-<tr>
-  <td class="mainhead">
-    $Env{"Box0"}$Text{"Ticket Bulk Action"}$Env{"Box1"}
-  </td>
-</tr>
-<tr>
-  <td class="menu">
-    <a href="$Env{"Baselink"}$Env{"LastScreenView"}" onmouseover="window.status='$Text{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
-  </td>
-</tr>
-<tr>
-  <td align="center" class="mainbody">
-
-  <br>
-
-  <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
-  <input type="hidden" name="Action" value="$Env{"Action"}">
-  <input type="hidden" name="Subaction" value="Do">
-
-  <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
   <tr>
-    <td colspan="2" class="contenthead">$Text{"Options"}</td>
-  </tr>
-  <tr>
-    <td class="contentbody">
-
-    $Data{"TicketIDHidden"}
-      <table border="0" width="100%">
-      <tr>
-        <td width="15%" class="contentkey">$Text{"Subject"}:</td>
-        <td width="85%" class="contentvalue"><input type="text" name="Subject" value="$Text{"$Config{"Ticket::Frontend::NoteSubject"}"}" size="70"></td>
-      </tr>
-      <tr>
-        <td class="contentkey">$Text{"Options"}:</td>
-        <td class="contentvalue">
-<!-- dtl:block:SpellCheck -->
-           $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$Text{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"}
-<!-- dtl:block:SpellCheck -->
-        </td>
-      </tr>
-      <tr>
-        <td class="contentkey">$Text{"Text"}:</td>
-        <td class="contentvalue"><textarea name="Body" rows="16" cols="$Config{"Ticket::Frontend::TextAreaNote"}" wrap="$Env{"BrowserWrap"}">$Text{"$Config{"Ticket::Frontend::NoteText"}"}</textarea></td>
-      </tr>
-      <tr>
-        <td class="contentkey">$Text{"Note type"}:</td>
-        <td class="contentvalue">$Data{"NoteStrg"}</td>
-      </tr>
-      <tr>
-        <td width="20%" class="contentkey">$Text{"Next ticket state"}:</td>
-        <td width="80%" class="contentvalue">$Data{"NextStatesStrg"}</td>
-      </tr>
-      <tr>
-        <td class="contentkey">$Text{"New Queue"}:</td>
-        <td class="contentvalue">$Data{"MoveQueuesStrg"}</td>
-      </tr>
-      <tr>
-        <td class="contentkey">$Text{"Unlock Tickets"}:</td>
-        <td class="contentvalue">$Data{"UnlockYesNoOption"}</td>
-      </tr>
-      </table>
-
+    <td class="mainhead">
+      $Env{"Box0"}$Text{"Ticket Bulk Action"}$Env{"Box1"}
     </td>
   </tr>
   <tr>
-    <td colspan="2" class="contentfooter"><input class="button" accesskey="g" type="submit" value="$Text{"submit"}" onclick="return submit_compose();"></td>
+    <td class="menu">
+      <a href="$Env{"Baselink"}$Env{"LastScreenView"}" onmouseover="window.status='$Text{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
+    </td>
   </tr>
-  </table>
-  </form>
+  <tr>
+    <td align="center" class="mainbody">
 
-  <br>
+      <br>
 
-  <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
-    <input type="hidden" name="Action" value="AgentSpelling">
-    <input type="hidden" name="Body" value="">
-    <input type="hidden" name="spell_lang" value="">
-  </form>
+      <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
+        <input type="hidden" name="Action" value="$Env{"Action"}">
+        <input type="hidden" name="Subaction" value="Do">
 
-  </td>
-</tr>
+        <table border="0" width="800" align="center" cellspacing="0" cellpadding="4">
+          <tr>
+            <td colspan="2" class="contenthead">$Text{"Options"}</td>
+          </tr>
+          <tr>
+            <td class="contentbody">
+
+              $Data{"TicketIDHidden"}
+              <table border="0" width="100%">
+                <tr>
+                  <td width="15%" class="contentkey">$Text{"Subject"}:</td>
+                  <td width="85%" class="contentvalue"><input type="text" name="Subject" value="$Text{"$Config{"Ticket::Frontend::NoteSubject"}"}" size="70"></td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Options"}:</td>
+                  <td class="contentvalue">
+<!-- dtl:block:SpellCheck -->
+                    $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$Text{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"}
+<!-- dtl:block:SpellCheck -->
+                  </td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Text"}:</td>
+                  <td class="contentvalue"><textarea name="Body" rows="16" cols="$Config{"Ticket::Frontend::TextAreaNote"}" wrap="$Env{"BrowserWrap"}">$Text{"$Config{"Ticket::Frontend::NoteText"}"}</textarea></td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Note type"}:</td>
+                  <td class="contentvalue">$Data{"NoteStrg"}</td>
+                </tr>
+                <tr>
+                  <td width="20%" class="contentkey">$Text{"Next ticket state"}:</td>
+                  <td width="80%" class="contentvalue">$Data{"NextStatesStrg"}</td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"New Queue"}:</td>
+                  <td class="contentvalue">$Data{"MoveQueuesStrg"}</td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Unlock Tickets"}:</td>
+                  <td class="contentvalue">$Data{"UnlockYesNoOption"}</td>
+                </tr>
+              </table>
+
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="contentfooter"><input class="button" accesskey="g" type="submit" value="$Text{"submit"}" onclick="return submit_compose();"></td>
+          </tr>
+        </table>
+      </form>
+
+      <br>
+
+      <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
+        <input type="hidden" name="Action" value="AgentSpelling">
+        <input type="hidden" name="Body" value="">
+        <input type="hidden" name="spell_lang" value="">
+      </form>
+
+    </td>
+  </tr>
 </table>
 <!-- end form -->

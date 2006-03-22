@@ -1,8 +1,8 @@
 # --
 # AgentTicketMove.dtl - provides HTML form for move mask
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketMove.dtl,v 1.4 2005-09-28 09:58:15 martin Exp $
+# $Id: AgentTicketMove.dtl,v 1.5 2006-03-22 07:34:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -55,89 +55,89 @@ function submit_compose()
 </script>
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
-<tr>
-  <td class="contenthead">
-    $Env{"Box0"}$Text{"Move Ticket"}: $Data{"TicketNumber"}$Env{"Box1"}
-  </td>
-</tr>
-$Include{"AgentTicketLocked"}
-<tr>
-  <td class="mainbody">
-
-  <br>
-
-  <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
   <tr>
-    <td colspan="2" class="contenthead">$Text{"Options"}</td>
-  </tr>
-  <tr>
-  <td class="contentbody">
-
-#$Data{"TicketUnlock"}
-  <form action="$Env{"CGIHandle"}" method="post" name="compose">
-  <input type="hidden" name="Action" value="$Env{"Action"}">
-  <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
-  <input type="hidden" name="TicketUnlock" value="$Data{"TicketUnlock"}">
-#  <input type="hidden" name="DestQueueID" value="">
-  <input type="hidden" name="ExpandQueueUsers" value="">
-  <input type="hidden" name="AllUsers" value="0">
-
-  <table border="0" width="100%">
-  <tr>
-    <td class="contentkey">$Text{"New Queue"}:</td>
-    <td class="contentvalue"></td>
-    <td class="contentvalue">$Data{"MoveQueuesStrg"} $Data{"LatestQueue"}</td>
-  </tr>
-  <tr>
-    <td width="18%" class="contentkey">$Text{"New Owner"}:</td>
-    <td width="2%" class="contentvalue"><input type="radio" name="UserSelection" value="New" checked="checked"></td>
-    <td width="80%" class="contentvalue">$Data{"OwnerStrg"} $Env{"Box0"}<a href="" onclick="document.compose.ExpandQueueUsers.value='3'; document.compose.AllUsers.value='1'; document.compose.submit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$Text{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}</td>
-  </tr>
-  <tr>
-    <td class="contentkey">$Text{"Previous Owner"}:</td>
-    <td class="contentvalue"><input type="radio" name="UserSelection" value="Old"></td>
-    <td class="contentvalue">$Data{"OldUserStrg"}</td>
-  </tr>
-  <tr>
-    <td class="contentkey">$Text{"Note"}:</td>
-    <td class="contentvalue"></td>
-    <td class="contentvalue"><textarea name="Comment" rows="8" cols="$Config{"Ticket::Frontend::TextAreaNote"}" wrap="$Env{"BrowserWrap"}">$Data{"Comment"}</textarea>
+    <td class="contenthead">
+      $Env{"Box0"}$Text{"Move Ticket"}: $Data{"TicketNumber"}$Env{"Box1"}
     </td>
   </tr>
+$Include{"AgentTicketLocked"}
+  <tr>
+    <td class="mainbody">
+
+      <br>
+
+      <table border="0" width="800" align="center" cellspacing="0" cellpadding="4">
+        <tr>
+          <td colspan="2" class="contenthead">$Text{"Options"}</td>
+        </tr>
+        <tr>
+          <td class="contentbody">
+
+#$Data{"TicketUnlock"}
+            <form action="$Env{"CGIHandle"}" method="post" name="compose">
+              <input type="hidden" name="Action" value="$Env{"Action"}">
+              <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
+              <input type="hidden" name="TicketUnlock" value="$Data{"TicketUnlock"}">
+#  <input type="hidden" name="DestQueueID" value="">
+              <input type="hidden" name="ExpandQueueUsers" value="">
+              <input type="hidden" name="AllUsers" value="0">
+
+              <table border="0" width="100%">
+                <tr>
+                  <td class="contentkey">$Text{"New Queue"}:</td>
+                  <td class="contentvalue"></td>
+                  <td class="contentvalue">$Data{"MoveQueuesStrg"} $Data{"LatestQueue"}</td>
+                </tr>
+                <tr>
+                  <td width="18%" class="contentkey">$Text{"New Owner"}:</td>
+                  <td width="2%" class="contentvalue"><input type="radio" name="UserSelection" value="New" checked="checked"></td>
+                  <td width="80%" class="contentvalue">$Data{"OwnerStrg"} $Env{"Box0"}<a href="" onclick="document.compose.ExpandQueueUsers.value='3'; document.compose.AllUsers.value='1'; document.compose.submit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$Text{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}</td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Previous Owner"}:</td>
+                  <td class="contentvalue"><input type="radio" name="UserSelection" value="Old"></td>
+                  <td class="contentvalue">$Data{"OldUserStrg"}</td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Note"}:</td>
+                  <td class="contentvalue"></td>
+                  <td class="contentvalue"><textarea name="Comment" rows="8" cols="$Config{"Ticket::Frontend::TextAreaNote"}" wrap="$Env{"BrowserWrap"}">$Data{"Comment"}</textarea>
+                  </td>
+                </tr>
 
 # --
 # use ticket is move
 # --
 <!-- dtl:block:State -->
-  <tr>
-    <td width="20%" class="contentkey">$Text{"Next ticket state"}:</td>
-    <td class="contentvalue"></td>
-    <td width="80%">$Data{"NextStatesStrg"}</td>
-  </tr>
+                <tr>
+                  <td width="20%" class="contentkey">$Text{"Next ticket state"}:</td>
+                  <td class="contentvalue"></td>
+                  <td width="80%">$Data{"NextStatesStrg"}</td>
+                </tr>
 <!-- dtl:block:State -->
 <!-- dtl:block:TimeUnits -->
-  <tr>
-    <td class="contentkey">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</td>
-    <td class="contentvalue"></td>
-    <td class="contentvalue"><input type="text" name="TimeUnits" value="$QData{"TimeUnits"}" size="3"></td>
-  </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</td>
+                  <td class="contentvalue"></td>
+                  <td class="contentvalue"><input type="text" name="TimeUnits" value="$QData{"TimeUnits"}" size="3"></td>
+                </tr>
 <!-- dtl:block:TimeUnits -->
 
-  </table>
-  <tr>
-    <td class="contentfooter">
-      <input class="button" accesskey="g" type="submit" value="$Text{"submit"}" onclick="return submit_compose();">
+              </table>
+              <tr>
+                <td class="contentfooter">
+                  <input class="button" accesskey="g" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();">
+                </td>
+              </tr>
+            </form>
+
+          </td>
+        </tr>
+      </table>
+
+      <br>
+
     </td>
   </tr>
-  </form>
-
-  </td>
-  </tr>
-  </table>
-
-  <br>
-
-  </td>
-</tr>
 </table>
 <!-- end form -->
