@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.245 2006-03-22 22:38:47 martin Exp $
+# $Id: CHANGES,v 1.246 2006-03-23 19:27:41 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -79,6 +79,8 @@ CVS head
     $Self->{PreApplicationModule}->{AgentInfo} = 'Kernel::Modules::AgentInfo';
 
 2.0.5 (2006/??/??)
+ - (2006/03/23) Fixed links to new phone/email ticket after a new
+     customer is created via Kernel/Modules/AdminCustomerUser.pm
  - (2006/03/21) update of Portuguese language file  - Thanks to
      Manuel Menezes de Sequeira)
  - (2006/03/18) added Greek translation - Thanks to Stelios Maistros!
