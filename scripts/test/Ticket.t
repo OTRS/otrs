@@ -1,8 +1,8 @@
 # --
-# TicketNumberGenerator.t - TicketNumberGenerator tests
+# Ticket.t - ticket module testscript
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.t,v 1.10 2006-02-28 05:58:33 martin Exp $
+# $Id: Ticket.t,v 1.11 2006-03-23 09:50:24 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
