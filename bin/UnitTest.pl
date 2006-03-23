@@ -3,7 +3,7 @@
 # UnitTest.pl - the global test handle
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: UnitTest.pl,v 1.3 2006-03-23 09:27:32 tr Exp $
+# $Id: UnitTest.pl,v 1.4 2006-03-23 09:38:25 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -47,7 +47,7 @@ getopt('hqtdno', \%Opts);
 if ($Opts{'h'}) {
     print "UnitTest.pl <Revision $VERSION> - OTRS test handle\n";
     print "Copyright (c) 2001-2005 Martin Edenhofer <martin\@otrs.org>\n";
-    print "usage: UnitTest.pl [-n FileTemp] [-o ASCII|HTML]\n";
+    print "usage: UnitTest.pl [-n Name e.g. Ticket or Queue] [-o ASCII|HTML]\n";
     exit 1;
 }
 # --
