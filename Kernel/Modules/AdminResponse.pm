@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminResponse.pm - provides admin std response module
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminResponse.pm,v 1.16 2005-03-27 11:50:50 martin Exp $
+# $Id: AdminResponse.pm,v 1.16.2.1 2006-03-23 18:34:01 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::StdResponse;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.16.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -51,7 +51,7 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output = '';
-    $Param{Subaction} = $Self->{Subaction} || ''; 
+    $Param{Subaction} = $Self->{Subaction} || '';
     $Param{NextScreen} = 'AdminResponse';
 
     my @Params = ('ID', 'Name', 'Comment', 'ValidID', 'Response');
@@ -86,25 +86,43 @@ sub Run {
     }
     # update action
     elsif ($Param{Subaction} eq 'ChangeAction') {
-        if ($Self->{StdResponseObject}->StdResponseUpdate(%GetParam, UserID => $Self->{UserID})) { 
-            # --
-            # update attachments to response
-            # --
-            my @NewIDs = $Self->{ParamObject}->GetArray(Param => 'IDs');
-            $Self->{StdAttachmentObject}->SetStdAttachmentsOfResponseID(
-                AttachmentIDsRef => \@NewIDs,
-                ID => $GetParam{ID},
-                UserID => $Self->{UserID},
+        if ($GetParam{Name} eq '') {
+            my $Output = $Self->{LayoutObject}->Header();
+            $Output .= $Self->{LayoutObject}->NavigationBar();
+            $Output .= $Self->{LayoutObject}->Notify(
+                Priority => 'Error',
+                Data => '$Text{"Please specify a name!"}',
             );
-            return $Self->{LayoutObject}->Redirect(OP => "Action=$Param{NextScreen}");
+            $Output .= $Self->_Mask(
+                Subaction => 'Change',
+                Attachments => \%AttachmentData,
+                SelectedAttachments => \%SelectedAttachmentData,
+            );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
         }
         else {
-            return $Self->{LayoutObject}->ErrorScreen();
+            if ($Self->{StdResponseObject}->StdResponseUpdate(%GetParam, UserID => $Self->{UserID})) {
+                # --
+                # update attachments to response
+                # --
+                my @NewIDs = $Self->{ParamObject}->GetArray(Param => 'IDs');
+                $Self->{StdAttachmentObject}->SetStdAttachmentsOfResponseID(
+                    AttachmentIDsRef => \@NewIDs,
+                    ID => $GetParam{ID},
+                    UserID => $Self->{UserID},
+                );
+                return $Self->{LayoutObject}->Redirect(OP => "Action=$Param{NextScreen}");
+            }
+            else {
+                return $Self->{LayoutObject}->ErrorScreen();
+            }
         }
     }
     # add new response
     elsif ($Param{Subaction} eq 'AddAction') {
-        if (my $Id = $Self->{StdResponseObject}->StdResponseAdd(%GetParam, UserID => $Self->{UserID})) {
+        my $Id = $Self->{StdResponseObject}->StdResponseAdd(%GetParam, UserID => $Self->{UserID});
+        if (defined($Id)) {
             # --
             # add attachments to response
             # --
@@ -122,7 +140,19 @@ sub Run {
             );
         }
         else {
-            return $Self->{LayoutObject}->ErrorScreen();
+            my $Output = $Self->{LayoutObject}->Header();
+            $Output .= $Self->{LayoutObject}->NavigationBar();
+            $Output .= $Self->{LayoutObject}->Notify(
+                Priority => 'Error',
+                Data => '$Text{"Please specify a name!"}',
+            );
+            $Output .= $Self->_Mask(
+                Subaction => 'Add',
+                Attachments => \%AttachmentData,
+                SelectedAttachments => \%SelectedAttachmentData,
+            );
+           $Output .= $Self->{LayoutObject}->Footer();
+           return $Output;
         }
     }
     # delete response
@@ -152,10 +182,10 @@ sub Run {
 sub _Mask {
     my $Self = shift;
     my %Param = @_;
- 
+
     # build ValidID string
     $Param{'ValidOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => { 
+        Data => {
           $Self->{DBObject}->GetTableData(
             What => 'id, name',
             Table => 'valid',
