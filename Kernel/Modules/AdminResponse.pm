@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminResponse.pm - provides admin std response module
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminResponse.pm,v 1.16.2.1 2006-03-23 18:34:01 cs Exp $
+# $Id: AdminResponse.pm,v 1.16.2.2 2006-03-24 18:55:49 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::StdResponse;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16.2.1 $';
+$VERSION = '$Revision: 1.16.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -94,6 +94,11 @@ sub Run {
                 Data => '$Text{"Please specify a name!"}',
             );
             $Output .= $Self->_Mask(
+                ID => $GetParam{ID},
+                Name => $GetParam{Name},
+                Response => $GetParam{Response},
+                ValidID => $GetParam{ValidID},
+                Comment => $GetParam{Comment},
                 Subaction => 'Change',
                 Attachments => \%AttachmentData,
                 SelectedAttachments => \%SelectedAttachmentData,
@@ -147,6 +152,10 @@ sub Run {
                 Data => '$Text{"Please specify a name!"}',
             );
             $Output .= $Self->_Mask(
+                Name => $GetParam{Name},
+                Response => $GetParam{Response},
+                ValidID => $GetParam{ValidID},
+                Comment => $GetParam{Comment},
                 Subaction => 'Add',
                 Attachments => \%AttachmentData,
                 SelectedAttachments => \%SelectedAttachmentData,
