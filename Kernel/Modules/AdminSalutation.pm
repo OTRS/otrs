@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSalutation.pm - to add/update/delete salutations
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSalutation.pm,v 1.18.2.1 2006-03-22 17:34:37 cs Exp $
+# $Id: AdminSalutation.pm,v 1.18.2.2 2006-03-24 15:13:17 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminSalutation;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18.2.1 $';
+$VERSION = '$Revision: 1.18.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -89,9 +89,14 @@ sub Run {
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Notify(
                 Priority => 'Error',
-                Data => '$Text{"Please specifiy a name!"}',
+                Data => '$Text{"Please specify a name!"}',
             );
-            $Output .= $Self->_Mask();
+            $Output .= $Self->_Mask(
+                ID => $GetParam{ID},
+                Comment => $GetParam{Comment},
+                Salutation => $GetParam{Salutation},
+                ValidID => $GetParam{ValidID},
+            );
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
         }
@@ -128,9 +133,13 @@ sub Run {
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Notify(
                 Priority => 'Error',
-                Data => '$Text{"Please specifiy a name!"}',
+                Data => '$Text{"Please specify a name!"}',
             );
-            $Output .= $Self->_Mask();
+            $Output .= $Self->_Mask(
+                 Comment => $GetParam{Comment},
+                 Salutation => $GetParam{Salutation},
+                 ValidID => $GetParam{ValidID},
+            );
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
         }
