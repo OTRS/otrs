@@ -3,7 +3,7 @@
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: auto_build.sh,v 1.36 2006-03-25 22:48:07 martin Exp $
+# $Id: auto_build.sh,v 1.37 2006-03-25 22:53:40 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,13 +20,14 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.36 $>"
+echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.37 $>"
 echo "Copyright (c) 2001-2005 Martin Edenhofer <martin@otrs.org>"
 
 PATH_TO_CVS_SRC=$1
 PRODUCT=OTRS
 VERSION=$2
-RELEASE=$3
+#RELEASE=$3
+RELEASE=01
 #ARCHIVE_DIR="otrs-$VERSION-$RELEASE"
 ARCHIVE_DIR="otrs-$VERSION"
 #ARCHIVE_DIR="otrs"
@@ -42,7 +43,7 @@ if ! test $PATH_TO_CVS_SRC || ! test $VERSION || ! test $RELEASE; then
     # build src needed
     # --
     echo ""
-    echo "Usage: auto_build.sh <PATH_TO_CVS_SRC> <VERSION> <RELEASE>"
+    echo "Usage: auto_build.sh <PATH_TO_CVS_SRC> <VERSION>"
     echo ""
     echo "  Try: auto_build.sh /home/ernie/src/otrs 1.0.2 01"
     echo ""
@@ -95,7 +96,7 @@ mkdir $PACKAGE_DEST_DIR/RPMS/suse/7.3
 mkdir $PACKAGE_DEST_DIR/RPMS/suse/8.x
 mkdir $PACKAGE_DEST_DIR/RPMS/suse/9.0
 mkdir $PACKAGE_DEST_DIR/RPMS/suse/9.1
-mkdir $PACKAGE_DEST_DIR/RPMS/suse/10.x
+mkdir $PACKAGE_DEST_DIR/RPMS/suse/10.0
 mkdir $PACKAGE_DEST_DIR/RPMS/redhat
 mkdir $PACKAGE_DEST_DIR/RPMS/redhat/7.x
 mkdir $PACKAGE_DEST_DIR/RPMS/redhat/8.0
@@ -105,7 +106,7 @@ mkdir $PACKAGE_DEST_DIR/SRPMS/suse/7.3
 mkdir $PACKAGE_DEST_DIR/SRPMS/suse/8.x
 mkdir $PACKAGE_DEST_DIR/SRPMS/suse/9.0
 mkdir $PACKAGE_DEST_DIR/SRPMS/suse/9.1
-mkdir $PACKAGE_DEST_DIR/SRPMS/suse/10.x
+mkdir $PACKAGE_DEST_DIR/SRPMS/suse/10.0
 mkdir $PACKAGE_DEST_DIR/SRPMS/redhat
 mkdir $PACKAGE_DEST_DIR/SRPMS/redhat/7.x
 mkdir $PACKAGE_DEST_DIR/SRPMS/redhat/8.0
@@ -198,11 +199,11 @@ DESCRIPTION=$PATH_TO_CVS_SRC/scripts/auto_build/description.txt
 FILES=$PATH_TO_CVS_SRC/scripts/auto_build/files.txt
 
 # --
-# build SuSE 10.x rpm
+# build SuSE 10.0 rpm
 # --
 specfile=$PACKAGE_TMP_SPEC
 # replace version and release
-cat $ARCHIVE_DIR/scripts/suse-otrs-10.x.spec | sed "s/^Version:.*/Version:      $VERSION/" | sed "s/^Release:.*/Release:      $RELEASE/" > $specfile.tmp
+cat $ARCHIVE_DIR/scripts/suse-otrs-10.0.spec | sed "s/^Version:.*/Version:      $VERSION/" | sed "s/^Release:.*/Release:      $RELEASE/" > $specfile.tmp
 # replace sourced files
 perl -e "open(SPEC, '< $specfile.tmp');while(<SPEC>){\$spec.=\$_;};open(IN, '< $FILES');while(<IN>){\$i.=\$_;}\$spec=~s/<FILES>/\$i/g;print \$spec;" > $specfile.tmp1
 # replace package description
@@ -210,8 +211,8 @@ perl -e "open(SPEC, '< $specfile.tmp1');while(<SPEC>){\$spec.=\$_;};open(IN, '< 
 $RPM_BUILD -ba --clean $specfile || exit 1;
 rm $specfile || exit 1;
 
-mv $SYSTEM_RPM_DIR/*/$PACKAGE*$VERSION*$RELEASE*.rpm $PACKAGE_DEST_DIR/RPMS/suse/10.x/
-mv $SYSTEM_SRPM_DIR/$PACKAGE*$VERSION*$RELEASE*.src.rpm $PACKAGE_DEST_DIR/SRPMS/suse/10.x/
+mv $SYSTEM_RPM_DIR/*/$PACKAGE*$VERSION*$RELEASE*.rpm $PACKAGE_DEST_DIR/RPMS/suse/10.0/
+mv $SYSTEM_SRPM_DIR/$PACKAGE*$VERSION*$RELEASE*.src.rpm $PACKAGE_DEST_DIR/SRPMS/suse/10.0/
 # --
 # build SuSE 9.1 rpm
 # --
