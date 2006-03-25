@@ -148,7 +148,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.94 2006-03-22 22:38:00 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.95 2006-03-25 23:10:06 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -1473,6 +1473,14 @@ TimeWorkingHours
                 <Item Key="TicketFreeKey6">TicketFreeKey6</Item>
                 <Item Key="TicketFreeKey7">TicketFreeKey7</Item>
                 <Item Key="TicketFreeKey8">TicketFreeKey8</Item>
+                <Item Key="TicketFreeKey9">TicketFreeKey9</Item>
+                <Item Key="TicketFreeKey10">TicketFreeKey10</Item>
+                <Item Key="TicketFreeKey11">TicketFreeKey11</Item>
+                <Item Key="TicketFreeKey12">TicketFreeKey12</Item>
+                <Item Key="TicketFreeKey13">TicketFreeKey13</Item>
+                <Item Key="TicketFreeKey14">TicketFreeKey14</Item>
+                <Item Key="TicketFreeKey15">TicketFreeKey15</Item>
+                <Item Key="TicketFreeKey16">TicketFreeKey16</Item>
                 <Item Key="TicketFreeText1">TicketFreeText1</Item>
                 <Item Key="TicketFreeText2">TicketFreeText2</Item>
                 <Item Key="TicketFreeText3">TicketFreeText3</Item>
@@ -1481,6 +1489,14 @@ TimeWorkingHours
                 <Item Key="TicketFreeText6">TicketFreeText6</Item>
                 <Item Key="TicketFreeText7">TicketFreeText7</Item>
                 <Item Key="TicketFreeText8">TicketFreeText8</Item>
+                <Item Key="TicketFreeText9">TicketFreeText9</Item>
+                <Item Key="TicketFreeText10">TicketFreeText10</Item>
+                <Item Key="TicketFreeText11">TicketFreeText11</Item>
+                <Item Key="TicketFreeText12">TicketFreeText12</Item>
+                <Item Key="TicketFreeText13">TicketFreeText13</Item>
+                <Item Key="TicketFreeText14">TicketFreeText14</Item>
+                <Item Key="TicketFreeText15">TicketFreeText15</Item>
+                <Item Key="TicketFreeText16">TicketFreeText16</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -1644,6 +1660,14 @@ TimeWorkingHours
                 <Item Key="TicketFreeKey6">TicketFreeKey6</Item>
                 <Item Key="TicketFreeKey7">TicketFreeKey7</Item>
                 <Item Key="TicketFreeKey8">TicketFreeKey8</Item>
+                <Item Key="TicketFreeKey9">TicketFreeKey9</Item>
+                <Item Key="TicketFreeKey10">TicketFreeKey10</Item>
+                <Item Key="TicketFreeKey11">TicketFreeKey11</Item>
+                <Item Key="TicketFreeKey12">TicketFreeKey12</Item>
+                <Item Key="TicketFreeKey13">TicketFreeKey13</Item>
+                <Item Key="TicketFreeKey14">TicketFreeKey14</Item>
+                <Item Key="TicketFreeKey15">TicketFreeKey15</Item>
+                <Item Key="TicketFreeKey16">TicketFreeKey16</Item>
                 <Item Key="TicketFreeText1">TicketFreeText1</Item>
                 <Item Key="TicketFreeText2">TicketFreeText2</Item>
                 <Item Key="TicketFreeText3">TicketFreeText3</Item>
@@ -1652,6 +1676,14 @@ TimeWorkingHours
                 <Item Key="TicketFreeText6">TicketFreeText6</Item>
                 <Item Key="TicketFreeText7">TicketFreeText7</Item>
                 <Item Key="TicketFreeText8">TicketFreeText8</Item>
+                <Item Key="TicketFreeText9">TicketFreeText9</Item>
+                <Item Key="TicketFreeText10">TicketFreeText10</Item>
+                <Item Key="TicketFreeText11">TicketFreeText11</Item>
+                <Item Key="TicketFreeText12">TicketFreeText12</Item>
+                <Item Key="TicketFreeText13">TicketFreeText13</Item>
+                <Item Key="TicketFreeText14">TicketFreeText14</Item>
+                <Item Key="TicketFreeText15">TicketFreeText15</Item>
+                <Item Key="TicketFreeText16">TicketFreeText16</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -1754,6 +1786,14 @@ TimeWorkingHours
                 <Item Key="TicketFreeKey6">TicketFreeKey6</Item>
                 <Item Key="TicketFreeKey7">TicketFreeKey7</Item>
                 <Item Key="TicketFreeKey8">TicketFreeKey8</Item>
+                <Item Key="TicketFreeKey9">TicketFreeKey9</Item>
+                <Item Key="TicketFreeKey10">TicketFreeKey10</Item>
+                <Item Key="TicketFreeKey11">TicketFreeKey11</Item>
+                <Item Key="TicketFreeKey12">TicketFreeKey12</Item>
+                <Item Key="TicketFreeKey13">TicketFreeKey13</Item>
+                <Item Key="TicketFreeKey14">TicketFreeKey14</Item>
+                <Item Key="TicketFreeKey15">TicketFreeKey15</Item>
+                <Item Key="TicketFreeKey16">TicketFreeKey16</Item>
                 <Item Key="TicketFreeText1">TicketFreeText1</Item>
                 <Item Key="TicketFreeText2">TicketFreeText2</Item>
                 <Item Key="TicketFreeText3">TicketFreeText3</Item>
@@ -1762,6 +1802,14 @@ TimeWorkingHours
                 <Item Key="TicketFreeText6">TicketFreeText6</Item>
                 <Item Key="TicketFreeText7">TicketFreeText7</Item>
                 <Item Key="TicketFreeText8">TicketFreeText8</Item>
+                <Item Key="TicketFreeText9">TicketFreeText9</Item>
+                <Item Key="TicketFreeText10">TicketFreeText10</Item>
+                <Item Key="TicketFreeText11">TicketFreeText11</Item>
+                <Item Key="TicketFreeText12">TicketFreeText12</Item>
+                <Item Key="TicketFreeText13">TicketFreeText13</Item>
+                <Item Key="TicketFreeText14">TicketFreeText14</Item>
+                <Item Key="TicketFreeText15">TicketFreeText15</Item>
+                <Item Key="TicketFreeText16">TicketFreeText16</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -1884,6 +1932,14 @@ TimeWorkingHours
                 <Item Key="TicketFreeKey6">TicketFreeKey6</Item>
                 <Item Key="TicketFreeKey7">TicketFreeKey7</Item>
                 <Item Key="TicketFreeKey8">TicketFreeKey8</Item>
+                <Item Key="TicketFreeKey9">TicketFreeKey9</Item>
+                <Item Key="TicketFreeKey10">TicketFreeKey10</Item>
+                <Item Key="TicketFreeKey11">TicketFreeKey11</Item>
+                <Item Key="TicketFreeKey12">TicketFreeKey12</Item>
+                <Item Key="TicketFreeKey13">TicketFreeKey13</Item>
+                <Item Key="TicketFreeKey14">TicketFreeKey14</Item>
+                <Item Key="TicketFreeKey15">TicketFreeKey15</Item>
+                <Item Key="TicketFreeKey16">TicketFreeKey16</Item>
                 <Item Key="TicketFreeText1">TicketFreeText1</Item>
                 <Item Key="TicketFreeText2">TicketFreeText2</Item>
                 <Item Key="TicketFreeText3">TicketFreeText3</Item>
@@ -1892,6 +1948,14 @@ TimeWorkingHours
                 <Item Key="TicketFreeText6">TicketFreeText6</Item>
                 <Item Key="TicketFreeText7">TicketFreeText7</Item>
                 <Item Key="TicketFreeText8">TicketFreeText8</Item>
+                <Item Key="TicketFreeText9">TicketFreeText9</Item>
+                <Item Key="TicketFreeText10">TicketFreeText10</Item>
+                <Item Key="TicketFreeText11">TicketFreeText11</Item>
+                <Item Key="TicketFreeText12">TicketFreeText12</Item>
+                <Item Key="TicketFreeText13">TicketFreeText13</Item>
+                <Item Key="TicketFreeText14">TicketFreeText14</Item>
+                <Item Key="TicketFreeText15">TicketFreeText15</Item>
+                <Item Key="TicketFreeText16">TicketFreeText16</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -5535,6 +5599,14 @@ $QData{"Signature"}
                 <Item Key="TicketFreeKey6">TicketFreeKey6</Item>
                 <Item Key="TicketFreeKey7">TicketFreeKey7</Item>
                 <Item Key="TicketFreeKey8">TicketFreeKey8</Item>
+                <Item Key="TicketFreeKey9">TicketFreeKey9</Item>
+                <Item Key="TicketFreeKey10">TicketFreeKey10</Item>
+                <Item Key="TicketFreeKey11">TicketFreeKey11</Item>
+                <Item Key="TicketFreeKey12">TicketFreeKey12</Item>
+                <Item Key="TicketFreeKey13">TicketFreeKey13</Item>
+                <Item Key="TicketFreeKey14">TicketFreeKey14</Item>
+                <Item Key="TicketFreeKey15">TicketFreeKey15</Item>
+                <Item Key="TicketFreeKey16">TicketFreeKey16</Item>
                 <Item Key="TicketFreeText1">TicketFreeText1</Item>
                 <Item Key="TicketFreeText2">TicketFreeText2</Item>
                 <Item Key="TicketFreeText3">TicketFreeText3</Item>
@@ -5543,6 +5615,14 @@ $QData{"Signature"}
                 <Item Key="TicketFreeText6">TicketFreeText6</Item>
                 <Item Key="TicketFreeText7">TicketFreeText7</Item>
                 <Item Key="TicketFreeText8">TicketFreeText8</Item>
+                <Item Key="TicketFreeText9">TicketFreeText9</Item>
+                <Item Key="TicketFreeText10">TicketFreeText10</Item>
+                <Item Key="TicketFreeText11">TicketFreeText11</Item>
+                <Item Key="TicketFreeText12">TicketFreeText12</Item>
+                <Item Key="TicketFreeText13">TicketFreeText13</Item>
+                <Item Key="TicketFreeText14">TicketFreeText14</Item>
+                <Item Key="TicketFreeText15">TicketFreeText15</Item>
+                <Item Key="TicketFreeText16">TicketFreeText16</Item>
             </Option>
         </Setting>
     </ConfigItem>
