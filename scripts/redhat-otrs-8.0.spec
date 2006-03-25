@@ -2,7 +2,7 @@
 # RPM spec file for RedHat Linux of the OTRS package
 # Copyright (C) 2002-2003 Martin Edenhofer <bugs+rpm@otrs.org>
 # --
-# $Id: redhat-otrs-8.0.spec,v 1.7 2005-11-28 00:17:37 martin Exp $
+# $Id: redhat-otrs-8.0.spec,v 1.8 2006-03-25 22:30:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -28,7 +28,7 @@ BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 <DESCRIPTION>
 
 %prep
-%setup -n otrs
+%setup
 
 %build
 # copy config file
