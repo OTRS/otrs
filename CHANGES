@@ -2,20 +2,23 @@
 # CHANGES - change log  of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.209.2.41 2006-03-23 19:18:49 cs Exp $
+# $Id: CHANGES,v 1.209.2.42 2006-03-25 23:07:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.0.5 (2006/??/??)
+ - (2006/03/24) added SUSE 10.x RPM support
+ - (2006/03/24) fixed bug# 925 - Binary Attachments incorrectly utf-8
+    encoded in ticket replies
  - (2006/03/23) Fixed links to new phone/email ticket after a new
     customer is created via Kernel/Modules/AdminCustomerUser.pm
  - (2006/03/23) Changed Kernel/Modules/AdminResponse.pm and
     Kernel/System/StdResponse.pm to prevent creation/change of responses
     with empty names
- - (2006/03/22) changed Kernel/MOdules/AdminSalutation.pm to prevent
- creation/change of entries with empty names
+ - (2006/03/22) changed Kernel/Modules/AdminSalutation.pm to prevent
+    creation/change of entries with empty names
  - (2006/03/21) update of Portuguese language file (thanks to
     Manuel Menezes de Sequeira)
  - (2006/03/18) added Greek translation - Thanks to Stelios Maistros!
