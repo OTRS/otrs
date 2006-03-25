@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Web/Request.pm - a wrapper for CGI.pm or Apache::Request.pm
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Request.pm,v 1.2 2004-11-26 23:48:24 martin Exp $
+# $Id: Request.pm,v 1.3 2006-03-25 23:06:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::Encode;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.2 $ ';
+$VERSION = '$Revision: 1.3 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -184,6 +184,7 @@ sub GetUploadAll {
             while (<$Upload>) {
                 $Param{UploadFilename} .= $_;
             }
+            $Self->{EncodeObject}->Encode(\$Param{UploadFilename});
         }
         # return file location in FS
         else {
@@ -275,6 +276,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2004-11-26 23:48:24 $
+$Revision: 1.3 $ $Date: 2006-03-25 23:06:49 $
 
 =cut
