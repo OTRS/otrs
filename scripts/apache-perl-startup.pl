@@ -75,9 +75,9 @@ use Kernel::System::CustomerAuth;
 use Kernel::System::CheckItem;
 use Kernel::System::AutoResponse;
 use Kernel::System::Notification;
-use Kernel::System::FAQ;
 
-use Kernel::Output::HTML::Generic;
+use Kernel::Output::HTML::Layout;
+use Kernel::Output::HTML::LayoutTicket;
 
 # web agent middle ware modules
 use Kernel::Modules::AgentTicketQueue;
@@ -135,11 +135,6 @@ use Kernel::Modules::AdminEmail;
 use Kernel::Modules::AdminCustomerUser;
 use Kernel::Modules::AdminCustomerUserGroup;
 
-# faq middle ware modules
-use Kernel::Modules::FAQ;
-use Kernel::Modules::FAQCategory;
-use Kernel::Modules::FAQLanguage;
-
 # web customer middle ware modules
 use Kernel::Modules::CustomerPreferences;
 use Kernel::Modules::CustomerTicketAttachment;
@@ -147,7 +142,6 @@ use Kernel::Modules::CustomerTicketMessage;
 use Kernel::Modules::CustomerTicketOverView;
 use Kernel::Modules::CustomerTicketZoom;
 use Kernel::Modules::CustomerZoom;
-use Kernel::Modules::CustomerFAQ;
 
 # web stats module
 use Kernel::Modules::SystemStats;
