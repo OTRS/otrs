@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.100 2006-03-04 11:26:45 martin Exp $
+# $Id: Article.pm,v 1.101 2006-03-27 13:44:04 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.100 $';
+$VERSION = '$Revision: 1.101 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1171,6 +1171,7 @@ Note: Key "Body", "Subject", "From", "To" and "Cc" is implemented.
       Key => 'Body',
       Value => 'New Body',
       UserID => 123,
+      TicketID => 123,
   );
 
 =cut
@@ -1179,7 +1180,7 @@ sub ArticleUpdate {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
-    foreach (qw(ArticleID UserID Key)) {
+    foreach (qw(ArticleID UserID Key TicketID)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
