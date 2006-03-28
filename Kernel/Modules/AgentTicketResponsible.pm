@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketResponsible.pm - set ticket responsible
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketResponsible.pm,v 1.4 2006-03-22 22:35:52 martin Exp $
+# $Id: AgentTicketResponsible.pm,v 1.5 2006-03-28 04:54:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -151,7 +151,7 @@ sub Run {
     # get params
     my %GetParam = ();
     foreach (qw(
-        NewStateID NewPriorityID TimeUnits ArticleTypeID Body Subject
+        NewStateID NewPriorityID TimeUnits ArticleTypeID Title Body Subject
         Year Month Day Hour Minute NewOwnerID NewOwnerType OldOwnerID NewResponsibleID
         AttachmentUpload
         AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
@@ -206,13 +206,15 @@ sub Run {
                 }
             }
         }
-        # check subject
-        if (!$GetParam{Subject}) {
-            $Error{"Subject invalid"} = '* invalid';
-        }
-        # check body
-        if (!$GetParam{Body}) {
-            $Error{"Body invalid"} = '* invalid';
+        if ($Self->{Config}->{Note}) {
+            # check subject
+            if (!$GetParam{Subject}) {
+                $Error{"Subject invalid"} = '* invalid';
+            }
+            # check body
+            if (!$GetParam{Body}) {
+                $Error{"Body invalid"} = '* invalid';
+            }
         }
         # attachment delete
         foreach (1..10) {
@@ -300,6 +302,15 @@ sub Run {
             );
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
+        }
+        if ($Self->{Config}->{Title}) {
+            if (defined($GetParam{Title})) {
+                $Self->{TicketObject}->TicketTitleUpdate(
+                    Title => $GetParam{Title},
+                    TicketID => $Self->{TicketID},
+                    UserID => $Self->{UserID},
+                );
+            }
         }
         if ($Self->{Config}->{Owner}) {
             if ($GetParam{NewOwnerType} eq 'Old' && $GetParam{OldOwnerID}) {
@@ -541,11 +552,12 @@ sub Run {
         my $Output = $Self->{LayoutObject}->Header(Value => $Ticket{TicketNumber});
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->_Mask(
-            %Ticket,
+#            %Ticket,
             %TicketFreeTextHTML,
             %TicketFreeTimeHTML,
             %ArticleFreeTextHTML,
             %GetParam,
+            %Ticket,
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
@@ -557,6 +569,12 @@ sub _Mask {
     my %Param = @_;
     my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Self->{TicketID});
 
+    if ($Self->{Config}->{Title}) {
+        $Self->{LayoutObject}->Block(
+            Name => 'Title',
+            Data => \%Param,
+        );
+    }
     if ($Self->{Config}->{Owner}) {
         # get user of own groups
         my %ShownUsers = ();

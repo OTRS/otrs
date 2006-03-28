@@ -2,7 +2,7 @@
 # AgentTicketClose.dtl - close mask
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketClose.dtl,v 1.10 2006-03-22 07:30:22 martin Exp $
+# $Id: AgentTicketClose.dtl,v 1.11 2006-03-28 04:54:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -111,6 +111,12 @@ function change_selected(sel)
           <tr>
             <td class="contentbody">
               <table border="0" width="100%">
+<!-- dtl:block:Title -->
+                <tr>
+                  <td colspan="2" width="20%" class="contentkey">$Text{"Title"}:</td>
+                  <td width="80%" class="contentvalue"><input type="text" name="Title" value="$QData{"Title"}" size="70"><font color="red" size="-2">$Text{"$Data{"Title invalid"}"}</font></td>
+                </tr>
+<!-- dtl:block:Title -->
 <!-- dtl:block:Owner -->
                 <tr>
                   <td width="18%" class="contentkey">$Text{"New Owner"}:</td>
