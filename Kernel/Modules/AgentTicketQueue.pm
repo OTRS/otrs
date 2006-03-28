@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketQueue.pm,v 1.12 2006-03-10 07:31:11 tr Exp $
+# $Id: AgentTicketQueue.pm,v 1.13 2006-03-28 01:11:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -508,6 +508,13 @@ sub ShowTicket {
     if ($Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeature')) {
         $Self->{LayoutObject}->Block(
             Name => "Bulk",
+            Data => { %Param, %Article },
+        );
+    }
+    # ticket title
+    if ($Self->{ConfigObject}->Get('Ticket::Frontend::Title')) {
+        $Self->{LayoutObject}->Block(
+            Name => 'Title',
             Data => { %Param, %Article },
         );
     }

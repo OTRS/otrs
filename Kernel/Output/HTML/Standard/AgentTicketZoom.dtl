@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketZoom.dtl,v 1.10 2006-03-22 07:33:42 martin Exp $
+# $Id: AgentTicketZoom.dtl,v 1.11 2006-03-28 01:11:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,9 @@
   <tr>
     <td width="50%" class="mainhead">
       $Env{"Box0"}$Text{"Zoom"} $Config{"Ticket::Hook"}: $Data{"TicketNumber"} $Env{"Box1"}
-#$QData{"Title","20"}
+<!-- dtl:block:Title-->
+      $QData{"Title","60"}
+<!-- dtl:block:Title-->
     </td>
     <td align="right" width="50%" class="mainhead">
       $Env{"Box0"}$Text{"Age"}: $Data{"Age"}$Env{"Box1"}
@@ -146,6 +148,7 @@ $Data{"BodyNote"}
       <div class="message">
 $Data{"Body"}
       </div>
+
     </td>
     <td width="25%" valign="top" class="PriorityID-$Data{"PriorityID"}">
 # show ticket status (state, lock, ...)

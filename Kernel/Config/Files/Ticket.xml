@@ -148,7 +148,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.95 2006-03-25 23:10:06 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.96 2006-03-28 01:11:49 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -1226,6 +1226,18 @@ TimeWorkingHours
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
             <String Regex="^[0-9]{1,6}$">86400</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::Title" Required="1" Valid="1">
+        <Description Lang="en">Show ticket title in ticket view like QueueView, ZoomView and MailboxView.</Description>
+        <Description Lang="de">Anzeigen des Ticket-Titel in z. B. Queue-Ansicht, Inhalts-Ansicht und Mailbox-Ansicht.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="1">Yes</Item>
+                <Item Key="0">No</Item>
+            </Option>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::QueueListType" Required="1" Valid="1">

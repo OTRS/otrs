@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketZoom.pm,v 1.19 2006-03-22 22:33:06 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.20 2006-03-28 01:11:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -62,6 +62,7 @@ sub new {
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
     # link object
     $Self->{LinkObject} = Kernel::System::LinkObject->new(%Param);
+
     return $Self;
 }
 
@@ -217,6 +218,13 @@ sub MaskAgentZoom {
         Name => 'Header',
         Data => {%Param, %AclAction},
     );
+    # ticket title
+    if ($Self->{ConfigObject}->Get('Ticket::Frontend::Title')) {
+        $Self->{LayoutObject}->Block(
+            Name => 'Title',
+            Data => {%Param, %AclAction},
+        );
+    }
     # run ticket menu modules
     if (ref($Self->{ConfigObject}->Get('Ticket::Frontend::MenuModule')) eq 'HASH') {
         my %Menus = %{$Self->{ConfigObject}->Get('Ticket::Frontend::MenuModule')};

@@ -2,7 +2,7 @@
 # AgentTicketQueueTicketView.dtl - provides HTML TicketView for AgentTicketQueueView
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketQueueTicketView.dtl,v 1.4 2006-03-04 11:45:09 martin Exp $
+# $Id: AgentTicketQueueTicketView.dtl,v 1.5 2006-03-28 01:11:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,6 +20,9 @@
 
     <td width="50%" class="mainhead">
       $Env{"Box0"}$Config{"Ticket::Hook"}: $Data{"TicketNumber"}$Env{"Box1"}
+<!-- dtl:block:Title-->
+      $QData{"Title","60"}
+<!-- dtl:block:Title-->
     </td>
     <td align="right" width="49%" class="mainhead">
       $Env{"Box0"}$Text{"Age"}: $Data{"Age"}$Env{"Box1"}
@@ -99,125 +102,125 @@ $Data{"Body"}
     </td>
     <td width="25%" align="left" valign="top" class="PriorityID-$Data{"PriorityID"}">
       <p>
-      <table border="0" cellspacing="0" cellpadding="1">
-        <tr>
-          <td><b>$Text{"State"}:</b></td>
-          <td><font color="red"><div title="$Quote{"$Text{"$Data{"State"}"}"}">$Quote{"$Text{"$Data{"State"}"}","18"}</div></font></td>
-        </tr>
-        <tr>
-          <td><b>$Text{"Priority"}:</b></td>
-          <td><font color="red"><div title="$Quote{"$Text{"$Data{"Priority"}"}"}">$Quote{"$Text{"$Data{"Priority"}"}","18"}</div></font></td>
-        </tr>
-        <tr>
-          <td><b>$Text{"Queue"}:</b></td>
-          <td><font color="red"><div title="$QData{"Queue"}">$QData{"Queue","18"}</div></font></td>
-        </tr>
-        <tr>
-          <td><b>$Text{"CustomerID"}:</b></td>
-          <td><a href="$Config{"CustomerDBLink"}" $Config{"CustomerDBLinkTarget"}>$Quote{"$Data{"CustomerID"}","18"}</a></td>
-        </tr>
+        <table border="0" cellspacing="0" cellpadding="1">
+          <tr>
+            <td><b>$Text{"State"}:</b></td>
+            <td><font color="red"><div title="$Quote{"$Text{"$Data{"State"}"}"}">$Quote{"$Text{"$Data{"State"}"}","18"}</div></font></td>
+          </tr>
+          <tr>
+            <td><b>$Text{"Priority"}:</b></td>
+            <td><font color="red"><div title="$Quote{"$Text{"$Data{"Priority"}"}"}">$Quote{"$Text{"$Data{"Priority"}"}","18"}</div></font></td>
+          </tr>
+          <tr>
+            <td><b>$Text{"Queue"}:</b></td>
+            <td><font color="red"><div title="$QData{"Queue"}">$QData{"Queue","18"}</div></font></td>
+          </tr>
+          <tr>
+            <td><b>$Text{"CustomerID"}:</b></td>
+            <td><a href="$Config{"CustomerDBLink"}" $Config{"CustomerDBLinkTarget"}>$Quote{"$Data{"CustomerID"}","18"}</a></td>
+          </tr>
 #    <tr  valign="top">
 #      <td><b>$Text{"Owner"}:</b></td>
 #      <td><div title="$QData{"Owner"}">$QData{"Owner","18"}</div></td>
 #    </tr>
-        <tr>
-          <td><b>$Text{"Escalation in"}:</b></td>
-          <td>$Data{"TicketOverTime"}</td>
-        </tr>
+          <tr>
+            <td><b>$Text{"Escalation in"}:</b></td>
+            <td>$Data{"TicketOverTime"}</td>
+          </tr>
 # --
 # show TicketFreeKey1-2 and TicketFreeText1-2
 # --
-        <dtl if ($Data{"TicketFreeKey1"} ne "") { $Data{"TicketFreeString1"} = "<tr><td><b>$QData{"TicketFreeKey1","25"}:</b></td><td><div title="$QData{"TicketFreeText1"}">$QData{"TicketFreeText1","25"}</div></td></tr>"; }>
-        <dtl if ($Data{"TicketFreeKey2"} ne "") { $Data{"TicketFreeString2"} = "<tr><td><b>$QData{"TicketFreeKey2","25"}:</b></td><td><div title="$QData{"TicketFreeText2"}">$QData{"TicketFreeText2","25"}</div></td></tr>"; }>
-        <dtl if ($Data{"TicketFreeKey3"} ne "") { $Data{"TicketFreeString3"} = "<tr><td><b>$QData{"TicketFreeKey3","25"}:</b></td><td><div title="$QData{"TicketFreeText3"}">$QData{"TicketFreeText3","25"}</div></td></tr>"; }>
-        <dtl if ($Data{"TicketFreeKey4"} ne "") { $Data{"TicketFreeString4"} = "<tr><td><b>$QData{"TicketFreeKey4","25"}:</b></td><td><div title="$QData{"TicketFreeText4"}">$QData{"TicketFreeText4","25"}</div></td></tr>"; }>
-        <dtl if ($Data{"TicketFreeKey5"} ne "") { $Data{"TicketFreeString5"} = "<tr><td><b>$QData{"TicketFreeKey5","25"}:</b></td><td><div title="$QData{"TicketFreeText5"}">$QData{"TicketFreeText5","25"}</div></td></tr>"; }>
-        <dtl if ($Data{"TicketFreeKey6"} ne "") { $Data{"TicketFreeString6"} = "<tr><td><b>$QData{"TicketFreeKey6","25"}:</b></td><td><div title="$QData{"TicketFreeText6"}">$QData{"TicketFreeText6","25"}</div></td></tr>"; }>
-        <dtl if ($Data{"TicketFreeKey7"} ne "") { $Data{"TicketFreeString7"} = "<tr><td><b>$QData{"TicketFreeKey7","25"}:</b></td><td><div title="$QData{"TicketFreeText7"}">$QData{"TicketFreeText7","25"}</div></td></tr>"; }>
-        <dtl if ($Data{"TicketFreeKey8"} ne "") { $Data{"TicketFreeString8"} = "<tr><td><b>$QData{"TicketFreeKey8","25"}:</b></td><td><div title="$QData{"TicketFreeText8"}">$QData{"TicketFreeText8","25"}</div></td></tr>"; }>
-        $Data{"TicketFreeString1"}
-        $Data{"TicketFreeString2"}
-        $Data{"TicketFreeString3"}
-        $Data{"TicketFreeString4"}
-        $Data{"TicketFreeString5"}
-        $Data{"TicketFreeString6"}
-        $Data{"TicketFreeString7"}
-        $Data{"TicketFreeString8"}
+          <dtl if ($Data{"TicketFreeKey1"} ne "") { $Data{"TicketFreeString1"} = "<tr><td><b>$QData{"TicketFreeKey1","25"}:</b></td><td><div title="$QData{"TicketFreeText1"}">$QData{"TicketFreeText1","25"}</div></td></tr>"; }>
+          <dtl if ($Data{"TicketFreeKey2"} ne "") { $Data{"TicketFreeString2"} = "<tr><td><b>$QData{"TicketFreeKey2","25"}:</b></td><td><div title="$QData{"TicketFreeText2"}">$QData{"TicketFreeText2","25"}</div></td></tr>"; }>
+          <dtl if ($Data{"TicketFreeKey3"} ne "") { $Data{"TicketFreeString3"} = "<tr><td><b>$QData{"TicketFreeKey3","25"}:</b></td><td><div title="$QData{"TicketFreeText3"}">$QData{"TicketFreeText3","25"}</div></td></tr>"; }>
+          <dtl if ($Data{"TicketFreeKey4"} ne "") { $Data{"TicketFreeString4"} = "<tr><td><b>$QData{"TicketFreeKey4","25"}:</b></td><td><div title="$QData{"TicketFreeText4"}">$QData{"TicketFreeText4","25"}</div></td></tr>"; }>
+          <dtl if ($Data{"TicketFreeKey5"} ne "") { $Data{"TicketFreeString5"} = "<tr><td><b>$QData{"TicketFreeKey5","25"}:</b></td><td><div title="$QData{"TicketFreeText5"}">$QData{"TicketFreeText5","25"}</div></td></tr>"; }>
+          <dtl if ($Data{"TicketFreeKey6"} ne "") { $Data{"TicketFreeString6"} = "<tr><td><b>$QData{"TicketFreeKey6","25"}:</b></td><td><div title="$QData{"TicketFreeText6"}">$QData{"TicketFreeText6","25"}</div></td></tr>"; }>
+          <dtl if ($Data{"TicketFreeKey7"} ne "") { $Data{"TicketFreeString7"} = "<tr><td><b>$QData{"TicketFreeKey7","25"}:</b></td><td><div title="$QData{"TicketFreeText7"}">$QData{"TicketFreeText7","25"}</div></td></tr>"; }>
+          <dtl if ($Data{"TicketFreeKey8"} ne "") { $Data{"TicketFreeString8"} = "<tr><td><b>$QData{"TicketFreeKey8","25"}:</b></td><td><div title="$QData{"TicketFreeText8"}">$QData{"TicketFreeText8","25"}</div></td></tr>"; }>
+          $Data{"TicketFreeString1"}
+          $Data{"TicketFreeString2"}
+          $Data{"TicketFreeString3"}
+          $Data{"TicketFreeString4"}
+          $Data{"TicketFreeString5"}
+          $Data{"TicketFreeString6"}
+          $Data{"TicketFreeString7"}
+          $Data{"TicketFreeString8"}
 # --
-      </table>
+        </table>
 
 # show customer info table
 <!-- dtl:block:CustomerTable -->
-      <p><hr><b>$Text{"Customer Info"}:</b> $Data{"CustomerTable"}<hr></p>
+        <p><hr><b>$Text{"Customer Info"}:</b> $Data{"CustomerTable"}<hr></p>
 <!-- dtl:block:CustomerTable -->
 
-      <br>
+        <br>
 
-      <table border="0" cellspacing="0" cellpadding="1" width="95%">
-        <tr>
-          <td>
+        <table border="0" cellspacing="0" cellpadding="1" width="95%">
+          <tr>
+            <td>
 # show compose links
 <!-- dtl:block:AgentIsCustomer -->
-            <p>
-            <b>$Text{"Your own Ticket"}:</b>
-            <br>
-            <table border="0">
-              <tr align="left">
-                <td>
-                  <li><a href="$Env{"Baselink"}Action=AgentTicketCustomerFollowUp&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Compose Follow up"}'; return true;" onmouseout="window.status='';">$Text{"Compose Follow up"}</a></li>
-                </td>
-              </tr>
-            </table>
-            </p>
+              <p>
+                <b>$Text{"Your own Ticket"}:</b>
+                <br>
+                <table border="0">
+                  <tr align="left">
+                    <td>
+                      <li><a href="$Env{"Baselink"}Action=AgentTicketCustomerFollowUp&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Compose Follow up"}'; return true;" onmouseout="window.status='';">$Text{"Compose Follow up"}</a></li>
+                    </td>
+                  </tr>
+                </table>
+              </p>
 <!-- dtl:block:AgentIsCustomer -->
 
 <!-- dtl:block:AgentAnswer -->
-            <p>
-            <b>$Text{"Compose Answer"} ($Text{"email"}):</b>
-            <br>
-            <table border="0">
-              <tr align="left">
-                <td>
-                  $Data{"StdResponsesStrg"}
-                </td>
-              </tr>
-            </table>
-            </p>
+              <p>
+                <b>$Text{"Compose Answer"} ($Text{"email"}):</b>
+                <br>
+                <table border="0">
+                  <tr align="left">
+                    <td>
+                      $Data{"StdResponsesStrg"}
+                    </td>
+                  </tr>
+                </table>
+              </p>
 
-            <p>
-            <b>$Text{"Contact customer"} ($Text{"phone"}):</b>
-            <br>
-            <table border="0">
-              <tr align="left">
-                <td>
-                  <dtl if ($Data{"AgentPhone"} ne "0") { $Data{"AgentPhoneStrg"} = "<li><a href="$Env{"Baselink"}Action=AgentTicketPhone&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Phone call"}'; return true;" onmouseout="window.status='';">$Text{"Phone call"}</a></li>"; }>
+              <p>
+                <b>$Text{"Contact customer"} ($Text{"phone"}):</b>
+                <br>
+                <table border="0">
+                  <tr align="left">
+                    <td>
+                      <dtl if ($Data{"AgentPhone"} ne "0") { $Data{"AgentPhoneStrg"} = "<li><a href="$Env{"Baselink"}Action=AgentTicketPhone&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Phone call"}'; return true;" onmouseout="window.status='';">$Text{"Phone call"}</a></li>"; }>
 $Data{"AgentPhoneStrg"}
-                </td>
-              </tr>
-            </table>
-            </p>
+                    </td>
+                  </tr>
+                </table>
+              </p>
 <!-- dtl:block:AgentAnswer -->
 # --
-          </td>
-        </tr>
-      </table>
+            </td>
+          </tr>
+        </table>
       </p>
       <p>
-      <table border="0" cellspacing="0" cellpadding="1" width="95%">
-        <tr>
-          <td>
-            <b>$Text{"Change queue"}:</b><br>
-            <form action="$Env{"CGIHandle"}" method="get">
-              <input type="hidden" name="Action" value="AgentTicketMove">
-              <input type="hidden" name="Subaction" value="InRage">
-              <input type="hidden" name="QueueID" value="$QData{"QueueID"}">
-              <input type="hidden" name="TicketID" value="$QData{"TicketID"}">
-              $Data{"MoveQueuesStrg"}
-              <input class="button" type="submit" value="$Text{"Move"}">
-            </form>
-          </td>
-        </tr>
-      </table>
+        <table border="0" cellspacing="0" cellpadding="1" width="95%">
+          <tr>
+            <td>
+              <b>$Text{"Change queue"}:</b><br>
+              <form action="$Env{"CGIHandle"}" method="get">
+                <input type="hidden" name="Action" value="AgentTicketMove">
+                <input type="hidden" name="Subaction" value="InRage">
+                <input type="hidden" name="QueueID" value="$QData{"QueueID"}">
+                <input type="hidden" name="TicketID" value="$QData{"TicketID"}">
+                $Data{"MoveQueuesStrg"}
+                <input class="button" type="submit" value="$Text{"Move"}">
+              </form>
+            </td>
+          </tr>
+        </table>
 
       </p>
     </td>
