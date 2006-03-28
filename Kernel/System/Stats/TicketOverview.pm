@@ -2,7 +2,7 @@
 # Kernel/System/Stats/TicketOverview.pm - stats module
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TicketOverview.pm,v 1.3.2.2 2006-01-31 12:33:58 tr Exp $
+# $Id: TicketOverview.pm,v 1.3.2.3 2006-03-28 14:20:44 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::State;
 use Date::Pcalc qw(Today_and_Now Days_in_Month Day_of_Week Day_of_Week_Abbreviation);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3.2.2 $ ';
+$VERSION = '$Revision: 1.3.2.3 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -114,7 +114,7 @@ sub Run {
     $Param{Month} = sprintf("%02d", $Param{Month});
     my $Title = "$Param{Year}-$Param{Month}";
     my %TicketStatus = $Self->{TicketObject}->HistoryTicketStatusGet(
-        StartYear => $Param{Year}-1,
+        StartYear => $Param{Year},
         StartMonth => $Param{Month},
         StartDay => 1,
         StopYear => $Param{Year},
