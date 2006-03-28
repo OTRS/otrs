@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.101 2006-03-27 13:44:04 rk Exp $
+# $Id: Article.pm,v 1.102 2006-03-28 04:58:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.101 $';
+$VERSION = '$Revision: 1.102 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -304,10 +304,9 @@ MessageID => $Param{MessageID},
         }
     }
     elsif ($Param{HistoryType} =~ /^AddNote$/i) {
-        ######
         # send owner/responsible notification to agent
         foreach (qw(OwnerID ResponsibleID)) {
-            if ($Ticket{$_} ne 1 && $Ticket{$_} ne $Param{UserID}) {
+            if ($Ticket{$_} && $Ticket{$_} ne 1 && $Ticket{$_} ne $Param{UserID}) {
                 my %UserData = $Self->{UserObject}->GetUserData(
                     UserID => $Ticket{$_},
                     Cached => 1,
@@ -324,7 +323,6 @@ MessageID => $Param{MessageID},
                 );
             }
         }
-        ######
     }
     elsif ($Param{HistoryType} =~ /^FollowUp$/i) {
         # send agent notification to all agents
@@ -355,12 +353,11 @@ MessageID => $Param{MessageID},
                 }
             }
         }
-        ######
         # send owner/responsible notification the agents who locked the ticket
         else {
             foreach (qw(OwnerID ResponsibleID)) {
                 my %UserData = $Self->{UserObject}->GetUserData(UserID => $Ticket{$_});
-                if ($UserData{UserSendFollowUpNotification}) {
+                if ($Ticket{$_} ne 1 && $UserData{UserSendFollowUpNotification}) {
                     # send notification
                     $Self->SendAgentNotification(
                         Type => $Param{HistoryType},
@@ -372,7 +369,6 @@ MessageID => $Param{MessageID},
                     );
                 }
             }
-        ######
             # send the rest of agents follow ups
             foreach ($Self->GetSubscribedUserIDsByQueueID(QueueID => $Ticket{QueueID})) {
                 my %UserData = $Self->{UserObject}->GetUserData(
@@ -682,12 +678,100 @@ sub ArticleTypeLookup {
     return $Self->{"ArticleTypeLookup::$Param{$Param{Key}}"};
 }
 
+=item ArticleFreeTextGet()
+
+get _possible_ article free text options
+
+Note: the current value is accessible over ArticleGet()
+
+  my $HashRef = $TicketObject->ArticleFreeTextGet(
+     Type => 'ArticleFreeText3',
+     ArticleID => 123,
+     UserID => 123, # or CustomerUserID
+  );
+
+  my $HashRef = $TicketObject->ArticleFreeTextGet(
+     Type => 'ArticleFreeText3',
+     UserID => 123, # or CustomerUserID
+  );
+
+  # fill up with existing values
+  my $HashRef = $TicketObject->ArticleFreeTextGet(
+     Type => 'ArticleFreeText3',
+     FillUp => 1,
+     UserID => 123, # or CustomerUserID
+  );
+
+=cut
+
+sub ArticleFreeTextGet {
+    my $Self = shift;
+    my %Param = @_;
+    my $Value = $Param{Value} || '';
+    my $Key = $Param{Key} || '';
+    # check needed stuff
+    foreach (qw(Type)) {
+      if (!$Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        return;
+      }
+    }
+   if (!$Param{UserID} && !$Param{CustomerUserID}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserID or CustomerUserID!");
+        return;
+    }
+    # get config
+    my %Data = ();
+    if (ref($Self->{ConfigObject}->Get($Param{Type})) eq 'HASH') {
+        %Data = %{$Self->{ConfigObject}->Get($Param{Type})};
+    }
+    # check existing
+    if ($Param{FillUp}) {
+        my $Counter = $Param{Type};
+        $Counter =~ s/^.*(\d)$/$1/;
+        if (%Data && $Param{Type} =~ /text/i) {
+            $Self->{DBObject}->Prepare(SQL => "SELECT distinct(a_freetext$Counter) FROM article");
+            while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+                if ($Row[0] && !$Data{$Row[0]}) {
+                    $Data{$Row[0]} = $Row[0];
+                }
+            }
+        }
+        elsif (%Data) {
+            $Self->{DBObject}->Prepare(SQL => "SELECT distinct(a_freekey$Counter) FROM article");
+            while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+                if ($Row[0] && !$Data{$Row[0]}) {
+                    $Data{$Row[0]} = $Row[0];
+                }
+            }
+        }
+    }
+    # workflow
+    if ($Self->TicketAcl(
+        %Param,
+        ReturnType => 'Ticket',
+        ReturnSubType => $Param{Type},
+        Data => \%Data,
+    )) {
+        my %Hash = $Self->TicketAclData();
+        return \%Hash;
+    }
+    # /workflow
+    if (%Data) {
+        return \%Data;
+    }
+    else {
+        return;
+    }
+}
+
 =item ArticleFreeTextSet()
 
 set article free text
 
   $TicketObject->ArticleFreeTextSet(
-      ArticleID => 123,
+      TicketID => 123,
+      ArticleID => 1234,
       Counter => 1,
       Key => 'Planet',
       Value => 'Sun',
@@ -700,7 +784,7 @@ sub ArticleFreeTextSet {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
-    foreach (qw(ArticleID UserID Counter)) {
+    foreach (qw(TicketID ArticleID UserID Counter)) {
       if (!$Param{$_}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
         return;
@@ -1046,12 +1130,12 @@ sub ArticleGet {
         $Data{ResponsibleID} = $Row[21];
         $Ticket{ResponsibleID} = $Row[21];
         $Data{ArticleTypeID} = $Row[22];
-        $Data{FreeKey1} = $Row[23];
-        $Data{FreeText1} = $Row[24];
-        $Data{FreeKey2} = $Row[25];
-        $Data{FreeText2} = $Row[26];
-        $Data{FreeKey3} = $Row[27];
-        $Data{FreeText3} = $Row[28];
+        $Data{ArticleFreeKey1} = $Row[23];
+        $Data{ArticleFreeText1} = $Row[24];
+        $Data{ArticleFreeKey2} = $Row[25];
+        $Data{ArticleFreeText2} = $Row[26];
+        $Data{ArticleFreeKey3} = $Row[27];
+        $Data{ArticleFreeText3} = $Row[28];
         $Data{TicketFreeKey1} = $Row[32];
         $Data{TicketFreeText1} = $Row[33];
         $Data{TicketFreeKey2} = $Row[34];
