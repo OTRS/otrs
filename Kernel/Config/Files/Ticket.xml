@@ -148,7 +148,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.97 2006-03-28 04:54:10 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.98 2006-03-30 21:25:52 ck Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -168,7 +168,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::SubjectSize" Required="1" Valid="1">
-        <Description Lang="en">Max size of the subjects in an email reply.</Description>
+        <Description Lang="en">Max size of the subjects in an Email reply.</Description>
         <Description Lang="de">Maximal zulässige Größe des Betreffs bei einer Email-Antwort.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
@@ -177,7 +177,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::SubjectRe" Required="1" Valid="1">
-        <Description Lang="en">The text at the beginning of the subject in a email reply, e.g. RE, AW or AS.</Description>
+        <Description Lang="en">The text at the beginning of the subject in a Email reply, e.g. RE, AW or AS.</Description>
         <Description Lang="de">Präfix im Betreff bei einer Email-Antwort, z. B. RE, AW oder AS.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
@@ -207,7 +207,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::QueueViewAllPossibleTickets" Required="1" Valid="1">
-        <Description Lang="en">Show all ro and rw queues in the queue view (not only rw queues)?</Description>
+        <Description Lang="en">Show all ro and rw queues in the QueueView (not only rw queues)?</Description>
         <Description Lang="de">Zeigen aller Queues in der Queue-Ansicht für die Schreib- und Leserechte vorhanden sind? Standardmäßig werden nur die Queues angezeigt, für die Schreibrechte vergeben wurden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
@@ -254,8 +254,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey1::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of free text field 1 if more then one option is defined.</Description>
-        <Description Lang="de">Die Standard-Auswahl des Freier-Text-Feldes 1 wenn mehrere Optionen definiert sind.</Description>
+        <Description Lang="en">The default selection of FreeTextField 1 if more then one option is defined.</Description>
+        <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 1 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -263,8 +263,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText1" Required="0" Valid="0">
-        <Description Lang="en">Define the free text field 1 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des Freier-Text-Feldes 1 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the FreeTextField 1 for tickets. It's a new ticket property.</Description>
+        <Description Lang="de">Definition des FreiTextFeldes 1 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -277,8 +277,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText1::DefaultSelection" Required="0" Valid="1">
-        <Description Lang="en">The default selection of free text field 1 if more then one option is defined.</Description>
-        <Description Lang="de">Die Standard-Auswahl des Freier-Text-Feldes 1 wenn mehrere Optionen definiert sind.</Description>
+        <Description Lang="en">The default selection of FreeTextField 1 if more then one option is defined.</Description>
+        <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 1 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -299,7 +299,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey2::DefaultSelection" Required="0" Valid="0">
         <Description Lang="en">The default selection of free key field 2 if more then one option is defined.</Description>
-        <Description Lang="de">Die Standard-Auswahl des Freier-Schlüssel-Feldes 2 wenn mehrere Optionen definiert sind.</Description>
+        <Description Lang="de">Die Standard-Auswahl des FreiSchlüsselFeldes 2 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -307,8 +307,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText2" Required="0" Valid="0">
-        <Description Lang="en">Define the free text field 2 for tickets. It's a new ticket poperty.</Description>
-        <Description Lang="de">Definition des Freier-Text-Feldes 2 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the FreeTextField 2 for tickets. It's a new ticket poperty.</Description>
+        <Description Lang="de">Definition des FreiTextFeldes 2 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -321,8 +321,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText2::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of free text field 2 if more then one option is defined.</Description>
-        <Description Lang="de">Die Standard-Auswahl des Freier-Text-Feldes 2 wenn mehrere Optionen definiert sind.</Description>
+        <Description Lang="en">The default selection of FreeTextField 2 if more then one option is defined.</Description>
+        <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 2 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -331,7 +331,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey3" Required="0" Valid="0">
         <Description Lang="en">Define the free key field 3 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des Freier-Schlüssel-Feldes 3 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="de">Definition des FreiSchlüsselFeldes 3 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -342,8 +342,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey3::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of free text field 3 if more then one option is defined.</Description>
-        <Description Lang="de">Die Standard-Auswahl des Freier-Text-Feldes 3 wenn mehrere Optionen definiert sind.</Description>
+        <Description Lang="en">The default selection of FreeTextField 3 if more then one option is defined.</Description>
+        <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 3 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -351,8 +351,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText3" Required="0" Valid="0">
-        <Description Lang="en">Define the free text field 3 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des Freier-Text-Feldes 3 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the FreeTextField 3 for tickets. It's a new ticket property.</Description>
+        <Description Lang="de">Definition des FreiTextFeldes 3 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -365,8 +365,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText3::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of free text field 3 if more then one option is defined.</Description>
-        <Description Lang="de">Die Standard-Auswahl des Freier-Text-Feldes 3 wenn mehrere Optionen definiert sind.</Description>
+        <Description Lang="en">The default selection of FreeTextField 3 if more then one option is defined.</Description>
+        <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 3 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -375,7 +375,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey4" Required="0" Valid="0">
         <Description Lang="en">Define the free key field 4 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des Freier-Schlüssel-Feldes 4 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="de">Definition des FreiSchlüsselFeldes 4 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -386,7 +386,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey4::DefaultSelection" Required="0" Valid="0">
         <Description Lang="en">The default selection of free key field 4 if more then one option is defined.</Description>
-        <Description Lang="de">Die Standard-Auswahl des Freier-Schlüssel-Feldes 4 wenn mehrere Optionen definiert sind.</Description>
+        <Description Lang="de">Die Standard-Auswahl des FreiSchlüsselFeldes 4 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -394,8 +394,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText4" Required="0" Valid="0">
-        <Description Lang="en">Define the free text field 4 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des Freier-Text-Feldes 4 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the FreeTextField 4 for tickets. It's a new ticket property.</Description>
+        <Description Lang="de">Definition des FreiTextFeldes 4 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -408,8 +408,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText4::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of free text field 4 if more then one option is defined.</Description>
-        <Description Lang="de">Die Standard-Auswahl des Freier-Text-Feldes 4 wenn mehrere Optionen definiert sind.</Description>
+        <Description Lang="en">The default selection of FreeTextField 4 if more then one option is defined.</Description>
+        <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 4 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -418,7 +418,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey5" Required="0" Valid="0">
         <Description Lang="en">Define the free key field 5 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des Freier-Schlüssel-Feldes 5 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="de">Definition des FreiSchlüsselFeldes 5 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -429,7 +429,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey5::DefaultSelection" Required="0" Valid="0">
         <Description Lang="en">The default selection of free key field 5 if more then one option is defined.</Description>
-        <Description Lang="de">Die Standard-Auswahl des Freier-Schlüssel-Feldes 5 wenn mehrere Optionen definiert sind.</Description>
+        <Description Lang="de">Die Standard-Auswahl des FreiSchlüsselFeldes 5 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -437,8 +437,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText5" Required="0" Valid="0">
-        <Description Lang="en">Define the free text field 5 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des Freier-Text-Feldes 5 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the FreeTextField 5 for tickets. It's a new ticket property.</Description>
+        <Description Lang="de">Definition des FreiTextFeldes 5 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -451,8 +451,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText5::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of free text field 5 if more then one option is defined.</Description>
-        <Description Lang="de">Die Standard-Auswahl des Freier-Text-Feldes 5 wenn mehrere Optionen definiert sind.</Description>
+        <Description Lang="en">The default selection of FreeTextField 5 if more then one option is defined.</Description>
+        <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 5 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -461,7 +461,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey6" Required="0" Valid="0">
         <Description Lang="en">Define the free key field 6 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des Freier-Schlüssel-Feldes 6 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="de">Definition des FreiSchlüsselFeldes 6 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -472,7 +472,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey6::DefaultSelection" Required="0" Valid="0">
         <Description Lang="en">The default selection of free key field 6 if more then one option is defined.</Description>
-        <Description Lang="de">Die Standard-Auswahl des Freier-Schlüssel-Feldes 6 wenn mehrere Optionen definiert sind.</Description>
+        <Description Lang="de">Die Standard-Auswahl des FreiSchlüsselFeldes 6 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -480,8 +480,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText6" Required="0" Valid="0">
-        <Description Lang="en">Define the free text field 6 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des Freier-Text-Feldes 6 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the FreeTextField 6 for tickets. It's a new ticket property.</Description>
+        <Description Lang="de">Definition des FreiTextFeldes 6 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -494,8 +494,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText6::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of free text field 6 if more then one option is defined.</Description>
-        <Description Lang="de">Die Standard-Auswahl des Freier-Text-Feldes 6 wenn mehrere Optionen definiert sind.</Description>
+        <Description Lang="en">The default selection of FreeTextField 6 if more then one option is defined.</Description>
+        <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 6 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -504,7 +504,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey7" Required="0" Valid="0">
         <Description Lang="en">Define the free key field 7 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des Freier-Schlüssel-Feldes 7 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="de">Definition des FreiSchlüsselFeldes 7 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -515,7 +515,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey7::DefaultSelection" Required="0" Valid="0">
         <Description Lang="en">The default selection of free key field 7 if more then one option is defined.</Description>
-        <Description Lang="de">Die Standard-Auswahl des Freier-Schlüssel-Feldes 7 wenn mehrere Optionen definiert sind.</Description>
+        <Description Lang="de">Die Standard-Auswahl des FreiSchlüsselFeldes 7 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -523,8 +523,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText7" Required="0" Valid="0">
-        <Description Lang="en">Define the free text field 7 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des Freier-Text-Feldes 7 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the FreeTextField 7 for tickets. It's a new ticket property.</Description>
+        <Description Lang="de">Definition des FreiTextFeldes 7 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -537,8 +537,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText7::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of free text field 7 if more then one option is defined.</Description>
-        <Description Lang="de">Die Standard-Auswahl des Freier-Text-Feldes 7 wenn mehrere Optionen definiert sind.</Description>
+        <Description Lang="en">The default selection of FreeTextField 7 if more then one option is defined.</Description>
+        <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 7 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -547,7 +547,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey8" Required="0" Valid="0">
         <Description Lang="en">Define the free key field 8 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des Freier-Schlüssel-Feldes 8 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="de">Definition des FreiSchlüsselFeldes 8 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -558,7 +558,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey8::DefaultSelection" Required="0" Valid="0">
         <Description Lang="en">The default selection of free key field 8 if more then one option is defined.</Description>
-        <Description Lang="de">Die Standard-Auswahl des Freier-Schlüssel-Feldes 8 wenn mehrere Optionen definiert sind.</Description>
+        <Description Lang="de">Die Standard-Auswahl des FreiSchlüsselFeldes 8 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -566,8 +566,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText8" Required="0" Valid="0">
-        <Description Lang="en">Define the free text field 8 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des Freier-Text-Feldes 8 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the FreeTextField 8 for tickets. It's a new ticket property.</Description>
+        <Description Lang="de">Definition des FreiTextFeldes 8 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -580,8 +580,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText8::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of free text field 8 if more then one option is defined.</Description>
-        <Description Lang="de">Die Standard-Auswahl des Freier-Text-Feldes 8 wenn mehrere Optionen definiert sind.</Description>
+        <Description Lang="en">The default selection of FreeTextField 8 if more then one option is defined.</Description>
+        <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 8 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -590,7 +590,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey9" Required="0" Valid="0">
         <Description Lang="en">Define the free key field 9 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des Freier-Schlüssel-Feldes 9 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="de">Definition des FreiSchlüsselFeldes 9 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -601,7 +601,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey9::DefaultSelection" Required="0" Valid="0">
         <Description Lang="en">The default selection of free key field 9 if more then one option is defined.</Description>
-        <Description Lang="de">Die Standard-Auswahl des Freier-Schlüssel-Feldes 9 wenn mehrere Optionen definiert sind.</Description>
+        <Description Lang="de">Die Standard-Auswahl des FreiSchlüsselFeldes 9 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -609,8 +609,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText9" Required="0" Valid="0">
-        <Description Lang="en">Define the free text field 9 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des Freier-Text-Feldes 9 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the FreeTextField 9 for tickets. It's a new ticket property.</Description>
+        <Description Lang="de">Definition des FreiTextFeldes 9 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -623,8 +623,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText9::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of free text field 9 if more then one option is defined.</Description>
-        <Description Lang="de">Die Standard-Auswahl des Freier-Text-Feldes 9 wenn mehrere Optionen definiert sind.</Description>
+        <Description Lang="en">The default selection of FreeTextField 9 if more then one option is defined.</Description>
+        <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 9 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -633,7 +633,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey10" Required="0" Valid="0">
         <Description Lang="en">Define the free key field 10 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des Freier-Schlüssel-Feldes 10 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="de">Definition des FreiSchlüsselFeldes 10 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -644,7 +644,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey10::DefaultSelection" Required="0" Valid="0">
         <Description Lang="en">The default selection of free key field 10 if more then one option is defined.</Description>
-        <Description Lang="de">Die Standard-Auswahl des Freier-Schlüssel-Feldes 10 wenn mehrere Optionen definiert sind.</Description>
+        <Description Lang="de">Die Standard-Auswahl des FreiSchlüsselFeldes 10 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -652,8 +652,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText10" Required="0" Valid="0">
-        <Description Lang="en">Define the free text field 10 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des Freier-Text-Feldes 10 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the FreeTextField 10 for tickets. It's a new ticket property.</Description>
+        <Description Lang="de">Definition des FreiTextFeldes 10 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -666,8 +666,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText10::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of free text field 10 if more then one option is defined.</Description>
-        <Description Lang="de">Die Standard-Auswahl des Freier-Text-Feldes 10 wenn mehrere Optionen definiert sind.</Description>
+        <Description Lang="en">The default selection of FreeTextField 10 if more then one option is defined.</Description>
+        <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 10 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -676,7 +676,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey11" Required="0" Valid="0">
         <Description Lang="en">Define the free key field 11 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des Freier-Schlüssel-Feldes 11 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="de">Definition des FreiSchlüsselFeldes 11 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -687,7 +687,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey11::DefaultSelection" Required="0" Valid="0">
         <Description Lang="en">The default selection of free key field 11 if more then one option is defined.</Description>
-        <Description Lang="de">Die Standard-Auswahl des Freier-Schlüssel-Feldes 11 wenn mehrere Optionen definiert sind.</Description>
+        <Description Lang="de">Die Standard-Auswahl des FreiSchlüsselFeldes 11 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -695,8 +695,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText11" Required="0" Valid="0">
-        <Description Lang="en">Define the free text field 11 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des Freier-Text-Feldes 11 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the FreeTextField 11 for tickets. It's a new ticket property.</Description>
+        <Description Lang="de">Definition des FreiTextFeldes 11 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -709,8 +709,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText11::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of free text field 11 if more then one option is defined.</Description>
-        <Description Lang="de">Die Standard-Auswahl des Freier-Text-Feldes 11 wenn mehrere Optionen definiert sind.</Description>
+        <Description Lang="en">The default selection of FreeTextField 11 if more then one option is defined.</Description>
+        <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 11 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -719,7 +719,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey12" Required="0" Valid="0">
         <Description Lang="en">Define the free key field 12 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des Freier-Schlüssel-Feldes 12 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="de">Definition des FreiSchlüsselFeldes 12 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -730,7 +730,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey12::DefaultSelection" Required="0" Valid="0">
         <Description Lang="en">The default selection of free key field 12 if more then one option is defined.</Description>
-        <Description Lang="de">Die Standard-Auswahl des Freier-Schlüssel-Feldes 12 wenn mehrere Optionen definiert sind.</Description>
+        <Description Lang="de">Die Standard-Auswahl des FreiSchlüsselFeldes 12 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -738,8 +738,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText12" Required="0" Valid="0">
-        <Description Lang="en">Define the free text field 12 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des Freier-Text-Feldes 12 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the FreeTextField 12 for tickets. It's a new ticket property.</Description>
+        <Description Lang="de">Definition des FreiTextFeldes 12 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -752,8 +752,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText12::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of free text field 12 if more then one option is defined.</Description>
-        <Description Lang="de">Die Standard-Auswahl des Freier-Text-Feldes 12 wenn mehrere Optionen definiert sind.</Description>
+        <Description Lang="en">The default selection of FreeTextField 12 if more then one option is defined.</Description>
+        <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 12 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -762,7 +762,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey13" Required="0" Valid="0">
         <Description Lang="en">Define the free key field 13 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des Freier-Schlüssel-Feldes 13 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="de">Definition des FreiSchlüsselFeldes 13 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -773,7 +773,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey13::DefaultSelection" Required="0" Valid="0">
         <Description Lang="en">The default selection of free key field 13 if more then one option is defined.</Description>
-        <Description Lang="de">Die Standard-Auswahl des Freier-Schlüssel-Feldes 13 wenn mehrere Optionen definiert sind.</Description>
+        <Description Lang="de">Die Standard-Auswahl des FreiSchlüsselFeldes 13 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -781,8 +781,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText13" Required="0" Valid="0">
-        <Description Lang="en">Define the free text field 13 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des Freier-Text-Feldes 13 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the FreeTextField 13 for tickets. It's a new ticket property.</Description>
+        <Description Lang="de">Definition des FreiTextFeldes 13 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -795,8 +795,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText13::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of free text field 13 if more then one option is defined.</Description>
-        <Description Lang="de">Die Standard-Auswahl des Freier-Text-Feldes 13 wenn mehrere Optionen definiert sind.</Description>
+        <Description Lang="en">The default selection of FreeTextField 13 if more then one option is defined.</Description>
+        <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 13 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -805,7 +805,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey14" Required="0" Valid="0">
         <Description Lang="en">Define the free key field 14 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des Freier-Schlüssel-Feldes 14 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="de">Definition des FreiSchlüsselFeldes 14 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -816,7 +816,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey14::DefaultSelection" Required="0" Valid="0">
         <Description Lang="en">The default selection of free key field 14 if more then one option is defined.</Description>
-        <Description Lang="de">Die Standard-Auswahl des Freier-Schlüssel-Feldes 14 wenn mehrere Optionen definiert sind.</Description>
+        <Description Lang="de">Die Standard-Auswahl des FreiSchlüsselFeldes 14 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -824,8 +824,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText14" Required="0" Valid="0">
-        <Description Lang="en">Define the free text field 14 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des Freier-Text-Feldes 14 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the FreeTextField 14 for tickets. It's a new ticket property.</Description>
+        <Description Lang="de">Definition des FreiTextFeldes 14 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -838,8 +838,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText14::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of free text field 14 if more then one option is defined.</Description>
-        <Description Lang="de">Die Standard-Auswahl des Freier-Text-Feldes 14 wenn mehrere Optionen definiert sind.</Description>
+        <Description Lang="en">The default selection of FreeTextField 14 if more then one option is defined.</Description>
+        <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 14 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -848,7 +848,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey15" Required="0" Valid="0">
         <Description Lang="en">Define the free key field 15 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des Freier-Schlüssel-Feldes 15 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="de">Definition des FreiSchlüsselFeldes 15 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -859,7 +859,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey15::DefaultSelection" Required="0" Valid="0">
         <Description Lang="en">The default selection of free key field 15 if more then one option is defined.</Description>
-        <Description Lang="de">Die Standard-Auswahl des Freier-Schlüssel-Feldes 15 wenn mehrere Optionen definiert sind.</Description>
+        <Description Lang="de">Die Standard-Auswahl des FreiSchlüsselFeldes 15 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -867,8 +867,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText15" Required="0" Valid="0">
-        <Description Lang="en">Define the free text field 15 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des Freier-Text-Feldes 15 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the FreeTextField 15 for tickets. It's a new ticket property.</Description>
+        <Description Lang="de">Definition des FreiTextFeldes 15 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -881,8 +881,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText15::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of free text field 15 if more then one option is defined.</Description>
-        <Description Lang="de">Die Standard-Auswahl des Freier-Text-Feldes 15 wenn mehrere Optionen definiert sind.</Description>
+        <Description Lang="en">The default selection of FreeTextField 15 if more then one option is defined.</Description>
+        <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 15 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -891,7 +891,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey16" Required="0" Valid="0">
         <Description Lang="en">Define the free key field 16 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des Freier-Schlüssel-Feldes 16 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="de">Definition des FreiSchlüsselFeldes 16 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -902,7 +902,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey16::DefaultSelection" Required="0" Valid="0">
         <Description Lang="en">The default selection of free key field 16 if more then one option is defined.</Description>
-        <Description Lang="de">Die Standard-Auswahl des Freier-Schlüssel-Feldes 16 wenn mehrere Optionen definiert sind.</Description>
+        <Description Lang="de">Die Standard-Auswahl des FreiSchlüsselFeldes 16 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -910,8 +910,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText16" Required="0" Valid="0">
-        <Description Lang="en">Define the free text field 16 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des Freier-Text-Feldes 16 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the FreeTextField 16 for tickets. It's a new ticket property.</Description>
+        <Description Lang="de">Definition des FreiTextFeldes 16 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -924,8 +924,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText16::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of free text field 16 if more then one option is defined.</Description>
-        <Description Lang="de">Die Standard-Auswahl des Freier-Text-Feldes 16 wenn mehrere Optionen definiert sind.</Description>
+        <Description Lang="en">The default selection of FreeTextField 16 if more then one option is defined.</Description>
+        <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 16 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -962,8 +962,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="ArticleFreeKey1::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of article free text field 1 if more then one option is defined.</Description>
-        <Description Lang="de">Die Standard-Auswahl des Freier-Text-Feldes 1 wenn mehrere Optionen definiert sind.</Description>
+        <Description Lang="en">The default selection of article FreeTextField 1 if more then one option is defined.</Description>
+        <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 1 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::ArticleFreeText</SubGroup>
         <Setting>
@@ -971,8 +971,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="ArticleFreeText1" Required="0" Valid="0">
-        <Description Lang="en">Define the free text field 1 for article. It's a new article property.</Description>
-        <Description Lang="de">Definition des Freier-Text-Feldes 1 für Artikel. Es ist eine neue Artikel-Eigenschaft.</Description>
+        <Description Lang="en">Define the FreeTextField 1 for article. It's a new article property.</Description>
+        <Description Lang="de">Definition des FreiTextFeldes 1 für Artikel. Es ist eine neue Artikel-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::ArticleFreeText</SubGroup>
         <Setting>
@@ -985,8 +985,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="ArticleFreeText1::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of free text field 1 if more then one option is defined.</Description>
-        <Description Lang="de">Die Standard-Auswahl des Freier-Text-Feldes 1 wenn mehrere Optionen definiert sind.</Description>
+        <Description Lang="en">The default selection of FreeTextField 1 if more then one option is defined.</Description>
+        <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 1 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::ArticleFreeText</SubGroup>
         <Setting>
@@ -1007,7 +1007,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="ArticleFreeKey2::DefaultSelection" Required="0" Valid="0">
         <Description Lang="en">The default selection of free key field 2 if more then one option is defined.</Description>
-        <Description Lang="de">Die Standard-Auswahl des Freier-Schlüssel-Feldes 2 wenn mehrere Optionen definiert sind.</Description>
+        <Description Lang="de">Die Standard-Auswahl des FreiSchlüsselFeldes 2 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::ArticleFreeText</SubGroup>
         <Setting>
@@ -1015,8 +1015,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="ArticleFreeText2" Required="0" Valid="0">
-        <Description Lang="en">Define the free text field 2 for articles. It's a new article poperty.</Description>
-        <Description Lang="de">Definition des Freier-Text-Feldes 2 für Artikel. Es ist eine neue Artikel-Eigenschaft.</Description>
+        <Description Lang="en">Define the FreeTextField 2 for articles. It's a new article poperty.</Description>
+        <Description Lang="de">Definition des FreiTextFeldes 2 für Artikel. Es ist eine neue Artikel-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::ArticleFreeText</SubGroup>
         <Setting>
@@ -1029,8 +1029,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="ArticleFreeText2::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of free text field 2 if more then one option is defined.</Description>
-        <Description Lang="de">Die Standard-Auswahl des Freier-Text-Feldes 2 wenn mehrere Optionen definiert sind.</Description>
+        <Description Lang="en">The default selection of FreeTextField 2 if more then one option is defined.</Description>
+        <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 2 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::ArticleFreeText</SubGroup>
         <Setting>
@@ -1039,7 +1039,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="ArticleFreeKey3" Required="0" Valid="0">
         <Description Lang="en">Define the free key field 3 for articles. It's a new article property.</Description>
-        <Description Lang="de">Definition des Freier-Schlüssel-Feldes 3 für Artikel. Es ist eine neue Artikel-Eigenschaft.</Description>
+        <Description Lang="de">Definition des FreiSchlüsselFeldes 3 für Artikel. Es ist eine neue Artikel-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::ArticleFreeText</SubGroup>
         <Setting>
@@ -1050,8 +1050,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="ArticleFreeKey3::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of free text field 3 if more then one option is defined.</Description>
-        <Description Lang="de">Die Standard-Auswahl des Freier-Text-Feldes 3 wenn mehrere Optionen definiert sind.</Description>
+        <Description Lang="en">The default selection of FreeTextField 3 if more then one option is defined.</Description>
+        <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 3 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::ArticleFreeText</SubGroup>
         <Setting>
@@ -1059,8 +1059,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="ArticleFreeText3" Required="0" Valid="0">
-        <Description Lang="en">Define the free text field 3 for article. It's a new article ticket property.</Description>
-        <Description Lang="de">Definition des Freier-Text-Feldes 3 für Artikel. Es ist eine neue Artikel-Eigenschaft.</Description>
+        <Description Lang="en">Define the FreeTextField 3 for article. It's a new article ticket property.</Description>
+        <Description Lang="de">Definition des FreiTextFeldes 3 für Artikel. Es ist eine neue Artikel-Eigenschaft.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::ArticleFreeText</SubGroup>
         <Setting>
@@ -1073,8 +1073,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="ArticleFreeText3::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of free text field 3 if more then one option is defined.</Description>
-        <Description Lang="de">Die Standard-Auswahl des Freier-Text-Feldes 3 wenn mehrere Optionen definiert sind.</Description>
+        <Description Lang="en">The default selection of FreeTextField 3 if more then one option is defined.</Description>
+        <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 3 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::ArticleFreeText</SubGroup>
         <Setting>
@@ -1082,7 +1082,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::NumberGenerator" Required="1" Valid="1">
-        <Description Lang="en">Select the ticket number generator module. "AutoIncrement" just increments the ticket number, the SystemID and the counter are used. The format is SystemID.counter, e.g. 1010138, 1010139. With "Date" the ticket numbers will be generated by the current date, the SystemID and the counter. The format looks like Year.Month.Day.SystemID.counter, e.g. 200206231010138, 200206231010139. With "DateChecksum"  the counter will be appended as check summ to the string of date and SystemID. The check summ will be rotaded daily. The format looks like Year.Month.Day.SystemID.Counter.CheckSum, e.g. 2002070110101520, 2002070110101535. "Random" generates randomized ticket numbers in the format "SystemID.Random", e.g. 100057866352, 103745394596.</Description>
+        <Description Lang="en">Select the ticket number generator module. "AutoIncrement" increments the ticket number, the SystemID and the counter are used. The format is SystemID.counter, e.g. 1010138, 1010139. With "Date" the ticket numbers will be generated by the current date, the SystemID and the counter. The format looks like Year.Month.Day.SystemID.counter, e.g. 200206231010138, 200206231010139. With "DateChecksum"  the counter will be appended as checksum to the string of date and SystemID. The checksum will be rotated on a daily basis. The format looks like Year.Month.Day.SystemID.Counter.CheckSum, e.g. 2002070110101520, 2002070110101535. "Random" generates randomized ticket numbers in the format "SystemID.Random", e.g. 100057866352, 103745394596.</Description>
         <Description Lang="de">Auswahl des Moduls zur Generierung der Ticketnummern. "AutoIncrement" zählt die Ticketnummer automatisch hoch und verbindet sie mit der SystemID. Es wird das Format SystemID. Counter verwendet, z. B. 1010138, 1010139. "Date" generiert die Ticketnummer aus Datum, SystemID und dem Counter, es wird das Format "Jahr.Monat.Tag.SystemID.Counter verwendet, z. B. 200206231010138, 200206231010139. "DateChecksum" erzeugt die Ticketnummer aus dem Datum, der SystemID, dem Counter und einer Checksumme. Es wird das Format "Jahr.Monat.Tag.SystemID.Counter.CheckSumme verwendet, z. B. 2002070110101520, 2002070110101535. "Random" generiert aus der SystemID und einer Zufallszahl die Ticketnummern. Es wird das Format SystemID.Random verwendet, z. B. 100057866352, 103745394596.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
@@ -1091,8 +1091,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::NumberGenerator::MinCounterSize" Required="1" Valid="1">
-        <Description Lang="en">If "AutoIncrement" was selected for TicketNumberGenerator, you can set the minimal ticket counter size. Default is 5, this means the counter starts from 10000.</Description>
-        <Description Lang="de">Wenn "AutoIncrement" für TicketNumberGenerator ausgewählt wurde, kann hier die minimale Länge des Zählers (Counters) festgelegt werden. Standard ist 5, d.h. gezählt wird ab 10000.</Description>
+        <Description Lang="en">If "AutoIncrement" was selected as TicketNumberGenerator you can set the minimal ticket counter size. Default is 5, this means the counter starts from 10000.</Description>
+        <Description Lang="de">Wenn "AutoIncrement" für TicketNumberGenerator ausgewählt wurde, kann hier die minimale Länge des Zählers (Counters) festgelegt werden. Standard ist 5, d.h. der Counter startet ab 10000.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -1100,7 +1100,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::CounterLog" Required="1" Valid="1">
-        <Description Lang="en">Log file for the ticket counter.</Description>
+        <Description Lang="en">Logfile for the ticket counter.</Description>
         <Description Lang="de">Pfad und Verzeichnis zur Logdatei für den Ticket-Counter.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
@@ -1109,7 +1109,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::IndexModule" Required="1" Valid="1">
-        <Description Lang="en">IndexAccelerator, choose your backend TicketViewAccelerator module. "RuntimeDB" generates each queue view on the fly from ticket table. You won't have performance problems till 60.000 tickets and 6.000 open tickets in your system. "StaticDB" is the most powerfull module. It should be used, if more then 80.000 and 6.000 opten tickets are stored in the system. The module uses a extra ticket_index table, that works like a view. Use the script "bin/RebuildTicketIndex.pl" for initial index update.</Description>
+        <Description Lang="en">IndexAccelerator: choose your backend TicketViewAccelerator module. "RuntimeDB" generates each QueueView on the fly from ticket table. You won't have performance problems up to approx. 60.000 tickets in total and 6.000 open tickets in your system. "StaticDB" is the most powerful module. It should be used, if more than 80.000 and 6.000 open tickets are stored in the system. The module uses an extra ticket-index table that works like a view. Use the script "bin/RebuildTicketIndex.pl" for initial index update.</Description>
         <Description Lang="de">IndexAccelerator, wählen Sie das gewünschte BackendModul aus. "RuntimeDB" generiert jede QueueAnsicht "on the fly" aus der Tickettabelle. Bis zu einer Anzahl von 60.000 Tickets insgesamt und 6.000 offenen Tickets sollten Sie mit diesem Modul kein Performanceproblem bekommen. Für Installationen mit über 80.000 Tickets insgesamt und 6.000 offenen Tickets sollte das Modul "StaticDB" gewählt werden. Für das Modul wird eine extra Tabelle (ticket_index) verwendet, die ähnlich wie ein "view" arbeitet. Benutzen für die erste Einrichtung der Tabelle das Skript "bin/RebuildTicketIndex.pl".</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
@@ -1119,7 +1119,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::StorageModule" Required="1" Valid="1">
-        <Description Lang="en">Select your TicketStorageModule to safe the attachments of articles. "DB" stores all data in the database. Don't use this module if big attachments will be stored. "FS" stores the data in the file system, it is faster but webserver user should be the otrs user. You can switch between the modules even with a running system, all data will be availabel and are searched for example.</Description>
+        <Description Lang="en">Select your TicketStorageModule to safe the attachments of articles. "DB" stores all data in the database. Don't use this module if big attachments will be stored. "FS" stores the data in the filesystem. This is faster but webserver user should be the otrs user. You can switch between the modules even on a running system without any loss of data.</Description>
         <Description Lang="de">Wählen Sie das TicketStorage-Modul aus und legen sie fest, wie die Anhänge zu Artikeln gespeichert werden sollen. "DB" speichert alle Daten in der Datenbank. Wird nur mit kleinen Anhängen gearbeitet, ist das kein Problem. "FS" legt die Daten im Filesystem ab, der Zugriff ist schneller. Allerdings sollte bei Verwendung von "FS" der WEB-Server unter dem selben Benutzer laufen, der auch für OTRS verwendet wird. Sie können das Modul auch für laufende Systeme ändern, es wird trotzdem weiter auf alle Daten zugegriffen und auch die Daten, die mit Hilfe des anderen Moduls gespeichert wurden, bleiben verfügbar.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
@@ -1130,7 +1130,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="ArticleDir" Required="1" Valid="1">
         <Description Lang="en">If you have selected "FS" for TicketStorageModule, you have to specifiy the directory where to store the data.</Description>
-        <Description Lang="de">Wurde "FS" als ArticleStoragModule ausgewählt, muss das Verzeichnis angegeben werden, in dem die Daten abgelegt werden sollen.</Description>
+        <Description Lang="de">Wurde "FS" als ArticleStorageModule ausgewählt, muss das Verzeichnis angegeben werden, in dem die Daten abgelegt werden sollen.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -1138,7 +1138,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::EventModulePost###1-ForceStateChangeOnLock" Required="0" Valid="0">
-        <Description Lang="en">Ticket event module to force a new ticket state after lock action. For key you have to define the current state and for value you have to define the next state after lock action.</Description>
+        <Description Lang="en">Ticket event module to force a new ticket state after lock action. As key you have to define the current state and the next state as content after lock action.</Description>
         <Description Lang="de">Ticket Event Modul für automatisches Setzen eines neuen Ticketstatus nach dem das Ticket gesperrt wurde. Der Schlüssel ist der aktuelle Status, der Inhalt der Status nach dem Sperren.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
@@ -1151,7 +1151,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::EventModulePost###1-ForceOwnerResetOnMove" Required="0" Valid="0">
-        <Description Lang="en">Ticket event module to reset and unlock the owner if ticket gets moved.</Description>
+        <Description Lang="en">Ticket event module to reset and unlock the owner if ticket gets moved to another queue.</Description>
         <Description Lang="de">Ticket Event Modul um Besitzer zurück zu setzen Ticket zu entsperren wenn das Ticket verschoben wird.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
@@ -1163,7 +1163,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::EventModulePost###99-ForceUnlockOnMove" Required="0" Valid="1">
-        <Description Lang="en">Ticket event module to force tickets to be unlocked after move action.</Description>
+        <Description Lang="en">Ticket event module to force tickets to be unlocked after moving to another queue.</Description>
         <Description Lang="de">Ticket Event Modul für automatische Aufhebung der Sperrung eines Tickets nach dem verschieben in eine andere Queue.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
@@ -1175,8 +1175,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::CustomModule" Required="0" Valid="0">
-        <Description Lang="en">A module with custom functions to redefine Kernel::System::Ticket functions (e. g. Kernel::System::Ticket::Custom).</Description>
-        <Description Lang="de">Ein Modul mit angepassten Funktionen welche die standard Kernel::System::Ticket überschreibt (z. B. Kernel::System::Ticket::Custom).</Description>
+        <Description Lang="en">A module with custom functions to redefine Kernel::System::Ticket functions (e.g. Kernel::System::Ticket::Custom).</Description>
+        <Description Lang="de">Ein Modul mit angepassten Funktionen das Kernel::System::Ticket überschreibt (z. B. Kernel::System::Ticket::Custom).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -1184,7 +1184,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="HighlightAge1" Required="1" Valid="1">
-        <Description Lang="en">Set the age (first level) for highlighting of old queue (Age in minutes).</Description>
+        <Description Lang="en">Set the age (first level) for highlighting of queues containing untouched tickets older than x minutes.</Description>
         <Description Lang="de">Zeit ab dem eine Queue mit nicht bearbeiteten Inhalten in erster Stufe gehighlighted wird (Angabe in Minuten).</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
@@ -1193,7 +1193,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="HighlightColor1" Required="1" Valid="1">
-        <Description Lang="en">Set the color for highlighting of old queue (first level).</Description>
+        <Description Lang="en">Set the color for highlighting queues containing untouched tickets (first level).</Description>
         <Description Lang="de">Farbe mit der eine Queue mit nicht bearbeiteten Inhalten in erster Stufe gehighlighted wird.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
@@ -1202,7 +1202,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="HighlightAge2" Required="1" Valid="1">
-        <Description Lang="en">Set the age (second level) for highlighting of old queue (Age in minutes).</Description>
+        <Description Lang="en">Set the age (second level) highlighting of queues containing untouched tickets older than x minutes.</Description>
         <Description Lang="de">Zeit ab dem eine Queue mit nicht bearbeiteten Inhalten in zweiter Stufe gehighlighted wird (Angabe in Minuten).</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
@@ -1211,7 +1211,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="HighlightColor2" Required="1" Valid="1">
-        <Description Lang="en">Set the color for highlighting of old queue (second level).</Description>
+        <Description Lang="en">Set the color for highlighting queues containing untouched tickets (second level).</Description>
         <Description Lang="de">Farbe mit der eine Queue mit nicht bearbeiteten Inhalten in zweiter Stufe gehighlighted wird.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
@@ -1220,8 +1220,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PendingDiffTime" Required="1" Valid="1">
-        <Description Lang="en">The additional time in sec. which "pending date" shows per default (default: 86400 = 1 day).</Description>
-        <Description Lang="de">Die zuzügliche Zeit welche per default in "Pending"-Zeit-Auswählen addiert wird (Angabe in Sekunden; 86400 Sekunden = 1 Tag).</Description>
+        <Description Lang="en">Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).</Description>
+        <Description Lang="de">Zeit die für pending-Status zur aktuellen Zeit addiert wird (Angabe in Sekunden; 86400 Sekunden = 1 Tag).</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -1253,8 +1253,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::StdResponsesMode" Required="1" Valid="1">
-        <Description Lang="en">The standard responses in the agent interface can be displayed as form or links.</Description>
-        <Description Lang="de">Die Standard-Antworten im Agent-Interface können als Formular oder als Links angezeigt werden.</Description>
+        <Description Lang="en">The standard responses in the agent interface can be displayed in a selection-box (form) or as links. Use Form if you have lots of responses.</Description>
+        <Description Lang="de">Die Standard-Antworten im Agent-Interface können in einer Auswahlbox (Formular) oder als Links angezeigt werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -1265,8 +1265,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::ZoomExpand" Required="1" Valid="1">
-        <Description Lang="en">Show article expanded in agent interface under ticket zoom.</Description>
-        <Description Lang="de">Zeige die Artikel erweitert im Agent-Interface unter Ticket-Zoom-Ansicht.</Description>
+        <Description Lang="en">Show all articles to a ticket in the ZoomView without selecting which article to show?</Description>
+        <Description Lang="de">Alle Artikel eines Tickets in der Inhalts-Ansicht anzeigen? Wird hier "Nein" gesetzt, muss der anzuzeigende Artikel explizit gewählt werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewZoom</SubGroup>
         <Setting>
@@ -1289,7 +1289,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::ZoomAttachmentDisplay" Required="0" Valid="1">
-        <Description Lang="en">Shows a icon in the ticket zoom, if a article as an attachment.</Description>
+        <Description Lang="en">Shows an icon in the ticket zoom, if an article has an attachment.</Description>
         <Description Lang="de">Zeigt ein Icon in der Ansicht für den Ticketinhalt an, wenn ein Attachment für einen Artikel vorhanden ist.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewZoom</SubGroup>
@@ -1301,7 +1301,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::ZoomAttachmentDisplayCount" Required="0" Valid="1">
-        <Description Lang="en">Shows a count of icon in the ticket zoom, if a article as an attachment.</Description>
+        <Description Lang="en">Shows a count of icons in the ticket zoom, if an article has an attachment.</Description>
         <Description Lang="de">Zeigt Anzahl von Icons in der Ansicht für den Ticketinhalt an, wenn ein Attachment für einen Artikel vorhanden ist.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewZoom</SubGroup>
@@ -1329,7 +1329,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::ZoomTimeDisplay" Required="0" Valid="0">
-        <Description Lang="en">Displays the time that is accounted for an article in the ticket zoom view.</Description>
+        <Description Lang="en">Displays the accounted time for an article in the ticket zoom view.</Description>
         <Description Lang="de">Zeigt die Zeit innerhalb der Ansicht für den Ticketinhalt an, die für einen Artikel erfasst wurde (Die Zeitangabe bezieht sich immer auf einen Artikel).</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewZoom</SubGroup>
@@ -1353,7 +1353,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::TextAreaEmail" Required="1" Valid="1">
-        <Description Lang="en">Width of compose email windows.</Description>
+        <Description Lang="en">Width of compose Email windows.</Description>
         <Description Lang="de">Anzahl der Zeichen pro Zeile im E-Mail-Fenster.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
@@ -1413,7 +1413,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerInfoQueue" Required="1" Valid="1">
-        <Description Lang="en">Show customer user info in Queue view?</Description>
+        <Description Lang="en">Show customer user info in QueueView?</Description>
         <Description Lang="de">Anzeige der Customer-Info in der Queue-Ansicht?</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
@@ -1443,7 +1443,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::QueueMaxShown" Required="1" Valid="1">
-        <Description Lang="en">Max shown tickets in queue view.</Description>
+        <Description Lang="en">Max shown tickets in QueueView.</Description>
         <Description Lang="de">Maximale Anzahl der in der QueueAnsicht angezeigten Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
@@ -1452,7 +1452,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::QueueSort" Required="0" Valid="0">
-        <Description Lang="en">Sort a queue ascending or descending after priority sort. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top)</Description>
+        <Description Lang="en">Sort a queue ascending or descending after priority sort. Values: 0 = ascending (oldest on top, default), 1 = descending (latest on top)</Description>
         <Description Lang="de">Queue auf- oder absteigend sortieren, nach der Sortierung nach Priorität. Mögliche Werte: 0 = Aufsteigend (alte Tickets zuerst), 1 = absteigend</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
@@ -1513,7 +1513,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::QueueOrder::Default" Required="1" Valid="1">
-        <Description Lang="en">Queue order default (after priority sort). ASC: oldest on top. DESC: youngest on top.</Description>
+        <Description Lang="en">Queue order default (after priority sort). ASC: oldest on top. DESC: latest on top.</Description>
         <Description Lang="de">Standard Reihenfolge der Queue (nach der Prioritaet). ASC: die aeltesten Tickets zuerst. DESC: die neuesten zuerst.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
@@ -1700,8 +1700,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::StatusOrder::Default" Required="1" Valid="1">
-        <Description Lang="en">Queue order default (after priority sort). ASC: oldest on top. DESC: youngest on top.</Description>
-        <Description Lang="de">Standard Reihenfolge der Queue (nach der Prioritaet). ASC: die aeltesten Tickets zuerst. DESC: die neuesten zuerst.</Description>
+        <Description Lang="en">Queue order default (after priority sort). ASC: oldest on top. DESC: latest on top.</Description>
+        <Description Lang="de">Standard Reihenfolge der Queue (nach der Prioritaet). ASC: die ältesten Tickets zuerst. DESC: die neuesten zuerst.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewStatus</SubGroup>
         <Setting>
@@ -1721,7 +1721,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###SearchPageShown" Required="1" Valid="1">
-        <Description Lang="en">Default of shown article a page.</Description>
+        <Description Lang="en">Default of shown results per page.</Description>
         <Description Lang="de">Anzahl der angezeigten Treffer pro Seite bei der Ticketsuche.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
@@ -1827,7 +1827,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###Order::Default" Required="1" Valid="1">
         <Description Lang="en">Search result order default.</Description>
-        <Description Lang="de">Standard Reihenfolge beim Suchergebnissen.</Description>
+        <Description Lang="de">Standard Reihenfolge bei Suchergebnissen.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
         <Setting>
@@ -1838,7 +1838,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###SearchArticleCSVTree" Required="1" Valid="1">
-        <Description Lang="en">Export also whole article tree in search result export (take care of the system performance!).</Description>
+        <Description Lang="en">Export whole article tree in search result export (take care of the system performance!).</Description>
         <Description Lang="de">Exportiere im Suchergebnisexport auch den ganzen Artikelbaum. Achten Sie bei dieser Einstellung auf die System-Performance!.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
@@ -1984,7 +1984,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketFreeText###Permission" Required="1" Valid="1">
-        <Description Lang="en">Required permisson to use this option.</Description>
+        <Description Lang="en">Required permissions to use this option.</Description>
         <Description Lang="de">Benötigte Rechte zur Bearbeitung des Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewFreeText</SubGroup>
@@ -1993,8 +1993,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketFreeText###RequiredLock" Required="0" Valid="1">
-        <Description Lang="en">A ticket lock is required. In case the ticket isn't locked, the tickets get locked and the current agent will be set automatically as ticket owner.</Description>
-        <Description Lang="de">Eine Ticket-Sperre wird benötigt bzw. wenn Ticket nicht gesperrt ist, wird das Ticket automatisch gesperrt und der Agent zum Besitzer gemacht.</Description>
+        <Description Lang="en">A ticket lock is required. In case the ticket isn't locked, the tickets gets locked and the current agent will be set automatically as ticket owner.</Description>
+        <Description Lang="de">Eine Ticket-Sperre wird benötigt. Wenn Ticket nicht gesperrt ist, wird das Ticket automatisch gesperrt und der Agent als Besitzer gesetzt.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewFreeText</SubGroup>
         <Setting>
@@ -2055,7 +2055,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketFreeText###StateDefault" Required="0" Valid="0">
-        <Description Lang="en">Default next state after an email ticket.</Description>
+        <Description Lang="en">Default next state after an Email ticket.</Description>
         <Description Lang="de">Standardmäßig ausgewählter nächster Status.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewFreeText</SubGroup>
@@ -2242,7 +2242,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPhoneOutbound###Permission" Required="1" Valid="1">
-        <Description Lang="en">Required permisson to use this option.</Description>
+        <Description Lang="en">Required permissions to use this option.</Description>
         <Description Lang="de">Benötigte Rechte zur Bearbeitung des Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPhoneOutbound</SubGroup>
@@ -2252,7 +2252,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPhoneOutbound###RequiredLock" Required="0" Valid="1">
         <Description Lang="en">A ticket lock is required. In case the ticket isn't locked, the tickets get locked and the current agent will be set automatically as ticket owner.</Description>
-        <Description Lang="de">Eine Ticket-Sperre wird benötigt bzw. wenn Ticket nicht gesperrt ist, wird das Ticket automatisch gesperrt und der Agent zum Besitzer gemacht.</Description>
+        <Description Lang="de">Eine Ticket-Sperre wird benötigt bzw. wenn Ticket nicht gesperrt ist, wird das Ticket automatisch gesperrt und der Agent als Besitzer gesetzt.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPhoneOutbound</SubGroup>
         <Setting>
@@ -2393,7 +2393,7 @@ TimeWorkingHours
     </ConfigItem>
 
     <ConfigItem Name="Ticket::Frontend::NewOwnerSelection" Required="1" Valid="1">
-        <Description Lang="en">Show owner selection in phone and email ticket?</Description>
+        <Description Lang="en">Show owner selection in phone and Email ticket?</Description>
         <Description Lang="de">Soll die Besitzerauswahl im Telefon- und Email-Ticket gezeigt werden?</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
@@ -2586,7 +2586,7 @@ TimeWorkingHours
     </ConfigItem>
 
     <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###Priority" Required="1" Valid="1">
-        <Description Lang="en">Default priority for new email tickets.</Description>
+        <Description Lang="en">Default priority for new Email tickets.</Description>
         <Description Lang="de">Standard Priorität für neue Email-tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
@@ -2595,16 +2595,16 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###ArticleType" Required="1" Valid="1">
-        <Description Lang="en">Default article type for new email tickets.</Description>
+        <Description Lang="en">Default article type for new Email tickets.</Description>
         <Description Lang="de">Standard Artikeltyp für neue Email-Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
         <Setting>
-            <String Regex="">email-external</String>
+            <String Regex="">Email-external</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###SenderType" Required="1" Valid="1">
-        <Description Lang="en">Default sender type for new email tickets.</Description>
+        <Description Lang="en">Default sender type for new Email tickets.</Description>
         <Description Lang="de">Standard Sender-Typ für neue Email-Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
@@ -2613,7 +2613,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###Subject" Required="1" Valid="1">
-        <Description Lang="en">Default subject for new email tickets (e.g. 'Email Outbound').</Description>
+        <Description Lang="en">Default subject for new Email tickets (e.g. 'Email Outbound').</Description>
         <Description Lang="de">Standard Betreff für neue Emailtickets (z. B. 'Email ausgehend').</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
@@ -2622,7 +2622,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###Body" Required="1" Valid="1">
-        <Description Lang="en">Default text for new email tickets.</Description>
+        <Description Lang="en">Default text for new Email tickets.</Description>
         <Description Lang="de">Standardtext für ein neues Email-Ticket.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
@@ -2631,7 +2631,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###StateDefault" Required="1" Valid="1">
-        <Description Lang="en">Default next state after an email ticket.</Description>
+        <Description Lang="en">Default next state after an Email ticket.</Description>
         <Description Lang="de">Standardmäßig ausgewählter nächster Status nach einem Email-Ticket.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
@@ -2640,7 +2640,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###StateType" Required="1" Valid="1">
-        <Description Lang="en">Next possible states after an email ticket.</Description>
+        <Description Lang="en">Next possible states after an Email ticket.</Description>
         <Description Lang="de">Mögliche Status nach der Erstellung eines Email-Tickets</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
@@ -2654,7 +2654,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###ShownCustomerTickets" Required="0" Valid="1">
-        <Description Lang="en">Max. shown customer history tickets in email-ticket mask.</Description>
+        <Description Lang="en">Max. shown customer history tickets in Email-ticket mask.</Description>
         <Description Lang="de">Max. gezeigte Kunden-Historie-Tickets in Email-Ticket.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
@@ -2714,7 +2714,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###HistoryType" Required="1" Valid="1">
-        <Description Lang="en">Standard history type for new email tickets.</Description>
+        <Description Lang="en">Standard history type for new Email tickets.</Description>
         <Description Lang="de">Standard Historien-Typ für neue Email-Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
@@ -2723,7 +2723,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###HistoryComment" Required="1" Valid="1">
-        <Description Lang="en">Default history comment for new email tickets.</Description>
+        <Description Lang="en">Default history comment for new Email tickets.</Description>
         <Description Lang="de">Standard Kommentar für Historie-Eintrag bei neuen Emails.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
@@ -2733,7 +2733,7 @@ TimeWorkingHours
     </ConfigItem>
 
     <ConfigItem Name="Ticket::Frontend::AgentTicketClose###Permission" Required="1" Valid="1">
-        <Description Lang="en">Required permisson to use this option.</Description>
+        <Description Lang="en">Required permissions to use this option.</Description>
         <Description Lang="de">Benötigte Rechte zur Bearbeitung des Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
@@ -2743,7 +2743,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketClose###RequiredLock" Required="0" Valid="1">
         <Description Lang="en">A ticket lock is required. In case the ticket isn't locked, the tickets get locked and the current agent will be set automatically as ticket owner.</Description>
-        <Description Lang="de">Eine Ticket-Sperre wird benötigt bzw. wenn Ticket nicht gesperrt ist, wird das Ticket automatisch gesperrt und der Agent zum Besitzer gemacht.</Description>
+        <Description Lang="de">Eine Ticket-Sperre wird benötigt bzw. wenn Ticket nicht gesperrt ist, wird das Ticket automatisch gesperrt und der Agent als Besitzer gesetzt.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
         <Setting>
@@ -2801,7 +2801,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketClose###StateDefault" Required="0" Valid="1">
-        <Description Lang="en">Default next state after an email ticket.</Description>
+        <Description Lang="en">Default next state after an Email ticket.</Description>
         <Description Lang="de">Standardmäßig ausgewählter nächster Status.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
@@ -2989,7 +2989,7 @@ TimeWorkingHours
     </ConfigItem>
 
     <ConfigItem Name="Ticket::Frontend::AgentTicketNote###Permission" Required="1" Valid="1">
-        <Description Lang="en">Required permisson to use this option.</Description>
+        <Description Lang="en">Required permissions to use this option.</Description>
         <Description Lang="de">Benötigte Rechte zur Bearbeitung des Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
@@ -2999,7 +2999,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketNote###RequiredLock" Required="0" Valid="1">
         <Description Lang="en">A ticket lock is required. In case the ticket isn't locked, the tickets get locked and the current agent will be set automatically as ticket owner.</Description>
-        <Description Lang="de">Eine Ticket-Sperre wird benötigt bzw. wenn Ticket nicht gesperrt ist, wird das Ticket automatisch gesperrt und der Agent zum Besitzer gemacht.</Description>
+        <Description Lang="de">Eine Ticket-Sperre wird benötigt bzw. wenn Ticket nicht gesperrt ist, wird das Ticket automatisch gesperrt und der Agent als Besitzer gesetzt.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
         <Setting>
@@ -3060,7 +3060,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketNote###StateDefault" Required="0" Valid="0">
-        <Description Lang="en">Default next state after an email ticket.</Description>
+        <Description Lang="en">Default next state after an Email ticket.</Description>
         <Description Lang="de">Standardmäßig ausgewählter nächster Status.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
@@ -3248,7 +3248,7 @@ TimeWorkingHours
     </ConfigItem>
 
     <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###Permission" Required="1" Valid="1">
-        <Description Lang="en">Required permisson to use this option.</Description>
+        <Description Lang="en">Required permissions to use this option.</Description>
         <Description Lang="de">Benötigte Rechte zur Bearbeitung des Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewOwner</SubGroup>
@@ -3258,7 +3258,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###RequiredLock" Required="0" Valid="1">
         <Description Lang="en">A ticket lock is required. In case the ticket isn't locked, the tickets get locked and the current agent will be set automatically as ticket owner.</Description>
-        <Description Lang="de">Eine Ticket-Sperre wird benötigt bzw. wenn Ticket nicht gesperrt ist, wird das Ticket automatisch gesperrt und der Agent zum Besitzer gemacht.</Description>
+        <Description Lang="de">Eine Ticket-Sperre wird benötigt bzw. wenn Ticket nicht gesperrt ist, wird das Ticket automatisch gesperrt und der Agent als Besitzer gesetzt.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewOwner</SubGroup>
         <Setting>
@@ -3318,7 +3318,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###StateDefault" Required="0" Valid="1">
-        <Description Lang="en">Default next state after an email ticket.</Description>
+        <Description Lang="en">Default next state after an Email ticket.</Description>
         <Description Lang="de">Standardmäßig ausgewählter nächster Status.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewOwner</SubGroup>
@@ -3506,7 +3506,7 @@ TimeWorkingHours
     </ConfigItem>
 
     <ConfigItem Name="Ticket::Frontend::AgentTicketPending###Permission" Required="1" Valid="1">
-        <Description Lang="en">Required permisson to use this option.</Description>
+        <Description Lang="en">Required permissions to use this option.</Description>
         <Description Lang="de">Benötigte Rechte zur Bearbeitung des Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
@@ -3516,7 +3516,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPending###RequiredLock" Required="0" Valid="1">
         <Description Lang="en">A ticket lock is required. In case the ticket isn't locked, the tickets get locked and the current agent will be set automatically as ticket owner.</Description>
-        <Description Lang="de">Eine Ticket-Sperre wird benötigt bzw. wenn Ticket nicht gesperrt ist, wird das Ticket automatisch gesperrt und der Agent zum Besitzer gemacht.</Description>
+        <Description Lang="de">Eine Ticket-Sperre wird benötigt bzw. wenn Ticket nicht gesperrt ist, wird das Ticket automatisch gesperrt und der Agent als Besitzer gesetzt.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
         <Setting>
@@ -3575,7 +3575,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPending###StateDefault" Required="0" Valid="1">
-        <Description Lang="en">Default next state after an email ticket.</Description>
+        <Description Lang="en">Default next state after an Email ticket.</Description>
         <Description Lang="de">Standardmäßig ausgewählter nächster Status.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
@@ -3763,7 +3763,7 @@ TimeWorkingHours
     </ConfigItem>
 
     <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###Permission" Required="1" Valid="1">
-        <Description Lang="en">Required permisson to use this option.</Description>
+        <Description Lang="en">Required permissions to use this option.</Description>
         <Description Lang="de">Benötigte Rechte zur Bearbeitung des Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
@@ -3773,7 +3773,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###RequiredLock" Required="0" Valid="1">
         <Description Lang="en">A ticket lock is required. In case the ticket isn't locked, the tickets get locked and the current agent will be set automatically as ticket owner.</Description>
-        <Description Lang="de">Eine Ticket-Sperre wird benötigt bzw. wenn Ticket nicht gesperrt ist, wird das Ticket automatisch gesperrt und der Agent zum Besitzer gemacht.</Description>
+        <Description Lang="de">Eine Ticket-Sperre wird benötigt bzw. wenn Ticket nicht gesperrt ist, wird das Ticket automatisch gesperrt und der Agent als Besitzer gesetzt.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
         <Setting>
@@ -3833,7 +3833,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###StateDefault" Required="0" Valid="1">
-        <Description Lang="en">Default next state after an email ticket.</Description>
+        <Description Lang="en">Default next state after an Email ticket.</Description>
         <Description Lang="de">Standardmäßig ausgewählter nächster Status.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
@@ -4021,7 +4021,7 @@ TimeWorkingHours
     </ConfigItem>
 
     <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###Permission" Required="1" Valid="1">
-        <Description Lang="en">Required permisson to use this option.</Description>
+        <Description Lang="en">Required permissions to use this option.</Description>
         <Description Lang="de">Benötigte Rechte zur Bearbeitung des Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
@@ -4030,8 +4030,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###RequiredLock" Required="0" Valid="1">
-        <Description Lang="en">A ticket lock is required. In case the ticket isn't locked, the tickets get locked and the current agent will be set automatically as ticket owner.</Description>
-        <Description Lang="de">Eine Ticket-Sperre wird benötigt bzw. wenn Ticket nicht gesperrt ist, wird das Ticket automatisch gesperrt und der Agent zum Besitzer gemacht.</Description>
+        <Description Lang="en">A ticket lock is required. In case the ticket isn't locked, the ticket gets locked and the current agent will be set automatically as ticket owner.</Description>
+        <Description Lang="de">Eine Ticket-Sperre wird benötigt bzw. wenn Ticket nicht gesperrt ist, wird das Ticket automatisch gesperrt und der Agent als Besitzer gesetzt.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
         <Setting>
@@ -4091,7 +4091,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###StateDefault" Required="0" Valid="1">
-        <Description Lang="en">Default next state after an email ticket.</Description>
+        <Description Lang="en">Default next state after an Email ticket.</Description>
         <Description Lang="de">Standardmäßig ausgewählter nächster Status.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
@@ -4279,7 +4279,7 @@ TimeWorkingHours
     </ConfigItem>
 
     <ConfigItem Name="Ticket::Frontend::AgentTicketBounce###Permission" Required="1" Valid="1">
-        <Description Lang="en">Required permisson to use this option.</Description>
+        <Description Lang="en">Required permissions to use this option.</Description>
         <Description Lang="de">Benötigte Rechte zur Bearbeitung des Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewBounce</SubGroup>
@@ -4289,7 +4289,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketBounce###RequiredLock" Required="0" Valid="1">
         <Description Lang="en">A ticket lock is required. In case the ticket isn't locked, the tickets get locked and the current agent will be set automatically as ticket owner.</Description>
-        <Description Lang="de">Eine Ticket-Sperre wird benötigt bzw. wenn Ticket nicht gesperrt ist, wird das Ticket automatisch gesperrt und der Agent zum Besitzer gemacht.</Description>
+        <Description Lang="de">Eine Ticket-Sperre wird benötigt bzw. wenn Ticket nicht gesperrt ist, wird das Ticket automatisch gesperrt und der Agent als Besitzer gesetzt.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewBounce</SubGroup>
         <Setting>
@@ -4326,12 +4326,12 @@ TimeWorkingHours
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewBounce</SubGroup>
         <Setting>
-            <TextArea>Your email with ticket number "&lt;OTRS_TICKET&gt;" is bounced to "&lt;OTRS_BOUNCE_TO&gt;". Contact this address for further informations.</TextArea>
+            <TextArea>Your Email with ticket number "&lt;OTRS_TICKET&gt;" is bounced to "&lt;OTRS_BOUNCE_TO&gt;". Contact this address for further informations.</TextArea>
         </Setting>
     </ConfigItem>
 
     <ConfigItem Name="Ticket::Frontend::AgentTicketCompose###Permission" Required="1" Valid="1">
-        <Description Lang="en">Required permisson to use this option.</Description>
+        <Description Lang="en">Required permissions to use this option.</Description>
         <Description Lang="de">Benötigte Rechte zur Bearbeitung des Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewCompose</SubGroup>
@@ -4341,7 +4341,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketCompose###RequiredLock" Required="0" Valid="1">
         <Description Lang="en">A ticket lock is required. In case the ticket isn't locked, the tickets get locked and the current agent will be set automatically as ticket owner.</Description>
-        <Description Lang="de">Eine Ticket-Sperre wird benötigt bzw. wenn Ticket nicht gesperrt ist, wird das Ticket automatisch gesperrt und der Agent zum Besitzer gemacht.</Description>
+        <Description Lang="de">Eine Ticket-Sperre wird benötigt bzw. wenn Ticket nicht gesperrt ist, wird das Ticket automatisch gesperrt und der Agent als Besitzer gesetzt.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewCompose</SubGroup>
         <Setting>
@@ -4391,7 +4391,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::Quote" Required="0" Valid="1">
-        <Description Lang="en">Char for email quotes.</Description>
+        <Description Lang="en">Character for Email quotes.</Description>
         <Description Lang="de">Zeichen für Email Quotes.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewCompose</SubGroup>
@@ -4400,7 +4400,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::ComposeReplaceSenderAddress" Required="1" Valid="1">
-        <Description Lang="en">Replace on compose answer the original sender with current customers email address.</Description>
+        <Description Lang="en">Replace on compose answer the original sender with current customers Email address.</Description>
         <Description Lang="de">Beim Antwort erstellen originale Sender-Email mit der Email des derzeitigen Kunden ersetzen.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewCompose</SubGroup>
@@ -4463,7 +4463,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketForward###Permission" Required="1" Valid="1">
-        <Description Lang="en">Required permisson to use this option.</Description>
+        <Description Lang="en">Required permissions to use this option.</Description>
         <Description Lang="de">Benötigte Rechte zur Bearbeitung des Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewForward</SubGroup>
@@ -4473,7 +4473,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketForward###RequiredLock" Required="0" Valid="1">
         <Description Lang="en">A ticket lock is required. In case the ticket isn't locked, the tickets get locked and the current agent will be set automatically as ticket owner.</Description>
-        <Description Lang="de">Eine Ticket-Sperre wird benötigt bzw. wenn Ticket nicht gesperrt ist, wird das Ticket automatisch gesperrt und der Agent zum Besitzer gemacht.</Description>
+        <Description Lang="de">Eine Ticket-Sperre wird benötigt bzw. wenn Ticket nicht gesperrt ist, wird das Ticket automatisch gesperrt und der Agent als Besitzer gesetzt.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewForward</SubGroup>
         <Setting>
@@ -4510,7 +4510,7 @@ $QData{"Signature"}
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewForward</SubGroup>
         <Setting>
-            <String Regex="">email-external</String>
+            <String Regex="">Email-external</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketForward###ArticleTypes" Required="0" Valid="1">
@@ -4520,8 +4520,8 @@ $QData{"Signature"}
         <SubGroup>Frontend::Agent::Ticket::ViewForward</SubGroup>
         <Setting>
             <Array>
-                <Item>email-external</Item>
-                <Item>email-internal</Item>
+                <Item>Email-external</Item>
+                <Item>Email-internal</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -4565,7 +4565,7 @@ $QData{"Signature"}
     </ConfigItem>
 
     <ConfigItem Name="Ticket::Frontend::AgentTicketMerge###Permission" Required="1" Valid="1">
-        <Description Lang="en">Required permisson to use this option.</Description>
+        <Description Lang="en">Required permissions to use this option.</Description>
         <Description Lang="de">Benötigte Rechte zur Bearbeitung des Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewMerge</SubGroup>
@@ -4575,7 +4575,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketMerge###RequiredLock" Required="0" Valid="1">
         <Description Lang="en">A ticket lock is required. In case the ticket isn't locked, the tickets get locked and the current agent will be set automatically as ticket owner.</Description>
-        <Description Lang="de">Eine Ticket-Sperre wird benötigt bzw. wenn Ticket nicht gesperrt ist, wird das Ticket automatisch gesperrt und der Agent zum Besitzer gemacht.</Description>
+        <Description Lang="de">Eine Ticket-Sperre wird benötigt bzw. wenn Ticket nicht gesperrt ist, wird das Ticket automatisch gesperrt und der Agent als Besitzer gesetzt.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewMerge</SubGroup>
         <Setting>
@@ -4591,7 +4591,7 @@ $QData{"Signature"}
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewMerge</SubGroup>
         <Setting>
-            <TextArea>Your email with ticket number "&lt;OTRS_TICKET&gt;" is merged to "&lt;OTRS_MERGE_TO_TICKET&gt;".</TextArea>
+            <TextArea>Your Email with ticket number "&lt;OTRS_TICKET&gt;" is merged to "&lt;OTRS_MERGE_TO_TICKET&gt;".</TextArea>
         </Setting>
     </ConfigItem>
 
@@ -4721,7 +4721,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SystemStatsMap###Ticket::Stats2" Required="0" Valid="1">
-        <Description Lang="en">Module to generate a overview of tickets in a queue at the end of a month. Possible output options are Print, CSV, GraphLine, GraphBars and GraphPie.</Description>
+        <Description Lang="en">Module to generate an overview of tickets in a queue at the end of a month. Possible output options are Print, CSV, GraphLine, GraphBars and GraphPie.</Description>
         <Description Lang="de">Modul für die Generierung von Statistiken für Tickets in einer Queue am Ende eines Monats. Mögliche Ausgabeformate: Print, CSV, GraphLine, GraphBars und GraphPie.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Stats</SubGroup>
@@ -4852,7 +4852,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::ArticleViewModule###1-PGP" Required="1" Valid="1">
-        <Description Lang="en">Agent interface article notification module to check pgp.</Description>
+        <Description Lang="en">Agent interface article notification module to check PGP.</Description>
         <Description Lang="de">Ein Agent-Interface-Artikel-Notiz-Modul um den PGP-Schlüssel zu checken.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ArticleViewModule</SubGroup>
@@ -4863,7 +4863,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::ArticleViewModule###1-SMIME" Required="1" Valid="1">
-        <Description Lang="en">A agent interface module to check incoming emails in the Ticket-Zoom-View if the S/MIME-key is available and true.</Description>
+        <Description Lang="en">A agent interface module to check incoming Emails in the Ticket-Zoom-View if the S/MIME-key is available and true.</Description>
         <Description Lang="de">Ein Agent-Interface-Modul um bei eingehenden Emails im der Ticketansicht den S/MIME-Schlüssel zu checken.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ArticleViewModule</SubGroup>
@@ -4874,7 +4874,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::ArticlePreViewModule###1-PGP" Required="1" Valid="1">
-        <Description Lang="en">Agent interface article notification module to check pgp.</Description>
+        <Description Lang="en">Agent interface article notification module to check PGP.</Description>
         <Description Lang="de">Modul für die Vorschau von PGP-verschlüsselten Nachrichten.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ArticleViewModulePre</SubGroup>
@@ -5029,7 +5029,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###320-Link" Required="0" Valid="1">
-        <Description Lang="en">Module to show link to link a ticket with another object.</Description>
+        <Description Lang="en">Module to show a link to link a ticket with another object.</Description>
         <Description Lang="de">Über dieses Modul wird ein Link im Menü der Ticketansicht angezeigt, mit dem ein Ticket mit einem anderen Objekt verknüpft werden kann.</Description>"
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
@@ -5313,7 +5313,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Permission###1-OwnerCheck" Required="1" Valid="1">
-        <Description Lang="en">MOdule to check the owner.</Description>
+        <Description Lang="en">Module to check the owner.</Description>
         <Description Lang="de">Modul zum Überprüfen des Eigentümers.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
@@ -5339,7 +5339,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerTicket::Permission###1-CustomerUserIDCheck" Required="1" Valid="1">
-        <Description Lang="en">Grant access, if customer ID is the same and group is accessable.</Description>
+        <Description Lang="en">Grant access, if customer ID is the same and group is accessible.</Description>
         <Description Lang="de">Den Zugriff erlauben, wenn die Customer ID übereinstimmt und auf die Gruppe zugegriffen werden darf.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
@@ -5479,7 +5479,7 @@ $QData{"Signature"}
                 <Item Key="Module">Kernel::Output::HTML::PreferencesCustomQueue</Item>
                 <Item Key="Colum">Other Options</Item>
                 <Item Key="Label">My Queues</Item>
-                <Item Key="Desc">Your queue selection of your favorite queues. You also get notified about this queues via email if enabled.</Item>
+                <Item Key="Desc">Your queue selection of your favourite queues. You also get notified about those queues via Email if enabled.</Item>
                 <Item Key="Prio">2000</Item>
                 <Item Key="Activ">1</Item>
             </Hash>
@@ -5603,7 +5603,7 @@ $QData{"Signature"}
 
     <ConfigItem Name="Ticket::Frontend::CustomerTicketMessage###NextScreenAfterNewTicket" Required="1" Valid="1">
         <Description Lang="en">Next screen after new customer ticket.</Description>
-        <Description Lang="de">Nächster Bildschirm nach neuem Customer-Ticket.</Description>
+        <Description Lang="de">Nächste Eingabemaske nach neuem Customer-Ticket.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::Ticket::ViewNew</SubGroup>
         <Setting>
@@ -5635,7 +5635,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerTicketMessage###StateDefault" Required="1" Valid="1">
-        <Description Lang="en">Ddefault state of new customer tickets.</Description>
+        <Description Lang="en">Default state of new customer tickets.</Description>
         <Description Lang="de">Standard Status neuer Customer-Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::Ticket::ViewNew</SubGroup>
@@ -5701,7 +5701,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerPanelOwnSelection" Required="0" Valid="0">
-      <Description Lang="en">Here you can insert the Queues, witch the Customer can select in the Customer-Interface.</Description>
+      <Description Lang="en">Here you can insert the Queues, which the customer can select in the Customer-Interface.</Description>
         <Description Lang="de">Hier können die Queues eingegeben werden, aus dennen ein Kunde im Kunden-Panel auswählen kann.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::Ticket::ViewNew</SubGroup>
@@ -5761,7 +5761,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerTicketZoom###NextScreenAfterFollowUp" Required="1" Valid="1">
         <Description Lang="en">Next screen after customer follow up ticket.</Description>
-        <Description Lang="de">Nächster Bildschirm nach neuem Kunden-Nachfrage.</Description>
+        <Description Lang="de">Nächste Eingabemaske nach neuem Kunden-Nachfrage.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::Ticket::ViewZoom</SubGroup>
         <Setting>
@@ -6340,7 +6340,7 @@ $QData{"Signature"}
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket plain view of an email</Description>
+                <Description>Ticket plain view of an Email</Description>
                 <Title>Plain</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
@@ -6681,7 +6681,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminAttachment" Required="0" Valid="1">
-        <Description Lang="en">describe if the module "Attachment" (AdminAttachment) is shown in the admin interface. Describe also the notation of the module.</Description>
+        <Description Lang="en">Describe if the module "Attachment" (AdminAttachment) is shown in the admin interface. Describe also the notation of the module.</Description>
         <Description Lang="en">Frontend module registration for the AdminAttachment object in the admin area.</Description>
         <Description Lang="de">Frontendmodul-Registration des AdminAttachment-Objekts im Admin-Bereich.</Description>
         <Group>Ticket</Group>
@@ -6974,7 +6974,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PostmasterMaxEmails" Required="1" Valid="1">
-        <Description Lang="en">Maximal auto email responses to own email-address a day (Loop-Protection)!</Description>
+        <Description Lang="en">Maximal auto Email responses to own Email-address a day (Loop-Protection)!</Description>
         <Description Lang="de">Maximale Anzahl von Auto-Antworten an eine Email-Adresse pro Tag (Schutz vor Emailschleifen!).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
@@ -7230,7 +7230,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PostMaster::PreFilterModule###1-Match" Required="0" Valid="0">
-        <Description Lang="en">Module to filter and manipulate incoming messages. Block/ignore all spam email with From: noreply@ address.</Description>
+        <Description Lang="en">Module to filter and manipulate incoming messages. Block/ignore all spam Email with From: noreply@ address.</Description>
         <Description Lang="de">Modul zum Filtern und Ändern eingehender Nachrichten. Blocken und Ignorieren von Spam mit Hilfe der noreply@-Adresse.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
@@ -7273,7 +7273,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PostMaster::PreFilterModule###3-NewTicketReject" Required="0" Valid="0">
-        <Description Lang="en">Block all incoming emails without valid ticket number in subject with From: @example.com address.</Description>
+        <Description Lang="en">Block all incoming Emails without valid ticket number in subject with From: @example.com address.</Description>
         <Description Lang="de">Blocken aller Emails ohne gültiger Ticket-Nummer in Betreff mit Von: @example.com-Adresse.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
@@ -7294,7 +7294,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PostMaster::PreFilterModule::NewTicketReject::Subject" Required="1" Valid="1">
-        <Description Lang="en">Subject for NewTicketReject-Filter email.</Description>
+        <Description Lang="en">Subject for NewTicketReject-Filter Email.</Description>
         <Description Lang="de">Betreff für NewTicketReject-Filter Email.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
@@ -7303,7 +7303,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PostMaster::PreFilterModule::NewTicketReject::Body" Required="1" Valid="1">
-        <Description Lang="en">Body for NewTicketReject-Filter email.</Description>
+        <Description Lang="en">Body for NewTicketReject-Filter Email.</Description>
         <Description Lang="de">Nachricht für NewTicketReject-Filter Email.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
@@ -7311,8 +7311,8 @@ $QData{"Signature"}
             <TextArea>
 Dear Customer,
 
-unfortunately you have not an valid ticket number
-in your subject, so this email can't processed.
+unfortunately you have no valid ticket number
+in your subject, so this Email can't processed.
 
 Please create a new ticket via the customer panel.
 
@@ -7323,7 +7323,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PostMaster::PreFilterModule###4-CMD" Required="0" Valid="0">
-        <Description Lang="en">CMD example setup. Ignore emails where external CMD returnes some output on STDOUT (email will be piped into STDIN of some.bin).</Description>
+        <Description Lang="en">CMD example setup. Ignore Emails where external CMD returns some output on STDOUT (Email will be piped into STDIN of some.bin).</Description>
         <Description Lang="de">CMD Beispiel Setup. Ignorieren alle Emails wenn das externe eine Rückgabe liefert (Email wird auf STDIN in some.bin piped).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
@@ -7340,7 +7340,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PostMaster::PreFilterModule###5-SpamAssassin" Required="0" Valid="0">
-        <Description Lang="en">Spam Assassin example setup. Ignore emails that are marked with SpamAssassin.</Description>
+        <Description Lang="en">Spam Assassin example setup. Ignore Emails that are marked with SpamAssassin.</Description>
         <Description Lang="de">Spam Assassin Beispiel Setup. Von Spamassassin gekennzeichnete Nachrichten werden ignoriert.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
@@ -7385,7 +7385,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PostMaster::PreFilterModule###999-AgentInterface" Required="0" Valid="0">
-        <Description Lang="en">A email agent interface.</Description>
+        <Description Lang="en">A Email agent interface.</Description>
         <Description Lang="de">Ein Email-Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
