@@ -112,7 +112,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.92 2006-03-18 20:16:31 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.93 2006-03-30 22:37:04 ck Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -135,7 +135,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SystemID" Required="1" Valid="1">
-        <Description Lang="en">The system identifyer. Every ticket number and ID of a http session starts with this number.</Description>
+        <Description Lang="en">The system identifier. Every ticket number and ID of a http-session starts with this number.</Description>
         <Description Lang="de">Identifikationsnummer für das installierte System. Jede Ticketnummer und ID einer http-Session beginnt mit dieser Nummer.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -192,8 +192,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DefaultCharset" Required="1" Valid="1">
-        <Description Lang="en">Default frontend charset. "utf-8" is a good choice for envirorments with many possible charsetss. Specify another charset (e.g "iso-8859-1"), if only this specific charset is needed.</Description>
-        <Description Lang="de">Standard-Zeichensatz des Frontends. Wählen Sie "utf-8", wenn verschiedene Zeichensätze für die Anzeige benötigt werden. Wir nur ein Zeichensatz eingesetzt (z. B. "iso-8859-1"), nutzen Sie bitte diese Einstellung.</Description>
+        <Description Lang="en">Default frontend charset. "utf-8" is a good choice for environments with many possible charsets. Specify another charset (e.g "iso-8859-1"), if only this specific charset is needed.</Description>
+        <Description Lang="de">Standard-Zeichensatz des Frontends. Wählen Sie "utf-8", wenn verschiedene Zeichensätze für die Anzeige benötigt werden. Wird nur ein Zeichensatz eingesetzt (z. B. "iso-8859-1"), nutzen Sie bitte diese Einstellung.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -260,7 +260,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DefaultTheme::HostBased" Required="0" Valid="0">
-        <Description Lang="en">Individual themes for Customer and Agents are possible in OTRS. These can be activated by a seperate domain. The field "Key" contains the domain or a regexp to match a domin. In field "Content" the Theme will be insert. </Description>
+        <Description Lang="en">Individual themes for Customers and Agents are possible in OTRS. These can be activated by a seperate domain. The field "Key" contains the domain or a regexp to match a domain. "Content" states the name of the theme being used. </Description>
         <Description Lang="de">OTRS bietet die Möglichkeit individuelle Themes für Kunden und Agents festzulegen. Diese können unter anderem durch den Aufruf einer extra dafür geschaffenen Domain angezeigt werden. Dabei enthält das Feld "Schlüssel" eine Domain oder eine RegExp die eine Domain matched. Das zugehörige Theme wird im Feld "Inhalt" angegeben.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -272,7 +272,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DefaultViewNewLine" Required="1" Valid="1">
-        <Description Lang="en">Automated line break in text messages after that count of characters.</Description>
+        <Description Lang="en">Automated line break in text messages after x number of chars.</Description>
         <Description Lang="de">Nach dieser Anzahl an Zeichen wird in Textnachrichten automatisch eine neue Zeile begonnen.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
@@ -290,7 +290,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DefaultViewLines" Required="1" Valid="1">
-        <Description Lang="en">Count of lines that are displayed in text messages (e.g. ticket lines in the QueueZoom).</Description>
+        <Description Lang="en">Amount of lines that are displayed in text messages (e.g. ticket lines in the QueueZoom).</Description>
         <Description Lang="de">Anzahl der Zeilen für Textnachricht (z. B. im QueueZoom).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
@@ -336,7 +336,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="AttachmentDownloadType" Required="1" Valid="1">
         <Description Lang="en">Show the attachments of a ticket in the browser (inline) or just make them downloadable (attachment).</Description>
-        <Description Lang="de">Anzeige von Dateianhänge für Tickets im Browser (inline) oder lediglich als Download anbieten (attachment).</Description>
+        <Description Lang="de">Anzeige von Dateianhänge für Tickets im Browser (inline), oder als Download anbieten (attachment).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
@@ -407,7 +407,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="LogModule::SysLog::Charset" Required="1" Valid="1">
-        <Description Lang="en">If "SysLog" was selected for LogModule, you can specify the charset that should be used for loggin.</Description>
+        <Description Lang="en">If "SysLog" was selected for LogModule, you can specify the charset that should be used for logging.</Description>
         <Description Lang="de">Wenn "SysLog" für LogModule ausgewählt wurde, kann hier der Zeichensatz festgelegt werden, der für das Schreiben der Logeinträge benutzt werden soll.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Log</SubGroup>
@@ -429,7 +429,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="LogModule::LogFile::Date" Required="1" Valid="1">
-        <Description Lang="en">Would you like to add a time stamp as sufix for every log entry?</Description>
+        <Description Lang="en">Would you like to add a time stamp as suffix for every log entry?</Description>
         <Description Lang="de">Soll für jeden Logeintrag das Datum und die aktuelle Zeit mit protokolliert werden?</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Log</SubGroup>
@@ -569,7 +569,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PreApplicationModule###AgentInfo" Required="0" Valid="0">
-        <Description Lang="en">This module is usefull to load some specific user options or to redirect not accept new application news. For example: Kernel::Modules::AgentWorkingRoleSelection or Kernel::Modules::AgentInfo</Description>
+        <Description Lang="en">This module is useful to load specific user options or to display news. For example: Kernel::Modules::AgentWorkingRoleSelection or Kernel::Modules::AgentInfo</Description>
         <Description Lang="de">Mit Hilfe dieses Moduls können bestimmte Benutzeroptionen geladen oder Neuigkeiten angezeigt werden (z. B. Kernel::Modules::AgentWorkingRoleSelection oder Kernel::Modules::AgentInfo).</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
@@ -578,7 +578,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="InfoKey" Required="0" Valid="0">
-        <Description Lang="en">Key to check with Kernel::Modules::AgentInfo module. If this user preferences key is true, then the message is accepted by the system.</Description>
+        <Description Lang="en">Key to check with Kernel::Modules::AgentInfo module. If this user preferences key is true the message is accepted by the system.</Description>
         <Description Lang="de">Schlüssel, der mit Hilfe des Moduls Kernel::Modules::AgentInfo überprüft wird. Wird dieser Schlüssel angegeben, wird auch die Nachricht akzeptiert.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
@@ -607,7 +607,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::NotifyModule###2-UID-Check" Required="1" Valid="1">
-        <Description Lang="en">Module to display a notification in the agent interface, if the system is used by the admin user (normaly you shouldn't work as admin).</Description>
+        <Description Lang="en">Module to display a notification in the agent interface, if the system is used by the admin user (normally you shouldn't work as admin).</Description>
         <Description Lang="de">Modul zur Ausgabe eines Hinweises, wenn als Admin-Benutzer im System gearbeitet wird (Normalerweise sollte nicht als Administrator gearbeitet werden).</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>
@@ -619,7 +619,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="Frontend::NotifyModule###3-ShowAgentOnline" Required="0" Valid="0">
         <Description Lang="en">Module to show currently logged in agents in the agent interface.</Description>
-        <Description Lang="de">Mit diesem Modul können andere, am System angemeldete Agents innerhalb des Agent-Interfaces angezeigt werden.</Description>
+        <Description Lang="de">Mit diesem Modul können angemeldete Agents innerhalb des Agent-Interfaces angezeigt werden.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>
         <Setting>
@@ -650,7 +650,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="SessionName" Required="1" Valid="1">
         <Description Lang="en">Name of the session key. E.g. Session, SessionID or OTRS.</Description>
-        <Description Lang="de">Name der Session-Kennung. Z.B. Session, SessionID oder OTRS.</Description>
+        <Description Lang="de">Name der Session-Kennung. Z. B. Session, SessionID oder OTRS.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Session</SubGroup>
         <Setting>
@@ -670,7 +670,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SessionDeleteIfNotRemoteID" Required="1" Valid="1">
-        <Description Lang="en">Delete a session, if the session id is used with an invalied remote IP?</Description>
+        <Description Lang="en">Delete a session, if the session id is used with an invalid remote IP?</Description>
         <Description Lang="de">Session bei falscher IP Adresse löschen?</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Session</SubGroup>
@@ -691,7 +691,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SessionMaxIdleTime" Required="1" Valid="1">
-        <Description Lang="en">A session will be killed and the user will be loged out after this time of inactifity (in seconds).</Description>
+        <Description Lang="en">A session will be killed and the user will be loged out after this time of inactivity (in seconds).</Description>
         <Description Lang="de">Eine Session wird beendet und der Benutzer automatisch abgemeldet, wenn er für die hier angegebene Zeit in Sekunden inaktiv war (in Sekunden).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Session</SubGroup>
@@ -700,7 +700,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SessionDeleteIfTimeToOld" Required="1" Valid="1">
-        <Description Lang="en">Delete requested sessions if they are timed out?</Description>
+        <Description Lang="en">Delete requested sessions if they have timed out?</Description>
         <Description Lang="de">Sollen Anfragen für Sessions automatisch gelöscht werden, wenn diese Sessions bereits schon lange abgelaufen sind?</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Session</SubGroup>
@@ -724,7 +724,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SessionUseCookieAfterBrowserClose" Required="1" Valid="1">
-        <Description Lang="en">Store cookies after the browser has ben closed?</Description>
+        <Description Lang="en">Store cookies after the browser has been closed?</Description>
         <Description Lang="de">Cookies nach dem Schließen des Browsers nicht löschen?</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Session</SubGroup>
@@ -824,7 +824,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="TimeVacationDaysOneTime" Required="1" Valid="1">
         <Description Lang="en">One time vacation days.</Description>
-        <Description Lang="de">Einmalige Freizeit-Tage im System hinterlegen.</Description>
+        <Description Lang="de">Einmalige Feiertage im System hinterlegen.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time</SubGroup>
         <Setting>
@@ -932,7 +932,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="WebUploadCacheModule" Required="1" Valid="1">
-        <Description Lang="en">Select the module to handle uplads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.</Description>
+        <Description Lang="en">Select the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.</Description>
         <Description Lang="de">Wählen Sie das Modul, welches Uploads über die Web-Oberfläche speichert. "DB" benutzt die Datenbank zum Speichern der Uploads, "FS" legt die Daten im Dateisystem ab.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
@@ -962,7 +962,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="LostPassword" Required="1" Valid="1">
-        <Description Lang="en">Activate lost password feature fpr agents?</Description>
+        <Description Lang="en">Activate lost password feature for agents?</Description>
         <Description Lang="de">Feature für verlorenes Kennwort aktivieren?</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
@@ -1076,7 +1076,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SpellCheckerIgnore" Required="1" Valid="1">
-        <Description Lang="en">A list of words, that are ignored by the spelll checker by default.</Description>
+        <Description Lang="en">A list of words, that are ignored by the spell checker by default.</Description>
         <Description Lang="de">Folgende Wörter werden von der Rechtschreibprüfung standardmäßig ignoriert.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::SpellChecker</SubGroup>
@@ -1092,7 +1092,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Package::RepositoryRoot" Required="1" Valid="1">
-        <Description Lang="en">Location to get online repository list for aditional packages. The first availabel result will be used.</Description>
+        <Description Lang="en">Location to get online repository list for additional packages. The first available result will be used.</Description>
         <Description Lang="de">Online-Quelle, über die zusätzliche Pakete bezogen werden können. Die Quelle, die zuerst erfolgreich abgefragt werden kann, wird verwendet.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Package</SubGroup>
@@ -1107,7 +1107,7 @@ TimeWorkingHours
                 'http://otrs.org/repository.xml',]; -->
     </ConfigItem>
     <ConfigItem Name="Package::RepositoryList" Required="0" Valid="0">
-        <Description Lang="en">List of online repositorys.</Description>
+        <Description Lang="en">List of online repositories.</Description>
         <Description Lang="de">Liste der zur Verfügung stehenden Online-Quellen.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Package</SubGroup>
@@ -1503,7 +1503,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerGroupAlwaysGroups" Required="1" Valid="1">
-        <Description Lang="en">If CustomerGroupSupport is enabled and you don't want to manage every user for this groups, then put the groups for all customer user in there.</Description>
+        <Description Lang="en">If CustomerGroupSupport is enabled and you don't want to manage every user for these groups, then put the groups for every customer user in there.</Description>
         <Description Lang="de">Ist CustomerGroupSupport aktiviert und sollen nicht alle Benutzer dieser Gruppen einzeln verwaltet werden, können die einzelnen Gruppen hier angegeben werden.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer</SubGroup>
@@ -1582,7 +1582,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerPanelLostPassword" Required="1" Valid="1">
-        <Description Lang="en">Activate lost passowrd feature for customers?</Description>
+        <Description Lang="en">Activate lost password feature for customers?</Description>
         <Description Lang="de">Feature für das Zuschicken verlorener Passwörter für die Customer aktivieren?</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer</SubGroup>
@@ -1754,7 +1754,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::LDAP::GroupDN" Required="0" Valid="0">
-        <Description Lang="en">I "LDAP" was selected for Customer::Authmodule, you can check if the user is allowed to auth because he is in a posixGroup, e.g. user needs to be in a group xyz to use otrs. Specify the group, who may access the system.</Description>
+        <Description Lang="en">If "LDAP" was selected for Customer::Authmodule, you can check if the user is allowed to auth because he is in a posixGroup, e.g. user needs to be in a group xyz to use otrs. Specify the group, who may access the system.</Description>
         <Description Lang="de">Wenn "LDAP" als Customer::AuthModule ausgewählt wurde und nur eine bestimmte Posixgruppen auf das System zugreifen soll, dann kann diese Gruppe hier angegeben werden.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
@@ -1812,7 +1812,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::LDAP::UserSuffix" Required="0" Valid="0">
         <Description Lang="en">If "LDAP" was selected for Customer::AuthModule an if you want to add a suffix to every customer login name, specifiy it here, e. g. you just want to write the username user but in your ldap directory exists user@domain.</Description>
-        <Description Lang="de">Wenn "LDAP" als Customer::AuthModule ausgewählt wurde und automatisch ein Suffix an jeden Benutzernamen gehängt werden soll, dann kann dieses Suffix hier angegeben werden. Z.B. soll nur user als Benutzername eingegeben werden, im LDAP-Baum existiert aber user@domain.com.</Description>
+        <Description Lang="de">Wenn "LDAP" als Customer::AuthModule ausgewählt wurde und automatisch ein Suffix an jeden Benutzernamen gehängt werden soll, dann kann dieses Suffix hier angegeben werden. Z. B. soll nur user als Benutzername eingegeben werden, im LDAP-Baum existiert aber user@domain.com.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
         <Setting>
