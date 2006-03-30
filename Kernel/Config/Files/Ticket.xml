@@ -148,7 +148,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.98 2006-03-30 21:25:52 ck Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.99 2006-03-30 22:53:41 ck Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -168,8 +168,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::SubjectSize" Required="1" Valid="1">
-        <Description Lang="en">Max size of the subjects in an Email reply.</Description>
-        <Description Lang="de">Maximal zulässige Größe des Betreffs bei einer Email-Antwort.</Description>
+        <Description Lang="en">Max size of the subjects in an email reply.</Description>
+        <Description Lang="de">Maximal zulässige Größe des Betreffs bei einer email-Antwort.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -177,8 +177,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::SubjectRe" Required="1" Valid="1">
-        <Description Lang="en">The text at the beginning of the subject in a Email reply, e.g. RE, AW or AS.</Description>
-        <Description Lang="de">Präfix im Betreff bei einer Email-Antwort, z. B. RE, AW oder AS.</Description>
+        <Description Lang="en">The text at the beginning of the subject in a email reply, e.g. RE, AW or AS.</Description>
+        <Description Lang="de">Präfix im Betreff bei einer email-Antwort, z. B. RE, AW oder AS.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
@@ -1352,8 +1352,8 @@ TimeWorkingHours
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::TextAreaEmail" Required="1" Valid="1">
-        <Description Lang="en">Width of compose Email windows.</Description>
+    <ConfigItem Name="Ticket::Frontend::TextAreaemail" Required="1" Valid="1">
+        <Description Lang="en">Width of compose email windows.</Description>
         <Description Lang="de">Anzahl der Zeichen pro Zeile im E-Mail-Fenster.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
@@ -1371,8 +1371,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerInfoCompose" Required="1" Valid="1">
-        <Description Lang="en">Show customer user info in Compose screen (Phone and Email)?</Description>
-        <Description Lang="de">Anzeige von Customer-Informationen in der Maske zum Erstellen einer Antwort (Telefon und Email)?</Description>
+        <Description Lang="en">Show customer user info in Compose screen (Phone and email)?</Description>
+        <Description Lang="de">Anzeige von Customer-Informationen in der Maske zum Erstellen einer Antwort (Telefon und email)?</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -1383,8 +1383,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerInfoComposeMaxSize" Required="1" Valid="1">
-        <Description Lang="en">Max size (in characters) of customer info table - Compose screen (Phone and Email).</Description>
-        <Description Lang="de">Max. Anzeige an Zeichen für die Customer-Infomationen innerhalb der Antwort-Erstellen-Maske (Telefon and Email)?</Description>
+        <Description Lang="en">Max size (in characters) of customer info table - Compose screen (Phone and email).</Description>
+        <Description Lang="de">Max. Anzeige an Zeichen für die Customer-Infomationen innerhalb der Antwort-Erstellen-Maske (Telefon and email)?</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -2055,7 +2055,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketFreeText###StateDefault" Required="0" Valid="0">
-        <Description Lang="en">Default next state after an Email ticket.</Description>
+        <Description Lang="en">Default next state after an email ticket.</Description>
         <Description Lang="de">Standardmäßig ausgewählter nächster Status.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewFreeText</SubGroup>
@@ -2393,8 +2393,8 @@ TimeWorkingHours
     </ConfigItem>
 
     <ConfigItem Name="Ticket::Frontend::NewOwnerSelection" Required="1" Valid="1">
-        <Description Lang="en">Show owner selection in phone and Email ticket?</Description>
-        <Description Lang="de">Soll die Besitzerauswahl im Telefon- und Email-Ticket gezeigt werden?</Description>
+        <Description Lang="en">Show owner selection in phone and email ticket?</Description>
+        <Description Lang="de">Soll die Besitzerauswahl im Telefon- und email-Ticket gezeigt werden?</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -2585,65 +2585,65 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
 
-    <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###Priority" Required="1" Valid="1">
-        <Description Lang="en">Default priority for new Email tickets.</Description>
-        <Description Lang="de">Standard Priorität für neue Email-tickets.</Description>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketemail###Priority" Required="1" Valid="1">
+        <Description Lang="en">Default priority for new email tickets.</Description>
+        <Description Lang="de">Standard Priorität für neue email-tickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewemailNew</SubGroup>
         <Setting>
             <String Regex="">3 normal</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###ArticleType" Required="1" Valid="1">
-        <Description Lang="en">Default article type for new Email tickets.</Description>
-        <Description Lang="de">Standard Artikeltyp für neue Email-Tickets.</Description>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketemail###ArticleType" Required="1" Valid="1">
+        <Description Lang="en">Default article type for new email tickets.</Description>
+        <Description Lang="de">Standard Artikeltyp für neue email-Tickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewemailNew</SubGroup>
         <Setting>
-            <String Regex="">Email-external</String>
+            <String Regex="">email-external</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###SenderType" Required="1" Valid="1">
-        <Description Lang="en">Default sender type for new Email tickets.</Description>
-        <Description Lang="de">Standard Sender-Typ für neue Email-Tickets.</Description>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketemail###SenderType" Required="1" Valid="1">
+        <Description Lang="en">Default sender type for new email tickets.</Description>
+        <Description Lang="de">Standard Sender-Typ für neue email-Tickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewemailNew</SubGroup>
         <Setting>
             <String Regex="">agent</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###Subject" Required="1" Valid="1">
-        <Description Lang="en">Default subject for new Email tickets (e.g. 'Email Outbound').</Description>
-        <Description Lang="de">Standard Betreff für neue Emailtickets (z. B. 'Email ausgehend').</Description>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketemail###Subject" Required="1" Valid="1">
+        <Description Lang="en">Default subject for new email tickets (e.g. 'email Outbound').</Description>
+        <Description Lang="de">Standard Betreff für neue emailtickets (z. B. 'email ausgehend').</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewemailNew</SubGroup>
         <Setting>
             <String Regex=""></String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###Body" Required="1" Valid="1">
-        <Description Lang="en">Default text for new Email tickets.</Description>
-        <Description Lang="de">Standardtext für ein neues Email-Ticket.</Description>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketemail###Body" Required="1" Valid="1">
+        <Description Lang="en">Default text for new email tickets.</Description>
+        <Description Lang="de">Standardtext für ein neues email-Ticket.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewemailNew</SubGroup>
         <Setting>
             <TextArea></TextArea>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###StateDefault" Required="1" Valid="1">
-        <Description Lang="en">Default next state after an Email ticket.</Description>
-        <Description Lang="de">Standardmäßig ausgewählter nächster Status nach einem Email-Ticket.</Description>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketemail###StateDefault" Required="1" Valid="1">
+        <Description Lang="en">Default next state after an email ticket.</Description>
+        <Description Lang="de">Standardmäßig ausgewählter nächster Status nach einem email-Ticket.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewemailNew</SubGroup>
         <Setting>
             <String Regex="">open</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###StateType" Required="1" Valid="1">
-        <Description Lang="en">Next possible states after an Email ticket.</Description>
-        <Description Lang="de">Mögliche Status nach der Erstellung eines Email-Tickets</Description>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketemail###StateType" Required="1" Valid="1">
+        <Description Lang="en">Next possible states after an email ticket.</Description>
+        <Description Lang="de">Mögliche Status nach der Erstellung eines email-Tickets</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewemailNew</SubGroup>
         <Setting>
             <Array>
                 <Item>open</Item>
@@ -2653,20 +2653,20 @@ TimeWorkingHours
             </Array>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###ShownCustomerTickets" Required="0" Valid="1">
-        <Description Lang="en">Max. shown customer history tickets in Email-ticket mask.</Description>
-        <Description Lang="de">Max. gezeigte Kunden-Historie-Tickets in Email-Ticket.</Description>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketemail###ShownCustomerTickets" Required="0" Valid="1">
+        <Description Lang="en">Max. shown customer history tickets in email-ticket mask.</Description>
+        <Description Lang="de">Max. gezeigte Kunden-Historie-Tickets in email-Ticket.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewemailNew</SubGroup>
         <Setting>
             <String Regex="">10</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###TicketFreeText" Required="0" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketemail###TicketFreeText" Required="0" Valid="1">
         <Description Lang="en">Shown ticket free text options.</Description>
         <Description Lang="de">Gezeigte Ticket-Frei-Text-Felder.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewemailNew</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="1">0</Item>
@@ -2688,11 +2688,11 @@ TimeWorkingHours
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###TicketFreeTime" Required="0" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketemail###TicketFreeTime" Required="0" Valid="1">
         <Description Lang="en">Shown free time options.</Description>
         <Description Lang="de">Gezeigte Frei-Zeit-Felder.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewemailNew</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="1">0</Item>
@@ -2700,11 +2700,11 @@ TimeWorkingHours
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###ArticleFreeText" Required="0" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketemail###ArticleFreeText" Required="0" Valid="1">
         <Description Lang="en">Shown article free text options.</Description>
         <Description Lang="de">Gezeigte Artikel-Frei-Text-Felder.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewemailNew</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="1">0</Item>
@@ -2713,20 +2713,20 @@ TimeWorkingHours
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###HistoryType" Required="1" Valid="1">
-        <Description Lang="en">Standard history type for new Email tickets.</Description>
-        <Description Lang="de">Standard Historien-Typ für neue Email-Tickets.</Description>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketemail###HistoryType" Required="1" Valid="1">
+        <Description Lang="en">Standard history type for new email tickets.</Description>
+        <Description Lang="de">Standard Historien-Typ für neue email-Tickets.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewemailNew</SubGroup>
         <Setting>
-            <String Regex="">EmailAgent</String>
+            <String Regex="">emailAgent</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###HistoryComment" Required="1" Valid="1">
-        <Description Lang="en">Default history comment for new Email tickets.</Description>
-        <Description Lang="de">Standard Kommentar für Historie-Eintrag bei neuen Emails.</Description>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketemail###HistoryComment" Required="1" Valid="1">
+        <Description Lang="en">Default history comment for new email tickets.</Description>
+        <Description Lang="de">Standard Kommentar für Historie-Eintrag bei neuen emails.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::ViewemailNew</SubGroup>
         <Setting>
             <String Regex=""></String>
         </Setting>
@@ -2801,7 +2801,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketClose###StateDefault" Required="0" Valid="1">
-        <Description Lang="en">Default next state after an Email ticket.</Description>
+        <Description Lang="en">Default next state after an email ticket.</Description>
         <Description Lang="de">Standardmäßig ausgewählter nächster Status.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
@@ -3060,7 +3060,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketNote###StateDefault" Required="0" Valid="0">
-        <Description Lang="en">Default next state after an Email ticket.</Description>
+        <Description Lang="en">Default next state after an email ticket.</Description>
         <Description Lang="de">Standardmäßig ausgewählter nächster Status.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
@@ -3318,7 +3318,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###StateDefault" Required="0" Valid="1">
-        <Description Lang="en">Default next state after an Email ticket.</Description>
+        <Description Lang="en">Default next state after an email ticket.</Description>
         <Description Lang="de">Standardmäßig ausgewählter nächster Status.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewOwner</SubGroup>
@@ -3575,7 +3575,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPending###StateDefault" Required="0" Valid="1">
-        <Description Lang="en">Default next state after an Email ticket.</Description>
+        <Description Lang="en">Default next state after an email ticket.</Description>
         <Description Lang="de">Standardmäßig ausgewählter nächster Status.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
@@ -3833,7 +3833,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###StateDefault" Required="0" Valid="1">
-        <Description Lang="en">Default next state after an Email ticket.</Description>
+        <Description Lang="en">Default next state after an email ticket.</Description>
         <Description Lang="de">Standardmäßig ausgewählter nächster Status.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
@@ -4091,7 +4091,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###StateDefault" Required="0" Valid="1">
-        <Description Lang="en">Default next state after an Email ticket.</Description>
+        <Description Lang="en">Default next state after an email ticket.</Description>
         <Description Lang="de">Standardmäßig ausgewählter nächster Status.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
@@ -4322,11 +4322,11 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::BounceText" Required="1" Valid="1">
         <Description Lang="en">Default note text</Description>
-        <Description Lang="de">Standardnotiztext beim bouncen einer Email</Description>
+        <Description Lang="de">Standardnotiztext beim bouncen einer email</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewBounce</SubGroup>
         <Setting>
-            <TextArea>Your Email with ticket number "&lt;OTRS_TICKET&gt;" is bounced to "&lt;OTRS_BOUNCE_TO&gt;". Contact this address for further informations.</TextArea>
+            <TextArea>Your email with ticket number "&lt;OTRS_TICKET&gt;" is bounced to "&lt;OTRS_BOUNCE_TO&gt;". Contact this address for further informations.</TextArea>
         </Setting>
     </ConfigItem>
 
@@ -4391,8 +4391,8 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::Quote" Required="0" Valid="1">
-        <Description Lang="en">Character for Email quotes.</Description>
-        <Description Lang="de">Zeichen für Email Quotes.</Description>
+        <Description Lang="en">Character for email quotes.</Description>
+        <Description Lang="de">Zeichen für email Quotes.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewCompose</SubGroup>
         <Setting>
@@ -4400,8 +4400,8 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::ComposeReplaceSenderAddress" Required="1" Valid="1">
-        <Description Lang="en">Replace on compose answer the original sender with current customers Email address.</Description>
-        <Description Lang="de">Beim Antwort erstellen originale Sender-Email mit der Email des derzeitigen Kunden ersetzen.</Description>
+        <Description Lang="en">Replace on compose answer the original sender with current customers email address.</Description>
+        <Description Lang="de">Beim Antwort erstellen originale Sender-email mit der email des derzeitigen Kunden ersetzen.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewCompose</SubGroup>
         <Setting>
@@ -4510,7 +4510,7 @@ $QData{"Signature"}
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewForward</SubGroup>
         <Setting>
-            <String Regex="">Email-external</String>
+            <String Regex="">email-external</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketForward###ArticleTypes" Required="0" Valid="1">
@@ -4520,8 +4520,8 @@ $QData{"Signature"}
         <SubGroup>Frontend::Agent::Ticket::ViewForward</SubGroup>
         <Setting>
             <Array>
-                <Item>Email-external</Item>
-                <Item>Email-internal</Item>
+                <Item>email-external</Item>
+                <Item>email-internal</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -4591,7 +4591,7 @@ $QData{"Signature"}
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewMerge</SubGroup>
         <Setting>
-            <TextArea>Your Email with ticket number "&lt;OTRS_TICKET&gt;" is merged to "&lt;OTRS_MERGE_TO_TICKET&gt;".</TextArea>
+            <TextArea>Your email with ticket number "&lt;OTRS_TICKET&gt;" is merged to "&lt;OTRS_MERGE_TO_TICKET&gt;".</TextArea>
         </Setting>
     </ConfigItem>
 
@@ -4863,8 +4863,8 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::ArticleViewModule###1-SMIME" Required="1" Valid="1">
-        <Description Lang="en">A agent interface module to check incoming Emails in the Ticket-Zoom-View if the S/MIME-key is available and true.</Description>
-        <Description Lang="de">Ein Agent-Interface-Modul um bei eingehenden Emails im der Ticketansicht den S/MIME-Schlüssel zu checken.</Description>
+        <Description Lang="en">A agent interface module to check incoming emails in the Ticket-Zoom-View if the S/MIME-key is available and true.</Description>
+        <Description Lang="de">Ein Agent-Interface-Modul um bei eingehenden emails im der Ticketansicht den S/MIME-Schlüssel zu checken.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ArticleViewModule</SubGroup>
         <Setting>
@@ -4895,7 +4895,7 @@ $QData{"Signature"}
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::ArticleComposeModule###1-SignEmail" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::ArticleComposeModule###1-Signemail" Required="1" Valid="1">
         <Description Lang="en">Module to compose signed messages (PG or S/MIME).</Description>
         <Description Lang="de">Modul zum Erstellen signierter Nachrichten (PGP oder S/MIME).</Description>
         <Group>Ticket</Group>
@@ -4906,7 +4906,7 @@ $QData{"Signature"}
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::ArticleComposeModule###2-CryptEmail" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::ArticleComposeModule###2-Cryptemail" Required="1" Valid="1">
         <Description Lang="en">Module to crypt composed messages (PGP or s/MIME).</Description>
         <Description Lang="de">Modul zum Verschlüsseln von neu erstellten Nachrichten (PGP oder S/MIME).</Description>
         <Group>Ticket</Group>
@@ -5479,7 +5479,7 @@ $QData{"Signature"}
                 <Item Key="Module">Kernel::Output::HTML::PreferencesCustomQueue</Item>
                 <Item Key="Colum">Other Options</Item>
                 <Item Key="Label">My Queues</Item>
-                <Item Key="Desc">Your queue selection of your favourite queues. You also get notified about those queues via Email if enabled.</Item>
+                <Item Key="Desc">Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.</Item>
                 <Item Key="Prio">2000</Item>
                 <Item Key="Activ">1</Item>
             </Hash>
@@ -6209,21 +6209,21 @@ $QData{"Signature"}
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::Module###AgentTicketEmail" Required="0" Valid="1">
-        <Description Lang="en">Frontend module registration for the AgentTicketEmail object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentTicketEmail-Objekts im Agent-Interface.</Description>
+    <ConfigItem Name="Frontend::Module###AgentTicketemail" Required="0" Valid="1">
+        <Description Lang="en">Frontend module registration for the AgentTicketemail object in the agent interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AgentTicketemail-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Create new Email Ticket</Description>
-                <Title>Email-Ticket</Title>
+                <Description>Create new email Ticket</Description>
+                <Title>email-Ticket</Title>
                 <NavBarName>Ticket</NavBarName>
                 <NavBar>
-                    <Description>Send Email and create a new Ticket</Description>
-                    <Name>Email-Ticket</Name>
+                    <Description>Send email and create a new Ticket</Description>
+                    <Name>email-Ticket</Name>
                     <Image>mail_new.png</Image>
-                    <Link>Action=AgentTicketEmail</Link>
+                    <Link>Action=AgentTicketemail</Link>
                     <NavBar>Ticket</NavBar>
                     <Type></Type>
                     <Block></Block>
@@ -6340,7 +6340,7 @@ $QData{"Signature"}
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket plain view of an Email</Description>
+                <Description>Ticket plain view of an email</Description>
                 <Title>Plain</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
@@ -6470,7 +6470,7 @@ $QData{"Signature"}
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket Compose Email Answer</Description>
+                <Description>Ticket Compose email Answer</Description>
                 <Title>Compose</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
@@ -6496,7 +6496,7 @@ $QData{"Signature"}
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket Compose Bounce Email</Description>
+                <Description>Ticket Compose Bounce email</Description>
                 <Title>Bounce</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
@@ -6509,7 +6509,7 @@ $QData{"Signature"}
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Ticket Forward Email</Description>
+                <Description>Ticket Forward email</Description>
                 <Title>Forward</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
@@ -6774,7 +6774,7 @@ $QData{"Signature"}
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Email Addresses</Name>
+                    <Name>email Addresses</Name>
                     <Block>Block3</Block>
                     <Prio>300</Prio>
                 </NavBarModule>
@@ -6973,16 +6973,16 @@ $QData{"Signature"}
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="PostmasterMaxEmails" Required="1" Valid="1">
-        <Description Lang="en">Maximal auto Email responses to own Email-address a day (Loop-Protection)!</Description>
-        <Description Lang="de">Maximale Anzahl von Auto-Antworten an eine Email-Adresse pro Tag (Schutz vor Emailschleifen!).</Description>
+    <ConfigItem Name="PostmasterMaxemails" Required="1" Valid="1">
+        <Description Lang="en">Maximal auto email responses to own email-address a day (Loop-Protection)!</Description>
+        <Description Lang="de">Maximale Anzahl von Auto-Antworten an eine email-Adresse pro Tag (Schutz vor emailschleifen!).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
         <Setting>
             <String Regex="^[0-9]{1,3}$">40</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="PostMasterPOP3MaxEmailSize" Required="1" Valid="1">
+    <ConfigItem Name="PostMasterPOP3MaxemailSize" Required="1" Valid="1">
         <Description Lang="en">Maximal size in KBytes for mails that can be fetched via pop3 (KBytes).</Description>
         <Description Lang="de">Maximale Größe für Mails, die via POP3 abgeholt werden können (in KBytes).</Description>
         <Group>Ticket</Group>
@@ -7230,7 +7230,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PostMaster::PreFilterModule###1-Match" Required="0" Valid="0">
-        <Description Lang="en">Module to filter and manipulate incoming messages. Block/ignore all spam Email with From: noreply@ address.</Description>
+        <Description Lang="en">Module to filter and manipulate incoming messages. Block/ignore all spam email with From: noreply@ address.</Description>
         <Description Lang="de">Modul zum Filtern und Ändern eingehender Nachrichten. Blocken und Ignorieren von Spam mit Hilfe der noreply@-Adresse.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
@@ -7273,8 +7273,8 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PostMaster::PreFilterModule###3-NewTicketReject" Required="0" Valid="0">
-        <Description Lang="en">Block all incoming Emails without valid ticket number in subject with From: @example.com address.</Description>
-        <Description Lang="de">Blocken aller Emails ohne gültiger Ticket-Nummer in Betreff mit Von: @example.com-Adresse.</Description>
+        <Description Lang="en">Block all incoming emails without valid ticket number in subject with From: @example.com address.</Description>
+        <Description Lang="de">Blocken aller emails ohne gültiger Ticket-Nummer in Betreff mit Von: @example.com-Adresse.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
         <Setting>
@@ -7294,17 +7294,17 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PostMaster::PreFilterModule::NewTicketReject::Subject" Required="1" Valid="1">
-        <Description Lang="en">Subject for NewTicketReject-Filter Email.</Description>
-        <Description Lang="de">Betreff für NewTicketReject-Filter Email.</Description>
+        <Description Lang="en">Subject for NewTicketReject-Filter email.</Description>
+        <Description Lang="de">Betreff für NewTicketReject-Filter email.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
         <Setting>
-            <String Regex="">Email Rejected</String>
+            <String Regex="">email Rejected</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PostMaster::PreFilterModule::NewTicketReject::Body" Required="1" Valid="1">
-        <Description Lang="en">Body for NewTicketReject-Filter Email.</Description>
-        <Description Lang="de">Nachricht für NewTicketReject-Filter Email.</Description>
+        <Description Lang="en">Body for NewTicketReject-Filter email.</Description>
+        <Description Lang="de">Nachricht für NewTicketReject-Filter email.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
         <Setting>
@@ -7312,7 +7312,7 @@ $QData{"Signature"}
 Dear Customer,
 
 unfortunately you have no valid ticket number
-in your subject, so this Email can't processed.
+in your subject, so this email can't processed.
 
 Please create a new ticket via the customer panel.
 
@@ -7323,8 +7323,8 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PostMaster::PreFilterModule###4-CMD" Required="0" Valid="0">
-        <Description Lang="en">CMD example setup. Ignore Emails where external CMD returns some output on STDOUT (Email will be piped into STDIN of some.bin).</Description>
-        <Description Lang="de">CMD Beispiel Setup. Ignorieren alle Emails wenn das externe eine Rückgabe liefert (Email wird auf STDIN in some.bin piped).</Description>
+        <Description Lang="en">CMD example setup. Ignore emails where external CMD returns some output on STDOUT (email will be piped into STDIN of some.bin).</Description>
+        <Description Lang="de">CMD Beispiel Setup. Ignorieren alle emails wenn das externe eine Rückgabe liefert (email wird auf STDIN in some.bin piped).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
         <Setting>
@@ -7340,7 +7340,7 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PostMaster::PreFilterModule###5-SpamAssassin" Required="0" Valid="0">
-        <Description Lang="en">Spam Assassin example setup. Ignore Emails that are marked with SpamAssassin.</Description>
+        <Description Lang="en">Spam Assassin example setup. Ignore emails that are marked with SpamAssassin.</Description>
         <Description Lang="de">Spam Assassin Beispiel Setup. Von Spamassassin gekennzeichnete Nachrichten werden ignoriert.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
@@ -7385,8 +7385,8 @@ Thanks for your help!
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PostMaster::PreFilterModule###999-AgentInterface" Required="0" Valid="0">
-        <Description Lang="en">A Email agent interface.</Description>
-        <Description Lang="de">Ein Email-Agent-Interface.</Description>
+        <Description Lang="en">A email agent interface.</Description>
+        <Description Lang="de">Ein email-Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
         <Setting>
