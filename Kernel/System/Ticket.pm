@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.206 2006-03-22 07:31:28 martin Exp $
+# $Id: Ticket.pm,v 1.207 2006-03-31 14:18:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.206 $';
+$VERSION = '$Revision: 1.207 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -1911,7 +1911,10 @@ To find tickets in your system.
 
       States => ['new', 'open'],
       StateIDs => [3, 4],
-      StateType => 'Open', # Open|Closed tickets or other types
+      # Open|Closed tickets for all closed or open tickets.
+      # You also can use real state types like new, open, closed,
+      # pending reminder, pending auto, removed and merged.
+      StateType => 'Open',
 
       Priorities => ['1 very low', '2 low', '3 normal'],
       PriorityIDs => [1, 2, 3],
@@ -1947,9 +1950,9 @@ To find tickets in your system.
 
       # 1..2 (optional)
       # tickets with free time after ... (optional)
-      TicketFreeTime1NewerDate => '2004-01-09 00:00:01',
+      TicketFreeTime1NewerDate => '2006-01-09 00:00:01',
       # tickets with free time before then .... (optional)
-      TicketFreeTime1OlderDate => '2004-01-19 23:59:59',
+      TicketFreeTime1OlderDate => '2006-01-19 23:59:59',
 
       # article stuff (optional)
       From => '%spam@example.com%',
@@ -1966,9 +1969,14 @@ To find tickets in your system.
       TicketCreateTimeNewerMinutes => 120,
 
       # tickets with create time after ... (optional)
-      TicketCreateTimeNewerDate => '2004-01-09 00:00:01',
+      TicketCreateTimeNewerDate => '2006-01-09 00:00:01',
       # tickets with create time before then .... (optional)
-      TicketCreateTimeOlderDate => '2004-01-19 23:59:59',
+      TicketCreateTimeOlderDate => '2006-01-19 23:59:59',
+
+      # tickets with close time after ... (optional)
+      TicketCloseTimeNewerDate => '2006-01-09 00:00:01',
+      # tickets with close time before then .... (optional)
+      TicketCloseTimeOlderDate => '2006-01-19 23:59:59',
 
       # OrderBy and SortBy (optional)
       OrderBy => 'Down',       # Down|Up
@@ -2062,7 +2070,7 @@ sub TicketSearch {
     }
     # use also history table if required
     foreach (keys %Param) {
-        if ($_ =~ /^Created/) {
+        if ($_ =~ /^Ticket(Create|Close)/) {
             $SQL .= ", ticket_history th ";
             $SQLExt .= " AND st.id = th.ticket_id";
             last;
@@ -2142,7 +2150,7 @@ sub TicketSearch {
     }
     elsif ($Param{StateType}) {
         my @StateIDs = $Self->{StateObject}->StateGetStatesByType(
-            Type => $Param{StateType},
+            StateType => $Param{StateType},
             Result => 'ID',
         );
         $SQLExt .= " AND ";
@@ -2506,17 +2514,17 @@ sub TicketSearch {
             }
         }
     }
-    # get tickets older then x minutes
+    # get tickets created older then x minutes
     if ($Param{TicketCreateTimeOlderMinutes}) {
         my $Time = $Self->{TimeObject}->SystemTime()-($Param{TicketCreateTimeOlderMinutes}*60);
         $SQLExt .= " AND st.create_time_unix <= ".$Self->{DBObject}->Quote($Time);
     }
-    # get tickets newer then x minutes
+    # get tickets created newer then x minutes
     if ($Param{TicketCreateTimeNewerMinutes}) {
         my $Time = $Self->{TimeObject}->SystemTime()-($Param{TicketCreateTimeNewerMinutes}*60);
         $SQLExt .= " AND st.create_time_unix >= ".$Self->{DBObject}->Quote($Time);
     }
-    # get tickets older then xxxx-xx-xx xx:xx date
+    # get tickets created older then xxxx-xx-xx xx:xx date
     if ($Param{TicketCreateTimeOlderDate}) {
         # check time format
         if ($Param{TicketCreateTimeOlderDate} !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/) {
@@ -2530,7 +2538,7 @@ sub TicketSearch {
             $SQLExt .= " AND st.create_time <= '".$Self->{DBObject}->Quote($Param{TicketCreateTimeOlderDate})."'";
         }
     }
-    # get tickets newer then xxxx-xx-xx xx:xx date
+    # get tickets created newer then xxxx-xx-xx xx:xx date
     if ($Param{TicketCreateTimeNewerDate}) {
         if ($Param{TicketCreateTimeNewerDate} !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/) {
             $Self->{LogObject}->Log(
@@ -2541,6 +2549,53 @@ sub TicketSearch {
         }
         else {
             $SQLExt .= " AND st.create_time >= '".$Self->{DBObject}->Quote($Param{TicketCreateTimeNewerDate})."'";
+        }
+    }
+    # get tickets closed older then xxxx-xx-xx xx:xx date
+    if ($Param{TicketCloseTimeOlderDate}) {
+        # check time format
+        if ($Param{TicketCloseTimeOlderDate} !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "No valid time format '$Param{TicketCloseTimeOlderDate}'!",
+            );
+            return;
+        }
+        else {
+            # get close state ids
+            my @List = $Self->{StateObject}->StateGetStatesByType(
+                StateType => ['closed'],
+                Result => 'ID',
+            );
+            my $ID = $Self->HistoryTypeLookup(Type => 'StateUpdate');
+            if ($ID) {
+                $SQLExt .= " AND th.history_type_id = $ID AND ".
+                    " th.state_id IN (${\(join ', ', @List)}) AND ".
+                    "th.change_time <= '".$Self->{DBObject}->Quote($Param{TicketCloseTimeOlderDate})."'";
+            }
+        }
+    }
+    # get tickets closed newer then xxxx-xx-xx xx:xx date
+    if ($Param{TicketCloseTimeNewerDate}) {
+        if ($Param{TicketCloseTimeNewerDate} !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "No valid time format '$Param{TicketCloseTimeNewerDate}'!",
+            );
+            return;
+        }
+        else {
+            # get close state ids
+            my @List = $Self->{StateObject}->StateGetStatesByType(
+                StateType => ['closed'],
+                Result => 'ID',
+            );
+            my $ID = $Self->HistoryTypeLookup(Type => 'StateUpdate');
+            if ($ID) {
+                $SQLExt .= " AND th.history_type_id = $ID AND ".
+                    " th.state_id IN (${\(join ', ', @List)}) AND ".
+                    " th.change_time >= '".$Self->{DBObject}->Quote($Param{TicketCloseTimeNewerDate})."'";
+            }
         }
     }
     # database query
@@ -3030,7 +3085,8 @@ sub OwnerSet {
         $Param{NewUser} = $Self->{UserObject}->UserLookup(UserID => $Param{NewUserID});
     }
     # check if update is needed!
-    if ($Self->OwnerCheck(TicketID => $Param{TicketID}, OwnerID => $Param{NewUserID})) {
+    my ($OwnerID, $Owner) = $Self->OwnerCheck(TicketID => $Param{TicketID});
+    if ($OwnerID eq $Param{NewUserID}) {
         # update is "not" needed!
         return 1;
     }
@@ -3195,7 +3251,7 @@ sub ResponsibleSet {
     my %Ticket = $Self->TicketGet(TicketID => $Param{TicketID}, UserID => $Param{NewUserID});
     if ($Ticket{ResponsibleID} eq $Param{NewUserID}) {
         # update is "not" needed!
-        return 1;
+#        return 1;
     }
     # db quote
     foreach (qw(TicketID NewUserID UserID)) {
@@ -4606,6 +4662,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.206 $ $Date: 2006-03-22 07:31:28 $
+$Revision: 1.207 $ $Date: 2006-03-31 14:18:33 $
 
 =cut
