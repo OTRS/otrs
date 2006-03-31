@@ -2,7 +2,7 @@
 # Kernel/System/State.pm - All state related function should be here eventually
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: State.pm,v 1.11 2006-02-05 20:20:10 martin Exp $
+# $Id: State.pm,v 1.12 2006-03-31 14:09:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::State;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -254,14 +254,23 @@ sub StateUpdate {
 
 get list of state types
 
-  my %List = $StateObject->StateGetStatesByType(
-      Type => 'Open',
-      Result => 'HASH', # HASH|ID|Name
-  );
+  get all states with state type open and new
+  (available: new, open, closed, pending reminder, pending auto,
+  removed, merged)
 
   my @List = $StateObject->StateGetStatesByType(
-      Type => 'Open',
+      StateType => ['open', 'new'],
       Result => 'ID', # HASH|ID|Name
+  );
+
+
+  get all state types used by config option named like
+
+  Ticket::ViewableStateType for "Viewable" state types
+
+  my %List = $StateObject->StateGetStatesByType(
+      Type => 'Viewable',
+      Result => 'HASH', # HASH|ID|Name
   );
 
 =cut
@@ -376,6 +385,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2006-02-05 20:20:10 $
+$Revision: 1.12 $ $Date: 2006-03-31 14:09:18 $
 
 =cut
