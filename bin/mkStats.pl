@@ -3,7 +3,7 @@
 # SendStats.pl - send stats output via email
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: mkStats.pl,v 1.32 2006-02-17 06:55:01 martin Exp $
+# $Id: mkStats.pl,v 1.33 2006-04-01 23:42:43 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -40,7 +40,7 @@ use Kernel::System::DB;
 use Kernel::System::Log;
 use Kernel::System::Email;
 use Kernel::System::CheckItem;
-use Kernel::Output::HTML::Generic;
+use Kernel::Output::HTML::Layout;
 
 # --
 # create common objects
@@ -57,7 +57,7 @@ $CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
 $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
 $CommonObject{CheckItemObject} = Kernel::System::CheckItem->new(%CommonObject);
 $CommonObject{EmailObject} = Kernel::System::Email->new(%CommonObject);
-$CommonObject{LayoutObject} = Kernel::Output::HTML::Generic->new(%CommonObject);
+$CommonObject{LayoutObject} = Kernel::Output::HTML::Layout->new(%CommonObject);
 
 # --
 # get options
