@@ -2,7 +2,7 @@
 # Kernel/Language/hu.pm - provides de language translation
 # Copyright (C) 2004 RLAN Internet <MAGIC at rlan.hu>
 # --
-# $Id: hu.pm,v 1.20 2006-03-18 20:42:25 martin Exp $
+# $Id: hu.pm,v 1.21 2006-04-01 23:38:29 martin Exp $
 # Translation: Gabor Gancs /gg@magicnet.hu/ & Krisztian Gancs /krisz@gancs.hu/
 # Verify: Flora Szabo /szaboflora@magicnet.hu/
 # Hungary Sopron Europe
@@ -18,7 +18,7 @@ package Kernel::Language::hu;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -654,7 +654,7 @@ sub Data {
       'Customer State Notify' => 'Ügyfél értesítés állapotváltozáskor',
       'Customer Owner Notify' => 'Ügyfél értesítés tulajdonsováltáskor',
       'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Ha az ügynök zárolja a jegyet és nem küld választ ezen idõn belül, a jegy zárolása megszûnik. Így a jegy látható lesz minden ügynöknek.',
-      'If a ticket will not be answered in thos time, just only this ticket will be shown.' => 'Ha a jegy nem kerül megválaszolásra a megadott idõn belül, csak ez a jegy lesz megjelenítve.',
+      'If a ticket will not be answered in this time, just only this ticket will be shown.' => 'Ha a jegy nem kerül megválaszolásra a megadott idõn belül, csak ez a jegy lesz megjelenítve.',
       'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => 'Ha a jegy le van zárva és az ügyfél válaszol a jegyre, akkor az zárolásra kerül a régi tulajdonosnak.',
       'Will be the sender address of this queue for email answers.' => 'Ennél az ügynél ez lesz a feladó email válaszokhoz.',
       'The salutation for email answers.' => 'A megszólítás az email válaszokhoz.',

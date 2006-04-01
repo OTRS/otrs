@@ -2,7 +2,7 @@
 # Kernel/Language/fi.pm - provides fi language translation
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # --
-# $Id: fi.pm,v 1.41 2006-03-18 20:42:25 martin Exp $
+# $Id: fi.pm,v 1.42 2006-04-01 23:38:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::fi;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.41 $';
+$VERSION = '$Revision: 1.42 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -650,7 +650,7 @@ sub Data {
       'Customer State Notify' => '',
       'Customer Owner Notify' => '',
       'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => '',
-      'If a ticket will not be answered in thos time, just only this ticket will be shown.' => '',
+      'If a ticket will not be answered in this time, just only this ticket will be shown.' => '',
       'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => '',
       'Will be the sender address of this queue for email answers.' => '',
       'The salutation for email answers.' => '',

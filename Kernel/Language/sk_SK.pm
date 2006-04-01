@@ -2,7 +2,7 @@
 # Kernel/Language/sk_SK.pm - provides sk_SK language translation
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: sk_SK.pm,v 1.2 2006-03-16 10:06:40 cs Exp $
+# $Id: sk_SK.pm,v 1.3 2006-04-01 23:38:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::sk_SK;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -650,7 +650,7 @@ sub Data {
       'Customer State Notify' => 'hlásenie stavu klienta',
       'Customer Owner Notify' => 'hlásenie majiteµa klienta',
       'If an agent locks a ticket and he/she will not send an answer within this time =>  the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Ak zástupca uzamkne po¾iadavku a on/ona nepo¹le odpoveï do urèitého èasu =>  bude po¾iadavka automaticky odomknutá a tak zobraziteµná pre v¹etkých zástupcov.',
-      'If a ticket will not be answered in thos time =>  just only this ticket will be shown.' => 'Ak nebude na po¾iadavku odpovedané do urèitého èasu =>  bude táto po¾iadavka zobrazená!',
+      'If a ticket will not be answered in this time =>  just only this ticket will be shown.' => 'Ak nebude na po¾iadavku odpovedané do urèitého èasu =>  bude táto po¾iadavka zobrazená!',
       'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => 'Ak je po¾iadavka zatvorená a klient po¹le nasledujúcu po¾iadavku =>  po¾iadavka bude zamknutá pre starého majiteµa.',
       'Will be the sender address of this queue for email answers.' => 'Adresa odosielateµa tohto radu pre e-mailovú odpoveï.',
       'The salutation for email answers.' => 'Pozdrav pre e-mailovú odpoveï.',

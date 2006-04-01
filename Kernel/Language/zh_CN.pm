@@ -2,7 +2,7 @@
 # Kernel/Language/nl.pm - provides za_CN language translation
 # Copyright (C) 2005 zuowei <j2ee@hirain-sh.com>
 # --
-# $Id: zh_CN.pm,v 1.9 2006-03-18 20:42:25 martin Exp $
+# $Id: zh_CN.pm,v 1.10 2006-04-01 23:38:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::zh_CN;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -653,7 +653,7 @@ sub Data {
       'Customer State Notify' => 'Ticket 状态客户通知',
       'Customer Owner Notify' => '客户所有者通告',
       'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => '如果技术支持人员锁定了 Ticket,但是在一定的时间内没有回复，该 Ticket 将会被自动解锁，而对所有的技术支持人员可视.',
-      'If a ticket will not be answered in thos time, just only this ticket will be shown.' => '该队列只显示规定时间内没有被处理的 Ticket',
+      'If a ticket will not be answered in this time, just only this ticket will be shown.' => '该队列只显示规定时间内没有被处理的 Ticket',
       'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => '如果 Ticket 已经处于关闭状态，而客户就发送了一个跟进 Ticket，那么这个 Ticket 将会被直接加锁，而所有者被定义为原来所有者',
       'Will be the sender address of this queue for email answers.' => '回复邮件所用的发送者地址',
       'The salutation for email answers.' => '回复邮件所用称谓.',

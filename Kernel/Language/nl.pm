@@ -6,7 +6,7 @@
 # Copyright (C) 2004 Martijn Lohmeijer (martijn.lohmeijer 'at' sogeti.nl)
 # Copyright (C) 2005 Jurgen Rutgers (jurgen 'at' besite.nl)
 # --
-# $Id: nl.pm,v 1.42 2006-03-18 20:42:25 martin Exp $
+# $Id: nl.pm,v 1.43 2006-04-01 23:38:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -56,7 +56,7 @@ package Kernel::Language::nl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.42 $';
+$VERSION = '$Revision: 1.43 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
@@ -701,7 +701,7 @@ sub Data {
       'Customer State Notify' => 'Klant notificatie andere status',
       'Customer Owner Notify' => 'Klant notificatie andere eigenaar',
       'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Wanneer een agent een ticket locked en hij/zij stuurt geen antwoord binnen de lock tijd dan zal het ticket automatisch unlocked worden. Het ticket kan dan door andere agenten worden ingezien.',
-      'If a ticket will not be answered in thos time, just only this ticket will be shown.' => 'Als een ticket niet binnen deze tijd is beantwoord zal alleen dit ticket worden getoond.',
+      'If a ticket will not be answered in this time, just only this ticket will be shown.' => 'Als een ticket niet binnen deze tijd is beantwoord zal alleen dit ticket worden getoond.',
       'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => 'Wanneer een ticket wordt gesloten and de klant stuurt een follow up wordt het ticket gelocked door de oude eigenaar.',
       'Will be the sender address of this queue for email answers.' => 'is het afzenderadres van deze wachtrij voor antwoorden per e-mail',
       'The salutation for email answers.' => 'De aanhef voor beantwoording van berichten per e-mail.',

@@ -1,8 +1,8 @@
 # --
 # AdminQueueForm.dtl - provides HTML form for AdminQueue
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueueForm.dtl,v 1.25 2005-10-22 07:55:46 martin Exp $
+# $Id: AdminQueueForm.dtl,v 1.26 2006-04-01 23:38:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,135 +10,135 @@
 # --
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr>
-  <td colspan="2" class="mainhead">
-    $Env{"Box0"}$Text{"Queue Management"}$Env{"Box1"}
-  </td>
-</tr>
-<tr>
-  <td width="40%" class="mainbody">
-
-  <form action="$Env{"CGIHandle"}" method="post">
-  <input type="hidden" name="Action" value="$Env{"Action"}">
-  <input type="hidden" name="Subaction" value="Change">
-  <table width="100%" cellspacing="0" cellpadding="4">
   <tr>
-    <td class="contenthead">$Text{"Change"}:</td>
-  </tr>
-  <tr>
-    <td class="contentbody">
-    $Data{"QueueLongOption"}
+    <td colspan="2" class="mainhead">
+      $Env{"Box0"}$Text{"Queue Management"}$Env{"Box1"}
     </td>
   </tr>
   <tr>
-    <td class="contentfooter">
-    <input class="button" type="submit" value="$Text{"Change"}">
-    </td>
-  </tr>
-  </table>
-  </form>
+    <td width="40%" class="mainbody">
 
-  </td>
-  <td width="60%" class="mainbody">
+      <form action="$Env{"CGIHandle"}" method="post">
+        <input type="hidden" name="Action" value="$Env{"Action"}">
+        <input type="hidden" name="Subaction" value="Change">
+        <table width="100%" cellspacing="0" cellpadding="4">
+          <tr>
+            <td class="contenthead">$Text{"Change"}:</td>
+          </tr>
+          <tr>
+            <td class="contentbody">
+              $Data{"QueueLongOption"}
+            </td>
+          </tr>
+          <tr>
+            <td class="contentfooter">
+              <input class="button" type="submit" value="$Text{"Change"}">
+            </td>
+          </tr>
+        </table>
+      </form>
+
+    </td>
+    <td width="60%" class="mainbody">
 
 # --
 # check subaction
 # --
-<dtl set $Data{"Headline"} = "Add">
-<dtl if ($Env{"Subaction"} eq "") { $Env{"Subaction"} = "Add"; }>
-<dtl if ($Env{"Subaction"} eq "Change") { $Data{"Headline"} = "Update"; }>
+      <dtl set $Data{"Headline"} = "Add">
+      <dtl if ($Env{"Subaction"} eq "") { $Env{"Subaction"} = "Add"; }>
+      <dtl if ($Env{"Subaction"} eq "Change") { $Data{"Headline"} = "Update"; }>
 # check add link
-<dtl if ($Env{"Subaction"} eq "Change") { $Data{"AddLink"} = "(Click here to add)"; }>
+      <dtl if ($Env{"Subaction"} eq "Change") { $Data{"AddLink"} = "(Click here to add)"; }>
 # --
-  <form action="$Env{"CGIHandle"}" method="post">
-  <input type="hidden" name="Action" value="$Env{"Action"}">
-  <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
-  <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
-  <table width="100%" cellspacing="0" cellpadding="4">
-  <tr>
-    <td class="contenthead">
-    $Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"$Data{"AddLink"}"}</a>:
-    </td>
-  </tr>
-  <tr>
-    <td class="contentbody">
+      <form action="$Env{"CGIHandle"}" method="post">
+        <input type="hidden" name="Action" value="$Env{"Action"}">
+        <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
+        <input type="hidden" name="QueueID" value="$Data{"QueueID"}">
+        <table width="100%" cellspacing="0" cellpadding="4">
+          <tr>
+            <td class="contenthead">
+              $Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"$Data{"AddLink"}"}</a>:
+            </td>
+          </tr>
+          <tr>
+            <td class="contentbody">
 
-    <table border="0" cellspacing="0" cellpadding="3">
-    <tr>
-      <td class="contentkey">$Text{"Name"}: </td>
-      <td class="contentvalue"> <input type="text" name="Name" value="$QData{"Name"}" size="35" maxlength="50"></td>
-    </tr>
-    <tr>
-      <td class="contentkey">$Text{"Sub-Queue of"}: </td>
-      <td class="contentvalue"> $Data{"QueueOption"}</td>
-    </tr>
-    <tr>
-      <td class="contentkey">$Text{"Group"}: </td>
-      <td class="contentvalue"> $Data{"GroupOption"}</td>
-    </tr>
-    <tr>
-      <td class="contentkey">$Text{"Unlock timeout"} ($Text{"minutes"}): </td>
-      <td class="contentvalue"> <input type="text" name="UnlockTimeout" value="$QData{"UnlockTimeout"}" size="10" maxlength="10"> $Text{"0 = no unlock"} - 24 $Text{"hours"} = 1440 $Text{"minutes"}</td>
-    </tr>
-</td>
-    </tr>
-    <tr>
-      <td class="contentkey">$Text{"Escalation time"} ($Text{"minutes"}): </td>
-      <td class="contentvalue"> <input type="text" name="EscalationTime" value="$QData{"EscalationTime"}" size="10" maxlength="10"> $Text{"0 = no escalation"} - 24 $Text{"hours"} = 1440 $Text{"minutes"}</td>
-    </tr>
-    <tr>
-      <td class="contentkey">$Text{"Follow up Option"}: </td>
-      <td class="contentvalue"> $Data{"FollowUpOption"}</td>
-    </tr>
-    <tr>
-      <td class="contentkey">$Text{"Ticket lock after a follow up"}: </td>
-      <td class="contentvalue"> $Data{"FollowUpLockYesNoOption"}<td>
-    </tr>
-    <tr>
-      <td class="contentkey">$Text{"Systemaddress"}: </td>
-      <td class="contentvalue"> $Data{"SystemAddressOption"}</td>
-    </tr>
-<dtl if ($Data{"DefaultSignKeyList"} ne "") { $Data{"DefaultSignKeyLink"} = "<tr><td class="contentkey">$Text{"Default Sign Key"} <i>($QData{"Email","14"})</i>: </td><td class="contentvalue"> $Data{"DefaultSignKeyOption"}</td></tr>"; }>
-    $Data{"DefaultSignKeyLink"}
-    <tr>
-      <td class="contentkey">$Text{"Salutation"}: </td>
-      <td class="contentvalue"> $Data{"SalutationOption"}</td>
-    </tr>
-    <tr>
-      <td class="contentkey">$Text{"Signature"}: </td>
-      <td class="contentvalue"> $Data{"SignatureOption"}</td>
-    </tr>
-    <tr>
-      <td class="contentkey">$Text{"Customer Move Notify"}: </td>
-      <td class="contentvalue"> $Data{"MoveOption"}</td>
-    </tr>
-    <tr>
-      <td class="contentkey">$Text{"Customer State Notify"}: </td>
-      <td class="contentvalue"> $Data{"StateOption"}</td>
-    </tr>
-    <tr>
-      <td class="contentkey">$Text{"Customer Owner Notify"}: </td>
-      <td class="contentvalue"> $Data{"OwnerOption"}</td>
-    </tr>
-    <tr>
-      <td class="contentkey">$Text{"Valid"}: </td>
-      <td class="contentvalue"> $Data{"ValidOption"}</td>
-    </tr>
-    <tr>
-      <td class="contentkey">$Text{"Comment"}: </td>
-      <td class="contentvalue"> <input type="text" name="Comment" value="$QData{"Comment"}" size="50" maxlength="70"></td>
-    </tr>
-    </table>
+              <table border="0" cellspacing="0" cellpadding="3">
+                <tr>
+                  <td class="contentkey">$Text{"Name"}: </td>
+                  <td class="contentvalue"> <input type="text" name="Name" value="$QData{"Name"}" size="35" maxlength="50"></td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Sub-Queue of"}: </td>
+                  <td class="contentvalue"> $Data{"QueueOption"}</td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Group"}: </td>
+                  <td class="contentvalue"> $Data{"GroupOption"}</td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Unlock timeout"} ($Text{"minutes"}): </td>
+                  <td class="contentvalue"> <input type="text" name="UnlockTimeout" value="$QData{"UnlockTimeout"}" size="10" maxlength="10"> $Text{"0 = no unlock"} - 24 $Text{"hours"} = 1440 $Text{"minutes"}</td>
+                </tr>
+              </td>
+            </tr>
+            <tr>
+              <td class="contentkey">$Text{"Escalation time"} ($Text{"minutes"}): </td>
+              <td class="contentvalue"> <input type="text" name="EscalationTime" value="$QData{"EscalationTime"}" size="10" maxlength="10"> $Text{"0 = no escalation"} - 24 $Text{"hours"} = 1440 $Text{"minutes"}</td>
+            </tr>
+            <tr>
+              <td class="contentkey">$Text{"Follow up Option"}: </td>
+              <td class="contentvalue"> $Data{"FollowUpOption"}</td>
+            </tr>
+            <tr>
+              <td class="contentkey">$Text{"Ticket lock after a follow up"}: </td>
+              <td class="contentvalue"> $Data{"FollowUpLockYesNoOption"}<td>
+              </tr>
+              <tr>
+                <td class="contentkey">$Text{"Systemaddress"}: </td>
+                <td class="contentvalue"> $Data{"SystemAddressOption"}</td>
+              </tr>
+              <dtl if ($Data{"DefaultSignKeyList"} ne "") { $Data{"DefaultSignKeyLink"} = "<tr><td class="contentkey">$Text{"Default Sign Key"} <i>($QData{"Email","14"})</i>: </td><td class="contentvalue"> $Data{"DefaultSignKeyOption"}</td></tr>"; }>
+              $Data{"DefaultSignKeyLink"}
+              <tr>
+                <td class="contentkey">$Text{"Salutation"}: </td>
+                <td class="contentvalue"> $Data{"SalutationOption"}</td>
+              </tr>
+              <tr>
+                <td class="contentkey">$Text{"Signature"}: </td>
+                <td class="contentvalue"> $Data{"SignatureOption"}</td>
+              </tr>
+              <tr>
+                <td class="contentkey">$Text{"Customer Move Notify"}: </td>
+                <td class="contentvalue"> $Data{"MoveOption"}</td>
+              </tr>
+              <tr>
+                <td class="contentkey">$Text{"Customer State Notify"}: </td>
+                <td class="contentvalue"> $Data{"StateOption"}</td>
+              </tr>
+              <tr>
+                <td class="contentkey">$Text{"Customer Owner Notify"}: </td>
+                <td class="contentvalue"> $Data{"OwnerOption"}</td>
+              </tr>
+              <tr>
+                <td class="contentkey">$Text{"Valid"}: </td>
+                <td class="contentvalue"> $Data{"ValidOption"}</td>
+              </tr>
+              <tr>
+                <td class="contentkey">$Text{"Comment"}: </td>
+                <td class="contentvalue"> <input type="text" name="Comment" value="$QData{"Comment"}" size="50" maxlength="70"></td>
+              </tr>
+            </table>
 
-    </td>
-  </tr>
-  <tr>
-    <td class="contentfooter">
-    <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}">
-    </td>
-  </tr>
-  </table>
-  </form>
+          </td>
+        </tr>
+        <tr>
+          <td class="contentfooter">
+            <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}">
+          </td>
+        </tr>
+      </table>
+    </form>
 
   </td>
 </tr>
@@ -154,48 +154,48 @@
 </tr>
 <tr>
   <td class="mainbody">
-  <table width="100%">
-  <tr valign="top">
-    <th width="30%">$Text{"Key"}</th>
-    <th>$Text{"Description"}</th>
-  </tr>
-  <tr valign="top">
-    <td>$Text{"Unlock timeout"}</td>
-    <td>$Text{"If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents."}</td>
-  </tr>
-  <tr valign="top">
-    <td>$Text{"Escalation time"}</td>
-    <td>$Text{"If a ticket will not be answered in thos time, just only this ticket will be shown."}</td>
-  </tr>
-  <tr valign="top">
-    <td>$Text{"Ticket lock after a follow up"}</td>
-    <td>$Text{"If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner."}</td>
-  </tr>
-  <tr valign="top">
-    <td>$Text{"Systemaddress"}</td>
-    <td>$Text{"Will be the sender address of this queue for email answers."}</td>
-  </tr>
-  <tr valign="top">
-    <td>$Text{"Salutation"}</td>
-    <td>$Text{"The salutation for email answers."}</td>
-  </tr>
-  <tr valign="top">
-    <td>$Text{"Signature"}</td>
-    <td>$Text{"The signature for email answers."}</td>
-  </tr>
-  <tr valign="top">
-    <td>$Text{"Customer Move Notify"}</td>
-    <td>$Text{"OTRS sends an notification email to the customer if the ticket is moved."}</td>
-  </tr>
-  <tr valign="top">
-    <td>$Text{"Customer State Notify"}</td>
-    <td>$Text{"OTRS sends an notification email to the customer if the ticket state has changed."}</td>
-  </tr>
-  <tr valign="top">
-    <td>$Text{"Customer Owner Notify"}</td>
-    <td>$Text{"OTRS sends an notification email to the customer if the ticket owner has changed."}</td>
-  </tr>
-  </table>
+    <table width="100%">
+      <tr valign="top">
+        <th width="30%">$Text{"Key"}</th>
+        <th>$Text{"Description"}</th>
+      </tr>
+      <tr valign="top">
+        <td>$Text{"Unlock timeout"}</td>
+        <td>$Text{"If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents."}</td>
+      </tr>
+      <tr valign="top">
+        <td>$Text{"Escalation time"}</td>
+        <td>$Text{"If a ticket will not be answered in this time, just only this ticket will be shown."}</td>
+      </tr>
+      <tr valign="top">
+        <td>$Text{"Ticket lock after a follow up"}</td>
+        <td>$Text{"If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner."}</td>
+      </tr>
+      <tr valign="top">
+        <td>$Text{"Systemaddress"}</td>
+        <td>$Text{"Will be the sender address of this queue for email answers."}</td>
+      </tr>
+      <tr valign="top">
+        <td>$Text{"Salutation"}</td>
+        <td>$Text{"The salutation for email answers."}</td>
+      </tr>
+      <tr valign="top">
+        <td>$Text{"Signature"}</td>
+        <td>$Text{"The signature for email answers."}</td>
+      </tr>
+      <tr valign="top">
+        <td>$Text{"Customer Move Notify"}</td>
+        <td>$Text{"OTRS sends an notification email to the customer if the ticket is moved."}</td>
+      </tr>
+      <tr valign="top">
+        <td>$Text{"Customer State Notify"}</td>
+        <td>$Text{"OTRS sends an notification email to the customer if the ticket state has changed."}</td>
+      </tr>
+      <tr valign="top">
+        <td>$Text{"Customer Owner Notify"}</td>
+        <td>$Text{"OTRS sends an notification email to the customer if the ticket owner has changed."}</td>
+      </tr>
+    </table>
   </td>
 </tr>
 </table>

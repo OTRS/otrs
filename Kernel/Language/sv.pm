@@ -2,7 +2,7 @@
 # Kernel/Language/nb_SW.pm - Swedish language translation
 # Copyright (C) 2004 Mats Eric Olausson <mats@synergy.se>
 # --
-# $Id: sv.pm,v 1.18 2006-03-18 20:42:25 martin Exp $
+# $Id: sv.pm,v 1.19 2006-04-01 23:38:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::sv;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.18 $;
+$VERSION = q$Revision: 1.19 $;
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -650,7 +650,7 @@ sub Data {
       'Customer State Notify' => 'Meddelande om statusändring för Kund',
       'Customer Owner Notify' => 'Meddelande om byte av ägare av Kund',
       'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Ifall ett ärende som är låst av en agent men ändå inte blir besvarat inom denna tid, kommer låset automatiskt att tas bort.',
-      'If a ticket will not be answered in thos time, just only this ticket will be shown.' => 'Ifall ett ärende inte blir besvarat inom denna tid, visas enbart detta ärende.',
+      'If a ticket will not be answered in this time, just only this ticket will be shown.' => 'Ifall ett ärende inte blir besvarat inom denna tid, visas enbart detta ärende.',
       'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => 'Ifall en kund skickar uppföljningsmail på ett låst ärende, blir ärendet låst till förra ägaren.',
       'Will be the sender address of this queue for email answers.' => 'Avsändaradress för email i denna Kö.',
       'The salutation for email answers.' => 'Hälsningsfras för email-svar.',

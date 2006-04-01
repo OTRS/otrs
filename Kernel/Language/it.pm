@@ -4,7 +4,7 @@
 #               2003 Gabriele Santilli <gsantilli at omnibus.net>
 #               2005 Giordano Bianchi <giordano.bianchi at gmail.com>
 # --
-# $Id: it.pm,v 1.30 2006-03-18 20:42:25 martin Exp $
+# $Id: it.pm,v 1.31 2006-04-01 23:38:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ package Kernel::Language::it;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -652,7 +652,7 @@ sub Data {
       'Customer State Notify' => 'Notifica il cliente del cambio di stato',
       'Customer Owner Notify' => 'Notifica il cliente del cambio operatore',
       'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Se un operatore prende in gestione una richiesta ma non risponde entro il tempo specificato, la richiesta viene sbloccata in modo da essere accessibile agli altri operatori.',
-      'If a ticket will not be answered in thos time, just only this ticket will be shown.' => 'Se una richiesta non viene risposta entro questo limite di tempo, sarà l\'unica richiesta ad essere visualizzata.',
+      'If a ticket will not be answered in this time, just only this ticket will be shown.' => 'Se una richiesta non viene risposta entro questo limite di tempo, sarà l\'unica richiesta ad essere visualizzata.',
       'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => 'Se una richiesta è chiusa e il cliente invia una risposta, la richiesta viene assegnata al vecchio operatore.',
       'Will be the sender address of this queue for email answers.' => 'Mittente utilizzato per le risposte relative alle richieste di questa coda.',
       'The salutation for email answers.' => 'Saluto (parte iniziale) per le email generate automaticamente dal sistema.',

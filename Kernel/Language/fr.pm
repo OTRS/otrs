@@ -5,7 +5,7 @@
 # Copyright (C) 2004-2005 Yann Richard <ze at nbox.org>
 # Copyright (C) 2004 Igor Genibel <igor.genibel at eds-opensource.com>
 # --
-# $Id: fr.pm,v 1.56 2006-03-18 20:42:25 martin Exp $
+# $Id: fr.pm,v 1.57 2006-04-01 23:38:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.56 $';
+$VERSION = '$Revision: 1.57 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -653,7 +653,7 @@ sub Data {
       'Customer State Notify' => 'Notification lors d\'un changement d\'état',
       'Customer Owner Notify' => 'Notification lors d\'un changement de propriétaire',
       'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Si un technicien verrouille un ticket et qu\'il/elle n\'envoie pas une réponse dans le temps imparti, le ticket sera déverrouillé automatiquement. Le ticket sera alors visible de tous les autres techniciens',
-      'If a ticket will not be answered in thos time, just only this ticket will be shown.' => 'Si un ticket n\'est pas répondu dans le temps imparti, ce ticket sera seulement affiché',
+      'If a ticket will not be answered in this time, just only this ticket will be shown.' => 'Si un ticket n\'est pas répondu dans le temps imparti, ce ticket sera seulement affiché',
       'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => 'Si un ticket est cloturé et que le client envoie une note, le ticket sera verrouillé pour l\'ancien propriétaire',
       'Will be the sender address of this queue for email answers.' => 'Sera l\'adresse d\'expédition pour les réponses par courriel.',
       'The salutation for email answers.' => 'La formule de politesse pour les réponses par mail',

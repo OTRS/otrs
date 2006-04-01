@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # Translated by Tomasz Melissa <janek at rumianek.com>
 # --
-# $Id: pl.pm,v 1.28 2006-03-18 20:42:25 martin Exp $
+# $Id: pl.pm,v 1.29 2006-04-01 23:38:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::pl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -651,7 +651,7 @@ sub Data {
       'Customer State Notify' => 'Powiadomienie klienta o zmianie statusu',
       'Customer Owner Notify' => 'Powiadomienie klienta o zmianie w³a¶ciciela',
       'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Je¶li agent zablokuje zg³oszenie, a nastêpnie nie odpowie na nie w ci±gu wskazanego czasu, wtedy zg³oszenie zostanie automatycznie odblokowane. Dziêki temu pozostali agenci bêd± mogli je zobaczyæ.',
-      'If a ticket will not be answered in thos time, just only this ticket will be shown.' => 'Je¶li, w podanym czasie, nie zostanie udzielona odpowied¼ na zg³oszenie, wtedy tylko to zg³oszenie bêdzie widoczne w kolejce.',
+      'If a ticket will not be answered in this time, just only this ticket will be shown.' => 'Je¶li, w podanym czasie, nie zostanie udzielona odpowied¼ na zg³oszenie, wtedy tylko to zg³oszenie bêdzie widoczne w kolejce.',
       'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => 'Je¶li zg³oszenie by³o zamkniête, a klient przy¶le do niego kolejn± odpowied¼, wtedy zg³oszenie zostanie zablokowane w kolejce starego w³a¶ciciela.',
       'Will be the sender address of this queue for email answers.' => 'Bêdzie adresem nadawcy odpowiedzi emailowych wysy³anych z tej kolejki.',
       'The salutation for email answers.' => 'Zwrot grzeczno¶ciowy dla odpowiedzi emailowych.',

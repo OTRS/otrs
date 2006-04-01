@@ -4,7 +4,7 @@
 #               2005 Stefansen Espen <espen.stefansen@imr.no>
 #               2006 Knut Haugen <knuthaug@linpro.no>
 # --
-# $Id: nb_NO.pm,v 1.23 2006-03-18 20:42:25 martin Exp $
+# $Id: nb_NO.pm,v 1.24 2006-04-01 23:38:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::nb_NO;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.23 $;
+$VERSION = q$Revision: 1.24 $;
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -677,7 +677,7 @@ sub Data {
       'Customer State Notify' => 'Kundenotifikasjon ved statusendring',
       'Customer Owner Notify' => 'Kundenotifikasjon ved skifte av saksbehandler',
       'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Hvis en sak er satt som privat, men likevel ikke blir besvart innen denne tiden, vil saken bli gjort tilgjengelig for andre.',
-      'If a ticket will not be answered in thos time, just only this ticket will be shown.' => 'Hvis en sak ikke blir besvart innen denne tiden, blir kun denne saken vist.',
+      'If a ticket will not be answered in this time, just only this ticket will be shown.' => 'Hvis en sak ikke blir besvart innen denne tiden, blir kun denne saken vist.',
       'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => 'Hvis en kunde sender oppfølgings e-post på en avsluttet sak, blir saken låst til forrige saksbehandler.',
       'Will be the sender address of this queue for email answers.' => 'Avsenderadresse for e-post i denne mappen.',
       'The salutation for email answers.' => 'Hilsning for e-postsvar.',

@@ -3,7 +3,7 @@
 # Last Update: 2006/02/01
 # Copyright (C) 2006 Thorsten Rossner <thorsten.rossner[at]stepstone.de>
 # --
-# $Id: da.pm,v 1.2 2006-03-11 16:35:37 cs Exp $
+# $Id: da.pm,v 1.3 2006-04-01 23:38:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Language::da;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -649,7 +649,7 @@ sub Data {
 		'Customer State Notify' => 'Besked om kundetilstand',
 		'Customer Owner Notify' => 'Besked til kundeindehaver',
 		'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Låser en agent en billet, og vedkommende vil ikke sende et svar inden for dette tidsrum, låses billetten automatisk op. Derved kan alle andre agenter se billetten.',
-		'If a ticket will not be answered in thos time, just only this ticket will be shown.' => 'Besvares en billet ikke inden for det tidsrum, vil kun denne billet blive vist.',
+		'If a ticket will not be answered in this time, just only this ticket will be shown.' => 'Besvares en billet ikke inden for det tidsrum, vil kun denne billet blive vist.',
 		'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => 'Er en billet lukket, og kunden sender en opfølgning, låses billetten for den gamle indehaver.',
 		'Will be the sender address of this queue for email answers.' => 'Bliver til denne køs afsenderadresse for e-mailsvar.',
 		'The salutation for email answers.' => 'Den hilsen, der bruges til e-mailsvar.',

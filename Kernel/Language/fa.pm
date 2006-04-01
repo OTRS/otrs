@@ -2,7 +2,7 @@
 # Kernel/Language/fa.pm - provides fa language translation
 # Copyright (C) 2006 Amir Shams Parsa <amir at parsa.name>
 # --
-# $Id: fa.pm,v 1.7 2006-03-18 20:42:25 martin Exp $
+# $Id: fa.pm,v 1.8 2006-04-01 23:38:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::fa;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -651,7 +651,7 @@ sub Data {
       'Customer State Notify' => 'اعلان وضعیت به مشترک',
       'Customer Owner Notify' => 'اعلان صاحب به مشترک',
       'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'اگر یک کارشناس تیکت را در اختیار بگیرد و در این مدت زمان نتواند به آن پاسخ دهد تیکت آزاد شده و به لیست باز میگردد و قابل دسترس سایر کارشناسان خواهد شد',
-      'If a ticket will not be answered in thos time, just only this ticket will be shown.' => 'اگر این تیکت پاسخ داده نشود فقط این تیکت نمایش داده شود',
+      'If a ticket will not be answered in this time, just only this ticket will be shown.' => 'اگر این تیکت پاسخ داده نشود فقط این تیکت نمایش داده شود',
       'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => 'اگر یک تیکت بسته شود و مشترک دوباره آنرا پیگیری کند بطور خودکار دراختیار صاحب تیکت قرار خواهد گرفت',
       'Will be the sender address of this queue for email answers.' => 'آدرس ارسال کننده این لیست برای پاسخ email استفاده خواهد شد.',
       'The salutation for email answers.' => 'عنوان نام برای پاسخ email',

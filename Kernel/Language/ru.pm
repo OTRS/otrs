@@ -2,7 +2,7 @@
 # Kernel/Language/ru.pm - provides ru language translation
 # Copyright (C) 2003 Serg V Kravchenko <skraft at rgs.ru>
 # --
-# $Id: ru.pm,v 1.28 2006-03-18 20:42:25 martin Exp $
+# $Id: ru.pm,v 1.29 2006-04-01 23:38:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::ru;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
@@ -685,7 +685,7 @@ sub Data {
       'Customer State Notify' => '»звещать клиента о смене состо€ни€',
       'Customer Owner Notify' => '»звещать клиента о смене владельца',
       'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => '≈сли агент заблокировал за€вку и не послал ответ клиенту в течение установленного времени, то за€вка автоматически разблокируетс€ и станет доступной дл€ остальных агентов',
-      'If a ticket will not be answered in thos time, just only this ticket will be shown.' => '≈сли за€вка не будет обслужена в установленное врем€, показывать только эту за€вку',
+      'If a ticket will not be answered in this time, just only this ticket will be shown.' => '≈сли за€вка не будет обслужена в установленное врем€, показывать только эту за€вку',
       'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => '≈сли за€вка закрыта, а клиент прислал дополнение,то за€вка будет заблокирована дл€ предыдущего владельца',
       'Will be the sender address of this queue for email answers.' => '”становка адреса отправител€ дл€ ответов в этой очереди',
       'The salutation for email answers.' => 'ѕриветствие дл€ почтовых сообщений',

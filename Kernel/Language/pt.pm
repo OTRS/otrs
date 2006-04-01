@@ -2,7 +2,7 @@
 # Kernel/Language/pt.pm - provides pt language translation
 # Copyright (C) 2004 CAT <filipehenriques at ip.pt>
 # --
-# $Id: pt.pm,v 1.27 2006-03-21 12:56:19 cs Exp $
+# $Id: pt.pm,v 1.28 2006-04-01 23:38:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::pt;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -668,7 +668,7 @@ sub Data {
       'Customer State Notify' => 'Estado de Cliente Notificado',
       'Customer Owner Notify' => 'Proprietário de Cliente Notificado',
       'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Se um agente bloqueia um bilhete e não enviar uma resposta dentro deste tempo, o bilhete será desbloqueado automaticamente, ficando visível para todos os outros agentes.',
-      'If a ticket will not be answered in thos time, just only this ticket will be shown.' => 'Se um bilhete não for respondido dentro deste tempo, apenas os bilhetes com este tempo vencido serão exibidos.',
+      'If a ticket will not be answered in this time, just only this ticket will be shown.' => 'Se um bilhete não for respondido dentro deste tempo, apenas os bilhetes com este tempo vencido serão exibidos.',
       'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => 'Se um bilhete estiver fechado e um cliente enviar um seguimento, será bloqueado em nome do seu proprietário.',
       'Will be the sender address of this queue for email answers.' => 'Será o endereço de correio electrónico usado para respostas nesta fila.',
       'The salutation for email answers.' => 'A saudação das respostas de correio electrónico.',
