@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: de.pm,v 1.103 2006-03-22 22:39:09 martin Exp $
+# $Id: de.pm,v 1.104 2006-04-01 20:33:49 ck Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.103 $';
+$VERSION = '$Revision: 1.104 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -393,7 +393,7 @@ sub Data {
       'Don\'t show closed Tickets' => 'Geschlossene Tickets nicht zeigen',
       'Show closed Tickets' => 'Geschlossene Tickets anzeigen',
       'Email-Ticket' => '',
-      'Create new Email Ticket' => 'Ein neise Email-Ticket erstellen',
+      'Create new Email Ticket' => 'Ein neues Email-Ticket erstellen',
       'Phone-Ticket' => 'Telefon-Ticket',
       'Create new Phone Ticket' => 'Neues Telefon-Ticket erstellen',
       'Search Tickets' => 'Ticket-Suche',
@@ -413,7 +413,7 @@ sub Data {
       'Change the ticket owner!' => 'Ändern des Ticket-Besitzers!',
       'Change the ticket customer!' => 'Ändern des Ticket-Kunden!',
       'Add a note to this ticket!' => 'Hinzufügen einer Notiz!',
-      'Merge this ticket!' => 'Ticket Mergen!',
+      'Merge this ticket!' => 'Ticket mit einem anderen vereinen!',
       'Set this ticket to pending!' => 'Setzen des Tickets auf -warten auf-!',
       'Close this ticket!' => 'Ticket schließen!',
       'Look into a ticket!' => 'Ticket genauer ansehen!',
@@ -433,7 +433,7 @@ sub Data {
       'Custom Queue' => 'Bevorzugte Queue',
       'QueueView refresh time' => 'Queue-Ansicht Aktualisierungszeit',
       'Screen after new ticket' => 'Fenster nach neuem Ticket',
-      'Select your screen after creating a new ticket.' => 'Auswahl des Fensters, welches nach der Erstellung eines neuen Tickets angezeigt werden soll.',
+      'Select your screen after creating a new ticket.' => 'Auswahl des Fensters, das nach der Erstellung eines neuen Tickets angezeigt werden soll.',
       'Closed Tickets' => 'Geschlossene Tickets',
       'Show closed tickets.' => 'Geschlossene Tickets anzeigen.',
       'Max. shown Tickets a page in QueueView.' => 'Maximale Anzahl angezeigter Tickets pro Seite in der Queue-Ansicht.',
@@ -449,10 +449,10 @@ sub Data {
       'History::SendAutoReject' => 'AutoReject an "%s" versandt.',
       'History::SendAutoReply' => 'AutoReply an "%s" versandt.',
       'History::SendAutoFollowUp' => 'AutoFollowUp an "%s" versandt.',
-      'History::Forward' => 'Weitergeleited an "%s".',
+      'History::Forward' => 'Weitergeleitet an "%s".',
       'History::Bounce' => 'Bounced an "%s".',
       'History::SendAnswer' => 'Email versandt an "%s".',
-      'History::SendAgentNotification' => '"%s"-Benachrichtigung versand an "%s".',
+      'History::SendAgentNotification' => '"%s"-Benachrichtigung versandt an "%s".',
       'History::SendCustomerNotification' => 'Benachrichtigung versandt an "%s".',
       'History::EmailAgent' => 'Email an Kunden versandt.',
       'History::EmailCustomer' => 'Email hinzugefügt. %s',
@@ -461,10 +461,10 @@ sub Data {
       'History::AddNote' => 'Notiz hinzugefügt (%s)',
       'History::Lock' => 'Ticket gesperrt.',
       'History::Unlock' => 'Ticketsperre aufgehoben.',
-      'History::TimeAccounting' => '%s Zeiteinheit(en) gezählt. Nun insgesamt %s Zeiteinheit(en).',
+      'History::TimeAccounting' => '%s Zeiteinheit(en) gezählt. Insgesamt %s Zeiteinheit(en).',
       'History::Remove' => '%s',
       'History::CustomerUpdate' => 'Aktualisiert: %s',
-      'History::PriorityUpdate' => 'Priorität aktuallisiert von "%s" (%s) nach "%s" (%s).',
+      'History::PriorityUpdate' => 'Priorität aktualisiert von "%s" (%s) nach "%s" (%s).',
       'History::OwnerUpdate' => 'Neuer Besitzer ist "%s" (ID=%s).',
       'History::LoopProtection' => 'Loop-Protection! Keine Auto-Antwort versandt an "%s".',
       'History::Misc' => '%s',
@@ -534,8 +534,8 @@ sub Data {
       # Template: AdminGenericAgent
       'GenericAgent' => '',
       'Job-List' => 'Job-Liste',
-      'Last run' => 'Letzter lauf',
-      'Run Now!' => 'Jetzt laufen!',
+      'Last run' => 'Letzte Ausführung',
+      'Run Now!' => 'Jetzt ausführen!',
       'x' => '',
       'Save Job as?' => 'Speichere Job als?',
       'Is Job Valid?' => 'Ist Job gültig?',
@@ -615,7 +615,7 @@ sub Data {
       'Overview' => 'Übersicht',
       'Download' => 'Herunterladen',
       'Rebuild' => '',
-      'Reinstall' => 'Reinstallieren',
+      'Reinstall' => 'Erneut installieren',
 
       # Template: AdminPGPForm
       'PGP Management' => 'PGP Verwaltung',
@@ -624,7 +624,7 @@ sub Data {
       'Key' => 'Schlüssel',
       'Fingerprint' => '',
       'Expires' => 'Erlischt',
-      'In this way you can directly edit the keyring configured in SysConfig.' => 'Üer diesen Weg kann man den Schlüsselring (konfiguriert in SysConfig) direkt bearbeiten.',
+      'In this way you can directly edit the keyring configured in SysConfig.' => 'Über diesen Weg kann man den Schlüsselring (konfiguriert in SysConfig) direkt bearbeiten.',
 
       # Template: AdminPOP3Form
       'POP3 Account Management' => 'POP3-Konten Verwaltung',
@@ -670,7 +670,7 @@ sub Data {
       'The signature for email answers.' => 'Die Signatur für Email-Antworten.',
       'OTRS sends an notification email to the customer if the ticket is moved.' => 'OTRS sendet eine Info-Email an Kunden beim Verschieben des Tickets.',
       'OTRS sends an notification email to the customer if the ticket state has changed.' => 'OTRS sendet eine Info Email an Kunden beim Ändern des Status.',
-      'OTRS sends an notification email to the customer if the ticket owner has changed.' => 'OTRS sendet eine Info-Email an Kunden beim Ändern des Besitzers.',
+      'OTRS sends an notification email to the customer if the ticket owner has changed.' => 'OTRS sendet eine Info Email an Kunden beim Ändern des Besitzers.',
 
       # Template: AdminQueueResponsesChangeForm
       'Responses <-> Queue Management' => 'Antworten <-> Queue Verwaltung',
@@ -694,8 +694,8 @@ sub Data {
 
       # Template: AdminRoleForm
       'Role Management' => 'Rollen Verwaltung',
-      'Create a role and put groups in it. Then add the role to the users.' => 'Erstell eine Rolle und weise Gruppen hinzu. Danach füge Benutzer zu den Rollen.',
-      'It\'s useful for a lot of users and groups.' => 'Es ist sehr nützlich wenn man viel Gruppen und Benutzer hat.',
+      'Create a role and put groups in it. Then add the role to the users.' => 'Erstelle eine Rolle und weise Gruppen hinzu. Danach füge Benutzer zu den Rollen hinzu.',
+      'It\'s useful for a lot of users and groups.' => 'Es ist sehr nützlich wenn man viele Gruppen und Benutzer hat.',
 
       # Template: AdminRoleGroupChangeForm
       'Roles <-> Groups Management' => 'Rollen <-> Gruppen Verwaltung',
@@ -754,7 +754,7 @@ sub Data {
       # Template: AdminStateForm
       'System State Management' => 'Status Verwaltung',
       'State Type' => 'Status-Typ',
-      'Take care that you also updated the default states in you Kernel/Config.pm!' => 'Gib acht, dass auch die default-Status in Kernel/Config.pm geändert werden!',
+      'Take care that you also updated the default states in you Kernel/Config.pm!' => 'Beachte, dass auch der default-Status in Kernel/Config.pm geändert werden muss!',
       'See also' => 'Siehe auch',
 
       # Template: AdminSysConfig
@@ -864,7 +864,7 @@ sub Data {
       ' (work units)' => ' (Arbeitseinheiten)',
 
       # Template: AgentTicketCompose
-      'A message must be spell checked!' => 'Eine Nachricht müssen rechtschreibüberprüft sein!',
+      'A message must be spell checked!' => 'Eine Nachricht muss auf Rechtschreibung überprüft werden!',
       'Compose answer for ticket' => 'Antwort erstellen für',
       'Attach' => 'Anhängen',
       'Pending Date' => 'Warten bis',
@@ -908,7 +908,7 @@ sub Data {
       'All messages' => 'Alle Nachrichten',
       'New messages' => 'Neue Nachrichten',
       'Pending messages' => 'Wartende Nachrichten',
-      'Reminder messages' => 'Erinnernde Nachrichten',
+      'Reminder messages' => 'Nachrichten zur Erinnerung',
       'Reminder' => 'Erinnernd',
       'Sort by' => 'Sortieren nach',
       'Order' => 'Sortierung',
@@ -1046,7 +1046,7 @@ sub Data {
       'FAQ Search' => 'FAQ Suche',
       'Fulltext' => 'Volltext',
       'Keyword' => 'Schlüsselwort',
-      'FAQ Search Result' => 'FAQ Suche-Ergebnis',
+      'FAQ Search Result' => 'FAQ Suchergebnis',
       'FAQ Overview' => 'FAQ Übersicht',
 
       # Template: CustomerFooter
@@ -1099,7 +1099,7 @@ sub Data {
       'System History' => '',
 
       # Template: FAQCategoryForm
-      'Name is required!' => 'Name ist benötigt!',
+      'Name is required!' => 'Name wird benötigt!',
       'FAQ Category' => 'FAQ Kategorie',
 
       # Template: FAQLanguageForm
@@ -1220,7 +1220,7 @@ sub Data {
       'MyTickets' => 'Meine Tickets',
       'New Ticket' => 'Neues Ticket',
       'Create new Ticket' => 'Neues Ticket erstellen',
-      'Package not correctly deployed, you need to deploy it again!' => 'Paket nicht korrekt installiert, bitte nochmal installieren!',
+      'Package not correctly deployed, you need to deploy it again!' => 'Paket nicht korrekt installiert, bitte erneut installieren!',
       'installed' => 'installiert',
       'uninstalled' => 'nicht installiert',
     };
