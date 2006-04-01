@@ -2,7 +2,7 @@
 # Kernel/System/CSV.pm - all csv functions
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CSV.pm,v 1.3 2006-03-21 11:18:29 rk Exp $
+# $Id: CSV.pm,v 1.4 2006-04-01 16:37:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,8 +14,12 @@ package Kernel::System::CSV;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+
+=head1 NAME
+
+Kernel::System::CSV - CVS lib
 
 =head1 SYNOPSIS
 
@@ -29,7 +33,16 @@ All csv functions.
 
 create a object
 
-  my $ConfigObject = Kernel::System::CSV->new();
+  use Kernel::Config;
+  use Kernel::System::Log;
+
+  my $ConfigObject = Kernel::Config->new();
+  my $LogObject    = Kernel::System::Log->new(
+      ConfigObject => $ConfigObject,
+  );
+  my $CSVObject = Kernel::System::CSV->new(
+      LogObject => $LogObject,
+  );
 
 =cut
 
@@ -48,7 +61,6 @@ sub new {
 
     return $Self;
 }
-
 
 =item Array2CSV()
 
@@ -99,17 +111,16 @@ sub Array2CSV {
     return $Output;
 }
 
-
-
-
 =item CSV2Array()
 
 returns a array with csv data
 
     my $RefArray = $CSVObject->CSV2Array(
         String => $CSVString,
-        Separator => ';',  # optional (default: ;)
-        Quote => '"',  # optional (default: ")
+        # optional separator (default is ;)
+        Separator => ';',
+        # optional quote (default is ")
+        Quote => '"',
     );
 
 =cut
@@ -142,8 +153,8 @@ sub CSV2Array {
         }
     }
     return \@Array;
- }
-
+}
+1;
 
 =head1 TERMS AND CONDITIONS
 
@@ -155,9 +166,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2006-03-21 11:18:29 $
+$Revision: 1.4 $ $Date: 2006-04-01 16:37:48 $
 
 =cut
-
-1;
-
