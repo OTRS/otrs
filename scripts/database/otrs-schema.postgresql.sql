@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  database: postgresql, generated: Sat Feb  4 13:52:54 2006
+--  database: postgresql, generated: Fri Mar 24 00:35:28 2006
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -303,6 +303,7 @@ CREATE TABLE ticket (
     ticket_lock_id INTEGER NOT NULL,
     ticket_answered INTEGER NOT NULL,
     user_id INTEGER NOT NULL,
+    responsible_user_id INTEGER NOT NULL,
     group_id INTEGER NOT NULL,
     ticket_priority_id INTEGER NOT NULL,
     ticket_state_id INTEGER NOT NULL,
@@ -577,7 +578,7 @@ CREATE TABLE standard_response_attachment (
 CREATE TABLE auto_response_type (
     id serial,
     name VARCHAR (50) NOT NULL,
-    comments VARCHAR (80),
+    comments VARCHAR (200),
     valid_id INTEGER NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by INTEGER NOT NULL,

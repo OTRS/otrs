@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  database: oracle, generated: Sat Feb  4 13:53:02 2006
+--  database: oracle, generated: Fri Mar 24 00:36:25 2006
 -- ----------------------------------------------------------
 DROP TABLE valid CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
@@ -492,6 +492,7 @@ CREATE TABLE ticket (
     ticket_lock_id NUMBER (5, 0) NOT NULL,
     ticket_answered NUMBER (5, 0) NOT NULL,
     user_id NUMBER NOT NULL,
+    responsible_user_id NUMBER NOT NULL,
     group_id NUMBER NOT NULL,
     ticket_priority_id NUMBER (5, 0) NOT NULL,
     ticket_state_id NUMBER (5, 0) NOT NULL,
@@ -892,14 +893,14 @@ CREATE TABLE standard_response_attachment (
     change_time DATE NOT NULL,
     change_by NUMBER NOT NULL
 );
-ALTER TABLE standard_response_attachment ADD CONSTRAINT standard_response_attach42_PK PRIMARY KEY (id);
-DROP SEQUENCE standard_response_attach42_seq;
-CREATE SEQUENCE standard_response_attach42_seq;
-CREATE OR REPLACE TRIGGER standard_response_attach42_s_t
+ALTER TABLE standard_response_attachment ADD CONSTRAINT standard_response_attach9_PK PRIMARY KEY (id);
+DROP SEQUENCE standard_response_attach9_seq;
+CREATE SEQUENCE standard_response_attach9_seq;
+CREATE OR REPLACE TRIGGER standard_response_attach9_s_t
 before insert on standard_response_attachment
 for each row
 begin
-    select standard_response_attach42_seq.nextval
+    select standard_response_attach9_seq.nextval
     into :new.id
     from dual;
 end;
@@ -912,7 +913,7 @@ DROP TABLE auto_response_type CASCADE CONSTRAINTS;
 CREATE TABLE auto_response_type (
     id NUMBER (5, 0) NOT NULL,
     name VARCHAR2 (50) NOT NULL,
-    comments VARCHAR2 (80),
+    comments VARCHAR2 (200),
     valid_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
     create_by NUMBER NOT NULL,
@@ -1020,7 +1021,7 @@ begin
 end;
 /
 --;
-CREATE INDEX index_time_accounting_ticket40 ON time_accounting (ticket_id);
+CREATE INDEX index_time_accounting_ticket49 ON time_accounting (ticket_id);
 DROP TABLE sessions CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table sessions
@@ -1095,7 +1096,7 @@ CREATE TABLE customer_preferences (
     preferences_key VARCHAR2 (150) NOT NULL,
     preferences_value VARCHAR2 (250)
 );
-CREATE INDEX index_customer_preferences_u0 ON customer_preferences (user_id);
+CREATE INDEX index_customer_preferences_u67 ON customer_preferences (user_id);
 DROP TABLE ticket_loop_protection CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table ticket_loop_protection
@@ -1104,8 +1105,8 @@ CREATE TABLE ticket_loop_protection (
     sent_to VARCHAR2 (250) NOT NULL,
     sent_date VARCHAR2 (150) NOT NULL
 );
-CREATE INDEX index_ticket_loop_protection65 ON ticket_loop_protection (sent_to);
-CREATE INDEX index_ticket_loop_protection44 ON ticket_loop_protection (sent_date);
+CREATE INDEX index_ticket_loop_protection72 ON ticket_loop_protection (sent_to);
+CREATE INDEX index_ticket_loop_protection1 ON ticket_loop_protection (sent_date);
 DROP TABLE pop3_account CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table pop3_account

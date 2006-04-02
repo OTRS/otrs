@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  database: mysql, generated: Sat Feb  4 13:51:50 2006
+#  database: mysql, generated: Fri Mar 24 00:34:56 2006
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -303,6 +303,7 @@ CREATE TABLE ticket (
     ticket_lock_id SMALLINT NOT NULL,
     ticket_answered SMALLINT NOT NULL,
     user_id INTEGER NOT NULL,
+    responsible_user_id INTEGER NOT NULL,
     group_id INTEGER NOT NULL,
     ticket_priority_id SMALLINT NOT NULL,
     ticket_state_id SMALLINT NOT NULL,
@@ -577,7 +578,7 @@ CREATE TABLE standard_response_attachment (
 CREATE TABLE auto_response_type (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (50) NOT NULL,
-    comments VARCHAR (80),
+    comments VARCHAR (200),
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,

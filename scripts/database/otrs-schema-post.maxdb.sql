@@ -1,5 +1,5 @@
 // ----------------------------------------------------------
-//  database: maxdb, generated: Sat Feb  4 13:53:08 2006
+//  database: maxdb, generated: Fri Mar 24 00:35:59 2006
 // ----------------------------------------------------------
 ALTER TABLE valid ADD FOREIGN KEY (create_by) REFERENCES system_user(id)
 //
@@ -138,6 +138,8 @@ ALTER TABLE ticket ADD FOREIGN KEY (create_by) REFERENCES system_user(id)
 ALTER TABLE ticket ADD FOREIGN KEY (change_by) REFERENCES system_user(id)
 //
 ALTER TABLE ticket ADD FOREIGN KEY (user_id) REFERENCES system_user(id)
+//
+ALTER TABLE ticket ADD FOREIGN KEY (responsible_user_id) REFERENCES system_user(id)
 //
 ALTER TABLE ticket ADD FOREIGN KEY (valid_id) REFERENCES valid(id)
 //

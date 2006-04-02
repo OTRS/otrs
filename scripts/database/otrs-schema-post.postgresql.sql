@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  database: postgresql, generated: Sat Feb  4 13:52:54 2006
+--  database: postgresql, generated: Fri Mar 24 00:35:28 2006
 -- ----------------------------------------------------------
 ALTER TABLE valid ADD FOREIGN KEY (create_by) REFERENCES system_user(id);
 ALTER TABLE valid ADD FOREIGN KEY (change_by) REFERENCES system_user(id);
@@ -70,6 +70,7 @@ ALTER TABLE ticket ADD FOREIGN KEY (queue_id) REFERENCES queue(id);
 ALTER TABLE ticket ADD FOREIGN KEY (create_by) REFERENCES system_user(id);
 ALTER TABLE ticket ADD FOREIGN KEY (change_by) REFERENCES system_user(id);
 ALTER TABLE ticket ADD FOREIGN KEY (user_id) REFERENCES system_user(id);
+ALTER TABLE ticket ADD FOREIGN KEY (responsible_user_id) REFERENCES system_user(id);
 ALTER TABLE ticket ADD FOREIGN KEY (valid_id) REFERENCES valid(id);
 ALTER TABLE ticket_history ADD FOREIGN KEY (priority_id) REFERENCES ticket_priority(id);
 ALTER TABLE ticket_history ADD FOREIGN KEY (owner_id) REFERENCES system_user(id);
