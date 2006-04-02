@@ -2,13 +2,17 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.246 2006-03-23 19:27:41 cs Exp $
+# $Id: CHANGES,v 1.247 2006-04-02 09:31:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS head
+ - (2006/03/28) added config option to show ticket title in main header
+    of frontend (e. g. QueueView, ZoomView and Mailbox)
+ - (2006/03/24) moved from "otrs" to "otrs-x.x.x" directory in
+    tar.gz / tar.bz download format
  - (2006/03/22) added article free text attrubutes
  - (2006/03/21) moved from Kernel::Output::HTML::Generic to
     Kernel::Output::HTML::Layout - all sub modules localted under
@@ -79,6 +83,9 @@ CVS head
     $Self->{PreApplicationModule}->{AgentInfo} = 'Kernel::Modules::AgentInfo';
 
 2.0.5 (2006/??/??)
+ - (2006/03/24) added SUSE 10.x RPM support
+ - (2006/03/24) fixed bug# 925 - Binary Attachments incorrectly utf-8
+    encoded in ticket replies
  - (2006/03/23) Fixed links to new phone/email ticket after a new
      customer is created via Kernel/Modules/AdminCustomerUser.pm
  - (2006/03/21) update of Portuguese language file  - Thanks to
