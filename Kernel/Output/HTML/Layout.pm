@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Layout.pm,v 1.2 2006-03-22 22:31:10 martin Exp $
+# $Id: Layout.pm,v 1.3 2006-04-03 12:30:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -2393,16 +2393,16 @@ sub CustomerHeader {
         }
     }
     # area and title
-    if (!$Param{Area}) {
+    if (!$Param{Area} && $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{$Self->{Action}}) {
         $Param{Area} = $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{$Self->{Action}}->{NavBarName} || '';
     }
-    if (!$Param{Title}) {
+    if (!$Param{Title} && $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{$Self->{Action}}) {
         $Param{Title} = $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{$Self->{Action}}->{Title} || '';
     }
-    if (!$Param{Area}) {
+    if (!$Param{Area} && $Self->{ConfigObject}->Get('PublicFrontend::Module')->{$Self->{Action}}) {
         $Param{Area} = $Self->{ConfigObject}->Get('PublicFrontend::Module')->{$Self->{Action}}->{NavBarName} || '';
     }
-    if (!$Param{Title}) {
+    if (!$Param{Title} && $Self->{ConfigObject}->Get('PublicFrontend::Module')->{$Self->{Action}}) {
         $Param{Title} = $Self->{ConfigObject}->Get('PublicFrontend::Module')->{$Self->{Action}}->{Title} || '';
     }
     foreach (qw(Area Title Value)) {
@@ -2576,6 +2576,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2006-03-22 22:31:10 $
+$Revision: 1.3 $ $Date: 2006-04-03 12:30:50 $
 
 =cut
