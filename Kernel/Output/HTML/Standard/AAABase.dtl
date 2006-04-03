@@ -224,3 +224,5 @@ $Text{"Country"}
 
 $Text{"installed"}
 $Text{"uninstalled"}
+
+$Text{"Security Note: You should activate %s because application is already running!"
