@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: de.pm,v 1.105 2006-04-01 23:38:29 martin Exp $
+# $Id: de.pm,v 1.106 2006-04-03 12:53:06 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.105 $';
+$VERSION = '$Revision: 1.106 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -766,6 +766,8 @@ sub Data {
       'Load Settings' => 'Einstellungen hinaufladen',
       'Subgroup' => 'Untergruppe',
       'Elements' => 'Elemente',
+      'Security Note: You should activate %s because application is already running!' => 'Sicherheitshinweis: Sie sollten den %s aktivieren, da die Anwendung bereits in Betrieb ist!',
+
 
       # Template: AdminSysConfigEdit
       'Config Options' => 'Config Einstellungen',
