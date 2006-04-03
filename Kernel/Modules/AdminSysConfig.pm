@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.pm,v 1.43 2006-03-20 21:41:26 martin Exp $
+# $Id: AdminSysConfig.pm,v 1.44 2006-04-03 12:47:39 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.43 $';
+$VERSION = '$Revision: 1.44 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -472,7 +472,7 @@ sub Run {
         if (!$Self->{ConfigObject}->Get('SecureMode')) {
             $Output .= $Self->{LayoutObject}->Notify(
                 Priority => 'Error',
-                Data => '$Text{"Security Note: You should activate %s because applications is already running!", "SecureMode"}',
+                Data => '$Text{"Security Note: You should activate %s because application is already running!", "SecureMode"}',
                 Link => '$Env{"Baselink"}Action=AdminSysConfig&Subaction=Edit&SysConfigGroup=Framework&SysConfigSubGroup=Core"',
             );
         }
@@ -578,7 +578,7 @@ sub Run {
     if (!$Self->{ConfigObject}->Get('SecureMode')) {
         $Output .= $Self->{LayoutObject}->Notify(
             Priority => 'Error',
-            Data => '$Text{"Security Note: You should activate %s because applications is already running!", "SecureMode"}',
+            Data => '$Text{"Security Note: You should activate %s because application is already running!", "SecureMode"}',
             Link => '$Env{"Baselink"}Action=AdminSysConfig&Subaction=Edit&SysConfigGroup=Framework&SysConfigSubGroup=Core"',
         );
     }
