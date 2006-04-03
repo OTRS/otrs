@@ -2,7 +2,7 @@
 # TODO - todo list OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TODO,v 1.93 2006-03-10 07:34:24 tr Exp $
+# $Id: TODO,v 1.94 2006-04-03 09:39:15 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -63,7 +63,7 @@
 - rework AdminGenericAgent.pm, theres useless Code e.g. StartHit and OrderBy
 - AdminGenericAgent.pm: implement a unique ID für each generic agentjob.
 - Remove Sql-Statements form AgentTicketQueue - Attention don't forget the SIRIOS-file
-
+- Header.dtl and CustomerHeader.dtl move $Env{Images} to SysConfig
 
 2.2
 - move ticket and article free text fields to "reference tables".
@@ -132,3 +132,5 @@ ideas (just ideas - nobody is working on it)
   advantages: -> less operating errors in using sysconfig
               -> useful for a validity check for the sysconfigsettings
                  which came via module by the packagemanager
+- SysConfig - a changelog function for the Sysconfig   or
+              a function like "show all changed Configoptions"
