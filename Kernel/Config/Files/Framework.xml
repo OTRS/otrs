@@ -112,7 +112,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.93 2006-03-30 22:37:04 ck Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.94 2006-04-05 12:46:36 tr Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -569,8 +569,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PreApplicationModule###AgentInfo" Required="0" Valid="0">
-        <Description Lang="en">This module is useful to load specific user options or to display news. For example: Kernel::Modules::AgentWorkingRoleSelection or Kernel::Modules::AgentInfo</Description>
-        <Description Lang="de">Mit Hilfe dieses Moduls können bestimmte Benutzeroptionen geladen oder Neuigkeiten angezeigt werden (z. B. Kernel::Modules::AgentWorkingRoleSelection oder Kernel::Modules::AgentInfo).</Description>
+        <Description Lang="en">This module is useful to load specific user options or to display news.</Description>
+        <Description Lang="de">Mit Hilfe dieses Moduls können bestimmte Benutzeroptionen geladen oder Neuigkeiten angezeigt werden.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
