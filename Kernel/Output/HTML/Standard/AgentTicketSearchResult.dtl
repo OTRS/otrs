@@ -2,13 +2,12 @@
 # AgentTicketSearchResult.dtl - provides HTML form for AgentTicketUtilities
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketSearchResult.dtl,v 1.4 2006-03-28 01:11:49 martin Exp $
+# $Id: AgentTicketSearchResult.dtl,v 1.5 2006-04-05 07:02:51 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-<!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td class="mainhead">
@@ -17,14 +16,14 @@
   </tr>
   <tr>
     <td class="menu">
-      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=LoadProfile&$QData{"Link"}">$Text{"Change search options"}</a> -
-$Text{"Results"}: <b>$QData{"Result"}</b> - $Text{"Total hits"}: <b>$Data{"TotalHits"}</b>
-      - $Text{"Site"}: $Data{"SiteNavBar"}
+      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=LoadProfile&$QData{"Link"}">
+      $Text{"Change search options"}
+      </a>
+      - $Text{"Results"}: <b>$QData{"Result"}</b> - $Text{"Total hits"}: <b>$Data{"TotalHits"}</b>
+      - $Text{"Page"}: $Data{"SiteNavBar"}
     </td>
   </tr>
 </table>
-<!-- end form -->
-
 <!-- dtl:block:Record -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
   <tr>
@@ -39,14 +38,12 @@ $Text{"Results"}: <b>$QData{"Result"}</b> - $Text{"Total hits"}: <b>$Data{"Total
     </td>
   </tr>
 </table>
-
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
   <tr>
     <td width="70%" class="menu">
       <a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Zoom"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Zoom"}</a> -
       <a href="$Env{"Baselink"}Action=AgentTicketHistory&TicketID=$Data{"TicketID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"History"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"History"}</a>
     </td>
-
     <td align="right" width="30%" class="menu">
       <table border="0" cellspacing="0" cellpadding="0">
         <tr>
@@ -57,7 +54,6 @@ $Text{"Results"}: <b>$QData{"Result"}</b> - $Text{"Total hits"}: <b>$Data{"Total
     </td>
   </tr>
 </table>
-
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
   <tr>
     <td align="left" width="75%" class="mainbody">
