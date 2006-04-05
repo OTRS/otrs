@@ -1,8 +1,8 @@
 # --
 # CustomerTicketSearchResultShort.dtl - html for ticket status view (all tickets)
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerTicketSearchResultShort.dtl,v 1.7 2005-03-27 11:38:46 martin Exp $
+# $Id: CustomerTicketSearchResultShort.dtl,v 1.8 2006-04-05 06:48:48 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,65 +10,70 @@
 # --
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-<tr>
-  <td class="mainhead">
-    $Env{"Box0"}$Text{"Search Result"}$Env{"Box1"}
-  </td>
-</tr>
-<tr>
-  <td class="menu">
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=LoadProfile&$QData{"Link"}">$Text{"Change search options"}</a> -
-$Text{"Results"}: <b>$QData{"Result"}</b> - $Text{"Total hits"}: <b>$Data{"TotalHits"}</b>
-- $Text{"Site"}: $Data{"SiteNavBar"}
-  </td>
-</tr>
+  <tr>
+    <td class="mainhead">
+      $Env{"Box0"}$Text{"Search Result"}$Env{"Box1"}
+    </td>
+  </tr>
+  <tr>
+    <td class="menu">
+      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=LoadProfile&$QData{"Link"}">
+      $Text{"Change search options"}
+      </a>
+      - $Text{"Results"}: <b>$QData{"Result"}</b> - $Text{"Total hits"}: <b>$Data{"TotalHits"}</b>
+      - $Text{"Page"}: $Data{"SiteNavBar"}
+    </td>
+  </tr>
 </table>
 <table border="0" width="100%" cellspacing="0" cellpadding="4">
-<tr>
- <td class="mainbody" align="center">
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
-<tr valign="top" align="left">
- <th width="15%">$Config{"Ticket::Hook"}<br>
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&TakeLastSearch=1&SortBy=Ticket&Order=Up" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&TakeLastSearch=1&SortBy=Ticket&Order=Down" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a></th>
- <th width="15%">$Text{"Age"}<br>
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&TakeLastSearch=1&SortBy=Age&Order=Up" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&TakeLastSearch=1&SortBy=Age&Order=Down" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a></th>
- <th width="20%">$Text{"From"}/$Text{"Subject"}</th>
- <th width="10%">$Text{"State"}<br>
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&TakeLastSearch=1&SortBy=State&Order=Up" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
- <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&TakeLastSearch=1&SortBy=Queue&Order=Down" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a></th>
- <th width="15%">$Text{"CustomerID"}<br>
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&TakeLastSearch=1&SortBy=CustomerID&Order=Up" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&TakeLastSearch=1&SortBy=CustomerID&Order=Down" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a></th>
-</tr>
-
+  <tr>
+    <td class="mainbody" align="center">
+      <table border="0" width="100%" cellspacing="0" cellpadding="3">
+        <tr valign="top" align="left">
+          <th width="15%">$Config{"Ticket::Hook"}<br>
+          <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&TakeLastSearch=1&SortBy=Ticket&Order=Up" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
+          <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&TakeLastSearch=1&SortBy=Ticket&Order=Down" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a>
+          </th>
+          <th width="15%">$Text{"Age"}<br>
+          <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&TakeLastSearch=1&SortBy=Age&Order=Up" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
+          <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&TakeLastSearch=1&SortBy=Age&Order=Down" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a>
+          </th>
+          <th width="20%">$Text{"From"}/$Text{"Subject"}</th>
+          <th width="10%">$Text{"State"}<br>
+          <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&TakeLastSearch=1&SortBy=State&Order=Up" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
+          <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&TakeLastSearch=1&SortBy=Queue&Order=Down" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a>
+          </th>
+          <th width="15%">$Text{"CustomerID"}<br>
+          <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&TakeLastSearch=1&SortBy=CustomerID&Order=Up" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
+          <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&TakeLastSearch=1&SortBy=CustomerID&Order=Down" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a>
+          </th>
+        </tr>
 <!-- dtl:block:Record -->
-<dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchpassive"; }>
-
-<tr valign="top">
- <td class="$Env{"Color"}"><a href="$Env{"Baselink"}Action=CustomerTicketZoom&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Zoom"}'; return true;" onmouseout="window.status='';">$Data{"TicketNumber"}</a></td>
- <td class="$Env{"Color"}">$Quote{"$Data{"Age"}"}</td>
- <td class="$Env{"Color"}">
-   <div title="$QData{"From"}">$QData{"From","30"}</div>
-   <div title="$QData{"Subject"}">$QData{"Subject","30"}</div>&nbsp;
- </td>
- <td class="$Env{"Color"}">
-   <div title="$Quote{"$Text{"$Data{"State"}"}"}">$Quote{"$Text{"$Data{"State"}"}","30"}</div>
- </td>
- <td class="$Env{"Color"}">
-  <div title="$QData{"CustomerID"}">$QData{"CustomerID","15"}</div>
-  <div title="$QData{"CustomerName"}">$QData{"CustomerName","15"}</div>
- </td>
-</tr>
-
-<dtl if ($Env{"Color"} eq "searchactive") { $Env{"Color"} = ""; }>
-<dtl if ($Env{"Color"} eq "searchpassive") { $Env{"Color"} = "searchactive"; }>
+        <dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchpassive"; }>
+        <tr valign="top">
+          <td class="$Env{"Color"}">
+            <a href="$Env{"Baselink"}Action=CustomerTicketZoom&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Zoom"}'; return true;" onmouseout="window.status='';">
+            $Data{"TicketNumber"}
+            </a>
+          </td>
+          <td class="$Env{"Color"}">$Quote{"$Data{"Age"}"}</td>
+          <td class="$Env{"Color"}">
+            <div title="$QData{"From"}">$QData{"From","30"}</div>
+            <div title="$QData{"Subject"}">$QData{"Subject","30"}</div>&nbsp;
+          </td>
+          <td class="$Env{"Color"}">
+            <div title="$Quote{"$Text{"$Data{"State"}"}"}">$Quote{"$Text{"$Data{"State"}"}","30"}</div>
+          </td>
+          <td class="$Env{"Color"}">
+            <div title="$QData{"CustomerID"}">$QData{"CustomerID","15"}</div>
+            <div title="$QData{"CustomerName"}">$QData{"CustomerName","15"}</div>
+          </td>
+        </tr>
+        <dtl if ($Env{"Color"} eq "searchactive") { $Env{"Color"} = ""; }>
+        <dtl if ($Env{"Color"} eq "searchpassive") { $Env{"Color"} = "searchactive"; }>
 <!-- dtl:block:Record -->
-
-</table>
-
- </td>
-</tr>
+      </table>
+    </td>
+  </tr>
 </table>
 <!-- end form -->
