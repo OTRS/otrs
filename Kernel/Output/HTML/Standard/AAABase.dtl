@@ -180,6 +180,7 @@ $Text{"Take this Customer"}
 $Text{"Take this User"}
 $Text{"possible"}
 $Text{"reject"}
+$Text{"reverse"}
 $Text{"Facility"}
 $Text{"Timeover"}
 $Text{"Pending till"}
