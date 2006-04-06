@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: XML.pm,v 1.23.2.4 2006-03-09 16:01:16 tr Exp $
+# $Id: XML.pm,v 1.23.2.5 2006-04-06 15:07:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::XML;
 use strict;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.23.2.4 $';
+$VERSION = '$Revision: 1.23.2.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -23,7 +23,7 @@ Kernel::System::XML - xml lib
 
 =head1 SYNOPSIS
 
-All xml related finctions.
+All xml related functions.
 
 =head1 PUBLIC INTERFACE
 
@@ -893,6 +893,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.23.2.4 $ $Date: 2006-03-09 16:01:16 $
+$Revision: 1.23.2.5 $ $Date: 2006-04-06 15:07:19 $
 
 =cut
