@@ -2,7 +2,7 @@
 # Kernel/System/Log.pm - log wapper
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Log.pm,v 1.29 2006-03-10 06:36:27 tr Exp $
+# $Id: Log.pm,v 1.30 2006-04-06 15:09:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Log;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.29 $ ';
+$VERSION = '$Revision: 1.30 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -176,7 +176,7 @@ sub GetLogEntry {
 
 to get the tmp log data (from shared memory - ipc) in csv form
 
-  my $CVSLog = $LogObject->GetLog();
+  my $CSVLog = $LogObject->GetLog();
 
 =cut
 
@@ -259,6 +259,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.29 $ $Date: 2006-03-10 06:36:27 $
+$Revision: 1.30 $ $Date: 2006-04-06 15:09:08 $
 
 =cut
