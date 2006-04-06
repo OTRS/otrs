@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Layout.pm,v 1.3 2006-04-03 12:30:50 martin Exp $
+# $Id: Layout.pm,v 1.4 2006-04-06 13:19:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -75,6 +75,7 @@ sub new {
         UserLanguage => $Self->{UserLanguage},
         LogObject => $Self->{LogObject},
         ConfigObject => $Self->{ConfigObject},
+        MainObject => $Self->{MainObject},
         Action => $Self->{Action},
     );
     # --
@@ -2248,7 +2249,7 @@ sub BuildDateSelection {
 
 returns a csv based on a array
 
-    $CSV = $LayoutObject->OutputCSVTable(
+    $CSV = $LayoutObject->OutputCSV(
         Head => ['RowA', 'RowB', ],
         Data => [
             [1,4],
@@ -2576,6 +2577,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2006-04-03 12:30:50 $
+$Revision: 1.4 $ $Date: 2006-04-06 13:19:08 $
 
 =cut

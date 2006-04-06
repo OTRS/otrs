@@ -1,8 +1,8 @@
 # --
 # Kernel/Language.pm - provides multi language support
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Language.pm,v 1.37 2005-06-17 16:11:09 martin Exp $
+# $Id: Language.pm,v 1.38 2006-04-06 13:19:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -38,20 +38,27 @@ All language functions.
 
 create a language object
 
-  use Kernel::Config;
-  use Kernel::System::Log;
-  use Kernel::Langauge;
+    use Kernel::Config;
+    use Kernel::System::Log;
+    use Kernel::System::Main;
+    use Kernel::Langauge;
 
-  my $ConfigObject = Kernel::Config->new();
-  my $LogObject    = Kernel::System::Log->new(
-      ConfigObject => $ConfigObject,
-  );
+    my $ConfigObject = Kernel::Config->new();
+    my $LogObject    = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+    );
 
-  my $LangaugeObject = Kernel::Langauge->new(
-      ConfigObject => $ConfigObject,
-      LogObject => $LogObject,
-      UserLanguage => 'de',
-  );
+    my $MainObject = Kernel::System::Main->new(
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+    );
+
+    my $LangaugeObject = Kernel::Langauge->new(
+        MainObject => $MainObject,
+        ConfigObject => $ConfigObject,
+        LogObject => $LogObject,
+        UserLanguage => 'de',
+    );
 
 =cut
 
@@ -68,7 +75,7 @@ sub new {
         $Self->{$_} = $Param{$_};
     }
     # check needed objects
-    foreach (qw(ConfigObject LogObject)) {
+    foreach (qw(ConfigObject LogObject MainObject)) {
         die "Got no $_!" if (!$Self->{$_});
     }
     # encode object
@@ -107,14 +114,26 @@ sub new {
         );
     }
     # load action text catalog ...
-    if (!$Param{TranslationFile} && $Param{Action} && eval "require Kernel::Language::$Self->{UserLanguage}_$Param{Action}") {
-       @ISA = ("Kernel::Language::$Self->{UserLanguage}_$Param{Action}");
-       $Self->Data();
-       if ($Self->{Debug} > 0) {
-            $Self->{LogObject}->Log(
-                Priority => 'Debug',
-                Message => "Kernel::Language::$Self->{UserLanguage}_$Param{Action} load ... done."
-            );
+    if (!$Param{TranslationFile}) {
+        my $Home = $Self->{ConfigObject}->Get('Home').'/';
+        my @Files = glob($Home."Kernel/Language/$Self->{UserLanguage}_*.pm");
+        foreach my $File (@Files) {
+            if ($File =~ /_Custom.pm$/) {
+                next;
+            }
+            $File =~ s/^$Home(.*)\.pm$/$1/g;
+            $File =~ s/\/\//\//g;
+            $File =~ s/\//::/g;
+            if ($Self->{MainObject}->Require($File)) {
+               @ISA = ($File);
+               $Self->Data();
+               if ($Self->{Debug} > 0) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'Debug',
+                        Message => "$File load ... done."
+                    );
+                }
+            }
         }
     }
     # load custom text catalog ...
@@ -438,6 +457,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.37 $ $Date: 2005-06-17 16:11:09 $
+$Revision: 1.38 $ $Date: 2006-04-06 13:19:08 $
 
 =cut
