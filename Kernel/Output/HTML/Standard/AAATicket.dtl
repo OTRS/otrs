@@ -18,6 +18,8 @@ $Text{"Compose"}
 $Text{"Pending"}
 $Text{"Owner"}
 $Text{"Owner Update"}
+$Text{"Responsible"}
+$Text{"Responsible Update"}
 $Text{"Sender"}
 $Text{"Article"}
 $Text{"Ticket"}
