@@ -2,7 +2,7 @@
 # Kernel/Language/es.pm - provides es language translation
 # Copyright (C) 2003-2004 Jorge Becerra <jorge at icc-cuba.com>
 # --
-# $Id: es.pm,v 1.35.2.1 2006-03-08 19:08:13 cs Exp $
+# $Id: es.pm,v 1.35.2.2 2006-04-07 12:16:59 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::es;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.35.2.1 $';
+$VERSION = '$Revision: 1.35.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -496,7 +496,7 @@ sub Data {
       'Source' => 'Origen',
       'This values are read only.' => 'Estos valores son solo-lectura',
       'This values are required.' => 'Estos valores son obligatorios',
-      'Customer user will be needed to have a customer history and to to login via customer panel.' => 'El cliente necesita tener una historia y conectarse via panel de clientes',
+      'Customer user will be needed to have a customer history and to login via customer panel.' => 'El cliente necesita tener una historia y conectarse via panel de clientes',
 
       # Template: AdminCustomerUserGroupChangeForm
       'Customer Users <-> Groups Management' => 'Clientes <-> Gestion de Grupos',

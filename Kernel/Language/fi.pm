@@ -2,7 +2,7 @@
 # Kernel/Language/fi.pm - provides fi language translation
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # --
-# $Id: fi.pm,v 1.36.2.1 2006-03-08 19:08:15 cs Exp $
+# $Id: fi.pm,v 1.36.2.2 2006-04-07 12:16:59 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::fi;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.36.2.1 $';
+$VERSION = '$Revision: 1.36.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -495,7 +495,7 @@ sub Data {
       'Source' => '',
       'This values are read only.' => '',
       'This values are required.' => '',
-      'Customer user will be needed to have a customer history and to to login via customer panel.' => '',
+      'Customer user will be needed to have a customer history and to login via customer panel.' => '',
 
       # Template: AdminCustomerUserGroupChangeForm
       'Customer Users <-> Groups Management' => '',

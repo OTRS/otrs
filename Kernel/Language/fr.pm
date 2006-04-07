@@ -4,7 +4,7 @@
 # Copyright (C) 2004-2005 Yann Richard <ze at nbox.org>
 # Copyright (C) 2004 Igor Genibel <igor.genibel at eds-opensource.com>
 # --
-# $Id: fr.pm,v 1.50.2.2 2006-03-08 19:08:18 cs Exp $
+# $Id: fr.pm,v 1.50.2.3 2006-04-07 12:16:59 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.50.2.2 $';
+$VERSION = '$Revision: 1.50.2.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -497,7 +497,7 @@ sub Data {
       'Source' => 'Source',
       'This values are read only.' => 'Ces valeurs sont en lecture seule.',
       'This values are required.' => 'Ces valeurs sont obligatoires.',
-      'Customer user will be needed to have a customer history and to to login via customer panel.' => 'Les clients utilisateurs seront invités à se connecter par la page client.',
+      'Customer user will be needed to have a customer history and to login via customer panel.' => 'Les clients utilisateurs seront invités à se connecter par la page client.',
 
       # Template: AdminCustomerUserGroupChangeForm
       'Customer Users <-> Groups Management' => 'Clients <-> Gestion des groupes',

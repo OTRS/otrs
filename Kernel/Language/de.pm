@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: de.pm,v 1.97.2.3 2006-03-22 22:41:36 martin Exp $
+# $Id: de.pm,v 1.97.2.4 2006-04-07 12:16:59 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.97.2.3 $';
+$VERSION = '$Revision: 1.97.2.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -508,7 +508,7 @@ sub Data {
       'Source' => 'Quelle',
       'This values are read only.' => 'Diese Inhalte sind schreibgeschützt.',
       'This values are required.' => 'Diese Inhalte werden benötigt.',
-      'Customer user will be needed to have a customer history and to to login via customer panel.' => 'Kunden-Benutzer werden für Kunden-Historien und für die Benutzung von Kunden-Weboberfläche benötigt.',
+      'Customer user will be needed to have a customer history and to login via customer panel.' => 'Kunden-Benutzer werden für Kunden-Historien und für die Benutzung von Kunden-Weboberfläche benötigt.',
 
       # Template: AdminCustomerUserGroupChangeForm
       'Customer Users <-> Groups Management' => 'Kundenbenutzer <-> Gruppen Verwaltung',

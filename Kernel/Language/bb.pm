@@ -2,7 +2,7 @@
 # Kernel/Language/bb.pm - provides bavarian language translation
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: bb.pm,v 1.11.2.1 2006-03-08 19:08:04 cs Exp $
+# $Id: bb.pm,v 1.11.2.2 2006-04-07 12:17:00 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::bb;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11.2.1 $';
+$VERSION = '$Revision: 1.11.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -498,7 +498,7 @@ sub Data {
       'Source' => '',
       'This values are read only.' => '',
       'This values are required.' => '',
-      'Customer user will be needed to have a customer history and to to login via customer panel.' => '',
+      'Customer user will be needed to have a customer history and to login via customer panel.' => '',
 
       # Template: AdminCustomerUserGroupChangeForm
       'Customer Users <-> Groups Management' => '',
@@ -1290,7 +1290,7 @@ sub Data {
       'Change system charset setting' => 'Ändere System-Charset',
       'Change auto response settings' => 'Ändern einer Auto-Antworten',
       'Ticket Status' => '',
-      'Customer user will be needed to to login via customer panels.' => 'Kunden-Benutzer werden für das Kunden-Webfrontend benötigt',
+      'Customer user will be needed to login via customer panels.' => 'Kunden-Benutzer werden für das Kunden-Webfrontend benötigt',
       'Support' => '',
       'Open messages' => '',
       'Customer called' => 'Kunden angerufen',

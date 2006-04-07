@@ -4,7 +4,7 @@
 #
 # Last updated 2006/03/09 by Thorsten Rossner <thorsten.rossner[at]stepstone.de>
 # --
-# $Id: da.pm,v 1.1.2.3 2006-03-15 19:00:28 cs Exp $
+# $Id: da.pm,v 1.1.2.4 2006-04-07 12:17:00 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::da;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1.2.3 $';
+$VERSION = '$Revision: 1.1.2.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -497,7 +497,7 @@ sub Data {
 		'Source' => 'Kilde',
 		'This values are read only.' => 'Disse værdier kan kun læses.',
 		'This values are required.' => 'Disse værdier er påkrævede.',
-		'Customer user will be needed to have a customer history and to to login via customer panel.' => 'Kundebrugeren er nødvendig for at have en kundehistorik og for at logge ind via kundepanelerne.',
+		'Customer user will be needed to have a customer history and to login via customer panel.' => 'Kundebrugeren er nødvendig for at have en kundehistorik og for at logge ind via kundepanelerne.',
 
 		# Template: AdminCustomerUserGroupChangeForm
 		'Customer Users <-> Groups Management' => 'Kundebrugere <-> Gruppestyring',

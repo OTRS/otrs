@@ -11,7 +11,7 @@ package Kernel::Language::bg;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.36.2.1 $';
+$VERSION = '$Revision: 1.36.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # --
 sub Data {
@@ -493,7 +493,7 @@ sub Data {
       'Source' => '',
       'This values are read only.' => '',
       'This values are required.' => '',
-      'Customer user will be needed to have a customer history and to to login via customer panel.' => '',
+      'Customer user will be needed to have a customer history and to login via customer panel.' => '',
 
       # Template: AdminCustomerUserGroupChangeForm
       'Customer Users <-> Groups Management' => '',

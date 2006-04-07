@@ -2,7 +2,7 @@
 # Kernel/Language/hu.pm - provides de language translation
 # Copyright (C) 2004 RLAN Internet <MAGIC at rlan.hu>
 # --
-# $Id: hu.pm,v 1.15.2.1 2006-03-08 19:08:20 cs Exp $
+# $Id: hu.pm,v 1.15.2.2 2006-04-07 12:16:59 cs Exp $
 # Translation: Gabor Gancs /gg@magicnet.hu/ & Krisztian Gancs /krisz@gancs.hu/
 # Verify: Flora Szabo /szaboflora@magicnet.hu/
 # Hungary Sopron Europe
@@ -17,7 +17,7 @@ package Kernel::Language::hu;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15.2.1 $';
+$VERSION = '$Revision: 1.15.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -500,7 +500,7 @@ sub Data {
       'Source' => 'Forrás',
       'This values are read only.' => 'Ezek az értékek csak olvashatók.',
       'This values are required.' => 'Ezek az értékek szükségesek.',
-      'Customer user will be needed to have a customer history and to to login via customer panel.' => 'Ügyfél felhasználóra lesz szükség, hogy legyen ügyfél történet és be lehessen lépni az ügyfél panelen.',
+      'Customer user will be needed to have a customer history and to login via customer panel.' => 'Ügyfél felhasználóra lesz szükség, hogy legyen ügyfél történet és be lehessen lépni az ügyfél panelen.',
 
       # Template: AdminCustomerUserGroupChangeForm
       'Customer Users <-> Groups Management' => '',

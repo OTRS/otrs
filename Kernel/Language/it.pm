@@ -4,7 +4,7 @@
 #               2003 Gabriele Santilli <gsantilli at omnibus.net>
 #               2005 Giordano Bianchi <giordano.bianchi at gmail.com>
 # --
-# $Id: it.pm,v 1.25.2.1 2006-03-08 19:08:22 cs Exp $
+# $Id: it.pm,v 1.25.2.2 2006-04-07 12:16:59 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::it;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25.2.1 $';
+$VERSION = '$Revision: 1.25.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -498,7 +498,7 @@ sub Data {
       'Source' => 'Sorgente',
       'This values are read only.' => 'Questi valori non sono modificabili',
       'This values are required.' => 'Questi valori sono richiesti',
-      'Customer user will be needed to have a customer history and to to login via customer panel.' => 'Il cliente sarà necessario per registrare la sua storia e permettere il collegamento via web',
+      'Customer user will be needed to have a customer history and to login via customer panel.' => 'Il cliente sarà necessario per registrare la sua storia e permettere il collegamento via web',
 
       # Template: AdminCustomerUserGroupChangeForm
       'Customer Users <-> Groups Management' => '',
