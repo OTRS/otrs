@@ -6,7 +6,7 @@
 # Copyright (C) 2004 Martijn Lohmeijer (martijn.lohmeijer 'at' sogeti.nl)
 # Copyright (C) 2005 Jurgen Rutgers (jurgen 'at' besite.nl)
 # --
-# $Id: nl.pm,v 1.43 2006-04-01 23:38:29 martin Exp $
+# $Id: nl.pm,v 1.44 2006-04-07 12:24:01 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -56,7 +56,7 @@ package Kernel::Language::nl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.43 $';
+$VERSION = '$Revision: 1.44 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 # --
 sub Data {
@@ -548,7 +548,7 @@ sub Data {
       'Source' => 'Bron',
       'This values are read only.' => 'Deze waarden kunt u alleen lezen.',
       'This values are required.' => 'Deze waarden zijn verplicht.',
-      'Customer user will be needed to have a customer history and to to login via customer panel.' => 'Klanten moeten een klanthistorie hebben voordat zij kunnen inloggen via de klantschermen.',
+      'Customer user will be needed to have a customer history and to login via customer panel.' => 'Klanten moeten een klanthistorie hebben voordat zij kunnen inloggen via de klantschermen.',
 
       # Template: AdminCustomerUserGroupChangeForm
       'Customer Users <-> Groups Management' => 'Klant gebruikers <-> Groepen beheer',

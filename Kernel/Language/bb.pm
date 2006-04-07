@@ -2,7 +2,7 @@
 # Kernel/Language/bb.pm - provides bavarian language translation
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: bb.pm,v 1.13 2006-03-18 20:42:25 martin Exp $
+# $Id: bb.pm,v 1.14 2006-04-07 12:24:01 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::bb;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1290,7 +1290,7 @@ sub Data {
       'Change system charset setting' => 'Ändere System-Charset',
       'Change auto response settings' => 'Ändern einer Auto-Antworten',
       'Ticket Status' => '',
-      'Customer user will be needed to to login via customer panels.' => 'Kunden-Benutzer werden für das Kunden-Webfrontend benötigt',
+      'Customer user will be needed to login via customer panels.' => 'Kunden-Benutzer werden für das Kunden-Webfrontend benötigt',
       'Support' => '',
       'Open messages' => '',
       'Customer called' => 'Kunden angerufen',
