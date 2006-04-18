@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent/NotifyAgentGroupOfCustomQueue.pm - generic agent notifications
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NotifyAgentGroupOfCustomQueue.pm,v 1.7 2006-04-18 02:44:57 martin Exp $
+# $Id: NotifyAgentGroupOfCustomQueue.pm,v 1.8 2006-04-18 02:48:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Email;
 use Kernel::System::Queue;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -80,7 +80,7 @@ sub Run {
         );
         my $Sent = 0;
         foreach my $Line (@Lines) {
-            if ($Line->{Name} =~ /PendingReminder/ && $Line->{Name} =~ /\Q$User{UserEmail}\E/i && $Line->{CreateTime} =~ /$Year-$Month-$Day/) {
+            if ($Line->{Name} =~ /Escalation/ && $Line->{Name} =~ /\Q$User{UserEmail}\E/i && $Line->{CreateTime} =~ /$Year-$Month-$Day/) {
                 $Sent = 1;
             }
         }

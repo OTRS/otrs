@@ -3,7 +3,7 @@
 # PendingJobs.pl - check pending tickets
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PendingJobs.pl,v 1.20 2006-04-18 02:40:06 martin Exp $
+# $Id: PendingJobs.pl,v 1.21 2006-04-18 02:44:57 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Date::Pcalc qw(Day_of_Week Day_of_Week_Abbreviation);
@@ -162,6 +162,8 @@ if (@PendingReminderStateIDs) {
             # --
             print " Send reminder notification (TicketID=$_)\n";
             foreach (@UserID) {
+                # get user data
+                my %Preferences = $CommonObject{UserObject}->GetUserData(UserID => $_);
                 # check if today a reminder is already sent
                 my ($Sec, $Min, $Hour, $Day, $Month, $Year) = $CommonObject{TimeObject}->SystemTime2Date(
                     SystemTime => $CommonObject{TimeObject}->SystemTime(),
@@ -172,15 +174,13 @@ if (@PendingReminderStateIDs) {
                 );
                 my $Sent = 0;
                 foreach my $Line (@Lines) {
-                    if ($Line->{Name} =~ /PendingReminder/ && $Line->{CreateTime} =~ /$Year-$Month-$Day/) {
+                    if ($Line->{Name} =~ /PendingReminder/ && $Line->{Name} =~ /\Q$Preferences{UserEmail}\E/i && $Line->{CreateTime} =~ /$Year-$Month-$Day/) {
                         $Sent = 1;
                     }
                 }
                 if ($Sent) {
                     next;
                 }
-                # get user data
-                my %Preferences = $CommonObject{UserObject}->GetUserData(UserID => $_);
                 $CommonObject{TicketObject}->SendAgentNotification(
                     UserData => \%Preferences,
                     Type => 'PendingReminder',
