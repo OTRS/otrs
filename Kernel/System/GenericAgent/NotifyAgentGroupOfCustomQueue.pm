@@ -1,8 +1,8 @@
 # --
 # Kernel/System/GenericAgent/NotifyAgentGroupOfCustomQueue.pm - generic agent notifications
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NotifyAgentGroupOfCustomQueue.pm,v 1.6 2005-05-01 17:43:21 martin Exp $
+# $Id: NotifyAgentGroupOfCustomQueue.pm,v 1.7 2006-04-18 02:44:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Email;
 use Kernel::System::Queue;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -70,6 +70,23 @@ sub Run {
     # send each agent the escalation notification
     foreach (@UserIDs) {
         my %User = $Self->{UserObject}->GetUserData(UserID => $_, Valid => 1);
+        # check if today a reminder is already sent
+        my ($Sec, $Min, $Hour, $Day, $Month, $Year) = $CommonObject{TimeObject}->SystemTime2Date(
+            SystemTime => $CommonObject{TimeObject}->SystemTime(),
+        );
+        my @Lines = $CommonObject{TicketObject}->HistoryGet(
+            TicketID => $Ticket{TicketID},
+            UserID => 1,
+        );
+        my $Sent = 0;
+        foreach my $Line (@Lines) {
+            if ($Line->{Name} =~ /PendingReminder/ && $Line->{Name} =~ /\Q$User{UserEmail}\E/i && $Line->{CreateTime} =~ /$Year-$Month-$Day/) {
+                $Sent = 1;
+            }
+        }
+        if ($Sent) {
+            next;
+        }
         # send agent notification
         $Self->{TicketObject}->SendAgentNotification(
             Type => 'Escalation',
