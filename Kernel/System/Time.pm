@@ -2,7 +2,7 @@
 # Kernel/System/Time.pm - time functions
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Time.pm,v 1.11 2006-02-16 02:12:32 martin Exp $
+# $Id: Time.pm,v 1.12 2006-04-18 11:00:41 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Time::Local;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -470,6 +470,55 @@ sub WorkingTime {
     return $Counted;
 }
 
+=item VacationCheck()
+
+check if the selected day is a vacation (it doesn't matter if you
+insert 01 or 1 for month or day in the function or in the SysConfig)
+
+    $TimeAccountingObject->VacationCheck(
+        Year  => '2005',
+        Month => '7', || 07
+        Day   => '13',
+    );
+
+=cut
+
+sub VacationCheck {
+    my $Self         = shift;
+    my %Param        = @_;
+    my $VacationName = '';
+
+    # check required params
+    foreach (qw(Year Month Day)) {
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "VacationCheck: Need $_!"
+            );
+            return;
+        }
+    }
+    $Param{Month} = sprintf("%02d", $Param{Month});
+    $Param{Day}   = sprintf("%02d", $Param{Day});
+
+    my $TimeVacationDays        = $Self->{ConfigObject}->Get('TimeVacationDays');
+    my $TimeVacationDaysOneTime = $Self->{ConfigObject}->Get('TimeVacationDaysOneTime');
+    if (defined($TimeVacationDays->{$Param{Month}}->{$Param{Day}})) {
+        return $TimeVacationDays->{$Param{Month}}->{$Param{Day}};
+    }
+    elsif (defined($TimeVacationDaysOneTime->{$Param{Year}}->{$Param{Month}}->{$Param{Day}})) {
+        return $TimeVacationDaysOneTime->{$Param{Year}}->{$Param{Month}}->{$Param{Day}};
+    }
+    elsif (defined($TimeVacationDays->{int($Param{Month})}->{int($Param{Day})})) {
+        return $TimeVacationDays->{int($Param{Month})}->{int($Param{Day})};
+    }
+    elsif (defined($TimeVacationDaysOneTime->{$Param{Year}}->{int($Param{Month})}->{int($Param{Day})})) {
+        return $TimeVacationDaysOneTime->{$Param{Year}}->{int($Param{Month})}->{int($Param{Day})};
+    }
+    return;
+}
+
+
 1;
 
 =head1 TERMS AND CONDITIONS
@@ -484,6 +533,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2006-02-16 02:12:32 $
+$Revision: 1.12 $ $Date: 2006-04-18 11:00:41 $
 
 =cut
