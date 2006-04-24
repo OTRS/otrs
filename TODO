@@ -2,7 +2,7 @@
 # TODO - todo list OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TODO,v 1.94 2006-04-03 09:39:15 tr Exp $
+# $Id: TODO,v 1.95 2006-04-24 08:55:38 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -134,3 +134,5 @@ ideas (just ideas - nobody is working on it)
                  which came via module by the packagemanager
 - SysConfig - a changelog function for the Sysconfig   or
               a function like "show all changed Configoptions"
+- Queueview: insert a link or button to change quickly the viewmode of the shown tickets
+- Queueview: insert a "<a name "- Tag to work through from the last edit Ticket
