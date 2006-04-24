@@ -1,8 +1,8 @@
 # --
 # Time.t - Time tests
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Time.t,v 1.4 2005-12-29 00:44:38 martin Exp $
+# $Id: Time.t,v 1.5 2006-04-24 10:06:26 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -196,5 +196,50 @@ $Self->Is(
     4.48333333333333,
     'WorkingHours - Mon-Mon',
 );
+
+# Check the Vacations
+my $Vacation = '';
+
+# 1.1.2005
+$Vacation = $Self->{TimeObject}->VacationCheck(
+    Year  => '2005',
+    Month => '1',
+    Day   => '1',
+);
+
+$Self->Is(
+    $Vacation,
+    "New Year's Eve!",
+    'Vacation - 1.1.2005',
+);
+
+# 01.01.2005
+$Vacation = $Self->{TimeObject}->VacationCheck(
+    Year  => '2005',
+    Month => '01',
+    Day   => '01',
+);
+
+$Self->Is(
+    $Vacation,
+    "New Year's Eve!",
+    'Vacation - 01.01.2005',
+);
+
+# 31.12.2005
+
+$Vacation = $Self->{TimeObject}->VacationCheck(
+    Year  => '2005',
+    Month => '12',
+    Day   => '31',
+);
+
+$Self->Is(
+    $Vacation,
+    'Silvester',
+    'Vacation - 31.12.2005',
+);
+
+
 
 1;
