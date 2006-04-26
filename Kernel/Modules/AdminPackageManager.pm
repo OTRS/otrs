@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPackageManager.pm,v 1.27 2006-01-30 01:46:33 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.28 2006-04-26 11:35:50 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Package;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -209,6 +209,13 @@ sub Run {
                         );
                     }
                     else {
+                        if ($Key eq 'CodeInstall') {
+                            $Structur{$Key}{Content} = $Self->{LayoutObject}->Ascii2Html(
+                                Text           => $Structur{$Key}{Content},
+                                HTMLResultMode => 1,
+                                NewLine        => 72,
+                            );
+                        }
                         $Self->{LayoutObject}->Block(
                             Name => "PackageItemGeneric",
                             Data => {Tag => $Key, %{$Structur{$Key}}},

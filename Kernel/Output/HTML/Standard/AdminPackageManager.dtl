@@ -2,7 +2,7 @@
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPackageManager.dtl,v 1.19 2006-02-28 06:05:05 martin Exp $
+# $Id: AdminPackageManager.dtl,v 1.20 2006-04-26 11:35:50 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -279,7 +279,7 @@
 <!-- dtl:block:PackageItemGeneric -->
         <tr>
           <td class="contentkey">$QData{"Tag"}: </td>
-          <td class="contentvalue">$QData{"Content"}</td>
+          <td class="contentvalue">$Data{"Content"}</td>
         </tr>
 <!-- dtl:block:PackageItemGeneric -->
         <tr>
