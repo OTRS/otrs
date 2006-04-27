@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent/NotifyAgentGroupOfCustomQueue.pm - generic agent notifications
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NotifyAgentGroupOfCustomQueue.pm,v 1.8 2006-04-18 02:48:24 martin Exp $
+# $Id: NotifyAgentGroupOfCustomQueue.pm,v 1.9 2006-04-27 05:57:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Email;
 use Kernel::System::Queue;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -71,10 +71,10 @@ sub Run {
     foreach (@UserIDs) {
         my %User = $Self->{UserObject}->GetUserData(UserID => $_, Valid => 1);
         # check if today a reminder is already sent
-        my ($Sec, $Min, $Hour, $Day, $Month, $Year) = $CommonObject{TimeObject}->SystemTime2Date(
-            SystemTime => $CommonObject{TimeObject}->SystemTime(),
+        my ($Sec, $Min, $Hour, $Day, $Month, $Year) = $Self->{TimeObject}->SystemTime2Date(
+            SystemTime => $Self->{TimeObject}->SystemTime(),
         );
-        my @Lines = $CommonObject{TicketObject}->HistoryGet(
+        my @Lines = $Self->{TicketObject}->HistoryGet(
             TicketID => $Ticket{TicketID},
             UserID => 1,
         );
