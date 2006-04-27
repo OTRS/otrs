@@ -2,13 +2,17 @@
 # CHANGES - change log  of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.209.2.42 2006-03-25 23:07:43 martin Exp $
+# $Id: CHANGES,v 1.209.2.43 2006-04-27 09:31:43 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.0.5 (2006/??/??)
+ - (2006/04/27) fixed IE problem with image-buttons
+   involed files: AdminSysConfigEdit.dtl and AdminSysConfig.pm
+ - (2006/04/26) fixed format bug in Package Manager - PackageView
+   involed files: AdminPackageManager.dtl and AdminPackageManager.pm
  - (2006/03/24) added SUSE 10.x RPM support
  - (2006/03/24) fixed bug# 925 - Binary Attachments incorrectly utf-8
     encoded in ticket replies
