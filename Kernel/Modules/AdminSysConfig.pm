@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.pm,v 1.44 2006-04-03 12:47:39 tr Exp $
+# $Id: AdminSysConfig.pm,v 1.45 2006-04-27 09:28:05 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.44 $';
+$VERSION = '$Revision: 1.45 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -109,7 +109,7 @@ sub Run {
             # Get all Attributes from Item
             my %ItemHash = $Self->{SysConfigObject}->ConfigItemGet(Name => $_);
             # Reset Item
-            if ($Self->{ParamObject}->GetParam(Param => "Reset$_")) {
+            if (defined($Self->{ParamObject}->GetParam(Param => "Reset$_.x"))) {
                 $Self->{SysConfigObject}->ConfigItemReset(Name => $_);
                 $Anker = $ItemHash{Name};
                 next;

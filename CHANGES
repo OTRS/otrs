@@ -2,13 +2,17 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.248 2006-04-06 13:19:08 martin Exp $
+# $Id: CHANGES,v 1.249 2006-04-27 09:32:02 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS head
+ - (2006/04/27) fixed IE problem with image-buttons
+   involed files: AdminSysConfigEdit.dtl and AdminSysConfig.pm
+ - (2006/04/26) fixed format bug in Package Manager - PackageView
+   involed files: AdminPackageManager.dtl and AdminPackageManager.pm
  - (2006/04/06) moved to read any language files located under
     Kernel/Language/xx_*.pm at each request to have any translated words
     e. g. for navigation bar available (Kernel/Language/xx_Custom.pm is
