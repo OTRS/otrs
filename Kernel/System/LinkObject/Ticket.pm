@@ -1,8 +1,8 @@
 # --
 # Kernel/System/LinkObject/Ticket.pm - to link ticket objects
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.5 2005-09-18 13:53:16 martin Exp $
+# $Id: Ticket.pm,v 1.6 2006-04-28 12:03:51 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::LinkObject::Ticket;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Init {
@@ -160,7 +160,7 @@ sub LinkItemData {
     }
     return (
         %Ticket,
-        ID => 123,
+        ID => $Param{ID},
         Title => $Ticket{Title},
         Number => $Ticket{TicketNumber},
         Body => $Body,

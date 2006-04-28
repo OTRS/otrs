@@ -2,7 +2,7 @@
 # AgentLinkObject.dtl - provides HTML for AgentLinkObject mask
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentLinkObject.dtl,v 1.10 2006-04-03 13:35:11 tr Exp $
+# $Id: AgentLinkObject.dtl,v 1.11 2006-04-28 12:03:51 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -114,8 +114,9 @@
   </tr>
   <tr>
     <td class="menu">
-$Text{"Results"}: <b>$QData{"Result"}</b> - $Text{"Total hits"}: <b>$Data{"TotalHits"}</b>
-      - $Text{"Page"}: $Data{"SiteNavBar"}
+      $Text{"Results"}: <b>$QData{"Result"}</b> -
+      $Text{"Total hits"}: <b>$Data{"TotalHits"}</b> -
+      $Text{"Page"}: $Data{"SiteNavBar"}
     </td>
   </tr>
 </table>
@@ -189,7 +190,7 @@ $Text{"Results"}: <b>$QData{"Result"}</b> - $Text{"Total hits"}: <b>$Data{"Total
   </tr>
   <tr>
     <td class="menu">
-      <a href="$Env{"Baselink"}$Env{"LastScreenView"}" onmouseover="window.status='$Text{"Detail"}'; return true;" onmouseout="window.status='';" class="menuitem">
+      <a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$QData{"ID"}" onmouseover="window.status='$Text{"Detail"}'; return true;" onmouseout="window.status='';" class="menuitem">
       $Text{"Detail"}
       </a>
     </td>
@@ -198,8 +199,9 @@ $Text{"Results"}: <b>$QData{"Result"}</b> - $Text{"Total hits"}: <b>$Data{"Total
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td valign="top" class="mainbody">
-      $Data{"Body"}
-      <hr>
+      <pre>
+        $Data{"Body"}
+      </pre>
     </td>
   </tr>
 </table>
