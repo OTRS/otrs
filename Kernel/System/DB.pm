@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: DB.pm,v 1.51 2006-03-10 06:37:31 tr Exp $
+# $Id: DB.pm,v 1.52 2006-05-02 06:07:22 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.51 $';
+$VERSION = '$Revision: 1.52 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -182,17 +182,17 @@ sub Connect {
     # debug
     if ($Self->{Debug} > 2) {
         $Self->{LogObject}->Log(
-          Caller => 1,
-          Priority => 'debug',
-          Message => "DB.pm->Connect: DSN: $Self->{DSN}, User: $Self->{USER}, Pw: $Self->{PW}, DB Type: $Self->{'DB::Type'};",
+            Caller   => 1,
+            Priority => 'debug',
+            Message  => "DB.pm->Connect: DSN: $Self->{DSN}, User: $Self->{USER}, Pw: $Self->{PW}, DB Type: $Self->{'DB::Type'};",
         );
     }
     # db connect
     if (!($Self->{dbh} = DBI->connect("$Self->{DSN}", $Self->{USER}, $Self->{PW}, $Self->{'DB::Attribute'}))) {
         $Self->{LogObject}->Log(
-            Caller => 1,
+            Caller   => 1,
             Priority => 'Error',
-            Message => $DBI::errstr,
+            Message  => $DBI::errstr,
         );
         return;
     }
@@ -210,9 +210,9 @@ sub Disconnect {
     # debug
     if ($Self->{Debug} > 2) {
         $Self->{LogObject}->Log(
-            Caller => 1,
+            Caller   => 1,
             Priority => 'debug',
-            Message => "DB.pm->Disconnect",
+            Message  => "DB.pm->Disconnect",
         );
     }
     # do disconnect
@@ -264,9 +264,9 @@ sub Quote {
     elsif ($Type && $Type eq 'Number') {
         if ($Text !~ /^(\+|\-|)(\d{1,20}|\d{1,20}\.\d{1,20})$/) {
             $Self->{LogObject}->Log(
-                Caller => 1,
+                Caller   => 1,
                 Priority => 'error',
-                Message => "Invalid number in query '$Text'!",
+                Message  => "Invalid number in query '$Text'!",
             );
             return '';
         }
@@ -369,17 +369,17 @@ sub Do {
     if ($Self->{Debug} > 0) {
         $Self->{DoCounter}++;
         $Self->{LogObject}->Log(
-            Caller => 1,
+            Caller   => 1,
             Priority => 'debug',
-            Message => "DB.pm->Do ($Self->{DoCounter}) SQL: '$Param{SQL}'",
+            Message  => "DB.pm->Do ($Self->{DoCounter}) SQL: '$Param{SQL}'",
         );
     }
     # send sql to database
     if (!$Self->{dbh}->do($Param{SQL}, undef, @Array)) {
         $Self->{LogObject}->Log(
-            Caller => 1,
+            Caller   => 1,
             Priority => 'Error',
-            Message => "$DBI::errstr, SQL: '$Param{SQL}'",
+            Message  => "$DBI::errstr, SQL: '$Param{SQL}'",
         );
         return;
     }
@@ -743,6 +743,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.51 $ $Date: 2006-03-10 06:37:31 $
+$Revision: 1.52 $ $Date: 2006-05-02 06:07:22 $
 
 =cut
