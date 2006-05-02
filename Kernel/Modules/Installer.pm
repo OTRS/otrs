@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/Installer.pm - provides the DB installer
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Installer.pm,v 1.37 2005-08-07 10:41:58 martin Exp $
+# $Id: Installer.pm,v 1.38 2006-05-02 06:20:55 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use strict;
 use DBI;
 
 use vars qw($VERSION %INC);
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -150,8 +150,8 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Warning(
                 Message => "Kernel/Config.pm isn't writable!",
                 Comment => 'If you want to use the installer, set the '.
-                  'Kernel/Config.pm writable for the werserver user! '.
-                  $Self->ReConfigure(),
+                    'Kernel/Config.pm writable for the werserver user! '.
+                    $Self->ReConfigure(),
             );
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
@@ -193,8 +193,8 @@ sub Run {
         foreach (keys %DB) {
             if (!$DB{$_} && $_ ne 'Password') {
                 return $Self->{LayoutObject}->ErrorScreen(
-                   Message => "You need '$_'!!",
-                   Comment => 'Please go back',
+                    Message => "You need '$_'!!",
+                    Comment => 'Please go back',
                 );
             }
         }
@@ -466,7 +466,7 @@ sub Run {
                 $Output .= $Self->{LayoutObject}->Warning(
                     Message => "Kernel/Config.pm isn't writable!",
                     Comment => 'If you want to use the installer, set the '.
-                      'Kernel/Config.pm writable for the werserver user!',
+                        'Kernel/Config.pm writable for the webserver user!',
                 );
                 $Output .= $Self->{LayoutObject}->Footer();
                 return $Output;
@@ -619,7 +619,8 @@ sub Run {
         # --
         my %Config = ();
         foreach (qw(SystemID FQDN AdminEmail Organization LogModule LogModule::LogFile
-          DefaultCharset DefaultLanguage CheckMXRecord)) {
+            DefaultCharset DefaultLanguage CheckMXRecord)
+        ) {
             my $Value = $Self->{ParamObject}->GetParam(Param => $_);
             $Config{$_} = defined $Value ? $Value : '';
         }
