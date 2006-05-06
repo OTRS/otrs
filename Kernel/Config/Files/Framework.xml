@@ -112,7 +112,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.94 2006-04-05 12:46:36 tr Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.95 2006-05-06 10:04:28 ck Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -998,8 +998,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SwitchToUser" Required="1" Valid="1">
-        <Description Lang="en">Allow the admin to switch into a selected user session.</Description>
-        <Description Lang="de">Dem Administrator erlauben in eine Sitzung eines ausgewählten Benutzers zu schalten.</Description>
+        <Description Lang="en">Allow the admin to login as a selected user via the users administration.</Description>
+        <Description Lang="de">Dem Administrator erlauben sich über die Benutzerverwaltung mit dem Zugang eines Benutzers anzumelden.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -1745,7 +1745,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::LDAP::UID" Required="0" Valid="0">
-        <Description Lang="en">If "LDAP" was selected for Customer::Authmodule, specefy the UID.</Description>
+        <Description Lang="en">If "LDAP" was selected for Customer::Authmodule, specify the UID.</Description>
         <Description Lang="de">Wenn "LDAP" als Customer::AuthModule ausgewählt wurde, kann hier die UID angegeben werden.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
@@ -1784,7 +1784,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::LDAP::SearchUserDN" Required="0" Valid="0">
-        <Description Lang="en">If "LDAP" was selected for Customer::AuthMOdule and your ussers have only anonymous access to the LDAP tree, but you want to search throug the data, you can do this with a user who has access to the LDAP directory. Specify the username for this special user here.</Description>
+        <Description Lang="en">If "LDAP" was selected for Customer::AuthMOdule and your ussers have only anonymous access to the LDAP tree, but you want to search through the data, you can do this with a user who has access to the LDAP directory. Specify the username for this special user here.</Description>
         <Description Lang="de">Wenn "LDAP" als Customer::AuthModule ausgewählt wurde und die Benutzer nur anonymen Zugriff auf die Daten im LDAP-Baum haben, diese Daten aber trotzdem durchsucht werden sollen, dann kann dies über einen speziellen Benutzer mit Zugriff auf das LDAP-Verzeichnis realisiert werden. Hier kann der Benutzername für diesen speziellen User angegeben werden.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
@@ -1793,7 +1793,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::LDAP::SearchUserPw" Required="0" Valid="0">
-        <Description Lang="en">If "LDAP" was selected for Customer::AuthMOdule and your ussers have only anonymous access to the LDAP tree, but you want to search throug the data, you can do this with a user who has access to the LDAP directory. Specify the password for this special user here.</Description>
+        <Description Lang="en">If "LDAP" was selected for Customer::AuthMOdule and your ussers have only anonymous access to the LDAP tree, but you want to search through the data, you can do this with a user who has access to the LDAP directory. Specify the password for this special user here.</Description>
         <Description Lang="de">Wenn "LDAP" als Customer::AuthModule ausgewählt wurde und die Benutzer nur anonymen Zugriff auf die Daten im LDAP-Baum haben, diese Daten aber trotzdem durchsucht werden sollen, dann kann dies über einen speziellen Benutzer mit Zugriff auf das LDAP-Verzeichnis realisiert werden. Hier kann das Kennwort für diesen speziellen User angegeben werden.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
