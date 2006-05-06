@@ -148,7 +148,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.102 2006-05-06 14:34:57 ck Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.103 2006-05-06 15:06:27 ck Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -1514,7 +1514,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::QueueOrder::Default" Required="1" Valid="1">
         <Description Lang="en">Queue order default (after priority sort). ASC: oldest on top. DESC: latest on top.</Description>
-        <Description Lang="de">Standard Reihenfolge der Queue (nach der Prioritaet). ASC: die aeltesten Tickets zuerst. DESC: die neuesten zuerst.</Description>
+        <Description Lang="de">Standard Reihenfolge der Queue (nach der Priorität). ASC: die ältesten Tickets zuerst. DESC: die neuesten zuerst.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
         <Setting>
@@ -1558,7 +1558,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::NeedSpellCheck" Required="1" Valid="1">
-        <Description Lang="en">Do Newly composed messages have to be spell checked?</Description>
+        <Description Lang="en">Do composed messages have to be spell checked?</Description>
         <Description Lang="de">Müssen neu erstellte Nachrichten auf Rechtschreibfehler geprüft werden?</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
@@ -1570,7 +1570,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::BulkFeature" Required="1" Valid="1">
-        <Description Lang="en">Do you want to activate a agent frontend feature to work on more than one ticket at the same time?</Description>
+        <Description Lang="en">Do you want to activate an agent frontend feature to work on more than one ticket at the same time?</Description>
         <Description Lang="de">Soll eine Agent-Frontend-Funktion aktiviert werden, mit der gleichzeitig mit mehreren Tickets gearbeitet werden kann?</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
@@ -1594,7 +1594,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::AgentCanBeCustomer" Required="1" Valid="1">
-        <Description Lang="en">Can a agent also be a customer via the agent interface?</Description>
+        <Description Lang="en">Can an agent also be a customer via the agent interface?</Description>
         <Description Lang="de">Kann ein Agent auch ein Kunde im Agent-Interface sein?</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
@@ -1606,8 +1606,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MoveType" Required="1" Valid="1">
-        <Description Lang="en">The queue selection can be shown as dropdown box or in a new opened window.</Description>
-        <Description Lang="de">Die Queue-Auswahl beim Verschieben eines Tickets kann als Dropdown-Box oder in einem neuen Fensters angezeigt werden.</Description>
+        <Description Lang="en">The queue selection can be shown in a dropdown list or in a new window. If "New Window" is set you can add a move note to the ticket.</Description>
+        <Description Lang="de">Die Queue-Auswahl beim Verschieben eines Tickets kann als Dropdown-Box oder in einem neuen Fensters angezeigt werden. Ist "Neues Fenster" ausgewählt kann eine Notiz beim Verschieben an das Ticket angefügt werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewMove</SubGroup>
         <Setting>
@@ -1642,8 +1642,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::StatusView::ViewableTicketsPage" Required="1" Valid="1">
-        <Description Lang="en">Shows all open tickets.</Description>
-        <Description Lang="de">Zeigt alle offenen Tickets an.</Description>
+        <Description Lang="en">Shows all open tickets no matter wether locked or not by an agent.</Description>
+        <Description Lang="de">Zeigt alle offenen Tickets an unabhängig ob Tickets von anderen Agenten gesperrt sind oder nicht.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewStatus</SubGroup>
         <Setting>
@@ -1730,8 +1730,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###SearchViewableTicketLines" Required="1" Valid="1">
-        <Description Lang="en">Viewable ticket lines by search utility.</Description>
-        <Description Lang="de">Anzahl der Zeilen, die durch das Suchwerkzeug angezeigt werden.</Description>
+        <Description Lang="en">Lines of each ticket that are shown by the search utility.</Description>
+        <Description Lang="de">Anzahl der Zeilen eines Tickets, die durch das Suchwerkzeug angezeigt werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
         <Setting>
@@ -1896,7 +1896,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::Search::DB::DSN" Required="0" Valid="0">
         <Description Lang="en">If you want to use a mirror database for agent ticket fulltext search, specify the DSN to this database.</Description>
-        <Description Lang="de">Wenn eine Datenbank mit den gespiegelten Daten für die Volltextsuche genutzt werden soll, kann hier die DSN für dieser Datenbank angegeben werden.</Description>
+        <Description Lang="de">Wenn eine Datenbank mit den gespiegelten Daten für die Volltextsuche genutzt werden soll, kann hier die DSN für diese Datenbank angegeben werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
         <Setting>
@@ -1993,7 +1993,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketFreeText###RequiredLock" Required="0" Valid="1">
-        <Description Lang="en">A ticket lock is required. In case the ticket isn't locked, the tickets gets locked and the current agent will be set automatically as ticket owner.</Description>
+        <Description Lang="en">A ticket lock is required. In case the ticket isn't locked, the ticket gets locked and the current agent will be set automatically as ticket owner.</Description>
         <Description Lang="de">Eine Ticket-Sperre wird benötigt. Wenn Ticket nicht gesperrt ist, wird das Ticket automatisch gesperrt und der Agent als Besitzer gesetzt.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewFreeText</SubGroup>
@@ -2017,7 +2017,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketFreeText###Responsible" Required="0" Valid="1">
-        <Description Lang="en">If you want to set the responsible.</Description>
+        <Description Lang="en">If you want to set the responsible agent.</Description>
         <Description Lang="de">Wenn der Verantwortliche gesetzt werden soll.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewFreeText</SubGroup>
@@ -2029,7 +2029,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketFreeText###State" Required="0" Valid="1">
-        <Description Lang="en">Would you like to set the state of a ticket if a note is created by an agent?</Description>
+        <Description Lang="en">Would you like to set the state of a ticket if a note is added by an agent?</Description>
         <Description Lang="de">Soll der Status eines Tickets gesetzt werden können, wenn eine Notiz durch einen Agent angelegt wird?</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewFreeText</SubGroup>
@@ -2127,7 +2127,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketFreeText###ArticleTypes" Required="0" Valid="1">
-        <Description Lang="en">Specify the different note types, that you want to use in your system.</Description>
+        <Description Lang="en">Specify the different note types that you want to use in your system.</Description>
         <Description Lang="de">Hier können die verschiedenen Notiz-Typen festgelegt werden, die innerhalb des Systems verwendet werden sollen.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewFreeText</SubGroup>
@@ -2141,7 +2141,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketFreeText###Priority" Required="0" Valid="0">
         <Description Lang="en">Show priority options.</Description>
-        <Description Lang="de">Möglichkeit der Auswahl für die Priorität.</Description>
+        <Description Lang="de">Möglichkeit eine Priorität auszuwählen.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewFreeText</SubGroup>
         <Setting>
