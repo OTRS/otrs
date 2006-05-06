@@ -148,7 +148,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.101 2006-04-23 21:19:56 ck Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.102 2006-05-06 14:34:57 ck Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -177,7 +177,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::SubjectRe" Required="1" Valid="1">
-        <Description Lang="en">The text at the beginning of the subject in a email reply, e.g. RE, AW or AS.</Description>
+        <Description Lang="en">The text at the beginning of the subject in an email reply, e.g. RE, AW or AS.</Description>
         <Description Lang="de">Präfix im Betreff bei einer Email-Antwort, z. B. RE, AW oder AS.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
@@ -186,7 +186,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::CustomQueue" Required="1" Valid="1">
-        <Description Lang="en">Name of custom queue. The custom queue is a queue selection of your prefered queues and can be selected in the preferences settings.</Description>
+        <Description Lang="en">Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.</Description>
         <Description Lang="de">Name der persönlich zusammengestellten Queues eines Agenten. Diese Queues können innerhalb der persönlichen Einstellungen ausgewählt werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
@@ -243,7 +243,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey1" Required="0" Valid="0">
-        <Description Lang="en">Define the free key field 1 for tickets. With this setting you can define an new ticket property.</Description>
+        <Description Lang="en">Define the free key field 1 for tickets. With this setting you can define a new ticket attribute.</Description>
         <Description Lang="de">Definition des Freien-Schlüssel-Feldes 1 für Tickets. Damit kann eine neue Ticket-Eigenschaft definiert werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
@@ -254,7 +254,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey1::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of FreeTextField 1 if more then one option is defined.</Description>
+        <Description Lang="en">The default selection of FreeTextField 1 if more than one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 1 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
@@ -263,8 +263,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText1" Required="0" Valid="0">
-        <Description Lang="en">Define the FreeTextField 1 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des FreiTextFeldes 1 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the FreeTextField 1 for tickets. With this setting you can define a new ticket attribute.</Description>
+        <Description Lang="de">Definition des FreiTextFeldes 1 für Tickets. Hierüber können zusätzliche Ticketattribute definiert werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -277,7 +277,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText1::DefaultSelection" Required="0" Valid="1">
-        <Description Lang="en">The default selection of FreeTextField 1 if more then one option is defined.</Description>
+        <Description Lang="en">The default selection of FreeTextField 1 if more than one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 1 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
@@ -286,8 +286,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey2" Required="0" Valid="0">
-        <Description Lang="en">Define the free key field 2 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des Freier-Key-Feldes 2 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the free key field 2 for tickets. With this setting you can define a new ticket attribute.</Description>
+        <Description Lang="de">Definition des Freier-Key-Feldes 2 für Tickets. Hierüber können zusätzliche Ticketattribute definiert werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -298,7 +298,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey2::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of free key field 2 if more then one option is defined.</Description>
+        <Description Lang="en">The default selection of free key field 2 if more than one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des FreiSchlüsselFeldes 2 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
@@ -308,7 +308,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="TicketFreeText2" Required="0" Valid="0">
         <Description Lang="en">Define the FreeTextField 2 for tickets. It's a new ticket poperty.</Description>
-        <Description Lang="de">Definition des FreiTextFeldes 2 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="de">Definition des FreiTextFeldes 2 für Tickets. Hierüber können zusätzliche Ticketattribute definiert werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -321,7 +321,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText2::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of FreeTextField 2 if more then one option is defined.</Description>
+        <Description Lang="en">The default selection of FreeTextField 2 if more than one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 2 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
@@ -330,8 +330,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey3" Required="0" Valid="0">
-        <Description Lang="en">Define the free key field 3 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des FreiSchlüsselFeldes 3 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the free key field 3 for tickets. With this setting you can define a new ticket attribute.</Description>
+        <Description Lang="de">Definition des FreiSchlüsselFeldes 3 für Tickets. Hierüber können zusätzliche Ticketattribute definiert werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -342,7 +342,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey3::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of FreeTextField 3 if more then one option is defined.</Description>
+        <Description Lang="en">The default selection of FreeTextField 3 if more than one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 3 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
@@ -351,8 +351,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText3" Required="0" Valid="0">
-        <Description Lang="en">Define the FreeTextField 3 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des FreiTextFeldes 3 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the FreeTextField 3 for tickets. With this setting you can define a new ticket attribute.</Description>
+        <Description Lang="de">Definition des FreiTextFeldes 3 für Tickets. Hierüber können zusätzliche Ticketattribute definiert werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -365,7 +365,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText3::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of FreeTextField 3 if more then one option is defined.</Description>
+        <Description Lang="en">The default selection of FreeTextField 3 if more than one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 3 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
@@ -374,8 +374,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey4" Required="0" Valid="0">
-        <Description Lang="en">Define the free key field 4 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des FreiSchlüsselFeldes 4 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the free key field 4 for tickets. With this setting you can define a new ticket attribute.</Description>
+        <Description Lang="de">Definition des FreiSchlüsselFeldes 4 für Tickets. Hierüber können zusätzliche Ticketattribute definiert werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -385,7 +385,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey4::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of free key field 4 if more then one option is defined.</Description>
+        <Description Lang="en">The default selection of free key field 4 if more than one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des FreiSchlüsselFeldes 4 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
@@ -394,8 +394,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText4" Required="0" Valid="0">
-        <Description Lang="en">Define the FreeTextField 4 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des FreiTextFeldes 4 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the FreeTextField 4 for tickets. With this setting you can define a new ticket attribute.</Description>
+        <Description Lang="de">Definition des FreiTextFeldes 4 für Tickets. Hierüber können zusätzliche Ticketattribute definiert werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -408,7 +408,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText4::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of FreeTextField 4 if more then one option is defined.</Description>
+        <Description Lang="en">The default selection of FreeTextField 4 if more than one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 4 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
@@ -417,8 +417,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey5" Required="0" Valid="0">
-        <Description Lang="en">Define the free key field 5 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des FreiSchlüsselFeldes 5 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the free key field 5 for tickets. With this setting you can define a new ticket attribute.</Description>
+        <Description Lang="de">Definition des FreiSchlüsselFeldes 5 für Tickets. Hierüber können zusätzliche Ticketattribute definiert werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -428,7 +428,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey5::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of free key field 5 if more then one option is defined.</Description>
+        <Description Lang="en">The default selection of free key field 5 if more than one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des FreiSchlüsselFeldes 5 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
@@ -437,8 +437,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText5" Required="0" Valid="0">
-        <Description Lang="en">Define the FreeTextField 5 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des FreiTextFeldes 5 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the FreeTextField 5 for tickets. With this setting you can define a new ticket attribute.</Description>
+        <Description Lang="de">Definition des FreiTextFeldes 5 für Tickets. Hierüber können zusätzliche Ticketattribute definiert werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -451,7 +451,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText5::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of FreeTextField 5 if more then one option is defined.</Description>
+        <Description Lang="en">The default selection of FreeTextField 5 if more than one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 5 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
@@ -460,8 +460,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey6" Required="0" Valid="0">
-        <Description Lang="en">Define the free key field 6 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des FreiSchlüsselFeldes 6 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the free key field 6 for tickets. With this setting you can define a new ticket attribute.</Description>
+        <Description Lang="de">Definition des FreiSchlüsselFeldes 6 für Tickets. Hierüber können zusätzliche Ticketattribute definiert werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -471,7 +471,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey6::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of free key field 6 if more then one option is defined.</Description>
+        <Description Lang="en">The default selection of free key field 6 if more than one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des FreiSchlüsselFeldes 6 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
@@ -480,8 +480,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText6" Required="0" Valid="0">
-        <Description Lang="en">Define the FreeTextField 6 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des FreiTextFeldes 6 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the FreeTextField 6 for tickets. With this setting you can define a new ticket attribute.</Description>
+        <Description Lang="de">Definition des FreiTextFeldes 6 für Tickets. Hierüber können zusätzliche Ticketattribute definiert werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -494,7 +494,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText6::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of FreeTextField 6 if more then one option is defined.</Description>
+        <Description Lang="en">The default selection of FreeTextField 6 if more than one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 6 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
@@ -503,8 +503,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey7" Required="0" Valid="0">
-        <Description Lang="en">Define the free key field 7 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des FreiSchlüsselFeldes 7 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the free key field 7 for tickets. With this setting you can define a new ticket attribute.</Description>
+        <Description Lang="de">Definition des FreiSchlüsselFeldes 7 für Tickets. Hierüber können zusätzliche Ticketattribute definiert werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -514,7 +514,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey7::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of free key field 7 if more then one option is defined.</Description>
+        <Description Lang="en">The default selection of free key field 7 if more than one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des FreiSchlüsselFeldes 7 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
@@ -523,8 +523,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText7" Required="0" Valid="0">
-        <Description Lang="en">Define the FreeTextField 7 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des FreiTextFeldes 7 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the FreeTextField 7 for tickets. With this setting you can define a new ticket attribute.</Description>
+        <Description Lang="de">Definition des FreiTextFeldes 7 für Tickets. Hierüber können zusätzliche Ticketattribute definiert werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -537,7 +537,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText7::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of FreeTextField 7 if more then one option is defined.</Description>
+        <Description Lang="en">The default selection of FreeTextField 7 if more than one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 7 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
@@ -546,8 +546,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey8" Required="0" Valid="0">
-        <Description Lang="en">Define the free key field 8 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des FreiSchlüsselFeldes 8 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the free key field 8 for tickets. With this setting you can define a new ticket attribute.</Description>
+        <Description Lang="de">Definition des FreiSchlüsselFeldes 8 für Tickets. Hierüber können zusätzliche Ticketattribute definiert werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -557,7 +557,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey8::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of free key field 8 if more then one option is defined.</Description>
+        <Description Lang="en">The default selection of free key field 8 if more than one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des FreiSchlüsselFeldes 8 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
@@ -566,8 +566,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText8" Required="0" Valid="0">
-        <Description Lang="en">Define the FreeTextField 8 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des FreiTextFeldes 8 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the FreeTextField 8 for tickets. With this setting you can define a new ticket attribute.</Description>
+        <Description Lang="de">Definition des FreiTextFeldes 8 für Tickets. Hierüber können zusätzliche Ticketattribute definiert werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -580,7 +580,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText8::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of FreeTextField 8 if more then one option is defined.</Description>
+        <Description Lang="en">The default selection of FreeTextField 8 if more than one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 8 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
@@ -589,8 +589,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey9" Required="0" Valid="0">
-        <Description Lang="en">Define the free key field 9 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des FreiSchlüsselFeldes 9 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the free key field 9 for tickets. With this setting you can define a new ticket attribute.</Description>
+        <Description Lang="de">Definition des FreiSchlüsselFeldes 9 für Tickets. Hierüber können zusätzliche Ticketattribute definiert werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -600,7 +600,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey9::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of free key field 9 if more then one option is defined.</Description>
+        <Description Lang="en">The default selection of free key field 9 if more than one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des FreiSchlüsselFeldes 9 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
@@ -609,8 +609,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText9" Required="0" Valid="0">
-        <Description Lang="en">Define the FreeTextField 9 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des FreiTextFeldes 9 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the FreeTextField 9 for tickets. With this setting you can define a new ticket attribute.</Description>
+        <Description Lang="de">Definition des FreiTextFeldes 9 für Tickets. Hierüber können zusätzliche Ticketattribute definiert werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -623,7 +623,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText9::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of FreeTextField 9 if more then one option is defined.</Description>
+        <Description Lang="en">The default selection of FreeTextField 9 if more than one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 9 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
@@ -632,8 +632,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey10" Required="0" Valid="0">
-        <Description Lang="en">Define the free key field 10 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des FreiSchlüsselFeldes 10 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the free key field 10 for tickets. With this setting you can define a new ticket attribute.</Description>
+        <Description Lang="de">Definition des FreiSchlüsselFeldes 10 für Tickets. Hierüber können zusätzliche Ticketattribute definiert werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -643,7 +643,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey10::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of free key field 10 if more then one option is defined.</Description>
+        <Description Lang="en">The default selection of free key field 10 if more than one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des FreiSchlüsselFeldes 10 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
@@ -652,8 +652,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText10" Required="0" Valid="0">
-        <Description Lang="en">Define the FreeTextField 10 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des FreiTextFeldes 10 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the FreeTextField 10 for tickets. With this setting you can define a new ticket attribute.</Description>
+        <Description Lang="de">Definition des FreiTextFeldes 10 für Tickets. Hierüber können zusätzliche Ticketattribute definiert werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -666,7 +666,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText10::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of FreeTextField 10 if more then one option is defined.</Description>
+        <Description Lang="en">The default selection of FreeTextField 10 if more than one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 10 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
@@ -675,8 +675,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey11" Required="0" Valid="0">
-        <Description Lang="en">Define the free key field 11 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des FreiSchlüsselFeldes 11 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the free key field 11 for tickets. With this setting you can define a new ticket attribute.</Description>
+        <Description Lang="de">Definition des FreiSchlüsselFeldes 11 für Tickets. Hierüber können zusätzliche Ticketattribute definiert werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -686,7 +686,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey11::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of free key field 11 if more then one option is defined.</Description>
+        <Description Lang="en">The default selection of free key field 11 if more than one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des FreiSchlüsselFeldes 11 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
@@ -695,8 +695,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText11" Required="0" Valid="0">
-        <Description Lang="en">Define the FreeTextField 11 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des FreiTextFeldes 11 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the FreeTextField 11 for tickets. With this setting you can define a new ticket attribute.</Description>
+        <Description Lang="de">Definition des FreiTextFeldes 11 für Tickets. Hierüber können zusätzliche Ticketattribute definiert werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -709,7 +709,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText11::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of FreeTextField 11 if more then one option is defined.</Description>
+        <Description Lang="en">The default selection of FreeTextField 11 if more than one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 11 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
@@ -718,8 +718,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey12" Required="0" Valid="0">
-        <Description Lang="en">Define the free key field 12 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des FreiSchlüsselFeldes 12 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the free key field 12 for tickets. With this setting you can define a new ticket attribute.</Description>
+        <Description Lang="de">Definition des FreiSchlüsselFeldes 12 für Tickets. Hierüber können zusätzliche Ticketattribute definiert werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -729,7 +729,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey12::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of free key field 12 if more then one option is defined.</Description>
+        <Description Lang="en">The default selection of free key field 12 if more than one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des FreiSchlüsselFeldes 12 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
@@ -738,8 +738,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText12" Required="0" Valid="0">
-        <Description Lang="en">Define the FreeTextField 12 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des FreiTextFeldes 12 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the FreeTextField 12 for tickets. With this setting you can define a new ticket attribute.</Description>
+        <Description Lang="de">Definition des FreiTextFeldes 12 für Tickets. Hierüber können zusätzliche Ticketattribute definiert werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -752,7 +752,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText12::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of FreeTextField 12 if more then one option is defined.</Description>
+        <Description Lang="en">The default selection of FreeTextField 12 if more than one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 12 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
@@ -761,8 +761,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey13" Required="0" Valid="0">
-        <Description Lang="en">Define the free key field 13 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des FreiSchlüsselFeldes 13 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the free key field 13 for tickets. With this setting you can define a new ticket attribute.</Description>
+        <Description Lang="de">Definition des FreiSchlüsselFeldes 13 für Tickets. Hierüber können zusätzliche Ticketattribute definiert werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -772,7 +772,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey13::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of free key field 13 if more then one option is defined.</Description>
+        <Description Lang="en">The default selection of free key field 13 if more than one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des FreiSchlüsselFeldes 13 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
@@ -781,8 +781,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText13" Required="0" Valid="0">
-        <Description Lang="en">Define the FreeTextField 13 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des FreiTextFeldes 13 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the FreeTextField 13 for tickets. With this setting you can define a new ticket attribute.</Description>
+        <Description Lang="de">Definition des FreiTextFeldes 13 für Tickets. Hierüber können zusätzliche Ticketattribute definiert werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -795,7 +795,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText13::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of FreeTextField 13 if more then one option is defined.</Description>
+        <Description Lang="en">The default selection of FreeTextField 13 if more than one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 13 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
@@ -804,8 +804,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey14" Required="0" Valid="0">
-        <Description Lang="en">Define the free key field 14 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des FreiSchlüsselFeldes 14 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the free key field 14 for tickets. With this setting you can define a new ticket attribute.</Description>
+        <Description Lang="de">Definition des FreiSchlüsselFeldes 14 für Tickets. Hierüber können zusätzliche Ticketattribute definiert werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -815,7 +815,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey14::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of free key field 14 if more then one option is defined.</Description>
+        <Description Lang="en">The default selection of free key field 14 if more than one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des FreiSchlüsselFeldes 14 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
@@ -824,8 +824,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText14" Required="0" Valid="0">
-        <Description Lang="en">Define the FreeTextField 14 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des FreiTextFeldes 14 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the FreeTextField 14 for tickets. With this setting you can define a new ticket attribute.</Description>
+        <Description Lang="de">Definition des FreiTextFeldes 14 für Tickets. Hierüber können zusätzliche Ticketattribute definiert werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -838,7 +838,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText14::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of FreeTextField 14 if more then one option is defined.</Description>
+        <Description Lang="en">The default selection of FreeTextField 14 if more than one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 14 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
@@ -847,8 +847,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey15" Required="0" Valid="0">
-        <Description Lang="en">Define the free key field 15 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des FreiSchlüsselFeldes 15 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the free key field 15 for tickets. With this setting you can define a new ticket attribute.</Description>
+        <Description Lang="de">Definition des FreiSchlüsselFeldes 15 für Tickets. Hierüber können zusätzliche Ticketattribute definiert werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -858,7 +858,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey15::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of free key field 15 if more then one option is defined.</Description>
+        <Description Lang="en">The default selection of free key field 15 if more than one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des FreiSchlüsselFeldes 15 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
@@ -867,8 +867,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText15" Required="0" Valid="0">
-        <Description Lang="en">Define the FreeTextField 15 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des FreiTextFeldes 15 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the FreeTextField 15 for tickets. With this setting you can define a new ticket attribute.</Description>
+        <Description Lang="de">Definition des FreiTextFeldes 15 für Tickets. Hierüber können zusätzliche Ticketattribute definiert werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -881,7 +881,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText15::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of FreeTextField 15 if more then one option is defined.</Description>
+        <Description Lang="en">The default selection of FreeTextField 15 if more than one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 15 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
@@ -890,8 +890,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey16" Required="0" Valid="0">
-        <Description Lang="en">Define the free key field 16 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des FreiSchlüsselFeldes 16 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the free key field 16 for tickets. With this setting you can define a new ticket attribute.</Description>
+        <Description Lang="de">Definition des FreiSchlüsselFeldes 16 für Tickets. Hierüber können zusätzliche Ticketattribute definiert werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -901,7 +901,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeKey16::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of free key field 16 if more then one option is defined.</Description>
+        <Description Lang="en">The default selection of free key field 16 if more than one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des FreiSchlüsselFeldes 16 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
@@ -910,8 +910,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText16" Required="0" Valid="0">
-        <Description Lang="en">Define the FreeTextField 16 for tickets. It's a new ticket property.</Description>
-        <Description Lang="de">Definition des FreiTextFeldes 16 für Tickets. Es ist eine neue Ticket-Eigenschaft.</Description>
+        <Description Lang="en">Define the FreeTextField 16 for tickets. With this setting you can define a new ticket attribute.</Description>
+        <Description Lang="de">Definition des FreiTextFeldes 16 für Tickets. Hierüber können zusätzliche Ticketattribute definiert werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
         <Setting>
@@ -924,7 +924,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText16::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of FreeTextField 16 if more then one option is defined.</Description>
+        <Description Lang="en">The default selection of FreeTextField 16 if more than one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 16 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
@@ -951,7 +951,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="ArticleFreeKey1" Required="0" Valid="0">
-        <Description Lang="en">Define the free key field 1 for articles. With this setting you can define an new article property.</Description>
+        <Description Lang="en">Define the free key field 1 for articles. With this setting you can define a new article property.</Description>
         <Description Lang="de">Definition des Freien-Schlüssel-Feldes 1 für Artikeln. Damit kann eine neue Artikel-Eigenschaft definiert werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::ArticleFreeText</SubGroup>
@@ -962,7 +962,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="ArticleFreeKey1::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of article FreeTextField 1 if more then one option is defined.</Description>
+        <Description Lang="en">The default selection of article FreeTextField 1 if more than one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 1 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::ArticleFreeText</SubGroup>
@@ -972,7 +972,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="ArticleFreeText1" Required="0" Valid="0">
         <Description Lang="en">Define the FreeTextField 1 for article. It's a new article property.</Description>
-        <Description Lang="de">Definition des FreiTextFeldes 1 für Artikel. Es ist eine neue Artikel-Eigenschaft.</Description>
+        <Description Lang="de">Definition des FreiTextFeldes 1 für Artikel. Hierüber kann einen zusätzliches Artikel-Attribut definiert werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::ArticleFreeText</SubGroup>
         <Setting>
@@ -985,7 +985,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="ArticleFreeText1::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of FreeTextField 1 if more then one option is defined.</Description>
+        <Description Lang="en">The default selection of FreeTextField 1 if more than one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 1 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::ArticleFreeText</SubGroup>
@@ -995,7 +995,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="ArticleFreeKey2" Required="0" Valid="0">
         <Description Lang="en">Define the free key field 2 for articles. It's a new article property.</Description>
-        <Description Lang="de">Definition des Freier-Key-Feldes 2 für Artikel. Es ist eine neue Artikel-Eigenschaft.</Description>
+        <Description Lang="de">Definition des Freier-Key-Feldes 2 für Artikel. Hierüber kann einen zusätzliches Artikel-Attribut definiert werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::ArticleFreeText</SubGroup>
         <Setting>
@@ -1006,7 +1006,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="ArticleFreeKey2::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of free key field 2 if more then one option is defined.</Description>
+        <Description Lang="en">The default selection of free key field 2 if more than one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des FreiSchlüsselFeldes 2 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::ArticleFreeText</SubGroup>
@@ -1016,7 +1016,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="ArticleFreeText2" Required="0" Valid="0">
         <Description Lang="en">Define the FreeTextField 2 for articles. It's a new article poperty.</Description>
-        <Description Lang="de">Definition des FreiTextFeldes 2 für Artikel. Es ist eine neue Artikel-Eigenschaft.</Description>
+        <Description Lang="de">Definition des FreiTextFeldes 2 für Artikel. Hierüber kann einen zusätzliches Artikel-Attribut definiert werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::ArticleFreeText</SubGroup>
         <Setting>
@@ -1029,7 +1029,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="ArticleFreeText2::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of FreeTextField 2 if more then one option is defined.</Description>
+        <Description Lang="en">The default selection of FreeTextField 2 if more than one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 2 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::ArticleFreeText</SubGroup>
@@ -1039,7 +1039,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="ArticleFreeKey3" Required="0" Valid="0">
         <Description Lang="en">Define the free key field 3 for articles. It's a new article property.</Description>
-        <Description Lang="de">Definition des FreiSchlüsselFeldes 3 für Artikel. Es ist eine neue Artikel-Eigenschaft.</Description>
+        <Description Lang="de">Definition des FreiSchlüsselFeldes 3 für Artikel. Hierüber kann einen zusätzliches Artikel-Attribut definiert werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::ArticleFreeText</SubGroup>
         <Setting>
@@ -1050,7 +1050,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="ArticleFreeKey3::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of FreeTextField 3 if more then one option is defined.</Description>
+        <Description Lang="en">The default selection of FreeTextField 3 if more than one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 3 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::ArticleFreeText</SubGroup>
@@ -1060,7 +1060,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="ArticleFreeText3" Required="0" Valid="0">
         <Description Lang="en">Define the FreeTextField 3 for article. It's a new article ticket property.</Description>
-        <Description Lang="de">Definition des FreiTextFeldes 3 für Artikel. Es ist eine neue Artikel-Eigenschaft.</Description>
+        <Description Lang="de">Definition des FreiTextFeldes 3 für Artikel. Hierüber kann einen zusätzliches Artikel-Attribut definiert werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::ArticleFreeText</SubGroup>
         <Setting>
@@ -1073,7 +1073,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="ArticleFreeText3::DefaultSelection" Required="0" Valid="0">
-        <Description Lang="en">The default selection of FreeTextField 3 if more then one option is defined.</Description>
+        <Description Lang="en">The default selection of FreeTextField 3 if more than one option is defined.</Description>
         <Description Lang="de">Die Standard-Auswahl des FreiTextFeldes 3 wenn mehrere Optionen definiert sind.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::ArticleFreeText</SubGroup>
@@ -1570,7 +1570,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::BulkFeature" Required="1" Valid="1">
-        <Description Lang="en">Do you want to activate a agent frontend feature to work on more then one ticket at the same time?</Description>
+        <Description Lang="en">Do you want to activate a agent frontend feature to work on more than one ticket at the same time?</Description>
         <Description Lang="de">Soll eine Agent-Frontend-Funktion aktiviert werden, mit der gleichzeitig mit mehreren Tickets gearbeitet werden kann?</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
