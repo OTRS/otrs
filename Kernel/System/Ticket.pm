@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.208 2006-03-31 14:23:10 martin Exp $
+# $Id: Ticket.pm,v 1.209 2006-05-08 10:51:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.208 $';
+$VERSION = '$Revision: 1.209 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -579,22 +579,11 @@ sub TicketSubjectBuild {
             return;
         }
     }
-############
-##    my $TicketID = $Self->TicketIDLookup(%Param);
-##    my %Ticket = $Self->TicketGet(TicketID => $TicketID);
-############
     $Subject = $Self->TicketSubjectClean(%Param);
     my $TicketHook = $Self->{ConfigObject}->Get('Ticket::Hook');
     my $TicketHookDivider = $Self->{ConfigObject}->Get('Ticket::HookDivider');
     my $TicketSubjectRe = $Self->{ConfigObject}->Get('Ticket::SubjectRe');
-############
-###    $Subject = "$TicketSubjectRe: [$TicketHook$TicketHookDivider$Param{TicketNumber}] " . $Subject;
-##    $Subject = "[$TicketHook$TicketHookDivider$Param{TicketNumber}] " . $Subject;
-##    if ($Ticket{TicketFreeTime1}) {
-##        $Ticket{TicketFreeTime1} =~ s/^(\d\d\d\d-\d\d-\d\d)\s.+?$/$1/;
-##        $Subject = "[$Ticket{TicketFreeTime1}]".$Subject;
-##    }
-############
+    $Subject = "$TicketSubjectRe: [$TicketHook$TicketHookDivider$Param{TicketNumber}] " . $Subject;
     return $Subject;
 }
 
@@ -2786,7 +2775,7 @@ sub LockSet {
 
 to set a ticket state
 
-  $TicketObject->SateSet(
+  $TicketObject->StateSet(
       State => 'open',
       TicketID => 123,
       SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
@@ -4663,6 +4652,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.208 $ $Date: 2006-03-31 14:23:10 $
+$Revision: 1.209 $ $Date: 2006-05-08 10:51:47 $
 
 =cut
