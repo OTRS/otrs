@@ -112,7 +112,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.97 2006-05-08 17:11:35 ck Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.98 2006-05-08 17:17:13 ck Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -1745,7 +1745,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::LDAP::UID" Required="0" Valid="0">
-        <Description Lang="en">If "LDAP" was selected for Customer::Authmodule, specify the UID.</Description>
+        <Description Lang="en">If "LDAP" was selected for Customer::AuthModule, specify the UID.</Description>
         <Description Lang="de">Wenn "LDAP" als Customer::AuthModule ausgewählt wurde, kann hier die UID angegeben werden.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
@@ -1772,7 +1772,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::LDAP::UserAttr" Required="0" Valid="0">
-        <Description Lang="en">If "LDAP" was selected for Customer::AuthMOdule, you can specify user attributes. For LDAP posixGroups objectclass UID, for non ldap posixGroups objectclass full user DN.</Description>
+        <Description Lang="en">If "LDAP" was selected for Customer::AuthModule, you can specify user attributes. For LDAP posixGroups objectclass UID, for non ldap posixGroups objectclass full user DN.</Description>
         <Description Lang="de">Wenn "LDAP" als Customer::AuthModule ausgewählt wurde, können Benutzerattribute spezifiziert werden. Für die ObjectClass PosixGroups aus dem LDAP-Baum UID, für nicht-PostxGroups muss der volle DN angegeben werden.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
@@ -1793,7 +1793,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::LDAP::SearchUserPw" Required="0" Valid="0">
-        <Description Lang="en">If "LDAP" was selected for Customer::AuthMOdule and your users have only anonymous access to the LDAP tree, but you want to search through the data, you can do this with a user who has access to the LDAP directory. Specify the password for this special user here.</Description>
+        <Description Lang="en">If "LDAP" was selected for Customer::AuthModule and your users have only anonymous access to the LDAP tree, but you want to search through the data, you can do this with a user who has access to the LDAP directory. Specify the password for this special user here.</Description>
         <Description Lang="de">Wenn "LDAP" als Customer::AuthModule ausgewählt wurde und die Benutzer nur anonymen Zugriff auf die Daten im LDAP-Baum haben, diese Daten aber trotzdem durchsucht werden sollen, dann kann dies über einen speziellen Benutzer mit Zugriff auf das LDAP-Verzeichnis realisiert werden. Hier kann das Kennwort für diesen speziellen User angegeben werden.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
