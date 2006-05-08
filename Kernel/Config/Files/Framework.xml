@@ -112,7 +112,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.96 2006-05-06 14:36:45 ck Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.97 2006-05-08 17:11:35 ck Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -281,7 +281,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DefaultPreViewLines" Required="1" Valid="1">
-        <Description Lang="en">Count of lines that are displayed in the preview for messages (e.g. for tickets in the QueueView).</Description>
+        <Description Lang="en">Count of lines that are displayed in the preview of messages (e.g. for tickets in the QueueView).</Description>
         <Description Lang="de">Anzahl der Zeilen bei der Vorschau von Textnachrichten (z. B. bei Tickets in der Queue-Ansicht).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
@@ -324,7 +324,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="TimeShowAlwaysLong" Required="1" Valid="1">
         <Description Lang="en">Show time in long (days, hours, minutes) or short (days, hours) format.</Description>
-        <Description Lang="de">Zeitangaben immer im ausführlichen (Tag, Stunden, Minuten) oder im kurzem Format (Tag, Stunden) anzeigen.</Description>
+        <Description Lang="de">Zeitangaben immer im ausführlichen (Tag, Stunden, Minuten) oder im kurzen Format (Tag, Stunden) anzeigen.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time</SubGroup>
         <Setting>
@@ -347,7 +347,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CheckMXRecord" Required="1" Valid="1">
-        <Description Lang="en">Check the MX record of email addresses before sending a mail?</Description>
+        <Description Lang="en">Check the MX record of email addresses before sending an email?</Description>
         <Description Lang="de">Soll der MX-Record von Emailadressen vor dem Versenden überprüft werden?</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -360,7 +360,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="CheckEmailAddresses" Required="1" Valid="1">
         <Description Lang="en">Check the syntax of email addresses?</Description>
-        <Description Lang="de">Sollen Emailadressen auf ihre korrekte Syntax überprüft werden?</Description>
+        <Description Lang="de">Sollen Emailadressen auf korrekte Syntax überprüft werden?</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -371,7 +371,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CheckEmailValidAddress" Required="1" Valid="1">
-        <Description Lang="en">Regex for email addresses, that aren't syntacticaly valid but necesary for the system, e.g. "root@localhost".</Description>
+        <Description Lang="en">Regex for email addresses that aren't syntactically valid but necessary for the system, e.g. "root@localhost".</Description>
         <Description Lang="de">Regulärer Ausdruck für syntaktisch nicht korrekte Mailadressen, die aber trotzdem im System verwendet werden sollen, z. B. "root@localhost".</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -429,7 +429,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="LogModule::LogFile::Date" Required="1" Valid="1">
-        <Description Lang="en">Would you like to add a time stamp as suffix for every log entry?</Description>
+        <Description Lang="en">Would you like to add a timestamp as suffix for every log entry?</Description>
         <Description Lang="de">Soll für jeden Logeintrag das Datum und die aktuelle Zeit mit protokolliert werden?</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Log</SubGroup>
@@ -450,8 +450,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SendmailModule" Required="1" Valid="1">
-        <Description Lang="en">Module to send E-Mails. "Sendmail" directly uses the sendmail binary of your operating system. "SMTP" uses a specified mailserver.</Description>
-        <Description Lang="de">Modul zum Versenden von Emails. "Sendmail" verwendet das sendmail-Binary Ihres Betriebssystems. "SMTP" versendet die Nachrichten über den dafür vorgesehenen Mailserver.</Description>
+        <Description Lang="en">Module to send emails. "Sendmail" directly uses the sendmail binary of your operating system. "SMTP" uses a specified (external) mailserver.</Description>
+        <Description Lang="de">Modul zum Versenden von Emails. "Sendmail" verwendet das sendmail-Binary Ihres Betriebssystems. "SMTP" versendet die Nachrichten über einen externen Mailserver.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
         <Setting>
@@ -459,7 +459,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SendmailModule::CMD" Required="1" Valid="1">
-        <Description Lang="en">If "Sendmail" was selected for SendmailModule, you have to specify the location of your sendmail binary and the needed options.</Description>
+        <Description Lang="en">If "Sendmail" was selected for SendmailModule you have to specify the location of your sendmail binary and the needed options.</Description>
         <Description Lang="de">Wenn "Sendmail" als SendmailModule ausgewählt wurde, müssen Sie dem System den Pfad zu Ihrem sendmail-Binary und die benötigten Optionen mitteilen.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
@@ -468,7 +468,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SendmailModule::Host" Required="1" Valid="1">
-        <Description Lang="en">If "SMTP" was selected for SendmailModule, you have to specify the mailhost, that sends out the mails.</Description>
+        <Description Lang="en">If "SMTP" was selected for SendmailModule you have to specify the mailhost that sends out the mails.</Description>
         <Description Lang="de">Wenn Sie für SendmailModule "SMTP" ausgwählt haben, müssen Sie hier den Mailserver angeben, der zum Versenden von Nachrichten genutzt werden soll.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
@@ -477,8 +477,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SendmailModule::Port" Required="0" Valid="0">
-        <Description Lang="en">If "SMTP" was selected for SendmailModule, specify the port where your mailserver is listening for incoming connections.</Description>
-        <Description Lang="de">Wenn Sie für SendmailModule den Wert "SMTP" ausgewählt haben, können Sie hier den Port angeben, auf dem Ihr Mailserver Mails entgegen nimmt.</Description>
+        <Description Lang="en">If "SMTP" was selected for SendmailModule specify the port where your mailserver is listening for incoming connections.</Description>
+        <Description Lang="de">Wenn Sie für SendmailModule den Wert "SMTP" ausgewählt haben, können Sie hier den Port angeben, auf dem Ihr Mailserver Mails entgegennimmt.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
         <Setting>
@@ -1784,7 +1784,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::LDAP::SearchUserDN" Required="0" Valid="0">
-        <Description Lang="en">If "LDAP" was selected for Customer::AuthModule and your ussers have only anonymous access to the LDAP tree, but you want to search through the data, you can do this with a user who has access to the LDAP directory. Specify the username for this special user here.</Description>
+        <Description Lang="en">If "LDAP" was selected for Customer::AuthModule and your users have only anonymous access to the LDAP tree, but you want to search through the data, you can do this with a user who has access to the LDAP directory. Specify the username for this special user here.</Description>
         <Description Lang="de">Wenn "LDAP" als Customer::AuthModule ausgewählt wurde und die Benutzer nur anonymen Zugriff auf die Daten im LDAP-Baum haben, diese Daten aber trotzdem durchsucht werden sollen, dann kann dies über einen speziellen Benutzer mit Zugriff auf das LDAP-Verzeichnis realisiert werden. Hier kann der Benutzername für diesen speziellen User angegeben werden.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
@@ -1793,7 +1793,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Customer::AuthModule::LDAP::SearchUserPw" Required="0" Valid="0">
-        <Description Lang="en">If "LDAP" was selected for Customer::AuthMOdule and your ussers have only anonymous access to the LDAP tree, but you want to search through the data, you can do this with a user who has access to the LDAP directory. Specify the password for this special user here.</Description>
+        <Description Lang="en">If "LDAP" was selected for Customer::AuthMOdule and your users have only anonymous access to the LDAP tree, but you want to search through the data, you can do this with a user who has access to the LDAP directory. Specify the password for this special user here.</Description>
         <Description Lang="de">Wenn "LDAP" als Customer::AuthModule ausgewählt wurde und die Benutzer nur anonymen Zugriff auf die Daten im LDAP-Baum haben, diese Daten aber trotzdem durchsucht werden sollen, dann kann dies über einen speziellen Benutzer mit Zugriff auf das LDAP-Verzeichnis realisiert werden. Hier kann das Kennwort für diesen speziellen User angegeben werden.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::Auth</SubGroup>
