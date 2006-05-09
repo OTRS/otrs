@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentLookup.pm - a generic lookup module
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentLookup.pm,v 1.6 2005-03-27 11:52:22 martin Exp $
+# $Id: AgentLookup.pm,v 1.7 2006-05-09 14:51:50 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentLookup;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -84,7 +84,11 @@ sub Run {
             DatabaseDSN => $Self->{Map}->{$Param{Source}}->{Params}->{DSN},
             DatabaseUser => $Self->{Map}->{$Param{Source}}->{Params}->{User},
             DatabasePw => $Self->{Map}->{$Param{Source}}->{Params}->{Password},
-        ) || die $DBI::errstr;
+        );
+        if (!$Self->{DBObject}) {
+            $Self->{LayoutObject}->FatalError();
+        }
+
         # remember that we have the DBObject not from parent call
         $Self->{NotParentDBObject} = 1;
     }
@@ -128,7 +132,7 @@ sub Run {
     # start with page ...
     $Output .= $Self->{LayoutObject}->Header(Area => 'Ticket', Title => 'Lookup', Type => 'Small');
     $Output .= $Self->_Mask(
-        List => \%Result,
+        List   => \%Result,
         Search => $Search,
         %Param,
     );
