@@ -112,7 +112,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.98 2006-05-08 17:17:13 ck Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.99 2006-05-12 11:00:26 tr Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -807,8 +807,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeVacationDays" Required="1" Valid="1">
-        <Description Lang="en">Add your permanent vacation days.</Description>
-        <Description Lang="de">Hinterlegen Sie hier Ihre permanenten Freizeit-Tage im System.</Description>
+        <Description Lang="en">Add your permanent vacation days. Use single-digit pattern for months January to September and for days of month lower than ten.</Description>
+        <Description Lang="de">Hinterlegen Sie hier Ihre permanenten Feiertage im System. Benutzen Sie bitte für Januar bis Septemper einstellige Zahlen (1-9), ebenso für Monatstage kleiner zehn.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time</SubGroup>
         <Setting>
@@ -823,8 +823,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TimeVacationDaysOneTime" Required="1" Valid="1">
-        <Description Lang="en">One time vacation days.</Description>
-        <Description Lang="de">Einmalige Feiertage im System hinterlegen.</Description>
+      <Description Lang="en">One time vacation days. Use single-digit pattern for months January to September and for days of month lower than ten.</Description>
+      <Description Lang="de">Einmalige Feiertage im System hinterlegen. Benutzen Sie bitte für Januar bis Septemper einstellige Zahlen (1-9), ebenso für Monatstage kleiner zehn.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time</SubGroup>
         <Setting>

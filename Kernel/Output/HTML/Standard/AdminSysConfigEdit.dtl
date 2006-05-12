@@ -2,7 +2,7 @@
 # AdminSysConfigEdit.dtl - provides HTML form for SysConfig
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfigEdit.dtl,v 1.29 2006-04-27 09:28:05 tr Exp $
+# $Id: AdminSysConfigEdit.dtl,v 1.30 2006-05-12 11:00:26 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -370,11 +370,11 @@
             <td class="contentvalue">
               <table border="0" cellpadding="0" cellspacing="3">
                 <tr>
-                  <td class="contentkey">yyyy</td>
+                  <td class="contentkey">$Text{"year"}</td>
                   <td>&nbsp;</td>
-                  <td class="contentkey">mm</td>
+                  <td class="contentkey">$Text{"month"}</td>
                   <td>&nbsp;</td>
-                  <td class="contentkey">tt</td>
+                  <td class="contentkey">$Text{"day"}</td>
                   <td>&nbsp;</td>
                   <td class="contentkey">$Text{"Text"}</td>
                 </tr>
@@ -416,9 +416,9 @@
             <td class="contentvalue">
               <table border="0" cellpadding="0" cellspacing="3">
                 <tr>
-                  <td class="contentkey">mm</td>
+                  <td class="contentkey">$Text{"month"}</td>
                   <td>&nbsp;</td>
-                  <td class="contentkey">tt</td>
+                  <td class="contentkey">$Text{"day"}</td>
                   <td>&nbsp;</td>
                   <td class="contentkey">$Text{"Text"}</td>
                 </tr>
