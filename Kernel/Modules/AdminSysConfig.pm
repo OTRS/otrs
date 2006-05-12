@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfig.pm,v 1.38.2.3 2006-04-27 09:31:42 tr Exp $
+# $Id: AdminSysConfig.pm,v 1.38.2.4 2006-05-12 11:05:35 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.38.2.3 $';
+$VERSION = '$Revision: 1.38.2.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -332,7 +332,7 @@ sub Run {
                 foreach my $Index (0...$#Year) {
                     # Delete TimeVacationDaysOneTime Element?
                     if (!$Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#DeleteTimeVacationDaysOneTimeElement'.($Index+1))) {
-                        $Content{$Year[$Index]}{$Month[$Index]}{$Day[$Index]} = $Values[$Index];
+                        $Content{$Year[$Index]}{int($Month[$Index])}{int($Day[$Index])} = $Values[$Index];
                     }
                     else {
                         $Anker = $ItemHash{Name};
@@ -360,7 +360,7 @@ sub Run {
                 foreach my $Index (0...$#Month) {
                     # Delete TimeVacationDays Element?
                     if (!$Self->{ParamObject}->GetParam(Param => $ItemHash{Name}.'#DeleteTimeVacationDaysElement'.($Index+1))) {
-                        $Content{$Month[$Index]}{$Day[$Index]} = $Values[$Index];
+                        $Content{int($Month[$Index])}{int($Day[$Index])} = $Values[$Index];
                     }
                     else {
                         $Anker = $ItemHash{Name};
