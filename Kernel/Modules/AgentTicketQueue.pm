@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketQueue.pm,v 1.13 2006-03-28 01:11:49 martin Exp $
+# $Id: AgentTicketQueue.pm,v 1.14 2006-05-15 16:13:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -659,6 +659,9 @@ sub _MaskQueueView {
             if ($#QueueName == 2 && $#MetaQueue >= 2 && $Queue{Queue} =~ /^$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]$/) {
                $QueueStrg .= '<b>';
             }
+            if ($#QueueName == 3 && $#MetaQueue >= 3 && $Queue{Queue} =~ /^$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]::$MetaQueue[3]$/) {
+               $QueueStrg .= '<b>';
+            }
         }
         # --
         # remember to selected queue info
@@ -729,6 +732,9 @@ sub _MaskQueueView {
             if ($#QueueName == 2 && $#MetaQueue >= 2 && $Queue{Queue} =~ /^$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]$/) {
                $QueueStrg .= '</b>';
             }
+            if ($#QueueName == 3 && $#MetaQueue >= 3 && $Queue{Queue} =~ /^$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]::$MetaQueue[3]$/) {
+               $QueueStrg .= '</b>';
+            }
         }
 
         if ($#QueueName == 0) {
@@ -749,12 +755,17 @@ sub _MaskQueueView {
             }
             $Param{QueueStrg2} .= $QueueStrg;
         }
+        elsif ($#QueueName == 3 && $Level >= 4 && $Queue{Queue} =~ /^$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]::/) {
+            if ($Param{QueueStrg3}) {
+                $QueueStrg = ' - '.$QueueStrg;
+            }
+            $Param{QueueStrg3} .= $QueueStrg;
+        }
     }
-    if ($Param{QueueStrg1}) {
-        $Param{QueueStrg} .= '<br>'.$Param{QueueStrg1};
-    }
-    if ($Param{QueueStrg2}) {
-        $Param{QueueStrg} .= '<br>'.$Param{QueueStrg2};
+    foreach (1..5) {
+        if ($Param{'QueueStrg'.$_}) {
+            $Param{'QueueStrg'} .= '<br>'.$Param{'QueueStrg'.$_};
+        }
     }
     $Self->{LayoutObject}->Block(
         Name => 'QueueNav',
