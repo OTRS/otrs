@@ -2,7 +2,7 @@
 # AdminSalutationForm.dtl - provides HTML form for AdminSalutation
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSalutationForm.dtl,v 1.18.2.2 2006-03-24 15:13:43 cs Exp $
+# $Id: AdminSalutationForm.dtl,v 1.18.2.3 2006-05-16 13:50:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -73,7 +73,7 @@
                   </tr>
                   <tr>
                     <td class="contentkey">$Text{"Salutation"}: </td>
-                    <td class="contentvalue"> <textarea rows="10" cols="60" name="Salutation">$QData{"Salutation"}</textarea></td>
+                    <td class="contentvalue"> <textarea rows="10" cols="72" name="Salutation">$QData{"Salutation"}</textarea></td>
                   </tr>
                   <tr>
                     <td class="contentkey">$Text{"Valid"}: </td>
