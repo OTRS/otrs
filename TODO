@@ -2,7 +2,7 @@
 # TODO - todo list OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TODO,v 1.96 2006-04-28 08:40:03 tr Exp $
+# $Id: TODO,v 1.97 2006-05-17 08:05:55 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -125,7 +125,8 @@ ideas (just ideas - nobody is working on it)
 - ConfigOption for use other separators for e.g. comma, semicolon, colon and tabulator in the function OutputCSV
 - include a check function to CustomerUserAdd and CustomerUserUpdate
   if the values a valid. A Extension of $CustomerUser->{map} with regexp
-  can be the solution
+  can be the solution. Also a extension of $CustomerUser-{map} for a description
+  can be useful
 - Insert new attributs in the sysconfig to generate drop down menues for
   queue, status and group settings
   e.g. <String elements="Queue">Advisory</String>
