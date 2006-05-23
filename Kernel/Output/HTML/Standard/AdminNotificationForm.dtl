@@ -2,7 +2,7 @@
 # AdminNotificationForm.dtl - provides HTML form for AdminNotification
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminNotificationForm.dtl,v 1.12 2006-01-20 11:41:53 tr Exp $
+# $Id: AdminNotificationForm.dtl,v 1.13 2006-05-23 17:27:31 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -42,7 +42,7 @@
 # --
 # check subaction
 # --
-<dtl if ($Env{"Subaction"} eq "Change") { $Data{"Botton"} = "<input class="button" type="submit" value="$Text{"Update"}">"; }>
+      <dtl if ($Env{"Subaction"} eq "Change") { $Data{"Botton"} = "<input class="button" type="submit" value="$Text{"Update"}">"; }>
 # --
       <form action="$Env{"CGIHandle"}" method="post">
         <input type="hidden" name="Action"    value="$Env{"Action"}">
@@ -119,25 +119,25 @@
           </tr>
           <tr>
             <td class="contentkey">&lt;OTRS_TICKET_*&gt;</td>
-            <td class="contentvalue">$Text{"Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)"}</td>
+            <td class="contentvalue">$Text{"Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)"}</td>
           </tr>
         </table>
       </p>
       <p>
         $Text{"Example"}:
         <pre>
-Hi &lt;OTRS_CURRENT_USERFIRSTNAME&gt;,
+          Hi &lt;OTRS_CURRENT_USERFIRSTNAME&gt;,
 
-there is a new ticket in "&lt;OTRS_QUEUE&gt;"!
+          there is a new ticket in "&lt;OTRS_QUEUE&gt;"!
 
-&lt;OTRS_CUSTOMER_FROM&gt; wrote:
-&lt;snip&gt;
-&lt;OTRS_CUSTOMER_EMAIL[16]&gt;
-&lt;snip&gt;
+          &lt;OTRS_CUSTOMER_FROM&gt; wrote:
+          &lt;snip&gt;
+          &lt;OTRS_CUSTOMER_EMAIL[16]&gt;
+          &lt;snip&gt;
 
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom&TicketID=&lt;OTRS_TICKET_ID&gt;
+          &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom&TicketID=&lt;OTRS_TICKET_ID&gt;
 
-Your OTRS Notification Master
+          Your OTRS Notification Master
         </pre>
       </p>
     </td>
