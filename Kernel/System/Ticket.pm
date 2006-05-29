@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.209 2006-05-08 10:51:47 martin Exp $
+# $Id: Ticket.pm,v 1.210 2006-05-29 11:35:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.209 $';
+$VERSION = '$Revision: 1.210 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -1332,7 +1332,7 @@ sub TicketFreeTextGet {
     # check existing
     if ($Param{FillUp}) {
         my $Counter = $Param{Type};
-        $Counter =~ s/^.*(\d)$/$1/;
+        $Counter =~ s/^.+?(\d+?)$/$1/;
         if (%Data && $Param{Type} =~ /text/i) {
             $Self->{DBObject}->Prepare(SQL => "SELECT distinct(freetext$Counter) FROM ticket");
             while (my @Row = $Self->{DBObject}->FetchrowArray()) {
@@ -4652,6 +4652,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.209 $ $Date: 2006-05-08 10:51:47 $
+$Revision: 1.210 $ $Date: 2006-05-29 11:35:37 $
 
 =cut
