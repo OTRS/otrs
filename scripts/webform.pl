@@ -2,20 +2,20 @@
 # --
 # webform.pl - a simple web form script to generate email with
 # X-OTRS-Queue header for an OTRS system (x-headers for dispatching!).
-# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: webform.pl,v 1.3 2003-02-08 15:11:52 martin Exp $
+# $Id: webform.pl,v 1.4 2006-06-02 12:01:15 cs Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -27,13 +27,13 @@ use CGI::Carp qw(fatalsToBrowser);
 # Simple Common Gateway Interface Class
 use CGI;
 
-my $VERSION = '$Revision: 1.3 $';
+my $VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 
 # --
 # web form options
-# -- 
+# --
 my $Ident = 'ahfiw2Fw32r230dddl2foeo3r';
 # sendmail location and options
 my $Sendmail = '/usr/sbin/sendmail -t -i -f ';
@@ -82,10 +82,10 @@ EOF
     return $Output;
 }
 # --
-# Thanks      
+# Thanks
 # --
 sub Thanks {
-    my %Param = @_;    
+    my %Param = @_;
     (my $Output = <<EOF);
 Thanks <b>$Param{From}</b>! Your request is forwarded to us. <br>
 We will answer ASAP.<br>
@@ -93,10 +93,10 @@ EOF
     return $Output;
 }
 # --
-# error       
+# error
 # --
 sub Error {
-    my %Param = @_;    
+    my %Param = @_;
     (my $Output = <<EOF);
 <font color="red">$Param{Message}</font><br>
 EOF
@@ -111,7 +111,7 @@ my %GetParam = ();
 foreach (qw(Action From FromEmail Subject Topic Body)) {
     $GetParam{$_} = $CGI->param($_) || '';
 }
-# what should I do? 
+# what should I do?
 if ($GetParam{Action} eq 'SendMail') {
     SendMail(%GetParam);
 }
@@ -123,7 +123,7 @@ else {
 # web form
 # --
 sub WebForm {
-    print Header(Title => 'Submit Request');    
+    print Header(Title => 'Submit Request');
 print '
     <form action="webform.pl" method="post">
     <input type="hidden" name="Action" value="SendMail">
@@ -186,9 +186,22 @@ sub SendMail {
     # --
     # simple email check
     # ---
-    if ($Param{FromEmail} !~ /.+?\@.+?\..+?/) {
+    my $Nonascii      = "\x80-\xff"; # Non-ASCII-Chars are not allowed
+    my $Nqtext        = "[^\\\\$Nonascii\015\012\"]";
+    my $Qchar         = "\\\\[^$Nonascii]";
+    my $Protocol      = '(?:mailto:)';
+    my $Normuser      = '[a-zA-Z0-9][a-zA-Z0-9_.-]*';
+    my $Quotedstring  = "\"(?:$Nqtext|$Qchar)+\"";
+    my $User_part     = "(?:$Normuser|$Quotedstring)";
+    my $Dom_mainpart  = '[a-zA-Z0-9][a-zA-Z0-9._-]*\\.';
+    my $Dom_subpart   = '(?:[a-zA-Z0-9][a-zA-Z0-9._-]*\\.)*';
+    my $Dom_tldpart   = '[a-zA-Z]{2,5}';
+    my $Domain_part   = "$Dom_subpart$Dom_mainpart$Dom_tldpart";
+    my $Regex         = "$Protocol?$User_part\@$Domain_part";
+
+    if ($Param{FromEmail} !~ /^$Regex$/) {
         $Output = Header(Title => 'Error!');
-        $Output .= Error(Message => "Your email '$Param{FromEmail}' is invalid!"); 
+        $Output .= Error(Message => "Your email '$Param{FromEmail}' is invalid!");
         $Output .= Footer();
         print $Output;
         return;
@@ -222,9 +235,9 @@ sub SendMail {
         # --
         $Output = Header(Title => 'Thanks!');
         $Output .= Thanks(%Param);
-        $Output .= Footer(); 
+        $Output .= Footer();
         print $Output;
-    } 
+    }
     else {
         # error
         $Output = Header(Title => 'Error!');
