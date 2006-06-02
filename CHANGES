@@ -2,13 +2,15 @@
 # CHANGES - change log  of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.209.2.43 2006-04-27 09:31:43 tr Exp $
+# $Id: CHANGES,v 1.209.2.44 2006-06-02 11:57:32 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.0.5 (2006/??/??)
+ - (2006/06/02) fixed bug 1023 - Comma in From field creates multiple emails
+   in webform.pl
  - (2006/04/27) fixed IE problem with image-buttons
    involed files: AdminSysConfigEdit.dtl and AdminSysConfig.pm
  - (2006/04/26) fixed format bug in Package Manager - PackageView
