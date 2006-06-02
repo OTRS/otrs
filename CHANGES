@@ -2,13 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.250 2006-05-29 11:35:57 mh Exp $
+# $Id: CHANGES,v 1.251 2006-06-02 12:02:44 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS head
+ - (2006/06/02) fixed bug 1023 - Comma in From field creates multiple emails
+   in webform.pl
  - (2006/05/29) fixed problem with freetext fields (>10)
    involed files: Ticket.pm
  - (2006/04/27) fixed IE problem with image-buttons
