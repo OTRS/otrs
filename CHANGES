@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.251 2006-06-02 12:02:44 cs Exp $
+# $Id: CHANGES,v 1.252 2006-06-02 12:05:09 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -85,6 +85,7 @@ CVS head
     Kernel/Config/Files/Ticket.xml for Ticket::Frontend::MenuModule
  - (2005/12/21) added column type check in xml database defination
  - (2005/12/20) added unit test system
+    in webform.pl
  - (2005/12/17) improved admin view of session management
  - (2005/12/04) moved FAQ from framework to own application module
     (can be installed over opm online repository now)
@@ -95,6 +96,7 @@ CVS head
     $Self->{PreApplicationModule}->{AgentInfo} = 'Kernel::Modules::AgentInfo';
 
 2.0.5 (2006/??/??)
+fixed bug 1023 - Comma in From field creates multiple emails
  - (2006/03/24) added SUSE 10.x RPM support
  - (2006/03/24) fixed bug# 925 - Binary Attachments incorrectly utf-8
     encoded in ticket replies
