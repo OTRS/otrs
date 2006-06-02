@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: XML.pm,v 1.29 2006-04-06 15:06:46 martin Exp $
+# $Id: XML.pm,v 1.30 2006-06-02 12:20:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Encode;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -379,6 +379,7 @@ sub _ElementBuild {
                 $Param{$_} =~ s/&/&amp;/g;
                 $Param{$_} =~ s/</&lt;/g;
                 $Param{$_} =~ s/>/&gt;/g;
+                $Param{$_} =~ s/"/&quot;/g;
             }
             $Output .= " $_=\"$Param{$_}\"";
         }
@@ -877,6 +878,7 @@ sub _Decode{
             $A->{$_} =~ s/&amp;/&/g;
             $A->{$_} =~ s/&lt;/</g;
             $A->{$_} =~ s/&gt;/>/g;
+            $A->{$_} =~ s/&quot;/"/g;
             # convert into default charset
             $A->{$_} = $Self->{EncodeObject}->Convert(
                 Text => $A->{$_},
@@ -968,6 +970,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.29 $ $Date: 2006-04-06 15:06:46 $
+$Revision: 1.30 $ $Date: 2006-06-02 12:20:06 $
 
 =cut
