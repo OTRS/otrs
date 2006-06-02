@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.pm,v 1.43 2006-01-30 01:27:41 martin Exp $
+# $Id: Package.pm,v 1.44 2006-06-02 12:11:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.43 $';
+$VERSION = '$Revision: 1.44 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1165,10 +1165,10 @@ sub PackageBuild {
             }
             $XML .= "  <$Tag";
             foreach (sort keys %{$Param{$Tag}}) {
-                $XML .= " $_=\"$Param{$Tag}->{$_}\"";
+                $XML .= " $_=\"".$Self->_Encode($Param{$Tag}->{$_})."\"";
             }
             $XML .= ">";
-            $XML .= "$OldParam{Content}</$Tag>\n";
+            $XML .= $Self->_Encode($OldParam{Content})."</$Tag>\n";
         }
         elsif (ref($Param{$Tag}) eq 'ARRAY') {
           foreach (@{$Param{$Tag}}) {
@@ -1180,10 +1180,10 @@ sub PackageBuild {
             }
             $XML .= "  <$Tag";
             foreach (keys %Hash) {
-                $XML .= " $_=\"$Hash{$_}\"";
+                $XML .= " $_=\"".$Self->_Encode($Hash{$_})."\"";
             }
             $XML .= ">";
-            $XML .= "$OldParam{Content}</$Tag>\n";
+            $XML .= $Self->_Encode($OldParam{Content})."</$Tag>\n";
           }
         }
         else {
@@ -1212,7 +1212,7 @@ sub PackageBuild {
             $XML .= "    <File";
             foreach (sort keys %{$File}) {
                 if ($_ ne 'Tag' && $_ ne 'Content' && $_ ne 'TagType' && $_ ne 'Size') {
-                    $XML .= " $_=\"$File->{$_}\"";
+                    $XML .= " ".$Self->_Encode($_)."=\"".$Self->_Encode($File->{$_})."\"";
                 }
             }
             $XML .= " Encode=\"Base64\">";
@@ -1248,7 +1248,7 @@ sub PackageBuild {
                     foreach (sort keys %{$Tag}) {
                         if ($_ ne 'Tag' && $_ ne 'Content' && $_ ne 'TagType' && $_ ne 'TagLevel' && $_ ne 'TagCount' && $_ ne 'TagKey' && $_ ne 'TagLastLevel') {
                             if (defined($Tag->{$_})) {
-                                $XML .= " $_=\"$Tag->{$_}\"";
+                                $XML .= " ".$Self->_Encode($_)."=\"".$Self->_Encode($Tag->{$_})."\"";
                             }
                         }
                     }
@@ -1524,6 +1524,14 @@ sub _FileSystemCheck {
     }
     return 1;
 }
+sub _Encode {
+    my $Self = shift;
+    my $Text = shift;
+    $Text =~ s/&/&amp;/g;
+    $Text =~ s/</&lt;/g;
+    $Text =~ s/>/&gt;/g;
+    return $Text;
+}
 1;
 
 =head1 TERMS AND CONDITIONS
@@ -1538,6 +1546,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.43 $ $Date: 2006-01-30 01:27:41 $
+$Revision: 1.44 $ $Date: 2006-06-02 12:11:53 $
 
 =cut
