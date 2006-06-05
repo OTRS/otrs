@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/FollowUp.pm - the sub part of PostMaster.pm
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: FollowUp.pm,v 1.43 2006-03-22 07:22:51 martin Exp $
+# $Id: FollowUp.pm,v 1.44 2006-06-05 14:13:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::User;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.43 $';
+$VERSION = '$Revision: 1.44 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -65,7 +65,7 @@ sub Run {
 
     # Check if owner of ticket is still valid
     my %UserInfo = $Self->{UserObject}->GetUserData(
-        UserID => $Ticket{UserID},
+        UserID => $Ticket{OwnerID},
     );
     # check data
     if ($UserInfo{ValidID} eq 1) {
