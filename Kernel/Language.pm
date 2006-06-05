@@ -2,7 +2,7 @@
 # Kernel/Language.pm - provides multi language support
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Language.pm,v 1.38 2006-04-06 13:19:08 martin Exp $
+# $Id: Language.pm,v 1.39 2006-06-05 15:44:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.39 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -86,6 +86,7 @@ sub new {
     $Self->{Debug} = 0;
     # user language
     $Self->{UserLanguage} = $Param{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage') || 'en';
+    $Self->{TimeZone} = $Param{UserTimeZone} || $Param{TimeZone} || 0;
 #    $Self->{UserLanguage} = 'english';
     # Debug
     if ($Self->{Debug} > 0) {
@@ -267,6 +268,18 @@ sub FormatTimeString {
     my $ReturnString = $Self->{$Config} || "$Config needs to be translated!";
     if ($String =~ /(\d\d\d\d)-(\d\d)-(\d\d)\s(\d\d:\d\d:\d\d)/) {
         my ($Y,$M,$D, $T) = ($1, $2, $3, $4);
+        # add user time zone diff
+        if ($Self->{TimeZone}) {
+            my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime(
+                String => "$Y-$M-$D $T",
+            );
+            $TimeStamp = $TimeStamp + ($Self->{TimeZone}*60*60);
+            my ($Sec, $Min, $Hour, $Day, $Month, $Year) = $Self->{TimeObject}->SystemTime2Date(
+                SystemTime => $TimeStamp,
+            );
+            ($Y,$M,$D, $T) = ($Year, $Month, $Day, "$Hour:$Min:$Sec");
+        }
+
         if ($Short) {
             $T =~ s/(\d\d:\d\d):\d\d/$1/g;
         }
@@ -274,7 +287,12 @@ sub FormatTimeString {
         $ReturnString =~ s/\%D/$D/g;
         $ReturnString =~ s/\%M/$M/g;
         $ReturnString =~ s/\%Y/$Y/g;
-        return $ReturnString;
+        if ($Self->{TimeZone}) {
+            return $ReturnString ." ($Self->{TimeZone})";
+        }
+        else {
+            return $ReturnString;
+        }
     }
     elsif ($String =~ /^(\d\d:\d\d:\d\d)$/) {
         return $String;
@@ -457,6 +475,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.38 $ $Date: 2006-04-06 13:19:08 $
+$Revision: 1.39 $ $Date: 2006-06-05 15:44:20 $
 
 =cut

@@ -112,7 +112,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.99 2006-05-12 11:00:26 tr Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.100 2006-06-05 15:44:19 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -806,6 +806,18 @@ TimeWorkingHours
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="TimeZoneUser" Required="0" Valid="0">
+        <Description Lang="en">Set the user time zone per user (required a system with GMT as system time and GMT under TimeZone). Otherwise this is a diff time to the local time.</Description>
+        <Description Lang="de">Einstellen der Zeitzone pro Benutzer (Voraussetzung ist die GMT unter der Option TimeZone). Standardmäßig wird die lokale Systemzeit verwendet, (+ / - 0).</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="TimeVacationDays" Required="1" Valid="1">
         <Description Lang="en">Add your permanent vacation days. Use single-digit pattern for months January to September and for days of month lower than ten.</Description>
         <Description Lang="de">Hinterlegen Sie hier Ihre permanenten Feiertage im System. Benutzen Sie bitte für Januar bis Septemper einstellige Zahlen (1-9), ebenso für Monatstage kleiner zehn.</Description>
@@ -1468,6 +1480,23 @@ Your OTRS Notification Master
                 <Item Key="Desc">Select your frontend Theme.</Item>
                 <Item Key="PrefKey">UserTheme</Item>
                 <Item Key="Prio">2000</Item>
+                <Item Key="Activ">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PreferencesGroups###TimeZone" Required="0" Valid="1">
+        <Description Lang="en">Parameters for the Time-Zone object in the preference view.</Description>
+        <Description Lang="de">Parameter des Time-Zonen-Objekts in der Ansicht für die Einstellungen.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::Preferences</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::PreferencesTimeZone</Item>
+                <Item Key="Colum">Frontend</Item>
+                <Item Key="Label">Time-Zone</Item>
+                <Item Key="Desc">Select your Time-Zone.</Item>
+                <Item Key="PrefKey">UserTimeZone</Item>
+                <Item Key="Prio">3000</Item>
                 <Item Key="Activ">1</Item>
             </Hash>
         </Setting>

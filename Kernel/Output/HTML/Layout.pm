@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Layout.pm,v 1.4 2006-04-06 13:19:08 martin Exp $
+# $Id: Layout.pm,v 1.5 2006-06-05 15:44:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -60,6 +60,12 @@ sub new {
     if (!$Self->{UserTheme}) {
         $Self->{UserTheme} = $Self->{ConfigObject}->Get('DefaultTheme');
     }
+    if ($Self->{UserTimeZone}) {
+        $Self->{UserTimeObject} = Kernel::System::Time->new(%Param);
+    }
+    else {
+        $Self->{UserTimeObject} = $Self->{TimeObject};
+    }
     # get use language (from browser) if no language is there!
     if (!$Self->{UserLanguage}) {
         my $BrowserLang = $Self->{Lang} || $ENV{HTTP_ACCEPT_LANGUAGE} || '';
@@ -72,6 +78,7 @@ sub new {
     }
     # create language object
     $Self->{LanguageObject} = Kernel::Language->new(
+        UserTimeZone => $Self->{UserTimeZone},
         UserLanguage => $Self->{UserLanguage},
         LogObject => $Self->{LogObject},
         ConfigObject => $Self->{ConfigObject},
@@ -1300,6 +1307,26 @@ sub Ascii2Html {
     my $NewLine = $Param{NewLine} || '';
     my $HTMLMode = $Param{HTMLResultMode} || '';
     my $StripEmptyLines = $Param{StripEmptyLines} || '';
+
+    my $LinkList = '';
+    if ($Param{LinkFeature}) {
+        my $Counter = 0;
+        $Text =~ s{
+            (https|http|ftp|www)((:\/\/|\.).*?)(\.\s|\s|\)|\"|&quot;|&nbsp;|]|'|>|<|&gt;|&lt;)
+        }
+        {
+            my $Link = $1.$2;
+            my $OrigText = $1.$2;
+            my $OrigTextEnd = $4;
+            my $LinkSmall = $Link;
+            $LinkSmall =~ s/^(.{80}).*$/$1\[\.\.\]/gs;
+            $Link =~ s/ //g;
+            $Counter++;
+            $LinkList .= "[$Counter] <a href=\"$Link\" target=\"_blank\">$LinkSmall</a>\n";
+            "[$Counter]";
+        }egxi;
+    }
+
     # max width
     if ($Max) {
         $Text =~ s/^(.{$Max}).*$/$1\[\.\.\]/gs;
@@ -1335,6 +1362,9 @@ sub Ascii2Html {
     $Text =~ s/"/&quot;/g;
 #    $Text =~ s/'/&apos;/g;
     # text -> html format quoting
+    if ($Param{LinkFeature} && $LinkList) {
+        $Text .= "<br>Links:\n".$LinkList;
+    }
     if ($HTMLMode) {
         $Text =~ s/\n/<br>\n/g;
         $Text =~ s/  /&nbsp;&nbsp;/g;
@@ -2114,6 +2144,24 @@ sub WindowTabStop {
     return $Output;
 }
 
+sub TransfromDateSelection {
+    my $Self = shift;
+    my %Param = @_;
+    my $DateInputStyle = $Self->{ConfigObject}->Get('TimeInputFormat');
+    my $Prefix = $Param{'Prefix'} || '';
+    my $Format = defined($Param{Format}) ? $Param{Format} : 'DateInputFormatLong';
+    if ($Self->{TimeZone}) {
+        my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime(
+             String => $Param{$Prefix."Year"}."-".$Param{$Prefix."Month"}."-".$Param{$Prefix."Day"}." ".$Param{$Prefix."Hour"}.":".$Param{$Prefix."Minute"}.":00",
+        );
+        $TimeStamp = $TimeStamp + ($Self->{TimeZone}*60*60);
+        ($Param{$Prefix."Secunde"}, $Param{$Prefix."Minute"}, $Param{$Prefix."Hour"}, $Param{$Prefix."Day"}, $Param{$Prefix."Month"}, $Param{$Prefix."Year"}) = $Self->{UserTimeObject}->SystemTime2Date(
+            SystemTime => $Self->{UserTimeObject}->SystemTime() - ($Self->{TimeZone} * 60 * 60),
+        );
+    }
+    return %Param;
+}
+
 sub BuildDateSelection {
     my $Self = shift;
     my %Param = @_;
@@ -2122,8 +2170,8 @@ sub BuildDateSelection {
     my $DiffTime = $Param{'DiffTime'} || 0;
     my $Format = defined($Param{Format}) ? $Param{Format} : 'DateInputFormatLong';
     my $Area = $Param{Area} || 'Agent';
-    my ($s,$m,$h, $D,$M,$Y) = $Self->{TimeObject}->SystemTime2Date(
-        SystemTime => $Self->{TimeObject}->SystemTime() + $DiffTime,
+    my ($s,$m,$h, $D,$M,$Y) = $Self->{UserTimeObject}->SystemTime2Date(
+        SystemTime => $Self->{UserTimeObject}->SystemTime() + $DiffTime,
     );
     # year
     if ($DateInputStyle eq 'Option') {
@@ -2469,6 +2517,7 @@ sub CustomerNavigationBar {
                     LogObject => $Self->{LogObject},
                     DBObject => $Self->{DBObject},
                     TimeObject => $Self->{TimeObject},
+                    UserTimeObject => $Self->{UserTimeObject},
                     LayoutObject => $Self,
                     UserID => $Self->{UserID},
                     Debug => $Self->{Debug},
@@ -2577,6 +2626,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2006-04-06 13:19:08 $
+$Revision: 1.5 $ $Date: 2006-06-05 15:44:20 $
 
 =cut
