@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPackageManager.pm,v 1.28 2006-04-26 11:35:50 tr Exp $
+# $Id: AdminPackageManager.pm,v 1.29 2006-06-07 21:24:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Package;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -336,8 +336,8 @@ sub Run {
         if (!$Deployed) {
             $Output .= $Self->{LayoutObject}->Notify(
                 Priority => 'Error',
-                Data => "$Name $Version".' - $Text{"Package not correctly deployed, you need to deploy it again!"}',
-                Link => '$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Reinstall&Name='.$Name.'&Version='.$Version,
+                Data => "$Name $Version".' - $Text{"Package not correctly deployed, you need to deploy it again! You should reinstall the Package again!"}',
+                Link => '$Env{"Baselink"}Action=$Env{"Action"}&Subaction=View&Name='.$Name.'&Version='.$Version,
             );
         }
         $Output .= $Self->{LayoutObject}->Output(
@@ -635,6 +635,39 @@ sub Run {
             return $Self->{LayoutObject}->ErrorScreen(Message => 'No such package!');
         }
         else {
+            $Self->{LayoutObject}->Block(
+                Name => 'Reinstall',
+                Data => {
+                    %Param,
+                    Name => $Name,
+                    Version => $Version,
+                },
+            );
+            my $Output = $Self->{LayoutObject}->Header();
+            $Output .= $Self->{LayoutObject}->NavigationBar();
+            $Output .= $Self->{LayoutObject}->Output(
+                TemplateFile => 'AdminPackageManager',
+                Data => \%Param,
+            );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
+        }
+    }
+    # ------------------------------------------------------------ #
+    # reinstall action package
+    # ------------------------------------------------------------ #
+    elsif ($Self->{Subaction} eq 'ReinstallAction') {
+        my $Name = $Self->{ParamObject}->GetParam(Param => 'Name') || '';
+        my $Version = $Self->{ParamObject}->GetParam(Param => 'Version') || '';
+        my %Frontend = ();
+        my $Package = $Self->{PackageObject}->RepositoryGet(
+            Name => $Name,
+            Version => $Version,
+        );
+        if (!$Package) {
+            return $Self->{LayoutObject}->ErrorScreen(Message => 'No such package!');
+        }
+        else {
             if ($Self->{PackageObject}->PackageReinstall(String => $Package)) {
                 return $Self->{LayoutObject}->Redirect(OP => "Action=$Self->{Action}");
             }
@@ -865,8 +898,8 @@ sub Run {
         foreach (sort keys %NeedReinstall) {
             $Output .= $Self->{LayoutObject}->Notify(
                 Priority => 'Error',
-                Data => "$_ $NeedReinstall{$_}".' - $Text{"Package not correctly deployed, you need to deploy it again!"}',
-                Link => '$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Reinstall&Name='.$_.'&Version='.$NeedReinstall{$_},
+                Data => "$_ $NeedReinstall{$_}".' - $Text{"Package not correctly deployed, you need to deploy it again! You should reinstall the Package again!"}',
+                Link => '$Env{"Baselink"}Action=$Env{"Action"}&Subaction=View&Name='.$_.'&Version='.$NeedReinstall{$_},
             );
         }
         $Output .= $Self->{LayoutObject}->Output(

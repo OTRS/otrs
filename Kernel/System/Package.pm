@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.pm,v 1.45 2006-06-02 12:19:45 martin Exp $
+# $Id: Package.pm,v 1.46 2006-06-07 21:24:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.45 $';
+$VERSION = '$Revision: 1.46 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -424,15 +424,15 @@ sub PackageInstall {
     # check if package is already installed
     foreach my $Package ($Self->RepositoryList()) {
         if ($Structur{Name}->{Content} eq $Package->{Name}->{Content}) {
-          if ($Package->{Status} =~ /^installed$/i) {
-            if (!$Param{Force}) {
-                $Self->{LogObject}->Log(
-                    Priority => 'notice',
-                    Message => "Package already installed, try upgrade!",
-                );
-                return $Self->PackageUpgrade(%Param);
+            if ($Package->{Status} =~ /^installed$/i) {
+                if (!$Param{Force}) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'notice',
+                        Message => "Package already installed, try upgrade!",
+                    );
+                    return $Self->PackageUpgrade(%Param);
+                }
             }
-          }
         }
     }
     # check OS
@@ -487,6 +487,24 @@ sub PackageInstall {
             Message => "File conflict, can't install package!",
         );
         return;
+    }
+    # check if one of this files is already intalled by an other package
+    foreach my $Package ($Self->RepositoryList()) {
+        if ($Structur{Name}->{Content} ne $Package->{Name}->{Content}) {
+            foreach my $FileNew (@{$Structur{Filelist}}) {
+                foreach my $FileOld (@{$Package->{Filelist}}) {
+                    if ($FileNew eq $FileOld) {
+                        if (!$Param{Force}) {
+                            $Self->{LogObject}->Log(
+                                Priority => 'notice',
+                                Message => "Can't install package, file $FileNew already used in package $Package->{Name}->{Content}-$Package->{Name}->{Version}!",
+                            );
+                            return;
+                        }
+                    }
+                }
+            }
+        }
     }
     # add package
     if ($Self->RepositoryAdd(String => $Param{String})) {
@@ -678,6 +696,24 @@ sub PackageUpgrade {
         if ($Structur{PackageRequired} && ref($Structur{PackageRequired}) eq 'ARRAY') {
             if (!$Self->_CheckRequired(%Param, PackageRequired => $Structur{PackageRequired}) && !$Param{Force}) {
                 return;
+            }
+        }
+        # check if one of this files is already intalled by an other package
+        foreach my $Package ($Self->RepositoryList()) {
+            if ($Structur{Name}->{Content} ne $Package->{Name}->{Content}) {
+                foreach my $FileNew (@{$Structur{Filelist}}) {
+                    foreach my $FileOld (@{$Package->{Filelist}}) {
+                        if ($FileNew eq $FileOld) {
+                            if (!$Param{Force}) {
+                                $Self->{LogObject}->Log(
+                                    Priority => 'notice',
+                                    Message => "Can't upgrade package, file $FileNew already used in package $Package->{Name}->{Content}-$Package->{Name}->{Version}!",
+                                );
+                                return;
+                            }
+                        }
+                    }
+                }
             }
         }
         # update package status
@@ -1547,6 +1583,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.45 $ $Date: 2006-06-02 12:19:45 $
+$Revision: 1.46 $ $Date: 2006-06-07 21:24:37 $
 
 =cut

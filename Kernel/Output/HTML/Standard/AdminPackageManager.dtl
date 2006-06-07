@@ -2,7 +2,7 @@
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPackageManager.dtl,v 1.21 2006-05-29 09:17:08 tr Exp $
+# $Id: AdminPackageManager.dtl,v 1.22 2006-06-07 21:24:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -80,6 +80,70 @@
     </tr>
   </table>
 <!-- dtl:block:Uninstall -->
+<!-- dtl:block:Reinstall -->
+  <table border="0" width="100%" cellspacing="0" cellpadding="3">
+    <tr>
+      <td class="menu">
+        <a href="$Env{"Baselink"}Action=$Env{"Action"}" class="menuitem">$Text{"Back"}</a>
+      </td>
+    </tr>
+    <tr>
+      <td class="mainbody">
+        <br>
+        <table border="0" width="350" align="center" cellspacing="0" cellpadding="4">
+          <tr>
+            <td colspan="2" class="contenthead">$Text{"Reinstall"}</td>
+          </tr>
+          <tr>
+            <td class="contentbody">
+              <table border="0" cellspacing="0" cellpadding="3">
+                <tr>
+                  <td width="25%" class="contentkey">$Text{"Name"}:</td>
+                  <td width="75%" class="contentvalue">$QData{"Name"}</td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Version"}:</td>
+                  <td class="contentvalue">$Data{"Version"}</td>
+                </tr>
+                <tr>
+                  <td colspan="2">&nbsp;</td>
+                </tr>
+                <tr>
+                  <td colspan="2" class="contentkey">$Text{"Do you really want to reinstall this package (all manuall changes get lost)?"}</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="contentfooter">
+              <table width="100%" border="0" cellspacing="0" cellpadding="1">
+                <tr>
+                  <td class="contentfooter">
+                    <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+                      <input type="hidden" name="Action" value="$Env{"Action"}">
+                      <input type="hidden" name="Subaction" value="">
+                      <input class="button" type="submit" value="$Text{"No"}">
+                    </form>
+                  </td>
+                  <td width="10" class="contentfooter">
+                    <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+                      <input type="hidden" name="Action" value="$Env{"Action"}">
+                      <input type="hidden" name="Subaction" value="ReinstallAction">
+                      <input type="hidden" name="Name" value="$QData{"Name"}">
+                      <input type="hidden" name="Version" value="$QData{"Version"}">
+                      <input class="button" type="submit" value="$Text{"Yes"}">
+                    </form>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+        <br>
+      </td>
+    </tr>
+  </table>
+<!-- dtl:block:Reinstall -->
 <!-- dtl:block:Overview -->
 
   <tr>
@@ -269,7 +333,7 @@
   <tr>
     <td class="contentbody">
 
-      <table border="0">
+      <table border="0" width="100%">
 <!-- dtl:block:PackageItemDescription -->
         <tr>
           <td class="contentkey">$Text{"$QData{"Tag"}"}: </td>
@@ -285,11 +349,20 @@
         <tr>
           <td class="contentkey">Filelist: </td>
           <td class="contentvalue">
-            <table border="0" cellspacing="0" cellpadding="2">
+            <table border="0" cellspacing="0" cellpadding="2" width="100%">
+              <tr>
+                <td class="contentkey">$Text{"Filename"}</td>
+                <td class="contentkey">$Text{"Permission"}</td>
+                <td class="contentkey">$Text{"Status"}</td>
+                <td class="contentkey">$Text{"Download"}</td>
+              </tr>
 <!-- dtl:block:PackageItemFilelistFile -->
               <tr>
                 <td class="contentvalue">
-                  <div title="$QData{"Location"}">$QData{"Location","65"} ($QData{"Permission"})</div>
+                  <div title="$QData{"Location"}">$QData{"Location","65"}</div>
+                </td>
+                <td class="contentvalue">
+                  <div title="$QData{"Permission"}">($QData{"Permission"})</div>
                 </td>
 <!-- dtl:block:PackageItemFilelistFileNoteDiff -->
                 <td class="contentvalue">
@@ -302,10 +375,7 @@
                 </td>
 <!-- dtl:block:PackageItemFilelistFileNote -->
                 <td class="contentvalue">
-                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$Env{"Subaction"}&Name=$QData{"Name"}&Version=$QData{"Version"}&File=$QData{"File"}&Location=$LQData{"Location"}"><img border="0" src="$Env{"Images"}disk-s.png"></a>
-                </td>
-                <td class="contentvalue">
-                  $QData{"Size"}
+                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$Env{"Subaction"}&Name=$QData{"Name"}&Version=$QData{"Version"}&File=$QData{"File"}&Location=$LQData{"Location"}" title="$Text{"Download file from package!"}"><img alt="$Text{"Download file from package!"}" border="0" src="$Env{"Images"}disk-s.png"></a> $QData{"Size"}
                 </td>
               </tr>
 <!-- dtl:block:PackageItemFilelistFile -->
