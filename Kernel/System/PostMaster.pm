@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.55 2006-03-04 11:13:37 martin Exp $
+# $Id: PostMaster.pm,v 1.56 2006-06-07 21:26:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.55 $';
+$VERSION = '$Revision: 1.56 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -328,6 +328,74 @@ sub CheckFollowUp {
                 if ($TicketID && $Tn) {
                     return ($Tn, $TicketID);
                 }
+            }
+        }
+    }
+    # do body ticket number lookup
+    if ($Self->{ConfigObject}->Get('PostmasterFollowUpSearchInBody')) {
+        if (my $Tn = $Self->{TicketObject}->GetTNByString($Self->{ParseObject}->GetMessageBody())) {
+            my $TicketID = $Self->{TicketObject}->CheckTicketNr(Tn => $Tn);
+            my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $TicketID);
+            if ($Self->{Debug} > 1) {
+                $Self->{LogObject}->Log(
+                    Priority => 'debug',
+                    Message => "CheckFollowUp (in body): Tn: $Ticket{TicketNumber} found or forward!",
+                );
+            }
+            if ($TicketID) {
+                if ($Self->{Debug} > 1) {
+                    $Self->{LogObject}->Log(
+                      Priority => 'debug',
+                      Message => "CheckFollowUp (in body): ja, it's a follow up ($Ticket{TicketNumber}/$TicketID)",
+                    );
+                }
+                return ($Ticket{TicketNumber}, $TicketID);
+            }
+        }
+    }
+    # do attachement ticket number lookup
+    if ($Self->{ConfigObject}->Get('PostmasterFollowUpSearchInAttachment')) {
+        foreach my $Attachment ($Self->{ParseObject}->GetAttachments()) {
+            if (my $Tn = $Self->{TicketObject}->GetTNByString($Attachment->{Content})) {
+                my $TicketID = $Self->{TicketObject}->CheckTicketNr(Tn => $Tn);
+                my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $TicketID);
+                if ($Self->{Debug} > 1) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'debug',
+                        Message => "CheckFollowUp (in attachment): Tn: $Ticket{TicketNumber} found or forward!",
+                    );
+                }
+                if ($TicketID) {
+                    if ($Self->{Debug} > 1) {
+                        $Self->{LogObject}->Log(
+                          Priority => 'debug',
+                          Message => "CheckFollowUp (in attachment): ja, it's a follow up ($Ticket{TicketNumber}/$TicketID)",
+                        );
+                    }
+                    return ($Ticket{TicketNumber}, $TicketID);
+                }
+            }
+        }
+    }
+    # do plain/raw ticket number lookup
+    if ($Self->{ConfigObject}->Get('PostmasterFollowUpSearchInRaw')) {
+        if (my $Tn = $Self->{TicketObject}->GetTNByString($Self->{ParseObject}->GetPlainEmail())) {
+            my $TicketID = $Self->{TicketObject}->CheckTicketNr(Tn => $Tn);
+            my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $TicketID);
+            if ($Self->{Debug} > 1) {
+                $Self->{LogObject}->Log(
+                    Priority => 'debug',
+                    Message => "CheckFollowUp (in plain/raw): Tn: $Ticket{TicketNumber} found or forward!",
+                );
+            }
+            if ($TicketID) {
+                if ($Self->{Debug} > 1) {
+                    $Self->{LogObject}->Log(
+                      Priority => 'debug',
+                      Message => "CheckFollowUp (in plain/raw): ja, it's a follow up ($Ticket{TicketNumber}/$TicketID)",
+                    );
+                }
+                return ($Ticket{TicketNumber}, $TicketID);
             }
         }
     }
