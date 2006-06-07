@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketPrint.pm - to get a closer view
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPrint.pm,v 1.22 2005-09-18 13:35:00 martin Exp $
+# $Id: AgentTicketPrint.pm,v 1.23 2006-06-07 23:04:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -201,14 +201,10 @@ sub _Mask {
                 $Param{"Article::TextNote"} = $CharsetText;
             }
         }
-
-        # select the output template
-        if ($Article{ArticleType} ne 'email-notification-int') {
-            $Self->{LayoutObject}->Block(
-                Name => 'Article',
-                Data => {%Param,%Article},
-            );
-        }
+        $Self->{LayoutObject}->Block(
+            Name => 'Article',
+            Data => {%Param,%Article},
+        );
         # do some strips && quoting
         foreach (qw(From To Cc Subject)) {
             if ($Article{$_}) {
