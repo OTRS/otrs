@@ -1,8 +1,8 @@
 # --
 # PrintHeader.dtl - provides global print header
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PrintHeader.dtl,v 1.15 2005-10-01 13:18:01 martin Exp $
+# $Id: PrintHeader.dtl,v 1.16 2006-06-07 23:14:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,11 +23,11 @@ $Include{"Copyright"}
 # --
 <html>
 <head>
-    <title>$Config{"ProductName"} $QData{"TitleArea"}</title>
+  <title>$Config{"ProductName"} $QData{"TitleArea"}</title>
 <style type="text/css">
 <!--
   body { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:11pt;background-color:#ffffff;color:black; }
-  pre { font-family:Courier;font-size:12px; }
+  pre { font-family:monospace,fixed,courier;font-size:10px; }
   a { color:#787878; }
   a:hover { color: #002244; text-decoration: none; }
   .mainhead { color:#ffffff;background-color:#00000c;font-size:14px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top;horizontal-align:center }
@@ -46,18 +46,18 @@ $Include{"Copyright"}
   .message { color:#000000;font-size:12px;font-family:monospace, fixed; }
   .small { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:10px;vertical-align:top; }
   .container {
-    color: #333;
-    margin-top: 0px;
-    margin-left: 0px;
-    margin-bottom: 0px;
-    margin-right: 0px;
-    border-left: 1px solid #000000;
-    border-right: 1px solid #000000;
-    border-bottom: 1px solid #000000;
-    border-top: 1px solid #000000;
-    }
-//-->
-</style>
+  color: #333;
+  margin-top: 0px;
+  margin-left: 0px;
+  margin-bottom: 0px;
+  margin-right: 0px;
+  border-left: 1px solid #000000;
+  border-right: 1px solid #000000;
+  border-bottom: 1px solid #000000;
+  border-top: 1px solid #000000;
+  }
+  //-->
+  </style>
 </head>
 <a name="top"></a>
 <body onLoad="window.print();">
