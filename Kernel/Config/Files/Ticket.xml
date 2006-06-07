@@ -106,12 +106,12 @@ TextArea
         </Setting>
     </ConfigItem>
 
-FrontendModulRegistration
+FrontendModuleRegistration
     <ConfigItem Name="" Required="1" Valid="1">
         <Description Lang="en"></Description>
         <Description Lang="de"></Description>
         <Group>Ticket</Group>
-        <SubGroup>FrontendModulRegistration</SubGroup>
+        <SubGroup>FrontendModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
                 <Title></Title>
@@ -148,7 +148,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.103 2006-05-06 15:06:27 ck Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.104 2006-06-07 14:42:45 tr Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
