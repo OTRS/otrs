@@ -2,7 +2,7 @@
 # CHANGES - change log  of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.209.2.44 2006-06-02 11:57:32 cs Exp $
+# $Id: CHANGES,v 1.209.2.45 2006-06-08 05:32:27 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -241,7 +241,7 @@
 
  - (2005/08/19) fixed bug #846 - empty envelope from on notifications
  - (2005/08/19) fixed bug #879 - "Wide character in subroutine" - mails with
-    attachements in utf-8 mode
+    attachments in utf-8 mode
  - (2005/08/19) fixed bug #871 - Erroneous Content-Length fields are sent
     when downloading attachments
  - (2005/08/19) fixed bug #861 - Problems in faq attachments and postgresql
@@ -391,7 +391,7 @@
  - (2005/06/13) fixed bug 773 - NotificationAgentOnline needs TimeObject
  - (2005/06/12) fixed bug 776 - when adding a new user I got error message
  - (2005/06/11) added XML::Parser support for Kernel::System::XML
- - (2005/06/07) fixed bug 771 - Customer Web Interface - Attachement
+ - (2005/06/07) fixed bug 771 - Customer Web Interface - Attachment
     View Error' Kernel/Modules/CustomerTicketZoom.pm
  - (2005/06/06) added experimental db2 support - thanks to Friedmar Moch!
  - (2005/06/06) removed foreign key for queue_id in pop3_account, fixed
