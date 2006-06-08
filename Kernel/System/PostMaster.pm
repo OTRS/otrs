@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMaster.pm,v 1.56 2006-06-07 21:26:23 martin Exp $
+# $Id: PostMaster.pm,v 1.57 2006-06-08 05:39:01 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.56 $';
+$VERSION = '$Revision: 1.57 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -353,7 +353,7 @@ sub CheckFollowUp {
             }
         }
     }
-    # do attachement ticket number lookup
+    # do attachment ticket number lookup
     if ($Self->{ConfigObject}->Get('PostmasterFollowUpSearchInAttachment')) {
         foreach my $Attachment ($Self->{ParseObject}->GetAttachments()) {
             if (my $Tn = $Self->{TicketObject}->GetTNByString($Attachment->{Content})) {
