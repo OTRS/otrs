@@ -2,7 +2,7 @@
 # Kernel/Config.pm - Config file for OTRS kernel
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm.dist,v 1.16 2005-05-27 18:12:15 martin Exp $
+# $Id: Config.pm.dist,v 1.17 2006-06-08 06:55:42 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -49,7 +49,7 @@ sub Load {
     # (The database DSN for MySQL ==> more: "man DBD::mysql")
     $Self->{DatabaseDSN} = "DBI:mysql:database=$Self->{Database};host=$Self->{DatabaseHost};";
 
-    # (The database DSN for PostgrSQL ==> more: "man DBD::Pg")
+    # (The database DSN for PostgreSQL ==> more: "man DBD::Pg")
     # if you want to use a local socket connection
 #    $Self->{DatabaseDSN} = "DBI:Pg:dbname=$Self->{Database};";
     # if you want to use a tcpip connection
@@ -90,7 +90,7 @@ use strict;
 use vars qw(@ISA $VERSION);
 use Kernel::Config::Defaults;
 push (@ISA, 'Kernel::Config::Defaults');
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # -----------------------------------------------------#
 

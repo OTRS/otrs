@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.233 2006-05-17 08:54:56 tr Exp $
+# $Id: Defaults.pm,v 1.234 2006-06-08 06:55:43 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.233 $';
+$VERSION = '$Revision: 1.234 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -92,7 +92,7 @@ sub LoadDefaults {
     # (The database DSN for MySQL ==> more: "man DBD::mysql")
     $Self->{DatabaseDSN} = "DBI:mysql:database=<OTRS_CONFIG_Database>;host=<OTRS_CONFIG_DatabaseHost>;";
 
-    # (The database DSN for PostgrSQL ==> more: "man DBD::Pg")
+    # (The database DSN for PostgreSQL ==> more: "man DBD::Pg")
 #    $Self->{DatabaseDSN} = "DBI:Pg:dbname=<OTRS_CONFIG_Database>;host=<OTRS_CONFIG_DatabaseHost>;";
 
     # (The database DSN for DBI:ODBC ==> more: "man DBD::ODBC")
@@ -1732,6 +1732,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.233 $ $Date: 2006-05-17 08:54:56 $
+$Revision: 1.234 $ $Date: 2006-06-08 06:55:43 $
 
 =cut
