@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.252 2006-06-02 12:05:09 cs Exp $
+# $Id: CHANGES,v 1.253 2006-06-08 05:24:27 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -316,7 +316,7 @@ fixed bug 1023 - Comma in From field creates multiple emails
 
  - (2005/08/19) fixed bug #846 - empty envelope from on notifications
  - (2005/08/19) fixed bug #879 - "Wide character in subroutine" - mails with
-    attachements in utf-8 mode
+    attachments in utf-8 mode
  - (2005/08/19) fixed bug #871 - Erroneous Content-Length fields are sent
     when downloading attachments
  - (2005/08/19) fixed bug #861 - Problems in faq attachments and postgresql
