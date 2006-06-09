@@ -112,7 +112,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.80.2.7 2006-03-18 20:25:10 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.80.2.8 2006-06-09 12:33:54 tr Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -212,7 +212,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="DefaultLanguage" Required="1" Valid="1">
         <Description Lang="en">The default frontend language. Possible values are bg, cz, de, en, el, es, fi, fr, hu, it, nb, nl, pl, pt, ru, th and sv.</Description>
-        <Description Lang="de">Standard Frontend Sprache. Mögliche Werte sind bg, cz, de, en, el, es, fi, fr, hu, it, nb, nl, pl, pt, ru, th and sv.</Description>
+        <Description Lang="de">Standard Frontend Sprache. Mögliche Werte sind bg, cz, de, en, el, es, fi, fr, hu, it, nb, nl, pl, pt, ru, th und sv.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
