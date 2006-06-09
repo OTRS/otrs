@@ -2,7 +2,7 @@
 # Kernel/System/Stats/TicketOverview.pm - stats module
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TicketOverview.pm,v 1.6 2006-03-28 14:21:30 tr Exp $
+# $Id: TicketOverview.pm,v 1.7 2006-06-09 06:31:31 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::State;
 use Date::Pcalc qw(Today_and_Now Days_in_Month Day_of_Week Day_of_Week_Abbreviation);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $ ';
+$VERSION = '$Revision: 1.7 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -138,7 +138,7 @@ sub Run {
     }
 
     my @Data = ();
-    foreach my $QueueName (sort {$Queue{$a} cmp $Queue{$b}} keys %Queue) {
+    foreach my $QueueName (sort keys %Queue) {
         my @Row = ($QueueName);
         foreach my $StateID (sort {$States{$a} cmp $States{$b}} keys %States) {
             if ($Queue{$QueueName}->{$States{$StateID}}) {
