@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.103 2006-03-28 05:51:59 martin Exp $
+# $Id: Article.pm,v 1.104 2006-06-12 14:49:05 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.103 $';
+$VERSION = '$Revision: 1.104 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1690,6 +1690,11 @@ sub SendAgentNotification {
     # cleanup all not needed <OTRS_CUSTOMER_DATA_ tags
     $Notification{Body} =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
     $Notification{Subject} =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
+
+    # Replace empty subject with single space because tag was inserted into notification
+    if ($GetParam{Subject} =~ /^$/) {
+        $GetParam{Subject} = " ";
+    }
 
     foreach (keys %GetParam) {
         if ($GetParam{$_}) {
