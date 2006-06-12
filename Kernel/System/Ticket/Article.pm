@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.94.2.2 2006-01-31 19:43:55 martin Exp $
+# $Id: Article.pm,v 1.94.2.3 2006-06-12 13:59:22 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.94.2.2 $';
+$VERSION = '$Revision: 1.94.2.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1557,10 +1557,15 @@ sub SendAgentNotification {
     $Notification{Body} =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
     $Notification{Subject} =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
 
+    # Replace empty subject with single space because tag was inserted into notification
+    if ($GetParam{Subject} =~ /^$/) {
+        $GetParam{Subject} = " ";
+    }
+
     foreach (keys %GetParam) {
         if ($GetParam{$_}) {
             $Notification{Body} =~ s/<OTRS_CUSTOMER_$_>/$GetParam{$_}/gi;
-            $Notification{Subject} =~ s/<OTRS_CUSTOMER_$_>/$GetParam{$_}/gi;
+            $Notification{Subject} =~ s/<OTRS_CUSTOMER_$_>/$GetParam{$_}/gii;
         }
     }
     if ($Notification{Body} =~ /<OTRS_CUSTOMER_EMAIL\[(.+?)\]>/g) {
