@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketMailbox.pm - to view all locked tickets
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketMailbox.pm,v 1.4 2005-09-28 07:02:06 martin Exp $
+# $Id: AgentTicketMailbox.pm,v 1.4.2.1 2006-06-13 13:28:23 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.4.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -97,8 +97,13 @@ sub Run {
     }
     if ($Self->{Subaction} eq 'Pending') {
         my @StateIDs = $Self->{StateObject}->StateGetStatesByType(
-            Type => 'PendingReminder',
+            Type => 'PendingAuto',
             Result => 'ARRAY',
+        );
+	push (@StateIDs, $Self->{StateObject}->StateGetStatesByType(
+                Type => 'PendingReminder',
+                Result => 'ARRAY',
+            )
         );
         @ViewableTickets = $Self->{TicketObject}->TicketSearch(
             Result => 'ARRAY',
