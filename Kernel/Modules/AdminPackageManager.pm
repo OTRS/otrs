@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminPackageManager.pm,v 1.29 2006-06-07 21:24:38 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.30 2006-06-13 23:49:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,10 +15,9 @@ use strict;
 use Kernel::System::Package;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -41,7 +40,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -792,6 +791,7 @@ sub Run {
                 $Self->{PackageObject}->PackageOnlineRepositories(),
             },
             Name => 'Source',
+            Max => 40,
             SelectedID => $Source,
         );
         $Self->{LayoutObject}->Block(
@@ -910,5 +910,5 @@ sub Run {
         return $Output;
     }
 }
-# --
+
 1;
