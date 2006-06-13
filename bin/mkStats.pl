@@ -3,7 +3,7 @@
 # SendStats.pl - send stats output via email
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: mkStats.pl,v 1.33 2006-04-01 23:42:43 martin Exp $
+# $Id: mkStats.pl,v 1.34 2006-06-13 08:14:39 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -174,6 +174,7 @@ if (eval "require $Module") {
     my $TitleArrayRef = shift (@Data);
     my $Title = $TitleArrayRef->[0];
     my $HeadArrayRef = shift (@Data);
+    my $CountData = @Data;
     # add sum y
     if ($ConfigItem{SumRow}) {
         push (@{$HeadArrayRef}, 'Sum');
@@ -254,7 +255,7 @@ if (eval "require $Module") {
     elsif ($CommonObject{EmailObject}->Send(
         From => $Opts{'s'},
         To => $Opts{'r'},
-        Subject => "[Stats] $ConfigItem{Module} $Y-$M-$D $Time",
+        Subject => "[Stats - $CountData Records] $ConfigItem{Module} $Y-$M-$D $Time",
         Body => $Opts{'b'},
         Attachment => [
             {
