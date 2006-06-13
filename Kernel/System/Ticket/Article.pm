@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.105 2006-06-13 12:12:40 cs Exp $
+# $Id: Article.pm,v 1.106 2006-06-13 13:51:11 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.105 $';
+$VERSION = '$Revision: 1.106 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -85,9 +85,9 @@ sub ArticleCreate {
         return;
       }
     }
-    # add 'no body found!' if there is no body there!
+    # add 'no body' if there is no body there!
     if (!$Param{Body}) {
-        $Param{Body} = 'no body found!';
+        $Param{Body} = 'No body';
     }
     # if body isn't text, attach body as attachment (mostly done by OE) :-/
     elsif ($Param{ContentType} && $Param{ContentType} !~ /\btext\b/i) {
@@ -1693,7 +1693,7 @@ sub SendAgentNotification {
 
     # Replace empty subject with single space because tag was inserted into notification
     if ($GetParam{Subject} =~ /^$/) {
-        $GetParam{Subject} = "no subject found!";
+        $GetParam{Subject} = "No subject";
     }
 
     foreach (keys %GetParam) {
