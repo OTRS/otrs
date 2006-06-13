@@ -2,21 +2,23 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.253 2006-06-08 05:24:27 tr Exp $
+# $Id: CHANGES,v 1.254 2006-06-13 13:45:30 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS head
- - (2006/06/02) fixed bug 1023 - Comma in From field creates multiple emails
-   in webform.pl
+ - (2006/06/13) Fixed bug #1154 - Problem in displaying pending tickets
+    in agent mailbox
+ - (2006/06/02) fixed bug #1023 - Comma in From field creates multiple emails
+    in webform.pl
  - (2006/05/29) fixed problem with freetext fields (>10)
-   involed files: Ticket.pm
+    involved files: Ticket.pm
  - (2006/04/27) fixed IE problem with image-buttons
-   involed files: AdminSysConfigEdit.dtl and AdminSysConfig.pm
+    involved files: AdminSysConfigEdit.dtl and AdminSysConfig.pm
  - (2006/04/26) fixed format bug in Package Manager - PackageView
-   involed files: AdminPackageManager.dtl and AdminPackageManager.pm
+    involved files: AdminPackageManager.dtl and AdminPackageManager.pm
  - (2006/04/06) moved to read any language files located under
     Kernel/Language/xx_*.pm at each request to have any translated words
     e. g. for navigation bar available (Kernel/Language/xx_Custom.pm is
@@ -96,14 +98,17 @@ CVS head
     $Self->{PreApplicationModule}->{AgentInfo} = 'Kernel::Modules::AgentInfo';
 
 2.0.5 (2006/??/??)
-fixed bug 1023 - Comma in From field creates multiple emails
+ - (2006/06/13) Fixed bug #1154 - Problem in displaying pending tickets
+    in agent mailbox
+ - (2006/06/02) fixed bug #1023 - Comma in From field creates multiple emails
+    in webform.pl
  - (2006/03/24) added SUSE 10.x RPM support
- - (2006/03/24) fixed bug# 925 - Binary Attachments incorrectly utf-8
+ - (2006/03/24) fixed bug #925 - Binary Attachments incorrectly utf-8
     encoded in ticket replies
  - (2006/03/23) Fixed links to new phone/email ticket after a new
-     customer is created via Kernel/Modules/AdminCustomerUser.pm
+    customer is created via Kernel/Modules/AdminCustomerUser.pm
  - (2006/03/21) update of Portuguese language file  - Thanks to
-     Manuel Menezes de Sequeira)
+    Manuel Menezes de Sequeira)
  - (2006/03/18) added Greek translation - Thanks to Stelios Maistros!
  - (2006/03/16) fixed bug #991 - changed $Data{} to $QData{} in Ticket.xml
     and Ticket.pm config files to solve problem when answering requests
