@@ -2,13 +2,15 @@
 # CHANGES - change log  of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.209.2.45 2006-06-08 05:32:27 tr Exp $
+# $Id: CHANGES,v 1.209.2.46 2006-06-13 13:30:00 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.0.5 (2006/??/??)
+ - (2006/06/13) Fixed Bug #1154 - Problem in displaying pending tickets in
+   agent mailbox
  - (2006/06/02) fixed bug 1023 - Comma in From field creates multiple emails
    in webform.pl
  - (2006/04/27) fixed IE problem with image-buttons
