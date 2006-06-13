@@ -4,7 +4,7 @@
 # X-OTRS-Queue header for an OTRS system (x-headers for dispatching!).
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: webform.pl,v 1.3.10.1 2006-06-02 11:56:09 cs Exp $
+# $Id: webform.pl,v 1.3.10.2 2006-06-13 11:34:33 cs Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use CGI::Carp qw(fatalsToBrowser);
 # Simple Common Gateway Interface Class
 use CGI;
 
-my $VERSION = '$Revision: 1.3.10.1 $';
+my $VERSION = '$Revision: 1.3.10.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 
@@ -186,18 +186,18 @@ sub SendMail {
     # --
     # simple email check
     # ---
-    my $Nonascii      = "\x80-\xff"; # Non-ASCII-Chars are not allowed
-    my $Nqtext        = "[^\\\\$Nonascii\015\012\"]";
-    my $Qchar         = "\\\\[^$Nonascii]";
+    my $NonAscii      = "\x80-\xff"; # Non-ASCII-Chars are not allowed
+    my $Nqtext        = "[^\\\\$NonAscii\015\012\"]";
+    my $Qchar         = "\\\\[^$NonAscii]";
     my $Protocol      = '(?:mailto:)';
-    my $Normuser      = '[a-zA-Z0-9][a-zA-Z0-9_.-]*';
-    my $Quotedstring  = "\"(?:$Nqtext|$Qchar)+\"";
-    my $User_part     = "(?:$Normuser|$Quotedstring)";
-    my $Dom_mainpart  = '[a-zA-Z0-9][a-zA-Z0-9._-]*\\.';
-    my $Dom_subpart   = '(?:[a-zA-Z0-9][a-zA-Z0-9._-]*\\.)*';
-    my $Dom_tldpart   = '[a-zA-Z]{2,5}';
-    my $Domain_part   = "$Dom_subpart$Dom_mainpart$Dom_tldpart";
-    my $Regex         = "$Protocol?$User_part\@$Domain_part";
+    my $NormUser      = '[a-zA-Z0-9][a-zA-Z0-9_.-]*';
+    my $QuotedString  = "\"(?:$Nqtext|$Qchar)+\"";
+    my $UserPart     = "(?:$NormUser|$QuotedString)";
+    my $DomMainPart  = '[a-zA-Z0-9][a-zA-Z0-9._-]*\\.';
+    my $DomSubPart   = '(?:[a-zA-Z0-9][a-zA-Z0-9._-]*\\.)*';
+    my $DomTldPart   = '[a-zA-Z]{2,5}';
+    my $DomainPart   = "$DomSubPart$DomMainPart$DomTldPart";
+    my $Regex         = "$Protocol?$UserPart\@$DomainPart";
 
     if ($Param{FromEmail} !~ /^$Regex$/) {
         $Output = Header(Title => 'Error!');
