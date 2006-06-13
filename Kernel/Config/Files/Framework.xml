@@ -112,7 +112,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.100 2006-06-05 15:44:19 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.101 2006-06-13 23:49:03 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -1114,13 +1114,10 @@ TimeWorkingHours
                 <Item>http://otrs.org/repository.xml</Item>
             </Array>
         </Setting>
-        <!-- $Self->{'Package::RepositoryRoot'} = [
-                'http://ftp.otrs.org/pub/otrs/misc/packages/repository.xml',
-                'http://otrs.org/repository.xml',]; -->
     </ConfigItem>
     <ConfigItem Name="Package::RepositoryList" Required="0" Valid="0">
-        <Description Lang="en">List of online repositories.</Description>
-        <Description Lang="de">Liste der zur Verfügung stehenden Online-Quellen.</Description>
+        <Description Lang="en">List of online repositories (for example you also can use other installations as repositoriy by using Key="http://example.com/otrs/public.pl?Action=PublicRepository&amp;File=" and Content="Some Name").</Description>
+        <Description Lang="de">Liste der zur Verfügung stehenden Online-Quellen (es koennen z. B. auch andere Installationen als Online-Quellen verwendet werden mit der Verwendung von Key="http://example.com/otrs/public.pl?Action=PublicRepository&amp;File=" and Content="Ein Name").</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Package</SubGroup>
             <Setting>
@@ -1128,7 +1125,15 @@ TimeWorkingHours
                     <Item Key="ftp://ftp.example.com/pub/otrs/misc/packages/">[Example] ftp://ftp.example.com/</Item>
                 </Hash>
             </Setting>
-        <!--   $Self->{'Package::RepositoryList'} = {'ftp://ftp.example.com/pub/otrs/misc/packages/' => '[Example] ftp://ftp.example.com/',}; -->
+    </ConfigItem>
+    <ConfigItem Name="Package::RepositoryAccessRegExp" Required="0" Valid="0">
+        <Description Lang="en">IP RegExp for accessing local repository. You need to enable this to have access to your local repository. Package::RepositoryList is required.</Description>
+        <Description Lang="de">IP RegExp fuer lokale Online-Quelle. Sie muessen dies aktivieren um den Zugriff auf die lokale Online-Quelle zu haben. Package::RepositoryList ist Voraussetzung.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Package</SubGroup>
+        <Setting>
+            <String Regex="">127\.0\.0\.1</String>
+        </Setting>
     </ConfigItem>
     <ConfigItem Name="Package::Timeout" Required="1" Valid="1">
         <Description Lang="en">http/ftp timeout for package downloads (in sec).</Description>
@@ -2651,6 +2656,19 @@ Your OTRS Notification Master
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
             <String Regex="">AdminInit</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PublicFrontend::Module###PublicRepository" Required="0" Valid="1">
+        <Description Lang="en">Frontend module registration for the PublicRepository object in the public interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des PublicRepository-Objekts im Public-Interface.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Public::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Description>PublicRepository</Description>
+                <Title>PublicRepository</Title>
+                <NavBarName></NavBarName>
+            </FrontendModuleReg>
         </Setting>
     </ConfigItem>
 </otrs_config>

@@ -2,13 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.255 2006-06-13 13:49:51 martin Exp $
+# $Id: CHANGES,v 1.256 2006-06-13 23:49:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS head
+ - (2006/06/13) added public frontend module to serve local repository as
+    remote repository (accessable via IP authentication)
  - (2006/06/13) Fixed bug #1154 - Problem in displaying pending tickets
     in agent mailbox
  - (2006/06/07) improved postmaster follow up detection by scanning email
