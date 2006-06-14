@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Package.pm,v 1.46 2006-06-07 21:24:37 martin Exp $
+# $Id: Package.pm,v 1.47 2006-06-14 01:02:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.46 $';
+$VERSION = '$Revision: 1.47 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -998,9 +998,10 @@ sub PackageOnlineList {
 
     # get possible actions
     @NewPackages = ();
+    my @LocalList = $Self->RepositoryList();
     foreach my $Data (sort keys %Newest) {
         my $InstalledSameVersion = 0;
-        foreach my $Package ($Self->RepositoryList()) {
+        foreach my $Package (@LocalList) {
             if ($Newest{$Data}->{Name} eq $Package->{Name}->{Content}) {
                 $Newest{$Data}->{Local} = 1;
                 if ($Package->{Status} eq 'installed') {
@@ -1583,6 +1584,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.46 $ $Date: 2006-06-07 21:24:37 $
+$Revision: 1.47 $ $Date: 2006-06-14 01:02:42 $
 
 =cut
