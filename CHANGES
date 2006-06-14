@@ -2,21 +2,24 @@
 # CHANGES - change log  of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.209.2.46 2006-06-13 13:30:00 cs Exp $
+# $Id: CHANGES,v 1.209.2.47 2006-06-14 16:34:02 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.0.5 (2006/??/??)
+ - (2006/06/14) Fixed bug #1206 - When no RELEASE file is available, no
+    product and version is displaied and strange messages apear in the
+    apache error log;  using standard values in this case now
  - (2006/06/13) Fixed Bug #1154 - Problem in displaying pending tickets in
-   agent mailbox
+    agent mailbox
  - (2006/06/02) fixed bug 1023 - Comma in From field creates multiple emails
-   in webform.pl
+    in webform.pl
  - (2006/04/27) fixed IE problem with image-buttons
-   involed files: AdminSysConfigEdit.dtl and AdminSysConfig.pm
+    involved files: AdminSysConfigEdit.dtl and AdminSysConfig.pm
  - (2006/04/26) fixed format bug in Package Manager - PackageView
-   involed files: AdminPackageManager.dtl and AdminPackageManager.pm
+    involved files: AdminPackageManager.dtl and AdminPackageManager.pm
  - (2006/03/24) added SUSE 10.x RPM support
  - (2006/03/24) fixed bug# 925 - Binary Attachments incorrectly utf-8
     encoded in ticket replies
@@ -50,7 +53,7 @@
  - (2006/02/01) fixed missing translation after new ticket was created
  - (2006/02/01) added long month translation for calendar popup
  - (2006/01/30) added <OTRS_TICKET_*> and <OTRS_CONFIG_*> support to
-    auto respons templates
+    auto response templates
  - (2006/01/29) fixed/removed wrong config option
     "Ticket::Frontend::QueueSortDefault", added own config option for
     StatusView of tickets
