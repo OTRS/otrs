@@ -2,7 +2,7 @@
 # Kernel/Modules/PublicRepository.pm - provides a local repository
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PublicRepository.pm,v 1.1 2006-06-13 23:49:03 martin Exp $
+# $Id: PublicRepository.pm,v 1.2 2006-06-14 00:19:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Package;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -47,6 +47,7 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $File = $Self->{ParamObject}->GetParam(Param => 'File') || '';
+    $File =~ s/^\///g;
     my $AccessControlRexExp = $Self->{ConfigObject}->Get('Package::RepositoryAccessRegExp');
     if (!$AccessControlRexExp) {
         return $Self->{LayoutObject}->ErrorScreen(
