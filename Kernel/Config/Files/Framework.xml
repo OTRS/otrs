@@ -112,7 +112,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.101 2006-06-13 23:49:03 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.102 2006-06-14 00:01:06 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -1127,8 +1127,8 @@ TimeWorkingHours
             </Setting>
     </ConfigItem>
     <ConfigItem Name="Package::RepositoryAccessRegExp" Required="0" Valid="0">
-        <Description Lang="en">IP RegExp for accessing local repository. You need to enable this to have access to your local repository. Package::RepositoryList is required.</Description>
-        <Description Lang="de">IP RegExp fuer lokale Online-Quelle. Sie muessen dies aktivieren um den Zugriff auf die lokale Online-Quelle zu haben. Package::RepositoryList ist Voraussetzung.</Description>
+        <Description Lang="en">IP RegExp for accessing local repository. You need to enable this to have access to your local repository. Package::RepositoryList is required on the remote host.</Description>
+        <Description Lang="de">IP RegExp fuer lokale Online-Quelle. Sie muessen dies aktivieren um den Zugriff auf die lokale Online-Quelle zu haben. Package::RepositoryList ist Voraussetzung am entfernten Rechner.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Package</SubGroup>
         <Setting>
