@@ -195,7 +195,7 @@ $Text{"Cc: (%s) added database email!"}
 $Text{"(Click here to add)"}
 $Text{"Normal"}
 $Text{"Preview"}
-$Text{"Package not correctly deployed, you need to deploy it again!"}
+$Text{"Package not correctly deployed! You should reinstall the Package again!"}
 
 $Text{"Added User "%s""}
 $Text{"Contract"}
