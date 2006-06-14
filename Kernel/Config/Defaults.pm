@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.222.2.8 2006-06-08 06:56:12 tr Exp $
+# $Id: Defaults.pm,v 1.222.2.9 2006-06-14 16:29:43 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.222.2.8 $';
+$VERSION = '$Revision: 1.222.2.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -106,6 +106,7 @@ sub LoadDefaults {
 #    $Self->{DatabaseDSN} = "DBI:Oracle:sid=vingador;host=vingador;port=1521;";
     # if needed, oracle env settings
 #    $ENV{ORACLE_HOME} = '/opt/ora9/product/9.2';
+
 #    $ENV{ORACLE_HOME} = '/oracle/Ora92';
 #    $ENV{NLS_DATE_FORMAT} = 'YYYY-MM-DD HH24:MI:SS';
 #    $ENV{NLS_LANG} = "german_germany.we8iso8859p15";
@@ -1677,17 +1678,22 @@ sub new {
                 # filtering of comment lines
                 if ($_ !~ /^#/) {
                     if ($_ =~ /^PRODUCT\s{0,2}=\s{0,2}(.*)\s{0,2}$/i) {
-                        $Self->{Product} = $1;
+                        $Self->{Product} = $1 || 'OTRS';
                     }
                     elsif ($_ =~ /^VERSION\s{0,2}=\s{0,2}(.*)\s{0,2}$/i) {
-                        $Self->{Version} = $1;
+                        $Self->{Version} = $1 || 'x.y';
                     }
                 }
             }
         }
         else {
-            print STDERR "ERROR: Can't read $Self->{Home}/RELEASE: $!";
+            print STDERR "ERROR: Can't read $Self->{Home}/RELEASE: $!\n";
         }
+    }
+    else {
+        print STDERR "ERROR: $Self->{Home}/RELEASE does not exist, using defaults!\n";
+        $Self->{Product} = 'OTRS';
+        $Self->{Version} = '(unknown)';
     }
     # load config (again)
     $Self->Load();
@@ -1724,6 +1730,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.222.2.8 $ $Date: 2006-06-08 06:56:12 $
+$Revision: 1.222.2.9 $ $Date: 2006-06-14 16:29:43 $
 
 =cut
