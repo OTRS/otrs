@@ -2,13 +2,16 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.256 2006-06-13 23:49:03 martin Exp $
+# $Id: CHANGES,v 1.257 2006-06-14 17:03:44 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS head
+ - (2006/06/14) Fixed bug #1206 - When no RELEASE file is available, no
+    product and version is displaied and strange messages apear in the
+    apache error log;  using standard values in this case now
  - (2006/06/13) added public frontend module to serve local repository as
     remote repository (accessable via IP authentication)
  - (2006/06/13) Fixed bug #1154 - Problem in displaying pending tickets
@@ -101,6 +104,9 @@ CVS head
     $Self->{PreApplicationModule}->{AgentInfo} = 'Kernel::Modules::AgentInfo';
 
 2.0.5 (2006/??/??)
+ - (2006/06/14) Fixed bug #1206 - When no RELEASE file is available, no
+    product and version is displaied and strange messages apear in the
+    apache error log;  using standard values in this case now
  - (2006/06/13) Fixed bug #1154 - Problem in displaying pending tickets
     in agent mailbox
  - (2006/06/02) fixed bug #1023 - Comma in From field creates multiple emails
