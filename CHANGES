@@ -2,13 +2,15 @@
 # CHANGES - change log  of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.209.2.47 2006-06-14 16:34:02 cs Exp $
+# $Id: CHANGES,v 1.209.2.48 2006-06-16 23:43:44 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.0.5 (2006/??/??)
+ - 2006/06/17) Fixed bug #1240 - Tickets not shown in "New messages" if
+    Auto Response "Reply" is active
  - (2006/06/14) Fixed bug #1206 - When no RELEASE file is available, no
     product and version is displaied and strange messages apear in the
     apache error log;  using standard values in this case now
