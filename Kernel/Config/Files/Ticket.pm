@@ -228,12 +228,9 @@
     $Self->{'Ticket::Frontend::QueueMaxShown'} = 1200;
 
     # Ticket::Frontend::QueueSort
-    # (sort a queue ascending or descending / after priority sort)
-    #
-    # assignment: QueueID -> Value
-    # where value is one of:
-    # 0: ascending (oldest on top, default)
-    # 1: descending (youngest on top)
+    # (sort the tickets in a single queue ascending or descending after
+    # the tickets are sorted by priority. Values: 0 = ascending (oldest
+    # on top, default), 1 = descending (youngest on top.)
     #
 #    $Self->{'Ticket::Frontend::QueueSort'} = {
 #        7 => 1,
@@ -280,11 +277,12 @@
     $Self->{'Ticket::DefaultNextMoveStateType'} = ['open', 'closed'];
 
     # Ticket::Frontend::QueueSortBy::Default
-    # (Queue sort by default.)
+    # (default sort criteria for a single queue.)
     $Self->{"Ticket::Frontend::QueueSortBy::Default"} = 'Age';
 
     # Ticket::Frontend::QueueOrder::Default
-    # (Queue order default.)
+    # (sort order for all queues in the QueueView or for the queues selected
+    # for "My queues".)
     $Self->{"Ticket::Frontend::QueueOrder::Default"} = 'Up';
 
     # Ticket::Frontend::MailboxSortBy::Default
