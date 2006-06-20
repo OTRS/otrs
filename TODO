@@ -2,7 +2,7 @@
 # TODO - todo list OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TODO,v 1.98 2006-06-08 06:32:09 tr Exp $
+# $Id: TODO,v 1.99 2006-06-20 10:57:56 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -67,6 +67,8 @@
 
 2.2
 - move ticket and article free text fields to "reference tables".
+- wording problem of these config settings Ticket::Frontend::QueueSort Ticket::Frontend::QueueSortByDefault Ticket::Frontend::QueueOrder::Default
+  + a better description
 
 3.0
 - new templates without logic
