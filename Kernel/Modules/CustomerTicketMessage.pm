@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerTicketMessage.pm,v 1.9 2006-03-20 01:22:54 martin Exp $
+# $Id: CustomerTicketMessage.pm,v 1.10 2006-06-20 13:40:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -85,13 +85,13 @@ sub Run {
                 TicketID => $Self->{TicketID},
                 Action => $Self->{Action},
                 Type => "TicketFreeKey$_",
-                UserID => $Self->{UserID},
+                CustomerUserID => $Self->{UserID},
             );
             $TicketFreeText{"TicketFreeText$_"} = $Self->{TicketObject}->TicketFreeTextGet(
                 TicketID => $Self->{TicketID},
                 Action => $Self->{Action},
                 Type => "TicketFreeText$_",
-                UserID => $Self->{UserID},
+                CustomerUserID => $Self->{UserID},
             );
         }
         my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
