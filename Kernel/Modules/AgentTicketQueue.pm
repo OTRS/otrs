@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketQueue.pm,v 1.14 2006-05-15 16:13:52 martin Exp $
+# $Id: AgentTicketQueue.pm,v 1.15 2006-06-20 10:47:52 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -226,10 +226,18 @@ sub Run {
         # is a setting in Config.pm for sorting
         if ($#ViewableQueueIDs == 0) {
             my $QueueID = $ViewableQueueIDs[0];
-            if ($Self->{ConfigObject}->Get('Ticket::Frontend::QueueSort') && $Self->{ConfigObject}->Get('Ticket::Frontend::QueueSort')->{$QueueID}) {
-                $Order = 'Down';
+            if ($Self->{ConfigObject}->Get('Ticket::Frontend::QueueSort')) {
+                if (defined($Self->{ConfigObject}->Get('Ticket::Frontend::QueueSort')->{$QueueID})) {
+                    if ($Self->{ConfigObject}->Get('Ticket::Frontend::QueueSort')->{$QueueID}) {
+                        $Order = 'Down';
+                    }
+                    else {
+                        $Order = 'Up';
+                    }
+                }
             }
         }
+
         if ($Order eq 'Up') {
             $Order = 'ASC';
         }
