@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueue.pm,v 1.23 2006-05-19 18:01:30 cs Exp $
+# $Id: AdminQueue.pm,v 1.24 2006-06-20 13:27:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -226,7 +226,7 @@ sub _Mask {
         },
         Name => 'ParentQueueID',
         Selected => $ParentQueue,
-        MaxLevel => 3,
+        MaxLevel => 4,
         OnChangeSubmit => 0,
     );
 
