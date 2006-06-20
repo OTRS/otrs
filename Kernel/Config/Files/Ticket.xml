@@ -148,7 +148,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.70.2.10 2006-03-16 17:01:02 cs Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.70.2.11 2006-06-20 16:45:34 cs Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -895,8 +895,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::QueueSort" Required="0" Valid="0">
-        <Description Lang="en">Sort a queue ascending or descending after priority sort. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top)</Description>
-        <Description Lang="de">Queue auf- oder absteigend sortieren, nach der Sortierung nach Priorität. Mögliche Werte: 0 = Aufsteigend (alte Tickets zuerst), 1 = absteigend</Description>
+        <Description Lang="en">Sort the tickets in a single queue ascending or descending after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the queue id for the key and 0 or 1 for value.</Description>
+        <Description Lang="de">Sortierreihenfolge für die Tickets einer einzelnen Queue, nach der Sortierung nach Priorität. Mögliche Werte: 0 = Aufsteigend (alte Tickets zuerst), 1 = absteigend. Als Schlüssel muss die Queue-ID angegeben werden, für Inhalt entweder 0 oder 1.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
         <Setting>
@@ -907,8 +907,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::QueueSortByDefault" Required="1" Valid="1">
-        <Description Lang="en">Queue sort by default.</Description>
-        <Description Lang="de">Standard Sortierung der Queue.</Description>
+        <Description Lang="en">Default sort criteria for a single queue.</Description>
+        <Description Lang="de">Standard Sortierkriterium für eine einzelne Queue.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
         <Setting>
@@ -940,8 +940,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::QueueOrder::Default" Required="1" Valid="1">
-        <Description Lang="en">Queue order default.</Description>
-        <Description Lang="de">Standard Reihenfolge der Queue.</Description>
+        <Description Lang="en">Sort order for all queues in the QueueView or for the queues selected for "My queues".</Description>
+        <Description Lang="de">Sortierreihenfolge für alle über die Queue-Ansicht angezeigten Queues bzw. für die in "Meine Queues" ausgewählten Queues.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
         <Setting>
