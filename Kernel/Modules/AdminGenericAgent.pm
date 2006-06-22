@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminGenericAgent.pm,v 1.27 2006-06-22 13:24:32 tr Exp $
+# $Id: AdminGenericAgent.pm,v 1.28 2006-06-22 14:07:55 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Lock;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -315,7 +315,6 @@ sub Run {
             Type  => 'Long',
             Valid => 1,
         );
-$Self->{LogObject}->Dumper(%Param);
         $Param{'OwnerStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data     => \%ShownUsers,
             Name     => 'OwnerIDs',
