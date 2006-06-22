@@ -3,7 +3,7 @@
 # UnitTest.pl - the global test handle
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: UnitTest.pl,v 1.4 2006-03-23 09:38:25 tr Exp $
+# $Id: UnitTest.pl,v 1.5 2006-06-22 10:39:16 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -38,6 +38,7 @@ use Kernel::System::Log;
 use Kernel::System::Time;
 use Kernel::System::DB;
 use Kernel::System::UnitTest;
+
 
 # --
 # get options
