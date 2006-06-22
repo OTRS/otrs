@@ -1,8 +1,8 @@
 # --
 # AgentTicketClose.dtl - provides HTML form for close mask
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketClose.dtl,v 1.5 2005-08-05 08:11:45 rk Exp $
+# $Id: AgentTicketClose.dtl,v 1.5.2.1 2006-06-22 14:38:30 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -57,54 +57,54 @@ function SpellCheckSubmit()
 </script>
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-<tr>
-  <td class="mainhead2">
-    $Env{"Box0"}$Text{"Close ticket"}: $Data{"TicketNumber"}$Env{"Box1"}
-  </td>
-</tr>
-$Include{"AgentTicketLocked"}
-<tr>
-  <td align="left" valign="top" colspan="2" class="mainbody">
-
-  <br>
-
-  <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
-  <input type="hidden" name="Action" value="$Env{"Action"}">
-  <input type="hidden" name="Subaction" value="Store">
-  <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
-  <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
   <tr>
-    <td colspan="2" class="contenthead">$Text{"Options"}</td>
+    <td class="mainhead2">
+      $Env{"Box0"}$Text{"Close ticket"}: $Data{"TicketNumber"}$Env{"Box1"}
+    </td>
   </tr>
+$Include{"AgentTicketLocked"}
   <tr>
-  <td class="contentbody">
-      <table border="0" width="100%">
-      <tr>
-        <td class="contentkey" width="20%">$Text{"Subject"}:</td>
-        <td class="contentvalue" width="80%"><input type="text" name="Subject" value="$Text{"$Config{"Ticket::Frontend::CloseSubject"}"}" size="70"></td>
-      </tr>
-      <tr>
-        <td class="contentkey">$Text{"Options"}:</td>
-        <td class="contentvalue">
+    <td align="left" valign="top" colspan="2" class="mainbody">
+
+      <br>
+
+      <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
+        <input type="hidden" name="Action" value="$Env{"Action"}">
+        <input type="hidden" name="Subaction" value="Store">
+        <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
+        <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
+          <tr>
+            <td colspan="2" class="contenthead">$Text{"Options"}</td>
+          </tr>
+          <tr>
+            <td class="contentbody">
+              <table border="0" width="100%">
+                <tr>
+                  <td class="contentkey" width="20%">$Text{"Subject"}:</td>
+                  <td class="contentvalue" width="80%"><input type="text" name="Subject" value="$Config{"Ticket::Frontend::CloseSubject"}" size="70"></td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Options"}:</td>
+                  <td class="contentvalue">
 <!-- dtl:block:SpellCheck -->
-           $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$Text{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"}
+                    $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$Text{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"}
 <!-- dtl:block:SpellCheck -->
-        </td>
-      </tr>
-      <tr>
-        <td class="contentkey">$Text{"Note Text"}:</td>
-        <td class="contentvalue">
-        <textarea name="Body" rows="16" cols="$Config{"Ticket::Frontend::TextAreaNote"}" wrap="$Env{"BrowserWrap"}">$Text{"$Config{"Ticket::Frontend::CloseText"}"}</textarea>
-        </td>
-      </tr>
-      <tr>
-        <td class="contentkey">$Text{"Note type"}:</td>
-        <td class="contentvalue">$Data{"NoteTypesStrg"}</td>
-      </tr>
-      <tr>
-        <td class="contentkey">$Text{"Close type"}:</td>
-        <td class="contentvalue">$Data{"NextStatesStrg"}</td>
-      </tr>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Note Text"}:</td>
+                  <td class="contentvalue">
+                    <textarea name="Body" rows="16" cols="$Config{"Ticket::Frontend::TextAreaNote"}" wrap="$Env{"BrowserWrap"}">$Text{"$Config{"Ticket::Frontend::CloseText"}"}</textarea>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Note type"}:</td>
+                  <td class="contentvalue">$Data{"NoteTypesStrg"}</td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Close type"}:</td>
+                  <td class="contentvalue">$Data{"NextStatesStrg"}</td>
+                </tr>
 #     <tr>
 #       <td class="contentkey">$Text{"Next Queue"}:</td>
 #       <td class="contentvalue">$Data{"MoveQueuesStrg"}</td>
@@ -142,31 +142,31 @@ $Include{"AgentTicketLocked"}
 #       <td class="contentvalue">$Data{"TicketFreeTextField8"}</td>
 #     </tr>
 <!-- dtl:block:TimeUnits -->
-      <tr>
-        <td class="contentkey">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</td>
-        <td class="contentvalue"><input type="text" name="TimeUnits" value="" size="3"></td>
-      </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</td>
+                  <td class="contentvalue"><input type="text" name="TimeUnits" value="" size="3"></td>
+                </tr>
 <!-- dtl:block:TimeUnits -->
-      </table>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td class="contentfooter">
+              <input class="button" accesskey="g" type="submit" value="$Text{"submit"}" onclick="return submit_compose();">
+            </td>
+          </tr>
+        </table>
+      </form>
+
+      <br>
+
+      <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
+        <input type="hidden" name="Action" value="AgentSpelling">
+        <input type="hidden" name="Body" value="">
+        <input type="hidden" name="spell_lang" value="">
+      </form>
+
     </td>
   </tr>
-  <tr>
-    <td class="contentfooter">
-      <input class="button" accesskey="g" type="submit" value="$Text{"submit"}" onclick="return submit_compose();">
-    </td>
-  </tr>
-  </table>
-  </form>
-
-  <br>
-
-<form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
-  <input type="hidden" name="Action" value="AgentSpelling">
-  <input type="hidden" name="Body" value="">
-  <input type="hidden" name="spell_lang" value="">
-</form>
-
-  </td>
-</tr>
 </table>
 <!-- end form -->
