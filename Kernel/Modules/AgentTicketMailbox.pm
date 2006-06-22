@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMailbox.pm - to view all locked tickets
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketMailbox.pm,v 1.8 2006-06-13 13:39:17 cs Exp $
+# $Id: AgentTicketMailbox.pm,v 1.9 2006-06-22 14:12:12 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -160,7 +160,7 @@ sub Run {
         foreach my $TicketID (@ViewableTicketsTmp) {
             my $Message = '';
             # --
-            # put all tickets to ToDo where last sender type is customer or ! UserID
+            # put all tickets to ToDo where last sender type is customer / system or ! UserID
             # --
             # show just unseen tickets as new
             if ($Self->{ConfigObject}->Get('Ticket::NewMessageMode') eq 'ArticleSeen') {
@@ -181,6 +181,7 @@ sub Run {
                 if (@Index) {
                     my %Article = $Self->{TicketObject}->ArticleGet(ArticleID => $Index[$#Index]);
                     if ($Article{SenderType} eq 'customer' ||
+                        $Article{SenderType} eq 'system' ||
                         $Article{CreatedBy} ne $Self->{UserID}) {
                         $Message = 'New message!';
                     }
@@ -245,7 +246,7 @@ sub Run {
 
             my $Message = '';
             # --
-            # put all tickets to ToDo where last sender type is customer or ! UserID
+            # put all tickets to ToDo where last sender type is customer / system or ! UserID
             # --
             # show just unseen tickets as new
             if ($Self->{ConfigObject}->Get('Ticket::NewMessageMode') eq 'ArticleSeen') {
@@ -261,6 +262,7 @@ sub Run {
             else {
                 my %Article = %{$ArticleBody[$#ArticleBody]};
                 if ($Article{SenderType} eq 'customer' ||
+                    $Article{SenderType} eq 'system' ||
                     $Article{CreatedBy} ne $Self->{UserID}) {
                     $Message = 'New message!';
                 }

@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/IndexAccelerator/StaticDB.pm - static db queue ticket index module
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: StaticDB.pm,v 1.32 2006-03-09 17:05:47 tr Exp $
+# $Id: StaticDB.pm,v 1.33 2006-06-22 14:12:12 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::IndexAccelerator::StaticDB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketAcceleratorUpdate {
@@ -500,8 +500,8 @@ sub GetLockedCount {
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         if (!$Param{"ID$Row[2]"}) {
           $Data{'All'}++;
-          # put all tickets to ToDo where last sender type is customer or ! UserID
-          if ($Row[3] ne $Param{UserID} || $Row[1] eq 'customer') {
+          # put all tickets to ToDo where last sender type is customer /system or ! UserID
+          if ($Row[3] ne $Param{UserID} || $Row[1] eq 'customer' || $Row[1] eq 'system') {
               $Data{'New'}++;
           }
 
