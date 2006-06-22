@@ -277,12 +277,12 @@
     $Self->{'Ticket::DefaultNextMoveStateType'} = ['open', 'closed'];
 
     # Ticket::Frontend::QueueSortBy::Default
-    # (default sort criteria for a single queue.)
+    # (default sort criteria for all queues displaied in the QueueView
+    # after sort by priority is done.)
     $Self->{"Ticket::Frontend::QueueSortBy::Default"} = 'Age';
 
     # Ticket::Frontend::QueueOrder::Default
-    # (sort order for all queues in the QueueView or for the queues selected
-    # for "My queues".)
+    # (sort order for all queues in the QueueView after priority sort.)
     $Self->{"Ticket::Frontend::QueueOrder::Default"} = 'Up';
 
     # Ticket::Frontend::MailboxSortBy::Default
