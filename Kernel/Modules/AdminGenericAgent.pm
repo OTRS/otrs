@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminGenericAgent.pm,v 1.25 2006-06-22 10:22:24 tr Exp $
+# $Id: AdminGenericAgent.pm,v 1.26 2006-06-22 12:09:43 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Lock;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -240,7 +240,8 @@ sub Run {
         if ($GetParam{NewDelete}) {
             $Param{DeleteMessage} = 'You use the DELETE option! Take care, all deleted Tickets are lost!!!';
         }
-        $Param{Message} = @ViewableIDs.' Tickets affected! Do you really want to use this job?';
+        $Param{AffectedIDs} = $#ViewableIDs + 1;
+        #$Param{Message} = '' .@ViewableIDs.' Tickets affected! Do you really want to use this job?';
 
 
         $Self->{LayoutObject}->Block(

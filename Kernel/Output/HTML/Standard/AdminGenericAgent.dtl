@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminGenericAgent.dtl,v 1.22 2006-06-22 10:22:24 tr Exp $
+# $Id: AdminGenericAgent.dtl,v 1.23 2006-06-22 12:09:43 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -220,7 +220,7 @@
           </tr>
 <!-- dtl:block:TicketFreeField -->
           <tr>
-            <td colspan="2" class="contenthead">$Text{"TicketFreeText"}</td>
+            <td colspan="2" class="contenthead">$Text{"TicketFreeFields"}</td>
           </tr>
 <!-- dtl:block:TicketFreeFieldElement -->
           <tr>
@@ -291,7 +291,7 @@
         </tr>
 <!-- dtl:block:NewTicketFreeField -->
         <tr>
-          <td colspan="2" class="mainhead">$Text{"New TicketFreeText"}</td>
+          <td colspan="2" class="mainhead">$Text{"New TicketFreeFields"}</td>
         </tr>
 <!-- dtl:block:NewTicketFreeFieldElement -->
         <tr>
@@ -430,8 +430,8 @@
 <tr>
   <td class="mainbody">
     <p>
-      $QData{"Message"}<br>
-      $QData{"DeleteMessage"}
+      $QData{"AffectedIDs"} $Text{" Tickets affected! Do you really want to use this job?"}<br>
+      $Text{"$QData{"DeleteMessage"}"}
     </p>
   </td>
 </tr>

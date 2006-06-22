@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: de.pm,v 1.106 2006-04-03 12:53:06 tr Exp $
+# $Id: de.pm,v 1.107 2006-06-22 12:09:42 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.106 $';
+$VERSION = '$Revision: 1.107 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -548,7 +548,7 @@ sub Data {
       '(e. g. U5150)' => 'z. B. U5150',
       'Agent' => '',
       'TicketFreeText' => '',
-      'Ticket Lock' => 'Ticket Sperren',
+      'Ticket Lock' => 'Ticket Lock',
       'Times' => 'Zeiten',
       'No time settings.' => 'Keine Zeit-Einstellungen.',
       'Ticket created' => 'Ticket erstellt',
@@ -563,7 +563,7 @@ sub Data {
       'CustomerUser' => 'Kundenbenutzer',
       'Add Note' => 'Notiz hinzufügen',
       'CMD' => '',
-      'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => 'Dieses Commando wird mit ARG[0] (die Ticket Nummer) und ARG[1] die TicketID ausgeführt.',
+      'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => 'Dieses Kommando wird mit ARG[0] (die Ticket Nummer) und ARG[1] die TicketID ausgeführt.',
       'Delete tickets' => 'Tickets Löschen',
       'Warning! This tickets will be removed from the database! This tickets are lost!' => 'Warnung! Alle diese Tickets werden von der Datenbank entfernt! Diese Tickets sind nicht wiederherstellbar!',
       'Modules' => 'Module',
@@ -574,6 +574,19 @@ sub Data {
       'Param 5' => '',
       'Param 6' => '',
       'Save' => 'Speichern',
+      ' Tickets affected! Do you really want to use this job?' => ' Tickets sind betroffen! Wollen Sie diesen Job wirklich benutzen?',
+      'Send Notification' => 'Senden der Benachrichtigung',
+      'You use the DELETE option! Take care, all deleted Tickets are lost!!!' => 'Sie benutzen die LÖSCHEN Option! Bitte bedenken Sie, dass dann diese Tickets verloren sind!',
+      'TicketFreeFields' => 'TicketFreiFelder',
+      'New TicketFreeFields' => 'Neue TicketFreiFelder',
+      'Send no notifications' => 'Keine Benachrichtigung senden',
+      'Yes means, send no agent and customer notifications on changes.' => 'Ja bedeutet, es werden Benachrichtigungen an Kunden und Agents gesendet.',
+      'No means, send agent and customer notifications on changes.' => 'Nein bedeutet, es werden die Kunden und Agents durch eine Benachrichtigung über die Änderung informiert.',
+      'Affected Tickets' => 'Betroffene Tickets',
+
+
+
+
 
       # Template: AdminGroupForm
       'Group Management' => 'Gruppen Verwaltung',
