@@ -2,7 +2,7 @@
 # Kernel/System/Log.pm - log wapper
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Log.pm,v 1.32 2006-04-28 12:54:09 tr Exp $
+# $Id: Log.pm,v 1.33 2006-06-22 06:32:31 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Log;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.32 $ ';
+$VERSION = '$Revision: 1.33 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -239,7 +239,7 @@ sub Dumper {
     # log backend
     $Self->{Backend}->Log(
         Priority => 'debug',
-        Message => substr(Data::Dumper::Dumper(@_), 0, 8000),
+        Message => substr(Data::Dumper::Dumper(@_), 0, 600600600),
         LogPrefix => $Self->{LogPrefix},
         Module => $Subroutine2,
         Line => $Line1,
@@ -259,6 +259,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.32 $ $Date: 2006-04-28 12:54:09 $
+$Revision: 1.33 $ $Date: 2006-06-22 06:32:31 $
 
 =cut

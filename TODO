@@ -2,7 +2,7 @@
 # TODO - todo list OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TODO,v 1.100 2006-06-20 11:00:14 tr Exp $
+# $Id: TODO,v 1.101 2006-06-22 06:32:30 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -144,3 +144,4 @@ ideas (just ideas - nobody is working on it)
   Change User in UserLogin or CustomerUserLogin
 - SysConfig: a Descriptionfield for each SysConfigElement. That each admin can reproduce why this change of the Configuration had been done.
   (a idea of Alex Schollerer)
+- a Extension of the generic agent that he can be triggered by an event
