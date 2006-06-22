@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.94.2.7 2006-06-16 23:43:44 cs Exp $
+# $Id: Article.pm,v 1.94.2.8 2006-06-22 15:02:45 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.94.2.7 $';
+$VERSION = '$Revision: 1.94.2.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1825,30 +1825,19 @@ sub SendCustomerNotification {
 
     # send notify
     my %Address = $Self->{QueueObject}->GetSystemAddress(QueueID => $Article{QueueID});
-#    $Self->ArticleSend(
-#        ArticleType => 'email-notification-ext',
-#        SenderType => 'system',
-#        TicketID => $Param{TicketID},
-#        HistoryType => 'SendCustomerNotification',
-#        HistoryComment => "\%\%$Article{From}",
-#        From => "$Address{RealName} <$Address{Email}>",
-#        To => $Article{From},
-#        Subject => $Notification{Subject},
-#        Body => $Notification{Body},
-#        Type => 'text/plain',
-#        Charset => $Notification{Charset},
-#        UserID => $Param{UserID},
-#        Loop => 1,
-#    );
-
-    $Self->{SendmailObject}->Send(
+    $Self->ArticleSend(
+        ArticleType => 'email-notification-ext',
+        SenderType => 'system',
+        TicketID => $Param{TicketID},
+        HistoryType => 'SendCustomerNotification',
+        HistoryComment => "\%\%$Article{From}",
         From => "$Address{RealName} <$Address{Email}>",
         To => $Article{From},
         Subject => $Notification{Subject},
-        'Reply-To' => $Self->{ConfigObject}->Get('NotificationSenderEmail'),
-        Type => 'text/plain',
-	Charset => $Notification{Charset},
         Body => $Notification{Body},
+        Type => 'text/plain',
+        Charset => $Notification{Charset},
+        UserID => $Param{UserID},
         Loop => 1,
     );
 
