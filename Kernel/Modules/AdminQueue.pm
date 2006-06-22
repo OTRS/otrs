@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminQueue.pm,v 1.24 2006-06-20 13:27:51 martin Exp $
+# $Id: AdminQueue.pm,v 1.25 2006-06-22 07:38:03 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -215,13 +215,27 @@ sub _Mask {
         }
         $Param{Name} = $Queue[$#Queue];
     }
+
+    my %Data = $Self->{DBObject}->GetTableData(
+        What => 'id, name',
+        Table => 'queue',
+        Valid => 1,
+    );
+    my $QueueName = '';
+    foreach my $Key (keys %Data) {
+        if ($Param{QueueID} eq $Key) {
+            $QueueName = $Data{$Param{QueueID}};
+            last;
+        }
+    }
+    my %CleanHash = %Data;
+    foreach my $Key (keys %Data) {
+        if ($CleanHash{$Key} eq $QueueName || $CleanHash{$Key} =~ /^$QueueName\:\:/) {
+            delete($CleanHash{$Key});
+        }
+    }
     $Param{'QueueOption'} = $Self->{LayoutObject}->AgentQueueListOption(
-        Data => {
-          $Self->{DBObject}->GetTableData(
-            What => 'id, name',
-            Table => 'queue',
-            Valid => 1,
-          ),
+        Data => {%CleanHash,
           '' => '-',
         },
         Name => 'ParentQueueID',
