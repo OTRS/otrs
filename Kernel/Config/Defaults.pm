@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.235 2006-06-14 17:00:11 cs Exp $
+# $Id: Defaults.pm,v 1.236 2006-06-24 15:20:31 ck Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.235 $';
+$VERSION = '$Revision: 1.236 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -522,8 +522,8 @@ sub LoadDefaults {
         },
         12 => {
             24 => 'Christmas',
-            25 => 'First Christmas Day',
-            26 => 'Second Christmas Day',
+            25 => 'Christmas Day',
+            26 => 'Boxing Day',
             31 => 'Silvester',
         },
     };
@@ -1737,6 +1737,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.235 $ $Date: 2006-06-14 17:00:11 $
+$Revision: 1.236 $ $Date: 2006-06-24 15:20:31 $
 
 =cut
