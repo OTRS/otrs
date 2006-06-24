@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  database: mysql, generated: Fri Mar 24 00:34:56 2006
+#  database: mysql, generated: Sat Jun 24 16:47:31 2006
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -635,6 +635,18 @@ CREATE TABLE time_accounting (
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
     INDEX index_time_accounting_ticket_id (ticket_id)
+);
+# ----------------------------------------------------------
+#  create table ticket_watcher
+# ----------------------------------------------------------
+CREATE TABLE ticket_watcher (
+    ticket_id BIGINT NOT NULL,
+    user_id BIGINT NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    INDEX ticket_id (ticket_id)
 );
 # ----------------------------------------------------------
 #  create table sessions

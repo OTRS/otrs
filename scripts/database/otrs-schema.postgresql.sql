@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  database: postgresql, generated: Fri Mar 24 00:35:28 2006
+--  database: postgresql, generated: Sat Jun 24 16:48:39 2006
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -636,6 +636,18 @@ CREATE TABLE time_accounting (
     PRIMARY KEY(id)
 );
 CREATE INDEX index_time_accounting_ticket_id ON time_accounting (ticket_id);
+-- ----------------------------------------------------------
+--  create table ticket_watcher
+-- ----------------------------------------------------------
+CREATE TABLE ticket_watcher (
+    ticket_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL
+);
+CREATE INDEX ticket_id ON ticket_watcher (ticket_id);
 -- ----------------------------------------------------------
 --  create table sessions
 -- ----------------------------------------------------------
