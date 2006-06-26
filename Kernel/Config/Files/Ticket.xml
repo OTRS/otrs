@@ -148,7 +148,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.108 2006-06-26 08:26:01 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.109 2006-06-26 14:29:23 tr Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -7512,5 +7512,240 @@ Thanks for your help!
         <Setting>
             <String Regex="">(MAILER-DAEMON|postmaster|abuse)@.+?\..+?</String>
         </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::EventModulePost###TicketFreeFieldDefault" Required="0" Valid="0">
+      <Description Lang="en">Registration of the TicketFreeFieldDefault event module. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all TicketFreeField elements need the same event.</Description>
+      <Description Lang="de">Registrierung des TicketFreeFieldDefault Event-Moduls. Wenn alle über dieses Modul definierten Aktionen bei dem gleichen Event ausgeführt werden kann auch zusätzlich das Event definiert werden (z. B. Event => TicketCreate). Dies bringt weitere Performance für das System.</Description>
+      <Group>Ticket</Group>
+      <SubGroup>Core::TicketFreeTextDefault</SubGroup>
+      <Setting>
+        <Hash>
+          <Item Key="Module">Kernel::System::Ticket::Event::TicketFreeFieldDefault</Item>
+        </Hash>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element1" Required="0" Valid="0">
+      <Description Lang="en">Configurate a default TicketFreeField setting. Counter defines the free text field you which should be used. With Key you set the TicketFreeKey and with Value the TicketFreeText. Event defines the trigger event.</Description>
+      <Description Lang="de">Konfiguration einer TicketFreiFeldDefault-Einstellung. Mit Counter wird das TicketFreiFeld festgelegt, welches benutzt werden soll. Mit Key und Value werden die Werte festgelegt, mit denen das TicketFreiFeld belegt werden soll. Event gibt an, bei welchem Event die Funktion ausgelöst wird.</Description>
+      <Group>Ticket</Group>
+      <SubGroup>Core::TicketFreeTextDefault</SubGroup>
+      <Setting>
+        <Hash>
+          <Item Key="Counter">1</Item>
+          <Item Key="Key">TicketType</Item>
+          <Item Key="Value">Default</Item>
+          <Item Key="Event">TicketCreate</Item>
+        </Hash>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element2" Required="0" Valid="0">
+      <Description Lang="en">Configurate a default TicketFreeField setting. Counter defines the free text field you which should be used. With Key you set the TicketFreeKey and with Value the TicketFreeText. Event defines the trigger event.</Description>
+      <Description Lang="de">Konfiguration einer TicketFreiFeldDefault-Einstellung. Mit Counter wird das TicketFreiFeld festgelegt, welches benutzt werden soll. Mit Key und Value werden die Werte festgelegt, mit denen das TicketFreiFeld belegt werden soll. Event gibt an, bei welchem Event die Funktion ausgelöst wird.</Description>
+      <Group>Ticket</Group>
+      <SubGroup>Core::TicketFreeTextDefault</SubGroup>
+      <Setting>
+        <Hash>
+          <Item Key="Counter"></Item>
+          <Item Key="Key"></Item>
+          <Item Key="Value"></Item>
+          <Item Key="Event"></Item>
+        </Hash>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element3" Required="0" Valid="0">
+      <Description Lang="en">Configurate a default TicketFreeField setting. Counter defines the free text field you which should be used. With Key you set the TicketFreeKey and with Value the TicketFreeText. Event defines the trigger event.</Description>
+      <Description Lang="de">Konfiguration einer TicketFreiFeldDefault-Einstellung. Mit Counter wird das TicketFreiFeld festgelegt, welches benutzt werden soll. Mit Key und Value werden die Werte festgelegt, mit denen das TicketFreiFeld belegt werden soll. Event gibt an, bei welchem Event die Funktion ausgelöst wird.</Description>
+      <Group>Ticket</Group>
+      <SubGroup>Core::TicketFreeTextDefault</SubGroup>
+      <Setting>
+        <Hash>
+          <Item Key="Counter"></Item>
+          <Item Key="Key"></Item>
+          <Item Key="Value"></Item>
+          <Item Key="Event"></Item>
+        </Hash>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element4" Required="0" Valid="0">
+      <Description Lang="en">Configurate a default TicketFreeField setting. Counter defines the free text field you which should be used. With Key you set the TicketFreeKey and with Value the TicketFreeText. Event defines the trigger event.</Description>
+      <Description Lang="de">Konfiguration einer TicketFreiFeldDefault-Einstellung. Mit Counter wird das TicketFreiFeld festgelegt, welches benutzt werden soll. Mit Key und Value werden die Werte festgelegt, mit denen das TicketFreiFeld belegt werden soll. Event gibt an, bei welchem Event die Funktion ausgelöst wird.</Description>
+      <Group>Ticket</Group>
+      <SubGroup>Core::TicketFreeTextDefault</SubGroup>
+      <Setting>
+        <Hash>
+          <Item Key="Counter"></Item>
+          <Item Key="Key"></Item>
+          <Item Key="Value"></Item>
+          <Item Key="Event"></Item>
+        </Hash>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element5" Required="0" Valid="0">
+      <Description Lang="en">Configurate a default TicketFreeField setting. Counter defines the free text field you which should be used. With Key you set the TicketFreeKey and with Value the TicketFreeText. Event defines the trigger event.</Description>
+      <Description Lang="de">Konfiguration einer TicketFreiFeldDefault-Einstellung. Mit Counter wird das TicketFreiFeld festgelegt, welches benutzt werden soll. Mit Key und Value werden die Werte festgelegt, mit denen das TicketFreiFeld belegt werden soll. Event gibt an, bei welchem Event die Funktion ausgelöst wird.</Description>
+      <Group>Ticket</Group>
+      <SubGroup>Core::TicketFreeTextDefault</SubGroup>
+      <Setting>
+        <Hash>
+          <Item Key="Counter"></Item>
+          <Item Key="Key"></Item>
+          <Item Key="Value"></Item>
+          <Item Key="Event"></Item>
+        </Hash>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element6" Required="0" Valid="0">
+      <Description Lang="en">Configurate a default TicketFreeField setting. Counter defines the free text field you which should be used. With Key you set the TicketFreeKey and with Value the TicketFreeText. Event defines the trigger event.</Description>
+      <Description Lang="de">Konfiguration einer TicketFreiFeldDefault-Einstellung. Mit Counter wird das TicketFreiFeld festgelegt, welches benutzt werden soll. Mit Key und Value werden die Werte festgelegt, mit denen das TicketFreiFeld belegt werden soll. Event gibt an, bei welchem Event die Funktion ausgelöst wird.</Description>
+      <Group>Ticket</Group>
+      <SubGroup>Core::TicketFreeTextDefault</SubGroup>
+      <Setting>
+        <Hash>
+          <Item Key="Counter"></Item>
+          <Item Key="Key"></Item>
+          <Item Key="Value"></Item>
+          <Item Key="Event"></Item>
+        </Hash>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element7" Required="0" Valid="0">
+      <Description Lang="en">Configurate a default TicketFreeField setting. Counter defines the free text field you which should be used. With Key you set the TicketFreeKey and with Value the TicketFreeText. Event defines the trigger event.</Description>
+      <Description Lang="de">Konfiguration einer TicketFreiFeldDefault-Einstellung. Mit Counter wird das TicketFreiFeld festgelegt, welches benutzt werden soll. Mit Key und Value werden die Werte festgelegt, mit denen das TicketFreiFeld belegt werden soll. Event gibt an, bei welchem Event die Funktion ausgelöst wird.</Description>
+      <Group>Ticket</Group>
+      <SubGroup>Core::TicketFreeTextDefault</SubGroup>
+      <Setting>
+        <Hash>
+          <Item Key="Counter"></Item>
+          <Item Key="Key"></Item>
+          <Item Key="Value"></Item>
+          <Item Key="Event"></Item>
+        </Hash>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element8" Required="0" Valid="0">
+      <Description Lang="en">Configurate a default TicketFreeField setting. Counter defines the free text field you which should be used. With Key you set the TicketFreeKey and with Value the TicketFreeText. Event defines the trigger event.</Description>
+      <Description Lang="de">Konfiguration einer TicketFreiFeldDefault-Einstellung. Mit Counter wird das TicketFreiFeld festgelegt, welches benutzt werden soll. Mit Key und Value werden die Werte festgelegt, mit denen das TicketFreiFeld belegt werden soll. Event gibt an, bei welchem Event die Funktion ausgelöst wird.</Description>
+      <Group>Ticket</Group>
+      <SubGroup>Core::TicketFreeTextDefault</SubGroup>
+      <Setting>
+        <Hash>
+          <Item Key="Counter"></Item>
+          <Item Key="Key"></Item>
+          <Item Key="Value"></Item>
+          <Item Key="Event"></Item>
+        </Hash>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element9" Required="0" Valid="0">
+      <Description Lang="en">Configurate a default TicketFreeField setting. Counter defines the free text field you which should be used. With Key you set the TicketFreeKey and with Value the TicketFreeText. Event defines the trigger event.</Description>
+      <Description Lang="de">Konfiguration einer TicketFreiFeldDefault-Einstellung. Mit Counter wird das TicketFreiFeld festgelegt, welches benutzt werden soll. Mit Key und Value werden die Werte festgelegt, mit denen das TicketFreiFeld belegt werden soll. Event gibt an, bei welchem Event die Funktion ausgelöst wird.</Description>
+      <Group>Ticket</Group>
+      <SubGroup>Core::TicketFreeTextDefault</SubGroup>
+      <Setting>
+        <Hash>
+          <Item Key="Counter"></Item>
+          <Item Key="Key"></Item>
+          <Item Key="Value"></Item>
+          <Item Key="Event"></Item>
+        </Hash>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element10" Required="0" Valid="0">
+      <Description Lang="en">Configurate a default TicketFreeField setting. Counter defines the free text field you which should be used. With Key you set the TicketFreeKey and with Value the TicketFreeText. Event defines the trigger event.</Description>
+      <Description Lang="de">Konfiguration einer TicketFreiFeldDefault-Einstellung. Mit Counter wird das TicketFreiFeld festgelegt, welches benutzt werden soll. Mit Key und Value werden die Werte festgelegt, mit denen das TicketFreiFeld belegt werden soll. Event gibt an, bei welchem Event die Funktion ausgelöst wird.</Description>
+      <Group>Ticket</Group>
+      <SubGroup>Core::TicketFreeTextDefault</SubGroup>
+      <Setting>
+        <Hash>
+          <Item Key="Counter"></Item>
+          <Item Key="Key"></Item>
+          <Item Key="Value"></Item>
+          <Item Key="Event"></Item>
+        </Hash>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element11" Required="0" Valid="0">
+      <Description Lang="en">Configurate a default TicketFreeField setting. Counter defines the free text field you which should be used. With Key you set the TicketFreeKey and with Value the TicketFreeText. Event defines the trigger event.</Description>
+      <Description Lang="de">Konfiguration einer TicketFreiFeldDefault-Einstellung. Mit Counter wird das TicketFreiFeld festgelegt, welches benutzt werden soll. Mit Key und Value werden die Werte festgelegt, mit denen das TicketFreiFeld belegt werden soll. Event gibt an, bei welchem Event die Funktion ausgelöst wird.</Description>
+      <Group>Ticket</Group>
+      <SubGroup>Core::TicketFreeTextDefault</SubGroup>
+      <Setting>
+        <Hash>
+          <Item Key="Counter"></Item>
+          <Item Key="Key"></Item>
+          <Item Key="Value"></Item>
+          <Item Key="Event"></Item>
+        </Hash>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element12" Required="0" Valid="0">
+      <Description Lang="en">Configurate a default TicketFreeField setting. Counter defines the free text field you which should be used. With Key you set the TicketFreeKey and with Value the TicketFreeText. Event defines the trigger event.</Description>
+      <Description Lang="de">Konfiguration einer TicketFreiFeldDefault-Einstellung. Mit Counter wird das TicketFreiFeld festgelegt, welches benutzt werden soll. Mit Key und Value werden die Werte festgelegt, mit denen das TicketFreiFeld belegt werden soll. Event gibt an, bei welchem Event die Funktion ausgelöst wird.</Description>
+      <Group>Ticket</Group>
+      <SubGroup>Core::TicketFreeTextDefault</SubGroup>
+      <Setting>
+        <Hash>
+          <Item Key="Counter"></Item>
+          <Item Key="Key"></Item>
+          <Item Key="Value"></Item>
+          <Item Key="Event"></Item>
+        </Hash>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element13" Required="0" Valid="0">
+      <Description Lang="en">Configurate a default TicketFreeField setting. Counter defines the free text field you which should be used. With Key you set the TicketFreeKey and with Value the TicketFreeText. Event defines the trigger event.</Description>
+      <Description Lang="de">Konfiguration einer TicketFreiFeldDefault-Einstellung. Mit Counter wird das TicketFreiFeld festgelegt, welches benutzt werden soll. Mit Key und Value werden die Werte festgelegt, mit denen das TicketFreiFeld belegt werden soll. Event gibt an, bei welchem Event die Funktion ausgelöst wird.</Description>
+      <Group>Ticket</Group>
+      <SubGroup>Core::TicketFreeTextDefault</SubGroup>
+      <Setting>
+        <Hash>
+          <Item Key="Counter"></Item>
+          <Item Key="Key"></Item>
+          <Item Key="Value"></Item>
+          <Item Key="Event"></Item>
+        </Hash>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element14" Required="0" Valid="0">
+      <Description Lang="en">Configurate a default TicketFreeField setting. Counter defines the free text field you which should be used. With Key you set the TicketFreeKey and with Value the TicketFreeText. Event defines the trigger event.</Description>
+      <Description Lang="de">Konfiguration einer TicketFreiFeldDefault-Einstellung. Mit Counter wird das TicketFreiFeld festgelegt, welches benutzt werden soll. Mit Key und Value werden die Werte festgelegt, mit denen das TicketFreiFeld belegt werden soll. Event gibt an, bei welchem Event die Funktion ausgelöst wird.</Description>
+      <Group>Ticket</Group>
+      <SubGroup>Core::TicketFreeTextDefault</SubGroup>
+      <Setting>
+        <Hash>
+          <Item Key="Counter"></Item>
+          <Item Key="Key"></Item>
+          <Item Key="Value"></Item>
+          <Item Key="Event"></Item>
+        </Hash>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element15" Required="0" Valid="0">
+      <Description Lang="en">Configurate a default TicketFreeField setting. Counter defines the free text field you which should be used. With Key you set the TicketFreeKey and with Value the TicketFreeText. Event defines the trigger event.</Description>
+      <Description Lang="de">Konfiguration einer TicketFreiFeldDefault-Einstellung. Mit Counter wird das TicketFreiFeld festgelegt, welches benutzt werden soll. Mit Key und Value werden die Werte festgelegt, mit denen das TicketFreiFeld belegt werden soll. Event gibt an, bei welchem Event die Funktion ausgelöst wird.</Description>
+      <Group>Ticket</Group>
+      <SubGroup>Core::TicketFreeTextDefault</SubGroup>
+      <Setting>
+        <Hash>
+          <Item Key="Counter"></Item>
+          <Item Key="Key"></Item>
+          <Item Key="Value"></Item>
+          <Item Key="Event"></Item>
+        </Hash>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::TicketFreeFieldDefault###Element16" Required="0" Valid="0">
+      <Description Lang="en">Configurate a default TicketFreeField setting. Counter defines the free text field you which should be used. With Key you set the TicketFreeKey and with Value the TicketFreeText. Event defines the trigger event.</Description>
+      <Description Lang="de">Konfiguration einer TicketFreiFeldDefault-Einstellung. Mit Counter wird das TicketFreiFeld festgelegt, welches benutzt werden soll. Mit Key und Value werden die Werte festgelegt, mit denen das TicketFreiFeld belegt werden soll. Event gibt an, bei welchem Event die Funktion ausgelöst wird.</Description>
+      <Group>Ticket</Group>
+      <SubGroup>Core::TicketFreeTextDefault</SubGroup>
+      <Setting>
+        <Hash>
+          <Item Key="Counter"></Item>
+          <Item Key="Key"></Item>
+          <Item Key="Value"></Item>
+          <Item Key="Event"></Item>
+        </Hash>
+      </Setting>
     </ConfigItem>
 </otrs_config>
