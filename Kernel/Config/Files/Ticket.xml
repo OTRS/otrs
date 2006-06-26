@@ -148,7 +148,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.107 2006-06-22 12:53:11 cs Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.108 2006-06-26 08:26:01 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -1262,6 +1262,30 @@ TimeWorkingHours
                 <Item Key="Link">Link</Item>
                 <Item Key="Form">Form</Item>
             </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Watcher" Required="0" Valid="1">
+        <Description Lang="en">Enable or disable the ticket watcher feature.</Description>
+        <Description Lang="de">Aktivieren oder deativieren der Ticket-Beobachter Funktionalitaet.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketWatcher</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::WatcherGroup" Required="0" Valid="0">
+        <Description Lang="en">Enable ticket watcher feature fust for the following groups.</Description>
+        <Description Lang="de">Ticket-Beobachter Funktionalitaet nur fuer folgende Gruppen aktivieren.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketWatcher</SubGroup>
+        <Setting>
+            <Array>
+                <Item>admin</Item>
+                <Item>users</Item>
+            </Array>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::ZoomExpand" Required="1" Valid="1">
@@ -4819,6 +4843,17 @@ $QData{"Signature"}
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Frontend::NavBarModule###1-Ticket::TicketWatcher" Required="0" Valid="1">
+        <Description Lang="en">Agent interface notification module to see the number of watched tickets.</Description>
+        <Description Lang="de">Modul mit dem Agents über das Agent-Interface über die Anzahl von beobachteten Tickets benachrichtigt werden.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::NavBarModule</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::NavBarTicketWatcher</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Frontend::NavBarModule###1-Ticket::LockedTickets" Required="0" Valid="1">
         <Description Lang="en">Agent interface notification module to check the used charset.</Description>
         <Description Lang="de">Modul mit dem Agents über das Agent-Interface über den Zeichensatz von Tickets benachrichtigt werden.</Description>
@@ -5142,6 +5177,18 @@ $QData{"Signature"}
                 <Item Key="Description">Set this ticket to pending!</Item>
                 <Item Key="Action">AgentTicketPending</Item>
                 <Item Key="Link">Action=AgentTicketPending&amp;TicketID=$QData{"TicketID"}</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::MenuModule###448-Watch" Required="0" Valid="1">
+        <Description Lang="en">Module to show subscribe/unsubscribe link in menu.</Description>
+        <Description Lang="de">Über dieses Modul werden die Subscribe- bzw. Unsubscribe-Links in der Linkleiste angezeigt.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::TicketMenuTicketWatcher</Item>
+                <Item Key="Name">Watch</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6394,6 +6441,19 @@ $QData{"Signature"}
                 <Description>Ticket Pending</Description>
                 <Title>Pending</Title>
                 <NavBarName>Ticket</NavBarName>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AgentTicketWatcher" Required="0" Valid="1">
+        <Description Lang="en">All parameters for the TicketWatcher object in the agent interface.</Description>
+        <Description Lang="de">Alle Parameter des TicketWatcher-Objekts im Agent-Interface.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Description>A TicketWatcher Module</Description>
+                <NavBarName>Ticket-Watcher</NavBarName>
+                <Title>Ticket-Watcher</Title>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>

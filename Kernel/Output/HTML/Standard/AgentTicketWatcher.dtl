@@ -1,0 +1,53 @@
+# --
+# AgentTicketWatcher.dtl - provides HTML form for AgentTicketWatcher
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: AgentTicketWatcher.dtl,v 1.1 2006-06-26 08:26:01 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+
+<!-- dtl:block:Overview -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
+  <tr>
+    <td class="mainhead">
+      $Env{"Box0"}$Text{"Overview"}: $Text{"TicketWatcher"}$Env{"Box1"}
+    </td>
+  </tr>
+  <tr>
+    <td class="mainbody" align="center">
+      <br>
+      <table border="0" width="800" cellspacing="0" cellpadding="3">
+        <tr class="contenthead">
+          <td class="contentkey" width="2%">&nbsp;</td>
+          <td class="contentkey">$Text{"Ticket"}</td>
+          <td class="contentkey" width="35%">$Text{"Title"}</td>
+          <td class="contentkey">$Text{"Queue"}<br>$Text{"State"}</td>
+          <td class="contentkey">$Text{"Priority"}</td>
+          <td class="contentkey">$Text{"Watched Since"}</td>
+          <td class="contentkey">$Text{"Last Change"}</td>
+          <td class="contentkey" width="2%">&nbsp;</td>
+        </tr>
+<!-- dtl:block:OverviewWatched -->
+        <tr class="contentbody">
+          <td class="$QData{"TableColor"}">&nbsp;</td>
+          <td class="$QData{"TableColor"}"><a href="$Env{"CGIHandle"}?Action=AgentTicketZoom&TicketID=$QData{"TicketID"}">$QData{"TicketNumber"}</a></td>
+          <td class="$QData{"TableColor"}">$QData{"Title","120"}</td>
+          <td class="$QData{"TableColor"}">$QData{"Queue","20"}<br>$Text{"$QData{"Status","20"}"}</td>
+          <td class="$QData{"TableColor"}">$Text{"$QData{"Priority","20"}"}</td>
+          <td class="$QData{"TableColor"}">$TimeShort{"$QData{"CreateTime"}"}</td>
+          <td class="$QData{"TableColor"}">$TimeShort{"$QData{"ChangeTime"}"}</td>
+          <td class="$QData{"TableColor"}" width="3%">&nbsp;</td>
+        </tr>
+<!-- dtl:block:OverviewWatched -->
+        <tr class="contentfooter">
+          <td colspan="8">&nbsp;</td>
+        </tr>
+      </table>
+      <br>
+    </td>
+  </tr>
+</table>
+<!-- dtl:block:Overview -->

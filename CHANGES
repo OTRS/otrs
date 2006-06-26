@@ -2,13 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.258 2006-06-22 14:12:12 cs Exp $
+# $Id: CHANGES,v 1.259 2006-06-26 08:26:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS head
+ - (2006/06/26) added ticket watcher feature, per default it's disabled
  - (2006/06/22) Fixed bug #1240 - Tickets not shown in "New messages" if
     Auto Response "Reply" is active
  - (2006/06/14) Fixed bug #1206 - When no RELEASE file is available, no

@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.210 2006-05-29 11:35:37 mh Exp $
+# $Id: Ticket.pm,v 1.211 2006-06-26 08:26:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.210 $';
+$VERSION = '$Revision: 1.211 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -1050,10 +1050,10 @@ sub MoveTicket {
     }
     # check needed stuff
     foreach (qw(TicketID QueueID UserID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # get current ticket
     my %Ticket = $Self->TicketGet(%Param);
@@ -1224,10 +1224,10 @@ sub SetCustomerData {
     my %Param = @_;
     # check needed stuff
     foreach (qw(TicketID UserID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     if (!defined($Param{No}) && !defined($Param{User})) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need User or No for update!");
@@ -1315,10 +1315,10 @@ sub TicketFreeTextGet {
     my $Key = $Param{Key} || '';
     # check needed stuff
     foreach (qw(Type)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
    if (!$Param{UserID} && !$Param{CustomerUserID}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserID or CustomerUserID!");
@@ -1520,10 +1520,10 @@ sub Permission {
     my %Param = @_;
     # check needed stuff
     foreach (qw(Type TicketID UserID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     my $AccessOk = 0;
     # run all TicketPermission modules
@@ -1609,10 +1609,10 @@ sub CustomerPermission {
     my %Param = @_;
     # check needed stuff
     foreach (qw(Type TicketID UserID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # run all CustomerTicketPermission modules
     my $AccessOk = 0;
@@ -2676,10 +2676,10 @@ sub LockSet {
     }
     # check needed stuff
     foreach (qw(TicketID UserID LockID Lock)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     if (!$Param{Lock} && !$Param{LockID}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need LockID or Lock!");
@@ -3154,10 +3154,10 @@ sub OwnerList {
     my %Param = @_;
     # check needed stuff
     foreach (qw(TicketID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # db quote
     foreach (qw(TicketID)) {
@@ -3317,10 +3317,10 @@ sub ResponsibleList {
     my %Param = @_;
     # check needed stuff
     foreach (qw(TicketID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # db quote
     foreach (qw(TicketID)) {
@@ -3376,10 +3376,10 @@ sub InvolvedAgents {
     my %Param = @_;
     # check needed stuff
     foreach (qw(TicketID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # db quote
     foreach (qw(TicketID)) {
@@ -3417,8 +3417,8 @@ sub PriorityLookup {
     my %Param = @_;
     # check needed stuff
     if (!$Param{Type} && !$Param{ID}) {
-      $Self->{LogObject}->Log(Priority => 'error', Message => "Need Type or ID!");
-      return;
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Type or ID!");
+        return;
     }
     # check if we ask the same request?
     if ($Param{Type}) {
@@ -3506,10 +3506,10 @@ sub PrioritySet {
     }
     # check needed stuff
     foreach (qw(TicketID UserID PriorityID Priority)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     my %Ticket = $Self->TicketGet(%Param);
     # check if update is needed
@@ -3626,10 +3626,10 @@ sub HistoryTicketStatusGet {
     my %Ticket = ();
     # check needed stuff
     foreach (qw(StopYear StopMonth StopDay StartYear StartMonth StartDay)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # format month and day params
     foreach (qw(StopMonth StopDay StartMonth StartDay)) {
@@ -3701,10 +3701,10 @@ sub HistoryTicketGet {
     my %Ticket = ();
     # check needed stuff
     foreach (qw(TicketID StopYear StopMonth StopDay)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # format month and day params
     foreach (qw(StopMonth StopDay)) {
@@ -3883,8 +3883,8 @@ sub HistoryTypeLookup {
     my %Param = @_;
     # check needed stuff
     if (!$Param{Type}) {
-      $Self->{LogObject}->Log(Priority => 'error', Message => "Need Type!");
-      return;
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Type!");
+        return;
     }
     # db quote
     foreach (qw(Type)) {
@@ -4028,10 +4028,10 @@ sub HistoryGet {
     my @Lines;
     # check needed stuff
     foreach (qw(TicketID UserID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # db quote
     foreach (qw(TicketID)) {
@@ -4084,10 +4084,10 @@ sub HistoryDelete {
     my %Param = @_;
     # check needed stuff
     foreach (qw(TicketID UserID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # db quote
     foreach (qw(TicketID)) {
@@ -4122,8 +4122,8 @@ sub TicketAccountedTimeGet {
     my $AccountedTime = 0;
     # check needed stuff
     if (!$Param{TicketID}) {
-      $Self->{LogObject}->Log(Priority => 'error', Message => "Need TicketID!");
-      return;
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need TicketID!");
+        return;
     }
     # db quote
     foreach (qw(TicketID)) {
@@ -4161,10 +4161,10 @@ sub TicketAccountTime {
     my %Param = @_;
     # check needed stuff
     foreach (qw(TicketID ArticleID TimeUnit UserID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # check some wrong formats
     $Param{TimeUnit} =~ s/,/\./g;
@@ -4226,10 +4226,10 @@ sub TicketMerge {
     my %Param = @_;
     # check needed stuff
     foreach (qw(MainTicketID MergeTicketID UserID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # db quote
     foreach (qw(MainTicketID MergeTicketID UserID)) {
@@ -4302,6 +4302,200 @@ sub TicketMerge {
     }
 }
 
+=item TicketWatchList()
+
+to get a array, a hash or the count of all subscribed tickets of one user
+
+    my @List = $TicketObject->TicketWatchList(
+        Type => 'ARRAY', # ARRAY|HASH|COUNT
+        UserID => 123,
+    );
+
+=cut
+
+sub TicketWatchList {
+    my $Self = shift;
+    my %Param = @_;
+    my %Hash = ();
+    my @Array = ();
+    my $Count = 0;
+    # check needed stuff
+    foreach (qw(Type UserID)) {
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    foreach (qw(UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
+    # database query
+    my $SQL = "SELECT ticket_id FROM ticket_watcher ".
+        " WHERE ".
+        " user_id = $Param{UserID} ORDER BY create_time DESC";
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        if ($Param{Type} eq 'HASH') {
+            $Hash{$Row[0]} = 1;
+        }
+        elsif ($Param{Type} eq 'ARRAY') {
+            push(@Array, $Row[0]);
+        }
+        else {
+            $Count++;
+        }
+    }
+    # return
+    if ($Param{Type} eq 'HASH') {
+        return %Hash;
+    }
+    elsif ($Param{Type} eq 'ARRAY') {
+        return @Array;
+    }
+    else {
+        return $Count;
+    }
+}
+
+=item TicketWatchGet()
+
+to get all additional attributes of an watched ticket
+
+    my %Watch = $TicketObject->TicketWatchGet(
+        TicketID => 111,
+        UserID => 123
+    );
+
+=cut
+
+sub TicketWatchGet {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(TicketID UserID)) {
+        if (!defined ($Param{$_})) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    # quote
+    foreach (qw(TicketID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
+    # get all attributes of an watched ticket
+    my $SQL = "SELECT create_time, create_by, change_time, change_by".
+        " FROM ticket_watcher WHERE ticket_id = $Param{TicketID} AND user_id = $Param{UserID}";
+    $Self->{DBObject}->Prepare(SQL => $SQL);
+    # fetch the result
+    my %Data = ();
+    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $Data{CreateTime} = $Row[0];
+        $Data{CreateBy} = $Row[1];
+        $Data{ChangeTime} = $Row[2];
+        $Data{ChangeBy} = $Row[3];
+    }
+    return %Data;
+}
+
+=item TicketWatchSubscribe()
+
+to subscribe a ticket to watch it
+
+    $TicketObject->TicketWatchSubscribe(
+        TicketID => 111,
+        UserID => 123,
+    );
+
+=cut
+
+sub TicketWatchSubscribe {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(TicketID UserID)) {
+        if (!defined ($Param{$_})) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    foreach (qw(TicketID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
+    my $SQL = "DELETE FROM ticket_watcher " .
+        " WHERE " .
+        " ticket_id = $Param{TicketID} AND ".
+        " user_id = $Param{UserID}";
+    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+        my $SQL = "INSERT INTO ticket_watcher (ticket_id, user_id, create_time, create_by, change_time, change_by) ".
+            " VALUES ".
+            " ($Param{TicketID}, ".
+            " $Param{UserID}, ".
+            " current_timestamp, ".
+            " $Param{UserID}, ".
+            " current_timestamp, ".
+            " $Param{UserID}) ";
+        if ($Self->{DBObject}->Do(SQL => $SQL)) {
+            # add history
+            $Self->HistoryAdd(
+                TicketID => $Param{TicketID},
+                CreateUserID => $Param{UserID},
+                HistoryType => 'Subscribe',
+                Name => "Subscribe the ticket to watch it.",
+            );
+            return 1;
+        }
+        else {
+            return;
+        }
+    }
+    else {
+        return;
+    }
+}
+
+=item TicketWatchUnsubscribe()
+
+to remove a subscribtion of a ticket
+
+    $TicketObject->TicketWatchUnsubscribe(
+        TicketID => 111,
+        UserID => 123,
+    );
+
+=cut
+
+sub TicketWatchUnsubscribe {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(TicketID UserID)) {
+        if (!defined ($Param{$_})) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    foreach (qw(TicketID UserID)) {
+        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
+    }
+    my $SQL = "DELETE FROM ticket_watcher " .
+        " WHERE " .
+        " ticket_id = $Param{TicketID} AND ".
+        " user_id = $Param{UserID}";
+    if ($Self->{DBObject}->Do(SQL => $SQL)) {
+        # add history
+        $Self->HistoryAdd(
+            TicketID => $Param{TicketID},
+            CreateUserID => $Param{UserID},
+            HistoryType => 'Unsubscribe',
+            Name => "Unsubscribe the ticket to watch it no longer.",
+        );
+        return 1;
+    }
+    else {
+        return;
+    }
+}
+
 sub TicketAcl {
     my $Self = shift;
     my %Param = @_;
@@ -4312,10 +4506,10 @@ sub TicketAcl {
     }
     # check needed stuff
     foreach (qw(ReturnSubType ReturnType Data)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # check if workflows are configured, if not, just return
     if ((!$Self->{ConfigObject}->Get('TicketAcl') && !$Self->{ConfigObject}->Get('Ticket::EventModulePost')) || ($Param{UserID} && $Param{UserID} == 1)) {
@@ -4556,10 +4750,10 @@ sub TicketEventHandlerPost {
     my %Param = @_;
     # check needed stuff
     foreach (qw(TicketID Event UserID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # load ticket event module
     my $Modules = $Self->{ConfigObject}->Get('Ticket::EventModulePost');
@@ -4652,6 +4846,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.210 $ $Date: 2006-05-29 11:35:37 $
+$Revision: 1.211 $ $Date: 2006-06-26 08:26:01 $
 
 =cut
