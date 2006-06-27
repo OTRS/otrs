@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminGenericAgent.dtl,v 1.23 2006-06-22 12:09:43 tr Exp $
+# $Id: AdminGenericAgent.dtl,v 1.24 2006-06-27 07:48:41 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -430,7 +430,7 @@
 <tr>
   <td class="mainbody">
     <p>
-      $QData{"AffectedIDs"} $Text{" Tickets affected! Do you really want to use this job?"}<br>
+      $Text{"%s Tickets affected! Do you really want to use this job?", "$QData{"AffectedIDs"}"}<br>
       $Text{"$QData{"DeleteMessage"}"}
     </p>
   </td>

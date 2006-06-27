@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: de.pm,v 1.108 2006-06-22 12:45:51 tr Exp $
+# $Id: de.pm,v 1.109 2006-06-27 07:48:41 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.108 $';
+$VERSION = '$Revision: 1.109 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -575,7 +575,7 @@ sub Data {
       'Param 5' => '',
       'Param 6' => '',
       'Save' => 'Speichern',
-      ' Tickets affected! Do you really want to use this job?' => ' Tickets sind betroffen! Wollen Sie diesen Job wirklich benutzen?',
+      '%s Tickets affected! Do you really want to use this job?' => '%s Tickets sind betroffen! Wollen Sie diesen Job wirklich benutzen?',
       'Send Notification' => 'Senden der Benachrichtigung',
       'You use the DELETE option! Take care, all deleted Tickets are lost!!!' => 'Sie benutzen die LÖSCHEN Option! Bitte bedenken Sie, dass dann diese Tickets verloren sind!',
       'TicketFreeFields' => 'TicketFreiFelder',
