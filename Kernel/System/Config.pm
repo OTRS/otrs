@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Config.pm - all system config tool functions
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Config.pm,v 1.45 2005-10-05 23:21:26 martin Exp $
+# $Id: Config.pm,v 1.45.2.1 2006-06-29 14:49:25 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::XML;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.45 $';
+$VERSION = '$Revision: 1.45.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -621,10 +621,10 @@ sub ConfigItemGet {
             if (!$Param{Default} && defined($Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level))) {
                 @{$ConfigItem->{Setting}->[1]->{TimeVacationDays}->[1]->{Item}} = (undef);
                 my %Hash = %{$Self->ModGet(ConfigName => $ConfigItem->{Name}, Level => $Level)};
-                foreach my $Month (sort {$Hash{sprintf("%02d", $a)} cmp $Hash{sprintf("%02d", $b)}} keys %Hash) {
+                foreach my $Month (sort {$a <=> $b} keys %Hash) {
                     if ($Hash{$Month}) {
                         my %Days = %{$Hash{$Month}};
-                        foreach my $Day (sort {$Days{sprintf("%02d", $a)} cmp $Days{sprintf("%02d", $b)}} keys %Days) {
+                        foreach my $Day (sort {$a <=> $b} keys %Days) {
                             push (@{$ConfigItem->{Setting}->[1]->{TimeVacationDays}->[1]->{Item}}, {
                                     Month => $Month,
                                     Day => $Day,
@@ -643,8 +643,8 @@ sub ConfigItemGet {
                 foreach my $Year (sort keys %Hash) {
                     my %Months = %{$Hash{$Year}};
                     if (%Months) {
-                        foreach my $Month (sort {$Months{sprintf("%02d", $a)} cmp $Months{sprintf("%02d", $b)}} keys %Months) {
-                            foreach my $Day (sort keys %{$Hash{$Year}->{$Month}}) {
+                        foreach my $Month (sort {$a <=> $b} keys %Months) {
+                            foreach my $Day (sort {$a <=> $b} keys %{$Hash{$Year}->{$Month}}) {
                                 push (@{$ConfigItem->{Setting}->[1]->{TimeVacationDaysOneTime}->[1]->{Item}}, {
                                         Year => $Year,
                                         Month => $Month,
@@ -1230,6 +1230,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.45 $ $Date: 2005-10-05 23:21:26 $
+$Revision: 1.45.2.1 $ $Date: 2006-06-29 14:49:25 $
 
 =cut
