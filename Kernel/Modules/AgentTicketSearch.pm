@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketSearch.pm,v 1.16 2006-03-22 22:36:28 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.17 2006-06-30 14:25:48 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -645,12 +645,12 @@ sub MaskForm {
         Size => 5,
         SelectedIDRefArray => $Param{StateIDs},
     );
+    my %AllQueues = $Self->{QueueObject}->GetAllQueues(
+        UserID => $Self->{UserID},
+        Type => 'ro',
+    );
     $Param{'QueuesStrg'} = $Self->{LayoutObject}->AgentQueueListOption(
-        Data => { $Self->{QueueObject}->GetAllQueues(
-            UserID => $Self->{UserID},
-            Type => 'ro',
-          ),
-        },
+        Data => \%AllQueues,
         Size => 5,
         Multiple => 1,
         Name => 'QueueIDs',
@@ -658,11 +658,7 @@ sub MaskForm {
         OnChangeSubmit => 0,
     );
     $Param{'CreatedQueuesStrg'} = $Self->{LayoutObject}->AgentQueueListOption(
-        Data => { $Self->{QueueObject}->GetAllQueues(
-            UserID => $Self->{UserID},
-            Type => 'ro',
-          ),
-        },
+        Data => \%AllQueues,
         Size => 5,
         Multiple => 1,
         Name => 'CreatedQueueIDs',
