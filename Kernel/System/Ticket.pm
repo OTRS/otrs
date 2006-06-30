@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.211 2006-06-26 08:26:01 martin Exp $
+# $Id: Ticket.pm,v 1.212 2006-06-30 14:19:26 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.211 $';
+$VERSION = '$Revision: 1.212 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -1968,6 +1968,11 @@ To find tickets in your system.
       # tickets with close time before then .... (optional)
       TicketCloseTimeOlderDate => '2006-01-19 23:59:59',
 
+      # tickets with pending time after ... (optional)
+      TicketPendingTimeNewerDate => '2006-01-09 00:00:01',
+      # tickets with pending time before then .... (optional)
+      TicketPendingTimeOlderDate => '2006-01-19 23:59:59',
+
       # OrderBy and SortBy (optional)
       OrderBy => 'Down',       # Down|Up
       SortBy => 'Age',         # Owner|CustomerID|State|Ticket|Queue|Priority|Age|
@@ -2586,6 +2591,39 @@ sub TicketSearch {
                     " th.state_id IN (${\(join ', ', @List)}) AND ".
                     " th.change_time >= '".$Self->{DBObject}->Quote($Param{TicketCloseTimeNewerDate})."'";
             }
+        }
+    }
+    # get pending tickets older then xxxx-xx-xx xx:xx date
+    if ($Param{TicketPendingTimeOlderDate}) {
+        # check time format
+        if ($Param{TicketPendingTimeOlderDate} !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "No valid time format '$Param{TicketPendingTimeOlderDate}'!",
+            );
+            return;
+        }
+        else {
+            $Param{TicketPendingTimeOlderDate} = $Self->{TimeObject}->TimeStamp2SystemTime(
+                String => $Param{TicketPendingTimeOlderDate},
+            );
+            $SQLExt .= " AND st.until_time <= '".$Self->{DBObject}->Quote($Param{TicketPendingTimeOlderDate})."'";
+        }
+    }
+    # get pending tickets newer then xxxx-xx-xx xx:xx date
+    if ($Param{TicketPendingTimeNewerDate}) {
+        if ($Param{TicketPendingTimeNewerDate} !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "No valid time format '$Param{TicketPendingTimeNewerDate}'!",
+            );
+            return;
+        }
+        else {
+            $Param{TicketPendingTimeNewerDate} = $Self->{TimeObject}->TimeStamp2SystemTime(
+                String => $Param{TicketPendingTimeNewerDate},
+            );
+            $SQLExt .= " AND st.until_time >= '".$Self->{DBObject}->Quote($Param{TicketPendingTimeNewerDate})."'";
         }
     }
     # database query
@@ -4846,6 +4884,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.211 $ $Date: 2006-06-26 08:26:01 $
+$Revision: 1.212 $ $Date: 2006-06-30 14:19:26 $
 
 =cut
