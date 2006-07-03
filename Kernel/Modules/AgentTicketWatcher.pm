@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketWatcher.pm - a ticketwatcher module
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketWatcher.pm,v 1.1 2006-06-26 08:26:01 martin Exp $
+# $Id: AgentTicketWatcher.pm,v 1.2 2006-07-03 09:51:50 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentTicketWatcher;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -103,56 +103,7 @@ sub Run {
             return $Self->{LayoutObject}->ErrorScreen();
         }
     }
-    # ------------------------------------------------------------ #
-    # show overview
-    # ------------------------------------------------------------ #
-    my $Output = $Self->{LayoutObject}->Header(Title => 'Overview');
-    $Output .= $Self->{LayoutObject}->NavigationBar();
-
-    # print the main table.
-    $Self->{LayoutObject}->Block(
-        Name => 'Overview',
-        Data => {},
-    );
-    # get a list of all watched tickets
-    my @List = $Self->{TicketObject}->TicketWatchList(
-        Type => 'ARRAY',
-        UserID => $Self->{UserID},
-    );
-    my $TableColor = 'searchactive';
-
-    foreach my $TicketID (@List) {
-        my %WatchedTicket = $Self->{TicketObject}->TicketWatchGet(
-            TicketID => $TicketID,
-            UserID => $Self->{UserID},
-        );
-        my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(
-            TicketID => $TicketID,
-        );
-        # output watched ticket
-        $Self->{LayoutObject}->Block(
-                Name => 'OverviewWatched',
-                Data => {
-                    %Article,
-                    %WatchedTicket,
-                },
-        );
-        # switch the table color
-        if ($TableColor eq 'searchactive') {
-            $TableColor = 'searchpassiv';
-        }
-        else {
-            $TableColor = 'searchactive';
-        }
-    }
-    # output
-    $Output .= $Self->{LayoutObject}->Output(
-        TemplateFile => 'AgentTicketWatcher',
-        Data => {%Param}
-    );
-
-    $Output .= $Self->{LayoutObject}->Footer();
-    return $Output;
 }
 
 1;
+
