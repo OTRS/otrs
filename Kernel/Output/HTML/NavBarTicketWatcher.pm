@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/NavBarTicketWatcher.pm
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NavBarTicketWatcher.pm,v 1.1 2006-06-26 15:06:55 martin Exp $
+# $Id: NavBarTicketWatcher.pm,v 1.2 2006-07-03 09:54:52 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::NavBarTicketWatcher;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -68,7 +68,7 @@ sub Run {
             Description => $Text,
             Name => $Text,
             Image => 'watcher.png',
-            Link => 'Action=AgentTicketWatcher',
+            Link => 'Action=AgentTicketMailbox&Subaction=Watched',
             AccessKey => '',
         };
     }
@@ -76,3 +76,4 @@ sub Run {
 }
 
 1;
+
