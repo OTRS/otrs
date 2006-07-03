@@ -2,9 +2,12 @@
 -- initial_insert.sql - provides initial system data
 -- Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: initial_insert.sql,v 1.45 2006-03-28 05:50:02 martin Exp $
+-- $Id: initial_insert.sql,v 1.46 2006-07-03 13:40:04 martin Exp $
 --
 -- $Log: not supported by cvs2svn $
+-- Revision 1.45  2006/03/28 05:50:02  martin
+-- added responsible notes
+--
 -- Revision 1.44  2006/02/06 09:40:32  martin
 -- moved to new tags
 --
@@ -565,6 +568,15 @@ INSERT INTO ticket_history_type
         (name, valid_id, create_by, create_time, change_by, change_time)
         VALUES
         ('ResponsibleUpdate', 1, 1, current_timestamp, 1, current_timestamp);
+INSERT INTO ticket_history_type
+        (name, valid_id, create_by, create_time, change_by, change_time)
+        VALUES
+        ('Subscribe', 1, 1, current_timestamp, 1, current_timestamp);
+INSERT INTO ticket_history_type
+        (name, valid_id, create_by, create_time, change_by, change_time)
+        VALUES
+        ('Unsubscribe', 1, 1, current_timestamp, 1, current_timestamp);
+
 -- article_type
 INSERT INTO article_type
         (name, valid_id, create_by, create_time, change_by, change_time)
