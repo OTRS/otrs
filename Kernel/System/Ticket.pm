@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.212 2006-06-30 14:19:26 mh Exp $
+# $Id: Ticket.pm,v 1.213 2006-07-03 12:23:14 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.212 $';
+$VERSION = '$Revision: 1.213 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -1915,6 +1915,8 @@ To find tickets in your system.
 
       ResponsibleIDs => [1, 12, 455, 32]
 
+      WatchUserIDs => [1, 12, 455, 32]
+
       # CustomerID (optional) as STRING or as ARRAYREF
       CustomerID => '123',
       CustomerID => ['123', 'ABC'],
@@ -2070,6 +2072,10 @@ sub TicketSearch {
             $SQLExt .= " AND st.id = th.ticket_id";
             last;
         }
+    }
+    if ($Param{WatchUserIDs}) {
+        $SQL .= ", ticket_watcher tw ";
+        $SQLExt .= " AND st.id = tw.ticket_id";
     }
     $SQLExt = " WHERE sq.id = st.queue_id".$SQLExt;
 
@@ -2369,6 +2375,19 @@ sub TicketSearch {
                 return;
             }
         }
+    }
+    # watch user ids
+    if ($Param{WatchUserIDs} && ref($Param{WatchUserIDs}) eq 'ARRAY') {
+        $SQLExt .= " AND tw.user_id IN (";
+        my $Exists = 0;
+        foreach (@{$Param{WatchUserIDs}}) {
+            if ($Exists) {
+                $SQLExt .= ",";
+            }
+            $SQLExt .= $Self->{DBObject}->Quote($_);
+            $Exists = 1;
+        }
+        $SQLExt .= ")";
     }
     # created priority ids
     if ($Param{CreatedPriorityIDs} && ref($Param{CreatedPriorityIDs}) eq 'ARRAY') {
@@ -4340,61 +4359,6 @@ sub TicketMerge {
     }
 }
 
-=item TicketWatchList()
-
-to get a array, a hash or the count of all subscribed tickets of one user
-
-    my @List = $TicketObject->TicketWatchList(
-        Type => 'ARRAY', # ARRAY|HASH|COUNT
-        UserID => 123,
-    );
-
-=cut
-
-sub TicketWatchList {
-    my $Self = shift;
-    my %Param = @_;
-    my %Hash = ();
-    my @Array = ();
-    my $Count = 0;
-    # check needed stuff
-    foreach (qw(Type UserID)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-            return;
-        }
-    }
-    foreach (qw(UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote($Param{$_}, 'Integer');
-    }
-    # database query
-    my $SQL = "SELECT ticket_id FROM ticket_watcher ".
-        " WHERE ".
-        " user_id = $Param{UserID} ORDER BY create_time DESC";
-    $Self->{DBObject}->Prepare(SQL => $SQL);
-    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-        if ($Param{Type} eq 'HASH') {
-            $Hash{$Row[0]} = 1;
-        }
-        elsif ($Param{Type} eq 'ARRAY') {
-            push(@Array, $Row[0]);
-        }
-        else {
-            $Count++;
-        }
-    }
-    # return
-    if ($Param{Type} eq 'HASH') {
-        return %Hash;
-    }
-    elsif ($Param{Type} eq 'ARRAY') {
-        return @Array;
-    }
-    else {
-        return $Count;
-    }
-}
-
 =item TicketWatchGet()
 
 to get all additional attributes of an watched ticket
@@ -4884,6 +4848,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.212 $ $Date: 2006-06-30 14:19:26 $
+$Revision: 1.213 $ $Date: 2006-07-03 12:23:14 $
 
 =cut
