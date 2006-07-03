@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/NavBarTicketWatcher.pm
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: NavBarTicketWatcher.pm,v 1.2 2006-07-03 09:54:52 mh Exp $
+# $Id: NavBarTicketWatcher.pm,v 1.3 2006-07-03 12:24:40 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::NavBarTicketWatcher;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -58,9 +58,12 @@ sub Run {
         }
     }
     if ($Access) {
-        my $Count = $Self->{TicketObject}->TicketWatchList(
-            Type => 'COUNT',
-            UserID => $Self->{UserID},
+        my $Count = $Self->{TicketObject}->TicketSearch(
+            Result => 'ARRAY',
+            Limit => 1000,
+            WatchUserIDs => [$Self->{UserID}],
+            UserID => 1,
+            Permission => 'ro',
         );
         my $Text = $Self->{LayoutObject}->{LanguageObject}->Get('Watched Tickets')." ($Count)";
         $Return{'0999978'} = {
