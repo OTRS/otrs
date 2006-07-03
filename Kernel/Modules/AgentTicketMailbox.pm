@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMailbox.pm - to view all locked tickets
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketMailbox.pm,v 1.9 2006-06-22 14:12:12 cs Exp $
+# $Id: AgentTicketMailbox.pm,v 1.10 2006-07-03 09:52:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -204,6 +204,12 @@ sub Run {
             Permission => 'ro',
         );
     }
+    elsif ($Self->{Subaction} eq 'Watched') {
+        @ViewableTickets = $Self->{TicketObject}->TicketWatchList(
+            Type => 'ARRAY',
+            UserID => $Self->{UserID},
+        );
+    }
     else {
         @ViewableTickets = $Self->{TicketObject}->TicketSearch(
             Result => 'ARRAY',
@@ -389,3 +395,4 @@ sub MaskMailboxTicket {
 }
 # --
 1;
+
