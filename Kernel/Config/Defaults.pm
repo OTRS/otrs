@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.222.2.9 2006-06-14 16:29:43 cs Exp $
+# $Id: Defaults.pm,v 1.222.2.10 2006-07-04 10:58:21 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.222.2.9 $';
+$VERSION = '$Revision: 1.222.2.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1678,22 +1678,22 @@ sub new {
                 # filtering of comment lines
                 if ($_ !~ /^#/) {
                     if ($_ =~ /^PRODUCT\s{0,2}=\s{0,2}(.*)\s{0,2}$/i) {
-                        $Self->{Product} = $1 || 'OTRS';
+                        $Self->{Product} = $1;
                     }
                     elsif ($_ =~ /^VERSION\s{0,2}=\s{0,2}(.*)\s{0,2}$/i) {
-                        $Self->{Version} = $1 || 'x.y';
+                        $Self->{Version} = $1;
                     }
                 }
             }
         }
         else {
-            print STDERR "ERROR: Can't read $Self->{Home}/RELEASE: $!\n";
+            print STDERR "ERROR: Can't read $Self->{Home}/RELEASE: $! This file is needed by central system parts of OTRS, the system will not work without this file.\n";
+            die;
         }
     }
     else {
-        print STDERR "ERROR: $Self->{Home}/RELEASE does not exist, using defaults!\n";
-        $Self->{Product} = 'OTRS';
-        $Self->{Version} = '(unknown)';
+        print STDERR "ERROR: $Self->{Home}/RELEASE does not exist! This file is needed by central system parts of OTRS, the system will not work without this file.\n";
+        die;
     }
     # load config (again)
     $Self->Load();
@@ -1730,6 +1730,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.222.2.9 $ $Date: 2006-06-14 16:29:43 $
+$Revision: 1.222.2.10 $ $Date: 2006-07-04 10:58:21 $
 
 =cut
