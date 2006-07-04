@@ -1,8 +1,8 @@
 # --
 # AgentTicketStatusView.dtl - html for ticket status view (all tickets)
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketStatusView.dtl,v 1.2 2005-10-22 07:57:04 martin Exp $
+# $Id: AgentTicketStatusView.dtl,v 1.2.2.1 2006-07-04 14:49:18 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,80 +10,80 @@
 # --
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-<tr>
-  <td class="mainhead">
-    $Env{"Box0"}$Text{"Ticket Status View"}$Env{"Box1"}
-  </td>
-</tr>
-<tr>
-  <td class="menu">
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Type=Open">$Text{"Open Tickets"}</a> /
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Type=Closed">$Text{"Closed Tickets"}</a> -
+  <tr>
+    <td class="mainhead">
+      $Env{"Box0"}$Text{"Ticket Status View"}$Env{"Box1"}
+    </td>
+  </tr>
+  <tr>
+    <td class="menu">
+      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Type=Open">$Text{"Open Tickets"}</a> /
+      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Type=Closed">$Text{"Closed Tickets"}</a> -
 $Text{"Results"}: <b>$QData{"Result"}</b> - $Text{"Total hits"}: <b>$Data{"TotalHits"}</b>
-- $Text{"Site"}: $Data{"SiteNavBar"}
-  </td>
-</tr>
+      - $Text{"Site"}: $Data{"SiteNavBar"}
+    </td>
+  </tr>
 </table>
 <table border="0" width="100%" cellspacing="0" cellpadding="4">
-<tr>
- <td class="mainbody">
+  <tr>
+    <td class="mainbody">
 
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="7">
-<tr valign="top" align="left">
- <th width="10%">$Config{"Ticket::Hook"}<br>
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Type=$QData{"Type"}&TakeLastSearch=1&SortBy=Ticket&Order=Up" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Type=$QData{"Type"}&TakeLastSearch=1&SortBy=Ticket&Order=Down" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a></th>
- <th width="15%">$Text{"Age"}<br>
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Type=$QData{"Type"}&TakeLastSearch=1&SortBy=Age&Order=Up" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Type=$QData{"Type"}&TakeLastSearch=1&SortBy=Age&Order=Down" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a></th>
- <th width="25%">$Text{"From"}/$Text{"Subject"}</th>
- <th width="10%">$Text{"State"}<br>
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Type=$QData{"Type"}&TakeLastSearch=1&SortBy=State&Order=Up" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Type=$QData{"Type"}&TakeLastSearch=1&SortBy=State&Order=Down" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a></th>
- <th width="10%">$Text{"Queue"}<br>
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Type=$QData{"Type"}&TakeLastSearch=1&SortBy=Queue&Order=Up" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Type=$QData{"Type"}&TakeLastSearch=1&SortBy=Queue&Order=Down" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a></th>
- <th width="15%">$Text{"Owner"}<br>
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Type=$QData{"Type"}&TakeLastSearch=1&SortBy=Owner&Order=Up" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Type=$QData{"Type"}&TakeLastSearch=1&SortBy=Owner&Order=Down" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a></th>
- <th width="15%">$Text{"CustomerID"}<br>
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Type=$QData{"Type"}&TakeLastSearch=1&SortBy=CustomerID&Order=Up" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
-  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Type=$QData{"Type"}&TakeLastSearch=1&SortBy=CustomerID&Order=Down" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a></th>
-</tr>
+      <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="7">
+        <tr valign="top" align="left">
+          <th width="10%">$Config{"Ticket::Hook"}<br>
+          <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Type=$QData{"Type"}&TakeLastSearch=1&SortBy=Ticket&Order=Up" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
+          <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Type=$QData{"Type"}&TakeLastSearch=1&SortBy=Ticket&Order=Down" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a></th>
+          <th width="15%">$Text{"Age"}<br>
+          <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Type=$QData{"Type"}&TakeLastSearch=1&SortBy=Age&Order=Up" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
+          <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Type=$QData{"Type"}&TakeLastSearch=1&SortBy=Age&Order=Down" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a></th>
+          <th width="25%">$Text{"From"}/$Text{"Subject"}</th>
+          <th width="10%">$Text{"State"}<br>
+          <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Type=$QData{"Type"}&TakeLastSearch=1&SortBy=State&Order=Up" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
+          <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Type=$QData{"Type"}&TakeLastSearch=1&SortBy=State&Order=Down" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a></th>
+          <th width="10%">$Text{"Queue"}<br>
+          <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Type=$QData{"Type"}&TakeLastSearch=1&SortBy=Queue&Order=Up" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
+          <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Type=$QData{"Type"}&TakeLastSearch=1&SortBy=Queue&Order=Down" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a></th>
+          <th width="15%">$Text{"Owner"}<br>
+          <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Type=$QData{"Type"}&TakeLastSearch=1&SortBy=Owner&Order=Up" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
+          <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Type=$QData{"Type"}&TakeLastSearch=1&SortBy=Owner&Order=Down" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a></th>
+          <th width="15%">$Text{"CustomerID"}<br>
+          <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Type=$QData{"Type"}&TakeLastSearch=1&SortBy=CustomerID&Order=Up" onmouseover="window.status='$Text{"sort upward"}'; return true;" onmouseout="window.status='';">$Text{"U"}</a> /
+          <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Type=$QData{"Type"}&TakeLastSearch=1&SortBy=CustomerID&Order=Down" onmouseover="window.status='$Text{"sort downward"}'; return true;" onmouseout="window.status='';">$Text{"D"}</a></th>
+        </tr>
 
 <!-- dtl:block:Record -->
-<tr valign="top">
- <td class="PriorityID-$Data{"PriorityID"}">
-  <a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Zoom"}'; return true;" onmouseout="window.status='';">$Data{"TicketNumber"}</a>
- </td>
- <td class="PriorityID-$Data{"PriorityID"}">
-  $Data{"StartFont"}$QData{"Age"}$Data{"StopFont"}
- </td>
- <td class="PriorityID-$Data{"PriorityID"}">
-   $Data{"StartFont"}
-   <div title="$QData{"From"}">$QData{"From","30"}</div>
-   <div title="$QData{"Subject"}">$QData{"Subject","30"}</div>
-   $Data{"StopFont"}
- </td>
- <td class="PriorityID-$Data{"PriorityID"}">
-   $Data{"StartFont"}<div title="$Quote{"$Text{"$Data{"State"}"}"}">$Quote{"$Text{"$Data{"State"}"}","30"}</div>$Data{"StopFont"}
- </td>
- <td class="PriorityID-$Data{"PriorityID"}">
-  $Data{"StartFont"}<div title="$QData{"Queue"}">$QData{"Queue","30"}</div>$Data{"StopFont"}
- </td>
- <td class="PriorityID-$Data{"PriorityID"}">
-   $Data{"StartFont"}<div title="$QData{"Owner"}">$QData{"Owner","30"}</div> <div title="($QData{"UserFirstname"} $QData{"UserLastname"})">($QData{"UserFirstname","15"} $QData{"UserLastname","15"})</div>$Data{"StopFont"}
- </td>
- <td class="PriorityID-$Data{"PriorityID"}">
-  <a href="$Env{"Baselink"}Action=AgentCustomer&TicketID=$QData{"TicketID"}" onmouseover="window.status='$Text{"Customer history"}'; return true;" onmouseout="window.status='';"><div title="$Data{"CustomerID"}">$Quote{"$Data{"CustomerID"}","15"}</div></a>
-  <div title="$QData{"CustomerName"}">$QData{"CustomerName","15"}</div>
- </td>
-</tr>
+        <tr valign="top">
+          <td class="PriorityID-$Data{"PriorityID"}">
+            <a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$Text{"Zoom"}'; return true;" onmouseout="window.status='';">$Data{"TicketNumber"}</a>
+          </td>
+          <td class="PriorityID-$Data{"PriorityID"}">
+            $Data{"StartFont"}$QData{"Age"}$Data{"StopFont"}
+          </td>
+          <td class="PriorityID-$Data{"PriorityID"}">
+            $Data{"StartFont"}
+            <div title="$QData{"From"}">$QData{"From","30"}</div>
+            <div title="$QData{"Subject"}">$QData{"Subject","30"}</div>
+            $Data{"StopFont"}
+          </td>
+          <td class="PriorityID-$Data{"PriorityID"}">
+            $Data{"StartFont"}<div title="$Quote{"$Text{"$Data{"State"}"}"}">$Quote{"$Text{"$Data{"State"}"}","30"}</div>$Data{"StopFont"}
+          </td>
+          <td class="PriorityID-$Data{"PriorityID"}">
+            $Data{"StartFont"}<div title="$QData{"Queue"}">$QData{"Queue","30"}</div>$Data{"StopFont"}
+          </td>
+          <td class="PriorityID-$Data{"PriorityID"}">
+            $Data{"StartFont"}<div title="$QData{"Owner"}">$QData{"Owner","30"}</div> <div title="($QData{"UserFirstname"} $QData{"UserLastname"})">($QData{"UserFirstname","15"} $QData{"UserLastname","15"})</div>$Data{"StopFont"}
+          </td>
+          <td class="PriorityID-$Data{"PriorityID"}">
+            <a href="$Env{"Baselink"}Action=AgentTicketCustomer&TicketID=$QData{"TicketID"}" onmouseover="window.status='$Text{"Customer history"}'; return true;" onmouseout="window.status='';"><div title="$Data{"CustomerID"}">$Quote{"$Data{"CustomerID"}","15"}</div></a>
+            <div title="$QData{"CustomerName"}">$QData{"CustomerName","15"}</div>
+          </td>
+        </tr>
 <!-- dtl:block:Record -->
 
-</table>
+      </table>
 
- </td>
-</tr>
+    </td>
+  </tr>
 </table>
 <!-- end form -->
