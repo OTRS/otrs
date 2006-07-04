@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.236 2006-06-24 15:20:31 ck Exp $
+# $Id: Defaults.pm,v 1.237 2006-07-04 12:36:55 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.236 $';
+$VERSION = '$Revision: 1.237 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1694,13 +1694,13 @@ sub new {
             }
         }
         else {
-            print STDERR "ERROR: Can't read $Self->{Home}/RELEASE: $!\n";
+            print STDERR "ERROR: Can't read $Self->{Home}/RELEASE: $! This file is needed by central system parts of OTRS, the system will not work without this file.\n";
+            die;
         }
     }
     else {
-        print STDERR "ERROR: $Self->{Home}/RELEASE does not exist, using defaults!\n";
-        $Self->{Product} = 'OTRS';
-        $Self->{Version} = '(unknown)';
+        print STDERR "ERROR: $Self->{Home}/RELEASE does not exist! This file is needed by central system parts of OTRS, the system will not work without this file.\n";
+        die;
     }
     # load config (again)
     $Self->Load();
@@ -1737,6 +1737,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.236 $ $Date: 2006-06-24 15:20:31 $
+$Revision: 1.237 $ $Date: 2006-07-04 12:36:55 $
 
 =cut
