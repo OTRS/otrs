@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pl,v 1.36 2005-05-07 15:26:56 martin Exp $
+# $Id: GenericAgent.pl,v 1.37 2006-07-05 08:53:16 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -34,64 +34,39 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 
 use strict;
 
-use vars qw($VERSION $Debug $Limit %Opts %Jobs);
+use vars qw($VERSION %Jobs @ISA);
+$VERSION = '$Revision: 1.37 $';
+$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
 use Kernel::Config;
 use Kernel::System::Log;
 use Kernel::System::DB;
 use Kernel::System::PID;
+use Kernel::System::Main;
 use Kernel::System::Time;
 use Kernel::System::Ticket;
 use Kernel::System::Queue;
 use Kernel::System::GenericAgent;
 
-# import %jobs
-#use Kernel::Config::GenericAgent qw(%Jobs);
-
-BEGIN {
-    # get file version
-    $VERSION = '$Revision: 1.36 $';
-    $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
-    # get options
-    getopt('fhcdl', \%Opts);
-    if ($Opts{'h'}) {
-        print "GenericAgent.pl <Revision $VERSION> - OTRS generic agent\n";
-        print "Copyright (c) 2001-2005 Martin Edenhofer <martin\@otrs.org>\n";
-        print "usage: GenericAgent.pl [-c 'Kernel::Config::GenericAgentJobModule'] [-d 1] [-l <limit>] [-f force]\n";
-        exit 1;
-    }
-    # set debug
-    if (!$Opts{'d'}) {
-        $Debug = 0;
-    }
-    else {
-        $Debug = $Opts{'d'};
-    }
-    # set limit
-    if (!$Opts{'l'}) {
-        $Limit = 3000;
-    }
-    else {
-        $Limit = $Opts{'l'};
-    }
-    # get generic agent config (job file)
-    if (!$Opts{'c'}) {
-        $Opts{'c'} = 'Kernel::Config::GenericAgent';
-    }
-    if ($Opts{'c'} eq 'db') {
-        %Jobs = ();
-    }
-    # load jobs file
-    elsif (!eval "require $Opts{'c'};") {
-        print STDERR "Can't load agent job file '$Opts{'c'}': $!\n";
-        exit 1;
-    }
-    else {
-        # import %Jobs
-        eval "import $Opts{'c'}";
-    }
+# get options
+my %Opts = ();
+getopt('fhcdl', \%Opts);
+if ($Opts{'h'}) {
+    print "GenericAgent.pl <Revision $VERSION> - OTRS generic agent\n";
+    print "Copyright (c) 2001-2005 Martin Edenhofer <martin\@otrs.org>\n";
+    print "usage: GenericAgent.pl [-c 'Kernel::Config::GenericAgentJobModule'] [-d 1] [-l <limit>] [-f force]\n";
+    exit 1;
 }
+# set debug
+if (!$Opts{'d'}) {
+    $Opts{'d'} = 0;
+}
+# set limit
+if (!$Opts{'l'}) {
+    $Opts{'l'} = 3000;
+}
+
 # set generic agent uid
 my $UserIDOfGenericAgent = 1;
 
@@ -102,19 +77,39 @@ $CommonObject{LogObject} = Kernel::System::Log->new(
     LogPrefix => 'OTRS-GenericAgent',
     %CommonObject,
 );
+$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
 $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
 $CommonObject{PIDObject} = Kernel::System::PID->new(%CommonObject);
 $CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
 $CommonObject{TicketObject} = Kernel::System::Ticket->new(
     %CommonObject,
-    Debug => $Debug,
+    Debug => $Opts{'d'},
 );
 $CommonObject{QueueObject} = Kernel::System::Queue->new(%CommonObject);
 $CommonObject{GenericAgentObject} = Kernel::System::GenericAgent->new(
     %CommonObject,
-    Debug => $Debug,
+    Debug => $Opts{'d'},
     NoticeSTDOUT => 1,
 );
+
+# get generic agent config (job file)
+if (!$Opts{'c'}) {
+    $Opts{'c'} = 'Kernel::Config::GenericAgent';
+}
+if ($Opts{'c'} eq 'db') {
+    %Jobs = ();
+}
+else {
+    if (!$CommonObject{MainObject}->Require($Opts{'c'})) {
+        print STDERR "Can't load agent job file '$Opts{'c'}': $!\n";
+        exit 1;
+    }
+    else {
+        # import %Jobs
+        eval "import $Opts{'c'}";
+    }
+}
+
 # --
 # process all jobs
 # --
@@ -199,6 +194,7 @@ if ($Opts{'c'} eq 'db') {
             # log event
             $CommonObject{GenericAgentObject}->JobRun(
                 Job => $DBJob,
+                Limit => $Opts{'l'},
                 UserID => $UserIDOfGenericAgent,
             );
         }
@@ -214,6 +210,7 @@ else {
         # log event
         $CommonObject{GenericAgentObject}->JobRun(
             Job => $Job,
+            Limit => $Opts{'l'},
             Config => $Jobs{$Job},
             UserID => $UserIDOfGenericAgent,
         );
