@@ -3,7 +3,7 @@
 # bin/GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: GenericAgent.pl,v 1.37 2006-07-05 08:53:16 martin Exp $
+# $Id: GenericAgent.pl,v 1.38 2006-07-05 09:18:26 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,12 +20,6 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-
-# --                                              -- #
-# Config file is under Kernel/Config/GenericAgent.pm #
-# --                                              -- #
-
-
 # use ../ as lib location
 use File::Basename;
 use FindBin qw($RealBin);
@@ -35,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION %Jobs @ISA);
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -56,6 +50,9 @@ if ($Opts{'h'}) {
     print "GenericAgent.pl <Revision $VERSION> - OTRS generic agent\n";
     print "Copyright (c) 2001-2005 Martin Edenhofer <martin\@otrs.org>\n";
     print "usage: GenericAgent.pl [-c 'Kernel::Config::GenericAgentJobModule'] [-d 1] [-l <limit>] [-f force]\n";
+    print "usage: GenericAgent.pl [-c db || -c 'Kernel::Config::GenericAgentJobModule'] " .
+          "[-d 1] [-l <limit>] [-f force]\n";
+    print "Use -d for debug mode.\n";
     exit 1;
 }
 # set debug
@@ -122,7 +119,7 @@ if ($Opts{'c'} eq 'db') {
     elsif ($Opts{'f'} && !$CommonObject{PIDObject}->PIDCreate(Name => 'GenericAgent')) {
         print "Notice: GenericAgent.pl is already running but is starting again!\n";
     }
-    # process jobs
+    # process all jobs
     my %DBJobs = $CommonObject{GenericAgentObject}->JobList();
     foreach my $DBJob (sort keys %DBJobs) {
         my %DBJobRaw = $CommonObject{GenericAgentObject}->JobGet(Name => $DBJob);
@@ -132,9 +129,7 @@ if ($Opts{'c'} eq 'db') {
         my ($Sec, $Min, $Hour, $Day, $Month, $Year, $WDay) = $CommonObject{TimeObject}->SystemTime2Date(
             SystemTime => $CommonObject{TimeObject}->SystemTime(),
         );
-        $Year = $Year+1900;
-        $Month = $Month+1;
-#print STDERR "0000 $DBJobRaw{Name}\n";
+
         if ($Min =~ /(.)./) {
             $Min = ($1)."0";
         }
@@ -147,7 +142,6 @@ if ($Opts{'c'} eq 'db') {
                 }
             }
             if (!$Match) {
-#print STDERR "f:ScheduleDays $WDay\n";
                 $False = 1;
             }
         }
@@ -162,7 +156,6 @@ if ($Opts{'c'} eq 'db') {
             }
         }
         if (!$Match) {
-#print STDERR "f:ScheduleM\n";
             $False = 1;
         }
         if (!defined($DBJobRaw{ScheduleHours})) {
@@ -176,7 +169,6 @@ if ($Opts{'c'} eq 'db') {
             }
         }
         if (!$Match) {
-#print STDERR "f:ScheduleHours\n";
             $False = 1;
         }
         # check if job is invalid
@@ -190,7 +182,6 @@ if ($Opts{'c'} eq 'db') {
             $False = 1;
         }
         if (!$False) {
-#print "RUN: $Run\n";
             # log event
             $CommonObject{GenericAgentObject}->JobRun(
                 Job => $DBJob,
