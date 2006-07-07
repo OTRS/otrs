@@ -2,13 +2,16 @@
 # CHANGES - change log  of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.209.2.50 2006-07-04 14:51:40 cs Exp $
+# $Id: CHANGES,v 1.209.2.51 2006-07-07 12:46:11 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.0.5 (2006/??/??)
+
+ - (2006/07/14) Changed language description from Traditional Chinese
+     to Simplified Chinese (bug #1258)
  - (2006/07/04) Fixed bug 1151 - Error when changing customer on ticket
     in TicketStatusView
  - (2006/06/22) Fixed Bug #1028 - Close subject not translated
