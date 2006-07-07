@@ -2,13 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.260 2006-07-04 15:03:25 cs Exp $
+# $Id: CHANGES,v 1.261 2006-07-07 12:52:06 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS head
+ - (2006/07/14) Changed language description from Traditional Chinese
+    to Simplified Chinese (bug #1258)
  - (2006/07/04) Fixed bug 1151 - Error when changing customer on ticket in
     TicketStatusView
  - (2006/06/26) added ticket watcher feature, per default it's disabled
@@ -109,6 +111,8 @@ CVS head
     $Self->{PreApplicationModule}->{AgentInfo} = 'Kernel::Modules::AgentInfo';
 
 2.0.5 (2006/??/??)
+ - (2006/07/14) Changed language description from Traditional Chinese to
+    Simplified Chinese (bug #1258)
  - (2006/07/04) Fixed bug 1151 - Error when changing customer on ticket in
     TicketStatusView
  - (2006/06/17) Fixed bug #1240 - Tickets not shown in "New messages" if
