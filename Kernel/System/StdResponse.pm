@@ -2,7 +2,7 @@
 # Kernel/System/StdResponse.pm - lib for std responses
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: StdResponse.pm,v 1.11.2.1 2006-03-23 18:34:01 cs Exp $
+# $Id: StdResponse.pm,v 1.11.2.2 2006-07-07 07:44:35 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::StdResponse;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11.2.1 $';
+$VERSION = '$Revision: 1.11.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -71,7 +71,7 @@ sub StdResponseAdd {
         my $Id = 0;
         $Self->{DBObject}->Prepare(
             SQL => "SELECT id FROM standard_response WHERE ".
-              "name = '$Param{Name}' AND text = '$Param{Response}'",
+              "name = '$Param{Name}' AND text like '$Param{Response}'",
         );
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
             $Id = $Row[0];
