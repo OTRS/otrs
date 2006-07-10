@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.213 2006-07-03 12:23:14 mh Exp $
+# $Id: Ticket.pm,v 1.214 2006-07-10 11:25:40 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.213 $';
+$VERSION = '$Revision: 1.214 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -3881,7 +3881,7 @@ sub HistoryTicketGet {
         $Ticket{QueueID} = $Row[6] || '';
     }
     if (!%Ticket) {
-        $Self->{LogObject}->Log(Priority => 'notice', Message => "No such TicketID in Ticket Hisorry till '$Param{StopYear}-$Param{StopMonth}-$Param{StopDay} 23:59:59' ($Param{TicketID})!");
+        $Self->{LogObject}->Log(Priority => 'notice', Message => "No such TicketID in ticket history till '$Param{StopYear}-$Param{StopMonth}-$Param{StopDay} 23:59:59' ($Param{TicketID})!");
         return;
     }
     else {
@@ -4848,6 +4848,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.213 $ $Date: 2006-07-03 12:23:14 $
+$Revision: 1.214 $ $Date: 2006-07-10 11:25:40 $
 
 =cut
