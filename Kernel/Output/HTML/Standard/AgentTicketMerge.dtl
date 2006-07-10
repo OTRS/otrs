@@ -1,8 +1,8 @@
 # --
-# AgentTicketMerge.dtl - provides HTML form for ticket merge mask 
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# AgentTicketMerge.dtl - provides HTML form for ticket merge mask
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketMerge.dtl,v 1.3 2005-05-16 13:36:33 martin Exp $
+# $Id: AgentTicketMerge.dtl,v 1.3.2.1 2006-07-10 12:50:13 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -26,81 +26,81 @@ function submit_compose()
 </script>
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr>
-  <td class="mainhead">
-    $Env{"Box0"}$Text{"Ticket Merge"}: $QData{"TicketNumber"}$Env{"Box1"}
-  </td>
-</tr>
-<tr>
-  <td class="menu">
-    <a href="$Env{"Baselink"}$Env{"LastScreenView"}" onmouseover="window.status='$Text{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
-  </td>
-</tr>
-<tr>
-  <td class="mainbody">
+  <tr>
+    <td class="mainhead">
+      $Env{"Box0"}$Text{"Ticket Merge"}: $QData{"TicketNumber"}$Env{"Box1"}
+    </td>
+  </tr>
+  <tr>
+    <td class="menu">
+      <a href="$Env{"Baselink"}$Env{"LastScreenView"}" onmouseover="window.status='$Text{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
+    </td>
+  </tr>
+  <tr>
+    <td class="mainbody">
 
 
-  <br>
+      <br>
 
-  <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
-    <input type="hidden" name="Action" value="AgentTicketMerge">
-    <input type="hidden" name="Subaction" value="Merge">
-    <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
-    <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
-      <tr>
-       <td colspan="2" class="contenthead">$Text{"Options"}</td>
-      </tr>
-      <tr>
-        <td class="contentbody">
+      <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
+        <input type="hidden" name="Action" value="AgentTicketMerge">
+        <input type="hidden" name="Subaction" value="Merge">
+        <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
+        <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
+          <tr>
+            <td colspan="2" class="contenthead">$Text{"Options"}</td>
+          </tr>
+          <tr>
+            <td class="contentbody">
 
-          <table border="0">
-            <tr>
-              <td class="contentkey">$Text{"Merge to"} $Config{"TicketHook"}:</td>
-              <td class="contentvalue"><input type="text" name="MainTicketNumber" value="$QData{"MainTicketNumber"}" size="30"></td>
-           </tr>
-           <tr>
-             <td class="contentkey">$Text{"Inform sender"}:</td>
-             <td class="contentvalue"><input type="checkbox" name="InformSender" value="1"></td>
-           </tr>
-           <tr>
-             <td class="contentkey">$Text{"From"}:</td>
-             <td class="contentvalue">$QData{"QueueFrom"}<input type="hidden" name="From" value="$QData{"QueueFrom"}" size="60"></td>
-           </tr>
-           <tr>
-             <td class="contentkey">$Text{"To"}:</td>
-             <td class="contentvalue"><input type="text" name="To" value="$QData{"From"}" size="60"></td>
-           </tr>
-           <tr>
-             <td class="contentkey">$Text{"Subject"}:</td>
-             <td class="contentvalue"><input type="text" name="Subject" value="$QData{"Subject"}" size="60"></td>
-           </tr>
-           <tr>
-             <td class="contentkey">$Text{"Text"}:</td>
-             <td class="contentvalue">
-             <textarea name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaEmail"}" wrap="$Env{"BrowserWrap"}">
+              <table border="0">
+                <tr>
+                  <td class="contentkey">$Text{"Merge to"} $Config{"Ticket::Hook"}:</td>
+                  <td class="contentvalue"><input type="text" name="MainTicketNumber" value="$QData{"MainTicketNumber"}" size="30"></td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Inform sender"}:</td>
+                  <td class="contentvalue"><input type="checkbox" name="InformSender" value="1"></td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"From"}:</td>
+                  <td class="contentvalue">$QData{"QueueFrom"}<input type="hidden" name="From" value="$QData{"QueueFrom"}" size="60"></td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"To"}:</td>
+                  <td class="contentvalue"><input type="text" name="To" value="$QData{"From"}" size="60"></td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Subject"}:</td>
+                  <td class="contentvalue"><input type="text" name="Subject" value="$QData{"Subject"}" size="60"></td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Text"}:</td>
+                  <td class="contentvalue">
+                    <textarea name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaEmail"}" wrap="$Env{"BrowserWrap"}">
 $Data{"Salutation"}
 
 $Text{"$Config{"Ticket::Frontend::MergeText"}"}
 
 $Data{"Signature"}
 
-</textarea>
-             </td>
-           </tr>
-         </table>
-        </td>
-      </tr>
-      <tr>
-        <td class="contentfooter">
-         <input class="button" accesskey="g" type="submit" value="$Text{"submit"}" onclick="return submit_compose();">
-        </td>
-      </tr>
-    </table>
-  </form>
+                    </textarea>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td class="contentfooter">
+              <input class="button" accesskey="g" type="submit" value="$Text{"submit"}" onclick="return submit_compose();">
+            </td>
+          </tr>
+        </table>
+      </form>
 
-  <br>
+      <br>
 
-  </td>
-</tr>
+    </td>
+  </tr>
 </table>
 <!-- end form -->
