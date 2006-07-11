@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketCustomer.pm - to set the ticket customer and show the customer history
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketCustomer.pm,v 1.3 2005-09-19 11:56:19 martin Exp $
+# $Id: AgentTicketCustomer.pm,v 1.3.2.1 2006-07-11 14:11:33 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.3.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -276,6 +276,7 @@ sub Form {
                 %AclAction,
                 %Article,
                 Age => $Self->{LayoutObject}->CustomerAge(Age => $Article{Age}, Space => ' '),
+                TicketOverTime => $Self->{LayoutObject}->CustomerAge(Age => $Article{TicketOverTime}, Space => ' '),
             }
         );
 
