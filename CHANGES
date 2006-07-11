@@ -2,13 +2,14 @@
 # CHANGES - change log  of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.209.2.52 2006-07-11 12:00:35 martin Exp $
+# $Id: CHANGES,v 1.209.2.53 2006-07-11 13:00:35 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.0.5 (2006/??/??)
+ - (2006/07/11) fixed bug 1132 - Wrong display of escalation time
  - (2006/07/11) added missing utf-8 encoding in agent and customer auth
  - (2006/07/11) added missing utf-8 encoding customer user backend
  - (2006/07/04) changed language description from Traditional Chinese
