@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.261 2006-07-07 12:52:06 cs Exp $
+# $Id: CHANGES,v 1.262 2006-07-11 12:00:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -25,8 +25,6 @@ CVS head
     in agent mailbox
  - (2006/06/07) improved postmaster follow up detection by scanning email
     body, attachment and/or raw email (all is disabled by default)
- - (2006/06/02) fixed bug 1023 - Comma in From field creates multiple emails
-    in webform.pl
  - (2006/06/02) fixed bug #1023 - Comma in From field creates multiple emails
     in webform.pl
  - (2006/04/27) fixed IE problem with image-buttons
@@ -111,23 +109,25 @@ CVS head
     $Self->{PreApplicationModule}->{AgentInfo} = 'Kernel::Modules::AgentInfo';
 
 2.0.5 (2006/??/??)
- - (2006/07/14) Changed language description from Traditional Chinese to
+ - (2006/07/11) added missing utf-8 encoding in agent and customer auth
+ - (2006/07/11) added missing utf-8 encoding customer user backend
+ - (2006/07/04) changed language description from Traditional Chinese to
     Simplified Chinese (bug #1258)
- - (2006/07/04) Fixed bug 1151 - Error when changing customer on ticket in
+ - (2006/07/04) fixed bug 1151 - Error when changing customer on ticket in
     TicketStatusView
- - (2006/06/17) Fixed bug #1240 - Tickets not shown in "New messages" if
+ - (2006/06/17) fixed bug #1240 - Tickets not shown in "New messages" if
     Auto Response "Reply" is active
- - (2006/06/14) Fixed bug #1206 - When no RELEASE file is available, no
+ - (2006/06/14) fixed bug #1206 - When no RELEASE file is available, no
     product and version is displaied and strange messages apear in the
     apache error log;  using standard values in this case now
- - (2006/06/13) Fixed bug #1154 - Problem in displaying pending tickets
+ - (2006/06/13) fixed bug #1154 - Problem in displaying pending tickets
     in agent mailbox
  - (2006/06/02) fixed bug #1023 - Comma in From field creates multiple emails
     in webform.pl
  - (2006/03/24) added SUSE 10.x RPM support
  - (2006/03/24) fixed bug #925 - Binary Attachments incorrectly utf-8
     encoded in ticket replies
- - (2006/03/23) Fixed links to new phone/email ticket after a new
+ - (2006/03/23) fixed links to new phone/email ticket after a new
     customer is created via Kernel/Modules/AdminCustomerUser.pm
  - (2006/03/21) update of Portuguese language file  - Thanks to
     Manuel Menezes de Sequeira)
