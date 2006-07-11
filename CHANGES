@@ -2,25 +2,26 @@
 # CHANGES - change log  of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.209.2.51 2006-07-07 12:46:11 cs Exp $
+# $Id: CHANGES,v 1.209.2.52 2006-07-11 12:00:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.0.5 (2006/??/??)
-
- - (2006/07/14) Changed language description from Traditional Chinese
+ - (2006/07/11) added missing utf-8 encoding in agent and customer auth
+ - (2006/07/11) added missing utf-8 encoding customer user backend
+ - (2006/07/04) changed language description from Traditional Chinese
      to Simplified Chinese (bug #1258)
- - (2006/07/04) Fixed bug 1151 - Error when changing customer on ticket
+ - (2006/07/04) fixed bug 1151 - Error when changing customer on ticket
     in TicketStatusView
- - (2006/06/22) Fixed Bug #1028 - Close subject not translated
- - (2006/06/17) Fixed bug #1240 - Tickets not shown in "New messages" if
+ - (2006/06/22) fixed Bug #1028 - Close subject not translated
+ - (2006/06/17) fixed bug #1240 - Tickets not shown in "New messages" if
     Auto Response "Reply" is active
- - (2006/06/14) Fixed bug #1206 - When no RELEASE file is available, no
+ - (2006/06/14) fixed bug #1206 - When no RELEASE file is available, no
     product and version is displaied and strange messages apear in the
     apache error log;  using standard values in this case now
- - (2006/06/13) Fixed Bug #1154 - Problem in displaying pending tickets in
+ - (2006/06/13) fixed Bug #1154 - Problem in displaying pending tickets in
     agent mailbox
  - (2006/06/02) fixed bug 1023 - Comma in From field creates multiple emails
     in webform.pl
@@ -31,9 +32,9 @@
  - (2006/03/24) added SUSE 10.x RPM support
  - (2006/03/24) fixed bug# 925 - Binary Attachments incorrectly utf-8
     encoded in ticket replies
- - (2006/03/23) Fixed links to new phone/email ticket after a new
+ - (2006/03/23) fixed links to new phone/email ticket after a new
     customer is created via Kernel/Modules/AdminCustomerUser.pm
- - (2006/03/23) Changed Kernel/Modules/AdminResponse.pm and
+ - (2006/03/23) changed Kernel/Modules/AdminResponse.pm and
     Kernel/System/StdResponse.pm to prevent creation/change of responses
     with empty names
  - (2006/03/22) changed Kernel/Modules/AdminSalutation.pm to prevent

@@ -2,7 +2,7 @@
 # Kernel/System/CustomerAuth/LDAP.pm - provides the ldap authentification
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LDAP.pm,v 1.9.2.2 2006-01-29 11:55:02 martin Exp $
+# $Id: LDAP.pm,v 1.9.2.3 2006-07-11 12:00:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9.2.2 $';
+$VERSION = '$Revision: 1.9.2.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -227,6 +227,7 @@ sub _ConvertTo {
     my $Text = shift;
     my $Charset = shift;
     if (!$Charset || !$Self->{DestCharset}) {
+        $Self->{EncodeObject}->Encode(\$Text);
         return $Text;
     }
     if (!defined($Text)) {
