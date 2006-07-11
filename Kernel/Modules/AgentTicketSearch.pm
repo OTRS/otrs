@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketSearch.pm,v 1.17 2006-06-30 14:25:48 mh Exp $
+# $Id: AgentTicketSearch.pm,v 1.18 2006-07-11 11:15:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -585,20 +585,12 @@ sub MaskForm {
         %ShownUsers = %AllGroupsMembers;
     }
     else {
-        my %Groups = $Self->{GroupObject}->GroupMemberList(
+        my @Involved = $Self->{GroupObject}->GroupMemberInvolvedList(
             UserID => $Self->{UserID},
             Type => 'ro',
-            Result => 'HASH',
         );
-        foreach (keys %Groups) {
-            my %MemberList = $Self->{GroupObject}->GroupMemberList(
-                GroupID => $_,
-                Type => 'ro',
-                Result => 'HASH',
-            );
-            foreach (keys %MemberList) {
-                $ShownUsers{$_} = $AllGroupsMembers{$_};
-            }
+        foreach (@Involved) {
+            $ShownUsers{$_} = $AllGroupsMembers{$_};
         }
     }
     $Param{'UserStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
