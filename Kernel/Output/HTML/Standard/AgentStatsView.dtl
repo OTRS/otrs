@@ -1,0 +1,268 @@
+# --
+# AgentStatsView.dtl - provides HTML form for view IDMEF
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: AgentStatsView.dtl,v 1.1 2006-07-13 10:48:23 tr Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start form -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+  <tr>
+    <td colspan="2" class="mainhead">
+      $Env{"Box0"}$Text{"View"}: $Text{"$Config{"Stats::StatsHook"}"}: $QData{"StatNumber"}$Env{"Box1"}
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="menu">
+      <a href="$Env{"Baselink"}$Env{"LastScreenOverview"}" class="menuitem">$Text{"Back"}</a>
+<!-- dtl:block:AdminLinks -->
+      &nbsp;-&nbsp;
+      <a href="$Env{"Baselink"}Action=AgentStats&Subaction=EditSpecification&StatID=$QData{"StatID"}&" class="menuitem">$Text{"Edit"}</a>
+      &nbsp;-&nbsp;
+      <a href="$Env{"Baselink"}Action=AgentStats&Subaction=Delete&StatID=$QData{"StatID"}&" class="menuitem">$Text{"Delete"}</a>
+      &nbsp;-&nbsp;
+      <a href="$Env{"Baselink"}Action=AgentStats&Subaction=Export&StatID=$QData{"StatID"}&" class="menuitem">$Text{"Export Config"}</a>
+<!-- dtl:block:AdminLinks -->
+    </td>
+  </tr>
+  <tr>
+    <td class="mainbody">
+      <br>
+      <table border="0" width="700" align="center" cellspacing="0" cellpadding="4" class="contentbody">
+#        <form action="$Env{"CGIHandle"}" method="get" enctype="multipart/form-data" target="_blank">
+        <form action="$Env{"CGIHandle"}" method="get" enctype="multipart/form-data">
+          <input type="hidden" name="Action"    value="$Env{"Action"}">
+          <input type="hidden" name="Subaction" value="Run">
+          <input type="hidden" name="StatID"    value="$Data{"StatID"}">
+          <tr>
+            <td class="contenthead">$Text{"Informations about the Stat"}</td>
+          </tr>
+          <tr>
+            <td>
+              <table width="100%">
+                <tr>
+                  <td class="contentkey" width="150">$Text{"$Config{"Stats::StatsHook"}"}:</td>
+                  <td class="contentvalue">$QData{"StatNumber"}</td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Title"}:</td>
+                  <td class="contentvalue">$QData{"Title"}</td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Object"}:</td>
+                  <td class="contentvalue">$QData{"ObjectName"}</td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Description"}:</td>
+                  <td class="contentvalue">$Data{"Description"}</td>
+                </tr>
+#                <tr>
+#                  <td class="contentkey">$Text{"Type"}:</td>
+#                  <td class="contentvalue">$Text{"$Data{"StatType"}"}</td>
+#                </tr>
+<!-- dtl:block:Format -->
+                <tr>
+                  <td class="contentkey">$Text{"Format"}:</td>
+                  <td class="contentvalue">$Data{"SelectFormat"}</td>
+                </tr>
+<!-- dtl:block:Format -->
+<!-- dtl:block:FormatFixed -->
+                <tr>
+                  <input type="hidden" name="Format" value="$Data{"FormatKey"}">
+                  <td class="contentkey">$Text{"Format"}:</td>
+                  <td class="contentvalue">$Data{"Format"}</td>
+                </tr>
+<!-- dtl:block:FormatFixed -->
+<!-- dtl:block:Graphsize -->
+                <tr>
+                  <td class="contentkey">$Text{"Graphsize"}:</td>
+                  <td class="contentvalue">$Data{"SelectGraphSize"}</td>
+                </tr>
+<!-- dtl:block:Graphsize -->
+<!-- dtl:block:GraphsizeFixed -->
+                <tr>
+                  <input type="hidden" name="GraphSize" value="$Data{"GraphSizeKey"}">
+                  <td class="contentkey">$Text{"Graphsize"}:</td>
+                  <td class="contentvalue">$Data{"GraphSize"}</td>
+                </tr>
+<!-- dtl:block:GraphsizeFixed -->
+                <tr>
+                  <td class="contentkey">$Text{"Sum rows"}:</td>
+                  <td class="contentvalue">$Text{"$Data{"SumRowValue"}"}</td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Sum columns"}:</td>
+                  <td class="contentvalue">$Text{"$Data{"SumColValue"}"}</td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Cache"}:</td>
+                  <td class="contentvalue">$Text{"$Data{"CacheValue"}"}</td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Valid"}:</td>
+                  <td class="contentvalue">$Text{"$Data{"ValidValue"}"}</td>
+                </tr>
+<!-- dtl:block:ExchangeAxis -->
+                <tr>
+                  <td class="contentkey">$Text{"Exchange Axis"}:</td>
+                  <td class="contentvalue">$Data{"ExchangeAxis"}</td>
+                </tr>
+<!-- dtl:block:ExchangeAxis -->
+              </table>
+            </td>
+          </tr>
+<!--dtl:block:Static -->
+          <tr>
+            <td class="contenthead">$Text{"Configurable params of static stat"}</td>
+          </tr>
+          <tr>
+            <td>
+              <table width="100%">
+<!--dtl:block:ItemParam -->
+                <tr>
+                  <td class="contentkey" width="150">$Text{"$QData{"Param"}"}:</td>
+                  <td class="contentvalue">$Data{"Field"}</td>
+                </tr>
+<!--dtl:block:ItemParam -->
+              </table>
+            </td>
+          </tr>
+<!--dtl:block:Static -->
+<!--dtl:block:Dynamic -->
+          <tr>
+            <td class="contenthead">$Text{"$QData{"Name"}"}</td>
+          </tr>
+          <tr>
+            <td>
+              <table width="100%">
+<!--dtl:block:NoElement -->
+                <tr>
+                  <td class="contentvalue" colspan="2">
+                    $Text{"No element selected."}
+                  </td>
+                </tr>
+<!--dtl:block:NoElement -->
+<!--dtl:block:Element -->
+                <tr>
+                  <td class="contentkey" width="150">$Text{"$QData{"Name"}"}:</td>
+                  <td class="contentvalue">
+<!--dtl:block:TimePeriodFixed -->
+                    $Text{"Between"} $Data{"TimeStart"} $Text{"and"} $Data{"TimeStop"}<br>
+<!--dtl:block:TimePeriodFixed -->
+<!--dtl:block:TimeRelativeFixed -->
+                    $Text{"The last"} $Data{"TimeRelativeCount"} $Text{"$Data{"TimeRelativeUnit"}"}<br>
+<!--dtl:block:TimeRelativeFixed -->
+<!--dtl:block:TimeScaleFixed -->
+                    $Text{"Scale"}: $Data{"Count"} $Text{"$Data{"Scale"}"}
+<!--dtl:block:TimeScaleFixed -->
+<!--dtl:block:Fixed -->
+                    $Data{"Value"}<br>
+<!--dtl:block:Fixed -->
+<!--dtl:block:MultiSelectField -->
+                    $Data{"SelectField"}
+<!--dtl:block:MultiSelectField -->
+<!--dtl:block:SelectField -->
+                    $Data{"SelectField"}
+<!--dtl:block:SelectField -->
+<!--dtl:block:InputField -->
+                    <input type="text" name="$QData{"Key"}" value="$QData{"Value"}" size="60">
+<!--dtl:block:InputField -->
+<!--dtl:block:TimeScale -->
+                  </td>
+                </tr>
+                <tr class="contentvalue">
+                  <td valign="middle" width="150">
+                    &nbsp;&nbsp;$Text{"Scale"}:
+                  </td>
+                  <td valign="middle">
+                    $Data{"TimeScaleCount"}
+                    $Data{"TimeScaleUnit"}
+<!--dtl:block:TimeScaleInfo -->
+                    ($Text{"minimal scale"} $Data{"TimeScaleCountMax"} $Text{"$Data{"TimeScaleUnitMax"}"})
+<!--dtl:block:TimeScaleInfo -->
+<!--dtl:block:TimeScale -->
+<!--dtl:block:TimePeriod -->
+                  </td>
+                </tr>
+                <tr class="contentvalue">
+                  <td valign="middle" width="150">
+                    &nbsp;&nbsp;$Text{"Between"}
+                  </td>
+                  <td valign="middle">
+                    $Data{"TimeStart"} $Text{"and"} $Data{"TimeStop"}
+                    <br>
+                    ($Text{"maximal period form"} $TimeLong{"$Data{"TimeStartMax"}"} $Text{"to"} $TimeLong{"$Data{"TimeStopMax"}"})
+<!--dtl:block:TimePeriod -->
+<!--dtl:block:TimePeriodRelative -->
+                  </td>
+                </tr>
+                <tr class="contentvalue">
+                  <td valign="middle" width="150">
+                    &nbsp;&nbsp;$Text{"The last"}
+                  </td>
+                  <td valign="middle">
+                    $Data{"TimeRelativeCount"}
+                    $Data{"TimeRelativeUnit"} ($Text{"maximal period"} $Data{"TimeRelativeCountMax"} $Text{"$Data{"TimeRelativeUnitMax"}"})
+
+<!--dtl:block:TimePeriodRelative -->
+                  </td>
+                </tr>
+<!--dtl:block:Element -->
+              </table>
+            </td>
+          </tr>
+<!--dtl:block:Dynamic -->
+          <tr>
+            <td class="contentfooter">
+<!--dtl:block:FormSubmit -->
+              <input class="button" type="submit" name="Start" value="$Text{"Start"}">
+<!--dtl:block:FormSubmit -->
+              &nbsp;
+            </td>
+          </tr>
+        </form>
+      </table>
+      <br>
+    </td>
+    <td width="25%" class="menu">
+      <table border="0" align="right" cellspacing="1" cellpadding="0" width="95%">
+        <tr>
+          <td class="mainkey">$Text{"Created"}:</td>
+          <td class="mainvalue">$TimeLong{"$Data{"Created"}"}</td>
+        </tr>
+        <tr>
+          <td class="mainkey">$Text{"Created by"}:</td>
+          <td class="mainvalue">$QData{"CreatedBy","20"}</td>
+        </tr>
+        <tr>
+          <td class="mainkey">$Text{"Changed"}:</td>
+          <td class="mainvalue">$TimeLong{"$Data{"Changed"}"}</td>
+        </tr>
+        <tr>
+          <td class="mainkey">$Text{"Changed by"}:</td>
+          <td class="mainvalue">$QData{"ChangedBy","20"}</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
+  <tr>
+    <td class="mainhead">
+      $Env{"Box0"}$Text{"Note"}$Env{"Box1"}
+    </td>
+  </tr>
+  <tr>
+    <td class="mainbody">
+      <table width="100%">
+        <tr>
+          <td class="mainvalue">$Text{"With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat."}</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- end form -->

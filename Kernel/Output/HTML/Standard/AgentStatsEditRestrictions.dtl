@@ -1,0 +1,201 @@
+# --
+# AgentStatEditRestrictions.dtl - provides HTML form for stats edit mask
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: AgentStatsEditRestrictions.dtl,v 1.1 2006-07-13 10:48:23 tr Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start form -->
+<form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+  <input type="hidden" name="Action"    value="$Env{"Action"}">
+  <input type="hidden" name="Subaction" value="Action">
+  <input type="hidden" name="Home"      value="EditRestrictions">
+  <input type="hidden" name="StatID"    value="$QData{"StatID"}">
+  <table border="0" width="100%" cellspacing="0" cellpadding="3">
+    <tr>
+      <td class="mainhead">
+        $Env{"Box0"}$Text{"Edit"}: $Config{"Stats::StatsHook"} $QData{"StatNumber"}$Env{"Box1"}
+      </td>
+    </tr>
+#    <tr>
+#      <td class="menu">
+#        <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=View&StatID=$QData{"StatID"}" class="menuitem">
+#        $Text{"View"}
+#        </a>
+#      </td>
+#    </tr>
+    <tr>
+      <td class="mainbody" align="center">
+        <img border="0" src="$Env{"Images"}installer3.png" alt="">
+        <br>
+        <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
+          <tr>
+            <td class="contenthead">
+              $Text{"Select the restrictions to characterise the stat"} (4/4)
+            </td>
+          </tr>
+          <tr>
+            <td class="contentbody">
+              <table border="0" cellspacing="0" cellpadding="3"  width="100%">
+<!-- dtl:block:Attribute -->
+<!-- dtl:block:hr -->
+                <tr>
+                  <td colspan="3"><hr></td>
+                </tr>
+<!-- dtl:block:hr -->
+<!-- dtl:block:MultiSelectField -->
+                <tr>
+                  <td class="contentkey">
+                    <input type="Checkbox" name="Select$Data{"Element"}" value="1" $Data{"Checked"}>
+                  </td>
+                  <td class="contentkey" width="200">
+                    $Text{"$QData{"Name"}"}:
+                  </td>
+                  <td class="contentvalue" width="450">$Data{"SelectField"}</td>
+                </tr>
+                <tr>
+                  <td colspan="2"></td>
+                  <td class="contentvalue">
+                    <input type="Checkbox" name="Fixed$Data{"Element"}" value="1" $Data{"Fixed"}>
+                    $Text{"Fixed"}
+                  </td>
+                </tr>
+<!-- dtl:block:MultiSelectField -->
+<!-- dtl:block:SelectField -->
+                <tr>
+                  <td class="contentkey">
+                    <input type="Checkbox" name="Select$Data{"Element"}" value="1" $Data{"Checked"}>
+                  </td>
+                  <td class="contentkey">
+                    $Text{"$QData{"Name"}"}:<br>
+                    <span class="readonly">$Text{"Please select only one Element or turn of the button 'Fixed'."}</span>
+                  </td>
+                  <td class="contentvalue">$Data{"SelectField"}</td>
+                </tr>
+                <tr>
+                  <td colspan="2"></td>
+                  <td class="contentvalue">
+                    <input type="Checkbox" name="Fixed$Data{"Element"}" value="1" $Data{"Fixed"}>
+                    $Text{"Fixed"}
+                  </td>
+                </tr>
+<!-- dtl:block:SelectField -->
+<!-- dtl:block:InputField -->
+                <tr>
+                  <td class="contentkey">
+                    <input type="Checkbox" name="Select$Data{"Element"}" value="1" $Data{"Checked"}>
+                  </td>
+                  <td class="contentkey">
+                    $Text{"$QData{"Name"}"}:
+                  </td>
+                  <td class="contentvalue">
+                    <input type="text" name="$QData{"Element"}" value="$QData{"SelectedValue"}" size="60">
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2"></td>
+                  <td class="contentvalue">
+                    <input type="Checkbox" name="Fixed$Data{"Element"}" value="1" $Data{"Fixed"}>
+                    $Text{"Fixed"}
+                  </td>
+                </tr>
+<!-- dtl:block:InputField -->
+<!-- dtl:block:TimeExtended -->
+                <tr>
+                  <td>
+                    <input type="Checkbox" name="Select$Data{"Element"}" value="1" $Data{"Checked"}>                  </td>
+                  </td>
+                  <td colspan="2" class="contentkey">$Text{"$Data{"Name"}"}:</td>
+                </tr>
+                <tr class="contentvalue">
+                  <td></td>
+                  <td valign="middle">
+                    &nbsp;&nbsp;
+                    <input type="radio" name="$Data{"Element"}TimeSelect" value="Absolut" $Data{"CheckedAbsolut"}>
+                    $Text{"Absolut Period"}:
+                  </td>
+                  <td valign="middle">
+                    $Text{"Between"} $Data{"TimeStart"} $Text{"and"} $Data{"TimeStop"}
+                  </td>
+                </tr>
+                <tr class="contentvalue">
+                  <td></td>
+                  <td valign="middle">
+                    &nbsp;&nbsp;
+                    <input type="radio" name="$Data{"Element"}TimeSelect" value="Relativ" $Data{"CheckedRelative"}>
+                    $Text{"Relative Period"}:
+                  </td>
+                  <td valign="middle">
+                    $Text{"The last"}
+                    $Data{"TimeRelativeCount"}
+                    $Data{"TimeRelativeUnit"}
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2"></td>
+                  <td class="contentvalue">
+                    <input type="Checkbox" name="Fixed$Data{"Element"}" value="1" $Data{"Fixed"}>
+                    $Text{"Fixed"}
+                  </td>
+                </tr>
+<!-- dtl:block:TimeExtended -->
+<!-- dtl:block:Time -->
+                <tr>
+                  <td class="contentkey">
+                    <input type="Checkbox" name="Select$Data{"Element"}" value="1" $Data{"Checked"}>
+                  </td>
+                  <td>
+                    <span class="contentkey">$Text{"$Data{"Name"}"}:</span>&nbsp;
+                    <span class="contentvalue">$Text{"Between"}</span>
+                  </td>
+                  <td>
+                    $Data{"TimeStart"} $Text{"and"} $Data{"TimeStop"}
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2"></td>
+                  <td class="contentvalue">
+                    <input type="Checkbox" name="Fixed$Data{"Element"}" value="1" $Data{"Fixed"}>
+                    $Text{"Fixed"}
+                  </td>
+                </tr>
+<!-- dtl:block:Time -->
+<!-- dtl:block:Attribute -->
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td class="contentfooter">
+              <input class="button" type="submit" name="Back" value="$Text{"...Back"}">
+              <input class="button" type="submit" name="Next" value="$Text{"Finish"}">
+            </td>
+          </tr>
+        </table>
+        <br>
+      </td>
+    </tr>
+  </table>
+</form>
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
+  <tr>
+    <td class="mainhead">
+      $Env{"Box0"}$Text{"Note"}$Env{"Box1"}
+    </td>
+  </tr>
+  <tr>
+    <td class="mainbody">
+      <table width="100%">
+        <tr>
+          <td class="mainvalue">
+            $Text{"Here you can make restrictions to your stat."}
+            $Text{"If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributs of the corresponding element."}
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- end form -->

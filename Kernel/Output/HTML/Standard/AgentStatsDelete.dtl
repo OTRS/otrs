@@ -1,0 +1,67 @@
+# --
+# AgentStatsDelete.dtl - provides HTML form for delete a Stats
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: AgentStatsDelete.dtl,v 1.1 2006-07-13 10:48:23 tr Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start form -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+  <tr>
+    <td class="mainhead">
+      $Env{"Box0"}$Text{"Delete"}$Env{"Box1"}
+    </td>
+  </tr>
+  <tr>
+    <td class="menu">
+      <a href="$Env{"Baselink"}$Env{"LastScreenView"}" class="menuitem">$Text{"Back"}</a>
+    </td>
+  </tr>
+  <tr>
+    <td class="mainbody">
+      <br>
+      <table border="0" width="350" align="center" cellspacing="0" cellpadding="4">
+        <form action="$Env{"CGIHandle"}" method="get" enctype="multipart/form-data">
+          <tr>
+            <td class="contenthead">$Text{"Delete"}</td>
+          </tr>
+          <tr>
+            <td class="contentbody">
+              <table border="0" cellspacing="0" cellpadding="3">
+                <tr>
+                  <td class="contentkey">$Text{"$Config{"Stats::StatsHook"}"}:</td>
+                  <td class="contentvalue">$QData{"StatNumber"}</td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Title"}:</td>
+                  <td class="contentvalue">$QData{"Title"}</td>
+                </tr>
+                <tr>
+                  <td colspan="2">&nbsp;</td>
+                </tr>
+                <tr>
+                  <td colspan="3" class="contentkey">$Text{"Do you really want to delete this Object?"}</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td class="contentfooter" class="contentvalue">
+              <input type="hidden" name="Action"             value="$Env{"Action"}">
+              <input type="hidden" name="Subaction"          value="Delete">
+              <input type="hidden" name="Status"             value="Action">
+              <input type="hidden" name="StatID"             value="$Data{"StatID"}">
+              <input class="button" type="submit" name="Yes" value="$Text{"Yes"}">&nbsp;
+              <input class="button" type="submit" name="No"  value="$Text{"No"}">
+            </td>
+          </tr>
+        </form>
+      </table>
+      <br>
+    </td>
+  </tr>
+</table>
+<!-- end form -->

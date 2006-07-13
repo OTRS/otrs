@@ -1,0 +1,98 @@
+# --
+# AgentStatsPrint.dtl - provides HTML form for view IDMEF
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# --
+# $Id: AgentStatsPrint.dtl,v 1.1 2006-07-13 10:48:23 tr Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start form -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+  <tr>
+    <td class="mainbody">
+      <table border="0" width="100%" cellspacing="0" cellpadding="3">
+        <tr>
+          <td class="contenthead">
+            $Env{"Box0"}$Text{"Print"}: $Text{"$Config{"Stats::StatsHook"}"} $QData{"StatNumber"}$Env{"Box1"}
+          </td>
+        </tr>
+        <tr>
+          <td class="contentbody">
+            <table width="100%" border="0">
+              <tr>
+                <td class="contentkey">
+                  $Text{"Title"}: $Data{"Title"}
+                </td>
+              </tr>
+#              <tr>
+#                <td class="contentkey">
+#                  $Text{"Title"}:
+#                </td>
+#                <td class="contentvalue">
+#                  $Data{"Title"}
+#                </td>
+#              </tr>
+#              <tr>
+#                <td class="contentkey">
+#                  $Text{"Description"}:
+#                </td>
+#                <td class="contentvalue">
+#                  $Data{"Description"}
+#                </td>
+#              </tr>
+#              <tr>
+#                <td colspan="2">
+#                  <hr>
+#                <td>
+#              </tr>
+<!--dtl:block:Dynamic -->
+              <tr>
+                <td class="contentkey">$Text{"$QData{"Name"}"}</td>
+              </tr>
+<!--dtl:block:NoElement -->
+              <tr>
+                <td class="contentvalue" colspan="2">
+                  $Text{"No Element selected."}
+                </td>
+              </tr>
+<!--dtl:block:NoElement -->
+<!--dtl:block:Element -->
+              <tr>
+                <td class="contentkey" width="150">$Text{"$QData{"Name"}"}:</td>
+                <td class="contentvalue">
+<!--dtl:block:TimePeriodFixed -->
+                  $Text{"Between"} $Data{"TimeStart"} $Text{"and"} $Data{"TimeStop"}<br>
+<!--dtl:block:TimePeriodFixed -->
+<!--dtl:block:TimeScaleFixed -->
+                  $Text{"Scale"}: $Data{"Count"} $Text{"$Data{"Scale"}"}
+<!--dtl:block:TimeScaleFixed -->
+<!--dtl:block:Fixed -->
+                  $Data{"Value"}<br>
+<!--dtl:block:Fixed -->
+                </td>
+              </tr>
+<!--dtl:block:Element -->
+              <tr>
+                <td colspan="2">
+                  <hr>
+                  <td>
+                  </tr>
+<!--dtl:block:Dynamic -->
+                  <tr>
+                    <td colspan="2">
+                      $Data{"Table"}
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td class="contentfooter">&nbsp;</td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+<!-- end form -->
