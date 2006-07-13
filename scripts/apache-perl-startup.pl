@@ -75,6 +75,7 @@ use Kernel::System::CustomerAuth;
 use Kernel::System::CheckItem;
 use Kernel::System::AutoResponse;
 use Kernel::System::Notification;
+use Kernel::System::Stats;
 
 use Kernel::Output::HTML::Layout;
 use Kernel::Output::HTML::LayoutTicket;
@@ -144,6 +145,6 @@ use Kernel::Modules::CustomerTicketZoom;
 use Kernel::Modules::CustomerZoom;
 
 # web stats module
-use Kernel::Modules::SystemStats;
+use Kernel::Modules::AgentStats;
 
 1;

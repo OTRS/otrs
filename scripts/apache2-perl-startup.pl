@@ -77,6 +77,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::AutoResponse;
 use Kernel::System::Notification;
 use Kernel::System::Email;
+use Kernel::System::Stats;
 
 # web agent middle ware modules
 use Kernel::Modules::AgentTicketQueue;
@@ -150,7 +151,7 @@ use Kernel::Modules::CustomerTicketZoom;
 use Kernel::Modules::CustomerZoom;
 
 # web stats module
-use Kernel::Modules::SystemStats;
+use Kernel::Modules::AgentStats;
 
 # frontend modules
 use Kernel::Output::HTML::Layout;
