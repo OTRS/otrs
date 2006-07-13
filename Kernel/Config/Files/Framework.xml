@@ -16,6 +16,8 @@ Possible SubGroups
     - Core::Stats
     - Core::Ticket
     - Core::TicketFreeText
+    - Core::Stats
+    - Core::Stats::Graph
     - Crypt::PGP
     - Crypt::SMIME
     - Frontend::Agent
@@ -30,6 +32,7 @@ Possible SubGroups
     - Frontend::Agent::Ticket::ArticleViewModulePre
     - Frontend::Agent::Ticket::MenuModule
     - Frontend::Agent::Ticket::MenuModulePre
+    - Frontend::Agent::Stats
     - Frontend::Customer
     - Frontend::Customer::Auth
     - Frontend::Customer::ModuleNotify
@@ -112,7 +115,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.103 2006-07-07 12:52:06 cs Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.104 2006-07-13 09:14:08 tr Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -2132,31 +2135,6 @@ Your OTRS Notification Master
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::Module###SystemStats" Required="0" Valid="1">
-        <Description Lang="en">Frontend module registration for the SystemStats object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des SystemStats-Objekts im Agent-Interface.</Description>
-        <Group>Framework</Group>
-        <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
-        <Setting>
-            <FrontendModuleReg>
-                <GroupRo>stats</GroupRo>
-                <Description>Stats</Description>
-                <Title>Stats</Title>
-                <NavBarName>Ticket</NavBarName>
-                <NavBar>
-                    <Description>Stats-Area</Description>
-                    <Name>Stats</Name>
-                    <Image>stats.png</Image>
-                    <Link>Action=SystemStats</Link>
-                    <NavBar>Ticket</NavBar>
-                    <Type></Type>
-                    <Block></Block>
-                    <AccessKey>t</AccessKey>
-                    <Prio>400</Prio>
-                </NavBar>
-            </FrontendModuleReg>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="Frontend::Module###Admin" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the Admin object in the admin area.</Description>
         <Description Lang="de">Frontendmodul-Registration des Admin-Objekts im Admin-Bereich.</Description>
@@ -2671,4 +2649,491 @@ Your OTRS Notification Master
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AgentStats" Required="1" Valid="1">
+      <Description Lang="en">FrontendModuleRegistration for Stats to define the registration settings in the program and to set rights and positions of icons in the navigation bar.</Description>
+      <Description Lang="de">FrontendModulRegistration für das Modul Stats. Hier
+        können Sie die Angaben für die Registrierung des Moduls im Programm tätigen. Ferner
+        können die Rechte und die Positionen der Icons in der Navigationsleiste gesetzt werden.</Description>
+      <Group>Framework</Group>
+      <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
+      <Setting>
+        <FrontendModuleReg>
+          <Title>Stats</Title>
+          <Group>stats</Group>
+          <GroupRo>stats</GroupRo>
+          <Description>Stats</Description>
+          <NavBarName>Stats</NavBarName>
+          <NavBar>
+            <Description>Stats</Description>
+            <Name>Stats</Name>
+            <Image>stats.png</Image>
+            <Link>Action=AgentStats&amp;Subaction=Overview</Link>
+            <NavBar>Stats</NavBar>
+            <Type>Menu</Type>
+            <Prio>8500</Prio>
+            <Block>ItemArea</Block>
+          </NavBar>
+          <NavBar>
+            <GroupRo>stats</GroupRo>
+            <Description>Overview</Description>
+            <Name>Overview</Name>
+            <Image>overview.png</Image>
+            <Link>Action=AgentStats&amp;Subaction=Overview</Link>
+            <NavBar>Stats</NavBar>
+            <Prio>100</Prio>
+          </NavBar>
+          <NavBar>
+            <Group>stats</Group>
+            <Description>New</Description>
+            <Name>New</Name>
+            <Image>new.png</Image>
+            <Link>Action=AgentStats&amp;Subaction=Add</Link>
+            <NavBar>Stats</NavBar>
+            <Prio>200</Prio>
+          </NavBar>
+          <NavBar>
+            <Group>stats</Group>
+            <Description>Import</Description>
+            <Name>Import</Name>
+            <Image>import.png</Image>
+            <Link>Action=AgentStats&amp;Subaction=Import</Link>
+            <NavBar>Stats</NavBar>
+            <Prio>300</Prio>
+          </NavBar>
+        </FrontendModuleReg>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Stats::StatsHook" Required="1" Valid="1">
+      <Description Lang="en">To set the stats hook.</Description>
+      <Description Lang="de">Hiermit kann der Statistik-Identifikator gesetzt werden.</Description>
+      <Group>Framework</Group>
+      <SubGroup>Core::Stats</SubGroup>
+      <Setting>
+        <String Regex="">Stat#</String>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Stats::StatsStartNumber" Required="1" Valid="1">
+      <Description Lang="en">Start stats counting from e. g. 10000. Every new stat increments this number.</Description>
+      <Description Lang="de">Startzahl, ab der die Statistiknummern hochgezählt werden.</Description>
+      <Group>Framework</Group>
+      <SubGroup>Core::Stats</SubGroup>
+      <Setting>
+        <String Regex="">10000</String>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Stats::SearchPageShown" Required="1" Valid="1">
+      <Description Lang="en">Default maximum number of search results shown on the Overview page.</Description>
+      <Description Lang="de">Anzahl der angezeigten Treffer auf der Übersicht.</Description>
+      <Group>Framework</Group>
+      <SubGroup>Frontend::Agent::Stats</SubGroup>
+      <Setting>
+        <String Regex="^[0-9]{1,2}$">20</String>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Stats::SearchLimit" Required="1" Valid="1">
+      <Description Lang="en">Search Limit.</Description>
+      <Description Lang="de">Limit für das Suchergebnis.</Description>
+      <Group>Framework</Group>
+      <SubGroup>Frontend::Agent::Stats</SubGroup>
+      <Setting>
+        <String Regex="^[0-9]{1,6}$">500</String>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Stats::Format" Required="1" Valid="1">
+      <Description Lang="en">Possible output formats.</Description>
+      <Description Lang="de">Auswahlliste für die möglichen Ausgabeformate.</Description>
+      <Group>Framework</Group>
+      <SubGroup>Frontend::Agent::Stats</SubGroup>
+      <Setting>
+        <Hash>
+          <Item Key="Print">Print</Item>
+          <Item Key="CSV">CSV</Item>
+          <Item Key="GD::Graph::lines">graph-lines</Item>
+          <Item Key="GD::Graph::bars">graph-bars</Item>
+          <Item Key="GD::Graph::hbars">graph-hbars</Item>
+          <Item Key="GD::Graph::points">graph-points</Item>
+          <Item Key="GD::Graph::linespoints">graph-lines-points</Item>
+          <Item Key="GD::Graph::area">graph-area</Item>
+          <Item Key="GD::Graph::pie">graph-pie</Item>
+        </Hash>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Stats::GraphSize" Required="1" Valid="1">
+      <Description Lang="en">Size of stat graph.</Description>
+      <Description Lang="de">Größen von Statistik Grafiken.</Description>
+      <Group>Framework</Group>
+      <SubGroup>Frontend::Agent::Stats</SubGroup>
+      <Setting>
+        <Hash>
+          <Item Key="300x200">300x200</Item>
+          <Item Key="500x400">500x400</Item>
+          <Item Key="800x600">800x600</Item>
+          <Item Key="1200x800">1200x800</Item>
+        </Hash>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Stats::Graph::t_margin" Required="1" Valid="1">
+      <Description Lang="en">Top margin of chart.</Description>
+      <Description Lang="de">Abstand von oben zum Diagramm</Description>
+      <Group>Framework</Group>
+      <SubGroup>Core::Stats::Graph</SubGroup>
+      <Setting>
+        <String Regex="^[0-9]{1,5}$">10</String>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Stats::Graph::l_margin" Required="1" Valid="1">
+      <Description Lang="en">Left margin of chart.</Description>
+      <Description Lang="de">Linker Abstand zum Diagramm.</Description>
+      <Group>Framework</Group>
+      <SubGroup>Core::Stats::Graph</SubGroup>
+      <Setting>
+        <String Regex="^[0-9]{1,5}$">10</String>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Stats::Graph::b_margin" Required="1" Valid="1">
+      <Description Lang="en">Bottom margin of chart.</Description>
+      <Description Lang="de">Abstand von unten zum Diagramm.</Description>
+      <Group>Framework</Group>
+      <SubGroup>Core::Stats::Graph</SubGroup>
+      <Setting>
+        <String Regex="^[0-9]{1,5}$">10</String>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Stats::Graph::r_margin" Required="1" Valid="1">
+      <Description Lang="en">Right margin of chart.</Description>
+      <Description Lang="de">Rechter Abstand zum Diagramm.</Description>
+      <Group>Framework</Group>
+      <SubGroup>Core::Stats::Graph</SubGroup>
+      <Setting>
+        <String Regex="^[0-9]{1,5}$">20</String>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Stats::Graph::bgclr" Required="1" Valid="1">
+      <Description Lang="en">Backgroundcolor of the picture.</Description>
+      <Description Lang="de">Hintergrundfarbe vom Bild.</Description>
+      <Group>Framework</Group>
+      <SubGroup>Core::Stats::Graph</SubGroup>
+      <Setting>
+        <Option SelectedID="white">
+          <Item Key="white">white</Item>
+          <Item Key="red">red</Item>
+          <Item Key="green">green</Item>
+          <Item Key="blue">blue</Item>
+          <Item Key="yellow">yellow</Item>
+          <Item Key="black">black</Item>
+          <Item Key="purple">purple</Item>
+          <Item Key="orange">orange</Item>
+          <Item Key="pink">pink</Item>
+          <Item Key="marine">marine</Item>
+          <Item Key="cyan">cyan</Item>
+          <Item Key="lgray">light gray</Item>
+          <Item Key="lblue">light blue</Item>
+          <Item Key="lyellow">light yellow</Item>
+          <Item Key="lgreen">light green</Item>
+          <Item Key="lred">light red</Item>
+          <Item Key="lpurple">light purple</Item>
+          <Item Key="lorange">light orange</Item>
+          <Item Key="lbrown">light brown</Item>
+        </Option>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Stats::Graph::transparent" Required="1" Valid="1">
+      <Description Lang="en">Is the picture transparent?</Description>
+      <Description Lang="de">Soll das Bild transparent sein?</Description>
+      <Group>Framework</Group>
+      <SubGroup>Core::Stats::Graph</SubGroup>
+      <Setting>
+        <Option SelectedID="0">
+          <Item Key="0">0</Item>
+          <Item Key="1">1</Item>
+        </Option>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Stats::Graph::fgclr" Required="1" Valid="1">
+      <Description Lang="en">Border color of the chart.</Description>
+      <Description Lang="de">Rahmenfarbe des Diagramms.</Description>
+      <Group>Framework</Group>
+      <SubGroup>Core::Stats::Graph</SubGroup>
+      <Setting>
+        <Option SelectedID="black">
+          <Item Key="white">white</Item>
+          <Item Key="red">red</Item>
+          <Item Key="green">green</Item>
+          <Item Key="blue">blue</Item>
+          <Item Key="yellow">yellow</Item>
+          <Item Key="black">black</Item>
+          <Item Key="purple">purple</Item>
+          <Item Key="orange">orange</Item>
+          <Item Key="pink">pink</Item>
+          <Item Key="marine">marine</Item>
+          <Item Key="cyan">cyan</Item>
+          <Item Key="lgray">light gray</Item>
+          <Item Key="lblue">light blue</Item>
+          <Item Key="lyellow">light yellow</Item>
+          <Item Key="lgreen">light green</Item>
+          <Item Key="lred">light red</Item>
+          <Item Key="lpurple">light purple</Item>
+          <Item Key="lorange">light orange</Item>
+          <Item Key="lbrown">light brown</Item>
+        </Option>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Stats::Graph::boxclr" Required="1" Valid="1">
+      <Description Lang="en">Background color of the chart.</Description>
+      <Description Lang="de">Hintergrundfarbe des Diagramms.</Description>
+      <Group>Framework</Group>
+      <SubGroup>Core::Stats::Graph</SubGroup>
+      <Setting>
+        <Option SelectedID="white">
+          <Item Key="white">white</Item>
+          <Item Key="red">red</Item>
+          <Item Key="green">green</Item>
+          <Item Key="blue">blue</Item>
+          <Item Key="yellow">yellow</Item>
+          <Item Key="black">black</Item>
+          <Item Key="purple">purple</Item>
+          <Item Key="orange">orange</Item>
+          <Item Key="pink">pink</Item>
+          <Item Key="marine">marine</Item>
+          <Item Key="cyan">cyan</Item>
+          <Item Key="lgray">light gray</Item>
+          <Item Key="lblue">light blue</Item>
+          <Item Key="lyellow">light yellow</Item>
+          <Item Key="lgreen">light green</Item>
+          <Item Key="lred">light red</Item>
+          <Item Key="lpurple">light purple</Item>
+          <Item Key="lorange">light orange</Item>
+          <Item Key="lbrown">light brown</Item>
+        </Option>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Stats::Graph::accentclr" Required="1" Valid="1">
+      <Description Lang="en">Bordercolor of the legend.</Description>
+      <Description Lang="de">Rahmenfarbe der Legende.</Description>
+      <Group>Framework</Group>
+      <SubGroup>Core::Stats::Graph</SubGroup>
+      <Setting>
+        <Option SelectedID="black">
+          <Item Key="white">white</Item>
+          <Item Key="red">red</Item>
+          <Item Key="green">green</Item>
+          <Item Key="blue">blue</Item>
+          <Item Key="yellow">yellow</Item>
+          <Item Key="black">black</Item>
+          <Item Key="purple">purple</Item>
+          <Item Key="orange">orange</Item>
+          <Item Key="pink">pink</Item>
+          <Item Key="marine">marine</Item>
+          <Item Key="cyan">cyan</Item>
+          <Item Key="lgray">light gray</Item>
+          <Item Key="lblue">light blue</Item>
+          <Item Key="lyellow">light yellow</Item>
+          <Item Key="lgreen">light green</Item>
+          <Item Key="lred">light red</Item>
+          <Item Key="lpurple">light purple</Item>
+          <Item Key="lorange">light orange</Item>
+          <Item Key="lbrown">light brown</Item>
+        </Option>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Stats::Graph::legendclr" Required="1" Valid="1">
+      <Description Lang="en">Text color of the legend.</Description>
+      <Description Lang="de">Textfarbe der Legende.</Description>
+      <Group>Framework</Group>
+      <SubGroup>Core::Stats::Graph</SubGroup>
+      <Setting>
+        <Option SelectedID="black">
+          <Item Key="white">white</Item>
+          <Item Key="red">red</Item>
+          <Item Key="green">green</Item>
+          <Item Key="blue">blue</Item>
+          <Item Key="yellow">yellow</Item>
+          <Item Key="black">black</Item>
+          <Item Key="purple">purple</Item>
+          <Item Key="orange">orange</Item>
+          <Item Key="pink">pink</Item>
+          <Item Key="marine">marine</Item>
+          <Item Key="cyan">cyan</Item>
+          <Item Key="lgray">light gray</Item>
+          <Item Key="lblue">light blue</Item>
+          <Item Key="lyellow">light yellow</Item>
+          <Item Key="lgreen">light green</Item>
+          <Item Key="lred">light red</Item>
+          <Item Key="lpurple">light purple</Item>
+          <Item Key="lorange">light orange</Item>
+          <Item Key="lbrown">light brown</Item>
+        </Option>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Stats::Graph::textclr" Required="1" Valid="1">
+      <Description Lang="en">Text color of the chart (e. g. caption).</Description>
+      <Description Lang="de">Textfarbe vom Diagramm (z. B. Titel).</Description>
+      <Group>Framework</Group>
+      <SubGroup>Core::Stats::Graph</SubGroup>
+      <Setting>
+        <Option SelectedID="black">
+          <Item Key="white">white</Item>
+          <Item Key="red">red</Item>
+          <Item Key="green">green</Item>
+          <Item Key="blue">blue</Item>
+          <Item Key="yellow">yellow</Item>
+          <Item Key="black">black</Item>
+          <Item Key="purple">purple</Item>
+          <Item Key="orange">orange</Item>
+          <Item Key="pink">pink</Item>
+          <Item Key="marine">marine</Item>
+          <Item Key="cyan">cyan</Item>
+          <Item Key="lgray">light gray</Item>
+          <Item Key="lblue">light blue</Item>
+          <Item Key="lyellow">light yellow</Item>
+          <Item Key="lgreen">light green</Item>
+          <Item Key="lred">light red</Item>
+          <Item Key="lpurple">light purple</Item>
+          <Item Key="lorange">light orange</Item>
+          <Item Key="lbrown">light brown</Item>
+        </Option>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Stats::Graph::dclrs" Required="1" Valid="1">
+      <Description Lang="en">Colors for the graphs.</Description>
+      <Description Lang="de">Farben für die Graphen.</Description>
+      <Group>Framework</Group>
+      <SubGroup>Core::Stats::Graph</SubGroup>
+      <Setting>
+        <Array>
+          <Item>red</Item>
+          <Item>green</Item>
+          <Item>blue</Item>
+          <Item>yellow</Item>
+          <Item>black</Item>
+          <Item>purple</Item>
+          <Item>orange</Item>
+          <Item>pink</Item>
+          <Item>marine</Item>
+          <Item>cyan</Item>
+          <Item>light gray</Item>
+          <Item>light blue</Item>
+          <Item>light yellow</Item>
+          <Item>light green</Item>
+          <Item>light red</Item>
+          <Item>light purple</Item>
+          <Item>light orange</Item>
+          <Item>light brown</Item>
+        </Array>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Stats::Graph::line_width" Required="1" Valid="1">
+      <Description Lang="en">Boldness of the line drawed by the graph.</Description>
+      <Description Lang="de">Linienstärke der Graphen.</Description>
+      <Group>Framework</Group>
+      <SubGroup>Core::Stats::Graph</SubGroup>
+      <Setting>
+        <String Regex="^[0-9]{1,2}$">1</String>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Stats::Graph::legend_placement" Required="1" Valid="1">
+      <Description Lang="en">Placement of the legend. This should be a two letter key of the form: 'B[LCR]|R[TCB]'. The first letter indicates the placement (Bottom or
+        Right), and the second letter the alignment (Left, Right, Center, Top, or Bottom).</Description>
+      <Description Lang="de">Platzierung der Legende. Es handelt sich hierbei um einen Schlüssel bestehend aus zwei Buchstaben in der Form 'B[LCR]|R[TCB]'. Der erste Buchstabe gibt die Platzierung an. Der zweite die Ausrichtung der Legende.</Description>
+      <Group>Framework</Group>
+      <SubGroup>Core::Stats::Graph</SubGroup>
+      <Setting>
+        <String Regex="">BC</String>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Stats::Graph::legend_spacing" Required="1" Valid="1">
+      <Description Lang="en">Spacing of the legends.</Description>
+      <Description Lang="de">Abstand der Legenden.</Description>
+      <Group>Framework</Group>
+      <SubGroup>Core::Stats::Graph</SubGroup>
+      <Setting>
+        <String Regex="^[0-9]{1,5}$">4</String>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Stats::Graph::legend_marker_width" Required="1" Valid="1">
+      <Description Lang="en">Width of the legend.</Description>
+      <Description Lang="de">Breite der Legende.</Description>
+      <Group>Framework</Group>
+      <SubGroup>Core::Stats::Graph</SubGroup>
+      <Setting>
+        <String Regex="^[0-9]{1,5}$">12</String>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Stats::Graph::legend_marker_height" Required="1" Valid="1">
+      <Description Lang="en">Height of the legend.</Description>
+      <Description Lang="de">Höhe der Legende.</Description>
+      <Group>Framework</Group>
+      <SubGroup>Core::Stats::Graph</SubGroup>
+      <Setting>
+        <String Regex="^[0-9]{1,5}$">8</String>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Stats::TimeType" Required="1" Valid="1">
+      <Description Lang="en">Selection of the time type which should be shown.</Description>
+      <Description Lang="de">Auswahl, welche Darstellung für das Zeitelement verwendet werden soll.</Description>
+      <Group>Framework</Group>
+      <SubGroup>Frontend::Agent::Stats</SubGroup>
+      <Setting>
+        <Option SelectedID="Normal">
+          <Item Key="Normal">normal</Item>
+          <Item Key="Extended">extended</Item>
+        </Option>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Stats::ExchangeAxis" Required="0" Valid="0">
+      <Description Lang="en">If you activate this option an agent can exchange the axis of a stat if he generates one.</Description>
+      <Description Lang="de">Wenn diese Option aktiviert wird, hat der Agent die Möglichkeit beim Generieren einer Statistik die beiden Achsen zu vertauschen.</Description>
+      <Group>Framework</Group>
+      <SubGroup>Frontend::Agent::Stats</SubGroup>
+      <Setting>
+        <Option SelectedID="0">
+          <Item Key="0">No</Item>
+          <Item Key="1">Yes</Item>
+        </Option>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Stats::UseAgentElementInStats" Required="0" Valid="0">
+      <Description Lang="en">If you activate this option you can generate individual-related stats.</Description>
+      <Description Lang="de">Wenn diese Option aktiviert wird, können personenbezogene Statistiken erstellt werden.</Description>
+      <Group>Framework</Group>
+      <SubGroup>Frontend::Agent::Stats</SubGroup>
+      <Setting>
+        <Option SelectedID="0">
+          <Item Key="0">No</Item>
+          <Item Key="1">Yes</Item>
+        </Option>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Stats::CustomerIDAsMultiSelect" Required="0" Valid="0">
+      <Description Lang="en">If you activate this option all CustomerIDs will be shown in a multi-select field (Not useful if you have a lot of CustomerIDs).</Description>
+      <Description Lang="de">Wenn diese Option aktiviert wird, werden die Kunden# in einem MultiSelectFeld dargestellt. Dadurch werden die Kunden# für die X-Achse und Wertereihen zugänglich (Nur bei einer begrenzten Anzahl von Kunden# sinnvoll.)</Description>
+      <Group>Framework</Group>
+      <SubGroup>Frontend::Agent::Stats</SubGroup>
+      <Setting>
+        <Option SelectedID="0">
+          <Item Key="0">No</Item>
+          <Item Key="1">Yes</Item>
+        </Option>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Stats::MaxXaxisAttributes" Required="0" Valid="0">
+      <Description Lang="en">Default maximum number of X-axis attributes for the time scale.</Description>
+      <Description Lang="de">Maximale Anzahl in die ein Zeitraum auf der X-Achse skaliert werden darf.</Description>
+      <Group>Framework</Group>
+      <SubGroup>Core::Stats</SubGroup>
+      <Setting>
+        <String Regex="^[0-9]{1,5}$">100</String>
+      </Setting>
+    </ConfigItem>
+
+
+
+
+
+
+
+
+
+
+
 </otrs_config>

@@ -148,7 +148,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.109 2006-06-26 14:29:23 tr Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.110 2006-07-13 09:15:19 tr Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -4599,7 +4599,6 @@ $QData{"Signature"}
             </Hash>
         </Setting>
     </ConfigItem>
-
     <ConfigItem Name="Ticket::Frontend::AgentTicketMerge###Permission" Required="1" Valid="1">
         <Description Lang="en">Required permissions to use this option.</Description>
         <Description Lang="de">Benötigte Rechte zur Bearbeitung des Tickets.</Description>
@@ -4630,7 +4629,6 @@ $QData{"Signature"}
             <TextArea>Your email with ticket number "&lt;OTRS_TICKET&gt;" is merged to "&lt;OTRS_MERGE_TO_TICKET&gt;".</TextArea>
         </Setting>
     </ConfigItem>
-
     <ConfigItem Name="Ticket::ViewableSenderTypes" Required="1" Valid="1">
         <Description Lang="en">Default viewable sender types (default:  customer).</Description>
         <Description Lang="de">Standardmäßig sichtbare Sender Typen (Default: customer).</Description>
@@ -4730,99 +4728,6 @@ $QData{"Signature"}
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
             <String Regex=""></String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="SystemStatsMap###Ticket::Stats1" Required="0" Valid="1">
-        <Description Lang="en">Module to print stats about new tickets. Possible values: Print, CSV, GraphLine, GraphBars, GraphPie.</Description>
-        <Description Lang="de">Modul für die Ausgabe von Statistiken für neue Tickets. Mögliche Ausgabeformate: Print, CSV, GraphLine, GraphBars und GraphPie.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::Stats</SubGroup>
-        <Setting>
-            <Hash>
-            <Item Key="Name">New Tickets</Item>
-                <Item Key="Module">Kernel::System::Stats::NewTickets</Item>
-                <Item Key="Desc">New created tickets for each queue in selected month</Item>
-                <Item Key="SumCol">1</Item>
-                <Item Key="SumRow">1</Item>
-                <Item Key="UseResultCache">0</Item>
-                <Item Key="Output">
-                    <Array>
-                        <Item>Print</Item>
-                        <Item>CSV</Item>
-                        <Item>Graph</Item>
-                    </Array>
-                </Item>
-                <Item Key="OutputDefault">Print</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="SystemStatsMap###Ticket::Stats2" Required="0" Valid="1">
-        <Description Lang="en">Module to generate an overview of tickets in a queue at the end of a month. Possible output options are Print, CSV, GraphLine, GraphBars and GraphPie.</Description>
-        <Description Lang="de">Modul für die Generierung von Statistiken für Tickets in einer Queue am Ende eines Monats. Mögliche Ausgabeformate: Print, CSV, GraphLine, GraphBars und GraphPie.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::Stats</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Name">Ticket Overview</Item>
-                <Item Key="Module">Kernel::System::Stats::TicketOverview</Item>
-                <Item Key="Desc">Overview of the tickets in queue at the end of this month</Item>
-                <Item Key="SumCol">1</Item>
-                <Item Key="SumRow">1</Item>
-                <Item Key="UseResultCache">1</Item>
-                <Item Key="Output">
-                    <Array>
-                        <Item>Print</Item>
-                        <Item>CSV</Item>
-                        <Item>GraphBars</Item>
-                    </Array>
-                </Item>
-                <Item Key="OutputDefault">Print</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="SystemStatsMap###Ticket::Stats4" Required="0" Valid="1">
-        <Description Lang="en">Module to trace system activities (Replacement of old bin/mkStats.pl). Possible output options are Print, CSV, GraphLine, GraphBars and GraphPie.</Description>
-        <Description Lang="de">Modul für eine Übersicht über die Systemaktivität  (Ersetzt das Skript "bin/mkStats.pl"). Mögliche Ausgabeformate: Print, CSV, GraphLine, GraphBars und GraphPie.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::Stats</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Name">State Action Overview</Item>
-                <Item Key="Module">Kernel::System::Stats::StateAction</Item>
-                <Item Key="Desc">Trace system activities (Replacement of old bin/mkStats.pl</Item>
-                <Item Key="SumCol">1</Item>
-                <Item Key="SumRow">1</Item>
-                <Item Key="UseResultCache">0</Item>
-                <Item Key="Output">
-                    <Array>
-                        <Item>Print</Item>
-                        <Item>CSV</Item>
-                        <Item>Graph</Item>
-                    </Array>
-                </Item>
-                <Item Key="OutputDefault">Graph</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="SystemStatsMap###Ticket::Stats5" Required="0" Valid="1">
-        <Description Lang="en">Module to create a list about accounted time per customer. Possible values for the output are Print and CSV.</Description>
-        <Description Lang="de">Ein Modul für die Ausgabe einer Liste der Zeiten, die für die verschiedenen Customer innerhalb des Systems gearbeitet wurde. Mögliche Ausgabeformate: Print und CSV.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::Stats</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Name">Time Accounting</Item>
-                <Item Key="Module">Kernel::System::Stats::AccountedTime</Item>
-                <Item Key="Desc">A list about accounted time per customer</Item>
-                <Item Key="UseResultCache">0</Item>
-                <Item Key="Output">
-                    <Array>
-                        <Item>Print</Item>
-                        <Item>CSV</Item>
-                    </Array>
-                </Item>
-                <Item Key="OutputDefault">Print</Item>
-            </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="LinkObject###Ticket" Required="1" Valid="1">
@@ -7745,6 +7650,17 @@ Thanks for your help!
           <Item Key="Key"></Item>
           <Item Key="Value"></Item>
           <Item Key="Event"></Item>
+        </Hash>
+      </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Stats::DynamicObjectRegistration###Ticket" Required="0" Valid="1">
+      <Description Lang="en">Here you can decide if the stats module may generate stats about tickets.</Description>
+      <Description Lang="de">Hier können Sie festlegen, ob das Statistik-Modul auch Statistiken über Tickets generieren darf.</Description>
+      <Group>Framework</Group>
+      <SubGroup>Core::Stats</SubGroup>
+      <Setting>
+        <Hash>
+          <Item Key="Module">Kernel::System::Stats::Dynamic::Ticket</Item>
         </Hash>
       </Setting>
     </ConfigItem>
