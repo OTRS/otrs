@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<otrs_stats>
+<Cache>1</Cache>
+<Description>Anzahl der neuen Tickets pro Tag und Queue die im letzten
+Monat in das System gelangt sind.</Description>
+<File></File>
+<Format>Print</Format>
+<Object>Ticket</Object>
+<ObjectModule>Kernel::System::Stats::Dynamic::Ticket</ObjectModule>
+<Permission>2</Permission>
+<StatID>1</StatID>
+<StatNumber>10001</StatNumber>
+<StatType>dynamic</StatType>
+<SumCol>1</SumCol>
+<SumRow>1</SumRow>
+<Title>Neue Tickets </Title>
+<UseAsValueSeries Element="QueueIDs" Fixed="1">
+</UseAsValueSeries>
+<UseAsXvalue Element="CreateTime" Fixed="1" TimeRelativeCount="1" TimeRelativeUnit="Month" TimeScaleCount="1">
+<SelectedValues>Day</SelectedValues>
+</UseAsXvalue>
+<Valid>1</Valid>
+</otrs_stats>
