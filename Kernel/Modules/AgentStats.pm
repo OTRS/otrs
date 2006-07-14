@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentStats.pm,v 1.1 2006-07-13 10:28:15 tr Exp $
+# $Id: AgentStats.pm,v 1.2 2006-07-14 07:15:56 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -2189,29 +2189,28 @@ sub _Timeoutput {
 sub _TimeScale {
     my %TimeScale = ('Second'  => {
             Position    => 1,
-            Value       => 'Second(s)',
+            Value       => 'second(s)',
         },
         'Minute' => {
             Position    => 2,
-            Value       => 'Minute(s)',
+            Value       => 'minute(s)',
         },
         'Hour' => {
             Position    => 3,
-            Value       => 'Hour(s)',
+            Value       => 'hour(s)',
         },
         'Day' => {
             Position    => 4,
-            Value       => 'Day(s)',
+            Value       => 'day(s)',
         },
         'Month' => {
             Position    => 5,
-            Value       => 'Month(s)',
+            Value       => 'month(s)',
         },
         'Year' => {
             Position    => 6,
-            Value       => 'Year(s)',
+            Value       => 'year(s)',
         },
-
     );
 
    return \%TimeScale;

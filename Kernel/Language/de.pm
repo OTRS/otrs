@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: de.pm,v 1.109 2006-06-27 07:48:41 tr Exp $
+# $Id: de.pm,v 1.110 2006-07-14 07:15:56 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.109 $';
+$VERSION = '$Revision: 1.110 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -59,6 +59,9 @@ sub Data {
       'minute' => 'Minute',
       'minutes' => 'Minuten',
       'minute(s)' => 'Minute(n)',
+      'second(s)' => 'Sekunde(n)',
+      'second' => 'Sekunde',
+      'seconds' => 'Sekunden',
       'month' => 'Monat',
       'months' => 'Monate',
       'month(s)' => 'Monat(e)',
@@ -1239,6 +1242,199 @@ sub Data {
       'Package not correctly deployed, you need to deploy it again!' => 'Paket nicht korrekt installiert, bitte erneut installieren!',
       'installed' => 'installiert',
       'uninstalled' => 'nicht installiert',
+
+      # Template: AAAStats
+      'Stat'    => 'Statistik',
+      'Please fill out the required fields!' => 'Bitte füllen Sie alle Pflichtfelder aus!',
+      'Please select a file!'                => 'Bitte wählen Sie eine Datei aus!',
+      'Please select an object!'             => 'Bitte wählen Sie ein Statistik-Objekt aus!',
+      'Please select a graph size!'          => 'Bitte legen Sie die Graphikgröße fest!',
+      'Please select one element for the X-axis!' => 'Bitte wählen sie ein Element für die X-Achse aus!',
+      'You have to select two or more attributes from the select field!' => 'Sie müssen mindestens zwei Attribute des Auswahlfelds auswählen!',
+      'Please select only one element or turn of the button \'Fixed\' where the select field is marked!' => 'Bitte wählen Sie nur ein Element aus oder entfernen Sie das Häkchen der Checkbox \'Fixed\'!',
+      'If you use a checkbox you have to select some attributes of the select field!' => 'Wenn Sie Inhalte eines Auswahlfelds auswählen müssen Sie mindestens zwei Attribute auswählen!',
+      'Please insert a value in the selected input field or turn off the \'Fixed\' checkbox!' => 'Tragen Sie bitte etwas in die Eingabezeile ein oder entfernen Sie das Häkchen aus der Checkbox \'Fixed\'!',
+      'The selected end time is before the start time!' => 'Die ausgewählte Endzeit ist vor der Startzeit!',
+      'You have to select one or more attributes from the select field!' => 'Bitte wählen Sie bitte ein oder mehrere Attribute aus dem Auswahlfeld aus!',
+      'The selected Date isn\'t valid!' => 'Sie haben ein ungültiges Datum ausgewählt!',
+      'Please select only one or two elements via the checkbox!' => 'Bitte wählen Sie nur ein oder zwei Elemente aus!',
+      'If you use a time scale element you can only select one element!' => 'Wenn Sie ein Zeit-Element ausgewählt haben, können Sie nur kein weiteres Element mehr auswählen!',
+      'You have an error in your time selection!' => 'Sie haben einen Fehler in Ihrer Zeitauswahl!',
+      'Your reporting time interval is to small, please use a larger time scale!' => 'Die Zeitskalierung ist zu klein gewählt, bitte wählen Sie eine größere Zeitskalierung!',
+      'The selected start time is before the allowed start time!' => 'Die gewählte Startzeit ist ausserhalb des erlaubten Bereichs!',
+      'The selected end time is after the allowed end time!' => 'Die gewählte Endzeit ist ausserhalb des erlaubten Bereichs!',
+      'The selected time period is larger than the allowed time period!' => 'Der gewählt Zeitraum ist größer als der erlaubte Zeitraum!',
+      'graph-lines'          => 'Liniendiagramm',
+      'graph-bars'           => 'Balkendiagramm',
+      'graph-hbars'          => 'Balkendiagramm (horizontal)',
+      'graph-points'         => 'Punktdiagramm',
+      'graph-lines-points'   => 'Linienpunktdiagramm',
+      'graph-area'           => 'Flächendiagramm',
+      'graph-pie'            => 'Tortendiagramm',
+      'Common Specification' => 'Allgemeine Angaben',
+      'Xaxis'                => 'X-Achse', # title of the dtl
+      'Value Series'         => 'Wertereihen',
+      'Restrictions'         => 'Einschränkungen',
+      'Agent/Owner'          => 'Agent/Besitzer',
+      'Created by Agent/Owner' => 'Erstellt von Agent/Besitzer',
+      'Created Priority'     => 'Erstellt mit der Priorität',
+      'Created State'        => 'Erstellt mit dem Status',
+      'Create Time'          => 'Ticket erstellt',
+      'CustomerUserLogin'    => 'Kundenlogin',
+      'Close Time'           => 'Ticket geschlossen',
+      'extended'             => 'erweitert',
+
+      '' => '',
+
+      # Template: AgentStatsOverview
+      'Object' => 'Objekt',
+      '' => '',
+
+      # Template: AgentStatsSpecification
+      'Insert of the common specifications' => 'Eingabe der allgemeinen Angaben',
+      'Dynamic-Object' => 'Dynamisches Objekt',
+      'Static-File'    => 'Statische Datei',
+      'Permissions'    => 'Rechtevergabe',
+      'Graphsize'      => 'Graphikgröße',
+      'Sum rows'       => 'Zeilensummierung',
+      'Sum columns'    => 'Spaltensummierung',
+      'Required Field' => 'Pflichtfeld',
+      'Selection needed' => 'Auswahl nötig',
+      'Explanation'    => 'Erklärung',
+      'In this form you can select the basic specifications.' => 'Diese Eingabeoberfläche ist für die Eingabe der allgemeinen Angaben.',
+      'Title of the stat.' => 'Titel der Statistik.',
+      'Here you can insert a description of the stat.' => 'An dieser Stelle muß die Beschreibung eingegeben werden.',
+      'Here you can select the dynamic object you want to use.' => 'Hier kann das zu benutzende dynamische Objekt ausgewählt werden.',
+      '(Note: It depends on your installation how many dynamic objects you can use)' => '(Anmerkung: Es ist installationsabhängig wieviele dynamische Objekte angezeigt werden)',
+      'For very complex stats it is possible to include a hardcoded file.' => 'Bei sehr komplexen Statistiken ist es möglich Programmdateien zu integrieren.',
+      'If a new hardcoded file is available this attribute will be shown and you can select one.' => 'Sind neue Programmdateien verfügbar, werden diese angezeigt.',
+      'Permission settings. You can select one or more groups to make the configurated stat visible for different agents.' => 'Rechtevergabe: Sie können eine oder mehrere Gruppen auswählen, um die Statistiken für die entsprechenden Agents sichtbar zu machen.',
+      'Multiple selection of the output format.' => 'Auswahl der möglichen Ausgabeformate.',
+      'If you use a graph as output format you have to select at least one graph size.' => 'Wenn Sie als Ausgabeformat eine Graphik ausgewählt haben, müssen Sie hier die Graphikgröße auswählen.',
+      'If you need the sum of every row select yes' => 'Wenn die eine Summierung der Reihen benötigen, wählen Sie bitte \'Yes\'.',
+      'If you need the sum of every column select yes.' => 'Wenn Sie eine Summierung der Spalten benötigen, wählen Sie bitte \'Yes\'.',
+      'Most of the stats can be cached. This will speed up the presentation of this stat.' => 'Die meisten der Statistiken können gecached werden. Diese beschleunigt das wiederholte aufrufen einer Statistik.',
+      '(Note: Useful for big databases and low performance server)' => '(Anmerkung: Dies ist sinnvoll für große Datenbanken und langsame Server)',
+      'With an invalid stat it isn\'t feasible to generate a stat.' => 'Durch das Setzen einer Statistik auf \'ungültig\', kann man es für die Benutzung sperren.',
+      'This is useful if you want that no one can get the result of the stat or the stat isn\'t ready configurated.' => 'Dies ist sinnvoll, wenn man nicht will, dass diese Statistik aktuell genutzt wird oder die Statistik noch nicht fertig konfiguriert ist.',
+      '' => '',
+
+      # Temlate: AgentStatsXaxis
+      'Select the element, which will be used at the X-axis' => 'Auswahl des Elements, welches für die X-Achse genutzt wird.',
+      'Absolut Period' => 'Absoluter Zeitraum',
+      'Relative Period' => 'Relativer Zeitraum',
+      'Between' => 'Zwischen',
+      'The last' => 'Die letzten',
+      'maximal period' => 'maximaler Zeitraum',
+      'minimal scale' => 'minimale Skalierung',
+      'Scale' => 'Skalierung',
+      'Fixed' => 'Fixiert',
+      'Here you can define the x-axis. You can select one element via the radio button. Than you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Auf dieser Seite wird die X-Achse definert. Sie können ein Element per Optionsfeld auswählen. Anschließend müssen zwei oder mehr Attribute des Elements ausgewählt werden. Wenn Sie keine Attribute des Elements auswählen werden alle Attribute verwendet. Auch solche die nach der Konfiguration der Statistik erst hinzukommen.',
+      '' => '',
+
+      # Template: AgentStatsValueSeries
+      'Select the elements for the value series' => 'Auswahl der Elemente für die Wertereihen',
+      'Here you can the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Auf dieser Seite werden die Wertereihen festgelegt. Jedes Attribut wird als einzelne Wertereihe dargestellt. Wenn Sie keine Attribute auswählen werden alle Attribute bei der Generierung einer Statistik verwendet. Auch, wenn ein neues Attribut nach der Statistikkonfiguration hinzugefügt wird.',
+      'If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributs of the corresponding element.' => 'Wenn Sie den Haken in der "Fixiert" Checkbox entfernen, kann der Agent der die Statistik erstellt, die Attribute des entsprechenden Elements verändern.',
+      'Please remember, that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' => 'Bitte bedenken Sie, dass die Zeitskalierung für die Wertereihen größer sein muss als für die X-Achse (z. B. X-Achse => Monat; Wertereihe => Jahr).',
+      '' => '',
+
+      # Template: AgentStatsRestrictions
+      'Select the restrictions to characterise the stat' => 'Auswahl der Einschränkungen zur Charaktarisierung der Statistik',
+      'Here you can make restrictions to your stat.' => 'Dieses Formular wird dazu verwendet die Einschränkungen für die Statistik zu definieren.',
+      'Please select only one Element or turn of the button \'Fixed\'.' => 'Bitte wählen Sie nur ein Attribut aus oder entfernen Sie das Häkchen der Checkbox \'Fixiert\'!',
+      'Finish' => 'Abschließen',
+      '' => '',
+
+      # Template: AgentStatsView
+      'Informations about the Stat' => 'Informationen über die Statistik',
+      'Exchange Axis' => 'Achsen vertauschen',
+      'X-axis' => 'X-Achse',
+      'ValueSeries' => 'Wertereihen',
+      'Restriction' => 'Einschränkung',
+      'No element selected.' => 'Es wurde kein Element ausgewählt.',
+      'With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat.' => 'Mit Hilfe der Auswahl- und Eingabefelder kann die Statistik Ihren Bedürfnissen angepasst werden. Welche Elemente der Statistik Sie verändern dürfen ist von der Vorkonfiguration der Statistik abhängig.',
+      'Export Config' => 'Konfiguration exportieren',
+      'maximal period form' => 'maximaler Zeitraum von',
+      'to' => 'bis',
+      'Year' => 'Jahr', # for old static stats
+      'Month' => 'Monat',
+      'Day' => 'Tag',
+      'Configurable params of static stat' => 'Konfigurierbare Parameter der statischen Statistik',
+      '' => '',
+
+
+
+
+         # Dynamik-Object Vulnerability
+         # FRAMEWORK 2.1 can be removed at OTRS 2.1
+         'possible Remoteattack' => 'Remote-Angriff',
+         'Reference'             => 'Referenz(en)',
+         'Known since'           => 'Bekannt seit',
+         'unknown'               => 'unbekannt',
+         'verified'              => 'verifiziert',
+         'not verified'          => 'nicht verifiziert',
+         'Product'               => 'Produkt(e)',
+         '' => '',
+
+         # Dynamik-Object Advisory
+         # FRAMEWORK 2.1 can be removed at OTRS 2.1
+         'Current Impact Rating' => 'aktuelles Schadenspotential', # be carefule the spelling is different of the Advisorymodule
+         'Change Time'           => 'Geändert',
+         'Advisory Number'       => 'Advisory Nummer',
+         'Instance'              => 'Instanz',
+         'not rated'             => 'nicht bewertet',
+         '' => '',
+
+         # Dynamik-Object Incident
+         # FRAMEWORK 2.1 can be removed at OTRS 2.1
+         'Classification'         => 'Klassifizierung',
+         'Node-Addresscategory'   => 'Node-Adresskategorie',
+         'Incident reported'      => 'Vorfall gemeldet',
+         'Incident started'       => 'Vorfall gestartet',
+         'Incident ended'         => 'Vorfall beendet',
+         'Incident detected'      => 'Vorfall entdeckt',
+         'Node-Name'              => 'Node-Name',
+         'Node-Address'           => 'Node-Adresse',
+         'Service-Name'           => 'Service-Name',
+         'Service-Port'           => 'Service-Port',
+         'Service-Protocol'       => 'Service-Protokol',
+         'User-Name'              => 'Benutzer-Name',
+         'User-Number'            => 'Benutzer-Nummer',
+         'File-Name'              => 'Datei-Dateiname',
+         'File-Path'              => 'Datei-Dateipfad',
+         'Process-Name'           => 'Prozess-Name',
+         'Process-Path'           => 'Prozess-Path',
+         'Reporter'               => 'Melder',
+         'Victim'                 => 'Opfer',
+         'Officer'                => 'Verantwortlicher',
+         'Worm'                   => 'Wurm',
+         'Trojaner'               => 'Trojanisches Pferd',
+         'Phishing'               => 'Phishing',
+         'Social-enginering'      => 'Social Enginering',
+         'Info-theft'             => 'Informationsdiebstahl',
+         'Break-of-data-protection' => 'Verletzung des Datenschutzes',
+         'Lost-of-secret-info'    => 'Verlust von vertraulichen Informationen',
+         'Hacking'                => 'Hacking',
+         'Web-defacement'         => 'Web-Defacement',
+         'Portscan'               => 'Portscan',
+         'Banner-grabbing'        => 'Banner-Grabbing',
+         '__No-incident'          => '__Kein Vorfall',
+         '__System-error'         => '__Systemfehler',
+         '__System-config'        => '__Systemkonfiguration',
+         '__Misconduct'           => '__Fehlverhalten',
+         '__Hoax'                 => '__Hoax',
+         '' => '',
+
+         # Dynamik-Object IDMEFConsole
+         # FRAMEWORK 2.1 can be removed at OTRS 2.1
+         'Imported'                => 'Importiert',
+         'Imported by'             => 'Importiert von',
+         'Database'                => 'Datenbank',
+         'IDM-Type'                => 'IDM-Typ',
+         'read'                    => 'gelesen',
+         'unread'                  => 'ungelesen',
+
     };
     # $$STOP$$
 }

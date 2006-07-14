@@ -33,6 +33,9 @@ $Text{"week(s)"}
 $Text{"year"}
 $Text{"years"}
 $Text{"year(s)"}
+$Text{"second(s)"}
+$Text{"seconds"}
+$Text{"second"}
 
 $Text{"wrote"}
 $Text{"Message"}

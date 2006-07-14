@@ -2,19 +2,22 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.265 2006-07-14 07:11:58 mh Exp $
+# $Id: CHANGES,v 1.266 2006-07-14 07:15:56 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS head
+
+ - (2006/07/14) insert the new statsfunctionality in OTRS 2.1
  - (2006/07/14) Changed language description from Traditional Chinese
     to Simplified Chinese (bug #1258)
  - (2006/07/11) improved performance of ticket search mask (in cases with
     over 500 Agents and over 50 Groups) by adding GroupMemberInvolvedList()
     and modify GroupMemberList(), GroupGroupMemberList(), GroupRoleMemberList()
     and GroupUserRoleMemberList() at Kernel/System/Group.pm
+ - (2006/07/11) improved performance of ticket search mask (in cases with
  - (2006/07/11) fixed bug 1132 - Wrong display of escalation time
  - (2006/07/04) Fixed bug 1151 - Error when changing customer on ticket in
     TicketStatusView

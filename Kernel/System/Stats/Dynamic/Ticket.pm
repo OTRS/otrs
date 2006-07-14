@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/Ticket.pm - all advice functions
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.1 2006-07-13 09:59:30 tr Exp $
+# $Id: Ticket.pm,v 1.2 2006-07-14 07:15:57 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Ticket;
 
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -226,7 +226,7 @@ sub GetObjectAttributes {
             UseAsXvalue      => 1,
             UseAsValueSeries => 1,
             UseAsRestriction => 1,
-            Element          => 'UserIDs',
+            Element          => 'OwnerIDs',
             Block            => 'MultiSelectField',
             LanguageTranslation => 0,
             Values           => \%User,
@@ -356,7 +356,7 @@ sub GetObjectAttributes {
 sub GetStatElement {
     my $Self      = shift;
     my %Param     = @_;
-    my @TicketIDs = $Self->{TicketObject}->TicketSearch(
+    my @TicketIDs = $Self->{TicketObject}->(
         UserID     => 1,
         Result     => 'ARRAY',
         Permission => 'rw',
