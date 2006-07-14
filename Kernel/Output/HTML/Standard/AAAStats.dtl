@@ -1,0 +1,57 @@
+# Common
+$Text{"Stat"}
+$Text{""}
+
+# Errorwarnings
+$Text{"Please fill out the required fields!"}
+$Text{"Please select a file!"}
+$Text{"Please select an object!"}
+$Text{"Please select a graph size!"}
+$Text{"Please select one element for the X-axis!"}
+$Text{"You have to select two or more attributes from the select field!"}
+$Text{"Please select only one element or turn of the button \'Fixed\' where the select field is marked!"}
+$Text{"If you use a checkbox you have to select some attributes of the select field!"}
+$Text{"Please insert a value in the selected input field or turn off the \'Fixed\' checkbox!"}
+$Text{"The selected end time is before the start time!"}
+$Text{"You have to select one or more attributes from the select field!"}
+$Text{"The selected Date isn\'t valid!"}
+$Text{"Please select only one or two elements via the checkbox!"}
+$Text{"If you use a time scale element you can only select one element!"}
+$Text{"You have an error in your time selection!"}
+$Text{"Your reporting time interval is to small, please use a larger time scale!"}
+$Text{"The selected start time is before the allowed start time!"}
+$Text{"The selected end time is after the allowed end time!"}
+$Text{"The selected time period is larger than the allowed time period!"}
+$Text{""}
+
+# HTMLHeader
+$Text{"Common Specification"}
+$Text{"Xaxis"}
+$Text{"Value Series"}
+$Text{"Restrictions"}
+
+# Pulldownmenues
+$Text{"graph-lines"}
+$Text{"graph-bars"}
+$Text{"graph-hbars"}
+$Text{"graph-points"}
+$Text{"graph-lines-points"}
+$Text{"graph-area"}
+$Text{"graph-pie"}
+$Text{""}
+
+# Stats SysConfig
+$Text{"extended"}
+
+# Dynamic Object Ticket
+$Text{"Agent/Owner"}
+$Text{"Created by Agent/Owner"}
+$Text{"Created Priority"}
+$Text{"Created State"}
+$Text{"Create Time"}
+$Text{"CustomerUserLogin"}
+$Text{"Close Time"}
+$Text{""}
+
+
+
