@@ -2,7 +2,7 @@
 # Kernel/System/Auth/LDAP.pm - provides the ldap authentification
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LDAP.pm,v 1.19 2006-07-11 12:00:26 martin Exp $
+# $Id: LDAP.pm,v 1.20 2006-07-18 15:02:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -233,176 +233,273 @@ sub Auth {
                   Priority => 'error',
                   Message => "Sync bind failed!",
                 );
+                # take down session
+                $LDAP->unbind;
+                return uc($Param{User});
             }
-            else {
-                # build filter
-                my $Filter = "($Self->{UID}=$Param{User})";
-                # prepare filter
-                if ($Self->{AlwaysFilter}) {
-                        $Filter = "(&$Filter$Self->{AlwaysFilter})";
+            # build filter
+            my $Filter = "($Self->{UID}=$Param{User})";
+            # prepare filter
+            if ($Self->{AlwaysFilter}) {
+                $Filter = "(&$Filter$Self->{AlwaysFilter})";
+            }
+            # perform user search
+            my $Result = $LDAP->search (
+                base   => $Self->{BaseDN},
+                filter => $Filter,
+            );
+            # get whole user dn
+            my $UserDN = '';
+            my %SyncUser = ();
+            foreach my $Entry ($Result->all_entries) {
+                $UserDN = $Entry->dn();
+                foreach (keys %{$Self->{ConfigObject}->Get('UserSyncLDAPMap')}) {
+                    $SyncUser{$_} = $Entry->get_value($Self->{ConfigObject}->Get('UserSyncLDAPMap')->{$_});
+                    # e. g. set utf-8 flag
+                    $Self->{EncodeObject}->Encode(\$SyncUser{$_});
                 }
-                # perform user search
-                my $Result = $LDAP->search (
-                    base   => $Self->{BaseDN},
-                    filter => $Filter,
-                );
-                # get whole user dn
-                my $UserDN = '';
-                my %SyncUser = ();
-                foreach my $Entry ($Result->all_entries) {
-                    $UserDN = $Entry->dn();
-                    foreach (keys %{$Self->{ConfigObject}->Get('UserSyncLDAPMap')}) {
-                        $SyncUser{$_} = $Entry->get_value($Self->{ConfigObject}->Get('UserSyncLDAPMap')->{$_});
-                        # e. g. set utf-8 flag
-                        $Self->{EncodeObject}->Encode(\$SyncUser{$_});
-                    }
-                    if ($Entry->get_value('userPassword')) {
-                        $SyncUser{Pw} = $Entry->get_value('userPassword');
-                        # e. g. set utf-8 flag
-                        $Self->{EncodeObject}->Encode(\$SyncUser{Pw});
-                    }
+                if ($Entry->get_value('userPassword')) {
+                    $SyncUser{Pw} = $Entry->get_value('userPassword');
+                    # e. g. set utf-8 flag
+                    $Self->{EncodeObject}->Encode(\$SyncUser{Pw});
                 }
-                # sync user
-                if (%SyncUser) {
-                    my %UserData = $Self->{UserObject}->GetUserData(User => $Param{User});
-                    if (!%UserData) {
-                        my $UserID = $Self->{UserObject}->UserAdd(
-                            Salutation => 'Mr/Mrs',
-                            Login => $Param{User},
-                            %SyncUser,
-                            UserType => 'User',
-                            ValidID => 1,
-                            UserID => 1,
+            }
+            # sync user
+            if (%SyncUser) {
+                my %UserData = $Self->{UserObject}->GetUserData(User => $Param{User});
+                if (!%UserData) {
+                    my $UserID = $Self->{UserObject}->UserAdd(
+                        Salutation => 'Mr/Mrs',
+                        Login => $Param{User},
+                        %SyncUser,
+                        UserType => 'User',
+                        ValidID => 1,
+                        UserID => 1,
+                    );
+                    if ($UserID) {
+                        $Self->{LogObject}->Log(
+                            Priority => 'notice',
+                            Message => "Initial data for '$Param{User}' ($UserDN) created in RDBMS.",
                         );
-                        if ($UserID) {
-                            $Self->{LogObject}->Log(
-                                Priority => 'notice',
-                                Message => "Initial data for '$Param{User}' ($UserDN) created in RDBMS.",
-                            );
-                            # sync inital groups
-                            if ($Self->{ConfigObject}->Get('UserSyncLDAPGroups')) {
-                                my %Groups = $Self->{GroupObject}->GroupList();
-                                foreach (@{$Self->{ConfigObject}->Get('UserSyncLDAPGroups')}) {
-                                    my $GroupID = '';
-                                    foreach my $GID (keys %Groups) {
-                                        if ($Groups{$GID} eq $_) {
-                                            $GroupID = $GID;
-                                        }
-                                    }
-                                    if ($GroupID) {
-                                        $Self->{GroupObject}->GroupMemberAdd(
-                                            GID => $GroupID,
-                                            UID => $UserID,
-                                            Permission => {
-                                                rw => 1,
-                                            },
-                                            UserID => 1,
-                                        );
+                        # sync inital groups
+                        if ($Self->{ConfigObject}->Get('UserSyncLDAPGroups')) {
+                            my %Groups = $Self->{GroupObject}->GroupList();
+                            foreach (@{$Self->{ConfigObject}->Get('UserSyncLDAPGroups')}) {
+                                my $GroupID = '';
+                                foreach my $GID (keys %Groups) {
+                                    if ($Groups{$GID} eq $_) {
+                                        $GroupID = $GID;
                                     }
                                 }
+                                if ($GroupID) {
+                                    $Self->{GroupObject}->GroupMemberAdd(
+                                        GID => $GroupID,
+                                        UID => $UserID,
+                                        Permission => {
+                                            rw => 1,
+                                        },
+                                        UserID => 1,
+                                    );
+                                }
                             }
-                        }
-                        else {
-                            $Self->{LogObject}->Log(
-                                Priority => 'error',
-                                Message => "Can't create user '$Param{User}' ($UserDN) in RDBMS!",
-                            );
                         }
                     }
                     else {
-                        $Self->{UserObject}->UserUpdate(
-                            ID => $UserData{UserID},
-                            Salutation => 'Mr/Mrs',
-                            Login => $Param{User},
-                            %SyncUser,
-                            UserType => 'User',
-                            ValidID => 1,
-                            UserID => 1,
-                        );
-                        # sync permissions
-                        if ($Self->{ConfigObject}->Get('UserSyncLDAPGroupsDefination')) {
-                            # system permissions
-                            my %PermissionsEmpty = ();
-                            foreach (@{$Self->{ConfigObject}->Get('System::Permission')}) {
-                                $PermissionsEmpty{$_} = 0;
+                       $Self->{LogObject}->Log(
+                           Priority => 'error',
+                           Message => "Can't create user '$Param{User}' ($UserDN) in RDBMS!",
+                       );
+                    }
+                }
+                else {
+                    $Self->{UserObject}->UserUpdate(
+                        ID => $UserData{UserID},
+                        Salutation => 'Mr/Mrs',
+                        Login => $Param{User},
+                        %SyncUser,
+                        UserType => 'User',
+                        ValidID => 1,
+                        UserID => 1,
+                    );
+                }
+            }
+        }
+        # sync ldap group 2 otrs group permissions
+        if ($Self->{ConfigObject}->Get('UserSyncLDAPGroupsDefination')) {
+            if (!$LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw})) {
+                $Self->{LogObject}->Log(
+                  Priority => 'error',
+                  Message => "Sync bind failed!",
+                );
+                # take down session
+                $LDAP->unbind;
+                return uc($Param{User});
+            }
+            # get current user data
+            my %UserData = $Self->{UserObject}->GetUserData(User => $Param{User});
+            # system permissions
+            my %PermissionsEmpty = ();
+            foreach (@{$Self->{ConfigObject}->Get('System::Permission')}) {
+                $PermissionsEmpty{$_} = 0;
+            }
+            # remove all group permissions
+            my %Groups = $Self->{GroupObject}->GroupList();
+            foreach my $GID (keys %Groups) {
+                $Self->{GroupObject}->GroupMemberAdd(
+                    GID => $GID,
+                    UID => $UserData{UserID},
+                        Permission => {
+                            %PermissionsEmpty,
+                        },
+                    UserID => 1,
+                );
+            }
+            # group config settings
+            foreach my $GroupDN (sort keys %{$Self->{ConfigObject}->Get('UserSyncLDAPGroupsDefination')}) {
+                # just in case for debug
+                $Self->{LogObject}->Log(
+                    Priority => 'notice',
+                    Message => "User: '$Param{User}' sync groups $GroupDN!",
+                );
+                # search if we're allowed to
+                my $Filter = '';
+                if ($Self->{UserAttr} eq 'DN') {
+                    $Filter = "($Self->{AccessAttr}=$UserDN)";
+                }
+                else {
+                    $Filter = "($Self->{AccessAttr}=$Param{User})";
+                }
+                my $Result = $LDAP->search (
+                    base   => $GroupDN,
+                    filter => $Filter,
+                );
+                # extract it
+                my $Valid = '';
+                foreach my $Entry ($Result->all_entries) {
+                    $Valid = $Entry->dn();
+                }
+                # log if there is no LDAP entry
+                if (!$Valid) {
+                    # failed login note
+                    $Self->{LogObject}->Log(
+                        Priority => 'notice',
+                        Message => "User: $Param{User} not in ".
+                          "GroupDN='$GroupDN', Filter='$Filter'! (REMOTE_ADDR: $RemoteAddr).",
+                    );
+                }
+                else {
+                    # sync groups permissions
+                    my %SGroups = %{$Self->{ConfigObject}->Get('UserSyncLDAPGroupsDefination')->{$GroupDN}};
+                    foreach my $SGroup (sort keys %SGroups) {
+                        my %Permissions = %{$SGroups{$SGroup}};
+                        # get group id
+                        my $GroupID = '';
+                        my %Groups = $Self->{GroupObject}->GroupList();
+                        foreach my $GID (keys %Groups) {
+                            if ($Groups{$GID} eq $SGroup) {
+                                $GroupID = $GID;
                             }
-                            # remove all permissions
-                            my %Groups = $Self->{GroupObject}->GroupList();
-                            foreach my $GID (keys %Groups) {
-                                $Self->{GroupObject}->GroupMemberAdd(
-                                    GID => $GID,
-                                    UID => $UserData{UserID},
-                                        Permission => {
-                                            %PermissionsEmpty,
-                                        },
-                                    UserID => 1,
-                                );
+                        }
+                        if ($GroupID) {
+                            # just in case for debug
+                            $Self->{LogObject}->Log(
+                                Priority => 'notice',
+                                Message => "User: '$Param{User}' sync ldap groups $GroupDN in $SGroup group!",
+                            );
+                            $Self->{GroupObject}->GroupMemberAdd(
+                                GID => $GroupID,
+                                UID => $UserData{UserID},
+                                Permission => {
+                                    %PermissionsEmpty,
+                                    %Permissions,
+                                },
+                                UserID => 1,
+                            );
+                        }
+                    }
+                }
+            }
+        }
+        # sync ldap group 2 otrs role permissions
+        if ($Self->{ConfigObject}->Get('UserSyncLDAPRolesDefination')) {
+            if (!$LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw})) {
+                $Self->{LogObject}->Log(
+                  Priority => 'error',
+                  Message => "Sync bind failed!",
+                );
+                # take down session
+                $LDAP->unbind;
+                return uc($Param{User});
+            }
+            # get current user data
+            my %UserData = $Self->{UserObject}->GetUserData(User => $Param{User});
+            # remove all role permissions
+            my %Roles = $Self->{GroupObject}->RoleList();
+            foreach my $RID (keys %Roles) {
+                $Self->{GroupObject}->GroupUserRoleMemberAdd(
+                    UID => $UserData{UserID},
+                    RID => $RID,
+                    Active => 0,
+                    UserID => 1,
+                );
+            }
+            # group config settings
+            foreach my $GroupDN (sort keys %{$Self->{ConfigObject}->Get('UserSyncLDAPRolesDefination')}) {
+                # just in case for debug
+                $Self->{LogObject}->Log(
+                    Priority => 'notice',
+                    Message => "User: '$Param{User}' sync groups $GroupDN!",
+                );
+                # search if we're allowed to
+                my $Filter = '';
+                if ($Self->{UserAttr} eq 'DN') {
+                    $Filter = "($Self->{AccessAttr}=$UserDN)";
+                }
+                else {
+                    $Filter = "($Self->{AccessAttr}=$Param{User})";
+                }
+                my $Result = $LDAP->search (
+                    base   => $GroupDN,
+                    filter => $Filter,
+                );
+                # extract it
+                my $Valid = '';
+                foreach my $Entry ($Result->all_entries) {
+                    $Valid = $Entry->dn();
+                }
+                # log if there is no LDAP entry
+                if (!$Valid) {
+                    # failed login note
+                    $Self->{LogObject}->Log(
+                        Priority => 'notice',
+                        Message => "User: $Param{User} not in ".
+                          "GroupDN='$GroupDN', Filter='$Filter'! (REMOTE_ADDR: $RemoteAddr).",
+                    );
+                }
+                else {
+                    # sync groups permissions
+                    my %SRoles = %{$Self->{ConfigObject}->Get('UserSyncLDAPRolesDefination')->{$GroupDN}};
+                    foreach my $SRole (sort keys %SRoles) {
+                        # get group id
+                        my $RoleID = '';
+                        my %Roles = $Self->{GroupObject}->RoleList();
+                        foreach my $RID (keys %Roles) {
+                            if ($Roles{$RID} eq $SRole) {
+                                $RoleID = $RID;
                             }
-                            # group config settings
-                            foreach my $GroupDN (sort keys %{$Self->{ConfigObject}->Get('UserSyncLDAPGroupsDefination')}) {
-                                # just in case for debug
-                                $Self->{LogObject}->Log(
-                                    Priority => 'notice',
-                                    Message => "User: '$Param{User}' sync groups $GroupDN!",
-                                );
-                                # search if we're allowed to
-                                my $Filter = '';
-                                if ($Self->{UserAttr} eq 'DN') {
-                                    $Filter = "($Self->{AccessAttr}=$UserDN)";
-                                }
-                                else {
-                                    $Filter = "($Self->{AccessAttr}=$Param{User})";
-                                }
-                                my $Result = $LDAP->search (
-                                    base   => $GroupDN,
-                                    filter => $Filter,
-                                );
-                                # extract it
-                                my $Valid = '';
-                                foreach my $Entry ($Result->all_entries) {
-                                    $Valid = $Entry->dn();
-                                }
-                                # log if there is no LDAP entry
-                                if (!$Valid) {
-                                    # failed login note
-                                    $Self->{LogObject}->Log(
-                                        Priority => 'notice',
-                                        Message => "User: $Param{User} not in ".
-                                            "GroupDN='$GroupDN', Filter='$Filter'! (REMOTE_ADDR: $RemoteAddr).",
-                                    );
-                                }
-                                else {
-                                    # sync groups permissions
-                                    my %SGroups = %{$Self->{ConfigObject}->Get('UserSyncLDAPGroupsDefination')->{$GroupDN}};
-                                    foreach my $SGroup (sort keys %SGroups) {
-                                        my %Permissions = %{$SGroups{$SGroup}};
-                                        # get group id
-                                        my $GroupID = '';
-                                        my %Groups = $Self->{GroupObject}->GroupList();
-                                        foreach my $GID (keys %Groups) {
-                                            if ($Groups{$GID} eq $SGroup) {
-                                                $GroupID = $GID;
-                                            }
-                                        }
-                                        if ($GroupID) {
-                                            # just in case for debug
-                                            $Self->{LogObject}->Log(
-                                                Priority => 'notice',
-                                                Message => "User: '$Param{User}' sync groups $GroupDN in $SGroup!",
-                                            );
-                                            $Self->{GroupObject}->GroupMemberAdd(
-                                                GID => $GroupID,
-                                                UID => $UserData{UserID},
-                                                Permission => {
-                                                    %PermissionsEmpty,
-                                                    %Permissions,
-                                                },
-                                                UserID => 1,
-                                            );
-                                        }
-                                    }
-                                }
-                            }
+                        }
+                        if ($SRoles{$SRole}) {
+                            # just in case for debug
+                            $Self->{LogObject}->Log(
+                                Priority => 'notice',
+                                Message => "User: '$Param{User}' sync ldap groups $GroupDN in $SRole role!",
+                            );
+                            $Self->{GroupObject}->GroupUserRoleMemberAdd(
+                                UID => $UserData{UserID},
+                                RID => $RoleID,
+                                Active => 1,
+                                UserID => 1,
+                            );
                         }
                     }
                 }
