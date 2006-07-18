@@ -2,7 +2,7 @@
 # Kernel/System/Auth/LDAP.pm - provides the ldap authentification
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LDAP.pm,v 1.20 2006-07-18 15:02:44 martin Exp $
+# $Id: LDAP.pm,v 1.21 2006-07-18 16:18:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -359,7 +359,7 @@ sub Auth {
                 # just in case for debug
                 $Self->{LogObject}->Log(
                     Priority => 'notice',
-                    Message => "User: '$Param{User}' sync groups $GroupDN!",
+                    Message => "User: '$Param{User}' sync ldap groups $GroupDN groups!",
                 );
                 # search if we're allowed to
                 my $Filter = '';
@@ -404,7 +404,7 @@ sub Auth {
                             # just in case for debug
                             $Self->{LogObject}->Log(
                                 Priority => 'notice',
-                                Message => "User: '$Param{User}' sync ldap groups $GroupDN in $SGroup group!",
+                                Message => "User: '$Param{User}' sync ldap group $GroupDN in $SGroup group!",
                             );
                             $Self->{GroupObject}->GroupMemberAdd(
                                 GID => $GroupID,
@@ -448,7 +448,7 @@ sub Auth {
                 # just in case for debug
                 $Self->{LogObject}->Log(
                     Priority => 'notice',
-                    Message => "User: '$Param{User}' sync groups $GroupDN!",
+                    Message => "User: '$Param{User}' sync ldap groups $GroupDN to roles!",
                 );
                 # search if we're allowed to
                 my $Filter = '';
@@ -492,7 +492,7 @@ sub Auth {
                             # just in case for debug
                             $Self->{LogObject}->Log(
                                 Priority => 'notice',
-                                Message => "User: '$Param{User}' sync ldap groups $GroupDN in $SRole role!",
+                                Message => "User: '$Param{User}' sync ldap group $GroupDN in $SRole role!",
                             );
                             $Self->{GroupObject}->GroupUserRoleMemberAdd(
                                 UID => $UserData{UserID},
