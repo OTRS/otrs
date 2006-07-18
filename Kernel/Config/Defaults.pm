@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.238 2006-07-07 12:52:06 cs Exp $
+# $Id: Defaults.pm,v 1.239 2006-07-18 14:55:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.238 $';
+$VERSION = '$Revision: 1.239 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -347,6 +347,44 @@ sub LoadDefaults {
 #    $Self->{UserSyncLDAPGroups} = [
 #        'users',
 #    ];
+    # UserSyncLDAPGroupsDefination
+    # (If "LDAP" was selected for AuthModule and you want to sync LDAP
+    # groups to otrs groups, define the following.)
+#    $Self->{'UserSyncLDAPGroupsDefination'} = {
+#        # ldap group
+#        'cn=agent,o=otrs' => {
+#            # otrs group
+#            'admin' => {
+#                # permission
+#                rw => 1,
+#                ro => 1,
+#            },
+#            'faq' => {
+#                rw => 0,
+#                ro => 1,
+#            },
+#        },
+#        'cn=agent2,o=otrs' => {
+#            'users' => {
+#                rw => 1,
+#                ro => 1,
+#            },
+#         }
+#    };
+    # UserSyncLDAPRolesDefination
+    # (If "LDAP" was selected for AuthModule and you want to sync LDAP
+    # groups to otrs roles, define the following.)
+#    $Self->{'UserSyncLDAPRolesDefination'} = {
+#        # ldap group
+#        'cn=agent,o=otrs' => {
+#            # otrs role
+#            'role1' => 1,
+#            'role2' => 0,
+#        },
+#        'cn=agent2,o=otrs' => {
+#            'role3' => 1,
+#         }
+#    };
 
     # UserTable
     $Self->{DatabaseUserTable} = 'system_user';
@@ -1737,6 +1775,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.238 $ $Date: 2006-07-07 12:52:06 $
+$Revision: 1.239 $ $Date: 2006-07-18 14:55:20 $
 
 =cut
