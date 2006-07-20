@@ -1,8 +1,8 @@
 # --
 # AdminRoleUserForm.dtl - provides HTML form for AdminInterface
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminRoleUserForm.dtl,v 1.6 2005-10-20 21:25:36 martin Exp $
+# $Id: AdminRoleUserForm.dtl,v 1.7 2006-07-20 17:06:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,41 +10,41 @@
 # --
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-<tr>
-  <td class="mainhead">
-    $Env{"Box0"}$Text{"Roles <-> Users Management"}$Env{"Box1"}
-  </td>
-</tr>
-<tr>
- <td align="center" class="mainbody">
-
-  <br>
-
-  <table cellspacing="0" cellpadding="4" border="0" width="700">
-  <tr class="contenthead">
-    <td width="50%">
-      $Text{"User"}:$Text{"Role"} (1:n)
-    </td>
-    <td width="50%">
-      $Text{"User"}:$Text{"Role"} (n:1)
+  <tr>
+    <td class="mainhead">
+      $Env{"Box0"}$Text{"Roles <-> Users Management"}$Env{"Box1"}
     </td>
   </tr>
-  <tr class="contentbody">
-    <td align="left">
-      $Data{"UserStrg"}
-    </td>
-    <td align="left">
-      $Data{"RoleStrg"}
+  <tr>
+    <td align="center" class="mainbody">
+
+      <br>
+
+      <table cellspacing="0" cellpadding="4" border="0" width="700">
+        <tr>
+          <td class="contenthead" width="50%">
+            $Text{"User"}:$Text{"Role"} (1:n)
+          </td>
+          <td class="contenthead" width="50%">
+            $Text{"User"}:$Text{"Role"} (n:1)
+          </td>
+        </tr>
+        <tr>
+          <td class="contentbody" align="left">
+            $Data{"UserStrg"}
+          </td>
+          <td class="contentbody" align="left">
+            $Data{"RoleStrg"}
+          </td>
+        </tr>
+        <tr>
+          <td class="contentfooter" colspan="2">&nbsp;</td>
+        </tr>
+      </table>
+
+      <br>
+
     </td>
   </tr>
-  <tr class="contentfooter">
-    <td class="contentvalue" colspan="2">&nbsp;</td>
-  </tr>
-  </table>
-
-  <br>
-
-  </td>
-</tr>
 </table>
 <!-- end form -->
