@@ -1,8 +1,8 @@
 # --
 # AdminRoleUserChangeForm.dtl - provides HTML form for AdminInterface
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminRoleUserChangeForm.dtl,v 1.7 2005-10-20 21:25:36 martin Exp $
+# $Id: AdminRoleUserChangeForm.dtl,v 1.8 2006-07-20 17:04:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,70 +10,70 @@
 # --
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-<tr>
-  <td class="mainhead">
-    $Env{"Box0"}$Text{"Roles <-> Users Management"}$Env{"Box1"}
-  </td>
-</tr>
-<tr align="center">
-  <td class="mainbody">
-
-  <br>
-
-  <form action="$Env{"CGIHandle"}" method="post">
-  <input type="hidden" name="Action" value="$Env{"Action"}">
-  <input type="hidden" name="Subaction" value="Change$QData{"Type"}">
-  <input type="hidden" name="ID" value="$QData{"ID"}">
-  <table width="700" cellspacing="0" cellpadding="4">
-  <tr valign="top">
-    <td class="contenthead">$Text{"Change %s settings", "$Data{"Type"}"}:</td>
-  </tr>
   <tr>
-    <td align="center" class="contentbody">
+    <td class="mainhead">
+      $Env{"Box0"}$Text{"Roles <-> Users Management"}$Env{"Box1"}
+    </td>
+  </tr>
+  <tr align="center">
+    <td class="mainbody">
 
-    <b>$Text{"$QData{"Type"}"}:</b> <a href="$Env{"Baselink"}Action=Admin$QData{"Type"}&Subaction=Change&ID=$QData{"ID"}">$QData{"Name"}</a> (id=$QData{"ID"})<br>
+      <br>
 
-    <table>
-    <tr>
-      <th>$Text{"$QData{"NeType"}"}</th>
-      <th>$Text{"Active"}</th>
-    </tr>
+      <form action="$Env{"CGIHandle"}" method="post">
+        <input type="hidden" name="Action" value="$Env{"Action"}">
+        <input type="hidden" name="Subaction" value="Change$QData{"Type"}">
+        <input type="hidden" name="ID" value="$QData{"ID"}">
+        <table width="700" cellspacing="0" cellpadding="4">
+          <tr valign="top">
+            <td class="contenthead">$Text{"Change %s settings", "$Data{"Type"}"}:</td>
+          </tr>
+          <tr>
+            <td align="center" class="contentbody">
+
+              <b>$Text{"$QData{"Type"}"}:</b> <a href="$Env{"Baselink"}Action=Admin$QData{"Type"}&Subaction=Change&ID=$QData{"ID"}">$QData{"Name"}</a> (id=$QData{"ID"})<br>
+
+              <table>
+                <tr>
+                  <th>$Text{"$QData{"NeType"}"}</th>
+                  <th>$Text{"Active"}</th>
+                </tr>
 <!-- dtl:block:Row -->
-    <tr>
-      <td><a href="$Env{"Baselink"}Action=$QData{"NeType"}&ID=$QData{"ID"}">$QData{"Name"}</a></td>
-      <td>$Data{"InputBox"}</td>
-    </tr>
+                <tr>
+                  <td><a href="$Env{"Baselink"}Action=Admin$QData{"NeType"}&Subaction=Change&ID=$QData{"ID"}">$QData{"Name"}</a></td>
+                  <td>$Data{"InputBox"}</td>
+                </tr>
 <!-- dtl:block:Row -->
-    </table>
+              </table>
+
+            </td>
+          </tr>
+          <tr class="contentfooter">
+            <td class="contentvalue"><input class="button" type="submit" value="$Text{"submit"}"></td>
+          </tr>
+        </table>
+      </form>
+
+      <br>
 
     </td>
   </tr>
-  <tr class="contentfooter">
-    <td class="contentvalue"><input class="button" type="submit" value="$Text{"submit"}"></td>
-  </tr>
-  </table>
-  </form>
-
-  <br>
-
-  </td>
-</tr>
 </table>
 <!-- end form -->
 
 <!-- start note -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
-<tr>
-  <td class="mainhead">
-    $Env{"Box0"}$Text{"Note"}$Env{"Box1"}
-  </td>
-</tr>
-<tr>
-  <td class="mainbody">
-  <p>
-  $Text{"Select the role:user relations."}
-  </p>
-  </td>
-</tr>
+  <tr>
+    <td class="mainhead">
+      $Env{"Box0"}$Text{"Note"}$Env{"Box1"}
+    </td>
+  </tr>
+  <tr>
+    <td class="mainbody">
+      <p>
+        $Text{"Select the role:user relations."}
+      </p>
+    </td>
+  </tr>
 </table>
 <!-- end note -->
