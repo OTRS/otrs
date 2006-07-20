@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketCompose.pm,v 1.16 2006-03-22 22:30:36 martin Exp $
+# $Id: AgentTicketCompose.pm,v 1.17 2006-07-20 12:26:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -160,7 +160,9 @@ sub Run {
         ArticleID TimeUnits Year Month Day Hour Minute AttachmentUpload
         AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
         AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
-        AttachmentDelete9 AttachmentDelete10 FormID)) {
+        AttachmentDelete9 AttachmentDelete10 AttachmentDelete11 AttachmentDelete12
+        AttachmentDelete13 AttachmentDelete14 AttachmentDelete15 AttachmentDelete16
+        FormID)) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
     }
     # get ticket free text params
@@ -193,7 +195,7 @@ sub Run {
             }
         }
         # attachment delete
-        foreach (1..10) {
+        foreach (1..16) {
             if ($GetParam{"AttachmentDelete$_"}) {
                 $Error{AttachmentDelete} = 1;
                 $Self->{UploadCachObject}->FormIDRemoveFile(
@@ -396,8 +398,12 @@ sub Run {
                     defined($GetParam{"TicketFreeTime".$_."Day"}) &&
                     defined($GetParam{"TicketFreeTime".$_."Hour"}) &&
                     defined($GetParam{"TicketFreeTime".$_."Minute"})) {
-                    $Self->{TicketObject}->TicketFreeTimeSet(
+                    my %Time = $Self->{LayoutObject}->TransfromDateSelection(
                         %GetParam,
+                        Prefix => "TicketFreeTime".$_,
+                    );
+                    $Self->{TicketObject}->TicketFreeTimeSet(
+                        %Time,
                         TicketID => $Self->{TicketID},
                         Counter => $_,
                         UserID => $Self->{UserID},
@@ -526,12 +532,14 @@ sub Run {
         if ($Data{Body}) {
             my $NewLine = $Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaEmail') || 75;
             $Data{Body} =~ s/(^>.+|.{4,$NewLine})(?:\s|\z)/$1\n/gm;
+            $Data{Body} =~ s/\t/ /g;
             my $Quote = $Self->{ConfigObject}->Get('Ticket::Frontend::Quote');
             if ($Quote) {
                 $Data{Body} =~ s/\n/\n$Quote /g;
                 $Data{Body} = "\n$Quote " . $Data{Body};
             }
             else {
+                $Data{Body} = "\n".$Data{Body};
                 if ($Data{Created}) {
                     $Data{Body} = "Date: $Data{Created}\n".$Data{Body};
                 }
@@ -584,10 +592,7 @@ sub Run {
         }
         $Data{OrigFrom} = $Data{From};
         my %Address = $Self->{QueueObject}->GetSystemAddress(%Ticket);
-#########
         $Data{From} = "$Address{RealName} <$Address{Email}>";
-        $Data{From} = "\"$Self->{UserLastname} $Self->{UserFirstname} via OTRS\" <$Address{Email}>";
-#########
         $Data{Email} = $Address{Email};
         $Data{RealName} = $Address{RealName};
         $Data{StdResponse} = $Self->{QueueObject}->GetStdResponse(ID => $GetParam{ResponseID});
@@ -625,8 +630,6 @@ sub Run {
             # replace other needed stuff
             $Data{$_} =~ s/<OTRS_FIRST_NAME>/$Self->{UserFirstname}/g;
             $Data{$_} =~ s/<OTRS_LAST_NAME>/$Self->{UserLastname}/g;
-            $Data{$_} =~ s/<OTRS_USER_ID>/$Self->{UserID}/g;
-            $Data{$_} =~ s/<OTRS_USER_LOGIN>/$Self->{UserLogin}/g;
             # replace ticket data
             foreach my $TicketKey (keys %Ticket) {
                 if ($Ticket{$TicketKey}) {
