@@ -2,9 +2,12 @@
 -- initial_insert.sql - provides initial system data
 -- Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: initial_insert.sql,v 1.46 2006-07-03 13:40:04 martin Exp $
+-- $Id: initial_insert.sql,v 1.47 2006-07-21 11:32:15 martin Exp $
 --
 -- $Log: not supported by cvs2svn $
+-- Revision 1.46  2006/07/03 13:40:04  martin
+-- added ticket history type Subscribe and Unsubscribe
+--
 -- Revision 1.45  2006/03/28 05:50:02  martin
 -- added responsible notes
 --
@@ -772,7 +775,7 @@ INSERT INTO notifications
 INSERT INTO notifications
   (notification_type, notification_charset, notification_language, subject, text, create_time, create_by, change_time, change_by)
   VALUES
-  ('Agent::PendingReminder', 'iso-8859-1', 'en', 'Ticket Reminder!', 'Hi <OTRS_OWNER_USERFIRSTNAME>,the ticket "<OTRS_TICKET_TicketNumber>" has reached the reminder time!<OTRS_CUSTOMER_FROM> wrote:<snip><OTRS_CUSTOMER_EMAIL[16]><snip>Please have a look at:<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_TicketID>Your OTRS Notification Master', current_timestamp, 1, current_timestamp, 1);
+  ('Agent::PendingReminder', 'iso-8859-1', 'en', 'Ticket Reminder! (<OTRS_CUSTOMER_SUBJECT[18]>)', 'Hi <OTRS_OWNER_USERFIRSTNAME>,the ticket "<OTRS_TICKET_TicketNumber>" has reached the reminder time!<OTRS_CUSTOMER_FROM> wrote:<snip><OTRS_CUSTOMER_EMAIL[16]><snip>Please have a look at:<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_TicketID>Your OTRS Notification Master', current_timestamp, 1, current_timestamp, 1);
 
 INSERT INTO notifications
   (notification_type, notification_charset, notification_language, subject, text, create_time, create_by, change_time, change_by)
@@ -818,7 +821,7 @@ INSERT INTO notifications
 INSERT INTO notifications
   (notification_type, notification_charset, notification_language, subject, text, create_time, create_by, change_time, change_by)
   VALUES
-  ('Agent::PendingReminder', 'iso-8859-1', 'de', 'Ticket Erinnerung!', 'Hi <OTRS_OWNER_USERFIRSTNAME>,das Ticket "<OTRS_TICKET_TicketNumber>" hat die Erinnerungszeit erreicht!<OTRS_CUSTOMER_FROM> schrieb:<snip><OTRS_CUSTOMER_EMAIL[16]><snip>Bitte um weitere Bearbeitung:<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_TicketID>Ihr OTRS Benachrichtigungs-Master', current_timestamp, 1, current_timestamp, 1);
+  ('Agent::PendingReminder', 'iso-8859-1', 'de', 'Ticket Erinnerung! (<OTRS_CUSTOMER_SUBJECT[18]>)', 'Hi <OTRS_OWNER_USERFIRSTNAME>,das Ticket "<OTRS_TICKET_TicketNumber>" hat die Erinnerungszeit erreicht!<OTRS_CUSTOMER_FROM> schrieb:<snip><OTRS_CUSTOMER_EMAIL[16]><snip>Bitte um weitere Bearbeitung:<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_TicketID>Ihr OTRS Benachrichtigungs-Master', current_timestamp, 1, current_timestamp, 1);
 
 INSERT INTO notifications
   (notification_type, notification_charset, notification_language, subject, text, create_time, create_by, change_time, change_by)
