@@ -2,7 +2,7 @@
 # Kernel/System/Auth/LDAP.pm - provides the ldap authentification
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LDAP.pm,v 1.21 2006-07-18 16:18:50 martin Exp $
+# $Id: LDAP.pm,v 1.22 2006-07-24 08:12:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -235,7 +235,7 @@ sub Auth {
                 );
                 # take down session
                 $LDAP->unbind;
-                return uc($Param{User});
+                return $Param{User};
             }
             # build filter
             my $Filter = "($Self->{UID}=$Param{User})";
@@ -333,7 +333,7 @@ sub Auth {
                 );
                 # take down session
                 $LDAP->unbind;
-                return uc($Param{User});
+                return $Param{User};
             }
             # get current user data
             my %UserData = $Self->{UserObject}->GetUserData(User => $Param{User});
@@ -429,7 +429,7 @@ sub Auth {
                 );
                 # take down session
                 $LDAP->unbind;
-                return uc($Param{User});
+                return $Param{User};
             }
             # get current user data
             my %UserData = $Self->{UserObject}->GetUserData(User => $Param{User});
@@ -507,7 +507,7 @@ sub Auth {
         }
         # take down session
         $LDAP->unbind;
-        return uc($Param{User});
+        return $Param{User};
     }
 }
 
