@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose inital email to customer
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketEmail.pm,v 1.18 2006-07-11 14:27:09 cs Exp $
+# $Id: AgentTicketEmail.pm,v 1.19 2006-07-24 09:08:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -81,7 +81,8 @@ sub Run {
         Year Month Day Hour Minute To Cc Bcc TimeUnits PriorityID Subject Body
         AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
         AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
-        AttachmentDelete9 AttachmentDelete10 )) {
+        AttachmentDelete9 AttachmentDelete10 AttachmentDelete11 AttachmentDelete12
+        AttachmentDelete13 AttachmentDelete14 AttachmentDelete15 AttachmentDelete16)) {
         $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
     }
     # get ticket free text params
@@ -267,8 +268,18 @@ sub Run {
             $Signature = $Self->{QueueObject}->GetSignature(QueueID => $NewQueueID);
             $Signature =~ s/<OTRS_FIRST_NAME>/$Self->{UserFirstname}/g;
             $Signature =~ s/<OTRS_LAST_NAME>/$Self->{UserLastname}/g;
-            $Signature =~ s/<OTRS_USER_ID>/$Self->{UserID}/g;
-            $Signature =~ s/<OTRS_USER_LOGIN>/$Self->{UserLogin}/g;
+            # replace user staff
+            my %User = $Self->{UserObject}->GetUserData(
+                UserID => $Self->{UserID},
+                Cached => 1,
+            );
+            foreach my $UserKey (keys %User) {
+                if ($User{$UserKey}) {
+                    $Signature =~ s/<OTRS_Agent_$UserKey>/$User{$UserKey}/gi;
+                }
+            }
+            # cleanup all not needed <OTRS_TICKET_ tags
+            $Signature =~ s/<OTRS_Agent_.+?>/-/gi;
         }
         my $CustomerUser = $Self->{ParamObject}->GetParam(Param => 'CustomerUser') || $Self->{ParamObject}->GetParam(Param => 'PreSelectedCustomerUser') || $Self->{ParamObject}->GetParam(Param => 'SelectedCustomerUser') || '';
         my $CustomerID = $Self->{ParamObject}->GetParam(Param => 'CustomerID') || '';
@@ -345,7 +356,7 @@ sub Run {
             $GetParam{Body} =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaEmail')})(?:\s|\z)/$1\n/gm;
         }
         # attachment delete
-        foreach (1..10) {
+        foreach (1..16) {
             if ($GetParam{"AttachmentDelete$_"}) {
                 $Error{AttachmentDelete} = 1;
                 $Self->{UploadCachObject}->FormIDRemoveFile(
@@ -687,6 +698,7 @@ sub Run {
         $GetParam{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
             TicketNumber => $Tn,
             Subject => $GetParam{Subject} || '',
+            Type => 'New',
         );
         $GetParam{Body} .= "\n\n".$Signature;
         # check if new owner is given (then send no agent notify)

@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.214 2006-07-10 11:25:40 rk Exp $
+# $Id: Ticket.pm,v 1.215 2006-07-24 09:08:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.214 $';
+$VERSION = '$Revision: 1.215 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -566,6 +566,18 @@ rebuild a new ticket subject
       Subject => $OldSubject,
   );
 
+  a new subject like "RE: [Ticket# 2004040510440485] Some subject" will
+   be generated
+
+  my $NewSubject = $TicketObject->TicketSubjectBuild(
+      TicketNumber => '2004040510440485',
+      Subject => $OldSubject,
+      Type => 'New',
+  );
+
+  a new subject like "[Ticket# 2004040510440485] Some subject" (without RE: )
+   will be generated
+
 =cut
 
 sub TicketSubjectBuild {
@@ -583,7 +595,12 @@ sub TicketSubjectBuild {
     my $TicketHook = $Self->{ConfigObject}->Get('Ticket::Hook');
     my $TicketHookDivider = $Self->{ConfigObject}->Get('Ticket::HookDivider');
     my $TicketSubjectRe = $Self->{ConfigObject}->Get('Ticket::SubjectRe');
-    $Subject = "$TicketSubjectRe: [$TicketHook$TicketHookDivider$Param{TicketNumber}] " . $Subject;
+    if ($Param{Type} && $Param{Type} eq 'New') {
+        $Subject = "[$TicketHook$TicketHookDivider$Param{TicketNumber}] " . $Subject;
+    }
+    else {
+        $Subject = "$TicketSubjectRe: [$TicketHook$TicketHookDivider$Param{TicketNumber}] " . $Subject;
+    }
     return $Subject;
 }
 
@@ -4848,6 +4865,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.214 $ $Date: 2006-07-10 11:25:40 $
+$Revision: 1.215 $ $Date: 2006-07-24 09:08:53 $
 
 =cut
