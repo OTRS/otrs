@@ -2,13 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.268 2006-07-18 15:06:59 martin Exp $
+# $Id: CHANGES,v 1.269 2006-07-24 10:41:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS head
+ - (2006/07/23) added <OTRS_CUSTOMER_DATA_*> tags to auto responses
+ - (2006/07/23) added support of mssql database server (experimental)
  - (2006/07/18) added new feature to sync ldap groups into otrs roles
     (see more in Kernel/Config/Defaults.pm under UserSyncLDAPGroupsDefination
     and UserSyncLDAPRolesDefination)
