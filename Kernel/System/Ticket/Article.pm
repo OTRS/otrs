@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.107 2006-06-13 14:12:32 cs Exp $
+# $Id: Article.pm,v 1.108 2006-07-24 10:40:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.107 $';
+$VERSION = '$Revision: 1.108 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1562,6 +1562,12 @@ sub SendAgentNotification {
     }
     # get ref of email params
     my %GetParam = %{$Param{CustomerMessageParams}};
+    # fill up required attributes
+    foreach (qw(Subject Body)) {
+        if (!$GetParam{$_}) {
+            $GetParam{$_} = '-';
+        }
+    }
     # get old article for quoteing
     my %Article = $Self->ArticleLastCustomerArticle(TicketID => $Param{TicketID});
     # format body
@@ -2076,6 +2082,23 @@ sub SendAutoResponse {
     # cleanup
     $Param{Subject} =~ s/<OTRS_TICKET_.+?>/-/gi;
     $Param{Body} =~ s/<OTRS_TICKET_.+?>/-/gi;
+
+    # get customer data and replace it with <OTRS_CUSTOMER_DATA_...
+    if ($Article{CustomerUserID}) {
+        my %CustomerUser = $Self->{CustomerUserObject}->CustomerUserDataGet(
+            User => $Article{CustomerUserID},
+        );
+        # replace customer stuff with tags
+        foreach (keys %CustomerUser) {
+            if ($CustomerUser{$_}) {
+                $Param{Body} =~ s/<OTRS_CUSTOMER_DATA_$_>/$CustomerUser{$_}/gi;
+                $Param{Subject} =~ s/<OTRS_CUSTOMER_DATA_$_>/$CustomerUser{$_}/gi;
+            }
+        }
+    }
+    # cleanup all not needed <OTRS_CUSTOMER_DATA_ tags
+    $Param{Body} =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
+    $Param{Subject} =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
 
     # replace config options
     $Param{Body} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
