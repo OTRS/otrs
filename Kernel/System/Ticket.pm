@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.215 2006-07-24 09:08:53 martin Exp $
+# $Id: Ticket.pm,v 1.216 2006-07-25 12:01:38 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.215 $';
+$VERSION = '$Revision: 1.216 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -3682,14 +3682,14 @@ sub PriorityList {
 
 to get the priority list for a ticket (depends on workflow, if configured)
 
-  my %Priorities = $TicketObject->PriorityList(
-      TicketID => 123,
-      UserID => 123,
-  );
-
-  my %Priorities = $TicketObject->PriorityList(
-      QueueID => 123,
-      UserID => 123,
+  my %Tickets = $TicketObject->HistoryTicketStatusGet(
+      StartDay => 12,
+      StartMonth => 1,
+      StartYear => 2006,
+      StopDay => 18,
+      StopMonth => 1,
+      StopYear => 2006,
+      Force => 0,
   );
 
 =cut
@@ -3765,6 +3765,7 @@ returns a hash of the ticket history info at this time.
       StopMonth => 12,
       StopDay => 24,
       TicketID => 123,
+      Force => 0,
   );
 
 =cut
@@ -4865,6 +4866,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.215 $ $Date: 2006-07-24 09:08:53 $
+$Revision: 1.216 $ $Date: 2006-07-25 12:01:38 $
 
 =cut
