@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  database: postgresql, generated: Sat Jun 24 16:48:39 2006
+--  database: postgresql, generated: Tue Jul 25 19:40:45 2006
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -366,8 +366,8 @@ CREATE INDEX index_ticket_answered ON ticket (ticket_answered);
 --  create table object_link
 -- ----------------------------------------------------------
 CREATE TABLE object_link (
-    object_link_a_id INTEGER NOT NULL,
-    object_link_b_id INTEGER NOT NULL,
+    object_link_a_id VARCHAR (80) NOT NULL,
+    object_link_b_id VARCHAR (80) NOT NULL,
     object_link_a_object VARCHAR (200) NOT NULL,
     object_link_b_object VARCHAR (200) NOT NULL,
     object_link_type VARCHAR (200) NOT NULL

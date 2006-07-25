@@ -1,5 +1,5 @@
 // ----------------------------------------------------------
-//  database: maxdb, generated: Fri Mar 24 00:35:59 2006
+//  database: maxdb, generated: Tue Jul 25 19:39:54 2006
 // ----------------------------------------------------------
 ALTER TABLE valid ADD FOREIGN KEY (create_by) REFERENCES system_user(id)
 //

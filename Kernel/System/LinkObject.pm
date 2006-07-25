@@ -1,8 +1,8 @@
 # --
 # Kernel/System/LinkObject.pm - to link objects
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LinkObject.pm,v 1.7 2005-11-10 09:02:31 rk Exp $
+# $Id: LinkObject.pm,v 1.8 2006-07-25 17:48:54 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::LinkObject;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -115,8 +115,8 @@ sub LinkObjects {
             }
             else {
                 $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message => "No Object '$_' configured!",
+                    Priority => 'notice',
+                    Message => "No LinkObject '$_' configured!",
                 );
             }
         }
@@ -149,7 +149,7 @@ sub LoadBackend {
         die "Can't load link backend module $GenericModule! $@";
     }
     @ISA = ($GenericModule);
-    $Self->Init();
+    $Self->Init(%Param);
     return 1;
 }
 
@@ -165,7 +165,7 @@ sub LinkObject {
     my $SQL = "INSERT INTO object_link ".
         " (object_link_a_id, object_link_b_id, object_link_a_object, object_link_b_object, object_link_type) ".
         " VALUES ".
-        " ($Param{LinkID1}, $Param{LinkID2}, ".
+        " ('$Param{LinkID1}', '$Param{LinkID2}', ".
         " '$Param{LinkObject1}', '$Param{LinkObject2}', ".
         " '$Param{LinkType}')";
 
@@ -227,11 +227,11 @@ sub RemoveLinkObject {
         }
     }
     my $SQL = "DELETE FROM object_link WHERE ".
-        " (object_link_a_id = $Param{ID} ".
+        " (object_link_a_id = '$Param{ID}' ".
         " AND ".
         " object_link_a_object = '$Param{Object}') ".
         " OR ".
-        " (object_link_b_id = $Param{ID} ".
+        " (object_link_b_id = '$Param{ID}' ".
         " AND ".
         " object_link_b_object = '$Param{Object}')";
 
@@ -284,7 +284,7 @@ sub LinkedObjects {
     if ($Param{LinkType} eq 'Parent') {
       $SQLA = "SELECT object_link_a_id FROM object_link ".
         " WHERE ".
-        " object_link_b_id = $Param{LinkID2} ".
+        " object_link_b_id = '$Param{LinkID2}' ".
         " AND ".
         " object_link_b_object = '$Param{LinkObject2}' ".
         " AND ".
@@ -293,7 +293,7 @@ sub LinkedObjects {
         " object_link_type = '$Param{LinkType}'";
       $SQLB = "SELECT object_link_a_id FROM object_link ".
         " WHERE ".
-        " object_link_b_id = $Param{LinkID2} ".
+        " object_link_b_id = '$Param{LinkID2}' ".
         " AND ".
         " object_link_b_object = '$Param{LinkObject2}' ".
         " AND ".
@@ -305,7 +305,7 @@ sub LinkedObjects {
     elsif ($Param{LinkType} eq 'Child') {
       $SQLA = "SELECT object_link_b_id FROM object_link ".
         " WHERE ".
-        " object_link_a_id = $Param{LinkID1} ".
+        " object_link_a_id = '$Param{LinkID1}' ".
         " AND ".
         " object_link_a_object = '$Param{LinkObject1}' ".
         " AND ".
@@ -314,21 +314,20 @@ sub LinkedObjects {
         " object_link_type = 'Parent'";
       $SQLB = "SELECT object_link_b_id FROM object_link ".
         " WHERE ".
-        " object_link_a_id = $Param{LinkID1} ".
+        " object_link_a_id = '$Param{LinkID1}' ".
         " AND ".
         " object_link_a_object = '$Param{LinkObject1}' ".
         " AND ".
         " object_link_b_object = '$Param{LinkObject2}' ".
         " AND ".
         " object_link_type = '$Param{LinkType}'";
-#print STDERR "LLL: $SQLB\n";
     }
     elsif ($Param{LinkType} eq 'Normal') {
         $SQLA = "SELECT object_link_a_id ".
           " FROM ".
           " object_link ".
           " WHERE ".
-          " object_link_b_id = $Param{LinkID1} ".
+          " object_link_b_id = '$Param{LinkID1}' ".
           " AND ".
           " object_link_b_object = '$Param{LinkObject1}' ".
           " AND ".
@@ -339,7 +338,7 @@ sub LinkedObjects {
           " FROM ".
           " object_link ".
           " WHERE ".
-          " object_link_a_id = $Param{LinkID1} ".
+          " object_link_a_id = '$Param{LinkID1}' ".
           " AND ".
           " object_link_a_object = '$Param{LinkObject1}' ".
           " AND ".
@@ -376,7 +375,8 @@ sub AllLinkedObjects {
     # get objects
     my %Objects = %{$Self->{ConfigObject}->Get('LinkObject')};
     foreach my $Object (keys %Objects) {
-        $Self->LoadBackend(Module => $Object);
+        $Param{Module} = $Object;
+        $Self->LoadBackend(%Param);
         my %CLinked = $Self->LinkedObjects(
             LinkType => 'Child',
             LinkObject1 => $Param{Object},
@@ -416,6 +416,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2005-11-10 09:02:31 $
+$Revision: 1.8 $ $Date: 2006-07-25 17:48:54 $
 
 =cut

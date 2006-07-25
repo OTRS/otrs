@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  database: oracle, generated: Fri Mar 24 00:36:25 2006
+--  database: oracle, generated: Tue Jul 25 19:40:27 2006
 -- ----------------------------------------------------------
 DROP TABLE valid CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
@@ -568,8 +568,8 @@ DROP TABLE object_link CASCADE CONSTRAINTS;
 --  create table object_link
 -- ----------------------------------------------------------
 CREATE TABLE object_link (
-    object_link_a_id NUMBER (20, 0) NOT NULL,
-    object_link_b_id NUMBER (20, 0) NOT NULL,
+    object_link_a_id VARCHAR2 (80) NOT NULL,
+    object_link_b_id VARCHAR2 (80) NOT NULL,
     object_link_a_object VARCHAR2 (200) NOT NULL,
     object_link_b_object VARCHAR2 (200) NOT NULL,
     object_link_type VARCHAR2 (200) NOT NULL
@@ -893,14 +893,14 @@ CREATE TABLE standard_response_attachment (
     change_time DATE NOT NULL,
     change_by NUMBER NOT NULL
 );
-ALTER TABLE standard_response_attachment ADD CONSTRAINT standard_response_attach9_PK PRIMARY KEY (id);
-DROP SEQUENCE standard_response_attach9_seq;
-CREATE SEQUENCE standard_response_attach9_seq;
-CREATE OR REPLACE TRIGGER standard_response_attach9_s_t
+ALTER TABLE standard_response_attachment ADD CONSTRAINT standard_response_attach41_PK PRIMARY KEY (id);
+DROP SEQUENCE standard_response_attach41_seq;
+CREATE SEQUENCE standard_response_attach41_seq;
+CREATE OR REPLACE TRIGGER standard_response_attach41_s_t
 before insert on standard_response_attachment
 for each row
 begin
-    select standard_response_attach9_seq.nextval
+    select standard_response_attach41_seq.nextval
     into :new.id
     from dual;
 end;
@@ -1021,7 +1021,20 @@ begin
 end;
 /
 --;
-CREATE INDEX index_time_accounting_ticket49 ON time_accounting (ticket_id);
+CREATE INDEX index_time_accounting_ticket10 ON time_accounting (ticket_id);
+DROP TABLE ticket_watcher CASCADE CONSTRAINTS;
+-- ----------------------------------------------------------
+--  create table ticket_watcher
+-- ----------------------------------------------------------
+CREATE TABLE ticket_watcher (
+    ticket_id NUMBER (20, 0) NOT NULL,
+    user_id NUMBER (20, 0) NOT NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER NOT NULL,
+    change_time DATE NOT NULL,
+    change_by NUMBER NOT NULL
+);
+CREATE INDEX ticket_id ON ticket_watcher (ticket_id);
 DROP TABLE sessions CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table sessions
@@ -1096,7 +1109,7 @@ CREATE TABLE customer_preferences (
     preferences_key VARCHAR2 (150) NOT NULL,
     preferences_value VARCHAR2 (250)
 );
-CREATE INDEX index_customer_preferences_u67 ON customer_preferences (user_id);
+CREATE INDEX index_customer_preferences_u28 ON customer_preferences (user_id);
 DROP TABLE ticket_loop_protection CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table ticket_loop_protection
@@ -1105,8 +1118,8 @@ CREATE TABLE ticket_loop_protection (
     sent_to VARCHAR2 (250) NOT NULL,
     sent_date VARCHAR2 (150) NOT NULL
 );
-CREATE INDEX index_ticket_loop_protection72 ON ticket_loop_protection (sent_to);
-CREATE INDEX index_ticket_loop_protection1 ON ticket_loop_protection (sent_date);
+CREATE INDEX index_ticket_loop_protection42 ON ticket_loop_protection (sent_to);
+CREATE INDEX index_ticket_loop_protection28 ON ticket_loop_protection (sent_date);
 DROP TABLE pop3_account CASCADE CONSTRAINTS;
 -- ----------------------------------------------------------
 --  create table pop3_account

@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  database: mysql, generated: Sat Jun 24 16:47:31 2006
+#  database: mysql, generated: Tue Jul 25 19:39:08 2006
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -366,8 +366,8 @@ CREATE TABLE ticket (
 #  create table object_link
 # ----------------------------------------------------------
 CREATE TABLE object_link (
-    object_link_a_id BIGINT NOT NULL,
-    object_link_b_id BIGINT NOT NULL,
+    object_link_a_id VARCHAR (80) NOT NULL,
+    object_link_b_id VARCHAR (80) NOT NULL,
     object_link_a_object VARCHAR (200) NOT NULL,
     object_link_b_object VARCHAR (200) NOT NULL,
     object_link_type VARCHAR (200) NOT NULL

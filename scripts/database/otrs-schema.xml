@@ -5,9 +5,12 @@
   XML File for the OTRS database description
   Copyright (C) 2001-2003 Martin Edenhofer
 
-  $Id: otrs-schema.xml,v 1.51 2006-06-24 14:52:01 martin Exp $
+  $Id: otrs-schema.xml,v 1.52 2006-07-25 17:48:55 tr Exp $
 
   $Log: not supported by cvs2svn $
+  Revision 1.51  2006/06/24 14:52:01  martin
+  added ticket watcher support
+
   Revision 1.50  2006/03/04 11:46:44  martin
   added new ticket responsible feature
 
@@ -780,8 +783,8 @@
 
 <!-- object_link - all linked objects -->
 <Table Name="object_link">
-  <Column Name="object_link_a_id" Required="true" Type="BIGINT"/>
-  <Column Name="object_link_b_id" Required="true" Type="BIGINT"/>
+  <Column Name="object_link_a_id" Required="true" Size="80" Type="VARCHAR"/>
+  <Column Name="object_link_b_id" Required="true" Size="80" Type="VARCHAR"/>
   <Column Name="object_link_a_object" Required="true" Size="200" Type="VARCHAR"/>
   <Column Name="object_link_b_object" Required="true" Size="200" Type="VARCHAR"/>
   <Column Name="object_link_type" Required="true" Size="200" Type="VARCHAR"/>
