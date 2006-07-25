@@ -2,7 +2,7 @@
 # TODO - todo list OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TODO,v 1.103 2006-07-14 07:15:56 tr Exp $
+# $Id: TODO,v 1.104 2006-07-25 11:22:54 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -65,6 +65,8 @@
 - Remove Sql-Statements form AgentTicketQueue - Attention don't forget the SIRIOS-file
 - Header.dtl and CustomerHeader.dtl move $Env{Images} to SysConfig
 - stats functionality: - stats doku in admin manual
+                       - include a step 4 mask for static stats,
+                         because the actual solution is irritating
 
 
 2.2
