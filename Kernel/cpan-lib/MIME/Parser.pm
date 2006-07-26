@@ -184,7 +184,7 @@ package MIME::Parser;
 #------------------------------
 
 ### The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.417";
+$VERSION = "5.420";
 
 ### How to catenate:
 $CAT = '/bin/cat';
@@ -244,6 +244,7 @@ sub init {
     my $self = shift;
 
     $self->{MP5_DecodeHeaders}   = 0;
+    $self->{MP5_DecodeBodies}    = 1;
     $self->{MP5_Interface}       = {};
     $self->{MP5_ParseNested}     = 'NEST';
     $self->{MP5_Tmp}             = undef;
@@ -476,8 +477,37 @@ sub ignore_errors {
 }
 
 
+#------------------------------
 
+=item decode_bodies [YESNO]
 
+I<Instance method.>
+Controls whether the parser should decode entity bodies or not.
+If this is set to a false value (default is true), all entity bodies
+will be kept as-is in the original content-transfer encoding.
+
+To prevent double encoding on the output side MIME::Body->is_encoded
+is set, which tells MIME::Body not to encode the data again, if encoded
+data was requested. This is in particular useful, when it's important that
+the content B<must not> be modified, e.g. if you want to calculate
+OpenPGP signatures from it.
+
+B<WARNING>: the semantics change significantly if you parse MIME
+messages with this option set, because MIME::Entity resp. MIME::Body
+*always* see encoded data now, while the default behaviour is
+working with *decoded* data (and encoding it only if you request it).
+You need to decode the data yourself, if you want to have it decoded.
+
+So use this option only if you exactly know, what you're doing, and
+that you're sure, that you really need it.
+
+=cut
+
+sub decode_bodies {
+    my ($self, $yesno) = @_;
+    $self->{MP5_DecodeBodies} = $yesno if (@_ > 1);
+    $self->{MP5_DecodeBodies};
+}
 
 #------------------------------
 #
@@ -490,11 +520,13 @@ sub ignore_errors {
 #
 sub debug {
     my $self = shift;
-    if (my $r = $self->{MP5_Results}) {
-	unshift @_, $r->indent;
-	$r->msg($M_DEBUG, @_);
+    if (MIME::Tools->debugging()) {
+	    if (my $r = $self->{MP5_Results}) {
+		    unshift @_, $r->indent;
+		    $r->msg($M_DEBUG, @_);
+	    }
+	    MIME::Tools::debug(@_);
     }
-    &MIME::Tools::debug(@_);
 }
 
 #------------------------------
@@ -799,6 +831,13 @@ sub process_singlepart {
 		     "application/octet-stream.");  ### as per RFC-2045
 	$ent->effective_type('application/octet-stream');
 	$decoder = new MIME::Decoder 'binary';
+	$encoding = 'binary';
+    }
+
+    ### Data should be stored encoded / as-is?
+    if ( !$self->decode_bodies ) {
+	$decoder = new MIME::Decoder 'binary';
+	$encoding = 'binary';
     }
 
     ### If desired, sidetrack to troll for UUENCODE:
@@ -825,7 +864,8 @@ sub process_singlepart {
     ### Open a new bodyhandle for outputting the data:
     my $body = $self->new_body_for($head) or die "$ME: no body"; # gotta die
     $body->binmode(1) or die "$ME: can't set to binmode: $!"
-        unless textual_type($ent->effective_type);
+        unless textual_type($ent->effective_type) or !$self->decode_bodies;
+    $body->is_encoded(1) if !$self->decode_bodies;
 
     ### Decode and save the body (using the decoder):
     my $DECODED = $body->open("w") or die "$ME: body not opened: $!";
@@ -1995,6 +2035,6 @@ it and/or modify it under the same terms as Perl itself.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2005-02-15 08:43:51 $
+$Revision: 1.3 $ $Date: 2006-07-26 21:49:11 $
 
 =cut

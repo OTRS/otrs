@@ -399,7 +399,7 @@ sub h_utf8 {
     local $_    = $_[0];
 #   my $unknown = $_[2]->{MWDI_Unknown};
     my $latin1 = ($_[2]->{MWDI_Num} == 1);
-    print STDERR "UTF8 in:  <$_>\n"; 
+    #print STDERR "UTF8 in:  <$_>\n"; 
 
     my $tgt = '';
     while (m{\G(
@@ -415,7 +415,7 @@ sub h_utf8 {
         else                           { $tgt .= "\x00" }
     }
 
-    print STDERR "UTF8 out: <$tgt>\n"; 
+    #print STDERR "UTF8 out: <$tgt>\n"; 
     $tgt;
 }
 
@@ -426,7 +426,7 @@ sub h_utf16 {
     local $_    = $_[0];
 #   my $unknown = $_[2]->{MWDI_Unknown};
     my $latin1 = ($_[2]->{MWDI_Num} == 1);
-    print STDERR "UTF16 in:  <$_>\n"; 
+    #print STDERR "UTF16 in:  <$_>\n"; 
 
     my $tgt = '';
     while (m{\G(
@@ -441,7 +441,7 @@ sub h_utf16 {
         else                           { $tgt .= "\x00" }
     }
 
-    print STDERR "UTF16 out: <$tgt>\n"; 
+    #print STDERR "UTF16 out: <$tgt>\n"; 
     $tgt;
 }
 
@@ -591,7 +591,7 @@ David F. Skoll (dfs@roaringpenguin.com) http://www.roaringpenguin.com
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2005-02-15 08:43:51 $
+$Revision: 1.3 $ $Date: 2006-07-26 21:49:11 $
 
 =cut
 

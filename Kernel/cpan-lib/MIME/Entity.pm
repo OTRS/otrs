@@ -235,7 +235,7 @@ use MIME::Tools qw(:config :msgs :utils);
 use MIME::Head;
 use MIME::Body;
 use MIME::Decoder;
-use IO::Scalar;
+use IO::ScalarArray;
 use IO::Wrap;
 use IO::Lines;
 
@@ -249,7 +249,7 @@ use IO::Lines;
 #------------------------------
 
 ### The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.417";
+$VERSION = "5.420";
 
 ### Boundary counter:
 my $BCount = 0;
@@ -651,8 +651,8 @@ sub build {
 
     ### Add the X-Mailer field, if top level (use default value if not given):
     $top and $head->replace('X-Mailer', 
-			    "MIME-tools ".(0+MIME::Tools->version).
-			    " (Entity "  .(0+$VERSION).")"); 
+			    "MIME-tools ".(MIME::Tools->version).
+			    " (Entity "  .($VERSION).")"); 
 	
     ### Add remaining user-specified fields, if any:
     while (@paramlist) {
@@ -1445,8 +1445,8 @@ sub suggest_encoding {
 	$self->bodyhandle || return ($self->parts ? 'binary' : '7bit');
 	my ($IO, $unclean);
 	if ($IO = $self->bodyhandle->open("r")) {
-
-	    ### Scan message for 7bit-cleanliness:
+	    ### Scan message for 7bit-cleanliness
+	    local $_;
 	    while (defined($_ = $IO->getline)) {
 		last if ($unclean = ((length($_) > 999) or /[\200-\377]/));
 	    }
@@ -1794,7 +1794,7 @@ sub print_body {
 
 	### Preamble:
 	my $preamble = join('', @{ $self->preamble || $DefPreamble });
-	$out->print("$preamble\n") if ($preamble ne '');
+	$out->print("$preamble\n") if ($preamble ne '' or $self->preamble);
 
 	### Parts:
 	my $part;
@@ -1846,14 +1846,20 @@ sub print_bodyhandle {
     my ($self, $out) = @_;
     $out = wraphandle($out || select);             ### get a printable output
 
-    ### Get the encoding, defaulting to "binary" if unsupported:
-    my $encoding = ($self->head->mime_encoding || 'binary');
-    my $decoder = best MIME::Decoder $encoding;
-    $decoder->head($self->head);      ### associate with head, if any
-
-    ### Output the body:
     my $IO = $self->open("r")     || die "open body: $!";
-    $decoder->encode($IO, $out, textual_type($self->head->mime_type) ? 1 : 0)   || die "encoding failed\n";
+    if ( $self->bodyhandle->is_encoded ) {
+      ### Transparent mode: data is already encoded, so no
+      ### need to encode it again
+      my $buf;
+      $out->print($buf) while ($IO->read($buf, 2048));
+    } else {
+      ### Get the encoding, defaulting to "binary" if unsupported:
+      my $encoding = ($self->head->mime_encoding || 'binary');
+      my $decoder = best MIME::Decoder $encoding;
+      $decoder->head($self->head);      ### associate with head, if any
+      $decoder->encode($IO, $out, textual_type($self->head->mime_type) ? 1 : 0)   || return error "encoding failed";
+    }
+
     $IO->close;
     1;
 }
@@ -1882,10 +1888,11 @@ You can also use C<as_string()>.
 =cut
 
 sub stringify {
-    my $str = '';
-    shift->print(new IO::Scalar \$str);
-    $str;    
+    my @arr = ();
+    shift->print(new IO::ScalarArray \@arr);
+    join("", @arr);
 }
+
 sub as_string { shift->stringify };      ### silent BC
 
 #------------------------------
@@ -1909,9 +1916,9 @@ singlepart message (like a "text/plain"), use C<bodyhandle()> instead:
 =cut
 
 sub stringify_body {
-    my $str = '';
-    shift->print_body(new IO::Scalar \$str);
-    $str;    
+    my @arr = ();
+    shift->print_body(new IO::ScalarArray \@arr);
+    join("", @arr);
 }
 sub body_as_string { shift->stringify_body }
 
@@ -1922,9 +1929,9 @@ sub body_as_string { shift->stringify_body }
 # Instance method, unpublicized.  Stringify just the bodyhandle.
 
 sub stringify_bodyhandle {
-    my $str = '';
-    shift->print_bodyhandle(new IO::Scalar \$str);
-    $str;    
+    my @arr = ();
+    shift->print_bodyhandle(new IO::ScalarArray \@arr);
+    join("", @arr);
 }
 sub bodyhandle_as_string { shift->stringify_bodyhandle }
 
@@ -2235,7 +2242,7 @@ it and/or modify it under the same terms as Perl itself.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2005-02-15 08:43:51 $
+$Revision: 1.3 $ $Date: 2006-07-26 21:49:11 $
 
 =cut
 

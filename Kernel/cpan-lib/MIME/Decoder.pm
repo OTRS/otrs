@@ -8,7 +8,7 @@ MIME::Decoder - an object for decoding the body part of a MIME stream
 
 =head1 SYNOPSIS
 
-Before reading further, you should see L<MIME::Tools> to make sure that 
+Before reading further, you should see L<MIME::Tools> to make sure that
 you understand where this module fits into the grand scheme of things.
 Go on, do it now.  I'll wait.
 
@@ -21,7 +21,7 @@ Here's a simple filter program to read quoted-printable data from STDIN
 (until EOF) and write the decoded data to STDOUT:
 
     use MIME::Decoder;
-    
+
     $decoder = new MIME::Decoder 'quoted-printable' or die "unsupported";
     $decoder->decode(\*STDIN, \*STDOUT);
 
@@ -32,7 +32,7 @@ Here's a simple filter program to read binary data from STDIN
 (until EOF) and write base64-encoded data to STDOUT:
 
     use MIME::Decoder;
-    
+
     $decoder = new MIME::Decoder 'base64' or die "unsupported";
     $decoder->encode(\*STDIN, \*STDOUT);
 
@@ -43,13 +43,13 @@ You can B<write and install> your own decoders so that
 MIME::Decoder will know about them:
 
     use MyBase64Decoder;
-    
+
     install MyBase64Decoder 'base64';
 
-You can also B<test> if a given encoding is supported: 
+You can also B<test> if a given encoding is supported:
 
     if (supported MIME::Decoder 'x-uuencode') {
-        ### we can uuencode!
+	### we can uuencode!
     }
 
 
@@ -96,7 +96,7 @@ use Carp;
 #------------------------------
 #
 # Globals
-# 
+#
 #------------------------------
 
 ### The stream decoders:
@@ -126,7 +126,7 @@ use Carp;
 );
 
 ### The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.417";
+$VERSION = "5.420";
 
 ### Me:
 my $ME = 'MIME::Decoder';
@@ -149,7 +149,7 @@ If all you are doing is I<using> this class, here's all you'll need...
 =item new ENCODING
 
 I<Class method, constructor.>
-Create and return a new decoder object which can handle the 
+Create and return a new decoder object which can handle the
 given ENCODING.
 
     my $decoder = new MIME::Decoder "7bit";
@@ -184,8 +184,8 @@ sub new {
 =item best ENCODING
 
 I<Class method, constructor.>
-Exactly like new(), except that this defaults any unsupported encoding to 
-"binary", after raising a suitable warning (it's a fatal error if there's 
+Exactly like new(), except that this defaults any unsupported encoding to
+"binary", after raising a suitable warning (it's a fatal error if there's
 no binary decoder).
 
     my $decoder = best MIME::Decoder "x-gzip64";
@@ -222,7 +222,7 @@ Returns true on success, throws exception on failure.
 
 sub decode {
     my ($self, $in, $out) = @_;
-    
+
     ### Set up the default input record separator to be CRLF:
     ### $in->input_record_separator("\012\015");
 
@@ -283,7 +283,7 @@ sub encoding {
 =item head [HEAD]
 
 I<Instance method.>
-Completely optional: some decoders need to know a little about the file 
+Completely optional: some decoders need to know a little about the file
 they are encoding/decoding; e.g., x-uu likes to have the filename.
 The HEAD is any object which responds to messages like:
 
@@ -307,17 +307,17 @@ is currently handled, and falsity otherwise.  The ENCODING will
 be automatically coerced to lowercase:
 
     if (supported MIME::Decoder '7BIT') {
-        ### yes, we can handle it...
+	### yes, we can handle it...
     }
     else {
-        ### drop back six and punt...
-    } 
+	### drop back six and punt...
+    }
 
 With no args, returns a reference to a hash of all available decoders,
 where the key is the encoding name (all lowercase, like '7bit'),
-and the value is true (it happens to be the name of the class 
+and the value is true (it happens to be the name of the class
 that handles the decoding, but you probably shouldn't rely on that).
-You may safely modify this hash; it will I<not> change the way the 
+You may safely modify this hash; it will I<not> change the way the
 module performs its lookups.  Only C<install> can do that.
 
 I<Thanks to Achim Bohnet for suggesting this method.>
@@ -346,7 +346,7 @@ are some other methods you'll need to know about:
 
 =item decode_it INSTREAM,OUTSTREAM
 
-I<Abstract instance method.>  
+I<Abstract instance method.>
 The back-end of the B<decode> method.  It takes an input handle
 opened for reading (INSTREAM), and an output handle opened for
 writing (OUTSTREAM).
@@ -375,7 +375,7 @@ sub decode_it {
 
 =item encode_it INSTREAM,OUTSTREAM
 
-I<Abstract instance method.>  
+I<Abstract instance method.>
 The back-end of the B<encode> method.  It takes an input handle
 opened for reading (INSTREAM), and an output handle opened for
 writing (OUTSTREAM).
@@ -391,7 +391,7 @@ into I/O handles for you by C<encode()>, so you don't need to worry
 about it.
 
 Your method must return either C<undef> (to indicate failure),
-or C<1> (to indicate success).  
+or C<1> (to indicate success).
 It may also throw an exception to indicate failure.
 
 =cut
@@ -406,18 +406,18 @@ sub encode_it {
 
 I<Class method, utility.>
 If your decoder involves an external program, you can invoke
-them easily through this method.  The command must be a "filter": a 
+them easily through this method.  The command must be a "filter": a
 command that reads input from its STDIN (which will come from the IN argument)
 and writes output to its STDOUT (which will go to the OUT argument).
 
 For example, here's a decoder that un-gzips its data:
 
     sub decode_it {
-        my ($self, $in, $out) = @_;
-        $self->filter($in, $out, "gzip -d -");
+	my ($self, $in, $out) = @_;
+	$self->filter($in, $out, "gzip -d -");
     }
 
-The usage is similar to IPC::Open2::open2 (which it uses internally), 
+The usage is similar to IPC::Open2::open2 (which it uses internally),
 so you can specify COMMAND as a single argument or as an array.
 
 =cut
@@ -429,7 +429,7 @@ sub filter {
     ### Make sure we've got MIME::IO-compliant objects:
     $in  = wraphandle($in);
     $out = wraphandle($out);
-   
+
     ### Open pipe:
     STDOUT->flush;       ### very important, or else we get duplicate output!
     my $kidpid = open2(\*CHILDOUT, \*CHILDIN, @cmd) || die "open2 failed: $!";
@@ -441,7 +441,7 @@ sub filter {
     ### Read all:
     while (read(\*CHILDOUT, $buf, 2048)) { $out->print($buf) }
     close \*CHILDOUT;
-    
+
     ### Wait for it:
     waitpid($kidpid,0) or die "couldn't reap child $kidpid";
     1;
@@ -467,7 +467,7 @@ sub init {
 
 =item install ENCODINGS...
 
-I<Class method>.  
+I<Class method>.
 Install this class so that each encoding in ENCODINGS is handled by it:
 
     install MyBase64Decoder 'base64', 'x-base64super';
@@ -485,7 +485,7 @@ sub install {
 
 =item uninstall ENCODINGS...
 
-I<Class method>.  
+I<Class method>.
 Uninstall support for encodings.  This is a way to turn off the decoding
 of "experimental" encodings.  For safety, always use MIME::Decoder directly:
 
@@ -534,13 +534,13 @@ The following "non-standard" subclasses are also included:
 =head2 Input/Output handles
 
 As of MIME-tools 2.0, this class has to play nice with the new MIME::Body
-class... which means that input and output routines cannot just assume that 
-they are dealing with filehandles.  
+class... which means that input and output routines cannot just assume that
+they are dealing with filehandles.
 
-Therefore, all that MIME::Decoder and its subclasses require (and, thus, 
-all that they can assume) is that INSTREAMs and OUTSTREAMs are objects 
-which respond to a subset of the messages defined in the IO::Handle 
-interface; minimally: 
+Therefore, all that MIME::Decoder and its subclasses require (and, thus,
+all that they can assume) is that INSTREAMs and OUTSTREAMs are objects
+which respond to a subset of the messages defined in the IO::Handle
+interface; minimally:
 
       print
       getline
@@ -548,7 +548,7 @@ interface; minimally:
 
 For backwards compatibilty, if you supply a scalar filehandle name
 (like C<"STDOUT">) or an unblessed glob reference (like C<\*STDOUT>)
-where an INSTREAM or OUTSTREAM is expected, this package will 
+where an INSTREAM or OUTSTREAM is expected, this package will
 automatically wrap it in an object that fits these criteria, via IO::Wrap.
 
 I<Thanks to Achim Bohnet for suggesting this more-generic I/O model.>
@@ -581,48 +581,48 @@ more encodings like this:
 
     require MyDecoder;
 
-    install MyDecoder "7bit";   ### use MyDecoder to decode "7bit"    
+    install MyDecoder "7bit";   ### use MyDecoder to decode "7bit"
     install MyDecoder "x-foo";  ### also use MyDecoder to decode "x-foo"
 
 =back
 
-To illustrate, here's a custom decoder class for the C<quoted-printable> 
+To illustrate, here's a custom decoder class for the C<quoted-printable>
 encoding:
 
     package MyQPDecoder;
 
-    @ISA = qw(MIME::Decoder);    
+    @ISA = qw(MIME::Decoder);
     use MIME::Decoder;
     use MIME::QuotedPrint;
-    
+
     ### decode_it - the private decoding method
     sub decode_it {
-        my ($self, $in, $out) = @_;
-        
-        while (defined($_ = $in->getline)) {
-            my $decoded = decode_qp($_);
+	my ($self, $in, $out) = @_;
+	local $_;
+	while (defined($_ = $in->getline)) {
+	    my $decoded = decode_qp($_);
 	    $out->print($decoded);
-        }
-        1;
-    }
-    
-    ### encode_it - the private encoding method
-    sub encode_it {
-        my ($self, $in, $out) = @_;
-        
-        my ($buf, $nread) = ('', 0); 
-        while ($in->read($buf, 60)) {
-            my $encoded = encode_qp($buf);
-	    $out->print($encoded);
-        }
-        1;
+	}
+	1;
     }
 
-That's it.  The task was pretty simple because the C<"quoted-printable"> 
+    ### encode_it - the private encoding method
+    sub encode_it {
+	my ($self, $in, $out) = @_;
+
+	my ($buf, $nread) = ('', 0);
+	while ($in->read($buf, 60)) {
+	    my $encoded = encode_qp($buf);
+	    $out->print($encoded);
+	}
+	1;
+    }
+
+That's it.  The task was pretty simple because the C<"quoted-printable">
 encoding can easily be converted line-by-line... as can
-even C<"7bit"> and C<"8bit"> (since all these encodings guarantee 
+even C<"7bit"> and C<"8bit"> (since all these encodings guarantee
 short lines, with a max of 1000 characters).
-The good news is: it is very likely that it will be similarly-easy to 
+The good news is: it is very likely that it will be similarly-easy to
 write a MIME::Decoder for any future standard encodings.
 
 The C<"binary"> decoder, however, really required block reads and writes:
@@ -633,13 +633,13 @@ see L<"MIME::Decoder::Binary"> for details.
 
 Eryq (F<eryq@zeegee.com>), ZeeGee Software Inc (F<http://www.zeegee.com>).
 
-All rights reserved.  This program is free software; you can redistribute 
+All rights reserved.  This program is free software; you can redistribute
 it and/or modify it under the same terms as Perl itself.
 
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2005-02-15 08:43:51 $
+$Revision: 1.3 $ $Date: 2006-07-26 21:49:11 $
 
 =cut
 

@@ -36,7 +36,7 @@ it and/or modify it under the same terms as Perl itself.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2005-02-15 08:43:51 $
+$Revision: 1.3 $ $Date: 2006-07-26 21:49:11 $
 
 =cut
 
@@ -49,7 +49,7 @@ use MIME::Tools qw(whine);
 @ISA = qw(MIME::Decoder);
 
 # The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.417";
+$VERSION = "5.420";
 
 
 #------------------------------
@@ -60,7 +60,6 @@ sub decode_it {
     my ($self, $in, $out) = @_;
     my ($mode, $file);
     my @preamble;
-    local $_;
 
     ### Init:
     $self->{MDU_Preamble} = \@preamble;
@@ -68,6 +67,7 @@ sub decode_it {
     $self->{MDU_File} = undef;
 
     ### Find beginning...
+    local $_;
     while (defined($_ = $in->getline)) {
 	if (/^begin(.*)/) {        ### found it: now decode it...
 	    my $modefile = $1;

@@ -47,7 +47,7 @@ it and/or modify it under the same terms as Perl itself.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2005-02-15 08:43:51 $
+$Revision: 1.3 $ $Date: 2006-07-26 21:49:11 $
 
 
 =cut
@@ -59,7 +59,7 @@ use MIME::QuotedPrint;
 @ISA = qw(MIME::Decoder);
 
 # The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.417";
+$VERSION = "5.420";
 
 #------------------------------
 # If we have MIME::QuotedPrint 3.03 or later, use the three-argument
@@ -109,6 +109,7 @@ sub decode_it {
     my $init = 0;
     my $badpdf = 0;
 
+    local $_;
     while (defined($_ = $in->getline)) {
 	#
 	# Dirty hack to fix QP-Encoded PDFs from MS-Outlook.
@@ -148,6 +149,7 @@ sub decode_it {
 sub encode_it {
     my ($self, $in, $out, $textual_type) = @_;
 
+    local $_;
     while (defined($_ = $in->getline)) {
 	$out->print(encode_qp_really($_, $textual_type));
     }
