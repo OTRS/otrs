@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketZoom.pm,v 1.20 2006-03-28 01:11:49 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.21 2006-07-26 11:10:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -378,6 +378,20 @@ sub MaskAgentZoom {
                  Name => 'Status',
                  Data => {%Param, %AclAction},
             );
+            # customer info string
+            if ($Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoZoom')) {
+                $Param{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
+                    Data => {
+                        %Param,
+                        %{$Param{CustomerData}},
+                    },
+                    Max => $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoZoomMaxSize'),
+                );
+                $Self->{LayoutObject}->Block(
+                    Name => 'CustomerTable',
+                    Data => \%Param,
+                );
+            }
             $Self->{LayoutObject}->Block(
                  Name => 'Owner',
                  Data => {%Param, %UserInfo, %AclAction},
@@ -387,6 +401,24 @@ sub MaskAgentZoom {
                      Name => 'Responsible',
                      Data => {%Param, %ResponsibleInfo, %AclAction},
                 );
+            }
+            # get linked objects
+            my %Links = $Self->{LinkObject}->AllLinkedObjects(
+                Object => 'Ticket',
+                ObjectID => $Self->{TicketID},
+                UserID => $Self->{UserID},
+            );
+            foreach my $LinkType (sort keys %Links) {
+                my %ObjectType = %{$Links{$LinkType}};
+                foreach my $Object (sort keys %ObjectType) {
+                    my %Data = %{$ObjectType{$Object}};
+                    foreach my $Item (sort keys %Data) {
+                        $Self->{LayoutObject}->Block(
+                            Name => "Link$LinkType",
+                            Data => $Data{$Item},
+                        );
+                    }
+                }
             }
             $Self->{LayoutObject}->Block(
                  Name => 'Tree',
@@ -637,38 +669,6 @@ sub MaskAgentZoom {
                 Data => {%Param, %Article, %AclAction},
             );
         }
-    }
-    # get linked objects
-    my %Links = $Self->{LinkObject}->AllLinkedObjects(
-        Object => 'Ticket',
-        ObjectID => $Self->{TicketID},
-        UserID => $Self->{UserID},
-    );
-    foreach my $LinkType (sort keys %Links) {
-        my %ObjectType = %{$Links{$LinkType}};
-        foreach my $Object (sort keys %ObjectType) {
-            my %Data = %{$ObjectType{$Object}};
-            foreach my $Item (sort keys %Data) {
-                $Self->{LayoutObject}->Block(
-                    Name => "Link$LinkType",
-                    Data => $Data{$Item},
-                );
-            }
-        }
-    }
-    # customer info string
-    if ($Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoZoom')) {
-        $Param{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
-            Data => {
-                %Param,
-                %{$Param{CustomerData}},
-            },
-            Max => $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoZoomMaxSize'),
-        );
-        $Self->{LayoutObject}->Block(
-            Name => 'CustomerTable',
-            Data => \%Param,
-        );
     }
     # get MoveQueuesStrg
     if ($Self->{ConfigObject}->Get('Ticket::Frontend::MoveType') =~ /^form$/i) {
