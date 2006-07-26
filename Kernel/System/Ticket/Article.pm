@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.111 2006-07-26 18:34:30 martin Exp $
+# $Id: Article.pm,v 1.112 2006-07-26 22:36:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.111 $';
+$VERSION = '$Revision: 1.112 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1604,12 +1604,6 @@ sub SendAgentNotification {
     }
     # get ref of email params
     my %GetParam = %{$Param{CustomerMessageParams}};
-    # fill up required attributes
-    foreach (qw(Subject Body)) {
-        if (!$GetParam{$_}) {
-            $GetParam{$_} = '-';
-        }
-    }
     # get old article for quoteing
     my %Article = $Self->ArticleLastCustomerArticle(TicketID => $Param{TicketID});
     # format body
@@ -1620,6 +1614,12 @@ sub SendAgentNotification {
             $GetParam{$_} = $Article{$_} || '';
         }
         chomp $GetParam{$_};
+    }
+    # fill up required attributes
+    foreach (qw(Subject Body)) {
+        if (!$GetParam{$_}) {
+            $GetParam{$_} = "No $_";
+        }
     }
     # format body
     $GetParam{Body} =~ s/(^>.+|.{4,72})(?:\s|\z)/$1\n/gm if ($GetParam{Body});
@@ -1735,15 +1735,6 @@ sub SendAgentNotification {
         }
     }
 
-    # cleanup all not needed <OTRS_CUSTOMER_DATA_ tags
-    $Notification{Body} =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
-    $Notification{Subject} =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
-
-    # Replace empty subject with single space because tag was inserted into notification
-    if (!$GetParam{Subject}) {
-        $GetParam{Subject} = "No subject";
-    }
-
     foreach (keys %GetParam) {
         if ($GetParam{$_}) {
             $Notification{Body} =~ s/<OTRS_CUSTOMER_$_>/$GetParam{$_}/gi;
@@ -1764,6 +1755,9 @@ sub SendAgentNotification {
         chomp $NewOldBody;
         $Notification{Body} =~ s/<OTRS_CUSTOMER_EMAIL\[.+?\]>/$NewOldBody/g;
     }
+    # cleanup all not needed <OTRS_CUSTOMER_ tags
+    $Notification{Body} =~ s/<OTRS_CUSTOMER_.+?>/-/gi;
+    $Notification{Subject} =~ s/<OTRS_CUSTOMER_.+?>/-/gi;
 
     # send notify
     $Self->{SendmailObject}->Send(
