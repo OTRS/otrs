@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.108 2006-07-24 10:40:32 martin Exp $
+# $Id: Article.pm,v 1.109 2006-07-26 09:19:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.108 $';
+$VERSION = '$Revision: 1.109 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -183,6 +183,46 @@ MessageID => $Param{MessageID},
         TicketID => $Param{TicketID},
         UserID => $Param{UserID},
     );
+    # reset escalation if needed
+    if (!$Param{SenderType}) {
+        $Param{SenderType} = $Self->ArticleSenderTypeLookup(SenderTypeID => $Param{SenderTypeID});
+    }
+    if (!$Param{ArticleType}) {
+        $Param{ArticleType} = $Self->ArticleTypeLookup(ArticleTypeID => $Param{ArticleTypeID});
+    }
+    # reset escalation time if customer send an update
+    if ($Param{SenderType} eq 'customer') {
+        # check if latest article comes from customer
+        my $LastSender = '';
+        my $SQL .= "SELECT ast.name ".
+          " FROM ".
+          " article at, article_sender_type ast ".
+          " WHERE ".
+          " at.ticket_id = $Param{TicketID} ".
+          " AND ".
+          " at.article_sender_type_id = ast.id ORDER BY sa.create_time ASC";
+        $Self->{DBObject}->Prepare(SQL => $SQL);
+        while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+            if ($Row[0] ne 'system') {
+                $LastSender = $Row[0];
+            }
+        }
+        if ($LastSender eq 'agent') {
+            $Self->TicketEscalationStartUpdate(
+                EscalationStartTime => $Self->{TimeObject}->SystemTime(),
+                TicketID => $Param{TicketID},
+                UserID => $Param{UserID},
+           );
+        }
+    }
+    elsif ($Param{SenderType} eq 'agent' && $Param{ArticleType} =~ /email-ext|phone|fax|sms|note-ext/) {
+        # check if latest article is sent to customer
+        $Self->TicketEscalationStartUpdate(
+            EscalationStartTime => $Self->{TimeObject}->SystemTime(),
+            TicketID => $Param{TicketID},
+            UserID => $Param{UserID},
+        );
+    }
     # send auto response
     my %Ticket = $Self->TicketGet(TicketID => $Param{TicketID});
     my %State = $Self->{StateObject}->StateGet(ID => $Ticket{StateID});
