@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Article.pm,v 1.110 2006-07-26 10:41:05 martin Exp $
+# $Id: Article.pm,v 1.111 2006-07-26 18:34:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.110 $';
+$VERSION = '$Revision: 1.111 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -396,17 +396,19 @@ MessageID => $Param{MessageID},
         # send owner/responsible notification the agents who locked the ticket
         else {
             foreach (qw(OwnerID ResponsibleID)) {
-                my %UserData = $Self->{UserObject}->GetUserData(UserID => $Ticket{$_});
-                if ($Ticket{$_} ne 1 && $UserData{UserSendFollowUpNotification}) {
-                    # send notification
-                    $Self->SendAgentNotification(
-                        Type => $Param{HistoryType},
-                        UserData => \%UserData,
-                        CustomerMessageParams => \%Param,
-                        TicketID => $Param{TicketID},
-                        Queue => $Param{Queue},
-                        UserID => $Param{UserID},
-                    );
+                if ($Ticket{$_}) {
+                    my %UserData = $Self->{UserObject}->GetUserData(UserID => $Ticket{$_});
+                    if ($Ticket{$_} ne 1 && $UserData{UserSendFollowUpNotification}) {
+                        # send notification
+                        $Self->SendAgentNotification(
+                            Type => $Param{HistoryType},
+                            UserData => \%UserData,
+                            CustomerMessageParams => \%Param,
+                            TicketID => $Param{TicketID},
+                            Queue => $Param{Queue},
+                            UserID => $Param{UserID},
+                        );
+                    }
                 }
             }
             # send the rest of agents follow ups
@@ -1650,7 +1652,7 @@ sub SendAgentNotification {
         }
     }
     # get owner data and replace it with <OTRS_RESPONSIBLE_...
-    if ($Self->{ConfigObject}->Get('Ticket::Responsible')) {
+    if ($Self->{ConfigObject}->Get('Ticket::Responsible') && $Article{ResponsibleID}) {
         my %Preferences = $Self->{UserObject}->GetUserData(UserID => $Article{ResponsibleID});
         foreach (keys %Preferences) {
             if ($Preferences{$_}) {
