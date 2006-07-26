@@ -2,13 +2,16 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.270 2006-07-25 17:48:53 tr Exp $
+# $Id: CHANGES,v 1.271 2006-07-26 09:19:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS head
+ - (2006/07/26) changed ticket escalation method, escalation start will
+    be reseted after every "new" customer message and after agent
+    communication to customer
  - (2006/07/25) added new link object functions and db table link_object changes
  - (2006/07/23) added <OTRS_CUSTOMER_DATA_*> tags to auto responses
  - (2006/07/23) added support of mssql database server (experimental)
