@@ -3,7 +3,7 @@
 # mkStats.pl - send stats output via email
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: mkStats.pl,v 1.35 2006-07-13 10:43:20 tr Exp $
+# $Id: mkStats.pl,v 1.36 2006-07-31 12:31:40 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use strict;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -45,7 +45,8 @@ use Kernel::System::Stats;
 use Kernel::System::Group;
 use Kernel::System::User;
 use Kernel::System::CSV;
-
+use Kernel::System::PDF;
+use Kernel::Output::HTML::Layout;
 
 # --
 # create common objects
@@ -67,15 +68,20 @@ $CommonObject{StatsObject}     = Kernel::System::Stats        ->new(%CommonObjec
 $CommonObject{CheckItemObject} = Kernel::System::CheckItem    ->new(%CommonObject);
 $CommonObject{EmailObject}     = Kernel::System::Email        ->new(%CommonObject);
 
+# load PDF::API2 if installed
+if ($CommonObject{MainObject}->Require('PDF::API2')) {
+    $CommonObject{PDFObject} = Kernel::System::PDF->new(%CommonObject);
+}
+
 # --
 # get options
 # --
 my %Opts = ();
-getopt('nrsmhop', \%Opts);
+getopt('nrsmhoplf', \%Opts);
 if ($Opts{'h'}) {
     print "mkStats.pl <Revision $VERSION> - OTRS cmd stats\n";
     print "Copyright (C) 2003-2006 OTRS GmbH, http://www.otrs.com/\n";
-    print "usage: mkStats.pl -n <StatNumber> [-p <PARAM_STRING>] [-o <DIRECTORY>] [-r <RECIPIENT> -s <SENDER>] [-m <MESSAGE>]\n";
+    print "usage: mkStats.pl -n <StatNumber> [-p <PARAM_STRING>] [-o <DIRECTORY>] [-r <RECIPIENT> -s <SENDER>] [-m <MESSAGE>] [-l <LANGUAGE>] [-f CSV|Print]\n";
     print "       <PARAM_STRING> e. g. 'Year=1977&Month=10' (only for static files)\n";
     print "       <DIRECTORY> /output/dir/\n";
     exit 1;
@@ -105,7 +111,23 @@ if (!$Opts{'m'} && $Opts{'r'}) {
     print STDERR "ERROR: Need -m 'some message (necessary for emails)'\n";
     exit 1;
 }
+# language
+my $Lang = $CommonObject{ConfigObject}->Get('DefaultLanguage') || 'en';
+if ($Opts{'l'}) {
+    $Lang = $Opts{'l'};
+}
+$CommonObject{LayoutObject} = Kernel::Output::HTML::Layout->new(
+    %CommonObject,
+    Lang => $Lang,
+);
 
+# format
+my $Format = 'CSV';
+if ($Opts{'f'}) {
+    if ($Opts{'f'} eq 'Print') {
+        $Format = 'Print';
+    }
+}
 # recipient check
 if ($Opts{'r'}) {
     if (!$CommonObject{CheckItemObject}->CheckEmail(Address => $Opts{'r'})) {
@@ -192,26 +214,158 @@ if ($Opts{'n'}) {
     if (!@StatArray) {
         push(@StatArray, [' ',0]);
     }
+    my %Attachment;
 
-    # Greate the CVS data
-    my $Output = "Name: $Title; Created: $Time\n";
-    $Output .= $CommonObject{CSVObject}->Array2CSV(
-        Head => $HeadArrayRef,
-        Data => \@StatArray,
-    );
+    if ($Format eq 'Print' && $CommonObject{PDFObject}) {
+        # Create the PDF
+        my $PrintedBy = $CommonObject{LayoutObject}->{LanguageObject}->Get('printed by');
+        my $Page = $CommonObject{LayoutObject}->{LanguageObject}->Get('Page');
+        my $Time = $CommonObject{LayoutObject}->Output(Template => '$Env{"Time"}');
+        my %User = $CommonObject{UserObject}->GetUserData(UserID => $CommonObject{UserID});
 
-    # save the csv with the title and timestamp as filename
-    my $Filename = $CommonObject{StatsObject}->StringAndTimestamp2Filename(
-        String => $Title . " Created",
-    );
+        # create new document
+        $CommonObject{PDFObject}->DocumentNew(
+            Title => $CommonObject{ConfigObject}->Get('Product') . ': ' . $Title,
+        );
+        # create the content array
+        my %Return;
+        my $CounterRow = 0;
+        my $CounterHead = 0;
+        foreach my $Content (@{$HeadArrayRef}) {
+            $Return{CellData}[$CounterRow][$CounterHead]{Content} = $Content;
+            $Return{CellData}[$CounterRow][$CounterHead]{Font} = 'HelveticaBold';
+            $Return{CellData}[$CounterRow][$CounterHead]{BackgroundColor} = '#909090';
+            $CounterHead++;
+        }
+        if ($CounterHead > 0) {
+            $CounterRow++;
+        }
+        foreach my $Row (@StatArray) {
+            my $CounterColumn = 0;
+            foreach my $Content (@{$Row}) {
+                $Return{CellData}[$CounterRow][$CounterColumn]{Content} = $Content;
+                $CounterColumn++;
+            }
+            $CounterRow++;
+        }
 
-    my %Attachment = (
-        Filename    => $Filename . ".csv",
-        ContentType => "text/csv",
-        Content     => $Output,
-        Encoding    => "base64",
-        Disposition => "attachment",
-    );
+        if (!$Return{CellData}[0][0]) {
+            $Return{CellData}[0][0]{Content} = $CommonObject{LayoutObject}->{LanguageObject}->Get('No Result!');
+        }
+        $Return{ColumnData} = [];
+
+        my $Loop = 1;
+        my $Counter = 0;
+        while ($Loop) {
+            # create new page
+            $CommonObject{PDFObject}->PageNew(
+                Width => 842,
+                Height => 595,
+                MarginTop => 30,
+                MarginRight => 40,
+                MarginBottom => 40,
+                MarginLeft => 40,
+                HeaderRight => $Title,
+                FooterLeft => 'mkStats.pl',
+                FooterRight => $Page . ' ' . ($Counter + 1),
+            );
+            # output title
+            $CommonObject{PDFObject}->PositionSet(
+                Move => 'relativ',
+                Y => -10,
+            );
+            $CommonObject{PDFObject}->Text(
+                Text => $Title,
+                Width => 375,
+                Height => 12,
+                Type => 'Cut',
+                Font => 'HelveticaBold',
+                FontSize => 12,
+            );
+            # output 'printed at'
+            $CommonObject{PDFObject}->PositionSet(
+                X => 'center',
+                Y => 'top',
+            );
+            $CommonObject{PDFObject}->PositionSet(
+                Move => 'relativ',
+                Y => -14,
+            );
+            $CommonObject{PDFObject}->Text(
+                Text => $PrintedBy . ' ' .
+                        $User{UserFirstname} . ' ' .
+                        $User{UserLastname} . ' (' .
+                        $User{UserEmail} . ') ' .
+                        $Time,
+                Height => 8,
+                Type => 'Cut',
+                Font => 'Helvetica',
+                FontSize => 8,
+                Color => '#404040',
+                Align => 'right',
+            );
+            # output table
+            $CommonObject{PDFObject}->PositionSet(
+                X => 'left',
+                Y => 'top',
+            );
+            $CommonObject{PDFObject}->PositionSet(
+                Move => 'relativ',
+                Y => -30,
+            );
+            %Return = $CommonObject{PDFObject}->Table(
+                CellData => $Return{CellData},
+                ColumnData => $Return{ColumnData},
+                Border => 0,
+                FontSize => 6,
+                BackgroundColorEven => '#AAAAAA',
+                BackgroundColorOdd => '#DDDDDD',
+                Padding => 1,
+                PaddingTop => 3,
+                PaddingBottom => 3,
+            );
+            # output another page
+            if ($Return{State}) {
+                $Loop = 0;
+            }
+            $Counter++;
+        }
+
+        # return the document
+        my $PDFString = $CommonObject{PDFObject}->DocumentOutput();
+        # save the pdf with the title and timestamp as filename
+        my $Filename = $CommonObject{StatsObject}->StringAndTimestamp2Filename(
+            String => $Title . " Created",
+        );
+        %Attachment = (
+            Filename    => $Filename . ".pdf",
+            ContentType => "application/pdf",
+            Content     => $PDFString,
+            Encoding    => "base64",
+            Disposition => "attachment",
+        );
+    }
+    else {
+        # Create the CVS data
+        my $Output = "Name: $Title; Created: $Time\n";
+        $Output .= $CommonObject{CSVObject}->Array2CSV(
+            Head => $HeadArrayRef,
+            Data => \@StatArray,
+        );
+
+        # save the csv with the title and timestamp as filename
+        my $Filename = $CommonObject{StatsObject}->StringAndTimestamp2Filename(
+            String => $Title . " Created",
+        );
+
+        %Attachment = (
+            Filename    => $Filename . ".csv",
+            ContentType => "text/csv",
+            Content     => $Output,
+            Encoding    => "base64",
+            Disposition => "attachment",
+        );
+    }
 
     # write output
     if ($Opts{'o'}) {
