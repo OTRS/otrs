@@ -2,7 +2,7 @@
 # Kernel/System/PDF.pm - PDF lib
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PDF.pm,v 1.1 2006-07-31 12:26:24 mh Exp $
+# $Id: PDF.pm,v 1.2 2006-07-31 15:22:25 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PDF;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -238,13 +238,14 @@ sub DocumentNew {
 Create a new, blank Page
 
     $True = $PDFObject->PageBlankNew(
-        Width => 200,         # (optional) default 595 (Din A4) - _ both or nothing
-        Height => 300,        # (optional) default 842 (Din A4) -
-        MarginTop => 40,      # (optional) default 0 -
-        MarginRight => 40,    # (optional) default 0  |_ all or nothing
-        MarginBottom => 40,   # (optional) default 0  |
-        MarginLeft => 40,     # (optional) default 0 -
-        ShowPageNumber => 0,  # (optional) default 1
+        Width => 200,                    # (optional) default 595 (Din A4) - _ both or nothing
+        Height => 300,                   # (optional) default 842 (Din A4) -
+        PageOrientation => 'landscape',  # (optional) default normal (normal|landscape)
+        MarginTop => 40,                 # (optional) default 0 -
+        MarginRight => 40,               # (optional) default 0  |_ all or nothing
+        MarginBottom => 40,              # (optional) default 0  |
+        MarginLeft => 40,                # (optional) default 0 -
+        ShowPageNumber => 0,             # (optional) default 1
     );
 
 =cut
@@ -263,19 +264,20 @@ sub PageBlankNew {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need a PDF Object!");
         return;
     }
+    # set PageOrientation
+    if (!defined($Param{PageOrientation})) {
+        $Param{PageOrientation} = 'normal';
+    }
 
     # create a new page
     $Self->{Page} = $Self->{PDF}->page();
 
     # if page was created
     if ($Self->{Page}) {
-        # set new page width and height, if values are given
-        if ($Param{Width} && $Param{Height}) {
-            $Self->_CurPageDimSet(
-                Width => $Param{Width},
-                Height => $Param{Height},
-            );
-        }
+        # set new page width and height
+        $Self->_CurPageDimSet(
+            %Param,
+        );
         # get current page dimension an set mediabox
         my %Page = $Self->_CurPageDimGet();
         $Self->{Page}->mediabox(
@@ -318,6 +320,7 @@ Create a new Page
     $PDFObject->PageNew(
         Width => 200,                       # (optional) default 595 (Din A4)
         Height => 300,                      # (optional) default 842 (Din A4)
+        PageOrientation => 'landscape',     # (optional) default normal (normal|landscape)
         MarginTop => 40,                    # (optional) default 0
         MarginRight => 40,                  # (optional) default 0
         MarginBottom => 40,                 # (optional) default 0
@@ -361,6 +364,9 @@ sub PageNew {
     }
     if ($Param{ShowPageNumber}) {
         $Data{ShowPageNumber} = $Param{ShowPageNumber};
+    }
+    if ($Param{PageOrientation}) {
+        $Data{PageOrientation} = $Param{PageOrientation};
     }
 
     # create a blank page
@@ -2241,8 +2247,9 @@ sub _CurPageNumberSet {
 # Set current Page Dimension
 #
 #    $PDFObject->_CurPageDimSet (
-#        Width => 123,   # (optional) default 595 (Din A4)
-#        Height => 321,  # (optional) default 842 (Din A4)
+#        Width => 123,                    # (optional) default 595 (Din A4)
+#        Height => 321,                   # (optional) default 842 (Din A4)
+#        PageOrientation => 'landscape',  # (optional) (normal|landscape)
 #    );
 #
 
@@ -2283,8 +2290,8 @@ sub _CurPageDimSet {
         $DefaultWidth = 612;
         $DefaultHeight = 792;
     }
-    # get page orientation
-    if ($Self->{ConfigObject}->Get('PDF::PageOrientation') eq 'landscape') {
+    # set page orientation
+    if (defined($Param{PageOrientation}) && $Param{PageOrientation} eq 'landscape') {
         my $TmpWidth = $DefaultWidth;
         $DefaultWidth = $DefaultHeight;
         $DefaultHeight = $TmpWidth;
@@ -2902,6 +2909,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2006-07-31 12:26:24 $
+$Revision: 1.2 $ $Date: 2006-07-31 15:22:25 $
 
 =cut
