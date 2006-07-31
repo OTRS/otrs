@@ -2,13 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.272 2006-07-26 21:49:11 martin Exp $
+# $Id: CHANGES,v 1.273 2006-07-31 15:24:01 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 CVS head
+ - (2006/07/31) add PDF output feature for stats module and ticket search results
  - (2006/07/26) updated to cpan MIME::Tools 5.420
  - (2006/07/26) changed ticket escalation method, escalation start will
     be reseted after every "new" customer message and after agent
