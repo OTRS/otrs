@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentStats.pm,v 1.2 2006-07-14 07:15:56 tr Exp $
+# $Id: AgentStats.pm,v 1.3 2006-07-31 12:25:35 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,9 +14,10 @@ package Kernel::Modules::AgentStats;
 use strict;
 use Kernel::System::Stats;
 use Kernel::System::CSV;
+use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -39,6 +40,10 @@ sub new {
     # create needed objects
     $Self->{StatsObject} = Kernel::System::Stats->new(%Param);
     $Self->{CSVObject}   = Kernel::System::CSV->new(%Param);
+    # load PDF::API2 if installed
+    if ($Self->{MainObject}->Require('PDF::API2')) {
+        $Self->{PDFObject} = Kernel::System::PDF->new(%Param);
+    }
 
     return $Self;
 }
@@ -1906,111 +1911,239 @@ sub Run {
                 Content     => $Output,
             );
         }
-        # html table
+        # pdf or html output
         elsif ($Param{Format} eq 'Print') {
-            #if ($Stat->{StatType} eq 'dynamic') {
-            #    my %Name = (
-            #        UseAsXvalue      => 'X-axis',
-            #        UseAsValueSeries => 'ValueSeries',
-            #        UseAsRestriction => 'Restriction',
-            #    );
+            # PDF Output
+            if ($Self->{PDFObject} && $Self->{ConfigObject}->Get('PDF')) {
+                my $PrintedBy = $Self->{LayoutObject}->{LanguageObject}->Get('printed by');
+                my $Page = $Self->{LayoutObject}->{LanguageObject}->Get('Page');
+                my $Time = $Self->{LayoutObject}->Output(Template => '$Env{"Time"}');
+                my $Url = '';
+                if ($ENV{REQUEST_URI}) {
+                    $Url = $Self->{ConfigObject}->Get('HttpType') . '://' .
+                        $Self->{ConfigObject}->Get('FQDN') .
+                        $ENV{REQUEST_URI};
+                }
+                # create new document
+                $Self->{PDFObject}->DocumentNew(
+                    Title => $Self->{ConfigObject}->Get('Product') . ': ' . $Title,
+                );
+                # create the content array
+                my %Return;
+                my $CounterRow = 0;
+                my $CounterHead = 0;
+                foreach my $Content (@{$HeadArrayRef}) {
+                    $Return{CellData}[$CounterRow][$CounterHead]{Content} = $Content;
+                    $Return{CellData}[$CounterRow][$CounterHead]{Font} = 'HelveticaBold';
+                    $Return{CellData}[$CounterRow][$CounterHead]{BackgroundColor} = '#909090';
+                    $CounterHead++;
+                }
+                if ($CounterHead > 0) {
+                    $CounterRow++;
+                }
+                foreach my $Row (@StatArray) {
+                    my $CounterColumn = 0;
+                    foreach my $Content (@{$Row}) {
+                        $Return{CellData}[$CounterRow][$CounterColumn]{Content} = $Content;
+                        $CounterColumn++;
+                    }
+                    $CounterRow++;
+                }
 
-            #    foreach my $Use (qw(UseAsXvalue UseAsValueSeries UseAsRestriction)) {
-            #        my $Flag = 0;
-            #        $Self->{LayoutObject}->Block(
-            #            Name => 'Dynamic',
-            #            Data => {Name => $Name{$Use}},
-            #        );
-            #        foreach my $ObjectAttribute (@{$GetParam{$Use}}) {
-            #            my %ValueHash = ();
-            #            $Flag = 1;
+                if (!$Return{CellData}[0][0]) {
+                    $Return{CellData}[0][0]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('No Result!');
+                }
+                $Return{ColumnData} = [];
 
-            #            # Select All function
-            #            if (!$ObjectAttribute->{SelectedValues}[0]) {
-            #                my @Values = keys (%{$ObjectAttribute->{Values}});
-            #                $ObjectAttribute->{SelectedValues} = \@Values;
-            #            }
+                my $Loop = 1;
+                my $Counter = 0;
+                while ($Loop) {
+                    # create new page
+                    $Self->{PDFObject}->PageNew(
+                        MarginTop => 30,
+                        MarginRight => 40,
+                        MarginBottom => 40,
+                        MarginLeft => 40,
+                        HeaderRight => $Title,
+                        FooterLeft => $Url,
+                        FooterRight => $Page . ' ' . ($Counter + 1),
+                    );
+                    # output title
+                    $Self->{PDFObject}->PositionSet(
+                        Move => 'relativ',
+                        Y => -10,
+                    );
+                    $Self->{PDFObject}->Text(
+                        Text => $Title,
+                        Width => 375,
+                        Height => 12,
+                        Type => 'Cut',
+                        Font => 'HelveticaBold',
+                        FontSize => 12,
+                    );
+                    # output 'printed by'
+                    $Self->{PDFObject}->PositionSet(
+                        X => 'center',
+                        Y => 'top',
+                    );
+                    $Self->{PDFObject}->PositionSet(
+                        Move => 'relativ',
+                        Y => -14,
+                    );
+                    $Self->{PDFObject}->Text(
+                        Text => $PrintedBy . ' ' .
+                                $Self->{UserFirstname} . ' ' .
+                                $Self->{UserLastname} . ' (' .
+                                $Self->{UserEmail} . ') ' .
+                                $Time,
+                        Height => 8,
+                        Type => 'Cut',
+                        Font => 'Helvetica',
+                        FontSize => 8,
+                        Color => '#404040',
+                        Align => 'right',
+                    );
+                    # output table
+                    $Self->{PDFObject}->PositionSet(
+                        X => 'left',
+                        Y => 'top',
+                    );
+                    $Self->{PDFObject}->PositionSet(
+                        Move => 'relativ',
+                        Y => -30,
+                    );
+                    %Return = $Self->{PDFObject}->Table(
+                        CellData => $Return{CellData},
+                        ColumnData => $Return{ColumnData},
+                        Border => 0,
+                        FontSize => 6,
+                        BackgroundColorEven => '#AAAAAA',
+                        BackgroundColorOdd => '#DDDDDD',
+                        Padding => 1,
+                        PaddingTop => 3,
+                        PaddingBottom => 3,
+                    );
+                    # output another page
+                    if ($Return{State}) {
+                        $Loop = 0;
+                    }
+                    $Counter++;
+                }
+                # return the document
+                my $PDFString = $Self->{PDFObject}->DocumentOutput();
+                return $Self->{LayoutObject}->Attachment(
+                    Filename => $Filename . '.pdf',
+                    ContentType => "application/pdf",
+                    Content => $PDFString,
+                    Type => 'inline',
+                );
+            }
+            # HTML Output
+            else {
+                #if ($Stat->{StatType} eq 'dynamic') {
+                #    my %Name = (
+                #        UseAsXvalue      => 'X-axis',
+                #        UseAsValueSeries => 'ValueSeries',
+                #        UseAsRestriction => 'Restriction',
+                #    );
 
-            #           foreach (@{$ObjectAttribute->{SelectedValues}}) {
-            #                if ($ObjectAttribute->{Values}) {
-            #                    $ValueHash{$_} = $ObjectAttribute->{Values}{$_};
-            #                }
-            #                else {
-            #                    $ValueHash{Value} = $_;
-            #                }
-            #            }
+                #    foreach my $Use (qw(UseAsXvalue UseAsValueSeries UseAsRestriction)) {
+                #        my $Flag = 0;
+                #        $Self->{LayoutObject}->Block(
+                #            Name => 'Dynamic',
+                #            Data => {Name => $Name{$Use}},
+                #        );
+                #        foreach my $ObjectAttribute (@{$GetParam{$Use}}) {
+                #            my %ValueHash = ();
+                #            $Flag = 1;
 
-            #            $Self->{LayoutObject}->Block(
-            #                Name => 'Element',
-            #                Data => {Name => $ObjectAttribute->{Name}},
-            #            );
+                #            # Select All function
+                #            if (!$ObjectAttribute->{SelectedValues}[0]) {
+                #                my @Values = keys (%{$ObjectAttribute->{Values}});
+                #                $ObjectAttribute->{SelectedValues} = \@Values;
+                #            }
 
-            #            # show fixed elements
-            #            if ($ObjectAttribute->{Block} eq 'Time') {
-            #                # required because of the SELECTALL function
-            #                if ($Use eq 'UseAsRestriction') {
-            #                    delete ($ObjectAttribute->{SelectedValues});
-            #                }
-            #                my $TimeScale = _TimeScale();
-            #                if ($ObjectAttribute->{TimeStart}) {
-            #                    $Self->{LayoutObject}->Block(
-            #                        Name => 'TimePeriodFixed',
-            #                        Data => {
-            #                            TimeStart => $ObjectAttribute->{TimeStart},
-            #                            TimeStop  => $ObjectAttribute->{TimeStop},
-            #                        },
-            #                    );
-            #                }
-            #                if ($ObjectAttribute->{SelectedValues}[0]) {
-            #                    $Self->{LayoutObject}->Block(
-            #                        Name => 'TimeScaleFixed',
-            #                        Data => {
-            #                            Scale => $TimeScale->{$ObjectAttribute->{SelectedValues}[0]}{Value},
-            #                            Count => $ObjectAttribute->{TimeScaleCount},
-            #                        },
-            #                    );
-            #                }
-            #            }
-            #            else {
-            #                foreach (sort{$ValueHash{$a} cmp $ValueHash{$b}} keys %ValueHash) {
-            #                    $Self->{LayoutObject}->Block(
-            #                        Name => 'Fixed',
-            #                        Data => {Value => $ValueHash{$_}},
-            #                    );
-            #                }
-            #            }
-            #        }
-            #        # Show this Block if no valueseries or restrictions are selected
-            #        if (!$Flag) {
-            #            $Self->{LayoutObject}->Block(
-            #                Name => 'NoElement',
-            #            );
-            #        }
-            #    }
-            #}
+                #           foreach (@{$ObjectAttribute->{SelectedValues}}) {
+                #                if ($ObjectAttribute->{Values}) {
+                #                    $ValueHash{$_} = $ObjectAttribute->{Values}{$_};
+                #                }
+                #                else {
+                #                    $ValueHash{Value} = $_;
+                #                }
+                #            }
 
-            #$Stat->{Description} = $Self->{LayoutObject}->Ascii2Html(
-            #    Text           => $Stat->{Description},
-            #    HTMLResultMode => 1,
-            #    NewLine        => 72,
-            #);
+                #            $Self->{LayoutObject}->Block(
+                #                Name => 'Element',
+                #                Data => {Name => $ObjectAttribute->{Name}},
+                #            );
+
+                #            # show fixed elements
+                #            if ($ObjectAttribute->{Block} eq 'Time') {
+                #                # required because of the SELECTALL function
+                #                if ($Use eq 'UseAsRestriction') {
+                #                    delete ($ObjectAttribute->{SelectedValues});
+                #                }
+                #                my $TimeScale = _TimeScale();
+                #                if ($ObjectAttribute->{TimeStart}) {
+                #                    $Self->{LayoutObject}->Block(
+                #                        Name => 'TimePeriodFixed',
+                #                        Data => {
+                #                            TimeStart => $ObjectAttribute->{TimeStart},
+                #                            TimeStop  => $ObjectAttribute->{TimeStop},
+                #                        },
+                #                    );
+                #                }
+                #                if ($ObjectAttribute->{SelectedValues}[0]) {
+                #                    $Self->{LayoutObject}->Block(
+                #                        Name => 'TimeScaleFixed',
+                #                        Data => {
+                #                            Scale => $TimeScale->{$ObjectAttribute->{SelectedValues}[0]}{Value},
+                #                            Count => $ObjectAttribute->{TimeScaleCount},
+                #                        },
+                #                    );
+                #                }
+                #            }
+                #            else {
+                #                foreach (sort{$ValueHash{$a} cmp $ValueHash{$b}} keys %ValueHash) {
+                #                    $Self->{LayoutObject}->Block(
+                #                        Name => 'Fixed',
+                #                        Data => {Value => $ValueHash{$_}},
+                #                    );
+                #                }
+                #            }
+                #        }
+                #        # Show this Block if no valueseries or restrictions are selected
+                #        if (!$Flag) {
+                #            $Self->{LayoutObject}->Block(
+                #                Name => 'NoElement',
+                #            );
+                #        }
+                #    }
+                #}
+
+                #$Stat->{Description} = $Self->{LayoutObject}->Ascii2Html(
+                #    Text           => $Stat->{Description},
+                #    HTMLResultMode => 1,
+                #    NewLine        => 72,
+                #);
 
 
-            $Stat->{Table} = $Self->{LayoutObject}->OutputHTMLTable(
-                Head => $HeadArrayRef,
-                Data => \@StatArray,
-            );
+                $Stat->{Table} = $Self->{LayoutObject}->OutputHTMLTable(
+                    Head => $HeadArrayRef,
+                    Data => \@StatArray,
+                );
 
-            $Stat->{Title} = $Title;
+                $Stat->{Title} = $Title;
 
-            # presentation
-            my $Output = $Self->{LayoutObject}->PrintHeader(Value => $Title);
-            $Output .= $Self->{LayoutObject}->Output(
-                Data         => $Stat,
-                TemplateFile => 'AgentStatsPrint',
-            );
-            $Output .= $Self->{LayoutObject}->PrintFooter();
-            return $Output;
+                # presentation
+                my $Output = $Self->{LayoutObject}->PrintHeader(Value => $Title);
+                $Output .= $Self->{LayoutObject}->Output(
+                    Data         => $Stat,
+                    TemplateFile => 'AgentStatsPrint',
+                );
+                $Output .= $Self->{LayoutObject}->PrintFooter();
+                return $Output;
+            }
         }
         # graph
         elsif ($Param{Format} =~ /^GD::Graph\.*/) {
@@ -2215,8 +2348,6 @@ sub _TimeScale {
 
    return \%TimeScale;
 }
-
-
 
 # --
 1;

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketSearch.pm,v 1.18 2006-07-11 11:15:59 mh Exp $
+# $Id: AgentTicketSearch.pm,v 1.19 2006-07-31 12:25:35 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,9 +16,10 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Priority;
 use Kernel::System::State;
 use Kernel::System::SearchProfile;
+use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -34,7 +35,7 @@ sub new {
     }
 
     # check needed Opjects
-    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject ConfigObject)) {
+    foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject ConfigObject MainObject)) {
         if (!$Self->{$_}) {
             $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
         }
@@ -43,8 +44,12 @@ sub new {
     $Self->{PriorityObject} = Kernel::System::Priority->new(%Param);
     $Self->{StateObject} = Kernel::System::State->new(%Param);
     $Self->{SearchProfileObject} = Kernel::System::SearchProfile->new(%Param);
+    # load PDF::API2 if installed
+    if ($Self->{MainObject}->Require('PDF::API2')) {
+        $Self->{PDFObject} = Kernel::System::PDF->new(%Param);
+    }
 
-    # if we need to do a fultext search on an external mirror database
+    # if we need to do a fulltext search on an external mirror database
     if ($Self->{ConfigObject}->Get('Ticket::Frontend::Search::DB::DSN')) {
         my $ExtraDatabaseObject = Kernel::System::DB->new(
             LogObject => $Param{LogObject},
@@ -302,8 +307,10 @@ sub Run {
             %GetParam,
         );
 
+        my $PDFOutput = $Self->{ConfigObject}->Get('PDF');
         my @CSVHead = ();
         my @CSVData = ();
+        my @PDFData = ();
         foreach (@ViewableIDs) {
           $Counter++;
           # build search result
@@ -412,14 +419,35 @@ sub Run {
                 );
             }
             elsif ($GetParam{ResultForm} eq 'Print') {
-                # add table block
-                $Self->{LayoutObject}->Block(
-                    Name => 'Record',
-                    Data => {
-                        %Data,
-                        %UserInfo,
-                    },
-                );
+                if ($PDFOutput && $Self->{PDFObject}) {
+                    my %Info = (%Data, %UserInfo),
+
+                    my $Created = $Self->{LayoutObject}->Output(Template => '$TimeLong{"$Data{"Created"}"}', Data => \%Data);
+                    my $Owner = $Self->{LayoutObject}->Output(Template => '$QData{"Owner","30"} ($Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","30"})', Data => \%Info);
+                    my $Customer = $Self->{LayoutObject}->Output(Template => '$QData{"CustomerID","15"} $QData{"CustomerName","15"}', Data => \%Data);
+
+                    my @PDFRow;
+                    push (@PDFRow, $Data{TicketNumber});
+                    push (@PDFRow, $Created);
+                    push (@PDFRow, $Data{From});
+                    push (@PDFRow, $Data{Subject});
+                    push (@PDFRow, $Data{State});
+                    push (@PDFRow, $Data{Queue});
+                    push (@PDFRow, $Owner);
+                    push (@PDFRow, $Customer);
+
+                    push (@PDFData, \@PDFRow);
+                }
+                else {
+                    # add table block
+                    $Self->{LayoutObject}->Block(
+                        Name => 'Record',
+                        Data => {
+                            %Data,
+                            %UserInfo,
+                        },
+                    );
+                }
             }
             elsif ($GetParam{ResultForm} eq 'CSV') {
                 # merge row data
@@ -477,18 +505,154 @@ sub Run {
             );
         }
         elsif ($GetParam{ResultForm} eq 'Print') {
-            $Output = $Self->{LayoutObject}->PrintHeader(Width => 800);
-            if (@ViewableIDs == $Self->{SearchLimit}) {
-                $Param{Warning} = '$Text{"Reached max. count of %s search hits!", "'.$Self->{SearchLimit}.'"}';
+            # PDF Output
+            if ($PDFOutput && $Self->{PDFObject}) {
+                my $Title = $Self->{LayoutObject}->{LanguageObject}->Get('Ticket') . ' ' .
+                    $Self->{LayoutObject}->{LanguageObject}->Get('Search');
+                my $PrintedBy = $Self->{LayoutObject}->{LanguageObject}->Get('printed by');
+                my $Page = $Self->{LayoutObject}->{LanguageObject}->Get('Page');
+                my $Time = $Self->{LayoutObject}->Output(Template => '$Env{"Time"}');
+                my $Url = '';
+                if ($ENV{REQUEST_URI}) {
+                    $Url = $Self->{ConfigObject}->Get('HttpType') . '://' .
+                        $Self->{ConfigObject}->Get('FQDN') .
+                        $ENV{REQUEST_URI};
+                }
+                # create new document
+                $Self->{PDFObject}->DocumentNew(
+                    Title => $Self->{ConfigObject}->Get('Product') . ': ' . $Title,
+                );
+
+                my %Return;
+                $Return{CellData}[0][0]{Content} = $Self->{ConfigObject}->Get('Ticket::Hook');
+                $Return{CellData}[0][1]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Created');
+                $Return{CellData}[0][2]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('From');
+                $Return{CellData}[0][3]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Subject');
+                $Return{CellData}[0][4]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('State');
+                $Return{CellData}[0][5]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Queue');
+                $Return{CellData}[0][6]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Owner');
+                $Return{CellData}[0][7]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('CustomerID');
+
+                my $CounterRow = 1;
+                foreach my $Row (@PDFData) {
+                    my $CounterColumn = 0;
+                    foreach my $Content (@{$Row}) {
+                        $Return{CellData}[$CounterRow][$CounterColumn]{Content} = $Content;
+                        $CounterColumn++;
+                    }
+                    $CounterRow++;
+                }
+
+                if (!$Return{CellData}[0][0]) {
+                    $Return{CellData}[0][0]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('No Result!');
+                }
+                $Return{ColumnData} = [];
+
+                my $Loop = 1;
+                my $Counter = 0;
+                while ($Loop) {
+                    # create new page
+                    $Self->{PDFObject}->PageNew(
+                        MarginTop => 30,
+                        MarginRight => 40,
+                        MarginBottom => 40,
+                        MarginLeft => 40,
+                        HeaderRight => $Title,
+                        FooterLeft => $Url,
+                        FooterRight => $Page . ' ' . ($Counter + 1),
+                    );
+                    # output title
+                    $Self->{PDFObject}->PositionSet(
+                        Move => 'relativ',
+                        Y => -10,
+                    );
+                    $Self->{PDFObject}->Text(
+                        Text => $Title,
+                        Width => 375,
+                        Height => 12,
+                        Type => 'Cut',
+                        Font => 'HelveticaBold',
+                        FontSize => 12,
+                    );
+                    # output 'printed by'
+                    $Self->{PDFObject}->PositionSet(
+                        X => 'center',
+                        Y => 'top',
+                    );
+                    $Self->{PDFObject}->PositionSet(
+                        Move => 'relativ',
+                        Y => -14,
+                    );
+                    $Self->{PDFObject}->Text(
+                        Text => $PrintedBy . ' ' .
+                                $Self->{UserFirstname} . ' ' .
+                                $Self->{UserLastname} . ' (' .
+                                $Self->{UserEmail} . ') ' .
+                                $Time,
+                        Height => 8,
+                        Type => 'Cut',
+                        Font => 'Helvetica',
+                        FontSize => 8,
+                        Color => '#404040',
+                        Align => 'right',
+                    );
+                    # output table
+                    $Self->{PDFObject}->PositionSet(
+                        X => 'left',
+                        Y => 'top',
+                    );
+                    $Self->{PDFObject}->PositionSet(
+                        Move => 'relativ',
+                        Y => -30,
+                    );
+                    %Return = $Self->{PDFObject}->Table(
+                        CellData => $Return{CellData},
+                        ColumnData => $Return{ColumnData},
+                        Border => 0,
+                        FontSize => 6,
+                        BackgroundColorEven => '#AAAAAA',
+                        BackgroundColorOdd => '#DDDDDD',
+                        Padding => 1,
+                        PaddingTop => 3,
+                        PaddingBottom => 3,
+                    );
+                    # output another page
+                    if ($Return{State}) {
+                        $Loop = 0;
+                    }
+                    $Counter++;
+                }
+                # return the document
+                my $Filename = 'ticket_search';
+                my ($s,$m,$h, $D,$M,$Y) = $Self->{TimeObject}->SystemTime2Date(
+                    SystemTime => $Self->{TimeObject}->SystemTime(),
+                );
+                $M = sprintf("%02d", $M);
+                $D = sprintf("%02d", $D);
+                $h = sprintf("%02d", $h);
+                $m = sprintf("%02d", $m);
+                my $PDFString = $Self->{PDFObject}->DocumentOutput();
+                return $Self->{LayoutObject}->Attachment(
+                    Filename => $Filename."_"."$Y-$M-$D"."_"."$h-$m.pdf",
+                    ContentType => "application/pdf",
+                    Content => $PDFString,
+                    Type => 'inline',
+                );
             }
-            $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AgentTicketSearchResultPrint',
-                Data => \%Param,
-            );
-            # add footer
-            $Output .= $Self->{LayoutObject}->PrintFooter();
-            # return output
-            return $Output;
+            else  {
+                $Output = $Self->{LayoutObject}->PrintHeader(Width => 800);
+                if (@ViewableIDs == $Self->{SearchLimit}) {
+                    $Param{Warning} = '$Text{"Reached max. count of %s search hits!", "'.$Self->{SearchLimit}.'"}';
+                }
+                $Output .= $Self->{LayoutObject}->Output(
+                    TemplateFile => 'AgentTicketSearchResultPrint',
+                    Data => \%Param,
+                );
+                # add footer
+                $Output .= $Self->{LayoutObject}->PrintFooter();
+                # return output
+                return $Output;
+            }
         }
         elsif ($GetParam{ResultForm} eq 'CSV') {
             my $CSV = $Self->{LayoutObject}->OutputCSV(
