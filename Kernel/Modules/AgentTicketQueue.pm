@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketQueue.pm,v 1.16 2006-06-21 14:30:08 tr Exp $
+# $Id: AgentTicketQueue.pm,v 1.17 2006-07-31 13:26:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -443,10 +443,9 @@ sub ShowTicket {
             NewLine => $Self->{ConfigObject}->Get('DefaultViewNewLine') || 85,
             Text => $Article{Body},
             VMax => $Self->{ConfigObject}->Get('DefaultPreViewLines') || 25,
+            LinkFeature => 1,
             HTMLResultMode => 1,
         );
-        # do link quoting
-        $Article{Body} = $Self->{LayoutObject}->LinkQuote(Text => $Article{Body});
         # do charset check
         if (my $CharsetText = $Self->{LayoutObject}->CheckCharset(
             Action => 'AgentTicketZoom',

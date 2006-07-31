@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Layout.pm,v 1.7 2006-06-13 23:02:19 martin Exp $
+# $Id: Layout.pm,v 1.8 2006-07-31 13:26:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -808,7 +808,7 @@ sub Output {
         }
         {
             if (defined($2)) {
-                $Self->{LanguageObject}->Get($2, $Param{TemplateFile});
+                $Self->Ascii2Html(Text => $Self->{LanguageObject}->Get($2, $Param{TemplateFile}));
             }
             else {
                 '';
@@ -1308,22 +1308,33 @@ sub Ascii2Html {
     my $HTMLMode = $Param{HTMLResultMode} || '';
     my $StripEmptyLines = $Param{StripEmptyLines} || '';
 
-    my $LinkList = '';
+    my %LinkHash = ();
     if ($Param{LinkFeature}) {
         my $Counter = 0;
         $Text =~ s{
-            (https|http|ftp|www)((:\/\/|\.).*?)(\.\s|\s|\)|\"|&quot;|&nbsp;|]|'|>|<|&gt;|&lt;)
+            (>|<|&gt;|&lt;|)(https|http|ftp|www)((:\/\/|\.).*?)(\.\s|\s|\)|\"|&quot;|&nbsp;|]|'|>|<|&gt;|&lt;)
         }
         {
-            my $Link = $1.$2;
-            my $OrigText = $1.$2;
-            my $OrigTextEnd = $4;
+            my $Link = $2.$3;
+            my $OrigText = $2.$3;
+            my $OrigTextEnd = $5;
             my $LinkSmall = $Link;
-            $LinkSmall =~ s/^(.{80}).*$/$1\[\.\.\]/gs;
+            $LinkSmall =~ s/^(.{80}).*$/$2\[\.\.\]/gs;
             $Link =~ s/ //g;
             $Counter++;
-            $LinkList .= "[$Counter] <a href=\"$Link\" target=\"_blank\">$LinkSmall</a>\n";
-            "[$Counter]";
+            if ($Link !~ /^(http|https|ftp):\/\//) {
+                $Link = "http://$Link";
+            }
+            my $Length = length($Link);
+            my $String = '';
+            foreach (1..$Length) {
+                if ($_ > 75) {
+                    last;
+                }
+                $String .= '#';
+            }
+            $LinkHash{"[$String"."$Counter]"} = $Link;
+            "[$String$Counter]";
         }egxi;
     }
 
@@ -1332,7 +1343,7 @@ sub Ascii2Html {
         $Text =~ s/^(.{$Max}).*$/$1\[\.\.\]/gs;
     }
     # newline
-    if ($NewLine && length($Text) < 16000) {
+    if ($NewLine && length($Text) < 20000) {
         $Text =~ s/(\n\r|\r\r\n|\r\n)/\n/g;
         $Text =~ s/\r/\n/g;
         $Text =~ s/(.{4,$NewLine})(?:\s|\z)/$1\n/gm;
@@ -1340,6 +1351,8 @@ sub Ascii2Html {
 #        $Text =~ s/([A-z-_#=\.]{$ForceNewLine})/$1\n/g;
         $Text =~ s/(.{$ForceNewLine})(.+?)/$1\n$2/g;
     }
+    # remove taps
+    $Text =~ s/\t/ /g;
     # strip empty lines
     if ($StripEmptyLines) {
         $Text =~ s/^\s*\n//mg;
@@ -1360,10 +1373,15 @@ sub Ascii2Html {
     $Text =~ s/</&lt;/g;
     $Text =~ s/>/&gt;/g;
     $Text =~ s/"/&quot;/g;
-#    $Text =~ s/'/&apos;/g;
+    $Text =~ s/'/&apos;/g;
     # text -> html format quoting
-    if ($Param{LinkFeature} && $LinkList) {
-        $Text .= "<br>Links:\n".$LinkList;
+    if ($Param{LinkFeature} && %LinkHash) {
+        foreach my $Key (sort keys %LinkHash) {
+            my $LinkSmall = $LinkHash{$Key};
+            $LinkSmall =~ s/^(.{75}).*$/$1\[\.\.\]/gs;
+            $LinkHash{$Key} =~ s/ //g;
+            $Text =~ s/\Q$Key\E/<a href=\"$LinkHash{$Key}\" target=\"_blank\" title=\"$LinkHash{$Key}\">$LinkSmall<\/a>/;
+        }
     }
     if ($HTMLMode) {
         $Text =~ s/\n/<br>\n/g;
@@ -2626,6 +2644,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2006-06-13 23:02:19 $
+$Revision: 1.8 $ $Date: 2006-07-31 13:26:29 $
 
 =cut

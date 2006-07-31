@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerTicketZoom.pm,v 1.4 2006-03-07 06:43:05 martin Exp $
+# $Id: CustomerTicketZoom.pm,v 1.5 2006-07-31 13:26:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -437,9 +437,9 @@ sub _Mask {
             NewLine => $Self->{ConfigObject}->Get('DefaultViewNewLine') || 85,
             Text => $Article{Body},
             VMax => $Self->{ConfigObject}->Get('DefaultViewLines') || 5000,
+            HTMLResultMode => 1,
+            LinkFeature => 1,
         );
-        # link quoting
-        $Param{"Article::Text"} = $Self->{LayoutObject}->LinkQuote(Text => $Param{"Article::Text"});
         # do charset check
         if (my $CharsetText = $Self->{LayoutObject}->CheckCharset(
             ContentCharset => $Article{ContentCharset},
