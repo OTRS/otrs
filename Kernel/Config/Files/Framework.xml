@@ -7,6 +7,7 @@ Possible SubGroups
     - Core::PostMaster
     - Core::MIME-Viewer
     - Core::Package
+    - Core::PDF
     - Core::Sendmail
     - Core::Session
     - Core::SpellChecker
@@ -114,7 +115,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.105 2006-07-19 11:08:46 mh Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.106 2006-07-31 12:23:50 mh Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -1153,6 +1154,51 @@ TimeWorkingHours
         <SubGroup>Core::Package</SubGroup>
         <Setting>
             <String Regex="">http://proxy.sn.no:8001/</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PDF" Required="1" Valid="1">
+        <Description Lang="en">Enable PDF output?</Description>
+        <Description Lang="de">PDF Ausgabe aktivieren?</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::PDF</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PDF::LogoFile" Required="1" Valid="1">
+        <Description Lang="en">File for the logo in the page header (gif|jpg|png, 700 x 100 Pixel).</Description>
+        <Description Lang="de">Datei für das Logo, das im Seitenkopf angezeigt wird (gif|jpg|png, 700 x 100 Pixel).</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::PDF</SubGroup>
+        <Setting>
+            <String Regex="">&lt;OTRS_CONFIG_Home&gt;/var/logo-otrs.png</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PDF::PageSize" Required="1" Valid="1">
+        <Description Lang="en">Standard-Size of PDF Pages</Description>
+        <Description Lang="de">Standard-Seitengröße von PDF Seiten</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::PDF</SubGroup>
+        <Setting>
+            <Option SelectedID="a4">
+                <Item Key="a4">DIN A4</Item>
+                <Item Key="letter">Letter</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PDF::PageOrientation" Required="1" Valid="1">
+        <Description Lang="en">Standard-Orientation of PDF Pages</Description>
+        <Description Lang="de">Standard-Ausrichtung von PDF Seiten</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::PDF</SubGroup>
+        <Setting>
+            <Option SelectedID="landscape">
+                <Item Key="normal">Normal</Item>
+                <Item Key="landscape">Landscape</Item>
+            </Option>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PGP" Required="1" Valid="1">
@@ -3124,15 +3170,4 @@ Your OTRS Notification Master
         <String Regex="^[0-9]{1,5}$">100</String>
       </Setting>
     </ConfigItem>
-
-
-
-
-
-
-
-
-
-
-
 </otrs_config>
