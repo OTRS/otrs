@@ -3,7 +3,7 @@
 # bin/PostMasterPOP3.pl - the global eMail handle for email2db
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PostMasterPOP3.pl,v 1.19 2006-02-16 23:21:28 martin Exp $
+# $Id: PostMasterPOP3.pl,v 1.20 2006-07-31 13:33:17 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin)."/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use strict;
@@ -187,6 +187,16 @@ sub FetchMail {
                 );
             }
             else {
+                # safety protection
+                $FetchCounter++;
+                if ($FetchCounter > 10 && $FetchCounter < 25) {
+                    print "Safety protection waiting 2 second till processing next mail...\n";
+                    sleep 2;
+                }
+                elsif ($FetchCounter > 25) {
+                    print "Safety protection waiting 3 seconds till processing next mail...\n";
+                    sleep 3;
+                }
                 # get message (header and body)
                 my $Lines = $PopObject->get($Messageno);
                 $CommonObject{PostMaster} = Kernel::System::PostMaster->new(
@@ -200,7 +210,6 @@ sub FetchMail {
                 );
                 undef $CommonObject{PostMaster};
                 $PopObject->delete($Messageno);
-                $FetchCounter++;
             }
             print "\n";
        }
