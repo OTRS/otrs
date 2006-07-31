@@ -3,7 +3,7 @@
 # UnitTest.pl - the global test handle
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: UnitTest.pl,v 1.5 2006-06-22 10:39:16 tr Exp $
+# $Id: UnitTest.pl,v 1.6 2006-07-31 09:20:04 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -38,7 +38,7 @@ use Kernel::System::Log;
 use Kernel::System::Time;
 use Kernel::System::DB;
 use Kernel::System::UnitTest;
-
+use Kernel::System::Main;
 
 # --
 # get options
@@ -60,6 +60,7 @@ $CommonObject{LogObject} = Kernel::System::Log->new(
     LogPrefix => 'OTRS-Test',
     %CommonObject,
 );
+$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
 $CommonObject{TimeObject} = Kernel::System::Time->new(
     %CommonObject,
 );
