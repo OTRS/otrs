@@ -115,7 +115,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.106 2006-07-31 12:23:50 mh Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.107 2006-07-31 15:23:28 mh Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -1186,18 +1186,6 @@ TimeWorkingHours
             <Option SelectedID="a4">
                 <Item Key="a4">DIN A4</Item>
                 <Item Key="letter">Letter</Item>
-            </Option>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="PDF::PageOrientation" Required="1" Valid="1">
-        <Description Lang="en">Standard-Orientation of PDF Pages</Description>
-        <Description Lang="de">Standard-Ausrichtung von PDF Seiten</Description>
-        <Group>Framework</Group>
-        <SubGroup>Core::PDF</SubGroup>
-        <Setting>
-            <Option SelectedID="landscape">
-                <Item Key="normal">Normal</Item>
-                <Item Key="landscape">Landscape</Item>
             </Option>
         </Setting>
     </ConfigItem>
