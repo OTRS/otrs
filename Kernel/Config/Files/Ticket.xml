@@ -148,7 +148,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.110 2006-07-13 09:15:19 tr Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.111 2006-08-01 20:45:50 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -173,7 +173,7 @@ TimeWorkingHours
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
-            <String Regex="^[0-9]{1,3}$">60</String>
+            <String Regex="^[0-9]{1,3}$">100</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::SubjectRe" Required="1" Valid="1">
@@ -7108,7 +7108,7 @@ $QData{"Signature"}
         <Setting>
             <Option SelectedID="0">
                 <Item Key="0">No</Item>
-                <Item Key="0">Yes</Item>
+                <Item Key="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
