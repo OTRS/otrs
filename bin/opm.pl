@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # opm.pl - otrs package manager cmd version
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: opm.pl,v 1.9 2005-12-29 20:11:38 martin Exp $
+# $Id: opm.pl,v 1.10 2006-08-01 20:16:09 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@ use Kernel::System::Package;
 
 # get file version
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # common objects
@@ -73,7 +73,7 @@ if ($Opts{'a'} && $Opts{'a'} eq 'index') {
 if ($Opts{'h'}) {
     print "opm.pl <Revision $VERSION> - OTRS Package Manager\n";
     print "Copyright (c) 2001-2005 Martin Edenhofer <martin\@otrs.org>\n";
-    print "usage: opm.pl -a list|install|upgrade|uninstall|reinstall|list-repository|build|index \n";
+    print "usage: opm.pl -a list|install|upgrade|uninstall|reinstall|list-repository|file|build|index \n";
     print "        [-p package.opm|package.sopm|package|package-version] [-o OUTPUTDIR] [-f FORCE]\n";
     print "   user (local):\n";
     print "       opm.pl -a list\n";
@@ -81,6 +81,7 @@ if ($Opts{'h'}) {
     print "       opm.pl -a upgrade -p /path/to/Package-1.0.1.opm\n";
     print "       opm.pl -a reinstall -p Package\n";
     print "       opm.pl -a uninstall -p Package\n";
+    print "       opm.pl -a file -p Kernel/System/File.pm (find package of file)\n";
     print "   user (remote):\n";
     print "       opm.pl -a list-repository\n";
     print "       opm.pl -a install -p online:Package\n";
@@ -93,7 +94,7 @@ if ($Opts{'h'}) {
     exit 1;
 }
 my $FileString = '';
-if ($Opts{'a'} !~ /^list/ && $Opts{'p'}) {
+if ($Opts{'a'} !~ /^(list|file)/ && $Opts{'p'}) {
     if (-e $Opts{'p'}) {
         if (open(IN, "< $Opts{'p'}")) {
             while (<IN>) {
@@ -160,6 +161,32 @@ if ($Opts{'a'} !~ /^list/ && $Opts{'p'}) {
         }
     }
 }
+# file
+if ($Opts{'a'} eq 'file') {
+    $Opts{'p'} =~ s/\/\//\//g;
+    my $Hit = 0;
+    foreach my $Package ($CommonObject{PackageObject}->RepositoryList()) {
+        foreach my $File (@{$Package->{Filelist}}) {
+            if ($Opts{'p'} =~ /^\Q$File->{Location}\E$/) {
+                print "+-----------------------------------------------------------------+\n";
+                print "| File:        $File->{Location}!\n";
+                print "| Name:        $Package->{Name}->{Content}\n";
+                print "| Version:     $Package->{Version}->{Content}\n";
+                print "| Vendor:      $Package->{Vendor}->{Content}\n";
+                print "| URL:         $Package->{URL}->{Content}\n";
+                print "+-----------------------------------------------------------------+\n";
+                $Hit = 1;
+            }
+        }
+    }
+    if ($Hit) {
+        exit;
+    }
+    else {
+        print STDERR "ERROR: no package for file $Opts{'p'} found!\n";
+        exit 1;
+    }
+}
 # build
 if ($Opts{'a'} eq 'build') {
     my %Structur = $CommonObject{PackageObject}->PackageParse(
@@ -180,20 +207,6 @@ if ($Opts{'a'} eq 'build') {
         print STDERR "ERROR: Can't writre $File\n";
         exit 1;
     }
-    print $CommonObject{PackageObject}->PackageBuild(
-        Name => 123,
-        Version => 43,
-        Vendor => 24,
-        License => 43,
-        Description => 43,
-        Files => [
-            {
-                Permission => "644",
-                Location => "RELEASE",
-            },
-        ],
-    );
-    exit;
 }
 elsif ($Opts{'a'} eq 'uninstall') {
     # get package file from db
