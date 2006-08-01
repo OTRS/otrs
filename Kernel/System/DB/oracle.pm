@@ -1,8 +1,8 @@
 # --
 # Kernel/System/DB/oracle.pm - oracle database backend
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: oracle.pm,v 1.10 2005-12-29 02:23:16 martin Exp $
+# $Id: oracle.pm,v 1.11 2006-08-01 20:54:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::DB::oracle;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub LoadPreferences {
@@ -419,25 +419,25 @@ sub _TypeTranslation {
     if ($Tag->{Type} =~ /^DATE$/i) {
         $Tag->{Type} = 'DATE';
     }
-    if ($Tag->{Type} =~ /^integer$/i) {
+    elsif ($Tag->{Type} =~ /^integer$/i) {
         $Tag->{Type} = 'NUMBER';
     }
-    if ($Tag->{Type} =~ /^smallint$/i) {
+    elsif ($Tag->{Type} =~ /^smallint$/i) {
         $Tag->{Type} = 'NUMBER (5, 0)';
     }
-    if ($Tag->{Type} =~ /^bigint$/i) {
+    elsif ($Tag->{Type} =~ /^bigint$/i) {
         $Tag->{Type} = 'NUMBER (20, 0)';
     }
-    if ($Tag->{Type} =~ /^longblob$/i) {
+    elsif ($Tag->{Type} =~ /^longblob$/i) {
         $Tag->{Type} = 'CLOB';
     }
-    if ($Tag->{Type} =~ /^VARCHAR$/i) {
+    elsif ($Tag->{Type} =~ /^VARCHAR$/i) {
         $Tag->{Type} = "VARCHAR2 ($Tag->{Size})";
         if ($Tag->{Size}  > 4000) {
             $Tag->{Type} = "CLOB";
         }
     }
-    if ($Tag->{Type} =~ /^DECIMAL$/i) {
+    elsif ($Tag->{Type} =~ /^DECIMAL$/i) {
         $Tag->{Type} = "DECIMAL ($Tag->{Size})";
     }
     return $Tag;

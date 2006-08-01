@@ -1,9 +1,9 @@
 # --
 # Kernel/System/DB/db2.pm - db2 database backend
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # Modified for DB2 UDB Friedmar Moch <friedmar@acm.org>
 # --
-# $Id: db2.pm,v 1.5 2005-12-29 02:23:16 martin Exp $
+# $Id: db2.pm,v 1.6 2006-08-01 20:54:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::DB::db2;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub LoadPreferences {
@@ -370,16 +370,16 @@ sub _TypeTranslation {
         $Tag->{Type} = 'TIMESTAMP';
     }
     # performance option
-    if ($Tag->{Type} =~ /^longblob$/i) {
+    elsif ($Tag->{Type} =~ /^longblob$/i) {
         $Tag->{Type} = 'BLOB';
     }
-    if ($Tag->{Type} =~ /^VARCHAR$/i) {
+    elsif ($Tag->{Type} =~ /^VARCHAR$/i) {
         $Tag->{Type} = "VARCHAR ($Tag->{Size})";
         if ($Tag->{Size} >= 4000) {
             $Tag->{Type} = "LONG VARCHAR";
         }
     }
-    if ($Tag->{Type} =~ /^DECIMAL$/i) {
+    elsif ($Tag->{Type} =~ /^DECIMAL$/i) {
         $Tag->{Type} = "DECIMAL ($Tag->{Size})";
     }
     return $Tag;

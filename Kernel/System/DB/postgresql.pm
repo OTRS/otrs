@@ -1,8 +1,8 @@
 # --
 # Kernel/System/DB/postgresql.pm - postgresql database backend
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: postgresql.pm,v 1.6 2005-12-29 02:23:16 martin Exp $
+# $Id: postgresql.pm,v 1.7 2006-08-01 20:54:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::DB::postgresql;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub LoadPreferences {
@@ -397,16 +397,16 @@ sub _TypeTranslation {
     elsif ($Tag->{Type} =~ /^bigint$/i) {
         $Tag->{Type} = 'INTEGER';
     }
-    if ($Tag->{Type} =~ /^longblob$/i) {
+    elsif ($Tag->{Type} =~ /^longblob$/i) {
         $Tag->{Type} = 'TEXT';
     }
-    if ($Tag->{Type} =~ /^VARCHAR$/i) {
+    elsif ($Tag->{Type} =~ /^VARCHAR$/i) {
         $Tag->{Type} = "VARCHAR ($Tag->{Size})";
         if ($Tag->{Size} >= 10000) {
             $Tag->{Type} = "VARCHAR";
         }
     }
-    if ($Tag->{Type} =~ /^DECIMAL$/i) {
+    elsif ($Tag->{Type} =~ /^DECIMAL$/i) {
         $Tag->{Type} = "DECIMAL ($Tag->{Size})";
     }
     return $Tag;
