@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.216 2006-07-25 12:01:38 mh Exp $
+# $Id: Ticket.pm,v 1.217 2006-08-01 19:43:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.216 $';
+$VERSION = '$Revision: 1.217 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -2814,7 +2814,7 @@ sub LockSet {
             # check if the current user is the current owner, if not send a notify
             my $To = '';
             my $Notification = defined $Param{Notification} ? $Param{Notification} : 1;
-            if (!$Param{SendNoNotification} && $Ticket{UserID} ne $Param{UserID} && $Notification) {
+            if (!$Param{SendNoNotification} && $Ticket{OwnerID} ne $Param{UserID} && $Notification) {
                 # get user data of owner
                 my %Preferences = $Self->{UserObject}->GetUserData(
                     UserID => $Ticket{OwnerID},
@@ -4866,6 +4866,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.216 $ $Date: 2006-07-25 12:01:38 $
+$Revision: 1.217 $ $Date: 2006-08-01 19:43:08 $
 
 =cut
