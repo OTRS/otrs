@@ -115,7 +115,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.107 2006-07-31 15:23:28 mh Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.108 2006-08-01 10:03:31 mh Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -1157,8 +1157,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PDF" Required="1" Valid="1">
-        <Description Lang="en">Enable PDF output?</Description>
-        <Description Lang="de">PDF Ausgabe aktivieren?</Description>
+        <Description Lang="en">Enable PDF output? The CPAN module PDF::API2 is required. If not installed PDF output will be disabled.</Description>
+        <Description Lang="de">PDF Ausgabe aktivieren? Es wird das CPAN Modul PDF::API2 benötigt. Ist dieses nicht installiert, wird die PDF Ausgabe automatisch deaktiviert.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::PDF</SubGroup>
         <Setting>
