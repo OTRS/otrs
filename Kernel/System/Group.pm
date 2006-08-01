@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
 # --
-# $Id: Group.pm,v 1.38 2006-07-11 11:14:23 mh Exp $
+# $Id: Group.pm,v 1.39 2006-08-01 20:42:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Group;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.39 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1297,7 +1297,7 @@ sub GroupUserRoleMemberAdd {
 
 to add a new role
 
-  my $ID = $RoleObject->RoleAdd(
+  my $ID = $GroupObject->RoleAdd(
       Name => 'example-group',
       ValidID => 1,
       UserID => 123,
@@ -1358,7 +1358,7 @@ sub RoleAdd {
 
 returns a hash with role data
 
-  %RoleData = $RoleObject->RoleGet(ID => 2);
+  %RoleData = $GroupObject->RoleGet(ID => 2);
 
 =cut
 
@@ -1401,7 +1401,7 @@ sub RoleGet {
 
 update of a role
 
-  $RoleObject->RoleUpdate(
+  $GroupObject->RoleUpdate(
       ID => 123,
       Name => 'example-group',
       ValidID => 1,
@@ -1445,7 +1445,7 @@ sub RoleUpdate {
 
 returns a hash of all roles
 
-  my %Roles = $RoleObject->RoleList(Valid => 1);
+  my %Roles = $GroupObject->RoleList(Valid => 1);
 
 =cut
 
@@ -1475,6 +1475,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.38 $ $Date: 2006-07-11 11:14:23 $
+$Revision: 1.39 $ $Date: 2006-08-01 20:42:43 $
 
 =cut
