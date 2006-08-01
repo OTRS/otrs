@@ -2,7 +2,7 @@
 # AdminSysConfigEdit.dtl - provides HTML form for SysConfig
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AdminSysConfigEdit.dtl,v 1.30 2006-05-12 11:00:26 tr Exp $
+# $Id: AdminSysConfigEdit.dtl,v 1.31 2006-08-01 20:44:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -30,8 +30,8 @@
         <input type="hidden" name="SysConfigSubGroup" value="$Data{"SubGroup"}">
         <input type="image" src="$Env{"Images"}empty.png" alt=" ">
         <table cellspacing="0" cellpadding="4" border="0" width="790">
-          <tr class="contenthead">
-            <td colspan="3">$Text{"Config Options"}: $Data{"Group"} -&gt; $Data{"SubGroup"}</td>
+          <tr>
+            <td colspan="3" class="contenthead">$Text{"Config Options"}: $Data{"Group"} -&gt; $Data{"SubGroup"}</td>
           </tr>
 <!-- dtl:block:ConfigElementBlock -->
           <tr class="contentbody">
@@ -478,8 +478,8 @@
             <td class="contentvalue" colspan="3"><hr></td>
           </tr>
 <!-- dtl:block:ConfigElementBlock -->
-          <tr class="contentfooter">
-            <td class="contentvalue" colspan="3"><input class="button" class="button" type="submit" value="$Text{"Update"}"></td>
+          <tr>
+            <td class="contentfooter" colspan="3"><input class="button" class="button" type="submit" value="$Text{"Update"}"></td>
           </tr>
         </table>
       </form>
