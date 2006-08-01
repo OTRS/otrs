@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: XML.pm,v 1.30 2006-06-02 12:20:06 martin Exp $
+# $Id: XML.pm,v 1.31 2006-08-01 20:48:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Encode;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -392,6 +392,7 @@ sub _ElementBuild {
         $Param{Content} =~ s/&/&amp;/g;
         $Param{Content} =~ s/</&lt;/g;
         $Param{Content} =~ s/>/&gt;/g;
+        $Param{Content} =~ s/"/&quot;/g;
         $Output .= $Param{Content};
     }
     else {
@@ -970,6 +971,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.30 $ $Date: 2006-06-02 12:20:06 $
+$Revision: 1.31 $ $Date: 2006-08-01 20:48:15 $
 
 =cut
