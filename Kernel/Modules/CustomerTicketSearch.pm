@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CustomerTicketSearch.pm,v 1.17 2006-03-20 01:22:54 martin Exp $
+# $Id: CustomerTicketSearch.pm,v 1.18 2006-08-01 20:46:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -110,7 +110,7 @@ sub Run {
             }
         }
         # get array params
-        foreach (qw(StateIDs StateTypeIDs PriorityIDs
+        foreach (qw(StateIDs StateTypeIDs PriorityIDs OwnerIDs ResponsibleIDs
           TicketFreeKey1 TicketFreeText1 TicketFreeKey2 TicketFreeText2
           TicketFreeKey3 TicketFreeText3 TicketFreeKey4 TicketFreeText4
           TicketFreeKey5 TicketFreeText5 TicketFreeKey6 TicketFreeText6
