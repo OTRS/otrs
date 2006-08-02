@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMerge.pm - to merge tickets
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketMerge.pm,v 1.5 2006-03-04 11:34:53 martin Exp $
+# $Id: AgentTicketMerge.pm,v 1.6 2006-08-02 08:01:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -251,8 +251,6 @@ sub Run {
             # replace other needed stuff
             $Param{$_} =~ s/<OTRS_FIRST_NAME>/$Self->{UserFirstname}/g;
             $Param{$_} =~ s/<OTRS_LAST_NAME>/$Self->{UserLastname}/g;
-            $Param{$_} =~ s/<OTRS_USER_ID>/$Self->{UserID}/g;
-            $Param{$_} =~ s/<OTRS_USER_LOGIN>/$Self->{UserLogin}/g;
             # replace ticket data
             foreach my $TicketKey (keys %Ticket) {
                 if ($Ticket{$TicketKey}) {

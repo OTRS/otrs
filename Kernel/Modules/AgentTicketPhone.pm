@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPhone.pm,v 1.19 2006-07-11 14:27:09 cs Exp $
+# $Id: AgentTicketPhone.pm,v 1.20 2006-08-02 08:01:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -70,7 +70,8 @@ sub Run {
         Year Month Day Hour Minute
         AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
         AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
-        AttachmentDelete9 AttachmentDelete10 )) {
+        AttachmentDelete9 AttachmentDelete10 AttachmentDelete11 AttachmentDelete12
+        AttachmentDelete13 AttachmentDelete14 AttachmentDelete15 AttachmentDelete16)) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
     }
     # get ticket free text params
@@ -293,7 +294,7 @@ sub Run {
             }
         }
         # attachment delete
-        foreach (1..10) {
+        foreach (1..16) {
             if ($GetParam{"AttachmentDelete$_"}) {
                 $Error{AttachmentDelete} = 1;
                 $Self->{UploadCachObject}->FormIDRemoveFile(
@@ -482,6 +483,8 @@ sub Run {
                 QueueID => $Self->{QueueID},
                 Users => $Self->_GetUsers(QueueID => $NewQueueID, AllUsers => $AllUsers),
                 UserSelected => $GetParam{NewUserID},
+                ResponsibleUsers => $Self->_GetUsers(QueueID => $NewQueueID, AllUsers => $AllUsers),
+                ResponsibleUserSelected => $GetParam{NewResponsibleID},
                 NextStates => $Self->_GetNextStates(QueueID => $NewQueueID),
                 NextState => $NextState,
                 Priorities => $Self->_GetPriorities(QueueID => $NewQueueID),
@@ -622,8 +625,12 @@ sub Run {
                 defined($GetParam{"TicketFreeTime".$_."Day"}) &&
                 defined($GetParam{"TicketFreeTime".$_."Hour"}) &&
                 defined($GetParam{"TicketFreeTime".$_."Minute"})) {
-                $Self->{TicketObject}->TicketFreeTimeSet(
+                my %Time = $Self->{LayoutObject}->TransfromDateSelection(
                     %GetParam,
+                    Prefix => "TicketFreeTime".$_,
+                );
+                $Self->{TicketObject}->TicketFreeTimeSet(
+                    %Time,
                     TicketID => $TicketID,
                     Counter => $_,
                     UserID => $Self->{UserID},
@@ -896,6 +903,12 @@ sub _MaskPhoneNew {
         SelectedID => $Param{UserSelected},
         Name => 'NewUserID',
     );
+    $Param{ResponsibleUsers}->{''} = '-';
+    $Param{'ResponsibleOptionStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => $Param{ResponsibleUsers},
+        SelectedID => $Param{ResponsibleUserSelected},
+        Name => 'NewResponsibleID',
+    );
     # build next states string
     $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => $Param{NextStates},
@@ -991,6 +1004,25 @@ sub _MaskPhoneNew {
         else {
             $Self->{LayoutObject}->Block(
                 Name => 'OwnerSelectionAllSubmit',
+                Data => { },
+            );
+        }
+    }
+    # show responsible selection
+    if ($Self->{ConfigObject}->Get('Ticket::Frontend::NewResponsibleSelection')) {
+        $Self->{LayoutObject}->Block(
+            Name => 'ResponsibleSelection',
+            Data => \%Param,
+        );
+        if ($Self->{LayoutObject}->{BrowserJavaScriptSupport}) {
+            $Self->{LayoutObject}->Block(
+                Name => 'ResponsibleSelectionAllJS',
+                Data => { },
+            );
+        }
+        else {
+            $Self->{LayoutObject}->Block(
+                Name => 'ResponsibleSelectionAllSubmit',
                 Data => { },
             );
         }

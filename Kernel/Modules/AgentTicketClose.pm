@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketClose.pm - close a ticket
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketClose.pm,v 1.14 2006-03-28 04:54:11 martin Exp $
+# $Id: AgentTicketClose.pm,v 1.15 2006-08-02 08:01:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -366,6 +366,7 @@ sub Run {
                 HistoryComment => $Self->{Config}->{HistoryComment},
                 ForceNotificationToUserID => [@{$Self->{InformUserID}}, @{$Self->{InvolvedUserID}}, ],
                 %GetParam,
+                NoAgentNotify => 0,
             );
             if (!$ArticleID) {
                 return $Self->{LayoutObject}->ErrorScreen();
@@ -424,8 +425,12 @@ sub Run {
                 defined($GetParam{"TicketFreeTime".$_."Day"}) &&
                 defined($GetParam{"TicketFreeTime".$_."Hour"}) &&
                 defined($GetParam{"TicketFreeTime".$_."Minute"})) {
-                $Self->{TicketObject}->TicketFreeTimeSet(
+                my %Time = $Self->{LayoutObject}->TransfromDateSelection(
                     %GetParam,
+                    Prefix => "TicketFreeTime".$_,
+                );
+                $Self->{TicketObject}->TicketFreeTimeSet(
+                    %Time,
                     TicketID => $Self->{TicketID},
                     Counter => $_,
                     UserID => $Self->{UserID},

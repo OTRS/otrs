@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketFreeText.pm - free text for ticket
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketFreeText.pm,v 1.7 2006-03-28 04:54:11 martin Exp $
+# $Id: AgentTicketFreeText.pm,v 1.8 2006-08-02 08:01:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -156,7 +156,8 @@ sub Run {
         AttachmentUpload
         AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
         AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
-        AttachmentDelete9 AttachmentDelete10 )) {
+        AttachmentDelete9 AttachmentDelete10 AttachmentDelete11 AttachmentDelete12
+        AttachmentDelete13 AttachmentDelete14 AttachmentDelete15 AttachmentDelete16)) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
     }
     # get ticket free text params
@@ -217,7 +218,7 @@ sub Run {
             }
         }
         # attachment delete
-        foreach (1..10) {
+        foreach (1..16) {
             if ($GetParam{"AttachmentDelete$_"}) {
                 $Error{AttachmentDelete} = 1;
                 $Self->{UploadCachObject}->FormIDRemoveFile(
@@ -366,6 +367,7 @@ sub Run {
                 HistoryComment => $Self->{Config}->{HistoryComment},
                 ForceNotificationToUserID => [@{$Self->{InformUserID}}, @{$Self->{InvolvedUserID}}, ],
                 %GetParam,
+                NoAgentNotify => 0,
             );
             if (!$ArticleID) {
                 return $Self->{LayoutObject}->ErrorScreen();
@@ -424,8 +426,12 @@ sub Run {
                 defined($GetParam{"TicketFreeTime".$_."Day"}) &&
                 defined($GetParam{"TicketFreeTime".$_."Hour"}) &&
                 defined($GetParam{"TicketFreeTime".$_."Minute"})) {
-                $Self->{TicketObject}->TicketFreeTimeSet(
+                my %Time = $Self->{LayoutObject}->TransfromDateSelection(
                     %GetParam,
+                    Prefix => "TicketFreeTime".$_,
+                );
+                $Self->{TicketObject}->TicketFreeTimeSet(
+                    %Time,
                     TicketID => $Self->{TicketID},
                     Counter => $_,
                     UserID => $Self->{UserID},
@@ -553,11 +559,11 @@ sub Run {
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->_Mask(
 #            %Ticket,
+            %GetParam,
+            %Ticket,
             %TicketFreeTextHTML,
             %TicketFreeTimeHTML,
             %ArticleFreeTextHTML,
-            %GetParam,
-            %Ticket,
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
