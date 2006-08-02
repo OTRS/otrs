@@ -2,12 +2,12 @@
 # cron/generic_agent - GenericAgent.pl cron of the OTRS
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: generic_agent.dist,v 1.6 2006-08-02 13:25:45 cs Exp $
+# $Id: generic_agent.dist,v 1.7 2006-08-02 16:21:18 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY.
 # --
 # start generic agent every 20 minutes
-*/20 * * * * test -x $HOME/bin/GenericAgent.pl && $HOME/bin/GenericAgent.pl >> /dev/null
+*/20 * * * * [ -x $HOME/bin/GenericAgent.pl ] && $HOME/bin/GenericAgent.pl >> /dev/null
 # example to execute GenericAgent.pl on 23:00 with
 # Kernel::Config::GenericAgentMove job file
-#0 23 * * * test -x $HOME/bin/GenericAgent.pl && $HOME/bin/GenericAgent.pl -c "Kernel::Config::GenericAgentMove" >> /dev/null
+#0 23 * * * [ -x $HOME/bin/GenericAgent.pl ] && $HOME/bin/GenericAgent.pl -c "Kernel::Config::GenericAgentMove" >> /dev/null

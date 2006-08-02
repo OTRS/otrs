@@ -2,9 +2,9 @@
 # cron/pending_jobs - pending_jobs cron of the OTRS
 # Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: pending_jobs.dist,v 1.5 2006-08-02 13:25:45 cs Exp $
+# $Id: pending_jobs.dist,v 1.6 2006-08-02 16:21:18 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. 
 # --
 # check every 120 min the pending jobs
-45 */2 * * * test -x $HOME/bin/PendingJobs.pl && $HOME/bin/PendingJobs.pl >> /dev/null
+45 */2 * * * [ -x $HOME/bin/PendingJobs.pl ] && $HOME/bin/PendingJobs.pl >> /dev/null
