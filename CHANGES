@@ -2,13 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.274 2006-08-02 10:14:12 martin Exp $
+# $Id: CHANGES,v 1.275 2006-08-02 13:27:17 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.1.0 beta1 (2006/08/02)
+ - (2006/08/02) test for modules executed in cronjobs (bug #1283)
  - (2006/07/31) added cmd option for bin/opm.pl to find package of file
     e. g. bin/opm.pl -a file -p Kernel/System/FileA.pm
  - (2006/07/31) added sleep in bin/PostMasterPOP3.pl after 10 (2 sec) and
