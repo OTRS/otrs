@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.240 2006-08-02 13:54:27 mh Exp $
+# $Id: Defaults.pm,v 1.241 2006-08-02 14:09:35 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.240 $';
+$VERSION = '$Revision: 1.241 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -390,9 +390,9 @@ sub LoadDefaults {
     # attributes to otrs groups, define the following.)
 #    $Self->{'UserSyncLDAPAttibuteGroupsDefination'} = {
 #        # ldap attribute
-#        'OtrsAttribute' => {
+#        'LDAPAttribute' => {
 #            # ldap attribute value
-#            'AttributeValue1' => {
+#            'LDAPAttributeValue1' => {
 #                # otrs group
 #                'admin' => {
 #                    # permission
@@ -405,8 +405,8 @@ sub LoadDefaults {
 #                },
 #            },
 #        },
-#        'OtrsAttribute2' => {
-#            'AttributeValue' => {
+#        'LDAPAttribute2' => {
+#            'LDAPAttributeValue' => {
 #                'users' => {
 #                    rw => 1,
 #                    ro => 1,
@@ -419,16 +419,16 @@ sub LoadDefaults {
     # attributes to otrs roles, define the following.)
 #    $Self->{'UserSyncLDAPAttibuteRolesDefination'} = {
 #        # ldap attribute
-#        'OtrsAttribute' => {
+#        'LDAPAttribute' => {
 #            # ldap attribute value
-#            'AttributeValue1' => {
+#            'LDAPAttributeValue1' => {
 #                # otrs role
 #                'role1' => 1,
 #                'role2' => 1,
 #            },
 #        },
-#        'OtrsAttribute2' => {
-#            'AttributeValue1' => {
+#        'LDAPAttribute2' => {
+#            'LDAPAttributeValue1' => {
 #                'role3' => 1,
 #            },
 #        },
@@ -1823,6 +1823,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.240 $ $Date: 2006-08-02 13:54:27 $
+$Revision: 1.241 $ $Date: 2006-08-02 14:09:35 $
 
 =cut
