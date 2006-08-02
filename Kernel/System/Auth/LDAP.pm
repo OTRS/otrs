@@ -2,7 +2,7 @@
 # Kernel/System/Auth/LDAP.pm - provides the ldap authentification
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: LDAP.pm,v 1.22 2006-07-24 08:12:09 martin Exp $
+# $Id: LDAP.pm,v 1.23 2006-08-02 13:53:22 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -359,7 +359,7 @@ sub Auth {
                 # just in case for debug
                 $Self->{LogObject}->Log(
                     Priority => 'notice',
-                    Message => "User: '$Param{User}' sync ldap groups $GroupDN groups!",
+                    Message => "User: '$Param{User}' sync ldap groups $GroupDN to groups!",
                 );
                 # search if we're allowed to
                 my $Filter = '';
@@ -500,6 +500,152 @@ sub Auth {
                                 Active => 1,
                                 UserID => 1,
                             );
+                        }
+                    }
+                }
+            }
+        }
+        # sync ldap attribute 2 otrs group permissions
+        if ($Self->{ConfigObject}->Get('UserSyncLDAPAttibuteGroupsDefination')) {
+            if (!$LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw})) {
+                $Self->{LogObject}->Log(
+                  Priority => 'error',
+                  Message => "Sync bind failed!",
+                );
+                # take down session
+                $LDAP->unbind;
+                return $Param{User};
+            }
+            # get current user data
+            my %UserData = $Self->{UserObject}->GetUserData(User => $Param{User});
+            # system permissions
+            my %PermissionsEmpty = ();
+            foreach (@{$Self->{ConfigObject}->Get('System::Permission')}) {
+                $PermissionsEmpty{$_} = 0;
+            }
+            # remove all group permissions
+            my %SystemGroups = $Self->{GroupObject}->GroupList();
+            foreach my $GID (keys %SystemGroups) {
+                $Self->{GroupObject}->GroupMemberAdd(
+                    GID => $GID,
+                    UID => $UserData{UserID},
+                        Permission => {
+                            %PermissionsEmpty,
+                        },
+                    UserID => 1,
+                );
+            }
+            # build filter
+            my $Filter = "($Self->{UID}=$Param{User})";
+            # perform search
+            my $Result = $LDAP->search (
+                base   => $Self->{BaseDN},
+                filter => $Filter,
+            );
+
+            my %SyncConfig = %{$Self->{ConfigObject}->Get('UserSyncLDAPAttibuteGroupsDefination')};
+            foreach my $Attribute (keys %SyncConfig) {
+                my %AttributeValues = %{$SyncConfig{$Attribute}};
+                foreach my $AttributeValue (keys %AttributeValues) {
+                    foreach my $Entry ($Result->all_entries) {
+                        if ($Entry->get_value($Attribute) &&
+                            $Entry->get_value($Attribute) eq $AttributeValue
+                        ) {
+                            my %Groups = %{$AttributeValues{$AttributeValue}};
+                            foreach my $Group (keys %Groups) {
+                                # get group id
+                                my $GroupID = 0;
+                                foreach (keys %SystemGroups) {
+                                    if ($SystemGroups{$_} eq $Group) {
+                                        $GroupID = $_;
+                                        last;
+                                    }
+                                }
+                                if ($GroupID) {
+                                    # just in case for debug
+                                    $Self->{LogObject}->Log(
+                                        Priority => 'notice',
+                                        Message => "User: '$Param{User}' sync ldap attribute $Attribute=$AttributeValue in $Group group!",
+                                    );
+                                    $Self->{GroupObject}->GroupMemberAdd(
+                                        GID => $GroupID,
+                                        UID => $UserData{UserID},
+                                        Permission => {
+                                            %PermissionsEmpty,
+                                            %{$Groups{$Group}},
+                                        },
+                                        UserID => 1,
+                                    );
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        # sync ldap attribute 2 otrs role permissions
+        if ($Self->{ConfigObject}->Get('UserSyncLDAPAttibuteRolesDefination')) {
+            if (!$LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw})) {
+                $Self->{LogObject}->Log(
+                  Priority => 'error',
+                  Message => "Sync bind failed!",
+                );
+                # take down session
+                $LDAP->unbind;
+                return $Param{User};
+            }
+            # get current user data
+            my %UserData = $Self->{UserObject}->GetUserData(User => $Param{User});
+            # remove all role permissions
+            my %SystemRoles = $Self->{GroupObject}->RoleList();
+            foreach my $RID (keys %SystemRoles) {
+                $Self->{GroupObject}->GroupUserRoleMemberAdd(
+                    UID => $UserData{UserID},
+                    RID => $RID,
+                    Active => 0,
+                    UserID => 1,
+                );
+            }
+            # build filter
+            my $Filter = "($Self->{UID}=$Param{User})";
+            # perform search
+            my $Result = $LDAP->search (
+                base   => $Self->{BaseDN},
+                filter => $Filter,
+            );
+
+            my %SyncConfig = %{$Self->{ConfigObject}->Get('UserSyncLDAPAttibuteRolesDefination')};
+            foreach my $Attribute (keys %SyncConfig) {
+                my %AttributeValues = %{$SyncConfig{$Attribute}};
+                foreach my $AttributeValue (keys %AttributeValues) {
+                    foreach my $Entry ($Result->all_entries) {
+                        if ($Entry->get_value($Attribute) &&
+                            $Entry->get_value($Attribute) eq $AttributeValue
+                        ) {
+                            my %Roles = %{$AttributeValues{$AttributeValue}};
+                            foreach my $Role (keys %Roles) {
+                                # get role id
+                                my $RoleID = 0;
+                                foreach (keys %SystemRoles) {
+                                    if ($SystemRoles{$_} eq $Role) {
+                                        $RoleID = $_;
+                                        last;
+                                    }
+                                }
+                                if ($RoleID && $Roles{$Role} eq 1) {
+                                    # just in case for debug
+                                    $Self->{LogObject}->Log(
+                                        Priority => 'notice',
+                                        Message => "User: '$Param{User}' sync ldap attribute $Attribute=$AttributeValue in $Role role!",
+                                    );
+                                    $Self->{GroupObject}->GroupUserRoleMemberAdd(
+                                        UID => $UserData{UserID},
+                                        RID => $RoleID,
+                                        Active => 1,
+                                        UserID => 1,
+                                    );
+                                }
+                            }
                         }
                     }
                 }
