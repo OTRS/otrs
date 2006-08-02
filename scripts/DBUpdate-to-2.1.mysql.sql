@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 2.0 to 2.1
 -- Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-2.1.mysql.sql,v 1.5 2006-07-25 17:48:54 tr Exp $
+-- $Id: DBUpdate-to-2.1.mysql.sql,v 1.6 2006-08-02 08:07:45 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.1.mysql.sql | mysql -f -u root otrs
@@ -34,6 +34,14 @@ INSERT INTO ticket_history_type
         (name, valid_id, create_by, create_time, change_by, change_time)
         VALUES
         ('ResponsibleUpdate', 1, 1, current_timestamp, 1, current_timestamp);
+INSERT INTO ticket_history_type
+        (name, valid_id, create_by, create_time, change_by, change_time)
+        VALUES
+        ('Subscribe', 1, 1, current_timestamp, 1, current_timestamp);
+INSERT INTO ticket_history_type
+        (name, valid_id, create_by, create_time, change_by, change_time)
+        VALUES
+        ('Unsubscribe', 1, 1, current_timestamp, 1, current_timestamp);
 
 CREATE TABLE ticket_watcher (
     ticket_id BIGINT NOT NULL,
