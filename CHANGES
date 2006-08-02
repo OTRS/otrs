@@ -2,14 +2,16 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.275 2006-08-02 13:27:17 cs Exp $
+# $Id: CHANGES,v 1.276 2006-08-02 14:07:40 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+2.1.0 beta2 (2006/??/??)
+ - (2006/08/02) add ldap attribute to groups/roles sync feature
+ - (2006/08/02) fixed bug #1283 - test for modules executed in cronjobs
 2.1.0 beta1 (2006/08/02)
- - (2006/08/02) test for modules executed in cronjobs (bug #1283)
  - (2006/07/31) added cmd option for bin/opm.pl to find package of file
     e. g. bin/opm.pl -a file -p Kernel/System/FileA.pm
  - (2006/07/31) added sleep in bin/PostMasterPOP3.pl after 10 (2 sec) and
@@ -26,7 +28,7 @@
     (see more in Kernel/Config/Defaults.pm under UserSyncLDAPGroupsDefination
     and UserSyncLDAPRolesDefination)
  - (2006/07/14) new stats framework implemented :-)
- - (2006/07/14) fixed bug #1258 changed language description from Traditional Chinese
+ - (2006/07/14) fixed bug #1258 - changed language description from Traditional Chinese
     to Simplified Chinese
  - (2006/07/04) fixed bug #1151 - Error when changing customer on ticket in
  - (2006/07/11) improved performance of ticket search mask (in cases with
