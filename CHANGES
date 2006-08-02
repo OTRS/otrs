@@ -2,13 +2,17 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.273 2006-07-31 15:24:01 mh Exp $
+# $Id: CHANGES,v 1.274 2006-08-02 10:14:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-CVS head
+2.1.0 beta1 (2006/08/02)
+ - (2006/07/31) added cmd option for bin/opm.pl to find package of file
+    e. g. bin/opm.pl -a file -p Kernel/System/FileA.pm
+ - (2006/07/31) added sleep in bin/PostMasterPOP3.pl after 10 (2 sec) and
+    25 (3 sec) emails on one stream (protect server against overload)
  - (2006/07/31) add PDF output feature for stats module and ticket search results
  - (2006/07/26) updated to cpan MIME::Tools 5.420
  - (2006/07/26) changed ticket escalation method, escalation start will
@@ -20,7 +24,7 @@ CVS head
  - (2006/07/18) added new feature to sync ldap groups into otrs roles
     (see more in Kernel/Config/Defaults.pm under UserSyncLDAPGroupsDefination
     and UserSyncLDAPRolesDefination)
- - (2006/07/14) new stats functionality implemented :-)
+ - (2006/07/14) new stats framework implemented :-)
  - (2006/07/14) fixed bug #1258 changed language description from Traditional Chinese
     to Simplified Chinese
  - (2006/07/04) fixed bug #1151 - Error when changing customer on ticket in
@@ -29,7 +33,7 @@ CVS head
     and modify GroupMemberList(), GroupGroupMemberList(), GroupRoleMemberList()
     and GroupUserRoleMemberList() at Kernel/System/Group.pm
  - (2006/07/11) fixed bug #1132 - Wrong display of escalation time
- - (2006/07/04) Fixed bug #1151 - Error when changing customer on ticket in
+ - (2006/07/04) fixed bug #1151 - Error when changing customer on ticket in
     TicketStatusView
  - (2006/06/26) added ticket watcher feature, per default it's disabled
  - (2006/06/22) fixed bug #1240 - Tickets not shown in "New messages" if
@@ -39,7 +43,7 @@ CVS head
     apache error log;  using standard values in this case now
  - (2006/06/13) added public frontend module to serve local repository as
     remote repository (accessable via IP authentication)
- - (2006/06/13) Fixed bug #1154 - Problem in displaying pending tickets
+ - (2006/06/13) fixed bug #1154 - Problem in displaying pending tickets
     in agent mailbox
  - (2006/06/07) improved postmaster follow up detection by scanning email
     body, attachment and/or raw email (all is disabled by default)
@@ -116,7 +120,6 @@ CVS head
     Kernel/Config/Files/Ticket.xml for Ticket::Frontend::MenuModule
  - (2005/12/21) added column type check in xml database defination
  - (2005/12/20) added unit test system
-    in webform.pl
  - (2005/12/17) improved admin view of session management
  - (2005/12/04) moved FAQ from framework to own application module
     (can be installed over opm online repository now)
@@ -271,7 +274,7 @@ CVS head
  - (2005/10/17) fixed bug #792 - GPG 1.4.1 is no handled correct
  - (2005/10/17) fixed missing db quoting in Kernel/System/Auth/DB.pm
  - (2005/10/15) small rework of Kernel/Language/de.pm with improved wording
- - (2005/10/15) fixed bug #889 - Fixed QuoteSignle typo and added changed
+ - (2005/10/15) fixed bug #889 - fixed QuoteSignle typo and added changed
     QuoteSingle for PostgreSQL
  - (2005/10/15) Added correct quoting in Filter.pm when deleting a
     PostMasterFilter rule
@@ -338,7 +341,7 @@ CVS head
  - (2005/09/04) fixed SubGroup of Ticket::Frontend::CustomerInfo(Queue|Zoom|
     Compose), Frontend::Agent is the correct one
  - (2005/09/04) added possibe state selection in owner update screen
- - (2005/08/29) fixed bug #905 - Fixed SuSE meta header info, try-restart
+ - (2005/08/29) fixed bug #905 - fixed SuSE meta header info, try-restart
     arg, and some smaller fixes
  - (2005/08/26) added package manager deploy check in admin interface, if
     package is really deployed (compare files in filesystem and package)
@@ -399,9 +402,9 @@ CVS head
     needed config setting
  - (2005/08/06) added warning message in customer panel on account create
     if invalid email address is given
- - (2005/08/05) Fixed bug #850 - Can't locate object method "KeySearch"
+ - (2005/08/05) fixed bug #850 - Can't locate object method "KeySearch"
     error"
- - (2005/08/05) Fixed bug #860 - Error in AgentTicketForward.pm, missing
+ - (2005/08/05) fixed bug #860 - Error in AgentTicketForward.pm, missing
     title in the warning for the owner check
  - (2005/08/04) updated it translation - thanks to Giordano Bianchi!
  - (2005/08/04) changed default state of new faq articles to 'internal (agent)'
