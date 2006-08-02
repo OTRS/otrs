@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Defaults.pm,v 1.239 2006-07-18 14:55:20 martin Exp $
+# $Id: Defaults.pm,v 1.240 2006-08-02 13:54:27 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.239 $';
+$VERSION = '$Revision: 1.240 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -369,7 +369,7 @@ sub LoadDefaults {
 #                rw => 1,
 #                ro => 1,
 #            },
-#         }
+#        }
 #    };
     # UserSyncLDAPRolesDefination
     # (If "LDAP" was selected for AuthModule and you want to sync LDAP
@@ -383,7 +383,55 @@ sub LoadDefaults {
 #        },
 #        'cn=agent2,o=otrs' => {
 #            'role3' => 1,
+#        }
+#    };
+    # UserSyncLDAPAttibuteGroupsDefination
+    # (If "LDAP" was selected for AuthModule and you want to sync LDAP
+    # attributes to otrs groups, define the following.)
+#    $Self->{'UserSyncLDAPAttibuteGroupsDefination'} = {
+#        # ldap attribute
+#        'OtrsAttribute' => {
+#            # ldap attribute value
+#            'AttributeValue1' => {
+#                # otrs group
+#                'admin' => {
+#                    # permission
+#                    rw => 1,
+#                    ro => 1,
+#                },
+#                'faq' => {
+#                    rw => 0,
+#                    ro => 1,
+#                },
+#            },
+#        },
+#        'OtrsAttribute2' => {
+#            'AttributeValue' => {
+#                'users' => {
+#                    rw => 1,
+#                    ro => 1,
+#                },
+#            },
 #         }
+#    };
+    # UserSyncLDAPAttibuteRolesDefination
+    # (If "LDAP" was selected for AuthModule and you want to sync LDAP
+    # attributes to otrs roles, define the following.)
+#    $Self->{'UserSyncLDAPAttibuteRolesDefination'} = {
+#        # ldap attribute
+#        'OtrsAttribute' => {
+#            # ldap attribute value
+#            'AttributeValue1' => {
+#                # otrs role
+#                'role1' => 1,
+#                'role2' => 1,
+#            },
+#        },
+#        'OtrsAttribute2' => {
+#            'AttributeValue1' => {
+#                'role3' => 1,
+#            },
+#        },
 #    };
 
     # UserTable
@@ -1775,6 +1823,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.239 $ $Date: 2006-07-18 14:55:20 $
+$Revision: 1.240 $ $Date: 2006-08-02 13:54:27 $
 
 =cut
