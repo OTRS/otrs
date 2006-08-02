@@ -2,10 +2,10 @@
 # cron/fetchmail - fetchmail cron of the OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: fetchmail.dist,v 1.3 2005-01-06 09:49:50 martin Exp $
+# $Id: fetchmail.dist,v 1.4 2006-08-02 13:25:45 cs Exp $
 # This software comes with ABSOLUTELY NO WARRANTY.
 # --
 # fetch every 5 minutes emails via fetchmail
-#*/5 * * * * /usr/bin/fetchmail -a >> /dev/null
-#*/5 * * * * /usr/bin/fetchmail -a --ssl >> /dev/null
+#*/5 * * * * test -x /usr/bin/fetchmail && /usr/bin/fetchmail -a >> /dev/null
+#*/5 * * * * test -x /usr/bin/fetchmail && /usr/bin/fetchmail -a --ssl >> /dev/null
 
