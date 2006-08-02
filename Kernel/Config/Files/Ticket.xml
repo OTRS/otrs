@@ -148,7 +148,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.111 2006-08-01 20:45:50 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.112 2006-08-02 08:02:41 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -1234,7 +1234,7 @@ TimeWorkingHours
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
-            <Option SelectedID="0">
+            <Option SelectedID="1">
                 <Item Key="1">Yes</Item>
                 <Item Key="0">No</Item>
             </Option>
@@ -1741,7 +1741,7 @@ TimeWorkingHours
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
         <Setting>
-            <String Regex="^[0-9]{1,10}$">5000</String>
+            <String Regex="^[0-9]{1,10}$">2000</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###SearchPageShown" Required="1" Valid="1">
