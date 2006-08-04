@@ -2,7 +2,7 @@
 # Kernel/System/PDF.pm - PDF lib
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PDF.pm,v 1.3 2006-08-04 12:45:11 mh Exp $
+# $Id: PDF.pm,v 1.4 2006-08-04 14:52:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PDF;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1566,6 +1566,8 @@ sub _TableCalculate {
             ) {
                 $Param{CellData}->[$RowCounter]->[$ColumnCounter]->{Content} = ' ';
             }
+            # delete control character at end of content
+            chomp($Param{CellData}->[$RowCounter]->[$ColumnCounter]->{Content});
 
             # set default values
             foreach (qw(Font FontSize FontColor Align Lead BackgroundColor)) {
@@ -2909,6 +2911,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2006-08-04 12:45:11 $
+$Revision: 1.4 $ $Date: 2006-08-04 14:52:59 $
 
 =cut
