@@ -2,7 +2,7 @@
 # Kernel/System/PDF.pm - PDF lib
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PDF.pm,v 1.2 2006-07-31 15:22:25 mh Exp $
+# $Id: PDF.pm,v 1.3 2006-08-04 12:45:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PDF;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1431,7 +1431,7 @@ sub DimGet {
 }
 
 #
-# _TableCalculate ()
+# _TableCalculate()
 #
 # calculate params of table
 #
@@ -1616,14 +1616,14 @@ sub _TableCalculate {
 }
 
 #
-# _TableCellOnCount ()
+# _TableCellOnCount()
 #
 # count all aktive cells
 #
 #    Return
 #        $CellCount
 #
-#    $Count = $PDFObject->_TableCellOnCount (
+#    $Count = $PDFObject->_TableCellOnCount(
 #        CellData => $CellData,  # 2D arrayref
 #    );
 #
@@ -1662,7 +1662,7 @@ sub _TableCellOnCount {
 }
 
 #
-# _TableOutputCalculate ()
+# _TableOutputCalculate()
 #
 # calculate what cells can output and some attributes
 #
@@ -1673,7 +1673,7 @@ sub _TableCellOnCount {
 #        $Return{ReturnRows}     # (Array Ref)
 #        $Return{ReturnColumns}  # (Array Ref)
 #
-#    %Return = $PDFObject->_TableOutputCalculate (
+#    %Return = $PDFObject->_TableOutputCalculate(
 #        %Param
 #    );
 #
@@ -1796,14 +1796,14 @@ sub _TableOutputCalculate {
 }
 
 #
-# _TableCellOutput ()
+# _TableCellOutput()
 #
 # output a cell of a table
 #
 #    Return
 #        $Return{State}
 #
-#    %Return = $PDFObject->_TableCellOutput (
+#    %Return = $PDFObject->_TableCellOutput(
 #        Width => 70,
 #        Height => 40,
 #        Text => 'Text',
@@ -1924,7 +1924,7 @@ sub _TableCellOutput {
 }
 
 #
-# _TextCalculate ()
+# _TextCalculate()
 #
 # calculate required values of given text
 #
@@ -1935,7 +1935,7 @@ sub _TableCellOutput {
 #        $Return{LeftOver}
 #        $Return{PossibleRows}  # (Array Ref)
 #
-#    %Return = $PDFObject->_TextCalculate (
+#    %Return = $PDFObject->_TextCalculate(
 #        Text => $Text,      # text
 #        Type => 'Cut',      # (ReturnLeftOver|ReturnLeftOverHard|Cut)
 #        Width => 300,       # available width
@@ -2138,11 +2138,11 @@ sub _TextCalculate {
 }
 
 #
-# _StringWidth ()
+# _StringWidth()
 #
 # calculate width of given text
 #
-#    $Width = $PDFObject->_StringWidth (
+#    $Width = $PDFObject->_StringWidth(
 #        Text => 'Text',     # text
 #        Font => 'Courier',  # font of text
 #        FontSize => 6,      # fontsize of text
@@ -2190,11 +2190,11 @@ sub _StringWidth {
 }
 
 #
-# _CurPageNumberSet ()
+# _CurPageNumberSet()
 #
 # set number of current page
 #
-#    $PDFObject->_CurPageNumberSet (
+#    $PDFObject->_CurPageNumberSet(
 #        ShowPageNumber => 0,  # (optional) default 1
 #    );
 #
@@ -2242,11 +2242,11 @@ sub _CurPageNumberSet {
 }
 
 #
-# _CurPageDimSet ()
+# _CurPageDimSet()
 #
 # Set current Page Dimension
 #
-#    $PDFObject->_CurPageDimSet (
+#    $PDFObject->_CurPageDimSet(
 #        Width => 123,                    # (optional) default 595 (Din A4)
 #        Height => 321,                   # (optional) default 842 (Din A4)
 #        PageOrientation => 'landscape',  # (optional) (normal|landscape)
@@ -2331,7 +2331,7 @@ sub _CurPageDimSet {
 }
 
 #
-# _CurPageDimGet ()
+# _CurPageDimGet()
 #
 # Get current Page Dimension (Width, Height)
 #
@@ -2339,7 +2339,7 @@ sub _CurPageDimSet {
 #        $CurPageDim{Width}
 #        $CurPageDim{Height}
 #
-#    %CurPageDim = $PDFObject->_CurPageDimGet ();
+#    %CurPageDim = $PDFObject->_CurPageDimGet();
 #
 
 sub _CurPageDimGet {
@@ -2375,11 +2375,11 @@ sub _CurPageDimGet {
 }
 
 #
-# _CurPageDimCheck ()
+# _CurPageDimCheck()
 #
 # Check given X an/or Y if inside the page dimension
 #
-#    $True = $PDFObject->_CurPageDimCheck (
+#    $True = $PDFObject->_CurPageDimCheck(
 #        X => 200,  # (optional)
 #        Y => 100,  # (optional)
 #    );
@@ -2423,11 +2423,11 @@ sub _CurPageDimCheck {
 }
 
 #
-# _CurPrintableDimSet ()
+# _CurPrintableDimSet()
 #
 # Set current Printable Dimension
 #
-#    $True = $PDFObject->_CurPrintableDimSet (
+#    $True = $PDFObject->_CurPrintableDimSet(
 #        Top => 20,     # (optional)
 #        Right => 20,   # (optional)
 #        Bottom => 20,  # (optional)
@@ -2516,7 +2516,7 @@ sub _CurPrintableDimSet {
 }
 
 #
-# _CurPrintableDimGet ()
+# _CurPrintableDimGet()
 #
 # Get current Printable Dimension
 #
@@ -2528,7 +2528,7 @@ sub _CurPrintableDimSet {
 #        $CurPrintableDim{Width}
 #        $CurPrintableDim{Height}
 #
-#    %CurPrintableDim = $PDFObject->_CurPrintableDimGet ();
+#    %CurPrintableDim = $PDFObject->_CurPrintableDimGet();
 #
 
 sub _CurPrintableDimGet {
@@ -2564,11 +2564,11 @@ sub _CurPrintableDimGet {
 }
 
 #
-# _CurPrintableDimCheck ()
+# _CurPrintableDimCheck()
 #
 # Check given X an/or Y if inside the printable dimension
 #
-#    $True = $PDFObject->_CurPrintableDimCheck (
+#    $True = $PDFObject->_CurPrintableDimCheck(
 #        X => 200,  # (optional)
 #        Y => 100,  # (optional)
 #    );
@@ -2612,11 +2612,11 @@ sub _CurPrintableDimCheck {
 }
 
 #
-# _CurContentDimSet ()
+# _CurContentDimSet()
 #
 # Set current Content Dimension
 #
-#    $True = $PDFObject->_CurContentDimSet (
+#    $True = $PDFObject->_CurContentDimSet(
 #        Top => 20,     # (optional)
 #        Right => 20,   # (optional)
 #        Bottom => 20,  # (optional)
@@ -2698,7 +2698,7 @@ sub _CurContentDimSet {
 }
 
 #
-# _CurContentDimGet ()
+# _CurContentDimGet()
 #
 # Get current Content Dimension
 #
@@ -2710,7 +2710,7 @@ sub _CurContentDimSet {
 #        $CurContentDim{Width}
 #        $CurContentDim{Height}
 #
-#    %CurContentDim = $PDFObject->_CurContentDimGet ();
+#    %CurContentDim = $PDFObject->_CurContentDimGet();
 #
 
 sub _CurContentDimGet {
@@ -2746,11 +2746,11 @@ sub _CurContentDimGet {
 }
 
 #
-# _CurContentDimCheck ()
+# _CurContentDimCheck()
 #
 # Check given X an/or Y if inside the content dimension
 #
-#    $True = $PDFObject->_CurContentDimCheck (
+#    $True = $PDFObject->_CurContentDimCheck(
 #        X => 200,  # (optional)
 #        Y => 100,  # (optional)
 #    );
@@ -2794,11 +2794,11 @@ sub _CurContentDimCheck {
 }
 
 #
-# _CurPositionSet ()
+# _CurPositionSet()
 #
 # Set current Position
 #
-#    $True = $PDFObject->_CurPositionSet (
+#    $True = $PDFObject->_CurPositionSet(
 #        X => 20,  # (optional)
 #        Y => 20,  # (optional)
 #    );
@@ -2858,7 +2858,7 @@ sub _CurPositionSet {
 }
 
 #
-# _CurPositionGet ()
+# _CurPositionGet()
 #
 # Get current Position
 #
@@ -2866,7 +2866,7 @@ sub _CurPositionSet {
 #        $CurPosition{X}
 #        $CurPosition{Y}
 #
-#    %CurPosition = $PDFObject->_CurPositionGet ();
+#    %CurPosition = $PDFObject->_CurPositionGet();
 #
 
 sub _CurPositionGet {
@@ -2909,6 +2909,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2006-07-31 15:22:25 $
+$Revision: 1.3 $ $Date: 2006-08-04 12:45:11 $
 
 =cut
