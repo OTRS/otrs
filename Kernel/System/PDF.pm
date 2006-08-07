@@ -2,7 +2,7 @@
 # Kernel/System/PDF.pm - PDF lib
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PDF.pm,v 1.5 2006-08-07 07:19:47 mh Exp $
+# $Id: PDF.pm,v 1.6 2006-08-07 12:40:25 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PDF;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -330,6 +330,8 @@ Create a new Page
         HeaderRight => 'Header Right Text', # (optional)
         FooterLeft => 'Footer Left Text',   # (optional)
         FooterRight => 'Footer Right Text', # (optional)
+        HeadlineLeft => 'Headline Text',    # (optional)
+        HeadlineRight => 'Headline Text',   # (optional)
     );
 
 =cut
@@ -495,13 +497,61 @@ sub PageNew {
         LineWidth => 1,
     );
 
-    # set new content dimension
-    $Self->_CurContentDimSet (
-        Top => $Printable{Top} + 34,
-        Right => $Printable{Right},
-        Bottom => $Printable{Bottom} + 16,
-        Left => $Printable{Left},
-    );
+    if ($Param{HeadlineLeft} && $Param{HeadlineRight}) {
+        # set new position
+        $Self->PositionSet(
+            X => 'left',
+            Y => 'top',
+        );
+        # set new position
+        $Self->PositionSet(
+            Move => 'relativ',
+            Y => -44,
+        );
+        $Self->Text(
+            Text => $Param{HeadlineLeft},
+            Width => ($Printable{Width} / 2),
+            Height => 12,
+            Type => 'Cut',
+            Font => 'HelveticaBold',
+            FontSize => 12,
+        );
+        $Self->PositionSet(
+            X => 'left',
+            Y => 'top',
+        );
+        $Self->PositionSet(
+            Move => 'relativ',
+            X => ($Printable{Width} / 2),
+            Y => -48,
+        );
+        $Self->Text(
+            Text => $Param{HeadlineRight},
+            Height => 8,
+            Type => 'Cut',
+            Font => 'Helvetica',
+            FontSize => 8,
+            Color => '#404040',
+            Align => 'right',
+        );
+        # set new content dimension
+        $Self->_CurContentDimSet (
+            Top => $Printable{Top} + 64,
+            Right => $Printable{Right},
+            Bottom => $Printable{Bottom} + 16,
+            Left => $Printable{Left},
+        );
+    }
+    else {
+        # set new content dimension
+        $Self->_CurContentDimSet (
+            Top => $Printable{Top} + 34,
+            Right => $Printable{Right},
+            Bottom => $Printable{Bottom} + 16,
+            Left => $Printable{Left},
+        );
+    }
+
     # set activ dimension
     $Self->DimSet(
         Dim => 'content',
@@ -2911,6 +2961,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2006-08-07 07:19:47 $
+$Revision: 1.6 $ $Date: 2006-08-07 12:40:25 $
 
 =cut
