@@ -3,7 +3,7 @@
 # mkStats.pl - send stats output via email
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: mkStats.pl,v 1.36 2006-07-31 12:31:40 mh Exp $
+# $Id: mkStats.pl,v 1.37 2006-08-07 12:41:52 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use strict;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -268,51 +268,14 @@ if ($Opts{'n'}) {
                 HeaderRight => $Title,
                 FooterLeft => 'mkStats.pl',
                 FooterRight => $Page . ' ' . ($Counter + 1),
-            );
-            # output title
-            $CommonObject{PDFObject}->PositionSet(
-                Move => 'relativ',
-                Y => -10,
-            );
-            $CommonObject{PDFObject}->Text(
-                Text => $Title,
-                Width => 375,
-                Height => 12,
-                Type => 'Cut',
-                Font => 'HelveticaBold',
-                FontSize => 12,
-            );
-            # output 'printed at'
-            $CommonObject{PDFObject}->PositionSet(
-                X => 'center',
-                Y => 'top',
-            );
-            $CommonObject{PDFObject}->PositionSet(
-                Move => 'relativ',
-                Y => -14,
-            );
-            $CommonObject{PDFObject}->Text(
-                Text => $PrintedBy . ' ' .
+                HeadlineLeft => $Title,
+                HeadlineRight => $PrintedBy . ' ' .
                         $User{UserFirstname} . ' ' .
                         $User{UserLastname} . ' (' .
                         $User{UserEmail} . ') ' .
                         $Time,
-                Height => 8,
-                Type => 'Cut',
-                Font => 'Helvetica',
-                FontSize => 8,
-                Color => '#404040',
-                Align => 'right',
             );
             # output table
-            $CommonObject{PDFObject}->PositionSet(
-                X => 'left',
-                Y => 'top',
-            );
-            $CommonObject{PDFObject}->PositionSet(
-                Move => 'relativ',
-                Y => -30,
-            );
             %Return = $CommonObject{PDFObject}->Table(
                 CellData => $Return{CellData},
                 ColumnData => $Return{ColumnData},

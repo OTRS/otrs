@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketSearch.pm,v 1.21 2006-08-07 06:59:31 mh Exp $
+# $Id: AgentTicketSearch.pm,v 1.22 2006-08-07 12:41:54 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::SearchProfile;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -563,51 +563,14 @@ sub Run {
                         HeaderRight => $Title,
                         FooterLeft => $Url,
                         FooterRight => $Page . ' ' . ($Counter + 1),
-                    );
-                    # output title
-                    $Self->{PDFObject}->PositionSet(
-                        Move => 'relativ',
-                        Y => -10,
-                    );
-                    $Self->{PDFObject}->Text(
-                        Text => $Title,
-                        Width => 375,
-                        Height => 12,
-                        Type => 'Cut',
-                        Font => 'HelveticaBold',
-                        FontSize => 12,
-                    );
-                    # output 'printed by'
-                    $Self->{PDFObject}->PositionSet(
-                        X => 'center',
-                        Y => 'top',
-                    );
-                    $Self->{PDFObject}->PositionSet(
-                        Move => 'relativ',
-                        Y => -14,
-                    );
-                    $Self->{PDFObject}->Text(
-                        Text => $PrintedBy . ' ' .
+                        HeadlineLeft => $Title,
+                        HeadlineRight => $PrintedBy . ' ' .
                                 $Self->{UserFirstname} . ' ' .
                                 $Self->{UserLastname} . ' (' .
                                 $Self->{UserEmail} . ') ' .
                                 $Time,
-                        Height => 8,
-                        Type => 'Cut',
-                        Font => 'Helvetica',
-                        FontSize => 8,
-                        Color => '#404040',
-                        Align => 'right',
                     );
                     # output table
-                    $Self->{PDFObject}->PositionSet(
-                        X => 'left',
-                        Y => 'top',
-                    );
-                    $Self->{PDFObject}->PositionSet(
-                        Move => 'relativ',
-                        Y => -30,
-                    );
                     %Return = $Self->{PDFObject}->Table(
                         CellData => $Return{CellData},
                         ColumnData => $Return{ColumnData},
