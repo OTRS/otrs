@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentStats.pm,v 1.6 2006-08-07 12:41:54 mh Exp $
+# $Id: AgentStats.pm,v 1.7 2006-08-07 18:39:02 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -1964,7 +1964,7 @@ sub Run {
                         MarginRight => 40,
                         MarginBottom => 40,
                         MarginLeft => 40,
-                        HeaderRight => $Title,
+                        HeaderRight => $Self->{ConfigObject}->Get('Stats::StatsHook') . $Stat->{StatNumber},
                         FooterLeft => $Url,
                         FooterRight => $Page . ' ' . ($Counter + 1),
                         HeadlineLeft => $Title,
@@ -2167,8 +2167,6 @@ sub _Timeoutput {
     my $Self  = shift;
     my %Param = @_;
     my %Timeoutput = ();
-
-
 
     # check if need params are available
     foreach (qw(TimePeriodFormat)) {
