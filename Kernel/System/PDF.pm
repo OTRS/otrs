@@ -2,7 +2,7 @@
 # Kernel/System/PDF.pm - PDF lib
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PDF.pm,v 1.4 2006-08-04 14:52:59 mh Exp $
+# $Id: PDF.pm,v 1.5 2006-08-07 07:19:47 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PDF;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -447,7 +447,7 @@ sub PageNew {
         # output page footer left
         $Self->Text(
             Text => $Param{FooterLeft},
-            Width => ($Printable{Width} / 2),
+            Width => ($Printable{Width} / 4 * 3),
             Type => 'Cut',
             Color => '#404040',
             FontSize => 8,
@@ -465,7 +465,7 @@ sub PageNew {
         # set new position
         $Self->PositionSet(
             Move => 'relativ',
-            X => ($Printable{Width} / 2),
+            X => ($Printable{Width} / 4 * 3),
             Y => 8,
         );
         # output page footer right
@@ -2911,6 +2911,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2006-08-04 14:52:59 $
+$Revision: 1.5 $ $Date: 2006-08-07 07:19:47 $
 
 =cut
