@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketSearch.pm,v 1.22 2006-08-07 12:41:54 mh Exp $
+# $Id: AgentTicketSearch.pm,v 1.23 2006-08-07 18:41:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::SearchProfile;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -522,13 +522,21 @@ sub Run {
                 # create the header
                 my %Return;
                 $Return{CellData}[0][0]{Content} = $Self->{ConfigObject}->Get('Ticket::Hook');
+                $Return{CellData}[0][0]{Font} = 'HelveticaBold';
                 $Return{CellData}[0][1]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Created');
+                $Return{CellData}[0][1]{Font} = 'HelveticaBold';
                 $Return{CellData}[0][2]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('From');
+                $Return{CellData}[0][2]{Font} = 'HelveticaBold';
                 $Return{CellData}[0][3]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Subject');
+                $Return{CellData}[0][3]{Font} = 'HelveticaBold';
                 $Return{CellData}[0][4]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('State');
+                $Return{CellData}[0][4]{Font} = 'HelveticaBold';
                 $Return{CellData}[0][5]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Queue');
+                $Return{CellData}[0][5]{Font} = 'HelveticaBold';
                 $Return{CellData}[0][6]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Owner');
+                $Return{CellData}[0][6]{Font} = 'HelveticaBold';
                 $Return{CellData}[0][7]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('CustomerID');
+                $Return{CellData}[0][7]{Font} = 'HelveticaBold';
                 # create the content array
                 my $CounterRow = 1;
                 foreach my $Row (@PDFData) {
