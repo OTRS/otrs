@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketSearch.pm,v 1.20 2006-07-31 15:22:52 mh Exp $
+# $Id: AgentTicketSearch.pm,v 1.21 2006-08-07 06:59:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::SearchProfile;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -518,11 +518,8 @@ sub Run {
                         $Self->{ConfigObject}->Get('FQDN') .
                         $ENV{REQUEST_URI};
                 }
-                # create new document
-                $Self->{PDFObject}->DocumentNew(
-                    Title => $Self->{ConfigObject}->Get('Product') . ': ' . $Title,
-                );
 
+                # create the header
                 my %Return;
                 $Return{CellData}[0][0]{Content} = $Self->{ConfigObject}->Get('Ticket::Hook');
                 $Return{CellData}[0][1]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Created');
@@ -532,7 +529,7 @@ sub Run {
                 $Return{CellData}[0][5]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Queue');
                 $Return{CellData}[0][6]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Owner');
                 $Return{CellData}[0][7]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('CustomerID');
-
+                # create the content array
                 my $CounterRow = 1;
                 foreach my $Row (@PDFData) {
                     my $CounterColumn = 0;
@@ -542,16 +539,21 @@ sub Run {
                     }
                     $CounterRow++;
                 }
-
+                # output 'No Result', if no content was given
                 if (!$Return{CellData}[0][0]) {
                     $Return{CellData}[0][0]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('No Result!');
                 }
                 $Return{ColumnData} = [];
 
+                # create new pdf document
+                $Self->{PDFObject}->DocumentNew(
+                    Title => $Self->{ConfigObject}->Get('Product') . ': ' . $Title,
+                );
+
                 my $Loop = 1;
                 my $Counter = 0;
                 while ($Loop) {
-                    # create new page
+                    # create new pdf page
                     $Self->{PDFObject}->PageNew(
                         PageOrientation => 'landscape',
                         MarginTop => 30,
@@ -623,7 +625,7 @@ sub Run {
                     }
                     $Counter++;
                 }
-                # return the document
+                # return the pdf document
                 my $Filename = 'ticket_search';
                 my ($s,$m,$h, $D,$M,$Y) = $Self->{TimeObject}->SystemTime2Date(
                     SystemTime => $Self->{TimeObject}->SystemTime(),

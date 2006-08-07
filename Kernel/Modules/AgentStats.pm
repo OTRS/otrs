@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentStats.pm,v 1.4 2006-07-31 15:22:52 mh Exp $
+# $Id: AgentStats.pm,v 1.5 2006-08-07 06:58:39 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -680,7 +680,7 @@ sub Run {
                 $Error = 2;
             }
         }
-# Sollten die ErrorWarnings nicht in die Notificationzeile?
+# TODO Sollten die ErrorWarnings nicht in die Notificationzeile?
         # show errors
         if ($Error == 1) {
             $Self->{LayoutObject}->Block(
@@ -699,7 +699,6 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Output(TemplateFile => 'AgentStatsImport');
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
-
     }
     # ---------------------------------------------------------- #
     # action after edit a Stats
@@ -1220,8 +1219,6 @@ sub Run {
                 },
             );
         }
-
-
 
         # create selectboxes 'Cache', 'SumRow', 'SumCol', and 'Valid'
         foreach my $Key (qw(Cache SumRow SumCol)) {
@@ -1924,11 +1921,7 @@ sub Run {
                         $Self->{ConfigObject}->Get('FQDN') .
                         $ENV{REQUEST_URI};
                 }
-                # create new document
-                $Self->{PDFObject}->DocumentNew(
-                    Title => $Self->{ConfigObject}->Get('Product') . ': ' . $Title,
-                );
-                # create the content array
+                # create the header
                 my %Return;
                 my $CounterRow = 0;
                 my $CounterHead = 0;
@@ -1941,6 +1934,7 @@ sub Run {
                 if ($CounterHead > 0) {
                     $CounterRow++;
                 }
+                # create the content array
                 foreach my $Row (@StatArray) {
                     my $CounterColumn = 0;
                     foreach my $Content (@{$Row}) {
@@ -1949,16 +1943,21 @@ sub Run {
                     }
                     $CounterRow++;
                 }
-
+                # output 'No Result', if no content was given
                 if (!$Return{CellData}[0][0]) {
                     $Return{CellData}[0][0]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('No Result!');
                 }
                 $Return{ColumnData} = [];
 
+                # create new pdf document
+                $Self->{PDFObject}->DocumentNew(
+                    Title => $Self->{ConfigObject}->Get('Product') . ': ' . $Title,
+                );
+
                 my $Loop = 1;
                 my $Counter = 0;
                 while ($Loop) {
-                    # create new page
+                    # create new pdf page
                     $Self->{PDFObject}->PageNew(
                         PageOrientation => 'landscape',
                         MarginTop => 30,
@@ -2030,7 +2029,7 @@ sub Run {
                     }
                     $Counter++;
                 }
-                # return the document
+                # return the pdf document
                 my $PDFString = $Self->{PDFObject}->DocumentOutput();
                 return $Self->{LayoutObject}->Attachment(
                     Filename => $Filename . '.pdf',
