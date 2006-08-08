@@ -2,7 +2,7 @@
 # PDF.t - PDF tests
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PDF.t,v 1.1 2006-07-31 12:29:01 mh Exp $
+# $Id: PDF.t,v 1.2 2006-08-08 12:04:25 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -712,6 +712,86 @@ $TableCalculate{0}{ReturnCellData}[1][1]{BackgroundColor} = 'red';
 
 $TableCalculate{0}{ReturnColumnData}[0]{Width} = 57.125;
 $TableCalculate{0}{ReturnColumnData}[1]{Width} = 31.285;
+
+# tablecalculatetest1
+$TableCalculate{1}{Width} = 300;
+
+$TableCalculate{1}{CellData}[0][0]{Content} = "Welcome to OTRS!\n\nthank you for installing OTRS.\n\nYou will find updates and patches at http://otrs.org/. Online\ndocumentation is available at http://doc.otrs.org/. You can also\ntake advantage of our mailing lists http://lists.otrs.org/.\n\n\nYour OTRS Team\n\n    Manage your communication!";
+$TableCalculate{1}{CellData}[0][1]{Content} = "\nWelcome to OTRS!\n\nthank you for installing OTRS.\n\nYou will find updates and patches at http://otrs.org/. Online\ndocumentation is available at http://doc.otrs.org/. You can also\ntake advantage of our mailing lists http://lists.otrs.org/.\n\n\nYour OTRS Team\n\n\tManage your communication!\n";
+$TableCalculate{1}{CellData}[1][0]{Content} = "\tWelcome to OTRS!\n\nthank you for installing OTRS.\n\nYou will find updates and patches at http://otrs.org/. Online\ndocumentation is available at http://doc.otrs.org/. You can also\ntake advantage of our mailing lists http://lists.otrs.org/.\n\n\nYour OTRS Team\n\n    Manage your communication!\n\t";
+$TableCalculate{1}{CellData}[1][1]{Content} = "\r\r\nWelcome to OTRS!\n\nthank you for installing OTRS.\n\nYou will find updates and patches at http://otrs.org/. Online\ndocumentation is available at http://doc.otrs.org/. You can also\ntake advantage of our mailing lists http://lists.otrs.org/.\n\rYour OTRS Team\n\n    Manage your communication!\r\n";
+
+$TableCalculate{1}{ReturnCellData}[0][0]{Content} = "Welcome to OTRS!\n\nthank you for installing OTRS.\n\nYou will find updates and patches at http://otrs.org/. Online\ndocumentation is available at http://doc.otrs.org/. You can also\ntake advantage of our mailing lists http://lists.otrs.org/.\n\n\nYour OTRS Team\n\n    Manage your communication!";
+$TableCalculate{1}{ReturnCellData}[0][0]{Font} = 'Helvetica';
+$TableCalculate{1}{ReturnCellData}[0][0]{FontSize} = 10;
+$TableCalculate{1}{ReturnCellData}[0][0]{FontColor} = 'black';
+$TableCalculate{1}{ReturnCellData}[0][0]{Align} = 'left';
+$TableCalculate{1}{ReturnCellData}[0][0]{Lead} = 0;
+$TableCalculate{1}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
+$TableCalculate{1}{ReturnCellData}[0][1]{Content} = "\nWelcome to OTRS!\n\nthank you for installing OTRS.\n\nYou will find updates and patches at http://otrs.org/. Online\ndocumentation is available at http://doc.otrs.org/. You can also\ntake advantage of our mailing lists http://lists.otrs.org/.\n\n\nYour OTRS Team\n\n  Manage your communication!\n";
+$TableCalculate{1}{ReturnCellData}[0][1]{Font} = 'Helvetica';
+$TableCalculate{1}{ReturnCellData}[0][1]{FontSize} = 10;
+$TableCalculate{1}{ReturnCellData}[0][1]{FontColor} = 'black';
+$TableCalculate{1}{ReturnCellData}[0][1]{Align} = 'left';
+$TableCalculate{1}{ReturnCellData}[0][1]{Lead} = 0;
+$TableCalculate{1}{ReturnCellData}[0][1]{BackgroundColor} = 'NULL';
+$TableCalculate{1}{ReturnCellData}[1][0]{Content} = "  Welcome to OTRS!\n\nthank you for installing OTRS.\n\nYou will find updates and patches at http://otrs.org/. Online\ndocumentation is available at http://doc.otrs.org/. You can also\ntake advantage of our mailing lists http://lists.otrs.org/.\n\n\nYour OTRS Team\n\n    Manage your communication!\n  ";
+$TableCalculate{1}{ReturnCellData}[1][0]{Font} = 'Helvetica';
+$TableCalculate{1}{ReturnCellData}[1][0]{FontSize} = 10;
+$TableCalculate{1}{ReturnCellData}[1][0]{FontColor} = 'black';
+$TableCalculate{1}{ReturnCellData}[1][0]{Align} = 'left';
+$TableCalculate{1}{ReturnCellData}[1][0]{Lead} = 0;
+$TableCalculate{1}{ReturnCellData}[1][0]{BackgroundColor} = 'NULL';
+$TableCalculate{1}{ReturnCellData}[1][1]{Content} = "\nWelcome to OTRS!\n\nthank you for installing OTRS.\n\nYou will find updates and patches at http://otrs.org/. Online\ndocumentation is available at http://doc.otrs.org/. You can also\ntake advantage of our mailing lists http://lists.otrs.org/.\nYour OTRS Team\n\n    Manage your communication!\n";
+$TableCalculate{1}{ReturnCellData}[1][1]{Font} = 'Helvetica';
+$TableCalculate{1}{ReturnCellData}[1][1]{FontSize} = 10;
+$TableCalculate{1}{ReturnCellData}[1][1]{FontColor} = 'black';
+$TableCalculate{1}{ReturnCellData}[1][1]{Align} = 'left';
+$TableCalculate{1}{ReturnCellData}[1][1]{Lead} = 0;
+$TableCalculate{1}{ReturnCellData}[1][1]{BackgroundColor} = 'NULL';
+
+$TableCalculate{1}{ReturnColumnData}[0]{Width} = 300;
+$TableCalculate{1}{ReturnColumnData}[1]{Width} = 300;
+
+# tablecalculatetest2
+$TableCalculate{2}{Width} = 300;
+
+$TableCalculate{2}{CellData}[0][0]{Content} = "\n";
+$TableCalculate{2}{CellData}[0][1]{Content} = "\t ";
+$TableCalculate{2}{CellData}[1][0]{Content} = "\t\f";
+$TableCalculate{2}{CellData}[1][1]{Content} = "\t\n\r\f\r\r\n";
+
+$TableCalculate{2}{ReturnCellData}[0][0]{Content} = "\n";
+$TableCalculate{2}{ReturnCellData}[0][0]{Font} = 'Helvetica';
+$TableCalculate{2}{ReturnCellData}[0][0]{FontSize} = 10;
+$TableCalculate{2}{ReturnCellData}[0][0]{FontColor} = 'black';
+$TableCalculate{2}{ReturnCellData}[0][0]{Align} = 'left';
+$TableCalculate{2}{ReturnCellData}[0][0]{Lead} = 0;
+$TableCalculate{2}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
+$TableCalculate{2}{ReturnCellData}[0][1]{Content} = "   ";
+$TableCalculate{2}{ReturnCellData}[0][1]{Font} = 'Helvetica';
+$TableCalculate{2}{ReturnCellData}[0][1]{FontSize} = 10;
+$TableCalculate{2}{ReturnCellData}[0][1]{FontColor} = 'black';
+$TableCalculate{2}{ReturnCellData}[0][1]{Align} = 'left';
+$TableCalculate{2}{ReturnCellData}[0][1]{Lead} = 0;
+$TableCalculate{2}{ReturnCellData}[0][1]{BackgroundColor} = 'NULL';
+$TableCalculate{2}{ReturnCellData}[1][0]{Content} = "  \n\n";
+$TableCalculate{2}{ReturnCellData}[1][0]{Font} = 'Helvetica';
+$TableCalculate{2}{ReturnCellData}[1][0]{FontSize} = 10;
+$TableCalculate{2}{ReturnCellData}[1][0]{FontColor} = 'black';
+$TableCalculate{2}{ReturnCellData}[1][0]{Align} = 'left';
+$TableCalculate{2}{ReturnCellData}[1][0]{Lead} = 0;
+$TableCalculate{2}{ReturnCellData}[1][0]{BackgroundColor} = 'NULL';
+$TableCalculate{2}{ReturnCellData}[1][1]{Content} = "  \n\n\n\n";
+$TableCalculate{2}{ReturnCellData}[1][1]{Font} = 'Helvetica';
+$TableCalculate{2}{ReturnCellData}[1][1]{FontSize} = 10;
+$TableCalculate{2}{ReturnCellData}[1][1]{FontColor} = 'black';
+$TableCalculate{2}{ReturnCellData}[1][1]{Align} = 'left';
+$TableCalculate{2}{ReturnCellData}[1][1]{Lead} = 0;
+$TableCalculate{2}{ReturnCellData}[1][1]{BackgroundColor} = 'NULL';
+
+$TableCalculate{2}{ReturnColumnData}[0]{Width} = 7.11;
+$TableCalculate{2}{ReturnColumnData}[1]{Width} = 10.44;
 
 # start testing Text()
 foreach (sort keys %TableCalculate) {
