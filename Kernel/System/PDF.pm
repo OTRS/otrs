@@ -2,7 +2,7 @@
 # Kernel/System/PDF.pm - PDF lib
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PDF.pm,v 1.7 2006-08-08 12:03:18 mh Exp $
+# $Id: PDF.pm,v 1.8 2006-08-08 12:35:12 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PDF;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -767,7 +767,6 @@ sub Table {
                         Text => $Param{CellData}->[$Row]->[$Column]->{Content},
                         Type => 'ReturnLeftOver',
                         Width => $Param{ColumnData}->[$Column]->{Width} + $OutputCells{CellSpaceExtra},
-                        Height => 999999999999999999,
                         Font => $Param{CellData}->[$Row]->[$Column]->{Font},
                         FontSize => $Param{CellData}->[$Row]->[$Column]->{FontSize},
                         Lead => $Param{CellData}->[$Row]->[$Column]->{Lead},
@@ -1999,7 +1998,7 @@ sub _TableCellOutput {
 #        Text => $Text,      # text
 #        Type => 'Cut',      # (ReturnLeftOver|ReturnLeftOverHard|Cut)
 #        Width => 300,       # available width
-#        Height => 200,      # available height
+#        Height => 200,      # (optional) available height
 #        Font => 'Courier',  # font of text
 #        FontSize => 6,      # fontsize of text
 #        Lead => 20,         # lead
@@ -2017,7 +2016,7 @@ sub _TextCalculate {
     );
     my @PossibleRows;
     # check needed stuff
-    foreach (qw(Text Type Width Height Font FontSize Lead)) {
+    foreach (qw(Text Type Width Font FontSize Lead)) {
         if (!defined ($Param{$_})) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
@@ -2031,6 +2030,10 @@ sub _TextCalculate {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need a Page!");
         return;
     }
+    if (!defined($Param{Height})) {
+        $Param{Height} = 999999999999999999;
+    }
+
     if ($Param{Width} <= 0 || $Param{Height} <= 0 ) {
         $Return{LeftOver} = $Param{Text};
         $Param{Text} = undef;
@@ -3015,6 +3018,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2006-08-08 12:03:18 $
+$Revision: 1.8 $ $Date: 2006-08-08 12:35:12 $
 
 =cut
