@@ -2,13 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: CHANGES,v 1.276 2006-08-02 14:07:40 mh Exp $
+# $Id: CHANGES,v 1.277 2006-08-08 12:10:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.1.0 beta2 (2006/??/??)
+ - (2006/08/08) fixed bug in pdf module - special control characters produces
+    infinite loops
  - (2006/08/02) add ldap attribute to groups/roles sync feature
  - (2006/08/02) fixed bug #1283 - test for modules executed in cronjobs
 2.1.0 beta1 (2006/08/02)
