@@ -2,7 +2,7 @@
 # Kernel/System/PDF.pm - PDF lib
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PDF.pm,v 1.6 2006-08-07 12:40:25 mh Exp $
+# $Id: PDF.pm,v 1.7 2006-08-08 12:03:18 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PDF;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -328,10 +328,10 @@ Create a new Page
         ShowPageNumber => 0,                # (optional) default 1
         LogoFile => '/path/to/file.jpg',    # (optional) you can use jpg, gif and png-Images
         HeaderRight => 'Header Right Text', # (optional)
-        FooterLeft => 'Footer Left Text',   # (optional)
-        FooterRight => 'Footer Right Text', # (optional)
         HeadlineLeft => 'Headline Text',    # (optional)
         HeadlineRight => 'Headline Text',   # (optional)
+        FooterLeft => 'Footer Left Text',   # (optional)
+        FooterRight => 'Footer Right Text', # (optional)
     );
 
 =cut
@@ -1610,14 +1610,18 @@ sub _TableCalculate {
                 $Param{CellData}->[$RowCounter]->[$ColumnCounter]->{Off} = 0;
             }
 
+            # prepare text
+            if (defined($Param{CellData}->[$RowCounter]->[$ColumnCounter]->{Content})) {
+                $Param{CellData}->[$RowCounter]->[$ColumnCounter]->{Content} = $Self->_PrepareText(
+                    Text => $Param{CellData}->[$RowCounter]->[$ColumnCounter]->{Content},
+                );
+            }
             # set content blank, if not definied
             if (!defined($Param{CellData}->[$RowCounter]->[$ColumnCounter]->{Content}) ||
                 $Param{CellData}->[$RowCounter]->[$ColumnCounter]->{Content} eq ''
             ) {
                 $Param{CellData}->[$RowCounter]->[$ColumnCounter]->{Content} = ' ';
             }
-            # delete control character at end of content
-            chomp($Param{CellData}->[$RowCounter]->[$ColumnCounter]->{Content});
 
             # set default values
             foreach (qw(Font FontSize FontColor Align Lead BackgroundColor)) {
@@ -1660,6 +1664,10 @@ sub _TableCalculate {
             # estimate width of column
             $Param{ColumnData}->[$ColumnCounter]->{Width} =
                 ($Param{ColumnData}->[$ColumnCounter]->{MaxColWidth} + $Param{ColumnData}->[$ColumnCounter]->{MinColWidth}) / 2;
+            # reduce calculated width, if calculated width is greater than table width
+            if ($Param{ColumnData}->[$ColumnCounter]->{Width} > $Param{Width}) {
+                $Param{ColumnData}->[$ColumnCounter]->{Width} = $Param{Width};
+            }
         }
         $RowCounter++;
     }
@@ -2027,6 +2035,11 @@ sub _TextCalculate {
         $Return{LeftOver} = $Param{Text};
         $Param{Text} = undef;
     }
+    else {
+        $Param{Text} = $Self->_PrepareText(
+            Text => $Param{Text},
+        );
+    }
 
     my $Counter1 = 0;
     while (defined($Param{Text})) {
@@ -2239,6 +2252,47 @@ sub _StringWidth {
     }
 
     return $StringWidth;
+}
+
+#
+# _PrepareText()
+#
+# prepare given text for output
+#
+#    $Width = $PDFObject->_PrepareText(
+#        Text => 'Text',  # text
+#    );
+#
+
+sub _PrepareText {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(Text)) {
+        if (!defined ($Param{$_})) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    if (!$Self->{PDF}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need a PDF Document!");
+        return;
+    }
+    if (!$Self->{Page}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need a Page!");
+        return;
+    }
+    # prepare new line
+    $Param{Text} =~ s/(\n\r|\r\r\n|\r\n)/\n/g;
+    $Param{Text} =~ s/\r/\n/g;
+
+    # convert page brake to new lines
+    $Param{Text} =~ s/\f/\n\n/g;
+
+    # convert taps to spaces
+    $Param{Text} =~ s/\t/  /g;
+
+    return $Param{Text};
 }
 
 #
@@ -2961,6 +3015,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2006-08-07 12:40:25 $
+$Revision: 1.7 $ $Date: 2006-08-08 12:03:18 $
 
 =cut
