@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject/Ticket.pm - to link ticket objects
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Ticket.pm,v 1.6 2006-04-28 12:03:51 tr Exp $
+# $Id: Ticket.pm,v 1.7 2006-08-10 10:55:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::LinkObject::Ticket;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Init {
@@ -58,6 +58,12 @@ sub BackendLinkObject {
             HistoryType => 'TicketLinkAdd',
             Name => "\%\%$SlaveTicketNumber\%\%$Param{LinkID2}\%\%$Param{LinkID1}",
         );
+        # ticket event
+        $Self->{TicketObject}->TicketEventHandlerPost(
+            Event => 'TicketSlaveLinkAdd'.$Param{LinkType},
+            UserID => $Self->{UserID},
+            TicketID => $Param{LinkID1},
+        );
         # added slave ticket history
         my $MasterTicketNumber = $Self->{TicketObject}->TicketNumberLookup(
             TicketID => $Param{LinkID1},
@@ -68,6 +74,12 @@ sub BackendLinkObject {
             CreateUserID => $Self->{UserID},
             HistoryType => 'TicketLinkAdd',
             Name => "\%\%$MasterTicketNumber\%\%$Param{LinkID1}\%\%$Param{LinkID2}",
+        );
+        # ticket event
+        $Self->{TicketObject}->TicketEventHandlerPost(
+            Event => 'TicketMasterLinkAdd'.$Param{LinkType},
+            UserID => $Self->{UserID},
+            TicketID => $Param{LinkID2},
         );
     }
     return 1;
@@ -88,6 +100,12 @@ sub BackendUnlinkObject {
             HistoryType => 'TicketLinkDelete',
             Name => "\%\%$SlaveTicketNumber\%\%$Param{LinkID2}\%\%$Param{LinkID1}",
         );
+        # ticket event
+        $Self->{TicketObject}->TicketEventHandlerPost(
+            Event => 'TicketSlaveLinkDelete'.$Param{LinkType},
+            UserID => $Self->{UserID},
+            TicketID => $Param{LinkID2},
+        );
         # added slave ticket history
         my $MasterTicketNumber = $Self->{TicketObject}->TicketNumberLookup(
             TicketID => $Param{LinkID2},
@@ -98,6 +116,12 @@ sub BackendUnlinkObject {
             CreateUserID => $Self->{UserID},
             HistoryType => 'TicketLinkDelete',
             Name => "\%\%$MasterTicketNumber\%\%$Param{LinkID1}\%\%$Param{LinkID2}",
+        );
+        # ticket event
+        $Self->{TicketObject}->TicketEventHandlerPost(
+            Event => 'TicketMasterLinkDelete'.$Param{LinkType},
+            UserID => $Self->{UserID},
+            TicketID => $Param{LinkID1},
         );
     }
     return 1;
