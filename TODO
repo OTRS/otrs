@@ -2,7 +2,7 @@
 # TODO - todo list OTRS
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: TODO,v 1.104 2006-07-25 11:22:54 tr Exp $
+# $Id: TODO,v 1.105 2006-08-16 06:08:50 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -154,3 +154,4 @@ ideas (just ideas - nobody is working on it)
 - Systemchecklist - with all informations of the system, for better support. Plus a function for a automatic apache errorlog export
 - stats functionality: - use a existing stat as template for a new stat
                        - integrate a CustomerFrontendModul Stats/Dynamic/Customer.pm
+- Package Manager: If a module will be uninstalled check if other modules depends on it and give an error
