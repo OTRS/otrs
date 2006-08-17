@@ -118,6 +118,7 @@ $Text{"Delete this ticket!"}
 $Text{"Mark as Spam!"}
 $Text{"My Queues"}
 $Text{"Shown Tickets"}
+$Text{"Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>"."}
 # preferences
 $Text{"New ticket notification"}
 $Text{"Send me a notification if there is a new ticket in "My Queues"."}
