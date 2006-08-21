@@ -3,7 +3,7 @@
 # mkStats.pl - send stats output via email
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: mkStats.pl,v 1.37 2006-08-07 12:41:52 mh Exp $
+# $Id: mkStats.pl,v 1.38 2006-08-21 19:13:41 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use strict;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -223,18 +223,13 @@ if ($Opts{'n'}) {
         my $Time = $CommonObject{LayoutObject}->Output(Template => '$Env{"Time"}');
         my %User = $CommonObject{UserObject}->GetUserData(UserID => $CommonObject{UserID});
 
-        # create new document
-        $CommonObject{PDFObject}->DocumentNew(
-            Title => $CommonObject{ConfigObject}->Get('Product') . ': ' . $Title,
-        );
         # create the content array
-        my %Return;
+        my $CellData;
         my $CounterRow = 0;
         my $CounterHead = 0;
         foreach my $Content (@{$HeadArrayRef}) {
-            $Return{CellData}[$CounterRow][$CounterHead]{Content} = $Content;
-            $Return{CellData}[$CounterRow][$CounterHead]{Font} = 'HelveticaBold';
-            $Return{CellData}[$CounterRow][$CounterHead]{BackgroundColor} = '#909090';
+            $CellData->[$CounterRow]->[$CounterHead]->{Content} = $Content;
+            $CellData->[$CounterRow]->[$CounterHead]->{Font} = 'HelveticaBold';
             $CounterHead++;
         }
         if ($CounterHead > 0) {
@@ -243,57 +238,80 @@ if ($Opts{'n'}) {
         foreach my $Row (@StatArray) {
             my $CounterColumn = 0;
             foreach my $Content (@{$Row}) {
-                $Return{CellData}[$CounterRow][$CounterColumn]{Content} = $Content;
+                $CellData->[$CounterRow]->[$CounterColumn]->{Content} = $Content;
                 $CounterColumn++;
             }
             $CounterRow++;
         }
-
-        if (!$Return{CellData}[0][0]) {
-            $Return{CellData}[0][0]{Content} = $CommonObject{LayoutObject}->{LanguageObject}->Get('No Result!');
+        if (!$CellData->[0]->[0]) {
+            $CellData->[0]->[0]->{Content} = $CommonObject{LayoutObject}->{LanguageObject}->Get('No Result!');
         }
-        $Return{ColumnData} = [];
-
+        # page params
+        my %PageParam;
+        $PageParam{PageOrientation} = 'landscape';
+        $PageParam{MarginTop} = 30;
+        $PageParam{MarginRight} = 40;
+        $PageParam{MarginBottom} = 40;
+        $PageParam{MarginLeft} = 40;
+        $PageParam{HeaderRight} = $CommonObject{ConfigObject}->Get('Stats::StatsHook') . $Stat->{StatNumber};
+        $PageParam{FooterLeft} = 'mkStats.pl';
+        $PageParam{HeadlineLeft} = $Title;
+        $PageParam{HeadlineRight} = $PrintedBy . ' ' .
+            $User{UserFirstname} . ' ' .
+            $User{UserLastname} . ' (' .
+            $User{UserEmail} . ') ' .
+            $Time;
+        # table params
+        my %TableParam;
+        $TableParam{CellData} = $CellData;
+        $TableParam{Type} = 'Cut';
+        $TableParam{FontSize} = 6;
+        $TableParam{Border} = 0;
+        $TableParam{BackgroundColorEven} = '#AAAAAA';
+        $TableParam{BackgroundColorOdd} = '#DDDDDD';
+        $TableParam{Padding} = 1;
+        $TableParam{PaddingTop} = 3;
+        $TableParam{PaddingBottom} = 3;
+        # get maximum number of pages
+        my $MaxPages = $CommonObject{ConfigObject}->Get('PDF::MaxPages');
+        if (!$MaxPages || $MaxPages < 1 || $MaxPages > 1000) {
+            $MaxPages = 100;
+        }
+        # create new pdf document
+        $CommonObject{PDFObject}->DocumentNew(
+            Title => $CommonObject{ConfigObject}->Get('Product') . ': ' . $Title,
+        );
+        # start table output
         my $Loop = 1;
-        my $Counter = 0;
+        my $Counter = 1;
         while ($Loop) {
-            # create new page
-            $CommonObject{PDFObject}->PageNew(
-                Width => 842,
-                Height => 595,
-                MarginTop => 30,
-                MarginRight => 40,
-                MarginBottom => 40,
-                MarginLeft => 40,
-                HeaderRight => $Title,
-                FooterLeft => 'mkStats.pl',
-                FooterRight => $Page . ' ' . ($Counter + 1),
-                HeadlineLeft => $Title,
-                HeadlineRight => $PrintedBy . ' ' .
-                        $User{UserFirstname} . ' ' .
-                        $User{UserLastname} . ' (' .
-                        $User{UserEmail} . ') ' .
-                        $Time,
+            # if first page
+            if ($Counter eq 1) {
+                $CommonObject{PDFObject}->PageNew(
+                    %PageParam,
+                    FooterRight => $Page . ' ' . $Counter,
+                );
+            }
+            # output table (or a fragment of it)
+            %TableParam = $CommonObject{PDFObject}->Table(
+                %TableParam,
             );
-            # output table
-            %Return = $CommonObject{PDFObject}->Table(
-                CellData => $Return{CellData},
-                ColumnData => $Return{ColumnData},
-                Border => 0,
-                FontSize => 6,
-                BackgroundColorEven => '#AAAAAA',
-                BackgroundColorOdd => '#DDDDDD',
-                Padding => 1,
-                PaddingTop => 3,
-                PaddingBottom => 3,
-            );
-            # output another page
-            if ($Return{State}) {
+            # stop output or another page
+            if ($TableParam{State}) {
                 $Loop = 0;
             }
+            else {
+                $CommonObject{PDFObject}->PageNew(
+                    %PageParam,
+                    FooterRight => $Page . ' ' . ($Counter + 1),
+                );
+            }
             $Counter++;
+            # check max pages
+            if ($Counter >= $MaxPages) {
+                $Loop = 0
+            }
         }
-
         # return the document
         my $PDFString = $CommonObject{PDFObject}->DocumentOutput();
         # save the pdf with the title and timestamp as filename

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentStats.pm,v 1.7 2006-08-07 18:39:02 mh Exp $
+# $Id: AgentStats.pm,v 1.8 2006-08-21 19:13:41 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -1915,20 +1915,19 @@ sub Run {
                 my $PrintedBy = $Self->{LayoutObject}->{LanguageObject}->Get('printed by');
                 my $Page = $Self->{LayoutObject}->{LanguageObject}->Get('Page');
                 my $Time = $Self->{LayoutObject}->Output(Template => '$Env{"Time"}');
-                my $Url = '';
+                my $Url = ' ';
                 if ($ENV{REQUEST_URI}) {
                     $Url = $Self->{ConfigObject}->Get('HttpType') . '://' .
                         $Self->{ConfigObject}->Get('FQDN') .
                         $ENV{REQUEST_URI};
                 }
                 # create the header
-                my %Return;
+                my $CellData;
                 my $CounterRow = 0;
                 my $CounterHead = 0;
                 foreach my $Content (@{$HeadArrayRef}) {
-                    $Return{CellData}[$CounterRow][$CounterHead]{Content} = $Content;
-                    $Return{CellData}[$CounterRow][$CounterHead]{Font} = 'HelveticaBold';
-                    $Return{CellData}[$CounterRow][$CounterHead]{BackgroundColor} = '#909090';
+                    $CellData->[$CounterRow]->[$CounterHead]->{Content} = $Content;
+                    $CellData->[$CounterRow]->[$CounterHead]->{Font} = 'HelveticaBold';
                     $CounterHead++;
                 }
                 if ($CounterHead > 0) {
@@ -1938,59 +1937,80 @@ sub Run {
                 foreach my $Row (@StatArray) {
                     my $CounterColumn = 0;
                     foreach my $Content (@{$Row}) {
-                        $Return{CellData}[$CounterRow][$CounterColumn]{Content} = $Content;
+                        $CellData->[$CounterRow]->[$CounterColumn]->{Content} = $Content;
                         $CounterColumn++;
                     }
                     $CounterRow++;
                 }
                 # output 'No Result', if no content was given
-                if (!$Return{CellData}[0][0]) {
-                    $Return{CellData}[0][0]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('No Result!');
+                if (!$CellData->[0]->[0]) {
+                    $CellData->[0]->[0]->{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('No Result!');
                 }
-                $Return{ColumnData} = [];
-
+                # page params
+                my %PageParam;
+                $PageParam{PageOrientation} = 'landscape';
+                $PageParam{MarginTop} = 30;
+                $PageParam{MarginRight} = 40;
+                $PageParam{MarginBottom} = 40;
+                $PageParam{MarginLeft} = 40;
+                $PageParam{HeaderRight} = $Self->{ConfigObject}->Get('Stats::StatsHook') . $Stat->{StatNumber};
+                $PageParam{FooterLeft} = $Url;
+                $PageParam{HeadlineLeft} = $Title;
+                $PageParam{HeadlineRight} = $PrintedBy . ' ' .
+                    $Self->{UserFirstname} . ' ' .
+                    $Self->{UserLastname} . ' (' .
+                    $Self->{UserEmail} . ') ' .
+                    $Time;
+                # table params
+                my %TableParam;
+                $TableParam{CellData} = $CellData;
+                $TableParam{Type} = 'Cut';
+                $TableParam{FontSize} = 6;
+                $TableParam{Border} = 0;
+                $TableParam{BackgroundColorEven} = '#AAAAAA';
+                $TableParam{BackgroundColorOdd} = '#DDDDDD';
+                $TableParam{Padding} = 1;
+                $TableParam{PaddingTop} = 3;
+                $TableParam{PaddingBottom} = 3;
+                # get maximum number of pages
+                my $MaxPages = $Self->{ConfigObject}->Get('PDF::MaxPages');
+                if (!$MaxPages || $MaxPages < 1 || $MaxPages > 1000) {
+                    $MaxPages = 100;
+                }
                 # create new pdf document
                 $Self->{PDFObject}->DocumentNew(
                     Title => $Self->{ConfigObject}->Get('Product') . ': ' . $Title,
                 );
-
+                # start table output
                 my $Loop = 1;
-                my $Counter = 0;
+                my $Counter = 1;
                 while ($Loop) {
-                    # create new pdf page
-                    $Self->{PDFObject}->PageNew(
-                        PageOrientation => 'landscape',
-                        MarginTop => 30,
-                        MarginRight => 40,
-                        MarginBottom => 40,
-                        MarginLeft => 40,
-                        HeaderRight => $Self->{ConfigObject}->Get('Stats::StatsHook') . $Stat->{StatNumber},
-                        FooterLeft => $Url,
-                        FooterRight => $Page . ' ' . ($Counter + 1),
-                        HeadlineLeft => $Title,
-                        HeadlineRight => $PrintedBy . ' ' .
-                                $Self->{UserFirstname} . ' ' .
-                                $Self->{UserLastname} . ' (' .
-                                $Self->{UserEmail} . ') ' .
-                                $Time,
+                    # if first page
+                    if ($Counter eq 1) {
+                        $Self->{PDFObject}->PageNew(
+                            %PageParam,
+                            FooterRight => $Page . ' ' . $Counter,
+                        );
+                    }
+                    # output table (or a fragment of it)
+                    %TableParam = $Self->{PDFObject}->Table(
+                        %TableParam,
                     );
-                    # output table
-                    %Return = $Self->{PDFObject}->Table(
-                        CellData => $Return{CellData},
-                        ColumnData => $Return{ColumnData},
-                        Border => 0,
-                        FontSize => 6,
-                        BackgroundColorEven => '#AAAAAA',
-                        BackgroundColorOdd => '#DDDDDD',
-                        Padding => 1,
-                        PaddingTop => 3,
-                        PaddingBottom => 3,
-                    );
-                    # output another page
-                    if ($Return{State}) {
+                    # stop output or another page
+                    if ($TableParam{State}) {
                         $Loop = 0;
                     }
+                    else {
+                        $Self->{PDFObject}->PageNew(
+                            %PageParam,
+                            FooterRight => $Page . ' ' . ($Counter + 1),
+                        );
+                    }
                     $Counter++;
+                    # check max pages
+                    if ($Counter >= $MaxPages) {
+                        $Loop = 0
+                    }
                 }
                 # return the pdf document
                 my $PDFString = $Self->{PDFObject}->DocumentOutput();

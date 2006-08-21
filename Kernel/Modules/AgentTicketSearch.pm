@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketSearch.pm,v 1.23 2006-08-07 18:41:19 mh Exp $
+# $Id: AgentTicketSearch.pm,v 1.24 2006-08-21 19:13:41 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::SearchProfile;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -518,83 +518,103 @@ sub Run {
                         $Self->{ConfigObject}->Get('FQDN') .
                         $ENV{REQUEST_URI};
                 }
-
                 # create the header
-                my %Return;
-                $Return{CellData}[0][0]{Content} = $Self->{ConfigObject}->Get('Ticket::Hook');
-                $Return{CellData}[0][0]{Font} = 'HelveticaBold';
-                $Return{CellData}[0][1]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Created');
-                $Return{CellData}[0][1]{Font} = 'HelveticaBold';
-                $Return{CellData}[0][2]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('From');
-                $Return{CellData}[0][2]{Font} = 'HelveticaBold';
-                $Return{CellData}[0][3]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Subject');
-                $Return{CellData}[0][3]{Font} = 'HelveticaBold';
-                $Return{CellData}[0][4]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('State');
-                $Return{CellData}[0][4]{Font} = 'HelveticaBold';
-                $Return{CellData}[0][5]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Queue');
-                $Return{CellData}[0][5]{Font} = 'HelveticaBold';
-                $Return{CellData}[0][6]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Owner');
-                $Return{CellData}[0][6]{Font} = 'HelveticaBold';
-                $Return{CellData}[0][7]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('CustomerID');
-                $Return{CellData}[0][7]{Font} = 'HelveticaBold';
+                my $CellData;
+                $CellData->[0]->[0]->{Content} = $Self->{ConfigObject}->Get('Ticket::Hook');
+                $CellData->[0]->[0]->{Font} = 'HelveticaBold';
+                $CellData->[0]->[1]->{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Created');
+                $CellData->[0]->[1]->{Font} = 'HelveticaBold';
+                $CellData->[0]->[2]->{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('From');
+                $CellData->[0]->[2]->{Font} = 'HelveticaBold';
+                $CellData->[0]->[3]->{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Subject');
+                $CellData->[0]->[3]->{Font} = 'HelveticaBold';
+                $CellData->[0]->[4]->{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('State');
+                $CellData->[0]->[4]->{Font} = 'HelveticaBold';
+                $CellData->[0]->[5]->{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Queue');
+                $CellData->[0]->[5]->{Font} = 'HelveticaBold';
+                $CellData->[0]->[6]->{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Owner');
+                $CellData->[0]->[6]->{Font} = 'HelveticaBold';
+                $CellData->[0]->[7]->{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('CustomerID');
+                $CellData->[0]->[7]->{Font} = 'HelveticaBold';
                 # create the content array
                 my $CounterRow = 1;
                 foreach my $Row (@PDFData) {
                     my $CounterColumn = 0;
                     foreach my $Content (@{$Row}) {
-                        $Return{CellData}[$CounterRow][$CounterColumn]{Content} = $Content;
+                        $CellData->[$CounterRow]->[$CounterColumn]->{Content} = $Content;
                         $CounterColumn++;
                     }
                     $CounterRow++;
                 }
                 # output 'No Result', if no content was given
-                if (!$Return{CellData}[0][0]) {
-                    $Return{CellData}[0][0]{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('No Result!');
+                if (!$CellData->[0]->[0]) {
+                    $CellData->[0]->[0]->{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('No Result!');
                 }
-                $Return{ColumnData} = [];
-
+                # page params
+                my %PageParam;
+                $PageParam{PageOrientation} = 'landscape';
+                $PageParam{MarginTop} = 30;
+                $PageParam{MarginRight} = 40;
+                $PageParam{MarginBottom} = 40;
+                $PageParam{MarginLeft} = 40;
+                $PageParam{HeaderRight} = $Title;
+                $PageParam{FooterLeft} = $Url;
+                $PageParam{HeadlineLeft} = $Title;
+                $PageParam{HeadlineRight} = $PrintedBy . ' ' .
+                    $Self->{UserFirstname} . ' ' .
+                    $Self->{UserLastname} . ' (' .
+                    $Self->{UserEmail} . ') ' .
+                    $Time;
+                # table params
+                my %TableParam;
+                $TableParam{CellData} = $CellData;
+                $TableParam{Type} = 'Cut';
+                $TableParam{FontSize} = 6;
+                $TableParam{Border} = 0;
+                $TableParam{BackgroundColorEven} = '#AAAAAA';
+                $TableParam{BackgroundColorOdd} = '#DDDDDD';
+                $TableParam{Padding} = 1;
+                $TableParam{PaddingTop} = 3;
+                $TableParam{PaddingBottom} = 3;
+                # get maximum number of pages
+                my $MaxPages = $Self->{ConfigObject}->Get('PDF::MaxPages');
+                if (!$MaxPages || $MaxPages < 1 || $MaxPages > 1000) {
+                    $MaxPages = 100;
+                }
                 # create new pdf document
                 $Self->{PDFObject}->DocumentNew(
                     Title => $Self->{ConfigObject}->Get('Product') . ': ' . $Title,
                 );
-
+                # start table output
                 my $Loop = 1;
-                my $Counter = 0;
+                my $Counter = 1;
                 while ($Loop) {
-                    # create new pdf page
-                    $Self->{PDFObject}->PageNew(
-                        PageOrientation => 'landscape',
-                        MarginTop => 30,
-                        MarginRight => 40,
-                        MarginBottom => 40,
-                        MarginLeft => 40,
-                        HeaderRight => $Title,
-                        FooterLeft => $Url,
-                        FooterRight => $Page . ' ' . ($Counter + 1),
-                        HeadlineLeft => $Title,
-                        HeadlineRight => $PrintedBy . ' ' .
-                                $Self->{UserFirstname} . ' ' .
-                                $Self->{UserLastname} . ' (' .
-                                $Self->{UserEmail} . ') ' .
-                                $Time,
+                    # if first page
+                    if ($Counter eq 1) {
+                        $Self->{PDFObject}->PageNew(
+                            %PageParam,
+                            FooterRight => $Page . ' ' . $Counter,
+                        );
+                    }
+                    # output table (or a fragment of it)
+                    %TableParam = $Self->{PDFObject}->Table(
+                        %TableParam,
                     );
-                    # output table
-                    %Return = $Self->{PDFObject}->Table(
-                        CellData => $Return{CellData},
-                        ColumnData => $Return{ColumnData},
-                        Border => 0,
-                        FontSize => 6,
-                        BackgroundColorEven => '#AAAAAA',
-                        BackgroundColorOdd => '#DDDDDD',
-                        Padding => 1,
-                        PaddingTop => 3,
-                        PaddingBottom => 3,
-                    );
-                    # output another page
-                    if ($Return{State}) {
+                    # stop output or another page
+                    if ($TableParam{State}) {
                         $Loop = 0;
                     }
+                    else {
+                        $Self->{PDFObject}->PageNew(
+                            %PageParam,
+                            FooterRight => $Page . ' ' . ($Counter + 1),
+                        );
+                    }
                     $Counter++;
+                    # check max pages
+                    if ($Counter >= $MaxPages) {
+                        $Loop = 0
+                    }
                 }
                 # return the pdf document
                 my $Filename = 'ticket_search';
