@@ -115,7 +115,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.108 2006-08-01 10:03:31 mh Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.109 2006-08-21 19:11:08 mh Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -1169,7 +1169,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PDF::LogoFile" Required="1" Valid="1">
-        <Description Lang="en">File for the logo in the page header (gif|jpg|png, 700 x 100 Pixel).</Description>
+        <Description Lang="en">File for the logo in the page header (gif|jpg|png, 700 x 100 pixel).</Description>
         <Description Lang="de">Datei für das Logo, das im Seitenkopf angezeigt wird (gif|jpg|png, 700 x 100 Pixel).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::PDF</SubGroup>
@@ -1178,7 +1178,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PDF::PageSize" Required="1" Valid="1">
-        <Description Lang="en">Standard-Size of PDF Pages</Description>
+        <Description Lang="en">Standard-size of PDF pages</Description>
         <Description Lang="de">Standard-Seitengröße von PDF Seiten</Description>
         <Group>Framework</Group>
         <SubGroup>Core::PDF</SubGroup>
@@ -1186,6 +1186,36 @@ TimeWorkingHours
             <Option SelectedID="a4">
                 <Item Key="a4">DIN A4</Item>
                 <Item Key="letter">Letter</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PDF::MaxPages" Required="1" Valid="1">
+        <Description Lang="en">Maximum number of pages per PDF file</Description>
+        <Description Lang="de">Maximale Anzahl von Seiten pro PDF Datei</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::PDF</SubGroup>
+        <Setting>
+            <Option SelectedID="100">
+                <Item Key="50">50</Item>
+                <Item Key="100">100</Item>
+                <Item Key="150">150</Item>
+                <Item Key="200">200</Item>
+                <Item Key="250">250</Item>
+                <Item Key="300">300</Item>
+                <Item Key="350">350</Item>
+                <Item Key="400">400</Item>
+                <Item Key="450">450</Item>
+                <Item Key="500">500</Item>
+                <Item Key="550">550</Item>
+                <Item Key="600">600</Item>
+                <Item Key="650">650</Item>
+                <Item Key="700">700</Item>
+                <Item Key="750">750</Item>
+                <Item Key="800">800</Item>
+                <Item Key="850">850</Item>
+                <Item Key="900">900</Item>
+                <Item Key="950">950</Item>
+                <Item Key="1000">1000</Item>
             </Option>
         </Setting>
     </ConfigItem>
