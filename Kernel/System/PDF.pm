@@ -2,7 +2,7 @@
 # Kernel/System/PDF.pm - PDF lib
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PDF.pm,v 1.9 2006-08-08 14:54:02 mh Exp $
+# $Id: PDF.pm,v 1.10 2006-08-21 19:12:29 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PDF;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -607,7 +607,9 @@ Add a table
 
     (%Return, $CellData, $ColumnData) = $PDFObject->Table(
         CellData => $CellData,            # 2D arrayref (see example)
-        ColumnData => $ColumnData,        # 2D arrayref (see example)
+        ColumnData => $ColumnData,        # arrayref (see example)
+        RowData => $RowData,              # arrayref (see example)
+        Type => 'Cut',                    # (optional) default ReturnLeftOver (ReturnLeftOver|ReturnLeftOverHard|Cut)
         Width => 300,                     # (optional) default maximal width
         Height => 400,                    # (optional) default minimal height
         Font => 'Times',                  # (optional) default Helvetica (see DocumentNew())
@@ -654,12 +656,21 @@ Add a table
         ],
     ];
 
-    $ColumData = [                       # this array was automaticly generated, if not given
+    $ColumData = [        # this array was automaticly generated, if not given
         {
-            Width => 11,                 # optional
+            Width => 11,  # (optional)
         },
         {
             Width => 44,
+        },
+    ];
+
+    $RowData = [           # this array was automaticly generated, if not given
+        {
+            Height => 11,  # (optional)
+        },
+        {
+            Height => 44,
         },
     ];
 
@@ -668,11 +679,6 @@ Add a table
 sub Table {
     my $Self = shift;
     my %Param = @_;
-    my %Return = (
-        State => 0,
-        RequiredWidth => 0,
-        RequiredHeight => 0,
-    );
     # check needed stuff
     foreach (qw(CellData)) {
         if (!defined ($Param{$_})) {
@@ -701,177 +707,247 @@ sub Table {
     my %Position = $Self->_CurPositionGet();
 
     # set default values
-    $Param{Font} = $Param{Font} || 'Helvetica';
-    if (!defined($Param{FontSize}) || $Param{FontSize} <= 0) {
-        $Param{FontSize} = 10;
-    }
-    if (!defined($Param{Lead}) || $Param{Lead} < -($Param{FontSize})) {
-        $Param{Lead} = 1;
-    }
-    $Param{FontColor} = $Param{FontColor} || 'black';
-    $Param{FontColorOdd} = $Param{FontColorOdd} || $Param{FontColor};
-    $Param{FontColorEven} = $Param{FontColorEven} || $Param{FontColor};
-
-    $Param{BackgroundColor} = $Param{BackgroundColor} || 'NULL';
-    $Param{BackgroundColorOdd} = $Param{BackgroundColorOdd} || $Param{BackgroundColor};
-    $Param{BackgroundColorEven} = $Param{BackgroundColorEven} || $Param{BackgroundColor};
-
-    $Param{Align} = $Param{Align} || 'left';
-
-    if (!defined($Param{Border}) || $Param{Border} < 0) {
-        $Param{Border} = 1;
-    }
-    $Param{BorderColor} = $Param{BorderColor} || 'black';
-    $Param{PaddingTop} = $Param{PaddingTop} || $Param{Padding} || 3;
-    $Param{PaddingRight} = $Param{PaddingRight} || $Param{Padding} || 3;
-    $Param{PaddingBottom} = $Param{PaddingBottom} || $Param{Padding} || 3;
-    $Param{PaddingLeft} = $Param{PaddingLeft} || $Param{Padding} || 3;
-
-    # check given Width
-    if (!defined($Param{Width}) ||
-        $Param{Width} < 0
-    ) {
-        $Param{Width} = $Dim{Left} + $Dim{Width} - $Position{X};
-    }
-    # check given Height
-    if (!defined($Param{Height}) ||
-        $Param{Height} < 0
-    ) {
-        $Param{Height} = $Position{Y} - $Dim{Bottom};
-    }
-
     $Param{ColumnData} = $Param{ColumnData} || [];
+    $Param{RowData} = $Param{RowData} || [];
 
-    # output the table (or a fragment of it)
-    if (ref $Param{CellData} && ref $Param{ColumnData}) {
-        # calculate required table attributes
-        $Self->_TableCalculate(
-            %Param,
-        );
-        # calculate, what cells can output
-        my %OutputCells = $Self->_TableOutputCalculate (
-            %Param,
-        );
-
-        if ($OutputCells{State}) {
-            # save current position
-            my $PositionX = $Position{X};
-            my $PositionY = $Position{Y};
-
-            foreach my $Row (@{$OutputCells{ReturnRows}}) {
-                # calculate height of row
-                my $RowHeightComplete = 0;
-                my $BiggerstFontSize = 0;
-                foreach my $Column (@{$OutputCells{ReturnColumns}}) {
-                    my %CalculateRow = $Self->_TextCalculate (
-                        Text => $Param{CellData}->[$Row]->[$Column]->{Content},
-                        Type => 'ReturnLeftOver',
-                        Width => $Param{ColumnData}->[$Column]->{Width} + $OutputCells{CellSpaceExtra},
-                        Font => $Param{CellData}->[$Row]->[$Column]->{Font},
-                        FontSize => $Param{CellData}->[$Row]->[$Column]->{FontSize},
-                        Lead => $Param{CellData}->[$Row]->[$Column]->{Lead},
-                    );
-                    if ($CalculateRow{RequiredHeight} > $RowHeightComplete) {
-                        $RowHeightComplete = $CalculateRow{RequiredHeight};
-                    }
-                    if ($Param{CellData}->[$Row]->[$Column]->{FontSize} > $BiggerstFontSize) {
-                        $BiggerstFontSize = $Param{CellData}->[$Row]->[$Column]->{FontSize};
-                    }
-                }
-                if (!$RowHeightComplete) {
-                    $RowHeightComplete = $BiggerstFontSize;
-                }
-
-                my $OutputRow = 1;
-                my $RowHeight = 0;
-                if (($Position{Y} - $Param{PaddingTop} - $RowHeightComplete - $Param{PaddingBottom} - $Param{Border}) >= $Dim{Bottom}) {
-                    $RowHeight = $Param{Border} + $Param{PaddingTop} + $RowHeightComplete + $Param{PaddingBottom} + $Param{Border};
-                }
-                else {
-                    if (($Position{Y} - $Param{PaddingTop} - $BiggerstFontSize - $Param{PaddingBottom} - $Param{Border}) >= $Dim{Bottom}) {
-                        $RowHeight = $Position{Y} - $Dim{Bottom};
-                    }
-                    else {
-                        $OutputRow = 0;
-                    }
-                    last;
-                }
-
-                if ($OutputRow) {
-                    my $RowState = 1;
-
-                    foreach my $Column (@{$OutputCells{ReturnColumns}}) {
-                        my %TableCellOutputReturn = $Self->_TableCellOutput (
-                            Width => $Param{ColumnData}->[$Column]->{Width} + $OutputCells{CellSpaceExtra},
-                            Height => $RowHeight,
-                            Text => $Param{CellData}->[$Row]->[$Column]->{Content},
-                            Font => $Param{CellData}->[$Row]->[$Column]->{Font},
-                            FontSize => $Param{CellData}->[$Row]->[$Column]->{FontSize},
-                            FontColor => $Param{CellData}->[$Row]->[$Column]->{FontColor},
-                            Align => $Param{CellData}->[$Row]->[$Column]->{Align},
-                            Lead => $Param{CellData}->[$Row]->[$Column]->{Lead},
-                            PaddingTop => $Param{PaddingTop},
-                            PaddingRight => $Param{PaddingRight},
-                            PaddingBottom => $Param{PaddingBottom},
-                            PaddingLeft => $Param{PaddingLeft},
-                            BackgroundColor => $Param{CellData}->[$Row]->[$Column]->{BackgroundColor},
-                            Border => $Param{Border},
-                            BorderColor => $Param{BorderColor},
-                        );
-
-                        # set RowSetOff
-                        if (!$TableCellOutputReturn{State}) {
-                            $RowState = 0;
-                        }
-                        # set new position
-                        $Self->_CurPositionSet(
-                            X => $Position{X} + $Param{ColumnData}->[$Column]->{Width} + $OutputCells{CellSpaceExtra} - $Param{Border},
-                            Y => $Position{Y},
-                        );
-                        # get current position
-                        %Position = $Self->_CurPositionGet();
-                    }
-
-                    # deaktivate row, if output ok
-                    if ($RowState) {
-                        foreach my $Column (@{$OutputCells{ReturnColumns}}) {
-                            $Param{CellData}->[$Row]->[$Column]->{Off} = 1;
-                        }
-                    }
-                    else {
-                        last;
-                    }
-
-                    # set new position
-                    $Self->_CurPositionSet(
-                        X => $PositionX,
-                        Y => $PositionY - $RowHeight + $Param{Border},
-                    );
-                    # get current position
-                    %Position = $Self->_CurPositionGet();
-                    $PositionY = $Position{Y};
+    if (ref $Param{CellData} && ref $Param{ColumnData} && ref $Param{RowData}) {
+        if (!defined($Param{OutputCount})) {
+            # set default values
+            $Param{Type} = $Param{Type} || 'ReturnLeftOver';
+            $Param{Font} = $Param{Font} || 'Helvetica';
+            if (!defined($Param{FontSize}) || $Param{FontSize} <= 0) {
+                $Param{FontSize} = 10;
+            }
+            if (!defined($Param{Lead}) || $Param{Lead} < -($Param{FontSize})) {
+                $Param{Lead} = int($Param{FontSize} / 4);
+                if ($Param{Lead} < 1) {
+                    $Param{Lead} = 1;
                 }
             }
+            $Param{FontColor} = $Param{FontColor} || 'black';
+            $Param{FontColorOdd} = $Param{FontColorOdd} || $Param{FontColor};
+            $Param{FontColorEven} = $Param{FontColorEven} || $Param{FontColor};
 
-            my $TableCellOnCount = $Self->_TableCellOnCount(
-                CellData => $Param{CellData}
+            $Param{BackgroundColor} = $Param{BackgroundColor} || 'NULL';
+            $Param{BackgroundColorOdd} = $Param{BackgroundColorOdd} || $Param{BackgroundColor};
+            $Param{BackgroundColorEven} = $Param{BackgroundColorEven} || $Param{BackgroundColor};
+
+            $Param{Align} = $Param{Align} || 'left';
+
+            if (!defined($Param{Border}) || $Param{Border} < 0) {
+                $Param{Border} = 1;
+            }
+            $Param{BorderColor} = $Param{BorderColor} || 'black';
+            $Param{PaddingTop} = $Param{PaddingTop} || $Param{Padding} || 3;
+            $Param{PaddingRight} = $Param{PaddingRight} || $Param{Padding} || 3;
+            $Param{PaddingBottom} = $Param{PaddingBottom} || $Param{Padding} || 3;
+            $Param{PaddingLeft} = $Param{PaddingLeft} || $Param{Padding} || 3;
+
+            # check given Width
+            my $DefaultWidth = $Dim{Left} + $Dim{Width} - $Position{X};
+            if (!defined($Param{Width}) ||
+                ($Param{Width} - $Param{PaddingLeft} - $Param{PaddingRight} - (2 * $Param{Border})) < 0 ||
+                $Param{Width} > $DefaultWidth
+            ) {
+                $Param{Width} = $DefaultWidth;
+            }
+            # set output count
+            $Param{OutputCount} = 0;
+            # set state
+            $Param{State} = 0;
+
+            # calculate required table attributes
+            $Self->_TableCalculate(
+                %Param,
             );
-            if ($TableCellOnCount eq 0) {
-                $Return{State} = 1;
+        }
+
+        # check given Height
+        my $DefaultHeight = $Position{Y} - $Dim{Bottom};
+        if (!defined($Param{Height}) ||
+            ($Param{Height} - $Param{PaddingTop} - $Param{PaddingBottom} - (2 * $Param{Border})) < 0 ||
+            $Param{Height} > $DefaultHeight
+        ) {
+            $Param{Height} = $DefaultHeight;
+        }
+        # get maximum number of pages
+        my $MaxPages = $Self->{ConfigObject}->Get('PDF::MaxPages');
+        if (!$MaxPages || $MaxPages < 1 || $MaxPages > 1000) {
+            $MaxPages = 100;
+        }
+
+        # infinite loop protection
+        if ($Param{OutputCount} < $MaxPages) {
+            my %Block = $Self->_TableBlockNextCalculate (
+                CellData => $Param{CellData},
+                ColumnData => $Param{ColumnData},
+            );
+            # if active cells found
+            if ($Block{State}) {
+                # start row output
+                my $Row = $Block{ReturnRowStart};
+                my $RowCounter = 0;
+                my $RowLoop = 1;
+                my $LastBlock = $Param{ColumnData}->[$#{$Param{ColumnData}}]->{Block};
+                my $LastRow = $#{$Param{RowData}};
+
+                while ($RowLoop) {
+                    # stop loop, if last row
+                    if ($Row <= $LastRow) {
+                        # calculate row height, if block is 0
+                        if (!$Block{ReturnBlock}) {
+                            $Self->_TableRowCalculate(
+                                Row => $Row,
+                                %Param,
+                            );
+                        }
+                        # save old position
+                        my %PositionOld = %Position;
+
+                        if ($Param{RowData}->[$Row]->{TextHeight} <= $Position{Y} - $Dim{Bottom}) {
+                            for ($Block{ReturnColumnStart}..$Block{ReturnColumnStop}) {
+                                my $Column = $_;
+                                $Self->_TableCellOutput (
+                                    Text => $Param{CellData}->[$Row]->[$Column]->{Content},
+                                    Type => $Param{CellData}->[$Row]->[$Column]->{Type},
+                                    Width => $Param{ColumnData}->[$Column]->{OutputWidth},
+                                    Height => $Param{RowData}->[$Row]->{OutputHeight},
+                                    Font => $Param{CellData}->[$Row]->[$Column]->{Font},
+                                    FontSize => $Param{CellData}->[$Row]->[$Column]->{FontSize},
+                                    FontColor => $Param{CellData}->[$Row]->[$Column]->{FontColor},
+                                    Align => $Param{CellData}->[$Row]->[$Column]->{Align},
+                                    Lead => $Param{CellData}->[$Row]->[$Column]->{Lead},
+                                    PaddingTop => $Param{PaddingTop},
+                                    PaddingRight => $Param{PaddingRight},
+                                    PaddingBottom => $Param{PaddingBottom},
+                                    PaddingLeft => $Param{PaddingLeft},
+                                    BackgroundColor => $Param{CellData}->[$Row]->[$Column]->{BackgroundColor},
+                                    Border => $Param{Border},
+                                    BorderColor => $Param{BorderColor},
+                                );
+                                # deactivate cell and delete content
+                                $Param{CellData}->[$Row]->[$Column]->{Off} = 1;
+                                $Param{CellData}->[$Row]->[$Column]->{Content} = ' ';
+
+                                # set new position
+                                $Self->_CurPositionSet(
+                                    X => $Position{X} + $Param{ColumnData}->[$Column]->{OutputWidth} - $Param{Border},
+                                    Y => $Position{Y},
+                                );
+                                # get current position
+                                %Position = $Self->_CurPositionGet();
+                            }
+                            # set new position
+                            $Self->_CurPositionSet(
+                                X => $PositionOld{X},
+                                Y => $PositionOld{Y} - $Param{RowData}->[$Row]->{OutputHeight} + $Param{Border},
+                            );
+                            # get current position
+                            %Position = $Self->_CurPositionGet();
+                        }
+                        else {
+                            my $NewOutputHeight = $Position{Y} - $Dim{Bottom};
+                            my $NewTextHeight = $NewOutputHeight - $Param{PaddingTop} - $Param{PaddingBottom} - (2 * $Param{Border});
+
+                            if ($NewTextHeight > $Param{RowData}->[$Row]->{MinFontSize}) {
+                                for ($Block{ReturnColumnStart}..$Block{ReturnColumnStop}) {
+                                    my $Column = $_;
+                                    my $Type = 'ReturnLeftOver';
+                                    if ($Param{CellData}->[$Row]->[$Column]->{Type} eq 'ReturnLeftOverHard') {
+                                        $Type = 'ReturnLeftOverHard';
+                                    }
+                                    my %Return = $Self->_TableCellOutput (
+                                        Text => $Param{CellData}->[$Row]->[$Column]->{Content},
+                                        Type => $Type,
+                                        Width => $Param{ColumnData}->[$Column]->{OutputWidth},
+                                        Height => $NewOutputHeight,
+                                        Font => $Param{CellData}->[$Row]->[$Column]->{Font},
+                                        FontSize => $Param{CellData}->[$Row]->[$Column]->{FontSize},
+                                        FontColor => $Param{CellData}->[$Row]->[$Column]->{FontColor},
+                                        Align => $Param{CellData}->[$Row]->[$Column]->{Align},
+                                        Lead => $Param{CellData}->[$Row]->[$Column]->{Lead},
+                                        PaddingTop => $Param{PaddingTop},
+                                        PaddingRight => $Param{PaddingRight},
+                                        PaddingBottom => $Param{PaddingBottom},
+                                        PaddingLeft => $Param{PaddingLeft},
+                                        BackgroundColor => $Param{CellData}->[$Row]->[$Column]->{BackgroundColor},
+                                        Border => $Param{Border},
+                                        BorderColor => $Param{BorderColor},
+                                    );
+                                    # set new content
+                                    if (!$Return{State}) {
+                                        $Param{CellData}->[$Row]->[$Column]->{Content} = $Return{LeftOver};
+                                    }
+                                    else {
+                                        $Param{CellData}->[$Row]->[$Column]->{Content} = ' ';
+                                    }
+                                    # correcting content
+                                    if ($Param{CellData}->[$Row]->[$Column]->{Content} eq '') {
+                                        $Param{CellData}->[$Row]->[$Column]->{Content} = ' ';
+                                    }
+                                    $Param{CellData}->[$Row]->[$Column]->{TmpOff} = 1;
+                                    # recalculate height
+                                    if ($Block{ReturnBlock} eq $LastBlock) {
+                                        if ($Param{RowData}->[$Row]->{Height} > 0) {
+                                            $Param{RowData}->[$Row]->{Height} -= $NewTextHeight;
+                                        }
+                                        $Self->_TableRowCalculate(
+                                            Row => $Row,
+                                            %Param,
+                                        );
+                                    }
+                                    # set new position
+                                    $Self->_CurPositionSet(
+                                        X => $Position{X} + $Param{ColumnData}->[$Column]->{OutputWidth} - $Param{Border},
+                                        Y => $Position{Y},
+                                    );
+                                    # get current position
+                                    %Position = $Self->_CurPositionGet();
+                                }
+                            }
+                            $RowLoop = 0;
+                        }
+                    }
+                    else {
+                        $RowLoop = 0;
+                    }
+
+                    if ($RowCounter > 100) {
+                        $Self->{LogObject}->Log(Priority => 'error', Message => "Too much row loops on page! Infinite Loop protection. Table Output aborted.");
+                        $RowLoop = 0;
+                    }
+                    # increment Row and RowCounter
+                    $Row++;
+                    $RowCounter++;
+                }
+            }
+            else {
+                $Self->{LogObject}->Log(Priority => 'error', Message => "No active cells! Table Output aborted.");
+                $Param{State} = 1;
             }
         }
         else {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "No cell available for output!");
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Too much loops! Infinite Loop protection. Table Output aborted.");
+            $Param{State} = 1;
         }
     }
     else {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need references CellData, ColumnData");
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need references CellData, ColumnData! Table Output aborted.");
+        $Param{State} = 1;
     }
 
-    $Return{CellData} = $Param{CellData};
-    $Return{ColumnData} = $Param{ColumnData};
+    # count remaining cells
+    my $RemainingCells = $Self->_TableCellOnCount(
+        CellData => $Param{CellData},
+    );
+    # set state
+    if (!$RemainingCells) {
+        $Param{State} = 1;
+    }
 
-    return %Return;
+    $Param{OutputCount}++;
+
+    return %Param;
 }
 
 =item Text()
@@ -937,7 +1013,10 @@ sub Text {
         $Param{FontSize} = 10;
     }
     if (!defined($Param{Lead}) || $Param{Lead} < -($Param{FontSize})) {
-        $Param{Lead} = 1;
+        $Param{Lead} = int($Param{FontSize} / 4);
+        if ($Param{Lead} < 1) {
+            $Param{Lead} = 1;
+        }
     }
     # check Width
     if (!defined($Param{Width}) ||
@@ -1487,11 +1566,13 @@ sub DimGet {
 #
 # calculate params of table
 #
-#    Return  # normaly no return required, only references
+#    Return  # normally no return required, only references
+#        %Param
 #
 #    (%Return, $CellData, $ColumnData) = $PDFObject->_TableCalculate(
 #        CellData => $CellData,            # 2D arrayref (see example)
-#        ColumnData => $ColumnData,        # 2D arrayref (see example)
+#        ColumnData => $ColumnData,        # arrayref (see example)
+#        RowData => $RowData,              # arrayref (see example)
 #        Width => 300,                     # (optional) default default maximal width
 #        Height => 400,                    # (optional) default minimal height
 #        Font => 'Times',                  # (optional) default Helvetica (see DocumentNew())
@@ -1537,12 +1618,21 @@ sub DimGet {
 #        ],
 #    ];
 #
-#    $ColumData = [                       # this array was automaticly generated, if not given
+#    $ColumData = [        # this array was automaticly generated, if not given
 #        {
-#            Width => 11,                 # optional
+#            Width => 11,  # (optional)
 #        },
 #        {
 #            Width => 44,
+#        },
+#    ];
+#
+#    $RowData = [           # this array was automaticly generated, if not given
+#        {
+#            Height => 11,  # (optional)
+#        },
+#        {
+#            Height => 44,
 #        },
 #    ];
 #
@@ -1552,8 +1642,8 @@ sub _TableCalculate {
     my %Param = @_;
     # check needed stuff
     foreach (qw(
-            CellData ColumnData
-            Font FontSize Lead FontColor Align BackgroundColor Width Border BorderColor
+            CellData ColumnData RowData
+            Type Font FontSize Lead FontColor Align BackgroundColor Width Border BorderColor
             PaddingTop PaddingRight PaddingBottom PaddingLeft
         )
         ) {
@@ -1572,63 +1662,68 @@ sub _TableCalculate {
     }
 
     my $RowCounter = 0;
-    foreach my $Cell (@{$Param{CellData}}) {
-        for (my $ColumnCounter = 0; $ColumnCounter < scalar(@$Cell) ; $ColumnCounter++) {
+    foreach my $Row (@{$Param{CellData}}) {
+        my $MinFontSize = 999;
+        for (my $ColumnCounter = 0; $ColumnCounter < scalar(@$Row) ; $ColumnCounter++) {
+            # reference of current cell
+            my $Cell = $Row->[$ColumnCounter];
             # if row is odd
             if ($RowCounter & 1) {
                 # set FontColor, if row is odd
-                if (!defined($Param{CellData}->[$RowCounter]->[$ColumnCounter]->{FontColor}) &&
+                if (!defined($Cell->{FontColor}) &&
                     defined($Param{FontColorOdd})
                 ) {
-                    $Param{CellData}->[$RowCounter]->[$ColumnCounter]->{FontColor} = $Param{FontColorOdd};
+                    $Cell->{FontColor} = $Param{FontColorOdd};
                 }
                 # set BackgroundColor, if row is odd
-                if (!defined($Param{CellData}->[$RowCounter]->[$ColumnCounter]->{BackgroundColor}) &&
+                if (!defined($Cell->{BackgroundColor}) &&
                     defined($Param{BackgroundColorOdd})
                 ) {
-                    $Param{CellData}->[$RowCounter]->[$ColumnCounter]->{BackgroundColor} = $Param{BackgroundColorOdd};
+                    $Cell->{BackgroundColor} = $Param{BackgroundColorOdd};
                 }
             }
             # if row is even
             else {
                 # set FontColor, if row is even
-                if (!defined($Param{CellData}->[$RowCounter]->[$ColumnCounter]->{FontColor}) &&
+                if (!defined($Cell->{FontColor}) &&
                     defined($Param{FontColorEven})
                 ) {
-                    $Param{CellData}->[$RowCounter]->[$ColumnCounter]->{FontColor} = $Param{FontColorEven};
+                    $Cell->{FontColor} = $Param{FontColorEven};
                 }
                 # set BackgroundColor, if row is even
-                if (!defined($Param{CellData}->[$RowCounter]->[$ColumnCounter]->{BackgroundColor}) &&
+                if (!defined($Cell->{BackgroundColor}) &&
                     defined($Param{BackgroundColorEven})
                 ) {
-                    $Param{CellData}->[$RowCounter]->[$ColumnCounter]->{BackgroundColor} = $Param{BackgroundColorEven};
+                    $Cell->{BackgroundColor} = $Param{BackgroundColorEven};
                 }
             }
 
             # set cell state
-            if (!defined($Param{CellData}->[$RowCounter]->[$ColumnCounter]->{Off}) ||
-                $Param{CellData}->[$RowCounter]->[$ColumnCounter]->{Off} ne 1
-            ) {
-                $Param{CellData}->[$RowCounter]->[$ColumnCounter]->{Off} = 0;
+            if (!defined($Cell->{Off})) {
+                $Cell->{Off} = 0;
+            }
+            # set temp cell state
+            if (!defined($Cell->{TmpOff})) {
+                $Cell->{TmpOff} = 0;
             }
 
             # prepare text
-            if (defined($Param{CellData}->[$RowCounter]->[$ColumnCounter]->{Content})) {
-                $Param{CellData}->[$RowCounter]->[$ColumnCounter]->{Content} = $Self->_PrepareText(
-                    Text => $Param{CellData}->[$RowCounter]->[$ColumnCounter]->{Content},
+            if (defined($Cell->{Content})) {
+                $Cell->{Content} = $Self->_PrepareText(
+                    Text => $Cell->{Content},
                 );
             }
             # set content blank, if not definied
-            if (!defined($Param{CellData}->[$RowCounter]->[$ColumnCounter]->{Content}) ||
-                $Param{CellData}->[$RowCounter]->[$ColumnCounter]->{Content} eq ''
+            if (!defined($Cell->{Content}) ||
+                $Cell->{Content} eq ''
             ) {
-                $Param{CellData}->[$RowCounter]->[$ColumnCounter]->{Content} = ' ';
+                $Cell->{Content} = ' ';
             }
 
             # set default values
-            foreach (qw(Font FontSize FontColor Align Lead BackgroundColor)) {
-                if (!defined($Param{CellData}->[$RowCounter]->[$ColumnCounter]->{$_})) {
-                    $Param{CellData}->[$RowCounter]->[$ColumnCounter]->{$_} = $Param{$_};
+            foreach (qw(Type Font FontSize FontColor Align Lead BackgroundColor)) {
+                if (!defined($Cell->{$_})) {
+                    $Cell->{$_} = $Param{$_};
                 }
             }
 
@@ -1636,13 +1731,11 @@ sub _TableCalculate {
             if (!defined($Param{ColumnData}->[$ColumnCounter]->{MaxColWidth})) {
                 $Param{ColumnData}->[$ColumnCounter]->{MaxColWidth} = 0;
             }
-            my $CompleteContentWidth = $Self->_StringWidth (
-                Text => $Param{CellData}->[$RowCounter]->[$ColumnCounter]->{Content},
-                Font => $Param{CellData}->[$RowCounter]->[$ColumnCounter]->{Font},
-                FontSize => $Param{CellData}->[$RowCounter]->[$ColumnCounter]->{FontSize},
+            my $CompleteContentWidth = $Self->_StringWidth(
+                Text => $Cell->{Content},
+                Font => $Cell->{Font},
+                FontSize => $Cell->{FontSize},
             );
-            $CompleteContentWidth += $Param{PaddingLeft} + $Param{PaddingRight} + (2 * $Param{Border});
-
             if ($CompleteContentWidth > $Param{ColumnData}->[$ColumnCounter]->{MaxColWidth}) {
                 $Param{ColumnData}->[$ColumnCounter]->{MaxColWidth} = $CompleteContentWidth;
             }
@@ -1651,103 +1744,163 @@ sub _TableCalculate {
             if (!defined($Param{ColumnData}->[$ColumnCounter]->{MinColWidth})) {
                 $Param{ColumnData}->[$ColumnCounter]->{MinColWidth} = 0;
             }
-            my @Words = split(/\s+/, $Param{CellData}->[$RowCounter]->[$ColumnCounter]->{Content});
+            my @Words = split(/\s+/, $Cell->{Content});
             foreach (@Words) {
                 my $WordWidth = $Self->_StringWidth (
                     Text => $_,
-                    Font => $Param{CellData}->[$RowCounter]->[$ColumnCounter]->{Font},
-                    FontSize => $Param{CellData}->[$RowCounter]->[$ColumnCounter]->{FontSize},
+                    Font => $Cell->{Font},
+                    FontSize => $Cell->{FontSize},
                 );
                 if ($WordWidth > $Param{ColumnData}->[$ColumnCounter]->{MinColWidth}) {
                     $Param{ColumnData}->[$ColumnCounter]->{MinColWidth} = $WordWidth;
                 }
             }
-
-            # estimate width of column
-            $Param{ColumnData}->[$ColumnCounter]->{Width} =
-                ($Param{ColumnData}->[$ColumnCounter]->{MaxColWidth} + $Param{ColumnData}->[$ColumnCounter]->{MinColWidth}) / 2;
-            # reduce calculated width, if calculated width is greater than table width
-            if ($Param{ColumnData}->[$ColumnCounter]->{Width} > $Param{Width}) {
-                $Param{ColumnData}->[$ColumnCounter]->{Width} = $Param{Width};
+            # find the smallerst fontsize
+            if ($Cell->{FontSize} < $MinFontSize) {
+                $MinFontSize = $Cell->{FontSize};
             }
         }
+        # set MinFontSize
+        $Param{RowData}->[$RowCounter]->{MinFontSize} = $MinFontSize;
         $RowCounter++;
+    }
+
+    # estimate width of columns (without padding and border)
+    foreach my $Column (@{$Param{ColumnData}}) {
+        if (!defined($Column->{Width})) {
+            $Column->{Width} = 0;
+        }
+        if ($Column->{Width} > 0) {
+            $Column->{EstimateWidth} = $Column->{Width};
+        }
+        else {
+            # estimate width of column
+            $Column->{EstimateWidth} = ($Column->{MaxColWidth} + $Column->{MinColWidth}) / 2;
+        }
+        # reduce calculated width and width, if calculated width is greater than table width
+        my $MaxWidth = $Param{Width} - $Param{PaddingLeft} - $Param{PaddingRight} - (2 * $Param{Border});
+        if ($Column->{EstimateWidth} > $MaxWidth) {
+            $Column->{EstimateWidth} = $MaxWidth;
+            if ($Column->{Width} > 0) {
+                $Column->{Width} = $MaxWidth;
+            }
+        }
+        # set width to 1, if width is to small
+        if ($Column->{EstimateWidth} < 1) {
+            $Column->{EstimateWidth} = 1;
+        }
+    }
+
+    # calculate exactly width of columns
+    my $ColumnBlocks = [];
+    $ColumnBlocks->[0]->{Width} = 0;
+    $ColumnBlocks->[0]->{ColumnStart} = 0;
+    $ColumnBlocks->[0]->{ColumnStop} = 0;
+    $ColumnBlocks->[0]->{ColumnFix} = 0;
+    $ColumnBlocks->[0]->{ColumnDyn} = 0;
+
+    my $Block = 0;
+    my $Counter = 0;
+    foreach my $Column (@{$Param{ColumnData}}) {
+        my $ColumnWidth = $Column->{EstimateWidth} + $Param{PaddingLeft} + $Param{PaddingRight} + (2 * $Param{Border});
+
+        if (!$ColumnBlocks->[$Block]->{Width}) {
+            $ColumnBlocks->[$Block]->{Width} = $ColumnWidth;
+        }
+        else {
+            if (($ColumnBlocks->[$Block]->{Width} + $ColumnWidth - $Param{Border}) > $Param{Width}) {
+                $ColumnBlocks->[$Block]->{ColumnStop} = $Counter - 1;
+                $Block++;
+                $ColumnBlocks->[$Block]->{Width} = $ColumnWidth;
+                $ColumnBlocks->[$Block]->{ColumnStart} = $Counter;
+                $ColumnBlocks->[$Block]->{ColumnFix} = 0;
+                $ColumnBlocks->[$Block]->{ColumnDyn} = 0;
+            }
+            else {
+                $ColumnBlocks->[$Block]->{Width} += $ColumnWidth - $Param{Border};
+            }
+            $ColumnBlocks->[$Block]->{ColumnStop} = $Counter
+        }
+
+        if ($Column->{Width} > 0) {
+            $ColumnBlocks->[$Block]->{ColumnFix}++;
+        }
+        else {
+            $ColumnBlocks->[$Block]->{ColumnDyn}++;
+        }
+
+        $Counter++;
+    }
+    my $Counter2 = 0;
+    foreach my $CurBlock (@{$ColumnBlocks}) {
+        my $ExtraSpaceComplete = $Param{Width} - $CurBlock->{Width};
+        my $ExtraSpaceDyn = 0;
+        my $ExtraSpaceFix = 0;
+
+        if ($CurBlock->{ColumnDyn} > 0) {
+            $ExtraSpaceDyn = $ExtraSpaceComplete / $CurBlock->{ColumnDyn};
+        }
+        else {
+            $ExtraSpaceFix = $ExtraSpaceComplete / $CurBlock->{ColumnFix};
+        }
+
+        for ($CurBlock->{ColumnStart}..$CurBlock->{ColumnStop}) {
+            my $Column = $Param{ColumnData}->[$_];
+            my $ExtraSpace = 0;
+            if ($Column->{Width} > 0) {
+                $ExtraSpace = $ExtraSpaceFix;
+            }
+            else {
+                $ExtraSpace = $ExtraSpaceDyn;
+            }
+
+            $Column->{OutputWidth} = $Column->{EstimateWidth} + $ExtraSpace + $Param{PaddingLeft} + $Param{PaddingRight} + (2 * $Param{Border});
+            $Column->{TextWidth} = $Column->{EstimateWidth} + $ExtraSpace;
+
+            if ($Column->{OutputWidth} < 1) {
+                $Column->{OutputWidth} = 1;
+            }
+            if ($Column->{TextWidth} < 1) {
+                $Column->{TextWidth} = 1;
+            }
+            $Column->{Block} = $Counter2;
+        }
+        $Counter2++;
     }
 
     return %Param;
 }
 
 #
-# _TableCellOnCount()
+# _TableBlockNextCalculate()
 #
-# count all aktive cells
-#
-#    Return
-#        $CellCount
-#
-#    $Count = $PDFObject->_TableCellOnCount(
-#        CellData => $CellData,  # 2D arrayref
-#    );
-#
-
-sub _TableCellOnCount {
-    my $Self = shift;
-    my %Param = @_;
-    my $Return = 0;
-    # check needed stuff
-    foreach (qw(CellData)) {
-        if (!defined ($Param{$_})) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-            return;
-        }
-    }
-    if (!$Self->{PDF}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need a PDF Document!");
-        return;
-    }
-    if (!$Self->{Page}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need a Page!");
-        return;
-    }
-
-    my $RowCounter = 0;
-    foreach my $Cell (@{$Param{CellData}}) {
-        for (my $ColumnCounter = 0; $ColumnCounter < scalar(@$Cell) ; $ColumnCounter++) {
-            if ($Param{CellData}->[$RowCounter]->[$ColumnCounter]->{Off} ne 1) {
-                $Return++;
-            }
-        }
-        $RowCounter++;
-    }
-
-    return $Return;
-}
-
-#
-# _TableOutputCalculate()
-#
-# calculate what cells can output and some attributes
+# calculate what block can output next
 #
 #    Return
 #        $Return{State}
-#        $Return{Width}
-#        $Return{CellSpaceExtra}
-#        $Return{ReturnRows}     # (Array Ref)
-#        $Return{ReturnColumns}  # (Array Ref)
+#        $Return{ReturnBlock}
+#        $Return{ReturnRowStart}
+#        $Return{ReturnColumnStart}
+#        $Return{ReturnColumnStop}
 #
-#    %Return = $PDFObject->_TableOutputCalculate(
-#        %Param
+#    %Return = $PDFObject->_TableBlockNextCalculate(
+#        CellData => $CellData,      # 2D arrayref
+#        ColumnData => $ColumnData,  # arrayref
 #    );
 #
 
-sub _TableOutputCalculate {
+sub _TableBlockNextCalculate {
     my $Self = shift;
     my %Param = @_;
     my %Return = (
         State => 0,
+        ReturnBlock => 0,
+        ReturnRowStart => 0,
+        ReturnColumnStart => 0,
+        ReturnColumnStop => 0,
     );
     # check needed stuff
-    foreach (qw(CellData ColumnData Width Border)) {
+    foreach (qw(CellData ColumnData)) {
         if (!defined ($Param{$_})) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
@@ -1764,97 +1917,127 @@ sub _TableOutputCalculate {
 
     my $RowStart = 'NULL';
     my $ColumnStart = 'NULL';
-    my $RowStop;
-    my $ColumnStop;
-
-    my $RightCompleteMode = 0;
+    my $ColumnStop = 0;
 
     # calculate, what cells can output (what cells are aktive)
     my $RowCounter = 0;
     foreach my $Row (@{$Param{CellData}}) {
-        my $RowCellsOff = 0;
-        for (my $ColumnCounter = 0; $ColumnCounter < scalar(@$Row) ; $ColumnCounter++) {
-            # if cells off
-            if ($Row->[$ColumnCounter]->{Off} eq 1) {
-                $RowCellsOff = 1;
+        # if last block was temporary off, reactivate the row
+        if ($Param{CellData}->[$RowCounter]->[$#{$Param{CellData}->[$RowCounter]}]->{TmpOff}) {
+            for (my $ColumnCounter = 0; $ColumnCounter < scalar(@$Row) ; $ColumnCounter++) {
+                $Row->[$ColumnCounter]->{TmpOff} = 0;
             }
+        }
+        # now calculate, what cells can output (what cells are aktive)
+        for (my $ColumnCounter = 0; $ColumnCounter < scalar(@$Row) ; $ColumnCounter++) {
             # calculate RowStart and ColumnStart
             if ($Row->[$ColumnCounter]->{Off} ne 1 &&
+                $Row->[$ColumnCounter]->{TmpOff} ne 1 &&
                 $RowStart eq 'NULL' &&
                 $ColumnStart eq 'NULL'
             ) {
                 $RowStart = $RowCounter;
                 $ColumnStart = $ColumnCounter;
-                $ColumnStop = $ColumnCounter;
-
-                # enable RightComplateMode
-                if ($RowCellsOff) {
-                    $RightCompleteMode = 1;
-                }
+                $ColumnStop = $ColumnStart;
+                last;
             }
-            # calculate ColumnStop
-            if ($RowStart ne 'NULL' &&
-                $ColumnStart ne 'NULL' &&
-                $ColumnCounter > $ColumnStart &&
-                $ColumnCounter > $ColumnStop
-            ) {
-                $ColumnStop = $ColumnCounter;
-            }
-        }
-        # calculate $RowStop
-        if ($RightCompleteMode) {
-            if ($RowCellsOff) {
-                $RowStop = $RowCounter;
-            }
-        }
-        else {
-            $RowStop = $RowCounter;
         }
         $RowCounter++;
     }
 
-    # calculate, what columns can output (giveb width)
-    my $ReturnWidth = 0;
-    my @ReturnColumns;
-    for ($ColumnStart..$ColumnStop) {
-        my $BorderAdjustmentWidth = 0;
-        # if first column, add Border
-        if ($_ eq $ColumnStart) {
-            $BorderAdjustmentWidth = $Param{Border};
+    if ($RowStart ne 'NULL' && $ColumnStart ne 'NULL') {
+        # find last column of block
+        my $Block = $Param{ColumnData}->[$ColumnStart]->{Block};
+        my $ColumnCounter = 0;
+        foreach my $Column (@{$Param{ColumnData}}) {
+            if ($ColumnCounter > $ColumnStop &&
+                $Column->{Block} eq $Block
+            ) {
+                $ColumnStop = $ColumnCounter;
+            }
+            $ColumnCounter++;
         }
-        # calculate, what columns can output
-        if ($ReturnWidth + $Param{ColumnData}->[$_]->{Width} - $BorderAdjustmentWidth <= $Param{Width}) {
-            $ReturnWidth += $Param{ColumnData}->[$_]->{Width} - $BorderAdjustmentWidth;
-            push (@ReturnColumns, $_);
-        }
-        else {
-            last;
-        }
-    }
-    # calculate, what rows can output
-    my @ReturnRows;
-    for ($RowStart..$RowStop) {
-        push (@ReturnRows, $_);
-    }
-    # count rows and columns
-    my $ReturnRowsCount = 0;
-    if (@ReturnRows) {
-        $ReturnRowsCount = $#ReturnRows + 1;
-    }
-    my $ReturnColumnsCount = 0;
-    if (@ReturnColumns) {
-        $ReturnColumnsCount = $#ReturnColumns  + 1;
-    }
-    # set returns
-    if ($ReturnRowsCount > 0 && $ReturnColumnsCount > 0) {
+
         $Return{State} = 1;
-        $Return{Width} = $ReturnWidth;
-        $Return{CellSpaceExtra} = ($Param{Width} - $ReturnWidth) / $ReturnColumnsCount;
-        $Return{ReturnRows} = \@ReturnRows;
-        $Return{ReturnColumns} = \@ReturnColumns;
+        $Return{ReturnBlock} = $Block;
+        $Return{ReturnRowStart} = $RowStart;
+        $Return{ReturnColumnStart} = $ColumnStart;
+        $Return{ReturnColumnStop} = $ColumnStop;
     }
 
     return %Return;
+}
+
+#
+# _TableRowCalculate()
+#
+# calculate row of table
+#
+#    Return  # normally no return required, only references
+#        %Param
+#
+#    %Return = $PDFObject->_TableRowCalculate(
+#        CellData => $CellData,      # 2D arrayref
+#        RowData => $RowData,        # arrayref
+#        ColumnData => $ColumnData,  # arrayref
+#        Row => 3,                   # current row
+#    );
+#
+
+sub _TableRowCalculate {
+    my $Self = shift;
+    my %Param = @_;
+    # check needed stuff
+    foreach (qw(CellData RowData ColumnData Row)) {
+        if (!defined ($Param{$_})) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    if (!$Self->{PDF}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need a PDF Document!");
+        return;
+    }
+    if (!$Self->{Page}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need a Page!");
+        return;
+    }
+
+    if ($Param{RowData}->[$Param{Row}]->{Height}) {
+        $Param{RowData}->[$Param{Row}]->{TextHeight} = $Param{RowData}->[$Param{Row}]->{Height};
+    }
+    else {
+        # calculate height of row
+        $Param{RowData}->[$Param{Row}]->{Height} = 0;
+        $Param{RowData}->[$Param{Row}]->{TextHeight} = 0;
+        my $BiggerstFontSize = 0;
+        my $ColumnCounter = 0;
+        foreach my $Column (@{$Param{ColumnData}}) {
+            my $Cell = $Param{CellData}->[$Param{Row}]->[$ColumnCounter];
+            my %Calculate = $Self->_TextCalculate (
+                Text => $Cell->{Content},
+                Type => 'ReturnLeftOver',
+                Width => $Column->{TextWidth},
+                Height => 1000000,
+                Font => $Cell->{Font},
+                FontSize => $Cell->{FontSize},
+                Lead => $Cell->{Lead},
+            );
+            if ($Calculate{RequiredHeight} > $Param{RowData}->[$Param{Row}]->{TextHeight}) {
+                $Param{RowData}->[$Param{Row}]->{TextHeight} = $Calculate{RequiredHeight};
+            }
+            if ($Cell->{FontSize} > $BiggerstFontSize) {
+                $BiggerstFontSize = $Cell->{FontSize};
+            }
+            $ColumnCounter++;
+        }
+        if (!$Param{RowData}->[$Param{Row}]->{TextHeight}) {
+            $Param{RowData}->[$Param{Row}]->{TextHeight} = $BiggerstFontSize;
+        }
+    }
+    $Param{RowData}->[$Param{Row}]->{OutputHeight} = $Param{RowData}->[$Param{Row}]->{TextHeight} + $Param{PaddingTop} + $Param{PaddingBottom} + (2 * $Param{Border});
+
+    return %Param;
 }
 
 #
@@ -1864,11 +2047,15 @@ sub _TableOutputCalculate {
 #
 #    Return
 #        $Return{State}
+#        $Return{RequiredWidth}
+#        $Return{RequiredHeight}
+#        $Return{LeftOver}
 #
 #    %Return = $PDFObject->_TableCellOutput(
 #        Width => 70,
 #        Height => 40,
 #        Text => 'Text',
+#        Type => 'Cut',
 #        Font => 'Courier',
 #        FontSize => 15,
 #        FontColor => '#FF0000',
@@ -1894,7 +2081,7 @@ sub _TableCellOutput {
         LeftOver => '',
     );
     # check needed stuff
-    foreach (qw(Width Height Text Font FontSize FontColor Align Lead
+    foreach (qw(Width Height Text Type Font FontSize FontColor Align Lead
         PaddingTop PaddingRight PaddingBottom PaddingLeft BackgroundColor Border BorderColor)
     ) {
         if (!defined ($Param{$_})) {
@@ -1960,7 +2147,7 @@ sub _TableCellOutput {
 
     # calculate text start position
     my $TextX = $Position{X} + $Param{Border} + $Param{PaddingLeft};
-    my $TextY = $Position{Y} - $Param{Border} - $Param{PaddingTop};
+    my $TextY = $Position{Y} - $Param{Border} - $Param{PaddingTop} + 1;
     # calculate width and height of text
     my $TextWidth = $Param{Width} - $Param{PaddingLeft} - $Param{PaddingRight} - (2 * $Param{Border});
     my $TextHeight = $Param{Height} - $Param{PaddingTop} - $Param{PaddingBottom} - (2 * $Param{Border});
@@ -1973,6 +2160,7 @@ sub _TableCellOutput {
 
     %Return = $Self->Text(
         Text => $Param{Text},
+        Type => $Param{Type},
         Width => $TextWidth,
         Height => $TextHeight,
         Font => $Param{Font},
@@ -1983,6 +2171,50 @@ sub _TableCellOutput {
     );
 
     return %Return;
+}
+
+#
+# _TableCellOnCount()
+#
+# count all aktive cells
+#
+#    Return
+#        $CellCount
+#
+#    $Count = $PDFObject->_TableCellOnCount(
+#        CellData => $CellData,  # 2D arrayref
+#    );
+#
+
+sub _TableCellOnCount {
+    my $Self = shift;
+    my %Param = @_;
+    my $Return = 0;
+    # check needed stuff
+    foreach (qw(CellData)) {
+        if (!defined ($Param{$_})) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    if (!$Self->{PDF}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need a PDF Document!");
+        return;
+    }
+    if (!$Self->{Page}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need a Page!");
+        return;
+    }
+
+    foreach my $Row (@{$Param{CellData}}) {
+        for (my $ColumnCounter = 0; $ColumnCounter < scalar(@$Row) ; $ColumnCounter++) {
+            if ($Row->[$ColumnCounter]->{Off} ne 1) {
+                $Return++;
+            }
+        }
+    }
+
+    return $Return;
 }
 
 #
@@ -2001,7 +2233,7 @@ sub _TableCellOutput {
 #        Text => $Text,      # text
 #        Type => 'Cut',      # (ReturnLeftOver|ReturnLeftOverHard|Cut)
 #        Width => 300,       # available width
-#        Height => 200,      # (optional) available height
+#        Height => 200,      # available height
 #        Font => 'Courier',  # font of text
 #        FontSize => 6,      # fontsize of text
 #        Lead => 20,         # lead
@@ -2019,7 +2251,7 @@ sub _TextCalculate {
     );
     my @PossibleRows;
     # check needed stuff
-    foreach (qw(Text Type Width Font FontSize Lead)) {
+    foreach (qw(Text Type Width Height Font FontSize Lead)) {
         if (!defined ($Param{$_})) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
@@ -2033,9 +2265,7 @@ sub _TextCalculate {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need a Page!");
         return;
     }
-    if (!defined($Param{Height})) {
-        $Param{Height} = 999999999999999999;
-    }
+    my $TextLength = 0;
 
     if ($Param{Width} <= 0 || $Param{Height} <= 0 ) {
         $Return{LeftOver} = $Param{Text};
@@ -2045,8 +2275,8 @@ sub _TextCalculate {
         $Param{Text} = $Self->_PrepareText(
             Text => $Param{Text},
         );
+        $TextLength = length($Param{Text});
     }
-
     my $Counter1 = 0;
     while (defined($Param{Text})) {
         my $Row;
@@ -2134,6 +2364,20 @@ sub _TextCalculate {
             # add Row to PossibleRows array
             push (@PossibleRows, $Row);
             $Return{RequiredHeight} += $RowHeight;
+
+            # check, if min one character can count (protection of infinite loop)
+            if (defined($Param{Text})) {
+                if (length($Param{Text}) >= $TextLength) {
+                    $Return{RequiredWidth} = 0;
+                    $Return{RequiredHeight} = 0;
+                    $Return{LeftOver} = $Param{Text};
+                    $Param{Text} = undef;
+                    @PossibleRows = ();
+                }
+                else {
+                    $TextLength = length($Param{Text});
+                }
+            }
         }
         else {
             $Return{LeftOver} = $Row;
@@ -3021,6 +3265,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2006-08-08 14:54:02 $
+$Revision: 1.10 $ $Date: 2006-08-21 19:12:29 $
 
 =cut
