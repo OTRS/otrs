@@ -2,7 +2,7 @@
 # PDF.t - PDF tests
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PDF.t,v 1.2 2006-08-08 12:04:25 mh Exp $
+# $Id: PDF.t,v 1.3 2006-08-21 19:14:24 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -263,6 +263,16 @@ $TextCalculateData{13}{PossibleRows}{0} = 'D';
 $TextCalculateData{13}{PossibleRows}{1} = 'er';
 $TextCalculateData{13}{PossibleRows}{2} = 'R';
 $TextCalculateData{13}{PossibleRows}{3} = 'a';
+
+# test14
+$TextCalculateData{14}{Text} = 'ISS - International Space Station';
+$TextCalculateData{14}{Type} = 'ReturnLeftOver';
+$TextCalculateData{14}{Width} = 1,
+$TextCalculateData{14}{Height} = 10000,
+$TextCalculateData{14}{State} = 0;
+$TextCalculateData{14}{RequiredWidth} = 0;
+$TextCalculateData{14}{RequiredHeight} = 0;
+$TextCalculateData{14}{LeftOver} = 'ISS - International Space Station';
 
 # start testing _TextCalculate()
 foreach (sort keys %TextCalculateData) {
@@ -672,16 +682,20 @@ my %TableCalculate;
 # tablecalculatetest0
 $TableCalculate{0}{FontColorEven} = '#101010';
 $TableCalculate{0}{BackgroundColor} = 'red';
+$TableCalculate{0}{Type} = 'Cut';
+$TableCalculate{0}{Border} = 1;
 
 $TableCalculate{0}{CellData}[0][0]{Content} = 'Zelle 1-1';
 $TableCalculate{0}{CellData}[0][1]{Content} = 'Zelle 1-2';
 $TableCalculate{0}{CellData}[0][1]{BackgroundColor} = 'blue';
+$TableCalculate{0}{CellData}[0][1]{Type} = 'ReturnLeftOverHard';
 $TableCalculate{0}{CellData}[0][1]{Lead} = 3;
 $TableCalculate{0}{CellData}[1][0]{Content} = 'Zelle 2-1 (Reihe 2)';
 $TableCalculate{0}{CellData}[1][1]{Content} = '';
 $TableCalculate{0}{CellData}[1][1]{Align} = 'center';
 
 $TableCalculate{0}{ReturnCellData}[0][0]{Content} = 'Zelle 1-1';
+$TableCalculate{0}{ReturnCellData}[0][0]{Type} = 'Cut';
 $TableCalculate{0}{ReturnCellData}[0][0]{Font} = 'Helvetica';
 $TableCalculate{0}{ReturnCellData}[0][0]{FontSize} = 10;
 $TableCalculate{0}{ReturnCellData}[0][0]{FontColor} = '#101010';
@@ -689,6 +703,7 @@ $TableCalculate{0}{ReturnCellData}[0][0]{Align} = 'left';
 $TableCalculate{0}{ReturnCellData}[0][0]{Lead} = 0;
 $TableCalculate{0}{ReturnCellData}[0][0]{BackgroundColor} = 'red';
 $TableCalculate{0}{ReturnCellData}[0][1]{Content} = 'Zelle 1-2';
+$TableCalculate{0}{ReturnCellData}[0][1]{Type} = 'ReturnLeftOverHard';
 $TableCalculate{0}{ReturnCellData}[0][1]{Font} = 'Helvetica';
 $TableCalculate{0}{ReturnCellData}[0][1]{FontSize} = 10;
 $TableCalculate{0}{ReturnCellData}[0][1]{FontColor} = '#101010';
@@ -696,6 +711,7 @@ $TableCalculate{0}{ReturnCellData}[0][1]{Align} = 'left';
 $TableCalculate{0}{ReturnCellData}[0][1]{Lead} = 3;
 $TableCalculate{0}{ReturnCellData}[0][1]{BackgroundColor} = 'blue';
 $TableCalculate{0}{ReturnCellData}[1][0]{Content} = 'Zelle 2-1 (Reihe 2)';
+$TableCalculate{0}{ReturnCellData}[1][0]{Type} = 'Cut';
 $TableCalculate{0}{ReturnCellData}[1][0]{Font} = 'Helvetica';
 $TableCalculate{0}{ReturnCellData}[1][0]{FontSize} = 10;
 $TableCalculate{0}{ReturnCellData}[1][0]{FontColor} = 'black';
@@ -703,6 +719,7 @@ $TableCalculate{0}{ReturnCellData}[1][0]{Align} = 'left';
 $TableCalculate{0}{ReturnCellData}[1][0]{Lead} = 0;
 $TableCalculate{0}{ReturnCellData}[1][0]{BackgroundColor} = 'red';
 $TableCalculate{0}{ReturnCellData}[1][1]{Content} = ' ';
+$TableCalculate{0}{ReturnCellData}[1][1]{Type} = 'Cut';
 $TableCalculate{0}{ReturnCellData}[1][1]{Font} = 'Helvetica';
 $TableCalculate{0}{ReturnCellData}[1][1]{FontSize} = 10;
 $TableCalculate{0}{ReturnCellData}[1][1]{FontColor} = 'black';
@@ -710,11 +727,23 @@ $TableCalculate{0}{ReturnCellData}[1][1]{Align} = 'center';
 $TableCalculate{0}{ReturnCellData}[1][1]{Lead} = 0;
 $TableCalculate{0}{ReturnCellData}[1][1]{BackgroundColor} = 'red';
 
-$TableCalculate{0}{ReturnColumnData}[0]{Width} = 57.125;
-$TableCalculate{0}{ReturnColumnData}[1]{Width} = 31.285;
+$TableCalculate{0}{ReturnColumnData}[0]{Width} = 0;
+$TableCalculate{0}{ReturnColumnData}[0]{EstimateWidth} = 56.125;
+$TableCalculate{0}{ReturnColumnData}[0]{TextWidth} = 261.42;
+$TableCalculate{0}{ReturnColumnData}[0]{OutputWidth} = 263.42;
+$TableCalculate{0}{ReturnColumnData}[0]{Block} = 0;
+$TableCalculate{0}{ReturnColumnData}[1]{Width} = 0;
+$TableCalculate{0}{ReturnColumnData}[1]{EstimateWidth} = 30.285;
+$TableCalculate{0}{ReturnColumnData}[1]{TextWidth} = 235.58;
+$TableCalculate{0}{ReturnColumnData}[1]{OutputWidth} = 237.58;
+$TableCalculate{0}{ReturnColumnData}[1]{Block} = 0;
+
+$TableCalculate{0}{ReturnRowData}[0]{MinFontSize} = 10;
+$TableCalculate{0}{ReturnRowData}[1]{MinFontSize} = 10;
 
 # tablecalculatetest1
 $TableCalculate{1}{Width} = 300;
+$TableCalculate{1}{Border} = 1;
 
 $TableCalculate{1}{CellData}[0][0]{Content} = "Welcome to OTRS!\n\nthank you for installing OTRS.\n\nYou will find updates and patches at http://otrs.org/. Online\ndocumentation is available at http://doc.otrs.org/. You can also\ntake advantage of our mailing lists http://lists.otrs.org/.\n\n\nYour OTRS Team\n\n    Manage your communication!";
 $TableCalculate{1}{CellData}[0][1]{Content} = "\nWelcome to OTRS!\n\nthank you for installing OTRS.\n\nYou will find updates and patches at http://otrs.org/. Online\ndocumentation is available at http://doc.otrs.org/. You can also\ntake advantage of our mailing lists http://lists.otrs.org/.\n\n\nYour OTRS Team\n\n\tManage your communication!\n";
@@ -722,6 +751,7 @@ $TableCalculate{1}{CellData}[1][0]{Content} = "\tWelcome to OTRS!\n\nthank you f
 $TableCalculate{1}{CellData}[1][1]{Content} = "\r\r\nWelcome to OTRS!\n\nthank you for installing OTRS.\n\nYou will find updates and patches at http://otrs.org/. Online\ndocumentation is available at http://doc.otrs.org/. You can also\ntake advantage of our mailing lists http://lists.otrs.org/.\n\rYour OTRS Team\n\n    Manage your communication!\r\n";
 
 $TableCalculate{1}{ReturnCellData}[0][0]{Content} = "Welcome to OTRS!\n\nthank you for installing OTRS.\n\nYou will find updates and patches at http://otrs.org/. Online\ndocumentation is available at http://doc.otrs.org/. You can also\ntake advantage of our mailing lists http://lists.otrs.org/.\n\n\nYour OTRS Team\n\n    Manage your communication!";
+$TableCalculate{1}{ReturnCellData}[0][0]{Type} = 'ReturnLeftOver';
 $TableCalculate{1}{ReturnCellData}[0][0]{Font} = 'Helvetica';
 $TableCalculate{1}{ReturnCellData}[0][0]{FontSize} = 10;
 $TableCalculate{1}{ReturnCellData}[0][0]{FontColor} = 'black';
@@ -729,6 +759,7 @@ $TableCalculate{1}{ReturnCellData}[0][0]{Align} = 'left';
 $TableCalculate{1}{ReturnCellData}[0][0]{Lead} = 0;
 $TableCalculate{1}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
 $TableCalculate{1}{ReturnCellData}[0][1]{Content} = "\nWelcome to OTRS!\n\nthank you for installing OTRS.\n\nYou will find updates and patches at http://otrs.org/. Online\ndocumentation is available at http://doc.otrs.org/. You can also\ntake advantage of our mailing lists http://lists.otrs.org/.\n\n\nYour OTRS Team\n\n  Manage your communication!\n";
+$TableCalculate{1}{ReturnCellData}[0][1]{Type} = 'ReturnLeftOver';
 $TableCalculate{1}{ReturnCellData}[0][1]{Font} = 'Helvetica';
 $TableCalculate{1}{ReturnCellData}[0][1]{FontSize} = 10;
 $TableCalculate{1}{ReturnCellData}[0][1]{FontColor} = 'black';
@@ -736,6 +767,7 @@ $TableCalculate{1}{ReturnCellData}[0][1]{Align} = 'left';
 $TableCalculate{1}{ReturnCellData}[0][1]{Lead} = 0;
 $TableCalculate{1}{ReturnCellData}[0][1]{BackgroundColor} = 'NULL';
 $TableCalculate{1}{ReturnCellData}[1][0]{Content} = "  Welcome to OTRS!\n\nthank you for installing OTRS.\n\nYou will find updates and patches at http://otrs.org/. Online\ndocumentation is available at http://doc.otrs.org/. You can also\ntake advantage of our mailing lists http://lists.otrs.org/.\n\n\nYour OTRS Team\n\n    Manage your communication!\n  ";
+$TableCalculate{1}{ReturnCellData}[1][0]{Type} = 'ReturnLeftOver';
 $TableCalculate{1}{ReturnCellData}[1][0]{Font} = 'Helvetica';
 $TableCalculate{1}{ReturnCellData}[1][0]{FontSize} = 10;
 $TableCalculate{1}{ReturnCellData}[1][0]{FontColor} = 'black';
@@ -743,6 +775,7 @@ $TableCalculate{1}{ReturnCellData}[1][0]{Align} = 'left';
 $TableCalculate{1}{ReturnCellData}[1][0]{Lead} = 0;
 $TableCalculate{1}{ReturnCellData}[1][0]{BackgroundColor} = 'NULL';
 $TableCalculate{1}{ReturnCellData}[1][1]{Content} = "\nWelcome to OTRS!\n\nthank you for installing OTRS.\n\nYou will find updates and patches at http://otrs.org/. Online\ndocumentation is available at http://doc.otrs.org/. You can also\ntake advantage of our mailing lists http://lists.otrs.org/.\nYour OTRS Team\n\n    Manage your communication!\n";
+$TableCalculate{1}{ReturnCellData}[1][1]{Type} = 'ReturnLeftOver';
 $TableCalculate{1}{ReturnCellData}[1][1]{Font} = 'Helvetica';
 $TableCalculate{1}{ReturnCellData}[1][1]{FontSize} = 10;
 $TableCalculate{1}{ReturnCellData}[1][1]{FontColor} = 'black';
@@ -750,11 +783,23 @@ $TableCalculate{1}{ReturnCellData}[1][1]{Align} = 'left';
 $TableCalculate{1}{ReturnCellData}[1][1]{Lead} = 0;
 $TableCalculate{1}{ReturnCellData}[1][1]{BackgroundColor} = 'NULL';
 
-$TableCalculate{1}{ReturnColumnData}[0]{Width} = 300;
-$TableCalculate{1}{ReturnColumnData}[1]{Width} = 300;
+$TableCalculate{1}{ReturnColumnData}[0]{Width} = 0;
+$TableCalculate{1}{ReturnColumnData}[0]{EstimateWidth} = 298;
+$TableCalculate{1}{ReturnColumnData}[0]{TextWidth} = 298;
+$TableCalculate{1}{ReturnColumnData}[0]{OutputWidth} = 300;
+$TableCalculate{1}{ReturnColumnData}[0]{Block} = 0;
+$TableCalculate{1}{ReturnColumnData}[1]{Width} = 0;
+$TableCalculate{1}{ReturnColumnData}[1]{EstimateWidth} = 298;
+$TableCalculate{1}{ReturnColumnData}[1]{TextWidth} = 298;
+$TableCalculate{1}{ReturnColumnData}[1]{OutputWidth} = 300;
+$TableCalculate{1}{ReturnColumnData}[1]{Block} = 1;
+
+$TableCalculate{1}{ReturnRowData}[0]{MinFontSize} = 10;
+$TableCalculate{1}{ReturnRowData}[1]{MinFontSize} = 10;
 
 # tablecalculatetest2
 $TableCalculate{2}{Width} = 300;
+$TableCalculate{2}{Border} = 1;
 
 $TableCalculate{2}{CellData}[0][0]{Content} = "\n";
 $TableCalculate{2}{CellData}[0][1]{Content} = "\t ";
@@ -762,6 +807,7 @@ $TableCalculate{2}{CellData}[1][0]{Content} = "\t\f";
 $TableCalculate{2}{CellData}[1][1]{Content} = "\t\n\r\f\r\r\n";
 
 $TableCalculate{2}{ReturnCellData}[0][0]{Content} = "\n";
+$TableCalculate{2}{ReturnCellData}[0][0]{Type} = 'ReturnLeftOver';
 $TableCalculate{2}{ReturnCellData}[0][0]{Font} = 'Helvetica';
 $TableCalculate{2}{ReturnCellData}[0][0]{FontSize} = 10;
 $TableCalculate{2}{ReturnCellData}[0][0]{FontColor} = 'black';
@@ -769,6 +815,7 @@ $TableCalculate{2}{ReturnCellData}[0][0]{Align} = 'left';
 $TableCalculate{2}{ReturnCellData}[0][0]{Lead} = 0;
 $TableCalculate{2}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
 $TableCalculate{2}{ReturnCellData}[0][1]{Content} = "   ";
+$TableCalculate{2}{ReturnCellData}[0][1]{Type} = 'ReturnLeftOver';
 $TableCalculate{2}{ReturnCellData}[0][1]{Font} = 'Helvetica';
 $TableCalculate{2}{ReturnCellData}[0][1]{FontSize} = 10;
 $TableCalculate{2}{ReturnCellData}[0][1]{FontColor} = 'black';
@@ -776,6 +823,7 @@ $TableCalculate{2}{ReturnCellData}[0][1]{Align} = 'left';
 $TableCalculate{2}{ReturnCellData}[0][1]{Lead} = 0;
 $TableCalculate{2}{ReturnCellData}[0][1]{BackgroundColor} = 'NULL';
 $TableCalculate{2}{ReturnCellData}[1][0]{Content} = "  \n\n";
+$TableCalculate{2}{ReturnCellData}[1][0]{Type} = 'ReturnLeftOver';
 $TableCalculate{2}{ReturnCellData}[1][0]{Font} = 'Helvetica';
 $TableCalculate{2}{ReturnCellData}[1][0]{FontSize} = 10;
 $TableCalculate{2}{ReturnCellData}[1][0]{FontColor} = 'black';
@@ -783,6 +831,7 @@ $TableCalculate{2}{ReturnCellData}[1][0]{Align} = 'left';
 $TableCalculate{2}{ReturnCellData}[1][0]{Lead} = 0;
 $TableCalculate{2}{ReturnCellData}[1][0]{BackgroundColor} = 'NULL';
 $TableCalculate{2}{ReturnCellData}[1][1]{Content} = "  \n\n\n\n";
+$TableCalculate{2}{ReturnCellData}[1][1]{Type} = 'ReturnLeftOver';
 $TableCalculate{2}{ReturnCellData}[1][1]{Font} = 'Helvetica';
 $TableCalculate{2}{ReturnCellData}[1][1]{FontSize} = 10;
 $TableCalculate{2}{ReturnCellData}[1][1]{FontColor} = 'black';
@@ -790,10 +839,535 @@ $TableCalculate{2}{ReturnCellData}[1][1]{Align} = 'left';
 $TableCalculate{2}{ReturnCellData}[1][1]{Lead} = 0;
 $TableCalculate{2}{ReturnCellData}[1][1]{BackgroundColor} = 'NULL';
 
-$TableCalculate{2}{ReturnColumnData}[0]{Width} = 7.11;
-$TableCalculate{2}{ReturnColumnData}[1]{Width} = 10.44;
+$TableCalculate{2}{ReturnColumnData}[0]{Width} = 0;
+$TableCalculate{2}{ReturnColumnData}[0]{EstimateWidth} = 6.11;
+$TableCalculate{2}{ReturnColumnData}[0]{TextWidth} = 146.835;
+$TableCalculate{2}{ReturnColumnData}[0]{OutputWidth} = 148.835;
+$TableCalculate{2}{ReturnColumnData}[0]{Block} = 0;
+$TableCalculate{2}{ReturnColumnData}[1]{Width} = 0;
+$TableCalculate{2}{ReturnColumnData}[1]{EstimateWidth} = 9.44;
+$TableCalculate{2}{ReturnColumnData}[1]{TextWidth} = 150.165;
+$TableCalculate{2}{ReturnColumnData}[1]{OutputWidth} = 152.165;
+$TableCalculate{2}{ReturnColumnData}[1]{Block} = 0;
 
-# start testing Text()
+$TableCalculate{2}{ReturnRowData}[0]{MinFontSize} = 10;
+$TableCalculate{2}{ReturnRowData}[1]{MinFontSize} = 10;
+
+# tablecalculatetest3
+$TableCalculate{3}{Width} = 300;
+$TableCalculate{3}{Border} = 1;
+
+$TableCalculate{3}{CellData}[0][0]{Content} = "ISS";
+$TableCalculate{3}{CellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{3}{CellData}[1][0]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{3}{CellData}[1][1]{Content} = "ISS";
+
+$TableCalculate{3}{ReturnCellData}[0][0]{Content} = "ISS";
+$TableCalculate{3}{ReturnCellData}[0][0]{Type} = 'ReturnLeftOver';
+$TableCalculate{3}{ReturnCellData}[0][0]{Font} = 'Helvetica';
+$TableCalculate{3}{ReturnCellData}[0][0]{FontSize} = 10;
+$TableCalculate{3}{ReturnCellData}[0][0]{FontColor} = 'black';
+$TableCalculate{3}{ReturnCellData}[0][0]{Align} = 'left';
+$TableCalculate{3}{ReturnCellData}[0][0]{Lead} = 0;
+$TableCalculate{3}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
+$TableCalculate{3}{ReturnCellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{3}{ReturnCellData}[0][1]{Type} = 'ReturnLeftOver';
+$TableCalculate{3}{ReturnCellData}[0][1]{Font} = 'Helvetica';
+$TableCalculate{3}{ReturnCellData}[0][1]{FontSize} = 10;
+$TableCalculate{3}{ReturnCellData}[0][1]{FontColor} = 'black';
+$TableCalculate{3}{ReturnCellData}[0][1]{Align} = 'left';
+$TableCalculate{3}{ReturnCellData}[0][1]{Lead} = 0;
+$TableCalculate{3}{ReturnCellData}[0][1]{BackgroundColor} = 'NULL';
+$TableCalculate{3}{ReturnCellData}[1][0]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{3}{ReturnCellData}[1][0]{Type} = 'ReturnLeftOver';
+$TableCalculate{3}{ReturnCellData}[1][0]{Font} = 'Helvetica';
+$TableCalculate{3}{ReturnCellData}[1][0]{FontSize} = 10;
+$TableCalculate{3}{ReturnCellData}[1][0]{FontColor} = 'black';
+$TableCalculate{3}{ReturnCellData}[1][0]{Align} = 'left';
+$TableCalculate{3}{ReturnCellData}[1][0]{Lead} = 0;
+$TableCalculate{3}{ReturnCellData}[1][0]{BackgroundColor} = 'NULL';
+$TableCalculate{3}{ReturnCellData}[1][1]{Content} = "ISS";
+$TableCalculate{3}{ReturnCellData}[1][1]{Type} = 'ReturnLeftOver';
+$TableCalculate{3}{ReturnCellData}[1][1]{Font} = 'Helvetica';
+$TableCalculate{3}{ReturnCellData}[1][1]{FontSize} = 10;
+$TableCalculate{3}{ReturnCellData}[1][1]{FontColor} = 'black';
+$TableCalculate{3}{ReturnCellData}[1][1]{Align} = 'left';
+$TableCalculate{3}{ReturnCellData}[1][1]{Lead} = 0;
+$TableCalculate{3}{ReturnCellData}[1][1]{BackgroundColor} = 'NULL';
+
+$TableCalculate{3}{ReturnColumnData}[0]{Width} = 0;
+$TableCalculate{3}{ReturnColumnData}[0]{EstimateWidth} = 298;
+$TableCalculate{3}{ReturnColumnData}[0]{TextWidth} = 298;
+$TableCalculate{3}{ReturnColumnData}[0]{OutputWidth} = 300;
+$TableCalculate{3}{ReturnColumnData}[0]{Block} = 0;
+$TableCalculate{3}{ReturnColumnData}[1]{Width} = 0;
+$TableCalculate{3}{ReturnColumnData}[1]{EstimateWidth} = 298;
+$TableCalculate{3}{ReturnColumnData}[1]{TextWidth} = 298;
+$TableCalculate{3}{ReturnColumnData}[1]{OutputWidth} = 300;
+$TableCalculate{3}{ReturnColumnData}[1]{Block} = 1;
+
+$TableCalculate{3}{ReturnRowData}[0]{MinFontSize} = 10;
+$TableCalculate{3}{ReturnRowData}[1]{MinFontSize} = 10;
+
+# tablecalculatetest4
+$TableCalculate{4}{Width} = 1;
+$TableCalculate{4}{PaddingLeft} = 5;
+$TableCalculate{4}{PaddingRight} = 5;
+$TableCalculate{4}{Border} = 2;
+
+$TableCalculate{4}{CellData}[0][0]{Content} = "ISS - International Space Station";
+
+$TableCalculate{4}{ReturnCellData}[0][0]{Content} = "ISS - International Space Station";
+$TableCalculate{4}{ReturnCellData}[0][0]{Type} = 'ReturnLeftOver';
+$TableCalculate{4}{ReturnCellData}[0][0]{Font} = 'Helvetica';
+$TableCalculate{4}{ReturnCellData}[0][0]{FontSize} = 10;
+$TableCalculate{4}{ReturnCellData}[0][0]{FontColor} = 'black';
+$TableCalculate{4}{ReturnCellData}[0][0]{Align} = 'left';
+$TableCalculate{4}{ReturnCellData}[0][0]{Lead} = 0;
+$TableCalculate{4}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
+
+$TableCalculate{4}{ReturnColumnData}[0]{Width} = 0;
+$TableCalculate{4}{ReturnColumnData}[0]{EstimateWidth} = 1;
+$TableCalculate{4}{ReturnColumnData}[0]{TextWidth} = 1;
+$TableCalculate{4}{ReturnColumnData}[0]{OutputWidth} = 1;
+$TableCalculate{4}{ReturnColumnData}[0]{Block} = 0;
+
+$TableCalculate{4}{ReturnRowData}[0]{MinFontSize} = 10;
+
+# tablecalculatetest5
+$TableCalculate{5}{Width} = 300;
+$TableCalculate{5}{Border} = 1;
+
+$TableCalculate{5}{CellData}[0][0]{Content} = "ISS";
+$TableCalculate{5}{CellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{5}{CellData}[1][0]{Content} = "ISS";
+$TableCalculate{5}{CellData}[1][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+
+$TableCalculate{5}{ColumnData}[1]{Width} = 103;
+
+$TableCalculate{5}{ReturnCellData}[0][0]{Content} = "ISS";
+$TableCalculate{5}{ReturnCellData}[0][0]{Type} = 'ReturnLeftOver';
+$TableCalculate{5}{ReturnCellData}[0][0]{Font} = 'Helvetica';
+$TableCalculate{5}{ReturnCellData}[0][0]{FontSize} = 10;
+$TableCalculate{5}{ReturnCellData}[0][0]{FontColor} = 'black';
+$TableCalculate{5}{ReturnCellData}[0][0]{Align} = 'left';
+$TableCalculate{5}{ReturnCellData}[0][0]{Lead} = 0;
+$TableCalculate{5}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
+$TableCalculate{5}{ReturnCellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{5}{ReturnCellData}[0][1]{Type} = 'ReturnLeftOver';
+$TableCalculate{5}{ReturnCellData}[0][1]{Font} = 'Helvetica';
+$TableCalculate{5}{ReturnCellData}[0][1]{FontSize} = 10;
+$TableCalculate{5}{ReturnCellData}[0][1]{FontColor} = 'black';
+$TableCalculate{5}{ReturnCellData}[0][1]{Align} = 'left';
+$TableCalculate{5}{ReturnCellData}[0][1]{Lead} = 0;
+$TableCalculate{5}{ReturnCellData}[0][1]{BackgroundColor} = 'NULL';
+$TableCalculate{5}{ReturnCellData}[1][0]{Content} = "ISS";
+$TableCalculate{5}{ReturnCellData}[1][0]{Type} = 'ReturnLeftOver';
+$TableCalculate{5}{ReturnCellData}[1][0]{Font} = 'Helvetica';
+$TableCalculate{5}{ReturnCellData}[1][0]{FontSize} = 10;
+$TableCalculate{5}{ReturnCellData}[1][0]{FontColor} = 'black';
+$TableCalculate{5}{ReturnCellData}[1][0]{Align} = 'left';
+$TableCalculate{5}{ReturnCellData}[1][0]{Lead} = 0;
+$TableCalculate{5}{ReturnCellData}[1][0]{BackgroundColor} = 'NULL';
+$TableCalculate{5}{ReturnCellData}[1][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{5}{ReturnCellData}[1][1]{Type} = 'ReturnLeftOver';
+$TableCalculate{5}{ReturnCellData}[1][1]{Font} = 'Helvetica';
+$TableCalculate{5}{ReturnCellData}[1][1]{FontSize} = 10;
+$TableCalculate{5}{ReturnCellData}[1][1]{FontColor} = 'black';
+$TableCalculate{5}{ReturnCellData}[1][1]{Align} = 'left';
+$TableCalculate{5}{ReturnCellData}[1][1]{Lead} = 0;
+$TableCalculate{5}{ReturnCellData}[1][1]{BackgroundColor} = 'NULL';
+
+$TableCalculate{5}{ReturnColumnData}[0]{Width} = 0;
+$TableCalculate{5}{ReturnColumnData}[0]{EstimateWidth} = 16.12;
+$TableCalculate{5}{ReturnColumnData}[0]{TextWidth} = 194;
+$TableCalculate{5}{ReturnColumnData}[0]{OutputWidth} = 196;
+$TableCalculate{5}{ReturnColumnData}[0]{Block} = 0;
+$TableCalculate{5}{ReturnColumnData}[1]{Width} = 103;
+$TableCalculate{5}{ReturnColumnData}[1]{EstimateWidth} = 103;
+$TableCalculate{5}{ReturnColumnData}[1]{TextWidth} = 103;
+$TableCalculate{5}{ReturnColumnData}[1]{OutputWidth} = 105;
+$TableCalculate{5}{ReturnColumnData}[1]{Block} = 0;
+
+$TableCalculate{5}{ReturnRowData}[0]{MinFontSize} = 10;
+$TableCalculate{5}{ReturnRowData}[1]{MinFontSize} = 10;
+
+# tablecalculatetest6
+$TableCalculate{6}{Width} = 1;
+$TableCalculate{6}{Border} = 0;
+
+$TableCalculate{6}{CellData}[0][0]{Content} = "ISS";
+
+$TableCalculate{6}{ReturnCellData}[0][0]{Content} = "ISS";
+$TableCalculate{6}{ReturnCellData}[0][0]{Type} = 'ReturnLeftOver';
+$TableCalculate{6}{ReturnCellData}[0][0]{Font} = 'Helvetica';
+$TableCalculate{6}{ReturnCellData}[0][0]{FontSize} = 10;
+$TableCalculate{6}{ReturnCellData}[0][0]{FontColor} = 'black';
+$TableCalculate{6}{ReturnCellData}[0][0]{Align} = 'left';
+$TableCalculate{6}{ReturnCellData}[0][0]{Lead} = 0;
+$TableCalculate{6}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
+
+$TableCalculate{6}{ReturnColumnData}[0]{Width} = 0;
+$TableCalculate{6}{ReturnColumnData}[0]{EstimateWidth} = 1;
+$TableCalculate{6}{ReturnColumnData}[0]{TextWidth} = 1;
+$TableCalculate{6}{ReturnColumnData}[0]{OutputWidth} = 1;
+$TableCalculate{6}{ReturnColumnData}[0]{Block} = 0;
+
+$TableCalculate{6}{ReturnRowData}[0]{MinFontSize} = 10;
+
+# tablecalculatetest7
+$TableCalculate{7}{Width} = 300;
+$TableCalculate{7}{Border} = 1;
+
+$TableCalculate{7}{CellData}[0][0]{Content} = "ISS";
+$TableCalculate{7}{CellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{7}{CellData}[1][0]{Content} = "ISS";
+$TableCalculate{7}{CellData}[1][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+
+$TableCalculate{7}{ColumnData}[1]{Width} = 100;
+
+$TableCalculate{7}{ReturnCellData}[0][0]{Content} = "ISS";
+$TableCalculate{7}{ReturnCellData}[0][0]{Type} = 'ReturnLeftOver';
+$TableCalculate{7}{ReturnCellData}[0][0]{Font} = 'Helvetica';
+$TableCalculate{7}{ReturnCellData}[0][0]{FontSize} = 10;
+$TableCalculate{7}{ReturnCellData}[0][0]{FontColor} = 'black';
+$TableCalculate{7}{ReturnCellData}[0][0]{Align} = 'left';
+$TableCalculate{7}{ReturnCellData}[0][0]{Lead} = 0;
+$TableCalculate{7}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
+$TableCalculate{7}{ReturnCellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{7}{ReturnCellData}[0][1]{Type} = 'ReturnLeftOver';
+$TableCalculate{7}{ReturnCellData}[0][1]{Font} = 'Helvetica';
+$TableCalculate{7}{ReturnCellData}[0][1]{FontSize} = 10;
+$TableCalculate{7}{ReturnCellData}[0][1]{FontColor} = 'black';
+$TableCalculate{7}{ReturnCellData}[0][1]{Align} = 'left';
+$TableCalculate{7}{ReturnCellData}[0][1]{Lead} = 0;
+$TableCalculate{7}{ReturnCellData}[0][1]{BackgroundColor} = 'NULL';
+$TableCalculate{7}{ReturnCellData}[1][0]{Content} = "ISS";
+$TableCalculate{7}{ReturnCellData}[1][0]{Type} = 'ReturnLeftOver';
+$TableCalculate{7}{ReturnCellData}[1][0]{Font} = 'Helvetica';
+$TableCalculate{7}{ReturnCellData}[1][0]{FontSize} = 10;
+$TableCalculate{7}{ReturnCellData}[1][0]{FontColor} = 'black';
+$TableCalculate{7}{ReturnCellData}[1][0]{Align} = 'left';
+$TableCalculate{7}{ReturnCellData}[1][0]{Lead} = 0;
+$TableCalculate{7}{ReturnCellData}[1][0]{BackgroundColor} = 'NULL';
+$TableCalculate{7}{ReturnCellData}[1][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{7}{ReturnCellData}[1][1]{Type} = 'ReturnLeftOver';
+$TableCalculate{7}{ReturnCellData}[1][1]{Font} = 'Helvetica';
+$TableCalculate{7}{ReturnCellData}[1][1]{FontSize} = 10;
+$TableCalculate{7}{ReturnCellData}[1][1]{FontColor} = 'black';
+$TableCalculate{7}{ReturnCellData}[1][1]{Align} = 'left';
+$TableCalculate{7}{ReturnCellData}[1][1]{Lead} = 0;
+$TableCalculate{7}{ReturnCellData}[1][1]{BackgroundColor} = 'NULL';
+
+$TableCalculate{7}{ReturnColumnData}[0]{Width} = 0;
+$TableCalculate{7}{ReturnColumnData}[0]{EstimateWidth} = 16.12;
+$TableCalculate{7}{ReturnColumnData}[0]{TextWidth} = 197;
+$TableCalculate{7}{ReturnColumnData}[0]{OutputWidth} = 199;
+$TableCalculate{7}{ReturnColumnData}[0]{Block} = 0;
+$TableCalculate{7}{ReturnColumnData}[1]{Width} = 100;
+$TableCalculate{7}{ReturnColumnData}[1]{EstimateWidth} = 100;
+$TableCalculate{7}{ReturnColumnData}[1]{TextWidth} = 100;
+$TableCalculate{7}{ReturnColumnData}[1]{OutputWidth} = 102;
+$TableCalculate{7}{ReturnColumnData}[1]{Block} = 0;
+
+$TableCalculate{7}{ReturnRowData}[0]{MinFontSize} = 10;
+$TableCalculate{7}{ReturnRowData}[1]{MinFontSize} = 10;
+
+# tablecalculatetest8
+$TableCalculate{8}{Width} = 300;
+$TableCalculate{8}{Border} = 1;
+
+$TableCalculate{8}{CellData}[0][0]{Content} = "ISS";
+$TableCalculate{8}{CellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{8}{CellData}[1][0]{Content} = "ISS";
+$TableCalculate{8}{CellData}[1][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+
+$TableCalculate{8}{ColumnData}[0]{Width} = 70;
+$TableCalculate{8}{ColumnData}[1]{Width} = 130;
+
+$TableCalculate{8}{ReturnCellData}[0][0]{Content} = "ISS";
+$TableCalculate{8}{ReturnCellData}[0][0]{Type} = 'ReturnLeftOver';
+$TableCalculate{8}{ReturnCellData}[0][0]{Font} = 'Helvetica';
+$TableCalculate{8}{ReturnCellData}[0][0]{FontSize} = 10;
+$TableCalculate{8}{ReturnCellData}[0][0]{FontColor} = 'black';
+$TableCalculate{8}{ReturnCellData}[0][0]{Align} = 'left';
+$TableCalculate{8}{ReturnCellData}[0][0]{Lead} = 0;
+$TableCalculate{8}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
+$TableCalculate{8}{ReturnCellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{8}{ReturnCellData}[0][1]{Type} = 'ReturnLeftOver';
+$TableCalculate{8}{ReturnCellData}[0][1]{Font} = 'Helvetica';
+$TableCalculate{8}{ReturnCellData}[0][1]{FontSize} = 10;
+$TableCalculate{8}{ReturnCellData}[0][1]{FontColor} = 'black';
+$TableCalculate{8}{ReturnCellData}[0][1]{Align} = 'left';
+$TableCalculate{8}{ReturnCellData}[0][1]{Lead} = 0;
+$TableCalculate{8}{ReturnCellData}[0][1]{BackgroundColor} = 'NULL';
+$TableCalculate{8}{ReturnCellData}[1][0]{Content} = "ISS";
+$TableCalculate{8}{ReturnCellData}[1][0]{Type} = 'ReturnLeftOver';
+$TableCalculate{8}{ReturnCellData}[1][0]{Font} = 'Helvetica';
+$TableCalculate{8}{ReturnCellData}[1][0]{FontSize} = 10;
+$TableCalculate{8}{ReturnCellData}[1][0]{FontColor} = 'black';
+$TableCalculate{8}{ReturnCellData}[1][0]{Align} = 'left';
+$TableCalculate{8}{ReturnCellData}[1][0]{Lead} = 0;
+$TableCalculate{8}{ReturnCellData}[1][0]{BackgroundColor} = 'NULL';
+$TableCalculate{8}{ReturnCellData}[1][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{8}{ReturnCellData}[1][1]{Type} = 'ReturnLeftOver';
+$TableCalculate{8}{ReturnCellData}[1][1]{Font} = 'Helvetica';
+$TableCalculate{8}{ReturnCellData}[1][1]{FontSize} = 10;
+$TableCalculate{8}{ReturnCellData}[1][1]{FontColor} = 'black';
+$TableCalculate{8}{ReturnCellData}[1][1]{Align} = 'left';
+$TableCalculate{8}{ReturnCellData}[1][1]{Lead} = 0;
+$TableCalculate{8}{ReturnCellData}[1][1]{BackgroundColor} = 'NULL';
+
+$TableCalculate{8}{ReturnColumnData}[0]{Width} = 70;
+$TableCalculate{8}{ReturnColumnData}[0]{EstimateWidth} = 70;
+$TableCalculate{8}{ReturnColumnData}[0]{TextWidth} = 118.5;
+$TableCalculate{8}{ReturnColumnData}[0]{OutputWidth} = 120.5;
+$TableCalculate{8}{ReturnColumnData}[0]{Block} = 0;
+$TableCalculate{8}{ReturnColumnData}[1]{Width} = 130;
+$TableCalculate{8}{ReturnColumnData}[1]{EstimateWidth} = 130;
+$TableCalculate{8}{ReturnColumnData}[1]{TextWidth} = 178.5;
+$TableCalculate{8}{ReturnColumnData}[1]{OutputWidth} = 180.5;
+$TableCalculate{8}{ReturnColumnData}[1]{Block} = 0;
+
+$TableCalculate{8}{ReturnRowData}[0]{MinFontSize} = 10;
+$TableCalculate{8}{ReturnRowData}[1]{MinFontSize} = 10;
+
+# tablecalculatetest9
+$TableCalculate{9}{Width} = 300;
+$TableCalculate{9}{Border} = 1;
+
+$TableCalculate{9}{CellData}[0][0]{Content} = "ISS";
+$TableCalculate{9}{CellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{9}{CellData}[1][0]{Content} = "ISS";
+$TableCalculate{9}{CellData}[1][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+
+$TableCalculate{9}{ColumnData}[0]{Width} = 330;
+$TableCalculate{9}{ColumnData}[1]{Width} = 105;
+
+$TableCalculate{9}{ReturnCellData}[0][0]{Content} = "ISS";
+$TableCalculate{9}{ReturnCellData}[0][0]{Type} = 'ReturnLeftOver';
+$TableCalculate{9}{ReturnCellData}[0][0]{Font} = 'Helvetica';
+$TableCalculate{9}{ReturnCellData}[0][0]{FontSize} = 10;
+$TableCalculate{9}{ReturnCellData}[0][0]{FontColor} = 'black';
+$TableCalculate{9}{ReturnCellData}[0][0]{Align} = 'left';
+$TableCalculate{9}{ReturnCellData}[0][0]{Lead} = 0;
+$TableCalculate{9}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
+$TableCalculate{9}{ReturnCellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{9}{ReturnCellData}[0][1]{Type} = 'ReturnLeftOver';
+$TableCalculate{9}{ReturnCellData}[0][1]{Font} = 'Helvetica';
+$TableCalculate{9}{ReturnCellData}[0][1]{FontSize} = 10;
+$TableCalculate{9}{ReturnCellData}[0][1]{FontColor} = 'black';
+$TableCalculate{9}{ReturnCellData}[0][1]{Align} = 'left';
+$TableCalculate{9}{ReturnCellData}[0][1]{Lead} = 0;
+$TableCalculate{9}{ReturnCellData}[0][1]{BackgroundColor} = 'NULL';
+$TableCalculate{9}{ReturnCellData}[1][0]{Content} = "ISS";
+$TableCalculate{9}{ReturnCellData}[1][0]{Type} = 'ReturnLeftOver';
+$TableCalculate{9}{ReturnCellData}[1][0]{Font} = 'Helvetica';
+$TableCalculate{9}{ReturnCellData}[1][0]{FontSize} = 10;
+$TableCalculate{9}{ReturnCellData}[1][0]{FontColor} = 'black';
+$TableCalculate{9}{ReturnCellData}[1][0]{Align} = 'left';
+$TableCalculate{9}{ReturnCellData}[1][0]{Lead} = 0;
+$TableCalculate{9}{ReturnCellData}[1][0]{BackgroundColor} = 'NULL';
+$TableCalculate{9}{ReturnCellData}[1][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{9}{ReturnCellData}[1][1]{Type} = 'ReturnLeftOver';
+$TableCalculate{9}{ReturnCellData}[1][1]{Font} = 'Helvetica';
+$TableCalculate{9}{ReturnCellData}[1][1]{FontSize} = 10;
+$TableCalculate{9}{ReturnCellData}[1][1]{FontColor} = 'black';
+$TableCalculate{9}{ReturnCellData}[1][1]{Align} = 'left';
+$TableCalculate{9}{ReturnCellData}[1][1]{Lead} = 0;
+$TableCalculate{9}{ReturnCellData}[1][1]{BackgroundColor} = 'NULL';
+
+$TableCalculate{9}{ReturnColumnData}[0]{Width} = 298;
+$TableCalculate{9}{ReturnColumnData}[0]{EstimateWidth} = 298;
+$TableCalculate{9}{ReturnColumnData}[0]{TextWidth} = 298;
+$TableCalculate{9}{ReturnColumnData}[0]{OutputWidth} = 300;
+$TableCalculate{9}{ReturnColumnData}[0]{Block} = 0;
+$TableCalculate{9}{ReturnColumnData}[1]{Width} = 105;
+$TableCalculate{9}{ReturnColumnData}[1]{EstimateWidth} = 105;
+$TableCalculate{9}{ReturnColumnData}[1]{TextWidth} = 298;
+$TableCalculate{9}{ReturnColumnData}[1]{OutputWidth} = 300;
+$TableCalculate{9}{ReturnColumnData}[1]{Block} = 1;
+
+$TableCalculate{9}{ReturnRowData}[0]{MinFontSize} = 10;
+$TableCalculate{9}{ReturnRowData}[1]{MinFontSize} = 10;
+
+# tablecalculatetest10
+$TableCalculate{10}{Width} = 300;
+$TableCalculate{10}{Border} = 1;
+
+$TableCalculate{10}{CellData}[0][0]{Content} = "Columbia";
+$TableCalculate{10}{CellData}[0][1]{Content} = "Challenger";
+$TableCalculate{10}{CellData}[0][2]{Content} = "Discovery";
+$TableCalculate{10}{CellData}[0][3]{Content} = "Atlantis";
+$TableCalculate{10}{CellData}[0][4]{Content} = "Endeavour";
+
+$TableCalculate{10}{ReturnCellData}[0][0]{Content} = "Columbia";
+$TableCalculate{10}{ReturnCellData}[0][0]{Type} = 'ReturnLeftOver';
+$TableCalculate{10}{ReturnCellData}[0][0]{Font} = 'Helvetica';
+$TableCalculate{10}{ReturnCellData}[0][0]{FontSize} = 10;
+$TableCalculate{10}{ReturnCellData}[0][0]{FontColor} = 'black';
+$TableCalculate{10}{ReturnCellData}[0][0]{Align} = 'left';
+$TableCalculate{10}{ReturnCellData}[0][0]{Lead} = 0;
+$TableCalculate{10}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
+$TableCalculate{10}{ReturnCellData}[0][1]{Content} = "Challenger";
+$TableCalculate{10}{ReturnCellData}[0][1]{Type} = 'ReturnLeftOver';
+$TableCalculate{10}{ReturnCellData}[0][1]{Font} = 'Helvetica';
+$TableCalculate{10}{ReturnCellData}[0][1]{FontSize} = 10;
+$TableCalculate{10}{ReturnCellData}[0][1]{FontColor} = 'black';
+$TableCalculate{10}{ReturnCellData}[0][1]{Align} = 'left';
+$TableCalculate{10}{ReturnCellData}[0][1]{Lead} = 0;
+$TableCalculate{10}{ReturnCellData}[0][1]{BackgroundColor} = 'NULL';
+$TableCalculate{10}{ReturnCellData}[0][2]{Content} = "Discovery";
+$TableCalculate{10}{ReturnCellData}[0][2]{Type} = 'ReturnLeftOver';
+$TableCalculate{10}{ReturnCellData}[0][2]{Font} = 'Helvetica';
+$TableCalculate{10}{ReturnCellData}[0][2]{FontSize} = 10;
+$TableCalculate{10}{ReturnCellData}[0][2]{FontColor} = 'black';
+$TableCalculate{10}{ReturnCellData}[0][2]{Align} = 'left';
+$TableCalculate{10}{ReturnCellData}[0][2]{Lead} = 0;
+$TableCalculate{10}{ReturnCellData}[0][2]{BackgroundColor} = 'NULL';
+$TableCalculate{10}{ReturnCellData}[0][3]{Content} = "Atlantis";
+$TableCalculate{10}{ReturnCellData}[0][3]{Type} = 'ReturnLeftOver';
+$TableCalculate{10}{ReturnCellData}[0][3]{Font} = 'Helvetica';
+$TableCalculate{10}{ReturnCellData}[0][3]{FontSize} = 10;
+$TableCalculate{10}{ReturnCellData}[0][3]{FontColor} = 'black';
+$TableCalculate{10}{ReturnCellData}[0][3]{Align} = 'left';
+$TableCalculate{10}{ReturnCellData}[0][3]{Lead} = 0;
+$TableCalculate{10}{ReturnCellData}[0][3]{BackgroundColor} = 'NULL';
+$TableCalculate{10}{ReturnCellData}[0][4]{Content} = "Endeavour";
+$TableCalculate{10}{ReturnCellData}[0][4]{Type} = 'ReturnLeftOver';
+$TableCalculate{10}{ReturnCellData}[0][4]{Font} = 'Helvetica';
+$TableCalculate{10}{ReturnCellData}[0][4]{FontSize} = 10;
+$TableCalculate{10}{ReturnCellData}[0][4]{FontColor} = 'black';
+$TableCalculate{10}{ReturnCellData}[0][4]{Align} = 'left';
+$TableCalculate{10}{ReturnCellData}[0][4]{Lead} = 0;
+$TableCalculate{10}{ReturnCellData}[0][4]{BackgroundColor} = 'NULL';
+
+$TableCalculate{10}{ReturnColumnData}[0]{Width} = 0;
+$TableCalculate{10}{ReturnColumnData}[0]{EstimateWidth} = 42.23;
+$TableCalculate{10}{ReturnColumnData}[0]{TextWidth} = 57.906;
+$TableCalculate{10}{ReturnColumnData}[0]{OutputWidth} = 59.906;
+$TableCalculate{10}{ReturnColumnData}[0]{Block} = 0;
+$TableCalculate{10}{ReturnColumnData}[1]{Width} = 0;
+$TableCalculate{10}{ReturnColumnData}[1]{EstimateWidth} = 48.35;
+$TableCalculate{10}{ReturnColumnData}[1]{TextWidth} = 64.026;
+$TableCalculate{10}{ReturnColumnData}[1]{OutputWidth} = 66.026;
+$TableCalculate{10}{ReturnColumnData}[1]{Block} = 0;
+$TableCalculate{10}{ReturnColumnData}[2]{Width} = 0;
+$TableCalculate{10}{ReturnColumnData}[2]{EstimateWidth} = 43.89;
+$TableCalculate{10}{ReturnColumnData}[2]{TextWidth} = 59.566;
+$TableCalculate{10}{ReturnColumnData}[2]{OutputWidth} = 61.566;
+$TableCalculate{10}{ReturnColumnData}[2]{Block} = 0;
+$TableCalculate{10}{ReturnColumnData}[3]{Width} = 0;
+$TableCalculate{10}{ReturnColumnData}[3]{EstimateWidth} = 32.79;
+$TableCalculate{10}{ReturnColumnData}[3]{TextWidth} = 48.466;
+$TableCalculate{10}{ReturnColumnData}[3]{OutputWidth} = 50.466;
+$TableCalculate{10}{ReturnColumnData}[3]{Block} = 0;
+$TableCalculate{10}{ReturnColumnData}[4]{Width} = 0;
+$TableCalculate{10}{ReturnColumnData}[4]{EstimateWidth} = 48.36;
+$TableCalculate{10}{ReturnColumnData}[4]{TextWidth} = 64.036;
+$TableCalculate{10}{ReturnColumnData}[4]{OutputWidth} = 66.036;
+$TableCalculate{10}{ReturnColumnData}[4]{Block} = 0;
+
+$TableCalculate{10}{ReturnRowData}[0]{MinFontSize} = 10;
+
+# tablecalculatetest11
+$TableCalculate{11}{Width} = 300;
+$TableCalculate{11}{Border} = 5;
+$TableCalculate{11}{PaddingRight} = 10;
+$TableCalculate{11}{PaddingLeft} = 10;
+
+$TableCalculate{11}{CellData}[0][0]{Content} = "Columbus";
+$TableCalculate{11}{CellData}[0][1]{Content} = "Destiny";
+
+$TableCalculate{11}{ReturnCellData}[0][0]{Content} = "Columbus";
+$TableCalculate{11}{ReturnCellData}[0][0]{Type} = 'ReturnLeftOver';
+$TableCalculate{11}{ReturnCellData}[0][0]{Font} = 'Helvetica';
+$TableCalculate{11}{ReturnCellData}[0][0]{FontSize} = 10;
+$TableCalculate{11}{ReturnCellData}[0][0]{FontColor} = 'black';
+$TableCalculate{11}{ReturnCellData}[0][0]{Align} = 'left';
+$TableCalculate{11}{ReturnCellData}[0][0]{Lead} = 0;
+$TableCalculate{11}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
+$TableCalculate{11}{ReturnCellData}[0][1]{Content} = "Destiny";
+$TableCalculate{11}{ReturnCellData}[0][1]{Type} = 'ReturnLeftOver';
+$TableCalculate{11}{ReturnCellData}[0][1]{Font} = 'Helvetica';
+$TableCalculate{11}{ReturnCellData}[0][1]{FontSize} = 10;
+$TableCalculate{11}{ReturnCellData}[0][1]{FontColor} = 'black';
+$TableCalculate{11}{ReturnCellData}[0][1]{Align} = 'left';
+$TableCalculate{11}{ReturnCellData}[0][1]{Lead} = 0;
+$TableCalculate{11}{ReturnCellData}[0][1]{BackgroundColor} = 'NULL';
+
+$TableCalculate{11}{ReturnColumnData}[0]{Width} = 0;
+$TableCalculate{11}{ReturnColumnData}[0]{EstimateWidth} = 45.01;
+$TableCalculate{11}{ReturnColumnData}[0]{TextWidth} = 128.335;
+$TableCalculate{11}{ReturnColumnData}[0]{OutputWidth} = 158.335;
+$TableCalculate{11}{ReturnColumnData}[0]{Block} = 0;
+$TableCalculate{11}{ReturnColumnData}[1]{Width} = 0;
+$TableCalculate{11}{ReturnColumnData}[1]{EstimateWidth} = 33.34;
+$TableCalculate{11}{ReturnColumnData}[1]{TextWidth} = 116.665;
+$TableCalculate{11}{ReturnColumnData}[1]{OutputWidth} = 146.665;
+$TableCalculate{11}{ReturnColumnData}[1]{Block} = 0;
+
+$TableCalculate{11}{ReturnRowData}[0]{MinFontSize} = 10;
+
+# tablecalculatetest12
+$TableCalculate{12}{CellData}[0][0]{Content} = "ISS";
+$TableCalculate{12}{CellData}[0][0]{FontSize} = 4;
+$TableCalculate{12}{CellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{12}{CellData}[0][1]{FontSize} = 9;
+$TableCalculate{12}{CellData}[1][0]{Content} = "ISS";
+$TableCalculate{12}{CellData}[1][0]{FontSize} = 18;
+$TableCalculate{12}{CellData}[1][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{12}{CellData}[1][1]{FontSize} = 12;
+
+$TableCalculate{12}{ReturnCellData}[0][0]{Content} = "ISS";
+$TableCalculate{12}{ReturnCellData}[0][0]{Type} = 'ReturnLeftOver';
+$TableCalculate{12}{ReturnCellData}[0][0]{Font} = 'Helvetica';
+$TableCalculate{12}{ReturnCellData}[0][0]{FontSize} = 4;
+$TableCalculate{12}{ReturnCellData}[0][0]{FontColor} = 'black';
+$TableCalculate{12}{ReturnCellData}[0][0]{Align} = 'left';
+$TableCalculate{12}{ReturnCellData}[0][0]{Lead} = 0;
+$TableCalculate{12}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
+$TableCalculate{12}{ReturnCellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{12}{ReturnCellData}[0][1]{Type} = 'ReturnLeftOver';
+$TableCalculate{12}{ReturnCellData}[0][1]{Font} = 'Helvetica';
+$TableCalculate{12}{ReturnCellData}[0][1]{FontSize} = 9;
+$TableCalculate{12}{ReturnCellData}[0][1]{FontColor} = 'black';
+$TableCalculate{12}{ReturnCellData}[0][1]{Align} = 'left';
+$TableCalculate{12}{ReturnCellData}[0][1]{Lead} = 0;
+$TableCalculate{12}{ReturnCellData}[0][1]{BackgroundColor} = 'NULL';
+$TableCalculate{12}{ReturnCellData}[1][0]{Content} = "ISS";
+$TableCalculate{12}{ReturnCellData}[1][0]{Type} = 'ReturnLeftOver';
+$TableCalculate{12}{ReturnCellData}[1][0]{Font} = 'Helvetica';
+$TableCalculate{12}{ReturnCellData}[1][0]{FontSize} = 18;
+$TableCalculate{12}{ReturnCellData}[1][0]{FontColor} = 'black';
+$TableCalculate{12}{ReturnCellData}[1][0]{Align} = 'left';
+$TableCalculate{12}{ReturnCellData}[1][0]{Lead} = 0;
+$TableCalculate{12}{ReturnCellData}[1][0]{BackgroundColor} = 'NULL';
+$TableCalculate{12}{ReturnCellData}[1][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{12}{ReturnCellData}[1][1]{Type} = 'ReturnLeftOver';
+$TableCalculate{12}{ReturnCellData}[1][1]{Font} = 'Helvetica';
+$TableCalculate{12}{ReturnCellData}[1][1]{FontSize} = 12;
+$TableCalculate{12}{ReturnCellData}[1][1]{FontColor} = 'black';
+$TableCalculate{12}{ReturnCellData}[1][1]{Align} = 'left';
+$TableCalculate{12}{ReturnCellData}[1][1]{Lead} = 0;
+$TableCalculate{12}{ReturnCellData}[1][1]{BackgroundColor} = 'NULL';
+
+$TableCalculate{12}{ReturnColumnData}[0]{Width} = 0;
+$TableCalculate{12}{ReturnColumnData}[0]{EstimateWidth} = 29.016;
+$TableCalculate{12}{ReturnColumnData}[0]{TextWidth} = 500;
+$TableCalculate{12}{ReturnColumnData}[0]{OutputWidth} = 500;
+$TableCalculate{12}{ReturnColumnData}[0]{Block} = 0;
+$TableCalculate{12}{ReturnColumnData}[1]{Width} = 0;
+$TableCalculate{12}{ReturnColumnData}[1]{EstimateWidth} = 500;
+$TableCalculate{12}{ReturnColumnData}[1]{TextWidth} = 500;
+$TableCalculate{12}{ReturnColumnData}[1]{OutputWidth} = 500;
+$TableCalculate{12}{ReturnColumnData}[1]{Block} = 1;
+
+$TableCalculate{12}{ReturnRowData}[0]{MinFontSize} = 4;
+$TableCalculate{12}{ReturnRowData}[1]{MinFontSize} = 12;
+
+
+# start testing TableCalculate()
 foreach (sort keys %TableCalculate) {
     my $Test = $_;
     my $TestOk = 0;
@@ -801,6 +1375,8 @@ foreach (sort keys %TableCalculate) {
     my %TableCalculateParams;
     $TableCalculateParams{CellData} = $TableCalculate{$Test}{CellData};
     $TableCalculateParams{ColumnData} = $TableCalculate{$Test}{ColumnData} || [];
+    $TableCalculateParams{RowData} = $TableCalculate{$Test}{RowData} || [];
+    $TableCalculateParams{Type} = $TableCalculate{$Test}{Type} || 'ReturnLeftOver';
     $TableCalculateParams{Width} = $TableCalculate{$Test}{Width} || 500;
     $TableCalculateParams{Height} = $TableCalculate{$Test}{Height} || 500;
     $TableCalculateParams{Font} = $TableCalculate{$Test}{Font} || 'Helvetica';
@@ -813,7 +1389,7 @@ foreach (sort keys %TableCalculate) {
     $TableCalculateParams{PaddingRight} = $TableCalculate{$Test}{PaddingRight} || 0;
     $TableCalculateParams{PaddingTop} = $TableCalculate{$Test}{PaddingTop} || 0;
     $TableCalculateParams{PaddingBottom} = $TableCalculate{$Test}{PaddingBottom} || 0;
-    $TableCalculateParams{Border} = $TableCalculate{$Test}{Border} || 1;
+    $TableCalculateParams{Border} = $TableCalculate{$Test}{Border} || 0;
     $TableCalculateParams{BorderColor} = $TableCalculate{$Test}{BorderColor} || 'black';
     if (defined($TableCalculate{$Test}{FontColorOdd})) {
         $TableCalculateParams{FontColorOdd} = $TableCalculate{$Test}{FontColorOdd};
@@ -832,20 +1408,25 @@ foreach (sort keys %TableCalculate) {
         %TableCalculateParams,
     );
 
+    # check returned ColumnData
     my $TestColumnOk = 0;
-    my $CounterRow = 0;
     my $CounterColumn = 0;
-    my $CounterCellRow = 0;
-    my $CounterCellColumn = 0;
-
-    # ceck returned ColumnData
     foreach my $Column (@{$TableCalculate{$Test}{ReturnColumnData}}) {
-        if ($Return{ColumnData}->[$CounterColumn]->{Width} eq $Column->{Width}) {
+        if ($Return{ColumnData}->[$CounterColumn]->{Width} eq $Column->{Width} &&
+            $Return{ColumnData}->[$CounterColumn]->{EstimateWidth} eq $Column->{EstimateWidth} &&
+            $Return{ColumnData}->[$CounterColumn]->{TextWidth} eq $Column->{TextWidth} &&
+            $Return{ColumnData}->[$CounterColumn]->{OutputWidth} eq $Column->{OutputWidth} &&
+            $Return{ColumnData}->[$CounterColumn]->{Block} eq $Column->{Block}
+        ) {
             $TestColumnOk = 1;
         }
         else {
             print "\n";
             print "ERROR _TableCalculate$Test Column$CounterColumn Width -->$Return{ColumnData}->[$CounterColumn]->{Width}\n";
+            print "ERROR _TableCalculate$Test Column$CounterColumn EstimateWidth -->$Return{ColumnData}->[$CounterColumn]->{EstimateWidth}\n";
+            print "ERROR _TableCalculate$Test Column$CounterColumn TextWidth -->$Return{ColumnData}->[$CounterColumn]->{TextWidth}\n";
+            print "ERROR _TableCalculate$Test Column$CounterColumn OutputWidth -->$Return{ColumnData}->[$CounterColumn]->{OutputWidth}\n";
+            print "ERROR _TableCalculate$Test Column$CounterColumn Block -->$Return{ColumnData}->[$CounterColumn]->{Block}\n";
             print "\n";
 
             $TestColumnOk = 0;
@@ -854,13 +1435,35 @@ foreach (sort keys %TableCalculate) {
 
         $CounterColumn++;
     }
-    # check returned CellData
+    # check returned RowData
+    my $TestRowOk = 0;
+    my $CounterRow = 0;
     if ($TestColumnOk) {
+        foreach my $Row (@{$TableCalculate{$Test}{ReturnRowData}}) {
+            if ($Return{RowData}->[$CounterRow]->{MinFontSize} eq $Row->{MinFontSize}) {
+                $TestRowOk = 1;
+            }
+            else {
+                print "\n";
+                print "ERROR _TableCalculate$Test Row$CounterRow MinFontSize -->$Return{RowData}->[$CounterRow]->{MinFontSize}\n";
+                print "\n";
+
+                $TestRowOk = 0;
+                last;
+            }
+
+            $CounterRow++;
+        }
+    }
+
+    # check returned CellData
+    if ($TestRowOk) {
         my $CounterCellRow = 0;
         foreach my $Row (@{$TableCalculate{$Test}{ReturnCellData}}) {
             my $CounterCellColumn = 0;
             foreach my $Cell (@{$TableCalculate{$Test}{ReturnCellData}[$CounterCellRow]}) {
                 if ($Return{CellData}->[$CounterCellRow]->[$CounterCellColumn]->{Content} eq $Cell->{Content} &&
+                    $Return{CellData}->[$CounterCellRow]->[$CounterCellColumn]->{Type} eq $Cell->{Type} &&
                     $Return{CellData}->[$CounterCellRow]->[$CounterCellColumn]->{Font} eq $Cell->{Font} &&
                     $Return{CellData}->[$CounterCellRow]->[$CounterCellColumn]->{FontSize} eq $Cell->{FontSize} &&
                     $Return{CellData}->[$CounterCellRow]->[$CounterCellColumn]->{FontColor} eq $Cell->{FontColor} &&
@@ -873,6 +1476,7 @@ foreach (sort keys %TableCalculate) {
                 else {
                     print "\n";
                     print "ERROR _TableCalculate$Test Cell$CounterCellRow-$CounterCellColumn Content -->$Return{CellData}->[$CounterCellRow]->[$CounterCellColumn]->{Content}<--\n";
+                    print "ERROR _TableCalculate$Test Cell$CounterCellRow-$CounterCellColumn Type -->$Return{CellData}->[$CounterCellRow]->[$CounterCellColumn]->{Type}\n";
                     print "ERROR _TableCalculate$Test Cell$CounterCellRow-$CounterCellColumn Font -->$Return{CellData}->[$CounterCellRow]->[$CounterCellColumn]->{Font}\n";
                     print "ERROR _TableCalculate$Test Cell$CounterCellRow-$CounterCellColumn FontSize -->$Return{CellData}->[$CounterCellRow]->[$CounterCellColumn]->{FontSize}\n";
                     print "ERROR _TableCalculate$Test Cell$CounterCellRow-$CounterCellColumn FontColor -->$Return{CellData}->[$CounterCellRow]->[$CounterCellColumn]->{FontColor}\n";
@@ -896,6 +1500,792 @@ foreach (sort keys %TableCalculate) {
     $Self->True(
         $TestOk,
         "_TableCalculate$Test()",
+    );
+}
+
+# _TableBlockNextCalculate() tests
+my %TableBlockNextCalculate;
+
+# tableblocknextcalculatetest0
+$TableBlockNextCalculate{0}{CellData}[0][0]{Off} = 0;
+$TableBlockNextCalculate{0}{CellData}[0][0]{TmpOff} = 0;
+
+$TableBlockNextCalculate{0}{ColumnData}[0]{Block} = 0;
+
+$TableBlockNextCalculate{0}{State} = 1;
+$TableBlockNextCalculate{0}{ReturnBlock} = 0;
+$TableBlockNextCalculate{0}{ReturnRowStart} = 0;
+$TableBlockNextCalculate{0}{ReturnColumnStart} = 0;
+$TableBlockNextCalculate{0}{ReturnColumnStop} = 0;
+
+# tableblocknextcalculatetest1
+$TableBlockNextCalculate{1}{CellData}[0][0]{Off} = 1;
+$TableBlockNextCalculate{1}{CellData}[0][0]{TmpOff} = 0;
+
+$TableBlockNextCalculate{1}{ColumnData}[0][0]{Block} = 0;
+
+$TableBlockNextCalculate{1}{State} = 0;
+$TableBlockNextCalculate{1}{ReturnBlock} = 0;
+$TableBlockNextCalculate{1}{ReturnRowStart} = 0;
+$TableBlockNextCalculate{1}{ReturnColumnStart} = 0;
+$TableBlockNextCalculate{1}{ReturnColumnStop} = 0;
+
+# tableblocknextcalculatetest2
+$TableBlockNextCalculate{2}{CellData}[0][0]{Off} = 0;
+$TableBlockNextCalculate{2}{CellData}[0][0]{TmpOff} = 0;
+$TableBlockNextCalculate{2}{CellData}[0][1]{Off} = 0;
+$TableBlockNextCalculate{2}{CellData}[0][1]{TmpOff} = 0;
+$TableBlockNextCalculate{2}{CellData}[1][0]{Off} = 0;
+$TableBlockNextCalculate{2}{CellData}[1][0]{TmpOff} = 0;
+$TableBlockNextCalculate{2}{CellData}[1][1]{Off} = 0;
+$TableBlockNextCalculate{2}{CellData}[1][1]{TmpOff} = 0;
+
+$TableBlockNextCalculate{2}{ColumnData}[0]{Block} = 0;
+
+$TableBlockNextCalculate{2}{State} = 1;
+$TableBlockNextCalculate{2}{ReturnBlock} = 0;
+$TableBlockNextCalculate{2}{ReturnRowStart} = 0;
+$TableBlockNextCalculate{2}{ReturnColumnStart} = 0;
+$TableBlockNextCalculate{2}{ReturnColumnStop} = 0;
+
+# tableblocknextcalculatetest3
+$TableBlockNextCalculate{3}{CellData}[0][0]{Off} = 1;
+$TableBlockNextCalculate{3}{CellData}[0][0]{TmpOff} = 0;
+$TableBlockNextCalculate{3}{CellData}[0][1]{Off} = 0;
+$TableBlockNextCalculate{3}{CellData}[0][1]{TmpOff} = 0;
+$TableBlockNextCalculate{3}{CellData}[1][0]{Off} = 0;
+$TableBlockNextCalculate{3}{CellData}[1][0]{TmpOff} = 0;
+$TableBlockNextCalculate{3}{CellData}[1][1]{Off} = 0;
+$TableBlockNextCalculate{3}{CellData}[1][1]{TmpOff} = 0;
+
+$TableBlockNextCalculate{3}{ColumnData}[1]{Block} = 1;
+
+$TableBlockNextCalculate{3}{State} = 1;
+$TableBlockNextCalculate{3}{ReturnBlock} = 1;
+$TableBlockNextCalculate{3}{ReturnRowStart} = 0;
+$TableBlockNextCalculate{3}{ReturnColumnStart} = 1;
+$TableBlockNextCalculate{3}{ReturnColumnStop} = 1;
+
+# tableblocknextcalculatetest4
+$TableBlockNextCalculate{4}{CellData}[0][0]{Off} = 1;
+$TableBlockNextCalculate{4}{CellData}[0][0]{TmpOff} = 0;
+$TableBlockNextCalculate{4}{CellData}[0][1]{Off} = 1;
+$TableBlockNextCalculate{4}{CellData}[0][1]{TmpOff} = 0;
+$TableBlockNextCalculate{4}{CellData}[1][0]{Off} = 0;
+$TableBlockNextCalculate{4}{CellData}[1][0]{TmpOff} = 0;
+$TableBlockNextCalculate{4}{CellData}[1][1]{Off} = 0;
+$TableBlockNextCalculate{4}{CellData}[1][1]{TmpOff} = 0;
+
+$TableBlockNextCalculate{4}{ColumnData}[0]{Block} = 0;
+
+$TableBlockNextCalculate{4}{State} = 1;
+$TableBlockNextCalculate{4}{ReturnBlock} = 0;
+$TableBlockNextCalculate{4}{ReturnRowStart} = 1;
+$TableBlockNextCalculate{4}{ReturnColumnStart} = 0;
+$TableBlockNextCalculate{4}{ReturnColumnStop} = 0;
+
+# tableblocknextcalculatetest5
+$TableBlockNextCalculate{5}{CellData}[0][0]{Off} = 1;
+$TableBlockNextCalculate{5}{CellData}[0][0]{TmpOff} = 0;
+$TableBlockNextCalculate{5}{CellData}[0][1]{Off} = 1;
+$TableBlockNextCalculate{5}{CellData}[0][1]{TmpOff} = 0;
+$TableBlockNextCalculate{5}{CellData}[1][0]{Off} = 1;
+$TableBlockNextCalculate{5}{CellData}[1][0]{TmpOff} = 0;
+$TableBlockNextCalculate{5}{CellData}[1][1]{Off} = 0;
+$TableBlockNextCalculate{5}{CellData}[1][1]{TmpOff} = 0;
+
+$TableBlockNextCalculate{5}{ColumnData}[1]{Block} = 1;
+
+$TableBlockNextCalculate{5}{State} = 1;
+$TableBlockNextCalculate{5}{ReturnBlock} = 1;
+$TableBlockNextCalculate{5}{ReturnRowStart} = 1;
+$TableBlockNextCalculate{5}{ReturnColumnStart} = 1;
+$TableBlockNextCalculate{5}{ReturnColumnStop} = 1;
+
+# tableblocknextcalculatetest6
+$TableBlockNextCalculate{6}{CellData}[0][0]{Off} = 1;
+$TableBlockNextCalculate{6}{CellData}[0][0]{TmpOff} = 0;
+$TableBlockNextCalculate{6}{CellData}[0][1]{Off} = 1;
+$TableBlockNextCalculate{6}{CellData}[0][1]{TmpOff} = 0;
+$TableBlockNextCalculate{6}{CellData}[1][0]{Off} = 1;
+$TableBlockNextCalculate{6}{CellData}[1][0]{TmpOff} = 0;
+$TableBlockNextCalculate{6}{CellData}[1][1]{Off} = 1;
+$TableBlockNextCalculate{6}{CellData}[1][1]{TmpOff} = 0;
+
+$TableBlockNextCalculate{6}{ColumnData}[1]{Block} = 1;
+
+$TableBlockNextCalculate{6}{State} = 0;
+$TableBlockNextCalculate{6}{ReturnBlock} = 0;
+$TableBlockNextCalculate{6}{ReturnRowStart} = 0;
+$TableBlockNextCalculate{6}{ReturnColumnStart} = 0;
+$TableBlockNextCalculate{6}{ReturnColumnStop} = 0;
+
+# tableblocknextcalculatetest7
+$TableBlockNextCalculate{7}{CellData}[0][0]{Off} = 0;
+$TableBlockNextCalculate{7}{CellData}[0][0]{TmpOff} = 0;
+$TableBlockNextCalculate{7}{CellData}[0][1]{Off} = 0;
+$TableBlockNextCalculate{7}{CellData}[0][1]{TmpOff} = 0;
+$TableBlockNextCalculate{7}{CellData}[0][2]{Off} = 0;
+$TableBlockNextCalculate{7}{CellData}[0][2]{TmpOff} = 0;
+$TableBlockNextCalculate{7}{CellData}[1][0]{Off} = 0;
+$TableBlockNextCalculate{7}{CellData}[1][0]{TmpOff} = 0;
+$TableBlockNextCalculate{7}{CellData}[1][1]{Off} = 0;
+$TableBlockNextCalculate{7}{CellData}[1][1]{TmpOff} = 0;
+$TableBlockNextCalculate{7}{CellData}[1][2]{Off} = 0;
+$TableBlockNextCalculate{7}{CellData}[1][2]{TmpOff} = 0;
+$TableBlockNextCalculate{7}{CellData}[2][0]{Off} = 0;
+$TableBlockNextCalculate{7}{CellData}[2][0]{TmpOff} = 0;
+$TableBlockNextCalculate{7}{CellData}[2][1]{Off} = 0;
+$TableBlockNextCalculate{7}{CellData}[2][1]{TmpOff} = 0;
+$TableBlockNextCalculate{7}{CellData}[2][2]{Off} = 0;
+$TableBlockNextCalculate{7}{CellData}[2][2]{TmpOff} = 0;
+
+$TableBlockNextCalculate{7}{ColumnData}[0]{Block} = 0;
+
+$TableBlockNextCalculate{7}{State} = 1;
+$TableBlockNextCalculate{7}{ReturnBlock} = 0;
+$TableBlockNextCalculate{7}{ReturnRowStart} = 0;
+$TableBlockNextCalculate{7}{ReturnColumnStart} = 0;
+$TableBlockNextCalculate{7}{ReturnColumnStop} = 0;
+
+# tableblocknextcalculatetest8
+$TableBlockNextCalculate{8}{CellData}[0][0]{Off} = 1;
+$TableBlockNextCalculate{8}{CellData}[0][0]{TmpOff} = 0;
+$TableBlockNextCalculate{8}{CellData}[0][1]{Off} = 0;
+$TableBlockNextCalculate{8}{CellData}[0][1]{TmpOff} = 0;
+$TableBlockNextCalculate{8}{CellData}[0][2]{Off} = 0;
+$TableBlockNextCalculate{8}{CellData}[0][2]{TmpOff} = 0;
+$TableBlockNextCalculate{8}{CellData}[1][0]{Off} = 0;
+$TableBlockNextCalculate{8}{CellData}[1][0]{TmpOff} = 0;
+$TableBlockNextCalculate{8}{CellData}[1][1]{Off} = 0;
+$TableBlockNextCalculate{8}{CellData}[1][1]{TmpOff} = 0;
+$TableBlockNextCalculate{8}{CellData}[1][2]{Off} = 0;
+$TableBlockNextCalculate{8}{CellData}[1][2]{TmpOff} = 0;
+$TableBlockNextCalculate{8}{CellData}[2][0]{Off} = 0;
+$TableBlockNextCalculate{8}{CellData}[2][0]{TmpOff} = 0;
+$TableBlockNextCalculate{8}{CellData}[2][1]{Off} = 0;
+$TableBlockNextCalculate{8}{CellData}[2][1]{TmpOff} = 0;
+$TableBlockNextCalculate{8}{CellData}[2][2]{Off} = 0;
+$TableBlockNextCalculate{8}{CellData}[2][2]{TmpOff} = 0;
+
+$TableBlockNextCalculate{8}{ColumnData}[1]{Block} = 1;
+$TableBlockNextCalculate{8}{ColumnData}[2]{Block} = 1;
+
+$TableBlockNextCalculate{8}{State} = 1;
+$TableBlockNextCalculate{8}{ReturnBlock} = 1;
+$TableBlockNextCalculate{8}{ReturnRowStart} = 0;
+$TableBlockNextCalculate{8}{ReturnColumnStart} = 1;
+$TableBlockNextCalculate{8}{ReturnColumnStop} = 2;
+
+# tableblocknextcalculatetest9
+$TableBlockNextCalculate{9}{CellData}[0][0]{Off} = 1;
+$TableBlockNextCalculate{9}{CellData}[0][0]{TmpOff} = 0;
+$TableBlockNextCalculate{9}{CellData}[0][1]{Off} = 1;
+$TableBlockNextCalculate{9}{CellData}[0][1]{TmpOff} = 0;
+$TableBlockNextCalculate{9}{CellData}[0][2]{Off} = 1;
+$TableBlockNextCalculate{9}{CellData}[0][2]{TmpOff} = 0;
+$TableBlockNextCalculate{9}{CellData}[1][0]{Off} = 1;
+$TableBlockNextCalculate{9}{CellData}[1][0]{TmpOff} = 0;
+$TableBlockNextCalculate{9}{CellData}[1][1]{Off} = 1;
+$TableBlockNextCalculate{9}{CellData}[1][1]{TmpOff} = 0;
+$TableBlockNextCalculate{9}{CellData}[1][2]{Off} = 0;
+$TableBlockNextCalculate{9}{CellData}[1][2]{TmpOff} = 0;
+$TableBlockNextCalculate{9}{CellData}[2][0]{Off} = 0;
+$TableBlockNextCalculate{9}{CellData}[2][0]{TmpOff} = 0;
+$TableBlockNextCalculate{9}{CellData}[2][1]{Off} = 0;
+$TableBlockNextCalculate{9}{CellData}[2][1]{TmpOff} = 0;
+$TableBlockNextCalculate{9}{CellData}[2][2]{Off} = 0;
+$TableBlockNextCalculate{9}{CellData}[2][2]{TmpOff} = 0;
+
+$TableBlockNextCalculate{9}{ColumnData}[2]{Block} = 2;
+
+$TableBlockNextCalculate{9}{State} = 1;
+$TableBlockNextCalculate{9}{ReturnBlock} = 2;
+$TableBlockNextCalculate{9}{ReturnRowStart} = 1;
+$TableBlockNextCalculate{9}{ReturnColumnStart} = 2;
+$TableBlockNextCalculate{9}{ReturnColumnStop} = 2;
+
+# tableblocknextcalculatetest10
+$TableBlockNextCalculate{10}{CellData}[0][0]{Off} = 1;
+$TableBlockNextCalculate{10}{CellData}[0][0]{TmpOff} = 0;
+$TableBlockNextCalculate{10}{CellData}[0][1]{Off} = 1;
+$TableBlockNextCalculate{10}{CellData}[0][1]{TmpOff} = 0;
+$TableBlockNextCalculate{10}{CellData}[0][2]{Off} = 1;
+$TableBlockNextCalculate{10}{CellData}[0][2]{TmpOff} = 0;
+$TableBlockNextCalculate{10}{CellData}[1][0]{Off} = 1;
+$TableBlockNextCalculate{10}{CellData}[1][0]{TmpOff} = 0;
+$TableBlockNextCalculate{10}{CellData}[1][1]{Off} = 1;
+$TableBlockNextCalculate{10}{CellData}[1][1]{TmpOff} = 0;
+$TableBlockNextCalculate{10}{CellData}[1][2]{Off} = 1;
+$TableBlockNextCalculate{10}{CellData}[1][2]{TmpOff} = 0;
+$TableBlockNextCalculate{10}{CellData}[2][0]{Off} = 0;
+$TableBlockNextCalculate{10}{CellData}[2][0]{TmpOff} = 0;
+$TableBlockNextCalculate{10}{CellData}[2][1]{Off} = 0;
+$TableBlockNextCalculate{10}{CellData}[2][1]{TmpOff} = 0;
+$TableBlockNextCalculate{10}{CellData}[2][2]{Off} = 0;
+$TableBlockNextCalculate{10}{CellData}[2][2]{TmpOff} = 0;
+
+$TableBlockNextCalculate{10}{ColumnData}[0]{Block} = 0;
+
+$TableBlockNextCalculate{10}{State} = 1;
+$TableBlockNextCalculate{10}{ReturnBlock} = 0;
+$TableBlockNextCalculate{10}{ReturnRowStart} = 2;
+$TableBlockNextCalculate{10}{ReturnColumnStart} = 0;
+$TableBlockNextCalculate{10}{ReturnColumnStop} = 0;
+
+# tableblocknextcalculatetest11
+$TableBlockNextCalculate{11}{CellData}[0][0]{Off} = 1;
+$TableBlockNextCalculate{11}{CellData}[0][0]{TmpOff} = 0;
+$TableBlockNextCalculate{11}{CellData}[0][1]{Off} = 0;
+$TableBlockNextCalculate{11}{CellData}[0][1]{TmpOff} = 0;
+$TableBlockNextCalculate{11}{CellData}[0][2]{Off} = 0;
+$TableBlockNextCalculate{11}{CellData}[0][2]{TmpOff} = 0;
+$TableBlockNextCalculate{11}{CellData}[1][0]{Off} = 1;
+$TableBlockNextCalculate{11}{CellData}[1][0]{TmpOff} = 0;
+$TableBlockNextCalculate{11}{CellData}[1][1]{Off} = 0;
+$TableBlockNextCalculate{11}{CellData}[1][1]{TmpOff} = 0;
+$TableBlockNextCalculate{11}{CellData}[1][2]{Off} = 0;
+$TableBlockNextCalculate{11}{CellData}[1][2]{TmpOff} = 0;
+$TableBlockNextCalculate{11}{CellData}[2][0]{Off} = 1;
+$TableBlockNextCalculate{11}{CellData}[2][0]{TmpOff} = 0;
+$TableBlockNextCalculate{11}{CellData}[2][1]{Off} = 0;
+$TableBlockNextCalculate{11}{CellData}[2][1]{TmpOff} = 0;
+$TableBlockNextCalculate{11}{CellData}[2][2]{Off} = 0;
+$TableBlockNextCalculate{11}{CellData}[2][2]{TmpOff} = 0;
+
+$TableBlockNextCalculate{11}{ColumnData}[1]{Block} = 1;
+$TableBlockNextCalculate{11}{ColumnData}[2]{Block} = 1;
+
+$TableBlockNextCalculate{11}{State} = 1;
+$TableBlockNextCalculate{11}{ReturnBlock} = 1;
+$TableBlockNextCalculate{11}{ReturnRowStart} = 0;
+$TableBlockNextCalculate{11}{ReturnColumnStart} = 1;
+$TableBlockNextCalculate{11}{ReturnColumnStop} = 2;
+
+# tableblocknextcalculatetest12
+$TableBlockNextCalculate{12}{CellData}[0][0]{Off} = 1;
+$TableBlockNextCalculate{12}{CellData}[0][0]{TmpOff} = 0;
+$TableBlockNextCalculate{12}{CellData}[0][1]{Off} = 1;
+$TableBlockNextCalculate{12}{CellData}[0][1]{TmpOff} = 0;
+$TableBlockNextCalculate{12}{CellData}[0][2]{Off} = 0;
+$TableBlockNextCalculate{12}{CellData}[0][2]{TmpOff} = 0;
+$TableBlockNextCalculate{12}{CellData}[1][0]{Off} = 1;
+$TableBlockNextCalculate{12}{CellData}[1][0]{TmpOff} = 0;
+$TableBlockNextCalculate{12}{CellData}[1][1]{Off} = 1;
+$TableBlockNextCalculate{12}{CellData}[1][1]{TmpOff} = 0;
+$TableBlockNextCalculate{12}{CellData}[1][2]{Off} = 0;
+$TableBlockNextCalculate{12}{CellData}[1][2]{TmpOff} = 0;
+$TableBlockNextCalculate{12}{CellData}[2][0]{Off} = 1;
+$TableBlockNextCalculate{12}{CellData}[2][0]{TmpOff} = 0;
+$TableBlockNextCalculate{12}{CellData}[2][1]{Off} = 1;
+$TableBlockNextCalculate{12}{CellData}[2][1]{TmpOff} = 0;
+$TableBlockNextCalculate{12}{CellData}[2][2]{Off} = 0;
+$TableBlockNextCalculate{12}{CellData}[2][2]{TmpOff} = 0;
+
+$TableBlockNextCalculate{12}{ColumnData}[2]{Block} = 2;
+
+$TableBlockNextCalculate{12}{State} = 1;
+$TableBlockNextCalculate{12}{ReturnBlock} = 2;
+$TableBlockNextCalculate{12}{ReturnRowStart} = 0;
+$TableBlockNextCalculate{12}{ReturnColumnStart} = 2;
+$TableBlockNextCalculate{12}{ReturnColumnStop} = 2;
+
+# tableblocknextcalculatetest13
+$TableBlockNextCalculate{13}{CellData}[0][0]{Off} = 1;
+$TableBlockNextCalculate{13}{CellData}[0][0]{TmpOff} = 0;
+$TableBlockNextCalculate{13}{CellData}[0][1]{Off} = 1;
+$TableBlockNextCalculate{13}{CellData}[0][1]{TmpOff} = 0;
+$TableBlockNextCalculate{13}{CellData}[0][2]{Off} = 0;
+$TableBlockNextCalculate{13}{CellData}[0][2]{TmpOff} = 0;
+$TableBlockNextCalculate{13}{CellData}[1][0]{Off} = 1;
+$TableBlockNextCalculate{13}{CellData}[1][0]{TmpOff} = 0;
+$TableBlockNextCalculate{13}{CellData}[1][1]{Off} = 1;
+$TableBlockNextCalculate{13}{CellData}[1][1]{TmpOff} = 0;
+$TableBlockNextCalculate{13}{CellData}[1][2]{Off} = 0;
+$TableBlockNextCalculate{13}{CellData}[1][2]{TmpOff} = 0;
+$TableBlockNextCalculate{13}{CellData}[2][0]{Off} = 0;
+$TableBlockNextCalculate{13}{CellData}[2][0]{TmpOff} = 0;
+$TableBlockNextCalculate{13}{CellData}[2][1]{Off} = 0;
+$TableBlockNextCalculate{13}{CellData}[2][1]{TmpOff} = 0;
+$TableBlockNextCalculate{13}{CellData}[2][2]{Off} = 0;
+$TableBlockNextCalculate{13}{CellData}[2][2]{TmpOff} = 0;
+
+$TableBlockNextCalculate{13}{ColumnData}[2]{Block} = 1;
+
+$TableBlockNextCalculate{13}{State} = 1;
+$TableBlockNextCalculate{13}{ReturnBlock} = 1;
+$TableBlockNextCalculate{13}{ReturnRowStart} = 0;
+$TableBlockNextCalculate{13}{ReturnColumnStart} = 2;
+$TableBlockNextCalculate{13}{ReturnColumnStop} = 2;
+
+# tableblocknextcalculatetest14
+$TableBlockNextCalculate{14}{CellData}[0][0]{Off} = 1;
+$TableBlockNextCalculate{14}{CellData}[0][0]{TmpOff} = 0;
+$TableBlockNextCalculate{14}{CellData}[0][1]{Off} = 1;
+$TableBlockNextCalculate{14}{CellData}[0][1]{TmpOff} = 0;
+$TableBlockNextCalculate{14}{CellData}[0][2]{Off} = 1;
+$TableBlockNextCalculate{14}{CellData}[0][2]{TmpOff} = 0;
+$TableBlockNextCalculate{14}{CellData}[1][0]{Off} = 1;
+$TableBlockNextCalculate{14}{CellData}[1][0]{TmpOff} = 0;
+$TableBlockNextCalculate{14}{CellData}[1][1]{Off} = 0;
+$TableBlockNextCalculate{14}{CellData}[1][1]{TmpOff} = 0;
+$TableBlockNextCalculate{14}{CellData}[1][2]{Off} = 0;
+$TableBlockNextCalculate{14}{CellData}[1][2]{TmpOff} = 0;
+$TableBlockNextCalculate{14}{CellData}[2][0]{Off} = 1;
+$TableBlockNextCalculate{14}{CellData}[2][0]{TmpOff} = 0;
+$TableBlockNextCalculate{14}{CellData}[2][1]{Off} = 0;
+$TableBlockNextCalculate{14}{CellData}[2][1]{TmpOff} = 0;
+$TableBlockNextCalculate{14}{CellData}[2][2]{Off} = 0;
+$TableBlockNextCalculate{14}{CellData}[2][2]{TmpOff} = 0;
+
+$TableBlockNextCalculate{14}{ColumnData}[1]{Block} = 1;
+$TableBlockNextCalculate{14}{ColumnData}[2]{Block} = 1;
+
+$TableBlockNextCalculate{14}{State} = 1;
+$TableBlockNextCalculate{14}{ReturnBlock} = 1;
+$TableBlockNextCalculate{14}{ReturnRowStart} = 1;
+$TableBlockNextCalculate{14}{ReturnColumnStart} = 1;
+$TableBlockNextCalculate{14}{ReturnColumnStop} = 2;
+
+# tableblocknextcalculatetest15
+$TableBlockNextCalculate{15}{CellData}[0][0]{Off} = 1;
+$TableBlockNextCalculate{15}{CellData}[0][0]{TmpOff} = 0;
+$TableBlockNextCalculate{15}{CellData}[0][1]{Off} = 1;
+$TableBlockNextCalculate{15}{CellData}[0][1]{TmpOff} = 0;
+$TableBlockNextCalculate{15}{CellData}[0][2]{Off} = 1;
+$TableBlockNextCalculate{15}{CellData}[0][2]{TmpOff} = 0;
+$TableBlockNextCalculate{15}{CellData}[1][0]{Off} = 1;
+$TableBlockNextCalculate{15}{CellData}[1][0]{TmpOff} = 0;
+$TableBlockNextCalculate{15}{CellData}[1][1]{Off} = 1;
+$TableBlockNextCalculate{15}{CellData}[1][1]{TmpOff} = 0;
+$TableBlockNextCalculate{15}{CellData}[1][2]{Off} = 1;
+$TableBlockNextCalculate{15}{CellData}[1][2]{TmpOff} = 0;
+$TableBlockNextCalculate{15}{CellData}[2][0]{Off} = 1;
+$TableBlockNextCalculate{15}{CellData}[2][0]{TmpOff} = 0;
+$TableBlockNextCalculate{15}{CellData}[2][1]{Off} = 1;
+$TableBlockNextCalculate{15}{CellData}[2][1]{TmpOff} = 0;
+$TableBlockNextCalculate{15}{CellData}[2][2]{Off} = 0;
+$TableBlockNextCalculate{15}{CellData}[2][2]{TmpOff} = 0;
+
+$TableBlockNextCalculate{15}{ColumnData}[2]{Block} = 2;
+
+$TableBlockNextCalculate{15}{State} = 1;
+$TableBlockNextCalculate{15}{ReturnBlock} = 2;
+$TableBlockNextCalculate{15}{ReturnRowStart} = 2;
+$TableBlockNextCalculate{15}{ReturnColumnStart} = 2;
+$TableBlockNextCalculate{15}{ReturnColumnStop} = 2;
+
+# tableblocknextcalculatetest16
+$TableBlockNextCalculate{16}{CellData}[0][0]{Off} = 1;
+$TableBlockNextCalculate{16}{CellData}[0][0]{TmpOff} = 0;
+$TableBlockNextCalculate{16}{CellData}[0][1]{Off} = 1;
+$TableBlockNextCalculate{16}{CellData}[0][1]{TmpOff} = 0;
+$TableBlockNextCalculate{16}{CellData}[0][2]{Off} = 1;
+$TableBlockNextCalculate{16}{CellData}[0][2]{TmpOff} = 0;
+$TableBlockNextCalculate{16}{CellData}[1][0]{Off} = 1;
+$TableBlockNextCalculate{16}{CellData}[1][0]{TmpOff} = 0;
+$TableBlockNextCalculate{16}{CellData}[1][1]{Off} = 1;
+$TableBlockNextCalculate{16}{CellData}[1][1]{TmpOff} = 0;
+$TableBlockNextCalculate{16}{CellData}[1][2]{Off} = 1;
+$TableBlockNextCalculate{16}{CellData}[1][2]{TmpOff} = 0;
+$TableBlockNextCalculate{16}{CellData}[2][0]{Off} = 1;
+$TableBlockNextCalculate{16}{CellData}[2][0]{TmpOff} = 0;
+$TableBlockNextCalculate{16}{CellData}[2][1]{Off} = 1;
+$TableBlockNextCalculate{16}{CellData}[2][1]{TmpOff} = 0;
+$TableBlockNextCalculate{16}{CellData}[2][2]{Off} = 1;
+$TableBlockNextCalculate{16}{CellData}[2][2]{TmpOff} = 0;
+
+$TableBlockNextCalculate{16}{ColumnData}[0]{Block} = 0;
+
+$TableBlockNextCalculate{16}{State} = 0;
+$TableBlockNextCalculate{16}{ReturnBlock} = 0;
+$TableBlockNextCalculate{16}{ReturnRowStart} = 0;
+$TableBlockNextCalculate{16}{ReturnColumnStart} = 0;
+$TableBlockNextCalculate{16}{ReturnColumnStop} = 0;
+
+# tableblocknextcalculatetest17
+$TableBlockNextCalculate{17}{CellData}[0][0]{Off} = 0;
+$TableBlockNextCalculate{17}{CellData}[0][0]{TmpOff} = 1;
+
+$TableBlockNextCalculate{17}{ColumnData}[0]{Block} = 0;
+
+$TableBlockNextCalculate{17}{State} = 1;
+$TableBlockNextCalculate{17}{ReturnBlock} = 0;
+$TableBlockNextCalculate{17}{ReturnRowStart} = 0;
+$TableBlockNextCalculate{17}{ReturnColumnStart} = 0;
+$TableBlockNextCalculate{17}{ReturnColumnStop} = 0;
+
+# tableblocknextcalculatetest18
+$TableBlockNextCalculate{18}{CellData}[0][0]{Off} = 1;
+$TableBlockNextCalculate{18}{CellData}[0][0]{TmpOff} = 1;
+
+$TableBlockNextCalculate{18}{ColumnData}[0][0]{Block} = 0;
+
+$TableBlockNextCalculate{18}{State} = 0;
+$TableBlockNextCalculate{18}{ReturnBlock} = 0;
+$TableBlockNextCalculate{18}{ReturnRowStart} = 0;
+$TableBlockNextCalculate{18}{ReturnColumnStart} = 0;
+$TableBlockNextCalculate{18}{ReturnColumnStop} = 0;
+
+# tableblocknextcalculatetest19
+$TableBlockNextCalculate{19}{CellData}[0][0]{Off} = 0;
+$TableBlockNextCalculate{19}{CellData}[0][0]{TmpOff} = 1;
+$TableBlockNextCalculate{19}{CellData}[0][1]{Off} = 0;
+$TableBlockNextCalculate{19}{CellData}[0][1]{TmpOff} = 0;
+$TableBlockNextCalculate{19}{CellData}[1][0]{Off} = 0;
+$TableBlockNextCalculate{19}{CellData}[1][0]{TmpOff} = 0;
+$TableBlockNextCalculate{19}{CellData}[1][1]{Off} = 0;
+$TableBlockNextCalculate{19}{CellData}[1][1]{TmpOff} = 0;
+
+$TableBlockNextCalculate{19}{ColumnData}[0]{Block} = 0;
+$TableBlockNextCalculate{19}{ColumnData}[1]{Block} = 1;
+
+$TableBlockNextCalculate{19}{State} = 1;
+$TableBlockNextCalculate{19}{ReturnBlock} = 1;
+$TableBlockNextCalculate{19}{ReturnRowStart} = 0;
+$TableBlockNextCalculate{19}{ReturnColumnStart} = 1;
+$TableBlockNextCalculate{19}{ReturnColumnStop} = 1;
+
+# tableblocknextcalculatetest20
+$TableBlockNextCalculate{20}{CellData}[0][0]{Off} = 0;
+$TableBlockNextCalculate{20}{CellData}[0][0]{TmpOff} = 1;
+$TableBlockNextCalculate{20}{CellData}[0][1]{Off} = 0;
+$TableBlockNextCalculate{20}{CellData}[0][1]{TmpOff} = 1;
+$TableBlockNextCalculate{20}{CellData}[1][0]{Off} = 0;
+$TableBlockNextCalculate{20}{CellData}[1][0]{TmpOff} = 0;
+$TableBlockNextCalculate{20}{CellData}[1][1]{Off} = 0;
+$TableBlockNextCalculate{20}{CellData}[1][1]{TmpOff} = 0;
+
+$TableBlockNextCalculate{20}{ColumnData}[0]{Block} = 0;
+$TableBlockNextCalculate{20}{ColumnData}[1]{Block} = 0;
+
+$TableBlockNextCalculate{20}{State} = 1;
+$TableBlockNextCalculate{20}{ReturnBlock} = 0;
+$TableBlockNextCalculate{20}{ReturnRowStart} = 0;
+$TableBlockNextCalculate{20}{ReturnColumnStart} = 0;
+$TableBlockNextCalculate{20}{ReturnColumnStop} = 1;
+
+# tableblocknextcalculatetest21
+$TableBlockNextCalculate{21}{CellData}[0][0]{Off} = 1;
+$TableBlockNextCalculate{21}{CellData}[0][0]{TmpOff} = 0;
+$TableBlockNextCalculate{21}{CellData}[0][1]{Off} = 1;
+$TableBlockNextCalculate{21}{CellData}[0][1]{TmpOff} = 0;
+$TableBlockNextCalculate{21}{CellData}[1][0]{Off} = 0;
+$TableBlockNextCalculate{21}{CellData}[1][0]{TmpOff} = 1;
+$TableBlockNextCalculate{21}{CellData}[1][1]{Off} = 0;
+$TableBlockNextCalculate{21}{CellData}[1][1]{TmpOff} = 0;
+
+$TableBlockNextCalculate{21}{ColumnData}[0]{Block} = 0;
+$TableBlockNextCalculate{21}{ColumnData}[1]{Block} = 1;
+
+$TableBlockNextCalculate{21}{State} = 1;
+$TableBlockNextCalculate{21}{ReturnBlock} = 1;
+$TableBlockNextCalculate{21}{ReturnRowStart} = 1;
+$TableBlockNextCalculate{21}{ReturnColumnStart} = 1;
+$TableBlockNextCalculate{21}{ReturnColumnStop} = 1;
+
+# start testing _TableBlockNextCalculate()
+foreach (sort keys %TableBlockNextCalculate) {
+    my $Test = $_;
+    my $TestOk = 0;
+
+    my %Return = $Self->{PDFObject}->_TableBlockNextCalculate(
+        CellData => $TableBlockNextCalculate{$Test}{CellData},
+        ColumnData => $TableBlockNextCalculate{$Test}{ColumnData},
+    );
+
+    if ($Return{State} eq $TableBlockNextCalculate{$Test}{State} &&
+        $Return{ReturnBlock} eq $TableBlockNextCalculate{$Test}{ReturnBlock} &&
+        $Return{ReturnRowStart} eq $TableBlockNextCalculate{$Test}{ReturnRowStart} &&
+        $Return{ReturnColumnStart} eq $TableBlockNextCalculate{$Test}{ReturnColumnStart} &&
+        $Return{ReturnColumnStop} eq $TableBlockNextCalculate{$Test}{ReturnColumnStop}
+    ) {
+        $TestOk = 1;
+    }
+    else {
+        print "\n";
+        print "ERROR _TableBlockNextCalculate$Test State -->$Return{State}\n";
+        print "ERROR _TableBlockNextCalculate$Test ReturnBlock -->$Return{ReturnBlock}\n";
+        print "ERROR _TableBlockNextCalculate$Test ReturnRowStart -->$Return{ReturnRowStart}\n";
+        print "ERROR _TableBlockNextCalculate$Test ReturnColumnStart -->$Return{ReturnColumnStart}\n";
+        print "ERROR _TableBlockNextCalculate$Test ReturnColumnStop -->$Return{ReturnColumnStop}\n";
+        print "\n";
+    }
+
+    $Self->True(
+        $TestOk,
+        "_TableBlockNextCalculate$Test()",
+    );
+}
+
+# _TableRowCalculate() tests
+my %TableRowCalculate;
+
+# tablerowcalculatetest0
+$TableRowCalculate{0}{Border} = 1;
+
+$TableRowCalculate{0}{CellData}[0][0]{Content} = 'Zelle 1-1';
+$TableRowCalculate{0}{CellData}[0][0]{Font} = 'Helvetica';
+$TableRowCalculate{0}{CellData}[0][0]{FontSize} = 14;
+$TableRowCalculate{0}{CellData}[0][0]{Lead} = 0;
+$TableRowCalculate{0}{CellData}[0][1]{Content} = 'Zelle 1-2';
+$TableRowCalculate{0}{CellData}[0][1]{Font} = 'Helvetica';
+$TableRowCalculate{0}{CellData}[0][1]{FontSize} = 10;
+$TableRowCalculate{0}{CellData}[0][1]{Lead} = 2;
+
+$TableRowCalculate{0}{ColumnData}[0]{TextWidth} = 100;
+$TableRowCalculate{0}{ColumnData}[1]{TextWidth} = 100;
+
+$TableRowCalculate{0}{ReturnRowData}[0]{Height} = 0;
+$TableRowCalculate{0}{ReturnRowData}[0]{TextHeight} = 14;
+$TableRowCalculate{0}{ReturnRowData}[0]{OutputHeight} = 16;
+
+# tablerowcalculatetest1
+$TableRowCalculate{1}{Border} = 0;
+$TableRowCalculate{1}{PaddingTop} = 2;
+$TableRowCalculate{1}{PaddingBottom} = 3;
+
+$TableRowCalculate{1}{CellData}[0][0]{Content} = 'Zelle 1-1';
+$TableRowCalculate{1}{CellData}[0][0]{Font} = 'Helvetica';
+$TableRowCalculate{1}{CellData}[0][0]{FontSize} = 10;
+$TableRowCalculate{1}{CellData}[0][0]{Lead} = 0;
+$TableRowCalculate{1}{CellData}[0][1]{Content} = 'Zelle 1-2';
+$TableRowCalculate{1}{CellData}[0][1]{Font} = 'Helvetica';
+$TableRowCalculate{1}{CellData}[0][1]{FontSize} = 14;
+$TableRowCalculate{1}{CellData}[0][1]{Lead} = 5;
+
+$TableRowCalculate{1}{ColumnData}[0]{TextWidth} = 100;
+$TableRowCalculate{1}{ColumnData}[1]{TextWidth} = 100;
+
+$TableRowCalculate{1}{ReturnRowData}[0]{Height} = 0;
+$TableRowCalculate{1}{ReturnRowData}[0]{TextHeight} = 14;
+$TableRowCalculate{1}{ReturnRowData}[0]{OutputHeight} = 19;
+
+# tablerowcalculatetest2
+$TableRowCalculate{2}{Border} = 0;
+
+$TableRowCalculate{2}{CellData}[0][0]{Content} = '';
+$TableRowCalculate{2}{CellData}[0][0]{Font} = 'Helvetica';
+$TableRowCalculate{2}{CellData}[0][0]{FontSize} = 10;
+$TableRowCalculate{2}{CellData}[0][0]{Lead} = 0;
+$TableRowCalculate{2}{CellData}[0][1]{Content} = '';
+$TableRowCalculate{2}{CellData}[0][1]{Font} = 'Helvetica';
+$TableRowCalculate{2}{CellData}[0][1]{FontSize} = 11;
+$TableRowCalculate{2}{CellData}[0][1]{Lead} = 5;
+
+$TableRowCalculate{2}{ColumnData}[0]{TextWidth} = 100;
+$TableRowCalculate{2}{ColumnData}[1]{TextWidth} = 100;
+
+$TableRowCalculate{2}{ReturnRowData}[0]{Height} = 0;
+$TableRowCalculate{2}{ReturnRowData}[0]{TextHeight} = 11;
+$TableRowCalculate{2}{ReturnRowData}[0]{OutputHeight} = 11;
+
+# tablerowcalculatetest3
+$TableRowCalculate{3}{Border} = 2;
+
+$TableRowCalculate{3}{CellData}[0][0]{Content} = 'Zelle 1-1';
+$TableRowCalculate{3}{CellData}[0][0]{Font} = 'Helvetica';
+$TableRowCalculate{3}{CellData}[0][0]{FontSize} = 10;
+$TableRowCalculate{3}{CellData}[0][0]{Lead} = 0;
+$TableRowCalculate{3}{CellData}[0][1]{Content} = 'Zelle 1-2';
+$TableRowCalculate{3}{CellData}[0][1]{Font} = 'Helvetica';
+$TableRowCalculate{3}{CellData}[0][1]{FontSize} = 11;
+$TableRowCalculate{3}{CellData}[0][1]{Lead} = 5;
+
+$TableRowCalculate{3}{ColumnData}[0]{TextWidth} = 100;
+$TableRowCalculate{3}{ColumnData}[1]{TextWidth} = 100;
+
+$TableRowCalculate{3}{RowData}[0]{Height} = 99;
+
+$TableRowCalculate{3}{ReturnRowData}[0]{Height} = 99;
+$TableRowCalculate{3}{ReturnRowData}[0]{TextHeight} = 99;
+$TableRowCalculate{3}{ReturnRowData}[0]{OutputHeight} = 103;
+
+# tablerowcalculatetest4
+$TableRowCalculate{4}{Border} = 2;
+
+$TableRowCalculate{4}{CellData}[0][0]{Content} = 'Zelle 1-1';
+$TableRowCalculate{4}{CellData}[0][0]{Font} = 'Helvetica';
+$TableRowCalculate{4}{CellData}[0][0]{FontSize} = 10;
+$TableRowCalculate{4}{CellData}[0][0]{Lead} = 0;
+$TableRowCalculate{4}{CellData}[0][1]{Content} = 'Zelle 1-2';
+$TableRowCalculate{4}{CellData}[0][1]{Font} = 'Helvetica';
+$TableRowCalculate{4}{CellData}[0][1]{FontSize} = 11;
+$TableRowCalculate{4}{CellData}[0][1]{Lead} = 5;
+
+$TableRowCalculate{4}{ColumnData}[0]{TextWidth} = 100;
+$TableRowCalculate{4}{ColumnData}[1]{TextWidth} = 100;
+
+$TableRowCalculate{4}{RowData}[0]{Height} = 0;
+
+$TableRowCalculate{4}{ReturnRowData}[0]{Height} = 0;
+$TableRowCalculate{4}{ReturnRowData}[0]{TextHeight} = 11;
+$TableRowCalculate{4}{ReturnRowData}[0]{OutputHeight} = 15;
+
+# tablerowcalculatetest5
+$TableRowCalculate{5}{Border} = 2;
+
+$TableRowCalculate{5}{CellData}[0][0]{Content} = 'Zelle 1-1';
+$TableRowCalculate{5}{CellData}[0][0]{Font} = 'Helvetica';
+$TableRowCalculate{5}{CellData}[0][0]{FontSize} = 10;
+$TableRowCalculate{5}{CellData}[0][0]{Lead} = 0;
+$TableRowCalculate{5}{CellData}[0][1]{Content} = 'Zelle 1-2';
+$TableRowCalculate{5}{CellData}[0][1]{Font} = 'Helvetica';
+$TableRowCalculate{5}{CellData}[0][1]{FontSize} = 11;
+$TableRowCalculate{5}{CellData}[0][1]{Lead} = 5;
+
+$TableRowCalculate{5}{ColumnData}[0]{TextWidth} = 100;
+$TableRowCalculate{5}{ColumnData}[1]{TextWidth} = 100;
+
+$TableRowCalculate{5}{RowData}[0]{Height} = 1;
+
+$TableRowCalculate{5}{ReturnRowData}[0]{Height} = 1;
+$TableRowCalculate{5}{ReturnRowData}[0]{TextHeight} = 1;
+$TableRowCalculate{5}{ReturnRowData}[0]{OutputHeight} = 5;
+
+# tablerowcalculatetest6
+$TableRowCalculate{6}{Border} = 2;
+
+$TableRowCalculate{6}{CellData}[0][0]{Content} = 'Zelle 1-1';
+$TableRowCalculate{6}{CellData}[0][0]{Font} = 'Helvetica';
+$TableRowCalculate{6}{CellData}[0][0]{FontSize} = 10;
+$TableRowCalculate{6}{CellData}[0][0]{Lead} = 0;
+$TableRowCalculate{6}{CellData}[0][1]{Content} = 'Zelle 1-2';
+$TableRowCalculate{6}{CellData}[0][1]{Font} = 'Helvetica';
+$TableRowCalculate{6}{CellData}[0][1]{FontSize} = 11;
+$TableRowCalculate{6}{CellData}[0][1]{Lead} = 5;
+
+$TableRowCalculate{6}{ColumnData}[0]{TextWidth} = 1;
+$TableRowCalculate{6}{ColumnData}[1]{TextWidth} = 1;
+
+$TableRowCalculate{6}{ReturnRowData}[0]{Height} = 0;
+$TableRowCalculate{6}{ReturnRowData}[0]{TextHeight} = 11;
+$TableRowCalculate{6}{ReturnRowData}[0]{OutputHeight} = 15;
+
+# tablerowcalculatetest7
+$TableRowCalculate{7}{Border} = 2;
+
+$TableRowCalculate{7}{CellData}[0][0]{Content} = 'ISS';
+$TableRowCalculate{7}{CellData}[0][0]{Font} = 'Helvetica';
+$TableRowCalculate{7}{CellData}[0][0]{FontSize} = 10;
+$TableRowCalculate{7}{CellData}[0][0]{Lead} = 0;
+$TableRowCalculate{7}{CellData}[0][1]{Content} = 'Letzten Samstag wurde die Nutzlast, das backbordseitige Tragwerksegment P3/4 mit seinen beiden Solarzellenflächen, die ein Viertel der Gesamtstromversorgung der ISS bereitstellen sollen, in den Frachtraum der ATLANTIS verladen.';
+$TableRowCalculate{7}{CellData}[0][1]{Font} = 'Helvetica';
+$TableRowCalculate{7}{CellData}[0][1]{FontSize} = 11;
+$TableRowCalculate{7}{CellData}[0][1]{Lead} = 5;
+
+$TableRowCalculate{7}{ColumnData}[0]{TextWidth} = 100;
+$TableRowCalculate{7}{ColumnData}[1]{TextWidth} = 100;
+
+$TableRowCalculate{7}{ReturnRowData}[0]{Height} = 0;
+$TableRowCalculate{7}{ReturnRowData}[0]{TextHeight} = 219;
+$TableRowCalculate{7}{ReturnRowData}[0]{OutputHeight} = 223;
+
+# start testing TableCalculate()
+foreach (sort keys %TableRowCalculate) {
+    my $Test = $_;
+    my $TestOk = 0;
+
+    my %TableRowCalculateParams;
+    $TableRowCalculateParams{CellData} = $TableRowCalculate{$Test}{CellData};
+    $TableRowCalculateParams{ColumnData} = $TableRowCalculate{$Test}{ColumnData} || [];
+    $TableRowCalculateParams{RowData} = $TableRowCalculate{$Test}{RowData} || [];
+    $TableRowCalculateParams{PaddingTop} = $TableRowCalculate{$Test}{PaddingTop} || 0;
+    $TableRowCalculateParams{PaddingBottom} = $TableRowCalculate{$Test}{PaddingBottom} || 0;
+    $TableRowCalculateParams{Border} = $TableRowCalculate{$Test}{Border} || 0;
+
+    my %Return = $Self->{PDFObject}->_TableRowCalculate(
+        Row => 0,
+        %TableRowCalculateParams,
+    );
+
+    if ($Return{RowData}->[0]->{Height} eq $TableRowCalculate{$Test}{ReturnRowData}[0]{Height} &&
+        $Return{RowData}->[0]->{TextHeight} eq $TableRowCalculate{$Test}{ReturnRowData}[0]{TextHeight} &&
+        $Return{RowData}->[0]->{OutputHeight} eq $TableRowCalculate{$Test}{ReturnRowData}[0]{OutputHeight}
+    ) {
+        $TestOk = 1;
+    }
+    else {
+        print "\n";
+        print "ERROR _TableRowCalculate$Test Height -->$Return{RowData}->[0]->{Height}\n";
+        print "ERROR _TableRowCalculate$Test TextHeight -->$Return{RowData}->[0]->{TextHeight}\n";
+        print "ERROR _TableRowCalculate$Test OutputHeight -->$Return{RowData}->[0]->{OutputHeight}\n";
+        print "\n";
+    }
+
+    $Self->True(
+        $TestOk,
+        "_TableRowCalculate$Test()",
+    );
+}
+
+# _TableCellOnCount() tests
+my %TableCellOnCount;
+
+# tablecelloncounttest0
+$TableCellOnCount{0}{CellData}[0][0]{Off} = 0;
+$TableCellOnCount{0}{Return} = 1;
+
+# tablecelloncounttest1
+$TableCellOnCount{1}{CellData}[0][0]{Off} = 1;
+$TableCellOnCount{1}{Return} = 0;
+
+# tablecelloncounttest2
+$TableCellOnCount{2}{CellData}[0][0]{Off} = 0;
+$TableCellOnCount{2}{CellData}[0][1]{Off} = 0;
+$TableCellOnCount{2}{CellData}[1][0]{Off} = 0;
+$TableCellOnCount{2}{CellData}[1][1]{Off} = 0;
+$TableCellOnCount{2}{Return} = 4;
+
+# tablecelloncounttest3
+$TableCellOnCount{3}{CellData}[0][0]{Off} = 1;
+$TableCellOnCount{3}{CellData}[0][1]{Off} = 0;
+$TableCellOnCount{3}{CellData}[1][0]{Off} = 0;
+$TableCellOnCount{3}{CellData}[1][1]{Off} = 0;
+$TableCellOnCount{3}{Return} = 3;
+
+# tablecelloncounttest4
+$TableCellOnCount{4}{CellData}[0][0]{Off} = 1;
+$TableCellOnCount{4}{CellData}[0][1]{Off} = 1;
+$TableCellOnCount{4}{CellData}[1][0]{Off} = 0;
+$TableCellOnCount{4}{CellData}[1][1]{Off} = 0;
+$TableCellOnCount{4}{Return} = 2;
+
+# tablecelloncounttest5
+$TableCellOnCount{5}{CellData}[0][0]{Off} = 1;
+$TableCellOnCount{5}{CellData}[0][1]{Off} = 1;
+$TableCellOnCount{5}{CellData}[1][0]{Off} = 1;
+$TableCellOnCount{5}{CellData}[1][1]{Off} = 0;
+$TableCellOnCount{5}{Return} = 1;
+
+# tablecelloncounttest6
+$TableCellOnCount{6}{CellData}[0][0]{Off} = 1;
+$TableCellOnCount{6}{CellData}[0][1]{Off} = 1;
+$TableCellOnCount{6}{CellData}[1][0]{Off} = 1;
+$TableCellOnCount{6}{CellData}[1][1]{Off} = 1;
+$TableCellOnCount{6}{Return} = 0;
+
+# start testing TableCellOnCount()
+foreach (sort keys %TableCellOnCount) {
+    my $Test = $_;
+    my $TestOk = 0;
+
+    my $Return = $Self->{PDFObject}->_TableCellOnCount(
+        CellData => $TableCellOnCount{$Test}{CellData},
+    );
+
+    if ($Return eq $TableCellOnCount{$Test}{Return}) {
+        $TestOk = 1;
+    }
+    else {
+        print "\n";
+        print "ERROR _TableCellOnCount$Test Count -->$Return\n";
+        print "\n";
+    }
+
+    $Self->True(
+        $TestOk,
+        "_TableCellOnCount$Test()",
     );
 }
 
