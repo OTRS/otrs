@@ -1,9 +1,9 @@
 #!/bin/sh
 # --
-# scripts/auto_build/docbuild.sh - build automatically OTRS docu
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# scripts/auto_build/docbuild.sh - Automated creation of the  OTRS docu
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: docbuild.sh,v 1.3 2005-10-25 18:51:35 martin Exp $
+# $Id: docbuild.sh,v 1.3.2.1 2006-08-22 16:45:58 cs Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,8 +20,8 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "docbuild.sh - build automatically OTRS docu <\$Revision: 1.3 $>"
-echo "Copyright (c) 2001-2005 Martin Edenhofer <martin@otrs.org>"
+echo "docbuild.sh - Automated creation of the  OTRS docu <\$Revision: 1.3.2.1 $>"
+echo "Copyright (c) 2001-2006 Martin Edenhofer <martin@otrs.org>"
 
 
 PATH_TO_CVS_SRC=$1
@@ -77,7 +77,7 @@ for Language in en de; do
     find -name ".#*" | xargs rm -rf
 
     # build docu
-    mkdir $PACKAGE_BUILD_DIR/$Language/
+    mkdir -p $PACKAGE_BUILD_DIR/$Language/
     cd $PACKAGE_BUILD_DIR/$Language/
 
     # create all config params xml
