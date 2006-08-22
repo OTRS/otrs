@@ -2,7 +2,7 @@
 # Kernel/System/PDF.pm - PDF lib
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PDF.pm,v 1.11 2006-08-22 09:27:16 mh Exp $
+# $Id: PDF.pm,v 1.12 2006-08-22 10:51:01 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PDF;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1838,9 +1838,18 @@ sub _TableCalculate {
 
         $Counter++;
     }
+    my $LastBlock = $#{$ColumnBlocks};
     my $Counter2 = 0;
     foreach my $CurBlock (@{$ColumnBlocks}) {
-        my $ExtraSpaceComplete = $Param{Width} - $CurBlock->{Width};
+        my $ExtraSpaceComplete;
+        # no extra space for laast block
+        if ($Counter2 && $Counter2 eq $LastBlock) {
+            $ExtraSpaceComplete = 0;
+        }
+        else {
+            $ExtraSpaceComplete = $Param{Width} - $CurBlock->{Width};
+        }
+
         my $ExtraSpaceDyn = 0;
         my $ExtraSpaceFix = 0;
 
@@ -3272,6 +3281,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2006-08-22 09:27:16 $
+$Revision: 1.12 $ $Date: 2006-08-22 10:51:01 $
 
 =cut
