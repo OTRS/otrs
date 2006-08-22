@@ -2,7 +2,7 @@
 # PDF.t - PDF tests
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PDF.t,v 1.3 2006-08-21 19:14:24 mh Exp $
+# $Id: PDF.t,v 1.4 2006-08-22 10:51:35 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -1184,8 +1184,8 @@ $TableCalculate{9}{ReturnColumnData}[0]{OutputWidth} = 300;
 $TableCalculate{9}{ReturnColumnData}[0]{Block} = 0;
 $TableCalculate{9}{ReturnColumnData}[1]{Width} = 105;
 $TableCalculate{9}{ReturnColumnData}[1]{EstimateWidth} = 105;
-$TableCalculate{9}{ReturnColumnData}[1]{TextWidth} = 298;
-$TableCalculate{9}{ReturnColumnData}[1]{OutputWidth} = 300;
+$TableCalculate{9}{ReturnColumnData}[1]{TextWidth} = 105;
+$TableCalculate{9}{ReturnColumnData}[1]{OutputWidth} = 107;
 $TableCalculate{9}{ReturnColumnData}[1]{Block} = 1;
 
 $TableCalculate{9}{ReturnRowData}[0]{MinFontSize} = 10;
@@ -1366,6 +1366,107 @@ $TableCalculate{12}{ReturnColumnData}[1]{Block} = 1;
 $TableCalculate{12}{ReturnRowData}[0]{MinFontSize} = 4;
 $TableCalculate{12}{ReturnRowData}[1]{MinFontSize} = 12;
 
+# tablecalculatetest13
+$TableCalculate{13}{Width} = 100;
+$TableCalculate{13}{Border} = 1;
+
+$TableCalculate{13}{CellData}[0][0]{Content} = "Columbia";
+$TableCalculate{13}{CellData}[0][1]{Content} = "Challenger";
+$TableCalculate{13}{CellData}[0][2]{Content} = "Discovery";
+$TableCalculate{13}{CellData}[0][3]{Content} = "Atlantis";
+$TableCalculate{13}{CellData}[0][4]{Content} = "Endeavour";
+
+$TableCalculate{13}{ReturnCellData}[0][0]{Content} = "Columbia";
+$TableCalculate{13}{ReturnCellData}[0][0]{Type} = 'ReturnLeftOver';
+$TableCalculate{13}{ReturnCellData}[0][0]{Font} = 'Helvetica';
+$TableCalculate{13}{ReturnCellData}[0][0]{FontSize} = 10;
+$TableCalculate{13}{ReturnCellData}[0][0]{FontColor} = 'black';
+$TableCalculate{13}{ReturnCellData}[0][0]{Align} = 'left';
+$TableCalculate{13}{ReturnCellData}[0][0]{Lead} = 0;
+$TableCalculate{13}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
+$TableCalculate{13}{ReturnCellData}[0][1]{Content} = "Challenger";
+$TableCalculate{13}{ReturnCellData}[0][1]{Type} = 'ReturnLeftOver';
+$TableCalculate{13}{ReturnCellData}[0][1]{Font} = 'Helvetica';
+$TableCalculate{13}{ReturnCellData}[0][1]{FontSize} = 10;
+$TableCalculate{13}{ReturnCellData}[0][1]{FontColor} = 'black';
+$TableCalculate{13}{ReturnCellData}[0][1]{Align} = 'left';
+$TableCalculate{13}{ReturnCellData}[0][1]{Lead} = 0;
+$TableCalculate{13}{ReturnCellData}[0][1]{BackgroundColor} = 'NULL';
+$TableCalculate{13}{ReturnCellData}[0][2]{Content} = "Discovery";
+$TableCalculate{13}{ReturnCellData}[0][2]{Type} = 'ReturnLeftOver';
+$TableCalculate{13}{ReturnCellData}[0][2]{Font} = 'Helvetica';
+$TableCalculate{13}{ReturnCellData}[0][2]{FontSize} = 10;
+$TableCalculate{13}{ReturnCellData}[0][2]{FontColor} = 'black';
+$TableCalculate{13}{ReturnCellData}[0][2]{Align} = 'left';
+$TableCalculate{13}{ReturnCellData}[0][2]{Lead} = 0;
+$TableCalculate{13}{ReturnCellData}[0][2]{BackgroundColor} = 'NULL';
+$TableCalculate{13}{ReturnCellData}[0][3]{Content} = "Atlantis";
+$TableCalculate{13}{ReturnCellData}[0][3]{Type} = 'ReturnLeftOver';
+$TableCalculate{13}{ReturnCellData}[0][3]{Font} = 'Helvetica';
+$TableCalculate{13}{ReturnCellData}[0][3]{FontSize} = 10;
+$TableCalculate{13}{ReturnCellData}[0][3]{FontColor} = 'black';
+$TableCalculate{13}{ReturnCellData}[0][3]{Align} = 'left';
+$TableCalculate{13}{ReturnCellData}[0][3]{Lead} = 0;
+$TableCalculate{13}{ReturnCellData}[0][3]{BackgroundColor} = 'NULL';
+$TableCalculate{13}{ReturnCellData}[0][4]{Content} = "Endeavour";
+$TableCalculate{13}{ReturnCellData}[0][4]{Type} = 'ReturnLeftOver';
+$TableCalculate{13}{ReturnCellData}[0][4]{Font} = 'Helvetica';
+$TableCalculate{13}{ReturnCellData}[0][4]{FontSize} = 10;
+$TableCalculate{13}{ReturnCellData}[0][4]{FontColor} = 'black';
+$TableCalculate{13}{ReturnCellData}[0][4]{Align} = 'left';
+$TableCalculate{13}{ReturnCellData}[0][4]{Lead} = 0;
+$TableCalculate{13}{ReturnCellData}[0][4]{BackgroundColor} = 'NULL';
+
+$TableCalculate{13}{ReturnColumnData}[0]{Width} = 0;
+$TableCalculate{13}{ReturnColumnData}[0]{EstimateWidth} = 42.23;
+$TableCalculate{13}{ReturnColumnData}[0]{TextWidth} = 45.44;
+$TableCalculate{13}{ReturnColumnData}[0]{OutputWidth} = 47.44;
+$TableCalculate{13}{ReturnColumnData}[0]{Block} = 0;
+$TableCalculate{13}{ReturnColumnData}[1]{Width} = 0;
+$TableCalculate{13}{ReturnColumnData}[1]{EstimateWidth} = 48.35;
+$TableCalculate{13}{ReturnColumnData}[1]{TextWidth} = 51.56;
+$TableCalculate{13}{ReturnColumnData}[1]{OutputWidth} = 53.56;
+$TableCalculate{13}{ReturnColumnData}[1]{Block} = 0;
+$TableCalculate{13}{ReturnColumnData}[2]{Width} = 0;
+$TableCalculate{13}{ReturnColumnData}[2]{EstimateWidth} = 43.89;
+$TableCalculate{13}{ReturnColumnData}[2]{TextWidth} = 54.05;
+$TableCalculate{13}{ReturnColumnData}[2]{OutputWidth} = 56.05;
+$TableCalculate{13}{ReturnColumnData}[2]{Block} = 1;
+$TableCalculate{13}{ReturnColumnData}[3]{Width} = 0;
+$TableCalculate{13}{ReturnColumnData}[3]{EstimateWidth} = 32.79;
+$TableCalculate{13}{ReturnColumnData}[3]{TextWidth} = 42.95;
+$TableCalculate{13}{ReturnColumnData}[3]{OutputWidth} = 44.95;
+$TableCalculate{13}{ReturnColumnData}[3]{Block} = 1;
+$TableCalculate{13}{ReturnColumnData}[4]{Width} = 0;
+$TableCalculate{13}{ReturnColumnData}[4]{EstimateWidth} = 48.36;
+$TableCalculate{13}{ReturnColumnData}[4]{TextWidth} = 48.36;
+$TableCalculate{13}{ReturnColumnData}[4]{OutputWidth} = 50.36;
+$TableCalculate{13}{ReturnColumnData}[4]{Block} = 2;
+
+$TableCalculate{13}{ReturnRowData}[0]{MinFontSize} = 10;
+
+# tablecalculatetest14
+$TableCalculate{14}{Width} = 400;
+$TableCalculate{14}{Border} = 0;
+
+$TableCalculate{14}{CellData}[0][0]{Content} = "ISS";
+
+$TableCalculate{14}{ReturnCellData}[0][0]{Content} = "ISS";
+$TableCalculate{14}{ReturnCellData}[0][0]{Type} = 'ReturnLeftOver';
+$TableCalculate{14}{ReturnCellData}[0][0]{Font} = 'Helvetica';
+$TableCalculate{14}{ReturnCellData}[0][0]{FontSize} = 10;
+$TableCalculate{14}{ReturnCellData}[0][0]{FontColor} = 'black';
+$TableCalculate{14}{ReturnCellData}[0][0]{Align} = 'left';
+$TableCalculate{14}{ReturnCellData}[0][0]{Lead} = 0;
+$TableCalculate{14}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
+
+$TableCalculate{14}{ReturnColumnData}[0]{Width} = 0;
+$TableCalculate{14}{ReturnColumnData}[0]{EstimateWidth} = 16.12;
+$TableCalculate{14}{ReturnColumnData}[0]{TextWidth} = 400;
+$TableCalculate{14}{ReturnColumnData}[0]{OutputWidth} = 400;
+$TableCalculate{14}{ReturnColumnData}[0]{Block} = 0;
+
+$TableCalculate{14}{ReturnRowData}[0]{MinFontSize} = 10;
 
 # start testing TableCalculate()
 foreach (sort keys %TableCalculate) {
