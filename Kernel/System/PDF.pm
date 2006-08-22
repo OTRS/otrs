@@ -2,7 +2,7 @@
 # Kernel/System/PDF.pm - PDF lib
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PDF.pm,v 1.10 2006-08-21 19:12:29 mh Exp $
+# $Id: PDF.pm,v 1.11 2006-08-22 09:27:16 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PDF;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -268,6 +268,11 @@ sub PageBlankNew {
     if (!defined($Param{PageOrientation})) {
         $Param{PageOrientation} = 'normal';
     }
+    # set margins
+    $Param{MarginTop} = $Param{MarginTop} || 0;
+    $Param{MarginRight} = $Param{MarginRight} || 0;
+    $Param{MarginBottom} = $Param{MarginBottom} || 0;
+    $Param{MarginLeft} = $Param{MarginLeft} || 0;
 
     # create a new page
     $Self->{Page} = $Self->{PDF}->page();
@@ -294,15 +299,18 @@ sub PageBlankNew {
         $Self->_CurPageNumberSet(
             ShowPageNumber => $ShowPageNumber,
         );
+        # set printable dimension
+        $Self->_CurPrintableDimSet(
+            Top => $Param{MarginTop},
+            Right => $Param{MarginRight},
+            Bottom => $Param{MarginBottom},
+            Left => $Param{MarginLeft},
+        );
+        # set activ dimension
+        $Self->DimSet(
+            Dim => 'content',
+        );
 
-        if ($Param{MarginTop} && $Param{MarginRight} && $Param{MarginBottom} && $Param{MarginLeft}) {
-            $Self->_CurPrintableDimSet(
-                Top => $Param{MarginTop},
-                Right => $Param{MarginRight},
-                Bottom => $Param{MarginBottom},
-                Left => $Param{MarginLeft},
-            );
-        }
         return 1;
     }
 
@@ -551,7 +559,6 @@ sub PageNew {
             Left => $Printable{Left},
         );
     }
-
     # set activ dimension
     $Self->DimSet(
         Dim => 'content',
@@ -3265,6 +3272,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2006-08-21 19:12:29 $
+$Revision: 1.11 $ $Date: 2006-08-22 09:27:16 $
 
 =cut
