@@ -2,7 +2,7 @@
 # INSTALL description of OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: INSTALL,v 1.39 2005-11-28 00:17:37 martin Exp $
+# $Id: INSTALL,v 1.40 2006-08-22 09:25:05 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,9 +17,10 @@ Software requirements?
     * Database (e. g. MySQL, PostgreSQL)
     * Webpserver (mod_perl isn't required but "very nice" to have)
     * LDAPv2 compliant server (OpenLDAP for works fine, however LDAP isn't required)
-    * some CPAN-Module (DBI, DBD::mysql, Digest::MD5, MIME::Base64 (if Perl < 5.8), Net::DNS, LWP::UserAgent)
-      for LDAP (Net::LDAP) and for stats (GD, GD::Text, GD::Graph, GD::Graph::lines,
-      GD::Text::Align)
+    * some CPAN-Module (DBI, DBD::mysql, Digest::MD5, MIME::Base64 (if Perl < 5.8),
+      Net::DNS, LWP::UserAgent) for LDAP (Net::LDAP), for stats (GD, GD::Text,
+      GD::Graph, GD::Graph::lines, GD::Text::Align) and for PDF output (PDF::API2,
+      Compress::Zlib)
 
 Installation:
 =============
@@ -62,7 +63,11 @@ settings. The OTRS user is "otrs" and the home (root) directory is /opt/otrs
       install GD::Graph::lines
       install GD::Text::Align
       ...
-
+      and if you plan to use PDF output (not required!)
+      ...
+      install PDF::API2
+      install Compress::Zlib
+      ...
 
 3. Create user:
    ------------
