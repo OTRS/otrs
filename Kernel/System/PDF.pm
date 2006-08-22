@@ -2,7 +2,7 @@
 # Kernel/System/PDF.pm - PDF lib
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PDF.pm,v 1.13 2006-08-22 18:44:42 mh Exp $
+# $Id: PDF.pm,v 1.14 2006-08-22 19:30:22 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PDF;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1762,16 +1762,23 @@ sub _TableCalculate {
                 $Param{ColumnData}->[$ColumnCounter]->{MinColWidth} = 0;
             }
             my @Words = split(/\s+/, $Cell->{Content});
+            my $WordMaxLength = 0;
             foreach (@Words) {
-                my $WordWidth = $Self->_StringWidth (
-                    Text => $_,
-                    Font => $Cell->{Font},
-                    FontSize => $Cell->{FontSize},
-                );
-                if ($WordWidth > $Param{ColumnData}->[$ColumnCounter]->{MinColWidth}) {
-                    $Param{ColumnData}->[$ColumnCounter]->{MinColWidth} = $WordWidth;
+                my $WordLength = length($_);
+                if ($WordMaxLength <= $WordLength + 2) {
+                    $WordMaxLength = $WordLength;
+                    # calculate width of word
+                    my $WordWidth = $Self->_StringWidth (
+                        Text => $_,
+                        Font => $Cell->{Font},
+                        FontSize => $Cell->{FontSize},
+                    );
+                    if ($WordWidth > $Param{ColumnData}->[$ColumnCounter]->{MinColWidth}) {
+                        $Param{ColumnData}->[$ColumnCounter]->{MinColWidth} = $WordWidth;
+                    }
                 }
             }
+
             # find the smallerst fontsize
             if ($Cell->{FontSize} < $MinFontSize) {
                 $MinFontSize = $Cell->{FontSize};
@@ -2511,9 +2518,7 @@ sub _StringWidth {
         return;
     }
 
-    if (length($Param{Text}) > 30 ||
-        !defined($Self->{Cache}->{StringWidth}->{$Param{Font}}->{$Param{FontSize}}->{$Param{Text}})
-    ) {
+    if (!defined($Self->{Cache}->{StringWidth}->{$Param{Font}}->{$Param{FontSize}}->{$Param{Text}})) {
         # create a text object
         my $Text = $Self->{Page}->text;
         # set font and fontsize
@@ -3292,6 +3297,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2006-08-22 18:44:42 $
+$Revision: 1.14 $ $Date: 2006-08-22 19:30:22 $
 
 =cut
