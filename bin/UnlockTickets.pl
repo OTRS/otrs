@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # UnlockTickets.pl - to unlock tickets
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: UnlockTickets.pl,v 1.19 2005-09-24 16:46:36 martin Exp $
+# $Id: UnlockTickets.pl,v 1.19.2.1 2006-08-22 11:07:54 cs Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.19.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Date::Pcalc qw(Delta_Days Add_Delta_Days Day_of_Week Day_of_Week_Abbreviation);
@@ -158,7 +158,7 @@ else {
     print "  Options are as follows:\n";
     print "  --help        display this option help\n";
     print "  --timeout     unlock old tickets\n";
-    print "  --all         unlock all ticksts (force)\n";
+    print "  --all         unlock all tickets (force)\n";
     exit (1);
 }
 # --
