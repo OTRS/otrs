@@ -2,7 +2,7 @@
 # Kernel/System/PDF.pm - PDF lib
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PDF.pm,v 1.12 2006-08-22 10:51:01 mh Exp $
+# $Id: PDF.pm,v 1.13 2006-08-22 18:44:42 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PDF;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -810,8 +810,7 @@ sub Table {
                         }
                         # save old position
                         my %PositionOld = %Position;
-
-                        if ($Param{RowData}->[$Row]->{TextHeight} <= $Position{Y} - $Dim{Bottom}) {
+                        if ($Param{RowData}->[$Row]->{OutputHeight} <= $Position{Y} - $Dim{Bottom}) {
                             for ($Block{ReturnColumnStart}..$Block{ReturnColumnStop}) {
                                 my $Column = $_;
                                 $Self->_TableCellOutput (
@@ -894,9 +893,20 @@ sub Table {
                                     }
                                     $Param{CellData}->[$Row]->[$Column]->{TmpOff} = 1;
                                     # recalculate height
-                                    if ($Block{ReturnBlock} eq $LastBlock) {
+                                    if ($Block{ReturnBlock} eq $LastBlock &&
+                                        $Column eq $Block{ReturnColumnStop}
+                                    ) {
+                                        # if Height was given
                                         if ($Param{RowData}->[$Row]->{Height} > 0) {
                                             $Param{RowData}->[$Row]->{Height} -= $NewTextHeight;
+                                            # if rest to small, deactivate all cells of this row
+                                            if ($Param{RowData}->[$Row]->{Height} < $Param{RowData}->[$Row]->{MinFontSize}) {
+                                                foreach my $CellOff (@{$Param{CellData}->[$Row]}) {
+                                                    $CellOff->{Content} = ' ';
+                                                    $CellOff->{Off} = 1;
+                                                    $CellOff->{Tmp} = 0;
+                                                }
+                                            }
                                         }
                                         $Self->_TableRowCalculate(
                                             Row => $Row,
@@ -2051,7 +2061,8 @@ sub _TableRowCalculate {
             $Param{RowData}->[$Param{Row}]->{TextHeight} = $BiggerstFontSize;
         }
     }
-    $Param{RowData}->[$Param{Row}]->{OutputHeight} = $Param{RowData}->[$Param{Row}]->{TextHeight} + $Param{PaddingTop} + $Param{PaddingBottom} + (2 * $Param{Border});
+    $Param{RowData}->[$Param{Row}]->{OutputHeight} =
+        $Param{RowData}->[$Param{Row}]->{TextHeight} + $Param{PaddingTop} + $Param{PaddingBottom} + (2 * $Param{Border});
 
     return %Param;
 }
@@ -3281,6 +3292,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2006-08-22 10:51:01 $
+$Revision: 1.13 $ $Date: 2006-08-22 18:44:42 $
 
 =cut
