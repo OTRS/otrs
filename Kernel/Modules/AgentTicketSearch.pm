@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketSearch.pm,v 1.24 2006-08-21 19:13:41 mh Exp $
+# $Id: AgentTicketSearch.pm,v 1.25 2006-08-22 15:08:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::SearchProfile;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -518,6 +518,11 @@ sub Run {
                         $Self->{ConfigObject}->Get('FQDN') .
                         $ENV{REQUEST_URI};
                 }
+                # get maximum number of pages
+                my $MaxPages = $Self->{ConfigObject}->Get('PDF::MaxPages');
+                if (!$MaxPages || $MaxPages < 1 || $MaxPages > 1000) {
+                    $MaxPages = 100;
+                }
                 # create the header
                 my $CellData;
                 $CellData->[0]->[0]->{Content} = $Self->{ConfigObject}->Get('Ticket::Hook');
@@ -576,44 +581,30 @@ sub Run {
                 $TableParam{Padding} = 1;
                 $TableParam{PaddingTop} = 3;
                 $TableParam{PaddingBottom} = 3;
-                # get maximum number of pages
-                my $MaxPages = $Self->{ConfigObject}->Get('PDF::MaxPages');
-                if (!$MaxPages || $MaxPages < 1 || $MaxPages > 1000) {
-                    $MaxPages = 100;
-                }
+
                 # create new pdf document
                 $Self->{PDFObject}->DocumentNew(
                     Title => $Self->{ConfigObject}->Get('Product') . ': ' . $Title,
                 );
                 # start table output
-                my $Loop = 1;
-                my $Counter = 1;
-                while ($Loop) {
-                    # if first page
-                    if ($Counter eq 1) {
-                        $Self->{PDFObject}->PageNew(
-                            %PageParam,
-                            FooterRight => $Page . ' ' . $Counter,
-                        );
-                    }
+                $Self->{PDFObject}->PageNew(
+                    %PageParam,
+                    FooterRight => $Page . ' 1',
+                );
+                for (2..$MaxPages) {
                     # output table (or a fragment of it)
                     %TableParam = $Self->{PDFObject}->Table(
                         %TableParam,
                     );
                     # stop output or another page
                     if ($TableParam{State}) {
-                        $Loop = 0;
+                        last;
                     }
                     else {
                         $Self->{PDFObject}->PageNew(
                             %PageParam,
-                            FooterRight => $Page . ' ' . ($Counter + 1),
+                            FooterRight => $Page . ' ' . $_,
                         );
-                    }
-                    $Counter++;
-                    # check max pages
-                    if ($Counter >= $MaxPages) {
-                        $Loop = 0
                     }
                 }
                 # return the pdf document
