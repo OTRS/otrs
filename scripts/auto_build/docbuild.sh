@@ -3,7 +3,7 @@
 # scripts/auto_build/docbuild.sh - Automated creation of the  OTRS docu
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: docbuild.sh,v 1.3.2.1 2006-08-22 16:45:58 cs Exp $
+# $Id: docbuild.sh,v 1.3.2.2 2006-08-23 08:23:53 cs Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,15 +20,16 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "docbuild.sh - Automated creation of the  OTRS docu <\$Revision: 1.3.2.1 $>"
+echo "docbuild.sh - Automated creation of the  OTRS docu"
 echo "Copyright (c) 2001-2006 Martin Edenhofer <martin@otrs.org>"
 
 
 PATH_TO_CVS_SRC=$1
 PATH_TO_CVS_FRAMEWORK_SRC=$2
 PACKAGE=OTRSDOC
-PACKAGE_BUILD_DIR="/tmp/$PACKAGE-build"
-PACKAGE_DEST_DIR="/tmp/$PACKAGE-package"
+TMP="/tmp"
+PACKAGE_BUILD_DIR="$TMP/$PACKAGE-build"
+PACKAGE_DEST_DIR="$TMP/$PACKAGE-package"
 
 if ! test -e $PATH_TO_CVS_SRC; then
     # --
@@ -64,8 +65,6 @@ mkdir -p $PACKAGE_DEST_DIR/
 
 
 for Language in en de; do
-#for Language in de; do
-
     # prepare build env
     rm -rf $PACKAGE_BUILD_DIR || exit 1;
     mkdir -p $PACKAGE_BUILD_DIR/ || exit 1;
@@ -80,15 +79,22 @@ for Language in en de; do
     mkdir -p $PACKAGE_BUILD_DIR/$Language/
     cd $PACKAGE_BUILD_DIR/$Language/
 
-    # create all config params xml
+    # create all config params in xml
     $PATH_TO_CVS_FRAMEWORK_SRC/scripts/auto_build/xml2docbook.pl -l $Language > $PACKAGE_BUILD_DIR/$Language/all-config-parameters.xml
     $PATH_TO_CVS_FRAMEWORK_SRC/scripts/tools/charset-convert.pl -s utf-8 -d iso-8859-1 -f $PACKAGE_BUILD_DIR/$Language/all-config-parameters.xml
 
-    # pdf
+    # create one big xml file with all chapters
     xmllint --xinclude book.xml > otrs_admin_book.xml
+
+    # pdf
     docbook2pdf otrs_admin_book.xml
     mkdir -p $PACKAGE_DEST_DIR/$Language/pdf
     cp otrs_admin_book.pdf $PACKAGE_DEST_DIR/$Language/pdf/otrs_admin_book.pdf
+
+    # txt
+    docbook2txt otrs_admin_book.xml
+    mkdir -p $PACKAGE_DEST_DIR/$Language/txt
+    cp otrs_admin_book.txt $PACKAGE_DEST_DIR/$Language/txt/otrs_admin_book.txt
 
     # html
     docbook2html otrs_admin_book.xml
@@ -98,10 +104,16 @@ for Language in en de; do
     cp -R *.html $PACKAGE_DEST_DIR/$Language/html/
     cp -R screenshots/* $PACKAGE_DEST_DIR/$Language/html/screenshots/
     cp -R images/* $PACKAGE_DEST_DIR/$Language/images/
-    # convert images to 50% of orig. size
-    for i in $PACKAGE_DEST_DIR/$Language/html/screenshots/*.png ; do
-        echo "convert image to 60% $i"; convert $i -resize 60% $i;
-    done
+
+    # test for convert included in imagemagick package
+    if [ -x /usr/bin/convert ] || [ -x /bin/convert ] ; then
+        # convert images to 60% of orig. size
+        CONVERT=`which convert`
+        for i in $PACKAGE_DEST_DIR/$Language/html/screenshots/*.png ; do
+            echo "convert image to 60% $i"
+	    $CONVERT $i -resize 60% $i
+	done;
+    fi
 
     # xml
     mkdir -p $PACKAGE_DEST_DIR/$Language/xml
@@ -113,9 +125,16 @@ for Language in en de; do
 done;
 
 # show result
+echo ""
+echo "Builded packages and files:"
+echo "---------------------------"
 for Language in en de; do
-    du -sh $PACKAGE_DEST_DIR/$Language/xml/;
-    du -sh $PACKAGE_DEST_DIR/$Language/html/;
-    du -sh $PACKAGE_DEST_DIR/$Language/pdf/;
+    du -sh $PACKAGE_DEST_DIR/$Language/xml/
+    du -sh $PACKAGE_DEST_DIR/$Language/html/
+    du -sh $PACKAGE_DEST_DIR/$Language/pdf/
+    du -sh $PACKAGE_DEST_DIR/$Language/txt/
+    echo ""
     ls -l $PACKAGE_DEST_DIR/$Language/pdf/otrs_admin_book.pdf;
+    ls -l $PACKAGE_DEST_DIR/$Language/txt/otrs_admin_book.txt;
+    echo ""
 done;
