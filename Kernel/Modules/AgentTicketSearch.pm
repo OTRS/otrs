@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketSearch.pm,v 1.25 2006-08-22 15:08:21 mh Exp $
+# $Id: AgentTicketSearch.pm,v 1.26 2006-08-23 13:23:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::SearchProfile;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -621,7 +621,7 @@ sub Run {
                     Filename => $Filename."_"."$Y-$M-$D"."_"."$h-$m.pdf",
                     ContentType => "application/pdf",
                     Content => $PDFString,
-                    Type => 'inline',
+                    Type => 'attachment',
                 );
             }
             else  {

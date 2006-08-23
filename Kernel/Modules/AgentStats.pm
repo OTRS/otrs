@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentStats.pm,v 1.9 2006-08-22 15:08:21 mh Exp $
+# $Id: AgentStats.pm,v 1.10 2006-08-23 13:23:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -2009,7 +2009,7 @@ sub Run {
                     Filename => $Filename . '.pdf',
                     ContentType => "application/pdf",
                     Content => $PDFString,
-                    Type => 'inline',
+                    Type => 'attachment',
                 );
             }
             # HTML Output

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - to get a closer view
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPrint.pm,v 1.24 2006-08-22 15:09:06 mh Exp $
+# $Id: AgentTicketPrint.pm,v 1.25 2006-08-23 13:23:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.24 $';
+$VERSION = '$Revision: 1.25 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -217,7 +217,7 @@ sub Run {
             Filename => $Filename."_"."$Y-$M-$D"."_"."$h-$m.pdf",
             ContentType => "application/pdf",
             Content => $PDFString,
-            Type => 'inline',
+            Type => 'attachment',
         );
     }
     # generate html output
