@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - to get a closer view
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketPrint.pm,v 1.25 2006-08-23 13:23:57 mh Exp $
+# $Id: AgentTicketPrint.pm,v 1.26 2006-08-23 14:45:01 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -44,10 +44,7 @@ sub new {
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
     # link object
     $Self->{LinkObject} = Kernel::System::LinkObject->new(%Param);
-    # load PDF::API2 if installed
-    if ($Self->{MainObject}->Require('PDF::API2')) {
-        $Self->{PDFObject} = Kernel::System::PDF->new(%Param);
-    }
+    $Self->{PDFObject} = Kernel::System::PDF->new(%Param);
 
     return $Self;
 }
@@ -129,7 +126,7 @@ sub Run {
     }
 
     # generate pdf output
-    if ($Self->{PDFObject} && $Self->{ConfigObject}->Get('PDF')) {
+    if ($Self->{PDFObject}) {
         my $PrintedBy = $Self->{LayoutObject}->{LanguageObject}->Get('printed by');
         my $Time = $Self->{LayoutObject}->Output(Template => '$Env{"Time"}');
         my $Url = ' ';

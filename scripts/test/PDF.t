@@ -2,7 +2,7 @@
 # PDF.t - PDF tests
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: PDF.t,v 1.4 2006-08-22 10:51:35 mh Exp $
+# $Id: PDF.t,v 1.5 2006-08-23 14:45:01 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,11 +11,10 @@
 
 use Kernel::System::PDF;
 
-# load PDF::API2 if installed
-if (!$Self->{MainObject}->Require('PDF::API2')) {
+$Self->{PDFObject} = Kernel::System::PDF->new(%{$Self});
+if (!$Self->{PDFObject}) {
     return;
 }
-$Self->{PDFObject} = Kernel::System::PDF->new(%{$Self});
 
 # create a pdf document
 my $DocumentNew1 = $Self->{PDFObject}->DocumentNew(

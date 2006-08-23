@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: AgentTicketSearch.pm,v 1.26 2006-08-23 13:23:57 mh Exp $
+# $Id: AgentTicketSearch.pm,v 1.27 2006-08-23 14:45:01 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::SearchProfile;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26 $';
+$VERSION = '$Revision: 1.27 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -44,10 +44,7 @@ sub new {
     $Self->{PriorityObject} = Kernel::System::Priority->new(%Param);
     $Self->{StateObject} = Kernel::System::State->new(%Param);
     $Self->{SearchProfileObject} = Kernel::System::SearchProfile->new(%Param);
-    # load PDF::API2 if installed
-    if ($Self->{MainObject}->Require('PDF::API2')) {
-        $Self->{PDFObject} = Kernel::System::PDF->new(%Param);
-    }
+    $Self->{PDFObject} = Kernel::System::PDF->new(%Param);
 
     # if we need to do a fulltext search on an external mirror database
     if ($Self->{ConfigObject}->Get('Ticket::Frontend::Search::DB::DSN')) {
@@ -307,7 +304,6 @@ sub Run {
             %GetParam,
         );
 
-        my $PDFOutput = $Self->{ConfigObject}->Get('PDF');
         my @CSVHead = ();
         my @CSVData = ();
         my @PDFData = ();
@@ -419,7 +415,7 @@ sub Run {
                 );
             }
             elsif ($GetParam{ResultForm} eq 'Print') {
-                if ($PDFOutput && $Self->{PDFObject}) {
+                if ($Self->{PDFObject}) {
                     my %Info = (%Data, %UserInfo),
 
                     my $Created = $Self->{LayoutObject}->Output(Template => '$TimeLong{"$Data{"Created"}"}', Data => \%Data);
@@ -506,7 +502,7 @@ sub Run {
         }
         elsif ($GetParam{ResultForm} eq 'Print') {
             # PDF Output
-            if ($PDFOutput && $Self->{PDFObject}) {
+            if ($Self->{PDFObject}) {
                 my $Title = $Self->{LayoutObject}->{LanguageObject}->Get('Ticket') . ' ' .
                     $Self->{LayoutObject}->{LanguageObject}->Get('Search');
                 my $PrintedBy = $Self->{LayoutObject}->{LanguageObject}->Get('printed by');

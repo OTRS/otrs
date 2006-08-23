@@ -3,7 +3,7 @@
 # mkStats.pl - send stats output via email
 # Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: mkStats.pl,v 1.38 2006-08-21 19:13:41 mh Exp $
+# $Id: mkStats.pl,v 1.39 2006-08-23 14:45:01 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use strict;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.38 $';
+$VERSION = '$Revision: 1.39 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -67,11 +67,7 @@ $CommonObject{UserObject}      = Kernel::System::User         ->new(%CommonObjec
 $CommonObject{StatsObject}     = Kernel::System::Stats        ->new(%CommonObject);
 $CommonObject{CheckItemObject} = Kernel::System::CheckItem    ->new(%CommonObject);
 $CommonObject{EmailObject}     = Kernel::System::Email        ->new(%CommonObject);
-
-# load PDF::API2 if installed
-if ($CommonObject{MainObject}->Require('PDF::API2')) {
-    $CommonObject{PDFObject} = Kernel::System::PDF->new(%CommonObject);
-}
+$CommonObject{PDFObject}       = Kernel::System::PDF->new(%CommonObject);
 
 # --
 # get options
