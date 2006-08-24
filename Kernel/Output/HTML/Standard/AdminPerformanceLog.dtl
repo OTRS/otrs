@@ -1,0 +1,64 @@
+# --
+# AdminPerformanceLog.dtl - provides HTML form for AdminPerformanceLog
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# --
+# $Id: AdminPerformanceLog.dtl,v 1.1 2006-08-24 07:15:16 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# --
+<!-- start form -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
+  <tr>
+    <td class="mainhead">
+      $Env{"Box0"}$Text{"Performance Log"}$Env{"Box1"}
+    </td>
+  </tr>
+  <tr>
+    <td class="mainbody">
+
+      <br>
+
+<!-- dtl:block:Table -->
+      <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
+        <tr>
+          <td colspan="2" class="contenthead">$Text{"Range"} ($Text{"last"} $QData{"Age"})</td>
+        </tr>
+        <tr>
+          <td class="contentbody">
+            <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
+              <tr>
+                <td>$Text{"Interface"}</td>
+                <td>$Text{"Requests"}</td>
+                <td>$Text{"Min Response"}</td>
+                <td>$Text{"Max Response"}</td>
+                <td>$Text{"Average Response"}</td>
+              </tr>
+<!-- dtl:block:Row -->
+              <tr>
+                <td>$QData{"Interface"}</td>
+                <td>$QData{"Sum"}</td>
+                <td>$QData{"Min"}s</td>
+                <td>$QData{"Max"}s</td>
+                <td>$QData{"Average"}s</td>
+              </tr>
+<!-- dtl:block:Row -->
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td class="contentfooter">
+            &nbsp;
+          </td>
+        </tr>
+      </table>
+
+      <br>
+<!-- dtl:block:Table -->
+
+    </td>
+  </tr>
+</table>
+<!-- end form -->
+

@@ -1,14 +1,16 @@
 # --
 # CHANGES - change log of OTRS
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.280 2006-08-24 07:09:22 martin Exp $
+# $Id: CHANGES,v 1.281 2006-08-24 07:18:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.1.0 beta2 (2006/??/??)
+ - (2006/08/24) added performance log feature in admin interface - its disabled
+    per default
  - (2006/08/24) removed Re: in subject auto response emails
  - (2006/08/22) add PDF output support to AgentTicketPrint module
  - (2006/08/21) fixed bug in pdf module - redesiged Table() to fix a lot of
@@ -17,6 +19,7 @@
     infinite loops
  - (2006/08/02) add ldap attribute to groups/roles sync feature
  - (2006/08/02) fixed bug #1283 - test for modules executed in cronjobs
+
 2.1.0 beta1 (2006/08/02)
  - (2006/07/31) added cmd option for bin/opm.pl to find package of file
     e. g. bin/opm.pl -a file -p Kernel/System/FileA.pm

@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: InterfaceCustomer.pm,v 1.9 2006-03-22 07:23:20 martin Exp $
+# $Id: InterfaceCustomer.pm,v 1.10 2006-08-24 07:17:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Web::InterfaceCustomer;
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -67,6 +67,9 @@ sub new {
 
     # get debug level
     $Self->{Debug} = $Param{Debug} || 0;
+
+    # performance log
+    $Self->{PerformanceLogStart} = time();
 
     # --
     # create common framework objects 1/3
@@ -686,7 +689,27 @@ sub Run {
             }
             # ->Run $Action with $GenericObject
             print $GenericObject->Run();
-
+            # log request time
+            if ($Self->{ConfigObject}->Get('PerformanceLog')) {
+                if (!$QueryString && $Param{Action}) {
+                    $QueryString = "Action=".$Param{Action};
+                }
+                my $File = $Self->{ConfigObject}->Get('PerformanceLog::File');
+                if (open(OUT, ">> $File")) {
+                    print OUT time()."::Customer::".(time()-$Self->{PerformanceLogStart})."::$UserData{UserLogin}::$QueryString\n";
+                    close (OUT);
+                    $Self->{LogObject}->Log(
+                        Priority => 'notice',
+                        Message => "Response::Customer: ".(time()-$Self->{PerformanceLogStart})."s taken (URL:$QueryString:$UserData{UserLogin})",
+                    );
+                }
+                else {
+                    $Self->{LogObject}->Log(
+                        Priority => 'error',
+                        Message => "Can't write $File: $!",
+                    );
+                }
+            }
         }
     }
     # --
@@ -736,6 +759,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2006-03-22 07:23:20 $
+$Revision: 1.10 $ $Date: 2006-08-24 07:17:29 $
 
 =cut

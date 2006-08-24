@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Web/InterfacePublic.pm - the public interface file
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: InterfacePublic.pm,v 1.5 2006-03-22 07:23:20 martin Exp $
+# $Id: InterfacePublic.pm,v 1.6 2006-08-24 07:17:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Web::InterfacePublic;
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -64,6 +64,9 @@ sub new {
 
     # get debug level
     $Self->{Debug} = $Param{Debug} || 0;
+
+    # performance log
+    $Self->{PerformanceLogStart} = time();
 
     # --
     # create common framework objects 1/3
@@ -231,6 +234,27 @@ sub Run {
         }
         # ->Run $Action with $GenericObject
         print $GenericObject->Run();
+        # log request time
+        if ($Self->{ConfigObject}->Get('PerformanceLog')) {
+            if (!$QueryString && $Param{Action}) {
+                $QueryString = "Action=".$Param{Action};
+            }
+            my $File = $Self->{ConfigObject}->Get('PerformanceLog::File');
+            if (open(OUT, ">> $File")) {
+                print OUT time()."::Public::".(time()-$Self->{PerformanceLogStart})."::-::$QueryString\n";
+                close (OUT);
+                $Self->{LogObject}->Log(
+                    Priority => 'notice',
+                    Message => "Response::Public: ".(time()-$Self->{PerformanceLogStart})."s taken (URL:$QueryString)",
+                );
+            }
+            else {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message => "Can't write $File: $!",
+                );
+            }
+        }
     }
     # --
     # else print an error screen
@@ -270,6 +294,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2006-03-22 07:23:20 $
+$Revision: 1.6 $ $Date: 2006-08-24 07:17:29 $
 
 =cut

@@ -14,8 +14,7 @@ Possible SubGroups
     - Core::Time
     - Core::Web
     - Core::PostMaster
-    - Core::Ticket
-    - Core::TicketFreeText
+    - Core::Stats
     - Core::Stats
     - Core::Stats::Graph
     - Crypt::PGP
@@ -26,12 +25,6 @@ Possible SubGroups
     - Frontend::Agent::ModuleNotify
     - Frontend::Agent::NavBarModule
     - Frontend::Agent::Preferences
-    - Frontend::Agent::Ticket::ArticleAttachmentModule
-    - Frontend::Agent::Ticket::ArticleComposeModule
-    - Frontend::Agent::Ticket::ArticleViewModule
-    - Frontend::Agent::Ticket::ArticleViewModulePre
-    - Frontend::Agent::Ticket::MenuModule
-    - Frontend::Agent::Ticket::MenuModulePre
     - Frontend::Agent::Stats
     - Frontend::Customer
     - Frontend::Customer::Auth
@@ -115,7 +108,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.109 2006-08-21 19:11:08 mh Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.110 2006-08-24 07:15:24 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -1370,6 +1363,27 @@ Your OTRS Notification Master
             </Array>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="PerformanceLog" Required="0" Valid="1">
+        <Description Lang="en">Enable PerformanceLog to log the page response time. Take care, this will take system performance.</Description>
+        <Description Lang="de">PerformanceLog aktivieren um Seiten-Antwortzeiten zu protokollieren. Achtung, dies benoetigt System-Resourcen.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::PerformanceLog</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PerformanceLog::File" Required="0" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::PerformanceLog</SubGroup>
+        <Setting>
+            <String Regex="">&lt;OTRS_CONFIG_Home&gt;/var/log/Performance.log</String>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="PreferencesTable" Required="1" Valid="1">
         <Description Lang="en">The name of the table, where the customer preferences are stored.</Description>
         <Description Lang="de">Der Name der Tabelle, in der die Voreinstellungen für die Customer gespeichert werden.</Description>
@@ -2532,6 +2546,26 @@ Your OTRS Notification Master
             </FrontendModuleReg>
         </Setting>
      </ConfigItem>
+     <ConfigItem Name="Frontend::Module###AdminPerformanceLog" Required="0" Valid="1">
+        <Description Lang="en">Frontend module registration for the AdminPerformanceLog object in the admin area.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AdminPerformanceLog-Objekts im Admin-Bereich.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title>Performance Log</Title>
+                <NavBarName>Admin</NavBarName>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Name>Performance Log</Name>
+                    <Block>Block4</Block>
+                    <Prio>550</Prio>
+                </NavBarModule>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
      <ConfigItem Name="Frontend::Module###AdminLog" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminLog object in the admin area.</Description>
         <Description Lang="de">Frontendmodul-Registration des AdminLog-Objekts im Admin-Bereich.</Description>
