@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.17 2006-07-31 13:26:29 martin Exp $
+# $Id: AgentTicketQueue.pm,v 1.18 2006-08-24 12:40:45 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -268,14 +268,14 @@ sub Run {
             " ORDER BY st.ticket_priority_id DESC, $SortOptions{$SortBy} $Order";
 #            " ORDER BY st.ticket_priority_id DESC, st.freetime1 ASC";
 #            " ORDER BY st.ticket_priority_id DESC, st.create_time_unix $Order";
-          $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{Limit});
-          my $Counter = 0;
-          while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-              if ($Counter >= ($Self->{Start}-1)) {
-                  push (@ViewableTickets, $Row[0]);
-              }
-              $Counter++;
-          }
+        $Self->{DBObject}->Prepare(SQL => $SQL, Limit => $Self->{Limit});
+        my $Counter = 0;
+        while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+            if ($Counter >= ($Self->{Start}-1)) {
+                push (@ViewableTickets, $Row[0]);
+            }
+            $Counter++;
+        }
     }
     # --
     # show ticket's
