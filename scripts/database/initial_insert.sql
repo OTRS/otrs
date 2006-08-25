@@ -2,9 +2,12 @@
 -- initial_insert.sql - provides initial system data
 -- Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: initial_insert.sql,v 1.47 2006-07-21 11:32:15 martin Exp $
+-- $Id: initial_insert.sql,v 1.48 2006-08-25 07:50:38 martin Exp $
 --
 -- $Log: not supported by cvs2svn $
+-- Revision 1.47  2006/07/21 11:32:15  martin
+-- added customer subject to reminder emails
+--
 -- Revision 1.46  2006/07/03 13:40:04  martin
 -- added ticket history type Subscribe and Unsubscribe
 --
@@ -725,9 +728,9 @@ INSERT INTO article
   1012757943, '2002/02/3', 1, current_timestamp,1,current_timestamp,1);
 
 INSERT INTO ticket
-  (tn, queue_id, ticket_lock_id, ticket_answered, user_id, group_id, ticket_priority_id, ticket_state_id, valid_id, create_time_unix, escalation_start_time, create_time, create_by, change_time, change_by)
+  (tn, queue_id, ticket_lock_id, ticket_answered, user_id, responsible_user_id, group_id, ticket_priority_id, ticket_state_id, valid_id, create_time_unix, escalation_start_time, create_time, create_by, change_time, change_by)
   VALUES
-  ('1010001', 2, 1, 0, 1, 1, 3, 1, 1, 1012757943, 0, current_timestamp, 1, current_timestamp, 1);
+  ('1010001', 2, 1, 0, 1, 1, 1, 3, 1, 1, 1012757943, 0, current_timestamp, 1, current_timestamp, 1);
 
 INSERT INTO ticket_history
   (name, history_type_id, ticket_id, article_id, priority_id, owner_id, state_id, queue_id, valid_id, create_time, create_by, change_time, change_by)
