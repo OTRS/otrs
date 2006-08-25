@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.22 2006-07-31 13:26:29 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.23 2006-08-25 12:00:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -158,7 +158,7 @@ sub Run {
         }
     }
     # --
-    # genterate output
+    # generate output
     # --
     $Output .= $Self->{LayoutObject}->Header(Value => $Ticket{TicketNumber});
     $Output .= $Self->{LayoutObject}->NavigationBar();
