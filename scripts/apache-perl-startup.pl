@@ -23,7 +23,12 @@ use CGI::Carp ();
 #use Apache::DBI ();
 #Apache::DBI->connect_on_init('DBI:mysql:otrs', 'otrs', 'some-pass');
 use DBI ();
-use DBD::mysql ();
+# enable this if you use mysql
+#use DBD::mysql ();
+# enable this if you use postgresql
+#use DBD::Pg ();
+# enable this if you use oracle
+#use DBD::oracle ();
 
 use Kernel::Config;
 

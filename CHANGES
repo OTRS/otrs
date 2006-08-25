@@ -2,13 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.282 2006-08-25 07:51:17 martin Exp $
+# $Id: CHANGES,v 1.283 2006-08-25 08:06:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.1.0 beta2 (2006/??/??)
+ - (2006/08/25) fixed bug #1284 - removed mysql dependence' in
+    scripts/apache-perl-startup.pl and scripts/apache2-perl-startup.sql
  - (2006/08/25) fixed bug #1282 - setting up a postgresql database fails
  - (2006/08/24) added performance log feature in admin interface - its disabled
     per default
