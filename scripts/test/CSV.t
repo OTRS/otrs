@@ -1,8 +1,8 @@
 # --
 # CSV.t - CSV tests
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CSV.t,v 1.2 2006-03-21 11:18:29 rk Exp $
+# $Id: CSV.t,v 1.3 2006-08-26 17:36:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you

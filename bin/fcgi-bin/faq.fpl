@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # faq.pl - the global CGI handle file for OTRS
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: faq.fpl,v 1.3 2006-08-26 17:29:03 martin Exp $
+# $Id: faq.fpl,v 1.4 2006-08-26 17:33:32 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -44,4 +44,4 @@ push (@INC, "$Bin/../..", "$Bin/../../Kernel/cpan-lib");
 print "location: public.fpl?Action=PublicFAQ\n";
 print "\n";
 print "<a href='public.fpl?Action=PublicFAQ'>moved</a>\n";
- 
+

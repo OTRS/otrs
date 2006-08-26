@@ -1,8 +1,8 @@
 # --
 # XML.t - XML tests
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XML.t,v 1.3 2005-12-29 03:31:24 martin Exp $
+# $Id: XML.t,v 1.4 2006-08-26 17:36:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you

@@ -1,8 +1,8 @@
 # --
 # Time.t - Time tests
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Time.t,v 1.5 2006-04-24 10:06:26 tr Exp $
+# $Id: Time.t,v 1.6 2006-08-26 17:36:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you

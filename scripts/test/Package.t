@@ -1,8 +1,8 @@
 # --
 # Package.t - Package tests
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Package.t,v 1.2 2005-12-29 00:44:37 martin Exp $
+# $Id: Package.t,v 1.3 2006-08-26 17:36:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you

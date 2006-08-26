@@ -1,14 +1,13 @@
 # --
 # scripts/test/Stats.t - stats module testscript
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Stats.t,v 1.1 2006-07-05 09:21:50 tr Exp $
+# $Id: Stats.t,v 1.2 2006-08-26 17:36:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-
 
 use Kernel::System::Stats;
 use Kernel::System::Group;

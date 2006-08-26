@@ -1,8 +1,8 @@
 # --
 # Group.t - Group tests
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Group.t,v 1.3 2006-07-11 11:16:28 mh Exp $
+# $Id: Group.t,v 1.4 2006-08-26 17:36:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
