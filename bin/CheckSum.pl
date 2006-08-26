@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/CheckSum.pl - a tool to compare changes in a installation
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CheckSum.pl,v 1.3 2006-02-05 20:48:55 martin Exp $
+# $Id: CheckSum.pl,v 1.4 2006-08-26 17:22:05 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION $RealBin);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -46,7 +46,7 @@ my %Opts = ();
 getopt('habd', \%Opts);
 if ($Opts{'h'}) {
     print "CheckSum.pl <Revision $VERSION> - OTRS check sum\n";
-    print "Copyright (c) 2001-2006 Martin Edenhofer <martin\@otrs.org>\n";
+    print "Copyright (c) 2001-2006 OTRS GmbH, http://otrs.org/\n";
     print "usage: CheckSum.pl -a create|compare [-b /path/to/ARCHIVE] [-d /path/to/framework]\n";
     exit 1;
 }

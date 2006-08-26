@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/PostMaster.pl - the global eMail handle for email2db
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PostMaster.pl,v 1.21 2006-02-16 23:21:28 martin Exp $
+# $Id: PostMaster.pl,v 1.22 2006-08-26 17:22:05 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ use strict;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -52,7 +52,7 @@ my %Opts = ();
 getopt('hqtd', \%Opts);
 if ($Opts{'h'}) {
     print "PostMaster.pl <Revision $VERSION> - OTRS cmd postmaster\n";
-    print "Copyright (c) 2001-2005 Martin Edenhofer <martin\@otrs.org>\n";
+    print "Copyright (c) 2001-2006 OTRS GmbH, http://otrs.org/\n";
     print "usage: PostMaster.pl -q <QUEUE> -t <TRUSTED> \n";
     exit 1;
 }

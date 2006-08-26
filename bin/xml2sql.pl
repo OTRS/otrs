@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # xml2sql.pl - a xml 2 sql processor
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: xml2sql.pl,v 1.5 2006-02-28 06:03:41 martin Exp $
+# $Id: xml2sql.pl,v 1.6 2006-08-26 17:22:05 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -36,14 +36,14 @@ use Kernel::System::DB;
 use Kernel::System::Log;
 use Kernel::System::XML;
 
-my $VERSION = '$Revision: 1.5 $';
+my $VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 my %Opts = ();
 getopt('hton', \%Opts);
 if ($Opts{'h'}) {
     print "xml2sql.pl <Revision $VERSION> - xml2sql\n";
-    print "Copyright (c) 2001-2004 Martin Edenhofer <martin\@otrs.org>\n";
+    print "Copyright (c) 2001-2006 OTRS GmbH, http://otrs.org/\n";
     print "usage: xml2sql.pl -t <DATABASE_TYPE> [-o <OUTPUTDIR> -n <NAME>]\n";
     exit 1;
 }

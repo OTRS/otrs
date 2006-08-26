@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/CleanUp.pl - to cleanup, remove used tmp data of ipc, database or fs
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CleanUp.pl,v 1.2 2005-11-02 14:34:30 rk Exp $
+# $Id: CleanUp.pl,v 1.3 2006-08-26 17:26:11 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -43,7 +43,7 @@ my %Opts = ();
 getopt('h', \%Opts);
 if ($Opts{'h'}) {
     print "CleanUp.pl <Revision $VERSION> - OTRS cleanup\n";
-    print "Copyright (c) 2001-2003 Martin Edenhofer <martin\@otrs.org>\n";
+    print "Copyright (c) 2001-2006 OTRS GmbH, http://otrs.org/\n";
     print "usage: CleanUp.pl \n";
     exit 1;
 }

@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/PostMasterPOP3.pl - the global eMail handle for email2db
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PostMasterPOP3.pl,v 1.20 2006-07-31 13:33:17 martin Exp $
+# $Id: PostMasterPOP3.pl,v 1.21 2006-08-26 17:22:05 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin)."/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $';
+$VERSION = '$Revision: 1.21 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use strict;
@@ -48,7 +48,7 @@ my %Opts = ();
 getopt('upshdf', \%Opts);
 if ($Opts{'h'}) {
     print "PostMasterPOP3.pl <Revision $VERSION> - POP3 to OTRS\n";
-    print "Copyright (c) 2001-2005 Martin Edenhofer <martin\@otrs.org>\n";
+    print "Copyright (c) 2001-2006 OTRS GmbH, http://otrs.org/\n";
     print "usage: PostMasterPOP3.pl -s <POP3-SERVER> -u <USER> -p <PASSWORD> [-d 1-2] [-f force]\n";
     exit 1;
 }

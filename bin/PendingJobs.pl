@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # PendingJobs.pl - check pending tickets
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PendingJobs.pl,v 1.21 2006-04-18 02:44:57 martin Exp $
+# $Id: PendingJobs.pl,v 1.22 2006-08-26 17:26:11 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Date::Pcalc qw(Day_of_Week Day_of_Week_Abbreviation);
@@ -61,7 +61,7 @@ $CommonObject{StateObject} = Kernel::System::State->new(%CommonObject);
 # --
 my $Command = shift || '--help';
 print "PendingJobs.pl <Revision $VERSION> - check pending tickets\n";
-print "Copyright (c) 2001-2005 Martin Edenhofer <martin\@otrs.org>\n";
+print "Copyright (c) 2001-2006 OTRS GmbH, http://otrs.org/\n";
 
 # --
 # do ticket auto jobs

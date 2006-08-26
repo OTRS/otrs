@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/RebuildTicketIndex.pl - rebuild ticket index for queue view
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: RebuildTicketIndex.pl,v 1.9 2006-02-16 23:41:14 martin Exp $
+# $Id: RebuildTicketIndex.pl,v 1.10 2006-08-26 17:26:11 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Kernel::Config;
@@ -52,6 +52,7 @@ $CommonObject{TimeObject} = Kernel::System::Time->new(
 );
 $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
 $CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
+
 # --
 # rebuild
 # --

@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # UnlockTickets.pl - to unlock tickets
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: UnlockTickets.pl,v 1.21 2006-08-22 11:08:50 cs Exp $
+# $Id: UnlockTickets.pl,v 1.22 2006-08-26 17:22:05 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Date::Pcalc qw(Delta_Days Add_Delta_Days Day_of_Week Day_of_Week_Abbreviation);
@@ -71,7 +71,7 @@ my @ViewableLockIDs = $CommonObject{LockObject}->LockViewableLock(Type => 'ID');
 # --
 my $Command = shift || '--help';
 print "UnlockTickets.pl <Revision $VERSION> - unlock tickets\n";
-print "Copyright (c) 2001-2004 Martin Edenhofer <martin\@otrs.org>\n";
+print "Copyright (c) 2001-2006 OTRS GmbH, http//otrs.org/\n";
 # --
 # unlock all tickets
 # --
@@ -161,5 +161,4 @@ else {
     print "  --all         unlock all tickets (force)\n";
     exit (1);
 }
-# --
 

@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # otrs.CreateNewTranslationFile - create new translation file
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: otrs.CreateNewTranslationFile,v 1.13 2006-07-20 15:58:45 martin Exp $
+# $Id: otrs.CreateNewTranslationFile,v 1.14 2006-08-26 17:22:05 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION %Opts);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -46,7 +46,7 @@ getopt('olst',  \%Opts);
 # print head
 # --
 print "otrs.CreateNewTranslationFile <Revision $VERSION> - create new translation file\n";
-print "Copyright (c) 2001-2004 Martin Edenhofer <martin\@otrs.org>\n";
+print "Copyright (c) 2001-2006 OTRS GmbH, http://otrs.org/\n";
 print "usage: otrs.CreateNewTranslationFile -l <Language> -t <dtl_files_or_directory>\n";
 
 # --
