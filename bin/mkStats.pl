@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # mkStats.pl - send stats output via email
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: mkStats.pl,v 1.39 2006-08-23 14:45:01 mh Exp $
+# $Id: mkStats.pl,v 1.40 2006-08-26 17:15:32 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use strict;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -53,20 +53,20 @@ use Kernel::Output::HTML::Layout;
 # --
 my %CommonObject = ();
 $CommonObject{UserID} = 1;
-$CommonObject{ConfigObject}    = Kernel::Config               ->new();
-$CommonObject{LogObject}       = Kernel::System::Log          ->new(
+$CommonObject{ConfigObject}    = Kernel::Config->new();
+$CommonObject{LogObject}       = Kernel::System::Log->new(
     LogPrefix => 'OTRS-SendStats',
     %CommonObject,
 );
-$CommonObject{CSVObject}       = Kernel::System::CSV          ->new(%CommonObject);
-$CommonObject{TimeObject}      = Kernel::System::Time         ->new(%CommonObject);
-$CommonObject{MainObject}      = Kernel::System::Main         ->new(%CommonObject);
-$CommonObject{DBObject}        = Kernel::System::DB           ->new(%CommonObject);
-$CommonObject{GroupObject}     = Kernel::System::Group        ->new(%CommonObject);
-$CommonObject{UserObject}      = Kernel::System::User         ->new(%CommonObject);
-$CommonObject{StatsObject}     = Kernel::System::Stats        ->new(%CommonObject);
-$CommonObject{CheckItemObject} = Kernel::System::CheckItem    ->new(%CommonObject);
-$CommonObject{EmailObject}     = Kernel::System::Email        ->new(%CommonObject);
+$CommonObject{CSVObject}       = Kernel::System::CSV->new(%CommonObject);
+$CommonObject{TimeObject}      = Kernel::System::Time->new(%CommonObject);
+$CommonObject{MainObject}      = Kernel::System::Main->new(%CommonObject);
+$CommonObject{DBObject}        = Kernel::System::DB->new(%CommonObject);
+$CommonObject{GroupObject}     = Kernel::System::Group->new(%CommonObject);
+$CommonObject{UserObject}      = Kernel::System::User->new(%CommonObject);
+$CommonObject{StatsObject}     = Kernel::System::Stats->new(%CommonObject);
+$CommonObject{CheckItemObject} = Kernel::System::CheckItem->new(%CommonObject);
+$CommonObject{EmailObject}     = Kernel::System::Email->new(%CommonObject);
 $CommonObject{PDFObject}       = Kernel::System::PDF->new(%CommonObject);
 
 # --
@@ -76,7 +76,7 @@ my %Opts = ();
 getopt('nrsmhoplf', \%Opts);
 if ($Opts{'h'}) {
     print "mkStats.pl <Revision $VERSION> - OTRS cmd stats\n";
-    print "Copyright (C) 2003-2006 OTRS GmbH, http://www.otrs.com/\n";
+    print "Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/\n";
     print "usage: mkStats.pl -n <StatNumber> [-p <PARAM_STRING>] [-o <DIRECTORY>] [-r <RECIPIENT> -s <SENDER>] [-m <MESSAGE>] [-l <LANGUAGE>] [-f CSV|Print]\n";
     print "       <PARAM_STRING> e. g. 'Year=1977&Month=10' (only for static files)\n";
     print "       <DIRECTORY> /output/dir/\n";
