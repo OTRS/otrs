@@ -1,9 +1,9 @@
 # --
 # cron/session - delete old session ids of the OTRS
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: session.dist,v 1.6 2006-08-02 16:21:18 cs Exp $
-# This software comes with ABSOLUTELY NO WARRANTY. 
+# $Id: session.dist,v 1.7 2006-08-26 17:40:40 martin Exp $
+# This software comes with ABSOLUTELY NO WARRANTY.
 # --
 # delete every 120 minutes old/idle session ids
-55 */2 * * * [ -x $HOME/bin/DeleteSessionIDs.pl ] && HOME/bin/DeleteSessionIDs.pl --expired >> /dev/null
+55 */2 * * * [ -x $HOME/bin/DeleteSessionIDs.pl ] && $HOME/bin/DeleteSessionIDs.pl --expired >> /dev/null

@@ -1,10 +1,10 @@
 # --
 # cron/postmaster_pop3 - postmaster_pop3 cron of the OTRS
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: postmaster_pop3.dist,v 1.5 2006-08-02 16:21:18 cs Exp $
+# $Id: postmaster_pop3.dist,v 1.6 2006-08-26 17:40:40 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. 
+# This software comes with ABSOLUTELY NO WARRANTY.
 # --
-# fetch emails every 10 minutes 
+# fetch emails every 10 minutes
 */10 * * * * [ -x $HOME/bin/PostMasterPOP3.pl ] && $HOME/bin/PostMasterPOP3.pl >> /dev/null
