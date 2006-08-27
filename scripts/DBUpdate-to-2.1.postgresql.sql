@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 2.0 to 2.1
 -- Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-2.1.postgresql.sql,v 1.6 2006-08-02 08:07:45 martin Exp $
+-- $Id: DBUpdate-to-2.1.postgresql.sql,v 1.7 2006-08-27 22:18:31 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.1.postgresql.sql | psql otrs
@@ -42,6 +42,12 @@ INSERT INTO ticket_history_type
         (name, valid_id, create_by, create_time, change_by, change_time)
         VALUES
         ('Unsubscribe', 1, 1, current_timestamp, 1, current_timestamp);
+
+--
+-- queue, add calendar
+--
+ALTER TABLE queue ADD COLUMN calendar_name varchar (100);
+
 
 CREATE TABLE ticket_watcher (
     ticket_id INTEGER NOT NULL,

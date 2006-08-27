@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 2.0 to 2.1
 -- Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 -- --
--- $Id: DBUpdate-to-2.1.mysql.sql,v 1.6 2006-08-02 08:07:45 martin Exp $
+-- $Id: DBUpdate-to-2.1.mysql.sql,v 1.7 2006-08-27 22:18:31 martin Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.1.mysql.sql | mysql -f -u root otrs
@@ -53,7 +53,14 @@ CREATE TABLE ticket_watcher (
     INDEX ticket_id (ticket_id)
 );
 
+--
+-- queue, add calendar
+--
+ALTER TABLE queue ADD calendar_name varchar (100);
+
+--
 -- change because of moduls like incident and IDMEFConsole
+--
 ALTER TABLE object_link MODIFY object_link_a_id VARCHAR (80);
 ALTER TABLE object_link MODIFY object_link_b_id VARCHAR (80);
 
