@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  database: postgresql, generated: Tue Jul 25 19:40:45 2006
+--  database: postgresql, generated: Mon Aug 28 00:13:20 2006
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -274,6 +274,7 @@ CREATE TABLE queue (
     unlock_timeout INTEGER,
     escalation_time INTEGER,
     system_address_id INTEGER NOT NULL,
+    calendar_name VARCHAR (100),
     default_sign_key VARCHAR (100),
     salutation_id INTEGER NOT NULL,
     signature_id INTEGER NOT NULL,

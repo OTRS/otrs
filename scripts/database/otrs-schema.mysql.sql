@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  database: mysql, generated: Tue Jul 25 19:39:08 2006
+#  database: mysql, generated: Mon Aug 28 00:13:13 2006
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -274,6 +274,7 @@ CREATE TABLE queue (
     unlock_timeout INTEGER,
     escalation_time INTEGER,
     system_address_id SMALLINT NOT NULL,
+    calendar_name VARCHAR (100),
     default_sign_key VARCHAR (100),
     salutation_id SMALLINT NOT NULL,
     signature_id SMALLINT NOT NULL,

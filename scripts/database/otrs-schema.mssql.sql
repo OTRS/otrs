@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  database: mssql, generated: Mon Jul 24 11:51:33 2006
+--  database: mssql, generated: Mon Aug 28 00:13:30 2006
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -274,6 +274,7 @@ CREATE TABLE queue (
     unlock_timeout INTEGER,
     escalation_time INTEGER,
     system_address_id SMALLINT NOT NULL,
+    calendar_name VARCHAR (100),
     default_sign_key VARCHAR (100),
     salutation_id SMALLINT NOT NULL,
     signature_id SMALLINT NOT NULL,
@@ -366,8 +367,8 @@ CREATE INDEX index_ticket_answered ON ticket (ticket_answered);
 --  create table object_link
 -- ----------------------------------------------------------
 CREATE TABLE object_link (
-    object_link_a_id BIGINT NOT NULL,
-    object_link_b_id BIGINT NOT NULL,
+    object_link_a_id VARCHAR (80) NOT NULL,
+    object_link_b_id VARCHAR (80) NOT NULL,
     object_link_a_object VARCHAR (200) NOT NULL,
     object_link_b_object VARCHAR (200) NOT NULL,
     object_link_type VARCHAR (200) NOT NULL

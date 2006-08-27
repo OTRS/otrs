@@ -5,9 +5,12 @@
   XML File for the OTRS database description
   Copyright (C) 2001-2003 Martin Edenhofer
 
-  $Id: otrs-schema.xml,v 1.52 2006-07-25 17:48:55 tr Exp $
+  $Id: otrs-schema.xml,v 1.53 2006-08-27 22:31:44 martin Exp $
 
   $Log: not supported by cvs2svn $
+  Revision 1.52  2006/07/25 17:48:55  tr
+  added new link object functions and db table link_object changes
+
   Revision 1.51  2006/06/24 14:52:01  martin
   added ticket watcher support
 
@@ -640,6 +643,7 @@
   <Column Name="unlock_timeout" Required="false" Type="INTEGER"/>
   <Column Name="escalation_time" Required="false" Type="INTEGER"/>
   <Column Name="system_address_id" Required="true" Type="SMALLINT"/>
+  <Column Name="calendar_name" Required="false" Size="100" Type="VARCHAR"/>
   <Column Name="default_sign_key" Required="false" Size="100" Type="VARCHAR"/>
   <Column Name="salutation_id" Required="true" Type="SMALLINT"/>
   <Column Name="signature_id" Required="true" Type="SMALLINT"/>
