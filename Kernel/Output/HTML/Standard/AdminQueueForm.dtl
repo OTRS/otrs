@@ -2,7 +2,7 @@
 # AdminQueueForm.dtl - provides HTML form for AdminQueue
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminQueueForm.dtl,v 1.27 2006-08-27 22:01:15 martin Exp $
+# $Id: AdminQueueForm.dtl,v 1.28 2006-08-27 22:06:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -121,12 +121,12 @@
                 <td class="contentvalue"> $Data{"OwnerOption"}</td>
               </tr>
               <tr>
-                <td class="contentkey">$Text{"Valid"}: </td>
-                <td class="contentvalue"> $Data{"ValidOption"}</td>
-              </tr>
-              <tr>
                 <td class="contentkey">$Text{"Calendar"}: </td>
                 <td class="contentvalue"> $Data{"CalendarOption"}</td>
+              </tr>
+              <tr>
+                <td class="contentkey">$Text{"Valid"}: </td>
+                <td class="contentvalue"> $Data{"ValidOption"}</td>
               </tr>
               <tr>
                 <td class="contentkey">$Text{"Comment"}: </td>
