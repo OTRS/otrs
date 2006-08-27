@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Queue.pm - lib for queue functions
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.59 2006-03-10 06:36:15 tr Exp $
+# $Id: Queue.pm,v 1.60 2006-08-27 21:56:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Group;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.59 $';
+$VERSION = '$Revision: 1.60 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -611,6 +611,7 @@ sub QueueAdd {
         GroupID
         UnlockTimeout
         SystemAddressID
+        Calendar
         DefaultSignKey
         SalutationID
         SignatureID
@@ -623,7 +624,7 @@ sub QueueAdd {
         ValidID
     );
 
-    for (qw(UnlockTimeout EscalationTime FollowUpLock SystemAddressID SalutationID SignatureID FollowUpID FollowUpLock MoveNotify StateNotify LockNotify OwnerNotify DefaultSignKey)) {
+    for (qw(UnlockTimeout EscalationTime FollowUpLock SystemAddressID SalutationID SignatureID FollowUpID FollowUpLock MoveNotify StateNotify LockNotify OwnerNotify DefaultSignKey Calendar)) {
         # these are coming from Config.pm
         # I added default values in the Load Routine
         $Param{$_} = $Self->{QueueDefaults}{$_} || 0  unless ($Param{$_});
@@ -651,7 +652,7 @@ sub QueueAdd {
         return;
     }
     # quote db
-    foreach (qw(Name DefaultSignKey Comment)) {
+    foreach (qw(Name DefaultSignKey Calendar Comment)) {
         $Param{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
     };
     foreach (qw(GroupID UnlockTimeout SystemAddressID SalutationID SignatureID FollowUpID FollowUpLock EscalationTime MoveNotify StateNotify ValidID)) {
@@ -662,6 +663,7 @@ sub QueueAdd {
         " group_id, ".
         " unlock_timeout, ".
         " system_address_id, ".
+        " calendar_name, ".
         " default_sign_key, ".
         " salutation_id, ".
         " signature_id, ".
@@ -683,6 +685,7 @@ sub QueueAdd {
         " $Param{GroupID}, ".
         " $Param{UnlockTimeout}, ".
         " $Param{SystemAddressID}, ".
+        " '$Param{Calendar}', ".
         " '$Param{DefaultSignKey}', ".
         " $Param{SalutationID}, ".
         " $Param{SignatureID}, ".
@@ -775,7 +778,8 @@ sub QueueGet {
     my $SQL = "SELECT q.name, q.group_id, q.unlock_timeout, ".
         " q.system_address_id, q.salutation_id, q.signature_id, q.comments, q.valid_id, ".
         " q.escalation_time, q.follow_up_id, q.follow_up_lock, sa.value0, sa.value1, q.id, ".
-        " q.move_notify, q.state_notify, q.lock_notify, q.owner_notify, q.default_sign_key ".
+        " q.move_notify, q.state_notify, q.lock_notify, q.owner_notify, q.default_sign_key, ".
+        " q.calendar_name ".
         " FROM ".
         " queue q, system_address sa".
         " WHERE ".
@@ -815,6 +819,7 @@ sub QueueGet {
             LockNotify => $Data[16],
             OwnerNotify => $Data[17],
             DefaultSignKey => $Data[18],
+            Calendar => $Data[19],
         );
         $Self->{"QG::$Suffix$Param{What}"} = \%QueueData;
     }
@@ -870,10 +875,10 @@ sub QueueUpdate {
     # db quote
     my %DB = ();
     # check !!!
-    foreach (qw(UnlockTimeout EscalationTime FollowUpLock MoveNotify StateNotify LockNotify OwnerNotify FollowUpID FollowUpLock DefaultSignKey)) {
+    foreach (qw(UnlockTimeout EscalationTime FollowUpLock MoveNotify StateNotify LockNotify OwnerNotify FollowUpID FollowUpLock DefaultSignKey Calendar)) {
         $Param{$_} = 0 if (!$Param{$_});
     }
-    foreach (qw(Name DefaultSignKey Comment)) {
+    foreach (qw(Name DefaultSignKey Calendar Comment)) {
         $DB{$_} = $Self->{DBObject}->Quote($Param{$_}) || '';
     };
     foreach (qw(QueueID GroupID UnlockTimeout SystemAddressID SalutationID SignatureID FollowUpID FollowUpLock EscalationTime StateNotify LockNotify OwnerNotify MoveNotify StateNotify ValidID UserID)) {
@@ -911,6 +916,7 @@ sub QueueUpdate {
         " follow_up_id = $DB{FollowUpID}, " .
         " follow_up_lock = $DB{FollowUpLock}, " .
         " system_address_id = $DB{SystemAddressID}, " .
+        " calendar_name = '$DB{Calendar}', " .
         " default_sign_key = '$DB{DefaultSignKey}', " .
         " salutation_id = $DB{SalutationID}, " .
         " signature_id = $DB{SignatureID}, " .
@@ -965,6 +971,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.59 $ $Date: 2006-03-10 06:36:15 $
+$Revision: 1.60 $ $Date: 2006-08-27 21:56:39 $
 
 =cut

@@ -108,7 +108,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.111 2006-08-27 21:20:20 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.112 2006-08-27 22:01:15 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -846,6 +846,1481 @@ TimeWorkingHours
         <Description Lang="de">Wochentage und Stunden für die die Arbeitszeit erfasst werden soll.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Time</SubGroup>
+        <Setting>
+            <TimeWorkingHours>
+                <Day Name="Mon">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Tue">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Wed">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Thu">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Fri">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Sat">
+                </Day>
+                <Day Name="Sun">
+                </Day>
+            </TimeWorkingHours>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeZone::Calendar1Name" Required="1" Valid="1">
+        <Description Lang="en">Calendar Name.</Description>
+        <Description Lang="de">Kalender Name.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar1</SubGroup>
+        <Setting>
+            <String Regex="">Calendar Name 1</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeZone::Calendar1" Required="1" Valid="1">
+        <Description Lang="en">The time zone of the queue.</Description>
+        <Description Lang="de">Zeitzone der Queue.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar1</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">+0</Item>
+                <Item Key="+1">+1</Item>
+                <Item Key="+2">+2</Item>
+                <Item Key="+3">+3</Item>
+                <Item Key="+4">+4</Item>
+                <Item Key="+5">+5</Item>
+                <Item Key="+6">+6</Item>
+                <Item Key="+7">+7</Item>
+                <Item Key="+8">+8</Item>
+                <Item Key="+9">+9</Item>
+                <Item Key="+10">+10</Item>
+                <Item Key="+11">+11</Item>
+                <Item Key="+12">+12</Item>
+                <Item Key="-1">-1</Item>
+                <Item Key="-2">-2</Item>
+                <Item Key="-3">-3</Item>
+                <Item Key="-4">-4</Item>
+                <Item Key="-5">-5</Item>
+                <Item Key="-6">-6</Item>
+                <Item Key="-7">-7</Item>
+                <Item Key="-8">-8</Item>
+                <Item Key="-9">-9</Item>
+                <Item Key="-10">-10</Item>
+                <Item Key="-11">-11</Item>
+                <Item Key="-12">-12</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeVacationDays::Calendar1" Required="1" Valid="1">
+        <Description Lang="en">Add your permanent vacation days. Use single-digit pattern for months January to September and for days of month lower than ten.</Description>
+        <Description Lang="de">Hinterlegen Sie hier Ihre permanenten Feiertage im System. Benutzen Sie bitte für Januar bis Septemper einstellige Zahlen (1-9), ebenso für Monatstage kleiner zehn.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar1</SubGroup>
+        <Setting>
+            <TimeVacationDays>
+                <Item Month="1" Day="1">New Year's Eve!</Item>
+                <Item Month="5" Day="1">1 St. May</Item>
+                <Item Month="12" Day="24">Christmas</Item>
+                <Item Month="12" Day="25">First Christmas Day</Item>
+                <Item Month="12" Day="26">Second Christmas Day</Item>
+                <Item Month="12" Day="31">Silvester</Item>
+            </TimeVacationDays>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeVacationDaysOneTime::Calendar1" Required="1" Valid="1">
+      <Description Lang="en">One time vacation days. Use single-digit pattern for months January to September and for days of month lower than ten.</Description>
+      <Description Lang="de">Einmalige Feiertage im System hinterlegen. Benutzen Sie bitte für Januar bis Septemper einstellige Zahlen (1-9), ebenso für Monatstage kleiner zehn.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar1</SubGroup>
+        <Setting>
+            <TimeVacationDaysOneTime>
+                <Item Year="2004" Month="1" Day="1">test</Item>
+            </TimeVacationDaysOneTime>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeWorkingHours::Calendar1" Required="1" Valid="1">
+        <Description Lang="en">Hours and week days to count the working time.</Description>
+        <Description Lang="de">Wochentage und Stunden für die die Arbeitszeit erfasst werden soll.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar1</SubGroup>
+        <Setting>
+            <TimeWorkingHours>
+                <Day Name="Mon">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Tue">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Wed">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Thu">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Fri">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Sat">
+                </Day>
+                <Day Name="Sun">
+                </Day>
+            </TimeWorkingHours>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeZone::Calendar2Name" Required="1" Valid="1">
+        <Description Lang="en">Calendar Name.</Description>
+        <Description Lang="de">Kalender Name.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar2</SubGroup>
+        <Setting>
+            <String Regex="">Calendar Name 2</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeZone::Calendar2" Required="1" Valid="1">
+        <Description Lang="en">The time zone of the queue.</Description>
+        <Description Lang="de">Zeitzone der Queue.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar2</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">+0</Item>
+                <Item Key="+1">+1</Item>
+                <Item Key="+2">+2</Item>
+                <Item Key="+3">+3</Item>
+                <Item Key="+4">+4</Item>
+                <Item Key="+5">+5</Item>
+                <Item Key="+6">+6</Item>
+                <Item Key="+7">+7</Item>
+                <Item Key="+8">+8</Item>
+                <Item Key="+9">+9</Item>
+                <Item Key="+10">+10</Item>
+                <Item Key="+11">+11</Item>
+                <Item Key="+12">+12</Item>
+                <Item Key="-1">-1</Item>
+                <Item Key="-2">-2</Item>
+                <Item Key="-3">-3</Item>
+                <Item Key="-4">-4</Item>
+                <Item Key="-5">-5</Item>
+                <Item Key="-6">-6</Item>
+                <Item Key="-7">-7</Item>
+                <Item Key="-8">-8</Item>
+                <Item Key="-9">-9</Item>
+                <Item Key="-10">-10</Item>
+                <Item Key="-11">-11</Item>
+                <Item Key="-12">-12</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeZone::Calendar2" Required="1" Valid="1">
+        <Description Lang="en">The time zone of the queue.</Description>
+        <Description Lang="de">Zeitzone der Queue.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar2</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">+0</Item>
+                <Item Key="+1">+1</Item>
+                <Item Key="+2">+2</Item>
+                <Item Key="+3">+3</Item>
+                <Item Key="+4">+4</Item>
+                <Item Key="+5">+5</Item>
+                <Item Key="+6">+6</Item>
+                <Item Key="+7">+7</Item>
+                <Item Key="+8">+8</Item>
+                <Item Key="+9">+9</Item>
+                <Item Key="+10">+10</Item>
+                <Item Key="+11">+11</Item>
+                <Item Key="+12">+12</Item>
+                <Item Key="-1">-1</Item>
+                <Item Key="-2">-2</Item>
+                <Item Key="-3">-3</Item>
+                <Item Key="-4">-4</Item>
+                <Item Key="-5">-5</Item>
+                <Item Key="-6">-6</Item>
+                <Item Key="-7">-7</Item>
+                <Item Key="-8">-8</Item>
+                <Item Key="-9">-9</Item>
+                <Item Key="-10">-10</Item>
+                <Item Key="-11">-11</Item>
+                <Item Key="-12">-12</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeVacationDays::Calendar2" Required="1" Valid="1">
+        <Description Lang="en">Add your permanent vacation days. Use single-digit pattern for months January to September and for days of month lower than ten.</Description>
+        <Description Lang="de">Hinterlegen Sie hier Ihre permanenten Feiertage im System. Benutzen Sie bitte für Januar bis Septemper einstellige Zahlen (1-9), ebenso für Monatstage kleiner zehn.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar2</SubGroup>
+        <Setting>
+            <TimeVacationDays>
+                <Item Month="1" Day="1">New Year's Eve!</Item>
+                <Item Month="5" Day="1">1 St. May</Item>
+                <Item Month="12" Day="24">Christmas</Item>
+                <Item Month="12" Day="25">First Christmas Day</Item>
+                <Item Month="12" Day="26">Second Christmas Day</Item>
+                <Item Month="12" Day="31">Silvester</Item>
+            </TimeVacationDays>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeVacationDaysOneTime::Calendar2" Required="1" Valid="1">
+      <Description Lang="en">One time vacation days. Use single-digit pattern for months January to September and for days of month lower than ten.</Description>
+      <Description Lang="de">Einmalige Feiertage im System hinterlegen. Benutzen Sie bitte für Januar bis Septemper einstellige Zahlen (1-9), ebenso für Monatstage kleiner zehn.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar2</SubGroup>
+        <Setting>
+            <TimeVacationDaysOneTime>
+                <Item Year="2004" Month="1" Day="1">test</Item>
+            </TimeVacationDaysOneTime>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeWorkingHours::Calendar2" Required="1" Valid="1">
+        <Description Lang="en">Hours and week days to count the working time.</Description>
+        <Description Lang="de">Wochentage und Stunden für die die Arbeitszeit erfasst werden soll.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar2</SubGroup>
+        <Setting>
+            <TimeWorkingHours>
+                <Day Name="Mon">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Tue">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Wed">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Thu">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Fri">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Sat">
+                </Day>
+                <Day Name="Sun">
+                </Day>
+            </TimeWorkingHours>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeZone::Calendar3Name" Required="1" Valid="1">
+        <Description Lang="en">Calendar Name.</Description>
+        <Description Lang="de">Kalender Name.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar3</SubGroup>
+        <Setting>
+            <String Regex="">Calendar Name 3</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeZone::Calendar3" Required="1" Valid="1">
+        <Description Lang="en">The time zone of the queue.</Description>
+        <Description Lang="de">Zeitzone der Queue.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar3</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">+0</Item>
+                <Item Key="+1">+1</Item>
+                <Item Key="+2">+2</Item>
+                <Item Key="+3">+3</Item>
+                <Item Key="+4">+4</Item>
+                <Item Key="+5">+5</Item>
+                <Item Key="+6">+6</Item>
+                <Item Key="+7">+7</Item>
+                <Item Key="+8">+8</Item>
+                <Item Key="+9">+9</Item>
+                <Item Key="+10">+10</Item>
+                <Item Key="+11">+11</Item>
+                <Item Key="+12">+12</Item>
+                <Item Key="-1">-1</Item>
+                <Item Key="-2">-2</Item>
+                <Item Key="-3">-3</Item>
+                <Item Key="-4">-4</Item>
+                <Item Key="-5">-5</Item>
+                <Item Key="-6">-6</Item>
+                <Item Key="-7">-7</Item>
+                <Item Key="-8">-8</Item>
+                <Item Key="-9">-9</Item>
+                <Item Key="-10">-10</Item>
+                <Item Key="-11">-11</Item>
+                <Item Key="-12">-12</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeVacationDays::Calendar3" Required="1" Valid="1">
+        <Description Lang="en">Add your permanent vacation days. Use single-digit pattern for months January to September and for days of month lower than ten.</Description>
+        <Description Lang="de">Hinterlegen Sie hier Ihre permanenten Feiertage im System. Benutzen Sie bitte für Januar bis Septemper einstellige Zahlen (1-9), ebenso für Monatstage kleiner zehn.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar3</SubGroup>
+        <Setting>
+            <TimeVacationDays>
+                <Item Month="1" Day="1">New Year's Eve!</Item>
+                <Item Month="5" Day="1">1 St. May</Item>
+                <Item Month="12" Day="24">Christmas</Item>
+                <Item Month="12" Day="25">First Christmas Day</Item>
+                <Item Month="12" Day="26">Second Christmas Day</Item>
+                <Item Month="12" Day="31">Silvester</Item>
+            </TimeVacationDays>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeVacationDaysOneTime::Calendar3" Required="1" Valid="1">
+      <Description Lang="en">One time vacation days. Use single-digit pattern for months January to September and for days of month lower than ten.</Description>
+      <Description Lang="de">Einmalige Feiertage im System hinterlegen. Benutzen Sie bitte für Januar bis Septemper einstellige Zahlen (1-9), ebenso für Monatstage kleiner zehn.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar3</SubGroup>
+        <Setting>
+            <TimeVacationDaysOneTime>
+                <Item Year="2004" Month="1" Day="1">test</Item>
+            </TimeVacationDaysOneTime>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeWorkingHours::Calendar3" Required="1" Valid="1">
+        <Description Lang="en">Hours and week days to count the working time.</Description>
+        <Description Lang="de">Wochentage und Stunden für die die Arbeitszeit erfasst werden soll.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar3</SubGroup>
+        <Setting>
+            <TimeWorkingHours>
+                <Day Name="Mon">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Tue">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Wed">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Thu">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Fri">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Sat">
+                </Day>
+                <Day Name="Sun">
+                </Day>
+            </TimeWorkingHours>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeZone::Calendar4Name" Required="1" Valid="1">
+        <Description Lang="en">Calendar Name.</Description>
+        <Description Lang="de">Kalender Name.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar4</SubGroup>
+        <Setting>
+            <String Regex="">Calendar Name 4</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeZone::Calendar4" Required="1" Valid="1">
+        <Description Lang="en">The time zone of the queue.</Description>
+        <Description Lang="de">Zeitzone der Queue.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar4</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">+0</Item>
+                <Item Key="+1">+1</Item>
+                <Item Key="+2">+2</Item>
+                <Item Key="+3">+3</Item>
+                <Item Key="+4">+4</Item>
+                <Item Key="+5">+5</Item>
+                <Item Key="+6">+6</Item>
+                <Item Key="+7">+7</Item>
+                <Item Key="+8">+8</Item>
+                <Item Key="+9">+9</Item>
+                <Item Key="+10">+10</Item>
+                <Item Key="+11">+11</Item>
+                <Item Key="+12">+12</Item>
+                <Item Key="-1">-1</Item>
+                <Item Key="-2">-2</Item>
+                <Item Key="-3">-3</Item>
+                <Item Key="-4">-4</Item>
+                <Item Key="-5">-5</Item>
+                <Item Key="-6">-6</Item>
+                <Item Key="-7">-7</Item>
+                <Item Key="-8">-8</Item>
+                <Item Key="-9">-9</Item>
+                <Item Key="-10">-10</Item>
+                <Item Key="-11">-11</Item>
+                <Item Key="-12">-12</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeVacationDays::Calendar4" Required="1" Valid="1">
+        <Description Lang="en">Add your permanent vacation days. Use single-digit pattern for months January to September and for days of month lower than ten.</Description>
+        <Description Lang="de">Hinterlegen Sie hier Ihre permanenten Feiertage im System. Benutzen Sie bitte für Januar bis Septemper einstellige Zahlen (1-9), ebenso für Monatstage kleiner zehn.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar4</SubGroup>
+        <Setting>
+            <TimeVacationDays>
+                <Item Month="1" Day="1">New Year's Eve!</Item>
+                <Item Month="5" Day="1">1 St. May</Item>
+                <Item Month="12" Day="24">Christmas</Item>
+                <Item Month="12" Day="25">First Christmas Day</Item>
+                <Item Month="12" Day="26">Second Christmas Day</Item>
+                <Item Month="12" Day="31">Silvester</Item>
+            </TimeVacationDays>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeVacationDaysOneTime::Calendar4" Required="1" Valid="1">
+      <Description Lang="en">One time vacation days. Use single-digit pattern for months January to September and for days of month lower than ten.</Description>
+      <Description Lang="de">Einmalige Feiertage im System hinterlegen. Benutzen Sie bitte für Januar bis Septemper einstellige Zahlen (1-9), ebenso für Monatstage kleiner zehn.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar4</SubGroup>
+        <Setting>
+            <TimeVacationDaysOneTime>
+                <Item Year="2004" Month="1" Day="1">test</Item>
+            </TimeVacationDaysOneTime>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeWorkingHours::Calendar4" Required="1" Valid="1">
+        <Description Lang="en">Hours and week days to count the working time.</Description>
+        <Description Lang="de">Wochentage und Stunden für die die Arbeitszeit erfasst werden soll.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar4</SubGroup>
+        <Setting>
+            <TimeWorkingHours>
+                <Day Name="Mon">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Tue">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Wed">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Thu">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Fri">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Sat">
+                </Day>
+                <Day Name="Sun">
+                </Day>
+            </TimeWorkingHours>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeZone::Calendar5Name" Required="1" Valid="1">
+        <Description Lang="en">Calendar Name.</Description>
+        <Description Lang="de">Kalender Name.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar5</SubGroup>
+        <Setting>
+            <String Regex="">Calendar Name 5</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeZone::Calendar5" Required="1" Valid="1">
+        <Description Lang="en">The time zone of the queue.</Description>
+        <Description Lang="de">Zeitzone der Queue.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar5</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">+0</Item>
+                <Item Key="+1">+1</Item>
+                <Item Key="+2">+2</Item>
+                <Item Key="+3">+3</Item>
+                <Item Key="+4">+4</Item>
+                <Item Key="+5">+5</Item>
+                <Item Key="+6">+6</Item>
+                <Item Key="+7">+7</Item>
+                <Item Key="+8">+8</Item>
+                <Item Key="+9">+9</Item>
+                <Item Key="+10">+10</Item>
+                <Item Key="+11">+11</Item>
+                <Item Key="+12">+12</Item>
+                <Item Key="-1">-1</Item>
+                <Item Key="-2">-2</Item>
+                <Item Key="-3">-3</Item>
+                <Item Key="-4">-4</Item>
+                <Item Key="-5">-5</Item>
+                <Item Key="-6">-6</Item>
+                <Item Key="-7">-7</Item>
+                <Item Key="-8">-8</Item>
+                <Item Key="-9">-9</Item>
+                <Item Key="-10">-10</Item>
+                <Item Key="-11">-11</Item>
+                <Item Key="-12">-12</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeVacationDays::Calendar5" Required="1" Valid="1">
+        <Description Lang="en">Add your permanent vacation days. Use single-digit pattern for months January to September and for days of month lower than ten.</Description>
+        <Description Lang="de">Hinterlegen Sie hier Ihre permanenten Feiertage im System. Benutzen Sie bitte für Januar bis Septemper einstellige Zahlen (1-9), ebenso für Monatstage kleiner zehn.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar5</SubGroup>
+        <Setting>
+            <TimeVacationDays>
+                <Item Month="1" Day="1">New Year's Eve!</Item>
+                <Item Month="5" Day="1">1 St. May</Item>
+                <Item Month="12" Day="24">Christmas</Item>
+                <Item Month="12" Day="25">First Christmas Day</Item>
+                <Item Month="12" Day="26">Second Christmas Day</Item>
+                <Item Month="12" Day="31">Silvester</Item>
+            </TimeVacationDays>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeVacationDaysOneTime::Calendar5" Required="1" Valid="1">
+      <Description Lang="en">One time vacation days. Use single-digit pattern for months January to September and for days of month lower than ten.</Description>
+      <Description Lang="de">Einmalige Feiertage im System hinterlegen. Benutzen Sie bitte für Januar bis Septemper einstellige Zahlen (1-9), ebenso für Monatstage kleiner zehn.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar5</SubGroup>
+        <Setting>
+            <TimeVacationDaysOneTime>
+                <Item Year="2004" Month="1" Day="1">test</Item>
+            </TimeVacationDaysOneTime>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeWorkingHours::Calendar5" Required="1" Valid="1">
+        <Description Lang="en">Hours and week days to count the working time.</Description>
+        <Description Lang="de">Wochentage und Stunden für die die Arbeitszeit erfasst werden soll.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar5</SubGroup>
+        <Setting>
+            <TimeWorkingHours>
+                <Day Name="Mon">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Tue">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Wed">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Thu">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Fri">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Sat">
+                </Day>
+                <Day Name="Sun">
+                </Day>
+            </TimeWorkingHours>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeZone::Calendar6Name" Required="1" Valid="1">
+        <Description Lang="en">Calendar Name.</Description>
+        <Description Lang="de">Kalender Name.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar6</SubGroup>
+        <Setting>
+            <String Regex="">Calendar Name 6</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeZone::Calendar6" Required="1" Valid="1">
+        <Description Lang="en">The time zone of the queue.</Description>
+        <Description Lang="de">Zeitzone der Queue.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar6</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">+0</Item>
+                <Item Key="+1">+1</Item>
+                <Item Key="+2">+2</Item>
+                <Item Key="+3">+3</Item>
+                <Item Key="+4">+4</Item>
+                <Item Key="+5">+5</Item>
+                <Item Key="+6">+6</Item>
+                <Item Key="+7">+7</Item>
+                <Item Key="+8">+8</Item>
+                <Item Key="+9">+9</Item>
+                <Item Key="+10">+10</Item>
+                <Item Key="+11">+11</Item>
+                <Item Key="+12">+12</Item>
+                <Item Key="-1">-1</Item>
+                <Item Key="-2">-2</Item>
+                <Item Key="-3">-3</Item>
+                <Item Key="-4">-4</Item>
+                <Item Key="-5">-5</Item>
+                <Item Key="-6">-6</Item>
+                <Item Key="-7">-7</Item>
+                <Item Key="-8">-8</Item>
+                <Item Key="-9">-9</Item>
+                <Item Key="-10">-10</Item>
+                <Item Key="-11">-11</Item>
+                <Item Key="-12">-12</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeVacationDays::Calendar6" Required="1" Valid="1">
+        <Description Lang="en">Add your permanent vacation days. Use single-digit pattern for months January to September and for days of month lower than ten.</Description>
+        <Description Lang="de">Hinterlegen Sie hier Ihre permanenten Feiertage im System. Benutzen Sie bitte für Januar bis Septemper einstellige Zahlen (1-9), ebenso für Monatstage kleiner zehn.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar6</SubGroup>
+        <Setting>
+            <TimeVacationDays>
+                <Item Month="1" Day="1">New Year's Eve!</Item>
+                <Item Month="5" Day="1">1 St. May</Item>
+                <Item Month="12" Day="24">Christmas</Item>
+                <Item Month="12" Day="25">First Christmas Day</Item>
+                <Item Month="12" Day="26">Second Christmas Day</Item>
+                <Item Month="12" Day="31">Silvester</Item>
+            </TimeVacationDays>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeVacationDaysOneTime::Calendar6" Required="1" Valid="1">
+      <Description Lang="en">One time vacation days. Use single-digit pattern for months January to September and for days of month lower than ten.</Description>
+      <Description Lang="de">Einmalige Feiertage im System hinterlegen. Benutzen Sie bitte für Januar bis Septemper einstellige Zahlen (1-9), ebenso für Monatstage kleiner zehn.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar6</SubGroup>
+        <Setting>
+            <TimeVacationDaysOneTime>
+                <Item Year="2004" Month="1" Day="1">test</Item>
+            </TimeVacationDaysOneTime>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeWorkingHours::Calendar6" Required="1" Valid="1">
+        <Description Lang="en">Hours and week days to count the working time.</Description>
+        <Description Lang="de">Wochentage und Stunden für die die Arbeitszeit erfasst werden soll.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar6</SubGroup>
+        <Setting>
+            <TimeWorkingHours>
+                <Day Name="Mon">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Tue">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Wed">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Thu">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Fri">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Sat">
+                </Day>
+                <Day Name="Sun">
+                </Day>
+            </TimeWorkingHours>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeZone::Calendar7Name" Required="1" Valid="1">
+        <Description Lang="en">Calendar Name.</Description>
+        <Description Lang="de">Kalender Name.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar7</SubGroup>
+        <Setting>
+            <String Regex="">Calendar Name 7</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeZone::Calendar7" Required="1" Valid="1">
+        <Description Lang="en">The time zone of the queue.</Description>
+        <Description Lang="de">Zeitzone der Queue.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar7</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">+0</Item>
+                <Item Key="+1">+1</Item>
+                <Item Key="+2">+2</Item>
+                <Item Key="+3">+3</Item>
+                <Item Key="+4">+4</Item>
+                <Item Key="+5">+5</Item>
+                <Item Key="+6">+6</Item>
+                <Item Key="+7">+7</Item>
+                <Item Key="+8">+8</Item>
+                <Item Key="+9">+9</Item>
+                <Item Key="+10">+10</Item>
+                <Item Key="+11">+11</Item>
+                <Item Key="+12">+12</Item>
+                <Item Key="-1">-1</Item>
+                <Item Key="-2">-2</Item>
+                <Item Key="-3">-3</Item>
+                <Item Key="-4">-4</Item>
+                <Item Key="-5">-5</Item>
+                <Item Key="-6">-6</Item>
+                <Item Key="-7">-7</Item>
+                <Item Key="-8">-8</Item>
+                <Item Key="-9">-9</Item>
+                <Item Key="-10">-10</Item>
+                <Item Key="-11">-11</Item>
+                <Item Key="-12">-12</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeVacationDays::Calendar7" Required="1" Valid="1">
+        <Description Lang="en">Add your permanent vacation days. Use single-digit pattern for months January to September and for days of month lower than ten.</Description>
+        <Description Lang="de">Hinterlegen Sie hier Ihre permanenten Feiertage im System. Benutzen Sie bitte für Januar bis Septemper einstellige Zahlen (1-9), ebenso für Monatstage kleiner zehn.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar7</SubGroup>
+        <Setting>
+            <TimeVacationDays>
+                <Item Month="1" Day="1">New Year's Eve!</Item>
+                <Item Month="5" Day="1">1 St. May</Item>
+                <Item Month="12" Day="24">Christmas</Item>
+                <Item Month="12" Day="25">First Christmas Day</Item>
+                <Item Month="12" Day="26">Second Christmas Day</Item>
+                <Item Month="12" Day="31">Silvester</Item>
+            </TimeVacationDays>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeVacationDaysOneTime::Calendar7" Required="1" Valid="1">
+      <Description Lang="en">One time vacation days. Use single-digit pattern for months January to September and for days of month lower than ten.</Description>
+      <Description Lang="de">Einmalige Feiertage im System hinterlegen. Benutzen Sie bitte für Januar bis Septemper einstellige Zahlen (1-9), ebenso für Monatstage kleiner zehn.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar7</SubGroup>
+        <Setting>
+            <TimeVacationDaysOneTime>
+                <Item Year="2004" Month="1" Day="1">test</Item>
+            </TimeVacationDaysOneTime>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeWorkingHours::Calendar7" Required="1" Valid="1">
+        <Description Lang="en">Hours and week days to count the working time.</Description>
+        <Description Lang="de">Wochentage und Stunden für die die Arbeitszeit erfasst werden soll.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar7</SubGroup>
+        <Setting>
+            <TimeWorkingHours>
+                <Day Name="Mon">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Tue">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Wed">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Thu">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Fri">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Sat">
+                </Day>
+                <Day Name="Sun">
+                </Day>
+            </TimeWorkingHours>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeZone::Calendar8Name" Required="1" Valid="1">
+        <Description Lang="en">Calendar Name.</Description>
+        <Description Lang="de">Kalender Name.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar8</SubGroup>
+        <Setting>
+            <String Regex="">Calendar Name 8</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeZone::Calendar8" Required="1" Valid="1">
+        <Description Lang="en">The time zone of the queue.</Description>
+        <Description Lang="de">Zeitzone der Queue.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar8</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">+0</Item>
+                <Item Key="+1">+1</Item>
+                <Item Key="+2">+2</Item>
+                <Item Key="+3">+3</Item>
+                <Item Key="+4">+4</Item>
+                <Item Key="+5">+5</Item>
+                <Item Key="+6">+6</Item>
+                <Item Key="+7">+7</Item>
+                <Item Key="+8">+8</Item>
+                <Item Key="+9">+9</Item>
+                <Item Key="+10">+10</Item>
+                <Item Key="+11">+11</Item>
+                <Item Key="+12">+12</Item>
+                <Item Key="-1">-1</Item>
+                <Item Key="-2">-2</Item>
+                <Item Key="-3">-3</Item>
+                <Item Key="-4">-4</Item>
+                <Item Key="-5">-5</Item>
+                <Item Key="-6">-6</Item>
+                <Item Key="-7">-7</Item>
+                <Item Key="-8">-8</Item>
+                <Item Key="-9">-9</Item>
+                <Item Key="-10">-10</Item>
+                <Item Key="-11">-11</Item>
+                <Item Key="-12">-12</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeVacationDays::Calendar8" Required="1" Valid="1">
+        <Description Lang="en">Add your permanent vacation days. Use single-digit pattern for months January to September and for days of month lower than ten.</Description>
+        <Description Lang="de">Hinterlegen Sie hier Ihre permanenten Feiertage im System. Benutzen Sie bitte für Januar bis Septemper einstellige Zahlen (1-9), ebenso für Monatstage kleiner zehn.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar8</SubGroup>
+        <Setting>
+            <TimeVacationDays>
+                <Item Month="1" Day="1">New Year's Eve!</Item>
+                <Item Month="5" Day="1">1 St. May</Item>
+                <Item Month="12" Day="24">Christmas</Item>
+                <Item Month="12" Day="25">First Christmas Day</Item>
+                <Item Month="12" Day="26">Second Christmas Day</Item>
+                <Item Month="12" Day="31">Silvester</Item>
+            </TimeVacationDays>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeVacationDaysOneTime::Calendar8" Required="1" Valid="1">
+      <Description Lang="en">One time vacation days. Use single-digit pattern for months January to September and for days of month lower than ten.</Description>
+      <Description Lang="de">Einmalige Feiertage im System hinterlegen. Benutzen Sie bitte für Januar bis Septemper einstellige Zahlen (1-9), ebenso für Monatstage kleiner zehn.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar8</SubGroup>
+        <Setting>
+            <TimeVacationDaysOneTime>
+                <Item Year="2004" Month="1" Day="1">test</Item>
+            </TimeVacationDaysOneTime>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeWorkingHours::Calendar8" Required="1" Valid="1">
+        <Description Lang="en">Hours and week days to count the working time.</Description>
+        <Description Lang="de">Wochentage und Stunden für die die Arbeitszeit erfasst werden soll.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar8</SubGroup>
+        <Setting>
+            <TimeWorkingHours>
+                <Day Name="Mon">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Tue">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Wed">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Thu">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Fri">
+                  <Hour>8</Hour>
+                  <Hour>9</Hour>
+                  <Hour>10</Hour>
+                  <Hour>11</Hour>
+                  <Hour>12</Hour>
+                  <Hour>13</Hour>
+                  <Hour>14</Hour>
+                  <Hour>15</Hour>
+                  <Hour>16</Hour>
+                  <Hour>17</Hour>
+                  <Hour>18</Hour>
+                  <Hour>19</Hour>
+                  <Hour>20</Hour>
+                </Day>
+                <Day Name="Sat">
+                </Day>
+                <Day Name="Sun">
+                </Day>
+            </TimeWorkingHours>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeZone::Calendar9Name" Required="1" Valid="1">
+        <Description Lang="en">Calendar Name.</Description>
+        <Description Lang="de">Kalender Name.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar9</SubGroup>
+        <Setting>
+            <String Regex="">Calendar Name 9</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeZone::Calendar9" Required="1" Valid="1">
+        <Description Lang="en">The time zone of the queue.</Description>
+        <Description Lang="de">Zeitzone der Queue.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar9</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">+0</Item>
+                <Item Key="+1">+1</Item>
+                <Item Key="+2">+2</Item>
+                <Item Key="+3">+3</Item>
+                <Item Key="+4">+4</Item>
+                <Item Key="+5">+5</Item>
+                <Item Key="+6">+6</Item>
+                <Item Key="+7">+7</Item>
+                <Item Key="+8">+8</Item>
+                <Item Key="+9">+9</Item>
+                <Item Key="+10">+10</Item>
+                <Item Key="+11">+11</Item>
+                <Item Key="+12">+12</Item>
+                <Item Key="-1">-1</Item>
+                <Item Key="-2">-2</Item>
+                <Item Key="-3">-3</Item>
+                <Item Key="-4">-4</Item>
+                <Item Key="-5">-5</Item>
+                <Item Key="-6">-6</Item>
+                <Item Key="-7">-7</Item>
+                <Item Key="-8">-8</Item>
+                <Item Key="-9">-9</Item>
+                <Item Key="-10">-10</Item>
+                <Item Key="-11">-11</Item>
+                <Item Key="-12">-12</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeVacationDays::Calendar9" Required="1" Valid="1">
+        <Description Lang="en">Add your permanent vacation days. Use single-digit pattern for months January to September and for days of month lower than ten.</Description>
+        <Description Lang="de">Hinterlegen Sie hier Ihre permanenten Feiertage im System. Benutzen Sie bitte für Januar bis Septemper einstellige Zahlen (1-9), ebenso für Monatstage kleiner zehn.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar9</SubGroup>
+        <Setting>
+            <TimeVacationDays>
+                <Item Month="1" Day="1">New Year's Eve!</Item>
+                <Item Month="5" Day="1">1 St. May</Item>
+                <Item Month="12" Day="24">Christmas</Item>
+                <Item Month="12" Day="25">First Christmas Day</Item>
+                <Item Month="12" Day="26">Second Christmas Day</Item>
+                <Item Month="12" Day="31">Silvester</Item>
+            </TimeVacationDays>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeVacationDaysOneTime::Calendar9" Required="1" Valid="1">
+      <Description Lang="en">One time vacation days. Use single-digit pattern for months January to September and for days of month lower than ten.</Description>
+      <Description Lang="de">Einmalige Feiertage im System hinterlegen. Benutzen Sie bitte für Januar bis Septemper einstellige Zahlen (1-9), ebenso für Monatstage kleiner zehn.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar9</SubGroup>
+        <Setting>
+            <TimeVacationDaysOneTime>
+                <Item Year="2004" Month="1" Day="1">test</Item>
+            </TimeVacationDaysOneTime>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="TimeWorkingHours::Calendar9" Required="1" Valid="1">
+        <Description Lang="en">Hours and week days to count the working time.</Description>
+        <Description Lang="de">Wochentage und Stunden für die die Arbeitszeit erfasst werden soll.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar9</SubGroup>
         <Setting>
             <TimeWorkingHours>
                 <Day Name="Mon">

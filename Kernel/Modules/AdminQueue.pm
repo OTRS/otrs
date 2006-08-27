@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminQueue.pm,v 1.25 2006-06-22 07:38:03 rk Exp $
+# $Id: AdminQueue.pm,v 1.26 2006-08-27 22:01:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,10 +15,9 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -41,7 +40,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -57,6 +56,7 @@ sub Run {
         'UnlockTimeout',
         'WorkflowID',
         'SystemAddressID',
+        'Calendar',
         'DefaultSignKey',
         'SalutationID',
         'SignatureID',
@@ -175,7 +175,7 @@ sub Run {
         return $Output;
     }
 }
-# --
+
 sub _Mask {
     my $Self = shift;
     my %Param = @_;
@@ -343,8 +343,19 @@ sub _Mask {
         Name => 'LockNotify',
         SelectedID => $Param{LockNotify},
     );
+    my %Calendar = ('' => '-');
+    foreach ('', 1..20) {
+        if ($Self->{ConfigObject}->Get("TimeVacationDays::Calendar$_")) {
+            $Calendar{$_} = "Calendar $_ - ". $Self->{ConfigObject}->Get("TimeZone::Calendar".$_."Name");
+        }
+    }
+    $Param{'CalendarOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => \%Calendar,
+        Name => 'Calendar',
+        SelectedID => $Param{Calendar},
+    );
 
     return $Self->{LayoutObject}->Output(TemplateFile => 'AdminQueueForm', Data => \%Param);
 }
-# --
+
 1;

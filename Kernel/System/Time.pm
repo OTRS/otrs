@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Time.pm - time functions
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Time.pm,v 1.13 2006-06-05 15:44:19 martin Exp $
+# $Id: Time.pm,v 1.14 2006-08-27 22:03:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Time::Local;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -381,6 +381,12 @@ get the working time in secondes between this times
         StopTime => $Self->SystemTime(),
     );
 
+    my $WorkingTime = $TimeObject->WorkingTime(
+        StartTime => $Created,
+        StopTime => $Self->SystemTime(),
+        Calendar => 3, # '' is default
+    );
+
 =cut
 
 sub WorkingTime {
@@ -396,6 +402,17 @@ sub WorkingTime {
     my %TimeWorkingHours = %{$Self->{ConfigObject}->Get('TimeWorkingHours')};
     my %TimeVacationDays = %{$Self->{ConfigObject}->Get('TimeVacationDays')};
     my %TimeVacationDaysOneTime = %{$Self->{ConfigObject}->Get('TimeVacationDaysOneTime')};
+    if ($Param{Calendar}) {
+        foreach (1..20) {
+            if ($Self->{ConfigObject}->Get("TimeZone::Calendar".$_."Name")) {
+                %TimeWorkingHours = %{$Self->{ConfigObject}->Get("TimeWorkingHours::Calendar$_")};
+                %TimeVacationDays = %{$Self->{ConfigObject}->Get("TimeVacationDays::Calendar$_")};
+                %TimeVacationDaysOneTime = %{$Self->{ConfigObject}->Get("TimeVacationDaysOneTime::Calendar$_")};
+                $Param{StartTime} = $Param{StartTime} + ($Self->{ConfigObject}->Get("TimeZone::Calendar$_") * 60 * 60);
+                $Param{StopTime} = $Param{StopTime} + ($Self->{ConfigObject}->Get("TimeZone::Calendar$_") * 60 * 60);
+            }
+        }
+    }
     my $Counted = 0;
     my ($ASec, $AMin, $AHour, $ADay, $AMonth, $AYear, $AWDay) = localtime($Param{StartTime});
     $AYear = $AYear+1900;
@@ -533,6 +550,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2006-06-05 15:44:19 $
+$Revision: 1.14 $ $Date: 2006-08-27 22:03:25 $
 
 =cut
