@@ -1,15 +1,12 @@
 # --
 # Kernel/System/CustomerAuth/DB.pm - provides the db authentification
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.12 2005-10-17 20:14:50 martin Exp $
+# $Id: DB.pm,v 1.13 2006-08-27 20:17:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
-# --
-# Note:
-# available objects are: ConfigObject, LogObject and DBObject
 # --
 
 package Kernel::System::CustomerAuth::DB;
@@ -17,10 +14,9 @@ package Kernel::System::CustomerAuth::DB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -60,7 +56,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub GetOption {
     my $Self = shift;
     my %Param = @_;
@@ -76,7 +72,7 @@ sub GetOption {
     # return option
     return $Option{$Param{What}};
 }
-# --
+
 sub Auth {
     my $Self = shift;
     my %Param = @_;
@@ -182,7 +178,7 @@ sub Auth {
         return;
     }
 }
-# --
+
 sub DESTROY {
     my $Self = shift;
     # disconnect if it's not a parent DBObject
@@ -192,5 +188,5 @@ sub DESTROY {
         }
     }
 }
-# --
+
 1;

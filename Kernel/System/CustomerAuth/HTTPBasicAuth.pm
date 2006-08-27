@@ -1,16 +1,15 @@
 # --
 # Kernel/System/CustomerAuth/HTTPBasicAuth.pm - provides the $ENV{REMOTE_USER}
 # authentification
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: HTTPBasicAuth.pm,v 1.2 2004-08-10 10:31:56 martin Exp $
+# $Id: HTTPBasicAuth.pm,v 1.3 2006-08-27 20:17:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 # Note:
-# available objects are: ConfigObject, LogObject and DBObject
 #
 # If you use this module, you should use as fallback the following
 # config settings:
@@ -19,7 +18,6 @@
 # $Self->{CustomerPanelLoginURL} = 'http://host.example.com/not-authorised-for-otrs.html';
 #
 # $Self->{CustomerPanelLogoutURL} = 'http://host.example.com/thanks-for-using-otrs.html';
-#
 # --
 
 package Kernel::System::CustomerAuth::HTTPBasicAuth;
@@ -27,10 +25,9 @@ package Kernel::System::CustomerAuth::HTTPBasicAuth;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -49,7 +46,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub GetOption {
     my $Self = shift;
     my %Param = @_;
@@ -65,7 +62,7 @@ sub GetOption {
     # return option
     return $Option{$Param{What}};
 }
-# --
+
 sub Auth {
     my $Self = shift;
     my %Param = @_;
@@ -88,6 +85,5 @@ sub Auth {
         return;
     }
 }
-# --
 
 1;

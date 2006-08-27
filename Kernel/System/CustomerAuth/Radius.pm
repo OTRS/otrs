@@ -3,14 +3,11 @@
 # based on Martin Edenhofer's Kernel::System::Auth::DB
 # Copyright (C) 2004 Andreas Jobs <Andreas.Jobs+dev@ruhr-uni-bochum.de>
 # --
-# $Id: Radius.pm,v 1.1 2004-08-10 10:31:53 martin Exp $
+# $Id: Radius.pm,v 1.2 2006-08-27 20:17:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
-# --
-# Note:
-# available objects are: ConfigObject, LogObject and DBObject
 # --
 
 package Kernel::System::CustomerAuth::Radius;
@@ -19,10 +16,10 @@ use strict;
 use Authen::Radius;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
+
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -47,7 +44,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub GetOption {
     my $Self = shift;
     my %Param = @_;
@@ -63,7 +60,7 @@ sub GetOption {
     # return option
     return $Option{$Param{What}};
 }
-# --
+
 sub Auth {
     my $Self = shift;
     my %Param = @_;
@@ -123,6 +120,5 @@ sub Auth {
         return;
     }
 }
-# --
 
 1;

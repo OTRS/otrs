@@ -1,15 +1,12 @@
 # --
 # Kernel/System/Auth/DB.pm - provides the db authentification
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.13 2006-03-09 17:07:06 tr Exp $
+# $Id: DB.pm,v 1.14 2006-08-27 20:16:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
-# --
-# Note:
-# available objects are: ConfigObject, LogObject and DBObject
 # --
 
 package Kernel::System::Auth::DB;
@@ -17,10 +14,9 @@ package Kernel::System::Auth::DB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -49,7 +45,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub GetOption {
     my $Self = shift;
     my %Param = @_;
@@ -65,7 +61,7 @@ sub GetOption {
     # return option
     return $Option{$Param{What}};
 }
-# --
+
 sub Auth {
     my $Self = shift;
     my %Param = @_;
@@ -169,6 +165,5 @@ sub Auth {
         return;
     }
 }
-# --
 
 1;

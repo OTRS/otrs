@@ -1,15 +1,12 @@
 # --
 # Kernel/System/Auth/LDAP.pm - provides the ldap authentification
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.23 2006-08-02 13:53:22 mh Exp $
+# $Id: LDAP.pm,v 1.24 2006-08-27 20:16:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
-# --
-# Note:
-# available objects are: ConfigObject, LogObject and DBObject
 # --
 
 package Kernel::System::Auth::LDAP;
@@ -19,10 +16,9 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -69,7 +65,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub GetOption {
     my $Self = shift;
     my %Param = @_;
@@ -85,7 +81,7 @@ sub GetOption {
     # return option
     return $Option{$Param{What}};
 }
-# --
+
 sub Auth {
     my $Self = shift;
     my %Param = @_;
