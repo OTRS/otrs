@@ -1,8 +1,8 @@
 # --
 # TODO - todo list OTRS
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: TODO,v 1.105 2006-08-16 06:08:50 tr Exp $
+# $Id: TODO,v 1.106 2006-08-27 22:12:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,14 +10,8 @@
 # --
 
 2.1
-- Possebility to search for customer (like for the To field) also in CC and
-  BCC field and when forwarding and bouncing a ticket.
-- Possebility to insert more than one attachment when a new ticket is
-  created in customer interface
-- change SysConfigSetting for PreApplication from String to Arrayversion
 - -default- selection option in all state, answer type, ... fields
-- GenericAgent modules for PendingJobs.pl, UnlockTickets.pl and DeleteSessionIDs.
-- localisation emails for "New OTRS Password!" and "New Account"
+- GenericAgent modules for PendingJobs.pl, UnlockTickets.pl and DeleteSessionIDs.pl
 - add "--please select--" in queue selection of customer panel
 - disable form multi submit
 - prevent unauthorized person submit ticket via email via PostMaster*.pl
@@ -25,25 +19,14 @@
    http://lists.otrs.org/pipermail/otrs/2002-June/000066.html (martin)
 - delete option for records (martin)
 - add info that a ticket is already closed!
-- master ticket feature
 - user info backend (LDAP and DB)
 - allow users to add or change stored replies for their queue without giving them full admin rights
-- Agent ticket search base on customer name
-- Agent ticket search ticket processed from - to absorb
-- Agent ticket search  escalate from - to  absorb
 - rework responses and relations in resposes (sort order)
 - A better way to reset password, hash confirmation...
    http://bugs.otrs.org/show_bug.cgi?id=443
-- sub categories in faq application
-- checkfunction if all packages witch are registrated already exists when the admin open the package manager
-- merge SIRIOS QueueView with OTRS QueueView
-- QueueView: A config setting if all tickets or only unlocked Tickets should be shown
-- QueueView: rename Tickets available to Tickets unlocked
 - otrs installation: Check if perl is insert in ApacheModules
-- create a configelement for max logfilesize in log.pm
 - create a configelement for image path - delete path insert in header.dtl
-- rework code of header.dtl and footer.dtl (espacially the footer.dtl)
-- change SYSConfig XML-Files form iso8859-1 to utf8 - Warning, be careful of
+- change SysConfig XML-files form iso8859-1 to utf8 - Warning, be careful of
   conflicts between the modules
 - add possebility (maybe a Configoption) that for external notes not the
   email address of the agent but the queue address is used:
@@ -53,16 +36,11 @@
 - configoption which shows or masking the Freetextfilds individual
 - insert in each form requierd field stars, because of the patency to the other modules
 - GenericAgent: insert a delete.dtl if job should be removed (tr)
-- rename SMIME to S/MIME
 - a todo for tr: remove AgentWindowTabStart and Stop an change the Incident, Advisory and Statistic-Module
 - dublicate configuration in Config.pm (Webinstaller) and SysConfig
   Solution 1: insert the settings from the Webinstaller in ZZZAAuto
   Solution 2: Checkfunction in SysConfig, witch check if the current
               value is also configured in the Config.pm
-- delete in CVS the directory var/sesstions
-- rework AdminGenericAgent.pm, theres useless Code e.g. StartHit and OrderBy
-- AdminGenericAgent.pm: implement a unique ID für each generic agentjob.
-- Remove Sql-Statements form AgentTicketQueue - Attention don't forget the SIRIOS-file
 - Header.dtl and CustomerHeader.dtl move $Env{Images} to SysConfig
 - stats functionality: - stats doku in admin manual
                        - include a step 4 mask for static stats,
@@ -70,9 +48,10 @@
 
 
 2.2
-- move ticket and article free text fields to "reference tables".
+- master ticket feature
 - wording problem of these config settings Ticket::Frontend::QueueSort Ticket::Frontend::QueueSortByDefault Ticket::Frontend::QueueOrder::Default
   + a better description
+- localisation emails for "New OTRS Password!" and "New Account"
 - insert a function which marks all config settings in the SysConfig which still defined in the config.pm
 - stats functionality: - use the pdf - backend for output
                        - insert a function to handle new default stats
@@ -127,10 +106,8 @@ ideas (just ideas - nobody is working on it)
 - opm package installing by click on Ticket-Attachment-
 - show more Systemlog items
 - formattedtext elments for the sysconfig
-- include xml-attributes in the ConfigXMl, which manage if the delete or new-Buttons be shown.
-- include a ticket monitoring function
+- include xml-attributes in the ConfigXML, which manage if the delete or new-Buttons be shown.
 - maybe could format tags in the ConfigXML be useful, simular like EISPP-DAF
-- sopm: Maybe wie need tags like FileUninstall or FileDontUpdate
 - ConfigOption for use other separators for e.g. comma, semicolon, colon and tabulator in the function OutputCSV
 - include a check function to CustomerUserAdd and CustomerUserUpdate
   if the values a valid. A Extension of $CustomerUser->{map} with regexp
@@ -142,7 +119,7 @@ ideas (just ideas - nobody is working on it)
   advantages: -> less operating errors in using sysconfig
               -> useful for a validity check for the sysconfigsettings
                  which came via module by the packagemanager
-- SysConfig - a changelog function for the Sysconfig   or
+- SysConfig - a changelog function for the Sysconfig or
               a function like "show all changed Configoptions"
 - Queueview: insert a link or button to change quickly the viewmode of the shown tickets
 - Queueview: insert a "<a name "- Tag to work through from the last edit Ticket
@@ -154,4 +131,7 @@ ideas (just ideas - nobody is working on it)
 - Systemchecklist - with all informations of the system, for better support. Plus a function for a automatic apache errorlog export
 - stats functionality: - use a existing stat as template for a new stat
                        - integrate a CustomerFrontendModul Stats/Dynamic/Customer.pm
+- Agent ticket search base on customer name
+- Agent ticket search ticket processed from - to absorb
+- Agent ticket search escalate from - to  absorb
 - Package Manager: If a module will be uninstalled check if other modules depends on it and give an error

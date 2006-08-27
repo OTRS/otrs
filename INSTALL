@@ -1,8 +1,8 @@
 # --
 # INSTALL description of OTRS
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: INSTALL,v 1.40 2006-08-22 09:25:05 mh Exp $
+# $Id: INSTALL,v 1.41 2006-08-27 22:12:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ Software requirements?
     * Database (e. g. MySQL, PostgreSQL)
     * Webpserver (mod_perl isn't required but "very nice" to have)
     * LDAPv2 compliant server (OpenLDAP for works fine, however LDAP isn't required)
-    * some CPAN-Module (DBI, DBD::mysql, Digest::MD5, MIME::Base64 (if Perl < 5.8),
+    * some CPAN-Module (DBI, DBD::mysql, Digest::MD5, Crypt::PasswdMD5, MIME::Base64 (if Perl < 5.8),
       Net::DNS, LWP::UserAgent) for LDAP (Net::LDAP), for stats (GD, GD::Text,
       GD::Graph, GD::Graph::lines, GD::Text::Align) and for PDF output (PDF::API2,
       Compress::Zlib)
@@ -47,6 +47,7 @@ settings. The OTRS user is "otrs" and the home (root) directory is /opt/otrs
       perl -MCPAN -e shell;
       ...
       install Digest::MD5
+      install Crypt::PasswdMD5
       install Net::DNS
       install MIME::Base64 (if Perl < 5.8)
       ...
