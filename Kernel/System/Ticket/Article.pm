@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.113 2006-08-24 07:08:24 martin Exp $
+# $Id: Article.pm,v 1.114 2006-08-27 22:08:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.113 $';
+$VERSION = '$Revision: 1.114 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1271,7 +1271,7 @@ sub ArticleGet {
         my $CountedTime = $Self->{TimeObject}->WorkingTime(
             StartTime => $Ticket{EscalationStartTime},
             StopTime => $Self->{TimeObject}->SystemTime(),
-            Queue => $Queue{Name},
+            Calendar => $Queue{Calendar},
         );
         $LastCustomerCreateTime = ($Queue{EscalationTime}*60) - $CountedTime;
     }
