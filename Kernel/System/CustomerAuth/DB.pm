@@ -2,7 +2,7 @@
 # Kernel/System/CustomerAuth/DB.pm - provides the db authentification
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.13 2006-08-27 20:17:40 martin Exp $
+# $Id: DB.pm,v 1.14 2006-08-27 21:19:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,9 +12,10 @@
 package Kernel::System::CustomerAuth::DB;
 
 use strict;
+use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -112,29 +113,38 @@ sub Auth {
     # crypt given pw
     my $CryptedPw = '';
     my $Salt = $GetPw;
-    # strip Salt only for (Extended) DES, not for any of Modular crypt's
-    if ($Salt !~ /^\$\d\$/) {
-        $Salt =~ s/^(..).*/$1/;
+    # md5 pw
+    if ($GetPw !~ /^.{13}$/) {
+        # strip Salt
+        $Salt =~ s/^\$.+?\$(.+?)\$.*$/$1/;
+        $CryptedPw = unix_md5_crypt($Pw, $Salt);
     }
-    # and do this check only in such case (unfortunately there is a mod_perl2
-    # bug on RH8 - check if crypt() is working correctly) :-/
-    if (($Salt =~ /^\$\d\$/) || (crypt('root', 'root@localhost') eq 'roK20XGbWEsSM')) {
-        $CryptedPw = crypt($Pw, $Salt);
-    }
+    # crypt pw
     else {
-        $Self->{LogObject}->Log(
-            Priority => 'notice',
-            Message => "The crypt() of your mod_perl(2) is not working correctly! Update mod_perl!",
-        );
-        my $TempSalt = quotemeta($Salt);
-        my $TempPw = quotemeta($Pw);
-        my $CMD = "perl -e \"print crypt('$TempPw', '$TempSalt');\"";
-        open (IO, " $CMD | ") || print STDERR "Can't open $CMD: $!";
-        while (<IO>) {
-            $CryptedPw .= $_;
+        # strip Salt only for (Extended) DES, not for any of Modular crypt's
+        if ($Salt !~ /^\$\d\$/) {
+            $Salt =~ s/^(..).*/$1/;
         }
-        close (IO);
-        chomp $CryptedPw;
+        # and do this check only in such case (unfortunately there is a mod_perl2
+        # bug on RH8 - check if crypt() is working correctly) :-/
+        if (($Salt =~ /^\$\d\$/) || (crypt('root', 'root@localhost') eq 'roK20XGbWEsSM')) {
+            $CryptedPw = crypt($Pw, $Salt);
+        }
+        else {
+            $Self->{LogObject}->Log(
+                Priority => 'notice',
+                Message => "The crypt() of your mod_perl(2) is not working correctly! Update mod_perl!",
+            );
+            my $TempSalt = quotemeta($Salt);
+            my $TempPw = quotemeta($Pw);
+            my $CMD = "perl -e \"print crypt('$TempPw', '$TempSalt');\"";
+            open (IO, " $CMD | ") || print STDERR "Can't open $CMD: $!";
+            while (<IO>) {
+                $CryptedPw .= $_;
+            }
+            close (IO);
+            chomp $CryptedPw;
+        }
     }
 
     # just in case!

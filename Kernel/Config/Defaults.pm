@@ -1,8 +1,8 @@
 # --
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.241 2006-08-02 14:09:35 mh Exp $
+# $Id: Defaults.pm,v 1.242 2006-08-27 21:20:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.241 $';
+$VERSION = '$Revision: 1.242 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -279,6 +279,9 @@ sub LoadDefaults {
     # --------------------------------------------------- #
     # This is the auth. module againt the otrs db
     $Self->{'AuthModule'} = 'Kernel::System::Auth::DB';
+
+    # password crypt type (crypt|md5)
+#    $Self->{'AuthModule::DB::CryptType'} = 'crypt';
 
     # This is an example configuration for an LDAP auth. backend.
     # (take care that Net::LDAP is installed!)
@@ -1823,6 +1826,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.241 $ $Date: 2006-08-02 14:09:35 $
+$Revision: 1.242 $ $Date: 2006-08-27 21:20:20 $
 
 =cut

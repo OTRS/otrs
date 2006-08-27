@@ -1,8 +1,8 @@
 # --
 # Kernel/System/User.pm - some user functions
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: User.pm,v 1.51 2006-02-28 05:55:59 martin Exp $
+# $Id: User.pm,v 1.52 2006-08-27 21:17:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,9 +13,10 @@ package Kernel::System::User;
 
 use strict;
 use Kernel::System::CheckItem;
+use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.51 $';
+$VERSION = '$Revision: 1.52 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -489,26 +490,34 @@ sub SetPassword {
         $Self->{LogObject}->Log(Priority => 'error', Message => "No such User!");
         return;
     }
-    # crypt given pw (unfortunately there is a mod_perl2 bug on RH8 - check if
-    # crypt() is working correctly) :-/
     my $CryptedPw = '';
-    if (crypt('root', 'root@localhost') eq 'roK20XGbWEsSM') {
-        $CryptedPw = crypt($Pw, $Param{UserLogin});
+    # md5 pw
+    if ($Self->{ConfigObject}->Get('AuthModule::DB::CryptType') &&
+        $Self->{ConfigObject}->Get('AuthModule::DB::CryptType') eq 'md5') {
+        $CryptedPw = unix_md5_crypt($Pw, $Param{UserLogin});
     }
+    # crypt pw
     else {
-        $Self->{LogObject}->Log(
-            Priority => 'notice',
-            Message => "The crypt() of your mod_perl(2) is not working correctly! Update mod_perl!",
-        );
-        my $TempUser = quotemeta($Param{UserLogin});
-        my $TempPw = quotemeta($Pw);
-        my $CMD = "perl -e \"print crypt('$TempPw', '$TempUser');\"";
-        open (IO, " $CMD | ") || print STDERR "Can't open $CMD: $!";
-        while (<IO>) {
-            $CryptedPw .= $_;
+        # crypt given pw (unfortunately there is a mod_perl2 bug on RH8 - check if
+        # crypt() is working correctly) :-/
+        if (crypt('root', 'root@localhost') eq 'roK20XGbWEsSM') {
+            $CryptedPw = crypt($Pw, $Param{UserLogin});
         }
-        close (IO);
-        chomp $CryptedPw;
+        else {
+            $Self->{LogObject}->Log(
+                Priority => 'notice',
+                Message => "The crypt() of your mod_perl(2) is not working correctly! Update mod_perl!",
+            );
+            my $TempUser = quotemeta($Param{UserLogin});
+            my $TempPw = quotemeta($Pw);
+            my $CMD = "perl -e \"print crypt('$TempPw', '$TempUser');\"";
+            open (IO, " $CMD | ") || print STDERR "Can't open $CMD: $!";
+            while (<IO>) {
+                $CryptedPw .= $_;
+            }
+            close (IO);
+            chomp $CryptedPw;
+        }
     }
     # set pw history
     $Self->SetPreferences(UserID => $User{UserID}, Key => 'UserLastPw', Value => $CryptedPw);
@@ -782,6 +791,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.51 $ $Date: 2006-02-28 05:55:59 $
+$Revision: 1.52 $ $Date: 2006-08-27 21:17:31 $
 
 =cut

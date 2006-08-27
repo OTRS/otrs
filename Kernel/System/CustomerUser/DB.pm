@@ -1,8 +1,8 @@
 # --
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.37 2006-03-10 06:52:46 tr Exp $
+# $Id: DB.pm,v 1.38 2006-08-27 21:18:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,12 +13,12 @@ package Kernel::System::CustomerUser::DB;
 
 use strict;
 use Kernel::System::CheckItem;
+use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.37 $';
+$VERSION = '$Revision: 1.38 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -67,7 +67,7 @@ sub new {
     $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%Param);
     return $Self;
 }
-# --
+
 sub CustomerName {
     my $Self = shift;
     my %Param = @_;
@@ -191,7 +191,7 @@ sub CustomerSearch {
     }
     return %Users;
 }
-# --
+
 sub CustomerUserList {
     my $Self = shift;
     my %Param = @_;
@@ -205,7 +205,7 @@ sub CustomerUserList {
     );
     return %Users;
 }
-# --
+
 sub CustomerIDs {
     my $Self = shift;
     my %Param = @_;
@@ -243,7 +243,7 @@ sub CustomerIDs {
     }
     return @CustomerIDs;
 }
-# --
+
 sub CustomerUserDataGet {
     my $Self = shift;
     my %Param = @_;
@@ -297,7 +297,7 @@ sub CustomerUserDataGet {
     # return data
     return (%Data, %Preferences);
 }
-# --
+
 sub CustomerUserAdd {
     my $Self = shift;
     my %Param = @_;
@@ -387,7 +387,7 @@ sub CustomerUserAdd {
         return;
     }
 }
-# --
+
 sub CustomerUserUpdate {
     my $Self = shift;
     my %Param = @_;
@@ -444,7 +444,7 @@ sub CustomerUserUpdate {
         return;
     }
 }
-# --
+
 sub SetPassword {
     my $Self = shift;
     my %Param = @_;
@@ -459,26 +459,34 @@ sub SetPassword {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserLogin!");
         return;
     }
-    # crypt given pw (unfortunately there is a mod_perl2 bug on RH8 - check if
-    # crypt() is working correctly) :-/
     my $CryptedPw = '';
-    if (crypt('root', 'root@localhost') eq 'roK20XGbWEsSM') {
-        $CryptedPw = crypt($Pw, $Param{UserLogin});
+    # md5 pw
+    if ($Self->{ConfigObject}->Get('Customer::AuthModule::DB::CryptType') &&
+        $Self->{ConfigObject}->Get('Customer::AuthModule::DB::CryptType') eq 'md5') {
+        $CryptedPw = unix_md5_crypt($Pw, $Param{UserLogin});
     }
+    # crypt pw
     else {
-        $Self->{LogObject}->Log(
-            Priority => 'notice',
-            Message => "The crypt() of your mod_perl(2) is not working correctly! Update mod_perl!",
-        );
-        my $TempUser = quotemeta($Param{UserLogin});
-        my $TempPw = quotemeta($Pw);
-        my $CMD = "perl -e \"print crypt('$TempPw', '$TempUser');\"";
-        open (IO, " $CMD | ") || print STDERR "Can't open $CMD: $!";
-        while (<IO>) {
-            $CryptedPw .= $_;
+        # crypt given pw (unfortunately there is a mod_perl2 bug on RH8 - check if
+        # crypt() is working correctly) :-/
+        if (crypt('root', 'root@localhost') eq 'roK20XGbWEsSM') {
+            $CryptedPw = crypt($Pw, $Param{UserLogin});
         }
-        close (IO);
-        chomp $CryptedPw;
+        else {
+            $Self->{LogObject}->Log(
+                Priority => 'notice',
+                Message => "The crypt() of your mod_perl(2) is not working correctly! Update mod_perl!",
+            );
+            my $TempUser = quotemeta($Param{UserLogin});
+            my $TempPw = quotemeta($Pw);
+            my $CMD = "perl -e \"print crypt('$TempPw', '$TempUser');\"";
+            open (IO, " $CMD | ") || print STDERR "Can't open $CMD: $!";
+            while (<IO>) {
+                $CryptedPw .= $_;
+            }
+            close (IO);
+            chomp $CryptedPw;
+        }
     }
     # update db
     foreach my $Entry (@{$Self->{CustomerUserMap}->{Map}}) {
@@ -514,7 +522,7 @@ sub SetPassword {
         return 1;
     }
 }
-# --
+
 sub GenerateRandomPassword {
     my $Self = shift;
     my %Param = @_;
@@ -537,7 +545,7 @@ sub GenerateRandomPassword {
     # Return the password.
     return $Password;
 }
-# --
+
 sub DESTROY {
     my $Self = shift;
     # disconnect if it's not a parent DBObject
@@ -547,5 +555,5 @@ sub DESTROY {
         }
     }
 }
-# --
+
 1;
