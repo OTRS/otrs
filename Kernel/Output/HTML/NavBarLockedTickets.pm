@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/NavBarLockedTickets.pm
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: NavBarLockedTickets.pm,v 1.6 2006-03-22 07:28:21 martin Exp $
+# $Id: NavBarLockedTickets.pm,v 1.7 2006-08-27 22:25:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::NavBarLockedTickets;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {

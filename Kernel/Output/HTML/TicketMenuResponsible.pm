@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/TicketMenuResponsible.pm
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: TicketMenuResponsible.pm,v 1.1 2006-03-22 07:28:21 martin Exp $
+# $Id: TicketMenuResponsible.pm,v 1.2 2006-08-27 22:29:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,10 +14,9 @@ package Kernel::Output::HTML::TicketMenuResponsible;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -33,7 +32,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -67,5 +66,5 @@ sub Run {
 
     return $Param{Counter};
 }
-# --
+
 1;

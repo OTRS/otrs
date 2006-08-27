@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/PreferencesPGP.pm
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PreferencesPGP.pm,v 1.4 2005-08-18 07:04:33 martin Exp $
+# $Id: PreferencesPGP.pm,v 1.5 2006-08-27 22:23:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,10 +15,9 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -39,7 +38,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Param {
     my $Self = shift;
     my %Param = @_;
@@ -56,7 +55,7 @@ sub Param {
     );
     return @Params;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -117,6 +116,7 @@ sub Run {
         return 1;
     }
 }
+
 sub Download {
     my $Self = shift;
     my %Param = @_;
@@ -164,11 +164,13 @@ sub Download {
         );
     }
 }
+
 sub Error {
     my $Self = shift;
     my %Param = @_;
     return $Self->{Error} || '';
 }
+
 sub Message {
     my $Self = shift;
     my %Param = @_;

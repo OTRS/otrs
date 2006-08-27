@@ -1,8 +1,8 @@
 # --
-# Kernel/Output/HTML/NotificationCustomerOnline.pm  
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Kernel/Output/HTML/NotificationCustomerOnline.pm
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: NotificationCustomerOnline.pm,v 1.1 2004-04-23 08:00:53 martin Exp $
+# $Id: NotificationCustomerOnline.pm,v 1.2 2006-08-27 22:27:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,16 +15,16 @@ use strict;
 use Kernel::System::AuthSession;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
+
 sub new {
     my $Type = shift;
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     # get needed objects
@@ -34,7 +34,7 @@ sub new {
     $Self->{SessionObject} = Kernel::System::AuthSession->new(%Param);
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -62,6 +62,5 @@ sub Run {
         return '';
     }
 }
-# --
 
 1;
