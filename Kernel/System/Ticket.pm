@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket.pm - the global ticket handle
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.217 2006-08-01 19:43:08 martin Exp $
+# $Id: Ticket.pm,v 1.218 2006-08-28 09:43:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.217 $';
+$VERSION = '$Revision: 1.218 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -719,7 +719,6 @@ sub TicketGet {
         $Ticket{PriorityID} = $Row[5];
         $Ticket{Priority} = $Row[6];
         $Ticket{Age} = $Self->{TimeObject}->SystemTime() - $Row[7];
-#        $Ticket{SLAAge} = $Self->{TimeObject}->SLATime(StartTime => $Row[7]);
         $Ticket{CreateTimeUnix} = $Row[7];
         $Ticket{Created} = $Self->{TimeObject}->SystemTime2TimeStamp(SystemTime => $Row[7]);
         $Ticket{Changed} = $Row[50];
@@ -4866,6 +4865,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.217 $ $Date: 2006-08-01 19:43:08 $
+$Revision: 1.218 $ $Date: 2006-08-28 09:43:06 $
 
 =cut
