@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.285 2006-08-29 13:26:49 martin Exp $
+# $Id: CHANGES,v 1.286 2006-08-29 13:50:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,6 +15,7 @@
     scripts/soap-examlple.pl)
  - (2006/08/27) added mulit calendar / queue support - you can use different
     time zones in different queues and each agent can select the own time zone
+    NOTE: table queue need to be modified - see scripts/DBUpdate-to-2.1.*.sql
  - (2006/08/27) fixed bug #739 - in the login you can type something behind the
     pass and it works / added password md5 support (required Crypt::PasswdMD5
     from CPAN or from Kernel/cpan-lib/ - via "cvs update -d")
