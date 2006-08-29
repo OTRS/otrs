@@ -1,8 +1,8 @@
 # --
-# CustomerPreferencesForm.dtl - provides HTML form for CustomerPreferences 
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# CustomerPreferencesForm.dtl - provides HTML form for CustomerPreferences
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerPreferencesForm.dtl,v 1.5 2004-12-28 01:03:00 martin Exp $
+# $Id: CustomerPreferencesForm.dtl,v 1.6 2006-08-29 16:44:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,79 +10,84 @@
 # --
 <!-- dtl:block:Body -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr align="center">
+  <tr align="center">
 <!-- dtl:block:Head -->
-  <td width="50%" class="mainhead">
-    <b>$Env{"Box0"}$Text{"$QData{"Header"}"}$Env{"Box1"}</b>
-  </td>
+    <td width="50%" class="mainhead">
+      <b>$Env{"Box0"}$Text{"$QData{"Header"}"}$Env{"Box1"}</b>
+    </td>
 <!-- dtl:block:Head -->
-</tr>
+  </tr>
 </table>
 <table border="0" width="100%" cellspacing="0" cellpadding="1" cols="2">
-<tr align="center" valign="top">
+  <tr align="center" valign="top">
 <!-- dtl:block:Colum -->
-  <td width="50%" class="mainbody">
+    <td width="50%" class="mainbody">
 <!-- dtl:block:Item -->
-    <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
-    <tr align="center">
-      <td class="contenthead">
-        $Env{"Box0"}$Text{"$Data{"Label"}"}$Env{"Box1"}
-      </td>
-    </tr>
-    <tr align="center">
-      <td class="contentbody">
-      <p>
-      $Text{"$Data{"Desc"}"}
-      </p>
-      <form action="$Env{"CGIHandle"}" enctype="multipart/form-data" method="post">
-      <input type="hidden" name="Action" value="$Env{"Action"}">
-      <input type="hidden" name="Subaction" value="Update">
-      <input type="hidden" name="Group" value="$QData{"Group"}">
-      <p>
-      <table border="0">
+      <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
+        <tr align="center">
+          <td class="contenthead">
+            $Env{"Box0"}$Text{"$Data{"Label"}"}$Env{"Box1"}
+          </td>
+        </tr>
+        <tr align="center">
+          <td class="contentbody">
+            <p>
+              $Text{"$Data{"Desc"}"}
+            </p>
+            <form action="$Env{"CGIHandle"}" enctype="multipart/form-data" method="post">
+              <input type="hidden" name="Action" value="$Env{"Action"}">
+              <input type="hidden" name="Subaction" value="Update">
+              <input type="hidden" name="Group" value="$QData{"Group"}">
+              <p>
+                <table border="0">
 <!-- dtl:block:InputKey -->
-      <tr>
-        <td>$Text{"$QData{"Key"}"}:</td>
-        <td><input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="12"></td>
-      </tr>
+                  <tr>
+                    <td>$Text{"$QData{"Key"}"}:</td>
+                    <td><input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="12"></td>
+                  </tr>
 <!-- dtl:block:InputKey -->
 <!-- dtl:block:Input -->
-      <tr>
-        <td>$Text{"$QData{"Key"}"}</td>
-        <td><input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="12"></td>
-      </tr>
+                  <tr>
+                    <td>$Text{"$QData{"Key"}"}</td>
+                    <td><input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="12"></td>
+                  </tr>
 <!-- dtl:block:Input -->
 <!-- dtl:block:Option -->
-      <tr>
-        <td>$Text{"$QData{"Key"}"}</td>
-        <td>$Data{"Option"}</td>
-      </tr>
+                  <tr>
+                    <td>$Text{"$QData{"Key"}"}</td>
+                    <td>$Data{"Option"}</td>
+                  </tr>
 <!-- dtl:block:Option -->
 <!-- dtl:block:Upload -->
-      <tr>
-        <td>$Text{"$QData{"Key"}"}</td>
-        <td><input name="$QData{"Name"}" type="file" size="20" class="fixed"><br>
-        <div title="$QData{"Filename"}">$QData{"Filename","30"}</div>
+                  <tr>
+                    <td>$Text{"$QData{"Key"}"}</td>
+                    <td><input name="$QData{"Name"}" type="file" size="20" class="fixed"><br>
+                      <div title="$QData{"Filename"}">$QData{"Filename","30"}</div>
 #<a href="" title="$QData{"Filename"}">$QData{"Filename","30"}</a>
-        </td>
-      </tr>
+                    </td>
+                  </tr>
 <!-- dtl:block:Upload -->
 <!-- dtl:block:Password -->
-      <tr>
-        <td>$Text{"$QData{"Key"}"}:</td>
-        <td><input type="password" name="$QData{"Name"}" value="" size="12"></td>
-      </tr>
+                  <tr>
+                    <td>$Text{"$QData{"Key"}"}:</td>
+                    <td><input type="password" name="$QData{"Name"}" value="" size="12"></td>
+                  </tr>
 <!-- dtl:block:Password -->
+                </table>
+              </p>
+              <input class="button" type="submit" value="$Text{"update"}">
+            </form>
+          </td>
+        </tr>
+        <tr>
+          <td class="contentfooter">
+            &nbsp;
+          </td>
+        </tr>
       </table>
-      </p>
-      <input class="button" type="submit" value="$Text{"update"}">
-      </form>
-      </td>
-    </tr>
-    </table>
 <!-- dtl:block:Item -->
-  </td>
+    </td>
 <!-- dtl:block:Colum -->
-</tr>
+  </tr>
 </table>
 <!-- dtl:block:Body -->
