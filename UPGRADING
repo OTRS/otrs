@@ -2,14 +2,14 @@
 # UPGRADING - upgrading OTRS
 # Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: UPGRADING,v 1.16 2005-07-08 10:01:02 martin Exp $
+# $Id: UPGRADING,v 1.17 2006-08-29 17:53:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
-These instructions are for people upgrading OTRS from "1.3" to "2.0".
+These instructions are for people upgrading OTRS from "2.0" to "2.1".
 
 *) Stop all your services (e. g. rcotrs stop-force)
 
@@ -26,14 +26,14 @@ These instructions are for people upgrading OTRS from "1.3" to "2.0".
 
 *) If you use the tar:
 
-    a) the otrs themes between 1.3 and 2.0 are _not_ compatible
+    a) the otrs themes between 2.0 and 2.1 may are _not_ compatible
        (don't us the old theme)!
 
 *) Update the database changes with:
     MySQL:
-      cat $OTRS_HOME/scripts/DBUpdate-to-2.0.mysql.sql | mysql -p -f -u root otrs
+      cat $OTRS_HOME/scripts/DBUpdate-to-2.1.mysql.sql | mysql -p -f -u root otrs
     PostgreSQL:
-      cat $OTRS_HOME/scripts/DBUpdate-to-2.0.postgresql.sql | psql otrs
+      cat $OTRS_HOME/scripts/DBUpdate-to-2.1.postgresql.sql | psql otrs
 
    (Don't worry about the error messages, you can update all previous version
    with this script and in the most cases your database has already the most changes!)
