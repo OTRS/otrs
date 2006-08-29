@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/IndexAccelerator/StaticDB.pm - static db queue ticket index module
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: StaticDB.pm,v 1.33 2006-06-22 14:12:12 cs Exp $
+# $Id: StaticDB.pm,v 1.34 2006-08-29 13:54:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Ticket::IndexAccelerator::StaticDB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketAcceleratorUpdate {
@@ -522,9 +522,10 @@ sub GetLockedCount {
         $Data{'New'} = 0;
         foreach my $TicketID (keys %TicketIDs) {
             my @Index = $Self->ArticleIndex(TicketID => $TicketID);
-            my %Article = $Self->ArticleGet(ArticleID => $Index[$#Index]);
+#            my %Article = $Self->ArticleGet(ArticleID => $Index[$#Index]);
             my %Flag = $Self->ArticleFlagGet(
-                ArticleID => $Article{ArticleID},
+#                ArticleID => $Article{ArticleID},
+                ArticleID => $Index[$#Index],
                 UserID => $Param{UserID},
             );
             if (!$Flag{seen}) {
@@ -541,7 +542,7 @@ sub GetOverTimeTickets {
     # get data (viewable tickets...)
     my @TicketIDsOverTime = ();
     my %TicketIDs = ();
-    my $SQL = "SELECT st.id, st.escalation_start_time, q.escalation_time, st.ticket_priority_id, q.name ".
+    my $SQL = "SELECT st.id, st.escalation_start_time, q.escalation_time, st.ticket_priority_id, q.name, q.calendar_name ".
         " FROM ".
         " queue q, ticket st ".
         " WHERE ".
@@ -573,7 +574,7 @@ sub GetOverTimeTickets {
             my $CountedTime = $Self->{TimeObject}->WorkingTime(
                 StartTime => $Row[1],
                 StopTime => $Self->{TimeObject}->SystemTime(),
-                Queue => $Row[4],
+                Calendar => $Row[5],
             );
             my $DiffTime = ($Row[2]*60) - $CountedTime;
             if ($DiffTime < 0) {
