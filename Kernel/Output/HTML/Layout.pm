@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.11 2006-08-10 09:22:29 martin Exp $
+# $Id: Layout.pm,v 1.12 2006-08-29 14:41:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -193,6 +193,8 @@ sub new {
         );
         $Self->FatalDie();
     }
+    # define $Env{"Images"}
+    $Self->{Images} = $Self->{ConfigObject}->Get('Frontend::ImagePath');
     # load sub layout files
     my $Dir = $Self->{ConfigObject}->Get('TemplateDir').'/HTML/';
     if (-e $Dir) {
@@ -2648,6 +2650,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2006-08-10 09:22:29 $
+$Revision: 1.12 $ $Date: 2006-08-29 14:41:24 $
 
 =cut

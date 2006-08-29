@@ -1,8 +1,8 @@
 # --
 # CustomerHeader.dtl - provides global HTML header
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerHeader.dtl,v 1.15 2005-03-28 20:28:16 martin Exp $
+# $Id: CustomerHeader.dtl,v 1.16 2006-08-29 14:41:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,7 +11,7 @@
 # http headers
 # --
 Content-Type: text/html; charset=$Env{"UserCharset"};
-X-Powered-By: $Config{"Product"} $Config{"Version"} - Open Ticket Request System (http://otrs.org)
+X-Powered-By: $Config{"Product"} $Config{"Version"} - Open Ticket Request System (http://otrs.org/)
 X-Wanted: I think you are smart. I'm looking for smart people!
 Expires: Tue, 1 Jan 1980 12:00:00 GMT
 Cache-Control: no-cache
@@ -25,7 +25,6 @@ $Include{"Copyright"}
 # --
 #<dtl set $Env{"Box0"} = "&gt;&gt; ">
 #<dtl set $Env{"Box1"} = " &lt;&lt;">
-<dtl set $Env{"Images"} = "/otrs-web/images/Standard/">
 # --
 # check refresh
 # --
@@ -33,8 +32,8 @@ $Include{"Copyright"}
 # --
 <html>
 <head>
-    $Data{"MetaHttpEquiv"}
-    <title>$Config{"ProductName"} $QData{"TitleArea"}</title>
+  $Data{"MetaHttpEquiv"}
+  <title>$Config{"ProductName"} $QData{"TitleArea"}</title>
 # include customer-css.dtl file
 $Include{"customer-css"}
 </head>
@@ -43,12 +42,12 @@ $Include{"customer-css"}
 
 <!-- start CI layout -->
 <table border="0" width="800" cellspacing="0" cellpadding="8">
-<tr>
-  <td width="120" class="header"> LOGO </td>
-  <td class="header"> <a href="" class="headeritem">COMPANY NAME</a> </td>
-</tr>
-<tr>
-  <td colspan="2">
+  <tr>
+    <td width="120" class="header"> LOGO </td>
+    <td class="header"> <a href="" class="headeritem">COMPANY NAME</a> </td>
+  </tr>
+  <tr>
+    <td colspan="2">
 <!-- end CI layout -->
 
 <!-- end header -->

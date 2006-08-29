@@ -1,8 +1,8 @@
 # --
 # CustomerHeaderSmall.dtl - provides global HTML header
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerHeaderSmall.dtl,v 1.2 2005-09-11 11:49:52 martin Exp $
+# $Id: CustomerHeaderSmall.dtl,v 1.3 2006-08-29 14:41:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,7 +11,7 @@
 # http headers
 # --
 Content-Type: text/html; charset=$Env{"UserCharset"};
-X-Powered-By: $Config{"Product"} $Config{"Version"} - Open Ticket Request System (http://otrs.org)
+X-Powered-By: $Config{"Product"} $Config{"Version"} - Open Ticket Request System (http://otrs.org/)
 X-Wanted: I think you are smart. I'm looking for smart people!
 Expires: Tue, 1 Jan 1980 12:00:00 GMT
 Cache-Control: no-cache
@@ -25,7 +25,6 @@ $Include{"Copyright"}
 # --
 #<dtl set $Env{"Box0"} = "[ ">
 #<dtl set $Env{"Box1"} = " ]">
-<dtl set $Env{"Images"} = "/otrs-web/images/Standard/">
 # --
 # check refresh
 # --
@@ -40,8 +39,8 @@ $Include{"Copyright"}
 # --
 <html>
 <head>
-    $Data{"MetaHttpEquiv"}
-    <title>$Config{"ProductName"} $Data{"TitleArea"}</title>
+  $Data{"MetaHttpEquiv"}
+  <title>$Config{"ProductName"} $Data{"TitleArea"}</title>
 # include css.dtl file
 $Include{"customer-css"}
 </head>
