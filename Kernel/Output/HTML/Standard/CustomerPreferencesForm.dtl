@@ -2,7 +2,7 @@
 # CustomerPreferencesForm.dtl - provides HTML form for CustomerPreferences
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerPreferencesForm.dtl,v 1.6 2006-08-29 16:44:50 martin Exp $
+# $Id: CustomerPreferencesForm.dtl,v 1.7 2006-08-29 16:45:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@
 <!-- dtl:block:Colum -->
     <td width="50%" class="mainbody">
 <!-- dtl:block:Item -->
-      <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
+      <table border="0" width="100%" cellspacing="1" cellpadding="3" cols="1">
         <tr align="center">
           <td class="contenthead">
             $Env{"Box0"}$Text{"$Data{"Label"}"}$Env{"Box1"}
