@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketEmail.pm - to compose inital email to customer
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.19 2006-07-24 09:08:53 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.20 2006-08-29 09:45:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -101,8 +101,6 @@ sub Run {
         $GetParam{"ArticleFreeKey$_"} =  $Self->{ParamObject}->GetParam(Param => "ArticleFreeKey$_");
         $GetParam{"ArticleFreeText$_"} =  $Self->{ParamObject}->GetParam(Param => "ArticleFreeText$_");
     }
-
-
 
     if (!$Self->{Subaction} || $Self->{Subaction} eq 'Created') {
         # header
@@ -360,7 +358,7 @@ sub Run {
             if ($GetParam{"AttachmentDelete$_"}) {
                 $Error{AttachmentDelete} = 1;
                 $Self->{UploadCachObject}->FormIDRemoveFile(
-                     FormID => $Self->{FormID},
+                    FormID => $Self->{FormID},
                     FileID => $_,
                 );
             }
