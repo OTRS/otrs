@@ -2,10 +2,10 @@
 # cron/postmaster - postmaster cron of the OTRS
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: postmaster.dist,v 1.5 2006-08-26 17:40:40 martin Exp $
+# $Id: postmaster.dist,v 1.6 2006-08-29 10:29:24 cs Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY.
 # --
 # check daily the spool directory of OTRS
 #10 0 * * * * [ -e /etc/init.d/otrs ] && /etc/init.d/otrs cleanup >> /dev/null; [ -e /etc/rc.d/init.d/otrs ] && /etc/rc.d/init.d/otrs cleanup >> /dev/null
-10 0 * * * [ -x $HOME/bin/otrs.cleanup ] && $HOME/bin/otrs.cleanup >> /dev/null
+10 0 * * *  $HOME/bin/otrs.cleanup >> /dev/null
