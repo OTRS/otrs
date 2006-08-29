@@ -1,8 +1,8 @@
 # --
 # Kernel/Language.pm - provides multi language support
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Language.pm,v 1.39 2006-06-05 15:44:20 martin Exp $
+# $Id: Language.pm,v 1.40 2006-08-29 17:56:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.39 $';
+$VERSION = '$Revision: 1.40 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -174,23 +174,17 @@ sub Get {
     my $What = shift;
     my $File = shift || '';
     my @Dyn = ();
-    # --
     # check
-    # --
     if (! defined $What) {
         return;
     }
-    # --
     # check dyn spaces
-    # --
     if ($What && $What =~ /^(.+?)", "(.+?|)$/) {
         $What = $1;
         @Dyn = split(/", "/, $2);
     }
-    # --
     # check wanted param and returns the
     # lookup or the english data
-    # --
     if (exists $Self->{Translation}->{$What} && $Self->{Translation}->{$What} ne '') {
         # Debug
         if ($Self->{Debug} > 3) {
@@ -475,6 +469,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.39 $ $Date: 2006-06-05 15:44:20 $
+$Revision: 1.40 $ $Date: 2006-08-29 17:56:57 $
 
 =cut

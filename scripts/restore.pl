@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # scripts/restore.pl - the restore script
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: restore.pl,v 1.1 2005-08-24 21:53:13 martin Exp $
+# $Id: restore.pl,v 1.2 2006-08-29 17:51:09 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -42,7 +42,7 @@ my $DBDump = '';
 getopt('hbd', \%Opts);
 if ($Opts{'h'}) {
     print "restore.pl <Revision $VERSION> - restore script\n";
-    print "Copyright (c) 2001-2005 Martin Edenhofer <martin\@otrs.org>\n";
+    print "Copyright (c) 2001-2006 OTRS GmbH, http://otrs.org/\n";
     print "usage: restore.pl -b /data_backup/<TIME>/ -d /opt/otrs/\n";
     exit 1;
 }

@@ -1,27 +1,27 @@
 # --
 # README.webserver - webserver description of OTRS
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: README.webserver,v 1.13 2003-10-07 08:14:53 martin Exp $
+# $Id: README.webserver,v 1.14 2006-08-29 17:55:46 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
 Which webserver is needed?
 ==========================
-I prefer the apache webserver (http://httpd.apache.org). 
+I prefer the apache webserver (http://httpd.apache.org).
 
 Configuration:
 ==============
-"After" this steps, you will get the login page at 
+"After" this steps, you will get the login page at
 http://your-host/otrs/index.pl or http://your-host/otrs/installer.pl.
 
 SuSE Linux:
 ===========
 a) Install the RPM-Package (http://otrs.org/ - "rpm -i otrs-xxx.rpm").
- 
+
 b) The manual way:
   Use the "$OTRS_HOME/scripts/suse-httpd.include.conf" include config file.
 
@@ -39,23 +39,23 @@ a)
  *) Change the webserver user (normaly wwwrun) to the OTRS user (otrs).
 
   [...]
-  User wwwrun 
+  User wwwrun
   [...]
   User otrs
   [...]
- 
- *) If you can't change the user and group of your webserver (system-wide), 
+
+ *) If you can't change the user and group of your webserver (system-wide),
     because you have other applications running on this server, you can
-    also work with group permissions (more tricky). 
+    also work with group permissions (more tricky).
 
     Use "$HOME/bin/SetPermissions.sh <OTRS_HOME> <OTRS_USER> <WEBSERVER_USER> [OTRS_GROUP] [WEB_GROUP]"
-    e. g. 
-     Webserver with otrs user: "SetPermissions.sh /opt/otrs otrs otrs"   
+    e. g.
+     Webserver with otrs user: "SetPermissions.sh /opt/otrs otrs otrs"
      Webserver with wwwrun user (e. g. SuSE): "SetPermissions.sh /opt/otrs otrs wwwrun"
      Webserver with apache user (e. g. Redhat): "SetPermissions.sh /opt/otrs otrs apache"
 
 b)
- *) 
+ *)
   Without mod_perl (just CGI):
   ============================
   Add this to the cgi-bin stuff section in httpd.conf
@@ -80,12 +80,12 @@ b)
     PerlSetupEnv On
   </Location>
 
-  You may want to use a mod_perl startup script. Compiled modules on startup 
-  (speed!)! Use the mod_perl startup script which comes with otrs 
+  You may want to use a mod_perl startup script. Compiled modules on startup
+  (speed!)! Use the mod_perl startup script which comes with otrs
   (scripts/apache-perl-startup.pl).
- 
-  - Change the default startup script location of your httpd to 
-    $OTRS_HOME/scripts/apache-perl-startup.pl in httpd.conf 
+
+  - Change the default startup script location of your httpd to
+    $OTRS_HOME/scripts/apache-perl-startup.pl in httpd.conf
     [...]
     # load all otrs modules
     Perlrequire /opt/otrs/scripts/apache-perl-startup.pl
@@ -103,7 +103,7 @@ b)
      [...]
 
    - Change the otrs lib dir (if needed)!
- 
+
      [...]
      # --
      # set otrs lib path!
@@ -124,7 +124,7 @@ d)
   Web-Installer
   =============
    http://yourhost/otrs/installer.pl
- 
+
   First login
   ===========
    http://yourhost/otrs/index.pl
