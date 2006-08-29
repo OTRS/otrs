@@ -1,8 +1,8 @@
 # --
 # Login.dtl - provides customer HTML login screen
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerLogin.dtl,v 1.13 2005-07-15 00:26:30 martin Exp $
+# $Id: CustomerLogin.dtl,v 1.14 2006-08-29 16:38:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,134 +16,134 @@ $Include{"CustomerHeader"}
 <!-- start login -->
 
 <p>
-<center>
-<font color="red">$Quote{"$Text{"$Data{"Message"}"}"}</font>
-<table border="0" cellspacing="0" cellpadding="3" width="300">
-<tr>
-  <td class="singleboxhead">$Text{"Login"}</td>
-</tr>
-<tr>
-  <td class="singleboxbody">
-
-    <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
-    <input type="hidden" name="Action" value="Login">
-    <input type="hidden" name="RequestedURL" value="$QData{"RequestedURL"}">
-    <input type="hidden" name="Lang" value="$Env{"UserLanguage"}">
-
-    <table cellspacing="8" cellpadding="2">
+  <center>
+  <font color="red">$Text{"$Data{"Message"}"}</font>
+  <table border="0" cellspacing="0" cellpadding="3" width="300">
     <tr>
-      <td>$Text{"Username"}:</td>
-      <td><input type="text" name="User" value="$QData{"User"}" size="18"></td>
+      <td class="singleboxhead">$Text{"Login"}</td>
     </tr>
     <tr>
-      <td>$Text{"Password"}:</td>
-      <td><input type="password" name="Password" size="18"></td>
-    </tr>
-    </table>
-    <input class="button" type="submit" value="$Text{"Login"}">
-    </form>
+      <td class="singleboxbody">
 
-  </td>
-</tr>
-</table>
+        <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
+          <input type="hidden" name="Action" value="Login">
+          <input type="hidden" name="RequestedURL" value="$QData{"RequestedURL"}">
+          <input type="hidden" name="Lang" value="$Env{"UserLanguage"}">
+
+          <table cellspacing="8" cellpadding="2">
+            <tr>
+              <td>$Text{"Username"}:</td>
+              <td><input type="text" name="User" value="$QData{"User"}" size="18"></td>
+            </tr>
+            <tr>
+              <td>$Text{"Password"}:</td>
+              <td><input type="password" name="Password" size="18"></td>
+            </tr>
+          </table>
+          <input class="button" type="submit" value="$Text{"Login"}">
+        </form>
+
+      </td>
+    </tr>
+  </table>
 </p>
 <!-- dtl:block:LostPassword -->
 <p>
-<table border="0" cellspacing="0" cellpadding="3" width="300">
-<tr>
-  <td class="singleboxhead">$Text{"Lost your password?"}</td>
-</tr>
-<tr>
-  <td class="singleboxbody">
-    <form action="$Env{"CGIHandle"}" method="get" enctype="application/x-www-form-urlencoded">
-    <input type="hidden" name="Action" value="CustomerLostPassword">
-    <input type="hidden" name="Lang" value="$Env{"UserLanguage"}">
-    <table cellspacing="8" cellpadding="2">
+  <table border="0" cellspacing="0" cellpadding="3" width="300">
     <tr>
-      <td>$Text{"Username"}:</td>
-      <td><input type="text" name="User" value="" size="18"></td>
+      <td class="singleboxhead">$Text{"Lost your password?"}</td>
     </tr>
     <tr>
-      <td colspan="2"><i class="small">($Text{"Request new password"})</i></td>
+      <td class="singleboxbody">
+        <form action="$Env{"CGIHandle"}" method="get" enctype="application/x-www-form-urlencoded">
+          <input type="hidden" name="Action" value="CustomerLostPassword">
+          <input type="hidden" name="Lang" value="$Env{"UserLanguage"}">
+          <table cellspacing="8" cellpadding="2">
+            <tr>
+              <td>$Text{"Username"}:</td>
+              <td><input type="text" name="User" value="" size="18"></td>
+            </tr>
+            <tr>
+              <td colspan="2"><i class="small">($Text{"Request new password"})</i></td>
+            </tr>
+          </table>
+          <input class="button" type="submit" value="$Text{"submit"}">
+        </form>
+      </td>
     </tr>
-    </table>
-    <input class="button" type="submit" value="$Text{"submit"}">
-    </form>
-  </td>
-</tr>
-</table>
+  </table>
 </p>
 <!-- dtl:block:LostPassword -->
 # --
 # language
 # --
 <p>
-<form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
-<input type="hidden" name="Action" value="">
-<input type="hidden" name="RequestedURL" value="$QData{"RequestedURL"}">
+  <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
+    <input type="hidden" name="Action" value="">
+    <input type="hidden" name="RequestedURL" value="$QData{"RequestedURL"}">
 
-<table border="0" cellspacing="0" cellpadding="3" width="300">
-<tr>
-  <td class="singleboxhead">$Text{"Language"}</td>
-</tr>
-<tr>
-  <td class="singleboxbody">
-    <table cellspacing="8" cellpadding="2">
-    <tr>
-      <td>$Text{"Language"}:</td>
-      <td>$Data{"Language"}</td>
-    </tr>
+    <table border="0" cellspacing="0" cellpadding="3" width="300">
+      <tr>
+        <td class="singleboxhead">$Text{"Language"}</td>
+      </tr>
+      <tr>
+        <td class="singleboxbody">
+          <table cellspacing="8" cellpadding="2">
+            <tr>
+              <td>$Text{"Language"}:</td>
+              <td>$Data{"Language"}</td>
+            </tr>
+          </table>
+          <input class="button" type="submit" value="$Text{"submit"}">
+        </td>
+      </tr>
     </table>
-  <input class="button" type="submit" value="$Text{"submit"}">
-  </td>
-</tr>
-</table>
-</form>
+  </form>
 </p>
 
 <!-- dtl:block:CreateAccount -->
 <p>
-<table border="0" cellspacing="0" cellpadding="3" width="300">
-<tr>
-  <td class="singleboxhead">$Text{"Create Account"}</td>
-</tr>
-<tr>
-  <td class="singleboxbody">
-    <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
-    <input type="hidden" name="Action" value="CustomerCreateAccount">
-    <input type="hidden" name="Lang" value="$Env{"UserLanguage"}">
-   <table border="0" cellspacing="0" cellpadding="3">
+  <table border="0" cellspacing="0" cellpadding="3" width="300">
     <tr>
-      <td>$Text{"Salutation"}: </td>
-      <td> <input type="text" name="Salutation" value="$QData{"UserSalutation"}" size="25" maxlength="50"></td>
+      <td class="singleboxhead">$Text{"Create Account"}</td>
     </tr>
     <tr>
-      <td>$Text{"Firstname"}: </td>
-      <td> <input type="text" name="Firstname" value="$QData{"UserFirstname"}" size="25" maxlength="50"></td>
-    </tr>
-    <tr>
-      <td>$Text{"Lastname"}: </td>
-      <td> <input type="text" name="Lastname" value="$QData{"UserLastname"}" size="25" maxlength="50"></td>
-    </tr>
+      <td class="singleboxbody">
+        <form action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
+          <input type="hidden" name="Action" value="CustomerCreateAccount">
+          <input type="hidden" name="Lang" value="$Env{"UserLanguage"}">
+          <table border="0" cellspacing="0" cellpadding="3">
+            <tr>
+              <td>$Text{"Salutation"}: </td>
+              <td> <input type="text" name="Salutation" value="$QData{"UserSalutation"}" size="25" maxlength="50"></td>
+            </tr>
+            <tr>
+              <td>$Text{"Firstname"}: </td>
+              <td> <input type="text" name="Firstname" value="$QData{"UserFirstname"}" size="25" maxlength="50"></td>
+            </tr>
+            <tr>
+              <td>$Text{"Lastname"}: </td>
+              <td> <input type="text" name="Lastname" value="$QData{"UserLastname"}" size="25" maxlength="50"></td>
+            </tr>
 #    <tr>
 #      <td>$Text{"Login"}: </td>
 #      <td> <input type="text" name="Username" value="$QData{"UserLogin"}" size="25" maxlength="50"></td>
 #    </tr>
-    <tr>
-      <td>$Text{"Email"}/$Text{"Login"}: </td>
-      <td> <input type="text" name="Email" value="$QData{"UserEmail"}" size="25" maxlength="50"></td>
-    </tr>
+            <tr>
+              <td>$Text{"Email"}/$Text{"Login"}: </td>
+              <td> <input type="text" name="Email" value="$QData{"UserEmail"}" size="25" maxlength="50"></td>
+            </tr>
 #    <tr>
 #      <td>$Text{"CustomerID"}: </td>
 #      <td> <input type="text" name="CustomerID" value="$QData{"UserCustomerID"}" size="25" maxlength="50"></td>
 #    </tr>
-    </table>
-    <input class="button" type="submit" value="$Text{"create"}">
-    </form>
-  </td>
-</tr>
-</table>
-</center>
+          </table>
+          <input class="button" type="submit" value="$Text{"create"}">
+        </form>
+      </td>
+    </tr>
+  </table>
+  </center>
 </p>
 <!-- dtl:block:CreateAccount -->
 <!-- stop login -->
