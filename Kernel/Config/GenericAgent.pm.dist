@@ -1,11 +1,11 @@
 # --
 # Kernel/Config/GenericAgent.pm - config file of generic agent
-# Copyright (C) 2002-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: GenericAgent.pm.dist,v 1.7 2004-02-12 00:55:01 martin Exp $
+# $Id: GenericAgent.pm.dist,v 1.8 2006-08-29 17:32:08 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
@@ -15,9 +15,9 @@ use strict;
 use vars qw($VERSION @ISA @EXPORT %Jobs);
 require Exporter;
 @ISA = qw(Exporter);
-@EXPORT = qw(%Jobs);  
+@EXPORT = qw(%Jobs);
 
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.8 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # -----------------------------------------------------------------------
@@ -25,10 +25,10 @@ $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # -----------------------------------------------------------------------
 %Jobs = (
    # --
-   # [name of job] -> send escalation notifications 
+   # [name of job] -> send escalation notifications
    # --
 #   'send escalation notifications' => {
-#      Escalation => 1,  
+#      Escalation => 1,
 #      # new ticket properties
 #      New => {
 #          Module => 'Kernel::System::GenericAgent::NotifyAgentGroupOfCustomQueue',

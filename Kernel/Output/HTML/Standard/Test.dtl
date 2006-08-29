@@ -1,8 +1,8 @@
 # --
-# Test.dtl - provides HTML test page 
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Test.dtl - provides HTML test page
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Test.dtl,v 1.10 2004-09-04 15:22:48 martin Exp $
+# $Id: Test.dtl,v 1.11 2006-08-29 17:09:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,68 +22,68 @@
 
 <p>
 
-<dtl set $Data{"Test1"} = "German">
-a) Set $Data{\"Test1\"} = "$Data{"Test1"}"
-<br>
-Echo ($Text{\"Lock\"}): $Text{"Lock"}
-<br>
+  <dtl set $Data{"Test1"} = "German">
+  a) Set $Data{\"Test1\"} = "$Data{"Test1"}"
+  <br>
+  Echo ($Text{\"Lock\"}): $Text{"Lock"}
+  <br>
 
-<dtl if ($Text{"Lock"} eq "Lock") { $Data{"Test1"} = "English"; }>
-b) if ($Text{\"Lock\"} eq "Lock") { $Data{\"Test:\"} = "English"; }<br>
+  <dtl if ($Text{"Lock"} eq "Lock") { $Data{"Test1"} = "English"; }>
+  b) if ($Text{\"Lock\"} eq "Lock") { $Data{\"Test:\"} = "English"; }<br>
 
-Result: $Data{"Test1"}
+  Result: $Data{"Test1"}
 </p>
 
 <p>
-<dtl set $Data{"Test2"} = "lala">
-c) Set $Data{\"Test2\"} = "$Data{"Test2"}"
-<br>
+  <dtl set $Data{"Test2"} = "lala">
+  c) Set $Data{\"Test2\"} = "$Data{"Test2"}"
+  <br>
 
-<dtl if ($Data{"Test2"} ne "hallo!") { $Data{"Test2"} = "hallo!!"; }>
-d) if ($Data{\"Test2\"} ne "hallo!") { $Data{\"Test2\"} = "hallo!!"; }
-<br>
+  <dtl if ($Data{"Test2"} ne "hallo!") { $Data{"Test2"} = "hallo!!"; }>
+  d) if ($Data{\"Test2\"} ne "hallo!") { $Data{\"Test2\"} = "hallo!!"; }
+  <br>
 
-Result: $Data{"Test2"}
+  Result: $Data{"Test2"}
 </p>
 
 <hr>
 
 # --
-# translation test  
+# translation test
 # --
 <b>translation test</b><br>
 <table>
-<tr>
-  <td>Lock:</td><td> $Text{"Lock"}</td>
-</tr>
-<tr>
-  <td>Unlock:</td><td> $Text{"Unlock"}</td>
-</tr>
-<tr>
-  <td colspan="2">$Text{"Welcome %s", "$Env{"UserFirstname"} $Env{"UserLastname"}"}</td>
-</tr>
+  <tr>
+    <td>Lock:</td><td> $Text{"Lock"}</td>
+  </tr>
+  <tr>
+    <td>Unlock:</td><td> $Text{"Unlock"}</td>
+  </tr>
+  <tr>
+    <td colspan="2">$Text{"Welcome %s", "$Env{"UserFirstname"} $Env{"UserLastname"}"}</td>
+  </tr>
 </table>
 
 <hr>
 
 # --
-# show some config options 
+# show some config options
 # --
 <b>config options</b><br>
 
 <table>
-<tr>
-  <td>SystemID:</td><td> $Config{"SystemID"}</td>
-</tr>
-<tr>
-  <td>FQDN:</td><td> $Config{"FQDN"}</td>
-</tr>
-<tr> 
-  <td>Sendmail Module:</td><td> $Config{"SendmailModule"}</td>
-</tr>
-<tr>
-  <td>PostmasterDefaultQueue:</td><td> $Config{"PostmasterDefaultQueue"}</td>
-</tr>
+  <tr>
+    <td>SystemID:</td><td> $Config{"SystemID"}</td>
+  </tr>
+  <tr>
+    <td>FQDN:</td><td> $Config{"FQDN"}</td>
+  </tr>
+  <tr>
+    <td>Sendmail Module:</td><td> $Config{"SendmailModule"}</td>
+  </tr>
+  <tr>
+    <td>PostmasterDefaultQueue:</td><td> $Config{"PostmasterDefaultQueue"}</td>
+  </tr>
 
 </table>
 
@@ -96,52 +96,52 @@ Result: $Data{"Test2"}
 
 <table>
 
-<tr>
-  <td>Time:</td><td> $Env{"Time"}</td>
-</tr>
-<tr>
-  <td>SessionID:</td><td> $Env{"SessionID"}</td>
-</tr>
-<tr>
-  <td>UserCharset:</td><td> $Env{"UserCharset"}</td>
-</tr>
-<tr>
-  <td>HTTP_USER_AGENT:</td><td> $Env{"HTTP_USER_AGENT"}</td>
-</tr>
-<tr>
-  <td>Global CGI handle:</td><td> $Env{"CGIHandle"}</td>
-</tr>
-<tr>
-  <td>REMOTE_ADDR:</td><td> $Env{"REMOTE_ADDR"}</td>
-</tr>
-<tr>
-  <td>REMOTE_PORT:</td><td> $Env{"REMOTE_PORT"}</td>
-</tr>
-<tr>
-  <td>SERVER_ADDR:</td><td> $Env{"SERVER_ADDR"}</td>
-</tr>
-<tr>
-  <td>SERVER_PORT:</td><td> $Env{"SERVER_PORT"}</td>
-</tr>
-<tr>
-  <td>SERVER_NAME:</td><td> $Env{"SERVER_NAME"}</td>
-</tr>
-<tr>
-  <td>HTTP_HOST:</td><td> $Env{"HTTP_HOST"}</td>
-</tr>
-<tr>
-  <td>SERVER_SOFTWARE:</td><td> $Env{"SERVER_SOFTWARE"}</td>
-</tr>
-<tr>
-  <td>SERVER_ADMIN:</td><td> $Env{"SERVER_ADMIN"}</td>
-</tr>
-<tr>
-  <td>SCRIPT_FILENAME:</td><td> $Env{"SCRIPT_FILENAME"}</td>
-</tr>
+  <tr>
+    <td>Time:</td><td> $Env{"Time"}</td>
+  </tr>
+  <tr>
+    <td>SessionID:</td><td> $Env{"SessionID"}</td>
+  </tr>
+  <tr>
+    <td>UserCharset:</td><td> $Env{"UserCharset"}</td>
+  </tr>
+  <tr>
+    <td>HTTP_USER_AGENT:</td><td> $Env{"HTTP_USER_AGENT"}</td>
+  </tr>
+  <tr>
+    <td>Global CGI handle:</td><td> $Env{"CGIHandle"}</td>
+  </tr>
+  <tr>
+    <td>REMOTE_ADDR:</td><td> $Env{"REMOTE_ADDR"}</td>
+  </tr>
+  <tr>
+    <td>REMOTE_PORT:</td><td> $Env{"REMOTE_PORT"}</td>
+  </tr>
+  <tr>
+    <td>SERVER_ADDR:</td><td> $Env{"SERVER_ADDR"}</td>
+  </tr>
+  <tr>
+    <td>SERVER_PORT:</td><td> $Env{"SERVER_PORT"}</td>
+  </tr>
+  <tr>
+    <td>SERVER_NAME:</td><td> $Env{"SERVER_NAME"}</td>
+  </tr>
+  <tr>
+    <td>HTTP_HOST:</td><td> $Env{"HTTP_HOST"}</td>
+  </tr>
+  <tr>
+    <td>SERVER_SOFTWARE:</td><td> $Env{"SERVER_SOFTWARE"}</td>
+  </tr>
+  <tr>
+    <td>SERVER_ADMIN:</td><td> $Env{"SERVER_ADMIN"}</td>
+  </tr>
+  <tr>
+    <td>SCRIPT_FILENAME:</td><td> $Env{"SCRIPT_FILENAME"}</td>
+  </tr>
 
-<tr>
-  <td>SCRIPT_NAME:</td><td> $Env{"SCRIPT_NAME"}</td>
-</tr>
+  <tr>
+    <td>SCRIPT_NAME:</td><td> $Env{"SCRIPT_NAME"}</td>
+  </tr>
 
 </table>
 
@@ -152,28 +152,28 @@ Result: $Data{"Test2"}
 # --
 <b>system calls</b>
 <table>
-<tr>
-  <td valign="top">
-   <dtl system-call $Data{"uptime"} = "uptime">
-   system call "uptime":
-  </td>
-  <td>
-<pre>
+  <tr>
+    <td valign="top">
+      <dtl system-call $Data{"uptime"} = "uptime">
+      system call "uptime":
+    </td>
+    <td>
+      <pre>
 $Data{"uptime"}
-</pre>
-  </td>
-</tr>
-<tr>
-  <td valign="top">
-   <dtl system-call $Data{"w"} = "w">
-   system call "w":
-  </td>
-  <td>
-<pre>
+      </pre>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <dtl system-call $Data{"w"} = "w">
+      system call "w":
+    </td>
+    <td>
+      <pre>
 $Data{"w"}
-</pre>
-  </td>
-</tr>
+      </pre>
+    </td>
+  </tr>
 </table>
 
 <hr>
@@ -192,33 +192,33 @@ $QData{"Text"} $Text{"Counter"}: $QData{"Counter"}
 
 <!-- dtl:block:System -->
 <table border="1">
-    <!-- dtl:block:User -->
+<!-- dtl:block:User -->
+  <tr>
+    <th valign="top">$Data{"Type"}</th>
+    <th valign="top">$Data{"Counter"}</th>
     <tr>
-        <th valign="top">$Data{"Type"}</th>
-        <th valign="top">$Data{"Counter"}</th>
-    <tr>
-    <!-- dtl:block:UserID -->
-    <tr>
+<!-- dtl:block:UserID -->
+      <tr>
         <td valign="top">$Data{"Type"}</td>
         <td valign="top">$Data{"Counter"}</td>
-    </tr>
-    <!-- dtl:block:UserID -->
-    <!-- dtl:block:UserIDA -->
-    <tr>
+      </tr>
+<!-- dtl:block:UserID -->
+<!-- dtl:block:UserIDA -->
+      <tr>
         <td valign="top">$Data{"Type"}</td>
         <td valign="top">$Data{"Counter"}</td>
-    </tr>
-    <!-- dtl:block:UserIDA -->
+      </tr>
+<!-- dtl:block:UserIDA -->
 
-    <!-- dtl:block:User -->
-    <!-- dtl:block:Times -->
-    <tr>
+<!-- dtl:block:User -->
+<!-- dtl:block:Times -->
+      <tr>
         <td valign="top">$Data{"Type"}</td>
         <td valign="top">$Data{"Counter"}</td>
-    </tr>
-    <!-- dtl:block:Times -->
-</table>
-<br>
+      </tr>
+<!-- dtl:block:Times -->
+    </table>
+    <br>
 <!-- dtl:block:System -->
 
 

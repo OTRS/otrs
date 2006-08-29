@@ -1,9 +1,9 @@
 # --
-# Kernel/System/Ticket/Permission/GroupCheck.pm - the sub module of 
+# Kernel/System/Ticket/Permission/GroupCheck.pm - the sub module of
 # the global ticket handle
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: GroupCheck.pm,v 1.4 2004-04-16 08:08:43 martin Exp $
+# $Id: GroupCheck.pm,v 1.5 2006-08-29 17:24:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Ticket::Permission::GroupCheck;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -24,16 +24,16 @@ sub new {
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     # get needed objects
     foreach (qw(ConfigObject LogObject DBObject TicketObject QueueObject UserObject GroupObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
-    
+
     return $Self;
-}   
+}
 # --
 sub Run {
     my $Self = shift;
@@ -49,7 +49,7 @@ sub Run {
     my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $Param{TicketID});
     # get ticket group
     my $GID = $Self->{QueueObject}->GetQueueGroupID(QueueID => $Ticket{QueueID});
-    # get user groups 
+    # get user groups
     my @GroupIDs = $Self->{GroupObject}->GroupMemberList(
         UserID => $Param{UserID},
         Type => $Param{Type},

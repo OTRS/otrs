@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminAutoResponse.pm - provides AdminAutoResponse HTML
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminAutoResponse.pm,v 1.16 2005-03-27 11:50:49 martin Exp $
+# $Id: AdminAutoResponse.pm,v 1.17 2006-08-29 17:17:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::AutoResponse;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -129,7 +129,7 @@ sub _Mask {
         Name => 'ValidID',
         SelectedID => $Param{ValidID},
     );
-    
+
     $Param{'AutoResponseOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
           $Self->{DBObject}->GetTableData(

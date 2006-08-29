@@ -1,8 +1,8 @@
 # --
 # Error.dtl - provides HTML Error screen
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Error.dtl,v 1.15 2005-10-31 20:11:26 martin Exp $
+# $Id: Error.dtl,v 1.16 2006-08-29 17:08:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,46 +11,46 @@
 
 <center>
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-<tr>
-  <td class="contenthead">
-  <p>
-   <font color="red" size="+1">$Text{"Error"}: $Data{"Message"}</font>
-  </p>
-  </td>
-</tr>
-<tr>
-  <td class="mainbody">
-    <table cellspacing="0" cellpadding="2" width="100%">
+  <tr>
+    <td class="contenthead">
+      <p>
+        <font color="red" size="+1">$Text{"Error"}: $Data{"Message"}</font>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td class="mainbody">
+      <table cellspacing="0" cellpadding="2" width="100%">
         <tr>
-            <td class="mainkey" width="100">$Text{"Comment"}:</td>
-            <td class="mainvalue">$Data{"Comment"}</td>
+          <td class="mainkey" width="100">$Text{"Comment"}:</td>
+          <td class="mainvalue">$Data{"Comment"}</td>
         </tr>
         <tr>
-            <td class="mainkey">$Text{"Bug Report"}:</td>
-            <td class="mainvalue">
-              <form action="http://bugs.otrs.org/enter_bug.cgi">
+          <td class="mainkey">$Text{"Bug Report"}:</td>
+          <td class="mainvalue">
+            <form action="http://bugs.otrs.org/enter_bug.cgi">
               <input type="hidden" name="comment" value="
-Message:
+              Message:
 $Data{"Message"}
 
-Comment:
+              Comment:
 $Data{"Comment"}
 
-Traceback:
+              Traceback:
 $Data{"BackendTraceback"}
-">
+              ">
               <input type="hidden" name="bug_file_loc" value="$QEnv{"SERVER_NAME"}$QEnv{"REQUEST_URI"}">
               <input class="button" type="submit" value="$Text{"Click here to report a bug!"}">
-              </form>
-            </td>
+            </form>
+          </td>
         </tr>
         <tr>
-            <td class="mainkey">$Text{"Traceback"}:</td>
-            <td class="mainvalue">$Data{"BackendTraceback"}</td>
+          <td class="mainkey">$Text{"Traceback"}:</td>
+          <td class="mainvalue">$Data{"BackendTraceback"}</td>
         </tr>
-    </table>
-  </td>
-</tr>
+      </table>
+    </td>
+  </tr>
 </table>
 
 </center>

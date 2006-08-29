@@ -1,8 +1,8 @@
 # --
 # Kernel/System/XMLMaster.pm - the global XMLMaster module for OTRS
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XMLMaster.pm,v 1.2 2005-12-20 23:31:46 martin Exp $
+# $Id: XMLMaster.pm,v 1.3 2006-08-29 17:30:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Main;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --

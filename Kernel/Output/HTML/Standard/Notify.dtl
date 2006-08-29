@@ -1,8 +1,8 @@
 # --
 # Notify.dtl - provides HTML Notify for AgentNotify.pm
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Notify.dtl,v 1.7 2005-07-23 08:53:23 martin Exp $
+# $Id: Notify.dtl,v 1.8 2006-08-29 17:10:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,29 +10,29 @@
 # --
 <!-- start Notify -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr align="left">
-  <td width="25" align="right" class="contentbody">
+  <tr align="left">
+    <td width="25" align="right" class="contentbody">
 <!-- dtl:block:Warning -->
-<img border="0" src="$Env{"Images"}warning.png" alt="$Text{"Info"}">
+      <img border="0" src="$Env{"Images"}warning.png" alt="$Text{"Info"}">
 <!-- dtl:block:Warning -->
 <!-- dtl:block:Error -->
-<img border="0" src="$Env{"Images"}error.png" alt="$Text{"Important"}">
+      <img border="0" src="$Env{"Images"}error.png" alt="$Text{"Important"}">
 <!-- dtl:block:Error -->
-  </td>
-  <td class="contentbody">:
+    </td>
+    <td class="contentbody">:
 <!-- dtl:block:LinkStart -->
-    <a href="$Data{"LinkStart"}">
+      <a href="$Data{"LinkStart"}">
 <!-- dtl:block:LinkStart -->
 <!-- dtl:block:Text -->
-    $Text{"$Data{"Info"}"}
+      $Text{"$Data{"Info"}"}
 <!-- dtl:block:Text -->
 <!-- dtl:block:Data -->
-    $Data{"Data"}
+      $Data{"Data"}
 <!-- dtl:block:Data -->
 <!-- dtl:block:LinkStop -->
-    </a>
+      </a>
 <!-- dtl:block:LinkStop -->
-  </td>
-</tr>
+    </td>
+  </tr>
 </table>
 <!-- end Notify -->

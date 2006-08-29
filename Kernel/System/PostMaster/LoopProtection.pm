@@ -1,11 +1,11 @@
 # --
 # Kernel/System/PostMaster/LoopProtection.pm - sub part of PostMaster.pm
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LoopProtection.pm,v 1.9 2003-02-08 15:09:40 martin Exp $
+# $Id: LoopProtection.pm,v 1.10 2006-08-29 17:27:30 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::LoopProtection;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub new {
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     # --
@@ -51,7 +51,7 @@ sub SendEmail {
     my %Param = @_;
     return $Self->{Backend}->SendEmail(%Param);
 }
-# -- 
+# --
 sub Check {
     my $Self = shift;
     my %Param = @_;

@@ -1,11 +1,11 @@
 # --
 # Kernel/System/PostMaster/LoopProtection/DB.pm - backend module of LoopProtection
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.4 2003-06-01 19:19:24 martin Exp $
+# $Id: DB.pm,v 1.5 2006-08-29 17:28:44 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::LoopProtection::DB;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub new {
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     # --
@@ -43,7 +43,7 @@ sub new {
     my ($Sec, $Min, $Hour, $Day, $Month, $Year) = localtime(time);
     $Year=$Year+1900;
     $Month++;
-    $Self->{LoopProtectionDate} .= $Year.'-'.$Month.'-'.$Day;    
+    $Self->{LoopProtectionDate} .= $Year.'-'.$Month.'-'.$Day;
 
     return $Self;
 }
@@ -56,7 +56,7 @@ sub SendEmail {
     # --
     # insert log
     # --
-    
+
     if ($Self->{DBObject}->Do(
         SQL => "INSERT INTO ticket_loop_protection (sent_to, sent_date)".
         " VALUES ('".$Self->{DBObject}->Quote($To)."', '$Self->{LoopProtectionDate}')",
@@ -74,7 +74,7 @@ sub SendEmail {
         return;
     }
 }
-# -- 
+# --
 sub Check {
     my $Self = shift;
     my %Param = @_;

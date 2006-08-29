@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/ArticleCheckSMIME.pm
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: ArticleCheckSMIME.pm,v 1.6 2006-03-18 20:45:30 martin Exp $
+# $Id: ArticleCheckSMIME.pm,v 1.7 2006-08-29 17:15:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,10 +15,9 @@ use strict;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -40,7 +39,7 @@ sub new {
     $Self->{CryptObject} = Kernel::System::Crypt->new(%Param, CryptType => 'SMIME');
     return $Self;
 }
-# --
+
 sub Check {
     my $Self = shift;
     my %Param = @_;
@@ -180,7 +179,7 @@ sub Check {
     }
     return @Return;
 }
-# --
+
 sub Filter {
     my $Self = shift;
     my %Param = @_;
@@ -192,5 +191,5 @@ sub Filter {
         $Param{Article}->{Body} =~ s/^-----END\sPKCS7-----//sm;
     }
 }
-# --
+
 1;

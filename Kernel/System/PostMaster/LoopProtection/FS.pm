@@ -1,11 +1,11 @@
 # --
 # Kernel/System/PostMaster/LoopProtection/FS.pm - backend module of LoopProtection
-# Copyright (C) 2002-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.4 2003-06-01 19:19:24 martin Exp $
+# $Id: FS.pm,v 1.5 2006-08-29 17:28:44 martin Exp $
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see 
-# the enclosed file COPYING for license information (GPL). If you 
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::LoopProtection::FS;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub new {
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     # --
@@ -35,7 +35,7 @@ sub new {
     # --
     # get config options
     # --
-    $Self->{LoopProtectionLog} = $Self->{ConfigObject}->Get('LoopProtectionLog') 
+    $Self->{LoopProtectionLog} = $Self->{ConfigObject}->Get('LoopProtectionLog')
         || die 'No Config option "LoopProtectionLog"!';
 
     $Self->{PostmasterMaxEmails} = $Self->{ConfigObject}->Get('PostmasterMaxEmails')
@@ -46,7 +46,7 @@ sub new {
     my ($Sec, $Min, $Hour, $Day, $Month, $Year) = localtime(time);
     $Year=$Year+1900;
     $Month++;
-    $Self->{LoopProtectionLog} .= '-'.$Year.'-'.$Month.'-'.$Day.'.log';    
+    $Self->{LoopProtectionLog} .= '-'.$Year.'-'.$Month.'-'.$Day.'.log';
 
     return $Self;
 }
@@ -61,11 +61,11 @@ sub SendEmail {
     # --
     open (DATA, ">> $Self->{LoopProtectionLog}") || die "Can't open $Self->{LoopProtectionLog}: $!";
     print DATA "$To;".localtime().";\n";
-    close (DATA);   
- 
+    close (DATA);
+
     return 1;
 }
-# -- 
+# --
 sub Check {
     my $Self = shift;
     my %Param = @_;
@@ -79,7 +79,7 @@ sub Check {
       # --
       # create new log file
       # --
-      open (DATA, "> $Self->{LoopProtectionLog}") || 
+      open (DATA, "> $Self->{LoopProtectionLog}") ||
         $Self->{LogObject}->Log(
           Priority => 'error',
           Message => "LoopProtection!!! Can't create '$Self->{LoopProtectionLog}': $!! ",

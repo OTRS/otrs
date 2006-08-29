@@ -1,8 +1,8 @@
 # --
-# Kernel/System/Permission.pm - to control the access permissions 
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Kernel/System/Permission.pm - to control the access permissions
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Permission.pm,v 1.11 2004-04-16 08:09:09 martin Exp $
+# $Id: Permission.pm,v 1.12 2006-08-29 17:30:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::Permission;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -23,7 +23,7 @@ sub new {
     my %Param = @_;
 
     # allocate new hash for object
-    my $Self = {}; 
+    my $Self = {};
     bless ($Self, $Type);
 
     foreach (keys %Param) {
@@ -35,7 +35,7 @@ sub new {
         die "Got no $_!" if (!$Self->{$_});
     }
 
-    # all sections <-> groups   
+    # all sections <-> groups
     $Self->{PermissionAdmin}   = 'admin';
     $Self->{PermissionAgent}   = 'users';
     $Self->{PermissionStats}   = 'stats';

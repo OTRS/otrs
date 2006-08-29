@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/Event/TicketFreeFieldDefault.pm - a event module for default ticket free text settings
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: TicketFreeFieldDefault.pm,v 1.1 2006-06-22 14:22:58 tr Exp $
+# $Id: TicketFreeFieldDefault.pm,v 1.2 2006-08-29 17:25:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::System::Ticket::Event::TicketFreeFieldDefault;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --

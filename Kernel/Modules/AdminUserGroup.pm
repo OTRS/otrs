@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminUserGroup.pm - to add/update/delete groups <-> users
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminUserGroup.pm,v 1.22 2005-03-27 11:50:50 martin Exp $
+# $Id: AdminUserGroup.pm,v 1.23 2006-08-29 17:17:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminUserGroup;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -221,7 +221,7 @@ sub MaskAdminUserGroupChangeForm {
             Text => $Param{Data}->{$_},
             HTMLQuote => 1,
             LanguageTranslation => 0,
-        ) || ''; 
+        ) || '';
         $Param{OptionStrg0} .= '<tr><td>';
         $Param{OptionStrg0} .= "<a href=\"$BaseLink"."Action=Admin$NeType&Subaction=Change&ID=$_\">$Param{Data}->{$_}</a></td>";
         foreach my $Type (@{$Self->{ConfigObject}->Get('System::Permission')}) {
@@ -241,7 +241,7 @@ sub MaskAdminUserGroupChangeForm {
     $Param{OptionStrg0} .= "</table>\n";
 
     return $Self->{LayoutObject}->Output(
-        TemplateFile => 'AdminUserGroupChangeForm', 
+        TemplateFile => 'AdminUserGroupChangeForm',
         Data => \%Param,
     );
 }
@@ -254,7 +254,7 @@ sub MaskAdminUserGroupForm {
     my $GroupData = $Param{GroupData};
     my %GroupDataTmp = %$GroupData;
     my $BaseLink = $Self->{LayoutObject}->{Baselink} . "Action=AdminUserGroup&";
-    
+
     foreach (sort {uc($UserDataTmp{$a}) cmp uc($UserDataTmp{$b})} keys %UserDataTmp){
         $UserDataTmp{$_} = $Self->{LayoutObject}->Ascii2Html(
             Text => $UserDataTmp{$_},
@@ -273,7 +273,7 @@ sub MaskAdminUserGroupForm {
     }
     # return output
     return $Self->{LayoutObject}->Output(
-        TemplateFile => 'AdminUserGroupForm', 
+        TemplateFile => 'AdminUserGroupForm',
         Data => \%Param,
     );
 }

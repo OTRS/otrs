@@ -1,8 +1,8 @@
 # --
 # Installer.dtl - provides HTML form for Installer
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Installer.dtl,v 1.8 2006-03-18 23:11:33 martin Exp $
+# $Id: Installer.dtl,v 1.9 2006-08-29 17:10:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -426,7 +426,7 @@ Public License instead of this License.
                   <td class="contentkey">$Text{"Type"}:</td>
                   <td class="contentvalue">
                     <select name="DBType">
-                    <option value="MySQL" selected="selected">MySQL</option>
+                      <option value="MySQL" selected="selected">MySQL</option>
                     </select>
                   </td>
                   <td class="contentvalue"></td>
@@ -581,8 +581,8 @@ Public License instead of this License.
                   <td class="contentkey">$Text{"CheckMXRecord"}:</td>
                   <td class="contentvalue">
                     <select name="CheckMXRecord">
-                    <option value="1" selected>$Text{"Yes"}</option>
-                    <option value="0">$Text{"No"}</option>
+                      <option value="1" selected>$Text{"Yes"}</option>
+                      <option value="0">$Text{"No"}</option>
                     </select>
                   </td>
                   <td class="contentvalue">
@@ -615,8 +615,8 @@ Public License instead of this License.
 $Text{"To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root."}
 
               <p>
-              <b>$Text{"Restart your webserver"}:</b><br>
-              <font color='red'>$Data{"Webserver"}</font>
+                <b>$Text{"Restart your webserver"}:</b><br>
+                <font color='red'>$Data{"Webserver"}</font>
               </p>
 
               <p>
@@ -624,33 +624,33 @@ $Text{"After doing so your OTRS is up and running."}
               </p>
 <!-- dtl:block:Restart -->
               <p>
-              <table>
-                <tr>
-                  <td class="contentkey">$Text{"Start page"}:</td>
-                  <td class="contentvalue">
-                    <a href="http://$Env{"HTTP_HOST"}/$Data{"OTRSHandle"}/index.pl">
-                    http://$Env{"HTTP_HOST"}/$Data{"OTRSHandle"}/index.pl
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"User"}:</td>
-                  <td class="contentvalue">root@localhost</td>
-                </tr>
-                <tr>
-                  <td class="contentkey">$Text{"Password"}:</td>
-                  <td class="contentvalue">root</td>
-                </tr>
-                <tr>
-                  <td class="contentkey" colspan="2"></td>
-                </tr>
-                <tr>
-                  <td class="contentkey" colspan="2">
-                    $Text{"Have a lot of fun!"}<br>
-                    $Text{"Your OTRS Team"}
-                  </td>
-                </tr>
-              </table>
+                <table>
+                  <tr>
+                    <td class="contentkey">$Text{"Start page"}:</td>
+                    <td class="contentvalue">
+                      <a href="http://$Env{"HTTP_HOST"}/$Data{"OTRSHandle"}/index.pl">
+                      http://$Env{"HTTP_HOST"}/$Data{"OTRSHandle"}/index.pl
+                      </a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="contentkey">$Text{"User"}:</td>
+                    <td class="contentvalue">root@localhost</td>
+                  </tr>
+                  <tr>
+                    <td class="contentkey">$Text{"Password"}:</td>
+                    <td class="contentvalue">root</td>
+                  </tr>
+                  <tr>
+                    <td class="contentkey" colspan="2"></td>
+                  </tr>
+                  <tr>
+                    <td class="contentkey" colspan="2">
+                      $Text{"Have a lot of fun!"}<br>
+                      $Text{"Your OTRS Team"}
+                    </td>
+                  </tr>
+                </table>
               </p>
             </td>
           </tr>

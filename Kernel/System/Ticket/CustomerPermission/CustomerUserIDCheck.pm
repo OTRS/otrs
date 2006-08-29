@@ -1,9 +1,9 @@
 # --
 # Kernel/System/Ticket/CustomerPermission/CustomerUserIDCheck.pm - the sub
 # module of the global ticket handle
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerUserIDCheck.pm,v 1.1 2004-10-02 08:18:23 martin Exp $
+# $Id: CustomerUserIDCheck.pm,v 1.2 2006-08-29 17:26:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::System::Ticket::CustomerPermission::CustomerUserIDCheck;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --

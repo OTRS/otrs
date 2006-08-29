@@ -1,8 +1,8 @@
 # --
 # NoPermission.dtl.dtl - provides HTML NoPermission screen
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: NoPermission.dtl,v 1.5 2004-10-14 10:52:04 martin Exp $
+# $Id: NoPermission.dtl,v 1.6 2006-08-29 17:10:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,23 +20,23 @@
 
 <center>
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-<tr>
-  <td class="contenthead">
-  <p>
-    <font color="red" size="+1">$Text{"No Permission"}!</font>
-  </p>
-  </td>
-</tr>
-<tr>
-  <td class="mainbody">
-    <table>
+  <tr>
+    <td class="contenthead">
+      <p>
+        <font color="red" size="+1">$Text{"No Permission"}!</font>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td class="mainbody">
+      <table>
         <tr>
-            <td class="mainkey">$Text{"Message"}:</td>
-            <td class="mainvalue">$Text{"$Data{"Message"}"}</td>
+          <td class="mainkey">$Text{"Message"}:</td>
+          <td class="mainvalue">$Text{"$Data{"Message"}"}</td>
         </tr>
-    </table>
-    <a href="$Env{"Baselink"}" onclick="history.back(); return false;">$Text{"Back"}</a>
-  </td>
-</tr>
+      </table>
+      <a href="$Env{"Baselink"}" onclick="history.back(); return false;">$Text{"Back"}</a>
+    </td>
+  </tr>
 </table>
 </center>

@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster/Filter.pm - all functions to add/delete/list pm db filters
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Filter.pm,v 1.6 2005-11-12 12:26:38 martin Exp $
+# $Id: Filter.pm,v 1.7 2006-08-29 17:27:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PostMaster::Filter;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -213,6 +213,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2005-11-12 12:26:38 $
+$Revision: 1.7 $ $Date: 2006-08-29 17:27:30 $
 
 =cut

@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminResponse.pm - provides admin std response module
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminResponse.pm,v 1.16 2005-03-27 11:50:50 martin Exp $
+# $Id: AdminResponse.pm,v 1.17 2006-08-29 17:17:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::StdResponse;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -51,7 +51,7 @@ sub Run {
     my $Self = shift;
     my %Param = @_;
     my $Output = '';
-    $Param{Subaction} = $Self->{Subaction} || ''; 
+    $Param{Subaction} = $Self->{Subaction} || '';
     $Param{NextScreen} = 'AdminResponse';
 
     my @Params = ('ID', 'Name', 'Comment', 'ValidID', 'Response');
@@ -86,7 +86,7 @@ sub Run {
     }
     # update action
     elsif ($Param{Subaction} eq 'ChangeAction') {
-        if ($Self->{StdResponseObject}->StdResponseUpdate(%GetParam, UserID => $Self->{UserID})) { 
+        if ($Self->{StdResponseObject}->StdResponseUpdate(%GetParam, UserID => $Self->{UserID})) {
             # --
             # update attachments to response
             # --
@@ -152,10 +152,10 @@ sub Run {
 sub _Mask {
     my $Self = shift;
     my %Param = @_;
- 
+
     # build ValidID string
     $Param{'ValidOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => { 
+        Data => {
           $Self->{DBObject}->GetTableData(
             What => 'id, name',
             Table => 'valid',

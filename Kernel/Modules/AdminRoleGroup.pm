@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminRoleGroup.pm - to add/update/delete role <-> groups
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminRoleGroup.pm,v 1.5 2005-03-27 11:50:50 martin Exp $
+# $Id: AdminRoleGroup.pm,v 1.6 2006-08-29 17:17:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::AdminRoleGroup;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.5 $';
+$VERSION = '$Revision: 1.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -206,7 +206,7 @@ sub MaskAdminUserGroupChangeForm {
             Text => $Param{Data}->{$_},
             HTMLQuote => 1,
             LanguageTranslation => 0,
-        ) || ''; 
+        ) || '';
         $Param{OptionStrg0} .= '<tr><td>';
         $Param{OptionStrg0} .= "<a href=\"$BaseLink"."Action=Admin$NeType&Subaction=Change&ID=$_\">$Param{Data}->{$_}</a></td>";
         foreach my $Type (@{$Self->{ConfigObject}->Get('System::Permission')}) {

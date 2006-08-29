@@ -1,8 +1,8 @@
 # --
-# Kernel/Modules/CustomerTicketAttachment.pm - to get the attachments 
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Kernel/Modules/CustomerTicketAttachment.pm - to get the attachments
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketAttachment.pm,v 1.1 2005-03-27 11:35:56 martin Exp $
+# $Id: CustomerTicketAttachment.pm,v 1.2 2006-08-29 17:17:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Modules::CustomerTicketAttachment;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -22,7 +22,7 @@ sub new {
     my $Type = shift;
     my %Param = @_;
 
-    # allocate new hash for object 
+    # allocate new hash for object
     my $Self = {};
     bless ($Self, $Type);
 
@@ -85,14 +85,14 @@ sub Run {
         UserID => $Self->{UserID})) {
         # error screen, don't show ticket
         return $Self->{LayoutObject}->CustomerNoPermission(WithHeader => 'yes');
-    }  
+    }
 
-    # geta attachment 
+    # geta attachment
     if (my %Data = $Self->{TicketObject}->ArticleAttachment(
         ArticleID => $Self->{ArticleID},
         FileID => $Self->{FileID},
     )) {
-        return $Self->{LayoutObject}->Attachment(%Data);  
+        return $Self->{LayoutObject}->Attachment(%Data);
     }
     else {
         $Output .= $Self->{LayoutObject}->CustomerHeader(Title => 'Error');
