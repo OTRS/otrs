@@ -108,7 +108,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.112 2006-08-27 22:01:15 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.113 2006-08-29 13:26:49 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -265,6 +265,15 @@ TimeWorkingHours
                 <Item Key="host1\.example\.com">SomeTheme1</Item>
                 <Item Key="host2\.example\.com">SomeTheme2</Item>
             </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::ImagePath" Required="1" Valid="1">
+        <Description Lang="en">URL image path of icons for navigation.</Description>
+        <Description Lang="de">URL Bildverzeichnis der Icons fuer Navigation.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Web</SubGroup>
+        <Setting>
+            <String Regex="">/otrs-web/images/Standard/</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DefaultViewNewLine" Required="1" Valid="1">
@@ -2622,6 +2631,24 @@ TimeWorkingHours
         <SubGroup>Core::Package</SubGroup>
         <Setting>
             <String Regex="">http://proxy.sn.no:8001/</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="SOAP::User" Required="0" Valid="0">
+        <Description Lang="en">The user name to access the SOAP handle (bin/cgi-bin/rpc.pl).</Description>
+        <Description Lang="de">Der Benutzername um die SOAP Schnitstelle benutzen zu koennen (bin/cgi-bin/rpc.pl).</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::SOAP</SubGroup>
+        <Setting>
+            <String Regex="">some_user</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="SOAP::Password" Required="0" Valid="0">
+        <Description Lang="en">The password to access the SOAP handle (bin/cgi-bin/rpc.pl).</Description>
+        <Description Lang="de">Das Passwort um die SOAP Schnitstelle benutzen zu koennen (bin/cgi-bin/rpc.pl).</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::SOAP</SubGroup>
+        <Setting>
+            <String Regex="">some_pass</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PDF" Required="1" Valid="1">

@@ -2,15 +2,22 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.284 2006-08-27 21:23:09 martin Exp $
+# $Id: CHANGES,v 1.285 2006-08-29 13:26:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
-2.1.0 beta2 (2006/??/??)
+2.1.0 beta2 (2006/08/29)
+ - (2006/08/29) moved Frontend::ImagePath (/otrs-web/images/Standard/) to
+    config option
+ - (2006/08/28) added SOAP examples (bin/cgi-bin/rpc.pl and
+    scripts/soap-examlple.pl)
+ - (2006/08/27) added mulit calendar / queue support - you can use different
+    time zones in different queues and each agent can select the own time zone
  - (2006/08/27) fixed bug #739 - in the login you can type something behind the
-    pass and it works / added password md5 support
+    pass and it works / added password md5 support (required Crypt::PasswdMD5
+    from CPAN or from Kernel/cpan-lib/ - via "cvs update -d")
  - (2006/08/26) fixed $Quote{""} bug in login page
  - (2006/08/25) fixed bug #1284 - removed mysql dependence' in
     scripts/apache-perl-startup.pl and scripts/apache2-perl-startup.sql
