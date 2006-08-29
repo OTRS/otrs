@@ -1,8 +1,8 @@
 # --
 # Error.dtl - provides HTML Error screen
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerError.dtl,v 1.5 2005-03-11 06:00:09 martin Exp $
+# $Id: CustomerError.dtl,v 1.6 2006-08-29 16:56:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,27 +11,27 @@
 
 <center>
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-<tr>
-  <td class="mainhead">
-  <p>
-   <font color="red" size="+1">$Text{"Error"}: $Data{"Message"}</font>
-  </p>
-  </td>
-</tr>
-<tr>
-  <td class="menu">
-    <table cellspacing="0" cellpadding="2" width="100%">
+  <tr>
+    <td class="mainhead">
+      <p>
+        <font color="red" size="+1">$Text{"Error"}: $Data{"Message"}</font>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td class="menu">
+      <table cellspacing="0" cellpadding="2" width="100%">
         <tr>
-            <td class="menu" valign="top" width="100"><b>$Text{"Comment"}:</b></td>
-            <td class="menu" valign="top">$Data{"Comment"}</td>
+          <td class="menu" valign="top" width="100"><b>$Text{"Comment"}:</b></td>
+          <td class="menu" valign="top">$Data{"Comment"}</td>
         </tr>
         <tr>
-            <td class="mainbody" valign="top"><b>$Text{"Traceback"}:</b></td>
-            <td class="mainbody" valign="top">$Data{"BackendTraceback"}</td>
+          <td class="mainbody" valign="top"><b>$Text{"Traceback"}:</b></td>
+          <td class="mainbody" valign="top">$Data{"BackendTraceback"}</td>
         </tr>
-    </table>
-  </td>
-</tr>
+      </table>
+    </td>
+  </tr>
 </table>
 
 </center>

@@ -1,8 +1,8 @@
 # --
 # AdminPostMasterFilter.dtl - provides HTML form for AdminSystemAddess
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPostMasterFilter.dtl,v 1.12 2006-02-28 06:05:05 martin Exp $
+# $Id: AdminPostMasterFilter.dtl,v 1.13 2006-08-29 16:56:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -181,38 +181,38 @@
       <tr>
         <td class="mainbody">
           <p>
-          $Text{"Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible."}
-          <br>
-          $Text{"If you use RegExp, you also can use the matched value in () as [***] in 'Set'."}
+            $Text{"Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible."}
+            <br>
+            $Text{"If you use RegExp, you also can use the matched value in () as [***] in 'Set'."}
           </p>
           <p>
-          $Text{"Example"}:
-          <hr>
-          <form action="/">
-            $Text{"Match"}
-            <table>
-              <tr>
-                <td>$Text{"Header"} 1: </td>
-                <td> <select name="MatchHeader1">
-                  <option value="">-</option>
-                  <option value="Cc">Cc</option>
-                  <option value="From">From</option>
-                  <option value="In-Reply-To">In-Reply-To</option>
+            $Text{"Example"}:
+            <hr>
+            <form action="/">
+              $Text{"Match"}
+              <table>
+                <tr>
+                  <td>$Text{"Header"} 1: </td>
+                  <td> <select name="MatchHeader1">
+                    <option value="">-</option>
+                    <option value="Cc">Cc</option>
+                    <option value="From">From</option>
+                    <option value="In-Reply-To">In-Reply-To</option>
 
-                  <option value="List-Id">List-Id</option>
-                  <option value="Mailing-List">Mailing-List</option>
-                  <option value="Message-ID">Message-ID</option>
+                    <option value="List-Id">List-Id</option>
+                    <option value="Mailing-List">Mailing-List</option>
+                    <option value="Message-ID">Message-ID</option>
 
-                  <option value="Reply-To">Reply-To</option>
-                  <option value="ReplyTo">ReplyTo</option>
-                  <option value="Resent-From">Resent-From</option>
-                  <option value="Resent-To">Resent-To</option>
-                  <option value="Subject">Subject</option>
-                  <option selected value="To">To</option>
+                    <option value="Reply-To">Reply-To</option>
+                    <option value="ReplyTo">ReplyTo</option>
+                    <option value="Resent-From">Resent-From</option>
+                    <option value="Resent-To">Resent-To</option>
+                    <option value="Subject">Subject</option>
+                    <option selected value="To">To</option>
 
-                  <option value="X-Loop">X-Loop</option>
-                  <option value="X-No-Loop">X-No-Loop</option>
-                  <option value="X-OTRS-ArticleKey1">X-OTRS-ArticleKey1</option>
+                    <option value="X-Loop">X-Loop</option>
+                    <option value="X-No-Loop">X-No-Loop</option>
+                    <option value="X-OTRS-ArticleKey1">X-OTRS-ArticleKey1</option>
 
                   </select></td>
                   <td>$Text{"Value"}: </td>
@@ -245,15 +245,15 @@
                     <option value="X-OTRS-ArticleKey1">X-OTRS-ArticleKey1</option>
                     <option selected value="X-OTRS-Queue">X-OTRS-Queue</option>
 
-                    </select></td>
-                    <td>$Text{"Value"}: </td>
-                    <td> <input type="text" name="Value1" value="SomeQueue" size="30" maxlength="50"></td>
-                  </tr>
-                </table>
-              </form>
-              <hr>
-              </p>
-            </td>
-          </tr>
-        </table>
+                  </select></td>
+                  <td>$Text{"Value"}: </td>
+                  <td> <input type="text" name="Value1" value="SomeQueue" size="30" maxlength="50"></td>
+                </tr>
+              </table>
+            </form>
+            <hr>
+          </p>
+        </td>
+      </tr>
+    </table>
 <!-- dtl:block:Overview -->

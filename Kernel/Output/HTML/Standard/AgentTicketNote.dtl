@@ -1,8 +1,8 @@
 # --
 # AgentTicketNote.dtl - provides HTML form for note mask
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketNote.dtl,v 1.15 2006-03-28 04:54:10 martin Exp $
+# $Id: AgentTicketNote.dtl,v 1.16 2006-08-29 16:56:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you

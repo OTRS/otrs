@@ -1,9 +1,9 @@
 # --
 # CustomerStatusView.dtl - html for ticket status view (all tickets)
 # Copyright (C) 2002 Phil Davis <phil.davis at itaction.co.uk>
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerStatusView.dtl,v 1.22 2006-04-05 06:57:06 tr Exp $
+# $Id: CustomerStatusView.dtl,v 1.23 2006-08-29 16:56:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you

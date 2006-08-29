@@ -1,8 +1,8 @@
 # --
 # AdminResponseAttachmentForm.dtl - provides HTML form for AdminResponseAttachment
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminResponseAttachmentForm.dtl,v 1.6 2005-10-20 21:25:36 martin Exp $
+# $Id: AdminResponseAttachmentForm.dtl,v 1.7 2006-08-29 16:56:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,41 +10,41 @@
 # --
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
-<tr>
-  <td class="mainhead">
-    $Env{"Box0"}$Text{"Responses <-> Attachments Management"}$Env{"Box1"}
-  </td>
-</tr>
-<tr>
-  <td align="center" class="mainbody">
-
-  <br>
-
-  <table cellspacing="0" cellpadding="4" border="0" width="700">
-  <tr class="contenthead">
-    <td width="50%">
-      $Text{"Response"}:$Text{"Attachment"} (1:n)
-    </td>
-    <td width="50%">
-      $Text{"Response"}:$Text{"Attachment"} (n:1)
+  <tr>
+    <td class="mainhead">
+      $Env{"Box0"}$Text{"Responses <-> Attachments Management"}$Env{"Box1"}
     </td>
   </tr>
-  <tr class="contentbody">
-    <td align="left">
-      $Data{"AnswerQueueStrg"}
-    </td>
-    <td align="left">
-      $Data{"QueueAnswerStrg"}
+  <tr>
+    <td align="center" class="mainbody">
+
+      <br>
+
+      <table cellspacing="0" cellpadding="4" border="0" width="700">
+        <tr class="contenthead">
+          <td width="50%">
+            $Text{"Response"}:$Text{"Attachment"} (1:n)
+          </td>
+          <td width="50%">
+            $Text{"Response"}:$Text{"Attachment"} (n:1)
+          </td>
+        </tr>
+        <tr class="contentbody">
+          <td align="left">
+            $Data{"AnswerQueueStrg"}
+          </td>
+          <td align="left">
+            $Data{"QueueAnswerStrg"}
+          </td>
+        </tr>
+        <tr class="contentfooter">
+          <td class="contentvalue" colspan="2">&nbsp;</td>
+        </tr>
+      </table>
+
+      <br>
+
     </td>
   </tr>
-  <tr class="contentfooter">
-    <td class="contentvalue" colspan="2">&nbsp;</td>
-  </tr>
-  </table>
-
-  <br>
-
-  </td>
-</tr>
 </table>
 <!-- end form -->

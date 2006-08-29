@@ -1,8 +1,8 @@
 # --
 # AgentLookup.dtl - provides HTML form for AgentLookup
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentLookup.dtl,v 1.2 2005-09-04 16:41:01 martin Exp $
+# $Id: AgentLookup.dtl,v 1.3 2006-08-29 16:56:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -35,37 +35,38 @@ function updateMessage(x)
 </script>
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
-<tr>
-  <td align="left" class="mainhead">
-    $Env{"Box0"}$Text{"Lookup"}$Env{"Box1"}
-  </td>
-</tr>
-<tr>
-  <td align="left" valign="top" class="mainbody">
+  <tr>
+    <td align="left" class="mainhead">
+      $Env{"Box0"}$Text{"Lookup"}$Env{"Box1"}
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" class="mainbody">
 
-  <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="lookup">
-  <input type="hidden" name="Action" value="$Env{"Action"}">
-  <input type="hidden" name="Source" value="$Data{"Source"}">
-  <input type="hidden" name="What" value="$Data{"What"}">
+      <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="lookup">
+        <input type="hidden" name="Action" value="$Env{"Action"}">
+        <input type="hidden" name="Source" value="$Data{"Source"}">
+        <input type="hidden" name="What" value="$Data{"What"}">
 
-<hr>
-<table border="0" cellspacing="0" cellpadding="1">
-<tr>
-  <td>
-    <input type="text" name="Search" value="$Data{"Search"}" size="40">
-    <input class="button" type="submit" value="$Text{"Search"}">
-    <input class="button" type="reset" value="$Text{"Reset"}">
-    <input class="button" type="button" onclick="window.close();" value="$Text{"Cancel"}">
-  </td>
-</tr>
-</table>
+        <hr>
+        <table border="0" cellspacing="0" cellpadding="1">
+          <tr>
+            <td>
+              <input type="text" name="Search" value="$Data{"Search"}" size="40">
+              <input class="button" type="submit" value="$Text{"Search"}">
+              <input class="button" type="reset" value="$Text{"Reset"}">
+              <input class="button" type="button" onclick="window.close();" value="$Text{"Cancel"}">
+            </td>
+          </tr>
+        </table>
 
-<table border="0" cellspacing="2" cellpadding="2">
+        <table border="0" cellspacing="2" cellpadding="2">
 $Data{"Table"}
-</table>
+        </table>
 
-<hr>
-  </td>
-</tr>
+      </form>
+      <hr>
+    </td>
+  </tr>
 </table>
 <!-- end Spelling form -->

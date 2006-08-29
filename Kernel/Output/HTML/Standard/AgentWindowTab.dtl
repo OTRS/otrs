@@ -1,8 +1,8 @@
 # --
 # AgentWindowTab.dtl - provides HTML form for window tabs
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentWindowTab.dtl,v 1.1 2006-02-16 15:54:54 tr Exp $
+# $Id: AgentWindowTab.dtl,v 1.2 2006-08-29 16:56:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -28,8 +28,8 @@
                       <tr>
                         <td class="tab$Data{"Active"}">
                           <p align="center">
-                          <input class="tab$Data{"Active"}" type="submit" value="$Text{"$Data{"Text"}"}" name="$Data{"Name"}">
-                          <img border="0" src="$Env{"Images"}$Data{"Image"}">
+                            <input class="tab$Data{"Active"}" type="submit" value="$Text{"$Data{"Text"}"}" name="$Data{"Name"}">
+                            <img border="0" src="$Env{"Images"}$Data{"Image"}">
                           </p>
                         </td>
                       </tr>

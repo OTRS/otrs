@@ -1,8 +1,8 @@
 # --
 # CustomerTicketSearchResultPrint.dtl - html for ticket status view (all tickets)
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketSearchResultPrint.dtl,v 1.4 2005-02-15 12:06:39 martin Exp $
+# $Id: CustomerTicketSearchResultPrint.dtl,v 1.5 2006-08-29 16:56:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,28 +18,28 @@
 </table>
 
 <table border="0" width="100%" cellspacing="0" cellpadding="4">
-<tr>
- <td class="contentbody">
-<table border="0" width="100%" cellspacing="0" cellpadding="3" cols="5">
-<tr>
- <td width="15%" class="contentkey">$Config{"Ticket::Hook"}</td>
- <td width="15%" class="contentkey">$Text{"Created"}</td>
- <td width="25%" class="contentkey">$Text{"From"}/$Text{"Subject"}</td>
- <td width="15%" class="contentkey">$Text{"State"}/$Text{"Queue"}</td>
- <td width="15%" class="contentkey">$Text{"CustomerID"}</td>
-</tr>
+  <tr>
+    <td class="contentbody">
+      <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="5">
+        <tr>
+          <td width="15%" class="contentkey">$Config{"Ticket::Hook"}</td>
+          <td width="15%" class="contentkey">$Text{"Created"}</td>
+          <td width="25%" class="contentkey">$Text{"From"}/$Text{"Subject"}</td>
+          <td width="15%" class="contentkey">$Text{"State"}/$Text{"Queue"}</td>
+          <td width="15%" class="contentkey">$Text{"CustomerID"}</td>
+        </tr>
 <!-- dtl:block:Record -->
-<tr>
- <td class="contentvalue">$Data{"TicketNumber"}</td>
- <td class="contentvalue">$TimeLong{"$Data{"Created"}"}</td>
- <td class="contentvalue">$QData{"From","30"}<br>$QData{"Subject","30"}</td>
- <td class="contentvalue">$Quote{"$Text{"$Data{"State"}"}","30"}<br>$QData{"Queue","30"}</td>
- <td class="contentvalue">$QData{"CustomerID","15"}&nbsp;<br>$QData{"CustomerName","15"}</td>
-</tr>
+        <tr>
+          <td class="contentvalue">$Data{"TicketNumber"}</td>
+          <td class="contentvalue">$TimeLong{"$Data{"Created"}"}</td>
+          <td class="contentvalue">$QData{"From","30"}<br>$QData{"Subject","30"}</td>
+          <td class="contentvalue">$Quote{"$Text{"$Data{"State"}"}","30"}<br>$QData{"Queue","30"}</td>
+          <td class="contentvalue">$QData{"CustomerID","15"}&nbsp;<br>$QData{"CustomerName","15"}</td>
+        </tr>
 <!-- dtl:block:Record -->
-</table>
+      </table>
 
- </td>
-</tr>
+    </td>
+  </tr>
 </table>
 <!-- end form -->

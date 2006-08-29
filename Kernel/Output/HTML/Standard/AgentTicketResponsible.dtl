@@ -1,8 +1,8 @@
 # --
 # AgentTicketResponsible.dtl - set ticket responsible
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketResponsible.dtl,v 1.3 2006-03-28 04:54:10 martin Exp $
+# $Id: AgentTicketResponsible.dtl,v 1.4 2006-08-29 16:56:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you

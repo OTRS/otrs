@@ -1,8 +1,8 @@
 # --
 # AdminGroupForm.dtl - provides HTML form for AdminGroup
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminGroupForm.dtl,v 1.15 2004-10-18 19:23:05 martin Exp $
+# $Id: AdminGroupForm.dtl,v 1.16 2006-08-29 16:56:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,108 +10,108 @@
 # --
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr>
-  <td colspan="2" class="mainhead">
-    $Env{"Box0"}$Text{"Group Management"}$Env{"Box1"}
-  </td>
-</tr>
-<tr>
-  <td width="40%" class="mainbody">
-
-  <form action="$Env{"CGIHandle"}" method="post">
-  <input type="hidden" name="Action" value="$Env{"Action"}">
-  <input type="hidden" name="Subaction" value="Change">
-  <table width="100%" cellspacing="0" cellpadding="4">
   <tr>
-    <td class="contenthead">$Text{"Change"}:</td>
-  </tr>
-  <tr>
-    <td class="contentbody">
-    $Data{"GroupOption"}
+    <td colspan="2" class="mainhead">
+      $Env{"Box0"}$Text{"Group Management"}$Env{"Box1"}
     </td>
   </tr>
   <tr>
-    <td class="contentfooter">
-    <input class="button" type="submit" value="$Text{"Change"}">
-    </td>
-  </tr>
-  </table>
-  </form>
+    <td width="40%" class="mainbody">
 
-  </td>
-  <td width="60%" class="mainbody">
+      <form action="$Env{"CGIHandle"}" method="post">
+        <input type="hidden" name="Action" value="$Env{"Action"}">
+        <input type="hidden" name="Subaction" value="Change">
+        <table width="100%" cellspacing="0" cellpadding="4">
+          <tr>
+            <td class="contenthead">$Text{"Change"}:</td>
+          </tr>
+          <tr>
+            <td class="contentbody">
+              $Data{"GroupOption"}
+            </td>
+          </tr>
+          <tr>
+            <td class="contentfooter">
+              <input class="button" type="submit" value="$Text{"Change"}">
+            </td>
+          </tr>
+        </table>
+      </form>
+
+    </td>
+    <td width="60%" class="mainbody">
 
 # --
 # check subaction
 # --
-<dtl set $Data{"Headline"} = "Add">
-<dtl if ($Env{"Subaction"} eq "Change") { $Data{"Headline"} = "Update"; }>
+      <dtl set $Data{"Headline"} = "Add">
+      <dtl if ($Env{"Subaction"} eq "Change") { $Data{"Headline"} = "Update"; }>
 # set subaction!
-<dtl if ($Env{"Subaction"} eq "") { $Env{"Subaction"} = "Add"; }>
+      <dtl if ($Env{"Subaction"} eq "") { $Env{"Subaction"} = "Add"; }>
 # check add link
-<dtl if ($Env{"Subaction"} eq "Change") { $Data{"AddLink"} = "(Click here to add)"; }>
+      <dtl if ($Env{"Subaction"} eq "Change") { $Data{"AddLink"} = "(Click here to add)"; }>
 # --
-  <form action="$Env{"CGIHandle"}" method="post">
-  <input type="hidden" name="Action" value="$Env{"Action"}">
-  <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
-  <input type="hidden" name="ID" value="$Data{"ID"}">
-  <table width="100%" cellspacing="0" cellpadding="4">
-  <tr>
-    <td class="contenthead">
-    $Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}Action=AdminGroup">$Text{"$Data{"AddLink"}"}</a>:</td>
-  </tr>
-  <tr>
-    <td class="contentbody">
+      <form action="$Env{"CGIHandle"}" method="post">
+        <input type="hidden" name="Action" value="$Env{"Action"}">
+        <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action">
+        <input type="hidden" name="ID" value="$Data{"ID"}">
+        <table width="100%" cellspacing="0" cellpadding="4">
+          <tr>
+            <td class="contenthead">
+              $Text{"$Data{"Headline"}"} <a href="$Env{"Baselink"}Action=AdminGroup">$Text{"$Data{"AddLink"}"}</a>:</td>
+            </tr>
+            <tr>
+              <td class="contentbody">
 
-    <table border="0" cellspacing="0" cellpadding="3">
-    <tr>
-      <td class="contentkey">$Text{"Name"}: </td>
-      <td class="contentvalue"> <input type="text" name="Name" value="$QData{"Name"}" size="50" maxlength="50"></td>
-    </tr>
-    <tr>
-      <td class="contentkey">$Text{"Valid"}: </td>
-      <td class="contentvalue"> $Data{"ValidOption"}</td>
-    </tr>
-    <tr>
-      <td class="contentkey">$Text{"Comment"}: </td>
-      <td class="contentvalue"> <input type="text" name="Comment" value="$QData{"Comment"}" size="50" maxlength="70"></td>
-    </tr>
-    </table>
+                <table border="0" cellspacing="0" cellpadding="3">
+                  <tr>
+                    <td class="contentkey">$Text{"Name"}: </td>
+                    <td class="contentvalue"> <input type="text" name="Name" value="$QData{"Name"}" size="50" maxlength="50"></td>
+                  </tr>
+                  <tr>
+                    <td class="contentkey">$Text{"Valid"}: </td>
+                    <td class="contentvalue"> $Data{"ValidOption"}</td>
+                  </tr>
+                  <tr>
+                    <td class="contentkey">$Text{"Comment"}: </td>
+                    <td class="contentvalue"> <input type="text" name="Comment" value="$QData{"Comment"}" size="50" maxlength="70"></td>
+                  </tr>
+                </table>
 
-    </td>
-  </tr>
-  <tr>
-    <td class="contentfooter">
-    <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}">
-    </td>
-  </tr>
+              </td>
+            </tr>
+            <tr>
+              <td class="contentfooter">
+                <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}">
+              </td>
+            </tr>
+          </table>
+        </form>
+
+      </td>
+    </tr>
   </table>
-  </form>
-
-  </td>
-</tr>
-</table>
 <!-- end form -->
 
 <!-- start note -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
-<tr>
-  <td class="mainhead">
-    $Env{"Box0"}$Text{"Note"}$Env{"Box1"}
-  </td>
-</tr>
-<tr>
-  <td class="mainbody">
-  <p>
-  $Text{"The admin group is to get in the admin area and the stats group to get stats area."}
-  </p>
-  <p>
-  $Text{"Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...)."}
-  </p>
-  <p>
-  $Text{"It's useful for ASP solutions."}
-  </p>
-  </td>
-</tr>
-</table>
+  <table border="0" width="100%" cellspacing="0" cellpadding="3">
+    <tr>
+      <td class="mainhead">
+        $Env{"Box0"}$Text{"Note"}$Env{"Box1"}
+      </td>
+    </tr>
+    <tr>
+      <td class="mainbody">
+        <p>
+          $Text{"The admin group is to get in the admin area and the stats group to get stats area."}
+        </p>
+        <p>
+          $Text{"Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...)."}
+        </p>
+        <p>
+          $Text{"It's useful for ASP solutions."}
+        </p>
+      </td>
+    </tr>
+  </table>
 <!-- end note -->

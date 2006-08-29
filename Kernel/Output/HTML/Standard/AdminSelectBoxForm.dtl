@@ -1,8 +1,8 @@
 # --
 # AdminSelectBoxForm.dtl - provides HTML form for SelectBox
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminSelectBoxForm.dtl,v 1.16 2005-10-13 07:17:30 martin Exp $
+# $Id: AdminSelectBoxForm.dtl,v 1.17 2006-08-29 16:56:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,67 +10,67 @@
 # --
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
-<tr>
-  <td class="mainhead">
-    $Env{"Box0"}$Text{"Select Box"}$Env{"Box1"}
-  </td>
-</tr>
-<tr>
-  <td align="center" class="mainbody">
+  <tr>
+    <td class="mainhead">
+      $Env{"Box0"}$Text{"Select Box"}$Env{"Box1"}
+    </td>
+  </tr>
+  <tr>
+    <td align="center" class="mainbody">
 
-  <br>
+      <br>
 
-<form action="$Env{"CGIHandle"}" method="post">
-<input type="hidden" name="Action" value="$Env{"Action"}">
-<input type="hidden" name="Subaction" value="Select">
-<table cellspacing="0" cellpadding="4" border="0" width="700">
-<tr class="contenthead">
-  <td colspan="2">$Text{"Options"}</td>
-</tr>
-<tr class="contentbody">
-  <td width="15%" class="contentkey">$Text{"SQL"}:</td>
-  <td width="85%" class="contentvalue"><textarea name="SQL" rows="3" cols="75">$QData{"SQL"}</textarea></td>
-</tr>
-<tr class="contentbody">
-  <td class="contentkey">$Text{"Limit"}:</td>
-  <td class="contentvalue"><input type="text" name="Max" value="$QData{"Max"}" size="2"></td>
-</tr>
-<tr class="contentfooter">
-  <td colspan="2" class="contentkey"><input class="button" type="submit" value="$Text{"go"}"></td>
-</tr>
-</table>
-</form>
+      <form action="$Env{"CGIHandle"}" method="post">
+        <input type="hidden" name="Action" value="$Env{"Action"}">
+        <input type="hidden" name="Subaction" value="Select">
+        <table cellspacing="0" cellpadding="4" border="0" width="700">
+          <tr class="contenthead">
+            <td colspan="2">$Text{"Options"}</td>
+          </tr>
+          <tr class="contentbody">
+            <td width="15%" class="contentkey">$Text{"SQL"}:</td>
+            <td width="85%" class="contentvalue"><textarea name="SQL" rows="3" cols="75">$QData{"SQL"}</textarea></td>
+          </tr>
+          <tr class="contentbody">
+            <td class="contentkey">$Text{"Limit"}:</td>
+            <td class="contentvalue"><input type="text" name="Max" value="$QData{"Max"}" size="2"></td>
+          </tr>
+          <tr class="contentfooter">
+            <td colspan="2" class="contentkey"><input class="button" type="submit" value="$Text{"go"}"></td>
+          </tr>
+        </table>
+      </form>
 
-  <br>
+      <br>
 
-  </td>
-</tr>
+    </td>
+  </tr>
 </table>
 <!-- end form -->
 
 <!-- dtl::block::Result -->
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-<tr>
-  <td class="mainhead">
-    $Env{"Box0"}$Text{"Select Box Result"}$Env{"Box1"}
-  </td>
-</tr>
+  <tr>
+    <td class="mainhead">
+      $Env{"Box0"}$Text{"Select Box Result"}$Env{"Box1"}
+    </td>
+  </tr>
 
-<tr>
-  <td class="mainbody">
+  <tr>
+    <td class="mainbody">
 
-<table width="100%" cellspacing="0" cellpadding="3" border="0">
+      <table width="100%" cellspacing="0" cellpadding="3" border="0">
 <!-- dtl:block:Row -->
-<dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "active"; }>
-<tr class="search$Env{"Color"}">$Data{"Result"}</tr>
-<dtl if ($Env{"Color"} eq "passive") { $Env{"Color"} = ""; }>
-<dtl if ($Env{"Color"} eq "active") { $Env{"Color"} = "passive"; }>
+        <dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "active"; }>
+        <tr class="search$Env{"Color"}">$Data{"Result"}</tr>
+        <dtl if ($Env{"Color"} eq "passive") { $Env{"Color"} = ""; }>
+        <dtl if ($Env{"Color"} eq "active") { $Env{"Color"} = "passive"; }>
 <!-- dtl:block:Row -->
-</table>
+      </table>
 
-  </td>
-</tr>
+    </td>
+  </tr>
 </table>
 <!-- dtl::block::Result -->
 

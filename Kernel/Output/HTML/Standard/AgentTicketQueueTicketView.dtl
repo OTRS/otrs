@@ -1,8 +1,8 @@
 # --
 # AgentTicketQueueTicketView.dtl - provides HTML TicketView for AgentTicketQueueView
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketQueueTicketView.dtl,v 1.5 2006-03-28 01:11:49 martin Exp $
+# $Id: AgentTicketQueueTicketView.dtl,v 1.6 2006-08-29 16:56:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you

@@ -1,8 +1,8 @@
 # --
 # AdminSysConfig.dtl - provides HTML form for AdminSysConfig html
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminSysConfig.dtl,v 1.10 2006-03-04 11:11:37 martin Exp $
+# $Id: AdminSysConfig.dtl,v 1.11 2006-08-29 16:56:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you

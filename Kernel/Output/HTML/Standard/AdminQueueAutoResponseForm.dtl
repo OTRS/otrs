@@ -1,8 +1,8 @@
 # --
 # AdminQueueAutoResponseForm.dtl - provides HTML form for AdminQueueAutoResponse
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminQueueAutoResponseForm.dtl,v 1.11 2005-10-20 21:22:56 martin Exp $
+# $Id: AdminQueueAutoResponseForm.dtl,v 1.12 2006-08-29 16:56:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,110 +10,110 @@
 # --
 <!-- dtl:block:Overview -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
-<tr>
-  <td class="mainhead">
-    $Env{"Box0"}$Text{"Queue <-> Auto Responses Management"}$Env{"Box1"}
-  </td>
-</tr>
-<tr align="center">
-  <td class="mainbody">
-
-  <br>
-
-  <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
   <tr>
-    <td colspan="2" class="contenthead">$Text{"Options"}</td>
+    <td class="mainhead">
+      $Env{"Box0"}$Text{"Queue <-> Auto Responses Management"}$Env{"Box1"}
+    </td>
   </tr>
-  <tr>
-    <td class="contentbody">
-      <table border="0" width="100%" cellspacing="0" cellpadding="4">
+  <tr align="center">
+    <td class="mainbody">
+
+      <br>
+
+      <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
         <tr>
-          <td class="contentkey">$Text{"Queue"}</td>
-          <td class="contentkey">$Text{"Auto Responses"}</td>
+          <td colspan="2" class="contenthead">$Text{"Options"}</td>
         </tr>
-<!-- dtl:block:Item -->
         <tr>
-          <td class="contentvalue"><a href="$Env{"Baselink"}Action=AdminQueueAutoResponse&Subaction=Change&ID=$Data{"QueueID"}">$QData{"Queue"}</a></td>
-          <td class="contentvalue">
+          <td class="contentbody">
+            <table border="0" width="100%" cellspacing="0" cellpadding="4">
+              <tr>
+                <td class="contentkey">$Text{"Queue"}</td>
+                <td class="contentkey">$Text{"Auto Responses"}</td>
+              </tr>
+<!-- dtl:block:Item -->
+              <tr>
+                <td class="contentvalue"><a href="$Env{"Baselink"}Action=AdminQueueAutoResponse&Subaction=Change&ID=$Data{"QueueID"}">$QData{"Queue"}</a></td>
+                <td class="contentvalue">
 <!-- dtl:block:ItemList -->
-    * <a href="$Env{"Baselink"}Action=AdminAutoResponse&Subaction=Change&ID=$QData{"ID"}">$QData{"Name"}</a> ($QData{"Type"})<br>
+                  * <a href="$Env{"Baselink"}Action=AdminAutoResponse&Subaction=Change&ID=$QData{"ID"}">$QData{"Name"}</a> ($QData{"Type"})<br>
 <!-- dtl:block:ItemList -->
 <!-- dtl:block:ItemNo -->
-    <font color="red">-$Text{"none"}-</font><br>
+                  <font color="red">-$Text{"none"}-</font><br>
 <!-- dtl:block:ItemNo -->
+                </td>
+              </tr>
+<!-- dtl:block:Item -->
+            </table>
           </td>
         </tr>
-<!-- dtl:block:Item -->
+        <tr>
+          <td class="contentfooter">
+            &nbsp;
+          </td>
+        </tr>
       </table>
+
+      <br>
+
     </td>
   </tr>
-  <tr>
-    <td class="contentfooter">
-     &nbsp;
-    </td>
-  </tr>
-  </table>
-
-  <br>
-
-  </td>
-</tr>
 </table>
 <!-- dtl:block:Overview -->
 <!-- dtl:block:Selection -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1">
-<tr>
-  <td class="mainhead">
-    $Env{"Box0"}$Text{"Queue <-> Auto Responses Management"}: $QData{"Queue"}$Env{"Box1"}
-  </td>
-</tr>
-<tr>
-  <td class="menu">
-    <a href="$Env{"Baselink"}Action=$Env{"Action"}" onmouseover="window.status='$Text{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
-  </td>
-</tr>
-<tr align="center">
-  <td class="mainbody">
-
-  <br>
-
-  <form action="$Env{"CGIHandle"}" method="post">
-  <input type="hidden" name="Action" value="$Env{"Action"}">
-  <input type="hidden" name="Subaction" value="ChangeAction">
-  <input type="hidden" name="ID" value="$QData{"ID"}">
-
-  <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
   <tr>
-    <td colspan="2" class="contenthead">$Text{"Queue"}: $QData{"Queue"}</td>
-  </tr>
-  <tr>
-    <td class="contentbody">
-      <table border="0" width="100%" cellspacing="0" cellpadding="4">
-        <tr>
-          <td width="40%" class="contentkey">$Text{"Type"}</td>
-          <td class="contentkey">$Text{"Auto Responses"}</td>
-        </tr>
-<!-- dtl:block:ItemList -->
-        <tr>
-          <td class="contentvalue">$Text{"Change"} "$Text{"$QData{"Type"}"}" $Text{"settings"}</td>
-          <td class="contentvalue">$Data{"DataStrg"}</td>
-        </tr>
-<!-- dtl:block:ItemList -->
-      </table>
+    <td class="mainhead">
+      $Env{"Box0"}$Text{"Queue <-> Auto Responses Management"}: $QData{"Queue"}$Env{"Box1"}
     </td>
   </tr>
   <tr>
-    <td class="contentfooter">
-     <input class="button" type="submit" value="$Text{"update"}">
+    <td class="menu">
+      <a href="$Env{"Baselink"}Action=$Env{"Action"}" onmouseover="window.status='$Text{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
     </td>
   </tr>
-  </table>
+  <tr align="center">
+    <td class="mainbody">
 
-  </form>
+      <br>
 
-  <br>
+      <form action="$Env{"CGIHandle"}" method="post">
+        <input type="hidden" name="Action" value="$Env{"Action"}">
+        <input type="hidden" name="Subaction" value="ChangeAction">
+        <input type="hidden" name="ID" value="$QData{"ID"}">
 
-  </td>
-</tr>
+        <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
+          <tr>
+            <td colspan="2" class="contenthead">$Text{"Queue"}: $QData{"Queue"}</td>
+          </tr>
+          <tr>
+            <td class="contentbody">
+              <table border="0" width="100%" cellspacing="0" cellpadding="4">
+                <tr>
+                  <td width="40%" class="contentkey">$Text{"Type"}</td>
+                  <td class="contentkey">$Text{"Auto Responses"}</td>
+                </tr>
+<!-- dtl:block:ItemList -->
+                <tr>
+                  <td class="contentvalue">$Text{"Change"} "$Text{"$QData{"Type"}"}" $Text{"settings"}</td>
+                  <td class="contentvalue">$Data{"DataStrg"}</td>
+                </tr>
+<!-- dtl:block:ItemList -->
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td class="contentfooter">
+              <input class="button" type="submit" value="$Text{"update"}">
+            </td>
+          </tr>
+        </table>
+
+      </form>
+
+      <br>
+
+    </td>
+  </tr>
 </table>
 <!-- dtl:block:Selection -->

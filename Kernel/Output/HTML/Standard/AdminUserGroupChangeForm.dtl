@@ -1,8 +1,8 @@
 # --
 # AdminUserGroupChangeForm.dtl - provides HTML form for AdminInterface
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminUserGroupChangeForm.dtl,v 1.14 2006-03-16 14:43:49 rk Exp $
+# $Id: AdminUserGroupChangeForm.dtl,v 1.15 2006-08-29 16:56:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -55,7 +55,7 @@
   <tr>
     <td class="mainbody">
       <p>
-      $Text{"Select the user:group permissions."} $Text{"If nothing is selected, then there are no permissions in this group (tickets will not be available for the user)."}
+        $Text{"Select the user:group permissions."} $Text{"If nothing is selected, then there are no permissions in this group (tickets will not be available for the user)."}
       </p>
       <table>
         <tr valign="top">

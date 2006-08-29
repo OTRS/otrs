@@ -1,8 +1,8 @@
 # --
 # AgentCustomerTableView - provides HTML customer table view
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentCustomerTableView.dtl,v 1.3 2004-12-06 22:24:13 martin Exp $
+# $Id: AgentCustomerTableView.dtl,v 1.4 2006-08-29 16:56:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,10 +11,10 @@
 <!-- start customer table -->
 <table border="0" cellspacing="1" cellpadding="0">
 <!-- dtl:block:CustomerRow -->
-<tr>
-  <td class="contentkey">$Text{"$QData{"Key"}"}:</td>
-  <td class="contentvalue">$Data{"LinkStart"}<div title="$QData{"Value"}">$Data{"ValueShort"}</div>$Data{"LinkStop"}</td>
-</tr>
+  <tr>
+    <td class="contentkey">$Text{"$QData{"Key"}"}:</td>
+    <td class="contentvalue">$Data{"LinkStart"}<div title="$QData{"Value"}">$Data{"ValueShort"}</div>$Data{"LinkStop"}</td>
+  </tr>
 <!-- dtl:block:CustomerRow -->
 </table>
 <!-- stop customer table -->

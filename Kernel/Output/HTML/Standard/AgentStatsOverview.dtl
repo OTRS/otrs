@@ -1,8 +1,8 @@
 # --
 # AgentStatsOverview.dtl - provides HTML form for lists stats
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStatsOverview.dtl,v 1.1 2006-07-13 10:48:23 tr Exp $
+# $Id: AgentStatsOverview.dtl,v 1.2 2006-08-29 16:56:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you

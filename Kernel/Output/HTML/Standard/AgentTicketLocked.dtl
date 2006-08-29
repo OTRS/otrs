@@ -1,8 +1,8 @@
 # --
 # AgentTicketLocked.dtl - provides HTML form for AgentTicketLocked info
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketLocked.dtl,v 1.11 2005-03-03 16:17:54 martin Exp $
+# $Id: AgentTicketLocked.dtl,v 1.12 2006-08-29 16:56:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@
     <a href="$Env{"Baselink"}$Env{"LastScreenView"}" onmouseover="window.status='$Text{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
 <!-- dtl:block:TicketBack -->
 <!-- dtl:block:TicketLocked -->
-  <img border="0" src="$Env{"Images"}warning.png" alt="$Text{"Info"}">: <font color="red">$Text{"Ticket locked!"}</font> (<a href="$Env{"CGIHandle"}?Action=AgentTicketLock&Subaction=Unlock&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Ticket unlock!"}'; return true;" onmouseout="window.status='';">$Text{"Ticket unlock!"}</a>)
+    <img border="0" src="$Env{"Images"}warning.png" alt="$Text{"Info"}">: <font color="red">$Text{"Ticket locked!"}</font> (<a href="$Env{"CGIHandle"}?Action=AgentTicketLock&Subaction=Unlock&TicketID=$Data{"TicketID"}" onmouseover="window.status='$Text{"Ticket unlock!"}'; return true;" onmouseout="window.status='';">$Text{"Ticket unlock!"}</a>)
 <!-- dtl:block:TicketLocked -->
   </td>
 </tr>

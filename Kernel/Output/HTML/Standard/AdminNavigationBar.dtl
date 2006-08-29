@@ -1,8 +1,8 @@
 # --
 # AdminNavigationBar.dtl - provides global HTML NavigationBar
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminNavigationBar.dtl,v 1.30 2006-02-13 00:59:12 martin Exp $
+# $Id: AdminNavigationBar.dtl,v 1.31 2006-08-29 16:56:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you

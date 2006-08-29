@@ -1,8 +1,8 @@
 # --
 # customer-css.dtl - customer css
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: customer-css.dtl,v 1.8 2005-09-11 13:40:13 martin Exp $
+# $Id: customer-css.dtl,v 1.9 2006-08-29 16:56:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,54 +11,54 @@
 <style type="text/css">
 <!--
 # body
-  body { color:black;background-color:#ffffff;font-size:11pt;font-family:Geneva,Helvetica,Arial,Helvetica,sans-serif; }
-  a { color:#557799; }
-  a:hover { color:#002244;text-decoration:none; }
-  pre { font-size:12px;font-family:Courier,monospace,fixed; }
-  td,th { font-size:12px;font-family:Geneva,Helvetica,Arial,Helvetica,sans-serif; }
+body { color:black;background-color:#ffffff;font-size:11pt;font-family:Geneva,Helvetica,Arial,Helvetica,sans-serif; }
+a { color:#557799; }
+a:hover { color:#002244;text-decoration:none; }
+pre { font-size:12px;font-family:Courier,monospace,fixed; }
+td,th { font-size:12px;font-family:Geneva,Helvetica,Arial,Helvetica,sans-serif; }
 # header
-  .header { color:#efefef;background-color:green;font-weight:bold;font-size:16px;font-family:Geneva,Helvetica,Arial,sans-serif; }
-  a.headeritem { color:#efefef;text-decoration:none; }
-  a.headeritem:hover { color:#dedede;text-decoration:underline; }
+.header { color:#efefef;background-color:green;font-weight:bold;font-size:16px;font-family:Geneva,Helvetica,Arial,sans-serif; }
+a.headeritem { color:#efefef;text-decoration:none; }
+a.headeritem:hover { color:#dedede;text-decoration:underline; }
 # nav bar
-  .nav { color:#000000;background-color:#ffffff;font-size:10px; }
-  a.navitem { color:#557799;font-size:11px; }
-  a.navitem:hover { color:#002244;font-size:11px; }
+.nav { color:#000000;background-color:#ffffff;font-size:10px; }
+a.navitem { color:#557799;font-size:11px; }
+a.navitem:hover { color:#002244;font-size:11px; }
 # nav bar (left)
-  .navbar { color:#000000;font-size:12px;font-weight:normal;font-family:Geneva,Helvetica,Arial,sans-serif; }
-  a.navitem { color:#557799;font-size:11px; }
-  a.navitem:hover { color:#002244;font-size:11px; }
+.navbar { color:#000000;font-size:12px;font-weight:normal;font-family:Geneva,Helvetica,Arial,sans-serif; }
+a.navitem { color:#557799;font-size:11px; }
+a.navitem:hover { color:#002244;font-size:11px; }
 # menu bar
-  .menu { color:#000000;background-color:#eeeeee;font-size:12px;vertical-align:top; }
-  a.menuitem { color:#557799;font-size:12px; }
-  a.menuitem:hover { color:#002244;font-size:12px; }
+.menu { color:#000000;background-color:#eeeeee;font-size:12px;vertical-align:top; }
+a.menuitem { color:#557799;font-size:12px; }
+a.menuitem:hover { color:#002244;font-size:12px; }
 # footer
-  .footer { color:#efefef;background-color:green;font-weight:bold;font-size:10px;font-family:Geneva,Helvetica,Arial,sans-serif; }
-  a.footeritem { color:#efefef; }
+.footer { color:#efefef;background-color:green;font-weight:bold;font-size:10px;font-family:Geneva,Helvetica,Arial,sans-serif; }
+a.footeritem { color:#efefef; }
 # small
-  .small { font-size:10px;font-family:Geneva,Helvetica,Arial,sans-serif; }
-  a.small { color:#111111;text-decoration:none;font-family:Geneva,Helvetica,Arial,sans-serif;font-size:10px; }
+.small { font-size:10px;font-family:Geneva,Helvetica,Arial,sans-serif; }
+a.small { color:#111111;text-decoration:none;font-family:Geneva,Helvetica,Arial,sans-serif;font-size:10px; }
 # form
-  form {margin:0px;}
-  input {font-family:Geneva,Helvetica,Arial,Helvetica,sans-serif;font-size:12px;}
-  .button {color:black;background-color:#dddddd;border-bottom:thin solid #222244;border-right:thin solid #222244;border-top:thin solid #bbbbbb;border-left:thin solid #bbbbbb;font-size:12px;font-family:Verdana,Helvetica,sans-serif;font-weight:normal;}
+form {margin:0px;}
+input {font-family:Geneva,Helvetica,Arial,Helvetica,sans-serif;font-size:12px;}
+.button {color:black;background-color:#dddddd;border-bottom:thin solid #222244;border-right:thin solid #222244;border-top:thin solid #bbbbbb;border-left:thin solid #bbbbbb;font-size:12px;font-family:Verdana,Helvetica,sans-serif;font-weight:normal;}
 # table color
-  .mainhead { color:#000000;background-color:#cccccc;font-size:13px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top;horizontal-align:center }
-  .mainbody { color:#000000;background-color:#ffffff;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
-  .mainkey { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
-  .mainvalue { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+.mainhead { color:#000000;background-color:#cccccc;font-size:13px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top;horizontal-align:center }
+.mainbody { color:#000000;background-color:#ffffff;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+.mainkey { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
+.mainvalue { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
 # content
-  .contenthead { color:#000000;background-color:#dedede;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
-  .contentbody { color:#000000;background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
-  .contentfooter { color:#000000;background-color:#dedede;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:normal;vertical-align:top;text-align:right; }
-  .contentkey { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:normal;vertical-align:top; }
-  .contentvalue { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
-  .searchactive { color:#000000;background-color:#ffffff;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
-  .searchpassive { color:#000000;background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+.contenthead { color:#000000;background-color:#dedede;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
+.contentbody { color:#000000;background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+.contentfooter { color:#000000;background-color:#dedede;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:normal;vertical-align:top;text-align:right; }
+.contentkey { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:normal;vertical-align:top; }
+.contentvalue { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+.searchactive { color:#000000;background-color:#ffffff;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+.searchpassive { color:#000000;background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
 # singleboxhead
-  .singleboxhead { color:#000000;background-color:#eeeeee;font-size:13px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top;horizontal-align:center }
-  .singleboxbody { color:#000000;background-color:#ffffff;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
-  .singleboxkey { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:normal;vertical-align:top; }
-  .singleboxvalue { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+.singleboxhead { color:#000000;background-color:#eeeeee;font-size:13px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top;horizontal-align:center }
+.singleboxbody { color:#000000;background-color:#ffffff;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+.singleboxkey { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:normal;vertical-align:top; }
+.singleboxvalue { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
 //-->
 </style>

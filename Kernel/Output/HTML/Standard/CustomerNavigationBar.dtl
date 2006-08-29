@@ -1,8 +1,8 @@
 # --
 # CustomerNavigationBar.dtl - provides global HTML NavigationBar
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerNavigationBar.dtl,v 1.17 2005-10-25 18:34:10 martin Exp $
+# $Id: CustomerNavigationBar.dtl,v 1.18 2006-08-29 16:56:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,23 +14,23 @@ $Data{"Notification"}
 
 <!-- start NavigationBar -->
 <table order="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr>
-  <td valign="top" align="left" width="70%" class="nav">
+  <tr>
+    <td valign="top" align="left" width="70%" class="nav">
 
-    <table cellspacing="2" cellpadding="2">
-    <tr>
+      <table cellspacing="2" cellpadding="2">
+        <tr>
 <!-- dtl:block:Item -->
-      <td valign="top" align="center" class="nav">
-        <div title="$Text{"$QData{"Description"}"}"><a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$Text{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br>$Text{"$QData{"Name"}"}</a></div>
+          <td valign="top" align="center" class="nav">
+            <div title="$Text{"$QData{"Description"}"}"><a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$Text{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" class="navitem"><img border="0" src="$Env{"Images"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br>$Text{"$QData{"Name"}"}</a></div>
+          </td>
+<!-- dtl:block:Item -->
+        </table>
+
       </td>
-<!-- dtl:block:Item -->
-    </table>
-
-  </td>
-  <td valign="top" align="right" width="30%" class="nav">
-    $Text{"Welcome %s", "$Env{"UserFirstname"} $Env{"UserLastname"} ($Data{"UserLoginTop"})"}<br>
-    $Env{"Time"}
-  </td>
-</tr>
-</table>
+      <td valign="top" align="right" width="30%" class="nav">
+        $Text{"Welcome %s", "$Env{"UserFirstname"} $Env{"UserLastname"} ($Data{"UserLoginTop"})"}<br>
+        $Env{"Time"}
+      </td>
+    </tr>
+  </table>
 <!-- end NavigationBar -->

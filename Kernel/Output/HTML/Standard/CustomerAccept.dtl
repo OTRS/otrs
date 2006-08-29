@@ -1,8 +1,8 @@
 # --
 # CustomerAccept.dtl - provides info file
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerAccept.dtl,v 1.2 2005-03-11 06:00:09 martin Exp $
+# $Id: CustomerAccept.dtl,v 1.3 2006-08-29 16:56:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,24 +10,24 @@
 # --
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr>
-  <td class="mainhead">
-    $Env{"Box0"}$Text{"Info"}$Env{"Box1"}
-  </td>
-</tr>
-<tr>
-  <td class="mainbody">
+  <tr>
+    <td class="mainhead">
+      $Env{"Box0"}$Text{"Info"}$Env{"Box1"}
+    </td>
+  </tr>
+  <tr>
+    <td class="mainbody">
 
-<p>
-Dear Customer,<br>
-thank you for using our services.
-</p>
+      <p>
+        Dear Customer,<br>
+        thank you for using our services.
+      </p>
 
-<p>
-<a href="$Env{"Baselink"}Action=$Env{"Action"}&Accept=1">Yes, I accepted your license.</a>
-</p>
+      <p>
+        <a href="$Env{"Baselink"}Action=$Env{"Action"}&Accept=1">Yes, I accepted your license.</a>
+      </p>
 
-  </td>
-</tr>
+    </td>
+  </tr>
 </table>
 <!-- end form -->

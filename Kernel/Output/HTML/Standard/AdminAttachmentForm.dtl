@@ -1,8 +1,8 @@
 # --
 # AdminAttachmentForm.dtl - provides HTML form for AdminResponse
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminAttachmentForm.dtl,v 1.9 2004-10-18 19:23:05 martin Exp $
+# $Id: AdminAttachmentForm.dtl,v 1.10 2006-08-29 16:56:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,91 +10,91 @@
 # --
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr>
-  <td colspan="2" class="mainhead">
-    $Env{"Box0"}$Text{"Attachment Management"}$Env{"Box1"}
-  </td>
-</tr>
-<tr>
-  <td width="40%" class="mainbody">
-
-  <form action="$Env{"CGIHandle"}" method="post">
-  <input type="hidden" name="Action" value="$Env{"Action"}">
-  <input type="hidden" name="Subaction" value="Change">
-  <table width="100%" cellspacing="0" cellpadding="4">
   <tr>
-    <td class="contenthead">$Text{"Change"}:</td>
-  </tr>
-  <tr>
-    <td class="contentbody">
-    $Data{"ResponseOption"}
+    <td colspan="2" class="mainhead">
+      $Env{"Box0"}$Text{"Attachment Management"}$Env{"Box1"}
     </td>
   </tr>
   <tr>
-    <td class="contentfooter">
-    <input class="button" type="submit" value="$Text{"Change"}">
-    </td>
-  </tr>
-  </table>
-  </form>
+    <td width="40%" class="mainbody">
 
-  </td>
-  <td width="60%" class="mainbody">
+      <form action="$Env{"CGIHandle"}" method="post">
+        <input type="hidden" name="Action" value="$Env{"Action"}">
+        <input type="hidden" name="Subaction" value="Change">
+        <table width="100%" cellspacing="0" cellpadding="4">
+          <tr>
+            <td class="contenthead">$Text{"Change"}:</td>
+          </tr>
+          <tr>
+            <td class="contentbody">
+              $Data{"ResponseOption"}
+            </td>
+          </tr>
+          <tr>
+            <td class="contentfooter">
+              <input class="button" type="submit" value="$Text{"Change"}">
+            </td>
+          </tr>
+        </table>
+      </form>
+
+    </td>
+    <td width="60%" class="mainbody">
 
 # --
 # check subaction
 # --
-<dtl set $Data{"Headline"} = "Add">
-<dtl if ($Data{"Subaction"} eq "Change") { $Data{"Headline"} = "Update"; }>
+      <dtl set $Data{"Headline"} = "Add">
+      <dtl if ($Data{"Subaction"} eq "Change") { $Data{"Headline"} = "Update"; }>
 # check add link
-<dtl if ($Data{"Subaction"} eq "Change") { $Data{"AddLink"} = "add a attachment"; }>
+      <dtl if ($Data{"Subaction"} eq "Change") { $Data{"AddLink"} = "add a attachment"; }>
 # delete link
-<dtl if ($Data{"Subaction"} eq "Change") { $Data{"DeleteLink"} = "$Text{"delete this attachment"}"; }>
+      <dtl if ($Data{"Subaction"} eq "Change") { $Data{"DeleteLink"} = "$Text{"delete this attachment"}"; }>
 # --
-  <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
-  <input type="hidden" name="Action" value="$Env{"Action"}">
-  <input type="hidden" name="Subaction" value="$QData{"Subaction"}Action">
-  <input type="hidden" name="ID" value="$QData{"ID"}">
-  <table width="100%" cellspacing="0" cellpadding="4">
-  <tr>
-    <td class="contenthead">
-    $Text{"$Data{"Headline"}"}:</td>
-  </tr>
-  <tr>
-    <td class="contentbody">
+      <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="Action" value="$Env{"Action"}">
+        <input type="hidden" name="Subaction" value="$QData{"Subaction"}Action">
+        <input type="hidden" name="ID" value="$QData{"ID"}">
+        <table width="100%" cellspacing="0" cellpadding="4">
+          <tr>
+            <td class="contenthead">
+              $Text{"$Data{"Headline"}"}:</td>
+            </tr>
+            <tr>
+              <td class="contentbody">
 
-    <table border="0" cellspacing="0" cellpadding="3">
-    <tr>
-      <td class="contentkey">$Text{"Name"}: </td>
-      <td class="contentvalue"> <input type="text" name="Name" value="$QData{"Name"}" size="35" maxlength="50"></td>
-    </tr>
-    <tr>
-      <td class="contentkey">$Text{"Attachment"}:</td>
-      <td class="contentvalue"><input name="file_upload" type="file" size="40">
-    </tr>
-    <tr>
-      <td class="contentkey">$Text{"Valid"}: </td>
-      <td class="contentvalue"> $Data{"ValidOption"}</td>
-    </tr>
-    <tr>
-      <td class="contentkey">$Text{"Comment"}: </td>
-      <td class="contentvalue"> <input type="text" name="Comment" value="$QData{"Comment"}" size="50" maxlength="70"></td>
-    </tr>
+                <table border="0" cellspacing="0" cellpadding="3">
+                  <tr>
+                    <td class="contentkey">$Text{"Name"}: </td>
+                    <td class="contentvalue"> <input type="text" name="Name" value="$QData{"Name"}" size="35" maxlength="50"></td>
+                  </tr>
+                  <tr>
+                    <td class="contentkey">$Text{"Attachment"}:</td>
+                    <td class="contentvalue"><input name="file_upload" type="file" size="40">
+                    </tr>
+                    <tr>
+                      <td class="contentkey">$Text{"Valid"}: </td>
+                      <td class="contentvalue"> $Data{"ValidOption"}</td>
+                    </tr>
+                    <tr>
+                      <td class="contentkey">$Text{"Comment"}: </td>
+                      <td class="contentvalue"> <input type="text" name="Comment" value="$QData{"Comment"}" size="50" maxlength="70"></td>
+                    </tr>
+                  </table>
+
+                </td>
+              </tr>
+              <tr>
+                <td class="contentfooter">
+                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Delete&ID=$Data{"ID"}">$Data{"DeleteLink"}</a>
+                  <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"$Data{"AddLink"}"}</a>
+                  <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}">
+                </td>
+              </tr>
+            </table>
+          </form>
+
+        </td>
+      </tr>
     </table>
-
-    </td>
-  </tr>
-  <tr>
-    <td class="contentfooter">
-    <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Delete&ID=$Data{"ID"}">$Data{"DeleteLink"}</a>
-    <a href="$Env{"Baselink"}Action=$Env{"Action"}">$Text{"$Data{"AddLink"}"}</a>
-    <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}">
-    </td>
-  </tr>
-  </table>
-  </form>
-
-  </td>
-</tr>
-</table>
 <!-- end form -->

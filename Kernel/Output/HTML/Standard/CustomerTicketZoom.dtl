@@ -1,8 +1,8 @@
 # --
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.22 2006-04-03 12:27:59 martin Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.23 2006-08-29 16:56:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you

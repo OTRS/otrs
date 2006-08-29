@@ -1,8 +1,8 @@
 # --
 # AdminPGPForm.dtl - provides HTML form for AdminPGP html
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPGPForm.dtl,v 1.15 2006-02-28 06:04:27 martin Exp $
+# $Id: AdminPGPForm.dtl,v 1.16 2006-08-29 16:56:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -134,9 +134,9 @@
     <tr>
       <td class="mainbody">
         <p>
-        $Text{"In this way you can directly edit the keyring configured in SysConfig."}
-        <br>
-        $Text{"Description"}: <a href="http://en.wikipedia.org/wiki/Pretty_Good_Privacy" target="_blank">http://en.wikipedia.org/wiki/Pretty_Good_Privacy</a>
+          $Text{"In this way you can directly edit the keyring configured in SysConfig."}
+          <br>
+          $Text{"Description"}: <a href="http://en.wikipedia.org/wiki/Pretty_Good_Privacy" target="_blank">http://en.wikipedia.org/wiki/Pretty_Good_Privacy</a>
         </p>
       </td>
     </tr>

@@ -1,8 +1,8 @@
 # --
 # AdminUserGroupForm.dtl - provides HTML form for AdminInterface
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminUserGroupForm.dtl,v 1.14 2005-10-20 21:25:36 martin Exp $
+# $Id: AdminUserGroupForm.dtl,v 1.15 2006-08-29 16:56:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,41 +10,41 @@
 # --
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-<tr>
-  <td class="mainhead">
-    $Env{"Box0"}$Text{"Users <-> Groups Management"}$Env{"Box1"}
-  </td>
-</tr>
-<tr class="mainbody">
- <td align="center">
-
-  <br>
-
-  <table width="700" cellspacing="0" cellpadding="4">
   <tr>
-    <td class="contenthead" width="50%">
-      $Text{"User"}:$Text{"Group"} (1:n)
-    </td>
-    <td class="contenthead" width="50%">
-      $Text{"User"}:$Text{"Group"} (n:1)
+    <td class="mainhead">
+      $Env{"Box0"}$Text{"Users <-> Groups Management"}$Env{"Box1"}
     </td>
   </tr>
-  <tr class="contentbody">
-    <td align="left">
-      $Data{"UserStrg"}
-    </td>
-    <td align="left">
-      $Data{"GroupStrg"}
-    </td>
-  </tr>
-  <tr class="contentfooter">
-    <td class="contentvalue" colspan="2">&nbsp;</td>
-  </tr>
-  </table>
+  <tr class="mainbody">
+    <td align="center">
 
-  <br>
+      <br>
 
- </td>
-</tr>
+      <table width="700" cellspacing="0" cellpadding="4">
+        <tr>
+          <td class="contenthead" width="50%">
+            $Text{"User"}:$Text{"Group"} (1:n)
+          </td>
+          <td class="contenthead" width="50%">
+            $Text{"User"}:$Text{"Group"} (n:1)
+          </td>
+        </tr>
+        <tr class="contentbody">
+          <td align="left">
+            $Data{"UserStrg"}
+          </td>
+          <td align="left">
+            $Data{"GroupStrg"}
+          </td>
+        </tr>
+        <tr class="contentfooter">
+          <td class="contentvalue" colspan="2">&nbsp;</td>
+        </tr>
+      </table>
+
+      <br>
+
+    </td>
+  </tr>
 </table>
 <!-- end form -->

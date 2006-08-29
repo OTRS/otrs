@@ -1,8 +1,8 @@
 # --
 # AdminPOP3.dtl - provides HTML form for AdminPOP3
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPOP3.dtl,v 1.2 2006-03-11 16:02:53 cs Exp $
+# $Id: AdminPOP3.dtl,v 1.3 2006-08-29 16:56:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -168,51 +168,51 @@
       <tr>
         <td class="mainbody">
           <p>
-          $Text{"All incoming emails with one account will be dispatched in the selected queue!"}
-          <br>
-          $Text{"If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway."}
+            $Text{"All incoming emails with one account will be dispatched in the selected queue!"}
+            <br>
+            $Text{"If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway."}
           </p>
           <p>
-          $Text{"Example"}:
-          <hr>
-          <form action="/">
-            <table>
-              <tr>
-                <td>$Text{"Username"}: </td>
-                <td> <input type="text" name="Login" value="mail2" size="35" maxlength="50"></td>
-              </tr>
-              <tr>
-                <td>$Text{"Password"}: </td>
-                <td> <input type="password" name="Password" value="test" size="35" maxlength="50"></td>
-              </tr>
-              <tr>
-                <td>$Text{"Host"}: </td>
-                <td> <input type="text" name="Host" value="mail.example.com" size="35" maxlength="50"></td>
-              </tr>
-              <tr>
-                <td>$Text{"Trusted"}: </td>
-                <td>
-                  <select name="Trusted">
-                  <option selected value="0">$Text{"No"}</option>
+            $Text{"Example"}:
+            <hr>
+            <form action="/">
+              <table>
+                <tr>
+                  <td>$Text{"Username"}: </td>
+                  <td> <input type="text" name="Login" value="mail2" size="35" maxlength="50"></td>
+                </tr>
+                <tr>
+                  <td>$Text{"Password"}: </td>
+                  <td> <input type="password" name="Password" value="test" size="35" maxlength="50"></td>
+                </tr>
+                <tr>
+                  <td>$Text{"Host"}: </td>
+                  <td> <input type="text" name="Host" value="mail.example.com" size="35" maxlength="50"></td>
+                </tr>
+                <tr>
+                  <td>$Text{"Trusted"}: </td>
+                  <td>
+                    <select name="Trusted">
+                      <option selected value="0">$Text{"No"}</option>
 
-                  <option value="1">$Text{"Yes"}</option>
-                  </select>
-                </td>
-              </tr>
-              <tr>
-                <td>$Text{"Dispatching"}: </td>
-                <td>
-                  <select name="DispatchingBy"   >
-                  <option selected value="From">$Text{"Dispatching by email To: field."}</option>
-                  <option value="Queue">$Text{"Dispatching by selected Queue."}</option>
-                  </select>
-                </td>
-              </tr>
-              <td>$Text{"Queue"}</td>
-              <td><select name="QueueID"  >
-                <option VALUE="3">Tech (1)</option>
-                <option VALUE="4">Misc (2)</option>
-                <option VALUE="2">Raw (3)</option>
+                      <option value="1">$Text{"Yes"}</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td>$Text{"Dispatching"}: </td>
+                  <td>
+                    <select name="DispatchingBy"   >
+                      <option selected value="From">$Text{"Dispatching by email To: field."}</option>
+                      <option value="Queue">$Text{"Dispatching by selected Queue."}</option>
+                    </select>
+                  </td>
+                </tr>
+                <td>$Text{"Queue"}</td>
+                <td><select name="QueueID"  >
+                  <option VALUE="3">Tech (1)</option>
+                  <option VALUE="4">Misc (2)</option>
+                  <option VALUE="2">Raw (3)</option>
                 </select>
               </td>
             </tr>
@@ -220,9 +220,9 @@
               <td>$Text{"Valid"}: </td>
               <td>
                 <select name="ValidID">
-                <option value="2">$Text{"invalid"}</option>
-                <option value="3">$Text{"invalid-temporarily"}</option>
-                <option selected value="1">$Text{"valid"}</option>
+                  <option value="2">$Text{"invalid"}</option>
+                  <option value="3">$Text{"invalid-temporarily"}</option>
+                  <option selected value="1">$Text{"valid"}</option>
                 </select>
               </td>
             </tr>
@@ -233,8 +233,8 @@
           </table>
         </form>
         <hr>
-        </p>
-      </td>
-    </tr>
-  </table>
+      </p>
+    </td>
+  </tr>
+</table>
 <!-- dtl:block:Overview -->

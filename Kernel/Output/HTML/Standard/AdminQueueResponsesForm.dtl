@@ -1,8 +1,8 @@
 # --
 # AdminQueueResponsesForm.dtl - provides HTML form for AdminQueueResponses
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminQueueResponsesForm.dtl,v 1.12 2005-10-20 21:25:36 martin Exp $
+# $Id: AdminQueueResponsesForm.dtl,v 1.13 2006-08-29 16:56:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,37 +10,37 @@
 # --
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="2">
-<tr>
-  <td colspan="2" class="mainhead">
-    $Env{"Box0"}$Text{"Responses <-> Queue Management"}$Env{"Box1"}
-  </td>
-</tr>
-<tr>
-  <td align="center" colspan="2" class="mainbody">
-
-  <br>
-
-  <table cellspacing="0" cellpadding="4" border="0" width="700">
-  <tr class="contenthead">
-    <td width="50%">$Text{"Answer"}:$Text{"Queue"} (1:n)</td>
-    <td width="50%">$Text{"Answer"}:$Text{"Queue"} (n:1)</td>
-  </tr>
-  <tr class="contentbody">
-    <td>
-      $Data{"AnswerQueueStrg"}
-    </td>
-    <td>
-      $Data{"QueueAnswerStrg"}
+  <tr>
+    <td colspan="2" class="mainhead">
+      $Env{"Box0"}$Text{"Responses <-> Queue Management"}$Env{"Box1"}
     </td>
   </tr>
-  <tr class="contentfooter">
-    <td class="contentvalue" colspan="2">&nbsp;</td>
+  <tr>
+    <td align="center" colspan="2" class="mainbody">
+
+      <br>
+
+      <table cellspacing="0" cellpadding="4" border="0" width="700">
+        <tr class="contenthead">
+          <td width="50%">$Text{"Answer"}:$Text{"Queue"} (1:n)</td>
+          <td width="50%">$Text{"Answer"}:$Text{"Queue"} (n:1)</td>
+        </tr>
+        <tr class="contentbody">
+          <td>
+            $Data{"AnswerQueueStrg"}
+          </td>
+          <td>
+            $Data{"QueueAnswerStrg"}
+          </td>
+        </tr>
+        <tr class="contentfooter">
+          <td class="contentvalue" colspan="2">&nbsp;</td>
+        </tr>
+      </table>
+
+      <br>
+
+    </td>
   </tr>
-  </table>
-
-  <br>
-
-  </td>
-</tr>
 </table>
 <!-- end form -->

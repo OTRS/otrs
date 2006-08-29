@@ -1,8 +1,8 @@
 # --
 # AdminSession.dtl - provides global HTML AdminSession
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminSession.dtl,v 1.13 2005-12-18 19:28:00 martin Exp $
+# $Id: AdminSession.dtl,v 1.14 2006-08-29 16:56:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,95 +10,95 @@
 # --
 <!-- start -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3" cols="1" cols="2">
-<tr>
-  <td colspan="2" class="mainhead">
-    $Env{"Box0"}$Text{"Session Management"}$Env{"Box1"}
-  </td>
-</tr>
-<tr>
-  <td width="30%" class="mainbody">
-
-  <form action="$Env{"CGIHandle"}" method="post">
-  <input type="hidden" name="Action" value="$Env{"Action"}">
-  <input type="hidden" name="Subaction" value="KillAll">
-  <input type="hidden" name="WantSessionID" value="$Env{"SessionID"}">
-  <table width="100%" cellspacing="0" cellpadding="4">
   <tr>
-    <td class="contenthead">$Text{"Overview"}:</td>
-  </tr>
-  <tr>
-    <td class="contentbody">
-    <table>
-      <tr>
-        <td>$Text{"All"} $Text{"Sessions"}:</td>
-        <td>$Data{"Counter"}</td>
-      </tr>
-      <tr>
-        <td>$Text{"Agent"} $Text{"Sessions"}:</td>
-        <td>$Data{"UserSession"}</td>
-      </tr>
-      <tr>
-        <td>$Text{"Customer"} $Text{"Sessions"}:</td>
-        <td>$Data{"CustomerSession"}</td>
-      </tr>
-      <tr>
-        <td>$Text{"Uniq"} $Text{"Agent"}:</td>
-        <td>$Data{"UserSessionUniq"}</td>
-      </tr>
-      <tr>
-        <td>$Text{"Uniq"} $Text{"Customer"}:</td>
-        <td>$Data{"CustomerSessionUniq"}</td>
-      </tr>
-    </table>
+    <td colspan="2" class="mainhead">
+      $Env{"Box0"}$Text{"Session Management"}$Env{"Box1"}
     </td>
   </tr>
   <tr>
-    <td class="contentfooter">
-      <input class="button" type="submit" value="$Text{"kill all sessions"}">
+    <td width="30%" class="mainbody">
+
+      <form action="$Env{"CGIHandle"}" method="post">
+        <input type="hidden" name="Action" value="$Env{"Action"}">
+        <input type="hidden" name="Subaction" value="KillAll">
+        <input type="hidden" name="WantSessionID" value="$Env{"SessionID"}">
+        <table width="100%" cellspacing="0" cellpadding="4">
+          <tr>
+            <td class="contenthead">$Text{"Overview"}:</td>
+          </tr>
+          <tr>
+            <td class="contentbody">
+              <table>
+                <tr>
+                  <td>$Text{"All"} $Text{"Sessions"}:</td>
+                  <td>$Data{"Counter"}</td>
+                </tr>
+                <tr>
+                  <td>$Text{"Agent"} $Text{"Sessions"}:</td>
+                  <td>$Data{"UserSession"}</td>
+                </tr>
+                <tr>
+                  <td>$Text{"Customer"} $Text{"Sessions"}:</td>
+                  <td>$Data{"CustomerSession"}</td>
+                </tr>
+                <tr>
+                  <td>$Text{"Uniq"} $Text{"Agent"}:</td>
+                  <td>$Data{"UserSessionUniq"}</td>
+                </tr>
+                <tr>
+                  <td>$Text{"Uniq"} $Text{"Customer"}:</td>
+                  <td>$Data{"CustomerSessionUniq"}</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td class="contentfooter">
+              <input class="button" type="submit" value="$Text{"kill all sessions"}">
+            </td>
+          </tr>
+        </table>
+      </form>
+
     </td>
-  </tr>
-  </table>
-  </form>
+    <td width="70%" class="mainbody">
 
-  </td>
-  <td width="70%" class="mainbody">
+      <table width="100%" cellspacing="0" cellpadding="4">
+        <tr>
+          <td class="contenthead">
+            $Text{"List"}:</td>
+          </tr>
+          <tr>
+            <td class="contentbody">
 
-  <table width="100%" cellspacing="0" cellpadding="4">
-  <tr>
-    <td class="contenthead">
-    $Text{"List"}:</td>
-  </tr>
-  <tr>
-    <td class="contentbody">
+              <table width="100%" border="0" cellspacing="0" cellpadding="3">
+                <tr>
+                  <td class="contentkey" width="25%">$Text{"Session"}</td>
+                  <td class="contentkey" width="60%">$Text{"Content"}</td>
+                  <td align="center" class="contentkey">$Text{"kill session"}</td>
+                </tr>
+<!-- dtl:block:Session -->
+                <dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchactive"; }>
+                <tr>
+                  <td class="$Env{"Color"}">$QData{"SessionID"}</td>
+                  <td class="$Env{"Color"}"><div class="small">$Data{"Output"}</td>
+                  <td align="center" class="$Env{"Color"}"><a href="$Env{"Baselink"}Action=AdminSession&Subaction=Kill&WantSessionID=$Data{"SessionID"}">x</a></td>
+                </tr>
+                <dtl if ($Env{"Color"} eq "searchpassive") { $Env{"Color"} = ""; }>
+                <dtl if ($Env{"Color"} eq "searchactive") { $Env{"Color"} = "searchpassive"; }>
+<!-- dtl:block:Session -->
+                <tr>
+                  <td class="contentfooter" colspan="3">
+                    &nbsp;
+                  </td>
+                </tr>
+              </table>
 
-    <table width="100%" border="0" cellspacing="0" cellpadding="3">
-      <tr>
-        <td class="contentkey" width="25%">$Text{"Session"}</td>
-        <td class="contentkey" width="60%">$Text{"Content"}</td>
-        <td align="center" class="contentkey">$Text{"kill session"}</td>
+            </td>
+          </tr>
+        </table>
+
+      </td>
     </tr>
-<!-- dtl:block:Session -->
-<dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchactive"; }>
-      <tr>
-        <td class="$Env{"Color"}">$QData{"SessionID"}</td>
-        <td class="$Env{"Color"}"><div class="small">$Data{"Output"}</td>
-        <td align="center" class="$Env{"Color"}"><a href="$Env{"Baselink"}Action=AdminSession&Subaction=Kill&WantSessionID=$Data{"SessionID"}">x</a></td>
-      </tr>
-<dtl if ($Env{"Color"} eq "searchpassive") { $Env{"Color"} = ""; }>
-<dtl if ($Env{"Color"} eq "searchactive") { $Env{"Color"} = "searchpassive"; }>
-<!-- dtl:block:Session -->
-      <tr>
-        <td class="contentfooter" colspan="3">
-          &nbsp;
-        </td>
-      </tr>
-    </table>
-
-    </td>
-  </tr>
   </table>
-
-  </td>
-</tr>
-</table>
 <!-- end -->

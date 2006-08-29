@@ -1,8 +1,8 @@
 # --
 # AdminQueueResponsesChangeForm.dtl - provides HTML form for AdminResponse
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminQueueResponsesChangeForm.dtl,v 1.12 2005-10-20 21:25:36 martin Exp $
+# $Id: AdminQueueResponsesChangeForm.dtl,v 1.13 2006-08-29 16:56:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,37 +10,37 @@
 # --
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
-<tr>
-  <td class="mainhead">
-    $Env{"Box0"}$Text{"Responses <-> Queue Management"}$Env{"Box1"}
-  </td>
-</tr>
-<tr>
-  <td align="center" class="mainbody">
-
-  <br>
-
-  <form action="$Env{"CGIHandle"}" method="post">
-  <input type="hidden" name="Action" value="$Env{"Action"}">
-  <input type="hidden" name="Subaction" value="Change$Data{"Type"}">
-  <table width="700" cellspacing="0" cellpadding="4">
-  <tr valign="top">
-    <td class="contenthead">$Text{"Change %s settings", "$Data{"Type"}"}:</td>
-  </tr>
   <tr>
-    <td align="center" class="contentbody">
-    $Data{"OptionStrg0"}
+    <td class="mainhead">
+      $Env{"Box0"}$Text{"Responses <-> Queue Management"}$Env{"Box1"}
     </td>
   </tr>
-  <tr class="contentfooter">
-    <td class="contentvalue"><input class="button" type="submit" value="$Text{"submit"}"></td>
+  <tr>
+    <td align="center" class="mainbody">
+
+      <br>
+
+      <form action="$Env{"CGIHandle"}" method="post">
+        <input type="hidden" name="Action" value="$Env{"Action"}">
+        <input type="hidden" name="Subaction" value="Change$Data{"Type"}">
+        <table width="700" cellspacing="0" cellpadding="4">
+          <tr valign="top">
+            <td class="contenthead">$Text{"Change %s settings", "$Data{"Type"}"}:</td>
+          </tr>
+          <tr>
+            <td align="center" class="contentbody">
+              $Data{"OptionStrg0"}
+            </td>
+          </tr>
+          <tr class="contentfooter">
+            <td class="contentvalue"><input class="button" type="submit" value="$Text{"submit"}"></td>
+          </tr>
+        </table>
+      </form>
+
+      <br>
+
+    </td>
   </tr>
-  </table>
-  </form>
-
-  <br>
-
-  </td>
-</tr>
 </table>
 <!-- end form -->

@@ -1,2 +1,2 @@
- <a href="$Env{"CGIHandle"}?Action=CustomerCalendarSmall&Prefix=$QData{"Prefix"}" onClick="window.open('', 'calendar', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=240,height=220,left=500,top=450');" target="calendar"><img border="0" src="$Env{"Images"}/calendar-small.png"></a>
+<a href="$Env{"CGIHandle"}?Action=CustomerCalendarSmall&Prefix=$QData{"Prefix"}" onClick="window.open('', 'calendar', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=240,height=220,left=500,top=450');" target="calendar"><img border="0" src="$Env{"Images"}/calendar-small.png"></a>
 
