@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.1 2006-03-22 07:24:02 martin Exp $
+# $Id: LayoutTicket.pm,v 1.2 2006-08-29 06:47:22 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::LayoutTicket;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketStdResponseString {
@@ -99,13 +99,13 @@ sub AgentCustomerViewTable {
                 $Record{ValueShort} = $Self->Ascii2Html(Text => $Param{Data}->{$Field->[0]}, Max => $Param{Max});
             }
             $Self->Block(
-                    Name => 'CustomerRow',
-                    Data => {
-                        %{$Param{Data}},
-                        Key => $Field->[1],
-                        Value => $Param{Data}->{$Field->[0]},
-                        %Record,
-                    },
+                Name => 'CustomerRow',
+                Data => {
+                    %{$Param{Data}},
+                    Key => $Field->[1],
+                    Value => $Param{Data}->{$Field->[0]},
+                    %Record,
+                },
             );
         }
     }
@@ -155,36 +155,36 @@ sub AgentQueueListOption {
     }
     # build selection string
     foreach (sort {$Data{$a} cmp $Data{$b}} keys %Data) {
-      my @Queue = split(/::/, $Param{Data}->{$_});
-      $UsedData{$Param{Data}->{$_}} = 1;
-      my $UpQueue = $Param{Data}->{$_};
-      $UpQueue =~ s/^(.*)::.+?$/$1/g;
-      if (! $Queue[$MaxLevel] && $Queue[$#Queue] ne '') {
-        $Queue[$#Queue] = $Self->Ascii2Html(Text => $Queue[$#Queue], Max => 50-$#Queue);
-        my $Space = '';
-        for (my $i = 0; $i < $#Queue; $i++) {
-            $Space .= '&nbsp;&nbsp;';
-        }
-        # check if SelectedIDRefArray exists
-        if ($SelectedIDRefArray) {
-            foreach my $ID (@{$SelectedIDRefArray}) {
-                if ($ID eq $_) {
-                    $Param{SelectedIDRefArrayOK}->{$_} = 1;
+        my @Queue = split(/::/, $Param{Data}->{$_});
+        $UsedData{$Param{Data}->{$_}} = 1;
+        my $UpQueue = $Param{Data}->{$_};
+        $UpQueue =~ s/^(.*)::.+?$/$1/g;
+        if (! $Queue[$MaxLevel] && $Queue[$#Queue] ne '') {
+            $Queue[$#Queue] = $Self->Ascii2Html(Text => $Queue[$#Queue], Max => 50-$#Queue);
+            my $Space = '';
+            for (my $i = 0; $i < $#Queue; $i++) {
+                $Space .= '&nbsp;&nbsp;';
+            }
+            # check if SelectedIDRefArray exists
+            if ($SelectedIDRefArray) {
+                foreach my $ID (@{$SelectedIDRefArray}) {
+                    if ($ID eq $_) {
+                        $Param{SelectedIDRefArrayOK}->{$_} = 1;
+                    }
+                }
+            }
+            # build select string
+            if ($UsedData{$UpQueue}) {
+                if ($SelectedID eq $_ || $Selected eq $Param{Data}->{$_} || $Param{SelectedIDRefArrayOK}->{$_}) {
+                    $Param{MoveQueuesStrg} .= '<option selected value="'.$_.'">'.
+                        $Space.$Queue[$#Queue].'</option>';
+                }
+                else {
+                    $Param{MoveQueuesStrg} .= '<option value="'.$_.'">'.
+                        $Space.$Queue[$#Queue].'</option>';
                 }
             }
         }
-        # build select string
-        if ($UsedData{$UpQueue}) {
-          if ($SelectedID eq $_ || $Selected eq $Param{Data}->{$_} || $Param{SelectedIDRefArrayOK}->{$_}) {
-            $Param{MoveQueuesStrg} .= '<option selected value="'.$_.'">'.
-                $Space.$Queue[$#Queue].'</option>';
-          }
-          else {
-            $Param{MoveQueuesStrg} .= '<option value="'.$_.'">'.
-                $Space.$Queue[$#Queue].'</option>';
-          }
-        }
-      }
     }
     $Param{MoveQueuesStrg} .= '</select>';
 
