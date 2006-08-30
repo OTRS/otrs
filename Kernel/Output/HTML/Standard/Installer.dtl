@@ -2,7 +2,7 @@
 # Installer.dtl - provides HTML form for Installer
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Installer.dtl,v 1.9 2006-08-29 17:10:52 martin Exp $
+# $Id: Installer.dtl,v 1.10 2006-08-30 09:25:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -487,7 +487,7 @@ Public License instead of this License.
               <table border="0" width="100%">
 <!-- dtl:block:DatabaseResultItem -->
                 <tr>
-                  <td>$Text{"$QData{"Item"}"}:</td>
+                  <td>$QData{"Item"}:</td>
 <!-- dtl:block:DatabaseResultItemDone -->
                   <td><font color="green"><b>done.</b></font></td>
 <!-- dtl:block:DatabaseResultItemDone -->
