@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.219 2006-08-29 17:30:36 martin Exp $
+# $Id: Ticket.pm,v 1.220 2006-08-30 16:04:42 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.219 $';
+$VERSION = '$Revision: 1.220 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -630,10 +630,6 @@ sub TicketSubjectClean {
     my $TicketHook = $Self->{ConfigObject}->Get('Ticket::Hook');
     my $TicketHookDivider = $Self->{ConfigObject}->Get('Ticket::HookDivider');
     my $TicketSubjectSize = $Self->{ConfigObject}->Get('Ticket::SubjectSize') || 80;
-##############
-###    $Subject =~ s/\[\d\d\d\d-\d\d-\d\d\]//;
-##    $Subject =~ s/\[\d\d\d\d-\d\d-\d\d\]//;
-##############
     $Subject =~ s/\[$TicketHook: $Param{TicketNumber}\] //g;
     $Subject =~ s/\[$TicketHook:$Param{TicketNumber}\] //g;
     $Subject =~ s/\[$TicketHook$TicketHookDivider$Param{TicketNumber}\] //g;
@@ -1015,7 +1011,6 @@ sub MoveList {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need QueueID, TicketID or Type!");
         return;
     }
-# TicketID!!!
     my %Queues = ();
     if ($Param{UserID} && $Param{UserID} eq 1) {
         %Queues = $Self->{QueueObject}->GetAllQueues();
@@ -1023,7 +1018,6 @@ sub MoveList {
     else {
         %Queues = $Self->{QueueObject}->GetAllQueues(%Param);
     }
-#delete $Queues{315};
     # workflow
     if ($Self->TicketAcl(
         %Param,
@@ -1033,7 +1027,6 @@ sub MoveList {
     )) {
         return $Self->TicketAclData();
     }
-    # /workflow
     return %Queues;
 }
 
@@ -1376,7 +1369,6 @@ sub TicketFreeTextGet {
         my %Hash = $Self->TicketAclData();
         return \%Hash;
     }
-    # /workflow
     if (%Data) {
         return \%Data;
     }
@@ -2672,7 +2664,6 @@ sub TicketSearch {
     my %Tickets = ();
     my @TicketIDs = ();
     $Self->{DBObject}->Prepare(SQL => $SQL.$SQLExt, Limit => $Limit);
-#print STDERR "SQL: $SQL$SQLExt\n";
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
         $Tickets{$Row[0]} = $Row[1];
         push (@TicketIDs, $Row[0]);
@@ -3020,7 +3011,6 @@ sub StateList {
             UserID => $Param{UserID},
         );
     }
-#delete $States{4}; # remove open!
     # workflow
     if ($Self->TicketAcl(
         %Param,
@@ -3030,7 +3020,6 @@ sub StateList {
     )) {
         return $Self->TicketAclData();
     }
-    # /workflow
     return %States;
 }
 
@@ -3663,7 +3652,6 @@ sub PriorityList {
 #    }
     # sql
     my %Data = $Self->{PriorityObject}->PriorityList(%Param);
-#delete $Data{2};
     # workflow
     if ($Self->TicketAcl(
         %Param,
@@ -3673,7 +3661,6 @@ sub PriorityList {
     )) {
         return $Self->TicketAclData();
     }
-    # /workflow
     return %Data;
 }
 
@@ -3798,7 +3785,6 @@ sub HistoryTicketGet {
                 }
             }
             close (DATA);
-#print STDERR "return cache ($Ticket{TicketID}/$Path/$File)!!!\n";
             return %Ticket;
         }
         else {
@@ -3836,7 +3822,6 @@ sub HistoryTicketGet {
                 $Ticket{Owner} = 'root';
                 $Ticket{CreateUserID} = $Row[3];
                 $Ticket{CreateTime} = $Row[2];
-#print STDERR "1.3-2.0\n";
             }
             else {
                 # COMPAT: compat to 1.1
@@ -3845,7 +3830,6 @@ sub HistoryTicketGet {
                 $Ticket{TicketID} = $Row[4];
                 $Ticket{CreateUserID} = $Row[3];
                 $Ticket{CreateTime} = $Row[2];
-##print STDERR "1.1\n";
             }
             $Ticket{CreateOwnerID} = $Row[9] || '';
             $Ticket{CreatePriorityID} = $Row[8] || '';
@@ -3888,9 +3872,6 @@ sub HistoryTicketGet {
                 $Ticket{Owner} = $1;
             }
         }
-#        elsif ($Row[1] eq '') {
-#
-#        }
         # get default options
         $Ticket{OwnerID} = $Row[9] || '';
         $Ticket{PriorityID} = $Row[8] || '';
@@ -3939,7 +3920,6 @@ sub HistoryTicketGet {
                 );
             }
         }
-        # return ticket data
         return %Ticket;
     }
 }
@@ -4610,9 +4590,7 @@ sub TicketAcl {
         my $Match = 1;
         my $Match3 = 0;
         my $UseNewParams = 0;
-#        foreach my $Key (keys %Checks) {
         foreach my $Key (keys %{$Step{Properties}}) {
-#print STDERR "($Acl)Key: $Key\n";
           foreach my $Data (keys %{$Step{Properties}->{$Key}}) {
             my $Match2 = 0;
             foreach (@{$Step{Properties}->{$Key}->{$Data}}) {
@@ -4620,7 +4598,6 @@ sub TicketAcl {
                     foreach my $Array (@{$Checks{$Key}->{$Data}}) {
                         if ($_ eq $Array) {
                             $Match2 = 1;
-#print STDERR "Workflow '$Acl/$Key/$Data' MatchedARRAY ($_ eq $Array)\n";
                             # debug log
                             if ($Self->{Debug} > 4) {
                                 $Self->{LogObject}->Log(
@@ -4650,17 +4627,14 @@ sub TicketAcl {
             $Match3 = 1;
           }
         }
-#print STDERR "Match:   $Match '$Acl'->ReturnType:'$Param{ReturnType}'->ReturnSubType:'$Param{ReturnSubType}'\n";
         # check force option
         if ($ForceMatch) {
-#print STDERR "Matched FWorkflow '$Acl'\n";
             $Match = 1;
             $Match3 = 1;
         }
         # debug log
         my %NewTmpData = ();
         if ($Match && $Match3) {
-#print STDERR "Matched: $Match '$Acl'->ReturnType:'$Param{ReturnType}'->ReturnSubType:'$Param{ReturnSubType}'\n";
             if ($Self->{Debug} > 2) {
                 $Self->{LogObject}->Log(
                     Priority => 'debug',
@@ -4730,7 +4704,6 @@ sub TicketAcl {
         }
         # remember to new params if given
         if ($UseNewParams) {
-#print STDERR "$Acl -- \n";
             %NewData = %NewTmpData;
             $UseNewMasterParams = 1;
         }
@@ -4865,6 +4838,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.219 $ $Date: 2006-08-29 17:30:36 $
+$Revision: 1.220 $ $Date: 2006-08-30 16:04:42 $
 
 =cut
