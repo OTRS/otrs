@@ -2,7 +2,7 @@
 # css.dtl - css file
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: css.dtl,v 1.4 2006-08-29 17:11:11 martin Exp $
+# $Id: css.dtl,v 1.5 2006-08-30 07:44:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -51,8 +51,8 @@ form {margin:0px;}
 input {font-family:Geneva,Helvetica,Arial,Helvetica,sans-serif;font-size:12px;}
 .button {color:black;background-color:#dddddd;border-bottom:thin solid #222244;border-right:thin solid #222244;border-top:thin solid #bbbbbb;border-left:thin solid #bbbbbb;font-size:12px;font-family:Verdana,Geneva,Helvetica,Arial,sans-serif;font-weight:normal;}
 # main
-.mainhead { font-size:13px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top;horizontal-align:center }
-.mainhead2 { font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top;horizontal-align:center }
+.mainhead { font-size:13px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
+.mainhead2 { font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
 .mainbody { font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
 .mainkey { font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
 .mainvalue { font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
@@ -84,5 +84,5 @@ input {font-family:Geneva,Helvetica,Arial,Helvetica,sans-serif;font-size:12px;}
 .PriorityID-3 { background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
 .PriorityID-4 { background-color:#ffcccc;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
 .PriorityID-5 { background-color:#ffaaaa;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
-//-->
+-->
 </style>
