@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Config.pm,v 1.49 2006-08-29 17:30:36 martin Exp $
+# $Id: Config.pm,v 1.50 2006-08-31 12:10:34 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Main;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.49 $';
+$VERSION = '$Revision: 1.50 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -354,7 +354,6 @@ submit config settings and save it
 sub ConfigItemUpdate {
     my $Self = shift;
     my %Param = @_;
-    my %UsedKeys = ();
     my $Home = $Self->{'Home'};
     # remember to update defaults
     $Self->{Update} = 1;
@@ -1229,6 +1228,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.49 $ $Date: 2006-08-29 17:30:36 $
+$Revision: 1.50 $ $Date: 2006-08-31 12:10:34 $
 
 =cut
