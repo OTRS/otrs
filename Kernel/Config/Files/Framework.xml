@@ -108,7 +108,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.113 2006-08-29 13:26:49 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.114 2006-08-31 13:44:54 tr Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -4376,10 +4376,9 @@ Your OTRS Notification Master
       <SubGroup>Frontend::Agent::Stats</SubGroup>
       <Setting>
         <Hash>
-          <Item Key="300x200">300x200</Item>
-          <Item Key="500x400">500x400</Item>
           <Item Key="800x600">800x600</Item>
           <Item Key="1200x800">1200x800</Item>
+          <Item Key="1600x1200">1600x1200</Item>
         </Hash>
       </Setting>
     </ConfigItem>
