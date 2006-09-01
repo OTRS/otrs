@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLinkObject.pm - to link objects
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentLinkObject.pm,v 1.12 2006-08-29 17:17:24 martin Exp $
+# $Id: AgentLinkObject.pm,v 1.13 2006-09-01 11:07:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -165,6 +165,8 @@ sub Run {
         foreach my $Param ($Self->{LinkObject}->LinkSearchParams()) {
             if (defined($Self->{ParamObject}->GetParam(Param => $Param->{Name}))) {
                 $GetParams{$Param->{Name}} = $Self->{ParamObject}->GetParam(Param => $Param->{Name});
+                $GetParams{$Param->{Name}} =~ s/\s+$//g;
+                $GetParams{$Param->{Name}} =~ s/^\s+//g;
             }
             else {
                 $GetParams{$Param->{Name}} = $Self->{"ObjectLink_$Self->{DestinationObject}_$Param->{Name}"} || '';
