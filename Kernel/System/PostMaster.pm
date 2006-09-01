@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PostMaster.pm,v 1.58 2006-08-29 17:30:36 martin Exp $
+# $Id: PostMaster.pm,v 1.59 2006-09-01 13:23:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = '$Revision: 1.58 $';
+$VERSION = '$Revision: 1.59 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -295,14 +295,8 @@ sub CheckFollowUp {
     my $Subject = $Param{Subject} || '';
     if (my $Tn = $Self->{TicketObject}->GetTNByString($Subject)) {
         my $TicketID = $Self->{TicketObject}->CheckTicketNr(Tn => $Tn);
-        my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $TicketID);
-        if ($Self->{Debug} > 1) {
-            $Self->{LogObject}->Log(
-                Priority => 'debug',
-                Message => "CheckFollowUp: Tn: $Ticket{TicketNumber} found or forward!",
-            );
-        }
         if ($TicketID) {
+            my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $TicketID);
             if ($Self->{Debug} > 1) {
                 $Self->{LogObject}->Log(
                   Priority => 'debug',
@@ -335,14 +329,8 @@ sub CheckFollowUp {
     if ($Self->{ConfigObject}->Get('PostmasterFollowUpSearchInBody')) {
         if (my $Tn = $Self->{TicketObject}->GetTNByString($Self->{ParseObject}->GetMessageBody())) {
             my $TicketID = $Self->{TicketObject}->CheckTicketNr(Tn => $Tn);
-            my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $TicketID);
-            if ($Self->{Debug} > 1) {
-                $Self->{LogObject}->Log(
-                    Priority => 'debug',
-                    Message => "CheckFollowUp (in body): Tn: $Ticket{TicketNumber} found or forward!",
-                );
-            }
             if ($TicketID) {
+                my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $TicketID);
                 if ($Self->{Debug} > 1) {
                     $Self->{LogObject}->Log(
                       Priority => 'debug',
@@ -358,14 +346,8 @@ sub CheckFollowUp {
         foreach my $Attachment ($Self->{ParseObject}->GetAttachments()) {
             if (my $Tn = $Self->{TicketObject}->GetTNByString($Attachment->{Content})) {
                 my $TicketID = $Self->{TicketObject}->CheckTicketNr(Tn => $Tn);
-                my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $TicketID);
-                if ($Self->{Debug} > 1) {
-                    $Self->{LogObject}->Log(
-                        Priority => 'debug',
-                        Message => "CheckFollowUp (in attachment): Tn: $Ticket{TicketNumber} found or forward!",
-                    );
-                }
                 if ($TicketID) {
+                    my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $TicketID);
                     if ($Self->{Debug} > 1) {
                         $Self->{LogObject}->Log(
                           Priority => 'debug',
@@ -381,14 +363,8 @@ sub CheckFollowUp {
     if ($Self->{ConfigObject}->Get('PostmasterFollowUpSearchInRaw')) {
         if (my $Tn = $Self->{TicketObject}->GetTNByString($Self->{ParseObject}->GetPlainEmail())) {
             my $TicketID = $Self->{TicketObject}->CheckTicketNr(Tn => $Tn);
-            my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $TicketID);
-            if ($Self->{Debug} > 1) {
-                $Self->{LogObject}->Log(
-                    Priority => 'debug',
-                    Message => "CheckFollowUp (in plain/raw): Tn: $Ticket{TicketNumber} found or forward!",
-                );
-            }
             if ($TicketID) {
+                my %Ticket = $Self->{TicketObject}->TicketGet(TicketID => $TicketID);
                 if ($Self->{Debug} > 1) {
                     $Self->{LogObject}->Log(
                       Priority => 'debug',
