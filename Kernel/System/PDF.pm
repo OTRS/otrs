@@ -2,7 +2,7 @@
 # Kernel/System/PDF.pm - PDF lib
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PDF.pm,v 1.16 2006-08-29 17:30:36 martin Exp $
+# $Id: PDF.pm,v 1.17 2006-09-03 16:13:22 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PDF;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.16 $';
+$VERSION = '$Revision: 1.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1173,23 +1173,31 @@ sub Image {
     my $Image = $Self->{Page}->gfx;
     my $ImageFile;
 
-    if ($Param{File} =~ /^.*\.gif$/i) {
-        $ImageFile = $Self->{PDF}->image_gif($Param{File});
-    }
-    elsif ($Param{File} =~ /^.*\.jpg$/i) {
-        $ImageFile = $Self->{PDF}->image_jpeg($Param{File});
-    }
-    elsif ($Param{File} =~ /^.*\.png$/i) {
-        $ImageFile = $Self->{PDF}->image_png($Param{File});
+    # if image already used, use the existing image object
+    if (defined($Self->{Cache}->{ImageObject}->{$Param{File}})) {
+        $ImageFile = $Self->{Cache}->{ImageObject}->{$Param{File}};
     }
     else {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Imagetype of File $Param{File} not supported");
-        return;
+        if ($Param{File} =~ /^.*\.gif$/i) {
+            $ImageFile = $Self->{PDF}->image_gif($Param{File});
+        }
+        elsif ($Param{File} =~ /^.*\.jpg$/i) {
+            $ImageFile = $Self->{PDF}->image_jpeg($Param{File});
+        }
+        elsif ($Param{File} =~ /^.*\.png$/i) {
+            $ImageFile = $Self->{PDF}->image_png($Param{File});
+        }
+        else {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Imagetype of File $Param{File} not supported");
+            return;
+        }
+        # cache image object
+        $Self->{Cache}->{ImageObject}->{$Param{File}} = $ImageFile;
     }
     # get current position
     my %Position = $Self->_CurPositionGet();
 
-    my $Reduce = 0;
+    my $Reduce = 0;  #$Self->{Cache}->{StringWidth}->
 
     # check values
     if (($Position{X} + $Param{Width}) >= ($Dim{Left} + $Dim{Width})) {
@@ -3297,6 +3305,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2006-08-29 17:30:36 $
+$Revision: 1.17 $ $Date: 2006-09-03 16:13:22 $
 
 =cut
