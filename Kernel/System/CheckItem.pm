@@ -2,7 +2,7 @@
 # Kernel/System/CheckItem.pm - the global spellinf module
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CheckItem.pm,v 1.15 2006-08-29 17:30:36 martin Exp $
+# $Id: CheckItem.pm,v 1.16 2006-09-05 23:17:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,10 +14,9 @@ package Kernel::System::CheckItem;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -35,12 +34,12 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub CheckError {
     my $Self = shift;
     return $Self->{Error};
 }
-# --
+
 sub CheckEmail {
     my $Self = shift;
     my %Param = @_;
@@ -64,7 +63,6 @@ sub CheckEmail {
     # email address syntax check
     if ($Param{Address} !~ /^(()|([a-zA-Z0-9]+([a-zA-Z0-9_+\.&%-]*[a-zA-Z0-9_\.-]+)?@([a-zA-Z0-9]+([a-zA-Z0-9\.-]*[a-zA-Z0-9]+)?\.+[a-zA-Z]{2,8}|\[\d+\.\d+\.\d+\.\d+])))$/) {
         $Error = "Invalid syntax";
-#        print STDERR "INVALID Address: $Param{Address}\n";
     }
     # mx check
     elsif ($Self->{ConfigObject}->Get('CheckMXRecord') && eval { require Net::DNS }) {
@@ -73,7 +71,6 @@ sub CheckEmail {
         $Host =~ s/^.*@(.*)$/$1/;
         $Host =~ s/\s+//g;
         $Host =~ s/(^\[)|(\]$)//g;
-#        print STDERR "Host: $Host\n";
         # do dns query
         my $Resolver = Net::DNS::Resolver->new();
         if ($Resolver) {
@@ -132,6 +129,5 @@ sub CheckEmail {
         return;
     }
 }
-# --
 
 1;
