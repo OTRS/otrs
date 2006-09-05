@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: ArticleStorageDB.pm,v 1.34 2006-08-29 17:26:42 martin Exp $
+# $Id: ArticleStorageDB.pm,v 1.35 2006-09-05 21:25:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,10 +16,10 @@ use MIME::Base64;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.34 $';
+$VERSION = '$Revision: 1.35 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
+
 sub ArticleStorageInit {
     my $Self = shift;
     my %Param = @_;
@@ -34,7 +34,7 @@ sub ArticleStorageInit {
 
     return 1;
 }
-# --
+
 sub ArticleDelete {
     my $Self = shift;
     my %Param = @_;
@@ -87,7 +87,7 @@ sub ArticleDelete {
         return;
     }
 }
-# --
+
 sub _ArticleDeleteDirectory {
     my $Self = shift;
     my %Param = @_;
@@ -112,7 +112,7 @@ sub _ArticleDeleteDirectory {
     }
     return 1;
 }
-# --
+
 sub ArticleDeletePlain {
     my $Self = shift;
     my %Param = @_;
@@ -143,7 +143,7 @@ sub ArticleDeletePlain {
     }
     return 1;
 }
-# --
+
 sub ArticleDeleteAttachment {
     my $Self = shift;
     my %Param = @_;
@@ -179,7 +179,7 @@ sub ArticleDeleteAttachment {
     }
     return 1;
 }
-# --
+
 sub ArticleWritePlain {
     my $Self = shift;
     my %Param = @_;
@@ -212,7 +212,7 @@ sub ArticleWritePlain {
         return;
     }
 }
-# --
+
 sub ArticleWriteAttachment {
     my $Self = shift;
     my %Param = @_;
@@ -274,7 +274,7 @@ sub ArticleWriteAttachment {
         return;
     }
 }
-# --
+
 sub ArticlePlain {
     my $Self = shift;
     my %Param = @_;
@@ -332,7 +332,7 @@ sub ArticlePlain {
         return $Data;
     }
 }
-# --
+
 sub ArticleAttachmentIndex {
     my $Self = shift;
     my %Param = @_;
@@ -428,7 +428,7 @@ sub ArticleAttachmentIndex {
     }
     return %Index;
 }
-# --
+
 sub ArticleAttachment {
     my $Self = shift;
     my %Param = @_;
@@ -490,6 +490,6 @@ sub ArticleAttachment {
         }
     }
 }
-# --
+
 
 1;
