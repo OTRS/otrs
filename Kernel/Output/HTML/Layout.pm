@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.12 2006-08-29 14:41:24 martin Exp $
+# $Id: Layout.pm,v 1.13 2006-09-05 20:06:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -288,10 +288,8 @@ sub _BlockTemplatePreferences {
                     $LastLayer = $CurrentLayer;
                     $CurrentLayer = $CurrentLayer.'::'.$BlockName;
                 }
-#        print STDERR "Layer: $Layer ($CurrentLayer)\n";
                 $LastLayerCount = $Layer;
                 if (!$UsedNames{$BlockName}) {
-#        print STDERR "CN: $BlockName\n";
                     push (@Preferences, {
                         Name => $BlockName,
                         Layer => $Layer,
@@ -323,14 +321,12 @@ sub _BlockTemplatePreferences {
             $Self->{PrasedBlockTemplatePreferences}->{$TemplateFile} = \@Preferences;
         }
         else {
-#print STDERR "Not Cached: $TemplateFile\n";
             undef $Self->{PrasedBlockTemplatePreferences}->{$TemplateFile};
         }
         return @Preferences;
     }
     else {
         # return already parsed block data
-#print STDERR "Cached: $TemplateFile\n";
         return @{$Self->{PrasedBlockTemplatePreferences}->{$TemplateFile}};
     }
 }
@@ -353,7 +349,6 @@ sub _BlockTemplatesReplace {
         TemplateFile => $TemplateFile,
     );
     foreach my $Block (reverse @Blocks) {
-#print STDERR "GP: $Block->{Name}\n";
          $$TemplateString =~ s{
             <!--\s{0,1}dtl:block:$Block->{Name}\s{0,1}-->(.+?)<!--\s{0,1}dtl:block:$Block->{Name}\s{0,1}-->
         }
@@ -423,9 +418,7 @@ sub Output {
         }
         %Data = %{$Param{Data}};
     }
-    # --
     # create %Env for this round!
-    # --
     my %Env = ();
     if (!$Self->{EnvRef}) {
         # build OTRS env
@@ -446,9 +439,7 @@ sub Output {
         }
         undef $Self->{EnvNewRef};
     }
-    # --
     # create refs
-    # --
     my $EnvRef = \%Env;
     my $DataRef = \%Data;
     my $GlobalRef = {
@@ -456,9 +447,7 @@ sub Output {
         DataRef => $DataRef,
         ConfigRef => $Self->{ConfigObject},
     };
-    # --
     # read template from filesystem
-    # --
     my $TemplateString = '';
     if (defined($Param{Template}) && ref($Param{Template}) eq 'ARRAY') {
          foreach (@{$Param{Template}}) {
@@ -521,10 +510,10 @@ sub Output {
             if (defined($ID)) {
                 $ID .= ":";
              }
-             $ID .= $LayerHash{$i};
+             if (defined($LayerHash{$i})) {
+                 $ID .= $LayerHash{$i};
+            }
         }
-
-#        print STDERR "BD($ID): $Block->{Name} - $Block->{Layer} =! $OldLayer\n";
 
         # add block counter to template blocks
         if ($Block->{Layer} == 1) {
@@ -532,7 +521,6 @@ sub Output {
                 (<!--\s{0,1}dtl:place_block:$Block->{Name})(\s{0,1}-->)
             }
             {
-#            print STDERR "FR(''->:$LayerHash{$Block->{Layer}}): $Block->{Name} $1:$LayerHash{$Block->{Layer}}$2\n";
                 "$1:".$LayerHash{$Block->{Layer}}.$2;
             }segxm;
         }
@@ -541,18 +529,15 @@ sub Output {
             (<!--\s{0,1}dtl:place_block:.+?)(\s{0,1}-->)
         }
         {
-#            print STDERR "IR($ID): $1:$ID:-$2\n";
             "$1:$ID:-$2";
         }segxm;
 
         # count up place_block counter
         $ID =~ s/^(.*:)(\d+)$/$1-/g;
-#        print STDERR "S($ID): dtl:place_block:$Block->{Name}:$ID|\n";
         $TemplateString =~ s{
             (<!--\s{0,1}dtl:place_block:$Block->{Name}:)($ID)(\s{0,1}-->)
         }
         {
-#            print STDERR "SS($ID): $Block->{Name}\n";
             my $Start = $1;
             my $Stop = $3;
             my $NewID = '';
@@ -565,7 +550,6 @@ sub Output {
             elsif ($ID =~ /^(.*:)-$/) {
                 $NewID = $ID;
             }
-#            print STDERR "SE($ID->$NewID): $Block->{Name}\n";
             $Block->{Data}.$Start.$NewID.$Stop;
         }sexm;
         $OldLayer = $Block->{Layer};
@@ -2650,6 +2634,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2006-08-29 14:41:24 $
+$Revision: 1.13 $ $Date: 2006-09-05 20:06:02 $
 
 =cut
