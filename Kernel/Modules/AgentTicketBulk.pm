@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.8 2006-08-29 17:17:24 martin Exp $
+# $Id: AgentTicketBulk.pm,v 1.9 2006-09-05 15:14:14 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,10 +15,9 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -42,7 +41,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -50,9 +49,9 @@ sub Run {
     # get involved tickets
     my @TicketIDs = $Self->{ParamObject}->GetArray(Param => 'TicketIDs');
     foreach (1..30) {
-      if ($Self->{ParamObject}->GetParam(Param => "TicketID$_")) {
-        push (@TicketIDs, $Self->{ParamObject}->GetParam(Param => "TicketID$_"));
-      }
+        if ($Self->{ParamObject}->GetParam(Param => "TicketID$_")) {
+            push (@TicketIDs, $Self->{ParamObject}->GetParam(Param => "TicketID$_"));
+        }
     }
     # check needed stuff
     if (!@TicketIDs) {
@@ -102,7 +101,7 @@ sub Run {
                 $Self->{TicketObject}->OwnerSet(
                     TicketID => $TicketID,
                     UserID => $Self->{UserID},
-	                NewUserID => $Self->{UserID},
+                    NewUserID => $Self->{UserID},
                 );
                 $Output .= $Self->{LayoutObject}->Notify(
                     Data => $Ticket{TicketNumber}.': $Text{"Ticket locked!"}',
@@ -127,19 +126,19 @@ sub Run {
                     my $ArticleType = $Self->{ParamObject}->GetParam(Param => 'ArticleType') || '';
 
                     if ($Subject && $Body && ($ArticleTypeID||$ArticleType)) {
-                      my $ArticleID = $Self->{TicketObject}->ArticleCreate(
-                        TicketID => $TicketID,
-                        ArticleTypeID => $ArticleTypeID,
-                        ArticleType => $ArticleType,
-                        SenderType => 'agent',
-                        From => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
-                        Subject => $Subject,
-                        Body => $Body,
-                        ContentType => "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}",
-                        UserID => $Self->{UserID},
-                        HistoryType => 'AddNote',
-                        HistoryComment => '%%Bulk',
-                      );
+                        my $ArticleID = $Self->{TicketObject}->ArticleCreate(
+                            TicketID => $TicketID,
+                            ArticleTypeID => $ArticleTypeID,
+                            ArticleType => $ArticleType,
+                            SenderType => 'agent',
+                            From => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
+                            Subject => $Subject,
+                            Body => $Body,
+                            ContentType => "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}",
+                            UserID => $Self->{UserID},
+                            HistoryType => 'AddNote',
+                            HistoryComment => '%%Bulk',
+                        );
                     }
                     # set state
                     my $StateID = $Self->{ParamObject}->GetParam(Param => 'StateID') || '';
@@ -164,14 +163,14 @@ sub Run {
                             );
                         }
                     }
-					# Should I unlock tickets at user request?
-					if ($Self->{ParamObject}->GetParam(Param => 'Unlock')) {
+                    # Should I unlock tickets at user request?
+                    if ($Self->{ParamObject}->GetParam(Param => 'Unlock')) {
                         $Self->{TicketObject}->LockSet(
-							TicketID => $TicketID,
-							Lock => 'unlock',
-							UserID => $Self->{UserID},
-						);
-					}
+                            TicketID => $TicketID,
+                            Lock => 'unlock',
+                            UserID => $Self->{UserID},
+                        );
+                    }
                 }
             }
         }
@@ -186,7 +185,7 @@ sub Run {
         return $Output;
     }
 }
-# --
+
 sub _Mask {
     my $Self = shift;
     my %Param = @_;
@@ -195,7 +194,7 @@ sub _Mask {
     my %NoteTypes = $Self->{DBObject}->GetTableData(
         Table => 'article_type',
         Valid => 1,
-        What => 'id, name'
+        What => 'id, name',
     );
     foreach (keys %NoteTypes) {
         if (!$DefaultNoteTypes{$NoteTypes{$_}}) {
@@ -246,5 +245,5 @@ sub _Mask {
     # get output back
     return $Self->{LayoutObject}->Output(TemplateFile => 'AgentTicketBulk', Data => \%Param);
 }
-# --
+
 1;
