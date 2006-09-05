@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.117 2006-09-05 19:51:48 martin Exp $
+# $Id: Article.pm,v 1.118 2006-09-05 21:22:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.117 $';
+$VERSION = '$Revision: 1.118 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -351,8 +351,8 @@ MessageID => $Param{MessageID},
         # send owner/responsible notification to agent
         foreach (qw(OwnerID ResponsibleID)) {
             if ($Ticket{$_} && $Ticket{$_} ne 1 && $Ticket{$_} ne $Param{UserID}) {
-                if (!$AlreadySent{$_}) {
-                    $AlreadySent{$_} = 1;
+                if (!$AlreadySent{$Ticket{$_}}) {
+                    $AlreadySent{$Ticket{$_}} = 1;
                     my %UserData = $Self->{UserObject}->GetUserData(
                         UserID => $Ticket{$_},
                         Cached => 1,
