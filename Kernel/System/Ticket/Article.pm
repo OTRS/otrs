@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.116 2006-08-29 17:26:42 martin Exp $
+# $Id: Article.pm,v 1.117 2006-09-05 19:51:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.116 $';
+$VERSION = '$Revision: 1.117 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -323,23 +323,27 @@ MessageID => $Param{MessageID},
     # send agent notification!?
     # --
     my $To = '';
+    my %AlreadySent = ();
     if ($Param{HistoryType} =~ /^(EmailAgent|EmailCustomer|PhoneCallCustomer|WebRequestCustomer|SystemRequest)$/i) {
         foreach ($Self->GetSubscribedUserIDsByQueueID(QueueID => $Ticket{QueueID})) {
-            my %UserData = $Self->{UserObject}->GetUserData(
-                UserID => $_,
-                Cached => 1,
-                Valid => 1,
-            );
-            if ($UserData{UserSendNewTicketNotification}) {
-                # send notification
-                $Self->SendAgentNotification(
-                    Type => $Param{HistoryType},
-                    UserData => \%UserData,
-                    CustomerMessageParams => \%Param,
-                    TicketID => $Param{TicketID},
-                    Queue => $Param{Queue},
-                    UserID => $Param{UserID},
+            if (!$AlreadySent{$_}) {
+                $AlreadySent{$_} = 1;
+                my %UserData = $Self->{UserObject}->GetUserData(
+                    UserID => $_,
+                    Cached => 1,
+                    Valid => 1,
                 );
+                if ($UserData{UserSendNewTicketNotification}) {
+                    # send notification
+                    $Self->SendAgentNotification(
+                        Type => $Param{HistoryType},
+                        UserData => \%UserData,
+                        CustomerMessageParams => \%Param,
+                        TicketID => $Param{TicketID},
+                        Queue => $Param{Queue},
+                        UserID => $Param{UserID},
+                    );
+                }
             }
         }
     }
@@ -347,20 +351,23 @@ MessageID => $Param{MessageID},
         # send owner/responsible notification to agent
         foreach (qw(OwnerID ResponsibleID)) {
             if ($Ticket{$_} && $Ticket{$_} ne 1 && $Ticket{$_} ne $Param{UserID}) {
-                my %UserData = $Self->{UserObject}->GetUserData(
-                    UserID => $Ticket{$_},
-                    Cached => 1,
-                    Valid => 1,
-                );
-                # send notification
-                $Self->SendAgentNotification(
-                    Type => $Param{HistoryType},
-                    UserData => \%UserData,
-                    CustomerMessageParams => \%Param,
-                    TicketID => $Param{TicketID},
-                    Queue => $Param{Queue},
-                    UserID => $Param{UserID},
-                );
+                if (!$AlreadySent{$_}) {
+                    $AlreadySent{$_} = 1;
+                    my %UserData = $Self->{UserObject}->GetUserData(
+                        UserID => $Ticket{$_},
+                        Cached => 1,
+                        Valid => 1,
+                    );
+                    # send notification
+                    $Self->SendAgentNotification(
+                        Type => $Param{HistoryType},
+                        UserData => \%UserData,
+                        CustomerMessageParams => \%Param,
+                        TicketID => $Param{TicketID},
+                        Queue => $Param{Queue},
+                        UserID => $Param{UserID},
+                    );
+                }
             }
         }
     }
@@ -375,30 +382,14 @@ MessageID => $Param{MessageID},
                 @OwnerIDs = $Self->GetSubscribedUserIDsByQueueID(QueueID => $Ticket{QueueID});
             }
             foreach (@OwnerIDs) {
-                my %UserData = $Self->{UserObject}->GetUserData(
-                    UserID => $_,
-                    Cached => 1,
-                    Valid => 1,
-                );
-                if ($UserData{UserSendFollowUpNotification}) {
-                    # send notification
-                    $Self->SendAgentNotification(
-                        Type => $Param{HistoryType},
-                        UserData => \%UserData,
-                        CustomerMessageParams => \%Param,
-                        TicketID => $Param{TicketID},
-                        Queue => $Param{Queue},
-                        UserID => $Param{UserID},
+                if (!$AlreadySent{$_}) {
+                    $AlreadySent{$_} = 1;
+                    my %UserData = $Self->{UserObject}->GetUserData(
+                        UserID => $_,
+                        Cached => 1,
+                        Valid => 1,
                     );
-                }
-            }
-        }
-        # send owner/responsible notification the agents who locked the ticket
-        else {
-            foreach (qw(OwnerID ResponsibleID)) {
-                if ($Ticket{$_}) {
-                    my %UserData = $Self->{UserObject}->GetUserData(UserID => $Ticket{$_});
-                    if ($Ticket{$_} ne 1 && $UserData{UserSendFollowUpNotification}) {
+                    if ($UserData{UserSendFollowUpNotification}) {
                         # send notification
                         $Self->SendAgentNotification(
                             Type => $Param{HistoryType},
@@ -411,30 +402,54 @@ MessageID => $Param{MessageID},
                     }
                 }
             }
+        }
+        # send owner/responsible notification the agents who locked the ticket
+        else {
+            foreach (qw(OwnerID ResponsibleID)) {
+                if ($Ticket{$_}) {
+                    if (!$AlreadySent{$_}) {
+                        $AlreadySent{$_} = 1;
+                        my %UserData = $Self->{UserObject}->GetUserData(UserID => $Ticket{$_});
+                        if ($Ticket{$_} ne 1 && $UserData{UserSendFollowUpNotification}) {
+                            # send notification
+                            $Self->SendAgentNotification(
+                                Type => $Param{HistoryType},
+                                UserData => \%UserData,
+                                CustomerMessageParams => \%Param,
+                                TicketID => $Param{TicketID},
+                                Queue => $Param{Queue},
+                                UserID => $Param{UserID},
+                            );
+                        }
+                    }
+                }
+            }
             # send the rest of agents follow ups
             foreach ($Self->GetSubscribedUserIDsByQueueID(QueueID => $Ticket{QueueID})) {
-                my %UserData = $Self->{UserObject}->GetUserData(
-                    UserID => $_,
-                    Cached => 1,
-                    Valid => 1,
-                );
-                if ($UserData{UserSendFollowUpNotification} && $UserData{UserSendFollowUpNotification} == 2 && $Ticket{OwnerID} ne 1 && $Ticket{OwnerID} ne $Param{UserID} && $Ticket{OwnerID} ne $UserData{UserID}) {
-                    # send notification
-                    $Self->SendAgentNotification(
-                        Type => $Param{HistoryType},
-                        UserData => \%UserData,
-                        CustomerMessageParams => \%Param,
-                        TicketID => $Param{TicketID},
-                        Queue => $Param{Queue},
-                        UserID => $Param{UserID},
+                if (!$AlreadySent{$_}) {
+                    my %UserData = $Self->{UserObject}->GetUserData(
+                        UserID => $_,
+                        Cached => 1,
+                        Valid => 1,
                     );
+                    if ($UserData{UserSendFollowUpNotification} && $UserData{UserSendFollowUpNotification} == 2 && $Ticket{OwnerID} ne 1 && $Ticket{OwnerID} ne $Param{UserID} && $Ticket{OwnerID} ne $UserData{UserID}) {
+                        $AlreadySent{$_} = 1;
+                        # send notification
+                        $Self->SendAgentNotification(
+                            Type => $Param{HistoryType},
+                            UserData => \%UserData,
+                            CustomerMessageParams => \%Param,
+                            TicketID => $Param{TicketID},
+                            Queue => $Param{Queue},
+                            UserID => $Param{UserID},
+                        );
+                    }
                 }
             }
         }
     }
     # send forced notifications
     if ($Param{ForceNotificationToUserID} && ref($Param{ForceNotificationToUserID}) eq 'ARRAY') {
-        my %AlreadySent = ();
         foreach (@{$Param{ForceNotificationToUserID}}) {
             if (!$AlreadySent{$_}) {
                 $AlreadySent{$_} = 1;
