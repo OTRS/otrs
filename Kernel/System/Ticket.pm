@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.220 2006-08-30 16:04:42 mh Exp $
+# $Id: Ticket.pm,v 1.221 2006-09-05 21:18:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.220 $';
+$VERSION = '$Revision: 1.221 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -1611,7 +1611,7 @@ sub Permission {
         return;
     }
 }
-# --
+
 sub CustomerPermission {
     my $Self = shift;
     my %Param = @_;
@@ -3468,12 +3468,18 @@ sub InvolvedAgents {
     }
     my @UserInfo = ();
     foreach (@User) {
-        my %User = $Self->{UserObject}->GetUserData(UserID => $_, Cache => 1);
-        push (@UserInfo, \%User);
+        my %User = $Self->{UserObject}->GetUserData(
+            UserID => $_,
+            Valid => 1,
+            Cache => 1,
+        );
+        if (%User) {
+            push (@UserInfo, \%User);
+        }
     }
     return @UserInfo;
 }
-# --
+
 sub PriorityLookup {
     my $Self = shift;
     my %Param = @_;
@@ -4719,13 +4725,13 @@ sub TicketAcl {
     }
     return;
 }
-# --
+
 sub TicketAclData {
     my $Self = shift;
     my %Param = @_;
     return %{$Self->{TicketAclData}};
 }
-# --
+
 sub TicketAclActionData {
     my $Self = shift;
     my %Param = @_;
@@ -4736,7 +4742,7 @@ sub TicketAclActionData {
         return %{$Self->{ConfigObject}->Get('TicketACL::Default::Action')};
     }
 }
-# --
+
 sub TicketEventHandlerPost {
     my $Self = shift;
     my %Param = @_;
@@ -4838,6 +4844,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.220 $ $Date: 2006-08-30 16:04:42 $
+$Revision: 1.221 $ $Date: 2006-09-05 21:18:58 $
 
 =cut
