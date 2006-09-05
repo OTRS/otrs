@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.pm,v 1.40 2006-08-29 17:17:23 martin Exp $
+# $Id: AdminCustomerUser.pm,v 1.41 2006-09-05 19:43:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,10 +15,9 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.40 $ ';
+$VERSION = '$Revision: 1.41 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -44,7 +43,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -105,7 +104,7 @@ sub Run {
             $OnClick = " onclick=\"updateMessage('$AddedUID')\"";
         }
         $NavBar .= $Self->{LayoutObject}->Notify(
-            Info => $Self->{LayoutObject}->{LanguageObject}->Get('Added User "%s"", "'.$AddedUID).
+            Data => $Self->{LayoutObject}->{LanguageObject}->Get('Added User "%s"", "'.$AddedUID).
             " ( <a href=\"\$Env{\"CGIHandle\"}?Action=AgentTicketPhone&Subaction=StoreNew&ExpandCustomerName=2&CustomerUser=$AddedUID\"$OnClick>".$Self->{LayoutObject}->{LanguageObject}->Get('PhoneView')."</a>".
             " - <a href=\"\$Env{\"CGIHandle\"}?Action=AgentTicketEmail&Subaction=StoreNew&ExpandCustomerName=2&CustomerUser=$AddedUID\"$OnClick>".$Self->{LayoutObject}->{LanguageObject}->Get('Compose Email')."</a> )!",
         );
@@ -334,7 +333,7 @@ sub Run {
 
     # changeaction
 }
-# --
+
 sub AdminCustomerUserForm {
     my $Self = shift;
     my %Param = @_;
