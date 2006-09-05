@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.13 2006-09-05 20:06:02 martin Exp $
+# $Id: Layout.pm,v 1.14 2006-09-05 22:55:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1370,7 +1370,7 @@ sub Ascii2Html {
             my $LinkSmall = $LinkHash{$Key};
             $LinkSmall =~ s/^(.{75}).*$/$1\[\.\.\]/gs;
             $LinkHash{$Key} =~ s/ //g;
-            $Text =~ s/\Q$Key\E/<a href=\"$LinkHash{$Key}\" target=\"_blank\" title=\"$LinkHash{$Key}\">$LinkSmall<\/a>/;
+            $Text =~ s/\Q$Key\E/<a href=\"$LinkHash{$Key}\" target=\"_blank\" title=\"$LinkHash{$Key}\">$LinkSmall<\/a> /;
         }
     }
     if ($HTMLMode) {
@@ -2634,6 +2634,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2006-09-05 20:06:02 $
+$Revision: 1.14 $ $Date: 2006-09-05 22:55:30 $
 
 =cut
