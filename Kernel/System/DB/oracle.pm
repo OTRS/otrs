@@ -2,7 +2,7 @@
 # Kernel/System/DB/oracle.pm - oracle database backend
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: oracle.pm,v 1.12 2006-08-29 17:31:42 martin Exp $
+# $Id: oracle.pm,v 1.13 2006-09-06 14:25:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::DB::oracle;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub LoadPreferences {
@@ -38,6 +38,7 @@ sub LoadPreferences {
 
     return 1;
 }
+
 sub DatabaseCreate {
     my $Self = shift;
     my %Param = @_;
@@ -49,6 +50,7 @@ sub DatabaseCreate {
     # return SQL
     return ("CREATE DATABASE $Param{Name}");
 }
+
 sub DatabaseDrop {
     my $Self = shift;
     my %Param = @_;
@@ -60,6 +62,7 @@ sub DatabaseDrop {
     # return SQL
     return ("DROP DATABASE $Param{Name}");
 }
+
 sub TableCreate {
     my $Self = shift;
     my @Param = @_;
@@ -192,6 +195,7 @@ sub TableCreate {
     }
     return @Return;
 }
+
 sub TableDrop {
     my $Self = shift;
     my @Param = @_;
@@ -207,6 +211,7 @@ sub TableDrop {
     }
     return ();
 }
+
 sub TableAlter {
     my $Self = shift;
     my @Param = @_;
@@ -259,6 +264,7 @@ sub TableAlter {
     }
     return @SQL;
 }
+
 sub IndexCreate {
     my $Self = shift;
     my %Param = @_;
@@ -290,6 +296,7 @@ sub IndexCreate {
     return ($SQL);
 
 }
+
 sub IndexDrop {
     my $Self = shift;
     my %Param = @_;
@@ -303,6 +310,7 @@ sub IndexDrop {
     my $SQL = "DROP INDEX $Param{Name}";
     return ($SQL);
 }
+
 sub ForeignKeyCreate {
     my $Self = shift;
     my %Param = @_;
@@ -324,6 +332,7 @@ sub ForeignKeyCreate {
     # return SQL
     return ($SQL);
 }
+
 sub ForeignKeyDrop {
     my $Self = shift;
     my %Param = @_;
@@ -337,6 +346,7 @@ sub ForeignKeyDrop {
     my $SQL = "ALTER TABLE $Param{TableName} DISABLE CONSTRAINT $Param{Name}";
     return ($SQL);
 }
+
 sub UniqueCreate {
     my $Self = shift;
     my %Param = @_;
@@ -360,6 +370,7 @@ sub UniqueCreate {
     return ($SQL);
 
 }
+
 sub UniqueDrop {
     my $Self = shift;
     my %Param = @_;
@@ -373,6 +384,7 @@ sub UniqueDrop {
     my $SQL = "ALTER TABLE $Param{TableName} DROP CONSTRAINT $Param{Name}";
     return ($SQL);
 }
+
 sub Insert {
     my $Self = shift;
     my @Param = @_;
@@ -412,6 +424,7 @@ sub Insert {
     $SQL .= "($Key) VALUES ($Value)";
     return ($SQL);
 }
+
 sub _TypeTranslation {
     my $Self = shift;
     my $Tag = shift;
