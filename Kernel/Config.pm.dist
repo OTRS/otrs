@@ -1,8 +1,8 @@
 # --
 # Kernel/Config.pm - Config file for OTRS kernel
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Config.pm.dist,v 1.17 2006-06-08 06:55:42 tr Exp $
+# $Id: Config.pm.dist,v 1.18 2006-09-07 16:15:41 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,8 +17,9 @@
 #       config file. This file will not be changed on update!
 #
 # --
+
 package Kernel::Config;
-# --
+
 sub Load {
     my $Self = shift;
     # ---------------------------------------------------- #
@@ -60,14 +61,14 @@ sub Load {
     # ---------------------------------------------------- #
     $Self->{Home} = '/opt/otrs';
 
-    # **************************************************** #
+    # ---------------------------------------------------- #
     # insert your own config settings "here"               #
     # config settings taken from Kernel/Config/Defaults.pm #
-    # **************************************************** #
+    # ---------------------------------------------------- #
     # $Self->{SessionUseCookie} = 0;
     # $Self->{CheckMXRecord} = 0;
 
-    # **************************************************** #
+    # ---------------------------------------------------- #
 
     # ---------------------------------------------------- #
     # data inserted by installer                           #
@@ -90,7 +91,7 @@ use strict;
 use vars qw(@ISA $VERSION);
 use Kernel::Config::Defaults;
 push (@ISA, 'Kernel::Config::Defaults');
-$VERSION = '$Revision: 1.17 $';
+$VERSION = '$Revision: 1.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 # -----------------------------------------------------#
 
