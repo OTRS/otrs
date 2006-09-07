@@ -2,7 +2,7 @@
 # Kernel/System/PDF.pm - PDF lib
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PDF.pm,v 1.18 2006-09-03 16:15:45 mh Exp $
+# $Id: PDF.pm,v 1.19 2006-09-07 07:12:23 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PDF;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -42,11 +42,14 @@ sub new {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
     # load PDF::API2
-    if ($Self->{ConfigObject}->Get('PDF') && $Self->{MainObject}->Require('PDF::API2')) {
-        return $Self;
+    if (!$Self->{ConfigObject}->Get('PDF')) {
+        return;
     }
-
-    return;
+    if (!$Self->{MainObject}->Require('PDF::API2')) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "PDF support activated in SysConfig but cpan-module PDF::API2 isn't installed!");
+        return;
+    }
+    return $Self;
 }
 
 =item DocumentNew()
@@ -3305,6 +3308,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2006-09-03 16:15:45 $
+$Revision: 1.19 $ $Date: 2006-09-07 07:12:23 $
 
 =cut
