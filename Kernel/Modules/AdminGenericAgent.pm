@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.29 2006-08-29 17:17:23 martin Exp $
+# $Id: AdminGenericAgent.pm,v 1.30 2006-09-07 07:12:59 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Lock;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -124,14 +124,6 @@ sub Run {
             NewParamValue5 NewParamValue6 NewParamValue7 NewParamValue8
             NewLockID NewDelete NewCMD NewSendNoNotification
             ScheduleLastRun Valid
-            NewTicketFreeKey1 NewTicketFreeText1 NewTicketFreeKey2 NewTicketFreeText2
-            NewTicketFreeKey3 NewTicketFreeText3 NewTicketFreeKey4 NewTicketFreeText4
-            NewTicketFreeKey5 NewTicketFreeText5 NewTicketFreeKey6 NewTicketFreeText6
-            NewTicketFreeKey7 NewTicketFreeText7 NewTicketFreeKey8 NewTicketFreeText8
-            NewTicketFreeKey9 NewTicketFreeText9 NewTicketFreeKey10 NewTicketFreeText10
-            NewTicketFreeKey11 NewTicketFreeText11 NewTicketFreeKey12 NewTicketFreeText12
-            NewTicketFreeKey13 NewTicketFreeText13 NewTicketFreeKey14 NewTicketFreeText14
-            NewTicketFreeKey15 NewTicketFreeText15 NewTicketFreeKey16 NewTicketFreeText16
         )) {
 
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
@@ -142,21 +134,58 @@ sub Run {
             }
         }
 
+        # get new free field params
+        foreach my $ID (1..16) {
+            # ticket free keys
+            if (defined($Self->{ParamObject}->GetParam(Param => "NewTicketFreeKey$ID"))) {
+                $GetParam{"NewTicketFreeKey$ID"} = $Self->{ParamObject}->GetParam(Param => "NewTicketFreeKey" . $ID);
+                # remove white space on the end
+                if ($GetParam{"NewTicketFreeKey$ID"}) {
+                    $GetParam{"NewTicketFreeKey$ID"} =~ s/\s+$//g;
+                    $GetParam{"NewTicketFreeKey$ID"} =~ s/^\s+//g;
+                }
+            }
+            # ticket free text
+            if ($Self->{ParamObject}->GetParam(Param => "NewTicketFreeText$ID") ||
+               (defined($Self->{ParamObject}->GetParam(Param => "NewTicketFreeText$ID")) && $Self->{ConfigObject}->Get("TicketFreeText$ID"))
+            ) {
+                $GetParam{"NewTicketFreeText$ID"} = $Self->{ParamObject}->GetParam(Param => "NewTicketFreeText$ID");
+                # remove white space on the end
+                if ($GetParam{"NewTicketFreeText$ID"}) {
+                    $GetParam{"NewTicketFreeText$ID"} =~ s/\s+$//g;
+                    $GetParam{"NewTicketFreeText$ID"} =~ s/^\s+//g;
+                }
+            }
+        }
+
         # get array params
         foreach (qw(LockIDs StateIDs StateTypeIDs QueueIDs PriorityIDs OwnerIDs
             ScheduleDays ScheduleMinutes ScheduleHours
-            TicketFreeKey1 TicketFreeText1 TicketFreeKey2 TicketFreeText2
-            TicketFreeKey3 TicketFreeText3 TicketFreeKey4 TicketFreeText4
-            TicketFreeKey5 TicketFreeText5 TicketFreeKey6 TicketFreeText6
-            TicketFreeKey7 TicketFreeText7 TicketFreeKey8 TicketFreeText8
-            TicketFreeKey9 TicketFreeText9 TicketFreeKey10 TicketFreeText10
-            TicketFreeKey11 TicketFreeText11 TicketFreeKey12 TicketFreeText12
-            TicketFreeKey13 TicketFreeText13 TicketFreeKey14 TicketFreeText14
-            TicketFreeKey15 TicketFreeText15 TicketFreeKey16 TicketFreeText16
         )) {
             # get search array params (get submitted params)
             if ($Self->{ParamObject}->GetArray(Param => $_)) {
                 @{$GetParam{$_}} = $Self->{ParamObject}->GetArray(Param => $_);
+            }
+        }
+
+        # get  free field params
+        foreach my $ID (1..16) {
+            # get search array params for free key (get submitted params)
+            if ($Self->{ParamObject}->GetArray(Param => "TicketFreeKey$ID")) {
+                @{$GetParam{"TicketFreeKey$ID"}} = $Self->{ParamObject}->GetArray(Param => "TicketFreeKey$ID");
+            }
+            # get search array params for free text (get submitted params)
+
+            if ($Self->{ConfigObject}->Get("TicketFreeText$ID")) {
+                if ($Self->{ParamObject}->GetArray(Param => "TicketFreeText$ID")) {
+                    @{$GetParam{"TicketFreeText$ID"}} = $Self->{ParamObject}->GetArray(Param => "TicketFreeText$ID");
+                }
+            }
+            else {
+                my @Array = $Self->{ParamObject}->GetArray(Param => "TicketFreeText$ID");
+                if ($Array[0]) {
+                    @{$GetParam{"TicketFreeText$ID"}} = @Array;
+                }
             }
         }
 
@@ -282,20 +311,6 @@ sub Run {
         # html search mask output
         $Output  = $Self->{LayoutObject}->Header(Title => "Affected Tickets");
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        # actually not useful because of the admin module link field
-        #if ($Param{DeleteMessage}) {
-        #    $Output .= $Self->{LayoutObject}->Notify(
-        #        Info => $Param{DeleteMessage},
-        #        Priority => 'Warning',
-        #    );
-        #}
-        #if ($Param{Message}) {
-        #    $Output .= $Self->{LayoutObject}->Notify(
-        #        Info => $Param{Message},
-        #        Priority => 'Warning',
-        #    );
-        #}
-
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminGenericAgent',
             Data => \%Param,
@@ -326,6 +341,7 @@ sub Run {
             Data       => \%ShownUsers,
             Name       => 'NewOwnerID',
             Size       => 5,
+            Multiple  => 1,
             SelectedID => $Param{NewOwnerID},
         );
         my %Hours = ();
@@ -387,8 +403,9 @@ sub Run {
                 Action => $Self->{Action},
                 )
             },
-            Name     => 'NewStateID',
-            Size     => 5,
+            Name       => 'NewStateID',
+            Size       => 5,
+            Multiple   => 1,
             SelectedID => $Param{NewStateID},
         );
         $Param{'QueuesStrg'} = $Self->{LayoutObject}->AgentQueueListOption(
@@ -402,6 +419,7 @@ sub Run {
         $Param{'NewQueuesStrg'} = $Self->{LayoutObject}->AgentQueueListOption(
             Data => { $Self->{QueueObject}->GetAllQueues(),},
             Size => 5,
+            Multiple => 1,
             Name => 'NewQueueID',
             SelectedID => $Param{NewQueueID},
             OnChangeSubmit => 0,
@@ -424,6 +442,7 @@ sub Run {
                 ),
             },
             Name => 'NewPriorityID',
+            Multiple => 1,
             Size => 5,
             SelectedID => $Param{NewPriorityID},
         );
@@ -509,6 +528,7 @@ sub Run {
             },
             Name => 'NewLockID',
             Size => 3,
+            Multiple => 1,
             LanguageTranslation => 0,
             SelectedID => $Param{NewLockID},
         );
@@ -562,10 +582,6 @@ sub Run {
                 }
                 else {
                     my %TicketFreeText = %{$Self->{ConfigObject}->Get('TicketFreeText' . $ID)};
-                    if (!$TicketFreeText{''}) {
-                        $TicketFreeText{''} = '';
-                    }
-
                     $TicketFreeText = $Self->{LayoutObject}->OptionStrgHashRef(
                         Data => \%TicketFreeText,
                         Name => 'TicketFreeText' . $ID,
@@ -608,11 +624,12 @@ sub Run {
                 }
                 else {
                     $NewTicketFreeKey = $Self->{LayoutObject}->OptionStrgHashRef(
-                        Data => \%TicketFreeKey,
-                        Name => 'NewTicketFreeKey' . $ID,
-                        Size => 4,
+                        Data                => \%TicketFreeKey,
+                        Name                => 'NewTicketFreeKey' . $ID,
+                        Size                => 4,
+                        Multiple            => 1,
                         LanguageTranslation => 0,
-                        SelectedID => $Param{'NewTicketFreeKey' . $ID},
+                        SelectedID          => $Param{'NewTicketFreeKey' . $ID},
                     );
                 }
 
@@ -623,16 +640,13 @@ sub Run {
                 }
                 else {
                     my %TicketFreeText = %{$Self->{ConfigObject}->Get('TicketFreeText' . $ID)};
-                    if (!$TicketFreeText{''}) {
-                        $TicketFreeText{''} = '';
-                    }
-
                     $NewTicketFreeText = $Self->{LayoutObject}->OptionStrgHashRef(
-                        Data => \%TicketFreeText,
-                        Name => 'NewTicketFreeText' . $ID,
-                        Size => 4,
+                        Data                => \%TicketFreeText,
+                        Name                => 'NewTicketFreeText' . $ID,
+                        Size                => 4,
+                        Multiple            => 1,
                         LanguageTranslation => 0,
-                        SelectedID => $Param{'NewTicketFreeText' . $ID},
+                        SelectedID          => $Param{'NewTicketFreeText' . $ID},
                     );
                 }
 

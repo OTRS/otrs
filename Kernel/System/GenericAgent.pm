@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.15 2006-08-29 17:30:36 martin Exp $
+# $Id: GenericAgent.pm,v 1.16 2006-09-07 07:12:59 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Main;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $ ';
+$VERSION = '$Revision: 1.16 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -400,7 +400,9 @@ sub JobRunTicket {
             return;
         }
     }
+    my %TicketData = $Self->{TicketObject}->TicketGet(TicketID => $Param{TicketID});
     my $Ticket = "($Param{TicketNumber}/$Param{TicketID})";
+
     # --
     # move ticket
     # --
@@ -568,8 +570,11 @@ sub JobRunTicket {
     # set ticket free text options
     # --
     foreach (1..16) {
-        if ($Param{Config}->{New}->{"TicketFreeKey$_"} || $Param{Config}->{New}->{"TicketFreeText$_"}) {
-            my $Key = $Param{Config}->{New}->{"TicketFreeKey$_"} || '';
+        if (defined($Param{Config}->{New}->{"TicketFreeKey$_"}) || defined($Param{Config}->{New}->{"TicketFreeText$_"})) {
+            my $Key = $TicketData{"TicketFreeKey$_"};
+            if (defined($Param{Config}->{New}->{"TicketFreeKey$_"})) {
+                $Key = $Param{Config}->{New}->{"TicketFreeKey$_"};
+            }
             if (!$Key && ref($Self->{ConfigObject}->Get('TicketFreeKey' . $_)) eq 'HASH') {
                 my %TicketFreeKey = %{$Self->{ConfigObject}->Get('TicketFreeKey' . $_)};
                 my @FreeKey = keys %TicketFreeKey;
@@ -579,7 +584,11 @@ sub JobRunTicket {
                 }
             }
 
-            my $Value = $Param{Config}->{New}->{"TicketFreeText$_"} || '';
+            my $Value = $TicketData{"TicketFreeText$_"};
+            if (defined($Param{Config}->{New}->{"TicketFreeText$_"})) {
+                $Value = $Param{Config}->{New}->{"TicketFreeText$_"};
+            }
+
             if ($Self->{NoticeSTDOUT}) {
                 print "  - set ticket free text of Ticket $Ticket to Key: '$Key' Text: '$Value'\n";
             }
@@ -888,6 +897,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2006-08-29 17:30:36 $
+$Revision: 1.16 $ $Date: 2006-09-07 07:12:59 $
 
 =cut
