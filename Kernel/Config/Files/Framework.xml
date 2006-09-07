@@ -108,7 +108,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.114 2006-08-31 13:44:54 tr Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.115 2006-09-07 07:15:02 tr Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -4260,7 +4260,7 @@ Your OTRS Notification Master
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::Module###AgentStats" Required="1" Valid="1">
+    <ConfigItem Name="Frontend::Module###AgentStats" Required="0" Valid="1">
       <Description Lang="en">FrontendModuleRegistration for Stats to define the registration settings in the program and to set rights and positions of icons in the navigation bar.</Description>
       <Description Lang="de">FrontendModulRegistration für das Modul Stats. Hier
         können Sie die Angaben für die Registrierung des Moduls im Programm tätigen. Ferner
