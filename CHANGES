@@ -2,17 +2,24 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.286 2006-08-29 13:50:26 martin Exp $
+# $Id: CHANGES,v 1.287 2006-09-07 11:02:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
+2.1.0 beta3 (2006/??/??)
+ - (2006/09/09) added DBUpdate-to-2.1.oracle.sql to get oracle databases up to date
+ - (2006/09/05) fixed double sending of note notifications
+ - (2006/09/05) fixed link to email and phone after adding a new customer user
+ - (2006/09/01) added fix to removed leading and trailing spaces in search
+    fields of object linking
+
 2.1.0 beta2 (2006/08/29)
- - (2006/08/29) moved Frontend::ImagePath (/otrs-web/images/Standard/) to
-    config option
- - (2006/08/28) added SOAP examples (bin/cgi-bin/rpc.pl and
-    scripts/soap-examlple.pl)
+ - (2006/08/29) moved Frontend::ImagePath variable
+   (/otrs-web/images/Standard/) from .dtl files to config option
+ - (2006/08/28) added examples how to use SOAP (bin/cgi-bin/rpc.pl and
+    scripts/rpc-examlple.pl)
  - (2006/08/27) added mulit calendar / queue support - you can use different
     time zones in different queues and each agent can select the own time zone
     NOTE: table queue need to be modified - see scripts/DBUpdate-to-2.1.*.sql
@@ -23,15 +30,17 @@
  - (2006/08/25) fixed bug #1284 - removed mysql dependence' in
     scripts/apache-perl-startup.pl and scripts/apache2-perl-startup.sql
  - (2006/08/25) fixed bug #1282 - setting up a postgresql database fails
- - (2006/08/24) added performance log feature in admin interface - its disabled
-    per default
+ - (2006/08/24) added performance log feature in admin interface to monitor
+    your system page load performance over different times (1h, 3h, 9h, 1d, 2d,
+    3d) - its disabled per default
  - (2006/08/24) removed Re: in subject auto response emails
- - (2006/08/22) add PDF output support to AgentTicketPrint module
+ - (2006/08/22) added PDF output support to AgentTicketPrint module
  - (2006/08/21) fixed bug in pdf module - redesiged Table() to fix a lot of
     infinite loops
  - (2006/08/08) fixed bug in pdf module - special control characters produces
     infinite loops
- - (2006/08/02) add ldap attribute to groups/roles sync feature
+ - (2006/08/02) added ldap attribute to groups/roles sync feature, so its
+    possible to use user attributes for permission handling
  - (2006/08/02) fixed bug #1283 - test for modules executed in cronjobs
 
 2.1.0 beta1 (2006/08/02)
@@ -39,7 +48,7 @@
     e. g. bin/opm.pl -a file -p Kernel/System/FileA.pm
  - (2006/07/31) added sleep in bin/PostMasterPOP3.pl after 10 (2 sec) and
     25 (3 sec) emails on one stream (protect server against overload)
- - (2006/07/31) add PDF output feature for stats module and ticket search results
+ - (2006/07/31) added PDF output feature for stats module and ticket search results
  - (2006/07/26) updated to cpan MIME::Tools 5.420
  - (2006/07/26) changed ticket escalation method, escalation start will
     be reseted after every "new" customer message and after agent
