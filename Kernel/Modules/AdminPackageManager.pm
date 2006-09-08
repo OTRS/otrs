@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.33 2006-09-08 13:23:42 mh Exp $
+# $Id: AdminPackageManager.pm,v 1.34 2006-09-08 15:35:27 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Package;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -784,7 +784,10 @@ sub Run {
     else {
         my %Frontend = ();
         my %NeedReinstall = ();
-        my %List = %{$Self->{ConfigObject}->Get('Package::RepositoryList')};
+        my %List = ();
+        if ($Self->{ConfigObject}->Get('Package::RepositoryList')) {
+            %List = %{$Self->{ConfigObject}->Get('Package::RepositoryList')};
+        }
         $Frontend{'SourceList'} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data => {
                 %List,
@@ -799,7 +802,10 @@ sub Run {
             Data => { %Param, %Frontend, },
         );
         if ($Source) {
-            my @List = $Self->{PackageObject}->PackageOnlineList(URL => $Source, Lang => $Self->{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage'));
+            my @List = $Self->{PackageObject}->PackageOnlineList(
+                URL => $Source,
+                Lang => $Self->{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage'),
+            );
             foreach my $Data (@List) {
                 $Self->{LayoutObject}->Block(
                     Name => 'ShowRemotePackage',
