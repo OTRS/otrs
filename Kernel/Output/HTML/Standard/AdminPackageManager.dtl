@@ -2,7 +2,7 @@
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPackageManager.dtl,v 1.24 2006-08-29 16:56:06 martin Exp $
+# $Id: AdminPackageManager.dtl,v 1.25 2006-09-08 13:23:42 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -149,6 +149,7 @@
   <tr>
     <td width="30%" class="mainbody">
 
+<!-- dtl:block:OverviewFileUpload -->
       <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
         <input type="hidden" name="Action" value="$Env{"Action"}">
         <input type="hidden" name="Subaction" value="InstallPackage">
@@ -175,6 +176,7 @@
       </form>
 
       <br>
+<!-- dtl:block:OverviewFileUpload -->
 
       <form action="$Env{"CGIHandle"}" method="post">
         <input type="hidden" name="Action" value="$Env{"Action"}">

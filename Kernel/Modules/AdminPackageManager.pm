@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.32 2006-08-29 17:17:24 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.33 2006-09-08 13:23:42 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Package;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -893,6 +893,13 @@ sub Run {
                 );
             }
         }
+        # show file upload
+        if ($Self->{ConfigObject}->Get('Package::FileUpload')) {
+            $Self->{LayoutObject}->Block(
+                Name => 'OverviewFileUpload',
+            );
+        }
+
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         foreach (sort keys %NeedReinstall) {
