@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Config.pm,v 1.51 2006-09-08 12:16:03 tr Exp $
+# $Id: Config.pm,v 1.52 2006-09-08 12:19:26 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Main;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.51 $';
+$VERSION = '$Revision: 1.52 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -173,12 +173,17 @@ sub WriteDefault {
                 Name => $ConfigItem->{Name},
                 Default => 1,
             );
+
+            my $Name = $Config{Name};
+            $Name =~ s/\\/\\\\/g;
+            $Name =~ s/'/\'/g;
+            $Name =~ s/###/'}->{'/g;
+
             if ($Config{Valid}) {
-                my $Name = $Config{Name};
-                $Name =~ s/\\/\\\\/g;
-                $Name =~ s/'/\'/g;
-                $Name =~ s/###/'}->{'/g;
                 $File .= "\$Self->{'$Name'} = ".$Self->_XML2Perl(Data => \%Config);
+            }
+            elsif (!$Config{Valid} && eval('$Self->{ConfigDefaultObject}->{\''. $Name . '\'}')) {
+                $File .= "delete \$Self->{'$Name'};\n";
             }
         }
     }
@@ -1226,6 +1231,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.51 $ $Date: 2006-09-08 12:16:03 $
+$Revision: 1.52 $ $Date: 2006-09-08 12:19:26 $
 
 =cut
