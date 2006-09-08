@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.34 2006-09-08 15:35:27 mh Exp $
+# $Id: AdminPackageManager.pm,v 1.35 2006-09-08 16:02:35 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Package;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.34 $';
+$VERSION = '$Revision: 1.35 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -788,11 +788,12 @@ sub Run {
         if ($Self->{ConfigObject}->Get('Package::RepositoryList')) {
             %List = %{$Self->{ConfigObject}->Get('Package::RepositoryList')};
         }
+        my %RepositoryRoot = ();
+        if ($Self->{ConfigObject}->Get('Package::RepositoryRoot')) {
+            %RepositoryRoot = $Self->{PackageObject}->PackageOnlineRepositories();
+        }
         $Frontend{'SourceList'} = $Self->{LayoutObject}->OptionStrgHashRef(
-            Data => {
-                %List,
-                $Self->{PackageObject}->PackageOnlineRepositories(),
-            },
+            Data => { %List, %RepositoryRoot, },
             Name => 'Source',
             Max => 40,
             SelectedID => $Source,
