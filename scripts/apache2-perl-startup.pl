@@ -28,7 +28,7 @@ use DBI ();
 # enable this if you use postgresql
 #use DBD::Pg ();
 # enable this if you use oracle
-#use DBD::oracle ();
+#use DBD::Oracle ();
 
 use Kernel::Config;
 
