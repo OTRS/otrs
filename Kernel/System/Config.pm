@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Config.pm - all system config tool functions
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Config.pm,v 1.45.2.1 2006-06-29 14:49:25 tr Exp $
+# $Id: Config.pm,v 1.45.2.2 2006-09-08 12:20:14 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::XML;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.45.2.1 $';
+$VERSION = '$Revision: 1.45.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -169,12 +169,17 @@ sub WriteDefault {
                 Name => $ConfigItem->{Name},
                 Default => 1,
             );
+
+            my $Name = $Config{Name};
+            $Name =~ s/\\/\\\\/g;
+            $Name =~ s/'/\'/g;
+            $Name =~ s/###/'}->{'/g;
+
             if ($Config{Valid}) {
-                my $Name = $Config{Name};
-                $Name =~ s/\\/\\\\/g;
-                $Name =~ s/'/\'/g;
-                $Name =~ s/###/'}->{'/g;
                 $File .= "\$Self->{'$Name'} = ".$Self->_XML2Perl(Data => \%Config);
+            }
+            elsif (!$Config{Valid} && eval('$Self->{ConfigDefaultObject}->{\''. $Name . '\'}')) {
+                $File .= "delete \$Self->{'$Name'};\n";
             }
         }
     }
@@ -316,13 +321,12 @@ sub CreateConfig {
                     # do nothing
                 }
             }
-            elsif (!$Config{Valid} && $ConfigDefault{Valid}) {
-#            elsif (!$Config{Valid}) {
+            elsif (!$Config{Valid} && ($ConfigDefault{Valid} || eval('$Self->{ConfigDefaultObject}->{\''. $Name . '\'}'))) {
                 $File .= "delete \$Self->{'$Name'};\n";
-#                print OUT "    \$Self->{'Valid'}->{'$Name'} = '$Config{Valid}';\n";
             }
         }
     }
+
     if (!open(OUT, "> $Home/Kernel/Config/Files/ZZZAuto.pm")) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Can't write $Home/Kernel/Config/Files/ZZZAuto.pm!");
         return;
@@ -1230,6 +1234,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.45.2.1 $ $Date: 2006-06-29 14:49:25 $
+$Revision: 1.45.2.2 $ $Date: 2006-09-08 12:20:14 $
 
 =cut
