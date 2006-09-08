@@ -108,7 +108,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.116 2006-09-08 13:23:42 mh Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.117 2006-09-08 13:55:51 tr Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -4295,6 +4295,7 @@ Your OTRS Notification Master
             <Type>Menu</Type>
             <Prio>8500</Prio>
             <Block>ItemArea</Block>
+            <AccessKey></AccessKey>
           </NavBar>
           <NavBar>
             <GroupRo>stats</GroupRo>
@@ -4304,6 +4305,9 @@ Your OTRS Notification Master
             <Link>Action=AgentStats&amp;Subaction=Overview</Link>
             <NavBar>Stats</NavBar>
             <Prio>100</Prio>
+            <Type></Type>
+            <Block></Block>
+            <AccessKey></AccessKey>
           </NavBar>
           <NavBar>
             <Group>stats</Group>
@@ -4313,6 +4317,9 @@ Your OTRS Notification Master
             <Link>Action=AgentStats&amp;Subaction=Add</Link>
             <NavBar>Stats</NavBar>
             <Prio>200</Prio>
+            <Type></Type>
+            <Block></Block>
+            <AccessKey></AccessKey>
           </NavBar>
           <NavBar>
             <Group>stats</Group>
@@ -4322,6 +4329,9 @@ Your OTRS Notification Master
             <Link>Action=AgentStats&amp;Subaction=Import</Link>
             <NavBar>Stats</NavBar>
             <Prio>300</Prio>
+            <Type></Type>
+            <Block></Block>
+            <AccessKey></AccessKey>
           </NavBar>
         </FrontendModuleReg>
       </Setting>
