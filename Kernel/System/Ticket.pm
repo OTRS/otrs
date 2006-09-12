@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.221 2006-09-05 21:18:58 martin Exp $
+# $Id: Ticket.pm,v 1.222 2006-09-12 13:31:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.221 $';
+$VERSION = '$Revision: 1.222 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -3193,6 +3193,22 @@ sub OwnerSet {
             UserID => $Param{UserID},
             TicketID => $Param{TicketID},
         );
+        # set responsible if first change
+        if ($Self->{ConfigObject}->Get('Ticket::Responsible')) {
+            my %Ticket = $Self->TicketGet(
+                TicketID => $Param{TicketID},
+                UserID => $Param{UserID},
+            );
+            if ($Ticket{ResponsibleID} == 1 && $Param{NewUserID} != 1) {
+                # check responible update
+                $Self->ResponsibleSet(
+                    TicketID => $Param{TicketID},
+                    NewUserID => $Param{NewUserID},
+                    SendNoNotification => 1,
+                    UserID => $Param{UserID},
+                );
+            }
+        }
         return 1;
     }
     else {
@@ -4844,6 +4860,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.221 $ $Date: 2006-09-05 21:18:58 $
+$Revision: 1.222 $ $Date: 2006-09-12 13:31:57 $
 
 =cut
