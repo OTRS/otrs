@@ -2,14 +2,16 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.288 2006-09-07 18:29:25 mh Exp $
+# $Id: CHANGES,v 1.289 2006-09-15 09:01:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.1.0 beta3 (2006/??/??)
- - (2006/09/09) update pdf-logo to ((otrs))
+ - (2006/09/14) added change to remove 4 not needed empty spaces after folding
+    of email headers (sometimes 4 empty spaces in subject appear)
+ - (2006/09/09) updated pdf-logo to ((otrs))
  - (2006/09/09) added DBUpdate-to-2.1.oracle.sql to get oracle databases up to date
  - (2006/09/05) fixed double sending of note notifications
  - (2006/09/05) fixed link to email and phone after adding a new customer user
@@ -28,7 +30,7 @@
     pass and it works / added password md5 support (required Crypt::PasswdMD5
     from CPAN or from Kernel/cpan-lib/ - via "cvs update -d")
  - (2006/08/26) fixed $Quote{""} bug in login page
- - (2006/08/25) fixed bug #1284 - removed mysql dependence' in
+ - (2006/08/25) fixed bug #1284 - removed mysql dependence in
     scripts/apache-perl-startup.pl and scripts/apache2-perl-startup.sql
  - (2006/08/25) fixed bug #1282 - setting up a postgresql database fails
  - (2006/08/24) added performance log feature in admin interface to monitor

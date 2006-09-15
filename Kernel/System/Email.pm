@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.18 2006-08-29 17:30:36 martin Exp $
+# $Id: Email.pm,v 1.19 2006-09-15 09:01:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -423,9 +423,18 @@ sub Send {
     }
 
 
-    # get header and body from Entity
+    # get header from Entity
     my $head = $Entity->head;
     $Param{Header} = $head->as_string();
+    # remove not needed folding of email heads, we do have many problems with email clients
+    my @Headers = split(/\n/, $Param{Header});
+    # reset orig header
+    $Param{Header} = '';
+    foreach my $Line (@Headers) {
+        $Line =~ s/^    (.*)$/ $1/;
+        $Param{Header} .= $Line."\n";
+    }
+    # get body from Entity
     $Param{Body} = $Entity->body_as_string();
 
     # get recipients
@@ -566,7 +575,7 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2006-08-29 17:30:36 $
+$Revision: 1.19 $ $Date: 2006-09-15 09:01:10 $
 
 =cut
 
