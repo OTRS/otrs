@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.16 2006-09-07 07:12:59 tr Exp $
+# $Id: GenericAgent.pm,v 1.17 2006-09-18 07:14:20 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Main;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.16 $ ';
+$VERSION = '$Revision: 1.17 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -400,7 +400,7 @@ sub JobRunTicket {
             return;
         }
     }
-    my %TicketData = $Self->{TicketObject}->TicketGet(TicketID => $Param{TicketID});
+
     my $Ticket = "($Param{TicketNumber}/$Param{TicketID})";
 
     # --
@@ -571,34 +571,33 @@ sub JobRunTicket {
     # --
     foreach (1..16) {
         if (defined($Param{Config}->{New}->{"TicketFreeKey$_"}) || defined($Param{Config}->{New}->{"TicketFreeText$_"})) {
-            my $Key = $TicketData{"TicketFreeKey$_"};
+            my %Data = ();
+            $Data{TicketID} = $Param{TicketID};
+            $Data{UserID}   = $Param{UserID};
+            $Data{Counter}  = $_;
+
             if (defined($Param{Config}->{New}->{"TicketFreeKey$_"})) {
-                $Key = $Param{Config}->{New}->{"TicketFreeKey$_"};
+                $Data{Key} = $Param{Config}->{New}->{"TicketFreeKey$_"};
             }
-            if (!$Key && ref($Self->{ConfigObject}->Get('TicketFreeKey' . $_)) eq 'HASH') {
+
+            # insert the freefieldkey, if only one key is possible
+            if (!$Data{Key} && ref($Self->{ConfigObject}->Get('TicketFreeKey' . $_)) eq 'HASH') {
                 my %TicketFreeKey = %{$Self->{ConfigObject}->Get('TicketFreeKey' . $_)};
                 my @FreeKey = keys %TicketFreeKey;
 
                 if ($#FreeKey == 0) {
-                    $Key = $TicketFreeKey{$FreeKey[0]};
+                    $Data{Key} = $TicketFreeKey{$FreeKey[0]};
                 }
             }
 
-            my $Value = $TicketData{"TicketFreeText$_"};
             if (defined($Param{Config}->{New}->{"TicketFreeText$_"})) {
-                $Value = $Param{Config}->{New}->{"TicketFreeText$_"};
+                $Data{Value} = $Param{Config}->{New}->{"TicketFreeText$_"};
             }
 
             if ($Self->{NoticeSTDOUT}) {
-                print "  - set ticket free text of Ticket $Ticket to Key: '$Key' Text: '$Value'\n";
+                print "  - set ticket free text of Ticket $Ticket to Key: '$Data{Key}' Text: '$Data{Value}'\n";
             }
-            $Self->{TicketObject}->TicketFreeTextSet(
-                TicketID => $Param{TicketID},
-                UserID => $Param{UserID},
-                Key => $Key,
-                Value => $Value,
-                Counter => $_,
-            );
+            $Self->{TicketObject}->TicketFreeTextSet(%Data);
         }
     }
     # --
@@ -897,6 +896,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2006-09-07 07:12:59 $
+$Revision: 1.17 $ $Date: 2006-09-18 07:14:20 $
 
 =cut
