@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.222 2006-09-12 13:31:57 martin Exp $
+# $Id: Ticket.pm,v 1.223 2006-09-18 07:16:52 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.222 $';
+$VERSION = '$Revision: 1.223 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -1383,8 +1383,8 @@ Set ticket free text.
 
   $TicketObject->TicketFreeTextSet(
       Counter => 1,
-      Key => 'Planet',
-      Value => 'Sun',
+      Key => 'Planet', # optional
+      Value => 'Sun',  # optional
       TicketID => 123,
       UserID => 23,
   );
@@ -1394,8 +1394,8 @@ Set ticket free text.
 sub TicketFreeTextSet {
     my $Self = shift;
     my %Param = @_;
-    my $Value = defined($Param{Value}) ? $Param{Value} : '';
-    my $Key = defined($Param{Key}) ? $Param{Key} : '';
+    my $Value = '';
+    my $Key   = '';
     # check needed stuff
     foreach (qw(TicketID UserID Counter)) {
         if (!$Param{$_}) {
@@ -1405,6 +1405,21 @@ sub TicketFreeTextSet {
     }
     # check if update is needed
     my %Ticket = $Self->TicketGet(TicketID => $Param{TicketID});
+
+    if (defined($Param{Value})) {
+        $Value = $Param{Value};
+    }
+    else {
+        $Value = $Ticket{"TicketFreeText" . $Param{Counter}};
+    }
+
+    if (defined($Param{Key})) {
+        $Key = $Param{Key};
+    }
+    else {
+        $Key = $Ticket{"TicketFreeKey" . $Param{Counter}};
+    }
+
     if ($Value eq $Ticket{"TicketFreeText$Param{Counter}"} &&
         $Key eq $Ticket{"TicketFreeKey$Param{Counter}"}) {
         return 1;
@@ -4860,6 +4875,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.222 $ $Date: 2006-09-12 13:31:57 $
+$Revision: 1.223 $ $Date: 2006-09-18 07:16:52 $
 
 =cut
