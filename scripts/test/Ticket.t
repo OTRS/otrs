@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.12 2006-08-26 17:36:26 martin Exp $
+# $Id: Ticket.t,v 1.13 2006-09-18 11:19:35 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -94,6 +94,8 @@ $Self->Is(
     'TicketGet() (Lock)',
 );
 
+# Check the TicketFreeField functions
+my %TicketFreeText = ();
 foreach (1..16) {
     my $TicketFreeTextSet = $Self->{TicketObject}->TicketFreeTextSet(
         Counter => $_,
@@ -108,7 +110,7 @@ foreach (1..16) {
     );
 }
 
-my %TicketFreeText = $Self->{TicketObject}->TicketGet(
+%TicketFreeText = $Self->{TicketObject}->TicketGet(
     TicketID => $TicketID,
 );
 foreach (1..16) {
@@ -123,6 +125,130 @@ foreach (1..16) {
         "TicketGet() (TicketFreeText$_)",
     );
 }
+
+# TicketFreeTextSet check, if only a value is available but no key
+foreach (1..16) {
+    my $TicketFreeTextSet = $Self->{TicketObject}->TicketFreeTextSet(
+        Counter => $_,
+        Value => 'Earth'.$_,
+        TicketID => $TicketID,
+        UserID => 1,
+    );
+    $Self->True(
+        $TicketFreeTextSet,
+        'TicketFreeTextSet () without key '.$_,
+    );
+}
+
+%TicketFreeText = $Self->{TicketObject}->TicketGet(
+    TicketID => $TicketID,
+);
+
+foreach (1..16) {
+    $Self->Is(
+        $TicketFreeText{'TicketFreeKey'.$_},
+        'Planet'.$_,
+        "TicketGet() (TicketFreeKey$_)",
+    );
+    $Self->Is(
+        $TicketFreeText{'TicketFreeText'.$_},
+        'Earth'.$_,
+        "TicketGet() (TicketFreeText$_)",
+    );
+}
+
+# TicketFreeTextSet check, if only a key is available but no value
+foreach (1..16) {
+    my $TicketFreeTextSet = $Self->{TicketObject}->TicketFreeTextSet(
+        Counter => $_,
+        Key => 'Location'.$_,
+        TicketID => $TicketID,
+        UserID => 1,
+    );
+    $Self->True(
+        $TicketFreeTextSet,
+        'TicketFreeTextSet () without value '.$_,
+    );
+}
+
+%TicketFreeText = $Self->{TicketObject}->TicketGet(
+    TicketID => $TicketID,
+);
+
+foreach (1..16) {
+    $Self->Is(
+        $TicketFreeText{'TicketFreeKey'.$_},
+        'Location'.$_,
+        "TicketGet() (TicketFreeKey$_)",
+    );
+    $Self->Is(
+        $TicketFreeText{'TicketFreeText'.$_},
+        'Earth'.$_,
+        "TicketGet() (TicketFreeText$_)",
+    );
+}
+
+# TicketFreeTextSet check, if no key and value
+foreach (1..16) {
+    my $TicketFreeTextSet = $Self->{TicketObject}->TicketFreeTextSet(
+        Counter => $_,
+        TicketID => $TicketID,
+        UserID => 1,
+    );
+    $Self->True(
+        $TicketFreeTextSet,
+        'TicketFreeTextSet () without key and value '.$_,
+    );
+}
+
+%TicketFreeText = $Self->{TicketObject}->TicketGet(
+    TicketID => $TicketID,
+);
+foreach (1..16) {
+    $Self->Is(
+        $TicketFreeText{'TicketFreeKey'.$_},
+        'Location'.$_,
+        "TicketGet() (TicketFreeKey$_)",
+    );
+    $Self->Is(
+        $TicketFreeText{'TicketFreeText'.$_},
+        'Earth'.$_,
+        "TicketGet() (TicketFreeText$_)",
+    );
+}
+
+# TicketFreeTextSet check, with empty keys and values
+foreach (1..16) {
+    my $TicketFreeTextSet = $Self->{TicketObject}->TicketFreeTextSet(
+        Counter  => $_,
+        TicketID => $TicketID,
+        Key      => '',
+        Value    => '',
+        UserID   => 1,
+    );
+    $Self->True(
+        $TicketFreeTextSet,
+        'TicketFreeTextSet () with empty key and value '.$_,
+    );
+}
+
+%TicketFreeText = $Self->{TicketObject}->TicketGet(
+    TicketID => $TicketID,
+);
+foreach (1..16) {
+    $Self->Is(
+        $TicketFreeText{'TicketFreeKey'.$_},
+        '',
+        "TicketGet() (TicketFreeKey$_)",
+    );
+    $Self->Is(
+        $TicketFreeText{'TicketFreeText'.$_},
+        '',
+        "TicketGet() (TicketFreeText$_)",
+    );
+}
+
+
 
 foreach (1..16) {
     my $TicketFreeTextSet = $Self->{TicketObject}->TicketFreeTextSet(
