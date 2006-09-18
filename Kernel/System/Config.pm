@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Config.pm,v 1.52 2006-09-08 12:19:26 tr Exp $
+# $Id: Config.pm,v 1.53 2006-09-18 13:26:00 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Main;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.52 $';
+$VERSION = '$Revision: 1.53 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -385,7 +385,7 @@ sub ConfigItemUpdate {
         $Param{Key} =~ s/###/'}->{'/g;
         # store in config
         if (!$Param{Valid}) {
-            my $Dump = "delete \$Self->{'$Param{Key}'};";
+            my $Dump = "delete \$Self->{'$Param{Key}'};\n";
             print OUT $Dump;
             close(OUT);
             return 1;
@@ -397,6 +397,31 @@ sub ConfigItemUpdate {
             close(OUT);
             return 1;
         }
+    }
+}
+
+=item ConfigItemUpdateFinish()
+
+insert the final line "$Self->{'1'} = 1;" after building the file
+ZZZAuto.pm
+
+    $ConfigToolObject->ConfigItemUpdateFinish();
+
+=cut
+
+sub ConfigItemUpdateFinish {
+    my $Self = shift;
+    my %Param = @_;
+    my $Home = $Self->{'Home'};
+
+    if (!open(OUT, ">> $Home/Kernel/Config/Files/ZZZAuto.pm")) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Can't write finish tag $Home/Kernel/Config/Files/ZZZAuto.pm: $!");
+        return;
+    }
+    else {
+        print OUT "\$Self->{'1'} = 1;\n";
+        close(OUT);
+        return 1;
     }
 }
 
@@ -1231,6 +1256,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.52 $ $Date: 2006-09-08 12:19:26 $
+$Revision: 1.53 $ $Date: 2006-09-18 13:26:00 $
 
 =cut

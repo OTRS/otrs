@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.51 2006-09-08 11:44:29 tr Exp $
+# $Id: AdminSysConfig.pm,v 1.52 2006-09-18 13:26:00 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.51 $';
+$VERSION = '$Revision: 1.52 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -390,6 +390,9 @@ sub Run {
                     $Self->{LayoutObject}->FatalError(Message => "Can't write ConfigItem!");
                 }
             }
+        }
+        if (!$Self->{SysConfigObject}->ConfigItemUpdateFinish()) {
+            $Self->{LayoutObject}->FatalError(Message => "Can't finish ConfigItemUpdate!");
         }
         $Self->{SysConfigObject} = Kernel::System::Config->new(%{$Self});
         $Self->{SysConfigObject}->CreateConfig();
