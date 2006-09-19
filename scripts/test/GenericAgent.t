@@ -2,7 +2,7 @@
 # GenericAgent.t - GenericAgent tests
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: GenericAgent.t,v 1.1 2006-09-19 06:19:27 tr Exp $
+# $Id: GenericAgent.t,v 1.2 2006-09-19 15:10:17 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,7 +12,6 @@
 use Kernel::System::Ticket;
 use Kernel::System::Queue;
 use Kernel::System::GenericAgent;
-#use Kernel::System::Log;
 
 my $Hook = $Self->{ConfigObject}->Get('Ticket::Hook');
 
@@ -23,10 +22,6 @@ $Self->{ConfigObject}->Set(
 $Self->{TicketObject} = Kernel::System::Ticket->new(%{$Self});
 $Self->{QueueObject} = Kernel::System::Queue->new(%{$Self});
 $Self->{GenericAgentObject} = Kernel::System::GenericAgent->new(%{$Self});
-#$Self->{LogObject} = Kernel::System::Log->new(%{$Self});
-
-# Available functions (07.09.2006)
-# -JobRun JobRunTicket JobRunTicket JobGet JobAdd JobDelete JobList
 
 my %Jobs = ();
 
@@ -40,9 +35,9 @@ my %NewJob = (
     Name => $Name,
     Data => {
         ScheduleLastRun => '',
-        #ScheduleMinutes => ARRAY(0x1ab9f60),
-        #ScheduleDays => ARRAY(0x1ab9c90),
-        #ScheduleHours => ARRAY(0x1ab9ca0),
+        #ScheduleMinutes => [1,2],
+        #ScheduleDays => [],
+        #ScheduleHours => [],
         TicketNumber => '',
         From => '',
         Body => '',
@@ -50,13 +45,13 @@ my %NewJob = (
         Cc => '',
         Subject => '',
         CustomerID => '',
-        CustomerUserLogin => 'customer@UnitTest.com',
+        CustomerUserLogin => 'customerUnitTest@example.com',
         #QueueIDs => [],
-        #PriorityIDs => ARRAY(0x1ab9c40),
-        #LockIDs => ARRAY(0x1ab9bf0),
-        #TicketFreeText2 => ARRAY(0x19c4140),
-        #OwnerIDs => ARRAY(0xbdc1b0),
-        #StateIDs => ARRAY(0x19271e0),
+        #PriorityIDs => [],
+        #LockIDs => [],
+        #TicketFreeText2 => [],
+        #OwnerIDs => [],
+        #StateIDs => [],
         TimeSearchType => '',
         TicketCreateTimeStartMonth => 8,
         TicketCreateTimeStopMonth => 9,
@@ -141,7 +136,7 @@ my $TicketID = $Self->{TicketObject}->TicketCreate(
     PriorityID => 1,
     StateID => 1,
     CustomerNo => '123465',
-    CustomerUser => 'customer@UnitTest.com',
+    CustomerUser => 'customerUnitTest@example.com',
     OwnerID => 1,
     UserID => 1,
 );
