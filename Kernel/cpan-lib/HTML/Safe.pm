@@ -2,7 +2,7 @@
 # HTML::Safe.pm - remove activ html stuff from html strings
 # Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
 # --
-# $Id: Safe.pm,v 1.2 2006-03-20 21:29:18 martin Exp $
+# $Id: Safe.pm,v 1.3 2006-09-19 14:50:20 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -180,7 +180,7 @@ sub Filter {
         if ($Self->{NoJavaScript}) {
             # remove on action sub tags
             $Tag =~ s{
-                \s(on.+?=(".+?"|'.+?'|.+?))
+                \s(on.{4,10}=(".+?"|'.+?'|.+?))
             }
             {
                 print STDERR "Found <on action> tags ($1)!\n" if ($Self->{Debug});
@@ -278,6 +278,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2006-03-20 21:29:18 $
+$Revision: 1.3 $ $Date: 2006-09-19 14:50:20 $
 
 =cut
