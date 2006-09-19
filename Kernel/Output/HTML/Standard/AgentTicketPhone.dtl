@@ -2,7 +2,7 @@
 # AgentPhoneNew.dtl - provides HTML form for phone
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.15 2006-08-29 16:56:06 martin Exp $
+# $Id: AgentTicketPhone.dtl,v 1.16 2006-09-19 16:56:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -116,19 +116,20 @@ function clear_field()
 #</form>
 #<hr>
 
-      <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
+      <form action="$Env{"CGIHandle"}" method="get" enctype="multipart/form-data" name="compose">
         <input type="hidden" name="Action" value="$Env{"Action"}">
         <input type="hidden" name="Subaction" value="StoreNew">
         <input type="hidden" name="FormID" value="$QData{"FormID"}">
         <input type="hidden" name="ExpandCustomerName" value="0">
-        <input type="hidden" name="AllUsers" value="0">
+        <input type="hidden" name="OwnerAll" value="0">
+        <input type="hidden" name="ResponsibleAll" value="0">
         <input type="hidden" name="PreSelectedCustomerUser" value="">
         <input type="hidden" name="SelectedCustomerUser" value="$Data{"CustomerUser"}">
         <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
         <table border="0" width="100%">
           <tr>
             <td width="20%" class="contentkey">$Text{"From"}:</td>
-            <td width="60%" class="contentvalue"><input type="text" name="From" value="$QData{"From"}" size="70"> <font color="red" size="-2">$Text{"$Data{"From invalid"}"}</font><br>
+            <td width="60%" class="contentvalue"><input type="text" name="From" value="$QData{"From"}" size="80"> <font color="red" size="-2">$Text{"$Data{"From invalid"}"}</font><br>
               $Data{"CustomerUserStrg"}
               <dtl if ($Data{"CustomerUserStrg"} ne "") { $Data{"TakeThisCustomer"} = "<br><input class="button" type="submit" name="ExpandCustomerName2" value="$Text{"Take this Customer"}">"; }>
               $Data{"TakeThisCustomer"}
@@ -160,17 +161,30 @@ function clear_field()
           <td class="contentkey">$Text{"Owner"}:</td>
           <td class="contentvalue">$Data{"OptionStrg"}
 <!-- dtl:block:OwnerSelectionAllJS -->
-            $Env{"Box0"}<a href="" onclick="document.compose.ExpandCustomerName.value='3'; document.compose.AllUsers.value='1'; document.compose.submit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$Text{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}
+            $Env{"Box0"}<a href="" onclick="document.compose.ExpandCustomerName.value='3'; document.compose.OwnerAll.value='1'; document.compose.submit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$Text{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}
 <!-- dtl:block:OwnerSelectionAllJS -->
 <!-- dtl:block:OwnerSelectionAllSubmit -->
-            <input class="button" type="submit" value="$Text{"All"}" name="AllUsersRefresh">
+            <input class="button" type="submit" value="$Text{"All"}" name="OwnerAllRefresh">
 <!-- dtl:block:OwnerSelectionAllSubmit -->
           </td>
         </tr>
 <!-- dtl:block:OwnerSelection -->
+<!-- dtl:block:ResponsibleSelection -->
+        <tr>
+          <td class="contentkey">$Text{"Responsible"}:</td>
+          <td class="contentvalue">$Data{"OptionStrg"}
+<!-- dtl:block:ResponsibleSelectionAllJS -->
+            $Env{"Box0"}<a href="" onclick="document.compose.ExpandCustomerName.value='3'; document.compose.ResponsibleAll.value='1'; document.compose.submit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$Text{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}
+<!-- dtl:block:ResponsibleSelectionAllJS -->
+<!-- dtl:block:ResponsibleSelectionAllSubmit -->
+            <input class="button" type="submit" value="$Text{"All"}" name="ResponsibleAllRefresh">
+<!-- dtl:block:ResponsibleSelectionAllSubmit -->
+          </td>
+        </tr>
+<!-- dtl:block:ResponsibleSelection -->
         <tr>
           <td class="contentkey">$Text{"Subject"}:</td>
-          <td class="contentvalue"><input type="text" name="Subject" value="$Data{"Subject"}" size="70"> <font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font></td>
+          <td class="contentvalue"><input type="text" name="Subject" value="$Data{"Subject"}" size="80"> <font color="red" size="-2">$Text{"$Data{"Subject invalid"}"}</font></td>
         </tr>
         <tr>
           <td class="contentkey">$Text{"Options"}:</td>
@@ -294,7 +308,7 @@ function clear_field()
     </form>
 
     <form action="$Env{"CGIHandle"}" method="post" name="faq" target="faq">
-      <input type="hidden" name="Action" value="FAQ">
+      <input type="hidden" name="Action" value="AgentFAQ">
       <input type="hidden" name="Nav" value="None">
       <input type="hidden" name="Body" value="">
       <input type="hidden" name="Subject" value="">
