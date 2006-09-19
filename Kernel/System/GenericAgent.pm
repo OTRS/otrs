@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.18 2006-09-19 06:18:35 tr Exp $
+# $Id: GenericAgent.pm,v 1.19 2006-09-19 15:19:55 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Main;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $ ';
+$VERSION = '$Revision: 1.19 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -364,7 +364,7 @@ sub JobRun {
     # process each ticket
     # --
     foreach (sort keys %Tickets) {
-        $Self->JobRunTicket(
+        $Self->_JobRunTicket(
             Config => \%Job,
             Job => $Param{Job},
             TicketID => $_,
@@ -382,7 +382,6 @@ run an generic agent job on a ticket
     $GenericAgentObject->JobRun(
         TicketID => 123,
         TicketNumber => '2004081400001',
-        Job => 'JobName',
         Config => {
             %Job,
         },
@@ -391,13 +390,11 @@ run an generic agent job on a ticket
 
 =cut
 
-sub JobRunTicket {
-    # Perhaps JobRunTicket should be renamed to _JobRunTicket
-    # because it will be only used in this file
+sub _JobRunTicket {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
-    foreach (qw(TicketID TicketNumber Job Config UserID)) {
+    foreach (qw(TicketID TicketNumber Config UserID)) {
         if (!$Param{$_}) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
@@ -899,6 +896,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2006-09-19 06:18:35 $
+$Revision: 1.19 $ $Date: 2006-09-19 15:19:55 $
 
 =cut
