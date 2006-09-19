@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.17 2006-09-18 07:14:20 tr Exp $
+# $Id: GenericAgent.pm,v 1.18 2006-09-19 06:18:35 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Main;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.17 $ ';
+$VERSION = '$Revision: 1.18 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -372,6 +372,7 @@ sub JobRun {
             UserID => $Param{UserID},
         );
     }
+    return 1;
 }
 
 =item JobRunTicket()
@@ -391,6 +392,8 @@ run an generic agent job on a ticket
 =cut
 
 sub JobRunTicket {
+    # Perhaps JobRunTicket should be renamed to _JobRunTicket
+    # because it will be only used in this file
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
@@ -896,6 +899,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2006-09-18 07:14:20 $
+$Revision: 1.18 $ $Date: 2006-09-19 06:18:35 $
 
 =cut
