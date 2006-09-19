@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.31 2006-09-18 07:13:00 tr Exp $
+# $Id: AdminGenericAgent.pm,v 1.32 2006-09-19 06:15:42 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Lock;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -517,7 +517,6 @@ sub Run {
             Name => 'LockIDs',
             Multiple => 1,
             Size => 3,
-            LanguageTranslation => 1,
             SelectedIDRefArray => $Param{LockIDs},
         );
         $Param{'NewLockOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
@@ -529,7 +528,6 @@ sub Run {
             Name => 'NewLockID',
             Size => 3,
             Multiple => 1,
-            LanguageTranslation => 0,
             SelectedID => $Param{NewLockID},
         );
 
@@ -714,7 +712,6 @@ sub Run {
         else {
             $JobData{css}        = "searchactive";
         }
-
 
         $Self->{LayoutObject}->Block(
             Name => 'Row',
