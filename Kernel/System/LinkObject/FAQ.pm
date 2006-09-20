@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject/FAQ.pm - to link faq objects
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: FAQ.pm,v 1.6 2006-08-29 17:28:44 martin Exp $
+# $Id: FAQ.pm,v 1.7 2006-09-20 11:48:43 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::FAQ;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Init {
@@ -83,7 +83,7 @@ sub LinkSearch {
         my %Article = $Self->{FAQObject}->FAQGet(FAQID => $_);
         push (@ResultWithData, {
             %Article,
-            ID => $Article{FAQID},
+            ID => $Article{ItemID},
           },
         );
     }
@@ -94,7 +94,7 @@ sub LinkItemData {
     my $Self = shift;
     my %Param = @_;
     my %Article = $Self->{FAQObject}->FAQGet(
-        FAQID => $Param{ID},
+        ItemID => $Param{ID},
     );
 
     my $Body = '';
@@ -106,8 +106,9 @@ sub LinkItemData {
 
     return (
         %Article,
-        ID => $Article{FAQID},
+        ID => $Article{ItemID},
         Body => $Body,
+        DetailLink => "Action=AgentFAQ&ItemID=$Param{ID}",
     );
 }
 
