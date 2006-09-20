@@ -1,8 +1,8 @@
 # --
 # Kernel/Language/de.pm - provides de language translation
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: de.pm,v 1.110 2006-07-14 07:15:56 tr Exp $
+# $Id: de.pm,v 1.111 2006-09-20 06:24:49 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.110 $';
+$VERSION = '$Revision: 1.111 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -584,7 +584,7 @@ sub Data {
       'TicketFreeFields' => 'TicketFreiFelder',
       'New TicketFreeFields' => 'Neue TicketFreiFelder',
       'Send no notifications' => 'Keine Benachrichtigung senden',
-      'Yes means, send no agent and customer notifications on changes.' => 'Ja bedeutet, es werden Benachrichtigungen an Kunden und Agents gesendet.',
+      'Yes means, send no agent and customer notifications on changes.' => 'Ja bedeutet, es werden keine Benachrichtigungen an Kunden und Agents gesendet.',
       'No means, send agent and customer notifications on changes.' => 'Nein bedeutet, es werden die Kunden und Agents durch eine Benachrichtigung über die Änderung informiert.',
       'Affected Tickets' => 'Betroffene Tickets',
 
