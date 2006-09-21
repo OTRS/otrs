@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.12 2006-08-29 17:17:24 martin Exp $
+# $Id: AgentStats.pm,v 1.13 2006-09-21 12:26:50 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -1659,7 +1659,8 @@ sub Run {
             foreach my $ParamItem (@{$Params}) {
                 # param is array
                 if ($ParamItem->{Multiple}) {
-                    $GetParam{$ParamItem->{Name}} = $Self->{ParamObject}->GetArray(Param => $ParamItem->{Name});
+                    my @Array = $Self->{ParamObject}->GetArray(Param => $ParamItem->{Name});
+                    $GetParam{$ParamItem->{Name}} = \@Array;
                 }
                 # param is string
                 else {
