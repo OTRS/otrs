@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.13 2006-09-21 12:26:50 rk Exp $
+# $Id: AgentStats.pm,v 1.14 2006-09-21 13:29:39 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -1824,7 +1824,7 @@ sub Run {
                 }
             }
             # check if the timeperiod is to big or the time scale to small
-            if ($GetParam{UseAsValueSeries}[0]{Block} ne 'Time' && $GetParam{UseAsXvalue}[0]{Block} eq 'Time') {
+            if ($GetParam{UseAsXvalue}[0]{Block} eq 'Time' &&  (!$GetParam{UseAsValueSeries}[0] || ($GetParam{UseAsValueSeries}[0] && $GetParam{UseAsValueSeries}[0]{Block} ne 'Time'))) {
                 my $ScalePeriod = 0;
                 if ($GetParam{UseAsXvalue}[0]{SelectedValues}[0] eq 'Second') {
                     $ScalePeriod = 1;
