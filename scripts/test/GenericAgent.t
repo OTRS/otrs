@@ -2,7 +2,7 @@
 # GenericAgent.t - GenericAgent tests
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: GenericAgent.t,v 1.2 2006-09-19 15:10:17 tr Exp $
+# $Id: GenericAgent.t,v 1.3 2006-09-21 15:07:07 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -118,15 +118,23 @@ $Self->Is(
 );
 
 # Try to add the same JobName double
-# $Self->True(
-#     $Self->{GenericAgentObject}->JobAdd(
-#         Name => $Name,
-#         Data => {
-#             ScheduleLastRun => '',
-#         },
-#     ),
-#     'JobAdd() check return value',
-# );
+my $Return = $Self->{GenericAgentObject}->JobAdd(
+    Name => $Name,
+    Data => {
+        ScheduleLastRun => '',
+    },
+);
+if ($Return) {
+    $Return = 0;
+}
+else {
+    $Return = 1;
+}
+
+$Self->True(
+     $Return,
+     'JobAdd() check return value - douple check',
+);
 
 # Create a Ticket to test JobRun and JobRunTicket
 my $TicketID = $Self->{TicketObject}->TicketCreate(
