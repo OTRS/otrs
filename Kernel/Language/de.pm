@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: de.pm,v 1.111 2006-09-20 06:24:49 tr Exp $
+# $Id: de.pm,v 1.112 2006-09-21 13:22:38 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.111 $';
+$VERSION = '$Revision: 1.112 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -1261,8 +1261,8 @@ sub Data {
       'If you use a time scale element you can only select one element!' => 'Wenn Sie ein Zeit-Element ausgewählt haben, können Sie nur kein weiteres Element mehr auswählen!',
       'You have an error in your time selection!' => 'Sie haben einen Fehler in Ihrer Zeitauswahl!',
       'Your reporting time interval is to small, please use a larger time scale!' => 'Die Zeitskalierung ist zu klein gewählt, bitte wählen Sie eine größere Zeitskalierung!',
-      'The selected start time is before the allowed start time!' => 'Die gewählte Startzeit ist ausserhalb des erlaubten Bereichs!',
-      'The selected end time is after the allowed end time!' => 'Die gewählte Endzeit ist ausserhalb des erlaubten Bereichs!',
+      'The selected start time is before the allowed start time!' => 'Die gewählte Startzeit ist außerhalb des erlaubten Bereichs!',
+      'The selected end time is after the allowed end time!' => 'Die gewählte Endzeit ist außerhalb des erlaubten Bereichs!',
       'The selected time period is larger than the allowed time period!' => 'Der gewählt Zeitraum ist größer als der erlaubte Zeitraum!',
       'graph-lines'          => 'Liniendiagramm',
       'graph-bars'           => 'Balkendiagramm',
