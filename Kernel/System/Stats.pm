@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all advice functions
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.2 2006-08-29 17:30:36 martin Exp $
+# $Id: Stats.pm,v 1.3 2006-09-21 15:09:44 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::XML;
 use Date::Pcalc qw(Today_and_Now Days_in_Month Day_of_Week Day_of_Week_Abbreviation Add_Delta_Days Add_Delta_DHMS Add_Delta_YMD);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 SYNOPSIS
@@ -1027,7 +1027,6 @@ sub GenerateDynamicStats {
         my $Path = $Self->{ConfigObject}->Get('TempDir');
         my $File = 'Stats' . $Param{StatID} . "-" . $TitleTimeStart . "-" . $TitleTimeStop .  ".cache";
         $File =~ s/ /-/g;
-
         if (open (DATA, "< $Path/$File")) {
             while (<DATA>) {
                 my @Row = split(/;;/, $_);
@@ -1721,6 +1720,7 @@ sub _WriteResultCache {
     my ($s,$m,$h, $D,$M,$Y) = $Self->{TimeObject}->SystemTime2Date(
         SystemTime => $Self->{TimeObject}->SystemTime(),
     );
+
     # if get params in future do not cache
     if ($GetParam{Year} && $GetParam{Month}) {
         if ($Y > $GetParam{Year}) {
@@ -1897,6 +1897,9 @@ sub Export {
     delete($XMLHash[0]->{otrs_stats}[1]{ChangedBy});
     delete($XMLHash[0]->{otrs_stats}[1]{Created});
     delete($XMLHash[0]->{otrs_stats}[1]{CreatedBy});
+    delete($XMLHash[0]->{otrs_stats}[1]{StatNumber});
+    delete($XMLHash[0]->{otrs_stats}[1]{StatID});
+
     # convert hash to string
     $File{Content} = $Self->{XMLObject}->XMLHash2XML(@XMLHash);
     return \%File;
@@ -2287,7 +2290,7 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2006-08-29 17:30:36 $
+$Revision: 1.3 $ $Date: 2006-09-21 15:09:44 $
 
 =cut
 
