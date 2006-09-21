@@ -2,7 +2,7 @@
 # Kernel/System/StdAttachment.pm - lib for std attachemnt
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: StdAttachment.pm,v 1.13 2006-08-29 17:30:36 martin Exp $
+# $Id: StdAttachment.pm,v 1.14 2006-09-21 11:22:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,12 +13,12 @@ package Kernel::System::StdAttachment;
 
 use strict;
 use MIME::Base64;
+use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -37,23 +37,24 @@ sub new {
         die "Got no $_" if (!$Self->{$_});
     }
 
+    $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
+
     return $Self;
 }
-# --
+
 sub StdAttachmentAdd {
     my $Self = shift;
     my %Param = @_;
-    # --
     # check needed stuff
-    # --
     foreach (qw(Name ValidID Content ContentType Filename UserID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # encode attachemnt if it's a postgresql backend!!!
     if (!$Self->{DBObject}->GetDatabaseFunction('DirectBlob')) {
+        $Self->{EncodeObject}->EncodeOutput(\$Param{Content});
         $Param{Content} = encode_base64($Param{Content});
     }
     # db quote
@@ -86,14 +87,14 @@ sub StdAttachmentAdd {
         return;
     }
 }
-# --
+
 sub StdAttachmentGet {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
     if (!$Param{ID}) {
-      $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
-      return;
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need ID!");
+        return;
     }
     # db quote
     foreach (qw(ID)) {
@@ -109,9 +110,7 @@ sub StdAttachmentGet {
         return;
     }
     if (my @Data = $Self->{DBObject}->FetchrowArray()) {
-        # --
         # decode attachemnt if it's a postgresql backend!!!
-        # --
         if (!$Self->{DBObject}->GetDatabaseFunction('DirectBlob')) {
             $Data[2] = decode_base64($Data[2]);
         }
@@ -130,19 +129,20 @@ sub StdAttachmentGet {
         return;
     }
 }
-# --
+
 sub StdAttachmentUpdate {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
     foreach (qw(ID Name ValidID Content ContentType Filename UserID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # encode attachemnt if it's a postgresql backend!!!
     if (!$Self->{DBObject}->GetDatabaseFunction('DirectBlob')) {
+        $Self->{EncodeObject}->EncodeOutput(\$Param{Content});
         $Param{Content} = encode_base64($Param{Content});
     }
     # db quote
@@ -171,16 +171,16 @@ sub StdAttachmentUpdate {
         return;
     }
 }
-# --
+
 sub StdAttachmentDelete {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
     foreach (qw(ID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # sql
     foreach (qw(ID)) {
@@ -193,7 +193,7 @@ sub StdAttachmentDelete {
         return;
     }
 }
-# --
+
 sub StdAttachmentLookup {
     my $Self = shift;
     my %Param = @_;
@@ -233,7 +233,7 @@ sub StdAttachmentLookup {
 
     return $Self->{"StdAttachment$Suffix"};
 }
-# --
+
 sub StdAttachmentsByResponseID {
     my $Self = shift;
     my %Param = @_;
@@ -259,7 +259,7 @@ sub StdAttachmentsByResponseID {
     }
     return %Data;
 }
-# --
+
 sub GetAllStdAttachments {
     my $Self = shift;
     my %Param = @_;
@@ -274,16 +274,16 @@ sub GetAllStdAttachments {
         Valid => $Param{Valid},
     );
 }
-# --
+
 sub SetStdAttachmentsOfResponseID {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
     foreach (qw(ID AttachmentIDsRef UserID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # db quote
     foreach (qw(ID UserID)) {
@@ -302,6 +302,5 @@ sub SetStdAttachmentsOfResponseID {
     }
     return 1;
 }
-# --
 
 1;
