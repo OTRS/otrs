@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/Ticket.pm - all advice functions
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.4 2006-08-29 17:28:44 martin Exp $
+# $Id: Ticket.pm,v 1.5 2006-09-21 14:58:42 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Ticket;
 
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -263,7 +263,7 @@ sub GetObjectAttributes {
         # Get CustomerID
         # (This way also can be the solution for the CustomerUserID)
         my %CustomerID = ();
-        $Self->{DBObject}->Prepare (SQL => "SELECT DISTINCT `customer_id` FROM `ticket`");
+        $Self->{DBObject}->Prepare (SQL => "SELECT DISTINCT customer_id FROM ticket");
         # fetch Data
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
             if ($Row[0]) {
