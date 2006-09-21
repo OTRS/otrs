@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.10 2006-09-21 09:50:36 tr Exp $
+# $Id: LinkObject.pm,v 1.11 2006-09-21 15:44:25 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::LinkObject;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -66,16 +66,10 @@ sub new {
     bless ($Self, $Type);
 
     # check needed objects
-    foreach (qw(DBObject ConfigObject LogObject TicketObject UserID)) {
+    foreach (qw(DBObject ConfigObject LogObject TicketObject MainObject UserID)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
-    # lib object
-#    my $GenericModule = "Kernel::System::Link::$Param{Module}";
-#    if (!eval "require $GenericModule") {
-#        die "Can't load link backend module $GenericModule! $@";
-#    }
-#    $Self->Backend(Module => 'Ticket');
     return $Self;
 }
 
@@ -98,13 +92,19 @@ sub LinkObjects {
     }
     # get config options
     if (!$Self->{ConfigObject}->Get('LinkObject')) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "LinkObject in Config!");
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "No LinkObject in Config!",
+        );
         return;
     }
     # get objects
     my %Objects = %{$Self->{ConfigObject}->Get('LinkObject')};
     if (!$Objects{$Param{SourceObject}}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "No Object '$Param{SourceObject}' configured!");
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "No Object '$Param{SourceObject}' configured!",
+        );
         return;
     }
 
@@ -146,9 +146,10 @@ sub LoadBackend {
     }
     # lib object
     my $GenericModule = "Kernel::System::LinkObject::$Param{Module}";
-    if (!eval "require $GenericModule") {
+    if (!$Self->{MainObject}->Require($GenericModule)) {
         die "Can't load link backend module $GenericModule! $@";
     }
+
     @ISA = ($GenericModule);
     $Self->Init(%Param);
     return 1;
@@ -419,6 +420,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2006-09-21 09:50:36 $
+$Revision: 1.11 $ $Date: 2006-09-21 15:44:25 $
 
 =cut
