@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.118 2006-09-05 21:22:52 martin Exp $
+# $Id: Article.pm,v 1.119 2006-09-21 11:21:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.118 $';
+$VERSION = '$Revision: 1.119 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1716,6 +1716,7 @@ sub SendAgentNotification {
     $Notification{Subject} = $Self->TicketSubjectBuild(
         TicketNumber => $Article{TicketNumber},
         Subject => $Notification{Subject} || '',
+        Type => 'New',
     );
 
     # get customer data and replace it with <OTRS_CUSTOMER_DATA_...
