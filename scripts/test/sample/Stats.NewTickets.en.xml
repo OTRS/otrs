@@ -8,13 +8,11 @@ Monat in das System gelangt sind.</Description>
 <Format>Print</Format>
 <Object>Ticket</Object>
 <ObjectModule>Kernel::System::Stats::Dynamic::Ticket</ObjectModule>
-<Permission>2</Permission>
-<StatID>1</StatID>
-<StatNumber>10001</StatNumber>
+<Permission>3</Permission>
 <StatType>dynamic</StatType>
 <SumCol>1</SumCol>
 <SumRow>1</SumRow>
-<Title>Neue Tickets </Title>
+<Title>Neue Tickets</Title>
 <UseAsValueSeries Element="QueueIDs" Fixed="1">
 </UseAsValueSeries>
 <UseAsXvalue Element="CreateTime" Fixed="1" TimeRelativeCount="1" TimeRelativeUnit="Month" TimeScaleCount="1">
