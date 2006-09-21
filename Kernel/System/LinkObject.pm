@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.9 2006-08-29 17:30:36 martin Exp $
+# $Id: LinkObject.pm,v 1.10 2006-09-21 09:50:36 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::LinkObject;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -81,7 +81,7 @@ sub new {
 
 =item LinkObjects()
 
-get a all linable objects
+get a all linkable objects
 
     my %LinkObjects = $LinkObject->LinkObjects(SourceObject => 'Ticket');
 
@@ -107,6 +107,7 @@ sub LinkObjects {
         $Self->{LogObject}->Log(Priority => 'error', Message => "No Object '$Param{SourceObject}' configured!");
         return;
     }
+
     # get linkable objects
     if ($Objects{$Param{SourceObject}}->{LinkObjects}) {
         foreach (@{$Objects{$Param{SourceObject}}->{LinkObjects}}) {
@@ -162,6 +163,7 @@ sub LinkObject {
             return;
         }
     }
+
     my $SQL = "INSERT INTO object_link ".
         " (object_link_a_id, object_link_b_id, object_link_a_object, object_link_b_object, object_link_type) ".
         " VALUES ".
@@ -362,6 +364,7 @@ sub LinkedObjects {
     }
     return %Linked;
 }
+
 sub AllLinkedObjects {
     my $Self = shift;
     my %Param = @_;
@@ -416,6 +419,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2006-08-29 17:30:36 $
+$Revision: 1.10 $ $Date: 2006-09-21 09:50:36 $
 
 =cut
