@@ -2,7 +2,7 @@
 # Group.t - Group tests
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Group.t,v 1.4 2006-08-26 17:36:26 martin Exp $
+# $Id: Group.t,v 1.5 2006-09-21 09:47:57 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,6 +19,19 @@ $Self->{UserObject} = Kernel::System::User->new(%{$Self});
 my $UserRand1 = 'example-user'.int(rand(1000000));
 my $UserRand2 = 'example-user'.int(rand(1000000));
 my $UserRand3 = 'example-user'.int(rand(1000000));
+
+my $EmailCheck = $Self->{ConfigObject}->Get('CheckEmailInvalidAddress');
+
+if ($EmailCheck =~ /example\|/) {
+    print "Group.t has changed the config option 'CheckEmailInvalidAddress'\n";
+    print "temporally because of invalid check of 'example'\n";
+    $EmailCheck =~ s/example\|//;
+}
+
+$Self->{ConfigObject}->Set(
+    Key => 'CheckEmailInvalidAddress',
+    Value => $EmailCheck,
+);
 
 my $UserID1 = $Self->{UserObject}->UserAdd(
     Firstname => 'Test1',
@@ -467,5 +480,33 @@ $Self->True(
     $GroupMemberInvolvedList3,
     'GroupMemberInvolvedList3()',
 );
+
+# set test groups invalid
+my @GroupIDs = ($GroupID1, $GroupID2, $GroupID3);
+my @GroupRands = ($GroupRand1, $GroupRand2, $GroupRand3);
+my @RoleIDs = ($RoleID1, $RoleID2, $RoleID3);
+my @RoleRands = ($RoleRand1, $RoleRand2, $RoleRand3);
+foreach (0..2) {
+    my $GroupUpdate = $Self->{GroupObject}->GroupUpdate(
+        ID => $GroupIDs[$_],
+        Name => $GroupRands[$_],
+        ValidID => 2,
+        UserID => 1,
+    );
+    $Self->True(
+        $GroupUpdate,
+        'GroupUpdate() set group invalid',
+    );
+    my $RoleUpdate = $Self->{GroupObject}->RoleUpdate(
+        ID => $RoleIDs[$_],
+        Name => $RoleRands[$_],
+        ValidID => 2,
+        UserID => 1,
+    );
+    $Self->True(
+        $RoleUpdate,
+        'RoleUpdate() set role invalid',
+    );
+}
 
 1;
