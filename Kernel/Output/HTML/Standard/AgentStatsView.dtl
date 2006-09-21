@@ -2,7 +2,7 @@
 # AgentStatsView.dtl - provides HTML form for view IDMEF
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStatsView.dtl,v 1.2 2006-08-29 16:56:06 martin Exp $
+# $Id: AgentStatsView.dtl,v 1.3 2006-09-21 09:48:43 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -73,7 +73,7 @@
                 <tr>
                   <input type="hidden" name="Format" value="$Data{"FormatKey"}">
                   <td class="contentkey">$Text{"Format"}:</td>
-                  <td class="contentvalue">$Data{"Format"}</td>
+                  <td class="contentvalue">$Text{"$Data{"Format"}"}</td>
                 </tr>
 <!-- dtl:block:FormatFixed -->
 <!-- dtl:block:Graphsize -->
