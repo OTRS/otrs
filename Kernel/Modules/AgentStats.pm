@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.14 2006-09-21 13:29:39 tr Exp $
+# $Id: AgentStats.pm,v 1.15 2006-09-22 07:46:20 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -383,7 +383,7 @@ sub Run {
                                     Data                => \%ValueHash,
                                     Name                => $Use . '->' .$ObjectAttribute->{Element},
                                     Multiple            => 1,
-                                    Size                => 4,
+                                    Size                => 5,
                                     SelectedIDRefArray  => $ObjectAttribute->{SelectedValues},
                                     LanguageTranslation => $ObjectAttribute->{LanguageTranslation},
                                 );
@@ -1243,7 +1243,7 @@ sub Run {
                 Data                => $Values{$Key},
                 Name                => $Key,
                 Multiple            => 1,
-                Size                => 4,
+                Size                => 5,
                 SelectedIDRefArray  => $Stat->{$Key},
                 LanguageTranslation => 0,
             );
@@ -1254,7 +1254,7 @@ sub Run {
                 Data               => $Values{$Key},
                 Name               => $Key,
                 Multiple           => 1,
-                Size               => 4,
+                Size               => 5,
                 SelectedIDRefArray => $Stat->{$Key},
             );
         }
@@ -1314,7 +1314,7 @@ sub Run {
                     Data                => $ObjectAttribute->{Values},
                     Name                => $ObjectAttribute->{Element},
                     Multiple            => 1,
-                    Size                => 4,
+                    Size                => 5,
                     SelectedIDRefArray  => $ObjectAttribute->{SelectedValues},
                     LanguageTranslation => $ObjectAttribute->{LanguageTranslation},
                 );
@@ -1408,7 +1408,7 @@ sub Run {
                     Data                => $ObjectAttribute->{Values},
                     Name                => $ObjectAttribute->{Element},
                     Multiple            => 1,
-                    Size                => 4,
+                    Size                => 5,
                     SelectedIDRefArray  => $ObjectAttribute->{SelectedValues},
                     LanguageTranslation => $ObjectAttribute->{LanguageTranslation},
                 );
@@ -1549,7 +1549,7 @@ sub Run {
                     Data               => $ObjectAttribute->{Values},
                     Name               => $ObjectAttribute->{Element},
                     Multiple           => 1,
-                    Size               => 4,
+                    Size               => 5,
                     SelectedIDRefArray => $ObjectAttribute->{SelectedValues},
                     LanguageTranslation => $ObjectAttribute->{LanguageTranslation},
                 );
@@ -2263,7 +2263,7 @@ sub _Timeoutput {
 
     $Data     = _TimeScale();
     my $Multiple = 1;
-    my $Size     = 4;
+    my $Size     = 5;
 
     foreach (@{$Param{SelectedValues}}){
         $Data->{$_}{Selected} = 1
