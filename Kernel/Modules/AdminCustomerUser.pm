@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.pm,v 1.41 2006-09-05 19:43:28 martin Exp $
+# $Id: AdminCustomerUser.pm,v 1.42 2006-09-22 07:29:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.41 $ ';
+$VERSION = '$Revision: 1.42 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -103,11 +103,22 @@ sub Run {
         if ($Nav eq 'None') {
             $OnClick = " onclick=\"updateMessage('$AddedUID')\"";
         }
-        $NavBar .= $Self->{LayoutObject}->Notify(
-            Data => $Self->{LayoutObject}->{LanguageObject}->Get('Added User "%s"", "'.$AddedUID).
-            " ( <a href=\"\$Env{\"CGIHandle\"}?Action=AgentTicketPhone&Subaction=StoreNew&ExpandCustomerName=2&CustomerUser=$AddedUID\"$OnClick>".$Self->{LayoutObject}->{LanguageObject}->Get('PhoneView')."</a>".
-            " - <a href=\"\$Env{\"CGIHandle\"}?Action=AgentTicketEmail&Subaction=StoreNew&ExpandCustomerName=2&CustomerUser=$AddedUID\"$OnClick>".$Self->{LayoutObject}->{LanguageObject}->Get('Compose Email')."</a> )!",
-        );
+        my $URL = '';
+        if ($Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketPhone}) {
+            $URL .= "<a href=\"\$Env{\"CGIHandle\"}?Action=AgentTicketPhone&Subaction=StoreNew&ExpandCustomerName=2&CustomerUser=$AddedUID\"$OnClick>".$Self->{LayoutObject}->{LanguageObject}->Get('PhoneView')."</a>";
+        }
+        if ($Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketEmail}) {
+            if ($URL) {
+                $URL .= " - ";
+            }
+            $URL .= "<a href=\"\$Env{\"CGIHandle\"}?Action=AgentTicketEmail&Subaction=StoreNew&ExpandCustomerName=2&CustomerUser=$AddedUID\"$OnClick>".$Self->{LayoutObject}->{LanguageObject}->Get('Compose Email')."</a>";
+        }
+        if ($URL) {
+            $NavBar .= $Self->{LayoutObject}->Notify(
+                Data => $Self->{LayoutObject}->{LanguageObject}->Get('Added User "%s"", "'.$AddedUID).
+                " ( $URL )!",
+            );
+        }
     }
     # search user list
     if ($Search) {
