@@ -3,7 +3,7 @@
 # opm.pl - otrs package manager cmd version
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: opm.pl,v 1.11 2006-08-26 17:22:05 martin Exp $
+# $Id: opm.pl,v 1.12 2006-09-23 14:33:18 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@ use Kernel::System::Package;
 
 # get file version
 use vars qw($VERSION $Debug);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # common objects
@@ -66,6 +66,9 @@ if (!$Opts{'a'}) {
 if ($Opts{'a'} && ($Opts{'a'} !~ /^list/ && !$Opts{'p'})) {
     $Opts{'h'} = 1;
 }
+if ($Opts{'a'} && ($Opts{'a'} eq 'exportfile' && (!$Opts{'p'} || !$Opts{'d'}))) {
+    $Opts{'h'} = 1;
+}
 if ($Opts{'a'} && $Opts{'a'} eq 'index') {
     $Opts{'h'} = 0;
 }
@@ -82,6 +85,7 @@ if ($Opts{'h'}) {
     print "       opm.pl -a reinstall -p Package\n";
     print "       opm.pl -a uninstall -p Package\n";
     print "       opm.pl -a file -p Kernel/System/File.pm (find package of file)\n";
+    print "       opm.pl -a exportfile -p Kernel/System/File.pm -d /export/to/path/ (export files of package)\n";
     print "   user (remote):\n";
     print "       opm.pl -a list-repository\n";
     print "       opm.pl -a install -p online:Package\n";
@@ -186,6 +190,43 @@ if ($Opts{'a'} eq 'file') {
         print STDERR "ERROR: no package for file $Opts{'p'} found!\n";
         exit 1;
     }
+}
+# exportfile
+if ($Opts{'a'} eq 'exportfile') {
+    $Opts{'p'} =~ s/\/\//\//g;
+    my $String = '';
+    # read package
+    if (-e $Opts{'p'}) {
+        if (open(IN, "< $Opts{'p'}")) {
+            while (<IN>) {
+                $String .= $_;
+            }
+            close (IN);
+            if (!$String) {
+                print STDERR "ERROR: File $Opts{'p'} is empty!\n";
+                exit 1;
+            }
+        }
+        else {
+            print STDERR "ERROR: no such package $Opts{'p'}: $! !\n";
+            exit 1;
+        }
+    }
+    else {
+        print STDERR "ERROR: no package for file $Opts{'p'} found!\n";
+        exit 1;
+    }
+    # export it
+    print "+-----------------------------------------------------------------+\n";
+    print "| Export files of:\n";
+    print "| Package: $Opts{'p'}\n";
+    print "| To:      $Opts{'d'}\n";
+    print "+-----------------------------------------------------------------+\n";
+    $CommonObject{PackageObject}->PackageExport(
+        String => $String,
+        Home => $Opts{'d'},
+    );
+    exit;
 }
 # build
 if ($Opts{'a'} eq 'build') {

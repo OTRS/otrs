@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.48 2006-08-29 17:30:36 martin Exp $
+# $Id: Package.pm,v 1.49 2006-09-23 14:33:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.48 $';
+$VERSION = '$Revision: 1.49 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -319,6 +319,7 @@ sub _CheckFramework {
         return;
     }
 }
+
 sub _CheckVersion {
     my $Self = shift;
     my %Param = @_;
@@ -359,6 +360,7 @@ sub _CheckVersion {
         return;
     }
 }
+
 sub _CheckRequired {
     my $Self = shift;
     my %Param = @_;
@@ -1393,6 +1395,40 @@ sub PackageParse {
     return %Return;
 }
 
+=item PackageExport()
+
+export files of an package
+
+    $PackageObject->PackageExport(
+        String => $FileString,
+        Home => '/path/to/export'
+    );
+
+=cut
+
+sub PackageExport {
+    my $Self = shift;
+    my %Param = @_;
+
+    # check needed stuff
+    foreach (qw(String Home)) {
+      if (!defined $Param{$_}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+        return;
+      }
+    }
+    # parse source file
+    my %Structur = $Self->PackageParse(%Param);
+    # install files
+    if ($Structur{Filelist} && ref($Structur{Filelist}) eq 'ARRAY') {
+        foreach my $File (@{$Structur{Filelist}}) {
+            # install file
+            $Self->_FileInstall(%{$File}, Home => $Param{Home});
+        }
+    }
+    return 1;
+}
+
 sub _Download {
     my $Self = shift;
     my %Param = @_;
@@ -1427,9 +1463,11 @@ sub _Download {
         return;
     }
 }
+
 sub _FileInstall {
     my $Self = shift;
     my %Param = @_;
+    my $Home = $Param{Home} || $Self->{Home};
     # check needed stuff
     foreach (qw(Location Content Permission)) {
       if (!defined $Param{$_}) {
@@ -1437,16 +1475,24 @@ sub _FileInstall {
         return;
       }
     }
+    # check Home
+    if (! -e $Home) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "No such home directory: $Home!",
+        );
+        return;
+    }
     # backup old file (if reinstall, don't overwrite .backup an .save files)
-    if (-e "$Self->{Home}/$Param{Location}") {
+    if (-e "$Home/$Param{Location}") {
         if ($Param{Type} && $Param{Type} =~ /^replace$/i) {
-            if (!$Param{Reinstall} || ($Param{Reinstall} && -e ! "$Self->{Home}/$Param{Location}.backup")) {
-                move("$Self->{Home}/$Param{Location}", "$Self->{Home}/$Param{Location}.backup");
+            if (!$Param{Reinstall} || ($Param{Reinstall} && -e ! "$Home/$Param{Location}.backup")) {
+                move("$Home/$Param{Location}", "$Home/$Param{Location}.backup");
             }
         }
         else {
-            if (!$Param{Reinstall} || ($Param{Reinstall} && -e ! "$Self->{Home}/$Param{Location}.save")) {
-                move("$Self->{Home}/$Param{Location}", "$Self->{Home}/$Param{Location}.save");
+            if (!$Param{Reinstall} || ($Param{Reinstall} && -e ! "$Home/$Param{Location}.save")) {
+                move("$Home/$Param{Location}", "$Home/$Param{Location}.save");
             }
         }
     }
@@ -1454,7 +1500,7 @@ sub _FileInstall {
     if ($Param{Location} =~ /^(.*)\/(.+?|)$/) {
         my $Directory = $1;
         my @Directories = split(/\//, $Directory);
-        my $DirectoryCurrent = $Self->{Home};
+        my $DirectoryCurrent = $Home;
         foreach (@Directories) {
             $DirectoryCurrent .= "/$_";
             if (! -d $DirectoryCurrent) {
@@ -1471,7 +1517,7 @@ sub _FileInstall {
         }
     }
     # write file
-    if (open(OUT, "> $Self->{Home}/$Param{Location}")) {
+    if (open(OUT, "> $Home/$Param{Location}")) {
         print STDERR "Notice: Install $Param{Location} ($Param{Permission})!\n";
         # set bin mode
         binmode OUT;
@@ -1481,19 +1527,21 @@ sub _FileInstall {
         if (length($Param{Permission}) == 3) {
             $Param{Permission} = "0$Param{Permission}";
         }
-        chmod(oct($Param{Permission}), "$Self->{Home}/$Param{Location}");
+        chmod(oct($Param{Permission}), "$Home/$Param{Location}");
     }
     else {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Can't write file: $Self->{Home}/$Param{Location}: $!",
+            Message => "Can't write file: $Home/$Param{Location}: $!",
         );
     }
     return 1;
 }
+
 sub _FileRemove {
     my $Self = shift;
     my %Param = @_;
+    my $Home = $Param{Home} || $Self->{Home};
     # check needed stuff
     foreach (qw(Location)) {
       if (!defined $Param{$_}) {
@@ -1501,7 +1549,15 @@ sub _FileRemove {
         return;
       }
     }
-    my $RealFile = "$Self->{Home}/$Param{Location}";
+    # check Home
+    if (! -e $Home) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "No such home directory: $Home!",
+        );
+        return;
+    }
+    my $RealFile = "$Home/$Param{Location}";
     # check if file exists
     if (-e $RealFile) {
         # remove old file
@@ -1534,9 +1590,11 @@ sub _FileRemove {
         return;
     }
 }
+
 sub _FileSystemCheck {
     my $Self = shift;
     my %Param = @_;
+    my $Home = $Param{Home} || $Self->{Home};
     # check needed stuff
     foreach (qw()) {
       if (!defined $Param{$_}) {
@@ -1544,8 +1602,16 @@ sub _FileSystemCheck {
         return;
       }
     }
+    # check Home
+    if (! -e $Home) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "No such home directory: $Home!",
+        );
+        return;
+    }
     foreach (qw(/ /bin/ /Kernel/ /Kernel/System/ /Kernel/Output/ /Kernel/Modules/)) {
-        my $File = "$Self->{Home}/$_/check_permissons.$$";
+        my $File = "$Home/$_/check_permissons.$$";
         if (open(OUT, "> $File")) {
             print OUT "test";
             close (OUT);
@@ -1561,6 +1627,7 @@ sub _FileSystemCheck {
     }
     return 1;
 }
+
 sub _Encode {
     my $Self = shift;
     my $Text = shift;
@@ -1570,6 +1637,7 @@ sub _Encode {
     $Text =~ s/"/&quot;/g;
     return $Text;
 }
+
 1;
 
 =head1 TERMS AND CONDITIONS
@@ -1584,6 +1652,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.48 $ $Date: 2006-08-29 17:30:36 $
+$Revision: 1.49 $ $Date: 2006-09-23 14:33:18 $
 
 =cut
