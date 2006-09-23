@@ -2,13 +2,18 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.289 2006-09-15 09:01:11 martin Exp $
+# $Id: CHANGES,v 1.290 2006-09-23 15:03:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.1.0 beta3 (2006/??/??)
+ - (2006/09/22) fixed opm check do not install/upgrade packages if one file to
+    install already exists in an other package
+ - (2006/09/22) added "-a exportfile" feature to bin/opm.pl to export files
+    of a package into a defined directory e. g. "-d /path/to/"
+ - (2006/09/21) removed Re: from agent notification emails
  - (2006/09/14) added change to remove 4 not needed empty spaces after folding
     of email headers (sometimes 4 empty spaces in subject appear)
  - (2006/09/09) updated pdf-logo to ((otrs))
