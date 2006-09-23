@@ -2,7 +2,7 @@
 # Kernel/System/Web/UploadCache/DB.pm - a db upload cache
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.4 2006-09-21 11:19:28 martin Exp $
+# $Id: DB.pm,v 1.5 2006-09-23 15:03:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Encode;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.4 $ ';
+$VERSION = '$Revision: 1.5 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -147,6 +147,7 @@ sub FormIDGetAllFilesData {
         # encode attachemnt if it's a postgresql backend!!!
         if (!$Self->{DBObject}->GetDatabaseFunction('DirectBlob')) {
             $Row[3] = decode_base64($Row[3]);
+            $Self->{EncodeObject}->Encode(\$Row[3]);
         }
         # add the info
         push (@Data, {
