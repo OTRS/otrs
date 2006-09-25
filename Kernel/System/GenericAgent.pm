@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.20 2006-09-21 10:25:33 tr Exp $
+# $Id: GenericAgent.pm,v 1.21 2006-09-25 13:22:22 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,10 +12,9 @@
 package Kernel::System::GenericAgent;
 
 use strict;
-use Kernel::System::Main;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.20 $ ';
+$VERSION = '$Revision: 1.21 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -85,11 +84,9 @@ sub new {
     bless ($Self, $Type);
 
     # check needed objects
-    foreach (qw(DBObject ConfigObject LogObject TimeObject TicketObject QueueObject)) {
+    foreach (qw(DBObject ConfigObject LogObject TimeObject TicketObject QueueObject MainObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
-
-    $Self->{MainObject} = Kernel::System::Main->new(%Param);
 
     # debug
     $Self->{Debug} = $Param{Debug} || 0;
@@ -595,7 +592,12 @@ sub _JobRunTicket {
             }
 
             if ($Self->{NoticeSTDOUT}) {
-                print "  - set ticket free text of Ticket $Ticket to Key: '$Data{Key}' Text: '$Data{Value}'\n";
+                if (defined($Data{Key})) {
+                    print "  - set ticket free text of Ticket $Ticket to Key: '$Data{Key}'\n";
+                }
+                if (defined($Data{Value})) {
+                    print "  - set ticket free text of Ticket $Ticket to Text: '$Data{Value}'\n";
+                }
             }
             $Self->{TicketObject}->TicketFreeTextSet(%Data);
         }
@@ -896,6 +898,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.20 $ $Date: 2006-09-21 10:25:33 $
+$Revision: 1.21 $ $Date: 2006-09-25 13:22:22 $
 
 =cut
