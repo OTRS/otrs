@@ -3,7 +3,7 @@
 # CheckDB.pl - to check the db access
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CheckDB.pl,v 1.14 2006-08-26 17:22:05 martin Exp $
+# $Id: CheckDB.pl,v 1.15 2006-09-25 13:24:21 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,22 +30,25 @@ use strict;
 use Getopt::Std;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Kernel::Config;
 use Kernel::System::Log;
+use Kernel::System::Main;
 use Kernel::System::DB;
 
 # create common objects
-my $ConfigObject = Kernel::Config->new();
-my $LogObject = Kernel::System::Log->new(
+my %CommonObject = ();
+$CommonObject{ConfigObject} = Kernel::Config->new();
+$CommonObject{LogObject} = Kernel::System::Log->new(
     LogPrefix => 'OTRS-CheckDB',
-    ConfigObject => $ConfigObject,
+    ConfigObject => $CommonObject{ConfigObject},
 );
-my $DBObject = Kernel::System::DB->new(
-    LogObject => $LogObject,
-    ConfigObject => $ConfigObject,
+$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
+$CommonObject{DBObject} = Kernel::System::DB->new(
+    LogObject => $CommonObject{LogObject},
+    ConfigObject => $CommonObject{ConfigObject},
 );
 
 # get options
@@ -57,10 +60,10 @@ if ($Opts{'s'}) {
 }
 
 # chech database state
-if ($DBObject) {
-    $DBObject->Prepare(SQL => "SELECT * FROM valid");
+if ($CommonObject{DBObject}) {
+    $CommonObject{DBObject}->Prepare(SQL => "SELECT * FROM valid");
     my $Check = 0;
-    while (my @RowTmp = $DBObject->FetchrowArray()) {
+    while (my @RowTmp = $CommonObject{DBObject}->FetchrowArray()) {
         $Check++;
     }
     if (!$Check) {

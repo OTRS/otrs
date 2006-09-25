@@ -3,7 +3,7 @@
 # bin/CleanUp.pl - to cleanup, remove used tmp data of ipc, database or fs
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CleanUp.pl,v 1.3 2006-08-26 17:26:11 martin Exp $
+# $Id: CleanUp.pl,v 1.4 2006-09-25 13:25:00 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,12 +28,13 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
 use Kernel::Config;
 use Kernel::System::Log;
+use Kernel::System::Main;
 use Kernel::System::DB;
 use Kernel::System::Time;
 use Kernel::System::AuthSession;
@@ -50,11 +51,13 @@ if ($Opts{'h'}) {
 # create common objects
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
 $CommonObject{LogObject} = Kernel::System::Log->new(
     LogPrefix => 'OTRS-CleanUp',
     %CommonObject,
 );
+$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
+$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
+
 # create tmp storage objects
 $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
 $CommonObject{AuthSessionObject} = Kernel::System::AuthSession->new(%CommonObject);
