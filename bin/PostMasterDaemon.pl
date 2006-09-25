@@ -3,7 +3,7 @@
 # bin/PostMasterDaemon.pl - the daemon for the PostMasterClient.pl client
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PostMasterDaemon.pl,v 1.8 2006-08-26 17:26:11 martin Exp $
+# $Id: PostMasterDaemon.pl,v 1.9 2006-09-25 13:32:08 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -31,6 +31,7 @@ my $Debug = 1;
 use Kernel::Config;
 use Kernel::System::Time;
 use Kernel::System::Log;
+use Kernel::System::Main;
 use Kernel::System::DB;
 use Kernel::System::PostMaster;
 
@@ -139,6 +140,7 @@ sub PipeEmail {
         LogPrefix => 'OTRS-PMD',
         %CommonObject,
     );
+    $CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
     $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
     # debug info
     if ($Debug) {

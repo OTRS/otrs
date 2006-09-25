@@ -3,7 +3,7 @@
 # xml2sql.pl - a xml 2 sql processor
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: xml2sql.pl,v 1.6 2006-08-26 17:22:05 martin Exp $
+# $Id: xml2sql.pl,v 1.7 2006-09-25 13:37:20 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -34,9 +34,10 @@ use Kernel::Config;
 use Kernel::System::Time;
 use Kernel::System::DB;
 use Kernel::System::Log;
+use Kernel::System::Main;
 use Kernel::System::XML;
 
-my $VERSION = '$Revision: 1.6 $';
+my $VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 my %Opts = ();
@@ -72,6 +73,7 @@ $CommonObject{LogObject} = Kernel::System::Log->new(
     LogPrefix => 'OTRS-xml2sql',
     %CommonObject,
 );
+$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
 $CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
 $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
 $CommonObject{XMLObject} = Kernel::System::XML->new(%CommonObject);

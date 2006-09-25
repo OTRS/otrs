@@ -3,7 +3,7 @@
 # XMLMaster.pl - the global xml handle for xml2db
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XMLMaster.pl,v 1.3 2006-08-26 17:22:05 martin Exp $
+# $Id: XMLMaster.pl,v 1.4 2006-09-25 13:35:29 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -37,6 +37,7 @@ use Kernel::Config;
 use Kernel::System::Time;
 use Kernel::System::DB;
 use Kernel::System::Log;
+use Kernel::System::Main;
 use Kernel::System::XMLMaster;
 
 # --
@@ -63,9 +64,8 @@ $CommonObject{LogObject} = Kernel::System::Log->new(
     LogPrefix => 'OTRS-XMLMaster',
     %CommonObject,
 );
-$CommonObject{TimeObject} = Kernel::System::Time->new(
-    %CommonObject,
-);
+$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
+$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
 # Wrap the majority of the script in an "eval" block so that any
 # unexpected (but probably transient) fatal errors (such as the
 # database being unavailable) can be trapped without causing a
