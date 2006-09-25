@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.224 2006-09-20 06:40:29 tr Exp $
+# $Id: Ticket.pm,v 1.225 2006-09-25 13:23:38 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,6 @@ package Kernel::System::Ticket;
 
 use strict;
 use File::Path;
-use Kernel::System::Main;
 use Kernel::System::Ticket::Article;
 use Kernel::System::State;
 use Kernel::System::Priority;
@@ -33,7 +32,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.224 $';
+$VERSION = '$Revision: 1.225 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -94,7 +93,7 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
 
     # get needed objects
-    foreach (qw(ConfigObject LogObject TimeObject DBObject)) {
+    foreach (qw(ConfigObject LogObject TimeObject DBObject MainObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -104,13 +103,6 @@ sub new {
     }
     else {
         $Self->{EncodeObject} = $Param{EncodeObject};
-    }
-
-    if (!$Param{MainObject}) {
-        $Self->{MainObject} = Kernel::System::Main->new(%Param);
-    }
-    else {
-        $Self->{MainObject} = $Param{MainObject};
     }
 
     $Self->{UserObject} = Kernel::System::User->new(%Param);
@@ -4875,6 +4867,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.224 $ $Date: 2006-09-20 06:40:29 $
+$Revision: 1.225 $ $Date: 2006-09-25 13:23:38 $
 
 =cut
