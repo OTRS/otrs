@@ -11,7 +11,7 @@
 <GraphSize></GraphSize>
 <Object></Object>
 <ObjectModule>Kernel::System::Stats::Static::StateAction</ObjectModule>
-<Permission>3</Permission>
+<Permission>stats</Permission>
 <StatType>static</StatType>
 <SumCol>1</SumCol>
 <SumRow>1</SumRow>

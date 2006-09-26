@@ -7,7 +7,7 @@
 <Format>Print</Format>
 <Object>Ticket</Object>
 <ObjectModule>Kernel::System::Stats::Dynamic::Ticket</ObjectModule>
-<Permission>3</Permission>
+<Permission>stats</Permission>
 <StatType>dynamic</StatType>
 <SumCol>1</SumCol>
 <SumRow>1</SumRow>
