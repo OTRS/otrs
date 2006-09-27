@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.119 2006-09-21 11:21:26 martin Exp $
+# $Id: Article.pm,v 1.120 2006-09-27 12:24:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.119 $';
+$VERSION = '$Revision: 1.120 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -2383,6 +2383,7 @@ sub ArticleAccountedTimeGet {
         " article_id = $Param{ArticleID}";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $Row[0] =~ s/,/./g;
         $AccountedTime = $AccountedTime + $Row[0];
     }
     return $AccountedTime;

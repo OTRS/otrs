@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.225 2006-09-25 13:23:38 tr Exp $
+# $Id: Ticket.pm,v 1.226 2006-09-27 12:24:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -32,7 +32,7 @@ use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.225 $';
+$VERSION = '$Revision: 1.226 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 @ISA = ('Kernel::System::Ticket::Article');
@@ -4221,6 +4221,7 @@ sub TicketAccountedTimeGet {
         "  ";
     $Self->{DBObject}->Prepare(SQL => $SQL);
     while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+        $Row[0] =~ s/,/./g;
         $AccountedTime = $AccountedTime + $Row[0];
     }
     return $AccountedTime;
@@ -4867,6 +4868,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.225 $ $Date: 2006-09-25 13:23:38 $
+$Revision: 1.226 $ $Date: 2006-09-27 12:24:03 $
 
 =cut
