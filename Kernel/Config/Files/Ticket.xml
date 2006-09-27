@@ -148,7 +148,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.114 2006-09-27 15:58:35 mh Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.115 2006-09-27 17:09:02 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -1546,6 +1546,15 @@ TimeWorkingHours
                 <Item Key="Down">Down</Item>
                 <Item Key="Up">Up</Item>
             </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::CustomerShownTickets" Required="0" Valid="1">
+        <Description Lang="en">Max. shown customer tickets in customer change mask.</Description>
+        <Description Lang="de">Max. gezeigte Kunden--Tickets in Kunden-Aendern-Maske.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent</SubGroup>
+        <Setting>
+            <String Regex="">25</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AccountTime" Required="1" Valid="1">
@@ -6888,6 +6897,19 @@ $QData{"Signature"}
                 <Title>Zoom</Title>
             </FrontendModuleReg>
         </Setting>
+    </ConfigItem>
+    <ConfigItem Name="CustomerFrontend::Module###CustomerTicketPrint" Required="0" Valid="1">
+      <Description Lang="en">Customer Frontend module registration for the Customer Ticket Print Module</Description>
+      <Description Lang="de">Frontendmodul-Registration des CustomerTicketPrint-Objekts im Kunden-Interface.</Description>
+      <Group>Ticket</Group>
+      <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
+      <Setting>
+         <FrontendModuleReg>
+            <Description>Customer Ticket Print Module</Description>
+            <NavBarName></NavBarName>
+            <Title>Print</Title>
+         </FrontendModuleReg>
+      </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerZoom" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the CustomerZoom object in the customer interface.</Description>

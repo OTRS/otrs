@@ -2,15 +2,18 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.293 2006-09-27 16:53:39 tr Exp $
+# $Id: CHANGES,v 1.294 2006-09-27 17:09:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.1.0 beta3 (2006/??/??)
+ - (2006/09/27) fixed bug #1358 - Customer History > All customer tickets.
+    returns an incorrect number of tickets
  - (2006/09/27) fixed bug #1293 - Can't use an undefined value as a HASH
-    reference at /opt/otrs/bin/cgi-bin//../../Kernel/Modules/AgentTicketBulk.pm line 194
+    reference at /opt/otrs/bin/cgi-bin//../../Kernel/Modules/AgentTicketBulk.pm
+    line 194
  - (2006/09/27) fixed bug #1356 - mssql driver bug - Stats module of OTRS 2.1
     beta 2 - "Cant use string ("0")".
  - (2006/09/27) fixed bug #1335 - removed "uninitialized value" warning in
@@ -23,7 +26,8 @@
  - (2006/09/14) added change to remove 4 not needed empty spaces after folding
     of email headers (sometimes 4 empty spaces in subject appear)
  - (2006/09/09) updated pdf-logo to ((otrs))
- - (2006/09/09) added DBUpdate-to-2.1.oracle.sql to get oracle databases up to date
+ - (2006/09/09) added DBUpdate-to-2.1.oracle.sql to get oracle databases up to
+    date
  - (2006/09/05) fixed double sending of note notifications
  - (2006/09/05) fixed link to email and phone after adding a new customer user
  - (2006/09/01) added fix to removed leading and trailing spaces in search
