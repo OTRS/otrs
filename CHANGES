@@ -2,13 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.291 2006-09-27 14:53:35 mh Exp $
+# $Id: CHANGES,v 1.292 2006-09-27 16:31:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.1.0 beta3 (2006/??/??)
+ - (2006/09/27) fixed bug #1356 - mssql driver bug - Stats module of OTRS 2.1
+    beta 2 - "Cant use string ("0")".
  - (2006/09/27) fixed bug #1335 - removed "uninitialized value" warning in
     NavBarTicketWatcher.pm
  - (2006/09/22) fixed opm check do not install/upgrade packages if one file to
@@ -29,7 +31,7 @@
  - (2006/08/29) moved Frontend::ImagePath variable
    (/otrs-web/images/Standard/) from .dtl files to config option
  - (2006/08/28) added examples how to use SOAP (bin/cgi-bin/rpc.pl and
-    scripts/rpc-examlple.pl)
+    scripts/rpc-example.pl)
  - (2006/08/27) added mulit calendar / queue support - you can use different
     time zones in different queues and each agent can select the own time zone
     NOTE: table queue need to be modified - see scripts/DBUpdate-to-2.1.*.sql
