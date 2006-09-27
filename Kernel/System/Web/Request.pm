@@ -2,7 +2,7 @@
 # Kernel/System/Web/Request.pm - a wrapper for CGI.pm or Apache::Request.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Request.pm,v 1.6 2006-09-27 15:01:32 tr Exp $
+# $Id: Request.pm,v 1.7 2006-09-27 15:03:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::Encode;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.6 $ ';
+$VERSION = '$Revision: 1.7 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -164,6 +164,8 @@ to get file upload
       Param => '123.jpg',
   );
 
+  to get file upload without uft-8 encoding
+
   my %File = $ParamObject->GetUploadAll(
       Param => '123.jpg',
       Encoding => 'Raw', # optional
@@ -285,6 +287,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2006-09-27 15:01:32 $
+$Revision: 1.7 $ $Date: 2006-09-27 15:03:43 $
 
 =cut
