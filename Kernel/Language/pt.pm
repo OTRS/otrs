@@ -2,7 +2,7 @@
 # Kernel/Language/pt.pm - provides pt language translation
 # Copyright (C) 2004 CAT <filipehenriques at ip.pt>
 # --
-# $Id: pt.pm,v 1.21.2.2 2006-03-21 12:42:02 cs Exp $
+# $Id: pt.pm,v 1.21.2.3 2006-09-27 08:37:19 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::pt;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21.2.2 $';
+$VERSION = '$Revision: 1.21.2.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -202,7 +202,7 @@ sub Data {
       'Logout successful. Thank you for using OTRS!' => 'Saiu com sucesso. Obrigado por utilizar o Sistema de Ajuda do ISCTE!',
       'Invalid SessionID!' => 'ID de Sessão Inválido',
       'Feature not active!' => 'Característica não activa!',
-      'Sorry, feature not activ!' => 'Lamentamos, característica não activa!',
+      'Sorry, feature not active!' => 'Lamentamos, característica não activa!',
       'Take this Customer' => 'Fique com este Cliente',
       'Take this User' => 'Fique com este Utilizador',
       'possible' => 'possível',
@@ -595,7 +595,7 @@ sub Data {
       'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => 'Opções do dono do bilhete',
       'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => 'Opções do utilizador que requereu a acção (Ex. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)',
       'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'Opçoes do Cliente corrente (Ex. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)',
-	'Security Note: You should activate %s because applications is already running!' => 'Nota de Segurança: Deve activar o %s, pois a aplicação está já em produção!',
+    'Security Note: You should activate %s because applications is already running!' => 'Nota de Segurança: Deve activar o %s, pois a aplicação está já em produção!',
       'Note!' => 'Nota!',
 
       # Template: AdminPackageManager
@@ -828,7 +828,7 @@ sub Data {
 
       # Template: AgentLinkObject
       'Link Object' => 'Ligar Objecto',
-	'with' => 'a',
+    'with' => 'a',
       'Select' => 'Seleccionar',
       'Results' => 'Resultados',
       'Total hits' => 'Total de acertos',
@@ -841,7 +841,7 @@ sub Data {
       # Template: AgentNavigationBar
       'Ticket selected for bulk action!' => 'Bilhete seleccionado para acção em lote!',
       'You need min. one selected Ticket!' => 'Precisa de seleccionar pelo menos um Bilhete!',
-	'Ticket %s locked.' => 'Bilhete %s bloqueado.',
+    'Ticket %s locked.' => 'Bilhete %s bloqueado.',
 
       # Template: AgentPreferencesForm
 
@@ -1231,8 +1231,8 @@ sub Data {
       'Create new Ticket' => 'Criar novo Bilhete',
       'installed' => 'instalado',
       'uninstalled' => 'desinstalado',
-	'Start' => 'Início',
-	'End' => 'Fim',
+    'Start' => 'Início',
+    'End' => 'Fim',
     };
     # $$STOP$$
 }

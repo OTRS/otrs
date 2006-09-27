@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminCustomerUserGroup.pm - to add/update/delete groups <-> users
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminCustomerUserGroup.pm,v 1.7 2005-03-27 11:50:49 martin Exp $
+# $Id: AdminCustomerUserGroup.pm,v 1.7.2.1 2006-09-27 08:37:19 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.7 $';
+$VERSION = '$Revision: 1.7.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -55,13 +55,13 @@ sub Run {
     my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
     $Param{NextScreen} = 'AdminCustomerUserGroup';
 
-    # check if feature is activ
+    # check if feature is active
     if (!$Self->{ConfigObject}->Get('CustomerGroupSupport')) {
         $Output .= $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Warning(
-            Message => 'Sorry, feature not activ!',
-            Comment => 'CustomerGroupSupport needs to be activ in Kernel/Config.pm, read more about this feature in the documentation. Take care!',
+            Message => 'Sorry, feature not active!',
+            Comment => 'CustomerGroupSupport needs to be active in Kernel/Config.pm, read more about this feature in the documentation. Take care!',
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
@@ -138,7 +138,7 @@ sub Run {
         # get group data
         my %UserData = $Self->{CustomerUserObject}->CustomerUserList(Valid => 1);
         my %NewPermission = ();
-        foreach (keys %UserData) { 
+        foreach (keys %UserData) {
             foreach my $Permission (keys %Permissions) {
                 $NewPermission{$Permission} = 0;
                 my @Array = @{$Permissions{$Permission}};
@@ -155,7 +155,7 @@ sub Run {
                 UserID => $Self->{UserID},
             );
         }
-        $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=$Param{NextScreen}");    
+        $Output .= $Self->{LayoutObject}->Redirect(OP => "Action=$Param{NextScreen}");
     }
     # groups to user
     elsif ($Self->{Subaction} eq 'ChangeUser') {
@@ -203,7 +203,7 @@ sub Run {
         # get group data
         my %GroupData = $Self->{GroupObject}->GroupList(Valid => 1);
         $Output .= $Self->MaskAdminUserGroupForm(
-            GroupData => \%GroupData, 
+            GroupData => \%GroupData,
             UserData => \%UserData,
         );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -252,7 +252,7 @@ sub MaskAdminUserGroupChangeForm {
     $Param{OptionStrg0} .= "</table>\n";
 
     return $Self->{LayoutObject}->Output(
-        TemplateFile => 'AdminCustomerUserGroupChangeForm', 
+        TemplateFile => 'AdminCustomerUserGroupChangeForm',
         Data => \%Param,
     );
 }
@@ -265,7 +265,7 @@ sub MaskAdminUserGroupForm {
     my $GroupData = $Param{GroupData};
     my %GroupDataTmp = %$GroupData;
     my $BaseLink = $Self->{LayoutObject}->{Baselink} . "Action=AdminCustomerUserGroup&";
-    
+
     foreach (sort {uc($UserDataTmp{$a}) cmp uc($UserDataTmp{$b})} keys %UserDataTmp){
       $Param{UserStrg} .= "<A HREF=\"$BaseLink"."Subaction=User&ID=$_\">$UserDataTmp{$_}</A><BR>";
     }
@@ -274,7 +274,7 @@ sub MaskAdminUserGroupForm {
     }
     # return output
     return $Self->{LayoutObject}->Output(
-        TemplateFile => 'AdminCustomerUserGroupForm', 
+        TemplateFile => 'AdminCustomerUserGroupForm',
         Data => \%Param,
     );
 }
