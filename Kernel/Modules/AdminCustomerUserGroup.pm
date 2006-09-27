@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUserGroup.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminCustomerUserGroup.pm,v 1.8 2006-08-29 17:17:23 martin Exp $
+# $Id: AdminCustomerUserGroup.pm,v 1.9 2006-09-27 08:36:49 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.8 $';
+$VERSION = '$Revision: 1.9 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -55,13 +55,13 @@ sub Run {
     my $ID = $Self->{ParamObject}->GetParam(Param => 'ID') || '';
     $Param{NextScreen} = 'AdminCustomerUserGroup';
 
-    # check if feature is activ
+    # check if feature is active
     if (!$Self->{ConfigObject}->Get('CustomerGroupSupport')) {
         $Output .= $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Warning(
-            Message => 'Sorry, feature not activ!',
-            Comment => 'CustomerGroupSupport needs to be activ in Kernel/Config.pm, read more about this feature in the documentation. Take care!',
+            Message => 'Sorry, feature not active!',
+            Comment => 'CustomerGroupSupport needs to be active in Kernel/Config.pm, read more about this feature in the documentation. Take care!',
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
