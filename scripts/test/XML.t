@@ -2,7 +2,7 @@
 # XML.t - XML tests
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XML.t,v 1.4 2006-08-26 17:36:26 martin Exp $
+# $Id: XML.t,v 1.5 2006-09-27 12:17:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,6 +19,7 @@ my $String = '
       <Email type="primary">info@exampe.com<Domain>1234.com</Domain></Email>
       <Email type="secundary">sales@example.com</Email>
       <Telephone country="germany">+49-999-99999</Telephone>
+      <Telephone2></Telephone2>
     </Contact>
 ';
 
@@ -26,6 +27,14 @@ my @XMLHash = $Self->{XMLObject}->XMLParse2XMLHash(String => $String);
 $Self->True(
     $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{role} eq 'admin',
     'XMLParse2XMLHash()',
+);
+$Self->True(
+    $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{Telephone}->[1]->{country} eq 'germany',
+    'XMLHashGet() (Telephone->country)',
+);
+$Self->True(
+    $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{Telephone2}->[1]->{Content} eq '',
+    'XMLHashGet() (Telephone2)',
 );
 $Self->True(
     $Self->{XMLObject}->XMLHashAdd(
@@ -44,6 +53,14 @@ $Self->True(
 $Self->True(
     $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{role} eq 'admin',
     'XMLHashGet() (admin)',
+);
+$Self->True(
+    $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{Telephone}->[1]->{country} eq 'germany',
+    'XMLHashGet() (Telephone->country)',
+);
+$Self->True(
+    $#XMLHash == 1 && $XMLHash[1]->{Contact}->[1]->{Telephone2}->[1]->{Content} eq '',
+    'XMLHashGet() (Telephone2)',
 );
 
 
