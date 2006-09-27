@@ -2,7 +2,7 @@
 # TODO - todo list OTRS
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: TODO,v 1.106 2006-08-27 22:12:39 martin Exp $
+# $Id: TODO,v 1.107 2006-09-27 16:51:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,15 +17,12 @@
 - prevent unauthorized person submit ticket via email via PostMaster*.pl
 - send bulk answer -
    http://lists.otrs.org/pipermail/otrs/2002-June/000066.html (martin)
-- delete option for records (martin)
 - add info that a ticket is already closed!
-- user info backend (LDAP and DB)
 - allow users to add or change stored replies for their queue without giving them full admin rights
 - rework responses and relations in resposes (sort order)
 - A better way to reset password, hash confirmation...
    http://bugs.otrs.org/show_bug.cgi?id=443
 - otrs installation: Check if perl is insert in ApacheModules
-- create a configelement for image path - delete path insert in header.dtl
 - change SysConfig XML-files form iso8859-1 to utf8 - Warning, be careful of
   conflicts between the modules
 - add possebility (maybe a Configoption) that for external notes not the
@@ -41,7 +38,6 @@
   Solution 1: insert the settings from the Webinstaller in ZZZAAuto
   Solution 2: Checkfunction in SysConfig, witch check if the current
               value is also configured in the Config.pm
-- Header.dtl and CustomerHeader.dtl move $Env{Images} to SysConfig
 - stats functionality: - stats doku in admin manual
                        - include a step 4 mask for static stats,
                          because the actual solution is irritating
@@ -52,9 +48,11 @@
 - wording problem of these config settings Ticket::Frontend::QueueSort Ticket::Frontend::QueueSortByDefault Ticket::Frontend::QueueOrder::Default
   + a better description
 - localisation emails for "New OTRS Password!" and "New Account"
-- insert a function which marks all config settings in the SysConfig which still defined in the config.pm
+- insert a function which marks all config settings in the SysConfig which still defined in the Config.pm
+- implement new bulk action with own sysconfig settings for all params
 - stats functionality: - use the pdf - backend for output
                        - insert a function to handle new default stats
+
 
 3.0
 - new templates without logic
