@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/NavBarTicketWatcher.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: NavBarTicketWatcher.pm,v 1.4 2006-08-27 22:25:33 martin Exp $
+# $Id: NavBarTicketWatcher.pm,v 1.5 2006-09-27 14:52:17 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::Output::HTML::NavBarTicketWatcher;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -52,7 +52,9 @@ sub Run {
     }
     else {
         foreach my $Group (@Groups) {
-            if ($Self->{LayoutObject}->{"UserIsGroup[$Group]"} eq 'Yes') {
+            if ($Self->{LayoutObject}->{"UserIsGroup[$Group]"} &&
+                $Self->{LayoutObject}->{"UserIsGroup[$Group]"} eq 'Yes'
+            ) {
                 $Access = 1;
             }
         }
