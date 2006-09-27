@@ -2,13 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.292 2006-09-27 16:31:40 martin Exp $
+# $Id: CHANGES,v 1.293 2006-09-27 16:53:39 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.1.0 beta3 (2006/??/??)
+ - (2006/09/27) fixed bug #1293 - Can't use an undefined value as a HASH
+    reference at /opt/otrs/bin/cgi-bin//../../Kernel/Modules/AgentTicketBulk.pm line 194
  - (2006/09/27) fixed bug #1356 - mssql driver bug - Stats module of OTRS 2.1
     beta 2 - "Cant use string ("0")".
  - (2006/09/27) fixed bug #1335 - removed "uninitialized value" warning in
