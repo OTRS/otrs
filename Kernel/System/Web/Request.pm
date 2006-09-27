@@ -2,7 +2,7 @@
 # Kernel/System/Web/Request.pm - a wrapper for CGI.pm or Apache::Request.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Request.pm,v 1.4 2006-08-29 17:21:04 martin Exp $
+# $Id: Request.pm,v 1.5 2006-09-27 14:38:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::Encode;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.4 $ ';
+$VERSION = '$Revision: 1.5 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -160,7 +160,14 @@ sub GetUploadInfo {
 
 to get file upload
 
-  my %File = $ParamObject->GetUploadAll(Param => '123.jpg');
+  my %File = $ParamObject->GetUploadAll(
+      Param => '123.jpg',
+  );
+
+  my %File = $ParamObject->GetUploadAll(
+      Param => '123.jpg',
+      Encoding => 'Raw',
+  );
 
   print "Filename: $File{Filename}\n";
   print "ContentType: $File{ContentType}\n";
@@ -184,7 +191,9 @@ sub GetUploadAll {
             while (<$Upload>) {
                 $Param{UploadFilename} .= $_;
             }
-            $Self->{EncodeObject}->Encode(\$Param{UploadFilename});
+            if (!$Param{Encoding}) {
+                $Self->{EncodeObject}->Encode(\$Param{UploadFilename});
+            }
         }
         # return file location in FS
         else {
@@ -276,6 +285,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2006-08-29 17:21:04 $
+$Revision: 1.5 $ $Date: 2006-09-27 14:38:55 $
 
 =cut
