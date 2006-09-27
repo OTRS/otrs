@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.9 2006-09-05 15:14:14 mh Exp $
+# $Id: AgentTicketBulk.pm,v 1.10 2006-09-27 16:50:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -190,7 +190,7 @@ sub _Mask {
     my $Self = shift;
     my %Param = @_;
     # build ArticleTypeID string
-    my %DefaultNoteTypes = %{$Self->{ConfigObject}->Get('Ticket::Frontend::NoteTypes')};
+    my %DefaultNoteTypes = %{$Self->{ConfigObject}->Get('Ticket::Frontend::AgentTicketNote')->{ArticleTypes}};
     my %NoteTypes = $Self->{DBObject}->GetTableData(
         Table => 'article_type',
         Valid => 1,
@@ -204,6 +204,7 @@ sub _Mask {
     $Param{'NoteStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => \%NoteTypes,
         Name => 'ArticleTypeID',
+        Selected => $Self->{ConfigObject}->Get('Ticket::Frontend::AgentTicketNote')->{ArticleTypeDefault},
     );
     # build next states string
     my %NextStates = $Self->{StateObject}->StateList(
