@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.32 2006-08-29 17:30:36 martin Exp $
+# $Id: XML.pm,v 1.33 2006-09-27 12:11:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Encode;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -220,7 +220,12 @@ sub XMLHashGet {
         return;
     }
     while (my @Data = $Self->{DBObject}->FetchrowArray()) {
-        $Data[1] =~ s/'/\\'/g;
+        if (defined($Data[1])) {
+            $Data[1] =~ s/'/\\'/g;
+        }
+        else {
+            $Data[1] = '';
+        }
         $Content .= '$XMLHash'.$Data[0]." = '$Data[1]';\n";
     }
 #    print $Content;
@@ -971,6 +976,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.32 $ $Date: 2006-08-29 17:30:36 $
+$Revision: 1.33 $ $Date: 2006-09-27 12:11:13 $
 
 =cut
