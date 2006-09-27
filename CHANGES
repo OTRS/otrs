@@ -2,13 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.294 2006-09-27 17:09:02 martin Exp $
+# $Id: CHANGES,v 1.295 2006-09-27 18:50:32 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 # --
 2.1.0 beta3 (2006/??/??)
+ - (2006/09/27) add transparency to some images
  - (2006/09/27) fixed bug #1358 - Customer History > All customer tickets.
     returns an incorrect number of tickets
  - (2006/09/27) fixed bug #1293 - Can't use an undefined value as a HASH
