@@ -2,7 +2,7 @@
 # PDF.t - PDF tests
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PDF.t,v 1.6 2006-08-26 17:36:26 martin Exp $
+# $Id: PDF.t,v 1.7 2006-09-28 16:30:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -857,8 +857,8 @@ $TableCalculate{3}{Width} = 300;
 $TableCalculate{3}{Border} = 1;
 
 $TableCalculate{3}{CellData}[0][0]{Content} = "ISS";
-$TableCalculate{3}{CellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ√§ische Astronaut mit der l√§ngsten Aufenthaltszeit im Weltraum.";
-$TableCalculate{3}{CellData}[1][0]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ√§ische Astronaut mit der l√§ngsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{3}{CellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ‰ische Astronaut mit der l‰ngsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{3}{CellData}[1][0]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ‰ische Astronaut mit der l‰ngsten Aufenthaltszeit im Weltraum.";
 $TableCalculate{3}{CellData}[1][1]{Content} = "ISS";
 
 $TableCalculate{3}{ReturnCellData}[0][0]{Content} = "ISS";
@@ -869,7 +869,7 @@ $TableCalculate{3}{ReturnCellData}[0][0]{FontColor} = 'black';
 $TableCalculate{3}{ReturnCellData}[0][0]{Align} = 'left';
 $TableCalculate{3}{ReturnCellData}[0][0]{Lead} = 0;
 $TableCalculate{3}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
-$TableCalculate{3}{ReturnCellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ√§ische Astronaut mit der l√§ngsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{3}{ReturnCellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ‰ische Astronaut mit der l‰ngsten Aufenthaltszeit im Weltraum.";
 $TableCalculate{3}{ReturnCellData}[0][1]{Type} = 'ReturnLeftOver';
 $TableCalculate{3}{ReturnCellData}[0][1]{Font} = 'Helvetica';
 $TableCalculate{3}{ReturnCellData}[0][1]{FontSize} = 10;
@@ -877,7 +877,7 @@ $TableCalculate{3}{ReturnCellData}[0][1]{FontColor} = 'black';
 $TableCalculate{3}{ReturnCellData}[0][1]{Align} = 'left';
 $TableCalculate{3}{ReturnCellData}[0][1]{Lead} = 0;
 $TableCalculate{3}{ReturnCellData}[0][1]{BackgroundColor} = 'NULL';
-$TableCalculate{3}{ReturnCellData}[1][0]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ√§ische Astronaut mit der l√§ngsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{3}{ReturnCellData}[1][0]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ‰ische Astronaut mit der l‰ngsten Aufenthaltszeit im Weltraum.";
 $TableCalculate{3}{ReturnCellData}[1][0]{Type} = 'ReturnLeftOver';
 $TableCalculate{3}{ReturnCellData}[1][0]{Font} = 'Helvetica';
 $TableCalculate{3}{ReturnCellData}[1][0]{FontSize} = 10;
@@ -938,9 +938,9 @@ $TableCalculate{5}{Width} = 300;
 $TableCalculate{5}{Border} = 1;
 
 $TableCalculate{5}{CellData}[0][0]{Content} = "ISS";
-$TableCalculate{5}{CellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ√§ische Astronaut mit der l√§ngsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{5}{CellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ‰ische Astronaut mit der l‰ngsten Aufenthaltszeit im Weltraum.";
 $TableCalculate{5}{CellData}[1][0]{Content} = "ISS";
-$TableCalculate{5}{CellData}[1][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ√§ische Astronaut mit der l√§ngsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{5}{CellData}[1][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ‰ische Astronaut mit der l‰ngsten Aufenthaltszeit im Weltraum.";
 
 $TableCalculate{5}{ColumnData}[1]{Width} = 103;
 
@@ -952,7 +952,7 @@ $TableCalculate{5}{ReturnCellData}[0][0]{FontColor} = 'black';
 $TableCalculate{5}{ReturnCellData}[0][0]{Align} = 'left';
 $TableCalculate{5}{ReturnCellData}[0][0]{Lead} = 0;
 $TableCalculate{5}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
-$TableCalculate{5}{ReturnCellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ√§ische Astronaut mit der l√§ngsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{5}{ReturnCellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ‰ische Astronaut mit der l‰ngsten Aufenthaltszeit im Weltraum.";
 $TableCalculate{5}{ReturnCellData}[0][1]{Type} = 'ReturnLeftOver';
 $TableCalculate{5}{ReturnCellData}[0][1]{Font} = 'Helvetica';
 $TableCalculate{5}{ReturnCellData}[0][1]{FontSize} = 10;
@@ -968,7 +968,7 @@ $TableCalculate{5}{ReturnCellData}[1][0]{FontColor} = 'black';
 $TableCalculate{5}{ReturnCellData}[1][0]{Align} = 'left';
 $TableCalculate{5}{ReturnCellData}[1][0]{Lead} = 0;
 $TableCalculate{5}{ReturnCellData}[1][0]{BackgroundColor} = 'NULL';
-$TableCalculate{5}{ReturnCellData}[1][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ√§ische Astronaut mit der l√§ngsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{5}{ReturnCellData}[1][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ‰ische Astronaut mit der l‰ngsten Aufenthaltszeit im Weltraum.";
 $TableCalculate{5}{ReturnCellData}[1][1]{Type} = 'ReturnLeftOver';
 $TableCalculate{5}{ReturnCellData}[1][1]{Font} = 'Helvetica';
 $TableCalculate{5}{ReturnCellData}[1][1]{FontSize} = 10;
@@ -1019,9 +1019,9 @@ $TableCalculate{7}{Width} = 300;
 $TableCalculate{7}{Border} = 1;
 
 $TableCalculate{7}{CellData}[0][0]{Content} = "ISS";
-$TableCalculate{7}{CellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ√§ische Astronaut mit der l√§ngsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{7}{CellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ‰ische Astronaut mit der l‰ngsten Aufenthaltszeit im Weltraum.";
 $TableCalculate{7}{CellData}[1][0]{Content} = "ISS";
-$TableCalculate{7}{CellData}[1][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ√§ische Astronaut mit der l√§ngsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{7}{CellData}[1][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ‰ische Astronaut mit der l‰ngsten Aufenthaltszeit im Weltraum.";
 
 $TableCalculate{7}{ColumnData}[1]{Width} = 100;
 
@@ -1033,7 +1033,7 @@ $TableCalculate{7}{ReturnCellData}[0][0]{FontColor} = 'black';
 $TableCalculate{7}{ReturnCellData}[0][0]{Align} = 'left';
 $TableCalculate{7}{ReturnCellData}[0][0]{Lead} = 0;
 $TableCalculate{7}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
-$TableCalculate{7}{ReturnCellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ√§ische Astronaut mit der l√§ngsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{7}{ReturnCellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ‰ische Astronaut mit der l‰ngsten Aufenthaltszeit im Weltraum.";
 $TableCalculate{7}{ReturnCellData}[0][1]{Type} = 'ReturnLeftOver';
 $TableCalculate{7}{ReturnCellData}[0][1]{Font} = 'Helvetica';
 $TableCalculate{7}{ReturnCellData}[0][1]{FontSize} = 10;
@@ -1049,7 +1049,7 @@ $TableCalculate{7}{ReturnCellData}[1][0]{FontColor} = 'black';
 $TableCalculate{7}{ReturnCellData}[1][0]{Align} = 'left';
 $TableCalculate{7}{ReturnCellData}[1][0]{Lead} = 0;
 $TableCalculate{7}{ReturnCellData}[1][0]{BackgroundColor} = 'NULL';
-$TableCalculate{7}{ReturnCellData}[1][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ√§ische Astronaut mit der l√§ngsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{7}{ReturnCellData}[1][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ‰ische Astronaut mit der l‰ngsten Aufenthaltszeit im Weltraum.";
 $TableCalculate{7}{ReturnCellData}[1][1]{Type} = 'ReturnLeftOver';
 $TableCalculate{7}{ReturnCellData}[1][1]{Font} = 'Helvetica';
 $TableCalculate{7}{ReturnCellData}[1][1]{FontSize} = 10;
@@ -1077,9 +1077,9 @@ $TableCalculate{8}{Width} = 300;
 $TableCalculate{8}{Border} = 1;
 
 $TableCalculate{8}{CellData}[0][0]{Content} = "ISS";
-$TableCalculate{8}{CellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ√§ische Astronaut mit der l√§ngsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{8}{CellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ‰ische Astronaut mit der l‰ngsten Aufenthaltszeit im Weltraum.";
 $TableCalculate{8}{CellData}[1][0]{Content} = "ISS";
-$TableCalculate{8}{CellData}[1][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ√§ische Astronaut mit der l√§ngsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{8}{CellData}[1][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ‰ische Astronaut mit der l‰ngsten Aufenthaltszeit im Weltraum.";
 
 $TableCalculate{8}{ColumnData}[0]{Width} = 70;
 $TableCalculate{8}{ColumnData}[1]{Width} = 130;
@@ -1092,7 +1092,7 @@ $TableCalculate{8}{ReturnCellData}[0][0]{FontColor} = 'black';
 $TableCalculate{8}{ReturnCellData}[0][0]{Align} = 'left';
 $TableCalculate{8}{ReturnCellData}[0][0]{Lead} = 0;
 $TableCalculate{8}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
-$TableCalculate{8}{ReturnCellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ√§ische Astronaut mit der l√§ngsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{8}{ReturnCellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ‰ische Astronaut mit der l‰ngsten Aufenthaltszeit im Weltraum.";
 $TableCalculate{8}{ReturnCellData}[0][1]{Type} = 'ReturnLeftOver';
 $TableCalculate{8}{ReturnCellData}[0][1]{Font} = 'Helvetica';
 $TableCalculate{8}{ReturnCellData}[0][1]{FontSize} = 10;
@@ -1108,7 +1108,7 @@ $TableCalculate{8}{ReturnCellData}[1][0]{FontColor} = 'black';
 $TableCalculate{8}{ReturnCellData}[1][0]{Align} = 'left';
 $TableCalculate{8}{ReturnCellData}[1][0]{Lead} = 0;
 $TableCalculate{8}{ReturnCellData}[1][0]{BackgroundColor} = 'NULL';
-$TableCalculate{8}{ReturnCellData}[1][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ√§ische Astronaut mit der l√§ngsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{8}{ReturnCellData}[1][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ‰ische Astronaut mit der l‰ngsten Aufenthaltszeit im Weltraum.";
 $TableCalculate{8}{ReturnCellData}[1][1]{Type} = 'ReturnLeftOver';
 $TableCalculate{8}{ReturnCellData}[1][1]{Font} = 'Helvetica';
 $TableCalculate{8}{ReturnCellData}[1][1]{FontSize} = 10;
@@ -1136,9 +1136,9 @@ $TableCalculate{9}{Width} = 300;
 $TableCalculate{9}{Border} = 1;
 
 $TableCalculate{9}{CellData}[0][0]{Content} = "ISS";
-$TableCalculate{9}{CellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ√§ische Astronaut mit der l√§ngsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{9}{CellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ‰ische Astronaut mit der l‰ngsten Aufenthaltszeit im Weltraum.";
 $TableCalculate{9}{CellData}[1][0]{Content} = "ISS";
-$TableCalculate{9}{CellData}[1][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ√§ische Astronaut mit der l√§ngsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{9}{CellData}[1][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ‰ische Astronaut mit der l‰ngsten Aufenthaltszeit im Weltraum.";
 
 $TableCalculate{9}{ColumnData}[0]{Width} = 330;
 $TableCalculate{9}{ColumnData}[1]{Width} = 105;
@@ -1151,7 +1151,7 @@ $TableCalculate{9}{ReturnCellData}[0][0]{FontColor} = 'black';
 $TableCalculate{9}{ReturnCellData}[0][0]{Align} = 'left';
 $TableCalculate{9}{ReturnCellData}[0][0]{Lead} = 0;
 $TableCalculate{9}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
-$TableCalculate{9}{ReturnCellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ√§ische Astronaut mit der l√§ngsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{9}{ReturnCellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ‰ische Astronaut mit der l‰ngsten Aufenthaltszeit im Weltraum.";
 $TableCalculate{9}{ReturnCellData}[0][1]{Type} = 'ReturnLeftOver';
 $TableCalculate{9}{ReturnCellData}[0][1]{Font} = 'Helvetica';
 $TableCalculate{9}{ReturnCellData}[0][1]{FontSize} = 10;
@@ -1167,7 +1167,7 @@ $TableCalculate{9}{ReturnCellData}[1][0]{FontColor} = 'black';
 $TableCalculate{9}{ReturnCellData}[1][0]{Align} = 'left';
 $TableCalculate{9}{ReturnCellData}[1][0]{Lead} = 0;
 $TableCalculate{9}{ReturnCellData}[1][0]{BackgroundColor} = 'NULL';
-$TableCalculate{9}{ReturnCellData}[1][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ√§ische Astronaut mit der l√§ngsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{9}{ReturnCellData}[1][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ‰ische Astronaut mit der l‰ngsten Aufenthaltszeit im Weltraum.";
 $TableCalculate{9}{ReturnCellData}[1][1]{Type} = 'ReturnLeftOver';
 $TableCalculate{9}{ReturnCellData}[1][1]{Font} = 'Helvetica';
 $TableCalculate{9}{ReturnCellData}[1][1]{FontSize} = 10;
@@ -1311,11 +1311,11 @@ $TableCalculate{11}{ReturnRowData}[0]{MinFontSize} = 10;
 # tablecalculatetest12
 $TableCalculate{12}{CellData}[0][0]{Content} = "ISS";
 $TableCalculate{12}{CellData}[0][0]{FontSize} = 4;
-$TableCalculate{12}{CellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ√§ische Astronaut mit der l√§ngsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{12}{CellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ‰ische Astronaut mit der l‰ngsten Aufenthaltszeit im Weltraum.";
 $TableCalculate{12}{CellData}[0][1]{FontSize} = 9;
 $TableCalculate{12}{CellData}[1][0]{Content} = "ISS";
 $TableCalculate{12}{CellData}[1][0]{FontSize} = 18;
-$TableCalculate{12}{CellData}[1][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ√§ische Astronaut mit der l√§ngsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{12}{CellData}[1][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ‰ische Astronaut mit der l‰ngsten Aufenthaltszeit im Weltraum.";
 $TableCalculate{12}{CellData}[1][1]{FontSize} = 12;
 
 $TableCalculate{12}{ReturnCellData}[0][0]{Content} = "ISS";
@@ -1326,7 +1326,7 @@ $TableCalculate{12}{ReturnCellData}[0][0]{FontColor} = 'black';
 $TableCalculate{12}{ReturnCellData}[0][0]{Align} = 'left';
 $TableCalculate{12}{ReturnCellData}[0][0]{Lead} = 0;
 $TableCalculate{12}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
-$TableCalculate{12}{ReturnCellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ√§ische Astronaut mit der l√§ngsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{12}{ReturnCellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ‰ische Astronaut mit der l‰ngsten Aufenthaltszeit im Weltraum.";
 $TableCalculate{12}{ReturnCellData}[0][1]{Type} = 'ReturnLeftOver';
 $TableCalculate{12}{ReturnCellData}[0][1]{Font} = 'Helvetica';
 $TableCalculate{12}{ReturnCellData}[0][1]{FontSize} = 9;
@@ -1342,7 +1342,7 @@ $TableCalculate{12}{ReturnCellData}[1][0]{FontColor} = 'black';
 $TableCalculate{12}{ReturnCellData}[1][0]{Align} = 'left';
 $TableCalculate{12}{ReturnCellData}[1][0]{Lead} = 0;
 $TableCalculate{12}{ReturnCellData}[1][0]{BackgroundColor} = 'NULL';
-$TableCalculate{12}{ReturnCellData}[1][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ√§ische Astronaut mit der l√§ngsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{12}{ReturnCellData}[1][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europ‰ische Astronaut mit der l‰ngsten Aufenthaltszeit im Weltraum.";
 $TableCalculate{12}{ReturnCellData}[1][1]{Type} = 'ReturnLeftOver';
 $TableCalculate{12}{ReturnCellData}[1][1]{Font} = 'Helvetica';
 $TableCalculate{12}{ReturnCellData}[1][1]{FontSize} = 12;
@@ -1466,6 +1466,153 @@ $TableCalculate{14}{ReturnColumnData}[0]{OutputWidth} = 400;
 $TableCalculate{14}{ReturnColumnData}[0]{Block} = 0;
 
 $TableCalculate{14}{ReturnRowData}[0]{MinFontSize} = 10;
+
+# tablecalculatetest15
+$TableCalculate{15}{CellData} = [];
+
+$TableCalculate{15}{ReturnCellData}[0][0]{Content} = " ";
+$TableCalculate{15}{ReturnCellData}[0][0]{Type} = 'ReturnLeftOver';
+$TableCalculate{15}{ReturnCellData}[0][0]{Font} = 'Helvetica';
+$TableCalculate{15}{ReturnCellData}[0][0]{FontSize} = 10;
+$TableCalculate{15}{ReturnCellData}[0][0]{FontColor} = 'black';
+$TableCalculate{15}{ReturnCellData}[0][0]{Align} = 'left';
+$TableCalculate{15}{ReturnCellData}[0][0]{Lead} = 0;
+$TableCalculate{15}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
+
+$TableCalculate{15}{ReturnColumnData}[0]{Width} = 0;
+$TableCalculate{15}{ReturnColumnData}[0]{EstimateWidth} = 1.39;
+$TableCalculate{15}{ReturnColumnData}[0]{TextWidth} = 500;
+$TableCalculate{15}{ReturnColumnData}[0]{OutputWidth} = 500;
+$TableCalculate{15}{ReturnColumnData}[0]{Block} = 0;
+
+$TableCalculate{15}{ReturnRowData}[0]{MinFontSize} = 10;
+
+# tablecalculatetest16
+$TableCalculate{16}{CellData}[0][0]{Content} = "ISS";
+$TableCalculate{16}{CellData}[1][0]{Content} = "ISS";
+$TableCalculate{16}{CellData}[1][1]{Content} = "ISS";
+
+$TableCalculate{16}{ReturnCellData}[0][0]{Content} = "ISS";
+$TableCalculate{16}{ReturnCellData}[0][0]{Type} = 'ReturnLeftOver';
+$TableCalculate{16}{ReturnCellData}[0][0]{Font} = 'Helvetica';
+$TableCalculate{16}{ReturnCellData}[0][0]{FontSize} = 10;
+$TableCalculate{16}{ReturnCellData}[0][0]{FontColor} = 'black';
+$TableCalculate{16}{ReturnCellData}[0][0]{Align} = 'left';
+$TableCalculate{16}{ReturnCellData}[0][0]{Lead} = 0;
+$TableCalculate{16}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
+$TableCalculate{16}{ReturnCellData}[0][1]{Content} = " ";
+$TableCalculate{16}{ReturnCellData}[0][1]{Type} = 'ReturnLeftOver';
+$TableCalculate{16}{ReturnCellData}[0][1]{Font} = 'Helvetica';
+$TableCalculate{16}{ReturnCellData}[0][1]{FontSize} = 10;
+$TableCalculate{16}{ReturnCellData}[0][1]{FontColor} = 'black';
+$TableCalculate{16}{ReturnCellData}[0][1]{Align} = 'left';
+$TableCalculate{16}{ReturnCellData}[0][1]{Lead} = 0;
+$TableCalculate{16}{ReturnCellData}[0][1]{BackgroundColor} = 'NULL';
+$TableCalculate{16}{ReturnCellData}[1][0]{Content} = "ISS";
+$TableCalculate{16}{ReturnCellData}[1][0]{Type} = 'ReturnLeftOver';
+$TableCalculate{16}{ReturnCellData}[1][0]{Font} = 'Helvetica';
+$TableCalculate{16}{ReturnCellData}[1][0]{FontSize} = 10;
+$TableCalculate{16}{ReturnCellData}[1][0]{FontColor} = 'black';
+$TableCalculate{16}{ReturnCellData}[1][0]{Align} = 'left';
+$TableCalculate{16}{ReturnCellData}[1][0]{Lead} = 0;
+$TableCalculate{16}{ReturnCellData}[1][0]{BackgroundColor} = 'NULL';
+$TableCalculate{16}{ReturnCellData}[1][1]{Content} = "ISS";
+$TableCalculate{16}{ReturnCellData}[1][1]{Type} = 'ReturnLeftOver';
+$TableCalculate{16}{ReturnCellData}[1][1]{Font} = 'Helvetica';
+$TableCalculate{16}{ReturnCellData}[1][1]{FontSize} = 10;
+$TableCalculate{16}{ReturnCellData}[1][1]{FontColor} = 'black';
+$TableCalculate{16}{ReturnCellData}[1][1]{Align} = 'left';
+$TableCalculate{16}{ReturnCellData}[1][1]{Lead} = 0;
+$TableCalculate{16}{ReturnCellData}[1][1]{BackgroundColor} = 'NULL';
+
+$TableCalculate{16}{ReturnColumnData}[0]{Width} = 0;
+$TableCalculate{16}{ReturnColumnData}[0]{EstimateWidth} = 16.12;
+$TableCalculate{16}{ReturnColumnData}[0]{TextWidth} = 250;
+$TableCalculate{16}{ReturnColumnData}[0]{OutputWidth} = 250;
+$TableCalculate{16}{ReturnColumnData}[0]{Block} = 0;
+$TableCalculate{16}{ReturnColumnData}[1]{Width} = 0;
+$TableCalculate{16}{ReturnColumnData}[1]{EstimateWidth} = 16.12;
+$TableCalculate{16}{ReturnColumnData}[1]{TextWidth} = 250;
+$TableCalculate{16}{ReturnColumnData}[1]{OutputWidth} = 250;
+$TableCalculate{16}{ReturnColumnData}[1]{Block} = 0;
+
+$TableCalculate{16}{ReturnRowData}[0]{MinFontSize} = 10;
+$TableCalculate{16}{ReturnRowData}[1]{MinFontSize} = 10;
+
+# tablecalculatetest17
+$TableCalculate{17}{CellData}[0][0]{Content} = "ISS";
+$TableCalculate{17}{CellData}[0][1]{Content} = "ISS";
+$TableCalculate{17}{CellData}[1][0]{Content} = "ISS";
+
+$TableCalculate{17}{ReturnCellData}[0][0]{Content} = "ISS";
+$TableCalculate{17}{ReturnCellData}[0][0]{Type} = 'ReturnLeftOver';
+$TableCalculate{17}{ReturnCellData}[0][0]{Font} = 'Helvetica';
+$TableCalculate{17}{ReturnCellData}[0][0]{FontSize} = 10;
+$TableCalculate{17}{ReturnCellData}[0][0]{FontColor} = 'black';
+$TableCalculate{17}{ReturnCellData}[0][0]{Align} = 'left';
+$TableCalculate{17}{ReturnCellData}[0][0]{Lead} = 0;
+$TableCalculate{17}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
+$TableCalculate{17}{ReturnCellData}[0][1]{Content} = "ISS";
+$TableCalculate{17}{ReturnCellData}[0][1]{Type} = 'ReturnLeftOver';
+$TableCalculate{17}{ReturnCellData}[0][1]{Font} = 'Helvetica';
+$TableCalculate{17}{ReturnCellData}[0][1]{FontSize} = 10;
+$TableCalculate{17}{ReturnCellData}[0][1]{FontColor} = 'black';
+$TableCalculate{17}{ReturnCellData}[0][1]{Align} = 'left';
+$TableCalculate{17}{ReturnCellData}[0][1]{Lead} = 0;
+$TableCalculate{17}{ReturnCellData}[0][1]{BackgroundColor} = 'NULL';
+$TableCalculate{17}{ReturnCellData}[1][0]{Content} = "ISS";
+$TableCalculate{17}{ReturnCellData}[1][0]{Type} = 'ReturnLeftOver';
+$TableCalculate{17}{ReturnCellData}[1][0]{Font} = 'Helvetica';
+$TableCalculate{17}{ReturnCellData}[1][0]{FontSize} = 10;
+$TableCalculate{17}{ReturnCellData}[1][0]{FontColor} = 'black';
+$TableCalculate{17}{ReturnCellData}[1][0]{Align} = 'left';
+$TableCalculate{17}{ReturnCellData}[1][0]{Lead} = 0;
+$TableCalculate{17}{ReturnCellData}[1][0]{BackgroundColor} = 'NULL';
+$TableCalculate{17}{ReturnCellData}[1][1]{Content} = " ";
+$TableCalculate{17}{ReturnCellData}[1][1]{Type} = 'ReturnLeftOver';
+$TableCalculate{17}{ReturnCellData}[1][1]{Font} = 'Helvetica';
+$TableCalculate{17}{ReturnCellData}[1][1]{FontSize} = 10;
+$TableCalculate{17}{ReturnCellData}[1][1]{FontColor} = 'black';
+$TableCalculate{17}{ReturnCellData}[1][1]{Align} = 'left';
+$TableCalculate{17}{ReturnCellData}[1][1]{Lead} = 0;
+$TableCalculate{17}{ReturnCellData}[1][1]{BackgroundColor} = 'NULL';
+
+$TableCalculate{17}{ReturnColumnData}[0]{Width} = 0;
+$TableCalculate{17}{ReturnColumnData}[0]{EstimateWidth} = 16.12;
+$TableCalculate{17}{ReturnColumnData}[0]{TextWidth} = 250;
+$TableCalculate{17}{ReturnColumnData}[0]{OutputWidth} = 250;
+$TableCalculate{17}{ReturnColumnData}[0]{Block} = 0;
+$TableCalculate{17}{ReturnColumnData}[1]{Width} = 0;
+$TableCalculate{17}{ReturnColumnData}[1]{EstimateWidth} = 16.12;
+$TableCalculate{17}{ReturnColumnData}[1]{TextWidth} = 250;
+$TableCalculate{17}{ReturnColumnData}[1]{OutputWidth} = 250;
+$TableCalculate{17}{ReturnColumnData}[1]{Block} = 0;
+
+$TableCalculate{17}{ReturnRowData}[0]{MinFontSize} = 10;
+$TableCalculate{17}{ReturnRowData}[1]{MinFontSize} = 10;
+
+# tablecalculatetest18
+$TableCalculate{18}{CellData}[0][0]{Content} = "ISS";
+
+$TableCalculate{18}{ColumnData}[0]{Width} = 100;
+$TableCalculate{18}{ColumnData}[1]{Width} = 100;
+
+$TableCalculate{18}{ReturnCellData}[0][0]{Content} = "ISS";
+$TableCalculate{18}{ReturnCellData}[0][0]{Type} = 'ReturnLeftOver';
+$TableCalculate{18}{ReturnCellData}[0][0]{Font} = 'Helvetica';
+$TableCalculate{18}{ReturnCellData}[0][0]{FontSize} = 10;
+$TableCalculate{18}{ReturnCellData}[0][0]{FontColor} = 'black';
+$TableCalculate{18}{ReturnCellData}[0][0]{Align} = 'left';
+$TableCalculate{18}{ReturnCellData}[0][0]{Lead} = 0;
+$TableCalculate{18}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
+
+$TableCalculate{18}{ReturnColumnData}[0]{Width} = 100;
+$TableCalculate{18}{ReturnColumnData}[0]{EstimateWidth} = 100;
+$TableCalculate{18}{ReturnColumnData}[0]{TextWidth} = 500;
+$TableCalculate{18}{ReturnColumnData}[0]{OutputWidth} = 500;
+$TableCalculate{18}{ReturnColumnData}[0]{Block} = 0;
+
+$TableCalculate{18}{ReturnRowData}[0]{MinFontSize} = 10;
 
 # start testing TableCalculate()
 foreach (sort keys %TableCalculate) {
@@ -2269,7 +2416,7 @@ $TableRowCalculate{7}{CellData}[0][0]{Content} = 'ISS';
 $TableRowCalculate{7}{CellData}[0][0]{Font} = 'Helvetica';
 $TableRowCalculate{7}{CellData}[0][0]{FontSize} = 10;
 $TableRowCalculate{7}{CellData}[0][0]{Lead} = 0;
-$TableRowCalculate{7}{CellData}[0][1]{Content} = 'Letzten Samstag wurde die Nutzlast, das backbordseitige Tragwerksegment P3/4 mit seinen beiden Solarzellenfl√§chen, die ein Viertel der Gesamtstromversorgung der ISS bereitstellen sollen, in den Frachtraum der ATLANTIS verladen.';
+$TableRowCalculate{7}{CellData}[0][1]{Content} = 'Letzten Samstag wurde die Nutzlast, das backbordseitige Tragwerksegment P3/4 mit seinen beiden Solarzellenfl‰chen, die ein Viertel der Gesamtstromversorgung der ISS bereitstellen sollen, in den Frachtraum der ATLANTIS verladen.';
 $TableRowCalculate{7}{CellData}[0][1]{Font} = 'Helvetica';
 $TableRowCalculate{7}{CellData}[0][1]{FontSize} = 11;
 $TableRowCalculate{7}{CellData}[0][1]{Lead} = 5;
