@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.15 2006-09-22 07:46:20 tr Exp $
+# $Id: AgentStats.pm,v 1.16 2006-09-28 07:43:11 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::CSV;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -654,30 +654,35 @@ sub Run {
         if ($Param{Status} && $Param{Status} eq 'Action') {
             my $Uploadfile = '';
             if ($Uploadfile = $Self->{ParamObject}->GetParam(Param => 'file_upload')) {
-                    my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-                        Param  => "file_upload",
-                        Source => 'string',
+                my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+                    Param    => "file_upload",
+                    Source   => 'string',
+                    Encoding => 'Raw'
+                );
+                if ($UploadStuff{Content} =~ /<otrs_stats>/) {
+                    my $StatID = $Self->{StatsObject}->Import(
+                        Content  => $UploadStuff{Content},
                     );
-                    if ($UploadStuff{Content} =~ /<otrs_stats>/) {
-                        my $StatID = $Self->{StatsObject}->Import(
-                            Content  => $UploadStuff{Content},
-                        );
-                        # redirect to edit
-                        return $Self->{LayoutObject}->Redirect(OP => "Action=AgentStats&" .
-                                                            "Subaction=View&" .
-                                                            "StatID=$StatID");
+
+                    if (!$StatID) {
+                        return $Self->{LayoutObject}->ErrorScreen(Message => "Import: Can't import stat!");
                     }
-                    else {
-                        # return to import: doctype not found!
-                        $Error = 1;
-                    }
+
+                    # redirect to edit
+                    return $Self->{LayoutObject}->Redirect(OP => "Action=AgentStats&" .
+                                                        "Subaction=View&" .
+                                                        "StatID=$StatID");
+                }
+                else {
+                    # return to import: doctype not found!
+                    $Error = 1;
+                }
             }
             # return to import: no file selected!
             else {
                 $Error = 2;
             }
         }
-# TODO Sollten die ErrorWarnings nicht in die Notificationzeile?
         # show errors
         if ($Error == 1) {
             $Self->{LayoutObject}->Block(
