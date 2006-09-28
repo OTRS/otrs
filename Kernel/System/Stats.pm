@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all advice functions
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.4 2006-09-28 07:45:03 tr Exp $
+# $Id: Stats.pm,v 1.5 2006-09-28 11:35:03 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Date::Pcalc qw(Today_and_Now Days_in_Month Day_of_Week Day_of_Week_Abbreviation Add_Delta_Days Add_Delta_DHMS Add_Delta_YMD);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 SYNOPSIS
@@ -2284,7 +2284,7 @@ sub _AutomaticSampleImport {
     # check if stats in the default language available, if not use en
     my $Flag = 0;
     while (defined (my $Filename = readdir DIR)) {
-        if ($Filename =~ /^Stats.*\.$Language\.xml/) {
+        if ($Filename =~ /^Stats.*\.$Language\.xml$/) {
             $Flag = 1;
 
         }
@@ -2296,7 +2296,7 @@ sub _AutomaticSampleImport {
     }
 
     while (defined (my $Filename = readdir DIR)) {
-        if ($Filename =~ /^Stats.*\.$Language\.xml/) {
+        if ($Filename =~ /^Stats.*\.$Language\.xml$/) {
             # check filesize
             #my $Filesize = -s $Directory.$Filename;
             #if ($Filesize > $MaxFilesize) {
@@ -2341,7 +2341,7 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2006-09-28 07:45:03 $
+$Revision: 1.5 $ $Date: 2006-09-28 11:35:03 $
 
 =cut
 
