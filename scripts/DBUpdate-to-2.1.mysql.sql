@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 2.0 to 2.1
 -- Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 -- --
--- $Id: DBUpdate-to-2.1.mysql.sql,v 1.8 2006-08-27 22:19:37 martin Exp $
+-- $Id: DBUpdate-to-2.1.mysql.sql,v 1.9 2006-09-28 19:08:26 rk Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.1.mysql.sql | mysql -f -u root otrs
@@ -91,4 +91,23 @@ Kommentar:
 <OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_TicketID>
 
 Ihr OTRS Benachrichtigungs-Master', current_timestamp, 1, current_timestamp, 1);
+
+--
+-- faq
+--
+
+CREATE TABLE faq_voting (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    item_id INTEGER NOT NULL,
+    interface VARCHAR (80) NOT NULL,
+    ip VARCHAR (50) NOT NULL,
+    vote INTEGER NOT NULL,
+    created DATETIME NOT NULL,
+    created_by VARCHAR (200) NOT NULL,
+    PRIMARY KEY(id),
+);
+
+ALTER TABLE faq_category ADD parent_id INTEGER;
+ALTER TABLE faq_category ADD valid_id INTEGER;
+
 
