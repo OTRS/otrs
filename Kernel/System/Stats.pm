@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all advice functions
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.3 2006-09-21 15:09:44 tr Exp $
+# $Id: Stats.pm,v 1.4 2006-09-28 07:45:03 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,10 +14,12 @@ package Kernel::System::Stats;
 use strict;
 use MIME::Base64;
 use Kernel::System::XML;
+use Kernel::System::Encode;
+
 use Date::Pcalc qw(Today_and_Now Days_in_Month Day_of_Week Day_of_Week_Abbreviation Add_Delta_Days Add_Delta_DHMS Add_Delta_YMD);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 SYNOPSIS
@@ -69,7 +71,8 @@ sub new {
     foreach (qw(ConfigObject LogObject UserID GroupObject UserObject TimeObject MainObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
-    $Self->{XMLObject}   = Kernel::System::XML->new(%Param);
+    $Self->{XMLObject}    = Kernel::System::XML->new(%Param);
+    $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
 
     return $Self;
 }
@@ -210,7 +213,9 @@ sub StatsGet {
                             }
                             foreach my $Ref (@StatAttributes) {
                                 # if selected elements exits add the information to the StatAttributes
-                                if ($Attribute->{Element} eq $Ref->{Element}) {
+                                if ($Attribute->{Element} && $Ref->{Element} &&
+                                    $Attribute->{Element} eq $Ref->{Element})
+                                {
                                     $Attribute->{Selected} = 1;
                                     if ($Ref->{Fixed}) {
                                         $Attribute->{Fixed} = 1;
@@ -1589,7 +1594,6 @@ sub GetStaticFiles {
         return ();
     }
 
-#hier ein array mit allen benutzten static files generieren!
     # get all Stats from the db
     my %StaticFiles = ();
     my $Result = $Self->GetStatsList();
@@ -1627,32 +1631,6 @@ Get all static objects
 sub GetDynamicFiles {
     my $Self       = shift;
     my %Param      = @_;
-    #my %Filelist   = ();
-    #$Filelist{'0'} = '-';
-    #my $Directory  = $Self->{ConfigObject}->Get('Home');
-    #
-    #if ($Directory !~ /^.*\/$/) {
-    #    $Directory .= '/';
-    #}
-    #$Directory .= 'Kernel/System/Stats/Dynamic/';
-    #if (!opendir(DIR, $Directory)) {
-    #    $Self->{LogObject}->Log(
-    #        Priority => 'error',
-    #        Message  => "Can not open Directory: $Directory",
-    #    );
-    #    return ();
-    #}
-    #while (defined (my $Filename = readdir DIR)) {
-    #    next if $Filename eq '.';
-    #    next if $Filename eq '..';
-    #    if ($Filename =~ /^(.*)\.pm$/) {
-    #        my $ObjectModule = "Kernel::System::Stats::Dynamic::$1";
-    #        $Self->{MainObject}->Require($ObjectModule);
-    #        my $StatObject = $ObjectModule->new(%{$Self});
-    #        $Filelist{$1} = $StatObject->GetObjectName();
-    #    }
-    #}
-
     my %Filelist   = %{$Self->{ConfigObject}->Get('Stats::DynamicObjectRegistration')};
     foreach (keys %Filelist) {
         if ($Filelist{$_}) {
@@ -1670,7 +1648,7 @@ sub GetDynamicFiles {
     }
     $Filelist{'0'} = '-';
 
-    closedir(DIR);
+
 
     return \%Filelist;
 }
@@ -1885,6 +1863,7 @@ sub Export {
         else {
             die "Can't open: $File: $!";
         }
+        $Self->{EncodeObject}->EncodeOutput(\$FileContent);
         $XMLHash[0]->{otrs_stats}[1]{File}[1]{File}       = $XMLHash[0]->{otrs_stats}[1]{File}[1]{Content};
         $XMLHash[0]->{otrs_stats}[1]{File}[1]{Content}    = encode_base64($FileContent, '');
         $XMLHash[0]->{otrs_stats}[1]{File}[1]{Location}   = $FileLocation;
@@ -1899,6 +1878,29 @@ sub Export {
     delete($XMLHash[0]->{otrs_stats}[1]{CreatedBy});
     delete($XMLHash[0]->{otrs_stats}[1]{StatNumber});
     delete($XMLHash[0]->{otrs_stats}[1]{StatID});
+
+    #----
+    # wrapper to change ids in used spelling
+    #----
+
+    # wrap permissions
+    foreach my $ID (@{$XMLHash[0]->{otrs_stats}[1]{Permission}}) {
+        if ($ID) {
+            my %Group = $Self->{GroupObject}->GroupGet(ID => ($ID->{Content}));
+            $ID->{Content} = $Group{Name};
+        }
+    }
+
+    # wrap object dependend ids
+    if ($XMLHash[0]->{otrs_stats}[1]{Object}[1]{Content}) {
+        # load module
+        my $ObjectModule = $XMLHash[0]->{otrs_stats}[1]{ObjectModule}[1]{Content};
+        $Self->{MainObject}->Require($ObjectModule);
+        my $StatObject = $ObjectModule->new(%{$Self});
+
+        # load attributes
+        $XMLHash[0]->{otrs_stats}[1] = $StatObject->ExportWrapper(%{$XMLHash[0]->{otrs_stats}[1]});
+    }
 
     # convert hash to string
     $File{Content} = $Self->{XMLObject}->XMLHash2XML(@XMLHash);
@@ -1928,7 +1930,6 @@ sub Import {
             Message  => "Import: Need Content!"
         );
     }
-
     my @XMLHash = $Self->{XMLObject}->XMLParse2XMLHash(String => $Param{Content});
 
     if (!$XMLHash[0]) {
@@ -1945,7 +1946,6 @@ sub Import {
     if (@SortKeys) {
         $StatID = $SortKeys[$#SortKeys] + 1;
     }
-
     # get time
     my $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
         SystemTime => $Self->{TimeObject}->SystemTime(),
@@ -1956,8 +1956,24 @@ sub Import {
     $XMLHash[0]{otrs_stats}[1]{Changed}[1]{Content}    = $TimeStamp;
     $XMLHash[0]{otrs_stats}[1]{ChangedBy}[1]{Content}  = $Self->{UserID};
     $XMLHash[0]{otrs_stats}[1]{StatNumber}[1]{Content} = $StatID + $Self->{ConfigObject}->Get("Stats::StatsStartNumber");
+    #my $DynamicFiles = {};
 
-    if ($XMLHash[0]->{otrs_stats}[1]{StatType}[1]{Content} eq 'static') {
+    my $DynamicFiles = $Self->GetDynamicFiles();
+    delete $DynamicFiles->{0};
+
+    # Because some xml-parser insert \n instead of <example><example>
+    if ($XMLHash[0]->{otrs_stats}[1]{Object}[1]{Content}) {
+        $XMLHash[0]->{otrs_stats}[1]{Object}[1]{Content} =~ s/\n//;
+    }
+
+    if ($XMLHash[0]->{otrs_stats}[1]{Object}[1]{Content} && !$DynamicFiles->{$XMLHash[0]->{otrs_stats}[1]{Object}[1]{Content}}) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Import: Object $XMLHash[0]->{otrs_stats}[1]{Object}[1]{Content} doesn't exists!"
+        );
+        return 0;
+    }
+    if ($XMLHash[0]->{otrs_stats}[1]{StatType}[1]{Content} && $XMLHash[0]->{otrs_stats}[1]{StatType}[1]{Content} eq 'static') {
         my $FileLocation = $XMLHash[0]->{otrs_stats}[1]{ObjectModule}[1]{Content};
         $FileLocation =~ s/::/\//g;
         $FileLocation = $Self->{ConfigObject}->Get('Home'). '/' . $FileLocation .'.pm';
@@ -1967,6 +1983,7 @@ sub Import {
             print STDERR "Notice: Install $FileLocation ($XMLHash[0]->{otrs_stats}[1]{File}[1]{Permission})!\n";
             if ($XMLHash[0]->{otrs_stats}[1]{File}[1]{Encode} && $XMLHash[0]->{otrs_stats}[1]{File}[1]{Encode} eq 'Base64') {
                 $XMLHash[0]->{otrs_stats}[1]{File}[1]{Content} = decode_base64($XMLHash[0]->{otrs_stats}[1]{File}[1]{Content});
+                $Self->{EncodeObject}->Encode(\$XMLHash[0]->{otrs_stats}[1]{File}[1]{Content});
             }
             # set bin mode
             binmode OUT;
@@ -1985,12 +2002,46 @@ sub Import {
         }
     }
 
+    # wrapper to change used spelling in ids
+    # wrap permissions
+    my %Groups = $Self->{GroupObject}->GroupList(Valid => 1);
+    foreach my $Name (@{$XMLHash[0]->{otrs_stats}[1]{Permission}}) {
+        if ($Name) {
+            my $Flag = 1;
+            foreach my $ID (keys %Groups) {
+                if ($Groups{$ID} eq $Name->{Content}) {
+                    $Name->{Content} = $ID;
+                    $Flag = 0;
+                    last;
+                }
+            }
+            if ($Flag) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "Import: Can' find the permission (group) $Name->{Content}!"
+                );
+                $Name = undef;
+            }
+        }
+    }
+    # wrap object dependend ids
+    if ($XMLHash[0]->{otrs_stats}[1]{Object}[1]{Content}) {
+        # load module
+        my $ObjectModule = $XMLHash[0]->{otrs_stats}[1]{ObjectModule}[1]{Content};
+        $Self->{MainObject}->Require($ObjectModule);
+        my $StatObject = $ObjectModule->new(%{$Self});
+
+        # load attributes
+        $XMLHash[0]->{otrs_stats}[1] = $StatObject->ImportWrapper(%{$XMLHash[0]->{otrs_stats}[1]});
+    }
+
     # new
     if ($Self->{XMLObject}->XMLHashAdd(
             Type    => 'Stats',
             Key     => $StatID,
             XMLHash => \@XMLHash,
     )){
+
         return $StatID;
     }
     return 0;
@@ -2290,7 +2341,7 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2006-09-21 15:09:44 $
+$Revision: 1.4 $ $Date: 2006-09-28 07:45:03 $
 
 =cut
 
