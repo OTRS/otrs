@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - to get a closer view
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPrint.pm,v 1.27 2006-08-29 17:17:24 martin Exp $
+# $Id: AgentTicketPrint.pm,v 1.28 2006-09-28 14:11:33 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,10 +17,9 @@ use Kernel::System::LinkObject;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.27 $';
+$VERSION = '$Revision: 1.28 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -48,7 +47,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -63,9 +62,7 @@ sub Run {
         Type => 'ro',
         TicketID => $Self->{TicketID},
         UserID => $Self->{UserID})) {
-        # --
         # error screen, don't show ticket
-        # --
         return $Self->{LayoutObject}->NoPermission(WithHeader => 'yes');
     }
     # get linked objects
@@ -258,7 +255,6 @@ sub Run {
     }
 }
 
-# --
 sub _PDFOutputTicketInfos {
     my $Self = shift;
     my %Param = @_;
@@ -363,7 +359,6 @@ sub _PDFOutputTicketInfos {
     }
 }
 
-# --
 sub _PDFOutputLinkedObjects {
     my $Self = shift;
     my %Param = @_;
@@ -473,7 +468,6 @@ sub _PDFOutputLinkedObjects {
     }
 }
 
-# --
 sub _PDFOutputFreeTextFields { # TODO make
     my $Self = shift;
     my %Param = @_;
@@ -486,7 +480,6 @@ sub _PDFOutputFreeTextFields { # TODO make
     }
 }
 
-# --
 sub _PDFOutputCustomerInfos {
     my $Self = shift;
     my %Param = @_;
@@ -561,7 +554,6 @@ sub _PDFOutputCustomerInfos {
     }
 }
 
-# --
 sub _PDFOutputArticles {
     my $Self = shift;
     my %Param = @_;
@@ -709,7 +701,6 @@ sub _PDFOutputArticles {
     }
 }
 
-# --
 sub _HTMLMask {
     my $Self = shift;
     my %Param = @_;
@@ -801,5 +792,5 @@ sub _HTMLMask {
     # return output
     return $Self->{LayoutObject}->Output(TemplateFile => 'AgentTicketPrint', Data => {%Param});
 }
-# --
+
 1;
