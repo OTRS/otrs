@@ -2,7 +2,7 @@
 # Kernel/System/PDF.pm - PDF lib
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PDF.pm,v 1.19 2006-09-07 07:12:23 tr Exp $
+# $Id: PDF.pm,v 1.20 2006-09-28 16:29:53 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::PDF;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1689,10 +1689,40 @@ sub _TableCalculate {
         return;
     }
 
+    # analyse, if table is corrupt
+    my $ColumnMax = 0;
+    my $RowMax = 0;
+    foreach my $Row (@{$Param{CellData}}) {
+        if (scalar(@$Row) > $ColumnMax) {
+            $ColumnMax = scalar(@$Row);
+        }
+        $RowMax++;
+    }
+    # repair, if table is corrupt
+    if ($RowMax eq 0) {
+        ${$Param{CellData}}[0] = [];
+        $RowMax = 1;
+    }
+    if ($ColumnMax eq 0) {
+        $ColumnMax = 1;
+    }
+    # cut ColumnData, if to much values
+    if (defined(${$Param{ColumnData}}[$ColumnMax])) {
+        splice(@{$Param{ColumnData}}, $ColumnMax);
+    }
+    # cut RowData, if to much values
+    if (defined(${$Param{RowData}}[$RowMax])) {
+        splice(@{$Param{RowData}}, $RowMax);
+    }
+
     my $RowCounter = 0;
     foreach my $Row (@{$Param{CellData}}) {
         my $MinFontSize = 999;
-        for (my $ColumnCounter = 0; $ColumnCounter < scalar(@$Row) ; $ColumnCounter++) {
+        for (my $ColumnCounter = 0; $ColumnCounter < $ColumnMax; $ColumnCounter++) {
+            # repair, if row is corrupt
+            if (!defined($Row->[$ColumnCounter])) {
+                $Row->[$ColumnCounter] = {};
+            }
             # reference of current cell
             my $Cell = $Row->[$ColumnCounter];
             # if row is odd
@@ -3308,6 +3338,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.19 $ $Date: 2006-09-07 07:12:23 $
+$Revision: 1.20 $ $Date: 2006-09-28 16:29:53 $
 
 =cut
