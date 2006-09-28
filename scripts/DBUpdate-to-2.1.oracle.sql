@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 2.0 to 2.1
 -- Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 -- --
--- $Id: DBUpdate-to-2.1.oracle.sql,v 1.2 2006-09-28 19:08:26 rk Exp $
+-- $Id: DBUpdate-to-2.1.oracle.sql,v 1.3 2006-09-28 20:23:58 rk Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.1.oracle.sql | sqlplus "user/password"
@@ -119,16 +119,32 @@ Ihr OTRS Benachrichtigungs-Master', current_timestamp, 1, current_timestamp, 1);
 --
 
 CREATE TABLE faq_voting (
-    id INTEGER NOT NULL,
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    created_by VARCHAR (200) NOT NULL,
     item_id INTEGER NOT NULL,
-    interface VARCHAR2 (80) NOT NULL,
-    ip VARCHAR2 (50) NOT NULL,
-    vote INTEGER NOT NULL,
-    created DATE NOT NULL,
-    created_by VARCHAR2 (200) NOT NULL,
+    interface VARCHAR (80),
+    ip VARCHAR (50),
+    rate INTEGER NOT NULL,
+    created DATETIME,
+    PRIMARY KEY(id)
 );
 
 ALTER TABLE faq_category ADD parent_id INTEGER;
 ALTER TABLE faq_category ADD valid_id INTEGER;
+
+ALTER TABLE faq_category CHANGE create_by created_by NUMBER;
+ALTER TABLE faq_category CHANGE change_by changed_by NUMBER;
+ALTER TABLE faq_category CHANGE create_time created DATE;
+ALTER TABLE faq_category CHANGE change_time changed DATE;
+
+ALTER TABLE faq_history CHANGE create_by created_by NUMBER;
+ALTER TABLE faq_history CHANGE change_by changed_by NUMBER;
+ALTER TABLE faq_history CHANGE create_time created DATE;
+ALTER TABLE faq_history CHANGE change_time changed DATE;
+
+ALTER TABLE faq_item CHANGE create_by created_by NUMBER;
+ALTER TABLE faq_item CHANGE change_by changed_by NUMBER;
+ALTER TABLE faq_item CHANGE create_time created DATE;
+ALTER TABLE faq_item CHANGE change_time changed DATE;
 
 
