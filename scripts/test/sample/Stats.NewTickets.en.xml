@@ -6,7 +6,6 @@
 <Title>New Tickets</Title>
 <!--<Description>Anzahl der neuen Tickets pro Tag und Queue die im letzten Monat in das System gelangt sind.</Description>-->
 <Description>Total number of new tickets per day and queue which have been created during the last month.</Description>
-<File></File>
 <Format>Print</Format>
 <Object>Ticket</Object>
 <ObjectModule>Kernel::System::Stats::Dynamic::Ticket</ObjectModule>

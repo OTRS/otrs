@@ -3,7 +3,6 @@
 <otrs_stats>
 <Cache>0</Cache>
 <Description>Aktueller Status aller im System befindlicher Tickets ohne Zeitbeschraenkung.</Description>
-<File></File>
 <Format>Print</Format>
 <Object>Ticket</Object>
 <ObjectModule>Kernel::System::Stats::Dynamic::Ticket</ObjectModule>
