@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.33 2006-09-27 12:11:13 martin Exp $
+# $Id: XML.pm,v 1.34 2006-09-29 06:44:20 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Encode;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.33 $';
+$VERSION = '$Revision: 1.34 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -105,9 +105,6 @@ sub XMLHashAdd {
       }
     }
     my %ValueHASH = $Self->XMLHash2D(XMLHash => $Param{XMLHash});
-#use Data::Dumper;
-#print Data::Dumper->Dump([\%ValueHASH], [qw($Ref)]);
-#exit;
     if (%ValueHASH) {
         $Self->XMLHashDelete(%Param);
         # db quote
@@ -155,9 +152,6 @@ sub XMLHashUpdate {
       }
     }
     my %ValueHASH = $Self->XMLHash2D(XMLHash => $Param{XMLHash});
-#use Data::Dumper;
-#print Data::Dumper->Dump([\%ValueHASH], [qw($Ref)]);
-#exit;
     if (%ValueHASH) {
 #        $Self->XMLHashDelete(%Param);
         # db quote
@@ -228,7 +222,6 @@ sub XMLHashGet {
         }
         $Content .= '$XMLHash'.$Data[0]." = '$Data[1]';\n";
     }
-#    print $Content;
     if ($Content && !eval $Content) {
         print STDERR "ERROR: $@\n";
     }
@@ -354,6 +347,7 @@ generate a xml string from a XMLHash
 sub XMLHash2XML {
     my $Self = shift;
     my @XMLHash = @_;
+
     my $Output = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n";
     $Self->{XMLHash2XMLLayer} = 0;
     foreach my $Key (@XMLHash) {
@@ -400,16 +394,18 @@ sub _ElementBuild {
         $Param{Content} =~ s/"/&quot;/g;
         $Output .= $Param{Content};
     }
-    else {
+
+    if (@Sub) {
         $Output .= "\n";
-    }
-    foreach (0..$#Sub) {
-        foreach my $K (@{$Sub[$_]}) {
-            if (defined($K)) {
-                $Output .= $Self->_ElementBuild(%{$K}, Key => $Tag[$_], );
+        foreach (0..$#Sub) {
+            foreach my $K (@{$Sub[$_]}) {
+                if (defined($K)) {
+                    $Output .= $Self->_ElementBuild(%{$K}, Key => $Tag[$_], );
+                }
             }
         }
     }
+
     if ($Param{Key}) {
         if (!$Param{Content}) {
             foreach (2..$Self->{XMLHash2XMLLayer}) {
@@ -629,8 +625,6 @@ sub XMLStructur2XMLHash {
             $Self->_XMLStructur2XMLHash(Key => $Item->{Tag}, Item => $Item, Type => 'ARRAY');
         }
     }
-#     use Data::Dumper;
-#    print Data::Dumper->Dump([$Self->{XMLHash2}], [\$S]);
     $Self->{XMLHashReturn} = 0;
     return (\%{$Self->{XMLHash2}});
 }
@@ -976,6 +970,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.33 $ $Date: 2006-09-27 12:11:13 $
+$Revision: 1.34 $ $Date: 2006-09-29 06:44:20 $
 
 =cut
