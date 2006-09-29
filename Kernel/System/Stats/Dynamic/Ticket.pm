@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/Ticket.pm - all advice functions
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.6 2006-09-28 07:46:35 tr Exp $
+# $Id: Ticket.pm,v 1.7 2006-09-29 14:14:01 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Ticket;
 
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -372,7 +372,7 @@ sub ExportWrapper {
     # wrap ids to used spelling
     foreach my $Use (qw(UseAsValueSeries UseAsRestriction UseAsXvalue)) {
         foreach my $Element (@{$Param{$Use}}) {
-            if ($Element->{SelectedValues}) {
+            if ($Element && $Element->{SelectedValues}) {
                 if ($Element->{Element} eq 'QueueIDs' || $Element->{Element} eq 'CreatedQueueIDs') {
                     foreach my $ID (@{$Element->{SelectedValues}}) {
                         if ($ID) {
@@ -422,7 +422,7 @@ sub ImportWrapper {
     # wrap used spelling to ids
     foreach my $Use (qw(UseAsValueSeries UseAsRestriction UseAsXvalue)) {
         foreach my $Element (@{$Param{$Use}}) {
-            if ($Element->{SelectedValues}) {
+            if ($Element && $Element->{SelectedValues}) {
                 if ($Element->{Element} eq 'QueueIDs' || $Element->{Element} eq 'CreatedQueueIDs') {
                     foreach my $ID (@{$Element->{SelectedValues}}) {
                         if ($ID) {
