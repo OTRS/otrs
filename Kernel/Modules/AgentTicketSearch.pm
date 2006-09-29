@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.29 2006-09-28 14:11:33 mh Exp $
+# $Id: AgentTicketSearch.pm,v 1.30 2006-09-29 15:36:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::SearchProfile;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -105,23 +105,23 @@ sub Run {
     # get search string params (get submitted params)
     else {
         foreach (qw(TicketNumber From To Cc Subject Body CustomerID CustomerUserLogin
-          Agent ResultForm TimeSearchType
-          TicketFreeTime1
-          TicketFreeTime1Start TicketFreeTime1StartDay TicketFreeTime1StartMonth
-          TicketFreeTime1StartYear
-          TicketFreeTime1Stop TicketFreeTime1StopDay TicketFreeTime1StopMonth
-          TicketFreeTime1StopYear
-          TicketFreeTime2
-          TicketFreeTime2Start TicketFreeTime2StartDay TicketFreeTime2StartMonth
-          TicketFreeTime2StartYear
-          TicketFreeTime2Stop TicketFreeTime2StopDay TicketFreeTime2StopMonth
-          TicketFreeTime2StopYear
-          TicketCreateTimePointFormat TicketCreateTimePoint
-          TicketCreateTimePointStart
-          TicketCreateTimeStart TicketCreateTimeStartDay TicketCreateTimeStartMonth
-          TicketCreateTimeStartYear
-          TicketCreateTimeStop TicketCreateTimeStopDay TicketCreateTimeStopMonth
-          TicketCreateTimeStopYear
+            Agent ResultForm TimeSearchType
+            TicketFreeTime1
+            TicketFreeTime1Start TicketFreeTime1StartDay TicketFreeTime1StartMonth
+            TicketFreeTime1StartYear
+            TicketFreeTime1Stop TicketFreeTime1StopDay TicketFreeTime1StopMonth
+            TicketFreeTime1StopYear
+            TicketFreeTime2
+            TicketFreeTime2Start TicketFreeTime2StartDay TicketFreeTime2StartMonth
+            TicketFreeTime2StartYear
+            TicketFreeTime2Stop TicketFreeTime2StopDay TicketFreeTime2StopMonth
+            TicketFreeTime2StopYear
+            TicketCreateTimePointFormat TicketCreateTimePoint
+            TicketCreateTimePointStart
+            TicketCreateTimeStart TicketCreateTimeStartDay TicketCreateTimeStartMonth
+            TicketCreateTimeStartYear
+            TicketCreateTimeStop TicketCreateTimeStopDay TicketCreateTimeStopMonth
+            TicketCreateTimeStopYear
         )) {
             # get search string params (get submitted params)
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
@@ -133,15 +133,16 @@ sub Run {
         }
         # get array params
         foreach (qw(StateIDs StateTypeIDs QueueIDs PriorityIDs OwnerIDs
-          CreatedQueueIDs CreatedUserIDs
-          TicketFreeKey1 TicketFreeText1 TicketFreeKey2 TicketFreeText2
-          TicketFreeKey3 TicketFreeText3 TicketFreeKey4 TicketFreeText4
-          TicketFreeKey5 TicketFreeText5 TicketFreeKey6 TicketFreeText6
-          TicketFreeKey7 TicketFreeText7 TicketFreeKey8 TicketFreeText8
-          TicketFreeKey9 TicketFreeText9 TicketFreeKey10 TicketFreeText10
-          TicketFreeKey11 TicketFreeText11 TicketFreeKey12 TicketFreeText12
-          TicketFreeKey13 TicketFreeText13 TicketFreeKey14 TicketFreeText14
-          TicketFreeKey15 TicketFreeText15 TicketFreeKey16 TicketFreeText16)) {
+            CreatedQueueIDs CreatedUserIDs
+            TicketFreeKey1 TicketFreeText1 TicketFreeKey2 TicketFreeText2
+            TicketFreeKey3 TicketFreeText3 TicketFreeKey4 TicketFreeText4
+            TicketFreeKey5 TicketFreeText5 TicketFreeKey6 TicketFreeText6
+            TicketFreeKey7 TicketFreeText7 TicketFreeKey8 TicketFreeText8
+            TicketFreeKey9 TicketFreeText9 TicketFreeKey10 TicketFreeText10
+            TicketFreeKey11 TicketFreeText11 TicketFreeKey12 TicketFreeText12
+            TicketFreeKey13 TicketFreeText13 TicketFreeKey14 TicketFreeText14
+            TicketFreeKey15 TicketFreeText15 TicketFreeKey16 TicketFreeText16)
+        ) {
             # get search array params (get submitted params)
             my @Array = $Self->{ParamObject}->GetArray(Param => $_);
             if (@Array) {
@@ -273,17 +274,23 @@ sub Run {
             }
             else {
                 $GetParam{'TicketFreeTime'.$_} = 'checked';
-                if ($GetParam{'TicketFreeTime'.$_.'StartDay'} && $GetParam{'TicketFreeTime'.$_.'StartMonth'} && $GetParam{'TicketFreeTime'.$_.'StartYear'}) {
+                if ($GetParam{'TicketFreeTime'.$_.'StartDay'} &&
+                    $GetParam{'TicketFreeTime'.$_.'StartMonth'} &&
+                    $GetParam{'TicketFreeTime'.$_.'StartYear'}
+                ) {
                     $GetParam{'TicketFreeTime'.$_.'NewerDate'} = $GetParam{'TicketFreeTime'.$_.'StartYear'}.
-                    '-'.$GetParam{'TicketFreeTime'.$_.'StartMonth'}.
-                    '-'.$GetParam{'TicketFreeTime'.$_.'StartDay'}.
-                    ' 00:00:01';
+                        '-'.$GetParam{'TicketFreeTime'.$_.'StartMonth'}.
+                        '-'.$GetParam{'TicketFreeTime'.$_.'StartDay'}.
+                        ' 00:00:01';
                 }
-                if ($GetParam{'TicketFreeTime'.$_.'StopDay'} && $GetParam{'TicketFreeTime'.$_.'StopMonth'} && $GetParam{'TicketFreeTime'.$_.'StopYear'}) {
+                if ($GetParam{'TicketFreeTime'.$_.'StopDay'} &&
+                    $GetParam{'TicketFreeTime'.$_.'StopMonth'} &&
+                    $GetParam{'TicketFreeTime'.$_.'StopYear'}
+                ) {
                     $GetParam{'TicketFreeTime'.$_.'OlderDate'} = $GetParam{'TicketFreeTime'.$_.'StopYear'}.
-                    '-'.$GetParam{'TicketFreeTime'.$_.'StopMonth'}.
-                    '-'.$GetParam{'TicketFreeTime'.$_.'StopDay'}.
-                    ' 23:59:59';
+                        '-'.$GetParam{'TicketFreeTime'.$_.'StopMonth'}.
+                        '-'.$GetParam{'TicketFreeTime'.$_.'StopDay'}.
+                        ' 23:59:59';
                 }
             }
         }
@@ -419,8 +426,14 @@ sub Run {
                         my %Info = (%Data, %UserInfo),
 
                         my $Created = $Self->{LayoutObject}->Output(Template => '$TimeLong{"$Data{"Created"}"}', Data => \%Data);
-                        my $Owner = $Self->{LayoutObject}->Output(Template => '$QData{"Owner","30"} ($Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","30"})', Data => \%Info);
-                        my $Customer = $Self->{LayoutObject}->Output(Template => '$QData{"CustomerID","15"} $QData{"CustomerName","15"}', Data => \%Data);
+                        my $Owner = $Self->{LayoutObject}->Output(
+                            Template => '$QData{"Owner","30"} ($Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","30"})',
+                            Data => \%Info
+                        );
+                        my $Customer = $Self->{LayoutObject}->Output(
+                            Template => '$QData{"CustomerID","15"} $QData{"CustomerName","15"}',
+                            Data => \%Data
+                        );
 
                         my @PDFRow;
                         push (@PDFRow, $Data{TicketNumber});
