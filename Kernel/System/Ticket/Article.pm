@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.120 2006-09-27 12:24:03 martin Exp $
+# $Id: Article.pm,v 1.121 2006-09-29 14:28:07 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.120 $';
+$VERSION = '$Revision: 1.121 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -80,10 +80,10 @@ sub ArticleCreate {
     }
     # check needed stuff
     foreach (qw(TicketID UserID ArticleTypeID SenderTypeID HistoryType HistoryComment)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # add 'no body' if there is no body there!
     if (!$Param{Body}) {
@@ -125,23 +125,23 @@ sub ArticleCreate {
     }
     # do db insert
     my $SQL = "INSERT INTO article ".
-      " (ticket_id, article_type_id, article_sender_type_id, a_from, a_reply_to, a_to, " .
-      " a_cc, a_subject, a_message_id, a_body, a_content_type, content_path, ".
-      " valid_id, incoming_time,  create_time, create_by, change_time, change_by) " .
-      " VALUES ".
-      " ($DBParam{TicketID}, $DBParam{ArticleTypeID}, $DBParam{SenderTypeID}, ".
-      " '$DBParam{From}', '$DBParam{ReplyTo}', '$DBParam{To}', '$DBParam{Cc}', ".
-      " '$DBParam{Subject}', ".
-      " '$DBParam{MessageID}', ?, '$DBParam{ContentType}', ?, ".
-      " $ValidID,  $IncomingTime, " .
-      " current_timestamp, $DBParam{UserID}, current_timestamp, $DBParam{UserID})";
+        " (ticket_id, article_type_id, article_sender_type_id, a_from, a_reply_to, a_to, " .
+        " a_cc, a_subject, a_message_id, a_body, a_content_type, content_path, ".
+        " valid_id, incoming_time,  create_time, create_by, change_time, change_by) " .
+        " VALUES ".
+        " ($DBParam{TicketID}, $DBParam{ArticleTypeID}, $DBParam{SenderTypeID}, ".
+        " '$DBParam{From}', '$DBParam{ReplyTo}', '$DBParam{To}', '$DBParam{Cc}', ".
+        " '$DBParam{Subject}', ".
+        " '$DBParam{MessageID}', ?, '$DBParam{ContentType}', ?, ".
+        " $ValidID,  $IncomingTime, " .
+        " current_timestamp, $DBParam{UserID}, current_timestamp, $DBParam{UserID})";
     if (!$Self->{DBObject}->Do(SQL => $SQL, Bind => [\$Param{Body}, \$Self->{ArticleContentPath}])) {
         return;
     }
     # get article id
     my $ArticleID = $Self->_ArticleGetId(
         TicketID => $Param{TicketID},
-MessageID => $Param{MessageID},
+        MessageID => $Param{MessageID},
         From => $Param{From},
         Subject => $Param{Subject},
         IncomingTime => $IncomingTime
@@ -195,12 +195,12 @@ MessageID => $Param{MessageID},
         # check if latest article comes from customer
         my $LastSender = '';
         my $SQL .= "SELECT ast.name ".
-          " FROM ".
-          " article at, article_sender_type ast ".
-          " WHERE ".
-          " at.ticket_id = $Param{TicketID} ".
-          " AND ".
-          " at.article_sender_type_id = ast.id ORDER BY at.create_time ASC";
+            " FROM ".
+            " article at, article_sender_type ast ".
+            " WHERE ".
+            " at.ticket_id = $Param{TicketID} ".
+            " AND ".
+            " at.article_sender_type_id = ast.id ORDER BY at.create_time ASC";
         $Self->{DBObject}->Prepare(SQL => $SQL);
         while (my @Row = $Self->{DBObject}->FetchrowArray()) {
             if ($Row[0] ne 'system') {
@@ -265,7 +265,8 @@ MessageID => $Param{MessageID},
             else {
                 # write log
                 if ($Param{UserID} ne $Self->{ConfigObject}->Get('PostmasterUserID') ||
-                     $Self->{LoopProtectionObject}->SendEmail(To => $OrigHeader{From})) {
+                    $Self->{LoopProtectionObject}->SendEmail(To => $OrigHeader{From})
+                ) {
                     # get history type
                     my %SendInfo = ();
                     if ($Param{AutoResponseType} =~/^auto follow up$/i) {
@@ -301,14 +302,14 @@ MessageID => $Param{MessageID},
                 TicketID => $Param{TicketID},
                 HistoryType => 'Misc',
                 Name => "Sent no auto-response because the sender doesn't want ".
-                  "a auto-response (e. g. loop or precedence header)",
+                    "a auto-response (e. g. loop or precedence header)",
                 CreateUserID => $Param{UserID},
             );
             $Self->{LogObject}->Log(
                 Priority => 'notice',
                 Message => "Sent no '$Param{AutoResponseType}' for Ticket [".
-                  "$Ticket{TicketNumber}] ($OrigHeader{From}) because the ".
-                  "sender doesn't want a auto-response (e. g. loop or precedence header)"
+                    "$Ticket{TicketNumber}] ($OrigHeader{From}) because the ".
+                    "sender doesn't want a auto-response (e. g. loop or precedence header)"
             );
         }
     }
@@ -432,7 +433,12 @@ MessageID => $Param{MessageID},
                         Cached => 1,
                         Valid => 1,
                     );
-                    if ($UserData{UserSendFollowUpNotification} && $UserData{UserSendFollowUpNotification} == 2 && $Ticket{OwnerID} ne 1 && $Ticket{OwnerID} ne $Param{UserID} && $Ticket{OwnerID} ne $UserData{UserID}) {
+                    if ($UserData{UserSendFollowUpNotification} &&
+                        $UserData{UserSendFollowUpNotification} == 2 &&
+                        $Ticket{OwnerID} ne 1 &&
+                        $Ticket{OwnerID} ne $Param{UserID} &&
+                        $Ticket{OwnerID} ne $UserData{UserID}
+                    ) {
                         $AlreadySent{$_} = 1;
                         # send notification
                         $Self->SendAgentNotification(
@@ -474,10 +480,10 @@ sub _ArticleGetId {
     my %Param = @_;
     # check needed stuff
     foreach (qw(TicketID MessageID From Subject IncomingTime)) {
-      if (!defined $Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!defined $Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # db quote
     foreach (qw(MessageID From Subject IncomingTime)) {
@@ -578,8 +584,8 @@ sub ArticleGetContentPath {
     my %Param = @_;
     # check needed stuff
     if (!$Param{ArticleID}) {
-      $Self->{LogObject}->Log(Priority => 'error', Message => "Need ArticleID!");
-      return;
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need ArticleID!");
+        return;
     }
     # db quote
     foreach (qw(ArticleID)) {
@@ -621,8 +627,8 @@ sub ArticleSenderTypeLookup {
     my %Param = @_;
     # check needed stuff
     if (!$Param{SenderType} && !$Param{SenderTypeID}) {
-      $Self->{LogObject}->Log(Priority => 'error', Message => "Need SenderType or SenderTypeID!");
-      return;
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need SenderType or SenderTypeID!");
+        return;
     }
     # get key
     if ($Param{SenderType}) {
@@ -768,12 +774,12 @@ sub ArticleFreeTextGet {
     my $Key = $Param{Key} || '';
     # check needed stuff
     foreach (qw(Type)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
-   if (!$Param{UserID} && !$Param{CustomerUserID}) {
+    if (!$Param{UserID} && !$Param{CustomerUserID}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need UserID or CustomerUserID!");
         return;
     }
@@ -842,10 +848,10 @@ sub ArticleFreeTextSet {
     my %Param = @_;
     # check needed stuff
     foreach (qw(TicketID ArticleID UserID Counter)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # db quote for key an value
     $Param{Value} = $Self->{DBObject}->Quote($Param{Value}) || '';
@@ -856,9 +862,9 @@ sub ArticleFreeTextSet {
     # db update
     if ($Self->{DBObject}->Do(
         SQL => "UPDATE article SET a_freekey$Param{Counter} = '$Param{Key}', " .
-          " a_freetext$Param{Counter} = '$Param{Value}', " .
-          " change_time = current_timestamp, change_by = $Param{UserID} " .
-          " WHERE id = $Param{ArticleID}",
+            " a_freetext$Param{Counter} = '$Param{Value}', " .
+            " change_time = current_timestamp, change_by = $Param{UserID} " .
+            " WHERE id = $Param{ArticleID}",
     )) {
         # ticket event
         $Self->TicketEventHandlerPost(
@@ -991,21 +997,21 @@ sub ArticleIndex {
     my $SQL = '';
     if ($Param{SenderType}) {
         $SQL .= "SELECT at.id".
-          " FROM ".
-          " article at, article_sender_type ast ".
-          " WHERE ".
-          " at.ticket_id = $Param{TicketID} ".
-          " AND ".
-          " at.article_sender_type_id = ast.id ".
-          " AND ".
-          " ast.name = '$Param{SenderType}' ";
+            " FROM ".
+            " article at, article_sender_type ast ".
+            " WHERE ".
+            " at.ticket_id = $Param{TicketID} ".
+            " AND ".
+            " at.article_sender_type_id = ast.id ".
+            " AND ".
+            " ast.name = '$Param{SenderType}' ";
     }
     else {
         $SQL = "SELECT at.id".
-          " FROM ".
-          " article at ".
-          " WHERE ".
-          " at.ticket_id = $Param{TicketID} ";
+            " FROM ".
+            " article at ".
+            " WHERE ".
+            " at.ticket_id = $Param{TicketID} ";
     }
     $SQL .= " ORDER BY at.id";
     $Self->{DBObject}->Prepare(SQL => $SQL);
@@ -1320,10 +1326,10 @@ sub ArticleUpdate {
     my %Param = @_;
     # check needed stuff
     foreach (qw(ArticleID UserID Key TicketID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # check needed stuff
     if (!defined($Param{Value})) {
@@ -1347,8 +1353,8 @@ sub ArticleUpdate {
     # db update
     if ($Self->{DBObject}->Do(
         SQL => "UPDATE article SET $Map{$Param{Key}} = '$Param{Value}', ".
-          " change_time = current_timestamp, change_by = $Param{UserID} " .
-          " WHERE id = $Param{ArticleID}",
+            " change_time = current_timestamp, change_by = $Param{UserID} " .
+            " WHERE id = $Param{ArticleID}",
     )) {
         # ticket event
         $Self->TicketEventHandlerPost(
@@ -1429,10 +1435,10 @@ sub ArticleSend {
     my $HistoryType = $Param{HistoryType} || 'SendAnswer';
     # check needed stuff
     foreach (qw(TicketID UserID From Body Type Charset)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     if (!$Param{ArticleType} && !$Param{ArticleTypeID}) {
         $Self->{LogObject}->Log(Priority => 'error', Message => "Need ArticleType or ArticleTypeID!");
@@ -1464,12 +1470,12 @@ sub ArticleSend {
         foreach my $Tmp (@{$Param{Attachment}}) {
             my %Upload = %{$Tmp};
             if ($Upload{Content} && $Upload{Filename}) {
-              # add attachments to article
-              $Self->ArticleWriteAttachment(
-                %Upload,
-                ArticleID => $Param{ArticleID},
-                UserID => $Param{UserID},
-              );
+                # add attachments to article
+                $Self->ArticleWriteAttachment(
+                    %Upload,
+                    ArticleID => $Param{ArticleID},
+                    UserID => $Param{UserID},
+                );
             }
         }
     }
@@ -1552,10 +1558,10 @@ sub ArticleBounce {
     my $HistoryType = $Param{HistoryType} || 'Bounce';
     # check needed stuff
     foreach (qw(From To UserID Email)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # create message id
     my $NewMessageID = "<$Time.$Random.$Param{TicketID}.0.$Param{UserID}\@$Self->{FQDN}>";
@@ -1606,10 +1612,10 @@ sub SendAgentNotification {
     my %Param = @_;
     # check needed stuff
     foreach (qw(CustomerMessageParams TicketID UserID Type UserData)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # compat Type
     if ($Param{Type} =~/(EmailAgent|EmailCustomer|PhoneCallCustomer|WebRequestCustomer|SystemRequest)/) {
@@ -1830,10 +1836,10 @@ sub SendCustomerNotification {
     my %Param = @_;
     # check needed stuff
     foreach (qw(CustomerMessageParams TicketID UserID Type)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # get old article for quoteing
     my %Article = $Self->ArticleLastCustomerArticle(TicketID => $Param{TicketID});
@@ -2071,10 +2077,10 @@ sub SendAutoResponse {
     my %Param = @_;
     # check needed stuff
     foreach (qw(Text Realname Address CustomerMessageParams TicketID UserID HistoryType)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     $Param{Body} = $Param{Text} || 'No Std. Body found!';
     my %GetParam = %{$Param{CustomerMessageParams}};
@@ -2278,10 +2284,10 @@ sub ArticleFlagSet {
     my %Param = @_;
     # check needed stuff
     foreach (qw(ArticleID Flag UserID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # db quote
     foreach (qw(Flag)) {
@@ -2295,7 +2301,7 @@ sub ArticleFlagSet {
         # do db insert
         $Self->{DBObject}->Do(
             SQL => "DELETE FROM article_flag WHERE ".
-              "article_id = $Param{ArticleID} AND create_by = $Param{UserID}",
+                "article_id = $Param{ArticleID} AND create_by = $Param{UserID}",
         );
         return $Self->{DBObject}->Do(SQL => "INSERT INTO article_flag ".
             " (article_id, article_flag, create_time, create_by) ".
@@ -2331,10 +2337,10 @@ sub ArticleFlagGet {
     my %Flag = ();
     # check needed stuff
     foreach (qw(ArticleID UserID)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # db quote
     foreach (qw(ArticleID UserID)) {
@@ -2368,8 +2374,8 @@ sub ArticleAccountedTimeGet {
     my $AccountedTime = 0;
     # check needed stuff
     if (!$Param{ArticleID}) {
-      $Self->{LogObject}->Log(Priority => 'error', Message => "Need ArticleID!");
-      return;
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need ArticleID!");
+        return;
     }
     # db quote
     foreach (qw(ArticleID)) {
@@ -2404,8 +2410,8 @@ sub ArticleAccountedTimeDelete {
     my %Param = @_;
     # check needed stuff
     if (!$Param{ArticleID}) {
-      $Self->{LogObject}->Log(Priority => 'error', Message => "Need ArticleID!");
-      return;
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need ArticleID!");
+        return;
     }
     # db quote
     foreach (qw(ArticleID UserID)) {
@@ -2418,7 +2424,6 @@ sub ArticleAccountedTimeDelete {
     return $Self->{DBObject}->Do(SQL => $SQL);
 }
 
-# --
 # the following is the pod for Kernel/System/Ticket/ArticleStorage*.pm
 
 =item ArticleDelete()
