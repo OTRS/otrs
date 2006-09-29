@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.18 2006-08-29 17:17:24 martin Exp $
+# $Id: AgentTicketCompose.pm,v 1.19 2006-09-29 16:33:47 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,10 +20,9 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18 $';
+$VERSION = '$Revision: 1.19 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -162,8 +161,9 @@ sub Run {
         AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
         AttachmentDelete9 AttachmentDelete10 AttachmentDelete11 AttachmentDelete12
         AttachmentDelete13 AttachmentDelete14 AttachmentDelete15 AttachmentDelete16
-        FormID)) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
+        FormID
+    )) {
+        $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
     }
     # get ticket free text params
     foreach (1..16) {
@@ -299,7 +299,7 @@ sub Run {
             );
             # article free text
             my %ArticleFreeText = ();
-            foreach (1..16) {
+            foreach (1..3) {
                 $ArticleFreeText{"ArticleFreeKey$_"} = $Self->{TicketObject}->ArticleFreeTextGet(
                     TicketID => $Self->{TicketID},
                     Type => "ArticleFreeKey$_",
@@ -697,7 +697,7 @@ sub Run {
         );
         # article free text
         my %ArticleFreeText = ();
-        foreach (1..16) {
+        foreach (1..3) {
             $ArticleFreeText{"ArticleFreeKey$_"} = $Self->{TicketObject}->ArticleFreeTextGet(
                 TicketID => $Self->{TicketID},
                 Type => "ArticleFreeKey$_",

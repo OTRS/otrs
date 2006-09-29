@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketOwner.pm - set ticket owner
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketOwner.pm,v 1.13 2006-08-29 17:17:24 martin Exp $
+# $Id: AgentTicketOwner.pm,v 1.14 2006-09-29 16:33:47 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,10 +16,9 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -56,7 +55,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -157,8 +156,9 @@ sub Run {
         AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
         AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
         AttachmentDelete9 AttachmentDelete10 AttachmentDelete11 AttachmentDelete12
-        AttachmentDelete13 AttachmentDelete14 AttachmentDelete15 AttachmentDelete16)) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
+        AttachmentDelete13 AttachmentDelete14 AttachmentDelete15 AttachmentDelete16
+    )) {
+        $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
     }
     # get ticket free text params
     foreach (1..16) {
@@ -272,7 +272,7 @@ sub Run {
             );
             # article free text
             my %ArticleFreeText = ();
-            foreach (1..16) {
+            foreach (1..3) {
                 $ArticleFreeText{"ArticleFreeKey$_"} = $Self->{TicketObject}->ArticleFreeTextGet(
                     TicketID => $Self->{TicketID},
                     Type => "ArticleFreeKey$_",
@@ -536,7 +536,7 @@ sub Run {
         );
         # get article free text config options
         my %ArticleFreeText = ();
-        foreach (1..16) {
+        foreach (1..3) {
             $ArticleFreeText{"ArticleFreeKey$_"} = $Self->{TicketObject}->ArticleFreeTextGet(
                 TicketID => $Self->{TicketID},
                 Type => "ArticleFreeKey$_",
@@ -569,7 +569,7 @@ sub Run {
         return $Output;
     }
 }
-# --
+
 sub _Mask {
     my $Self = shift;
     my %Param = @_;
@@ -619,7 +619,7 @@ sub _Mask {
                 if ($Counter) {
                     if (!$UserHash{$User->{UserID}}) {
                         $UserHash{$User->{UserID}} = "$Counter: $User->{UserLastname} ".
-                          "$User->{UserFirstname} ($User->{UserLogin})";
+                            "$User->{UserFirstname} ($User->{UserLogin})";
                     }
                 }
                 $Counter++;
@@ -809,7 +809,7 @@ sub _Mask {
                 $Counter++;
                 if (!$UserHash{$User->{UserID}}) {
                     $UserHash{$User->{UserID}} = "$Counter: $User->{UserLastname} ".
-                      "$User->{UserFirstname} ($User->{UserLogin})";
+                        "$User->{UserFirstname} ($User->{UserLogin})";
                 }
             }
             $Param{'InvolvedAgentStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
@@ -947,5 +947,5 @@ sub _Mask {
     # get output back
     return $Self->{LayoutObject}->Output(TemplateFile => 'AgentTicketOwner', Data => \%Param);
 }
-# --
+
 1;

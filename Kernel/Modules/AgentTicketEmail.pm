@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose inital email to customer
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.22 2006-09-29 13:06:25 mh Exp $
+# $Id: AgentTicketEmail.pm,v 1.23 2006-09-29 16:33:47 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -82,7 +82,8 @@ sub Run {
         AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
         AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
         AttachmentDelete9 AttachmentDelete10 AttachmentDelete11 AttachmentDelete12
-        AttachmentDelete13 AttachmentDelete14 AttachmentDelete15 AttachmentDelete16)) {
+        AttachmentDelete13 AttachmentDelete14 AttachmentDelete15 AttachmentDelete16
+    )) {
         $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
     }
     # get ticket free text params
@@ -159,7 +160,7 @@ sub Run {
             );
             # article free text
             my %ArticleFreeText = ();
-            foreach (1..16) {
+            foreach (1..3) {
                 $ArticleFreeText{"ArticleFreeKey$_"} = $Self->{TicketObject}->ArticleFreeTextGet(
                     TicketID => $Self->{TicketID},
                     Type => "ArticleFreeKey$_",
@@ -204,20 +205,20 @@ sub Run {
             }
             # html output
             $Output .= $Self->_MaskEmailNew(
-              QueueID => $Self->{QueueID},
-              NextStates => $Self->_GetNextStates(QueueID => 1),
-              Priorities => $Self->_GetPriorities(QueueID => 1),
-              Users => $Self->_GetUsers(),
-              FromList => $Self->_GetTos(),
-              To => '',
-              Subject => $Self->{LayoutObject}->Output(Template => $Self->{Config}->{Subject}),
-              Body => $Self->{LayoutObject}->Output(Template => $Self->{Config}->{Body}),
-              CustomerID => '',
-              CustomerUser =>  '',
-              CustomerData => {},
-              %TicketFreeTextHTML,
-              %TicketFreeTimeHTML,
-              %ArticleFreeTextHTML,
+                QueueID => $Self->{QueueID},
+                NextStates => $Self->_GetNextStates(QueueID => 1),
+                Priorities => $Self->_GetPriorities(QueueID => 1),
+                Users => $Self->_GetUsers(),
+                FromList => $Self->_GetTos(),
+                To => '',
+                Subject => $Self->{LayoutObject}->Output(Template => $Self->{Config}->{Subject}),
+                Body => $Self->{LayoutObject}->Output(Template => $Self->{Config}->{Body}),
+                CustomerID => '',
+                CustomerUser =>  '',
+                CustomerData => {},
+                %TicketFreeTextHTML,
+                %TicketFreeTimeHTML,
+                %ArticleFreeTextHTML,
             );
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
@@ -333,7 +334,7 @@ sub Run {
         );
         # article free text
         my %ArticleFreeText = ();
-        foreach (1..16) {
+        foreach (1..3) {
             $ArticleFreeText{"ArticleFreeKey$_"} = $Self->{TicketObject}->ArticleFreeTextGet(
                 TicketID => $Self->{TicketID},
                 Type => "ArticleFreeKey$_",
@@ -528,27 +529,27 @@ sub Run {
             # html output
             # --
             $Output .= $Self->_MaskEmailNew(
-              QueueID => $Self->{QueueID},
-              Users => $Self->_GetUsers(QueueID => $NewQueueID, AllUsers => $AllUsers),
-              UserSelected => $NewUserID,
-              NextStates => $Self->_GetNextStates(QueueID => $NewQueueID),
-              NextState => $NextState,
-              Priorities => $Self->_GetPriorities(QueueID => $NewQueueID),
-              CustomerID => $Self->{LayoutObject}->Ascii2Html(Text => $CustomerID),
-              CustomerUser => $CustomerUser,
-              CustomerData => \%CustomerData,
-              FromList => $Self->_GetTos(),
-              FromSelected => $Dest,
-              ToOptions => $Param{"ToOptions"},
-              Subject => $Self->{LayoutObject}->Ascii2Html(Text => $GetParam{Subject}),
-              Body => $Self->{LayoutObject}->Ascii2Html(Text => $GetParam{Body}),
-              Errors => \%Error,
-              Attachments => \@Attachments,
-              Signature => $Signature,
-              %GetParam,
-              %TicketFreeTextHTML,
-              %TicketFreeTimeHTML,
-              %ArticleFreeTextHTML,
+                QueueID => $Self->{QueueID},
+                Users => $Self->_GetUsers(QueueID => $NewQueueID, AllUsers => $AllUsers),
+                UserSelected => $NewUserID,
+                NextStates => $Self->_GetNextStates(QueueID => $NewQueueID),
+                NextState => $NextState,
+                Priorities => $Self->_GetPriorities(QueueID => $NewQueueID),
+                CustomerID => $Self->{LayoutObject}->Ascii2Html(Text => $CustomerID),
+                CustomerUser => $CustomerUser,
+                CustomerData => \%CustomerData,
+                FromList => $Self->_GetTos(),
+                FromSelected => $Dest,
+                ToOptions => $Param{"ToOptions"},
+                Subject => $Self->{LayoutObject}->Ascii2Html(Text => $GetParam{Subject}),
+                Body => $Self->{LayoutObject}->Ascii2Html(Text => $GetParam{Body}),
+                Errors => \%Error,
+                Attachments => \@Attachments,
+                Signature => $Signature,
+                %GetParam,
+                %TicketFreeTextHTML,
+                %TicketFreeTimeHTML,
+                %ArticleFreeTextHTML,
             );
             # show customer tickets
             my @TicketIDs = ();

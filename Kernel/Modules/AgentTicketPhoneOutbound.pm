@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhoneOutbound.pm - to handle phone calls
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.pm,v 1.4 2006-08-29 17:17:24 martin Exp $
+# $Id: AgentTicketPhoneOutbound.pm,v 1.5 2006-09-29 16:33:47 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,10 +20,9 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -60,7 +59,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -146,8 +145,9 @@ sub Run {
         Year Month Day Hour Minute
         AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
         AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
-        AttachmentDelete9 AttachmentDelete10)) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
+        AttachmentDelete9 AttachmentDelete10
+    )) {
+        $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
     }
     # get ticket free text params
     foreach (1..16) {
@@ -225,7 +225,7 @@ sub Run {
         );
         # article free text
         my %ArticleFreeText = ();
-        foreach (1..16) {
+        foreach (1..3) {
             $ArticleFreeText{"ArticleFreeKey$_"} = $Self->{TicketObject}->ArticleFreeTextGet(
                 TicketID => $Self->{TicketID},
                 Type => "ArticleFreeKey$_",
@@ -273,7 +273,7 @@ sub Run {
             if ($GetParam{"AttachmentDelete$_"}) {
                 $Error{AttachmentDelete} = 1;
                 $Self->{UploadCachObject}->FormIDRemoveFile(
-                     FormID => $Self->{FormID},
+                    FormID => $Self->{FormID},
                     FileID => $_,
                 );
             }
@@ -331,7 +331,7 @@ sub Run {
             );
             # article free text
             my %ArticleFreeText = ();
-            foreach (1..16) {
+            foreach (1..3) {
                 $ArticleFreeText{"ArticleFreeKey$_"} = $Self->{TicketObject}->ArticleFreeTextGet(
                     TicketID => $Self->{TicketID},
                     Type => "ArticleFreeKey$_",
@@ -392,128 +392,128 @@ sub Run {
             return $Output;
         }
         else {
-          if (my $ArticleID = $Self->{TicketObject}->ArticleCreate(
-              TicketID => $Self->{TicketID},
-              ArticleType => $Self->{Config}->{ArticleType},
-              SenderType => $Self->{Config}->{SenderType},
-              From => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
-              Subject => $GetParam{Subject},
-              Body => $GetParam{Body},
-              ContentType => "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}",
-              UserID => $Self->{UserID},
-              HistoryType => $Self->{Config}->{HistoryType},
-              HistoryComment => $Self->{Config}->{HistoryComment} || '%%',
-          )) {
-            # time accounting
-            if ($GetParam{TimeUnits}) {
-                $Self->{TicketObject}->TicketAccountTime(
-                    TicketID => $Self->{TicketID},
-                    ArticleID => $ArticleID,
-                    TimeUnit => $GetParam{TimeUnits},
-                    UserID => $Self->{UserID},
-                );
-            }
-            # get pre loaded attachment
-            my @AttachmentData = $Self->{UploadCachObject}->FormIDGetAllFilesData(
-                FormID => $Self->{FormID},
-            );
-            foreach my $Ref (@AttachmentData) {
-                $Self->{TicketObject}->ArticleWriteAttachment(
-                    %{$Ref},
-                    ArticleID => $ArticleID,
-                    UserID => $Self->{UserID},
-                );
-            }
-            # get submit attachment
-            my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-                Param => 'file_upload',
-                Source => 'String',
-            );
-            if (%UploadStuff) {
-                $Self->{TicketObject}->ArticleWriteAttachment(
-                    %UploadStuff,
-                    ArticleID => $ArticleID,
-                    UserID => $Self->{UserID},
-                );
-            }
-            # set ticket free text
-            foreach (1..16) {
-                if (defined($GetParam{"TicketFreeKey$_"})) {
-                    $Self->{TicketObject}->TicketFreeTextSet(
-                        TicketID => $Self->{TicketID},
-                        Key => $GetParam{"TicketFreeKey$_"},
-                        Value => $GetParam{"TicketFreeText$_"},
-                        Counter => $_,
-                        UserID => $Self->{UserID},
-                    );
-                }
-            }
-            # set ticket free time
-            foreach (1..2) {
-                if (defined($GetParam{"TicketFreeTime".$_."Year"}) &&
-                    defined($GetParam{"TicketFreeTime".$_."Month"}) &&
-                    defined($GetParam{"TicketFreeTime".$_."Day"}) &&
-                    defined($GetParam{"TicketFreeTime".$_."Hour"}) &&
-                    defined($GetParam{"TicketFreeTime".$_."Minute"})) {
-                    $Self->{TicketObject}->TicketFreeTimeSet(
-                        %GetParam,
-                        TicketID => $Self->{TicketID},
-                        Counter => $_,
-                        UserID => $Self->{UserID},
-                    );
-                }
-            }
-            # set article free text
-            foreach (1..3) {
-                if (defined($GetParam{"ArticleFreeKey$_"})) {
-                    $Self->{TicketObject}->ArticleFreeTextSet(
+            if (my $ArticleID = $Self->{TicketObject}->ArticleCreate(
+                TicketID => $Self->{TicketID},
+                ArticleType => $Self->{Config}->{ArticleType},
+                SenderType => $Self->{Config}->{SenderType},
+                From => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
+                Subject => $GetParam{Subject},
+                Body => $GetParam{Body},
+                ContentType => "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}",
+                UserID => $Self->{UserID},
+                HistoryType => $Self->{Config}->{HistoryType},
+                HistoryComment => $Self->{Config}->{HistoryComment} || '%%',
+            )) {
+                # time accounting
+                if ($GetParam{TimeUnits}) {
+                    $Self->{TicketObject}->TicketAccountTime(
                         TicketID => $Self->{TicketID},
                         ArticleID => $ArticleID,
-                        Key => $GetParam{"ArticleFreeKey$_"},
-                        Value => $GetParam{"ArticleFreeText$_"},
-                        Counter => $_,
+                        TimeUnit => $GetParam{TimeUnits},
                         UserID => $Self->{UserID},
                     );
                 }
-            }
-            # set state
-            $Self->{TicketObject}->StateSet(
-                TicketID => $Self->{TicketID},
-                ArticleID => $ArticleID,
-                StateID => $GetParam{NextStateID},
-                UserID => $Self->{UserID},
-            );
-            # should i set an unlock? yes if the ticket is closed
-            my %StateData = $Self->{StateObject}->StateGet(ID => $GetParam{NextStateID});
-            if ($StateData{TypeName} =~ /^close/i) {
-                $Self->{TicketObject}->LockSet(
+                # get pre loaded attachment
+                my @AttachmentData = $Self->{UploadCachObject}->FormIDGetAllFilesData(
+                    FormID => $Self->{FormID},
+                );
+                foreach my $Ref (@AttachmentData) {
+                    $Self->{TicketObject}->ArticleWriteAttachment(
+                        %{$Ref},
+                        ArticleID => $ArticleID,
+                        UserID => $Self->{UserID},
+                    );
+                }
+                # get submit attachment
+                my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+                    Param => 'file_upload',
+                    Source => 'String',
+                );
+                if (%UploadStuff) {
+                    $Self->{TicketObject}->ArticleWriteAttachment(
+                        %UploadStuff,
+                        ArticleID => $ArticleID,
+                        UserID => $Self->{UserID},
+                    );
+                }
+                # set ticket free text
+                foreach (1..16) {
+                    if (defined($GetParam{"TicketFreeKey$_"})) {
+                        $Self->{TicketObject}->TicketFreeTextSet(
+                            TicketID => $Self->{TicketID},
+                            Key => $GetParam{"TicketFreeKey$_"},
+                            Value => $GetParam{"TicketFreeText$_"},
+                            Counter => $_,
+                            UserID => $Self->{UserID},
+                        );
+                    }
+                }
+                # set ticket free time
+                foreach (1..2) {
+                    if (defined($GetParam{"TicketFreeTime".$_."Year"}) &&
+                        defined($GetParam{"TicketFreeTime".$_."Month"}) &&
+                        defined($GetParam{"TicketFreeTime".$_."Day"}) &&
+                        defined($GetParam{"TicketFreeTime".$_."Hour"}) &&
+                        defined($GetParam{"TicketFreeTime".$_."Minute"})) {
+                        $Self->{TicketObject}->TicketFreeTimeSet(
+                            %GetParam,
+                            TicketID => $Self->{TicketID},
+                            Counter => $_,
+                            UserID => $Self->{UserID},
+                        );
+                    }
+                }
+                # set article free text
+                foreach (1..3) {
+                    if (defined($GetParam{"ArticleFreeKey$_"})) {
+                        $Self->{TicketObject}->ArticleFreeTextSet(
+                            TicketID => $Self->{TicketID},
+                            ArticleID => $ArticleID,
+                            Key => $GetParam{"ArticleFreeKey$_"},
+                            Value => $GetParam{"ArticleFreeText$_"},
+                            Counter => $_,
+                            UserID => $Self->{UserID},
+                        );
+                    }
+                }
+                # set state
+                $Self->{TicketObject}->StateSet(
                     TicketID => $Self->{TicketID},
-                    Lock => 'unlock',
+                    ArticleID => $ArticleID,
+                    StateID => $GetParam{NextStateID},
                     UserID => $Self->{UserID},
                 );
-            }
-            # set pending time if next state is a pending state
-            elsif ($StateData{TypeName} =~ /^pending/i) {
-                $Self->{TicketObject}->TicketPendingTimeSet(
-                    UserID => $Self->{UserID},
-                    TicketID => $Self->{TicketID},
-                    %GetParam,
-                );
-            }
-            # redirect to last screen (e. g. zoom view) and to queue view if
-            # the ticket is closed (move to the next task).
-            if ($StateData{TypeName} =~ /^close/i) {
-                return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenOverview});
+                # should i set an unlock? yes if the ticket is closed
+                my %StateData = $Self->{StateObject}->StateGet(ID => $GetParam{NextStateID});
+                if ($StateData{TypeName} =~ /^close/i) {
+                    $Self->{TicketObject}->LockSet(
+                        TicketID => $Self->{TicketID},
+                        Lock => 'unlock',
+                        UserID => $Self->{UserID},
+                    );
+                }
+                # set pending time if next state is a pending state
+                elsif ($StateData{TypeName} =~ /^pending/i) {
+                    $Self->{TicketObject}->TicketPendingTimeSet(
+                        UserID => $Self->{UserID},
+                        TicketID => $Self->{TicketID},
+                        %GetParam,
+                    );
+                }
+                # redirect to last screen (e. g. zoom view) and to queue view if
+                # the ticket is closed (move to the next task).
+                if ($StateData{TypeName} =~ /^close/i) {
+                    return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenOverview});
+                }
+                else {
+                    return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenView});
+                }
             }
             else {
-                return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenView});
+                # show error of creating article
+                return $Self->{LayoutObject}->ErrorScreen();
             }
         }
-        else {
-            # show error of creating article
-            return $Self->{LayoutObject}->ErrorScreen();
-        }
-      }
     }
     else {
         return $Self->{LayoutObject}->ErrorScreen(
@@ -522,7 +522,7 @@ sub Run {
         );
     }
 }
-# --
+
 sub _GetNextStates {
     my $Self = shift;
     my %Param = @_;
@@ -533,7 +533,7 @@ sub _GetNextStates {
     );
     return \%NextStates;
 }
-# --
+
 sub _GetUsers {
     my $Self = shift;
     my %Param = @_;
@@ -577,7 +577,7 @@ sub _GetUsers {
     }
     return \%ShownUsers;
 }
-# --
+
 sub _GetTos {
     my $Self = shift;
     my %Param = @_;
@@ -635,7 +635,7 @@ sub _GetTos {
     $NewTos{''} = '-';
     return \%NewTos;
 }
-# --
+
 sub _MaskPhone {
     my $Self = shift;
     my %Param = @_;
@@ -759,4 +759,5 @@ sub _MaskPhone {
     # get output back
     return $Self->{LayoutObject}->Output(TemplateFile => 'AgentTicketPhoneOutbound', Data => \%Param);
 }
+
 1;

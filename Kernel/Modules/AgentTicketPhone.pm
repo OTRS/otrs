@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.23 2006-09-29 13:06:25 mh Exp $
+# $Id: AgentTicketPhone.pm,v 1.24 2006-09-29 16:33:47 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.24 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -71,8 +71,9 @@ sub Run {
         AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
         AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
         AttachmentDelete9 AttachmentDelete10 AttachmentDelete11 AttachmentDelete12
-        AttachmentDelete13 AttachmentDelete14 AttachmentDelete15 AttachmentDelete16)) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
+        AttachmentDelete13 AttachmentDelete14 AttachmentDelete15 AttachmentDelete16
+    )) {
+        $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
     }
     # get ticket free text params
     foreach (1..16) {
@@ -193,7 +194,7 @@ sub Run {
         );
         # article free text
         my %ArticleFreeText = ();
-        foreach (1..16) {
+        foreach (1..3) {
             $ArticleFreeText{"ArticleFreeKey$_"} = $Self->{TicketObject}->ArticleFreeTextGet(
                 TicketID => $Self->{TicketID},
                 Type => "ArticleFreeKey$_",
@@ -213,20 +214,20 @@ sub Run {
         );
         # html output
         $Output .= $Self->_MaskPhoneNew(
-              QueueID => $Self->{QueueID},
-              NextStates => $Self->_GetNextStates(QueueID => $Self->{QueueID} || 1),
-              Priorities => $Self->_GetPriorities(QueueID => $Self->{QueueID} || 1),
-              Users => $Self->_GetUsers(QueueID => $Self->{QueueID}),
-              To => $Self->_GetTos(QueueID => $Self->{QueueID}),
-              From => $Article{From},
-              Subject => $Article{Subject} || $Self->{LayoutObject}->Output(Template => $Self->{Config}->{Subject}),
-              Body => $Article{Body} || $Self->{LayoutObject}->Output(Template => $Self->{Config}->{Body}),
-              CustomerID => $Article{CustomerID},
-              CustomerUser => $Article{CustomerUserID},
-              CustomerData => \%CustomerData,
-              %TicketFreeTextHTML,
-              %TicketFreeTimeHTML,
-              %ArticleFreeTextHTML,
+            QueueID => $Self->{QueueID},
+            NextStates => $Self->_GetNextStates(QueueID => $Self->{QueueID} || 1),
+            Priorities => $Self->_GetPriorities(QueueID => $Self->{QueueID} || 1),
+            Users => $Self->_GetUsers(QueueID => $Self->{QueueID}),
+            To => $Self->_GetTos(QueueID => $Self->{QueueID}),
+            From => $Article{From},
+            Subject => $Article{Subject} || $Self->{LayoutObject}->Output(Template => $Self->{Config}->{Subject}),
+            Body => $Article{Body} || $Self->{LayoutObject}->Output(Template => $Self->{Config}->{Body}),
+            CustomerID => $Article{CustomerID},
+            CustomerUser => $Article{CustomerUserID},
+            CustomerData => \%CustomerData,
+            %TicketFreeTextHTML,
+            %TicketFreeTimeHTML,
+            %ArticleFreeTextHTML,
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
@@ -350,7 +351,7 @@ sub Run {
         );
             # article free text
             my %ArticleFreeText = ();
-            foreach (1..16) {
+            foreach (1..3) {
                 $ArticleFreeText{"ArticleFreeKey$_"} = $Self->{TicketObject}->ArticleFreeTextGet(
                     TicketID => $Self->{TicketID},
                     Type => "ArticleFreeKey$_",
@@ -627,7 +628,8 @@ sub Run {
                 defined($GetParam{"TicketFreeTime".$_."Month"}) &&
                 defined($GetParam{"TicketFreeTime".$_."Day"}) &&
                 defined($GetParam{"TicketFreeTime".$_."Hour"}) &&
-                defined($GetParam{"TicketFreeTime".$_."Minute"})) {
+                defined($GetParam{"TicketFreeTime".$_."Minute"})
+            ) {
                 my %Time = $Self->{LayoutObject}->TransfromDateSelection(
                     %GetParam,
                     Prefix => "TicketFreeTime".$_,
