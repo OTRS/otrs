@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.34 2006-09-29 06:44:20 tr Exp $
+# $Id: XML.pm,v 1.35 2006-09-29 14:25:11 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Encode;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.34 $';
+$VERSION = '$Revision: 1.35 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -394,14 +394,14 @@ sub _ElementBuild {
         $Param{Content} =~ s/"/&quot;/g;
         $Output .= $Param{Content};
     }
-
-    if (@Sub) {
+    else {
         $Output .= "\n";
-        foreach (0..$#Sub) {
-            foreach my $K (@{$Sub[$_]}) {
-                if (defined($K)) {
-                    $Output .= $Self->_ElementBuild(%{$K}, Key => $Tag[$_], );
-                }
+    }
+
+    foreach (0..$#Sub) {
+        foreach my $K (@{$Sub[$_]}) {
+            if (defined($K)) {
+                $Output .= $Self->_ElementBuild(%{$K}, Key => $Tag[$_], );
             }
         }
     }
@@ -970,6 +970,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.34 $ $Date: 2006-09-29 06:44:20 $
+$Revision: 1.35 $ $Date: 2006-09-29 14:25:11 $
 
 =cut
