@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose inital email to customer
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.21 2006-08-29 17:17:24 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.22 2006-09-29 13:06:25 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.22 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -279,7 +279,9 @@ sub Run {
             # cleanup all not needed <OTRS_TICKET_ tags
             $Signature =~ s/<OTRS_Agent_.+?>/-/gi;
         }
-        my $CustomerUser = $Self->{ParamObject}->GetParam(Param => 'CustomerUser') || $Self->{ParamObject}->GetParam(Param => 'PreSelectedCustomerUser') || $Self->{ParamObject}->GetParam(Param => 'SelectedCustomerUser') || '';
+        my $CustomerUser = $Self->{ParamObject}->GetParam(Param => 'CustomerUser') ||
+            $Self->{ParamObject}->GetParam(Param => 'PreSelectedCustomerUser') ||
+            $Self->{ParamObject}->GetParam(Param => 'SelectedCustomerUser') || '';
         my $CustomerID = $Self->{ParamObject}->GetParam(Param => 'CustomerID') || '';
         my $SelectedCustomerUser = $Self->{ParamObject}->GetParam(Param => 'SelectedCustomerUser') || '';
         my $ExpandCustomerName = $Self->{ParamObject}->GetParam(Param => 'ExpandCustomerName') || 0;
@@ -615,7 +617,7 @@ sub Run {
                         );
                     }
                 }
-                foreach (qw(1 2 3 4 5)) {
+                foreach (1..3) {
                     if ($Article{"FreeText$_"}) {
                         $Self->{LayoutObject}->Block(
                             Name => 'ArticleFreeText',
@@ -790,7 +792,8 @@ sub Run {
                 );
             }
             # get redirect screen
-            my $NextScreen = $Self->{UserCreateNextMask} || $Self->{ConfigObject}->Get('PreferencesGroups')->{CreateNextMask}->{DataSelected} || 'AgentTicketEmail';
+            my $NextScreen = $Self->{UserCreateNextMask} ||
+                $Self->{ConfigObject}->Get('PreferencesGroups')->{CreateNextMask}->{DataSelected} || 'AgentTicketEmail';
             # redirect
             return $Self->{LayoutObject}->Redirect(
                 OP => "Action=$NextScreen&Subaction=Created&TicketID=$TicketID",
@@ -1152,4 +1155,5 @@ sub _MaskEmailNew {
     # get output back
     return $Self->{LayoutObject}->Output(TemplateFile => 'AgentTicketEmail', Data => \%Param);
 }
+
 1;

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.19 2006-08-29 17:17:24 martin Exp $
+# $Id: AgentTicketQueue.pm,v 1.20 2006-09-29 13:06:25 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.19 $';
+$VERSION = '$Revision: 1.20 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -53,7 +53,8 @@ sub new {
            || die 'No Config entry "Ticket::ViewableSenderTypes"!';
     $Self->{CustomQueue} = $Self->{ConfigObject}->Get('Ticket::CustomQueue') || '???';
     # default viewable tickets a page
-    $Self->{ViewableTickets} = $Self->{UserQueueViewShowTickets} || $Self->{ConfigObject}->Get('PreferencesGroups')->{QueueViewShownTickets}->{DataSelected} || 15;
+    $Self->{ViewableTickets} = $Self->{UserQueueViewShowTickets} ||
+        $Self->{ConfigObject}->Get('PreferencesGroups')->{QueueViewShownTickets}->{DataSelected} || 15;
 
     # --
     # get params
@@ -83,7 +84,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -217,7 +218,6 @@ sub Run {
         TicketFreeText15 => 'st.freetext15',
         TicketFreeKey16  => 'st.freekey16',
         TicketFreeText16 => 'st.freetext16',
-
     );
 
     my $Order = $Self->{ConfigObject}->Get('Ticket::Frontend::QueueOrder::Default') || 'Up';
@@ -290,9 +290,7 @@ sub Run {
     # return page
     return $Output;
 }
-# --
-# ShowTicket
-# --
+
 sub ShowTicket {
     my $Self = shift;
     my %Param = @_;
@@ -371,7 +369,7 @@ sub ShowTicket {
             );
         }
     }
-    foreach (qw(1 2 3 4 5)) {
+    foreach (1..3) {
         if ($Article{"FreeText$_"}) {
             $Self->{LayoutObject}->Block(
                 Name => 'ArticleFreeText',
@@ -388,23 +386,23 @@ sub ShowTicket {
     # prepare escalation time
     # --
     if ($Article{TicketOverTime}) {
-      if ($Article{TicketOverTime} <= -60*20) {
-          $Param{TicketOverTimeFont} = "<font color='$Self->{HighlightColor2}'>";
-          $Param{TicketOverTimeFontEnd} = '</font>';
-      }
-      elsif ($Article{TicketOverTime} <= -60*40) {
-          $Param{TicketOverTimeFont} = "<font color='$Self->{HighlightColor1}'>";
-          $Param{TicketOverTimeFontEnd} = '</font>';
-      }
-      # create string
-      $Article{TicketOverTime} = $Self->{LayoutObject}->CustomerAge(
-          Age => $Article{TicketOverTime},
-          Space => '<br>',
-      );
-      if ($Param{TicketOverTimeFont} && $Param{TicketOverTimeFontEnd}) {
-        $Article{TicketOverTime} = $Param{TicketOverTimeFont}.
-            $Article{TicketOverTime}.$Param{TicketOverTimeFontEnd};
-      }
+        if ($Article{TicketOverTime} <= -60*20) {
+            $Param{TicketOverTimeFont} = "<font color='$Self->{HighlightColor2}'>";
+            $Param{TicketOverTimeFontEnd} = '</font>';
+        }
+        elsif ($Article{TicketOverTime} <= -60*40) {
+            $Param{TicketOverTimeFont} = "<font color='$Self->{HighlightColor1}'>";
+            $Param{TicketOverTimeFontEnd} = '</font>';
+        }
+        # create string
+        $Article{TicketOverTime} = $Self->{LayoutObject}->CustomerAge(
+            Age => $Article{TicketOverTime},
+            Space => '<br>',
+        );
+        if ($Param{TicketOverTimeFont} && $Param{TicketOverTimeFontEnd}) {
+            $Article{TicketOverTime} = $Param{TicketOverTimeFont}.
+                $Article{TicketOverTime}.$Param{TicketOverTimeFontEnd};
+        }
     }
     else {
         $Article{TicketOverTime} = '$Text{"none"}';
@@ -540,7 +538,7 @@ sub ShowTicket {
         );
     }
 }
-# --
+
 sub BuildQueueView {
     my $Self = shift;
     my %Param = @_;
@@ -578,7 +576,7 @@ sub BuildQueueView {
         ViewableTickets => $Self->{ViewableTickets},
     );
 }
-# --
+
 sub _MaskQueueView {
     my $Self = shift;
     my %Param = @_;
@@ -734,13 +732,13 @@ sub _MaskQueueView {
                 $QueueStrg .= '</b>';
             }
             if ($#QueueName == 1 && $#MetaQueue >= 1 && $Queue{Queue} =~ /^$MetaQueue[0]::$MetaQueue[1]$/) {
-               $QueueStrg .= '</b>';
+                $QueueStrg .= '</b>';
             }
             if ($#QueueName == 2 && $#MetaQueue >= 2 && $Queue{Queue} =~ /^$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]$/) {
-               $QueueStrg .= '</b>';
+                $QueueStrg .= '</b>';
             }
             if ($#QueueName == 3 && $#MetaQueue >= 3 && $Queue{Queue} =~ /^$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]::$MetaQueue[3]$/) {
-               $QueueStrg .= '</b>';
+                $QueueStrg .= '</b>';
             }
         }
 
@@ -780,5 +778,5 @@ sub _MaskQueueView {
     );
     return 1;
 }
-# --
+
 1;

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.22 2006-08-29 17:17:24 martin Exp $
+# $Id: AgentTicketPhone.pm,v 1.23 2006-09-29 13:06:25 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22 $';
+$VERSION = '$Revision: 1.23 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -259,7 +259,9 @@ sub Run {
         if (!$NewQueueID) {
             $AllUsers = 1;
         }
-        my $CustomerUser = $Self->{ParamObject}->GetParam(Param => 'CustomerUser') ||  $Self->{ParamObject}->GetParam(Param => 'PreSelectedCustomerUser') || $Self->{ParamObject}->GetParam(Param => 'SelectedCustomerUser') || '';
+        my $CustomerUser = $Self->{ParamObject}->GetParam(Param => 'CustomerUser') ||
+            $Self->{ParamObject}->GetParam(Param => 'PreSelectedCustomerUser') ||
+            $Self->{ParamObject}->GetParam(Param => 'SelectedCustomerUser') || '';
         my $SelectedCustomerUser = $Self->{ParamObject}->GetParam(Param => 'SelectedCustomerUser') || '';
         my $CustomerID = $Self->{ParamObject}->GetParam(Param => 'CustomerID') || '';
         my $ExpandCustomerName = $Self->{ParamObject}->GetParam(Param => 'ExpandCustomerName') || 0;
@@ -366,7 +368,7 @@ sub Run {
                 Config => \%ArticleFreeText,
                 Article => \%GetParam,
             );
-        # Expand Customer Name
+        # expand customer name
         my %CustomerUserData = ();
         if ($ExpandCustomerName == 1) {
             # search customer
@@ -570,7 +572,7 @@ sub Run {
                         );
                     }
                 }
-                foreach (qw(1 2 3 4 5)) {
+                foreach (1..3) {
                     if ($Article{"FreeText$_"}) {
                         $Self->{LayoutObject}->Block(
                             Name => 'ArticleFreeText',
@@ -658,10 +660,10 @@ sub Run {
             HistoryComment => $Self->{Config}->{HistoryComment} || '%%',
             AutoResponseType => 'auto reply',
             OrigHeader => {
-              From => $GetParam{From},
-              To => $GetParam{To},
-              Subject => $GetParam{Subject},
-              Body => $GetParam{Body},
+                From => $GetParam{From},
+                To => $GetParam{To},
+                Subject => $GetParam{Subject},
+                Body => $GetParam{Body},
             },
             Queue => $Self->{QueueObject}->QueueLookup(QueueID => $NewQueueID),
         )) {
@@ -744,7 +746,8 @@ sub Run {
                 );
             }
             # get redirect screen
-            my $NextScreen = $Self->{UserCreateNextMask} || $Self->{ConfigObject}->Get('PreferencesGroups')->{CreateNextMask}->{DataSelected} || 'AgentTicketPhone';
+            my $NextScreen = $Self->{UserCreateNextMask} ||
+                $Self->{ConfigObject}->Get('PreferencesGroups')->{CreateNextMask}->{DataSelected} || 'AgentTicketPhone';
             # redirect
             return $Self->{LayoutObject}->Redirect(
                 OP => "Action=$NextScreen&Subaction=Created&TicketID=$TicketID",
