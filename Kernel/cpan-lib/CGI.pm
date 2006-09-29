@@ -4,7 +4,7 @@ use Carp 'croak';
 
 # See the bottom of this file for the POD documentation.  Search for the
 # string '=head'.
-
+ 
 # You can run this file through either pod2man or pod2html to produce pretty
 # documentation in manual or html file format (these utilities are part of the
 # Perl 5 distribution).
@@ -18,7 +18,7 @@ use Carp 'croak';
 # The most recent version and complete docs are available at:
 #   http://stein.cshl.org/WWW/software/CGI/
 
-$CGI::revision = '$Id: CGI.pm,v 1.7 2006-09-29 13:32:46 mh Exp $';
+$CGI::revision = '$Id: CGI.pm,v 1.8 2006-09-29 13:39:01 mh Exp $';
 $CGI::VERSION='3.25';
 
 # HARD-CODED LOCATION FOR FILE UPLOAD TEMPORARY FILES.
