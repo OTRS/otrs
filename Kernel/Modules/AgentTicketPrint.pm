@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - to get a closer view
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPrint.pm,v 1.28 2006-09-28 14:11:33 mh Exp $
+# $Id: AgentTicketPrint.pm,v 1.29 2006-09-29 07:53:32 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.28 $';
+$VERSION = '$Revision: 1.29 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -183,7 +183,7 @@ sub Run {
             LinkData => \%Links,
         );
         # output freetext fields
-        $Self->_PDFOutputFreeTextFields();  # TODO
+        $Self->_PDFOutputFreeTextFields();  # TODO add feature
         # output customer infos
         if (%CustomerData) {
             $Self->_PDFOutputCustomerInfos(
@@ -327,8 +327,10 @@ sub _PDFOutputTicketInfos {
     $TableParam{CellData}[5][4]{Content} = ' ';
 
     $TableParam{ColumnData}[0]{Width} = 80;
+    $TableParam{ColumnData}[1]{Width} = 170.5;
     $TableParam{ColumnData}[2]{Width} = 4;
     $TableParam{ColumnData}[3]{Width} = 80;
+    $TableParam{ColumnData}[4]{Width} = 170.5;
 
     $TableParam{Type} = 'Cut';
     $TableParam{Border} = 0;
@@ -418,6 +420,7 @@ sub _PDFOutputLinkedObjects {
             $Row++;
         }
         $TableParam{ColumnData}[0]{Width} = 80;
+        $TableParam{ColumnData}[1]{Width} = 431;
 
         # set new position
         $Self->{PDFObject}->PositionSet(
@@ -468,7 +471,7 @@ sub _PDFOutputLinkedObjects {
     }
 }
 
-sub _PDFOutputFreeTextFields { # TODO make
+sub _PDFOutputFreeTextFields { # TODO add feature
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
@@ -505,6 +508,7 @@ sub _PDFOutputCustomerInfos {
         }
     }
     $TableParam{ColumnData}[0]{Width} = 80;
+    $TableParam{ColumnData}[1]{Width} = 431;
 
     # set new position
     $Self->{PDFObject}->PositionSet(
@@ -634,6 +638,7 @@ sub _PDFOutputArticles {
             $TableParam1{CellData}[$Row][1]{Content} = $Attachments;
         }
         $TableParam1{ColumnData}[0]{Width} = 80;
+        $TableParam1{ColumnData}[1]{Width} = 431;
 
         $Self->{PDFObject}->PositionSet(
             Move => 'relativ',
