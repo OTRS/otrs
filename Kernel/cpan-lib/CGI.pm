@@ -18,8 +18,8 @@ use Carp 'croak';
 # The most recent version and complete docs are available at:
 #   http://stein.cshl.org/WWW/software/CGI/
 
-$CGI::revision = '$Id: CGI.pm,v 1.6 2006-09-07 08:52:26 mh Exp $';
-$CGI::VERSION='3.23';
+$CGI::revision = '$Id: CGI.pm,v 1.7 2006-09-29 13:32:46 mh Exp $';
+$CGI::VERSION='3.25';
 
 # HARD-CODED LOCATION FOR FILE UPLOAD TEMPORARY FILES.
 # UNCOMMENT THIS ONLY IF YOU KNOW WHAT YOU'RE DOING.
@@ -1653,6 +1653,7 @@ sub _style {
     my ($self,$style) = @_;
     my (@result);
     my $type = 'text/css';
+    my $rel  = 'stylesheet';
 
     my $cdata_start = $XHTML ? "\n<!--/* <![CDATA[ */" : "\n<!-- ";
     my $cdata_end   = $XHTML ? "\n/* ]]> */-->\n" : " -->\n";
@@ -1661,25 +1662,26 @@ sub _style {
 
     for my $s (@s) {
       if (ref($s)) {
-       my($src,$code,$verbatim,$stype,$foo,@other) =
-           rearrange([qw(SRC CODE VERBATIM TYPE FOO)],
+       my($src,$code,$verbatim,$stype,$alternate,$foo,@other) =
+           rearrange([qw(SRC CODE VERBATIM TYPE ALTERNATE FOO)],
                       ('-foo'=>'bar',
                        ref($s) eq 'ARRAY' ? @$s : %$s));
        $type  = $stype if $stype;
+       $rel   = 'alternate stylesheet' if $alternate;
        my $other = @other ? join ' ',@other : '';
 
        if (ref($src) eq "ARRAY") # Check to see if the $src variable is an array reference
        { # If it is, push a LINK tag for each one
            foreach $src (@$src)
          {
-           push(@result,$XHTML ? qq(<link rel="stylesheet" type="$type" href="$src" $other/>)
-                             : qq(<link rel="stylesheet" type="$type" href="$src"$other>)) if $src;
+           push(@result,$XHTML ? qq(<link rel="$rel" type="$type" href="$src" $other/>)
+                             : qq(<link rel="$rel" type="$type" href="$src"$other>)) if $src;
          }
        }
        else
        { # Otherwise, push the single -src, if it exists.
-         push(@result,$XHTML ? qq(<link rel="stylesheet" type="$type" href="$src" $other/>)
-                             : qq(<link rel="stylesheet" type="$type" href="$src"$other>)
+         push(@result,$XHTML ? qq(<link rel="$rel" type="$type" href="$src" $other/>)
+                             : qq(<link rel="$rel" type="$type" href="$src"$other>)
               ) if $src;
         }
      if ($verbatim) {
@@ -1691,8 +1693,8 @@ sub _style {
 
       } else {
            my $src = $s;
-           push(@result,$XHTML ? qq(<link rel="stylesheet" type="$type" href="$src" $other/>)
-                               : qq(<link rel="stylesheet" type="$type" href="$src"$other>));
+           push(@result,$XHTML ? qq(<link rel="$rel" type="$type" href="$src" $other/>)
+                               : qq(<link rel="$rel" type="$type" href="$src"$other>));
       }
     }
     @result;
@@ -1798,7 +1800,7 @@ sub startform {
        $action = $self->escapeHTML($action);
     }
     else {
-       $action = $self->escapeHTML($self->request_uri);
+       $action = $self->escapeHTML($self->request_uri || $self->self_url);
     }
     $action = qq(action="$action");
     my($other) = @other ? " @other" : '';
@@ -2591,7 +2593,7 @@ sub image_button {
     my($name,$src,$alignment,@other) =
 	rearrange([NAME,SRC,ALIGN],@p);
 
-    my($align) = $alignment ? " align=\U\"$alignment\"" : '';
+    my($align) = $alignment ? " align=\L\"$alignment\"" : '';
     my($other) = @other ? " @other" : '';
     $name=$self->escapeHTML($name);
     return $XHTML ? qq(<input type="image" name="$name" src="$src"$align$other />)
@@ -6664,6 +6666,7 @@ SSL session.
 The cookie created by cookie() must be incorporated into the HTTP
 header within the string returned by the header() method:
 
+        use CGI ':standard';
 	print header(-cookie=>$my_cookie);
 
 To create multiple cookies, give header() an array reference:
@@ -6675,12 +6678,13 @@ To create multiple cookies, give header() an array reference:
 	print header(-cookie=>[$cookie1,$cookie2]);
 
 To retrieve a cookie, request it by name by calling cookie() method
-without the B<-value> parameter:
+without the B<-value> parameter. This example uses the object-oriented
+form:
 
 	use CGI;
 	$query = new CGI;
-	$riddle = cookie('riddle_name');
-        %answers = cookie('answers');
+	$riddle = $query->cookie('riddle_name');
+        %answers = $query->cookie('answers');
 
 Cookies created with a single scalar value, such as the "riddle_name"
 cookie, will be returned in that form.  Cookies with array and hash
@@ -6723,7 +6727,7 @@ There is no specific support for creating <frameset> sections
 in CGI.pm, but the HTML is very simple to write.  See the frame
 documentation in Netscape's home pages for details 
 
-  http://home.netscape.com/assist/net_sites/frames.html
+  http://wp.netscape.com/assist/net_sites/frames.html
 
 =item 2. Specify the destination for the document in the HTTP header
 
@@ -7014,6 +7018,14 @@ and pass it to start_html() in the -head argument, as in:
   @h = (Link({-rel=>'stylesheet',-type=>'text/css',-src=>'/ss/ss.css',-media=>'all'}),
         Link({-rel=>'stylesheet',-type=>'text/css',-src=>'/ss/fred.css',-media=>'paper'}));
   print start_html({-head=>\@h})
+
+To create primary and  "alternate" stylesheet, use the B<-alternate> option:
+
+ start_html(-style=>{-src=>[
+                           {-src=>'/styles/print.css'},
+			   {-src=>'/styles/alt.css',-alternate=>1}
+                           ]
+		    });
 
 =head1 DEBUGGING
 
