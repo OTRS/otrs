@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.15 2006-08-29 17:17:24 martin Exp $
+# $Id: AgentTicketForward.pm,v 1.16 2006-09-29 16:16:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,10 +20,9 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.15 $';
+$VERSION = '$Revision: 1.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -41,7 +40,8 @@ sub new {
 
     # check all needed objects
     foreach (qw(TicketObject ParamObject DBObject QueueObject LayoutObject
-      ConfigObject LogObject)) {
+        ConfigObject LogObject)
+    ) {
         die "Got no $_" if (!$Self->{$_});
     }
     # some new objects
@@ -52,17 +52,18 @@ sub new {
     $Self->{UploadCachObject} = Kernel::System::Web::UploadCache->new(%Param);
     # get params
     foreach (qw(From To Cc Bcc Subject Body InReplyTo ComposeStateID ArticleTypeID
-      ArticleID TimeUnits Year Month Day Hour Minute AttachmentUpload
-      AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
-      AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
-      AttachmentDelete9 AttachmentDelete10 AttachmentDelete11 AttachmentDelete12
-      AttachmentDelete13 AttachmentDelete14 AttachmentDelete15 AttachmentDelete16
-        FormID)) {
+        ArticleID TimeUnits Year Month Day Hour Minute AttachmentUpload
+        AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
+        AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
+        AttachmentDelete9 AttachmentDelete10 AttachmentDelete11 AttachmentDelete12
+        AttachmentDelete13 AttachmentDelete14 AttachmentDelete15 AttachmentDelete16
+        FormID)
+    ) {
         my $Value = $Self->{ParamObject}->GetParam(Param => $_);
 #        $Self->{GetParam}->{$_} = defined $Value ? $Value : '';
-       if (defined($Value)) {
-           $Self->{GetParam}->{$_} = $Value;
-       }
+        if (defined($Value)) {
+            $Self->{GetParam}->{$_} = $Value;
+        }
     }
     # create form id
     if (!$Self->{GetParam}->{FormID}) {
@@ -73,7 +74,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -87,7 +88,7 @@ sub Run {
     }
     return $Output;
 }
-# --
+
 sub Form {
     my $Self = shift;
     my %Param = @_;
@@ -97,8 +98,8 @@ sub Form {
     # check needed stuff
     if (!$Self->{TicketID}) {
         return $Self->{LayoutObject}->ErrorScreen(
-                Message => "Got no TicketID!",
-                Comment => 'System Error!',
+            Message => "Got no TicketID!",
+            Comment => 'System Error!',
         );
     }
     # get ticket data
@@ -371,7 +372,7 @@ sub Form {
 
     return $Output;
 }
-# --
+
 sub SendEmail {
     my $Self = shift;
     my %Param = @_;
@@ -480,32 +481,32 @@ sub SendEmail {
     }
 
     my %ArticleParam = ();
-        # run compose modules
-        if (ref($Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule')) eq 'HASH') {
-            my %Jobs = %{$Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule')};
-            foreach my $Job (sort keys %Jobs) {
-                # load module
-                if ($Self->{MainObject}->Require($Jobs{$Job}->{Module})) {
-                    my $Object = $Jobs{$Job}->{Module}->new(
-                        %{$Self},
-                        Debug => $Self->{Debug},
-                    );
-                    # get params
-                    foreach ($Object->Option(%GetParam, Config => $Jobs{$Job})) {
-                        $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
-                    }
-                    # run module
-                    $Object->Run(%GetParam, Config => $Jobs{$Job});
-                    # ticket params
-                    %ArticleParam = (%ArticleParam, $Object->ArticleOption(%GetParam, Config => $Jobs{$Job}));
-                    # get errors
-                    %Error = (%Error, $Object->Error(%GetParam, Config => $Jobs{$Job}));
+    # run compose modules
+    if (ref($Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule')) eq 'HASH') {
+        my %Jobs = %{$Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule')};
+        foreach my $Job (sort keys %Jobs) {
+            # load module
+            if ($Self->{MainObject}->Require($Jobs{$Job}->{Module})) {
+                my $Object = $Jobs{$Job}->{Module}->new(
+                    %{$Self},
+                    Debug => $Self->{Debug},
+                );
+                # get params
+                foreach ($Object->Option(%GetParam, Config => $Jobs{$Job})) {
+                    $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
                 }
-                else {
-                    return $Self->{LayoutObject}->FatalError();
-                }
+                # run module
+                $Object->Run(%GetParam, Config => $Jobs{$Job});
+                # ticket params
+                %ArticleParam = (%ArticleParam, $Object->ArticleOption(%GetParam, Config => $Jobs{$Job}));
+                # get errors
+                %Error = (%Error, $Object->Error(%GetParam, Config => $Jobs{$Job}));
+            }
+            else {
+                return $Self->{LayoutObject}->FatalError();
             }
         }
+    }
     # --
     # check if there is an error
     # --
@@ -622,13 +623,13 @@ sub SendEmail {
         }
     }
     else {
-      # error page
-      return $Self->{LayoutObject}->ErrorScreen(
-          Comment => 'Please contact the admin.',
-      );
+        # error page
+        return $Self->{LayoutObject}->ErrorScreen(
+            Comment => 'Please contact the admin.',
+        );
     }
 }
-# --
+
 sub _GetNextStates {
     my $Self = shift;
     my %Param = @_;
@@ -640,7 +641,7 @@ sub _GetNextStates {
     );
     return \%NextStates;
 }
-# --
+
 sub _Mask {
     my $Self = shift;
     my %Param = @_;
@@ -753,5 +754,5 @@ sub _Mask {
     # create & return output
     return $Self->{LayoutObject}->Output(TemplateFile => 'AgentTicketForward', Data => \%Param);
 }
-# --
+
 1;
