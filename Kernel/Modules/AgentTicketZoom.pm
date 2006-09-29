@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.25 2006-09-29 12:53:50 mh Exp $
+# $Id: AgentTicketZoom.pm,v 1.26 2006-09-29 13:09:51 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -433,12 +433,12 @@ sub MaskAgentZoom {
                 if ($Article{ArticleType} !~ /^email-notification/i) {
                     $CounterTree++;
                     my $TmpSubject = $Self->{TicketObject}->TicketSubjectClean(
-                            TicketNumber => $Article{TicketNumber},
-                            Subject => $Article{Subject} || '',
+                        TicketNumber => $Article{TicketNumber},
+                        Subject => $Article{Subject} || '',
                     );
                     if ($LastSenderType ne $Article{SenderType}) {
-                            $Counter .= "&nbsp;";
-                            $Space = "$Counter&nbsp;|--&gt;";
+                        $Counter .= "&nbsp;";
+                        $Space = "$Counter&nbsp;|--&gt;";
                     }
                     $LastSenderType = $Article{SenderType};
                     # if this is the shown article -=> add <b>
@@ -689,5 +689,5 @@ sub MaskAgentZoom {
         Data => {%Param, %AclAction},
     );
 }
-# --
+
 1;
