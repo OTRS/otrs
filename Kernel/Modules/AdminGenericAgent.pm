@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.32 2006-09-19 06:15:42 tr Exp $
+# $Id: AdminGenericAgent.pm,v 1.33 2006-09-29 16:05:25 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,10 +18,9 @@ use Kernel::System::Lock;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.33 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -48,7 +47,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self   = shift;
     my %Param  = @_;
@@ -125,7 +124,6 @@ sub Run {
             NewLockID NewDelete NewCMD NewSendNoNotification
             ScheduleLastRun Valid
         )) {
-
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
             # remove white space on the end
             if ($GetParam{$_}) {
@@ -168,7 +166,7 @@ sub Run {
             }
         }
 
-        # get  free field params
+        # get free field params
         foreach my $ID (1..16) {
             # get search array params for free key (get submitted params)
             if ($Self->{ParamObject}->GetArray(Param => "TicketFreeKey$ID")) {
