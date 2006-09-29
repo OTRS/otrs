@@ -2,7 +2,7 @@
 # XML.t - XML tests
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XML.t,v 1.5 2006-09-27 12:17:02 martin Exp $
+# $Id: XML.t,v 1.6 2006-09-29 14:22:47 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,8 +20,10 @@ my $String = '
       <Email type="secundary">sales@example.com</Email>
       <Telephone country="germany">+49-999-99999</Telephone>
       <Telephone2></Telephone2>
+      <SpecialCharacters>\'</SpecialCharacters>
     </Contact>
 ';
+#       <Germantext>Alle Deutschen Umlaute öäü ÄÜÖ ß</Germantext>
 
 my @XMLHash = $Self->{XMLObject}->XMLParse2XMLHash(String => $String);
 $Self->True(
