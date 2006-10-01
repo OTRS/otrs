@@ -2,7 +2,7 @@
 # PDF.t - PDF tests
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: PDF.t,v 1.7 2006-09-28 16:30:10 mh Exp $
+# $Id: PDF.t,v 1.8 2006-10-01 13:16:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -58,16 +58,20 @@ $Self->True(
     "PageNew1()",
 );
 
-# test _StringWidth()
-my $StringWidthText = 'Das ist der Testtext.';
-my @StringWidthReturn = (120,114,108,102,96,90,84,78,72,66,60,54,48,42,36,30,24,18,12,6,0);
+# test _StringWidth() - test width calculation
+my $StringWidthText = 'abcikwAXIJWZ 123 öäüß !$-';
+my @StringWidthReturn = (
+    123.38, 117.82, 115.04, 112.26, 106.15, 100.59, 95.03, 89.47, 86.69, 81.13,
+    75.57, 70.01, 67.23, 61.12, 51.68, 46.68, 43.9, 37.23, 30.56, 23.34, 18.34,
+    16.12, 11.12, 5.56, 0
+);
 
 my $C1 = 0;
 while (chop($StringWidthText)) {
     my $TestOk = 0;
     my $Width = $Self->{PDFObject}->_StringWidth(
         Text => $StringWidthText,
-        Font => 'Courier',
+        Font => 'Helvetica',
         FontSize => 10,
     );
 
@@ -88,182 +92,184 @@ while (chop($StringWidthText)) {
 # test _TextCalculate()
 my %TextCalculateData;
 
-# test0
-$TextCalculateData{0}{Text} = 'Der Raumtransporter "Discovery" hat heute Nachmittag um 16.52 Uhr MESZ an der ISS angedockt.';
+# test0 - test new line calculation with spaces
+$TextCalculateData{0}{Text} = 'US    Space   Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 $TextCalculateData{0}{Type} = 'ReturnLeftOverHard';
 $TextCalculateData{0}{State} = 1;
-$TextCalculateData{0}{RequiredWidth} = 96.7;
+$TextCalculateData{0}{RequiredWidth} = 96.71;
 $TextCalculateData{0}{RequiredHeight} = 50;
 $TextCalculateData{0}{LeftOver} = '';
-$TextCalculateData{0}{PossibleRows}{0} = 'Der Raumtransporter';
-$TextCalculateData{0}{PossibleRows}{1} = '"Discovery" hat heute';
-$TextCalculateData{0}{PossibleRows}{2} = 'Nachmittag um 16.52';
-$TextCalculateData{0}{PossibleRows}{3} = 'Uhr MESZ an der ISS';
-$TextCalculateData{0}{PossibleRows}{4} = 'angedockt.';
+$TextCalculateData{0}{PossibleRows}{0} = 'US    Space   Shuttle';
+$TextCalculateData{0}{PossibleRows}{1} = 'Atlantis and her STS-';
+$TextCalculateData{0}{PossibleRows}{2} = '115 crew safely lande';
+$TextCalculateData{0}{PossibleRows}{3} = 'd today at Kennedy S';
+$TextCalculateData{0}{PossibleRows}{4} = 'pace Center.';
 
-# test1
-$TextCalculateData{1}{Text} = 'Der Raumtransporteri  "Discovery" hat am heutigen Nachmittag um 16.52 Uhr MESZ an der ISS angedockt.';
+# test1 - test new line calculation with spaces
+$TextCalculateData{1}{Text} = ' US   Space   Shuttle  Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 $TextCalculateData{1}{Type} = 'ReturnLeftOverHard';
 $TextCalculateData{1}{State} = 1;
-$TextCalculateData{1}{RequiredWidth} = 98.24;
+$TextCalculateData{1}{RequiredWidth} = 96.71;
 $TextCalculateData{1}{RequiredHeight} = 50;
 $TextCalculateData{1}{LeftOver} = '';
-$TextCalculateData{1}{PossibleRows}{0} = 'Der Raumtransporteri';
-$TextCalculateData{1}{PossibleRows}{1} = '"Discovery" hat am he';
-$TextCalculateData{1}{PossibleRows}{2} = 'utigen Nachmittag um';
-$TextCalculateData{1}{PossibleRows}{3} = '16.52 Uhr MESZ an d';
-$TextCalculateData{1}{PossibleRows}{4} = 'er ISS angedockt.';
+$TextCalculateData{1}{PossibleRows}{0} = 'US   Space   Shuttle ';
+$TextCalculateData{1}{PossibleRows}{1} = 'Atlantis and her STS-';
+$TextCalculateData{1}{PossibleRows}{2} = '115 crew safely lande';
+$TextCalculateData{1}{PossibleRows}{3} = 'd today at Kennedy S';
+$TextCalculateData{1}{PossibleRows}{4} = 'pace Center.';
 
-# test2
-$TextCalculateData{2}{Text} = 'Der Raumtransporter Discovery hat heute Nachmittag um 16.52 Uhr MESZ an der ISS angedockt.';
+# test2 - test LeftOver function
+$TextCalculateData{2}{Text} = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 $TextCalculateData{2}{Type} = 'ReturnLeftOverHard';
 $TextCalculateData{2}{Width} = 30,
 $TextCalculateData{2}{Height} = 105,
 $TextCalculateData{2}{State} = 0;
 $TextCalculateData{2}{RequiredWidth} = 29.45;
 $TextCalculateData{2}{RequiredHeight} = 100;
-$TextCalculateData{2}{LeftOver} = '.52 Uhr MESZ an der ISS angedockt.';
-$TextCalculateData{2}{PossibleRows}{0} = 'Der R';
-$TextCalculateData{2}{PossibleRows}{1} = 'aumtr';
-$TextCalculateData{2}{PossibleRows}{2} = 'anspo';
-$TextCalculateData{2}{PossibleRows}{3} = 'rter Di';
-$TextCalculateData{2}{PossibleRows}{4} = 'scover';
-$TextCalculateData{2}{PossibleRows}{5} = 'y hat';
-$TextCalculateData{2}{PossibleRows}{6} = 'heute';
-$TextCalculateData{2}{PossibleRows}{7} = 'Nach';
-$TextCalculateData{2}{PossibleRows}{8} = 'mittag';
-$TextCalculateData{2}{PossibleRows}{9} = 'um 16';
+$TextCalculateData{2}{LeftOver} = 'd today at Kennedy Space Center.';
+$TextCalculateData{2}{PossibleRows}{0} = 'US Sp';
+$TextCalculateData{2}{PossibleRows}{1} = 'ace S';
+$TextCalculateData{2}{PossibleRows}{2} = 'huttle';
+$TextCalculateData{2}{PossibleRows}{3} = 'Atlanti';
+$TextCalculateData{2}{PossibleRows}{4} = 's and';
+$TextCalculateData{2}{PossibleRows}{5} = 'her S';
+$TextCalculateData{2}{PossibleRows}{6} = 'TS-11';
+$TextCalculateData{2}{PossibleRows}{7} = '5 crew';
+$TextCalculateData{2}{PossibleRows}{8} = 'safely';
+$TextCalculateData{2}{PossibleRows}{9} = 'lande';
 
-# test3
-$TextCalculateData{3}{Text} = 'Der Raumtransporter "Discovery" hat heute Nachmittag um 16.52 Uhr MESZ an der ISS angedockt.';
+# test3 - test Width and Height
+$TextCalculateData{3}{Text} = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 $TextCalculateData{3}{Type} = 'ReturnLeftOverHard';
 $TextCalculateData{3}{Width} = 1,
 $TextCalculateData{3}{Height} = 1,
 $TextCalculateData{3}{State} = 0;
 $TextCalculateData{3}{RequiredWidth} = 0;
 $TextCalculateData{3}{RequiredHeight} = 0;
-$TextCalculateData{3}{LeftOver} = 'Der Raumtransporter "Discovery" hat heute Nachmittag um 16.52 Uhr MESZ an der ISS angedockt.';
+$TextCalculateData{3}{LeftOver} = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 
-# test4
-$TextCalculateData{4}{Text} = 'Der Raumtransporter "Discovery" hat heute Nachmittag um 16.52 Uhr MESZ an der ISS angedockt.';
+# test4 - test Width and Height
+$TextCalculateData{4}{Text} = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 $TextCalculateData{4}{Type} = 'ReturnLeftOverHard';
 $TextCalculateData{4}{Width} = 0,
 $TextCalculateData{4}{Height} = 0,
 $TextCalculateData{4}{State} = 0;
 $TextCalculateData{4}{RequiredWidth} = 0;
 $TextCalculateData{4}{RequiredHeight} = 0;
-$TextCalculateData{4}{LeftOver} = 'Der Raumtransporter "Discovery" hat heute Nachmittag um 16.52 Uhr MESZ an der ISS angedockt.';
+$TextCalculateData{4}{LeftOver} = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 
-# test5
-$TextCalculateData{5}{Text} = 'Der Raumtransporter Discovery hat heute Nachmittag um 16.52 Uhr MESZ an der ISS angedockt.';
+# test5 - test new line calculation
+$TextCalculateData{5}{Text} = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 $TextCalculateData{5}{Type} = 'ReturnLeftOver';
 $TextCalculateData{5}{State} = 1;
-$TextCalculateData{5}{RequiredWidth} = 96.7;
-$TextCalculateData{5}{RequiredHeight} = 50;
+$TextCalculateData{5}{RequiredWidth} = 92.25;
+$TextCalculateData{5}{RequiredHeight} = 60;
 $TextCalculateData{5}{LeftOver} = '';
-$TextCalculateData{5}{PossibleRows}{0} = 'Der Raumtransporter';
-$TextCalculateData{5}{PossibleRows}{1} = 'Discovery hat heute';
-$TextCalculateData{5}{PossibleRows}{2} = 'Nachmittag um 16.52';
-$TextCalculateData{5}{PossibleRows}{3} = 'Uhr MESZ an der ISS';
-$TextCalculateData{5}{PossibleRows}{4} = 'angedockt.';
+$TextCalculateData{5}{PossibleRows}{0} = 'US Space Shuttle';
+$TextCalculateData{5}{PossibleRows}{1} = 'Atlantis and her';
+$TextCalculateData{5}{PossibleRows}{2} = 'STS-115 crew safely';
+$TextCalculateData{5}{PossibleRows}{3} = 'landed today at';
+$TextCalculateData{5}{PossibleRows}{4} = 'Kennedy Space';
+$TextCalculateData{5}{PossibleRows}{5} = 'Center.';
 
-# test6
-$TextCalculateData{6}{Text} = 'Der Raumtransporter Discovery hat heute Nachmittag um 16.52 Uhr MESZ an der ISS angedockt.';
+# test6 - test new line and LeftOver calculation
+$TextCalculateData{6}{Text} = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 $TextCalculateData{6}{Type} = 'ReturnLeftOver';
 $TextCalculateData{6}{Width} = 30,
 $TextCalculateData{6}{Height} = 53,
 $TextCalculateData{6}{State} = 0;
-$TextCalculateData{6}{RequiredWidth} = 30;
+$TextCalculateData{6}{RequiredWidth} = 28.35;
 $TextCalculateData{6}{RequiredHeight} = 50;
-$TextCalculateData{6}{LeftOver} = 'ery hat heute Nachmittag um 16.52 Uhr MESZ an der ISS angedockt.';
-$TextCalculateData{6}{PossibleRows}{0} = 'Der';
-$TextCalculateData{6}{PossibleRows}{1} = 'Raumt';
-$TextCalculateData{6}{PossibleRows}{2} = 'ransp';
-$TextCalculateData{6}{PossibleRows}{3} = 'orter';
-$TextCalculateData{6}{PossibleRows}{4} = 'Discov';
+$TextCalculateData{6}{LeftOver} = 's and her STS-115 crew safely landed today at Kennedy Space Center.';
+$TextCalculateData{6}{PossibleRows}{0} = 'US';
+$TextCalculateData{6}{PossibleRows}{1} = 'Space';
+$TextCalculateData{6}{PossibleRows}{2} = 'Shuttl';
+$TextCalculateData{6}{PossibleRows}{3} = 'e';
+$TextCalculateData{6}{PossibleRows}{4} = 'Atlanti';
 
-# test7
-$TextCalculateData{7}{Text} = 'Der Raumtransporter "Discovery" hat heute Nachmittag um 16.52 Uhr MESZ an der ISS angedockt.';
+# test7 - test Width and Height
+$TextCalculateData{7}{Text} = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 $TextCalculateData{7}{Type} = 'ReturnLeftOver';
 $TextCalculateData{7}{Width} = 1,
 $TextCalculateData{7}{Height} = 1,
 $TextCalculateData{7}{State} = 0;
 $TextCalculateData{7}{RequiredWidth} = 0;
 $TextCalculateData{7}{RequiredHeight} = 0;
-$TextCalculateData{7}{LeftOver} = 'Der Raumtransporter "Discovery" hat heute Nachmittag um 16.52 Uhr MESZ an der ISS angedockt.';
+$TextCalculateData{7}{LeftOver} = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 
-# test8
-$TextCalculateData{8}{Text} = 'Der Raumtransporter "Discovery" hat heute Nachmittag um 16.52 Uhr MESZ an der ISS angedockt.';
+# test8 - test Width and Height
+$TextCalculateData{8}{Text} = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 $TextCalculateData{8}{Type} = 'ReturnLeftOver';
 $TextCalculateData{8}{Width} = 0,
 $TextCalculateData{8}{Height} = 0,
 $TextCalculateData{8}{State} = 0;
 $TextCalculateData{8}{RequiredWidth} = 0;
 $TextCalculateData{8}{RequiredHeight} = 0;
-$TextCalculateData{8}{LeftOver} = 'Der Raumtransporter "Discovery" hat heute Nachmittag um 16.52 Uhr MESZ an der ISS angedockt.';
+$TextCalculateData{8}{LeftOver} = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 
-# test9
-$TextCalculateData{9}{Text} = 'Der Raumtransporter "Discovery" hat heute Nachmittag um 16.52 Uhr MESZ an der ISS angedockt.';
+# test9 - test Type Cut
+$TextCalculateData{9}{Text} = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 $TextCalculateData{9}{Type} = 'Cut';
 $TextCalculateData{9}{State} = 1;
-$TextCalculateData{9}{RequiredWidth} = 96.7;
-$TextCalculateData{9}{RequiredHeight} = 50;
+$TextCalculateData{9}{RequiredWidth} = 92.25;
+$TextCalculateData{9}{RequiredHeight} = 60;
 $TextCalculateData{9}{LeftOver} = '';
-$TextCalculateData{9}{PossibleRows}{0} = 'Der Raumtransporter';
-$TextCalculateData{9}{PossibleRows}{1} = '"Discovery" hat heute';
-$TextCalculateData{9}{PossibleRows}{2} = 'Nachmittag um 16.52';
-$TextCalculateData{9}{PossibleRows}{3} = 'Uhr MESZ an der ISS';
-$TextCalculateData{9}{PossibleRows}{4} = 'angedockt.';
+$TextCalculateData{9}{PossibleRows}{0} = 'US Space Shuttle';
+$TextCalculateData{9}{PossibleRows}{1} = 'Atlantis and her';
+$TextCalculateData{9}{PossibleRows}{2} = 'STS-115 crew safely';
+$TextCalculateData{9}{PossibleRows}{3} = 'landed today at';
+$TextCalculateData{9}{PossibleRows}{4} = 'Kennedy Space';
+$TextCalculateData{9}{PossibleRows}{5} = 'Center.';
 
-# test10
-$TextCalculateData{10}{Text} = 'Der Raumtransporter Discovery hat heute Nachmittag um 16.52 Uhr MESZ an der ISS angedockt.';
+# test10 - test new line and [..]
+$TextCalculateData{10}{Text} = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 $TextCalculateData{10}{Type} = 'Cut';
 $TextCalculateData{10}{Width} = 20,
 $TextCalculateData{10}{Height} = 49,
 $TextCalculateData{10}{State} = 1;
-$TextCalculateData{10}{RequiredWidth} = 20;
+$TextCalculateData{10}{RequiredWidth} = 17.79;
 $TextCalculateData{10}{RequiredHeight} = 40;
 $TextCalculateData{10}{LeftOver} = '';
-$TextCalculateData{10}{PossibleRows}{0} = 'Der';
-$TextCalculateData{10}{PossibleRows}{1} = 'Rau';
-$TextCalculateData{10}{PossibleRows}{2} = 'mtra';
-$TextCalculateData{10}{PossibleRows}{3} = 'n[..]';
+$TextCalculateData{10}{PossibleRows}{0} = 'US';
+$TextCalculateData{10}{PossibleRows}{1} = 'Spa';
+$TextCalculateData{10}{PossibleRows}{2} = 'ce';
+$TextCalculateData{10}{PossibleRows}{3} = 'S[..]';
 
-# test11
-$TextCalculateData{11}{Text} = 'Der Raumtransporter "Discovery" hat heute Nachmittag um 16.52 Uhr MESZ an der ISS angedockt.';
+# test11 - test Width and Height
+$TextCalculateData{11}{Text} = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 $TextCalculateData{11}{Type} = 'Cut';
 $TextCalculateData{11}{Width} = 1,
 $TextCalculateData{11}{Height} = 1,
 $TextCalculateData{11}{State} = 0;
 $TextCalculateData{11}{RequiredWidth} = 0;
 $TextCalculateData{11}{RequiredHeight} = 0;
-$TextCalculateData{11}{LeftOver} = 'Der Raumtransporter "Discovery" hat heute Nachmittag um 16.52 Uhr MESZ an der ISS angedockt.';
+$TextCalculateData{11}{LeftOver} = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 
-# test12
-$TextCalculateData{12}{Text} = 'Der Raumtransporter "Discovery" hat heute Nachmittag um 16.52 Uhr MESZ an der ISS angedockt.';
+# test12 - test Width and Height
+$TextCalculateData{12}{Text} = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 $TextCalculateData{12}{Type} = 'Cut';
 $TextCalculateData{12}{Width} = 0,
 $TextCalculateData{12}{Height} = 0,
 $TextCalculateData{12}{State} = 0;
 $TextCalculateData{12}{RequiredWidth} = 0;
 $TextCalculateData{12}{RequiredHeight} = 0;
-$TextCalculateData{12}{LeftOver} = 'Der Raumtransporter "Discovery" hat heute Nachmittag um 16.52 Uhr MESZ an der ISS angedockt.';
+$TextCalculateData{12}{LeftOver} = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 
-# test13
-$TextCalculateData{13}{Text} = 'Der Raumtransporter Discovery hat heute Nachmittag um 16.52 Uhr MESZ an der ISS angedockt.';
+# test13 - test new line calculation
+$TextCalculateData{13}{Text} = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
 $TextCalculateData{13}{Type} = 'Cut';
 $TextCalculateData{13}{Width} = 10,
 $TextCalculateData{13}{Height} = 40,
 $TextCalculateData{13}{State} = 1;
-$TextCalculateData{13}{RequiredWidth} = 8.89;
+$TextCalculateData{13}{RequiredWidth} = 7.22;
 $TextCalculateData{13}{RequiredHeight} = 40;
 $TextCalculateData{13}{LeftOver} = '';
-$TextCalculateData{13}{PossibleRows}{0} = 'D';
-$TextCalculateData{13}{PossibleRows}{1} = 'er';
-$TextCalculateData{13}{PossibleRows}{2} = 'R';
-$TextCalculateData{13}{PossibleRows}{3} = 'a';
+$TextCalculateData{13}{PossibleRows}{0} = 'U';
+$TextCalculateData{13}{PossibleRows}{1} = 'S';
+$TextCalculateData{13}{PossibleRows}{2} = 'S';
+$TextCalculateData{13}{PossibleRows}{3} = 'p';
 
-# test14
+# test14 - test Width
 $TextCalculateData{14}{Text} = 'ISS - International Space Station';
 $TextCalculateData{14}{Type} = 'ReturnLeftOver';
 $TextCalculateData{14}{Width} = 1,
@@ -335,112 +341,112 @@ foreach (sort keys %TextCalculateData) {
 my %TextData;
 
 # test0
-$TextData{0}{Text} = 'Columbus wird von ESA-Astronaut Hans Schlegel im  September/Oktober 2007 zur Internationalen Raumstation gebracht.';
+$TextData{0}{Text} = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
 $TextData{0}{Type} = 'ReturnLeftOver';
 $TextData{0}{Width} = 700;
 $TextData{0}{State} = 1;
-$TextData{0}{RequiredWidth} = 541.34;
+$TextData{0}{RequiredWidth} = 516.92;
 $TextData{0}{RequiredHeight} = 10;
 $TextData{0}{LeftOver} = '';
 
 # test1
-$TextData{1}{Text} = 'Columbus wird von ESA-Astronaut Hans Schlegel im  September/Oktober 2007 zur Internationalen Raumstation gebracht.';
+$TextData{1}{Text} = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
 $TextData{1}{Type} = 'ReturnLeftOver';
 $TextData{1}{Width} = 300;
 $TextData{1}{State} = 0;
-$TextData{1}{RequiredWidth} = 234.52;
+$TextData{1}{RequiredWidth} = 279.58;
 $TextData{1}{RequiredHeight} = 10;
-$TextData{1}{LeftOver} = 'September/Oktober 2007 zur Internationalen Raumstation gebracht.';
+$TextData{1}{LeftOver} = 'laboratory mission to the International Space Station.';
 
 # test2
-$TextData{2}{Text} = 'Columbus wird von ESA-Astronaut Hans Schlegel im  September/Oktober 2007 zur Internationalen Raumstation gebracht.';
+$TextData{2}{Text} = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
 $TextData{2}{Type} = 'ReturnLeftOver';
 $TextData{2}{Width} = 0;
 $TextData{2}{State} = 0;
 $TextData{2}{RequiredWidth} = 0;
 $TextData{2}{RequiredHeight} = 0;
-$TextData{2}{LeftOver} = 'Columbus wird von ESA-Astronaut Hans Schlegel im  September/Oktober 2007 zur Internationalen Raumstation gebracht.';
+$TextData{2}{LeftOver} = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
 
 # test3
-$TextData{3}{Text} = 'Columbus wird von ESA-Astronaut Hans Schlegel im  September/Oktober 2007 zur Internationalen Raumstation gebracht.';
+$TextData{3}{Text} = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
 $TextData{3}{Type} = 'ReturnLeftOver';
 $TextData{3}{Width} = 1;
 $TextData{3}{State} = 0;
 $TextData{3}{RequiredWidth} = 0;
 $TextData{3}{RequiredHeight} = 0;
-$TextData{3}{LeftOver} = 'Columbus wird von ESA-Astronaut Hans Schlegel im  September/Oktober 2007 zur Internationalen Raumstation gebracht.';
+$TextData{3}{LeftOver} = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
 
 # test4
-$TextData{4}{Text} = 'Columbus wird von ESA-Astronaut Hans Schlegel im  September/Oktober 2007 zur Internationalen Raumstation gebracht.';
+$TextData{4}{Text} = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
 $TextData{4}{Type} = 'ReturnLeftOverHard';
 $TextData{4}{Width} = 700;
 $TextData{4}{State} = 1;
-$TextData{4}{RequiredWidth} = 541.34;
+$TextData{4}{RequiredWidth} = 516.92;
 $TextData{4}{RequiredHeight} = 10;
 $TextData{4}{LeftOver} = '';
 
 # test5
-$TextData{5}{Text} = 'Columbus wird von ESA-Astronaut Hans Schlegel im  September/Oktober 2007 zur Internationalen Raumstation gebracht.';
+$TextData{5}{Text} = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
 $TextData{5}{Type} = 'ReturnLeftOverHard';
 $TextData{5}{Width} = 300;
 $TextData{5}{State} = 0;
-$TextData{5}{RequiredWidth} = 299.55;
+$TextData{5}{RequiredWidth} = 295.7;
 $TextData{5}{RequiredHeight} = 10;
-$TextData{5}{LeftOver} = 'ktober 2007 zur Internationalen Raumstation gebracht.';
+$TextData{5}{LeftOver} = 'oratory mission to the International Space Station.';
 
 # test6
-$TextData{6}{Text} = 'Columbus wird von ESA-Astronaut Hans Schlegel im  September/Oktober 2007 zur Internationalen Raumstation gebracht.';
+$TextData{6}{Text} = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
 $TextData{6}{Type} = 'ReturnLeftOverHard';
 $TextData{6}{Width} = 0;
 $TextData{6}{State} = 0;
 $TextData{6}{RequiredWidth} = 0;
 $TextData{6}{RequiredHeight} = 0;
-$TextData{6}{LeftOver} = 'Columbus wird von ESA-Astronaut Hans Schlegel im  September/Oktober 2007 zur Internationalen Raumstation gebracht.';
+$TextData{6}{LeftOver} = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
 
 # test7
-$TextData{7}{Text} = 'Columbus wird von ESA-Astronaut Hans Schlegel im  September/Oktober 2007 zur Internationalen Raumstation gebracht.';
+$TextData{7}{Text} = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
 $TextData{7}{Type} = 'ReturnLeftOverHard';
 $TextData{7}{Width} = 1;
 $TextData{7}{State} = 0;
 $TextData{7}{RequiredWidth} = 0;
 $TextData{7}{RequiredHeight} = 0;
-$TextData{7}{LeftOver} = 'Columbus wird von ESA-Astronaut Hans Schlegel im  September/Oktober 2007 zur Internationalen Raumstation gebracht.';
+$TextData{7}{LeftOver} = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
 
 # test8
-$TextData{8}{Text} = 'Columbus wird von ESA-Astronaut Hans Schlegel im  September/Oktober 2007 zur Internationalen Raumstation gebracht.';
+$TextData{8}{Text} = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
 $TextData{8}{Type} = 'Cut';
 $TextData{8}{Width} = 700;
 $TextData{8}{State} = 1;
-$TextData{8}{RequiredWidth} = 541.34;
+$TextData{8}{RequiredWidth} = 516.92;
 $TextData{8}{RequiredHeight} = 10;
 $TextData{8}{LeftOver} = '';
 
 # test9
-$TextData{9}{Text} = 'Columbus wird von ESA-Astronaut Hans Schlegel im  September/Oktober 2007 zur Internationalen Raumstation gebracht.';
+$TextData{9}{Text} = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
 $TextData{9}{Type} = 'Cut';
 $TextData{9}{Width} = 300;
 $TextData{9}{State} = 1;
-$TextData{9}{RequiredWidth} = 245.64;
+$TextData{9}{RequiredWidth} = 290.7;
 $TextData{9}{RequiredHeight} = 10;
 $TextData{9}{LeftOver} = '';
 
 # test10
-$TextData{10}{Text} = 'Columbus wird von ESA-Astronaut Hans Schlegel im  September/Oktober 2007 zur Internationalen Raumstation gebracht.';
+$TextData{10}{Text} = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
 $TextData{10}{Type} = 'Cut';
 $TextData{10}{Width} = 0;
 $TextData{10}{State} = 0;
 $TextData{10}{RequiredWidth} = 0;
 $TextData{10}{RequiredHeight} = 0;
-$TextData{10}{LeftOver} = 'Columbus wird von ESA-Astronaut Hans Schlegel im  September/Oktober 2007 zur Internationalen Raumstation gebracht.';
+$TextData{10}{LeftOver} = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
 
 # test11
-$TextData{11}{Text} = 'Columbus wird von ESA-Astronaut Hans Schlegel im  September/Oktober 2007 zur Internationalen Raumstation gebracht.';
+$TextData{11}{Text} = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
 $TextData{11}{Type} = 'Cut';
 $TextData{11}{Width} = 1;
 $TextData{11}{State} = 0;
 $TextData{11}{RequiredWidth} = 0;
 $TextData{11}{RequiredHeight} = 0;
-$TextData{11}{LeftOver} = 'Columbus wird von ESA-Astronaut Hans Schlegel im  September/Oktober 2007 zur Internationalen Raumstation gebracht.';
+$TextData{11}{LeftOver} = 'ESA astronaut Hans Schlegel assigned to European Columbus laboratory mission to the International Space Station.';
 
 # start testing Text()
 foreach (sort keys %TextData) {
@@ -499,9 +505,9 @@ my $PageNew2 =     $Self->{PDFObject}->PageNew(
     MarginRight => 40,
     MarginBottom => 40,
     MarginLeft => 40,
-    HeaderRight => 'Rechts Oben Rechts Oben Rechts Oben Rechts Oben Rechts Oben Rechts Oben Rechts Oben Rechts Oben Rechts Oben Rechts Oben Rechts Oben Rechts Oben Rechts Oben Rechts Oben Rechts Oben',
-    FooterLeft => 'Links Unten Links Unten Links Unten Links Unten Links Unten Links Unten Links Unten Links Unten Links Unten Links Unten Links Unten Links Unten Links Unten Links Unten',
-    FooterRight => 'Rechts Unten Rechts Unten Rechts Unten Rechts Unten Rechts Unten Rechts Unten Rechts Unten Rechts Unten Rechts Unten Rechts Unten Rechts Unten Rechts Unten Rechts Unten Rechts Unten',
+    HeaderRight => 'header right',
+    FooterLeft => 'footer left',
+    FooterRight => 'footer right',
 );
 
 $Self->True(
@@ -513,7 +519,7 @@ $Self->True(
 my %TextData2;
 
 # positiontest0
-$TextData2{0}{Text} = 'Kommandant der Shuttle-Mission STS-122 wird ein Veteran der NASA, Navy Commander Stephen Frick, sein.';
+$TextData2{0}{Text} = 'Veteran NASA space flier Navy Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
 $TextData2{0}{Type} = 'ReturnLeftOver';
 $TextData2{0}{Width} = 150;
 $TextData2{0}{Position1X} = 'left';
@@ -521,12 +527,12 @@ $TextData2{0}{Position1Y} = 'bottom';
 $TextData2{0}{State} = 0;
 $TextData2{0}{RequiredWidth} = 0;
 $TextData2{0}{RequiredHeight} = 0;
-$TextData2{0}{LeftOver} = 'Kommandant der Shuttle-Mission STS-122 wird ein Veteran der NASA, Navy Commander Stephen Frick, sein.';
+$TextData2{0}{LeftOver} = 'Veteran NASA space flier Navy Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
 $TextData2{0}{PositionReturnX} = 40;
 $TextData2{0}{PositionReturnY} = 56;
 
 # positiontest1
-$TextData2{1}{Text} = 'Kommandant der Shuttle-Mission STS-122 wird ein Veteran der NASA, Navy Commander Stephen Frick, sein.';
+$TextData2{1}{Text} = 'Veteran NASA space flier Navy Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
 $TextData2{1}{Type} = 'ReturnLeftOver';
 $TextData2{1}{Width} = 150;
 $TextData2{1}{Position1X} = 'left';
@@ -535,54 +541,54 @@ $TextData2{1}{Position2Y} = 9;
 $TextData2{1}{State} = 0;
 $TextData2{1}{RequiredWidth} = 0;
 $TextData2{1}{RequiredHeight} = 0;
-$TextData2{1}{LeftOver} = 'Kommandant der Shuttle-Mission STS-122 wird ein Veteran der NASA, Navy Commander Stephen Frick, sein.';
+$TextData2{1}{LeftOver} = 'Veteran NASA space flier Navy Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
 $TextData2{1}{PositionReturnX} = 40;
 $TextData2{1}{PositionReturnY} = 65;
 
 # positiontest2
-$TextData2{2}{Text} = 'Kommandant der Shuttle-Mission STS-122 wird ein Veteran der NASA, Navy Commander Stephen Frick, sein.';
+$TextData2{2}{Text} = 'Veteran NASA space flier Navy Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
 $TextData2{2}{Type} = 'ReturnLeftOver';
 $TextData2{2}{Width} = 150;
 $TextData2{2}{Position1X} = 'left';
 $TextData2{2}{Position1Y} = 'bottom';
 $TextData2{2}{Position2Y} = 10;
 $TextData2{2}{State} = 0;
-$TextData2{2}{RequiredWidth} = 147.83;
+$TextData2{2}{RequiredWidth} = 138.94;
 $TextData2{2}{RequiredHeight} = 10;
-$TextData2{2}{LeftOver} = 'STS-122 wird ein Veteran der NASA, Navy Commander Stephen Frick, sein.';
+$TextData2{2}{LeftOver} = 'Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
 $TextData2{2}{PositionReturnX} = 40;
 $TextData2{2}{PositionReturnY} = 56;
 
 # positiontest3
-$TextData2{3}{Text} = 'Kommandant der Shuttle-Mission STS-122 wird ein Veteran der NASA, Navy Commander Stephen Frick, sein.';
+$TextData2{3}{Text} = 'Veteran NASA space flier Navy Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
 $TextData2{3}{Type} = 'ReturnLeftOver';
 $TextData2{3}{Width} = 150;
 $TextData2{3}{Position1X} = 'left';
 $TextData2{3}{Position1Y} = 'bottom';
 $TextData2{3}{Position2Y} = 11;
 $TextData2{3}{State} = 0;
-$TextData2{3}{RequiredWidth} = 147.83;
+$TextData2{3}{RequiredWidth} = 138.94;
 $TextData2{3}{RequiredHeight} = 10;
-$TextData2{3}{LeftOver} = 'STS-122 wird ein Veteran der NASA, Navy Commander Stephen Frick, sein.';
+$TextData2{3}{LeftOver} = 'Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
 $TextData2{3}{PositionReturnX} = 40;
 $TextData2{3}{PositionReturnY} = 57;
 
 # positiontest4
-$TextData2{4}{Text} = 'Kommandant der Shuttle-Mission STS-122 wird ein Veteran der NASA, Navy Commander Stephen Frick, sein.';
+$TextData2{4}{Text} = 'Veteran NASA space flier Navy Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
 $TextData2{4}{Type} = 'ReturnLeftOver';
 $TextData2{4}{Width} = 30;
 $TextData2{4}{Position1X} = 'left';
 $TextData2{4}{Position1Y} = 'bottom';
 $TextData2{4}{Position2Y} = 39;
 $TextData2{4}{State} = 0;
-$TextData2{4}{RequiredWidth} = 28.89;
+$TextData2{4}{RequiredWidth} = 29.46;
 $TextData2{4}{RequiredHeight} = 30;
-$TextData2{4}{LeftOver} = 'Shuttle-Mission STS-122 wird ein Veteran der NASA, Navy Commander Stephen Frick, sein.';
+$TextData2{4}{LeftOver} = 'space flier Navy Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
 $TextData2{4}{PositionReturnX} = 40;
 $TextData2{4}{PositionReturnY} = 65;
 
 # positiontest5
-$TextData2{5}{Text} = 'Kommandant der Shuttle-Mission STS-122 wird ein Veteran der NASA, Navy Commander Stephen Frick, sein.';
+$TextData2{5}{Text} = 'Veteran NASA space flier Navy Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
 $TextData2{5}{Type} = 'ReturnLeftOver';
 $TextData2{5}{Width} = 100;
 $TextData2{5}{Lead} = 7;
@@ -590,19 +596,19 @@ $TextData2{5}{Position1X} = 'left';
 $TextData2{5}{Position1Y} = 'bottom';
 $TextData2{5}{Position2Y} = 25;
 $TextData2{5}{State} = 0;
-$TextData2{5}{RequiredWidth} = 76.7;
+$TextData2{5}{RequiredWidth} = 94.49;
 $TextData2{5}{RequiredHeight} = 10;
-$TextData2{5}{LeftOver} = 'Shuttle-Mission STS-122 wird ein Veteran der NASA, Navy Commander Stephen Frick, sein.';
+$TextData2{5}{LeftOver} = 'flier Navy Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
 $TextData2{5}{PositionReturnX} = 40;
 $TextData2{5}{PositionReturnY} = 71;
 
 # positiontest6
-$TextData2{6}{Text} = 'Kommandant der Shuttle-Mission STS-122 wird ein Veteran der NASA, Navy Commander Stephen Frick, sein.';
+$TextData2{6}{Text} = 'Veteran NASA space flier Navy Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
 $TextData2{6}{Type} = 'ReturnLeftOver';
 $TextData2{6}{Width} = 105;
 $TextData2{6}{Lead} = 9;
 $TextData2{6}{State} = 1;
-$TextData2{6}{RequiredWidth} = 88.37;
+$TextData2{6}{RequiredWidth} = 102.82;
 $TextData2{6}{RequiredHeight} = 105;
 $TextData2{6}{LeftOver} = '';
 $TextData2{6}{PositionReturnX} = 421;
@@ -684,16 +690,16 @@ $TableCalculate{0}{BackgroundColor} = 'red';
 $TableCalculate{0}{Type} = 'Cut';
 $TableCalculate{0}{Border} = 1;
 
-$TableCalculate{0}{CellData}[0][0]{Content} = 'Zelle 1-1';
-$TableCalculate{0}{CellData}[0][1]{Content} = 'Zelle 1-2';
+$TableCalculate{0}{CellData}[0][0]{Content} = 'Cell 1-1';
+$TableCalculate{0}{CellData}[0][1]{Content} = 'Cell 1-2';
 $TableCalculate{0}{CellData}[0][1]{BackgroundColor} = 'blue';
 $TableCalculate{0}{CellData}[0][1]{Type} = 'ReturnLeftOverHard';
 $TableCalculate{0}{CellData}[0][1]{Lead} = 3;
-$TableCalculate{0}{CellData}[1][0]{Content} = 'Zelle 2-1 (Reihe 2)';
+$TableCalculate{0}{CellData}[1][0]{Content} = 'Cell 2-1 (Row 2)';
 $TableCalculate{0}{CellData}[1][1]{Content} = '';
 $TableCalculate{0}{CellData}[1][1]{Align} = 'center';
 
-$TableCalculate{0}{ReturnCellData}[0][0]{Content} = 'Zelle 1-1';
+$TableCalculate{0}{ReturnCellData}[0][0]{Content} = 'Cell 1-1';
 $TableCalculate{0}{ReturnCellData}[0][0]{Type} = 'Cut';
 $TableCalculate{0}{ReturnCellData}[0][0]{Font} = 'Helvetica';
 $TableCalculate{0}{ReturnCellData}[0][0]{FontSize} = 10;
@@ -701,7 +707,7 @@ $TableCalculate{0}{ReturnCellData}[0][0]{FontColor} = '#101010';
 $TableCalculate{0}{ReturnCellData}[0][0]{Align} = 'left';
 $TableCalculate{0}{ReturnCellData}[0][0]{Lead} = 0;
 $TableCalculate{0}{ReturnCellData}[0][0]{BackgroundColor} = 'red';
-$TableCalculate{0}{ReturnCellData}[0][1]{Content} = 'Zelle 1-2';
+$TableCalculate{0}{ReturnCellData}[0][1]{Content} = 'Cell 1-2';
 $TableCalculate{0}{ReturnCellData}[0][1]{Type} = 'ReturnLeftOverHard';
 $TableCalculate{0}{ReturnCellData}[0][1]{Font} = 'Helvetica';
 $TableCalculate{0}{ReturnCellData}[0][1]{FontSize} = 10;
@@ -709,7 +715,7 @@ $TableCalculate{0}{ReturnCellData}[0][1]{FontColor} = '#101010';
 $TableCalculate{0}{ReturnCellData}[0][1]{Align} = 'left';
 $TableCalculate{0}{ReturnCellData}[0][1]{Lead} = 3;
 $TableCalculate{0}{ReturnCellData}[0][1]{BackgroundColor} = 'blue';
-$TableCalculate{0}{ReturnCellData}[1][0]{Content} = 'Zelle 2-1 (Reihe 2)';
+$TableCalculate{0}{ReturnCellData}[1][0]{Content} = 'Cell 2-1 (Row 2)';
 $TableCalculate{0}{ReturnCellData}[1][0]{Type} = 'Cut';
 $TableCalculate{0}{ReturnCellData}[1][0]{Font} = 'Helvetica';
 $TableCalculate{0}{ReturnCellData}[1][0]{FontSize} = 10;
@@ -727,14 +733,14 @@ $TableCalculate{0}{ReturnCellData}[1][1]{Lead} = 0;
 $TableCalculate{0}{ReturnCellData}[1][1]{BackgroundColor} = 'red';
 
 $TableCalculate{0}{ReturnColumnData}[0]{Width} = 0;
-$TableCalculate{0}{ReturnColumnData}[0]{EstimateWidth} = 56.125;
-$TableCalculate{0}{ReturnColumnData}[0]{TextWidth} = 261.42;
-$TableCalculate{0}{ReturnColumnData}[0]{OutputWidth} = 263.42;
+$TableCalculate{0}{ReturnColumnData}[0]{EstimateWidth} = 47.78;
+$TableCalculate{0}{ReturnColumnData}[0]{TextWidth} = 259.4725;
+$TableCalculate{0}{ReturnColumnData}[0]{OutputWidth} = 261.4725;
 $TableCalculate{0}{ReturnColumnData}[0]{Block} = 0;
 $TableCalculate{0}{ReturnColumnData}[1]{Width} = 0;
-$TableCalculate{0}{ReturnColumnData}[1]{EstimateWidth} = 30.285;
-$TableCalculate{0}{ReturnColumnData}[1]{TextWidth} = 235.58;
-$TableCalculate{0}{ReturnColumnData}[1]{OutputWidth} = 237.58;
+$TableCalculate{0}{ReturnColumnData}[1]{EstimateWidth} = 25.835;
+$TableCalculate{0}{ReturnColumnData}[1]{TextWidth} = 237.5275;
+$TableCalculate{0}{ReturnColumnData}[1]{OutputWidth} = 239.5275;
 $TableCalculate{0}{ReturnColumnData}[1]{Block} = 0;
 
 $TableCalculate{0}{ReturnRowData}[0]{MinFontSize} = 10;
@@ -857,8 +863,8 @@ $TableCalculate{3}{Width} = 300;
 $TableCalculate{3}{Border} = 1;
 
 $TableCalculate{3}{CellData}[0][0]{Content} = "ISS";
-$TableCalculate{3}{CellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
-$TableCalculate{3}{CellData}[1][0]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{3}{CellData}[0][1]{Content} = "During this time, he and fellow NASA crew member Jeff Williams will install items of hardware in preparation for future ISS assembly work and will also set up for deployment a number of instruments and experiments.";
+$TableCalculate{3}{CellData}[1][0]{Content} = "During this time, he and fellow NASA crew member Jeff Williams will install items of hardware in preparation for future ISS assembly work and will also set up for deployment a number of instruments and experiments.";
 $TableCalculate{3}{CellData}[1][1]{Content} = "ISS";
 
 $TableCalculate{3}{ReturnCellData}[0][0]{Content} = "ISS";
@@ -869,7 +875,7 @@ $TableCalculate{3}{ReturnCellData}[0][0]{FontColor} = 'black';
 $TableCalculate{3}{ReturnCellData}[0][0]{Align} = 'left';
 $TableCalculate{3}{ReturnCellData}[0][0]{Lead} = 0;
 $TableCalculate{3}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
-$TableCalculate{3}{ReturnCellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{3}{ReturnCellData}[0][1]{Content} = "During this time, he and fellow NASA crew member Jeff Williams will install items of hardware in preparation for future ISS assembly work and will also set up for deployment a number of instruments and experiments.";
 $TableCalculate{3}{ReturnCellData}[0][1]{Type} = 'ReturnLeftOver';
 $TableCalculate{3}{ReturnCellData}[0][1]{Font} = 'Helvetica';
 $TableCalculate{3}{ReturnCellData}[0][1]{FontSize} = 10;
@@ -877,7 +883,7 @@ $TableCalculate{3}{ReturnCellData}[0][1]{FontColor} = 'black';
 $TableCalculate{3}{ReturnCellData}[0][1]{Align} = 'left';
 $TableCalculate{3}{ReturnCellData}[0][1]{Lead} = 0;
 $TableCalculate{3}{ReturnCellData}[0][1]{BackgroundColor} = 'NULL';
-$TableCalculate{3}{ReturnCellData}[1][0]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{3}{ReturnCellData}[1][0]{Content} = "During this time, he and fellow NASA crew member Jeff Williams will install items of hardware in preparation for future ISS assembly work and will also set up for deployment a number of instruments and experiments.";
 $TableCalculate{3}{ReturnCellData}[1][0]{Type} = 'ReturnLeftOver';
 $TableCalculate{3}{ReturnCellData}[1][0]{Font} = 'Helvetica';
 $TableCalculate{3}{ReturnCellData}[1][0]{FontSize} = 10;
@@ -938,9 +944,9 @@ $TableCalculate{5}{Width} = 300;
 $TableCalculate{5}{Border} = 1;
 
 $TableCalculate{5}{CellData}[0][0]{Content} = "ISS";
-$TableCalculate{5}{CellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{5}{CellData}[0][1]{Content} = "During this time, he and fellow NASA crew member Jeff Williams will install items of hardware in preparation for future ISS assembly work and will also set up for deployment a number of instruments and experiments.";
 $TableCalculate{5}{CellData}[1][0]{Content} = "ISS";
-$TableCalculate{5}{CellData}[1][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{5}{CellData}[1][1]{Content} = "During this time, he and fellow NASA crew member Jeff Williams will install items of hardware in preparation for future ISS assembly work and will also set up for deployment a number of instruments and experiments.";
 
 $TableCalculate{5}{ColumnData}[1]{Width} = 103;
 
@@ -952,7 +958,7 @@ $TableCalculate{5}{ReturnCellData}[0][0]{FontColor} = 'black';
 $TableCalculate{5}{ReturnCellData}[0][0]{Align} = 'left';
 $TableCalculate{5}{ReturnCellData}[0][0]{Lead} = 0;
 $TableCalculate{5}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
-$TableCalculate{5}{ReturnCellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{5}{ReturnCellData}[0][1]{Content} = "During this time, he and fellow NASA crew member Jeff Williams will install items of hardware in preparation for future ISS assembly work and will also set up for deployment a number of instruments and experiments.";
 $TableCalculate{5}{ReturnCellData}[0][1]{Type} = 'ReturnLeftOver';
 $TableCalculate{5}{ReturnCellData}[0][1]{Font} = 'Helvetica';
 $TableCalculate{5}{ReturnCellData}[0][1]{FontSize} = 10;
@@ -968,7 +974,7 @@ $TableCalculate{5}{ReturnCellData}[1][0]{FontColor} = 'black';
 $TableCalculate{5}{ReturnCellData}[1][0]{Align} = 'left';
 $TableCalculate{5}{ReturnCellData}[1][0]{Lead} = 0;
 $TableCalculate{5}{ReturnCellData}[1][0]{BackgroundColor} = 'NULL';
-$TableCalculate{5}{ReturnCellData}[1][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{5}{ReturnCellData}[1][1]{Content} = "During this time, he and fellow NASA crew member Jeff Williams will install items of hardware in preparation for future ISS assembly work and will also set up for deployment a number of instruments and experiments.";
 $TableCalculate{5}{ReturnCellData}[1][1]{Type} = 'ReturnLeftOver';
 $TableCalculate{5}{ReturnCellData}[1][1]{Font} = 'Helvetica';
 $TableCalculate{5}{ReturnCellData}[1][1]{FontSize} = 10;
@@ -1019,9 +1025,9 @@ $TableCalculate{7}{Width} = 300;
 $TableCalculate{7}{Border} = 1;
 
 $TableCalculate{7}{CellData}[0][0]{Content} = "ISS";
-$TableCalculate{7}{CellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{7}{CellData}[0][1]{Content} = "During this time, he and fellow NASA crew member Jeff Williams will install items of hardware in preparation for future ISS assembly work and will also set up for deployment a number of instruments and experiments.";
 $TableCalculate{7}{CellData}[1][0]{Content} = "ISS";
-$TableCalculate{7}{CellData}[1][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{7}{CellData}[1][1]{Content} = "During this time, he and fellow NASA crew member Jeff Williams will install items of hardware in preparation for future ISS assembly work and will also set up for deployment a number of instruments and experiments.";
 
 $TableCalculate{7}{ColumnData}[1]{Width} = 100;
 
@@ -1033,7 +1039,7 @@ $TableCalculate{7}{ReturnCellData}[0][0]{FontColor} = 'black';
 $TableCalculate{7}{ReturnCellData}[0][0]{Align} = 'left';
 $TableCalculate{7}{ReturnCellData}[0][0]{Lead} = 0;
 $TableCalculate{7}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
-$TableCalculate{7}{ReturnCellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{7}{ReturnCellData}[0][1]{Content} = "During this time, he and fellow NASA crew member Jeff Williams will install items of hardware in preparation for future ISS assembly work and will also set up for deployment a number of instruments and experiments.";
 $TableCalculate{7}{ReturnCellData}[0][1]{Type} = 'ReturnLeftOver';
 $TableCalculate{7}{ReturnCellData}[0][1]{Font} = 'Helvetica';
 $TableCalculate{7}{ReturnCellData}[0][1]{FontSize} = 10;
@@ -1049,7 +1055,7 @@ $TableCalculate{7}{ReturnCellData}[1][0]{FontColor} = 'black';
 $TableCalculate{7}{ReturnCellData}[1][0]{Align} = 'left';
 $TableCalculate{7}{ReturnCellData}[1][0]{Lead} = 0;
 $TableCalculate{7}{ReturnCellData}[1][0]{BackgroundColor} = 'NULL';
-$TableCalculate{7}{ReturnCellData}[1][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{7}{ReturnCellData}[1][1]{Content} = "During this time, he and fellow NASA crew member Jeff Williams will install items of hardware in preparation for future ISS assembly work and will also set up for deployment a number of instruments and experiments.";
 $TableCalculate{7}{ReturnCellData}[1][1]{Type} = 'ReturnLeftOver';
 $TableCalculate{7}{ReturnCellData}[1][1]{Font} = 'Helvetica';
 $TableCalculate{7}{ReturnCellData}[1][1]{FontSize} = 10;
@@ -1077,9 +1083,9 @@ $TableCalculate{8}{Width} = 300;
 $TableCalculate{8}{Border} = 1;
 
 $TableCalculate{8}{CellData}[0][0]{Content} = "ISS";
-$TableCalculate{8}{CellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{8}{CellData}[0][1]{Content} = "During this time, he and fellow NASA crew member Jeff Williams will install items of hardware in preparation for future ISS assembly work and will also set up for deployment a number of instruments and experiments.";
 $TableCalculate{8}{CellData}[1][0]{Content} = "ISS";
-$TableCalculate{8}{CellData}[1][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{8}{CellData}[1][1]{Content} = "During this time, he and fellow NASA crew member Jeff Williams will install items of hardware in preparation for future ISS assembly work and will also set up for deployment a number of instruments and experiments.";
 
 $TableCalculate{8}{ColumnData}[0]{Width} = 70;
 $TableCalculate{8}{ColumnData}[1]{Width} = 130;
@@ -1092,7 +1098,7 @@ $TableCalculate{8}{ReturnCellData}[0][0]{FontColor} = 'black';
 $TableCalculate{8}{ReturnCellData}[0][0]{Align} = 'left';
 $TableCalculate{8}{ReturnCellData}[0][0]{Lead} = 0;
 $TableCalculate{8}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
-$TableCalculate{8}{ReturnCellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{8}{ReturnCellData}[0][1]{Content} = "During this time, he and fellow NASA crew member Jeff Williams will install items of hardware in preparation for future ISS assembly work and will also set up for deployment a number of instruments and experiments.";
 $TableCalculate{8}{ReturnCellData}[0][1]{Type} = 'ReturnLeftOver';
 $TableCalculate{8}{ReturnCellData}[0][1]{Font} = 'Helvetica';
 $TableCalculate{8}{ReturnCellData}[0][1]{FontSize} = 10;
@@ -1108,7 +1114,7 @@ $TableCalculate{8}{ReturnCellData}[1][0]{FontColor} = 'black';
 $TableCalculate{8}{ReturnCellData}[1][0]{Align} = 'left';
 $TableCalculate{8}{ReturnCellData}[1][0]{Lead} = 0;
 $TableCalculate{8}{ReturnCellData}[1][0]{BackgroundColor} = 'NULL';
-$TableCalculate{8}{ReturnCellData}[1][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{8}{ReturnCellData}[1][1]{Content} = "During this time, he and fellow NASA crew member Jeff Williams will install items of hardware in preparation for future ISS assembly work and will also set up for deployment a number of instruments and experiments.";
 $TableCalculate{8}{ReturnCellData}[1][1]{Type} = 'ReturnLeftOver';
 $TableCalculate{8}{ReturnCellData}[1][1]{Font} = 'Helvetica';
 $TableCalculate{8}{ReturnCellData}[1][1]{FontSize} = 10;
@@ -1136,9 +1142,9 @@ $TableCalculate{9}{Width} = 300;
 $TableCalculate{9}{Border} = 1;
 
 $TableCalculate{9}{CellData}[0][0]{Content} = "ISS";
-$TableCalculate{9}{CellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{9}{CellData}[0][1]{Content} = "During this time, he and fellow NASA crew member Jeff Williams will install items of hardware in preparation for future ISS assembly work and will also set up for deployment a number of instruments and experiments.";
 $TableCalculate{9}{CellData}[1][0]{Content} = "ISS";
-$TableCalculate{9}{CellData}[1][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{9}{CellData}[1][1]{Content} = "During this time, he and fellow NASA crew member Jeff Williams will install items of hardware in preparation for future ISS assembly work and will also set up for deployment a number of instruments and experiments.";
 
 $TableCalculate{9}{ColumnData}[0]{Width} = 330;
 $TableCalculate{9}{ColumnData}[1]{Width} = 105;
@@ -1151,7 +1157,7 @@ $TableCalculate{9}{ReturnCellData}[0][0]{FontColor} = 'black';
 $TableCalculate{9}{ReturnCellData}[0][0]{Align} = 'left';
 $TableCalculate{9}{ReturnCellData}[0][0]{Lead} = 0;
 $TableCalculate{9}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
-$TableCalculate{9}{ReturnCellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{9}{ReturnCellData}[0][1]{Content} = "During this time, he and fellow NASA crew member Jeff Williams will install items of hardware in preparation for future ISS assembly work and will also set up for deployment a number of instruments and experiments.";
 $TableCalculate{9}{ReturnCellData}[0][1]{Type} = 'ReturnLeftOver';
 $TableCalculate{9}{ReturnCellData}[0][1]{Font} = 'Helvetica';
 $TableCalculate{9}{ReturnCellData}[0][1]{FontSize} = 10;
@@ -1167,7 +1173,7 @@ $TableCalculate{9}{ReturnCellData}[1][0]{FontColor} = 'black';
 $TableCalculate{9}{ReturnCellData}[1][0]{Align} = 'left';
 $TableCalculate{9}{ReturnCellData}[1][0]{Lead} = 0;
 $TableCalculate{9}{ReturnCellData}[1][0]{BackgroundColor} = 'NULL';
-$TableCalculate{9}{ReturnCellData}[1][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{9}{ReturnCellData}[1][1]{Content} = "During this time, he and fellow NASA crew member Jeff Williams will install items of hardware in preparation for future ISS assembly work and will also set up for deployment a number of instruments and experiments.";
 $TableCalculate{9}{ReturnCellData}[1][1]{Type} = 'ReturnLeftOver';
 $TableCalculate{9}{ReturnCellData}[1][1]{Font} = 'Helvetica';
 $TableCalculate{9}{ReturnCellData}[1][1]{FontSize} = 10;
@@ -1311,11 +1317,11 @@ $TableCalculate{11}{ReturnRowData}[0]{MinFontSize} = 10;
 # tablecalculatetest12
 $TableCalculate{12}{CellData}[0][0]{Content} = "ISS";
 $TableCalculate{12}{CellData}[0][0]{FontSize} = 4;
-$TableCalculate{12}{CellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{12}{CellData}[0][1]{Content} = "During this time, he and fellow NASA crew member Jeff Williams will install items of hardware in preparation for future ISS assembly work and will also set up for deployment a number of instruments and experiments.";
 $TableCalculate{12}{CellData}[0][1]{FontSize} = 9;
 $TableCalculate{12}{CellData}[1][0]{Content} = "ISS";
 $TableCalculate{12}{CellData}[1][0]{FontSize} = 18;
-$TableCalculate{12}{CellData}[1][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{12}{CellData}[1][1]{Content} = "During this time, he and fellow NASA crew member Jeff Williams will install items of hardware in preparation for future ISS assembly work and will also set up for deployment a number of instruments and experiments.";
 $TableCalculate{12}{CellData}[1][1]{FontSize} = 12;
 
 $TableCalculate{12}{ReturnCellData}[0][0]{Content} = "ISS";
@@ -1326,7 +1332,7 @@ $TableCalculate{12}{ReturnCellData}[0][0]{FontColor} = 'black';
 $TableCalculate{12}{ReturnCellData}[0][0]{Align} = 'left';
 $TableCalculate{12}{ReturnCellData}[0][0]{Lead} = 0;
 $TableCalculate{12}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
-$TableCalculate{12}{ReturnCellData}[0][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{12}{ReturnCellData}[0][1]{Content} = "During this time, he and fellow NASA crew member Jeff Williams will install items of hardware in preparation for future ISS assembly work and will also set up for deployment a number of instruments and experiments.";
 $TableCalculate{12}{ReturnCellData}[0][1]{Type} = 'ReturnLeftOver';
 $TableCalculate{12}{ReturnCellData}[0][1]{Font} = 'Helvetica';
 $TableCalculate{12}{ReturnCellData}[0][1]{FontSize} = 9;
@@ -1342,7 +1348,7 @@ $TableCalculate{12}{ReturnCellData}[1][0]{FontColor} = 'black';
 $TableCalculate{12}{ReturnCellData}[1][0]{Align} = 'left';
 $TableCalculate{12}{ReturnCellData}[1][0]{Lead} = 0;
 $TableCalculate{12}{ReturnCellData}[1][0]{BackgroundColor} = 'NULL';
-$TableCalculate{12}{ReturnCellData}[1][1]{Content} = "Der deutsche ESA-Astronaut und Mitglied der Expedition 13 auf der Internationalen Raumstation ISS Thomas Reiter ist seit letzter Woche der europäische Astronaut mit der längsten Aufenthaltszeit im Weltraum.";
+$TableCalculate{12}{ReturnCellData}[1][1]{Content} = "During this time, he and fellow NASA crew member Jeff Williams will install items of hardware in preparation for future ISS assembly work and will also set up for deployment a number of instruments and experiments.";
 $TableCalculate{12}{ReturnCellData}[1][1]{Type} = 'ReturnLeftOver';
 $TableCalculate{12}{ReturnCellData}[1][1]{Font} = 'Helvetica';
 $TableCalculate{12}{ReturnCellData}[1][1]{FontSize} = 12;
@@ -2271,11 +2277,11 @@ my %TableRowCalculate;
 # tablerowcalculatetest0
 $TableRowCalculate{0}{Border} = 1;
 
-$TableRowCalculate{0}{CellData}[0][0]{Content} = 'Zelle 1-1';
+$TableRowCalculate{0}{CellData}[0][0]{Content} = 'Cell 1-1';
 $TableRowCalculate{0}{CellData}[0][0]{Font} = 'Helvetica';
 $TableRowCalculate{0}{CellData}[0][0]{FontSize} = 14;
 $TableRowCalculate{0}{CellData}[0][0]{Lead} = 0;
-$TableRowCalculate{0}{CellData}[0][1]{Content} = 'Zelle 1-2';
+$TableRowCalculate{0}{CellData}[0][1]{Content} = 'Cell 1-2';
 $TableRowCalculate{0}{CellData}[0][1]{Font} = 'Helvetica';
 $TableRowCalculate{0}{CellData}[0][1]{FontSize} = 10;
 $TableRowCalculate{0}{CellData}[0][1]{Lead} = 2;
@@ -2292,11 +2298,11 @@ $TableRowCalculate{1}{Border} = 0;
 $TableRowCalculate{1}{PaddingTop} = 2;
 $TableRowCalculate{1}{PaddingBottom} = 3;
 
-$TableRowCalculate{1}{CellData}[0][0]{Content} = 'Zelle 1-1';
+$TableRowCalculate{1}{CellData}[0][0]{Content} = 'Cell 1-1';
 $TableRowCalculate{1}{CellData}[0][0]{Font} = 'Helvetica';
 $TableRowCalculate{1}{CellData}[0][0]{FontSize} = 10;
 $TableRowCalculate{1}{CellData}[0][0]{Lead} = 0;
-$TableRowCalculate{1}{CellData}[0][1]{Content} = 'Zelle 1-2';
+$TableRowCalculate{1}{CellData}[0][1]{Content} = 'Cell 1-2';
 $TableRowCalculate{1}{CellData}[0][1]{Font} = 'Helvetica';
 $TableRowCalculate{1}{CellData}[0][1]{FontSize} = 14;
 $TableRowCalculate{1}{CellData}[0][1]{Lead} = 5;
@@ -2330,11 +2336,11 @@ $TableRowCalculate{2}{ReturnRowData}[0]{OutputHeight} = 11;
 # tablerowcalculatetest3
 $TableRowCalculate{3}{Border} = 2;
 
-$TableRowCalculate{3}{CellData}[0][0]{Content} = 'Zelle 1-1';
+$TableRowCalculate{3}{CellData}[0][0]{Content} = 'Cell 1-1';
 $TableRowCalculate{3}{CellData}[0][0]{Font} = 'Helvetica';
 $TableRowCalculate{3}{CellData}[0][0]{FontSize} = 10;
 $TableRowCalculate{3}{CellData}[0][0]{Lead} = 0;
-$TableRowCalculate{3}{CellData}[0][1]{Content} = 'Zelle 1-2';
+$TableRowCalculate{3}{CellData}[0][1]{Content} = 'Cell 1-2';
 $TableRowCalculate{3}{CellData}[0][1]{Font} = 'Helvetica';
 $TableRowCalculate{3}{CellData}[0][1]{FontSize} = 11;
 $TableRowCalculate{3}{CellData}[0][1]{Lead} = 5;
@@ -2351,11 +2357,11 @@ $TableRowCalculate{3}{ReturnRowData}[0]{OutputHeight} = 103;
 # tablerowcalculatetest4
 $TableRowCalculate{4}{Border} = 2;
 
-$TableRowCalculate{4}{CellData}[0][0]{Content} = 'Zelle 1-1';
+$TableRowCalculate{4}{CellData}[0][0]{Content} = 'Cell 1-1';
 $TableRowCalculate{4}{CellData}[0][0]{Font} = 'Helvetica';
 $TableRowCalculate{4}{CellData}[0][0]{FontSize} = 10;
 $TableRowCalculate{4}{CellData}[0][0]{Lead} = 0;
-$TableRowCalculate{4}{CellData}[0][1]{Content} = 'Zelle 1-2';
+$TableRowCalculate{4}{CellData}[0][1]{Content} = 'Cell 1-2';
 $TableRowCalculate{4}{CellData}[0][1]{Font} = 'Helvetica';
 $TableRowCalculate{4}{CellData}[0][1]{FontSize} = 11;
 $TableRowCalculate{4}{CellData}[0][1]{Lead} = 5;
@@ -2372,11 +2378,11 @@ $TableRowCalculate{4}{ReturnRowData}[0]{OutputHeight} = 15;
 # tablerowcalculatetest5
 $TableRowCalculate{5}{Border} = 2;
 
-$TableRowCalculate{5}{CellData}[0][0]{Content} = 'Zelle 1-1';
+$TableRowCalculate{5}{CellData}[0][0]{Content} = 'Cell 1-1';
 $TableRowCalculate{5}{CellData}[0][0]{Font} = 'Helvetica';
 $TableRowCalculate{5}{CellData}[0][0]{FontSize} = 10;
 $TableRowCalculate{5}{CellData}[0][0]{Lead} = 0;
-$TableRowCalculate{5}{CellData}[0][1]{Content} = 'Zelle 1-2';
+$TableRowCalculate{5}{CellData}[0][1]{Content} = 'Cell 1-2';
 $TableRowCalculate{5}{CellData}[0][1]{Font} = 'Helvetica';
 $TableRowCalculate{5}{CellData}[0][1]{FontSize} = 11;
 $TableRowCalculate{5}{CellData}[0][1]{Lead} = 5;
@@ -2393,11 +2399,11 @@ $TableRowCalculate{5}{ReturnRowData}[0]{OutputHeight} = 5;
 # tablerowcalculatetest6
 $TableRowCalculate{6}{Border} = 2;
 
-$TableRowCalculate{6}{CellData}[0][0]{Content} = 'Zelle 1-1';
+$TableRowCalculate{6}{CellData}[0][0]{Content} = 'Cell 1-1';
 $TableRowCalculate{6}{CellData}[0][0]{Font} = 'Helvetica';
 $TableRowCalculate{6}{CellData}[0][0]{FontSize} = 10;
 $TableRowCalculate{6}{CellData}[0][0]{Lead} = 0;
-$TableRowCalculate{6}{CellData}[0][1]{Content} = 'Zelle 1-2';
+$TableRowCalculate{6}{CellData}[0][1]{Content} = 'Cell 1-2';
 $TableRowCalculate{6}{CellData}[0][1]{Font} = 'Helvetica';
 $TableRowCalculate{6}{CellData}[0][1]{FontSize} = 11;
 $TableRowCalculate{6}{CellData}[0][1]{Lead} = 5;
@@ -2416,7 +2422,7 @@ $TableRowCalculate{7}{CellData}[0][0]{Content} = 'ISS';
 $TableRowCalculate{7}{CellData}[0][0]{Font} = 'Helvetica';
 $TableRowCalculate{7}{CellData}[0][0]{FontSize} = 10;
 $TableRowCalculate{7}{CellData}[0][0]{Lead} = 0;
-$TableRowCalculate{7}{CellData}[0][1]{Content} = 'Letzten Samstag wurde die Nutzlast, das backbordseitige Tragwerksegment P3/4 mit seinen beiden Solarzellenflächen, die ein Viertel der Gesamtstromversorgung der ISS bereitstellen sollen, in den Frachtraum der ATLANTIS verladen.';
+$TableRowCalculate{7}{CellData}[0][1]{Content} = 'Expedition 14 takes over ISS command - The astronauts on board the International Space Station will hold a short ceremony later this evening to mark the change of command from the Expedition 13 to the Expedition 14 crew.';
 $TableRowCalculate{7}{CellData}[0][1]{Font} = 'Helvetica';
 $TableRowCalculate{7}{CellData}[0][1]{FontSize} = 11;
 $TableRowCalculate{7}{CellData}[0][1]{Lead} = 5;
@@ -2425,8 +2431,8 @@ $TableRowCalculate{7}{ColumnData}[0]{TextWidth} = 100;
 $TableRowCalculate{7}{ColumnData}[1]{TextWidth} = 100;
 
 $TableRowCalculate{7}{ReturnRowData}[0]{Height} = 0;
-$TableRowCalculate{7}{ReturnRowData}[0]{TextHeight} = 219;
-$TableRowCalculate{7}{ReturnRowData}[0]{OutputHeight} = 223;
+$TableRowCalculate{7}{ReturnRowData}[0]{TextHeight} = 187;
+$TableRowCalculate{7}{ReturnRowData}[0]{OutputHeight} = 191;
 
 # start testing TableCalculate()
 foreach (sort keys %TableRowCalculate) {
