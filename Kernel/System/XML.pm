@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.35 2006-09-29 14:25:11 tr Exp $
+# $Id: XML.pm,v 1.36 2006-10-02 12:34:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Encode;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.35 $';
+$VERSION = '$Revision: 1.36 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -92,21 +92,39 @@ add a XMLHash to storage
         XMLHash => \@XMLHash,
     );
 
+    my $Key = $XMLObject->XMLHashAdd(
+        Type => 'SomeType',
+        KeyAutoIncrement => 1,
+        XMLHash => \@XMLHash,
+    );
+
 =cut
 
 sub XMLHashAdd {
     my $Self = shift;
     my %Param = @_;
     # check needed stuff
-    foreach (qw(Type Key XMLHash)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    foreach (qw(Type XMLHash)) {
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    if (!$Param{Key} && !$Param{KeyAutoIncrement}) {
+        $Self->{LogObject}->Log(Priority => 'error', Message => "Need Key or KeyAutoIncrement param!");
         return;
-      }
     }
     my %ValueHASH = $Self->XMLHash2D(XMLHash => $Param{XMLHash});
     if (%ValueHASH) {
-        $Self->XMLHashDelete(%Param);
+        if ($Param{Key}) {
+            $Self->XMLHashDelete(%Param);
+        }
+        else {
+            $Param{Key} = $Self->_XMLHashAddAutoIncrement(%Param);
+            if (!$Param{Key}) {
+                return;
+            }
+        }
         # db quote
         foreach (keys %Param) {
             $Param{$_} = $Self->{DBObject}->Quote($Param{$_});
@@ -126,6 +144,41 @@ sub XMLHashAdd {
     }
 }
 
+sub _XMLHashAddAutoIncrement {
+    my $Self = shift;
+    my %Param = @_;
+    my $KeyAutoIncrement = 0;
+    # check needed stuff
+    foreach (qw(Type KeyAutoIncrement)) {
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    my $SQL = "SELECT max(xml_key) " .
+        " FROM " .
+        " xml_storage " .
+        " WHERE " .
+        " xml_type = '$Param{Type}'";
+
+    if (!$Self->{DBObject}->Prepare(SQL => $SQL)) {
+        return;
+    }
+    while (my @Data = $Self->{DBObject}->FetchrowArray()) {
+        $KeyAutoIncrement = $Data[0];
+    }
+    if ($KeyAutoIncrement !~ /^\d+?$/) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "No KeyAutoIncrement possible, no int key exists ($KeyAutoIncrement)!",
+        );
+        return;
+    }
+    else {
+        $KeyAutoIncrement++;
+        return $KeyAutoIncrement;
+    }
+}
 
 =item XMLHashUpdate()
 
@@ -146,10 +199,10 @@ sub XMLHashUpdate {
     my %Param = @_;
     # check needed stuff
     foreach (qw(Type Key XMLHash)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     my %ValueHASH = $Self->XMLHash2D(XMLHash => $Param{XMLHash});
     if (%ValueHASH) {
@@ -194,10 +247,10 @@ sub XMLHashGet {
     my @XMLHash = ();
     # check needed stuff
     foreach (qw(Type Key)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # db quote
     foreach (keys %Param) {
@@ -244,10 +297,10 @@ sub XMLHashDelete {
     my %Param = @_;
     # check needed stuff
     foreach (qw(Type Key)) {
-      if (!$Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
-        return;
-      }
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
     }
     # db quote
     foreach (keys %Param) {
@@ -355,6 +408,7 @@ sub XMLHash2XML {
     }
     return $Output;
 }
+
 sub _ElementBuild {
     my $Self = shift;
     my %Param = @_;
@@ -528,10 +582,10 @@ sub XMLHash2D {
     my @NewXMLStructur;
     # check needed stuff
     foreach (qw(XMLHash)) {
-      if (!defined $Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
-        return;
-      }
+        if (!defined $Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+            return;
+        }
     }
 
     $Self->{XMLLevel} = 0;
@@ -608,10 +662,10 @@ sub XMLStructur2XMLHash {
     my @NewXMLStructur;
     # check needed stuff
     foreach (qw(XMLStructur)) {
-      if (!defined $Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
-        return;
-      }
+        if (!defined $Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+            return;
+        }
     }
     $Self->{Tll} = 0;
     $Self->{XMLTagCount} = 0;
@@ -628,6 +682,7 @@ sub XMLStructur2XMLHash {
     $Self->{XMLHashReturn} = 0;
     return (\%{$Self->{XMLHash2}});
 }
+
 sub _XMLStructur2XMLHash {
     my $Self = shift;
     my %Param = @_;
@@ -819,10 +874,10 @@ sub XMLParse {
     my %Param = @_;
     # check needed stuff
     foreach (qw(String)) {
-      if (!defined $Param{$_}) {
-        $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
-        return;
-      }
+        if (!defined $Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "$_ not defined!");
+            return;
+        }
     }
     # cleanup global vars
     undef $Self->{XMLARRAY};
@@ -970,6 +1025,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.35 $ $Date: 2006-09-29 14:25:11 $
+$Revision: 1.36 $ $Date: 2006-10-02 12:34:00 $
 
 =cut
