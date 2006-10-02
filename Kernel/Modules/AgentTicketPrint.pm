@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - to get a closer view
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketPrint.pm,v 1.31 2006-09-30 17:03:32 mh Exp $
+# $Id: AgentTicketPrint.pm,v 1.32 2006-10-02 12:55:02 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -177,11 +177,6 @@ sub Run {
             TicketData => \%Ticket,
             UserData => \%UserInfo,
         );
-        # output linked objects
-        $Self->_PDFOutputLinkedObjects(
-            PageData => \%Page,
-            LinkData => \%Links,
-        );
         # output ticket freetext fields
         $Self->_PDFOutputTicketFreeText(
             PageData => \%Page,
@@ -191,6 +186,11 @@ sub Run {
         $Self->_PDFOutputTicketFreeTime(
             PageData => \%Page,
             TicketData => \%Ticket,
+        );
+        # output linked objects
+        $Self->_PDFOutputLinkedObjects(
+            PageData => \%Page,
+            LinkData => \%Links,
         );
         # output customer infos
         if (%CustomerData) {
