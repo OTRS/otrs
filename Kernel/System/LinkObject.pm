@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.11 2006-09-21 15:44:25 tr Exp $
+# $Id: LinkObject.pm,v 1.12 2006-10-02 11:12:25 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::LinkObject;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.11 $';
+$VERSION = '$Revision: 1.12 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -66,7 +66,7 @@ sub new {
     bless ($Self, $Type);
 
     # check needed objects
-    foreach (qw(DBObject ConfigObject LogObject TicketObject MainObject UserID)) {
+    foreach (qw(DBObject ConfigObject LogObject MainObject UserID)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -420,6 +420,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2006-09-21 15:44:25 $
+$Revision: 1.12 $ $Date: 2006-10-02 11:12:25 $
 
 =cut

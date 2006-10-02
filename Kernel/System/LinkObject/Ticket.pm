@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject/Ticket.pm - to link ticket objects
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.9 2006-09-20 11:48:43 tr Exp $
+# $Id: Ticket.pm,v 1.10 2006-10-02 11:12:26 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,14 +12,17 @@
 package Kernel::System::LinkObject::Ticket;
 
 use strict;
+use Kernel::System::Ticket;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.9 $';
+$VERSION = '$Revision: 1.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Init {
     my $Self = shift;
     my %Param = @_;
+
+    $Self->{TicketObject} = Kernel::System::Ticket->new(%{$Self});
 
     return 1;
 }
