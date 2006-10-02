@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.30 2006-09-29 15:36:59 mh Exp $
+# $Id: AgentTicketSearch.pm,v 1.31 2006-10-02 12:31:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::SearchProfile;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30 $';
+$VERSION = '$Revision: 1.31 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -420,6 +420,16 @@ sub Run {
                             %UserInfo,
                         },
                     );
+                    # add ticket title
+                    if ($Self->{ConfigObject}->Get('Ticket::Frontend::Title')) {
+                        $Self->{LayoutObject}->Block(
+                            Name => 'Title',
+                            Data => {
+                                %Data,
+                                %UserInfo,
+                            },
+                        );
+                    }
                 }
                 elsif ($GetParam{ResultForm} eq 'Print') {
                     if ($Self->{PDFObject}) {
@@ -476,7 +486,7 @@ sub Run {
                     push (@CSVData, \@Data);
                 }
                 else {
-                    # Condense down the subject
+                    # condense down the subject
                     my $Subject = $Self->{TicketObject}->TicketSubjectClean(
                         TicketNumber => $Data{TicketNumber},
                         Subject => $Data{Subject} || '',
