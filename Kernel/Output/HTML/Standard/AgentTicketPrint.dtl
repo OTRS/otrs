@@ -45,30 +45,6 @@
           <td class="contentkey"> </td>
           <td class="contentvalue"> </td>
         </tr>
-        <tr>
-          <td class="contentkey">$Text{"Linked-Object"}:</td>
-          <td colspan="3" class="contentvalue">
-<!-- dtl:block:LinkNormal -->
-            <a href="$Env{"Baselink"}$Data{"FrontendDest"}$QData{"ID"}" title="$QData{"Object"}: $QData{"Number"}">$QData{"Text"}</a>
-<!-- dtl:block:LinkNormal -->
-          </td>
-        </tr>
-        <tr>
-          <td class="contentkey">$Text{"Parent-Object"}:</td>
-          <td colspan="3" class="contentvalue">
-<!-- dtl:block:LinkParent -->
-            <a href="$Env{"Baselink"}$Data{"FrontendDest"}$QData{"ID"}" title="$QData{"Object"}: $QData{"Number"}">$QData{"Text"}</a>
-<!-- dtl:block:LinkParent -->
-          </td>
-        </tr>
-        <tr>
-          <td class="contentkey">$Text{"Child-Object"}:</td>
-          <td colspan="3" class="contentvalue">
-<!-- dtl:block:LinkChild -->
-            <a href="$Env{"Baselink"}$Data{"FrontendDest"}$QData{"ID"}" title="$QData{"Object"}: $QData{"Number"}">$QData{"Text"}</a>
-<!-- dtl:block:LinkChild -->
-          </td>
-        </tr>
 # --
 # use this if you want to show TicketFreeKey1-2 and TicketFreeValue1-2
 # --
@@ -108,6 +84,35 @@
         $Data{"TicketFreeString16"}
         $Data{"TicketFreeTimeString1"}
         $Data{"TicketFreeTimeString2"}
+
+        <tr>
+          <td class="contentkey">&nbsp;</td>
+          <td colspan="3" class="contentvalue">&nbsp;</td>
+        </tr>
+        <tr>
+          <td class="contentkey">$Text{"Linked-Object"}:</td>
+          <td colspan="3" class="contentvalue">
+<!-- dtl:block:LinkNormal -->
+            <a href="$Env{"Baselink"}$Data{"FrontendDest"}$QData{"ID"}" title="$QData{"Object"}: $QData{"Number"}">$QData{"Text"}</a>
+<!-- dtl:block:LinkNormal -->
+          </td>
+        </tr>
+        <tr>
+          <td class="contentkey">$Text{"Parent-Object"}:</td>
+          <td colspan="3" class="contentvalue">
+<!-- dtl:block:LinkParent -->
+            <a href="$Env{"Baselink"}$Data{"FrontendDest"}$QData{"ID"}" title="$QData{"Object"}: $QData{"Number"}">$QData{"Text"}</a>
+<!-- dtl:block:LinkParent -->
+          </td>
+        </tr>
+        <tr>
+          <td class="contentkey">$Text{"Child-Object"}:</td>
+          <td colspan="3" class="contentvalue">
+<!-- dtl:block:LinkChild -->
+            <a href="$Env{"Baselink"}$Data{"FrontendDest"}$QData{"ID"}" title="$QData{"Object"}: $QData{"Number"}">$QData{"Text"}</a>
+<!-- dtl:block:LinkChild -->
+          </td>
+        </tr>
       </table>
     </td>
   </tr>
@@ -150,16 +155,6 @@
                       <td class="contentvalue" width="85%"> <div title="$QData{"Value"}">$QData{"Value","160"}</div></td>
                     </tr>
 <!-- dtl:block:ArticleFreeText -->
-# --
-# show the Article::FreeKey1-3 and Article::FreeValue1-3
-# --
-#<dtl if ($Data{"Article::FreeKey1"} ne "") { $Data{"ArticleFreeString1"} = "<tr><td class="contentkey">$QData{"FreeKey1"}:</td><td class="contentvalue"> $QData{"FreeText1"}</td></tr>"; }>
-#<dtl if ($Data{"Article::FreeKey2"} ne "") { $Data{"ArticleFreeString2"} = "<tr><td class="contentkey">$QData{"FreeKey2"}:</td><td class="contentvalue"> $QData{"FreeText2"}</td></tr>"; }>
-#<dtl if ($Data{"Article::FreeKey3"} ne "") { $Data{"ArticleFreeString3"} = "<tr><td class="contentkey">$QData{"FreeKey3"}:</td><td class="contentvalue"> $QData{"FreeText3"}</td></tr>"; }>
-#     $Data{"ArticleFreeString1"}
-#     $Data{"ArticleFreeString2"}
-#     $Data{"ArticleFreeString3"}
-# --
                     <tr>
                       <td class="contentkey">$Text{"Type"}:</td>
                       <td class="contentvalue"> $QData{"ArticleType"}</td>
