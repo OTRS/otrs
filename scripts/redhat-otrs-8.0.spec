@@ -1,8 +1,8 @@
 # --
 # RPM spec file for RedHat Linux of the OTRS package
-# Copyright (C) 2002-2003 Martin Edenhofer <bugs+rpm@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: redhat-otrs-8.0.spec,v 1.8 2006-03-25 22:30:20 martin Exp $
+# $Id: redhat-otrs-8.0.spec,v 1.9 2006-10-03 14:34:47 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you

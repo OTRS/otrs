@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # scripts/tools/sync-ldap2db.pl - sync a ldap directory to database
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: sync-ldap2db.pl,v 1.1 2005-03-05 07:53:31 martin Exp $
+# $Id: sync-ldap2db.pl,v 1.2 2006-10-03 14:34:47 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin)."/../Kernel/cpan-lib";
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Net::LDAP;

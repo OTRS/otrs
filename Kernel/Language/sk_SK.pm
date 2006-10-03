@@ -1,8 +1,8 @@
 # --
 # Kernel/Language/sk_SK.pm - provides sk_SK language translation
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: sk_SK.pm,v 1.3 2006-04-01 23:38:29 martin Exp $
+# $Id: sk_SK.pm,v 1.4 2006-10-03 14:36:01 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,10 +13,9 @@ package Kernel::Language::sk_SK;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.3 $';
+$VERSION = '$Revision: 1.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub Data {
     my $Self = shift;
     my %Param = @_;
@@ -1212,5 +1211,5 @@ sub Data {
     };
     # $$STOP$$
 }
-#--
+
 1;

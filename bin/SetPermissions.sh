@@ -1,9 +1,9 @@
 #!/bin/sh
 # --
 # SetPermissions.sh - to set the otrs permissions
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: SetPermissions.sh,v 1.27 2005-07-13 17:47:43 martin Exp $
+# $Id: SetPermissions.sh,v 1.28 2006-10-03 14:36:02 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,8 +20,8 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "SetPermissions.sh <\$Revision: 1.27 $> - set OTRS file permissions"
-echo "Copyright (c) 2001-2004 Martin Edenhofer <martin@otrs.org>"
+echo "SetPermissions.sh <\$Revision: 1.28 $> - set OTRS file permissions"
+echo "Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/"
 
 if ! test $1 || ! test $2 || ! test $3; then
     # --

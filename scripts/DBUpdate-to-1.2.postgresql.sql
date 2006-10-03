@@ -1,8 +1,8 @@
 -- --
 -- Update an existing OTRS database from 1.1 to 1.2
--- Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+-- Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 -- --
--- $Id: DBUpdate-to-1.2.postgresql.sql,v 1.16 2005-10-05 23:47:34 martin Exp $
+-- $Id: DBUpdate-to-1.2.postgresql.sql,v 1.17 2006-10-03 14:34:47 mh Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-1.1.postgresql.sql | psql otrs

@@ -1,20 +1,20 @@
 #!/usr/bin/perl -w
 # --
 # scripts/test/CustomerBackend.pl - test script of customer backend
-# Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerBackend.pl,v 1.2 2003-10-13 20:29:54 martin Exp $
+# $Id: CustomerBackend.pl,v 1.3 2006-10-03 14:34:47 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -29,7 +29,7 @@ use lib dirname($RealBin).'/../Kernel/cpan-lib';
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Kernel::Config;
@@ -57,15 +57,19 @@ print "Filter: '$SearchUser'\n";
 print "\n";
 print "CustomerSearch()\n";
 print "----------------\n";
+
 my $LastCustomer = '';
 my %Customers = $CommonObject{CustomerObject}->CustomerSearch(Search => $SearchUser);
+
 foreach (keys %Customers) {
     $LastCustomer = $_;
     print "$_: $Customers{$_}\n";
 }
+
 print "\n";
 print "CustomerUserDataGet()\n";
 print "---------------------\n";
+
 if ($LastCustomer) {
     print "Show Customer User Data of '$LastCustomer':\n";
     my %CustomerData = $CommonObject{CustomerObject}->CustomerUserDataGet(User => $LastCustomer);
@@ -80,6 +84,7 @@ print "\n";
 
 print "CustomerName()\n";
 print "--------------\n";
+
 if ($LastCustomer) {
     print "Show Customer User Name of '$LastCustomer':\n";
     my $Customer = $CommonObject{CustomerObject}->CustomerName(UserLogin => $LastCustomer) || '';
@@ -88,5 +93,5 @@ if ($LastCustomer) {
 else {
     print "No Customer Found!\n";
 }
-print "\n";
 
+print "\n";

@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # scripts/test/TicketHistoryState.pl - test script of user auth
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: TicketHistoryState.pl,v 1.1 2004-09-08 12:58:53 martin Exp $
+# $Id: TicketHistoryState.pl,v 1.2 2006-10-03 14:34:47 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib dirname($RealBin).'/../Kernel/cpan-lib';
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Kernel::Config;
@@ -59,8 +59,10 @@ print "State at: '$TimeStamp'\n";
 print "\n";
 print "HistoryTicketGet()\n";
 print "------\n";
+
 my %Ticket = $CommonObject{TicketObject}->HistoryTicketGet(TicketID => $TicketID, TimeStamp => $TimeStamp);
+
 foreach (sort keys %Ticket) {
-print "$_: $Ticket{$_}\n";
+    print "$_: $Ticket{$_}\n";
 }
 

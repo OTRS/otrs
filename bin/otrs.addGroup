@@ -2,9 +2,9 @@
 # --
 # bin/otrs.addGroup - add new system groups
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: otrs.addGroup,v 1.9 2005-03-18 13:41:33 martin Exp $
+# $Id: otrs.addGroup,v 1.10 2006-10-03 14:36:02 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -58,9 +58,9 @@ $CommonObject{LogObject}    = Kernel::System::Log->new(%CommonObject, LogPrefix 
 $CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
 $CommonObject{GroupObject}  = Kernel::System::Group->new(%CommonObject);
 
-#user id of the person adding the record
+# user id of the person adding the record
 $Param{UserID}='1';
-#Validrecord
+# Validrecord
 $Param{ValidID}='1';
 $Param{Comment}=$opts{'c'} || '';
 $Param{Name}=$opts{'n'} || '';

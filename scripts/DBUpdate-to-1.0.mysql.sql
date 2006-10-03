@@ -1,8 +1,8 @@
 -- --
--- Update an existing OTRS database from 0.5 to 1.0 
--- Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+-- Update an existing OTRS database from 0.5 to 1.0
+-- Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 -- --
--- $Id: DBUpdate-to-1.0.mysql.sql,v 1.4 2003-02-09 20:52:17 martin Exp $
+-- $Id: DBUpdate-to-1.0.mysql.sql,v 1.5 2006-10-03 14:36:02 mh Exp $
 -- --
 --
 -- usage: cat DBUpdate.mysql.sql | mysql -f -u root otrs
@@ -20,7 +20,7 @@ CREATE TABLE ticket_lock_index
 );
 -- standard_attachment
 CREATE TABLE standard_attachment
-(   
+(
     id INTEGER NOT NULL AUTO_INCREMENT,
     name varchar (150) NOT NULL,
     content_type varchar (150) NOT NULL,
@@ -35,9 +35,9 @@ CREATE TABLE standard_attachment
     PRIMARY KEY(id),
     UNIQUE (name)
 );
--- standard_response_attachment 
+-- standard_response_attachment
 CREATE TABLE standard_response_attachment
-(   
+(
     id INTEGER NOT NULL AUTO_INCREMENT,
     standard_attachment_id integer NOT NULL,
     standard_response_id integer NOT NULL,
@@ -102,9 +102,9 @@ CREATE TABLE ticket_loop_protection
     INDEX index_ticket_loop_protection_sent_date (sent_date)
 );
 -- charset for bulgarian translation
-ALTER TABLE charset 
-    MODIFY name VARCHAR (200) NOT NULL, 
-    MODIFY charset VARCHAR (50) NOT NULL, 
+ALTER TABLE charset
+    MODIFY name VARCHAR (200) NOT NULL,
+    MODIFY charset VARCHAR (50) NOT NULL,
     MODIFY comment VARCHAR (250)
 ;
 INSERT INTO charset
@@ -118,14 +118,14 @@ CREATE TABLE article_attachment
     article_id BIGINT NOT NULL,
     filename VARCHAR (250),
     content_type VARCHAR (250),
-    content LONGBLOB, 
+    content LONGBLOB,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
     INDEX article_id (article_id)
-  
+
 );
 -- table for plain emails in db
 CREATE TABLE article_plain
@@ -261,7 +261,7 @@ ALTER TABLE ticket ADD ticket_answered SMALLINT NOT NULL DEFAULT 0;
 INSERT INTO ticket_history_type
     (name, valid_id, create_by, change_by, change_time)
 VALUES
-    ('SendAgentNotification', 1, 1, 1, current_timestamp); 
+    ('SendAgentNotification', 1, 1, 1, current_timestamp);
 
 -- add article_type
 INSERT INTO article_type
@@ -279,8 +279,8 @@ CREATE TABLE user_preferences
     user_id INTEGER NOT NULL,
     preferences_key VARCHAR (100) NOT NULL,
     preferences_value VARCHAR (250),
-    PRIMARY KEY(user_id) 
-);  
+    PRIMARY KEY(user_id)
+);
 
 -- create session table
 CREATE TABLE session

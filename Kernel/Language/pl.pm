@@ -1,9 +1,9 @@
 # --
 # Kernel/Language/pl.pm - provides pl language translation
-# Copyright (C) 2001-2006 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # Translated by Tomasz Melissa <janek at rumianek.com>
 # --
-# $Id: pl.pm,v 1.29 2006-04-01 23:38:29 martin Exp $
+# $Id: pl.pm,v 1.30 2006-10-03 14:36:01 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ package Kernel::Language::pl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.29 $';
+$VERSION = '$Revision: 1.30 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1211,5 +1211,5 @@ sub Data {
     };
     # $$STOP$$
 }
-# --
+
 1;

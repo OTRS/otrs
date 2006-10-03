@@ -1,8 +1,8 @@
 # --
 # scripts/redhat-rpmmacros - provides Redhat dir env for SuSE build systems 
-# Copyright (C) 2002 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: redhat-rpmmacros,v 1.1 2002-09-17 12:49:56 martin Exp $
+# $Id: redhat-rpmmacros,v 1.2 2006-10-03 14:34:47 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you

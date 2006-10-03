@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # scripts/tools/charset-convert.pl - converts a text file from one to an other one charset
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: charset-convert.pl,v 1.2 2005-07-24 10:51:05 martin Exp $
+# $Id: charset-convert.pl,v 1.3 2006-10-03 14:34:47 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 # --
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use strict;
@@ -34,7 +34,7 @@ getopt('hsdf', \%Opts);
 # usage
 if ($Opts{'h'}) {
     print "charset-convert.pl <Revision $VERSION> - convert a charset of a file\n";
-    print "Copyright (c) 2001-2005 Martin Edenhofer <martin\@otrs.org>\n";
+    print "Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/\n";
     print "usage: charset-convert.pl -s <SOURCE_CHARSET> -d <DEST_CHARSET> -f <FILE>\n";
     print "       charset-convert.pl -s <SOURCE_CHARSET> -d <DEST_CHARSET> < file\n";
     exit 1;
@@ -45,25 +45,28 @@ if (!$Opts{'s'}){
     print STDERR "ERROR: Need -s <SOURCE_CHARSET>\n";
     exit 1;
 }
-
 if (!$Opts{'d'}) {
     print STDERR "ERROR: Need -d <DEST_CHARSET>\n";
     exit 1;
 }
+
 # check stdin
 my $In = '';
 my @STD = ();
+
 if (!$Opts{'f'}) {
     @STD = <STDIN>;
     foreach (@STD) {
         $In .= $_;
     }
 }
+
 # check file
 elsif (! -f $Opts{'f'}) {
     print STDERR "ERROR: Invalid -f <FILE>: no such file!\n";
     exit 1;
 }
+
 # read file
 else {
     open (IN, "< $Opts{'f'}") || die "Can't open $Opts{'f'}: $!\n";
@@ -80,10 +83,10 @@ Encode::from_to($In, $Opts{'s'}, $Opts{'d'});
 if (@STD) {
     print $In;
 }
+
 # write
 else {
     open (OUT, "> $Opts{'f'}") || die "Can't write $Opts{'f'}: $!\n";
     print OUT $In;
     close (OUT);
 }
-

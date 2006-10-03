@@ -1,8 +1,8 @@
 -- --
--- Update an existing OTRS database from 1.0 to 1.1 
--- Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+-- Update an existing OTRS database from 1.0 to 1.1
+-- Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 -- --
--- $Id: DBUpdate-to-1.1.mysql.sql,v 1.9 2003-04-12 22:06:21 martin Exp $
+-- $Id: DBUpdate-to-1.1.mysql.sql,v 1.10 2006-10-03 14:36:02 mh Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-1.1.mysql.sql | mysql -f -u root otrs
@@ -20,16 +20,16 @@ DELETE FROM ticket_history_type WHERE name = 'Reopen';
 DELETE FROM ticket_history_type WHERE name = 'Close unsuccessful';
 DELETE FROM ticket_history_type WHERE name = 'Close successful';
 --DELETE FROM ticket_history_type WHERE name = '';
--- 
+--
 -- add ticket state update log type
--- 
+--
 INSERT INTO ticket_history_type
     (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('StateUpdate', 1, 1, current_timestamp, 1, current_timestamp);
--- 
+--
 -- add ticket free text update log type
--- 
+--
 INSERT INTO ticket_history_type
     (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
@@ -42,7 +42,7 @@ ALTER TABLE queue ADD lock_notify SMALLINT NOT NULL;
 ALTER TABLE queue ADD state_notify SMALLINT NOT NULL;
 ALTER TABLE queue ADD owner_notify SMALLINT NOT NULL;
 --
--- added for customer notifications 
+-- added for customer notifications
 --
 INSERT INTO ticket_history_type
     (name, valid_id, create_by, create_time, change_by, change_time)
@@ -56,7 +56,7 @@ ALTER TABLE group_user ADD permission_read SMALLINT NOT NULL;
 ALTER TABLE group_user ADD permission_write SMALLINT NOT NULL;
 UPDATE group_user SET permission_read = 1, permission_write = 1 WHERE permission_read = 0 AND permission_write = 0;
 
--- 
+--
 -- add ticket_state_type table
 --
 CREATE TABLE ticket_state_type
@@ -70,16 +70,16 @@ CREATE TABLE ticket_state_type
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
     UNIQUE (name)
-);  
+);
 INSERT INTO ticket_state_type (name, comment, create_by, create_time, change_by, change_time)
     VALUES
-    ('new', 'all new state types (default: viewable)', 1, current_timestamp, 1, current_timestamp); 
+    ('new', 'all new state types (default: viewable)', 1, current_timestamp, 1, current_timestamp);
 INSERT INTO ticket_state_type (name, comment, create_by, create_time, change_by, change_time)
     VALUES
-    ('open', 'all open state types (default: viewable)', 1, current_timestamp, 1, current_timestamp); 
+    ('open', 'all open state types (default: viewable)', 1, current_timestamp, 1, current_timestamp);
 INSERT INTO ticket_state_type (name, comment, create_by, create_time, change_by, change_time)
     VALUES
-    ('closed', 'all closed state types (default: not viewable)', 1, current_timestamp, 1, current_timestamp); 
+    ('closed', 'all closed state types (default: not viewable)', 1, current_timestamp, 1, current_timestamp);
 INSERT INTO ticket_state_type (name, comment, create_by, create_time, change_by, change_time)
     VALUES
     ('pending reminder', 'all "pending reminder" state types (default: viewable)', 1, current_timestamp, 1, current_timestamp);
@@ -93,7 +93,7 @@ INSERT INTO ticket_state_type (name, comment, create_by, create_time, change_by,
 -- add ticket_state_type to ticket_state
 --
 ALTER TABLE ticket_state ADD type_id SMALLINT NOT NULL;
--- 
+--
 -- update ticket_state table
 --
 UPDATE ticket_state SET type_id = 1 WHERE name = 'new';
@@ -104,15 +104,15 @@ UPDATE ticket_state SET type_id = 6 WHERE name = 'removed';
 UPDATE ticket_state SET type_id = 4 WHERE name = 'pending reminder';
 UPDATE ticket_state SET type_id = 5 WHERE name = 'pending auto close+';
 UPDATE ticket_state SET type_id = 5 WHERE name = 'pending auto close-';
--- 
+--
 -- delete not needed queue (important for sub queue)
 --
 DELETE FROM queue WHERE name = '';
 --
 -- modify table ticket
 --
-ALTER TABLE ticket ADD customer_user_id VARCHAR (250); 
--- 
+ALTER TABLE ticket ADD customer_user_id VARCHAR (250);
+--
 -- updated priority states
 --
 UPDATE ticket_priority SET name = '1 very low' WHERE name = 'very low';

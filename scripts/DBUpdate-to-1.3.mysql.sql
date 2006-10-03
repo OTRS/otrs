@@ -1,8 +1,8 @@
 -- --
 -- Update an existing OTRS database from 1.2 to 1.3
--- Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+-- Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 -- --
--- $Id: DBUpdate-to-1.3.mysql.sql,v 1.14 2004-10-14 15:33:33 martin Exp $
+-- $Id: DBUpdate-to-1.3.mysql.sql,v 1.15 2006-10-03 14:34:47 mh Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-1.3.mysql.sql | mysql -f -u root otrs

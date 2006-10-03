@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # xml2html.pl - a "_simple_" xml2html viewer
-# Copyright (C) 2001-2005 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: xml2html.pl,v 1.7 2005-03-02 09:34:25 martin Exp $
+# $Id: xml2html.pl,v 1.8 2006-10-03 14:34:47 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -46,11 +46,11 @@ my $XMLObject = Kernel::System::XML->new(
 );
 
 my $Title = 'xml2html: ';
-
 my $HTML = '';
 my $Layer = -1;
 my $File = shift;
 my $FileContent = '';
+
 if ($File) {
     open(IN, "< $File") || die "Can't open file $File: $!";
     while (<IN>) {
@@ -112,9 +112,7 @@ sub Content {
     return "<span style=\"font-size:10pt;font-family:monospace,fixed;margin:".(($Layer*20)+5)."px;\">$C<br>\n</span>";
 }
 
-
 $HTML = "<html><head><title>$Title</title></head><body><center><table width=\"900\"><tr><td>\n".$HTML;
 $HTML .= "<hr></td></tr></table></center></body></html>\n";
 
 print $HTML;
-

@@ -3,11 +3,14 @@
 <!--
 
   XML File for the OTRS database description
-  Copyright (C) 2001-2003 Martin Edenhofer
+  Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 
-  $Id: otrs-schema.xml,v 1.54 2006-09-27 12:20:49 martin Exp $
+  $Id: otrs-schema.xml,v 1.55 2006-10-03 14:34:47 mh Exp $
 
   $Log: not supported by cvs2svn $
+  Revision 1.54  2006/09/27 12:20:49  martin
+  removed NOT NULL from xml_content_value of xml_storage table
+
   Revision 1.53  2006/08/27 22:31:44  martin
   added calendar support
 

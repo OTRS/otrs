@@ -1,11 +1,11 @@
 -- --
 -- Update an existing OTRS database from 0.5 to 1.0
--- Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+-- Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 -- --
--- $Id: DBUpdate-to-1.0.postgresql.sql,v 1.4 2003-02-09 20:52:17 martin Exp $
+-- $Id: DBUpdate-to-1.0.postgresql.sql,v 1.5 2006-10-03 14:36:02 mh Exp $
 -- --
 --
--- usage: cat DBUpdate-to-1.0.postgresql.sql | psql otrs 
+-- usage: cat DBUpdate-to-1.0.postgresql.sql | psql otrs
 --
 -- --
 
@@ -20,7 +20,7 @@ CREATE TABLE ticket_lock_index
 CREATE INDEX index_lock_ticket_id ON ticket_lock_index (ticket_id);
 -- standard_attachment
 CREATE TABLE standard_attachment
-(   
+(
     id serial,
     name varchar (150) NOT NULL,
     content_type varchar (150) NOT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE standard_attachment
 );
 -- standard_response_attachment
 CREATE TABLE standard_response_attachment
-(   
+(
     id serial,
     standard_attachment_id integer NOT NULL,
     standard_response_id integer NOT NULL,
@@ -128,8 +128,8 @@ INSERT INTO charset (
      create_time,
      create_by,
      change_time,
-     change_by) 
-SELECT  
+     change_by)
+SELECT
      name,
      charset,
      comment,
@@ -147,7 +147,7 @@ INSERT INTO charset
 -- table for attachments in db
 CREATE TABLE article_attachment
 (
-    id serial, 
+    id serial,
     article_id BIGINT NOT NULL,
     filename VARCHAR (250),
     content_type VARCHAR (250),
@@ -233,7 +233,7 @@ create  INDEX ticket_history_create_time ON ticket_history (create_time);
 -- BETA 7 upgrate
 -- --
 CREATE TABLE ticket_index
-(   
+(
     ticket_id bigint NOT NULL,
     queue_id integer NOT NULL,
     queue varchar (70) NOT NULL,
@@ -245,7 +245,7 @@ CREATE TABLE ticket_index
 
 -- new time accounting table
 CREATE TABLE time_accounting
-(   
+(
     id serial8,
     ticket_id bigint NOT NULL,
     article_id bigint,

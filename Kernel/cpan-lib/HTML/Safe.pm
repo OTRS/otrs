@@ -1,8 +1,8 @@
 # --
 # HTML::Safe.pm - remove activ html stuff from html strings
-# Copyright (C) 2001-2004 Martin Edenhofer <martin+code@otrs.org>
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Safe.pm,v 1.3 2006-09-19 14:50:20 tr Exp $
+# $Id: Safe.pm,v 1.4 2006-10-03 14:36:01 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -278,6 +278,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2006-09-19 14:50:20 $
+$Revision: 1.4 $ $Date: 2006-10-03 14:36:01 $
 
 =cut

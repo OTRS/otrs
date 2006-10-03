@@ -1,28 +1,27 @@
 #!/bin/sh
 # --
-# auto_docbuild.sh - build automatically OTRS docu 
-# Copyright (C) 2003 Martin Edenhofer <martin+code@otrs.org>
+# auto_docbuild.sh - build automatically OTRS docu
+# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: auto_docbuild.sh,v 1.4 2004-02-16 02:48:47 martin Exp $
+# $Id: auto_docbuild.sh,v 1.5 2006-10-03 14:34:47 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "auto_docbuild.sh - build automatically OTRS docu <\$Revision: 1.4 $>"
-echo "Copyright (c) 2003 Martin Edenhofer <martin@otrs.org>"
-
+echo "auto_docbuild.sh - build automatically OTRS docu <\$Revision: 1.5 $>"
+echo "Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/"
 
 PATH_TO_CVS_SRC=$1
 PACKAGE=OTRSDOC
@@ -40,7 +39,7 @@ if ! test $PATH_TO_CVS_SRC; then
     echo ""
     exit 1;
 else
-    # check dir 
+    # check dir
     if ! test -e $PATH_TO_CVS_SRC/de; then
         echo "Error: $PATH_TO_CVS_SRC is not OTRS CVS directory!"
         exit 1;
@@ -64,7 +63,7 @@ for Language in en de; do
     # remove swap stuff
     find -name ".#*" | xargs rm -rf
 
-    # build docu 
+    # build docu
     mkdir $PACKAGE_BUILD_DIR/$Language/
     cd $PACKAGE_BUILD_DIR/$Language/
 
@@ -82,7 +81,7 @@ for Language in en de; do
     db2x.sh --pdf manual.sgml
     mkdir -p $PACKAGE_DEST_DIR/$Language/pdf
     cp manual.pdf $PACKAGE_DEST_DIR/$Language/pdf/otrs.pdf
- 
+
     # html
     db2x.sh --html manual.sgml
     mkdir -p $PACKAGE_DEST_DIR/$Language/html
@@ -95,10 +94,10 @@ for Language in en de; do
     # sgml
     mkdir -p $PACKAGE_DEST_DIR/$Language/sgml
     cp -R *.sgml $PACKAGE_DEST_DIR/$Language/sgml/
- 
+
     # cleanup
     rm -rf $PACKAGE_BUILD_DIR
- 
+
 done;
 
 # show result
