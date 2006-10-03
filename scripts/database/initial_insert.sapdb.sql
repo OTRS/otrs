@@ -1,10 +1,13 @@
 // --
 // initial_insert.sql - provides initial system data
-// Copyright (C) 2001,2002 Martin Edenhofer <martin+code@otrs.org>
+// Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 // --
-// $Id: initial_insert.sapdb.sql,v 1.3 2004-02-04 11:40:41 martin Exp $
-// 
+// $Id: initial_insert.sapdb.sql,v 1.4 2006-10-03 12:34:04 mh Exp $
+//
 // $Log: not supported by cvs2svn $
+// Revision 1.3  2004/02/04 11:40:41  martin
+// renamed comment to comments
+//
 // Revision 1.2  2003/12/02 21:52:56  martin
 // fixed inital load of new user_group table
 //
@@ -206,7 +209,7 @@ INSERT INTO ticket_lock_type
         VALUES
         ('tmp_lock', 1, 1, timestamp, 1, timestamp)
 //
-// user 
+// user
 INSERT INTO system_user
     (first_name, last_name, login, pw, valid_id, create_by, create_time, change_by, change_time)
     VALUES
@@ -342,7 +345,7 @@ INSERT INTO ticket_state_type (name, comments, create_by, create_time, change_by
 INSERT INTO ticket_state_type (name, comments, create_by, create_time, change_by, change_time)
     VALUES
     ('open', 'all open state types (default: viewable)', 1, timestamp, 1, timestamp)
-// 
+//
 INSERT INTO ticket_state_type (name, comments, create_by, create_time, change_by, change_time)
     VALUES
     ('closed', 'all closed state types (default: not viewable)', 1, timestamp, 1, timestamp)
@@ -774,23 +777,23 @@ INSERT INTO queue_auto_response
 //
 // --
 // welcome ticket
-// 2002-02-03 added by martin+code at otrs.org 
+// 2002-02-03 added by martin+code at otrs.org
 // --
-INSERT INTO article 
+INSERT INTO article
   (ticket_id, article_type_id, article_sender_type_id, a_from, a_to, a_subject, a_message_id, a_body, incoming_time, content_path, valid_id, create_time, create_by, change_time, change_by)
-  VALUES 
-  (1,1,3, 'OTRS Feedback <feedback@otrs.org>', 'Your OTRS System <otrs@localhost>', 
+  VALUES
+  (1,1,3, 'OTRS Feedback <feedback@otrs.org>', 'Your OTRS System <otrs@localhost>',
   'Welcome to OTRS!', '<007@localhost>',
   'Welcome to OTRS!thank you for installing OTRS.You will find updates and patches at http://otrs.org/. Onlinedocumentation is available at http://doc.otrs.org/. You can alsotake advantage of our mailing lists http://lists.otrs.org/.Your OTRS Team    Manage your communication!',
   1012757943, '2002/02/3', 1, timestamp,1,timestamp,1)
 //
-INSERT INTO ticket 
+INSERT INTO ticket
   (tn, queue_id, ticket_lock_id, ticket_answered, user_id, group_id, ticket_priority_id, ticket_state_id, valid_id, create_time_unix, create_time, create_by, change_time, change_by)
-  VALUES 
+  VALUES
   ('1010001', 2, 1, 0, 1, 1, 3, 1, 1, 1012757943, timestamp, 1, timestamp, 1)
 //
-INSERT INTO ticket_history 
-  (name, history_type_id, ticket_id, article_id, valid_id, create_time, create_by, change_time, change_by) 
-  VALUES 
+INSERT INTO ticket_history
+  (name, history_type_id, ticket_id, article_id, valid_id, create_time, create_by, change_time, change_by)
+  VALUES
   ('New Ticket [1010001] created.',1,1,1,1, timestamp,1,timestamp,1)
 //
