@@ -1,10 +1,13 @@
 -- --
 -- initial_insert.sql - provides initial system data
--- Copyright (C) 2001-2003 Martin Edenhofer <martin+code@otrs.org>
+-- Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 -- --
--- $Id: initial_insert.sql,v 1.50 2006-10-02 14:46:45 martin Exp $
+-- $Id: initial_insert.sql,v 1.51 2006-10-03 12:33:23 mh Exp $
 --
 -- $Log: not supported by cvs2svn $
+-- Revision 1.50  2006/10/02 14:46:45  martin
+-- fixed missing ^M
+--
 -- Revision 1.49  2006/09/28 09:03:45  tr
 -- changed autoreponse text
 --
@@ -406,17 +409,7 @@ Thank you for your request.
 INSERT INTO signature
     (name, text, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('system standard signature (en)', '
-Your Ticket-Team
-
- -
- <OTRS_Agent_UserFirstname> <OTRS_Agent_UserLastname>
-
---
- Super Support - Waterford Business Park
- 5201 Blue Lagoon Drive - 8th Floor & 9th Floor - Miami, 33126 USA
- Email: hot@example.com - Web: http://www.example.com/
---', 'std signature', 1, 1, current_timestamp, 1, current_timestamp);
+    ('system standard signature (en)', '^MYour Ticket-Team^M^M -^M <OTRS_Agent_UserFirstname> <OTRS_Agent_UserLastname>^M^M--^M Super Support - Waterford Business Park^M 5201 Blue Lagoon Drive - 8th Floor & 9th Floor - Miami, 33126 USA^M Email: hot@example.com - Web: http://www.example.com/^M --', 'std signature', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- system_address
 INSERT INTO system_address
