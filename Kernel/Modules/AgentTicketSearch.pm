@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.31 2006-10-02 12:31:36 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.32 2006-10-04 15:43:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::SearchProfile;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.31 $';
+$VERSION = '$Revision: 1.32 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -786,10 +786,13 @@ sub MaskForm {
         SelectedID => $Param{ResultForm} || 'Normal',
     );
     $Param{'ProfilesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => { '', '-', $Self->{SearchProfileObject}->SearchProfileList(
-            Base => 'TicketSearch',
-            UserLogin => $Self->{UserLogin},
-          ),
+        Data => {
+            '',
+            '-',
+            $Self->{SearchProfileObject}->SearchProfileList(
+                Base => 'TicketSearch',
+                UserLogin => $Self->{UserLogin},
+            ),
         },
         Name => 'Profile',
         SelectedID => $Param{Profile},
@@ -826,9 +829,10 @@ sub MaskForm {
         OnChangeSubmit => 0,
     );
     $Param{'PriotitiesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => { $Self->{PriorityObject}->PriorityList(
-            UserID => $Self->{UserID},
-            Action => $Self->{Action},
+        Data => {
+            $Self->{PriorityObject}->PriorityList(
+                UserID => $Self->{UserID},
+                Action => $Self->{Action},
             ),
         },
         Name => 'PriorityIDs',
