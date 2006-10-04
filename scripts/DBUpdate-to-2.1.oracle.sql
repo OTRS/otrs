@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 2.0 to 2.1
 -- Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 -- --
--- $Id: DBUpdate-to-2.1.oracle.sql,v 1.3 2006-09-28 20:23:58 rk Exp $
+-- $Id: DBUpdate-to-2.1.oracle.sql,v 1.4 2006-10-04 10:46:50 rk Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.1.oracle.sql | sqlplus "user/password"
@@ -119,18 +119,20 @@ Ihr OTRS Benachrichtigungs-Master', current_timestamp, 1, current_timestamp, 1);
 --
 
 CREATE TABLE faq_voting (
-    id BIGINT NOT NULL AUTO_INCREMENT,
-    created_by VARCHAR (200) NOT NULL,
-    item_id INTEGER NOT NULL,
-    interface VARCHAR (80),
-    ip VARCHAR (50),
-    rate INTEGER NOT NULL,
-    created DATETIME,
-    PRIMARY KEY(id)
+    id NUMBER (20) NOT NULL,
+    created_by VARCHAR2 (200) NOT NULL,
+    item_id NUMBER NOT NULL,
+    interface VARCHAR2 (80),
+    ip VARCHAR2 (50),
+    rate NUMBER NOT NULL,
+    created DATE
 );
 
-ALTER TABLE faq_category ADD parent_id INTEGER;
-ALTER TABLE faq_category ADD valid_id INTEGER;
+ALTER TABLE faq_category ADD parent_id NUMBER;
+ALTER TABLE faq_category ADD valid_id NUMBER;
+
+UPDATE faq_category SET parent_id = 0;
+UPDATE faq_category SET valid_id = 1;
 
 ALTER TABLE faq_category CHANGE create_by created_by NUMBER;
 ALTER TABLE faq_category CHANGE change_by changed_by NUMBER;
