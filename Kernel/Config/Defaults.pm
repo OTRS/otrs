@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.244 2006-08-29 17:32:08 martin Exp $
+# $Id: Defaults.pm,v 1.245 2006-10-04 07:56:53 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ package Kernel::Config::Defaults;
 use strict;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.244 $';
+$VERSION = '$Revision: 1.245 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # --
@@ -169,7 +169,7 @@ sub LoadDefaults {
 #        'host2\.example\.com' => 'SomeTheme1',
 #    };
 
-    # Fronten::ImagePath
+    # Frontend::ImagePath
     # (Define URL of images)
     $Self->{'Frontend::ImagePath'} = '/otrs-web/images/Standard/';
 
@@ -1830,6 +1830,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.244 $ $Date: 2006-08-29 17:32:08 $
+$Revision: 1.245 $ $Date: 2006-10-04 07:56:53 $
 
 =cut
