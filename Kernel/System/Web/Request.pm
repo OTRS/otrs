@@ -2,7 +2,7 @@
 # Kernel/System/Web/Request.pm - a wrapper for CGI.pm or Apache::Request.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Request.pm,v 1.7 2006-09-27 15:03:43 martin Exp $
+# $Id: Request.pm,v 1.8 2006-10-04 11:44:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::Encode;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.7 $ ';
+$VERSION = '$Revision: 1.8 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -220,10 +220,10 @@ sub GetUploadAll {
             return;
         }
         if ($Param{UploadFilename}) {
-          $Param{UploadContentType} = $Self->GetUploadInfo(
-            Filename => $Param{UploadFilenameOrig},
-            Header => 'Content-Type',
-          ) || '';
+            $Param{UploadContentType} = $Self->GetUploadInfo(
+                Filename => $Param{UploadFilenameOrig},
+                Header => 'Content-Type',
+            ) || '';
         }
         return (
             Filename => $NewFileName,
@@ -287,6 +287,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2006-09-27 15:03:43 $
+$Revision: 1.8 $ $Date: 2006-10-04 11:44:27 $
 
 =cut
