@@ -2,7 +2,7 @@
 -- Update an existing OTRS database from 2.0 to 2.1
 -- Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 -- --
--- $Id: DBUpdate-to-2.1.mysql.sql,v 1.11 2006-10-02 14:49:31 martin Exp $
+-- $Id: DBUpdate-to-2.1.mysql.sql,v 1.12 2006-10-04 10:14:02 rk Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.1.mysql.sql | mysql -f -u root otrs
@@ -67,29 +67,51 @@ ALTER TABLE object_link MODIFY object_link_b_id VARCHAR (80);
 INSERT INTO notifications
   (notification_type, notification_charset, notification_language, subject, text, create_time, create_by, change_time, change_by)
   VALUES
-  ('Agent::ResponsibleUpdate', 'iso-8859-1', 'en', 'Ticket responsible assigned to you! (<OTRS_CUSTOMER_SUBJECT[18]>)', 'Hi <OTRS_RESPONSIBLE_USERFIRSTNAME>,a ticket [<OTRS_TICKET_TicketNumber>] is assigned to you by "<OTRS_CURRENT_USERFIRSTNAME> <OTRS_CURRENT_USERLASTNAME>".Comment:<OTRS_COMMENT><OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_TicketID>Your OTRS Notification Master', current_timestamp, 1, current_timestamp, 1);
+  ('Agent::ResponsibleUpdate', 'iso-8859-1', 'en', 'Ticket responsible assigned to you! (<OTRS_CUSTOMER_SUBJECT[18]>)', 'Hi <OTRS_RESPONSIBLE_USERFIRSTNAME>,
+
+a ticket [<OTRS_TICKET_TicketNumber>] is assigned to you by "<OTRS_CURRENT_USERFIRSTNAME> <OTRS_CURRENT_USERLASTNAME>".
+
+Comment:
+<OTRS_COMMENT>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_TicketID>
+
+Your OTRS Notification Master', current_timestamp, 1, current_timestamp, 1);
 
 INSERT INTO notifications
   (notification_type, notification_charset, notification_language, subject, text, create_time, create_by, change_time, change_by)
   VALUES
-  ('Agent::ResponsibleUpdate', 'iso-8859-1', 'de', 'Ticket Verantwortung uebertragen an Sie! (<OTRS_CUSTOMER_SUBJECT[18]>)', 'Hi <OTRS_RESPONSIBLE_USERFIRSTNAME>,die Verantwortung des Tickets [<OTRS_TICKET_TicketNumber>] wurde an Sie von "<OTRS_CURRENT_USERFIRSTNAME> <OTRS_CURRENT_USERLASTNAME>" uebertragen.Kommentar:<OTRS_COMMENT><OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_TicketID>Ihr OTRS Benachrichtigungs-Master', current_timestamp, 1, current_timestamp, 1);
+  ('Agent::ResponsibleUpdate', 'iso-8859-1', 'de', 'Ticket Verantwortung uebertragen an Sie! (<OTRS_CUSTOMER_SUBJECT[18]>)', 'Hi <OTRS_RESPONSIBLE_USERFIRSTNAME>,
+
+die Verantwortung des Tickets [<OTRS_TICKET_TicketNumber>] wurde an Sie von "<OTRS_CURRENT_USERFIRSTNAME> <OTRS_CURRENT_USERLASTNAME>" uebertragen.
+
+Kommentar:
+<OTRS_COMMENT>
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_TicketID>
+
+Ihr OTRS Benachrichtigungs-Master', current_timestamp, 1, current_timestamp, 1);
 
 --
 -- faq
 --
 
 CREATE TABLE faq_voting (
-    id NUMBER (20, 0) NOT NULL,
-    created_by VARCHAR2 (200) NOT NULL,
-    item_id NUMBER NOT NULL,
-    interface VARCHAR2 (80),
-    ip VARCHAR2 (50),
-    rate NUMBER NOT NULL,
-    created DATE
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    created_by VARCHAR (200) NOT NULL,
+    item_id INTEGER NOT NULL,
+    interface VARCHAR (80),
+    ip VARCHAR (50),
+    rate INTEGER NOT NULL,
+    created DATETIME,
+    PRIMARY KEY(id)
 );
 
 ALTER TABLE faq_category ADD parent_id INTEGER;
 ALTER TABLE faq_category ADD valid_id INTEGER;
+
+UPDATE faq_category SET parent_id = 0;
+UPDATE faq_category SET valid_id = 1;
 
 ALTER TABLE faq_category CHANGE create_by created_by INTEGER;
 ALTER TABLE faq_category CHANGE change_by changed_by INTEGER;
