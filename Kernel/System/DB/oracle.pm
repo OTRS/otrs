@@ -2,7 +2,7 @@
 # Kernel/System/DB/oracle.pm - oracle database backend
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: oracle.pm,v 1.13 2006-09-06 14:25:35 martin Exp $
+# $Id: oracle.pm,v 1.14 2006-10-04 11:13:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::DB::oracle;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub LoadPreferences {
@@ -87,7 +87,6 @@ sub TableCreate {
             $SQLStart .= $Self->{'DB::Comment'}."----------------------------------------------------------\n";
         }
         if (($Tag->{Tag} eq 'Table' || $Tag->{Tag} eq 'TableCreate') && $Tag->{TagType} eq 'Start') {
-            push (@Return, "DROP TABLE $Tag->{Name} CASCADE CONSTRAINTS");
             $SQLStart .= "CREATE TABLE $Tag->{Name} (\n";
             $TableName = $Tag->{Name};
         }
@@ -206,7 +205,7 @@ sub TableDrop {
             $SQL .= $Self->{'DB::Comment'}." drop table $Tag->{Name}\n";
             $SQL .= $Self->{'DB::Comment'}."----------------------------------------------------------\n";
         }
-        $SQL .= "DROP TABLE $Tag->{Name}";
+        $SQL .= "DROP TABLE $Tag->{Name} CASCADE CONSTRAINTS";
         return ($SQL);
     }
     return ();
