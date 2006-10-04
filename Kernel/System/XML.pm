@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.36 2006-10-02 12:34:00 martin Exp $
+# $Id: XML.pm,v 1.37 2006-10-04 16:57:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::Encode;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.36 $';
+$VERSION = '$Revision: 1.37 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -297,7 +297,7 @@ sub XMLHashDelete {
     my %Param = @_;
     # check needed stuff
     foreach (qw(Type Key)) {
-        if (!$Param{$_}) {
+        if (!defined($Param{$_})) {
             $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
             return;
         }
@@ -313,7 +313,7 @@ sub XMLHashDelete {
 
 =item XMLHashSearch()
 
-search  elete a xml hash from database
+search a xml hash from database
 
     my @Keys = $XMLObject->XMLHashSearch(
         Type => 'SomeType',
@@ -387,7 +387,38 @@ sub XMLHashSearch {
     return @Keys;
 }
 
+=item XMLHashList()
 
+a list of xml hash's in database
+
+    my @Keys = $XMLObject->XMLHashList(
+        Type => 'SomeType',
+    );
+
+=cut
+
+sub XMLHashList {
+    my $Self = shift;
+    my %Param = @_;
+    my $SQL = '';
+    my @Keys = ();
+    # check needed stuff
+    foreach (qw(Type)) {
+        if (!$Param{$_}) {
+            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            return;
+        }
+    }
+    $SQL = "SELECT distinct(xml_key) FROM xml_storage WHERE xml_type = '$Param{Type}' GROUP BY xml_key";
+    if (!$Self->{DBObject}->Prepare(SQL => $SQL)) {
+        return;
+    }
+    while (my @Data = $Self->{DBObject}->FetchrowArray()) {
+        push (@Keys, $Data[0]);
+    }
+
+    return @Keys;
+}
 
 =item XMLHash2XML()
 
@@ -1025,6 +1056,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.36 $ $Date: 2006-10-02 12:34:00 $
+$Revision: 1.37 $ $Date: 2006-10-04 16:57:16 $
 
 =cut

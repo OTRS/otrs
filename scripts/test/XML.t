@@ -2,7 +2,7 @@
 # XML.t - XML tests
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: XML.t,v 1.6 2006-09-29 14:22:47 tr Exp $
+# $Id: XML.t,v 1.7 2006-10-04 16:57:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -130,13 +130,24 @@ $Self->True(
     'XMLHash2XML() -> XMLHash2XML() -> XMLParse2XMLHash() -> XMLHash2XML()',
 );
 
-my $XMLHashDelete = $Self->{XMLObject}->XMLHashDelete(
+
+my @Keys = $Self->{XMLObject}->XMLHashList(
     Type => 'SomeType',
-    Key => '123',
 );
 $Self->True(
-    $XMLHashDelete,
-    'XMLHashDelete()',
+    ($Keys[0] == 123),
+    'XMLHashList() ([0] == 123)',
 );
+
+foreach my $Key (@Keys) {
+    my $XMLHashDelete = $Self->{XMLObject}->XMLHashDelete(
+        Type => 'SomeType',
+        Key => $Key,
+    );
+    $Self->True(
+        $XMLHashDelete,
+        "XMLHashDelete() (Key $Key)",
+    );
+}
 
 1;
