@@ -2,7 +2,7 @@
 # AgentTicketSearch.dtl - provides HTML form for AgentTicketSearch
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.dtl,v 1.14 2006-10-04 15:23:55 mh Exp $
+# $Id: AgentTicketSearch.dtl,v 1.15 2006-10-04 16:08:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -182,37 +182,43 @@
             <td colspan="2" class="contenthead">$Text{"Times"}</td>
           </tr>
           <tr>
-            <td colspan="2" class="contentbody"><input type="radio" name="TimeSearchType" value="" $Data{"TimeSearchType::None"}>
+            <td colspan="2" class="contentbody">
+              <input type="radio" name="TimeSearchType" value="" $Data{"TimeSearchType::None"}>
               $Text{"No time settings."}
             </td>
           </tr>
-          <td colspan="2" class="contentbody"><input type="radio" name="TimeSearchType" value="TimePoint" $Data{"TimeSearchType::TimePoint"}>
-            $Text{"Ticket created"} $Data{"TicketCreateTimePointStart"} $Data{"TicketCreateTimePoint"} $Data{"TicketCreateTimePointFormat"}.
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2" class="contentbody"><input type="radio" name="TimeSearchType" value="TimeSlot" $Data{"TimeSearchType::TimeSlot"}>
-            $Text{"Ticket created between"} $Data{"TicketCreateTimeStart"} $Text{"and"} $Data{"TicketCreateTimeStop"}.
-          </td>
-        </tr>
-        <tr>
-          <td class="contenthead">$Text{"Result Form"}</td>
-          <td class="contenthead">$Text{"Save Search-Profile as Template?"}</td>
-        </tr>
-        <tr>
-          <td class="contentbody">$Data{"ResultFormStrg"}</td>
-          <td class="contentbody">
-            <input type="radio" name="SaveProfile" value="1"> $Text{"Yes, save it with name"}
-            <input type="text" name="Profile" size="10" value="$QData{"Profile"}">
-          </td>
-        </tr>
-        <tr>
-          <td colspan="4" class="contentfooter"><input class="button" accesskey="g" type="submit" value="$Text{"Search"}"></td>
-        </td>
-      </table>
-    </form>
-    <br>
-  </td>
-</tr>
+          <tr>
+            <td colspan="2" class="contentbody">
+              <input type="radio" name="TimeSearchType" value="TimePoint" $Data{"TimeSearchType::TimePoint"}>
+              $Text{"Ticket created"} $Data{"TicketCreateTimePointStart"} $Data{"TicketCreateTimePoint"} $Data{"TicketCreateTimePointFormat"}
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="contentbody">
+              <input type="radio" name="TimeSearchType" value="TimeSlot" $Data{"TimeSearchType::TimeSlot"}>
+              $Text{"Ticket created between"} $Data{"TicketCreateTimeStart"} $Text{"and"} $Data{"TicketCreateTimeStop"}
+            </td>
+          </tr>
+          <tr>
+            <td class="contenthead">$Text{"Result Form"}</td>
+            <td class="contenthead">$Text{"Save Search-Profile as Template?"}</td>
+          </tr>
+          <tr>
+            <td class="contentbody">$Data{"ResultFormStrg"}</td>
+            <td class="contentbody">
+              <input type="radio" name="SaveProfile" value="1"> $Text{"Yes, save it with name"}
+              <input type="text" name="Profile" size="10" value="$QData{"Profile"}">
+            </td>
+          </tr>
+          <tr>
+            <td colspan="4" class="contentfooter">
+              <input class="button" accesskey="g" type="submit" value="$Text{"Search"}">
+            </td>
+          </tr>
+        </table>
+      </form>
+      <br>
+    </td>
+  </tr>
 </table>
 <!-- dtl:block:Search -->
