@@ -2,7 +2,7 @@
 # TODO - todo list OTRS
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: TODO,v 1.108 2006-10-05 08:40:52 tr Exp $
+# $Id: TODO,v 1.109 2006-10-05 13:52:18 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -57,7 +57,8 @@
                          to have two ways for handling stats! (var/Stats - a possible location for stats
                          coming from the package manager)
                        - insert a function to handle new default stats
-
+                       - when a agent but the start button (or in the view mode) give a expertise how long
+                         it takes to generate the stat.
 
 3.0
 - new templates without logic
@@ -137,4 +138,5 @@ ideas (just ideas - nobody is working on it)
 - Agent ticket search base on customer name
 - Agent ticket search ticket processed from - to absorb
 - Agent ticket search escalate from - to  absorb
-- Package Manager: If a module will be uninstalled check if other modules depends on it and give an error
+- Package Manager: - If a module will be uninstalled check if other modules depends on it and give an error
+                   - If there are dependencies try to load the needed package automatically
