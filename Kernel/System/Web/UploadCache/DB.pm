@@ -2,7 +2,7 @@
 # Kernel/System/Web/UploadCache/DB.pm - a db upload cache
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.5 2006-09-23 15:03:40 martin Exp $
+# $Id: DB.pm,v 1.6 2006-10-05 01:50:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,11 +13,10 @@ package Kernel::System::Web::UploadCache::DB;
 
 use strict;
 use MIME::Base64;
-use Kernel::System::Encode;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.5 $ ';
+$VERSION = '$Revision: 1.6 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -28,11 +27,9 @@ sub new {
     my $Self = {};
     bless ($Self, $Type);
     # check needed objects
-    foreach (qw(ConfigObject LogObject DBObject)) {
+    foreach (qw(ConfigObject LogObject DBObject EncodeObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
-
-    $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
 
     return $Self;
 }

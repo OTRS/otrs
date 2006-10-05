@@ -2,7 +2,7 @@
 # Kernel/System/Web/Request.pm - a wrapper for CGI.pm or Apache::Request.pm
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: Request.pm,v 1.8 2006-10-04 11:44:27 martin Exp $
+# $Id: Request.pm,v 1.9 2006-10-05 01:47:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,11 +12,10 @@
 package Kernel::System::Web::Request;
 
 use strict;
-use Kernel::System::Encode;
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.8 $ ';
+$VERSION = '$Revision: 1.9 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -55,7 +54,7 @@ sub new {
     my $Self = {};
     bless ($Self, $Type);
     # check needed objects
-    foreach (qw(ConfigObject LogObject)) {
+    foreach (qw(ConfigObject LogObject EncodeObject)) {
         if ($Param{$_}) {
             $Self->{$_} = $Param{$_};
         }
@@ -63,8 +62,6 @@ sub new {
             die "Gor no $_";
         }
     }
-    # encode object
-    $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
     # Simple Common Gateway Interface Class
     use CGI qw(:cgi);
     # to get the errors on screen
@@ -287,6 +284,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2006-10-04 11:44:27 $
+$Revision: 1.9 $ $Date: 2006-10-05 01:47:51 $
 
 =cut
