@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.6 2006-08-29 17:17:24 martin Exp $
+# $Id: CustomerTicketZoom.pm,v 1.7 2006-10-05 13:04:46 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,10 +16,9 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
-# --
 sub new {
     my $Type = shift;
     my %Param = @_;
@@ -32,7 +31,8 @@ sub new {
     }
     # check needed Opjects
     foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject
-        ConfigObject UserObject SessionObject)) {
+        ConfigObject UserObject SessionObject
+    )) {
         if (!$Self->{$_}) {
             $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
         }
@@ -55,7 +55,7 @@ sub new {
 
     return $Self;
 }
-# --
+
 sub Run {
     my $Self = shift;
     my %Param = @_;
@@ -95,7 +95,8 @@ sub Run {
             AttachmentUpload
             AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
             AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
-            AttachmentDelete9 AttachmentDelete10 )) {
+            AttachmentDelete9 AttachmentDelete10
+        )) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam(Param => $_);
         }
         # rewrap body if exists
@@ -163,7 +164,7 @@ sub Run {
             if (my $ArticleID = $Self->{TicketObject}->ArticleCreate(
                 TicketID => $Self->{TicketID},
                 ArticleType => $Self->{Config}->{ArticleType},
-                SenderType => $Self->{Config }->{SenderType},
+                SenderType => $Self->{Config}->{SenderType},
                 From => $From,
                 Subject => $GetParam{Subject},
                 Body => $GetParam{Body},
@@ -180,8 +181,8 @@ sub Run {
                 AutoResponseType => 'auto follow up',
             )) {
                 # set state
-                 my %NextStateData = $Self->{StateObject}->StateGet(
-                  ID => $GetParam{StateID},
+                my %NextStateData = $Self->{StateObject}->StateGet(
+                    ID => $GetParam{StateID},
                 );
                 my $NextState = $NextStateData{Name} ||
                     $Self->{Config}->{StateDefault} || 'open';
@@ -286,7 +287,7 @@ sub Run {
     # return output
     return $Output;
 }
-# --
+
 sub _Mask {
     my $Self = shift;
     my %Param = @_;
@@ -333,31 +334,33 @@ sub _Mask {
     my $LastSenderType = '';
     $Param{ArticleStrg} = '';
     foreach my $ArticleTmp (@ArticleBox) {
-      my %Article = %$ArticleTmp;
-      if ($Article{ArticleType} !~ /int/) {
-        if ($LastSenderType ne $Article{SenderType}) {
-            $Counter .= "&nbsp;&nbsp;&nbsp;&nbsp;";
-            $Space = "$Counter |-->";
+        my %Article = %$ArticleTmp;
+        if ($Article{ArticleType} !~ /int/) {
+            if ($LastSenderType ne $Article{SenderType}) {
+                $Counter .= "&nbsp;&nbsp;&nbsp;&nbsp;";
+                $Space = "$Counter |-->";
+            }
+            $LastSenderType = $Article{SenderType};
+            $ThreadStrg .= "$Space";
+            # if this is the shown article -=> add <b>
+            if ($ArticleID eq $Article{ArticleID} ||
+                (!$ArticleID && $LastCustomerArticleID eq $Article{ArticleID})
+            ) {
+                $ThreadStrg .= ">><b><i><u>";
+            }
+            # the full part thread string
+            $ThreadStrg .= "<A HREF=\"$BaseLink"."Action=CustomerTicketZoom&ArticleID=$Article{ArticleID}\" ";
+            $ThreadStrg .= 'onmouseover="window.status=\'$Text{"Zoom"}\'; return true;" onmouseout="window.status=\'\';">';
+            $ThreadStrg .= "\$Text{\"$Article{SenderType}\"} (\$Text{\"$Article{ArticleType}\"})</A> ";
+            $ThreadStrg .= ' $TimeLong{"'.$Article{Created}.'"}';
+            $ThreadStrg .= "<BR>";
+            # if this is the shown article -=> add </b>
+            if ($ArticleID eq $Article{ArticleID} ||
+                (!$ArticleID && $LastCustomerArticleID eq $Article{ArticleID})
+            ) {
+                $ThreadStrg .= "</u></i></b>";
+            }
         }
-        $LastSenderType = $Article{SenderType};
-        $ThreadStrg .= "$Space";
-        # if this is the shown article -=> add <b>
-        if ($ArticleID eq $Article{ArticleID} ||
-                 (!$ArticleID && $LastCustomerArticleID eq $Article{ArticleID})) {
-            $ThreadStrg .= ">><b><i><u>";
-        }
-        # the full part thread string
-        $ThreadStrg .= "<A HREF=\"$BaseLink"."Action=CustomerTicketZoom&ArticleID=$Article{ArticleID}\" ";
-        $ThreadStrg .= 'onmouseover="window.status=\'$Text{"Zoom"}\'; return true;" onmouseout="window.status=\'\';">';
-        $ThreadStrg .= "\$Text{\"$Article{SenderType}\"} (\$Text{\"$Article{ArticleType}\"})</A> ";
-        $ThreadStrg .= ' $TimeLong{"'.$Article{Created}.'"}';
-        $ThreadStrg .= "<BR>";
-        # if this is the shown article -=> add </b>
-        if ($ArticleID eq $Article{ArticleID} ||
-                 (!$ArticleID && $LastCustomerArticleID eq $Article{ArticleID})) {
-            $ThreadStrg .= "</u></i></b>";
-        }
-      }
     }
     $ThreadStrg .= '';
     $Param{ArticleStrg} .= $ThreadStrg;
@@ -553,5 +556,5 @@ sub _Mask {
         },
     );
 }
-# --
+
 1;
