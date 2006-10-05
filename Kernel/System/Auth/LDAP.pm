@@ -2,7 +2,7 @@
 # Kernel/System/Auth/LDAP.pm - provides the ldap authentification
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.25 2006-08-29 17:28:44 martin Exp $
+# $Id: LDAP.pm,v 1.26 2006-10-05 03:07:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25 $';
+$VERSION = '$Revision: 1.26 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -120,10 +120,11 @@ sub Auth {
 
     # ldap connect and bind (maybe with SearchUserDN and SearchUserPw)
     my $LDAP = Net::LDAP->new($Self->{Host}, %{$Self->{Params}}) or die "$@";
-    if (!$LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw})) {
+    my $Result = $LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw});
+    if ($Result->code) {
         $Self->{LogObject}->Log(
-          Priority => 'error',
-          Message => "First bind failed!",
+            Priority => 'error',
+            Message => "First bind failed! ".$Result->error(),
         );
         return;
     }
@@ -134,10 +135,17 @@ sub Auth {
         $Filter = "(&$Filter$Self->{AlwaysFilter})";
     }
     # perform user search
-    my $Result = $LDAP->search (
+    $Result = $LDAP->search (
         base   => $Self->{BaseDN},
         filter => $Filter,
     );
+    if ($Result->code) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Search failed! ".$Result->error,
+        );
+        return;
+    }
     # get whole user dn
     my $UserDN = '';
     foreach my $Entry ($Result->all_entries) {
@@ -177,6 +185,13 @@ sub Auth {
             base   => $Self->{GroupDN},
             filter => $Filter2,
         );
+        if ($Result2->code) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "Search failed! base='".$Self->{GroupDN}."', filter='".$Filter2."', ".$Result->error,
+            );
+            return;
+        }
         # extract it
         my $GroupDN = '';
         foreach my $Entry ($Result2->all_entries) {
@@ -202,7 +217,7 @@ sub Auth {
         # failed login note
         $Self->{LogObject}->Log(
           Priority => 'notice',
-          Message => "User: $Param{User} ($UserDN) authentication failed: '".$Result->error."' (REMOTE_ADDR: $RemoteAddr).",
+          Message => "User: $Param{User} ($UserDN) authentication failed: '".$Result->error()."' (REMOTE_ADDR: $RemoteAddr).",
         );
         # take down session
         $LDAP->unbind;
@@ -214,20 +229,21 @@ sub Auth {
 #           $Self->{LogObject}->Log(
 #               Priority => 'info',
 #               Message => "Password is expired!",
-#           );
+#            );
 #            return;
 #        }
         # login note
         $Self->{LogObject}->Log(
-          Priority => 'notice',
-          Message => "User: $Param{User} ($UserDN) authentication ok (REMOTE_ADDR: $RemoteAddr).",
+            Priority => 'notice',
+            Message => "User: $Param{User} ($UserDN) authentication ok (REMOTE_ADDR: $RemoteAddr).",
         );
         # sync user from ldap
         if ($Self->{ConfigObject}->Get('UserSyncLDAPMap')) {
-            if (!$LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw})) {
+            my $Result = $LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw});
+            if ($Result->code) {
                 $Self->{LogObject}->Log(
                   Priority => 'error',
-                  Message => "Sync bind failed!",
+                  Message => "Sync bind failed! ".$Result->error,
                 );
                 # take down session
                 $LDAP->unbind;
@@ -240,10 +256,16 @@ sub Auth {
                 $Filter = "(&$Filter$Self->{AlwaysFilter})";
             }
             # perform user search
-            my $Result = $LDAP->search (
+            $Result = $LDAP->search (
                 base   => $Self->{BaseDN},
                 filter => $Filter,
             );
+            if ($Result->code) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message => "Search failed! (".$Self->{BaseDN}.") filter='$Filter' ".$Result->error,
+                );
+            }
             # get whole user dn
             my $UserDN = '';
             my %SyncUser = ();
@@ -252,12 +274,12 @@ sub Auth {
                 foreach (keys %{$Self->{ConfigObject}->Get('UserSyncLDAPMap')}) {
                     $SyncUser{$_} = $Entry->get_value($Self->{ConfigObject}->Get('UserSyncLDAPMap')->{$_});
                     # e. g. set utf-8 flag
-                    $Self->{EncodeObject}->Encode(\$SyncUser{$_});
+                    $SyncUser{$_} = $Self->_ConvertFrom($SyncUser{$_}, $Self->{ConfigObject}->Get('DefaultCharset'));
                 }
                 if ($Entry->get_value('userPassword')) {
                     $SyncUser{Pw} = $Entry->get_value('userPassword');
                     # e. g. set utf-8 flag
-                    $Self->{EncodeObject}->Encode(\$SyncUser{Pw});
+                    $SyncUser{Pw} = $Self->_ConvertFrom($SyncUser{Pw}, $Self->{ConfigObject}->Get('DefaultCharset'));
                 }
             }
             # sync user
@@ -322,10 +344,11 @@ sub Auth {
         }
         # sync ldap group 2 otrs group permissions
         if ($Self->{ConfigObject}->Get('UserSyncLDAPGroupsDefination')) {
-            if (!$LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw})) {
+            my $Result = $LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw});
+            if ($Result->code) {
                 $Self->{LogObject}->Log(
                   Priority => 'error',
-                  Message => "Sync bind failed!",
+                  Message => "Sync bind failed! ".$Result->error,
                 );
                 # take down session
                 $LDAP->unbind;
@@ -369,6 +392,12 @@ sub Auth {
                     base   => $GroupDN,
                     filter => $Filter,
                 );
+                if ($Result->code) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'error',
+                        Message => "Search failed! (".$GroupDN.") filter='$Filter' ".$Result->error,
+                    );
+                }
                 # extract it
                 my $Valid = '';
                 foreach my $Entry ($Result->all_entries) {
@@ -418,10 +447,11 @@ sub Auth {
         }
         # sync ldap group 2 otrs role permissions
         if ($Self->{ConfigObject}->Get('UserSyncLDAPRolesDefination')) {
-            if (!$LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw})) {
+            my $Result = $LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw});
+            if ($Result->code) {
                 $Self->{LogObject}->Log(
                   Priority => 'error',
-                  Message => "Sync bind failed!",
+                  Message => "Sync bind failed! ".$Result->error,
                 );
                 # take down session
                 $LDAP->unbind;
@@ -458,6 +488,12 @@ sub Auth {
                     base   => $GroupDN,
                     filter => $Filter,
                 );
+                if ($Result->code) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'error',
+                        Message => "Search failed! (".$GroupDN.") filter='$Filter' ".$Result->error,
+                    );
+                }
                 # extract it
                 my $Valid = '';
                 foreach my $Entry ($Result->all_entries) {
@@ -503,10 +539,11 @@ sub Auth {
         }
         # sync ldap attribute 2 otrs group permissions
         if ($Self->{ConfigObject}->Get('UserSyncLDAPAttibuteGroupsDefination')) {
-            if (!$LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw})) {
+            my $Result = $LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw});
+            if ($Result->code) {
                 $Self->{LogObject}->Log(
                   Priority => 'error',
-                  Message => "Sync bind failed!",
+                  Message => "Sync bind failed! ".$Result->error,
                 );
                 # take down session
                 $LDAP->unbind;
@@ -534,11 +571,16 @@ sub Auth {
             # build filter
             my $Filter = "($Self->{UID}=$Param{User})";
             # perform search
-            my $Result = $LDAP->search (
+            $Result = $LDAP->search (
                 base   => $Self->{BaseDN},
                 filter => $Filter,
             );
-
+            if ($Result->code) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message => "Search failed! (".$Self->{BaseDN}.") filter='$Filter' ".$Result->error,
+                );
+            }
             my %SyncConfig = %{$Self->{ConfigObject}->Get('UserSyncLDAPAttibuteGroupsDefination')};
             foreach my $Attribute (keys %SyncConfig) {
                 my %AttributeValues = %{$SyncConfig{$Attribute}};
@@ -581,10 +623,11 @@ sub Auth {
         }
         # sync ldap attribute 2 otrs role permissions
         if ($Self->{ConfigObject}->Get('UserSyncLDAPAttibuteRolesDefination')) {
-            if (!$LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw})) {
+            my $Result = $LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw});
+            if ($Result->code) {
                 $Self->{LogObject}->Log(
                   Priority => 'error',
-                  Message => "Sync bind failed!",
+                  Message => "Sync bind failed! ".$Result->error,
                 );
                 # take down session
                 $LDAP->unbind;
@@ -605,11 +648,16 @@ sub Auth {
             # build filter
             my $Filter = "($Self->{UID}=$Param{User})";
             # perform search
-            my $Result = $LDAP->search (
+            $Result = $LDAP->search (
                 base   => $Self->{BaseDN},
                 filter => $Filter,
             );
-
+            if ($Result->code) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message => "Search failed! (".$Self->{BaseDN}.") filter='$Filter' ".$Result->error,
+                );
+            }
             my %SyncConfig = %{$Self->{ConfigObject}->Get('UserSyncLDAPAttibuteRolesDefination')};
             foreach my $Attribute (keys %SyncConfig) {
                 my %AttributeValues = %{$SyncConfig{$Attribute}};
@@ -669,6 +717,26 @@ sub _ConvertTo {
             Text => $Text,
             From => $Charset,
             To => $Self->{DestCharset},
+        );
+    }
+}
+
+sub _ConvertFrom {
+    my $Self = shift;
+    my $Text = shift;
+    my $Charset = shift;
+    if (!$Charset || !$Self->{DestCharset}) {
+        $Self->{EncodeObject}->Encode(\$Text);
+        return $Text;
+    }
+    if (!defined($Text)) {
+        return;
+    }
+    else {
+        return $Self->{EncodeObject}->Convert(
+            Text => $Text,
+            From => $Self->{DestCharset},
+            To => $Charset,
         );
     }
 }

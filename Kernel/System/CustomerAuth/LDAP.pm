@@ -2,7 +2,7 @@
 # Kernel/System/CustomerAuth/LDAP.pm - provides the ldap authentification
 # Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.13 2006-08-27 20:17:40 martin Exp $
+# $Id: LDAP.pm,v 1.14 2006-10-05 03:07:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13 $';
+$VERSION = '$Revision: 1.14 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -118,10 +118,11 @@ sub Auth {
     }
     # ldap connect and bind (maybe with SearchUserDN and SearchUserPw)
     my $LDAP = Net::LDAP->new($Self->{Host}, %{$Self->{Params}}) or die "$@";
-    if (!$LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw})) {
+    my $Result = $LDAP->bind(dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw});
+    if ($Result->code) {
         $Self->{LogObject}->Log(
-          Priority => 'error',
-          Message => "First bind failed!",
+            Priority => 'error',
+            Message => "First bind failed! ".$Result->error(),
         );
         return;
     }
@@ -132,10 +133,17 @@ sub Auth {
         $Filter = "(&$Filter$Self->{AlwaysFilter})";
     }
     # perform user search
-    my $Result = $LDAP->search (
+    $Result = $LDAP->search (
         base   => $Self->{BaseDN},
         filter => $Filter,
     );
+    if ($Result->code) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Search failed! ".$Result->error,
+        );
+        return;
+    }
     # get whole user dn
     my $UserDN = '';
     foreach my $Entry ($Result->all_entries) {
@@ -175,6 +183,13 @@ sub Auth {
             base   => $Self->{GroupDN},
             filter => $Filter2
         );
+        if ($Result2->code) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message => "Search failed! base='".$Self->{GroupDN}."', filter='".$Filter2."', ".$Result->error,
+            );
+            return;
+        }
         # extract it
         my $GroupDN = '';
         foreach my $Entry ($Result2->all_entries) {
